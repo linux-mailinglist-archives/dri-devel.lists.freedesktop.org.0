@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DF62DB14F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 17:26:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D841B2DB153
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 17:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9486E402;
-	Tue, 15 Dec 2020 16:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFB16E40A;
+	Tue, 15 Dec 2020 16:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE526E402
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 16:26:03 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g185so19088499wmf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:26:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z8DLWt/BMNBGPK8e4/Z4NKeqSUXEvnfm8MWTWhLXzLs=;
- b=LZFxpYwDk+Hkm94pgVr3L8Vx2VpmVfAT4YvJAv56XWUeumQ6ZJIdAyhvrY9nG9uwQg
- LfTfhRwL+I8d0+yrQ+A4tT2XCjH/S2MRvq40Eiw1vwaW/NhhcjRAMY8DEDjJFeVIsCA9
- 26LPnQiJikX8Bf1RspN7fF/3FevJzae7QEtWs25mXUZoESzBhrYoWlcZSLdoIqW6sqln
- XN3WO6DWMTKHp7KrKD8znUmkpKHnnxFXFxHg0ShWb6IRx57hv0rdpZ/qz0mP/wSeUsp/
- /mdBw+0RqufdV+1m5PdBiRi4nli4yjbBfyCNJIIwkfm47aaHEnyRJebSU6Z7W2txDXpE
- wrpw==
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6396A6E40C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 16:27:25 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id t16so20473162wra.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=cXMpZeBf2WHykqV/RP3DcTupHWYnFveNyX5gq5+rJmw=;
+ b=lwpF9VNyDzS2cH/okYlW6oljlrFlSiCZYua76mypHpLiwcd7gTIiaz8zGXNgTXaF0R
+ 8obftUe5dTzLb9def/Vhvcnig52nWNSdjNq0v68jV2W6y/CNXDKr3T6fUpkMXNO7cdlv
+ LKd5hz+ERCFRBTpNedM/SUh4GzZWdcLf9VD2g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z8DLWt/BMNBGPK8e4/Z4NKeqSUXEvnfm8MWTWhLXzLs=;
- b=q2y8FAFbcopa8xPayPuAxlsyyFN/qH5OUrGwTStEVUgfispIxTg8li5aEmI0HXXRlD
- p7EYZw32J+vbf7B4zgq2YWf3DXXSCxoSxAUAprVhlYBVfDFs9w5kpfgpeNzlH6vwJshB
- xugzL7vHJzLLCad+dXZZrPnVvnphFiFS8//XuIXX+V/HAguND7W+DnqOnMvztH+HCDH8
- Chcp4cJuFF2yM73EjSSuqWCge2EHoHmnoOUD/+1/1ZMYXUzs+Mj7/TxfQAHAj/yqwm+C
- QHV4ReP+bneRhglcZIrAKkzU3WeA/0UHKTf9EA2ZSfUSY3pDNUxTItvplTp6aZmkmzAK
- 245g==
-X-Gm-Message-State: AOAM532r4f3IScPaLhFxr+WAQ4ZVnmRTy6xyf3lyA6nrv1yoZ43d7yW0
- KjydfEvL24D1mKSBYCVafRnNkVc9tCFx7RjyGNOKSA==
-X-Google-Smtp-Source: ABdhPJx379gbKarEY/pbl6fkCihhC2fVkfTvpz5iHgh/GkfqxdwDBZxFq3UOldYeD1R7jbnq6gDwO5S5ebhFPecPHpk=
-X-Received: by 2002:a1c:7d88:: with SMTP id
- y130mr33014644wmc.158.1608049562359; 
- Tue, 15 Dec 2020 08:26:02 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=cXMpZeBf2WHykqV/RP3DcTupHWYnFveNyX5gq5+rJmw=;
+ b=TeO5gRPSmvHBmZptcCZahx+cXcKtsWQ7sMx0XPSl7l5HXcRsnE4RketV3ZAdqUFmmc
+ hw7vTwDDLBmHzf1ayO5alJG2MGXMnE/k6etTCOvKRhw90T4wF5+BylUXU+mphR2Q7Fcg
+ cH62Wr5qYs603WgiLVtZOWhXyj1nwxhJsg2Nlc1iX2mj49ZLLWgGdl77ZLFUeAQkGEBI
+ H+laKoMdiaQi4/cjdpUFN/FjN+JoFZVZWUQo/yW1mnB65tWXHO7+y3Cf/sZHcAcOPfmT
+ Tau8kUzEqIomdPU777JysNDDbpTjZfeTQijP3CW73szuqYPuhpca8MwWB3Eajio/kKje
+ 8L/Q==
+X-Gm-Message-State: AOAM532LBk5xCWzf5oVU02NgfQXtw3tWx4PPj9KJdJnl3kwkOlb+JXsr
+ mV+V5utfvPw/1I2U2MPXEncVZw==
+X-Google-Smtp-Source: ABdhPJzz6h7SfItFMxZGDgGwgN1c9EDjt0/+/7QyzjqENSJ6nLQ+gNb+CYHcv8slBPR11JcyFnue3g==
+X-Received: by 2002:adf:fa02:: with SMTP id m2mr15462718wrr.130.1608049643481; 
+ Tue, 15 Dec 2020 08:27:23 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h98sm42379535wrh.69.2020.12.15.08.27.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 08:27:22 -0800 (PST)
+Date: Tue, 15 Dec 2020 17:27:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PULL] drm-misc-next-fixes
+Message-ID: <X9jj6BJi0p7sHoPU@phenom.ffwll.local>
+References: <X9i0X9mjHN9AZGD3@linux-uq9g>
 MIME-Version: 1.0
-References: <20201215154243.540115-1-maxime@cerno.tech>
- <20201215154243.540115-6-maxime@cerno.tech>
-In-Reply-To: <20201215154243.540115-6-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 15 Dec 2020 16:25:46 +0000
-Message-ID: <CAPY8ntCP7O9GOrAo0qutHR8g3aJGY4a3ps-sa8LS5LjrN2D+Nw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/9] drm/vc4: hdmi: Create a custom connector state
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <X9i0X9mjHN9AZGD3@linux-uq9g>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,113 +65,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Tue, Dec 15, 2020 at 02:04:31PM +0100, Thomas Zimmermann wrote:
+> Hi Dave and Daniel,
+> =
 
-On Tue, 15 Dec 2020 at 15:42, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> When run with a higher bpc than 8, the clock of the HDMI controller needs
-> to be adjusted. Let's create a connector state that will be used at
-> atomic_check and atomic_enable to compute and store the clock rate
-> associated to the state.
->
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> here's this week's PR for drm-misc-next-fixes. IIRC the radeon fix is
+> already in drm-misc-next.
 
-I'm happy again
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Pulled, and also your previous -next pull which got stuck somewhere.
 
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 33 ++++++++++++++++++++++++++++++---
->  drivers/gpu/drm/vc4/vc4_hdmi.h | 10 ++++++++++
->  2 files changed, 40 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 920895deb2e7..d22a0dbd0ce2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -170,10 +170,37 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->
->  static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->  {
-> -       drm_atomic_helper_connector_reset(connector);
-> +       struct vc4_hdmi_connector_state *old_state =
-> +               conn_state_to_vc4_hdmi_conn_state(connector->state);
-> +       struct vc4_hdmi_connector_state *new_state =
-> +               kzalloc(sizeof(*new_state), GFP_KERNEL);
->
->         if (connector->state)
-> -               drm_atomic_helper_connector_tv_reset(connector);
-> +               __drm_atomic_helper_connector_destroy_state(connector->state);
-> +
-> +       kfree(old_state);
-> +       __drm_atomic_helper_connector_reset(connector, &new_state->base);
-> +
-> +       if (!new_state)
-> +               return;
-> +
-> +       drm_atomic_helper_connector_tv_reset(connector);
-> +}
-> +
-> +static struct drm_connector_state *
-> +vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
-> +{
-> +       struct drm_connector_state *conn_state = connector->state;
-> +       struct vc4_hdmi_connector_state *vc4_state = conn_state_to_vc4_hdmi_conn_state(conn_state);
-> +       struct vc4_hdmi_connector_state *new_state;
-> +
-> +       new_state = kzalloc(sizeof(*new_state), GFP_KERNEL);
-> +       if (!new_state)
-> +               return NULL;
-> +
-> +       __drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
-> +
-> +       return &new_state->base;
->  }
->
->  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
-> @@ -181,7 +208,7 @@ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
->         .fill_modes = drm_helper_probe_single_connector_modes,
->         .destroy = vc4_hdmi_connector_destroy,
->         .reset = vc4_hdmi_connector_reset,
-> -       .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +       .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 0526a9cf608a..2cf5362052e2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -180,6 +180,16 @@ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
->         return container_of(_encoder, struct vc4_hdmi, encoder);
->  }
->
-> +struct vc4_hdmi_connector_state {
-> +       struct drm_connector_state      base;
-> +};
-> +
-> +static inline struct vc4_hdmi_connector_state *
-> +conn_state_to_vc4_hdmi_conn_state(struct drm_connector_state *conn_state)
-> +{
-> +       return container_of(conn_state, struct vc4_hdmi_connector_state, base);
-> +}
-> +
->  void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
->                        struct drm_display_mode *mode);
->  void vc4_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi);
+Thanks, Daniel
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> drm-misc-next-fixes-2020-12-15:
+> Short summary of fixes pull (less than what git shortlog provides):
+> =
+
+>  * dma-buf: Fix docs
+>  * mxsfb: Silence invalid error message
+>  * radeon: Fix TTM multihop
+> =
+
+> The following changes since commit 05faf1559de52465f1e753e31883aa294e6179=
+c1:
+> =
+
+>   drm/imx/dcss: allow using nearest neighbor interpolation scaling (2020-=
+11-26 11:29:44 +0100)
+> =
+
+> are available in the Git repository at:
+> =
+
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-202=
+0-12-15
+> =
+
+> for you to fetch changes up to ee46d16d2e40bebc2aa790fd7b6a056466ff895c:
+> =
+
+>   drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge (2020-12-15 =
+11:01:10 +0100)
+> =
+
+> ----------------------------------------------------------------
+> Short summary of fixes pull (less than what git shortlog provides):
+> =
+
+>  * dma-buf: Fix docs
+>  * mxsfb: Silence invalid error message
+>  * radeon: Fix TTM multihop
+> =
+
+> ----------------------------------------------------------------
+> Christian K=F6nig (1):
+>       drm/radeon: fix check order in radeon_bo_move
+> =
+
+> Daniel Vetter (1):
+>       dma-buf: Fix kerneldoc formatting
+> =
+
+> Guido G=FCnther (1):
+>       drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge
+> =
+
+>  Documentation/driver-api/dma-buf.rst |  2 +-
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c    | 10 +++----
+>  drivers/gpu/drm/radeon/radeon_ttm.c  | 54 ++++++++++++++++--------------=
+------
+>  include/linux/dma-buf-map.h          |  2 +-
+>  4 files changed, 30 insertions(+), 38 deletions(-)
+> =
+
 > --
-> 2.29.2
->
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
