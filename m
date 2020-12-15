@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0302DA914
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A6F2DA913
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:23:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85ADE6E195;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CAAF6E193;
 	Tue, 15 Dec 2020 08:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B5E6E17D
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:23:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D708A894DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:23:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 97FCCFB04;
- Tue, 15 Dec 2020 09:23:40 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 6B601FB02;
+ Tue, 15 Dec 2020 09:23:41 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lrgQtBwn5rT4; Tue, 15 Dec 2020 09:23:39 +0100 (CET)
+ with ESMTP id NTYryB4XnR6q; Tue, 15 Dec 2020 09:23:39 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 90C2A43FDF; Tue, 15 Dec 2020 09:23:38 +0100 (CET)
+ id A05ED40261; Tue, 15 Dec 2020 09:23:38 +0100 (CET)
 From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -31,11 +31,13 @@ To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/1] drm: mxsfb: Silence -EPROBE_DEFER while waiting for
+Subject: [PATCH v1 1/1] drm: mxsfb: Silence -EPROBE_DEFER while waiting for
  bridge
-Date: Tue, 15 Dec 2020 09:23:37 +0100
-Message-Id: <cover.1608020391.git.agx@sigxcpu.org>
+Date: Tue, 15 Dec 2020 09:23:38 +0100
+Message-Id: <d5761eb871adde5464ba112b89d966568bc2ff6c.1608020391.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1608020391.git.agx@sigxcpu.org>
+References: <cover.1608020391.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,10 +67,26 @@ IGRlcGVuZGVuY3kgZmFpbHMgdG8gcHJvYmUgKHdoaWNoCnF1aWNrbHkgaGFwcGVucyBvbiBzbWFs
 bCBjb25maWcvRFQgY2hhbmdlcyBkdWUgdG8gdGhlIHJhdGhlciBsb25nIHByb2JlCmNoYWluIHdo
 aWNoIGNhbiBpbmNsdWRlIGJyaWRnZXMsIHBoeXMsIHBhbmVscywgYmFja2lnaHRzLCBsZWRzLCBl
 dGMuKS4KClRoaXMgYWxzbyByZW1vdmVzIHRoZSBvbmx5IERSTV9ERVZfRVJST1IoKSB1c2FnZSwg
-dGhlIHJlc3Qgb2YgdGhlIGRyaXZlcgp1c2VzIGRldl9lcnIoKS4KCkd1aWRvIEfDvG50aGVyICgx
-KToKICBkcm06IG14c2ZiOiBTaWxlbmNlIC1FUFJPQkVfREVGRVIgd2hpbGUgd2FpdGluZyBmb3Ig
-YnJpZGdlCgogZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jIHwgMTAgKysrKy0tLS0t
-LQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCi0tIAoy
-LjI5LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+dGhlIHJlc3Qgb2YgdGhlIGRyaXZlcgp1c2VzIGRldl9lcnIoKS4KClNpZ25lZC1vZmYtYnk6IEd1
+aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+CkZpeGVzOiBjNDIwMDFlMzU3ZjcgKCJkcm06
+IG14c2ZiOiBVc2UgZHJtX3BhbmVsX2JyaWRnZSIpCi0tLQogZHJpdmVycy9ncHUvZHJtL214c2Zi
+L214c2ZiX2Rydi5jIHwgMTAgKysrKy0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
+cygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXhzZmIv
+bXhzZmJfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMKaW5kZXggNmZh
+ZjE3YjY0MDhkLi42ZGE5MzU1MWUyZTUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9teHNm
+Yi9teHNmYl9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMKQEAg
+LTEzNCwxMSArMTM0LDggQEAgc3RhdGljIGludCBteHNmYl9hdHRhY2hfYnJpZGdlKHN0cnVjdCBt
+eHNmYl9kcm1fcHJpdmF0ZSAqbXhzZmIpCiAJCXJldHVybiAtRU5PREVWOwogCiAJcmV0ID0gZHJt
+X2JyaWRnZV9hdHRhY2goJm14c2ZiLT5lbmNvZGVyLCBicmlkZ2UsIE5VTEwsIDApOwotCWlmIChy
+ZXQpIHsKLQkJRFJNX0RFVl9FUlJPUihkcm0tPmRldiwKLQkJCSAgICAgICJmYWlsZWQgdG8gYXR0
+YWNoIGJyaWRnZTogJWRcbiIsIHJldCk7Ci0JCXJldHVybiByZXQ7Ci0JfQorCWlmIChyZXQpCisJ
+CXJldHVybiBkZXZfZXJyX3Byb2JlKGRybS0+ZGV2LCByZXQsICJGYWlsZWQgdG8gYXR0YWNoIGJy
+aWRnZVxuIik7CiAKIAlteHNmYi0+YnJpZGdlID0gYnJpZGdlOwogCkBAIC0yMTIsNyArMjA5LDgg
+QEAgc3RhdGljIGludCBteHNmYl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCiAKIAlyZXQg
+PSBteHNmYl9hdHRhY2hfYnJpZGdlKG14c2ZiKTsKIAlpZiAocmV0KSB7Ci0JCWRldl9lcnIoZHJt
+LT5kZXYsICJDYW5ub3QgY29ubmVjdCBicmlkZ2U6ICVkXG4iLCByZXQpOworCQlpZiAocmV0ICE9
+IC1FUFJPQkVfREVGRVIpCisJCQlkZXZfZXJyKGRybS0+ZGV2LCAiQ2Fubm90IGNvbm5lY3QgYnJp
+ZGdlOiAlZFxuIiwgcmV0KTsKIAkJZ290byBlcnJfdmJsYW5rOwogCX0KIAotLSAKMi4yOS4yCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
