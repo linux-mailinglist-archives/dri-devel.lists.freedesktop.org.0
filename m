@@ -1,38 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019D12DB403
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 19:51:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4422DB424
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 20:00:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB62C89B55;
-	Tue, 15 Dec 2020 18:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CF289B29;
+	Tue, 15 Dec 2020 19:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 138C189B7B
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 18:51:36 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D605D593;
- Tue, 15 Dec 2020 19:51:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608058294;
- bh=CX19z2xhCWPnBJt/UfsNscnL+UtMH1/Faxi7jyzarwg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gv0NOM/zNituv2OO8aeHLIFlpSHjwSOuyFonMWxqgNryPKEh7ifrZ9vuIJi0qs04H
- WO+lJvGsW9krNboPZkiZpnntdYJMpnwvz61OgOoPVCFJ6w564kDpt1DzlJLoZjR57A
- NZyOQG+OmyGuDMnXb8KmGRGitauOKFm/xWv88l2M=
-Date: Tue, 15 Dec 2020 20:51:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Qinglang Miao <miaoqinglang@huawei.com>
-Subject: Re: [PATCH] drm: rcar-du: fix reference leak in rcar_cmm_enable
-Message-ID: <X9kFryFOEfl5+S3B@pendragon.ideasonboard.com>
-References: <20201127094444.121186-1-miaoqinglang@huawei.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3AC89207
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 19:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608058813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5HE8p4803nr8EEV2Foh/7Cpa0TkBbGGqMwRHap2gZvI=;
+ b=KQQDBo65dIuC3kO0zVvEvDasB6HuNQ37IVi1mPP9o5wg+jG2J2K1EOyM+O0Q8uELRZKRlj
+ +jbTMCkUPgbBUMGFoWVaD/mFN8IGiiCjoNPdKGzE+/tAaepyhCNtVrsW4TlXAoxV9pwVVz
+ nY9qVwtxbq7kHlJEEIuF4tgfSt3MwJg=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-rRyIcKRPOkqDjSZ44yd8pg-1; Tue, 15 Dec 2020 14:00:11 -0500
+X-MC-Unique: rRyIcKRPOkqDjSZ44yd8pg-1
+Received: by mail-qt1-f198.google.com with SMTP id i1so14972744qtw.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 11:00:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=5HE8p4803nr8EEV2Foh/7Cpa0TkBbGGqMwRHap2gZvI=;
+ b=DE0Z7Gi67+5rCFKQJu0NEgXLM1/1zUkk9W7qJLJW1mA5nierFjORtu7jRw0Nz5iFqo
+ kj5qdwVhgjns7e7zAZYYMZUGdsWD6bfEQ1zmKHGBxQzztSppHZOv8uX5VP6aUVEFA0Rb
+ XnVJzvizcMeqPCmNUVenO1hWm0OWqazeiBLSyxILjS1n83cJmC9r25g38e9oINaMmxHd
+ nJddaQ7QiefYc7FZGz9JaWdlfsvFNF8ItEc0zLi2MGfed7+43IV5v+rI2zvPzNJ0bJEA
+ JM3R17TZM/0G4BuumBBuUy7JQvFm50OQGIeDqnm70tJBV0CF9dWIPUeJVZaMF0SBT4sE
+ MnIQ==
+X-Gm-Message-State: AOAM532YoTTAKdsC/flrYE4BK7MK6Wj4DYlq9Y703R9K3F7Hxw3ZR8Hp
+ YqMADP+P2Yl4HjPatbimguOyucXUb4Fz/hLzfSd8wmvUvtPokvzQhMIWLfd3KLS+YBSy9GCLxb7
+ rSu4jnR8JiWUZYUwZg/Hhj+pd9xly
+X-Received: by 2002:a37:8d01:: with SMTP id p1mr20046594qkd.31.1608058809602; 
+ Tue, 15 Dec 2020 11:00:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzsEMbKSsCB6tRrwkxY7WiocSFllMT54n4GdhwdkEoxTJJmDGKfXjf4l0GrD1Ds/zJlQ5106w==
+X-Received: by 2002:a37:8d01:: with SMTP id p1mr20046566qkd.31.1608058809388; 
+ Tue, 15 Dec 2020 11:00:09 -0800 (PST)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
+ [75.142.250.213])
+ by smtp.gmail.com with ESMTPSA id r6sm18260743qkk.127.2020.12.15.11.00.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Dec 2020 11:00:08 -0800 (PST)
+Subject: Re: [PATCH] drm/i915: remove h from printk format specifier
+To: Chris Wilson <chris@chris-wilson.co.uk>, airlied@linux.ie,
+ daniel@ffwll.ch, daniele.ceraolospurio@intel.com,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ lionel.g.landwerlin@intel.com, rodrigo.vivi@intel.com,
+ tejaskumarx.surendrakumar.upadhyay@intel.com, tvrtko.ursulin@intel.com,
+ venkata.s.dhanalakota@intel.com
+References: <20201215144101.1878719-1-trix@redhat.com>
+ <160805599050.14591.5854311082825914383@build.alporthouse.com>
+From: Tom Rix <trix@redhat.com>
+Message-ID: <12579dc7-603e-2fbe-85c0-0a4110b8992a@redhat.com>
+Date: Tue, 15 Dec 2020 11:00:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201127094444.121186-1-miaoqinglang@huawei.com>
+In-Reply-To: <160805599050.14591.5854311082825914383@build.alporthouse.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,59 +87,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Qinglang,
 
-Thank you for the patch.
+On 12/15/20 10:13 AM, Chris Wilson wrote:
+> Quoting trix@redhat.com (2020-12-15 14:41:01)
+>> From: Tom Rix <trix@redhat.com>
+>>
+>> See Documentation/core-api/printk-formats.rst.
+>> h should no longer be used in the format specifier for printk.
+> It's understood by format_decode().
+> * 'h', 'l', or 'L' for integer fields
+>
+> At least reference commit cbacb5ab0aa0 ("docs: printk-formats: Stop
+> encouraging use of unnecessary %h[xudi] and %hh[xudi]") as to why the
+> printk-formats.rst was altered so we know the code is merely in bad
+> taste and not using undefined behaviour of printk.
 
-On Fri, Nov 27, 2020 at 05:44:44PM +0800, Qinglang Miao wrote:
-> pm_runtime_get_sync will increment pm usage counter even it
-> failed. Forgetting to putting operation will result in a
-> reference leak here.
-> 
-> A new function pm_runtime_resume_and_get is introduced in
-> [0] to keep usage counter balanced. So We fix the reference
-> leak by replacing it with new funtion.
-> 
-> [0] dd8088d5a896 ("PM: runtime: Add  pm_runtime_resume_and_get to deal with usage counter")
-> 
-> Fixes: e08e934d6c28 ("drm: rcar-du: Add support for CMM")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+Ok, i will fix this after the first run of patches.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tom
 
-And queued for v5.11.
+> -Chris
+>
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_cmm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> index c578095b0..382d53f8a 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -122,7 +122,7 @@ int rcar_cmm_enable(struct platform_device *pdev)
->  {
->  	int ret;
->  
-> -	ret = pm_runtime_get_sync(&pdev->dev);
-> +	ret = pm_runtime_resume_and_get(&pdev->dev);
->  	if (ret < 0)
->  		return ret;
->  
-
--- 
-Regards,
-
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
