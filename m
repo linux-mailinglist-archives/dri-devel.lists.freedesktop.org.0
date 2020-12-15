@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354842DAB24
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:47:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C7E2DAB1D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:47:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E226E1EE;
-	Tue, 15 Dec 2020 10:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E06A6E1BD;
+	Tue, 15 Dec 2020 10:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEFCF6E1BD
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:20 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlKEg010501
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:20 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8E2D6E1BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:21 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlLJr123899
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:21 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029240;
- bh=ajwCt6izPHphFLCUv1Y3/2TJvnTgbI78sniWle0E1uc=;
+ s=ti-com-17Q1; t=1608029241;
+ bh=IV5imb9XT4ZTwejtP9Gj4H+tjCJjMZGdWYWQXVowt/k=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=AFZpsC73YgVCRPKuVuGJPFE3aItRIxqEEyEFgjIiicxE9ts12iD2Hif2Xvq02MFgL
- F52PFH4duIgJfBC3q0lvBOmuiiQwrHQge+kXCmRg5cGH3BVI7KYhtexGxxqYHqJEzD
- zF+hYgR/LJRffNy8t8j5ZI9YRqgFWbVXrmyTehSU=
+ b=Ra1qmHvQIIcAdMZiYql1SXjkoginvaGP9sQVyFmhyQTbgh6v4/OgH6Z7Iz5jojYzC
+ 3yC+EH4R0zmtZzEgV3ZRS8rYP+cO8dCgpWLvaBtFOh9zFjZgopcFVutXPjWZ2jGhnB
+ 2IwFfrwsO1EKH/eE4Ntb9M/pb7eataXePk6G4trs=
 Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlKOC101249
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlLZc022935
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:20 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:21 -0600
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE103.ent.ti.com
  (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:19 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:20 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:47:19 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:47:21 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwa6046467;
- Tue, 15 Dec 2020 04:47:19 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwa7046467;
+ Tue, 15 Dec 2020 04:47:20 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 20/84] drm/omap: dsi: drop useless sync()
-Date: Tue, 15 Dec 2020 12:45:53 +0200
-Message-ID: <20201215104657.802264-21-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 21/84] drm/omap: dsi: use pixel-format and mode from attach
+Date: Tue, 15 Dec 2020 12:45:54 +0200
+Message-ID: <20201215104657.802264-22-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -67,80 +67,94 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-The DSI sync() function only locks the bus and then releases
-it again. Currently the only invocation is directly before
-update(), which locks the bus anyways.
+In order to reduce the amount of custom functionality, this moves
+handling of pixel format and DSI mode from set_config() to dsi
+attach.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c    | 18 ------------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h          |  1 -
- drivers/gpu/drm/omapdrm/omap_crtc.c            |  3 ---
- 3 files changed, 22 deletions(-)
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   |  2 --
+ drivers/gpu/drm/omapdrm/dss/dsi.c             | 31 ++++++++++++-------
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index c1afb71af01c..f1e917afcbe4 100644
+index f1e917afcbe4..1f4d67566e75 100644
 --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -844,23 +844,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
- 	return r;
- }
- 
--static int dsicm_sync(struct omap_dss_device *dssdev)
--{
--	struct panel_drv_data *ddata = to_panel_data(dssdev);
--	struct omap_dss_device *src = ddata->src;
--
--	dev_dbg(&ddata->dsi->dev, "sync\n");
--
--	mutex_lock(&ddata->lock);
--	src->ops->dsi.bus_lock(src);
--	src->ops->dsi.bus_unlock(src);
--	mutex_unlock(&ddata->lock);
--
--	dev_dbg(&ddata->dsi->dev, "sync done\n");
--
--	return 0;
--}
--
- static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+@@ -549,8 +549,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+ 	u8 id1, id2, id3;
+ 	int r;
+ 	struct omap_dss_dsi_config dsi_config = {
+-		.mode = OMAP_DSS_DSI_CMD_MODE,
+-		.pixel_format = MIPI_DSI_FMT_RGB888,
+ 		.vm = &ddata->vm,
+ 		.hs_clk_min = 150000000,
+ 		.hs_clk_max = 300000000,
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index d960335574f3..bf7bee0b9334 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4576,24 +4576,19 @@ static int dsi_set_config(struct omap_dss_device *dssdev,
  {
- 	struct omap_dss_device *src = ddata->src;
-@@ -949,7 +932,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
+ 	struct dsi_data *dsi = to_dsi_data(dssdev);
+ 	struct dsi_clk_calc_ctx ctx;
++	struct omap_dss_dsi_config cfg = *config;
+ 	bool ok;
+ 	int r;
  
- static const struct omap_dss_driver dsicm_dss_driver = {
- 	.update		= dsicm_update,
--	.sync		= dsicm_sync,
- };
+ 	mutex_lock(&dsi->lock);
  
- static int dsicm_probe_of(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 68b3ec4d2553..b02a75d55133 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -385,7 +385,6 @@ struct omap_dss_device {
- struct omap_dss_driver {
- 	int (*update)(struct omap_dss_device *dssdev,
- 			       u16 x, u16 y, u16 w, u16 h);
--	int (*sync)(struct omap_dss_device *dssdev);
- };
+-	dsi->pix_fmt = config->pixel_format;
+-	dsi->mode = config->mode;
++	cfg.mode = dsi->mode;
++	cfg.pixel_format = dsi->pix_fmt;
  
- struct dss_device *omapdss_get_dss(void);
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-index 7d66269ad998..b6700f2043be 100644
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -379,9 +379,6 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
- 		return;
+-	if (mipi_dsi_pixel_format_to_bpp(dsi->pix_fmt) < 0) {
+-		DSSERR("invalid pixel format\n");
+-		r = -EINVAL;
+-		goto err;
+-	}
+-
+-	if (config->mode == OMAP_DSS_DSI_VIDEO_MODE)
+-		ok = dsi_vm_calc(dsi, config, &ctx);
++	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE)
++		ok = dsi_vm_calc(dsi, &cfg, &ctx);
+ 	else
+-		ok = dsi_cm_calc(dsi, config, &ctx);
++		ok = dsi_cm_calc(dsi, &cfg, &ctx);
+ 
+ 	if (!ok) {
+ 		DSSERR("failed to find suitable DSI clock settings\n");
+@@ -4604,7 +4599,7 @@ static int dsi_set_config(struct omap_dss_device *dssdev,
+ 	dsi_pll_calc_dsi_fck(dsi, &ctx.dsi_cinfo);
+ 
+ 	r = dsi_lp_clock_calc(ctx.dsi_cinfo.clkout[HSDIV_DSI],
+-		config->lp_clk_min, config->lp_clk_max, &dsi->user_lp_cinfo);
++		cfg.lp_clk_min, cfg.lp_clk_max, &dsi->user_lp_cinfo);
+ 	if (r) {
+ 		DSSERR("failed to find suitable DSI LP clock settings\n");
+ 		goto err;
+@@ -4782,7 +4777,19 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+ 		return -EBUSY;
  	}
  
--	if (dssdrv->sync)
--		dssdrv->sync(dssdev);
--
- 	ret = dssdrv->update(dssdev, 0, 0, mode->hdisplay, mode->vdisplay);
- 	if (ret < 0) {
- 		spin_lock_irq(&dev->event_lock);
++	if (mipi_dsi_pixel_format_to_bpp(client->format) < 0) {
++		DSSERR("invalid pixel format\n");
++		return -EINVAL;
++	}
++
+ 	dsi->vc[channel].dest = client;
++
++	dsi->pix_fmt = client->format;
++	if (client->mode_flags & MIPI_DSI_MODE_VIDEO)
++		dsi->mode = OMAP_DSS_DSI_VIDEO_MODE;
++	else
++		dsi->mode = OMAP_DSS_DSI_CMD_MODE;
++
+ 	return 0;
+ }
+ 
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
