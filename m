@@ -2,37 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2103B2DBD0E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667EC2DBD26
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97C34891DD;
-	Wed, 16 Dec 2020 08:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFAA6E0D1;
+	Wed, 16 Dec 2020 08:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1DD89CF8
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:05:13 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CwH462NdXzM6Ks;
- Tue, 15 Dec 2020 20:04:22 +0800 (CST)
-Received: from [127.0.0.1] (10.40.188.144) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Tue, 15 Dec 2020
- 20:04:09 +0800
-Subject: Re: [PATCH] drm/hisilicon: Fix rmmod hibmc_drm failed
-To: Tian Tao <tiantao6@hisilicon.com>, <airlied@linux.ie>,
- <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
- <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
- <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
-References: <1608001299-7237-1-git-send-email-tiantao6@hisilicon.com>
- <X9ilOeTwn9V0Jpdp@phenom.ffwll.local> <X9ilnrE1jcqS3LBF@phenom.ffwll.local>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <1b072884-6d4e-905c-c38e-b6cbe1be2174@huawei.com>
-Date: Tue, 15 Dec 2020 20:04:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540C46E314
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:18:55 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CwHMv5QLVzM5hT;
+ Tue, 15 Dec 2020 20:18:03 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 15 Dec 2020 20:18:49 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm/hisilicon: Fix rmmod hibmc_drm failed
+Date: Tue, 15 Dec 2020 20:18:59 +0800
+Message-ID: <1608034739-699-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <X9ilnrE1jcqS3LBF@phenom.ffwll.local>
-X-Originating-IP: [10.40.188.144]
+X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,81 +43,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="gbk"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CtTaIDIwMjAvMTIvMTUgMjA6MDEsIERhbmllbCBWZXR0ZXIg0LS1wDoKPiBPbiBUdWUsIERlYyAx
-NSwgMjAyMCBhdCAxMjo1OTo1M1BNICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+PiBPbiBU
-dWUsIERlYyAxNSwgMjAyMCBhdCAxMTowMTozOUFNICswODAwLCBUaWFuIFRhbyB3cm90ZToKPj4+
-IGRybV9pcnFfdW5pbnN0YWxsIHNob3VsZCBiZSBjYWxsZWQgYmVmb3JlIHBjaV9kaXNhYmxlX21z
-aSwgaWYgdXNlCj4+PiBkZXZtX2RybV9pcnFfaW5zdGFsbCB0byByZWdpc3RlciB0aGUgaW50ZXJy
-dXB0LCB0aGUgc3lzdGVtIHdpbGwKPj4+IGNhbGwgcGNpX2Rpc2FibGVfbXNpIGZpcnN0IGFuZCB0
-aGVuIGNhbGwgZHJtX2lycV91bmluc3RhbGwsIHdoaWNoCj4+PiAgIHdpbGwgcmVzdWx0IGluIHRo
-ZSBmb2xsb3dpbmcgY2FsbHN0YWNrLgo+Pj4KPj4+IGtlcm5lbCBCVUcgYXQgZHJpdmVycy9wY2kv
-bXNpLmM6Mzc2IQo+Pj4gSW50ZXJuYWwgZXJyb3I6IE9vcHMgLSBCVUc6IDAgWyMxXSBTTVAKPj4+
-IENQVTogOTMgUElEOiAxNzM4MTQgQ29tbTogcm1tb2QgVGFpbnRlZDoKPj4+IHBzdGF0ZTogYTA0
-MDAwMDkgKE56Q3YgZGFpZiArUEFOIC1VQU8gLVRDTyBCVFlQRT0tLSkKPj4+IHBjIDogZnJlZV9t
-c2lfaXJxcysweDE3Yy8weDFhMAo+Pj4gbHIgOiBmcmVlX21zaV9pcnFzKzB4MTZjLzB4MWEwCj4+
-PiBzcCA6IGZmZmYyMDI4MTU3ZjdiZDAKPj4+IHgyOTogZmZmZjIwMjgxNTdmN2JkMCB4Mjg6IGZm
-ZmYyMDI4NDllZGFiMDAKPj4+IHgyNzogMDAwMDAwMDAwMDAwMDAwMCB4MjY6IDAwMDAwMDAwMDAw
-MDAwMDAKPj4+IHgyNTogMDAwMDAwMDAwMDAwMDAwMCB4MjQ6IDAwMDAwMDAwMDAwMDAwMDAKPj4+
-IHgyMzogZmZmZjAwMjA4NTFkYTAwMCB4MjI6IGZmZmYwMDIwODUxZGEyZDgKPj4+IHgyMTogZmZm
-ZjAwMjBjYzgyOTAwMCB4MjA6IDAwMDAwMDAwMDAwMDAwMDAKPj4+IHgxOTogZmZmZjAwMjBkNjcx
-NDgwMCB4MTg6IDAwMDAwMDAwMDAwMDAwMTAKPj4+IHgxNzogMDAwMDAwMDAwMDAwMDAwMCB4MTY6
-IDAwMDAwMDAwMDAwMDAwMDAKPj4+IHgxNTogZmZmZmZmZmZmZmZmZmZmZiB4MTQ6IGZmZmYyMDI4
-OTU3Zjc3ZGYKPj4+IHgxMzogZmZmZjIwMjgxNTdmNzdlZCB4MTI6IDAwMDAwMDAwMDAwMDAwMDAK
-Pj4+IHgxMTogMDAwMDAwMDAwMDAwMDA0MCB4MTA6IGZmZmY4MDAwMTFiMmY4ZTAKPj4+IHg5IDog
-ZmZmZjgwMDAxMWIyZjhkOCB4OCA6IGZmZmYyMDIwMjAzZmM0NTgKPj4+IHg3IDogMDAwMDAwMDAw
-MDAwMDAwMCB4NiA6IDAwMDAwMDAwMDAwMDAwMDAKPj4+IHg1IDogZmZmZjIwMjAyMDNmYzQzMCB4
-NCA6IGZmZmYyMDIwMjAzZmM0YTAKPj4+IHgzIDogMDAwMDAwMDAwMDAwMDAwMCB4MiA6IDAwMDAw
-MDAwMDAwMDAwMDAKPj4+IHgxIDogMDAwMDAwMDAwMDAwMDJjOSB4MCA6IGZmZmYwMDIwZDY3MTk1
-MDAKPj4+IENhbGwgdHJhY2U6Cj4+PiAgIGZyZWVfbXNpX2lycXMrMHgxN2MvMHgxYTAKPj4+ICAg
-cGNpX2Rpc2FibGVfbXNpKzB4ZTQvMHgxMTgKPj4+ICAgaGlibWNfdW5sb2FkKzB4NDQvMHg4MCBb
-aGlibWNfZHJtXQo+Pj4gICBoaWJtY19wY2lfcmVtb3ZlKzB4MmMvMHgzOCBbaGlibWNfZHJtXQo+
-Pj4gICBwY2lfZGV2aWNlX3JlbW92ZSsweDQ4LzB4MTA4Cj4+PiAgIGRldmljZV9yZWxlYXNlX2Ry
-aXZlcl9pbnRlcm5hbCsweDExOC8weDFmMAo+Pj4gICBkcml2ZXJfZGV0YWNoKzB4NmMvMHhlMAo+
-Pj4gICBidXNfcmVtb3ZlX2RyaXZlcisweDc0LzB4MTAwCj4+PiAgIGRyaXZlcl91bnJlZ2lzdGVy
-KzB4MzQvMHg2MAo+Pj4gICBwY2lfdW5yZWdpc3Rlcl9kcml2ZXIrMHgyNC8weGQ4Cj4+PiAgIGhp
-Ym1jX3BjaV9kcml2ZXJfZXhpdCsweDE0LzB4ZTc2OCBbaGlibWNfZHJtXQo+Pj4gICBfX2FybTY0
-X3N5c19kZWxldGVfbW9kdWxlKzB4MWZjLzB4MmQwCj4+PiAgIGVsMF9zdmNfY29tbW9uLmNvbnN0
-cHJvcC4zKzB4YTgvMHgxODgKPj4+ICAgZG9fZWwwX3N2YysweDgwLzB4YTAKPj4+ICAgZWwwX3N5
-bmNfaGFuZGxlcisweDhjLzB4YjAKPj4+ICAgZWwwX3N5bmMrMHgxNWMvMHgxODAKPj4+IENvZGU6
-IGY5NDBiNDAwIGI0ZmZmZjAwIGE5MDNlN2I4IGY5MDAxM2I1IChkNDIxMDAwMCkKPj4+IC0tLVsg
-ZW5kIHRyYWNlIDMxMGQ5NGVlOGFiZWY0NGYgXS0tLQo+Pj4gS2VybmVsIHBhbmljIC0gbm90IHN5
-bmNpbmc6IE9vcHMgLSBCVUc6IEZhdGFsIGV4Y2VwdGlvbgo+Pj4KPj4gWW91IHNob3VsZCBtZW50
-aW9uIGhlcmUgd2hpY2ggcGF0Y2ggeW91J3JlIHJldmVydGluZy4gV2l0aCB0aGF0Ogo+Pgo+PiBB
-Y2tlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPj4KPj4gU2lu
-Y2UgdGhlIHByb3BlciBmaXggd2lsbCBwcm9iYWJseSB0YWtlIGEgd2hpbGUgbG9uZ2VyLiBBbHNv
-IHdoeSB3YXMgdGhpcwo+PiBub3Qgbm90aWNlZCB3aGVuIG1lcmdpbmcgdGhlIG9yaWdpbmFsIHBh
-dGNoPyBoaXNpbGljb24gaXMgdGhlIG9ubHkgdXNlciBvZgo+PiBkZXZtX2RybV9pcnFfaW5zdGFs
-bCB3ZSBoYXZlIGluLXRyZWUgcmlnaHQgbm93Lgo+IEkgYWxzbyBqdXN0IG5vdGljZWQgdGhhdCB5
-b3UgZGlkbid0IGFkZCBkZXZtX2RybV9pcnFfaW5zdGFsbCB0byB0aGUgbGlzdAo+IG9mIGZ1bmN0
-aW9ucyBpbiBEb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvZHJpdmVyLW1vZGVsL2RldnJlcy5yc3Qu
-IENhbiB5b3UKPiBwbGVhc2Ugc3VibWl0IGEgcGF0Y2ggdG8gZml4IHRoaXM/CnN1cmUKPgo+IFRo
-YW5rcywgRGFuaWVsCj4KPj4gLURhbmllbAo+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8g
-PHRpYW50YW82QGhpc2lsaWNvbi5jb20+Cj4+PiAtLS0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL2hp
-c2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMgfCA2ICsrKysrLQo+Pj4gICAxIGZpbGUgY2hh
-bmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jIGIvZHJpdmVy
-cy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMKPj4+IGluZGV4IGUzYWI3
-NjViLi4wMmYzYmQxIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9o
-aWJtYy9oaWJtY19kcm1fZHJ2LmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24v
-aGlibWMvaGlibWNfZHJtX2Rydi5jCj4+PiBAQCAtMjUxLDYgKzI1MSwxMCBAQCBzdGF0aWMgaW50
-IGhpYm1jX2h3X2luaXQoc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpwcml2KQo+Pj4gICBzdGF0
-aWMgaW50IGhpYm1jX3VubG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+Pj4gICB7Cj4+PiAg
-IAlkcm1fYXRvbWljX2hlbHBlcl9zaHV0ZG93bihkZXYpOwo+Pj4gKwo+Pj4gKwlpZiAoZGV2LT5p
-cnFfZW5hYmxlZCkKPj4+ICsJCWRybV9pcnFfdW5pbnN0YWxsKGRldik7Cj4+PiArCj4+PiAgIAlw
-Y2lfZGlzYWJsZV9tc2koZGV2LT5wZGV2KTsKPj4+ICAgCj4+PiAgIAlyZXR1cm4gMDsKPj4+IEBA
-IC0yODYsNyArMjkwLDcgQEAgc3RhdGljIGludCBoaWJtY19sb2FkKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpCj4+PiAgIAlpZiAocmV0KSB7Cj4+PiAgIAkJZHJtX3dhcm4oZGV2LCAiZW5hYmxpbmcg
-TVNJIGZhaWxlZDogJWRcbiIsIHJldCk7Cj4+PiAgIAl9IGVsc2Ugewo+Pj4gLQkJcmV0ID0gZGV2
-bV9kcm1faXJxX2luc3RhbGwoZGV2LCBkZXYtPnBkZXYtPmlycSk7Cj4+PiArCQlyZXQgPSBkcm1f
-aXJxX2luc3RhbGwoZGV2LCBkZXYtPnBkZXYtPmlycSk7Cj4+PiAgIAkJaWYgKHJldCkKPj4+ICAg
-CQkJZHJtX3dhcm4oZGV2LCAiaW5zdGFsbCBpcnEgZmFpbGVkOiAlZFxuIiwgcmV0KTsKPj4+ICAg
-CX0KPj4+IC0tIAo+Pj4gMi43LjQKPj4+Cj4+IC0tIAo+PiBEYW5pZWwgVmV0dGVyCj4+IFNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+PiBodHRwOi8vYmxvZy5mZndsbC5jaAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+drm_irq_uninstall should be called before pci_disable_msi, if use
+devm_drm_irq_install to register the interrupt, the system will
+call pci_disable_msi first and then call drm_irq_uninstall, which
+will result in the following callstack.
+
+This reverts commit e4401247070a37c2fce62b2773a4eb7757983938.
+
+kernel BUG at drivers/pci/msi.c:376!
+Internal error: Oops - BUG: 0 [#1] SMP
+CPU: 93 PID: 173814 Comm: rmmod Tainted:
+pstate: a0400009 (NzCv daif +PAN -UAO -TCO BTYPE=--)
+pc : free_msi_irqs+0x17c/0x1a0
+lr : free_msi_irqs+0x16c/0x1a0
+sp : ffff2028157f7bd0
+x29: ffff2028157f7bd0 x28: ffff202849edab00
+x27: 0000000000000000 x26: 0000000000000000
+x25: 0000000000000000 x24: 0000000000000000
+x23: ffff0020851da000 x22: ffff0020851da2d8
+x21: ffff0020cc829000 x20: 0000000000000000
+x19: ffff0020d6714800 x18: 0000000000000010
+x17: 0000000000000000 x16: 0000000000000000
+x15: ffffffffffffffff x14: ffff2028957f77df
+x13: ffff2028157f77ed x12: 0000000000000000
+x11: 0000000000000040 x10: ffff800011b2f8e0
+x9 : ffff800011b2f8d8 x8 : ffff2020203fc458
+x7 : 0000000000000000 x6 : 0000000000000000
+x5 : ffff2020203fc430 x4 : ffff2020203fc4a0
+x3 : 0000000000000000 x2 : 0000000000000000
+x1 : 00000000000002c9 x0 : ffff0020d6719500
+Call trace:
+ free_msi_irqs+0x17c/0x1a0
+ pci_disable_msi+0xe4/0x118
+ hibmc_unload+0x44/0x80 [hibmc_drm]
+ hibmc_pci_remove+0x2c/0x38 [hibmc_drm]
+ pci_device_remove+0x48/0x108
+ device_release_driver_internal+0x118/0x1f0
+ driver_detach+0x6c/0xe0
+ bus_remove_driver+0x74/0x100
+ driver_unregister+0x34/0x60
+ pci_unregister_driver+0x24/0xd8
+ hibmc_pci_driver_exit+0x14/0xe768 [hibmc_drm]
+ __arm64_sys_delete_module+0x1fc/0x2d0
+ el0_svc_common.constprop.3+0xa8/0x188
+ do_el0_svc+0x80/0xa0
+ el0_sync_handler+0x8c/0xb0
+ el0_sync+0x15c/0x180
+Code: f940b400 b4ffff00 a903e7b8 f90013b5 (d4210000)
+---[ end trace 310d94ee8abef44f ]---
+Kernel panic - not syncing: Oops - BUG: Fatal exception
+
+v2:
+update the commit log to indicate the patch that needs to be revert.
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 7e91ef1..9b5f15c 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -251,6 +251,10 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+ static int hibmc_unload(struct drm_device *dev)
+ {
+ 	drm_atomic_helper_shutdown(dev);
++
++	if (dev->irq_enabled)
++		drm_irq_uninstall(dev);
++
+ 	pci_disable_msi(dev->pdev);
+ 
+ 	return 0;
+@@ -286,7 +290,7 @@ static int hibmc_load(struct drm_device *dev)
+ 	if (ret) {
+ 		drm_warn(dev, "enabling MSI failed: %d\n", ret);
+ 	} else {
+-		ret = devm_drm_irq_install(dev, dev->pdev->irq);
++		ret = drm_irq_install(dev, dev->pdev->irq);
+ 		if (ret)
+ 			drm_warn(dev, "install irq failed: %d\n", ret);
+ 	}
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
