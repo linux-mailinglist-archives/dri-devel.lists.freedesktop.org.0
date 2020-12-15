@@ -1,72 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8F82DBD0F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C070A2DAA40
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 10:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B65E891AB;
-	Wed, 16 Dec 2020 08:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9712489B8F;
+	Tue, 15 Dec 2020 09:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8816E165
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:50:25 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 2EA145C01CC;
- Tue, 15 Dec 2020 03:50:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 15 Dec 2020 03:50:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=IXKNr+xuSGlIaAvPVvexwRMd7oj
- vcI9cuuFmG+xxnUg=; b=oWfGyvxJmAQv6ks5EDqLui6fhnmt1Sam9aeGLK9I/vg
- yy8K+rHhiO/R/THqphqPbE8MIkDBO6O+6q8/yy4KvyNw+urI7jMDiXF6sH5ZoTN5
- +4zjY2JKGRMippb5AUKUAJSAEr12mIHsFeeLdbYHhqoJZcz36KhzRC3EdemnIhEy
- VBGGmVBiWt6CpqkPPqzVzKrYDEXRA9deMvkq1FYNrZx3uGvGcLea+8HgkCvU3LIL
- msULsOmmTCWRy9oIUf7z3wC4HKX8Ydm5ae4wo36TtBDQXfniUfOTeGB0Gh/CBWSt
- AGr2WRiUM4Gm+fG2ia+fDzpsVD9c4Q6SFxysyEs2zAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=IXKNr+
- xuSGlIaAvPVvexwRMd7ojvcI9cuuFmG+xxnUg=; b=R7DImCA32dvcTNcP9M676F
- PLK187xfBfdD+0z/mqNft2lSmy+ZHInoYqX7lSIzMubuEhv7nDtsqo3E9hK1FpRh
- I6TGN98tcXHx2ICRHh9nHmPivGXrPbP0iw5991eFDkFRm6s+houDRXnsNCaHijWw
- CyFXlHlWzcLWjiq8j1h4jtqbDFk59dwjYP6SOoUMZThmVEQH98qh28JR9sje0Xco
- 7tblmWub+n8BCm8+LMchbomrAtXXI/Xg8QlFDkEf92NIZMPjf01xyygIzwS8fgF1
- oRNQbpjOsNDVzvZwdkmOinf0lWqIOJcUnVdJoW3ai7VOp9R7IJay5rLzAl0R6Rcg
- ==
-X-ME-Sender: <xms:zXjYXzdqWDa-wjFo2KsoLpKB6RmxqbOqbaHz-wRcqUmUOlQR4CFJOA>
- <xme:zXjYX5O_vHfl1WKS-FzPEGgoarelMNCwD5h0DHb44QpY_elJD13mrBkKacMZWptTq
- hRmiBz9sgF99YUWau8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekledguddviecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleff
- gfejvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeike
- drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- mhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:zXjYX8j7X5zJjvrA6IwJ5RiD_bTtNux1D7gLphSin7DZe5OLzO8j4w>
- <xmx:zXjYX09QV6Ja0Vg6zZgLTGrrIcxvzspvNaHEL08QyOzv8ZeGLkCyeg>
- <xmx:zXjYX_vva1gwLeSnhqZQ7MWWxLg8_0gTUdMMf-_502vqXi85VQkUaQ>
- <xmx:z3jYX1UA1tbzHi8sfTCooHQm2XJe3nWdsamJMu9sOYBmxFHlhkP-Jg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B00BA108005C;
- Tue, 15 Dec 2020 03:50:21 -0500 (EST)
-Date: Tue, 15 Dec 2020 09:50:20 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/sun4i: hdmi: Use PTR_ERR_OR_ZERO() to simplify code
-Message-ID: <20201215085020.ty5ztxaf6v3o5b6o@gilmour>
-References: <1607998571-59729-1-git-send-email-tiantao6@hisilicon.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3993389B8F
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 09:42:47 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id a109so18721235otc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 01:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nrfZzU8i2XI5TReL11FPZCA/DbKh6MmkKEx+RvfbNo0=;
+ b=dLTcIZbmqXjw8OiNhLJT1Ued66pU3oyhulfg+tGUp4w/1OLIaRLdvkLDV73Dh6gWu/
+ 6nRHfpqmnVVihgRe5iyrDWu3KY3QX72LyXXg7naKkSCK6vf0EYcpPipqwbpul7mILvbw
+ 6RfB7mRva/KJopM6kHFoYfm2Zt10K8sGCjrsk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nrfZzU8i2XI5TReL11FPZCA/DbKh6MmkKEx+RvfbNo0=;
+ b=KVnG0q7waA8hRC6E9Fzq14fvTfanOP2GIKXl/Q8V/ECzUw/4JRBCq+7NG5PDEpiXXT
+ A1e9dqsuwxRavivdXheP1DVSfNO3hs2zouEsRu30HOU80bt3ksuWfkVrhHPtoazCwxE0
+ FZKFjOtHPZJXK5Ac1nddpkIr86wj65O7ILQpT+iHjXSrbrUjeCc+UYpzTbQAs/jaXlu2
+ bCo6fLGH/+aWAfKwnf2/beqFKwdtLcFalq3rjHj6ByuMVs19USrzkT8ucRT53WYopnkg
+ HyopDzrIYpMGTQQpmvPzHYA+xFmfVqSMcMCxcMsg9r6QTZiovA0BYRViZqcZjAl8xIJN
+ r0QA==
+X-Gm-Message-State: AOAM530vRb741DFbjWUA0tnlIbgjhLoxVZvBoCQV7a0dQKG4G4pK++Jm
+ HvtmLtppVQzawigY2U8xOpMvoJthGYW9ph42Dx7EmA==
+X-Google-Smtp-Source: ABdhPJzqz52kCcy3Sd/fp9IWZ2qXtHhaK/T3eI017Kprgk6vEXCoVAsTgaMPPVLtQ2gCS/U3TYMOqnT0/0cx+e7+SLU=
+X-Received: by 2002:a9d:23ca:: with SMTP id t68mr22774532otb.281.1608025366091; 
+ Tue, 15 Dec 2020 01:42:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1607998571-59729-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
+References: <20201105175031.00e0b081@canb.auug.org.au>
+ <20201116104444.044486ea@canb.auug.org.au>
+ <20201215065045.66421c34@canb.auug.org.au>
+ <20201215134702.37a12a03@canb.auug.org.au>
+In-Reply-To: <20201215134702.37a12a03@canb.auug.org.au>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 15 Dec 2020 10:42:34 +0100
+Message-ID: <CAKMK7uECzCHd-q5T4P8F02jppLP+kuMWc9Nznp-65kgKBGPSEg@mail.gmail.com>
+Subject: Re: linux-next: build warnings after merge of the drm tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0606472269=="
+Cc: Dave Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Dec 15, 2020 at 3:47 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi all,
+>
+> On Tue, 15 Dec 2020 06:50:45 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> >
+> > On Mon, 16 Nov 2020 10:44:44 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> > >
+> > > On Thu, 5 Nov 2020 17:50:31 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> > > >
+> > > > After merging the drm tree, today's linux-next build (htmldocs) produced
+> > > > these warnings:
+> > > >
+> > > > include/linux/dma-buf-map.h:106: warning: Excess function parameter 'vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
+> > > > include/linux/dma-buf-map.h:106: warning: Function parameter or member 'vaddr_' not described in 'DMA_BUF_MAP_INIT_VADDR'
+> > > > include/linux/dma-buf-map.h:106: warning: Excess function parameter 'vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
+> > > >
+> > > > Introduced by commit
+> > > >
+> > > >   20e76f1a7059 ("dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces")
+> > >
+> > > I am still getting these warnings.
+> >
+> > I am still getting these warnings.
+>
+> These warnings are now from Linus' tree.
 
---===============0606472269==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cg5aywfc4cw4qsir"
-Content-Disposition: inline
-
-
---cg5aywfc4cw4qsir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Dec 15, 2020 at 10:16:11AM +0800, Tian Tao wrote:
-> Fixes coccicheck warning:
-> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:281:1-3: WARNING: PTR_ERR_OR_ZERO
-> can be used
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-
-That script shouldn't be there anymore, see:
-https://lore.kernel.org/cocci/alpine.DEB.2.21.2001071106420.3004@hadrien/#t
-
-Maxime
-
---cg5aywfc4cw4qsir
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9h4zAAKCRDj7w1vZxhR
-xWGDAP9kXXZO1A/r0uzBeLeKaoVWi4D0OBQ2xe8hdEdNYpOPCwEAjSGzbCP30JLm
-DTeWfJ3oDTQaCkHwNTTTdXHDJr1t4w4=
-=drVT
------END PGP SIGNATURE-----
-
---cg5aywfc4cw4qsir--
-
---===============0606472269==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+We had a stuck pull request which should have been included in the
+main merge pull. This should be fixed now in drm-next. Well in a few
+minutes when the compile testing is done.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0606472269==--
