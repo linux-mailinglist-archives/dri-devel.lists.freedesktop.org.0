@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E392DCDC4
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 09:43:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB092DCDD9
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 09:44:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B080C6E1B4;
-	Thu, 17 Dec 2020 08:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 544586E25A;
+	Thu, 17 Dec 2020 08:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id B5932896A5
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 09:30:40 +0000 (UTC)
-X-UUID: 461a26c33c184d9a99b2bb02568526a5-20201216
-X-UUID: 461a26c33c184d9a99b2bb02568526a5-20201216
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D66896E0D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 09:30:45 +0000 (UTC)
+X-UUID: e86b4f7cdec04932b3cfb6c385b5ec12-20201216
+X-UUID: e86b4f7cdec04932b3cfb6c385b5ec12-20201216
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1052347228; Wed, 16 Dec 2020 17:30:37 +0800
+ with ESMTP id 975032162; Wed, 16 Dec 2020 17:30:37 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 16 Dec 2020 17:30:36 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Wed, 16 Dec 2020 17:30:35 +0800
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 07/11] dt-bindings: phy: convert MIPI DSI PHY binding to
- YAML schema
-Date: Wed, 16 Dec 2020 17:30:08 +0800
-Message-ID: <20201216093012.24406-7-chunfeng.yun@mediatek.com>
+Subject: [PATCH v4 08/11] dt-bindings: usb: convert mediatek,
+ musb.txt to YAML schema
+Date: Wed, 16 Dec 2020 17:30:09 +0800
+Message-ID: <20201216093012.24406-8-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201216093012.24406-1-chunfeng.yun@mediatek.com>
 References: <20201216093012.24406-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 9C9FC9AF620F26D2EA5BCF8C317E5D9A03B626D9668BB29BF2DD8A8CD91417442000:8
 X-MTK: N
 X-Mailman-Approved-At: Thu, 17 Dec 2020 08:43:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,143 +66,203 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert MIPI DSI PHY binding to YAML schema mediatek,dsi-phy.yaml
+Convert mediatek,musb.txt to YAML schema mediatek,musb.yaml
 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Min Guo <min.guo@mediatek.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-v4:
-  1. add maintainer Philipp add support mt8183 suggested by Chun-Kuang
-  2. use keyword multipleOf suggested by Rob
-  3. fix typo of 'MIPI' in title
-
-v3: new patch
+v4: no changes
+v3: add Reviewed-by Rob
+v2: new patch
 ---
- .../display/mediatek/mediatek,dsi.txt         | 18 +---
- .../bindings/phy/mediatek,dsi-phy.yaml        | 85 +++++++++++++++++++
- 2 files changed, 86 insertions(+), 17 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+ .../devicetree/bindings/usb/mediatek,musb.txt |  57 ---------
+ .../bindings/usb/mediatek,musb.yaml           | 113 ++++++++++++++++++
+ 2 files changed, 113 insertions(+), 57 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/mediatek,musb.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/mediatek,musb.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-index f06f24d405a5..8238a86686be 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-@@ -22,23 +22,7 @@ Required properties:
- MIPI TX Configuration Module
- ============================
- 
--The MIPI TX configuration module controls the MIPI D-PHY.
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,musb.txt b/Documentation/devicetree/bindings/usb/mediatek,musb.txt
+deleted file mode 100644
+index 5eedb0296562..000000000000
+--- a/Documentation/devicetree/bindings/usb/mediatek,musb.txt
++++ /dev/null
+@@ -1,57 +0,0 @@
+-MediaTek musb DRD/OTG controller
+--------------------------------------------
 -
 -Required properties:
--- compatible: "mediatek,<chip>-mipi-tx"
--- the supported chips are mt2701, 7623, mt8173 and mt8183.
--- reg: Physical base address and length of the controller's registers
--- clocks: PLL reference clock
--- clock-output-names: name of the output clock line to the DSI encoder
--- #clock-cells: must be <0>;
--- #phy-cells: must be <0>.
+- - compatible      : should be one of:
+-                     "mediatek,mt2701-musb"
+-                     ...
+-                     followed by "mediatek,mtk-musb"
+- - reg             : specifies physical base address and size of
+-                     the registers
+- - interrupts      : interrupt used by musb controller
+- - interrupt-names : must be "mc"
+- - phys            : PHY specifier for the OTG phy
+- - dr_mode         : should be one of "host", "peripheral" or "otg",
+-                     refer to usb/generic.txt
+- - clocks          : a list of phandle + clock-specifier pairs, one for
+-                     each entry in clock-names
+- - clock-names     : must contain "main", "mcu", "univpll"
+-                     for clocks of controller
 -
 -Optional properties:
--- drive-strength-microamp: adjust driving current, should be 3000 ~ 6000. And
--						   the step is 200.
--- nvmem-cells: A phandle to the calibration data provided by a nvmem device. If
--               unspecified default values shall be used.
--- nvmem-cell-names: Should be "calibration-data"
-+See phy/mediatek,dsi-phy.yaml
- 
- Example:
- 
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+- - power-domains   : a phandle to USB power domain node to control USB's
+-                     MTCMOS
+-
+-Required child nodes:
+- usb connector node as defined in bindings/connector/usb-connector.yaml
+-Optional properties:
+- - id-gpios        : input GPIO for USB ID pin.
+- - vbus-gpios      : input GPIO for USB VBUS pin.
+- - vbus-supply     : reference to the VBUS regulator, needed when supports
+-                     dual-role mode
+- - usb-role-switch : use USB Role Switch to support dual-role switch, see
+-                     usb/generic.txt.
+-
+-Example:
+-
+-usb2: usb@11200000 {
+-	compatible = "mediatek,mt2701-musb",
+-		     "mediatek,mtk-musb";
+-	reg = <0 0x11200000 0 0x1000>;
+-	interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
+-	interrupt-names = "mc";
+-	phys = <&u2port2 PHY_TYPE_USB2>;
+-	dr_mode = "otg";
+-	clocks = <&pericfg CLK_PERI_USB0>,
+-		 <&pericfg CLK_PERI_USB0_MCU>,
+-		 <&pericfg CLK_PERI_USB_SLV>;
+-	clock-names = "main","mcu","univpll";
+-	power-domains = <&scpsys MT2701_POWER_DOMAIN_IFR_MSC>;
+-	usb-role-switch;
+-	connector{
+-		compatible = "gpio-usb-b-connector", "usb-b-connector";
+-		type = "micro";
+-		id-gpios = <&pio 44 GPIO_ACTIVE_HIGH>;
+-		vbus-supply = <&usb_vbus>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,musb.yaml b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
 new file mode 100644
-index 000000000000..71d4acea1f66
+index 000000000000..790efe8b6274
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-@@ -0,0 +1,85 @@
++++ b/Documentation/devicetree/bindings/usb/mediatek,musb.yaml
+@@ -0,0 +1,113 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +# Copyright (c) 2020 MediaTek
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/phy/mediatek,dsi-phy.yaml#
++$id: http://devicetree.org/schemas/usb/mediatek,musb.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: MediaTek MIPI Display Serial Interface (DSI) PHY binding
++title: MediaTek MUSB DRD/OTG Controller Device Tree Bindings
 +
 +maintainers:
-+  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-+  - Philipp Zabel <p.zabel@pengutronix.de>
-+  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-+
-+description: The MIPI DSI PHY supports up to 4-lane output.
++  - Min Guo <min.guo@mediatek.com>
 +
 +properties:
 +  $nodename:
-+    pattern: "^dsi-phy@[0-9a-f]+$"
++    pattern: '^usb@[0-9a-f]+$'
 +
 +  compatible:
-+    enum:
-+      - mediatek,mt2701-mipi-tx
-+      - mediatek,mt7623-mipi-tx
-+      - mediatek,mt8173-mipi-tx
-+      - mediatek,mt8183-mipi-tx
++    items:
++      - enum:
++          - mediatek,mt2701-musb
++      - const: mediatek,mtk-musb
 +
 +  reg:
 +    maxItems: 1
 +
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    items:
++      - const: mc
++
 +  clocks:
 +    items:
-+      - description: PLL reference clock
++      - description: The main/core clock
++      - description: The system bus clock
++      - description: The 48Mhz clock
 +
-+  clock-output-names:
-+    maxItems: 1
-+
-+  "#phy-cells":
-+    const: 0
-+
-+  "#clock-cells":
-+    const: 0
-+
-+  nvmem-cells:
-+    maxItems: 1
-+    description: A phandle to the calibration data provided by a nvmem device,
-+      if unspecified, default values shall be used.
-+
-+  nvmem-cell-names:
++  clock-names:
 +    items:
-+      - const: calibration-data
++      - const: main
++      - const: mcu
++      - const: univpll
 +
-+  drive-strength-microamp:
-+    description: adjust driving current
-+    multipleOf: 200
-+    minimum: 2000
-+    maximum: 6000
-+    default: 4600
++  phys:
++    maxItems: 1
++
++  usb-role-switch:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: Support role switch. See usb/generic.txt
++    type: boolean
++
++  dr_mode:
++    enum:
++      - host
++      - otg
++      - peripheral
++
++  power-domains:
++    description: A phandle to USB power domain node to control USB's MTCMOS
++    maxItems: 1
++
++  connector:
++    $ref: /connector/usb-connector.yaml#
++    description: Connector for dual role switch
++    type: object
++
++dependencies:
++  usb-role-switch: [ 'connector' ]
++  connector: [ 'usb-role-switch' ]
 +
 +required:
 +  - compatible
 +  - reg
++  - interrupts
++  - interrupt-names
++  - phys
 +  - clocks
-+  - clock-output-names
-+  - "#phy-cells"
-+  - "#clock-cells"
++  - clock-names
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/mt8173-clk.h>
-+    dsi-phy@10215000 {
-+        compatible = "mediatek,mt8173-mipi-tx";
-+        reg = <0x10215000 0x1000>;
-+        clocks = <&clk26m>;
-+        clock-output-names = "mipi_tx0_pll";
-+        drive-strength-microamp = <4000>;
-+        nvmem-cells= <&mipi_tx_calibration>;
-+        nvmem-cell-names = "calibration-data";
-+        #clock-cells = <0>;
-+        #phy-cells = <0>;
-+    };
++    #include <dt-bindings/clock/mt2701-clk.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/phy/phy.h>
++    #include <dt-bindings/power/mt2701-power.h>
 +
++    usb@11200000 {
++        compatible = "mediatek,mt2701-musb", "mediatek,mtk-musb";
++        reg = <0x11200000 0x1000>;
++        interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
++        interrupt-names = "mc";
++        phys = <&u2port2 PHY_TYPE_USB2>;
++        dr_mode = "otg";
++        clocks = <&pericfg CLK_PERI_USB0>,
++                 <&pericfg CLK_PERI_USB0_MCU>,
++                 <&pericfg CLK_PERI_USB_SLV>;
++        clock-names = "main","mcu","univpll";
++        power-domains = <&scpsys MT2701_POWER_DOMAIN_IFR_MSC>;
++        usb-role-switch;
++
++        connector {
++            compatible = "gpio-usb-b-connector", "usb-b-connector";
++            type = "micro";
++            id-gpios = <&pio 44 GPIO_ACTIVE_HIGH>;
++            vbus-supply = <&usb_vbus>;
++        };
++    };
 +...
 -- 
 2.18.0
