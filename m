@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33FF2DCDC9
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 09:43:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7D62DC6F0
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 20:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C076E1CE;
-	Thu, 17 Dec 2020 08:43:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1579B89C09;
+	Wed, 16 Dec 2020 19:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE86892D2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 18:35:41 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id w1so29538502ejf.11
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 10:35:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d2bDH/Hol0H2oHf/Yy3g6/HrXyqHXNmIJk03IBlf6dA=;
- b=ruJ7UmwDaf1pgP+nog1BinyUL0Id2q9FFmQZAYWRO0BzfsP6yBb4jRLW23HrDtURw6
- XRqwa9mvxETQIfCFrmJ6ZDL4F/lwQf9eaQagjGmOhiF9iG7V3vFoP6LqSC6Mg8zXK2fW
- OgPNaORyQGTFj+qTHC/FDy+wQ+MrrDiDtCnu13UuxPmnr1bmSXODmOWDlJY+0guEnkSm
- yBEKFUeqLf2TTEgBSqroN2/i3nVf2HHw4uD6p7lKRvAYKPrV+3y2blyc9EsGf7l6zdEz
- cnHhLNg05rpedHAgP0dWTRhm3GbLDmqGmaukknDr3JeV6mnf56WcojRV7EyLDxIVQ0f3
- tlRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d2bDH/Hol0H2oHf/Yy3g6/HrXyqHXNmIJk03IBlf6dA=;
- b=NxtihJdzrJudCPSFcXWY1m4WbJOWar1R9hg1Kx80J/jBD2jdN3+FiC395Mw+nbs1B9
- L5+n9Zu5XmkqoGYHZQ1dZvTXWMCXEMdI2aaDmJsJhrYeI31+CHxkGGFkQ6TqZhYNTWVY
- zRVrqcEM3TEunMxyXIJC8EKdKWa6S5X7/vr9ofqj0ZXohcDQBQsFnt8JUuPs0AL5DY0c
- gUe/Mr6ZAe84h3wRfrE6h7OmvdSqlDLZnzWd0xwTaJdtWnLQPArnBsUFePmT7LltY5LP
- fqNvi7N3kemv9lhiussPV6Jm4x6F4tucBu9RgvNYA3vigNPKqve5B3ahnHew1TvivoCu
- pWIw==
-X-Gm-Message-State: AOAM533LdMNb1mGUp+I+QJ21Ys+Yep/+ZkgNEgFJrRT45Rptw9baqJNK
- sgvjNfLVM6mmryz5VowznGI5HgICG4tzcHVJC8c=
-X-Google-Smtp-Source: ABdhPJwJorgowRP1Ej+Yh/emGfpY3PCwFgLOuCERmNcG8RW/aPrBJ/ZsgMiAwxwMp8IbhO1yk7JtRd/oNlBt7/s2Kkw=
-X-Received: by 2002:a17:906:ce2b:: with SMTP id
- sd11mr32928366ejb.334.1608143739911; 
- Wed, 16 Dec 2020 10:35:39 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34A8B89BFE;
+ Wed, 16 Dec 2020 19:15:43 +0000 (UTC)
+IronPort-SDR: ST7M/37w+BRzw3d+ZrNEzr7oJnRJhIMtFK2LVykMgiFQdKfLetcfO3OJAu8MXrzfQYYwZFoekn
+ ivC375FYuAZQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="162172280"
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; d="scan'208";a="162172280"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2020 11:15:42 -0800
+IronPort-SDR: B9Ql2ozU13/LNQhpQp4RqemDQL4xtPrhm/OyuNoIg10ACs19lLsYu1EkdMHqqpjWKHJA5VeveC
+ SUjsPLdgS0cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; d="scan'208";a="333494451"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Dec 2020 11:15:41 -0800
+Received: from bgsmsx603.gar.corp.intel.com (10.109.78.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 16 Dec 2020 11:15:40 -0800
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX603.gar.corp.intel.com (10.109.78.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 17 Dec 2020 00:45:38 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
+ Thu, 17 Dec 2020 00:45:38 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v5 07/15] drm/dp_helper: Add helpers to configure PCONs
+ RGB-YCbCr Conversion
+Thread-Topic: [PATCH v5 07/15] drm/dp_helper: Add helpers to configure PCONs
+ RGB-YCbCr Conversion
+Thread-Index: AQHW022ZTUEdZOGlmUSDFJ7sQz68oKn6F9Eg
+Date: Wed, 16 Dec 2020 19:15:38 +0000
+Message-ID: <5d8bccad8ff14659b496129496b4a189@intel.com>
+References: <20201216053121.18819-1-ankit.k.nautiyal@intel.com>
+ <20201216053121.18819-8-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201216053121.18819-8-ankit.k.nautiyal@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
-References: <3F164009-1941-4980-A704-A35EAE3EDAB1@hxcore.ol>
-In-Reply-To: <3F164009-1941-4980-A704-A35EAE3EDAB1@hxcore.ol>
-From: Mathieu Tournier <mathieutournier@gmail.com>
-Date: Wed, 16 Dec 2020 19:47:19 +0100
-Message-ID: <CABWh7Q-j57g_vcTx29Po_L8t_nnOMNjUvYdzbuGsFz-xsmV7AQ@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/bridge: add it6505 driver
-To: "allen.chen@ite.com.tw" <allen.chen@ite.com.tw>
-X-Mailman-Approved-At: Thu, 17 Dec 2020 08:43:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +70,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kenneth.Hung@ite.com.tw" <Kenneth.Hung@ite.com.tw>,
- "jitao.shi@mediatek.com" <jitao.shi@mediatek.com>,
- "Jau-Chih.Tseng@ite.com.tw" <Jau-Chih.Tseng@ite.com.tw>,
- "airlied@linux.ie" <airlied@linux.ie>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "a.hajda@samsung.com" <a.hajda@samsung.com>,
- "hermes.wu@ite.com.tw" <hermes.wu@ite.com.tw>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "pihsun@chromium.org" <pihsun@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "yllin@google.com" <yllin@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
+ Swati2" <swati2.sharma@intel.com>, "Kulkarni,
+ Vandita" <vandita.kulkarni@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Allen.
 
-As it6505 is compatible with DisplayPort 1.1a,
-Should DPI_PIXEL_CLK_MAX be 165 000 instead of 95 000 khz ?
-This would permit 1080p support, as it may be supported.
 
-Mathieu
+> -----Original Message-----
+> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
+> Sent: Wednesday, December 16, 2020 11:01 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
+> airlied@linux.ie; jani.nikula@linux.intel.com; ville.syrjala@linux.intel.com;
+> Kulkarni, Vandita <vandita.kulkarni@intel.com>; Sharma, Swati2
+> <swati2.sharma@intel.com>
+> Subject: [PATCH v5 07/15] drm/dp_helper: Add helpers to configure PCONs RGB-
+> YCbCr Conversion
+> 
+> DP Specification for DP2.0 to HDMI2.1 Pcon specifies support for conversion of
+> colorspace from RGB to YCbCr.
+> https://groups.vesa.org/wg/DP/document/previewpdf/15651
+> 
+> This patch adds the relavant registers and helper functions to get the capability
+> and set the color conversion bits for rgb->ycbcr conversion through PCON.
+> 
+> v2: As suggested in review comments:
+> -Fixed bug in the check condition in a drm_helper as reported by  Dan Carpenter
+> and Kernel test robot. (Dan Carepenter) -Modified the color-conversion cap
+> helper function, to accomodate
+>  BT709 and BT2020 colorspace. (Uma Shankar) -Added spec details for the new
+> cap for color conversion. (Uma Shankar)
+
+Looks Good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 61 +++++++++++++++++++++++++++++++++
+>  include/drm/drm_dp_helper.h     | 19 +++++++++-
+>  2 files changed, 79 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c
+> b/drivers/gpu/drm/drm_dp_helper.c index 689fd0d5f6c5..9abd65c694ab 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -949,6 +949,38 @@ bool
+> drm_dp_downstream_444_to_420_conversion(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE]  }
+> EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
+> 
+> +/**
+> + * drm_dp_downstream_rgb_to_ycbcr_conversion() - determine downstream
+> facing port
+> + *                                               RGB->YCbCr conversion capability
+> + * @dpcd: DisplayPort configuration data
+> + * @port_cap: downstream facing port capabilities
+> + * @colorspc: Colorspace for which conversion cap is sought
+> + *
+> + * Returns: whether the downstream facing port can convert RGB->YCbCr
+> +for a given
+> + * colorspace.
+> + */
+> +bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE],
+> +					       const u8 port_cap[4],
+> +					       u8 color_spc)
+> +{
+> +	if (!drm_dp_is_branch(dpcd))
+> +		return false;
+> +
+> +	if (dpcd[DP_DPCD_REV] < 0x13)
+> +		return false;
+> +
+> +	switch (port_cap[0] & DP_DS_PORT_TYPE_MASK) {
+> +	case DP_DS_PORT_TYPE_HDMI:
+> +		if ((dpcd[DP_DOWNSTREAMPORT_PRESENT] &
+> DP_DETAILED_CAP_INFO_AVAILABLE) == 0)
+> +			return false;
+> +
+> +		return port_cap[3] & color_spc;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_dp_downstream_rgb_to_ycbcr_conversion);
+> +
+>  /**
+>   * drm_dp_downstream_mode() - return a mode for downstream facing port
+>   * @dev: DRM device
+> @@ -3101,3 +3133,32 @@ int drm_dp_pcon_pps_override_param(struct
+> drm_dp_aux *aux, u8 pps_param[6])
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
+> +
+> +/*
+> + * drm_dp_pcon_convert_rgb_to_ycbcr() - Configure the PCon to convert
+> +RGB to Ycbcr
+> + * @aux: displayPort AUX channel
+> + * @color_spc: Color-space/s for which conversion is to be enabled, 0 for
+> disable.
+> + *
+> + * Returns 0 on success, else returns negative error code.
+> + */
+> +int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8
+> +color_spc) {
+> +	int ret;
+> +	u8 buf;
+> +
+> +	ret = drm_dp_dpcd_readb(aux, DP_PROTOCOL_CONVERTER_CONTROL_2,
+> &buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (color_spc & DP_CONVERSION_RGB_YCBCR_MASK)
+> +		buf |= (color_spc & DP_CONVERSION_RGB_YCBCR_MASK);
+> +	else
+> +		buf &= ~DP_CONVERSION_RGB_YCBCR_MASK;
+> +
+> +	ret = drm_dp_dpcd_writeb(aux,
+> DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
+> baad87fe6b0a..e096ee98842b 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -432,6 +432,17 @@ struct drm_device;
+>  # define DP_DS_HDMI_YCBCR444_TO_422_CONV    (1 << 3)
+>  # define DP_DS_HDMI_YCBCR444_TO_420_CONV    (1 << 4)
+> 
+> +/*
+> + * VESA DP-to-HDMI PCON Specification adds caps for colorspace
+> + * conversion in DFP cap DPCD 83h. Sec6.1 Table-3.
+> + * Based on the available support the source can enable
+> + * color conversion by writing into PROTOCOL_COVERTER_CONTROL_2
+> + * DPCD 3052h.
+> + */
+> +# define DP_DS_HDMI_BT601_RGB_YCBCR_CONV    (1 << 5)
+> +# define DP_DS_HDMI_BT709_RGB_YCBCR_CONV    (1 << 6)
+> +# define DP_DS_HDMI_BT2020_RGB_YCBCR_CONV   (1 << 7)
+> +
+>  #define DP_MAX_DOWNSTREAM_PORTS		    0x10
+> 
+>  /* DP Forward error Correction Registers */ @@ -1207,7 +1218,10 @@ struct
+> drm_device;
+>  # define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
+>  # define DP_PCON_ENC_PPS_OVERRIDE_EN_PARAMS     1
+>  # define DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER     2
+> -
+> +# define DP_CONVERSION_RGB_YCBCR_MASK	       (7 << 4)
+> +# define DP_CONVERSION_BT601_RGB_YCBCR_ENABLE  (1 << 4) # define
+> +DP_CONVERSION_BT709_RGB_YCBCR_ENABLE  (1 << 5) # define
+> +DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE (1 << 6)
+> 
+>  /* PCON Downstream HDMI ERROR Status per Lane */
+>  #define DP_PCON_HDMI_ERROR_STATUS_LN0          0x3037
+> @@ -2167,5 +2181,8 @@ int drm_dp_pcon_dsc_bpp_incr(const u8
+> pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE
+>  int drm_dp_pcon_pps_default(struct drm_dp_aux *aux);  int
+> drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8 pps_buf[128]);  int
+> drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8 pps_param[6]);
+> +bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE],
+> +					       const u8 port_cap[4], u8 color_spc);
+> int
+> +drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+> 
+>  #endif /* _DRM_DP_HELPER_H_ */
+> --
+> 2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
