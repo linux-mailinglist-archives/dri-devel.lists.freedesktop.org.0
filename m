@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7CC2DBE01
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 10:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5355D2DBE9D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 11:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE6786E0D7;
-	Wed, 16 Dec 2020 09:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128C58984F;
+	Wed, 16 Dec 2020 10:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E76C6E0D6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 09:52:18 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id d189so26812943oig.11
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 01:52:18 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAFF89842
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 10:29:53 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id 91so22635501wrj.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 02:29:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZogEmcLc5rbdYqJrg42XXZZlCeoansu9PVzcpVj+8x0=;
- b=LbxiJVg9iuMrC04J5FR6G0SeDS1ekceFKjpSysGzpEGfeLx7OhNXUbsX0Chl2bRgav
- vRXI9vDQAgyo3OLjYP52p21xAlavAS2De2+I8hztjG4zXhCmhLscT3nEKm8DCgk5vWMM
- zC74C3pQnryZlVvlZjrJ9fn3zPC+ZW2lrMJc0=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+2S4+s9iTlUkA+rD+TfXmUf258oCuXSlqXBKxTH4ifY=;
+ b=UufF75+q6VDVD4ZOALHaq5W9GnuYSn/zsSOqkIlvqHY95TMj8qLZuF0Cei6ldsjBcO
+ Ef88NFqAyQNJFytFGxN/XDR2auuUEGaNQ83w5oNTofutWrYvKpdsp9OydZ986fw9Vvw6
+ LK5J9+4Ajl40jJ+yglaPEsdtDh2nKYxhVDdT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZogEmcLc5rbdYqJrg42XXZZlCeoansu9PVzcpVj+8x0=;
- b=F8Ppo9i34DuHhXCxt/hLaK835aZnQu1PDW1afdHH+wy9AI8eThcGUeyH5CuLk6GDgW
- vTGqG2OALg5ABSRL2OJjiqP2D2hPOy/W9uxBcDSRu7qHwq2LqQY4SVVsqS2nYen54SOs
- znefAGZqm5ACO7rU43ifodqtxImw3wDguEm2lD8Rp6F7UcNfLO8uJ2rLO5QTpk4h7U4X
- tfKse1TjPyzK35dSZ6h9pSRmaxU9fADedj0M/IIFpjp+EpPJZ3ltHCgHRguAx4a6o9ul
- iT3OP7YlEq2ZMzx6ubTS01H+mn63CKIUZiRTL9LgtIxRxBxZFXfioPuquL6NaBq5wHnK
- s/Vw==
-X-Gm-Message-State: AOAM531/lvlFC0pr0E//wuhKyo5FFQko4iLuGoF8yWRpfyBusQz8s+p1
- UKo0rl+HarPDF98Ol8nb8WrrYoMkHJi8FXRyWPBmUQ==
-X-Google-Smtp-Source: ABdhPJxHxIMxN8kPWGkF6jhHKzTSWlN3X3jTWHffC5+00rr3o9QVMO/WAiT3F7UFc4CLj+SLlSPm9UpA89hcvmmx2wk=
-X-Received: by 2002:aca:54d8:: with SMTP id i207mr1560989oib.101.1608112337753; 
- Wed, 16 Dec 2020 01:52:17 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+2S4+s9iTlUkA+rD+TfXmUf258oCuXSlqXBKxTH4ifY=;
+ b=ZdoVmtmB2dpjGg/dW3Hw5HgRYQ/o/afOTzdMI2X2rSSEr7QffbyHdROxrK1of9WFom
+ n76XblKqa0ipyF3eX6m+PGA5e5SaHaancgprd0sFjI5OcpMcuXKCAdtEPyUjnOi4WrW2
+ WAOMo+jqprTbRqqqAsit+EyAgum2Ct3MdQTShodbx5Wx9njpJGaa/UKlU5Ib2469emgX
+ FJoXPecAZQOZV69a/2UGL4WzffoXsc+WW9nY0lOyr/EsbQ3sbRdBfgx3bgevErc5ep+l
+ CWKwej0Ubu5FTnNucwk4ZquUTt5QqS3tGoT3ydEVbAZ2rI2hRSfNfy0s6iMuka/gW3rw
+ 7rdA==
+X-Gm-Message-State: AOAM5339F59ZC7hhv9JAw0sj+AxTH//v+yLgtnbq4TI3VjTJldveXNdd
+ KSvcrQszSerhTR0ChBS4EVT9Ug==
+X-Google-Smtp-Source: ABdhPJw7Xr0YJ4hE8JPARxBK2CkHrdjlOAYU6pCgqI/McVj8vuPBy5nFNiN+TL0sNP/EAHl4ZXg8Rg==
+X-Received: by 2002:adf:dd11:: with SMTP id a17mr37945712wrm.360.1608114592051; 
+ Wed, 16 Dec 2020 02:29:52 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u26sm2140822wmm.24.2020.12.16.02.29.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 02:29:51 -0800 (PST)
+Date: Wed, 16 Dec 2020 11:29:49 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/4] dma-buf: Remove kmap kerneldoc vestiges
+Message-ID: <X9nhnRtOSRsXwfF7@phenom.ffwll.local>
+References: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+ <9508713a-2a83-dd53-bddf-828a460e11cb@amd.com>
+ <20201214160143.GZ401619@phenom.ffwll.local>
+ <e0681309-c927-9b02-0d43-0853cd9bb9fb@amd.com>
 MIME-Version: 1.0
-References: <000000000000cb6db205b68a971c@google.com>
-In-Reply-To: <000000000000cb6db205b68a971c@google.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 16 Dec 2020 10:52:06 +0100
-Message-ID: <CAKMK7uEiS5SrBYv-2w2wWL=9G4ByoHvtiWVsPqekswZzOGmzjg@mail.gmail.com>
-Subject: Re: WARNING: suspicious RCU usage in modeset_lock
-To: syzbot <syzbot+972b924c988834e868b2@syzkaller.appspotmail.com>, 
- "Paul E. McKenney" <paulmck@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <e0681309-c927-9b02-0d43-0853cd9bb9fb@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,124 +68,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Nathan Chancellor <natechancellor@gmail.com>, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 16, 2020 at 2:14 AM syzbot
-<syzbot+972b924c988834e868b2@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    94801e5c Merge tag 'pinctrl-v5.10-3' of git://git.kernel.o..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=130558c5500000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=ee8a1012a5314210
-> dashboard link: https://syzkaller.appspot.com/bug?extid=972b924c988834e868b2
-> compiler:       gcc (GCC) 10.1.0-syz 20200507
-> userspace arch: i386
->
-> Unfortunately, I don't have any reproducer for this issue yet.
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+972b924c988834e868b2@syzkaller.appspotmail.com
->
-> =============================
-> WARNING: suspicious RCU usage
-> 5.10.0-rc7-syzkaller #0 Not tainted
-> -----------------------------
-> kernel/sched/core.c:7270 Illegal context switch in RCU-sched read-side critical section!
->
-> other info that might help us debug this:
->
->
-> rcu_scheduler_active = 2, debug_locks = 0
-> 7 locks held by syz-executor.1/9232:
->  #0: ffffffff8b328c60 (console_lock){+.+.}-{0:0}, at: do_fb_ioctl+0x2e4/0x690 drivers/video/fbdev/core/fbmem.c:1106
->  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: lock_fb_info include/linux/fb.h:636 [inline]
->  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: do_fb_ioctl+0x2ee/0x690 drivers/video/fbdev/core/fbmem.c:1107
->  #2: ffff888041adca78 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xce/0x970 drivers/gpu/drm/drm_fb_helper.c:1448
->  #3: ffff8880159f01b8 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x1d/0x70 drivers/gpu/drm/drm_auth.c:407
->  #4: ffff888041adc898 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x44/0x580 drivers/gpu/drm/drm_client_modeset.c:1143
->  #5: ffffc90001c07730 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xb7/0x7c0 drivers/gpu/drm/drm_client_modeset.c:981
->  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: ww_mutex_lock_slow include/linux/ww_mutex.h:287 [inline]
->  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x31c/0x650 drivers/gpu/drm/drm_modeset_lock.c:260
+On Tue, Dec 15, 2020 at 03:18:49PM +0100, Christian K=F6nig wrote:
+> Am 14.12.20 um 17:01 schrieb Daniel Vetter:
+> > On Mon, Dec 14, 2020 at 11:33:10AM +0100, Christian K=F6nig wrote:
+> > > Am 11.12.20 um 16:58 schrieb Daniel Vetter:
+> > > > Also try to clarify a bit when dma_buf_begin/end_cpu_access should
+> > > > be called.
+> > > > =
 
-Given that we managed to take all these locks without upsetting anyone
-the rcu section is very deep down. And looking at the backtrace below
-I just couldn't find anything.
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > > > Cc: linux-media@vger.kernel.org
+> > > > Cc: linaro-mm-sig@lists.linaro.org
+> > > > ---
+> > > >    drivers/dma-buf/dma-buf.c | 20 ++++++++++++++------
+> > > >    include/linux/dma-buf.h   | 25 +++++++++----------------
+> > > >    2 files changed, 23 insertions(+), 22 deletions(-)
+> > > > =
 
-Best I can think of is that an interrupt of some sort leaked an rcu
-section, and we got shot here. But I'd assume the rcu debugging would
-catch this? Backtrace of the start of that rcu read side section would
-be really useful here, but I'm not seeing that in the logs. There's
-more stuff there, but it's just the usual "everything falls apart"
-stuff of little value to understanding how we got there.
+> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > > > index e63684d4cd90..a12fdffa130f 100644
+> > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > @@ -1001,15 +1001,15 @@ EXPORT_SYMBOL_GPL(dma_buf_move_notify);
+> > > >     *   vmalloc space might be limited and result in vmap calls fai=
+ling.
+> > > >     *
+> > > >     *   Interfaces::
+> > > > + *
+> > > >     *      void \*dma_buf_vmap(struct dma_buf \*dmabuf)
+> > > >     *      void dma_buf_vunmap(struct dma_buf \*dmabuf, void \*vadd=
+r)
+> > > >     *
+> > > >     *   The vmap call can fail if there is no vmap support in the e=
+xporter, or if
+> > > > - *   it runs out of vmalloc space. Fallback to kmap should be impl=
+emented. Note
+> > > > - *   that the dma-buf layer keeps a reference count for all vmap a=
+ccess and
+> > > > - *   calls down into the exporter's vmap function only when no vma=
+pping exists,
+> > > > - *   and only unmaps it once. Protection against concurrent vmap/v=
+unmap calls is
+> > > > - *   provided by taking the dma_buf->lock mutex.
+> > > > + *   it runs out of vmalloc space. Note that the dma-buf layer kee=
+ps a reference
+> > > > + *   count for all vmap access and calls down into the exporter's =
+vmap function
+> > > > + *   only when no vmapping exists, and only unmaps it once. Protec=
+tion against
+> > > > + *   concurrent vmap/vunmap calls is provided by taking the &dma_b=
+uf.lock mutex.
+> > > Who is talking the lock? The caller of the dma_buf_vmap/vunmap() func=
+tions,
+> > > the functions itself or the callback inside the exporter?
+> > That's the part I didn't change at all here, just re-laid out the line
+> > breaking. I only removed the outdated kmap section here.
+> =
 
-Adding some rcu people for more insights on what could have gone wrong here.
+> I just wanted to point out that this still isn't described here very very.
+> =
+
+> =
+
+> > Should I do another patch and remove this one sentence here (it's kinda
+> > pointless and generally we don't muse about implementation details that
+> > callers don't care about)?
+> =
+
+> Na, works like this for me.
+> =
+
+> > I did try and do a cursory review of the dma-buf docs, but this is kinda
+> > not meant as an all-out revamp. Just a few things I've noticed while
+> > reviewing Thomas' vmap_local stuff.
+> =
+
+> =
+
+> Fell free to add an Acked-by: Christian K=F6nig <christian.koenig@amd.com=
+> to
+> the series.
+
+Thanks for taking a look, and yeah I actually want to do a review of all
+the dma-buf docs but just haven't found the quiet time for that yet.
+
+Patches pushed to drm-misc-next.
 -Daniel
 
-> stack backtrace:
-> CPU: 1 PID: 9232 Comm: syz-executor.1 Not tainted 5.10.0-rc7-syzkaller #0
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-> Call Trace:
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0x107/0x163 lib/dump_stack.c:118
->  ___might_sleep+0x25d/0x2b0 kernel/sched/core.c:7270
->  __mutex_lock_common kernel/locking/mutex.c:935 [inline]
->  __ww_mutex_lock.constprop.0+0xa9/0x2cc0 kernel/locking/mutex.c:1111
->  ww_mutex_lock+0x3d/0x170 kernel/locking/mutex.c:1190
->  modeset_lock+0x392/0x650 drivers/gpu/drm/drm_modeset_lock.c:263
->  drm_modeset_lock drivers/gpu/drm/drm_modeset_lock.c:342 [inline]
->  drm_modeset_lock+0x50/0x90 drivers/gpu/drm/drm_modeset_lock.c:338
->  drm_atomic_get_plane_state+0x19d/0x510 drivers/gpu/drm/drm_atomic.c:481
->  drm_client_modeset_commit_atomic+0x225/0x7c0 drivers/gpu/drm/drm_client_modeset.c:994
->  drm_client_modeset_commit_locked+0x145/0x580 drivers/gpu/drm/drm_client_modeset.c:1145
->  pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1395 [inline]
->  drm_fb_helper_pan_display+0x28b/0x970 drivers/gpu/drm/drm_fb_helper.c:1455
->  fb_pan_display+0x2f7/0x6c0 drivers/video/fbdev/core/fbmem.c:925
->  fb_set_var+0x57f/0xda0 drivers/video/fbdev/core/fbmem.c:1043
->  do_fb_ioctl+0x2f9/0x690 drivers/video/fbdev/core/fbmem.c:1108
->  fb_compat_ioctl+0x17c/0xaf0 drivers/video/fbdev/core/fbmem.c:1315
->  __do_compat_sys_ioctl+0x1d3/0x230 fs/ioctl.c:842
->  do_syscall_32_irqs_on arch/x86/entry/common.c:78 [inline]
->  __do_fast_syscall_32+0x56/0x80 arch/x86/entry/common.c:137
->  do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:160
->  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-> RIP: 0023:0xf7fd8549
-> Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
-> RSP: 002b:00000000f55d20bc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000004601
-> RDX: 0000000020000240 RSI: 0000000000000000 RDI: 0000000000000000
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> detected fb_set_par error, error code: -16
->
->
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> =
+
+> Christian.
+> =
+
+> > -Daniel
+> > =
+
+> > > Christian.
+> > > =
+
+> > > >     *
+> > > >     * - For full compatibility on the importer side with existing u=
+serspace
+> > > >     *   interfaces, which might already support mmap'ing buffers. T=
+his is needed in
+> > > > @@ -1098,6 +1098,11 @@ static int __dma_buf_begin_cpu_access(struct=
+ dma_buf *dmabuf,
+> > > >     * dma_buf_end_cpu_access(). Only when cpu access is braketed by=
+ both calls is
+> > > >     * it guaranteed to be coherent with other DMA access.
+> > > >     *
+> > > > + * This function will also wait for any DMA transactions tracked t=
+hrough
+> > > > + * implicit synchronization in &dma_buf.resv. For DMA transactions=
+ with explicit
+> > > > + * synchronization this function will only ensure cache coherency,=
+ callers must
+> > > > + * ensure synchronization with such DMA transactions on their own.
+> > > > + *
+> > > >     * Can return negative error values, returns 0 on success.
+> > > >     */
+> > > >    int dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> > > > @@ -1199,7 +1204,10 @@ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+> > > >     * This call may fail due to lack of virtual mapping address spa=
+ce.
+> > > >     * These calls are optional in drivers. The intended use for them
+> > > >     * is for mapping objects linear in kernel space for high use ob=
+jects.
+> > > > - * Please attempt to use kmap/kunmap before thinking about these i=
+nterfaces.
+> > > > + *
+> > > > + * To ensure coherency users must call dma_buf_begin_cpu_access() =
+and
+> > > > + * dma_buf_end_cpu_access() around any cpu access performed throug=
+h this
+> > > > + * mapping.
+> > > >     *
+> > > >     * Returns 0 on success, or a negative errno code otherwise.
+> > > >     */
+> > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > > > index cf72699cb2bc..7eca37c8b10c 100644
+> > > > --- a/include/linux/dma-buf.h
+> > > > +++ b/include/linux/dma-buf.h
+> > > > @@ -183,24 +183,19 @@ struct dma_buf_ops {
+> > > >    	 * @begin_cpu_access:
+> > > >    	 *
+> > > >    	 * This is called from dma_buf_begin_cpu_access() and allows the
+> > > > -	 * exporter to ensure that the memory is actually available for c=
+pu
+> > > > -	 * access - the exporter might need to allocate or swap-in and pi=
+n the
+> > > > -	 * backing storage. The exporter also needs to ensure that cpu ac=
+cess is
+> > > > -	 * coherent for the access direction. The direction can be used b=
+y the
+> > > > -	 * exporter to optimize the cache flushing, i.e. access with a di=
+fferent
+> > > > +	 * exporter to ensure that the memory is actually coherent for cpu
+> > > > +	 * access. The exporter also needs to ensure that cpu access is c=
+oherent
+> > > > +	 * for the access direction. The direction can be used by the exp=
+orter
+> > > > +	 * to optimize the cache flushing, i.e. access with a different
+> > > >    	 * direction (read instead of write) might return stale or even=
+ bogus
+> > > >    	 * data (e.g. when the exporter needs to copy the data to tempo=
+rary
+> > > >    	 * storage).
+> > > >    	 *
+> > > > -	 * This callback is optional.
+> > > > +	 * Note that this is both called through the DMA_BUF_IOCTL_SYNC I=
+OCTL
+> > > > +	 * command for userspace mappings established through @mmap, and =
+also
+> > > > +	 * for kernel mappings established with @vmap.
+> > > >    	 *
+> > > > -	 * FIXME: This is both called through the DMA_BUF_IOCTL_SYNC comm=
+and
+> > > > -	 * from userspace (where storage shouldn't be pinned to avoid han=
+ding
+> > > > -	 * de-factor mlock rights to userspace) and for the kernel-intern=
+al
+> > > > -	 * users of the various kmap interfaces, where the backing storag=
+e must
+> > > > -	 * be pinned to guarantee that the atomic kmap calls can succeed.=
+ Since
+> > > > -	 * there's no in-kernel users of the kmap interfaces yet this isn=
+'t a
+> > > > -	 * real problem.
+> > > > +	 * This callback is optional.
+> > > >    	 *
+> > > >    	 * Returns:
+> > > >    	 *
+> > > > @@ -216,9 +211,7 @@ struct dma_buf_ops {
+> > > >    	 *
+> > > >    	 * This is called from dma_buf_end_cpu_access() when the import=
+er is
+> > > >    	 * done accessing the CPU. The exporter can use this to flush c=
+aches and
+> > > > -	 * unpin any resources pinned in @begin_cpu_access.
+> > > > -	 * The result of any dma_buf kmap calls after end_cpu_access is
+> > > > -	 * undefined.
+> > > > +	 * undo anything else done in @begin_cpu_access.
+> > > >    	 *
+> > > >    	 * This callback is optional.
+> > > >    	 *
+> =
 
 
+-- =
 
--- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
