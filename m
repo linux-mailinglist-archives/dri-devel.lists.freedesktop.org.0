@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A392DC23A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8542DC24B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:34:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65D76E1D3;
-	Wed, 16 Dec 2020 14:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F1B89187;
+	Wed, 16 Dec 2020 14:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95ACA6E1D3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:32:19 +0000 (UTC)
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it
- [93.34.118.233]) (Authenticated sender: jacopo@jmondi.org)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id C38FAFF802;
- Wed, 16 Dec 2020 14:32:16 +0000 (UTC)
-Date: Wed, 16 Dec 2020 15:32:26 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2] drm: rcar-du: Fix leak of CMM platform device reference
-Message-ID: <20201216143226.mj2k3k7vwv6rmqjo@uno.localdomain>
-References: <20201216140836.31328-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201216141628.wxh2zwkgevkh7as3@uno.localdomain>
- <X9oYi7+1Bc4NN/m0@pendragon.ideasonboard.com>
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB0216E1D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:34:38 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id 190so2567513wmz.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DGlpVVryL/SFznLzFKs15NIbJnqAOGDeF/1pwkEQQ8A=;
+ b=kzo1SC2+RjR2ds88uD9dAvkEEYLAg0Qp9yW2XVEbnUfqDJMy8ws35gibmHoYKBtbJv
+ iSIEJ6xNkfESdq3U63rkrh6BEv02i5Pexvps22yMve+nXW1B0ClwD9AuqNfNW+XxVUDu
+ 5edoeR8LUxwBid3eyjM+5ZvGdAJQoIQd8joA0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DGlpVVryL/SFznLzFKs15NIbJnqAOGDeF/1pwkEQQ8A=;
+ b=lBWrFpzKGSvcoUgsLorN+j+8/Jz9mGfwXAuekwQ12p6nwmbizUXreCRt0dkRhJqfx+
+ mNlLeUQ5QGNZOpfsjCJZapbNXsE9vAvkzMm966Xy6Ps9Jzmd8QkEVWaZ+GD8FJj39AlM
+ Guvd0iaQBU176fNb2wC2RMA6BEhBvxvJj3YxgF7TUwtLbg8j1cuaZcc28IjQVTH5QiKA
+ VT4Z7vBVDiNcVQB5CI4KbbHbgGXvtLk+WB8k6EnEpHp9SYB50SGEEQKs8v+kHybV/RJM
+ m5XsK7sYOkw4LPDCSriO+mPDpcqsPT7rXJtLrbEEQvsIvsV8ZzdgsM2lCD9t3zFA4z7q
+ srXA==
+X-Gm-Message-State: AOAM531o1pxGkxsTvI2ol/7TwUNO3rOUOjAbz2ENN5XpcTDRXR3DpeFC
+ G2ibadpJogr9Lk0cbZAEXox+obZZG0oNyA==
+X-Google-Smtp-Source: ABdhPJwb2WPi8qSfKwo68Zq3nLvVk4QNN8Sfkq95T0u0sqU+DlMfLMI4JF5ijllVvTRsh73dGh+OyQ==
+X-Received: by 2002:a1c:b4c4:: with SMTP id d187mr3683909wmf.38.1608129277492; 
+ Wed, 16 Dec 2020 06:34:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n3sm3368818wrw.61.2020.12.16.06.34.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 06:34:36 -0800 (PST)
+Date: Wed, 16 Dec 2020 15:34:35 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 01/10] drm: uapi: Use SPDX in DRM core uAPI headers
+Message-ID: <X9oa+8CzHpkwGRSn@phenom.ffwll.local>
+References: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <X9oYi7+1Bc4NN/m0@pendragon.ideasonboard.com>
+In-Reply-To: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,117 +64,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
-On Wed, Dec 16, 2020 at 04:24:11PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Wed, Dec 16, 2020 at 03:16:28PM +0100, Jacopo Mondi wrote:
-> > On Wed, Dec 16, 2020 at 04:08:36PM +0200, Laurent Pinchart wrote:
-> > > The device references acquired by of_find_device_by_node() are not
-> > > released by the driver. Fix this by registering a cleanup action.
-> > >
-> > > Fixes: 8de707aeb452 ("drm: rcar-du: kms: Initialize CMM instances")
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > > Changes since v1:
-> > >
-> > > - Only set rcdu->cmms[] if the CMM config option is enabled
-> > > - Use platform_device_put()
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 22 +++++++++++++++++++---
-> > >  1 file changed, 19 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > index 92dfa3d4c011..fdb8a0d127ad 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > @@ -14,6 +14,7 @@
-> > >  #include <drm/drm_fb_cma_helper.h>
-> > >  #include <drm/drm_gem_cma_helper.h>
-> > >  #include <drm/drm_gem_framebuffer_helper.h>
-> > > +#include <drm/drm_managed.h>
-> > >  #include <drm/drm_probe_helper.h>
-> > >  #include <drm/drm_vblank.h>
-> > >
-> > > @@ -726,8 +727,12 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
-> > >  		 * disabled: return 0 and let the DU continue probing.
-> > >  		 */
-> > >  		ret = rcar_cmm_init(pdev);
-> > > -		if (ret)
-> > > +		if (ret) {
-> > > +			platform_device_put(pdev);
-> > >  			return ret == -ENODEV ? 0 : ret;
-> > > +		}
-> > > +
-> > > +		rcdu->cmms[i] = pdev;
-> > >
-> > >  		/*
-> > >  		 * Enforce suspend/resume ordering by making the CMM a provider
-> >
-> > Sorry but don't we have an error path here below too, and if it fails
-> > -EINVAL is returned and the whole modeset_init() bails out without
-> > having put the platform device.
->
-> There's an error path below, but in that case rcdu->cmms[i] will be set
-> and the cleanup action will take care of it.
->
+On Wed, Dec 16, 2020 at 04:43:50AM +0200, Laurent Pinchart wrote:
+> The DRM core uAPI headers are licensed under the MIT license, and carry
+> copies of the license with slight variations. Replace them with SPDX
+> headers.
+> 
+> Following a discussion with Daniel Vetter on this topic, add a
+> clarification in the drm-uapi.rst file that independent closed-source
+> userspace implementations of software using the DRM uAPI are accepted,
+> as allowed by the MIT license.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Right, the helper is registered before the init() function eventually
-bails out. Sorry for being unnecessarily picky.
+Maybe get and ack from Alex and Dave on this too, just to make sure
+everyone's happy.
+-Daniel
 
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
-
-> > > @@ -739,13 +744,20 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
-> > >  				"Failed to create device link to CMM%u\n", i);
-> > >  			return -EINVAL;
-> > >  		}
-> > > -
-> > > -		rcdu->cmms[i] = pdev;
-> > >  	}
-> > >
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
-> > > +{
-> > > +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-> > > +	unsigned int i;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
-> > > +		platform_device_put(rcdu->cmms[i]);
-> > > +}
-> > > +
-> > >  int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> > >  {
-> > >  	static const unsigned int mmio_offsets[] = {
-> > > @@ -766,6 +778,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> > >  	if (ret)
-> > >  		return ret;
-> > >
-> > > +	ret = drmm_add_action(&rcdu->ddev, rcar_du_modeset_cleanup, NULL);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > >  	dev->mode_config.min_width = 0;
-> > >  	dev->mode_config.min_height = 0;
-> > >  	dev->mode_config.normalize_zpos = true;
->
-> --
+> ---
+>  Documentation/gpu/drm-uapi.rst |  4 ++++
+>  include/uapi/drm/drm.h         | 20 +-------------------
+>  include/uapi/drm/drm_fourcc.h  | 20 +-------------------
+>  include/uapi/drm/drm_mode.h    | 19 +------------------
+>  include/uapi/drm/drm_sarea.h   | 20 +-------------------
+>  5 files changed, 8 insertions(+), 75 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 7dce175f6d75..96ea55200f04 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -109,6 +109,10 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
+>  for the same thing co-existing. If we add a few more complete mistakes into the
+>  mix every year it would be entirely unmanageable.
+>  
+> +The DRM subsystem has however no concern with independent closed-source
+> +userspace implementations. To officialize that position, the DRM uAPI headers
+> +are covered by the MIT license.
+> +
+>  .. _drm_render_node:
+>  
+>  Render nodes
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 808b48a93330..14d57361e580 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /**
+>   * \file drm.h
+>   * Header for the Direct Rendering Manager
+> @@ -12,25 +13,6 @@
+>   * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+>   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+>   * All rights reserved.
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_H_
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 723c8e23ca87..51e2c8a825a3 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1,24 +1,6 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /*
+>   * Copyright 2011 Intel Corporation
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef DRM_FOURCC_H
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index b49fbf2bdc40..21dfec63b338 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1,27 +1,10 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /*
+>   * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
+>   * Copyright (c) 2007 Jakob Bornecrantz <wallbraker@gmail.com>
+>   * Copyright (c) 2008 Red Hat Inc.
+>   * Copyright (c) 2007-2008 Tungsten Graphics, Inc., Cedar Park, TX., USA
+>   * Copyright (c) 2007-2008 Intel Corporation
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice shall be included in
+> - * all copies or substantial portions of the Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> - * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+> - * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+> - * IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_MODE_H
+> diff --git a/include/uapi/drm/drm_sarea.h b/include/uapi/drm/drm_sarea.h
+> index a951ced60ebe..1e38d028332d 100644
+> --- a/include/uapi/drm/drm_sarea.h
+> +++ b/include/uapi/drm/drm_sarea.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /**
+>   * \file drm_sarea.h
+>   * \brief SAREA definitions
+> @@ -8,25 +9,6 @@
+>  /*
+>   * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+>   * All Rights Reserved.
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_SAREA_H_
+> -- 
 > Regards,
->
+> 
 > Laurent Pinchart
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
