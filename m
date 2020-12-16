@@ -1,71 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF9E2DBD17
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29FA2DBAAC
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 06:37:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7476E054;
-	Wed, 16 Dec 2020 08:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5027489864;
+	Wed, 16 Dec 2020 05:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D0589D53
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 05:22:52 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id lj6so868376pjb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 21:22:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=WYKEVZawJ7vm+napiANrAzGeTasmgoFDEm5LAhyGxFM=;
- b=XPkJXHkaqQ+LNds9xcRhHOiZ3Iizr63B6iQNeiZ0n09SmRO7C39+/dtzYDGsDy0RTS
- KsFdLDFyAsI7C2CzRqEkH1+l5jEDk/NJdWI2PaIeHk2byBKvpzcUGaVxwRgWHL6+tlVC
- 7u3EKJ5M7zI8/2TJv1p89+uRqJ4Bn8nR4XaB7HEQ9uLVLvhAvZXSdmAXuBrjosjKkI2C
- nckAo67Cxysgum8BHLIHPqD8a5/CSaaDoO0dNvGCHWjWsah9Kz5vOp/LATqJJ8r+DbK+
- aIoVGqfIDT8x0WpwuJu+FBTRk2jhkabWe0EQq6dg0x/nW1JnjUPK0lJG4wXBEmHtwENw
- 7kpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=WYKEVZawJ7vm+napiANrAzGeTasmgoFDEm5LAhyGxFM=;
- b=K7/OF+TOvFeyoSFleUdSgu0ijZ/w74Q6OzSXsEe170q1Kr2WRfmhXVpMhi3tc1niYU
- uu6aZWGkhGX+NyXlOm9VmkXh6/9eBHJs6ea9NpDgkMNiZF6bFB3K9vOBMiemH8oqN9ho
- mV30a8fsi/L41tU6qsSqwcfExCLgL4MSg6DE1bS72ANY3AKA5pmX04wNfQL+5I6SiL1+
- j5nsmdIglY/nmmpoiYS5HOfiT3mXdFGGE37SAaOyIcoSLSQA7LpPaqOf3IDRh2xylz2F
- Jf46nsFt2xq+ztPdPWpR1wJbQXcXwDtYdZOQsGAaRyyHlXHuyXG9w75qoDNAjZIa+Uuj
- djdw==
-X-Gm-Message-State: AOAM5337wOmptaM3y8QeSkYXdQYF+FpklivvZlXIJDRQoJl0u+REuoeI
- W9ElZxpPO3EGFBGk2Ysp2z++wQ==
-X-Google-Smtp-Source: ABdhPJyD1jRSGwcY6EF73cOOfS9VcklHkc4/nDf4NupmbLV/BMOgfKQcwqBFjSVCoyJpu1WksiQ3cw==
-X-Received: by 2002:a17:902:fe95:b029:da:fa53:666 with SMTP id
- x21-20020a170902fe95b02900dafa530666mr3161164plm.72.1608096172276; 
- Tue, 15 Dec 2020 21:22:52 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id y5sm634786pjt.42.2020.12.15.21.22.50
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Dec 2020 21:22:51 -0800 (PST)
-Date: Wed, 16 Dec 2020 10:52:48 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
-Message-ID: <20201216052248.qi6fbo2dh6shw4rt@vireshk-i7>
-References: <20201103054715.4l5j57pyjz6zd6ed@vireshk-i7>
- <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
- <20201104030353.ny7zvakgb4fsye6r@vireshk-i7>
- <CAF6AEGv215ixcAWmaOWs7UKAqmbMs=aFyTBBYLU-bt8XBnWb7g@mail.gmail.com>
- <20201106071621.j732gt4nqifjrccd@vireshk-i7>
- <CAF6AEGt_wbWuQA7gBw4yn4f2x0SVbfub4eRDX59PCvnd_0uFxg@mail.gmail.com>
- <20201118052829.ugt7i7ac6eqsj4l6@vireshk-i7>
- <CAF6AEGv=-h7GFj5LR97FkeBBn+gk6TNS5hZkwBwufpE4yO7GyA@mail.gmail.com>
- <20201119060528.qscedvc4jlmxakqo@vireshk-i7>
- <20201207061654.btlgobmsljdqbb2u@vireshk-i7>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727E98985A;
+ Wed, 16 Dec 2020 05:37:32 +0000 (UTC)
+IronPort-SDR: aOnCjAcypHUj/EOdm7J7Pkg694bPhBDiFE774WFHuDdYWUnf3sLaOo9Ye0Oo+1c8G0xAz85NuE
+ hn0XmZfnsdcw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="172437286"
+X-IronPort-AV: E=Sophos;i="5.78,423,1599548400"; d="scan'208";a="172437286"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2020 21:37:32 -0800
+IronPort-SDR: 64Bg3jd1tY2b1rtmCh2cLo+np6Fnh690UuPPUSIx8JfQ6IlHBhYtEowRDj4BW/KHtNqMF4dt+P
+ 2SR44UeBqbJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,423,1599548400"; d="scan'208";a="556647027"
+Received: from linux-akn.iind.intel.com ([10.223.34.148])
+ by fmsmga006.fm.intel.com with ESMTP; 15 Dec 2020 21:37:29 -0800
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 00/15] Add support for DP-HDMI2.1 PCON
+Date: Wed, 16 Dec 2020 11:01:06 +0530
+Message-Id: <20201216053121.18819-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201207061654.btlgobmsljdqbb2u@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,73 +44,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: swati2.sharma@intel.com, airlied@linux.ie, vandita.kulkarni@intel.com,
+ uma.shankar@intel.com, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07-12-20, 11:46, Viresh Kumar wrote:
-> On 19-11-20, 11:35, Viresh Kumar wrote:
-> > On 18-11-20, 08:53, Rob Clark wrote:
-> > > On Tue, Nov 17, 2020 at 9:28 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > > >
-> > > > On 17-11-20, 09:02, Rob Clark wrote:
-> > > > > With that on top of the previous patch,
-> > > >
-> > > > Don't you still have this ? Which fixed the lockdep in the remove path.
-> > > >
-> > > > https://lore.kernel.org/lkml/20201022080644.2ck4okrxygmkuatn@vireshk-i7/
-> > > >
-> > > > To make it clear you need these patches to fix the OPP stuff:
-> > > >
-> > > > //From 5.10-rc3 (the one from the above link).
-> > > > commit e0df59de670b ("opp: Reduce the size of critical section in _opp_table_kref_release()")
-> > 
-> > This fixes debugfs stuff while the OPP table is removed.
-> > 
-> > > > //Below two from linux-next
-> > > > commit ef43f01ac069 ("opp: Always add entries in dev_list with opp_table->lock held")
-> > > > commit 27c09484dd3d ("opp: Allocate the OPP table outside of opp_table_lock")
-> > 
-> > This fixes debugfs stuff while the OPP table is added.
-> > 
-> > > > This matches the diff I gave you earlier.
-> > > >
-> > > 
-> > > no, I did not have all three, only "opp: Allocate the OPP table
-> > > outside of opp_table_lock" plus the fixup.  But with all three:
-> > 
-> > And looking at the lockdep you gave now, it looks like we have a
-> > problem with OPP table's internal lock (opp_table->lock) as well apart
-> > from the global opp_table_lock.
-> > 
-> > I wish there was a way for me to reproduce the lockdep :(
-> > 
-> > I know this is exhausting for both of us and I really want to be over
-> > with it as soon as possible, this really should be the last patch
-> > here, please try this along with other two. This fixes the debugfs
-> > thing while the OPPs in the OPP table are removed (they are already
-> > added without a lock around debugfs stuff).
-> > 
-> > AFAIU, there is no further debugfs stuff that happens from within the
-> > locks and so this really should be the last patch unless I missed
-> > something.
-> 
-> Rob, were you able to test this patch ?
+This patch series attempts to add support for a DP-HDMI2.1 Protocol
+Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
+E5 to DisplayPort_v2.0:
+https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
+The details are mentioned in:
+VESA DP-to-HDMI PCON Specification Standalone Document
+https://groups.vesa.org/wg/DP/document/15651
 
-FWIW, this patch and everything else I had is merged into Linus's
-master. You can test 5.11-rc1 to see if you still see a lockdep or
-not.
+This series starts with adding support for FRL (Fixed Rate Link)
+Training between the PCON and HDMI2.1 sink.
+As per HDMI2.1 specification, a new data-channel or lane is added in
+FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
+bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
+lanes).
+
+With these patches, the HDMI2.1 PCON can be configured to achieve FRL
+training based on the maximum FRL rate supported by the panel, source
+and the PCON.
+The approach is to add the support for FRL training between PCON and
+HDMI2.1 sink and gradually add other blocks for supporting higher
+resolutions and other HDMI2.1 features, that can be supported by pcon
+for the sources that do not natively support HDMI2.1.
+
+This is done before the DP Link training between the source and PCON
+is started. In case of FRL training is not achieved, the PCON will
+work in the regular TMDS mode, without HDMI2.1 feature support.
+Any interruption in FRL training between the PCON and HDMI2.1 sink is
+notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
+registers are read and FRL training is re-attempted.
+
+Currently, we have tested the FRL training and are able to enable 4K
+display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
+panel.
+
+v2: Addressed review comments and re-organized patches as suggested in
+comments on RFC patches.
+
+v3: Addressed review comments on previous version.
+
+v4: Added support for RGB->YCBCR conversion through PCON
+
+v5: Addressed review comments on previous version.
+
+Ankit Nautiyal (11):
+  drm/edid: Parse DSC1.2 cap fields from HFVSDB block
+  drm/dp_helper: Add Helpers for FRL Link Training support for
+    DP-HDMI2.1 PCON
+  drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon
+  drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion
+  drm/i915: Capture max frl rate for PCON in dfp cap structure
+  drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
+  drm/i915: Check for FRL training before DP Link training
+  drm/i915: Read DSC capabilities of the HDMI2.1 PCON encoder
+  drm/i915: Add helper functions for calculating DSC parameters for
+    HDMI2.1
+  drm/i915/display: Configure PCON for DSC1.1 to DSC1.2 encoding
+  drm/i915/display: Let PCON convert from RGB to YUV if it can
+
+Swati Sharma (4):
+  drm/edid: Add additional HFVSDB fields for HDMI2.1
+  drm/edid: Parse MAX_FRL field from HFVSDB block
+  drm/dp_helper: Add support for link failure detection
+  drm/i915: Add support for enabling link status and recovery
+
+ drivers/gpu/drm/drm_dp_helper.c               | 566 ++++++++++++++++++
+ drivers/gpu/drm/drm_edid.c                    | 103 ++++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   6 +-
+ .../drm/i915/display/intel_display_types.h    |  10 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 438 +++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   7 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 233 +++++++
+ drivers/gpu/drm/i915/display/intel_hdmi.h     |   7 +
+ include/drm/drm_connector.h                   |  49 ++
+ include/drm/drm_dp_helper.h                   | 218 +++++++
+ include/drm/drm_edid.h                        |  30 +
+ 11 files changed, 1645 insertions(+), 22 deletions(-)
 
 -- 
-viresh
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
