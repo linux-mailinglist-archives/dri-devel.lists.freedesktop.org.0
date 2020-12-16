@@ -1,59 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FB82DBF9A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 12:42:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12962DBFCA
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 12:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF956E0DF;
-	Wed, 16 Dec 2020 11:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5B06E19C;
+	Wed, 16 Dec 2020 11:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E756E0DF;
- Wed, 16 Dec 2020 11:42:18 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id b9so7318171ejy.0;
- Wed, 16 Dec 2020 03:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
- b=X9qwLlVj2vFqyrsO4c4Ef4BcFxY4hXr24RrggjGJfJEACj7B7Q+qFOD5yW+t/h87uq
- 6pqc6JCK6ZNBHxTyoRFlhWVdX7wzR0Q/HQzp9u/q486tt73fIFfFMhnUBFn6RI/DsMN2
- MLmWemRc0DE3pO8qVk8LMSLHgx5mcRqtkLWaRBeceIhjtSCf0+ycCgjznPHm+5QQyUvN
- c70Hz945tKQLQ8ql1JVrqyo6leSmw7pw+G06uJCsMVCoC19qtAr48TzN6f1KxJeYTTHG
- Bv8dyjADbkEn5kYa3QfRvS4dbk5ytfsokbGYz8pej6ENBwEOEu8PL/d3GA2qBxqg/at+
- wV1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
- b=OTWmedj4eEERNKAV2WHBz8K0Q4TP4WBHlcUJSJJJnBUW0gimHfsVrt1LrapTbl2wNX
- +lur/fXNy+1IOHvBHaruAj7mbCpFkDK/1U2JWDyQCQjmyfjBJ8d/udTMJgw3ChMOeY2N
- eq5Ulk13AVzSZIkEVhGo/K7BfxMQsQ5VW6cMzbVrELJMqXBYxO/j+Z5VQQLGPKmw5RVN
- 8dvMNvg0sVJdCPdAGrCZkYOxvg9HbWVxLuhnSigwSMCw0j+S4rpwUAhC37IoYomcYstb
- NiVgVgRLSZiDEg3wCu68uZsElhxR7Ar4TCzddUBBvcDHL0jpQ/WudlNXjT0oPKR+36zA
- 4Byw==
-X-Gm-Message-State: AOAM533mr6JVy5QNDbEvbzrscL3wOSTVNv6qqBhkMPaYBL3SUaQKFXxD
- NjN00SxMD5yBIpZiMwQ2GRg=
-X-Google-Smtp-Source: ABdhPJxamD2xp7vuL0j9UPK+vAORDA1al7JS8aMaG+jUl6Rk+0gBnwf83HKvOY+En7OXRX1uF5k6Mg==
-X-Received: by 2002:a17:906:1916:: with SMTP id
- a22mr30353517eje.536.1608118937452; 
- Wed, 16 Dec 2020 03:42:17 -0800 (PST)
-Received: from localhost.localdomain.info
- (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id y17sm1223472ejj.84.2020.12.16.03.42.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 03:42:16 -0800 (PST)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/etnaviv: provide more ID values via GET_PARAM ioctl.
-Date: Wed, 16 Dec 2020 12:42:01 +0100
-Message-Id: <20201216114209.276630-1-christian.gmeiner@gmail.com>
-X-Mailer: git-send-email 2.29.2
+X-Greylist: delayed 87271 seconds by postgrey-1.36 at gabe;
+ Wed, 16 Dec 2020 11:53:12 UTC
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389646E19B
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 11:53:11 +0000 (UTC)
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it
+ [93.34.118.233]) (Authenticated sender: jacopo@jmondi.org)
+ by relay11.mail.gandi.net (Postfix) with ESMTPSA id 42E58100008;
+ Wed, 16 Dec 2020 11:53:09 +0000 (UTC)
+Date: Wed, 16 Dec 2020 12:53:19 +0100
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 4/4] drm: rcar-du: Use drm_bridge_connector_init()
+ helper
+Message-ID: <20201216115319.weukihjt3mrl7gnx@uno.localdomain>
+References: <20201216005021.19518-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201216005021.19518-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201216005021.19518-5-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,61 +41,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make it possible for the user space to access these ID values.
+Hi Laurent,
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 12 ++++++++++++
- include/uapi/drm/etnaviv_drm.h        |  3 +++
- 2 files changed, 15 insertions(+)
+On Wed, Dec 16, 2020 at 02:50:21AM +0200, Laurent Pinchart wrote:
+> Use the drm_bridge_connector_init() helper to create a drm_connector for
+> each output, instead of relying on the bridge drivers doing so. Attach
+> the bridges with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to instruct
+> them not to create a connector.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 25 ++++++++++++++++++-----
+>  1 file changed, 20 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> index ba8c6038cd63..10a66091391a 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/slab.h>
+>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> @@ -61,6 +62,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  			 struct device_node *enc_node)
+>  {
+>  	struct rcar_du_encoder *renc;
+> +	struct drm_connector *connector;
+>  	struct drm_bridge *bridge;
+>  	int ret;
+>
+> @@ -122,9 +124,22 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	if (ret)
+>  		return ret;
+>
+> -	/*
+> -	 * Attach the bridge to the encoder. The bridge will create the
+> -	 * connector.
+> -	 */
+> -	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+> +	/* Attach the bridge to the encoder. */
+> +	ret = drm_bridge_attach(&renc->base, bridge, NULL,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret) {
+> +		dev_err(rcdu->dev, "failed to attach bridge for output %u\n",
+> +			output);
+> +		return ret;
+> +	}
+> +
+> +	/* Create the connector for the chain of bridges. */
+> +	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
+> +	if (IS_ERR(connector)) {
+> +		dev_err(rcdu->dev,
+> +			"failed to created connector for output %u\n", output);
+> +		return PTR_ERR(connector);
+> +	}
+> +
+> +	return drm_connector_attach_encoder(connector, &renc->base);
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index c6404b8d067f..ec16991ba8b6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -156,6 +156,18 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
- 			*value = ~0ULL;
- 		break;
- 
-+	case ETNAVIV_PARAM_GPU_PRODUCT_ID:
-+		*value = gpu->identity.product_id;
-+		break;
-+
-+	case ETNAVIV_PARAM_GPU_CUSTOMER_ID:
-+		*value = gpu->identity.customer_id;
-+		break;
-+
-+	case ETNAVIV_PARAM_GPU_ECO_ID:
-+		*value = gpu->identity.eco_id;
-+		break;
-+
- 	default:
- 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
- 		return -EINVAL;
-diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-index 09d0df8b71c5..af024d90453d 100644
---- a/include/uapi/drm/etnaviv_drm.h
-+++ b/include/uapi/drm/etnaviv_drm.h
-@@ -74,6 +74,9 @@ struct drm_etnaviv_timespec {
- #define ETNAVIV_PARAM_GPU_NUM_CONSTANTS             0x19
- #define ETNAVIV_PARAM_GPU_NUM_VARYINGS              0x1a
- #define ETNAVIV_PARAM_SOFTPIN_START_ADDR            0x1b
-+#define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
-+#define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
-+#define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
- 
- #define ETNA_MAX_PIPES 4
- 
--- 
-2.29.2
+Looks good
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+I'm trying to figure out how deferred probe of a panel directly
+connected to the lvds encoder work. I assume there's no risk of
+creating the connector before the panel is probed, or this is not an
+issue.
+
+>  }
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
