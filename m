@@ -1,117 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EF92DBC5E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 08:59:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F572DBC6F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 500D689856;
-	Wed, 16 Dec 2020 07:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA61C895E2;
+	Wed, 16 Dec 2020 08:04:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD8189856
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 07:59:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nZqDaX8SLxrmRfoIXL/ulb6CUdtpND4I2SkZ0tfBjUltIaXy9nCtaV2I8z1nWSpevwc0QGOnXqEEI9KOEXf9YN11yU+BW9HObqYAswz5ZVFHYS6FoUhjk2M13xymzRMtQjVuO47wJnEC6uVL2zvujFIeD0amnEndnOFwT+UGEUGHAh6rw33VlEsVd/mdjSFQlvC+WRlvF/sym1kUDQlheBW97RqSGc2UtdTT61d0rWfYAr6p7hWWI5i0hAIhmXTjKh1CqBy7/JfJhmOTKT7N6AaAxMb7yxcPOkwwMW3cAQpxGsff//JXK8i/OPqIrWiEgI3kOnUpRlAmCEFHuKx0vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3c3emRU9i3DhBwaQUtz9ZSuZyl4jGG9t1i0MQr3C0EU=;
- b=InRVsGuyJ9CiGLYRZcX4MoHWR2bFydboqkfrtvJu3tz91eX6sCDATJDM6DMktL8NxdaBEHuZt0NWmdD2zCT06ZQqnjoGyC1w1iHbTRpYZOHolTdMfMMSFJJ10qxmpxyohMMDbSNLdmTjMjt/5UM1av7q6LWCgdnkx3JmhL43lY2k0JFtoqnhC3Dt4E+nXimcVU5n6ATZTprjJr4m9EgJOoyGgHTbFcLTPatL9Ir515Rhswr+wdCrC3949LNaIhJ1X+Pcc5bI/1r3rtrcRMiLNtKecAzGv+AC9ohose6+dsoYs86C2yOp0T68kDNNY2Mzqm1bmea9FKny2DCK5EesKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3c3emRU9i3DhBwaQUtz9ZSuZyl4jGG9t1i0MQr3C0EU=;
- b=hjyrn1MwwrL77z4BMOYc4SHv0Na7W6DS6AVeA2uuEF4rRb5pJspmv6T5HZ1A9Ja5DVbHK7cVkdHDejZRDVlf9YIOA0K3221ava/0HSRsdB7uOaroSEvvOv50/7jSVmrNbbeIreTgf9zHPrh6m0yfptX5q6Kz74N5OxLPruJPWdk=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3933.namprd12.prod.outlook.com (2603:10b6:208:162::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.14; Wed, 16 Dec
- 2020 07:59:43 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3654.025; Wed, 16 Dec 2020
- 07:59:43 +0000
-Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
-To: Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>, 
- dri-devel@lists.freedesktop.org
-References: <877dpiz4sf.wl-chenli@uniontech.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
-Date: Wed, 16 Dec 2020 08:59:37 +0100
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8D38957D;
+ Wed, 16 Dec 2020 08:04:53 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id j16so1395421edr.0;
+ Wed, 16 Dec 2020 00:04:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=7DmJJRh4diloReM0yDZbvYPcm1Z4lsGzyVJjs9A7PNE=;
+ b=LrIX6/yXDtvbNZCxua67rwZzGvELKC/lkE9HSbvFvcKDq+fLChfOQ0zgxrV+SoAVSR
+ 8N9ilx/rJ4ANNHk5o2GOgUnt0ghLr+Z+ASsXKYf7n87ZFChOD+9g+5GQ+2k9TLywWufo
+ qrc5oPf6ZbNOYFec5+ZK+foY6tJ4PhRurWiswZaIm0C8VCpYL80vEcKT6avcSacMzmLf
+ vG0zK5Igo3s6C0FGA6+ld+DaCsV5/uvyVl/seyrLRgmUfNVfenk2bzhXiG3Afu4Eb6gi
+ a6beP0NE7G/QWig58XofGpFMiHEqTSe0yuR1t7S/gWZWY/vitYuUS4HBEbpKTNQqdZRU
+ NZsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=7DmJJRh4diloReM0yDZbvYPcm1Z4lsGzyVJjs9A7PNE=;
+ b=dhdT0wSk8gaMUojNRmTStaAM6HF5o6Nyo3Li0xIr5BnmAa1gU6AKRumh2S8yTZOqzo
+ e9xxN/BEQh8WYF/CAQb2KwVrG+9v3yQWhzik4PrM5r8UiUKKwjJm7IB9bmKbF8IGUHhK
+ gtjt+Y4lCS+t3dqP5vgUPkpbFMnhY4A3VrAYtKUdEqrXhmsxwLQZbHWRGXNXf1IUJfSJ
+ rE1V/zzdpKTT/kZb4A3EtOlNqGjFvYVcTFavHi9OaRek1LcNLtdYy4LUCGHgGyzOjL4P
+ SxaQVrsrOlrDRI065OxnCu7tBUJWYTubYD1Y8RxmRttM7jRHxfViAEkDLNFSaPQ2A3sh
+ YoSQ==
+X-Gm-Message-State: AOAM533cozbRjyFFZMzWEFgwvdPy9q4TqoDU3yfLkzNIfBTh+ngxZxIA
+ omsyL2Abp1dIRZlPMZB+zu8=
+X-Google-Smtp-Source: ABdhPJxq1c/V43VGkvby7AwAHO1T9ZGRTtLfm92UIn0y8hprZtvDPq+QmXPYql4sL1LXYVfhEQxnIw==
+X-Received: by 2002:aa7:c886:: with SMTP id p6mr33237696eds.207.1608105892214; 
+ Wed, 16 Dec 2020 00:04:52 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id f17sm20198319edv.5.2020.12.16.00.04.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 00:04:51 -0800 (PST)
+Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
+To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, christian.koenig@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, robh@kernel.org, l.stach@pengutronix.de,
+ yuq825@gmail.com, eric@anholt.net
+References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1605936082-3099-6-git-send-email-andrey.grodzovsky@amd.com>
+ <28332cf0-612c-10bd-c64e-fff6e1f18653@gmail.com>
+ <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
+ <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
+ <e2f4f1dc-2a2a-face-87b2-6d61ed7d3305@amd.com>
+ <01280cba-56b8-77c6-b40f-d7e69a5ad4c6@amd.com>
+ <0ceca974-80f8-feb3-d5e9-5182f35bb2c4@amd.com>
+ <20288c45-270c-3ed7-2ac4-eeb6e5c50776@amd.com>
+ <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
+ <041210e5-e237-b72e-dcbc-17027d057c55@gmail.com>
+ <1fa4dd77-deec-aa7b-7499-0537e9a01919@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <a818be68-518c-754d-f63b-3754ce882fdc@gmail.com>
+Date: Wed, 16 Dec 2020 09:04:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <877dpiz4sf.wl-chenli@uniontech.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR02CA0165.eurprd02.prod.outlook.com
- (2603:10a6:20b:28d::32) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR02CA0165.eurprd02.prod.outlook.com (2603:10a6:20b:28d::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Wed, 16 Dec 2020 07:59:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d6201e70-0eb9-44ef-6cbb-08d8a1988c17
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3933:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3933CEE5E4AC4C39AD8FE17A83C50@MN2PR12MB3933.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AFeXUBlP1SRHNM5h7BKGcKj1fRDtc4hmvn/it1J/ts4gQaH5AIqe6rYeDJAXjuvaAaIcviVCW5EJlQtny6mZVuESv2uFUgJiCajgPbpGuCDqHPzurwMZxBk4hh0AbhBI4hexnw+6g/X2b3JIsRjYJH3BUMihlSDxhad2OWbGfBGIqcZpwLZQLQqRwwwJt7AKrvpDp8Mhh4jFhRHA6MWNDPl5UQe138J2ke7GYGMCmwiPG5pVsEQd0H4cMNkDyoOWvC72IrLos5m7/xsMBctUUObTu8TMBSnideCIkcfoqmjp1BqzyrKVEch93tRBsn0VM1EHiBI7tAnjgdPfQaF+5cJVcRXUSX2D07QoW8qb30/etXCjnWvRTuDOAQAtGFqFkYDlpvYpeO1w2OLuHUYB20qOi6XLUacPLx5wtI+hzhE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(396003)(136003)(39860400002)(346002)(316002)(110136005)(8936002)(2906002)(83380400001)(5660300002)(31686004)(86362001)(478600001)(16526019)(6666004)(36756003)(2616005)(31696002)(6486002)(186003)(8676002)(66946007)(66476007)(66556008)(52116002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UmpHcHQ2UDdGRlMxRUk4V0V1eitzUHFodEV2d2Y2eGM3VEl5Tkk0TlRiZkxZ?=
- =?utf-8?B?WHBGZ1gybFN6TFJWWHp4Vkg4YnZUZVY5SndxanRQR0tSVTV1QmxNbVI1ZFc4?=
- =?utf-8?B?VDNlSEdocDNqUWFYNzNaRDJwTTFCWXZNUlM2MndWWnNZeWRObVpLb1FKNE1p?=
- =?utf-8?B?TGFEQTY1WXExemxVSDI0ZVZvNnZWdnFoUVVjZkNWUWxrNkRJOVlaVU1DTlBF?=
- =?utf-8?B?emZoWlZFell5clp0YVVqY29BZlpUa3dRd3REUG1HR2dUSmcwWjN5V0pxdjFp?=
- =?utf-8?B?OWtlM29yWll5M0ZMYzFRNEdzNkl4eWlRSU92NmtXbHVianE3cDA4WU5TMDZZ?=
- =?utf-8?B?OEJQdXNNZXlxL2FEZnRsTlZ6SHdDZjhoSE9za24zUkdXKzYvbkJ5bWhWZitm?=
- =?utf-8?B?cU5wVGFYbjVkem15a2JtWjI3azJLSW9JQVhzczMrUEY0Z1g5ZkVqcW9pZ2ow?=
- =?utf-8?B?aytuOU5yY0kvTElPZG5jUW4vcUlHbXR4RHRibGFYNzFhSTN3RlVtSlh3QVhK?=
- =?utf-8?B?M0NEVHBRZk96dllseXE2aVduNE1kRm84SUZ5SmNpdHdqYUFId1ArY2FLS1hZ?=
- =?utf-8?B?V25Vc3VyQ1UvQWhkcWNrVmZxMnRBOGJ2eVZTZ3FGRVlLNDVxRW5rRm85OXZC?=
- =?utf-8?B?Rmxwb2grbVdPUjFOWUpFanJSUEJuMlcyMTJFN0tKNkVEc3VpR3QzTmtlcVVT?=
- =?utf-8?B?MDlrZkFmRTBIOUZXL2lLSUYrNE9JL254cUErMXBGeG9oZVpFNWUvdC81eUxw?=
- =?utf-8?B?KzdjT2NORjFFeXdQbDBsa0Q0N1crNzZtOXJDSHoxMmEra0UrV080ZWFnVkFC?=
- =?utf-8?B?eDd6WnA5TWE1KzhPUjJ2dnZzR2ZnejdESlRNQUtmSFdsN3lUMlpTRDhLV05q?=
- =?utf-8?B?Z1luYVg5WUw2TEJ4czdtV1B4a0MzMWVxN1ViN0MySmlCZEtGUitTS1BtSzd3?=
- =?utf-8?B?NzFycW1La2UyQ0MwSFpZa2k2Q3J1VHRFS3RvYkJuNC84aDQ2eituZTZnTU9w?=
- =?utf-8?B?WFV1TldLbnBRN3J5TWhtSTREZTlVeWIra3c5cGVGb2kzTGwxcm1yVGhNUmhY?=
- =?utf-8?B?VHZyNDVnTEttM3lrYkxYZW9iRnFyUU9TdkJuRzhuakpZajFKQUVnTjRzZi9q?=
- =?utf-8?B?UjBTQ3pnSFZKS0hNNForYi9CZGhPVWVCaWZ4WmRUb1lmdnpRbTNOY3lNS1VT?=
- =?utf-8?B?WWRJNUFpT2VWR0VJWkMzZUxLblBjZEZOdnp1VXZhSlZYT3NUSExxRHhEUmk1?=
- =?utf-8?B?S3hEZ29rRU9kN2NrYjFRWllqK1puK2pwTE5uV0g0QUt5N2NDWDNQVEpVMnh4?=
- =?utf-8?B?Z3hkaEFPOXVWOCtPWVlPblh1SjN4U0V2b0daNE5keUVXQXJ0ZjkxVlNwTW1t?=
- =?utf-8?B?NEoyUnFqMVBmcUVNWHFnaUxCL1ZsTHBJSnpBZXNNSHRNNUluYUhrNWd5dUcx?=
- =?utf-8?Q?Qka0CZrq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 07:59:42.9671 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6201e70-0eb9-44ef-6cbb-08d8a1988c17
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ceJy0vF+SB+2WZAxyuGsj4UT589EzW9C26lji+GBlOtXDqxD/bMMyEJbhzHA9o2i
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3933
+In-Reply-To: <1fa4dd77-deec-aa7b-7499-0537e9a01919@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,141 +84,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Reply-To: christian.koenig@amd.com
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.12.20 um 06:41 schrieb Chen Li:
-> When using e8860(gcn1) on arm64, the kernel crashed on drm/radeon:
->
-> [   11.240414] pc : __memset+0x4c/0x188
-> [   11.244101] lr : radeon_uvd_get_create_msg+0x114/0x1d0 [radeon]
-> [   11.249995] sp : ffff00000d7eb700
-> [   11.253295] x29: ffff00000d7eb700 x28: ffff8001f632a868
-> [   11.258585] x27: 0000000000040000 x26: ffff00000de00000
-> [   11.263875] x25: 0000000000000125 x24: 0000000000000001
-> [   11.269168] x23: 0000000000000000 x22: 0000000000000005
-> [   11.274459] x21: ffff00000df24000 x20: ffff8001f74b4000
-> [   11.279753] x19: 0000000000124000 x18: 0000000000000020
-> [   11.285043] x17: 0000000000000000 x16: 0000000000000000
-> [   11.290336] x15: ffff000009309000 x14: ffffffffffffffff
-> [   11.290340] x13: ffff0000094b6f88 x12: ffff0000094b6bd2
-> [   11.290343] x11: ffff00000d7eb700 x10: ffff00000d7eb700
-> [   11.306246] x9 : ffff00000d7eb700 x8 : ffff00000df2402c
-> [   11.306254] x7 : 0000000000000000 x6 : ffff0000094b626a
-> [   11.306257] x5 : 0000000000000000 x4 : 0000000000000004
-> [   11.306262] x3 : ffffffffffffffff x2 : 0000000000000fd4
-> [   11.306265] x1 : 0000000000000000 x0 : ffff00000df2402c
-> [   11.306272] Call trace:
-> [   11.306316]  __memset+0x4c/0x188
-> [   11.306638]  uvd_v1_0_ib_test+0x70/0x1c0 [radeon]
-> [   11.306758]  radeon_ib_ring_tests+0x54/0xe0 [radeon]
-> [   11.309961] IPv6: ADDRCONF(NETDEV_UP): enp5s0f0: link is not ready
-> [   11.354628]  radeon_device_init+0x53c/0xbdc [radeon]
-> [   11.354693]  radeon_driver_load_kms+0x6c/0x1b0 [radeon]
-> [   11.364788]  drm_dev_register+0x130/0x1c0
-> [   11.364794]  drm_get_pci_dev+0x8c/0x14c
-> [   11.372704]  radeon_pci_probe+0xb0/0x110 [radeon]
-> [   11.372715]  local_pci_probe+0x3c/0xb0
-> [   11.381129]  pci_device_probe+0x114/0x1b0
-> [   11.385121]  really_probe+0x23c/0x400
-> [   11.388757]  driver_probe_device+0xdc/0x130
-> [   11.392921]  __driver_attach+0x128/0x150
-> [   11.396826]  bus_for_each_dev+0x70/0xbc
-> [   11.400643]  driver_attach+0x20/0x2c
-> [   11.404201]  bus_add_driver+0x160/0x260
-> [   11.408019]  driver_register+0x74/0x120
-> [   11.411837]  __pci_register_driver+0x40/0x50
-> [   11.416149]  radeon_init+0x78/0x1000 [radeon]
-> [   11.420489]  do_one_initcall+0x54/0x154
-> [   11.424310]  do_init_module+0x54/0x260
-> [   11.428041]  load_module+0x1ccc/0x20b0
-> [   11.431773]  __se_sys_finit_module+0xac/0x10c
-> [   11.436109]  __arm64_sys_finit_module+0x18/0x20
-> [   11.440622]  el0_svc_common+0x70/0x164
-> [   11.444353]  el0_svc_handler+0x2c/0x80
-> [   11.448084]  el0_svc+0x8/0xc
-> [   11.450954] Code: d65f03c0 cb0803e4 f2400c84 54000080 (a9001d07)
->
-> Obviously, the __memset call is generated by gcc(8.3.1). It optimizes
-> this for loop into memset. But this may break, because dest here is
-> cpu_addr mapped to io mem. So, just invoke `memset_io` directly, which
-> do solve the problem here.
-
-Well interesting problem you stumbled over here, but the solution is 
-quite a hack.
-
-For amdgpu I suggest that we allocate the UVD message in GTT instead of 
-VRAM since we don't have the hardware restriction for that on the new 
-generations.
-
-For radeon I think the better approach would be to convert the direct 
-memory writes into calls to writel().
-
-BTW: How does userspace work on arm64 then? The driver stack usually 
-only works if mmio can be mapped directly.
-
-Regards,
-Christian.
-
->
-> Signed-off-by: chenli <chenli@uniontech.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 6 ++----
->   drivers/gpu/drm/radeon/radeon_uvd.c     | 6 ++----
->   2 files changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> index 7c5b60e53482..4dccde7a9e83 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> @@ -1187,8 +1187,7 @@ int amdgpu_uvd_get_create_msg(struct amdgpu_ring *ring, uint32_t handle,
->   	msg[8] = cpu_to_le32(0x00000440);
->   	msg[9] = cpu_to_le32(0x00000000);
->   	msg[10] = cpu_to_le32(0x01b37000);
-> -	for (i = 11; i < 1024; ++i)
-> -		msg[i] = cpu_to_le32(0x0);
-> +	memset_io(&msg[i], 0x0, 1013 * sizeof(uint32_t));
->   
->   	return amdgpu_uvd_send_msg(ring, bo, true, fence);
->   }
-> @@ -1212,8 +1211,7 @@ int amdgpu_uvd_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
->   	msg[1] = cpu_to_le32(0x00000002);
->   	msg[2] = cpu_to_le32(handle);
->   	msg[3] = cpu_to_le32(0x00000000);
-> -	for (i = 4; i < 1024; ++i)
-> -		msg[i] = cpu_to_le32(0x0);
-> +	memset_io(&msg[i], 0x0, 1020 * sizeof(uint32_t));
->   
->   	return amdgpu_uvd_send_msg(ring, bo, direct, fence);
->   }
-> diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-> index 57fb3eb3a4b4..2e2e737c4706 100644
-> --- a/drivers/gpu/drm/radeon/radeon_uvd.c
-> +++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-> @@ -802,8 +802,7 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
->   	msg[8] = cpu_to_le32(0x00000440);
->   	msg[9] = cpu_to_le32(0x00000000);
->   	msg[10] = cpu_to_le32(0x01b37000);
-> -	for (i = 11; i < 1024; ++i)
-> -		msg[i] = cpu_to_le32(0x0);
-> +	memset_io(&msg[i], 0x0, 1013 * sizeof(uint32_t));
->   
->   	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
->   	radeon_bo_unreserve(rdev->uvd.vcpu_bo);
-> @@ -831,8 +830,7 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
->   	msg[1] = cpu_to_le32(0x00000002);
->   	msg[2] = cpu_to_le32(handle);
->   	msg[3] = cpu_to_le32(0x00000000);
-> -	for (i = 4; i < 1024; ++i)
-> -		msg[i] = cpu_to_le32(0x0);
-> +	memset_io(&msg[i], 0x0, 1020 * sizeof(uint32_t));
->   
->   	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
->   	radeon_bo_unreserve(rdev->uvd.vcpu_bo);
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTUuMTIuMjAgdW0gMjE6MTggc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBbU05JUF0K
+Pj4+Cj4+PiBXaGlsZSB3ZSBjYW4ndCBjb250cm9sIHVzZXIgYXBwbGljYXRpb24gYWNjZXNzZXMg
+dG8gdGhlIG1hcHBlZCAKPj4+IGJ1ZmZlcnMgZXhwbGljaXRseSBhbmQgaGVuY2Ugd2UgdXNlIHBh
+Z2UgZmF1bHQgcmVyb3V0aW5nCj4+PiBJIGFtIHRoaW5raW5nIHRoYXQgaW4gdGhpc8KgIGNhc2Ug
+d2UgbWF5IGJlIGFibGUgdG8gc3ByaW5rbGUgCj4+PiBkcm1fZGV2X2VudGVyL2V4aXQgaW4gYW55
+IHN1Y2ggc2Vuc2l0aXZlIHBsYWNlIHdlcmUgd2UgbWlnaHQKPj4+IENQVSBhY2Nlc3MgYSBETUEg
+YnVmZmVyIGZyb20gdGhlIGtlcm5lbCA/Cj4+Cj4+IFllcywgSSBmZWFyIHdlIGFyZSBnb2luZyB0
+byBuZWVkIHRoYXQuCj4+Cj4+PiBUaGluZ3MgbGlrZSBDUFUgcGFnZSB0YWJsZSB1cGRhdGVzLCBy
+aW5nIGJ1ZmZlciBhY2Nlc3NlcyBhbmQgRlcgCj4+PiBtZW1jcHkgPyBJcyB0aGVyZSBvdGhlciBw
+bGFjZXMgPwo+Pgo+PiBQdWgsIGdvb2QgcXVlc3Rpb24uIEkgaGF2ZSBubyBpZGVhLgo+Pgo+Pj4g
+QW5vdGhlciBwb2ludCBpcyB0aGF0IGF0IHRoaXMgcG9pbnQgdGhlIGRyaXZlciBzaG91bGRuJ3Qg
+YWNjZXNzIGFueSAKPj4+IHN1Y2ggYnVmZmVycyBhcyB3ZSBhcmUgYXQgdGhlIHByb2Nlc3MgZmlu
+aXNoaW5nIHRoZSBkZXZpY2UuCj4+PiBBRkFJSyB0aGVyZSBpcyBubyBwYWdlIGZhdWx0IG1lY2hh
+bmlzbSBmb3Iga2VybmVsIG1hcHBpbmdzIHNvIEkgCj4+PiBkb24ndCB0aGluayB0aGVyZSBpcyBh
+bnl0aGluZyBlbHNlIHRvIGRvID8KPj4KPj4gV2VsbCB0aGVyZSBpcyBhIHBhZ2UgZmF1bHQgaGFu
+ZGxlciBmb3Iga2VybmVsIG1hcHBpbmdzLCBidXQgdGhhdCBvbmUgCj4+IGp1c3QgcHJpbnRzIHRo
+ZSBzdGFjayB0cmFjZSBpbnRvIHRoZSBzeXN0ZW0gbG9nIGFuZCBjYWxscyBCVUcoKTsgOikKPj4K
+Pj4gTG9uZyBzdG9yeSBzaG9ydCB3ZSBuZWVkIHRvIGF2b2lkIGFueSBhY2Nlc3MgdG8gcmVsZWFz
+ZWQgcGFnZXMgYWZ0ZXIgCj4+IHVucGx1Zy4gTm8gbWF0dGVyIGlmIGl0J3MgZnJvbSB0aGUga2Vy
+bmVsIG9yIHVzZXJzcGFjZS4KPgo+Cj4gSSB3YXMganVzdCBhYm91dCB0byBzdGFydCBndWFyZGlu
+ZyB3aXRoIGRybV9kZXZfZW50ZXIvZXhpdCBDUFUgCj4gYWNjZXNzZXMgZnJvbSBrZXJuZWwgdG8g
+R1RUIG90IFZSQU0gYnVmZmVycyBidXQgdGhlbiBpIGxvb2tlZCBtb3JlIGluIAo+IHRoZSBjb2Rl
+Cj4gYW5kIHNlZW1zIGxpa2UgdHRtX3R0X3VucG9wdWxhdGUganVzdCBkZWxldGVzIERNQSBtYXBw
+aW5ncyAoZm9yIHRoZSAKPiBzYWtlIG9mIGRldmljZSB0byBtYWluIG1lbW9yeSBhY2Nlc3MpLiBL
+ZXJuZWwgcGFnZSB0YWJsZSBpcyBub3QgdG91Y2hlZAo+IHVudGlsIGxhc3QgYm8gcmVmY291bnQg
+aXMgZHJvcHBlZCBhbmQgdGhlIGJvIGlzIHJlbGVhc2VkIAo+ICh0dG1fYm9fcmVsZWFzZS0+ZGVz
+dHJveS0+YW1kZ3B1X2JvX2Rlc3Ryb3ktPmFtZGdwdV9ib19rdW5tYXApLiBUaGlzIAo+IGlzIGJv
+dGgKPiBmb3IgR1RUIEJPcyBtYXBlZCB0byBrZXJuZWwgYnkga21hcCAob3Igdm1hcCkgYW5kIGZv
+ciBWUkFNIEJPcyBtYXBwZWQgCj4gYnkgaW9yZW1hcC4gU28gYXMgaSBzZWUgaXQsIG5vdGhpbmcg
+d2lsbCBiYWQgd2lsbCBoYXBwZW4gYWZ0ZXIgd2UKPiB1bnBvcHVsYXRlIGEgQk8gd2hpbGUgd2Ug
+c3RpbGwgdHJ5IHRvIHVzZSBhIGtlcm5lbCBtYXBwaW5nIGZvciBpdCwgCj4gc3lzdGVtIG1lbW9y
+eSBwYWdlcyBiYWNraW5nIEdUVCBCT3MgYXJlIHN0aWxsIG1hcHBlZCBhbmQgbm90IGZyZWVkIGFu
+ZCAKPiBmb3IKPiBWUkFNIEJPcyBzYW1lIGlzIGZvciB0aGUgSU8gcGh5c2ljYWwgcmFuZ2VzIG1h
+cHBlZCBpbnRvIHRoZSBrZXJuZWwgCj4gcGFnZSB0YWJsZSBzaW5jZSBpb3VubWFwIHdhc24ndCBj
+YWxsZWQgeWV0LgoKVGhlIHByb2JsZW0gaXMgdGhlIHN5c3RlbSBwYWdlcyB3b3VsZCBiZSBmcmVl
+ZCBhbmQgaWYgd2Uga2VybmVsIGRyaXZlciAKc3RpbGwgaGFwcGlseSB3cml0ZSB0byB0aGVtIHdl
+IGFyZSBwcmV0dHkgbXVjaCBidXN0ZWQgYmVjYXVzZSB3ZSB3cml0ZSAKdG8gZnJlZWQgdXAgbWVt
+b3J5LgoKQ2hyaXN0aWFuLgoKPiBJIGxvYWRlZCB0aGUgZHJpdmVyIHdpdGggdm1fdXBkYXRlX21v
+ZGU9Mwo+IG1lYW5pbmcgYWxsIFZNIHVwZGF0ZXMgZG9uZSB1c2luZyBDUFUgYW5kIGhhc24ndCBz
+ZWVuIGFueSBPT1BzIGFmdGVyIAo+IHJlbW92aW5nIHRoZSBkZXZpY2UuIEkgZ3Vlc3MgaSBjYW4g
+dGVzdCBpdCBtb3JlIGJ5IGFsbG9jYXRpbmcgR1RUIGFuZCAKPiBWUkFNIEJPcwo+IGFuZCB0cnlp
+bmcgdG8gcmVhZC93cml0ZSB0byB0aGVtIGFmdGVyIGRldmljZSBpcyByZW1vdmVkLgo+Cj4gQW5k
+cmV5Cj4KPgo+Pgo+PiBSZWdhcmRzLAo+PiBDaHJpc3RpYW4uCj4+Cj4+Pgo+Pj4gQW5kcmV5Cj4+
+Cj4+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBh
+bWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4CgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
