@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED042DC215
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:23:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 187132DC216
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74EAE6E1BC;
-	Wed, 16 Dec 2020 14:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 267CD6E1BD;
+	Wed, 16 Dec 2020 14:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E2F6E1BC
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:23:54 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id c5so19703726wrp.6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1P4lrH2XNOP2mlPTBX6EVPSksFXAGxwJDHfh8XBTXAg=;
- b=XLoO8zxxs05SrNhEuYHx29fNhRQfVRi8yn9Dyk4ztQxG9++M/zAo8OGnO8bHyirH7G
- afynd7h257vx44S9PxDt51dSEbD0puMfEfpZ+2nhMoIJvyzwf3ymdAU95r9HU+7A9Ax3
- O+XoGiBzHQ7Yi6wSNf2z6vTfxcNBop3zTNOWQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1P4lrH2XNOP2mlPTBX6EVPSksFXAGxwJDHfh8XBTXAg=;
- b=MeyZr2Ko9XBxfMKDC/7h0R+KrN/BSjrWhMqVF+k/g83HdJLjjjPKUb2OA59vi9nPsO
- 97ylv4gkcfEqq0yBxulUVWct422nvC/5Ld/TUowUHQw/OhClkf6XaZQAAT/x8lQF3d6G
- a54jl8aHBFqkWrOzxlVieoAKvlKVFERVKcDd9jzHq5KU4QjXWCjJ24VR2Nu7OzgK/tL+
- 4QIgrwg3upHqSVv+Dve26zJ6wbycHBYUlzZx/lPrewFezUmJaxzY13dy9/5xLKp+e/kl
- ioR3dFgASNaWsvGFtpSpupUhQHseWB93edRzzJ1xtealcu8ab35HHXhh6OQmr+FYIehz
- lKJQ==
-X-Gm-Message-State: AOAM532eeZK9FmGQs2/zrjfbL3aWT3A7xK1Rh6uUlw8fsjRMykr+rtah
- LubBBOxIZlEsR/02KQua7u3Hew==
-X-Google-Smtp-Source: ABdhPJxuQueg0YBYwjIkzbMstCxTaGfaYoXQrypIsZzExBWI0iAUZ4UnlRdTFvbNu7xLpE/9IvssGg==
-X-Received: by 2002:adf:e5c7:: with SMTP id a7mr38855292wrn.300.1608128633202; 
- Wed, 16 Dec 2020 06:23:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm3539146wrv.44.2020.12.16.06.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 06:23:52 -0800 (PST)
-Date: Wed, 16 Dec 2020 15:23:50 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: Don't export the drm_gem_dumb_destroy() function
-Message-ID: <X9oYdqZevGPKyUvZ@phenom.ffwll.local>
-References: <20201215195147.4039-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 179456E1BD
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:24:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8563A2CF;
+ Wed, 16 Dec 2020 15:24:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1608128658;
+ bh=4ZcFSLLmoy3S/mb17tSPXNx6NLLxezfnWuSgW5UOTD0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PfQfI8c3BVYFYpnSlcPywILzmh4k5HDsDR3KOzjR3SKUTt21fpECJqDNJCw61Jx7J
+ AG5CrgB2E1LcVdA857Tm8Z/F6kijLCs1iFFHHULZ7vd4QvI43ghsD1eaDFQBzPSxxj
+ N4PcInuvFViOw7NPb6qJIty2gu0M8S40fqsgdsNg=
+Date: Wed, 16 Dec 2020 16:24:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2] drm: rcar-du: Fix leak of CMM platform device reference
+Message-ID: <X9oYi7+1Bc4NN/m0@pendragon.ideasonboard.com>
+References: <20201216140836.31328-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201216141628.wxh2zwkgevkh7as3@uno.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201215195147.4039-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201216141628.wxh2zwkgevkh7as3@uno.localdomain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,130 +46,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 15, 2020 at 09:51:47PM +0200, Laurent Pinchart wrote:
-> The drm_gem_dumb_destroy() isn't used in drivers, don't export it.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Hi Jacopo,
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Wed, Dec 16, 2020 at 03:16:28PM +0100, Jacopo Mondi wrote:
+> On Wed, Dec 16, 2020 at 04:08:36PM +0200, Laurent Pinchart wrote:
+> > The device references acquired by of_find_device_by_node() are not
+> > released by the driver. Fix this by registering a cleanup action.
+> >
+> > Fixes: 8de707aeb452 ("drm: rcar-du: kms: Initialize CMM instances")
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> >
+> > - Only set rcdu->cmms[] if the CMM config option is enabled
+> > - Use platform_device_put()
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 22 +++++++++++++++++++---
+> >  1 file changed, 19 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > index 92dfa3d4c011..fdb8a0d127ad 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > @@ -14,6 +14,7 @@
+> >  #include <drm/drm_fb_cma_helper.h>
+> >  #include <drm/drm_gem_cma_helper.h>
+> >  #include <drm/drm_gem_framebuffer_helper.h>
+> > +#include <drm/drm_managed.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_vblank.h>
+> >
+> > @@ -726,8 +727,12 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+> >  		 * disabled: return 0 and let the DU continue probing.
+> >  		 */
+> >  		ret = rcar_cmm_init(pdev);
+> > -		if (ret)
+> > +		if (ret) {
+> > +			platform_device_put(pdev);
+> >  			return ret == -ENODEV ? 0 : ret;
+> > +		}
+> > +
+> > +		rcdu->cmms[i] = pdev;
+> >
+> >  		/*
+> >  		 * Enforce suspend/resume ordering by making the CMM a provider
+> 
+> Sorry but don't we have an error path here below too, and if it fails
+> -EINVAL is returned and the whole modeset_init() bails out without
+> having put the platform device.
 
-Again I'm assuming you'll apply this somewhere.
--Daniel
+There's an error path below, but in that case rcdu->cmms[i] will be set
+and the cleanup action will take care of it.
 
-> ---
-> Changes since v1:
-> 
-> - Move function prototype from drm_gem.h to drm_internal.h
-> - Drop function documentation
-> - Replace uint32_t with u32
-> ---
->  drivers/gpu/drm/drm_dumb_buffers.c |  8 +++++---
->  drivers/gpu/drm/drm_gem.c          | 12 +-----------
->  drivers/gpu/drm/drm_internal.h     |  3 +++
->  include/drm/drm_gem.h              |  3 ---
->  4 files changed, 9 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
-> index d18a740fe0f1..ad17fa21cebb 100644
-> --- a/drivers/gpu/drm/drm_dumb_buffers.c
-> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
-> @@ -29,6 +29,7 @@
->  #include <drm/drm_mode.h>
->  
->  #include "drm_crtc_internal.h"
-> +#include "drm_internal.h"
->  
->  /**
->   * DOC: overview
-> @@ -46,9 +47,10 @@
->   * KMS frame buffers.
->   *
->   * To support dumb objects drivers must implement the &drm_driver.dumb_create
-> - * operation. &drm_driver.dumb_destroy defaults to drm_gem_dumb_destroy() if
-> - * not set and &drm_driver.dumb_map_offset defaults to
-> - * drm_gem_dumb_map_offset(). See the callbacks for further details.
-> + * and &drm_driver.dumb_map_offset operations (the latter defaults to
-> + * drm_gem_dumb_map_offset() if not set). Drivers that don't use GEM handles
-> + * additionally need to implement the &drm_driver.dumb_destroy operation. See
-> + * the callbacks for further details.
->   *
->   * Note that dumb objects may not be used for gpu acceleration, as has been
->   * attempted on some ARM embedded platforms. Such drivers really must have
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 92f89cee213e..34b2f111c01c 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -335,22 +335,12 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_dumb_map_offset);
->  
-> -/**
-> - * drm_gem_dumb_destroy - dumb fb callback helper for gem based drivers
-> - * @file: drm file-private structure to remove the dumb handle from
-> - * @dev: corresponding drm_device
-> - * @handle: the dumb handle to remove
-> - *
-> - * This implements the &drm_driver.dumb_destroy kms driver callback for drivers
-> - * which use gem to manage their backing storage.
-> - */
->  int drm_gem_dumb_destroy(struct drm_file *file,
->  			 struct drm_device *dev,
-> -			 uint32_t handle)
-> +			 u32 handle)
->  {
->  	return drm_gem_handle_delete(file, handle);
->  }
-> -EXPORT_SYMBOL(drm_gem_dumb_destroy);
->  
->  /**
->   * drm_gem_handle_create_tail - internal functions to create a handle
-> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> index 81d386b5b92a..fad2249ee67b 100644
-> --- a/drivers/gpu/drm/drm_internal.h
-> +++ b/drivers/gpu/drm/drm_internal.h
-> @@ -191,6 +191,9 @@ void drm_gem_unpin(struct drm_gem_object *obj);
->  int drm_gem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
->  void drm_gem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
->  
-> +int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
-> +			 u32 handle);
-> +
->  /* drm_debugfs.c drm_debugfs_crc.c */
->  #if defined(CONFIG_DEBUG_FS)
->  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 5e6daa1c982f..240049566592 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -416,8 +416,5 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->  				     bool write);
->  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->  			    u32 handle, u64 *offset);
-> -int drm_gem_dumb_destroy(struct drm_file *file,
-> -			 struct drm_device *dev,
-> -			 uint32_t handle);
->  
->  #endif /* __DRM_GEM_H__ */
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > @@ -739,13 +744,20 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+> >  				"Failed to create device link to CMM%u\n", i);
+> >  			return -EINVAL;
+> >  		}
+> > -
+> > -		rcdu->cmms[i] = pdev;
+> >  	}
+> >
+> >  	return 0;
+> >  }
+> >
+> > +static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
+> > +{
+> > +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(rcdu->cmms); ++i)
+> > +		platform_device_put(rcdu->cmms[i]);
+> > +}
+> > +
+> >  int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+> >  {
+> >  	static const unsigned int mmio_offsets[] = {
+> > @@ -766,6 +778,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+> >  	if (ret)
+> >  		return ret;
+> >
+> > +	ret = drmm_add_action(&rcdu->ddev, rcar_du_modeset_cleanup, NULL);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	dev->mode_config.min_width = 0;
+> >  	dev->mode_config.min_height = 0;
+> >  	dev->mode_config.normalize_zpos = true;
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
