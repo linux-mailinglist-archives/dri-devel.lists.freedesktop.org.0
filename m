@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B772DC2ED
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 16:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD7A2DC304
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 16:23:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6E66E20C;
-	Wed, 16 Dec 2020 15:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13D3A6E215;
+	Wed, 16 Dec 2020 15:23:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68736E20C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 15:17:30 +0000 (UTC)
-X-Gm-Message-State: AOAM530NM7EWH4Lok22xE/zUj6EjkK4Gm470Unnx5nT4oSOdTd66xxyz
- MKp+OM8i/XfqH/dtvnIms5JG8W1Lqc62loZJ5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608131850;
- bh=YOC88DJH1Ldr/FjwTLsg5NLtJ+aB+EfBl/k2z67zy1U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=d3zPyyMVKaYdL5mltO4VQCc6Hwjmj9nRQPDH6TpXWUQOQ8tS2RTsGSUMuyMGmxQuG
- vt1J6iptJANrfVh0GdiXg2hqdmT38JHCJdvDA5WNs6nb4RPpeBslQuiAyi5EiM0WUl
- Ry6gG/cr5UJiSxuA3OUgt/+Oo51YGH/WCvv02r468d3Wn93Sca7Mmi+OyfY0t9GK3D
- 7UZukCc5eNzrKPfF3jt74uit73q6Gge2zvm58xHWt3vjz+fFi34JTndsNRFj/Rj/gn
- JbuZ+Xwo5xOYaOWE7qnWYYto/8aBCdstxFLBE72PdvH4XHQ+VXHHfp+ppkAjvtAHpc
- HT76siTDS9xwg==
-X-Google-Smtp-Source: ABdhPJxAAxsNxeLlUnTnLtNubQg6skrY+y2JxetX9D6LYAb9dpqNodHx3+yLdJbf7zIjVVvZiAZDbQ98NMhP+W08ATE=
-X-Received: by 2002:a05:600c:25c2:: with SMTP id
- 2mr3941456wml.170.1608131848789; 
- Wed, 16 Dec 2020 07:17:28 -0800 (PST)
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 023F16E215
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 15:23:27 +0000 (UTC)
+Date: Wed, 16 Dec 2020 15:23:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1608132205;
+ bh=bRL9U2okZulRp0E7XKVga3ZyzdUo07p2M6po4Ra66IY=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=hj1NSZWVwoOFL9wLXUO17jsSHnAs8/i0DMtGwh5EziORuyj3ihdiSmlVaV89yXIPU
+ iGRdM6GC40hKtekDpqPbzIq9IwDEivpGRKyUYGramCu7yEzZjuJi0G3Hec431NH2Xr
+ GyvSAMZpzgdK8MWxuIDALGv33eZG72h/bARUSxBO8JoL1zEc7MIWgFTAuZTex3CbWQ
+ zub1Hw/A7AlJpwbGYBnE1OcxNSV63Iiexgf+8yGscQkSCjYm1ncPzEEOp6sMGbktlQ
+ axdSKexUIyDNd7hu+StbkPpPBl/Dzb+NHFKDgBf72fXRrtN5x3WKg9ZNlBXLQPCP+r
+ Nk0RRCAe+ibww==
+To: Pekka Paalanen <ppaalanen@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3 4/4] drm: require each CRTC to have a unique primary
+ plane
+Message-ID: <Ieaf7Com49xFBQeZZDqxLVWsOnfF7rjMfo2DaLdZ10oVx6k6_sVvCGjyXqroH9PGSaE5wu3vcgwrYnm1jkArnG87_R7kiuZ3pmE_T2zim_Q=@emersion.fr>
+In-Reply-To: <20201214104149.2d5532c4@eldfell>
+References: <diZcSZPAu0GrvVEqzkkXk1LYv1pDkE536hsLoYTUoUw@cp3-web-016.plabs.ch>
+ <20201211155024.5ea63a88@eldfell>
+ <K0Ezu_ZjJ0PpN07HHog8QTOfwsHGxmowZgYxSCV7QLlr1pGFKU06x-8PDxSJd0vShRCjjASXpoFd2D5NhJdUhN1ltsLD6cJLjfr_pKzudpc=@emersion.fr>
+ <20201214104149.2d5532c4@eldfell>
 MIME-Version: 1.0
-References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607746317-4696-3-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1607746317-4696-3-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 16 Dec 2020 23:17:14 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-YjP50QrBKfoCqVnMWp41efbs9wdon4gts5QhUfZO8OA@mail.gmail.com>
-Message-ID: <CAAOTY_-YjP50QrBKfoCqVnMWp41efbs9wdon4gts5QhUfZO8OA@mail.gmail.com>
-Subject: Re: [PATCH v2, 02/17] dt-bindings: mediatek: add CLK_MM_DISP_CONFIG
- control description for mt8192 display
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,46 +52,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
-PiDmlrwgMjAyMOW5tDEy5pyIMTLml6Ug6YCx5YWtIOS4i+WNiDEyOjEy5a+r6YGT77yaCj4KPiBh
-ZGQgQ0xLX01NX0RJU1BfQ09ORklHIGNvbnRyb2wgZGVzY3JpcHRpb24gZm9yIG10ODE5MiBkaXNw
-bGEKCmRpc3BsYXkKCj4KPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcu
-bml1QG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgfCAzICsrKwo+ICAxIGZpbGUg
-Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgYi9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRl
-ayxkaXNwLnR4dAo+IGluZGV4IDE5NzJmYTcuLmRmYmVjNzYgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlz
-cC50eHQKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9t
-ZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+IEBAIC01NCw2ICs1NCw5IEBAIFJlcXVpcmVkIHBy
-b3BlcnRpZXMgKGFsbCBmdW5jdGlvbiBibG9ja3MpOgo+ICAgIERQSSBjb250cm9sbGVyIG5vZGVz
-IGhhdmUgbXVsdGlwbGUgY2xvY2sgaW5wdXRzLiBUaGVzZSBhcmUgZG9jdW1lbnRlZCBpbgo+ICAg
-IG1lZGlhdGVrLGRzaS50eHQgYW5kIG1lZGlhdGVrLGRwaS50eHQsIHJlc3BlY3RpdmVseS4KPiAg
-ICBBbiBleGNlcHRpb24gaXMgdGhhdCB0aGUgbXQ4MTgzIG11dGV4IGlzIGFsd2F5cyBmcmVlIHJ1
-bm5pbmcgd2l0aCBubyBjbG9ja3MgcHJvcGVydHkuCj4gKyAgQW4gZXhjZXB0aW9uIGlzIHRoYXQg
-dGhlIG10ODE5MiBkaXNwbGF5IGFkZCAyIG1vcmUgY2xvY2tzKENMS19NTV9ESVNQX0NPTkZJRywg
-Q0xLX01NXzI2TUhaKSwKPiArICBhbmQgdGhlc2UgMiBjbG9ja3MgbmVlZCBlbmFibGVkIGJlZm9y
-ZSBkaXNwbGF5IG1vZHVsZSB3b3JrIGxpa2UgbXV0ZXggY2xvY2ssIHNvIHdlIGFkZCB0aGVzZQo+
-ICsgIDIgY2xvY2tzIGNvbnRyb2xlZCBzYW1lIHdpdGggbXV0ZXggY2xvY2suCgpJZiBldmVyeSBk
-aXNwbGF5IG1vZHVsZSBuZWVkcyB0aGVzZSB0d28gY2xvY2ssIGFkZCB0aGVzZSB0d28gY2xvY2sg
-dG8KYWxsIHRoZSBkaXNwbGF5IG1vZHVsZSB3aGljaCBuZWVkIHRoZW0uCgpSZWdhcmRzLApDaHVu
-LUt1YW5nLgoKPgo+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzIChETUEgZnVuY3Rpb24gYmxvY2tzKToK
-PiAgLSBjb21wYXRpYmxlOiBTaG91bGQgYmUgb25lIG9mCj4gLS0KPiAxLjguMS4xLmRpcnR5Cj4g
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBMaW51eC1t
-ZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3Jn
-Cj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1tZWRp
-YXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Monday, December 14th, 2020 at 9:41 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+> On Fri, 11 Dec 2020 14:39:35 +0000
+> Simon Ser <contact@emersion.fr> wrote:
+>
+> > On Friday, December 11th, 2020 at 2:50 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >
+> > > is there a reason why one cannot have more primary planes than CRTCs in
+> > > existence?
+> > >
+> > > Daniel implied that in <20201209003637.GK401619@phenom.ffwll.local>,
+> > > but I didn't get the reason for it yet.
+> > >
+> > > E.g. if all your planes are interchangeable in the sense that you can
+> > > turn on a CRTC with any one of them, would one not then expose all the
+> > > planes as "Primary"?
+> >
+> > I'm thinking of primary as a hint for simple user-space: "you can likely
+> > light up a CRTC if you attach this plane and don't do anything crazy".
+> > For anything more complicated, user-space uses atomic commits and can
+> > completely ignore whether a plane is primary, cursor or overlay.
+>
+> That's a nice reason, do we have those written down anywhere?
+
+Doesn't seem like it. The docs for enum drm_plane_type incorrectly say that the
+a plane of type "Primary" will be used for legacy IOCTLs. Also, there are no
+docs for the "type" property at all. I'm not even sure where to document it, as
+there's no section for plane properties.
+
+> - plane type "Primary" is a hint to userspace that using this plane
+>   alone on a CRTC has the highest probability of being able to turn on
+>   the CRTC
+>
+> - plane types are just a hint to userspace, userspace can and *should*
+>   use atomic test_only commits to discover more ways of making use of
+>   the planes (note: if this applies to cursor planes, it will invalidate
+>   some "optimizations" that virtual hardware drivers like vmwgfx(?)
+>   might do by having the cursor plane position controller directly from
+>   the host rather than looped through the guest)
+
+Yes. In an old thread, I suggested having a DRM cap that needs to be enabled
+to allow the driver to de-synchronize a cursor plane's CRTC_X/Y.
+
+> > > If the planes have other differences, like supported formats or
+> > > scaling, then marking them all "Primary" would let userspace know that
+> > > it can pick any plane with the suitable properties and expect to turn
+> > > on the CRTC with it.
+> >
+> > That's interesting, but I'd bet no user-space does that. If new user-space
+> > wants to, it's better to rely on test-only commits instead.
+>
+> Ok. So plane types are not a good reason to prune a compositor's testing
+> matrix to avoid testing some combinations.
+
+They are a hint, so in this sense they do help pruning the testing matrix. For
+instance it would be impossible for user-space to figure out the right cursor
+buffer parameters without DRM_CAP_CURSOR_{WIDTH,HEIGHT}. I also think there's
+an undocumented assumption that the cursor buffer must be allocated with a
+LINEAR layout when the driver doesn't support modifiers.
+
+However, for this particular case I don't think the hint would be helpful.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
