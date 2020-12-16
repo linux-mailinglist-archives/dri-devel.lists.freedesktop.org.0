@@ -1,39 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681E62DBF89
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 12:37:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FB82DBF9A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 12:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8906E175;
-	Wed, 16 Dec 2020 11:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF956E0DF;
+	Wed, 16 Dec 2020 11:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB9CF6E175;
- Wed, 16 Dec 2020 11:37:15 +0000 (UTC)
-IronPort-SDR: pMJgxmPlqzp8lraAL7tjMpLpdyXUwqpaXMDk0AEgeljAgoRUgfxaTT8P5Jj+qNTcLy3tOI3Vbb
- cLz05DPwOsVw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="259774352"
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; d="scan'208";a="259774352"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 03:37:14 -0800
-IronPort-SDR: MjpQLr3thfCMjVqLBDd7qMuxHfkwf0lIEkLkch4pL2UKAQrIaxbOTThk8OgMOArSn3ghtNx6qy
- PThV2Qvl26vw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; d="scan'208";a="557341043"
-Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by orsmga005.jf.intel.com with ESMTP; 16 Dec 2020 03:37:11 -0800
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 15/15] drm/i915/display: Let PCON convert from RGB to YUV
- if it can
-Date: Wed, 16 Dec 2020 17:01:04 +0530
-Message-Id: <20201216113104.20669-1-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201216053121.18819-16-ankit.k.nautiyal@intel.com>
-References: <20201216053121.18819-16-ankit.k.nautiyal@intel.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E756E0DF;
+ Wed, 16 Dec 2020 11:42:18 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id b9so7318171ejy.0;
+ Wed, 16 Dec 2020 03:42:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
+ b=X9qwLlVj2vFqyrsO4c4Ef4BcFxY4hXr24RrggjGJfJEACj7B7Q+qFOD5yW+t/h87uq
+ 6pqc6JCK6ZNBHxTyoRFlhWVdX7wzR0Q/HQzp9u/q486tt73fIFfFMhnUBFn6RI/DsMN2
+ MLmWemRc0DE3pO8qVk8LMSLHgx5mcRqtkLWaRBeceIhjtSCf0+ycCgjznPHm+5QQyUvN
+ c70Hz945tKQLQ8ql1JVrqyo6leSmw7pw+G06uJCsMVCoC19qtAr48TzN6f1KxJeYTTHG
+ Bv8dyjADbkEn5kYa3QfRvS4dbk5ytfsokbGYz8pej6ENBwEOEu8PL/d3GA2qBxqg/at+
+ wV1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vpFk2jW++o/c5mecPREIAGYZAOvlUctt44C0JGqrkMg=;
+ b=OTWmedj4eEERNKAV2WHBz8K0Q4TP4WBHlcUJSJJJnBUW0gimHfsVrt1LrapTbl2wNX
+ +lur/fXNy+1IOHvBHaruAj7mbCpFkDK/1U2JWDyQCQjmyfjBJ8d/udTMJgw3ChMOeY2N
+ eq5Ulk13AVzSZIkEVhGo/K7BfxMQsQ5VW6cMzbVrELJMqXBYxO/j+Z5VQQLGPKmw5RVN
+ 8dvMNvg0sVJdCPdAGrCZkYOxvg9HbWVxLuhnSigwSMCw0j+S4rpwUAhC37IoYomcYstb
+ NiVgVgRLSZiDEg3wCu68uZsElhxR7Ar4TCzddUBBvcDHL0jpQ/WudlNXjT0oPKR+36zA
+ 4Byw==
+X-Gm-Message-State: AOAM533mr6JVy5QNDbEvbzrscL3wOSTVNv6qqBhkMPaYBL3SUaQKFXxD
+ NjN00SxMD5yBIpZiMwQ2GRg=
+X-Google-Smtp-Source: ABdhPJxamD2xp7vuL0j9UPK+vAORDA1al7JS8aMaG+jUl6Rk+0gBnwf83HKvOY+En7OXRX1uF5k6Mg==
+X-Received: by 2002:a17:906:1916:: with SMTP id
+ a22mr30353517eje.536.1608118937452; 
+ Wed, 16 Dec 2020 03:42:17 -0800 (PST)
+Received: from localhost.localdomain.info
+ (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id y17sm1223472ejj.84.2020.12.16.03.42.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 03:42:16 -0800 (PST)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/etnaviv: provide more ID values via GET_PARAM ioctl.
+Date: Wed, 16 Dec 2020 12:42:01 +0100
+Message-Id: <20201216114209.276630-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,208 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swati2.sharma@intel.com, airlied@linux.ie, vandita.kulkarni@intel.com,
- uma.shankar@intel.com, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If PCON has capability to convert RGB->YUV colorspace and also
-to 444->420 downsampling then for any YUV420 only mode, we can
-let the PCON do all the conversion.
+Make it possible for the user space to access these ID values.
 
-v2: As suggested by Uma Shankar, considered case for colorspace
-BT709 and BT2020, and default to BT609. Also appended dir
-'display' in commit message.
-
-v3: Fixed typo in condition for printing one of the error msg.
-
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c      |  3 +-
- .../drm/i915/display/intel_display_types.h    |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c       | 68 +++++++++++++++----
- drivers/gpu/drm/i915/display/intel_dp.h       |  3 +-
- 4 files changed, 58 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 12 ++++++++++++
+ include/uapi/drm/etnaviv_drm.h        |  3 +++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index fbc07a93504b..17eaa56c5a99 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3644,6 +3644,7 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	if (!is_mst)
- 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index c6404b8d067f..ec16991ba8b6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -156,6 +156,18 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 			*value = ~0ULL;
+ 		break;
  
-+	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
- 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state, true);
- 	/*
- 	 * DDI FEC: "anticipates enabling FEC encoding sets the FEC_READY bit
-@@ -3731,7 +3732,7 @@ static void hsw_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	intel_ddi_init_dp_buf_reg(encoder, crtc_state);
- 	if (!is_mst)
- 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
--	intel_dp_configure_protocol_converter(intel_dp);
-+	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
- 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state,
- 					      true);
- 	intel_dp_sink_set_fec_ready(intel_dp, crtc_state);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 4c01c7c23dfd..2009ae9e9678 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1460,6 +1460,7 @@ struct intel_dp {
- 		int pcon_max_frl_bw;
- 		u8 max_bpc;
- 		bool ycbcr_444_to_420;
-+		bool rgb_to_ycbcr;
- 	} dfp;
- 
- 	/* Display stream compression testing */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index abc9b772d1c8..366b2e4e7f4a 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -651,6 +651,10 @@ intel_dp_output_format(struct drm_connector *connector,
- 	    !drm_mode_is_420_only(info, mode))
- 		return INTEL_OUTPUT_FORMAT_RGB;
- 
-+	if (intel_dp->dfp.rgb_to_ycbcr &&
-+	    intel_dp->dfp.ycbcr_444_to_420)
-+		return INTEL_OUTPUT_FORMAT_RGB;
++	case ETNAVIV_PARAM_GPU_PRODUCT_ID:
++		*value = gpu->identity.product_id;
++		break;
 +
- 	if (intel_dp->dfp.ycbcr_444_to_420)
- 		return INTEL_OUTPUT_FORMAT_YCBCR444;
- 	else
-@@ -4311,7 +4315,8 @@ static void intel_dp_enable_port(struct intel_dp *intel_dp,
- 	intel_de_posting_read(dev_priv, intel_dp->output_reg);
- }
- 
--void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
-+void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
-+					   const struct intel_crtc_state *crtc_state)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	u8 tmp;
-@@ -4338,14 +4343,34 @@ void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
- 		drm_dbg_kms(&i915->drm,
- 			    "Failed to set protocol converter YCbCr 4:2:0 conversion mode to %s\n",
- 			    enableddisabled(intel_dp->dfp.ycbcr_444_to_420));
--
--	tmp = 0;
--
--	if (drm_dp_dpcd_writeb(&intel_dp->aux,
--			       DP_PROTOCOL_CONVERTER_CONTROL_2, tmp) <= 0)
-+	if (intel_dp->dfp.rgb_to_ycbcr) {
-+		bool bt2020, bt709;
++	case ETNAVIV_PARAM_GPU_CUSTOMER_ID:
++		*value = gpu->identity.customer_id;
++		break;
 +
-+		bt2020 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+							intel_dp->downstream_ports,
-+							DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
-+		bt709 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+							intel_dp->downstream_ports,
-+							DP_DS_HDMI_BT709_RGB_YCBCR_CONV);
-+		switch (crtc_state->infoframes.vsc.colorimetry) {
-+		case DP_COLORIMETRY_BT2020_RGB:
-+		case DP_COLORIMETRY_BT2020_YCC:
-+			tmp = bt2020 ? DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE : 0;
-+			break;
-+		case DP_COLORIMETRY_BT709_YCC:
-+		case DP_COLORIMETRY_XVYCC_709:
-+			tmp = bt709 ? DP_CONVERSION_BT709_RGB_YCBCR_ENABLE : 0;
-+			break;
-+		default:
-+			tmp = DP_CONVERSION_BT601_RGB_YCBCR_ENABLE;
-+		}
-+	} else {
-+		tmp = 0;
-+	}
-+	if (drm_dp_pcon_convert_rgb_to_ycbcr(&intel_dp->aux, tmp) < 0)
- 		drm_dbg_kms(&i915->drm,
--			    "Failed to set protocol converter YCbCr 4:2:2 conversion mode to %s\n",
--			    enableddisabled(false));
-+			   "Failed to set protocol converter RGB->YCbCr conversion mode to %s\n",
-+			   enableddisabled(tmp ? true : false));
- }
++	case ETNAVIV_PARAM_GPU_ECO_ID:
++		*value = gpu->identity.eco_id;
++		break;
++
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index 09d0df8b71c5..af024d90453d 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -74,6 +74,9 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_NUM_CONSTANTS             0x19
+ #define ETNAVIV_PARAM_GPU_NUM_VARYINGS              0x1a
+ #define ETNAVIV_PARAM_SOFTPIN_START_ADDR            0x1b
++#define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
++#define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
++#define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
  
- static void intel_enable_dp(struct intel_atomic_state *state,
-@@ -4385,7 +4410,7 @@ static void intel_enable_dp(struct intel_atomic_state *state,
- 	}
+ #define ETNA_MAX_PIPES 4
  
- 	intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
--	intel_dp_configure_protocol_converter(intel_dp);
-+	intel_dp_configure_protocol_converter(intel_dp, pipe_config);
- 	intel_dp_check_frl_training(intel_dp);
- 	intel_dp_pcon_dsc_configure(intel_dp, pipe_config);
- 	intel_dp_start_link_train(intel_dp, pipe_config);
-@@ -6853,7 +6878,7 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	struct intel_connector *connector = intel_dp->attached_connector;
--	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420;
-+	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420, rgb_to_ycbcr;
- 
- 	/* No YCbCr output support on gmch platforms */
- 	if (HAS_GMCH(i915))
-@@ -6875,14 +6900,26 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- 		dp_to_dig_port(intel_dp)->lspcon.active ||
- 		drm_dp_downstream_444_to_420_conversion(intel_dp->dpcd,
- 							intel_dp->downstream_ports);
-+	rgb_to_ycbcr = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+							intel_dp->downstream_ports,
-+							DP_DS_HDMI_BT601_RGB_YCBCR_CONV ||
-+							DP_DS_HDMI_BT709_RGB_YCBCR_CONV ||
-+							DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
- 
- 	if (INTEL_GEN(i915) >= 11) {
-+		/* Let PCON convert from RGB->YCbCr if possible */
-+		if (is_branch && rgb_to_ycbcr && ycbcr_444_to_420) {
-+			intel_dp->dfp.rgb_to_ycbcr = true;
-+			intel_dp->dfp.ycbcr_444_to_420 = true;
-+			connector->base.ycbcr_420_allowed = true;
-+		} else {
- 		/* Prefer 4:2:0 passthrough over 4:4:4->4:2:0 conversion */
--		intel_dp->dfp.ycbcr_444_to_420 =
--			ycbcr_444_to_420 && !ycbcr_420_passthrough;
-+			intel_dp->dfp.ycbcr_444_to_420 =
-+				ycbcr_444_to_420 && !ycbcr_420_passthrough;
- 
--		connector->base.ycbcr_420_allowed =
--			!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
-+			connector->base.ycbcr_420_allowed =
-+				!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
-+		}
- 	} else {
- 		/* 4:4:4->4:2:0 conversion is the only way */
- 		intel_dp->dfp.ycbcr_444_to_420 = ycbcr_444_to_420;
-@@ -6891,8 +6928,9 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- 	}
- 
- 	drm_dbg_kms(&i915->drm,
--		    "[CONNECTOR:%d:%s] YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
-+		    "[CONNECTOR:%d:%s] RGB->YcbCr conversion? %s, YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
- 		    connector->base.base.id, connector->base.name,
-+		    yesno(intel_dp->dfp.rgb_to_ycbcr),
- 		    yesno(connector->base.ycbcr_420_allowed),
- 		    yesno(intel_dp->dfp.ycbcr_444_to_420));
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 1bfde4f89019..4280a09fd8fd 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -51,7 +51,8 @@ int intel_dp_get_link_train_fallback_values(struct intel_dp *intel_dp,
- int intel_dp_retrain_link(struct intel_encoder *encoder,
- 			  struct drm_modeset_acquire_ctx *ctx);
- void intel_dp_set_power(struct intel_dp *intel_dp, u8 mode);
--void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp);
-+void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
-+					   const struct intel_crtc_state *crtc_state);
- void intel_dp_sink_set_decompression_state(struct intel_dp *intel_dp,
- 					   const struct intel_crtc_state *crtc_state,
- 					   bool enable);
 -- 
-2.17.1
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
