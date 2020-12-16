@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092122DC224
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28472DC226
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF6A6E1B4;
-	Wed, 16 Dec 2020 14:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E091B6E1BE;
+	Wed, 16 Dec 2020 14:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3DC6E1B4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:28:14 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m5so23347656wrx.9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:28:14 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 259E06E1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:29:04 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id x22so2529699wmc.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=t6r3XSw+JXI5RBju6TAle9tyJcRBeqKGVIPpFlRGQNM=;
- b=f+85OyTITMh8m+uV0Iz79lyYBSUSw0eTyd4KYLKqnUhau27wSDxy1MQYm4a0nd3YOm
- SBhtfOY//L2DcVpRF+Plxf04ntuDuHfLm+YyOc6sGFVS8T0dMT0uyzevHwveeOnvZtwM
- JTgmIXX+7/P8Ormm7TOyAc1LnpuRfodaPcpqA=
+ bh=ArE23KjbIKbC/nVDzRUay1pJjb0+C+SvHnhKxLPZ7C4=;
+ b=aAZk7+AFkD5zIf7i2OrhUFT9IRAtPjkqMZpBLMTLX0eQ/jkGQ51xBdpLd8nTO5UVDb
+ MsM0o2T8RxSsbnK3iPB4G75JENrNkz9tKB+vltvsLtlHl+bS8vjWvmOfouQ/fvwTtWwa
+ iPSmNuWQ8aZfY9BYK7vy5AKev7jrUoYE80CAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=t6r3XSw+JXI5RBju6TAle9tyJcRBeqKGVIPpFlRGQNM=;
- b=t0y1rSaOyfZp4LCFwjb0LQIKLRsSxMrKOGQYj2fEMJmrKywWoqYkb96o/EVS5/P6F7
- RGgGmdNcO7xhTAiE8zt5O3GKaAJmLHjBHgEUcTWLIYwZSvkvTLost7Vd6zoYPjilreQq
- OpSQN40o3aAYSZeMpAFaR7T22W37bI5+9OhFT/uadA25ZxJA0wTJGin8TLPsdd8Fw74k
- osGgngcAYBOtEfrCAJuMWeiwNphi9N0G3xE4rXrTRMH6frp+ciZPLHc3yuk03oeCioY6
- TQ2rce5Ki2UdVUWy3YDyBE+KFlZR2wcNmkxIzyUHT33bg6TfwXeSqFdPCVJWjDCyzQTE
- HxBA==
-X-Gm-Message-State: AOAM533CshR2JKR+4T90s/CPHXGt4voasJzLuhUwac3XpvoFtixkd4gx
- rzd8+IWMirQ1gEcDrtvWQENIsA==
-X-Google-Smtp-Source: ABdhPJxSqop80t0YY9RhdyhniVMy9B8aAdudgSDXAzc7GqtTX66vqyikS13BlQ5TaJtpluh6bzasnQ==
-X-Received: by 2002:a5d:4fcf:: with SMTP id h15mr29743073wrw.323.1608128892956; 
- Wed, 16 Dec 2020 06:28:12 -0800 (PST)
+ bh=ArE23KjbIKbC/nVDzRUay1pJjb0+C+SvHnhKxLPZ7C4=;
+ b=rQ/xxdVjBAPM2HfvTMT0/9GMeuDuKv7hTrErtBY6ampH94YmJYkQ6kGxw9Q3dIF16J
+ VUWnFddWyhrizta9W+9ntFuJjbefKimLGRGLhDrLjF2XMEVix44pXYkk1SBz9NDxkutM
+ p0qxprwHI9UqVsv6tcu3OuMjFCpFrpVK1fLwMjghbnYdJMsWXi64RtU1uZsXOK9WpmbB
+ RlQfP3V4nqZIM1GtfF9ALU42VzRGLkFL8b6wMKOHNmSfhnUbS+CCy+Y3s74Sk3mWO02F
+ iTPuG8ZnJUehgM7WYxiXW9MYgGprPGCQ+hJy7wi13N0JqziUrAck4QVqwrlPqG8jN94I
+ e4pw==
+X-Gm-Message-State: AOAM5313440/RsXeRZztKvR8F5LkvP29l64RuVe1ri8YUoipFbJ/xDIK
+ wdCjKUm6l9laboRxNMf8TUu1lA==
+X-Google-Smtp-Source: ABdhPJwFfXIh//X7EHLNo+AnlbmzOfKACahzX4QD0E3Glw+DJG8CEO9chK+4dAIqaXdcYcOu6l2roQ==
+X-Received: by 2002:a1c:2b46:: with SMTP id r67mr3622489wmr.162.1608128942773; 
+ Wed, 16 Dec 2020 06:29:02 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o83sm2932403wme.21.2020.12.16.06.28.11
+ by smtp.gmail.com with ESMTPSA id j15sm3273367wrr.85.2020.12.16.06.29.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 06:28:12 -0800 (PST)
-Date: Wed, 16 Dec 2020 15:28:10 +0100
+ Wed, 16 Dec 2020 06:29:02 -0800 (PST)
+Date: Wed, 16 Dec 2020 15:29:00 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] drm: Move legacy device list out of drm_driver
-Message-ID: <X9oZehBv7WUetmfe@phenom.ffwll.local>
+Subject: Re: [PATCH v2 2/3] drm: Use a const drm_driver for legacy PCI devices
+Message-ID: <X9oZrB2Y+/eUrXwf@phenom.ffwll.local>
 References: <20201215203126.10175-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201215203126.10175-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20201215203126.10175-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201215203126.10175-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201215203126.10175-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,143 +73,124 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 15, 2020 at 10:31:24PM +0200, Laurent Pinchart wrote:
-> The drm_driver structure contains a single field (legacy_dev_list) that
-> is modified by the DRM core, used to store a linked list of legacy DRM
-> devices associated with the driver. In order to make the structure
-> const, move the field out to a global variable. This requires locking
-> access to the global where the local field didn't require serialization,
-> but this only affects legacy drivers, and isn't in any hot path.
-> 
-> While at it, compile-out the legacy_dev_list field when DRM_LEGACY isn't
-> defined.
+On Tue, Dec 15, 2020 at 10:31:25PM +0200, Laurent Pinchart wrote:
+> Now that the legacy PCI support code doesn't need to write to the
+> drm_driver structure, it can be treated as const through the whole DRM
+> core, unconditionally. This allows declaring the structure as const in
+> all drivers, removing one possible attack vector.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Hah, I didn't notice my review here, read it again, still looks good :-)
--Daniel
+I didn't inquire the compiler whether you got all the combos right, but
+looks complete.
 
-> Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
-> Changes since v1:
+>  drivers/gpu/drm/drm_drv.c |  4 ----
+>  drivers/gpu/drm/drm_pci.c |  8 +++++---
+>  include/drm/drm_device.h  |  4 ----
+>  include/drm/drm_legacy.h  | 10 ++++++----
+>  4 files changed, 11 insertions(+), 15 deletions(-)
 > 
-> - Move the legacy_dev_list to the end of struct drm_device, in the
->   existing DRM_LEGACY section
-> - Drop the kerneldoc comment for legacy_dev_list
-> ---
->  drivers/gpu/drm/drm_pci.c | 25 +++++++++++++++++--------
->  include/drm/drm_device.h  | 10 +++-------
->  include/drm/drm_drv.h     |  2 --
->  3 files changed, 20 insertions(+), 17 deletions(-)
-> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 734303802bc3..3f57e880685e 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -589,11 +589,7 @@ static int drm_dev_init(struct drm_device *dev,
+>  
+>  	kref_init(&dev->ref);
+>  	dev->dev = get_device(parent);
+> -#ifdef CONFIG_DRM_LEGACY
+> -	dev->driver = (struct drm_driver *)driver;
+> -#else
+>  	dev->driver = driver;
+> -#endif
+>  
+>  	INIT_LIST_HEAD(&dev->managed.resources);
+>  	spin_lock_init(&dev->managed.lock);
 > diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index 6dba4b8ce4fe..dfb138aaccba 100644
+> index dfb138aaccba..5370e6b492fd 100644
 > --- a/drivers/gpu/drm/drm_pci.c
 > +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -24,6 +24,8 @@
+> @@ -201,7 +201,7 @@ static void drm_pci_agp_init(struct drm_device *dev)
 >  
->  #include <linux/dma-mapping.h>
->  #include <linux/export.h>
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
->  #include <linux/pci.h>
->  #include <linux/slab.h>
+>  static int drm_get_pci_dev(struct pci_dev *pdev,
+>  			   const struct pci_device_id *ent,
+> -			   struct drm_driver *driver)
+> +			   const struct drm_driver *driver)
+>  {
+>  	struct drm_device *dev;
+>  	int ret;
+> @@ -255,7 +255,8 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
+>   *
+>   * Return: 0 on success or a negative error code on failure.
+>   */
+> -int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver)
+> +int drm_legacy_pci_init(const struct drm_driver *driver,
+> +			struct pci_driver *pdriver)
+>  {
+>  	struct pci_dev *pdev = NULL;
+>  	const struct pci_device_id *pid;
+> @@ -300,7 +301,8 @@ EXPORT_SYMBOL(drm_legacy_pci_init);
+>   * Unregister a DRM driver shadow-attached through drm_legacy_pci_init(). This
+>   * is deprecated and only used by dri1 drivers.
+>   */
+> -void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver)
+> +void drm_legacy_pci_exit(const struct drm_driver *driver,
+> +			 struct pci_driver *pdriver)
+>  {
+>  	struct drm_device *dev, *tmp;
 >  
-> @@ -36,6 +38,9 @@
->  #include "drm_legacy.h"
->  
->  #ifdef CONFIG_DRM_LEGACY
-> +/* List of devices hanging off drivers with stealth attach. */
-> +static LIST_HEAD(legacy_dev_list);
-> +static DEFINE_MUTEX(legacy_dev_list_lock);
->  
->  /**
->   * drm_pci_alloc - Allocate a PCI consistent memory block, for DMA.
-> @@ -225,10 +230,11 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
->  	if (ret)
->  		goto err_agp;
->  
-> -	/* No locking needed since shadow-attach is single-threaded since it may
-> -	 * only be called from the per-driver module init hook. */
-> -	if (drm_core_check_feature(dev, DRIVER_LEGACY))
-> -		list_add_tail(&dev->legacy_dev_list, &driver->legacy_dev_list);
-> +	if (drm_core_check_feature(dev, DRIVER_LEGACY)) {
-> +		mutex_lock(&legacy_dev_list_lock);
-> +		list_add_tail(&dev->legacy_dev_list, &legacy_dev_list);
-> +		mutex_unlock(&legacy_dev_list_lock);
-> +	}
->  
->  	return 0;
->  
-> @@ -261,7 +267,6 @@ int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver)
->  		return -EINVAL;
->  
->  	/* If not using KMS, fall back to stealth mode manual scanning. */
-> -	INIT_LIST_HEAD(&driver->legacy_dev_list);
->  	for (i = 0; pdriver->id_table[i].vendor != 0; i++) {
->  		pid = &pdriver->id_table[i];
->  
-> @@ -304,11 +309,15 @@ void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver)
->  	if (!(driver->driver_features & DRIVER_LEGACY)) {
->  		WARN_ON(1);
->  	} else {
-> -		list_for_each_entry_safe(dev, tmp, &driver->legacy_dev_list,
-> +		mutex_lock(&legacy_dev_list_lock);
-> +		list_for_each_entry_safe(dev, tmp, &legacy_dev_list,
->  					 legacy_dev_list) {
-> -			list_del(&dev->legacy_dev_list);
-> -			drm_put_dev(dev);
-> +			if (dev->driver == driver) {
-> +				list_del(&dev->legacy_dev_list);
-> +				drm_put_dev(dev);
-> +			}
->  		}
-> +		mutex_unlock(&legacy_dev_list_lock);
->  	}
->  	DRM_INFO("Module unloaded\n");
->  }
 > diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 283a93ce4617..bd5abe7cd48f 100644
+> index bd5abe7cd48f..939904ae88fc 100644
 > --- a/include/drm/drm_device.h
 > +++ b/include/drm/drm_device.h
-> @@ -51,13 +51,6 @@ enum switch_power_state {
->   * may contain multiple heads.
->   */
->  struct drm_device {
-> -	/**
-> -	 * @legacy_dev_list:
-> -	 *
-> -	 * List of devices per driver for stealth attach cleanup
-> -	 */
-> -	struct list_head legacy_dev_list;
-> -
->  	/** @if_version: Highest interface version set */
->  	int if_version;
+> @@ -76,11 +76,7 @@ struct drm_device {
+>  	} managed;
 >  
-> @@ -336,6 +329,9 @@ struct drm_device {
->  	/* Everything below here is for legacy driver, never use! */
->  	/* private: */
->  #if IS_ENABLED(CONFIG_DRM_LEGACY)
-> +	/* List of devices per driver for stealth attach cleanup */
-> +	struct list_head legacy_dev_list;
-> +
->  	/* Context handle management - linked list of context handles */
->  	struct list_head ctxlist;
+>  	/** @driver: DRM driver managing the device */
+> -#ifdef CONFIG_DRM_LEGACY
+> -	struct drm_driver *driver;
+> -#else
+>  	const struct drm_driver *driver;
+> -#endif
 >  
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 02787319246a..827838e0a97e 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -499,8 +499,6 @@ struct drm_driver {
->  	/* Everything below here is for legacy driver, never use! */
->  	/* private: */
+>  	/**
+>  	 * @dev_private:
+> diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
+> index 852d7451eeb1..8ed04e9be997 100644
+> --- a/include/drm/drm_legacy.h
+> +++ b/include/drm/drm_legacy.h
+> @@ -198,8 +198,10 @@ struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
+>  				     size_t align);
+>  void drm_pci_free(struct drm_device *dev, struct drm_dma_handle *dmah);
 >  
-> -	/* List of devices hanging off this driver with stealth attach. */
-> -	struct list_head legacy_dev_list;
->  	int (*firstopen) (struct drm_device *);
->  	void (*preclose) (struct drm_device *, struct drm_file *file_priv);
->  	int (*dma_ioctl) (struct drm_device *dev, void *data, struct drm_file *file_priv);
+> -int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver);
+> -void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver);
+> +int drm_legacy_pci_init(const struct drm_driver *driver,
+> +			struct pci_driver *pdriver);
+> +void drm_legacy_pci_exit(const struct drm_driver *driver,
+> +			 struct pci_driver *pdriver);
+>  
+>  #else
+>  
+> @@ -214,13 +216,13 @@ static inline void drm_pci_free(struct drm_device *dev,
+>  {
+>  }
+>  
+> -static inline int drm_legacy_pci_init(struct drm_driver *driver,
+> +static inline int drm_legacy_pci_init(const struct drm_driver *driver,
+>  				      struct pci_driver *pdriver)
+>  {
+>  	return -EINVAL;
+>  }
+>  
+> -static inline void drm_legacy_pci_exit(struct drm_driver *driver,
+> +static inline void drm_legacy_pci_exit(const struct drm_driver *driver,
+>  				       struct pci_driver *pdriver)
+>  {
+>  }
 > -- 
 > Regards,
 > 
