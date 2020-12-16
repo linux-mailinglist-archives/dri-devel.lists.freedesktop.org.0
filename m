@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E002DC251
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B749B2DC252
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43CE88984E;
-	Wed, 16 Dec 2020 14:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0D789BF6;
+	Wed, 16 Dec 2020 14:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 168686E1E8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:35:15 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id d26so10166203wrb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:35:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=XSQ515YX1lL7SdLjwXSi0+PfZjksYfxwOfIy/7hxa2Q=;
- b=M855+cec+7hhTRXCte9mdlQBN4qId6bRJgg47Kf/7eMbmLnJEsFDvuRfa4o+Ji2I0t
- aySnCxp+wx+F02X1ev/kfdgAhk3QKUZ07ZVXjf3ec1S6jK4A7KMKAtEhrxedRRYs7Ycx
- GhZUsHtxksIj/2Zz+wpjjwcpKQ/0XmrpgexYk=
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6384389BF6
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:36:20 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id c5so19747374wrp.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:36:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=1+xRvYA1pxFKx0XtDQ31iUMNpTfOzpYfWa3N+b1f36w=;
+ b=D9tZo391U+Yk9iuy7EGvkpos9GG2gaP6lh8G8kbYcZbhPLW/ucCrLf5oSkYvVz4jUC
+ kMqFUxBTvQCoj3KkuS6V35VGK9KegHusQzeK/hJ5FgEbt6klGf6JYtJ87MA0cuE8vPBP
+ z8l0pVPZx/rNU6cfqxJIHMGSCWMAt4kScBC7o59D/2QzFJ7BPLD+jqxiTEIu6flAkXi5
+ o6ilk+OtnZ58GRjv3g4aexcHpEoZ7S5WZ56bCKpMVHoCkBGWMhiVGT7U9Q2Mon1Bp0WB
+ Fqn4DXcKrjIiKuamW7vmZ0GpkHkyHYFMsDvYschETw0d9ilE1GSKbSyBlhkmqaidaZbu
+ h6YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=XSQ515YX1lL7SdLjwXSi0+PfZjksYfxwOfIy/7hxa2Q=;
- b=iOz3MjI0qhLnkdaDVY+hDSMj7o5TFHIKRk1gZRy2XizwfpgNk0q3ECgPmz8VpAew1F
- nGXYeUTWFSd4RxVzkatvapkfD4cUBZIR7BfyRai6V/LirhniqfjwInkuLierKXuiozoC
- 4hXqF+RBOf8Z102RILO4HoPvbATRqa0gs4WR2QDNBbPjhYFFNupzNCL2RGUWL/NC7ll9
- mQHu8pDGVRAtxw68zYZsLRXNyU7u8F4QJG9babmVuWUo6xfeTP+NtYX00pY4g17tpqXL
- j7mYwMCTJ6D7lMM6KfVvePTrR7C/cAIVfuRh1uRSe/b1WoapjVRhNcAlGSy4ksKfsAxP
- pqNQ==
-X-Gm-Message-State: AOAM532Yc7lVW3+y63TARDzIYvnJfzYMsMQ99aR8L+Lj1AbxHMoOBr+e
- 55VjRkA/0kHh9AuE78wcfnUvjQ==
-X-Google-Smtp-Source: ABdhPJw6sopHtFhuCuY7z9Og6UwUsCkiLLAibKTKR25cmQkf0cApYj5FT6xFl2X2Mz1oqEAGeg7PSQ==
-X-Received: by 2002:adf:f845:: with SMTP id d5mr20121128wrq.182.1608129313750; 
- Wed, 16 Dec 2020 06:35:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 125sm2841371wmc.27.2020.12.16.06.35.12
+ bh=1+xRvYA1pxFKx0XtDQ31iUMNpTfOzpYfWa3N+b1f36w=;
+ b=EQdmzR15WGbc58V/mQK7ToO5k/yngPsSwbKmNotS7Yr9DnjEfwtuQIJog6GAeJI7gs
+ HSCeuKhu94rsJ1AEvpZPuqUIWsMKOX1DtTuyEOoerljC4HdwWbfoZoXHHpn9sGYxEQGg
+ H4crNR9kH1UTgAyiJjbYpdOxEX7AYGyWWtqFd5McrofNXMH4lYfdFfjnOB6WbbSetlY9
+ apiUb5X5fsQn1rMyR3TBYG0+ENdxWcRYWjzqdfj5K/fC1o8Qv5VM00SRvWhX1x4qfof3
+ QDcNhr1d7tR8kOFaJTfTZbyCpLtzlhanMJoLWmV/x4XR1I8oNKQrRGudMoRWtD1qejj9
+ Mz7w==
+X-Gm-Message-State: AOAM531m1HT3sxMsxcHhkTpfASeyvSGwJpVVKkZtOT1M1h878Ip83m55
+ LMNtXNbSD9ONH/F5ma26GvXMKg==
+X-Google-Smtp-Source: ABdhPJylSqFMc/S45ragP2Y9ol6Qr2fab8KKBxJIm8g8W2JghL0Rj2OlBZ6f2z6RYm4SALaC6v22ig==
+X-Received: by 2002:a5d:554e:: with SMTP id g14mr38990021wrw.264.1608129379055; 
+ Wed, 16 Dec 2020 06:36:19 -0800 (PST)
+Received: from dell ([91.110.221.200])
+ by smtp.gmail.com with ESMTPSA id h20sm3675336wrb.21.2020.12.16.06.36.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 06:35:12 -0800 (PST)
-Date: Wed, 16 Dec 2020 15:35:10 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] MAINTAINERS: Update addresses for TI display drivers
-Message-ID: <X9obHqQ0BBtZaSyz@phenom.ffwll.local>
-Mail-Followup-To: Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
- jyri.sarha@iki.fi, Sekhar Nori <nsekhar@ti.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>, tomba@kernel.org
-References: <20201216075917.17481-1-tomi.valkeinen@ti.com>
+ Wed, 16 Dec 2020 06:36:18 -0800 (PST)
+Date: Wed, 16 Dec 2020 14:36:16 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: Re: [PATCH -next] backlight: sky81452-backlight: convert comma to
+ semicolon
+Message-ID: <20201216143616.GF207743@dell>
+References: <20201214133458.3729-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201216075917.17481-1-tomi.valkeinen@ti.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201214133458.3729-1-zhengyongjun3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,74 +68,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomba@kernel.org, Sekhar Nori <nsekhar@ti.com>,
- linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org, jyri.sarha@iki.fi,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 16, 2020 at 09:59:17AM +0200, Tomi Valkeinen wrote:
-> Update the maintainer email addresses for TI display drivers.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  MAINTAINERS | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 281de213ef47..c21471497a18 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5932,8 +5932,8 @@ F:	Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
->  F:	drivers/gpu/drm/stm
->  
->  DRM DRIVERS FOR TI KEYSTONE
-> -M:	Jyri Sarha <jsarha@ti.com>
-> -M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +M:	Jyri Sarha <jyri.sarha@iki.fi>
-> +M:	Tomi Valkeinen <tomba@kernel.org>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
-> @@ -5943,15 +5943,15 @@ F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
->  F:	drivers/gpu/drm/tidss/
->  
->  DRM DRIVERS FOR TI LCDC
-> -M:	Jyri Sarha <jsarha@ti.com>
-> -R:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +M:	Jyri Sarha <jyri.sarha@iki.fi>
-> +R:	Tomi Valkeinen <tomba@kernel.org>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/display/tilcdc/
->  F:	drivers/gpu/drm/tilcdc/
->  
->  DRM DRIVERS FOR TI OMAP
-> -M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +M:	Tomi Valkeinen <tomba@kernel.org>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/display/ti/
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAxNCBEZWMgMjAyMCwgWmhlbmcgWW9uZ2p1biB3cm90ZToKCj4gUmVwbGFjZSBhIGNv
+bW1hIGJldHdlZW4gZXhwcmVzc2lvbiBzdGF0ZW1lbnRzIGJ5IGEgc2VtaWNvbG9uLgo+IAo+IFNp
+Z25lZC1vZmYtYnk6IFpoZW5nIFlvbmdqdW4gPHpoZW5neW9uZ2p1bjNAaHVhd2VpLmNvbT4KPiAt
+LS0KPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvc2t5ODE0NTItYmFja2xpZ2h0LmMgfCAyICst
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKQXBwbGll
+ZCwgdGhhbmtzLgoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExl
+YWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdh
+cmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
