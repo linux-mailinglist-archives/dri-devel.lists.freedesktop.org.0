@@ -2,121 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6BB2DC3ED
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 17:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB12DC4C6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 17:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B23389D53;
-	Wed, 16 Dec 2020 16:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C898968D;
+	Wed, 16 Dec 2020 16:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2713B89D4B
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 16:21:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Su0mB/GuAhC2/D8qDerONrhQJIY/gvE2kkp+7FSGxnZjcgGnkD5o5P8plGE4mWgEx9ceDQmVwqf94MxUwn3iaPd3PMEs0ZZ7WzP+dxDLGzYJRb6q2evkXAM+cioFHfafPFCIwk5ib5ukzT59vctNhndRh3bIxyhea0HYMFFjok4EXFyM8eOdwevjMXItSijo810124NxoC1ciX6os3BZvrTSJcr61q1cMXLY5izkJhr+4KitOUzShOsMBVkK8Mg5wNeuGdUa0alHi+wE3ilg/yXFcSZ3m8Vdp1dfoVpq/RywcZrlPB0qAoPh0AkP3LCfQs6w9Hi+70ReCflKmsKqfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IBzLTNaDtrbuHOEvY4k3nPOncruXze1Q8ywZ0GAoMyY=;
- b=A7A8OLeHdJlHUAHaJDmhNWvuOKSmt0TkGl3DyAi9RlIVX/yM2TkIbGthyWOCR/1P8srvkZ8lWYKUA81gZ6XI2oDWN/YrTENRNl9af1pZqmEZe7+CYbMA+qH1nNRZ3QJS136Mjne9mGCdM0DtQEpK0ibw6js/NbLTUFtaY0lWX7doJkIiXBCMgTdQSPYeDMkwMOWErcjiyL96bnS7lae5pfMfIIP1oJiFf2knk2RIxdZABfD7pmm4xEwN9hKTeKYNqqWlM4kMGiz4+IxvOhnRAyui313Qn7xgJI6QrOdjEVo9olnMoVhtYYdENrGFl1bO0/hL3TEy6+LxxGbLrMK1Fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IBzLTNaDtrbuHOEvY4k3nPOncruXze1Q8ywZ0GAoMyY=;
- b=OFQM0gghhMAtpkiZCpMDkxxqEk3IXzJ8znXYtpWXdcUroc6xouzxiFYYxGF1OnO6xCZ5o8+8XoAOHcZ4dY2t2OG9aLMqoRr0+HYZyDkmj0toMf/5KTOE5gKw+1Vtim5mh4vJADjEQutxHWSkjM0rlH8m1JAVRz2L/NC2Pk10feY=
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
- by BL0PR12MB2403.namprd12.prod.outlook.com (2603:10b6:207:40::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.20; Wed, 16 Dec
- 2020 16:20:58 +0000
-Received: from MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::fca3:155c:bf43:94af]) by MN2PR12MB4488.namprd12.prod.outlook.com
- ([fe80::fca3:155c:bf43:94af%4]) with mapi id 15.20.3654.024; Wed, 16 Dec 2020
- 16:20:58 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Rong Chen <rong.a.chen@intel.com>, Qinglang Miao
- <miaoqinglang@huawei.com>, kernel test robot <lkp@intel.com>
-Subject: Re: [kbuild-all] Re: [radeon-alex:amd-20.45 2127/2427]
- drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Thread-Topic: [kbuild-all] Re: [radeon-alex:amd-20.45 2127/2427]
- drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Thread-Index: AQHW0q5+fKCSU4ueR0WpsaoBe8LwF6n30TUAgABlGkiAATTTgIAAff3m
-Date: Wed, 16 Dec 2020 16:20:58 +0000
-Message-ID: <MN2PR12MB44882A2C124F33072EB9F179F7C50@MN2PR12MB4488.namprd12.prod.outlook.com>
-References: <202012151443.Z9Fd7yNQ-lkp@intel.com>
- <4eb73b60-2290-f3e2-d088-9361f8d8c7f3@huawei.com>
- <MN2PR12MB4488CBBF7050A105FD6F7BF4F7C60@MN2PR12MB4488.namprd12.prod.outlook.com>,
- <2e8a4f96-441f-2204-3deb-f2cbe67dbda9@intel.com>
-In-Reply-To: <2e8a4f96-441f-2204-3deb-f2cbe67dbda9@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-12-16T16:20:57.691Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Distribution
- Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [71.219.66.138]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 87651090-a410-4a5e-07c4-08d8a1de9274
-x-ms-traffictypediagnostic: BL0PR12MB2403:
-x-microsoft-antispam-prvs: <BL0PR12MB2403EF9050C9C55A834486BCF7C50@BL0PR12MB2403.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:95;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zH7IjwpkXpI8OzTShhJP5/jaXKsSfgkfcUFuitqTbiHqC/Ye2EYQx7lDonJM9+9N1F7S/cZFiwqzsZnYjntzQuJzII5nPnnfqocKSde7LzpWMIU2QWyPGByjgAwp2/0PaAe7KMAx9RCKpwTTHRtr+AuSSjEvN/PNOzZrjK/URBYLGcBCaLMLlDICJzWpG1aU85W7hju99YqJ05jDUuo4DQeChN0W108AmKl88zIa7S5huftN2xnqSvF1lpC4xeFf2zTw5nynTTuT27vK5n4zZbnrBf3Jl7kzg/4AKJExY2OdBFCF4ZtZ8o/lG9vxeLxKXvf4eZ2XJuY2fnWQAuRcZW92DFz4jYU7FTzsXRz4g8Vu7fSlQpajQQzNtuHqDEgLm5/SMThv1Vpo2Yfq5o6pxQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(376002)(346002)(136003)(6506007)(45080400002)(7696005)(66556008)(52536014)(71200400001)(19627405001)(33656002)(186003)(83380400001)(8676002)(166002)(53546011)(26005)(9686003)(8936002)(110136005)(54906003)(55016002)(316002)(66476007)(966005)(4326008)(76116006)(478600001)(66946007)(66446008)(86362001)(64756008)(30864003)(5660300002)(2906002)(579004)(559001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?iso-2022-jp?B?ZEIrbVg3NC9yaE1UbWFSY3N4YWR4RnBrOEJxbkJ5N3U1N21WallqNUg2?=
- =?iso-2022-jp?B?MHZrT3ovekxhWnVPSkJCRFZGOVl5RXpWNThiN08yRnBSZTdRRG1lTFdN?=
- =?iso-2022-jp?B?dVRxYWFVMC9LTnlmWklxUGVQSnQ3dmV6ZzNrbjNDRkdQMnplY3JKMXBX?=
- =?iso-2022-jp?B?S0ZicDhSbTNGa3ZMSnliU3F2cXp1amxYMkRlVDNScE1CTGpCSi9yajlZ?=
- =?iso-2022-jp?B?d3hESWhXaU9kbGY3VDRDdVlnUzlvTWxmejljUm1GbUZzS0w4TEtYdTcx?=
- =?iso-2022-jp?B?V0U4UUZGME5sbHBPbjRNRVpJSlQyTjFNeFJqM3ZyUnlFcVdWVDkzTzA2?=
- =?iso-2022-jp?B?NE1Ea2xwTnI2a2FEV0FGOGRXTS9MUlRxc1BkSW1iajBxcjBUamxkWE9Z?=
- =?iso-2022-jp?B?aGpiTVNkcW1UcDZCWVczdlBJemxRSGlSN0trVUFMVW5KV1l5bi9JeWVR?=
- =?iso-2022-jp?B?UjJKUVpQNTRaeDNkdjZHR3owcGNVSG1KVmlOS1F6VnJpQ1Z3NTNvaEht?=
- =?iso-2022-jp?B?WHBQUlZZZUNyeHE1Y2RIOXIwMTQyWWg2djVLZU5rUG1DemhJaGlaV1I5?=
- =?iso-2022-jp?B?SUc1SEpXMWNwMEFxV0JlMmJyOXZ0M1hWMm94TkhpQTgybnhMZVZNdGk3?=
- =?iso-2022-jp?B?RHZ5c2JmTmxSdTR5NUpVMi92ZzZDTExYQXJ3STBlQlVrMnBveWpUd3gy?=
- =?iso-2022-jp?B?QnEwZHdwZEdOOWt6NjRpRHZTRnpEQjBvVWJkVzdWK0ZQdkFyRkgzdEtx?=
- =?iso-2022-jp?B?bitHMGt5aVd6SUVxVWNOaEdFN2V2NUFKYmsvWGVkK3FRTUJya0VPcTNK?=
- =?iso-2022-jp?B?MjlaaXI5Ykg2NUNyVWU2UEtJaVQwcUp5VmNmVFptZmpKNHY0aHh3OXRT?=
- =?iso-2022-jp?B?Uzk3VGtWRnBuNHcvVU9FYi9WTGVlQ0w2cFFJVk5sMlc2VVdZazhHdnJp?=
- =?iso-2022-jp?B?NS9DTzI4d3NLSWJDR2tsOUNrbjZTMGNKTm5iTDA0Rmt5S3FaRDVMQWNE?=
- =?iso-2022-jp?B?bk5sb3FDclpvQklKSWVvTmp5L2RmNE1oVW44SmlwZmVJSXlWVkVOUXg5?=
- =?iso-2022-jp?B?TjV5cXYvVXd5NktyVnovSGdOOUZTSTVCcUdKRy9NanRuaDB5N2x2aW1u?=
- =?iso-2022-jp?B?djNLRlZuaEhpZHdZdDJMaUlwRnc3clgzVEpiWXY3SzRDd1gyUHJ5UlA3?=
- =?iso-2022-jp?B?SUFlYlo0aTRoNVFXaStUZ0R2Smp1VUxibm13cHB3YTUybTZ0OTBWSGxa?=
- =?iso-2022-jp?B?TVlsQmdPT2V5SzFscWhISkFTRCtWMFM5cVY2Tk5mc3dDU3ZmYVhHREda?=
- =?iso-2022-jp?B?bnp4bzJ2RUtQNm9ZSldxZDVDUjFDdkZTMGVjVEdIWVRKT3NnRWlBUlRj?=
- =?iso-2022-jp?B?NFlGN0hUTDhSWHA5d0tBZ0lRN05vWDZWMmd1am0wcUU4R09JYz0=?=
-x-ms-exchange-transport-forked: True
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E068968D
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 16:56:07 +0000 (UTC)
+IronPort-SDR: BqYmyvpFKKYAMCvGu0JRUKu/z+ck5vTrjl3vPVXpcWSLNyHzHFitWZVXFqeWX8V2QeH//WZPip
+ 3LJltm7AyBjA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="154904029"
+X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
+ d="gz'50?scan'50,208,50";a="154904029"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2020 08:56:06 -0800
+IronPort-SDR: Fcyosk9QDR6u50KoRig+BQ3XgG+7fylKwUiOUCBb2fWTIJjbYGIetDA3ldUtD3nZlZH5SSeyc8
+ pAhnfcU/NQ3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
+ d="gz'50?scan'50,208,50";a="369184329"
+Received: from lkp-server02.sh.intel.com (HELO 070e1a605002) ([10.239.97.151])
+ by orsmga008.jf.intel.com with ESMTP; 16 Dec 2020 08:56:01 -0800
+Received: from kbuild by 070e1a605002 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kpa5p-00007f-58; Wed, 16 Dec 2020 16:56:01 +0000
+Date: Thu, 17 Dec 2020 00:55:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
+Subject: Re: [PATCH 2/2] drm/ttm: move memory accounting into vmwgfx
+Message-ID: <202012170026.43wmUEOA-lkp@intel.com>
+References: <20201216140427.1253-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87651090-a410-4a5e-07c4-08d8a1de9274
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2020 16:20:58.3042 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LC932r2C7IhOLBBVCm+7KdfLBPAbMdC54FKr1bn32vjZNweAYa+n1hKeUOc3XyIiQ2NkzEoDIiFLksEfZEj1dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2403
+Content-Type: multipart/mixed; boundary="ReaqsoxgOBHFXBhH"
+Content-Disposition: inline
+In-Reply-To: <20201216140427.1253-2-christian.koenig@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,2818 +54,436 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix <"Xiong, "@ml01.01.org>,
- "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0859490103=="
+Cc: airlied@linux.ie, sroland@vmware.com, ray.huang@amd.com,
+ kbuild-all@lists.01.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0859490103==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_MN2PR12MB44882A2C124F33072EB9F179F7C50MN2PR12MB4488namp_"
 
---_000_MN2PR12MB44882A2C124F33072EB9F179F7C50MN2PR12MB4488namp_
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+--ReaqsoxgOBHFXBhH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[AMD Official Use Only - Internal Distribution Only]
+Hi "Christian,
 
-You can add amd-21.xx as well, since they will coming up next year.  Maybe =
-amd-2*?
+I love your patch! Yet something to improve:
 
-Alex
+[auto build test ERROR on drm-tip/drm-tip]
+[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next linus/master drm/drm-next v5.10 next-20201215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-________________________________
-From: Rong Chen <rong.a.chen@intel.com>
-Sent: Wednesday, December 16, 2020 3:48 AM
-To: Deucher, Alexander <Alexander.Deucher@amd.com>; Qinglang Miao <miaoqing=
-lang@huawei.com>; kernel test robot <lkp@intel.com>
-Cc: kbuild-all@lists.01.org <kbuild-all@lists.01.org>; dri-devel@lists.free=
-desktop.org <dri-devel@lists.freedesktop.org>; Felix <"Xiong, "@ml01.01.org=
->
-Subject: Re: [kbuild-all] Re: [radeon-alex:amd-20.45 2127/2427] drivers/gpu=
-/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39: sparse: sparse:=
- incorrect type in argument 1 (different base types)
+url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/drm-ttm-rework-ttm_tt-page-limit-v2/20201216-221614
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: riscv-rv32_defconfig (attached as .config)
+compiler: riscv32-linux-gcc (GCC) 9.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/b613e371433208f88816be875b9d46b6d24cf830
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Christian-K-nig/drm-ttm-rework-ttm_tt-page-limit-v2/20201216-221614
+        git checkout b613e371433208f88816be875b9d46b6d24cf830
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=riscv 
 
-Hi Alex,
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-We have ignored the amd-20.xx branches:
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.=
-com%2Fintel%2Flkp-tests%2Fcommit%2Facb8d1f213ec6841900e0d7e9737f8ea0960e4d3=
-&amp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d=
-8a19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637437053682479635%7=
-CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwi=
-LCJXVCI6Mn0%3D%7C1000&amp;sdata=3DU2aA%2B31wbSToDkIHiUrJWriNOPNNJ162W3F1HjY=
-G6mc%3D&amp;reserved=3D0
+All errors (new ones prefixed by >>):
 
-Best Regards,
-Rong Chen
+   riscv32-linux-ld: drivers/gpu/drm/ttm/ttm_bo.o: in function `.L114':
+>> ttm_bo.c:(.text+0x62c): undefined reference to `__udivdi3'
 
-On 12/15/20 10:24 PM, Deucher, Alexander wrote:
->
-> [AMD Public Use]
->
->
-> The test robot should probably not be testing the amd-20.xx branches
-> in the first place.  They are just mirrors of our packaged drivers so
-> they contain a bunch of stuff that will never go upstream like kernel
-> compatibility layers and dkms support.
->
-> Alex
->
-> ------------------------------------------------------------------------
-> *From:* Qinglang Miao <miaoqinglang@huawei.com>
-> *Sent:* Tuesday, December 15, 2020 3:21 AM
-> *To:* kernel test robot <lkp@intel.com>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>
-> *Cc:* kbuild-all@lists.01.org <kbuild-all@lists.01.org>;
-> dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>;
-> Xiong, Yang (Felix) <Yang.Xiong@amd.com>
-> *Subject:* Re: [radeon-alex:amd-20.45 2127/2427]
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
-> sparse: sparse: incorrect type in argument 1 (different base types)
-> Hi Alex,
->
-> I think it's not a valid report from kernel test robot, for __le16 ought
-> to be the right type for cpu_to_le16. The sparse warnings seems not
-> right so I did't try effort to reproduce it.
->
-> otherwise, when I take a carful look at this patch, an unconditional
-> braces exists and I'm not sure about its benefit.
->
-> if (bp_params->flags.INTERLACE) {
->                 params.susModeMiscInfo.usAccess =3D
-> cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |
-> ATOM_INTERLACE);
->                 {
-> le16_add_cpu(&params.usV_SyncOffset, 1);
->                 }
-> }
->
-> patch link:
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-kernel.org%2Flkml%2FCADnq5_PunHA1VHHj7VtEHG6o2Z_Z1WS325y_R9xO%2BgsV_JCOXw%4=
-0mail.gmail.com%2F&amp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283=
-fc47a6641db05cd08d8a19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63=
-7437053682489591%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMz=
-IiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DloDpCZcwzSthBMwesVesMIE=
-wtgf%2BGZoycOyTwBpqkfI%3D&amp;reserved=3D0
->
-> How do you think?
->
-> =1B$B:_=1B(B 2020/12/15 14:44, kernel test robot =1B$B<LF;=1B(B:
-> > tree: git://people.freedesktop.org/~agd5f/linux.git amd-20.45
-> > head:   a3950d94b046fb206e58fd3ec717f071c0203ba3
-> > commit: c82b6c9ed412fb7009b02dd82e50ee24f451e9a8 [2127/2427]
-> drm/amd/display: convert to use le16_add_cpu()
-> > config: arc-randconfig-s031-20201214 (attached as .config)
-> > compiler: arc-elf-gcc (GCC) 9.3.0
-> > reproduce:
-> >          wget
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fraw.g=
-ithubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross&amp;d=
-ata=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a19f7=
-d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637437053682489591%7CUnkno=
-wn%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC=
-I6Mn0%3D%7C1000&amp;sdata=3Da6yKdL%2BoYm1zc5fYftUrWwmas%2BOfrTjqpivV14xci1Y=
-%3D&amp;reserved=3D0
-> -O ~/bin/make.cross
-> >          chmod +x ~/bin/make.cross
-> >          # apt-get install sparse
-> >          # sparse version: v0.6.3-184-g1b896707-dirty
-> >          git remote add radeon-alex
-> git://people.freedesktop.org/~agd5f/linux.git
-> >          git fetch --no-tags radeon-alex amd-20.45
-> >          git checkout c82b6c9ed412fb7009b02dd82e50ee24f451e9a8
-> >          # save the attached .config to linux build tree
-> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0
-> make.cross C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Darc
-> >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> >
-> >
-> > "sparse warnings: (new ones prefixed by >>)"
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulSymClock @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulSymClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usRefDiv @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usRefDiv
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usFbDiv @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usFbDiv
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usPixelClock @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usFbDiv @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usFbDiv
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulFbDivDecFrac @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulFbDivDecFrac
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usPixelClock @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usFbDiv @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usFbDiv
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulFbDivDecFrac @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulFbDivDecFrac
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulPixelClock:24 @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulPixelClock:24
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulPixelClock @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumPercentage @@ got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumPercentage
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumPercentage @@ got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumPercentage
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumStep @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumStep
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumAmount @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumAmount
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumAmountFrac @@ got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumAmountFrac
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumStep @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumStep
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usSpreadSpectrumAmount @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usSpreadSpectrumAmount
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [usertype] usPixelClock @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:
-> sparse:     expected unsigned short [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [usertype] usPixelClock
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:
-> sparse:     expected unsigned short [addressable] [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1508:43:
-> sparse: sparse: cast to restricted __le32
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [usertype] usPixelClock @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:
-> sparse:     expected unsigned short [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_Size @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:
-> sparse:     expected unsigned short [assigned] [usertype] usH_Size
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_Blanking_Time
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:
-> sparse:     expected unsigned short [assigned] [usertype]
-> usH_Blanking_Time
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_Size @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:
-> sparse:     expected unsigned short [assigned] [usertype] usV_Size
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_Blanking_Time
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:
-> sparse:     expected unsigned short [assigned] [usertype]
-> usV_Blanking_Time
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_SyncOffset
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:
-> sparse:     expected unsigned short [assigned] [usertype] usH_SyncOffset
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_SyncWidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:
-> sparse:     expected unsigned short [assigned] [usertype] usH_SyncWidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_SyncOffset
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:
-> sparse:     expected unsigned short [assigned] [usertype] usV_SyncOffset
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_SyncWidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:
-> sparse:     expected unsigned short [assigned] [usertype] usV_SyncWidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1855:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1859:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1863:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:
-> sparse:     got restricted __le16 [usertype]
-> >>>
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
-> sparse: sparse: incorrect type in argument 1 (different base types)
-> @@     expected restricted __le16 [usertype] *var @@     got unsigned
-> short * @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
-> sparse:     expected restricted __le16 [usertype] *var
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:
-> sparse:     got unsigned short *
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1886:33:
-> sparse: sparse: cast to restricted __le16
-> >>>
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usAccess @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_Total @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:
-> sparse:     expected unsigned short [assigned] [usertype] usH_Total
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_Disp @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:
-> sparse:     expected unsigned short [assigned] [usertype] usH_Disp
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_SyncStart
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:
-> sparse:     expected unsigned short [assigned] [usertype] usH_SyncStart
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usH_SyncWidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:
-> sparse:     expected unsigned short [assigned] [usertype] usH_SyncWidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_Total @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:
-> sparse:     expected unsigned short [assigned] [usertype] usV_Total
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_Disp @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:
-> sparse:     expected unsigned short [assigned] [usertype] usV_Disp
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_SyncStart
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:
-> sparse:     expected unsigned short [assigned] [usertype] usV_SyncStart
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_SyncWidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:
-> sparse:     expected unsigned short [assigned] [usertype] usV_SyncWidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1776:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1780:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1784:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usV_SyncStart
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:
-> sparse:     expected unsigned short [assigned] [usertype] usV_SyncStart
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1805:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] usAccess @@
-> got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:
-> sparse:     expected unsigned short [assigned] [usertype] usAccess
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> usPixelClock @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulDispEngClkFreq @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulDispEngClkFreq
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2092:44:
-> sparse: sparse: cast to restricted __le32
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [usertype] usConnectorId @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:
-> sparse:     expected unsigned short [usertype] usConnectorId
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [usertype] usPixelClock @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:
-> sparse:     expected unsigned short [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [usertype] usPixelClock @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:
-> sparse:     expected unsigned short [usertype] usPixelClock
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> ulDCEClkFreq @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> ulDCEClkFreq
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2344:53:
-> sparse: sparse: cast to restricted __le32
-> > --
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> pixclk_100hz @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> pixclk_100hz
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] h_size @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:
-> sparse:     expected unsigned short [assigned] [usertype] h_size
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] h_blanking_time
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:
-> sparse:     expected unsigned short [assigned] [usertype] h_blanking_time
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] v_size @@     got
-> restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:
-> sparse:     expected unsigned short [assigned] [usertype] v_size
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] v_blanking_time
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:
-> sparse:     expected unsigned short [assigned] [usertype] v_blanking_time
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] h_syncoffset
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:
-> sparse:     expected unsigned short [assigned] [usertype] h_syncoffset
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] h_syncwidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:
-> sparse:     expected unsigned short [assigned] [usertype] h_syncwidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] v_syncoffset
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:
-> sparse:     expected unsigned short [assigned] [usertype] v_syncoffset
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] v_syncwidth
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:
-> sparse:     expected unsigned short [assigned] [usertype] v_syncwidth
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:544:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] modemiscinfo
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:
-> sparse:     expected unsigned short [assigned] [usertype] modemiscinfo
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:549:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] modemiscinfo
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:
-> sparse:     expected unsigned short [assigned] [usertype] modemiscinfo
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:554:33:
-> sparse: sparse: cast to restricted __le16
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [assigned] [usertype] modemiscinfo
-> @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:
-> sparse:     expected unsigned short [assigned] [usertype] modemiscinfo
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:
-> sparse:     got restricted __le16 [usertype]
-> >>>
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:
-> sparse: sparse: incorrect type in argument 1 (different base types)
-> @@     expected restricted __le16 [usertype] *var @@     got unsigned
-> short * @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:
-> sparse:     expected restricted __le16 [usertype] *var
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:
-> sparse:     got unsigned short *
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:578:25:
-> sparse: sparse: cast to restricted __le16
-> >>>
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned short [addressable] [assigned] [usertype]
-> modemiscinfo @@     got restricted __le16 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:
-> sparse:     expected unsigned short [addressable] [assigned]
-> [usertype] modemiscinfo
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:
-> sparse:     got restricted __le16 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:
-> sparse: sparse: incorrect type in assignment (different base types)
-> @@     expected unsigned int [addressable] [assigned] [usertype]
-> dceclk_10khz @@     got restricted __le32 [usertype] @@
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:
-> sparse:     expected unsigned int [addressable] [assigned] [usertype]
-> dceclk_10khz
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:
-> sparse:     got restricted __le32 [usertype]
-> >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:860:53:
-> sparse: sparse: cast to restricted __le32
-> >
-> > vim +1880 drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c
-> >
-> >    1812
-> >    1813       static enum bp_result set_crtc_using_dtd_timing_v3(
-> >    1814               struct bios_parser *bp,
-> >    1815               struct bp_hw_crtc_timing_parameters *bp_params)
-> >    1816       {
-> >    1817               enum bp_result result =3D BP_RESULT_FAILURE;
-> >    1818 SET_CRTC_USING_DTD_TIMING_PARAMETERS params =3D {0};
-> >    1819               uint8_t atom_controller_id;
-> >    1820
-> >    1821               if (bp->cmd_helper->controller_id_to_atom(
-> >    1822 bp_params->controller_id, &atom_controller_id))
-> >    1823                       params.ucCRTC =3D atom_controller_id;
-> >    1824
-> >    1825               /* bios usH_Size wants h addressable size */
-> >    1826               params.usH_Size =3D
-> cpu_to_le16((uint16_t)bp_params->h_addressable);
-> >    1827               /* bios usH_Blanking_Time wants borders
-> included in blanking */
-> >    1828               params.usH_Blanking_Time =3D
-> >    1829 cpu_to_le16((uint16_t)(bp_params->h_total -
-> bp_params->h_addressable));
-> >    1830               /* bios usV_Size wants v addressable size */
-> >    1831               params.usV_Size =3D
-> cpu_to_le16((uint16_t)bp_params->v_addressable);
-> >    1832               /* bios usV_Blanking_Time wants borders
-> included in blanking */
-> >    1833               params.usV_Blanking_Time =3D
-> >    1834 cpu_to_le16((uint16_t)(bp_params->v_total -
-> bp_params->v_addressable));
-> >    1835               /* bios usHSyncOffset is the offset from the
-> end of h addressable,
-> >    1836                * our horizontalSyncStart is the offset from
-> the beginning
-> >    1837                * of h addressable */
-> >    1838               params.usH_SyncOffset =3D
-> >    1839 cpu_to_le16((uint16_t)(bp_params->h_sync_start -
-> bp_params->h_addressable));
-> >    1840               params.usH_SyncWidth =3D
-> cpu_to_le16((uint16_t)bp_params->h_sync_width);
-> >    1841               /* bios usHSyncOffset is the offset from the
-> end of v addressable,
-> >    1842                * our verticalSyncStart is the offset from
-> the beginning of
-> >    1843                * v addressable */
-> >    1844               params.usV_SyncOffset =3D
-> >    1845 cpu_to_le16((uint16_t)(bp_params->v_sync_start -
-> bp_params->v_addressable));
-> >    1846               params.usV_SyncWidth =3D
-> cpu_to_le16((uint16_t)bp_params->v_sync_width);
-> >    1847
-> >    1848               /* we assume that overscan from original
-> timing does not get bigger
-> >    1849                * than 255
-> >    1850                * we will program all the borders in the Set
-> CRTC Overscan call below
-> >    1851                */
-> >    1852
-> >    1853               if (0 =3D=3D bp_params->flags.HSYNC_POSITIVE_POLA=
-RITY)
-> >    1854 params.susModeMiscInfo.usAccess =3D
-> >    1855 cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |
-> ATOM_HSYNC_POLARITY);
-> >    1856
-> >    1857               if (0 =3D=3D bp_params->flags.VSYNC_POSITIVE_POLA=
-RITY)
-> >    1858 params.susModeMiscInfo.usAccess =3D
-> >    1859 cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |
-> ATOM_VSYNC_POLARITY);
-> >    1860
-> >    1861               if (bp_params->flags.INTERLACE) {
-> >    1862 params.susModeMiscInfo.usAccess =3D
-> >    1863 cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |
-> ATOM_INTERLACE);
-> >    1864
-> >    1865                       /* original DAL code has this
-> condition to apply this
-> >    1866                        * for non-TV/CV only
-> >    1867                        * due to complex MV testing for
-> possible impact
-> >    1868                        * if ( pACParameters->signal !=3D
-> SignalType_YPbPr &&
-> >    1869                        * pACParameters->signal !=3D
-> SignalType_Composite &&
-> >    1870                        * pACParameters->signal !=3D
-> SignalType_SVideo)
-> >    1871                        */
-> >    1872                       {
-> >    1873                               /* HW will deduct 0.5 line
-> from 2nd feild.
-> >    1874                                * i.e. for 1080i, it is 2
-> lines for 1st field,
-> >    1875                                * 2.5 lines for the 2nd
-> feild. we need input as 5
-> >    1876                                * instead of 4.
-> >    1877                                * but it is 4 either from
-> Edid data (spec CEA 861)
-> >    1878                                * or CEA timing table.
-> >    1879                                */
-> >> 1880 le16_add_cpu(&params.usV_SyncOffset, 1);
-> >    1881                       }
-> >    1882               }
-> >    1883
-> >    1884               if (bp_params->flags.HORZ_COUNT_BY_TWO)
-> >> 1885 params.susModeMiscInfo.usAccess =3D
-> >    1886 cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |
-> ATOM_DOUBLE_CLOCK_MODE);
-> >    1887
-> >    1888               if
-> (EXEC_BIOS_CMD_TABLE(SetCRTC_UsingDTDTiming, params))
-> >    1889                       result =3D BP_RESULT_OK;
-> >    1890
-> >    1891               return result;
-> >    1892       }
-> >    1893
-> >
-> > ---
-> > 0-DAY CI Kernel Test Service, Intel Corporation
-> >
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists=
-.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;data=3D04%7C01%=
-7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a19f7d80%7C3dd8961f=
-e4884e608e11a82d994e183d%7C0%7C0%7C637437053682489591%7CUnknown%7CTWFpbGZsb=
-3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C100=
-0&amp;sdata=3D77wRGSBVZ6dkVMjAcmnry563ubX0PkhoC%2BIF3Mw7a%2Bc%3D&amp;reserv=
-ed=3D0
-> >
->
-> _______________________________________________
-> kbuild-all mailing list -- kbuild-all@lists.01.org
-> To unsubscribe send an email to kbuild-all-leave@lists.01.org
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
+--ReaqsoxgOBHFXBhH
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
---_000_MN2PR12MB44882A2C124F33072EB9F179F7C50MN2PR12MB4488namp_
-Content-Type: text/html; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+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
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-2022-=
-jp">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<p style=3D"font-family:Arial;font-size:11pt;color:#0078D7;margin:5pt;" ali=
-gn=3D"Left">
-[AMD Official Use Only - Internal Distribution Only]<br>
-</p>
-<br>
-<div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-You can add amd-21.xx as well, since they will coming up next year.&nbsp; M=
-aybe amd-2*?<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Alex</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Rong Chen &lt;rong.a.=
-chen@intel.com&gt;<br>
-<b>Sent:</b> Wednesday, December 16, 2020 3:48 AM<br>
-<b>To:</b> Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Qinglang M=
-iao &lt;miaoqinglang@huawei.com&gt;; kernel test robot &lt;lkp@intel.com&gt=
-;<br>
-<b>Cc:</b> kbuild-all@lists.01.org &lt;kbuild-all@lists.01.org&gt;; dri-dev=
-el@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt;; Felix &lt=
-;&quot;Xiong, &quot;@ml01.01.org&gt;<br>
-<b>Subject:</b> Re: [kbuild-all] Re: [radeon-alex:amd-20.45 2127/2427] driv=
-ers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39: sparse: =
-sparse: incorrect type in argument 1 (different base types)</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Hi Alex,<br>
-<br>
-We have ignored the amd-20.xx branches:<br>
-<a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
-F%2Fgithub.com%2Fintel%2Flkp-tests%2Fcommit%2Facb8d1f213ec6841900e0d7e9737f=
-8ea0960e4d3&amp;amp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc4=
-7a6641db05cd08d8a19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63743=
-7053682479635%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiL=
-CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DU2aA%2B31wbSToDkIHiUrJ=
-WriNOPNNJ162W3F1HjYG6mc%3D&amp;amp;reserved=3D0">https://nam11.safelinks.pr=
-otection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests%2F=
-commit%2Facb8d1f213ec6841900e0d7e9737f8ea0960e4d3&amp;amp;data=3D04%7C01%7C=
-Alexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a19f7d80%7C3dd8961fe4=
-884e608e11a82d994e183d%7C0%7C0%7C637437053682479635%7CUnknown%7CTWFpbGZsb3d=
-8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&=
-amp;amp;sdata=3DU2aA%2B31wbSToDkIHiUrJWriNOPNNJ162W3F1HjYG6mc%3D&amp;amp;re=
-served=3D0</a><br>
-<br>
-Best Regards,<br>
-Rong Chen<br>
-<br>
-On 12/15/20 10:24 PM, Deucher, Alexander wrote:<br>
-&gt;<br>
-&gt; [AMD Public Use]<br>
-&gt;<br>
-&gt;<br>
-&gt; The test robot should probably not be testing the amd-20.xx branches <=
-br>
-&gt; in the first place.&nbsp; They are just mirrors of our packaged driver=
-s so <br>
-&gt; they contain a bunch of stuff that will never go upstream like kernel =
-<br>
-&gt; compatibility layers and dkms support.<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------------=
---<br>
-&gt; *From:* Qinglang Miao &lt;miaoqinglang@huawei.com&gt;<br>
-&gt; *Sent:* Tuesday, December 15, 2020 3:21 AM<br>
-&gt; *To:* kernel test robot &lt;lkp@intel.com&gt;; Deucher, Alexander <br>
-&gt; &lt;Alexander.Deucher@amd.com&gt;<br>
-&gt; *Cc:* kbuild-all@lists.01.org &lt;kbuild-all@lists.01.org&gt;; <br>
-&gt; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt=
-;; <br>
-&gt; Xiong, Yang (Felix) &lt;Yang.Xiong@amd.com&gt;<br>
-&gt; *Subject:* Re: [radeon-alex:amd-20.45 2127/2427] <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:=
- <br>
-&gt; sparse: sparse: incorrect type in argument 1 (different base types)<br=
->
-&gt; Hi Alex,<br>
-&gt;<br>
-&gt; I think it's not a valid report from kernel test robot, for __le16 oug=
-ht<br>
-&gt; to be the right type for cpu_to_le16. The sparse warnings seems not<br=
->
-&gt; right so I did't try effort to reproduce it.<br>
-&gt;<br>
-&gt; otherwise, when I take a carful look at this patch, an unconditional<b=
-r>
-&gt; braces exists and I'm not sure about its benefit.<br>
-&gt;<br>
-&gt; if (bp_params-&gt;flags.INTERLACE) {<br>
-&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; params.susModeMiscInfo.usAccess =3D<br>
-&gt; cpu_to_le16(le16_to_cpu(params.susModeMiscInfo.usAccess) |<br>
-&gt; ATOM_INTERLACE);<br>
-&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; {<br>
-&gt; le16_add_cpu(&amp;params.usV_SyncOffset, 1);<br>
-&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; }<br>
-&gt; }<br>
-&gt;<br>
-&gt; patch link:<br>
-&gt; <a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Flore.kernel.org%2Flkml%2FCADnq5_PunHA1VHHj7VtEHG6o2Z_Z1WS325y_R9xO=
-%2BgsV_JCOXw%40mail.gmail.com%2F&amp;amp;data=3D04%7C01%7CAlexander.Deucher=
-%40amd.com%7C2f283fc47a6641db05cd08d8a19f7d80%7C3dd8961fe4884e608e11a82d994=
-e183d%7C0%7C0%7C637437053682489591%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAw=
-MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3Dl=
-oDpCZcwzSthBMwesVesMIEwtgf%2BGZoycOyTwBpqkfI%3D&amp;amp;reserved=3D0">
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.ke=
-rnel.org%2Flkml%2FCADnq5_PunHA1VHHj7VtEHG6o2Z_Z1WS325y_R9xO%2BgsV_JCOXw%40m=
-ail.gmail.com%2F&amp;amp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f2=
-83fc47a6641db05cd08d8a19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C=
-637437053682489591%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2lu=
-MzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DloDpCZcwzSthBMwes=
-VesMIEwtgf%2BGZoycOyTwBpqkfI%3D&amp;amp;reserved=3D0</a><br>
-&gt;<br>
-&gt; How do you think?<br>
-&gt;<br>
-&gt; =1B$B:_=1B(B 2020/12/15 14:44, kernel test robot =1B$B<LF;=1B(B:<br>
-&gt; &gt; tree: git://people.freedesktop.org/~agd5f/linux.git amd-20.45<br>
-&gt; &gt; head:&nbsp;&nbsp; a3950d94b046fb206e58fd3ec717f071c0203ba3<br>
-&gt; &gt; commit: c82b6c9ed412fb7009b02dd82e50ee24f451e9a8 [2127/2427] <br>
-&gt; drm/amd/display: convert to use le16_add_cpu()<br>
-&gt; &gt; config: arc-randconfig-s031-20201214 (attached as .config)<br>
-&gt; &gt; compiler: arc-elf-gcc (GCC) 9.3.0<br>
-&gt; &gt; reproduce:<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wget <br>
-&gt; <a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fma=
-ke.cross&amp;amp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc47a6=
-641db05cd08d8a19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63743705=
-3682489591%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJB=
-TiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3Da6yKdL%2BoYm1zc5fYftUrWwm=
-as%2BOfrTjqpivV14xci1Y%3D&amp;amp;reserved=3D0">
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fraw.git=
-hubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%2Fmake.cross&amp;amp=
-;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a19=
-f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637437053682489591%7CUnk=
-nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX=
-VCI6Mn0%3D%7C1000&amp;amp;sdata=3Da6yKdL%2BoYm1zc5fYftUrWwmas%2BOfrTjqpivV1=
-4xci1Y%3D&amp;amp;reserved=3D0</a>
-<br>
-&gt; -O ~/bin/make.cross<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chmod +x ~/=
-bin/make.cross<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # apt-get i=
-nstall sparse<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # sparse ve=
-rsion: v0.6.3-184-g1b896707-dirty<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git remote =
-add radeon-alex <br>
-&gt; git://people.freedesktop.org/~agd5f/linux.git<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git fetch -=
--no-tags radeon-alex amd-20.45<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git checkou=
-t c82b6c9ed412fb7009b02dd82e50ee24f451e9a8<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # save the =
-attached .config to linux build tree<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMPILER_IN=
-STALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 <br>
-&gt; make.cross C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3D=
-arc<br>
-&gt; &gt;<br>
-&gt; &gt; If you fix the issue, kindly add following tag as appropriate<br>
-&gt; &gt; Reported-by: kernel test robot &lt;lkp@intel.com&gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &quot;sparse warnings: (new ones prefixed by &gt;&gt;)&quot;<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43: =
-<br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulSymClock @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]=
- @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulSymClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:879:43: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40: =
-<br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usRefDiv @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @=
-@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usRefDiv<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:956:40: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39: =
-<br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usFbDiv @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@=
-<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usFbDiv<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:958:39: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44: =
-<br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usPixelClock @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usPixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:966:44: =
-<br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usFbDiv @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@=
-<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usFbDiv<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1029:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulFbDivDecFrac @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usert=
-ype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulFbDivDecFrac<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1031:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usPixelClock @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usPixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1044:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usFbDiv @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@=
-<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usFbDiv<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1105:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulFbDivDecFrac @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usert=
-ype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulFbDivDecFrac<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1107:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulPixelClock:24 @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [user=
-type] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulPixelClock:24<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1120:60:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulPixelClock @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulPixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1183:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumPercentage @@ got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumPercentage<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1272:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumPercentage @@ got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumPercentage<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1321:51:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumStep @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 =
-[usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumStep<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1323:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumAmount @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le1=
-6 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumAmount<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1337:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumAmountFrac @@ got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumAmountFrac<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1391:51:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumStep @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 =
-[usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumStep<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1393:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usSpreadSpectrumAmount @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le1=
-6 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usSpreadSpectrumAmount<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1406:47:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usPixelC=
-lock @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usP=
-ixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1465:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [user=
-type] usPixelClock <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[usertype] usPixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1488:36:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1508:43:=
- <br>
-&gt; sparse: sparse: cast to restricted __le32<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usPixelC=
-lock @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usP=
-ixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1583:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_Size @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_Size<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1826:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_Blanking_Time <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] <br>
-&gt; usH_Blanking_Time<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1828:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_Size @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_Size<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1831:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_Blanking_Time <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] <br>
-&gt; usV_Blanking_Time<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1833:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_SyncOffset <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_SyncOffset<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1838:31:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_SyncWidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_SyncWidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1840:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_SyncOffset <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_SyncOffset<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1844:31:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_SyncWidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_SyncWidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1846:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1855:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1854:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1859:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1858:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1863:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1862:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt;&gt;&gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:=
- <br>
-&gt; sparse: sparse: incorrect type in argument 1 (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected restricted __le16 [usertype] *var =
-@@&nbsp;&nbsp;&nbsp;&nbsp; got unsigned <br>
-&gt; short * @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected restricted __le16 [usertype] =
-*var<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1880:39:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got unsigned short *<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1886:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt;&gt;&gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @=
-@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1885:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_Total @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_Total<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1752:26:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_Disp @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_Disp<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1753:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_SyncStart <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_SyncStart<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1754:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usH_SyncWidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usH_SyncWidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1755:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_Total @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_Total<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1756:26:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_Disp @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_Disp<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1757:25:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_SyncStart <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_SyncStart<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1758:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_SyncWidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_SyncWidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1760:30:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1776:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1775:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1780:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1779:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1784:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1783:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usV_SyncStart <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usV_SyncStart<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1799:38:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1805:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] usAccess @@&nbsp;&nbsp;&nbsp;&nbsp; <br>
-&gt; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] usAccess<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:1804:49:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; usPixelClock @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] usPixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2047:40:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulDispEngClkFreq @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [use=
-rtype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulDispEngClkFreq<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2079:44:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2092:44:=
- <br>
-&gt; sparse: sparse: cast to restricted __le32<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usConnec=
-torId @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usC=
-onnectorId<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2174:44:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usPixelC=
-lock @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usP=
-ixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2183:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usPixelC=
-lock @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [usertype] usP=
-ixelClock<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2207:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; ulDCEClkFreq @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; ulDCEClkFreq<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2340:45:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:2344:53:=
- <br>
-&gt; sparse: sparse: cast to restricted __le32<br>
-&gt; &gt; --<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; pixclk_100hz @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; pixclk_100hz<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:413:34:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] h_size @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] h_size<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:509:23:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] h_blanking_time <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] h_blanking_time<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:511:32:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] v_size @@&nbsp;&nbsp;&nbsp;&nbsp; got <br>
-&gt; restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] v_size<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:515:23:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] v_blanking_time <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] v_blanking_time<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:517:32:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] h_syncoffset <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] h_syncoffset<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:524:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] h_syncwidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] h_syncwidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:527:28:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] v_syncoffset <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] v_syncoffset<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:532:29:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] v_syncwidth <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] v_syncwidth<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:535:28:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:544:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] modemiscinfo <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] modemiscinfo<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:543:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:549:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] modemiscinfo <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] modemiscinfo<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:548:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:554:33:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [usertyp=
-e] modemiscinfo <br>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [assigned] [us=
-ertype] modemiscinfo<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:553:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt;&gt;&gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:=
- <br>
-&gt; sparse: sparse: incorrect type in argument 1 (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected restricted __le16 [usertype] *var =
-@@&nbsp;&nbsp;&nbsp;&nbsp; got unsigned <br>
-&gt; short * @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected restricted __le16 [usertype] =
-*var<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:572:39:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got unsigned short *<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:578:25:=
- <br>
-&gt; sparse: sparse: cast to restricted __le16<br>
-&gt; &gt;&gt;&gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] [assi=
-gned] [usertype] <br>
-&gt; modemiscinfo @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned short [addressable] =
-[assigned] <br>
-&gt; [usertype] modemiscinfo<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:577:37:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le16 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:=
- <br>
-&gt; sparse: sparse: incorrect type in assignment (different base types) <b=
-r>
-&gt; @@&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [assign=
-ed] [usertype] <br>
-&gt; dceclk_10khz @@&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertyp=
-e] @@<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; expected unsigned int [addressable] [a=
-ssigned] [usertype] <br>
-&gt; dceclk_10khz<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:851:43:=
- <br>
-&gt; sparse:&nbsp;&nbsp;&nbsp;&nbsp; got restricted __le32 [usertype]<br>
-&gt; &gt; <br>
-&gt; drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table2.c:860:53:=
- <br>
-&gt; sparse: sparse: cast to restricted __le32<br>
-&gt; &gt;<br>
-&gt; &gt; vim +1880 drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_t=
-able.c<br>
-&gt; &gt;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1812<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1813&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; static=
- enum bp_result set_crtc_using_dtd_timing_v3(<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1814&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct bios_parser *bp,<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1815&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct bp_hw_crtc_timing_paramete=
-rs *bp_params)<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1816&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1817&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enum bp_result result =3D BP_RESU=
-LT_FAILURE;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1818 SET_CRTC_USING_DTD_TIMING_PARAMETERS param=
-s =3D {0};<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1819&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uint8_t atom_controller_id;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1820<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1821&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (bp-&gt;cmd_helper-&gt;control=
-ler_id_to_atom(<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1822 bp_params-&gt;controller_id, &amp;atom_con=
-troller_id))<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1823&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; params.ucCRTC =3D atom_controller_id;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1824<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1825&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usH_Size wants h addressa=
-ble size */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1826&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usH_Size =3D <br>
-&gt; cpu_to_le16((uint16_t)bp_params-&gt;h_addressable);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1827&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usH_Blanking_Time wants b=
-orders <br>
-&gt; included in blanking */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1828&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usH_Blanking_Time =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1829 cpu_to_le16((uint16_t)(bp_params-&gt;h_tot=
-al - <br>
-&gt; bp_params-&gt;h_addressable));<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1830&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usV_Size wants v addressa=
-ble size */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1831&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usV_Size =3D <br>
-&gt; cpu_to_le16((uint16_t)bp_params-&gt;v_addressable);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1832&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usV_Blanking_Time wants b=
-orders <br>
-&gt; included in blanking */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1833&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usV_Blanking_Time =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1834 cpu_to_le16((uint16_t)(bp_params-&gt;v_tot=
-al - <br>
-&gt; bp_params-&gt;v_addressable));<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1835&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usHSyncOffset is the offs=
-et from the <br>
-&gt; end of h addressable,<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1836&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * our horizontalSyncStart i=
-s the offset from <br>
-&gt; the beginning<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1837&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * of h addressable */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1838&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usH_SyncOffset =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1839 cpu_to_le16((uint16_t)(bp_params-&gt;h_syn=
-c_start - <br>
-&gt; bp_params-&gt;h_addressable));<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1840&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usH_SyncWidth =3D <br>
-&gt; cpu_to_le16((uint16_t)bp_params-&gt;h_sync_width);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1841&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* bios usHSyncOffset is the offs=
-et from the <br>
-&gt; end of v addressable,<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1842&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * our verticalSyncStart is =
-the offset from <br>
-&gt; the beginning of<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1843&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * v addressable */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1844&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usV_SyncOffset =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1845 cpu_to_le16((uint16_t)(bp_params-&gt;v_syn=
-c_start - <br>
-&gt; bp_params-&gt;v_addressable));<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1846&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params.usV_SyncWidth =3D <br>
-&gt; cpu_to_le16((uint16_t)bp_params-&gt;v_sync_width);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1847<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1848&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* we assume that overscan from o=
-riginal <br>
-&gt; timing does not get bigger<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1849&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * than 255<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1850&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * we will program all the b=
-orders in the Set <br>
-&gt; CRTC Overscan call below<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1851&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1852<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1853&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (0 =3D=3D bp_params-&gt;flags.=
-HSYNC_POSITIVE_POLARITY)<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1854 params.susModeMiscInfo.usAccess =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1855 cpu_to_le16(le16_to_cpu(params.susModeMisc=
-Info.usAccess) | <br>
-&gt; ATOM_HSYNC_POLARITY);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1856<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1857&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (0 =3D=3D bp_params-&gt;flags.=
-VSYNC_POSITIVE_POLARITY)<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1858 params.susModeMiscInfo.usAccess =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1859 cpu_to_le16(le16_to_cpu(params.susModeMisc=
-Info.usAccess) | <br>
-&gt; ATOM_VSYNC_POLARITY);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1860<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1861&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (bp_params-&gt;flags.INTERLACE=
-) {<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1862 params.susModeMiscInfo.usAccess =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1863 cpu_to_le16(le16_to_cpu(params.susModeMisc=
-Info.usAccess) | <br>
-&gt; ATOM_INTERLACE);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1864<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1865&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; /* original DAL code has this <br>
-&gt; condition to apply this<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1866&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; * for non-TV/CV only<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1867&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; * due to complex MV testing for <br>
-&gt; possible impact<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1868&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; * if ( pACParameters-&gt;signal !=3D <br>
-&gt; SignalType_YPbPr &amp;&amp;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1869&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; * pACParameters-&gt;signal !=3D <br>
-&gt; SignalType_Composite &amp;&amp;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1870&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; * pACParameters-&gt;signal !=3D <br>
-&gt; SignalType_SVideo)<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1871&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; */<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1872&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; {<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1873&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* HW will d=
-educt 0.5 line <br>
-&gt; from 2nd feild.<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1874&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * i.e.=
- for 1080i, it is 2 <br>
-&gt; lines for 1st field,<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1875&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * 2.5 =
-lines for the 2nd <br>
-&gt; feild. we need input as 5<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1876&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * inst=
-ead of 4.<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1877&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * but =
-it is 4 either from <br>
-&gt; Edid data (spec CEA 861)<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1878&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * or C=
-EA timing table.<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1879&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-&gt; &gt;&gt; 1880 le16_add_cpu(&amp;params.usV_SyncOffset, 1);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1881&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; }<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1882&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1883<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1884&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (bp_params-&gt;flags.HORZ_COUN=
-T_BY_TWO)<br>
-&gt; &gt;&gt; 1885 params.susModeMiscInfo.usAccess =3D<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1886 cpu_to_le16(le16_to_cpu(params.susModeMisc=
-Info.usAccess) | <br>
-&gt; ATOM_DOUBLE_CLOCK_MODE);<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1887<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1888&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if <br>
-&gt; (EXEC_BIOS_CMD_TABLE(SetCRTC_UsingDTDTiming, params))<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1889&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; result =3D BP_RESULT_OK;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1890<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1891&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return result;<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1892&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &gt;&nbsp;&nbsp;&nbsp; 1893<br>
-&gt; &gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; 0-DAY CI Kernel Test Service, Intel Corporation<br>
-&gt; &gt; <br>
-&gt; <a href=3D"https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Flists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;a=
-mp;data=3D04%7C01%7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a=
-19f7d80%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637437053682489591%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D77wRGSBVZ6dkVMjAcmnry563ubX0PkhoC%2BIF3=
-Mw7a%2Bc%3D&amp;amp;reserved=3D0">
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flists.0=
-1.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;amp;data=3D04%7C0=
-1%7CAlexander.Deucher%40amd.com%7C2f283fc47a6641db05cd08d8a19f7d80%7C3dd896=
-1fe4884e608e11a82d994e183d%7C0%7C0%7C637437053682489591%7CUnknown%7CTWFpbGZ=
-sb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1=
-000&amp;amp;sdata=3D77wRGSBVZ6dkVMjAcmnry563ubX0PkhoC%2BIF3Mw7a%2Bc%3D&amp;=
-amp;reserved=3D0</a><br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; kbuild-all mailing list -- kbuild-all@lists.01.org<br>
-&gt; To unsubscribe send an email to kbuild-all-leave@lists.01.org<br>
-<br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
-
---_000_MN2PR12MB44882A2C124F33072EB9F179F7C50MN2PR12MB4488namp_--
-
---===============0859490103==
+--ReaqsoxgOBHFXBhH
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2951,4 +494,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0859490103==--
+--ReaqsoxgOBHFXBhH--
