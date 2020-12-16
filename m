@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E162DC7CC
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 21:34:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 700A82DC7C9
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 21:34:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC7389A92;
-	Wed, 16 Dec 2020 20:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7002D89A88;
+	Wed, 16 Dec 2020 20:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5CD08995F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 20:33:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB118995F
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 20:33:47 +0000 (UTC)
 Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id C24BC3AA2B4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 20:22:59 +0000 (UTC)
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 591A73AA33D
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 20:23:00 +0000 (UTC)
 X-Originating-IP: 86.247.11.12
 Received: from haruko.lan (lfbn-idf2-1-654-12.w86-247.abo.wanadoo.fr
  [86.247.11.12]) (Authenticated sender: schroder@emersion.fr)
- by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A1AF6240003;
- Wed, 16 Dec 2020 20:22:37 +0000 (UTC)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 30581240008;
+ Wed, 16 Dec 2020 20:22:38 +0000 (UTC)
 From: Simon Ser <contact@emersion.fr>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/8] drm/doc: move composition function docs to new section
-Date: Wed, 16 Dec 2020 21:22:16 +0100
-Message-Id: <20201216202222.48146-3-contact@emersion.fr>
+Subject: [PATCH 3/8] drm/doc: move damage tracking functions to new section
+Date: Wed, 16 Dec 2020 21:22:17 +0100
+Message-Id: <20201216202222.48146-4-contact@emersion.fr>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201216202222.48146-1-contact@emersion.fr>
 References: <20201216202222.48146-1-contact@emersion.fr>
@@ -46,43 +46,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move drm_blend.c function reference from the KMS properties section to
-the plane abstraction section. This makes the KMS properties section
-more readable for user-space developers.
+Move drm_damage_helper function reference from the KMS properties
+section to the plane abstraction section. This makes the KMS
+properties section more readable for user-space developers.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
 ---
- Documentation/gpu/drm-kms.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ Documentation/gpu/drm-kms.rst | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 76cf6acc23a5..3f92d4eb224b 100644
+index 3f92d4eb224b..e6329e7e638e 100644
 --- a/Documentation/gpu/drm-kms.rst
 +++ b/Documentation/gpu/drm-kms.rst
-@@ -370,6 +370,12 @@ Plane Functions Reference
- .. kernel-doc:: drivers/gpu/drm/drm_plane.c
+@@ -376,6 +376,15 @@ Plane Composition Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_blend.c
     :export:
  
-+Plane Composition Functions Reference
-+-------------------------------------
++Plane Damage Tracking Functions Reference
++-----------------------------------------
 +
-+.. kernel-doc:: drivers/gpu/drm/drm_blend.c
++.. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
 +   :export:
++
++.. kernel-doc:: include/drm/drm_damage_helper.h
++   :internal:
 +
  Display Modes Function Reference
  ================================
  
-@@ -472,9 +478,6 @@ Plane Composition Properties
- .. kernel-doc:: drivers/gpu/drm/drm_blend.c
+@@ -484,12 +493,6 @@ Damage Tracking Properties
+ .. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
     :doc: overview
  
--.. kernel-doc:: drivers/gpu/drm/drm_blend.c
+-.. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
 -   :export:
 -
- Damage Tracking Properties
- --------------------------
+-.. kernel-doc:: include/drm/drm_damage_helper.h
+-   :internal:
+-
+ Color Management Properties
+ ---------------------------
  
 -- 
 2.29.2
