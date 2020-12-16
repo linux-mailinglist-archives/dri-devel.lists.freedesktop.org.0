@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F50C2DB94B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 03:44:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC802DB94C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 03:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C112C89B8F;
-	Wed, 16 Dec 2020 02:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E13389B99;
+	Wed, 16 Dec 2020 02:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9739389B8F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 02:44:10 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42A189B99
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 02:44:11 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBC3E2CF;
- Wed, 16 Dec 2020 03:44:08 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63CD945E;
+ Wed, 16 Dec 2020 03:44:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1608086649;
- bh=729x+Cut3pR5QLnelARQY2nfo2Abvi84OdzXytzvDaw=;
- h=From:To:Cc:Subject:Date:From;
- b=Pn6YzwS8bLf0e0S8lm/onEi5jT7h9JbHK3ip3nBU/m2EbzoS5Bm4z7JmEOHXbROE9
- pnfkZ1SunoeG8UrA7boW/gPcw4kJ5hiON/KOSZhwnrwqfHu0ciNscOpZql4lqhSf+l
- NCJZXAIPfoYLlEC8RzDM7Ij7rLoL55V0E328odwg=
+ bh=mobJJVF6fsSKI1EYPdSiuCNcSEbd/WCk+XyW9psheQU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Oskjqw5b5aJPRrs7viDroCTpEEl1aZwpHoH3qnLrXEz/UHmXXYSKlJs9IqEjqGWZ0
+ d7r6IM+9vNWMYsQU3Ea+8fdXJSzy58loDKJzXRVXwthNyB6GWjWw1DXXC3OgWJBB7A
+ n6wKm1mtU6LInyDoR9BjAa+v3hGyPT5SXjxXdbEU=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 01/10] drm: uapi: Use SPDX in DRM core uAPI headers
-Date: Wed, 16 Dec 2020 04:43:50 +0200
-Message-Id: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 02/10] drm: uapi: amd: Use SPDX in DRM drivers uAPI headers
+Date: Wed, 16 Dec 2020 04:43:51 +0200
+Message-Id: <20201216024359.12995-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,127 +44,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM core uAPI headers are licensed under the MIT license, and carry
-copies of the license with slight variations. Replace them with SPDX
-headers.
-
-Following a discussion with Daniel Vetter on this topic, add a
-clarification in the drm-uapi.rst file that independent closed-source
-userspace implementations of software using the DRM uAPI are accepted,
-as allowed by the MIT license.
+The AMD DRM drivers uAPI headers are licensed under the MIT license,
+and carry copies of the license with slight variations. Replace them
+with SPDX headers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- Documentation/gpu/drm-uapi.rst |  4 ++++
- include/uapi/drm/drm.h         | 20 +-------------------
- include/uapi/drm/drm_fourcc.h  | 20 +-------------------
- include/uapi/drm/drm_mode.h    | 19 +------------------
- include/uapi/drm/drm_sarea.h   | 20 +-------------------
- 5 files changed, 8 insertions(+), 75 deletions(-)
+ include/uapi/drm/amdgpu_drm.h | 19 +------------------
+ include/uapi/drm/r128_drm.h   | 20 +-------------------
+ include/uapi/drm/radeon_drm.h | 20 +-------------------
+ 3 files changed, 3 insertions(+), 56 deletions(-)
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 7dce175f6d75..96ea55200f04 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -109,6 +109,10 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
- for the same thing co-existing. If we add a few more complete mistakes into the
- mix every year it would be entirely unmanageable.
- 
-+The DRM subsystem has however no concern with independent closed-source
-+userspace implementations. To officialize that position, the DRM uAPI headers
-+are covered by the MIT license.
-+
- .. _drm_render_node:
- 
- Render nodes
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 808b48a93330..14d57361e580 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
+diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+index 7fb9c09ee93f..8ca36b088d71 100644
+--- a/include/uapi/drm/amdgpu_drm.h
++++ b/include/uapi/drm/amdgpu_drm.h
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: MIT */
- /**
-  * \file drm.h
-  * Header for the Direct Rendering Manager
-@@ -12,25 +13,6 @@
-  * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
-  * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-  * All rights reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
- #ifndef _DRM_H_
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 723c8e23ca87..51e2c8a825a3 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -1,24 +1,6 @@
-+/* SPDX-License-Identifier: MIT */
- /*
-  * Copyright 2011 Intel Corporation
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
- #ifndef DRM_FOURCC_H
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index b49fbf2bdc40..21dfec63b338 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1,27 +1,10 @@
-+/* SPDX-License-Identifier: MIT */
- /*
-  * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
-  * Copyright (c) 2007 Jakob Bornecrantz <wallbraker@gmail.com>
-  * Copyright (c) 2008 Red Hat Inc.
-  * Copyright (c) 2007-2008 Tungsten Graphics, Inc., Cedar Park, TX., USA
-  * Copyright (c) 2007-2008 Intel Corporation
-- *
+ /* amdgpu_drm.h -- Public header for the amdgpu driver -*- linux-c -*-
+  *
+  * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+@@ -5,24 +6,6 @@
+  * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+  * Copyright 2014 Advanced Micro Devices, Inc.
+  *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
@@ -175,28 +89,28 @@ index b49fbf2bdc40..21dfec63b338 100644
 - *
 - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-- * IN THE SOFTWARE.
-  */
- 
- #ifndef _DRM_MODE_H
-diff --git a/include/uapi/drm/drm_sarea.h b/include/uapi/drm/drm_sarea.h
-index a951ced60ebe..1e38d028332d 100644
---- a/include/uapi/drm/drm_sarea.h
-+++ b/include/uapi/drm/drm_sarea.h
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+  * Authors:
+  *    Kevin E. Martin <martin@valinux.com>
+  *    Gareth Hughes <gareth@valinux.com>
+diff --git a/include/uapi/drm/r128_drm.h b/include/uapi/drm/r128_drm.h
+index 690e9c62f510..c426e6a1c843 100644
+--- a/include/uapi/drm/r128_drm.h
++++ b/include/uapi/drm/r128_drm.h
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: MIT */
- /**
-  * \file drm_sarea.h
-  * \brief SAREA definitions
-@@ -8,25 +9,6 @@
- /*
-  * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
-  * All Rights Reserved.
-- *
+ /* r128_drm.h -- Public header for the r128 driver -*- linux-c -*-
+  * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
+  */
+@@ -6,25 +7,6 @@
+  * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+  * All rights reserved.
+  *
 - * Permission is hereby granted, free of charge, to any person obtaining a
 - * copy of this software and associated documentation files (the "Software"),
 - * to deal in the Software without restriction, including without limitation
@@ -211,13 +125,49 @@ index a951ced60ebe..1e38d028332d 100644
 - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-- * OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
- #ifndef _DRM_SAREA_H_
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+  * Authors:
+  *    Gareth Hughes <gareth@valinux.com>
+  *    Kevin E. Martin <martin@valinux.com>
+diff --git a/include/uapi/drm/radeon_drm.h b/include/uapi/drm/radeon_drm.h
+index 490a59cc4532..b5c4ef813a9e 100644
+--- a/include/uapi/drm/radeon_drm.h
++++ b/include/uapi/drm/radeon_drm.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: MIT */
+ /* radeon_drm.h -- Public header for the radeon driver -*- linux-c -*-
+  *
+  * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+@@ -5,25 +6,6 @@
+  * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+  * All rights reserved.
+  *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
+- *
+  * Authors:
+  *    Kevin E. Martin <martin@valinux.com>
+  *    Gareth Hughes <gareth@valinux.com>
 -- 
 Regards,
 
