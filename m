@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B522DC917
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 23:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B5C2DC95A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 00:00:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D289489B45;
-	Wed, 16 Dec 2020 22:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB129892EE;
+	Wed, 16 Dec 2020 23:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A937F89A1F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 22:43:28 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id y17so24677496wrr.10
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:43:28 -0800 (PST)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 103F4892EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 23:00:03 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id y14so2953911oom.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 15:00:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rB2EdrM2t0RedIv24WvrSXv3bTRS05PFCWESMiIY2CA=;
- b=NlT9xrtgyiziwwdMKokPq/insf/1zF5rJzjExOG38p/QhrwFo9GTLApyLCHg+e4foe
- tYj/71LC3g3d7Q3lPNUZFRpuhYlDk5eU9DuX9HECcII9lma//O1vpXpQ8Z6a9xAnKubs
- 6Bjxczqn10WQuw8bqq3xpSeGdWgwWHba2YHHg=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IWusmI5NhIl0SFbE6B0wPRJCn3T0FCZzRcbvSUBaJAI=;
+ b=ZugefJqm9/L0T1riOuMOpzoHU/WaIdRF9h5Ag/EGhIk7Br/0YU54CsJPmit/EaXrj+
+ NzneDWL/vMJyo1SnYpJjGLsPbfU+EPU8pm5R+uXA0TRsqICB8G3CulBskwqg06zczo7R
+ CwfbPpGf4E0HnKfI2Nppq6cAtXK7it5pEiUIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rB2EdrM2t0RedIv24WvrSXv3bTRS05PFCWESMiIY2CA=;
- b=Soz6DbP7TIGliz/aCR/Yqh7q3kFvnE8XqafSjTcNg417Rvew6sXfMBOSEVC4LkJQ4/
- +ZucmsowVdfuLJK9DLqYGr5FqXEmEUMz1bIP8eDk+MGph9KRtdaeg/BnW9X1isWnOfZ0
- +a4269dzjmmikJeyZ9BUf3LUS7oNzjQNMH2AYyYNAuy5NDc7qm5MJ8hVqOHmKjZm9Fc1
- JIP2T+/Xltfj5MYzOb+uzJ9L5nA6D0goZzKbLgB2aZMFjt5068DDe0YPHfqi8HkI5GOU
- +NqVjvpiRFcdpxUjdahfTxqtLKiVYgvga2ja74yCheW+uFGBn4RkNYvcRi/9kybGFIzz
- 9dzw==
-X-Gm-Message-State: AOAM530WYtIVAkmT1jei6S/xDknZyfJ8Ora66MQLXrFZX3bHgZ7JXjft
- MY/C8D8QlWw3fkBipFtD46o5Sg==
-X-Google-Smtp-Source: ABdhPJxCNVg0e2fjjJCb0BcFy8+9ntKlBWaOta/I8xydGIGrrGYj2WPU7R3zExuIeDaZbk/b/jMISA==
-X-Received: by 2002:adf:8b4a:: with SMTP id v10mr40437314wra.212.1608158607001; 
- Wed, 16 Dec 2020 14:43:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v125sm4727853wme.42.2020.12.16.14.43.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 14:43:26 -0800 (PST)
-Date: Wed, 16 Dec 2020 23:43:24 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Bindu Ramamurthy <bindu.r@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 13/17] drm/amd/display: Expose new CRC window property
-Message-ID: <X9qNjIgQI6Z9kmy+@phenom.ffwll.local>
-References: <20201113205645.640981-1-bindu.r@amd.com>
- <20201113205645.640981-14-bindu.r@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IWusmI5NhIl0SFbE6B0wPRJCn3T0FCZzRcbvSUBaJAI=;
+ b=h0OQGQvotqogR1wjZq2jSvuEAwgYUS7pTPVE9EY7hWsFIlHIulAtLW9eCO7ICk3+8V
+ 8A1A5OG5OlSiMSgA5lDHTqEbfsymnkZ3QS601IR50K+LZdc5hgx2Ha9Xf3kRM9DtDIgm
+ GrVa+ZV9Pn7p79GJxwCxvYiqLj7pExsR3umTUuANXZexgMSbsZLduhcV6+u5cSJQ3IYt
+ XY840U2rlu4GPErgPKRXk2p71KaTxNeS8mn79SEM743a8cC64ecgh9u8rYkUjZZ49238
+ he8+ADEUZKXf+01+8oVb8N97gQ4IH7eHRb6HljhKtdAPpEm1m7q1gmb+t664PU1E9T6q
+ CN3w==
+X-Gm-Message-State: AOAM530WiBqe5iW3KdbQDnnXyeZg6OaHSdYiW5J+8PUtGkN2TRCiicO3
+ 8p6wRtb8aySw/UsA2RVVcwNxa8uYb7hWDK21DYykmw==
+X-Google-Smtp-Source: ABdhPJx9MLHVLCPo5nzxO4rA8FBa8o3wLk5WyQ4+ABVARaCOQ9V6yOt9rCbVzHT9WffJaR00UsK1uHPDvtHtlwFYigs=
+X-Received: by 2002:a4a:11c2:: with SMTP id 185mr3944441ooc.85.1608159602221; 
+ Wed, 16 Dec 2020 15:00:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201113205645.640981-14-bindu.r@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20201216192421.18627-1-alexander.deucher@amd.com>
+ <X9qKAiJKs6Lp82ht@phenom.ffwll.local>
+ <CADnq5_Nr2j1y3FunTFt8TSdJP7ZkKCwjnY=5YA0wkj1Pccz3cw@mail.gmail.com>
+In-Reply-To: <CADnq5_Nr2j1y3FunTFt8TSdJP7ZkKCwjnY=5YA0wkj1Pccz3cw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 16 Dec 2020 23:59:51 +0100
+Message-ID: <CAKMK7uHeVb6xokCO4THdVpTVR9R=smJXbvBL7EtM414cPC05_w@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd, radeon drm-fixes-5.11
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,432 +60,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eryk.Brol@amd.com, Sunpeng.Li@amd.com, Bhawanpreet.Lakha@amd.com,
- Qingqing.Zhuo@amd.com, Rodrigo.Siqueira@amd.com, roman.li@amd.com,
- amd-gfx@lists.freedesktop.org, Aurabindo.Pillai@amd.com,
- Wayne Lin <Wayne.Lin@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 13, 2020 at 03:56:41PM -0500, Bindu Ramamurthy wrote:
-> From: Wayne Lin <Wayne.Lin@amd.com>
-> 
-> [Why]
-> Instead of calculating CRC on whole frame, add flexibility to calculate
-> CRC on specific frame region.
-> 
-> [How]
-> Add few crc window coordinate properties. By default, CRC is calculated
-> on whole frame unless user space specifies the CRC calculation window.
-> 
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Acked-by: Bindu Ramamurthy <bindu.r@amd.com>
-
-Already pinged Alex on irc, but here also as a mail.
-
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 142 +++++++++++++++++-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  19 +++
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  43 +++++-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h |   3 +
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c |   3 +
->  5 files changed, 201 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 77c06f999040..f81c49f28bc9 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -943,6 +943,41 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
->  }
->  #endif
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +static int create_crtc_crc_properties(struct amdgpu_display_manager *dm)
-
-Yes it's behind a #ifdef but a) most distros enable this anyway and b)
-it's still a KMS property, so still uapi, i.e.
-- should be discussed on dri-devel
-- needs igt testcases and stuff
-- and real userspace
-
-Drivers adding random kms properties has brought us into a pretty giant
-mess, we need to stop this. That's why we've increased merge criteria for
-these to include an igt and have at least some hopes of a cross-driver
-standard. Also the crc interface is all in debugfs, that's where this
-belongs.
-
-Please fix this before we ship it. Ideally we'd make this a standard part
-so it can be used in igt testcase, but quick fix would be to either revert
-or at least move into debugfs files (we have per-crtc files, so not hard
-to pull off).
-
-If this is for functional safety or whatever the IVI standard for that
-was, then it needs real uapi treatment.
-
-Thanks, Daniel
-
-> +{
-> +	dm->crc_win_x_start_property =
-> +		drm_property_create_range(adev_to_drm(dm->adev),
-> +					  DRM_MODE_PROP_ATOMIC,
-> +					  "AMD_CRC_WIN_X_START", 0, U16_MAX);
-> +	if (!dm->crc_win_x_start_property)
-> +		return -ENOMEM;
-> +
-> +	dm->crc_win_y_start_property =
-> +		drm_property_create_range(adev_to_drm(dm->adev),
-> +					  DRM_MODE_PROP_ATOMIC,
-> +					  "AMD_CRC_WIN_Y_START", 0, U16_MAX);
-> +	if (!dm->crc_win_y_start_property)
-> +		return -ENOMEM;
-> +
-> +	dm->crc_win_x_end_property =
-> +		drm_property_create_range(adev_to_drm(dm->adev),
-> +					  DRM_MODE_PROP_ATOMIC,
-> +					  "AMD_CRC_WIN_X_END", 0, U16_MAX);
-> +	if (!dm->crc_win_x_end_property)
-> +		return -ENOMEM;
-> +
-> +	dm->crc_win_y_end_property =
-> +		drm_property_create_range(adev_to_drm(dm->adev),
-> +					  DRM_MODE_PROP_ATOMIC,
-> +					  "AMD_CRC_WIN_Y_END", 0, U16_MAX);
-> +	if (!dm->crc_win_y_end_property)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +#endif
-> +
->  static int amdgpu_dm_init(struct amdgpu_device *adev)
->  {
->  	struct dc_init_data init_data;
-> @@ -1084,6 +1119,10 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
->  
->  		dc_init_callbacks(adev->dm.dc, &init_params);
->  	}
-> +#endif
-> +#ifdef CONFIG_DEBUG_FS
-> +	if (create_crtc_crc_properties(&adev->dm))
-> +		DRM_ERROR("amdgpu: failed to create crc property.\n");
->  #endif
->  	if (amdgpu_dm_initialize_drm_device(adev)) {
->  		DRM_ERROR(
-> @@ -5409,12 +5448,64 @@ dm_crtc_duplicate_state(struct drm_crtc *crtc)
->  	state->crc_src = cur->crc_src;
->  	state->cm_has_degamma = cur->cm_has_degamma;
->  	state->cm_is_degamma_srgb = cur->cm_is_degamma_srgb;
-> -
-> +#ifdef CONFIG_DEBUG_FS
-> +	state->crc_window = cur->crc_window;
-> +#endif
->  	/* TODO Duplicate dc_stream after objects are stream object is flattened */
->  
->  	return &state->base;
->  }
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +int amdgpu_dm_crtc_atomic_set_property(struct drm_crtc *crtc,
-> +					    struct drm_crtc_state *crtc_state,
-> +					    struct drm_property *property,
-> +					    uint64_t val)
-> +{
-> +	struct drm_device *dev = crtc->dev;
-> +	struct amdgpu_device *adev = drm_to_adev(dev);
-> +	struct dm_crtc_state *dm_new_state =
-> +		to_dm_crtc_state(crtc_state);
-> +
-> +	if (property == adev->dm.crc_win_x_start_property)
-> +		dm_new_state->crc_window.x_start = val;
-> +	else if (property == adev->dm.crc_win_y_start_property)
-> +		dm_new_state->crc_window.y_start = val;
-> +	else if (property == adev->dm.crc_win_x_end_property)
-> +		dm_new_state->crc_window.x_end = val;
-> +	else if (property == adev->dm.crc_win_y_end_property)
-> +		dm_new_state->crc_window.y_end = val;
-> +	else
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +int amdgpu_dm_crtc_atomic_get_property(struct drm_crtc *crtc,
-> +					    const struct drm_crtc_state *state,
-> +					    struct drm_property *property,
-> +					    uint64_t *val)
-> +{
-> +	struct drm_device *dev = crtc->dev;
-> +	struct amdgpu_device *adev = drm_to_adev(dev);
-> +	struct dm_crtc_state *dm_state =
-> +		to_dm_crtc_state(state);
-> +
-> +	if (property == adev->dm.crc_win_x_start_property)
-> +		*val = dm_state->crc_window.x_start;
-> +	else if (property == adev->dm.crc_win_y_start_property)
-> +		*val = dm_state->crc_window.y_start;
-> +	else if (property == adev->dm.crc_win_x_end_property)
-> +		*val = dm_state->crc_window.x_end;
-> +	else if (property == adev->dm.crc_win_y_end_property)
-> +		*val = dm_state->crc_window.y_end;
-> +	else
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +#endif
-> +
->  static inline int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
->  {
->  	enum dc_irq_source irq_source;
-> @@ -5481,6 +5572,10 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
->  	.enable_vblank = dm_enable_vblank,
->  	.disable_vblank = dm_disable_vblank,
->  	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-> +#ifdef CONFIG_DEBUG_FS
-> +	.atomic_set_property = amdgpu_dm_crtc_atomic_set_property,
-> +	.atomic_get_property = amdgpu_dm_crtc_atomic_get_property,
-> +#endif
->  };
->  
->  static enum drm_connector_status
-> @@ -6689,6 +6784,25 @@ static int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +static void attach_crtc_crc_properties(struct amdgpu_display_manager *dm,
-> +				struct amdgpu_crtc *acrtc)
-> +{
-> +	drm_object_attach_property(&acrtc->base.base,
-> +				   dm->crc_win_x_start_property,
-> +				   0);
-> +	drm_object_attach_property(&acrtc->base.base,
-> +				   dm->crc_win_y_start_property,
-> +				   0);
-> +	drm_object_attach_property(&acrtc->base.base,
-> +				   dm->crc_win_x_end_property,
-> +				   0);
-> +	drm_object_attach_property(&acrtc->base.base,
-> +				   dm->crc_win_y_end_property,
-> +				   0);
-> +}
-> +#endif
-> +
->  static int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
->  			       struct drm_plane *plane,
->  			       uint32_t crtc_index)
-> @@ -6736,7 +6850,9 @@ static int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
->  	drm_crtc_enable_color_mgmt(&acrtc->base, MAX_COLOR_LUT_ENTRIES,
->  				   true, MAX_COLOR_LUT_ENTRIES);
->  	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
-> -
-> +#ifdef CONFIG_DEBUG_FS
-> +	attach_crtc_crc_properties(dm, acrtc);
-> +#endif
->  	return 0;
->  
->  fail:
-> @@ -8363,6 +8479,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->  	 */
->  	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
->  		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
-> +		bool configure_crc = false;
->  
->  		dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->  
-> @@ -8372,21 +8489,30 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->  			dc_stream_retain(dm_new_crtc_state->stream);
->  			acrtc->dm_irq_params.stream = dm_new_crtc_state->stream;
->  			manage_dm_interrupts(adev, acrtc, true);
-> -
-> +		}
->  #ifdef CONFIG_DEBUG_FS
-> +		if (new_crtc_state->active &&
-> +			amdgpu_dm_is_valid_crc_source(dm_new_crtc_state->crc_src)) {
->  			/**
->  			 * Frontend may have changed so reapply the CRC capture
->  			 * settings for the stream.
->  			 */
->  			dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
-> +			dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
->  
-> -			if (amdgpu_dm_is_valid_crc_source(dm_new_crtc_state->crc_src)) {
-> -				amdgpu_dm_crtc_configure_crc_source(
-> -					crtc, dm_new_crtc_state,
-> -					dm_new_crtc_state->crc_src);
-> +			if (amdgpu_dm_crc_window_is_default(dm_new_crtc_state)) {
-> +				if (!old_crtc_state->active || drm_atomic_crtc_needs_modeset(new_crtc_state))
-> +					configure_crc = true;
-> +			} else {
-> +				if (amdgpu_dm_crc_window_changed(dm_new_crtc_state, dm_old_crtc_state))
-> +					configure_crc = true;
->  			}
-> -#endif
-> +
-> +			if (configure_crc)
-> +				amdgpu_dm_crtc_configure_crc_source(
-> +					crtc, dm_new_crtc_state, dm_new_crtc_state->crc_src);
->  		}
-> +#endif
->  	}
->  
->  	for_each_new_crtc_in_state(state, crtc, new_crtc_state, j)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index 963a69877455..f2aebbe4d140 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -336,6 +336,13 @@ struct amdgpu_display_manager {
->  	 */
->  	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +	/* set the crc calculation window*/
-> +	struct drm_property *crc_win_x_start_property;
-> +	struct drm_property *crc_win_y_start_property;
-> +	struct drm_property *crc_win_x_end_property;
-> +	struct drm_property *crc_win_y_end_property;
-> +#endif
->  	/**
->  	 * @mst_encoders:
->  	 *
-> @@ -422,6 +429,15 @@ struct dm_plane_state {
->  	struct dc_plane_state *dc_state;
->  };
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +struct crc_rec {
-> +	uint16_t x_start;
-> +	uint16_t y_start;
-> +	uint16_t x_end;
-> +	uint16_t y_end;
-> +	};
-> +#endif
-> +
->  struct dm_crtc_state {
->  	struct drm_crtc_state base;
->  	struct dc_stream_state *stream;
-> @@ -444,6 +460,9 @@ struct dm_crtc_state {
->  	struct dc_info_packet vrr_infopacket;
->  
->  	int abm_level;
-> +#ifdef CONFIG_DEBUG_FS
-> +	struct crc_rec crc_window;
-> +#endif
->  };
->  
->  #define to_dm_crtc_state(x) container_of(x, struct dm_crtc_state, base)
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> index c29dc11619f7..ff6db26626ea 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> @@ -81,6 +81,33 @@ const char *const *amdgpu_dm_crtc_get_crc_sources(struct drm_crtc *crtc,
->  	return pipe_crc_sources;
->  }
->  
-> +bool amdgpu_dm_crc_window_is_default(struct dm_crtc_state *dm_crtc_state)
-> +{
-> +	bool ret = true;
-> +
-> +	if ((dm_crtc_state->crc_window.x_start != 0) ||
-> +		(dm_crtc_state->crc_window.y_start != 0) ||
-> +		(dm_crtc_state->crc_window.x_end != 0) ||
-> +		(dm_crtc_state->crc_window.y_end != 0))
-> +		ret = false;
-> +
-> +	return ret;
-> +}
-> +
-> +bool amdgpu_dm_crc_window_changed(struct dm_crtc_state *dm_new_crtc_state,
-> +					struct dm_crtc_state *dm_old_crtc_state)
-> +{
-> +	bool ret = false;
-> +
-> +	if ((dm_new_crtc_state->crc_window.x_start != dm_old_crtc_state->crc_window.x_start) ||
-> +		(dm_new_crtc_state->crc_window.y_start != dm_old_crtc_state->crc_window.y_start) ||
-> +		(dm_new_crtc_state->crc_window.x_end != dm_old_crtc_state->crc_window.x_end) ||
-> +		(dm_new_crtc_state->crc_window.y_end != dm_old_crtc_state->crc_window.y_end))
-> +		ret = true;
-> +
-> +	return ret;
-> +}
-> +
->  int
->  amdgpu_dm_crtc_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
->  				 size_t *values_cnt)
-> @@ -105,6 +132,7 @@ int amdgpu_dm_crtc_configure_crc_source(struct drm_crtc *crtc,
->  	struct dc_stream_state *stream_state = dm_crtc_state->stream;
->  	bool enable = amdgpu_dm_is_valid_crc_source(source);
->  	int ret = 0;
-> +	struct crc_params *crc_window = NULL, tmp_window;
->  
->  	/* Configuration will be deferred to stream enable. */
->  	if (!stream_state)
-> @@ -114,8 +142,21 @@ int amdgpu_dm_crtc_configure_crc_source(struct drm_crtc *crtc,
->  
->  	/* Enable CRTC CRC generation if necessary. */
->  	if (dm_is_crc_source_crtc(source)) {
-> +		if (!amdgpu_dm_crc_window_is_default(dm_crtc_state)) {
-> +			crc_window = &tmp_window;
-> +
-> +			tmp_window.windowa_x_start = dm_crtc_state->crc_window.x_start;
-> +			tmp_window.windowa_y_start = dm_crtc_state->crc_window.y_start;
-> +			tmp_window.windowa_x_end = dm_crtc_state->crc_window.x_end;
-> +			tmp_window.windowa_y_end = dm_crtc_state->crc_window.y_end;
-> +			tmp_window.windowb_x_start = dm_crtc_state->crc_window.x_start;
-> +			tmp_window.windowb_y_start = dm_crtc_state->crc_window.y_start;
-> +			tmp_window.windowb_x_end = dm_crtc_state->crc_window.x_end;
-> +			tmp_window.windowb_y_end = dm_crtc_state->crc_window.y_end;
-> +		}
-> +
->  		if (!dc_stream_configure_crc(stream_state->ctx->dc,
-> -					     stream_state, NULL, enable, enable)) {
-> +					     stream_state, crc_window, enable, enable)) {
->  			ret = -EINVAL;
->  			goto unlock;
->  		}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-> index f7d731797d3f..0235bfb246e5 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-> @@ -47,6 +47,9 @@ static inline bool amdgpu_dm_is_valid_crc_source(enum amdgpu_dm_pipe_crc_source
->  
->  /* amdgpu_dm_crc.c */
->  #ifdef CONFIG_DEBUG_FS
-> +bool amdgpu_dm_crc_window_is_default(struct dm_crtc_state *dm_crtc_state);
-> +bool amdgpu_dm_crc_window_changed(struct dm_crtc_state *dm_new_crtc_state,
-> +					struct dm_crtc_state *dm_old_crtc_state);
->  int amdgpu_dm_crtc_configure_crc_source(struct drm_crtc *crtc,
->  					struct dm_crtc_state *dm_crtc_state,
->  					enum amdgpu_dm_pipe_crc_source source);
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> index f522b664d3c6..5790affc7d61 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> @@ -3259,6 +3259,9 @@ void core_link_enable_stream(
->  			}
->  		}
->  
-> +#if defined(CONFIG_DRM_AMD_DC_DCN3_0)
-> +#endif
-> +
->  		dc->hwss.enable_audio_stream(pipe_ctx);
->  
->  		/* turn off otg test pattern if enable */
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBEZWMgMTYsIDIwMjAgYXQgMTE6MzkgUE0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hl
+ckBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gV2VkLCBEZWMgMTYsIDIwMjAgYXQgNToyOCBQTSBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IE9uIFdlZCwgRGVj
+IDE2LCAyMDIwIGF0IDAyOjI0OjIwUE0gLTA1MDAsIEFsZXggRGV1Y2hlciB3cm90ZToKPiA+ID4g
+SGkgRGF2ZSwgRGFuaWVsLAo+ID4gPgo+ID4gPiBGaXhlcyBmb3IgNS4xMS4KPiA+ID4KPiA+ID4g
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBiMTA3MzM1MjdiZmQ4NjQ2MDVjMzNh
+YjJlOWE4ODZlZWMzMTdlYzM5Ogo+ID4gPgo+ID4gPiAgIE1lcmdlIHRhZyAnYW1kLWRybS1uZXh0
+LTUuMTEtMjAyMC0xMi0wOScgb2YgZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYv
+bGludXggaW50byBkcm0tbmV4dCAoMjAyMC0xMi0xMCAxNjo1NTo1MyArMTAwMCkKPiA+ID4KPiA+
+ID4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4gPiA+Cj4gPiA+ICAg
+Z2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggdGFncy9hbWQtZHJtLWZp
+eGVzLTUuMTEtMjAyMC0xMi0xNgo+ID4gPgo+ID4gPiBmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMg
+dXAgdG8gNmFlMDlmYTQ5MTQ3ZTU1N2ViNmFlYmJiNWIyMDU5YjYzNzA2ZDQ1NDoKPiA+ID4KPiA+
+ID4gICBkcm0vYW1kZ3B1L2Rpc3BseTogZml4IGRvY3VtZW50YXRpb24gd2FybmluZ3MgaW4gZGlz
+cGxheSBtYW5hZ2VyICgyMDIwLTEyLTE2IDEzOjI3OjE3IC0wNTAwKQo+ID4KPiA+IFRoZXJlJ3Mg
+c29tZSBmaXhlcyBsaW5lIHRoYXQgZ290IG1hbmdsZWQgaW4gYSByZWJhc2UgSSBndWVzczoKPiA+
+Cj4gPiBkaW06IDdlZGVkMDE4YmZlYyAoImRybS9hbWRncHU6IGZpeCByZWdyZXNzaW9uIGluIHZi
+aW9zIHJlc2VydmF0aW9uIGhhbmRsaW5nIG9uIGhlYWRsZXNzIik6IEZpeGVzOiBTSEExIGluIG5v
+dCBwb2ludGluZyBhdCBhbiBhbmNlc3RvcjoKPiA+IGRpbTogICAgIDE1N2ZlNjhkNzRjMmFkICgi
+ZHJtL2FtZGdwdTogZml4IHNpemUgY2FsY3VsYXRpb24gd2l0aCBzdG9sZW4gdmdhIG1lbW9yeSIp
+Cj4gPgo+ID4gSW5zZXJ0IHNvbWUgZHJlYW1pbmcgYWJvdXQgYXV0b21hdGljIGdpdGxhYiBjaGVj
+a2luZyBvZiB0aGlzIHN0dWZmLCBidXQKPiA+IHNpbmNlIHdlJ3JlIHN0aWxsIGluIHRoaXMgcmVh
+bGl0eSBJIGZpZ3VyZWQgbWVoIGFuZCBwdWxsZWQuIEV4cGVjdAo+ID4gaW1taW5lbnQgbmFnIG1h
+aWwgZnJvbSBsaW51eC1uZXh0Lgo+Cj4gSSBjaGVycnktcGlja2VkIHRoZSBwYXRjaCB0byA1LjEw
+IHNpbmNlIGl0IHdhcyBhIGJ1ZyBmaXgsIHNvIHRoYXQgd2FzCj4gdGhlIFNIQTEgSSB1c2VkOgo+
+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRz
+L2xpbnV4LmdpdC9jb21taXQvP2lkPTdlZGVkMDE4YmZlYwo+IEl0IHdhcyBhbHJlYWR5IGluIGRy
+bS1uZXh0IGF0IHRoYXQgcG9pbnQuICBOb3Qgc3VyZSBvZiBhIGdvb2Qgd2F5IHRvCj4gaGFuZGxl
+IHN0YWJsZSBmaXhlcyB3aXRob3V0IGR1cGxpY2F0aW5nIHRoZW0uCgpBaCwgZGltIGNoZWNrcyBm
+b3Igc3RyaWN0IGFuY2VzdG9yIGFuZCBJIG9ubHkgbG9va2VkIGF0IHRoZSBtZXJnZQp3aW5kb3cg
+Y29tbWl0cywgdGhhdCdzIHdoeSBJIGRpZG4ndCBmaW5kIGl0LiBJbiBnZW5lcmFsIGNoZXJyeS1w
+aWNrcwpjb21wbGV0ZWx5IGNvbmZ1c2UgdGhlIHN0YWJsZSB0ZWFtLCBzbyBJIGd1ZXNzIHlvdSBu
+ZWVkIHRvIGV4cGxpY2l0bHkKc3VibWl0IHRoYXQgb25lIHRvbyAoc2luY2UgaXQncyBsYWNraW5n
+IGEgY2M6IHN0YWJsZSkuIEl0J3MgYWxsIGEgbG90Cm1vcmUgYW5ub3lpbmcgY29tcGFyZWQgdG8g
+dXN1YWwgcHJvamVjdHMgd2hlcmUgdGhlIG1haW4gYnJhbmNoIGlzIG9ubHkKZm9yIGRldmVsb3Bt
+ZW50LCBhbmQgbm90IGFsc28gdGhlIHJlbGVhc2UgYnJhbmNoIGxpa2Ugd2l0aCBsaW51eCAtcmMK
+dGFncy4KLURhbmllbAoKPgo+IEFsZXgKPgo+ID4KPiA+IFRoYW5zaywgRGFuaWVsCj4gPgo+ID4g
+Pgo+ID4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCj4gPiA+IGFtZC1kcm0tZml4ZXMtNS4xMS0yMDIwLTEyLTE2Ogo+ID4g
+Pgo+ID4gPiBhbWRncHU6Cj4gPiA+IC0gRml4IGEgZURQIHJlZ3Jlc3Npb24gZm9yIERDRSBhc2lj
+cwo+ID4gPiAtIFNNVSBmaXhlcyBmb3Igc2llbm5hIGNpY2hsaWQKPiA+ID4gLSBNaXNjIFc9MSBm
+aXhlcwo+ID4gPiAtIFNETUEgNS4yIHJlc2V0IGZpeAo+ID4gPiAtIFN1c3BlbmQvcmVzdW1lIGZp
+eAo+ID4gPiAtIE1pc2MgZGlzcGxheSBmaXhlcwo+ID4gPiAtIE1pc2MgcnVudGltZSBQTSBmaXhl
+cyBhbmQgY2xlYW51cHMKPiA+ID4gLSBEaW1ncmV5IENhdmVmaXNoIGZpeGVzCj4gPiA+IC0gcHJp
+bnRrIGNsZWFudXAKPiA+ID4gLSBEb2N1bWVudGF0aW9uIHdhcm5pbmcgZml4ZXMKPiA+ID4KPiA+
+ID4gYW1ka2ZkOgo+ID4gPiAtIEVycm9yIGxvZ2dpbmcgZml4Cj4gPiA+IC0gRml4IHBpcGUgb2Zm
+c2V0IGNhbGN1bGF0aW9uCj4gPiA+Cj4gPiA+IHJhZGVvbjoKPiA+ID4gLSBwcmludGsgY2xlYW51
+cAo+ID4gPgo+ID4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiA+IEFsZXggRGV1Y2hlciAoMTApOgo+ID4gPiAgICAg
+ICBkcm0vYW1kZ3B1L2Rpc3BsYXk6IG1vdmUgbGlua19iYW5kd2lkdGhfa2JwcyB1bmRlciBDT05G
+SUdfRFJNX0FNRF9EQ19EQ04KPiA+ID4gICAgICAgZHJtL2FtZGdwdTogc3BsaXQgQk9DTyBhbmQg
+QVRQWCBoYW5kbGluZwo+ID4gPiAgICAgICBkcm0vYW1kZ3B1OiBhZGQgY2hlY2sgZm9yIEFDUEkg
+cG93ZXIgcmVzb3VyY2VzCj4gPiA+ICAgICAgIGRybS9hbWRncHU6IHVwZGF0ZSBhbWRncHVfZGV2
+aWNlX3N1cHBvcnRzX2JvY28oKQo+ID4gPiAgICAgICBkcm0vYW1kZ3B1OiBzdXBwb3J0IHJ1bnRp
+bWUgcG0gZm9yIEdQVXMgdGhhdCBzdXBwb3J0IEJPQ08KPiA+ID4gICAgICAgZHJtL2FtZGdwdTog
+bm8gbmVlZCB0byBjYWxsIHBjaV9pZ25vcmVfaG90cGx1ZyBmb3IgX1BSMwo+ID4gPiAgICAgICBk
+cm0vYW1kZ3B1OiBzaW1wbGlmeSBsb2dpYyBpbiBhdHB4IHJlc3VtZSBoYW5kbGluZwo+ID4gPiAg
+ICAgICBkcm0vYW1kZ3B1OiBwcmludCB3aGF0IG1ldGhvZCB3ZSBhcmUgdXNpbmcgZm9yIHJ1bnRp
+bWUgcG0KPiA+ID4gICAgICAgZHJtL2FtZGdwdTogZml4IHJlZ3Jlc3Npb24gaW4gdmJpb3MgcmVz
+ZXJ2YXRpb24gaGFuZGxpbmcgb24gaGVhZGxlc3MKPiA+ID4gICAgICAgZHJtL2FtZGdwdS9kaXNw
+bHk6IGZpeCBkb2N1bWVudGF0aW9uIHdhcm5pbmdzIGluIGRpc3BsYXkgbWFuYWdlcgo+ID4gPgo+
+ID4gPiBBbnRob255IEtvbyAoMSk6Cj4gPiA+ICAgICAgIGRybS9hbWQvZGlzcGxheTogW0ZXIFBy
+b21vdGlvbl0gUmVsZWFzZSAwLjAuNDYKPiA+ID4KPiA+ID4gQXJpYyBDeXIgKDQpOgo+ID4gPiAg
+ICAgICBkcm0vYW1kL2Rpc3BsYXk6IEhQIFJldmVyYiBHMiBWUiBmYWlscyB0byBsaWdodCB1cAo+
+ID4gPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IE9ubHkgdXBkYXRlIEZQMiBmb3IgZnVsbCB1cGRh
+dGVzCj4gPiA+ICAgICAgIGRybS9hbWQvZGlzcGxheTogRml4IGNsZWFudXAgdHlwbyBpbiBNUEND
+IHZpc3VhbCBjb25maXJtCj4gPiA+ICAgICAgIGRybS9hbWQvZGlzcGxheTogMy4yLjExNgo+ID4g
+Pgo+ID4gPiBDaHJpc3RpYW4gS8O2bmlnICgxKToKPiA+ID4gICAgICAgZHJtL2FtZGdwdTogbGlt
+aXQgdGhlIGFtZGdwdV92bV91cGRhdGVfcHRlcyB0cmFjZSBwb2ludAo+ID4gPgo+ID4gPiBDb2xp
+biBJYW4gS2luZyAoMSk6Cj4gPiA+ICAgICAgIGRybS9hbWRncHU6IEZpeCBzcGVsbGluZyBtaXN0
+YWtlICJIZXRlcm9nZW5vdXMiIC0+ICJIZXRlcm9nZW5lb3VzIgo+ID4gPgo+ID4gPiBFcmljIEJl
+cm5zdGVpbiAoMSk6Cj4gPiA+ICAgICAgIGRybS9hbWQvZGlzcGxheTogYWRkIGRjbjMwX2xpbmtf
+ZW5jb2Rlcl92YWxpZGF0ZV9vdXRwdXRfd2l0aF9zdHJlYW0gdG8gaGVhZGVyCj4gPiA+Cj4gPiA+
+IEV2YW4gUXVhbiAoMTIpOgo+ID4gPiAgICAgICBkcm0vYW1kL3BtOiBzdXBwb3J0IHBvd2VyIHNv
+dXJjZSBzd2l0Y2ggb24gU2llbm5hIENpY2hsaWQKPiA+ID4gICAgICAgZHJtL2FtZC9wbTogY29y
+cmVjdCBwb3dlciBsaW1pdCBzZXR0aW5nIGZvciBTTVUgVjExCj4gPiA+ICAgICAgIGRybS9hbWQv
+cG06IGNvcnJlY3QgdGhlIGdwbyBjb250cm9sIGZvciBzaWVubmEgY2ljaGxpZAo+ID4gPiAgICAg
+ICBkcm0vYW1kL3BtOiBleHBvc2UgdGhlIGZpcm13YXJlX2NhcGFiaWxpdHkgZnJvbSBmaXJtd2Fy
+ZV9pbmZvIHRhYmxlCj4gPiA+ICAgICAgIGRybS9hbWRncHU6IG5ldyBtYWNybyBmb3IgZGV0ZXJt
+aW5pbmcgMk5EX1VTQjIwUE9SVCBzdXBwb3J0Cj4gPiA+ICAgICAgIGRybS9hbWQvcG06IG5ldyBT
+TUMgbWVzc2FnZSBmb3IgMm5kIHVzYjIuMCBwb3J0IHdvcmthcm91bmQKPiA+ID4gICAgICAgZHJt
+L2FtZC9wbTogZnVsZmlsbCBzaWVubmEgY2ljaGxpZCAybmQgdXNiMi4wIHBvcnQgd29ya2Fyb3Vu
+ZAo+ID4gPiAgICAgICBkcm0vYW1kL3BtOiB0eXBvIGZpeCAoQ1VTVE9NIC0+IENPTVBVVEUpCj4g
+PiA+ICAgICAgIGRybS9hbWQvcG06IGZ1bGZpbGwgdGhlIHNpZW5uYSBjaWNobGlkIFVNRCBQU1RB
+VEUgcHJvZmlsaW5nIGNsb2Nrcwo+ID4gPiAgICAgICBkcm0vYW1kL3BtOiBjb3JyZWN0IHRoZSBk
+YXRhIHN0cnVjdHVyZSBmb3IgYWN0aXZpdHkgbW9uaXRvciBjb2VmZiBleGNoYW5nZQo+ID4gPiAg
+ICAgICBkcm0vYW1kL3BtOiB1cGRhdGUgdGhlIGRhdGEgc3RydWN1dHJlIGZvciBTTVUgbWV0cmlj
+cyBleGNoYW5nZQo+ID4gPiAgICAgICBkcm0vYW1kL3BtOiBhZGQgZGVlcCBzbGVlcCBjb250cm9s
+IGZvciB1Y2xrIGFuZCBmY2xrCj4gPiA+Cj4gPiA+IEZlbGlwZSAoMSk6Cj4gPiA+ICAgICAgIGRy
+bS9hbWQvZGlzcGxheTogRml4IE9HQU0gTFVUIGNhbGN1bGF0aW9uIHByZWNpc2lvbgo+ID4gPgo+
+ID4gPiBGbG9yYSBDdWkgKDEpOgo+ID4gPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IGRyb3AgcmV0
+aXJlZCBDT05GSUdfRFJNX0FNRF9EQ19EQ04zXzAKPiA+ID4KPiA+ID4gSmFrZSBXYW5nICgxKToK
+PiA+ID4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiB1cGRhdGVkIHdtIHRhYmxlIGZvciBSZW5vaXIK
+PiA+ID4KPiA+ID4gSmlhbmdlIFpoYW8gKDEpOgo+ID4gPiAgICAgICBkcm0vYW1kZ3B1L1NSSU9W
+OiBFeHRlbmQgVkYgcmVzZXQgcmVxdWVzdCB3YWl0IHBlcmlvZAo+ID4gPgo+ID4gPiBKaWFuc29u
+ZyBDaGVuICgxKToKPiA+ID4gICAgICAgZHJtL2FtZGtmZDogY29ycmVjdCBwaXBlIG9mZnNldCBj
+YWxjdWxhdGlvbgo+ID4gPgo+ID4gPiBMZW8gKEhhbmdob25nKSBNYSAoMSk6Cj4gPiA+ICAgICAg
+IGRybS9hbWQvZGlzcGxheTogQWRkIERQIGluZm8gZnJhbWUgdXBkYXRlIGZvciBkY24zMAo+ID4g
+Pgo+ID4gPiBMaWt1biBHYW8gKDEpOgo+ID4gPiAgICAgICBkcm0vYW1kZ3B1OiBhZGQganVkZ2Vt
+ZW50IGZvciBzdXNwZW5kL3Jlc3VtZSBzZXF1ZW5jZQo+ID4gPgo+ID4gPiBNYXJ0aW4gTGV1bmcg
+KDEpOgo+ID4gPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IGRlbGF5IGZwMiBwcm9ncmFtbWluZyB1
+bnRpbCB2YWN0aXZlIGJlZm9yZSBsb2NrCj4gPiA+Cj4gPiA+IE1heCBUc2VuZyAoMSk6Cj4gPiA+
+ICAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkIG1pc3NpbmcgRFBfU0VDIHJlZ2lzdGVyIGRlZmlu
+aXRpb25zIGFuZCBtYXNrcwo+ID4gPgo+ID4gPiBSb2RyaWdvIFNpcXVlaXJhICgyKToKPiA+ID4g
+ICAgICAgZHJtL2FtZC9kaXNwbGF5OiBEcm9wIHVubmVjZXNzYXJ5IGZ1bmN0aW9uIGNhbGwKPiA+
+ID4gICAgICAgZHJtL2FtZC9kaXNwbGF5OiBBZGQgZ2V0X2RpZ19mcm9udGVuZCBpbXBsZW1lbnRh
+dGlvbiBmb3IgRENFeAo+ID4gPgo+ID4gPiBTb3VwdGljayBKb2FyZGVyICgyKToKPiA+ID4gICAg
+ICAgZHJtL2FtZC9kaXNwbGF5OiBGaXhlZCBrZXJuZWwgdGVzdCByb2JvdCB3YXJuaW5nCj4gPiA+
+ICAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkaW5nIHByb3RvdHlwZSBmb3IgZGNjZzIxX3VwZGF0
+ZV9kcHBfZHRvKCkKPiA+ID4KPiA+ID4gU3RhbmxleS5ZYW5nICgxKToKPiA+ID4gICAgICAgZHJt
+L2FtZGdwdTogc2tpcCBsb2FkIHNtdSBhbmQgc2RtYSBtaWNyb2NvZGUgb24gc3Jpb3YgZm9yIFNJ
+RU5OQV9DSUNITElECj4gPiA+Cj4gPiA+IFRhbyBaaG91ICgyKToKPiA+ID4gICAgICAgZHJtL2Ft
+ZGdwdTogc2V0IG1vZGUxIHJlc2V0IGFzIGRlZmF1bHQgZm9yIGRpbWdyZXlfY2F2ZWZpc2gKPiA+
+ID4gICAgICAgZHJtL2FtZGdwdTogcHJpbnQgbW1odWIgY2xpZW50IG5hbWUgZm9yIGRpbWdyZXlf
+Y2F2ZWZpc2gKPiA+ID4KPiA+ID4gVG9tIFJpeCAoMik6Cj4gPiA+ICAgICAgIGRybS9hbWRncHU6
+IHJlbW92ZSBoIGZyb20gcHJpbnRrIGZvcm1hdCBzcGVjaWZpZXIKPiA+ID4gICAgICAgZHJtL3Jh
+ZGVvbjogcmVtb3ZlIGggZnJvbSBwcmludGsgZm9ybWF0IHNwZWNpZmllcgo+ID4gPgo+ID4gPiBW
+aWN0b3IgTHUgKDEpOgo+ID4gPiAgICAgICBkcm0vYW1kL2Rpc3BsYXk6IENoYW5nZSBwc3RhdGUg
+ZXhwZWN0ZWQgdGltZW91dCB3YXJuaW5nIHRvIDE4MHVzIG9uIGxpbnV4Cj4gPiA+Cj4gPiA+IFdh
+eW5lIExpbiAoMSk6Cj4gPiA+ICAgICAgIGRybS9hbWQvZGlzcGxheTogRml4IHRvIGJlIGFibGUg
+dG8gc3RvcCBjcmMgY2FsY3VsYXRpb24KPiA+ID4KPiA+ID4gWGlhb21lbmcgSG91ICgzKToKPiA+
+ID4gICAgICAgZHJtL2FtZC9wbTogdXBkYXRlIHRoZSBzbXUgdjExLjUgc21jIGhlYWRlciBmb3Ig
+dmFuZ29naAo+ID4gPiAgICAgICBkcm0vYW1kL3BtOiBpbmZvcm0gU01VIFJMQyBzdGF0dXMgdGh1
+cyBlbmFibGUvZGlzYWJsZSBEUE0gZmVhdHVyZSBmb3IgdmFuZ29naAo+ID4gPiAgICAgICBkcm0v
+YW1kZ3B1L3NkbWE1LjI6IHNvZnQgcmVzZXQgc2RtYSBibG9ja3MgYmVmb3JlIHNldHVwIGFuZCBz
+dGFydCBzZG1hCj4gPiA+Cj4gPiA+IFlpZmFuIFpoYW5nICgxKToKPiA+ID4gICAgICAgZHJtL2Ft
+ZGtmZDogY29ycmVjdCBhbWRncHVfYW1ka2ZkX2dwdXZtX2FsbG9jX21lbW9yeV9vZl9ncHUgbG9n
+Lgo+ID4gPgo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmggICAgICAg
+ICAgICAgICAgfCAgIDYgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9hY3BpLmMgICAgICAgICAgIHwgICA4ICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMgICB8ICAgMiArLQo+ID4gPiAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jICAgICAgICAgfCAgNDMgKystCj4gPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgICAgICAgICAgICB8ICAyMyAr
+LQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dtYy5jICAgICAgICAg
+ICAgfCAgIDkgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMu
+YyAgICAgICAgICAgIHwgIDE3ICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfdHJhY2UuaCAgICAgICAgICB8ICAgNSArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X3V2ZC5jICAgICAgICAgICAgfCAgIDQgKy0KPiA+ID4gIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92Y2UuYyAgICAgICAgICAgIHwgICAyICstCj4gPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdmNuLmMgICAgICAgICAgICB8ICAg
+NCArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbW1odWJfdjJfMC5jICAgICAg
+ICAgICAgfCAgIDEgKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbXhncHVfYWku
+YyAgICAgICAgICAgICAgfCAgMTEgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L214Z3B1X2FpLmggICAgICAgICAgICAgIHwgICAzICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9teGdwdV9udi5jICAgICAgICAgICAgICB8ICAxMSArLQo+ID4gPiAgZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvbXhncHVfbnYuaCAgICAgICAgICAgICAgfCAgIDEgKwo+ID4g
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbnYuYyAgICAgICAgICAgICAgICAgICAgfCAg
+IDEgKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvc2RtYV92NV8yLmMgICAgICAg
+ICAgICAgfCAgNDIgKystCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9LY29uZmln
+ICAgICAgICAgICAgICAgICB8ICAgMiArLQo+ID4gPiAgLi4uL2dwdS9kcm0vYW1kL2FtZGtmZC9r
+ZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuYyAgfCAgIDQgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgIHwgIDI5ICstLQo+ID4gPiAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uaCAgfCAgMjEgKy0K
+PiA+ID4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1fY3JjLmMg
+IHwgIDEzICstCj4gPiA+ICAuLi4vZHJtL2FtZC9kaXNwbGF5L2RjL2Nsa19tZ3IvZGNuMjEvcm5f
+Y2xrX21nci5jICB8ICAxMiArLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
+L2NvcmUvZGMuYyAgICAgICAgICAgfCAgMjAgKysKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9jb3JlL2RjX2xpbmsuYyAgICAgIHwgICAzIC0KPiA+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9kYy9kYy5oICAgICAgICAgICAgICAgIHwgICAyICstCj4gPiA+ICAu
+Li4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2xpbmtfZW5jb2Rlci5jICB8ICA0NCAr
+KystCj4gPiA+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2xpbmtfZW5jb2Rl
+ci5oICB8ICAgMiArCj4gPiA+ICAuLi4vZGlzcGxheS9kYy9kY2UxMjAvZGNlMTIwX3RpbWluZ19n
+ZW5lcmF0b3IuYyAgICB8ICAgMiArLQo+ID4gPiAgLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMv
+ZGNuMTAvZGNuMTBfaHViYnViLmMgICAgfCAgIDYgKy0KPiA+ID4gIC4uLi9kcm0vYW1kL2Rpc3Bs
+YXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyLmMgIHwgICAyICstCj4gPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfb3B0Yy5jICB8ICAxNSArLQo+ID4g
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX29wdGMuaCAgfCAg
+IDIgKy0KPiA+ID4gIC4uLi9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9zdHJlYW1fZW5jb2Rl
+ci5oICAgIHwgICA2ICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24y
+MC9kY24yMF9od3NlcS5jIHwgIDI5ICstLQo+ID4gPiAgLi4uL2FtZC9kaXNwbGF5L2RjL2RjbjIw
+L2RjbjIwX3N0cmVhbV9lbmNvZGVyLmggICAgfCAgIDIgKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJt
+L2FtZC9kaXNwbGF5L2RjL2RjbjIxL2RjbjIxX2RjY2cuaCAgfCAgIDEgKwo+ID4gPiAgLi4uL2Ft
+ZC9kaXNwbGF5L2RjL2RjbjMwL2RjbjMwX2Rpb19saW5rX2VuY29kZXIuYyAgfCAgIDIgKy0KPiA+
+ID4gIC4uLi9hbWQvZGlzcGxheS9kYy9kY24zMC9kY24zMF9kaW9fbGlua19lbmNvZGVyLmggIHwg
+ICA0ICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMC9kY24zMF9o
+d3NlcS5jIHwgICAyICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNu
+MzAvZGNuMzBfb3B0Yy5jICB8ICAgMiArLQo+ID4gPiAgLi4uL2RybS9hbWQvZGlzcGxheS9kYy9p
+bmMvaHcvdGltaW5nX2dlbmVyYXRvci5oICAgfCAgIDIgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvZGlzcGxheS9kbXViL2luYy9kbXViX2NtZC5oICAgIHwgIDYyICsrKy0tCj4gPiA+ICAu
+Li4vZHJtL2FtZC9kaXNwbGF5L21vZHVsZXMvY29sb3IvY29sb3JfZ2FtbWEuYyAgICB8ICAyMiAr
+LQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2F0b21maXJtd2FyZS5oICAgICAg
+ICAgfCAgIDEgKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvYW1kZ3B1X3NtdS5o
+ICAgICAgICAgICAgfCAgIDEgKwo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvc211
+X3R5cGVzLmggICAgICAgICAgICAgfCAgIDQgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+cG0vaW5jL3NtdV92MTFfMF83X3Bwc21jLmggICAgIHwgICA2ICstCj4gPiA+ICBkcml2ZXJzL2dw
+dS9kcm0vYW1kL3BtL2luYy9zbXVfdjExXzVfcHBzbWMuaCAgICAgICB8ICAgMiArLQo+ID4gPiAg
+ZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9hbWRncHVfc211LmMgICAgICAgICAgfCAgMTAg
+Ky0KPiA+ID4gIC4uLi9kcm0vYW1kL3BtL3N3c211L3NtdTExL3NpZW5uYV9jaWNobGlkX3BwdC5j
+ICAgIHwgMjg5ICsrKysrKysrKysrKystLS0tLS0tLQo+ID4gPiAgLi4uL2RybS9hbWQvcG0vc3dz
+bXUvc211MTEvc2llbm5hX2NpY2hsaWRfcHB0LmggICAgfCAgIDQgKwo+ID4gPiAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS9zbXVfdjExXzAuYyAgICAgfCAgNDYgKysrLQo+ID4g
+PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS92YW5nb2doX3BwdC5jICAgfCAg
+IDkgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vc3dzbXUvc211MTEvdmFuZ29naF9w
+cHQuaCAgIHwgICA0ICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3V2ZC5j
+ICAgICAgICAgICAgICAgIHwgICAyICstCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
+ZGVvbl92Y2UuYyAgICAgICAgICAgICAgICB8ICAgMiArLQo+ID4gPiAgNTggZmlsZXMgY2hhbmdl
+ZCwgNjA2IGluc2VydGlvbnMoKyksIDI4MCBkZWxldGlvbnMoLSkKPiA+Cj4gPiAtLQo+ID4gRGFu
+aWVsIFZldHRlcgo+ID4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPiBo
+dHRwOi8vYmxvZy5mZndsbC5jaAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVl
+ciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
