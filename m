@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8542DC24B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:34:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E002DC251
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 15:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F1B89187;
-	Wed, 16 Dec 2020 14:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43CE88984E;
+	Wed, 16 Dec 2020 14:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0216E1D6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:34:38 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id 190so2567513wmz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:34:38 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 168686E1E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 14:35:15 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id d26so10166203wrb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Dec 2020 06:35:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DGlpVVryL/SFznLzFKs15NIbJnqAOGDeF/1pwkEQQ8A=;
- b=kzo1SC2+RjR2ds88uD9dAvkEEYLAg0Qp9yW2XVEbnUfqDJMy8ws35gibmHoYKBtbJv
- iSIEJ6xNkfESdq3U63rkrh6BEv02i5Pexvps22yMve+nXW1B0ClwD9AuqNfNW+XxVUDu
- 5edoeR8LUxwBid3eyjM+5ZvGdAJQoIQd8joA0=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XSQ515YX1lL7SdLjwXSi0+PfZjksYfxwOfIy/7hxa2Q=;
+ b=M855+cec+7hhTRXCte9mdlQBN4qId6bRJgg47Kf/7eMbmLnJEsFDvuRfa4o+Ji2I0t
+ aySnCxp+wx+F02X1ev/kfdgAhk3QKUZ07ZVXjf3ec1S6jK4A7KMKAtEhrxedRRYs7Ycx
+ GhZUsHtxksIj/2Zz+wpjjwcpKQ/0XmrpgexYk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DGlpVVryL/SFznLzFKs15NIbJnqAOGDeF/1pwkEQQ8A=;
- b=lBWrFpzKGSvcoUgsLorN+j+8/Jz9mGfwXAuekwQ12p6nwmbizUXreCRt0dkRhJqfx+
- mNlLeUQ5QGNZOpfsjCJZapbNXsE9vAvkzMm966Xy6Ps9Jzmd8QkEVWaZ+GD8FJj39AlM
- Guvd0iaQBU176fNb2wC2RMA6BEhBvxvJj3YxgF7TUwtLbg8j1cuaZcc28IjQVTH5QiKA
- VT4Z7vBVDiNcVQB5CI4KbbHbgGXvtLk+WB8k6EnEpHp9SYB50SGEEQKs8v+kHybV/RJM
- m5XsK7sYOkw4LPDCSriO+mPDpcqsPT7rXJtLrbEEQvsIvsV8ZzdgsM2lCD9t3zFA4z7q
- srXA==
-X-Gm-Message-State: AOAM531o1pxGkxsTvI2ol/7TwUNO3rOUOjAbz2ENN5XpcTDRXR3DpeFC
- G2ibadpJogr9Lk0cbZAEXox+obZZG0oNyA==
-X-Google-Smtp-Source: ABdhPJwb2WPi8qSfKwo68Zq3nLvVk4QNN8Sfkq95T0u0sqU+DlMfLMI4JF5ijllVvTRsh73dGh+OyQ==
-X-Received: by 2002:a1c:b4c4:: with SMTP id d187mr3683909wmf.38.1608129277492; 
- Wed, 16 Dec 2020 06:34:37 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=XSQ515YX1lL7SdLjwXSi0+PfZjksYfxwOfIy/7hxa2Q=;
+ b=iOz3MjI0qhLnkdaDVY+hDSMj7o5TFHIKRk1gZRy2XizwfpgNk0q3ECgPmz8VpAew1F
+ nGXYeUTWFSd4RxVzkatvapkfD4cUBZIR7BfyRai6V/LirhniqfjwInkuLierKXuiozoC
+ 4hXqF+RBOf8Z102RILO4HoPvbATRqa0gs4WR2QDNBbPjhYFFNupzNCL2RGUWL/NC7ll9
+ mQHu8pDGVRAtxw68zYZsLRXNyU7u8F4QJG9babmVuWUo6xfeTP+NtYX00pY4g17tpqXL
+ j7mYwMCTJ6D7lMM6KfVvePTrR7C/cAIVfuRh1uRSe/b1WoapjVRhNcAlGSy4ksKfsAxP
+ pqNQ==
+X-Gm-Message-State: AOAM532Yc7lVW3+y63TARDzIYvnJfzYMsMQ99aR8L+Lj1AbxHMoOBr+e
+ 55VjRkA/0kHh9AuE78wcfnUvjQ==
+X-Google-Smtp-Source: ABdhPJw6sopHtFhuCuY7z9Og6UwUsCkiLLAibKTKR25cmQkf0cApYj5FT6xFl2X2Mz1oqEAGeg7PSQ==
+X-Received: by 2002:adf:f845:: with SMTP id d5mr20121128wrq.182.1608129313750; 
+ Wed, 16 Dec 2020 06:35:13 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n3sm3368818wrw.61.2020.12.16.06.34.36
+ by smtp.gmail.com with ESMTPSA id 125sm2841371wmc.27.2020.12.16.06.35.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 06:34:36 -0800 (PST)
-Date: Wed, 16 Dec 2020 15:34:35 +0100
+ Wed, 16 Dec 2020 06:35:12 -0800 (PST)
+Date: Wed, 16 Dec 2020 15:35:10 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 01/10] drm: uapi: Use SPDX in DRM core uAPI headers
-Message-ID: <X9oa+8CzHpkwGRSn@phenom.ffwll.local>
-References: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH] MAINTAINERS: Update addresses for TI display drivers
+Message-ID: <X9obHqQ0BBtZaSyz@phenom.ffwll.local>
+Mail-Followup-To: Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
+ jyri.sarha@iki.fi, Sekhar Nori <nsekhar@ti.com>,
+ Nikhil Devshatwar <nikhil.nd@ti.com>, tomba@kernel.org
+References: <20201216075917.17481-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201216075917.17481-1-tomi.valkeinen@ti.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,192 +70,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org
+Cc: tomba@kernel.org, Sekhar Nori <nsekhar@ti.com>,
+ linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org, jyri.sarha@iki.fi,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 16, 2020 at 04:43:50AM +0200, Laurent Pinchart wrote:
-> The DRM core uAPI headers are licensed under the MIT license, and carry
-> copies of the license with slight variations. Replace them with SPDX
-> headers.
+On Wed, Dec 16, 2020 at 09:59:17AM +0200, Tomi Valkeinen wrote:
+> Update the maintainer email addresses for TI display drivers.
 > 
-> Following a discussion with Daniel Vetter on this topic, add a
-> clarification in the drm-uapi.rst file that independent closed-source
-> userspace implementations of software using the DRM uAPI are accepted,
-> as allowed by the MIT license.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-Maybe get and ack from Alex and Dave on this too, just to make sure
-everyone's happy.
--Daniel
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  Documentation/gpu/drm-uapi.rst |  4 ++++
->  include/uapi/drm/drm.h         | 20 +-------------------
->  include/uapi/drm/drm_fourcc.h  | 20 +-------------------
->  include/uapi/drm/drm_mode.h    | 19 +------------------
->  include/uapi/drm/drm_sarea.h   | 20 +-------------------
->  5 files changed, 8 insertions(+), 75 deletions(-)
+>  MAINTAINERS | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 7dce175f6d75..96ea55200f04 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -109,6 +109,10 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
->  for the same thing co-existing. If we add a few more complete mistakes into the
->  mix every year it would be entirely unmanageable.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 281de213ef47..c21471497a18 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5932,8 +5932,8 @@ F:	Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+>  F:	drivers/gpu/drm/stm
 >  
-> +The DRM subsystem has however no concern with independent closed-source
-> +userspace implementations. To officialize that position, the DRM uAPI headers
-> +are covered by the MIT license.
-> +
->  .. _drm_render_node:
+>  DRM DRIVERS FOR TI KEYSTONE
+> -M:	Jyri Sarha <jsarha@ti.com>
+> -M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +M:	Jyri Sarha <jyri.sarha@iki.fi>
+> +M:	Tomi Valkeinen <tomba@kernel.org>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> @@ -5943,15 +5943,15 @@ F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+>  F:	drivers/gpu/drm/tidss/
 >  
->  Render nodes
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 808b48a93330..14d57361e580 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: MIT */
->  /**
->   * \file drm.h
->   * Header for the Direct Rendering Manager
-> @@ -12,25 +13,6 @@
->   * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
->   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
->   * All rights reserved.
-> - *
-> - * Permission is hereby granted, free of charge, to any person obtaining a
-> - * copy of this software and associated documentation files (the "Software"),
-> - * to deal in the Software without restriction, including without limitation
-> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> - * and/or sell copies of the Software, and to permit persons to whom the
-> - * Software is furnished to do so, subject to the following conditions:
-> - *
-> - * The above copyright notice and this permission notice (including the next
-> - * paragraph) shall be included in all copies or substantial portions of the
-> - * Software.
-> - *
-> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> - * OTHER DEALINGS IN THE SOFTWARE.
->   */
+>  DRM DRIVERS FOR TI LCDC
+> -M:	Jyri Sarha <jsarha@ti.com>
+> -R:	Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +M:	Jyri Sarha <jyri.sarha@iki.fi>
+> +R:	Tomi Valkeinen <tomba@kernel.org>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/display/tilcdc/
+>  F:	drivers/gpu/drm/tilcdc/
 >  
->  #ifndef _DRM_H_
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 723c8e23ca87..51e2c8a825a3 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -1,24 +1,6 @@
-> +/* SPDX-License-Identifier: MIT */
->  /*
->   * Copyright 2011 Intel Corporation
-> - *
-> - * Permission is hereby granted, free of charge, to any person obtaining a
-> - * copy of this software and associated documentation files (the "Software"),
-> - * to deal in the Software without restriction, including without limitation
-> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> - * and/or sell copies of the Software, and to permit persons to whom the
-> - * Software is furnished to do so, subject to the following conditions:
-> - *
-> - * The above copyright notice and this permission notice (including the next
-> - * paragraph) shall be included in all copies or substantial portions of the
-> - * Software.
-> - *
-> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> - * OTHER DEALINGS IN THE SOFTWARE.
->   */
->  
->  #ifndef DRM_FOURCC_H
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index b49fbf2bdc40..21dfec63b338 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -1,27 +1,10 @@
-> +/* SPDX-License-Identifier: MIT */
->  /*
->   * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
->   * Copyright (c) 2007 Jakob Bornecrantz <wallbraker@gmail.com>
->   * Copyright (c) 2008 Red Hat Inc.
->   * Copyright (c) 2007-2008 Tungsten Graphics, Inc., Cedar Park, TX., USA
->   * Copyright (c) 2007-2008 Intel Corporation
-> - *
-> - * Permission is hereby granted, free of charge, to any person obtaining a
-> - * copy of this software and associated documentation files (the "Software"),
-> - * to deal in the Software without restriction, including without limitation
-> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> - * and/or sell copies of the Software, and to permit persons to whom the
-> - * Software is furnished to do so, subject to the following conditions:
-> - *
-> - * The above copyright notice and this permission notice shall be included in
-> - * all copies or substantial portions of the Software.
-> - *
-> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> - * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> - * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-> - * IN THE SOFTWARE.
->   */
->  
->  #ifndef _DRM_MODE_H
-> diff --git a/include/uapi/drm/drm_sarea.h b/include/uapi/drm/drm_sarea.h
-> index a951ced60ebe..1e38d028332d 100644
-> --- a/include/uapi/drm/drm_sarea.h
-> +++ b/include/uapi/drm/drm_sarea.h
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: MIT */
->  /**
->   * \file drm_sarea.h
->   * \brief SAREA definitions
-> @@ -8,25 +9,6 @@
->  /*
->   * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
->   * All Rights Reserved.
-> - *
-> - * Permission is hereby granted, free of charge, to any person obtaining a
-> - * copy of this software and associated documentation files (the "Software"),
-> - * to deal in the Software without restriction, including without limitation
-> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> - * and/or sell copies of the Software, and to permit persons to whom the
-> - * Software is furnished to do so, subject to the following conditions:
-> - *
-> - * The above copyright notice and this permission notice (including the next
-> - * paragraph) shall be included in all copies or substantial portions of the
-> - * Software.
-> - *
-> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> - * TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> - * OTHER DEALINGS IN THE SOFTWARE.
->   */
->  
->  #ifndef _DRM_SAREA_H_
+>  DRM DRIVERS FOR TI OMAP
+> -M:	Tomi Valkeinen <tomi.valkeinen@ti.com>
+> +M:	Tomi Valkeinen <tomba@kernel.org>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/display/ti/
 > -- 
-> Regards,
-> 
-> Laurent Pinchart
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 > 
 > _______________________________________________
 > dri-devel mailing list
