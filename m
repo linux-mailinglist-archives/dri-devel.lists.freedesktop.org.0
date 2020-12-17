@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47272DDF93
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184D52DDFB3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:33:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044E989994;
-	Fri, 18 Dec 2020 08:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4EED89B99;
+	Fri, 18 Dec 2020 08:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR01-DB5-obe.outbound.protection.outlook.com
  (mail-eopbgr150085.outbound.protection.outlook.com [40.107.15.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F8A6E22F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:08:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D497E6E22F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:08:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Smx2yu9+J7GBn7MBVPEqfHhZrzaBpGj+ZDz3WRyijbfSXDkcF6mIYWj0/wennWVJsYF/CSNQFwCnlEwTIWO+yDbOzed5G0JEFexMUiJG9bnL28EFFHh/4WA6F4BYUfDgeO+Unv3Fyrt5YqoJUOqukBL6yrLNgcR4xlkDXCbcXWGX7Wm5jMajHtXdpV8jtEHQ//EajiRe6efbZ0DVFDCfUyJD4UOaOTHXgv7IaoFYChd+cW4rrW8xrzyBXgYo7gHMOfzUquxCZNLKns8sJ/mi3Fv7bNonKWsp8cJh1avkIcGFJxJ7CQmBuBhziF1hvrOzUkImkThw1XQVH0XWukrMkw==
+ b=Jeeqc1mxca9P5KjSfySyeZM9BvzLvLtIOqTqRnWykhZ0akwseeIxVZ1zTZbG/lmixcP197Tg6OTqyp07SanRVd6eywhMx2BW+w981LySErHkj/5m1O/IZY1NDwn/21rELUWAH19mhlgQjkMVU3nyidNVcdsWi7YkIkxzQ88UhLftlJEcd6L/OOqO3j6gIEqFOzRaGoau9L9JnC5uXdaJFTnyvC2pHO16/dlsK+Xxqk7IRzJ7m3WRQPI/Jw3YCRYqPxYHKYW+dsx96Jz65MtDOplNqHO12pv71sm9oblLgslcXiXBTBHdrb3Oc9xgyK7yJQyAogBR+R1uWiYF3X4Qhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qzKolXi9qw3ZoHNjHBWPEzanckTPknfoKyOK+LEC9Ro=;
- b=Lf4PIvIZaSfM+GCwxP4UPQFXtHNTie3YKMdE6j1t5BPfGKUrnZ2VkpSxrDFxi9kGss6Se+04Uc9oQuaNnSC5xUgQ7y94F2FO5ZRccrLHEkuJts6gVkN3jZIpckasi91Q+gsf1ebFR54GJrrPY6pApcsjjUfc6UEtHRynbH7YFfQxKowBNhyk+VmWulHMkDTeUAAf+Uo6gtUDdPrq2B9M81yg6PXG9U6sP4UKRLPuJ6c4nbdCiMq/Hy9X+pSWA3qrKx4zkf6a7V1rsCF4aFxSRYOEJGbnsn0LetvNsTeNRla6TB9ywuHcz/DcLlIfXztrIsZbuJQYYjlF4bmDagozMA==
+ bh=HI+Ebi45WdhiJY2d1M40KZF1kYf+MdtNIQ6Q0eAOXHk=;
+ b=MxnBlIOepf3UZRpj5KF98di6/6/u+/esBs0bX6HGF9E4w6sP2Mo+xVWtTnlemAuav1KPMVmelJ3kdbU48mWd2YrBxCMRbhzY2ul5N/kF5yA1gsPSaOr/84wpWfNDeBayDee9cZNd+u8A2bfl0pp+GL5/dy/OzhH44OiL65qIi2gCU3q3ddb5IniS2QGhuJ6PhyigItedY3P8d7aM2+sQiJpsPX1caeB+RWlIgrnEM/Qve8QbuTffNjQIXFiiNhUVuKXBmKUhguXxXmScCC2lD7Zmn0vcQ4dC9XXFy30DP1YXTHWg/cAFlRfhio2eyvJ6VADHXz/m+j9ta39QaSk3XA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qzKolXi9qw3ZoHNjHBWPEzanckTPknfoKyOK+LEC9Ro=;
- b=Wep6mJhzPzxSz0w+XxmVkT6ILSEY9pdxrfP910UoW05MAN+Mohb9L9yoKKYkyuKMhKS/mNYzHftGXibVJ2W43HtaUxoQmKTQvey4bEY24y9F5yYb+YDwistTsGohmot/k86Vl65Tlkus+upt6Z8VpgAGtB7h7En0VcjF/t7FKYY=
+ bh=HI+Ebi45WdhiJY2d1M40KZF1kYf+MdtNIQ6Q0eAOXHk=;
+ b=nb1NrBU05l4DoOZXqjkHheiXTTmvBojXpEZ6w4gi79V0qV15kQJAIsRJB1v2MhjrhB8v2jf1aVZiganW4TUaYxHDQmUxS2Bb9t+vAKg36mDpUAw+Ea3/O02P4u/+9EG6XCjGHnlzvmCTSI+uK8I9p+hW5YMsLEs8SRlFJaK3190=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
@@ -34,19 +34,21 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VE1PR04MB7312.eurprd04.prod.outlook.com (2603:10a6:800:1a5::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.14; Thu, 17 Dec
- 2020 10:08:20 +0000
+ 2020 10:08:26 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
- 10:08:20 +0000
+ 10:08:26 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH 00/14] Add some DRM bridge drivers support for i.MX8qm/qxp SoCs
-Date: Thu, 17 Dec 2020 17:59:19 +0800
-Message-Id: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH 01/14] phy: Add LVDS configuration options
+Date: Thu, 17 Dec 2020 17:59:20 +0800
+Message-Id: <1608199173-28760-2-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
 X-Originating-IP: [119.31.174.66]
 X-ClientProxiedBy: SG2P153CA0012.APCP153.PROD.OUTLOOK.COM (2603:1096::22) To
  VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
@@ -55,48 +57,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2P153CA0012.APCP153.PROD.OUTLOOK.COM (2603:1096::22) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3700.2 via Frontend Transport; Thu, 17 Dec 2020 10:08:14 +0000
+ 15.20.3700.2 via Frontend Transport; Thu, 17 Dec 2020 10:08:20 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b18318c4-05a9-4bdc-39a9-08d8a273ae40
+X-MS-Office365-Filtering-Correlation-Id: 77b17eca-180d-4309-d403-08d8a273b1ee
 X-MS-TrafficTypeDiagnostic: VE1PR04MB7312:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB73120744548B4F764271F48B98C40@VE1PR04MB7312.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <VE1PR04MB731226F88D3D47DA0375026598C40@VE1PR04MB7312.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0zi6jzezgWsUjht6tYpLhdOMU8t65VXdvNQu/Jcx5BrSMwVePtXhFidIPm6kBhHr3ukrprjOOAMCbU4vPphgjihy+qwFOnZxLtU+HNLiHmcH4pmpCnw4FFvMRR0HD8E3s9IMG9MzYRt/MW4qMu0A5ik082npTcBNccabaUAqyW6QT9aTf8rCKGkFQtmid+97NPuDThaoawoFJD6ImU8kT+TucuwUGMOcVjNTLrSyudngofLDJWppfgmY1uymY+B5JD5fDK2CvfUWQvjifUDHzTeI0XWTKPRnajBCbJWFv5OM27IU9hDrwt7WfosHDVvk18ATu5AxmrKMy0Wto7Kv+6oHzQuCAsLi4IiefYuo/7i9SGwAkze73iaJ/zJyzFx6pKivbtR++DBO1v/m6ca4+CZVvmUUo5E/efQJgHXgfU9zvhgHo6sauCNZQF1Y5gWuKFC7+ddRwawqFeuqbS8Pmg==
+X-Microsoft-Antispam-Message-Info: qNvdpCAFvnGW+c9hcj2sDv9waTmrjSxrl+UaMoU8a963NKXtOi7xAXuBRoX74ZK14+G6zeG9SwKaeO2sJ2F8L484/RhZNQnO3txd4AMgAzO01dKNH/MZwN3qpPHs90+SPGZmIgkIPBC++K/TSq5e8sx6MGihHoylLQkmu5PkrnznurzJB1qOjf9u8R2rotmiB1KZO7rbFyPV9E+eebzuINadXrd4NMZqprbsNgRf6r7rTZftt5A6PMlMympJsqN+nXw7X/mHcJuTzyUBQsB3sioqkapBzgB/Nufn3ZM+ElyolB8zLAVwYkdrCc+QqDojbef6dCh+KSna1H5bN1kxa63lpO7b7/oxrhekXI34nRPjcnS2EXeMbZ7098L3g2lS
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(6029001)(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(316002)(86362001)(6486002)(2906002)(8676002)(6506007)(4326008)(52116002)(26005)(16526019)(8936002)(7416002)(478600001)(2616005)(186003)(956004)(83380400001)(966005)(66946007)(5660300002)(6512007)(69590400008)(66476007)(36756003)(66556008);
+ SFS:(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(316002)(86362001)(6486002)(2906002)(8676002)(6506007)(4326008)(52116002)(26005)(16526019)(8936002)(7416002)(478600001)(2616005)(186003)(956004)(83380400001)(66946007)(5660300002)(6512007)(69590400008)(66476007)(36756003)(66556008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?86BKOxhJvCCQrk05/SBHWJChuKWIyJocIEGBfk5C/Z39nxsVR2JBWk9HlIMM?=
- =?us-ascii?Q?sJeaNmdo4FgRf+iVvkUc4AF0F6JML3XnYrcy6z0gl41s334uohn0uZy93stj?=
- =?us-ascii?Q?vmm6T3cWnwdhC9jTbjbCLRtUVrXVTyqUEnnU34W9TcTGX5DJ+nGKdJmK3S72?=
- =?us-ascii?Q?uZ9w2sB2t/fGcsaGcZ8J/R3vVK+3C1SzrZrkPcmg2DYcaBvLKLFXkiJGtcVi?=
- =?us-ascii?Q?2rf/awXhFxIE4XSDxn6Zj1UMRpem6cp9DJUfXi/ePx+/SWKqGOCl4TTj/Jiq?=
- =?us-ascii?Q?x8WKIgNwtb6VE5HgCEZE1asHvY/J8ewIe9j6ToWyfcGVyd4SRUIq4TUEDGlE?=
- =?us-ascii?Q?Rdql12L4MBAXaI1tGp5e8cPzCJO7p9tzQ8xhwqDDxnMuxLfn0qNq0bLYi5Ak?=
- =?us-ascii?Q?CQ4AQBCJc5mmH6iaYsVvrN3CJgI8ZbpH9ia3XkQFQbrPqUcIwuxQOZcLjIv/?=
- =?us-ascii?Q?8j613BYFEm5EIWzvrVfrTbkisioz4cDqn3JVwhntV99xm5goL9lyIxQo3kMK?=
- =?us-ascii?Q?kBBTaHTLX6rterR+57Fa1fVocKBxl+60tfpLmezB5qOhj8DesRwElmXyAF5w?=
- =?us-ascii?Q?QZdcOMbHWhYEMwqkAOoOBOgUMnGXChm7ubN1jJsGuZpr7Cf4dcmld1iYKD/j?=
- =?us-ascii?Q?ZdWYUhuS2XqzpSgMJ1z83nDvT0A2Q41Hba6BVbUYMNWdHxuOeFZQhQ+XZQz9?=
- =?us-ascii?Q?+LdYEwBCq1r7f0SdVq64kk6KIR9x75uXpHL+eWlXUVEucOgKLaVknwuwgGAZ?=
- =?us-ascii?Q?n+5kJmR7HlXTZdvdi1eWUFjVHzBZwmA5YkqpL+ZBnD7CMcS3hQD83J8B3kRm?=
- =?us-ascii?Q?5RfbijPUYNBrGCriev28FwZP1iROIqt+8/+/A2GA3dzg1sBYqjpda8Vici5E?=
- =?us-ascii?Q?hIWuU7fc7S47MjaVHoldUcqbOhkAnherGP1CjvYsi92Jd9/SQRALK7JbNTbW?=
- =?us-ascii?Q?NNp1e4iDK0ZDqkBVdWmp33efHYiQw77DBcTO9M2ExvPOjTR6E12r8tsytZs1?=
- =?us-ascii?Q?HUJM?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zypsYH6mnC1vdBVIbzWMkqHcI+ncy84HKyX/qVpM/Dod2ecNxCjz0RnSq78q?=
+ =?us-ascii?Q?CQpeb+TVdYg3sJwV1MG8BPAa5/1YQsYqWe0Xf2rmB3jHg0mzvVaVd5Gsxhmi?=
+ =?us-ascii?Q?1S/VbrJrVV8tD0Axq+xm1qzV0dW6utrJRtVJWPEPbPcAlwAEEwUM7h7qJbiW?=
+ =?us-ascii?Q?mfpfbPrAcz9WfJ5cw/7io8d7o3nSog6bxMgO/wJ58utpCiT5LIVgpI/6PYck?=
+ =?us-ascii?Q?zpnh7Z/6H64AQ8K/SbygbkLaQzDcJASV3BXw2H58QvYjILdegfxDkyzDHCK5?=
+ =?us-ascii?Q?3z7JXB2R8rnmqAX+EV+mjk9/TxAb20bYZmzZXb9h1gI6Ezrx6pCxyBUaMAmQ?=
+ =?us-ascii?Q?rBGkpakoOCkQf0ZWc1OZ57Yii8zN4GROVfUSHBm09QU9LW0hH3/5mp83iY/n?=
+ =?us-ascii?Q?tb+Ga5PdstFDe4RDiD7mYnFDQ1zTZrCbS1jdJOkUQHo464D2R5dmF+7C2Iir?=
+ =?us-ascii?Q?6jiUyikz0m1DKsFm32r/t9Ftt+X6DYuLffLDvGoJ8WHdoeh+43+rL2r27Ezy?=
+ =?us-ascii?Q?gJE4vmVE/k8Oiyc3KnRnG7eYe2n4vGfH7O7aRz0QzDU3qKDsJJ6aJWiDhcA5?=
+ =?us-ascii?Q?AzmKzV2sZc6n+LH4RHzV06P/tpMpSP771It9DNFdPx8I1n+c5RSvYrAAp/CF?=
+ =?us-ascii?Q?i85H5GB4Sh3jjVIN8O7gkk6xQ8pHrX9SkcwddPik8HV/xjspxADue0fEXXqY?=
+ =?us-ascii?Q?bIIR8S4GN2G5OA6oMb5QegLHNmhbLAevp2GnhmlD7ZHiARAGgxE2uK2jbUal?=
+ =?us-ascii?Q?P0bKxA0bgOZK7S8sicuKko2P6EUfS2dFjTrH3b1IRBhWVTFcZNzV0kj/cDxQ?=
+ =?us-ascii?Q?NTXHrJKGRGk9PXdKJcSV8Lv1ZGMSq+z2CES7WuDMCxjBpUL8DbH90nf22TWq?=
+ =?us-ascii?Q?/Afz6It/xVeBG8+x7+ZmCkyeBHZ8mu2Z6EO5OQTkpU3qzxODAsAHg8C1cdtx?=
+ =?us-ascii?Q?Q/lm3lqAO6CYWhaWXs2OSVQcl6+sGTLN3qIdO19xaKzs92bwI7ayWAAdhgkW?=
+ =?us-ascii?Q?5lxj?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 10:08:20.0039 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 10:08:26.1953 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: b18318c4-05a9-4bdc-39a9-08d8a273ae40
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77b17eca-180d-4309-d403-08d8a273b1ee
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y1g4ZDiTmuN5kXGRlkI0WHD2rgYePBCOC+UO2tzI5uDBnAkZv03ifLwlR8emzib/cqn1+wf4iP8OINJhBe/1Yw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: IXOc55oIV0pOlboZwotaQz8mLo/xnebcCP0+YF433kAb72PKrVtkDyX0WXg1hcwRhxQnNapdmwhkHiFU6dwQVg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7312
 X-Mailman-Approved-At: Fri, 18 Dec 2020 08:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,97 +122,104 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patch allows LVDS PHYs to be configured through
+the generic functions and through a custom structure
+added to the generic union.
 
-This series adds some DRM bridge drivers support for i.MX8qm/qxp SoCs.
+The parameters added here are based on common LVDS PHY
+implementation practices.  The set of parameters
+should cover all potential users.
 
-The bridges may chain one by one to form display pipes to support
-LVDS displays.  The relevant display controller is DPU embedded in
-i.MX8qm/qxp SoCs.
-
-The DPU KMS driver can be found at:
-https://www.spinics.net/lists/arm-kernel/msg862106.html
-
-This series supports the following display pipes:
-1) i.MX8qxp:
-prefetch eng -> DPU -> pixel combiner -> pixel link ->
-pixel link to DPI(PXL2DPI) -> LVDS display bridge(LDB)
-
-2) i.MX8qm:
-prefetch eng -> DPU -> pixel combiner -> pixel link -> LVDS display bridge(LDB)
-
-
-Patch 1/14 adds LVDS PHY configuration options, which has already been sent
-with the following series to add Mixel combo PHY found in i.MX8qxp:
-https://www.spinics.net/lists/arm-kernel/msg862560.html
-
-Patch 2/14 and 3/14 add bus formats used by PXL2DPI.
-
-Patch 4/14 ~ 13/14 add drm bridge drivers and dt-bindings support for the bridges.
-
-Patch 14/14 updates MAINTAINERS.
-
-
-I've tested this series with a koe,tx26d202vm0bwa dual link LVDS panel and
-a LVDS to HDMI bridge(with a downstream drm bridge driver).
-
-
-Welcome comments, thanks.
-
-Liu Ying (14):
-  phy: Add LVDS configuration options
-  media: uapi: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
-  media: docs: Add some RGB bus formats for i.MX8qm/qxp pixel combiner
-  dt-bindings: display: bridge: Add i.MX8qm/qxp pixel combiner binding
-  drm/bridge: imx: Add i.MX8qm/qxp pixel combiner support
-  dt-bindings: display: bridge: Add i.MX8qm/qxp display pixel link
-    binding
-  drm/bridge: imx: Add i.MX8qm/qxp display pixel link support
-  dt-bindings: display: bridge: Add i.MX8qxp pixel link to DPI binding
-  drm/bridge: imx: Add i.MX8qxp pixel link to DPI support
-  drm/bridge: imx: Add LDB driver helper support
-  dt-bindings: display: bridge: Add i.MX8qm/qxp LVDS display bridge
-    binding
-  drm/bridge: imx: Add LDB support for i.MX8qxp
-  drm/bridge: imx: Add LDB support for i.MX8qm
-  MAINTAINERS: add maintainer for DRM bridge drivers for i.MX SoCs
-
- .../bindings/display/bridge/fsl,imx8qxp-ldb.yaml   | 185 +++++
- .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++
- .../display/bridge/fsl,imx8qxp-pixel-link.yaml     | 128 ++++
- .../display/bridge/fsl,imx8qxp-pxl2dpi.yaml        | 134 ++++
- .../userspace-api/media/v4l/subdev-formats.rst     | 156 +++++
- MAINTAINERS                                        |  10 +
- drivers/gpu/drm/bridge/Kconfig                     |   2 +
- drivers/gpu/drm/bridge/Makefile                    |   1 +
- drivers/gpu/drm/bridge/imx/Kconfig                 |  52 ++
- drivers/gpu/drm/bridge/imx/Makefile                |   6 +
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c        | 248 +++++++
- drivers/gpu/drm/bridge/imx/imx8qm-ldb.c            | 589 ++++++++++++++++
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           | 762 +++++++++++++++++++++
- .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    | 452 ++++++++++++
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    | 411 +++++++++++
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       | 494 +++++++++++++
- include/drm/bridge/imx_ldb_helper.h                |  98 +++
- include/linux/phy/phy-lvds.h                       |  48 ++
- include/linux/phy/phy.h                            |   4 +
- include/uapi/linux/media-bus-format.h              |   6 +-
- 20 files changed, 3945 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
- create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
- create mode 100644 drivers/gpu/drm/bridge/imx/Kconfig
- create mode 100644 drivers/gpu/drm/bridge/imx/Makefile
- create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qm-ldb.c
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
- create mode 100644 include/drm/bridge/imx_ldb_helper.h
+Cc: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ include/linux/phy/phy-lvds.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/phy/phy.h      |  4 ++++
+ 2 files changed, 52 insertions(+)
  create mode 100644 include/linux/phy/phy-lvds.h
 
+diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-lvds.h
+new file mode 100644
+index 00000000..1b5b9d6
+--- /dev/null
++++ b/include/linux/phy/phy-lvds.h
+@@ -0,0 +1,48 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright 2020 NXP
++ */
++
++#ifndef __PHY_LVDS_H_
++#define __PHY_LVDS_H_
++
++/**
++ * struct phy_configure_opts_lvds - LVDS configuration set
++ *
++ * This structure is used to represent the configuration state of a
++ * LVDS phy.
++ */
++struct phy_configure_opts_lvds {
++	/**
++	 * @bits_per_lane_and_dclk_cycle:
++	 *
++	 * Number of bits per data lane and differential clock cycle.
++	 */
++	unsigned int bits_per_lane_and_dclk_cycle;
++
++	/**
++	 * @differential_clk_rate:
++	 *
++	 * Clock rate, in Hertz, of the LVDS differential clock.
++	 */
++	unsigned long differential_clk_rate;
++
++	/**
++	 * @lanes:
++	 *
++	 * Number of active, consecutive, data lanes, starting from
++	 * lane 0, used for the transmissions.
++	 */
++	unsigned int lanes;
++
++	/**
++	 * @is_slave:
++	 *
++	 * Boolean, true if the phy is a slave which works together
++	 * with a master phy to support dual link transmission,
++	 * otherwise a regular phy or a master phy.
++	 */
++	bool is_slave;
++};
++
++#endif /* __PHY_LVDS_H_ */
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index e435bdb..d450b44 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -17,6 +17,7 @@
+ #include <linux/regulator/consumer.h>
+ 
+ #include <linux/phy/phy-dp.h>
++#include <linux/phy/phy-lvds.h>
+ #include <linux/phy/phy-mipi-dphy.h>
+ 
+ struct phy;
+@@ -51,10 +52,13 @@ enum phy_mode {
+  *		the MIPI_DPHY phy mode.
+  * @dp:		Configuration set applicable for phys supporting
+  *		the DisplayPort protocol.
++ * @lvds:	Configuration set applicable for phys supporting
++ *		the LVDS phy mode.
+  */
+ union phy_configure_opts {
+ 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
+ 	struct phy_configure_opts_dp		dp;
++	struct phy_configure_opts_lvds		lvds;
+ };
+ 
+ /**
 -- 
 2.7.4
 
