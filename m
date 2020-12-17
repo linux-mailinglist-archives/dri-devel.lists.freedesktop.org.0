@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F7C2DDFAC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA5A2DDF9A
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994C889B12;
-	Fri, 18 Dec 2020 08:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFEB9899FF;
+	Fri, 18 Dec 2020 08:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D456E20C
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:56 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id o17so56902562lfg.4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:56 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4E26E20C
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:57 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id m25so59782162lfc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G4bkjkogJjxhucwk91y1cMW03U1PPlta2j9gVHq9Ll8=;
- b=rCQoU2/mmvaocNvlxnid7FO29LSc024mSugBl0tdXdcytFbXH2gOlnpwvt8N+30PAg
- yb7ttQI7FzhzKZR924B0d/3R9LNPoRgpBoGk0IOcVJPsgsWCQsxmEeE2TiSNUf6U2zEk
- UAcyUD0vHfvlRRaoHCc/jZeM8FZ6u+jxT5WvXS4q07C3L49UI1+T4YyeAM47/km2IUMY
- +h1CezyjEzhVg+SazrlVF4o2uUgbBVRUzc6A6H4zBIs3ZtIXUR4lCvTjP1X8Ma8ljpX9
- s1nx5sADEfu0hG1dR8Px9QD2KFwkR1jqfRP1a8gQc0nLBI4Jl41CHBYNpt0S5HTVpgKO
- Zxqw==
+ bh=fSZsRiGPvHGJIz6xJlgckAslhA5OFM73ksRI6N0tMp8=;
+ b=SSoEYbrUwVJbokD0g4aSzGVYzLoo1djMf+cHRF3oOgvVkRsaWrJwLXOGc1Knrvyr2b
+ DccdRAu+d9A30rBsNq3HLE/rNpNr0GG4xKc2ooNJwfpBmtfYY+dGZ9BLgDO2hcQwbkQG
+ rXzxRMKTFSZKzYsIEed00E27YBtkPCV4TOn5X9DJcHeUL9pXdXFYknghO/xNHPz4rMWo
+ rB/lPKZ/8U/R+0rZ1sD8Ymr0KEa7psFmm90SDWEFYmQBORfcp6PW/3yqIrrv1GwaM5xE
+ QGrA+T06WrScibZOe5YvM37aDkOkS9W/PBNg3YGpvJL7KL+MdBsD6/7F3QUSo2XmXgP8
+ hxcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=G4bkjkogJjxhucwk91y1cMW03U1PPlta2j9gVHq9Ll8=;
- b=jUlQoW1Cdn05jJ1x7NzrG0RkD27chSnaze8lW2t5LFTIYC0DMGQ9P5mqQp1dc2WNJ6
- RFhl25Ods3yimPrQY8YL8qOVu0tOj3KpwDJ+ABPEB9d3WsKXTixhj3AuRw6EAGaJme33
- 6PDPEZC/3DbUOr+G37onhJX9q/8GDQoCxRo0OAt43h0vj0BxlIonjDPsM6iFBBeCluuK
- Ge78MmzzIG639Ey80jUf+YxRJhrFAzHF7g/Qzxx38sjIuv4AmvQ3ZY2FgJSDvay85Nbm
- 422GECnZ5NfuqXScldghvLs0WHG3zdGerZe/+NaxqoDMIbdEvjEYMPefMUmWdrP1lYQl
- RCAg==
-X-Gm-Message-State: AOAM530a23H/4e1rcFkRLeisl6zAKO5FCwTHHpCGxVTtL0M6idpa0gwR
- sMxEk00aGaegDz7dCZ9OF4M=
-X-Google-Smtp-Source: ABdhPJyqYsSi5e5FbU0bmUx3znLJH35GGikhngE/ppL8K7VwQ0KK0y3SqjiWzxI9i0uAFK/MRB0qlg==
-X-Received: by 2002:a2e:9b4d:: with SMTP id o13mr200509ljj.163.1608228474656; 
- Thu, 17 Dec 2020 10:07:54 -0800 (PST)
+ bh=fSZsRiGPvHGJIz6xJlgckAslhA5OFM73ksRI6N0tMp8=;
+ b=gM782zQ22gdAVE4bADpVJPb9KxU39mxpnmIysObl5gDtl6OCJhjHS+qyZj7nPKwBSh
+ noHspjcP/wNlm86/uVhbFqi/LxK1Lco9+WCoNOVxO66kigY7137SheIcKo/2YqnkpQqF
+ /iVPj1RVy9G75PHpPzqxJOfI1EsZvjU8OrvnO/yFpCGbime+tK0ZbHVSPyhgvJffSL58
+ wNc7xjyDSBEHi4sM6FX+V/y9QAK0fd4we0vqESlhoHD6cHYuzwfZcbc0Wz2f9N1OBAmf
+ YKx9FcA/ay2fYMjHPqQfouvFJNQEQ9IbJC8PqZ+Kl7IMfS91KKRs1ocglX6jYiAQyGSB
+ CHtw==
+X-Gm-Message-State: AOAM533tvHyX/hnCy3gooAYawhVIVqH8uj5k1frSX0BvrKUkP/4aO3RG
+ zhqxI5negmyx7iCCDIjhn5Y=
+X-Google-Smtp-Source: ABdhPJwoFDMN+1gF0f+Bpm5Sk1b5ggUXNJvloCrELun0AuDK7TcbEhAsRjembtOJ87S5OMXLbDP3iw==
+X-Received: by 2002:ac2:4307:: with SMTP id l7mr14478362lfh.304.1608228475770; 
+ Thu, 17 Dec 2020 10:07:55 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
  [109.252.192.57])
- by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.53
+ by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 10:07:54 -0800 (PST)
+ Thu, 17 Dec 2020 10:07:55 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
@@ -57,10 +57,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Peter De Schrijver <pdeschrijver@nvidia.com>,
  Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v2 30/48] soc/tegra: regulators: Fix locking up when
- voltage-spread is out of range
-Date: Thu, 17 Dec 2020 21:06:20 +0300
-Message-Id: <20201217180638.22748-31-digetx@gmail.com>
+Subject: [PATCH v2 31/48] soc/tegra: regulators: Support Core domain state
+ syncing
+Date: Thu, 17 Dec 2020 21:06:21 +0300
+Message-Id: <20201217180638.22748-32-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -87,34 +87,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix voltage coupler lockup which happens when voltage-spread is out
-of range due to a bug in the code. The max-spread requirement shall be
-accounted when CPU regulator doesn't have consumers. This problem is
-observed on Tegra30 Ouya game console once system-wide DVFS is enabled
-in a device-tree.
+The core voltage shall not drop until state of Core domain is synced,
+i.e. all device drivers that use Core domain are loaded and ready.
 
-Fixes: 783807436f36 ("soc/tegra: regulators: Add regulators coupler for Tegra30")
-Cc: stable@vger.kernel.org
-Tested-by: Peter Geis <pgwipeout@gmail.com>
-Reported-by: Peter Geis <pgwipeout@gmail.com>
+Support Core domain state syncing. The Core domain driver invokes the
+core-regulator voltage syncing once the state of domain is synced, at
+this point the Core voltage is allowed to go lower.
+
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/regulators-tegra30.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/tegra/regulators-tegra20.c | 19 ++++++++++++++++++-
+ drivers/soc/tegra/regulators-tegra30.c | 18 +++++++++++++++++-
+ 2 files changed, 35 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/soc/tegra/regulators-tegra20.c b/drivers/soc/tegra/regulators-tegra20.c
+index 367a71a3cd10..e2c11d442591 100644
+--- a/drivers/soc/tegra/regulators-tegra20.c
++++ b/drivers/soc/tegra/regulators-tegra20.c
+@@ -16,6 +16,8 @@
+ #include <linux/regulator/driver.h>
+ #include <linux/regulator/machine.h>
+ 
++#include <soc/tegra/common.h>
++
+ struct tegra_regulator_coupler {
+ 	struct regulator_coupler coupler;
+ 	struct regulator_dev *core_rdev;
+@@ -38,6 +40,21 @@ static int tegra20_core_limit(struct tegra_regulator_coupler *tegra,
+ 	int core_cur_uV;
+ 	int err;
+ 
++	/*
++	 * Tegra20 SoC has critical DVFS-capable devices that are
++	 * permanently-active or active at a boot time, like EMC
++	 * (DRAM controller) or Display controller for example.
++	 *
++	 * The voltage of a CORE SoC power domain shall not be dropped below
++	 * a minimum level, which is determined by device's clock rate.
++	 * This means that we can't fully allow CORE voltage scaling until
++	 * the state of all DVFS-critical CORE devices is synced.
++	 */
++	if (tegra_soc_core_domain_state_synced()) {
++		pr_info_once("voltage state synced\n");
++		return 0;
++	}
++
+ 	if (tegra->core_min_uV > 0)
+ 		return tegra->core_min_uV;
+ 
+@@ -58,7 +75,7 @@ static int tegra20_core_limit(struct tegra_regulator_coupler *tegra,
+ 	 */
+ 	tegra->core_min_uV = core_max_uV;
+ 
+-	pr_info("core minimum voltage limited to %duV\n", tegra->core_min_uV);
++	pr_info("core voltage initialized to %duV\n", tegra->core_min_uV);
+ 
+ 	return tegra->core_min_uV;
+ }
 diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
-index 7f21f31de09d..0e776b20f625 100644
+index 0e776b20f625..42d675b79fa3 100644
 --- a/drivers/soc/tegra/regulators-tegra30.c
 +++ b/drivers/soc/tegra/regulators-tegra30.c
-@@ -178,7 +178,7 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
- 	 * survive the voltage drop if it's running on a higher frequency.
- 	 */
- 	if (!cpu_min_uV_consumers)
--		cpu_min_uV = cpu_uV;
-+		cpu_min_uV = max(cpu_uV, cpu_min_uV);
+@@ -16,6 +16,7 @@
+ #include <linux/regulator/driver.h>
+ #include <linux/regulator/machine.h>
  
- 	/*
- 	 * Bootloader shall set up voltages correctly, but if it
++#include <soc/tegra/common.h>
+ #include <soc/tegra/fuse.h>
+ 
+ struct tegra_regulator_coupler {
+@@ -39,6 +40,21 @@ static int tegra30_core_limit(struct tegra_regulator_coupler *tegra,
+ 	int core_cur_uV;
+ 	int err;
+ 
++	/*
++	 * Tegra30 SoC has critical DVFS-capable devices that are
++	 * permanently-active or active at a boot time, like EMC
++	 * (DRAM controller) or Display controller for example.
++	 *
++	 * The voltage of a CORE SoC power domain shall not be dropped below
++	 * a minimum level, which is determined by device's clock rate.
++	 * This means that we can't fully allow CORE voltage scaling until
++	 * the state of all DVFS-critical CORE devices is synced.
++	 */
++	if (tegra_soc_core_domain_state_synced()) {
++		pr_info_once("voltage state synced\n");
++		return 0;
++	}
++
+ 	if (tegra->core_min_uV > 0)
+ 		return tegra->core_min_uV;
+ 
+@@ -59,7 +75,7 @@ static int tegra30_core_limit(struct tegra_regulator_coupler *tegra,
+ 	 */
+ 	tegra->core_min_uV = core_max_uV;
+ 
+-	pr_info("core minimum voltage limited to %duV\n", tegra->core_min_uV);
++	pr_info("core voltage initialized to %duV\n", tegra->core_min_uV);
+ 
+ 	return tegra->core_min_uV;
+ }
 -- 
 2.29.2
 
