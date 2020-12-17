@@ -1,40 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27F42DD3FE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 16:21:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 853F72DD41D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 16:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93324896F7;
-	Thu, 17 Dec 2020 15:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00CEA6E40A;
+	Thu, 17 Dec 2020 15:26:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86E6896F7
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 15:21:18 +0000 (UTC)
-Date: Thu, 17 Dec 2020 07:21:18 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608218478;
- bh=QT571cAUdUD2UPrn7SLT2Uttl2FOciwrPSjT3+m2fbo=;
- h=From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=g3LXW+Nk+rQaC057jk8MpZq0WA/i4SL7o4j+KgmQf5g5ExR5XhqZlZuXFsXExgddA
- U92n1G7B+IYxYl2ANWJgNbT/XkR9p8B5mnNpizNRM6wDvFjMna1VYznEZ8FoaM63lH
- xrD2P75ww9XA8HfGkNPOSXCIEkhOLrBZt+hkBJizwzIsIGqEU76PuSztd19uUGG+O7
- pyygGCbz67nHjNIYLCBlADnMYk7c6GtlHjeIeoWcyHBzxfT3KB0N+Hlt98H0tUwhcd
- BSe3JieOp7TvGuthyOudfbhAXhsvx1jPyxgGy7gfB5RYCVBw456NAI0SN/AisMKfDl
- WkGYR9UZllGeg==
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: WARNING: suspicious RCU usage in modeset_lock
-Message-ID: <20201217152118.GR2657@paulmck-ThinkPad-P72>
-References: <000000000000cb6db205b68a971c@google.com>
- <CAKMK7uEiS5SrBYv-2w2wWL=9G4ByoHvtiWVsPqekswZzOGmzjg@mail.gmail.com>
- <20201216161621.GH2657@paulmck-ThinkPad-P72>
- <CAKMK7uH1agVS=e245b=25Lv9Q+u5c7=KL-_NF8Hte10nKTqAXw@mail.gmail.com>
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3A16E40A
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 15:26:46 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id b24so10140904otj.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 07:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GWd3mEjBWQG0B8+lGrSmgneeUxbX0wm+G+szT0VMrDw=;
+ b=MfXC3nttMSQBxs8Zh6jFyv0DKJDzPmVAXTWjHSvRfsQjzV+OhfUr9TbnwIGvGAzaND
+ A5TESuiJg90LIyFJ9h1AqC9F3/dK+7jZrjIADqCZtAVoa0VNSl2OyC+eGCAa8JqURL2X
+ ChDNiIrfmM/8gVzrOOPZIjwSZdHh+MMfbUTbU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GWd3mEjBWQG0B8+lGrSmgneeUxbX0wm+G+szT0VMrDw=;
+ b=dWHvtGpyibu+swAMN8UcRZPfGl6pe4O8QR2v7jGuoDeSjQq2H3/OiZ3MXekXJouLXn
+ fMYSF42Kz/4zcaRTpjYnh3GfiHq8wEh82tuI19TttxJCHv7fUrKVb34DFKD5+i7DfsQY
+ dOIMUS9eSbWgQT43JZE2J6G0963nwI4/NfNZVeNOQUsl4+LOWYGtZSiFMKSBVbmHvRH7
+ bATpB2bwmabHpGdH8c7GAccOPKkzmG5L2GOAi483/05bq5HBkPzQoB25XVzbuZmtTqw3
+ g9qlprexx1Ye6A4E0oioVzg1wg8vEem7Tdfiy327JzAEFopXQfnHO1BGpAarA9OcHE8H
+ Y5Rw==
+X-Gm-Message-State: AOAM532eVqf5EBikEocS//TRX2xmLDqAc+xbu6EujpQOeNmdeLL5PQLT
+ HWDsxec9oQ4xhueAAPIq2PD9qbktaib7LoAZQ8Jvyg==
+X-Google-Smtp-Source: ABdhPJzisjhGcvxlMauUDZ2rQP+qlLBEwqmJLrDT6HOVl+K1Vad/hEp3shYpCfNe0gZm1hAOBW8B6is5MdNK4Kdzs/0=
+X-Received: by 2002:a9d:4e08:: with SMTP id p8mr29697629otf.188.1608218806205; 
+ Thu, 17 Dec 2020 07:26:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uH1agVS=e245b=25Lv9Q+u5c7=KL-_NF8Hte10nKTqAXw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201216140427.1253-1-christian.koenig@amd.com>
+ <X9ojPDJv1ybEJT0k@phenom.ffwll.local>
+ <2d702307-052c-f59d-a385-f373d1eae823@gmail.com>
+ <CAKMK7uFsNY+yj1C_q+=-_0F6Mud-9_YjPTq6wDEBBZ+oeraQaw@mail.gmail.com>
+ <de05379f-87d7-e0f0-d661-b331ee03cea6@amd.com>
+In-Reply-To: <de05379f-87d7-e0f0-d661-b331ee03cea6@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 17 Dec 2020 16:26:35 +0100
+Message-ID: <CAKMK7uEqUOBgdd+2Lcw8KEGVYz9MCfE67bEp-NsfMuzmWu0_4A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/ttm: rework ttm_tt page limit v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,203 +62,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- syzbot <syzbot+972b924c988834e868b2@syzkaller.appspotmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, boqun.feng@gmail.com,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Josh Triplett <josh@joshtriplett.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, rcu@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Nathan Chancellor <natechancellor@gmail.com>, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 17, 2020 at 11:03:20AM +0100, Daniel Vetter wrote:
-> On Wed, Dec 16, 2020 at 5:16 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Wed, Dec 16, 2020 at 10:52:06AM +0100, Daniel Vetter wrote:
-> > > On Wed, Dec 16, 2020 at 2:14 AM syzbot
-> > > <syzbot+972b924c988834e868b2@syzkaller.appspotmail.com> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > syzbot found the following issue on:
-> > > >
-> > > > HEAD commit:    94801e5c Merge tag 'pinctrl-v5.10-3' of git://git.kernel.o..
-> > > > git tree:       upstream
-> > > > console output: https://syzkaller.appspot.com/x/log.txt?x=130558c5500000
-> > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=ee8a1012a5314210
-> > > > dashboard link: https://syzkaller.appspot.com/bug?extid=972b924c988834e868b2
-> > > > compiler:       gcc (GCC) 10.1.0-syz 20200507
-> > > > userspace arch: i386
-> > > >
-> > > > Unfortunately, I don't have any reproducer for this issue yet.
-> > > >
-> > > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > > Reported-by: syzbot+972b924c988834e868b2@syzkaller.appspotmail.com
-> > > >
-> > > > =============================
-> > > > WARNING: suspicious RCU usage
-> > > > 5.10.0-rc7-syzkaller #0 Not tainted
-> > > > -----------------------------
-> > > > kernel/sched/core.c:7270 Illegal context switch in RCU-sched read-side critical section!
-> > > >
-> > > > other info that might help us debug this:
-> > > >
-> > > >
-> > > > rcu_scheduler_active = 2, debug_locks = 0
-> > > > 7 locks held by syz-executor.1/9232:
-> > > >  #0: ffffffff8b328c60 (console_lock){+.+.}-{0:0}, at: do_fb_ioctl+0x2e4/0x690 drivers/video/fbdev/core/fbmem.c:1106
-> > > >  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: lock_fb_info include/linux/fb.h:636 [inline]
-> > > >  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: do_fb_ioctl+0x2ee/0x690 drivers/video/fbdev/core/fbmem.c:1107
-> > > >  #2: ffff888041adca78 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xce/0x970 drivers/gpu/drm/drm_fb_helper.c:1448
-> > > >  #3: ffff8880159f01b8 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x1d/0x70 drivers/gpu/drm/drm_auth.c:407
-> > > >  #4: ffff888041adc898 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x44/0x580 drivers/gpu/drm/drm_client_modeset.c:1143
-> > > >  #5: ffffc90001c07730 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xb7/0x7c0 drivers/gpu/drm/drm_client_modeset.c:981
-> > > >  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: ww_mutex_lock_slow include/linux/ww_mutex.h:287 [inline]
-> > > >  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x31c/0x650 drivers/gpu/drm/drm_modeset_lock.c:260
-> > >
-> > > Given that we managed to take all these locks without upsetting anyone
-> > > the rcu section is very deep down. And looking at the backtrace below
-> > > I just couldn't find anything.
-> > >
-> > > Best I can think of is that an interrupt of some sort leaked an rcu
-> > > section, and we got shot here. But I'd assume the rcu debugging would
-> > > catch this? Backtrace of the start of that rcu read side section would
-> > > be really useful here, but I'm not seeing that in the logs. There's
-> > > more stuff there, but it's just the usual "everything falls apart"
-> > > stuff of little value to understanding how we got there.
-> >
-> > In my experience, lockdep will indeed complain if an interrupt handler
-> > returns while in an RCU read-side critical section.
-> >
-> > > Adding some rcu people for more insights on what could have gone wrong here.
-> > > -Daniel
-> > >
-> > > > stack backtrace:
-> > > > CPU: 1 PID: 9232 Comm: syz-executor.1 Not tainted 5.10.0-rc7-syzkaller #0
-> > > > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-> > > > Call Trace:
-> > > >  __dump_stack lib/dump_stack.c:77 [inline]
-> > > >  dump_stack+0x107/0x163 lib/dump_stack.c:118
-> > > >  ___might_sleep+0x25d/0x2b0 kernel/sched/core.c:7270
-> > > >  __mutex_lock_common kernel/locking/mutex.c:935 [inline]
-> > > >  __ww_mutex_lock.constprop.0+0xa9/0x2cc0 kernel/locking/mutex.c:1111
-> > > >  ww_mutex_lock+0x3d/0x170 kernel/locking/mutex.c:1190
-> >
-> > Acquiring a mutex while under the influence of rcu_read_lock() will
-> > definitely get you this lockdep complaint, and rightfully so.
-> >
-> > If you need to acquire a mutex with RCU-like protection, one approach
-> > is to use SRCU.  But usually this indicates (as you suspected) that
-> > someone forgot to invoke rcu_read_unlock().
-> >
-> > One way to locate this is to enlist the aid of lockdep.  You can do this
-> > by putting something like this in the callers:
-> >
-> >         RCU_LOCKDEP_WARN(lock_is_held(&rcu_bh_lock_map) ||
-> >                          lock_is_held(&rcu_lock_map) ||
-> >                          lock_is_held(&rcu_sched_lock_map),
-> >                          "We are in an RCU read-side critical section");
-> >
-> > This will get you a lockdep complaint much like the one above if the
-> > caller is in any sort of RCU read-side critical section.  You can push
-> > this up the call stack one level at a time or just sprinkle it up the
-> > stack in one go.
-> >
-> > The complaint is specifically about RCU-sched, so you could focus on
-> > that using this instead:
-> >
-> >         RCU_LOCKDEP_WARN(lock_is_held(&rcu_sched_lock_map),
-> >                          "We are in an RCU-sched read-side critical section");
-> >
-> > This of course assumes that this is reproducible.  :-/
-> >
-> > But even if it isn't reproducible, for example, if the mutex is only
-> > acquired occasionally, these RCU_LOCKDEP_WARN() calls can be used to
-> > check assumptions about state.
-> 
-> I think we're tripping over the might_sleep() all the mutexes have,
-> and that's not as good as yours, but good enough to catch a missing
-> rcu_read_unlock(). That's kinda why I'm baffled, since like almost
-> every 2nd function in the backtrace grabbed a mutex and it was all
-> fine until the very last.
-> 
-> I think it would be really nice if the rcu checks could retain (in
-> debugging only) the backtrace of the outermost rcu_read_lock, so we
-> could print that when something goes wrong in cases where it's leaked.
-> For normal locks lockdep does that already (well not full backtrace I
-> think, just the function that acquired the lock, but that's often
-> enough). I guess that doesn't exist yet?
-
-I thought that lockdep kept those traces in order to print them in
-deadlock reports.  Adding Boqun for his perspective.
-
-							Thanx, Paul
-
-> Also yes without reproducer this is kinda tough nut to crack.
-> -Daniel
-> 
-> >
-> >                                                         Thanx, Paul
-> >
-> > > >  modeset_lock+0x392/0x650 drivers/gpu/drm/drm_modeset_lock.c:263
-> > > >  drm_modeset_lock drivers/gpu/drm/drm_modeset_lock.c:342 [inline]
-> > > >  drm_modeset_lock+0x50/0x90 drivers/gpu/drm/drm_modeset_lock.c:338
-> > > >  drm_atomic_get_plane_state+0x19d/0x510 drivers/gpu/drm/drm_atomic.c:481
-> > > >  drm_client_modeset_commit_atomic+0x225/0x7c0 drivers/gpu/drm/drm_client_modeset.c:994
-> > > >  drm_client_modeset_commit_locked+0x145/0x580 drivers/gpu/drm/drm_client_modeset.c:1145
-> > > >  pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1395 [inline]
-> > > >  drm_fb_helper_pan_display+0x28b/0x970 drivers/gpu/drm/drm_fb_helper.c:1455
-> > > >  fb_pan_display+0x2f7/0x6c0 drivers/video/fbdev/core/fbmem.c:925
-> > > >  fb_set_var+0x57f/0xda0 drivers/video/fbdev/core/fbmem.c:1043
-> > > >  do_fb_ioctl+0x2f9/0x690 drivers/video/fbdev/core/fbmem.c:1108
-> > > >  fb_compat_ioctl+0x17c/0xaf0 drivers/video/fbdev/core/fbmem.c:1315
-> > > >  __do_compat_sys_ioctl+0x1d3/0x230 fs/ioctl.c:842
-> > > >  do_syscall_32_irqs_on arch/x86/entry/common.c:78 [inline]
-> > > >  __do_fast_syscall_32+0x56/0x80 arch/x86/entry/common.c:137
-> > > >  do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:160
-> > > >  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-> > > > RIP: 0023:0xf7fd8549
-> > > > Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
-> > > > RSP: 002b:00000000f55d20bc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-> > > > RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000004601
-> > > > RDX: 0000000020000240 RSI: 0000000000000000 RDI: 0000000000000000
-> > > > RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> > > > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> > > > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> > > > detected fb_set_par error, error code: -16
-> > > >
-> > > >
-> > > > ---
-> > > > This report is generated by a bot. It may contain errors.
-> > > > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > > > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> > > >
-> > > > syzbot will keep track of this issue. See:
-> > > > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> 
-> 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBEZWMgMTcsIDIwMjAgYXQgNDoxMCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTcuMTIuMjAgdW0gMTU6MzYgc2Nocmll
+YiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gVGh1LCBEZWMgMTcsIDIwMjAgYXQgMjo0NiBQTSBDaHJp
+c3RpYW4gS8O2bmlnCj4gPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3Rl
+Ogo+ID4+IEFtIDE2LjEyLjIwIHVtIDE2OjA5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+Pj4g
+T24gV2VkLCBEZWMgMTYsIDIwMjAgYXQgMDM6MDQ6MjZQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5p
+ZyB3cm90ZToKPiA+Pj4gW1NOSVBdCj4gPj4+PiArCj4gPj4+PiArLyogQXMgbG9uZyBhcyBwYWdl
+cyBhcmUgYXZhaWxhYmxlIG1ha2Ugc3VyZSB0byByZWxlYXNlIGF0IGxlYXN0IG9uZSAqLwo+ID4+
+Pj4gK3N0YXRpYyB1bnNpZ25lZCBsb25nIHR0bV90dF9zaHJpbmtlcl9zY2FuKHN0cnVjdCBzaHJp
+bmtlciAqc2hyaW5rLAo+ID4+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgc3RydWN0IHNocmlua19jb250cm9sICpzYykKPiA+Pj4+ICt7Cj4gPj4+PiArICAgIHN0cnVj
+dCB0dG1fb3BlcmF0aW9uX2N0eCBjdHggPSB7Cj4gPj4+PiArICAgICAgICAgICAgLm5vX3dhaXRf
+Z3B1ID0gdHJ1ZQo+ID4+PiBJaXJjIHRoZXJlJ3MgYW4gZXZlbnR1YWwgc2hyaW5rZXIgbGltaXQg
+d2hlcmUgaXQgZ2V0cyBkZXNwZXJhdGUuIEkgdGhpbmsKPiA+Pj4gb25jZSB3ZSBoaXQgdGhhdCwg
+d2Ugc2hvdWxkIGFsbG93IGdwdSB3YWl0cy4gQnV0IGl0J3Mgbm90IHBhc3NlZCB0bwo+ID4+PiBz
+aHJpbmtlcnMgZm9yIHJlYXNvbnMsIHNvIG1heWJlIHdlIHNob3VsZCBoYXZlIGEgc2Vjb25kIHJv
+dW5kIHRoYXQgdHJpZXMKPiA+Pj4gdG8gbW9yZSBhY3RpdmVseSBzaHJpbmsgb2JqZWN0cyBpZiB3
+ZSBmZWxsIHN1YnN0YW50aWFsbHkgc2hvcnQgb2Ygd2hhdAo+ID4+PiByZWNsYWltIGV4cGVjdGVk
+IHVzIHRvIGRvPwo+ID4+IEkgdGhpbmsgd2Ugc2hvdWxkIHRyeSB0byBhdm9pZCB3YWl0aW5nIGZv
+ciB0aGUgR1BVIGluIHRoZSBzaHJpbmtlciBjYWxsYmFjay4KPiA+Pgo+ID4+IFdoZW4gd2UgZ2V0
+IEhNTSB3ZSB3aWxsIGhhdmUgY2FzZXMgd2hlcmUgdGhlIHNocmlua2VyIGlzIGNhbGxlZCBmcm9t
+Cj4gPj4gdGhlcmUgYW5kIHdlIGNhbid0IHdhaXQgZm9yIHRoZSBHUFUgdGhlbiB3aXRob3V0IGNh
+dXNpbmcgZGVhZGxvY2tzLgo+ID4gVWggdGhhdCBkb2Vzbid0IHdvcmsuIEFsc28sIHRoZSBjdXJy
+ZW50IHJ1bGVzIGFyZSB0aGF0IHlvdSBhcmUgYWxsb3dlZAo+ID4gdG8gY2FsbCBkbWFfZmVuY2Vf
+d2FpdCBmcm9tIHNocmlua2VyIGNhbGxiYWNrcywgc28gdGhhdCBzaGlwcGVkIHNhaWxlZAo+ID4g
+YWxyZWFkeS4gVGhpcyBpcyBiZWNhdXNlIHNocmlua2VycyBhcmUgYSBsZXNzIHJlc3RyaWN0aXZl
+IGNvbnRleHQgdGhhbgo+ID4gbW11IG5vdGlmaWVyIGludmFsaWRhdGlvbiwgYW5kIHdlIHdhaXQg
+aW4gdGhlcmUgdG9vLgo+ID4KPiA+IFNvIGlmIHlvdSBjYW4ndCB3YWl0IGluIHNocmlua2Vycywg
+eW91IGFsc28gY2FuJ3Qgd2FpdCBpbiBtbXUKPiA+IG5vdGlmaWVycyAoYW5kIGFsc28gbm90IGlu
+IEhNTSwgd8SlaWNoIGlzIHRoZSBzYW1lIHRoaW5nKS4gV2h5IGRvIHlvdQo+ID4gbmVlZCB0aGlz
+Pwo+Cj4gVGhlIGNvcmUgY29uY2VwdCBvZiBITU0gaXMgdGhhdCBwYWdlcyBhcmUgZmF1bHRlZCBp
+biBvbiBkZW1hbmQgYW5kIGl0IGlzCj4gcGVyZmVjdGx5IHZhbGlkIGZvciBvbmUgb2YgdGhvc2Ug
+cGFnZXMgdG8gYmUgb24gZGlzay4KPgo+IFNvIHdoZW4gYSBwYWdlIGZhdWx0IGhhcHBlbnMgd2Ug
+bWlnaHQgbmVlZCB0byBiZSBhYmxlIHRvIGFsbG9jYXRlIG1lbW9yeQo+IGFuZCBmZXRjaCBzb21l
+dGhpbmcgZnJvbSBkaXNrIHRvIGhhbmRsZSB0aGF0Lgo+Cj4gV2hlbiB0aGlzIG1lbW9yeSBhbGxv
+Y2F0aW9uIHRoZW4gaW4gdHVybiB3YWl0cyBmb3IgdGhlIEdQVSB3aGljaCBpcwo+IHJ1bm5pbmcg
+dGhlIEhNTSBwcm9jZXNzIHdlIGFyZSBwcmV0dHkgbXVjaCBidXN0ZWQuCgpZZWFoIHlvdSBjYW4n
+dCBkbyB0aGF0LiBUaGF0J3MgdGhlIGVudGlyZSBpbmZpbml0ZSBmZW5jZXMgZGlzY3Vzc2lvbnMu
+CkZvciBITU0gdG8gd29yaywgd2UgbmVlZCB0byBzdG9wIHVzaW5nIGRtYV9mZW5jZSBmb3IgdXNl
+cnNwYWNlIHN5bmMsCmFuZCB5b3UgY2FuIG9ubHkgdXNlIHRoZSBhbWRrZmQgc3R5bGUgcHJlZW1w
+dCBmZW5jZXMuIEFuZCBwcmVlbXB0aW5nCndoaWxlIHRoZSBwYWdlZmF1bHQgaXMgcGVuZGluZyBp
+cyBJIHRob3VnaHQgc29tZXRoaW5nIHdlIHJlcXVpcmUuCgpJb3csIHRoZSBITU0gcGFnZSBmYXVs
+dCBoYW5kbGVyIG11c3Qgbm90IGJlIGEgZG1hLWZlbmNlIGNyaXRpY2FsCnNlY3Rpb24sIGkuZS4g
+aXQncyBub3QgYWxsb3dlZCB0byBob2xkIHVwIGFueSBkbWFfZmVuY2UsIGV2ZXIuCgpPbmUgY29u
+c2VxdWVuY2Ugb2YgdGhpcyBpcyB0aGF0IHlvdSBjYW4gdXNlIEhNTSBmb3IgY29tcHV0ZSwgYnV0
+IHVudGlsCndlJ3ZlIHJldmFtcGVkIGFsbCB0aGUgbGludXggd2luc3lzIGxheWVycywgbm90IGZv
+ciBnbC92ay4gT3IgYXQgbGVhc3QKSSdtIG5vdCBzZWVpbmcgaG93LgoKQWxzbyBsaWtlIEkgc2Fp
+ZCwgZG1hX2ZlbmNlX3dhaXQgaXMgYWxyZWFkeSBhbGxvd2VkIGluIG1tdSBub3RpZmllcnMsCnNv
+IHdlJ3ZlIGFscmVhZHkgbG9ja2VkIGRvd24gdGhlc2Ugc2VtYW50aWNzIGV2ZW4gbW9yZS4gRHVl
+IHRvIHRoZQpuZXN0aW5nIG9mIGdmcCBhbGxvY2F0aW9uIGNvbnRleHRzIGFsbG93aW5nIGRtYV9m
+ZW5jZV93YWl0IGluIG1tdQpub3RpZmllcnMgKGkuZS4gX19HRlBfQUxMT1dfUkVDTEFJTSBvciB3
+aGF0ZXZlciB0aGUgZmxhZyBpcyBleGFjdGx5KQppbXBsaWVzIGl0J3MgYWxsb3dlZCBpbiBzaHJp
+bmtlcnMuIEFuZCBvbmx5IGlmIHlvdSBmb3JiaWQgaXQgZnJvbSBmcm9tCmFsbCBhbGxvY2F0aW9u
+cyBjb250ZXh0cyAod2hpY2ggbWFrZXMgYWxsIGJ1ZmZlciBvYmplY3QgbWFuYWdlZCBncHUKbWVt
+b3J5IGVzc2VudGlhbGx5IHBpbm5lZCwgZXhhY3RseSB3aGF0IHlvdSdyZSB0cnlpbmcgdG8gbGlm
+dCBoZXJlKSBkbwp5b3UgZ2V0IHdoYXQgeW91IHdhbnQuCgpUaGUgb3RoZXIgb3B0aW9uIGlzIHRv
+IG1ha2UgSE1NIGFuZCBkbWEtYnVmIGNvbXBsZXRlbHkgZGlzam9pbnQgd29ybGRzCndpdGggbm8g
+b3ZlcmxhcCwgYW5kIGdhbmcgc2NoZWR1bGluZyBvbiB0aGUgZ3B1ICh0byBndWFyYW50ZWUgdGhh
+dAp0aGVyZSdzIG5ldmVyIGFueSBkbWFfZmVuY2UgaW4gcGVuZGluZyBzdGF0ZSB3aGlsZSBhbiBI
+TU0gdGFzayBtaWdodApjYXVzZSBhIGZhdWx0KS4KCj4gPj4+IEFsc28gZG9uJ3Qgd2UgaGF2ZSBh
+IHRyeWxvY2tfb25seSBmbGFnIGhlcmUgdG8gbWFrZSBzdXJlIGRyaXZlcnMgZG9uJ3QgZG8KPiA+
+Pj4gc29tZXRoaW5nIHN0dXBpZD8KPiA+PiBNaG0sIEknbSBwcmV0dHkgc3VyZSBkcml2ZXJzIHNo
+b3VsZCBvbmx5IGJlIG1pbmltYWwgaW52b2x2ZWQuCj4gPiBJbiB0aGUgbW92ZSBjYWxsYmFjayB0
+aGV5IG1pZ2h0IHRyeSB0byBhY3F1aXJlIG90aGVyIGxvY2tzLiBPciBpcyB0aGF0Cj4gPiBhIGRy
+aXZlciBidWc/Cj4KPiBUaGF0IHdvdWxkIGJlIGEgcmF0aGVyIHNlcmlvdXMgZHJpdmVyIGJ1ZyBh
+dCB0aGUgbW9tZW50Lgo+Cj4gPiBKdXN0IGtpbmRhIGZlZWxzIHdyb25nIGlmIHdlIGhhdmUgdGhp
+cyBhbmQgZG9uJ3Qgc2V0IGl0Lgo+ID4KPiA+Pj4+ICsgICAgfTsKPiA+Pj4+ICsgICAgaW50IHJl
+dDsKPiA+Pj4+ICsKPiA+Pj4+ICsgICAgaWYgKHNjLT5nZnBfbWFzayAmIEdGUF9OT0ZTKQo+ID4+
+Pj4gKyAgICAgICAgICAgIHJldHVybiAwOwo+ID4+Pj4gKwo+ID4+Pj4gKyAgICByZXQgPSB0dG1f
+Ym9fc3dhcG91dCgmY3R4LCBHRlBfTk9GUyk7Cj4gPj4+PiArICAgIHJldHVybiByZXQgPCAwID8g
+U0hSSU5LX0VNUFRZIDogcmV0Owo+ID4+Pj4gK30KPiA+Pj4+ICsKPiA+Pj4+ICsvKiBSZXR1cm4g
+dGhlIG51bWJlciBvZiBwYWdlcyBhdmFpbGFibGUgb3IgU0hSSU5LX0VNUFRZIGlmIHdlIGhhdmUg
+bm9uZSAqLwo+ID4+Pj4gK3N0YXRpYyB1bnNpZ25lZCBsb25nIHR0bV90dF9zaHJpbmtlcl9jb3Vu
+dChzdHJ1Y3Qgc2hyaW5rZXIgKnNocmluaywKPiA+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBzdHJ1Y3Qgc2hyaW5rX2NvbnRyb2wgKnNjKQo+ID4+Pj4gK3sKPiA+
+Pj4+ICsgICAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibzsKPiA+Pj4+ICsgICAgdW5zaWdu
+ZWQgbG9uZyBudW1fcGFnZXMgPSAwOwo+ID4+Pj4gKyAgICB1bnNpZ25lZCBpbnQgaTsKPiA+Pj4+
+ICsKPiA+Pj4+ICsgICAgaWYgKHNjLT5nZnBfbWFzayAmIEdGUF9OT0ZTKQo+ID4+Pj4gKyAgICAg
+ICAgICAgIHJldHVybiAwOwo+ID4+PiBUaGUgY291bnQgZnVuY3Rpb24gc2hvdWxkIGFsd2F5cyBj
+b3VudCwgYW5kIEknbSBub3Qgc2VlaW5nIGEgcmVhc29uIHdoeQo+ID4+PiB5b3UgY291bGRuJ3Qg
+ZG8gdGhhdCBoZXJlIC4uLiBBbHNvIG15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCBHRlBfTk9GUyBu
+ZXZlcgo+ID4+PiBnb2VzIGludG8gc2hyaW5rZXJzICh0aGUgTk9GUyBjb21lcyBmcm9tIHNocmlu
+a2VycyBvcmlnaW5hbGx5IG9ubHkgYmVpbmcKPiA+Pj4gdXNlZCBmb3IgZmlsZXN5c3RlbSBvYmpl
+Y3RzKSwgc28gdGhpcyBpcyBkb3VibGUgcmVkdW5kYW50Lgo+ID4+Pgo+ID4+PiBNeSB1bmRlcnN0
+YW5kaW5nIGlzIHRoYXQgZ2ZwX21hc2sgaXMganVzdCB0byBjb252ZXkgdGhlIHJpZ2h0IHpvbmVz
+IGFuZAo+ID4+PiBzdHVmZiwgc28gdGhhdCB5b3VyIHNocmlua2VyIGNhbiB0cnkgdG8gc2hyaW5r
+IG9iamVjdHMgaW4gdGhlIHJpZ2h0IHpvbmVzLgo+ID4+PiBIZW5jZSBJIHRoaW5rIHRoZSBjaGVj
+ayBpbiB0aGUgX3NjYW4oKSBmdW5jdGlvbiBzaG91bGQgYWxzbyBiZSByZW1vdmVkLgo+ID4+Pgo+
+ID4+PiBBbHNvIHRoZSBub24gX18gcHJlZml4ZWQgZmxhZ3MgYXJlIHRoZSBjb21iaW5hdGlvbnMg
+Y2FsbGVycyBhcmUgc3VwcG9zZWQKPiA+Pj4gdG8gbG9vayBhdC4gTWVtb3J5IHJlY2xhaW0gY29k
+ZSBuZWVkcyB0byBsb29rIGF0IHRoZSBfX0dGUCBmbGFncywgc2VlIGUuZy4KPiA+Pj4gZ2ZwZmxh
+Z3NfYWxsb3dfYmxvY2tpbmcoKSBvciBmc19yZWNsYWltX2FjcXVpcmUoKS4KPiA+PiBPayBnb3Qg
+aXQuIEJ1dCBkb24ndCB3ZSBuZWVkIHRvIHNvbWVob3cgYXZvaWQgcmVjdXJzaW9uIGhlcmU/Cj4g
+PiBIb3cgY2FuIHlvdSByZWN1cnNlPwo+ID4KPiA+IEdGUF9LRVJORUwgaW5jbHVkZXMgdGhlIF9f
+R0ZQX0ZTIGZsYWcsIHdoaWNoIGFsbG93cyBjYWxsaW5nIGludG8KPiA+IHNocmlua2Vycy4gR0ZQ
+X05PRlMgKHdoaWNoIHdlJ3JlIHVzaW5nIHdoZW4gd2UncmUgaW4gdGhlIHNocmlua2VyKQo+ID4g
+ZG9lcyBub3QgaGF2ZSB0aGUgX19HRlBfRlMgZmxhZywgYW5kIHNvIGNhbGxpbmcgaW50byBzaHJp
+bmtlcnMgaXNuJ3QKPiA+IGFsbG93ZWQuIEl0J3Mgc3RpbGwgYWxsb3dlZCB0byBjbGVhbiBvdXQg
+cGFnZSBjYWNoZSBhbmQgZG8gaW8gaW4KPiA+IGdlbmVyYWwgKHdoaWNoIGlzIHRoZSBfX0dGUF9J
+TyBmbGFnKSwgYW5kIGl0J3MgYWxzbyBhbGxvd2VkIHRvIGRvCj4gPiBtZW1vcnkgcmVjbGFpbSBv
+ZiB1c2Vyc3BhY2UgcHRlcywgd2hpY2ggY2FuIGludm9sdmUgY2FsbGluZyBpbnRvIG1tdQo+ID4g
+bm90aWZpZXJzICh0aGUgX19HRlBfUkVDTEFJTSBmbGFnIGlzIGZvciB0aGF0KS4gU28gcnVsZXMg
+YXJlOgo+ID4gLSBHRlBfS0VSTkVMIGZvciBldmVyeW9uZSB3aG8ncyBub3Qgc3BlY2lhbAo+ID4g
+LSBHRlBfTk9GUyBmcm9tIHNocmlua2Vycy4KPiA+IC0gR0ZQX05PSU8gZnJvbSBibG9jayBpbyBo
+YW5kbGVycyAobm90IHJlbGV2YW50IGZvciBncHVzKQo+ID4gLSBHRlBfQVRPTUlDIG9ubHkgZnJv
+bSBtbXUgbm90aWZpZXIgY2FsbGJhY2tzLiBUaGF0IHRoaXMgaXMgIHRoZQo+ID4gcmVhc29uIHdo
+eSBub3RoaW5nIGluIGRtYS1mZW5jZSBzaWduYWxsaW5nIGNyaXRpY2FsIHBhdGggaXMgYWxsb3dl
+ZCB0bwo+ID4gYWxsb2NhdGUgbWVtb3J5IHdpdGggYW55dGhpbmcgZWxzZSB0aGFuIEdGUF9BVE9N
+SUMuIEkgZ3Vlc3MgSSBuZWVkIHRvCj4gPiByZXN1cnJlY3QgbXkgcGF0Y2hlcywgYnV0IEkgdGhv
+dWdodCB3aGVuIHdlIGRpc2N1c3NlZCB0aGlzIGl0J3MgY2xlYXIKPiA+IHRoYXQgYXQgbGVhc3Qg
+aW4gdGhlb3J5IGFsbCB0aGVzZSBhbGxvY2F0aW9ucyBpbiBzY2hlZHVsZXIgY29kZSBhcmUKPiA+
+IGJ1Z3MgYW5kIG5lZWQgdG8gYmUgcmVwbGFjZWQgYnkgbWVtcG9vbCBhbGxvY2F0aW9ucy4KPiA+
+Cj4gPiBTbyB3aGVyZSBkbyB5b3Ugd2FudCB0byByZWN1cnNlIGhlcmU/Cj4KPiBJIHdhc24ndCBh
+d2FyZSB0aGF0IHdpdGhvdXQgX19HRlBfRlMgc2hyaW5rZXJzIGFyZSBub3QgY2FsbGVkLgoKTWF5
+YmUgZG91YmxlIGNoZWNrLCBidXQgdGhhdCdzIGF0IGxlYXN0IG15IHVuZGVyc3RhbmRpbmcuIEdG
+UCBmbGFncwphcmUgZmxhZ3MsIGJ1dCBpbiByZWFsaXR5IGl0J3MgYSBzdHJpY3RseSBuZXN0aW5n
+IGhpZXJhcmNoeToKR0ZQX0tFUk5FTCA+IEdGUF9OT0ZTID4gR0ZQX05PSU8gPiBHRlBfUkVMQ0FJ
+TSA+IEdGUF9BVE9NSUMgKG9rIGF0b21pYwppcyBzcGVjaWFsLCBzaW5jZSBpdCdzIGFsbG93ZWQg
+dG8gZGlwIGludG8gZW1lcmdlbmN5IHJlc2VydmUpLgotRGFuaWVsCgo+IFRoYW5rcyBmb3IgY2xl
+YXJpbmcgdGhhdCB1cCwKPiBDaHJpc3RpYW4uCj4KPiA+Cj4gPiBDaGVlcnMsIERhbmllbAo+ID4K
+PiA+Pj4gW1NOSVBdCj4gPj4+PiAraW50IHR0bV90dF9tZ3JfaW5pdCh2b2lkKTsKPiA+Pj4+ICt2
+b2lkIHR0bV90dF9tZ3JfZmluaSh2b2lkKTsKPiA+Pj4+ICsKPiA+Pj4+ICAgICNpZiBJU19FTkFC
+TEVEKENPTkZJR19BR1ApCj4gPj4+PiAgICAjaW5jbHVkZSA8bGludXgvYWdwX2JhY2tlbmQuaD4K
+PiA+Pj4gRm9yIHRlc3RpbmcgSSBzdHJvbmdseSByZWNvbW1lbmQgYSBkZWJ1Z2ZzIGZpbGUgdG8g
+dHJpZ2dlciB0aGlzIHNocmlua2VyCj4gPj4+IGNvbXBsZXRlbHksIGZyb20gdGhlIHJpZ2h0IGxv
+Y2tkZXAgY29udGV4dCAoaS5lLiB1c2luZwo+ID4+PiBmc19yZWNsYWltX2FjcXVpcmUvcmVsZWFz
+ZSgpKS4gTXVjaCBlYXNpZXIgdG8gdGVzdCB0aGF0IHdheS4gU2VlCj4gPj4+IGk5MTVfZHJvcF9j
+YWNoZXNfc2V0KCkgaW4gaTkxNV9kZWJ1Z2ZzLmMuCj4gPj4+Cj4gPj4+IFRoYXQgd2F5IHlvdSBj
+YW4gZnVsbHkgdGVzdCBpdCBhbGwgd2l0aG91dCBoaXR0aW5nIGFueXRoaW5nIHJlbW90ZWx5Cj4g
+Pj4+IHJlc2VtYmxpbmcgYWN0dWFsIE9PTSwgd2hpY2ggdGVuZHMgdG8ga2lsbCBhbGwga2luZHMg
+b2YgdGhpbmdzLgo+ID4+IFRoYXQncyBleGFjdGx5IHRoZSByZWFzb24gSSB3YXMgc3dpdGNoaW5n
+IGZyb20gc3lzZnMgdG8gZGVidWdmcyBpbiB0aGUKPiA+PiBvdGhlciBwYXRjaCBzZXQuCj4gPj4K
+PiA+PiBPaywgaW4gdGhpcyBjYXNlIEknbSBnb2luZyB0byByZW9yZGVyIGFsbCB0aGF0IHN0dWZm
+IGFuZCBzZW5kIG91dCB0aGUKPiA+PiBkZWJ1Z2ZzIHBhdGNoZXMgZmlyc3QuCj4gPj4KPiA+Pj4g
+QXNpZGUgZnJvbSB0aGUgZGV0YWlsIHdvcmsgSSB0aGluayB0aGlzIGlzIGdvaW5nIGluIHRoZSBy
+aWdodCBkaXJlY3Rpb24uCj4gPj4+IC1EYW5pZWwKPiA+PiBUaGFua3MsCj4gPj4gQ2hyaXN0aWFu
+Lgo+ID4KPiA+Cj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwg
+Q29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
