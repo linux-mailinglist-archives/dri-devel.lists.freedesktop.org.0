@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A812F2DDBBF
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 00:06:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810332DDBE2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 00:33:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2430489A57;
-	Thu, 17 Dec 2020 23:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217CF89174;
+	Thu, 17 Dec 2020 23:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803FC89A4B
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 23:06:21 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id m5so255064pjv.5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 15:06:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZzUxY+R92iIXyCaBsOADIATzq/kMO3WIktPOvJAEK0M=;
- b=y1i+MP6nxpUZku2pqBjU6nVReMMru3TqzVPCs9Wr2kawDgT3Rbl6Z27FslcSz46Swe
- xoVAHosAGhjI7aOnPsLsxEeZ7xNxfB46hHlFFGpTJRIPhP1Np8JzTR82OcbK/gEjpSJS
- cowRVeZibs33LWNdWONpxXfhSrlzipytxorMjEG484XY0t/NKnT3vgmrxMO5bzs6bzQE
- 7YZiocAFGQ2ffjZuuW6Bip4QglPBceU2BnKI11qLp0EDtQMiJsfKq2v2ku0CzTTA+rky
- rGyzmZKB0g5JCTB2WXhE94V1kA53PIShCIbmffIEiIj1LCnDYFb8baE8V4CcmGvT4ii7
- K+eg==
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
+ [209.85.161.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57ED289174
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 23:32:55 +0000 (UTC)
+Received: by mail-oo1-f54.google.com with SMTP id j21so138560oou.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 15:32:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZzUxY+R92iIXyCaBsOADIATzq/kMO3WIktPOvJAEK0M=;
- b=MLCDZcH9dLYZevzyIGNmO7mNUqaEoTG8LGOdEpgEwamhz96EH4aoE8n11B13xG06se
- 1W+zDqqunZu1YoleqgsRmJBLSnnufpLFceSUNIR/XaPCSDxnGjhjKv/GyYSfJOznYhnS
- FeBtW+oILTOdQ3OaC2Nz/BJ+pOmaVjgbkjfKA0j/Ho9jaTqNG9+G+zhCkbveBPy/kxXE
- zqogdfvsWYDWrcTE5tXSk4nMcLgQUMxPI7ZwFioYgX/7kCRUTxjOL2Om6BVh1jl0xXhm
- TVAVatKO923gDbzCAa5IQyqIwhhC56kyQod/cYeNL8d0jMtQrwR6Id9qbb91EIW6Zikx
- fAmA==
-X-Gm-Message-State: AOAM530wmVjMGTDJ2Jcn28WYaOj23PZk82OKow2EZhFiL/7YDN9Hq1yL
- rqbyngnxswJeTi2W8sIl7s7leQ==
-X-Google-Smtp-Source: ABdhPJyufMB2jhDDOlwI5gRTX4PSbfLBi7TX5g878WswkcmJTvgN17xmcUy7n1BL1TSRvOIBCDRBSw==
-X-Received: by 2002:a17:902:b94a:b029:dc:18f2:8063 with SMTP id
- h10-20020a170902b94ab02900dc18f28063mr1410930pls.8.1608246381337; 
- Thu, 17 Dec 2020 15:06:21 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- q9sm7074036pgb.82.2020.12.17.15.06.19
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=o4L0zUoStNxiDtZzdNvMrXS5I8joaFoyrOYrSbDzU7Y=;
+ b=Xg6iQl9pZLXq+Kc5caL5RBxMUnvSAJScWezTF3hPma9ry+LsuopqkITiS7rkaIucI5
+ IQzuuq4G872vcvv4Ck2RAayqu9x4hjgk2Wo43iBIdY40p9ShFjJ9xyNqIbNS8AFCt46g
+ +7rriaWBjyKkzfWPgbLcCi95GXRyzNHK9XsP/33+/kcfaY4m2VVasTImQ9ECvcEQSC5G
+ T8Auy1JE6m6eM5tC5kgQV7cGiSUIvVqbbT66AV4Y1YWtnNksFo1EMbCzl05ECJgv0Bnu
+ oxOVRHDqiZsSirIq562wh4y+y5H8qBGgzf3FRr/Hu0LUEWRh4Io1CVIthkRaor0f+Cwr
+ Onww==
+X-Gm-Message-State: AOAM5325NFuqBkLRYZsqFahJz9sgvptvrauKsFeqXd2zfj30ckECv0nu
+ RsPEC8kXlGrd3oHOjR/IQA==
+X-Google-Smtp-Source: ABdhPJzaBWJNWUTtE+/q4T84oos6G4Nn+YvDFEQnYXoZcyVBoreAhzuzCgsUr1Co/9gdgApUzXk1mQ==
+X-Received: by 2002:a4a:a289:: with SMTP id h9mr1050535ool.86.1608247974608;
+ Thu, 17 Dec 2020 15:32:54 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id q18sm1562806ood.35.2020.12.17.15.32.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 15:06:20 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 3/3] dma-buf: system_heap: Add deferred freeing to the
- system heap
-Date: Thu, 17 Dec 2020 23:06:12 +0000
-Message-Id: <20201217230612.32397-3-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201217230612.32397-1-john.stultz@linaro.org>
-References: <20201217230612.32397-1-john.stultz@linaro.org>
+ Thu, 17 Dec 2020 15:32:53 -0800 (PST)
+Received: (nullmailer pid 431228 invoked by uid 1000);
+ Thu, 17 Dec 2020 23:32:52 -0000
+Date: Thu, 17 Dec 2020 17:32:52 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: renesas, lvds: RZ/G2E
+ needs renesas, companion too
+Message-ID: <20201217233252.GA431179@robh.at.kernel.org>
+References: <20201215225927.6552-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201215225927.6552-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,84 +59,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXRpbGl6ZSB0aGUgZGVmZXJyZWQgZnJlZSBoZWxwZXIgbGlicmFyeSBpbiB0aGUgc3lzdGVtIGhl
-YXAuCgpUaGlzIHByb3ZpZGVzIGEgbmljZSBwZXJmb3JtYW5jZSBidW1wIGFuZCBwdXRzIHRoZQpz
-eXN0ZW0gaGVhcCBwZXJmb3JtYW5jZSBvbiBwYXIgd2l0aCBJT04uCgpDYzogU3VtaXQgU2Vtd2Fs
-IDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9y
-YS5vcmc+CkNjOiBDaHJpcyBHb2xkc3dvcnRoeSA8Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+CkNj
-OiBMYXVyYSBBYmJvdHQgPGxhYmJvdHRAa2VybmVsLm9yZz4KQ2M6IEJyaWFuIFN0YXJrZXkgPEJy
-aWFuLlN0YXJrZXlAYXJtLmNvbT4KQ2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUu
-Y29tPgpDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT4KQ2M6IFNhbmRl
-ZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KQ2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVu
-dHpAZ29vZ2xlLmNvbT4KQ2M6IMOYcmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5jb20+CkNjOiBS
-b2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgpDYzogRXplcXVpZWwgR2FyY2lhIDxl
-emVxdWllbEBjb2xsYWJvcmEuY29tPgpDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZy
-PgpDYzogSmFtZXMgSm9uZXMgPGpham9uZXNAbnZpZGlhLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZn
-ZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQt
-b2ZmLWJ5OiBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJz
-L2RtYS1idWYvaGVhcHMvS2NvbmZpZyAgICAgICB8ICAxICsKIGRyaXZlcnMvZG1hLWJ1Zi9oZWFw
-cy9zeXN0ZW1faGVhcC5jIHwgMzAgKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0KIDIgZmls
-ZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvS2NvbmZpZyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9L
-Y29uZmlnCmluZGV4IGZhNWUxYzMzMGNjZS4uM2MxY2RlY2NhOWUyIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2RtYS1idWYvaGVhcHMvS2NvbmZpZworKysgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvS2Nv
-bmZpZwpAQCAtNSw2ICs1LDcgQEAgY29uZmlnIERNQUJVRl9IRUFQU19TWVNURU0KIAlib29sICJE
-TUEtQlVGIFN5c3RlbSBIZWFwIgogCWRlcGVuZHMgb24gRE1BQlVGX0hFQVBTCiAJc2VsZWN0IFBB
-R0VfUE9PTAorCXNlbGVjdCBETUFCVUZfSEVBUFNfREVGRVJSRURfRlJFRQogCWhlbHAKIAkgIENo
-b29zZSB0aGlzIG9wdGlvbiB0byBlbmFibGUgdGhlIHN5c3RlbSBkbWFidWYgaGVhcC4gVGhlIHN5
-c3RlbSBoZWFwCiAJICBpcyBiYWNrZWQgYnkgcGFnZXMgZnJvbSB0aGUgYnVkZHkgYWxsb2NhdG9y
-LiBJZiBpbiBkb3VidCwgc2F5IFkuCmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMv
-c3lzdGVtX2hlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCmluZGV4
-IDg4NWUzMDg5NGI3Ny4uOTA1YjMwNGVhMjRiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYv
-aGVhcHMvc3lzdGVtX2hlYXAuYworKysgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hl
-YXAuYwpAQCAtMjIsNiArMjIsOCBAQAogI2luY2x1ZGUgPGxpbnV4L3ZtYWxsb2MuaD4KICNpbmNs
-dWRlIDxuZXQvcGFnZV9wb29sLmg+CiAKKyNpbmNsdWRlICJkZWZlcnJlZC1mcmVlLWhlbHBlci5o
-IgorCiBzdGF0aWMgc3RydWN0IGRtYV9oZWFwICpzeXNfaGVhcDsKIAogc3RydWN0IHN5c3RlbV9o
-ZWFwX2J1ZmZlciB7CkBAIC0zMiw2ICszNCw3IEBAIHN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIg
-ewogCXN0cnVjdCBzZ190YWJsZSBzZ190YWJsZTsKIAlpbnQgdm1hcF9jbnQ7CiAJdm9pZCAqdmFk
-ZHI7CisJc3RydWN0IGRlZmVycmVkX2ZyZWVsaXN0X2l0ZW0gZGVmZXJyZWRfZnJlZTsKIH07CiAK
-IHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKQEAgLTMxNywzMCArMzIwLDQzIEBAIHN0YXRp
-YyBpbnQgc3lzdGVtX2hlYXBfemVyb19idWZmZXIoc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAq
-YnVmZmVyKQogCXJldHVybiByZXQ7CiB9CiAKLXN0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9i
-dWZfcmVsZWFzZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQorc3RhdGljIHZvaWQgc3lzdGVtX2hl
-YXBfYnVmX2ZyZWUoc3RydWN0IGRlZmVycmVkX2ZyZWVsaXN0X2l0ZW0gKml0ZW0sIGJvb2wgc2tp
-cF9wb29sKQogewotCXN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIgKmJ1ZmZlciA9IGRtYWJ1Zi0+
-cHJpdjsKKwlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyICpidWZmZXIgPSBjb250YWluZXJfb2Yo
-aXRlbSwgc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciwgZGVmZXJyZWRfZnJlZSk7CiAJc3RydWN0
-IHNnX3RhYmxlICp0YWJsZTsKIAlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOwogCWludCBpLCBqOwog
-CiAJLyogWmVybyB0aGUgYnVmZmVyIHBhZ2VzIGJlZm9yZSBhZGRpbmcgYmFjayB0byB0aGUgcG9v
-bCAqLwotCXN5c3RlbV9oZWFwX3plcm9fYnVmZmVyKGJ1ZmZlcik7CisJaWYgKCFza2lwX3Bvb2wp
-CisJCWlmIChzeXN0ZW1faGVhcF96ZXJvX2J1ZmZlcihidWZmZXIpKQorCQkJc2tpcF9wb29sID0g
-dHJ1ZTsgLy8gT24gemVyb2luZyBmYWlsdXJlLCBqdXN0IGZyZWUKIAogCXRhYmxlID0gJmJ1ZmZl
-ci0+c2dfdGFibGU7CiAJZm9yX2VhY2hfc2codGFibGUtPnNnbCwgc2csIHRhYmxlLT5uZW50cywg
-aSkgewogCQlzdHJ1Y3QgcGFnZSAqcGFnZSA9IHNnX3BhZ2Uoc2cpOwogCi0JCWZvciAoaiA9IDA7
-IGogPCBOVU1fT1JERVJTOyBqKyspIHsKLQkJCWlmIChjb21wb3VuZF9vcmRlcihwYWdlKSA9PSBv
-cmRlcnNbal0pCi0JCQkJYnJlYWs7CisJCWlmIChza2lwX3Bvb2wpIHsKKwkJCV9fZnJlZV9wYWdl
-cyhwYWdlLCBjb21wb3VuZF9vcmRlcihwYWdlKSk7CisJCX0gZWxzZSB7CisJCQlmb3IgKGogPSAw
-OyBqIDwgTlVNX09SREVSUzsgaisrKSB7CisJCQkJaWYgKGNvbXBvdW5kX29yZGVyKHBhZ2UpID09
-IG9yZGVyc1tqXSkKKwkJCQkJYnJlYWs7CisJCQl9CisJCQlwYWdlX3Bvb2xfcHV0X2Z1bGxfcGFn
-ZShwb29sc1tqXSwgcGFnZSwgZmFsc2UpOwogCQl9Ci0JCXBhZ2VfcG9vbF9wdXRfZnVsbF9wYWdl
-KHBvb2xzW2pdLCBwYWdlLCBmYWxzZSk7CiAJfQogCXNnX2ZyZWVfdGFibGUodGFibGUpOwogCWtm
-cmVlKGJ1ZmZlcik7CiB9CiAKK3N0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9idWZfcmVsZWFz
-ZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQoreworCXN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIg
-KmJ1ZmZlciA9IGRtYWJ1Zi0+cHJpdjsKKworCWRlZmVycmVkX2ZyZWUoJmJ1ZmZlci0+ZGVmZXJy
-ZWRfZnJlZSwgc3lzdGVtX2hlYXBfYnVmX2ZyZWUsIGJ1ZmZlci0+bGVuKTsKK30KKwogc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkbWFfYnVmX29wcyBzeXN0ZW1faGVhcF9idWZfb3BzID0gewogCS5hdHRh
-Y2ggPSBzeXN0ZW1faGVhcF9hdHRhY2gsCiAJLmRldGFjaCA9IHN5c3RlbV9oZWFwX2RldGFjaCwK
-LS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+On Wed, 16 Dec 2020 00:59:27 +0200, Laurent Pinchart wrote:
+> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> Document RZ/G2E support for property renesas,companion.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Slight reword of SoC list in description
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,lvds.yaml    | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
