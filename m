@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32E32DD366
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 15:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C322DDFC2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E10C06E3C1;
-	Thu, 17 Dec 2020 14:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A731589C03;
+	Fri, 18 Dec 2020 08:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD3A46E3C1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 14:58:45 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id 9so25316229oiq.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 06:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qUVmPaYX1wW2ti+pEDx3otYgNlKnO51Pu8NKbTBHoAc=;
- b=ks5NrRu4kh74AmpU51ZDIaCXtatOXEFw2p5lvFFNznpm8Zp5TIVST0EZCUPLsd4Aal
- N5LFiQsKl8O09VRX+VCIxLup18hdOIK106/Qae/TWInEPMXH/RPe03gM7KL/i59yHADD
- cFZRe+gRo1UvfwsRIxZ7EAWMi7kLed5Yxikck=
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765266E3DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 15:01:00 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id w16so20491176pga.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 07:01:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=UER7F44VA6+CVzOh95HoaBZK/JzVvCMaSOED9S3uJJU=;
+ b=arFz/JT1mmmCBByLiELMCkMGGUJ5eD9gy5ohK7x7YjZwxdRwwarqml3g+3n80rdhoY
+ lFKClPTqiyUH8s/OEpE+KkBxNogJYOebb/UJJ4XcgWXEe8W4bvKKmLgM2KnFj34EUC4X
+ 38aTFtFbYDnTrbRm+WZUQUu9Tsi1RyMjF5dHCADb5mOWtaPQzdveH+J7DvuzUnfWb0Lm
+ TVRBlcpWHMMfuCDnAj0DtER0kCe73rnTu+vBi0QdcFZFQV5+pmRfGgtUBEKuThhDHx+2
+ o57mY9bGSHE7OLvyKOPnMem5L/zOPWXROzO5UcdbB79gpKbKl2ryyXmLGwkFc1POfp6f
+ aRHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qUVmPaYX1wW2ti+pEDx3otYgNlKnO51Pu8NKbTBHoAc=;
- b=b9H2p0BGGQlPahJhKib65RNAO9/SG2PgAwSbpIvchITu5djVHKmPfTP3NlVoxTKwu4
- mWTLdvPeW86CuUp8VnFIdnNbeqLzOzuubfUiNoeb7JOyF5LVWF5vd1qcN2BWqWnCqO3e
- RT3h7JbIAzbxeJUXCTwtwJYKZ2hnogR6U3du1OIGWwZJGPcM/jzZciEH6T5UEoiMZAu3
- 31wqtnYkPwkrlrI850CYmWewZuLM3tSE1Ff0hIoLu/OfoiBs5Q7j73UkiG1UhjwHT6k3
- vOoSwU8ECgCkQlFLGm2nESJ3PXvv0klSBJMKj4emCCWPzzdMHxVHlPixBk5d3X7stisC
- iWoA==
-X-Gm-Message-State: AOAM530z1oudLes9DV3LHeXJQtEeWtt4F+LlYYLzv4mC5BPquXRCgM6g
- 86lgyPkYt3lNycvwYg3nciR4sskudf/IFW4NogSAgg==
-X-Google-Smtp-Source: ABdhPJzjnXrOMMxUIU5IgTErLF4lKFzSyLEDLIxDl0mKkahFF49j3WlEfRBGmj29SG6s+O9Xk4aA90kzLApvorJ1IWc=
-X-Received: by 2002:aca:4e11:: with SMTP id c17mr4826959oib.14.1608217124940; 
- Thu, 17 Dec 2020 06:58:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217144342.217005-1-maxime@cerno.tech>
-In-Reply-To: <20201217144342.217005-1-maxime@cerno.tech>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 17 Dec 2020 15:58:33 +0100
-Message-ID: <CAKMK7uH2ctsmg29t=SgCk+dv673_8EbgGqyuuProbhfasfzUgQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: Introduce a drm_crtc_commit_wait helper
-To: Maxime Ripard <maxime@cerno.tech>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=UER7F44VA6+CVzOh95HoaBZK/JzVvCMaSOED9S3uJJU=;
+ b=SNIoLgLJibkI5xtb4ODnAYT5o468rb4BnilPS+fXmJlQW8kg/tp/OxvOBm/mP3MMAL
+ O+JvEX9yIhfRVVekWc4PfgBhZwMoxCHLfPyvVsQiol61WALvrPafwb/501vJ+XhYixn8
+ s0iE99gJrbM2T7db6HMmIt8t3n0zOREihZ4NGl0qcComSTHr66ADwHkxuBSuiRmoWPmA
+ DDQnPC5rNzgkt4ap3qzq7c+KB3aVNyYemhwbVC/uYmf46Os9cLW/v5dqOlfFx+i7ujiW
+ bnYadRc6q8u0tZqi8kIk1J4B+XI3rvhP8Ds2GoP7a3Ij7WflVZoN6INowvHzmqdKGGi7
+ XKIw==
+X-Gm-Message-State: AOAM533YnVau7qDemp9Wp06ngk9QyuaB7+iXK2VGFMfuK+4VZQZeaV9C
+ leJ2wlcSN/IY1x7L5mwun2M=
+X-Google-Smtp-Source: ABdhPJx5DP5kKYy4bW+Smpn5gDOcd0+HeLhTsQqwtg8bxX2HBah3tReDiTHgyJ46nO10A/DqJrdghQ==
+X-Received: by 2002:a63:e20:: with SMTP id d32mr11975752pgl.94.1608217259818; 
+ Thu, 17 Dec 2020 07:00:59 -0800 (PST)
+Received: from localhost.localdomain (1-171-2-187.dynamic-ip.hinet.net.
+ [1.171.2.187])
+ by smtp.gmail.com with ESMTPSA id o140sm6189074pfd.26.2020.12.17.07.00.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Dec 2020 07:00:58 -0800 (PST)
+From: cy_huang <u0084500@gmail.com>
+To: lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, b.zolnierkie@samsung.com
+Subject: [PATCH v5 1/6] mfd: rt4831: Adds support for Richtek RT4831 core
+Date: Thu, 17 Dec 2020 23:00:39 +0800
+Message-Id: <1608217244-314-1-git-send-email-u0084500@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Fri, 18 Dec 2020 08:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,232 +64,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: ChiYuan Huang <cy_huang@richtek.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 17, 2020 at 3:43 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> There's currently four users of the same logic to wait for a commit to
-> be flipped: three for the CRTCs, connectors and planes in
-> drm_atomic_helper_wait_for_dependencies, and one in vc4.
->
-> Let's consolidate this a bit to avoid any code duplication.
->
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+This adds support Richtek RT4831 core. It includes four channel WLED driver
+and Display Bias Voltage outputs.
 
-I did ponder for a bit whether this is in a good spot or not, maybe a
-drm_crtc_commit.[hc] would be neat but still feels a bit like
-overkill. Maybe add a quick sentence to the struct drm_crtc_commit
-pointing at this new function, like "See also drm_crtc_commit_wait()"?
--Daniel
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+since v5
+- Rename file name from rt4831-core.c to rt4831.c
+- Change RICHTEK_VID to RICHTEK_VENDOR_ID.
+- Change gpio_desc nameing from 'enable' to 'enable_gpio' in probe.
+- Change variable 'val' to the meaningful name 'chip_id'.
+- Refine the error log when vendor id is not matched.
+- Remove of_match_ptr.
 
-> ---
->  drivers/gpu/drm/drm_atomic.c        | 39 ++++++++++++++++++
->  drivers/gpu/drm/drm_atomic_helper.c | 61 +++++------------------------
->  drivers/gpu/drm/vc4/vc4_kms.c       | 17 ++------
->  include/drm/drm_atomic.h            |  2 +
->  4 files changed, 54 insertions(+), 65 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index b2d20eb6c807..e2ab6564535c 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -52,6 +52,45 @@ void __drm_crtc_commit_free(struct kref *kref)
->  }
->  EXPORT_SYMBOL(__drm_crtc_commit_free);
->
-> +/**
-> + * drm_crtc_commit_wait - Waits for a commit to complete
-> + * @commit: &drm_crtc_commit to wait for
-> + *
-> + * Waits for a given &drm_crtc_commit to be programmed into the
-> + * hardware and flipped to.
-> + *
-> + * Returns:
-> + *
-> + * 0 on success, a negative error code otherwise.
-> + */
-> +int drm_crtc_commit_wait(struct drm_crtc_commit *commit)
-> +{
-> +       unsigned long timeout = 10 * HZ;
-> +       int ret;
-> +
-> +       if (!commit)
-> +               return 0;
-> +
-> +       ret = wait_for_completion_timeout(&commit->hw_done, timeout);
-> +       if (!ret) {
-> +               DRM_ERROR("hw_done timed out\n");
-> +               return -ETIMEDOUT;
-> +       }
-> +
-> +       /*
-> +        * Currently no support for overwriting flips, hence
-> +        * stall for previous one to execute completely.
-> +        */
-> +       ret = wait_for_completion_timeout(&commit->flip_done, timeout);
-> +       if (!ret) {
-> +               DRM_ERROR("flip_done timed out\n");
-> +               return -ETIMEDOUT;
-> +       }
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL(drm_crtc_commit_wait);
-> +
->  /**
->   * drm_atomic_state_default_release -
->   * release memory initialized by drm_atomic_state_init
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index a84dc427cf82..9fa3f97223a1 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -2202,70 +2202,27 @@ void drm_atomic_helper_wait_for_dependencies(struct drm_atomic_state *old_state)
->         struct drm_plane_state *old_plane_state;
->         struct drm_connector *conn;
->         struct drm_connector_state *old_conn_state;
-> -       struct drm_crtc_commit *commit;
->         int i;
->         long ret;
->
->         for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
-> -               commit = old_crtc_state->commit;
-> -
-> -               if (!commit)
-> -                       continue;
-> -
-> -               ret = wait_for_completion_timeout(&commit->hw_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[CRTC:%d:%s] hw_done timed out\n",
-> -                                 crtc->base.id, crtc->name);
-> -
-> -               /* Currently no support for overwriting flips, hence
-> -                * stall for previous one to execute completely. */
-> -               ret = wait_for_completion_timeout(&commit->flip_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[CRTC:%d:%s] flip_done timed out\n",
-> +               ret = drm_crtc_commit_wait(old_crtc_state->commit);
-> +               if (ret)
-> +                       DRM_ERROR("[CRTC:%d:%s] commit wait timed out\n",
->                                   crtc->base.id, crtc->name);
->         }
->
->         for_each_old_connector_in_state(old_state, conn, old_conn_state, i) {
-> -               commit = old_conn_state->commit;
-> -
-> -               if (!commit)
-> -                       continue;
-> -
-> -               ret = wait_for_completion_timeout(&commit->hw_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[CONNECTOR:%d:%s] hw_done timed out\n",
-> -                                 conn->base.id, conn->name);
-> -
-> -               /* Currently no support for overwriting flips, hence
-> -                * stall for previous one to execute completely. */
-> -               ret = wait_for_completion_timeout(&commit->flip_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[CONNECTOR:%d:%s] flip_done timed out\n",
-> +               ret = drm_crtc_commit_wait(old_conn_state->commit);
-> +               if (ret)
-> +                       DRM_ERROR("[CONNECTOR:%d:%s] commit wait timed out\n",
->                                   conn->base.id, conn->name);
->         }
->
->         for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
-> -               commit = old_plane_state->commit;
-> -
-> -               if (!commit)
-> -                       continue;
-> -
-> -               ret = wait_for_completion_timeout(&commit->hw_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[PLANE:%d:%s] hw_done timed out\n",
-> -                                 plane->base.id, plane->name);
-> -
-> -               /* Currently no support for overwriting flips, hence
-> -                * stall for previous one to execute completely. */
-> -               ret = wait_for_completion_timeout(&commit->flip_done,
-> -                                                 10*HZ);
-> -               if (ret == 0)
-> -                       DRM_ERROR("[PLANE:%d:%s] flip_done timed out\n",
-> +               ret = drm_crtc_commit_wait(old_plane_state->commit);
-> +               if (ret)
-> +                       DRM_ERROR("[PLANE:%d:%s] commit wait timed out\n",
->                                   plane->base.id, plane->name);
->         }
->  }
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index f09254c2497d..bb5529a7a9c2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -363,9 +363,8 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
->         for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
->                 struct vc4_crtc_state *vc4_crtc_state =
->                         to_vc4_crtc_state(old_crtc_state);
-> -               struct drm_crtc_commit *commit;
->                 unsigned int channel = vc4_crtc_state->assigned_channel;
-> -               unsigned long done;
-> +               int ret;
->
->                 if (channel == VC4_HVS_CHANNEL_DISABLED)
->                         continue;
-> @@ -373,17 +372,9 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
->                 if (!old_hvs_state->fifo_state[channel].in_use)
->                         continue;
->
-> -               commit = old_hvs_state->fifo_state[i].pending_commit;
-> -               if (!commit)
-> -                       continue;
-> -
-> -               done = wait_for_completion_timeout(&commit->hw_done, 10 * HZ);
-> -               if (!done)
-> -                       drm_err(dev, "Timed out waiting for hw_done\n");
-> -
-> -               done = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
-> -               if (!done)
-> -                       drm_err(dev, "Timed out waiting for flip_done\n");
-> +               ret = drm_crtc_commit_wait(old_hvs_state->fifo_state[i].pending_commit);
-> +               if (ret)
-> +                       drm_err(dev, "Timed out waiting for commit\n");
->         }
->
->         drm_atomic_helper_commit_modeset_disables(dev, state);
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index ce7023e9115d..79ef992c433d 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -436,6 +436,8 @@ static inline void drm_crtc_commit_put(struct drm_crtc_commit *commit)
->         kref_put(&commit->ref, __drm_crtc_commit_free);
->  }
->
-> +int drm_crtc_commit_wait(struct drm_crtc_commit *commit);
-> +
->  struct drm_atomic_state * __must_check
->  drm_atomic_state_alloc(struct drm_device *dev);
->  void drm_atomic_state_clear(struct drm_atomic_state *state);
-> --
-> 2.29.2
->
+since v2
+- Refine Kconfig descriptions.
+- Add copyright.
+- Refine error logs in probe.
+- Refine comment lines in remove and shutdown.
+---
+ drivers/mfd/Kconfig  |  10 +++++
+ drivers/mfd/Makefile |   1 +
+ drivers/mfd/rt4831.c | 124 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 135 insertions(+)
+ create mode 100644 drivers/mfd/rt4831.c
 
-
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 8b99a13..dfb2640 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1088,6 +1088,16 @@ config MFD_RDC321X
+ 	  southbridge which provides access to GPIOs and Watchdog using the
+ 	  southbridge PCI device configuration space.
+ 
++config MFD_RT4831
++	tristate "Richtek RT4831 four channel WLED and Display Bias Voltage"
++	depends on I2C
++	select MFD_CORE
++	select REGMAP_I2C
++	help
++	  This enables support for the Richtek RT4831 that includes 4 channel
++	  WLED driving and Display Bias Voltage. It's commonly used to provide
++	  power to the LCD display and LCD backlight.
++
+ config MFD_RT5033
+ 	tristate "Richtek RT5033 Power Management IC"
+ 	depends on I2C
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 1780019..28d247b 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -235,6 +235,7 @@ obj-$(CONFIG_MFD_MENF21BMC)	+= menf21bmc.o
+ obj-$(CONFIG_MFD_HI6421_PMIC)	+= hi6421-pmic-core.o
+ obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
+ obj-$(CONFIG_MFD_DLN2)		+= dln2.o
++obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
+ obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
+ obj-$(CONFIG_MFD_SKY81452)	+= sky81452.o
+ 
+diff --git a/drivers/mfd/rt4831.c b/drivers/mfd/rt4831.c
+new file mode 100644
+index 00000000..2bf8364
+--- /dev/null
++++ b/drivers/mfd/rt4831.c
+@@ -0,0 +1,124 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (c) 2020 Richtek Technology Corp.
++ *
++ * Author: ChiYuan Huang <cy_huang@richtek.com>
++ */
++
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/mfd/core.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++
++#define RT4831_REG_REVISION	0x01
++#define RT4831_REG_ENABLE	0x08
++#define RT4831_REG_I2CPROT	0x15
++
++#define RICHTEK_VENDOR_ID	0x03
++#define RT4831_VID_MASK		GENMASK(1, 0)
++#define RT4831_RESET_MASK	BIT(7)
++#define RT4831_I2CSAFETMR_MASK	BIT(0)
++
++static const struct mfd_cell rt4831_subdevs[] = {
++	OF_MFD_CELL("rt4831-backlight", NULL, NULL, 0, 0, "richtek,rt4831-backlight"),
++	MFD_CELL_NAME("rt4831-regulator")
++};
++
++static bool rt4831_is_accessible_reg(struct device *dev, unsigned int reg)
++{
++	if (reg >= RT4831_REG_REVISION && reg <= RT4831_REG_I2CPROT)
++		return true;
++	return false;
++}
++
++static const struct regmap_config rt4831_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = RT4831_REG_I2CPROT,
++
++	.readable_reg = rt4831_is_accessible_reg,
++	.writeable_reg = rt4831_is_accessible_reg,
++};
++
++static int rt4831_probe(struct i2c_client *client)
++{
++	struct gpio_desc *enable_gpio;
++	struct regmap *regmap;
++	unsigned int chip_id;
++	int ret;
++
++	enable_gpio = devm_gpiod_get_optional(&client->dev, "enable", GPIOD_OUT_HIGH);
++	if (IS_ERR(enable_gpio)) {
++		dev_err(&client->dev, "Failed to get 'enable' GPIO\n");
++		return PTR_ERR(enable_gpio);
++	}
++
++	regmap = devm_regmap_init_i2c(client, &rt4831_regmap_config);
++	if (IS_ERR(regmap)) {
++		dev_err(&client->dev, "Failed to initialize regmap\n");
++		return PTR_ERR(regmap);
++	}
++
++	ret = regmap_read(regmap, RT4831_REG_REVISION, &chip_id);
++	if (ret) {
++		dev_err(&client->dev, "Failed to get H/W revision\n");
++		return ret;
++	}
++
++	if ((chip_id & RT4831_VID_MASK) != RICHTEK_VENDOR_ID) {
++		dev_err(&client->dev, "Chip vendor ID 0x%02x not matched\n", chip_id);
++		return -ENODEV;
++	}
++
++	/*
++	 * Used to prevent the abnormal shutdown.
++	 * If SCL/SDA both keep low for one second to reset HW.
++	 */
++	ret = regmap_update_bits(regmap, RT4831_REG_I2CPROT, RT4831_I2CSAFETMR_MASK,
++				 RT4831_I2CSAFETMR_MASK);
++	if (ret) {
++		dev_err(&client->dev, "Failed to enable I2C safety timer\n");
++		return ret;
++	}
++
++	return devm_mfd_add_devices(&client->dev, PLATFORM_DEVID_AUTO, rt4831_subdevs,
++				    ARRAY_SIZE(rt4831_subdevs), NULL, 0, NULL);
++}
++
++static int rt4831_remove(struct i2c_client *client)
++{
++	struct regmap *regmap = dev_get_regmap(&client->dev, NULL);
++
++	/* Disable WLED and DSV outputs */
++	return regmap_update_bits(regmap, RT4831_REG_ENABLE, RT4831_RESET_MASK, RT4831_RESET_MASK);
++}
++
++static void rt4831_shutdown(struct i2c_client *client)
++{
++	struct regmap *regmap = dev_get_regmap(&client->dev, NULL);
++
++	/* Disable WLED and DSV outputs */
++	regmap_update_bits(regmap, RT4831_REG_ENABLE, RT4831_RESET_MASK, RT4831_RESET_MASK);
++}
++
++static const struct of_device_id __maybe_unused rt4831_of_match[] = {
++	{ .compatible = "richtek,rt4831", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, rt4831_of_match);
++
++static struct i2c_driver rt4831_driver = {
++	.driver = {
++		.name = "rt4831",
++		.of_match_table = rt4831_of_match,
++	},
++	.probe_new = rt4831_probe,
++	.remove = rt4831_remove,
++	.shutdown = rt4831_shutdown,
++};
++module_i2c_driver(rt4831_driver);
++
++MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
++MODULE_LICENSE("GPL v2");
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
