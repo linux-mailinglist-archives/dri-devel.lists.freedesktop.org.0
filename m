@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC8902DD00E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 12:08:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05C92DD01A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Dec 2020 12:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D61F6E24D;
-	Thu, 17 Dec 2020 11:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54C46E2BC;
+	Thu, 17 Dec 2020 11:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
- [185.70.40.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0981B6E24D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 11:07:56 +0000 (UTC)
-Date: Thu, 17 Dec 2020 11:07:46 +0000
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EA16E30F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 11:09:21 +0000 (UTC)
+Date: Thu, 17 Dec 2020 11:09:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1608203273;
- bh=dYQa9iZGZ1YqqdPAriugI33Sa1lc9vkDRMj5DrW+XpU=;
+ s=protonmail2; t=1608203359;
+ bh=JC6Cr1Hz4QnhR/+73a0YdgfVBHt35TXIE3I0TIhxPlw=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=jEKy4FgwMj9SqXk8N+W8hzTqcdqkinI28HmfujfAXKGMeC2sUBMQvAVaFogNTrClN
- KM2wZD1e1c2hHQgi2LRXZYoxfc8x+nCVVFdVBbp+vs5I8q/WEkdk6B5m6VR5ksfHRP
- AZ8t4RaKDw9yA4DlSKABX1kg+gd9NRXb3Du+WZOvSaXjnIaYrB5c5F4nc2EEULz+uW
- 4vCK2zPwDZDX8ghUvsJQbyNi1F7DaSW1k0OccenlnrisSgW/JDIJaoaVwcF+wf8THW
- 1eS4sZNIrmKK8TNUg4TeOA0dRvsCqdItGnZ+/UURlm01xEP3jxYElG2f3CR4xt6jbe
- hHYvHC+cuXVzA==
+ b=GVrUh7jZOibfw7s7DwQJ/BZgySl8V5J4n2vTie7EOEZ6MLARzRqbZdsAbxfEUtGnd
+ vqTVy74COpNxrxsvIW2gB6XgNUyxpxxl7LFIRVJNttveDAoj3MMLjTpRCmAJaL2siH
+ DOMTz3cdM+2rfipJBH9esKoo8ItxOPpYiFlkp35C4tX4dBi+FsJOgZA19hC/qh7EUB
+ +LUVffGoJ5wBoOD3KCO8/gGWMo8jPy9CRusWiXBWd1HXyZZ+xXHUd7zTOjfBHM9khU
+ RhnRIQa8jegIYK2t3Noce1Evmp8luoBKYQTjwIlwnG1tEE2/nvAiyTZLNj+pW+DJvW
+ 8XmuTrFHIurnw==
 To: Daniel Vetter <daniel@ffwll.ch>
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 7/8] drm/doc: fix drm_plane_type docs
-Message-ID: <UVB73W4L-xIbtb-vVoHuKhzQb-EcSv0_JxZS2hyWoPNfr1NLbWbxPqZbMlAtj73nnb0GsJUlkIxRMP6oXNQyvB1BInEXqgGjGDj2lY7uo6Q=@emersion.fr>
-In-Reply-To: <CAKMK7uE=oNuyaACKD1H+e5BGyGi8UZYhhgSGF=cZaB60NWNuaA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/doc: document the type plane property
+Message-ID: <l8nD7pGzktK4GDrnjyZEBoStfFM0qfKm2h4rnZZB3Fr5VUK2lSgGXHXwCw3HlVbCnHM9WqDykkrHqJNNeX0Qo1h6ymVDtrKIcaCU4U2nLSU=@emersion.fr>
+In-Reply-To: <CAKMK7uFbG+x0kHQfZjqwmRQ7zQjTDSBo2FYkoLHG9yf1mzApMA@mail.gmail.com>
 References: <20201216202222.48146-1-contact@emersion.fr>
- <20201216202222.48146-8-contact@emersion.fr>
- <X9p51qbZ6il8DH5T@phenom.ffwll.local>
- <co84HmvozNSpZ7qlBqqkMdcpXRupOTigvbWZJvGIdtKH4Fr6GlF8-Np3s15jhMLSqL_cANTarQaL-6ixnVZTmGa7pSIfn2u86oaqEE3ww7U=@emersion.fr>
- <CAKMK7uE=oNuyaACKD1H+e5BGyGi8UZYhhgSGF=cZaB60NWNuaA@mail.gmail.com>
+ <20201216202222.48146-9-contact@emersion.fr>
+ <X9p65bX22V6SndAA@phenom.ffwll.local>
+ <zg8iRcg5FuA6xTm47AXmIyBUBV8KVfnk4G61EVlu3gqaOdIg77OmCL_8weafYpfDxa4rnaDufT6eA_SLzVpP90hkgWtoat5H77zRZMl7hjk=@emersion.fr>
+ <CAKMK7uFbG+x0kHQfZjqwmRQ7zQjTDSBo2FYkoLHG9yf1mzApMA@mail.gmail.com>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -59,42 +58,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, December 17th, 2020 at 11:50 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
+On Thursday, December 17th, 2020 at 11:52 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
 
-> > > > @@ -557,19 +561,20 @@ enum drm_plane_type {
-> > > >     /**
-> > > >      * @DRM_PLANE_TYPE_PRIMARY:
-> > > >      *
-> > > > -    * Primary planes represent a "main" plane for a CRTC.  Primary planes
-> > > > -    * are the planes operated upon by CRTC modesetting and flipping
-> > > > -    * operations described in the &drm_crtc_funcs.page_flip and
-> > > > -    * &drm_crtc_funcs.set_config hooks.
+> > > > + *     capability, the plane type is just a hint and is mostly superseded by
+> > > > + *     atomic test-only commits. The type hint can still be used to come up
+> > > > + *     more easily with a plane configuration accepted by the driver.
+> > > > + *
+> > > > + *     The value of this property can be one of the following:
+> > > > + *
+> > > > + *     "Primary":
+> > > > + *         To light up a CRTC, attaching a primary plane is the most likely to
+> > > > + *         work if it covers the whole CRTC and doesn't have scaling or
+> > > > + *         cropping set up.
+> > > > + *
+> > > > + *         Drivers may support more features for the primary plane, user-space
+> > > > + *         can find out with test-only atomic commits.
 > > >
-> > > I think we should keep the notice which legacy entry hooks implicitly
-> > > operate on the primary plane. Not sure why you're removing the above
-> > > sentence. Maybe improve it by adding "See also &drm_crtc.primary." for
-> > > more context?
+> > > We need to mention here that this is the implicit plane used by the
+> > > PAGE_FLIP and SETCRTC ioctl (maybe spell them out in full since these are
+> > > userspace docs).
 > >
-> > I intentionally removed it, because setting the plane type will not magically
-> > make it used for legacy IOCTLs. The previous version documented the legacy
-> > IOCTLs behaviour in the primary and cursor type docs. That was misleading
-> > because only the drm_crtc.{primary,cursor} pointers make it so a plane is used
-> > for legacy IOCTLs, not the type.
-> >
-> > This patch does keep a reference to drm_crtc.{primary,cursor}, in the paragraph
-> > right above. Clicking on the reference will explain in detail which legacy
-> > IOCTLs are affected. I don't think repeating the paragraph again in the primary
-> > and cursor type docs is necessary.
+> > I intentionally didn't write that down here, because as previously discussed,
+> > user-space has no way to guess the drm_crtc.{primary,cursor} pointers, so
+> > user-space cannot guess which planes will be used for legacy IOCTLs. Adding any
+> > hint that user-space _could_ do it will result in broken user-space.
 >
-> Hm I guess works too, I'm not sure documentations must avoid
-> repetitions at all costs (since it generally makes stuff harder to
-> find, despite all the links).
+> Hm then at least a warning that userspace must not mix legacy ioctls
+> with using primary planes explicitly, since havoc will ensue? More
+> relevant for cursor planes, since some compositors do use atomic +
+> legacy cursor planes, but imo good to have the same blurb with the
+> list of relevant ioctls for each.
 
-I didn't find the repetition necessary because the paragraph referencing
-drm_crtc.{primary,cursor} is literally just a few lines of text away. But I
-guess as long as it's clear that setting the type doesn't set
-drm_crtc.{primary,cursor} I'm fine with duplicating the references.
-
+Oh, right, good idea, this sounds important. Will add in v2.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
