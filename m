@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D202DDFCA
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6612DDFEF
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A08889BF3;
-	Fri, 18 Dec 2020 08:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB8B6E062;
+	Fri, 18 Dec 2020 08:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB9E6E1AA
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:20 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id o19so34205381lfo.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:20 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0DD76E1BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:23 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id m12so59846982lfo.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cl0K+0TJ44kvt29rpR6eiUIQXd8X64NWC+nXmDDHd1E=;
- b=MuUFzZ0hzx33koe8Q6SIGZb5hKTQFzBpBJUqh/SixgLOznrLg7KOMWUpURY+xeV5Hx
- k/U2399Zm9gNeQBBswlgsbKInco0EB6omSTVgO9I39a9yEFyNbqx2xScbrINdw4W49qY
- oiKEDur9FjWfspdRBhJVowgv3c0OeHonvL9BobDtgnQY/086LE0DqE29kK45w1BEDk7I
- zzqJiWQFQ1bVlAlIio0abJ+fAaM3fA84dpqAwotrs+rIc80eNPDuZdkjvHELUM24Caal
- /nFPceaxGOpDV1296lZGIWzVC+Jwil9tc0hiEppkOjRemaz3NCAyDRkyMJl/pkge85aG
- auXQ==
+ bh=wRLKIZbWYzVgD4/h7Q5pP/dMfh/6wK4T7bMtKrKWFYs=;
+ b=nof46WJOEl3Od1rTO/2BYq6/+zk+zJ/AGmoG6erIC0+tgB/oIvdBZAktAlSvQoEZb/
+ U6iFxEOBIugW299jwIFrWQ6bsT+VhSHlPUZ5crYO8SLL7E1ykhQSbvIOGz95lEK1CD1l
+ xurdMXdFJ5bUbCKqPxQGL7MSkYrWUwxbVJS+pOaZ6U3PnQamubXJPaPBtEvoLE4NlBzS
+ h6H+Hw6LLV7UvSbjkYoDkkk0kKwliK4ss66ReUrsUlErK+ZcCXIseijPZVZu6jr9Azfu
+ 2zvdUbpZW4E4SSI1d19fss7CvalcS3mCXXdnQe9Z374JJpshKOx9EGWBuFbOaGLwTIwv
+ xBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cl0K+0TJ44kvt29rpR6eiUIQXd8X64NWC+nXmDDHd1E=;
- b=j7fW5rbBHqnOsJq+MEJVFCEwWjO5GVJ2GM37cIYc31XG17xJOz6F4XfhiZlFZB0QPM
- +MFCnmb6prXPDPh0lnlAnmopyTFdDhmcrLS2wAoaj35PdnPcx2J2TqagvYf8dFaf4bWf
- rrA4sA3rrsr4ZI/Zc7872TRa0G6iVYwT2U9KdHrelEESAp8tkQsjrV/phIRX0kKwA2/W
- 7eG4xWOv6mgUn9N0UmrepbnFAxKH/fCjveDTWRCC94Y6yGgsAOKEqVOcAFYoJXUeh7uS
- q6NDrG5upWQOf7Ud9sj/ri0EjsAFII3RzE+MkGW6dxvzxxBToairIMbZRitVWqi0YkVk
- M/Dw==
-X-Gm-Message-State: AOAM533IZxYvHx1djrfmUlFtuYflT93UU+tSDzx0jUoWSShIwWWNNTyv
- F+U2m9HhQgsOXi3LxdM0YGU=
-X-Google-Smtp-Source: ABdhPJxPFZeRibTS1CFC1H/daUZkN+6BWmcuzHohtcds5PZPgAc+ohRMJgojJ6j8E/2dmWtFFWDUxg==
-X-Received: by 2002:a2e:b0d3:: with SMTP id g19mr207999ljl.279.1608228439106; 
- Thu, 17 Dec 2020 10:07:19 -0800 (PST)
+ bh=wRLKIZbWYzVgD4/h7Q5pP/dMfh/6wK4T7bMtKrKWFYs=;
+ b=f3+fguO1x22t56ZeJSLtlAgvEkrPigCWiJ2FNJ01kv7Hk2WUbhCAFY1nrZ82cY1JrD
+ LR1NsLHrQ37nPctXWU7zfFbpPXJJgZzoxbmMFgUb++ejeu6n8rp+L7SYVvhXEs0ZhdRF
+ z++9wpPHOPyLpuli0n+xnDxQn33992+Eu7BbIdSQx+4MriCCrDXrWjTSQkL0EfC5fwGG
+ 7O6Xo55Qcpgo5fZxlptQJU0sVTuO6dG46xtwr3saEEEXi7GLHUcoe9OkkSBm8AClZro0
+ 9lmHzX5nL8GozAvBzGY3hDx1nDU8TME9BXO9ONNC8zIzp6wBSbGLrjKvWT142LUdO5XB
+ SckA==
+X-Gm-Message-State: AOAM530oZzIYAavob3vpJfsJYRVokEsabRePyXul33gpxsI0fACdj0jg
+ 5seSKZbdQsw2+VmBh/i26V4=
+X-Google-Smtp-Source: ABdhPJydLEQpauRBVKAwEa9RLHoou8ZxWlTRtLTcNVXWexn3xCJmbfFa9KYDYb9Npu8cupsJwFP+AQ==
+X-Received: by 2002:a2e:908:: with SMTP id 8mr240132ljj.52.1608228442259;
+ Thu, 17 Dec 2020 10:07:22 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
  [109.252.192.57])
- by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.17
+ by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 10:07:18 -0800 (PST)
+ Thu, 17 Dec 2020 10:07:19 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
@@ -57,10 +57,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Peter De Schrijver <pdeschrijver@nvidia.com>,
  Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v2 01/48] dt-bindings: memory: tegra20: emc: Replace core
+Subject: [PATCH v2 02/48] dt-bindings: memory: tegra30: emc: Replace core
  regulator with power domain
-Date: Thu, 17 Dec 2020 21:05:51 +0300
-Message-Id: <20201217180638.22748-2-digetx@gmail.com>
+Date: Thu, 17 Dec 2020 21:05:52 +0300
+Message-Id: <20201217180638.22748-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -95,30 +95,33 @@ regulator yet, and thus, it's okay to change it.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/memory-controllers/nvidia,tegra20-emc.txt        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../bindings/memory-controllers/nvidia,tegra30-emc.yaml     | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-index cc443fcf4bec..143439b50c92 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-@@ -23,7 +23,7 @@ For each opp entry in 'operating-points-v2' table:
- 	matches, the OPP gets enabled.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+index 0a2e2c0d0fdd..7b4af9169b0b 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-emc.yaml
+@@ -39,9 +39,9 @@ properties:
+     description:
+       Phandle of the Memory Controller node.
  
- Optional properties:
--- core-supply: Phandle of voltage regulator of the SoC "core" power domain.
-+- power-domains: Phandle to the SoC "core" power domain.
+-  core-supply:
++  power-domains:
+     description:
+-      Phandle of voltage regulator of the SoC "core" power domain.
++      Phandle to the SoC "core" power domain.
  
- Child device nodes describe the memory settings for different configurations and clock rates.
+   operating-points-v2:
+     description:
+@@ -241,7 +241,7 @@ examples:
  
-@@ -48,7 +48,7 @@ Example:
- 		interrupts = <0 78 0x04>;
- 		clocks = <&tegra_car TEGRA20_CLK_EMC>;
- 		nvidia,memory-controller = <&mc>;
--		core-supply = <&core_vdd_reg>;
-+		power-domains = <&domain>;
- 		operating-points-v2 = <&opp_table>;
- 	}
+         nvidia,memory-controller = <&mc>;
+         operating-points-v2 = <&dvfs_opp_table>;
+-        core-supply = <&vdd_core>;
++        power-domains = <&domain>;
+ 
+         #interconnect-cells = <0>;
  
 -- 
 2.29.2
