@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905DF2DDFCF
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF89D2DDFA1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5897D89CB9;
-	Fri, 18 Dec 2020 08:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FEC89AB9;
+	Fri, 18 Dec 2020 08:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA616E1ED
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:44 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id o19so34208627lfo.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:44 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D460C6E1ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 18:07:45 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id m12so59849876lfo.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ic3kTPXawx4sKcxOaKN7fFyaFOYLW2jZWk2kyZRzIN8=;
- b=pDPXQoxWtm8qgegOQQnLPP2iNl8IcQFs8OGUq2CcE/tO41E62bEBO32YvUgCVcHJ+V
- YPtVtozDo2n+wZJ4WQmT4rbG7S/div+wwrks6vq0KVL+VFD7En3oQrxCR9XkycdVzhsW
- S6BmQauT0TOzAZHGgiEusPxXhQOSZMTP5TD6YEKytzyzXfypbZ+5zUfDdkPIIU8s3+Ou
- mqnXy8OLojNQRx7M8z4L+fND+7tQ+nvxgScaL4ixkM3YRwx7uRc1TLy61azneCrZUo4c
- Hlcrvlhj6vwXBTq4+eZfHetTjVFqobaSbAbt7owq2Uhx4ROsy0JCVwjBqThP2hwltppM
- s2mA==
+ bh=4FYxQew+p18AO5FBSec7kTxg/87GRcpO76q4A6IgDv4=;
+ b=cOKXXBVSpDRg0y9isOFdN9ypZc0EDS0wcBFXXnpHA5gHfe4rMBp0KSj+DDdWOL11DO
+ 14H+OQC2eE39/MWECC9kqvFurVIqFvJ2WndhK/heNmgpBhaBuetfvjX3bSbDChUGYlOl
+ M03g7jnK6aEYOl3VVMYqgb92F5jHXviJ0kadHsCvkB6DjdIkY3a6/yN0ivwTWZMQPNas
+ 0wbcDxjvzueYloI0q/vTGlIggkOTjoKgB+9h6hdCf1lTJRXhHWJAjOP8NmnXryCCK0tq
+ y7aL9Gb5rsb/CvF+4IQm84UqG1pgiogHxaF3WzjOcQgVdkCBNmmODR0H0IjN3ODbgQKH
+ YcOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ic3kTPXawx4sKcxOaKN7fFyaFOYLW2jZWk2kyZRzIN8=;
- b=fUWP6iG9Cn7JkA1+jfxuCPaQjE0dr4NnDPnGdPPjGi82BSanHjn+g1rdwZ6h1JFuj0
- /5GxtvOKCbKVoMZDfqBQ6BPg6vRv1EkxCkazQB3Ln3DmnvqadzDbS9Bl1CbwwR5lw+I+
- wCvWDnpVvwe25liXZVRzZ48wSnoBdbENwGlTKTHSDUGTGeXsVFdoG5sQrF08HpQUrEZN
- T0qTyHESep1ZSkCqg4E+uFMn1EpVzrME2/SCWgRe41K/lfasuDHDlaYGDwIWQM4vkBal
- WpvsvHj8uBuFw1IQtg4gK8pojonuosOWKKP82mCsX9BN7fQvtW/y534cYeh2qKqZAYhy
- FukA==
-X-Gm-Message-State: AOAM5334f2pfLOJOY6Jjs/OrQ3VtgVfdrFLHYoQZ/cF0mug4uFDC1o5r
- KcLldfsRo15iFfXqIedvWJU=
-X-Google-Smtp-Source: ABdhPJwellNh5faxAJj9vvQwVQ45t8eRtpsRvTnCcKlBjZrYp1XD+vvrxTLHfCwLKBFNaDRVWiD1zw==
-X-Received: by 2002:a2e:a407:: with SMTP id p7mr226531ljn.78.1608228463135;
- Thu, 17 Dec 2020 10:07:43 -0800 (PST)
+ bh=4FYxQew+p18AO5FBSec7kTxg/87GRcpO76q4A6IgDv4=;
+ b=hJAjTLDN4MQL0xkeTb0wImV2f5xU6ffV71sF1UwjxWdYxzRk2pvzgRKVYcH7oDHLJv
+ O5c/56mqH/OWrXBWJg4hrSCgt1tD1PIspo5kLtjYtK8qksE9L+7seP6YxNKTcC9EjIKj
+ n3zjxhehUOXOY9pImSAe+Di8As7GubPZjFeM3ZwkaOK/FoNcH/LdNf3wI4C4By2gcU2X
+ 3i7IU5np3yEtBRB2yEr8nHN8siY8B2nzIE9a+I210Iikzah1N1uVaLP2JIu8OqvvnLYn
+ AWRjXBi9MGzijis2zmx1WVleRJkAHYW3aMCCVNI33Qne8YNvTdaAWkQWZTDzPxfbRg/q
+ /6eA==
+X-Gm-Message-State: AOAM531i07I6ENt+pok/zmrUqFXObM9pUx767nyD/ePjTj8y7zJeGS1+
+ hYoUByatFbrdth2ugmIwYUk=
+X-Google-Smtp-Source: ABdhPJwJR2PqCRmXe5Tfarwrq+QmAbDDyYK3hcoSttNokb6f8iiftpP/z20ln6MtYTWY0f0cfPKVTg==
+X-Received: by 2002:a2e:712:: with SMTP id 18mr205136ljh.165.1608228464322;
+ Thu, 17 Dec 2020 10:07:44 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
  [109.252.192.57])
- by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.42
+ by smtp.gmail.com with ESMTPSA id u5sm655596lff.78.2020.12.17.10.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 10:07:42 -0800 (PST)
+ Thu, 17 Dec 2020 10:07:43 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mark Brown <broonie@kernel.org>,
@@ -57,10 +57,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Peter De Schrijver <pdeschrijver@nvidia.com>,
  Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v2 20/48] PM: domains: Make set_performance_state() callback
- optional
-Date: Thu, 17 Dec 2020 21:06:10 +0300
-Message-Id: <20201217180638.22748-21-digetx@gmail.com>
+Subject: [PATCH v2 21/48] PM: domains: Add "performance" column to debug
+ summary
+Date: Thu, 17 Dec 2020 21:06:11 +0300
+Message-Id: <20201217180638.22748-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217180638.22748-1-digetx@gmail.com>
 References: <20201217180638.22748-1-digetx@gmail.com>
@@ -87,45 +87,76 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make set_performance_state() callback optional in order to remove the
-need from power domain drivers to implement a dummy callback. If callback
-isn't implemented by a GENPD driver, then the performance state is passed
-to the parent domain.
+Add "performance" column to debug summary which shows performance state
+of all power domains and theirs devices.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/base/power/domain.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/base/power/domain.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-index 9a14eedacb92..a3e1bfc233d4 100644
+index a3e1bfc233d4..1c60dae8540c 100644
 --- a/drivers/base/power/domain.c
 +++ b/drivers/base/power/domain.c
-@@ -339,9 +339,11 @@ static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
- 			goto err;
+@@ -2951,7 +2951,15 @@ static void rtpm_status_str(struct seq_file *s, struct device *dev)
+ 	else
+ 		WARN_ON(1);
+ 
+-	seq_puts(s, p);
++	seq_printf(s, "%-25s  ", p);
++}
++
++static void perf_status_str(struct seq_file *s, struct device *dev)
++{
++	struct generic_pm_domain_data *gpd_data;
++
++	gpd_data = to_gpd_data(dev->power.subsys_data->domain_data);
++	seq_put_decimal_ull(s, "", gpd_data->performance_state);
+ }
+ 
+ static int genpd_summary_one(struct seq_file *s,
+@@ -2979,7 +2987,7 @@ static int genpd_summary_one(struct seq_file *s,
+ 	else
+ 		snprintf(state, sizeof(state), "%s",
+ 			 status_lookup[genpd->status]);
+-	seq_printf(s, "%-30s  %-15s ", genpd->name, state);
++	seq_printf(s, "%-30s  %-50s %u", genpd->name, state, genpd->performance_state);
+ 
+ 	/*
+ 	 * Modifications on the list require holding locks on both
+@@ -2987,7 +2995,10 @@ static int genpd_summary_one(struct seq_file *s,
+ 	 * Also genpd->name is immutable.
+ 	 */
+ 	list_for_each_entry(link, &genpd->parent_links, parent_node) {
+-		seq_printf(s, "%s", link->child->name);
++		if (list_is_first(&link->parent_node, &genpd->parent_links))
++			seq_printf(s, "\n%50s ", link->child->name);
++		else
++			seq_printf(s, "%s", link->child->name);
+ 		if (!list_is_last(&link->parent_node, &genpd->parent_links))
+ 			seq_puts(s, ", ");
+ 	}
+@@ -3001,6 +3012,7 @@ static int genpd_summary_one(struct seq_file *s,
+ 
+ 		seq_printf(s, "\n    %-50s  ", kobj_path);
+ 		rtpm_status_str(s, pm_data->dev);
++		perf_status_str(s, pm_data->dev);
+ 		kfree(kobj_path);
  	}
  
--	ret = genpd->set_performance_state(genpd, state);
--	if (ret)
--		goto err;
-+	if (genpd->set_performance_state) {
-+		ret = genpd->set_performance_state(genpd, state);
-+		if (ret)
-+			goto err;
-+	}
+@@ -3016,9 +3028,9 @@ static int summary_show(struct seq_file *s, void *data)
+ 	struct generic_pm_domain *genpd;
+ 	int ret = 0;
  
- 	genpd->performance_state = state;
- 	return 0;
-@@ -399,9 +401,6 @@ int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int state)
- 	if (!genpd)
- 		return -ENODEV;
+-	seq_puts(s, "domain                          status          children\n");
++	seq_puts(s, "domain                          status          children                           performance\n");
+ 	seq_puts(s, "    /device                                             runtime status\n");
+-	seq_puts(s, "----------------------------------------------------------------------\n");
++	seq_puts(s, "----------------------------------------------------------------------------------------------\n");
  
--	if (unlikely(!genpd->set_performance_state))
--		return -EINVAL;
--
- 	if (WARN_ON(!dev->power.subsys_data ||
- 		     !dev->power.subsys_data->domain_data))
- 		return -EINVAL;
+ 	ret = mutex_lock_interruptible(&gpd_list_lock);
+ 	if (ret)
 -- 
 2.29.2
 
