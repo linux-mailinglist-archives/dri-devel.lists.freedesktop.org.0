@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184D52DDFB3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:33:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36532DDF97
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4EED89B99;
-	Fri, 18 Dec 2020 08:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1229189A35;
+	Fri, 18 Dec 2020 08:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-eopbgr150085.outbound.protection.outlook.com [40.107.15.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D497E6E22F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:08:27 +0000 (UTC)
+ (mail-eopbgr150042.outbound.protection.outlook.com [40.107.15.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0680A6E235
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 10:08:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jeeqc1mxca9P5KjSfySyeZM9BvzLvLtIOqTqRnWykhZ0akwseeIxVZ1zTZbG/lmixcP197Tg6OTqyp07SanRVd6eywhMx2BW+w981LySErHkj/5m1O/IZY1NDwn/21rELUWAH19mhlgQjkMVU3nyidNVcdsWi7YkIkxzQ88UhLftlJEcd6L/OOqO3j6gIEqFOzRaGoau9L9JnC5uXdaJFTnyvC2pHO16/dlsK+Xxqk7IRzJ7m3WRQPI/Jw3YCRYqPxYHKYW+dsx96Jz65MtDOplNqHO12pv71sm9oblLgslcXiXBTBHdrb3Oc9xgyK7yJQyAogBR+R1uWiYF3X4Qhw==
+ b=kxwkW7atjxBGt2c6k3OwNaAIQWpGy24HfLyYrz36IbipdMR5zkgdj06D4Dao+p03EDTsfjBhRwdDCqNDkDm0m93G+IEb8gBwZvZIzZEgcuGyJYR14Rgvg9RowdM5btoCxNHzEnfNvAIjHEzq6Q4Q4aMZpjAoWJTH5U4yX+4Cp2bU6J9Pn8VSVla0Tc1hyrw/v0ZugpCz6qzhilWNrJSJA1DcEh6PSpV+UaV/gydDH1Nyohui3LohAPlFnJig0gDbvnXrR/JOf8b+zdBfE3APeJPfkqAukESV+8umX5ffupDfOTmrnAuafsCyReBHriEDEQnLOGrf3zim3Sr9yk73pQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HI+Ebi45WdhiJY2d1M40KZF1kYf+MdtNIQ6Q0eAOXHk=;
- b=MxnBlIOepf3UZRpj5KF98di6/6/u+/esBs0bX6HGF9E4w6sP2Mo+xVWtTnlemAuav1KPMVmelJ3kdbU48mWd2YrBxCMRbhzY2ul5N/kF5yA1gsPSaOr/84wpWfNDeBayDee9cZNd+u8A2bfl0pp+GL5/dy/OzhH44OiL65qIi2gCU3q3ddb5IniS2QGhuJ6PhyigItedY3P8d7aM2+sQiJpsPX1caeB+RWlIgrnEM/Qve8QbuTffNjQIXFiiNhUVuKXBmKUhguXxXmScCC2lD7Zmn0vcQ4dC9XXFy30DP1YXTHWg/cAFlRfhio2eyvJ6VADHXz/m+j9ta39QaSk3XA==
+ bh=wwmTC36H/3TnbjyPrW8YxFLHlUgkodbvGfp5Wf6JY6M=;
+ b=A9Q55pxVZ4UUAPpg8tM4rnAwpU4rZCko+kYu8yA1bBj/z7HI8DAhXZnONvAxpfGY/0ahONIq9+/CdzW6N0bLrC7jx3MuNZSBRZN9OWsPEbHt4lml78oc5NNk3qKK+JBfJPtKMI/3TwuCLXCMNAvzdLwypo3e8RiLcYl84t9CNdMQNBuurKOZmJsOM5JmY0sXAXIZ5/RACZ2TqY7nnkuImyjI53p7A56NRlS2TGNZ8GMwg2RM0DErZ1fmO6fijRv/b0BZv8HHGSMHUovC2rQ2d1Grt4yb3mC4yU5pTdbVLeoWYIeI9a6oMPTtG1Bn1OWawvc4s6o8nCATFI8Xb7sf5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HI+Ebi45WdhiJY2d1M40KZF1kYf+MdtNIQ6Q0eAOXHk=;
- b=nb1NrBU05l4DoOZXqjkHheiXTTmvBojXpEZ6w4gi79V0qV15kQJAIsRJB1v2MhjrhB8v2jf1aVZiganW4TUaYxHDQmUxS2Bb9t+vAKg36mDpUAw+Ea3/O02P4u/+9EG6XCjGHnlzvmCTSI+uK8I9p+hW5YMsLEs8SRlFJaK3190=
+ bh=wwmTC36H/3TnbjyPrW8YxFLHlUgkodbvGfp5Wf6JY6M=;
+ b=sfJrtPMoBW9xsP/gDVEzVGD8gZbtXZ5f/FjU5uogsxPYrNZDkrXXGnjf+KyZsOwEGChomNKQ+W4vX0N+eiwNTFQ7/fYWeIyNOqRLqgsM7pzOwi7nzI75JuKn/VRQZP3YHNYNwSXWV6Uf6KLwzJiBoXRNKVWXJQUw2fgH0f2NWoo=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
@@ -34,18 +34,19 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VE1PR04MB7312.eurprd04.prod.outlook.com (2603:10a6:800:1a5::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.14; Thu, 17 Dec
- 2020 10:08:26 +0000
+ 2020 10:08:32 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
- 10:08:26 +0000
+ 10:08:32 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH 01/14] phy: Add LVDS configuration options
-Date: Thu, 17 Dec 2020 17:59:20 +0800
-Message-Id: <1608199173-28760-2-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH 02/14] media: uapi: Add some RGB bus formats for i.MX8qm/qxp
+ pixel combiner
+Date: Thu, 17 Dec 2020 17:59:21 +0800
+Message-Id: <1608199173-28760-3-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
 References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
@@ -57,48 +58,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2P153CA0012.APCP153.PROD.OUTLOOK.COM (2603:1096::22) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3700.2 via Frontend Transport; Thu, 17 Dec 2020 10:08:20 +0000
+ 15.20.3700.2 via Frontend Transport; Thu, 17 Dec 2020 10:08:26 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 77b17eca-180d-4309-d403-08d8a273b1ee
+X-MS-Office365-Filtering-Correlation-Id: f0803abb-2a49-4a8a-3d15-08d8a273b576
 X-MS-TrafficTypeDiagnostic: VE1PR04MB7312:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB731226F88D3D47DA0375026598C40@VE1PR04MB7312.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <VE1PR04MB731266E7AE29F9C0FCF1185E98C40@VE1PR04MB7312.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:326;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qNvdpCAFvnGW+c9hcj2sDv9waTmrjSxrl+UaMoU8a963NKXtOi7xAXuBRoX74ZK14+G6zeG9SwKaeO2sJ2F8L484/RhZNQnO3txd4AMgAzO01dKNH/MZwN3qpPHs90+SPGZmIgkIPBC++K/TSq5e8sx6MGihHoylLQkmu5PkrnznurzJB1qOjf9u8R2rotmiB1KZO7rbFyPV9E+eebzuINadXrd4NMZqprbsNgRf6r7rTZftt5A6PMlMympJsqN+nXw7X/mHcJuTzyUBQsB3sioqkapBzgB/Nufn3ZM+ElyolB8zLAVwYkdrCc+QqDojbef6dCh+KSna1H5bN1kxa63lpO7b7/oxrhekXI34nRPjcnS2EXeMbZ7098L3g2lS
+X-Microsoft-Antispam-Message-Info: fhcXv8KCGj7KOdkeUcMsvoev5tgrKYjZogBiJVGCchFbf49+X9uz6tgA3KsjMefVBFF+0aSohFb3Xdtxs0K9S+p6uUxa6aHBYFLSQgmRLZBrqNLSLVmevxF/BFtYAzsT4g6f6wa10NGBL7v/S6kLIBwYuqwVppdgy1bQA412mW6keSF1eNapkCs7vtD7TYNiBzhCrMt6V8E1SQq8JbCJR123jhQDzEJuMuct2eZgxsRqQBZMwskWsZNnsOLiHGK0AaQLJIYC/WY7gQN0Em/gMMTURpMuj2oCFJ4ati8D7hq7Qu/geGHodMBBzR1+IjZjJcZSzvb2rF+f412xbGo7tnr/KBuqkT3XfvGUzza+esgcF5Ub6U7xZBkr5bqp/r/Y
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(316002)(86362001)(6486002)(2906002)(8676002)(6506007)(4326008)(52116002)(26005)(16526019)(8936002)(7416002)(478600001)(2616005)(186003)(956004)(83380400001)(66946007)(5660300002)(6512007)(69590400008)(66476007)(36756003)(66556008);
+ SFS:(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(6666004)(316002)(86362001)(6486002)(2906002)(8676002)(6506007)(4326008)(52116002)(26005)(16526019)(8936002)(7416002)(478600001)(2616005)(186003)(956004)(83380400001)(66946007)(5660300002)(6512007)(69590400008)(66476007)(36756003)(66556008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zypsYH6mnC1vdBVIbzWMkqHcI+ncy84HKyX/qVpM/Dod2ecNxCjz0RnSq78q?=
- =?us-ascii?Q?CQpeb+TVdYg3sJwV1MG8BPAa5/1YQsYqWe0Xf2rmB3jHg0mzvVaVd5Gsxhmi?=
- =?us-ascii?Q?1S/VbrJrVV8tD0Axq+xm1qzV0dW6utrJRtVJWPEPbPcAlwAEEwUM7h7qJbiW?=
- =?us-ascii?Q?mfpfbPrAcz9WfJ5cw/7io8d7o3nSog6bxMgO/wJ58utpCiT5LIVgpI/6PYck?=
- =?us-ascii?Q?zpnh7Z/6H64AQ8K/SbygbkLaQzDcJASV3BXw2H58QvYjILdegfxDkyzDHCK5?=
- =?us-ascii?Q?3z7JXB2R8rnmqAX+EV+mjk9/TxAb20bYZmzZXb9h1gI6Ezrx6pCxyBUaMAmQ?=
- =?us-ascii?Q?rBGkpakoOCkQf0ZWc1OZ57Yii8zN4GROVfUSHBm09QU9LW0hH3/5mp83iY/n?=
- =?us-ascii?Q?tb+Ga5PdstFDe4RDiD7mYnFDQ1zTZrCbS1jdJOkUQHo464D2R5dmF+7C2Iir?=
- =?us-ascii?Q?6jiUyikz0m1DKsFm32r/t9Ftt+X6DYuLffLDvGoJ8WHdoeh+43+rL2r27Ezy?=
- =?us-ascii?Q?gJE4vmVE/k8Oiyc3KnRnG7eYe2n4vGfH7O7aRz0QzDU3qKDsJJ6aJWiDhcA5?=
- =?us-ascii?Q?AzmKzV2sZc6n+LH4RHzV06P/tpMpSP771It9DNFdPx8I1n+c5RSvYrAAp/CF?=
- =?us-ascii?Q?i85H5GB4Sh3jjVIN8O7gkk6xQ8pHrX9SkcwddPik8HV/xjspxADue0fEXXqY?=
- =?us-ascii?Q?bIIR8S4GN2G5OA6oMb5QegLHNmhbLAevp2GnhmlD7ZHiARAGgxE2uK2jbUal?=
- =?us-ascii?Q?P0bKxA0bgOZK7S8sicuKko2P6EUfS2dFjTrH3b1IRBhWVTFcZNzV0kj/cDxQ?=
- =?us-ascii?Q?NTXHrJKGRGk9PXdKJcSV8Lv1ZGMSq+z2CES7WuDMCxjBpUL8DbH90nf22TWq?=
- =?us-ascii?Q?/Afz6It/xVeBG8+x7+ZmCkyeBHZ8mu2Z6EO5OQTkpU3qzxODAsAHg8C1cdtx?=
- =?us-ascii?Q?Q/lm3lqAO6CYWhaWXs2OSVQcl6+sGTLN3qIdO19xaKzs92bwI7ayWAAdhgkW?=
- =?us-ascii?Q?5lxj?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ouWeSV1rIHeN0j7jgu6sSKfT9ImaDUsJLQ3I38V4b4uLPXGk7r5umdfkuP5I?=
+ =?us-ascii?Q?oYqvw2jhLd43J3yY2KEpxUH/daCSQooFPKL+Pm+KIYa5ns2CCXxQpm17cbBY?=
+ =?us-ascii?Q?GAocM25pvISuayum8/UbR/cnMLG0DIJkmq99GIe/bqau2JpvqqQIyoHt+SZK?=
+ =?us-ascii?Q?0sZzyiJuLTlI9gTYopS4M3JjI2hI0G1i2gTgVlzAzXJNsQTggK7IYjXgkxqv?=
+ =?us-ascii?Q?n2no1yZrs6Q7BoD1Wy30m4NEAFgQDOfJHMFTq1gxF+oiezrXdm9PKZ2r+WPg?=
+ =?us-ascii?Q?Vsz9/XEOFLOHTpnQtb1Rza8qQ8x9LEPenn5BGaWcbGKIYbsuvyucHlfhOxCX?=
+ =?us-ascii?Q?1KpZf6FExpAcXUhrXnFERN8Q7nbDGMfxiKDQ4Kh9MoKIv61FMfvf2UPlTUGs?=
+ =?us-ascii?Q?crHMYooi5CEkQwuNgtDZu6oqYCNuMZxlz8i/0KcMQ8eIZ0euhZz1W0PRH7xp?=
+ =?us-ascii?Q?7KEE7ZiHEXCIxgc1PBorktZxk8tEUevP1xIBFipJiLYDMa8iAH1BiEKhP5WA?=
+ =?us-ascii?Q?9hSYqgGOxuP23ZBmwXAFdIDuixjVxrpW8fCSTyqciU+ZoP1/f8kHY/pQCxem?=
+ =?us-ascii?Q?5h23v6F5579g1BbFQDZQjQpmczS8i3sGZIR5HIQCGgSvkLwVfr/6rda4rLHs?=
+ =?us-ascii?Q?M0Qw8kYSJ27Q0i3gVqwT8LMg90gSOBMD/YZaGCKfmk5rQ4nR0NnV5NVS1ZYY?=
+ =?us-ascii?Q?6E30HJrpsQS3FbAdBzFnh6QFhM7+lNUhLMGgIT0saX0OJ01fZ7J7Qe+e2L4n?=
+ =?us-ascii?Q?C2zHZuzInBSTFGqaij2fiIIgyoQX/E3utbGPL82C9YqGEGN9/L7WDHVvOHFE?=
+ =?us-ascii?Q?JFgQXYkSUpE+VFPvD0LWbLCXYvN5CG4gSQXbA9c0qjgYsu25LbfnnDcBN8qr?=
+ =?us-ascii?Q?TUitBeKVObnCmeGca5ziKWpLSzepw06VaN8xOF5vkUjDJxQgtW3qwBB3+bVh?=
+ =?us-ascii?Q?j263OtRkrVFvahgqMp4lrJIp6u9snfBsXz2Wyfq/rcgekEgLc0ORALMbguyU?=
+ =?us-ascii?Q?VoYs?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 10:08:26.1953 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 10:08:32.0899 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77b17eca-180d-4309-d403-08d8a273b1ee
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0803abb-2a49-4a8a-3d15-08d8a273b576
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IXOc55oIV0pOlboZwotaQz8mLo/xnebcCP0+YF433kAb72PKrVtkDyX0WXg1hcwRhxQnNapdmwhkHiFU6dwQVg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: QYm1UGEynIw43mef+Q1N37UsKx5UFsxCec5rllCLE8vq8+DiU9NzCPNTMFrk4WEob4EMV0ToWQlYqt49EmtGjA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7312
 X-Mailman-Approved-At: Fri, 18 Dec 2020 08:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,104 +123,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch allows LVDS PHYs to be configured through
-the generic functions and through a custom structure
-added to the generic union.
+This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
+and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
+The RGB pixels with padding low per component are transmitted on a 30-bit
+input bus(10-bit per component) from a display controller or a 36-bit
+output bus(12-bit per component) to a pixel link.
 
-The parameters added here are based on common LVDS PHY
-implementation practices.  The set of parameters
-should cover all potential users.
-
-Cc: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: NXP Linux Team <linux-imx@nxp.com>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- include/linux/phy/phy-lvds.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
- include/linux/phy/phy.h      |  4 ++++
- 2 files changed, 52 insertions(+)
- create mode 100644 include/linux/phy/phy-lvds.h
+ include/uapi/linux/media-bus-format.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-lvds.h
-new file mode 100644
-index 00000000..1b5b9d6
---- /dev/null
-+++ b/include/linux/phy/phy-lvds.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2020 NXP
-+ */
-+
-+#ifndef __PHY_LVDS_H_
-+#define __PHY_LVDS_H_
-+
-+/**
-+ * struct phy_configure_opts_lvds - LVDS configuration set
-+ *
-+ * This structure is used to represent the configuration state of a
-+ * LVDS phy.
-+ */
-+struct phy_configure_opts_lvds {
-+	/**
-+	 * @bits_per_lane_and_dclk_cycle:
-+	 *
-+	 * Number of bits per data lane and differential clock cycle.
-+	 */
-+	unsigned int bits_per_lane_and_dclk_cycle;
-+
-+	/**
-+	 * @differential_clk_rate:
-+	 *
-+	 * Clock rate, in Hertz, of the LVDS differential clock.
-+	 */
-+	unsigned long differential_clk_rate;
-+
-+	/**
-+	 * @lanes:
-+	 *
-+	 * Number of active, consecutive, data lanes, starting from
-+	 * lane 0, used for the transmissions.
-+	 */
-+	unsigned int lanes;
-+
-+	/**
-+	 * @is_slave:
-+	 *
-+	 * Boolean, true if the phy is a slave which works together
-+	 * with a master phy to support dual link transmission,
-+	 * otherwise a regular phy or a master phy.
-+	 */
-+	bool is_slave;
-+};
-+
-+#endif /* __PHY_LVDS_H_ */
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index e435bdb..d450b44 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -17,6 +17,7 @@
- #include <linux/regulator/consumer.h>
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 5d905ad..b218282 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -34,7 +34,7 @@
  
- #include <linux/phy/phy-dp.h>
-+#include <linux/phy/phy-lvds.h>
- #include <linux/phy/phy-mipi-dphy.h>
+ #define MEDIA_BUS_FMT_FIXED			0x0001
  
- struct phy;
-@@ -51,10 +52,13 @@ enum phy_mode {
-  *		the MIPI_DPHY phy mode.
-  * @dp:		Configuration set applicable for phys supporting
-  *		the DisplayPort protocol.
-+ * @lvds:	Configuration set applicable for phys supporting
-+ *		the LVDS phy mode.
-  */
- union phy_configure_opts {
- 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
- 	struct phy_configure_opts_dp		dp;
-+	struct phy_configure_opts_lvds		lvds;
- };
+-/* RGB - next is	0x101e */
++/* RGB - next is	0x1022 */
+ #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+@@ -59,9 +59,13 @@
+ #define MEDIA_BUS_FMT_RGB888_3X8_DELTA		0x101d
+ #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
+ #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
++#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO	0x101e
++#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO	0x101f
+ #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
+ #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
+ #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
++#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
++#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
+ #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+ #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
  
- /**
 -- 
 2.7.4
 
