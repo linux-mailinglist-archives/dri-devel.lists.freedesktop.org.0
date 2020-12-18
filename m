@@ -2,29 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAED2DE636
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 16:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481122DE663
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 16:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD4D6E1E8;
-	Fri, 18 Dec 2020 15:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A496E1F5;
+	Fri, 18 Dec 2020 15:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B86E26E1F2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 15:08:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 77B2F6E1F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 15:19:22 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724F91FB;
- Fri, 18 Dec 2020 07:08:57 -0800 (PST)
-Received: from cubie.arm.com (unknown [10.37.8.36])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB9833F66B;
- Fri, 18 Dec 2020 07:08:56 -0800 (PST)
-From: carsten.haitzler@foss.arm.com
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/komeda: Fix bit check to import to value of proper type
-Date: Fri, 18 Dec 2020 15:08:12 +0000
-Message-Id: <20201218150812.68195-1-carsten.haitzler@foss.arm.com>
-X-Mailer: git-send-email 2.29.2
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C671A1FB;
+ Fri, 18 Dec 2020 07:19:21 -0800 (PST)
+Received: from [10.57.34.90] (unknown [10.57.34.90])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 08E303F66B;
+ Fri, 18 Dec 2020 07:19:20 -0800 (PST)
+Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Chen Li <chenli@uniontech.com>
+References: <877dpiz4sf.wl-chenli@uniontech.com>
+ <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
+ <875z51zwsq.wl-chenli@uniontech.com>
+ <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
+ <873605z1du.wl-chenli@uniontech.com>
+ <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
+ <159c72db-1316-6155-2209-8e0e9a7f5224@arm.com>
+ <8a2245b8-3a57-a35b-924f-e2a6c084e60f@amd.com>
+ <9c0a034f-9f9d-d513-db41-df925bd15951@arm.com>
+ <aed7032f-a22d-86b2-25f6-40c5cc55632f@amd.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <ff96d395-229a-b6fb-71a1-5ac7296ecb2d@arm.com>
+Date: Fri, 18 Dec 2020 15:19:20 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
+In-Reply-To: <aed7032f-a22d-86b2-25f6-40c5cc55632f@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,44 +51,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carsten Haitzler <carsten.haitzler@arm.com>
-
-KASAN found this problem. find_first_bit() expects to look at a
-pointer pointing to a long, but we look at a u32 - this is going to be
-an issue with endianess but, KSAN already flags this as out-of-bounds
-stack reads. This fixes it by just importing inot a local long.
-
-Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
----
- drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-index 452e505a1fd3..719a79728e24 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-@@ -137,9 +137,10 @@ komeda_pipeline_get_first_component(struct komeda_pipeline *pipe,
- 				    u32 comp_mask)
- {
- 	struct komeda_component *c = NULL;
-+	unsigned long comp_mask_local = (unsigned long)comp_mask;
- 	int id;
- 
--	id = find_first_bit((unsigned long *)&comp_mask, 32);
-+	id = find_first_bit(&comp_mask_local, 32);
- 	if (id < 32)
- 		c = komeda_pipeline_get_component(pipe, id);
- 
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMi0xOCAxNDozMywgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiBBbSAxOC4xMi4y
+MCB1bSAxNToxNyBzY2hyaWViIFJvYmluIE11cnBoeToKPj4gT24gMjAyMC0xMi0xNyAxNDowMiwg
+Q2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+IFtTTklQXQo+Pj4gRG8geW91IGhhdmUgc29tZSBi
+YWNrZ3JvdW5kIHdoeSBzb21lIEFSTSBib2FyZHMgZmFpbCB3aXRoIHRoYXQ/Cj4+Pgo+Pj4gV2Ug
+aGFkIGEgY291cGxlIG9mIHJlcG9ydHMgdGhhdCBtZW1zZXQvbWVtY3B5IGZhaWwgaW4gdXNlcnNw
+YWNlIAo+Pj4gKHVzdWFsbHkgc3lzdGVtIGp1c3Qgc3BvbnRhbmVvdXNseSByZWJvb3RzIG9yIGJl
+Y29tZXMgdW5yZXNwb25zaXZlKSwgCj4+PiBidXQgc28gZmFyIG5vYm9keSBjb3VsZCB0ZWxsIHVz
+IHdoeSB0aGF0IGhhcHBlbnM/Cj4+Cj4+IFBhcnQgb2YgaXQgaXMgdGhhdCBBcm0gZG9lc24ndCBy
+ZWFsbHkgaGF2ZSBhbiBpZGVhbCBtZW1vcnkgdHlwZSBmb3IgCj4+IG1hcHBpbmcgUkFNIGJlaGlu
+ZCBQQ0kgKG11Y2ggbGlrZSB3ZSBhbHNvIHN0cnVnZ2xlIHdpdGggdGhlIHZhZ3VlIAo+PiBleHBl
+Y3RhdGlvbnMgb2Ygd2hhdCB3cml0ZS1jb21iaW5lIG1pZ2h0IG1lYW4gYmV5b25kIHg4NikuIERl
+dmljZSAKPj4gbWVtb3J5IGNhbiBiZSByZWxheGVkIHRvIGFsbG93IGdhdGhlcmluZywgcmVvcmRl
+cmluZyBhbmQgCj4+IHdyaXRlLWJ1ZmZlcmluZywgYnV0IGlzIHN0aWxsIGEgYml0IHRvbyByZXN0
+cmljdGl2ZSBpbiBvdGhlciB3YXlzIC0gCj4+IGFsaWduZWQsIG5vbi1zcGVjdWxhdGl2ZSwgZXRj
+LiAtIGZvciBzb21ldGhpbmcgdGhhdCdzIHJlYWxseSBqdXN0IFJBTSAKPj4gYW5kIGV4cGVjdGVk
+IHRvIGJlIHVzYWJsZSBhcyBzdWNoLiBUaHVzIHRvIG1hcCBQQ0kgbWVtb3J5IGFzIAo+PiAid3Jp
+dGUtY29tYmluZSIgd2UgdXNlIE5vcm1hbCBub24tY2FjaGVhYmxlLCB3aGljaCBtZWFucyB0aGUg
+Q1BVIE1NVSAKPj4gaXMgZ29pbmcgdG8gYWxsb3cgc29mdHdhcmUgdG8gZG8gYWxsIHRoZSB0aGlu
+Z3MgaXQgbWlnaHQgZXhwZWN0IG9mIAo+PiBSQU0sIGJ1dCB3ZSdyZSBub3cgYXQgdGhlIG1lcmN5
+IG9mIHRoZSBtZW5hZ2VyaWUgb2YgaW50ZXJjb25uZWN0cyBhbmQgCj4+IFBDSSBpbXBsZW1lbnRh
+dGlvbnMgb3V0IHRoZXJlLgo+IAo+IEkgc2VlLiBBcyBmYXIgYXMgSSBrbm93IHdlIGFscmVhZHkg
+Y29ycmVjdGx5IG1hcCB0aGUgUkFNIGZyb20gdGhlIEdQVSBhcyAKPiAid3JpdGUtY29tYmluZSIu
+Cj4gCj4+IEF0b21pYyBvcGVyYXRpb25zLCBmb3IgZXhhbXBsZSwgKm1pZ2h0KiBiZSByZXNvbHZl
+ZCBieSB0aGUgQ1BVIAo+PiBjb2hlcmVuY3kgbWVjaGFuaXNtIG9yIGluIHRoZSBpbnRlcmNvbm5l
+Y3QsIHN1Y2ggdGhhdCB0aGUgUENJIGhvc3QgCj4+IGJyaWRnZSBvbmx5IHNlZXMgcmVndWxhciBs
+b2FkcyBhbmQgc3RvcmVzLCBidXQgbW9yZSBvZnRlbiB0aGFuIG5vdCAKPj4gdGhleSdsbCBqdXN0
+IHJlc3VsdCBpbiBhbiBhdG9taWMgdHJhbnNhY3Rpb24gZ29pbmcgYWxsIHRoZSB3YXkgdG8gdGhl
+IAo+PiBob3N0IGJyaWRnZS4gQSBzdXBlci1kdXBlci1jbGV2ZXIgaG9zdCBicmlkZ2UgaW1wbGVt
+ZW50YXRpb24gbWlnaHQgCj4+IGV2ZW4gc3VwcG9ydCB0aGF0LCBidXQgdGhlIHZhc3QgbWFqb3Jp
+dHkgYXJlIGxpa2VseSB0byBqdXN0IHJlamVjdCBpdCAKPj4gYXMgaW52YWxpZC4KPiAKPiBTdXBw
+b3J0IGZvciBhdG9taWNzIGlzIGFjdHVhbGx5IHNwZWNpZmllZCBieSBhbiBQQ0llIGV4dGVuc2lv
+bi4gQXMgZmFyIAo+IGFzIEkga25vdyB0aGF0IGV4dGVuc2lvbiBpcyBldmVuIG5lY2Vzc2FyeSBm
+b3IgZnVsbCBLRkQgc3VwcG9ydCBvbiBBTUQgCj4gYW5kIGZ1bGwgQ3VkYSBzdXBwb3J0IGZvciBO
+VmlkaWEgR1BVcy4KPiAKPj4KPj4gU2ltaWxhcmx5LCB1bmFsaWduZWQgYWNjZXNzZXMsIGNhY2hl
+IGxpbmUgZmlsbHMvZXZpY3Rpb25zLCBhbmQgc3VjaCAKPj4gd2lsbCBvZnRlbiB3b3JrLCBzaW5j
+ZSB0aGV5J3JlIGVzc2VudGlhbGx5IGp1c3QgbGFyZ2VyIHJlYWQvd3JpdGUgCj4+IGJ1cnN0cywg
+YnV0IHNvbWUgaG9zdCBicmlkZ2VzIGNhbiBiZSBwaWNreSBhbmQgbWlnaHQgcmVqZWN0IGFjY2Vz
+cyAKPj4gc2l6ZXMgdGhleSBkb24ndCBsaWtlICh0aGVyZSdzIGF0IGxlYXN0IG9uZSB3aGVyZSBl
+dmVuIDY0LWJpdCBhY2Nlc3NlcyAKPj4gZG9uJ3Qgd29yay4gT24gYSA2NC1iaXQgc3lzdGVtLi4u
+KQo+IAo+IFRoaXMgaXMgYnJlYWtpbmcgb3VyIG5lY2sgaGVyZS4gV2UgbmVlZCA2NGJpdCB3cml0
+ZXMgb24gNjRiaXQgc3lzdGVtcyB0byAKPiBlbmQgdXAgYXMgb25lIDY0Yml0IHdyaXRlIGF0IHRo
+ZSBoYXJkd2FyZSBhbmQgbm90IHR3byAzMmJpdCB3cml0ZXMgb3IgCj4gb3RoZXJ3aXNlIHRoZSBk
+b29yYmVsbHMgd29uJ3Qgd29yayBjb3JyZWN0bHkuCgpKdXN0IHRvIGNsYXJpZnksIHRoYXQgcGFy
+dGljdWxhciBjYXNlICppcyogY29uc2lkZXJlZCBjYXRhc3Ryb3BoaWNhbGx5IApicm9rZW4gOykK
+CkluIGdlbmVyYWwgeW91IGNhbiBhc3N1bWUgdGhhdCBvbiBBQXJjaDY0LCBhbnkgYWxpZ25lZCA2
+NC1iaXQgbG9hZCBvciAKc3RvcmUgaXMgYXRvbWljICg2NC1iaXQgYWNjZXNzZXMgb24gMzItYml0
+IEFybSBhcmUgbGVzcyB3ZWxsLWRlZmluZWQsIApidXQgaG9wZWZ1bGx5IG5vYm9keSBjYXJlcyBi
+eSBub3cpLgoKPiBMYXJnZXIgd3JpdGVzIGFyZSBwcmV0dHkgbXVjaCB1bnByb2JsZW1hdGljLCBm
+b3IgUDJQIG91ciBidXMgaW50ZXJmYWNlIAo+IGV2ZW4gc3VwcG9ydHMgcmVhbGx5IGxhcmdlIG11
+bHRpIGJ5dGUgdHJhbnNmZXJzLgo+IAo+PiBJZiBhbiBpbnZhbGlkIHRyYW5zYWN0aW9uIGRvZXMg
+cmVhY2ggdGhlIGhvc3QgYnJpZGdlLCBpdCdzIGdvaW5nIHRvIAo+PiBjb21lIGJhY2sgdG8gdGhl
+IENQVSBhcyBhbiBleHRlcm5hbCBhYm9ydC4gSWYgd2UncmUgcmVhbGx5IGx1Y2t5IHRoYXQgCj4+
+IGNvdWxkIGJlIHRha2VuIHN5bmNocm9ub3VzbHksIGF0dHJpYnV0YWJsZSB0byBhIHNwZWNpZmlj
+IGluc3RydWN0aW9uLCAKPj4gYW5kIGp1c3Qgb29wcy9TSUdCVVMgdGhlIHJlbGV2YW50IGtlcm5l
+bC91c2Vyc3BhY2UgdGhyZWFkLiBPZnRlbiAKPj4gdGhvdWdoLCAocGFydGljdWxhcmx5IHdpdGgg
+YmlnIG91dC1vZi1vcmRlciBDUFVzKSBpdCdzIGxpa2VseSB0byBiZSAKPj4gYXN5bmNocm9ub3Vz
+IGFuZCBubyBsb25nZXIgYXR0cmlidXRhYmxlLCBhbmQgdGh1cyB0YWtlbiBhcyBhbiBTRXJyb3Ig
+Cj4+IGV2ZW50LCB3aGljaCBpbiBnZW5lcmFsIHJvdWdobHkgdHJhbnNsYXRlcyB0byAicGFydCBv
+ZiB0aGUgU29DIGhhcyAKPj4gZmFsbGVuIG9mZiIuIFRoZSBvbmx5IHJlYXNvbmFibGUgcmVzcG9u
+c2Ugd2UgaGF2ZSB0byB0aGF0IGlzIHRvIHBhbmljIAo+PiB0aGUgc3lzdGVtLgo+IAo+IFllYWgs
+IHRoYXQgc291bmRzIGV4YWN0bHkgbGlrZSB3aGF0IHdlIHNlZSBvbiBzb21lIG9mIHRoZSBBUk0g
+Ym9hcmRzIG91dCAKPiB0aGVyZS4gQXQgbGVhc3Qgd2UgaGF2ZSBhbiBleHBsYW5hdGlvbiBmb3Ig
+dGhhdCBiZWhhdmlvciBub3cuCj4gCj4gR29pbmcgdG8gdGFsayBhYm91dCB0aGlzIHdpdGggb3Vy
+IGhhcmR3YXJlIGVuZ2luZWVycy4gV2UgbWlnaHQgYmUgYWJsZSAKPiB0byB3b3JrIGFyb3VuZCBz
+b21lIG9mIHRoYXQgc3R1ZmYsIGJ1dCB0aGF0IGlzIHJhdGhlciB0cmlja3kgdG8gZ2V0IAo+IHdv
+cmtpbmcgdW5kZXIgdGhvc2UgY29uZGl0aW9ucy4KClllYWgsIHVuZm9ydHVuYXRlbHkgdGhlcmUn
+cyBubyBlYXN5IHdheSB0byBqdWRnZSB0aGUgcXVhbGl0eSBvZiBhbnkgCmdpdmVuIFNvQydzIFBD
+SSBpbXBsZW1lbnRhdGlvbiB1bnRpbCB5b3UgdGhyb3cgeW91ciByZXF1aXJlZCB0cmFmZmljIGF0
+IAppdCBhbmQgdGhpbmdzIGVpdGhlciBicmVhayBvciBkb24ndC4uLgoKQ2hlZXJzLApSb2Jpbi4K
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
