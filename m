@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048192DE509
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53932DE511
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C9A6E182;
-	Fri, 18 Dec 2020 14:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828666E174;
+	Fri, 18 Dec 2020 14:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADDAA6E182
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:42:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2838D1FB;
- Fri, 18 Dec 2020 06:42:37 -0800 (PST)
-Received: from [10.57.34.90] (unknown [10.57.34.90])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 592143F66B;
- Fri, 18 Dec 2020 06:42:36 -0800 (PST)
-Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
-To: Chen Li <chenli@uniontech.com>
-References: <877dpiz4sf.wl-chenli@uniontech.com>
- <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
- <875z51zwsq.wl-chenli@uniontech.com>
- <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
- <873605z1du.wl-chenli@uniontech.com>
- <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
- <159c72db-1316-6155-2209-8e0e9a7f5224@arm.com>
- <87wnxfy71f.wl-chenli@uniontech.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <90a89839-651d-71b0-b0eb-5535b6f6f4f5@arm.com>
-Date: Fri, 18 Dec 2020 14:42:35 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6A66E174
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:46:12 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id a12so2434806wrv.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 06:46:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IOS7/z9Qy+orQvgN4m7ZcdCgVVfUTOFkUvXr8iUDtNQ=;
+ b=jP4+qMylQ3mhIfQvzLOdmkmIohRItctCA1AYJFdDpD6neUt/k85ZMDI4i2OzBVHyT8
+ 9nZ8g3l6IpArhkwp9iYEmf9uY02iLC5C8AVgXOkEOt7FeJlJlwv9EeOc7LDDxCYqxLsR
+ 6nbfPcHjsDCI2lX6zoUbekAqhOBvcrCIGVw+gKlfwdYYe4LxGRM1OEJ5G6BWFiQMl/zr
+ kTRisF/pNz/FW6A2LcC3KDrDDUM8wl+g8CFiZAjD0xC/vkgdkVrJq+Hxz1ZW/sTWIl9v
+ lHLPbwplwfadoeKNL3pYmKNleHr7uoNPsZ5I2f+iiEwzOM8u96WE5ZpnZhcKRgMS3wKM
+ QWKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IOS7/z9Qy+orQvgN4m7ZcdCgVVfUTOFkUvXr8iUDtNQ=;
+ b=IviOWEhpitOyMweRKCH4hao2pbAyThK+fMeNDTi3GAsyOwpMTv0Ntn3jbuD7Ihk6nT
+ UWGn0SRf3x8AyaYskmaXxzxYxnO/k7poQoFKDlDB2OlEiht+xflkTkzR6LQM49xfCB94
+ I4p2GT9ZrxtMaMgtR9y5/BgPdx4dtKBSZvM525x18+z12pmlu6infeyqQmJBzTEisrjN
+ onKv35Suo72gH+j5ULu19dogaNjor5exKApvBwnSLSv1/E5Yd3mZ1OtOrrw2eM3HtiVh
+ Qfi5d7Q+5HvFPvMMJpEjdcC3+Uic6Vm8rcw7XTSTxhMie4Uo//CSTPUavXRgTJ19hG1T
+ evkQ==
+X-Gm-Message-State: AOAM530xpcyxxrOvupM0/TfXMourylGk2SfiuOhsSa7voJn8MTD/jEwz
+ EczncTIaKRxNU453ZaQ85QFdaN5pucSeevEqZSxYtw==
+X-Google-Smtp-Source: ABdhPJwtPel488pKG+titVqvbHsJDbSA8DLgQ+5Gid39Aj6tn9e5V4SXOrJcLJdMUB9QQY12ijJ55Y7nrivzD5nE7ec=
+X-Received: by 2002:adf:f7d2:: with SMTP id a18mr4827679wrq.47.1608302771328; 
+ Fri, 18 Dec 2020 06:46:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87wnxfy71f.wl-chenli@uniontech.com>
-Content-Language: en-GB
+References: <20201210134648.272857-1-maxime@cerno.tech>
+ <20201210134648.272857-6-maxime@cerno.tech>
+ <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
+In-Reply-To: <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 18 Dec 2020 14:45:54 +0000
+Message-ID: <CAPY8ntAx56BhKLVGyNUjjOYSaaJ1H2wku=Co8oqb38bPDEvGKA@mail.gmail.com>
+Subject: Re: [PATCH 05/15] drm/vc4: hdmi: Restore cec physical address on
+ reconnect
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +64,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jason Cooper <jason@lakedaemon.net>, David Airlie <airlied@linux.ie>,
+ Marc Zyngier <maz@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dom Cobley <popcornmix@gmail.com>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-12-18 06:14, Chen Li wrote:
-[...]
->>> No, not performance. See standards like OpenGL, Vulkan as well as VA-API and
->>> VDPAU require that you can mmap() device memory and execute memset/memcpy on
->>> the memory from userspace.
->>>
->>> If your ARM base board can't do that for some then you can't use the hardware
->>> with that board.
->>
->> If the VRAM lives in a prefetchable PCI bar then on most sane Arm-based systems
->> I believe it should be able to mmap() to userspace with the Normal memory type,
->> where unaligned accesses and such are allowed, as opposed to the Device memory
->> type intended for MMIO mappings, which has more restrictions but stricter
->> ordering guarantees.
->   
-> Hi, Robin. I cannot understand it allow unaligned accesses. prefetchable PCI bar should also be mmio, and accesses will end with device memory, so why does this allow unaligned access?
+On Fri, 18 Dec 2020 at 14:21, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi  Maxime & Dom
+>
+> On Thu, 10 Dec 2020 at 13:47, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > From: Dom Cobley <popcornmix@gmail.com>
+> >
+> > Currently we call cec_phys_addr_invalidate on a hotplug deassert.
+> > That may be due to a TV power cycling, or an AVR being switched
+> > on (and switching edid).
+> >
+> > This makes CEC unusable since our controller wouldn't have a physical
+> > address anymore.
+> >
+> > Set it back up again on the hotplug assert.
+> >
+> > Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
+> > Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++--------
+> >  1 file changed, 17 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index 28b78ea885ea..eff3bac562c6 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -136,20 +136,29 @@ static enum drm_connector_status
+> >  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+> >  {
+> >         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+> > +       bool connected = false;
+> >
+> >         if (vc4_hdmi->hpd_gpio) {
+> >                 if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
+> >                     vc4_hdmi->hpd_active_low)
+> > -                       return connector_status_connected;
+> > -               cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> > -               return connector_status_disconnected;
+> > -       }
+> > -
+> > -       if (drm_probe_ddc(vc4_hdmi->ddc))
+> > -               return connector_status_connected;
+> > -
+> > +                       connected = true;
+> > +       } else if (drm_probe_ddc(vc4_hdmi->ddc))
+> > +               connected = true;
+> >         if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
+>
+> This needs to become an "else if(...".
+> It used to be that all the other paths would return, so were mutually
+> exclusive to this. Now they set a thing and keep going we need to
+> avoid reading the register should there be a HPD gpio or the ddc probe
+> succeeds.
+> Memory says that otherwise Pi3 always reports connected.
+>
+> I fixed this in a downstream patch already -
+> https://github.com/raspberrypi/linux/commit/d345caec1e9b2317b9cd7eb5b92ae453a0d3e98c
+>
+> Otherwise fine.
+>
+>   Dave
+>
+> > +               connected = true;
+> > +       if (connected) {
+> > +               if (connector->status != connector_status_connected) {
+> > +                       struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> > +
+> > +                       if (edid) {
+> > +                               cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+> > +                               vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
+> > +                               drm_connector_update_edid_property(connector, edid);
 
-Because even Device-GRE is a bit too restrictive to expose to userspace 
-that's likely to expect it to behave as regular memory, so, for better 
-or worse, we use MT_NORMAL_MC for pgrprot_writecombine().
+Actually looking at this again in the context of the other changes, do
+we need to call drm_connector_update_edid_property() here?
 
->> Regardless of what happens elsewhere though, if something is mapped *into the
->> kernel* with ioremap(), then it is fundamentally wrong per the kernel memory
->> model to reference that mapping directly without using I/O accessors. That is
->> not specific to any individual architecture, and Sparse should be screaming
->> about it already. I guess in this case the UVD code needs to pay more attention
->> to whether radeon_bo_kmap() ends up going via ttm_bo_ioremap() or not.
->>
->> (I'm assuming the initial fault was memset() with 0 trying to perform "DC ZVA"
->> on a Device-type mapping from ioremap() - FYI a stacktrace on its own without
->> the rest of the error dump showing what actually triggered it isn't overly
->> useful)
->>
->> Robin.
-> why it may be 'DC ZVA'? I'm not sure the pc in initial kernel fault memset, but I capture the userspace crash pc: stp(128bit) or str with neon(also 128bit) to render node(/dev/dri/renderD128).
+We've just called drm_get_edid() to get the edid, and that calls
+drm_connector_update_edid_property() as well [1]
+Updating vc4_hdmi->encoder.hdmi_monitor may be necessary. It's
+otherwise done in vc4_hdmi_connector_get_modes, which I sort of expect
+to be called almost immediately by the framework when connector_detect
+returns "connected". I haven't checked if that is guaranteed though.
 
-As I said it was an assumption. I guessed at it being more likely to be 
-an MMU fault than an external abort, and given the size and the fact 
-that it's a variable initialisation guessed at it being slightly more 
-likely to hit the ZVA special-case rather than being unaligned. Looking 
-again, I guess starting at an odd-numbered 32-bit element might lead to 
-an unaligned store of XZR, but either way it doesn't really matter - 
-what it showed is it clearly *could* be an MMU fault because TTM seems 
-to be a bit careless with iomem pointers.
+vc4_hdmi_connector_get_modes also includes a manual call to
+drm_connector_update_edid_property after having just called
+drm_get_edid, so that one feels redundant too.
 
-That said, if you're also getting external aborts from your host bridge 
-not liking 128-bit transactions, then as Christian says you're probably 
-going to have a bad time on this platform either way.
+  Dave
 
-Robin.
+[1] https://elixir.bootlin.com/linux/v5.10/source/drivers/gpu/drm/drm_edid.c#L2059
+
+> > +                               kfree(edid);
+> > +                       }
+> > +               }
+> >                 return connector_status_connected;
+> > +       }
+> >         cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> >         return connector_status_disconnected;
+> >  }
+> > --
+> > 2.28.0
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
