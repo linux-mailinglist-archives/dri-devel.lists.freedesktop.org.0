@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D83C2DE3EC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:21:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B94B2DE3FA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 117F16E03F;
-	Fri, 18 Dec 2020 14:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 404686E0CA;
+	Fri, 18 Dec 2020 14:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8558D6E03F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:21:37 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id e25so2766110wme.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 06:21:37 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCC66E0CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:27:15 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id r4so2756253wmh.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 06:27:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yg/DSJRdrLy0HhUNnHE4yMYxJ8sJyjH42WoCIL2vO8M=;
- b=avagjLPPM/4TenYe+5NFwMYfDv5mkadG3/FGaqQJLbxamQObpsp1s2ti8eQdTXtaon
- heMFa1Ff+s1WmQ5BcoX6PZE51lm02DR21bsPKye3xLeNIpzlKnjBTOsTlOX1gQGLyb3W
- jIosaRHbAPDeU7U6WTAJ/yewyQo84s5nju4Jc5A8OK+PsfIfgcE60gmTN9Q2kDYxR92d
- uLTno9x8L4yrdnyVTAZ9RD7dpCqW/8Gpam/AhLRr3e1hVqNm/6Zn7TJMigJnLdUJeBJ0
- goVEXQyOJ3gnNQTFRAoYuaIdcsEMbvjvhcnJC+6HST790kZh+omIAfT9GDznlD7avlSd
- HBwQ==
+ :cc; bh=3jAc8avduUQUrJ7esBOnKUiJwC4FE/zfHKx0EFzGBz4=;
+ b=F2xfRsnxvhpv+uKXzfqbx5DcPoqGFopHvfaBoi1q+5mqVAQZxdhyICtkh2j5WfhqO3
+ 3IQecoe1Tv49RuxNLIKuyOjlDOpvEYpmBoOA22StprO4jAKztsbQ7+sOnnguCFjI1OIU
+ zCp17THqkfo1ugcRGSYGkugWd5wKQnG/laLA1EQ2k4gUck1lacj5iwMyIRm41NvG3VVB
+ GHdKvd2sH1ZWm1jABteiUuw+ekkw9Ndlqlmr1VLlCT5qzh+hOGKm7XF4bwxML3TkHtCU
+ LUYLh1XuxOUFyU627821rC71lWA0Jbhr11uUpPI06v5NPJsfZUx6OLC95ABQc83me+oS
+ AWQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yg/DSJRdrLy0HhUNnHE4yMYxJ8sJyjH42WoCIL2vO8M=;
- b=Hp87rd1pibGwLNG7oJuGZY3SgErgUFgBwQlkrRFr1BZufzT/pQSzbk05Q3Ubkswkrj
- HCW3nC0dhe1ONquX4OZOeVoXLwg7GCotyB1xI5POLH+L54vv3mpnofkPlt2XnXRx0iKE
- MLBf2kCnHIDYoMVK+HFlrJJdeXGw0V0ijqPWABzYNoGaGJIVUqWgGH7sv/cSuBkwFTT5
- 7K6X3CTVvVxVfBANrgoReoB+oOeclN55EwAucmbCRb1TAaHU4rb3TS/hjmuSSAOSDES2
- i7gjdl2r8vtf0NV56p4Hl7CsvnUfXOPKssj5++fZcytK0MboIUpCznuMbwm/36ZsM8jH
- yy5Q==
-X-Gm-Message-State: AOAM530nVCDGJND1iHxrRaW39f3om9Z/oKRE6n50qSsp+WOpKCGl8jbg
- d6omLquk7K3RVC0sFmEyYz4zaxnlLNL70wHkmb3Lfw==
-X-Google-Smtp-Source: ABdhPJyt9fDcXOzHI8EKkCqBDVJFYeA5WQWNbsZGass3dzm1SJFYCDEWIUPq84vwnQjLtV5mIEeDN0G9jubDadFmIHE=
-X-Received: by 2002:a1c:7d88:: with SMTP id y130mr4418480wmc.158.1608301296016; 
- Fri, 18 Dec 2020 06:21:36 -0800 (PST)
+ bh=3jAc8avduUQUrJ7esBOnKUiJwC4FE/zfHKx0EFzGBz4=;
+ b=d8cP5YSgf3gigjyBI6ZZI++770P+VN6RDOcu2pL47cjh3tpHug7EONDRBxfTZvJKfm
+ rP0dyKc0Lt7mhxj5SaqUnrrdV5TptJWeGXtdu1ZV4tFAtDFgxlsj6v//0NkElTqei/NR
+ Enf5CUICVkZGyT7vaj8TEzPHQVj+xOuuQBv2tbytmI1tRwvjKiSzpJ7PzHLYj6TfBBJf
+ y31SjJPn5tUR9+j90RO1yzmSAcAmcBsnxusTOQX5G9H4ceG6UqVr2HEb/6Cq2vEY3IUH
+ buj/bTIZb5p6eM2sMkbBsKjdSsAP2JQrTGyW70tptDtsutcGyypabJ9gkBMZAEO8GS3W
+ zYNg==
+X-Gm-Message-State: AOAM532l25l2zGKyf0YqXUlxrZqES2e9GglafI/i9cGKAOIOGvBN0dxg
+ gAE8iWqb4liIY2dm5u5pfcXCYQ5aep9LinKC6Ph+TQ==
+X-Google-Smtp-Source: ABdhPJx/lsgjkUBwptE2FvxilKrOPsqLIk5qAqyXF5cU65mBAdSv8EykNmw+E0J5n3tiJW833Tb9661bqGbb3yW/kKA=
+X-Received: by 2002:a1c:bc88:: with SMTP id m130mr4637467wmf.82.1608301634416; 
+ Fri, 18 Dec 2020 06:27:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-6-maxime@cerno.tech>
-In-Reply-To: <20201210134648.272857-6-maxime@cerno.tech>
+ <20201210134648.272857-8-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-8-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 18 Dec 2020 14:21:18 +0000
-Message-ID: <CAPY8ntDXJWR-vssSLsRbh7RTd-40SQApOxWGwt2LkeoyxCdYMw@mail.gmail.com>
-Subject: Re: [PATCH 05/15] drm/vc4: hdmi: Restore cec physical address on
- reconnect
+Date: Fri, 18 Dec 2020 14:26:57 +0000
+Message-ID: <CAPY8ntCVgX7qHUS5Ecyjb2_rn_1amc88pFkPTU2XNVmcmO_ZBQ@mail.gmail.com>
+Subject: Re: [PATCH 07/15] drm/vc4: hdmi: Update the CEC clock divider on HSM
+ rate change
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,8 +66,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Jason Cooper <jason@lakedaemon.net>, David Airlie <airlied@linux.ie>,
  Marc Zyngier <maz@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Dom Cobley <popcornmix@gmail.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -78,85 +78,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi  Maxime & Dom
+Hi Maxime
 
 On Thu, 10 Dec 2020 at 13:47, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> From: Dom Cobley <popcornmix@gmail.com>
+> As part of the enable sequence we might change the HSM clock rate if the
+> pixel rate is different than the one we were already dealing with.
 >
-> Currently we call cec_phys_addr_invalidate on a hotplug deassert.
-> That may be due to a TV power cycling, or an AVR being switched
-> on (and switching edid).
+> On the BCM2835 however, the CEC clock derives from the HSM clock so any
+> rate change will need to be reflected in the CEC clock divider to output
+> 40kHz.
 >
-> This makes CEC unusable since our controller wouldn't have a physical
-> address anymore.
->
-> Set it back up again on the hotplug assert.
->
-> Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
-> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Fixes: cd4cb49dc5bb ("drm/vc4: hdmi: Adjust HSM clock rate depending on pixel rate")
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+I thought we'd got a duplicate patch here, but it's moving code that
+was changed in patch 6/15 so it can be called from
+vc4_hdmi_encoder_pre_crtc_configure too. Good for confusing me!
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++--------
->  1 file changed, 17 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 39 +++++++++++++++++++++++++---------
+>  1 file changed, 29 insertions(+), 10 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 28b78ea885ea..eff3bac562c6 100644
+> index 0c53d7427d15..b93ee3e26e2b 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -136,20 +136,29 @@ static enum drm_connector_status
+> @@ -132,6 +132,27 @@ static void vc5_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
+>                    HDMI_READ(HDMI_CLOCK_STOP) | VC4_DVP_HT_CLOCK_STOP_PIXEL);
+>  }
+>
+> +#ifdef CONFIG_DRM_VC4_HDMI_CEC
+> +static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
+> +{
+> +       u16 clk_cnt;
+> +       u32 value;
+> +
+> +       value = HDMI_READ(HDMI_CEC_CNTRL_1);
+> +       value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
+> +
+> +       /*
+> +        * Set the clock divider: the hsm_clock rate and this divider
+> +        * setting will give a 40 kHz CEC clock.
+> +        */
+> +       clk_cnt = clk_get_rate(vc4_hdmi->hsm_clock) / CEC_CLOCK_FREQ;
+> +       value |= clk_cnt << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT;
+> +       HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
+> +}
+> +#else
+> +static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
+> +#endif
+> +
+>  static enum drm_connector_status
 >  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
 >  {
->         struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
-> +       bool connected = false;
+> @@ -761,6 +782,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+>                 return;
+>         }
 >
->         if (vc4_hdmi->hpd_gpio) {
->                 if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
->                     vc4_hdmi->hpd_active_low)
-> -                       return connector_status_connected;
-> -               cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-> -               return connector_status_disconnected;
-> -       }
-> -
-> -       if (drm_probe_ddc(vc4_hdmi->ddc))
-> -               return connector_status_connected;
-> -
-> +                       connected = true;
-> +       } else if (drm_probe_ddc(vc4_hdmi->ddc))
-> +               connected = true;
->         if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
-
-This needs to become an "else if(...".
-It used to be that all the other paths would return, so were mutually
-exclusive to this. Now they set a thing and keep going we need to
-avoid reading the register should there be a HPD gpio or the ddc probe
-succeeds.
-Memory says that otherwise Pi3 always reports connected.
-
-I fixed this in a downstream patch already -
-https://github.com/raspberrypi/linux/commit/d345caec1e9b2317b9cd7eb5b92ae453a0d3e98c
-
-Otherwise fine.
-
-  Dave
-
-> +               connected = true;
-> +       if (connected) {
-> +               if (connector->status != connector_status_connected) {
-> +                       struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
+> +       vc4_hdmi_cec_update_clk_div(vc4_hdmi);
 > +
-> +                       if (edid) {
-> +                               cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
-> +                               vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
-> +                               drm_connector_update_edid_property(connector, edid);
-> +                               kfree(edid);
-> +                       }
-> +               }
->                 return connector_status_connected;
-> +       }
->         cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
->         return connector_status_disconnected;
->  }
+>         /*
+>          * FIXME: When the pixel freq is 594MHz (4k60), this needs to be setup
+>          * at 300MHz.
+> @@ -1586,7 +1609,6 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+>  {
+>         struct cec_connector_info conn_info;
+>         struct platform_device *pdev = vc4_hdmi->pdev;
+> -       u16 clk_cnt;
+>         u32 value;
+>         int ret;
+>
+> @@ -1605,17 +1627,14 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+>         cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
+>
+>         HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
+> +
+>         value = HDMI_READ(HDMI_CEC_CNTRL_1);
+> -       value &= ~VC4_HDMI_CEC_DIV_CLK_CNT_MASK;
+> -       /*
+> -        * Set the logical address to Unregistered and set the clock
+> -        * divider: the hsm_clock rate and this divider setting will
+> -        * give a 40 kHz CEC clock.
+> -        */
+> -       clk_cnt = clk_get_rate(vc4_hdmi->hsm_clock) / CEC_CLOCK_FREQ;
+> -       value |= VC4_HDMI_CEC_ADDR_MASK |
+> -                (clk_cnt << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
+> +       /* Set the logical address to Unregistered */
+> +       value |= VC4_HDMI_CEC_ADDR_MASK;
+>         HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
+> +
+> +       vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+> +
+>         ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
+>                                         vc4_cec_irq_handler,
+>                                         vc4_cec_irq_handler_thread, 0,
 > --
 > 2.28.0
 >
