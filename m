@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61482DE98C
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 20:06:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF472DEA8C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 21:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83FDE89B9F;
-	Fri, 18 Dec 2020 19:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69AF18921A;
+	Fri, 18 Dec 2020 20:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD5889B9F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 19:06:35 +0000 (UTC)
-X-Gm-Message-State: AOAM5315X8fQF8r0Fr4yWnZBuZZm8K4Rb146KOPEo4AZis3gC51tcOpz
- b80Cq38TcTs0CMPTRKRrRe1JVTmlJTukXAuwFFo=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09A30891C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 20:54:43 +0000 (UTC)
+Subject: Re: [PULL] drm-next, part 2 + fixes
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608318395;
- bh=XqqUPWojYmVPa7mNvfdt2K6nsdL8qf0Nn64FWqOiRfg=;
- h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
- b=K8LTNF5EAIrDyyXbJeLPbpVxfZPtM1t9yg9CmbfDklpEk9fQA+2rcQjBGXyOKXWNs
- KnG6JEoXiT1DkDaBaIix0tcxqVtbnprR9VZDmQypUz/KB98LQIGKbiV5siz0ebror9
- GvUM9JXZLrFckVytdmYbqvoxrhwILRjNreh2HS/00aYqe0Ob1Sl2tlelW36e0KKGq4
- KAoPvNRSyiy3RsWLymEdiyQhg9Lccl03FCLahdSAi3HhVsEdua40DOlrj4suZ1qRv3
- IIrRTkrleDKt9AzW6gUmWryJtTDSgVyEXwxbJp12eePcIaY+orThiOWXygB0Vjml7y
- nQ/jrt8UnY6BA==
-X-Google-Smtp-Source: ABdhPJz3HweeVkhoNpDXXFqFCDgm+Kc4nRywUlwowz8nue7LdkTL2NF8tT9eRO6IkY6jUhdwzE1scnHXL/1l4urtg5I=
-X-Received: by 2002:a05:6638:83:: with SMTP id
- v3mr5077068jao.106.1608318394559; 
- Fri, 18 Dec 2020 11:06:34 -0800 (PST)
-MIME-Version: 1.0
-References: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
-In-Reply-To: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Fri, 18 Dec 2020 14:06:23 -0500
-X-Gmail-Original-Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
-Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
-Subject: Re: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI
- bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ s=k20201202; t=1608324883;
+ bh=rFgjNHcOzIJuLv9eomZVjZNNrmvZ0Y/cDPu3XzoiFD0=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=mZB/tZmFESEE1ap18MJlACsqeGAcGnJeL9Utwwbs+6RJCI/qpk/auYIWIk6qbJ+15
+ 0kN5MIMNZPOB/vRH0Yv9C6vG+QdLbV3RNzWz/b1Xaob1we2frMgN+7ijhk1n/cqi4R
+ mltx74+q0Tpw558jB/yhO3IdP9qBN8CFePYaDlKySTHuJ/PFYJCTKhA1zgY58yUlKS
+ L0TbFN+87Zc7LZ3zSxmK1JAp1pxAavSbjL1lPi8ZHnURyU4Qc6qHspII+AGzhaGiBC
+ m5b35bYW8/a3AZuegS+I9FwW9FvrDz+6pBNyAvbS029oQcp0n1Eh0Rkva1epmKLjNb
+ VZp8TyVgZt2vw==
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <X9zdOXnqo6hzR5wu@phenom.ffwll.local>
+References: <X9zdOXnqo6hzR5wu@phenom.ffwll.local>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <X9zdOXnqo6hzR5wu@phenom.ffwll.local>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2020-12-18
+X-PR-Tracked-Commit-Id: 4efd7faba5e0687ae9143b7e6a19547ede20a7dd
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c59c7588fc922e27c378a7e2a920b889bd6bf872
+Message-Id: <160832488371.19372.4100865497261367725.pr-tracker-bot@kernel.org>
+Date: Fri, 18 Dec 2020 20:54:43 +0000
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,45 +49,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-arm Msm <linux-arm-msm@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linux Firmware <linux-firmware@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pulled and pushed out.
+The pull request you sent on Fri, 18 Dec 2020 17:47:53 +0100:
 
-josh
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-12-18
 
-On Thu, Dec 10, 2020 at 7:46 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Hello linux-firmware maintainers,
->
-> The following changes since commit 7455a36066741a6e52fba65e04f6451b4cdfd9c4:
->
->   Merge branch 'guc_v49' of git://anongit.freedesktop.org/drm/drm-firmware into main (2020-11-30 09:26:11 -0500)
->
-> are available in the Git repository at:
->
->   https://github.com/lumag/linux-firmware lt9611uxc
->
-> for you to fetch changes up to 63ab3db8399a504048716eb3feed2867da58876a:
->
->   linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge (2020-12-11 03:27:38 +0300)
->
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (1):
->       linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge
->
->  LICENSE.Lontium  |   2 ++
->  WHENCE           |   8 ++++++++
->  lt9611uxc_fw.bin | Bin 0 -> 17932 bytes
->  3 files changed, 10 insertions(+)
->  create mode 100644 LICENSE.Lontium
->  create mode 100644 lt9611uxc_fw.bin
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c59c7588fc922e27c378a7e2a920b889bd6bf872
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
