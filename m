@@ -1,58 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603B32DE3C4
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:15:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201902DE3CA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:17:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03EBB89193;
-	Fri, 18 Dec 2020 14:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8CD6E0CC;
+	Fri, 18 Dec 2020 14:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C883E89193
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:15:05 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id y23so2735120wmi.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 06:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=D0yaErHcqfayKksTi4is0kAuzaBOGBnPoVWcZNIY0oA=;
- b=kax6tWHn82BS2aAMps25EqnQK6kcKfiHaxXQ5LpUY772gpn3TzVG2AyjpW7qvGmgv+
- eSOVJpEP68PQ2wcTQyi3ZNwhed+tcFiVocvVSW/rrZ/hramri51/SSaYkEoIfwzRK/rp
- nOxuCsmVjkxV+iLkMcWHtRHziIW7zEM8F57V0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=D0yaErHcqfayKksTi4is0kAuzaBOGBnPoVWcZNIY0oA=;
- b=VDr395vFd6wKtw8I2WCMUybSRw7o9Kh0+6A3LlrgdcztPqfPskr6Bom/Aq4B2fOFKJ
- 7R1J4IZ92/zaIRTfb3bSjpaIZlKlpiSSLPipzXg+l/d2A0qX5WatN0US2hlUujbi3Dca
- Ked1m7AJOj0Iqpt7GvE/DAC5ZDUUSvNxnjfR129M3xKrxNCKoUD5N1usUsxEhOryWkyt
- mUrdKxlMX8aShQZj0XZRQq40DIKszZJybGKcrTQnd4EXSXKLo0805ccR2+mSBN895Kr0
- Xs7lw3gyp0wiImCQLWANJg8HMb3gPgm7rtFCBMd+yyImdfpfUkXuqrGZs68AjZqH5DVe
- xMJw==
-X-Gm-Message-State: AOAM532vlQLyPVlYZ5HlUAJQJNaHI76hclyIGPoZpVflWHqdLbYi3w/R
- J+eiNec5UXubwtxQghxjZLGmv0ZLXh9HHA==
-X-Google-Smtp-Source: ABdhPJx6oSkFaGreLuoE09d4qzFTkIkq+dcQdNCl6rFGOerf8Urg/cRXctSv4FHV2EznOYlsKENqZw==
-X-Received: by 2002:a1c:b082:: with SMTP id z124mr4381858wme.129.1608300904413; 
- Fri, 18 Dec 2020 06:15:04 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j9sm13831473wrm.14.2020.12.18.06.15.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Dec 2020 06:15:03 -0800 (PST)
-Date: Fri, 18 Dec 2020 15:15:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH] drm/nouveau: fix multihop when move doesn't work.
-Message-ID: <X9y5ZXTmuUoxO+B1@phenom.ffwll.local>
-References: <20201217200943.30511-1-airlied@gmail.com>
- <X9u/j9zPS/uJURJX@phenom.ffwll.local>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C4D6F6E0CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:17:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 470961FB;
+ Fri, 18 Dec 2020 06:17:37 -0800 (PST)
+Received: from [10.57.34.90] (unknown [10.57.34.90])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7413B3F66B;
+ Fri, 18 Dec 2020 06:17:36 -0800 (PST)
+Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Chen Li <chenli@uniontech.com>
+References: <877dpiz4sf.wl-chenli@uniontech.com>
+ <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
+ <875z51zwsq.wl-chenli@uniontech.com>
+ <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
+ <873605z1du.wl-chenli@uniontech.com>
+ <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
+ <159c72db-1316-6155-2209-8e0e9a7f5224@arm.com>
+ <8a2245b8-3a57-a35b-924f-e2a6c084e60f@amd.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <9c0a034f-9f9d-d513-db41-df925bd15951@arm.com>
+Date: Fri, 18 Dec 2020 14:17:35 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X9u/j9zPS/uJURJX@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <8a2245b8-3a57-a35b-924f-e2a6c084e60f@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +49,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 17, 2020 at 09:29:03PM +0100, Daniel Vetter wrote:
-> On Fri, Dec 18, 2020 at 06:09:43AM +1000, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
-> > 
-> > As per the radeon/amdgpu fix don't use multihop is hw moves
-> > aren't enabled.
-> > 
-> > Reported-by: Mike Galbraith <efault@gmx.de>
-> > Tested-by: Mike Galbraith <efault@gmx.de>
-> > Fixes: 0c8c0659d74 ("drm/nouveau/ttm: use multihop")
-
-Also fixed the Fixes: line here, it was pointing at something else (old
-rebased version from your own tree maybe?).
--Daniel
-
-> > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> 
-> Pulled to drm-next directly, will go out to Linus tomorrow.
-> -Daniel
-> 
-> > ---
-> >  drivers/gpu/drm/nouveau/nouveau_bo.c | 31 ++++++++++++++--------------
-> >  1 file changed, 16 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > index 1386b0fc1640..c85b1af06b7b 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > @@ -942,16 +942,6 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
-> >  	struct nouveau_drm_tile *new_tile = NULL;
-> >  	int ret = 0;
-> >  
-> > -	if ((old_reg->mem_type == TTM_PL_SYSTEM &&
-> > -	     new_reg->mem_type == TTM_PL_VRAM) ||
-> > -	    (old_reg->mem_type == TTM_PL_VRAM &&
-> > -	     new_reg->mem_type == TTM_PL_SYSTEM)) {
-> > -		hop->fpfn = 0;
-> > -		hop->lpfn = 0;
-> > -		hop->mem_type = TTM_PL_TT;
-> > -		hop->flags = 0;
-> > -		return -EMULTIHOP;
-> > -	}
-> >  
-> >  	if (new_reg->mem_type == TTM_PL_TT) {
-> >  		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
-> > @@ -995,14 +985,25 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
-> >  
-> >  	/* Hardware assisted copy. */
-> >  	if (drm->ttm.move) {
-> > +		if ((old_reg->mem_type == TTM_PL_SYSTEM &&
-> > +		     new_reg->mem_type == TTM_PL_VRAM) ||
-> > +		    (old_reg->mem_type == TTM_PL_VRAM &&
-> > +		     new_reg->mem_type == TTM_PL_SYSTEM)) {
-> > +			hop->fpfn = 0;
-> > +			hop->lpfn = 0;
-> > +			hop->mem_type = TTM_PL_TT;
-> > +			hop->flags = 0;
-> > +			return -EMULTIHOP;
-> > +		}
-> >  		ret = nouveau_bo_move_m2mf(bo, evict, ctx,
-> >  					   new_reg);
-> > -		if (!ret)
-> > -			goto out;
-> > -	}
-> > +	} else
-> > +		ret = -ENODEV;
-> >  
-> > -	/* Fallback to software copy. */
-> > -	ret = ttm_bo_move_memcpy(bo, ctx, new_reg);
-> > +	if (ret) {
-> > +		/* Fallback to software copy. */
-> > +		ret = ttm_bo_move_memcpy(bo, ctx, new_reg);
-> > +	}
-> >  
-> >  out:
-> >  	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA) {
-> > -- 
-> > 2.27.0
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMi0xNyAxNDowMiwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiBBbSAxNy4xMi4y
+MCB1bSAxNDo0NSBzY2hyaWViIFJvYmluIE11cnBoeToKPj4gT24gMjAyMC0xMi0xNyAxMDoyNSwg
+Q2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+IEFtIDE3LjEyLjIwIHVtIDAyOjA3IHNjaHJpZWIg
+Q2hlbiBMaToKPj4+PiBPbiBXZWQsIDE2IERlYyAyMDIwIDIyOjE5OjExICswODAwLAo+Pj4+IENo
+cmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+Pj4+IEFtIDE2LjEyLjIwIHVtIDE0OjQ4IHNjaHJpZWIg
+Q2hlbiBMaToKPj4+Pj4+IE9uIFdlZCwgMTYgRGVjIDIwMjAgMTU6NTk6MzcgKzA4MDAsCj4+Pj4+
+PiBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Pj4+Pj4+IFtTTklQXQo+Pj4+Pj4gSGksIENocmlz
+dGlhbi4gSSdtIG5vdCBzdXJlIHdoeSB0aGlzIGNoYW5nZSBpcyBhIGhhY2sgaGVyZS4gSSAKPj4+
+Pj4+IGNhbm5vdCBzZWUgdGhlIHByb2JsZW0gYW5kIHdsbCBiZSBncmF0ZWZ1bCBpZiB5b3UgZ2l2
+ZSBtb3JlIAo+Pj4+Pj4gZXhwbGFpbmF0aW9ucy4KPj4+Pj4gX19tZW1zZXQgaXMgc3VwcG9zZWQg
+dG8gd29yayBvbiB0aG9zZSBhZGRyZXNzZXMsIG90aGVyd2lzZSB5b3UgCj4+Pj4+IGNhbid0IHVz
+ZSB0aGUKPj4+Pj4gZTg4NjAgb24geW91ciBhcm02NCBzeXN0ZW0uCj4+Pj4gSWYgX19tZW1zZXQg
+aXMgc3VwcG9zZWQgdG8gd29yayBvbiB0aG9zZSBhZHJlc3Nlcywgd2h5IHRoaXMgCj4+Pj4gY29t
+bWl0KGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1o
+dHRwcyUzQSUyRiUyRmdpdGh1Yi5jb20lMkZ0b3J2YWxkcyUyRmxpbnV4JTJGY29tbWl0JTJGYmEw
+YjIyNzVhNjc4MWIyZjM5MTlkOTMxZDYzMzI5YjU1NDhmNmQ1ZiZhbXA7ZGF0YT0wNCU3QzAxJTdD
+Y2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0MzNTUxYWU0OTcyYjA0NGJiODMxNjA4ZDhhMjkx
+ZjgxYyU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0Mzgw
+OTUxMTQyOTIzOTQlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlM
+Q0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7
+c2RhdGE9eG5zODF1Q0dmTjF0anNWbjVMQlU4UWhtVWluWlJKUWxYejh3JTJGSjclMkZHVE0lM0Qm
+YW1wO3Jlc2VydmVkPTApIAo+Pj4+IGlzIG5lZWRlZD8gKEkgYWxzbyBub3RpY2UgZHJtL3JhZGVv
+biBkaWRuJ3QgdGFrZSB0aGlzIGNoYW5nZSB0aG91Z2gpIAo+Pj4+IGp1c3Qgb3V0IG9mIGN1cmlv
+c2l0eS4KPj4+Cj4+PiBXZSBnZW5lcmFsbHkgYWNjZXB0IHRob3NlIHBhdGNoZXMgYXMgY2xlYW51
+cCBpbiB0aGUga2VybmVsIHdpdGggdGhlIAo+Pj4gaG9wZSB0aGF0IHdlIGNhbiBmaW5kIGEgd2F5
+IHRvIHdvcmsgYXJvdW5kIHRoZSB1c2Vyc3BhY2UgcmVzdHJpY3Rpb25zLgo+Pj4KPj4+IEJ1dCB3
+aGVuIHlvdSBhbHNvIGhhdmUgdGhpcyBpc3N1ZSBpbiB1c2Vyc3BhY2UgdGhlbiB0aGVyZSBpc24n
+dCBtdWNoIAo+Pj4gd2UgY2FuIGRvIGZvciB5b3UuCj4+Pgo+Pj4+PiBSZXBsYWNpbmcgdGhlIHRo
+ZSBkaXJlY3Qgd3JpdGUgaW4gdGhlIGtlcm5lbCB3aXRoIGNhbGxzIHRvIHdyaXRlbCgpIG9yCj4+
+Pj4+IG1lbXNldF9pbygpIHdpbGwgZml4IHRoYXQgdGVtcG9yYXJ5LCBidXQgeW91IGhhdmUgYSBt
+b3JlIGdlbmVyYWwgCj4+Pj4+IHByb2JsZW0gaGVyZS4KPj4+PiBJIGNhbm5vdCBzZWUgd2hhdCdz
+IHRoZSBtb3JlIGdlbmVyYWwgcHJvYmxlbSBoZXJlIDooIHUgbWVhbiAKPj4+PiBwZXJmb3JtYW5j
+ZT8KPj4+Cj4+PiBObywgbm90IHBlcmZvcm1hbmNlLiBTZWUgc3RhbmRhcmRzIGxpa2UgT3BlbkdM
+LCBWdWxrYW4gYXMgd2VsbCBhcyAKPj4+IFZBLUFQSSBhbmQgVkRQQVUgcmVxdWlyZSB0aGF0IHlv
+dSBjYW4gbW1hcCgpIGRldmljZSBtZW1vcnkgYW5kIAo+Pj4gZXhlY3V0ZSBtZW1zZXQvbWVtY3B5
+IG9uIHRoZSBtZW1vcnkgZnJvbSB1c2Vyc3BhY2UuCj4+Pgo+Pj4gSWYgeW91ciBBUk0gYmFzZSBi
+b2FyZCBjYW4ndCBkbyB0aGF0IGZvciBzb21lIHRoZW4geW91IGNhbid0IHVzZSB0aGUgCj4+PiBo
+YXJkd2FyZSB3aXRoIHRoYXQgYm9hcmQuCj4+Cj4+IElmIHRoZSBWUkFNIGxpdmVzIGluIGEgcHJl
+ZmV0Y2hhYmxlIFBDSSBiYXIgdGhlbiBvbiBtb3N0IHNhbmUgCj4+IEFybS1iYXNlZCBzeXN0ZW1z
+IEkgYmVsaWV2ZSBpdCBzaG91bGQgYmUgYWJsZSB0byBtbWFwKCkgdG8gdXNlcnNwYWNlIAo+PiB3
+aXRoIHRoZSBOb3JtYWwgbWVtb3J5IHR5cGUsIHdoZXJlIHVuYWxpZ25lZCBhY2Nlc3NlcyBhbmQg
+c3VjaCBhcmUgCj4+IGFsbG93ZWQsIGFzIG9wcG9zZWQgdG8gdGhlIERldmljZSBtZW1vcnkgdHlw
+ZSBpbnRlbmRlZCBmb3IgTU1JTyAKPj4gbWFwcGluZ3MsIHdoaWNoIGhhcyBtb3JlIHJlc3RyaWN0
+aW9ucyBidXQgc3RyaWN0ZXIgb3JkZXJpbmcgZ3VhcmFudGVlcy4KPiAKPiBEbyB5b3UgaGF2ZSBz
+b21lIGJhY2tncm91bmQgd2h5IHNvbWUgQVJNIGJvYXJkcyBmYWlsIHdpdGggdGhhdD8KPiAKPiBX
+ZSBoYWQgYSBjb3VwbGUgb2YgcmVwb3J0cyB0aGF0IG1lbXNldC9tZW1jcHkgZmFpbCBpbiB1c2Vy
+c3BhY2UgKHVzdWFsbHkgCj4gc3lzdGVtIGp1c3Qgc3BvbnRhbmVvdXNseSByZWJvb3RzIG9yIGJl
+Y29tZXMgdW5yZXNwb25zaXZlKSwgYnV0IHNvIGZhciAKPiBub2JvZHkgY291bGQgdGVsbCB1cyB3
+aHkgdGhhdCBoYXBwZW5zPwoKUGFydCBvZiBpdCBpcyB0aGF0IEFybSBkb2Vzbid0IHJlYWxseSBo
+YXZlIGFuIGlkZWFsIG1lbW9yeSB0eXBlIGZvciAKbWFwcGluZyBSQU0gYmVoaW5kIFBDSSAobXVj
+aCBsaWtlIHdlIGFsc28gc3RydWdnbGUgd2l0aCB0aGUgdmFndWUgCmV4cGVjdGF0aW9ucyBvZiB3
+aGF0IHdyaXRlLWNvbWJpbmUgbWlnaHQgbWVhbiBiZXlvbmQgeDg2KS4gRGV2aWNlIG1lbW9yeSAK
+Y2FuIGJlIHJlbGF4ZWQgdG8gYWxsb3cgZ2F0aGVyaW5nLCByZW9yZGVyaW5nIGFuZCB3cml0ZS1i
+dWZmZXJpbmcsIGJ1dCAKaXMgc3RpbGwgYSBiaXQgdG9vIHJlc3RyaWN0aXZlIGluIG90aGVyIHdh
+eXMgLSBhbGlnbmVkLCBub24tc3BlY3VsYXRpdmUsIApldGMuIC0gZm9yIHNvbWV0aGluZyB0aGF0
+J3MgcmVhbGx5IGp1c3QgUkFNIGFuZCBleHBlY3RlZCB0byBiZSB1c2FibGUgYXMgCnN1Y2guIFRo
+dXMgdG8gbWFwIFBDSSBtZW1vcnkgYXMgIndyaXRlLWNvbWJpbmUiIHdlIHVzZSBOb3JtYWwgCm5v
+bi1jYWNoZWFibGUsIHdoaWNoIG1lYW5zIHRoZSBDUFUgTU1VIGlzIGdvaW5nIHRvIGFsbG93IHNv
+ZnR3YXJlIHRvIGRvIAphbGwgdGhlIHRoaW5ncyBpdCBtaWdodCBleHBlY3Qgb2YgUkFNLCBidXQg
+d2UncmUgbm93IGF0IHRoZSBtZXJjeSBvZiB0aGUgCm1lbmFnZXJpZSBvZiBpbnRlcmNvbm5lY3Rz
+IGFuZCBQQ0kgaW1wbGVtZW50YXRpb25zIG91dCB0aGVyZS4KCkF0b21pYyBvcGVyYXRpb25zLCBm
+b3IgZXhhbXBsZSwgKm1pZ2h0KiBiZSByZXNvbHZlZCBieSB0aGUgQ1BVIGNvaGVyZW5jeSAKbWVj
+aGFuaXNtIG9yIGluIHRoZSBpbnRlcmNvbm5lY3QsIHN1Y2ggdGhhdCB0aGUgUENJIGhvc3QgYnJp
+ZGdlIG9ubHkgCnNlZXMgcmVndWxhciBsb2FkcyBhbmQgc3RvcmVzLCBidXQgbW9yZSBvZnRlbiB0
+aGFuIG5vdCB0aGV5J2xsIGp1c3QgCnJlc3VsdCBpbiBhbiBhdG9taWMgdHJhbnNhY3Rpb24gZ29p
+bmcgYWxsIHRoZSB3YXkgdG8gdGhlIGhvc3QgYnJpZGdlLiBBIApzdXBlci1kdXBlci1jbGV2ZXIg
+aG9zdCBicmlkZ2UgaW1wbGVtZW50YXRpb24gbWlnaHQgZXZlbiBzdXBwb3J0IHRoYXQsIApidXQg
+dGhlIHZhc3QgbWFqb3JpdHkgYXJlIGxpa2VseSB0byBqdXN0IHJlamVjdCBpdCBhcyBpbnZhbGlk
+LgoKU2ltaWxhcmx5LCB1bmFsaWduZWQgYWNjZXNzZXMsIGNhY2hlIGxpbmUgZmlsbHMvZXZpY3Rp
+b25zLCBhbmQgc3VjaCB3aWxsIApvZnRlbiB3b3JrLCBzaW5jZSB0aGV5J3JlIGVzc2VudGlhbGx5
+IGp1c3QgbGFyZ2VyIHJlYWQvd3JpdGUgYnVyc3RzLCBidXQgCnNvbWUgaG9zdCBicmlkZ2VzIGNh
+biBiZSBwaWNreSBhbmQgbWlnaHQgcmVqZWN0IGFjY2VzcyBzaXplcyB0aGV5IGRvbid0IApsaWtl
+ICh0aGVyZSdzIGF0IGxlYXN0IG9uZSB3aGVyZSBldmVuIDY0LWJpdCBhY2Nlc3NlcyBkb24ndCB3
+b3JrLiBPbiBhIAo2NC1iaXQgc3lzdGVtLi4uKQoKSWYgYW4gaW52YWxpZCB0cmFuc2FjdGlvbiBk
+b2VzIHJlYWNoIHRoZSBob3N0IGJyaWRnZSwgaXQncyBnb2luZyB0byBjb21lIApiYWNrIHRvIHRo
+ZSBDUFUgYXMgYW4gZXh0ZXJuYWwgYWJvcnQuIElmIHdlJ3JlIHJlYWxseSBsdWNreSB0aGF0IGNv
+dWxkIApiZSB0YWtlbiBzeW5jaHJvbm91c2x5LCBhdHRyaWJ1dGFibGUgdG8gYSBzcGVjaWZpYyBp
+bnN0cnVjdGlvbiwgYW5kIGp1c3QgCm9vcHMvU0lHQlVTIHRoZSByZWxldmFudCBrZXJuZWwvdXNl
+cnNwYWNlIHRocmVhZC4gT2Z0ZW4gdGhvdWdoLCAKKHBhcnRpY3VsYXJseSB3aXRoIGJpZyBvdXQt
+b2Ytb3JkZXIgQ1BVcykgaXQncyBsaWtlbHkgdG8gYmUgYXN5bmNocm9ub3VzIAphbmQgbm8gbG9u
+Z2VyIGF0dHJpYnV0YWJsZSwgYW5kIHRodXMgdGFrZW4gYXMgYW4gU0Vycm9yIGV2ZW50LCB3aGlj
+aCBpbiAKZ2VuZXJhbCByb3VnaGx5IHRyYW5zbGF0ZXMgdG8gInBhcnQgb2YgdGhlIFNvQyBoYXMg
+ZmFsbGVuIG9mZiIuIFRoZSBvbmx5IApyZWFzb25hYmxlIHJlc3BvbnNlIHdlIGhhdmUgdG8gdGhh
+dCBpcyB0byBwYW5pYyB0aGUgc3lzdGVtLgoKUm9iaW4uCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
