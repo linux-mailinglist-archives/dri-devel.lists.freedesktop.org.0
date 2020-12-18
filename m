@@ -1,39 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415162DE15E
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 11:44:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 688BE2DE134
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 11:41:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D5A6E15A;
-	Fri, 18 Dec 2020 10:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9016E087;
+	Fri, 18 Dec 2020 10:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D762C6E128;
- Fri, 18 Dec 2020 10:44:18 +0000 (UTC)
-IronPort-SDR: LEMl48BfkGPmCHZQBVCcs+lH57tBoT2j/YgUu9mmgQXselzpgoUjiAP23U0NojPbiYjSECerwW
- QhInBfcZvE4A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="155219479"
-X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="155219479"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2020 02:44:18 -0800
-IronPort-SDR: eREomlH33VDhHhXKFm//LVX5MbfrwFPhXhEdGjMuIPS6lvWuLbY0wxtZgXdSlAheBP3SXmuf/u
- fAxf62eht28g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="561141830"
-Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by fmsmga005.fm.intel.com with ESMTP; 18 Dec 2020 02:44:15 -0800
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 15/15] drm/i915/display: Let PCON convert from RGB to YCbCr
- if it can
-Date: Fri, 18 Dec 2020 16:07:23 +0530
-Message-Id: <20201218103723.30844-16-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
-References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C6E6E087
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 10:41:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q+dJckr52uaYN1lpvdv0ZS3Yq6sUEseGXUK4gPTlwM/Axgu6AiJMqYerldwoBo35PQ4FpDbZl1vZUJKdnmdJ/QRlhdocRxhS2KOGIMa6C74sobN6Zv85c3F0jHTJkrRHD8Ef13AOHau8Q46PVFj9XN/CcM44vxsEjDWvgjLcnMA/p8eyjJTLIqPrS5vEJZDr24QaONV98/Dewi186iL7zPVCqCZN5yZVbeCyqQ9pmPhC2EWWUNzuFyJ7OwLHfaDPmj/ElziR4KpGTwfSW+9ZnSAUg0AlP8MBWRfBrDFEkqI06oxw78zl85mU2I/CrqCHNFA9kej6XtiqVXKoUd4+LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vnLOiHY0VPNKMutUGeh7lXkbXbg6W32KBAwIL+E/AK0=;
+ b=MEFjOQMLNFuM534ovx8wJOdzXrPcETp1GLeZhJEW8dmeZI2F5OM2alIW59In3nXrDUzLRdlvv2tc56HlP9tkDyqVMVt3hDkZkvhfrQ6F1SAzSKTwqlroidlEaLKGTEBNYeWhxuZDKBRD214aW0Ynz5RjF+LqWDoPyCF5pP2CDbgDtUPYYkozQran9v7nMtsxP2PbILeTVRuAz6tYCAvLP0kh5dCAVh1aFjX9vhRaeoggLvF6jXKr3uJ7aruai5Yyvr3wdlWN037fr60VQ61Dd9VNQnXB5yEHV6g1riKFrKgchd91xokHOkNjK81UQUDsLahYuaKFmxun+/XUXkl2og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vnLOiHY0VPNKMutUGeh7lXkbXbg6W32KBAwIL+E/AK0=;
+ b=i+cANSAqMj6+AZQDFy/kEIrQnVs19DRphipNUmWjR4OxqhS1bRzEKbbGj8HVQMgg5NaMn+8Tsp6Y/0x2kSqGJH1NH6+SCsi1BAqvi1S+x6nqf7D1+Pd6gMjLWMayGxVqWp55EbcmAVMY0o20dZHyn6V1ayYG/PI1sMCF5BBqI18=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4112.namprd12.prod.outlook.com (2603:10b6:208:19a::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.18; Fri, 18 Dec
+ 2020 10:41:52 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3654.025; Fri, 18 Dec 2020
+ 10:41:52 +0000
+Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
+To: Chen Li <chenli@uniontech.com>
+References: <877dpiz4sf.wl-chenli@uniontech.com>
+ <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
+ <875z51zwsq.wl-chenli@uniontech.com>
+ <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
+ <873605z1du.wl-chenli@uniontech.com>
+ <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
+ <877dpgimec.wl-chenli@uniontech.com>
+ <b21a574d-ca11-c139-eaae-61a75cc4278b@amd.com>
+ <87y2hvydox.wl-chenli@uniontech.com>
+ <0a449ae3-c55b-e1da-836c-3192eea5cb92@amd.com>
+ <87v9czxzr6.wl-chenli@uniontech.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <c8edb5ab-a668-db01-b357-cda0be046c9e@amd.com>
+Date: Fri, 18 Dec 2020 11:41:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <87v9czxzr6.wl-chenli@uniontech.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR10CA0059.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::39) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR10CA0059.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::39) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
+ Transport; Fri, 18 Dec 2020 10:41:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3a08aa67-2db0-4cf3-d674-08d8a3418823
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4112:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB41122A6579F3D5759269E23B83C30@MN2PR12MB4112.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: miXsS7Ggwg/z5acATkd2P9VHBxWcTHrzoXmZez3bcFwymi+J9sLd5MNDCk4K1I3sMfL9k1v1ixsLapen8qRODCvi/R1x71m5Z57kkthuZ//jdksFKAJFULQqFoINeTKa2qxkBsK0E8P312n6/P/S+O8Qk2b4HarMgRv1r1YW6oZhDP0F5LuMFCM4fb93VTXojMyvr4JK0mHZeb6S5HuFH/XEMCkqOLFgZNlGvEl+4SP386HLsj6km3RycYvFd80+hlVQg7WyNVJodbQdT7ItewzvsjUttkc7DD8g3bfr0SFSBYLHk0ckzajOWyh0zGtkU9kLrHwgbLrmqBpV2uKYBExD1RCUpcvDGbG4SyrDmQ8IVGLdGQaAIpbYC0zL5uJ6/S43O429RtoItVa19ZYAMBMVMWPXoiimF8yWjvIpIXI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(346002)(39860400002)(396003)(376002)(4326008)(66476007)(2906002)(478600001)(86362001)(31696002)(5660300002)(8936002)(66556008)(52116002)(6666004)(66946007)(316002)(6916009)(16526019)(186003)(2616005)(36756003)(6486002)(31686004)(8676002)(66574015)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bmM2eGxLU0pxYWxZbE1mbjhsalNVY1A1OVlvcnJucVh5cDRxeVdXOHNOWHRt?=
+ =?utf-8?B?VVNIbithZjIvTTFPOExOMk9kZDB4eFhEczNFTTJzYzdCVG9GLzNmcWJjaFpm?=
+ =?utf-8?B?b1ZNRVpuZWwyMVpvWWVSbDIyTVRMSGNtU1NKWEFmN3M3NERzdzdkOTd2OW9E?=
+ =?utf-8?B?Q1lqM0RVY2lJeTllanpJTm1sWEYyQ2xEVHY2TlBTTlRnd1ZzUEJhTmRsUG1I?=
+ =?utf-8?B?amtUcnhWYkVmTUhjZWVKam5nQVlGWFFXajROcTZPQzdEcis0TUVvYUh3S3NJ?=
+ =?utf-8?B?VkZ5cHlEczAwUldrTml0S3JXNFFZNEdMZ2o3NGVMN3g1S2JPcFRQTEdqM1lW?=
+ =?utf-8?B?NW04aUlDZEpwbWJZRXUzYk0yM202d2JOWDBmZlpZcmlhRmJWbTljTkphc3Mw?=
+ =?utf-8?B?T3V0U3lrTEhGeENnVGJ6ckNRaDJMNVl2VXhzZmFPZDRXajZBK2V1RndJMzhI?=
+ =?utf-8?B?NURveUFCNTNCTFA4dzdDZnk5K3dEdzJIV3hhMFhXWDFIZFZHajd6RzFMV1FC?=
+ =?utf-8?B?YTFtWHZMTXpGUklPYXFMeFFxWWdGbFpJRVFvWVI3VjhJQ1gzTEdpa3BOR1kv?=
+ =?utf-8?B?UEpnSzljTndXZWlSVVRmQW93SDBKallYZmRCZjhmY05nNlFKZTM5bU1GSlR1?=
+ =?utf-8?B?UUZaU1FmSndNcEtuVElnckJNWUhrNVBRVHBqY0xIdXczSys2dlgvRUVqMGFk?=
+ =?utf-8?B?YlRjRGx0eUdGbzRqcXczMFN0VDdqWFdPL0Q2UmtiQnVpYWFuemxCVC9KMUc0?=
+ =?utf-8?B?K2dSdzVsd0VuZ1RFUHgxNWZNM3dOZkx1NVArc0JpbzNpSDZmZHljWFZyZzVT?=
+ =?utf-8?B?cUcwazhKWHNTeUMwajNFYldMeDQ0K2RDWHBRUnM5cEhRdnhZQ05Zd1Z2OUNU?=
+ =?utf-8?B?VzlWaWp3ckdCRFQwNFArcWJianljdkZHczlsZHMwTG1rbVF6QUJ4a0swYmtW?=
+ =?utf-8?B?SWE3U2FWam82ZFpyc1VxYzJ2RFh5R29vZFdRMzVQSnAvN1dqNWsxcHJEQ1Iz?=
+ =?utf-8?B?WEJMNVhkTmsxeFE2dEEzVkZLaHRSOXBSZ0czbFhaVWpIeElvSmZVcWp0NU5l?=
+ =?utf-8?B?cTdFblNZSjhaQzdzcHFpSFpTNWxWZGxzblB3N2w3QThpWW5ucEt1OGZGd1po?=
+ =?utf-8?B?ZVR3dGdWTjFoaFRSTXphVVBJSnFwMS9PWlMrT2RMOWFreWZXaG9BUXRLNnBp?=
+ =?utf-8?B?dGVHa3NwVzl6RkFaWlZhcW9WTHptaW1yN1hHOEVKaEkvb0pjTERLbWJzcTdU?=
+ =?utf-8?B?dVhNMHAxSmhSUmdnZTNxQkRoNEFmMDd2UWRqSExPcXF1bXNubDZWelMxSU5m?=
+ =?utf-8?B?bi9CNlBqTnRlWkZVdisybFd4OFh3QUt0bG12QTJqNWh5UDNKWHZ4TUU3bDNm?=
+ =?utf-8?B?aFZnMlJlYkNGdlp3YWFqSWRoLy9oQU4yZm5oZ2tpM251SnY0UXIwalpCWGpz?=
+ =?utf-8?Q?mWP45EdV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 10:41:52.4117 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a08aa67-2db0-4cf3-d674-08d8a3418823
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O6saqFFp1sZjf20Kcmv8ayx1sNzGGibnU/8mTyCkDCDTfatkpeWncMp7A5Xa9F83
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,223 +133,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swati2.sharma@intel.com, airlied@linux.ie, vandita.kulkarni@intel.com,
- uma.shankar@intel.com, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If PCON has capability to convert RGB->YCbCr colorspace and also
-to 444->420 downsampling then for any YUV420 only mode, we can
-let the PCON do all the conversion. If the PCON supports
-RGB->YCbCr conversion for all BT2020, BT709, BT601, choose
-the one that is selected by userspace via connector colorspace
-property, otherwise default to BT601.
-
-v2: As suggested by Uma Shankar, considered case for colorspace
-BT709 and BT2020, and default to BT601. Also appended dir
-'display' in commit message.
-
-v3: Fixed typo in condition for printing one of the error msg.
-
-v4: As suggested by Uma Shankar:
--Fixed bug in determining the colorspace for RGB->YCbCr conversion.
--Fixed minor formatting issues
-Also updated the commit message as per latest changes.
-
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c      |  3 +-
- .../drm/i915/display/intel_display_types.h    |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c       | 72 +++++++++++++++----
- drivers/gpu/drm/i915/display/intel_dp.h       |  3 +-
- 4 files changed, 65 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index fbc07a93504b..17eaa56c5a99 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3644,6 +3644,7 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	if (!is_mst)
- 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
- 
-+	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
- 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state, true);
- 	/*
- 	 * DDI FEC: "anticipates enabling FEC encoding sets the FEC_READY bit
-@@ -3731,7 +3732,7 @@ static void hsw_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	intel_ddi_init_dp_buf_reg(encoder, crtc_state);
- 	if (!is_mst)
- 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
--	intel_dp_configure_protocol_converter(intel_dp);
-+	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
- 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state,
- 					      true);
- 	intel_dp_sink_set_fec_ready(intel_dp, crtc_state);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 4c01c7c23dfd..2009ae9e9678 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1460,6 +1460,7 @@ struct intel_dp {
- 		int pcon_max_frl_bw;
- 		u8 max_bpc;
- 		bool ycbcr_444_to_420;
-+		bool rgb_to_ycbcr;
- 	} dfp;
- 
- 	/* Display stream compression testing */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index fdc028b7db07..d7e01482c808 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -651,6 +651,10 @@ intel_dp_output_format(struct drm_connector *connector,
- 	    !drm_mode_is_420_only(info, mode))
- 		return INTEL_OUTPUT_FORMAT_RGB;
- 
-+	if (intel_dp->dfp.rgb_to_ycbcr &&
-+	    intel_dp->dfp.ycbcr_444_to_420)
-+		return INTEL_OUTPUT_FORMAT_RGB;
-+
- 	if (intel_dp->dfp.ycbcr_444_to_420)
- 		return INTEL_OUTPUT_FORMAT_YCBCR444;
- 	else
-@@ -4319,7 +4323,8 @@ static void intel_dp_enable_port(struct intel_dp *intel_dp,
- 	intel_de_posting_read(dev_priv, intel_dp->output_reg);
- }
- 
--void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
-+void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
-+					   const struct intel_crtc_state *crtc_state)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	u8 tmp;
-@@ -4348,12 +4353,42 @@ void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
- 			    enableddisabled(intel_dp->dfp.ycbcr_444_to_420));
- 
- 	tmp = 0;
-+	if (intel_dp->dfp.rgb_to_ycbcr) {
-+		bool bt2020, bt709;
- 
--	if (drm_dp_dpcd_writeb(&intel_dp->aux,
--			       DP_PROTOCOL_CONVERTER_CONTROL_2, tmp) <= 0)
-+		/*
-+		 * FIXME: Currently if userspace selects BT2020 or BT709, but PCON supports only
-+		 * RGB->YCbCr for BT601 colorspace, we go ahead with BT601, as default.
-+		 *
-+		 */
-+		tmp = DP_CONVERSION_BT601_RGB_YCBCR_ENABLE;
-+
-+		bt2020 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+								   intel_dp->downstream_ports,
-+								   DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
-+		bt709 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+								  intel_dp->downstream_ports,
-+								  DP_DS_HDMI_BT709_RGB_YCBCR_CONV);
-+		switch (crtc_state->infoframes.vsc.colorimetry) {
-+		case DP_COLORIMETRY_BT2020_RGB:
-+		case DP_COLORIMETRY_BT2020_YCC:
-+			if (bt2020)
-+				tmp = DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE;
-+			break;
-+		case DP_COLORIMETRY_BT709_YCC:
-+		case DP_COLORIMETRY_XVYCC_709:
-+			if (bt709)
-+				tmp = DP_CONVERSION_BT709_RGB_YCBCR_ENABLE;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	if (drm_dp_pcon_convert_rgb_to_ycbcr(&intel_dp->aux, tmp) < 0)
- 		drm_dbg_kms(&i915->drm,
--			    "Failed to set protocol converter YCbCr 4:2:2 conversion mode to %s\n",
--			    enableddisabled(false));
-+			   "Failed to set protocol converter RGB->YCbCr conversion mode to %s\n",
-+			   enableddisabled(tmp ? true : false));
- }
- 
- static void intel_enable_dp(struct intel_atomic_state *state,
-@@ -4393,7 +4428,7 @@ static void intel_enable_dp(struct intel_atomic_state *state,
- 	}
- 
- 	intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
--	intel_dp_configure_protocol_converter(intel_dp);
-+	intel_dp_configure_protocol_converter(intel_dp, pipe_config);
- 	intel_dp_check_frl_training(intel_dp);
- 	intel_dp_pcon_dsc_configure(intel_dp, pipe_config);
- 	intel_dp_start_link_train(intel_dp, pipe_config);
-@@ -6861,7 +6896,7 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	struct intel_connector *connector = intel_dp->attached_connector;
--	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420;
-+	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420, rgb_to_ycbcr;
- 
- 	/* No YCbCr output support on gmch platforms */
- 	if (HAS_GMCH(i915))
-@@ -6883,14 +6918,26 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- 		dp_to_dig_port(intel_dp)->lspcon.active ||
- 		drm_dp_downstream_444_to_420_conversion(intel_dp->dpcd,
- 							intel_dp->downstream_ports);
-+	rgb_to_ycbcr = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
-+							intel_dp->downstream_ports,
-+							DP_DS_HDMI_BT601_RGB_YCBCR_CONV ||
-+							DP_DS_HDMI_BT709_RGB_YCBCR_CONV ||
-+							DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
- 
- 	if (INTEL_GEN(i915) >= 11) {
-+		/* Let PCON convert from RGB->YCbCr if possible */
-+		if (is_branch && rgb_to_ycbcr && ycbcr_444_to_420) {
-+			intel_dp->dfp.rgb_to_ycbcr = true;
-+			intel_dp->dfp.ycbcr_444_to_420 = true;
-+			connector->base.ycbcr_420_allowed = true;
-+		} else {
- 		/* Prefer 4:2:0 passthrough over 4:4:4->4:2:0 conversion */
--		intel_dp->dfp.ycbcr_444_to_420 =
--			ycbcr_444_to_420 && !ycbcr_420_passthrough;
-+			intel_dp->dfp.ycbcr_444_to_420 =
-+				ycbcr_444_to_420 && !ycbcr_420_passthrough;
- 
--		connector->base.ycbcr_420_allowed =
--			!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
-+			connector->base.ycbcr_420_allowed =
-+				!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
-+		}
- 	} else {
- 		/* 4:4:4->4:2:0 conversion is the only way */
- 		intel_dp->dfp.ycbcr_444_to_420 = ycbcr_444_to_420;
-@@ -6899,8 +6946,9 @@ intel_dp_update_420(struct intel_dp *intel_dp)
- 	}
- 
- 	drm_dbg_kms(&i915->drm,
--		    "[CONNECTOR:%d:%s] YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
-+		    "[CONNECTOR:%d:%s] RGB->YcbCr conversion? %s, YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
- 		    connector->base.base.id, connector->base.name,
-+		    yesno(intel_dp->dfp.rgb_to_ycbcr),
- 		    yesno(connector->base.ycbcr_420_allowed),
- 		    yesno(intel_dp->dfp.ycbcr_444_to_420));
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 1bfde4f89019..4280a09fd8fd 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -51,7 +51,8 @@ int intel_dp_get_link_train_fallback_values(struct intel_dp *intel_dp,
- int intel_dp_retrain_link(struct intel_encoder *encoder,
- 			  struct drm_modeset_acquire_ctx *ctx);
- void intel_dp_set_power(struct intel_dp *intel_dp, u8 mode);
--void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp);
-+void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
-+					   const struct intel_crtc_state *crtc_state);
- void intel_dp_sink_set_decompression_state(struct intel_dp *intel_dp,
- 					   const struct intel_crtc_state *crtc_state,
- 					   bool enable);
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTguMTIuMjAgdW0gMDk6NTIgc2NocmllYiBDaGVuIExpOgo+IE9uIEZyaSwgMTggRGVjIDIw
+MjAgMTY6MTA6MTIgKzA4MDAsCj4gQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4gQW0gMTguMTIu
+MjAgdW0gMDQ6NTEgc2NocmllYiBDaGVuIExpOgo+Pj4gW1NOSVBdCj4+Pj4+PiBJZiB5b3VyIEFS
+TSBiYXNlIGJvYXJkIGNhbid0IGRvIHRoYXQgZm9yIHNvbWUgdGhlbiB5b3UgY2FuJ3QgdXNlIHRo
+ZSBoYXJkd2FyZQo+Pj4+Pj4gd2l0aCB0aGF0IGJvYXJkLgo+Pj4+PiBHb29kIHRvIGtub3csIHRo
+YW5rcyEgQlRXLCBoYXZlIHlvdSBldmVyIHNlZW4gb3IgaGVhcmQgYm9hcmRzIGxpa2UgbWluZSB3
+aGljaCBjYW5ub3QgbW1hcCBkZXZpY2UgbWVtb3J5IGNvcnJlY3RseSBmcm9tIHVzZXJzcGFjZSBj
+b3JyZWN0bHk/Cj4+Pj4gVW5mb3J0dW5hdGVseSB5ZXMuIFdlIGhhdmVuJ3QgYmVlbiBhYmxlIHRv
+IGZpZ3VyZSBvdXQgd2hhdCBleGFjdGx5IGdvZXMgd3JvbmcgaW4KPj4+PiB0aG9zZSBjYXNlcy4K
+Pj4+IE9rLiBvbmUgbW9yZSBxdWVzdGlvbjogb25seSBlODg2MCBvciBhbGwgcmFkZW9uIGNhcmRz
+IGhhdmUgdGhpcyBpc3N1ZT8KPj4gVGhpcyBhcHBsaWVzIHRvIGFsbCBoYXJkd2FyZSB3aXRoIGRl
+ZGljYXRlZCBtZW1vcnkgd2hpY2ggbmVlZHMgdG8gYmUgbWFwcGVkIHRvCj4+IHVzZXJzcGFjZS4K
+Pj4KPj4gVGhhdCBpbmNsdWRlcyBhbGwgZ3JhcGhpY3MgaGFyZHdhcmUgZnJvbSBBTUQgYXMgd2Vs
+bCBhcyBOVmlkaWEgYW5kIHByb2JhYmx5IGEKPj4gd2hvbGUgYnVuY2ggb2Ygb3RoZXIgUENJZSBk
+ZXZpY2VzLgo+IENhbiBtbWlvIG9uIHRoZXNlIGRldmljZXMgd29yayBmaW5lIGluIGtlcm5lbCBz
+cGFjZT8KClRoZSBrZXJuZWwgZHJpdmVycyBrbm93IHRoYXQgdGhpcyBpcyBNTUlPIGFuZCBjYW4g
+dXNlIHNwZWNpYWwgCmluc3RydWN0aW9ucy9mdW5jdGlvbnMgbGlrZSAKd3JpdGVsKCkvd3JpdGVx
+KCkvbWVtY3B5X2Zyb21pbygpL21lbWNweV90b2lvKCkgZXRjLi4uCgo+IEkgY2Fubm90IHNlZSB0
+aGUgZGlmZmVyZW5jZSBoZXJlIGV4Y2VwdCB1c2VyIHNwYWNlIHNob3VsZCB1c2UgdW5jYWNoZWFi
+bGUgbW1hcCB0byBtYXAgdmlydHVhbCBtZW1vcnkgdG8gZGV2aWNlIHNwYWNlKHRob3VnaCBJIGRv
+bid0IGtub3cgaG93IHRvIHVzZSB1bmNhY2hlYWJsZSBtbWFwKSwgd2hpbGUga2VybmVsIHVzZSB1
+bmNhY2hlIGlvcmVtYXAuCgpUaGUgcHJvYmxlbSB3aXRoIG1tYXAoKSBvZiBNTUlPIGludG8gdGhl
+IHVzZXJzcGFjZSBpcyB0aGF0IHRoaXMgY2FuIAplYXNpbHkgY3Jhc2ggdGhlIHdob2xlIHN5c3Rl
+bS4KCldoZW4gYW4gYXBwbGljYXRpb24gdXNlcyBtZW1zZXQoKS9tZW1jcHkoKSBvbiB0aGUgbWFw
+cGVkIHJlZ2lvbiBhbmQgdGhlIApzeXN0ZW0gc3BvbnRhbmVvdXMgcmVib290cyB0aGFuIHRoYXQn
+cyBhIHJhdGhlciBiaWcgaGFyZHdhcmUgcHJvYmxlbS4KClJlZ2FyZHMsCkNocmlzdGlhbi4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
