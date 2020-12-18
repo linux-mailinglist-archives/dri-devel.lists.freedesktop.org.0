@@ -1,123 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7372DE414
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:34:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F4A2DE419
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 15:36:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6706E157;
-	Fri, 18 Dec 2020 14:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91527897F9;
+	Fri, 18 Dec 2020 14:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADE316E18F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:33:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nWjRxuDXfiWGvt6s2BXMG070NRVLPYiRTegvV/0ccSWGm8mB5kf4BXlX6oGoBI9il+izx3b/ywnqP4pomKezotI0fVmCNkQ8mywg5GvWQH1jD2/N+0Uy5YNWgCNmcsAYXMYrDFioCNhu9Xu9dQ0KfRg2O5fonzwabTlFFtHU59YLf5F9jiDWvcq2p/kpgi09xyPrz9tyqZ2BrHu8IWnaBVXrc9VDRAK2AstDF4K/fv/hbL49ytB9MY82D8qbb9i1RC2iGUOdfialHZ8QQ3xeYyZOPuj8sxbUj1LpaE8WPCbQUufvjIfT5BSn2kMqPOvccHb49+2OGkWMwPXJe8bD/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zkrxFPcbXio87lyxgmaj94XWeq56qqiFOlLb4t/gQcM=;
- b=cFAHWHyJsyVeZgwt/LIpk2C0mjvn/Y+VPZG47rNMhVzDzP5tWqkWnYLBCguuFuuROQ6Dgt8hWh8PqI8rGkWZS8cEDDwR4h9SOZu9glhLpqWwAzAjDdbreJwtqUh7ZTqpjVZWHlaJo/9aHvCkkBbptFuVPbaDyhrD7LsDGmYsHfxEO/BAJi6iCat9CJvYa0V1tyl0Z/hPFJkMzl/iKwybS7JrvdA9CupnVMAyAFsregqqP/wVX0iVX/pRM93rzmgk2mVQdAJ08nT+9O+o7LevstgKHGGoVZe2f+751FaZPW/v8admDRpnjEMscuZSPWv0aNaBCgsCFOJkYJ2k1fWrIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zkrxFPcbXio87lyxgmaj94XWeq56qqiFOlLb4t/gQcM=;
- b=MsxgoIo+vHteXhMkf8ShrLuGqws+goT6WEEREBXfxexFN0Kg/3wfKiX0i6BFaQIezin1IylA1X2/p0ytd39Q4abj3PvPecj6kxzDXS3V9NmKgmCCKTTS7ZXE1UpJ21xkQTdkomCcQq2CrfEvtlw5frnWa5bxQuwfsjWsXr4fqvc=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4962.namprd12.prod.outlook.com (2603:10b6:208:17e::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 18 Dec
- 2020 14:33:55 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3654.025; Fri, 18 Dec 2020
- 14:33:55 +0000
-Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
-To: Robin Murphy <robin.murphy@arm.com>, Chen Li <chenli@uniontech.com>
-References: <877dpiz4sf.wl-chenli@uniontech.com>
- <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
- <875z51zwsq.wl-chenli@uniontech.com>
- <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
- <873605z1du.wl-chenli@uniontech.com>
- <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
- <159c72db-1316-6155-2209-8e0e9a7f5224@arm.com>
- <8a2245b8-3a57-a35b-924f-e2a6c084e60f@amd.com>
- <9c0a034f-9f9d-d513-db41-df925bd15951@arm.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <aed7032f-a22d-86b2-25f6-40c5cc55632f@amd.com>
-Date: Fri, 18 Dec 2020 15:33:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <9c0a034f-9f9d-d513-db41-df925bd15951@arm.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23)
- To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A82B897F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 14:36:21 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id g185so2794861wmf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 06:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=YWmqcLqIz38MWpPJhReutWXbyy1oVWYK/A38RJq0qsI=;
+ b=lZhtw4YVxqpHai4JdTeB2XrEhV07UVXh4y06cpjxeZXmu0zybW6wx/zJTsTei8FO8Y
+ yqNOOxnpygr6dwpi2uMVNgYRv/lcmczfh2IpIqToLi2GT9xxuycSKDH2UplkwMTMfYn1
+ WI4iNR58MRcmQv8P3hEOIAOF9kDiKSQ62FLPY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=YWmqcLqIz38MWpPJhReutWXbyy1oVWYK/A38RJq0qsI=;
+ b=DY8koWsSw55yaU/rieZdnTxgpvz0EdSGXnm2aWPiktIST0hCEra/X/Tdjb5/w/wKCi
+ ZNX4MLESJJe1f2u6h7JLh4K7ZyRETE1Ute1ikEgGWNNc425UGFevqqdJvP/IbhITRNAU
+ JASjaNGsv1xKO1rYTRoNg8H6/nXro/H5D+kOPHbOwSz7uVLpD956693AW6OxozPgp81V
+ FeevPIuTBuP9QPT0mAx2GevcE5pkEWDeGr/OpgefffYxzq2crG7WEzp5Wmn+Vk4oIZor
+ NuAgEIijik2X4b5k1Lh2mvwBw0HiQSf6WokKhQU1JHtW8oQ+AzIGONnvwcKFeqnCsLjR
+ 1Xiw==
+X-Gm-Message-State: AOAM532sdgxP8lVgz/VPEzoC5Yq930xhwupYNVmhVISnVZYvwBYZ6zlx
+ MgUxBjdJGr4WW1Q9h/vsvKk1vQ==
+X-Google-Smtp-Source: ABdhPJyqSRESDqSGQsY84t7M09sfQ8lcUyY2DVr2zPqGMIH/QznauwStZ8c9xSk3OEOK/jBzpLA9Jw==
+X-Received: by 2002:a1c:7d94:: with SMTP id y142mr4537787wmc.105.1608302180213; 
+ Fri, 18 Dec 2020 06:36:20 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t1sm14644464wro.27.2020.12.18.06.36.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Dec 2020 06:36:19 -0800 (PST)
+Date: Fri, 18 Dec 2020 15:36:17 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
+ system heap
+Message-ID: <X9y+YZujWBTHMuH3@phenom.ffwll.local>
+Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Daniel Mentz <danielmentz@google.com>
+References: <20201217230612.32397-1-john.stultz@linaro.org>
+ <20201217230612.32397-2-john.stultz@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Fri, 18 Dec 2020 14:33:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2165419d-ccf7-4e23-75cd-08d8a361f2d6
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4962:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4962A3D654CCB8CCCA0167E183C30@BL0PR12MB4962.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qpTH+09UNbxXvL32AkH4IKNBTJ4QWjl1thcazS1k9qkX9ImhRm1VMaSspZhZ7l3k6ArLzyBzdookAFle8zG0JE49UQXeRXUNXqKGcHkxXF7SSUP9n3jmTNQwgukv3n+2NdxfZNKUCXxLx1VX3WBXzZMSnvDEnCf08LC7UpgrEyI53d/9oOUlaTCddgyOp+XOKekvjGd1PsWLcpg5ZekemSUAxcqEUXNm4AGbvmF9JR1CvlbCu3W3ysAneU/XuI/5kKG7ZGVqZKdJbOj2NylTpfzx3wF4GiUJmK+MJEwEZowgL3gFJPftovBxvX++S2hposvcJpL9msGH5KiyxMHzQdKFwObD8eLdzs3YNr3zBx3/fKhivpm+3tlsJAdU6x9gaA2I3lhK7JI9He8R6f6M6+sZge4inGE7xc7UEyO8QMw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(366004)(39860400002)(376002)(136003)(2616005)(4326008)(6666004)(52116002)(31686004)(110136005)(66574015)(66946007)(31696002)(5660300002)(8936002)(86362001)(66476007)(6486002)(316002)(4001150100001)(16526019)(83380400001)(36756003)(186003)(478600001)(53546011)(66556008)(2906002)(8676002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Z3l2Q3gwVEFTVWJoSVJWdzhwRE5XYVAzRy9tekNMUmZUQkg2emlmUy8zZDFS?=
- =?utf-8?B?LzNiYUdEZEl2SjQvUGNhVkNjSkUrbnJUamthN0c2R3AzZVdPQWkxY1FaS1hI?=
- =?utf-8?B?eVo5eHU1bWgvTVhxeEpkZjkxMDAwdEdBS1VveEl2VzVJcFp4M0srVlhqRXky?=
- =?utf-8?B?dmFnRjJUaWtlOEJEalZUUDhVVTVaWFBKMUNOUEo2blBqMmg2OXU0YVlDQTBx?=
- =?utf-8?B?cjBDSU9QNWUyUUtWYmZFYTJtOTV3SDd3R0lKVVpiUlJMa3dlYkZLWUkyQmJl?=
- =?utf-8?B?YkY5aXFUdEpaSUNyQzVtZEFvOWp4eFkwOC95N0lSVzJmM1lIMkNZeG5IMjQr?=
- =?utf-8?B?cDc1SVlrRWdpOTRmaWhPenlIZ3NUUmpEbGtxc0JDb29VVkJyM3FGTDV4VnAx?=
- =?utf-8?B?THh5eGdPOG9iV2xhTk5ldEkrQXNJU0gxQzRBNlg1eXFLTFFqUjB6MEIxUFRp?=
- =?utf-8?B?RnQ4MXRyQm04T3dLc1pxRXNzQWE0cGxHVDAxWjNyWFZQbDJ0MHZzRUwzdW1Y?=
- =?utf-8?B?MmNBb0Q1N1UrZENzV0orWnBtdXpiUUVJYnR6eEcwWUdFVzNIY3ZkM2pXMXo2?=
- =?utf-8?B?VEVnNlRNRnVkMzE3Y1Z3V05xTmEyZDhZZ1Q0eXZYQU1RQ0JNeTB6MVc3alFz?=
- =?utf-8?B?M3hnVjJyZ2FGbTRJUWg3MGpNWUdsanNZUFdjWm9RS2hyTy9YME1LWHkxWnZh?=
- =?utf-8?B?ZDFsWmIvSHFlTjBtb0lzTHVvbVViTm81OXpOUHBVbk56Y041RUorMUJNWmNt?=
- =?utf-8?B?VndvRlhDYkFRRUtLS2c0VWh0elFOcEJOTDczUHpsYi9DeW84RFdaWUJrWmg3?=
- =?utf-8?B?eVYxS2YrS1IwN0JsMlJlK1ZtK1lua3J0ZVpVN3o2bnZVeHZZWHV4OFIvdXJi?=
- =?utf-8?B?WmIvNjFlQ1lNS1N6TGUwZVo4RVZaeSs3VDVCanNWQUVFWTJnZlYxd0N3eFZm?=
- =?utf-8?B?dHdsYnFXeGM4WmJmOHc3b09HZzFDTW1IbmhRdFdhM0xaL0UxdzA1ZHlDVlFj?=
- =?utf-8?B?UG1Pa0hyWUlmMWxYWlVXT2FNNUhsVmRCekRGKzMyUC9MU2lBbTNsa0t3UTd2?=
- =?utf-8?B?WjlJLzNNK0hQbzc2L0h1SWtQeHhqSlFYc2FQUFozOERxdDlZTXFJZVEyV2px?=
- =?utf-8?B?VysyL2hwWitWallURjBLMUJWWGoxWEhZK01IS3p0cENKZmFSWVJqVXdjK3RJ?=
- =?utf-8?B?Ryt5YnJFSVBNV1Q5ejFhUXRDZDh6ZGs3cHBaeVVia1FKTGNxS25NK014Wita?=
- =?utf-8?B?eGRDWTMrdFZ2ZHR1blNabTRKSnI0VGs0UFhDY05sUVJzNmE1WDF1NkVCU2wz?=
- =?utf-8?B?L0hFeFpwWnhDQSs4MGlOV3JGZkZoTFZNMFRWOGFHQTJBVWthM2tSSFVOL1hx?=
- =?utf-8?B?NVVHekwwWjNZOUc5dXN3RUppVG9NV0czYW9TM2UrcDRpYkF0MWZLTm1Ua2xR?=
- =?utf-8?Q?FuPJpq2/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 14:33:55.3741 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2165419d-ccf7-4e23-75cd-08d8a361f2d6
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MDbGKCIYfB/d2vgdRJNFnsizWHLty9YOhu5NXdbjkNE2rUbu8FhMu7M2ccofKFtY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4962
+Content-Disposition: inline
+In-Reply-To: <20201217230612.32397-2-john.stultz@linaro.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,71 +79,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Sandeep Patil <sspatil@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, Daniel Mentz <danielmentz@google.com>,
+ lkml <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Suren Baghdasaryan <surenb@google.com>, Liam Mark <lmark@codeaurora.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ linux-media@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Laura Abbott <labbott@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTguMTIuMjAgdW0gMTU6MTcgc2NocmllYiBSb2JpbiBNdXJwaHk6Cj4gT24gMjAyMC0xMi0x
-NyAxNDowMiwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4gW1NOSVBdCj4+IERvIHlvdSBoYXZl
-IHNvbWUgYmFja2dyb3VuZCB3aHkgc29tZSBBUk0gYm9hcmRzIGZhaWwgd2l0aCB0aGF0Pwo+Pgo+
-PiBXZSBoYWQgYSBjb3VwbGUgb2YgcmVwb3J0cyB0aGF0IG1lbXNldC9tZW1jcHkgZmFpbCBpbiB1
-c2Vyc3BhY2UgCj4+ICh1c3VhbGx5IHN5c3RlbSBqdXN0IHNwb250YW5lb3VzbHkgcmVib290cyBv
-ciBiZWNvbWVzIHVucmVzcG9uc2l2ZSksIAo+PiBidXQgc28gZmFyIG5vYm9keSBjb3VsZCB0ZWxs
-IHVzIHdoeSB0aGF0IGhhcHBlbnM/Cj4KPiBQYXJ0IG9mIGl0IGlzIHRoYXQgQXJtIGRvZXNuJ3Qg
-cmVhbGx5IGhhdmUgYW4gaWRlYWwgbWVtb3J5IHR5cGUgZm9yIAo+IG1hcHBpbmcgUkFNIGJlaGlu
-ZCBQQ0kgKG11Y2ggbGlrZSB3ZSBhbHNvIHN0cnVnZ2xlIHdpdGggdGhlIHZhZ3VlIAo+IGV4cGVj
-dGF0aW9ucyBvZiB3aGF0IHdyaXRlLWNvbWJpbmUgbWlnaHQgbWVhbiBiZXlvbmQgeDg2KS4gRGV2
-aWNlIAo+IG1lbW9yeSBjYW4gYmUgcmVsYXhlZCB0byBhbGxvdyBnYXRoZXJpbmcsIHJlb3JkZXJp
-bmcgYW5kIAo+IHdyaXRlLWJ1ZmZlcmluZywgYnV0IGlzIHN0aWxsIGEgYml0IHRvbyByZXN0cmlj
-dGl2ZSBpbiBvdGhlciB3YXlzIC0gCj4gYWxpZ25lZCwgbm9uLXNwZWN1bGF0aXZlLCBldGMuIC0g
-Zm9yIHNvbWV0aGluZyB0aGF0J3MgcmVhbGx5IGp1c3QgUkFNIAo+IGFuZCBleHBlY3RlZCB0byBi
-ZSB1c2FibGUgYXMgc3VjaC4gVGh1cyB0byBtYXAgUENJIG1lbW9yeSBhcyAKPiAid3JpdGUtY29t
-YmluZSIgd2UgdXNlIE5vcm1hbCBub24tY2FjaGVhYmxlLCB3aGljaCBtZWFucyB0aGUgQ1BVIE1N
-VSAKPiBpcyBnb2luZyB0byBhbGxvdyBzb2Z0d2FyZSB0byBkbyBhbGwgdGhlIHRoaW5ncyBpdCBt
-aWdodCBleHBlY3Qgb2YgCj4gUkFNLCBidXQgd2UncmUgbm93IGF0IHRoZSBtZXJjeSBvZiB0aGUg
-bWVuYWdlcmllIG9mIGludGVyY29ubmVjdHMgYW5kIAo+IFBDSSBpbXBsZW1lbnRhdGlvbnMgb3V0
-IHRoZXJlLgoKSSBzZWUuIEFzIGZhciBhcyBJIGtub3cgd2UgYWxyZWFkeSBjb3JyZWN0bHkgbWFw
-IHRoZSBSQU0gZnJvbSB0aGUgR1BVIGFzIAoid3JpdGUtY29tYmluZSIuCgo+IEF0b21pYyBvcGVy
-YXRpb25zLCBmb3IgZXhhbXBsZSwgKm1pZ2h0KiBiZSByZXNvbHZlZCBieSB0aGUgQ1BVIAo+IGNv
-aGVyZW5jeSBtZWNoYW5pc20gb3IgaW4gdGhlIGludGVyY29ubmVjdCwgc3VjaCB0aGF0IHRoZSBQ
-Q0kgaG9zdCAKPiBicmlkZ2Ugb25seSBzZWVzIHJlZ3VsYXIgbG9hZHMgYW5kIHN0b3JlcywgYnV0
-IG1vcmUgb2Z0ZW4gdGhhbiBub3QgCj4gdGhleSdsbCBqdXN0IHJlc3VsdCBpbiBhbiBhdG9taWMg
-dHJhbnNhY3Rpb24gZ29pbmcgYWxsIHRoZSB3YXkgdG8gdGhlIAo+IGhvc3QgYnJpZGdlLiBBIHN1
-cGVyLWR1cGVyLWNsZXZlciBob3N0IGJyaWRnZSBpbXBsZW1lbnRhdGlvbiBtaWdodCAKPiBldmVu
-IHN1cHBvcnQgdGhhdCwgYnV0IHRoZSB2YXN0IG1ham9yaXR5IGFyZSBsaWtlbHkgdG8ganVzdCBy
-ZWplY3QgaXQgCj4gYXMgaW52YWxpZC4KClN1cHBvcnQgZm9yIGF0b21pY3MgaXMgYWN0dWFsbHkg
-c3BlY2lmaWVkIGJ5IGFuIFBDSWUgZXh0ZW5zaW9uLiBBcyBmYXIgCmFzIEkga25vdyB0aGF0IGV4
-dGVuc2lvbiBpcyBldmVuIG5lY2Vzc2FyeSBmb3IgZnVsbCBLRkQgc3VwcG9ydCBvbiBBTUQgCmFu
-ZCBmdWxsIEN1ZGEgc3VwcG9ydCBmb3IgTlZpZGlhIEdQVXMuCgo+Cj4gU2ltaWxhcmx5LCB1bmFs
-aWduZWQgYWNjZXNzZXMsIGNhY2hlIGxpbmUgZmlsbHMvZXZpY3Rpb25zLCBhbmQgc3VjaCAKPiB3
-aWxsIG9mdGVuIHdvcmssIHNpbmNlIHRoZXkncmUgZXNzZW50aWFsbHkganVzdCBsYXJnZXIgcmVh
-ZC93cml0ZSAKPiBidXJzdHMsIGJ1dCBzb21lIGhvc3QgYnJpZGdlcyBjYW4gYmUgcGlja3kgYW5k
-IG1pZ2h0IHJlamVjdCBhY2Nlc3MgCj4gc2l6ZXMgdGhleSBkb24ndCBsaWtlICh0aGVyZSdzIGF0
-IGxlYXN0IG9uZSB3aGVyZSBldmVuIDY0LWJpdCBhY2Nlc3NlcyAKPiBkb24ndCB3b3JrLiBPbiBh
-IDY0LWJpdCBzeXN0ZW0uLi4pCgpUaGlzIGlzIGJyZWFraW5nIG91ciBuZWNrIGhlcmUuIFdlIG5l
-ZWQgNjRiaXQgd3JpdGVzIG9uIDY0Yml0IHN5c3RlbXMgdG8gCmVuZCB1cCBhcyBvbmUgNjRiaXQg
-d3JpdGUgYXQgdGhlIGhhcmR3YXJlIGFuZCBub3QgdHdvIDMyYml0IHdyaXRlcyBvciAKb3RoZXJ3
-aXNlIHRoZSBkb29yYmVsbHMgd29uJ3Qgd29yayBjb3JyZWN0bHkuCgpMYXJnZXIgd3JpdGVzIGFy
-ZSBwcmV0dHkgbXVjaCB1bnByb2JsZW1hdGljLCBmb3IgUDJQIG91ciBidXMgaW50ZXJmYWNlIApl
-dmVuIHN1cHBvcnRzIHJlYWxseSBsYXJnZSBtdWx0aSBieXRlIHRyYW5zZmVycy4KCj4gSWYgYW4g
-aW52YWxpZCB0cmFuc2FjdGlvbiBkb2VzIHJlYWNoIHRoZSBob3N0IGJyaWRnZSwgaXQncyBnb2lu
-ZyB0byAKPiBjb21lIGJhY2sgdG8gdGhlIENQVSBhcyBhbiBleHRlcm5hbCBhYm9ydC4gSWYgd2Un
-cmUgcmVhbGx5IGx1Y2t5IHRoYXQgCj4gY291bGQgYmUgdGFrZW4gc3luY2hyb25vdXNseSwgYXR0
-cmlidXRhYmxlIHRvIGEgc3BlY2lmaWMgaW5zdHJ1Y3Rpb24sIAo+IGFuZCBqdXN0IG9vcHMvU0lH
-QlVTIHRoZSByZWxldmFudCBrZXJuZWwvdXNlcnNwYWNlIHRocmVhZC4gT2Z0ZW4gCj4gdGhvdWdo
-LCAocGFydGljdWxhcmx5IHdpdGggYmlnIG91dC1vZi1vcmRlciBDUFVzKSBpdCdzIGxpa2VseSB0
-byBiZSAKPiBhc3luY2hyb25vdXMgYW5kIG5vIGxvbmdlciBhdHRyaWJ1dGFibGUsIGFuZCB0aHVz
-IHRha2VuIGFzIGFuIFNFcnJvciAKPiBldmVudCwgd2hpY2ggaW4gZ2VuZXJhbCByb3VnaGx5IHRy
-YW5zbGF0ZXMgdG8gInBhcnQgb2YgdGhlIFNvQyBoYXMgCj4gZmFsbGVuIG9mZiIuIFRoZSBvbmx5
-IHJlYXNvbmFibGUgcmVzcG9uc2Ugd2UgaGF2ZSB0byB0aGF0IGlzIHRvIHBhbmljIAo+IHRoZSBz
-eXN0ZW0uCgpZZWFoLCB0aGF0IHNvdW5kcyBleGFjdGx5IGxpa2Ugd2hhdCB3ZSBzZWUgb24gc29t
-ZSBvZiB0aGUgQVJNIGJvYXJkcyBvdXQgCnRoZXJlLiBBdCBsZWFzdCB3ZSBoYXZlIGFuIGV4cGxh
-bmF0aW9uIGZvciB0aGF0IGJlaGF2aW9yIG5vdy4KCkdvaW5nIHRvIHRhbGsgYWJvdXQgdGhpcyB3
-aXRoIG91ciBoYXJkd2FyZSBlbmdpbmVlcnMuIFdlIG1pZ2h0IGJlIGFibGUgCnRvIHdvcmsgYXJv
-dW5kIHNvbWUgb2YgdGhhdCBzdHVmZiwgYnV0IHRoYXQgaXMgcmF0aGVyIHRyaWNreSB0byBnZXQg
-CndvcmtpbmcgdW5kZXIgdGhvc2UgY29uZGl0aW9ucy4KClRoYW5rcywKQ2hyaXN0aWFuLgoKPgo+
-Cj4gUm9iaW4uCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
+> Reuse/abuse the pagepool code from the network code to speed
+> up allocation performance.
+> =
+
+> This is similar to the ION pagepool usage, but tries to
+> utilize generic code instead of a custom implementation.
+> =
+
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Liam Mark <lmark@codeaurora.org>
+> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Sandeep Patil <sspatil@google.com>
+> Cc: Daniel Mentz <danielmentz@google.com>
+> Cc: =D8rjan Eide <orjan.eide@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: James Jones <jajones@nvidia.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+
+We also have one of these in ttm. I think we should have at most one of
+these for the gpu ecosystem overall, maybe as a helper that can be plugged
+into all the places.
+
+Or I'm kinda missing something, which could be since I only glanced at
+yours for a bit. But it's also called page pool for buffer allocations,
+and I don't think there's that many ways to implement that really :-)
+-Daniel
+
+> ---
+>  drivers/dma-buf/heaps/Kconfig       |  1 +
+>  drivers/dma-buf/heaps/system_heap.c | 68 +++++++++++++++++++++++++++--
+>  2 files changed, 65 insertions(+), 4 deletions(-)
+> =
+
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+> index ecf65204f714..fa5e1c330cce 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -4,6 +4,7 @@ config DMABUF_HEAPS_DEFERRED_FREE
+>  config DMABUF_HEAPS_SYSTEM
+>  	bool "DMA-BUF System Heap"
+>  	depends on DMABUF_HEAPS
+> +	select PAGE_POOL
+>  	help
+>  	  Choose this option to enable the system dmabuf heap. The system heap
+>  	  is backed by pages from the buddy allocator. If in doubt, say Y.
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> index 17e0e9a68baf..885e30894b77 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+>  #include <linux/vmalloc.h>
+> +#include <net/page_pool.h>
+>  =
+
+>  static struct dma_heap *sys_heap;
+>  =
+
+> @@ -53,6 +54,7 @@ static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, LOW_ORD=
+ER_GFP, LOW_ORDER_GFP};
+>   */
+>  static const unsigned int orders[] =3D {8, 4, 0};
+>  #define NUM_ORDERS ARRAY_SIZE(orders)
+> +struct page_pool *pools[NUM_ORDERS];
+>  =
+
+>  static struct sg_table *dup_sg_table(struct sg_table *table)
+>  {
+> @@ -281,18 +283,59 @@ static void system_heap_vunmap(struct dma_buf *dmab=
+uf, struct dma_buf_map *map)
+>  	dma_buf_map_clear(map);
+>  }
+>  =
+
+> +static int system_heap_clear_pages(struct page **pages, int num, pgprot_=
+t pgprot)
+> +{
+> +	void *addr =3D vmap(pages, num, VM_MAP, pgprot);
+> +
+> +	if (!addr)
+> +		return -ENOMEM;
+> +	memset(addr, 0, PAGE_SIZE * num);
+> +	vunmap(addr);
+> +	return 0;
+> +}
+> +
+> +static int system_heap_zero_buffer(struct system_heap_buffer *buffer)
+> +{
+> +	struct sg_table *sgt =3D &buffer->sg_table;
+> +	struct sg_page_iter piter;
+> +	struct page *pages[32];
+> +	int p =3D 0;
+> +	int ret =3D 0;
+> +
+> +	for_each_sgtable_page(sgt, &piter, 0) {
+> +		pages[p++] =3D sg_page_iter_page(&piter);
+> +		if (p =3D=3D ARRAY_SIZE(pages)) {
+> +			ret =3D system_heap_clear_pages(pages, p, PAGE_KERNEL);
+> +			if (ret)
+> +				return ret;
+> +			p =3D 0;
+> +		}
+> +	}
+> +	if (p)
+> +		ret =3D system_heap_clear_pages(pages, p, PAGE_KERNEL);
+> +
+> +	return ret;
+> +}
+> +
+>  static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+>  {
+>  	struct system_heap_buffer *buffer =3D dmabuf->priv;
+>  	struct sg_table *table;
+>  	struct scatterlist *sg;
+> -	int i;
+> +	int i, j;
+> +
+> +	/* Zero the buffer pages before adding back to the pool */
+> +	system_heap_zero_buffer(buffer);
+>  =
+
+>  	table =3D &buffer->sg_table;
+>  	for_each_sg(table->sgl, sg, table->nents, i) {
+>  		struct page *page =3D sg_page(sg);
+>  =
+
+> -		__free_pages(page, compound_order(page));
+> +		for (j =3D 0; j < NUM_ORDERS; j++) {
+> +			if (compound_order(page) =3D=3D orders[j])
+> +				break;
+> +		}
+> +		page_pool_put_full_page(pools[j], page, false);
+>  	}
+>  	sg_free_table(table);
+>  	kfree(buffer);
+> @@ -322,8 +365,7 @@ static struct page *alloc_largest_available(unsigned =
+long size,
+>  			continue;
+>  		if (max_order < orders[i])
+>  			continue;
+> -
+> -		page =3D alloc_pages(order_flags[i], orders[i]);
+> +		page =3D page_pool_alloc_pages(pools[i], order_flags[i]);
+>  		if (!page)
+>  			continue;
+>  		return page;
+> @@ -428,6 +470,24 @@ static const struct dma_heap_ops system_heap_ops =3D=
+ {
+>  static int system_heap_create(void)
+>  {
+>  	struct dma_heap_export_info exp_info;
+> +	int i;
+> +
+> +	for (i =3D 0; i < NUM_ORDERS; i++) {
+> +		struct page_pool_params pp;
+> +
+> +		memset(&pp, 0, sizeof(pp));
+> +		pp.order =3D orders[i];
+> +		pools[i] =3D page_pool_create(&pp);
+> +
+> +		if (IS_ERR(pools[i])) {
+> +			int j;
+> +
+> +			pr_err("%s: page pool creation failed!\n", __func__);
+> +			for (j =3D 0; j < i; j++)
+> +				page_pool_destroy(pools[j]);
+> +			return PTR_ERR(pools[i]);
+> +		}
+> +	}
+>  =
+
+>  	exp_info.name =3D "system";
+>  	exp_info.ops =3D &system_heap_ops;
+> -- =
+
+> 2.17.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
