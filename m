@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1102DE15F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 11:44:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 415162DE15E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 11:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4C76E15D;
-	Fri, 18 Dec 2020 10:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D5A6E15A;
+	Fri, 18 Dec 2020 10:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA1D46E14F;
- Fri, 18 Dec 2020 10:44:15 +0000 (UTC)
-IronPort-SDR: Du3G2CQSzuvcjk5sZUMtGoj6z9E9bOX/RZy+HF1wkFfTOlFIJz9qRcGUp1GCxJsaVg8TO8t32A
- Vim+qBzO0srw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="155219468"
-X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="155219468"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D762C6E128;
+ Fri, 18 Dec 2020 10:44:18 +0000 (UTC)
+IronPort-SDR: LEMl48BfkGPmCHZQBVCcs+lH57tBoT2j/YgUu9mmgQXselzpgoUjiAP23U0NojPbiYjSECerwW
+ QhInBfcZvE4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="155219479"
+X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="155219479"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2020 02:44:15 -0800
-IronPort-SDR: oFx2n9K6lJ6fjK4ISPDlY6QI6IKSh8SRGpAea5JCBx1pqJqtxIF1Ctnwme653R1csRBLtTSJ0A
- amf/oSdEEEBg==
+ 18 Dec 2020 02:44:18 -0800
+IronPort-SDR: eREomlH33VDhHhXKFm//LVX5MbfrwFPhXhEdGjMuIPS6lvWuLbY0wxtZgXdSlAheBP3SXmuf/u
+ fAxf62eht28g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="561141813"
+X-IronPort-AV: E=Sophos;i="5.78,430,1599548400"; d="scan'208";a="561141830"
 Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by fmsmga005.fm.intel.com with ESMTP; 18 Dec 2020 02:44:13 -0800
+ by fmsmga005.fm.intel.com with ESMTP; 18 Dec 2020 02:44:15 -0800
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 14/15] drm/i915/display: Configure PCON for DSC1.1 to
- DSC1.2 encoding
-Date: Fri, 18 Dec 2020 16:07:22 +0530
-Message-Id: <20201218103723.30844-15-ankit.k.nautiyal@intel.com>
+Subject: [PATCH v7 15/15] drm/i915/display: Let PCON convert from RGB to YCbCr
+ if it can
+Date: Fri, 18 Dec 2020 16:07:23 +0530
+Message-Id: <20201218103723.30844-16-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
 References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
@@ -54,206 +54,211 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a source supporting DSC1.1 is connected to DSC1.2 HDMI2.1 sink
-via DP HDMI2.1 PCON, the PCON can be configured to decode the
-DSC1.1 compressed stream and encode to DSC1.2. It then sends the
-DSC1.2 compressed stream to the HDMI2.1 sink.
+If PCON has capability to convert RGB->YCbCr colorspace and also
+to 444->420 downsampling then for any YUV420 only mode, we can
+let the PCON do all the conversion. If the PCON supports
+RGB->YCbCr conversion for all BT2020, BT709, BT601, choose
+the one that is selected by userspace via connector colorspace
+property, otherwise default to BT601.
 
-This patch configures the PCON for DSC1.1 to DSC1.2 encoding, based
-on the PCON's DSC encoder capablities and HDMI2.1 sink's DSC decoder
-capabilities.
+v2: As suggested by Uma Shankar, considered case for colorspace
+BT709 and BT2020, and default to BT601. Also appended dir
+'display' in commit message.
 
-v2: Addressed review comments from Uma Shankar:
--fixed the error in packing pps parameter values
--added check for pcon in the pcon related function
--appended display in commit message
+v3: Fixed typo in condition for printing one of the error msg.
 
-v3: Only consider non-zero DSC FRL b/w for determining max FRL b/w
-supported by sink.
+v4: As suggested by Uma Shankar:
+-Fixed bug in determining the colorspace for RGB->YCbCr conversion.
+-Fixed minor formatting issues
+Also updated the commit message as per latest changes.
 
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c |   1 +
- drivers/gpu/drm/i915/display/intel_dp.c  | 118 ++++++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_dp.h  |   2 +
- 3 files changed, 119 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  3 +-
+ .../drm/i915/display/intel_display_types.h    |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 72 +++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h       |  3 +-
+ 4 files changed, 65 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 974cf42351bc..fbc07a93504b 100644
+index fbc07a93504b..17eaa56c5a99 100644
 --- a/drivers/gpu/drm/i915/display/intel_ddi.c
 +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3653,6 +3653,7 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	intel_dp_sink_set_fec_ready(intel_dp, crtc_state);
+@@ -3644,6 +3644,7 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+ 	if (!is_mst)
+ 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
  
- 	intel_dp_check_frl_training(intel_dp);
-+	intel_dp_pcon_dsc_configure(intel_dp, crtc_state);
- 
++	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
+ 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state, true);
  	/*
- 	 * 7.i Follow DisplayPort specification training sequence (see notes for
+ 	 * DDI FEC: "anticipates enabling FEC encoding sets the FEC_READY bit
+@@ -3731,7 +3732,7 @@ static void hsw_ddi_pre_enable_dp(struct intel_atomic_state *state,
+ 	intel_ddi_init_dp_buf_reg(encoder, crtc_state);
+ 	if (!is_mst)
+ 		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
+-	intel_dp_configure_protocol_converter(intel_dp);
++	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
+ 	intel_dp_sink_set_decompression_state(intel_dp, crtc_state,
+ 					      true);
+ 	intel_dp_sink_set_fec_ready(intel_dp, crtc_state);
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 4c01c7c23dfd..2009ae9e9678 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1460,6 +1460,7 @@ struct intel_dp {
+ 		int pcon_max_frl_bw;
+ 		u8 max_bpc;
+ 		bool ycbcr_444_to_420;
++		bool rgb_to_ycbcr;
+ 	} dfp;
+ 
+ 	/* Display stream compression testing */
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7e2c334b3a17..fdc028b7db07 100644
+index fdc028b7db07..d7e01482c808 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4043,9 +4043,22 @@ static int intel_dp_hdmi_sink_max_frl(struct intel_dp *intel_dp)
- {
- 	struct intel_connector *intel_connector = intel_dp->attached_connector;
- 	struct drm_connector *connector = &intel_connector->base;
-+	int max_frl_rate;
-+	int max_lanes, rate_per_lane;
-+	int max_dsc_lanes, dsc_rate_per_lane;
+@@ -651,6 +651,10 @@ intel_dp_output_format(struct drm_connector *connector,
+ 	    !drm_mode_is_420_only(info, mode))
+ 		return INTEL_OUTPUT_FORMAT_RGB;
  
--	return (connector->display_info.hdmi.max_frl_rate_per_lane *
--		connector->display_info.hdmi.max_lanes);
-+	max_lanes = connector->display_info.hdmi.max_lanes;
-+	rate_per_lane = connector->display_info.hdmi.max_frl_rate_per_lane;
-+	max_frl_rate = max_lanes * rate_per_lane;
++	if (intel_dp->dfp.rgb_to_ycbcr &&
++	    intel_dp->dfp.ycbcr_444_to_420)
++		return INTEL_OUTPUT_FORMAT_RGB;
 +
-+	if (connector->display_info.hdmi.dsc_cap.v_1p2) {
-+		max_dsc_lanes = connector->display_info.hdmi.dsc_cap.max_lanes;
-+		dsc_rate_per_lane = connector->display_info.hdmi.dsc_cap.max_frl_rate_per_lane;
-+		if (max_dsc_lanes && dsc_rate_per_lane)
-+			max_frl_rate = min(max_frl_rate, max_dsc_lanes * dsc_rate_per_lane);
+ 	if (intel_dp->dfp.ycbcr_444_to_420)
+ 		return INTEL_OUTPUT_FORMAT_YCBCR444;
+ 	else
+@@ -4319,7 +4323,8 @@ static void intel_dp_enable_port(struct intel_dp *intel_dp,
+ 	intel_de_posting_read(dev_priv, intel_dp->output_reg);
+ }
+ 
+-void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
++void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
++					   const struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	u8 tmp;
+@@ -4348,12 +4353,42 @@ void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp)
+ 			    enableddisabled(intel_dp->dfp.ycbcr_444_to_420));
+ 
+ 	tmp = 0;
++	if (intel_dp->dfp.rgb_to_ycbcr) {
++		bool bt2020, bt709;
+ 
+-	if (drm_dp_dpcd_writeb(&intel_dp->aux,
+-			       DP_PROTOCOL_CONVERTER_CONTROL_2, tmp) <= 0)
++		/*
++		 * FIXME: Currently if userspace selects BT2020 or BT709, but PCON supports only
++		 * RGB->YCbCr for BT601 colorspace, we go ahead with BT601, as default.
++		 *
++		 */
++		tmp = DP_CONVERSION_BT601_RGB_YCBCR_ENABLE;
++
++		bt2020 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
++								   intel_dp->downstream_ports,
++								   DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
++		bt709 = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
++								  intel_dp->downstream_ports,
++								  DP_DS_HDMI_BT709_RGB_YCBCR_CONV);
++		switch (crtc_state->infoframes.vsc.colorimetry) {
++		case DP_COLORIMETRY_BT2020_RGB:
++		case DP_COLORIMETRY_BT2020_YCC:
++			if (bt2020)
++				tmp = DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE;
++			break;
++		case DP_COLORIMETRY_BT709_YCC:
++		case DP_COLORIMETRY_XVYCC_709:
++			if (bt709)
++				tmp = DP_CONVERSION_BT709_RGB_YCBCR_ENABLE;
++			break;
++		default:
++			break;
++		}
 +	}
 +
-+	return max_frl_rate;
++	if (drm_dp_pcon_convert_rgb_to_ycbcr(&intel_dp->aux, tmp) < 0)
+ 		drm_dbg_kms(&i915->drm,
+-			    "Failed to set protocol converter YCbCr 4:2:2 conversion mode to %s\n",
+-			    enableddisabled(false));
++			   "Failed to set protocol converter RGB->YCbCr conversion mode to %s\n",
++			   enableddisabled(tmp ? true : false));
  }
  
- static int intel_dp_pcon_start_frl_training(struct intel_dp *intel_dp)
-@@ -4152,6 +4165,105 @@ void intel_dp_check_frl_training(struct intel_dp *intel_dp)
+ static void intel_enable_dp(struct intel_atomic_state *state,
+@@ -4393,7 +4428,7 @@ static void intel_enable_dp(struct intel_atomic_state *state,
  	}
- }
  
-+static int
-+intel_dp_pcon_dsc_enc_slice_height(const struct intel_crtc_state *crtc_state)
-+{
-+
-+	int vactive = crtc_state->hw.adjusted_mode.vdisplay;
-+
-+	return intel_hdmi_dsc_get_slice_height(vactive);
-+}
-+
-+static int
-+intel_dp_pcon_dsc_enc_slices(struct intel_dp *intel_dp,
-+			     const struct intel_crtc_state *crtc_state)
-+{
-+	struct intel_connector *intel_connector = intel_dp->attached_connector;
-+	struct drm_connector *connector = &intel_connector->base;
-+	int hdmi_throughput = connector->display_info.hdmi.dsc_cap.clk_per_slice;
-+	int hdmi_max_slices = connector->display_info.hdmi.dsc_cap.max_slices;
-+	int pcon_max_slices = drm_dp_pcon_dsc_max_slices(intel_dp->pcon_dsc_dpcd);
-+	int pcon_max_slice_width = drm_dp_pcon_dsc_max_slice_width(intel_dp->pcon_dsc_dpcd);
-+
-+
-+	return intel_hdmi_dsc_get_num_slices(crtc_state, pcon_max_slices,
-+					     pcon_max_slice_width,
-+					     hdmi_max_slices, hdmi_throughput);
-+}
-+
-+static int
-+intel_dp_pcon_dsc_enc_bpp(struct intel_dp *intel_dp,
-+			  const struct intel_crtc_state *crtc_state,
-+			  int num_slices, int slice_width)
-+{
-+	struct intel_connector *intel_connector = intel_dp->attached_connector;
-+	struct drm_connector *connector = &intel_connector->base;
-+	int output_format = crtc_state->output_format;
-+	bool hdmi_all_bpp = connector->display_info.hdmi.dsc_cap.all_bpp;
-+	int pcon_fractional_bpp = drm_dp_pcon_dsc_bpp_incr(intel_dp->pcon_dsc_dpcd);
-+	int hdmi_max_chunk_bytes =
-+		connector->display_info.hdmi.dsc_cap.total_chunk_kbytes * 1024;
-+
-+	return intel_hdmi_dsc_get_bpp(pcon_fractional_bpp, slice_width,
-+				      num_slices, output_format, hdmi_all_bpp,
-+				      hdmi_max_chunk_bytes);
-+}
-+
-+void
-+intel_dp_pcon_dsc_configure(struct intel_dp *intel_dp,
-+			    const struct intel_crtc_state *crtc_state)
-+{
-+	u8 pps_param[6];
-+	int slice_height;
-+	int slice_width;
-+	int num_slices;
-+	int bits_per_pixel;
-+	int ret;
-+	struct intel_connector *intel_connector = intel_dp->attached_connector;
-+	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+	struct drm_connector *connector;
-+	bool hdmi_is_dsc_1_2;
-+
-+	if (!intel_dp_is_hdmi_2_1_sink(intel_dp))
-+		return;
-+
-+	if (!intel_connector)
-+		return;
-+	connector = &intel_connector->base;
-+	hdmi_is_dsc_1_2 = connector->display_info.hdmi.dsc_cap.v_1p2;
-+
-+	if (!drm_dp_pcon_enc_is_dsc_1_2(intel_dp->pcon_dsc_dpcd) ||
-+	    !hdmi_is_dsc_1_2)
-+		return;
-+
-+	slice_height = intel_dp_pcon_dsc_enc_slice_height(crtc_state);
-+	if (!slice_height)
-+		return;
-+
-+	num_slices = intel_dp_pcon_dsc_enc_slices(intel_dp, crtc_state);
-+	if (!num_slices)
-+		return;
-+
-+	slice_width = DIV_ROUND_UP(crtc_state->hw.adjusted_mode.hdisplay,
-+				   num_slices);
-+
-+	bits_per_pixel = intel_dp_pcon_dsc_enc_bpp(intel_dp, crtc_state,
-+						  num_slices, slice_width);
-+	if (!bits_per_pixel)
-+		return;
-+
-+	pps_param[0] = slice_height & 0xFF;
-+	pps_param[1] = slice_height >> 8;
-+	pps_param[2] = slice_width & 0xFF;
-+	pps_param[3] = slice_width >> 8;
-+	pps_param[4] = bits_per_pixel & 0xFF;
-+	pps_param[5] = (bits_per_pixel >> 8) & 0x3;
-+
-+	ret = drm_dp_pcon_pps_override_param(&intel_dp->aux, pps_param);
-+	if (ret < 0)
-+		drm_dbg_kms(&i915->drm, "Failed to set pcon DSC\n");
-+}
-+
- static void
- g4x_set_link_train(struct intel_dp *intel_dp,
- 		   const struct intel_crtc_state *crtc_state,
-@@ -4283,6 +4395,7 @@ static void intel_enable_dp(struct intel_atomic_state *state,
  	intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
- 	intel_dp_configure_protocol_converter(intel_dp);
+-	intel_dp_configure_protocol_converter(intel_dp);
++	intel_dp_configure_protocol_converter(intel_dp, pipe_config);
  	intel_dp_check_frl_training(intel_dp);
-+	intel_dp_pcon_dsc_configure(intel_dp, pipe_config);
+ 	intel_dp_pcon_dsc_configure(intel_dp, pipe_config);
  	intel_dp_start_link_train(intel_dp, pipe_config);
- 	intel_dp_stop_link_train(intel_dp, pipe_config);
+@@ -6861,7 +6896,7 @@ intel_dp_update_420(struct intel_dp *intel_dp)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	struct intel_connector *connector = intel_dp->attached_connector;
+-	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420;
++	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420, rgb_to_ycbcr;
  
-@@ -6227,6 +6340,7 @@ int intel_dp_retrain_link(struct intel_encoder *encoder,
- 			continue;
+ 	/* No YCbCr output support on gmch platforms */
+ 	if (HAS_GMCH(i915))
+@@ -6883,14 +6918,26 @@ intel_dp_update_420(struct intel_dp *intel_dp)
+ 		dp_to_dig_port(intel_dp)->lspcon.active ||
+ 		drm_dp_downstream_444_to_420_conversion(intel_dp->dpcd,
+ 							intel_dp->downstream_ports);
++	rgb_to_ycbcr = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp->dpcd,
++							intel_dp->downstream_ports,
++							DP_DS_HDMI_BT601_RGB_YCBCR_CONV ||
++							DP_DS_HDMI_BT709_RGB_YCBCR_CONV ||
++							DP_DS_HDMI_BT2020_RGB_YCBCR_CONV);
  
- 		intel_dp_check_frl_training(intel_dp);
-+		intel_dp_pcon_dsc_configure(intel_dp, crtc_state);
- 		intel_dp_start_link_train(intel_dp, crtc_state);
- 		intel_dp_stop_link_train(intel_dp, crtc_state);
- 		break;
+ 	if (INTEL_GEN(i915) >= 11) {
++		/* Let PCON convert from RGB->YCbCr if possible */
++		if (is_branch && rgb_to_ycbcr && ycbcr_444_to_420) {
++			intel_dp->dfp.rgb_to_ycbcr = true;
++			intel_dp->dfp.ycbcr_444_to_420 = true;
++			connector->base.ycbcr_420_allowed = true;
++		} else {
+ 		/* Prefer 4:2:0 passthrough over 4:4:4->4:2:0 conversion */
+-		intel_dp->dfp.ycbcr_444_to_420 =
+-			ycbcr_444_to_420 && !ycbcr_420_passthrough;
++			intel_dp->dfp.ycbcr_444_to_420 =
++				ycbcr_444_to_420 && !ycbcr_420_passthrough;
+ 
+-		connector->base.ycbcr_420_allowed =
+-			!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
++			connector->base.ycbcr_420_allowed =
++				!is_branch || ycbcr_444_to_420 || ycbcr_420_passthrough;
++		}
+ 	} else {
+ 		/* 4:4:4->4:2:0 conversion is the only way */
+ 		intel_dp->dfp.ycbcr_444_to_420 = ycbcr_444_to_420;
+@@ -6899,8 +6946,9 @@ intel_dp_update_420(struct intel_dp *intel_dp)
+ 	}
+ 
+ 	drm_dbg_kms(&i915->drm,
+-		    "[CONNECTOR:%d:%s] YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
++		    "[CONNECTOR:%d:%s] RGB->YcbCr conversion? %s, YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
+ 		    connector->base.base.id, connector->base.name,
++		    yesno(intel_dp->dfp.rgb_to_ycbcr),
+ 		    yesno(connector->base.ycbcr_420_allowed),
+ 		    yesno(intel_dp->dfp.ycbcr_444_to_420));
+ }
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 58b76a20459c..1bfde4f89019 100644
+index 1bfde4f89019..4280a09fd8fd 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.h
 +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -145,5 +145,7 @@ void intel_dp_sync_state(struct intel_encoder *encoder,
- 			 const struct intel_crtc_state *crtc_state);
- 
- void intel_dp_check_frl_training(struct intel_dp *intel_dp);
-+void intel_dp_pcon_dsc_configure(struct intel_dp *intel_dp,
-+				 const struct intel_crtc_state *crtc_state);
- 
- #endif /* __INTEL_DP_H__ */
+@@ -51,7 +51,8 @@ int intel_dp_get_link_train_fallback_values(struct intel_dp *intel_dp,
+ int intel_dp_retrain_link(struct intel_encoder *encoder,
+ 			  struct drm_modeset_acquire_ctx *ctx);
+ void intel_dp_set_power(struct intel_dp *intel_dp, u8 mode);
+-void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp);
++void intel_dp_configure_protocol_converter(struct intel_dp *intel_dp,
++					   const struct intel_crtc_state *crtc_state);
+ void intel_dp_sink_set_decompression_state(struct intel_dp *intel_dp,
+ 					   const struct intel_crtc_state *crtc_state,
+ 					   bool enable);
 -- 
 2.17.1
 
