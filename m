@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E317C2DF517
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Dec 2020 12:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3B92DE6D2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 16:42:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454F66E138;
-	Sun, 20 Dec 2020 11:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67746E1E9;
+	Fri, 18 Dec 2020 15:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77B16E1A4
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 15:28:06 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id y15so1502477qtv.5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 07:28:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j3vBoddoAjf0IFyLATEzp2b+bWulu7D90uXUHegOXUg=;
- b=Si3oD44qeMyvjKcsH1+EDZWe5MQCPYs0WMqv6g7C6ZiGuj/z/vCP+x3cm/dPnUF2gw
- xz6pzCYoLKvC5uJBGAdDenkv029H1YsBVHcb4wDJVVQLlDYGrUPrciWoo/pb6jF22IN3
- v3hPs4FMysZym/YA71fhD38dRDVOJL7opsh2hIEIV2Qk5qGZyv/SP8+8065Ah230mK61
- T7RI1yQORhwXjgbifG0VISdHByeo6z1aW2vbFcFQZMufqjDPe4QHbRlEZExb0BbzaaEO
- 2ncCXZgk2KfCkwTk9CuE5nTxRwKHDobAsHeb+XkBpCLb8BWEtmBZ7x4CbjTNQKC5Cz3+
- f//w==
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EF56E1E9
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 15:42:51 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id t30so2666929wrb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 07:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TzwW3xjjWn4Ug0mSSu8SJ2wtKhKSJ9lrt0i+nH01vj4=;
+ b=dyI4ZoIqVOLhXqCyfu/mV4crgcXXn/OtqE+2L+M8lleBXoA+XvXx0NNtt+FsZ3uIe/
+ esTXT/lD49MqnY7PFRzmIL7gaIL26ElvfPa6Cwz+4gF85o9BtaWe+I5/X7Se/CAALtrm
+ +MnIbU0EEjWiirv/8lWN5NRFgTb3YmIaOFHBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j3vBoddoAjf0IFyLATEzp2b+bWulu7D90uXUHegOXUg=;
- b=BJ4GLQiRlZCprm0ycnZOGFdXTTDvOOmo0ZSQmVNSHqvDDilaGIMmerPRWucl5WvdF6
- LS4jzeLRf52ICpwzNO93C2vhzcQ17T/VJFq1bOPRxu3im973bjBN46/zOCIYs+sYk1qL
- aR9kBm3h1vOHsrLpVOpxGCC14oUaBjHEbJQ6Ta/2MRCQHhjH50NF7NCaASHulEG3CBck
- rU4twCCtgcnocbFd2JsskafoVe8cblHGUTVwgKbYvovurghJewKlHyOb734QFBIOhSwx
- yMwADrqDVnbT1v76XzHkJh/cgtFeY/Ama5fa+tdJPSh7wl7maaemjTpEf4m/tJGgWsCh
- tWPQ==
-X-Gm-Message-State: AOAM530J8btL1Xk/Z+OFQ3mN/Q6+AbC3OhEXkgFRAy6QZ5+nC9xb76jY
- aDj9lbCZJcFF/mijhJ9cIXJmO4OIXK3Qtt8sqtN8jw==
-X-Google-Smtp-Source: ABdhPJwW7m310B422NM+6uj5jd7lHxdtuQKuwhcqifNW0uu9yiOzNdR5vQRKoj3vZDABn1uaGcu1OlzjycvZ6jx9qzg=
-X-Received: by 2002:ac8:4e1c:: with SMTP id c28mr4466988qtw.67.1608305285772; 
- Fri, 18 Dec 2020 07:28:05 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TzwW3xjjWn4Ug0mSSu8SJ2wtKhKSJ9lrt0i+nH01vj4=;
+ b=b9JUsiibih+6bsMHFI10NW5QFIUpt8RUSGOv2IVVp7hpqJniO/FjPWQa0EMSjQdwUZ
+ aNX8+QguVgvQNSmQgc9j2tpgAJZ24szcS3FGaH905JMbPVny9hs42ix8PWoSQ02roOPj
+ wYBjkLUwHw4+ke5T733VkKVVxSou3YZ6Ho7PGYak1G+O/hLkAHC5o31vpBBDfG0Ec+H4
+ 2uzD6JuLL9791IvsUGkpjQMhie1jZycghd/32wdapX3zmUPe7xj66eiwaVDKmnkW9wvd
+ cLHzrXWqKOqfXEnqK3oSWF3Canw1h0XBSCT+wrV/wc2UMwgp1IaUDdbsPDRe884OBcou
+ i3Vw==
+X-Gm-Message-State: AOAM530zG6u+k/Eqc1jmBBlnFB5obnWsDlZJY7d9AMb4LeY0Tzp4wUmV
+ vnPm1e5WHaN4/nRHecifspkLgg==
+X-Google-Smtp-Source: ABdhPJzFoz47xZGKOeU8S2OrPf1heeLkRSMGdicNxQBfyOsNIS0LdeecOIJqsfvoygna3jLijzqXsg==
+X-Received: by 2002:a5d:570e:: with SMTP id a14mr5171465wrv.126.1608306170200; 
+ Fri, 18 Dec 2020 07:42:50 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m18sm14117224wrw.43.2020.12.18.07.42.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Dec 2020 07:42:49 -0800 (PST)
+Date: Fri, 18 Dec 2020 16:42:47 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PULL] drm-intel-next-fixes
+Message-ID: <X9zN96w7c5bPLMwJ@phenom.ffwll.local>
+References: <87zh2bp34m.fsf@intel.com>
 MIME-Version: 1.0
-References: <000000000000b30cad05b0fc3d74@google.com>
- <000000000000fbf57305b6beb939@google.com>
-In-Reply-To: <000000000000fbf57305b6beb939@google.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Fri, 18 Dec 2020 16:27:53 +0100
-Message-ID: <CACT4Y+bgROPPaiah0S0N8Ju9cpj9xkeQ9FrMCfQeAuRdJy1Qqg@mail.gmail.com>
-Subject: Re: BUG: unable to handle kernel paging request in cfb_imageblit
-To: syzbot <syzbot+dfd0b1c6705301cc4847@syzkaller.appspotmail.com>
-X-Mailman-Approved-At: Sun, 20 Dec 2020 11:10:15 +0000
+Content-Disposition: inline
+In-Reply-To: <87zh2bp34m.fsf@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- George Kennedy <george.kennedy@oracle.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 18, 2020 at 4:26 PM syzbot
-<syzbot+dfd0b1c6705301cc4847@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit a49145acfb975d921464b84fe00279f99827d816
-> Author: George Kennedy <george.kennedy@oracle.com>
-> Date:   Tue Jul 7 19:26:03 2020 +0000
->
->     fbmem: add margin check to fb_check_caps()
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1149f30f500000
-> start commit:   22fbc037 Merge tag 'for-linus' of git://git.kernel.org/pub..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=4e672827d2ffab1f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=dfd0b1c6705301cc4847
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ba9a5d900000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17cfd4af900000
->
-> If the result looks correct, please mark the issue as fixed by replying with:
->
-> #syz fix: fbmem: add margin check to fb_check_caps()
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+On Fri, Dec 18, 2020 at 05:04:09PM +0200, Jani Nikula wrote:
+> 
+> Hi Dave & Daniel -
+> 
+> drm-intel-next-fixes-2020-12-18:
+> drm/i915 fixes for the merge window
 
-#syz fix: fbmem: add margin check to fb_check_caps()
+Pulled, thanks a lot.
+-Daniel
+
+> 
+> 
+> BR,
+> Jani.
+> 
+> The following changes since commit efd3043790c6e92f0bbe1fe385db9b544131c59c:
+> 
+>   Merge tag 'amd-drm-fixes-5.11-2020-12-16' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-12-16 23:25:51 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2020-12-18
+> 
+> for you to fetch changes up to 046f70d31ddb2069941aec54966fec5b7fbc7b7b:
+> 
+>   drm/i915/tgl: Fix REVID macros for TGL to fetch correct stepping (2020-12-18 12:30:10 +0200)
+> 
+> ----------------------------------------------------------------
+> drm/i915 fixes for the merge window
+> 
+> ----------------------------------------------------------------
+> Aditya Swarup (1):
+>       drm/i915/tgl: Fix REVID macros for TGL to fetch correct stepping
+> 
+> Chris Wilson (2):
+>       Revert "drm/i915: re-order if/else ladder for hpd_irq_setup"
+>       drm/i915: Fix mismatch between misplaced vma check and vma insert
+> 
+> Lionel Landwerlin (1):
+>       drm/i915/perf: also include Gen11 in OATAILPTR workaround
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  2 +-
+>  drivers/gpu/drm/i915/i915_drv.h                | 12 ++++++------
+>  drivers/gpu/drm/i915/i915_irq.c                | 27 ++++++++++++++------------
+>  drivers/gpu/drm/i915/i915_perf.c               |  2 +-
+>  4 files changed, 23 insertions(+), 20 deletions(-)
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
