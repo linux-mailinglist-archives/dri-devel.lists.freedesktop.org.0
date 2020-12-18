@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0EE2DDFE6
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073B22DDFF0
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4949489FF7;
-	Fri, 18 Dec 2020 08:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249C26E07F;
+	Fri, 18 Dec 2020 08:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2077.outbound.protection.outlook.com [40.107.20.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA6FB894E3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 03:32:56 +0000 (UTC)
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr40077.outbound.protection.outlook.com [40.107.4.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF098894E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 03:33:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XU4SHK2WEJ2FwYxk+Tof+e8g/P853R55iS33KKoa090glJbMDLFzfLRdpx+Z77i/illhjTm96qcpF/6UrEQDzwXGGyjQu3hq5ZHJZmAO8WyZt79VY6YdVL64QfQ0JKLtBhgVOMm5CPK8eYmPaloZFqT4gYOfzVKN6j5XxGa/9XGXYLbJqHyIzSciSiZbaJ4zro+LunrupGJjjhsDzLfWw7SF+ROg96a3gYschjWTf00iWPjZPbGyDKi0YruD9DQ4ovo//fNdX5mFeO/kR9XEr6YdFHRsJdpAuuJnLghWEtpIVkK9/8xbw+b0EZtDTe2OMlV6V7NwTiaFx0WYK8tPkw==
+ b=QPFFCTNiQZCc3dWAGevRHaxUxWys7PGJVALrq65HgHBp83v+sOPjr2T0Wphpouo+ZW3YhKTipp+ECApK2b0DDkljAM/B71Q4k385uGW+N8cBDzEmfwC/seuKV0TyIpiyxYy01VljztMPfiTCrEe+fdOD70De1LQsiUMDEUpxyZEwmvCwUu/yz9bry5xPaigtWC8FMfnUquKcgEX3z1Pfzzb/pRYC0AmcSNY5+FFEUR6b0M80eeUw/oGRWB21lXJF5Il7JXqGJnwcN3pAs/BZTTWd9nmT9Vv4T+ydzgF6GF1og1tUBwW/1WLj8jyZo+Os3FvK2YL8RxbX1S1Fq1DFSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KdzNYvia50mRF1gLsp69qvTOcFU0l4c1UdeuGbWgCQE=;
- b=my76eP3taDJZibjc8PWXJSfjOfUa+A9RkKiK6MB0UFVLvBGKCShflb72cxMDmuLgMdyR/IIXkYFSdbd9Jtv1WjGLQrYODo5TqY/vWENv7yPiHWR/v5swFMc/upXyN8awcR/YP1P2Is+nBrwkv0uuZPqjsgcPTSPMdB8ICeLOo5Vrh6g5HCIIiPD5BvfglqtfzHK2XBYDekLuK5juVpeGE6F5XmpPprxNKSxj8oDhfLVm9R4ZRcV0uRLXVnMWIenZOPq2UWMsrrmhse1Dx2SBagCW+qfnssj+s9v6xlnNxsa+LA1dIGXp4zUQSCu0x7tDrETW11hOPnkUOKgxrM5Zrg==
+ bh=0NHk4+SC8LMffdhs95rmG7EYD8FhJskiq/bkKTIACgQ=;
+ b=l4x5VhZY3kTA2UU+3w5h1YvrJ05ozOmnLeTJp+aR9qXFOscBElD2W6QGCfDtLGpCbVbBBUwJYHUJ/PoNQIaEFMGTZLjBup4J2TS1FuBpOMlWynXH2d/UVw0gzWiB06OL821cPtgAv0c24cijIugMRiGKbObsuMWUCGEcJnSjWMCdeyw+Lyt3OUSYrrXyqTjgL0PYm8gQ/kfrSlW/ErlfriUiSs4ka30k+FHAfc+/lAC1fe2RueigHi0BcAkn+gFqtY+gyf/0D/aodaBEb5y0k9D8Ott2x72hvqV6bIPzqL3ipL4tQTvq1yPoSign0hIvjxpMJE39GeRE2DcaH21qxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KdzNYvia50mRF1gLsp69qvTOcFU0l4c1UdeuGbWgCQE=;
- b=sKsX3vpq51+td1RGuMfVEb8mr4LFax6mJ47sjsAGA43jwffZkmUVnxFnMedd8n5IHH7zWe75vPA9IBFJba30fthAO0wRKKYNubjMcbCrPOvnG+eKwPgRZp4gI3nXITtp16w8ulSmctP0w7YLLQWvrj79boR/MdOqdG40FZw/ajo=
+ bh=0NHk4+SC8LMffdhs95rmG7EYD8FhJskiq/bkKTIACgQ=;
+ b=on9mIzUuCxcseX1MF98tIX3AT7AjGYHSgBbIJ6S8Q4bXOMds3+i0gJD34R+edvmjsQEeVKq50T8SjM8IdP/rc2+EKi4zAjVyNp+IsgjJA257m9NGQGRiZDMBs4BQLFk4Wbyl5CiR0q4xbxNwSjsJGEvFB+9YHoIJnhWzDrKfbbg=
 Authentication-Results: lists.infradead.org; dkim=none (message not signed)
  header.d=none;lists.infradead.org; dmarc=none action=none
  header.from=nxp.com;
@@ -34,17 +34,18 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR0402MB2816.eurprd04.prod.outlook.com (2603:10a6:800:b7::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.17; Fri, 18 Dec
- 2020 03:32:54 +0000
+ 2020 03:32:59 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3654.024; Fri, 18 Dec 2020
- 03:32:54 +0000
+ 03:32:59 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/6] dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
-Date: Fri, 18 Dec 2020 11:23:49 +0800
-Message-Id: <1608261833-24772-3-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v5 3/6] dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel
+ binding
+Date: Fri, 18 Dec 2020 11:23:50 +0800
+Message-Id: <1608261833-24772-4-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1608261833-24772-1-git-send-email-victor.liu@nxp.com>
 References: <1608261833-24772-1-git-send-email-victor.liu@nxp.com>
@@ -57,49 +58,49 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR02CA0118.apcprd02.prod.outlook.com (2603:1096:4:92::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3676.28 via Frontend Transport; Fri, 18 Dec 2020 03:32:49 +0000
+ 15.20.3676.28 via Frontend Transport; Fri, 18 Dec 2020 03:32:54 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d74b631d-098d-4aad-3125-08d8a3059aff
+X-MS-Office365-Filtering-Correlation-Id: 07758626-c198-4211-1f52-08d8a3059e20
 X-MS-TrafficTypeDiagnostic: VI1PR0402MB2816:
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0402MB2816956FE73A820080EB219698C30@VI1PR0402MB2816.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB2816937885985593F42C2A5C98C30@VI1PR0402MB2816.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WFsSjqiGEk/EYBHZykwHVT9ppU4JvUIm9RmhnpyjYotic58RyDGFcwIP4K/js5RvZytKAW+sPqD1sejRXZnWJN49HMwT96Rn5uw+3Qfibik29C1IpQ/9PY8UtiEarQhECKPNnP8fDrh4DLjjliLbLsrliA3+S6UV7V9pHk7tmCZTmrYbvfJqE8Tvd/5wtbsbm2BC7rAYBxugvU6eq1CsnVeorWHplnzZ9rmMLhifaOG9Yh4K+zavRmEn8mVeDr/Ka/1EYvliAielWnSGwdPjBtKc2TqqpAVg0GHvajQn8QNcVnasY7WZADRwqNb/l1fuuSsl2BgRZW8i6PYyb67Wh4YM9/86N0b2SS79zuB1GrL6uEygJN1j0iVpGl7Tz8r9jeKB23+RKkgLrDty+Gr2K98lwfF/Jsrup0jK/Xu0joirN7SZJqspOLIhn3ORzJQy3CGnUhS+r8Lb7WSVgueXMQ==
+X-Microsoft-Antispam-Message-Info: YLxJJ0s44w6ZokzPIahmllYdpvFyTsuIvW0CYbbnpc2z7Y7pRI+xpak7V/cIKE+7anW08odgsUCWOJWcabQdAW0Yrv9Afv1dnLcbFJITfU7xApFPXSKY6x/oQ6Nzd366NNjLNBP2iNZO9to+pvlGR0FLvIp1a6Z5WXZEtVZqVi4Un6W1xymaT3dYTO4qD8gO7LbSlmQ+FOjjouLrdFzlJGQNI3xeFPqrt6ulTrDwBaK1sSKVFG25pMq0GmfU3Ah6u/42vxL7vOM94D6lfjQ/iAVGl10w6OQrJvNmQBeI4LmphBBOIIXII8g8JLzg8ApgdrDaeEMaJC7aEhCZU4lnh7fETLbX2eq/quExxZx7P55XeKWxhst9DRhJkmkSwpTXa9Afp8sJaY04Zm/ioIGdWcSfHIYM1tBm6Ii8BRN/TDrFdn4ahhteOwvqVZG9bVSA7X7fpsnfD2oAXKWOlzwzmw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(376002)(396003)(346002)(39860400002)(66476007)(52116002)(478600001)(5660300002)(36756003)(316002)(2906002)(6506007)(4326008)(2616005)(66556008)(6486002)(966005)(6512007)(16526019)(83380400001)(69590400008)(66946007)(7416002)(8936002)(8676002)(86362001)(26005)(956004)(186003);
+ SFS:(4636009)(366004)(136003)(376002)(396003)(346002)(39860400002)(66476007)(52116002)(478600001)(5660300002)(6666004)(36756003)(316002)(2906002)(6506007)(4326008)(2616005)(66556008)(6486002)(966005)(6512007)(16526019)(83380400001)(69590400008)(66946007)(7416002)(8936002)(8676002)(86362001)(26005)(956004)(186003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?regSSSyo26KB+OKwtb20Xh7bv2x8vGfm8YZaJuGwNJ0hW3sNz3tp4QEeMusg?=
- =?us-ascii?Q?mFmp0B08/rWnr6m7uMXAMuStdZFJtXmqnlxZHdaTMdWrsl8DE9psL6N/AwjU?=
- =?us-ascii?Q?e6rxob1i/EjE9NHTlI5xAQQl2pQ/fnIo92JONpP7MzOs/XuOHq3H48khzXZV?=
- =?us-ascii?Q?ziZUazFhYAbXR3+oYTZRz6ULaflmV/RfgPUABxCQD290qZys/xJLRlnMKCiJ?=
- =?us-ascii?Q?2xVdSqSGZOeQX1VVkxMAfOZdNvrDBmuUjT+fPHAT4PQh7fp6fgHbJaASgvQf?=
- =?us-ascii?Q?4lhFki39RVjRMpEBY6nwzkSX4rciqN+oSmvlyfA5TiI267eGEiv41tT2lj8C?=
- =?us-ascii?Q?4NiK+DkZrLHrB2XeGtRrLOXNMiiq+D0FirIqufOCo2sLzNmIEC+hjFp+m1YF?=
- =?us-ascii?Q?IJZTkAZinN7l0klrsBGqahJZFn1jRA6EbY4cobMnGhNmbACcoet4QNQMaOtu?=
- =?us-ascii?Q?qsLGncGyCkcUTRqcxx/hxADxKKTcXkRY9d6AdE6QzVrNRWEOqL99+1Y+Htu0?=
- =?us-ascii?Q?96YuknDfEkUuz5tgkYbB8cNShj8gKzIX5HehQIH9s6NmUcwuNXj7Ksybnq1L?=
- =?us-ascii?Q?G1/Qee9wez9tAtJxiG5Q0Er8PXQb0FKkLoR1t2VPruES+a9B3K3DL7D5esfT?=
- =?us-ascii?Q?TXQw+Yrlffu7+Uj9vJqk+eWbJjAi964vz+dFA6JGaUD51GIBZumCQ7OyCjRc?=
- =?us-ascii?Q?fqlKJODZD54ormLjxX79/ld1VXADmOz7DBWCEiZ0i5L6ImExRpKOPJx/KUZw?=
- =?us-ascii?Q?RBX3BIWviVnP8kRX6BRjxHTOce3tiPUDeXNkeGvvSid6c54GA55ggcJ83ebb?=
- =?us-ascii?Q?5J2mVB/NM3wqY0w8WiQeXLkz5U3D8MEFrfSIpkcLFrRSJ63PExmeY57OequD?=
- =?us-ascii?Q?4p6amJR2xdmrWcLbo3q9d0756qYZ8j//e0mWDGj/3ETOQx0vF7k2npxJlKH/?=
- =?us-ascii?Q?dVph3ayGIwQnev0JH2KT0FvFcR/uh/S2Dz7qcGFyM8kDVsEEJz8JTX+7TNZw?=
- =?us-ascii?Q?HWIo?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?VAKCD4Emda1L0G1vFqKmmnwLKfb2vXVDLCF08tWVzUC/Yf2j/+d9O936ZHWo?=
+ =?us-ascii?Q?YzL6qz8SMEzoxWmW7UPmaoELAIB5mJnA32SKdmRitmKoJq/NigIH7VpfLBMa?=
+ =?us-ascii?Q?Gj0UwjBwal13E+2AEWJf1na6G3orCH/59wHWBiMFOuhqhh+E+m+/rcFzjfId?=
+ =?us-ascii?Q?HUURtw2KVdbOd+6/tShuz2MChmivGmztAl+olDFqxUEJhE+VqVGJsgQh2vMN?=
+ =?us-ascii?Q?JIzfaJHKbAzP7AOHol2MBsJfMJK1hJqph+VKbDpm5UtAljq6B40WP2Xtb1Jc?=
+ =?us-ascii?Q?eHUcW+l1Nu6USiFhSHZ476J6cEWKMfN36EtwVdxKfviRL1zTmW7LnchB4at6?=
+ =?us-ascii?Q?3wZV3zEzsB9iti8netaJCdZYMBal0Bm8R0rf3UGlte3yWmw4FPPVfh4YXKl/?=
+ =?us-ascii?Q?NeLpuxI9mzFC5xU+qiJoHVWMtC2t02+EVsnMgynFCs58ERyep8W7qJftfs9R?=
+ =?us-ascii?Q?slge7GKIjF+zZf7j3dZ/S6WbF/PagI3Wf55lNF6OHgRrpZkX7sOBQ3P/PSa6?=
+ =?us-ascii?Q?opTXX/bRct0ljb0pCPKXgLcI/MdzADgeyHI0PF/WrNIRqb4cXiZ8KDRL1vhP?=
+ =?us-ascii?Q?esidTsBDakg7Yic0aw0hAwRbScJAgP77rG0ubnJo5XtzzmTuoCHmJXCyn0Y4?=
+ =?us-ascii?Q?17sh39dEakZxRDrqar8xdGtnwHydmfZcUXsiILY46Ppbxug5rx/tiaF8h78C?=
+ =?us-ascii?Q?KQ8OmjSWuNs4o+z7yto24ekTc2FAZPX+isD54I1pHQQITtADceF947XHIb1d?=
+ =?us-ascii?Q?Dq7uAH1pNZQy7atd8NTFYfVzWugplz41ap6uYpPEdRoku4nWkDosSf97DOYW?=
+ =?us-ascii?Q?5S5DdpH9WZbCxaf5dx24ZAtKEIwRO4BbPIKzOzqCXD7BbKzgIzJoSyHS8RUJ?=
+ =?us-ascii?Q?eWtp03D9nF/4Bwi0QQ90OTcmYH0JPXpcoeHcDFOqkG6vgb4P/DL8fWJJuLik?=
+ =?us-ascii?Q?FpkT1a6R+IhnoyDqcKXHhxNJqw71T3yVi1wwSZ61jDhgxwwxZhP2pI6TlGdD?=
+ =?us-ascii?Q?kfwa?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 03:32:54.2305 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 03:32:59.4465 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: d74b631d-098d-4aad-3125-08d8a3059aff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07758626-c198-4211-1f52-08d8a3059e20
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EFOSA4FqLEVxh+K5EOLOr3nBcEhJDnTOF2U5J31KGtKfW30g71Oo0LBzCZ9AmlZPufOSD0llUk9fjWHvHWEPkw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: LCZeo3jlFsaAWuPI2ZJ38/o9vJ7hUPCvtOBneWE2BDeM5tt+OnBf+OcCnNft5ZVGYkYWD1PsWdiNpbXVMJvPeg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2816
 X-Mailman-Approved-At: Fri, 18 Dec 2020 08:32:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,7 +123,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds bindings for i.MX8qxp/qm Display Prefetch Resolve Gasket.
+This patch adds bindings for i.MX8qxp/qm Display Prefetch Resolve Channel.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
@@ -144,51 +145,70 @@ v2->v3:
 v1->v2:
 * Use new dt binding way to add clocks in the example.
 
- .../bindings/display/imx/fsl,imx8qxp-prg.yaml      | 60 ++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+ .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     | 87 ++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
 new file mode 100644
-index 00000000..3ff46e0
+index 00000000..9e05c83
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
-@@ -0,0 +1,60 @@
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+@@ -0,0 +1,87 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-prg.yaml#
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dprc.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Freescale i.MX8qm/qxp Display Prefetch Resolve Gasket
++title: Freescale i.MX8qm/qxp Display Prefetch Resolve Channel
 +
 +maintainers:
 +  - Liu Ying <victor.liu@nxp.com>
 +
 +description: |
-+  The i.MX8qm/qxp Prefetch Resolve Gasket (PRG) is a gasket interface between
-+  RTRAM controller and Display Controller.  The main function is to convert
-+  the AXI interface to the RTRAM interface, which includes re-mapping the
-+  ARADDR to a RTRAM address.
++  The i.MX8qm/qxp Display Prefetch Resolve Channel(DPRC) is an engine which
++  fetches display data before the display pipeline needs the data to drive
++  pixels in the active display region.  This data is transformed, or resolved,
++  from a variety of tiled buffer formats into linear format, if needed.
++  The DPR works with a double bank memory structure.  This memory structure is
++  implemented in the Resolve Tile Memory(RTRAM) and the banks are referred to
++  as A and B.  Each bank is either 4 or 8 lines high depending on the source
++  frame buffer format.
 +
 +properties:
 +  compatible:
 +    enum:
-+      - fsl,imx8qxp-prg
-+      - fsl,imx8qm-prg
++      - fsl,imx8qxp-dpr-channel
++      - fsl,imx8qm-dpr-channel
 +
 +  reg:
 +    maxItems: 1
 +
++  interrupts:
++    maxItems: 1
++
 +  clocks:
 +    items:
-+      - description: rtram clock
 +      - description: apb clock
++      - description: b clock
++      - description: rtram clock
 +
 +  clock-names:
 +    items:
-+      - const: rtram
 +      - const: apb
++      - const: b
++      - const: rtram
++
++  fsl,sc-resource:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: The SCU resource ID associated with this DPRC instance.
++
++  fsl,prgs:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      List of phandle which points to Prefetch Resolve Gaskets(PRGs)
++      associated with this DPRC instance.
 +
 +  power-domains:
 +    maxItems: 1
@@ -196,8 +216,11 @@ index 00000000..3ff46e0
 +required:
 +  - compatible
 +  - reg
++  - interrupts
 +  - clocks
 +  - clock-names
++  - fsl,sc-resource
++  - fsl,prgs
 +  - power-domains
 +
 +additionalProperties: false
@@ -206,12 +229,17 @@ index 00000000..3ff46e0
 +  - |
 +    #include <dt-bindings/clock/imx8-lpcg.h>
 +    #include <dt-bindings/firmware/imx/rsrc.h>
-+    prg@56040000 {
-+        compatible = "fsl,imx8qxp-prg";
-+        reg = <0x56040000 0x10000>;
-+        clocks = <&dc0_prg0_lpcg IMX_LPCG_CLK_0>,
-+                 <&dc0_prg0_lpcg IMX_LPCG_CLK_4>;
-+        clock-names = "rtram", "apb";
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    dpr-channel@56100000 {
++        compatible = "fsl,imx8qxp-dpr-channel";
++        reg = <0x56100000 0x10000>;
++        interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&dc0_dpr1_lpcg IMX_LPCG_CLK_4>,
++                 <&dc0_dpr1_lpcg IMX_LPCG_CLK_5>,
++                 <&dc0_rtram1_lpcg IMX_LPCG_CLK_0>;
++        clock-names = "apb", "b", "rtram";
++        fsl,sc-resource = <IMX_SC_R_DC_0_VIDEO0>;
++        fsl,prgs = <&dc0_prg4>, <&dc0_prg5>;
 +        power-domains = <&pd IMX_SC_R_DC_0>;
 +    };
 -- 
