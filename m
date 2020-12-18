@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40292DE921
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 19:46:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E61482DE98C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 20:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35BA89DB4;
-	Fri, 18 Dec 2020 18:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83FDE89B9F;
+	Fri, 18 Dec 2020 19:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E34489B9F;
- Fri, 18 Dec 2020 18:46:47 +0000 (UTC)
-IronPort-SDR: CgmQpiyiFX8f9Jrq0MDY/hAv1kLI9tlPFAWY1vJW900Q+wevxBqme210E7rFSasNI0NljxBGop
- PUBZUSjjWhTg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="172919170"
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; d="scan'208";a="172919170"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2020 10:46:46 -0800
-IronPort-SDR: ftG2Wli8XLagnWGHJivtlemwLMUi4/QL4ayfuDFhyF6MJ5UmETeeDi1A1LTl0C1FJgvSCIs1BC
- jbFWFP5YLzKQ==
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; d="scan'208";a="343429148"
-Received: from svasud1x-mobl3.amr.corp.intel.com (HELO
- josouza-mobl2.intel.com) ([10.254.182.238])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2020 10:46:44 -0800
-From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 1/5] drm: Add function to convert rect in 16.16 fixed
- format to regular format
-Date: Fri, 18 Dec 2020 10:46:57 -0800
-Message-Id: <20201218184701.111857-1-jose.souza@intel.com>
-X-Mailer: git-send-email 2.29.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD5889B9F
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 19:06:35 +0000 (UTC)
+X-Gm-Message-State: AOAM5315X8fQF8r0Fr4yWnZBuZZm8K4Rb146KOPEo4AZis3gC51tcOpz
+ b80Cq38TcTs0CMPTRKRrRe1JVTmlJTukXAuwFFo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608318395;
+ bh=XqqUPWojYmVPa7mNvfdt2K6nsdL8qf0Nn64FWqOiRfg=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=K8LTNF5EAIrDyyXbJeLPbpVxfZPtM1t9yg9CmbfDklpEk9fQA+2rcQjBGXyOKXWNs
+ KnG6JEoXiT1DkDaBaIix0tcxqVtbnprR9VZDmQypUz/KB98LQIGKbiV5siz0ebror9
+ GvUM9JXZLrFckVytdmYbqvoxrhwILRjNreh2HS/00aYqe0Ob1Sl2tlelW36e0KKGq4
+ KAoPvNRSyiy3RsWLymEdiyQhg9Lccl03FCLahdSAi3HhVsEdua40DOlrj4suZ1qRv3
+ IIrRTkrleDKt9AzW6gUmWryJtTDSgVyEXwxbJp12eePcIaY+orThiOWXygB0Vjml7y
+ nQ/jrt8UnY6BA==
+X-Google-Smtp-Source: ABdhPJz3HweeVkhoNpDXXFqFCDgm+Kc4nRywUlwowz8nue7LdkTL2NF8tT9eRO6IkY6jUhdwzE1scnHXL/1l4urtg5I=
+X-Received: by 2002:a05:6638:83:: with SMTP id
+ v3mr5077068jao.106.1608318394559; 
+ Fri, 18 Dec 2020 11:06:34 -0800 (PST)
 MIME-Version: 1.0
+References: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
+In-Reply-To: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Fri, 18 Dec 2020 14:06:23 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
+Message-ID: <CA+5PVA58UnGhdurXuQq8=46yr=OvyMfqhRvjbzjBe7KPfRK_TA@mail.gmail.com>
+Subject: Re: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI
+ bridge
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux-arm Msm <linux-arm-msm@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TXVjaCBtb3JlIGNsZWFyIHRvIHJlYWQgb25lIGZ1bmN0aW9uIGNhbGwgdGhhbiBmb3VyIGxpbmVz
-IGRvaW5nIHRoaXMKY29udmVyc2lvbi4KCnY3OgotIGZ1bmN0aW9uIHJlbmFtZWQKLSBjYWxjdWxh
-dGluZyB3aWR0aCBhbmQgaGVpZ2h0IGJlZm9yZSB0cnVuY2F0ZQotIGlubGluZWQKCkNjOiBWaWxs
-ZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgpDYzogZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogR3dhbi1neWVvbmcgTXVuIDxnd2FuLWd5ZW9uZy5t
-dW5AaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3Nl
-LnNvdXphQGludGVsLmNvbT4KLS0tCiBpbmNsdWRlL2RybS9kcm1fcmVjdC5oIHwgMTMgKysrKysr
-KysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9p
-bmNsdWRlL2RybS9kcm1fcmVjdC5oIGIvaW5jbHVkZS9kcm0vZHJtX3JlY3QuaAppbmRleCBlN2Y0
-ZDI0Y2RkMDAuLjdlYjg0YWY0YTgxOCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3JlY3Qu
-aAorKysgYi9pbmNsdWRlL2RybS9kcm1fcmVjdC5oCkBAIC0yMDYsNiArMjA2LDE5IEBAIHN0YXRp
-YyBpbmxpbmUgYm9vbCBkcm1fcmVjdF9lcXVhbHMoY29uc3Qgc3RydWN0IGRybV9yZWN0ICpyMSwK
-IAkJcjEtPnkxID09IHIyLT55MSAmJiByMS0+eTIgPT0gcjItPnkyOwogfQogCisvKioKKyAqIGRy
-bV9yZWN0X2ZwX3RvX2ludCAtIENvbnZlcnQgYSByZWN0IGluIDE2LjE2IGZpeGVkIHBvaW50IGZv
-cm0gdG8gaW50IGZvcm0uCisgKiBAZGVzdGluYXRpb246IHJlY3QgdG8gYmUgc3RvcmVkIHRoZSBj
-b252ZXJ0ZWQgdmFsdWUKKyAqIEBzb3VyY2U6IHJlY3QgaW4gMTYuMTYgZml4ZWQgcG9pbnQgZm9y
-bQorICovCitzdGF0aWMgaW5saW5lIHZvaWQgZHJtX3JlY3RfZnBfdG9faW50KHN0cnVjdCBkcm1f
-cmVjdCAqZGVzdGluYXRpb24sCisJCQkJICAgICAgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpzb3Vy
-Y2UpCit7CisJZHJtX3JlY3RfaW5pdChkZXN0aW5hdGlvbiwgc291cmNlLT54MSA+PiAxNiwgc291
-cmNlLT55MSA+PiAxNiwKKwkJICAgICAgZHJtX3JlY3Rfd2lkdGgoc291cmNlKSA+PiAxNiwKKwkJ
-ICAgICAgZHJtX3JlY3RfaGVpZ2h0KHNvdXJjZSkgPj4gMTYpOworfQorCiBib29sIGRybV9yZWN0
-X2ludGVyc2VjdChzdHJ1Y3QgZHJtX3JlY3QgKnIsIGNvbnN0IHN0cnVjdCBkcm1fcmVjdCAqY2xp
-cCk7CiBib29sIGRybV9yZWN0X2NsaXBfc2NhbGVkKHN0cnVjdCBkcm1fcmVjdCAqc3JjLCBzdHJ1
-Y3QgZHJtX3JlY3QgKmRzdCwKIAkJCSAgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsKLS0g
-CjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Pulled and pushed out.
+
+josh
+
+On Thu, Dec 10, 2020 at 7:46 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Hello linux-firmware maintainers,
+>
+> The following changes since commit 7455a36066741a6e52fba65e04f6451b4cdfd9c4:
+>
+>   Merge branch 'guc_v49' of git://anongit.freedesktop.org/drm/drm-firmware into main (2020-11-30 09:26:11 -0500)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/lumag/linux-firmware lt9611uxc
+>
+> for you to fetch changes up to 63ab3db8399a504048716eb3feed2867da58876a:
+>
+>   linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge (2020-12-11 03:27:38 +0300)
+>
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (1):
+>       linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge
+>
+>  LICENSE.Lontium  |   2 ++
+>  WHENCE           |   8 ++++++++
+>  lt9611uxc_fw.bin | Bin 0 -> 17932 bytes
+>  3 files changed, 10 insertions(+)
+>  create mode 100644 LICENSE.Lontium
+>  create mode 100644 lt9611uxc_fw.bin
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
