@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED962DDFF4
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:35:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 461BF2DF515
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Dec 2020 12:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063F78930E;
-	Fri, 18 Dec 2020 08:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA5089498;
+	Sun, 20 Dec 2020 11:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4AF89CD9
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 08:34:29 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BI8YLNd088847;
- Fri, 18 Dec 2020 02:34:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608280461;
- bh=+AsqQXhaLlHomK8LtuyuLC+nrR1nfgdnGZarId8P5ag=;
- h=From:To:CC:Subject:Date;
- b=GOgmoRUA9guDxKSMZ5dGqSXvTIGgpveRT68U7Ub03FEwIBp0B46diceMYUFeq11SY
- +y/y5HwP8veq16s2KfUp0SVoFD5xMe+Gi45aVQpxIJ0XXtBXUwvC70ca7jTZatBXgH
- Aux8hkfkKZdJnzQF/fFxaIqLGH54iZPEgXQmlX+Q=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BI8YLsw072874
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 18 Dec 2020 02:34:21 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 18
- Dec 2020 02:34:21 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 18 Dec 2020 02:34:20 -0600
-Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BI8YHIY077604;
- Fri, 18 Dec 2020 02:34:18 -0600
-From: Peter Ujfalusi <peter.ujfalusi@ti.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <a.hajda@samsung.com>, <narmstrong@baylibre.com>, <sam@ravnborg.org>
-Subject: [PATCH v2] dt-bindings: display: bridge: tc358768: Change maintainer
- information
-Date: Fri, 18 Dec 2020 10:35:22 +0200
-Message-ID: <20201218083522.21743-1-peter.ujfalusi@ti.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: from regular1.263xmail.com (unknown [211.150.70.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D85856E041
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 08:52:20 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.13])
+ by regular1.263xmail.com (Postfix) with ESMTP id 3654B7BD;
+ Fri, 18 Dec 2020 16:52:07 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from firstlove-e500.uniontech.com (unknown [58.246.122.242])
+ by smtp.263.net (postfix) whith ESMTP id
+ P20464T140378424461056S1608281527159800_; 
+ Fri, 18 Dec 2020 16:52:07 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <d45e1d1d33253eb83d909f1e41a21d4a>
+X-RL-SENDER: chenli@uniontech.com
+X-SENDER: chenli@uniontech.com
+X-LOGIN-NAME: chenli@uniontech.com
+X-FST-TO: christian.koenig@amd.com
+X-SENDER-IP: 58.246.122.242
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+Date: Fri, 18 Dec 2020 16:52:13 +0800
+Message-ID: <87v9czxzr6.wl-chenli@uniontech.com>
+From: Chen Li <chenli@uniontech.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
+In-Reply-To: <0a449ae3-c55b-e1da-836c-3192eea5cb92@amd.com>
+References: <877dpiz4sf.wl-chenli@uniontech.com>
+ <4277816d-db00-7e81-a2fb-069aeee18e8b@amd.com>
+ <875z51zwsq.wl-chenli@uniontech.com>
+ <90b625e2-2409-d13b-2456-483ad4eef18f@amd.com>
+ <873605z1du.wl-chenli@uniontech.com>
+ <7920fd29-3f95-2109-07ee-15659e80dc40@amd.com>
+ <877dpgimec.wl-chenli@uniontech.com>
+ <b21a574d-ca11-c139-eaae-61a75cc4278b@amd.com>
+ <87y2hvydox.wl-chenli@uniontech.com>
+ <0a449ae3-c55b-e1da-836c-3192eea5cb92@amd.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+X-Mailman-Approved-At: Sun, 20 Dec 2020 11:10:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,51 +67,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, peter.ujfalusi@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, Chen Li <chenli@uniontech.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My employment with TI is coming to an end and I will not have access to
-the board where this bridge is connected to and I will also loose access to
-the manual of the chip.
+On Fri, 18 Dec 2020 16:10:12 +0800,
+Christian K=F6nig wrote:
+> =
 
-Add the missing copyright information, author and change the maintainer to
-Sam Ravnborg (thank you for volenteering!)
+> Am 18.12.20 um 04:51 schrieb Chen Li:
+> > [SNIP]
+> >>>> If your ARM base board can't do that for some then you can't use the=
+ hardware
+> >>>> with that board.
+> >>> Good to know, thanks! BTW, have you ever seen or heard boards like mi=
+ne which cannot mmap device memory correctly from userspace correctly?
+> >> Unfortunately yes. We haven't been able to figure out what exactly goe=
+s wrong in
+> >> those cases.
+> > Ok. one more question: only e8860 or all radeon cards have this issue?
+> =
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
----
- .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml  | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> This applies to all hardware with dedicated memory which needs to be mapp=
+ed to
+> userspace.
+> =
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-index c036a75db8f7..c08fd42be2d0 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-@@ -1,4 +1,6 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2020 Texas Instruments Incorporated
-+# Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
- %YAML 1.2
- ---
- $id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml#
-@@ -7,7 +9,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
- 
- maintainers:
--  - Peter Ujfalusi <peter.ujfalusi@ti.com>
-+  - Sam Ravnborg <sam@ravnborg.org>
- 
- description: |
-   The TC358768/TC358778 is bridge device which converts RGB to DSI.
--- 
-Peter
+> That includes all graphics hardware from AMD as well as NVidia and probab=
+ly a
+> whole bunch of other PCIe devices.
 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Can mmio on these devices work fine in kernel space? I cannot see the diffe=
+rence here except user space should use uncacheable mmap to map virtual mem=
+ory to device space(though I don't know how to use uncacheable mmap), while=
+ kernel use uncache ioremap. =
+
+
+> =
+
+> >>>       The graphics address remapping table (GART),[1] also known as t=
+he graphics aperture remapping table,[2] or graphics translation table (GTT=
+),[3] is an I/O memory management unit (IOMMU) used by Accelerated Graphics=
+ Port (AGP) and PCI Express (PCIe) graphics cards.
+> >> GART or GTT refers to the translation tables graphics hardware use to =
+access
+> >> system memory.
+> >> =
+
+> >> Something like 15 years ago we used the IOMMU functionality from AGP to
+> >> implement that. But modern hardware (PCIe) uses some specialized hardw=
+are in the
+> >> GPU for that.
+> >> =
+
+> >> Regards,
+> >> Christian.
+> >> =
+
+> >> =
+
+> >> =
+
+> > Good to know, thanks! So modern GART/GTT is like tlb, and iommu is forc=
+used on translating address and not manager the tlb.
+> =
+
+> You are getting closer in your understanding, but the TLB is the Translat=
+ion
+> lookaside buffer. Basically a cache of recent VM translations which is pr=
+esent
+> is all page table translations (GART, IOMMU, CPU etc...).
+> =
+
+> The key difference is where the page table translation happens on modern
+> hardware:
+> 1. For the GART/GTT it is inside the GPU to translate between GPU interna=
+l and
+> bus addresses.
+> 2. For IOMMU it is inside the root complex of the PCIe to translate betwe=
+en bus
+> addresses and physical addresses.
+> 3. For CPU page tables it is inside the CPU core to translate between vir=
+tual
+> addresses and physical addresses.
+> =
+
+> Regards,
+> Christian.
+> =
+
+> =
+
+
+Awesome explaination! Thanks in a ton!
+
 
 _______________________________________________
 dri-devel mailing list
