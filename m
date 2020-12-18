@@ -1,91 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAC42DDFE3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:34:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B679C2DDF8E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 09:32:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D06A89EF7;
-	Fri, 18 Dec 2020 08:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0588982D;
+	Fri, 18 Dec 2020 08:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 918608932A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 01:30:09 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id c7so734765qke.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Dec 2020 17:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FlzZUJfPIo/OH1jFNsGG0mnzt+yumukPpDHoEtQ6tGM=;
- b=KLm+nt6M7hYaygrw/dmD51ttbZ0mv35U/7G82r1EoVQlOAGrt225MJJXQSuUOXtPm6
- FJp/4hiN1ydd2fh0UPTYNWB9sT0fAUSydxpsjPWBUZGsgllQE72OlfCvUefNQfECg/zF
- 4trOTx7upSMbnYWLl0ZeflM2zhODnA+ZtqN3Gz07Y/Hbhzyw7OiaYqYBWQyGnH9h6piR
- iw55OraBHfDSCbeDvplpPAnuMro9/4MvnjdxtRLe2f5Ic+YT7xufUFbAvK1yfeibP3nM
- HY9sssFLJcbnwLed+d2xGexu77/tHAwGKXy5nbdxxJcCiMV0jqIpfqOPCzq9IGFeLneI
- uQnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FlzZUJfPIo/OH1jFNsGG0mnzt+yumukPpDHoEtQ6tGM=;
- b=axwSKlZhUVnVGJfHS21VgzOZUM0mD4Fdf1VFcqtURdYJxvzXrlc3lmXsp/K+Hyb0Zk
- +n/CfCc6TNsFy83x6QRov6o4Bp5Esb5PFfi0H4qNacTwODakaF2m2n6hPb9EPoQQusjo
- 3n13DP+U+Wuvz9D9bO3eW0EwHII04WiLGc2JcnJV00QQ+YnoOQxHLbKXfJ7dsSOYvSQ/
- u1mYhGU5ylGyM2g5i//G42Y8hQaxJJ/lpj6Y7ATl1pHdPzsODNfwG41bIBifiIp2K1wF
- EvGeA7glk8HgEbwt50xe6gVkeDO1iek23nNqwtFnVmlTchTDdB7SLfRyqP+hwUVUqQQC
- WxuQ==
-X-Gm-Message-State: AOAM531jTw4B2BFvOr45ZrZ1WzYkT9b0BmMwiDcaQj8B2rCjkMKFGiKz
- L5edVenNBvDMMYLScM61Cxo=
-X-Google-Smtp-Source: ABdhPJzU3gGLz9E7SsRAOeBN9zQFYwjsGwxOR0/mCud6GSErfYQ/sJ53R9zkiXAFGa210+Ztto3z7Q==
-X-Received: by 2002:ae9:ef88:: with SMTP id d130mr2419488qkg.92.1608255007591; 
- Thu, 17 Dec 2020 17:30:07 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com.
- [66.111.4.227])
- by smtp.gmail.com with ESMTPSA id b3sm4884957qkf.74.2020.12.17.17.30.06
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 17 Dec 2020 17:30:06 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailauth.nyi.internal (Postfix) with ESMTP id 6AB2F27C0054;
- Thu, 17 Dec 2020 20:30:04 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 17 Dec 2020 20:30:04 -0500
-X-ME-Sender: <xms:GAbcX-tGsqabKdZNhluvXM8jPOE5WVDL2pRS77eTf4yjxDb7HFjA4Q>
- <xme:GAbcXzdwOZjz4Wdy-w5SQa6AtKUFUCbxQEZAkCkT3k8HYa29_-AUopeVKfFF2cCQC
- zpBbiu_GMmBsRkB6g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelhedgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- goufhushhpvggtthffohhmrghinhculdegledmnecujfgurhepfffhvffukfhfgggtuggj
- sehttdertddttddvnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvg
- hnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepheevgfdtheehheeggfeg
- teefgfekgfetveehfedvfeelfefftdfffedttdeitedunecuffhomhgrihhnpehshiiikh
- grlhhlvghrrdgrphhpshhpohhtrdgtohhmpdhqvghmuhdrohhrghdpghhoohdrghhlpdhf
- fhiflhhlrdgthhenucfkphepudeijedrvddvtddrvddruddvieenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgr
- uhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsoh
- hquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:GAbcX5yJWoc0VJXJf9FjGeWaMCjNd7VU3Sc0cr-1Yo96cFgBCB8Ypg>
- <xmx:GAbcX5Mr4mEcHla12-_jKQ7kkG-LKDUZsyaripIcYyYDdbbxE-MNEA>
- <xmx:GAbcX-9jOsLjCGxqRzFSlqASMMDqD9tsdymzPmHlB7NQUQZFV09pog>
- <xmx:HAbcXyVWCDi1ukH34t3O3A7YSpnFP0wERDVE5O5WDIg_KaOP4QgBkCZoAEI>
-Received: from localhost (unknown [167.220.2.126])
- by mail.messagingengine.com (Postfix) with ESMTPA id A681824005C;
- Thu, 17 Dec 2020 20:30:00 -0500 (EST)
-Date: Fri, 18 Dec 2020 09:29:41 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: WARNING: suspicious RCU usage in modeset_lock
-Message-ID: <X9wGBcCnhxr36WF4@boqun-archlinux>
-References: <000000000000cb6db205b68a971c@google.com>
- <CAKMK7uEiS5SrBYv-2w2wWL=9G4ByoHvtiWVsPqekswZzOGmzjg@mail.gmail.com>
- <20201216161621.GH2657@paulmck-ThinkPad-P72>
- <CAKMK7uH1agVS=e245b=25Lv9Q+u5c7=KL-_NF8Hte10nKTqAXw@mail.gmail.com>
- <20201217152118.GR2657@paulmck-ThinkPad-P72>
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70079.outbound.protection.outlook.com [40.107.7.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 393A289A16
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 01:47:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q0nhspcRbs/fnR2fRtkmKMqsQjHHu3HGpJm/ZUHOtRG9L9PP/f65sK8JkxEDkuf19o910vIMX9oHVhk3IyOdfedOQYTvSEY8Xfpjbi0LMwVWPOdwxcEKYQI+sz2jfPaZExGLYy3s7sDQIkHTKIWO+Bx9xWrJCT+rERiO4cH4aPF02Tb2QkNjHCQ55LrOAXn6ZAVYqlFrItguQuPXOfapCGyR49kZJb++42GscEnbsWL/POdVbbdU29ygiq6VS9BmU/1HpK7B0+DdvC0M6p+5+Z8voqXq3WN1KZRisKTUDHeJfWOAKxMl58igRIPuvWmFGe8+Krvyl3jM07hkeWSzoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vnoyM5dGeoAu7/zNTI7TPCY/3SeXr/o4XIuCeW+6AGA=;
+ b=CyOgFb2qygcRm83xjlV9ei71VYBNiXJ3WjGHTBQ9hYeKSn0Lf6pO0ZwBsBDfqN93baqiRfP1DWsOLQk73YtOS6jjX9aNtjZXX17fOASXayP8APnmo+Y/XYoP/r+xNtC5hWcLblEB+au+h0HYmh+U3dtxX5rj9YyOpVomfzm3qUMpKdJWYBYK0V/4VuwzRtJc5PAV3Ji300DaW/o2lRk9QoEoSvQotYlqLYbgSQiajAHMvv850sCl+KiTQgjMwsu2WLirw61q4HOLp9cLY4LhkAjiWGckVpr5+smj2181ijx2dCNC2u3L8nW3pVxp+CgwcN60/8YEVCu7GTVQ+QKbfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vnoyM5dGeoAu7/zNTI7TPCY/3SeXr/o4XIuCeW+6AGA=;
+ b=L5ClLqoDCeCWoX4ezY8tJekTWbRLpoznX7FUd4zD7O/1zmaWE4fJ1db7uMMH10nZZ9e7nchmKUgPPlsHLEy13DE2Lgv/9UGecw21j3gfwgKCuyQShKFYZq0O+2XHcBYJh91ABULC6mRoB3OuuMlffk8CZDYxTAGKdhkA9leeW2w=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB7183.eurprd04.prod.outlook.com (2603:10a6:800:128::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Fri, 18 Dec
+ 2020 01:47:53 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3654.024; Fri, 18 Dec 2020
+ 01:47:53 +0000
+Message-ID: <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
+Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
+ pixel combiner binding
+From: Liu Ying <victor.liu@nxp.com>
+To: Rob Herring <robh@kernel.org>
+Date: Fri, 18 Dec 2020 09:45:58 +0800
+In-Reply-To: <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+ <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
+ <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR06CA0190.apcprd06.prod.outlook.com (2603:1096:4:1::22)
+ To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201217152118.GR2657@paulmck-ThinkPad-P72>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry.ap.freescale.net (119.31.174.66) by
+ SG2PR06CA0190.apcprd06.prod.outlook.com (2603:1096:4:1::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3676.28 via Frontend Transport; Fri, 18 Dec 2020 01:47:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4adaa7b7-fba4-43ed-e674-08d8a2f6ef8a
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7183:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB7183C8345990BEBF464A9C2198C30@VI1PR04MB7183.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xhVuj3XHmQ/0MSFWH58qcCSUWPZeBikBEwwlp8m9Ska5TlV9qLc/O6l18UMs2Myc5wuWm5nlgWKpb8pjarEfTtXUQUCslKpzLBGIN0OlfeImQ4gR+GSlRMlbR5BcnV/xmmRVBHoNdnpJjVM6Zo1Q0jU7yYvC7H2PdGlWIYnCEyNhEy6EjQcAJKiDgIO0mzc/tJFHMsL4mrkCY56Ur/R8RCUkfzqh5y2E/FP7bFzDLQZ8aRuznwbqH7QNhfrtRNkmimIGaxYtW9k52igBu9Zsu+4u8TEcv4cdio77UGxlHbuGE7sJkBgdaIsvwlzeyViKMsVuTZ82LHUaL12OMilMa+OJ4hAS9VFZj/BgF32yEXW7kZFHrdLlOGpOedQAgfYp19KBMnRfwq0eH4J2Cdpja3PDu95V74F45ndiaagKNK0qxovz/xIPmfPcgU5/LuN1YBw9Ub3W06lAqDk3NZo/fQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(39860400002)(396003)(346002)(376002)(5660300002)(7416002)(2616005)(86362001)(956004)(6506007)(66946007)(52116002)(478600001)(6666004)(66556008)(966005)(16526019)(66476007)(26005)(316002)(6486002)(2906002)(6916009)(8936002)(83380400001)(8676002)(6512007)(4326008)(4001150100001)(36756003)(186003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UWhYbml5OXdRYUhCZmRqNU5saC9tNGplRzAvOEVlVzA2bS9EclRlUWI2VEMz?=
+ =?utf-8?B?WVl2QUtMTUJmWGtVbVE2bE0xL1FoVlRUaTVrTWN0TkhROXQrakp5UHFJRGlH?=
+ =?utf-8?B?eWh4dVB2Wk5PckROUFZudTVJNjlQRXRMTktpcmhLUjlQK0hpZ1RsUnZoVzlR?=
+ =?utf-8?B?ZUdidTEvTDNYSmdObml2NC9IaVJtMnZmQ0wydUk5UEllaHNFckx4b1F6QmI5?=
+ =?utf-8?B?YzNHS0JuZTZhV2RuTWlPa3pRcEI4S3dFMUlwd2cvOFdjZHloRCtvcUY1Zzly?=
+ =?utf-8?B?Ym0xd0RZUjhQYWpwQUNOY0NsSU13U1FQWDJWK0hiSTB5OThnRzZZTWRYQjVT?=
+ =?utf-8?B?L0tnYmlrcHhRT0xjUUgyVDg2UUovQ0RGYmZJdkxQMHcwREVwbGJML09aRGdj?=
+ =?utf-8?B?K3ZvaW1IYkdyeXNYVmk4SFVYdEhheVJabHVWUHo0Um96L3lQQW9Dbkx2WXlp?=
+ =?utf-8?B?T2JMbmNFeEZVQnBCQ0g5TmNEV0FiblJVRnRGNUVNRUE0SFY0eFFHcjdIWVVo?=
+ =?utf-8?B?MnVZZmk5aURPU0pFVS8wc1c5VzNzR3Zta0h5N0FyL0ZDeGlLRXpMK2tOVFFX?=
+ =?utf-8?B?cGY0UHJWdG9CUFJCdVppR0IvWDdYV0VnUFlHcmp1RWpZemc5bmVwS2tMYXN6?=
+ =?utf-8?B?UERNR2w1TVZuWnRXeWF5elI1U3dPajNXOThxL0xWaTZ6NDFIYVRVd3g4eVlJ?=
+ =?utf-8?B?anhRKzdhbFNueDZUTVRtVE5JUSs3YXJ3UDJiQ3hkakZydHN1VXdUc3FsM0dt?=
+ =?utf-8?B?Q21rMnlINEpYUVY0MW1WUE5KR01VbXp0Mm1HY0RPWlZSeTZEdkRpclBncDFs?=
+ =?utf-8?B?ZmpEZGZQaHNCVUdpSUw4WnFnOUxjQkZOK21DOXlZcTl0UHpxaUQzQVkyMkx5?=
+ =?utf-8?B?cDNTSzNWdFh5WEJBVVdSTnoyRlV5a3NERWE0S2gwOUg2K2tUMXlXM2JxUmVL?=
+ =?utf-8?B?Tk1Jdks3cGtlRnZHQmpYTW9reVkyMndJV1dOUTNxTFdpR3VLVXNTL09UTUlx?=
+ =?utf-8?B?WXZFdGVFQjZHcFdud2JidnVSOG13OTJ5TVY0WWM5Z2lFTW9teDh2ejVKWUVh?=
+ =?utf-8?B?QzhpL2xpZEhRTVRkeDZDTVhjcStXUytEeVpYeFFtY2VKS1BMVW9iZHpoZEtM?=
+ =?utf-8?B?dWMrYU1Gbzc3MEJuSXdsaTd0YWs2eXhyYk1nNW1HWjVuemdHNTMyVGFKVGtN?=
+ =?utf-8?B?bUxuQ2VlNXg5MTNRRHJEYTI3MEIrSDRNYXFFK1F3dVY5NWtMTzBGVHU0a0Ey?=
+ =?utf-8?B?cmxLbExtN0ZDTlprOCt2dU5XcnJqM25RQ09TRVQ1ZXY0L2FBTVlLVnR2ZVF6?=
+ =?utf-8?Q?z3Tib1kf0F1UzBkO4H7DgvwAbc5wPjPylL?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 01:47:53.5788 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4adaa7b7-fba4-43ed-e674-08d8a2f6ef8a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BNXWQku3HOAfSdjmr0V1r9t3Oov6ZeAMOlULSzHJSmrkjAxZkNHBvYgtuCefBO9w6fiP1sa/T2BHcabxAkZgWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7183
 X-Mailman-Approved-At: Fri, 18 Dec 2020 08:31:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,235 +119,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- syzbot <syzbot+972b924c988834e868b2@syzkaller.appspotmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, rcu@vger.kernel.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nathan Chancellor <natechancellor@gmail.com>, Peter Rosin <peda@axentia.se>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
+ airlied@linux.ie, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kishon@ti.com, a.hajda@samsung.com,
+ vkoul@kernel.org, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ kernel@pengutronix.de, linux-imx@nxp.com, mchehab@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 17, 2020 at 07:21:18AM -0800, Paul E. McKenney wrote:
-> On Thu, Dec 17, 2020 at 11:03:20AM +0100, Daniel Vetter wrote:
-> > On Wed, Dec 16, 2020 at 5:16 PM Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Wed, Dec 16, 2020 at 10:52:06AM +0100, Daniel Vetter wrote:
-> > > > On Wed, Dec 16, 2020 at 2:14 AM syzbot
-> > > > <syzbot+972b924c988834e868b2@syzkaller.appspotmail.com> wrote:
-> > > > >
-> > > > > Hello,
-> > > > >
-> > > > > syzbot found the following issue on:
-> > > > >
-> > > > > HEAD commit:    94801e5c Merge tag 'pinctrl-v5.10-3' of git://git.kernel.o..
-> > > > > git tree:       upstream
-> > > > > console output: https://syzkaller.appspot.com/x/log.txt?x=130558c5500000
-> > > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=ee8a1012a5314210
-> > > > > dashboard link: https://syzkaller.appspot.com/bug?extid=972b924c988834e868b2
-> > > > > compiler:       gcc (GCC) 10.1.0-syz 20200507
-> > > > > userspace arch: i386
-> > > > >
-> > > > > Unfortunately, I don't have any reproducer for this issue yet.
-> > > > >
-> > > > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > > > Reported-by: syzbot+972b924c988834e868b2@syzkaller.appspotmail.com
-> > > > >
-> > > > > =============================
-> > > > > WARNING: suspicious RCU usage
-> > > > > 5.10.0-rc7-syzkaller #0 Not tainted
-> > > > > -----------------------------
-> > > > > kernel/sched/core.c:7270 Illegal context switch in RCU-sched read-side critical section!
-> > > > >
-> > > > > other info that might help us debug this:
-> > > > >
-> > > > >
-> > > > > rcu_scheduler_active = 2, debug_locks = 0
-> > > > > 7 locks held by syz-executor.1/9232:
-> > > > >  #0: ffffffff8b328c60 (console_lock){+.+.}-{0:0}, at: do_fb_ioctl+0x2e4/0x690 drivers/video/fbdev/core/fbmem.c:1106
-> > > > >  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: lock_fb_info include/linux/fb.h:636 [inline]
-> > > > >  #1: ffff888041bd4078 (&fb_info->lock){+.+.}-{3:3}, at: do_fb_ioctl+0x2ee/0x690 drivers/video/fbdev/core/fbmem.c:1107
-> > > > >  #2: ffff888041adca78 (&helper->lock){+.+.}-{3:3}, at: drm_fb_helper_pan_display+0xce/0x970 drivers/gpu/drm/drm_fb_helper.c:1448
-> > > > >  #3: ffff8880159f01b8 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x1d/0x70 drivers/gpu/drm/drm_auth.c:407
-> > > > >  #4: ffff888041adc898 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x44/0x580 drivers/gpu/drm/drm_client_modeset.c:1143
-> > > > >  #5: ffffc90001c07730 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0xb7/0x7c0 drivers/gpu/drm/drm_client_modeset.c:981
-> > > > >  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: ww_mutex_lock_slow include/linux/ww_mutex.h:287 [inline]
-> > > > >  #6: ffff888015986108 (crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0x31c/0x650 drivers/gpu/drm/drm_modeset_lock.c:260
-> > > >
-> > > > Given that we managed to take all these locks without upsetting anyone
-> > > > the rcu section is very deep down. And looking at the backtrace below
-> > > > I just couldn't find anything.
-> > > >
-> > > > Best I can think of is that an interrupt of some sort leaked an rcu
-> > > > section, and we got shot here. But I'd assume the rcu debugging would
-> > > > catch this? Backtrace of the start of that rcu read side section would
-> > > > be really useful here, but I'm not seeing that in the logs. There's
-> > > > more stuff there, but it's just the usual "everything falls apart"
-> > > > stuff of little value to understanding how we got there.
-> > >
-> > > In my experience, lockdep will indeed complain if an interrupt handler
-> > > returns while in an RCU read-side critical section.
-> > >
-> > > > Adding some rcu people for more insights on what could have gone wrong here.
-> > > > -Daniel
-> > > >
-> > > > > stack backtrace:
-> > > > > CPU: 1 PID: 9232 Comm: syz-executor.1 Not tainted 5.10.0-rc7-syzkaller #0
-> > > > > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-> > > > > Call Trace:
-> > > > >  __dump_stack lib/dump_stack.c:77 [inline]
-> > > > >  dump_stack+0x107/0x163 lib/dump_stack.c:118
-> > > > >  ___might_sleep+0x25d/0x2b0 kernel/sched/core.c:7270
-> > > > >  __mutex_lock_common kernel/locking/mutex.c:935 [inline]
-> > > > >  __ww_mutex_lock.constprop.0+0xa9/0x2cc0 kernel/locking/mutex.c:1111
-> > > > >  ww_mutex_lock+0x3d/0x170 kernel/locking/mutex.c:1190
-> > >
-> > > Acquiring a mutex while under the influence of rcu_read_lock() will
-> > > definitely get you this lockdep complaint, and rightfully so.
-> > >
-> > > If you need to acquire a mutex with RCU-like protection, one approach
-> > > is to use SRCU.  But usually this indicates (as you suspected) that
-> > > someone forgot to invoke rcu_read_unlock().
-> > >
-> > > One way to locate this is to enlist the aid of lockdep.  You can do this
-> > > by putting something like this in the callers:
-> > >
-> > >         RCU_LOCKDEP_WARN(lock_is_held(&rcu_bh_lock_map) ||
-> > >                          lock_is_held(&rcu_lock_map) ||
-> > >                          lock_is_held(&rcu_sched_lock_map),
-> > >                          "We are in an RCU read-side critical section");
-> > >
-> > > This will get you a lockdep complaint much like the one above if the
-> > > caller is in any sort of RCU read-side critical section.  You can push
-> > > this up the call stack one level at a time or just sprinkle it up the
-> > > stack in one go.
-> > >
-> > > The complaint is specifically about RCU-sched, so you could focus on
-> > > that using this instead:
-> > >
-> > >         RCU_LOCKDEP_WARN(lock_is_held(&rcu_sched_lock_map),
-> > >                          "We are in an RCU-sched read-side critical section");
-> > >
-> > > This of course assumes that this is reproducible.  :-/
-> > >
-> > > But even if it isn't reproducible, for example, if the mutex is only
-> > > acquired occasionally, these RCU_LOCKDEP_WARN() calls can be used to
-> > > check assumptions about state.
+Hi,
+
+On Thu, 2020-12-17 at 12:50 -0600, Rob Herring wrote:
+> On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
+> > This patch adds bindings for i.MX8qm/qxp pixel combiner.
 > > 
-> > I think we're tripping over the might_sleep() all the mutexes have,
-> > and that's not as good as yours, but good enough to catch a missing
-> > rcu_read_unlock(). That's kinda why I'm baffled, since like almost
-> > every 2nd function in the backtrace grabbed a mutex and it was all
-> > fine until the very last.
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
+> >  1 file changed, 160 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
 > > 
-> > I think it would be really nice if the rcu checks could retain (in
-> > debugging only) the backtrace of the outermost rcu_read_lock, so we
-> > could print that when something goes wrong in cases where it's leaked.
-> > For normal locks lockdep does that already (well not full backtrace I
-> > think, just the function that acquired the lock, but that's often
-> > enough). I guess that doesn't exist yet?
 > 
-> I thought that lockdep kept those traces in order to print them in
-> deadlock reports.  Adding Boqun for his perspective.
+> My bot found errors running 'make dt_binding_check' on your patch:
 > 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dts:19:18: fatal error: dt-bindings/clock/imx8-lpcg.h: No such file or directory
+>    19 |         #include <dt-bindings/clock/imx8-lpcg.h>
+>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> compilation terminated.
+> make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dt.yaml] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1364: dt_binding_check] Error 2
+> 
+> See https://patchwork.ozlabs.org/patch/1417599
+> 
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
 
-I'm afraid it's not the same as you expect. So yes, lockdep will keep
-traces, however, lockdep only keep one trace entry for one usage
-*class*, for example, if you have two function foo() and bar():
+This series can be applied to linux-next/master branch.
+The header file 'imx8-lpcg.h' was added with the below commit on that
+branch:
 
-	void foo(void)
-	{
-		rcu_read_lock();
-		...
-	}
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/include/dt-bindings/clock/imx8-lpcg.h?id=540742fb109fa4a65f116db9edc28ab1bd2c872d
 
-	void bar(void)
-	{
-		rcu_read_lock();
-		...
-	}
-
-, and during runtime, both are called in thread contexts with irq
-enabled. There will be only one trace (the first one that lockdep see)
-getting recorded ;-(
-
-That said, from the held lock status for this splat, I don't see a
-rcu_read_lock_sched() is held, so I guess that the RCU read-side
-critical section is introduced by a preempt_disable() rather than a
-explicit rcu_read_lock_sched(), if that's the case, lockdep cannot help
-either, because after all preempt_disable() is not a lock, lockdep won't
-keep a trace for it.
-
-Maybe preemption tracing can help here?
+With that header file, this patch may pass 'make dt_binding_check'. 
 
 Regards,
-Boqun
+Liu Ying
 
-> 							Thanx, Paul
 > 
-> > Also yes without reproducer this is kinda tough nut to crack.
-> > -Daniel
-> > 
-> > >
-> > >                                                         Thanx, Paul
-> > >
-> > > > >  modeset_lock+0x392/0x650 drivers/gpu/drm/drm_modeset_lock.c:263
-> > > > >  drm_modeset_lock drivers/gpu/drm/drm_modeset_lock.c:342 [inline]
-> > > > >  drm_modeset_lock+0x50/0x90 drivers/gpu/drm/drm_modeset_lock.c:338
-> > > > >  drm_atomic_get_plane_state+0x19d/0x510 drivers/gpu/drm/drm_atomic.c:481
-> > > > >  drm_client_modeset_commit_atomic+0x225/0x7c0 drivers/gpu/drm/drm_client_modeset.c:994
-> > > > >  drm_client_modeset_commit_locked+0x145/0x580 drivers/gpu/drm/drm_client_modeset.c:1145
-> > > > >  pan_display_atomic drivers/gpu/drm/drm_fb_helper.c:1395 [inline]
-> > > > >  drm_fb_helper_pan_display+0x28b/0x970 drivers/gpu/drm/drm_fb_helper.c:1455
-> > > > >  fb_pan_display+0x2f7/0x6c0 drivers/video/fbdev/core/fbmem.c:925
-> > > > >  fb_set_var+0x57f/0xda0 drivers/video/fbdev/core/fbmem.c:1043
-> > > > >  do_fb_ioctl+0x2f9/0x690 drivers/video/fbdev/core/fbmem.c:1108
-> > > > >  fb_compat_ioctl+0x17c/0xaf0 drivers/video/fbdev/core/fbmem.c:1315
-> > > > >  __do_compat_sys_ioctl+0x1d3/0x230 fs/ioctl.c:842
-> > > > >  do_syscall_32_irqs_on arch/x86/entry/common.c:78 [inline]
-> > > > >  __do_fast_syscall_32+0x56/0x80 arch/x86/entry/common.c:137
-> > > > >  do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:160
-> > > > >  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-> > > > > RIP: 0023:0xf7fd8549
-> > > > > Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
-> > > > > RSP: 002b:00000000f55d20bc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-> > > > > RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000004601
-> > > > > RDX: 0000000020000240 RSI: 0000000000000000 RDI: 0000000000000000
-> > > > > RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> > > > > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> > > > > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> > > > > detected fb_set_par error, error code: -16
-> > > > >
-> > > > >
-> > > > > ---
-> > > > > This report is generated by a bot. It may contain errors.
-> > > > > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > > > > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> > > > >
-> > > > > syzbot will keep track of this issue. See:
-> > > > > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > 
-> > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit.
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
