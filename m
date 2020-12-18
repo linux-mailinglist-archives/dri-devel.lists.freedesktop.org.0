@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC1A2DEAE1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 22:18:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3972DEBB3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Dec 2020 23:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B16189C83;
-	Fri, 18 Dec 2020 21:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 444E689A8B;
+	Fri, 18 Dec 2020 22:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAAF89C83
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 21:18:06 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id s75so4359405oih.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 13:18:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=03HFPXnAxYNSTh3L20SLd4XBlw3VNwGfa9nRljaVjjk=;
- b=tvXZCpGjVp1Qq3wpP2/eBi37jMMqjHuYiKDHkbmfHQzmAe4YLMAkRTF6xZE4opNUeL
- iRF6Yj4jsN6kY3BTMYKC1BknJeoNd/eTi4PJfgtYrIv5aYEEWXJjC/2qN0J8oxDlbZ29
- f+/C6uF2bqb00knSKHxNPYkq4z80RI7RFR84s1CfysaL6vrxxUM3pL61Os6AXAxTs/pY
- 77dTQ6wORbRui5Hguh97MdBjlkGPBqjgg/PJU6plYA3VU7rxM4l8dRnFDQCAPhk3bu/n
- OYF63HHYBgE2oRi38ZjZbLNCV3F6tlkZxlXzdUDHMwUydSmayQVgEmmjn6rI+z2C6JZb
- xGcQ==
-X-Gm-Message-State: AOAM533XMZsjRO7XreZHzyKO9qfwEw95muNDFUKyCBknImnKMDNimIzt
- UuZ3Ciyp9pq7ZbDd3VfffQ==
-X-Google-Smtp-Source: ABdhPJzp2Vn29fMDo1374G2raWeUpRvXsBe5yqSFqZr9o1/LOLXJmn9Q9gnzEAgSqaGpr8bxwrzA+g==
-X-Received: by 2002:a05:6808:617:: with SMTP id
- y23mr4138266oih.84.1608326285997; 
- Fri, 18 Dec 2020 13:18:05 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id g3sm1761819ooi.28.2020.12.18.13.18.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Dec 2020 13:18:05 -0800 (PST)
-Received: (nullmailer pid 2191933 invoked by uid 1000);
- Fri, 18 Dec 2020 21:18:04 -0000
-Date: Fri, 18 Dec 2020 15:18:04 -0600
-From: Rob Herring <robh@kernel.org>
-To: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: Re: [PATCH v2 1/1] dt-bindings: display: eliminate yamllint warnings
-Message-ID: <20201218211804.GD2190633@robh.at.kernel.org>
-References: <20201207044830.1551-1-thunder.leizhen@huawei.com>
- <20201207044830.1551-2-thunder.leizhen@huawei.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE9B89A8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Dec 2020 22:42:52 +0000 (UTC)
+X-Gm-Message-State: AOAM5309EAOynbC2tnR69t2al90das7yFWISiReT0+flA5GGwEhNItAn
+ 6lb3ffgtGeVJVQLL3jIt4/aQf9J7F/3SHEYVxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608331372;
+ bh=teoJSCyQ35FKEt1l7jtvY4FHIkY/MC2pFjf82N1a7x8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rDvnvJ1UGc/yxbETR9SFwICtFriCq8S4SSVtPzMw72dOKmv+I0MUwOj9IMZE3AMf7
+ +2gjY1d0XvwnkYMgeqXRuDWFgxEvXlLIoNGPFMzl/Rb6IflnUHep5jreJWOybSR56Z
+ E4Z8j7LEZluuCZFIb85pL5xAg9+sAtUFYK8Soy55f4uYLWUZM9ChFZaTY5c7iJdrmz
+ +ao4eqgwT771hMZRAc28mZL4EU2P4H3u8h8kI1EwJojM0v0vaSR7NP7e/9TvIQ8mZJ
+ XkoxTvy2gl8AAI/669RLYd1oxQFMsfji9ElenKbnSncRuePtTM7B7oqqm4oXLzGCTD
+ xmd8Kqc+xP8zA==
+X-Google-Smtp-Source: ABdhPJw9CmTiK/5DXVy1oCGmEYJHnWGGuOTm6/bF1LcvdA7fZjYwB/Q4rwq8PO2wpAomgkDuC068Sj33ePY0fBORLGQ=
+X-Received: by 2002:a17:906:1197:: with SMTP id
+ n23mr6123853eja.359.1608331370605; 
+ Fri, 18 Dec 2020 14:42:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201207044830.1551-2-thunder.leizhen@huawei.com>
+References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
+ <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
+ <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
+ <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
+In-Reply-To: <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 18 Dec 2020 16:42:39 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
+Message-ID: <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
+Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp pixel
+ combiner binding
+To: Liu Ying <victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,41 +53,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Vinod <vkoul@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sascha Hauer <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Dec 2020 12:48:30 +0800, Zhen Lei wrote:
-> Eliminate the following yamllint warnings:
-> ./Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> :52:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
-> 
-> ./Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
-> :42:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-> :45:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-> 
-> ./Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-> :21:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
-> 
-> ./Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-> :25:10: [warning] wrong indentation: expected 10 but found 9 (indentation)
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml          | 4 ++--
->  .../devicetree/bindings/display/bridge/intel,keembay-dsi.yaml         | 4 ++--
->  Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml   | 4 ++--
->  Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml | 2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)
-> 
+On Thu, Dec 17, 2020 at 7:48 PM Liu Ying <victor.liu@nxp.com> wrote:
+>
+> Hi,
+>
+> On Thu, 2020-12-17 at 12:50 -0600, Rob Herring wrote:
+> > On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
+> > > This patch adds bindings for i.MX8qm/qxp pixel combiner.
+> > >
+> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > > ---
+> > >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
+> > >  1 file changed, 160 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> > >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dts:19:18: fatal error: dt-bindings/clock/imx8-lpcg.h: No such file or directory
+> >    19 |         #include <dt-bindings/clock/imx8-lpcg.h>
+> >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > compilation terminated.
+> > make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.example.dt.yaml] Error 1
+> > make[1]: *** Waiting for unfinished jobs....
+> > make: *** [Makefile:1364: dt_binding_check] Error 2
+> >
+> > See https://patchwork.ozlabs.org/patch/1417599
+> >
+> > This check can fail if there are any dependencies. The base for a patch
+> > series is generally the most recent rc1.
+>
+> This series can be applied to linux-next/master branch.
 
-Applied, thanks!
+I can't know that to apply and run checks automatically. I guessed
+that reviewing this before sending, but I want it abundantly clear
+what the result of applying this might be and it wasn't mentioned in
+this patch.
+
+Plus linux-next is a base no one can apply patches to, so should you
+be sending patches based on it? It's also the merge window, so maybe
+wait until rc1 when your dependency is in and the patch can actually
+be applied. Also, the drm-misc folks will still need to know they need
+to merge rc1 in before this is applied.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
