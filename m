@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC422DF6BF
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Dec 2020 21:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6722DF724
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 00:43:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8149B6E185;
-	Sun, 20 Dec 2020 20:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0376E3D2;
+	Sun, 20 Dec 2020 23:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996E56E185
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 20:05:20 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01A8731A;
- Sun, 20 Dec 2020 21:05:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608494719;
- bh=WRT4qE0nvqCxGhxafhRoygvhc3ychpCBF1FuQ4wNglQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JNVBPFdrFV2jOCZtuzydqfC2xxHDEgMgX+QgxdaADMxh/frh4xVJ4PG/HJ8DWQbUq
- Q7gBp+rLytKpyOMnOoFjxbZH8t8u6+d8LW1+SrqV8rL0fz61zJDpQ82n2aOqYC0jI4
- n2bqHnonQ2xoY0MdFumX3U+JgnswwI6y1kLA2/44=
-Date: Sun, 20 Dec 2020 22:05:11 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 0/6] dt-bindings: display: Convert DWC HDMI TX
- bindings to YAML
-Message-ID: <X9+ud1Xd0ZAAB2Zd@pendragon.ideasonboard.com>
-References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67FC96E3D2
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 23:43:38 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210805] New: Sapphire Nitro+ RX6800 momentary graphical
+ corruption and black screen during startup
+Date: Sun, 20 Dec 2020 23:43:37 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: john@haverkamp.us
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-210805-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,76 +52,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 20, 2020 at 09:49:59PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series attempts a conversion of the DWC HDMI TX DT bindings
-> to YAML.
-> 
-> The DWC HDMI TX is an HDMI transmitter IP core from Synopsys, integrated
-> in various SoCs with different glue layers. As such, some properties are
-> defined in a common document, but sometimes need to be overridden by
-> platform-specific bindings.
-> 
-> Patch 1/6 adds a base schema for the common properties, based on the
-> existing dw_hdmi.txt document. Patches 2/6 to 4/6 then convert the
-> platform-specific bindings for Renesas, NXP and Rockchip SoCs. Patch 5/6
-> replaces the reference to dw_hdmi.txt in the Allwinner bindings with a
-> reference to the YAML base schema, and patch 6/6 drops dw_hdmi.txt.
-> 
-> Compared to v1 (sent as an RFC), the base schema now works properly on
-> all three platforms, and the schemas have been converted to use the OF
-> graph schema. A more detailed changelog is available in individual
-> patches.
-> 
-> I have volunteered Philipp Zabel and Mark Yao as maintainers for the
-> i.MX6 and Rockchip bindings respectively. Please let me know if you
-> would prefer a different maintainer, or ack the respective patch if this
-> is fine with you.
+https://bugzilla.kernel.org/show_bug.cgi?id=210805
 
-Given the fact that Mark's e-mail address bounces, I'll need another
-volunteer :-S
+            Bug ID: 210805
+           Summary: Sapphire Nitro+ RX6800 momentary graphical corruption
+                    and black screen during startup
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.10.1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: john@haverkamp.us
+        Regression: No
 
-> Laurent Pinchart (6):
->   dt-bindings: display: bridge: Add YAML schema for Synopsys DW-HDMI
->   dt-bindings: display: bridge: renesas,dw-hdmi: Convert binding to YAML
->   dt-bindings: display: imx: hdmi: Convert binding to YAML
->   dt-bindings: display: rockchip: dw-hdmi: Convert binding to YAML
->   dt-bindings: display: sun8i-a83t-dw-hdmi: Reference dw-hdmi YAML
->     schema
->   dt-bindings: display: bridge: Remove deprecated dw_hdmi.txt
-> 
->  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |   4 +-
->  .../bindings/display/bridge/dw_hdmi.txt       |  33 ----
->  .../display/bridge/renesas,dw-hdmi.txt        |  88 ----------
->  .../display/bridge/renesas,dw-hdmi.yaml       | 128 ++++++++++++++
->  .../display/bridge/synopsys,dw-hdmi.yaml      |  58 +++++++
->  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 130 ++++++++++++++
->  .../devicetree/bindings/display/imx/hdmi.txt  |  65 -------
->  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
->  .../display/rockchip/rockchip,dw-hdmi.yaml    | 158 ++++++++++++++++++
->  9 files changed, 476 insertions(+), 262 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+Created attachment 294247
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294247&action=edit
+kernel config
+
+During bootup, I am seeing graphical corruption followed by the screen going
+black and the boot halting. Kernel config and log for the failed boot are
+attached.
 
 -- 
-Regards,
+You may reply to this email to add a comment.
 
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
