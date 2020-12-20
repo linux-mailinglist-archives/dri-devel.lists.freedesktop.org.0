@@ -1,44 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357352DF2DB
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Dec 2020 04:26:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F03C42DF2E1
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Dec 2020 04:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABC46E0EA;
-	Sun, 20 Dec 2020 03:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E84897B5;
+	Sun, 20 Dec 2020 03:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEFF6E0EA
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 03:26:23 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428ED8920F;
+ Sun, 20 Dec 2020 03:34:46 +0000 (UTC)
+From: Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210683] Nasty amdgpu powersave regression Navi14
-Date: Sun, 20 Dec 2020 03:26:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: david.18.19.21@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-210683-2300-PdMMAtiZIq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210683-2300@https.bugzilla.kernel.org/>
-References: <bug-210683-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 08/15] drm/amd/display: Prevent bandwidth overflow
+Date: Sat, 19 Dec 2020 22:34:26 -0500
+Message-Id: <20201220033434.2728348-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201220033434.2728348-1-sashal@kernel.org>
+References: <20201220033434.2728348-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,50 +38,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sasha Levin <sashal@kernel.org>, Chris Park <Chris.Park@amd.com>,
+ Eryk Brol <eryk.brol@amd.com>, Wenjing Liu <Wenjing.Liu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210683
+From: Chris Park <Chris.Park@amd.com>
 
-David Mak (david.18.19.21@gmail.com) changed:
+[ Upstream commit 80089dd8410f356d5104496d5ab71a66a4f4646b ]
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |david.18.19.21@gmail.com
+[Why]
+At very high pixel clock, bandwidth calculation exceeds 32 bit size
+and overflow value. This causes the resulting selection of link rate
+to be inaccurate.
 
---- Comment #4 from David Mak (david.18.19.21@gmail.com) ---
-Created attachment 294239
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294239&action=edit
-dmesg outputs for 5.9.14 and 5.10.1.
+[How]
+Change order of operation and use fixed point to deal with integer
+accuracy. Also address bug found when forcing link rate.
 
-I can reproduce the issue on the RX 6800 (Navi 21 XL).
+Signed-off-by: Chris Park <Chris.Park@amd.com>
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Acked-by: Eryk Brol <eryk.brol@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-I use Radeontop to inspect the memory/GPU clock of my GPU.
-
-When using Linux 5.9.14:
-- In both KDE Plasma and tty2, Memory Clock hovers at around 100MHz.
-- GPU Power reported by lm_sensors is around 5-7W.
-
-When using Linux 5.10.1:
-- In tty2, Memory Clock hovers at around 100MHz and GPU Power reported by
-lm_sensors is around 5-7W.
-- In KDE Plasma, Memory Clock is usually around 1GHz (100%), although it can be
-down to ~470MHz, and GPU Power reported by lm_sensors is around 30W.
-- Disconnecting one of my two monitors does not change the memory clock.
-
-I am trying to bisect the commit, but many revisions seem to give a blank
-screen or the amdgpu module is not loaded. (I suspect I am not building the
-kernel properly)
-
-Tested linux-firmware versions: 20201120.bc9cd0b, 20201218.646f159
-
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index b0f8bfd48d102..462f8b18440b3 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -3394,10 +3394,13 @@ uint32_t dc_bandwidth_in_kbps_from_timing(
+ {
+ 	uint32_t bits_per_channel = 0;
+ 	uint32_t kbps;
++	struct fixed31_32 link_bw_kbps;
+ 
+ 	if (timing->flags.DSC) {
+-		kbps = (timing->pix_clk_100hz * timing->dsc_cfg.bits_per_pixel);
+-		kbps = kbps / 160 + ((kbps % 160) ? 1 : 0);
++		link_bw_kbps = dc_fixpt_from_int(timing->pix_clk_100hz);
++		link_bw_kbps = dc_fixpt_div_int(link_bw_kbps, 160);
++		link_bw_kbps = dc_fixpt_mul_int(link_bw_kbps, timing->dsc_cfg.bits_per_pixel);
++		kbps = dc_fixpt_ceil(link_bw_kbps);
+ 		return kbps;
+ 	}
+ 
 -- 
-You may reply to this email to add a comment.
+2.27.0
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
