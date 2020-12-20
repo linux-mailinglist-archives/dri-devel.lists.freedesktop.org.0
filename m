@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6722DF724
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 00:43:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FACB2DF725
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 00:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0376E3D2;
-	Sun, 20 Dec 2020 23:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 857566E3DB;
+	Sun, 20 Dec 2020 23:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67FC96E3D2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 23:43:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329A96E3DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 23:44:17 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210805] New: Sapphire Nitro+ RX6800 momentary graphical
- corruption and black screen during startup
-Date: Sun, 20 Dec 2020 23:43:37 +0000
+Subject: [Bug 210805] Sapphire Nitro+ RX6800 momentary graphical corruption
+ and black screen during startup
+Date: Sun, 20 Dec 2020 23:44:16 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-210805-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-210805-2300-oZaFwWxefd@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210805-2300@https.bugzilla.kernel.org/>
+References: <bug-210805-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -59,30 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210805
 
-            Bug ID: 210805
-           Summary: Sapphire Nitro+ RX6800 momentary graphical corruption
-                    and black screen during startup
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.10.1
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: john@haverkamp.us
-        Regression: No
-
-Created attachment 294247
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294247&action=edit
-kernel config
-
-During bootup, I am seeing graphical corruption followed by the screen going
-black and the boot halting. Kernel config and log for the failed boot are
-attached.
+--- Comment #1 from John Haverkamp (john@haverkamp.us) ---
+Created attachment 294249
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294249&action=edit
+kern.log
 
 -- 
 You may reply to this email to add a comment.
