@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC242DFA4B
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 10:36:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DF02DFA4F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 10:36:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06F96E461;
-	Mon, 21 Dec 2020 09:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3066E47E;
+	Mon, 21 Dec 2020 09:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6A689BAC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 08:57:27 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.139])
- by regular1.263xmail.com (Postfix) with ESMTP id 7C7C91FAB
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 16:57:24 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A20E6E47A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 09:05:09 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.69])
+ by regular1.263xmail.com (Postfix) with ESMTP id E61191EB7
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 17:05:06 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED4: 1
@@ -23,10 +23,10 @@ X-SKE-CHECKED: 1
 X-ABS-CHECKED: 1
 Received: from firstlove-e500.uniontech.com (unknown [58.246.122.242])
  by smtp.263.net (postfix) whith ESMTP id
- P10767T140086981154560S1608541043758710_; 
- Mon, 21 Dec 2020 16:57:24 +0800 (CST)
+ P9716T140427775465216S1608541505797483_; 
+ Mon, 21 Dec 2020 17:05:06 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <872061752b6cb956e4d3622e82e67ce2>
+X-UNIQUE-TAG: <4ece98a37b80cfcf26dca99cc949e93d>
 X-RL-SENDER: chenli@uniontech.com
 X-SENDER: chenli@uniontech.com
 X-LOGIN-NAME: chenli@uniontech.com
@@ -34,12 +34,14 @@ X-FST-TO: christian.koenig@amd.com
 X-SENDER-IP: 58.246.122.242
 X-ATTACHMENT-NUM: 0
 X-System-Flag: 0
-Date: Mon, 21 Dec 2020 16:57:28 +0800
-Message-ID: <87r1njy1s7.wl-chenli@uniontech.com>
+Date: Mon, 21 Dec 2020 17:05:11 +0800
+Message-ID: <87pn33y1fc.wl-chenli@uniontech.com>
 From: Chen Li <chenli@uniontech.com>
 To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/radeon: use writel to avoid gcc optimization
+Subject: [PATCH 2/2] drm/amdgpu: use GTT for uvd_get_create/destory_msg
+In-Reply-To: <87r1njy1s7.wl-chenli@uniontech.com>
+References: <87r1njy1s7.wl-chenli@uniontech.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,87 +64,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using e8860(gcn1) on arm64, the kernel crashed on drm/radeon:
+On modern gpus, GTT (system memory) works as well here, and this may
+also be a workaround for platforms which cannot map vram correctly.
 
-[   11.240414] pc : __memset+0x4c/0x188
-[   11.244101] lr : radeon_uvd_get_create_msg+0x114/0x1d0 [radeon]
-[   11.249995] sp : ffff00000d7eb700
-[   11.253295] x29: ffff00000d7eb700 x28: ffff8001f632a868
-[   11.258585] x27: 0000000000040000 x26: ffff00000de00000
-[   11.263875] x25: 0000000000000125 x24: 0000000000000001
-[   11.269168] x23: 0000000000000000 x22: 0000000000000005
-[   11.274459] x21: ffff00000df24000 x20: ffff8001f74b4000
-[   11.279753] x19: 0000000000124000 x18: 0000000000000020
-[   11.285043] x17: 0000000000000000 x16: 0000000000000000
-[   11.290336] x15: ffff000009309000 x14: ffffffffffffffff
-[   11.290340] x13: ffff0000094b6f88 x12: ffff0000094b6bd2
-[   11.290343] x11: ffff00000d7eb700 x10: ffff00000d7eb700
-[   11.306246] x9 : ffff00000d7eb700 x8 : ffff00000df2402c
-[   11.306254] x7 : 0000000000000000 x6 : ffff0000094b626a
-[   11.306257] x5 : 0000000000000000 x4 : 0000000000000004
-[   11.306262] x3 : ffffffffffffffff x2 : 0000000000000fd4
-[   11.306265] x1 : 0000000000000000 x0 : ffff00000df2402c
-[   11.306272] Call trace:
-[   11.306316]  __memset+0x4c/0x188
-[   11.306638]  uvd_v1_0_ib_test+0x70/0x1c0 [radeon]
-[   11.306758]  radeon_ib_ring_tests+0x54/0xe0 [radeon]
-[   11.309961] IPv6: ADDRCONF(NETDEV_UP): enp5s0f0: link is not ready
-[   11.354628]  radeon_device_init+0x53c/0xbdc [radeon]
-[   11.354693]  radeon_driver_load_kms+0x6c/0x1b0 [radeon]
-[   11.364788]  drm_dev_register+0x130/0x1c0
-[   11.364794]  drm_get_pci_dev+0x8c/0x14c
-[   11.372704]  radeon_pci_probe+0xb0/0x110 [radeon]
-[   11.372715]  local_pci_probe+0x3c/0xb0
-[   11.381129]  pci_device_probe+0x114/0x1b0
-[   11.385121]  really_probe+0x23c/0x400
-[   11.388757]  driver_probe_device+0xdc/0x130
-[   11.392921]  __driver_attach+0x128/0x150
-[   11.396826]  bus_for_each_dev+0x70/0xbc
-[   11.400643]  driver_attach+0x20/0x2c
-[   11.404201]  bus_add_driver+0x160/0x260
-[   11.408019]  driver_register+0x74/0x120
-[   11.411837]  __pci_register_driver+0x40/0x50
-[   11.416149]  radeon_init+0x78/0x1000 [radeon]
-[   11.420489]  do_one_initcall+0x54/0x154
-[   11.424310]  do_init_module+0x54/0x260
-[   11.428041]  load_module+0x1ccc/0x20b0
-[   11.431773]  __se_sys_finit_module+0xac/0x10c
-[   11.436109]  __arm64_sys_finit_module+0x18/0x20
-[   11.440622]  el0_svc_common+0x70/0x164
-[   11.444353]  el0_svc_handler+0x2c/0x80
-[   11.448084]  el0_svc+0x8/0xc
-[   11.450954] Code: d65f03c0 cb0803e4 f2400c84 54000080 (a9001d07)
-
-Obviously, the __memset call is generated by gcc(8.3.1). It optimizes
-this for loop into memset. But this may break on some platforms which
-cannot map device memory correctly. So, just invoke `writel` to handle this.
 Signed-off-by: chenli <chenli@uniontech.com>
 ---
- drivers/gpu/drm/radeon/radeon_uvd.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-index 39c1c339be7b..ea5485ced5c4 100644
---- a/drivers/gpu/drm/radeon/radeon_uvd.c
-+++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-@@ -803,7 +803,7 @@ int radeon_uvd_get_create_msg(struct radeon_device *rdev, int ring,
- 	msg[9] = cpu_to_le32(0x00000000);
- 	msg[10] = cpu_to_le32(0x01b37000);
- 	for (i = 11; i < 1024; ++i)
--		msg[i] = cpu_to_le32(0x0);
-+		writel(0x0, &msg[i]);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+index 8b989670ed66..e2ed4689118a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+@@ -1170,7 +1170,7 @@ int amdgpu_uvd_get_create_msg(struct amdgpu_ring *ring, uint32_t handle,
+ 	int r, i;
  
- 	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
- 	radeon_bo_unreserve(rdev->uvd.vcpu_bo);
-@@ -832,7 +832,7 @@ int radeon_uvd_get_destroy_msg(struct radeon_device *rdev, int ring,
- 	msg[2] = cpu_to_le32(handle);
- 	msg[3] = cpu_to_le32(0x00000000);
- 	for (i = 4; i < 1024; ++i)
--		msg[i] = cpu_to_le32(0x0);
-+		writel(0x0, &msg[i]);
+ 	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+-				      AMDGPU_GEM_DOMAIN_VRAM,
++				      AMDGPU_GEM_DOMAIN_GTT,
+ 				      &bo, NULL, (void **)&msg);
+ 	if (r)
+ 		return r;
+@@ -1202,7 +1202,7 @@ int amdgpu_uvd_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
+ 	int r, i;
  
- 	r = radeon_uvd_send_msg(rdev, ring, addr, fence);
- 	radeon_bo_unreserve(rdev->uvd.vcpu_bo);
+ 	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+-				      AMDGPU_GEM_DOMAIN_VRAM,
++				      AMDGPU_GEM_DOMAIN_GTT,
+ 				      &bo, NULL, (void **)&msg);
+ 	if (r)
+ 		return r;
 -- 
 2.29.2
 
