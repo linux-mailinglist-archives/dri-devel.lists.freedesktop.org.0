@@ -1,37 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A814B2DF792
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 02:58:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D01502DF7BC
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 03:53:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F956E425;
-	Mon, 21 Dec 2020 01:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2436E44D;
+	Mon, 21 Dec 2020 02:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69BC6E424
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 01:57:47 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A3FA14D9;
- Mon, 21 Dec 2020 02:57:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608515864;
- bh=5+RS6cOm3Iu6Jt/Zjsv5wFxyRLQB3lly6l2CYs0IKLc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HrW7I0w6o8+UgPk5N9pURo1PjjxRXG+p1VuC7zOcfXWsVnvY92fKPZJgMJVZzaZ6x
- TykdBLW5dQm8mE63Md/NFmFgd6FDKicW1sk0XElNtCZYgrogaci4wIIzIhiII89Q2V
- uhEPw3i+RvZfBF6v6wne73w8wyRPxjdPsNITRzY0=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm: rcar-du: kms: Configure the CLU
-Date: Mon, 21 Dec 2020 03:57:30 +0200
-Message-Id: <20201221015730.28333-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3B06E448
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 02:53:12 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id h22so10632363lfu.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 18:53:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xCNFr4f3wVLInkwunk0vPKzuNbBepmIVeNw0P+U3M9A=;
+ b=VksI3NEOSkKqUkDp5XoS+Pc7qx4lix7zHmpaCN3NQsLoJnwpRWAVa0EiCbzt+ekfxL
+ H8nJd7hpXCeHjSot6gTuJ0b7/DatxNBbWHhfSfG6SAFIKYBWucS02bGZH5PN2AAr92pu
+ FLUjWmT0STdudujHInM7NS8j717BLqcnay4pZWgC7TGSEbioCQiMxXQbCQShMmo3Pyuq
+ NeG0DqGZtejdg59Il8nyGpZlqZH7DCTw+3Q3bG19qIzAQQEIWtOkStByUQc32peBMvFQ
+ EH4UXWjPgFJtykZ4dEs0sE44MMsdQmXZispUfCvfOpdymrWrJSLG/cqR2Nr7wZ6cAddE
+ 4hVQ==
+X-Gm-Message-State: AOAM533eqOYgG9JwLE75XEyPerP1o7Mi53/Mmj6n3ZG5JBUsruKTJP6G
+ QmIVOVjxoBjH37l2m+qch5vzhJXQ0ZZfHg==
+X-Google-Smtp-Source: ABdhPJwYML8K2VqllHNljwSobrInkmUHIFGEkrCfCW1FvX1JpfJ7/ak2IJixI3GuAhnWacmO72aIJw==
+X-Received: by 2002:a2e:b550:: with SMTP id a16mr6466811ljn.408.1608519190580; 
+ Sun, 20 Dec 2020 18:53:10 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
+ [209.85.167.50])
+ by smtp.gmail.com with ESMTPSA id e25sm1891112lfc.40.2020.12.20.18.53.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Dec 2020 18:53:10 -0800 (PST)
+Received: by mail-lf1-f50.google.com with SMTP id l11so20237000lfg.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 18:53:10 -0800 (PST)
+X-Received: by 2002:a2e:8e62:: with SMTP id t2mr6426100ljk.463.1608519190106; 
+ Sun, 20 Dec 2020 18:53:10 -0800 (PST)
 MIME-Version: 1.0
+References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 21 Dec 2020 10:52:58 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
+Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] dt-bindings: display: sun8i-a83t-dw-hdmi:
+ Reference dw-hdmi YAML schema
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,78 +64,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/SHMOBILE ARM..." <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Mark Yao <mark.yao@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Mon, Dec 21, 2020 at 4:03 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+>
+> Replace the reference to the DWC HDMI text DT binding with a reference
+> to the YAML equivalent.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Link the DRM 3D-CLU configuration to the CMM setup configuration.
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 426b1870b3cb..5c77017084ed 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -484,19 +484,23 @@ static int rcar_du_cmm_check(struct drm_crtc *crtc,
- 			     struct drm_crtc_state *state)
- {
- 	struct drm_property_blob *drm_lut = state->gamma_lut;
-+	struct drm_property_blob *drm_clu = state->cubic_lut;
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct device *dev = rcrtc->dev->dev;
- 
--	if (!drm_lut)
--		return 0;
--
--	/* We only accept fully populated LUT tables. */
--	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
-+	/* We only accept fully populated LUTs. */
-+	if (drm_lut && drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
- 		dev_err(dev, "invalid gamma lut size: %zu bytes\n",
- 			drm_lut->length);
- 		return -EINVAL;
- 	}
- 
-+	if (drm_clu && drm_color_lut_size(drm_clu) != CM2_CLU_SIZE) {
-+		dev_err(dev, "invalid cubic lut size: %zu bytes\n",
-+			drm_clu->length);
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
-@@ -518,6 +522,15 @@ static void rcar_du_cmm_setup(struct rcar_du_crtc *rcrtc,
- 				     ? new_state->gamma_lut->data : NULL;
- 	}
- 
-+	if (!old_state ||
-+	    !old_state->cubic_lut != !new_state->cubic_lut ||
-+	    (old_state->cubic_lut && new_state->cubic_lut &&
-+	     old_state->cubic_lut->base.id != new_state->cubic_lut->base.id)) {
-+		cmm_config.clu.update = true;
-+		cmm_config.clu.table = new_state->cubic_lut
-+				     ? new_state->cubic_lut->data : NULL;
-+	}
-+
- 	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
- }
- 
--- 
-Regards,
-
-Laurent Pinchart
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
