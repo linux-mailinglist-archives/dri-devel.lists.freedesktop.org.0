@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33AF2DFCCC
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 15:26:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A727C2DFD68
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 16:21:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7C56E15C;
-	Mon, 21 Dec 2020 14:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB1F889C37;
+	Mon, 21 Dec 2020 15:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528876E15C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 14:26:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1557389C37
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 15:21:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210787] amdgpu fan NA on multi gpu R9 nano
-Date: Mon, 21 Dec 2020 14:26:54 +0000
+Date: Mon, 21 Dec 2020 15:21:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,14 +26,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: janpieter.sollie@edpnet.be
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-210787-2300-QnCc7TutmJ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210787-2300-5PevF2L0pO@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210787-2300@https.bugzilla.kernel.org/>
 References: <bug-210787-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,15 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210787
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
-What parameters are you passing to the driver?  It looks like you are disabling
-UVD and VCE.
+--- Comment #3 from Janpieter Sollie (janpieter.sollie@edpnet.be) ---
+Disabling UVD + VCE is on purpose... gfx8 video coding is simply too bad to be
+useful. Next to that, this issue still apprears:
+https://bugzilla.kernel.org/show_bug.cgi?id=206155
 
 -- 
 You may reply to this email to add a comment.
