@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569E52E03A2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 02:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DA62E0807
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F123D89FC0;
-	Tue, 22 Dec 2020 01:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1DE6E851;
+	Tue, 22 Dec 2020 09:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E36A689FC0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 01:05:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 98DF122B2C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 01:05:30 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 8F65982577; Tue, 22 Dec 2020 01:05:30 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Tue, 22 Dec 2020 01:05:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: raidon.logic@auweek.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205675-2300-odvqqCaRys@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
-References: <bug-205675-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7366E0D6;
+ Mon, 21 Dec 2020 11:16:40 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Czxj94ncwzM7XR;
+ Mon, 21 Dec 2020 19:15:41 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 21 Dec 2020 19:16:30 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <Bhawanpreet.Lakha@amd.com>, <Joshua.Aberback@amd.com>,
+ <Rodrigo.Siqueira@amd.com>, <aurabindo.pillai@amd.com>,
+ <Ashley.Thomas2@amd.com>, <Jing.Zhou@amd.com>, <Chris.Park@amd.com>
+Subject: [PATCH] drm/amd/display: remove useless else if
+Date: Mon, 21 Dec 2020 19:16:35 +0800
+Message-ID: <1608549395-30993-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,29 +44,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205675
+Fix the following coccinelle report:
+drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c:1357:6-8:
+WARNING: possible condition with no effect (if == else)
 
---- Comment #43 from wrenrte (raidon.logic@auweek.net) ---
-https://www.bkreader.com/events/streamswatchsteelers-vs-bengals-live-stream-reddit-13/
-https://www.bkreader.com/events/nfl-stream-steelers-vs-bengals-live-streamreddit/
-https://www.bkreader.com/events/steelers-vs-bengals-live-stream-reddit-free-full-nfl-online-tv/
-https://www.bkreader.com/events/watch-steelers-vs-bengals-live-stream-free-2020/
-https://www.bkreader.com/events/streams-redditsteelers-vs-bengals-live-stream-free/
-https://www.bkreader.com/events/redditstreams-steelers-vs-bengals-2020-live-stream-nfl/
-https://www.bkreader.com/events/livestream-nflbengals-vs-steelers-2020-live-free/
-https://www.bkreader.com/events/streaming-live-bengals-vs-steelers-21th-december-2020/
-https://www.bkreader.com/events/watch-bengals-vs-steelers-2020-livestream-online-free/
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
+index 808c4dc..504f2a4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
+@@ -1354,8 +1354,6 @@ static bool dcn302_resource_construct(
+ 
+ 	if (dc->ctx->dce_environment == DCE_ENV_PRODUCTION_DRV)
+ 		dc->debug = debug_defaults_drv;
+-	else if (dc->ctx->dce_environment == DCE_ENV_FPGA_MAXIMUS)
+-		dc->debug = debug_defaults_diags;
+ 	else
+ 		dc->debug = debug_defaults_diags;
+ 
 -- 
-You may reply to this email to add a comment.
+2.7.4
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
