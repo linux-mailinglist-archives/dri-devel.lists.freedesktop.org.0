@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FACB2DF725
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 00:44:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0862DFA4C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 10:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 857566E3DB;
-	Sun, 20 Dec 2020 23:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138C46E47B;
+	Mon, 21 Dec 2020 09:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329A96E3DB
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 23:44:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210805] Sapphire Nitro+ RX6800 momentary graphical corruption
- and black screen during startup
-Date: Sun, 20 Dec 2020 23:44:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: john@haverkamp.us
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210805-2300-oZaFwWxefd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210805-2300@https.bugzilla.kernel.org/>
-References: <bug-210805-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985FC6E41A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 00:45:25 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Czgj30msPzhvXC;
+ Mon, 21 Dec 2020 08:44:39 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 21 Dec 2020 08:45:16 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>
+Subject: [PATCH] drm/hisilicon: Use pcim_enable_device()
+Date: Mon, 21 Dec 2020 08:45:22 +0800
+Message-ID: <1608511522-3100-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Mon, 21 Dec 2020 09:36:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,18 +47,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210805
+Using the managed function simplifies the error handling. After
+unloading the driver, the PCI device should now get disabled as
+well.
 
---- Comment #1 from John Haverkamp (john@haverkamp.us) ---
-Created attachment 294249
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294249&action=edit
-kern.log
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 02f3bd1..7159018 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -329,7 +329,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+ 	dev->pdev = pdev;
+ 	pci_set_drvdata(pdev, dev);
+ 
+-	ret = pci_enable_device(pdev);
++	ret = pcim_enable_device(pdev);
+ 	if (ret) {
+ 		drm_err(dev, "failed to enable pci device: %d\n", ret);
+ 		goto err_free;
+@@ -338,7 +338,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+ 	ret = hibmc_load(dev);
+ 	if (ret) {
+ 		drm_err(dev, "failed to load hibmc: %d\n", ret);
+-		goto err_disable;
++		goto err_free;
+ 	}
+ 
+ 	ret = drm_dev_register(dev, 0);
+@@ -354,8 +354,6 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+ 
+ err_unload:
+ 	hibmc_unload(dev);
+-err_disable:
+-	pci_disable_device(pdev);
+ err_free:
+ 	drm_dev_put(dev);
+ 
 -- 
-You may reply to this email to add a comment.
+2.7.4
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
