@@ -1,57 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01502DF7BC
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 03:53:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4D82DFA30
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 09:54:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2436E44D;
-	Mon, 21 Dec 2020 02:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B936E461;
+	Mon, 21 Dec 2020 08:54:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD3B06E448
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 02:53:12 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id h22so10632363lfu.2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 18:53:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xCNFr4f3wVLInkwunk0vPKzuNbBepmIVeNw0P+U3M9A=;
- b=VksI3NEOSkKqUkDp5XoS+Pc7qx4lix7zHmpaCN3NQsLoJnwpRWAVa0EiCbzt+ekfxL
- H8nJd7hpXCeHjSot6gTuJ0b7/DatxNBbWHhfSfG6SAFIKYBWucS02bGZH5PN2AAr92pu
- FLUjWmT0STdudujHInM7NS8j717BLqcnay4pZWgC7TGSEbioCQiMxXQbCQShMmo3Pyuq
- NeG0DqGZtejdg59Il8nyGpZlqZH7DCTw+3Q3bG19qIzAQQEIWtOkStByUQc32peBMvFQ
- EH4UXWjPgFJtykZ4dEs0sE44MMsdQmXZispUfCvfOpdymrWrJSLG/cqR2Nr7wZ6cAddE
- 4hVQ==
-X-Gm-Message-State: AOAM533eqOYgG9JwLE75XEyPerP1o7Mi53/Mmj6n3ZG5JBUsruKTJP6G
- QmIVOVjxoBjH37l2m+qch5vzhJXQ0ZZfHg==
-X-Google-Smtp-Source: ABdhPJwYML8K2VqllHNljwSobrInkmUHIFGEkrCfCW1FvX1JpfJ7/ak2IJixI3GuAhnWacmO72aIJw==
-X-Received: by 2002:a2e:b550:: with SMTP id a16mr6466811ljn.408.1608519190580; 
- Sun, 20 Dec 2020 18:53:10 -0800 (PST)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
- [209.85.167.50])
- by smtp.gmail.com with ESMTPSA id e25sm1891112lfc.40.2020.12.20.18.53.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Dec 2020 18:53:10 -0800 (PST)
-Received: by mail-lf1-f50.google.com with SMTP id l11so20237000lfg.0
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Dec 2020 18:53:10 -0800 (PST)
-X-Received: by 2002:a2e:8e62:: with SMTP id t2mr6426100ljk.463.1608519190106; 
- Sun, 20 Dec 2020 18:53:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 21 Dec 2020 10:52:58 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
-Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] dt-bindings: display: sun8i-a83t-dw-hdmi:
- Reference dw-hdmi YAML schema
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3E16E461
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 08:54:05 +0000 (UTC)
+Date: Mon, 21 Dec 2020 08:53:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1608540842;
+ bh=VVBq5kEMeWXSfE2fNOxez/ovFm1GKzPzNKtAMGYpYn0=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=WdyCTV/95g6te02oIf8Uq6IP0olpfGsj78DsjpCpOh+NZ0yulqoAFBiikwfckDFwP
+ kpt9OfvJ7KA9ru5mMKl85EudU4R9NSrWxXCAMZKrMfEnSW3//WFxf1iBH9qMxk/Jgl
+ AWpLs34AKTppCHJYaJjhxxmRuDuF33gotAhjXHy6cMscknvu9e4oRNR03HiJ/Sqttm
+ 6SAZgbSSXYpFssnlA6yzeOqsdx8067j7OqelVJAyuDaX6xq5OWWg1EhMG4phPnRlgD
+ a0KuUmPVEgKoFAk1DKLjeNKVrOKBkhmByGOCyboUnFfFVd6Wk7Mn1g0hIe/1/bKmQ0
+ 8czccoVVrotqQ==
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 0/4] drm: rcar-du: Add cubic LUT support
+Message-ID: <jcjTLLVHB6YkIMnDrAcghTdaSTrg30wbACbWLZXS50UBUzb5_X0o7dAlR-KzGhVkxfPyW4AuRm05z8miKa6V6gzToI9BYxWpDp1RKb7ZXnk=@emersion.fr>
+In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,26 +48,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/SHMOBILE ARM..." <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Mark Yao <mark.yao@rock-chips.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 21, 2020 at 4:03 AM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> Replace the reference to the DWC HDMI text DT binding with a reference
-> to the YAML equivalent.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Acked-by: Rob Herring <robh@kernel.org>
+Hi,
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+On Monday, December 21st, 2020 at 2:57 AM, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+
+> I started having a look at userspace to see how this could be handled,
+> searching for color management support in weston, kwin and wlroots/sway.
+> All three support setting the gamma table when using the DRM/KMS
+> backend, weston and kwin through the legacy API, and wlroots through the
+> atomic API. Weston reads an ICC profile using Little CMS and applies the
+> gamma table. kwin is a bit more elaborate, it also uses Little CMS to
+> read an ICC profile, but additionally supports setting the brightness
+> and color temperature. It however only sets a gamma table in the end.
+> Wlroots seems to have an API to set the gamma table, but I haven't seen
+> where sway uses it (I may have missed that though)
+
+wlroots delegates setting the gamma table to a privileged client, to allow
+users to set it to whatever they want. Use-cases include setting the color
+temperature and setting the brightness. wlroots doesn't support ICC profiles
+(and I don't know of a client setting the gamma LUT from an ICC profile).
+
+> In any case, there's limited support there for color management.
+
+That's correct.
+
+> Inputs would be appreciated on this, for instance with feedback on how
+> X.org and Android handle color management, on how 3D LUTs are
+> implemented on other platforms, or in general on how we would like to
+> use them. I don't mind doing some work in userspace to prototype this,
+> but I won't have the bandwidth to design a completely new framework.
+
+Weston is working on improving color management support [1] [2]. I think it's
+still a little early, but maybe see with Pekka if something can be worked out?
+
+Other than that, maybe some media players have support for some color
+management and would need to blend in multiple buffers and standardize
+protocols. Maybe look into Kodi or mpv?
+
+Simon
+
+[1]: https://www.collabora.com/news-and-blog/blog/2020/11/19/developing-wayland-color-management-and-high-dynamic-range/
+[2]: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/14
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
