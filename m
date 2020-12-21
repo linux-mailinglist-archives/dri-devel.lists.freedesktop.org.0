@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A727C2DFD68
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 16:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351E82DFD87
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 16:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1F889C37;
-	Mon, 21 Dec 2020 15:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756B16E487;
+	Mon, 21 Dec 2020 15:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1557389C37
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 15:21:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B156E487
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 15:27:37 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210787] amdgpu fan NA on multi gpu R9 nano
-Date: Mon, 21 Dec 2020 15:21:26 +0000
+Date: Mon, 21 Dec 2020 15:27:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210787-2300-5PevF2L0pO@https.bugzilla.kernel.org/>
+Message-ID: <bug-210787-2300-9ZlqJUwt3r@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210787-2300@https.bugzilla.kernel.org/>
 References: <bug-210787-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210787
 
---- Comment #3 from Janpieter Sollie (janpieter.sollie@edpnet.be) ---
-Disabling UVD + VCE is on purpose... gfx8 video coding is simply too bad to be
-useful. Next to that, this issue still apprears:
-https://bugzilla.kernel.org/show_bug.cgi?id=206155
+--- Comment #4 from Janpieter Sollie (janpieter.sollie@edpnet.be) ---
+My amdgpu options:
+options amdgpu ip_block_mask=0x7f discovery=1 compute_multipipe=1
+gpu_recovery=1 mes=1 abmlevel=4 send_sigterm=1 sched_policy=1 dpm=1 aspm=1
 
 -- 
 You may reply to this email to add a comment.
