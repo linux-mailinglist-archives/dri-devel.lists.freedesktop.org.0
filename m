@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152332DFC78
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 14:55:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE872DFC82
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 15:00:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B276E169;
-	Mon, 21 Dec 2020 13:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E296E15C;
+	Mon, 21 Dec 2020 14:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7573D6E169
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 13:55:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4463D6E15C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 14:00:53 +0000 (UTC)
 Received: from [192.168.0.20]
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC8032CF;
- Mon, 21 Dec 2020 14:55:39 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51AE72CF;
+ Mon, 21 Dec 2020 15:00:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608558940;
- bh=x3/08Q4EZv0KsU9wuCS4kJsBCmimqjCXssOs5SbcFjI=;
+ s=mail; t=1608559251;
+ bh=fqkzhgsYvpmZM/4e1LXwV9L0/SihWrx8GpMzedHtcsU=;
  h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=CEVQsOlZdpyFmtzzFfijqqdrddupvA7R8Zg8h49JYerteRD91xMgkieAWp1jdK8O4
- 94kP/BdZODSTPa6VB/+g4osCw8HA23p7eYPj1humyBZAn3++xihGllx5vi02UjJEMG
- 4aEzlLT1L/mU+OqV5i5MgcUOcGhwfhnnZtr2Hums=
-Subject: Re: [PATCH 1/4] drm: rcar-du: cmm: Refactor LUT configuration
+ b=Uuz2PD7D9BfFZ4lvo8KdXWikyQcnBeS51nB9ScQm+hor89Zg3jh6D3ivD2s3S3emO
+ 3WKEXJYrpeHebYDrEDjsTUH+AnIKfiNuSFOnLPCgGWhbKnvZ3BLEJNmRfOLVuKXSXB
+ /Kmq9d7njt3Ny4UJ58Neg4KrD3iOVgQOiDu4qEpo=
+Subject: Re: [PATCH 2/4] drm: rcar-du: cmm: Provide 3D-CLU support
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201221015730.28333-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20201221015730.28333-3-laurent.pinchart+renesas@ideasonboard.com>
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -75,12 +75,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <87e1a351-6312-4881-58d4-c6da9e1e609f@ideasonboard.com>
-Date: Mon, 21 Dec 2020 13:55:37 +0000
+Message-ID: <476c461a-b675-67ab-fb22-264eb1e7338d@ideasonboard.com>
+Date: Mon, 21 Dec 2020 14:00:48 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201221015730.28333-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201221015730.28333-3-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,7 +95,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: kieran.bingham@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -104,229 +105,167 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Laurent,
 
 On 21/12/2020 01:57, Laurent Pinchart wrote:
-> To prepare for CLU support, expend the CMM API exposed to the DU driver
-
-s/expend/extend/ ...?
-
-> to separate the LUT table pointer from the LUT update decision. This
-> will be required, as we will need to update the LUT and CLU
-> independently.
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-
-Aha, I see this has changed a little since I originally looked at this,
-but that's probably a good thing.
-
-
+> The CMM module provides a three-dimensional cubic look up table that
+> converts three-color-component data into desired three color components
+> by use of a lookup table.
+> 
+> While the 1D-LUT can only control each of three color components
+> separately, the 3D-CLU can be used for specific color adjustment.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+For the updates since I wrote the patch:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 > ---
->  drivers/gpu/drm/rcar-du/rcar_cmm.c     | 60 ++++++++++++--------------
->  drivers/gpu/drm/rcar-du/rcar_cmm.h     | 19 +++++---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 22 +++++++---
->  3 files changed, 55 insertions(+), 46 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c | 52 ++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/rcar-du/rcar_cmm.h | 11 ++++---
+>  2 files changed, 57 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> index 382d53f8a22e..ccc8c8b03bac 100644
+> index ccc8c8b03bac..9a20728a3534 100644
 > --- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
 > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -42,23 +42,33 @@ static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
->  	iowrite32(data, rcmm->base + reg);
+> @@ -17,9 +17,18 @@
+>  
+>  #define CM2_LUT_CTRL		0x0000
+>  #define CM2_LUT_CTRL_LUT_EN	BIT(0)
+> +
+> +#define CM2_CLU_CTRL		0x0100
+> +#define CM2_CLU_CTRL_CLU_EN	BIT(1)
+> +#define CM2_CLU_CTRL_MVS	BIT(24)
+> +#define CM2_CLU_CTRL_AAI	BIT(28)
+> +
+>  #define CM2_LUT_TBL_BASE	0x0600
+>  #define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+>  
+> +#define CM2_CLU_ADDR		0x0a00
+> +#define CM2_CLU_DATA		0x0a04
+> +
+>  struct rcar_cmm {
+>  	void __iomem *base;
+>  
+> @@ -30,6 +39,10 @@ struct rcar_cmm {
+>  	struct {
+>  		bool enabled;
+>  	} lut;
+> +
+> +	struct {
+> +		bool enabled;
+> +	} clu;
+>  };
+>  
+>  static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> @@ -72,13 +85,44 @@ static void rcar_cmm_lut_configure(struct rcar_cmm *rcmm,
+>  	}
 >  }
 >  
-> -/*
-> - * rcar_cmm_lut_write() - Scale the DRM LUT table entries to hardware precision
-> - *			  and write to the CMM registers
-> - * @rcmm: Pointer to the CMM device
-> - * @drm_lut: Pointer to the DRM LUT table
-> - */
-> -static void rcar_cmm_lut_write(struct rcar_cmm *rcmm,
-> -			       const struct drm_color_lut *drm_lut)
-> +static void rcar_cmm_lut_configure(struct rcar_cmm *rcmm,
+> +static void rcar_cmm_clu_configure(struct rcar_cmm *rcmm,
 > +				   const struct drm_color_lut *table)
->  {
-> -	unsigned int i;
+> +{
+> +	static const u32 cfg = CM2_CLU_CTRL_AAI
+> +			     | CM2_CLU_CTRL_MVS
+> +			     | CM2_CLU_CTRL_CLU_EN;
 > +	bool enable = !!table;
->  
 
-Ahh good, handling both enable and disable in here makes more sense. I
-like it.
+Good, not sure why I was calculating this outside of the call.
 
 
-> -	for (i = 0; i < CM2_LUT_SIZE; ++i) {
-> -		u32 entry = drm_color_lut_extract(drm_lut[i].red, 8) << 16
-> -			  | drm_color_lut_extract(drm_lut[i].green, 8) << 8
-> -			  | drm_color_lut_extract(drm_lut[i].blue, 8);
-> +	if (rcmm->lut.enabled != enable) {
-> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL,
-> +			       enable ? CM2_LUT_CTRL_LUT_EN : 0);
-> +		rcmm->lut.enabled = enable;
+> +
+> +	if (rcmm->clu.enabled != enable) {
+> +		rcar_cmm_write(rcmm, CM2_CLU_CTRL, enable ? cfg : 0);
+> +		rcmm->clu.enabled = enable;
 > +	}
->  
-> -		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
+> +
 > +	if (table) {
 > +		unsigned int i;
 > +
-> +		/*
-> +		 * Scale the DRM LUT table entries to the hardware precision
-> +		 * and program it.
-> +		 */
-> +		for (i = 0; i < CM2_LUT_SIZE; ++i) {
+> +		/* Utilise CM2_CLU_CTRL_AAI (auto-increment). */
+> +		rcar_cmm_write(rcmm, CM2_CLU_ADDR, 0);
+> +
+> +		for (i = 0; i < CM2_CLU_SIZE; ++i) {
 > +			const struct drm_color_lut *lut = &table[i];
 > +
 > +			u32 entry = drm_color_lut_extract(lut->red, 8) << 16
 > +				  | drm_color_lut_extract(lut->green, 8) << 8
 > +				  | drm_color_lut_extract(lut->blue, 8);
 > +
-> +			rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
+> +			rcar_cmm_write(rcmm, CM2_CLU_DATA, entry);
 > +		}
->  	}
->  }
+> +	}
+> +}
+> +
+>  /*
+>   * rcar_cmm_setup() - Configure the CMM unit
+>   * @pdev: The platform device associated with the CMM instance
+>   * @config: The CMM unit configuration
+>   *
+> - * Configure the CMM unit with the given configuration. Currently enabling,
+> - * disabling and programming of the 1-D LUT unit is supported.
+> + * Configure the CMM unit with the given configuration, handling both the
+> + * 1-D LUT and the 3-D CLU.
+>   *
+>   * As rcar_cmm_setup() accesses the CMM registers the unit should be powered
+>   * and its functional clock enabled. To guarantee this, before any call to
+> @@ -96,6 +140,9 @@ int rcar_cmm_setup(struct platform_device *pdev,
+>  	if (config->lut.update)
+>  		rcar_cmm_lut_configure(rcmm, config->lut.table);
 >  
-> @@ -83,23 +93,8 @@ int rcar_cmm_setup(struct platform_device *pdev,
->  {
->  	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
->  
-> -	/* Disable LUT if no table is provided. */
-> -	if (!config->lut.table) {
-> -		if (rcmm->lut.enabled) {
-> -			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> -			rcmm->lut.enabled = false;
-> -		}
-> -
-> -		return 0;
-> -	}
-> -
-> -	/* Enable LUT and program the new gamma table values. */
-> -	if (!rcmm->lut.enabled) {
-> -		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> -		rcmm->lut.enabled = true;
-> -	}
-> -
-> -	rcar_cmm_lut_write(rcmm, config->lut.table);
-> +	if (config->lut.update)
-> +		rcar_cmm_lut_configure(rcmm, config->lut.table);
-
-Does something need to reset config->lut.update to false?
-Or is this structure reset / cleaned on each call?
-
-Never mind, looks like this is always used from a fresh initialised
-structure in rcar_du_cmm_setup().
-
-
->  
+> +	if (config->clu.update)
+> +		rcar_cmm_clu_configure(rcmm, config->clu.table);
+> +
 >  	return 0;
 >  }
-> @@ -144,8 +139,7 @@ void rcar_cmm_disable(struct platform_device *pdev)
->  {
+>  EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> @@ -140,6 +187,7 @@ void rcar_cmm_disable(struct platform_device *pdev)
 >  	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
 >  
-> -	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> -	rcmm->lut.enabled = false;
-> +	rcar_cmm_lut_configure(rcmm, NULL);
+>  	rcar_cmm_lut_configure(rcmm, NULL);
+> +	rcar_cmm_clu_configure(rcmm, NULL);
 >  
 >  	pm_runtime_put(&pdev->dev);
 >  }
 > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> index b5f7ec6db04a..f4b16535ec16 100644
+> index f4b16535ec16..35f901158cec 100644
 > --- a/drivers/gpu/drm/rcar-du/rcar_cmm.h
 > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> @@ -13,16 +13,23 @@
+> @@ -9,14 +9,15 @@
+>  #define __RCAR_CMM_H__
+>  
+>  #define CM2_LUT_SIZE		256
+> +#define CM2_CLU_SIZE		(17 * 17 * 17)
+>  
 >  struct drm_color_lut;
 >  struct platform_device;
 >  
-> +/**
-> + * struct rcar_cmm_table_config - CMM LUT configuration
-> + * @update: When true, update the LUT configuration.
-> + * @table: Table data. The LUT is enabled if non-NULL, and disabled
-> + *	otherwise. The value is ignored if @update is false.
-> + */
-> +struct rcar_cmm_table_config {
-> +	bool update;
-> +	struct drm_color_lut *table;
-> +};
-> +
+>  /**
+> - * struct rcar_cmm_table_config - CMM LUT configuration
+> - * @update: When true, update the LUT configuration.
+> - * @table: Table data. The LUT is enabled if non-NULL, and disabled
+> + * struct rcar_cmm_table_config - CMM LUT and CLU configuration
+> + * @update: When true, update the LUT or CLU configuration.
+> + * @table: Table data. The LUT or CLU is enabled if non-NULL, and disabled
+>   *	otherwise. The value is ignored if @update is false.
+>   */
+>  struct rcar_cmm_table_config {
+> @@ -26,10 +27,12 @@ struct rcar_cmm_table_config {
+>  
 >  /**
 >   * struct rcar_cmm_config - CMM configuration
-> - *
-> - * @lut:	1D-LUT configuration
-> - * @lut.table:	1D-LUT table entries. Disable LUT operations when NULL
-> + * @lut: 1D-LUT configuration
+> - * @lut: 1D-LUT configuration
+> + * @lut: 1D LUT configuration
+> + * @clu: 3D (cubic) LUT configuration
 >   */
 >  struct rcar_cmm_config {
-> -	struct {
-> -		struct drm_color_lut *table;
-> -	} lut;
-> +	struct rcar_cmm_table_config lut;
+>  	struct rcar_cmm_table_config lut;
+> +	struct rcar_cmm_table_config clu;
 >  };
 >  
 >  #if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 9a099c0fe1d4..426b1870b3cb 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -500,17 +500,23 @@ static int rcar_du_cmm_check(struct drm_crtc *crtc,
->  	return 0;
->  }
->  
-> -static void rcar_du_cmm_setup(struct drm_crtc *crtc)
-> +static void rcar_du_cmm_setup(struct rcar_du_crtc *rcrtc,
-> +			      const struct drm_crtc_state *old_state,
-> +			      const struct drm_crtc_state *new_state)
->  {
-> -	struct drm_property_blob *drm_lut = crtc->state->gamma_lut;
-> -	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
->  	struct rcar_cmm_config cmm_config = {};
->  
->  	if (!rcrtc->cmm)
->  		return;
->  
-> -	if (drm_lut)
-> -		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
-> +	if (!old_state ||
-> +	    !old_state->gamma_lut != !new_state->gamma_lut ||
-> +	    (old_state->gamma_lut && new_state->gamma_lut &&
-> +	     old_state->gamma_lut->base.id != new_state->gamma_lut->base.id)) {
-
-
-The conditional looks a bit terse, but it looks like it does the expected.
-
-Everything else looks good to me.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> +		cmm_config.lut.update = true;
-> +		cmm_config.lut.table = new_state->gamma_lut
-> +				     ? new_state->gamma_lut->data : NULL;
-> +	}
->  
->  	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
->  }
-> @@ -744,7 +750,7 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
->  	 * after the DU channel has been activated. Investigate the impact
->  	 * of this restriction on the first displayed frame.
->  	 */
-> -	rcar_du_cmm_setup(crtc);
-> +	rcar_du_cmm_setup(rcrtc, NULL, crtc->state);
->  }
->  
->  static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
-> @@ -781,6 +787,8 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
->  static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
->  				      struct drm_atomic_state *state)
->  {
-> +	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
-> +									 crtc);
->  	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
->  
->  	WARN_ON(!crtc->state->enable);
-> @@ -801,7 +809,7 @@ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
->  
->  	/* If the active state changed, we let .atomic_enable handle CMM. */
->  	if (crtc->state->color_mgmt_changed && !crtc->state->active_changed)
-> -		rcar_du_cmm_setup(crtc);
-> +		rcar_du_cmm_setup(rcrtc, old_state, crtc->state);
->  
->  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
->  		rcar_du_vsp_atomic_begin(rcrtc);
 > 
 
 -- 
