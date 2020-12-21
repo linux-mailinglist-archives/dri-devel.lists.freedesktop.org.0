@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445E02DFFF8
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 19:39:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 019782E00B5
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Dec 2020 20:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB16F6E4E6;
-	Mon, 21 Dec 2020 18:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF446E4E8;
+	Mon, 21 Dec 2020 19:09:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DCB16E4E6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 18:38:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 081F1BA4;
- Mon, 21 Dec 2020 19:38:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608575932;
- bh=vAD6bBg4UhhDR7b+ZECaq/dCU1lhUctV+yIeVLXx8SM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lvdQoxCfglIVLHAOCOja+XEJZ1XJA62571mmNX1FT3qiSejJW3Ej6+6q0TBoCXkDN
- LBOx9FGwjU7tC1aAHL0oCKSKgfmvtn/dGZqJZ2tI2wR1Bjy+mMARJpHr21vwTzeavm
- DuVkXXiOfENJGD4e3iZezoS6XCRLQGKxdQIFvZvM=
-Date: Mon, 21 Dec 2020 20:38:44 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/4] drm: Extend color correction to support 3D-CLU
-Message-ID: <X+DrtHjekUhwjgbV@pendragon.ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201221015730.28333-4-laurent.pinchart+renesas@ideasonboard.com>
- <CAKMK7uG1dT5mZT48sv4XewvZer-qm=WwQOeVd=Y-Yq_kzjdG+g@mail.gmail.com>
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97136E4E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 19:09:43 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id q25so9751892otn.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 11:09:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gpbfWibUolhFX76xZKFQOWQOSDe1PC6J3TzwCljJOM8=;
+ b=n7Y+XDsgJCqfdB2gBtmbdPsZ9WoGezLRSj0mJYAMraEzE0CsD8A6uWhwLt4k13hHrV
+ gnR7O6CyJC3EcEr5ggdus3JoKFYimoW5F8HveYkAprlYIot8/27vGGems3RpCba97Yei
+ NH6FxarcREwNHAWgb+C6WpeGKoomxNSteAJ3vXBEvoTyh9zkwHtWWhqOt6xwKb6fx+Sr
+ cenfWi0CqS/+JeHpr3Aqve0XN4cwarmyGV9BjgBZmIcxfSjr5/Qxfsm22ALah7m3xZmT
+ 5SOLPj49c5pTSK+mjhJhJqtlwipZLZFckIYdzDh8Ptd/IDpc1GL9z5qeFnBOHo6pOkNH
+ J5Uw==
+X-Gm-Message-State: AOAM531SdXeMoie5xGn3Den12fyjwifxBfif4feSTzn8Va8hBpGxkWD3
+ 976cy+RJ+R0CPHivFFg+Ew==
+X-Google-Smtp-Source: ABdhPJzaiFiWxg7ZzVBsAh2inI/6zkWWvRELyI7/oXbpc7eHTgyHvSth+/vl3FFP4Sr5oJ3OPBlY4A==
+X-Received: by 2002:a05:6830:2413:: with SMTP id
+ j19mr13671148ots.251.1608577783001; 
+ Mon, 21 Dec 2020 11:09:43 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id t2sm947176otj.47.2020.12.21.11.09.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Dec 2020 11:09:41 -0800 (PST)
+Received: (nullmailer pid 379769 invoked by uid 1000);
+ Mon, 21 Dec 2020 19:09:37 -0000
+Date: Mon, 21 Dec 2020 12:09:37 -0700
+From: Rob Herring <robh@kernel.org>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH v4 01/11] dt-bindings: usb: convert usb-device.txt to
+ YAML schema
+Message-ID: <20201221190937.GA369845@robh.at.kernel.org>
+References: <20201216093012.24406-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uG1dT5mZT48sv4XewvZer-qm=WwQOeVd=Y-Yq_kzjdG+g@mail.gmail.com>
+In-Reply-To: <20201216093012.24406-1-chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,216 +60,357 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Min Guo <min.guo@mediatek.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Serge Semin <Sergey.Semin@baikalelectronics.ru>, Vinod Koul <vkoul@kernel.org>,
+ linux-mediatek@lists.infradead.org, netdev@vger.kernel.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Stanley Chu <stanley.chu@mediatek.com>,
+ "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKT24gTW9uLCBEZWMgMjEsIDIwMjAgYXQgMDc6MzY6MjJQTSArMDEwMCwgRGFu
-aWVsIFZldHRlciB3cm90ZToKPiBPbiBNb24sIERlYyAyMSwgMjAyMCBhdCAyOjU3IEFNIExhdXJl
-bnQgUGluY2hhcnQgd3JvdGU6Cj4gPgo+ID4gRnJvbTogS2llcmFuIEJpbmdoYW0gPGtpZXJhbi5i
-aW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+Cj4gPiBFeHRlbmQgdGhlIGV4aXN0
-aW5nIGNvbG9yIG1hbmFnZW1lbnQgcHJvcGVydGllcyB0byBzdXBwb3J0IHByb3Zpc2lvbgo+ID4g
-b2YgYSAzRCBjdWJpYyBsb29rIHVwIHRhYmxlLCBhbGxvd2luZyBmb3IgY29sb3Igc3BlY2lmaWMg
-YWRqdXN0bWVudHMuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogS2llcmFuIEJpbmdoYW0gPGtpZXJh
-bi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+IENvLWRldmVsb3BlZC1ieTog
-TGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydCtyZW5lc2FzQGlkZWFzb25ib2FyZC5j
-b20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-K3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiAKPiBBc3N1bWluZyB0aGlzIGlzIG1lYW50IGZv
-ciBtZXJnaW5nIHRvIHVwc3RyZWFtOiBOZWVkcyBpZ3QgKyBvcGVuCj4gdXNlcnNwYWNlIGluIGEg
-Y29tcG9zaXRvciB0aGF0IGNhcmVzIGVub3VnaC4KClBsZWFzZSBzZWUgdGhlIGNvdmVyIGxldHRl
-ciA6LSkgRmVlZGJhY2sgb24gd2hhdCBhbiBhcHByb3ByaWF0ZQp1c2Vyc3BhY2Ugd291bGQgYmUg
-d291bGQgYmUgYXBwcmVjaWF0ZWQuCgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9h
-dG9taWNfaGVscGVyLmMgICAgICAgfCAgMSArCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9hdG9t
-aWNfc3RhdGVfaGVscGVyLmMgfCAgMyArKwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWlj
-X3VhcGkuYyAgICAgICAgIHwgMTAgKysrKysrCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9jb2xv
-cl9tZ210LmMgICAgICAgICAgfCA0MSArKysrKysrKysrKysrKysrKysrLS0tLQo+ID4gIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fbW9kZV9jb25maWcuYyAgICAgICAgIHwgMTQgKysrKysrKysKPiA+ICBp
-bmNsdWRlL2RybS9kcm1fY3J0Yy5oICAgICAgICAgICAgICAgICAgICB8ICA5ICsrKysrCj4gPiAg
-aW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmggICAgICAgICAgICAgfCAxMSArKysrKysKPiA+
-ICA3IGZpbGVzIGNoYW5nZWQsIDgyIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCj4gPgo+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPiA+IGluZGV4IGJhMTUwNzAzNmYyNi4u
-MGY1NDg5N2QzYzhkIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNf
-aGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4g
-PiBAQCAtMzU1OCw2ICszNTU4LDcgQEAgaW50IGRybV9hdG9taWNfaGVscGVyX2xlZ2FjeV9nYW1t
-YV9zZXQoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ID4gICAgICAgICByZXBsYWNlZCAgPSBkcm1f
-cHJvcGVydHlfcmVwbGFjZV9ibG9iKCZjcnRjX3N0YXRlLT5kZWdhbW1hX2x1dCwgTlVMTCk7Cj4g
-PiAgICAgICAgIHJlcGxhY2VkIHw9IGRybV9wcm9wZXJ0eV9yZXBsYWNlX2Jsb2IoJmNydGNfc3Rh
-dGUtPmN0bSwgTlVMTCk7Cj4gPiAgICAgICAgIHJlcGxhY2VkIHw9IGRybV9wcm9wZXJ0eV9yZXBs
-YWNlX2Jsb2IoJmNydGNfc3RhdGUtPmdhbW1hX2x1dCwgYmxvYik7Cj4gPiArICAgICAgIHJlcGxh
-Y2VkIHw9IGRybV9wcm9wZXJ0eV9yZXBsYWNlX2Jsb2IoJmNydGNfc3RhdGUtPmN1YmljX2x1dCwg
-TlVMTCk7Cj4gPiAgICAgICAgIGNydGNfc3RhdGUtPmNvbG9yX21nbXRfY2hhbmdlZCB8PSByZXBs
-YWNlZDsKPiA+Cj4gPiAgICAgICAgIHJldCA9IGRybV9hdG9taWNfY29tbWl0KHN0YXRlKTsKPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19zdGF0ZV9oZWxwZXIuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3N0YXRlX2hlbHBlci5jCj4gPiBpbmRleCBkZGNm
-NWMyYzhlNmEuLjYxYzY4NWI1MDY3NyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljX3N0YXRlX2hlbHBlci5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0
-b21pY19zdGF0ZV9oZWxwZXIuYwo+ID4gQEAgLTE0MSw2ICsxNDEsOCBAQCB2b2lkIF9fZHJtX2F0
-b21pY19oZWxwZXJfY3J0Y19kdXBsaWNhdGVfc3RhdGUoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+
-ID4gICAgICAgICAgICAgICAgIGRybV9wcm9wZXJ0eV9ibG9iX2dldChzdGF0ZS0+Y3RtKTsKPiA+
-ICAgICAgICAgaWYgKHN0YXRlLT5nYW1tYV9sdXQpCj4gPiAgICAgICAgICAgICAgICAgZHJtX3By
-b3BlcnR5X2Jsb2JfZ2V0KHN0YXRlLT5nYW1tYV9sdXQpOwo+ID4gKyAgICAgICBpZiAoc3RhdGUt
-PmN1YmljX2x1dCkKPiA+ICsgICAgICAgICAgICAgICBkcm1fcHJvcGVydHlfYmxvYl9nZXQoc3Rh
-dGUtPmN1YmljX2x1dCk7Cj4gPiAgICAgICAgIHN0YXRlLT5tb2RlX2NoYW5nZWQgPSBmYWxzZTsK
-PiA+ICAgICAgICAgc3RhdGUtPmFjdGl2ZV9jaGFuZ2VkID0gZmFsc2U7Cj4gPiAgICAgICAgIHN0
-YXRlLT5wbGFuZXNfY2hhbmdlZCA9IGZhbHNlOwo+ID4gQEAgLTIxMyw2ICsyMTUsNyBAQCB2b2lk
-IF9fZHJtX2F0b21pY19oZWxwZXJfY3J0Y19kZXN0cm95X3N0YXRlKHN0cnVjdCBkcm1fY3J0Y19z
-dGF0ZSAqc3RhdGUpCj4gPiAgICAgICAgIGRybV9wcm9wZXJ0eV9ibG9iX3B1dChzdGF0ZS0+ZGVn
-YW1tYV9sdXQpOwo+ID4gICAgICAgICBkcm1fcHJvcGVydHlfYmxvYl9wdXQoc3RhdGUtPmN0bSk7
-Cj4gPiAgICAgICAgIGRybV9wcm9wZXJ0eV9ibG9iX3B1dChzdGF0ZS0+Z2FtbWFfbHV0KTsKPiA+
-ICsgICAgICAgZHJtX3Byb3BlcnR5X2Jsb2JfcHV0KHN0YXRlLT5jdWJpY19sdXQpOwo+ID4gIH0K
-PiA+ICBFWFBPUlRfU1lNQk9MKF9fZHJtX2F0b21pY19oZWxwZXJfY3J0Y19kZXN0cm95X3N0YXRl
-KTsKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5jCj4gPiBpbmRleCAyNjhiYjY5YzJl
-MmYuLjA3MjI5YWNhYjcxYyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRv
-bWljX3VhcGkuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5jCj4g
-PiBAQCAtNDcxLDYgKzQ3MSwxNCBAQCBzdGF0aWMgaW50IGRybV9hdG9taWNfY3J0Y19zZXRfcHJv
-cGVydHkoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICZyZXBsYWNlZCk7Cj4gPiAgICAgICAgICAgICAgICAgc3RhdGUtPmNv
-bG9yX21nbXRfY2hhbmdlZCB8PSByZXBsYWNlZDsKPiA+ICAgICAgICAgICAgICAgICByZXR1cm4g
-cmV0Owo+ID4gKyAgICAgICB9IGVsc2UgaWYgKHByb3BlcnR5ID09IGNvbmZpZy0+Y3ViaWNfbHV0
-X3Byb3BlcnR5KSB7Cj4gPiArICAgICAgICAgICAgICAgcmV0ID0gZHJtX2F0b21pY19yZXBsYWNl
-X3Byb3BlcnR5X2Jsb2JfZnJvbV9pZChkZXYsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgJnN0YXRlLT5jdWJpY19sdXQsCj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgdmFsLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIC0xLCBzaXplb2Yoc3RydWN0IGRybV9jb2xvcl9sdXQpLAo+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZyZXBsYWNlZCk7Cj4gPiArICAgICAg
-ICAgICAgICAgc3RhdGUtPmNvbG9yX21nbXRfY2hhbmdlZCB8PSByZXBsYWNlZDsKPiA+ICsgICAg
-ICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gICAgICAgICB9IGVsc2UgaWYgKHByb3BlcnR5ID09
-IGNvbmZpZy0+cHJvcF9vdXRfZmVuY2VfcHRyKSB7Cj4gPiAgICAgICAgICAgICAgICAgczMyIF9f
-dXNlciAqZmVuY2VfcHRyID0gdTY0X3RvX3VzZXJfcHRyKHZhbCk7Cj4gPgo+ID4gQEAgLTUxNiw2
-ICs1MjQsOCBAQCBkcm1fYXRvbWljX2NydGNfZ2V0X3Byb3BlcnR5KHN0cnVjdCBkcm1fY3J0YyAq
-Y3J0YywKPiA+ICAgICAgICAgICAgICAgICAqdmFsID0gKHN0YXRlLT5jdG0pID8gc3RhdGUtPmN0
-bS0+YmFzZS5pZCA6IDA7Cj4gPiAgICAgICAgIGVsc2UgaWYgKHByb3BlcnR5ID09IGNvbmZpZy0+
-Z2FtbWFfbHV0X3Byb3BlcnR5KQo+ID4gICAgICAgICAgICAgICAgICp2YWwgPSAoc3RhdGUtPmdh
-bW1hX2x1dCkgPyBzdGF0ZS0+Z2FtbWFfbHV0LT5iYXNlLmlkIDogMDsKPiA+ICsgICAgICAgZWxz
-ZSBpZiAocHJvcGVydHkgPT0gY29uZmlnLT5jdWJpY19sdXRfcHJvcGVydHkpCj4gPiArICAgICAg
-ICAgICAgICAgKnZhbCA9IChzdGF0ZS0+Y3ViaWNfbHV0KSA/IHN0YXRlLT5jdWJpY19sdXQtPmJh
-c2UuaWQgOiAwOwo+ID4gICAgICAgICBlbHNlIGlmIChwcm9wZXJ0eSA9PSBjb25maWctPnByb3Bf
-b3V0X2ZlbmNlX3B0cikKPiA+ICAgICAgICAgICAgICAgICAqdmFsID0gMDsKPiA+ICAgICAgICAg
-ZWxzZSBpZiAocHJvcGVydHkgPT0gY3J0Yy0+c2NhbGluZ19maWx0ZXJfcHJvcGVydHkpCj4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb2xvcl9tZ210LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2NvbG9yX21nbXQuYwo+ID4gaW5kZXggM2JjYWJjMmY2ZTBlLi44NWJiYmM4Y2U4
-ZTUgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9yX21nbXQuYwo+ID4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb2xvcl9tZ210LmMKPiA+IEBAIC0zMyw3ICszMyw3
-IEBACj4gPiAgLyoqCj4gPiAgICogRE9DOiBvdmVydmlldwo+ID4gICAqCj4gPiAtICogQ29sb3Ig
-bWFuYWdlbWVudCBvciBjb2xvciBzcGFjZSBhZGp1c3RtZW50cyBpcyBzdXBwb3J0ZWQgdGhyb3Vn
-aCBhIHNldCBvZiA1Cj4gPiArICogQ29sb3IgbWFuYWdlbWVudCBvciBjb2xvciBzcGFjZSBhZGp1
-c3RtZW50cyBpcyBzdXBwb3J0ZWQgdGhyb3VnaCBhIHNldCBvZiA3Cj4gPiAgICogcHJvcGVydGll
-cyBvbiB0aGUgJmRybV9jcnRjIG9iamVjdC4gVGhleSBhcmUgc2V0IHVwIGJ5IGNhbGxpbmcKPiA+
-ICAgKiBkcm1fY3J0Y19lbmFibGVfY29sb3JfbWdtdCgpLgo+ID4gICAqCj4gPiBAQCAtNjAsNyAr
-NjAsNyBAQAo+ID4gICAqIOKAnENUTeKAnToKPiA+ICAgKiAgICAgQmxvYiBwcm9wZXJ0eSB0byBz
-ZXQgdGhlIGN1cnJlbnQgdHJhbnNmb3JtYXRpb24gbWF0cml4IChDVE0pIGFwcGx5IHRvCj4gPiAg
-ICogICAgIHBpeGVsIGRhdGEgYWZ0ZXIgdGhlIGxvb2t1cCB0aHJvdWdoIHRoZSBkZWdhbW1hIExV
-VCBhbmQgYmVmb3JlIHRoZQo+ID4gLSAqICAgICBsb29rdXAgdGhyb3VnaCB0aGUgZ2FtbWEgTFVU
-LiBUaGUgZGF0YSBpcyBpbnRlcnByZXRlZCBhcyBhIHN0cnVjdAo+ID4gKyAqICAgICBsb29rdXAg
-dGhyb3VnaCB0aGUgY3ViaWMgTFVULiBUaGUgZGF0YSBpcyBpbnRlcnByZXRlZCBhcyBhIHN0cnVj
-dAo+ID4gICAqICAgICAmZHJtX2NvbG9yX2N0bS4KPiA+ICAgKgo+ID4gICAqICAgICBTZXR0aW5n
-IHRoaXMgdG8gTlVMTCAoYmxvYiBwcm9wZXJ0eSB2YWx1ZSBzZXQgdG8gMCkgbWVhbnMgYQo+ID4g
-QEAgLTY4LDEzICs2OCw0MCBAQAo+ID4gICAqICAgICBib290LXVwIHN0YXRlIHRvby4gRHJpdmVy
-cyBjYW4gYWNjZXNzIHRoZSBibG9iIGZvciB0aGUgY29sb3IgY29udmVyc2lvbgo+ID4gICAqICAg
-ICBtYXRyaXggdGhyb3VnaCAmZHJtX2NydGNfc3RhdGUuY3RtLgo+ID4gICAqCj4gPiArICog4oCd
-Q1VCSUNfTFVU4oCdOgo+ID4gKyAqICAgICBCbG9iIHByb3BlcnR5IHRvIHNldCB0aGUgY3ViaWMg
-KDNEKSBsb29rdXAgdGFibGUgcGVyZm9ybWluZyBjb2xvcgo+ID4gKyAqICAgICBtYXBwaW5nIGFm
-dGVyIHRoZSB0cmFuc2Zvcm1hdGlvbiBtYXRyaXggYW5kIGJlZm9yZSB0aGUgbG9va3VwIHRocm91
-Z2gKPiA+ICsgKiAgICAgdGhlIGdhbW1hIExVVC4gVW5saWtlIHRoZSBkZWdhbW1hIGFuZCBnYW1t
-YSBMVVRzIHRoYXQgbWFwIGNvbG9yCj4gPiArICogICAgIGNvbXBvbmVudHMgaW5kZXBlbmRlbnRs
-eSwgdGhlIDNEIExVVCBjb252ZXJ0cyBhbiBpbnB1dCBjb2xvciB0byBhbgo+ID4gKyAqICAgICBv
-dXRwdXQgY29sb3IgYnkgaW5kZXhpbmcgaW50byB0aGUgM0QgdGFibGUgdXNpbmcgdGhlIGNvbG9y
-IGNvbXBvbmVudHMKPiA+ICsgKiAgICAgYXMgYSAzRCBjb29yZGluYXRlLiBUaGUgTFVUIGlzIHN1
-YnNhbXBsZWQgYXMgOC1iaXQgKG9yIG1vcmUpIHByZWNpc2lvbgo+ID4gKyAqICAgICB3b3VsZCBy
-ZXF1aXJlIHRvbyBtdWNoIHN0b3JhZ2Ugc3BhY2UgaW4gdGhlIGhhcmR3YXJlLCBzbyB0aGUgcHJl
-Y2lzaW9uCj4gPiArICogICAgIG9mIHRoZSBjb2xvciBjb21wb25lbnRzIGlzIHJlZHVjZWQgYmVm
-b3JlIHRoZSBsb29rIHVwLCBhbmQgdGhlIGxvdwo+ID4gKyAqICAgICBvcmRlciBiaXRzIG1heSBi
-ZSB1c2VkIHRvIGludGVycG9sYXRlIGJldHdlZW4gdGhlIG5lYXJlc3QgcG9pbnRzIGluIDNECj4g
-PiArICogICAgIHNwYWNlLgo+ID4gKyAqCj4gPiArICogICAgIFRoZSBkYXRhIGlzIGludGVycHJl
-dGVkIGFzIGFuIGFycmF5IG9mICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dCBlbGVtZW50cy4KPiA+ICsg
-KiAgICAgSGFyZHdhcmUgbWlnaHQgY2hvb3NlIG5vdCB0byB1c2UgdGhlIGZ1bGwgcHJlY2lzaW9u
-IG9mIHRoZSBMVVQKPiA+ICsgKiAgICAgZWxlbWVudHMuCj4gPiArICoKPiA+ICsgKiAgICAgU2V0
-dGluZyB0aGlzIHRvIE5VTEwgKGJsb2IgcHJvcGVydHkgdmFsdWUgc2V0IHRvIDApIG1lYW5zIHRo
-ZSBvdXRwdXQKPiA+ICsgKiAgICAgY29sb3IgaXMgaWRlbnRpY2FsIHRvIHRoZSBpbnB1dCBjb2xv
-ci4gVGhpcyBpcyBnZW5lcmFsbHkgdGhlIGRyaXZlcgo+ID4gKyAqICAgICBib290LXVwIHN0YXRl
-IHRvby4gRHJpdmVycyBjYW4gYWNjZXNzIHRoaXMgYmxvYiB0aHJvdWdoCj4gPiArICogICAgICZk
-cm1fY3J0Y19zdGF0ZS5jdWJpY19sdXQuCj4gPiArICoKPiA+ICsgKiDigJ1DVUJJQ19MVVRfU0la
-ReKAnToKPiA+ICsgKiAgICAgVW5zaWduZWQgcmFuZ2UgcHJvcGVydHkgdG8gZ2l2ZSB0aGUgc2l6
-ZSBvZiB0aGUgbG9va3VwIHRhYmxlIHRvIGJlIHNldAo+ID4gKyAqICAgICBvbiB0aGUgQ1VCSUNf
-TFVUIHByb3BlcnR5ICh0aGUgc2l6ZSBkZXBlbmRzIG9uIHRoZSB1bmRlcmx5aW5nIGhhcmR3YXJl
-KS4KPiA+ICsgKiAgICAgSWYgZHJpdmVycyBzdXBwb3J0IG11bHRpcGxlIExVVCBzaXplcyB0aGVu
-IHRoZXkgc2hvdWxkIHB1Ymxpc2ggdGhlCj4gPiArICogICAgIGxhcmdlc3Qgc2l6ZSwgYW5kIHN1
-Yi1zYW1wbGUgc21hbGxlciBzaXplZCBMVVRzIGFwcHJvcHJpYXRlbHkuCj4gPiArICoKPiA+ICAg
-KiDigJxHQU1NQV9MVVTigJ06Cj4gPiAgICogICAgIEJsb2IgcHJvcGVydHkgdG8gc2V0IHRoZSBn
-YW1tYSBsb29rdXAgdGFibGUgKExVVCkgbWFwcGluZyBwaXhlbCBkYXRhCj4gPiAtICogICAgIGFm
-dGVyIHRoZSB0cmFuc2Zvcm1hdGlvbiBtYXRyaXggdG8gZGF0YSBzZW50IHRvIHRoZSBjb25uZWN0
-b3IuIFRoZQo+ID4gLSAqICAgICBkYXRhIGlzIGludGVycHJldGVkIGFzIGFuIGFycmF5IG9mICZz
-dHJ1Y3QgZHJtX2NvbG9yX2x1dCBlbGVtZW50cy4KPiA+IC0gKiAgICAgSGFyZHdhcmUgbWlnaHQg
-Y2hvb3NlIG5vdCB0byB1c2UgdGhlIGZ1bGwgcHJlY2lzaW9uIG9mIHRoZSBMVVQgZWxlbWVudHMK
-PiA+IC0gKiAgICAgbm9yIHVzZSBhbGwgdGhlIGVsZW1lbnRzIG9mIHRoZSBMVVQgKGZvciBleGFt
-cGxlIHRoZSBoYXJkd2FyZSBtaWdodAo+ID4gLSAqICAgICBjaG9vc2UgdG8gaW50ZXJwb2xhdGUg
-YmV0d2VlbiBMVVRbMF0gYW5kIExVVFs0XSkuCj4gPiArICogICAgIGFmdGVyIHRoZSBjdWJpYyBM
-VVQgdG8gZGF0YSBzZW50IHRvIHRoZSBjb25uZWN0b3IuIFRoZSBkYXRhIGlzCj4gPiArICogICAg
-IGludGVycHJldGVkIGFzIGFuIGFycmF5IG9mICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dCBlbGVtZW50
-cy4gSGFyZHdhcmUKPiA+ICsgKiAgICAgbWlnaHQgY2hvb3NlIG5vdCB0byB1c2UgdGhlIGZ1bGwg
-cHJlY2lzaW9uIG9mIHRoZSBMVVQgZWxlbWVudHMgbm9yIHVzZQo+ID4gKyAqICAgICBhbGwgdGhl
-IGVsZW1lbnRzIG9mIHRoZSBMVVQgKGZvciBleGFtcGxlIHRoZSBoYXJkd2FyZSBtaWdodCBjaG9v
-c2UgdG8KPiA+ICsgKiAgICAgaW50ZXJwb2xhdGUgYmV0d2VlbiBMVVRbMF0gYW5kIExVVFs0XSku
-Cj4gPiAgICoKPiA+ICAgKiAgICAgU2V0dGluZyB0aGlzIHRvIE5VTEwgKGJsb2IgcHJvcGVydHkg
-dmFsdWUgc2V0IHRvIDApIG1lYW5zIGEKPiA+ICAgKiAgICAgbGluZWFyL3Bhc3MtdGhydSBnYW1t
-YSB0YWJsZSBzaG91bGQgYmUgdXNlZC4gVGhpcyBpcyBnZW5lcmFsbHkgdGhlCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9tb2RlX2NvbmZpZy5jIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9tb2RlX2NvbmZpZy5jCj4gPiBpbmRleCBmMWFmZmMxYmI2NzkuLjZjMzMyNGY2MGU3ZCAx
-MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZV9jb25maWcuYwo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9tb2RlX2NvbmZpZy5jCj4gPiBAQCAtMzY0LDYgKzM2NCwy
-MCBAQCBzdGF0aWMgaW50IGRybV9tb2RlX2NyZWF0ZV9zdGFuZGFyZF9wcm9wZXJ0aWVzKHN0cnVj
-dCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07Cj4g
-PiAgICAgICAgIGRldi0+bW9kZV9jb25maWcuZ2FtbWFfbHV0X3NpemVfcHJvcGVydHkgPSBwcm9w
-Owo+ID4KPiA+ICsgICAgICAgcHJvcCA9IGRybV9wcm9wZXJ0eV9jcmVhdGUoZGV2LAo+ID4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgRFJNX01PREVfUFJPUF9CTE9CLAo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgIkNVQklDX0xVVCIsIDApOwo+ID4gKyAgICAgICBpZiAoIXByb3ApCj4gPiAr
-ICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07Cj4gPiArICAgICAgIGRldi0+bW9kZV9jb25m
-aWcuY3ViaWNfbHV0X3Byb3BlcnR5ID0gcHJvcDsKPiA+ICsKPiA+ICsgICAgICAgcHJvcCA9IGRy
-bV9wcm9wZXJ0eV9jcmVhdGVfcmFuZ2UoZGV2LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-RFJNX01PREVfUFJPUF9JTU1VVEFCTEUsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAiQ1VC
-SUNfTFVUX1NJWkUiLCAwLCBVSU5UX01BWCk7Cj4gPiArICAgICAgIGlmICghcHJvcCkKPiA+ICsg
-ICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ICsgICAgICAgZGV2LT5tb2RlX2NvbmZp
-Zy5jdWJpY19sdXRfc2l6ZV9wcm9wZXJ0eSA9IHByb3A7Cj4gPiArCj4gPiAgICAgICAgIHByb3Ag
-PSBkcm1fcHJvcGVydHlfY3JlYXRlKGRldiwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgRFJNX01PREVfUFJPUF9JTU1VVEFCTEUgfCBEUk1fTU9ERV9QUk9QX0JMT0IsCj4g
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJJTl9GT1JNQVRTIiwgMCk7Cj4g
-PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2NydGMuaCBiL2luY2x1ZGUvZHJtL2RybV9j
-cnRjLmgKPiA+IGluZGV4IDVmNDNkNjRkMmEwNy4uZGY1Y2MyMjM5YWRiIDEwMDY0NAo+ID4gLS0t
-IGEvaW5jbHVkZS9kcm0vZHJtX2NydGMuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2NydGMu
-aAo+ID4gQEAgLTI4OCw2ICsyODgsMTUgQEAgc3RydWN0IGRybV9jcnRjX3N0YXRlIHsKPiA+ICAg
-ICAgICAgICovCj4gPiAgICAgICAgIHN0cnVjdCBkcm1fcHJvcGVydHlfYmxvYiAqZ2FtbWFfbHV0
-Owo+ID4KPiA+ICsgICAgICAgLyoqCj4gPiArICAgICAgICAqIEBjdWJpY19sdXQ6Cj4gPiArICAg
-ICAgICAqCj4gPiArICAgICAgICAqIEN1YmljIExvb2t1cCB0YWJsZSBmb3IgY29udmVydGluZyBw
-aXhlbCBkYXRhLiBTZWUKPiA+ICsgICAgICAgICogZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQo
-KS4gVGhlIGJsb2IgKGlmIG5vdCBOVUxMKSBpcyBhIDNEIGFycmF5Cj4gPiArICAgICAgICAqIG9m
-ICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dC4KPiA+ICsgICAgICAgICovCj4gPiArICAgICAgIHN0cnVj
-dCBkcm1fcHJvcGVydHlfYmxvYiAqY3ViaWNfbHV0Owo+ID4gKwo+ID4gICAgICAgICAvKioKPiA+
-ICAgICAgICAgICogQHRhcmdldF92Ymxhbms6Cj4gPiAgICAgICAgICAqCj4gPiBkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmggYi9pbmNsdWRlL2RybS9kcm1fbW9kZV9j
-b25maWcuaAo+ID4gaW5kZXggYWI0MjRkZGQ3NjY1Li44ZWRiMDA5NGU1YTcgMTAwNjQ0Cj4gPiAt
-LS0gYS9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0v
-ZHJtX21vZGVfY29uZmlnLmgKPiA+IEBAIC04MDAsNiArODAwLDE3IEBAIHN0cnVjdCBkcm1fbW9k
-ZV9jb25maWcgewo+ID4gICAgICAgICAgKi8KPiA+ICAgICAgICAgc3RydWN0IGRybV9wcm9wZXJ0
-eSAqZ2FtbWFfbHV0X3NpemVfcHJvcGVydHk7Cj4gPgo+ID4gKyAgICAgICAvKioKPiA+ICsgICAg
-ICAgICogQGN1YmljX2x1dF9wcm9wZXJ0eTogT3B0aW9uYWwgQ1JUQyBwcm9wZXJ0eSB0byBzZXQg
-dGhlIDNEIExVVCB1c2VkIHRvCj4gPiArICAgICAgICAqIGNvbnZlcnQgY29sb3Igc3BhY2VzLgo+
-ID4gKyAgICAgICAgKi8KPiA+ICsgICAgICAgc3RydWN0IGRybV9wcm9wZXJ0eSAqY3ViaWNfbHV0
-X3Byb3BlcnR5Owo+ID4gKyAgICAgICAvKioKPiA+ICsgICAgICAgICogQGN1YmljX2x1dF9zaXpl
-X3Byb3BlcnR5OiBPcHRpb25hbCBDUlRDIHByb3BlcnR5IGZvciB0aGUgc2l6ZSBvZiB0aGUKPiA+
-ICsgICAgICAgICogM0QgTFVUIGFzIHN1cHBvcnRlZCBieSB0aGUgZHJpdmVyIChyZWFkLW9ubHkp
-Lgo+ID4gKyAgICAgICAgKi8KPiA+ICsgICAgICAgc3RydWN0IGRybV9wcm9wZXJ0eSAqY3ViaWNf
-bHV0X3NpemVfcHJvcGVydHk7Cj4gPiArCj4gPiAgICAgICAgIC8qKgo+ID4gICAgICAgICAgKiBA
-c3VnZ2VzdGVkX3hfcHJvcGVydHk6IE9wdGlvbmFsIGNvbm5lY3RvciBwcm9wZXJ0eSB3aXRoIGEg
-aGludCBmb3IKPiA+ICAgICAgICAgICogdGhlIHBvc2l0aW9uIG9mIHRoZSBvdXRwdXQgb24gdGhl
-IGhvc3QncyBzY3JlZW4uCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Dec 16, 2020 at 05:30:02PM +0800, Chunfeng Yun wrote:
+> Convert usb-device.txt to YAML schema usb-device.yaml
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v4: no changes, update dependent series:
+>     https://patchwork.kernel.org/project/linux-usb/list/?series=399561
+>     [v6,00/19] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
+> 
+> v3:
+>   1. remove $nodenmae and items key word for compatilbe;
+>   2. add additionalProperties;
+> 
+>   The followings are suggested by Rob:
+>   3. merge the following patch
+>     [v2,1/4] dt-bindings: usb: convert usb-device.txt to YAML schema
+>     [v2,2/4] dt-bindings: usb: add properties for hard wired devices
+>   4. define the unit-address for hard-wired device in usb-hcd.yaml,
+>      also define its 'reg' and 'compatible';
+>   5. This series is base on Serge's series:
+>     https://patchwork.kernel.org/project/linux-usb/cover/20201111090853.14112-1-Sergey.Semin@baikalelectronics.ru/
+>     [v4,00/18] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
+> 
+> v2 changes suggested by Rob:
+>   1. modify pattern to support any USB class
+>   2. convert usb-device.txt into usb-device.yaml
+> ---
+>  .../devicetree/bindings/usb/usb-device.txt    | 102 --------------
+>  .../devicetree/bindings/usb/usb-device.yaml   | 125 ++++++++++++++++++
+>  .../devicetree/bindings/usb/usb-hcd.yaml      |  33 +++++
+>  3 files changed, 158 insertions(+), 102 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/usb-device.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/usb-device.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/usb-device.txt b/Documentation/devicetree/bindings/usb/usb-device.txt
+> deleted file mode 100644
+> index 036be172b1ae..000000000000
+> --- a/Documentation/devicetree/bindings/usb/usb-device.txt
+> +++ /dev/null
+> @@ -1,102 +0,0 @@
+> -Generic USB Device Properties
+> -
+> -Usually, we only use device tree for hard wired USB device.
+> -The reference binding doc is from:
+> -http://www.devicetree.org/open-firmware/bindings/usb/usb-1_0.ps
+> -
+> -Four types of device-tree nodes are defined: "host-controller nodes"
+> -representing USB host controllers, "device nodes" representing USB devices,
+> -"interface nodes" representing USB interfaces and "combined nodes"
+> -representing simple USB devices.
+> -
+> -A combined node shall be used instead of a device node and an interface node
+> -for devices of class 0 or 9 (hub) with a single configuration and a single
+> -interface.
+> -
+> -A "hub node" is a combined node or an interface node that represents a USB
+> -hub.
+> -
+> -
+> -Required properties for device nodes:
+> -- compatible: "usbVID,PID", where VID is the vendor id and PID the product id.
+> -  The textual representation of VID and PID shall be in lower case hexadecimal
+> -  with leading zeroes suppressed. The other compatible strings from the above
+> -  standard binding could also be used, but a device adhering to this binding
+> -  may leave out all except for "usbVID,PID".
+> -- reg: the number of the USB hub port or the USB host-controller port to which
+> -  this device is attached. The range is 1-255.
+> -
+> -
+> -Required properties for device nodes with interface nodes:
+> -- #address-cells: shall be 2
+> -- #size-cells: shall be 0
+> -
+> -
+> -Required properties for interface nodes:
+> -- compatible: "usbifVID,PID.configCN.IN", where VID is the vendor id, PID is
+> -  the product id, CN is the configuration value and IN is the interface
+> -  number. The textual representation of VID, PID, CN and IN shall be in lower
+> -  case hexadecimal with leading zeroes suppressed. The other compatible
+> -  strings from the above standard binding could also be used, but a device
+> -  adhering to this binding may leave out all except for
+> -  "usbifVID,PID.configCN.IN".
+> -- reg: the interface number and configuration value
+> -
+> -The configuration component is not included in the textual representation of
+> -an interface-node unit address for configuration 1.
+> -
+> -
+> -Required properties for combined nodes:
+> -- compatible: "usbVID,PID", where VID is the vendor id and PID the product id.
+> -  The textual representation of VID and PID shall be in lower case hexadecimal
+> -  with leading zeroes suppressed. The other compatible strings from the above
+> -  standard binding could also be used, but a device adhering to this binding
+> -  may leave out all except for "usbVID,PID".
+> -- reg: the number of the USB hub port or the USB host-controller port to which
+> -  this device is attached. The range is 1-255.
+> -
+> -
+> -Required properties for hub nodes with device nodes:
+> -- #address-cells: shall be 1
+> -- #size-cells: shall be 0
+> -
+> -
+> -Required properties for host-controller nodes with device nodes:
+> -- #address-cells: shall be 1
+> -- #size-cells: shall be 0
+> -
+> -
+> -Example:
+> -
+> -&usb1 {	/* host controller */
+> -	#address-cells = <1>;
+> -	#size-cells = <0>;
+> -
+> -	hub@1 {		/* hub connected to port 1 */
+> -		compatible = "usb5e3,608";
+> -		reg = <1>;
+> -	};
+> -
+> -	device@2 {	/* device connected to port 2 */
+> -		compatible = "usb123,4567";
+> -		reg = <2>;
+> -	};
+> -
+> -	device@3 { 	/* device connected to port 3 */
+> -		compatible = "usb123,abcd";
+> -		reg = <3>;
+> -
+> -		#address-cells = <2>;
+> -		#size-cells = <0>;
+> -
+> -		interface@0 {	/* interface 0 of configuration 1 */
+> -			compatible = "usbif123,abcd.config1.0";
+> -			reg = <0 1>;
+> -		};
+> -
+> -		interface@0,2 {	/* interface 0 of configuration 2 */
+> -			compatible = "usbif123,abcd.config2.0";
+> -			reg = <0 2>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> new file mode 100644
+> index 000000000000..f31d8a85d3e6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/usb-device.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: The device tree bindings for the Generic USB Device
+> +
+> +maintainers:
+> +  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> +
+> +description: |
+> +  Usually, we only use device tree for hard wired USB device.
+> +  The reference binding doc is from:
+> +  http://www.devicetree.org/open-firmware/bindings/usb/usb-1_0.ps
+> +
+> +  Four types of device-tree nodes are defined: "host-controller nodes"
+> +  representing USB host controllers, "device nodes" representing USB devices,
+> +  "interface nodes" representing USB interfaces and "combined nodes"
+> +  representing simple USB devices.
+> +
+> +  A combined node shall be used instead of a device node and an interface node
+> +  for devices of class 0 or 9 (hub) with a single configuration and a single
+> +  interface.
+> +
+> +  A "hub node" is a combined node or an interface node that represents a USB
+> +  hub.
+> +
+> +properties:
+> +  compatible:
+> +    pattern: "^usb[0-9a-f]+,[0-9a-f]+$"
+
+You can refine the length allowed a bit: [0-9a-f]{1,4}
+
+Same applies elsewhere.
+
+> +    description: Device nodes or combined nodes.
+> +      "usbVID,PID", where VID is the vendor id and PID the product id.
+> +      The textual representation of VID and PID shall be in lower case
+> +      hexadecimal with leading zeroes suppressed. The other compatible
+> +      strings from the above standard binding could also be used,
+> +      but a device adhering to this binding may leave out all except
+> +      for "usbVID,PID".
+> +
+> +  reg:
+> +    description: the number of the USB hub port or the USB host-controller
+> +      port to which this device is attached. The range is 1-255.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    description: should be 1 for hub nodes with device nodes,
+> +      should be 2 for device nodes with interface nodes.
+> +    enum: [1, 2]
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^interface@[0-9]+(,[0-9]+)$":
+> +    type: object
+> +    description: USB interface nodes.
+> +      The configuration component is not included in the textual
+> +      representation of an interface-node unit address for configuration 1.
+> +
+> +    properties:
+> +      compatible:
+> +        pattern: "^usbif[0-9a-f]+,[0-9a-f]+.config[0-9a-f]+.[0-9a-f]+$"
+> +        description: Interface nodes.
+> +          "usbifVID,PID.configCN.IN", where VID is the vendor id, PID is
+> +          the product id, CN is the configuration value and IN is the interface
+> +          number. The textual representation of VID, PID, CN and IN shall be
+> +          in lower case hexadecimal with leading zeroes suppressed.
+> +          The other compatible strings from the above standard binding could
+> +          also be used, but a device adhering to this binding may leave out
+> +          all except for "usbifVID,PID.configCN.IN".
+> +
+> +      reg:
+> +        description: should be 2 cells long, the first cell represents
+> +          the interface number and the second cell represents the
+> +          configuration value.
+> +        maxItems: 1
+> +
+> +required:
+> +  - compatile
+> +  - reg
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  #hub connected to port 1
+> +  #device connected to port 2
+> +  #device connected to port 3
+> +  #    interface 0 of configuration 1
+> +  #    interface 0 of configuration 2
+> +  - |
+> +    usb@11270000 {
+> +        compatible = "generic-xhci";
+> +        reg = <0x11270000 0x1000>;
+> +        interrupts = <0x0 0x4e 0x0>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hub@1 {
+> +            compatible = "usb5e3,608";
+> +            reg = <1>;
+> +        };
+> +
+> +        device@2 {
+> +            compatible = "usb123,4567";
+> +            reg = <2>;
+> +        };
+> +
+> +        device@3 {
+> +            compatible = "usb123,abcd";
+> +            reg = <3>;
+> +
+> +            #address-cells = <2>;
+> +            #size-cells = <0>;
+> +
+> +            interface@0 {
+> +                compatible = "usbif123,abcd.config1.0";
+> +                reg = <0 1>;
+> +            };
+> +
+> +            interface@0,2 {
+> +                compatible = "usbif123,abcd.config2.0";
+> +                reg = <0 2>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> index 9881ac10380d..5d0c6b5500d6 100755
+> --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> @@ -23,6 +23,32 @@ properties:
+>        targeted hosts (non-PC hosts).
+>      type: boolean
+>  
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "@[0-9a-f]+$":
+> +    type: object
+> +    description: The hard wired USB devices
+> +
+> +    properties:
+> +      compatible:
+> +        pattern: "^usb[0-9a-f]+,[0-9a-f]+$"
+> +        $ref: /usb/usb-device.yaml
+
+This is wrong. It should be up a level. And no need to define 
+'compatible' or 'reg' here because those are defined within 
+usb-device.yaml.
+
+> +        description: the string is 'usbVID,PID', where VID is the vendor id
+> +          and PID is the product id
+> +
+> +      reg:
+> +        $ref: /usb/usb-device.yaml
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+>  additionalProperties: true
+>  
+>  examples:
+> @@ -30,4 +56,11 @@ examples:
+>      usb {
+>          phys = <&usb2_phy1>, <&usb3_phy1>;
+>          phy-names = "usb";
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hub@1 {
+> +            compatible = "usb5e3,610";
+> +            reg = <1>;
+> +        };
+>      };
+> -- 
+> 2.18.0
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
