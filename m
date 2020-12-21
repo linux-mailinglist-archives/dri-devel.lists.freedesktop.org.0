@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DA62E0807
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC14A2E07F1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1DE6E851;
-	Tue, 22 Dec 2020 09:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA0E6E83B;
+	Tue, 22 Dec 2020 09:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7366E0D6;
- Mon, 21 Dec 2020 11:16:40 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Czxj94ncwzM7XR;
- Mon, 21 Dec 2020 19:15:41 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 21 Dec 2020 19:16:30 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <Bhawanpreet.Lakha@amd.com>, <Joshua.Aberback@amd.com>,
- <Rodrigo.Siqueira@amd.com>, <aurabindo.pillai@amd.com>,
- <Ashley.Thomas2@amd.com>, <Jing.Zhou@amd.com>, <Chris.Park@amd.com>
-Subject: [PATCH] drm/amd/display: remove useless else if
-Date: Mon, 21 Dec 2020 19:16:35 +0800
-Message-ID: <1608549395-30993-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C48589A72
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 12:19:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 979DFAC63;
+ Mon, 21 Dec 2020 12:18:59 +0000 (UTC)
+Message-ID: <dd1c7526e6c7eb4ad509ac629f233a387eb9b340.camel@suse.de>
+Subject: Re: [PATCH 8/8] ARM: dts: bcm2711: Use compatible string for
+ BCM2711 DSI1
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Daniel Vetter <daniel.vetter@intel.com>, David
+ Airlie <airlied@linux.ie>
+Date: Mon, 21 Dec 2020 13:18:57 +0100
+In-Reply-To: <20201203132543.861591-9-maxime@cerno.tech>
+References: <20201203132543.861591-1-maxime@cerno.tech>
+ <20201203132543.861591-9-maxime@cerno.tech>
+User-Agent: Evolution 3.38.2 
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,38 +43,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============1786761060=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccinelle report:
-drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c:1357:6-8:
-WARNING: possible condition with no effect (if == else)
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c | 2 --
- 1 file changed, 2 deletions(-)
+--===============1786761060==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-bsPMcCg3EY6k3Lejq6Ht"
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
-index 808c4dc..504f2a4 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
-@@ -1354,8 +1354,6 @@ static bool dcn302_resource_construct(
- 
- 	if (dc->ctx->dce_environment == DCE_ENV_PRODUCTION_DRV)
- 		dc->debug = debug_defaults_drv;
--	else if (dc->ctx->dce_environment == DCE_ENV_FPGA_MAXIMUS)
--		dc->debug = debug_defaults_diags;
- 	else
- 		dc->debug = debug_defaults_diags;
- 
--- 
-2.7.4
+
+--=-bsPMcCg3EY6k3Lejq6Ht
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2020-12-03 at 14:25 +0100, Maxime Ripard wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>=20
+> Updates the compatible string for DSI1 on BCM2711 to
+> differentiate it from BCM2835.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+
+Applied for-next,
+
+Thanks!
+
+
+--=-bsPMcCg3EY6k3Lejq6Ht
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl/gkrEACgkQlfZmHno8
+x/4gnAf+J3Qk7G+WkKIn52+n93DBe2By+mkG//+MK3Cr51qstrmEy78IYDHWQG2K
+WiG3i2G/RF5LA7kgS+s47mH0EfIU9nelsl4Xp4O3rLYm8B43Q0bJKX5UZA8KDG5S
+RQPcghpvEU687Ao2a9eiost1a+Q5drghKQgZaL/TPTmdXJW2JX6pY0eYL5cXO02Y
+GwuyvD3KtGPly/oiH82qzu+AD3YPXam1nmWNnsNWiWNvoEcSeY6dWHAq3AXskYJN
+ePCHkMZE205NKNQWAeZe0Hv5E23QBs4jsFhfrou5qRuaTaAedD9TEsb4wxDsX6QX
+ndM4hff34fTLfASumzCvjERPwxFX4Q==
+=bzwo
+-----END PGP SIGNATURE-----
+
+--=-bsPMcCg3EY6k3Lejq6Ht--
+
+
+--===============1786761060==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1786761060==--
+
