@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53892E0C6E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 16:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5D72E0CA8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 16:26:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFA936E880;
-	Tue, 22 Dec 2020 15:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F256A6E3F7;
+	Tue, 22 Dec 2020 15:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD936E880
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 15:09:12 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id 190so2135323wmz.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 07:09:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=//6/GeLm2VjocWIIM23HGQmaKVrmBdF4eSj3qcdW/Vs=;
- b=JTBgUoCqQcd5SCzWzZjnHzp7aN9ufmIff1143L0brscU+vZrf8Y//nTo3FDLN6LAF4
- f+CW9Y78kw4j+Uy/Q4nvLrYQSJr/sne/zNUZkxY+9fHD+Qop1XRR/3ZGVH9OZs4jfsKT
- eMI1EuJYzesN8Jtv34OGqkDKPSgF1GDeB+ClE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=//6/GeLm2VjocWIIM23HGQmaKVrmBdF4eSj3qcdW/Vs=;
- b=HHSpPz9yftNXZEo9Y746XWbAJ4kyQpJrgevwJ/Tzvop9gCQ5NP9vczkWgKMid1oI9j
- l01t9Oa7J/ATF2fxD1/cQuq94Fp5OInouiNHDDw+pPoisPXFi0ue2jayEKZUWM5REoei
- eUTV4hIek7RIes7xZ1oXupcrfizNqMhrqrA1sxwbq0VDdTluGmrE3HdicYb4iQke6Xrx
- vnHs8EUnAW8mIpRhxsq2at0CYZRRjaduaSwZkEkrP92kUfrdHeTxnOjbpRRNxyzCfB/9
- gcorjEsg1FoXe6WcPTdEEvNuOAtnCDq+FfwN7Vqhdtr33zhR4T1vchI6q96J6IpXTMfK
- 7R6Q==
-X-Gm-Message-State: AOAM533salTcSi7bhjoqLCyfKpJWuTEVaSyu4eDDEAb56AE6SLjG58C+
- A0ZO+BYAoQtUjLyjjGrHXxB08g==
-X-Google-Smtp-Source: ABdhPJwhLBWuozkQ35aJMrmNOVeGDapKA8K380NuJamR/r9MKueHjH4slJ6vNd1chN5CDL0uan+tEw==
-X-Received: by 2002:a1c:2203:: with SMTP id i3mr21983827wmi.6.1608649750956;
- Tue, 22 Dec 2020 07:09:10 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j10sm30415658wmj.7.2020.12.22.07.09.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Dec 2020 07:09:10 -0800 (PST)
-Date: Tue, 22 Dec 2020 16:09:08 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: warn if cursor plane is set with legacy funcs
-Message-ID: <X+IMFOv0/76J2o52@phenom.ffwll.local>
-References: <20201222134002.161613-1-contact@emersion.fr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A969C6E3F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 15:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608650800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M34ihcQIgl2uBvdtI2eLaQPEje/5BH6xiNgzRU0ua+I=;
+ b=BmxRRQ+szp+8wfAbhPrfLM66f/a7edr6wc9an9/OvZqUySGiijgzS7C7YKpTS5V7UUSyvz
+ f+quJ62V2QuaLRsbuGxX9Beg9f9nTRR4NI1i1OgVyRAWH+BDUyGbKUXIpQj6ODpXgM2kF6
+ mXaNndS2zYnOvJRNSbdh9dQXy9DVMjE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-VA1_zpJrM-isDBU9vNciDw-1; Tue, 22 Dec 2020 10:26:36 -0500
+X-MC-Unique: VA1_zpJrM-isDBU9vNciDw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D613802B40;
+ Tue, 22 Dec 2020 15:26:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E28F10016F4;
+ Tue, 22 Dec 2020 15:26:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F2A0311AB8; Tue, 22 Dec 2020 16:26:32 +0100 (CET)
+Date: Tue, 22 Dec 2020 16:26:32 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Enrico Weigelt, metux IT consult" <info@metux.net>
+Subject: Re: [PATCH] drivers: gpu: drm: virtio: fix dependency of
+ DRM_VIRTIO_GPU on VIRTIO
+Message-ID: <20201222152632.eiyi5a46ekdafhyc@sirius.home.kraxel.org>
+References: <20201204131221.2827-1-info@metux.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201222134002.161613-1-contact@emersion.fr>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201204131221.2827-1-info@metux.net>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 22, 2020 at 02:40:02PM +0100, Simon Ser wrote:
-> A driver must not set drm_crtc.cursor and any of the legacy funcs at the
-> same time, otherwise it's not clear which one DRM core should use for
-> legacy cursor updates.
+On Fri, Dec 04, 2020 at 02:12:21PM +0100, Enrico Weigelt, metux IT consult wrote:
+> VIRTIO itself has no dependencies and therefore can easily be just
+> select'ed, instead of depending on it. The current depends on causes
+> any others trying to select VIRTIO to fail like this:
 > 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/drm_mode_config.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>    drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+>    drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by DRM_VIRTIO_GPU
+>    drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
+>    drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
+>    drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
+>    drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
+>    drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
+>    drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
+>    drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
+>    drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
+>    drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
 > 
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 9611f21bca00..92e56baf04ad 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -645,6 +645,16 @@ void drm_mode_config_validate(struct drm_device *dev)
->  		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
->  		     crtc->base.id, crtc->name);
->  
-> +		WARN(crtc->cursor && crtc->funcs->cursor_set,
-> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_set func",
-> +		     crtc->base.id, crtc->name);
-> +		WARN(crtc->cursor && crtc->funcs->cursor_set2,
-> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_set2 func",
-> +		     crtc->base.id, crtc->name);
-> +		WARN(crtc->cursor && crtc->funcs->cursor_move,
-> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_move func",
-> +		     crtc->base.id, crtc->name);
-> +
->  		if (crtc->primary) {
->  			WARN(!(crtc->primary->possible_crtcs & drm_crtc_mask(crtc)),
->  			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
-> -- 
-> 2.29.2
+> It seems that having both 'depends on' as well as 'select' on the same symbol
+> sends us into big trouble, and Kconfig can't break up the circular dependency
+> (note that in the tested configuration, neither I2C, FB or DRM are enabled at
+> all). Perhaps we could consider this a bug in Kconfig, but the trouble can
+> easily be circumvented by changing 'depends on' into 'select'.
 > 
+> DRM_VIRTIO_GPU also depends on VIRTIO_MENU, so even after this change, that
+> option will only show up if the user already enabled virtio in the config.
+> 
+> This change didn't cause any changes in the .config after menuconfig run,
+> so we should be completely safe here.
+> 
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Pushed to drm-misc-next.
+
+thanks,
+  Gerd
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
