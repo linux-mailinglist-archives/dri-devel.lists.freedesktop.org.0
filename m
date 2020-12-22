@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CA02E0970
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:18:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F8C2E0972
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:18:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFD26E845;
-	Tue, 22 Dec 2020 11:18:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC40F6E857;
+	Tue, 22 Dec 2020 11:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDDCA6E845
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:18:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A85CC2310D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:18:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4747A6E857
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:18:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 32D382310D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:18:30 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 96A4D81FE6; Tue, 22 Dec 2020 11:18:13 +0000 (UTC)
+ id 2F2EB81FE6; Tue, 22 Dec 2020 11:18:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
  lid. AMDGPU
-Date: Tue, 22 Dec 2020 11:18:13 +0000
+Date: Tue, 22 Dec 2020 11:18:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -35,8 +35,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: rep_platform
-Message-ID: <bug-210849-2300-82J1djs8Xp@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210849-2300-GkrlViXdHZ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
 References: <bug-210849-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -61,11 +61,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210849
 
-xrootware@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Hardware|All                         |x86-64
+--- Comment #1 from xrootware@gmail.com ---
+Kernel 5.7.0 works fine
 
 -- 
 You may reply to this email to add a comment.
