@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027E92E0B3C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 14:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E523B2E0C68
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 16:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FDE6E3D0;
-	Tue, 22 Dec 2020 13:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862596E87A;
+	Tue, 22 Dec 2020 15:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56026E3D0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 13:59:07 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id 3so2261889wmg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 05:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dS7XmocBasqYGQw8giWvmqUCGMKbDHvna5qNWdEimKg=;
- b=hJUn+uN1CGDrW/ti3eRIQrvZqVSpVGnxnrgf1hCJS4jAiZPVQlbpLZDeqCHigtyULG
- GolvNStBrAa54SpeQu6NqzvBUFltfqjGXHadLsUPzVvInfk+Kpm8O/RUuvzpxIr/LJZW
- YKqcWUh+SCKfqDoUNp4KWR9nq2t1YnWAjPREM=
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A6376E879;
+ Tue, 22 Dec 2020 15:08:34 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id x13so15062592oic.5;
+ Tue, 22 Dec 2020 07:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9iX58YMx8qY2LSjohdfZ3DU1IKC59lgYW43Efd3MkEI=;
+ b=p1CZSIKxfXhHNUVOHLNAuoSWLjD2CRJNrxIzcW7j2SJxYk2YNkLEyF/IRbHKlfhLix
+ Oj3dFbJACsvuBfeeSKwn6i3sgHpLoGJIlD9x1UN6wtBOKF3fPB8/ADH5clxzQu0GcoJb
+ vPXZqhWWjYjEYvOD8UDoqremOPyKwbNAV6Y4uhf4H6tsppnZDPgUuUk3mIcIMWdcao3+
+ 7cGE7KAq9SN0xt3YGu6OQHqjWVNUKywvCkOOc+pBxXcYsuOZtkwBL0TFpsYW6LuL86qi
+ CsRhb7Plhinl8Aqs07yyMz0sA323oS+Ik7DppPVpYgU6c/4+rO4chkYrQu5VVujqwACw
+ d+hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dS7XmocBasqYGQw8giWvmqUCGMKbDHvna5qNWdEimKg=;
- b=MttaAdE4A5ANRKfIGn0XLvWh/pZMzewqffntNXS/BNWWrJ0asDLgpqDUwLanQDZ8De
- eab89lgB3ub7+xOexY8aOKByFRTfoN7LGCfgZ8fuRt2Zp3y0qxs4Hanyjm9muof6iHfe
- vhOUZMFDyW3HPXnqet0rVs91Ofc266eGtJk5brDayxO78NICfZ4jVkdY68YPQ1zoJQbz
- 4O4fk2vglTzR0jdw9REjUmFBB6N+jRx17K8sMQBiKIR1OfcSBuAe4dQfuSoNKSuKriuO
- fcutXy0zJzzhaUjhxG+FcmB9dwQzzhvP/p4nIUuFSKYncC5EqIVGvXQlOO5MrVbNMHmc
- M6cA==
-X-Gm-Message-State: AOAM531lOg+FY7Z11ACZdlFzf8+P5/GHux2XmGyLyzO9bRhtEB403cED
- rnCL8MelE0C4Qu8V5ILdzFXdBnk7C4JiO67o
-X-Google-Smtp-Source: ABdhPJwMj16YN2EnrmGjKFPh/g56xs5VC8i8WSrUOsuS9VoXCboCuBtH5fQ4beBFfttxZZgl84XoJA==
-X-Received: by 2002:a1c:7c03:: with SMTP id x3mr22389873wmc.17.1608645546497; 
- Tue, 22 Dec 2020 05:59:06 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s133sm27312969wmf.38.2020.12.22.05.59.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Dec 2020 05:59:05 -0800 (PST)
-Date: Tue, 22 Dec 2020 14:59:04 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v4 2/5] drm/doc: document the type plane property
-Message-ID: <X+H7qJI6gqPa57tL@phenom.ffwll.local>
-References: <20201222133524.160842-1-contact@emersion.fr>
- <20201222133524.160842-3-contact@emersion.fr>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9iX58YMx8qY2LSjohdfZ3DU1IKC59lgYW43Efd3MkEI=;
+ b=tlzln8JXPqEqZPT1ltcfAeu9z+FsdWoT0gtMHDEZ84DgrzaWZD8M+qH6zdrqcNR3Z2
+ /UG9qe6AE3NI28nCLfP8jd6W/xgCZkmGC3ozU4yViibOuhNDjRSKOMuZ9tqTfFuuhkV9
+ UUYo7p9OIKa5TpmV3D5R3Xqwd+pq11SzihtiD4IR36db4EANiGM3bMueenxcWTUbNvwr
+ wdJeLpe1fckxpToYE4wRbFfKP4x7O9stiOQCCXLZ9M97Q/6ki7j9WWudV3AVz3OsOQtt
+ ADR9E8t9fEcU7ifchxA6svHyn4fqk83eJ+WR4ecvRF7krcbWcu+S5h7vmQihWKYPQUxr
+ B5Lw==
+X-Gm-Message-State: AOAM533xqmPFX4i/BVV9bRZzmGu/ZcsVCGKL/aHBYD9tP05i6SzafVWW
+ 8mvTP5JZzxz0JnSwHbZ5ZDKGsgKwrmgKmJgfhD+DGGog
+X-Google-Smtp-Source: ABdhPJy19Ods0aRD/JDrJl5ZdgsTjfLu8fnSZO6MPFsqsu0ylwodKntXg6ma9XB4AnxVPc0aNvmdHonLoCQxKzOK2E8=
+X-Received: by 2002:a54:4083:: with SMTP id i3mr14464839oii.120.1608649713481; 
+ Tue, 22 Dec 2020 07:08:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201222133524.160842-3-contact@emersion.fr>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <98e71ee7-1eb9-ada8-a438-703be03e96d1@web.de>
+In-Reply-To: <98e71ee7-1eb9-ada8-a438-703be03e96d1@web.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 22 Dec 2020 10:08:22 -0500
+Message-ID: <CADnq5_PVm+04LqPJoQ6mPHf0YM6jEeR_Xh_Bkap7Nuw+Fo6sgw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/amd/display: Adjustments for dc_create()
+To: Markus Elfring <Markus.Elfring@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,132 +60,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Chiawen Huang <chiawen.huang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Yongqiang Sun <yongqiang.sun@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alvin Lee <alvin.lee2@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 22, 2020 at 02:35:21PM +0100, Simon Ser wrote:
-> Add a new entry for "type" in the section for standard plane properties.
-> 
-> v3: improve paragraph about mixing legacy IOCTLs with explicit usage,
-> not that a driver may support cursors without cursor planes (Daniel)
+On Sun, Dec 20, 2020 at 6:10 AM Markus Elfring <Markus.Elfring@web.de> wrote:
+>
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Sat, 19 Dec 2020 18:30:56 +0100
+>
+> Two update suggestions were taken into account
+> from static source code analysis.
+>
 
-s/not/note/
+Applied.  Thanks!
 
-> 
-> v4: fixing rebase gone wrong
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->  drivers/gpu/drm/drm_plane.c | 58 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 54 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index b15b65e48555..9dce5be5780c 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -49,10 +49,8 @@
->   * &struct drm_plane (possibly as part of a larger structure) and registers it
->   * with a call to drm_universal_plane_init().
->   *
-> - * The type of a plane is exposed in the immutable "type" enumeration property,
-> - * which has one of the following values: "Overlay", "Primary", "Cursor" (see
-> - * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
-> - * &drm_plane.possible_crtcs.
-> + * Each plane has a type, see enum drm_plane_type. A plane can be compatible
-> + * with multiple CRTCs, see &drm_plane.possible_crtcs.
->   *
->   * Each CRTC must have a unique primary plane userspace can attach to enable
->   * the CRTC. In other words, userspace must be able to attach a different
-> @@ -72,6 +70,58 @@
->   *
->   * DRM planes have a few standardized properties:
->   *
-> + * type:
-> + *     Immutable property describing the type of the plane.
-> + *
-> + *     For user-space which has enabled the &DRM_CLIENT_CAP_UNIVERSAL_PLANES
+Alex
 
-s/UNIVERSAL_PLANES/ATOMIC/ here?
 
-With just universal planes you don't have atomic test-only. But I guess it
-also works as-is, I'm just not entirely clear what you want to state here.
-
-> + *     capability, the plane type is just a hint and is mostly superseded by
-> + *     atomic test-only commits. The type hint can still be used to come up
-> + *     more easily with a plane configuration accepted by the driver. Note that
-> + *     &DRM_CLIENT_CAP_UNIVERSAL_PLANES is implicitly enabled by
-> + *     &DRM_CLIENT_CAP_ATOMIC.
-> + *
-> + *     The value of this property can be one of the following:
-> + *
-> + *     "Primary":
-> + *         To light up a CRTC, attaching a primary plane is the most likely to
-> + *         work if it covers the whole CRTC and doesn't have scaling or
-> + *         cropping set up.
-> + *
-> + *         Drivers may support more features for the primary plane, user-space
-> + *         can find out with test-only atomic commits.
-> + *
-> + *         Primary planes are implicitly used by the kernel in the legacy
-> + *         IOCTLs &DRM_IOCTL_MODE_SETCRTC and &DRM_IOCTL_MODE_PAGE_FLIP.
-> + *         Therefore user-space must not mix explicit usage of any primary
-> + *         plane (e.g. through an atomic commit) with these legacy IOCTLs.
-
-Empty line here for reading comfort in plain text? Same below.
-
-Since you mention formats below, I also wonder whether we should state
-here that xrgb8888 is generally supported, worst case through software
-emulation. That's defacto the uapi we have to adhere to.
-
-> + *     "Cursor":
-> + *         To enable this plane, using a framebuffer configured without scaling
-> + *         or cropping and with the following properties is the most likely to
-> + *         work:
-> + *
-> + *         - If the driver provides the capabilities &DRM_CAP_CURSOR_WIDTH and
-> + *           &DRM_CAP_CURSOR_HEIGHT, create the framebuffer with this size.
-> + *           Otherwise, create a framebuffer with the size 64x64.
-> + *         - If the driver doesn't support modifiers, create a framebuffer with
-> + *           a linear layout. Otherwise, use the IN_FORMATS plane property.
-> + *
-> + *         Drivers may support more features for the cursor plane, user-space
-> + *         can find out with test-only atomic commits.
-> + *
-> + *         Cursor planes are implicitly used by the kernel in the legacy
-> + *         IOCTLs &DRM_IOCTL_MODE_CURSOR and &DRM_IOCTL_MODE_CURSOR2.
-> + *         Therefore user-space must not mix explicit usage of any cursor
-> + *         plane (e.g. through an atomic commit) with these legacy IOCTLs.
-> + *
-> + *         Some drivers may support cursors even if no cursor plane is exposed.
-> + *         In this case, the legacy cursor IOCTLs can be used to configure the
-> + *         cursor.
-> + *     "Overlay":
-> + *         Neither primary nor cursor.
-> + *
-> + *         Overlay planes are the only planes exposed when the
-> + *         &DRM_CLIENT_CAP_UNIVERSAL_PLANES capability is disabled.
-> + *
-
-Just some thoughts about, feel free to merge as-is.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->   * IN_FORMATS:
->   *     Blob property which contains the set of buffer format and modifier
->   *     pairs supported by this plane. The blob is a struct
-> -- 
+> Markus Elfring (2):
+>   Return directly after a failed kzalloc()
+>   Use common error handling code
+>
+>  drivers/gpu/drm/amd/display/dc/core/dc.c | 21 ++++++++-------------
+>  1 file changed, 8 insertions(+), 13 deletions(-)
+>
+> --
 > 2.29.2
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
