@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E523B2E0C68
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 16:08:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B53892E0C6E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 16:09:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862596E87A;
-	Tue, 22 Dec 2020 15:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA936E880;
+	Tue, 22 Dec 2020 15:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A6376E879;
- Tue, 22 Dec 2020 15:08:34 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id x13so15062592oic.5;
- Tue, 22 Dec 2020 07:08:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9iX58YMx8qY2LSjohdfZ3DU1IKC59lgYW43Efd3MkEI=;
- b=p1CZSIKxfXhHNUVOHLNAuoSWLjD2CRJNrxIzcW7j2SJxYk2YNkLEyF/IRbHKlfhLix
- Oj3dFbJACsvuBfeeSKwn6i3sgHpLoGJIlD9x1UN6wtBOKF3fPB8/ADH5clxzQu0GcoJb
- vPXZqhWWjYjEYvOD8UDoqremOPyKwbNAV6Y4uhf4H6tsppnZDPgUuUk3mIcIMWdcao3+
- 7cGE7KAq9SN0xt3YGu6OQHqjWVNUKywvCkOOc+pBxXcYsuOZtkwBL0TFpsYW6LuL86qi
- CsRhb7Plhinl8Aqs07yyMz0sA323oS+Ik7DppPVpYgU6c/4+rO4chkYrQu5VVujqwACw
- d+hw==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD936E880
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 15:09:12 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id 190so2135323wmz.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 07:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=//6/GeLm2VjocWIIM23HGQmaKVrmBdF4eSj3qcdW/Vs=;
+ b=JTBgUoCqQcd5SCzWzZjnHzp7aN9ufmIff1143L0brscU+vZrf8Y//nTo3FDLN6LAF4
+ f+CW9Y78kw4j+Uy/Q4nvLrYQSJr/sne/zNUZkxY+9fHD+Qop1XRR/3ZGVH9OZs4jfsKT
+ eMI1EuJYzesN8Jtv34OGqkDKPSgF1GDeB+ClE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9iX58YMx8qY2LSjohdfZ3DU1IKC59lgYW43Efd3MkEI=;
- b=tlzln8JXPqEqZPT1ltcfAeu9z+FsdWoT0gtMHDEZ84DgrzaWZD8M+qH6zdrqcNR3Z2
- /UG9qe6AE3NI28nCLfP8jd6W/xgCZkmGC3ozU4yViibOuhNDjRSKOMuZ9tqTfFuuhkV9
- UUYo7p9OIKa5TpmV3D5R3Xqwd+pq11SzihtiD4IR36db4EANiGM3bMueenxcWTUbNvwr
- wdJeLpe1fckxpToYE4wRbFfKP4x7O9stiOQCCXLZ9M97Q/6ki7j9WWudV3AVz3OsOQtt
- ADR9E8t9fEcU7ifchxA6svHyn4fqk83eJ+WR4ecvRF7krcbWcu+S5h7vmQihWKYPQUxr
- B5Lw==
-X-Gm-Message-State: AOAM533xqmPFX4i/BVV9bRZzmGu/ZcsVCGKL/aHBYD9tP05i6SzafVWW
- 8mvTP5JZzxz0JnSwHbZ5ZDKGsgKwrmgKmJgfhD+DGGog
-X-Google-Smtp-Source: ABdhPJy19Ods0aRD/JDrJl5ZdgsTjfLu8fnSZO6MPFsqsu0ylwodKntXg6ma9XB4AnxVPc0aNvmdHonLoCQxKzOK2E8=
-X-Received: by 2002:a54:4083:: with SMTP id i3mr14464839oii.120.1608649713481; 
- Tue, 22 Dec 2020 07:08:33 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=//6/GeLm2VjocWIIM23HGQmaKVrmBdF4eSj3qcdW/Vs=;
+ b=HHSpPz9yftNXZEo9Y746XWbAJ4kyQpJrgevwJ/Tzvop9gCQ5NP9vczkWgKMid1oI9j
+ l01t9Oa7J/ATF2fxD1/cQuq94Fp5OInouiNHDDw+pPoisPXFi0ue2jayEKZUWM5REoei
+ eUTV4hIek7RIes7xZ1oXupcrfizNqMhrqrA1sxwbq0VDdTluGmrE3HdicYb4iQke6Xrx
+ vnHs8EUnAW8mIpRhxsq2at0CYZRRjaduaSwZkEkrP92kUfrdHeTxnOjbpRRNxyzCfB/9
+ gcorjEsg1FoXe6WcPTdEEvNuOAtnCDq+FfwN7Vqhdtr33zhR4T1vchI6q96J6IpXTMfK
+ 7R6Q==
+X-Gm-Message-State: AOAM533salTcSi7bhjoqLCyfKpJWuTEVaSyu4eDDEAb56AE6SLjG58C+
+ A0ZO+BYAoQtUjLyjjGrHXxB08g==
+X-Google-Smtp-Source: ABdhPJwhLBWuozkQ35aJMrmNOVeGDapKA8K380NuJamR/r9MKueHjH4slJ6vNd1chN5CDL0uan+tEw==
+X-Received: by 2002:a1c:2203:: with SMTP id i3mr21983827wmi.6.1608649750956;
+ Tue, 22 Dec 2020 07:09:10 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j10sm30415658wmj.7.2020.12.22.07.09.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Dec 2020 07:09:10 -0800 (PST)
+Date: Tue, 22 Dec 2020 16:09:08 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: warn if cursor plane is set with legacy funcs
+Message-ID: <X+IMFOv0/76J2o52@phenom.ffwll.local>
+References: <20201222134002.161613-1-contact@emersion.fr>
 MIME-Version: 1.0
-References: <98e71ee7-1eb9-ada8-a438-703be03e96d1@web.de>
-In-Reply-To: <98e71ee7-1eb9-ada8-a438-703be03e96d1@web.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Dec 2020 10:08:22 -0500
-Message-ID: <CADnq5_PVm+04LqPJoQ6mPHf0YM6jEeR_Xh_Bkap7Nuw+Fo6sgw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm/amd/display: Adjustments for dc_create()
-To: Markus Elfring <Markus.Elfring@web.de>
+Content-Disposition: inline
+In-Reply-To: <20201222134002.161613-1-contact@emersion.fr>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,50 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Chiawen Huang <chiawen.huang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Yongqiang Sun <yongqiang.sun@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 20, 2020 at 6:10 AM Markus Elfring <Markus.Elfring@web.de> wrote:
->
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Sat, 19 Dec 2020 18:30:56 +0100
->
-> Two update suggestions were taken into account
-> from static source code analysis.
->
+On Tue, Dec 22, 2020 at 02:40:02PM +0100, Simon Ser wrote:
+> A driver must not set drm_crtc.cursor and any of the legacy funcs at the
+> same time, otherwise it's not clear which one DRM core should use for
+> legacy cursor updates.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
-Applied.  Thanks!
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Alex
-
-
-> Markus Elfring (2):
->   Return directly after a failed kzalloc()
->   Use common error handling code
->
->  drivers/gpu/drm/amd/display/dc/core/dc.c | 21 ++++++++-------------
->  1 file changed, 8 insertions(+), 13 deletions(-)
->
-> --
+> ---
+>  drivers/gpu/drm/drm_mode_config.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 9611f21bca00..92e56baf04ad 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -645,6 +645,16 @@ void drm_mode_config_validate(struct drm_device *dev)
+>  		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
+>  		     crtc->base.id, crtc->name);
+>  
+> +		WARN(crtc->cursor && crtc->funcs->cursor_set,
+> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_set func",
+> +		     crtc->base.id, crtc->name);
+> +		WARN(crtc->cursor && crtc->funcs->cursor_set2,
+> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_set2 func",
+> +		     crtc->base.id, crtc->name);
+> +		WARN(crtc->cursor && crtc->funcs->cursor_move,
+> +		     "[CRTC:%d:%s] must not have both a cursor plane and a cursor_move func",
+> +		     crtc->base.id, crtc->name);
+> +
+>  		if (crtc->primary) {
+>  			WARN(!(crtc->primary->possible_crtcs & drm_crtc_mask(crtc)),
+>  			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
+> -- 
 > 2.29.2
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
