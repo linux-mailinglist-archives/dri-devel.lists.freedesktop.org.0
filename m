@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF9F2E07F5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEC12E07FC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84756E840;
-	Tue, 22 Dec 2020 09:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749E46E853;
+	Tue, 22 Dec 2020 09:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24746E830
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 09:01:41 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id g15so3068580pgu.9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 01:01:41 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75F66E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 09:12:58 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id s15so2697721plr.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 01:12:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=3q7nnCnJmd4O4D32PC0P8xH1+bdbk1CdNF9NmfMW4t0=;
- b=Sw8hWqsmWEV28OZ97FyOgXyFgk5shKHWAxZzHcRzRhaM/6+T4brrF3/aXanmbfPjRw
- /A9CHWFxY/26ovZDBEoLzvrVEQgYuX/8xBOFFAOh2S++/KtpIaGJfhKZuA8vaiEUG6N5
- RDqNcxOViH+za8EEfeOTF4OJ0FgNLYkqGyciyEF6yFonDS/ytj6QebompmK2qd5iwMxT
- f60gJWZOOaEE42z2GFxRM7tJMnnNTqxHJqeFzNzO5GVHLT7/VnICWMEMwFNfUuNd7lT8
- CMqaiMF7EhSgACQ9J+vlj6sz3hYK3bX6+CzSrtrtNmrSTvIrdM+em0PwSBTuQL1T2brh
- GG/A==
+ bh=aRm1EWTlrTuCGHC7vrOatFzPVY2kkbfTNw0mXXouB3Y=;
+ b=Tz4gidYhRSQQPvxdsB7tqMzsVoYO3crt2ApaMJh6sBPNnz4QdlfPaFxg6Qw+Q9Ttkt
+ wKFwX+PObpzq/4fdMTp+4B5KTH7Re12uhYrXa3HvCaddYet13JjFo+rTTdsSEt5DlkKf
+ bp6SZO5FTIRmcpzQljrgkAITPVaV0bSdOcJWvfc30sM+iw3nPXkWpPYye4ZZWT5QEdXD
+ faqbA50HRxcmPr6Nr9VSBUdTtKxm6LXMJ4WI1xvuYIbxPBsTtG37wCAzUBTtYOR26zRD
+ K/mV0VlzeObZyhDbSnYISRJfGVOrWvx6nt6WqoFU5TRml3oWxZBdtwp7XRKvKR1Qp9D/
+ ptAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=3q7nnCnJmd4O4D32PC0P8xH1+bdbk1CdNF9NmfMW4t0=;
- b=C39oxXB+Qi2bJH3gnlSyYdQqobyfop4s1xFJRPILM6T7/ccQxZOwmxUdDRB49srNFY
- 4vux+uxObfrK/yAmFqI6T5F6WHynl+FQ1o4NeVVnIK1iWiNBPdkg0PGpcGKFWabNZo3E
- WKDF5c2h6IZWf6NyByBB/g0yQAZoyntz9aGNg5xWarDgB4AWHdgiLwcSCXu8kIqTPPop
- Pq6aEAncVny/nhi/BFhfqodoFhqKdeZu1fZyx12o2Fr29Cd6zdHx3WbBH2m0xLso+xc9
- FlU8axjgX5YY42Gev7iOUTP7fvEu8jVAFMGOX0+QWGCX6chqwxBFewIAl177LZ6X7Rl3
- nMWw==
-X-Gm-Message-State: AOAM531dG8hmv9ztrQrkWjeIJ14p/61EDzG025FOlBxB9GC9ShdFyfUl
- kQIoMdYxHd6ft4W+DYD3IPoPJA==
-X-Google-Smtp-Source: ABdhPJzpaUuhCwigtZPkt7tXXBF91xrRM3nJ/y/UBldoNdmIzxgqD3l3BVqGdS+DNg3W0X8ggHASsA==
-X-Received: by 2002:a62:864e:0:b029:1ab:e82c:d724 with SMTP id
- x75-20020a62864e0000b02901abe82cd724mr15830943pfd.9.1608627701598; 
- Tue, 22 Dec 2020 01:01:41 -0800 (PST)
+ bh=aRm1EWTlrTuCGHC7vrOatFzPVY2kkbfTNw0mXXouB3Y=;
+ b=mucDPDR1j86vH5bJ6GWDoRBcPtuuuWD9y7utyqzIdLI+cpRpKYtDqJvHz9gIA4Ltef
+ xQb34Ha25GtEc15BIBlIrUabL+5TgWEPQSv4xMygBjD4DQtOkPOz9/W/FYUZrnzDcIIN
+ svX2IzIH/h7KFo/T3h/OYd+LiDJ1jW7lxgfvbGBESUiZ5mTmqvQDwMtqs42ZRKqox6U3
+ ofNHJ+iywWb5BpSvTPpw8qkMKWJVjFCdCiTWKgfasDgyh3vCKMjIM3I4fTd4/C3osGVJ
+ YTIkyl8FkjLwfWRmIgFcO93CzUVfXcs7x4IeR641hX0H4ILpwcyDwvFrIXIu393pMbbp
+ ag/A==
+X-Gm-Message-State: AOAM533dqc+F0vaSnOl9OUbyO5aDIu7tFoHPN/e+Qk31mpv8MTbg+sXE
+ 0W5oLcv71Wan21sgOQwTjEtbOQ==
+X-Google-Smtp-Source: ABdhPJyTuAI/kmpjoi97riBT35OzUfQwSMT6NxASqK0wJXFrTdvspmvEYCyC6FWsQNUmwA+WXnqrWg==
+X-Received: by 2002:a17:902:6f01:b029:dc:3182:ce69 with SMTP id
+ w1-20020a1709026f01b02900dc3182ce69mr16778961plk.10.1608628378460; 
+ Tue, 22 Dec 2020 01:12:58 -0800 (PST)
 Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id o14sm14548124pgr.44.2020.12.22.01.01.40
+ by smtp.gmail.com with ESMTPSA id q12sm19544480pgj.24.2020.12.22.01.12.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Dec 2020 01:01:40 -0800 (PST)
-Date: Tue, 22 Dec 2020 14:31:39 +0530
+ Tue, 22 Dec 2020 01:12:57 -0800 (PST)
+Date: Tue, 22 Dec 2020 14:42:55 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 15/48] opp: Support set_opp() customization without
- requiring to use regulators
-Message-ID: <20201222090139.vopgc2ju72kr4ujy@vireshk-i7>
+Subject: Re: [PATCH v2 19/48] opp: Fix adding OPP entries in a wrong order if
+ rate is unavailable
+Message-ID: <20201222091255.wentz5hyt726qezg@vireshk-i7>
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-16-digetx@gmail.com>
+ <20201217180638.22748-20-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-16-digetx@gmail.com>
+In-Reply-To: <20201217180638.22748-20-digetx@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,57 +89,102 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> Support set_opp() customization without requiring to use regulators. This
-> is needed by drivers which want to use dev_pm_opp_set_rate() for changing
-> rates of a multiple clocks and don't need to touch regulator.
-> 
-> One example is NVIDIA Tegra30/114 SoCs which have two sibling 3D hardware
-> units which should be use to the same clock rate, meanwhile voltage
-> scaling is done using a power domain. In this case OPP table doesn't have
-> a regulator, causing a NULL dereference in _set_opp_custom().
+> Fix adding OPP entries in a wrong (opposite) order if OPP rate is
+> unavailable. The OPP comparison is erroneously skipped if OPP rate is
+> missing, thus OPPs are left unsorted.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/opp/core.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+>  drivers/opp/core.c | 23 ++++++++++++-----------
+>  drivers/opp/opp.h  |  2 +-
+>  2 files changed, 13 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 3d02fe33630b..625dae7a5ecb 100644
+> index 34f7e530d941..5c7f130a8de2 100644
 > --- a/drivers/opp/core.c
 > +++ b/drivers/opp/core.c
-> @@ -828,17 +828,25 @@ static int _set_opp_custom(const struct opp_table *opp_table,
->  			   struct dev_pm_opp_supply *old_supply,
->  			   struct dev_pm_opp_supply *new_supply)
+> @@ -1531,9 +1531,10 @@ static bool _opp_supported_by_regulators(struct dev_pm_opp *opp,
+>  	return true;
+>  }
+>  
+> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
+> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
+> +		     bool rate_not_available)
 >  {
-> -	struct dev_pm_set_opp_data *data;
-> +	struct dev_pm_set_opp_data *data, tmp_data;
-> +	unsigned int regulator_count;
->  	int size;
->  
-> -	data = opp_table->set_opp_data;
-> +	if (opp_table->set_opp_data) {
-> +		data = opp_table->set_opp_data;
-> +		regulator_count = opp_table->regulator_count;
-> +	} else {
-> +		data = &tmp_data;
-> +		regulator_count = 0;
-> +	}
-> +
->  	data->regulators = opp_table->regulators;
-> -	data->regulator_count = opp_table->regulator_count;
-> +	data->regulator_count = regulator_count;
->  	data->clk = opp_table->clk;
->  	data->dev = dev;
->  
->  	data->old_opp.rate = old_freq;
-> -	size = sizeof(*old_supply) * opp_table->regulator_count;
-> +	size = sizeof(*old_supply) * regulator_count;
->  	if (!old_supply)
->  		memset(data->old_opp.supplies, 0, size);
->  	else
+> -	if (opp1->rate != opp2->rate)
+> +	if (!rate_not_available && opp1->rate != opp2->rate)
 
-I don't see you making use of this in this patchset. How did you get this to
-crash ?
+rate will be 0 for both the OPPs here if rate_not_available is true and so this
+change shouldn't be required.
+
+>  		return opp1->rate < opp2->rate ? -1 : 1;
+>  	if (opp1->bandwidth && opp2->bandwidth &&
+>  	    opp1->bandwidth[0].peak != opp2->bandwidth[0].peak)
+> @@ -1545,7 +1546,8 @@ int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
+>  
+>  static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *new_opp,
+>  			     struct opp_table *opp_table,
+> -			     struct list_head **head)
+> +			     struct list_head **head,
+> +			     bool rate_not_available)
+>  {
+>  	struct dev_pm_opp *opp;
+>  	int opp_cmp;
+> @@ -1559,13 +1561,13 @@ static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *new_opp,
+>  	 * loop.
+>  	 */
+>  	list_for_each_entry(opp, &opp_table->opp_list, node) {
+> -		opp_cmp = _opp_compare_key(new_opp, opp);
+> +		opp_cmp = _opp_compare_key(new_opp, opp, rate_not_available);
+>  		if (opp_cmp > 0) {
+>  			*head = &opp->node;
+>  			continue;
+>  		}
+>  
+> -		if (opp_cmp < 0)
+> +		if (opp_cmp < 0 || rate_not_available)
+>  			return 0;
+
+This shouldn't be required as well, isn't it ?
+
+>  
+>  		/* Duplicate OPPs */
+> @@ -1601,12 +1603,11 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
+>  	mutex_lock(&opp_table->lock);
+>  	head = &opp_table->opp_list;
+>  
+> -	if (likely(!rate_not_available)) {
+> -		ret = _opp_is_duplicate(dev, new_opp, opp_table, &head);
+> -		if (ret) {
+> -			mutex_unlock(&opp_table->lock);
+> -			return ret;
+> -		}
+> +	ret = _opp_is_duplicate(dev, new_opp, opp_table, &head,
+> +				rate_not_available);
+
+This is the only thing we need to do here I believe.
+
+> +	if (ret) {
+> +		mutex_unlock(&opp_table->lock);
+> +		return ret;
+>  	}
+>  
+>  	list_add(&new_opp->node, head);
+> diff --git a/drivers/opp/opp.h b/drivers/opp/opp.h
+> index 4ced7ffa8158..6f5be6c72f13 100644
+> --- a/drivers/opp/opp.h
+> +++ b/drivers/opp/opp.h
+> @@ -219,7 +219,7 @@ struct opp_table *_find_opp_table(struct device *dev);
+>  struct opp_device *_add_opp_dev(const struct device *dev, struct opp_table *opp_table);
+>  struct dev_pm_opp *_opp_allocate(struct opp_table *opp_table);
+>  void _opp_free(struct dev_pm_opp *opp);
+> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2);
+> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2, bool rate_not_available);
+>  int _opp_add(struct device *dev, struct dev_pm_opp *new_opp, struct opp_table *opp_table, bool rate_not_available);
+>  int _opp_add_v1(struct opp_table *opp_table, struct device *dev, unsigned long freq, long u_volt, bool dynamic);
+>  void _dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask, int last_cpu);
+> -- 
+> 2.29.2
 
 -- 
 viresh
