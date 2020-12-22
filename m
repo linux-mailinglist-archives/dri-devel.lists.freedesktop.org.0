@@ -1,111 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4F82E07F3
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD352E07EA
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 029BD6E842;
-	Tue, 22 Dec 2020 09:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81A06E830;
+	Tue, 22 Dec 2020 09:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70054.outbound.protection.outlook.com [40.107.7.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0779B89AB3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 03:10:03 +0000 (UTC)
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr40088.outbound.protection.outlook.com [40.107.4.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1AB06E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 03:50:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eh5eHFiq24clN2YkOpNV+IBm6AegTdzsqvLZ++PpIK/hPvq4vWLVno1/h3w5fGnTuEy5dR5J5O+ltJCs0x6veBxjm5gZr+vSyqucHB/RuN3h7TyauXfAQlTl+HMG4gjOvVqww9Pl+IaaQV+7TPbn0qMZaG1ceRvfaMtACvCSkGBTuDlZoP6iFwxsJE4Xk+73qGLece/Wy1Bj9IetOcO5Z8U4dI8dHPPfHSFgI9f7rRvp4tuvNRKrM9kA/A1uYNrvfK1gElhOWqJavDu4e4tog3TYz1Cx/5pfKbgyCEcuhKdVOI/wbvT8KL8Scu2eP740PjuZEnfiPipC4p7aRZk1Lw==
+ b=V2FyBnc34cevPVCQepaQHVAXm2zsJexR7J9XMW+9VzPifBlIXIgvip+eTPPGf5bHd++/UXB/5mmMkH+bOQhtnk6lVEiPbkQ6evWfbEBAtg54LSkc9KgsqVwiul7ny60WOT9T/UgM9K2nTxVjYWgw/hLc6K1ppSWBv6CSqYLeNfOQYs/APZf92nwQI0azJIrAldkvIlgp37RiWkiCQ+56Kz4D62qeRk91MQOY0p7VKPyAhijHvVF+Zd4hwhOgRMagLqyQtKrbJ1zeQOhEWKuA4rmxnzc3zqrTGEqnx1skPNrFIyU6HQhpW2hrLwE8n5gw6XmvVIA5A43DMsqkswxwOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fvi3zyxbAFRqpB0ykgtWFL9tFmNGVUJzGRb6TCh/x+E=;
- b=GJFOBJ3df6qGfnCmDePBvqnsC/oWgihvWt0nutEPTcXpB2nkFJxelRNszDGPR4QYmXCGH4kTrI6eg6bnOdQLYEa9xJwn2hdy1AAreQG0KHI2GYxTUEcOSLop2GOtjub80m53E+nfF0SneyzPByb3cOSG+wrkLiLrHDsYPxt3y4OUFYiNlgKrg7MRLgdfHGhc/VduGIdG01RmLin7c1o9+ziAj4X80lxBGZ/tvuOSEsYU0/uPu2+4hdToNq+y/lIsdx0tzxIF2aWXXqRGNT4Fz7/TagMeIeA0ozzAJxtMkuDeGP5i1p8OgwtLDjf/+FYJe3rGDbGiTMe1zFxK2V7XSA==
+ bh=YQS7QtcYJy1fqK0jlmFS8hTmYmpiyUa9cW93BWuETpk=;
+ b=exYGN8fL3ya5xmr2AQyH6B3Xva2ga7KVCv1mvdsv5xRLBLFIRMPh9CRUC7uxz8Qd2GxVFtP+NSYuz8+zpq7yRDftqTLlwz9sYmnHzOhlZplp7Ct9Y89f58TQI75geGLQy/9qQ516nGsxGg9EscGbZAzQg2JBswh1304H4R62hpHu/tMRmA0fpvymKv8m42GsrjtkvCXpFSu2PBU/Z2IcbU3yWNanYl74H+1luU6DC/rhZslj3y6649I6r//8rJnVZ3PFbV+lq9+gaXYos+5XXZ4xvR9KzjAKRhKAXdyAZivYRgJL2mcYNjLbiQ6vJH16MJ9xT52XqrTyWiMxEqrt3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fvi3zyxbAFRqpB0ykgtWFL9tFmNGVUJzGRb6TCh/x+E=;
- b=SMgnyvCBcoe9nw1zYqKopA8TRYgJI8ESDtG49UEyM6utczdFCGZi6qmkx/NnV+V9eZ+bO3f5RJ7Jdzw56giF/BTewR6VThNmls9Bu6S+y9JXLRbhH5MEtf3YpokM8NOQw60r+7qVsgfDJNLDnM64uvf+NfdM8nItVEtBOuRJHUI=
+ bh=YQS7QtcYJy1fqK0jlmFS8hTmYmpiyUa9cW93BWuETpk=;
+ b=I7LUeJMjnTeETLvsPjoH9h+vUm9KEY4fq1bcvePzQ1W782XFhYkDj688DkurEU7DLUxlhuWgMDN30rl7NsWyni/LKUECBbCEl/U1SVrFupefizlCQ6B7szlr3k2s8733UpG4UU7yE1LbpQAzdMvy+OBax9iC2RAfOIPAA6wmacQ=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB6813.eurprd04.prod.outlook.com (2603:10a6:803:13c::22)
+ by VE1PR04MB7231.eurprd04.prod.outlook.com (2603:10a6:800:1a9::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
- 2020 03:09:57 +0000
+ 2020 03:50:20 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 03:09:57 +0000
-Message-ID: <7e808e05b79b4730b99da868c9255c3b76608f3a.camel@nxp.com>
-Subject: Re: [PATCH 06/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
- display pixel link binding
+ 03:50:20 +0000
+Message-ID: <0b29c5a61750b14a2714eba881d352c7cad36b46.camel@nxp.com>
+Subject: Re: [PATCH 11/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
+ LVDS display bridge binding
 From: Liu Ying <victor.liu@nxp.com>
 To: Rob Herring <robh@kernel.org>
-Date: Tue, 22 Dec 2020 11:08:06 +0800
-In-Reply-To: <20201221223140.GA687317@robh.at.kernel.org>
+Date: Tue, 22 Dec 2020 11:48:29 +0800
+In-Reply-To: <20201221223329.GA691090@robh.at.kernel.org>
 References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
- <1608199173-28760-7-git-send-email-victor.liu@nxp.com>
- <20201221223140.GA687317@robh.at.kernel.org>
+ <1608199173-28760-12-git-send-email-victor.liu@nxp.com>
+ <20201221223329.GA691090@robh.at.kernel.org>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR06CA0090.apcprd06.prod.outlook.com
- (2603:1096:3:14::16) To VI1PR04MB3983.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR03CA0128.apcprd03.prod.outlook.com
+ (2603:1096:4:91::32) To VI1PR04MB3983.eurprd04.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from blueberry.ap.freescale.net (119.31.174.66) by
- SG2PR06CA0090.apcprd06.prod.outlook.com (2603:1096:3:14::16) with Microsoft
+ SG2PR03CA0128.apcprd03.prod.outlook.com (2603:1096:4:91::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.29 via Frontend Transport; Tue, 22 Dec 2020 03:09:51 +0000
+ 15.20.3700.22 via Frontend Transport; Tue, 22 Dec 2020 03:50:14 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6b704294-e95a-4a16-7093-08d8a6270fee
-X-MS-TrafficTypeDiagnostic: VI1PR04MB6813:
+X-MS-Office365-Filtering-Correlation-Id: 765d7b6b-b1fc-49d9-209b-08d8a62cb44a
+X-MS-TrafficTypeDiagnostic: VE1PR04MB7231:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB6813132527A65966AA75EA3098DF0@VI1PR04MB6813.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <VE1PR04MB723106B918F6994CABD6345098DF0@VE1PR04MB7231.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZzhSLNBet+/PVjlG1mVuR0w3H3RKT/H0S8qcb9f1D4r4gGKXJxaw5AU53NGOyEoKfezez+GE/R8pM//jjLC0Bi/hrJPKbhTvBYVkigj8k5FZ5RH/GYqmMh2Q8tA9wnyMdgyVlV/0XaxBq8fXvhwmN9T9irbcNHlC227FM5s+k0TUu1yWGH0kEjnPe2HX8rblEyLbVhIBhhUeezvuEenqadHC+AZaX4xfYwpz31X8uUYpY7KfWPMDMSxW8KnzW/fAIOWKQacCAT4jgn8FQIAO7Pxng/aL91VxLXregqBvAQ9bUvhXORvERh+vrDQNA3v8qux1lmdRh/MNCI5P1w32/t5J0N0FGbIGHOVPJ7GRygTRSNrcsXU8RZ1OAo/UEFDOk3YcKAqgj8tnNpATj89/c09EvjH4aww7ioxl4B6Q39aIkPqFoDh6I1yBqPEbVeXFkYixTz9tW1F8kIV9MMpGWQ==
+X-Microsoft-Antispam-Message-Info: mE4g0p2Ujk7CXJUNLIHV9o3iLhqPaW1mPWoL1fvWHjwpNXKT6GCWtOCuVoVFL/B/F6iDmDcyyyQu7BNxA9hFrf/ymcvrJpnFxvU2dWvRU7YiO1PxQVQ4viYKzRfBBS1lSqThG8nx6pMcXvpF4FVl9s98XwUalxKDS9JihK2tbvSEyq7vVDaMXvUDpfePaVfpP9QzDuJ4amq0bBIAqhTGbMnWLsX1Xe/LATUrEfRbMQr+McmHlA8iUscxDPvlmnmfjXjKtrS8LUHdFLTflZ5uSsyUxDGqxZxFpl9EiZIBtr4NFubqFAsOBVG7brG1jZQoEhiw72oVOYgEjQgtVzuDfQyyF0i8NdNph+IWQZgHn7aqOglpK9ZCC36wOxex3QRgELhfTxO1gFTYg+QVgWllRwd4m3gqBeSw/UOY/SFM7GQ+nM21FlbyG/tFubBMxN1AZ/52ZCguDPe4ZxxqEy30Ew==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(8936002)(956004)(26005)(5660300002)(6512007)(66556008)(66476007)(6916009)(2616005)(6506007)(66946007)(4326008)(45080400002)(83380400001)(7416002)(316002)(478600001)(52116002)(8676002)(6486002)(4001150100001)(86362001)(36756003)(16526019)(6666004)(186003)(2906002)(966005);
+ SFS:(4636009)(39860400002)(136003)(366004)(396003)(376002)(346002)(8936002)(6506007)(52116002)(478600001)(6512007)(16526019)(83380400001)(316002)(66476007)(956004)(66556008)(6486002)(6666004)(86362001)(6916009)(26005)(66946007)(8676002)(2616005)(186003)(7416002)(2906002)(4001150100001)(36756003)(966005)(4326008)(45080400002)(5660300002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TVN5VFdnaExDdnZRbXZjdDZ4NXRDWCt2TVVrS0JHTzVHL1UyZWZmMm1ic1dO?=
- =?utf-8?B?QVNkeTRxVWZyaDArM09Sc0w5cnUzWC9KZDJLcDN6RmpKdWczMno3bWppR2tu?=
- =?utf-8?B?RTdERGNPK3QyTXpZV2xmckdUSXB3RzJqejRhbCtmK2VDQmxQRU1nbmZvSEJT?=
- =?utf-8?B?SXB1ak1kMmxTbXc3OVZGOXpwWU5aN2NPMGZ6WWJjK3h5VzFtWDFlbWpCKzV3?=
- =?utf-8?B?VjhlK2Nlaml6RzZLZ2R2dVo1M2J3WHlheUpDSmt1OGZXMmZ0dWtVWVVXTklB?=
- =?utf-8?B?ZTlRZHdPK1NoTGFCZTBzWFk5aVBhcm9RT0NNOTIwU3QzMGV5bm1ZK2tudXBQ?=
- =?utf-8?B?cHFzS0J3TzF1dDFqWUZOUkhwc0V5ejVrbktZY3ZpOFg2Q0lISU5pNWxJMGgy?=
- =?utf-8?B?YjBXUkszekhOZGw2ZG13T2k1S2hYakhNQWlhVEY1KzJvd2pXUHdrb1VIb1lL?=
- =?utf-8?B?REc4OHBjbWZKc0VYSE0zMEIybzVzdThtWHk2Z3BTbEU4azRaaU9yRSt2NkFC?=
- =?utf-8?B?Q3FRMjR1WENUaVovZEM2UHF0cUEza1JpZCtyZzBxR0xreGdORE5SZCtzTStH?=
- =?utf-8?B?RG5TeHZ2Umk3NWRWWVY2NnY5d1Y4cVUvSEJZNUpnaDdGbmZndjRPdnk5OWR6?=
- =?utf-8?B?Yk5CNDZBbkRITkJ3aWJDeHJPRkorUDZ2UmFUeWwvcGozVzBDNWxQRC9VRmZh?=
- =?utf-8?B?MnJQNnFxSGFvekVVZytKalZMdVJpN29DNnlXUmdXTUlkaGYyL29uc2I4K0d6?=
- =?utf-8?B?V0hXOWExVkJ2a2tNRmFHeXh0L0VxZkt6RWFIdkpKczVSRGZJQm9OTUs3TExn?=
- =?utf-8?B?Zk5KelhudUN1c0liUkVIOGMydVhpRHZVNm5peSsyMWo1eDIzWUlyZTRwTFJq?=
- =?utf-8?B?S2IwdE5hSDMxZTRlS1Nxc1paekhLbXBERE9jYnBTMmo4YVVRQkJnRXhLK1hF?=
- =?utf-8?B?QmhYbVBjN2RocWRlMDZqSmJmR0VuTUw4RXZPd0RIZVZNcXoyMjQ2OWZpWHJF?=
- =?utf-8?B?Wm9oRGxCRUhUazhwM3E5SDYwZlh6c1NrVHU0OCtsNFdCMmdOa2RvYWpNSTZH?=
- =?utf-8?B?Zys1Nkw0VDA5eVQvdzJXSDNlK3QxL2xCTzJsS3RId0grRDcyeGM4TEpQWEJz?=
- =?utf-8?B?aVRMTXk2d1l1Y0pZUlZIYWx4aE92djhVUFZLWTlDMFpETkEzVUliNGVrc00w?=
- =?utf-8?B?cnplNUk3WkxqVWtVYkNOdllFUHFEN0g3UXNBSm0va0xFRE5rTnhxYndkY1R0?=
- =?utf-8?B?WWhsUDVIcFhjajNUcVAyOTFpNEphbGFXRXp6dDhOMmx4MENNdmFtS3E1QVo5?=
- =?utf-8?Q?B/haSzvNYHcW9c9Bw3OuHOr2EuKjZxoLa8?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eUVzaGtWK0lvWGtjeHlOWkx0d0FYS2liQWFMWmd4WW9HWXBzM3NKanNQNVFM?=
+ =?utf-8?B?MDJWdStLMWtFSWNwZ3FsMCtHYXNCcE5xUHF0c2VMTkd6RzlaUElmN2VuUVJn?=
+ =?utf-8?B?ZUt3dEVUS1czbm9uNnBTcW9nUTUyVUNZR3RObXp1VmZucUJNYXA1YWJSNGMz?=
+ =?utf-8?B?NkRCMTVET1lLYlp3SFVMRzhzeWJRSVBDZGQyV1NnNThEdUc4NW9TS090VGhz?=
+ =?utf-8?B?MmNBeU5MNFJIRThWVG54V092NzRLNkxwbGVSUkR4T2c5YzJ2Q3MxOVIva2g4?=
+ =?utf-8?B?NEcwY21XdGFKblhKaGRxTnVSQVNCZ3VQUUdoQkVrMWZGL3B5YUpOczhrRjNJ?=
+ =?utf-8?B?K2YvaTQ0eGFRVmFORTl4M3U3NEd2WUY1Um8wRndUSTBHUUN1amZrUHVRUXM2?=
+ =?utf-8?B?QmU2dmpycnlIZFlnWXhZOHNQU2xzZ2FaWUsyOE1PU0MyRXl0a1RjU3FMVG1U?=
+ =?utf-8?B?dTR5MHFHNkxWSHB3cUdISjVCUTFWWmM4cTEwNFdBRVBqM0xnMGxvVzlZNEVn?=
+ =?utf-8?B?bm1zYlU0Y0hFdmduU0dkVG41dTNmVy8wek9FM0NIM1BuUk0xOWxXMmE2MEhh?=
+ =?utf-8?B?WkxtSnJ1MTVxeHBWOUJYM3dvQTBWbkFHQzBrY3R3K0tGaXRzU0gvZ0U2VFBB?=
+ =?utf-8?B?SW5kcWs2RE5oaHdLa2FYL3RrSUVWWmNOUVR5Y2ErVHFkbWRDMEg1MzZXTUlP?=
+ =?utf-8?B?aCt6SHlqZDlYbGd3MXlWRCtSa09kczF5TDBmVk9qaU9xak5ORTdhR29nQWxn?=
+ =?utf-8?B?WVAvOU5aKzY0YXJVcDZsMFdsNDlvQ2N1RGU3bEJsUnJvTUl4bjdXaE9MZUw5?=
+ =?utf-8?B?VnFyckhUZlVxR3FKeHhTUzFoZVB5RFBhKzdwUGtMSUpOMThmTEQ3T0orbEo1?=
+ =?utf-8?B?cCs1OVQ3akhDWWtQcE9ZMTE1d3lDMi9WU1pSRTVSRnhkaFFxY25hZ2lrK290?=
+ =?utf-8?B?c0k5dkpia1l5Z3Z5UzJpZ0x6OUNZejJhSll4VVNzQmo3eTBCT3hOSEVMbzgz?=
+ =?utf-8?B?M3F0bzFYL1hFQW1Pb1ByNGNqa2VBNWsyNmZ5Z2dSZmMvemZ3TUR3QjlGS3Qx?=
+ =?utf-8?B?Q2d4VlFiR0pweDAyWmdiVDhxbWJsaUZNV3hTdWdRajlYTmhSejlFUERqUHRO?=
+ =?utf-8?B?ajFCWnphSGJEZDdaWmFTamVYd00rbjhrbm5OMzlLZjZ0cTl4QnpIVHpQOVVT?=
+ =?utf-8?B?S1JaUWM1OWVoakwwZlJsNjlVb1FiNGhXb0phdkc2UzZVdGJWWVh4Vk8zMW1R?=
+ =?utf-8?B?V01XOG9DOCtpbVpyVDdNL1diYkpVSXFSVkRxdU5vZmZUa1pTUkpQSStJVjJN?=
+ =?utf-8?Q?Yz48TMJoEPkQC+Sjgz0swVIFGTqYIjXCXv?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 03:09:57.3535 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 03:50:20.5274 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b704294-e95a-4a16-7093-08d8a6270fee
+X-MS-Exchange-CrossTenant-Network-Message-Id: 765d7b6b-b1fc-49d9-209b-08d8a62cb44a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Qoe2GX5gWcc+ABZVJprwfZ8a11D7M9gTcbXwvAeMllqVOz3G/r8l4o+xHgPMSmwjcRbXVfFMULg+gubvZdTXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6813
+X-MS-Exchange-CrossTenant-UserPrincipalName: jscF/LhkMEEa1qgeAXXwLe1zIWa9eiZbv97g2PCsMeL0+Ptzqd2H7N00SLHXAo06e4dsG03QcpfyZ/7oqvzMNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7231
 X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -131,74 +131,134 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-12-21 at 15:31 -0700, Rob Herring wrote:
-> On Thu, Dec 17, 2020 at 05:59:25PM +0800, Liu Ying wrote:
-> > This patch adds bindings for i.MX8qm/qxp display pixel link.
+On Mon, 2020-12-21 at 15:33 -0700, Rob Herring wrote:
+> On Thu, Dec 17, 2020 at 05:59:30PM +0800, Liu Ying wrote:
+> > This patch adds bindings for i.MX8qm/qxp LVDS display bridge(LDB).
 > > 
 > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > > ---
-> >  .../display/bridge/fsl,imx8qxp-pixel-link.yaml     | 128 +++++++++++++++++++++
-> >  1 file changed, 128 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> >  .../bindings/display/bridge/fsl,imx8qxp-ldb.yaml   | 185 +++++++++++++++++++++
+> >  1 file changed, 185 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
 > > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
 > > new file mode 100644
-> > index 00000000..fd24a0e
+> > index 00000000..4e5ff6f
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> > @@ -0,0 +1,128 @@
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> > @@ -0,0 +1,185 @@
 > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > > +%YAML 1.2
 > > +---
-> > +$id: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-pixel-link.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C2c8f001f28de46450bba08d8a60032d5%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441867070310997%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Qg5M4UJqHKJy5W4%2FB2hOpeEu8mHtp8rXcyN35TCUukw%3D&amp;reserved=0
-> > +$schema: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C2c8f001f28de46450bba08d8a60032d5%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441867070310997%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Zjvx9NBDFvqBxXqJItSP6smPdWsQUFYssJpNyVr48uE%3D&amp;reserved=0
+> > +$id: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-ldb.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C8d8e65cd4f0e45494d6408d8a60076d4%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441868260775770%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=tvsqI6VbnO9Qe4CBJAcoHHK8uzszYWmy5hBSGaeqPmc%3D&amp;reserved=0
+> > +$schema: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C8d8e65cd4f0e45494d6408d8a60076d4%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441868260775770%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=%2FTDhBQJLEFxWH2Nm0zTodKEhajtCRoVJilT9jBtbUfA%3D&amp;reserved=0
 > > +
-> > +title: Freescale i.MX8qm/qxp Display Pixel Link
+> > +title: Freescale i.MX8qm/qxp LVDS Display Bridge
 > > +
 > > +maintainers:
 > > +  - Liu Ying <victor.liu@nxp.com>
 > > +
 > > +description: |
-> > +  The Freescale i.MX8qm/qxp Display Pixel Link(DPL) forms a standard
-> > +  asynchronous linkage between pixel sources(display controller or
-> > +  camera module) and pixel consumers(imaging or displays).
-> > +  It consists of two distinct functions, a pixel transfer function and a
-> > +  control interface.  Multiple pixel channels can exist per one control channel.
-> > +  This binding documentation is only for pixel links whose pixel sources are
-> > +  display controllers.
+> > +  The Freescale i.MX8qm/qxp LVDS Display Bridge(LDB) has two channels.
+> > +
+> > +  For i.MX8qxp LDB, each channel supports up to 24bpp parallel input color
+> > +  format and can map the input to VESA or JEIDA standards.  The two channels
+> > +  cannot be used simultaneously, that is to say, the user should pick one of
+> > +  them to use.  Two LDB channels from two LDB instances can work together in
+> > +  LDB split mode to support a dual link LVDS display.  The channel indexes
+> > +  have to be different.  Channel0 outputs odd pixels and channel1 outputs
+> > +  even pixels.
+> > +
+> > +  For i.MX8qm LDB, each channel additionally supports up to 30bpp parallel
+> > +  input color format.  The two channels can be used simultaneously, either
+> > +  in dual mode or split mode.  In dual mode, the two channels output identical
+> > +  data.  In split mode, channel0 outputs odd pixels and channel1 outputs even
+> > +  pixels.
 > 
-> Perhaps some information about how this 'device' is accessed because you 
-> have no control interface.
+> This LDB doesn't share anything with prior ones?
 
-The i.MX8qm/qxp Display Pixel Link is controlled by SCU firmare.
-Will add the information.
+i.MX53/6qdl/6sx/8mp/8qm/8qxp SoCs embed LDB.
+Bridge drivers for them should be able to use the 'imx-ldb-helper'
+added by patch 10/14, so they do share those logics.
+
+i.MX53/6qdl LDB encoder driver is at drivers/gpu/drm/imx/imx-ldb.c.
+It's essentially a drm encoder driver.  Efforts are needed to convert
+it to be a pure drm bridge driver, just like the patch 12/14 and 13/14
+for i.MX8qm/qxp LDB which live in drivers/gpu/drm/bridge. 'imx-drm' is
+also needed to create drm encoders and connectors. So, a fair amount of
+work. With that done, the
+binding Documentation/devicetree/bindings/display/imx/ldb.txt for
+i.MX53/6dql LDBs can be dropped and we can probably cover them by this
+binding, though I see quite a few new/inconsitent propeties.
+
+i.MX6sx and i.MX8mp LDBs have no drivers yet. They can be potentially
+covered by this binding.
+
+Liu Ying
 
 > 
 > > +
 > > +properties:
 > > +  compatible:
 > > +    enum:
-> > +      - fsl,imx8qm-dc-pixel-link
-> > +      - fsl,imx8qxp-dc-pixel-link
+> > +      - fsl,imx8qm-ldb
+> > +      - fsl,imx8qxp-ldb
 > > +
-> > +  ports:
-> > +    type: object
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: pixel clock
+> > +      - description: bypass clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: pixel
+> > +      - const: bypass
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  fsl,syscon:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
 > > +    description: |
-> > +      A node containing pixel link input & output port nodes with endpoint
-> > +      definitions as documented in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +      Documentation/devicetree/bindings/graph.txt
+> > +      A phandle which points to Control and Status Registers(CSR) module.
+> > +
+> > +  fsl,companion-ldb:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: |
+> > +      A phandle which points to companion LDB which is used in LDB split mode.
+> > +
+> > +patternProperties:
+> > +  "^channel@[0-1]$":
+> > +    type: object
+> > +    description: Represents a channel of LDB.
 > > +
 > > +    properties:
-> > +      '#address-cells':
+> > +      "#address-cells":
 > > +        const: 1
 > > +
-> > +      '#size-cells':
+> > +      "#size-cells":
 > > +        const: 0
+> > +
+> > +      reg:
+> > +        description: The channel index.
+> > +        enum: [ 0, 1 ]
+> > +
+> > +      phys:
+> > +        description: A phandle to the phy module representing the LVDS PHY.
+> > +        maxItems: 1
+> > +
+> > +      phy-names:
+> > +        const: lvds_phy
 > > +
 > > +      port@0:
 > > +        type: object
-> > +        description: The pixel link input port node from upstream video source.
+> > +        description: Input port of the channel.
 > > +
 > > +        properties:
 > > +          reg:
@@ -206,26 +266,14 @@ Will add the information.
 > > +
 > > +        required:
 > > +          - reg
-> 
-> You can drop 'reg' parts.
-
-Will drop the 'required' parts for 'reg'.
-Also, will drop the '#address-cells' and '#size-cells' parts if no
-objections.
-
-Thanks,
-Liu Ying
-
-> 
 > > +
-> > +    patternProperties:
-> > +      "^port@[1-4]$":
+> > +      port@1:
 > > +        type: object
-> > +        description: The pixel link output port node to downstream bridge.
+> > +        description: Output port of the channel.
 > > +
 > > +        properties:
 > > +          reg:
-> > +            enum: [ 1, 2, 3, 4 ]
+> > +            const: 1
 > > +
 > > +        required:
 > > +          - reg
@@ -233,64 +281,77 @@ Liu Ying
 > > +    required:
 > > +      - "#address-cells"
 > > +      - "#size-cells"
-> > +      - port@0
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +          - port@1
-> > +      - required:
-> > +          - port@2
-> > +      - required:
-> > +          - port@3
-> > +      - required:
-> > +          - port@4
+> > +      - reg
+> > +      - phys
+> > +      - phy-names
 > > +
 > > +    additionalProperties: false
 > > +
 > > +required:
 > > +  - compatible
-> > +  - ports
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - fsl,syscon
+> > +  - channel@0
+> > +  - channel@1
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: fsl,imx8qm-ldb
+> > +    then:
+> > +      properties:
+> > +        fsl,companion-ldb: false
 > > +
 > > +additionalProperties: false
 > > +
 > > +examples:
 > > +  - |
-> > +    dc0-pixel-link0 {
-> > +        compatible = "fsl,imx8qxp-dc-pixel-link";
+> > +    #include <dt-bindings/firmware/imx/rsrc.h>
+> > +    ldb {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        compatible = "fsl,imx8qxp-ldb";
+> > +        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
+> > +                 <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
+> > +        clock-names = "pixel", "bypass";
+> > +        power-domains = <&pd IMX_SC_R_LVDS_0>;
+> > +        fsl,syscon = <&mipi_lvds_0_csr>;
 > > +
-> > +        ports {
+> > +        channel@0 {
 > > +            #address-cells = <1>;
 > > +            #size-cells = <0>;
+> > +            reg = <0>;
+> > +            phys = <&mipi_lvds_0_phy>;
+> > +            phy-names = "lvds_phy";
 > > +
-> > +            /* from dc0 pixel combiner channel0 */
 > > +            port@0 {
 > > +                reg = <0>;
 > > +
-> > +                dc0_pixel_link0_dc0_pixel_combiner_ch0: endpoint {
-> > +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_pixel_link0>;
+> > +                mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
+> > +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
 > > +                };
 > > +            };
+> > +        };
 > > +
-> > +            /* to PXL2DPIs in MIPI/LVDS combo subsystems */
-> > +            port@1 {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +                reg = <1>;
+> > +        channel@1 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <1>;
+> > +            phys = <&mipi_lvds_0_phy>;
+> > +            phy-names = "lvds_phy";
 > > +
-> > +                dc0_pixel_link0_mipi_lvds_0_pxl2dpi: endpoint@0 {
-> > +                    reg = <0>;
-> > +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_dc0_pixel_link0>;
+> > +            port@0 {
+> > +                reg = <0>;
+> > +
+> > +                mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
+> > +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
 > > +                };
-> > +
-> > +                dc0_pixel_link0_mipi_lvds_1_pxl2dpi: endpoint@1 {
-> > +                    reg = <1>;
-> > +                    remote-endpoint = <&mipi_lvds_1_pxl2dpi_dc0_pixel_link0>;
-> > +                };
-> > +            };
-> > +
-> > +            /* to imaging subsystem */
-> > +            port@4 {
-> > +                reg = <4>;
 > > +            };
 > > +        };
 > > +    };
