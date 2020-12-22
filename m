@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EC52E0802
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C9E2E080B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4976E867;
-	Tue, 22 Dec 2020 09:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 822D66E871;
+	Tue, 22 Dec 2020 09:21:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088B46E141
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 06:41:29 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id be12so6927040plb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 22:41:29 -0800 (PST)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26EBF6E141
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 06:41:45 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id d2so7887620pfq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 22:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=qCUDEuOxwnC1AGuwl6fnluLE3mg41lKSQCQsRBnikAE=;
- b=SLqK80aWe80/oOFjlKAkk5jqsLmB6RoEBWiQMpcRzPAse5ZgDQA6H/f2QcYQaYX+Sk
- j72VoUeumbbh4H7SoJchN3WQ4I8yPJLZcR2WOnDQDMCzorCW4hJclXsTQgFoRz22RdKG
- b36kXTEMnqcyvZ4P8k2BHIQ3OnbkH5vPepxZyzfdedwjW/vFkSQupF0OBKJtYCIUOXd+
- tnsNf4Jyrnc5hEpCgs3Ty8sMXZ+Y1xPDWrfNT0FgbK/gljhOZLN19WV5tE5Pm7gIZMx/
- BqJRbe7G+WxvEmQbKhOkP8Fkwv3F+QpBIqDZjzxrC/La6nliwsr0G5LVDTCHzO75q9IH
- T1IQ==
+ bh=mdb8ubeZUDajJW+FcHgYac1dD8MByc7AxGNoAnUULbI=;
+ b=npm8TWA8O2hsE4I05GLXYUgOLq1zgQjekB/Y4euzum/q0sfwISRV8ojNFw9xBetHYG
+ evQHh7Im53EF1KPazTUM6tG5aazhT/xA3W29tAzWofCmWnBLUvHwm07XeX/ejN4ZKNp+
+ GG1EIaznfaIPh04fh8Vuf5DnthO72+88HGixBcUWvlVGWbNtuglnZU0e7Z08HgxGdv8S
+ NU/vtGF3TDtC2JLVLs4AZIpRX70hZbTJkcb96VBSFOPBpkbXmP1YGrK7ObL+Aiz9SArD
+ 8vn+yrLPGr5ZiIMK5ZKv0qTkSfbBMVYVUkMsjTy7Z0aDg9Kb2OysaSGaZdGGmigLzN/I
+ S2rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qCUDEuOxwnC1AGuwl6fnluLE3mg41lKSQCQsRBnikAE=;
- b=C1xmAa4mkkucI8pJANxGH8PC1tbJHyDrYXEAzY9NgEtw4vVjp+9nDlusddrGIt8j/1
- 5Pujc0/uV/OPOx+tpZsrJVjFyT5zSMnwW7HY8OXPniOf+6YX2mb7nteWd9M+iRKF7kC3
- URrGUoJSIfrVikwVNRSjgGHVq1gFk8wn49nUnY5aQfUq2S9mfsM02FDVq+oacPWKju6Q
- IdEShB4Lyz8iq6s22czghXf/nlbEJk0s6kDNsROJQsNQb+cDjX6CXQVtmu4brjjDPNok
- +ekBTpZk4kK1SoiKjSf1R7g6W7xcpKuUZh0xs8tx4FPbFwrs3LvGhFsYdKEp1CDjegYp
- 8Qhg==
-X-Gm-Message-State: AOAM530fvsKEj2KfMcxY/5VLtJcK8E7NK2egHo1fjHrLPRfQSZIJ97Cm
- cUZJtK3oAxsVd/aHSMiW803E7g==
-X-Google-Smtp-Source: ABdhPJxN42pTclkBGDeXVc+JmlXJ2Zqv4ydgjwhoQWE66qXHkx0fFIYjfke1IlzZt4m8tXjIu/60fA==
-X-Received: by 2002:a17:902:b94a:b029:dc:18f2:8063 with SMTP id
- h10-20020a170902b94ab02900dc18f28063mr20113799pls.8.1608619289583; 
- Mon, 21 Dec 2020 22:41:29 -0800 (PST)
+ bh=mdb8ubeZUDajJW+FcHgYac1dD8MByc7AxGNoAnUULbI=;
+ b=WinqpGHqN4V/3f79G2qm4ZtzYEFtsTrRwyauALok9MBVJZly34JnfF8sRAIgtW8vAH
+ MX6y4MmgyBLc/6Xzlo60rNgAjOp+BSdgC3/+rOuH/Z/eEYISjeD1tEnVRuvWhaRxPc8Z
+ ANeMc/m6/rzpgUSi2LmQToQ/imxiW4IOEiYLRDeVmFdoHrc8FbbCj2Vq4QhyOhg5AwfD
+ lMZxRvz5YQGFWL9u1eCaOmd2FCLd4PiO43uLB5SNakyhl3I6yykajPNyZqHTZtXgMc4U
+ cFBiWcTezVQeqaV1MFthE0MBPRBTbPeeyjKZDoryR6FpBDT0WlxtUW+Xy0j8CMhASmXE
+ lhrg==
+X-Gm-Message-State: AOAM531oPdrYbNaHv590K+CZE7EFgi7nUUAARuj9i9WiJZ3WGbxvjrfm
+ tUIsOiS3/GJUz4K7LQitTXsb/Q==
+X-Google-Smtp-Source: ABdhPJw7BD4Js7XMjl68MHqDPRxBWn/XxIVoOlLeKMWzpyH+qOtOrTPdNalPZDEVDwvJf8LazuKUiw==
+X-Received: by 2002:a63:2265:: with SMTP id t37mr18196221pgm.336.1608619304758; 
+ Mon, 21 Dec 2020 22:41:44 -0800 (PST)
 Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id z2sm7851394pgl.49.2020.12.21.22.41.28
+ by smtp.gmail.com with ESMTPSA id x1sm18440611pfc.112.2020.12.21.22.41.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Dec 2020 22:41:28 -0800 (PST)
-Date: Tue, 22 Dec 2020 12:11:27 +0530
+ Mon, 21 Dec 2020 22:41:44 -0800 (PST)
+Date: Tue, 22 Dec 2020 12:11:42 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 09/48] opp: Add dev_pm_opp_sync_regulators()
-Message-ID: <20201222064127.cn7tagfwpi5tu4zk@vireshk-i7>
+Subject: Re: [PATCH v2 10/48] opp: Add dev_pm_opp_set_voltage()
+Message-ID: <20201222064142.pidafbhcbrecz57z@vireshk-i7>
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-10-digetx@gmail.com>
+ <20201217180638.22748-11-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-10-digetx@gmail.com>
+In-Reply-To: <20201217180638.22748-11-digetx@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:47 +0000
+X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,9 +86,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-12-20, 21:05, Dmitry Osipenko wrote:
-> Extend OPP API with dev_pm_opp_sync_regulators() function, which syncs
-> voltage state of regulators.
+On 17-12-20, 21:06, Dmitry Osipenko wrote:
+> Add dev_pm_opp_set_voltage() which allows OPP table users to set voltage
+> in accordance to a given OPP. In particular this is needed for driving
+> voltage of a generic power domain which uses OPPs and doesn't have a
+> clock.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
