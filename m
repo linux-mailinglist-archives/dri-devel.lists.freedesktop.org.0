@@ -1,63 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954A02E07F9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 637782E0645
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 08:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA7C56E841;
-	Tue, 22 Dec 2020 09:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D747189DCF;
+	Tue, 22 Dec 2020 07:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B426E141
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 06:42:56 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id z21so7772064pgj.4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Dec 2020 22:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=KcaYAZQ+AoDm9Jn9wokihL78HxRFsW+AhH8/h9c+1wA=;
- b=uR9O2EdLr4l+d+J8DstQgDPJiLPo1oLcBQPLe9jc2o++kue1dXZm05qdnvOIStsjzl
- LxGtFbuTHlEcESPdNBvcsJRRBnhcQ8k3qWJTtqEA9Vsn1CHhzGmqcZCHzFhyuPgQch7w
- ZkBOnZ/IbbjQIn9Vy+DguNDJMixeiercHvgjsHdWn/QJte3DEZIiQdkulmFdS91Y43F1
- vk9hBZZWmvz96CbVxWwTN4UuBDgRDzuMiUl3t0NwETYOL4uelpc2l16EUrg/gYEFZxFx
- bnyZzEsIobaE2fETZkKFj8q6rzCf48SfT+Z3B1NG0u7NFx+M3/vmtvFpKgR2lL4ATFSB
- 92qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KcaYAZQ+AoDm9Jn9wokihL78HxRFsW+AhH8/h9c+1wA=;
- b=FJGOhMjKRAZeiPt26QCb0C4rS53rkKoIZQvkjg3C8w+JpcloZURbo/LpMTrqtdtqw/
- x71Uoee4+Nt84pf+ITZqpkscR92ouSwqBIN8mqCesU5ZDcQuAWAIK5aQ8X4LFEvvCohP
- DNfIxNxnkB3sDzH+lStcpQR4d3rJ2rrhCxac/CVXMRo6q6I+jku2aV3PHTZH8LGldMP9
- p2OXkl3FT1kRv6igs0u3ghADj+vZuMdq1DKeL33iArOj0mx7PJEshak+CpJU4HjPmZt6
- DPHzjcuoju9DnEMmsUnJx/NigAVlNm2Rc/WPEE2lBl3KU8bWuZw09q/v/R3s5bjjyxg/
- VsLQ==
-X-Gm-Message-State: AOAM530fGzbhV64GJ4ngYhwRO02Xi++x/qyKRGa4o/ermo53Av45YykS
- oZLpBKyw6aZZds1vTtpvKGHcpQ==
-X-Google-Smtp-Source: ABdhPJxBR/Z8Ma4PVg9ZbczgXmM2X91HSAXGveL8f8GmkDzgajqaFrdpkcD8mdHIemFfHzAJ0M1KFQ==
-X-Received: by 2002:a62:61c5:0:b029:1a9:5a82:4227 with SMTP id
- v188-20020a6261c50000b02901a95a824227mr18914548pfb.61.1608619375827; 
- Mon, 21 Dec 2020 22:42:55 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id 198sm18893827pfw.29.2020.12.21.22.42.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Dec 2020 22:42:55 -0800 (PST)
-Date: Tue, 22 Dec 2020 12:12:53 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
-Message-ID: <20201222064253.x7vsurh7q5k7qzb5@vireshk-i7>
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-12-digetx@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA4CF89DCF
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 07:00:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 822B49E6;
+ Tue, 22 Dec 2020 08:00:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1608620409;
+ bh=lYWlNG3hg5EQEMRIv3R8A9ky7wtOsmqZ+PHWm7X2Dq4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pfp8CWZg+6dOyHxREN3KNVBN7r6rKmyStNsacuZHCJLAI5P7xcR9s5TrQHfwJ7CBL
+ 3KbXfs9uiI4JVcD/+sJSHpGbafw+Rc3KoOOs1B3LfpTRPxFUHIZdST11k86YeCG/MB
+ 2UqjimU33MsYT1PN2ZVsgIsOCsnGih/LXnPWBJt4=
+Date: Tue, 22 Dec 2020 09:00:01 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop redundant maxItems/items
+Message-ID: <X+GZcXJoZ15vgxB2@pendragon.ideasonboard.com>
+References: <20201222040645.1323611-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-12-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:48 +0000
+In-Reply-To: <20201222040645.1323611-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +45,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
- Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jassi Brar <jaswinder.singh@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Mark Brown <broonie@kernel.org>, dmaengine@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> Add a ceil version of the dev_pm_opp_find_level(). It's handy to have if
-> levels don't start from 0 in OPP table and zero usually means a minimal
-> level.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Hi Rob,
 
-Why doesn't the exact version work for you here ?
+Thank you for the patch.
+
+On Mon, Dec 21, 2020 at 09:06:45PM -0700, Rob Herring wrote:
+> 'maxItems' equal to the 'items' list length is redundant. 'maxItems' is
+> preferred for a single entry while greater than 1 should have an 'items'
+> list.
+> 
+> A meta-schema check for this is pending once these existing cases are
+> fixed.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jassi Brar <jaswinder.singh@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: dmaengine@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  .../devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml    | 1 -
+>  Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml   | 1 -
+>  Documentation/devicetree/bindings/mailbox/arm,mhu.yaml         | 1 -
+>  .../devicetree/bindings/sound/nvidia,tegra30-hda.yaml          | 2 --
+>  Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml    | 1 -
+>  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml       | 3 ---
+>  6 files changed, 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+> index 7b9d468c3e52..403d57977ee7 100644
+> --- a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+> +++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+> @@ -98,7 +98,6 @@ properties:
+>      maxItems: 1
+>  
+>    dmas:
+> -    maxItems: 4
+>      items:
+>        - description: Video layer, plane 0 (RGB or luma)
+>        - description: Video layer, plane 1 (U/V or U)
+> diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> index b548e4723936..c07eb6f2fc8d 100644
+> --- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> @@ -73,7 +73,6 @@ properties:
+>      maxItems: 1
+>  
+>    clock-names:
+> -    maxItems: 1
+>      items:
+>        - const: fck
+>  
+> diff --git a/Documentation/devicetree/bindings/mailbox/arm,mhu.yaml b/Documentation/devicetree/bindings/mailbox/arm,mhu.yaml
+> index d43791a2dde7..d07eb00b97c8 100644
+> --- a/Documentation/devicetree/bindings/mailbox/arm,mhu.yaml
+> +++ b/Documentation/devicetree/bindings/mailbox/arm,mhu.yaml
+> @@ -61,7 +61,6 @@ properties:
+>        - description: low-priority non-secure
+>        - description: high-priority non-secure
+>        - description: Secure
+> -    maxItems: 3
+>  
+>    clocks:
+>      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
+> index e543a6123792..b55775e21de6 100644
+> --- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
+> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-hda.yaml
+> @@ -44,7 +44,6 @@ properties:
+>      maxItems: 3
+>  
+>    clock-names:
+> -    maxItems: 3
+>      items:
+>        - const: hda
+>        - const: hda2hdmi
+> @@ -54,7 +53,6 @@ properties:
+>      maxItems: 3
+>  
+>    reset-names:
+> -    maxItems: 3
+>      items:
+>        - const: hda
+>        - const: hda2hdmi
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> index 0f078bd0a3e5..22603256ddf8 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+> @@ -51,7 +51,6 @@ properties:
+>      maxItems: 1
+>  
+>    phy-names:
+> -    maxItems: 1
+>      items:
+>        - const: usb
+>  
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> index 737c1f47b7de..54c361d4a7af 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> +++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> @@ -74,11 +74,8 @@ properties:
+>  
+>    phys:
+>      maxItems: 1
+> -    items:
+> -      - description: phandle + phy specifier pair.
+>  
+>    phy-names:
+> -    maxItems: 1
+>      items:
+>        - const: usb
+>  
 
 -- 
-viresh
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
