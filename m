@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67B52E09A7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46AA2E09AB
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7EC6E22F;
-	Tue, 22 Dec 2020 11:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A986F6E85A;
+	Tue, 22 Dec 2020 11:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADAFB6E22F
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:25:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8E9F62310D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:25:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2617E6E85A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:28:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 04E0022A83
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:28:49 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 7FEA681FE6; Tue, 22 Dec 2020 11:25:40 +0000 (UTC)
+ id E9D8981FE6; Tue, 22 Dec 2020 11:28:48 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
  lid. AMDGPU
-Date: Tue, 22 Dec 2020 11:25:40 +0000
+Date: Tue, 22 Dec 2020 11:28:48 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -35,8 +35,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210849-2300-V28PjIpPMq@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-210849-2300-zS5I27LDvA@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
 References: <bug-210849-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -61,8 +61,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210849
 
---- Comment #3 from xrootware@gmail.com ---
-5.10.1 builded from sources have same result
+xrootware@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|>=5.9                       |5.10.1
 
 -- 
 You may reply to this email to add a comment.
