@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75AC2E0969
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:16:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EB82E0971
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 12:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798EA6E22C;
-	Tue, 22 Dec 2020 11:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4906E852;
+	Tue, 22 Dec 2020 11:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAC36E22C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:16:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 19A6923124
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:16:00 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 0C14081FE6; Tue, 22 Dec 2020 11:16:00 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210849] New: Black screen after resume from long suspend.
- Open/Close lid. AMDGPU
-Date: Tue, 22 Dec 2020 11:15:59 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: xrootware@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-210849-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9FA6E857
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 11:18:15 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id d13so14107896wrc.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 03:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=KcTszvw0IXEVkh+Vzq3cs8FER8HOOVXIQxKTwZmoycE=;
+ b=kmULFIXdbcRTyxU0mHwJfgCxsJpF2QnJ20Z0OaLP4j9SdM+dGYLVi8Pb3E0vhxYLq7
+ WKXvCeLj9buHQ6U0popXAvMsRrwXSbSPTc8kvnwYBNVCc8fPwwTKj/jKdJop8JfI/CTe
+ PNBlIQfFKji52i1maoVp0Z9WS3ChZioHvtI2o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KcTszvw0IXEVkh+Vzq3cs8FER8HOOVXIQxKTwZmoycE=;
+ b=eTTAj5SDtsAqRJTxo2c+mI4dxd+Ljqnr1FTus7DMUQ58t2ws9cMgg/NggO52115CcX
+ SB1mleoaKRFAmxpdVB8EvdxpTm6hVXpQVum3/tHGDxr9U/lOykSqQwk6hiAGyrNIZ+RU
+ QvJuIdmt3gkMZzxsuKyqa+y+Feq2nN/HEGsHg43WrQsK0C+RGUANWN1VRvRE+TTzxqiq
+ YHn9WQIIc7JVeSG7ZYY04zPqAh9GjmaqQaEpKnkCuQW0ZhliDzeOGOXeknDitKST7Yod
+ mGKq050tC8d+ypydoHv5IJ7Msmfmx6ydKuwnQORsEAfY3dmVGVmcYIs+9vAPYLRqdYpm
+ 2bdQ==
+X-Gm-Message-State: AOAM531AM7aj1un86yjvmL8pumCPnMmOARPBkEWvfJu31mtauoqhoL4/
+ b/c/lTdj+istTvxbvUOkTWZ2Zg==
+X-Google-Smtp-Source: ABdhPJxM2xUqLs7Ob6GlbQZ3bW8Ne+y51Zo41+z4luf9CpHxqTRF4PgI84VTsCSyOs8xzDzE9RnYcg==
+X-Received: by 2002:a05:6000:143:: with SMTP id
+ r3mr23592577wrx.331.1608635893926; 
+ Tue, 22 Dec 2020 03:18:13 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u66sm26875422wmg.30.2020.12.22.03.18.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Dec 2020 03:18:13 -0800 (PST)
+Date: Tue, 22 Dec 2020 12:18:11 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 2/2] drm/fb-helper: Add a FIXME that generic_setup is
+ very confusing
+Message-ID: <X+HV87rIWe5jIpK7@phenom.ffwll.local>
+References: <20201211161113.3350061-1-daniel.vetter@ffwll.ch>
+ <20201211161113.3350061-2-daniel.vetter@ffwll.ch>
+ <X+G0gDNlSCGLyjGK@phenom.ffwll.local>
+ <ELmh1-LEs7frTA_s1mAofp1qBikYytSKjZi5fc36z41QdFuETpsx0qO-nUlvvsbJ2Xt6VrHYv8u9_1eNIqkUullDFmjPIsxIUMTxujYhktM=@emersion.fr>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <ELmh1-LEs7frTA_s1mAofp1qBikYytSKjZi5fc36z41QdFuETpsx0qO-nUlvvsbJ2Xt6VrHYv8u9_1eNIqkUullDFmjPIsxIUMTxujYhktM=@emersion.fr>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,64 +69,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTA4NDkKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjEwODQ5CiAgICAgICAgICAgU3VtbWFyeTogQmxhY2sgc2NyZWVuIGFm
-dGVyIHJlc3VtZSBmcm9tIGxvbmcgc3VzcGVuZC4KICAgICAgICAgICAgICAgICAgICBPcGVuL0Ns
-b3NlIGxpZC4gQU1ER1BVCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZl
-cnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246ID49NS45CiAgICAgICAgICBIYXJkd2FyZTog
-QWxsCiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAgICAgICBUcmVlOiBNYWlubGlu
-ZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2ZXJpdHk6IGJsb2NraW5nCiAg
-ICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9uZW50OiBWaWRlbyhEUkkgLSBub24g
-SW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192aWRlby1kcmlAa2VybmVsLWJ1Z3Mu
-b3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiB4cm9vdHdhcmVAZ21haWwuY29tCiAgICAgICAg
-UmVncmVzc2lvbjogTm8KCkNyZWF0ZWQgYXR0YWNobWVudCAyOTQyOTUKICAtLT4gaHR0cHM6Ly9i
-dWd6aWxsYS5rZXJuZWwub3JnL2F0dGFjaG1lbnQuY2dpP2lkPTI5NDI5NSZhY3Rpb249ZWRpdApj
-dXQgb2YgZG1lc2cKCkJ1ZyBvbiBrZXJuZWwgZ3JlYXRlciB0aGFuIDUuOSBvbiBGZWRvcmEgMzMu
-IEJsYWNrIHNjcmVlbiBhZnRlciByZXN1bWUgZnJvbQpsb25nIHN1c3BlbmQuIE9wZW4vQ2xvc2Ug
-bGlkLgoKTW9yZSBlcnJvciBsaWtlIHRoaXMgaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29tL3No
-b3dfYnVnLmNnaT9pZD0xODg0MTgwCgpIQVJEIFJFU0VUIChwb3dlciBidXR0b24gNSBzZWNvbmRz
-KSByZXF1aXJlZCB0byBub3JtYWwgYm9vdC4KClN5c3RlbSBlbmNvdW50ZXJlZCBhIG5vbi1mYXRh
-bCBlcnJvciBpbiBkcm1fZGV2X3JlZ2lzdGVyKCkKCldBUk5JTkc6IENQVTogMiBQSUQ6IDMyMyBh
-dCBkcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmM6NjE3CmRybV9tb2RlX2NvbmZpZ192
-YWxpZGF0ZSsweDE3OC8weDIwMCBbZHJtXSAKCgpiYWNrdHJhY2UgICAgICAgICAgWy1NLU9dIDMz
-IEw6WyAxNCsxNSAgMjkvIDQzXSAqKDMxNDQvMzk2OGIpIDAwMTAgMHgwMEEgICAgICAgCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBbKl1bWF0KRtCh
-OiAgMDAwMDdmMDUxZGFlZjRjMCgwMDAwKSBHUzpmZmZmOGEzZmI4YTAwMDAwKDAwMDApIGtubEdT
-OjAwMDAwMDAwMDAwMDAwMDAKQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAw
-MDA4MDA1MDAzMwpDUjI6IDAwMDA3ZjIyYjI1N2I1NmMgQ1IzOiAwMDAwMDAwMTJlZDhhMDAwIENS
-NDogMDAwMDAwMDAwMDM1MDZmMApDYWxsIFRyYWNlOgogPyBnZW5lcmljX3JlZ19nZXQrMHgxZC8w
-eDMwIFthbWRncHVdCiBkcm1fZ2V0X2xhc3RfdmJsdGltZXN0YW1wKzB4OGEvMHhhMCBbZHJtXQog
-ZHJtX3Jlc2V0X3ZibGFua190aW1lc3RhbXArMHg0Yi8weGIwIFtkcm1dCiBkcm1fY3J0Y192Ymxh
-bmtfb24rMHg3Yi8weDEzMCBbZHJtXQogYW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFpbCsweGQw
-MC8weDI0YzAgW2FtZGdwdV0KIGNvbW1pdF90YWlsKzB4OTQvMHgxMzAgW2RybV9rbXNfaGVscGVy
-XQogZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KzB4MTEzLzB4MTQwIFtkcm1fa21zX2hlbHBlcl0K
-IGRybV9hdG9taWNfaGVscGVyX3NldF9jb25maWcrMHg3MC8weGIwIFtkcm1fa21zX2hlbHBlcl0K
-IGRybV9tb2RlX3NldGNydGMrMHgxZDMvMHg2ZjAgW2RybV0KID8gYXZjX2hhc19leHRlbmRlZF9w
-ZXJtcysweDE4ZC8weDNlMAogPyBkcm1fbW9kZV9nZXRjcnRjKzB4MTgwLzB4MTgwIFtkcm1dCiBk
-cm1faW9jdGxfa2VybmVsKzB4ODYvMHhkMCBbZHJtXQogZHJtX2lvY3RsKzB4MjBmLzB4M2EwIFtk
-cm1dCiA/IGRybV9tb2RlX2dldGNydGMrMHgxODAvMHgxODAgW2RybV0KIGFtZGdwdV9kcm1faW9j
-dGwrMHg0OS8weDgwIFthbWRncHVdCiBfX3g2NF9zeXNfaW9jdGwrMHg4My8weGIwCiBkb19zeXNj
-YWxsXzY0KzB4MzMvMHg0MAogZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NDQvMHhh
-OQpSSVA6IDAwMzM6MHg3ZjA1MjFhNTkzOGIKQ29kZTogODkgZDggNDkgOGQgM2MgMWMgNDggZjcg
-ZDggNDkgMzkgYzQgNzIgYjUgZTggMWMgZmYgZmYgZmYgODUgYzAgNzggYmEgNGMKODkgZTAgNWIg
-NWQgNDEgNWMgYzMgZjMgMGYgMWUgZmEgYjggMTAgMDAgMDAgMDAgMGYgMDUgPDQ4PiAzClJTUDog
-MDAyYjowMDAwN2ZmYzlhYmZiNjI4IEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6IDAwMDAwMDAw
-MDAwMDAwMTAKUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDdmZmM5YWJmYjY2MCBSQ1g6
-IDAwMDA3ZjA1MjFhNTkzOGIKUkRYOiAwMDAwN2ZmYzlhYmZiNjYwIFJTSTogMDAwMDAwMDBjMDY4
-NjRhMiBSREk6IDAwMDAwMDAwMDAwMDAwMDkKUkJQOiAwMDAwMDAwMGMwNjg2NGEyIFIwODogMDAw
-MDAwMDAwMDAwMDAwMCBSMDk6IDAwMDA1NTZiMGFmODg4MzAKUjEwOiAwMDAwMDAwMDAwMDAwMDAw
-IFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDA1NTZiMDgzODIxZTAKUjEzOiAwMDAwMDAw
-MDAwMDAwMDA5IFIxNDogMDAwMDdmMDUwNDAwNjY1MCBSMTU6IDAwMDA1NTZiMGFmYTI5ODAKCkJP
-T1RfSU1BR0U9KGhkMCxncHQ1KS9ib290L3ZtbGludXotNS4xMC4wLTAucmM0Ljc4LmZjMzQueDg2
-XzY0CnJvb3Q9VVVJRD0xZWRlNzk2Zi01Yzg0LTRmYjAtOGE5ZS1jOTdlMWIxMDJlYzQgcm8gcmVz
-dW1lPVVVSUQ9MWRhZDFhNDMtMjU3CgotLSAKWW91IG1heSByZXBseSB0byB0aGlzIGVtYWlsIHRv
-IGFkZCBhIGNvbW1lbnQuCgpZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91
-IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Dec 22, 2020 at 09:00:43AM +0000, Simon Ser wrote:
+> On Tuesday, December 22nd, 2020 at 9:55 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Fri, Dec 11, 2020 at 05:11:13PM +0100, Daniel Vetter wrote:
+> > > I tried to fix this for real, but it's very sprawling and lots of
+> > > drivers get this mildly wrong one way or the other.
+> > >
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> >
+> > Anyone feeling like an ack on this one?
+> 
+> From my limited understanding of fbdev, this FIXME sounds correct to me.
+> 
+> Acked-by: Simon Ser <contact@emersion.fr>
+
+Thanks for taking a look, patch pushed to drm-misc-next.
+-Daniel
+
+> 
+> > > ---
+> > >  drivers/gpu/drm/drm_fb_helper.c | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index 596255edf023..27deed4af015 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -2494,6 +2494,11 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+> > >  		return;
+> > >  	}
+> > >
+> > > +	/*
+> > > +	 * FIXME: This mixes up depth with bpp, which results in a glorious
+> > > +	 * mess, resulting in some drivers picking wrong fbdev defaults and
+> > > +	 * others wrong preferred_depth defaults.
+> > > +	 */
+> > >  	if (!preferred_bpp)
+> > >  		preferred_bpp = dev->mode_config.preferred_depth;
+> > >  	if (!preferred_bpp)
+> > > --
+> > > 2.29.2
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
