@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8590E2E0D5E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 17:28:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F242E0DB2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 18:13:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7646E413;
-	Tue, 22 Dec 2020 16:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F626E0DF;
+	Tue, 22 Dec 2020 17:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E5F6E413;
- Tue, 22 Dec 2020 16:28:53 +0000 (UTC)
-IronPort-SDR: 1HrQ7NKLr3WWdm7paX+evefkD+7PeGTyocWoMpUA9Xeo8ZPPZ4fbaLCvLdxZUh31sUZ2MOHhwW
- 26ZIfdACcO2Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="237452224"
-X-IronPort-AV: E=Sophos;i="5.78,439,1599548400"; d="scan'208";a="237452224"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2020 08:28:52 -0800
-IronPort-SDR: eJJeFWsYtBQvhD9Ms0S2XRIvqfYUEon98n2xBB2M5WuU4KRP4G/UDQtnlQtIrJm/XHAt+vM46Y
- uhn2hjjdj5ww==
-X-IronPort-AV: E=Sophos;i="5.78,439,1599548400"; d="scan'208";a="373459791"
-Received: from sauterhx-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.59.229])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2020 08:28:47 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v7 00/15] Add support for DP-HDMI2.1 PCON
-In-Reply-To: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
-Date: Tue, 22 Dec 2020 18:28:44 +0200
-Message-ID: <87v9ctoldv.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31BAC6E0DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 17:13:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 55FD023130;
+ Tue, 22 Dec 2020 17:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608657183;
+ bh=QMc+Cnpq+Ddufqm1c2v+CyjZvDCdSht11+jAolorCxc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CS8JHhYJ5YgSDZlA0NjddtfXZTgC1Z3fcs9vuoi16+oLbWh1G5PYb9vwKVtKP5GLr
+ lR1+78rQs7PignJx8koBMFyh8hotAVDad2YdUA7VBpKiojVDS19+wF/eFn2v+edEd1
+ LGqhA/5YmxSoCXmykV9Yc6JaQuZkIpCKexegWD9NNXu/AdFkB5QbrYSK2syTKs4/Hw
+ 0oCTvLQQbSCuNzPkPxpwSg0I4HorrI8HV93jqjnBASNPVV0i/e4KRMwM3YnrVhDapW
+ cgDVQLzlfrq5tgSsx/4OXx/TWUiA9rAdZrJsJ+W9cBdPTIgF/tJH1S4EopLxCltqTN
+ aAq7zIHqO7iGw==
+Date: Tue, 22 Dec 2020 17:12:47 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop redundant maxItems/items
+Message-ID: <20201222171247.GB5269@sirena.org.uk>
+References: <20201222040645.1323611-1-robh@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20201222040645.1323611-1-robh@kernel.org>
+X-Cookie: Truth can wait
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,114 +46,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, vandita.kulkarni@intel.com,
- uma.shankar@intel.com, swati2.sharma@intel.com,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jassi Brar <jaswinder.singh@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dmaengine@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1592834589=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 18 Dec 2020, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
-> This patch series attempts to add support for a DP-HDMI2.1 Protocol
-> Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
-> E5 to DisplayPort_v2.0:
-> https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
-> The details are mentioned in:
-> VESA DP-to-HDMI PCON Specification Standalone Document
-> https://groups.vesa.org/wg/DP/document/15651
 
-Thanks for the patches and review.
-
-I've pushed the series to a new topic branch topic/dp-hdmi-2.1-pcon as
-discussed with Maarten and Daniel a while back. I've used 'git
-merge-base drm-misc/drm-misc-next drm-intel/drm-intel-next' as the base
-to allow merging to both. I'll send pull requests soon, and wait for the
-drm-misc-next merge before merging to i915.
-
-BR,
-Jani.
+--===============1592834589==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uQr8t48UFsdbeI+V"
+Content-Disposition: inline
 
 
+--uQr8t48UFsdbeI+V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> This series starts with adding support for FRL (Fixed Rate Link)
-> Training between the PCON and HDMI2.1 sink.
-> As per HDMI2.1 specification, a new data-channel or lane is added in
-> FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
-> bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
-> lanes).
->
-> With these patches, the HDMI2.1 PCON can be configured to achieve FRL
-> training based on the maximum FRL rate supported by the panel, source
-> and the PCON.
-> The approach is to add the support for FRL training between PCON and
-> HDMI2.1 sink and gradually add other blocks for supporting higher
-> resolutions and other HDMI2.1 features, that can be supported by pcon
-> for the sources that do not natively support HDMI2.1.
->
-> This is done before the DP Link training between the source and PCON
-> is started. In case of FRL training is not achieved, the PCON will
-> work in the regular TMDS mode, without HDMI2.1 feature support.
-> Any interruption in FRL training between the PCON and HDMI2.1 sink is
-> notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
-> registers are read and FRL training is re-attempted.
->
-> Currently, we have tested the FRL training and are able to enable 4K
-> display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
-> panel.
->
-> v2: Addressed review comments and re-organized patches as suggested in
-> comments on RFC patches.
->
-> v3: Addressed review comments on previous version.
->
-> v4: Added support for RGB->YCBCR conversion through PCON
->
-> v5: Addressed review comments on previous version.
->
-> v6: Fix typo in one of the patch.
->
-> v7: Rebased on latest drm-tip and addressed the review comments.
->
-> Ankit Nautiyal (11):
->   drm/edid: Parse DSC1.2 cap fields from HFVSDB block
->   drm/dp_helper: Add Helpers for FRL Link Training support for
->     DP-HDMI2.1 PCON
->   drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon
->   drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion
->   drm/i915: Capture max frl rate for PCON in dfp cap structure
->   drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
->   drm/i915: Check for FRL training before DP Link training
->   drm/i915: Read DSC capabilities of the HDMI2.1 PCON encoder
->   drm/i915: Add helper functions for calculating DSC parameters for
->     HDMI2.1
->   drm/i915/display: Configure PCON for DSC1.1 to DSC1.2 encoding
->   drm/i915/display: Let PCON convert from RGB to YCbCr if it can
->
-> Swati Sharma (4):
->   drm/edid: Add additional HFVSDB fields for HDMI2.1
->   drm/edid: Parse MAX_FRL field from HFVSDB block
->   drm/dp_helper: Add support for link failure detection
->   drm/i915: Add support for enabling link status and recovery
->
->  drivers/gpu/drm/drm_dp_helper.c               | 566 ++++++++++++++++++
->  drivers/gpu/drm/drm_edid.c                    | 103 ++++
->  drivers/gpu/drm/i915/display/intel_ddi.c      |   6 +-
->  .../drm/i915/display/intel_display_types.h    |  10 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 442 +++++++++++++-
->  drivers/gpu/drm/i915/display/intel_dp.h       |   7 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     | 233 +++++++
->  drivers/gpu/drm/i915/display/intel_hdmi.h     |   7 +
->  include/drm/drm_connector.h                   |  49 ++
->  include/drm/drm_dp_helper.h                   | 218 +++++++
->  include/drm/drm_edid.h                        |  30 +
->  11 files changed, 1652 insertions(+), 19 deletions(-)
+On Mon, Dec 21, 2020 at 09:06:45PM -0700, Rob Herring wrote:
+> 'maxItems' equal to the 'items' list length is redundant. 'maxItems' is
+> preferred for a single entry while greater than 1 should have an 'items'
+> list.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--uQr8t48UFsdbeI+V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/iKQ4ACgkQJNaLcl1U
+h9BplAgAgMSrJkYiQbh1znz9wN7xnXMTpux0VVJprS9HHh2tnjwzlKS947zZ0q3u
+8Mt9Y+XyQf0uqpNcqskq47lPHRMP7Ijo8abvyVe09UYQ/abIojhriXFwRJyOnt3A
+U35kRF1wvK7ppmCtZy7uSgLuB3JcEuvJiYHN33BCvxBYYmpNl0fnt2/XHO0tm9q+
+8R7+asRLB41jBvgGzhDXg8Iw4XwNLvpVStuU89rxIJhon2jacFTcDyI51B45kCRh
+CoqhVphzpvpD0ySa4C7I0GAL6tXmBOt+NYpEChvE4OKgldYl9KiYMBsNdZmtmkuG
+c36cabybF2Yn8Y1UN/YJ3NTKvarpKg==
+=7Cxt
+-----END PGP SIGNATURE-----
+
+--uQr8t48UFsdbeI+V--
+
+--===============1592834589==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1592834589==--
