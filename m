@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEC12E07FC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD102E080C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749E46E853;
-	Tue, 22 Dec 2020 09:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3447E6E848;
+	Tue, 22 Dec 2020 09:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D75F66E1BE
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 09:12:58 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id s15so2697721plr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 01:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=aRm1EWTlrTuCGHC7vrOatFzPVY2kkbfTNw0mXXouB3Y=;
- b=Tz4gidYhRSQQPvxdsB7tqMzsVoYO3crt2ApaMJh6sBPNnz4QdlfPaFxg6Qw+Q9Ttkt
- wKFwX+PObpzq/4fdMTp+4B5KTH7Re12uhYrXa3HvCaddYet13JjFo+rTTdsSEt5DlkKf
- bp6SZO5FTIRmcpzQljrgkAITPVaV0bSdOcJWvfc30sM+iw3nPXkWpPYye4ZZWT5QEdXD
- faqbA50HRxcmPr6Nr9VSBUdTtKxm6LXMJ4WI1xvuYIbxPBsTtG37wCAzUBTtYOR26zRD
- K/mV0VlzeObZyhDbSnYISRJfGVOrWvx6nt6WqoFU5TRml3oWxZBdtwp7XRKvKR1Qp9D/
- ptAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=aRm1EWTlrTuCGHC7vrOatFzPVY2kkbfTNw0mXXouB3Y=;
- b=mucDPDR1j86vH5bJ6GWDoRBcPtuuuWD9y7utyqzIdLI+cpRpKYtDqJvHz9gIA4Ltef
- xQb34Ha25GtEc15BIBlIrUabL+5TgWEPQSv4xMygBjD4DQtOkPOz9/W/FYUZrnzDcIIN
- svX2IzIH/h7KFo/T3h/OYd+LiDJ1jW7lxgfvbGBESUiZ5mTmqvQDwMtqs42ZRKqox6U3
- ofNHJ+iywWb5BpSvTPpw8qkMKWJVjFCdCiTWKgfasDgyh3vCKMjIM3I4fTd4/C3osGVJ
- YTIkyl8FkjLwfWRmIgFcO93CzUVfXcs7x4IeR641hX0H4ILpwcyDwvFrIXIu393pMbbp
- ag/A==
-X-Gm-Message-State: AOAM533dqc+F0vaSnOl9OUbyO5aDIu7tFoHPN/e+Qk31mpv8MTbg+sXE
- 0W5oLcv71Wan21sgOQwTjEtbOQ==
-X-Google-Smtp-Source: ABdhPJyTuAI/kmpjoi97riBT35OzUfQwSMT6NxASqK0wJXFrTdvspmvEYCyC6FWsQNUmwA+WXnqrWg==
-X-Received: by 2002:a17:902:6f01:b029:dc:3182:ce69 with SMTP id
- w1-20020a1709026f01b02900dc3182ce69mr16778961plk.10.1608628378460; 
- Tue, 22 Dec 2020 01:12:58 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id q12sm19544480pgj.24.2020.12.22.01.12.57
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Dec 2020 01:12:57 -0800 (PST)
-Date: Tue, 22 Dec 2020 14:42:55 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 19/48] opp: Fix adding OPP entries in a wrong order if
- rate is unavailable
-Message-ID: <20201222091255.wentz5hyt726qezg@vireshk-i7>
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-20-digetx@gmail.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DFC6E848
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 09:23:10 +0000 (UTC)
+IronPort-SDR: nIG5XEVzfTZsFoQYM1IKQm3+DC2P/1OKOyjJwXRodh8n6XLNRkDYbrj7GjMLzFNMNTa//GNRrH
+ VG4tXAp6a2wA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="175991796"
+X-IronPort-AV: E=Sophos;i="5.78,438,1599548400"; d="scan'208";a="175991796"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2020 01:23:09 -0800
+IronPort-SDR: JMAsj9jWUD+gm6jC1vHK9PSdc0vZZ5HHoFlTSWEaJ2Bw56XUQVi33qh58ebt6X18C5P9sr4XjT
+ A9S6EmqrHEPQ==
+X-IronPort-AV: E=Sophos;i="5.78,438,1599548400"; d="scan'208";a="492127221"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2020 01:23:06 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+ id 257FC205FC; Tue, 22 Dec 2020 11:23:04 +0200 (EET)
+Date: Tue, 22 Dec 2020 11:23:04 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
+Message-ID: <20201222092304.GQ26370@paasikivi.fi.intel.com>
+References: <20201221234659.824881-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-20-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:48 +0000
+In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,123 +49,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
- Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-iio@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> Fix adding OPP entries in a wrong (opposite) order if OPP rate is
-> unavailable. The OPP comparison is erroneously skipped if OPP rate is
-> missing, thus OPPs are left unsorted.
+Hi Rob,
+
+On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
+> *-supply properties are always a single phandle, so binding schemas
+> don't need a type $ref nor 'maxItems'.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/opp/core.c | 23 ++++++++++++-----------
->  drivers/opp/opp.h  |  2 +-
->  2 files changed, 13 insertions(+), 12 deletions(-)
+> A meta-schema check for this is pending once these existing cases are
+> fixed.
 > 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 34f7e530d941..5c7f130a8de2 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -1531,9 +1531,10 @@ static bool _opp_supported_by_regulators(struct dev_pm_opp *opp,
->  	return true;
->  }
->  
-> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
-> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2,
-> +		     bool rate_not_available)
->  {
-> -	if (opp1->rate != opp2->rate)
-> +	if (!rate_not_available && opp1->rate != opp2->rate)
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-rate will be 0 for both the OPPs here if rate_not_available is true and so this
-change shouldn't be required.
+On media bits:
 
->  		return opp1->rate < opp2->rate ? -1 : 1;
->  	if (opp1->bandwidth && opp2->bandwidth &&
->  	    opp1->bandwidth[0].peak != opp2->bandwidth[0].peak)
-> @@ -1545,7 +1546,8 @@ int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2)
->  
->  static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *new_opp,
->  			     struct opp_table *opp_table,
-> -			     struct list_head **head)
-> +			     struct list_head **head,
-> +			     bool rate_not_available)
->  {
->  	struct dev_pm_opp *opp;
->  	int opp_cmp;
-> @@ -1559,13 +1561,13 @@ static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *new_opp,
->  	 * loop.
->  	 */
->  	list_for_each_entry(opp, &opp_table->opp_list, node) {
-> -		opp_cmp = _opp_compare_key(new_opp, opp);
-> +		opp_cmp = _opp_compare_key(new_opp, opp, rate_not_available);
->  		if (opp_cmp > 0) {
->  			*head = &opp->node;
->  			continue;
->  		}
->  
-> -		if (opp_cmp < 0)
-> +		if (opp_cmp < 0 || rate_not_available)
->  			return 0;
-
-This shouldn't be required as well, isn't it ?
-
->  
->  		/* Duplicate OPPs */
-> @@ -1601,12 +1603,11 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
->  	mutex_lock(&opp_table->lock);
->  	head = &opp_table->opp_list;
->  
-> -	if (likely(!rate_not_available)) {
-> -		ret = _opp_is_duplicate(dev, new_opp, opp_table, &head);
-> -		if (ret) {
-> -			mutex_unlock(&opp_table->lock);
-> -			return ret;
-> -		}
-> +	ret = _opp_is_duplicate(dev, new_opp, opp_table, &head,
-> +				rate_not_available);
-
-This is the only thing we need to do here I believe.
-
-> +	if (ret) {
-> +		mutex_unlock(&opp_table->lock);
-> +		return ret;
->  	}
->  
->  	list_add(&new_opp->node, head);
-> diff --git a/drivers/opp/opp.h b/drivers/opp/opp.h
-> index 4ced7ffa8158..6f5be6c72f13 100644
-> --- a/drivers/opp/opp.h
-> +++ b/drivers/opp/opp.h
-> @@ -219,7 +219,7 @@ struct opp_table *_find_opp_table(struct device *dev);
->  struct opp_device *_add_opp_dev(const struct device *dev, struct opp_table *opp_table);
->  struct dev_pm_opp *_opp_allocate(struct opp_table *opp_table);
->  void _opp_free(struct dev_pm_opp *opp);
-> -int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2);
-> +int _opp_compare_key(struct dev_pm_opp *opp1, struct dev_pm_opp *opp2, bool rate_not_available);
->  int _opp_add(struct device *dev, struct dev_pm_opp *new_opp, struct opp_table *opp_table, bool rate_not_available);
->  int _opp_add_v1(struct opp_table *opp_table, struct device *dev, unsigned long freq, long u_volt, bool dynamic);
->  void _dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask, int last_cpu);
-> -- 
-> 2.29.2
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-viresh
+Sakari Ailus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
