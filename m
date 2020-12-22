@@ -1,39 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFE52E0DB8
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 18:14:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F022E0DC3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 18:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC1AE6E12D;
-	Tue, 22 Dec 2020 17:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF246E150;
+	Tue, 22 Dec 2020 17:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1276E12D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 17:14:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7374023130;
- Tue, 22 Dec 2020 17:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608657249;
- bh=66GEWSPJvzklIeHSRZpHVnCFR+8HJC+nKGb813bV9hI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aWs69kfw6Bu8vPoRm2mstM8cN5qc21cRYPUxea3N6r6e7jMT1rC4QPXZFbG1nQTSj
- 80RmGS/kZR5s3vEUg57DgvdNXdHY9+qz0nXaIGOV/bCPh9jtUkfW0biDFkaPdjGO7C
- CPckUBTitQeTJn+0KSAIlVZ8d9WMZWlg/xot+gMfIC6sBR8y3w3UbTv8DExf5ZXkd5
- OsG4f0NxluCb1z9xA0rEcUYweusb35BWT4NrRInpBFXsYEbuoDIU5wAKkuZlNEhBQO
- wXekjpo5AkOVBPVRe+kbLym/4TXTDNET7R50Pw4JZOVdanEu3kSVIqnLrdb/bmawxe
- /qJfMLdp3TiMg==
-Date: Tue, 22 Dec 2020 17:13:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
-Message-ID: <20201222171353.GC5269@sirena.org.uk>
-References: <20201221234659.824881-1-robh@kernel.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2246E150
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 17:16:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id F02842313F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 17:16:42 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id EA46C8673A; Tue, 22 Dec 2020 17:16:42 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210429] AMDGPU - DRM connector force-probe after DPMS causes
+ monitor to reconnect
+Date: Tue, 22 Dec 2020 17:16:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jordanleppert@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210429-2300-2b4QwvBvhp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210429-2300@https.bugzilla.kernel.org/>
+References: <bug-210429-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
-X-Cookie: Truth can wait
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +54,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-iio@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-input@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Jonathan Cameron <jic23@kernel.org>, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1246132410=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=210429
 
---===============1246132410==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
-Content-Disposition: inline
+--- Comment #2 from jordanleppert@gmail.com ---
+Here are logs using Wayfire (a wlroots compositor), note the disconnect
+immediately after modesetting. The DPMS sleep happened at 15:46:45, and the
+wakeup at 15:46:54.
 
+DD 22-12-20 15:46:45.685 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1092]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1092]   'DP-2' crtc=1 state=3
+desired_enabled=1
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1150]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1150]   'DP-2' crtc=1 state=3
+desired_enabled=1
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.686 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1092]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1092]   'DP-2' crtc=1 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1150]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1150]   'DP-2' crtc=1 state=3
+desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:45.719 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+II 22-12-20 15:46:54.467 - [backend/drm/drm.c:793] connector DP-1: Modesetting
+with '3840x2160@59997mHz'
+DD 22-12-20 15:46:54.467 - [backend/drm/drm.c:679] connector DP-1: Initializing
+renderer
+II 22-12-20 15:46:54.483 - [backend/drm/drm.c:793] connector DP-2: Modesetting
+with '3840x2160@59997mHz'
+DD 22-12-20 15:46:54.483 - [backend/drm/drm.c:679] connector DP-2: Initializing
+renderer
+II 22-12-20 15:46:56.808 - [backend/drm/drm.c:1219] Scanning DRM connectors on
+/dev/dri/card0
+II 22-12-20 15:46:56.810 - [backend/drm/drm.c:1388] 'DP-2' disconnected
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1092]   'DP-1' crtc=0 state=3
+desired_enabled=1
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1092]   'DP-2' crtc=1 state=3
+desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1150]   'DP-1' crtc=0 state=3
+desired_enabled=1
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1150]   'DP-2' crtc=1 state=3
+desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.907 - [backend/drm/drm.c:1049] connector DP-2:
+De-allocating CRTC 1
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1092]   'DP-1' crtc=0 state=3
+desired_enabled=1
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1092]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1150]   'DP-1' crtc=0 state=3
+desired_enabled=1
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1150]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:56.908 - [backend/drm/drm.c:1442] No connector for CRTC 49
+II 22-12-20 15:46:57.102 - [backend/drm/drm.c:1219] Scanning DRM connectors on
+/dev/dri/card0
+II 22-12-20 15:46:57.102 - [backend/drm/drm.c:1388] 'DP-1' disconnected
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1092]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1092]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.173 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1150]   'DP-1' crtc=0 state=3
+desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1150]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1049] connector DP-1:
+De-allocating CRTC 0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1075] Reallocating CRTCs
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1086] State before reallocation:
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1092]   'DP-1' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1092]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1092]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.174 - [backend/drm/drm.c:1092]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.175 - [backend/drm/drm.c:1143] State after reallocation:
+DD 22-12-20 15:46:57.175 - [backend/drm/drm.c:1150]   'DP-1' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.175 - [backend/drm/drm.c:1150]   'DP-2' crtc=-1 state=0
+desired_enabled=0
+DD 22-12-20 15:46:57.175 - [backend/drm/drm.c:1150]   'HDMI-A-1' crtc=-1
+state=0 desired_enabled=0
+DD 22-12-20 15:46:57.175 - [backend/drm/drm.c:1150]   'HDMI-A-2' crtc=-1
+state=0 desired_enabled=0
 
---mvpLiMfbWzRoNl4x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+-- 
+You may reply to this email to add a comment.
 
-On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
-> *-supply properties are always a single phandle, so binding schemas
-> don't need a type $ref nor 'maxItems'.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---mvpLiMfbWzRoNl4x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/iKVAACgkQJNaLcl1U
-h9BQcwf+IyZrHbhUmoHb97rb0P395HOZ2TPnUA9AQrgEIQGiygf98JpHLjKBN7aJ
-VUR66urIU4NRzpPl8BA55GEgZvCF5U+n6S/vSUWJcHgMFMGgCZGwFzZnhoytB7TJ
-0qvxrT1+fasUg2ioSOGjpCnCDxVbQL0Wdyk6MkpVXLG7cOLJcCnm0Gvuw1Ph8MQV
-k6DuRiPuCOzSjYUnXeu/gsgkBUj78/WI3FBMa3CsNjytiYXIq26Za/m5U03be47y
-N/MGGcnNdxeIMx+TwUBgJNickvKltn6FLuKWzPgltB5d8D07JSupjWwC7Ybndx0b
-M+e04W6kW75K2MskhF6Ef1e4F3qMGg==
-=eF01
------END PGP SIGNATURE-----
-
---mvpLiMfbWzRoNl4x--
-
---===============1246132410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1246132410==--
