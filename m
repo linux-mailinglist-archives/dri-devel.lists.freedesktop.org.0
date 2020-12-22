@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8682E0806
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F174B2E0808
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7166E84E;
-	Tue, 22 Dec 2020 09:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D58B6E86D;
+	Tue, 22 Dec 2020 09:21:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7756E270
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 08:55:59 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id g18so7975753pgk.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 00:55:59 -0800 (PST)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D53606E19A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 08:59:43 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id v1so980841pjr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 00:59:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=vFzkf9KGKvhutZbig0u7i/t+IYvhk4nnFQKLcFcxsq4=;
- b=vAsAJop5QL87eRDzT5DTHMtwoNPt0CQSIkdTqkJeziTI1AZMtMAcIEm3Kl9fhnTk5V
- vB/lYkBRouI/12yFv6A1dCSOIC7zvTsWExhCNxYa4+Oefx74oga8DDnN983sE8WuR0Lw
- A/n6+TWPt+hiOGv4RVjVlrk029VE+mVsDRs23XZwxscocW8GlofyFgohPX99nF5S7Xwf
- uRZL+JFGs5YKyoIHowFMNinq/TGTNXJtfDFp0L89tHOseHc6j2SMhTv475d9VkLlcOL+
- Iu/sAsOo0E5YMGvGAyoXhWoXv1Ygp7453JTCPAWJO9u4w7D6CKSImKmQS5VN3jjIJN38
- c4fg==
+ bh=RHvyko5iU5xg8Cz45AVBchwM4SDGk3Y/8Etp7zQo/0E=;
+ b=LfPP06TVJTEK4xWL0o4Uusz6IXwXzk8z3S6CPrE/vyZ9qoOMFRUyzQJWUKQxWhuG/E
+ wY5edJUerDgkww2zd4lzbce6lRCficFwzejWrQiDZi/xwHlgy96zpj6C8ioFq0ZrQXBk
+ mSOkM2U+2pDJWLqA+j7R2srsKaCnOdyMwev89OKW8IKEfkAPs6AL+3xqznBpqvwnQ0NT
+ fjm9Rb+Xfn10diw8TlqXQy8/GkenTeXEg9jbL1dOeVHP/+gjymWREs9O4mMhUSRkCgx+
+ FWO4nhtVc54saAG5QAt6VsqTuAXLPGXWUixoDkMsUGzE1xB0aRN/Z6i4X+no1fBNw+u5
+ gkcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vFzkf9KGKvhutZbig0u7i/t+IYvhk4nnFQKLcFcxsq4=;
- b=Rzia2DHmtOU1TYI6GKse3PSmeUCupJka0WXmtr194pvRjhg9+f/6VMY1wbqXYINqUb
- DSHPzLfWnP50GHRPxzj1yifH0E9BFDv/vRmx0ryrPwEhSuxPc6iD5PL2tFGYjHZzOObh
- EaV7rjcsO8Q+zKl3oOF0ylgRkofRJgXDy+iA5qZ3R0cYxZ7VgSGA9Hlhj2t7eK/tXRx8
- qIJixsSLKNSvw9uyvMbKMcSO/eObHJGnOOD8HKOIUOQktF0UQV+3hQ0rHe/NvKwbiFoQ
- PiLu7vpTXYEPBW+XyKuUQdUb1IpfmO6YrzmjNGmbhFMDsDkCZV8GTl+hkUtA2ILk9GFZ
- IwEA==
-X-Gm-Message-State: AOAM530+9t+sP28wqWTVyu6RcLfmtUzenjjceOYOa5QDayqxuOIKaYXv
- 2k/zDpbpC0ljT8D+Dt3D25x8sw==
-X-Google-Smtp-Source: ABdhPJywc6LY9gPB8aIXdU8FTmnJRcbIf3Irdo/T2lGMg7jN2SK9J2SNLPjpJEYbiKAaBbTsluyTwA==
-X-Received: by 2002:a63:6806:: with SMTP id d6mr18604366pgc.205.1608627358914; 
- Tue, 22 Dec 2020 00:55:58 -0800 (PST)
+ bh=RHvyko5iU5xg8Cz45AVBchwM4SDGk3Y/8Etp7zQo/0E=;
+ b=KBC0ZGyyvQ4rFE7QcTJ1UTEudJJlEI7yU58E40ss3oPa1000TuMW/d0ziT/xDsnILR
+ hsmzF9/Egvx3NiYXCOX2c4ZBKB2Bvjvgg2CEzU66rpYzTnXUtxx4qdX603BVQaUe4+vl
+ Ho6TRDDZUU7etuIEGhpfl4AJwR6TrS+UDn+uuzBb/lpJghUGINVnvYU5T6DiG3rW0Di+
+ Sob8z8cTmSMsNfQvRAetEXCsDoMXb0biAoz5qy4v3y56IySlf5HH/tWG1B4kk7rXScbG
+ XfgTV6u1LJuYrqqiLytwFAPK4RLbRF2nEJ9NnHbvjiCyFcFEFNUfktVfwYTCH5Z9fv8n
+ Hh/Q==
+X-Gm-Message-State: AOAM530Q5LivcBzIj2aPPj1k1kS/K4266Jw+OEDQ1V6JiTpe6Vl7Nf9q
+ c++Ep02UpbPUMPzIYA9q68v1PA==
+X-Google-Smtp-Source: ABdhPJykL54UnjW4ciN4fGRWEBJgf6zWsJDjMds2/uHeESPpVfQNNcqkwOSZPGazCeKG973ySyugcg==
+X-Received: by 2002:a17:902:c584:b029:da:cc62:22f1 with SMTP id
+ p4-20020a170902c584b02900dacc6222f1mr20408042plx.54.1608627583415; 
+ Tue, 22 Dec 2020 00:59:43 -0800 (PST)
 Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id t7sm19377680pfe.179.2020.12.22.00.55.57
+ by smtp.gmail.com with ESMTPSA id x4sm19796659pgg.94.2020.12.22.00.59.42
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Dec 2020 00:55:58 -0800 (PST)
-Date: Tue, 22 Dec 2020 14:25:56 +0530
+ Tue, 22 Dec 2020 00:59:42 -0800 (PST)
+Date: Tue, 22 Dec 2020 14:29:40 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 13/48] opp: Add resource-managed versions of OPP API
- functions
-Message-ID: <20201222085556.kce4dcwumk4u6ttm@vireshk-i7>
+Subject: Re: [PATCH v2 14/48] opp: Filter out OPPs based on availability of a
+ required-OPP
+Message-ID: <20201222085940.y625zxee4tevbqm5@vireshk-i7>
 References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-14-digetx@gmail.com>
+ <20201217180638.22748-15-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-14-digetx@gmail.com>
+In-Reply-To: <20201217180638.22748-15-digetx@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,18 +89,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> Add resource-managed versions of OPP API functions. This removes a need
-> from drivers to store and manage OPP table pointers.
+> A required OPP may not be available, and thus, all OPPs which are using
+> this required OPP should be unavailable too.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/opp/core.c     | 173 +++++++++++++++++++++++++++++++++++++++++
->  drivers/opp/of.c       |  25 ++++++
->  include/linux/pm_opp.h |  51 ++++++++++++
->  3 files changed, 249 insertions(+)
+>  drivers/opp/core.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 
-Please send a patchset of its own for this patch, along with updates to all the
-existing code that can make use of these.
+Please send a separate patchset for fixes, as these can also go to 5.11 itself.
+
+> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+> index d9feb7639598..3d02fe33630b 100644
+> --- a/drivers/opp/core.c
+> +++ b/drivers/opp/core.c
+> @@ -1588,7 +1588,7 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
+>  	     struct opp_table *opp_table, bool rate_not_available)
+>  {
+>  	struct list_head *head;
+> -	int ret;
+> +	int i, ret;
+>  
+>  	mutex_lock(&opp_table->lock);
+>  	head = &opp_table->opp_list;
+> @@ -1615,6 +1615,15 @@ int _opp_add(struct device *dev, struct dev_pm_opp *new_opp,
+>  			 __func__, new_opp->rate);
+>  	}
+>  
+> +	for (i = 0; i < opp_table->required_opp_count && new_opp->available; i++) {
+> +		if (new_opp->required_opps[i]->available)
+> +			continue;
+> +
+> +		new_opp->available = false;
+> +		dev_warn(dev, "%s: OPP not supported by required OPP %pOF (%lu)\n",
+> +			 __func__, new_opp->required_opps[i]->np, new_opp->rate);
+
+Why not just break from here ?
+
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.29.2
 
 -- 
 viresh
