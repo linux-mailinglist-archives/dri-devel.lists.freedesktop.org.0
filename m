@@ -2,114 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390E72E07FB
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C4A2E07F8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Dec 2020 10:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2554D6E85C;
-	Tue, 22 Dec 2020 09:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3C786E84F;
+	Tue, 22 Dec 2020 09:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr20054.outbound.protection.outlook.com [40.107.2.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CA36E054
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 02:45:58 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2080.outbound.protection.outlook.com [40.107.20.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34FF789B9E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 03:01:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jadeX7tFiyFo5BW3qJDF97o91/jW6gPpSXQ1tumCL5dPWfVsgIoUIno7DKnBiWHx/4vgXHMoP9Xq0OUiJxSfwPM0wmr+auAms1HKVnzBXWwRu2HRNJufJlU/Lf8Kimc4QddqilQqRzzh7ticXZzjpGUhh6gGjG2UOPFtrE8Cqpm5402vrNpEGM+wjsUr6QrDzD6c8CjXYGo70q5Fg5O/Rbjv+Vrm/FvYhILwiFzKFn5IbSLxD5as+b0cfBmg5x/vk25+ANhF5GA2S2535P/72wdh9+4xw/A/FTFgvas7cqoeCTyNWkwuQ05zvDaYpI3hcknOFqnfBZncpLcabR7g/A==
+ b=CgvkuibIz/J4Jc9WmH7IEPCAocWbyzvwomZWic9751J8Tlixhs4lmEhctV17b0kFm6hRvxte+N2qD0/ncjtl3yXBYeKFj68vOtCXEiuTIIC88+joTq1/sj/Zi91xnquZIgYx6k5PAx+V3i0o9pw2YCEpWjEDkDAMcwo4cMxj+4qBvEx7t0eHYDPlTWaYsNq6Ciqd8/G3B5uY64nZ8qpJ+A1rE19UMewglwIQ2QYEXU0ZcChfvnpz/S3FKu54TotkhFPC16pBr+IvEecTsaiDfYB6W0IMCTvWcKIhwOfAMJnqHb2u1+FqkbSLKjuhWJimThMgHe1gnKp2MWL2hbmxYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vggVu17d3YBYzCc+Tjj3SQjEOIj6DxkU3khCmKOrjps=;
- b=KDXdV2SK1V9Z4GI/cQbnZC5oHMlGSnx5/3Qufdc7eWQy8l9zvJXVDKwpeNjrHaoRN/0hOHfq9fHjWmc3PnvHl3WJ4sCp/nqbMFq8DKwWoAok13rKLEQooTCmCHkxA8g6f2TUWNWnWcv2OIbuZpVrXf6QDW6He1rJKzd1l6GZqmfDtJCuKA5e497igIUzmSxRmepqJfmrp5VJUa59hxz+zWJ03wWXyo99WQzfN27axY8oSpb5ULuNn0MGCmWsaR/oo+l/MHoZ09g9L0xf/3Br1dns8d2H25NvWMBV9Tqirduraici/XSKIAxn2xZpkucKSvxaMuObMyWbFTYsGq6HLw==
+ bh=1WNtKJjf9avRxTyaO/ukfNAM0ZrAembR6x2ipuHs+YY=;
+ b=gNkXu7tkcD1eEcfFNZR7fYzD2DJqj7Ux4YzF4xYXpIPfIsPPPcrL+u2b8xHXxg/OdaTo1scjbTy43KqxmZBzsOrQCZlDMf+q17qnWxEKxxZ7ZRiyetQozB/gAQWn2XVvbMJsH3JfXjjmEfDwphvBVYJdxnzkkDYudx3YPUfQdDEoSSWZRhfp5v7Uap4hxaXf0RTTQa9qOc6Pf9u9N98r2xj5/2wYgOOQyxUwGenNByVLzuQCbYfV2NzuycdtMcQAzswiXnDmaeKHmjmTgxiGP9eudfebEYqLz/fDZRwomGfj6ubGxnIodwGFG++UJQM/MLSeEnBx1FkhBwW/nJrIzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vggVu17d3YBYzCc+Tjj3SQjEOIj6DxkU3khCmKOrjps=;
- b=d9UjjSPv2KbgDDuw6fh51ZwT0fVzKtIPyWEDPeqWxar4yV6EOyISeQkUfbE0rR/uZkiasS8qYEbHrNVJVGdgsc9StEnMdg9Dysb2PzdWhkCowtepVYi7q6GlGEfOhvpKP/JXdO7AEoe8Q58bMTQRONyZB45wKXccMkjldp5qBIY=
+ bh=1WNtKJjf9avRxTyaO/ukfNAM0ZrAembR6x2ipuHs+YY=;
+ b=KQO0nSFhc6Wik6M6oZIF511bR9NscxYg7jb/LKslDNp2v5WT6VOzTYCSY/U8h3tBPB5izEgPjOuR3+/O9FAis5JMLf89/bH1s5UBRnCWNZ+xj+DxbPyBbWCe+RYd4iMfL3BvBfQe40M5yXPYYEbxI+zSJ+QdiZ7s1K/FkkrnA/E=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB6144.eurprd04.prod.outlook.com (2603:10a6:803:fd::10)
+ by VI1PR04MB5182.eurprd04.prod.outlook.com (2603:10a6:803:53::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
- 2020 02:45:53 +0000
+ 2020 03:01:51 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 02:45:53 +0000
-Message-ID: <885f512c730f0b40e53cddc1e8cc82272b412642.camel@nxp.com>
+ 03:01:51 +0000
+Message-ID: <6acb4c0e2a9aa1fb9c67b36881ade4d0d264fcb1.camel@nxp.com>
 Subject: Re: [PATCH 04/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
  pixel combiner binding
 From: Liu Ying <victor.liu@nxp.com>
 To: Rob Herring <robh@kernel.org>
-Date: Tue, 22 Dec 2020 10:44:00 +0800
-In-Reply-To: <CAL_JsqLCvAWQN=54Rp08bPxLjeXZKo5Pc1a=hoNBFjcGdLGvcg@mail.gmail.com>
+Date: Tue, 22 Dec 2020 10:59:57 +0800
+In-Reply-To: <20201221220713.GA610096@robh.at.kernel.org>
 References: <1608199173-28760-1-git-send-email-victor.liu@nxp.com>
  <1608199173-28760-5-git-send-email-victor.liu@nxp.com>
- <1608231036.357497.50647.nullmailer@robh.at.kernel.org>
- <e2edc2e37b6905fd19ada4c212338c6978200fa5.camel@nxp.com>
- <CAL_JsqLcyUJWt_gc3B01C0Y+NC61ucYNA8j1jnxTs8U1kudM=Q@mail.gmail.com>
- <1e0b6178033c064b99546d09b4b3ef9dda3cb1ad.camel@nxp.com>
- <CAL_JsqLCvAWQN=54Rp08bPxLjeXZKo5Pc1a=hoNBFjcGdLGvcg@mail.gmail.com>
+ <20201221220713.GA610096@robh.at.kernel.org>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR03CA0106.apcprd03.prod.outlook.com
- (2603:1096:4:7c::34) To VI1PR04MB3983.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SGBP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::20)
+ To VI1PR04MB3983.eurprd04.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from blueberry.ap.freescale.net (119.31.174.66) by
- SG2PR03CA0106.apcprd03.prod.outlook.com (2603:1096:4:7c::34) with Microsoft
+ SGBP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.19 via Frontend Transport; Tue, 22 Dec 2020 02:45:47 +0000
+ 15.20.3676.28 via Frontend Transport; Tue, 22 Dec 2020 03:01:44 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e5816d48-e304-440f-dded-08d8a623b2fe
-X-MS-TrafficTypeDiagnostic: VI1PR04MB6144:
+X-MS-Office365-Filtering-Correlation-Id: bb5bb389-dd4f-4256-c2b9-08d8a625ee33
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5182:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB61443183DCBE7ACC045D95BB98DF0@VI1PR04MB6144.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB518218AA0B8CFDF9E48D9EBB98DF0@VI1PR04MB5182.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: enVjvhm163sfAxOkt3pskL7p/kzzOMnvR5hOUuP0qiciakrMJHSZHhmqfZOdEWPgz4wh+GiFffdOOCCszbKNG2phJoGa1d8LW60WVaB2QM+5NQM23/Fb53DD4dEMKqMbeWqDufG9Bf0RtVIgP2823mNYivQlzGp7SB/iCKDmHZYkwbiNYhmpn2xNVoSf6bNU88Xt6iTGRPdfUckTmda7H1+yHtjjYg8Ntk3icOlpft2MmA+qKyp3LVxA6hMZ0/9FkEkbUoUVsbUd91OJ/Nh0PY8B37phivFVJQbHVDWhpeMSvaZHg89t5x4rL0vRndNTZ4JLsgdvYEF5SkSKTYMq1mlBSfqAdWUMP0gz7PzmlR3/Q3e2Rtw3Xcmul0buJ5OOiodGh3LAbbJFA6wgCi+G7PXfa+McjuPwLGKkDfpAvpIOFJpSvg4qSX5Ls2GmKeoM18aYVTxX2lgELjFm4Uiing==
+X-Microsoft-Antispam-Message-Info: S09mJ76zSjBFy6ZNnTK+lRdwKpY/o8zyMuq9XnWPmYMFxTQMKIi9JM/Bq0kip6rS06dwdebVOH+h9xdtBbXw15PKVpatDE/sQfDeLLPBVVG1DnKxOs5BUpUZZkDoiGKSDdR5p8XCS8+L59RIgpUl/Xke2KKgC3Lcwf8pmB6PZMVEYSIjkK+fzjEvZ4jLmqRggP4SrzlpcXFfeQgdAuLfhEw8XIrBUnD5NLiiqRatHVI5O87njnsb5gk5tdhxtBkqct3vP/QQp2sITV00v6nkiJ1gN+xCPk9Xiw6MPfPDCADjEmahR/yTcOU68AXm9tBphlNpKIF8H7R/HT/Kl5ENe4AkRe9+bs/cREmKPFQGZMW/kjmMho4qtmoNCwBvNG3Fn1G3VhwGNA5NdUQXWE1uG9O5r8Pko1/a+hNK5y2qjZe5TqXzcr3CQTB/cEIhEldmXNaLiGgguY8tQ4402N66GQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(366004)(346002)(136003)(376002)(6506007)(36756003)(8936002)(16526019)(52116002)(53546011)(66476007)(66556008)(478600001)(7416002)(8676002)(66946007)(966005)(186003)(6666004)(4326008)(6486002)(6916009)(2906002)(45080400002)(83380400001)(86362001)(6512007)(5660300002)(316002)(956004)(4001150100001)(26005)(2616005)(54906003);
+ SFS:(4636009)(39860400002)(136003)(396003)(376002)(346002)(366004)(2616005)(956004)(966005)(26005)(6506007)(45080400002)(478600001)(4326008)(6666004)(8936002)(83380400001)(66476007)(66946007)(66556008)(5660300002)(6512007)(6916009)(36756003)(16526019)(52116002)(186003)(86362001)(2906002)(7416002)(6486002)(8676002)(316002)(4001150100001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bHM0YjVUR0NFNmFBWldnRWNTb1NBVXJLbHoyVVg3WnNhQ1MvM0ZIbGl2UFdF?=
- =?utf-8?B?UG1kdnNNR1ZCMXJBNzlnWU0zVWgrbUIwMndWVkJkbFF6TTBjOEowQW5OSjVz?=
- =?utf-8?B?djNic2xuK0ExU2tiQnJ5alFlL3R6VG03eGJRd2Q5clhiN2RNU1BpcGk3VWxU?=
- =?utf-8?B?YXdDMXA0SXBLeGppck9lQWZyNTN6aUwrOHYwTjNiajdZcFlmNWJpV2hxdW84?=
- =?utf-8?B?NmtiT3lTL09YSldCNnpDRVQ0K0x3OEd6dGdHdldzTHJTSFlsKzg3UXNhVUdu?=
- =?utf-8?B?aHhmcUpkUHNZTVJ5eU5ueGFiNnBwd0lFbVVrbGtuVVpkbDFnVlpkenNiZllD?=
- =?utf-8?B?eUZxQm55NUdDK2pBdUpmR1VTWGQxcE1mSzNCUkkxQVpxVjE3Sm5ZTnczYVFr?=
- =?utf-8?B?TFdQZCtZY3R6cm1LVmNzRjNIUTVBWWRNZU8wNG9Cc244L2tBYmFrRjFiTi9y?=
- =?utf-8?B?L0lPcUdiSC8xNE81VzhLaEZSUWcvZzh0VUJvdUs3ajdQZE15UVdReUFBM1NB?=
- =?utf-8?B?dFpVa1JnbWVwR2VkWjk0bEUxZnJmakhpTzNHWmJ1YURFcXZhdDgrZk9IckpL?=
- =?utf-8?B?UmtNaThRRlRIV1Z4T3FmSXFCSDBoRXcyalNBaGs3blhGNTkzSmlmcTR5RTF3?=
- =?utf-8?B?SGhZUW91eUxxMUxwUXpTby92cGxReEhJWTZCbTZQSEJWMXVPbW5rT0hMalJV?=
- =?utf-8?B?U2gwY2NhNzNBanhvMlVHV0h3N203ZDA5OXE3TW8rOW1FUWF5M0NZOXp3QldN?=
- =?utf-8?B?RkgzMUd0Z0o0NTJlLytieEkvYU93SjYvNmJOK0sybjdpN1RKYXNqaUlrUi9M?=
- =?utf-8?B?MnRlcWtwb2VVSVIxU0xrdzFZbXBnM2xqeHJaTEM5aHJtdk5Nb3B5ZlhSYnRL?=
- =?utf-8?B?TU1LRjNvZDV5OHdUYUxDTm9kUkhiUERLaytNc2dKU0EwRGVuSlU2TFpIY3hS?=
- =?utf-8?B?cXVFaE9na2hNUVUvNTJsbXQxSkxmWkFrcW9aeHBpVFpQWTBkVlZUdjB0Szg5?=
- =?utf-8?B?bExoU3hiQ0piRDJaSU96amt4aFp1NmQ3b0l6UWZ4WHZmV1FIM1l4OVlwZTBv?=
- =?utf-8?B?UnF6K09FWmhqdE50NlFRbTBEZXliR2RWdnhabmlzc0JZaTJnaHM5L2gwelV2?=
- =?utf-8?B?OXNzWnJ3RDBSMFN3N25hRXdxaGRPV1M0eU8xb2tQOVNzMEtSVy9JcHlML0NV?=
- =?utf-8?B?NXhaK1Y0STRiWU9EWGtZZnZmQk12d3hLQ0tJWmcwNjFzQlQvNzZFaDFkbTVY?=
- =?utf-8?B?TnMwTUlJS1l5akJlRUVudmIwa2c2NlBTT3dXbUY3T0VpOEdiVUZ4NnA2SGMv?=
- =?utf-8?Q?b5bd3S1KVSH50A/5qxKbkNkJ/zRgNYSbrz?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bjVpemUrQWhERFRld3J3UWJqN21JSUFDZnlEdVc0dW1aeWRsdnRJSXlHb0pD?=
+ =?utf-8?B?WnFKZVZ1QkI4RlpoZW1IaHdrN1dGWDZ6emFPb3U3VTBvY0c0UndkMG5xbkVx?=
+ =?utf-8?B?b3VQRDQvWllJNXdoS2FIYzcrajc5eU5vYmRGejByU0xuZ3NRUHhyWHAvUjky?=
+ =?utf-8?B?dC94TXlBbE9MQXdsLytNbHV0bGd4VmxFaTEzdEZsdjQ4bVNOWVdxMC8zaldT?=
+ =?utf-8?B?VGZocHVjaWNoM3E1MDB4cUtUL1IrUkVUaFJnWUh5TXpKcmpJdWpSdHFDcmNQ?=
+ =?utf-8?B?Wkdqc1FyejNPWXRzRmRLY3lOTHh4dFhTM01namsrb3NYaitES1hLN3ZtUEhu?=
+ =?utf-8?B?QzB2NXR3UnZ1R2xFN3dsTXpWTnY1M1QvcUNHalhFcEpFLyt6SmdmVmNIY1JB?=
+ =?utf-8?B?QnRLS1F3SGZRNFIyRWVIK1FpNS9aVnBidDhyUXlnZ0hzTkF5UU9mQjNzWnI0?=
+ =?utf-8?B?c3hBa0FpdlphQTRxWnFZQkhzTXFoRGwyMUE3K3JzZlk3cllCSldkT0FlYkhp?=
+ =?utf-8?B?Z2dlOHljTFNxUHFESjZ3NFcvRzBjeVdxVzRwMjNlUkhVeDJFQ0xja0tsN1Zz?=
+ =?utf-8?B?MUpXOUdCWnQ5NG9VUXAwKzVZWGxLUUNzZjJFdzBqeWJud3lNMWJKNU5BZnVu?=
+ =?utf-8?B?UjVJMlV2bndNQU8yeXlteG9VSHR6TG1jcERtTU9iUE5qb1Fud1REdVJYWU9D?=
+ =?utf-8?B?eDZtNE10Q3UrUDNzbSsrMGxDS09CYklGam1oeGs3YysveXV3WGp6dFlpSEhK?=
+ =?utf-8?B?L3VLemIzTU56b3NBM2hneXJXNHZXd3VpbCtueDZGU3JEQlp0V0xVZFQ0SUtX?=
+ =?utf-8?B?L0JtTkpDaWd3N3BIaXRMMU95TmtSa3hXeUlCRk4vVU9mSzRtV1dGbSt6NG1v?=
+ =?utf-8?B?eHRtOHhRMXhCY2R2N3dDcmt4c1VyeE43SEpMdkhWR3EvTy93TFhJWjJyS2tr?=
+ =?utf-8?B?aCtVdVhpcC9MYkkxQ3hCNVRCTmh0OCtJTGhSYmpqUkZsY3loUnl3dGcrVGlG?=
+ =?utf-8?B?anBtUzdwTzVHTW5Eb1hTdUY4UjVUT0s3S2JjenNnRzhHWWUyazE0WUlkeU90?=
+ =?utf-8?B?SDNXaWVhb3M0Y05aM0Z4NVFuOWJUb3grQXJMSExGT2hqUzBnYnB3cDVKRjZo?=
+ =?utf-8?B?OWNoNGcrNEg3bndFSlFTMnBYaHpBcTIzb1hPOG9kTXhzbmxad20zanVnUXU2?=
+ =?utf-8?B?MTZkcmd1QnNXUkN4ZWJQdE0rTTNNMmNHa0tCcEMwMmlXMFZxMHFaNzlNcGZ6?=
+ =?utf-8?B?VjhVdWhNdmh1emxpbE9QTmlxS1N0OEZCNVVER25hblJoeFF3dXpqNjRldlAr?=
+ =?utf-8?Q?s6/jzlg37f6Dn0CszrexGE1hMJKNWSbvTp?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 02:45:52.9599 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 03:01:51.2885 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5816d48-e304-440f-dded-08d8a623b2fe
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb5bb389-dd4f-4256-c2b9-08d8a625ee33
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O8js8v/ItQmdaMWz57ypZZ942IWxKAW8DJUztc/Dgl2IYcFup4afbuLyalUoG22XO4cwVfiC4mJnmlnNUjRO0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6144
+X-MS-Exchange-CrossTenant-UserPrincipalName: PcLgbfbd+EV+mK1lkIdU9yBsVw5mGQMWNxZs+fe4lJa7cAcUPZcA3kbI08oQ0X/nsF0IfBRxqXIVfid4/5M1SQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5182
 X-Mailman-Approved-At: Tue, 22 Dec 2020 09:21:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,113 +119,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod <vkoul@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sascha Hauer <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ Laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
+ narmstrong@baylibre.com, airlied@linux.ie, s.hauer@pengutronix.de,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org, linux-imx@nxp.com,
+ mchehab@kernel.org, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-12-21 at 10:02 -0700, Rob Herring wrote:
-> On Fri, Dec 18, 2020 at 9:15 PM Liu Ying <victor.liu@nxp.com> wrote:
-> > Hi,
+On Mon, 2020-12-21 at 15:07 -0700, Rob Herring wrote:
+> On Thu, Dec 17, 2020 at 05:59:23PM +0800, Liu Ying wrote:
+> > This patch adds bindings for i.MX8qm/qxp pixel combiner.
 > > 
-> > On Fri, 2020-12-18 at 16:42 -0600, Rob Herring wrote:
-> > > On Thu, Dec 17, 2020 at 7:48 PM Liu Ying <victor.liu@nxp.com> wrote:
-> > > > Hi,
-> > > > 
-> > > > On Thu, 2020-12-17 at 12:50 -0600, Rob Herring wrote:
-> > > > > On Thu, 17 Dec 2020 17:59:23 +0800, Liu Ying wrote:
-> > > > > > This patch adds bindings for i.MX8qm/qxp pixel combiner.
-> > > > > > 
-> > > > > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > > > > ---
-> > > > > >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160
-> > > > > > +++++++++++++++++++++
-> > > > > >  1 file changed, 160 insertions(+)
-> > > > > >  create mode 100644
-> > > > > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > > > > pixel-combiner.yaml
-> > > > > > 
-> > > > > 
-> > > > > My bot found errors running 'make dt_binding_check' on your
-> > > > > patch:
-> > > > > 
-> > > > > yamllint warnings/errors:
-> > > > > 
-> > > > > dtschema/dtc warnings/errors:
-> > > > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > > > pixel-combiner.example.dts:19:18: fatal error: dt-
-> > > > > bindings/clock/imx8-lpcg.h: No such file or directory
-> > > > >    19 |         #include <dt-bindings/clock/imx8-lpcg.h>
-> > > > >       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > compilation terminated.
-> > > > > make[1]: *** [scripts/Makefile.lib:342:
-> > > > > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > > > > pixel-combiner.example.dt.yaml] Error 1
-> > > > > make[1]: *** Waiting for unfinished jobs....
-> > > > > make: *** [Makefile:1364: dt_binding_check] Error 2
-> > > > > 
-> > > > > See
-> > > > > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.ozlabs.org%2Fpatch%2F1417599&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7C7cd8e43f582b48535f8f08d8a5d235eb%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441669585674325%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=%2BWYPU1JU4sLsE8ULeoAKvaEUBqHQAPyuydkA50%2Ffjvs%3D&amp;reserved=0
-> > > > > 
-> > > > > This check can fail if there are any dependencies. The base for a
-> > > > > patch
-> > > > > series is generally the most recent rc1.
-> > > > 
-> > > > This series can be applied to linux-next/master branch.
-> > > 
-> > > I can't know that to apply and run checks automatically. I guessed
-> > > that reviewing this before sending, but I want it abundantly clear
-> > > what the result of applying this might be and it wasn't mentioned in
-> > > this patch.
-> > > 
-> > > Plus linux-next is a base no one can apply patches to, so should you
-> > > be sending patches based on it? It's also the merge window, so maybe
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  .../display/bridge/fsl,imx8qxp-pixel-combiner.yaml | 160 +++++++++++++++++++++
+> >  1 file changed, 160 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
 > > 
-> > I sent this series based on drm-misc-next.  This series is applicable
-> > to linux-next/master, and may pass 'make dt_binding_check' there.
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> > new file mode 100644
+> > index 00000000..bacacd8
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+> > @@ -0,0 +1,160 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-pixel-combiner.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7Ca98fcf2b328a42c15d1308d8a5fcc905%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441852425445153%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=%2FvqD2n1aI5sBaXbCHhsWCjp91Zk1wB8q69xNEssRVvE%3D&amp;reserved=0
+> > +$schema: https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cvictor.liu%40nxp.com%7Ca98fcf2b328a42c15d1308d8a5fcc905%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637441852425455147%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=h15%2FU7V8yTNeUPmnR%2FSGNolEHOYQwQ9gHyKwdoyg2q4%3D&amp;reserved=0
+> > +
+> > +title: Freescale i.MX8qm/qxp Pixel Combiner
+> > +
+> > +maintainers:
+> > +  - Liu Ying <victor.liu@nxp.com>
+> > +
+> > +description: |
+> > +  The Freescale i.MX8qm/qxp Pixel Combiner takes two output streams from a
+> > +  single display controller and manipulates the two streams to support a number
+> > +  of modes(bypass, pixel combine, YUV444 to YUV422, split_RGB) configured as
+> > +  either one screen, two screens, or virtual screens.  The pixel combiner is
+> > +  also responsible for generating some of the control signals for the pixel link
+> > +  output channel.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx8qm-pixel-combiner
+> > +      - fsl,imx8qxp-pixel-combiner
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    const: apb
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +patternProperties:
+> > +  "^channel@[0-1]$":
+> > +    type: object
+> > +    description: Represents a display stream of pixel combiner.
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +      reg:
+> > +        description: The display stream index.
+> > +        oneOf:
+> > +          - const: 0
+> > +          - const: 1
 > 
-> But to be clear, 'make dt_binding_check' would fail on drm-misc-next
-> until 5.11-rc1 is merged in. The drm-misc maintainers need to know
-> that.
+> enum: [ 0, 1 ]
 
-Ok, will mention the dependency.  Thanks.
+I forgot to modify this oneOf + const to enum.
+Will do.  Thanks.
 
 > 
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description: Input endpoint of the display stream.
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +        required:
+> > +          - reg
 > 
-> > I'll mention dependencies in the future where similar situations
-> > appear. Thanks.
-> > 
-> > BTW, does it make sense for the bot to additionaly try linux-next if
-> > needed?  Maybe, that'll be helpful?
-> 
-> Sure, and when I've got nothing else to do maybe I'll do that. Though
-> maintainers still need to know what the dependencies are. The real
-> solution here is to make 'base-commit' tags more common or required so
-> that neither scripts/bots nor humans have to guess what the base is.
+> You can drop 'reg' parts. That's going to get covered by the graph 
+> schema.
 
-Yeah, 'base-commit' is good, but a base commit should be 'well-known'
-as doc[1] indicates, otherwise, it is likely unfound.  So, it seems
-that linux-next is worthy of a try.
+I'm assuming the 'const' numbers for 'reg' parts are still needed, so
+I'll keep the 'const' parts.
 
-[1] https://git-scm.com/docs/git-format-patch
+I'll drop 'required' parts for 'reg'.
 
-Regards,
 Liu Ying
 
 > 
-> Rob
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: Output endpoint of the display stream.
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 1
+> > +
+> > +        required:
+> > +          - reg
+> > +
+> > +    required:
+> > +      - "#address-cells"
+> > +      - "#size-cells"
+> > +      - reg
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx8-lpcg.h>
+> > +    #include <dt-bindings/firmware/imx/rsrc.h>
+> > +    pixel-combiner@56020000 {
+> > +        compatible = "fsl,imx8qxp-pixel-combiner";
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        reg = <0x56020000 0x10000>;
+> > +        clocks = <&dc0_pixel_combiner_lpcg IMX_LPCG_CLK_4>;
+> > +        clock-names = "apb";
+> > +        power-domains = <&pd IMX_SC_R_DC_0>;
+> > +
+> > +        channel@0 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <0>;
+> > +
+> > +            port@0 {
+> > +                reg = <0>;
+> > +
+> > +                dc0_pixel_combiner_ch0_dc0_dpu_disp0: endpoint {
+> > +                    remote-endpoint = <&dc0_dpu_disp0_dc0_pixel_combiner_ch0>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg = <1>;
+> > +
+> > +                dc0_pixel_combiner_ch0_dc0_pixel_link0: endpoint {
+> > +                    remote-endpoint = <&dc0_pixel_link0_dc0_pixel_combiner_ch0>;
+> > +                };
+> > +            };
+> > +        };
+> > +
+> > +        channel@1 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <1>;
+> > +
+> > +            port@0 {
+> > +                reg = <0>;
+> > +
+> > +                dc0_pixel_combiner_ch1_dc0_dpu_disp1: endpoint {
+> > +                    remote-endpoint = <&dc0_dpu_disp1_dc0_pixel_combiner_ch1>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg = <1>;
+> > +
+> > +                dc0_pixel_combiner_ch1_dc0_pixel_link1: endpoint {
+> > +                    remote-endpoint = <&dc0_pixel_link1_dc0_pixel_combiner_ch1>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > -- 
+> > 2.7.4
+> > 
 
 _______________________________________________
 dri-devel mailing list
