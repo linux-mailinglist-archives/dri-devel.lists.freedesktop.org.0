@@ -2,55 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4546C2E10D0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 01:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2E32E1196
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D8B6E85A;
-	Wed, 23 Dec 2020 00:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C94E6E878;
+	Wed, 23 Dec 2020 02:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2156E249
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 00:37:45 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id i18so13659263ioa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 16:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lJYVQ7PnCCXi4g9tZbq1aPKbq5Rtjx1EMaT882nls4w=;
- b=MgpenJknft7iQnN1qHONOwIUAVFGZbTfUlyKCtiqfcsBcLnq3NrDaUQR1yQeCjanPh
- rfQYLYes4Y6YYvSKUXtPmGmy2G+2QggkvkrlLkj5rcLxEhorpwhN/DUhsYzhUJM79ZUc
- xLFqtzOAKMUzX9zZzwvpUJggF8JwfDcvfNSgrnFBwLP8Dvycf280O5pesqghtwB5ZjgY
- 9z/QiU4vqim8LbGZduL049k6xY+xQl49PaTiZMntmryCcHddlZj1LDxiTdR3ZZeYeGNN
- yk7sUP6+St5Qehrj65UFIUskGYdgdUm+2AIz6OV1EgKGVrTIaBAv20q7iqw7OzA/EwwS
- Kjdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lJYVQ7PnCCXi4g9tZbq1aPKbq5Rtjx1EMaT882nls4w=;
- b=dlxMK/BuzTreG9AWz0Z+v+zpUIFXVLTGMyS0aYrgtdZf2e9DPq+RBrio+2Yk8BHI6z
- pW1bqrAQSMKMWtxkunxRCYAahckyWIJhnboxxXMC3wQxPRklsaiXsK1yGAyOa8eHeuft
- IXgv6cL0HTjxK4dyRRRwdTGdWDBZ5PCeJbCVk19ExqWuO8QuatYAngHEHsZSay3NyKhy
- Oz5FCtDW13PYUZ4G8uQj0k59mWLNwcpWeqmGW0mFr1l6bmqs5s8vbtMzrwUs6lO9q73C
- pEVVrFruJQC2f9DL6BEPtuLTGjmuDYFL4cFWpOZsmXtVq4WerPRQxyuJYXMj8pR3kJEE
- RxSw==
-X-Gm-Message-State: AOAM531U0e8M12tyoNo8UUGr91z5yn6D2O8pzWuMTsx1Z80Y9ZPevUTE
- ZdfFRXTD6w85491GkokFffOa0CpkWp71XxSz1gEYfQ==
-X-Google-Smtp-Source: ABdhPJwgP/F4pOSTeZwylZfevHgKpGaLQTIMTYwhuVVUvutNwxduuYj+sWcFRA7FaPjBrcI006gae4LV8jkA1D5swm0=
-X-Received: by 2002:a02:cd84:: with SMTP id l4mr21269052jap.141.1608683864709; 
- Tue, 22 Dec 2020 16:37:44 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE746E876
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 02:16:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6893D22202;
+ Wed, 23 Dec 2020 02:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608689790;
+ bh=H4fX8Jv2Oxuo+GyoGMn6H8Tb6++/vP4bLQ21Kywy0OI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Fscbrdx9SlH6wVCrvt3am0BgMGbpLuaCwk36lKijvCchEqZUqIOijbuKc3uzsTgDC
+ Svnz1NaqgefWsEc3ImExOtF8/Lxr+59YfcT4ADw8AEY8YO0uZHmM35gAiCQQopsmpV
+ rX6V0ZEONOH5tgwV9AcIgbNxGIAXjNz6WCbfw5ZJZviaS0T9OaE1us1tpZMilxCAqH
+ ZEMJjnUGd3kpOtJ1vEe26DCKpGPXScMRym2rRObARi6zDoafcG7/2SeTEG0kPFavLv
+ Ls5SUvYXVJgl8tZCn4a87Hem5FdgE6amBrfLRkS9/CDEMNDPZyqpNfAq/eRKFbDPAp
+ /DnXWhks7gEwg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 002/217] drm/ingenic: Reset pixclock rate when
+ parent clock rate changes
+Date: Tue, 22 Dec 2020 21:12:51 -0500
+Message-Id: <20201223021626.2790791-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
+References: <20201223021626.2790791-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20201222031812.67228-1-zhan.liu@amd.com>
- <1c3f0095-b76f-5107-7b71-c284b79d8a09@amd.com>
-In-Reply-To: <1c3f0095-b76f-5107-7b71-c284b79d8a09@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 23 Dec 2020 01:37:36 +0100
-Message-ID: <CAP+8YyGUHN4J=p-gz8pGMKkjEONwpjXwe9FMYkeK50F7-Ls8=Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Do not change amdgpu framebuffer format
- during page flip
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,89 +49,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon.Wang@amd.com, Zhan Liu <zhan.liu@amd.com>, Chao-kai.Wang@amd.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Nikola.Cornij@amd.com, amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Cc: Paul Cercueil <paul@crapouillou.net>, Sasha Levin <sashal@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 22, 2020 at 9:55 PM Kazlauskas, Nicholas
-<nicholas.kazlauskas@amd.com> wrote:
->
-> On 2020-12-21 10:18 p.m., Zhan Liu wrote:
-> > [Why]
-> > Driver cannot change amdgpu framebuffer (afb) format while doing
-> > page flip. Force system doing so will cause ioctl error, and result in
-> > breaking several functionalities including FreeSync.
-> >
-> > If afb format is forced to change during page flip, following message
-> > will appear in dmesg.log:
-> >
-> > "[drm:drm_mode_page_flip_ioctl [drm]]
-> > Page flip is not allowed to change frame buffer format."
-> >
-> > [How]
-> > Do not change afb format while doing page flip. It is okay to check
-> > whether afb format is valid here, however, forcing afb format change
-> > shouldn't happen here.
-> >
-> > Signed-off-by: Zhan Liu <zhan.liu@amd.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 --
-> >   1 file changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> > index a638709e9c92..0efebd592b65 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> > @@ -831,8 +831,6 @@ static int convert_tiling_flags_to_modifier(struct amdgpu_framebuffer *afb)
-> >                                                               modifier);
-> >                       if (!format_info)
-> >                               return -EINVAL;
-> > -
-> > -                     afb->base.format = format_info;
->
-> Adding Bas for comment since he added the modifiers conversion, but I'll
-> leave my own thoughts below.
->
-> This patch is a NAK from me - the framebuffer is still expected to be in
-> a specific format/tiling configuration and ignoring the incoming format
-> doesn't resolve the problem.
->
-> The problem is that the legacy page IOCTL has this check in the first
-> place expecting that no driver is capable of performing this action.
->
-> This is not the case for amdgpu (be it DC enabled or not), so I think
-> it's best to have a driver cap here or some new driver hook to validate
-> that the flip is valid.
->
-> This is legacy code, and in the shared path, so I don't know how others
-> in the list feel about modifying this but I think we do expect that
-> legacy userspace can do this from the X side of things.
+From: Paul Cercueil <paul@crapouillou.net>
 
-I think the "new" thing is that we can have different format_info
-structs for the same drm fourcc (as we need a different number of
-planes depending on modifier). It would probably make sense to relax
-this check to check the actual drm fourcc (i.e. fb->format->format)
-instead of the format_info pointer. This case would likely only be hit
-in the AMDGPU driver anyway (with intel being the other possibility).
+[ Upstream commit 33700f6f7d9f6b4e1e6df933ef7fd388889c662c ]
 
+Old Ingenic SoCs can overclock very well, up to +50% of their nominal
+clock rate, whithout requiring overvolting or anything like that, just
+by changing the rate of the main PLL. Unfortunately, all clocks on the
+system are derived from that PLL, and when the PLL rate is updated, so
+is our pixel clock.
 
->
-> I recall seeing this happen going from DCC disabled to non DCC enabled
-> buffers and some of this functionality being behind a version check in
-> xf86-video-amdgpu.
->
-> Regards,
-> Nicholas Kazlauskas
->
-> >               }
-> >       }
-> >
-> >
->
+To counter that issue, we make sure that the panel is in VBLANK before
+the rate change happens, and we will then re-set the pixel clock rate
+afterwards, once the PLL has been changed, to be as close as possible to
+the pixel rate requested by the encoder.
+
+v2: Add comment about mutex usage
+
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200926170501.1109197-2-paul@crapouillou.net
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 61 ++++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index a3d1617d7c67e..819744d7d5897 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -10,6 +10,7 @@
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+@@ -68,6 +69,21 @@ struct ingenic_drm {
+ 
+ 	bool panel_is_sharp;
+ 	bool no_vblank;
++
++	/*
++	 * clk_mutex is used to synchronize the pixel clock rate update with
++	 * the VBLANK. When the pixel clock's parent clock needs to be updated,
++	 * clock_nb's notifier function will lock the mutex, then wait until the
++	 * next VBLANK. At that point, the parent clock's rate can be updated,
++	 * and the mutex is then unlocked. If an atomic commit happens in the
++	 * meantime, it will lock on the mutex, effectively waiting until the
++	 * clock update process finishes. Finally, the pixel clock's rate will
++	 * be recomputed when the mutex has been released, in the pending atomic
++	 * commit, or a future one.
++	 */
++	struct mutex clk_mutex;
++	bool update_clk_rate;
++	struct notifier_block clock_nb;
+ };
+ 
+ static const u32 ingenic_drm_primary_formats[] = {
+@@ -111,6 +127,29 @@ static inline struct ingenic_drm *drm_crtc_get_priv(struct drm_crtc *crtc)
+ 	return container_of(crtc, struct ingenic_drm, crtc);
+ }
+ 
++static inline struct ingenic_drm *drm_nb_get_priv(struct notifier_block *nb)
++{
++	return container_of(nb, struct ingenic_drm, clock_nb);
++}
++
++static int ingenic_drm_update_pixclk(struct notifier_block *nb,
++				     unsigned long action,
++				     void *data)
++{
++	struct ingenic_drm *priv = drm_nb_get_priv(nb);
++
++	switch (action) {
++	case PRE_RATE_CHANGE:
++		mutex_lock(&priv->clk_mutex);
++		priv->update_clk_rate = true;
++		drm_crtc_wait_one_vblank(&priv->crtc);
++		return NOTIFY_OK;
++	default:
++		mutex_unlock(&priv->clk_mutex);
++		return NOTIFY_OK;
++	}
++}
++
+ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 					   struct drm_crtc_state *state)
+ {
+@@ -276,8 +315,14 @@ static void ingenic_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	if (drm_atomic_crtc_needs_modeset(state)) {
+ 		ingenic_drm_crtc_update_timings(priv, &state->mode);
++		priv->update_clk_rate = true;
++	}
+ 
++	if (priv->update_clk_rate) {
++		mutex_lock(&priv->clk_mutex);
+ 		clk_set_rate(priv->pix_clk, state->adjusted_mode.clock * 1000);
++		priv->update_clk_rate = false;
++		mutex_unlock(&priv->clk_mutex);
+ 	}
+ 
+ 	if (event) {
+@@ -934,16 +979,28 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	if (soc_info->has_osd)
+ 		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
+ 
++	mutex_init(&priv->clk_mutex);
++	priv->clock_nb.notifier_call = ingenic_drm_update_pixclk;
++
++	parent_clk = clk_get_parent(priv->pix_clk);
++	ret = clk_notifier_register(parent_clk, &priv->clock_nb);
++	if (ret) {
++		dev_err(dev, "Unable to register clock notifier\n");
++		goto err_devclk_disable;
++	}
++
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register DRM driver\n");
+-		goto err_devclk_disable;
++		goto err_clk_notifier_unregister;
+ 	}
+ 
+ 	drm_fbdev_generic_setup(drm, 32);
+ 
+ 	return 0;
+ 
++err_clk_notifier_unregister:
++	clk_notifier_unregister(parent_clk, &priv->clock_nb);
+ err_devclk_disable:
+ 	if (priv->lcd_clk)
+ 		clk_disable_unprepare(priv->lcd_clk);
+@@ -965,7 +1022,9 @@ static int compare_of(struct device *dev, void *data)
+ static void ingenic_drm_unbind(struct device *dev)
+ {
+ 	struct ingenic_drm *priv = dev_get_drvdata(dev);
++	struct clk *parent_clk = clk_get_parent(priv->pix_clk);
+ 
++	clk_notifier_unregister(parent_clk, &priv->clock_nb);
+ 	if (priv->lcd_clk)
+ 		clk_disable_unprepare(priv->lcd_clk);
+ 	clk_disable_unprepare(priv->pix_clk);
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
