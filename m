@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DAF2E11D8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:18:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D592E11DC
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:18:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BACA6E8AE;
-	Wed, 23 Dec 2020 02:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABD66E8AD;
+	Wed, 23 Dec 2020 02:18:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1058E6E8AD;
- Wed, 23 Dec 2020 02:18:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 11074225AA;
- Wed, 23 Dec 2020 02:18:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BA86E889;
+ Wed, 23 Dec 2020 02:18:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 76E8322AAF;
+ Wed, 23 Dec 2020 02:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689886;
- bh=LDFuMUAXiZ3amM/WmFke8arjKEy476VT1qkqeIukd18=;
+ s=k20201202; t=1608689901;
+ bh=k+KP1tuGcuhlVuyY6CcMcv0749L9TvC6cHzejnZqKPE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RWCP9i3FnLwpEZoRZ7HCDmWfGHemA4hMdtwsNac5Jh4sk6DOv+gVThuq13I4G9uvZ
- cstBewP7jgXDQLXPYOf5SS70jrN+iBw90vrPUWVw3fHEG+IpQcUzAAoLwcmT0CoOjM
- 84XQ4d9ZIKGF86BWwZ/S5rfLLlreJXzKqe2e9wXt1pY3eZJ9nosqZVKl0uo+jjZbDS
- XXn+HVx0Wd3ni0Eg6bf8N+TtLsPtOuOWFeNQvgslcEZxPW8w+D378Xvsexq2s5dnu7
- ueHC1gFywCQVBVqmhso6aZgX7OBzGg33NI98T1H/ck5JzlRk3aN14FbPfNi2FG7P0s
- 2c/aPx0HGmiBg==
+ b=Wh5Ri9XgweVubyXZJ5HqCVqWk2n7L8zMSfHEqBf+fGUyqXAxAlDaBc0Oe8JEH25xG
+ SfGveqxPlrqos2LyC9lW5xo/FVS16cPyHV5QiDExhyQrq/IITXEG5Oy54XcrnbEEVE
+ XaSRT4juz1br3UE0+q0MtRJfE4LmvMLfnX449BXEJfE3kmw4jbs2mn7p7qiongg4Fz
+ U00WpRml9aMzz0P2BU5jTWX46fzpPtYWBWHQw00yp7jNHLWe2WAhuZkyhVqFDwfG+J
+ 5duht/47wARel9elprbGT0RnlrnsIC581cd/IkvGQCi1U5dTPGECLYZThNeO/UZWzo
+ GYJpBmqc7eqdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 075/217] drm/amdgpu: check hive pointer before
- access
-Date: Tue, 22 Dec 2020 21:14:04 -0500
-Message-Id: <20201223021626.2790791-75-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 006/130] drm/amd/display: Do not silently accept
+ DCC for multiplane formats.
+Date: Tue, 22 Dec 2020 21:16:09 -0500
+Message-Id: <20201223021813.2791612-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
-References: <20201223021626.2790791-1-sashal@kernel.org>
+In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
+References: <20201223021813.2791612-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,55 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Kevin Wang <kevin1.wang@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hawking Zhang <Hawking.Zhang@amd.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 
-[ Upstream commit a9f5f98f796ee93a865b9886bf7cb694cf124eb5 ]
+[ Upstream commit b35ce7b364ec80b54f48a8fdf9fb74667774d2da ]
 
-in case it is an invalid one
+Silently accepting it could result in corruption.
 
-Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Reviewed-by: Kevin Wang <kevin1.wang@amd.com>
+Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 1162913c8bf42..ffb74fba9d867 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -395,12 +395,17 @@ void amdgpu_put_xgmi_hive(struct amdgpu_hive_info *hive)
- int amdgpu_xgmi_set_pstate(struct amdgpu_device *adev, int pstate)
- {
- 	int ret = 0;
--	struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev);
--	struct amdgpu_device *request_adev = hive->hi_req_gpu ?
--						hive->hi_req_gpu : adev;
-+	struct amdgpu_hive_info *hive;
-+	struct amdgpu_device *request_adev;
- 	bool is_hi_req = pstate == AMDGPU_XGMI_PSTATE_MAX_VEGA20;
--	bool init_low = hive->pstate == AMDGPU_XGMI_PSTATE_UNKNOWN;
-+	bool init_low;
-+
-+	hive = amdgpu_get_xgmi_hive(adev);
-+	if (!hive)
-+		return 0;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index d2dd387c95d86..ce70c42a2c3ec 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2734,7 +2734,7 @@ fill_plane_dcc_attributes(struct amdgpu_device *adev,
+ 		return 0;
  
-+	request_adev = hive->hi_req_gpu ? hive->hi_req_gpu : adev;
-+	init_low = hive->pstate == AMDGPU_XGMI_PSTATE_UNKNOWN;
- 	amdgpu_put_xgmi_hive(hive);
- 	/* fw bug so temporarily disable pstate switching */
- 	return 0;
+ 	if (format >= SURFACE_PIXEL_FORMAT_VIDEO_BEGIN)
+-		return 0;
++		return -EINVAL;
+ 
+ 	if (!dc->cap_funcs.get_dcc_compression_cap)
+ 		return -EINVAL;
 -- 
 2.27.0
 
