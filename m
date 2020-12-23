@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0429D2E11A5
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:16:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AE92E11A8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3A06E884;
-	Wed, 23 Dec 2020 02:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5FA6E88E;
+	Wed, 23 Dec 2020 02:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 772F56E884;
- Wed, 23 Dec 2020 02:16:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5F4C4225AC;
- Wed, 23 Dec 2020 02:16:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79FDD6E88D;
+ Wed, 23 Dec 2020 02:16:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A554225AB;
+ Wed, 23 Dec 2020 02:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689806;
- bh=v0oZvUtokxvo39/NdM+fLn468wX5yHrFHPEcQw3Zl2U=;
+ s=k20201202; t=1608689810;
+ bh=/7XnkCswcGrDkxD0ylLEam1G7JqZX7l36sqXLiQzRuk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oxNQ7v1YSxh1C1Jh/fDOPHOJUvil3tGgR7nc8laYELaI+3yY+cRYd291AqkmHfadB
- DgkviNIBpq8AqNTdH9ottx56C7AkXSJv135oE7YyDDCrr7I2lB1KXLBcyzSPBgFlF1
- mSoVntPEqx9w4NgXaml/kxhB/QQtmLHtjFZHw6a2qy3OvtGi7CJzNNUR9fpwwLf+rR
- eikQdptedpKYHiCTmg6qq9r+jhP2AWHAhh8wot51AC2j+X47g5kmghPLTKq28Z7t6z
- 1O+NFsEI4FOmGLpA2WIoiUrXEMqN20gJsnpMPQSPskBLzqINrDAiV6bd/B3UjOv3Dl
- PT9ZlJSE3C5QA==
+ b=qgceC9ARD+1lRvrohFCo7cWcohNLxjMXnAX7HdwYtWME0hvzTuClVbd/0uKOZWO8w
+ AKLOfG9jDGUibTjCAb61qZ+r2lc+O0qhV/tkQ6iI3VeRgq+3Mf2ECi/rvUlg2s/dbG
+ jiCMT15MC97aH/vMKq5sR+RpI4WYe49KNQa6gBh2PI+VwTX1asAjL7+oLd3WiMPAWS
+ bIpbSy3I8crCsLint7C0aJmJlSDPPQxyOHFacHCpjPvKu1m2+585fYINu2JFRNR7ff
+ XGgp8D43b7eys0jVSmGAF6gPY9hIX7JreSj9SgDH/0Fpduav6YBmB73dO0jJGOaU3A
+ 0HQXYHGRbMtAA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 015/217] drm/msm: Fix race condition in msm
- driver with async layer updates
-Date: Tue, 22 Dec 2020 21:13:04 -0500
-Message-Id: <20201223021626.2790791-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 018/217] drm/amd/display: Fix compilation error
+Date: Tue, 22 Dec 2020 21:13:07 -0500
+Message-Id: <20201223021626.2790791-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
 References: <20201223021626.2790791-1-sashal@kernel.org>
@@ -49,174 +48,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Florin Iucha <florin.iucha@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ dri-devel@lists.freedesktop.org, "Tao.Huang" <Tao.Huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Krishna Manikandan <mkrishn@codeaurora.org>
+From: "Tao.Huang" <Tao.Huang@amd.com>
 
-[ Upstream commit b3d91800d9ac35014e0349292273a6fa7938d402 ]
+[ Upstream commit 585e7cedf304ce76410c922e632bef04fd316ead ]
 
-When there are back to back commits with async cursor update,
-there is a case where second commit can program the DPU hw
-blocks while first didn't complete flushing config to HW.
+[Why]
+The C standard does not specify whether an enum is signed or unsigned.
+In the function prototype, one of the argument is defined as an enum
+but its declaration was unit32_t. Fix this by changing the function
+argument to enum in the declaration.
 
-Synchronize the compositions such that second commit waits
-until first commit flushes the composition.
-
-This change also introduces per crtc commit lock, such that
-commits on different crtcs are not blocked by each other.
-
-Changes in v2:
-	- Use an array of mutexes in kms to handle commit
-	  lock per crtc. (Rob Clark)
-
-Changes in v3:
-	- Add wrapper functions to handle lock and unlock of
-	  commit_lock for each crtc. (Rob Clark)
-
-Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Tao.Huang <Tao.Huang@amd.com>
+Signed-off-by: Florin Iucha <florin.iucha@amd.com>
+Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/msm_atomic.c | 37 +++++++++++++++++++++-----------
- drivers/gpu/drm/msm/msm_kms.h    |  6 ++++--
- 2 files changed, 28 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.h | 2 +-
+ drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c     | 6 +++---
+ drivers/gpu/drm/amd/display/dc/dsc/rc_calc.h     | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 561bfa48841c3..575e9af9b6fc9 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -55,16 +55,32 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
- 	}
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.h b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.h
+index 7f6bedbc1ff10..81bf2ecc28314 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.h
+@@ -585,7 +585,7 @@ void dpp3_cm_set_gamut_remap(
+ 		const struct dpp_grph_csc_adjustment *adjust);
  
-+static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
-+{
-+	struct drm_crtc *crtc;
-+
-+	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
-+		mutex_lock(&kms->commit_lock[drm_crtc_index(crtc)]);
-+}
-+
-+static void unlock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
-+{
-+	struct drm_crtc *crtc;
-+
-+	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
-+		mutex_unlock(&kms->commit_lock[drm_crtc_index(crtc)]);
-+}
-+
- static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
- {
- 	unsigned crtc_mask = BIT(crtc_idx);
+ void dpp3_set_pre_degam(struct dpp *dpp_base,
+-		uint32_t degamma_lut_selection);
++		enum dc_transfer_func_predefined tr);
  
- 	trace_msm_atomic_async_commit_start(crtc_mask);
+ void dpp3_set_cursor_attributes(
+ 		struct dpp *dpp_base,
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
+index 4da21966ddcec..c6a1cd80aeae4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.c
+@@ -51,7 +51,7 @@ static void get_qp_set(qp_set qps, enum colour_mode cm, enum bits_per_comp bpc,
+ 	const struct qp_entry *table = 0L;
  
--	mutex_lock(&kms->commit_lock);
-+	lock_crtcs(kms, crtc_mask);
+ 	// alias enum
+-	enum { min = MM_MIN, max = MM_MAX };
++	enum { min = DAL_MM_MIN, max = DAL_MM_MAX };
+ 	switch (sel) {
+ 		TABLE_CASE(444,  8, max);
+ 		TABLE_CASE(444,  8, min);
+@@ -233,8 +233,8 @@ static void _do_calc_rc_params(struct rc_params *rc, enum colour_mode cm,
+ 	rc->flatness_max_qp     = ((bpc == BPC_8) ? (12) : ((bpc == BPC_10) ? (16) : (20))) - ((minor_version == 1 && cm == CM_444) ? 1 : 0);
+ 	rc->flatness_det_thresh = 2 << (bpc - 8);
  
- 	if (!(kms->pending_crtc_mask & crtc_mask)) {
--		mutex_unlock(&kms->commit_lock);
-+		unlock_crtcs(kms, crtc_mask);
- 		goto out;
- 	}
- 
-@@ -79,7 +95,6 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
- 	 */
- 	trace_msm_atomic_flush_commit(crtc_mask);
- 	kms->funcs->flush_commit(kms, crtc_mask);
--	mutex_unlock(&kms->commit_lock);
- 
- 	/*
- 	 * Wait for flush to complete:
-@@ -90,9 +105,8 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
- 
- 	vblank_put(kms, crtc_mask);
- 
--	mutex_lock(&kms->commit_lock);
- 	kms->funcs->complete_commit(kms, crtc_mask);
--	mutex_unlock(&kms->commit_lock);
-+	unlock_crtcs(kms, crtc_mask);
- 	kms->funcs->disable_commit(kms);
- 
- out:
-@@ -189,12 +203,11 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	 * Ensure any previous (potentially async) commit has
- 	 * completed:
- 	 */
-+	lock_crtcs(kms, crtc_mask);
- 	trace_msm_atomic_wait_flush_start(crtc_mask);
- 	kms->funcs->wait_flush(kms, crtc_mask);
- 	trace_msm_atomic_wait_flush_finish(crtc_mask);
- 
--	mutex_lock(&kms->commit_lock);
--
- 	/*
- 	 * Now that there is no in-progress flush, prepare the
- 	 * current update:
-@@ -232,8 +245,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 		}
- 
- 		kms->funcs->disable_commit(kms);
--		mutex_unlock(&kms->commit_lock);
--
-+		unlock_crtcs(kms, crtc_mask);
- 		/*
- 		 * At this point, from drm core's perspective, we
- 		 * are done with the atomic update, so we can just
-@@ -260,8 +272,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	 */
- 	trace_msm_atomic_flush_commit(crtc_mask);
- 	kms->funcs->flush_commit(kms, crtc_mask);
--	mutex_unlock(&kms->commit_lock);
--
-+	unlock_crtcs(kms, crtc_mask);
- 	/*
- 	 * Wait for flush to complete:
- 	 */
-@@ -271,9 +282,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 
- 	vblank_put(kms, crtc_mask);
- 
--	mutex_lock(&kms->commit_lock);
-+	lock_crtcs(kms, crtc_mask);
- 	kms->funcs->complete_commit(kms, crtc_mask);
--	mutex_unlock(&kms->commit_lock);
-+	unlock_crtcs(kms, crtc_mask);
- 	kms->funcs->disable_commit(kms);
- 
- 	drm_atomic_helper_commit_hw_done(state);
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index 1cbef6b200b70..2049847b66428 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -155,7 +155,7 @@ struct msm_kms {
- 	 * For async commit, where ->flush_commit() and later happens
- 	 * from the crtc's pending_timer close to end of the frame:
- 	 */
--	struct mutex commit_lock;
-+	struct mutex commit_lock[MAX_CRTCS];
- 	unsigned pending_crtc_mask;
- 	struct msm_pending_timer pending_timers[MAX_CRTCS];
+-	get_qp_set(rc->qp_min, cm, bpc, MM_MIN, bpp);
+-	get_qp_set(rc->qp_max, cm, bpc, MM_MAX, bpp);
++	get_qp_set(rc->qp_min, cm, bpc, DAL_MM_MIN, bpp);
++	get_qp_set(rc->qp_max, cm, bpc, DAL_MM_MAX, bpp);
+ 	if (cm == CM_444 && minor_version == 1) {
+ 		for (i = 0; i < QP_SET_SIZE; ++i) {
+ 			rc->qp_min[i] = rc->qp_min[i] > 0 ? rc->qp_min[i] - 1 : 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.h b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.h
+index 21723fa6561eb..8123827840c58 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.h
++++ b/drivers/gpu/drm/amd/display/dc/dsc/rc_calc.h
+@@ -66,8 +66,8 @@ enum bits_per_comp {
  };
-@@ -165,7 +165,9 @@ static inline void msm_kms_init(struct msm_kms *kms,
- {
- 	unsigned i;
  
--	mutex_init(&kms->commit_lock);
-+	for (i = 0; i < ARRAY_SIZE(kms->commit_lock); i++)
-+		mutex_init(&kms->commit_lock[i]);
-+
- 	kms->funcs = funcs;
+ enum max_min {
+-	MM_MIN = 0,
+-	MM_MAX = 1
++	DAL_MM_MIN = 0,
++	DAL_MM_MAX = 1
+ };
  
- 	for (i = 0; i < ARRAY_SIZE(kms->pending_timers); i++)
+ struct qp_entry {
 -- 
 2.27.0
 
