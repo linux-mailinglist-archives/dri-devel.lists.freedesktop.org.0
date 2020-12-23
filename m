@@ -1,44 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A5B2E1FC2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 18:13:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 658572E2032
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 18:54:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21AEE6E0C5;
-	Wed, 23 Dec 2020 17:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D85236E086;
+	Wed, 23 Dec 2020 17:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 985916E06E;
- Wed, 23 Dec 2020 17:13:21 +0000 (UTC)
-IronPort-SDR: NaThUbQL0Rgql8VZuSqmeb7oF6+yv05We4Ex8j87EOxsw3dQMHZoYNaSFcbymJDOlsO87O72Vc
- 6+qCT5t3ythw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9844"; a="194494665"
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; d="scan'208";a="194494665"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 09:13:09 -0800
-IronPort-SDR: ZRDYyDgII9EV81cbu9GINTG/C+CEGbePUs2x/sqVgpJv3PLp/5cL5qe48KmzkvWK+9b/xnpHTR
- 1VfY1CzlJBvA==
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; d="scan'208";a="374062808"
-Received: from odonov3x-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.250.144])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 09:12:58 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 8/9] drm/i915/dp: Allow forcing specific interfaces
- through enable_dpcd_backlight
-In-Reply-To: <20201204223603.249878-9-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201204223603.249878-1-lyude@redhat.com>
- <20201204223603.249878-9-lyude@redhat.com>
-Date: Wed, 23 Dec 2020 19:12:53 +0200
-Message-ID: <87tuscmooa.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D9E6E086
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 17:54:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CAD242229C
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 17:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608746080;
+ bh=oPqcaaIT1m4gIwPH079KHo8KUmZzg7kgDIJDYuGMcvY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bGpft4Kpb7t5T4fX8lhByN60ObxwL55nWpJzhHIelAITSWX0bvXmtegxYSTJN4Zxl
+ T4sw2s1rmwoiwLPiUIW7JGyIM7tfyWPnaZisRDvAs56K9bnVV2r258Zllrq3efIw60
+ Xqk7ptA15HCr4vleatHRwHYA+XPQo+P9s0tUyVvqfM28vAKVchNYK9O9jkO7C/YG3J
+ N3N0SD38qtziXLRLBOdDTI40f9Ewmzt3R/AhxsHnnvnilbxQYSPWroVyn6u2P8sFfD
+ AHY6JNQEDjZCOeioDkjceA8EfiEeZB5mmjnxg6UiXX0BLHhkUQ1hp7GaO94jA5tBIo
+ 4fWkBpGhcIocg==
+Received: by mail-ej1-f52.google.com with SMTP id n26so274754eju.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 09:54:39 -0800 (PST)
+X-Gm-Message-State: AOAM533sRl+3HEodLx0HuyX9CqOfWVIkrcK5Ln4UPeNzmtnnenK1mKnL
+ M0rQPLVKTqJEIdOQ7+aZ4beU6s3MtuuhoYSdMw==
+X-Google-Smtp-Source: ABdhPJz3x4J2zw5Y7TPch4DTKXpgAX9t6V701Sxc80NsHgTOESjuz9DoVFaywy8F4VyXHmox/Q09SCSZQsxP2YotFOM=
+X-Received: by 2002:a17:906:4146:: with SMTP id
+ l6mr25366789ejk.341.1608746078387; 
+ Wed, 23 Dec 2020 09:54:38 -0800 (PST)
 MIME-Version: 1.0
+References: <20201222040645.1323611-1-robh@kernel.org>
+ <20201222063908.GB3463004@ravnborg.org>
+In-Reply-To: <20201222063908.GB3463004@ravnborg.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 23 Dec 2020 10:54:26 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqJLw_RtLehYDLu_HKCoxDHsx-AdGTWfN0JMJhgNqLeFng@mail.gmail.com>
+Message-ID: <CAL_JsqJLw_RtLehYDLu_HKCoxDHsx-AdGTWfN0JMJhgNqLeFng@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Drop redundant maxItems/items
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,142 +54,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thaytan@noraisin.net, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Sean Paul <seanpaul@chromium.org>
+Cc: devicetree@vger.kernel.org, Linux-ALSA <alsa-devel@alsa-project.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jassi Brar <jaswinder.singh@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 04 Dec 2020, Lyude Paul <lyude@redhat.com> wrote:
-> Since we now support controlling panel backlights through DPCD using
-> both the standard VESA interface, and Intel's proprietary HDR backlight
-> interface, we should allow the user to be able to explicitly choose
-> between one or the other in the event that we're wrong about panels
-> reliably reporting support for the Intel HDR interface.
+On Mon, Dec 21, 2020 at 11:39 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> So, this commit adds support for this by introducing two new
-> enable_dpcd_backlight options: 2 which forces i915 to only probe for the
-> VESA interface, and 3 which forces i915 to only probe for the Intel
-> backlight interface (might be useful if we find panels in the wild that
-> report the VESA interface in their VBT, but actually only support the
-> Intel backlight interface).
+> Hi Rob,
 >
-> v3:
-> * Rebase
+> On Mon, Dec 21, 2020 at 09:06:45PM -0700, Rob Herring wrote:
+> > 'maxItems' equal to the 'items' list length is redundant. 'maxItems' is
+> > preferred for a single entry while greater than 1 should have an 'items'
+> > list.
+> >
+> > A meta-schema check for this is pending once these existing cases are
+> > fixed.
+> >
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Vinod Koul <vkoul@kernel.org>
+> > Cc: Mark Brown <broonie@kernel.org>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Jassi Brar <jaswinder.singh@linaro.org>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: dmaengine@vger.kernel.org
+> > Cc: alsa-devel@alsa-project.org
+> > Cc: linux-usb@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
 >
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: thaytan@noraisin.net
-> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-> ---
->  .../drm/i915/display/intel_dp_aux_backlight.c | 45 +++++++++++++++++--
->  drivers/gpu/drm/i915/i915_params.c            |  2 +-
->  2 files changed, 43 insertions(+), 4 deletions(-)
+> With one comment below,
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 9a3ff3ffc158..eef14ab6bddc 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -609,15 +609,54 @@ static const struct intel_panel_bl_funcs intel_dp_vesa_bl_funcs = {
->  	.get = intel_dp_aux_vesa_get_backlight,
->  };
->  
-> +enum intel_dp_aux_backlight_modparam {
-> +	INTEL_DP_AUX_BACKLIGHT_AUTO = -1,
-> +	INTEL_DP_AUX_BACKLIGHT_OFF = 0,
-> +	INTEL_DP_AUX_BACKLIGHT_ON = 1,
-> +	INTEL_DP_AUX_BACKLIGHT_FORCE_VESA = 2,
-> +	INTEL_DP_AUX_BACKLIGHT_FORCE_INTEL = 3,
-> +};
-> +
->  int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
->  {
->  	struct drm_device *dev = connector->base.dev;
->  	struct intel_panel *panel = &connector->panel;
->  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> +	bool try_intel_interface = false, try_vesa_interface = false;
->  
-> -	if (i915->params.enable_dpcd_backlight == 0)
-> +	/* Check the VBT and user's module parameters to figure out which
-> +	 * interfaces to probe
-> +	 */
-> +	switch (i915->params.enable_dpcd_backlight) {
-> +	case INTEL_DP_AUX_BACKLIGHT_OFF:
->  		return -ENODEV;
-> +	case INTEL_DP_AUX_BACKLIGHT_AUTO:
-> +		switch (i915->vbt.backlight.type) {
-> +		case INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE:
-> +			try_vesa_interface = true;
-> +			break;
-> +		case INTEL_BACKLIGHT_DISPLAY_DDI:
-> +			try_intel_interface = true;
+> > ---
+> > diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> > index 737c1f47b7de..54c361d4a7af 100644
+> > --- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+> > @@ -74,11 +74,8 @@ properties:
+> >
+> >    phys:
+> >      maxItems: 1
+> > -    items:
+> > -      - description: phandle + phy specifier pair.
+>
+> The description may help some people, so keeping the
+> description and deleting maxItems would maybe be better.
 
-I take it this is what the machines report? *rolls eyes*.
+Do we really want to describe 'phys' hundreds of times? No. The
+question I ask on the descriptions is could it be generated instead.
 
-> +			try_vesa_interface = true;
-> +			break;
-> +		default:
-> +			return -ENODEV;
-> +		}
-> +		break;
-> +	case INTEL_DP_AUX_BACKLIGHT_ON:
-> +		if (i915->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE)
-> +			try_intel_interface = true;
-
-This could use an explanation - why not try the intel interface in this
-case?
-
-Anyway, good enough,
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> +
-> +		try_vesa_interface = true;
-> +		break;
-> +	case INTEL_DP_AUX_BACKLIGHT_FORCE_VESA:
-> +		try_vesa_interface = true;
-> +		break;
-> +	case INTEL_DP_AUX_BACKLIGHT_FORCE_INTEL:
-> +		try_intel_interface = true;
-> +		break;
-> +	}
->  
->  	/*
->  	 * A lot of eDP panels in the wild will report supporting both the
-> @@ -626,13 +665,13 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
->  	 * and will only work with the Intel interface. So, always probe for
->  	 * that first.
->  	 */
-> -	if (intel_dp_aux_supports_hdr_backlight(connector)) {
-> +	if (try_intel_interface && intel_dp_aux_supports_hdr_backlight(connector)) {
->  		drm_dbg(dev, "Using Intel proprietary eDP backlight controls\n");
->  		panel->backlight.funcs = &intel_dp_hdr_bl_funcs;
->  		return 0;
->  	}
->  
-> -	if (intel_dp_aux_supports_vesa_backlight(connector)) {
-> +	if (try_vesa_interface && intel_dp_aux_supports_vesa_backlight(connector)) {
->  		drm_dbg(dev, "Using VESA eDP backlight controls\n");
->  		panel->backlight.funcs = &intel_dp_vesa_bl_funcs;
->  		return 0;
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index 7f139ea4a90b..6939634e56ed 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -185,7 +185,7 @@ i915_param_named_unsafe(inject_probe_failure, uint, 0400,
->  
->  i915_param_named(enable_dpcd_backlight, int, 0400,
->  	"Enable support for DPCD backlight control"
-> -	"(-1=use per-VBT LFP backlight type setting [default], 0=disabled, 1=enabled)");
-> +	"(-1=use per-VBT LFP backlight type setting [default], 0=disabled, 1=enable, 2=force VESA interface, 3=force Intel interface)");
->  
->  #if IS_ENABLED(CONFIG_DRM_I915_GVT)
->  i915_param_named(enable_gvt, bool, 0400,
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
