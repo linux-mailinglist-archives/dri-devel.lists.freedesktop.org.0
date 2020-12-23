@@ -1,64 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA5A2E2AD1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:42:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F8C2E2ACD
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:42:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DC089BAE;
-	Fri, 25 Dec 2020 09:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DDD899E7;
+	Fri, 25 Dec 2020 09:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 057966E0AA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 15:38:23 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id q75so6504532wme.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 07:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=FLK03MoPTeVjiiFwNtS1OJi+2ld8fgev60+sqAPXpLo=;
- b=aC3XOqzY6SoQTeia6KLuOxot8sYnDpr+WcX5Gf8TnqSRzAGywSgSslZ3koDvjM6ib3
- Pdi8mTDstbmvSu74oQEOtEGOcaGapMdnt2guYjiyiuNyI9a0TublPIgvHTytVaRBjlZT
- P6j/dMWOfY+mTZFcmLTsQreejEnkaqN7T3glvlvOKrKRJBytjK48P5nyy1ekeQIxEJAB
- gda50nuPKtQTzYWtUjJf88582ql+s/mzHL29B5zze3o1y6CijcBcwgJuKKQ8+HjIiYYF
- PGpvC72eJLuyXVCZV+q1RrmtxpKoco3/pXOVOVNIk2k/ntzBIAeEEqbwtGUoGa90XnNF
- ZrPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FLK03MoPTeVjiiFwNtS1OJi+2ld8fgev60+sqAPXpLo=;
- b=OMDyuxbRcin3ntaf3LjwPRFM+pjnMVBOk5u0oarpBaxGgqIVKCgEj6BxgcXaUjHfQi
- Q8881w6EKqxgsGHPtFnLlE1+glVB2+AxPMrNUU6znjmF5G4HYLiGNUY736vQLSyT2Ipg
- 3uavTf1s2wYxVgU3PR+FTIWAPxFAcCCiI7PL2BINrF3F9tg8lu2JT7E3B4ao/OZuhymz
- N6kG4OHs8+NpTWPl6UV7zQ0s66+OD5WkApRqW4YpArt+JHeISE7ghFp7asZud4ZmPymk
- XE/ri0u4WZFpw25T5EnyPgzXCCT1I0Yu+xn8twpMjQyrPJsgu4RvEvbMRXs3L/xU7hMk
- T0ig==
-X-Gm-Message-State: AOAM532glq+vkCjjKnCT1feYmQEID2H9lgMYZ5ekVvQJnN4Ur+nJPi17
- 8Pxy53PQ/PT+3vmk0tCWNWp8zA==
-X-Google-Smtp-Source: ABdhPJytXmL1Uj/jup8IDzFLZKwpMK6mZxS/1lbVrDQSOq3KCd2Df1ttM6R0Ksfu/w1e0jCslBiSlA==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr301307wmi.128.1608737901527; 
- Wed, 23 Dec 2020 07:38:21 -0800 (PST)
-Received: from MacBook-Pro.local ([212.45.64.13])
- by smtp.googlemail.com with ESMTPSA id y11sm212109wmi.0.2020.12.23.07.38.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Dec 2020 07:38:20 -0800 (PST)
-Subject: Re: [PATCH v2 1/7] iommu/io-pgtable: Introduce dynamic io-pgtable fmt
- registration
-To: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-References: <1608597876-32367-1-git-send-email-isaacm@codeaurora.org>
- <1608597876-32367-2-git-send-email-isaacm@codeaurora.org>
-From: Georgi Djakov <georgi.djakov@linaro.org>
-Message-ID: <65b5382c-c7a9-0f18-96da-fe49e92e3b00@linaro.org>
-Date: Wed, 23 Dec 2020 17:38:19 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A86256E878
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 19:51:17 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>) id 1ksAAG-0001MX-0n
+ for dri-devel@lists.freedesktop.org; Wed, 23 Dec 2020 20:51:16 +0100
+Received: from dspam.blackshift.org (localhost [127.0.0.1])
+ by bjornoya.blackshift.org (Postfix) with SMTP id 099795B2ACB
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 19:51:14 +0000 (UTC)
+Received: from hardanger.blackshift.org (unknown [172.20.34.65])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by bjornoya.blackshift.org (Postfix) with ESMTPS id 557085B2AC8;
+ Wed, 23 Dec 2020 19:51:14 +0000 (UTC)
+Received: from blackshift.org (localhost [::1])
+ by hardanger.blackshift.org (OpenSMTPD) with ESMTP id 9d05f08d;
+ Wed, 23 Dec 2020 19:51:13 +0000 (UTC)
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: dump: fix sparse warnings
+Date: Wed, 23 Dec 2020 20:51:10 +0100
+Message-Id: <20201223195110.2264558-1-mkl@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <1608597876-32367-2-git-send-email-isaacm@codeaurora.org>
-Content-Language: en-US
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Fri, 25 Dec 2020 09:42:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,53 +56,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: will@kernel.org, pdaly@codeaurora.org, kernel-team@android.com,
- joro@8bytes.org, robin.murphy@arm.com, pratikp@codeaurora.org
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>, etnaviv@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Isaac,
+This patch fixes the following sparse warnings, by adding the missing endianess
+conversion functions.
 
-On 22.12.20 2:44, Isaac J. Manjarres wrote:
-> The io-pgtable code constructs an array of init functions for each
-> page table format at compile time. This is not ideal, as this
-> increases the footprint of the io-pgtable code, as well as prevents
-> io-pgtable formats from being built as kernel modules.
-> 
-> In preparation for modularizing the io-pgtable formats, switch to a
-> dynamic registration scheme, where each io-pgtable format can register
-> their init functions with the io-pgtable code at boot or module
-> insertion time.
-> 
-> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> ---
->   drivers/iommu/io-pgtable-arm-v7s.c | 34 +++++++++++++-
->   drivers/iommu/io-pgtable-arm.c     | 90 ++++++++++++++++++++++++++----------
->   drivers/iommu/io-pgtable.c         | 94 ++++++++++++++++++++++++++++++++------
->   include/linux/io-pgtable.h         | 51 +++++++++++++--------
->   4 files changed, 209 insertions(+), 60 deletions(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-> index 1d92ac9..89aad2f 100644
-> --- a/drivers/iommu/io-pgtable-arm-v7s.c
-> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
-> @@ -28,6 +28,7 @@
-[..]
-> +static int __init arm_lpae_init(void)
-> +{
-> +	int ret, i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(io_pgtable_arm_lpae_init_fns); i++) {
-> +		ret = io_pgtable_ops_register(&io_pgtable_arm_lpae_init_fns[i]);
-> +		if (ret < 0) {
-> +			pr_err("Failed to register ARM LPAE fmt: %d\n");
+| etnaviv/etnaviv_dump.c:78:26: warning: restricted __le32 degrades to integer
+| etnaviv/etnaviv_dump.c:88:26: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:88:26:    expected restricted __le32 [usertype] reg
+| etnaviv/etnaviv_dump.c:88:26:    got unsigned short const
+| etnaviv/etnaviv_dump.c:89:28: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:89:28:    expected restricted __le32 [usertype] value
+| etnaviv/etnaviv_dump.c:89:28:    got unsigned int
+| etnaviv/etnaviv_dump.c:210:43: warning: incorrect type in assignment (different base types)
+| etnaviv/etnaviv_dump.c:210:43:    expected restricted __le32
+| etnaviv/etnaviv_dump.c:210:43:    got long
 
-I guess we want to print the format here?
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_dump.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks,
-Georgi
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+index 706af0304ca4..f418e0b75772 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
+@@ -75,7 +75,7 @@ static void etnaviv_core_dump_header(struct core_dump_iterator *iter,
+ 	hdr->file_size = cpu_to_le32(data_end - iter->data);
+ 
+ 	iter->hdr++;
+-	iter->data += hdr->file_size;
++	iter->data += le32_to_cpu(hdr->file_size);
+ }
+ 
+ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
+@@ -85,8 +85,8 @@ static void etnaviv_core_dump_registers(struct core_dump_iterator *iter,
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(etnaviv_dump_registers); i++, reg++) {
+-		reg->reg = etnaviv_dump_registers[i];
+-		reg->value = gpu_read(gpu, etnaviv_dump_registers[i]);
++		reg->reg = cpu_to_le32(etnaviv_dump_registers[i]);
++		reg->value = cpu_to_le32(gpu_read(gpu, etnaviv_dump_registers[i]));
+ 	}
+ 
+ 	etnaviv_core_dump_header(iter, ETDUMP_BUF_REG, reg);
+@@ -207,7 +207,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
+ 		if (!IS_ERR(pages)) {
+ 			int j;
+ 
+-			iter.hdr->data[0] = bomap - bomap_start;
++			iter.hdr->data[0] = cpu_to_le32((bomap - bomap_start));
+ 
+ 			for (j = 0; j < obj->base.size >> PAGE_SHIFT; j++)
+ 				*bomap++ = cpu_to_le64(page_to_phys(*pages++));
+-- 
+2.29.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
