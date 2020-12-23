@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A082E1254
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:21:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB642E1261
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:23:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D23F26E8BA;
-	Wed, 23 Dec 2020 02:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF646E8BC;
+	Wed, 23 Dec 2020 02:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 422BE6E8BA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 02:21:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 77F69229C5;
- Wed, 23 Dec 2020 02:21:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF9B6E8BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 02:23:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89D8B23381;
+ Wed, 23 Dec 2020 02:23:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608690090;
- bh=sjsxwSsEpgt+R52matsY4bZqIscB9zmfputfgVf0/98=;
+ s=k20201202; t=1608690189;
+ bh=d+jnG9khOxDlTsbt+UFQssINvJMTzV+aT2ypQH3ZMMo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sBdtIfY5I8wLgeqvf8ZCy9fuyY0MYtLvaBo/dfzAehAEhtiAqrPNEWeRopATyLpP4
- Xugzre6RSRCIuhuVux5YC+15pUINCikJqL5k7E+VScLC8uhi5Om5fBykiHTj+/+79Q
- X63t1/dsWvMFDV2VO2IYOt36T/kWQP8ScaPMo8xn04aOWeF+j14a9VPuuUeZMhI95X
- XkzT9WLthEKEqTRP09zbLwtg2KCmEE0UcgdFguT0gsw4KkStD1D4RY1nb/TOiPqCNg
- M+u3yXvmeTGaf3pqF1y6+n7O7mP77ziqszS8AMekWkphK+33KqH8RNutVfQ+D2baIB
- rtTUuaz0Pn2Ig==
+ b=sgJORgoiL3j0yBi7h/HGTHghhdVEKcDzFCbZ5UGz4oeDnO78hPxqBNnQaQxhHi5LO
+ UUjRgZXptZYQxzcsZwTNa5CC4tW9/DYiGo/DTq/dfKuVGA5i4kdhkNnrnCx6eJDw6r
+ GV0QHq+xDO51S+HkXH7RlPZqtJNUCaIxjirCg4HY6cbCHjh6H8OCV1F63jeX8/23us
+ WmjgnSOtQLTuYlEXPtix1/icii2i57lsv9gKjNCFLrL4KJdLr8eOC8eGRSHp9ZXqR4
+ fffgT+OFeWWf3MAatErcJozC9Kr/JEXEAA6pZQBsIAeu1F1SunDtYGbRaGvs3NVLMi
+ nq8PRDf9Tn7mg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 21/87] drm/omap: Fix runtime PM imbalance on error
-Date: Tue, 22 Dec 2020 21:19:57 -0500
-Message-Id: <20201223022103.2792705-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 13/66] drm: panel: simple: add missing
+ platform_driver_unregister() in panel_simple_init
+Date: Tue, 22 Dec 2020 21:21:59 -0500
+Message-Id: <20201223022253.2793452-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
-References: <20201223022103.2792705-1-sashal@kernel.org>
+In-Reply-To: <20201223022253.2793452-1-sashal@kernel.org>
+References: <20201223022253.2793452-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,145 +49,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org, Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Qinglang Miao <miaoqinglang@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+From: Qinglang Miao <miaoqinglang@huawei.com>
 
-[ Upstream commit a5d704d33245b0799947a3008f9f376dba4d5c91 ]
+[ Upstream commit f2e66f212a9de04afc2caa5ec79057c0ac75c728 ]
 
-pm_runtime_get_sync() increments the runtime PM usage counter
-even when it returns an error code. However, users of its
-direct wrappers in omapdrm assume that PM usage counter will
-not change on error. Thus a pairing decrement is needed on
-the error handling path for these wrappers to keep the counter
-balanced.
+Add the missing platform_driver_unregister() before return
+from panel_simple_init in the error handling case when failed
+to register panel_simple_dsi_driver with CONFIG_DRM_MIPI_DSI
+enabled.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200822065743.13671-1-dinghao.liu@zju.edu.cn
+Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20201031011856.137307-1-miaoqinglang@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/omapdrm/dss/dispc.c | 7 +++++--
- drivers/gpu/drm/omapdrm/dss/dsi.c   | 7 +++++--
- drivers/gpu/drm/omapdrm/dss/dss.c   | 7 +++++--
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 6 +++---
- drivers/gpu/drm/omapdrm/dss/hdmi5.c | 6 +++---
- drivers/gpu/drm/omapdrm/dss/venc.c  | 7 +++++--
- 6 files changed, 26 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index 84f274c4a4cbf..9dbe952872785 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -675,8 +675,11 @@ int dispc_runtime_get(struct dispc_device *dispc)
- 	DSSDBG("dispc_runtime_get\n");
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 6df312ba1826b..37b018a81ee0e 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2417,8 +2417,10 @@ static int __init panel_simple_init(void)
  
- 	r = pm_runtime_get_sync(&dispc->pdev->dev);
--	WARN_ON(r < 0);
--	return r < 0 ? r : 0;
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&dispc->pdev->dev);
-+		return r;
-+	}
-+	return 0;
- }
+ 	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI)) {
+ 		err = mipi_dsi_driver_register(&panel_simple_dsi_driver);
+-		if (err < 0)
++		if (err < 0) {
++			platform_driver_unregister(&panel_simple_platform_driver);
+ 			return err;
++		}
+ 	}
  
- void dispc_runtime_put(struct dispc_device *dispc)
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 8160954ebc257..80e8efcb8acf7 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -1143,8 +1143,11 @@ static int dsi_runtime_get(struct dsi_data *dsi)
- 	DSSDBG("dsi_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(dsi->dev);
--	WARN_ON(r < 0);
--	return r < 0 ? r : 0;
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(dsi->dev);
-+		return r;
-+	}
-+	return 0;
- }
- 
- static void dsi_runtime_put(struct dsi_data *dsi)
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index 7e9e2f0644544..9db2454b25488 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -878,8 +878,11 @@ int dss_runtime_get(struct dss_device *dss)
- 	DSSDBG("dss_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(&dss->pdev->dev);
--	WARN_ON(r < 0);
--	return r < 0 ? r : 0;
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&dss->pdev->dev);
-+		return r;
-+	}
-+	return 0;
- }
- 
- void dss_runtime_put(struct dss_device *dss)
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index 5879f45f6fc9b..38bdf50d39a58 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -52,10 +52,10 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
- 	DSSDBG("hdmi_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(&hdmi->pdev->dev);
--	WARN_ON(r < 0);
--	if (r < 0)
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&hdmi->pdev->dev);
- 		return r;
--
-+	}
  	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-index ae1a001d1b838..16f33aa5ad185 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-@@ -53,10 +53,10 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
- 	DSSDBG("hdmi_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(&hdmi->pdev->dev);
--	WARN_ON(r < 0);
--	if (r < 0)
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&hdmi->pdev->dev);
- 		return r;
--
-+	}
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index ac01907dcc345..9ef2942d938fd 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -438,8 +438,11 @@ static int venc_runtime_get(struct venc_device *venc)
- 	DSSDBG("venc_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(&venc->pdev->dev);
--	WARN_ON(r < 0);
--	return r < 0 ? r : 0;
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&venc->pdev->dev);
-+		return r;
-+	}
-+	return 0;
- }
- 
- static void venc_runtime_put(struct venc_device *venc)
 -- 
 2.27.0
 
