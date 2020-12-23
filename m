@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA62E2168
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 21:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865A42E2169
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 21:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7905F89E26;
-	Wed, 23 Dec 2020 20:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FDF96E884;
+	Wed, 23 Dec 2020 20:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 542 seconds by postgrey-1.36 at gabe;
- Wed, 23 Dec 2020 20:37:01 UTC
 Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3A589E26
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00C4E6E884
  for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 20:37:01 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.194]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N6svJ-1jzMda1QVT-018INl; Wed, 23 Dec 2020 21:27:53 +0100
+ id 1N1whr-1juOHo3Ia1-012GVD; Wed, 23 Dec 2020 21:27:53 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Eric Anholt <eric@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: [PATCH 1/4] drm/v3d: Use platform_get_irq_optional() to get optional
- IRQs
-Date: Wed, 23 Dec 2020 21:27:22 +0100
-Message-Id: <1608755245-18069-2-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 2/4] drm/v3d: Set dma_mask as well as coherent_dma_mask
+Date: Wed, 23 Dec 2020 21:27:23 +0100
+Message-Id: <1608755245-18069-3-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1608755245-18069-1-git-send-email-stefan.wahren@i2se.com>
 References: <1608755245-18069-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:UmY82BR7rIwpmorUyFeWjROyE6WY47qOwlB8r+JVH4RCPmQCUcf
- /JAGJRQ1tV8xmoYrFUuafXTqdVrjQ9cCxvPb4ZSUL/Mq42AN8lqRPE4Sx65leZXNTl+2pbu
- QQmcwUxOscziTZqGaYEjMAodD1vdQ6GbqkTIBJKxxQGAzh55CkCcFgPE9TsM90GsXXxo0KW
- SehPGRQ+7K4fvJFfyJReg==
+X-Provags-ID: V03:K1:I6eIz9QT5FQaoqLrLyudDnWIK7ylWVUNJTT6VXZQmaNclBOqxaG
+ QZjbnv5FMeEat5VFJ+unjzj8N7FCH3XIQ6EpPDqhfQiTHRnfhdL9e+Jfr4b4iLYDM/UCPCz
+ 4tQOZuy1P/qUJgVav08EX+dGubKdBddKK4G/PVQ01mNVbqkyb9uV3MYO+s9PHUE3GoXo5OO
+ tGzgkovKr2fvv9P3sk1mw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:24XSKgx8VDU=:cLAAdMmC1H5YB4vOqbohi3
- w3emJHW6Y+fx7wbmlJibE+NKfp+P3DfebOpDnLKZu4Mnw0T3wytVzofkZxmyqVqbWb71TymLR
- VwK7GMAMo0h5sXgtan9FhYHV/MHS7MqdeZTry69Ixi1BNLu03GUaqy1hXMe+2xhnh60aGKcSm
- jiJ8F5rZJ2mpNTwbspYvXAE0BzkisDhnwRDY1KzFFYfkqpENh1IMfVIM8ooKtX6c/zwv6T5ng
- Rg2StjtvjF+TB8EIsAFCX15riS2tj9+HtzqPP/49AaYCq7BYo/UkSRv3X1Xv0p85QXVZwzmah
- bvhRcgkZpt2mO3K8WROg5nL5mhYjTHl8DimRl6TVot0X5JUS9Erw6+9E1AX+72p8NatRYb3ik
- QVt70AxCn1m8eHBGsEgkgm1rujbisTy6Ksv9ZhcpuwPQKAhXi3ta3yuiGrsWgvsp+C8ANIMP1
- T4hIazfesw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:f4ulNhO4dPI=:N+Axddp0i7+PlfmHeF7GVv
+ Zz7ELScBSx3Oq/tvMoQerl2WHQqobEhzbLd7f1kSxAbZ+Tvsbx2KqXe4hwj14/GJpu+yhWHrq
+ 3aCpxHtxOp9vdHvNJFaYtbibOhO34G9cy46Ov/8xc7J9PRPoLdRwnCf/wxJ6W/cWqfuYIb/6w
+ rZ+5e2rgWGX0RByNL+QYCvyv839YQah4lKkeWeFwKjEa+ku7tf+6bUg/zCharnOnvxWgsAPAw
+ 2VWyKE197gdmI+7t1bA1loLEBTrEMBWtrZOnuNHqZALO0fo5R5esbuyvgD7sZJ6U4dnQJcT5c
+ 0HmKi00SyyDWs3tuDIv88e1KIbgwnzooLAEO1KqveKmVrGwAtJoYBB+j9Ha70/7graXy9x5+a
+ qynO3fZC23tzadI0AmpTkwkmV7uJYvJLIwiEtRHUh/bbzloKLtcM2AUWHuMnwnj2AMtquZ5K4
+ gbGcxnPAfw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +51,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Phil Elwell <phil@raspberrypi.org>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+From: Phil Elwell <phil@raspberrypi.org>
 
-Aside from being more correct, the non optional version of the function
-prints an error when failing to find the IRQ.
+Both coherent_dma_mask and dma_mask act as constraints on allocations
+and bounce buffer usage, so be sure to set dma_mask to the appropriate
+value otherwise the effective mask could be incorrect.
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Signed-off-by: Phil Elwell <phil@raspberrypi.org>
 ---
- drivers/gpu/drm/v3d/v3d_irq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/v3d/v3d_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index c886864..0be2eb7 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -217,7 +217,7 @@ v3d_irq_init(struct v3d_dev *v3d)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
- 	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 42d401f..99e22be 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -232,8 +232,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 		return ret;
  
--	irq1 = platform_get_irq(v3d_to_pdev(v3d), 1);
-+	irq1 = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
- 	if (irq1 == -EPROBE_DEFER)
- 		return irq1;
- 	if (irq1 > 0) {
+ 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+-	dev->coherent_dma_mask =
+-		DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
++	dma_set_mask_and_coherent(dev,
++		DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH)));
+ 	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
+ 
+ 	ident1 = V3D_READ(V3D_HUB_IDENT1);
 -- 
 2.7.4
 
