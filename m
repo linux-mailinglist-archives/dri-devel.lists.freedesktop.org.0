@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6869B2E11BA
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136E52E11B7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:17:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5F646E8A2;
-	Wed, 23 Dec 2020 02:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C486E89B;
+	Wed, 23 Dec 2020 02:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0AB26E897;
- Wed, 23 Dec 2020 02:16:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B500223139;
- Wed, 23 Dec 2020 02:16:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D206E89B;
+ Wed, 23 Dec 2020 02:17:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A3232332A;
+ Wed, 23 Dec 2020 02:16:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689818;
- bh=nA1IdGe3B+/2p3KYi1kkF0FwnQzejUL02uJ+uHEq1uE=;
+ s=k20201202; t=1608689820;
+ bh=A8jWh6VXs3eNoGFczwY5tHyt/pPzLelK9IqcsggWE0g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BwZXr/2zBRZQLixaFMzoSAf/LULe5lvCzLHSMkdMH6dk2Wtand3K+OpSoCQL+8T4b
- cVNM/yaJeZo+J6tvZJbZltC7Bda38Ra0BC6YCsm9K/Hi9h6BTPJ82c/0px2XzjnOC0
- dzs+eTAkPm3psI8hnBbA7FCCq5QZ4ahYiFlzPf1o9I9+7P8oo/y4syEgq9Pz/WtFa3
- 16WQYVxPQMQ3sQgdFopKmsJ1RGbqqldEzdceZT5iuC78MGiOR+71NdSfMFMYr7oInA
- d4hiNH6L+tq7EGT8589D1zP5J0e3YT4VbO8rLDI6ZN2P3ELyGoY9gLWrMVV0rz9FIe
- I9vyL7nwkqWew==
+ b=gShbQzsEF9zRoHkYA+QPPQyCZyyH/ZFZw6VNYb6okF6MT/K0xMgXac52Q8pLR2cKs
+ 0FKyKLrgnJiljnmV0N0D/qw12XXS82CxWiNzSitK0m3uo/GZC03+NlJRuXorEaJraT
+ F48I2Vr6C9BhR1xNrQZjfOolmKxgavmOKT6h0/ki3cTNB1Qn17EvfFpZaBYoGG/Swx
+ nA2NPPlrFP4h66ed545USNeCqGkgBSRLjgA9G3Ig0LrUGLSdOSHMUMG8u3Bel1I/KT
+ 0noYoh+s4v9D/2KhHXW9Dkr3xgTKUCX1zmlZvwKfzh6DqHkbGQr/J+L1mzq0HmvYcE
+ z3Uv4Vb/N9MRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 024/217] drm/amd/display: fix recout calculation
- for left side clip
-Date: Tue, 22 Dec 2020 21:13:13 -0500
-Message-Id: <20201223021626.2790791-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 025/217] drm/amdgpu: disable gfxoff if VCN is busy
+Date: Tue, 22 Dec 2020 21:13:14 -0500
+Message-Id: <20201223021626.2790791-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
 References: <20201223021626.2790791-1-sashal@kernel.org>
@@ -49,55 +48,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- amd-gfx@lists.freedesktop.org, Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Jiansong Chen <Jiansong.Chen@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, James Zhu <James.Zhu@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+From: Jiansong Chen <Jiansong.Chen@amd.com>
 
-[ Upstream commit 84aef2ab0977199784671295a07043191233d7c7 ]
+[ Upstream commit ef3b2987254035f9b869f70151b4220c34f2f133 ]
 
-Recout calculation does not corrrectly handle plane
-clip rect that extends beyond the left most border
-of stream source rect. This change adds handling by
-truncating the invisible clip rect.
+Toggle on/off gfxoff during video playback to fix gpu hang.
 
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+v2: change sequence to be more compatible with original code.
+
+Signed-off-by: Jiansong Chen <Jiansong.Chen@amd.com>
+Reviewed-by: James Zhu <James.Zhu@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 59d48cf819ea8..6d606cc32b09e 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -796,6 +796,8 @@ static void calculate_recout(struct pipe_ctx *pipe_ctx)
- 	} else
- 		data->recout.x = 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+index a563328e3daea..ee6a42c81bd99 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+@@ -345,6 +345,7 @@ static void amdgpu_vcn_idle_work_handler(struct work_struct *work)
+ 	}
  
-+	if (stream->src.x > surf_clip.x)
-+		surf_clip.width -= stream->src.x - surf_clip.x;
- 	data->recout.width = surf_clip.width * stream->dst.width / stream->src.width;
- 	if (data->recout.width + data->recout.x > stream->dst.x + stream->dst.width)
- 		data->recout.width = stream->dst.x + stream->dst.width - data->recout.x;
-@@ -804,6 +806,8 @@ static void calculate_recout(struct pipe_ctx *pipe_ctx)
- 	if (stream->src.y < surf_clip.y)
- 		data->recout.y += (surf_clip.y - stream->src.y) * stream->dst.height
- 						/ stream->src.height;
-+	else if (stream->src.y > surf_clip.y)
-+		surf_clip.height -= stream->src.y - surf_clip.y;
+ 	if (!fences && !atomic_read(&adev->vcn.total_submission_cnt)) {
++		amdgpu_gfx_off_ctrl(adev, true);
+ 		amdgpu_device_ip_set_powergating_state(adev, AMD_IP_BLOCK_TYPE_VCN,
+ 		       AMD_PG_STATE_GATE);
+ 	} else {
+@@ -357,7 +358,9 @@ void amdgpu_vcn_ring_begin_use(struct amdgpu_ring *ring)
+ 	struct amdgpu_device *adev = ring->adev;
  
- 	data->recout.height = surf_clip.height * stream->dst.height / stream->src.height;
- 	if (data->recout.height + data->recout.y > stream->dst.y + stream->dst.height)
+ 	atomic_inc(&adev->vcn.total_submission_cnt);
+-	cancel_delayed_work_sync(&adev->vcn.idle_work);
++
++	if (!cancel_delayed_work_sync(&adev->vcn.idle_work))
++		amdgpu_gfx_off_ctrl(adev, false);
+ 
+ 	mutex_lock(&adev->vcn.vcn_pg_lock);
+ 	amdgpu_device_ip_set_powergating_state(adev, AMD_IP_BLOCK_TYPE_VCN,
 -- 
 2.27.0
 
