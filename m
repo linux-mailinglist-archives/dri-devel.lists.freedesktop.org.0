@@ -1,58 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D6D2E1B32
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E62852E1B1C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:51:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0736E906;
-	Wed, 23 Dec 2020 10:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2F96E8EB;
+	Wed, 23 Dec 2020 10:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3812A89ED3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 19:54:33 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1608666873; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=V8JRmC+JTwqXprUHV8OtTLYn1V/i01VrBgl64H9grZ4=;
- b=dvmKq9YO2h08RPtPw8Zi/yS5gjDIpzwfh1cJ1iVQjRtJq5PifhQuIrotqrYwCDOoyQ9nBdyO
- 8cquQ+ttTzVwoFrV/iby4mc+SCJaJY1nW93FDVsY84F8V4gtyoo8A6AQnnqnb512v/7WEbCX
- hoxSyFwR+jg+HHuvmKHISov+FZA=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5fe24ef8da47198188ed48dd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Dec 2020 19:54:32
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 42255C43462; Tue, 22 Dec 2020 19:54:32 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D42DFC433C6;
- Tue, 22 Dec 2020 19:54:29 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1DACD6E249
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 00:41:51 +0000 (UTC)
+X-UUID: 031c7a9ebe8349d8ab2d6c79c0700e39-20201223
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=9jJ4svNFHKxDjHPutm0Su8CS33+Bj17pwgYB/byVHIU=; 
+ b=XfwfZTooTgP+hkhKVwKDN7QWmnuq8D8XFKSJ8eJT4ZpPyFT8DLV3BXZkry/ZqGg47LnMHqaAMxWZ+W22jYMuvTXGx0p1mniYvyZ51hK3TFiLETGfb4DBLYl/YMMmMETTHKBjMOTqDPwEN9F4WI5htjk0VqdwB5CO5fc4ikVNrJ4=;
+X-UUID: 031c7a9ebe8349d8ab2d6c79c0700e39-20201223
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 31318354; Wed, 23 Dec 2020 08:41:48 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 23 Dec 2020 08:41:42 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 23 Dec 2020 08:41:41 +0800
+Message-ID: <1608684105.18252.2.camel@mhfsdcap03>
+Subject: Re: [PATCH v2, 2/2] soc: mediatek: mmsys: Use function call for
+ setting the routing registers
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Wed, 23 Dec 2020 08:41:45 +0800
+In-Reply-To: <CAJMQK-hHA_8MdU4d5SR1eJOupMJMF2k-D5t7bocaSX0PZBBG_w@mail.gmail.com>
+References: <1607506379-10998-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607506379-10998-3-git-send-email-yongqiang.niu@mediatek.com>
+ <CAJMQK-hHA_8MdU4d5SR1eJOupMJMF2k-D5t7bocaSX0PZBBG_w@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Date: Tue, 22 Dec 2020 11:54:29 -0800
-From: isaacm@codeaurora.org
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 1/7] iommu/io-pgtable: Introduce dynamic io-pgtable fmt
- registration
-In-Reply-To: <4f388512-c3df-e9fc-ebd4-624ab36a6858@arm.com>
-References: <1608597876-32367-1-git-send-email-isaacm@codeaurora.org>
- <1608597876-32367-2-git-send-email-isaacm@codeaurora.org>
- <4f388512-c3df-e9fc-ebd4-624ab36a6858@arm.com>
-Message-ID: <8b48b371811a170053e2ca810ab63abf@codeaurora.org>
-X-Sender: isaacm@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-MTK: N
 X-Mailman-Approved-At: Wed, 23 Dec 2020 10:51:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,452 +56,631 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-team@android.com, will@kernel.org, pdaly@codeaurora.org,
- linux-arm-msm@vger.kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- pratikp@codeaurora.org
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-12-22 11:27, Robin Murphy wrote:
-> On 2020-12-22 00:44, Isaac J. Manjarres wrote:
->> The io-pgtable code constructs an array of init functions for each
->> page table format at compile time. This is not ideal, as this
->> increases the footprint of the io-pgtable code, as well as prevents
->> io-pgtable formats from being built as kernel modules.
->> 
->> In preparation for modularizing the io-pgtable formats, switch to a
->> dynamic registration scheme, where each io-pgtable format can register
->> their init functions with the io-pgtable code at boot or module
->> insertion time.
->> 
->> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
->> ---
->>   drivers/iommu/io-pgtable-arm-v7s.c | 34 +++++++++++++-
->>   drivers/iommu/io-pgtable-arm.c     | 90 
->> ++++++++++++++++++++++++++----------
->>   drivers/iommu/io-pgtable.c         | 94 
->> ++++++++++++++++++++++++++++++++------
->>   include/linux/io-pgtable.h         | 51 +++++++++++++--------
->>   4 files changed, 209 insertions(+), 60 deletions(-)
->> 
->> diff --git a/drivers/iommu/io-pgtable-arm-v7s.c 
->> b/drivers/iommu/io-pgtable-arm-v7s.c
->> index 1d92ac9..89aad2f 100644
->> --- a/drivers/iommu/io-pgtable-arm-v7s.c
->> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
->> @@ -28,6 +28,7 @@
->>   #include <linux/iommu.h>
->>   #include <linux/kernel.h>
->>   #include <linux/kmemleak.h>
->> +#include <linux/module.h>
->>   #include <linux/sizes.h>
->>   #include <linux/slab.h>
->>   #include <linux/spinlock.h>
->> @@ -835,7 +836,8 @@ static struct io_pgtable 
->> *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
->>   	return NULL;
->>   }
->>   -struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns = {
->> +static struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns = {
->> +	.fmt	= ARM_V7S,
->>   	.alloc	= arm_v7s_alloc_pgtable,
->>   	.free	= arm_v7s_free_pgtable,
->>   };
->> @@ -982,5 +984,33 @@ static int __init arm_v7s_do_selftests(void)
->>   	pr_info("self test ok\n");
->>   	return 0;
->>   }
->> -subsys_initcall(arm_v7s_do_selftests);
->> +#else
->> +static int arm_v7s_do_selftests(void)
->> +{
->> +	return 0;
->> +}
->>   #endif
->> +
->> +static int __init arm_v7s_init(void)
->> +{
->> +	int ret;
->> +
->> +	ret = io_pgtable_ops_register(&io_pgtable_arm_v7s_init_fns);
->> +	if (ret < 0) {
->> +		pr_err("Failed to register ARM V7S format\n");
+On Thu, 2020-12-17 at 14:04 +0800, Hsin-Yi Wang wrote:
+> On Wed, Dec 9, 2020 at 9:32 AM Yongqiang Niu <yongqiang.niu@mediatek.com> wrote:
+> >
+> > Actually, setting the registers for routing, use multiple 'if-else' for different
+> > routes, but this code would be more and more complicated while we
+> > support more and more SoCs. Change that and use a function call per SoC so the
+> > code will be more portable and clear.
+> >
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > ---
+> >  drivers/soc/mediatek/mmsys/Makefile       |   3 +-
+> >  drivers/soc/mediatek/mmsys/mt2701-mmsys.c | 233 +++++++++++++++++++++++++++++
+> >  drivers/soc/mediatek/mmsys/mtk-mmsys.c    | 241 +++---------------------------
+> >  include/linux/soc/mediatek/mtk-mmsys.h    |  14 ++
+> >  4 files changed, 268 insertions(+), 223 deletions(-)
+> >  create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> >
+> > diff --git a/drivers/soc/mediatek/mmsys/Makefile b/drivers/soc/mediatek/mmsys/Makefile
+> > index 5d976d7..ac03025 100644
+> > --- a/drivers/soc/mediatek/mmsys/Makefile
+> > +++ b/drivers/soc/mediatek/mmsys/Makefile
+> > @@ -1,2 +1,3 @@
+> >  # SPDX-License-Identifier: GPL-2.0-only
+> > -obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+> > \ No newline at end of file
+> > +obj-$(CONFIG_MTK_MMSYS) += mt2701-mmsys.o
+> > +obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+> > diff --git a/drivers/soc/mediatek/mmsys/mt2701-mmsys.c b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> > new file mode 100644
+> > index 0000000..40576d3
+> > --- /dev/null
+> > +++ b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> > @@ -0,0 +1,233 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2020 MediaTek Inc.
+> > + */
+> > +
+> > +#include <linux/device.h>
+> > +#include <linux/io.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/soc/mediatek/mtk-mmsys.h>
+> > +
+> > +#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN      0x040
+> > +#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN      0x044
+> > +#define DISP_REG_CONFIG_DISP_OD_MOUT_EN                0x048
+> > +#define DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN     0x04c
+> > +#define DISP_REG_CONFIG_DISP_UFOE_MOUT_EN      0x050
+> > +#define DISP_REG_CONFIG_DISP_COLOR0_SEL_IN     0x084
+> > +#define DISP_REG_CONFIG_DISP_COLOR1_SEL_IN     0x088
+> > +#define DISP_REG_CONFIG_DSIE_SEL_IN            0x0a4
+> > +#define DISP_REG_CONFIG_DSIO_SEL_IN            0x0a8
+> > +#define DISP_REG_CONFIG_DPI_SEL_IN             0x0ac
+> > +#define DISP_REG_CONFIG_DISP_RDMA2_SOUT                0x0b8
+> > +#define DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN     0x0c4
+> > +#define DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN     0x0c8
+> > +#define DISP_REG_CONFIG_MMSYS_CG_CON0          0x100
+> > +
+> > +#define DISP_REG_CONFIG_DISP_OVL_MOUT_EN       0x030
+> > +#define DISP_REG_CONFIG_OUT_SEL                        0x04c
+> > +#define DISP_REG_CONFIG_DSI_SEL                        0x050
+> > +#define DISP_REG_CONFIG_DPI_SEL                        0x064
+> > +
+> > +#define OVL0_MOUT_EN_COLOR0                    0x1
+> > +#define OD_MOUT_EN_RDMA0                       0x1
+> > +#define OD1_MOUT_EN_RDMA1                      BIT(16)
+> > +#define UFOE_MOUT_EN_DSI0                      0x1
+> > +#define COLOR0_SEL_IN_OVL0                     0x1
+> > +#define OVL1_MOUT_EN_COLOR1                    0x1
+> > +#define GAMMA_MOUT_EN_RDMA1                    0x1
+> > +#define RDMA0_SOUT_DPI0                                0x2
+> > +#define RDMA0_SOUT_DPI1                                0x3
+> > +#define RDMA0_SOUT_DSI1                                0x1
+> > +#define RDMA0_SOUT_DSI2                                0x4
+> > +#define RDMA0_SOUT_DSI3                                0x5
+> > +#define RDMA1_SOUT_DPI0                                0x2
+> > +#define RDMA1_SOUT_DPI1                                0x3
+> > +#define RDMA1_SOUT_DSI1                                0x1
+> > +#define RDMA1_SOUT_DSI2                                0x4
+> > +#define RDMA1_SOUT_DSI3                                0x5
+> > +#define RDMA2_SOUT_DPI0                                0x2
+> > +#define RDMA2_SOUT_DPI1                                0x3
+> > +#define RDMA2_SOUT_DSI1                                0x1
+> > +#define RDMA2_SOUT_DSI2                                0x4
+> > +#define RDMA2_SOUT_DSI3                                0x5
+> > +#define DPI0_SEL_IN_RDMA1                      0x1
+> > +#define DPI0_SEL_IN_RDMA2                      0x3
+> > +#define DPI1_SEL_IN_RDMA1                      (0x1 << 8)
+> > +#define DPI1_SEL_IN_RDMA2                      (0x3 << 8)
+> > +#define DSI0_SEL_IN_RDMA1                      0x1
+> > +#define DSI0_SEL_IN_RDMA2                      0x4
+> > +#define DSI1_SEL_IN_RDMA1                      0x1
+> > +#define DSI1_SEL_IN_RDMA2                      0x4
+> > +#define DSI2_SEL_IN_RDMA1                      (0x1 << 16)
+> > +#define DSI2_SEL_IN_RDMA2                      (0x4 << 16)
+> > +#define DSI3_SEL_IN_RDMA1                      (0x1 << 16)
+> > +#define DSI3_SEL_IN_RDMA2                      (0x4 << 16)
+> > +#define COLOR1_SEL_IN_OVL1                     0x1
+> > +
+> > +#define OVL_MOUT_EN_RDMA                       0x1
+> > +#define BLS_TO_DSI_RDMA1_TO_DPI1               0x8
+> > +#define BLS_TO_DPI_RDMA1_TO_DSI                        0x2
+> > +#define DSI_SEL_IN_BLS                         0x0
+> > +#define DPI_SEL_IN_BLS                         0x0
+> > +#define DSI_SEL_IN_RDMA                                0x1
+> > +
+> > +static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
+> > +                                         enum mtk_ddp_comp_id next,
+> > +                                         unsigned int *addr)
+> > +{
+> > +       unsigned int value;
+> > +
+> > +       if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_OVL0_MOUT_EN;
+> > +               value = OVL0_MOUT_EN_COLOR0;
+> > +       } else if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_RDMA0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_OVL_MOUT_EN;
+> > +               value = OVL_MOUT_EN_RDMA;
+> > +       } else if (cur == DDP_COMPONENT_OD0 && next == DDP_COMPONENT_RDMA0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+> > +               value = OD_MOUT_EN_RDMA0;
+> > +       } else if (cur == DDP_COMPONENT_UFOE && next == DDP_COMPONENT_DSI0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_UFOE_MOUT_EN;
+> > +               value = UFOE_MOUT_EN_DSI0;
+> > +       } else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_OVL1_MOUT_EN;
+> > +               value = OVL1_MOUT_EN_COLOR1;
+> > +       } else if (cur == DDP_COMPONENT_GAMMA && next == DDP_COMPONENT_RDMA1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN;
+> > +               value = GAMMA_MOUT_EN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_OD1 && next == DDP_COMPONENT_RDMA1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+> > +               value = OD1_MOUT_EN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > +               value = RDMA0_SOUT_DPI0;
+> > +       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > +               value = RDMA0_SOUT_DPI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > +               value = RDMA0_SOUT_DSI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > +               value = RDMA0_SOUT_DSI2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > +               value = RDMA0_SOUT_DSI3;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > +               value = RDMA1_SOUT_DSI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > +               value = RDMA1_SOUT_DSI2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > +               value = RDMA1_SOUT_DSI3;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > +               value = RDMA1_SOUT_DPI0;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > +               value = RDMA1_SOUT_DPI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > +               value = RDMA2_SOUT_DPI0;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > +               value = RDMA2_SOUT_DPI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > +               value = RDMA2_SOUT_DSI1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > +               value = RDMA2_SOUT_DSI2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+> > +               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > +               value = RDMA2_SOUT_DSI3;
+> > +       } else {
+> > +               value = 0;
+> > +       }
+> > +
+> > +       return value;
+> > +}
+> > +
+> > +static unsigned int mtk_mmsys_ddp_sel_in(enum mtk_ddp_comp_id cur,
+> > +                                        enum mtk_ddp_comp_id next,
+> > +                                        unsigned int *addr)
+> > +{
+> > +       unsigned int value;
+> > +
+> > +       if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+> > +               *addr = DISP_REG_CONFIG_DISP_COLOR0_SEL_IN;
+> > +               value = COLOR0_SEL_IN_OVL0;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+> > +               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > +               value = DPI0_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+> > +               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > +               value = DPI1_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
+> > +               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > +               value = DSI0_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+> > +               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > +               value = DSI1_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+> > +               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > +               value = DSI2_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+> > +               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > +               value = DSI3_SEL_IN_RDMA1;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+> > +               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > +               value = DPI0_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+> > +               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > +               value = DPI1_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI0) {
+> > +               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > +               value = DSI0_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+> > +               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > +               value = DSI1_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+> > +               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > +               value = DSI2_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+> > +               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > +               value = DSI3_SEL_IN_RDMA2;
+> > +       } else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+> > +               *addr = DISP_REG_CONFIG_DISP_COLOR1_SEL_IN;
+> > +               value = COLOR1_SEL_IN_OVL1;
+> > +       } else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> > +               *addr = DISP_REG_CONFIG_DSI_SEL;
+> > +               value = DSI_SEL_IN_BLS;
+> > +       } else {
+> > +               value = 0;
+> > +       }
+> > +
+> > +       return value;
+> > +}
+> > +
+> > +static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
+> > +                                  enum mtk_ddp_comp_id cur,
+> > +                                  enum mtk_ddp_comp_id next)
+> > +{
+> > +       if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> > +               writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+> > +                              config_regs + DISP_REG_CONFIG_OUT_SEL);
+> > +       } else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+> > +               writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+> > +                              config_regs + DISP_REG_CONFIG_OUT_SEL);
+> > +               writel_relaxed(DSI_SEL_IN_RDMA,
+> > +                              config_regs + DISP_REG_CONFIG_DSI_SEL);
+> > +               writel_relaxed(DPI_SEL_IN_BLS,
+> > +                              config_regs + DISP_REG_CONFIG_DPI_SEL);
+> > +       }
+> > +}
+> > +
+> > +struct mtk_mmsys_conn_funcs mt2701_mmsys_funcs = {
+> > +       .mout_en = mtk_mmsys_ddp_mout_en,
+> > +       .sel_in = mtk_mmsys_ddp_sel_in,
+> > +       .sout_sel = mtk_mmsys_ddp_sout_sel,
+> > +};
+> > diff --git a/drivers/soc/mediatek/mmsys/mtk-mmsys.c b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+> > index da2de8f..9d6a3e9 100644
+> > --- a/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+> > @@ -10,91 +10,34 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/soc/mediatek/mtk-mmsys.h>
+> >
+> > -#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN      0x040
+> > -#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN      0x044
+> > -#define DISP_REG_CONFIG_DISP_OD_MOUT_EN                0x048
+> > -#define DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN     0x04c
+> > -#define DISP_REG_CONFIG_DISP_UFOE_MOUT_EN      0x050
+> > -#define DISP_REG_CONFIG_DISP_COLOR0_SEL_IN     0x084
+> > -#define DISP_REG_CONFIG_DISP_COLOR1_SEL_IN     0x088
+> > -#define DISP_REG_CONFIG_DSIE_SEL_IN            0x0a4
+> > -#define DISP_REG_CONFIG_DSIO_SEL_IN            0x0a8
+> > -#define DISP_REG_CONFIG_DPI_SEL_IN             0x0ac
+> > -#define DISP_REG_CONFIG_DISP_RDMA2_SOUT                0x0b8
+> > -#define DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN     0x0c4
+> > -#define DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN     0x0c8
+> > -#define DISP_REG_CONFIG_MMSYS_CG_CON0          0x100
+> > -
+> > -#define DISP_REG_CONFIG_DISP_OVL_MOUT_EN       0x030
+> > -#define DISP_REG_CONFIG_OUT_SEL                        0x04c
+> > -#define DISP_REG_CONFIG_DSI_SEL                        0x050
+> > -#define DISP_REG_CONFIG_DPI_SEL                        0x064
+> > -
+> > -#define OVL0_MOUT_EN_COLOR0                    0x1
+> > -#define OD_MOUT_EN_RDMA0                       0x1
+> > -#define OD1_MOUT_EN_RDMA1                      BIT(16)
+> > -#define UFOE_MOUT_EN_DSI0                      0x1
+> > -#define COLOR0_SEL_IN_OVL0                     0x1
+> > -#define OVL1_MOUT_EN_COLOR1                    0x1
+> > -#define GAMMA_MOUT_EN_RDMA1                    0x1
+> > -#define RDMA0_SOUT_DPI0                                0x2
+> > -#define RDMA0_SOUT_DPI1                                0x3
+> > -#define RDMA0_SOUT_DSI1                                0x1
+> > -#define RDMA0_SOUT_DSI2                                0x4
+> > -#define RDMA0_SOUT_DSI3                                0x5
+> > -#define RDMA1_SOUT_DPI0                                0x2
+> > -#define RDMA1_SOUT_DPI1                                0x3
+> > -#define RDMA1_SOUT_DSI1                                0x1
+> > -#define RDMA1_SOUT_DSI2                                0x4
+> > -#define RDMA1_SOUT_DSI3                                0x5
+> > -#define RDMA2_SOUT_DPI0                                0x2
+> > -#define RDMA2_SOUT_DPI1                                0x3
+> > -#define RDMA2_SOUT_DSI1                                0x1
+> > -#define RDMA2_SOUT_DSI2                                0x4
+> > -#define RDMA2_SOUT_DSI3                                0x5
+> > -#define DPI0_SEL_IN_RDMA1                      0x1
+> > -#define DPI0_SEL_IN_RDMA2                      0x3
+> > -#define DPI1_SEL_IN_RDMA1                      (0x1 << 8)
+> > -#define DPI1_SEL_IN_RDMA2                      (0x3 << 8)
+> > -#define DSI0_SEL_IN_RDMA1                      0x1
+> > -#define DSI0_SEL_IN_RDMA2                      0x4
+> > -#define DSI1_SEL_IN_RDMA1                      0x1
+> > -#define DSI1_SEL_IN_RDMA2                      0x4
+> > -#define DSI2_SEL_IN_RDMA1                      (0x1 << 16)
+> > -#define DSI2_SEL_IN_RDMA2                      (0x4 << 16)
+> > -#define DSI3_SEL_IN_RDMA1                      (0x1 << 16)
+> > -#define DSI3_SEL_IN_RDMA2                      (0x4 << 16)
+> > -#define COLOR1_SEL_IN_OVL1                     0x1
+> > -
+> > -#define OVL_MOUT_EN_RDMA                       0x1
+> > -#define BLS_TO_DSI_RDMA1_TO_DPI1               0x8
+> > -#define BLS_TO_DPI_RDMA1_TO_DSI                        0x2
+> > -#define DSI_SEL_IN_BLS                         0x0
+> > -#define DPI_SEL_IN_BLS                         0x0
+> > -#define DSI_SEL_IN_RDMA                                0x1
+> > -
+> >  struct mtk_mmsys_driver_data {
+> >         const char *clk_driver;
+> > +       const struct mtk_mmsys_conn_funcs *funcs;
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+> >         .clk_driver = "clk-mt2701-mm",
+> > +       .funcs = &mt2701_mmsys_funcs,
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
+> >         .clk_driver = "clk-mt2712-mm",
+> > +       .funcs = &mt2701_mmsys_funcs,
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt6779_mmsys_driver_data = {
+> >         .clk_driver = "clk-mt6779-mm",
+> > +       .funcs = &mt2701_mmsys_funcs,
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt6797_mmsys_driver_data = {
+> >         .clk_driver = "clk-mt6797-mm",
+> > +       .funcs = &mt2701_mmsys_funcs,
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+> >         .clk_driver = "clk-mt8173-mm",
+> > +       .funcs = &mt2701_mmsys_funcs,
+> >  };
+> >
+> >  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+> > @@ -106,176 +49,26 @@ struct mtk_mmsys {
+> >         const struct mtk_mmsys_driver_data *data;
+> >  };
+> >
+> > -static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
+> > -                                         enum mtk_ddp_comp_id next,
+> > -                                         unsigned int *addr)
+> > -{
+> > -       unsigned int value;
+> > -
+> > -       if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_OVL0_MOUT_EN;
+> > -               value = OVL0_MOUT_EN_COLOR0;
+> > -       } else if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_RDMA0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_OVL_MOUT_EN;
+> > -               value = OVL_MOUT_EN_RDMA;
+> > -       } else if (cur == DDP_COMPONENT_OD0 && next == DDP_COMPONENT_RDMA0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+> > -               value = OD_MOUT_EN_RDMA0;
+> > -       } else if (cur == DDP_COMPONENT_UFOE && next == DDP_COMPONENT_DSI0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_UFOE_MOUT_EN;
+> > -               value = UFOE_MOUT_EN_DSI0;
+> > -       } else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_OVL1_MOUT_EN;
+> > -               value = OVL1_MOUT_EN_COLOR1;
+> > -       } else if (cur == DDP_COMPONENT_GAMMA && next == DDP_COMPONENT_RDMA1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN;
+> > -               value = GAMMA_MOUT_EN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_OD1 && next == DDP_COMPONENT_RDMA1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+> > -               value = OD1_MOUT_EN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > -               value = RDMA0_SOUT_DPI0;
+> > -       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > -               value = RDMA0_SOUT_DPI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > -               value = RDMA0_SOUT_DSI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > -               value = RDMA0_SOUT_DSI2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+> > -               value = RDMA0_SOUT_DSI3;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > -               value = RDMA1_SOUT_DSI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > -               value = RDMA1_SOUT_DSI2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > -               value = RDMA1_SOUT_DSI3;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > -               value = RDMA1_SOUT_DPI0;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+> > -               value = RDMA1_SOUT_DPI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > -               value = RDMA2_SOUT_DPI0;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > -               value = RDMA2_SOUT_DPI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > -               value = RDMA2_SOUT_DSI1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > -               value = RDMA2_SOUT_DSI2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+> > -               *addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+> > -               value = RDMA2_SOUT_DSI3;
+> > -       } else {
+> > -               value = 0;
+> > -       }
+> > -
+> > -       return value;
+> > -}
+> > -
+> > -static unsigned int mtk_mmsys_ddp_sel_in(enum mtk_ddp_comp_id cur,
+> > -                                        enum mtk_ddp_comp_id next,
+> > -                                        unsigned int *addr)
+> > -{
+> > -       unsigned int value;
+> > -
+> > -       if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+> > -               *addr = DISP_REG_CONFIG_DISP_COLOR0_SEL_IN;
+> > -               value = COLOR0_SEL_IN_OVL0;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+> > -               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > -               value = DPI0_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+> > -               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > -               value = DPI1_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
+> > -               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > -               value = DSI0_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+> > -               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > -               value = DSI1_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+> > -               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > -               value = DSI2_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+> > -               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > -               value = DSI3_SEL_IN_RDMA1;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+> > -               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > -               value = DPI0_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+> > -               *addr = DISP_REG_CONFIG_DPI_SEL_IN;
+> > -               value = DPI1_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI0) {
+> > -               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > -               value = DSI0_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+> > -               *addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+> > -               value = DSI1_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+> > -               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > -               value = DSI2_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+> > -               *addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+> > -               value = DSI3_SEL_IN_RDMA2;
+> > -       } else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+> > -               *addr = DISP_REG_CONFIG_DISP_COLOR1_SEL_IN;
+> > -               value = COLOR1_SEL_IN_OVL1;
+> > -       } else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> > -               *addr = DISP_REG_CONFIG_DSI_SEL;
+> > -               value = DSI_SEL_IN_BLS;
+> > -       } else {
+> > -               value = 0;
+> > -       }
+> > -
+> > -       return value;
+> > -}
+> > -
+> > -static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
+> > -                                  enum mtk_ddp_comp_id cur,
+> > -                                  enum mtk_ddp_comp_id next)
+> > -{
+> > -       if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+> > -               writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+> > -                              config_regs + DISP_REG_CONFIG_OUT_SEL);
+> > -       } else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+> > -               writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+> > -                              config_regs + DISP_REG_CONFIG_OUT_SEL);
+> > -               writel_relaxed(DSI_SEL_IN_RDMA,
+> > -                              config_regs + DISP_REG_CONFIG_DSI_SEL);
+> > -               writel_relaxed(DPI_SEL_IN_BLS,
+> > -                              config_regs + DISP_REG_CONFIG_DPI_SEL);
+> > -       }
+> > -}
+> > -
+> >  void mtk_mmsys_ddp_connect(struct device *dev,
+> >                            enum mtk_ddp_comp_id cur,
+> >                            enum mtk_ddp_comp_id next)
+> >  {
+> >         struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> >         unsigned int addr, value, reg;
+> > +       struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
 > 
-> Super-nit: I think "v7s" should probably be lowercase there. Also
-> general consistency WRT to showing the error code and whether or not
-> to abbreviate "format" would be nice.
+> Compiling error here: initializing 'struct mtk_mmsys_conn_funcs *'
+> with an expression of type 'const struct mtk_mmsys_conn_funcs *const'
+> discards qualifiers
+> [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+>         struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
 > 
-Ok, I can fix this accordingly.
+> const struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
+> 
+tks,  this will be fixed in next version.
 
->> +		return ret;
->> +	}
->> +
->> +	ret = arm_v7s_do_selftests();
->> +	if (ret < 0)
->> +		io_pgtable_ops_unregister(&io_pgtable_arm_v7s_init_fns);
->> +
->> +	return ret;
->> +}
->> +core_initcall(arm_v7s_init);
->> +
->> +static void __exit arm_v7s_exit(void)
->> +{
->> +	io_pgtable_ops_unregister(&io_pgtable_arm_v7s_init_fns);
->> +}
->> +module_exit(arm_v7s_exit);
->> diff --git a/drivers/iommu/io-pgtable-arm.c 
->> b/drivers/iommu/io-pgtable-arm.c
->> index 87def58..ff0ea2f 100644
->> --- a/drivers/iommu/io-pgtable-arm.c
->> +++ b/drivers/iommu/io-pgtable-arm.c
->> @@ -13,6 +13,7 @@
->>   #include <linux/bitops.h>
->>   #include <linux/io-pgtable.h>
->>   #include <linux/kernel.h>
->> +#include <linux/module.h>
->>   #include <linux/sizes.h>
->>   #include <linux/slab.h>
->>   #include <linux/types.h>
->> @@ -1043,29 +1044,32 @@ arm_mali_lpae_alloc_pgtable(struct 
->> io_pgtable_cfg *cfg, void *cookie)
->>   	return NULL;
->>   }
->>   -struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns = {
->> -	.alloc	= arm_64_lpae_alloc_pgtable_s1,
->> -	.free	= arm_lpae_free_pgtable,
->> -};
->> -
->> -struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s2_init_fns = {
->> -	.alloc	= arm_64_lpae_alloc_pgtable_s2,
->> -	.free	= arm_lpae_free_pgtable,
->> -};
->> -
->> -struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s1_init_fns = {
->> -	.alloc	= arm_32_lpae_alloc_pgtable_s1,
->> -	.free	= arm_lpae_free_pgtable,
->> -};
->> -
->> -struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s2_init_fns = {
->> -	.alloc	= arm_32_lpae_alloc_pgtable_s2,
->> -	.free	= arm_lpae_free_pgtable,
->> -};
->> -
->> -struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns = {
->> -	.alloc	= arm_mali_lpae_alloc_pgtable,
->> -	.free	= arm_lpae_free_pgtable,
->> +static struct io_pgtable_init_fns io_pgtable_arm_lpae_init_fns[] = {
->> +	{
->> +		.fmt	= ARM_32_LPAE_S1,
->> +		.alloc	= arm_32_lpae_alloc_pgtable_s1,
->> +		.free	= arm_lpae_free_pgtable,
->> +	},
->> +	{
->> +		.fmt	= ARM_32_LPAE_S2,
->> +		.alloc	= arm_32_lpae_alloc_pgtable_s2,
->> +		.free	= arm_lpae_free_pgtable,
->> +	},
->> +	{
->> +		.fmt	= ARM_64_LPAE_S1,
->> +		.alloc	= arm_64_lpae_alloc_pgtable_s1,
->> +		.free	= arm_lpae_free_pgtable,
->> +	},
->> +	{
->> +		.fmt	= ARM_64_LPAE_S2,
->> +		.alloc	= arm_64_lpae_alloc_pgtable_s2,
->> +		.free	= arm_lpae_free_pgtable,
->> +	},
->> +	{
->> +		.fmt	= ARM_MALI_LPAE,
->> +		.alloc	= arm_mali_lpae_alloc_pgtable,
->> +		.free	= arm_lpae_free_pgtable,
->> +	},
->>   };
->>     #ifdef CONFIG_IOMMU_IO_PGTABLE_LPAE_SELFTEST
->> @@ -1250,5 +1254,43 @@ static int __init arm_lpae_do_selftests(void)
->>   	pr_info("selftest: completed with %d PASS %d FAIL\n", pass, fail);
->>   	return fail ? -EFAULT : 0;
->>   }
->> -subsys_initcall(arm_lpae_do_selftests);
->> +#else
->> +static int __init arm_lpae_do_selftests(void)
->> +{
->> +	return 0;
->> +}
->>   #endif
->> +
->> +static int __init arm_lpae_init(void)
->> +{
->> +	int ret, i;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(io_pgtable_arm_lpae_init_fns); i++) {
->> +		ret = io_pgtable_ops_register(&io_pgtable_arm_lpae_init_fns[i]);
->> +		if (ret < 0) {
->> +			pr_err("Failed to register ARM LPAE fmt: %d\n");
->> +			goto err_io_pgtable_register;
->> +		}
->> +	}
->> +
->> +	ret = arm_lpae_do_selftests();
->> +	if (ret < 0)
->> +		goto err_io_pgtable_register;
->> +
->> +	return 0;
->> +
->> +err_io_pgtable_register:
->> +	for (i = i - 1; i >= 0; i--)
-> 
-> Personally I find "while (i--)" a bit clearer for this kind of
-> unwinding, but maybe post-decrement isn't to everyone's taste.
-> 
-I'm not particularly attached to the current approach, so a while loop
-is okay with me :).
+> >
+> > -       value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
+> > +       if (!funcs)
+> > +               return;
+> > +
+> > +       value = funcs->mout_en(cur, next, &addr);
+> >         if (value) {
+> >                 reg = readl_relaxed(mmsys->regs + addr) | value;
+> >                 writel_relaxed(reg, mmsys->regs + addr);
+> >         }
+> >
+> > -       mtk_mmsys_ddp_sout_sel(mmsys->regs, cur, next);
+> > +       funcs->sout_sel(mmsys->regs, cur, next);
+> >
+> > -       value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
+> > +       value = funcs->sel_in(cur, next, &addr);
+> >         if (value) {
+> >                 reg = readl_relaxed(mmsys->regs + addr) | value;
+> >                 writel_relaxed(reg, mmsys->regs + addr);
+> > @@ -289,14 +82,18 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+> >  {
+> >         struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> >         unsigned int addr, value, reg;
+> > +       struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
+> > +
+> > +       if (!funcs)
+> > +               return;
+> >
+> > -       value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
+> > +       value = funcs->mout_en(cur, next, &addr);
+> >         if (value) {
+> >                 reg = readl_relaxed(mmsys->regs + addr) & ~value;
+> >                 writel_relaxed(reg, mmsys->regs + addr);
+> >         }
+> >
+> > -       value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
+> > +       value = funcs->sel_in(cur, next, &addr);
+> >         if (value) {
+> >                 reg = readl_relaxed(mmsys->regs + addr) & ~value;
+> >                 writel_relaxed(reg, mmsys->regs + addr);
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+> > index 2228bf6..17e8b91 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -42,6 +42,20 @@ enum mtk_ddp_comp_id {
+> >         DDP_COMPONENT_ID_MAX,
+> >  };
+> >
+> > +struct mtk_mmsys_conn_funcs {
+> > +       u32 (*mout_en)(enum mtk_ddp_comp_id cur,
+> > +                      enum mtk_ddp_comp_id next,
+> > +                      unsigned int *addr);
+> > +       u32 (*sel_in)(enum mtk_ddp_comp_id cur,
+> > +                     enum mtk_ddp_comp_id next,
+> > +                     unsigned int *addr);
+> > +       void (*sout_sel)(void __iomem *config_regs,
+> > +                        enum mtk_ddp_comp_id cur,
+> > +                        enum mtk_ddp_comp_id next);
+> > +};
+> > +
+> > +extern struct mtk_mmsys_conn_funcs mt2701_mmsys_funcs;
+> > +
+> >  void mtk_mmsys_ddp_connect(struct device *dev,
+> >                            enum mtk_ddp_comp_id cur,
+> >                            enum mtk_ddp_comp_id next);
 
->> +		io_pgtable_ops_unregister(&io_pgtable_arm_lpae_init_fns[i]);
->> +	return ret;
->> +}
->> +core_initcall(arm_lpae_init);
->> +
->> +static void __exit arm_lpae_exit(void)
->> +{
->> +	int i;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(io_pgtable_arm_lpae_init_fns); i++)
->> +		io_pgtable_ops_unregister(&io_pgtable_arm_lpae_init_fns[i]);
->> +}
->> +module_exit(arm_lpae_exit);
->> diff --git a/drivers/iommu/io-pgtable.c b/drivers/iommu/io-pgtable.c
->> index 94394c8..2c6eb2e 100644
->> --- a/drivers/iommu/io-pgtable.c
->> +++ b/drivers/iommu/io-pgtable.c
->> @@ -10,33 +10,45 @@
->>   #include <linux/bug.h>
->>   #include <linux/io-pgtable.h>
->>   #include <linux/kernel.h>
->> +#include <linux/rwlock.h>
->> +#include <linux/slab.h>
->>   #include <linux/types.h>
->>   -static const struct io_pgtable_init_fns *
->> -io_pgtable_init_table[IO_PGTABLE_NUM_FMTS] = {
->> -#ifdef CONFIG_IOMMU_IO_PGTABLE_LPAE
->> -	[ARM_32_LPAE_S1] = &io_pgtable_arm_32_lpae_s1_init_fns,
->> -	[ARM_32_LPAE_S2] = &io_pgtable_arm_32_lpae_s2_init_fns,
->> -	[ARM_64_LPAE_S1] = &io_pgtable_arm_64_lpae_s1_init_fns,
->> -	[ARM_64_LPAE_S2] = &io_pgtable_arm_64_lpae_s2_init_fns,
->> -	[ARM_MALI_LPAE] = &io_pgtable_arm_mali_lpae_init_fns,
->> -#endif
->> -#ifdef CONFIG_IOMMU_IO_PGTABLE_ARMV7S
->> -	[ARM_V7S] = &io_pgtable_arm_v7s_init_fns,
->> -#endif
->> +struct io_pgtable_init_fns_node {
->> +	struct io_pgtable_init_fns *fns;
->> +	struct list_head list;
->>   };
->>   +static LIST_HEAD(io_pgtable_init_fns_list);
->> +static DEFINE_RWLOCK(io_pgtable_init_fns_list_lock);
->> +
->> +static struct io_pgtable_init_fns *io_pgtable_get_init_fns(enum 
->> io_pgtable_fmt fmt)
->> +{
->> +	struct io_pgtable_init_fns_node *iter;
->> +	struct io_pgtable_init_fns *fns = NULL;
->> +
->> +	read_lock(&io_pgtable_init_fns_list_lock);
->> +	list_for_each_entry(iter, &io_pgtable_init_fns_list, list)
->> +		if (iter->fns->fmt == fmt) {
->> +			fns = iter->fns;
->> +			break;
->> +		}
->> +	read_unlock(&io_pgtable_init_fns_list_lock);
->> +
->> +	return fns;
->> +}
-> 
-> I think it would be a lot easier to stick with a simple array indexed
-> by enum - that way you can just set/clear/test entries without needing
-> to worry about locking. Basically just remove the const and the
-> initialisers from the existing one ;)
-> 
-> (and if you think you're concerned about memory, consider that just
-> the list head plus lock is already half the size of the table)
-> 
-> Other than that, I think this all looks pretty promising - I'd suggest
-> sending a non-RFC after rc1 so that it gets everyone's proper
-> attention.
-> 
-> Thanks,
-> Robin.
-> 
-
-Thanks for all of the feedback! With respect to the comment about 
-keeping the current array,
-don't we need some sort of lock to protect access to the data structure 
-(e.g. concurrent access
-if adding two ops for the same format)? Or do you mean that we should 
-use atomic operations to
-handle this cleanly?
-
-Thanks,
-Isaac
->> +
->>   struct io_pgtable_ops *alloc_io_pgtable_ops(enum io_pgtable_fmt fmt,
->>   					    struct io_pgtable_cfg *cfg,
->>   					    void *cookie)
->>   {
->>   	struct io_pgtable *iop;
->> -	const struct io_pgtable_init_fns *fns;
->> +	struct io_pgtable_init_fns *fns;
->>     	if (fmt >= IO_PGTABLE_NUM_FMTS)
->>   		return NULL;
->>   -	fns = io_pgtable_init_table[fmt];
->> +	fns = io_pgtable_get_init_fns(fmt);
->>   	if (!fns)
->>   		return NULL;
->>   @@ -59,12 +71,64 @@ EXPORT_SYMBOL_GPL(alloc_io_pgtable_ops);
->>   void free_io_pgtable_ops(struct io_pgtable_ops *ops)
->>   {
->>   	struct io_pgtable *iop;
->> +	struct io_pgtable_init_fns *fns;
->>     	if (!ops)
->>   		return;
->>     	iop = io_pgtable_ops_to_pgtable(ops);
->>   	io_pgtable_tlb_flush_all(iop);
->> -	io_pgtable_init_table[iop->fmt]->free(iop);
->> +	fns = io_pgtable_get_init_fns(iop->fmt);
->> +	if (fns)
->> +		fns->free(iop);
->>   }
->>   EXPORT_SYMBOL_GPL(free_io_pgtable_ops);
->> +
->> +int io_pgtable_ops_register(struct io_pgtable_init_fns *init_fns)
->> +{
->> +	struct io_pgtable_init_fns_node *iter, *fns_node;
->> +	int ret = 0;
->> +
->> +	if (!init_fns || init_fns->fmt >= IO_PGTABLE_NUM_FMTS ||
->> +	    !init_fns->alloc || !init_fns->free)
->> +		return -EINVAL;
->> +
->> +	fns_node = kzalloc(sizeof(*fns_node), GFP_KERNEL);
->> +	if (!fns_node)
->> +		return -ENOMEM;
->> +
->> +	write_lock(&io_pgtable_init_fns_list_lock);
->> +	list_for_each_entry(iter, &io_pgtable_init_fns_list, list)
->> +		if (iter->fns->fmt == init_fns->fmt) {
->> +			ret = -EEXIST;
->> +			kfree(fns_node);
->> +			break;
->> +		}
->> +
->> +	if (!ret) {
->> +		fns_node->fns = init_fns;
->> +		INIT_LIST_HEAD(&fns_node->list);
->> +		list_add_tail(&fns_node->list, &io_pgtable_init_fns_list);
->> +	}
->> +	write_unlock(&io_pgtable_init_fns_list_lock);
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(io_pgtable_ops_register);
->> +
->> +void io_pgtable_ops_unregister(struct io_pgtable_init_fns *init_fns)
->> +{
->> +	struct io_pgtable_init_fns_node *iter, *tmp;
->> +
->> +	if (!init_fns)
->> +		return;
->> +
->> +	write_lock(&io_pgtable_init_fns_list_lock);
->> +	list_for_each_entry_safe(iter, tmp, &io_pgtable_init_fns_list, list)
->> +		if (iter->fns == init_fns) {
->> +			list_del(&iter->list);
->> +			kfree(iter);
->> +			break;
->> +		}
->> +	write_unlock(&io_pgtable_init_fns_list_lock);
->> +}
->> +EXPORT_SYMBOL_GPL(io_pgtable_ops_unregister);
->> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
->> index ea727eb..45b367ce 100644
->> --- a/include/linux/io-pgtable.h
->> +++ b/include/linux/io-pgtable.h
->> @@ -163,6 +163,38 @@ struct io_pgtable_ops {
->>   };
->>     /**
->> + * struct io_pgtable_init_fns - Alloc/free a set of page tables for a
->> + *                              particular format.
->> + *
->> + * @fmt:   The page table format.
->> + * @alloc: Allocate a set of page tables described by cfg.
->> + * @free:  Free the page tables associated with iop.
->> + */
->> +struct io_pgtable_init_fns {
->> +	enum io_pgtable_fmt fmt;
->> +	struct io_pgtable *(*alloc)(struct io_pgtable_cfg *cfg, void 
->> *cookie);
->> +	void (*free)(struct io_pgtable *iop);
->> +};
->> +
->> +/**
->> + * io_pgtable_ops_register() - Register the page table routines for a 
->> page table
->> + *                             format.
->> + *
->> + * @init_fns: The functions for allocating and freeing the page 
->> tables of
->> + *            a particular format.
->> + */
->> +int io_pgtable_ops_register(struct io_pgtable_init_fns *init_fns);
->> +
->> +/**
->> + * io_pgtable_ops_unregister() - Unregister the page table routines 
->> for a page
->> + *                               table format.
->> + *
->> + * @init_fns: The functions for allocating and freeing the page 
->> tables of
->> + *            a particular format.
->> + */
->> +void io_pgtable_ops_unregister(struct io_pgtable_init_fns *init_fns);
->> +
->> +/**
->>    * alloc_io_pgtable_ops() - Allocate a page table allocator for use 
->> by an IOMMU.
->>    *
->>    * @fmt:    The page table format.
->> @@ -233,23 +265,4 @@ io_pgtable_tlb_add_page(struct io_pgtable *iop,
->>   		iop->cfg.tlb->tlb_add_page(gather, iova, granule, iop->cookie);
->>   }
->>   -/**
->> - * struct io_pgtable_init_fns - Alloc/free a set of page tables for a
->> - *                              particular format.
->> - *
->> - * @alloc: Allocate a set of page tables described by cfg.
->> - * @free:  Free the page tables associated with iop.
->> - */
->> -struct io_pgtable_init_fns {
->> -	struct io_pgtable *(*alloc)(struct io_pgtable_cfg *cfg, void 
->> *cookie);
->> -	void (*free)(struct io_pgtable *iop);
->> -};
->> -
->> -extern struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s1_init_fns;
->> -extern struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s2_init_fns;
->> -extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns;
->> -extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s2_init_fns;
->> -extern struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns;
->> -extern struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns;
->> -
->>   #endif /* __IO_PGTABLE_H */
->> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
