@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BBF2E11AD
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F6E2E11AE
 	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D72C6E892;
-	Wed, 23 Dec 2020 02:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5BC36E894;
+	Wed, 23 Dec 2020 02:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 896096E892;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2DBC6E891;
+ Wed, 23 Dec 2020 02:16:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E9739227BF;
  Wed, 23 Dec 2020 02:16:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7CF432312E;
- Wed, 23 Dec 2020 02:16:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689814;
- bh=Vx3ezAW5GJLBA67L7m77bVSFJqgm6ZZ07DOmRVrLuZQ=;
+ s=k20201202; t=1608689815;
+ bh=vou7UbMuIOlHogC+JSLYKs9mEKu8zPb4x7tIQAWA6J8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Krz+61sH3vYZl1a28xJqKdjQU2B0vvkNOyjTW7amKFEhEd48T1CH/EAgvwH+23FNI
- TEf2qpbjHgVh0gFuwujnYjw+8753nE6cwDOzn8c/Rk7T/HS4SIvk45PKSG4V9Jsrqo
- vymIRX5u2+JqWd5HzT8tMx/4wsELm2PfW18rpiOLP3DWXoGbmYbVxhG2DRHRa5LSPQ
- 4prMWkWF2AxfBLwMyrerN9NJeMS2igqIzER36tV+n7SD7D4grnjjdM3rcVziux8C/U
- Yc1OjSHKFBm4jnzkoQnmus0rs4i0tjU9yTTHrNbkco5J726frHJ6rOqSGuXWJ6Q48N
- c3iPRJlGnYiiQ==
+ b=lBekCYQBHBoiEr92GmKjCl5XEPCQNJcOlmgfmyy/B6jzIK9ZL7pTJc2pWYbn8cKEq
+ 9M1H6/i6/8GgWgTg78mlt/CmJdfAQvBJ8YybEIh7UvfeNWXgE/XBD5VOYhC2EJovXp
+ poFpqUvGScCZhblLqmaRwJdJyQ4ZS+RrAmkX8YV+b8Z6ry50wlUe49OJ49XjftWHt6
+ 084Zls17e765taDK9UPcMA5FKVpE9IvUI1ZxfzUwAdbdK3VycTl1DM+aKhWd7pNMJz
+ h+4JO28+WAIVdEzvPRQdplbEA3/jhRtFViNFCofFXe7ihXcaHJnUDUuWyrCMBkfsHl
+ ubFDWzOGp0qnA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 021/217] drm/amd/display: stop top_mgr when type
- change to non-MST during s3
-Date: Tue, 22 Dec 2020 21:13:10 -0500
-Message-Id: <20201223021626.2790791-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 022/217] drm/amd/display: correct eDP T9 delay
+Date: Tue, 22 Dec 2020 21:13:11 -0500
+Message-Id: <20201223021626.2790791-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
 References: <20201223021626.2790791-1-sashal@kernel.org>
@@ -49,69 +48,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Lewis Huang <Lewis.Huang@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, Charlene Liu <Charlene.Liu@amd.com>,
+ Hugo Hu <hugo.hu@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Tony Cheng <Tony.Cheng@amd.com>
+ Qingqing Zhuo <qingqing.zhuo@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lewis Huang <Lewis.Huang@amd.com>
+From: Hugo Hu <hugo.hu@amd.com>
 
-[ Upstream commit e748b59fb74e8725c8774a4b0753fabba9de7b97 ]
+[ Upstream commit 3a372bed1e337efa450d8288bc75cfc9237b7bad ]
 
 [Why]
-Driver keeps the invalid information cause report the
-incorrect monitor which save in remote sink to OS
+The current end of T9 delay is relay on polling
+sink status by DPCD. But the polling for sink
+status change after NoVideoStream_flag set to 0.
 
 [How]
-When connector type change from MST to non-MST,
-stop the topology manager.
+Add function edp_add_delay_for_T9 to add T9 delay.
+Move the sink status polling after blank.
 
-Signed-off-by: Lewis Huang <Lewis.Huang@amd.com>
-Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
+Signed-off-by: Hugo Hu <hugo.hu@amd.com>
+Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
 Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../gpu/drm/amd/display/dc/core/dc_link_hwss.c   | 13 ++++++++-----
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c  | 16 ++++++++--------
+ drivers/gpu/drm/amd/display/dc/inc/link_hwss.h   |  1 +
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 5b0cedfa824a9..59c5915665112 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -854,6 +854,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 	struct dpcd_caps prev_dpcd_caps;
- 	bool same_dpcd = true;
- 	enum dc_connection_type new_connection_type = dc_connection_none;
-+	enum dc_connection_type pre_connection_type = dc_connection_none;
- 	bool perform_dp_seamless_boot = false;
- 	const uint32_t post_oui_delay = 30; // 30ms
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+index 11a619befb425..124ce215fca53 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_hwss.c
+@@ -156,6 +156,13 @@ void dp_enable_link_phy(
+ 	dp_receiver_power_ctrl(link, true);
+ }
  
-@@ -889,6 +890,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 
- 	link_disconnect_sink(link);
- 	if (new_connection_type != dc_connection_none) {
-+		pre_connection_type = link->type;
- 		link->type = new_connection_type;
- 		link->link_state_valid = false;
- 
-@@ -962,6 +964,12 @@ static bool dc_link_detect_helper(struct dc_link *link,
- 				return true;
- 			}
- 
-+			// link switch from MST to non-MST stop topology manager
-+			if (pre_connection_type == dc_connection_mst_branch &&
-+				link->type != dc_connection_mst_branch) {
-+				dm_helpers_dp_mst_stop_top_mgr(link->ctx, link);
-+			}
++void edp_add_delay_for_T9(struct dc_link *link)
++{
++	if (link->local_sink &&
++			link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off > 0)
++		udelay(link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off * 1000);
++}
 +
- 			if (link->type == dc_connection_mst_branch) {
- 				LINK_INFO("link=%d, mst branch is now Connected\n",
- 					  link->link_index);
+ bool edp_receiver_ready_T9(struct dc_link *link)
+ {
+ 	unsigned int tries = 0;
+@@ -165,7 +172,7 @@ bool edp_receiver_ready_T9(struct dc_link *link)
+ 
+ 	result = core_link_read_dpcd(link, DP_EDP_DPCD_REV, &edpRev, sizeof(edpRev));
+ 
+-     /* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
++    /* start from eDP version 1.2, SINK_STAUS indicate the sink is ready.*/
+ 	if (result == DC_OK && edpRev >= DP_EDP_12) {
+ 		do {
+ 			sinkstatus = 1;
+@@ -178,10 +185,6 @@ bool edp_receiver_ready_T9(struct dc_link *link)
+ 		} while (++tries < 50);
+ 	}
+ 
+-	if (link->local_sink &&
+-			link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off > 0)
+-		udelay(link->local_sink->edid_caps.panel_patch.extra_delay_backlight_off * 1000);
+-
+ 	return result;
+ }
+ bool edp_receiver_ready_T7(struct dc_link *link)
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 3ac6c7b65a45a..9f56887029ca6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -992,8 +992,6 @@ void dce110_edp_backlight_control(
+ 
+ 	link_transmitter_control(ctx->dc_bios, &cntl);
+ 
+-
+-
+ 	if (enable && link->dpcd_sink_ext_caps.bits.oled)
+ 		msleep(OLED_POST_T7_DELAY);
+ 
+@@ -1004,7 +1002,7 @@ void dce110_edp_backlight_control(
+ 
+ 	/*edp 1.2*/
+ 	if (cntl.action == TRANSMITTER_CONTROL_BACKLIGHT_OFF)
+-		edp_receiver_ready_T9(link);
++		edp_add_delay_for_T9(link);
+ 
+ 	if (!enable && link->dpcd_sink_ext_caps.bits.oled)
+ 		msleep(OLED_PRE_T11_DELAY);
+@@ -1145,12 +1143,14 @@ void dce110_blank_stream(struct pipe_ctx *pipe_ctx)
+ 	if (dc_is_dp_signal(pipe_ctx->stream->signal)) {
+ 		pipe_ctx->stream_res.stream_enc->funcs->dp_blank(pipe_ctx->stream_res.stream_enc);
+ 
+-		/*
+-		 * After output is idle pattern some sinks need time to recognize the stream
+-		 * has changed or they enter protection state and hang.
+-		 */
+-		if (!dc_is_embedded_signal(pipe_ctx->stream->signal))
++		if (!dc_is_embedded_signal(pipe_ctx->stream->signal)) {
++			/*
++			 * After output is idle pattern some sinks need time to recognize the stream
++			 * has changed or they enter protection state and hang.
++			 */
+ 			msleep(60);
++		} else if (pipe_ctx->stream->signal == SIGNAL_TYPE_EDP)
++			edp_receiver_ready_T9(link);
+ 	}
+ 
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/link_hwss.h b/drivers/gpu/drm/amd/display/dc/inc/link_hwss.h
+index 9af7ee5bc8ee1..33590a728fc53 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/link_hwss.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/link_hwss.h
+@@ -51,6 +51,7 @@ void dp_enable_link_phy(
+ 	const struct dc_link_settings *link_settings);
+ 
+ void dp_receiver_power_ctrl(struct dc_link *link, bool on);
++void edp_add_delay_for_T9(struct dc_link *link);
+ bool edp_receiver_ready_T9(struct dc_link *link);
+ bool edp_receiver_ready_T7(struct dc_link *link);
+ 
 -- 
 2.27.0
 
