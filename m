@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4162E11D6
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DAF2E11D8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:18:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B686E8AA;
-	Wed, 23 Dec 2020 02:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BACA6E8AE;
+	Wed, 23 Dec 2020 02:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 780406E8AA;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1058E6E8AD;
+ Wed, 23 Dec 2020 02:18:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11074225AA;
  Wed, 23 Dec 2020 02:18:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 838A322D57;
- Wed, 23 Dec 2020 02:18:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689885;
- bh=bpHtdsOzKW65yAy0EHgm4OLJ9hbWFt7/1XVpTSoGBCM=;
+ s=k20201202; t=1608689886;
+ bh=LDFuMUAXiZ3amM/WmFke8arjKEy476VT1qkqeIukd18=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WLziWSav5fp5ol7IdtZcKiotVWYZhyDIWVeY8XZsZ/qmut0dT+CHsLp++aMFchLkY
- ikDLR7N++Lw2RrpP9HGBUWzQ4nrr1rxK2PXP9X8kt/Uk6lvYRTK0IEw1De1y/V48Nh
- vHn/Rau25pn71Lk19mV+oEmRRgT2lYOh4HTW7zw75Pqtma7L+ATT2ODDqNgITv+EAv
- hPAaln/VjRbVZ1UIvPclZojdSA8kXO5aEf0meBZjFzjsXQdO/u4Dq2ZA+uk/FJGmw2
- 2GqqCDsrcD0CtmZEZB+lAgDHuQ+ap6pw8PMQBNUo74gn/pRwvsRV8l+6Egu8FtSi4A
- mr5Bh0Kvak+Bw==
+ b=RWCP9i3FnLwpEZoRZ7HCDmWfGHemA4hMdtwsNac5Jh4sk6DOv+gVThuq13I4G9uvZ
+ cstBewP7jgXDQLXPYOf5SS70jrN+iBw90vrPUWVw3fHEG+IpQcUzAAoLwcmT0CoOjM
+ 84XQ4d9ZIKGF86BWwZ/S5rfLLlreJXzKqe2e9wXt1pY3eZJ9nosqZVKl0uo+jjZbDS
+ XXn+HVx0Wd3ni0Eg6bf8N+TtLsPtOuOWFeNQvgslcEZxPW8w+D378Xvsexq2s5dnu7
+ ueHC1gFywCQVBVqmhso6aZgX7OBzGg33NI98T1H/ck5JzlRk3aN14FbPfNi2FG7P0s
+ 2c/aPx0HGmiBg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 074/217] drm/amd/amdgpu: Update VCN
- initizalization behvaior
-Date: Tue, 22 Dec 2020 21:14:03 -0500
-Message-Id: <20201223021626.2790791-74-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 075/217] drm/amdgpu: check hive pointer before
+ access
+Date: Tue, 22 Dec 2020 21:14:04 -0500
+Message-Id: <20201223021626.2790791-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
 References: <20201223021626.2790791-1-sashal@kernel.org>
@@ -49,120 +49,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Bokun Zhang <Bokun.Zhang@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Kevin Wang <kevin1.wang@amd.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Monk Liu <monk.liu@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bokun Zhang <Bokun.Zhang@amd.com>
+From: Hawking Zhang <Hawking.Zhang@amd.com>
 
-[ Upstream commit 3617e579eba427ed1f6b86050fe678623184db74 ]
+[ Upstream commit a9f5f98f796ee93a865b9886bf7cb694cf124eb5 ]
 
-- Issue:
-  In the original vcn3.0 code, it assumes that the VCN's
-  init_status is always 1, even after the MMSCH
-  updates the header.
+in case it is an invalid one
 
-  This is incorrect since by default, it should be set to 0,
-  and MMSCH will update it to 1 if VCN is ready.
-
-- Fix:
-  We need to read back the table header after send it to MMSCH.
-  After that, if a VCN instance is not ready (host disabled it),
-  we needs to disable the ring buffer as well.
-
-Signed-off-by: Bokun Zhang <Bokun.Zhang@amd.com>
-Reviewed-by: Monk Liu <monk.liu@amd.com>
+Signed-off-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Reviewed-by: Kevin Wang <kevin1.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c | 46 +++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-index 8ecdddf33e18e..7ca21c4af167b 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-@@ -294,17 +294,19 @@ static int vcn_v3_0_hw_init(void *handle)
- 				continue;
- 
- 			ring = &adev->vcn.inst[i].ring_dec;
--			ring->wptr = 0;
--			ring->wptr_old = 0;
--			vcn_v3_0_dec_ring_set_wptr(ring);
--			ring->sched.ready = true;
-+			if (ring->sched.ready) {
-+				ring->wptr = 0;
-+				ring->wptr_old = 0;
-+				vcn_v3_0_dec_ring_set_wptr(ring);
-+			}
- 
- 			for (j = 0; j < adev->vcn.num_enc_rings; ++j) {
- 				ring = &adev->vcn.inst[i].ring_enc[j];
--				ring->wptr = 0;
--				ring->wptr_old = 0;
--				vcn_v3_0_enc_ring_set_wptr(ring);
--				ring->sched.ready = true;
-+				if (ring->sched.ready) {
-+					ring->wptr = 0;
-+					ring->wptr_old = 0;
-+					vcn_v3_0_enc_ring_set_wptr(ring);
-+				}
- 			}
- 		}
- 	} else {
-@@ -1239,6 +1241,8 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
- 	uint32_t table_size;
- 	uint32_t size, size_dw;
- 
-+	bool is_vcn_ready;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+index 1162913c8bf42..ffb74fba9d867 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+@@ -395,12 +395,17 @@ void amdgpu_put_xgmi_hive(struct amdgpu_hive_info *hive)
+ int amdgpu_xgmi_set_pstate(struct amdgpu_device *adev, int pstate)
+ {
+ 	int ret = 0;
+-	struct amdgpu_hive_info *hive = amdgpu_get_xgmi_hive(adev);
+-	struct amdgpu_device *request_adev = hive->hi_req_gpu ?
+-						hive->hi_req_gpu : adev;
++	struct amdgpu_hive_info *hive;
++	struct amdgpu_device *request_adev;
+ 	bool is_hi_req = pstate == AMDGPU_XGMI_PSTATE_MAX_VEGA20;
+-	bool init_low = hive->pstate == AMDGPU_XGMI_PSTATE_UNKNOWN;
++	bool init_low;
 +
- 	struct mmsch_v3_0_cmd_direct_write
- 		direct_wt = { {0} };
- 	struct mmsch_v3_0_cmd_direct_read_modify_write
-@@ -1376,7 +1380,7 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
- 		MMSCH_V3_0_INSERT_END();
++	hive = amdgpu_get_xgmi_hive(adev);
++	if (!hive)
++		return 0;
  
- 		/* refine header */
--		header.inst[i].init_status = 1;
-+		header.inst[i].init_status = 0;
- 		header.inst[i].table_offset = header.total_size;
- 		header.inst[i].table_size = table_size;
- 		header.total_size += table_size;
-@@ -1434,6 +1438,30 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
- 		}
- 	}
- 
-+	/* 6, check each VCN's init_status
-+	 * if it remains as 0, then this VCN is not assigned to current VF
-+	 * do not start ring for this VCN
-+	 */
-+	size = sizeof(struct mmsch_v3_0_init_header);
-+	table_loc = (uint32_t *)table->cpu_addr;
-+	memcpy(&header, (void *)table_loc, size);
-+
-+	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
-+		if (adev->vcn.harvest_config & (1 << i))
-+			continue;
-+
-+		is_vcn_ready = (header.inst[i].init_status == 1);
-+		if (!is_vcn_ready)
-+			DRM_INFO("VCN(%d) engine is disabled by hypervisor\n", i);
-+
-+		ring = &adev->vcn.inst[i].ring_dec;
-+		ring->sched.ready = is_vcn_ready;
-+		for (j = 0; j < adev->vcn.num_enc_rings; ++j) {
-+			ring = &adev->vcn.inst[i].ring_enc[j];
-+			ring->sched.ready = is_vcn_ready;
-+		}
-+	}
-+
++	request_adev = hive->hi_req_gpu ? hive->hi_req_gpu : adev;
++	init_low = hive->pstate == AMDGPU_XGMI_PSTATE_UNKNOWN;
+ 	amdgpu_put_xgmi_hive(hive);
+ 	/* fw bug so temporarily disable pstate switching */
  	return 0;
- }
- 
 -- 
 2.27.0
 
