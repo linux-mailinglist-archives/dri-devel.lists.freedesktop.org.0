@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97042E1B40
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FE92E1B35
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBEE6E8EF;
-	Wed, 23 Dec 2020 10:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9786E918;
+	Wed, 23 Dec 2020 10:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B692C6E8C6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 06:01:04 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id hk16so2611714pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Dec 2020 22:01:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=4NTrNWSzSRmqwCvEQTSp0+nnEx8m/nIQOMiO0uIjc1c=;
- b=WvDRkmfxJVkbMxrPHfQO3jIIP0y/4x9UMXb4LToUg0c0YVvY1v4RZrwNlueMl3TxUA
- LhGgJdJ92dhnRdqfHs6g8anfNRbf1l3Kmc9/pX6fAPYlRtoT262w08UsgSlWlqjwupim
- 2rTRdJaJfAcBRk7WFZGXpnHhMzcnnfOVRchCFyriNz+u0XQ8rIHPtECtKub6jjl2X1+5
- u0ItXOKm5ZnduCP8Cm7CrIEnXL9xd920+5LPpI6GbeLhPSxVFzdGqmDFUxmXoFqjPlZL
- qvMtwOzbFqkFpFexgWWO5Tdjz5PhXaRJUfKZ1KFBLp0LcE39lWeRM19YL0vgg7wtne1B
- Yrtg==
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC0689B27;
+ Wed, 23 Dec 2020 08:04:04 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id c12so9910299pfo.10;
+ Wed, 23 Dec 2020 00:04:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=YwhKeQ95NsQxO4i1B4M2YvP1DI+YaSx95x3VhWlw4c0=;
+ b=Z3p9ls8iU7RsPuqa6E0pHKrw+VfFahKvI/G4pCscJDgbZD3I7rVQe4mY4hVO4k2P4B
+ ltT6ecB0vN9YE3JcXLuhsbtB826TEKOYWlE2QYC7ah8pld+3MGvaNa8fOGjdnpelC5Z+
+ 1p8ipojt0lDJeBVCq1oPg5Or+WPyLlsu5PbtGSjdZ3w71UZa7AAPemC1GAtAvtyw4J16
+ Eso7rJ9xlH61h1rY5eZrVSM2vlgZNx3w1kLwRDbPHOYy1cRcH/11W+PyuXIeurEnime3
+ uo9Yz0Ng0muKjkxb3cmyitn8I/RGln+wot+TEeazojATMxzCh8BBfXaOVzQePegh4He/
+ a9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=4NTrNWSzSRmqwCvEQTSp0+nnEx8m/nIQOMiO0uIjc1c=;
- b=CJr3zEvddzjbliv+PUcrEGJSfB5hftiXjmKsYdF7oLoLv0aU9oX23aYcUKzq6KjJ3/
- 2zevKIbpCVzHu4tdcX0pLeghBxaMaP1W90Lm0lmpuKVlNZsFGFIvta1CZkPPZaqS3e1Y
- bjP6z7NBUHJgNRPS4jVfAGbR9ku2KFxQpAaN6qIB9PBNolQG5Hv3eD+PV3+6Q7sDyXiD
- DykCBcsLZMpLCjaaRC9lsvHL/Co8gtuGUksHc22gRpWXdt53JUsbA6IdADQMOWEW+Nuu
- UDr3SlFZZZxE8IXYmMvUDYlVgZUwAYuEptFDVEAr6WFJ7LjAsrF2+dou2YbxFbLTnca6
- J3Gw==
-X-Gm-Message-State: AOAM531Dm8J95zSgmZ6awnybMAtDHrJCVkAKleQ9eDeaKImFvtN3IE8Q
- jmIHMsV07j2/2r2u6tOTHrfGlw==
-X-Google-Smtp-Source: ABdhPJyh2KPTGU4ayTa1XNiz400Y+zyRHMud7qFaV0QD/t+nRNJvznyZNbPeqd5VSc3ukQwC7r4DkA==
-X-Received: by 2002:a17:90b:16cd:: with SMTP id
- iy13mr24835386pjb.182.1608703264363; 
- Tue, 22 Dec 2020 22:01:04 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id y27sm22645455pfr.78.2020.12.22.22.01.03
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=YwhKeQ95NsQxO4i1B4M2YvP1DI+YaSx95x3VhWlw4c0=;
+ b=XbsWV1tnWtSC9lBWv3lFAYBC48MwUz/q5ttBqsvcuah7qX0MK/Xgjfcmy8hPDy8hih
+ fXRvAtTOR8scHiSOwCLJtq6fxQWewf2o0t7Nbr96pDHQcfr2MwJPb6HudpnapnDN6OMa
+ EDuI0M7bZDtcEe4tf3Txr/EiRAH/1UsyLBnBoec3APyxeuyu4Onjh9PuNx6jicvbZOgy
+ 5f5/Cagw0YgIwZ+BK803WNsVg/P0HH64ep+KDAHYmZrX6TrO4s2UUny+++ukZNErzAd/
+ 1SeIbciMuBOAbotNDv/3+MWy9RMPO8SKf9bTh6Xqgel+AsgmT+1TMEp/Vc9chnVKq0er
+ 1NTw==
+X-Gm-Message-State: AOAM531eZd72sKUuJAY2k45Oj/kVt79A1mHNY4lQmsf7eO7ovRWlf6zL
+ ivkiZfV0U30OIcNIWwGhOBU=
+X-Google-Smtp-Source: ABdhPJym+vMqd6iwnr4LOe1QbzeKgsfM8RMzZvjWO1mt7guqxTu6K3LZTyO/2YtpSyRGzypACKxcbw==
+X-Received: by 2002:a63:4c4b:: with SMTP id m11mr23409784pgl.20.1608710644608; 
+ Wed, 23 Dec 2020 00:04:04 -0800 (PST)
+Received: from localhost.localdomain ([122.10.161.207])
+ by smtp.gmail.com with ESMTPSA id iq3sm21735654pjb.57.2020.12.23.00.04.01
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Dec 2020 22:01:03 -0800 (PST)
-Date: Wed, 23 Dec 2020 11:31:01 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 15/48] opp: Support set_opp() customization without
- requiring to use regulators
-Message-ID: <20201223060101.v2qihvvgsmpahg24@vireshk-i7>
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-16-digetx@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201217180638.22748-16-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+ Wed, 23 Dec 2020 00:04:04 -0800 (PST)
+From: Yejune Deng <yejune.deng@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, nirmoy.das@amd.com, luben.tuikov@amd.com,
+ Hawking.Zhang@amd.com, le.ma@amd.com, yejune.deng@gmail.com
+Subject: [PATCH] drm/amdgpu: kref_put() may not require a lock.
+Date: Wed, 23 Dec 2020 16:03:54 +0800
+Message-Id: <1608710634-5118-1-git-send-email-yejune.deng@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Wed, 23 Dec 2020 10:51:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,79 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
- Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-12-20, 21:06, Dmitry Osipenko wrote:
-> Support set_opp() customization without requiring to use regulators. This
-> is needed by drivers which want to use dev_pm_opp_set_rate() for changing
-> rates of a multiple clocks and don't need to touch regulator.
-> 
-> One example is NVIDIA Tegra30/114 SoCs which have two sibling 3D hardware
-> units which should be use to the same clock rate, meanwhile voltage
-> scaling is done using a power domain. In this case OPP table doesn't have
-> a regulator, causing a NULL dereference in _set_opp_custom().
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/opp/core.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 3d02fe33630b..625dae7a5ecb 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -828,17 +828,25 @@ static int _set_opp_custom(const struct opp_table *opp_table,
->  			   struct dev_pm_opp_supply *old_supply,
->  			   struct dev_pm_opp_supply *new_supply)
->  {
-> -	struct dev_pm_set_opp_data *data;
-> +	struct dev_pm_set_opp_data *data, tmp_data;
-> +	unsigned int regulator_count;
->  	int size;
->  
-> -	data = opp_table->set_opp_data;
-> +	if (opp_table->set_opp_data) {
-> +		data = opp_table->set_opp_data;
-> +		regulator_count = opp_table->regulator_count;
-> +	} else {
-> +		data = &tmp_data;
-> +		regulator_count = 0;
-> +	}
-> +
+kref_put() can be outside of mutex_lock(),and use amdgpu_ctx_put()
+instead of kref_put().
 
-We should use the same structure, you can add some checks but not replace the
-structure altogether.
+Signed-off-by: Yejune Deng <yejune.deng@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
->  	data->regulators = opp_table->regulators;
-> -	data->regulator_count = opp_table->regulator_count;
-> +	data->regulator_count = regulator_count;
->  	data->clk = opp_table->clk;
->  	data->dev = dev;
->  
->  	data->old_opp.rate = old_freq;
-> -	size = sizeof(*old_supply) * opp_table->regulator_count;
-> +	size = sizeof(*old_supply) * regulator_count;
->  	if (!old_supply)
->  		memset(data->old_opp.supplies, 0, size);
->  	else
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+index 0350205..af26ec2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -282,6 +282,15 @@ static void amdgpu_ctx_do_release(struct kref *ref)
+ 	amdgpu_ctx_fini(ref);
+ }
+ 
++int amdgpu_ctx_put(struct amdgpu_ctx *ctx)
++{
++	if (ctx == NULL)
++		return -EINVAL;
++
++	kref_put(&ctx->refcount, amdgpu_ctx_do_release);
++	return 0;
++}
++
+ static int amdgpu_ctx_free(struct amdgpu_fpriv *fpriv, uint32_t id)
+ {
+ 	struct amdgpu_ctx_mgr *mgr = &fpriv->ctx_mgr;
+@@ -289,10 +298,9 @@ static int amdgpu_ctx_free(struct amdgpu_fpriv *fpriv, uint32_t id)
+ 
+ 	mutex_lock(&mgr->lock);
+ 	ctx = idr_remove(&mgr->ctx_handles, id);
+-	if (ctx)
+-		kref_put(&ctx->refcount, amdgpu_ctx_do_release);
+ 	mutex_unlock(&mgr->lock);
+-	return ctx ? 0 : -EINVAL;
++
++	return amdgpu_ctx_put(ctx);
+ }
+ 
+ static int amdgpu_ctx_query(struct amdgpu_device *adev,
+@@ -439,15 +447,6 @@ struct amdgpu_ctx *amdgpu_ctx_get(struct amdgpu_fpriv *fpriv, uint32_t id)
+ 	return ctx;
+ }
+ 
+-int amdgpu_ctx_put(struct amdgpu_ctx *ctx)
+-{
+-	if (ctx == NULL)
+-		return -EINVAL;
+-
+-	kref_put(&ctx->refcount, amdgpu_ctx_do_release);
+-	return 0;
+-}
+-
+ void amdgpu_ctx_add_fence(struct amdgpu_ctx *ctx,
+ 			  struct drm_sched_entity *entity,
+ 			  struct dma_fence *fence, uint64_t *handle)
 -- 
-viresh
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
