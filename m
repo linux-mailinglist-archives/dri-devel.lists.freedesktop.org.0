@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136E52E11B7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:17:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB732E11B4
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 03:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C486E89B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEF26E897;
 	Wed, 23 Dec 2020 02:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D206E89B;
- Wed, 23 Dec 2020 02:17:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A3232332A;
- Wed, 23 Dec 2020 02:16:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA68D6E897;
+ Wed, 23 Dec 2020 02:17:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CBD1823333;
+ Wed, 23 Dec 2020 02:17:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689820;
- bh=A8jWh6VXs3eNoGFczwY5tHyt/pPzLelK9IqcsggWE0g=;
+ s=k20201202; t=1608689823;
+ bh=LzfZCtv9f0T68Y0kzTc6SDeo8zWnuF2OlmwvB5h+inQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gShbQzsEF9zRoHkYA+QPPQyCZyyH/ZFZw6VNYb6okF6MT/K0xMgXac52Q8pLR2cKs
- 0FKyKLrgnJiljnmV0N0D/qw12XXS82CxWiNzSitK0m3uo/GZC03+NlJRuXorEaJraT
- F48I2Vr6C9BhR1xNrQZjfOolmKxgavmOKT6h0/ki3cTNB1Qn17EvfFpZaBYoGG/Swx
- nA2NPPlrFP4h66ed545USNeCqGkgBSRLjgA9G3Ig0LrUGLSdOSHMUMG8u3Bel1I/KT
- 0noYoh+s4v9D/2KhHXW9Dkr3xgTKUCX1zmlZvwKfzh6DqHkbGQr/J+L1mzq0HmvYcE
- z3Uv4Vb/N9MRA==
+ b=mDz0f1VS2x9iEOee5G/OCqlgzMCCLGdiWZY8r8ITRMZa0V5g0afT81zCT8iQb2CPJ
+ ijH2P4fNbwD4ciGRzBWma378UjVagg4SRN1kIhvfvAQfhwni1xPffclSchJs9Z+cEJ
+ 03uvmMmhKLJl7d8ho2Vh+ooo2CsrnmfDe2et/K/UPNZI3wdyOBCjDReTN0RQVtDemP
+ J8auvBYf8IQ5HbuvR+E5aTp2HVQWeUMRp7TLsT9XZPBRrJk0tEK9wUBNm9OaYTbv4r
+ 7lZoYIue3GkHIyHNm9RXLFYXOrDMJkJkqr7U7EW0XlOR8FqGIP+FGCJNNpEHBT5FAy
+ peezz2J72yvLg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 025/217] drm/amdgpu: disable gfxoff if VCN is busy
-Date: Tue, 22 Dec 2020 21:13:14 -0500
-Message-Id: <20201223021626.2790791-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 028/217] drm/amdgpu: set LDS_CONFIG=0x20 on Navy
+ Flounder to fix a GPU hang (v2)
+Date: Tue, 22 Dec 2020 21:13:17 -0500
+Message-Id: <20201223021626.2790791-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201223021626.2790791-1-sashal@kernel.org>
 References: <20201223021626.2790791-1-sashal@kernel.org>
@@ -48,59 +49,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Jiansong Chen <Jiansong.Chen@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, James Zhu <James.Zhu@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiansong Chen <Jiansong.Chen@amd.com>
-
-[ Upstream commit ef3b2987254035f9b869f70151b4220c34f2f133 ]
-
-Toggle on/off gfxoff during video playback to fix gpu hang.
-
-v2: change sequence to be more compatible with original code.
-
-Signed-off-by: Jiansong Chen <Jiansong.Chen@amd.com>
-Reviewed-by: James Zhu <James.Zhu@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-index a563328e3daea..ee6a42c81bd99 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-@@ -345,6 +345,7 @@ static void amdgpu_vcn_idle_work_handler(struct work_struct *work)
- 	}
- 
- 	if (!fences && !atomic_read(&adev->vcn.total_submission_cnt)) {
-+		amdgpu_gfx_off_ctrl(adev, true);
- 		amdgpu_device_ip_set_powergating_state(adev, AMD_IP_BLOCK_TYPE_VCN,
- 		       AMD_PG_STATE_GATE);
- 	} else {
-@@ -357,7 +358,9 @@ void amdgpu_vcn_ring_begin_use(struct amdgpu_ring *ring)
- 	struct amdgpu_device *adev = ring->adev;
- 
- 	atomic_inc(&adev->vcn.total_submission_cnt);
--	cancel_delayed_work_sync(&adev->vcn.idle_work);
-+
-+	if (!cancel_delayed_work_sync(&adev->vcn.idle_work))
-+		amdgpu_gfx_off_ctrl(adev, false);
- 
- 	mutex_lock(&adev->vcn.vcn_pg_lock);
- 	amdgpu_device_ip_set_powergating_state(adev, AMD_IP_BLOCK_TYPE_VCN,
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWFyZWsgT2zFocOhayA8bWFyZWsub2xzYWtAYW1kLmNvbT4KClsgVXBzdHJlYW0gY29t
+bWl0IDRiNjBiYjBkZGUxYmFmMzQ3NTQwMjUzZjg1NmM1NGJjOTA4ZTUyNWMgXQoKdjI6IHNxdWFz
+aCBpbiBidWlsZCBmaXgKCkFja2VkLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVy
+QGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IE1hcmVrIE9sxaHDoWsgPG1hcmVrLm9sc2FrQGFtZC5j
+b20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNv
+bT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jIHwgNSArKysrLQogMSBmaWxlIGNo
+YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvZ2Z4X3YxMF8wLmMKaW5kZXggNTVmNGI4YzNiOTMzOC4uNjZiZGZiZGNkZjJiOCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmMKQEAgLTMxODMsNyArMzE4MywxMCBA
+QCBzdGF0aWMgY29uc3Qgc3RydWN0IHNvYzE1X3JlZ19nb2xkZW4gZ29sZGVuX3NldHRpbmdzX2dj
+XzEwXzNfMltdID0KIAlTT0MxNV9SRUdfR09MREVOX1ZBTFVFKEdDLCAwLCBtbVNRX1BFUkZDT1VO
+VEVSOV9TRUxFQ1QsIDB4ZjBmMDAxZmYsIDB4MDAwMDAwMDApLAogCVNPQzE1X1JFR19HT0xERU5f
+VkFMVUUoR0MsIDAsIG1tVEFfQ05UTF9BVVgsIDB4ZmZmN2ZmZmYsIDB4MDEwMzAwMDApLAogCVNP
+QzE1X1JFR19HT0xERU5fVkFMVUUoR0MsIDAsIG1tVVRDTDFfQ1RSTCwgMHhmZmJmZmZmZiwgMHgw
+MGEwMDAwMCksCi0JU09DMTVfUkVHX0dPTERFTl9WQUxVRShHQywgMCwgbW1WR1RfR1NfTUFYX1dB
+VkVfSUQsIDB4MDAwMDBmZmYsIDB4MDAwMDAzZmYpCisJU09DMTVfUkVHX0dPTERFTl9WQUxVRShH
+QywgMCwgbW1WR1RfR1NfTUFYX1dBVkVfSUQsIDB4MDAwMDBmZmYsIDB4MDAwMDAzZmYpLAorCisJ
+LyogVGhpcyBpcyBub3QgaW4gR0RCIHlldC4gRG9uJ3QgcmVtb3ZlIGl0LiBJdCBmaXhlcyBhIEdQ
+VSBoYW5nIG9uIE5hdnkgRmxvdW5kZXIuICovCisJU09DMTVfUkVHX0dPTERFTl9WQUxVRShHQywg
+MCwgbW1MRFNfQ09ORklHLCAgMHgwMDAwMDAyMCwgMHgwMDAwMDAyMCksCiB9OwogCiAjZGVmaW5l
+IERFRkFVTFRfU0hfTUVNX0NPTkZJRyBcCi0tIAoyLjI3LjAKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
