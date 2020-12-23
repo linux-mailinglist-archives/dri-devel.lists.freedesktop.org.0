@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5512E1B45
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF72F2E1B3D
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C1A6E8FC;
-	Wed, 23 Dec 2020 10:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755606E06E;
+	Wed, 23 Dec 2020 10:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE2F46E249
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 01:16:08 +0000 (UTC)
-X-UUID: 9828f793167c4a04b2907d2aa7a85851-20201223
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
- bh=1JreIqPgO/MgWqYvXss3grHwTj5L9rm69LlEytrJzyI=; 
- b=BxkDtmUcYXFQ4o7/U8FsxrmahJCUSuXy2GJiKeQqDllniE1qnbwdwQugB6qQp4PTbU9tvaNigoXT6h2lVAqBr+pq7T8TfJMHZz/VwLwurEWrq0MIxyt1Sag1aIS6JYM6qaC5mvCnzBYPdSK2iKiKgo5r4d6n8kj2N8kfsk7fpJY=;
-X-UUID: 9828f793167c4a04b2907d2aa7a85851-20201223
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 85176294; Wed, 23 Dec 2020 09:16:03 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n1.mediatek.inc
- (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 23 Dec 2020 09:15:58 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 23 Dec 2020 09:15:58 +0800
-Message-ID: <1608686161.18252.3.camel@mhfsdcap03>
-Subject: Re: [PATCH v2, 01/17] dt-bindings: mediatek: add description for
- postmask
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 23 Dec 2020 09:16:01 +0800
-In-Reply-To: <CAAOTY_-=4ZwXgTA57UE9+nZm-0E-B1oimWXfaJuWxufo8LJ+pg@mail.gmail.com>
-References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607746317-4696-2-git-send-email-yongqiang.niu@mediatek.com>
- <CAAOTY_-=4ZwXgTA57UE9+nZm-0E-B1oimWXfaJuWxufo8LJ+pg@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+X-Greylist: delayed 377 seconds by postgrey-1.36 at gabe;
+ Wed, 23 Dec 2020 01:25:47 UTC
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF6E56E249;
+ Wed, 23 Dec 2020 01:25:47 +0000 (UTC)
+Received: from li-pc.loongson.cn (unknown [10.20.41.71])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX8sem+JfpMQDAA--.9040S2;
+ Wed, 23 Dec 2020 09:19:26 +0800 (CST)
+From: Chenyang Li <lichenyang@loongson.cn>
+To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu:Fixed the wrong macro definition in amdgpu_trace.h
+Date: Wed, 23 Dec 2020 09:19:25 +0800
+Message-Id: <20201223011926.15924-1-lichenyang@loongson.cn>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MTK: N
+X-CM-TRANSID: AQAAf9DxX8sem+JfpMQDAA--.9040S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xr17Zr4UArW7ZF1xXw1DKFg_yoW3Jwb_CF
+ W5ZFs3Xr13AFnFv3Wavw15Zw12yrW5Zr4kur1FgF9ayryj93yUXFy7Wr97Xan3uFs7uFnr
+ Xw40gr13AwnxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb28YjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK6svPMxAIw28I
+ cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+ IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI
+ 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+ IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+ 87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jY6wZUUUUU=
+X-CM-SenderInfo: xolfxvxq1d0wo6or00hjvr0hdfq/1tbiAQASA13QvMxc7gAEsb
 X-Mailman-Approved-At: Wed, 23 Dec 2020 10:51:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,51 +55,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, "moderated list:ARM/Mediatek
- SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIwLTEyLTE1IGF0IDIyOjQ5ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
-PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
-YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgxMuaXpSDpgLHlha0g5LiL5Y2IMTI6MTLlr6vpgZPv
-vJoNCj4gPg0KPiA+IGFkZCBkZXNjcmlwdGlvbiBmb3IgcG9zdG1hc2sNCj4gDQo+IFdoYXQgaXMg
-cG9zdG1hc2s/IEkgZ29vZ2xlIGl0IGFuZCBmaW5kIGEgcG9zdG1hc2sgRUNPLiBTbyBpdCBpcyBw
-b3N0bWFzayBFQ08/DQo+IA0KPiBSZWdhcmRzLA0KPiBDaHVuLUt1YW5nLg0KPiANCg0KaXQgaXMg
-dXNlZCBjb250cm9sIHJvdW5kIGNvcm5lciBmb3IgZGlzcGxheSBmcmFtZQ0KDQo+ID4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4N
-Cj4gPiAtLS0NCj4gPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-bWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgfCAxICsNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgYi9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNw
-LnR4dA0KPiA+IGluZGV4IDVjYTY5M2EuLjE5NzJmYTcgMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlz
-cC50eHQNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
-eS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dA0KPiA+IEBAIC0zNyw2ICszNyw3IEBAIFJlcXVp
-cmVkIHByb3BlcnRpZXMgKGFsbCBmdW5jdGlvbiBibG9ja3MpOg0KPiA+ICAgICAgICAgIm1lZGlh
-dGVrLDxjaGlwPi1kaXNwLWFhbCIgICAgICAgICAgICAgIC0gYWRhcHRpdmUgYW1iaWVudCBsaWdo
-dCBjb250cm9sbGVyDQo+ID4gICAgICAgICAibWVkaWF0ZWssPGNoaXA+LWRpc3AtZ2FtbWEiICAg
-ICAgICAgICAgLSBnYW1tYSBjb3JyZWN0aW9uDQo+ID4gICAgICAgICAibWVkaWF0ZWssPGNoaXA+
-LWRpc3AtbWVyZ2UiICAgICAgICAgICAgLSBtZXJnZSBzdHJlYW1zIGZyb20gdHdvIFJETUEgc291
-cmNlcw0KPiA+ICsgICAgICAgIm1lZGlhdGVrLDxjaGlwPi1kaXNwLXBvc3RtYXNrIiAgICAgICAg
-IC0gcG9zdCBtYXNrDQo+ID4gICAgICAgICAibWVkaWF0ZWssPGNoaXA+LWRpc3Atc3BsaXQiICAg
-ICAgICAgICAgLSBzcGxpdCBzdHJlYW0gdG8gdHdvIGVuY29kZXJzDQo+ID4gICAgICAgICAibWVk
-aWF0ZWssPGNoaXA+LWRpc3AtdWZvZSIgICAgICAgICAgICAgLSBkYXRhIGNvbXByZXNzaW9uIGVu
-Z2luZQ0KPiA+ICAgICAgICAgIm1lZGlhdGVrLDxjaGlwPi1kc2kiICAgICAgICAgICAgICAgICAg
-IC0gRFNJIGNvbnRyb2xsZXIsIHNlZSBtZWRpYXRlayxkc2kudHh0DQo+ID4gLS0NCj4gPiAxLjgu
-MS4xLmRpcnR5DQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18NCj4gPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QNCj4gPiBMaW51eC1tZWRpYXRl
-a0BsaXN0cy5pbmZyYWRlYWQub3JnDQo+ID4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlaw0KDQpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+In line 24 "_AMDGPU_TRACE_H" is missing an underscore.
+
+Signed-off-by: Chenyang Li <lichenyang@loongson.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+index ee9480d14cbc..86cfb3d55477 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
+@@ -21,7 +21,7 @@
+  *
+  */
+ 
+-#if !defined(_AMDGPU_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
++#if !defined(_AMDGPU_TRACE_H_) || defined(TRACE_HEADER_MULTI_READ)
+ #define _AMDGPU_TRACE_H_
+ 
+ #include <linux/stringify.h>
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
