@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C605B2E1B3E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45632E1B24
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 11:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABC86E8ED;
-	Wed, 23 Dec 2020 10:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBE76E8E9;
+	Wed, 23 Dec 2020 10:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9E02B6E249
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 01:23:55 +0000 (UTC)
-X-UUID: cd6e133c2ca74fb19d15eb2175488ee9-20201223
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 586416E875
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 01:36:13 +0000 (UTC)
+X-UUID: 9b86282bee9343a4b2d733b07cdd2414-20201223
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
- bh=xZSMGNycrUGCDcc+7tKfKZ1TjnIFUd/ecXWYJopv86Q=; 
- b=MuTzwgtTPxToCm+XYb+xNDDKmBwf6e6AcEaKd281ns+cFVWwPM+DZ5aNJ/VpSbpa+St5LwuoDMNFaLkcyTDj/aGf6oYI/Ye/uPAMqI6YUt56z2z0xu8ZGaKzahxVJhYgU5TFheDgDqk3DxRkBgmlDCYGsHtSApPpOVRqFo2ivtY=;
-X-UUID: cd6e133c2ca74fb19d15eb2175488ee9-20201223
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ bh=igemKLkcQLI3htu4s5toT7cvfqLMBfICa3D565HL4bA=; 
+ b=ObuJrw8+oKC2xfZhMqn8vvImXA1Dj8Zli5/3iiovlbafA7fq9TfdtT/7LVFodnEX943EcyknzfLBgH0S7Iv+Wd5L8vKw7ZMpBnIR5mJl0d+dqAAYtOvRcqFCtPVxlU0nCToJGbj/ptjh91vOiwnEHpa8UtcCC+b1J1mO3VNKwqQ=;
+X-UUID: 9b86282bee9343a4b2d733b07cdd2414-20201223
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2041247052; Wed, 23 Dec 2020 09:23:53 +0800
+ with ESMTP id 296003127; Wed, 23 Dec 2020 09:36:06 +0800
 Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
  (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 23 Dec 2020 09:23:51 +0800
+ Wed, 23 Dec 2020 09:36:05 +0800
 Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 23 Dec 2020 09:23:46 +0800
-Message-ID: <1608686629.18252.8.camel@mhfsdcap03>
-Subject: Re: [PATCH v2, 07/17] drm/mediatek: add disp config and mm 26mhz
- clock into mutex device
+ Transport; Wed, 23 Dec 2020 09:36:02 +0800
+Message-ID: <1608687363.18252.9.camel@mhfsdcap03>
+Subject: Re: [PATCH v2, 10/17] drm/mediatek: fix aal size config
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Date: Wed, 23 Dec 2020 09:23:49 +0800
-In-Reply-To: <CANMq1KCbmW4kbY5rbuogr9JJD5c5=-qatFs-EaWbuAxSzWmnLQ@mail.gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 23 Dec 2020 09:36:03 +0800
+In-Reply-To: <CAAOTY_9JNdL-huHYKq=W5gRMUHVRWeUzDunNa7q_d7DPp4P2pg@mail.gmail.com>
 References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607746317-4696-8-git-send-email-yongqiang.niu@mediatek.com>
- <CANMq1KCbmW4kbY5rbuogr9JJD5c5=-qatFs-EaWbuAxSzWmnLQ@mail.gmail.com>
+ <1607746317-4696-11-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_9JNdL-huHYKq=W5gRMUHVRWeUzDunNa7q_d7DPp4P2pg@mail.gmail.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -57,132 +56,62 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Rob
- Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Herring <robh+dt@kernel.org>, "moderated list:ARM/Mediatek
+ SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2020-12-15 at 21:37 +0800, Nicolas Boichat wrote:
-> On Sat, Dec 12, 2020 at 12:12 PM Yongqiang Niu
-> <yongqiang.niu@mediatek.com> wrote:
-> >
-> > there are 2 more clock need enable for display.
-> > parser these clock when mutex device probe,
-> > enable and disable when mutex on/off
-> >
-> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 49 ++++++++++++++++++++++++++++------
-> >  1 file changed, 41 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-> > index 60788c1..de618a1 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-> > @@ -118,7 +118,7 @@ struct mtk_ddp_data {
-> >
-> >  struct mtk_ddp {
-> >         struct device                   *dev;
-> > -       struct clk                      *clk;
-> > +       struct clk                      *clk[3];
-> >         void __iomem                    *regs;
-> >         struct mtk_disp_mutex           mutex[10];
-> >         const struct mtk_ddp_data       *data;
-> > @@ -257,14 +257,39 @@ int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
-> >  {
-> >         struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
-> >                                            mutex[mutex->id]);
-> > -       return clk_prepare_enable(ddp->clk);
-> > +       int ret;
-> > +       int i;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-> > +               if (IS_ERR(ddp->clk[i]))
-> > +                       continue;
-> > +               ret = clk_prepare_enable(ddp->clk[i]);
-> > +               if (ret) {
-> > +                       pr_err("failed to enable clock, err %d. i:%d\n",
-> > +                               ret, i);
-> > +                       goto err;
-> > +               }
-> > +       }
-> > +
-> > +       return 0;
-> > +
-> > +err:
-> > +       while (--i >= 0)
-> > +               clk_disable_unprepare(ddp->clk[i]);
-> > +       return ret;
-> >  }
-> >
-> >  void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
-> >  {
-> >         struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
-> >                                            mutex[mutex->id]);
-> > -       clk_disable_unprepare(ddp->clk);
-> > +       int i;
-> > +
-> > +        for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-> > +               if (IS_ERR(ddp->clk[i]))
-> > +                       continue;
-> > +               clk_disable_unprepare(ddp->clk[i]);
-> > +       }
-> >  }
-> >
-> >  void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
-> > @@ -415,11 +440,19 @@ static int mtk_ddp_probe(struct platform_device *pdev)
-> >         ddp->data = of_device_get_match_data(dev);
-> >
-> >         if (!ddp->data->no_clk) {
-> > -               ddp->clk = devm_clk_get(dev, NULL);
-> > -               if (IS_ERR(ddp->clk)) {
-> > -                       if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
-> > -                               dev_err(dev, "Failed to get clock\n");
-> > -                       return PTR_ERR(ddp->clk);
-> > +               int ret;
-> > +
-> > +               for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-> > +                       ddp->clk[i] = of_clk_get(dev->of_node, i);
-> > +
-> > +                       if (IS_ERR(ddp->clk[i])) {
-> > +                               ret = PTR_ERR(ddp->clk[i]);
-> > +                               if (ret != EPROBE_DEFER)
-> > +                                       dev_err(dev, "Failed to get clock %d\n",
-> > +                                               ret);
-> > +
-> > +                               return ret;
-> > +                       }
-> 
-> Use of_clk_bulk_get_all instead?
-> 
-> ddp->num_clks = of_clk_bulk_get_all(dev->of_node, &ddp->clks);
-> ...
-> 
-> Then the calls above can be clk_bulk_enable/clk_bulk_disable using
-> num_clks and clks.
-> 
-
-will be fixed in next version
-> 
-> >                 }
-> >         }
-> >
-> > --
-> > 1.8.1.1.dirty
-> > _______________________________________________
-> > Linux-mediatek mailing list
-> > Linux-mediatek@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAyMDIwLTEyLTE2IGF0IDIzOjEwICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
+PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
+YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgxMuaXpSDpgLHlha0g5LiL5Y2IMTI6MjLlr6vpgZPv
+vJoNCj4gPg0KPiA+IGZpeCBhYWwgc2l6ZSBjb25maWcNCj4gPg0KPiA+IEZpeGVzOiAwNjY0ZDEz
+OTJjMjYgKGRybS9tZWRpYXRlazogQWRkIEFBTCBlbmdpbmUgYmFzaWMgZnVuY3Rpb24pDQo+ID4g
+U2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+
+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21w
+LmMgfCAxMSArKysrKysrKysrLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygr
+KSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RybV9kZHBfY29tcC5jDQo+ID4gaW5kZXggYmU2MWQxMS4uZTdkNDgxZTAgMTAwNjQ0DQo+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYw0KPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMNCj4gPiBAQCAt
+MzMsOCArMzMsMTMgQEANCj4gPiAgI2RlZmluZSBESVNQX1JFR19VRk9fU1RBUlQgICAgICAgICAg
+ICAgICAgICAgICAweDAwMDANCj4gPg0KPiA+ICAjZGVmaW5lIERJU1BfQUFMX0VOICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIDB4MDAwMA0KPiA+ICsjZGVmaW5lIERJU1BfQUFMX0NGRyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIDB4MDAyMA0KPiA+ICsjZGVmaW5lIEFBTF9SRUxBWV9NT0RF
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQklUKDApDQo+ID4gKyNkZWZpbmUgQUFM
+X0VOR0lORV9FTiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBCSVQoMSkNCj4gPiAg
+I2RlZmluZSBESVNQX0FBTF9TSVpFICAgICAgICAgICAgICAgICAgICAgICAgICAweDAwMzANCj4g
+Pg0KPiA+ICsjZGVmaW5lIERJU1BfQUFMX09VVFBVVF9TSVpFICAgICAgICAgICAgICAgICAgIDB4
+MDRkOA0KPiA+ICsNCj4gPiAgI2RlZmluZSBESVNQX0NDT1JSX0VOICAgICAgICAgICAgICAgICAg
+ICAgICAgICAweDAwMDANCj4gPiAgI2RlZmluZSBDQ09SUl9FTiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBCSVQoMCkNCj4gPiAgI2RlZmluZSBESVNQX0NDT1JSX0NGRyAgICAgICAgICAg
+ICAgICAgICAgICAgICAweDAwMjANCj4gPiBAQCAtMTg0LDcgKzE4OSwxMSBAQCBzdGF0aWMgdm9p
+ZCBtdGtfYWFsX2NvbmZpZyhzdHJ1Y3QgbXRrX2RkcF9jb21wICpjb21wLCB1bnNpZ25lZCBpbnQg
+dywNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgaCwgdW5zaWdu
+ZWQgaW50IHZyZWZyZXNoLA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVk
+IGludCBicGMsIHN0cnVjdCBjbWRxX3BrdCAqY21kcV9wa3QpDQo+ID4gIHsNCj4gPiAtICAgICAg
+IG10a19kZHBfd3JpdGUoY21kcV9wa3QsIGggPDwgMTYgfCB3LCBjb21wLCBESVNQX0FBTF9TSVpF
+KTsNCj4gPiArICAgICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIHcgPDwgMTYgfCBoLCBjb21w
+LCBESVNQX0FBTF9TSVpFKTsNCj4gPiArICAgICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIHcg
+PDwgMTYgfCBoLCBjb21wLCBESVNQX0FBTF9PVVRQVVRfU0laRSk7DQo+ID4gKw0KPiA+ICsgICAg
+ICAgbXRrX2RkcF93cml0ZV9tYXNrKE5VTEwsIEFBTF9SRUxBWV9NT0RFLCBjb21wLCBESVNQX0FB
+TF9DRkcsDQo+IA0KPiBjbWRxX3BrdA0KPiANCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICBBQUxfUkVMQVlfTU9ERSB8IEFBTF9FTkdJTkVfRU4pOw0KPiANCj4gVGhpcyBwYXRjaCBpcyB0
+byBmaXggc2l6ZSBjb25maWcsIHNvIG1vdmUgdGhpcyBzdGF0ZW1lbnQgdG8gYW5vdGhlciBwYXRj
+aC4NCj4gDQo+IFJlZ2FyZHMsDQo+IENodW4tS3VhbmcuDQo+IA0KDQp3aWxsIGJlIGZpeGVkIGlu
+IG5leHQgdmVyc2lvbg0KDQo+ID4gIH0NCj4gPg0KPiA+ICBzdGF0aWMgdm9pZCBtdGtfYWFsX3N0
+YXJ0KHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXApDQo+ID4gLS0NCj4gPiAxLjguMS4xLmRpcnR5
+DQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4g
+PiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QNCj4gPiBMaW51eC1tZWRpYXRla0BsaXN0cy5p
+bmZyYWRlYWQub3JnDQo+ID4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9saW51eC1tZWRpYXRlaw0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
