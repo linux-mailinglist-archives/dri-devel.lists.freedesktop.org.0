@@ -2,38 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4349B2E19D0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 09:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C62C2E1A2A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Dec 2020 09:55:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7976E6E8D5;
-	Wed, 23 Dec 2020 08:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24BCF89DC1;
+	Wed, 23 Dec 2020 08:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F1E6E8D2;
- Wed, 23 Dec 2020 08:15:06 +0000 (UTC)
-IronPort-SDR: stgcoIPThOxnAX7r/LrsfSZsiHkKbabym59nar97vgiskyBjGFDm0dnZyunxHfrXoL0VtHgfiD
- LfdBy5FCc+bQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="237541936"
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; d="scan'208";a="237541936"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 00:15:05 -0800
-IronPort-SDR: KKAZw1iaiaQ8OkG4WzZwjHaTHr8wHr2snKovxo/xfiyCKzgIOymwIicyzA2Tmw40YP7fr1FSvk
- qh5AjCRDClsQ==
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; d="scan'208";a="373878273"
-Received: from odonov3x-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.250.144])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 00:15:01 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-Subject: [PULL] topic/dp-hdmi-2.1-pcon for drm-misc-next
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Wed, 23 Dec 2020 10:14:58 +0200
-Message-ID: <87lfdpndkt.fsf@intel.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2088.outbound.protection.outlook.com [40.107.92.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D312A89DC1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 08:54:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l47nvmNCAzwiE022tDK3VekLpA32HCFYV94QZN2r5obO9TiJwoWo970/cvuhs+2QfsA1GsDLe1ehZgF7i/3ZPNUhtFPhpCOfOIcQmozvDUBnKNQRN7sS23G7f3qaGhspCLH7cj+cqejkLPbG2h4zFQWOacxm3XWq0LcR4i4xZkZoYtxZQf5PtJfaLXTOaaurOFq1HXQ6xQRoZP01haimw9UyH9y5ZT10Bthhop5KkLucCS47ZF8DIybuDj0c7bpXA/7wgOxeRxR2MlGxIA9yGOzOIIwcc2eL7eGFszDz3xVI+2icFrrPEDOhYMT7sA3WRbab8XI/QMplC3RKmYhFxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0MbdxRAqXouDI1iOGpFpgOu5enMY1k4tfEnhNyHkBSU=;
+ b=DY3sveeJmR13a2IUB8xrz+mPidLe+v7kbTR1KfdbhnOu0LB1rhqFQAFqL06P+jg4IF+07acierODgas7oPmtid6uvKCRNcYeyPUmxbuwXl3/kR/VextDrI5Bh0OSjxk6cOdF1xa+dsYrFKyLFKar6zsXtoZYByuBT8FHoOglLLl+od8P3l72lAVmPBxUJnf3cdJqG9jUSaYU3oEmSkkWKOMHcTQgdNUA9yyaIZl5dcMYSwmF2xRq45A6TgEQoKVyrc8Be+0uWnQQI+ZCLCIGE2l3LF1RtoSayRANrJenCtmkDYzAq/pI6PISTm0x9rPLl/svbhF2fHNzDKQf53V/Zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0MbdxRAqXouDI1iOGpFpgOu5enMY1k4tfEnhNyHkBSU=;
+ b=JADBtDYm1C2jsaz74HDSamtYEHM4Vtigd7PnBmW8cPiGD5H1hPGYbnmkhAI94lPU8DmHuuy92yd/jGvcUTaQUcudfY8qEbhRaC3Xh4K8dLY3BUYgWfu5xEo9oxSAJ5hKjm9eXWoqjdQsKy1TKJrgK/hF9+DCBvocl8QfyRDP5rc=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4947.namprd12.prod.outlook.com (2603:10b6:208:17d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Wed, 23 Dec
+ 2020 08:54:54 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3700.026; Wed, 23 Dec 2020
+ 08:54:54 +0000
+Subject: Re: [PATCH 2/2] drm/amdgpu: use GTT for uvd_get_create/destory_msg
+To: Chen Li <chenli@uniontech.com>, dri-devel@lists.freedesktop.org
+References: <87r1njy1s7.wl-chenli@uniontech.com>
+ <87pn33y1fc.wl-chenli@uniontech.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <73336ba2-343d-ddba-54fe-4ebf75654394@amd.com>
+Date: Wed, 23 Dec 2020 09:54:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <87pn33y1fc.wl-chenli@uniontech.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR06CA0127.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::32) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:208:ab::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3700.27 via Frontend Transport; Wed, 23 Dec 2020 08:54:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 2ab76b79-4a2c-417d-5e08-08d8a7206a96
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4947:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4947629D47E5A782EE6B38D283DE0@BL0PR12MB4947.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:94;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i8nVn1Y5c8pClY3YnBjZ5URR5Gvuy1gf57IwuwN7PEC6VNzpJhte9XOij+YPB7Iqn38gAoHBo1ImAsVjfO+LWfaZF8qXuXHL2XBq6xFD9Liy9YB5R+mLiAGFVEPXoByH/63026Xxkx6RETQriQatVbjIoUV2WCq4gl+qWO21wPx0AY/h/k3FSdZzGCNy9U6G9VrsmKl9uRtGvFlxA3PJwPtGPoBsQbl3OoBwrGJpyM6j2h80iuKbEFKfX5/YzkoN6AY9RMmdyIkAdOvWIg2+9rbBMC4dY06b853w0QOuAxpBKBCM1eNdd2C6hbQ3wU3wScnslYXZxCnZaF0MCip8op9Hbght6iJ7RYOVcjj3Ml7JHb7+RhL+9L3wYDSmaLf1COy5fJs3382tgUD3heTe9cFNv3+YTT9Z4gx39DcGz5c5AeglxxIeSqolUkJWYwD0GkusBpDRLuVY2cCQXtu6IoWzFmw9m8pClZgRljzqCGE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(366004)(2616005)(6486002)(6666004)(478600001)(8936002)(8676002)(31696002)(86362001)(36756003)(66476007)(66946007)(52116002)(66556008)(186003)(83380400001)(316002)(5660300002)(31686004)(2906002)(16526019)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Mk1NWmRxWnM2RWxlTUQ1OGRTcDExMDVxTG0xZWpEeEVnOHJsLzIyNjFZaDlB?=
+ =?utf-8?B?NXRMaEhTSlhDRXdpczdyQnlTMEhxRGpEZERYeFVJdEEwSmUxdFVZQzBPZ3dB?=
+ =?utf-8?B?b3h5MzJicHhVanBlWjBoQUo3WmdEWXNtUER3Z1VZSEZnaURFSXowT2NmSm5R?=
+ =?utf-8?B?QVNPemNUdDlqL1Nwb1phbCt2S0xWZVlKWDQ4WEdMbVlXNWRwcHgrMy9tYVhX?=
+ =?utf-8?B?RE54MjVsOVBaU1drbldLZWxvSlZnbnNZc212c3BVaEczQlFvRDlwbHF0cnlH?=
+ =?utf-8?B?L1A0T1hYZE9TRXB0Qm5QZTBteG5nM080UEF3YjRFTXJ2czZwN1pZWmxGQlZv?=
+ =?utf-8?B?OE56MGQ3c1M1QVZHbUtSN1JoNUp6NStKTTMrNnRqYjIvSS9KSGtpeFR6V1Zo?=
+ =?utf-8?B?ZlBQMGVHSXJLODlPQ2MyN3RPekdGZitPWEhkWW1zQzEyNHBVbE5yNUFSSHgz?=
+ =?utf-8?B?U3dIczFxWEZmQ2V6eGRTOWFvajE4d05xVWY0Wlo4a0tWVVVUdDR3M3ZwcGZU?=
+ =?utf-8?B?R3N4UWppcFNvOW9HQW5VdGpKZGtLM3c0VUREZ0FFTXZXbVVDUFJnOTNEcnpq?=
+ =?utf-8?B?Y1hHS293ZEoyWEtrNkhMaEtnZU9pVCs3WTlpS3JmVUhYVXQwdkI1cDBvWWRU?=
+ =?utf-8?B?YWQ4SzVDekdIVWNwNy9rTndYUEpzL2RudHJrZWMzelBIZk4yRFo4Mi8yKzU2?=
+ =?utf-8?B?dm0vWWl3MDd2bkxKZ2xLT2hPUmxkMWE3d0Q4bjkrUFhCeDdsaWc1WEtUM2FQ?=
+ =?utf-8?B?d0pnQmEyM3prMWFoZndIbExSNnN0TkdnWUJDczB0ZnpQTEk2Z3RYRkZDMmsv?=
+ =?utf-8?B?clBsenpUdTc3aGhPY042bEdCbCtMMFdKdmcyQ3FQNzl2UkhRMmJwRkdoa3pZ?=
+ =?utf-8?B?NlNFWm1LREpJQzhONXFHZUdxcm9DYUxOb2prdnpnVFpvUGJESEw0SEpZR0Jz?=
+ =?utf-8?B?a1pTTVRVc1NRMGlROTNuRFowU0MrVEphNGhROTQraC9LYXAvUko2OGJZRTBx?=
+ =?utf-8?B?QUNXUS9lSkdXVXA3QUdmMmZvMmxGL3ZXNENzcERXaGN5ako2dnZnQ0MvN2NR?=
+ =?utf-8?B?T0w4N2tpSTNXRFFDYkJGR2FoL3lqMmVUNk1MUU5WU1dOeUh1ZlNzZWQxYVlv?=
+ =?utf-8?B?SGJPc2RwK1RDb2J5enE2VkQvVGZXUmZzbHliako4bWx6bFhhR0psOUpwRG5p?=
+ =?utf-8?B?TEhEdnd6SE1BY2NZcDZEM25nQjIxZHE0WjZ3YnNyR2NPTmtzc3MrcFR6NUZL?=
+ =?utf-8?B?bnBna3JURyttcVovT0g0TVZLSHVvcGlWSVJNa0J1YXNleUJEc2s1c0tDQXkr?=
+ =?utf-8?B?Mm44UHFXem5BelpDMDhtK0tSdEdyWExWN1BiQlVJMlZQcEY0cG0wRHhzV0FY?=
+ =?utf-8?B?Zjh3MDhBVnVKU0c1eGlUdHVUV1dJc0I4clZtK3Z3RExaTWFiWkZLUkxzTW1G?=
+ =?utf-8?Q?AC2OXUhX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2020 08:54:54.0687 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ab76b79-4a2c-417d-5e08-08d8a7206a96
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p4VRv3ep5CESfxzhWg5D6xQy2pzhoP+jAhKVDLfELJ77xhAxIO1RIIBaTHTD7C/Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4947
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,158 +122,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Maarten, Maxime, and Thomas -
-
-Here's the DP-HDMI2.1 PCON support topic pull consisting of the series
-[1]. The series is split roughly 50-50 between drm helpers and i915, so
-a topic branch seemed to be the right way to go.
-
-I'll also pull this to drm-intel-next once you've merged to
-drm-misc-next.
-
-BR,
-Jani.
-
-
-[1] https://patchwork.freedesktop.org/series/82098/
-
-
-topic/dp-hdmi-2.1-pcon-2020-12-23:
-Add support for DP-HDMI2.1 PCON
-
-From the series cover letter:
-
-This patch series attempts to add support for a DP-HDMI2.1 Protocol
-Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
-E5 to DisplayPort_v2.0:
-https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
-The details are mentioned in:
-VESA DP-to-HDMI PCON Specification Standalone Document
-https://groups.vesa.org/wg/DP/document/15651
-
-This series starts with adding support for FRL (Fixed Rate Link)
-Training between the PCON and HDMI2.1 sink.
-As per HDMI2.1 specification, a new data-channel or lane is added in
-FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
-bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
-lanes).
-
-With these patches, the HDMI2.1 PCON can be configured to achieve FRL
-training based on the maximum FRL rate supported by the panel, source
-and the PCON.
-The approach is to add the support for FRL training between PCON and
-HDMI2.1 sink and gradually add other blocks for supporting higher
-resolutions and other HDMI2.1 features, that can be supported by pcon
-for the sources that do not natively support HDMI2.1.
-
-This is done before the DP Link training between the source and PCON
-is started. In case of FRL training is not achieved, the PCON will
-work in the regular TMDS mode, without HDMI2.1 feature support.
-Any interruption in FRL training between the PCON and HDMI2.1 sink is
-notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
-registers are read and FRL training is re-attempted.
-
-Currently, we have tested the FRL training and are able to enable 4K
-display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
-panel.
-
-The following changes since commit b3bf99daaee96a141536ce5c60a0d6dba6ec1d23:
-
-  drm/i915/display: Defer initial modeset until after GGTT is initialised (2020-11-26 11:01:52 +0000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/topic/dp-hdmi-2.1-pcon-2020-12-23
-
-for you to fetch changes up to 522508b665df3bbfdf40381d4e61777844b1703f:
-
-  drm/i915/display: Let PCON convert from RGB to YCbCr if it can (2020-12-22 17:59:07 +0200)
-
-----------------------------------------------------------------
-Add support for DP-HDMI2.1 PCON
-
-From the series cover letter:
-
-This patch series attempts to add support for a DP-HDMI2.1 Protocol
-Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
-E5 to DisplayPort_v2.0:
-https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
-The details are mentioned in:
-VESA DP-to-HDMI PCON Specification Standalone Document
-https://groups.vesa.org/wg/DP/document/15651
-
-This series starts with adding support for FRL (Fixed Rate Link)
-Training between the PCON and HDMI2.1 sink.
-As per HDMI2.1 specification, a new data-channel or lane is added in
-FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
-bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
-lanes).
-
-With these patches, the HDMI2.1 PCON can be configured to achieve FRL
-training based on the maximum FRL rate supported by the panel, source
-and the PCON.
-The approach is to add the support for FRL training between PCON and
-HDMI2.1 sink and gradually add other blocks for supporting higher
-resolutions and other HDMI2.1 features, that can be supported by pcon
-for the sources that do not natively support HDMI2.1.
-
-This is done before the DP Link training between the source and PCON
-is started. In case of FRL training is not achieved, the PCON will
-work in the regular TMDS mode, without HDMI2.1 feature support.
-Any interruption in FRL training between the PCON and HDMI2.1 sink is
-notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
-registers are read and FRL training is re-attempted.
-
-Currently, we have tested the FRL training and are able to enable 4K
-display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
-panel.
-
-----------------------------------------------------------------
-Ankit Nautiyal (11):
-      drm/edid: Parse DSC1.2 cap fields from HFVSDB block
-      drm/dp_helper: Add Helpers for FRL Link Training support for DP-HDMI2.1 PCON
-      drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon
-      drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion
-      drm/i915: Capture max frl rate for PCON in dfp cap structure
-      drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
-      drm/i915: Check for FRL training before DP Link training
-      drm/i915: Read DSC capabilities of the HDMI2.1 PCON encoder
-      drm/i915: Add helper functions for calculating DSC parameters for HDMI2.1
-      drm/i915/display: Configure PCON for DSC1.1 to DSC1.2 encoding
-      drm/i915/display: Let PCON convert from RGB to YCbCr if it can
-
-Swati Sharma (4):
-      drm/edid: Add additional HFVSDB fields for HDMI2.1
-      drm/edid: Parse MAX_FRL field from HFVSDB block
-      drm/dp_helper: Add support for link failure detection
-      drm/i915: Add support for enabling link status and recovery
-
- drivers/gpu/drm/drm_dp_helper.c                    | 566 +++++++++++++++++++++
- drivers/gpu/drm/drm_edid.c                         | 103 ++++
- drivers/gpu/drm/i915/display/intel_ddi.c           |   6 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |  10 +
- drivers/gpu/drm/i915/display/intel_dp.c            | 440 +++++++++++++++-
- drivers/gpu/drm/i915/display/intel_dp.h            |   7 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c          | 233 +++++++++
- drivers/gpu/drm/i915/display/intel_hdmi.h          |   7 +
- include/drm/drm_connector.h                        |  49 ++
- include/drm/drm_dp_helper.h                        | 218 ++++++++
- include/drm/drm_edid.h                             |  30 ++
- 11 files changed, 1650 insertions(+), 19 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjEuMTIuMjAgdW0gMTA6MDUgc2NocmllYiBDaGVuIExpOgo+IE9uIG1vZGVybiBncHVzLCBH
+VFQgKHN5c3RlbSBtZW1vcnkpIHdvcmtzIGFzIHdlbGwgaGVyZSwgYW5kIHRoaXMgbWF5Cj4gYWxz
+byBiZSBhIHdvcmthcm91bmQgZm9yIHBsYXRmb3JtcyB3aGljaCBjYW5ub3QgbWFwIHZyYW0gY29y
+cmVjdGx5Lgo+Cj4gU2lnbmVkLW9mZi1ieTogY2hlbmxpIDxjaGVubGlAdW5pb250ZWNoLmNvbT4K
+ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+Cgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3V2ZC5jIHwgNCAr
+Ky0tCj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV91dmQuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV91dmQuYwo+IGluZGV4IDhiOTg5Njcw
+ZWQ2Ni4uZTJlZDQ2ODkxMThhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV91dmQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV91dmQuYwo+IEBAIC0xMTcwLDcgKzExNzAsNyBAQCBpbnQgYW1kZ3B1X3V2ZF9nZXRfY3JlYXRl
+X21zZyhzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcsIHVpbnQzMl90IGhhbmRsZSwKPiAgIAlpbnQg
+ciwgaTsKPiAgIAo+ICAgCXIgPSBhbWRncHVfYm9fY3JlYXRlX3Jlc2VydmVkKGFkZXYsIDEwMjQs
+IFBBR0VfU0laRSwKPiAtCQkJCSAgICAgIEFNREdQVV9HRU1fRE9NQUlOX1ZSQU0sCj4gKwkJCQkg
+ICAgICBBTURHUFVfR0VNX0RPTUFJTl9HVFQsCj4gICAJCQkJICAgICAgJmJvLCBOVUxMLCAodm9p
+ZCAqKikmbXNnKTsKPiAgIAlpZiAocikKPiAgIAkJcmV0dXJuIHI7Cj4gQEAgLTEyMDIsNyArMTIw
+Miw3IEBAIGludCBhbWRncHVfdXZkX2dldF9kZXN0cm95X21zZyhzdHJ1Y3QgYW1kZ3B1X3Jpbmcg
+KnJpbmcsIHVpbnQzMl90IGhhbmRsZSwKPiAgIAlpbnQgciwgaTsKPiAgIAo+ICAgCXIgPSBhbWRn
+cHVfYm9fY3JlYXRlX3Jlc2VydmVkKGFkZXYsIDEwMjQsIFBBR0VfU0laRSwKPiAtCQkJCSAgICAg
+IEFNREdQVV9HRU1fRE9NQUlOX1ZSQU0sCj4gKwkJCQkgICAgICBBTURHUFVfR0VNX0RPTUFJTl9H
+VFQsCj4gICAJCQkJICAgICAgJmJvLCBOVUxMLCAodm9pZCAqKikmbXNnKTsKPiAgIAlpZiAocikK
+PiAgIAkJcmV0dXJuIHI7CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
