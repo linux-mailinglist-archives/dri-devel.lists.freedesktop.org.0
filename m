@@ -1,29 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FACD2E2AE7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 496582E2AFE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4953389C0D;
-	Fri, 25 Dec 2020 09:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085DD89C84;
+	Fri, 25 Dec 2020 09:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB49489AEE
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 13:22:38 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D1rMK69h3z7K7J;
- Thu, 24 Dec 2020 21:21:49 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1232E89C55
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 13:25:36 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D1rQn3h7jz15jCW;
+ Thu, 24 Dec 2020 21:24:49 +0800 (CST)
 Received: from ubuntu.network (10.175.138.68) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 24 Dec 2020 21:22:27 +0800
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 24 Dec 2020 21:25:25 +0800
 From: Zheng Yongjun <zhengyongjun3@huawei.com>
-To: <patrik.r.jakobsson@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 -next] drm: gma500: use DEFINE_MUTEX() for mutex lock
-Date: Thu, 24 Dec 2020 21:23:04 +0800
-Message-ID: <20201224132304.31015-1-zhengyongjun3@huawei.com>
+To: <lee.jones@linaro.org>, <daniel.thompson@linaro.org>,
+ <jingoohan1@gmail.com>, <b.zolnierkie@samsung.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 -next] video: backlight: use DEFINE_MUTEX() for mutex lock
+Date: Thu, 24 Dec 2020 21:26:01 +0800
+Message-ID: <20201224132601.31791-1-zhengyongjun3@huawei.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-Originating-IP: [10.175.138.68]
@@ -52,30 +54,30 @@ rather than explicitly calling mutex_init().
 
 Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 ---
- drivers/gpu/drm/gma500/power.c | 3 +--
+ drivers/video/backlight/backlight.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
-index bea8578846d1..b361e41c6acd 100644
---- a/drivers/gpu/drm/gma500/power.c
-+++ b/drivers/gpu/drm/gma500/power.c
-@@ -35,7 +35,7 @@
- #include <linux/mutex.h>
- #include <linux/pm_runtime.h>
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 537fe1b376ad..d7a09c422547 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -64,7 +64,7 @@
+  */
  
--static struct mutex power_mutex;	/* Serialize power ops */
-+static DEFINE_MUTEX(power_mutex);	/* Serialize power ops */
- static spinlock_t power_ctrl_lock;	/* Serialize power claim */
+ static struct list_head backlight_dev_list;
+-static struct mutex backlight_dev_list_mutex;
++static DEFINE_MUTEX(backlight_dev_list_mutex);
+ static struct blocking_notifier_head backlight_notifier;
  
- /**
-@@ -56,7 +56,6 @@ void gma_power_init(struct drm_device *dev)
- 	dev_priv->display_count = 0;	/* Currently no users */
- 	dev_priv->suspended = false;	/* And not suspended */
- 	spin_lock_init(&power_ctrl_lock);
--	mutex_init(&power_mutex);
+ static const char *const backlight_types[] = {
+@@ -757,7 +757,6 @@ static int __init backlight_class_init(void)
+ 	backlight_class->dev_groups = bl_device_groups;
+ 	backlight_class->pm = &backlight_class_dev_pm_ops;
+ 	INIT_LIST_HEAD(&backlight_dev_list);
+-	mutex_init(&backlight_dev_list_mutex);
+ 	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
  
- 	if (dev_priv->ops->init_pm)
- 		dev_priv->ops->init_pm(dev);
+ 	return 0;
 -- 
 2.22.0
 
