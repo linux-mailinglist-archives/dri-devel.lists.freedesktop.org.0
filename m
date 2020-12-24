@@ -2,30 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496582E2AFE
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427822E2B02
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 085DD89C84;
-	Fri, 25 Dec 2020 09:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCF4389CCB;
+	Fri, 25 Dec 2020 09:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1232E89C55
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 13:25:36 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D1rQn3h7jz15jCW;
- Thu, 24 Dec 2020 21:24:49 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70A689C55
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 13:26:16 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D1rR03Cw7z15jDV;
+ Thu, 24 Dec 2020 21:25:00 +0800 (CST)
 Received: from ubuntu.network (10.175.138.68) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 24 Dec 2020 21:25:25 +0800
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 24 Dec 2020 21:25:37 +0800
 From: Zheng Yongjun <zhengyongjun3@huawei.com>
-To: <lee.jones@linaro.org>, <daniel.thompson@linaro.org>,
- <jingoohan1@gmail.com>, <b.zolnierkie@samsung.com>,
- <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 -next] video: backlight: use DEFINE_MUTEX() for mutex lock
-Date: Thu, 24 Dec 2020 21:26:01 +0800
-Message-ID: <20201224132601.31791-1-zhengyongjun3@huawei.com>
+To: <b.zolnierkie@samsung.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 -next] vermilion.c: use DEFINE_MUTEX() for mutex lock
+Date: Thu, 24 Dec 2020 21:26:14 +0800
+Message-ID: <20201224132614.31846-1-zhengyongjun3@huawei.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-Originating-IP: [10.175.138.68]
@@ -54,30 +52,30 @@ rather than explicitly calling mutex_init().
 
 Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 ---
- drivers/video/backlight/backlight.c | 3 +--
+ drivers/video/fbdev/vermilion/vermilion.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 537fe1b376ad..d7a09c422547 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -64,7 +64,7 @@
-  */
+diff --git a/drivers/video/fbdev/vermilion/vermilion.c b/drivers/video/fbdev/vermilion/vermilion.c
+index ff61605b8764..cf41f3c50af8 100644
+--- a/drivers/video/fbdev/vermilion/vermilion.c
++++ b/drivers/video/fbdev/vermilion/vermilion.c
+@@ -35,7 +35,7 @@
  
- static struct list_head backlight_dev_list;
--static struct mutex backlight_dev_list_mutex;
-+static DEFINE_MUTEX(backlight_dev_list_mutex);
- static struct blocking_notifier_head backlight_notifier;
+ #define VML_TOHW(_val, _width) ((((_val) << (_width)) + 0x7FFF - (_val)) >> 16)
  
- static const char *const backlight_types[] = {
-@@ -757,7 +757,6 @@ static int __init backlight_class_init(void)
- 	backlight_class->dev_groups = bl_device_groups;
- 	backlight_class->pm = &backlight_class_dev_pm_ops;
- 	INIT_LIST_HEAD(&backlight_dev_list);
--	mutex_init(&backlight_dev_list_mutex);
- 	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
+-static struct mutex vml_mutex;
++static DEFINE_MUTEX(vml_mutex);
+ static struct list_head global_no_mode;
+ static struct list_head global_has_mode;
+ static struct fb_ops vmlfb_ops;
+@@ -1058,7 +1058,6 @@ static int __init vmlfb_init(void)
+ #endif
  
- 	return 0;
+ 	printk(KERN_DEBUG MODULE_NAME ": initializing\n");
+-	mutex_init(&vml_mutex);
+ 	INIT_LIST_HEAD(&global_no_mode);
+ 	INIT_LIST_HEAD(&global_has_mode);
+ 
 -- 
 2.22.0
 
