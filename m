@@ -2,69 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410E92E2AE6
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07852E2AD6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD98789C53;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD8289C3B;
 	Fri, 25 Dec 2020 09:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2706B89C3B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 13:00:53 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id m12so4591391lfo.7
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 05:00:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PPrH0JQSkYTBUDfxgE5s9c2FpdNYSs+ZfAVKTdSJpOU=;
- b=h35B/CGskQN9x2gajXsHnapJAn/oOdmJUPQzEUHvzlPUdoaVdWOHSvn0gRhd+h4Ola
- kRThB7EwzP4zCJ6I/cDBaa2jz7i8GwFBJ3G3UgCUXtUfsT2g52TetI+SjB06v4QccX98
- yOgW4XRztBS1Rb1sUB+HjV5efgFf1R3v/2FDKAIhyUg38TSfby9FdbMS/BOhsmpV8q93
- 2PXIilSxhr+6+5vRNFV8pb+G4eE9EQA1e1YzsE81H7g6mvgl8zL3naGYGYHQKfwNKpkP
- FkcD6cP+0rX2PGwAlkOUF9fsFJlC40+sqMoNc+qDnwDTa8+wBi9oi10CEnKiniae650p
- 1/Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PPrH0JQSkYTBUDfxgE5s9c2FpdNYSs+ZfAVKTdSJpOU=;
- b=J7pLKvknteZkEM1f9IzB3801SJV+ZasColt+tJIXfY7upHHmJqMSF/M8CuaSZJtwj3
- 5s4/xkmMotD89nrABHoNTzWUloTqz//G1lapISih2zManRLib6SwjAbXjGyksTaUaj8q
- tW91asrIcm17xaZfmwHHIV7pmgirqv26QRg+kCmUM/APuAHCxQDjSIbenRVl7CzrGTn+
- RfxnWDPe7zGTbUae8ppvxNfzSfa2ol8KsARgZ9BCLVZHhDrlqy9q5k+tEd0VU/eKt+bX
- xerXPeQp1b9j/sSzosVr/oXmUmih3xNbuocSLKtv8Yt9blOgI8jctU+PqZncxe2RZMWv
- Ti+g==
-X-Gm-Message-State: AOAM530aWtFLVRNDzFx0khavKdDSNkclTf4dAKJ09L8zJqrNDmFSQWK5
- j+AfBoW++zrHfOol7SO/S6U=
-X-Google-Smtp-Source: ABdhPJy4dUISU54G6I/fcsUIBl9m9poD0jxB1pYpBLDFT4iw28ge43cAa/UiLwCH2jmZTgAPqvlFag==
-X-Received: by 2002:a05:6512:52c:: with SMTP id
- o12mr12294057lfc.559.1608814851636; 
- Thu, 24 Dec 2020 05:00:51 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.googlemail.com with ESMTPSA id b4sm3594686lfa.261.2020.12.24.05.00.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Dec 2020 05:00:50 -0800 (PST)
-Subject: Re: [PATCH v2 11/48] opp: Add dev_pm_opp_find_level_ceil()
-To: Viresh Kumar <viresh.kumar@linaro.org>
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-12-digetx@gmail.com>
- <20201222064253.x7vsurh7q5k7qzb5@vireshk-i7>
- <fd7b9f42-d0a7-45eb-2a17-d46779011c58@gmail.com>
- <20201223041931.klnppy4fu3sdgtsz@vireshk-i7>
- <f00e0c74-8d9a-d3d3-81bb-3ac25a74175d@gmail.com>
- <20201224064339.zngidobhstnlu2a3@vireshk-i7>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <780db190-d93d-3bca-4819-790010f82c62@gmail.com>
-Date: Thu, 24 Dec 2020 16:00:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
-MIME-Version: 1.0
-In-Reply-To: <20201224064339.zngidobhstnlu2a3@vireshk-i7>
-Content-Language: en-US
+X-Greylist: delayed 414 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Dec 2020 13:24:51 UTC
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 818EC8930A;
+ Thu, 24 Dec 2020 13:24:51 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.192.85.18])
+ by mail-app2 (Coremail) with SMTP id by_KCgDn7+vqlORflDEBAA--.6180S4;
+ Thu, 24 Dec 2020 21:17:33 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Subject: [PATCH] drm/nouveau: Fix memleak in nv50_wndw_new_
+Date: Thu, 24 Dec 2020 21:17:34 +0800
+Message-Id: <20201224131736.9584-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgDn7+vqlORflDEBAA--.6180S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWfZr1DCw4DKry8GrW8Crg_yoW8Cw4UpF
+ 42kFyUAry0van5J3ySyrs2k3W3u3yvqr4xWF129wnxJ3WYyr17Zr4FyF92grsIqrW7G340
+ grs7GF98ZF1UG3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
+ c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r
+ 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+ 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+ x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgYEBlZdtRrnPQAAs4
 X-Mailman-Approved-At: Fri, 25 Dec 2020 09:42:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,59 +55,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
- Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, James Jones <jajones@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjQuMTIuMjAyMCAwOTo0MywgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gT24gMjMtMTItMjAs
-IDIzOjM3LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDIzLjEyLjIwMjAgMDc6MTksIFZpcmVz
-aCBLdW1hciDQv9C40YjQtdGCOgo+Pj4gT24gMjItMTItMjAsIDIyOjE1LCBEbWl0cnkgT3NpcGVu
-a28gd3JvdGU6Cj4+Pj4gMjIuMTIuMjAyMCAwOTo0MiwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6
-Cj4+Pj4+IE9uIDE3LTEyLTIwLCAyMTowNiwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4+Pj4g
-QWRkIGEgY2VpbCB2ZXJzaW9uIG9mIHRoZSBkZXZfcG1fb3BwX2ZpbmRfbGV2ZWwoKS4gSXQncyBo
-YW5keSB0byBoYXZlIGlmCj4+Pj4+PiBsZXZlbHMgZG9uJ3Qgc3RhcnQgZnJvbSAwIGluIE9QUCB0
-YWJsZSBhbmQgemVybyB1c3VhbGx5IG1lYW5zIGEgbWluaW1hbAo+Pj4+Pj4gbGV2ZWwuCj4+Pj4+
-Pgo+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29t
-Pgo+Pj4+Pgo+Pj4+PiBXaHkgZG9lc24ndCB0aGUgZXhhY3QgdmVyc2lvbiB3b3JrIGZvciB5b3Ug
-aGVyZSA/Cj4+Pj4+Cj4+Pj4KPj4+PiBUaGUgZXhhY3QgdmVyc2lvbiB3b24ndCBmaW5kIE9QUCBm
-b3IgbGV2ZWw9MCBpZiBsZXZlbHMgZG9uJ3Qgc3RhcnQgd2l0aAo+Pj4+IDAsIHdoZXJlIDAgbWVh
-bnMgdGhhdCBtaW5pbWFsIGxldmVsIGlzIGRlc2lyZWQuCj4+Pgo+Pj4gUmlnaHQsIGJ1dCB3aHkg
-ZG8geW91IG5lZWQgdG8gc2VuZCAwIGZvciB5b3VyIHBsYXRmb3JtID8KPj4+Cj4+Cj4+IFRvIHB1
-dCBwb3dlciBkb21haW4gaW50byB0aGUgbG93ZXN0IHBlcmZvcm1hbmNlIHN0YXRlIHdoZW4gZGV2
-aWNlIGlzIGlkbGluZy4KPiAKPiBJIHNlZS4gU28geW91IHJlYWxseSB3YW50IHRvIHNldCBpdCB0
-byB0aGUgbG93ZXN0IHN0YXRlIG9yIGp1c3QgdGFrZSB0aGUgdm90ZQo+IG91dCA/IFdoaWNoIG1h
-eSBlbmQgdXAgcG93ZXJpbmcgb2ZmIHRoZSBkb21haW4gaW4gdGhlIHdvcnN0IGNhc2UgPwo+IAoK
-SW4gYSBkZXZpY2UgZHJpdmVyIEkgd2FudCB0byBzZXQgUEQgdG8gdGhlIGxvd2VzdCBwZXJmb3Jt
-YW5jZSBzdGF0ZSBieQpyZW1vdmluZyB0aGUgcGVyZm9ybWFuY2Ugdm90ZSB3aGVuIGRldl9wbV9v
-cHBfc2V0X3JhdGUoZGV2LCAwKSBpcwppbnZva2VkIGJ5IHRoZSBkcml2ZXIuCgpUaGUgT1BQIGNv
-cmUgYWxyZWFkeSBkb2VzIHRoaXMsIGJ1dCBpZiBPUFAgbGV2ZWxzIGRvbid0IHN0YXJ0IGZyb20g
-MCBpbgphIGRldmljZS10cmVlIGZvciBQRCwgdGhlbiBpdCBjdXJyZW50bHkgZG9lc24ndCB3b3Jr
-IHNpbmNlIHRoZXJlIGlzIGEKbmVlZCB0byBnZXQgYSByb3VuZGVkLXVwIHBlcmZvcm1hbmNlIHN0
-YXRlIGJlY2F1c2UKZGV2X3BtX29wcF9zZXRfdm9sdGFnZSgpIHRha2VzIE9QUCBlbnRyeSBmb3Ig
-dGhlIGFyZ3VtZW50IChwYXRjaGVzIDkgYW5kCjI4KS4KClRoZSBQRCBwb3dlcmluZyBvZmYgYW5k
-IHBlcmZvcm1hbmNlLWNoYW5nZXMgYXJlIHNlcGFyYXRlIGZyb20gZWFjaCBvdGhlcgppbiB0aGUg
-R0VOUEQgY29yZS4gVGhlIEdFTlBEIGNvcmUgYXV0b21hdGljYWxseSB0dXJucyBvZmYgZG9tYWlu
-IHdoZW4KYWxsIGRldmljZXMgd2l0aGluIHRoZSBkb21haW4gYXJlIHN1c3BlbmRlZCBieSBzeXN0
-ZW0tc3VzcGVuZCBvciBSUE0uCgpUaGUgcGVyZm9ybWFuY2Ugc3RhdGUgb2YgYSBwb3dlciBkb21h
-aW4gaXMgY29udHJvbGxlZCBzb2xlbHkgYnkgYSBkZXZpY2UKZHJpdmVyLiBHRU5QRCBjb3JlIG9u
-bHkgYWdncmVnYXRlcyB0aGUgcGVyZm9ybWFuY2UgcmVxdWVzdHMsIGl0IGRvZXNuJ3QKY2hhbmdl
-IHRoZSBwZXJmb3JtYW5jZSBzdGF0ZSBvZiBhIGRvbWFpbiBieSBpdHNlbGYgd2hlbiBkZXZpY2Ug
-aXMKc3VzcGVuZGVkIG9yIHJlc3VtZWQsIElJVUMgdGhpcyBpcyBpbnRlbnRpb25hbC4gQW5kIEkg
-d2FudCB0byBwdXQgZG9tYWluCmludG8gbG93ZXN0IHBlcmZvcm1hbmNlIHN0YXRlIHdoZW4gZGV2
-aWNlIGlzIHN1c3BlbmRlZC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+When nv50_lut_init() fails, *pwndw should be freed
+just like when drm_universal_plane_init() fails.
+It's the same for the subsequent error paths.
+
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+index 0356474ad6f6..47ce1df2ae5f 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+@@ -732,18 +732,15 @@ nv50_wndw_new_(const struct nv50_wndw_func *func, struct drm_device *dev,
+ 				       format, nformat,
+ 				       nouveau_display(dev)->format_modifiers,
+ 				       type, "%s-%d", name, index);
+-	if (ret) {
+-		kfree(*pwndw);
+-		*pwndw = NULL;
+-		return ret;
+-	}
++	if (ret)
++		goto err_free;
+ 
+ 	drm_plane_helper_add(&wndw->plane, &nv50_wndw_helper);
+ 
+ 	if (wndw->func->ilut) {
+ 		ret = nv50_lut_init(disp, mmu, &wndw->ilut);
+ 		if (ret)
+-			return ret;
++			goto err_free;
+ 	}
+ 
+ 	wndw->notify.func = nv50_wndw_notify;
+@@ -752,26 +749,31 @@ nv50_wndw_new_(const struct nv50_wndw_func *func, struct drm_device *dev,
+ 		ret = drm_plane_create_zpos_property(&wndw->plane,
+ 				nv50_wndw_zpos_default(&wndw->plane), 0, 254);
+ 		if (ret)
+-			return ret;
++			goto err_free;
+ 
+ 		ret = drm_plane_create_alpha_property(&wndw->plane);
+ 		if (ret)
+-			return ret;
++			goto err_free;
+ 
+ 		ret = drm_plane_create_blend_mode_property(&wndw->plane,
+ 				BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+ 				BIT(DRM_MODE_BLEND_PREMULTI) |
+ 				BIT(DRM_MODE_BLEND_COVERAGE));
+ 		if (ret)
+-			return ret;
++			goto err_free;
+ 	} else {
+ 		ret = drm_plane_create_zpos_immutable_property(&wndw->plane,
+ 				nv50_wndw_zpos_default(&wndw->plane));
+ 		if (ret)
+-			return ret;
++			goto err_free;
+ 	}
+ 
+ 	return 0;
++
++err_free:
++	kfree(*pwndw);
++	*pwndw = NULL;
++	return ret;
+ }
+ 
+ int
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
