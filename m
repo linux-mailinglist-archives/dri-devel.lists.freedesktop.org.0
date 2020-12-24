@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893172E2AD3
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:42:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4F62E2B04
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE5689BAB;
-	Fri, 25 Dec 2020 09:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468DF89C6C;
+	Fri, 25 Dec 2020 09:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 507736E8A6
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6247D6E8B9
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 00:48:19 +0000 (UTC)
-X-UUID: ac3f2fbaf5ff473fb0c573769933e6d4-20201224
-X-UUID: ac3f2fbaf5ff473fb0c573769933e6d4-20201224
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+X-UUID: 52c9b8d4f5484b0fbc7d1a705e5ba8aa-20201224
+X-UUID: 52c9b8d4f5484b0fbc7d1a705e5ba8aa-20201224
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 803003306; Thu, 24 Dec 2020 08:48:14 +0800
+ with ESMTP id 169094448; Thu, 24 Dec 2020 08:48:15 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Dec 2020 08:48:10 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 24 Dec 2020 08:48:14 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 24 Dec 2020 08:48:09 +0800
+ Transport; Thu, 24 Dec 2020 08:48:10 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2, 2/3] arm64: dts: mt8192: add gce node
-Date: Thu, 24 Dec 2020 08:48:08 +0800
-Message-ID: <1608770889-9403-3-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v2, 3/3] mailbox: cmdq: add mt8192 support
+Date: Thu, 24 Dec 2020 08:48:09 +0800
+Message-ID: <1608770889-9403-4-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1608770889-9403-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1608770889-9403-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -59,41 +59,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add gce node
+add mt8192 support
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/mailbox/mtk-cmdq-mailbox.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index 69d45c7..e9684a6 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -6,6 +6,7 @@
+diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+index 75378e3..7f243e1 100644
+--- a/drivers/mailbox/mtk-cmdq-mailbox.c
++++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+@@ -607,6 +607,7 @@ static int cmdq_probe(struct platform_device *pdev)
+ 	{.compatible = "mediatek,mt8173-gce", .data = (void *)&gce_plat_v2},
+ 	{.compatible = "mediatek,mt8183-gce", .data = (void *)&gce_plat_v3},
+ 	{.compatible = "mediatek,mt6779-gce", .data = (void *)&gce_plat_v4},
++	{.compatible = "mediatek,mt8192-gce", .data = (void *)&gce_plat_v4},
+ 	{}
+ };
  
- /dts-v1/;
- #include <dt-bindings/clock/mt8192-clk.h>
-+#include <dt-bindings/gce/mt8192-gce.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/pinctrl/mt8192-pinfunc.h>
-@@ -272,6 +273,15 @@
- 			clock-names = "clk13m";
- 		};
- 
-+		gce: mailbox@10228000 {
-+			compatible = "mediatek,mt8192-gce";
-+			reg = <0 0x10228000 0 0x4000>;
-+			interrupts = <GIC_SPI 203 IRQ_TYPE_LEVEL_HIGH 0>;
-+			#mbox-cells = <3>;
-+			clocks = <&infracfg CLK_INFRA_GCE>;
-+			clock-names = "gce";
-+		};
-+
- 		scp_adsp: syscon@10720000 {
- 			compatible = "mediatek,mt8192-scp_adsp", "syscon";
- 			reg = <0 0x10720000 0 0x1000>;
 -- 
 1.8.1.1.dirty
 
