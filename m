@@ -1,41 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65952E2AE1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 980382E2AD9
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7243989C46;
-	Fri, 25 Dec 2020 09:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE2E89B9A;
+	Fri, 25 Dec 2020 09:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D398980C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 06:20:39 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4D1g1L0l2wz1qqks;
- Thu, 24 Dec 2020 07:20:38 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4D1g1K6j0Xz1tYVt;
- Thu, 24 Dec 2020 07:20:37 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id KxoH787ltFJm; Thu, 24 Dec 2020 07:20:36 +0100 (CET)
-X-Auth-Info: ORK9oLktcXHLC9hqsQ9QSD3MF1oInVUvtHDcxcxZuJ4=
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Thu, 24 Dec 2020 07:20:36 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/stm: Remove usage of drm_display_mode_to_videomode()
-Date: Thu, 24 Dec 2020 07:20:30 +0100
-Message-Id: <20201224062030.92287-1-marex@denx.de>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ABE689A4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 06:28:30 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id r4so838217pls.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 22:28:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=EjusjKqe1uD5qVIhtNFzzFr/40x6TzvZ/Sd3W/PBS+U=;
+ b=fkgyFFom2uaI6UYerCixgJyMGXGGZzyzPl2pC34SDHHWr//SHmo19YSii8QHZaSaa0
+ uZC2skGBke5PtP9vslEZombfKjKIAYRw9D3l2M5uGrJ+VkC9bDxNBcQDONWQUC2dmGxG
+ 6UJpFpuY87irp1H90rXExkNF0g2y+4HLV3Ep3/gdgJBqsszg3FbKmgil0GqbQ6dTgEnh
+ DrDRzMipJyOMadGCFG5+H9D0UVs6y0l4FAVZ+I0/J5ZdR5hXHDE2454h+0iAD/EAVgA3
+ IDDlN9SUV6QyhslIyk38zgEDS9uC1vEdXUB6uhGhlyh9+PUCifXrT875haF9d9ipr3qB
+ NnsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=EjusjKqe1uD5qVIhtNFzzFr/40x6TzvZ/Sd3W/PBS+U=;
+ b=UPvKyg++QUUW22OvdO4c88ED/JERJT/tWFuPkPL0gz8pWLpFQsSn4wl6VWpyXk7hE4
+ yuWapqqnUrc2IpCOUStCZYBUPhKm7cmqs/mBfYQtiRM9465HY0HrOMNMd4eva/Er8VDN
+ tszdiGubgmaI24Y44GxAWq59kdVEpmGEFJNu92VsU51wJ4jbfMHTcej4/o6Yye0knmpa
+ PL2aYIukK1l4QovrLPYdJMUPsV+rkQBnzSUcTA1A6biukNujuYO5tLBARkUf8YWo6+AZ
+ VqxAXda1p6U0w7yc210Lu1BQ4A+QM2q6WBCjk658OepZOD5NifNiGFJBxQU7L9HnGcqX
+ Gttw==
+X-Gm-Message-State: AOAM530Z3JML+Opo0RPGkzlACLt51FAU17keiaNHRT3XysJm28ZZGXU6
+ VXKbb4EZw0ey5goCkUGPKkKiPg==
+X-Google-Smtp-Source: ABdhPJwZjLbo7aGBJ7sNLaIhWcs4xnkHkI7BDfYQrcbWA55ODln8fkpMZgsIP8pDydfAZ37ygqOZVA==
+X-Received: by 2002:a17:90a:380c:: with SMTP id
+ w12mr2982286pjb.117.1608791310121; 
+ Wed, 23 Dec 2020 22:28:30 -0800 (PST)
+Received: from localhost ([122.172.20.109])
+ by smtp.gmail.com with ESMTPSA id t18sm25653088pfl.138.2020.12.23.22.28.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 23 Dec 2020 22:28:29 -0800 (PST)
+Date: Thu, 24 Dec 2020 11:58:27 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v2 19/48] opp: Fix adding OPP entries in a wrong order if
+ rate is unavailable
+Message-ID: <20201224062826.frppxddfinjomfui@vireshk-i7>
+References: <20201217180638.22748-1-digetx@gmail.com>
+ <20201217180638.22748-20-digetx@gmail.com>
+ <20201222091255.wentz5hyt726qezg@vireshk-i7>
+ <db6273e6-8406-b7ae-b51d-48ceb6d21962@gmail.com>
+ <20201223043443.rklw5er6hck3gl4y@vireshk-i7>
+ <7688d6b9-52a2-d30f-123f-43c01e03b968@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <7688d6b9-52a2-d30f-123f-43c01e03b968@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Fri, 25 Dec 2020 09:42:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,103 +76,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Alexandre Torgue <alexandre.torgue@st.com>,
- Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
+ Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
+ Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is not much value in the extra conversion step, the calculations
-required for the LTDC IP are different than what is used in the
-drm_display_mode_to_videomode(), so just do the right ones in the LTDC
-driver right away.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>
-Cc: Antonio Borneo <antonio.borneo@st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Philippe Cornu <philippe.cornu@st.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Vincent Abriou <vincent.abriou@st.com>
-Cc: Yannick Fertre <yannick.fertre@st.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/stm/ltdc.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 22c7e9fa5ab7..e8fc8fc50d94 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -545,7 +545,6 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
- 	struct drm_device *ddev = crtc->dev;
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
--	struct videomode vm;
- 	u32 bus_flags = 0;
- 	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
- 	u32 total_width, total_height;
-@@ -565,31 +564,33 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		}
- 	}
- 
--	drm_display_mode_to_videomode(mode, &vm);
--
- 	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
--	DRM_DEBUG_DRIVER("Video mode: %dx%d", vm.hactive, vm.vactive);
-+	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
- 	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
--			 vm.hfront_porch, vm.hback_porch, vm.hsync_len,
--			 vm.vfront_porch, vm.vback_porch, vm.vsync_len);
-+			 mode->hsync_start - mode->hdisplay,
-+			 mode->htotal - mode->hsync_end,
-+			 mode->hsync_end - mode->hsync_start,
-+			 mode->vsync_start - mode->vdisplay,
-+			 mode->vtotal - mode->vsync_end,
-+			 mode->vsync_end - mode->vsync_start);
- 
- 	/* Convert video timings to ltdc timings */
--	hsync = vm.hsync_len - 1;
--	vsync = vm.vsync_len - 1;
--	accum_hbp = hsync + vm.hback_porch;
--	accum_vbp = vsync + vm.vback_porch;
--	accum_act_w = accum_hbp + vm.hactive;
--	accum_act_h = accum_vbp + vm.vactive;
--	total_width = accum_act_w + vm.hfront_porch;
--	total_height = accum_act_h + vm.vfront_porch;
-+	hsync = mode->hsync_end - mode->hsync_start - 1;
-+	vsync = mode->vsync_end - mode->vsync_start - 1;
-+	accum_hbp = mode->htotal - mode->hsync_start - 1;
-+	accum_vbp = mode->vtotal - mode->vsync_start - 1;
-+	accum_act_w = accum_hbp + mode->hdisplay;
-+	accum_act_h = accum_vbp + mode->vdisplay;
-+	total_width = mode->htotal - 1;
-+	total_height = mode->vtotal - 1;
- 
- 	/* Configures the HS, VS, DE and PC polarities. Default Active Low */
- 	val = 0;
- 
--	if (vm.flags & DISPLAY_FLAGS_HSYNC_HIGH)
-+	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
- 		val |= GCR_HSPOL;
- 
--	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
-+	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
- 		val |= GCR_VSPOL;
- 
- 	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjMtMTItMjAsIDIzOjM2LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjMuMTIuMjAyMCAw
+NzozNCwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gPiBPbiAyMi0xMi0yMCwgMjI6MTksIERt
+aXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiAyMi4xMi4yMDIwIDEyOjEyLCBWaXJlc2ggS3VtYXIg
+0L/QuNGI0LXRgjoKPiA+Pj4gcmF0ZSB3aWxsIGJlIDAgZm9yIGJvdGggdGhlIE9QUHMgaGVyZSBp
+ZiByYXRlX25vdF9hdmFpbGFibGUgaXMgdHJ1ZSBhbmQgc28gdGhpcwo+ID4+PiBjaGFuZ2Ugc2hv
+dWxkbid0IGJlIHJlcXVpcmVkLgo+ID4+Cj4gPj4gVGhlIHJhdGVfbm90X2F2YWlsYWJsZSBpcyBu
+ZWdhdGVkIGluIHRoZSBjb25kaXRpb24uIFRoaXMgY2hhbmdlIGlzCj4gPj4gcmVxdWlyZWQgYmVj
+YXVzZSBib3RoIHJhdGVzIGFyZSAwIGFuZCB0aGVuIHdlIHNob3VsZCBwcm9jZWVkIHRvIHRoZQo+
+ID4+IGxldmVscyBjb21wYXJpc29uLgo+ID4gCj4gPiBXb24ndCB0aGF0IGhhcHBlbiB3aXRob3V0
+IHRoaXMgcGF0Y2ggPwo+IAo+IE5vCgpUaGlzIGlzIGhvdyB0aGUgY29kZSBsb29rcyBsaWtlIGN1
+cnJlbnRseToKCmludCBfb3BwX2NvbXBhcmVfa2V5KHN0cnVjdCBkZXZfcG1fb3BwICpvcHAxLCBz
+dHJ1Y3QgZGV2X3BtX29wcCAqb3BwMikKewoJaWYgKG9wcDEtPnJhdGUgIT0gb3BwMi0+cmF0ZSkK
+CQlyZXR1cm4gb3BwMS0+cmF0ZSA8IG9wcDItPnJhdGUgPyAtMSA6IDE7CglpZiAob3BwMS0+YmFu
+ZHdpZHRoICYmIG9wcDItPmJhbmR3aWR0aCAmJgoJICAgIG9wcDEtPmJhbmR3aWR0aFswXS5wZWFr
+ICE9IG9wcDItPmJhbmR3aWR0aFswXS5wZWFrKQoJCXJldHVybiBvcHAxLT5iYW5kd2lkdGhbMF0u
+cGVhayA8IG9wcDItPmJhbmR3aWR0aFswXS5wZWFrID8gLTEgOiAxOwoJaWYgKG9wcDEtPmxldmVs
+ICE9IG9wcDItPmxldmVsKQoJCXJldHVybiBvcHAxLT5sZXZlbCA8IG9wcDItPmxldmVsID8gLTEg
+OiAxOwoJcmV0dXJuIDA7Cn0KCkxldHMgY29uc2lkZXIgdGhlIGNhc2UgeW91IGFyZSBmb2N1c3Np
+bmcgb24sIHdoZXJlIHJhdGUgaXMgMCBmb3IgYm90aCB0aGUgT1BQcywKYmFuZHdpZHRoIGlzbid0
+IHRoZXJlIGFuZCB3ZSB3YW50IHRvIHJ1biB0aGUgbGV2ZWwgY29tcGFyaXNvbiBoZXJlLgoKU2lu
+Y2UgYm90aCB0aGUgcmF0ZXMgYXJlIDAsIChvcHAxLT5yYXRlICE9IG9wcDItPnJhdGUpIHdpbGwg
+ZmFpbCBhbmQgc28gd2Ugd2lsbAptb3ZlIHRvIGJhbmR3aWR0aCBjaGVjayB3aGljaCB3aWxsIGZh
+aWwgdG9vLiBBbmQgc28gd2Ugd2lsbCBnZXQgdG8gdGhlIGxldmVsCmNvbXBhcmlzb24uCgpXaGF0
+IGFtIEkgbWlzc2luZyBoZXJlID8gSSBhbSBzdXJlIHRoZXJlIGlzIHNvbWV0aGluZyBmb3Igc3Vy
+ZSBhcyB5b3Ugd29uJ3QgaGF2ZQptaXNzZWQgdGhpcy4uCgotLSAKdmlyZXNoCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
