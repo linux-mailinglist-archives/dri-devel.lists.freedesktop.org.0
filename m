@@ -1,37 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834712E28E0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Dec 2020 22:58:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A44A52E28E3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Dec 2020 22:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B9189336;
-	Thu, 24 Dec 2020 21:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0159589336;
+	Thu, 24 Dec 2020 21:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 349 seconds by postgrey-1.36 at gabe;
- Thu, 24 Dec 2020 21:58:28 UTC
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6238489336
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 21:58:28 +0000 (UTC)
-Received: from [192.168.1.11]
- (dynamic-089-014-200-038.89.14.pool.telefonica.de [89.14.200.38])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 44CAC2000C03F;
- Thu, 24 Dec 2020 22:52:37 +0100 (CET)
-Subject: Re: [PATCH] drm/amdgpu:Fixed the wrong macro definition in
- amdgpu_trace.h
-To: Chenyang Li <lichenyang@loongson.cn>
-References: <20201223011926.15924-1-lichenyang@loongson.cn>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Message-ID: <ff33467b-a7b9-fa34-6f63-a9c323184f95@molgen.mpg.de>
-Date: Thu, 24 Dec 2020 22:52:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20201223011926.15924-1-lichenyang@loongson.cn>
-Content-Language: en-US
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01D0389336
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 21:59:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8FC4423137;
+ Thu, 24 Dec 2020 21:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608847179;
+ bh=tUoxCG+Q+xjUaEE1MrQX5Pc3v6fsQDHflL8EYOoleow=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=Vx92GdErgTnE6/TRWhybKaZVx0A6SSHuEDQRiIUzeKfXDKWFHbr9t95T7M5QX2pT2
+ dncEyPentG6oPf0A9hkH3Iw3gDlfSnQM84bqURLw9GWweC05cobkzVyFmSeDSZe2+m
+ o4HnEzyWrnD5rBSRA2yWjE7a0mxS9r/0+1WdA8upse/LuevYioBFI3XBaPj/TQVC3E
+ C2S93Up5s0+cnw97SHbwkf4fobP3SF1edarD3EPt03bYp+rmFJZuXWLc67DjAUFLZp
+ b/Id92T1e79pAOxBK+Iqs+okJ+YZj/X661UYWXRyMM1qWz6qpxj6MZ/SK/VAU56cPD
+ 0tgUQR4pSSV0g==
+Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id 8ABF0604E9;
+ Thu, 24 Dec 2020 21:59:39 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.11-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twrkJdUqTLXXsNygtzkrc4P2iyw4kwU1T83D4_+-gdpDA@mail.gmail.com>
+References: <CAPM=9twrkJdUqTLXXsNygtzkrc4P2iyw4kwU1T83D4_+-gdpDA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9twrkJdUqTLXXsNygtzkrc4P2iyw4kwU1T83D4_+-gdpDA@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2020-12-24
+X-PR-Tracked-Commit-Id: 5b2fc08c455bbf749489254a81baeffdf4c0a693
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ef2c8b81b88868f042579b9dd021cc9edbc2d0c6
+Message-Id: <160884717956.31605.15833248834026735567.pr-tracker-bot@kernel.org>
+Date: Thu, 24 Dec 2020 21:59:39 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,25 +55,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGVhciBDaGVueWFuZywKCgpBbSAyMy4xMi4yMCB1bSAwMjoxOSBzY2hyaWViIENoZW55YW5nIExp
-Ogo+IEluIGxpbmUgMjQgIl9BTURHUFVfVFJBQ0VfSCIgaXMgbWlzc2luZyBhbiB1bmRlcnNjb3Jl
-LgoKTmljZSBjYXRjaC4gQ291bGQgeW91IHBsZWFzZSB1cGRhdGUgdGhlIGNvbW1pdCBtZXNzYWdl
-IHN1bW1hcnksIGJ5IAphZGRpbmcgYSBzcGFjZSBhZnRlciB0aGUgcHJlZml4IChjb2xvbiksIGFu
-ZCB1c2luZyBpbXBlcmF0aXZlIG1vb2QgWzFdPwoKPiBkcm0vYW1kZ3B1OiBGaXggbWFjcm8gbmFt
-ZSBfQU1ER1BVX1RSQUNFX0hfIGluIHByZXByb2Nlc3NvciBpZiBjb25kaXRpb24KCklmIHlvdSBj
-YW4gYWxzbyBhZGQgYSBGaXhlcyB0YWcsIHRoYXQgd291bGQgYmUgZXZlbiBiZXR0ZXIuCgpGaXhl
-czogZDM4Y2VhZjk5ZWQwICgiZHJtL2FtZGdwdTogYWRkIGNvcmUgZHJpdmVyICh2NCkiKQoKPiBT
-aWduZWQtb2ZmLWJ5OiBDaGVueWFuZyBMaSA8bGljaGVueWFuZ0Bsb29uZ3Nvbi5jbj4KPiAtLS0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90cmFjZS5oIHwgMiArLQo+ICAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpb4oCmXQoKCktp
-bmQgcmVnYXJkcywKClBhdWwKCgpbMV06IGh0dHBzOi8vY2hyaXMuYmVhbXMuaW8vcG9zdHMvZ2l0
-LWNvbW1pdC8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The pull request you sent on Thu, 24 Dec 2020 12:29:16 +1000:
+
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-12-24
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ef2c8b81b88868f042579b9dd021cc9edbc2d0c6
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
