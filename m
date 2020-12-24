@@ -2,67 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9291B2E2AFA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED6F2E2B07
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Dec 2020 10:43:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BE189C8D;
-	Fri, 25 Dec 2020 09:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030BC89C6A;
+	Fri, 25 Dec 2020 09:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20BDB89D79
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 06:51:46 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id y8so870645plp.8
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Dec 2020 22:51:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=UwfYLcIirH3qmQI4JsZzO7mShidOe2h56ps9Mn8CcUM=;
- b=p3LVWtHH4lnaxCM8RaV0FuiWfeYOi6He8i8ZzNhCF2uE9taZX9ndUrAyZBXTOdxsnT
- 8t1a2YxI3HYBrNnJu5/+84bn8mvwe06wBzE8OjHFScw6bPwKQUlii9XgIa5kYYzLrQjz
- cevJ8CwVsVedjRe1pyo4VzLQM56IHQU1HXJZv8Ymr7DpvswknpNhVK0bNDhjWr+AmyFA
- VXnPNO7lGfweDD3iaWdIQbaycRrOmiT6TEl2s4l7BsI+AFuYMhsl2he2VEUu8wHUmrgN
- JAyaUYWYX4+N3gjwuNljjOM87xxFl7tYQT3LDU5fujok71XDOV2xYGmYz4hU5PcuZaI9
- o6kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=UwfYLcIirH3qmQI4JsZzO7mShidOe2h56ps9Mn8CcUM=;
- b=hQO1YMzXZgZzrVQgnkZoT3ouDsVRppbzSNlqY/b0+V4qk/HLC6lCQIJud3y3ymG+j3
- nqt7Y82KQCbnrmhUEPs9MlxsomFeUWu+qd8ueFOTmfBg6vs1KOT8IJjc0vXG8RFZXnQX
- IwEeg1gR/88yrLCmNt0KSURpV05uOwmZJsVNIUTIs/vAuHUqLRurSPSnryKfqVC+DpA4
- AEvLZISSN7xKUxJQc/6j7nrj/QzcoELXyAhdnWBVXpI92t37Zw1V+Z8JsVDAuLZ8oMxy
- 7mGXbnltRfDZC2mQyB5IJLQ6WvxygoB1ZK8Fc05I4zizOx8ONnWGYMrGk+GPbAXZrYF+
- 1c5w==
-X-Gm-Message-State: AOAM53037D4tCH+yW+Bbr89uEjm9SmeZ24QiC9ILIyGQrh2pOqMnmAP6
- ghMxOUbLcBTJCSuvDB8lVJ3Z2g==
-X-Google-Smtp-Source: ABdhPJxPqikU/RNfF0gTcEkAqxaTFu96TFPfNpSQbS38QvWMYUf6BnYHm7AoCnEqPDZbtfAFx+0fHQ==
-X-Received: by 2002:a17:90a:9d88:: with SMTP id
- k8mr3121955pjp.141.1608792705605; 
- Wed, 23 Dec 2020 22:51:45 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id w18sm25677012pfj.120.2020.12.23.22.51.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 23 Dec 2020 22:51:44 -0800 (PST)
-Date: Thu, 24 Dec 2020 12:21:42 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 28/48] soc/tegra: Introduce core power domain driver
-Message-ID: <20201224065142.7rhfx37wgg3ejjqm@vireshk-i7>
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-29-digetx@gmail.com>
- <20201222064029.duuzcsj53rt7xzvt@vireshk-i7>
- <c130f78d-3d97-9b26-be77-951fee0d8680@gmail.com>
- <3a5c00e5-2cdd-35ce-2714-d4ffbf9d516a@gmail.com>
- <20201223055715.2n5eba7fohrwpgr5@vireshk-i7>
- <239642ad-d7e9-364e-80d3-1da67625e247@gmail.com>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B5CFF89FBC
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Dec 2020 07:27:00 +0000 (UTC)
+X-UUID: dda500f35131466e85b4d15b9edbda0e-20201224
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=sTA9GxzeiTWZ8Bb1AzVPoBBRf2w9jvzoOgYWkMxjLWk=; 
+ b=V2m93C+mJ/lNd3Kma1Ao953qg0XQpgYHzo7sEzco8QIUdo4XBSjRucU+4Q6UKU1T2CXaedQlkUs7LjMxZun8AMXOhfnHclupAxOKzuEeegkiYz+9YfmCnib3bR2fWKdOlQCHft5o2499PfbTT/WdYuCjZv8C0WiC3NEK8r2gzdI=;
+X-UUID: dda500f35131466e85b4d15b9edbda0e-20201224
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <chunfeng.yun@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 268527532; Thu, 24 Dec 2020 15:26:42 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 24 Dec 2020 15:26:39 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 24 Dec 2020 15:26:38 +0800
+Message-ID: <1608794799.7499.2.camel@mhfsdcap03>
+Subject: Re: [PATCH v4 01/11] dt-bindings: usb: convert usb-device.txt to
+ YAML schema
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 24 Dec 2020 15:26:39 +0800
+In-Reply-To: <20201221190937.GA369845@robh.at.kernel.org>
+References: <20201216093012.24406-1-chunfeng.yun@mediatek.com>
+ <20201221190937.GA369845@robh.at.kernel.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <239642ad-d7e9-364e-80d3-1da67625e247@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+X-TM-SNTS-SMTP: 74766EA34054B7FEA51C94AAD0ECCBCC07057C7F26AB70431A5FC6B4C07CE5A72000:8
+X-MTK: N
 X-Mailman-Approved-At: Fri, 25 Dec 2020 09:42:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,51 +55,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, devel@driverdev.osuosl.org,
- Kevin Hilman <khilman@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Min Guo <min.guo@mediatek.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Serge Semin <Sergey.Semin@baikalelectronics.ru>, Vinod Koul <vkoul@kernel.org>,
+ linux-mediatek@lists.infradead.org, netdev@vger.kernel.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Stanley Chu <stanley.chu@mediatek.com>,
+ "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjMtMTItMjAsIDIzOjM3LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjMuMTIuMjAyMCAw
-ODo1NywgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gPiBXaGF0J3Mgd3Jvbmcgd2l0aCBnZXR0
-aW5nIHRoZSByZWd1bGF0b3IgaW4gdGhlIGRyaXZlciBhcyB3ZWxsID8gQXBhcnQgZnJvbSB0aGUK
-PiA+IE9QUCBjb3JlID8KPiAKPiBUaGUgdm9sdGFnZSBzeW5jaW5nIHNob3VsZCBiZSBkb25lIGZv
-ciBlYWNoIGNvbnN1bWVyIHJlZ3VsYXRvcgo+IGluZGl2aWR1YWxseSBbMV0uCj4gCj4gU2Vjb25k
-bHksIHJlZ3VsYXRvciBjb3JlIGRvZXNuJ3Qgd29yayB3ZWxsIHRvZGF5IGlmIHRoZSBzYW1lIHJl
-Z3VsYXRvcgo+IGlzIHJlcXVlc3RlZCBtb3JlIHRoYW4gb25lIHRpbWUgZm9yIHRoZSBzYW1lIGRl
-dmljZS4KCkhtbS4uLgoKPiA+PiB3aWxsIHJldHVybiB0aGUgT1BQIHRhYmxlIHJlZ3VsYXRvciBp
-biBvcmRlciB0byBhbGxvdyBkcml2ZXIgdG8gdXNlIHRoZQo+ID4+IHJlZ3VsYXRvciBkaXJlY3Rs
-eS4gQnV0IEknbSBub3Qgc3VyZSB3aGV0aGVyIHRoaXMgaXMgYSBtdWNoIGJldHRlcgo+ID4+IG9w
-dGlvbiB0aGFuIHRoZSBvcHBfc3luY19yZWd1bGF0b3JzKCkgYW5kIG9wcF9zZXRfdm9sdGFnZSgp
-IEFQSXMuCj4gPiAKPiA+IHNldF92b2x0YWdlKCkgaXMgc3RpbGwgZmluZSBhcyB0aGVyZSBpcyBz
-b21lIGRhdGEgdGhhdCB0aGUgT1BQIGNvcmUgaGFzLCBidXQKPiA+IHN5bmNfcmVndWxhdG9yKCkg
-aGFzIG5vdGhpbmcgdG8gZG8gd2l0aCBPUFAgY29yZS4KPiA+IAo+ID4gQW5kIHRoaXMgbWF5IGxl
-YWQgdG8gbW9yZSB3cmFwcGVyIGhlbHBlcnMgaW4gdGhlIE9QUCBjb3JlLCB3aGljaCBJIGFtIGFm
-cmFpZCBvZi4KPiA+IEFuZCBzbyBldmVuIGlmIGl0IGlzIG5vdCB0aGUgYmVzdCwgSSB3b3VsZCBs
-aWtlIHRoZSBPUFAgY29yZSB0byBwcm92aWRlIHRoZSBkYXRhCj4gPiBhbmQgbm90IGdldCBpbnRv
-IHRoaXMuIE9mY291cnNlIHRoZXJlIGlzIGFuIGV4Y2VwdGlvbiB0byB0aGlzLCBvcHBfc2V0X3Jh
-dGUuCj4gPiAKPiAKPiBUaGUgcmVndWxhdG9yX3N5bmNfdm9sdGFnZSgpIHNob3VsZCBiZSBpbnZv
-a2VkIG9ubHkgaWYgdm9sdGFnZSB3YXMKPiBjaGFuZ2VkIHByZXZpb3VzbHkgWzFdLgo+IAo+IFRo
-ZSBPUFAgY29yZSBhbHJlYWR5IGhhcyB0aGUgaW5mbyBhYm91dCB3aGV0aGVyIHZvbHRhZ2Ugd2Fz
-IGNoYW5nZWQgYW5kCj4gaXQgcHJvdmlkZXMgdGhlIG5lY2Vzc2FyeSBsb2NraW5nIGZvciBib3Ro
-IHNldF92b2x0YWdlKCkgYW5kCj4gc3luY19yZWd1bGF0b3IoKS4gUGVyaGFwcyBJJ2xsIG5lZWQg
-dG8gZHVwbGljYXRlIHRoYXQgZnVuY3Rpb25hbGl0eSBpbgo+IHRoZSBQRCBkcml2ZXIsIGluc3Rl
-YWQgb2YgbWFraW5nIGl0IGFsbCBnZW5lcmljIGFuZCByZS11c2FibGUgYnkgb3RoZXIKPiBkcml2
-ZXJzLgo+IAo+IFsxXQo+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjEwLjIv
-c291cmNlL2RyaXZlcnMvcmVndWxhdG9yL2NvcmUuYyNMNDEwNwoKTGV0cyBkbyBpdCBpbiB0aGUg
-T1BQIGNvcmUgYW5kIHNlZSB3aGVyZSB3ZSBnby4KCi0tIAp2aXJlc2gKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, 2020-12-21 at 12:09 -0700, Rob Herring wrote:
+> On Wed, Dec 16, 2020 at 05:30:02PM +0800, Chunfeng Yun wrote:
+> > Convert usb-device.txt to YAML schema usb-device.yaml
+> > 
+> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > ---
+> > v4: no changes, update dependent series:
+> >     https://patchwork.kernel.org/project/linux-usb/list/?series=399561
+> >     [v6,00/19] dt-bindings: usb: Add generic USB HCD, xHCI, DWC USB3 DT schema
+[...]
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > new file mode 100644
+> > index 000000000000..f31d8a85d3e6
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > @@ -0,0 +1,125 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/usb/usb-device.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: The device tree bindings for the Generic USB Device
+> > +
+> > +maintainers:
+> > +  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > +
+> > +description: |
+> > +  Usually, we only use device tree for hard wired USB device.
+> > +  The reference binding doc is from:
+> > +  http://www.devicetree.org/open-firmware/bindings/usb/usb-1_0.ps
+> > +
+> > +  Four types of device-tree nodes are defined: "host-controller nodes"
+> > +  representing USB host controllers, "device nodes" representing USB devices,
+> > +  "interface nodes" representing USB interfaces and "combined nodes"
+> > +  representing simple USB devices.
+> > +
+> > +  A combined node shall be used instead of a device node and an interface node
+> > +  for devices of class 0 or 9 (hub) with a single configuration and a single
+> > +  interface.
+> > +
+> > +  A "hub node" is a combined node or an interface node that represents a USB
+> > +  hub.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    pattern: "^usb[0-9a-f]+,[0-9a-f]+$"
+> 
+> You can refine the length allowed a bit: [0-9a-f]{1,4}
+> 
+> Same applies elsewhere.
+Ok
+> 
+> > +    description: Device nodes or combined nodes.
+> > +      "usbVID,PID", where VID is the vendor id and PID the product id.
+> > +      The textual representation of VID and PID shall be in lower case
+> > +      hexadecimal with leading zeroes suppressed. The other compatible
+> > +      strings from the above standard binding could also be used,
+> > +      but a device adhering to this binding may leave out all except
+> > +      for "usbVID,PID".
+> > +
+[...]
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > index 9881ac10380d..5d0c6b5500d6 100755
+> > --- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+> > @@ -23,6 +23,32 @@ properties:
+> >        targeted hosts (non-PC hosts).
+> >      type: boolean
+> >  
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +patternProperties:
+> > +  "@[0-9a-f]+$":
+> > +    type: object
+> > +    description: The hard wired USB devices
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        pattern: "^usb[0-9a-f]+,[0-9a-f]+$"
+> > +        $ref: /usb/usb-device.yaml
+> 
+> This is wrong. It should be up a level.
+Ok
+>  And no need to define 
+> 'compatible' or 'reg' here because those are defined within 
+> usb-device.yaml.
+will drop it
+> 
+> > +        description: the string is 'usbVID,PID', where VID is the vendor id
+> > +          and PID is the product id
+> > +
+> > +      reg:
+> > +        $ref: /usb/usb-device.yaml
+> > +        maxItems: 1
+> > +
+> > +    required:
+> > +      - compatible
+> > +      - reg
+> > +
+> >  additionalProperties: true
+> >  
+> >  examples:
+> > @@ -30,4 +56,11 @@ examples:
+> >      usb {
+> >          phys = <&usb2_phy1>, <&usb3_phy1>;
+> >          phy-names = "usb";
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        hub@1 {
+> > +            compatible = "usb5e3,610";
+> > +            reg = <1>;
+> > +        };
+> >      };
+> > -- 
+> > 2.18.0
+> > 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
