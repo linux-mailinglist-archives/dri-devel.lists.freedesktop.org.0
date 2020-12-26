@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0EA2E2DD1
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Dec 2020 10:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2612E2DD3
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Dec 2020 10:23:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8DD8982A;
-	Sat, 26 Dec 2020 09:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E596B8982D;
+	Sat, 26 Dec 2020 09:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62F918982A
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2B180221EA
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130548982D
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:23:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E9B8D221EA
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:23:54 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 1D71E86738; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
+ id DD42C86738; Sat, 26 Dec 2020 09:23:54 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
  =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
  =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
  =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
-Date: Sat, 26 Dec 2020 09:22:06 +0000
+Date: Sat, 26 Dec 2020 09:23:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -37,8 +37,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-209713-2300-lLMwTylIJO@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209713-2300-PEAcnAaWlM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
 References: <bug-209713-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -63,21 +63,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209713
 
-Klaus Mueller (kmueller@justmail.de) changed:
+--- Comment #4 from Klaus Mueller (kmueller@justmail.de) ---
+Created attachment 294343
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294343&action=edit
+Trace linux 5.10.1
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kmueller@justmail.de
-
---- Comment #3 from Klaus Mueller (kmueller@justmail.de) ---
-I'm hitting this problem, too, after resume from s2ram.
-
-- Linux 5.10.1
-- CPU: AMD Ryzen 7 3750H with Radeon Vega Mobile Gfx
-- Xorg 1.20
-- Mesa 20.2
-
-See attached file dcn10_get_dig_frontend.log
+see entry before
 
 -- 
 You may reply to this email to add a comment.
