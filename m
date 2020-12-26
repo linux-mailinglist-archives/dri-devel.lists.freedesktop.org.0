@@ -2,33 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84412E35C0
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0EA2E2DD1
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Dec 2020 10:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C87B8982E;
-	Mon, 28 Dec 2020 10:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8DD8982A;
+	Sat, 26 Dec 2020 09:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8453489650
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 08:02:52 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D2x9Y2Ryyzhvbs;
- Sat, 26 Dec 2020 16:02:09 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Sat, 26 Dec 2020 16:02:45 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <anitha.chrisanthus@intel.com>, <edmund.j.dea@intel.com>,
- <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/kmb: remove unneeded semicolon
-Date: Sat, 26 Dec 2020 16:02:48 +0800
-Message-ID: <1608969768-41988-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F918982A
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2B180221EA
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id 1D71E86738; Sat, 26 Dec 2020 09:22:07 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
+ =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
+ =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
+ =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
+Date: Sat, 26 Dec 2020 09:22:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: kmueller@justmail.de
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-209713-2300-lLMwTylIJO@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
+References: <bug-209713-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Mon, 28 Dec 2020 10:19:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,76 +56,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the warning below:
-drivers/gpu/drm/kmb/kmb_dsi.c:284:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:304:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:321:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:340:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:364:2-3: Unneeded semicolon
+https://bugzilla.kernel.org/show_bug.cgi?id=209713
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/kmb/kmb_dsi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Klaus Mueller (kmueller@justmail.de) changed:
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 4b5d82a..231041b 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -281,7 +281,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_YCBCR422_16B:
- 		data_type_param.size_constraint_pixels = 2;
-@@ -301,7 +301,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_LPPS_YCBCR422_20B:
- 	case DSI_LP_DT_PPS_YCBCR422_24B:
-@@ -318,7 +318,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_RGB565_16B:
- 		data_type_param.size_constraint_pixels = 1;
-@@ -337,7 +337,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_RGB666_18B:
- 		data_type_param.size_constraint_pixels = 4;
-@@ -361,7 +361,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 	default:
- 		DRM_ERROR("DSI: Invalid data_type %d\n", data_type);
- 		return -EINVAL;
--	};
-+	}
- 
- 	*params = data_type_param;
- 	return 0;
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kmueller@justmail.de
+
+--- Comment #3 from Klaus Mueller (kmueller@justmail.de) ---
+I'm hitting this problem, too, after resume from s2ram.
+
+- Linux 5.10.1
+- CPU: AMD Ryzen 7 3750H with Radeon Vega Mobile Gfx
+- Xorg 1.20
+- Mesa 20.2
+
+See attached file dcn10_get_dig_frontend.log
+
 -- 
-2.7.4
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
