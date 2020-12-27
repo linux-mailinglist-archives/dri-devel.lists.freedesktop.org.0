@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBF12E35D6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561482E32AD
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Dec 2020 21:17:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995B489B3C;
-	Mon, 28 Dec 2020 10:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF368947A;
+	Sun, 27 Dec 2020 20:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6967897D0;
- Sun, 27 Dec 2020 19:20:52 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id q25so7561785otn.10;
- Sun, 27 Dec 2020 11:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0sVC8j/qFLW+R/BiCcbxfbFuWt0QadRRyfbTVS1VwHY=;
- b=snNRM2UJuxFlYbt0opdNq/Km+jTrugWz+XCv9dvNVL/debD4RiSNjJuvvfbPHP8li7
- KIhX0/QgOmUeidxtdeZSEin831Gb4MPxK/Nsdy82P6kpVKu6N4Nc/2a1j/rhKSYYtPfM
- OdujcskdH0zj17962B4EA6DAWt+WbPQDoOQkCV+q0RBuHOc2AwsMveKzxEy1LnZjcBm6
- WwVaL7EiOv3pK+MmaGP2Q6W+EWp/A0H6XAJ9Sli5mcOq3SMT90MXTM6BUD6s+YNQPnp0
- 3oKuBMFCRu9MNXQfN7PDX/uDAX7jwXSxxMeoGH5bWQ0ZYiFJh6LgmVaIuZavb11TOu03
- Stkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=0sVC8j/qFLW+R/BiCcbxfbFuWt0QadRRyfbTVS1VwHY=;
- b=PkNB4ULWgcjgRUv3u8xgt2jX2dPtM11bQr5paQ9i0rdoPgdPMuMrwZGpDE3szgfPey
- XpI1Ux2+AOIdH4gNiJ5d+7lzOTooknRyRwiSRib+nbyT++iheN5PS4KZfcCzQxBDw6c2
- IWugl7IPgC3syt7qLetfvNHiLmc6X+RazhTvNDrrEzS3BM1u3MvHJP49qNsZPBdFwjjR
- q0ucqUMvbGI5H2gKWcI019p5McxLhuUZoiWAeQzEYyP+e1fVgTNSf8j14NuMWJCX3UNR
- HJZlzZ3OeDQAh6TgQ9nn1SJaFV5xhD13zFENlUhpTb6mLo/sXWHhWnajBkoNXxXIIcGS
- uMow==
-X-Gm-Message-State: AOAM532S2BPw19OI5JMzk3C35XqfN4nGtU3R0LVxVOiCqYRJx3sHxf9f
- MRB2I0ZiL98wBjhknx7dqs4=
-X-Google-Smtp-Source: ABdhPJy5MA8pTqBMHg7t7kC9SkPKcTOcLW8SMiIKlPFipG2wn4l5044FI2Bd1WiObQwt+tJVlAueHQ==
-X-Received: by 2002:a05:6830:cf:: with SMTP id
- x15mr30498943oto.55.1609096852047; 
- Sun, 27 Dec 2020 11:20:52 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id v17sm8555011oou.41.2020.12.27.11.20.50
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 27 Dec 2020 11:20:50 -0800 (PST)
-Date: Sun, 27 Dec 2020 11:20:49 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch 02/30] genirq: Move status flag checks to core
-Message-ID: <20201227192049.GA195845@roeck-us.net>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194042.703779349@linutronix.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369968947A
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Dec 2020 20:17:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 981202255F
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Dec 2020 20:17:00 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id 8BD1481F1E; Sun, 27 Dec 2020 20:17:00 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210321] /display/dc/dcn20/dcn20_resource.c:3240
+ dcn20_validate_bandwidth_fp+0x8b/0xd0 [amdgpu]
+Date: Sun, 27 Dec 2020 20:17:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: florian-evers@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-210321-2300-PUlQNkzVqN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210321-2300@https.bugzilla.kernel.org/>
+References: <bug-210321-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201210194042.703779349@linutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Mon, 28 Dec 2020 10:19:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,121 +54,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Russell King <linux@armlinux.org.uk>, afzal mohammed <afzal.mohd.ma@gmail.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, linux-s390@vger.kernel.org,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Dave Jiang <dave.jiang@intel.com>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma@vger.kernel.org, Will Deacon <will@kernel.org>,
- Helge Deller <deller@gmx.de>, Michal Simek <michal.simek@xilinx.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Wambui Karuga <wambui.karugax@gmail.com>,
- Allen Hubbe <allenbh@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Heiko Carstens <hca@linux.ibm.com>, Jon Mason <jdmason@kudzu.us>,
- linux-gpio@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
- Juergen Gross <jgross@suse.com>, David Airlie <airlied@linux.ie>,
- linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Marc Zyngier <maz@kernel.org>, linux-ntb@googlegroups.com,
- Saeed Mahameed <saeedm@nvidia.com>, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 10, 2020 at 08:25:38PM +0100, Thomas Gleixner wrote:
-> These checks are used by modules and prevent the removal of the export of
-> irq_to_desc(). Move the accessor into the core.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+https://bugzilla.kernel.org/show_bug.cgi?id=210321
 
-Yes, but that means that irq_check_status_bit() may be called from modules,
-but it is not exported, resulting in build errors such as the following.
+Florian Evers (florian-evers@gmx.de) changed:
 
-arm64:allmodconfig:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |florian-evers@gmx.de
 
-ERROR: modpost: "irq_check_status_bit" [drivers/perf/arm_spe_pmu.ko] undefined!
+--- Comment #1 from Florian Evers (florian-evers@gmx.de) ---
+Similar issue un my box. Today I updated from kernel 5.9.16 to kernel 5.10.3
+and found this in the dmesg log:
 
-Guenter
 
-> ---
->  include/linux/irqdesc.h |   17 +++++------------
->  kernel/irq/manage.c     |   17 +++++++++++++++++
->  2 files changed, 22 insertions(+), 12 deletions(-)
-> 
-> --- a/include/linux/irqdesc.h
-> +++ b/include/linux/irqdesc.h
-> @@ -223,28 +223,21 @@ irq_set_chip_handler_name_locked(struct
->  	data->chip = chip;
->  }
->  
-> +bool irq_check_status_bit(unsigned int irq, unsigned int bitmask);
-> +
->  static inline bool irq_balancing_disabled(unsigned int irq)
->  {
-> -	struct irq_desc *desc;
-> -
-> -	desc = irq_to_desc(irq);
-> -	return desc->status_use_accessors & IRQ_NO_BALANCING_MASK;
-> +	return irq_check_status_bit(irq, IRQ_NO_BALANCING_MASK);
->  }
->  
->  static inline bool irq_is_percpu(unsigned int irq)
->  {
-> -	struct irq_desc *desc;
-> -
-> -	desc = irq_to_desc(irq);
-> -	return desc->status_use_accessors & IRQ_PER_CPU;
-> +	return irq_check_status_bit(irq, IRQ_PER_CPU);
->  }
->  
->  static inline bool irq_is_percpu_devid(unsigned int irq)
->  {
-> -	struct irq_desc *desc;
-> -
-> -	desc = irq_to_desc(irq);
-> -	return desc->status_use_accessors & IRQ_PER_CPU_DEVID;
-> +	return irq_check_status_bit(irq, IRQ_PER_CPU_DEVID);
->  }
->  
->  static inline void
-> --- a/kernel/irq/manage.c
-> +++ b/kernel/irq/manage.c
-> @@ -2769,3 +2769,23 @@ bool irq_has_action(unsigned int irq)
->  	return res;
->  }
->  EXPORT_SYMBOL_GPL(irq_has_action);
-> +
-> +/**
-> + * irq_check_status_bit - Check whether bits in the irq descriptor status are set
-> + * @irq:	The linux irq number
-> + * @bitmask:	The bitmask to evaluate
-> + *
-> + * Returns: True if one of the bits in @bitmask is set
-> + */
-> +bool irq_check_status_bit(unsigned int irq, unsigned int bitmask)
-> +{
-> +	struct irq_desc *desc;
-> +	bool res = false;
-> +
-> +	rcu_read_lock();
-> +	desc = irq_to_desc(irq);
-> +	if (desc)
-> +		res = !!(desc->status_use_accessors & bitmask);
-> +	rcu_read_unlock();
-> +	return res;
-> +}
+[So Dez 27 19:12:10 2020] ------------[ cut here ]------------
+[So Dez 27 19:12:10 2020] WARNING: CPU: 16 PID: 4138 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:3240
+dcn20_validate_bandwidth_fp+0x8b/0xd0
+[So Dez 27 19:12:10 2020] CPU: 16 PID: 4138 Comm: X Tainted: G                T
+5.10.3-gentoo #1
+[So Dez 27 19:12:10 2020] Hardware name: Gigabyte Technology Co., Ltd. X570
+AORUS MASTER/X570 AORUS MASTER, BIOS F30 09/07/2020
+[So Dez 27 19:12:10 2020] RIP: 0010:dcn20_validate_bandwidth_fp+0x8b/0xd0
+[So Dez 27 19:12:10 2020] Code: 01 7b 2b 22 85 0c 1f 00 00 75 25 31 d2 f2 0f 11
+85 50 26 00 00 48 89 ee 4c 89 e7 e8 cf f5 ff ff 89 c2 22 95 0c 1f 00 00 75 32
+<0f> 0b eb 02 75 d3 f2 0f 10 14 24 f2 0f 11 95 50 26 00 00 48 83 c4
+[So Dez 27 19:12:10 2020] RSP: 0018:ffff9af6c5203b50 EFLAGS: 00010246
+[So Dez 27 19:12:10 2020] RAX: 0000000000000001 RBX: 0000000000000000 RCX:
+0000000000077770
+[So Dez 27 19:12:10 2020] RDX: 0000000000000000 RSI: 1f37e77bc0bcc6d8 RDI:
+000000000002adc0
+[So Dez 27 19:12:10 2020] RBP: ffff8bceb4de0000 R08: 0000000000000006 R09:
+0000000000000000
+[So Dez 27 19:12:10 2020] R10: ffff8bcd43600000 R11: 0000000100000001 R12:
+ffff8bcd43600000
+[So Dez 27 19:12:10 2020] R13: ffff8bcd43600000 R14: ffff8bcd40ca4c90 R15:
+ffff8bcd42ee0308
+[So Dez 27 19:12:10 2020] FS:  00007fb79eed18c0(0000) GS:ffff8bdc3f000000(0000)
+knlGS:0000000000000000
+[So Dez 27 19:12:10 2020] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[So Dez 27 19:12:10 2020] CR2: 00005613b60d8608 CR3: 000000011a3a8000 CR4:
+0000000000350ee0
+[So Dez 27 19:12:10 2020] Call Trace:
+[So Dez 27 19:12:10 2020]  dcn20_validate_bandwidth+0x1f/0x30
+[So Dez 27 19:12:10 2020]  dc_validate_global_state+0x22f/0x2a0
+[So Dez 27 19:12:10 2020]  amdgpu_dm_atomic_check+0xb02/0xbe0
+[So Dez 27 19:12:10 2020]  drm_atomic_check_only+0x584/0x800
+[So Dez 27 19:12:10 2020]  ? _raw_spin_unlock_irqrestore+0xf/0x30
+[So Dez 27 19:12:10 2020]  drm_atomic_commit+0xe/0x50
+[So Dez 27 19:12:10 2020]  drm_atomic_connector_commit_dpms+0xd2/0xf0
+[So Dez 27 19:12:10 2020]  drm_mode_obj_set_property_ioctl+0x193/0x3d0
+[So Dez 27 19:12:10 2020]  ? drm_connector_set_obj_prop+0x80/0x80
+[So Dez 27 19:12:10 2020]  drm_connector_property_set_ioctl+0x3c/0x60
+[So Dez 27 19:12:10 2020]  drm_ioctl_kernel+0xad/0xf0
+[So Dez 27 19:12:10 2020]  drm_ioctl+0x215/0x390
+[So Dez 27 19:12:10 2020]  ? drm_connector_set_obj_prop+0x80/0x80
+[So Dez 27 19:12:10 2020]  amdgpu_drm_ioctl+0x44/0x80
+[So Dez 27 19:12:10 2020]  __x64_sys_ioctl+0x7e/0xb0
+[So Dez 27 19:12:10 2020]  do_syscall_64+0x33/0x80
+[So Dez 27 19:12:10 2020]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[So Dez 27 19:12:10 2020] RIP: 0033:0x7fb79f103d77
+[So Dez 27 19:12:10 2020] Code: 01 75 a5 49 8d 3c 1c e8 f7 fe ff ff 85 c0 78 a6
+5b 4c 89 e0 5d 41 5c c3 66 2e 0f 1f 84 00 00 00 00 00 90 b8 10 00 00 00 0f 05
+<48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c1 70 0c 00 f7 d8 64 89 01 48
+[So Dez 27 19:12:10 2020] RSP: 002b:00007ffddf8e14d8 EFLAGS: 00000246 ORIG_RAX:
+0000000000000010
+[So Dez 27 19:12:10 2020] RAX: ffffffffffffffda RBX: 00007ffddf8e1510 RCX:
+00007fb79f103d77
+[So Dez 27 19:12:10 2020] RDX: 00007ffddf8e1510 RSI: 00000000c01064ab RDI:
+000000000000000c
+[So Dez 27 19:12:10 2020] RBP: 00000000c01064ab R08: 0000000000000000 R09:
+00007fb79f7d1d10
+[So Dez 27 19:12:10 2020] R10: 00007fb79f7d1d20 R11: 0000000000000246 R12:
+00005613b703c390
+[So Dez 27 19:12:10 2020] R13: 000000000000000c R14: 0000000000000000 R15:
+00005613b6113e00
+[So Dez 27 19:12:10 2020] ---[ end trace 4936e0098b209a6c ]---
+
+
+waterstation ~ # emerge --info
+Portage 3.0.9 (python 3.8.6-final-0, default/linux/amd64/17.1/desktop/plasma,
+gcc-9.3.0, glibc-2.32-r3, 5.10.3-gentoo x86_64)
+=================================================================
+System uname:
+Linux-5.10.3-gentoo-x86_64-AMD_Ryzen_9_3900X_12-Core_Processor-with-glibc2.2.5
+KiB Mem:    65794276 total,  56616072 free
+KiB Swap:   16864252 total,  16864252 free
+Timestamp of repository gentoo: Sun, 27 Dec 2020 15:00:01 +0000
+Head commit of repository gentoo: 465bb6880edff24a20d24e074a4da935c3be4123
+sh bash 5.0_p18
+ld GNU ld (Gentoo 2.34 p6) 2.34.0
+app-shells/bash:          5.0_p18::gentoo
+dev-java/java-config:     2.3.1::gentoo
+dev-lang/perl:            5.30.3::gentoo
+dev-lang/python:          2.7.18-r4::gentoo, 3.7.9::gentoo, 3.8.6::gentoo,
+3.9.0::gentoo
+dev-util/cmake:           3.17.4-r1::gentoo
+dev-util/pkgconfig:       0.29.2::gentoo
+sys-apps/baselayout:      2.7::gentoo
+sys-apps/openrc:          0.42.1::gentoo
+sys-apps/sandbox:         2.20::gentoo
+sys-devel/autoconf:       2.13-r1::gentoo, 2.69-r5::gentoo
+sys-devel/automake:       1.16.2-r1::gentoo
+sys-devel/binutils:       2.34-r2::gentoo
+sys-devel/gcc:            9.3.0-r2::gentoo
+sys-devel/gcc-config:     2.3.2-r1::gentoo
+sys-devel/libtool:        2.4.6-r6::gentoo
+sys-devel/make:           4.3::gentoo
+sys-kernel/linux-headers: 5.10::gentoo (virtual/os-headers)
+sys-libs/glibc:           2.32-r3::gentoo
+Repositories:
+
+gentoo
+    location: /var/db/repos/gentoo
+    sync-type: rsync
+    sync-uri: rsync://rsync.gentoo.org/gentoo-portage
+    priority: -1000
+    sync-rsync-verify-max-age: 24
+    sync-rsync-verify-metamanifest: yes
+    sync-rsync-verify-jobs: 1
+    sync-rsync-extra-opts: 
+
+localrepo
+    location: /usr/local/portage
+    masters: gentoo
+
+kde
+    location: /var/lib/layman/kde
+    masters: gentoo
+    priority: 50
+
+steam-overlay
+    location: /var/lib/layman/steam-overlay
+    masters: gentoo
+    priority: 50
+
+ACCEPT_KEYWORDS="amd64"
+ACCEPT_LICENSE="*"
+CBUILD="x86_64-pc-linux-gnu"
+CFLAGS="-O2 -march=native -pipe"
+CHOST="x86_64-pc-linux-gnu"
+CONFIG_PROTECT="/etc /usr/lib64/libreoffice/program/sofficerc /usr/share/config
+/usr/share/gnupg/qualified.txt /var/lib/unifi"
+CONFIG_PROTECT_MASK="/etc/ca-certificates.conf /etc/dconf /etc/env.d
+/etc/fonts/fonts.conf /etc/gconf /etc/gentoo-release /etc/revdep-rebuild
+/etc/sandbox.d /etc/terminfo /etc/texmf/language.dat.d
+/etc/texmf/language.def.d /etc/texmf/updmap.d /etc/texmf/web2c"
+CXXFLAGS="-O2 -march=native -pipe"
+DISTDIR="/var/cache/distfiles"
+ENV_UNSET="CARGO_HOME DBUS_SESSION_BUS_ADDRESS DISPLAY GOBIN GOPATH PERL5LIB
+PERL5OPT PERLPREFIX PERL_CORE PERL_MB_OPT PERL_MM_OPT XAUTHORITY XDG_CACHE_HOME
+XDG_CONFIG_HOME XDG_DATA_HOME XDG_RUNTIME_DIR"
+FCFLAGS="-O2 -pipe"
+FEATURES="assume-digests binpkg-docompress binpkg-dostrip binpkg-logs
+config-protect-if-modified distlocks ebuild-locks fixlafiles ipc-sandbox
+merge-sync multilib-strict network-sandbox news parallel-fetch pid-sandbox
+preserve-libs protect-owned qa-unresolved-soname-deps sandbox sfperms strict
+unknown-features-warn unmerge-logs unmerge-orphans userfetch userpriv
+usersandbox usersync xattr"
+FFLAGS="-O2 -pipe"
+GENTOO_MIRRORS="http://distfiles.gentoo.org"
+LANG="de_DE.utf8"
+LDFLAGS="-Wl,-O1 -Wl,--as-needed"
+LINGUAS="de en ru"
+MAKEOPTS="-j20"
+PKGDIR="/var/cache/binpkgs"
+PORTAGE_CONFIGROOT="/"
+PORTAGE_RSYNC_OPTS="--recursive --links --safe-links --perms --times
+--omit-dir-times --compress --force --whole-file --delete --stats
+--human-readable --timeout=180 --exclude=/distfiles --exclude=/local
+--exclude=/packages --exclude=/.git"
+PORTAGE_TMPDIR="/var/tmp"
+USE="X a52 aac acl acpi activities alsa amd64 bash-completion berkdb bluetooth
+branding browserplugin bzip2 cairo caps cdda cddb cdr cli crypt cups dbus
+declarative dri dts dvd dvdr elogind emboss encode epub exif farstream
+fbcondecor flac fortran g3dvl gbm gdbm gif git gpg gphoto2 gpm gui iconv icq
+icu inotify ipod ipv6 jabber jingle jpeg kde kipi kolab kpathsea kwallet latex
+lcms lensfun libglvnd libnotify libtirpc mad mercurial mikmod mmx mmxext mng
+mod mp3 mp4 mpeg multilib mythtv ncurses netlink nls nptl nsplugin ogg opengl
+openmp opus oscar otr pam pango pch pcre pdf phonon plasma png policykit ppds
+pulseaudio qml qt5 raw rdesktop rdp readline rss scanner sdl seccomp
+semantic-desktop sip skype spell split-usr sse sse2 sse3 sse4_1 ssl ssse3
+startup-notification svg taglib tcpd theora thumbnail tiff truetype udev udisks
+unicode upower usb v4l v4l2 vaapi video vlc vnc vorbis vulkan widgets wxwidgets
+x264 xattr xcb xcomposite xml xmpp xv xvid zip zlib" ABI_X86="64"
+ADA_TARGET="gnat_2018" ALSA_CARDS="ali5451 als4000 atiixp atiixp-modem bt87x
+ca0106 cmipci emu10k1x ens1370 ens1371 es1938 es1968 fm801 hda-intel intel8x0
+intel8x0m maestro3 trident usb-audio via82xx via82xx-modem ymfpci"
+APACHE2_MODULES="authn_core authz_core socache_shmcb unixd actions alias
+auth_basic authn_alias authn_anon authn_dbm authn_default authn_file authz_dbm
+authz_default authz_groupfile authz_host authz_owner authz_user autoindex cache
+cgi cgid dav dav_fs dav_lock deflate dir disk_cache env expires ext_filter
+file_cache filter headers include info log_config logio mem_cache mime
+mime_magic negotiation rewrite setenvif speling status unique_id userdir
+usertrack vhost_alias" CALLIGRA_FEATURES="karbon sheets words" CAMERAS="canon
+ptp2" COLLECTD_PLUGINS="df interface irq load memory rrdtool swap syslog"
+CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt sha sse sse2
+sse3 sse4_1 sse4_2 sse4a ssse3" ELIBC="glibc" GPSD_PROTOCOLS="ashtech aivdm
+earthmate evermore fv18 garmin garmintxt gpsclock greis isync itrax mtk3301
+nmea ntrip navcom oceanserver oldstyle oncore rtcm104v2 rtcm104v3 sirf skytraq
+superstar2 timing tsip tripmate tnt ublox ubx" GRUB_PLATFORMS="efi-64"
+INPUT_DEVICES="libinput" KERNEL="linux" L10N="de en ru" LCD_DEVICES="bayrad
+cfontz cfontz633 glk hd44780 lb216 lcdm001 mtxorb ncurses text"
+LIBREOFFICE_EXTENSIONS="presenter-console presenter-minimizer"
+LUA_SINGLE_TARGET="lua5-1" LUA_TARGETS="lua5-1"
+OFFICE_IMPLEMENTATION="libreoffice" PHP_TARGETS="php7-2 php7-3 php7-4"
+POSTGRES_TARGETS="postgres10 postgres11" PYTHON_SINGLE_TARGET="python3_8"
+PYTHON_TARGETS="python2_7 python3_8" RUBY_TARGETS="ruby25 ruby26"
+SANE_BACKENDS="epson epson2" USERLAND="GNU" VIDEO_CARDS="amdgpu radeonsi
+radeon" XTABLES_ADDONS="quota2 psd pknock lscan length2 ipv4options ipset ipp2p
+iface geoip fuzzy condition tee tarpit sysrq steal rawnat logmark ipmark
+dhcpmac delude chaos account"
+Unset:  CC, CPPFLAGS, CTARGET, CXX, EMERGE_DEFAULT_OPTS, INSTALL_MASK, LC_ALL,
+PORTAGE_BINHOST, PORTAGE_BUNZIP2_COMMAND, PORTAGE_COMPRESS,
+PORTAGE_COMPRESS_FLAGS, PORTAGE_RSYNC_EXTRA_OPTS
+
+waterstation ~ # 
+
+Regards,
+Florian
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
