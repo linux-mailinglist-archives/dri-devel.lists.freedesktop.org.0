@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351DB2E2FC5
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Dec 2020 04:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B7C2E35C6
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435CC89309;
-	Sun, 27 Dec 2020 03:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64DE489A0E;
+	Mon, 28 Dec 2020 10:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF0E889309
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Dec 2020 03:31:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A558521D95
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Dec 2020 03:31:59 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 960F386738; Sun, 27 Dec 2020 03:31:59 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
- lid. AMDGPU
-Date: Sun, 27 Dec 2020 03:31:59 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: jvdelisle@charter.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210849-2300-nKYJJ6KqLZ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
-References: <bug-210849-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+X-Greylist: delayed 1948 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Dec 2020 08:57:26 UTC
+Received: from m15114.mail.126.com (m15114.mail.126.com [220.181.15.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2D8893E8;
+ Sun, 27 Dec 2020 08:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=m5oVi0TtWHQkthGZkb
+ SLeLd7sFG2BGbk2xXapv0duR4=; b=eL7TScYOee7UjWzkvmx0DdVX31cX73QcLX
+ 9oZZVrlz9cccRKGpRZ0az7Jn4lulbkJuDoUQKzlpdegPmo/ehwTqSZhLto6gRLzj
+ +chCXQ4zUAu3vBLFacn/EGx54FjlPGWQ10OQjqjPlT5r0oW9xy5Mn8FMu0nS+mWz
+ I1I8cdDhk=
+Received: from localhost.localdomain (unknown [36.112.86.14])
+ by smtp7 (Coremail) with SMTP id DsmowADX32_DROhf0ypiMg--.29381S2;
+ Sun, 27 Dec 2020 16:24:37 +0800 (CST)
+From: Defang Bo <bodefang@126.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/radeon:avoid null pointer dereference when dev is not
+ bound
+Date: Sun, 27 Dec 2020 16:24:29 +0800
+Message-Id: <1609057469-3844200-1-git-send-email-bodefang@126.com>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: DsmowADX32_DROhf0ypiMg--.29381S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKryxurWxZFWUKw45ur47XFb_yoWkuwc_uw
+ 10va4xWaykZwnYqF1Y9F1Ivr9rtFsY9rZ5WFn7ta4fXry7X348ZayUXFyUWr47Wa1UAF90
+ vF4vq3ySyrsFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUgTmDUUUUU==
+X-Originating-IP: [36.112.86.14]
+X-CM-SenderInfo: pergvwxdqjqiyswou0bp/1tbi6wUI11pD9bQS2AAAsj
+X-Mailman-Approved-At: Mon, 28 Dec 2020 10:19:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,22 +51,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: alexander.deucher@amd.com, Defang Bo <bodefang@126.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210849
+[Why]
+Similar to commit<0fa375e6>. If the set_state/can_switch code access the drm_device when dev is not bound,
+a null pointer dereference can happen.
 
---- Comment #6 from JerryD (jvdelisle@charter.net) ---
-I tried the fix in Comment 5 and it does not work so I am sticking with the
-5.8.18 kernel until this gets ironed out.
+[How]
+Add sanity checks to prevent it.
 
+Signed-off-by: Defang Bo <bodefang@126.com>
+---
+ drivers/gpu/drm/radeon/radeon_device.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index 266e3cb..50a1a60 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -1224,6 +1224,9 @@ static void radeon_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 
++	if (!dev)
++		return;
++
+ 	if (radeon_is_px(dev) && state == VGA_SWITCHEROO_OFF)
+ 		return;
+ 
+@@ -1257,6 +1260,9 @@ static void radeon_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
+ static bool radeon_switcheroo_can_switch(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
++
++	if (!dev)
++		return false;
+ 
+ 	/*
+ 	 * FIXME: open_count is protected by drm_global_mutex but that would lead to
 -- 
-You may reply to this email to add a comment.
+2.7.4
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
