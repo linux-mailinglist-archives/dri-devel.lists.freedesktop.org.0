@@ -1,64 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4814B2E35BF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5342E35C4
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47C3897FD;
-	Mon, 28 Dec 2020 10:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 290F98996E;
+	Mon, 28 Dec 2020 10:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
- Mon, 28 Dec 2020 09:57:00 UTC
-Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net
- [23.83.212.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388E789708
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 09:57:00 +0000 (UTC)
-X-Sender-Id: hostingeremail|x-authsender|ceo@prox.sg
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id D6E337E21C3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 09:41:55 +0000 (UTC)
-Received: from nl-srv-smtpout3.hostinger.io
- (100-100-138-63.trex.outbound.svc.cluster.local [100.100.138.63])
- (Authenticated sender: hostingeremail)
- by relay.mailchannels.net (Postfix) with ESMTPA id A8A287E2192
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 09:41:54 +0000 (UTC)
-X-Sender-Id: hostingeremail|x-authsender|ceo@prox.sg
-Received: from nl-srv-smtpout3.hostinger.io ([UNAVAILABLE]. [145.14.159.243])
- (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
- by 0.0.0.0:2500 (trex/5.18.11); Mon, 28 Dec 2020 09:41:55 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostingeremail|x-authsender|ceo@prox.sg
-X-MailChannels-Auth-Id: hostingeremail
-X-Power-Dime: 62431ef670e2bdde_1609148515690_1502082654
-X-MC-Loop-Signature: 1609148515690:2854138375
-X-MC-Ingress-Time: 1609148515690
-Received: from Mike (unknown [222.164.27.162])
- (Authenticated sender: ceo@prox.sg)
- by nl-srv-smtpout3.hostinger.io (smtp.hostinger.com) with ESMTPSA id
- 7E9CE31C2C5D
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 09:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=prox.sg;
- s=hostingermail-a; t=1609148512;
- bh=DkF7Wjg8ekI5Ca2NloSAqQT/y1T2Kw/qQjlWn2QaMgk=;
- h=From:To:Cc:Subject:Date;
- b=e7N7RuOgbM+bjRLN8zCQckdL2iXZrI+LRS5bgxKxIPNkjmPaGJb+fE1/XB/sbwkuZ
- XP5skBIndemBw+OAphCdziUxQZdCCKwtaivTWrODVA2W+UKXuwbHXG7d3XiJWpmMFt
- vGi4CFdD3ihUCwLYXwIEFJzIqda9hxe73ub+7U/py2DQ05P9udzHXfgeLA5YsoKomw
- mbt8tb3mDuzhDwxFOURTn30wHk09szNPyh53dewqugpkUHpAh8VMw7PFr5Sp9zhriZ
- SirVM6Kc/0H0Db+3+OQ5L7CW4hvwLvNL7qGDbfWNW5uI7rm3Cy2IGuWp8VBCbiv9Ts
- ym3vqm+dJhSSg==
-From: <ceo@prox.sg>
-To: <dri-devel@lists.freedesktop.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Subject: MT9M114 camera sensor + iMX6ULL
-Date: Mon, 28 Dec 2020 17:41:50 +0800
-Message-ID: <007c01d6dcfd$ac1f5720$045e0560$@prox.sg>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adbc/A30t/OeBLQ3RoyzUI2kWB7xIQ==
-Content-Language: en-sg
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBAE3897E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 10:01:57 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id j1so5424953pld.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 02:01:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Q+6qTPnd2DfkDTjKCeZfbJ0CK5rN8jRkAI/OP6oorK4=;
+ b=X7dCJoEylwrQwmsaBx3qB4oY14wfMx3GtzsixeIQ/q8+pm3h3eM9cJq76xHmnyawh5
+ m469J+B4V08Hs1niAlQAGvb/wcY3nGpP6bHTVbz5YDAuj5Uo+bbEg/BI1SSbF5CYRrR+
+ NDJH3129Jl+OcoIT2xIaF4Y+41j7WO1rSpcjCxef2DYlLwzQRV/1yZ/l68dpuEOmtBcV
+ s2BfeMHAyEcS5NLF2wCXVqQs8XqtsYsH5p5NW8LbDByPDAceIXfr1HyHMXr/hvFU0Y3i
+ vL0Ow4QoqjE1O/Fdep/kGa74wow90gJdcKxobpuVlc5dVA2N7ujlqXmzhG7MbeHYpQED
+ 1KFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Q+6qTPnd2DfkDTjKCeZfbJ0CK5rN8jRkAI/OP6oorK4=;
+ b=oPlm0ZWr2oP0u8u5zrP7u4eMkCZik1FNTPJwFlPwhK9cHyV3cnqL8caLM2QyQ1cZX6
+ VwSlvvnd2oSIMp6abwqqprY1z/IIxU77+yTC5FgaKtpje+NmmZuSgZO2UbCgiQZa/7XY
+ WYBcouBeF0TR04/RXqF+74SWyxqTdqlK2N3pPdxIDRIYLPHWZnhKBS4JSA+eN1lOVpxL
+ sIC8taxT+Cj0VdGmM2nP79n5HpuO8dOsJ+eYq9x50tatyfiPzYcScawHFDlBarJovDt2
+ Q/F2IbjV3pt7MdIsFi/OSzvNkBGm5bVoTecLQJy2cO6Xrj8HGkdi97hZYcHyzkZM3nTa
+ 2LoA==
+X-Gm-Message-State: AOAM530CamVe9GOUj3cviUGlpLdpxrhGhJDs5hX2P6noWsIiYL1jV059
+ U10xpT3PP2mAUqDs7Wu1gso=
+X-Google-Smtp-Source: ABdhPJz+EqZlmRCex+rchdhkDja3tKqYO0zpWRckkT0SEnwFNYxqVo2WuF8ZeJnFYv4lAvB5QHV29w==
+X-Received: by 2002:a17:90a:a10e:: with SMTP id
+ s14mr19809351pjp.133.1609149717402; 
+ Mon, 28 Dec 2020 02:01:57 -0800 (PST)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id s1sm33775240pjk.1.2020.12.28.02.01.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 28 Dec 2020 02:01:56 -0800 (PST)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com
+Subject: [PATCH v2 0/6] Add Unisoc's drm kms module
+Date: Mon, 28 Dec 2020 18:01:41 +0800
+Message-Id: <1609149707-21411-1-git-send-email-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Mon, 28 Dec 2020 10:19:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,151 +65,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1427657258=="
+Cc: orsonzhai@gmail.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ zhang.lyra@gmail.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multipart message in MIME format.
+ChangeList:
+RFC v1:
+1. only upstream modeset and atomic at first commit. 
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
---===============1427657258==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_007D_01D6DD40.BA42E540"
-Content-Language: en-sg
+RFC v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-This is a multipart message in MIME format.
+RFC v3:
+1. multi crtc&encoder design have problem, so rollback to v1
 
-------=_NextPart_000_007D_01D6DD40.BA42E540
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+RFC v4:
+1. update to gcc-linaro-7.5.0
+2. update to Linux 5.6-rc3
+3. remove pm_runtime support
+4. add COMPILE_TEST, remove unused kconfig
+5. "drm_dev_put" on drm_unbind
+6. fix some naming convention issue
+7. remove semaphore lock for crtc flip
+8. remove static variables
 
-Hi Laurent,
+RFC v5:
+1. optimize encoder and connector code implementation
+2. use "platform_get_irq" and "platform_get_resource"
+3. drop useless function return type, drop unless debug log
+4. custom properties should be separate, so drop it
+5. use DRM_XXX replase pr_xxx
+6. drop dsi&dphy hal callback ops
+7. drop unless callback ops checking
+8. add comments for sprd dpu structure
 
-Straight to the point. I have a custom iMX6ULL board (based on NXP EVK) with
-MT9M114 connected via parallel CSI, everything is fine except the camera -
-my engineer doesn't have relevant experience.
+RFC v6:
+1. Access registers via readl/writel
+2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
+3. Remove always true checks for dpu core ops
 
-Would you make it alive? If yes, please propose desired level of cooperation
-and estimated cost.
+RFC v7:
+1. Fix DTC unit name warnings
+2. Fix the problem of maintainers
+3. Call drmm_mode_config_init to mode config init
+4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
+5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other subsystems
+6. Remove plane_update stuff, dpu handles all the HW update in crtc->atomic_flush
+7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
 
-I have hardware ready to courier to you (USB, SD-card, Ethernet and UART
-debug are available and proven work), and I also have a Ubuntu PC with
-connected board at my facility ready for remote access and development. 
+v0:
+1. Remove dpu_core_ops stuff layer for sprd drtc driver, but dpu_layer need to keeping.
+   Because all the HW update in crtc->atomic_flush, we need temporary storage all layers for
+   the dpu pageflip of atomic_flush.
+2. Add ports subnode with port@X.
 
----
-Kind regards,
-Koloboff Michael
-CEO
+v1:
+1. Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
+2. Add commit messages for Unisoc's virtual nodes.
 
+v2:
+1. Use drm_xxx to replace all DRM_XXX.
+2. Use kzalloc to replace devm_kzalloc for sprd_dsi/sprd_dpu structure init.
 
-PROX SG Pte Ltd
-(Reg/GST No. 200917259N)
-39 Woodlands Close
-#03-32 Mega@Woodlands
-Singapore 737856
-HP/WA.: +65 82969195
-email:  <mailto:ceo@prox.sg> ceo@prox.sg
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi controller bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
 
-www.prox.sg
+ .../display/sprd/sprd,display-subsystem.yaml       |   64 +
+ .../bindings/display/sprd/sprd,sharkl3-dpu.yaml    |   77 +
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml        |  107 ++
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/sprd/Kconfig                       |   13 +
+ drivers/gpu/drm/sprd/Makefile                      |   11 +
+ drivers/gpu/drm/sprd/dpu_r2p0.c                    |  603 ++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.c                 |  794 +++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.h                 | 1475 ++++++++++++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c             |  157 +++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h             |   26 +
+ drivers/gpu/drm/sprd/megacores_pll.c               |  317 +++++
+ drivers/gpu/drm/sprd/megacores_pll.h               |  146 ++
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  465 ++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |  170 +++
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  224 +++
+ drivers/gpu/drm/sprd/sprd_drm.h                    |   19 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    | 1162 +++++++++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  107 ++
+ 20 files changed, 5940 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dpu_r2p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
 
- 
-
-
-------=_NextPart_000_007D_01D6DD40.BA42E540
-Content-Type: text/html;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-SG =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal>Hi Laurent,<o:p></o:p></p><p =
-class=3DMsoNormal>Straight to the point. I have a custom iMX6ULL board =
-(based on NXP EVK) with MT9M114 connected via parallel CSI, everything =
-is fine except the camera &#8211; my engineer doesn&#8217;t have =
-relevant experience.<o:p></o:p></p><p class=3DMsoNormal>Would you make =
-it alive? If yes, please propose desired level of cooperation and =
-estimated cost.<o:p></o:p></p><p class=3DMsoNormal>I have hardware ready =
-to courier to you (USB, SD-card, Ethernet and UART debug are available =
-and proven work), and I also have a Ubuntu PC with connected board at my =
-facility ready for remote access and development. <o:p></o:p></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'>---<br>Kind regards,<br>Koloboff =
-Michael<br>CEO<o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'><br>PROX SG Pte Ltd<br>(Reg/GST No. =
-200917259N)<br></span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'>39 Woodlands Close</span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'><br></span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'>#03-32 Mega@Woodlands</span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'><br>Singapore </span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'>737856</span><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'><br>HP/WA.: +65 82969195<br>email: <a =
-href=3D"mailto:ceo@prox.sg"><span =
-style=3D'color:#0563C1'>ceo@prox.sg</span></a><o:p></o:p></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:10.0pt;font-family:"Arial",sans-serif;color:black;mso-=
-fareast-language:EN-SG'>www.prox.sg</span><span =
-style=3D'mso-fareast-language:EN-SG'><o:p></o:p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_007D_01D6DD40.BA42E540--
-
-
---===============1427657258==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1427657258==--
-
