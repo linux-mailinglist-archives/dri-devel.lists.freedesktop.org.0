@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656522E6F75
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861662E6F78
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D8F892EF;
-	Tue, 29 Dec 2020 09:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E692892FE;
+	Tue, 29 Dec 2020 09:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A9D89A9F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 11:04:48 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D4F662fXBzMBQg;
- Mon, 28 Dec 2020 19:03:42 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 28 Dec 2020 19:04:40 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@redhat.com>, <kraxel@redhat.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/qxl: Use managed mode-config init
-Date: Mon, 28 Dec 2020 19:04:41 +0800
-Message-ID: <1609153481-9909-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27540897EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 13:51:01 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D4Jp76KXnz7MGL;
+ Mon, 28 Dec 2020 21:50:07 +0800 (CST)
+Received: from ubuntu.network (10.175.138.68) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 28 Dec 2020 21:50:49 +0800
+From: Zheng Yongjun <zhengyongjun3@huawei.com>
+To: <patrik.r.jakobsson@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] gpu: drm: gma500: Use DEFINE_SPINLOCK() for spinlock
+Date: Mon, 28 Dec 2020 21:51:28 +0800
+Message-ID: <20201228135128.28733-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
+X-Originating-IP: [10.175.138.68]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 29 Dec 2020 09:42:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,43 +41,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Zheng Yongjun <zhengyongjun3@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using drmm_mode_config_init() sets up managed release of modesetting
-resources.
+spinlock can be initialized automatically with DEFINE_SPINLOCK()
+rather than explicitly calling spin_lock_init().
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 ---
- drivers/gpu/drm/qxl/qxl_display.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/power.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 012bce0..38d6b59 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -1195,7 +1195,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
- 	int i;
- 	int ret;
+diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+index b361e41c6acd..cfb0a1906950 100644
+--- a/drivers/gpu/drm/gma500/power.c
++++ b/drivers/gpu/drm/gma500/power.c
+@@ -36,7 +36,7 @@
+ #include <linux/pm_runtime.h>
  
--	drm_mode_config_init(&qdev->ddev);
-+	ret = drmm_mode_config_init(&qdev->ddev);
-+	if (ret)
-+		return ret;
+ static DEFINE_MUTEX(power_mutex);	/* Serialize power ops */
+-static spinlock_t power_ctrl_lock;	/* Serialize power claim */
++static DEFINE_SPINLOCK(power_ctrl_lock);	/* Serialize power claim */
  
- 	ret = qxl_create_monitors_object(qdev);
- 	if (ret)
-@@ -1228,5 +1230,4 @@ int qxl_modeset_init(struct qxl_device *qdev)
- void qxl_modeset_fini(struct qxl_device *qdev)
- {
- 	qxl_destroy_monitors_object(qdev);
--	drm_mode_config_cleanup(&qdev->ddev);
- }
+ /**
+  *	gma_power_init		-	initialise power manager
+@@ -55,7 +55,6 @@ void gma_power_init(struct drm_device *dev)
+ 	dev_priv->display_power = true;	/* We start active */
+ 	dev_priv->display_count = 0;	/* Currently no users */
+ 	dev_priv->suspended = false;	/* And not suspended */
+-	spin_lock_init(&power_ctrl_lock);
+ 
+ 	if (dev_priv->ops->init_pm)
+ 		dev_priv->ops->init_pm(dev);
 -- 
-2.7.4
+2.22.0
 
 _______________________________________________
 dri-devel mailing list
