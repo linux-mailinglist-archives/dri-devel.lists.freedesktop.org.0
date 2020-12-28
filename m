@@ -1,47 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0372E3DAE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 15:19:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C11872E3EE1
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 15:34:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1499899DB;
-	Mon, 28 Dec 2020 14:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAB1891FB;
+	Mon, 28 Dec 2020 14:34:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED81899DB
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 14:19:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 62CAA22AAA
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 14:19:05 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 5612686730; Mon, 28 Dec 2020 14:19:05 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210517] nouveau: DRM: failed to map fb: -28 (GeForce 6600 LE,
- ppc64)
-Date: Mon, 28 Dec 2020 14:19:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-210517-2300-xRi02JBk3D@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210517-2300@https.bugzilla.kernel.org/>
-References: <bug-210517-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16945891FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 14:34:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 196CE208B6;
+ Mon, 28 Dec 2020 14:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1609166059;
+ bh=ogKcYkMw9ARzUKF21VmoE9vp/OT8fP5rL3ZGtMvoMDg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fYWTZ9tzG3dASXGRvFijK93GYHKBOz+qKNOQu/g4BlfZya9eLTcntZ7Nlql4qaUTq
+ 7CR2tycoArNSxqesLE+c3Jf+PQr8YYxT3b5c2VUhjiB7UBKl+I/3Z7vvWII1xqDh71
+ 7U0C+AVXy+mLmO1zHTTSO5tfbYjxs+uxrb73DWbc=
+Date: Mon, 28 Dec 2020 15:25:24 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop redundant maxItems/items
+Message-ID: <X+nq1JJLxyVr7Ih+@kroah.com>
+References: <20201222040645.1323611-1-robh@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201222040645.1323611-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,28 +42,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jassi Brar <jaswinder.singh@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dmaengine@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210517
+On Mon, Dec 21, 2020 at 09:06:45PM -0700, Rob Herring wrote:
+> 'maxItems' equal to the 'items' list length is redundant. 'maxItems' is
+> preferred for a single entry while greater than 1 should have an 'items'
+> list.
+> 
+> A meta-schema check for this is pending once these existing cases are
+> fixed.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jassi Brar <jaswinder.singh@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: dmaengine@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Erhard F. (erhard_f@mailbox.org) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
-
---- Comment #6 from Erhard F. (erhard_f@mailbox.org) ---
-The patch was integrated, no longer a problem in 5.10.2.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
