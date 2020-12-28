@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49A32E6F6C
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656522E6F75
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158BE892CF;
-	Tue, 29 Dec 2020 09:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5D8F892EF;
+	Tue, 29 Dec 2020 09:42:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899DF89948
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 10:40:01 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D4DYn3xr3zj04c;
- Mon, 28 Dec 2020 18:39:09 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A9D89A9F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 11:04:48 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D4F662fXBzMBQg;
+ Mon, 28 Dec 2020 19:03:42 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 28 Dec 2020 18:39:54 +0800
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 28 Dec 2020 19:04:40 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/pci: Use pcim_enable_device()
-Date: Mon, 28 Dec 2020 18:39:56 +0800
-Message-ID: <1609151996-52706-1-git-send-email-tiantao6@hisilicon.com>
+To: <airlied@redhat.com>, <kraxel@redhat.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/qxl: Use managed mode-config init
+Date: Mon, 28 Dec 2020 19:04:41 +0800
+Message-ID: <1609153481-9909-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
@@ -47,36 +47,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using the managed function simplifies the error handling. After
-unloading the driver, the PCI device should now get disabled as
-well.
+Using drmm_mode_config_init() sets up managed release of modesetting
+resources.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/drm_pci.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index 6dba4b8..0616172 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -207,7 +207,7 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
- 	if (IS_ERR(dev))
- 		return PTR_ERR(dev);
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 012bce0..38d6b59 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1195,7 +1195,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
+ 	int i;
+ 	int ret;
  
--	ret = pci_enable_device(pdev);
-+	ret = pcim_enable_device(pdev);
+-	drm_mode_config_init(&qdev->ddev);
++	ret = drmm_mode_config_init(&qdev->ddev);
++	if (ret)
++		return ret;
+ 
+ 	ret = qxl_create_monitors_object(qdev);
  	if (ret)
- 		goto err_free;
- 
-@@ -234,7 +234,6 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
- 
- err_agp:
- 	drm_pci_agp_destroy(dev);
--	pci_disable_device(pdev);
- err_free:
- 	drm_dev_put(dev);
- 	return ret;
+@@ -1228,5 +1230,4 @@ int qxl_modeset_init(struct qxl_device *qdev)
+ void qxl_modeset_fini(struct qxl_device *qdev)
+ {
+ 	qxl_destroy_monitors_object(qdev);
+-	drm_mode_config_cleanup(&qdev->ddev);
+ }
 -- 
 2.7.4
 
