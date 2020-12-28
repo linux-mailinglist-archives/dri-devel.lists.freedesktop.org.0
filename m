@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5282E35CE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E222E35C9
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 11:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C6C89AA6;
-	Mon, 28 Dec 2020 10:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE7CC899DB;
+	Mon, 28 Dec 2020 10:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id E5052899C7
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 08:37:19 +0000 (UTC)
-X-UUID: c38ee231f71949de96cdea120b37e878-20201228
-X-UUID: c38ee231f71949de96cdea120b37e878-20201228
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 603F7899C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 08:37:20 +0000 (UTC)
+X-UUID: e4b3d2b4ffa146a0a79dce30af5357e4-20201228
+X-UUID: e4b3d2b4ffa146a0a79dce30af5357e4-20201228
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 581270807; Mon, 28 Dec 2020 16:37:18 +0800
+ with ESMTP id 1792433654; Mon, 28 Dec 2020 16:37:19 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 28 Dec 2020 16:38:24 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 28 Dec 2020 16:38:27 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 28 Dec 2020 16:38:23 +0800
+ Transport; Mon, 28 Dec 2020 16:38:24 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v3, 4/8] soc: mediatek: mmsys: add component OVL_2L2
-Date: Mon, 28 Dec 2020 16:37:06 +0800
-Message-ID: <1609144630-14721-5-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v3, 5/8] soc: mediatek: mmsys: add component POSTMASK
+Date: Mon, 28 Dec 2020 16:37:07 +0800
+Message-ID: <1609144630-14721-6-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1609144630-14721-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1609144630-14721-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -59,7 +59,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add component OVL_2L2
+This patch add component POSTMASK
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
@@ -67,17 +67,17 @@ Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index 4b6c514..42476c2 100644
+index 42476c2..09ee424 100644
 --- a/include/linux/soc/mediatek/mtk-mmsys.h
 +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -29,6 +29,7 @@ enum mtk_ddp_comp_id {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_OVL_2L0,
+@@ -31,6 +31,7 @@ enum mtk_ddp_comp_id {
  	DDP_COMPONENT_OVL_2L1,
-+	DDP_COMPONENT_OVL_2L2,
+ 	DDP_COMPONENT_OVL_2L2,
  	DDP_COMPONENT_OVL1,
++	DDP_COMPONENT_POSTMASK0,
  	DDP_COMPONENT_PWM0,
  	DDP_COMPONENT_PWM1,
+ 	DDP_COMPONENT_PWM2,
 -- 
 1.8.1.1.dirty
 
