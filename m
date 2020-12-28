@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D252E3C0B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 14:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727F02E3AC7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 14:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C630897F5;
-	Mon, 28 Dec 2020 13:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207D289518;
+	Mon, 28 Dec 2020 13:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C70897F5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 13:59:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 310AA20715;
- Mon, 28 Dec 2020 13:59:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88F2889518
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 13:41:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D3A3206ED;
+ Mon, 28 Dec 2020 13:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1609163961;
+ s=korg; t=1609162916;
  bh=EtrtNzjBt/6SdUvBKWT3J6QUlTOr5G5BUP1dzuw7Zzk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nY93Ac7W4mGNGW2Xg6V3aKrUAHKzHCzrmv6tIx+2EM6gwNC2vu7Mlgll2YKNl54ui
- hOsTVIZGt3OgHIqsohP8S3vStgQPvSlcuRtPKABvTr4SKw/+od1x3dxktqS9lG9z50
- UuhBKquJmIJyJ63kPvl+zmbiyGywOuG3sV/GguGA=
+ b=W9Hbt6CGEeRgRGC7sOEcl1fKYfm3KL6vmf27FVhWF0c/R9jciQfTzztLzPrpCYwap
+ svTjROuJL2Czg8ZD8merVXid54sqMJSwCnEdwJxdQFNinamSta7+LJ+rv7gpjonnu/
+ kIcuRIAUrlmicll0eE2l0e/FUAHye7rH2mwk+0/Y=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 004/717] drm/aspeed: Fix Kconfig warning & subsequent
+Subject: [PATCH 5.4 074/453] drm/aspeed: Fix Kconfig warning & subsequent
  build errors
-Date: Mon, 28 Dec 2020 13:40:02 +0100
-Message-Id: <20201228125021.199023747@linuxfoundation.org>
+Date: Mon, 28 Dec 2020 13:45:10 +0100
+Message-Id: <20201228124940.799406977@linuxfoundation.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228125020.963311703@linuxfoundation.org>
-References: <20201228125020.963311703@linuxfoundation.org>
+In-Reply-To: <20201228124937.240114599@linuxfoundation.org>
+References: <20201228124937.240114599@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
