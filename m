@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38552E6A15
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 19:51:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFCB2E6A16
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 19:51:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3705C894B7;
-	Mon, 28 Dec 2020 18:51:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC1E7894C0;
+	Mon, 28 Dec 2020 18:51:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2647689483;
- Mon, 28 Dec 2020 18:51:15 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id q22so15390175eja.2;
- Mon, 28 Dec 2020 10:51:15 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76A3A894C0;
+ Mon, 28 Dec 2020 18:51:23 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id j22so15293434eja.13;
+ Mon, 28 Dec 2020 10:51:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jd8vqXpCBL/M4gmvTK6glw8478aCcTulXi8fiCOfiQg=;
- b=Hlqde97BCGGKd14DbTckrg6e7Kt7v03bX6UVCIE82wSPIRF9hys5OJJ6kf12tRsXxQ
- sw7PaBoLjYwg/ag8dRTr6afKGv8gzP7KY/wXrXFkOlPkOe0483CRqKO4M1Qm+V+PQzuX
- Dzj6TsARMX00l10j8YowBKJYh3H2lBtv13WG52ukIdwBHxSvw/PMApYGGaHbYfouIWWi
- hc+wz+Ij1W1a65FFt9ouG/u7M9E5U2clmiF9t3bb0RiFBizkP7fICGCoud//6uUyThGb
- 0Nyis+0N+iPm+ILZn+bLiNnElGBh2oScdMr9ZyXI3455tYqOiw37tjX9dPEbLS7CyqQJ
- IbhA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mc229IissoQmaen66X8qdODmja7SwcQzxdxjY13TL+4=;
+ b=QuWQlYbniWilFYw3kEBza3FYUou70Z0e3ozDzussLs2Wbr5/fR7LybQwTVQWQHGYjk
+ cMdB05yQ9CPI02W/vWFgCYyAXUJjSY33qzLsl9vZD9vCcoXH/mAAlSaoAJVXTDx02/pW
+ Qmkr0UluD7Q2ILix9XylzGMUGl66gSg4hZYBGWcxOEHX2R/b7xmL+NhmHLp3mxRgDh0H
+ XH8U26Y6xX6j+7TefogqIcQItEjMZfoEL/AMXzLxQGxU5q04jLjdRe++23EJkYMEWPOb
+ /4L6mnTMAduieAQj9XGxdkPIRqgKiwZOsQHnmPFZHu7nsEj7MJlexCKr95ki0/gt/wfh
+ Z5Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jd8vqXpCBL/M4gmvTK6glw8478aCcTulXi8fiCOfiQg=;
- b=l6FgzE6ySXmxO7CWsdZ3Su1QZX+OtA6OJo5d9sr4MST6IBAl9ePqEJkQm6/Kv6Wy7F
- l+K5kA8kBwnL6bdjSdd0Z8OZRPpJg9JvbYCiPRMIXt2PJCYhxXRwmInaH+GdlnyazuTx
- 2nmrvxzBGXJaRv+OlLtKWHHAKNaKSpgGrDXOVYpBzh1XME8zS+PYtCikpxwyl8fCHB6y
- uClNgJ18cb5zzSm/RJUSanhQEfLX4UFghwPbGzjpuK7F7XF57thjTLIqopeugBeg/q0f
- fVPIjz3TR0n3gInrf2+ntQ437e7SvOZ1notfwfE8t2mQTtI9vYQt4/pNP+c27BXQW3fG
- vzdQ==
-X-Gm-Message-State: AOAM530px34+Y/i16VZilD0sFbB+msST0b7SqGBzFzS1UuW4RISS0t9C
- 1qSyAtN2nvGd/iXhMe3gjvf41UZ+G+E=
-X-Google-Smtp-Source: ABdhPJyV/N54JOfZl6W+vhAHccnmW4AHaogoj6fcpti8K+2QNnpiL0aUpCyCQYoxDixreIkR1fafdg==
-X-Received: by 2002:a17:906:b2da:: with SMTP id
- cf26mr43608532ejb.176.1609181474479; 
- Mon, 28 Dec 2020 10:51:14 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mc229IissoQmaen66X8qdODmja7SwcQzxdxjY13TL+4=;
+ b=bkxiGQ8vFldJU09j0N6+BD5nHs5xhv2vzqqadgfD47xMTXz/Fa7SPvxYjLdmSa2WUK
+ c7oruvSkD7hVOjKbOsiMdVVrc7enyCp0hOJhQIk5aM6S429c5je2eu8tsmOODb1mg0Ae
+ 7oKnsSHR/f6OeYc7fVXDkqO6MLgF9Wrg41eKy+bnNNbDcTkquBuy3fw/GicWAkA+mAb9
+ 4HtrzO2cFcEMrjVMfP664tShxPK3HZ3PfJcGSiMp8Kt1yoZC3s72RyyeEUa8Gz9c2GKx
+ ocwhj9b+0pcblKRTg8I6ehKo1YI2jtZqNNsb6JRw7Bhlt2UGRzSI5v8OPkHEZ2owdu8E
+ We9Q==
+X-Gm-Message-State: AOAM532YUrFIKJmdtZo9gDFRmUqBHfgMIKuvDFJTUXCYF523UJxKW1r4
+ 6PlY8K857ldzp2G+w5Yhb+OVADLF9jQ=
+X-Google-Smtp-Source: ABdhPJxVDSHF+KLvcX5A+hnpxkGhOgvlxDzmDqutq1WlYaN7Y+32DqI85s/JkGXZKPijn5RJcKTqtw==
+X-Received: by 2002:a17:906:5fc9:: with SMTP id
+ k9mr41599492ejv.70.1609181481866; 
+ Mon, 28 Dec 2020 10:51:21 -0800 (PST)
 Received: from twisty.localdomain
  (dynamic-2a01-0c23-8030-6e00-6cbb-50d4-b91e-5b37.c23.pool.telefonica.de.
  [2a01:c23:8030:6e00:6cbb:50d4:b91e:5b37])
- by smtp.gmail.com with ESMTPSA id x4sm37031432edr.40.2020.12.28.10.51.13
+ by smtp.gmail.com with ESMTPSA id x4sm37031432edr.40.2020.12.28.10.51.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Dec 2020 10:51:13 -0800 (PST)
+ Mon, 28 Dec 2020 10:51:21 -0800 (PST)
 From: Mario Kleiner <mario.kleiner.de@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: Enable fp16 display support for DCE8+, next try.
-Date: Mon, 28 Dec 2020 19:50:57 +0100
-Message-Id: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
+Subject: [PATCH 1/2] drm/amd/display: Check plane scaling against format
+ specific hw plane caps.
+Date: Mon, 28 Dec 2020 19:50:58 +0100
+Message-Id: <20201228185059.3949-2-mario.kleiner.de@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
+References: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,43 +77,138 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi and happy post-christmas!
+This takes hw constraints specific to pixel formats into account,
+e.g., the inability of older hw to scale fp16 format framebuffers.
 
-I wrote a patch 1/1 that now checks plane scaling factors against
-the pixel-format specific limits in the asic specific dc_plane_cap
-structures during atomic check and other appropriate places.
+It should now allow safely to enable fp16 formats also on DCE-8,
+DCE-10, DCE-11.0
 
-This should prevent things like asking for scaling on fp16 framebuffers
-if the hw can't do that. Hopefully this will now allow to safely enable
-fp16 scanout also on older asic's like DCE-11.0, DCE-10 and DCE-8.
-Patch 2/2 enables those DCE's now for fp16.
+Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 81 +++++++++++++++++--
+ 1 file changed, 73 insertions(+), 8 deletions(-)
 
-I used some quickly hacked up of IGT test kms_plane_scaling, manually
-hacking the src fb size to make sure the patch correctly accepts or
-rejects atomic commits based on allowable scaling factors for rgbx/a
-8 bit, 10, and fp16.
-
-This fp16 support has been successfully tested with a Sea Islands /
-DCE-8 laptop. I also confirmed that at least basic HDR signalling
-over HDMI works for that DCE-8 machine with a HDR monitor. For this
-i used the amdvlk driver which exposes fp16 since a while on supported
-hw.
-
-There are other bugs in DC wrt. DCE-8 though, which didn't prevent
-my testing, but may be worth looking into. My DCE-8 machine scrambles
-the video output picture somewhat under Vulkan (radv and admvlk) if the
-output signal precision isn't 8 bpc, ie. on 6 bpc (eDP laptop panel)
-and 10 bpc, 12 bpc (HDMI deep color on external HDR monitor).
-
-Another fun thing is getting a black screen if DC is enabled on at least
-Linux 5.10+ (but not if i use the classic kms code in amdgpu-kms). If
-i recompile the driver with a Ubuntu kconfig for Linux 5.9, the 5.10
-kernel works, and the only obvious DC related difference is that DC's
-new SI / DCE-6 asic support is disabled at compile time.
-
-Thanks,
--mario
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 2c4dbdeec46a..a3745cd8a459 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3759,10 +3759,53 @@ static const struct drm_encoder_funcs amdgpu_dm_encoder_funcs = {
+ };
+ 
+ 
++static void get_min_max_dc_plane_scaling(struct drm_device *dev,
++					 struct drm_framebuffer *fb,
++					 int *min_downscale, int *max_upscale)
++{
++	struct amdgpu_device *adev = drm_to_adev(dev);
++	struct dc *dc = adev->dm.dc;
++	/* Caps for all supported planes are the same on DCE and DCN 1 - 3 */
++	struct dc_plane_cap *plane_cap = &dc->caps.planes[0];
++
++	switch (fb->format->format) {
++	case DRM_FORMAT_P010:
++	case DRM_FORMAT_NV12:
++	case DRM_FORMAT_NV21:
++		*max_upscale = plane_cap->max_upscale_factor.nv12;
++		*min_downscale = plane_cap->max_downscale_factor.nv12;
++		break;
++
++	case DRM_FORMAT_XRGB16161616F:
++	case DRM_FORMAT_ARGB16161616F:
++	case DRM_FORMAT_XBGR16161616F:
++	case DRM_FORMAT_ABGR16161616F:
++		*max_upscale = plane_cap->max_upscale_factor.fp16;
++		*min_downscale = plane_cap->max_downscale_factor.fp16;
++		break;
++
++	default:
++		*max_upscale = plane_cap->max_upscale_factor.argb8888;
++		*min_downscale = plane_cap->max_downscale_factor.argb8888;
++		break;
++	}
++
++	/*
++	 * A factor of 1 in the plane_cap means to not allow scaling, ie. use a
++	 * scaling factor of 1.0 == 1000 units.
++	 */
++	if (*max_upscale == 1)
++		*max_upscale = 1000;
++
++	if (*min_downscale == 1)
++		*min_downscale = 1000;
++}
++
++
+ static int fill_dc_scaling_info(const struct drm_plane_state *state,
+ 				struct dc_scaling_info *scaling_info)
+ {
+-	int scale_w, scale_h;
++	int scale_w, scale_h, min_downscale, max_upscale;
+ 
+ 	memset(scaling_info, 0, sizeof(*scaling_info));
+ 
+@@ -3794,17 +3837,25 @@ static int fill_dc_scaling_info(const struct drm_plane_state *state,
+ 	/* DRM doesn't specify clipping on destination output. */
+ 	scaling_info->clip_rect = scaling_info->dst_rect;
+ 
+-	/* TODO: Validate scaling per-format with DC plane caps */
++	/* Validate scaling per-format with DC plane caps */
++	if (state->plane && state->plane->dev && state->fb) {
++		get_min_max_dc_plane_scaling(state->plane->dev, state->fb,
++					     &min_downscale, &max_upscale);
++	} else {
++		min_downscale = 250;
++		max_upscale = 16000;
++	}
++
+ 	scale_w = scaling_info->dst_rect.width * 1000 /
+ 		  scaling_info->src_rect.width;
+ 
+-	if (scale_w < 250 || scale_w > 16000)
++	if (scale_w < min_downscale || scale_w > max_upscale)
+ 		return -EINVAL;
+ 
+ 	scale_h = scaling_info->dst_rect.height * 1000 /
+ 		  scaling_info->src_rect.height;
+ 
+-	if (scale_h < 250 || scale_h > 16000)
++	if (scale_h < min_downscale || scale_h > max_upscale)
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -6424,12 +6475,26 @@ static void dm_plane_helper_cleanup_fb(struct drm_plane *plane,
+ static int dm_plane_helper_check_state(struct drm_plane_state *state,
+ 				       struct drm_crtc_state *new_crtc_state)
+ {
+-	int max_downscale = 0;
+-	int max_upscale = INT_MAX;
++	struct drm_framebuffer *fb = state->fb;
++	int min_downscale, max_upscale;
++	int min_scale = 0;
++	int max_scale = INT_MAX;
++
++	/* Plane enabled? Get min/max allowed scaling factors from plane caps. */
++	if (fb && state->crtc) {
++		get_min_max_dc_plane_scaling(state->crtc->dev, fb,
++					     &min_downscale, &max_upscale);
++		/*
++		 * Convert to drm convention: 16.16 fixed point, instead of dc's
++		 * 1.0 == 1000. Also drm scaling is src/dst instead of dc's
++		 * dst/src, so min_scale = 1.0 / max_upscale, etc.
++		 */
++		min_scale = (1000 << 16) / max_upscale;
++		max_scale = (1000 << 16) / min_downscale;
++	}
+ 
+-	/* TODO: These should be checked against DC plane caps */
+ 	return drm_atomic_helper_check_plane_state(
+-		state, new_crtc_state, max_downscale, max_upscale, true, true);
++		state, new_crtc_state, min_scale, max_scale, true, true);
+ }
+ 
+ static int dm_plane_atomic_check(struct drm_plane *plane,
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
