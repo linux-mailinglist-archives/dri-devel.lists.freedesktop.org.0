@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD082E6A19
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 19:51:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01942E6C87
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 00:32:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D341189701;
-	Mon, 28 Dec 2020 18:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC58892DB;
+	Mon, 28 Dec 2020 23:32:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2D4896EC;
- Mon, 28 Dec 2020 18:51:25 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id q22so15390712eja.2;
- Mon, 28 Dec 2020 10:51:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+le7aA/2+xijmCC6yqV0fNAJrARDNIoK5ZCFA7a3blo=;
- b=N7y0UXpQ7DReSMgvUxtCTF57Ciwl3JpI33FtTX+fmZq+WcKWnXLPriOhk/MM2WzwB4
- CSkZaeF/BxPeRiUbunK9fxg3Xv/NPCAfhmhT6I9TrWfTvQw8wOm2hmUUhpOlTAo6ePwg
- /HxKlBcM71cP0Syw/+Ld4wh4M6PyTPEUY19m3LJrJmxmMYgsVCypYVXThj/H38uQcqk1
- wVUbfA48gMT0agE9TM6ZREXlTvg6jlgvrASrUvEImnsReF81tFfpvjgzDVuuHCxumRt5
- EpACOgGo1jXeZS5QQsVu1w/BfmAeHRtSfKDTsW0rNWjqinIFwSpmVFWvaiTOQQ221c4d
- 6G7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+le7aA/2+xijmCC6yqV0fNAJrARDNIoK5ZCFA7a3blo=;
- b=uJaBVxtlwpChxmkLw9MXpB5HHs2Wos2I2xFv1rXppaCBnqzwbOvspSOExXt0gUjCLw
- xYlw9bcNlzDQIyWJa8oN4CwrCltlhYkQXtAtIIgae+L767vQO7AEUCfr4QxuCe/CCaFU
- /Pn5gfOG6AdMgmXlYB2jnIjmaINEkRE3wj/ogEKqOHmGaHtHwCkMZcsBqW9NmUkPcfrw
- 473xn2++e2D8b6VccuymRSbcYCETIlnbuvR5zKigNJw4aJwyWyqWqKmZN3fuvwL6WtNw
- GK+9cRpvOMoaGJXPuJM+rCFo8kzk8Yc3EoDB5upJZm2JFJUcop8JI8DgzTHRYVimVzUE
- uW4A==
-X-Gm-Message-State: AOAM532v9K4YSUSOJ5QaAP20ehlPz/hnCgtGM8dfPACk3QWnAYD3jyrr
- vHXAI1ayCZqEDK1ns92oyS1mn2SnVK8=
-X-Google-Smtp-Source: ABdhPJxSPgJNfU8risx3YZNjFzPxgJzjGlHLAuBeSbZCEqdzljIVqZ09jihcnmaBF+goMA+XMKHlRQ==
-X-Received: by 2002:a17:906:1741:: with SMTP id
- d1mr33095602eje.182.1609181484014; 
- Mon, 28 Dec 2020 10:51:24 -0800 (PST)
-Received: from twisty.localdomain
- (dynamic-2a01-0c23-8030-6e00-6cbb-50d4-b91e-5b37.c23.pool.telefonica.de.
- [2a01:c23:8030:6e00:6cbb:50d4:b91e:5b37])
- by smtp.gmail.com with ESMTPSA id x4sm37031432edr.40.2020.12.28.10.51.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Dec 2020 10:51:23 -0800 (PST)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amd/display: Enable fp16 also on DCE-8/10/11.
-Date: Mon, 28 Dec 2020 19:50:59 +0100
-Message-Id: <20201228185059.3949-3-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
-References: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE639892DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 23:32:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A3E422472
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 23:32:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1609198333;
+ bh=4zuOP87T+tBs/U4EXSadvydWrwt6Bdq/pnBuDyNsp3I=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MHDXi03f6vV1G6r6J8eFCqOIkk4cqccxHFFVwin1a+8+kZzWn+BEsSAcrFk3u2n/d
+ IV61cDtg8SfC13nFvgcrDj5TQvSvEgBeiooxTnLLWzv6J0IRxUrMOd3djHju93YkuF
+ yGwuP3iSRjDdcgwB9OpA9MwRPi6zp4gssF+xUXElj13YzfV2fxqYYKaG5Ut3Pqw+PM
+ iIw0zohsbxUniZC76Go+v0RypNxVa5uyZobQ9pvQuKNpqbzA3Tlw1or6YfrL1EdW2D
+ H1OgXrkfbC3NLj4nOfZ8qSDCfBDqlzhwkzgI/tq6luEysWVdltiITD4FafGRmMLgud
+ uMi1kAUMFexQw==
+Received: by mail-ej1-f52.google.com with SMTP id jx16so16086582ejb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 15:32:13 -0800 (PST)
+X-Gm-Message-State: AOAM533hzje08JUcHi8sN3z2xkinY/p7onAiMzokK/HTUmnhyg+SHLgK
+ BTRRFF0MzV560C+Du4HanQRHucPCnw5XfA9QAA==
+X-Google-Smtp-Source: ABdhPJyi7sWe+M1pwp7M/taBxI8fPAUdgCkIwfXdysJx91vWg0TwrvQd0TZnEL+XEJtjyTVXSlFp6eaIJBvkueKMUQw=
+X-Received: by 2002:a17:906:fb1a:: with SMTP id
+ lz26mr43221179ejb.194.1609198331821; 
+ Mon, 28 Dec 2020 15:32:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20201210161050.8460-1-chunkuang.hu@kernel.org>
+In-Reply-To: <20201210161050.8460-1-chunkuang.hu@kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 29 Dec 2020 07:32:00 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8vxmAR-RBVhPZdpMRZzUZZ8KBAV2R1rR0FvxhMv22UvQ@mail.gmail.com>
+Message-ID: <CAAOTY_8vxmAR-RBVhPZdpMRZzUZZ8KBAV2R1rR0FvxhMv22UvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/12] Decouple Mediatek DRM sub driver
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hw supports fp16, this is not only useful for HDR,
-but also for standard dynamic range displays, because
-it allows to get more precise color reproduction with
-about 11 - 12 bpc linear precision in the unorm range
-0.0 - 1.0.
-
-Working fp16 scanout+display (and HDR over HDMI) was
-verified on a DCE-8 asic, so i assume that the more
-recent DCE-10/11 will work equally well, now that
-format-specific plane scaling constraints are properly
-enforced, e.g., the inability of fp16 to scale on older
-hw like DCE-8 to DCE-11.
-
-Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 2 +-
- drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c b/drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c
-index 8ab9d6c79808..f20ed05a5050 100644
---- a/drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c
-@@ -385,7 +385,7 @@ static const struct dc_plane_cap plane_cap = {
- 	.pixel_format_support = {
- 			.argb8888 = true,
- 			.nv12 = false,
--			.fp16 = false
-+			.fp16 = true
- 	},
- 
- 	.max_upscale_factor = {
-diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
-index 3f63822b8e28..af208f9bd03b 100644
---- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
-@@ -410,7 +410,7 @@ static const struct dc_plane_cap plane_cap = {
- 		.pixel_format_support = {
- 				.argb8888 = true,
- 				.nv12 = false,
--				.fp16 = false
-+				.fp16 = true
- 		},
- 
- 		.max_upscale_factor = {
-diff --git a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-index 390a0fa37239..26fe25caa281 100644
---- a/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c
-@@ -402,7 +402,7 @@ static const struct dc_plane_cap plane_cap = {
- 	.pixel_format_support = {
- 			.argb8888 = true,
- 			.nv12 = false,
--			.fp16 = false
-+			.fp16 = true
- 	},
- 
- 	.max_upscale_factor = {
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IOaWvCAyMDIw5bm0MTLmnIgx
+MeaXpSDpgLHkupQg5LiK5Y2IMTI6MTDlr6vpgZPvvJoKPgo+IG10ayBjY29yciBpcyBjb250cm9s
+bGVkIGJ5IERSTSBhbmQgTURQIFsxXS4gSW4gb3JkZXIgdG8gc2hhcmUKPiBtdGtfY2NvcnIgZHJp
+dmVyIGZvciBEUk0gYW5kIE1EUCwgZGVjb3VwbGUgTWVkaWF0ZWsgRFJNIHN1YiBkcml2ZXIKPiB3
+aGljaCBpbmNsdWRlIG10a19jY29yciwgc28gTURQIGNvdWxkIHVzZSB0aGlzIGRlY291cGxlZCBt
+dGtfY2NvcnIuCgpGb3IgdGhpcyBzZXJpZXMsIGFwcGxpZWQgdG8gbWVkaWF0ZWstZHJtLW5leHQg
+WzFdLgoKWzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
+L2NodW5rdWFuZy5odS9saW51eC5naXQvbG9nLz9oPW1lZGlhdGVrLWRybS1uZXh0CgpSZWdhcmRz
+LApDaHVuLUt1YW5nLgoKPgo+IENoYW5nZXMgaW4gdjI6Cj4gMS4gRml4IGlvbW11IGxhcmIgcHJv
+YmxlbS4KPiAyLiBCYXNlZCBvbiBtZWRpYXRlay1kcm0tbmV4dC01LjExLTIgWzJdLgo+Cj4gWzFd
+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTExNDA3NTEvCj4gWzJdIGh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2NodW5rdWFuZy5odS9s
+aW51eC5naXQvbG9nLz9oPW1lZGlhdGVrLWRybS1uZXh0LTUuMTEtMgo+Cj4gQ0sgSHUgKDEwKToK
+PiAgIGRybS9tZWRpYXRlazogU2VwYXJhdGUgZ2V0dGluZyBsYXJiIGRldmljZSB0byBhIGZ1bmN0
+aW9uCj4gICBkcm0vbWVkaWF0ZWs6IE1vdmUgY2xrIGluZm8gZnJvbSBzdHJ1Y3QgbXRrX2RkcF9j
+b21wIHRvIHN1YiBkcml2ZXIKPiAgICAgcHJpdmF0ZSBkYXRhCj4gICBkcm0vbWVkaWF0ZWs6IE1v
+dmUgcmVncyBpbmZvIGZyb20gc3RydWN0IG10a19kZHBfY29tcCB0byBzdWIgZHJpdmVyCj4gICAg
+IHByaXZhdGUgZGF0YQo+ICAgZHJtL21lZGlhdGVrOiBSZW1vdmUgaXJxIGluIHN0cnVjdCBtdGtf
+ZGRwX2NvbXAKPiAgIGRybS9tZWRpYXRlazogVXNlIHN0cnVjdCBjbWRxX2NsaWVudF9yZWcgdG8g
+Z2F0aGVyIGNtZHEgdmFyaWFibGUKPiAgIGRybS9tZWRpYXRlazogTW92ZSBjbWRxX3JlZyBpbmZv
+IGZyb20gc3RydWN0IG10a19kZHBfY29tcCB0byBzdWIKPiAgICAgZHJpdmVyIHByaXZhdGUgZGF0
+YQo+ICAgZHJtL21lZGlhdGVrOiBDaGFuZ2Ugc3ViIGRyaXZlciBpbnRlcmZhY2UgZnJvbSBtdGtf
+ZGRwX2NvbXAgdG8gZGV2aWNlCj4gICBkcm0vbWVkaWF0ZWs6IFJlZ2lzdGVyIHZibGFuayBjYWxs
+YmFjayBmdW5jdGlvbgo+ICAgZHJtL21lZGlhdGVrOiBEUk0gZHJpdmVyIGRpcmVjdGx5IHJlZmVy
+IHRvIHN1YiBkcml2ZXIncyBmdW5jdGlvbgo+ICAgZHJtL21lZGlhdGVrOiBNb3ZlIG10a19kZHBf
+Y29tcF9pbml0KCkgZnJvbSBzdWIgZHJpdmVyIHRvIERSTSBkcml2ZXIKPgo+IENodW4tS3Vhbmcg
+SHUgKDIpOgo+ICAgZHJtL21lZGlhdGVrOiBHZXQgQ01EUSBjbGllbnQgcmVnaXN0ZXIgZm9yIGFs
+bCBkZHAgY29tcG9uZW50Cj4gICBkcm0vbWVkaWF0ZWs6IFVzZSBjb3JyZWN0IGRldmljZSBwb2lu
+dGVyIHRvIGdldCBDTURRIGNsaWVudCByZWdpc3Rlcgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
+YXRlay9tdGtfZGlzcF9jb2xvci5jICAgfCAgODkgKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2Rpc3BfZHJ2LmggICAgIHwgIDY5ICsrKysKPiAgZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kaXNwX292bC5jICAgICB8IDIxNyArKysrKy0tLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMgICAgfCAxNjkgKysrKy0tLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYyAgICAgICAgICB8ICA0NCArLQo+ICBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgICAgIHwgIDc1ICsrLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5oICAgICB8ICAgMSAtCj4gIGRyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgfCA0MjkgKysrKysrKysrKysrLS0t
+LS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaCB8IDEw
+MCArKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyAgICAgIHwg
+IDMwICstCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oICAgICAgfCAg
+IDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICB8ICA0
+NyArLS0KPiAgMTIgZmlsZXMgY2hhbmdlZCwgNjc2IGluc2VydGlvbnMoKyksIDU5NiBkZWxldGlv
+bnMoLSkKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZGlzcF9kcnYuaAo+Cj4gLS0KPiAyLjE3LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
