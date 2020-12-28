@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C372E33D6
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 04:07:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC7D2E33D7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Dec 2020 04:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1726898CE;
-	Mon, 28 Dec 2020 03:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC1A898F5;
+	Mon, 28 Dec 2020 03:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A17898CE
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 03:07:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F77898F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Dec 2020 03:08:39 +0000 (UTC)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 0BS32vgo024001;
- Mon, 28 Dec 2020 11:02:57 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 0BS34TRg024144;
+ Mon, 28 Dec 2020 11:04:29 +0800 (GMT-8)
  (envelope-from kuohsiang_chou@aspeedtech.com)
 Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 28 Dec 2020 11:06:58 +0800
+ Mon, 28 Dec 2020 11:08:30 +0800
 From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
 To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
 Subject: [PATCH V3] drm/ast: Fixed CVE for DP501
-Date: Mon, 28 Dec 2020 11:06:44 +0800
-Message-ID: <20201228030644.294075-1-kuohsiang_chou@aspeedtech.com>
+Date: Mon, 28 Dec 2020 11:08:23 +0800
+Message-ID: <20201228030823.294147-1-kuohsiang_chou@aspeedtech.com>
 X-Mailer: git-send-email 2.18.4
-In-Reply-To: <4d9d5c42-842b-1152-1b81-da634fe4f124@suse.de>
-References: <4d9d5c42-842b-1152-1b81-da634fe4f124@suse.de>
+In-Reply-To: <202012120256.nX6SgoRT-lkp@intel.com>
+References: <202012120256.nX6SgoRT-lkp@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.2.206]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0BS32vgo024001
+X-MAIL: twspam01.aspeedtech.com 0BS34TRg024144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
