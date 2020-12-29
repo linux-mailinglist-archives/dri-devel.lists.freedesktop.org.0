@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345ED2E70D5
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 14:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DFC2E7166
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 15:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1797892DB;
-	Tue, 29 Dec 2020 13:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6447D8945A;
+	Tue, 29 Dec 2020 14:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9D8892D8;
- Tue, 29 Dec 2020 13:17:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4E9DB21D94;
- Tue, 29 Dec 2020 13:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609247871;
- bh=/F0pVA4fXwFR9+ASZLEn4ZXCoj1TXo6VOfZ8bBDJ4CU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MvFOxqVG0xg1HqXw+Km3C7TeLc5ZL4OH2zRC+4f76ZcxmW6e+IGRNxaOOLWYL1a1F
- 2prZ+DzS3QnN2FQ3gIoB7OMHqFYkfBxyJavNe4iUwIBaPQnmXEg75oi3+5eCNTZQFG
- mfxslhszeUpBedEvEzTg8GYxk5HKfl09UjjFGaB7WQcE5jE4F3y0T5p21MEjiYAXjf
- ItYWDAWqW7SWzoc08Cngbb3320oNARD+9UGtRaMPXa56PBjzs+3PcWpB1wrX2pfyGa
- SdOvfc5Ue73U/J/kDDlXszsg1Er11ojvUeSaR8sTvI16XUc7aeIpVr7PIaFVcAEf9G
- Y5zY350JvLinQ==
-Received: by mail-oi1-f173.google.com with SMTP id l200so14554583oig.9;
- Tue, 29 Dec 2020 05:17:51 -0800 (PST)
-X-Gm-Message-State: AOAM533II94hnOPKk3slPXWKSW3yKAZLeHpTGwodaV9dnmTkBlgkp1y/
- FliZ5zdu+HuokWjk+qKgym6RVN2mFRol++KuYNA=
-X-Google-Smtp-Source: ABdhPJxkoRHEdJN7wSqQxlJ23qPIRj71Tyf2zqcnbaEAVMi+hGw4XqZSC29HlinZcC0SViqpm4qk95TMJazFZxsh/2g=
-X-Received: by 2002:aca:210f:: with SMTP id 15mr2251767oiz.174.1609247870640; 
- Tue, 29 Dec 2020 05:17:50 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327DC8945A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 14:34:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAEBB98;
+ Tue, 29 Dec 2020 15:34:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1609252472;
+ bh=Pm2DbbyaogPH3NcFaH7A0BgvWpdrgjNXu0NnM+HaQ2Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NvP+7vKNPuk/QAcQWtTY02hpiXYdBvfRJWFX+Jctcbj11crVYy7bboIeoNpXhfAmv
+ OWXmgfmGe4pTs4WGV0Nvtf/FRJPBgQoqVCFDAhtLbPCzuTGJVEPIC+nhU/n+TxgeTM
+ +xZM0Z11G3y01rSvlDbSjXY51gAtpwzgGcfEUWPc=
+Date: Tue, 29 Dec 2020 16:34:20 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: drm/bridge: anx7625: add DPI flag
+ and swing setting
+Message-ID: <X+s+bDHLbhxBDz7E@pendragon.ideasonboard.com>
+References: <cover.1608883950.git.xji@analogixsemi.com>
+ <c29b7d9fda9ce8619d1c718b077250998a8600b8.1608883950.git.xji@analogixsemi.com>
+ <X+n1COtS8nrCFUHd@pendragon.ideasonboard.com>
+ <20201229065048.GB7073@pc-user>
 MIME-Version: 1.0
-References: <20201214175225.38975-1-ardb@kernel.org>
- <CADnq5_M-U5QO_tmQQ8Q+v+kZXvUc7vjXnmKWYFjX1FmOJYk1OQ@mail.gmail.com>
- <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
-In-Reply-To: <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 29 Dec 2020 14:17:39 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
-Message-ID: <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
-To: Alex Deucher <alexdeucher@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201229065048.GB7073@pc-user>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,63 +49,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Dave Martin <dave.martin@arm.com>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
- Will Deacon <will@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Nicolas Boichat <drinkcat@google.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Sheng Pan <span@analogixsemi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxNiBEZWMgMjAyMCBhdCAyMzoyNiwgQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVs
-Lm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIDE2IERlYyAyMDIwIGF0IDE5OjAwLCBBbGV4IERldWNo
-ZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gTW9uLCBEZWMgMTQs
-IDIwMjAgYXQgMTI6NTMgUE0gQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4gd3JvdGU6
-Cj4gPiA+Cj4gPiA+IFRoaXMgcmV2ZXJ0cyBjb21taXQgYzM4ZDQ0NGU0NGJhZGM1NTdjZjI5ZmRm
-ZGZiODIzNjA0ODkwY2NmYS4KPiA+ID4KPiA+ID4gU2ltcGx5IGRpc2FibGluZyAtbWdlbmVyYWwt
-cmVncy1vbmx5IGxlZnQgYW5kIHJpZ2h0IGlzIHJpc2t5LCBnaXZlbiB0aGF0Cj4gPiA+IHRoZSBz
-dGFuZGFyZCBBQXJjaDY0IEFCSSBwZXJtaXRzIHRoZSB1c2Ugb2YgRlAvU0lNRCByZWdpc3RlcnMg
-YW55d2hlcmUsCj4gPiA+IGFuZCBHQ0MgaXMga25vd24gdG8gdXNlIFNJTUQgcmVnaXN0ZXJzIGZv
-ciBzcGlsbGluZywgYW5kIG1heSBpbnZlbnQKPiA+ID4gb3RoZXIgdXNlcyBvZiB0aGUgRlAvU0lN
-RCByZWdpc3RlciBmaWxlIHRoYXQgaGF2ZSBub3RoaW5nIHRvIGRvIHdpdGggdGhlCj4gPiA+IGZs
-b2F0aW5nIHBvaW50IGNvZGUgaW4gcXVlc3Rpb24uIE5vdGUgdGhhdCBwdXR0aW5nIGtlcm5lbF9u
-ZW9uX2JlZ2luKCkKPiA+ID4gYW5kIGtlcm5lbF9uZW9uX2VuZCgpIGFyb3VuZCB0aGUgY29kZSB0
-aGF0IGRvZXMgdXNlIEZQIGlzIG5vdCBzdWZmaWNpZW50Cj4gPiA+IGhlcmUsIHRoZSBwcm9ibGVt
-IGlzIGluIGFsbCB0aGUgb3RoZXIgY29kZSB0aGF0IG1heSBiZSBlbWl0dGVkIHdpdGgKPiA+ID4g
-cmVmZXJlbmNlcyB0byBTSU1EIHJlZ2lzdGVycyBpbiBpdC4KPiA+ID4KPiA+ID4gU28gdGhlIG9u
-bHkgd2F5IHRvIGRvIHRoaXMgcHJvcGVybHkgaXMgdG8gcHV0IGFsbCBmbG9hdGluZyBwb2ludCBj
-b2RlIGluCj4gPiA+IGEgc2VwYXJhdGUgY29tcGlsYXRpb24gdW5pdCwgYW5kIG9ubHkgY29tcGls
-ZSB0aGF0IHVuaXQgd2l0aAo+ID4gPiAtbWdlbmVyYWwtcmVncy1vbmx5LiBCdXQgcGVyaGFwcyB0
-aGUgdXNlIG9mIGZsb2F0aW5nIHBvaW50IGhlcmUgaXMKPiA+ID4gc29tZXRoaW5nIHRoYXQgc2hv
-dWxkIGJlIHJlY29uc2lkZXJlZCBlbnRpcmVseS4KPiA+ID4KPiA+ID4gQ2M6IENhdGFsaW4gTWFy
-aW5hcyA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+Cj4gPiA+IENjOiBXaWxsIERlYWNvbiA8d2ls
-bEBrZXJuZWwub3JnPgo+ID4gPiBDYzogRGF2ZSBNYXJ0aW4gPGRhdmUubWFydGluQGFybS5jb20+
-Cj4gPiA+IENjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+ID4gPiBDYzogTGVvIExp
-IDxzdW5wZW5nLmxpQGFtZC5jb20+Cj4gPiA+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+Cj4gPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPiA+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4K
-PiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+ID4gQ2M6IERhbmll
-bCBLb2xlc2EgPGRhbmllbEBvY3RhZm9yZ2Uub3JnPgo+ID4gPiBDYzogYW1kLWdmeEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiA+ID4gU2lnbmVkLW9mZi1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4KPiA+
-Cj4gPiBDYW4gcmViYXNlIHRoaXMgb24gTGludXMnIG1hc3RlciBicmFuY2g/ICBUaGVyZSB3ZXJl
-IGEgbnVtYmVyIG9mIG5ldwo+ID4gYXNpY3MgYWRkZWQgd2hpY2ggY29weSBwYXN0ZWQgdGhlIEFS
-TTY0IHN1cHBvcnQuCj4gPgo+Cj4gTm90IHN1cmUgd2hhdCB5b3UgYXJlIGFza2luZyBtZSBoZXJl
-LiBSZXZlcnRpbmcgY29tbWl0IGMzOGQ0NDRlNDRiYWRjNQo+IG9uIHRvcCBvZiBtYWlubGluZSBp
-cyBub3QgZ29pbmcgdG8gZml4IHRoZSBvdGhlciBjb2RlIHRoYXQgd2FzIGFkZGVkLgo+IE9yIGFy
-ZSB5b3UgYXNraW5nIG1lIHRvIGdvIGFuZCBmaW5kIHRoZSBwYXRjaGVzIChob3cgbWFueT8pIHRo
-YXQgYWRkZWQKPiBuZXcgQVNJQ3MgYW5kIGZpeCB0aGVtIGZvciBhcm02ND8KPgo+IE5vdGUgdGhh
-dCB0aGlzIGNvZGUgaXMgY3JpdGljYWxseSBicm9rZW4sIGFzIGl0IG1heSBjb3JydXB0IHVzZXIK
-PiBwcm9jZXNzIHN0YXRlIGFyYml0cmFyaWx5LiBTbyBpZiBuZXcgY29kZSB3YXMgYWRkZWQgdGhh
-dCBjb250YWlucyB0aGUKPiBzYW1lIGJ1ZywgaXQgc2hvdWxkIGJlIHJldmVydGVkIHNvIHRoYXQg
-dGhlIHJlc3BlY3RpdmUgYXV0aG9ycyBjYW4gZml4Cj4gaXQgYW5kIHJlc3VibWl0Lgo+CgpJcyB0
-aGlzIHNpbXBseSBhYm91dCBkcm9wcGluZyB0aGUgbmV3bHkgYWRkZWQgcmVmZXJlbmNlcyB0bwok
-KGRtbF9yY2ZsYWdzKSBmcm9tIHRoZSBNYWtlZmlsZT8gQmVjYXVzZSB0aGF0IGlzIHF1aXRlIHRy
-aXZpYWwgLi4uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Xin Ji,
+
+On Tue, Dec 29, 2020 at 02:50:48PM +0800, Xin Ji wrote:
+> On Mon, Dec 28, 2020 at 05:08:56PM +0200, Laurent Pinchart wrote:
+> > On Fri, Dec 25, 2020 at 07:01:09PM +0800, Xin Ji wrote:
+> > > Add DPI flag for distinguish MIPI input signal type, DSI or DPI. Add
+> > > swing setting for adjusting DP tx PHY swing
+> > > 
+> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > ---
+> > >  .../bindings/display/bridge/analogix,anx7625.yaml     | 19 +++++++++++++++++++
+> > >  1 file changed, 19 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > index 60585a4..34a7faf 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > @@ -34,6 +34,14 @@ properties:
+> > >      description: used for reset chip control, RESET_N pin B7.
+> > >      maxItems: 1
+> > >  
+> > > +  anx,swing-setting:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +    description: an array of swing register setting for DP tx PHY
+> > 
+> > Register values in DT are frowned upon.
+>
+> Hi Laurent Pinchart, as the different vendor has the different PCB layout,
+> it effects DP CTS test result, so they may need config DP tx Swing register
+> to adjust signal swing(the default swing setting is not satisfy for
+> every platform). If we move the config code to driver file, it must define
+> swing register setting for each vendor, so the DT is the best way. Do you
+> have any idea for it if you don't agree to add in DT.
+
+If it depends on the PCB layout then it should indeed be in DT. What I
+wonder is if there would be a better way to specify the data than
+register values. The ANX7625 datasheet isn't public, so there's
+effectively no way for someone to write a device tree compliant with
+this binding only with the information contained here. Reviewing the
+bindings is equally difficult. It would be best if this property instead
+contained information that could be documented clearly.
+
+> > > +  anx,mipi-dpi-in:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: indicate the MIPI rx signal type is DPI or DSI
+> > 
+> > This sounds similar to the bus-type property defined in
+> > Documentation/devicetree/bindings/media/video-interfaces.txt (which is
+> > getting converted to YAML, Rob has posted a patch series, I expect it to
+> > land in v5.13). I think it would make sense to extend bus-type to
+> > support DSI, and use that property.
+>
+> Sorry, I didn't found any define for DPI or DSI flag in Rob's patches.
+> Do you mean I just remove this flag define and call a special function
+> to read the port's type(DSI or DPI)?
+
+video-interfaces.yaml has initially been written for cameras, so it
+doesn't support DSI. I think it would make sense to extend the bus-type
+property with a DSI type, and use it here instead of a vendor-specific
+property.
+
+Alternatively, I'm wondering if this isn't information we could query at
+runtime. DRM bridges and panels have a type, so we could look at the
+next bridge or panel to find the type of the connected device instead of
+specifying it in DT.
+
+> > > +
+> > >    ports:
+> > >      type: object
+> > >  
+> > > @@ -72,6 +80,17 @@ examples:
+> > >              reg = <0x58>;
+> > >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+> > >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+> > > +            anx,swing-setting = <0x00 0x14>, <0x01 0x54>,
+> > > +                <0x02 0x64>, <0x03 0x74>, <0x04 0x29>,
+> > > +                <0x05 0x7b>, <0x06 0x77>, <0x07 0x5b>,
+> > > +                <0x08 0x7f>, <0x0c 0x20>, <0x0d 0x60>,
+> > > +                <0x10 0x60>, <0x12 0x40>, <0x13 0x60>,
+> > > +                <0x14 0x14>, <0x15 0x54>, <0x16 0x64>,
+> > > +                <0x17 0x74>, <0x18 0x29>, <0x19 0x7b>,
+> > > +                <0x1a 0x77>, <0x1b 0x5b>, <0x1c 0x7f>,
+> > > +                <0x20 0x20>, <0x21 0x60>, <0x24 0x60>,
+> > > +                <0x26 0x40>, <0x27 0x60>;
+> > > +            anx,mipi-dpi-in = <0>;
+> > >  
+> > >              ports {
+> > >                  #address-cells = <1>;
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
