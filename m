@@ -1,108 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A102E6F7E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:43:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428392E6F81
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:43:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BC889322;
-	Tue, 29 Dec 2020 09:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F64C8933C;
+	Tue, 29 Dec 2020 09:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2115.outbound.protection.outlook.com [40.107.220.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B588919F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 05:55:33 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2136.outbound.protection.outlook.com [40.107.243.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA92689292
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 06:51:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FEDdv+xLAeRyjQgI4qKEgUNiZMg0RySyhwlLxPVPehbQWPl7zI7ni5R89XLpQWIU2k6TbVeL7+B8Suoj4jjGe+TwS8PWgT34HK+2ryQ/SyCPrvml2e5JnfKC437DRnrJD85z6KF0Ls80702XzWuQtjaWIg+TSi8L1AmLp/hGTvCsbpXkN9Z70VlqoLxsqL+I3Mos5L4wLuGuBcJXS+O5aG8aY4aOK+ZYONOa74H/BPiL31lp5csRdO/6uCL6zkZzQ2+mRdrAR+jIK266MkbOQxlQdujlmz1oK3Q5EvES4Zwek8uX5d7i/FfhH6hVghcgb6x2pVnwmdgStl4RWZH1Ag==
+ b=elemIVo0tn0MUvQnLfL+xk5gd8fQz7FgZyjYGGgMFfXQTcFDVq6L2R6IbCqqntVRLZN5kgiywkgaX1fmdffsLhAlrcz/HppBk63iT2jPlKFY37clPVAdwCq1uhu0HM25dPYO6uoG5fdV06D2vk9wxmkjk2hb2o6H7YX0N9PZ4gKkBC4GWce9piD9CluZ5atmHdEhGq/+IwGs8L4N3ycMQCEp9ofOV7NFWiBF+rYQ8cN9GUZd+Svn5IRwOcxXOjhbyFCfIAl23379JCt/2TTlRgyV/T0Ssj9EhIof3J8BjhvQtgTHLz7NTSF2JVIlLPr5U+r4CE3fQ7IDR1zMwtX1HQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Y5mXq3bm2+btt43X188ydooJJmcQ77kDIx89opU+TY=;
- b=C0iZDRQKZbiUNNsCrdawPMHMvHBspliIlu/1TOzCYjZqg+g2YBPpPl0B1v/KUsie3/3EvuoLcJo/lEMEwwiH+PmssQMnMDLYCRvHbdSnjoTqzv0HEZIfUOKxUAqWLo/C+qfpTDMG/vtaLSU9b/mVhNm7Lzj/eHGhaeHwGFpdmNG05v4ruia5X31kwnBOsWqSqFDldVFac03JT8Dn/I/ncVcGIL16zP8RkRk+XkKBaysP00kpt1W0xzPoKA+dp2BSK+BCcfEMBICgQDWpMXbx7J6Stc5W/5SWME7qjvyQnp8ngfmjNO7nRNY3fquqcEITcXrqjqiiYmFnYp4BDsKGYA==
+ bh=0cmWmalDNRoLyrAdpt9mHBwXLGeK5ro02H1XItwELTE=;
+ b=c096BQnwrySd6N4WPfpCqth2YAv2rU7nOQwJXFD0RPooEJO8LCf18W4eMWoBFXI2dtwZ/vm1twfmk/D3Us9o5JNUT6DV7x+is6BcOv4TKeMw301jwQnJO4g9goHuzvTP4Qi9stnCP5gzW97uWvOvTsyUGQVnOFjSzBHKylepCZlgdqrjY2RX2JL2tWruTQuPtOx8PPtJjtcOyxShD0Wz/JPuE6Fos7Cnvnhjy9J1MLYpicwT/xEzSnULSlxWQZ946KNgtz+lLBPTzFefF4RAoJZxZxxbVpdmZyVuvncRJykQoIRZFV8BcnI4VcwTJQLnOWVM7QEZzcMhyk+7gh/ozw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
  header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Y5mXq3bm2+btt43X188ydooJJmcQ77kDIx89opU+TY=;
- b=xmBR1J9qjQFCZXSZU151NwTB4KMXRpZnIzrYhXIeRZ0MiO2X8j2v4+hHfgWA2bQ8KPEMIgiMTLONHTS37uXFeFsTN6RcH6GAA4W8H7ydPra5lFdWTFrykSw0OgUO9IaTSmejHoDbDio/231x0E+cuLIZIcDk9KlHdJ8ftXOVKbE=
+ bh=0cmWmalDNRoLyrAdpt9mHBwXLGeK5ro02H1XItwELTE=;
+ b=CsnXWJahYTa7qw73bKoE6uCk6F0hy2htnPvtCZP56MoHvJ1GNu4ptepYxltr1v4iCKUAVy7MeNY2Rrb7P4W1/Ldf3sDENdV+HuIK8IRuDuU6e3QuS/cJUVoJ/HzAcpIm/EKc37WN8eeNmEsYCwvxsUUA9JyskanFx7avTE70tBs=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none
  header.from=analogixsemi.com;
 Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BYAPR04MB4583.namprd04.prod.outlook.com (2603:10b6:a03:5a::32)
+ by BYAPR04MB3816.namprd04.prod.outlook.com (2603:10b6:a02:ac::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.31; Tue, 29 Dec
- 2020 05:55:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.28; Tue, 29 Dec
+ 2020 06:50:58 +0000
 Received: from BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::441c:9020:2a79:3eff]) by BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::441c:9020:2a79:3eff%6]) with mapi id 15.20.3700.031; Tue, 29 Dec 2020
- 05:55:31 +0000
-Date: Tue, 29 Dec 2020 13:55:21 +0800
+ 06:50:57 +0000
+Date: Tue, 29 Dec 2020 14:50:48 +0800
 From: Xin Ji <xji@analogixsemi.com>
-To: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH v1 1/2] dt-bindings: drm/bridge: anx7625: add DPI flag
  and swing setting
-Message-ID: <20201229055521.GA7073@pc-user>
+Message-ID: <20201229065048.GB7073@pc-user>
 References: <cover.1608883950.git.xji@analogixsemi.com>
  <c29b7d9fda9ce8619d1c718b077250998a8600b8.1608883950.git.xji@analogixsemi.com>
- <1609088181.493422.1338173.nullmailer@robh.at.kernel.org>
+ <X+n1COtS8nrCFUHd@pendragon.ideasonboard.com>
 Content-Disposition: inline
-In-Reply-To: <1609088181.493422.1338173.nullmailer@robh.at.kernel.org>
+In-Reply-To: <X+n1COtS8nrCFUHd@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Originating-IP: [61.148.116.10]
-X-ClientProxiedBy: HKAPR03CA0025.apcprd03.prod.outlook.com
- (2603:1096:203:c9::12) To BY5PR04MB6739.namprd04.prod.outlook.com
+X-ClientProxiedBy: HK0PR03CA0115.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::31) To BY5PR04MB6739.namprd04.prod.outlook.com
  (2603:10b6:a03:229::8)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from pc-user (61.148.116.10) by
- HKAPR03CA0025.apcprd03.prod.outlook.com (2603:1096:203:c9::12) with Microsoft
+ HK0PR03CA0115.apcprd03.prod.outlook.com (2603:1096:203:b0::31) with Microsoft
  SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
- 15.20.3721.12 via Frontend Transport; Tue, 29 Dec 2020 05:55:30 +0000
+ 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 06:50:57 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a7938974-47fd-4e25-d442-08d8abbe5a1a
-X-MS-TrafficTypeDiagnostic: BYAPR04MB4583:
+X-MS-Office365-Filtering-Correlation-Id: 294b9308-0618-4fd3-cbd2-08d8abc618ab
+X-MS-TrafficTypeDiagnostic: BYAPR04MB3816:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR04MB45833194B6042E3A7E7B04CEC7D80@BYAPR04MB4583.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <BYAPR04MB38162B481B13665F8EAAA3C2C7D80@BYAPR04MB3816.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pPvdFZ+MHiuj7IOrKJjtGVHUrzYdIh5kkSccBqAybq1iCJd2cXYa77JLrIp7WVUEBthZmkX1VStpt1lFLhBhqQqCcnQIqEVxSXVKy1CaJQf2VroX0HhCOrM+o6ElFssUgAhMBK1Tx9BAIWwL+unjQWiAkzFaDL97g7a8PeQl48xrfY9ZwDkEZPfMwSkVroJTcT3QCOvkbD62KHUoddHqjufoZyCTpp3gJ5KvwonBwype5nOZp75DeNTFVIYKXg1a/x+pTpV2YVzmxUOMUaHR5jepJ9sDK4i67cXTMMEr6DvdKEJxOPM/uGMewIJuJp51PDsIt9hTLMh0VCHRd7epgHtKkMsXbYOyUy9rlEr7U0SHZJkcrwqkepad+AGPYWeDb+YLIXZXeWLDJZI2QOjAF2+Kw72aL0nhrLRKKssn00FNe0uX4vqXhEDlAoGM3dsXTdi55rO12Y6TqBIWlS2uEw==
+X-Microsoft-Antispam-Message-Info: LY5VcEN0Kg36GNmxhfmN9SS8Tfv1Fv4Q8YpXsPUq/lCNjIlp6YeB7WtCUqoVbj0xh7ok3ZNd+dIhF+C8RQXim7854YdPSlTHt7P/2f/diuYpIzDzIegFUGAa9tVu8J+/+8ulE/1DltOB0lmjS0LlfVHfPQdjA3dk9oWdsyJRc2vgkbVWanEUEDd4ZIoY5vMJMP4NGDMXTKXDyRA4EBqqKQoIRIBu5K5uZ2eisrLhV3C+SR6V4ehoXcCeHD+vtMczoWLdoePKO8+C19eP35jki6nuqjzW0AmZ/qLHT6G5xHnt7Ehsv2hOpE/8+VL4TpCxSk63SMN7SBS1R27FtReHZcpBk4DEioHXTdWHNvEwKyYoW5GvevP3QyosiNCKt7YFk4UfUFtHHePOYA8vI+J6IA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39840400004)(136003)(376002)(346002)(366004)(396003)(7416002)(66556008)(30864003)(9686003)(45080400002)(1076003)(5660300002)(16526019)(26005)(86362001)(966005)(956004)(6666004)(478600001)(186003)(2906002)(6496006)(8676002)(83380400001)(54906003)(6916009)(52116002)(4326008)(55016002)(8936002)(66946007)(66476007)(33716001)(33656002)(316002);
+ SFS:(396003)(376002)(136003)(39840400004)(346002)(366004)(66946007)(5660300002)(54906003)(6666004)(16526019)(66476007)(26005)(186003)(33716001)(956004)(8936002)(316002)(83380400001)(33656002)(478600001)(2906002)(86362001)(8676002)(66556008)(52116002)(9686003)(55016002)(6916009)(6496006)(4326008)(7416002)(1076003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ZaKVLVYd3QLZ782+rHRDpgsBLIyoKOcV9wv335cChJkuE6LNPmYHJ1fKhs7Y?=
- =?us-ascii?Q?F1DcuxtGIMABQEkO59CPM+2kyUIvnUUi6xbPqstFHE1LrN7rNMTdNZwSWO9+?=
- =?us-ascii?Q?6v1VbI+djk9ZbKfTlhvGMkmLkn7/FLDaMP8+OJUr60JOY4R0MLHkaPkR5fic?=
- =?us-ascii?Q?rMZmppwOkAEIXmM0w6ys8shc6qd8MCoB5dzvSTHvDuRxkHVnY8Fiho9bIorV?=
- =?us-ascii?Q?SM2kzDicE5nEsLMUQMImb+KtwlYiW3tDagiDC86zcSxseVXclevP+84qQ6tp?=
- =?us-ascii?Q?YAWV+8T6LZhXzjE3GsP/+ZlAD3xqXQhuwjPPjn7bssqgLMuRlPc2TTLeukix?=
- =?us-ascii?Q?dsFOPOm2Ik2NJOG7n6yhxWRsGKenMJHCiFmFGcoM1BbcC9dNmJQQcp1i+g1o?=
- =?us-ascii?Q?bk+PpUn1dlWjZKK+wMAJBMlujo3s1ShclWYwHQSqoRYNVlJjSRS8hYAKBLmq?=
- =?us-ascii?Q?92dBKa8MrT6eW3M62zeusbNWMkbu95Lls5tMKQ+/xf2KYxSW7nVb2BGeVxQR?=
- =?us-ascii?Q?46uHl+nIVI9pDYxJniDGoD+/uEgpaUHOt1ZYzP2LY0Zx1wjNyopJbUyMx7y3?=
- =?us-ascii?Q?+ERHr8f4SjB+o6MOJ6jgyI6GWYsehx1RVvb0MEEXk7U56NbG25urIjQS8T8i?=
- =?us-ascii?Q?JeSxvRbi1sXPuPnq78+DP6Ek71+oTs6P3j+2YpofjzS/l9u4977V3q0he61y?=
- =?us-ascii?Q?jRkdJ6a8RCRwPbG2Vc9jG9wipASvbUbCFbxzkbiN6iLhoDloIzGz3QS5ooQ3?=
- =?us-ascii?Q?MixCiyQ24iVXPG6wPNA9szFI+sUcplaBjLB4PjN8vGXniydq/nBjblDCr3v4?=
- =?us-ascii?Q?gXpWhFPal81wq4LI0sRxnC8g6ApgQv6AlGmzW7B5jz1hDMqXBD8GZaVswnGk?=
- =?us-ascii?Q?cI/daLH1QKGr6cvETecEWHjFblc2CVV7B/WJlJ/dNXwgD484vXg6fJzFdlb/?=
- =?us-ascii?Q?fF3sJ/BFu8CRBhfo36MPbF65YLUHUC9UpcPOKlUe6vixmUQfzV32c/IGQQgS?=
- =?us-ascii?Q?Mxrx?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3lFgIuZ6ADzsQAFpBPB5KM6HkeuJR7eAVTF3pyhjrJ0JIBlC9+Gaa24j6nZ8?=
+ =?us-ascii?Q?YB4ihXLHKROO1RXuKpvYkDLZbrblMe8/IdvPBjbh/EKsdrf/zlaOnGWQD0XT?=
+ =?us-ascii?Q?EhB3YrQ1JVUwtvWI7B3JOZlo1BUraEuP+2Ana0y5fYbLCw/t17Zq6fdiKZRv?=
+ =?us-ascii?Q?5691XoW6y/cXb0IaD3Z4klXPy8jTROp+9JI9bvmZUEvD5b+WUeKFNE41tcsj?=
+ =?us-ascii?Q?Ktm4Atj9KLMTKUmlW5bHqQLH+Kx52nPCDHX8mFAFXfKw8meJoVllBmxOhCYU?=
+ =?us-ascii?Q?FuNOlXzoE7qMOVDifR36ZFslYm5atd3FNgTZmi+H0tfT3XbxwSX5veg1qMdV?=
+ =?us-ascii?Q?sCgG/jZyiqDcKwZ7B+Q+LsPAs5Q/5FRDwG/P6vCDBOmQ6qYJuS53BZNEObF2?=
+ =?us-ascii?Q?25pSkoVKOQxgohHT8NUtpz+CtHnIv9W9cdwLOs1xskwlrnDpu8Vb4sesZ1Yp?=
+ =?us-ascii?Q?Ao4trgzhoM4MAbYNo/vYHjsLn7rfcp8GUH6z3I/zzgKUC/ddd1l1S0lUzfpw?=
+ =?us-ascii?Q?yovCzBHvKWYRr4NnM3/doM92/XX/sAAnF9jSSJbs2FP18gj5meuRrsCv5Xs3?=
+ =?us-ascii?Q?uGP8uGhrhdT4IRZrlL9sl+ipLReFSrkrCQYrraGpFF/AEatFcuwPNjCJ464L?=
+ =?us-ascii?Q?EIRG+D9ziyNAAi4QhnrO3kYxDxbrK/7ppKmxH3so3yFTQ06CpBWTswjjP5pm?=
+ =?us-ascii?Q?7YYq98qU2B6av8mRGE63y8zLS9DQOGFyA4BM9aCr4Hclay5igSY7K4hEjzSI?=
+ =?us-ascii?Q?pN9DDNVXP8tAORGaowSK//+bKxkcFNyfYFDJrG1qmLOGnw+DmqXBih3R1jhA?=
+ =?us-ascii?Q?F23Dh95hiQw0ZJk2lVlRLfn9PdIChjgiZyL8Ubl4G57fGqB7ReVDj7nqvD11?=
+ =?us-ascii?Q?B8fN4Z2U34TXnHaK0IRZfc6NVsKx4nH4sx6B3a7xve0GOG2vUkLKqTxmwZfq?=
+ =?us-ascii?Q?G4ir19nH+arjA6/7pvZRDU6bmTso55tm5nWm4OtsNAyUyf7XkdNwjXgfGYNl?=
+ =?us-ascii?Q?lEWs?=
 X-OriginatorOrg: analogixsemi.com
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 05:55:31.6111 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 06:50:57.7954 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7938974-47fd-4e25-d442-08d8abbe5a1a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 294b9308-0618-4fd3-cbd2-08d8abc618ab
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /ablWvyiFK/qa8qlQD3e6dPuz0QQyG2fw8n18k7WfLBZh28PjXGim2XmK0BM1uorZBFZvW5PtfR7X05RUnP3aA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4583
+X-MS-Exchange-CrossTenant-UserPrincipalName: tLf/dvXnfwuMuo/iSpty/BU1GPNFM8tNFodvwvVd9CVkIKSAtFXa3ubbVuVpXZxfKtFvyIgQOeefq89bfvtxpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3816
 X-Mailman-Approved-At: Tue, 29 Dec 2020 09:42:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,16 +120,21 @@ Cc: Nicolas Boichat <drinkcat@google.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Sheng Pan <span@analogixsemi.com>
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 27, 2020 at 09:56:21AM -0700, Rob Herring wrote:
-> On Fri, 25 Dec 2020 19:01:09 +0800, Xin Ji wrote:
+On Mon, Dec 28, 2020 at 05:08:56PM +0200, Laurent Pinchart wrote:
+> Hi Xin Ji,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Dec 25, 2020 at 07:01:09PM +0800, Xin Ji wrote:
 > > Add DPI flag for distinguish MIPI input signal type, DSI or DPI. Add
 > > swing setting for adjusting DP tx PHY swing
 > > 
@@ -138,67 +143,66 @@ On Sun, Dec 27, 2020 at 09:56:21AM -0700, Rob Herring wrote:
 > >  .../bindings/display/bridge/analogix,anx7625.yaml     | 19 +++++++++++++++++++
 > >  1 file changed, 19 insertions(+)
 > > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > index 60585a4..34a7faf 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > @@ -34,6 +34,14 @@ properties:
+> >      description: used for reset chip control, RESET_N pin B7.
+> >      maxItems: 1
+> >  
+> > +  anx,swing-setting:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    description: an array of swing register setting for DP tx PHY
 > 
-> My bot found errors running 'make dt_binding_check' on your patch:
-Hi Rob Herring, I'll fix this issue in the next serial, thanks!
+> Register values in DT are frowned upon.
+Hi Laurent Pinchart, as the different vendor has the different PCB layout,
+it effects DP CTS test result, so they may need config DP tx Swing register
+to adjust signal swing(the default swing setting is not satisfy for
+every platform). If we move the config code to driver file, it must define
+swing register setting for each vendor, so the DT is the best way. Do you
+have any idea for it if you don't agree to add in DT.
 > 
-> yamllint warnings/errors:
+> > +  anx,mipi-dpi-in:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: indicate the MIPI rx signal type is DPI or DSI
 > 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: anx,swing-setting: 'anyOf' conditional failed, one must be fixed:
-> 	[[0, 20], [1, 84], [2, 100], [3, 116], [4, 41], [5, 123], [6, 119], [7, 91], [8, 127], [12, 32], [13, 96], [16, 96], [18, 64], [19, 96], [20, 20], [21, 84], [22, 100], [23, 116], [24, 41], [25, 123], [26, 119], [27, 91], [28, 127], [32, 32], [33, 96], [36, 96], [38, 64], [39, 96]] is too long
-> 	[0, 20] is too long
-> 	[1, 84] is too long
-> 	[2, 100] is too long
-> 	[3, 116] is too long
-> 	[4, 41] is too long
-> 	[5, 123] is too long
-> 	[6, 119] is too long
-> 	[7, 91] is too long
-> 	[8, 127] is too long
-> 	[12, 32] is too long
-> 	[13, 96] is too long
-> 	[16, 96] is too long
-> 	[18, 64] is too long
-> 	[19, 96] is too long
-> 	[20, 20] is too long
-> 	[21, 84] is too long
-> 	[22, 100] is too long
-> 	[23, 116] is too long
-> 	[24, 41] is too long
-> 	[25, 123] is too long
-> 	[26, 119] is too long
-> 	[27, 91] is too long
-> 	[28, 127] is too long
-> 	[32, 32] is too long
-> 	[33, 96] is too long
-> 	[36, 96] is too long
-> 	[38, 64] is too long
-> 	[39, 96] is too long
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: 'anx,mipi-dpi-in', 'anx,swing-setting' do not match any of the regexes: '^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^(pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|st-spics|ts),.*', '^70mai,.*', '^GEFanuc,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*', '^abt,.*', '^acer,.*', '^acme,.*', '^actions,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^al,.*', '^allegro,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', 
- '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^ampire,.*', '^ams,.*', '^amstaos,.*', '^analogix,.*', '^andestech,.*', '^anvo,.*', '^apm,.*', '^aptina,.*', '^arasan,.*', '^archermind,.*', '^arctic,.*', '^arcx,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^aspeed,.*', '^asus,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^bhf,.*', '^bitmain,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^calaosystems,.*', '^calxeda,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^cavium,.*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*', '^chipspark,.*', '^chrontel,.*'
- , '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compulab,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.*', '^csq,.*', '^cubietech,.*', '^cypress,.*', '^cznic,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^dell,.*', '^delta,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^edt,.*', '^eeti,.*', '^einfochips,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*', '^elimo,.*', '^embest,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', 
- '^est,.*', '^ettus,.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^ezchip,.*', '^facebook,.*', '^fairphone,.*', '^faraday,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^feiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^gardena,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gemei,.*', '^geniatech,.*', '^giantec,.*', '^giantplus,.*', '^globalscale,.*', '^globaltop,.*', '^gmt,.*', '^goodix,.*', '^google,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^haoyu,.*', '^hardkernel,.*', '^hideep,.*', '^himax,.*', '^hirschmann,.*', '^hisilicon,.*', '^hit,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^hoperun,.*', '^hp,.*', '^hsg,.*', '^hugsun,.*', '^hwacom,.*', '^hydis,.*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*', '^ifi,.*', '^ilitek,.*', '^img,.*', '^imi,.*', '^incircuit,.*', '
- ^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^ingenic,.*', '^innolux,.*', '^inside-secure,.*', '^inspur,.*', '^intel,.*', '^intercontrol,.*', '^invensense,.*', '^inversepath,.*', '^iom,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^ivo,.*', '^iwave,.*', '^jdi,.*', '^jedec,.*', '^jesurun,.*', '^jianda,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kyo,.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '^linksprite,.*', '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '^lontium,.*', '^loongson,.*', '^lsi,.*', '^lwn,.*', '^lxa,.*', '^macnica,.
- *', '^mantix,.*', '^mapleboard,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^merrii,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*', '^micron,.*', '^microsoft,.*', '^microsys,.*', '^mikroe,.*', '^mikrotik,.*', '^miniand,.*', '^minix,.*', '^miramems,.*', '^mitsubishi,.*', '^modtronix,.*', '^mosaixtech,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^nec,.*', '^neonode,.*', '^netgear,.*', '^netlogic,.*', '^netron-dy,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nintendo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^novtech,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd
- ,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*', '^opencores,.*', '^openrisc,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^ortustech,.*', '^osddisplays,.*', '^ouya,.*', '^overkiz,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^parallax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^pni,.*', '^pocketbook,.*', '^polaroid,.*', '^portwell,.*', '^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*', '^purism,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^qiaodian,.*', '^qihua,.*', '^qnap,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^renesas,.*', '^rerv
- ision,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapplepi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semtech,.*', '^sensirion,.*', '^sensortek,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shimafuji,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*', '^sifive,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconmitus,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^skyworks,.*', '^smartlabs,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '^sony,.*', '^spansion,.*', '^sprd,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-ericsson,.*', '^starry,.*', '^startek,.*', '^ste
- ,.*', '^stericsson,.*', '^summit,.*', '^sunchip,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tdo,.*', '^technexion,.*', '^technologic,.*', '^techstar,.*', '^te
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> This sounds similar to the bus-type property defined in
+> Documentation/devicetree/bindings/media/video-interfaces.txt (which is
+> getting converted to YAML, Rob has posted a patch series, I expect it to
+> land in v5.13). I think it would make sense to extend bus-type to
+> support DSI, and use that property.
+Sorry, I didn't found any define for DPI or DSI flag in Rob's patches.
+Do you mean I just remove this flag define and call a special function
+to read the port's type(DSI or DPI)?
 > 
-> See https://patchwork.ozlabs.org/patch/1420616
+> > +
+> >    ports:
+> >      type: object
+> >  
+> > @@ -72,6 +80,17 @@ examples:
+> >              reg = <0x58>;
+> >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+> >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+> > +            anx,swing-setting = <0x00 0x14>, <0x01 0x54>,
+> > +                <0x02 0x64>, <0x03 0x74>, <0x04 0x29>,
+> > +                <0x05 0x7b>, <0x06 0x77>, <0x07 0x5b>,
+> > +                <0x08 0x7f>, <0x0c 0x20>, <0x0d 0x60>,
+> > +                <0x10 0x60>, <0x12 0x40>, <0x13 0x60>,
+> > +                <0x14 0x14>, <0x15 0x54>, <0x16 0x64>,
+> > +                <0x17 0x74>, <0x18 0x29>, <0x19 0x7b>,
+> > +                <0x1a 0x77>, <0x1b 0x5b>, <0x1c 0x7f>,
+> > +                <0x20 0x20>, <0x21 0x60>, <0x24 0x60>,
+> > +                <0x26 0x40>, <0x27 0x60>;
+> > +            anx,mipi-dpi-in = <0>;
+> >  
+> >              ports {
+> >                  #address-cells = <1>;
 > 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
+> -- 
+> Regards,
 > 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
