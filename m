@@ -1,64 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943112E6F6F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 134942E6F6A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58271892DB;
-	Tue, 29 Dec 2020 09:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C647E88FE2;
+	Tue, 29 Dec 2020 09:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389A789319
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 01:49:24 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1609206564; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=rpqI5hDm0c8EMztfmP5ol3o97td4NOlV5r9gOI8P84E=;
- b=vqAW1ub6JSpwj9F09ZwrEOsg/FWqgCMMPEZ5inlC8kiNndn32mRyUlDWRi8bAzsPNA3c2iau
- ItkvL7a2TQgNZ6vvhN22joG1Q/Hqwf4kj7bkyChzoV6+z9Vp02luzqMAl63u8NOS/n53xKvU
- mfo6/Lm6uYfGPjtokMHZif6I1PY=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
- 5fea8b237bc801dc4f428003 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 01:49:23
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 482FBC43466; Tue, 29 Dec 2020 01:49:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9B82BC43462;
- Tue, 29 Dec 2020 01:49:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9B82BC43462
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=isaacm@codeaurora.org
-From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
- robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com, robh@kernel.org,
- tomeu.vizoso@collabora.com
-Subject: [PATCH 7/7] iommu/io-pgtable-arm: Allow building modular io-pgtable
- formats
-Date: Mon, 28 Dec 2020 17:49:01 -0800
-Message-Id: <1609206541-14562-8-git-send-email-isaacm@codeaurora.org>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4C68926B;
+ Tue, 29 Dec 2020 02:55:56 +0000 (UTC)
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D4fCq49zlzj0f4;
+ Tue, 29 Dec 2020 10:55:03 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 29 Dec 2020 10:55:46 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: fix comparison pointer to bool warning in
+ dc.c
+Date: Tue, 29 Dec 2020 10:55:47 +0800
+Message-ID: <1609210547-16776-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1609206541-14562-1-git-send-email-isaacm@codeaurora.org>
-References: <1609206541-14562-1-git-send-email-isaacm@codeaurora.org>
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 29 Dec 2020 09:42:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,83 +43,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno@lists.freedesktop.org, pdaly@codeaurora.org, pratikp@codeaurora.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that everything is in place for modular io-pgtable formats,
-allow the ARM LPAE and ARMV7S io-pgtable formats to be built
-as modules, and allow the io-pgtable framework to be enabled,
-without having to explicitly enable an io-pgtable format.
+Fixes coccicheck warning:
+drivers/gpu/drm/amd/display/dc/core/dc.c:1543:12-19: WARNING: Comparison
+to bool
+drivers/gpu/drm/amd/display/dc/core/dc.c:1496:14-42: WARNING: Comparison
+to bool
+drivers/gpu/drm/amd/display/dc/core/dc.c:971:15-48: WARNING: Comparison
+to bool
+drivers/gpu/drm/amd/display/dc/core/dc.c:976:15-44: WARNING: Comparison
+to bool
 
-Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/iommu/Kconfig              | 11 +++++++----
- drivers/iommu/io-pgtable-arm-v7s.c |  2 ++
- drivers/iommu/io-pgtable-arm.c     |  2 ++
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 192ef8f..d3c4e9a 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -25,12 +25,15 @@ if IOMMU_SUPPORT
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 58eb0d6..ea28b75 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -968,12 +968,12 @@ struct dc *dc_create(const struct dc_init_data *init_params)
+ 		goto alloc_fail;
  
- menu "Generic IOMMU Pagetable Support"
+ 	if (init_params->dce_environment == DCE_ENV_VIRTUAL_HW) {
+-		if (false == dc_construct_ctx(dc, init_params)) {
++		if (!dc_construct_ctx(dc, init_params)) {
+ 			dc_destruct(dc);
+ 			goto construct_fail;
+ 		}
+ 	} else {
+-		if (false == dc_construct(dc, init_params)) {
++		if (!dc_construct(dc, init_params)) {
+ 			dc_destruct(dc);
+ 			goto construct_fail;
+ 		}
+@@ -1493,7 +1493,7 @@ bool dc_commit_state(struct dc *dc, struct dc_state *context)
+ 	enum dc_status result = DC_ERROR_UNEXPECTED;
+ 	int i;
  
--# Selected by the actual pagetable implementations
- config IOMMU_IO_PGTABLE
--	bool
-+	bool "IOMMU Pagetable support"
-+	help
-+	  Enable support for using IOMMU pagetables. This option enables
-+	  the generic IOMMU pagetable framework for registering IOMMU
-+	  pagetable formats, as well as managing IOMMU pagetable instances.
+-	if (false == context_changed(dc, context))
++	if (!context_changed(dc, context))
+ 		return DC_OK;
  
- config IOMMU_IO_PGTABLE_LPAE
--	bool "ARMv7/v8 Long Descriptor Format"
-+	tristate "ARMv7/v8 Long Descriptor Format"
- 	select IOMMU_IO_PGTABLE
- 	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
- 	help
-@@ -49,7 +52,7 @@ config IOMMU_IO_PGTABLE_LPAE_SELFTEST
- 	  If unsure, say N here.
- 
- config IOMMU_IO_PGTABLE_ARMV7S
--	bool "ARMv7/v8 Short Descriptor Format"
-+	tristate "ARMv7/v8 Short Descriptor Format"
- 	select IOMMU_IO_PGTABLE
- 	depends on ARM || ARM64 || COMPILE_TEST
- 	help
-diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-index 7e81135..69dbf86 100644
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -1014,3 +1014,5 @@ static void __exit arm_v7s_exit(void)
- 	io_pgtable_ops_unregister(ARM_V7S);
- }
- module_exit(arm_v7s_exit);
-+
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 8ed52a0..8d4805f 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -1306,3 +1306,5 @@ static void __exit arm_lpae_exit(void)
- 		io_pgtable_ops_unregister(arm_lpae_init_fns_table[i].fmt);
- }
- module_exit(arm_lpae_exit);
-+
-+MODULE_LICENSE("GPL v2");
+ 	DC_LOG_DC("%s: %d streams\n",
+@@ -1540,7 +1540,7 @@ bool dc_acquire_release_mpc_3dlut(
+ 		if (found_pipe_idx) {
+ 			if (acquire && pool->funcs->acquire_post_bldn_3dlut)
+ 				ret = pool->funcs->acquire_post_bldn_3dlut(res_ctx, pool, mpcc_id, lut, shaper);
+-			else if (acquire == false && pool->funcs->release_post_bldn_3dlut)
++			else if (!acquire && pool->funcs->release_post_bldn_3dlut)
+ 				ret = pool->funcs->release_post_bldn_3dlut(res_ctx, pool, lut, shaper);
+ 		}
+ 	}
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
