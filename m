@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6572E6F70
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D52D2E6F73
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69769892E0;
-	Tue, 29 Dec 2020 09:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDC2892FA;
+	Tue, 29 Dec 2020 09:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7F9C894E0;
- Mon, 28 Dec 2020 21:32:43 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id x16so15854487ejj.7;
- Mon, 28 Dec 2020 13:32:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=I2WBbrkH2ONKXlEDHonkPj8AaAP1q8vzoVqaiWZLsUg=;
- b=veLKfrSGWbd3LTDOY5lt4PaP9PCYEgPTlIz7EUcvX42ydY/0lOFux5IcfuXUUiCf3d
- CQmpJn8IWQb5uhTloPCLp1XDkrdLUGCLWAVrS3UcoJy+B4HJ+DIoEyc8jz3eToiojC8u
- xE7Tavg902Qm9pudVd65nwEOfozvvnK1gDo0qxWZM/3lWZI9erklKix71m8qWH3yuDGW
- UNbJVaqORU1hMGPcKOq7Rzmcnn58RNzzTx9GxnCAV3vmylUTTVFSZFmVNs4gtS0R3QNb
- NKOK+806eu/RExhwim19mLzDir/YB7c/mGy+/CCImBwkFIbm1j9+azL0qusKQrbPlNIn
- FB+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=I2WBbrkH2ONKXlEDHonkPj8AaAP1q8vzoVqaiWZLsUg=;
- b=UqXAb2PgtcDZCRkdcqBrKKj8Qh4/4Z3z9YGMce9jmlkUOAQQljKA3yPsVBIv0XB6aP
- ndW+ST+h5szI/8gx8Vk2FmmapIH9RUgzQaEJ7kgIhIXPfWLHpcbS8hBx9v7U7jttygJi
- 9Qk9L5QKFOdclZ61vfftEugE7Nzl4Inmeshl7b64T8CCoJrph0aIl6AiXGI0CMgCfgMn
- n8Gb2v42Yf4yKtpvxwZgi8SvuuMTP+RhkAzEGo87IGc4QjEuON+hyW3QYVl9Gi/n1s0X
- MlVkZDXehEy4OPtoTOgvPU3+OV/UQYs7v1HeL40hfZ6yCLfMmAYKD499RWgNBb1mM993
- zc2Q==
-X-Gm-Message-State: AOAM532dQrpRbqo4B9Y92Frsu0WxFXEHclYVvQHI7L0exJTqh1kBobU5
- fkTZ7ZHfScTQ/wL9sRmH7xA=
-X-Google-Smtp-Source: ABdhPJxt3v098h+osXmQY1LyoTMKKWPimAzb7g00fZLrEQdCMwrw5lSl3gm4oc39Np0J8+Q2c8SyGw==
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr44293726ejb.56.1609191162587; 
- Mon, 28 Dec 2020 13:32:42 -0800 (PST)
-Received: from localhost (178-169-161-196.razgrad.ddns.bulsat.com.
- [178.169.161.196])
- by smtp.gmail.com with ESMTPSA id dg10sm14625072edb.63.2020.12.28.13.32.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Dec 2020 13:32:42 -0800 (PST)
-From: Iskren Chernev <iskren.chernev@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 2/2] drm/msm: Ensure get_pages is called when locked
-Date: Mon, 28 Dec 2020 23:31:31 +0200
-Message-Id: <20201228213131.2316293-2-iskren.chernev@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228213131.2316293-1-iskren.chernev@gmail.com>
-References: <20201228213131.2316293-1-iskren.chernev@gmail.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4FBE4892E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 00:53:08 +0000 (UTC)
+X-UUID: 5dd04a54453a4bc085642d383a6c7dbb-20201229
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=l5BaJ1fMqhHLJEANX8+mPHsA/fgq1r0nW6xefUzPcD0=; 
+ b=BMKdDMaJzjql8G8KIJnmwDY+rUBPV47cBBNBD9bRbaHnimWjAEvsFuTIVKz+POc8SlaWSnTiPUt0fC1Og/TWdBCYdKCZfkEObMJlETQyEhEk2I2Pot641Lq2ssmUyBP83Jcb8qOZSirVLg5azkc9DLZfqwicixQsJ8dm2Ukf3xk=;
+X-UUID: 5dd04a54453a4bc085642d383a6c7dbb-20201229
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 28539555; Tue, 29 Dec 2020 08:53:02 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 29 Dec 2020 08:54:07 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 29 Dec 2020 08:54:07 +0800
+Message-ID: <1609203179.24062.0.camel@mhfsdcap03>
+Subject: Re: [PATCH v3, 7/8] soc: mediatek: mmsys: Use function call for
+ setting mmsys ovl mout register
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 29 Dec 2020 08:52:59 +0800
+In-Reply-To: <CAAOTY_9ObwPwKt6nRc_qSu9JE3WbqeRDEpKObnxsfhENbkT+iw@mail.gmail.com>
+References: <1609144630-14721-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1609144630-14721-8-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_9ObwPwKt6nRc_qSu9JE3WbqeRDEpKObnxsfhENbkT+iw@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-Mailman-Approved-At: Tue, 29 Dec 2020 09:42:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,53 +56,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Iskren Chernev <iskren.chernev@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-get_pages is only called in a locked context. Add a WARN_ON to make sure
-it stays that way.
-
-Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
----
- drivers/gpu/drm/msm/msm_gem.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index c658deb31eb5d..9d10739c4eb2d 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -96,6 +96,8 @@ static struct page **get_pages(struct drm_gem_object *obj)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
-+	WARN_ON(!msm_gem_is_locked(obj));
-+
- 	if (!msm_obj->pages) {
- 		struct drm_device *dev = obj->dev;
- 		struct page **p;
-@@ -1129,8 +1131,9 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
- 
- 		to_msm_bo(obj)->vram_node = &vma->node;
- 
--
-+		msm_gem_lock(obj);
- 		pages = get_pages(obj);
-+		msm_gem_unlock(obj);
- 		if (IS_ERR(pages)) {
- 			ret = PTR_ERR(pages);
- 			goto fail;
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyMDIwLTEyLTI5IGF0IDAwOjM4ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
+PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
+YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgyOOaXpSDpgLHkuIAg5LiL5Y2INDozOOWvq+mBk++8
+mg0KPiA+DQo+ID4gVXNlIGZ1bmN0aW9uIGNhbGwgZm9yIHNldHRpbmcgbW1zeXMgb3ZsIG1vdXQg
+cmVnaXN0ZXINCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFu
+Zy5uaXVAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9t
+bXN5cy9tdGstbW1zeXMuYyB8IDIwICsrKysrKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUv
+bGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oIHwgIDMgKysrDQo+ID4gIDIgZmlsZXMgY2hh
+bmdlZCwgMjMgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc29j
+L21lZGlhdGVrL21tc3lzL210ay1tbXN5cy5jIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMv
+bXRrLW1tc3lzLmMNCj4gPiBpbmRleCBkYWU2NjViLi5lYTM2YTExIDEwMDY0NA0KPiA+IC0tLSBh
+L2RyaXZlcnMvc29jL21lZGlhdGVrL21tc3lzL210ay1tbXN5cy5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXRrLW1tc3lzLmMNCj4gPiBAQCAtNzQsNiArNzQsMTcgQEAg
+dm9pZCBtdGtfbW1zeXNfZGRwX2Nvbm5lY3Qoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+ICAgICAg
+ICAgICAgICAgICByZWcgPSByZWFkbF9yZWxheGVkKG1tc3lzLT5yZWdzICsgYWRkcikgfCB2YWx1
+ZTsNCj4gPiAgICAgICAgICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+cmVncyAr
+IGFkZHIpOw0KPiA+ICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIGlmICghZnVuY3MtPm92
+bF9tb3V0X2VuKQ0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gKw0KPiA+ICsgICAg
+ICAgaWYgKGZ1bmNzLT5vdmxfbW91dF9lbikgew0KPiA+ICsgICAgICAgICAgICAgICB2YWx1ZSA9
+IGZ1bmNzLT5vdmxfbW91dF9lbihjdXIsIG5leHQsICZhZGRyKTsNCj4gPiArICAgICAgICAgICAg
+ICAgaWYgKHZhbHVlKSB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gcmVhZGxf
+cmVsYXhlZChtbXN5cy0+cmVncyArIGFkZHIpIHwgdmFsdWU7DQo+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+cmVncyArIGFkZHIpOw0KPiA+ICsg
+ICAgICAgICAgICAgICB9DQo+ID4gKyAgICAgICB9DQo+IA0KPiBtdGtfbW1zeXNfZGRwX21vdXRf
+ZW4oKSBjb3VsZCB3cml0ZSByZWdpc3RlciBpbnNpZGUgaXQgcmF0aGVyIHRoYW4NCj4gcmV0dXJu
+IHZhbHVlIGFuZCB3cml0ZSByZWdpc3RlciBpbiBtdGtfbW1zeXNfZGRwX2Nvbm5lY3QoKS4gU28g
+eW91DQo+IGNvdWxkIGRvIG92bF9tb3V0X2VuKCkgaW4gbXRrX21tc3lzX2RkcF9tb3V0X2VuKCku
+DQo+IA0KPiBSZWdhcmRzLA0KPiBDaHVuLUt1YW5nLg0KDQppZiB0aGF0LCB0aGVyZSB3aWxsIGJl
+IG1hbnkgcmVwZWF0IGNvZGUgbGlrZSB0aGlzOg0KDQppZiAodmFsdWUpIHsNCiAgICAgICAgICAg
+ICAgICAgICAgcmVnID0gcmVhZGxfcmVsYXhlZChtbXN5cy0+cmVncyArIGFkZHIpIHwgdmFsdWU7
+DQogICAgICAgICAgICAgICAgICAgIHdyaXRlbF9yZWxheGVkKHJlZywgbW1zeXMtPnJlZ3MgKyBh
+ZGRyKTsNCiAgICAgICAgICAgICB9DQoNCg0KPiANCj4gPiAgfQ0KPiA+ICBFWFBPUlRfU1lNQk9M
+X0dQTChtdGtfbW1zeXNfZGRwX2Nvbm5lY3QpOw0KPiA+DQo+ID4gQEAgLTk5LDYgKzExMCwxNSBA
+QCB2b2lkIG10a19tbXN5c19kZHBfZGlzY29ubmVjdChzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4g
+ICAgICAgICAgICAgICAgIHJlZyA9IHJlYWRsX3JlbGF4ZWQobW1zeXMtPnJlZ3MgKyBhZGRyKSAm
+IH52YWx1ZTsNCj4gPiAgICAgICAgICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+
+cmVncyArIGFkZHIpOw0KPiA+ICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIGlmICghZnVu
+Y3MtPm92bF9tb3V0X2VuKQ0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gKw0KPiA+
+ICsgICAgICAgdmFsdWUgPSBmdW5jcy0+b3ZsX21vdXRfZW4oY3VyLCBuZXh0LCAmYWRkcik7DQo+
+ID4gKyAgICAgICBpZiAodmFsdWUpIHsNCj4gPiArICAgICAgICAgICAgICAgcmVnID0gcmVhZGxf
+cmVsYXhlZChtbXN5cy0+cmVncyArIGFkZHIpICYgfnZhbHVlOw0KPiA+ICsgICAgICAgICAgICAg
+ICB3cml0ZWxfcmVsYXhlZChyZWcsIG1tc3lzLT5yZWdzICsgYWRkcik7DQo+ID4gKyAgICAgICB9
+DQo+ID4gIH0NCj4gPiAgRVhQT1JUX1NZTUJPTF9HUEwobXRrX21tc3lzX2RkcF9kaXNjb25uZWN0
+KTsNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGst
+bW1zeXMuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oDQo+ID4gaW5k
+ZXggYWE0ZjYwZS4uMjIwMjAzZCAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L3NvYy9t
+ZWRpYXRlay9tdGstbW1zeXMuaA0KPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVr
+L210ay1tbXN5cy5oDQo+ID4gQEAgLTQ5LDYgKzQ5LDkgQEAgc3RydWN0IG10a19tbXN5c19jb25u
+X2Z1bmNzIHsNCj4gPiAgICAgICAgIHUzMiAoKm1vdXRfZW4pKGVudW0gbXRrX2RkcF9jb21wX2lk
+IGN1ciwNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIG5l
+eHQsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgKmFkZHIpOw0KPiA+
+ICsgICAgICAgdTMyICgqb3ZsX21vdXRfZW4pKGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0LA0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCAqYWRkcik7DQo+ID4g
+ICAgICAgICB1MzIgKCpzZWxfaW4pKGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwNCj4gPiAgICAg
+ICAgICAgICAgICAgICAgICAgZW51bSBtdGtfZGRwX2NvbXBfaWQgbmV4dCwNCj4gPiAgICAgICAg
+ICAgICAgICAgICAgICAgdW5zaWduZWQgaW50ICphZGRyKTsNCj4gPiAtLQ0KPiA+IDEuOC4xLjEu
+ZGlydHkNCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xw0KPiA+IExpbnV4LW1lZGlhdGVrIG1haWxpbmcgbGlzdA0KPiA+IExpbnV4LW1lZGlhdGVrQGxp
+c3RzLmluZnJhZGVhZC5vcmcNCj4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
