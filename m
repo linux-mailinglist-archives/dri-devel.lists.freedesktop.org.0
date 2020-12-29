@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAC92E6F80
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943112E6F6F
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1341C89332;
-	Tue, 29 Dec 2020 09:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58271892DB;
+	Tue, 29 Dec 2020 09:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614998930B
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 01:49:21 +0000 (UTC)
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389A789319
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 01:49:24 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1609206561; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1609206564; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=uRl55kgW9XKzL1b1lRBQjM6Pzb0e5uOth9CmcyHiqfY=;
- b=HRgxchqwK0BZWG1FxpUuf5QvSDhlgXY685tpB+SgNdFGCQMocoXkQh9u+36pZJPnTNzGmEuX
- SZ4AfPpd6vTb4PJ+xAzr5ere83/dV3uPb1SBmr7/QXMhjRiCR/ViweM+jn9frMH5RZq+jA8B
- /cWWx9Ot4KIp12xDUNGlFTxKwwk=
-X-Mailgun-Sending-Ip: 69.72.43.15
+ bh=rpqI5hDm0c8EMztfmP5ol3o97td4NOlV5r9gOI8P84E=;
+ b=vqAW1ub6JSpwj9F09ZwrEOsg/FWqgCMMPEZ5inlC8kiNndn32mRyUlDWRi8bAzsPNA3c2iau
+ ItkvL7a2TQgNZ6vvhN22joG1Q/Hqwf4kj7bkyChzoV6+z9Vp02luzqMAl63u8NOS/n53xKvU
+ mfo6/Lm6uYfGPjtokMHZif6I1PY=
+X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 5fea8b216d2f42c666fbccaf (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 01:49:21
+ smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
+ 5fea8b237bc801dc4f428003 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 01:49:23
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1AE15C433CA; Tue, 29 Dec 2020 01:49:21 +0000 (UTC)
+ id 482FBC43466; Tue, 29 Dec 2020 01:49:23 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -40,9 +40,9 @@ Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6B458C43462;
- Tue, 29 Dec 2020 01:49:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6B458C43462
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9B82BC43462;
+ Tue, 29 Dec 2020 01:49:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9B82BC43462
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -52,10 +52,10 @@ To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
  robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
  steven.price@arm.com, alyssa.rosenzweig@collabora.com, robh@kernel.org,
  tomeu.vizoso@collabora.com
-Subject: [PATCH 6/7] drm/panfrost: Add dependency on io-pgtable-arm format
- module
-Date: Mon, 28 Dec 2020 17:49:00 -0800
-Message-Id: <1609206541-14562-7-git-send-email-isaacm@codeaurora.org>
+Subject: [PATCH 7/7] iommu/io-pgtable-arm: Allow building modular io-pgtable
+ formats
+Date: Mon, 28 Dec 2020 17:49:01 -0800
+Message-Id: <1609206541-14562-8-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1609206541-14562-1-git-send-email-isaacm@codeaurora.org>
 References: <1609206541-14562-1-git-send-email-isaacm@codeaurora.org>
@@ -82,26 +82,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Panfrost DRM driver depends on the availability of the ARM LPAE
-io-pgtable format code to work properly. In preparation for having the
-io-pgtable formats as modules, add a "pre" dependency with
-MODULE_SOFTDEP() to ensure that the io-pgtable-arm format module is loaded
-before loading the Panfrost DRM driver module.
+Now that everything is in place for modular io-pgtable formats,
+allow the ARM LPAE and ARMV7S io-pgtable formats to be built
+as modules, and allow the io-pgtable framework to be enabled,
+without having to explicitly enable an io-pgtable format.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/iommu/Kconfig              | 11 +++++++----
+ drivers/iommu/io-pgtable-arm-v7s.c |  2 ++
+ drivers/iommu/io-pgtable-arm.c     |  2 ++
+ 3 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 83a461b..7294622 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -704,3 +704,4 @@ module_platform_driver(panfrost_driver);
- MODULE_AUTHOR("Panfrost Project Developers");
- MODULE_DESCRIPTION("Panfrost DRM Driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_SOFTDEP("pre: io-pgtable-arm");
+diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+index 192ef8f..d3c4e9a 100644
+--- a/drivers/iommu/Kconfig
++++ b/drivers/iommu/Kconfig
+@@ -25,12 +25,15 @@ if IOMMU_SUPPORT
+ 
+ menu "Generic IOMMU Pagetable Support"
+ 
+-# Selected by the actual pagetable implementations
+ config IOMMU_IO_PGTABLE
+-	bool
++	bool "IOMMU Pagetable support"
++	help
++	  Enable support for using IOMMU pagetables. This option enables
++	  the generic IOMMU pagetable framework for registering IOMMU
++	  pagetable formats, as well as managing IOMMU pagetable instances.
+ 
+ config IOMMU_IO_PGTABLE_LPAE
+-	bool "ARMv7/v8 Long Descriptor Format"
++	tristate "ARMv7/v8 Long Descriptor Format"
+ 	select IOMMU_IO_PGTABLE
+ 	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+ 	help
+@@ -49,7 +52,7 @@ config IOMMU_IO_PGTABLE_LPAE_SELFTEST
+ 	  If unsure, say N here.
+ 
+ config IOMMU_IO_PGTABLE_ARMV7S
+-	bool "ARMv7/v8 Short Descriptor Format"
++	tristate "ARMv7/v8 Short Descriptor Format"
+ 	select IOMMU_IO_PGTABLE
+ 	depends on ARM || ARM64 || COMPILE_TEST
+ 	help
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index 7e81135..69dbf86 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -1014,3 +1014,5 @@ static void __exit arm_v7s_exit(void)
+ 	io_pgtable_ops_unregister(ARM_V7S);
+ }
+ module_exit(arm_v7s_exit);
++
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 8ed52a0..8d4805f 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -1306,3 +1306,5 @@ static void __exit arm_lpae_exit(void)
+ 		io_pgtable_ops_unregister(arm_lpae_init_fns_table[i].fmt);
+ }
+ module_exit(arm_lpae_exit);
++
++MODULE_LICENSE("GPL v2");
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
