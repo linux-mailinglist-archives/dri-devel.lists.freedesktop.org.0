@@ -2,78 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176EA2E70C3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 14:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345ED2E70D5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 14:17:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34C6891C2;
-	Tue, 29 Dec 2020 13:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1797892DB;
+	Tue, 29 Dec 2020 13:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1492891C2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 13:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609246998;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vvm5MmduYfq+CeOMpnUQJhTQ4fWwSPJm0vCOaVoEwcg=;
- b=EaGx5jTtl/vJrXOqBHr1p8dzrOmkmw5Oa9mbaQA42WLDBnbChN3V2VVo8MZBZY1kRFld2s
- sd0IZwlWH4akf/lqKvh45YRMR76gQ0pxjrrhOELDAotWs1/eAms6nYlJYDprIKUhbni7Bd
- KYbKh6a6qhfu3B43ka8rA3VdQ3tLo3I=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-IJ-IuGz1PX-n6F1-DosOpw-1; Tue, 29 Dec 2020 08:02:33 -0500
-X-MC-Unique: IJ-IuGz1PX-n6F1-DosOpw-1
-Received: by mail-ed1-f69.google.com with SMTP id bf13so4414360edb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 05:02:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vvm5MmduYfq+CeOMpnUQJhTQ4fWwSPJm0vCOaVoEwcg=;
- b=M3ecr++25RodZayafSbqPppITZuf+JXefH0pkNaYgHUINxSxsa1vJQs0zYRyzp0Q7a
- mSy9GGiZFj4wAb92bClGF6jZEs81CFs+3cVSNIQsaQ8GjkaYcVE+3q1PDXG1iIzPqOkQ
- UeR1kow4YOsfiOFalBDQ1ZfGEj6WH86riNHWLzwJ5qmiWGPM65ul/FYWyGtTjq87fkHl
- WQyDocJCTco7NkqEc7zBFrg8dhBdqpbfQXhuy7UYmxtJM/CsgHJID3QmTJFsbtTcXwRq
- Yjjq4wDeiNYNnXXsNuZ7FHYlxr3ah1NV9f6x2dDMyQ6tMp0jiaT5u/16u5ePakdb5ppa
- YQkg==
-X-Gm-Message-State: AOAM531gvV971UFGoFKWtvWf7ME4upWhYgA47OJZ2kePzJBQJ4CndS1R
- 3/N2zpnBj5rcEkMbaNTx7THJxEBDUXJoq61j37uadXKu063u8OR1tR9cYvTcqsAq03SGmW11nsM
- C8Q3mGxfSDI5wbOEbktuQuqEKySrYpL8nESoEJIwGrLM0NOfSgmOwJm4KTeI3vjhdFs081jCA5D
- RHVInz
-X-Received: by 2002:a17:906:c2ca:: with SMTP id
- ch10mr38660497ejb.157.1609246952558; 
- Tue, 29 Dec 2020 05:02:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZe+0PeumBo8opCh97Rc3CfxyGDfiSwAPK8JsBsk+c68ZL8v4jfHfLK2RtzlmhXt25G45uUQ==
-X-Received: by 2002:a17:906:c2ca:: with SMTP id
- ch10mr38660475ejb.157.1609246952314; 
- Tue, 29 Dec 2020 05:02:32 -0800 (PST)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id bm12sm4815794ejb.117.2020.12.29.05.02.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Dec 2020 05:02:31 -0800 (PST)
-Subject: Re: [PATCH] video: fbdev: simplefb: Fix info message during probe
-To: Peter Robinson <pbrobinson@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20201228183934.1117012-1-pbrobinson@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <b00bd27c-70b5-9ef1-85a1-11e733af78da@redhat.com>
-Date: Tue, 29 Dec 2020 14:02:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9D8892D8;
+ Tue, 29 Dec 2020 13:17:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4E9DB21D94;
+ Tue, 29 Dec 2020 13:17:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1609247871;
+ bh=/F0pVA4fXwFR9+ASZLEn4ZXCoj1TXo6VOfZ8bBDJ4CU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MvFOxqVG0xg1HqXw+Km3C7TeLc5ZL4OH2zRC+4f76ZcxmW6e+IGRNxaOOLWYL1a1F
+ 2prZ+DzS3QnN2FQ3gIoB7OMHqFYkfBxyJavNe4iUwIBaPQnmXEg75oi3+5eCNTZQFG
+ mfxslhszeUpBedEvEzTg8GYxk5HKfl09UjjFGaB7WQcE5jE4F3y0T5p21MEjiYAXjf
+ ItYWDAWqW7SWzoc08Cngbb3320oNARD+9UGtRaMPXa56PBjzs+3PcWpB1wrX2pfyGa
+ SdOvfc5Ue73U/J/kDDlXszsg1Er11ojvUeSaR8sTvI16XUc7aeIpVr7PIaFVcAEf9G
+ Y5zY350JvLinQ==
+Received: by mail-oi1-f173.google.com with SMTP id l200so14554583oig.9;
+ Tue, 29 Dec 2020 05:17:51 -0800 (PST)
+X-Gm-Message-State: AOAM533II94hnOPKk3slPXWKSW3yKAZLeHpTGwodaV9dnmTkBlgkp1y/
+ FliZ5zdu+HuokWjk+qKgym6RVN2mFRol++KuYNA=
+X-Google-Smtp-Source: ABdhPJxkoRHEdJN7wSqQxlJ23qPIRj71Tyf2zqcnbaEAVMi+hGw4XqZSC29HlinZcC0SViqpm4qk95TMJazFZxsh/2g=
+X-Received: by 2002:aca:210f:: with SMTP id 15mr2251767oiz.174.1609247870640; 
+ Tue, 29 Dec 2020 05:17:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201228183934.1117012-1-pbrobinson@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20201214175225.38975-1-ardb@kernel.org>
+ <CADnq5_M-U5QO_tmQQ8Q+v+kZXvUc7vjXnmKWYFjX1FmOJYk1OQ@mail.gmail.com>
+ <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
+In-Reply-To: <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 29 Dec 2020 14:17:39 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
+Message-ID: <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +54,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Dave Martin <dave.martin@arm.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Will Deacon <will@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 12/28/20 7:39 PM, Peter Robinson wrote:
-> The info message was showing the mapped address for the framebuffer. To avoid
-> security problems, all virtual addresses are converted to __ptrval__, so
-> the message has pointless information:
-> 
-> simple-framebuffer 3ea9b000.framebuffer: framebuffer at 0x3ea9b000, 0x12c000 bytes, mapped to 0x(____ptrval____)
-> 
-> Drop the extraneous bits to clean up the message:
-> 
-> simple-framebuffer 3ea9b000.framebuffer: framebuffer at 0x3ea9b000, 0x12c000 bytes
-> 
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-> ---
->  drivers/video/fbdev/simplefb.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-> index 533a047d07a2..62f0ded70681 100644
-> --- a/drivers/video/fbdev/simplefb.c
-> +++ b/drivers/video/fbdev/simplefb.c
-> @@ -477,9 +477,8 @@ static int simplefb_probe(struct platform_device *pdev)
->  	simplefb_clocks_enable(par, pdev);
->  	simplefb_regulators_enable(par, pdev);
->  
-> -	dev_info(&pdev->dev, "framebuffer at 0x%lx, 0x%x bytes, mapped to 0x%p\n",
-> -			     info->fix.smem_start, info->fix.smem_len,
-> -			     info->screen_base);
-> +	dev_info(&pdev->dev, "framebuffer at 0x%lx, 0x%x bytes\n",
-> +			     info->fix.smem_start, info->fix.smem_len);
->  	dev_info(&pdev->dev, "format=%s, mode=%dx%dx%d, linelength=%d\n",
->  			     params.format->name,
->  			     info->var.xres, info->var.yres,
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAxNiBEZWMgMjAyMCBhdCAyMzoyNiwgQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVs
+Lm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIDE2IERlYyAyMDIwIGF0IDE5OjAwLCBBbGV4IERldWNo
+ZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gTW9uLCBEZWMgMTQs
+IDIwMjAgYXQgMTI6NTMgUE0gQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4gd3JvdGU6
+Cj4gPiA+Cj4gPiA+IFRoaXMgcmV2ZXJ0cyBjb21taXQgYzM4ZDQ0NGU0NGJhZGM1NTdjZjI5ZmRm
+ZGZiODIzNjA0ODkwY2NmYS4KPiA+ID4KPiA+ID4gU2ltcGx5IGRpc2FibGluZyAtbWdlbmVyYWwt
+cmVncy1vbmx5IGxlZnQgYW5kIHJpZ2h0IGlzIHJpc2t5LCBnaXZlbiB0aGF0Cj4gPiA+IHRoZSBz
+dGFuZGFyZCBBQXJjaDY0IEFCSSBwZXJtaXRzIHRoZSB1c2Ugb2YgRlAvU0lNRCByZWdpc3RlcnMg
+YW55d2hlcmUsCj4gPiA+IGFuZCBHQ0MgaXMga25vd24gdG8gdXNlIFNJTUQgcmVnaXN0ZXJzIGZv
+ciBzcGlsbGluZywgYW5kIG1heSBpbnZlbnQKPiA+ID4gb3RoZXIgdXNlcyBvZiB0aGUgRlAvU0lN
+RCByZWdpc3RlciBmaWxlIHRoYXQgaGF2ZSBub3RoaW5nIHRvIGRvIHdpdGggdGhlCj4gPiA+IGZs
+b2F0aW5nIHBvaW50IGNvZGUgaW4gcXVlc3Rpb24uIE5vdGUgdGhhdCBwdXR0aW5nIGtlcm5lbF9u
+ZW9uX2JlZ2luKCkKPiA+ID4gYW5kIGtlcm5lbF9uZW9uX2VuZCgpIGFyb3VuZCB0aGUgY29kZSB0
+aGF0IGRvZXMgdXNlIEZQIGlzIG5vdCBzdWZmaWNpZW50Cj4gPiA+IGhlcmUsIHRoZSBwcm9ibGVt
+IGlzIGluIGFsbCB0aGUgb3RoZXIgY29kZSB0aGF0IG1heSBiZSBlbWl0dGVkIHdpdGgKPiA+ID4g
+cmVmZXJlbmNlcyB0byBTSU1EIHJlZ2lzdGVycyBpbiBpdC4KPiA+ID4KPiA+ID4gU28gdGhlIG9u
+bHkgd2F5IHRvIGRvIHRoaXMgcHJvcGVybHkgaXMgdG8gcHV0IGFsbCBmbG9hdGluZyBwb2ludCBj
+b2RlIGluCj4gPiA+IGEgc2VwYXJhdGUgY29tcGlsYXRpb24gdW5pdCwgYW5kIG9ubHkgY29tcGls
+ZSB0aGF0IHVuaXQgd2l0aAo+ID4gPiAtbWdlbmVyYWwtcmVncy1vbmx5LiBCdXQgcGVyaGFwcyB0
+aGUgdXNlIG9mIGZsb2F0aW5nIHBvaW50IGhlcmUgaXMKPiA+ID4gc29tZXRoaW5nIHRoYXQgc2hv
+dWxkIGJlIHJlY29uc2lkZXJlZCBlbnRpcmVseS4KPiA+ID4KPiA+ID4gQ2M6IENhdGFsaW4gTWFy
+aW5hcyA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+Cj4gPiA+IENjOiBXaWxsIERlYWNvbiA8d2ls
+bEBrZXJuZWwub3JnPgo+ID4gPiBDYzogRGF2ZSBNYXJ0aW4gPGRhdmUubWFydGluQGFybS5jb20+
+Cj4gPiA+IENjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+ID4gPiBDYzogTGVvIExp
+IDxzdW5wZW5nLmxpQGFtZC5jb20+Cj4gPiA+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
+ZXVjaGVyQGFtZC5jb20+Cj4gPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5r
+b2VuaWdAYW1kLmNvbT4KPiA+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4K
+PiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+ID4gQ2M6IERhbmll
+bCBLb2xlc2EgPGRhbmllbEBvY3RhZm9yZ2Uub3JnPgo+ID4gPiBDYzogYW1kLWdmeEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+PiA+ID4gU2lnbmVkLW9mZi1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4KPiA+
+Cj4gPiBDYW4gcmViYXNlIHRoaXMgb24gTGludXMnIG1hc3RlciBicmFuY2g/ICBUaGVyZSB3ZXJl
+IGEgbnVtYmVyIG9mIG5ldwo+ID4gYXNpY3MgYWRkZWQgd2hpY2ggY29weSBwYXN0ZWQgdGhlIEFS
+TTY0IHN1cHBvcnQuCj4gPgo+Cj4gTm90IHN1cmUgd2hhdCB5b3UgYXJlIGFza2luZyBtZSBoZXJl
+LiBSZXZlcnRpbmcgY29tbWl0IGMzOGQ0NDRlNDRiYWRjNQo+IG9uIHRvcCBvZiBtYWlubGluZSBp
+cyBub3QgZ29pbmcgdG8gZml4IHRoZSBvdGhlciBjb2RlIHRoYXQgd2FzIGFkZGVkLgo+IE9yIGFy
+ZSB5b3UgYXNraW5nIG1lIHRvIGdvIGFuZCBmaW5kIHRoZSBwYXRjaGVzIChob3cgbWFueT8pIHRo
+YXQgYWRkZWQKPiBuZXcgQVNJQ3MgYW5kIGZpeCB0aGVtIGZvciBhcm02ND8KPgo+IE5vdGUgdGhh
+dCB0aGlzIGNvZGUgaXMgY3JpdGljYWxseSBicm9rZW4sIGFzIGl0IG1heSBjb3JydXB0IHVzZXIK
+PiBwcm9jZXNzIHN0YXRlIGFyYml0cmFyaWx5LiBTbyBpZiBuZXcgY29kZSB3YXMgYWRkZWQgdGhh
+dCBjb250YWlucyB0aGUKPiBzYW1lIGJ1ZywgaXQgc2hvdWxkIGJlIHJldmVydGVkIHNvIHRoYXQg
+dGhlIHJlc3BlY3RpdmUgYXV0aG9ycyBjYW4gZml4Cj4gaXQgYW5kIHJlc3VibWl0Lgo+CgpJcyB0
+aGlzIHNpbXBseSBhYm91dCBkcm9wcGluZyB0aGUgbmV3bHkgYWRkZWQgcmVmZXJlbmNlcyB0bwok
+KGRtbF9yY2ZsYWdzKSBmcm9tIHRoZSBNYWtlZmlsZT8gQmVjYXVzZSB0aGF0IGlzIHF1aXRlIHRy
+aXZpYWwgLi4uCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
