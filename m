@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342B52E6F6B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D232E6F82
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Dec 2020 10:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DF8892D3;
-	Tue, 29 Dec 2020 09:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC2CB89336;
+	Tue, 29 Dec 2020 09:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 402D2892F1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 01:34:18 +0000 (UTC)
-X-UUID: 86957de574ae457bad31d87bbbcdbf0c-20201229
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
- bh=fdAfDBXqjGSdAm6mjwKnuxy0qCLmgADvcqdksYzyP64=; 
- b=f3N6W/SCZAL2vIZcNuS++blm0MIBzN1bCwBoywYO31YbLuMiVS7zaQvjXvKk1xY997RNHVGvpZIckyXH7Q7bLiL5FapNVmLA5wzM3vqED+2aomvCBW5clkPv9dCjhBUgei4r9sVhw5oVWuNnR+HegIb0yoB4FibmRJg8Pk3ni2k=;
-X-UUID: 86957de574ae457bad31d87bbbcdbf0c-20201229
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1746881491; Tue, 29 Dec 2020 09:34:13 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
- (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 29 Dec 2020 09:35:17 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 29 Dec 2020 09:35:18 +0800
-Message-ID: <1609205650.24062.2.camel@mhfsdcap03>
-Subject: Re: [PATCH v3, 7/8] soc: mediatek: mmsys: Use function call for
- setting mmsys ovl mout register
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 29 Dec 2020 09:34:10 +0800
-In-Reply-To: <CAAOTY_9ObwPwKt6nRc_qSu9JE3WbqeRDEpKObnxsfhENbkT+iw@mail.gmail.com>
-References: <1609144630-14721-1-git-send-email-yongqiang.niu@mediatek.com>
- <1609144630-14721-8-git-send-email-yongqiang.niu@mediatek.com>
- <CAAOTY_9ObwPwKt6nRc_qSu9JE3WbqeRDEpKObnxsfhENbkT+iw@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-MTK: N
+Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68649892FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Dec 2020 01:49:16 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1609206558; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=N8vblr7WLA9MBowjRomnjKEqPtQ1SL9FvyoDvOUsoR4=;
+ b=jMI3yzhtGkYBK1yO9osTMyDesy0yg02ZPneyiZBlarJMy3XjSkuhZlsUn2nvHxxJh6XwdEJO
+ nr+b7Xwuve1QckoJ2kLK6Oblz5a94nbOmyj0xJIR6bPdssJnPtlx0LRzu/GzQW341BIh6le+
+ B6UPbXpJOLG8OouX/ql96mLiuN4=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 5fea8b15db8e07fa6c948119 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Dec 2020 01:49:09
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 83FF2C43469; Tue, 29 Dec 2020 01:49:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: isaacm)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6F1E3C433C6;
+ Tue, 29 Dec 2020 01:49:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6F1E3C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=isaacm@codeaurora.org
+From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+ robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, robh@kernel.org,
+ tomeu.vizoso@collabora.com
+Subject: [PATCH 0/7] iommu: Permit modular builds of io-pgtable drivers
+Date: Mon, 28 Dec 2020 17:48:54 -0800
+Message-Id: <1609206541-14562-1-git-send-email-isaacm@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 29 Dec 2020 09:42:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,78 +67,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ freedreno@lists.freedesktop.org, pdaly@codeaurora.org, pratikp@codeaurora.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ kernel-team@android.com, linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIwLTEyLTI5IGF0IDAwOjM4ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
-PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
-YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgyOOaXpSDpgLHkuIAg5LiL5Y2INDozOOWvq+mBk++8
-mg0KPiA+DQo+ID4gVXNlIGZ1bmN0aW9uIGNhbGwgZm9yIHNldHRpbmcgbW1zeXMgb3ZsIG1vdXQg
-cmVnaXN0ZXINCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFu
-Zy5uaXVAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9t
-bXN5cy9tdGstbW1zeXMuYyB8IDIwICsrKysrKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUv
-bGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oIHwgIDMgKysrDQo+ID4gIDIgZmlsZXMgY2hh
-bmdlZCwgMjMgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc29j
-L21lZGlhdGVrL21tc3lzL210ay1tbXN5cy5jIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMv
-bXRrLW1tc3lzLmMNCj4gPiBpbmRleCBkYWU2NjViLi5lYTM2YTExIDEwMDY0NA0KPiA+IC0tLSBh
-L2RyaXZlcnMvc29jL21lZGlhdGVrL21tc3lzL210ay1tbXN5cy5jDQo+ID4gKysrIGIvZHJpdmVy
-cy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXRrLW1tc3lzLmMNCj4gPiBAQCAtNzQsNiArNzQsMTcgQEAg
-dm9pZCBtdGtfbW1zeXNfZGRwX2Nvbm5lY3Qoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+ICAgICAg
-ICAgICAgICAgICByZWcgPSByZWFkbF9yZWxheGVkKG1tc3lzLT5yZWdzICsgYWRkcikgfCB2YWx1
-ZTsNCj4gPiAgICAgICAgICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+cmVncyAr
-IGFkZHIpOw0KPiA+ICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIGlmICghZnVuY3MtPm92
-bF9tb3V0X2VuKQ0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gKw0KPiA+ICsgICAg
-ICAgaWYgKGZ1bmNzLT5vdmxfbW91dF9lbikgew0KPiA+ICsgICAgICAgICAgICAgICB2YWx1ZSA9
-IGZ1bmNzLT5vdmxfbW91dF9lbihjdXIsIG5leHQsICZhZGRyKTsNCj4gPiArICAgICAgICAgICAg
-ICAgaWYgKHZhbHVlKSB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gcmVhZGxf
-cmVsYXhlZChtbXN5cy0+cmVncyArIGFkZHIpIHwgdmFsdWU7DQo+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+cmVncyArIGFkZHIpOw0KPiA+ICsg
-ICAgICAgICAgICAgICB9DQo+ID4gKyAgICAgICB9DQo+IA0KPiBtdGtfbW1zeXNfZGRwX21vdXRf
-ZW4oKSBjb3VsZCB3cml0ZSByZWdpc3RlciBpbnNpZGUgaXQgcmF0aGVyIHRoYW4NCj4gcmV0dXJu
-IHZhbHVlIGFuZCB3cml0ZSByZWdpc3RlciBpbiBtdGtfbW1zeXNfZGRwX2Nvbm5lY3QoKS4gU28g
-eW91DQo+IGNvdWxkIGRvIG92bF9tb3V0X2VuKCkgaW4gbXRrX21tc3lzX2RkcF9tb3V0X2VuKCku
-DQo+IA0KPiBSZWdhcmRzLA0KPiBDaHVuLUt1YW5nLg0KDQppIHdpbGwgYWRkIHRoaXMgbW9kaWZp
-Y2F0aW9uIGluIG5leHQgdmVyc2lvbg0KPiANCj4gPiAgfQ0KPiA+ICBFWFBPUlRfU1lNQk9MX0dQ
-TChtdGtfbW1zeXNfZGRwX2Nvbm5lY3QpOw0KPiA+DQo+ID4gQEAgLTk5LDYgKzExMCwxNSBAQCB2
-b2lkIG10a19tbXN5c19kZHBfZGlzY29ubmVjdChzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4gICAg
-ICAgICAgICAgICAgIHJlZyA9IHJlYWRsX3JlbGF4ZWQobW1zeXMtPnJlZ3MgKyBhZGRyKSAmIH52
-YWx1ZTsNCj4gPiAgICAgICAgICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBtbXN5cy0+cmVn
-cyArIGFkZHIpOw0KPiA+ICAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIGlmICghZnVuY3Mt
-Pm92bF9tb3V0X2VuKQ0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gKw0KPiA+ICsg
-ICAgICAgdmFsdWUgPSBmdW5jcy0+b3ZsX21vdXRfZW4oY3VyLCBuZXh0LCAmYWRkcik7DQo+ID4g
-KyAgICAgICBpZiAodmFsdWUpIHsNCj4gPiArICAgICAgICAgICAgICAgcmVnID0gcmVhZGxfcmVs
-YXhlZChtbXN5cy0+cmVncyArIGFkZHIpICYgfnZhbHVlOw0KPiA+ICsgICAgICAgICAgICAgICB3
-cml0ZWxfcmVsYXhlZChyZWcsIG1tc3lzLT5yZWdzICsgYWRkcik7DQo+ID4gKyAgICAgICB9DQo+
-ID4gIH0NCj4gPiAgRVhQT1JUX1NZTUJPTF9HUEwobXRrX21tc3lzX2RkcF9kaXNjb25uZWN0KTsN
-Cj4gPg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1z
-eXMuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oDQo+ID4gaW5kZXgg
-YWE0ZjYwZS4uMjIwMjAzZCAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRp
-YXRlay9tdGstbW1zeXMuaA0KPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210
-ay1tbXN5cy5oDQo+ID4gQEAgLTQ5LDYgKzQ5LDkgQEAgc3RydWN0IG10a19tbXN5c19jb25uX2Z1
-bmNzIHsNCj4gPiAgICAgICAgIHUzMiAoKm1vdXRfZW4pKGVudW0gbXRrX2RkcF9jb21wX2lkIGN1
-ciwNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIG5leHQs
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgKmFkZHIpOw0KPiA+ICsg
-ICAgICAgdTMyICgqb3ZsX21vdXRfZW4pKGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwNCj4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0LA0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCAqYWRkcik7DQo+ID4gICAg
-ICAgICB1MzIgKCpzZWxfaW4pKGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwNCj4gPiAgICAgICAg
-ICAgICAgICAgICAgICAgZW51bSBtdGtfZGRwX2NvbXBfaWQgbmV4dCwNCj4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgdW5zaWduZWQgaW50ICphZGRyKTsNCj4gPiAtLQ0KPiA+IDEuOC4xLjEuZGly
-dHkNCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K
-PiA+IExpbnV4LW1lZGlhdGVrIG1haWxpbmcgbGlzdA0KPiA+IExpbnV4LW1lZGlhdGVrQGxpc3Rz
-LmluZnJhZGVhZC5vcmcNCj4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LW1lZGlhdGVrDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+The goal of the Generic Kernel Image (GKI) effort is to have a common
+kernel image that works across multiple Android devices. This involves
+generating a kernel image that has core features integrated into it,
+while SoC specific functionality can be added to the kernel for the
+device as a module.
+
+Along with modularizing IOMMU drivers, this also means building the
+io-pgtable code as modules, which allows for SoC vendors to only include
+the io-pgtable implementations that they use. For example, GKI for arm64
+must include support for both the IOMMU ARM LPAE/V7S formats at the
+moment. Having the code for both formats as modules allows SoC vendors
+to only provide the page table format that they use, along with their
+IOMMU driver.
+
+The patches are split into 4 parts:
+
+1) Modularizing io-pgtable-arm[-v7s].c, while leaving the io-pgtable.c
+code as part of the core kernel, requires removing the references to
+the ARM LPAE and ARM V7S io-pgtable init functions, and using a
+dynamic method for formats to register their io-pgtable init functions.
+
+2) Taking references to the io-pgtable format drivers to ensure that they
+cannot be unloaded while in use.
+
+3) Adding pre MODULE_SOFTDEP() dependencies to drivers in the kernel
+that are tristate, and invoke [alloc/free]_io_pgtable_ops(). This makes
+it so that the io-pgtable format drivers are loaded before the driver
+that needs them.
+
+4) Changing the Kconfig options for the ARM LPAE nad ARM V7S to tristate
+and allowing the io-pgtable code to be enabled without having to select
+either page table format. The reason for doing this is so that a kernel
+can be built, such that it only provides the interface for io-pgtable
+formats to be registered as modules, as would be the case for the GKI.
+
+Thanks,
+Isaac
+
+Isaac J. Manjarres (7):
+  iommu/io-pgtable: Introduce dynamic io-pgtable format registration
+  iommu/io-pgtable: Add refcounting for io-pgtable format modules
+  iommu/arm-smmu: Add dependency on io-pgtable format modules
+  iommu/arm-smmu-v3: Add dependency on io-pgtable-arm format module
+  drm/msm: Add dependency on io-pgtable-arm format module
+  drm/panfrost: Add dependency on io-pgtable-arm format module
+  iommu/io-pgtable-arm: Allow building modular io-pgtable formats
+
+ drivers/gpu/drm/msm/msm_drv.c               |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c     |   1 +
+ drivers/iommu/Kconfig                       |  11 +--
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   1 +
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |   1 +
+ drivers/iommu/io-pgtable-arm-v7s.c          |  36 +++++++++-
+ drivers/iommu/io-pgtable-arm.c              | 104 +++++++++++++++++++++-------
+ drivers/iommu/io-pgtable.c                  |  54 ++++++++++-----
+ include/linux/io-pgtable.h                  |  52 +++++++++-----
+ 9 files changed, 196 insertions(+), 65 deletions(-)
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
