@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AF72E7A6D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Dec 2020 16:39:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFAE2E7AC7
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Dec 2020 16:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110A9891A1;
-	Wed, 30 Dec 2020 15:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454D289807;
+	Wed, 30 Dec 2020 15:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED20891A1;
- Wed, 30 Dec 2020 15:39:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6517C22288;
- Wed, 30 Dec 2020 15:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609342773;
- bh=R+QtqUjZdUsen8XjrwbBijiAfroUZOBF7AE3pnTq3Mg=;
- h=From:To:Cc:Subject:Date:From;
- b=t/LvhBIVwknbkuroGTdJD9EhpS/WiYbw3HrpsiOpHIQps7Ax8kj38V01plDw3z9FD
- WZEBZzWXdRZIkxaIXYgvpCkeItoHbJQnPQ5gtVJNGY3cvuqdrxYC1WgLmIzTHdNkXC
- SNThC2LqzfKzKNnh2jmIlMqiKKzTVAuOr82Dwzve11IRoAAspH4dFzMj2IwuvQOfnb
- BewGRZqFu+oWApmvdqTcaHHKNCMuTgmJMCWTP7WF3E7i1/B13eWiQbowSC+vcnfQ6i
- JWV1qrDo+ALV5AGsd5ChEL5yLK3uiLQrlNsMDKrFCYP3LkcmJnRbzWV2d/Y1b+4s1j
- 0v0zU64bBfJrw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] i915: fix shift warning
-Date: Wed, 30 Dec 2020 16:39:14 +0100
-Message-Id: <20201230153928.456260-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+ [209.85.217.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F2089807
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 15:55:52 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id e20so8728230vsr.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 07:55:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7slKsDIdzR3Cjv1U1zSaDNq2UnX9ACN/O5uP+fwyS8g=;
+ b=fDy9TS/NzqeyDF6mJH+EOgn02vlIYtXQYBYzdAkQAYR4NMPG6BdUH13BgK1J/IrcJs
+ GeilsCzgGs03Znnv5oUcIrqORvrcsSGhbF9emVedWxynbZEshQUcqzzPx7Qo+4okfI0P
+ Zi6QiBxP0LInI5FQninsiWxtmVTfOJYbaYGkqBGIA3Ww2iXT1ZdU0AuMEfDhsLcpWt6C
+ GtVXp/mdBHQprBnXRl0+C8l4/2w86O/wvYqE8+m3nrHQ7/yd7NMFAxUXSTqGj0QGyNgO
+ Ll2ch3JnjIm5IZo4RcNQcwfLJLElFOJ1aN/SYXZiPJh4IE0YkpeRpVw4RQrluLC+mdH2
+ VCNA==
+X-Gm-Message-State: AOAM531S1DEdMar77Y003RJwOHb4UVC4slyvK1n7hbf1qtn0G5JFH593
+ FerHLzGPYWltWpAqP+5BA9aTn84SOVABBScoBIo=
+X-Google-Smtp-Source: ABdhPJxQ667QoadK4vclI1VRhQKKRhBcCBhLhFrtOb5+/iMQATJjcyWcT9iXCGyner7hsTPYRV+d8VgX0OxvfhLG7Co=
+X-Received: by 2002:a67:f601:: with SMTP id k1mr34657600vso.46.1609343751601; 
+ Wed, 30 Dec 2020 07:55:51 -0800 (PST)
 MIME-Version: 1.0
+References: <20201230080841.488345-1-lichenyang@loongson.cn>
+In-Reply-To: <20201230080841.488345-1-lichenyang@loongson.cn>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Wed, 30 Dec 2020 10:55:40 -0500
+Message-ID: <CAKb7Uviq6rUyAOL9wPgJ1HLZnmp4zXVUDxtYK+4V+X9d3D-==A@mail.gmail.com>
+Subject: Re: [PATCH] drm/loongson: Add DRM Driver for Loongson 7A1000 bridge
+ chip
+To: Chenyang Li <lichenyang@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,51 +52,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Dec 30, 2020 at 6:08 AM Chenyang Li <lichenyang@loongson.cn> wrote:
+> +       switch (format->format) {
+> +       case DRM_FORMAT_RGB565:
+> +               lcrtc->cfg_reg |= 0x3;
+> +               break;
+> +       case DRM_FORMAT_RGB888:
+> +       default:
+> +               lcrtc->cfg_reg |= 0x4;
+> +               break;
+> +       }
 
-Randconfig builds on 32-bit machines show lots of warnings for
-the i915 driver for incorrect bit masks like:
+How does the scanout engine distinguish between RGB888 (24-bit) and
+XRGB8888 (32-bit)? You've listed both as supported below.
 
-drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:2584:9: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
-        return hweight64(VDBOX_MASK(&i915->gt));
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-include/asm-generic/bitops/const_hweight.h:29:49: note: expanded from macro 'hweight64'
- #define hweight64(w) (__builtin_constant_p(w) ? __const_hweight64(w) : __arch_hweight64(w))
+Cheers,
 
-Since this is a 64-bit mask, use GENMASK_ULL instead of GENMASK.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/i915/i915_drv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 0a3ee4f9dc0a..ca32fa0d6a57 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1624,7 +1624,7 @@ tgl_revids_get(struct drm_i915_private *dev_priv)
- 	unsigned int first__ = (first);					\
- 	unsigned int count__ = (count);					\
- 	((gt)->info.engine_mask &						\
--	 GENMASK(first__ + count__ - 1, first__)) >> first__;		\
-+	 GENMASK_ULL(first__ + count__ - 1, first__)) >> first__;		\
- })
- #define VDBOX_MASK(gt) \
- 	ENGINE_INSTANCES_MASK(gt, VCS0, I915_MAX_VCS)
--- 
-2.29.2
-
+  -ilia
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
