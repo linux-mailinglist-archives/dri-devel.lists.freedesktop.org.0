@@ -2,96 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D182E7F68
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 11:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B082E7C54
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Dec 2020 21:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D517389B38;
-	Thu, 31 Dec 2020 10:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584B4893A8;
+	Wed, 30 Dec 2020 20:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
- [51.81.35.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CDD89293
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 20:41:46 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com
- [159.100.248.207])
- by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 6CAAA20159
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 20:41:45 +0000 (UTC)
-Received: from relay2.mymailcheap.com (relay2.mymailcheap.com
- [217.182.113.132])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id AC6B5260EB
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 20:41:41 +0000 (UTC)
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id 93EC93EDFC;
- Wed, 30 Dec 2020 21:41:39 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 711A92A524;
- Wed, 30 Dec 2020 21:41:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1609360899;
- bh=FRGW8gu58lGpw7gwIy7zr0D1bR8uZrCGzxkRxv0pFb4=;
- h=From:To:Cc:Subject:Date:From;
- b=hdOH/nL163C+MJWV37q702UBmnSpoPxINNoYM/yqN/OnYdO1UhNhcbv4CSWTen7te
- R7REtL21tc9yeDEKvvAAk9i1H4EhwPqHJvBQqk6EtPlq18NXJZQEPo+7ZJPXBFs0qe
- crcjdAwotB0V2jTBC4sQvWJzWRYQbFhYlP6NZHTM=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 54ouhL5P2Orm; Wed, 30 Dec 2020 21:41:38 +0100 (CET)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Wed, 30 Dec 2020 21:41:38 +0100 (CET)
-Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 88D5241FB0;
- Wed, 30 Dec 2020 20:41:37 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=aosc.io header.i=@aosc.io header.b="ZAE1txoD"; 
- dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from ice-e5v2.lan (unknown [59.41.160.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 18AAF41E18;
- Wed, 30 Dec 2020 20:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1609360887; bh=FRGW8gu58lGpw7gwIy7zr0D1bR8uZrCGzxkRxv0pFb4=;
- h=From:To:Cc:Subject:Date:From;
- b=ZAE1txoDvI/Sr6IEXZfrYbhDo2Wi1V0ZRYetZqSy440m3QtHX3Mz2zOiXm3JbSnLf
- lQGVZRPHjqJ5YPD61luGKabNDG+YJR4SU51Vtvfy0G1tqSK44anQ/wVaMCokMYCvxO
- T4hJ9edY6aIB6etTkExDb3jbjaSCvqpqFOQ4+hVU=
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH] drm/panel: ilitek-ili9881c: fix attach failure cleanup
-Date: Thu, 31 Dec 2020 04:41:10 +0800
-Message-Id: <20201230204110.52053-1-icenowy@aosc.io>
-X-Mailer: git-send-email 2.28.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67705893A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 20:53:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2588A20B1F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 20:53:40 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id 14CD781645; Wed, 30 Dec 2020 20:53:40 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
+ lid. AMDGPU
+Date: Wed, 30 Dec 2020 20:53:39 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jvdelisle@charter.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210849-2300-l6Op7fPucw@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
+References: <bug-210849-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spamd-Result: default: False [6.40 / 20.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
- BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(0.00)[~all];
- ML_SERVERS(-3.10)[213.133.102.83]; DKIM_TRACE(0.00)[aosc.io:+];
- RCPT_COUNT_SEVEN(0.00)[9];
- FREEMAIL_TO(0.00)[gmail.com,ravnborg.org,linux.ie,ffwll.ch,kernel.org];
- RCVD_NO_TLS_LAST(0.10)[];
- RECEIVED_SPAMHAUS_PBL(0.00)[59.41.160.237:received];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
- ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[aosc.io:s=default];
- FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; DMARC_NA(0.00)[aosc.io];
- MID_CONTAINS_FROM(1.00)[];
- HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
- RCVD_COUNT_TWO(0.00)[2]; SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Queue-Id: 88D5241FB0
-X-Mailman-Approved-At: Thu, 31 Dec 2020 10:42:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,48 +54,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When mipi_dsi_attach() fails (e.g. got a -EPROBE_DEFER), the panel should
-be removed, otherwise a pointer to it will be kept and then lead to
-use-after-free when DRM panel codes are called (e.g. the panel is probed
-again).
+https://bugzilla.kernel.org/show_bug.cgi?id=210849
 
-Fix this by adding cleanup code after mipi_dsi_attach() failure.
+--- Comment #7 from JerryD (jvdelisle@charter.net) ---
+[  296.606452] PM: resume devices took 10.437 seconds
+[  296.606454] ------------[ cut here ]------------
+[  296.606455] Component: resume devices, time: 10437
+[  296.606465] WARNING: CPU: 2 PID: 3357 at kernel/power/suspend_test.c:53
+suspend_test_finish+0x74/0x80
+[  296.606465] Modules linked in: ccm uinput rfcomm nf_conntrack_netlink
+xt_CHECKSUM xt_addrtype xt_MASQUERADE xt_conntrack br_netfilter ipt_REJECT
+nf_nat_tftp nf_conntrack_tftp tun bridge stp llc nft_objref
+nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4
+nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject
+nft_ct nft_chain_nat nf_tables ebtable_nat ebtable_broute ip6table_nat
+ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat nf_conntrack
+nf_defrag_ipv6 nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security
+ip_set overlay nfnetlink ebtable_filter ebtables ip6table_filter ip6_tables
+iptable_filter cmac bnep sunrpc vfat fat rtw88_8822be rtw88_8822b edac_mce_amd
+kvm_amd rtw88_pci snd_hda_codec_realtek snd_hda_codec_hdmi rtw88_core
+snd_hda_codec_generic ledtrig_audio kvm btusb snd_hda_intel btrtl
+snd_intel_dspcfg btbcm btintel irqbypass snd_hda_codec uvcvideo rapl mac80211
+videobuf2_vmalloc bluetooth hp_wmi snd_hda_core pcspkr
+[  296.606504]  videobuf2_memops videobuf2_v4l2 snd_hwdep hid_sensor_accel_3d
+wmi_bmof sparse_keymap snd_seq hid_sensor_rotation hid_sensor_magn_3d
+videobuf2_common hid_sensor_gyro_3d snd_seq_device hid_sensor_incl_3d
+hid_sensor_trigger snd_pcm videodev hid_sensor_iio_common
+industrialio_triggered_buffer kfifo_buf ecdh_generic cfg80211 industrialio ecc
+joydev snd_timer mc snd k10temp i2c_piix4 soundcore rfkill libarc4 hp_accel
+i2c_scmi hp_wireless lis3lv02d acpi_cpufreq zram ip_tables mmc_block amdgpu
+hid_sensor_hub hid_multitouch rtsx_pci_sdmmc mmc_core hid_logitech_hidpp
+iommu_v2 gpu_sched i2c_algo_bit ttm drm_kms_helper cec crct10dif_pclmul drm
+crc32_pclmul ccp crc32c_intel ghash_clmulni_intel serio_raw nvme rtsx_pci
+nvme_core wmi video i2c_hid pinctrl_amd hid_logitech_dj fuse
+[  296.606537] CPU: 2 PID: 3357 Comm: systemd-sleep Not tainted
+5.9.16-200.fc33.x86_64 #1
+[  296.606538] Hardware name: HP HP ENVY x360 Convertible 15-bq1xx/83C6, BIOS
+F.21 04/29/2019
+[  296.606542] RIP: 0010:suspend_test_finish+0x74/0x80
+[  296.606545] Code: e8 03 00 00 29 c1 e8 78 5d 9f 00 41 81 fc 10 27 00 00 77
+04 5d 41 5c c3 44 89 e2 48 89 ee 48 c7 c7 c8 80 38 a8 e8 81 03 9f 00 <0f> 0b 5d
+41 5c c3 cc cc cc cc cc cc 0f 1f 44 00 00 0f b6 05 58 d9
+[  296.606546] RSP: 0018:ffffbdf382e8fdd8 EFLAGS: 00010296
+[  296.606548] RAX: 0000000000000026 RBX: 0000000000000001 RCX:
+ffff975857298d08
+[  296.606549] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI:
+ffff975857298d00
+[  296.606550] RBP: ffffffffa8388011 R08: 000000450f1f561c R09:
+ffffffffa9404be4
+[  296.606551] R10: 000000000000058a R11: 0000000000021ee0 R12:
+00000000000028c5
+[  296.606552] R13: 0000000000000000 R14: ffffbdf382e8fe08 R15:
+0000000000000000
+[  296.606554] FS:  00007f1e3fd5f000(0000) GS:ffff975857280000(0000)
+knlGS:0000000000000000
+[  296.606555] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  296.606556] CR2: 00005584bb97e928 CR3: 000000018e8f6000 CR4:
+00000000003506e0
+[  296.606557] Call Trace:
+[  296.606564]  suspend_devices_and_enter+0x1a2/0x7f0
+[  296.606569]  pm_suspend.cold+0x329/0x374
+[  296.606572]  state_store+0x71/0xd0
+[  296.606577]  kernfs_fop_write+0xce/0x1b0
+[  296.606581]  vfs_write+0xc7/0x210
+[  296.606584]  ksys_write+0x4f/0xc0
+[  296.606587]  do_syscall_64+0x33/0x40
+[  296.606591]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  296.606593] RIP: 0033:0x7f1e40d26297
+[  296.606597] Code: 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00
+f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00
+f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+[  296.606598] RSP: 002b:00007ffe985f7fa8 EFLAGS: 00000246 ORIG_RAX:
+0000000000000001
+[  296.606600] RAX: ffffffffffffffda RBX: 0000000000000007 RCX:
+00007f1e40d26297
+[  296.606601] RDX: 0000000000000007 RSI: 00005584bb97d920 RDI:
+0000000000000004
+[  296.606601] RBP: 00005584bb97d920 R08: 0000000000000001 R09:
+00007f1e40df8a60
+[  296.606602] R10: 0000000000000070 R11: 0000000000000246 R12:
+0000000000000007
+[  296.606603] R13: 00005584bb978650 R14: 0000000000000007 R15:
+00007f1e40df9720
+[  296.606605] ---[ end trace 6fa811f71ae3a8ac ]---
 
-Fixes: 26aec25593c2 ("drm/panel: Add Ilitek ILI9881c panel driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 0145129d7c66..22f2268f00f7 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -674,7 +674,13 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = 4;
- 
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int ili9881c_dsi_remove(struct mipi_dsi_device *dsi)
 -- 
-2.28.0
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
