@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5F82E77F4
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Dec 2020 12:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA9A2E77F5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Dec 2020 12:08:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBCAA8914F;
-	Wed, 30 Dec 2020 11:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7553C891CB;
+	Wed, 30 Dec 2020 11:08:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5450F892FA;
- Tue, 29 Dec 2020 13:51:51 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D4wmM2sWFzkxRR;
- Tue, 29 Dec 2020 21:50:43 +0800 (CST)
-Received: from ubuntu.network (10.175.138.68) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 29 Dec 2020 21:51:34 +0800
-From: Zheng Yongjun <zhengyongjun3@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <intel-gfx@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] drm/i915: Use kzalloc for allocating only one thing
-Date: Tue, 29 Dec 2020 21:52:13 +0800
-Message-ID: <20201229135213.23757-1-zhengyongjun3@huawei.com>
-X-Mailer: git-send-email 2.22.0
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E859389320
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Dec 2020 01:12:26 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D5Ct80RlYzj08R;
+ Wed, 30 Dec 2020 09:11:44 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 30 Dec 2020 09:12:18 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <eric@anholt.net>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/pl111: remove unused including <linux/version.h>
+Date: Wed, 30 Dec 2020 09:12:19 +0800
+Message-ID: <1609290739-11760-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.175.138.68]
+X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 30 Dec 2020 11:08:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,46 +40,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zheng Yongjun <zhengyongjun3@huawei.com>, rodrigo.vivi@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use kzalloc rather than kcalloc(1,...)
+Remove including <linux/version.h> that don't need it.
 
-The semantic patch that makes this change is as follows:
-(http://coccinelle.lip6.fr/)
-
-// <smpl>
-@@
-@@
-
-- kcalloc(1,
-+ kzalloc(
-          ...)
-// </smpl>
-
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/i915/selftests/i915_gem_evict.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/pl111/pl111_display.c | 1 -
+ drivers/gpu/drm/pl111/pl111_drv.c     | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-index f88473d396f4..6994b167d0c8 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-@@ -415,7 +415,7 @@ static int igt_evict_contexts(void *arg)
- 		struct reserved *r;
+diff --git a/drivers/gpu/drm/pl111/pl111_display.c b/drivers/gpu/drm/pl111/pl111_display.c
+index 69c02e7..e8376ae 100644
+--- a/drivers/gpu/drm/pl111/pl111_display.c
++++ b/drivers/gpu/drm/pl111/pl111_display.c
+@@ -11,7 +11,6 @@
  
- 		mutex_unlock(&ggtt->vm.mutex);
--		r = kcalloc(1, sizeof(*r), GFP_KERNEL);
-+		r = kzalloc(sizeof(*r), GFP_KERNEL);
- 		mutex_lock(&ggtt->vm.mutex);
- 		if (!r) {
- 			err = -ENOMEM;
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+-#include <linux/version.h>
+ #include <linux/dma-buf.h>
+ #include <linux/of_graph.h>
+ 
+diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+index e4dcaef..4aad9eb 100644
+--- a/drivers/gpu/drm/pl111/pl111_drv.c
++++ b/drivers/gpu/drm/pl111/pl111_drv.c
+@@ -44,7 +44,6 @@
+ #include <linux/of_reserved_mem.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/slab.h>
+-#include <linux/version.h>
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
 -- 
-2.22.0
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
