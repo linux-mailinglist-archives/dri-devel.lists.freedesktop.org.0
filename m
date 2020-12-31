@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A412E7F0F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 10:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4475B2E7F10
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 10:48:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3FD89AF3;
-	Thu, 31 Dec 2020 09:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A0F89B27;
+	Thu, 31 Dec 2020 09:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6D489AF3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 09:47:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4CE0A2158C
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 09:47:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3CA89B27
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 09:48:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 84242207A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 09:48:23 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 4617B8672F; Thu, 31 Dec 2020 09:47:46 +0000 (UTC)
+ id 80FA38672F; Thu, 31 Dec 2020 09:48:23 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210981] New: amdgpu: probe of 0000:08:00.0 failed with error -524
-Date: Thu, 31 Dec 2020 09:47:46 +0000
+Subject: [Bug 210981] amdgpu: probe of 0000:08:00.0 failed with error -524
+Date: Thu, 31 Dec 2020 09:48:23 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-210981-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-210981-2300-YC53sImsOa@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210981-2300@https.bugzilla.kernel.org/>
+References: <bug-210981-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -60,29 +60,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210981
 
-            Bug ID: 210981
-           Summary: amdgpu: probe of 0000:08:00.0 failed with error -524
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.10.4
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: smf-linux@virginmedia.com
-        Regression: No
-
-Created attachment 294443
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294443&action=edit
-dmeg
-
-Every thing was fine on previous kernel (5.9.12) but moving to 5.10.4 the
-amdgpu driver is failing with this error. Attached is full dmesg and lspci
-texts. Any idea was is causing this please ?
+--- Comment #1 from Stuart Foster (smf-linux@virginmedia.com) ---
+Created attachment 294445
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294445&action=edit
+lspci
 
 -- 
 You may reply to this email to add a comment.
