@@ -2,54 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904D42E7D83
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 01:40:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AE32E7F6A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 11:42:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2CC89AAE;
-	Thu, 31 Dec 2020 00:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BBD89B18;
+	Thu, 31 Dec 2020 10:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69EF89AAD;
- Thu, 31 Dec 2020 00:40:32 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id o17so41185053lfg.4;
- Wed, 30 Dec 2020 16:40:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M67MbkYLxSdOa9oNcNplN7jJDJwLu2PsQUeqJdvpyic=;
- b=OF7Nm9YBgnrjTgTX1Mc2Wj1H5W17rZ9V82YydDt4k3Mrc6s4zc7lm1sKO+HuivVfbJ
- 0U3G4/JXxT0rhzgwQERoXxp7ISbvGFb9HypkINnGAaP5mIkT9B3SaFj6WASZmmVj3kPk
- TmBCtqHTl7LAFi8DUwmz6333VYwv7pgy4hM2VMW/oehTBo472dGWRjibuBArVOpEFlCO
- 884sDfXr+LpMcjruQtiBJauoY7ZwM+O/IVhgeydBF+esVt7Hc9bFaRv6Mv53atUawC0w
- LRLcZhcu9gZ9u5b99QhVwj+lqJePjDXKl4VQEkVFS2kVOQVa1xoVyj6MdFkUutVGPTSB
- N5Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M67MbkYLxSdOa9oNcNplN7jJDJwLu2PsQUeqJdvpyic=;
- b=oikHmPKQ16LDF/4KrIlCUvJrnIE9Sk4ETB8e0nCYVcld70CJFmqa5HJ8zkdXhI1lQr
- Rit+r3WrjRgqRZJgBYJoON/i4GSVYGHH8m15FO5EDHhWgmVmd0p+OHRbZLOyzRGb9fvI
- HxEaETgi4/d+9RWjJsscJdgY6wxn6l9ssWDBLujISiysEbuZfk82XswdYVuLs2fMrBEh
- 3nRb21DlgVXPKnPr32dVJGhS1nPygjn2gfx7iWFcGnSKAOboktcUxQ8rTzF5Rjoi6El1
- VXL4q6ctS6dMZsVLudPUxBIGDA8083Q8KAM/0eJMhRO7rairbwWd6yozHvEXx8BfozRq
- A92w==
-X-Gm-Message-State: AOAM531ZFslS2HmjjrgJdte2ydrCBEPAM6i+frxsPe6FN4ZQN6DDMC0m
- vDhWPbctBIlfV6K7+gatkMH/F7K6tXA0gWn9xlo=
-X-Google-Smtp-Source: ABdhPJwDI3T5RePav+oBWL1/QTVV3ixeyBUrivDpTU4GoQEcaDTmAqZRfVWlkXVAe1i/zpNCvghrjMaQvZ4MO5kgDac=
-X-Received: by 2002:a2e:9787:: with SMTP id y7mr26688745lji.420.1609375230908; 
- Wed, 30 Dec 2020 16:40:30 -0800 (PST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95AB989829;
+ Thu, 31 Dec 2020 00:56:25 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D5qSj6yzvzMCRW;
+ Thu, 31 Dec 2020 08:55:17 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 31 Dec 2020 08:56:16 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: remove unused including <linux/version.h>
+Date: Thu, 31 Dec 2020 08:56:17 +0800
+Message-ID: <1609376177-42827-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <CABXGCsPsXSTh+WO2XESOU+Q1ocrWmS1c1YJFarzmA=woK_ke5Q@mail.gmail.com>
- <CABXGCsPBBDX3ozAgtT174nesiM+Gx4UkQi+PD27jB3i9OQ=G0g@mail.gmail.com>
- <MN2PR12MB4488AAA880BA8896EEA97491F7D80@MN2PR12MB4488.namprd12.prod.outlook.com>
-In-Reply-To: <MN2PR12MB4488AAA880BA8896EEA97491F7D80@MN2PR12MB4488.namprd12.prod.outlook.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Thu, 31 Dec 2020 05:40:19 +0500
-Message-ID: <CABXGCsO=6--KOALpNhj1439_wN65247A89dPwByR3e8w49Om1Q@mail.gmail.com>
-Subject: Re: [bug] Radeon 3900XT not switch to graphic mode on kernel 5.10
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Thu, 31 Dec 2020 10:42:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +42,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Dec 2020 at 20:15, Deucher, Alexander
-<Alexander.Deucher@amd.com> wrote:
->
-> It looks like the driver is not able to access the firmware for some reason.  Please make sure it is available in your initrd or compiled into the kernel depending on your config.
+Remove including <linux/version.h> that don't need it.
 
-Exactly! Thanks!
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c           | 1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c   | 1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-# lsinitrd /boot/initramfs-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64.img
-| grep sienna_cichlid
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5675c1f..3255531 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -60,7 +60,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+-#include <linux/version.h>
+ #include <linux/types.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/pci.h>
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index f6f487e..3244a6e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -25,7 +25,6 @@
+ 
+ #include <linux/string.h>
+ #include <linux/acpi.h>
+-#include <linux/version.h>
+ #include <linux/i2c.h>
+ 
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 8ab0b90..5b0a4a7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -23,7 +23,6 @@
+  *
+  */
+ 
+-#include <linux/version.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_dp_mst_helper.h>
+-- 
+2.7.4
 
-# ls /usr/lib/firmware/amdgpu | grep sienna_cichlid
-sienna_cichlid_ce.bin
-sienna_cichlid_dmcub.bin
-sienna_cichlid_me.bin
-sienna_cichlid_mec2.bin
-sienna_cichlid_mec.bin
-sienna_cichlid_pfp.bin
-sienna_cichlid_rlc.bin
-sienna_cichlid_sdma.bin
-sienna_cichlid_smc.bin
-sienna_cichlid_sos.bin
-sienna_cichlid_ta.bin
-sienna_cichlid_vcn.bin
-
-# dracut -f --regenerate-all
-
-# lsinitrd /boot/initramfs-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64.img
-| grep sienna_cichlid
--rw-r--r--   1 root     root       263296 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_ce.bin
--rw-r--r--   1 root     root        80244 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_dmcub.bin
--rw-r--r--   1 root     root       263424 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_me.bin
--rw-r--r--   2 root     root       268592 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_mec2.bin
--rw-r--r--   2 root     root            0 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_mec.bin
--rw-r--r--   1 root     root       263424 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_pfp.bin
--rw-r--r--   1 root     root       128592 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_rlc.bin
--rw-r--r--   1 root     root        34048 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_sdma.bin
--rw-r--r--   1 root     root       247396 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_smc.bin
--rw-r--r--   1 root     root       215152 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_sos.bin
--rw-r--r--   1 root     root       333568 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_ta.bin
--rw-r--r--   1 root     root       504224 Dec 15 14:00
-usr/lib/firmware/amdgpu/sienna_cichlid_vcn.bin
-
-# grep '20201204git34816d20f173\|linux-firmware-20201218-116'
-/var/log/dnf.rpm.log
-2020-12-06T12:40:44+0500 SUBDEBUG Installed:
-kernel-core-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64
-2020-12-06T12:40:46+0500 SUBDEBUG Installed:
-kernel-modules-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64
-2020-12-06T12:41:03+0500 SUBDEBUG Installed:
-kernel-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64
-2020-12-06T12:41:03+0500 SUBDEBUG Installed:
-kernel-modules-extra-5.10.0-0.rc6.20201204git34816d20f173.92.fc34.x86_64
-2020-12-21T10:52:43+0500 SUBDEBUG Upgrade:
-linux-firmware-20201218-116.fc34.noarch
-
-I think every update of linux-firmware should regenerate initramfs.
-But my downstream report was closed:
-https://bugzilla.redhat.com/show_bug.cgi?id=1911745
-
---
-Best Regards,
-Mike Gavrilov.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
