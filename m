@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF692E7F8A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 12:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF86A2E7F9A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Dec 2020 12:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231E989B05;
-	Thu, 31 Dec 2020 11:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6928D89452;
+	Thu, 31 Dec 2020 11:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 349E389B05
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 11:01:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 076FB223DB
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 11:01:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7F889452
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 11:14:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 23F642229C
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Dec 2020 11:14:34 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id EA4318672F; Thu, 31 Dec 2020 11:01:49 +0000 (UTC)
+ id 13FC986730; Thu, 31 Dec 2020 11:14:34 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210981] amdgpu: probe of 0000:08:00.0 failed with error -524
-Date: Thu, 31 Dec 2020 11:01:49 +0000
+Date: Thu, 31 Dec 2020 11:14:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -28,14 +28,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nirmoy.aiemd@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: smf-linux@virginmedia.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-210981-2300-fWHCyOlqmE@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-210981-2300-xgnpJgXMwf@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210981-2300@https.bugzilla.kernel.org/>
 References: <bug-210981-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -60,15 +60,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210981
 
-Nirmoy (nirmoy.aiemd@gmail.com) changed:
+Stuart Foster (smf-linux@virginmedia.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |nirmoy.aiemd@gmail.com
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
---- Comment #2 from Nirmoy (nirmoy.aiemd@gmail.com) ---
-Looks like you have SME(Secure Memory Encryption) on and Raven will not work
-with SME. Please retry with "mem_encrypt=off"  kernel parameter.
+--- Comment #3 from Stuart Foster (smf-linux@virginmedia.com) ---
+Great that fixed it thank you.
 
 -- 
 You may reply to this email to add a comment.
