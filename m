@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B663F2E91E1
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A645D2E91D6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEA0C89D02;
-	Mon,  4 Jan 2021 08:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFCEA89CD7;
+	Mon,  4 Jan 2021 08:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A342289B95;
- Fri,  1 Jan 2021 16:56:41 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id g15so14724262pgu.9;
- Fri, 01 Jan 2021 08:56:41 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF9289BA1;
+ Fri,  1 Jan 2021 16:56:54 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id be12so11269493plb.4;
+ Fri, 01 Jan 2021 08:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ubat3ts9FbAfreFZfiBfut7K86ikhtjfvpeWs7xXMEk=;
- b=J5Zl7BAcXm9OBOmHsB2ywSPSsP5FyZj1mInI7jaePvK/deKaOXY52OkOvVeosQOjvB
- Lu5eaT0gNcc3bMY/D726LmsCh2ZIqnZkqhVX37tsTZXLaF5xdxDt9+GfEOVXqG4LxgYs
- nTu+zD+7L4yuzwEQIf/LJU/XCkKUN1sJeew8plRjO8SesIOJG5jQoI5LhgWWW31YtGhG
- 4YETODXP4Vo4nCl69trrf/MrslK+223YUxnjeqXbO+6blM4l4ZV0m7l48z+6MWyVh2ON
- /W0RqVC22XG9g6zBhvd0aItkxM5G4b/s2yFfsQ2A0RjaGj5zZ0qY991dz1LAc7uZMT6L
- +R3A==
+ bh=9TIzmHgFsG6ITKjqTU0zZgw5fpm5ANHtZbVrmANAAI0=;
+ b=nb6EiLBe1rK90KNqgI7Tblud+L8ORicNaxgYlOLpDnSDma8JhPbC+sE0K6N9WC6lCg
+ e0wL0DyJ0iWBTM1v87pA6uoSqvkJSZrAVAd3hIOEOLdC5KQUZg8H7rgObvKQIKILT5BL
+ dYW8qJYXrH/0Dd1tFkT/FQp/UhNxQMBedmIaVPARfPPF2GXQ8jYhin3DOm6mcu8X8Ly5
+ 3kX1oKS5TkXd/hSFBZvPsJ6xHQI5RKSk3QL9IyGt2d2ZKzUiG9ZinPumxn7CPr3QunRI
+ r31onRRx20ggyZxF+1eTR7PdiMUAks1Bd1qNwCzQYV2lkPBFhUHbIOULPhYiCySuuNsz
+ i5mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ubat3ts9FbAfreFZfiBfut7K86ikhtjfvpeWs7xXMEk=;
- b=kXWWWJfi66StNguftgWb8EC4FsT0gio87RZq1l/M+3NyElV1xa970vIo5YDKZHYh46
- yv8AdO/RvXyJF0UyuSnsEtMZ6mwLZac0ru2MuZFTZj9wiSNwc1EyavkX/whUpPTt/bpq
- nXvsRPEYSDAieWrYXuFjRRl6OGUUZ/QjeeOz7xPL9R3HSUUw2niy5Q1/72/5QE+Z1LAL
- 7EMU8iPTQhIdGZvmQjUq+gor9hSaZlK5hPaslaUzMPEIUgUR6FgWsOa8iBs2MVsJ5kAK
- QJVGsxPLOzvN1ChCP16LK2uKpE87nWgjTdGXsOKbhX8U5b2z53yV4g7qfXUMc+APoQVv
- gSgw==
-X-Gm-Message-State: AOAM530097VStsxtnpgcSHcgmmofWf+xnKzkBI/nmCjnXPDGPlJnacBy
- spaxr4Pzfl5LjAsPNAOjblg=
-X-Google-Smtp-Source: ABdhPJwYfspmIkGNgMSm1eZOYHmkHpx4SDoHG3+f04ZQo0UnHylmSn2hZZkZjzhdjSLhB9FfLgcUEw==
-X-Received: by 2002:a63:804a:: with SMTP id j71mr60757814pgd.307.1609520201310; 
- Fri, 01 Jan 2021 08:56:41 -0800 (PST)
+ bh=9TIzmHgFsG6ITKjqTU0zZgw5fpm5ANHtZbVrmANAAI0=;
+ b=saiEGxh7jHknmAVN9JPWY14QfCsR7BVlBKn0C9hKbh62tlCnJ06j2j8nqskYdTgH+w
+ PGeihctUWDmOv0lCS8o8+bRr+6k8q4tBrNgj2ckL1Qv04LxT5WYFty8PnogyOuqmg9sJ
+ ff+d7HNl4CCZWQ0L3sZbO3Wz0zU3kV5f6EEn/l8pnBO0iqS/LGADQlda9qU+w2rKjoHW
+ BX+jRHPk9eVioVVx94NIm4880Sh8SgKNa3vEk7hOaR0W8hCb6YzZlGT6y0DD3/92qmBJ
+ Tk2rSKKSg60k+apCevdQJs5NDZxmWL4W41k5wiXe8s6ABplnynOTCTvP8/INJsQDWeAc
+ DwsQ==
+X-Gm-Message-State: AOAM532c4LWcOlnZ6j/X6TxKcse2g2o5xmFjBKTi3R2AT4df0SlbF6fJ
+ SVFaGm8w/pn2u7Nr/fIqxQ8=
+X-Google-Smtp-Source: ABdhPJxF4JOJ2XJhhjVVExcwCvFxLYoAt6vZHBBSIOTAC4TphoEUsVxfStvnXrBY+Pi7P/mH2L3ddA==
+X-Received: by 2002:a17:90a:fb43:: with SMTP id
+ iq3mr18956764pjb.175.1609520213736; 
+ Fri, 01 Jan 2021 08:56:53 -0800 (PST)
 Received: from localhost.localdomain ([43.255.31.23])
- by smtp.gmail.com with ESMTPSA id 84sm50002729pfy.9.2021.01.01.08.56.29
+ by smtp.gmail.com with ESMTPSA id 84sm50002729pfy.9.2021.01.01.08.56.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jan 2021 08:56:40 -0800 (PST)
+ Fri, 01 Jan 2021 08:56:53 -0800 (PST)
 From: Yangtao Li <tiny.windzz@gmail.com>
 To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  krzk@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -69,9 +70,10 @@ To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  rikard.falkeborn@gmail.com, natechancellor@gmail.com,
  georgi.djakov@linaro.org, akashast@codeaurora.org, parashar@codeaurora.org,
  dianders@chromium.org
-Subject: [PATCH 05/31] opp: Add devres wrapper for dev_pm_opp_register_notifier
-Date: Fri,  1 Jan 2021 16:54:41 +0000
-Message-Id: <20210101165507.19486-6-tiny.windzz@gmail.com>
+Subject: [PATCH 06/31] serial: qcom_geni_serial: fix potential mem leak in
+ qcom_geni_serial_probe()
+Date: Fri,  1 Jan 2021 16:54:42 +0000
+Message-Id: <20210101165507.19486-7-tiny.windzz@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210101165507.19486-1-tiny.windzz@gmail.com>
 References: <20210101165507.19486-1-tiny.windzz@gmail.com>
@@ -101,88 +103,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devres wrapper for dev_pm_opp_register_notifier() to simplify driver
-code.
+We should use dev_pm_opp_put_clkname() to free opp table each time
+dev_pm_opp_of_add_table() got error.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 ---
- drivers/opp/core.c     | 38 ++++++++++++++++++++++++++++++++++++++
- include/linux/pm_opp.h |  6 ++++++
- 2 files changed, 44 insertions(+)
+ drivers/tty/serial/qcom_geni_serial.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 6b83e373f0d8..ef3544f8cecd 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -2599,6 +2599,44 @@ int dev_pm_opp_unregister_notifier(struct device *dev,
- }
- EXPORT_SYMBOL(dev_pm_opp_unregister_notifier);
- 
-+static void devm_pm_opp_notifier_release(struct device *dev, void *res)
-+{
-+	struct notifier_block *nb = *(struct notifier_block **)res;
-+
-+	WARN_ON(dev_pm_opp_unregister_notifier(dev, nb));
-+}
-+
-+/**
-+ * devm_pm_opp_register_notifier() - Register OPP notifier for the device
-+ * @dev:	Device for which notifier needs to be registered
-+ * @nb:		Notifier block to be registered
-+ *
-+ * Return: 0 on success or a negative error value.
-+ *
-+ * The notifier will be unregistered after the device is destroyed.
-+ */
-+int devm_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb)
-+{
-+	struct notifier_block **ptr;
-+	int ret;
-+
-+	ptr = devres_alloc(devm_pm_opp_notifier_release, sizeof(*ptr), GFP_KERNEL);
-+	if (!ptr)
-+		return -ENOMEM;
-+
-+	ret = dev_pm_opp_register_notifier(dev, nb);
+diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
+index 291649f02821..5aada7ebae35 100644
+--- a/drivers/tty/serial/qcom_geni_serial.c
++++ b/drivers/tty/serial/qcom_geni_serial.c
+@@ -1438,9 +1438,12 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+ 		return PTR_ERR(port->se.opp_table);
+ 	/* OPP table is optional */
+ 	ret = dev_pm_opp_of_add_table(&pdev->dev);
+-	if (ret && ret != -ENODEV) {
+-		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
+-		goto put_clkname;
 +	if (ret) {
-+		devres_free(ptr);
-+		return ret;
-+	}
-+
-+	*ptr = nb;
-+	devres_add(dev, ptr);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(devm_pm_opp_register_notifier);
-+
- /**
-  * dev_pm_opp_remove_table() - Free all OPPs associated with the device
-  * @dev:	device pointer used to lookup OPP table.
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index e8bdac5f9555..c24bd34339d7 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -136,6 +136,7 @@ int dev_pm_opp_disable(struct device *dev, unsigned long freq);
++		dev_pm_opp_put_clkname(port->se.opp_table);
++		if (ret != -ENODEV) {
++			dev_err(&pdev->dev, "invalid OPP table in device tree\n");
++			return ret;
++		}
+ 	}
  
- int dev_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb);
- int dev_pm_opp_unregister_notifier(struct device *dev, struct notifier_block *nb);
-+int devm_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb);
- 
- struct opp_table *dev_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
- void dev_pm_opp_put_supported_hw(struct opp_table *opp_table);
-@@ -288,6 +289,11 @@ static inline int dev_pm_opp_register_notifier(struct device *dev, struct notifi
- 	return -ENOTSUPP;
+ 	port->private_data.drv = drv;
+@@ -1482,7 +1485,6 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+ 	return 0;
+ err:
+ 	dev_pm_opp_of_remove_table(&pdev->dev);
+-put_clkname:
+ 	dev_pm_opp_put_clkname(port->se.opp_table);
+ 	return ret;
  }
- 
-+static inline int devm_pm_opp_register_notifier(struct device *dev, struct notifier_block *nb)
-+{
-+	return -ENOTSUPP;
-+}
-+
- static inline int dev_pm_opp_unregister_notifier(struct device *dev, struct notifier_block *nb)
- {
- 	return -ENOTSUPP;
 -- 
 2.25.1
 
