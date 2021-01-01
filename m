@@ -1,31 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08D12E916D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:06:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD632E91D5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48EB989B97;
-	Mon,  4 Jan 2021 08:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D199689CB3;
+	Mon,  4 Jan 2021 08:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2D689B97;
- Mon,  4 Jan 2021 08:06:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8DEEAB7BC;
- Mon,  4 Jan 2021 08:05:58 +0000 (UTC)
-Subject: Re: [PULL] drm-misc-next-fixes
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <X+JFYlW1SEZa6ShA@linux-uq9g>
-Message-ID: <9677ee19-a083-7993-10d8-8ac437372c26@suse.de>
-Date: Mon, 4 Jan 2021 09:05:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <X+JFYlW1SEZa6ShA@linux-uq9g>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450A089B8F;
+ Fri,  1 Jan 2021 16:55:37 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id z12so6302096pjn.1;
+ Fri, 01 Jan 2021 08:55:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=L/gCv/bt29Lids4NqNMCGnupZanWu1rzMA+oLszbsEM=;
+ b=fVzoGZOLGPB0P1BXu3jr26HnZLLXZ13i/G70DkLSPqNdxyinjBjU2Z8rq8j/or/Jtd
+ 5Wz6/lOt1FPHGcNde6aIj752AwkaDDx3J2kknebedpgJ7gQ0V/NsaWEGSpQQOVNUXVih
+ wwYz3C6VExmF+lZLOK6aeAI12qICJZIhU8BuyY26XSkzoxpVMzofKBuzflyIx7zLelwa
+ NQvI/r5l33gJXaVEf7d4Q4CAFP19BcG8onF0cung1F4sC1rauOMV5Qx3MaIynva9rwF+
+ j04ivImQN7RBpI+8+1wBd6KJmOcVJzQwveKuzrrJfTHq8f5ZifRWTZ/qQKLqNpzkggRm
+ qT/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=L/gCv/bt29Lids4NqNMCGnupZanWu1rzMA+oLszbsEM=;
+ b=RHtVK/9ImiA7ZQugYP4HJUC1jLbT11Pld7wvKQLgvuTgPNGKJiNN8IxWPZ5j3Zv15B
+ EvZyYnECYNCXdaMRWdqhis4QsWQCBANWs8CHRJ4pgefd9i3A34aKQEjT+A1utEjXuMT2
+ ZUlyhvyGHGRD4slgxQ6G/U0JvNG9CKubO+aNtFXIz3xwXsx219XJvrEBSS/C4y3qxBky
+ 8t/dCnqW8z8YssqnFme3VHuGaTziICRLCuP3OZcuQZ8mtJoCHdPvQFP/DAkjQR7mJ+ya
+ IrUk8HJLFvAvtS6Pm9ScHDLQP+Vpi5crnwgEGrCG6XWRy5k8Z6qxvmjf52NyO9/MMQvR
+ GodQ==
+X-Gm-Message-State: AOAM531DNdfmJc9Wf7mG8VzliW01NoDIEBBiH6KpHfMlkW+UP7fzAuoe
+ qDaQeYQCC8HidR8eVsTNtRA=
+X-Google-Smtp-Source: ABdhPJxs/i/JADyQO9mxNRl6CW47gkY51PoANWqV9w//PRy+AIWEsNQMMeMTfC1dzEsLBpruFAB/bw==
+X-Received: by 2002:a17:90a:c396:: with SMTP id
+ h22mr18709651pjt.84.1609520136798; 
+ Fri, 01 Jan 2021 08:55:36 -0800 (PST)
+Received: from localhost.localdomain ([43.255.31.23])
+ by smtp.gmail.com with ESMTPSA id 84sm50002729pfy.9.2021.01.01.08.55.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Jan 2021 08:55:35 -0800 (PST)
+From: Yangtao Li <tiny.windzz@gmail.com>
+To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
+ krzk@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ digetx@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ yuq825@gmail.com, airlied@linux.ie, daniel@ffwll.ch, robdclark@gmail.com,
+ sean@poorly.run, robh@kernel.org, tomeu.vizoso@collabora.com,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com,
+ stanimir.varbanov@linaro.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, mchehab@kernel.org, lukasz.luba@arm.com,
+ adrian.hunter@intel.com, ulf.hansson@linaro.org, vireshk@kernel.org,
+ nm@ti.com, sboyd@kernel.org, broonie@kernel.org,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, rjw@rjwysocki.net,
+ jcrouse@codeaurora.org, hoegsberg@google.com, eric@anholt.net,
+ tzimmermann@suse.de, marijn.suijten@somainline.org, gustavoars@kernel.org,
+ emil.velikov@collabora.com, jonathan@marek.ca, akhilpo@codeaurora.org,
+ smasetty@codeaurora.org, airlied@redhat.com, masneyb@onstation.org,
+ kalyan_t@codeaurora.org, tanmay@codeaurora.org, tiny.windzz@gmail.com,
+ ddavenport@chromium.org, jsanka@codeaurora.org, rnayak@codeaurora.org,
+ tongtiangen@huawei.com, miaoqinglang@huawei.com, khsieh@codeaurora.org,
+ abhinavk@codeaurora.org, chandanu@codeaurora.org, groeck@chromium.org,
+ varar@codeaurora.org, mka@chromium.org, harigovi@codeaurora.org,
+ rikard.falkeborn@gmail.com, natechancellor@gmail.com,
+ georgi.djakov@linaro.org, akashast@codeaurora.org, parashar@codeaurora.org,
+ dianders@chromium.org
+Subject: [PATCH 00/31] Introduce devm_pm_opp_* API
+Date: Fri,  1 Jan 2021 16:54:36 +0000
+Message-Id: <20210101165507.19486-1-tiny.windzz@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,172 +86,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: multipart/mixed; boundary="===============1482339250=="
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1482339250==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="CikGlNbcrUV0JEEAfU6Ps291agInWmKFX"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CikGlNbcrUV0JEEAfU6Ps291agInWmKFX
-Content-Type: multipart/mixed; boundary="M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Message-ID: <9677ee19-a083-7993-10d8-8ac437372c26@suse.de>
-Subject: Re: [PULL] drm-misc-next-fixes
-References: <X+JFYlW1SEZa6ShA@linux-uq9g>
-In-Reply-To: <X+JFYlW1SEZa6ShA@linux-uq9g>
-
---M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
 Hi,
 
-it looks like this PR has not been merged yet.
+This patchset add devm_pm_opp_set_clkname, devm_pm_opp_put_clkname,
+devm_pm_opp_set_regulators, devm_pm_opp_put_regulators,
+devm_pm_opp_set_supported_hw, devm_pm_opp_of_add_table and
+devm_pm_opp_register_notifier.
 
-Best regard
-Thomas
+Yangtao Li (31):
+  opp: Add devres wrapper for dev_pm_opp_set_clkname and
+    dev_pm_opp_put_clkname
+  opp: Add devres wrapper for dev_pm_opp_set_regulators and
+    dev_pm_opp_put_regulators
+  opp: Add devres wrapper for dev_pm_opp_set_supported_hw
+  opp: Add devres wrapper for dev_pm_opp_of_add_table
+  opp: Add devres wrapper for dev_pm_opp_register_notifier
+  serial: qcom_geni_serial: fix potential mem leak in
+    qcom_geni_serial_probe()
+  serial: qcom_geni_serial: convert to use devm_pm_opp_* API
+  spi: spi-qcom-qspi: fix potential mem leak in spi_geni_probe()
+  spi: spi-qcom-qspi: fix potential mem leak in spi_geni_probe()
+  qcom-geni-se: remove opp_table
+  mmc: sdhci-msm: fix potential mem leak in sdhci_msm_probe()
+  mmc: sdhci-msm: convert to use devm_pm_opp_* API
+  spi: spi-qcom-qspi: fix potential mem leak in qcom_qspi_probe()
+  spi: spi-qcom-qspi: convert to use devm_pm_opp_* API
+  drm/msm: fix potential mem leak
+  drm/msm: convert to use devm_pm_opp_* API and remove dp_ctrl_put
+  drm/lima: convert to use devm_pm_opp_* API
+  drm/lima: remove unneeded devm_devfreq_remove_device()
+  drm/panfrost: convert to use devm_pm_opp_* API
+  media: venus: fix error check in core_get_v4()
+  media: venus: convert to use devm_pm_opp_* API
+  memory: samsung: exynos5422-dmc: fix return error in
+    exynos5_init_freq_table
+  memory: samsung: exynos5422-dmc: convert to use devm_pm_opp_* API
+  memory: tegra20: convert to use devm_pm_opp_* API
+  memory: tegra30: convert to use devm_pm_opp_* API
+  PM / devfreq: tegra30: convert to use devm_pm_opp_* API
+  PM / devfreq: rk3399_dmc: convert to use devm_pm_opp_* API
+  PM / devfreq: imx8m-ddrc: convert to use devm_pm_opp_* API
+  PM / devfreq: imx-bus: convert to use devm_pm_opp_* API
+  PM / devfreq: exynos: convert to use devm_pm_opp_* API
+  PM / devfreq: convert to devm_pm_opp_register_notifier and remove
+    unused API
 
-Am 22.12.20 um 20:13 schrieb Thomas Zimmermann:
-> Hi Dave and Daniel,
->=20
-> here's this week's PR for drm-misc-next-fixes.
->=20
-> Best regards
-> Thomas
->=20
-> drm-misc-next-fixes-2020-12-22:
-> Short summary of fixes pull:
->=20
->   * dma-buf: Include <linux/vmalloc.h> for building on MIPS
->   * komeda: Fix order of operation in commit tail; Fix NULL-pointer and=
+ drivers/devfreq/devfreq.c                     |  66 +------
+ drivers/devfreq/exynos-bus.c                  |  42 +----
+ drivers/devfreq/imx-bus.c                     |  14 +-
+ drivers/devfreq/imx8m-ddrc.c                  |  15 +-
+ drivers/devfreq/rk3399_dmc.c                  |  22 +--
+ drivers/devfreq/tegra30-devfreq.c             |  21 +--
+ drivers/gpu/drm/lima/lima_devfreq.c           |  45 +----
+ drivers/gpu/drm/lima/lima_devfreq.h           |   2 -
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  31 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |  29 +--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   1 -
+ drivers/gpu/drm/msm/dp/dp_display.c           |   5 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |  23 ++-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |  34 +---
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h   |   1 -
+ .../media/platform/qcom/venus/pm_helpers.c    |  22 +--
+ drivers/memory/samsung/exynos5422-dmc.c       |  13 +-
+ drivers/memory/tegra/tegra20-emc.c            |  29 +--
+ drivers/memory/tegra/tegra30-emc.c            |  29 +--
+ drivers/mmc/host/sdhci-msm.c                  |  27 ++-
+ drivers/opp/core.c                            | 173 ++++++++++++++++++
+ drivers/opp/of.c                              |  36 ++++
+ drivers/spi/spi-geni-qcom.c                   |  23 ++-
+ drivers/spi/spi-qcom-qspi.c                   |  25 ++-
+ drivers/tty/serial/qcom_geni_serial.c         |  31 ++--
+ include/linux/devfreq.h                       |  23 ---
+ include/linux/pm_opp.h                        |  38 ++++
+ include/linux/qcom-geni-se.h                  |   2 -
+ 32 files changed, 402 insertions(+), 428 deletions(-)
 
->             out-of-bounds access; Cleanups
->   * ttm: Fix an unused-function warning
-> The following changes since commit ee46d16d2e40bebc2aa790fd7b6a056466ff=
-895c:
->=20
->    drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge (2020-12-=
-15 11:01:10 +0100)
->=20
-> are available in the Git repository at:
->=20
->    git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-=
-2020-12-22
->=20
-> for you to fetch changes up to be3e477effba636ad25dcd244db264c6cd5c1f36=
-:
->=20
->    drm/komeda: Fix bit check to import to value of proper type (2020-12=
--18 16:36:00 +0000)
->=20
-> ----------------------------------------------------------------
-> Short summary of fixes pull:
->=20
->   * dma-buf: Include <linux/vmalloc.h> for building on MIPS
->   * komeda: Fix order of operation in commit tail; Fix NULL-pointer and=
-
->             out-of-bounds access; Cleanups
->   * ttm: Fix an unused-function warning
->=20
-> ----------------------------------------------------------------
-> Arnd Bergmann (1):
->        drm/ttm: fix unused function warning
->=20
-> Carsten Haitzler (3):
->        drm/komeda: Remove useless variable assignment
->        drm/komeda: Handle NULL pointer access code path in error case
->        drm/komeda: Fix bit check to import to value of proper type
->=20
-> Christian K=C3=B6nig (1):
->        drm/qxl: don't allocate a dma_address array
->=20
-> James Qian Wang (1):
->        drm/komeda: Correct the sequence of hw_done() and flip_done()
->=20
-> John Stultz (1):
->        dma-buf: cma_heap: Include linux/vmalloc.h to fix build failures=
- on MIPS
->=20
->   drivers/dma-buf/heaps/cma_heap.c                   |  1 +
->   drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |  1 -
->   drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |  4 +--
->   .../gpu/drm/arm/display/komeda/komeda_pipeline.c   |  3 ++-
->   .../drm/arm/display/komeda/komeda_pipeline_state.c |  4 +--
->   drivers/gpu/drm/qxl/qxl_ttm.c                      |  2 +-
->   drivers/gpu/drm/ttm/ttm_pool.c                     | 29 +++++++++++--=
----------
->   7 files changed, 22 insertions(+), 22 deletions(-)
->=20
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh--
-
---CikGlNbcrUV0JEEAfU6Ps291agInWmKFX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/yzF8FAwAAAAAACgkQlh/E3EQov+Dk
-bQ/+PAuyb0HGlrHk9QovoG5Ww81uE8HmrCZsUMGy3vMCbKyrYtbQ6f90iYMgGO811dx/XC9FRMaB
-qxiuBZL4I3NCjDT07uJm1BRo9goiLwWfYrryqRmsTVZrwTQ4X50+Z89mrSUj1yUmokpTuCI/71KZ
-B+CK+vgSxHdSP8CGxijzaruc0AZ5i8s+bjUi2+piE51RAZLQM1K6GMNzybJ/VCEGeK/6/OBz1hnV
-Oz3rXSwW1QUF/3mHFQ05KRxQrWD6jYKxbUOPFojgKUdIIYUH13AQDwtuvHEDsxik9qtztlYbyDIz
-Ax8LC6QSH/BnxDeX+M+L5kMXDfkTzWpLZ6D+wy9BwoNEG7/OgyMi2aDGoW0nz5TPx2X+jLf/It3R
-QGjLxKrhgP20Mc42uO8Pc7EthQT1pszb9b7tOQXmyukDfiqDNkCOwVmfVeSUSPCJl9GHzgs3NWJ7
-uILo7dRVClrvYvmZSYQjjDjQA0n45oBC4ndHPkHvDzbE6BOvkeYAKShki3ob0NHcxDH0+ClxRPda
-2EvjzxCV6js1bKK9U1acYM+u+7wgwWMbVWkZSGVboKUZY7yZxFpzsWom8zFLvgqABgamdeLrJgKo
-hzahC4XzoSXqFv5KS6i4bd1gWVaZYJbJtDxwt8fc+GHP4gKvasvRzM8sFmF+OpL6fRJQrtLpZ2ew
-LDk=
-=xvb0
------END PGP SIGNATURE-----
-
---CikGlNbcrUV0JEEAfU6Ps291agInWmKFX--
-
---===============1482339250==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1482339250==--
