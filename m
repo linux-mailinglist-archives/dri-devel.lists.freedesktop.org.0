@@ -2,39 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E0F2E82CC
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jan 2021 03:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518CE2E83F6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jan 2021 15:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA3889E26;
-	Fri,  1 Jan 2021 02:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B44E589C1A;
+	Fri,  1 Jan 2021 14:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 142E289E26;
- Fri,  1 Jan 2021 02:30:55 +0000 (UTC)
-IronPort-SDR: J+BkqDeEjfSS1LCkOn+Y+tLVlqmd5yG2xmeLsw7Q7JAYToxOE/zu0dzzpPiTd4GG463WZpvBWc
- yXieQ30Fxa3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9851"; a="176853049"
-X-IronPort-AV: E=Sophos;i="5.78,464,1599548400"; d="scan'208";a="176853049"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Dec 2020 18:30:54 -0800
-IronPort-SDR: 0ttWh63mT3/KfwFyB0rU8Vh925P2Akuj0Q2a0DDnoHcPfx3qnOBdGwiyHCLMnFnD1/mwJiTaOd
- 93XHmfHRULUg==
-X-IronPort-AV: E=Sophos;i="5.78,464,1599548400"; d="scan'208";a="348522055"
-Received: from shao2-debian.sh.intel.com (HELO localhost) ([10.239.13.117])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Dec 2020 18:30:52 -0800
-Date: Fri, 1 Jan 2021 10:30:05 +0800
-From: kernel test robot <rong.a.chen@intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: [drm-intel:topic/dp-hdmi-2.1-pcon 9/15]
- drivers/gpu/drm/i915/display/intel_dp.c:4053:10: warning: Suspicious
- condition (assignment + comparison); Clarify expression with parentheses.
-Message-ID: <20210101023005.GD399595@shao2-debian>
+X-Greylist: delayed 320 seconds by postgrey-1.36 at gabe;
+ Fri, 01 Jan 2021 03:52:31 UTC
+Received: from r3-25.sinamail.sina.com.cn (r3-25.sinamail.sina.com.cn
+ [202.108.3.25])
+ by gabe.freedesktop.org (Postfix) with SMTP id D12A689CAD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jan 2021 03:52:31 +0000 (UTC)
+Received: from unknown (HELO localhost.localdomain)([222.130.244.15])
+ by sina.com with ESMTP
+ id 5FEE9B3800021D72; Fri, 1 Jan 2021 11:47:06 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 10263854919297
+From: Hillf Danton <hdanton@sina.com>
+To: Borislav Petkov <bp@alien8.de>
+Subject: Re: 5.11-rc1 TTM list corruption
+Date: Fri,  1 Jan 2021 11:46:55 +0800
+Message-Id: <20210101034655.13472-1-hdanton@sina.com>
+In-Reply-To: <20201231104020.GA4504@zn.tnic>
+References: <20201231104020.GA4504@zn.tnic>
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Fri, 01 Jan 2021 14:25:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,102 +42,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel topic/dp-hdmi-2.1-pcon
-head:   522508b665df3bbfdf40381d4e61777844b1703f
-commit: ced42f2df5fd8621c896faeafe7ecc0ea8b2ea81 [9/15] drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
-compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+On Thu, 31 Dec 2020 11:40:20 +0100 Borislav Petkov wrote:
+> Hi folks,
+> 
+> got this when trying to suspend my workstation to disk, it was still
+> responsive so I could catch the splat:
+> 
+> [22020.334381] ------------[ cut here ]------------
+> [22020.339057] list_del corruption. next->prev should be ffffffff8b7a9a40, but was ffff8881020bced0
+> [22020.347764] WARNING: CPU: 12 PID: 13134 at lib/list_debug.c:54 __list_del_entry_valid+0x8a/0x90
+> [22020.356397] Modules linked in: fuse essiv authenc nft_counter nf_tables libcrc32c nfnetlink loop dm_crypt dm_mod amd64_edac edac_mce_amd kvm_amd snd_hda_codec_realtek snd_hda_codec_generic led_class kvm ledtrig_audio snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_pcm snd_timer irqbypass crct10dif_pclmul snd crc32_pclmul crc32c_intel ghash_clmulni_intel pcspkr k10temp soundcore gpio_amdpt gpio_generic acpi_cpufreq radeon aesni_intel glue_helper crypto_simd cryptd pinctrl_amd
+> [22020.400855] CPU: 12 PID: 13134 Comm: hib.sh Not tainted 5.11.0-rc1+ #2
+> [22020.400857] Hardware name: Micro-Star International Co., Ltd. MS-7B79/X470 GAMING PRO (MS-7B79), BIOS 1.70 01/23/2019
+> [22020.400858] RIP: 0010:__list_del_entry_valid+0x8a/0x90
+> [22020.400861] Code: 46 00 0f 0b 31 c0 c3 48 89 f2 48 89 fe 48 c7 c7 78 30 0f 82 e8 24 6c 46 00 0f 0b 31 c0 c3 48 c7 c7 b8 30 0f 82 e8 13 6c 46 00 <0f> 0b 31 c0 c3 cc 48 85 d2 89 f8 74 20 48 8d 0c 16 0f b6 16 48 ff
+> [22020.400863] RSP: 0018:ffffc90001fbbcf8 EFLAGS: 00010292
+> [22020.441503] RAX: 0000000000000054 RBX: ffffffff8b7a9a40 RCX: 0000000000000000
+> [22020.441505] RDX: ffff8887fef26600 RSI: ffff8887fef17450 RDI: ffff8887fef17450
+> [22020.441505] RBP: 0000000000003f82 R08: ffff8887fef17450 R09: ffffc90001fbbb38
+> [22020.441506] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
+> [22020.441507] R13: 0000000000000080 R14: 0000000000000480 R15: 000000000000019b
+> [22020.441508] FS:  00007f51c72f9740(0000) GS:ffff8887fef00000(0000) knlGS:0000000000000000
+> [22020.490045] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [22020.490046] CR2: 00005557afb81018 CR3: 000000012099e000 CR4: 00000000003506e0
+> [22020.490047] Call Trace:
+> [22020.490048]  ttm_pool_shrink+0x61/0xd0
+> [22020.508965]  ttm_pool_shrinker_scan+0xa/0x20
+> [22020.508966]  shrink_slab.part.0.constprop.0+0x1a1/0x330
+> [22020.508970]  drop_slab_node+0x37/0x50
+> [22020.522011]  drop_slab+0x33/0x60
+> [22020.522012]  drop_caches_sysctl_handler+0x70/0x80
+> [22020.522015]  proc_sys_call_handler+0x140/0x220
+> [22020.534286]  new_sync_write+0x10b/0x190
+> [22020.534289]  vfs_write+0x1b7/0x290
+> [22020.534291]  ksys_write+0x60/0xe0
+> [22020.544762]  do_syscall_64+0x33/0x40
+> [22020.544765]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [22020.553320] RIP: 0033:0x7f51c73eaff3
+> [22020.553322] Code: 8b 15 a1 ee 0c 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 55 c3 0f 1f 40 00 48 83 ec 28 48 89 54 24 18
+> [22020.553324] RSP: 002b:00007ffd0a748ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> [22020.553325] RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007f51c73eaff3
+> [22020.553326] RDX: 0000000000000002 RSI: 000056039fd0ee70 RDI: 0000000000000001
+> [22020.553327] RBP: 000056039fd0ee70 R08: 000000000000000a R09: 0000000000000001
+> [22020.553327] R10: 000056039fd0e770 R11: 0000000000000246 R12: 0000000000000002
+> [22020.611218] R13: 00007f51c74bb6a0 R14: 0000000000000002 R15: 00007f51c74bb8a0
+> [22020.611220] ---[ end trace f7ea94a6ddb98f71 ]---
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
+> 
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <rong.a.chen@intel.com>
+Here is a typo fix. Wish it helps spot the reason behind the slpat.
 
-
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> drivers/gpu/drm/i915/display/intel_dp.c:4053:10: warning: Suspicious condition (assignment + comparison); Clarify expression with parentheses. [clarifyCondition]
-    wait_for(is_active = drm_dp_pcon_is_frl_ready(&intel_dp->aux) == true, TIMEOUT_FRL_READY_MS);
-            ^
-   drivers/gpu/drm/i915/display/intel_dp.c:4072:10: warning: Suspicious condition (assignment + comparison); Clarify expression with parentheses. [clarifyCondition]
-    wait_for(is_active = drm_dp_pcon_hdmi_link_active(&intel_dp->aux) == true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
-            ^
-
-vim +4053 drivers/gpu/drm/i915/display/intel_dp.c
-
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4028  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4029  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4030  	int max_frl_bw, max_pcon_frl_bw, max_edid_frl_bw, ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4031  	u8 max_frl_bw_mask = 0, frl_trained_mask;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4032  	bool is_active;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4033  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4034  	ret = drm_dp_pcon_reset_frl_config(&intel_dp->aux);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4035  	if (ret < 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4036  		return ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4037  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4038  	max_pcon_frl_bw = intel_dp->dfp.pcon_max_frl_bw;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4039  	drm_dbg(&i915->drm, "PCON max rate = %d Gbps\n", max_pcon_frl_bw);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4040  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4041  	max_edid_frl_bw = intel_dp_hdmi_sink_max_frl(intel_dp);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4042  	drm_dbg(&i915->drm, "Sink max rate from EDID = %d Gbps\n", max_edid_frl_bw);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4043  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4044  	max_frl_bw = min(max_edid_frl_bw, max_pcon_frl_bw);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4045  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4046  	if (max_frl_bw <= 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4047  		return -EINVAL;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4048  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4049  	ret = drm_dp_pcon_frl_prepare(&intel_dp->aux, false);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4050  	if (ret < 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4051  		return ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4052  	/* Wait for PCON to be FRL Ready */
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18 @4053  	wait_for(is_active = drm_dp_pcon_is_frl_ready(&intel_dp->aux) == true, TIMEOUT_FRL_READY_MS);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4054  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4055  	if (!is_active)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4056  		return -ETIMEDOUT;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4057  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4058  	max_frl_bw_mask = intel_dp_pcon_set_frl_mask(max_frl_bw);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4059  	ret = drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw, PCON_SEQUENTIAL_MODE);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4060  	if (ret < 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4061  		return ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4062  	ret = drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask, PCON_NORMAL_TRAIN_MODE);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4063  	if (ret < 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4064  		return ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4065  	ret = drm_dp_pcon_frl_enable(&intel_dp->aux);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4066  	if (ret < 0)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4067  		return ret;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4068  	/*
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4069  	 * Wait for FRL to be completed
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4070  	 * Check if the HDMI Link is up and active.
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4071  	 */
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4072  	wait_for(is_active = drm_dp_pcon_hdmi_link_active(&intel_dp->aux) == true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4073  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4074  	if (!is_active)
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4075  		return -ETIMEDOUT;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4076  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4077  	/* Verify HDMI Link configuration shows FRL Mode */
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4078  	if (drm_dp_pcon_hdmi_link_mode(&intel_dp->aux, &frl_trained_mask) !=
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4079  	    DP_PCON_HDMI_MODE_FRL) {
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4080  		drm_dbg(&i915->drm, "HDMI couldn't be trained in FRL Mode\n");
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4081  		return -EINVAL;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4082  	}
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4083  	drm_dbg(&i915->drm, "MAX_FRL_MASK = %u, FRL_TRAINED_MASK = %u\n", max_frl_bw_mask, frl_trained_mask);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4084  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4085  	intel_dp->frl.trained_rate_gbps = intel_dp_pcon_get_frl_mask(frl_trained_mask);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4086  	intel_dp->frl.is_trained = true;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4087  	drm_dbg(&i915->drm, "FRL trained with : %d Gbps\n", intel_dp->frl.trained_rate_gbps);
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4088  
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4089  	return 0;
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4090  }
-ced42f2df5fd8621 Ankit Nautiyal 2020-12-18  4091  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -188,10 +188,12 @@ static int ttm_pool_map(struct ttm_pool
+ 		addr = dma->addr;
+ 	} else {
+ 		size_t size = (1ULL << order) * PAGE_SIZE;
++		int err;
+ 
+ 		addr = dma_map_page(pool->dev, p, 0, size, DMA_BIDIRECTIONAL);
+-		if (dma_mapping_error(pool->dev, **dma_addr))
+-			return -EFAULT;
++		err = dma_mapping_error(pool->dev, addr);
++		if (err)
++			return err;
+ 	}
+ 
+ 	for (i = 1 << order; i ; --i) {
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
