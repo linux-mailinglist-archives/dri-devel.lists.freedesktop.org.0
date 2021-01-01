@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2C22E91DF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6562E91DE
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90ABE89D9A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF1689DA3;
 	Mon,  4 Jan 2021 08:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4482B89B96;
- Fri,  1 Jan 2021 16:58:34 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id t22so12672370pfl.3;
- Fri, 01 Jan 2021 08:58:34 -0800 (PST)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5DC889B96;
+ Fri,  1 Jan 2021 16:58:46 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id t22so12672520pfl.3;
+ Fri, 01 Jan 2021 08:58:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yu74XuJH53c+EXvKWMencH3rXiKT1m6r0c1T0r676aY=;
- b=gh7RvhL62o/PSCpktmhn3EbfQ3dx1vvB+ZmqES+Jmm88swPVRtVyFOvVd2bYWOik29
- Tf2nXsdUR5mBpBYKLAXO6pceBAG+flQxPB2Jvy/vdpPe3hCYniRi2wVmyV6KljZidpIl
- 7+ltUJSpOwmtrH+3uiSBW1XTFeAjnSeKy5Fhyn0mp8bJVgc1G0rxRm3FH1HR+zomceOW
- w/Zi0Kk1vApmR2ie30W9zO5+3nbEioG2IGELTxjHbYMIIzvzfngUncqFIwWUdgMXjiuU
- fmsVVrQWwoVQ40dUogwxdGBv2W0LcV1L+5Mgk0jrMk35BclmJuKCV9DZPpWeM4+osSWT
- pGUA==
+ bh=U36W0smHOpfrbDvJ1LTZufZA8+bqUZFQOq+xGSvEz0Q=;
+ b=gKaKzWCjoMrxvhanzaf7tyCsDC/hfSnueuE8JW5m51OOp9Z6WvwF/9vPAZN7rMzBge
+ URiLDqq57o/V3sk4oFnTbpTF6dTUDM071vmfcj+39aaweZske2Hmg7/xz6Agpup5MvhE
+ VCTOBGdMDYWKKT3SSRBBBqzcBStN4t36/GnqgKjx7dpq6RneL6FgqY9pO5wzwvrNKhqy
+ FN0LMPSXoDbAUhapYneJJIH2yRgbV0fyIKNjmx0yEVcyCFbUAQaUPi14s3gI9TzG7kbr
+ 5XkvuyB4qXKyvKfKF1Gw8IdLeTgbKRYYCaCx3fxt/AMk6UGti0Lm20Ll/jIh7L2BebN+
+ jesw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=yu74XuJH53c+EXvKWMencH3rXiKT1m6r0c1T0r676aY=;
- b=m2fB08AwUTK7X5GeBNTpnq3hRbZEfeoUqdwnvxgaK5lIEf664H3MeYVQPgltw++ptW
- W8VPVz2FZ+zyUaOIV/uvmgb2aRB7IsaPO+brOfYOiMl7dUvvITuNuKgF1b0OJTReUOs/
- fXzXY59XMClZJWFBRthOP1YZT2v5oXNHrAYAnddF03k7NYDPDW/8Z5KmckMKQa9hHZGq
- WTE0yTWbG6kKGmS1PLGlIcud8uZ6BdQ/9/5hMtvKFcYvXFbIbZReORtrNlrxl9cURuc7
- 2Aq0IHwwFdnXFzFkURGzqG7ajNpqp0Ym2rm3+l6LkLyGmFA+Wd0XMKjOAYAQRhm/4FI3
- eUvQ==
-X-Gm-Message-State: AOAM533b6H058bamMfoBcPX8ozFR67zb1qOKyLJKdNGtxrldnDdjgdjr
- 2V66BepI4HuirpvUTivxDCk=
-X-Google-Smtp-Source: ABdhPJwOll/dMiWiDKZQBDwgbOKq3kdz6aVDzq67HtJRRsr7Oec5o4g1+GYjXRy8liLw+XYioZ4FhQ==
-X-Received: by 2002:a63:5023:: with SMTP id e35mr61063976pgb.56.1609520313911; 
- Fri, 01 Jan 2021 08:58:33 -0800 (PST)
+ bh=U36W0smHOpfrbDvJ1LTZufZA8+bqUZFQOq+xGSvEz0Q=;
+ b=RYIwSIz8TD714cnzqv7bjtsq2EJLsTu7N4IN9vj9r0Ie5LYnuJ56VM/DYMS0J/TPig
+ kk7e76YtKZ0wHqWqNKlMkBPXKPapgCBNk1v4Jqa8fxSMrOHt1GUTRKZB6gsnEqRdIi3G
+ O0G/LLLrVXfRsKBcz6JuE11TSWYZGJ5V1ecjT4aXpaDV0Q594TH/WT04xPoJ8AY5k2ct
+ dITKC2IqB7pNL3WTl5Qa/LgDfRtS6tUTzzNu1OXjj227rOxrK/psH1yD1ov0xmv9D2bd
+ 9yPXwVbKZV+xlJn7Ov1ZMa1z7zYfPHAvtnfMxjQIQ2N6U2Z+QG4l3yzVunpureW9zPgs
+ dFrw==
+X-Gm-Message-State: AOAM532CJ2nGv+nMbHHDgUzNh5by+vEXtBFxH891gbTewuWFY8NvP3n9
+ WkWYxeleRzUbbKzaoSOSfpE=
+X-Google-Smtp-Source: ABdhPJzx00BSeoHxNsLlnYUTpYihiZKk22bXxnJ8w2R+GCGYn3Ld1jNT8zpXeyfnV8iIpkFNwzyFcw==
+X-Received: by 2002:aa7:9a07:0:b029:1a6:5f93:a19f with SMTP id
+ w7-20020aa79a070000b02901a65f93a19fmr35843925pfj.21.1609520326359; 
+ Fri, 01 Jan 2021 08:58:46 -0800 (PST)
 Received: from localhost.localdomain ([43.255.31.23])
- by smtp.gmail.com with ESMTPSA id 84sm50002729pfy.9.2021.01.01.08.58.21
+ by smtp.gmail.com with ESMTPSA id 84sm50002729pfy.9.2021.01.01.08.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jan 2021 08:58:33 -0800 (PST)
+ Fri, 01 Jan 2021 08:58:45 -0800 (PST)
 From: Yangtao Li <tiny.windzz@gmail.com>
 To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  krzk@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -69,9 +70,9 @@ To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  rikard.falkeborn@gmail.com, natechancellor@gmail.com,
  georgi.djakov@linaro.org, akashast@codeaurora.org, parashar@codeaurora.org,
  dianders@chromium.org
-Subject: [PATCH 14/31] spi: spi-qcom-qspi: convert to use devm_pm_opp_* API
-Date: Fri,  1 Jan 2021 16:54:50 +0000
-Message-Id: <20210101165507.19486-15-tiny.windzz@gmail.com>
+Subject: [PATCH 15/31] drm/msm: fix potential mem leak
+Date: Fri,  1 Jan 2021 16:54:51 +0000
+Message-Id: <20210101165507.19486-16-tiny.windzz@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210101165507.19486-1-tiny.windzz@gmail.com>
 References: <20210101165507.19486-1-tiny.windzz@gmail.com>
@@ -101,71 +102,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_pm_opp_* API to simplify code, and remove opp_table
-from qcom_qspi.
+We should use dev_pm_opp_put_clkname() to free opp table each time
+dev_pm_opp_of_add_table() got error.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 ---
- drivers/spi/spi-qcom-qspi.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 10 ++++++----
+ drivers/gpu/drm/msm/dsi/dsi_host.c      |  8 +++++---
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/spi/spi-qcom-qspi.c b/drivers/spi/spi-qcom-qspi.c
-index 915ae115d8c1..1a1ab153ff59 100644
---- a/drivers/spi/spi-qcom-qspi.c
-+++ b/drivers/spi/spi-qcom-qspi.c
-@@ -142,7 +142,6 @@ struct qcom_qspi {
- 	struct clk_bulk_data *clks;
- 	struct qspi_xfer xfer;
- 	struct icc_path *icc_path_cpu_to_qspi;
--	struct opp_table *opp_table;
- 	unsigned long last_speed;
- 	/* Lock to protect data accessed by IRQs */
- 	spinlock_t lock;
-@@ -459,6 +458,7 @@ static int qcom_qspi_probe(struct platform_device *pdev)
- 	struct device *dev;
- 	struct spi_master *master;
- 	struct qcom_qspi *ctrl;
-+	struct opp_table *opp_table;
- 
- 	dev = &pdev->dev;
- 
-@@ -531,13 +531,13 @@ static int qcom_qspi_probe(struct platform_device *pdev)
- 	master->handle_err = qcom_qspi_handle_err;
- 	master->auto_runtime_pm = true;
- 
--	ctrl->opp_table = dev_pm_opp_set_clkname(&pdev->dev, "core");
--	if (IS_ERR(ctrl->opp_table))
--		return PTR_ERR(ctrl->opp_table);
-+	opp_table = devm_pm_opp_set_clkname(dev, "core");
-+	if (IS_ERR(opp_table))
-+		return PTR_ERR(opp_table);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 374b0e8471e6..6f19dfcb4965 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1093,9 +1093,12 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(dpu_kms->opp_table);
  	/* OPP table is optional */
--	ret = dev_pm_opp_of_add_table(&pdev->dev);
-+	ret = devm_pm_opp_of_add_table(dev);
- 	if (ret) {
--		dev_pm_opp_put_clkname(ctrl->opp_table);
-+		devm_pm_opp_put_clkname(dev, opp_table);
- 		if (ret != -ENODEV) {
- 			dev_err(&pdev->dev, "invalid OPP table in device tree\n");
- 			return ret;
-@@ -553,8 +553,6 @@ static int qcom_qspi_probe(struct platform_device *pdev)
- 		return 0;
+ 	ret = dev_pm_opp_of_add_table(dev);
+-	if (ret && ret != -ENODEV) {
+-		dev_err(dev, "invalid OPP table in device tree\n");
+-		goto put_clkname;
++	if (ret) {
++		dev_pm_opp_put_clkname(dpu_kms->opp_table);
++		if (ret != -ENODEV) {
++			dev_err(dev, "invalid OPP table in device tree\n");
++			return ret;
++		}
+ 	}
  
- 	pm_runtime_disable(dev);
--	dev_pm_opp_of_remove_table(&pdev->dev);
--	dev_pm_opp_put_clkname(ctrl->opp_table);
- 
+ 	mp = &dpu_kms->mp;
+@@ -1122,7 +1125,6 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 	return ret;
+ err:
+ 	dev_pm_opp_of_remove_table(dev);
+-put_clkname:
+ 	dev_pm_opp_put_clkname(dpu_kms->opp_table);
  	return ret;
  }
-@@ -568,8 +566,6 @@ static int qcom_qspi_remove(struct platform_device *pdev)
- 	spi_unregister_master(master);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index ab281cba0f08..a282307f2799 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1891,10 +1891,12 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 		return PTR_ERR(msm_host->opp_table);
+ 	/* OPP table is optional */
+ 	ret = dev_pm_opp_of_add_table(&pdev->dev);
+-	if (ret && ret != -ENODEV) {
+-		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
++	if (ret) {
+ 		dev_pm_opp_put_clkname(msm_host->opp_table);
+-		return ret;
++		if (ret != -ENODEV) {
++			dev_err(&pdev->dev, "invalid OPP table in device tree\n");
++			return ret;
++		}
+ 	}
  
- 	pm_runtime_disable(&pdev->dev);
--	dev_pm_opp_of_remove_table(&pdev->dev);
--	dev_pm_opp_put_clkname(ctrl->opp_table);
- 
- 	return 0;
- }
+ 	init_completion(&msm_host->dma_comp);
 -- 
 2.25.1
 
