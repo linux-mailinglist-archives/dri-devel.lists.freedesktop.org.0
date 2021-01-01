@@ -1,35 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518CE2E83F6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jan 2021 15:25:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEEF2E8397
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jan 2021 12:45:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44E589C1A;
-	Fri,  1 Jan 2021 14:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4950289A4F;
+	Fri,  1 Jan 2021 11:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 320 seconds by postgrey-1.36 at gabe;
- Fri, 01 Jan 2021 03:52:31 UTC
-Received: from r3-25.sinamail.sina.com.cn (r3-25.sinamail.sina.com.cn
- [202.108.3.25])
- by gabe.freedesktop.org (Postfix) with SMTP id D12A689CAD
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jan 2021 03:52:31 +0000 (UTC)
-Received: from unknown (HELO localhost.localdomain)([222.130.244.15])
- by sina.com with ESMTP
- id 5FEE9B3800021D72; Fri, 1 Jan 2021 11:47:06 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 10263854919297
-From: Hillf Danton <hdanton@sina.com>
-To: Borislav Petkov <bp@alien8.de>
-Subject: Re: 5.11-rc1 TTM list corruption
-Date: Fri,  1 Jan 2021 11:46:55 +0800
-Message-Id: <20210101034655.13472-1-hdanton@sina.com>
-In-Reply-To: <20201231104020.GA4504@zn.tnic>
-References: <20201231104020.GA4504@zn.tnic>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4302889A4F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jan 2021 11:45:39 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id m25so48627772lfc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jan 2021 03:45:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X1yeAUk6b8gmMiVEP9IT/lqKGsTIem4bh7tOu2Oot/A=;
+ b=EiprgCkNWoZTNpZ+M6EjNSn+adRKabT0A7ltqt3Y0x3cfsEV7w+/syWJH56UVYDc4+
+ BGbQ+VeogSA8hr5LmrscLylIsLbrPljYWA63rSKzT84r01DjWCJJ4qF0/tBooyGqAI6d
+ 0vaxla9U3MlzwbvIX61tB7Z/1V16q5XTBE02PVaRXHmH2BJlwG6u1hPAoOiIp9yH1ism
+ DWug6ErN86we9xX0iB1QzvqnrIgGAaFiGdVph9+26KZuX+qM/vDH/W4O0bC1n4C9xhRN
+ OlBs/IYwNV/pH1kxg7YaEyz3QoG9pCCFCoY86unPqHPHH1E22VKG0ga3eOwRg+GVyAmG
+ hmUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X1yeAUk6b8gmMiVEP9IT/lqKGsTIem4bh7tOu2Oot/A=;
+ b=iw/vn61qSPHcyt6ESpKfWGR2kbS5Jr9WsIBG1c9sN91k7FLL35apu9f9HIsVu/IQoB
+ ZgagfRwJKcDwxuv2H6HBLzqxoY8r1VSw5lyXCHzMZxBGwDQ4mGcDCP0JQPy1hFKgW4ck
+ fAIJ0AnkOTWkFS+gVi4/2mhQgRs707vzIiawLubBanRpiCdCoqxoTxhl6Es0IvTlbJC6
+ 0m39lIfnFzKzLnd/3QavZADa0Uwy71cnkEb/rdPndQ3jvemrCKkBSc38rZlpGYD9MJQT
+ BegXfF2avrCiUX7MdUFdjNQ5zlJWSD/gFeQ1BynGy7w2kz1Qsb7i5MlnTamsIFXh5TQs
+ G+MA==
+X-Gm-Message-State: AOAM530E+cajxaYMyfLPKGKpn3ODr3uwPOmOLdzPspPYRdjj5LUAdJZJ
+ EaJpxnE79x1iER2psmzG+CEMIw==
+X-Google-Smtp-Source: ABdhPJz68u9Xdaa14ja4xd+XvtPX65JRDstT/f9I/cqpEA6IAlHMb8YOQa3NTAVIzK6W5EPXTRyoOw==
+X-Received: by 2002:a19:fc1b:: with SMTP id a27mr25204221lfi.349.1609501537546; 
+ Fri, 01 Jan 2021 03:45:37 -0800 (PST)
+Received: from localhost.localdomain
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id b22sm6487166lfp.233.2021.01.01.03.45.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Jan 2021 03:45:36 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] dt-bindings: display: Augment s6e63m0 bindings
+Date: Fri,  1 Jan 2021 12:45:22 +0100
+Message-Id: <20210101114522.1981838-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 01 Jan 2021 14:25:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,85 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Dec 2020 11:40:20 +0100 Borislav Petkov wrote:
-> Hi folks,
-> 
-> got this when trying to suspend my workstation to disk, it was still
-> responsive so I could catch the splat:
-> 
-> [22020.334381] ------------[ cut here ]------------
-> [22020.339057] list_del corruption. next->prev should be ffffffff8b7a9a40, but was ffff8881020bced0
-> [22020.347764] WARNING: CPU: 12 PID: 13134 at lib/list_debug.c:54 __list_del_entry_valid+0x8a/0x90
-> [22020.356397] Modules linked in: fuse essiv authenc nft_counter nf_tables libcrc32c nfnetlink loop dm_crypt dm_mod amd64_edac edac_mce_amd kvm_amd snd_hda_codec_realtek snd_hda_codec_generic led_class kvm ledtrig_audio snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_pcm snd_timer irqbypass crct10dif_pclmul snd crc32_pclmul crc32c_intel ghash_clmulni_intel pcspkr k10temp soundcore gpio_amdpt gpio_generic acpi_cpufreq radeon aesni_intel glue_helper crypto_simd cryptd pinctrl_amd
-> [22020.400855] CPU: 12 PID: 13134 Comm: hib.sh Not tainted 5.11.0-rc1+ #2
-> [22020.400857] Hardware name: Micro-Star International Co., Ltd. MS-7B79/X470 GAMING PRO (MS-7B79), BIOS 1.70 01/23/2019
-> [22020.400858] RIP: 0010:__list_del_entry_valid+0x8a/0x90
-> [22020.400861] Code: 46 00 0f 0b 31 c0 c3 48 89 f2 48 89 fe 48 c7 c7 78 30 0f 82 e8 24 6c 46 00 0f 0b 31 c0 c3 48 c7 c7 b8 30 0f 82 e8 13 6c 46 00 <0f> 0b 31 c0 c3 cc 48 85 d2 89 f8 74 20 48 8d 0c 16 0f b6 16 48 ff
-> [22020.400863] RSP: 0018:ffffc90001fbbcf8 EFLAGS: 00010292
-> [22020.441503] RAX: 0000000000000054 RBX: ffffffff8b7a9a40 RCX: 0000000000000000
-> [22020.441505] RDX: ffff8887fef26600 RSI: ffff8887fef17450 RDI: ffff8887fef17450
-> [22020.441505] RBP: 0000000000003f82 R08: ffff8887fef17450 R09: ffffc90001fbbb38
-> [22020.441506] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
-> [22020.441507] R13: 0000000000000080 R14: 0000000000000480 R15: 000000000000019b
-> [22020.441508] FS:  00007f51c72f9740(0000) GS:ffff8887fef00000(0000) knlGS:0000000000000000
-> [22020.490045] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [22020.490046] CR2: 00005557afb81018 CR3: 000000012099e000 CR4: 00000000003506e0
-> [22020.490047] Call Trace:
-> [22020.490048]  ttm_pool_shrink+0x61/0xd0
-> [22020.508965]  ttm_pool_shrinker_scan+0xa/0x20
-> [22020.508966]  shrink_slab.part.0.constprop.0+0x1a1/0x330
-> [22020.508970]  drop_slab_node+0x37/0x50
-> [22020.522011]  drop_slab+0x33/0x60
-> [22020.522012]  drop_caches_sysctl_handler+0x70/0x80
-> [22020.522015]  proc_sys_call_handler+0x140/0x220
-> [22020.534286]  new_sync_write+0x10b/0x190
-> [22020.534289]  vfs_write+0x1b7/0x290
-> [22020.534291]  ksys_write+0x60/0xe0
-> [22020.544762]  do_syscall_64+0x33/0x40
-> [22020.544765]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [22020.553320] RIP: 0033:0x7f51c73eaff3
-> [22020.553322] Code: 8b 15 a1 ee 0c 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 55 c3 0f 1f 40 00 48 83 ec 28 48 89 54 24 18
-> [22020.553324] RSP: 002b:00007ffd0a748ef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> [22020.553325] RAX: ffffffffffffffda RBX: 0000000000000002 RCX: 00007f51c73eaff3
-> [22020.553326] RDX: 0000000000000002 RSI: 000056039fd0ee70 RDI: 0000000000000001
-> [22020.553327] RBP: 000056039fd0ee70 R08: 000000000000000a R09: 0000000000000001
-> [22020.553327] R10: 000056039fd0e770 R11: 0000000000000246 R12: 0000000000000002
-> [22020.611218] R13: 00007f51c74bb6a0 R14: 0000000000000002 R15: 00007f51c74bb8a0
-> [22020.611220] ---[ end trace f7ea94a6ddb98f71 ]---
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
-> 
+This fixes the following problems with the s6e63m0 display
+bindings:
 
-Here is a typo fix. Wish it helps spot the reason behind the slpat.
+- When used on the DSI bus, the panel is listed directly as
+  a subnode on the DSI host so the "port" node is not
+  compulsory. Remove "port" from required properties.
 
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -188,10 +188,12 @@ static int ttm_pool_map(struct ttm_pool
- 		addr = dma->addr;
- 	} else {
- 		size_t size = (1ULL << order) * PAGE_SIZE;
-+		int err;
+- The panel contains its own backlight control, so reference
+  the backlight common properties and list default-brightness
+  and max-brightness as supported but optional properties.
+
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ .../devicetree/bindings/display/panel/samsung,s6e63m0.yaml    | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+index 1dab80ae1d0a..ea58df49263a 100644
+--- a/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.yaml
+@@ -11,6 +11,7 @@ maintainers:
  
- 		addr = dma_map_page(pool->dev, p, 0, size, DMA_BIDIRECTIONAL);
--		if (dma_mapping_error(pool->dev, **dma_addr))
--			return -EFAULT;
-+		err = dma_mapping_error(pool->dev, addr);
-+		if (err)
-+			return err;
- 	}
+ allOf:
+   - $ref: panel-common.yaml#
++  - $ref: /schemas/leds/backlight/common.yaml#
  
- 	for (i = 1 << order; i ; --i) {
+ properties:
+   compatible:
+@@ -19,6 +20,8 @@ properties:
+   reg: true
+   reset-gpios: true
+   port: true
++  default-brightness: true
++  max-brightness: true
+ 
+   vdd3-supply:
+     description: VDD regulator
+@@ -31,7 +34,6 @@ required:
+   - reset-gpios
+   - vdd3-supply
+   - vci-supply
+-  - port
+ 
+ unevaluatedProperties: false
+ 
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
