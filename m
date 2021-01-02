@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEEC2E91DC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF2B2E91E5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 930C989D9B;
-	Mon,  4 Jan 2021 08:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE5089C46;
+	Mon,  4 Jan 2021 08:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB21896C7
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jan 2021 21:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1609535908;
- bh=SEBirRQNsdff7T4jVtygRU8Hbx07IqHvJ56BFykpua8=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=Oo7RTtXBc5rWlVR6wJuYqbyuwwvq4GamzyiTDl4DskGgPByvM9JBwl4MwAgMgMq3D
- WY0RCWHR/QDxHy5y/XenKPnYsh2e1IZKEi3lK85iFmH+Fy60T+iz8vAuDK1hxx/yAi
- H6oumVuVBV6MSVuTuAkrtLfbbzx9zT6Oq/Gnl5X0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.215.57]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuDXz-1k11FG3Xp7-00udbE; Fri, 01
- Jan 2021 22:18:27 +0100
-From: =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mipi-dbi: Switch to new kerneldoc syntax for named
- variable macro argument
-Date: Fri,  1 Jan 2021 22:18:17 +0100
-Message-Id: <20210101211818.1023919-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA0F8985A;
+ Sat,  2 Jan 2021 18:50:46 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id y5so21363913iow.5;
+ Sat, 02 Jan 2021 10:50:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=U+nEvYMhuyW6PaypDd/7+1xbjn6+DExMKU2y+xWKoMo=;
+ b=te0bgvD5lXMSmA27Y4VuxPXH10PKMeYY9RkBMBuyMV+Nf6f6Eeny3sufT1EhnoCGif
+ kdgQxyoiocUKZt8s1JWEUpFSn6tw/HTe4KLWuJlUTJndO1d4rRDk/d67ieREb0xyp0yJ
+ dYiVeg5D2UlKH2KRuaxxFCP9t0eumiz3E2T9zChkpmXcq0U+vDL5NcyK5SSrg012Gia9
+ oFOyq3I+mY1B7iQCUk3OWlxAvXzu8Z6xDA49xok72K9TUPPvfrbWu4RQkOEipq072e+5
+ /KN3TTW9sTtbb+jBJd2Ju45m3VJIeDHcdudLU20eNLndB3qcTK7IbERyolQ2xF1WAJel
+ X3qQ==
+X-Gm-Message-State: AOAM530/tKkjGP/GyoRP1VStmCB4GTSs+b82355QZZpi7OwnMmcnqWnr
+ LQJxUcD498kUgwQ3zw39eYY/z1YRu/tLvkJtktc=
+X-Google-Smtp-Source: ABdhPJzTLhFY/dKxIbceehQmCOBJtPtQzWWGyD8lzHgA4m5oZrHUCB8Jn4aoAVTEVSdnhN9SzqBiWsAIbRcoiVde09o=
+X-Received: by 2002:a5e:de4a:: with SMTP id e10mr7994789ioq.52.1609613445496; 
+ Sat, 02 Jan 2021 10:50:45 -0800 (PST)
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:/jcMXDBSXErs310I68+O8MxCNGpK+ySrMql4+hvocEhdCZ4Ywi+
- PJDHDM5RJENBZ5yVRUQnUSCzywEb3+odIpnPJgr3r1PpYG5jtIWhFxv1SwAWd2zaAiMVRT2
- /525Z7UuWbLHgaFZwNNay1El/ykz4YLAIhzkeHR0j1OO2Jxqmz2mpIQ6H+B5+1pbFDgsIx1
- QbcsEaDV5vnlbWbdkm/Rg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5fVYP1534iA=:HCeJZ6esZ+U5WleLXzQP2o
- PMrTjornA64FZDJZYHBEFI0mHjQE9CoUEnIkNUA6EZL789ATeELQHLpnPyMoByZHl39yWaMD5
- 0jOCr2tH1TqELLCsMRIntgAxZ0qo4bXNc7DNrseg9PwOjd4TTMHFQ2QNeaZQ+Hv6fA45NIGQu
- 4Wx8wiJEFJbJFl9oPB24joQmRxUDEpL4cGlQb2BklKiAA/YlLD/C1JeGe53WDMjgPE6mr9Ww3
- LahxfWyHIdvpBbkAGsYIe/hsZCDpPgMDzfMs9HBahT+rWkluJIQAmbheGJGfAXts96JRa8SjE
- ++NcFvkjT6lBvy2cowSv67Pbmwy5mM7RJkoA8yai8kNZWDbkNZsAefG9/SSIDeoNm0Cj6NRkK
- hF41GsfXxR93y4KKE6kuzgEIyux2/G1CoXCwL62bOSRyAePp/RrnZbjti5LkAFB0l76omH7jk
- 0QPBJkaimRgg99ylmzc/zRgkrllz5AR1jqVFC0geMdoCY93XMAEG8T80xIK9tTx6Fp1Nj4v7J
- fu8/BF7OENUiD+QHSz+tr+EByIcxKXaPOVA2HqVJiCW0zu+Y1Ta9cIhAJjoYpaFz+KTfOtxuJ
- a5LHySAWkHwyD9dCmtR0yWmCdHb+YzFTya3UyoeGxjaOid3R3B3VNpieWpG8jcKJ5WO22kHqK
- PiwbMbyDZso6UJoVpunMHGb37V+yMOsvB0QRMfuk+zBsF21NcFArF9l3S/282YCDr8HWjY+Jo
- OFl9GvM42f4AmW7QhojHG5WKVSJzvDlArfrxWGIcpanCny+izUuN+kWSMQtlHvEJL4NNw9Se3
- nvwQ5YfKe3BZ9B7Uw4PJRwQHW0Lc9HewBTHwY87GahFVdzzVjVWrj/7dFb26a83oX/0kD/Ibw
- 796Goc/TXN8ZbDxjUlQA==
+From: Davide Corrado <davide@davidecorrado.eu>
+Date: Sat, 2 Jan 2021 19:50:33 +0100
+Message-ID: <CAM0ywnxwE9bRafJJZcg4w8GooXiDrJKV0gt+p9XJv=Y6HrmA0w@mail.gmail.com>
+Subject: amdgpu does not support 3840x2160@30Hz on kaveri apu
+To: alexander.deucher@amd.com
 X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,30 +49,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============1873009562=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHN5bnRheCB3aXRob3V0IGRvdHMgaXMgYXZhaWxhYmxlIHNpbmNlIGNvbW1pdCA0Mzc1NmUz
-NDdmMjEKKCJzY3JpcHRzL2tlcm5lbC1kb2M6IEFkZCBzdXBwb3J0IGZvciBuYW1lZCB2YXJpYWJs
-ZSBtYWNybyBhcmd1bWVudHMiKS4KClRoZSBzYW1lIEhUTUwgb3V0cHV0IGlzIHByb2R1Y2VkIHdp
-dGggYW5kIHdpdGhvdXQgdGhpcyBwYXRjaC4KClNpZ25lZC1vZmYtYnk6IEpvbmF0aGFuIE5ldXNj
-aMOkZmVyIDxqLm5ldXNjaGFlZmVyQGdteC5uZXQ+Ci0tLQogaW5jbHVkZS9kcm0vZHJtX21pcGlf
-ZGJpLmggfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbWlwaV9kYmkuaCBiL2luY2x1ZGUvZHJt
-L2RybV9taXBpX2RiaS5oCmluZGV4IGMyODI3Y2VhYmEwZDIuLmY1NDNkNmUzZTgyMmMgMTAwNjQ0
-Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9taXBpX2RiaS5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9t
-aXBpX2RiaS5oCkBAIC0xNzIsNyArMTcyLDcgQEAgaW50IG1pcGlfZGJpX2J1Zl9jb3B5KHZvaWQg
-KmRzdCwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCiAgKiBtaXBpX2RiaV9jb21tYW5kIC0g
-TUlQSSBEQ1MgY29tbWFuZCB3aXRoIG9wdGlvbmFsIHBhcmFtZXRlcihzKQogICogQGRiaTogTUlQ
-SSBEQkkgc3RydWN0dXJlCiAgKiBAY21kOiBDb21tYW5kCi0gKiBAc2VxLi4uOiBPcHRpb25hbCBw
-YXJhbWV0ZXIocykKKyAqIEBzZXE6IE9wdGlvbmFsIHBhcmFtZXRlcihzKQogICoKICAqIFNlbmQg
-TUlQSSBEQ1MgY29tbWFuZCB0byB0aGUgY29udHJvbGxlci4gVXNlIG1pcGlfZGJpX2NvbW1hbmRf
-cmVhZCgpIGZvcgogICogZ2V0L3JlYWQuCi0tCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============1873009562==
+Content-Type: multipart/alternative; boundary="000000000000a5062005b7ef5591"
+
+--000000000000a5062005b7ef5591
+Content-Type: text/plain; charset="UTF-8"
+
+hello, I'd like to report this issue that I am having since I updated my
+display (samsung U28E590). The amdgpu does not support the native
+resolution of my new monitor, which is 3840x2160*.* Using a HDMI or DVI
+connection (I tried both, same results), the maximum supported refresh is
+30Hz, so I'm stuck with that (don't have a displayport). The radeon module
+works fine, I'm having this issue just when I use amdgpu (which I'd like
+to, because performance is better).
+
+Some info of my hardware:
+
+cpu: AMD A10-7870K Radeon R7, 12 Compute Cores 4C+8G
+kernel version (I tried different ones and different linux distros, same
+results!): 5.9.16-200.fc33.x86_64 #1 SMP Mon Dec 21 14:08:22 UTC 2020
+x86_64 x86_64 x86_64 GNU/Linux
+Monitor: Samsung U28E590.
+
+description:
+If I boot the system using amdgpu and no video mode selection, the system
+boots but I don't get a screen during boot and in wayland. I can connect
+using ssh, so the system is running fine, just no display; If I force a
+full HD resolution with "video:" in the kernel line, I can see the boot
+process but the screen disappears when wayland starts (because the default
+resolution is 3840x2160@30Hz). Using a full HD monitor results in no
+issues, so it must be related to this very 4k resolution.
+
+As I have already stated, radeon module works with the same
+software/hardware configuration.
+thanks you so much for your time :-)
+
+-- 
+Davide Corrado
+UNIX Team Leader
+
+Via Abramo Lincoln, 25
+20129 Milano
+
+Tel +39 3474259950
+
+--000000000000a5062005b7ef5591
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>hello, I&#39;d like to report this issue that I am ha=
+ving since I updated my display (samsung U28E590). The amdgpu does not supp=
+ort the native resolution of my new monitor, which is 3840x2160<i>.</i> Usi=
+ng a HDMI or DVI connection (I tried both, same results), the maximum suppo=
+rted refresh is 30Hz, so I&#39;m stuck with that (don&#39;t have a displayp=
+ort). The radeon module works fine, I&#39;m having this issue just when I u=
+se amdgpu (which I&#39;d like to, because performance is better).</div><div=
+><br></div><div>Some info of my hardware:</div><div><br></div><div>cpu: AMD=
+ A10-7870K Radeon R7, 12 Compute Cores 4C+8G</div><div>kernel version (I tr=
+ied different ones and different linux distros, same results!): 5.9.16-200.=
+fc33.x86_64 #1 SMP Mon Dec 21 14:08:22 UTC 2020 x86_64 x86_64 x86_64 GNU/Li=
+nux</div><div>Monitor: Samsung U28E590.</div><div><br></div><div>descriptio=
+n:<br></div><div>If I boot the system using amdgpu and no video mode select=
+ion, the system boots but I don&#39;t get a screen during boot and in wayla=
+nd. I can connect using ssh, so the system is running fine, just no display=
+; If I force a full HD resolution with &quot;video:&quot; in the kernel lin=
+e, I can see the boot process but the screen disappears when wayland starts=
+ (because the default resolution is 3840x2160@30Hz). Using a full HD monito=
+r results in no issues, so it must be related to this very 4k resolution.<b=
+r></div><div><br></div><div>As I have already stated, radeon module works w=
+ith the same software/hardware configuration.<br></div>thanks you so much f=
+or your time :-)<br><div><div><br>-- <br><div dir=3D"ltr" class=3D"gmail_si=
+gnature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">Davide Corrado<br><div=
+>UNIX Team Leader<span><br></span></div><div><br></div>Via Abramo Lincoln, =
+25<br>20129 Milano<br><br>Tel +39 3474259950<br></div></div></div></div></d=
+iv></div></div></div></div></div></div>
+
+--000000000000a5062005b7ef5591--
+
+--===============1873009562==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1873009562==--
