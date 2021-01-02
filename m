@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479B52E87FC
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jan 2021 16:52:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DB22E883A
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jan 2021 19:35:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7BF897E0;
-	Sat,  2 Jan 2021 15:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AAE898AF;
+	Sat,  2 Jan 2021 18:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A24897E0
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jan 2021 15:52:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A0713207F7
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jan 2021 15:52:09 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 94B18816ED; Sat,  2 Jan 2021 15:52:09 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211003] New: radeon "BUG: unable to handle page fault for
- address" when hot-unplugging another PCI-e device
-Date: Sat, 02 Jan 2021 15:52:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jernej.jakob@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-211003-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D68898AF;
+ Sat,  2 Jan 2021 18:35:06 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id m5so26850237wrx.9;
+ Sat, 02 Jan 2021 10:35:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GpHuNKw7qLRBcfNt3Fox/IAI2b27BTyigIUJlqA9DoU=;
+ b=uwdgIiUdTbEEi6+uNon0c6gFbUsMydqRmqxd9a6KQuzEHx4Ggy68dB7rq+TL8z3M9M
+ ycBPPVg47VEidGvW0Y4RglN+hi/jmcKif+XrOSckWIg7/XSLzUbYK2SglrPwtzHJUmJH
+ aW3KMyZGFRB+Z2AnCxFOM3KjcPvKTbImVFU2CSWz4qrT3kbgiNaPB2fVMOULesa93z+B
+ D+IuWLffOWdfUvIvMVBreMiXH0jH1HDPgS6bauz8+WKM0a6xKBQgWTRhsF8BeBHVeT6a
+ htzVweUc6Ib4QU5waENUOntDT4kcH8+6f0T/m/p/VYROy4Jm6DQqDmjaJ9NrjULPWmkb
+ Vgng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GpHuNKw7qLRBcfNt3Fox/IAI2b27BTyigIUJlqA9DoU=;
+ b=B1chqvxwRj8hvWgpzT7+bXmcj2FbAizyicyxWg5n1PUOXl8aegVjow7Sz44nSswA30
+ WUr4d9neDWpIbGtnVDL/RKO33B3SMspEQq3J9zUJ3xqKHkKgSlztjvETDhof5od2U74Q
+ yDODah5JhrJWYavAqL2bOKSB4Em5l/ATHZcF3u4ouh1QPThGo1ZlItf3QmswUql1yvMy
+ x/8AoMI3RcjYPCIldZ97BmXtq+5BFxCAFx4IhiqPxCTWRVrAyxl4fbcbLjf0vAgqFjzd
+ dgOWcbfGidNfXbW4VzydYDdjktITry1fi6OrMV5yS029hl8P9EwPUUd7FfLEmj/I1TSs
+ peww==
+X-Gm-Message-State: AOAM531ieOCKCelDUorD5nWBGT0nlCdRalmIjtGNVTxM9DFbb6gQF7vB
+ b+ODtlcBgqm9fnk6FihMtWj75FEuBhpwCjgWo4o=
+X-Google-Smtp-Source: ABdhPJzQjpBPVEFZhAunvHy7HqDlPUm05Y5R0abwPyaiBuYnZlBOaV0U6/EUtr1aEAgCFerWSGm0jwGte1Xf7jtbLOc=
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr72329819wrn.107.1609612505304; 
+ Sat, 02 Jan 2021 10:35:05 -0800 (PST)
 MIME-Version: 1.0
+References: <20201231205136.11422-1-mario.kleiner.de@gmail.com>
+ <CAP+8YyE4H5mL3uj-T4uG0nz75XmgaZ6etXX6YxxdtO4-rL=5qA@mail.gmail.com>
+ <CAEsyxyiLrpB872LdAW8-HMVC-rxf7YF8K+B51Ae9nyEvGaG1Sw@mail.gmail.com>
+ <CAP+8YyHcUt0Rv_0ov5DCcm+wxeQFCqiW1vC_Pe4TdKzRzmu3fw@mail.gmail.com>
+In-Reply-To: <CAP+8YyHcUt0Rv_0ov5DCcm+wxeQFCqiW1vC_Pe4TdKzRzmu3fw@mail.gmail.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Sat, 2 Jan 2021 19:34:54 +0100
+Message-ID: <CAEsyxyiRNz8GRfM1hAxzVHAFwYzkyiM6OTvvjOAHtQCoCyhRjg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix pageflipping for XOrg in Linux 5.11+
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,138 +63,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211003
+On Sat, Jan 2, 2021 at 4:49 PM Bas Nieuwenhuizen
+<bas@basnieuwenhuizen.nl> wrote:
+>
+> On Sat, Jan 2, 2021 at 4:05 PM Mario Kleiner <mario.kleiner.de@gmail.com> wrote:
+> >
+> > On Sat, Jan 2, 2021 at 3:05 PM Bas Nieuwenhuizen
+> > <bas@basnieuwenhuizen.nl> wrote:
+> > >
+> > > I think the problem here is that application A can set the FB and then
+> > > application B can use getfb2 (say ffmpeg).
+> >
+> >
+> > Yes. That, and also the check for 'X' won't get us far, because if i
+> > use my own software Psychtoolbox under Vulkan in direct display mode
+> > (leased RandR outputs), e.g., under radv or amdvlk, then the ->comm
+> > name will be "PTB mainthread" and 'P' != 'X'. But the Vulkan drivers
+> > all use legacy pageflips as well in der WSI/drm, so if Vulkan gets
+> > framebuffers with DCC modifiers, it would just fail the same way.
+> >
+> > Neither would it work to check for atomic client, as they sometimes
+> > use atomic commit ioctl only for certain use cases, e.g., setting HDR
+> > metadata, but still use the legacy pageflip ioctl for flipping.
+> >
+> > So that patch of mine is not the proper solution for anything non-X.
+> >
+> > >
+> > > https://lists.freedesktop.org/archives/dri-devel/2021-January/292761.html
+> > > would be my alternative patch.
+> > >
+> >
+> > I also produced and tested hopefully better alternative to my original
+> > one yesterday, but was too tired to send it. I just sent it out to
+> > you:
+> > https://lists.freedesktop.org/archives/dri-devel/2021-January/292763.html
+> >
+> > This one keeps the format_info check as is for non-atomic drivers, but
+> > no longer rejects pageflip if the underlying kms driver is atomic. I
+> > checked, and current atomic drivers use the drm_atomic... helper for
+> > implementing legacy pageflips, and that helper just wraps the pageflip
+> > into a "set new fb on plane" + atomic check + atomic commit.
+> >
+> > My understanding is that one can do these format changes safely under
+> > atomic commit, so i hope this would be safe and future proof.
+>
+> So I think the difference between your patch and mine seem to boil
+> down to whether we want any uabi extension, since AFAICT none of the
+> pre-atomic drivers support modifiers.
+>
 
-            Bug ID: 211003
-           Summary: radeon "BUG: unable to handle page fault for address"
-                    when hot-unplugging another PCI-e device
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4.80-gentoo-r1-x86_64
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: jernej.jakob@gmail.com
-        Regression: No
+That's a point: Although the uabi extension would only relax rules,
+instead of tighten them, so current drm clients would be ok, i guess.
 
-radeon driver, bug happens when hot-unplugging another PCI-e card that is not
-the video card (it was removed via /sys/bus/pci/device/.../remove before
-hot-unplugging). It may be a hardware-induced error as this motherboard wasn't
-designed for hot-plugging (but it usually works)
+Afaict the current non-atomic modesetting drivers are:
 
-[62004.135491] radeon 0000:01:00.0: ring 0 stalled for more than 23820msec
-[62004.135496] radeon 0000:01:00.0: GPU lockup (current fence id
-0x000000000004145c last fence id 0x00000000000414f3 on ring 0)
-[62004.465908] BUG: unable to handle page fault for address: ffffac09404bcffc
-[62004.465914] #PF: supervisor read access in kernel mode
-[62004.465917] #PF: error_code(0x0000) - not-present page
-[62004.465919] PGD 107d34067 P4D 107d34067 PUD 0 
-[62004.465925] Oops: 0000 [#1] SMP PTI
-[62004.465929] CPU: 3 PID: 1397 Comm: eadedCompositor Not tainted
-5.4.80-gentoo-r1-x86_64 #1
-[62004.465932] Hardware name:  /DP965LT, BIOS MQ96510J.86A.1761.2009.0326.0001
-03/26/2009
-[62004.465973] RIP: 0010:radeon_ring_backup+0xc0/0x140 [radeon]
-[62004.465977] Code: c6 49 89 06 48 85 c0 74 7b 41 8d 7c 24 ff 31 d2 48 c1 e7
-02 eb 07 49 8b 06 48 83 c2 04 48 8b 75 08 8d 4b 01 89 db 48 8d 34 9e <8b> 36 89
-34 10 23 4d 54 89 cb 48 39 d7 75 dd 4c 89 ef e8 d9 2d
- 0b
-[62004.465980] RSP: 0018:ffffac0543e6fc30 EFLAGS: 00010202
-[62004.465983] RAX: ffff9514cd800000 RBX: 00000000ffffffff RCX:
-0000000000000000
-[62004.465986] RDX: 0000000000000000 RSI: ffffac09404bcffc RDI:
-00000000000a7b80
-[62004.465988] RBP: ffff9515da7514c8 R08: 00000000000303c7 R09:
-000000000022c000
-[62004.465991] R10: 00000000000303c0 R11: 0000000000000000 R12:
-0000000000029ee1
-[62004.465994] R13: ffff9515da7514a8 R14: ffffac0543e6fc90 R15:
-ffff9515da750000
-[62004.465997] FS:  00007f38769ff640(0000) GS:ffff9515e3b80000(0000)
-knlGS:0000000000000000
-[62004.466000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[62004.466002] CR2: ffffac09404bcffc CR3: 00000001f541e000 CR4:
-00000000000006e0
-[62004.466005] Call Trace:
-[62004.466033]  radeon_gpu_reset+0xb3/0x2e0 [radeon]
-[62004.466054]  ? radeon_gem_busy_ioctl+0x70/0x70 [radeon]
-[62004.466074]  radeon_gem_handle_lockup.part.0+0xa/0x20 [radeon]
-[62004.466096]  drm_ioctl_kernel+0xaa/0xf0 [drm]
-[62004.466109]  drm_ioctl+0x208/0x390 [drm]
-[62004.466130]  ? radeon_gem_busy_ioctl+0x70/0x70 [radeon]
-[62004.466134]  ? do_futex+0x16c/0xd10
-[62004.466138]  ? ___sys_recvmsg+0x88/0xc0
-[62004.466154]  radeon_drm_ioctl+0x49/0x80 [radeon]
-[62004.466158]  do_vfs_ioctl+0x40e/0x670
-[62004.466161]  ksys_ioctl+0x5e/0x90
-[62004.466164]  __x64_sys_ioctl+0x16/0x20
-[62004.466167]  do_syscall_64+0x5f/0x200
-[62004.466170]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[62004.466172] RIP: 0033:0x7f38ee60ca57
-[62004.466174] Code: c0 75 b5 49 8d 3c 1c e8 17 ff ff ff 85 c0 78 b6 4c 89 e0
-5b 5d 41 5c c3 66 2e 0f 1f 84 00 00 00 00 00 90 b8 10 00 00 00 0f 05 <48> 3d 01
-f0 ff ff 73 01 c3 48 8b 0d d9 63 0c 00 f7 d8 64 89 01 48
-[62004.466176] RSP: 002b:00007f38769fe5e8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[62004.466178] RAX: ffffffffffffffda RBX: 00007f38769fe630 RCX:
-00007f38ee60ca57
-[62004.466180] RDX: 00007f38769fe630 RSI: 0000000040086464 RDI:
-000000000000001d
-[62004.466182] RBP: 0000000040086464 R08: 00007f38700add90 R09:
-ffffffffffffffff
-[62004.466183] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000001
-[62004.466185] R13: 000000000000001d R14: 00007f38701ed5b0 R15:
-0000000000000000
-[62004.466187] Modules linked in: mptsas mptscsih scsi_transport_sas mptctl
-mptbase ipv6 crc_ccitt cfg80211 rfkill 8021q garp mrp stp llc radeon kvm_intel
-snd_hda_codec_idt iTCO_wdt snd_hda_codec_generic iTCO_vendor_support gpio_ich
-snd_hda_codec_hdmi ledtrig_audio i2c_algo_bit kvm snd_hda_intel ppdev
-snd_intel_nhlt firewire_ohci irqbypass snd_hda_codec pcspkr serio_raw i2c_i801
-ttm ftdi_sio firewire_core lpc_ich snd_hda_core crc_itu_t drm_kms_helper
-snd_hwdep mfd_core joydev snd_pcm snd_timer ata_generic coretemp usbserial
-pata_acpi snd drm mei_me parport_pc soundcore backlight mei i2c_core mac_hid
-parport acpi_cpufreq ext4 mbcache jbd2 serpent_sse2_x86_64 serpent_generic
-dm_crypt dm_mod sd_mod xhci_pci xhci_hcd e1000e ahci libahci pata_marvell
-uhci_hcd
-[62004.466223] CR2: ffffac09404bcffc
-[62004.466226] ---[ end trace 03961b91fcf60642 ]---
-[62004.466246] RIP: 0010:radeon_ring_backup+0xc0/0x140 [radeon]
-[62004.466248] Code: c6 49 89 06 48 85 c0 74 7b 41 8d 7c 24 ff 31 d2 48 c1 e7
-02 eb 07 49 8b 06 48 83 c2 04 48 8b 75 08 8d 4b 01 89 db 48 8d 34 9e <8b> 36 89
-34 10 23 4d 54 89 cb 48 39 d7 75 dd 4c 89 ef e8 d9 2d 0b
-[62004.466250] RSP: 0018:ffffac0543e6fc30 EFLAGS: 00010202
-[62004.466252] RAX: ffff9514cd800000 RBX: 00000000ffffffff RCX:
-0000000000000000
-[62004.466254] RDX: 0000000000000000 RSI: ffffac09404bcffc RDI:
-00000000000a7b80
-[62004.466256] RBP: ffff9515da7514c8 R08: 00000000000303c7 R09:
-000000000022c000
-[62004.466257] R10: 00000000000303c0 R11: 0000000000000000 R12:
-0000000000029ee1
-[62004.466259] R13: ffff9515da7514a8 R14: ffffac0543e6fc90 R15:
-ffff9515da750000
-[62004.466261] FS:  00007f38769ff640(0000) GS:ffff9515e3b80000(0000)
-knlGS:0000000000000000
-[62004.466263] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[62004.466264] CR2: ffffac09404bcffc CR3: 00000001f541e000 CR4:
-00000000000006e0
+gma500, shmobile, radeon, nouveau, amdgpu non-DC.
 
--- 
-You may reply to this email to add a comment.
+gma500, shmobile and radeon don't use modifiers, and probably won't
+get any in the future?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Also amdgpu without DC? Atm. you only enable explicit modifiers for >=
+FAMILY_AI, ie. Vega and later, and DC is a requirement for Vega and
+later, so modifiers ==> DC ==> atomic.
+
+But some of your code was moved from amdgpu_dm to amdgpu_display
+specifically to allow compiling it without DC, and any client i tested
+apart from Waylands weston (and that only for cursor planes) didn't
+use addfb2 ioctl with modifiers at all, so all of X and Vulkan
+currently hits the new convert_tiling_flags_to_modifier() fallback
+code that converts old style tiling flags into modifiers. That
+fallback path is the reason for triggering this issue in the first
+place, as it converts some tiling flags to DCC/DCC-retile modifiers
+and therefore changes the format_info.
+
+Modifiers are only enabled if DC is on. So as long as nobody decides
+to add modifiers in the legacy non-DC kms path, we'd be ok.
+
+I'm less sure about nouveau. It uses modifiers, but has atomic support
+only on nv50+ and that atomic support is off by default -- needs a
+nouveau.nouveau_atomic=1 boot parameter to switch it on. It seems to
+enable modifier support unconditionally regardless if atomic or not,
+see:
+https://elixir.bootlin.com/linux/v5.11-rc1/source/drivers/gpu/drm/nouveau/nouveau_display.c#L703
+
+Atm. nouveau doesn't assign a new format_info though, so wouldn't
+trigger this issue atm.
+
+So i think the decision is about relaxing uabi a bit with my patch,
+vs. less future-proofing with your patch?
+
+Atm. both patches would solve the immediate problem, which is very
+serious for my users' use cases, so I'd be ok with any of them. I just
+don't want this issue to repeat in the future. Tracking it down killed
+almost two full days for me, although I involuntarily learned more
+about the current state of modifiers in kernel and user space than I
+ever thought I wanted to know :/.
+
+-mario
+
+
+
+> >
+> > > (I'm not good at detecting the effects of tearing  apparently but
+> > > tested this avoids the pageflip failure by debug-prints)
+> >
+> >
+> > XOrg log (e.g., ~/.local/share/xorg/XOrg0.log on current Ubuntu's) is
+> > a good place on native XOrg, where the amdgpu-ddx was flooding the log
+> > with present flip failures. Or drm.debug=4 for the kernel log.
+> >
+> > Piglit has the OML_sync_control tests for timing correctness, although
+> > they are mostly pointless if not run in fullscreen mode, which they
+> > are not by default.
+> >
+> > I can also highly recommend (sudo apt install octave-psychtoolbox-3)
+> > on Debian/Ubutu based systems for X11. It is used for neuroscience and
+> > medical research and critically depends on properly working pageflips
+> > and timestamping on native X11/GLX under OpenGL and recently also
+> > under Vulkan/WSI (radv,anv,amdvlk) in direct display mode. Working
+> > FOSS AMD and Intel are especially critical for this research, so far
+> > under X11+Mesa/OpenGL, but lately also under Vulkan direct display
+> > mode. It has many built-in correctness tests and will shout angrily if
+> > something software-detectable is broken wrt. pageflipping or timing.
+> > E.g., octave-cli --eval PerceptualVBLSyncTest
+> > PerceptualVBLSyncTest creates a flicker pattern that will tear like
+> > crazy under Mesa if pageflipping isn't used. Also good to test
+> > synchronization on dual-display setups, e.g., for udal-display stereo
+> > presentation.
+> >
+> > I was actually surprised that this patch made it through the various
+> > test suites and into drm-next. I thought page-flipping was covered
+> > well enough somewhere.
+>
+> I don't think there are any tests using the AMDGPU implicit modifiers
+> (not in IGT for anything except linear at least)
+>
+> >
+> > Happy new year!
+> > -mario
+> >
+> > >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
