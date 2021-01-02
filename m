@@ -2,40 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF2B2E91E5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6D92E9206
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE5089C46;
-	Mon,  4 Jan 2021 08:39:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBED89E98;
+	Mon,  4 Jan 2021 08:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA0F8985A;
- Sat,  2 Jan 2021 18:50:46 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id y5so21363913iow.5;
- Sat, 02 Jan 2021 10:50:46 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA39689690;
+ Sat,  2 Jan 2021 20:26:14 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id r3so27072106wrt.2;
+ Sat, 02 Jan 2021 12:26:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uuaswafA4TQVvz1UZDdvhjuiKY9mruy0RJy3iy5N0mA=;
+ b=p3yCOhnYofMOj78YUL7K29Ms+2FxrUzvnsAF11Neo6tRCNTVQGMZd7lvKJrc/mCIfs
+ /ften1O0U3MrV614/ggLyDGT8TqlzR23qZi7nsUg80nRFZeTh3qH3SYvkx+gwpSnFb11
+ Dui+1C/tbdkTBs1XZJUBAEgm0417BZtl5SmNSd3I1LrOxI2iGoGiIiVSYrfUzWi+AJPx
+ RxcZVtsrHxg78ZUuObilVVx/egGgkF5jp3jcwXKZqx9ImXMt3UdJ5a3sFsgRtQcOGqG4
+ Jmb/XrZQlpdpQLGNfXeBy3ZVqZEhVTwnO43NaT+bUbLMnxPqHEnb+h6+Rpc+vI6DS9iY
+ WXDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=U+nEvYMhuyW6PaypDd/7+1xbjn6+DExMKU2y+xWKoMo=;
- b=te0bgvD5lXMSmA27Y4VuxPXH10PKMeYY9RkBMBuyMV+Nf6f6Eeny3sufT1EhnoCGif
- kdgQxyoiocUKZt8s1JWEUpFSn6tw/HTe4KLWuJlUTJndO1d4rRDk/d67ieREb0xyp0yJ
- dYiVeg5D2UlKH2KRuaxxFCP9t0eumiz3E2T9zChkpmXcq0U+vDL5NcyK5SSrg012Gia9
- oFOyq3I+mY1B7iQCUk3OWlxAvXzu8Z6xDA49xok72K9TUPPvfrbWu4RQkOEipq072e+5
- /KN3TTW9sTtbb+jBJd2Ju45m3VJIeDHcdudLU20eNLndB3qcTK7IbERyolQ2xF1WAJel
- X3qQ==
-X-Gm-Message-State: AOAM530/tKkjGP/GyoRP1VStmCB4GTSs+b82355QZZpi7OwnMmcnqWnr
- LQJxUcD498kUgwQ3zw39eYY/z1YRu/tLvkJtktc=
-X-Google-Smtp-Source: ABdhPJzTLhFY/dKxIbceehQmCOBJtPtQzWWGyD8lzHgA4m5oZrHUCB8Jn4aoAVTEVSdnhN9SzqBiWsAIbRcoiVde09o=
-X-Received: by 2002:a5e:de4a:: with SMTP id e10mr7994789ioq.52.1609613445496; 
- Sat, 02 Jan 2021 10:50:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uuaswafA4TQVvz1UZDdvhjuiKY9mruy0RJy3iy5N0mA=;
+ b=LYzLCm82syKK1S8VfxlrYCtbWgJjcfvgRg3UZhznubemY6M/sAbplnCz0Ok3dDD1YG
+ TVu7LTuX2/gH9HiocGFdbpJAYRbWlpW5W7Lb7TMQbA/mS5HrlDR9qTimvqzxGqwVFwPB
+ Rg2n3QOIP39e2OKr3b93eFNGVSGNoH6G+S2Uc4UppqSQS1jYyHsP57T6FtwSeZwrYlVh
+ uc34Z/Or+1+iuJEEPkIyHwOD3j4B8XTEN0+D7tRG0M5igNOPsc4k91810bPHLKSyIdSf
+ 9nFPZMw4E/Xm5qb52q7hZWkykltywGafkPLqAPMfAEXLf/Y+Yb4XiLL3AVK+QSv10Kh7
+ 6nAQ==
+X-Gm-Message-State: AOAM531dtr2AVoHIYd/CPEnqmJ5i+maamnuiEzvwF+95z10/Uqa+ybP4
+ o0Qb/2YWSr2ZrlU/ZisDo4lxdOrOu+O2GA==
+X-Google-Smtp-Source: ABdhPJyiDyyRt4hq1SXo4hGhsh+SBiY6KZ/2itqNLIp8w4wvHWusI0T9nN/nQQqg2i2ag1jf1MPGJQ==
+X-Received: by 2002:a5d:4f10:: with SMTP id c16mr72164660wru.398.1609619173035; 
+ Sat, 02 Jan 2021 12:26:13 -0800 (PST)
+Received: from localhost (178-169-161-196.razgrad.ddns.bulsat.com.
+ [178.169.161.196])
+ by smtp.gmail.com with ESMTPSA id s25sm90902853wrs.49.2021.01.02.12.26.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Jan 2021 12:26:12 -0800 (PST)
+From: Iskren Chernev <iskren.chernev@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [PATCH] drm/msm: Fix MSM_INFO_GET_IOVA with carveout
+Date: Sat,  2 Jan 2021 22:24:37 +0200
+Message-Id: <20210102202437.1630365-1-iskren.chernev@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-From: Davide Corrado <davide@davidecorrado.eu>
-Date: Sat, 2 Jan 2021 19:50:33 +0100
-Message-ID: <CAM0ywnxwE9bRafJJZcg4w8GooXiDrJKV0gt+p9XJv=Y6HrmA0w@mail.gmail.com>
-Subject: amdgpu does not support 3840x2160@30Hz on kaveri apu
-To: alexander.deucher@amd.com
 X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,100 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============1873009562=="
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1873009562==
-Content-Type: multipart/alternative; boundary="000000000000a5062005b7ef5591"
+The msm_gem_get_iova should be guarded with gpu != NULL and not aspace
+!= NULL, because aspace is NULL when using vram carveout.
 
---000000000000a5062005b7ef5591
-Content-Type: text/plain; charset="UTF-8"
+Fixes: 933415e24bd0d ("drm/msm: Add support for private address space instances")
 
-hello, I'd like to report this issue that I am having since I updated my
-display (samsung U28E590). The amdgpu does not support the native
-resolution of my new monitor, which is 3840x2160*.* Using a HDMI or DVI
-connection (I tried both, same results), the maximum supported refresh is
-30Hz, so I'm stuck with that (don't have a displayport). The radeon module
-works fine, I'm having this issue just when I use amdgpu (which I'd like
-to, because performance is better).
+Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Some info of my hardware:
-
-cpu: AMD A10-7870K Radeon R7, 12 Compute Cores 4C+8G
-kernel version (I tried different ones and different linux distros, same
-results!): 5.9.16-200.fc33.x86_64 #1 SMP Mon Dec 21 14:08:22 UTC 2020
-x86_64 x86_64 x86_64 GNU/Linux
-Monitor: Samsung U28E590.
-
-description:
-If I boot the system using amdgpu and no video mode selection, the system
-boots but I don't get a screen during boot and in wayland. I can connect
-using ssh, so the system is running fine, just no display; If I force a
-full HD resolution with "video:" in the kernel line, I can see the boot
-process but the screen disappears when wayland starts (because the default
-resolution is 3840x2160@30Hz). Using a full HD monitor results in no
-issues, so it must be related to this very 4k resolution.
-
-As I have already stated, radeon module works with the same
-software/hardware configuration.
-thanks you so much for your time :-)
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index c5e61cb3356df..c1953fb079133 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -775,9 +775,10 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
+ 		struct drm_file *file, struct drm_gem_object *obj,
+ 		uint64_t *iova)
+ {
++	struct msm_drm_private *priv = dev->dev_private;
+ 	struct msm_file_private *ctx = file->driver_priv;
+ 
+-	if (!ctx->aspace)
++	if (!priv->gpu)
+ 		return -EINVAL;
+ 
+ 	/*
 -- 
-Davide Corrado
-UNIX Team Leader
-
-Via Abramo Lincoln, 25
-20129 Milano
-
-Tel +39 3474259950
-
---000000000000a5062005b7ef5591
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>hello, I&#39;d like to report this issue that I am ha=
-ving since I updated my display (samsung U28E590). The amdgpu does not supp=
-ort the native resolution of my new monitor, which is 3840x2160<i>.</i> Usi=
-ng a HDMI or DVI connection (I tried both, same results), the maximum suppo=
-rted refresh is 30Hz, so I&#39;m stuck with that (don&#39;t have a displayp=
-ort). The radeon module works fine, I&#39;m having this issue just when I u=
-se amdgpu (which I&#39;d like to, because performance is better).</div><div=
-><br></div><div>Some info of my hardware:</div><div><br></div><div>cpu: AMD=
- A10-7870K Radeon R7, 12 Compute Cores 4C+8G</div><div>kernel version (I tr=
-ied different ones and different linux distros, same results!): 5.9.16-200.=
-fc33.x86_64 #1 SMP Mon Dec 21 14:08:22 UTC 2020 x86_64 x86_64 x86_64 GNU/Li=
-nux</div><div>Monitor: Samsung U28E590.</div><div><br></div><div>descriptio=
-n:<br></div><div>If I boot the system using amdgpu and no video mode select=
-ion, the system boots but I don&#39;t get a screen during boot and in wayla=
-nd. I can connect using ssh, so the system is running fine, just no display=
-; If I force a full HD resolution with &quot;video:&quot; in the kernel lin=
-e, I can see the boot process but the screen disappears when wayland starts=
- (because the default resolution is 3840x2160@30Hz). Using a full HD monito=
-r results in no issues, so it must be related to this very 4k resolution.<b=
-r></div><div><br></div><div>As I have already stated, radeon module works w=
-ith the same software/hardware configuration.<br></div>thanks you so much f=
-or your time :-)<br><div><div><br>-- <br><div dir=3D"ltr" class=3D"gmail_si=
-gnature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">Davide Corrado<br><div=
->UNIX Team Leader<span><br></span></div><div><br></div>Via Abramo Lincoln, =
-25<br>20129 Milano<br><br>Tel +39 3474259950<br></div></div></div></div></d=
-iv></div></div></div></div></div></div>
-
---000000000000a5062005b7ef5591--
-
---===============1873009562==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1873009562==--
