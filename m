@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72EF2E878B
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jan 2021 15:02:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FB52E878E
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jan 2021 15:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8238A89580;
-	Sat,  2 Jan 2021 14:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392A0898EE;
+	Sat,  2 Jan 2021 14:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AC589580
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jan 2021 14:02:17 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id q18so26507027wrn.1
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jan 2021 06:02:17 -0800 (PST)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A726589906
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jan 2021 14:05:39 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id y5so20952820iow.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jan 2021 06:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=basnieuwenhuizen.nl; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o7zKydJb0Dcw2Io6v+je4B87Ru1VW10/8CbqarypUlc=;
- b=ZMk7e3sBGmIkoz2Xsc36XN4Gp0GUKT3ZbdwVUvd4NHh5R/ImNgVCBkaN5TBJV9AKFO
- /W5BuNuMN7mCXAbHlXcEDdp91QIJhryd+pvjcsQEy7Lzues1An4W39KBpNU0Kyl7AZFi
- 1WyKTGJN3Ol7gEPl55LQlMUUoaPq9WeTvG1rQAcSsrFSDED3aVwNquILafswg0W97g7Z
- OsHa/v8a5zNAo7av3WvzmXgXrIh9O0FTl9m9lYkEI3ptaGV4Hfxemul8EjJrg3rOxHze
- M+mRYcGvZWEb+N8ovwhaCuEvhLZsPliziyZA9YkC8JhNR/vTcXWwVaOJf/UtoSRdrM6q
- 8LqA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p4qVqwA7jrTtstjwMuxg0ZT53Kp0X36l0PsmxPDjju0=;
+ b=bdnGkeIDB61DTRcS1SWlGze5QNewmYaVuEFLme/eIw+ng3pwRYU/A3vu590WrHbjUb
+ Q4EnaH9biey3W/ZJdjc2DI/VSihukazHSBubXhxNu1/bjzJisWIaDTHcbeUZnnBBvdkc
+ bi5iVLjSeuUEl1+JJh0Gj6PAr1DeGPboJ2gwoLh4pI42OTt8uYAhLg8jpfxkEpWGQD1v
+ aRCWaO07j88xrBvhGGuQWiMD8klmpyhUK4Kkvy8HxyKkG5CcFhKuJt3QL0DMiWZ3+5x4
+ J6oLg3BEcbNZAAZ2dO7niM8GcSdNIxUtVmzfxLxcbai/9QAJx0K7oKnyHJ1CgtLCsYhT
+ FG+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o7zKydJb0Dcw2Io6v+je4B87Ru1VW10/8CbqarypUlc=;
- b=UbA838/yl+8y+VDERKEaTvi6NvmxCaJ2U4QVTpFLM/3M9m2B/hzgeuBHvZFXXvbXjA
- mbmkqmvlhC6r+2KXcKA9HI54JiD87juo9LQdrE80xzpoHcHXJB4Fr2N1y35VxNrQdz8A
- HQyD4XEeGfWz3mHkOhPtjdyUgO1EGiPlJxHnDpIwGYfewdzY0c7K9gr6nNh+aOegsFir
- 1ZHwxe+5zf9YrhsJmB3LHBaFHuVSL9Di89NqP2C+yU0RkMFknh9ILesvZuK3Y+63p3/m
- XDYJtbu/RpIEGqtb29ouLjmSgsiv7fPrYzZxSqBpbRYk0hgEeFF0lo2K74RNHiRVmmZl
- H8aA==
-X-Gm-Message-State: AOAM532Ibv+X1QPHk9TLoHLnU1blP6KqDYYmWfplkDz6GnFza/l0mF7o
- duOeoCdJN5A69aYPhrURx1DxggORp/ALqg==
-X-Google-Smtp-Source: ABdhPJw0HQuTYaIfp0n4UcVwK7cHb10Oi6dDLM4N82ru4gYFeAJhwA07gykh7kCKcwShKilDJoUCUQ==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr74567521wrp.161.1609596135709; 
- Sat, 02 Jan 2021 06:02:15 -0800 (PST)
-Received: from bas-workstation.. ([2a02:aa12:a77f:2000:7285:c2ff:fe67:a82f])
- by smtp.gmail.com with ESMTPSA id e15sm80603402wrx.86.2021.01.02.06.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Jan 2021 06:02:14 -0800 (PST)
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Check actual format for legacy pageflip.
-Date: Sat,  2 Jan 2021 15:02:35 +0100
-Message-Id: <20210102140235.514039-1-bas@basnieuwenhuizen.nl>
-X-Mailer: git-send-email 2.29.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p4qVqwA7jrTtstjwMuxg0ZT53Kp0X36l0PsmxPDjju0=;
+ b=i4DcBx9rXD/dHZNpWM1BmPO24/atHOGKQWABNcmWS/sjFHIkgTjdnVv7iJ/st00Ppi
+ eXXt3Y61bAhDKzkJU2TCyUu4bFzKUlnxGHte+BdTSX8o3lsXuzURuKi5zCt+goMk0qVF
+ p8NGp1+YWg3N00KPRKUIN+o4++/RJXSOhVwdjxm+Y59Jz34vxJ3yk9g2XgSA+qe7CShZ
+ YwuaHcPQw0Tp9nQbUc16qjV4SZplQYYqGIC/8HWXifNljEHFwCgjjsMGxCa/HfeZPwtB
+ Euj0Ns5lHsK0rhkqRJN+44+bA3TwzqjazW3PrPYiLe3K94xpz2W2Ljd6RuIDLnc5j8zo
+ T/Gw==
+X-Gm-Message-State: AOAM532ATKaB/rTjHPvb2xLPGhxp/jug6SH1jyqqaScKNXCD588uQ9G9
+ GFxQesMBJmHrfCUrMvcjiN3Ye5QleouavlwtD7olcg==
+X-Google-Smtp-Source: ABdhPJzmgvRotmWbK/dERf1wNHHzVf5tSLEYjyH5bXTmBshnxK1ACWCUYysnZ9nGsPIs83U0aXAqMnIcldrhr+lrV7Q=
+X-Received: by 2002:a6b:b2cf:: with SMTP id b198mr53293625iof.19.1609596339089; 
+ Sat, 02 Jan 2021 06:05:39 -0800 (PST)
 MIME-Version: 1.0
+References: <20201231205136.11422-1-mario.kleiner.de@gmail.com>
+In-Reply-To: <20201231205136.11422-1-mario.kleiner.de@gmail.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Sat, 2 Jan 2021 15:05:49 +0100
+Message-ID: <CAP+8YyE4H5mL3uj-T4uG0nz75XmgaZ6etXX6YxxdtO4-rL=5qA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix pageflipping for XOrg in Linux 5.11+
+To: Mario Kleiner <mario.kleiner.de@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +61,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, zhan.liu@amd.com, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With modifiers one can actually have different format_info structs
-for the same format, which now matters for AMDGPU since we convert
-implicit modifiers to explicit modifiers with multiple planes.
+I think the problem here is that application A can set the FB and then
+application B can use getfb2 (say ffmpeg).
 
-I checked other drivers and it doesn't look like they end up triggering
-this case so I think this is safe to relax.
+https://lists.freedesktop.org/archives/dri-devel/2021-January/292761.html
+would be my alternative patch.
 
-Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Fixes: 816853f9dc40 ("drm/amd/display: Set new format info for converted metadata.")
----
- drivers/gpu/drm/drm_plane.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(I'm not good at detecting the effects of tearing  apparently but
+tested this avoids the pageflip failure by debug-prints)
 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index e6231947f987..f5085990cfac 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -1163,7 +1163,7 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
- 	if (ret)
- 		goto out;
- 
--	if (old_fb->format != fb->format) {
-+	if (old_fb->format->format != fb->format->format) {
- 		DRM_DEBUG_KMS("Page flip is not allowed to change frame buffer format.\n");
- 		ret = -EINVAL;
- 		goto out;
--- 
-2.29.2
-
+On Thu, Dec 31, 2020 at 9:52 PM Mario Kleiner
+<mario.kleiner.de@gmail.com> wrote:
+>
+> Commit 816853f9dc4057b6c7ee3c45ca9bd5905 ("drm/amd/display: Set new
+> format info for converted metadata.") may fix the getfb2 ioctl, but
+> in exchange it completely breaks all pageflipping for classic user
+> space, e.g., XOrg, as tested with both amdgpu-ddx and modesetting-ddx.
+> This leads to massive tearing, broken visual timing/timestamping etc.
+>
+> Reason is that the classic pageflip ioctl doesn't allow a fb format
+> change during flip, and at least X uses classic pageflip ioctl and no
+> atomic modesetting api at all.
+>
+> As one attempted workaround, only set the new format info for converted
+> metadata if the calling client isn't X. Not sure if this is the best
+> way, or if a better check would not be "not all atomic clients" or
+> similar? In any case it works for XOrg X-Server. Checking the ddx
+> code of intel-ddx/modesetting-ddx/amdgpu-ddx as well as grepping over
+> Mesa doesn't show any users of the getfb2 ioctl(), so the need for this
+> format info assignment seems to be more the exception than the rule?
+>
+> Fixes: 816853f9dc40 ("drm/amd/display: Set new format info for converted metadata.")
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> index f764803c53a4..cb414b3d327a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> @@ -828,7 +828,8 @@ static int convert_tiling_flags_to_modifier(struct amdgpu_framebuffer *afb)
+>                         if (!format_info)
+>                                 return -EINVAL;
+>
+> -                       afb->base.format = format_info;
+> +                       if (afb->base.comm[0] != 'X')
+> +                               afb->base.format = format_info;
+>                 }
+>         }
+>
+> --
+> 2.25.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
