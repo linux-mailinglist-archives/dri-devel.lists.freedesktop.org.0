@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DB12E91FD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88782E920A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 605E289E0C;
-	Mon,  4 Jan 2021 08:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0258489DA9;
+	Mon,  4 Jan 2021 08:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACCFC89895;
- Sun,  3 Jan 2021 03:55:58 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id iq13so7827436pjb.3;
- Sat, 02 Jan 2021 19:55:58 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 474DE89895;
+ Sun,  3 Jan 2021 03:56:31 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id e2so12643329plt.12;
+ Sat, 02 Jan 2021 19:56:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=SxpOyeiM3z18aNMuDs4uqaleFHYcq3v3an1mAR1G/5I=;
- b=AfqoZriugPzwzYSNyVjK7DhI0hUXwCi2rh6VXlP87GQQa5fjpFiZGRGOKaa2bVC6qS
- KNUGWoDbWwi99UvbXCoiMLncRbhKM90XVtGVix8wNxybq0PPu1+ANZovkGJ756+3RFhR
- zP9nG/12bnrj5Ey60RFSl4qHGJol0jCLf9L4aQm1kwh4H56RYa/55+iY9tIgt++AW74x
- mXgK8k3GTn0nq6GOCImWE6OxFd8cyGibeXduGU/UJnKTASfEHM+ZKRR8oQI5JGn3qfJV
- M83qVzQsm8/sxJuz1JjMaoaibL2VVkB00j++VrDnODpsrfBQfYod9P5VyZH8xa8sT7su
- muLg==
+ bh=MBqnkb35Yx+XB2qacn+GMSgP3vvOS1DmQn6mAoUxAko=;
+ b=psBWJqf/IihlpGW8zhb4mDcJKjwQwL+Nm74dbHhamfsUrv4kpAP9nx7m6wtoHcGIyS
+ zgIy24UtjbfcuiB2Mq4FZXNkgeSVJ4YOCeiwYZMJ4w92AXNzd5SxxAPhquqd1v0gzfg1
+ HKOxUvEoAAh/RqZLi7RJ+71UzMgXpnf3dGjA8q0fBY/dEsVhDAOER88azzWmRrKET8Au
+ tBuEC+ePsePrdQ4WUIDmL+6lq96tHi96QNj+AUyarqZZGd+ntX++9/Xjfb4ZcANVlotm
+ +3c0UsB9ziguJ86i5zONeSBsCLuU+6efKECn0W0P1t3marpfQ+gh0BDh2kyVAIBBkYv2
+ IifA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=SxpOyeiM3z18aNMuDs4uqaleFHYcq3v3an1mAR1G/5I=;
- b=RP5h7JqSDZXCFeSfJ62ZJlrVghDKb5hYhlTEAExvd2RoswTzMORABOqb0JOKfUHz+N
- KaeBwEU4zmtMEti7nhshh3Ph1s4AHqeQcuONFeaRJsStQindCkfMfh5/c8tyjgVAhl8a
- vzZ2XNEVWHHitNXmmDJtn5unzFiO+41VfiK+Qhy00v7n/V63zv1yjgNRLN4H08vTQX5L
- kRX2w8SuOP6q2ta+1tcRARUEU8mUhL2LNqKvmX4+Gc+IxvgW2UL4q+2kscgey6JBpK/z
- TWMjf+oZOYKtyv9LE4yaShdjun1c5GFKe13Kf0iJFnLJ4MuMFjnMUvrSixMscRJ9z4hy
- WTNw==
-X-Gm-Message-State: AOAM533y6ERegSjOOCtPV2RxYJy7bCHtnoUODXYRRNEAjjNnYCms19cK
- QF8l7Z3F4Atdgw6KN5t1iJs=
-X-Google-Smtp-Source: ABdhPJw9UCd2o0dVAOrYYYoU83PIRdrJPypmz/g74Y1c9s2nzpejBc2/fDlERUdGOBi5P6mnd+gbww==
-X-Received: by 2002:a17:902:7489:b029:da:5aed:8ebf with SMTP id
- h9-20020a1709027489b02900da5aed8ebfmr66298619pll.35.1609646158201; 
- Sat, 02 Jan 2021 19:55:58 -0800 (PST)
+ bh=MBqnkb35Yx+XB2qacn+GMSgP3vvOS1DmQn6mAoUxAko=;
+ b=Ij8i7oS+5Wma+bgDUSIE6nUuL31BXxnoumL1E6xCqqvtgTxR2gjDOrWxpoF9hCibvB
+ rTVNV8PNjRAPmIgtFJmVM5WBCVLOdpWX5eIssiM0m0rnaZAPl25ZOtxYdmvIZIVvY3Dw
+ +vjUg4p1/9gbE9F7csAstUgXgwLtgJMbuL+vZb9Fgo4T+Lx/AkyAj0TGsLZnFj6IrS98
+ OEbTg/0FNVavzrlV+7bciKfP4u5eTEPtwq4UQTPx7J5sJp9ZuVIZCFjY+IiBlCfs/AVT
+ aotvZdzaF6CV5gtcGR3WVWryDMD+bhfrdJJX+aREXr0F4fsUuHz/vuNON3bFvJU89DuM
+ k5DA==
+X-Gm-Message-State: AOAM532Y/NqZPo4q02feHF8bwic6YRTAEq41T/toxginXv84aC/x4o5Y
+ 4x9EA3OEn+SBeOdK893gUHc=
+X-Google-Smtp-Source: ABdhPJw4rLAK7aVKo+4qowfteGr9aQhB933bY7H4Pkd1XY5luUUGGANfZdnT+MeSUMumccO7HG1M0g==
+X-Received: by 2002:a17:902:6ac8:b029:da:d645:ab58 with SMTP id
+ i8-20020a1709026ac8b02900dad645ab58mr45836977plt.25.1609646190921; 
+ Sat, 02 Jan 2021 19:56:30 -0800 (PST)
 Received: from localhost.localdomain ([43.255.31.23])
- by smtp.gmail.com with ESMTPSA id f67sm45500049pfg.159.2021.01.02.19.55.46
+ by smtp.gmail.com with ESMTPSA id i25sm56066998pgb.33.2021.01.02.19.56.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Jan 2021 19:55:57 -0800 (PST)
+ Sat, 02 Jan 2021 19:56:30 -0800 (PST)
 From: Yangtao Li <tiny.windzz@gmail.com>
 To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  krzk@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
@@ -69,10 +69,9 @@ To: myungjoo.ham@samsung.com, kyungmin.park@samsung.com, cw00.choi@samsung.com,
  rikard.falkeborn@gmail.com, natechancellor@gmail.com,
  georgi.djakov@linaro.org, akashast@codeaurora.org, parashar@codeaurora.org,
  dianders@chromium.org
-Subject: [PATCH 28/31] PM / devfreq: imx8m-ddrc: convert to use devm_pm_opp_*
- API
-Date: Sun,  3 Jan 2021 03:55:40 +0000
-Message-Id: <20210103035540.23886-1-tiny.windzz@gmail.com>
+Subject: [PATCH 29/31] PM / devfreq: imx-bus: convert to use devm_pm_opp_* API
+Date: Sun,  3 Jan 2021 03:56:05 +0000
+Message-Id: <20210103035605.23973-1-tiny.windzz@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,62 +103,51 @@ Use devm_pm_opp_* API to simplify code.
 
 Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 ---
- drivers/devfreq/imx8m-ddrc.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ drivers/devfreq/imx-bus.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/devfreq/imx8m-ddrc.c b/drivers/devfreq/imx8m-ddrc.c
-index bc82d3653bff..9383d6e5538b 100644
---- a/drivers/devfreq/imx8m-ddrc.c
-+++ b/drivers/devfreq/imx8m-ddrc.c
-@@ -370,11 +370,6 @@ static int imx8m_ddrc_check_opps(struct device *dev)
- 	return 0;
+diff --git a/drivers/devfreq/imx-bus.c b/drivers/devfreq/imx-bus.c
+index 4f38455ad742..ff26ef049b1b 100644
+--- a/drivers/devfreq/imx-bus.c
++++ b/drivers/devfreq/imx-bus.c
+@@ -61,7 +61,6 @@ static void imx_bus_exit(struct device *dev)
+ {
+ 	struct imx_bus *priv = dev_get_drvdata(dev);
+ 
+-	dev_pm_opp_of_remove_table(dev);
+ 	platform_device_unregister(priv->icc_pdev);
  }
  
--static void imx8m_ddrc_exit(struct device *dev)
--{
--	dev_pm_opp_of_remove_table(dev);
--}
--
- static int imx8m_ddrc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -419,7 +414,7 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
- 		return ret;
+@@ -123,7 +122,7 @@ static int imx_bus_probe(struct platform_device *pdev)
  	}
+ 	platform_set_drvdata(pdev, priv);
  
 -	ret = dev_pm_opp_of_add_table(dev);
 +	ret = devm_pm_opp_of_add_table(dev);
  	if (ret < 0) {
  		dev_err(dev, "failed to get OPP table\n");
  		return ret;
-@@ -427,12 +422,11 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
- 
- 	ret = imx8m_ddrc_check_opps(dev);
- 	if (ret < 0)
--		goto err;
-+		return ret;
- 
- 	priv->profile.polling_ms = 1000;
- 	priv->profile.target = imx8m_ddrc_target;
- 	priv->profile.get_dev_status = imx8m_ddrc_get_dev_status;
--	priv->profile.exit = imx8m_ddrc_exit;
- 	priv->profile.get_cur_freq = imx8m_ddrc_get_cur_freq;
- 	priv->profile.initial_freq = clk_get_rate(priv->dram_core);
- 
-@@ -441,13 +435,8 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+@@ -141,18 +140,11 @@ static int imx_bus_probe(struct platform_device *pdev)
  	if (IS_ERR(priv->devfreq)) {
  		ret = PTR_ERR(priv->devfreq);
  		dev_err(dev, "failed to add devfreq device: %d\n", ret);
 -		goto err;
++		return ret;
  	}
  
--	return 0;
+-	ret = imx_bus_init_icc(dev);
+-	if (ret)
+-		goto err;
 -
+-	return 0;
++	return imx_bus_init_icc(dev);
+ 
 -err:
 -	dev_pm_opp_of_remove_table(dev);
- 	return ret;
+-	return ret;
  }
  
+ static const struct of_device_id imx_bus_of_match[] = {
 -- 
 2.25.1
 
