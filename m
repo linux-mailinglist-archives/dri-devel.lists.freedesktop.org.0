@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261AC2EA669
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:21:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A86202EA677
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35C1D6E067;
-	Tue,  5 Jan 2021 08:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B2C6E081;
+	Tue,  5 Jan 2021 08:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1404689668
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 11:36:32 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1609760194; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=wpoAlb46a86Zd9QSK2x6ubyhpdnYpT2LwCBikX01FRg=;
- b=DWQMwiocBYFX3WuGlw/s9dPDnxCfl6xVE4J2IIle6iTqhEKcU8jioEuqI1GqIQGaBUWTi34Z
- iNZ35qT3J3jbKiZITGhV3CkgcZlFo4DiDU5WRn3p2RSmfSh/fLD5U5yDH2e+yqZrit8XdU8V
- eqJBNr+zsS58paZmCE2kQNdbqZw=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
- 5ff2fdbdf7aeb83bf1d1641c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Jan 2021 11:36:29
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 14819C43462; Mon,  4 Jan 2021 11:36:29 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from charante-linux.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 958A6C433C6;
- Mon,  4 Jan 2021 11:36:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 958A6C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=charante@codeaurora.org
-From: Charan Teja Reddy <charante@codeaurora.org>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, arnd@arndb.de,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] dmabuf: fix use-after-free of dmabuf's file->f_inode
-Date: Mon,  4 Jan 2021 17:06:17 +0530
-Message-Id: <1609760177-6083-1-git-send-email-charante@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8D9892F2;
+ Mon,  4 Jan 2021 12:05:00 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id m23so24818163ioy.2;
+ Mon, 04 Jan 2021 04:05:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lUBMrAmlSOZhdrm4eF9Z+KjHV7JViNGZkg6sdwN3kpM=;
+ b=TJwegq2S/QmGziiDOH5HVQcg0lXIbY/ziGCY0zNuvEUkh/cN2vx5K8gZYmbdj4XG1t
+ GTwvEOPqbHyTqtfrXcxHsN0X9/VVf2Hwsmd8HFrcxPdqqW5yK6Z4wJsNkZoGi3tkaqV0
+ pjCiU6qCmOpzZglmkcjKcZ9T7w4qBYW2oDlwzrjtWIzd8qi115o3JD1CDOyA+YF+LHns
+ Agu6X6xpjKlZFckUPNJtJNRyfBigT1MrzrXe4FxxT8saBNYu0NOQDmoT5rBP/n5imEHC
+ +vosPjG/uRQJnhvp9s2gLzC84ItpjyyBpW0GSOjAl0MPLI+bestlguNaNqnKLRAgq8Ul
+ TvUw==
+X-Gm-Message-State: AOAM530vowg6AymcukuBWWMKmeBb8sawyacN0KlXbfiw2JxWLnpmhvvn
+ 3G7+Ow+zi1MTKHL8sovqG07Q3qd/Q6mIi7ov0cY=
+X-Google-Smtp-Source: ABdhPJxMciMED3uDX6vpaNNq6iBRllIplrCWfmMhVlJ+p2hXh+7qXybHSpY4aer7EF1Eo0WE0AyMeT7FHf+OQi5TPhM=
+X-Received: by 2002:a02:8585:: with SMTP id d5mr62156648jai.109.1609761899574; 
+ Mon, 04 Jan 2021 04:04:59 -0800 (PST)
+MIME-Version: 1.0
+References: <CAM0ywnxwE9bRafJJZcg4w8GooXiDrJKV0gt+p9XJv=Y6HrmA0w@mail.gmail.com>
+ <4f208b1a-b90a-6afb-79a7-c5027f7529b2@gmail.com>
+In-Reply-To: <4f208b1a-b90a-6afb-79a7-c5027f7529b2@gmail.com>
+From: Davide Corrado <davide@davidecorrado.eu>
+Date: Mon, 4 Jan 2021 13:04:49 +0100
+Message-ID: <CAM0ywnycLPS9de-3QLhoreM=dNrsn4-=un8EFsw8Wf5g4z91Dw@mail.gmail.com>
+Subject: Re: amdgpu does not support 3840x2160@30Hz on kaveri apu
+To: christian.koenig@amd.com
 X-Mailman-Approved-At: Tue, 05 Jan 2021 08:21:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,110 +53,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Charan Teja Reddy <charante@codeaurora.org>,
- linux-kernel@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, "Kazlauskas,
+ Nicholas" <Nicholas.Kazlauskas@amd.com>
+Content-Type: multipart/mixed; boundary="===============0807221683=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is observed 'use-after-free' on the dmabuf's file->f_inode with the
-race between closing the dmabuf file and reading the dmabuf's debug
-info.
+--===============0807221683==
+Content-Type: multipart/alternative; boundary="000000000000327adb05b811e638"
 
-Consider the below scenario where P1 is closing the dma_buf file
-and P2 is reading the dma_buf's debug info in the system:
+--000000000000327adb05b811e638
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-P1						P2
-					dma_buf_debug_show()
-dma_buf_put()
-  __fput()
-    file->f_op->release()
-    dput()
-    ....
-      dentry_unlink_inode()
-        iput(dentry->d_inode)
-        (where the inode is freed)
-					mutex_lock(&db_list.lock)
-					read 'dma_buf->file->f_inode'
-					(the same inode is freed by P1)
-					mutex_unlock(&db_list.lock)
-      dentry->d_op->d_release()-->
-        dma_buf_release()
-          .....
-          mutex_lock(&db_list.lock)
-          removes the dmabuf from the list
-          mutex_unlock(&db_list.lock)
+Hello. This resolution is supported by the Apu and the motherboard specs.
+Will try what you suggest and let you know
 
-In the above scenario, when dma_buf_put() is called on a dma_buf, it
-first frees the dma_buf's file->f_inode(=dentry->d_inode) and then
-removes this dma_buf from the system db_list. In between P2 traversing
-the db_list tries to access this dma_buf's file->f_inode that was freed
-by P1 which is a use-after-free case.
+Il Lun 4 Gen 2021, 12:10 Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail=
+.com>
+ha scritto:
 
-Since, __fput() calls f_op->release first and then later calls the
-d_op->d_release, move the dma_buf's db_list removal from d_release() to
-f_op->release(). This ensures that dma_buf's file->f_inode is not
-accessed after it is released.
+> Hi Davide,
+>
+> adding a few of our AMD display people.
+>
+> In general as already suggested by others opening a bug report to track
+> this is the right thing to do.
+>
+> In the past we had a few bug reports like this because amdgpu is more
+> strict in checking hardware limitations.
+>
+> For example it can be that your HDMI port on the board can only handle a
+> certain maximum pixel clock, but radeon is ignoring this while amdgpu isn=
+'t.
+>
+> What you can try to do is to manually override the used mode, e.g. copy
+> the modeline used when radeon is active and manually add that using xrand=
+r
+> when amdgpu is active and see if it works or not.
+>
+> Regards,
+> Christian.
+>
+> Am 02.01.21 um 19:50 schrieb Davide Corrado:
+>
+> hello, I'd like to report this issue that I am having since I updated my
+> display (samsung U28E590). The amdgpu does not support the native
+> resolution of my new monitor, which is 3840x2160*.* Using a HDMI or DVI
+> connection (I tried both, same results), the maximum supported refresh is
+> 30Hz, so I'm stuck with that (don't have a displayport). The radeon modul=
+e
+> works fine, I'm having this issue just when I use amdgpu (which I'd like
+> to, because performance is better).
+>
+> Some info of my hardware:
+>
+> cpu: AMD A10-7870K Radeon R7, 12 Compute Cores 4C+8G
+> kernel version (I tried different ones and different linux distros, same
+> results!): 5.9.16-200.fc33.x86_64 #1 SMP Mon Dec 21 14:08:22 UTC 2020
+> x86_64 x86_64 x86_64 GNU/Linux
+> Monitor: Samsung U28E590.
+>
+> description:
+> If I boot the system using amdgpu and no video mode selection, the system
+> boots but I don't get a screen during boot and in wayland. I can connect
+> using ssh, so the system is running fine, just no display; If I force a
+> full HD resolution with "video:" in the kernel line, I can see the boot
+> process but the screen disappears when wayland starts (because the defaul=
+t
+> resolution is 3840x2160@30Hz). Using a full HD monitor results in no
+> issues, so it must be related to this very 4k resolution.
+>
+> As I have already stated, radeon module works with the same
+> software/hardware configuration.
+> thanks you so much for your time :-)
+>
+> --
+> Davide Corrado
+> UNIX Team Leader
+>
+> Via Abramo Lincoln, 25
+> 20129 Milano
+>
+> Tel +39 3474259950
+>
+> _______________________________________________
+> amd-gfx mailing listamd-gfx@lists.freedesktop.orghttps://lists.freedeskto=
+p.org/mailman/listinfo/amd-gfx
+>
+>
+>
 
-Fixes: 4ab59c3c638c ("dma-buf: Move dma_buf_release() from fops to dentry_ops")
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
- drivers/dma-buf/dma-buf.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+--000000000000327adb05b811e638
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 0eb80c1..a14dcbb 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -76,10 +76,6 @@ static void dma_buf_release(struct dentry *dentry)
- 
- 	dmabuf->ops->release(dmabuf);
- 
--	mutex_lock(&db_list.lock);
--	list_del(&dmabuf->list_node);
--	mutex_unlock(&db_list.lock);
--
- 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
- 		dma_resv_fini(dmabuf->resv);
- 
-@@ -88,6 +84,22 @@ static void dma_buf_release(struct dentry *dentry)
- 	kfree(dmabuf);
- }
- 
-+static int dma_buf_file_release(struct inode *inode, struct file *file)
-+{
-+	struct dma_buf *dmabuf;
-+
-+	if (!is_dma_buf_file(file))
-+		return -EINVAL;
-+
-+	dmabuf = file->private_data;
-+
-+	mutex_lock(&db_list.lock);
-+	list_del(&dmabuf->list_node);
-+	mutex_unlock(&db_list.lock);
-+
-+	return 0;
-+}
-+
- static const struct dentry_operations dma_buf_dentry_ops = {
- 	.d_dname = dmabuffs_dname,
- 	.d_release = dma_buf_release,
-@@ -413,6 +425,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- }
- 
- static const struct file_operations dma_buf_fops = {
-+	.release	= dma_buf_file_release,
- 	.mmap		= dma_buf_mmap_internal,
- 	.llseek		= dma_buf_llseek,
- 	.poll		= dma_buf_poll,
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of the Code Aurora Forum, hosted by The Linux Foundation
+<div dir=3D"auto">Hello. This resolution is supported by the Apu and the mo=
+therboard specs. Will try what you suggest and let you know</div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il Lun 4 Gen 202=
+1, 12:10 Christian K=C3=B6nig &lt;<a href=3D"mailto:ckoenig.leichtzumerken@=
+gmail.com">ckoenig.leichtzumerken@gmail.com</a>&gt; ha scritto:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">
+ =20
+   =20
+ =20
+  <div>
+    <div>Hi Davide,<br>
+      <br>
+      adding a few of our AMD display people.<br>
+      <br>
+      In general as already suggested by others opening a bug report to
+      track this is the right thing to do.<br>
+      <br>
+      In the past we had a few bug reports like this because amdgpu is
+      more strict in checking hardware limitations.<br>
+      <br>
+      For example it can be that your HDMI port on the board can only
+      handle a certain maximum pixel clock, but radeon is ignoring this
+      while amdgpu isn&#39;t.<br>
+      <br>
+      What you can try to do is to manually override the used mode, e.g.
+      copy the modeline used when radeon is active and manually add that
+      using xrandr when amdgpu is active and see if it works or not.<br>
+      <br>
+      Regards,<br>
+      Christian.<br>
+      <br>
+      Am 02.01.21 um 19:50 schrieb Davide Corrado:<br>
+    </div>
+    <blockquote type=3D"cite">
+     =20
+      <div dir=3D"ltr">
+        <div>hello, I&#39;d like to report this issue that I am having sinc=
+e
+          I updated my display (samsung U28E590). The amdgpu does not
+          support the native resolution of my new monitor, which is
+          3840x2160<i>.</i> Using a HDMI or DVI connection (I tried
+          both, same results), the maximum supported refresh is 30Hz, so
+          I&#39;m stuck with that (don&#39;t have a displayport). The radeo=
+n
+          module works fine, I&#39;m having this issue just when I use
+          amdgpu (which I&#39;d like to, because performance is better).</d=
+iv>
+        <div><br>
+        </div>
+        <div>Some info of my hardware:</div>
+        <div><br>
+        </div>
+        <div>cpu: AMD A10-7870K Radeon R7, 12 Compute Cores 4C+8G</div>
+        <div>kernel version (I tried different ones and different linux
+          distros, same results!): 5.9.16-200.fc33.x86_64 #1 SMP Mon Dec
+          21 14:08:22 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</div>
+        <div>Monitor: Samsung U28E590.</div>
+        <div><br>
+        </div>
+        <div>description:<br>
+        </div>
+        <div>If I boot the system using amdgpu and no video mode
+          selection, the system boots but I don&#39;t get a screen during
+          boot and in wayland. I can connect using ssh, so the system is
+          running fine, just no display; If I force a full HD resolution
+          with &quot;video:&quot; in the kernel line, I can see the boot pr=
+ocess
+          but the screen disappears when wayland starts (because the
+          default resolution is 3840x2160@30Hz). Using a full HD monitor
+          results in no issues, so it must be related to this very 4k
+          resolution.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>As I have already stated, radeon module works with the same
+          software/hardware configuration.<br>
+        </div>
+        thanks you so much for your time :-)<br>
+        <div>
+          <div><br>
+            -- <br>
+            <div dir=3D"ltr" data-smartmail=3D"gmail_signature">
+              <div dir=3D"ltr">
+                <div>
+                  <div dir=3D"ltr">
+                    <div>
+                      <div dir=3D"ltr">
+                        <div>
+                          <div dir=3D"ltr">Davide Corrado<br>
+                            <div>UNIX Team Leader<span><br>
+                              </span></div>
+                            <div><br>
+                            </div>
+                            Via Abramo Lincoln, 25<br>
+                            20129 Milano<br>
+                            <br>
+                            Tel +39 3474259950<br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <fieldset></fieldset>
+      <pre>_______________________________________________
+amd-gfx mailing list
+<a href=3D"mailto:amd-gfx@lists.freedesktop.org" target=3D"_blank" rel=3D"n=
+oreferrer">amd-gfx@lists.freedesktop.org</a>
+<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx" target=
+=3D"_blank" rel=3D"noreferrer">https://lists.freedesktop.org/mailman/listin=
+fo/amd-gfx</a>
+</pre>
+    </blockquote>
+    <br>
+  </div>
+
+</blockquote></div>
+
+--000000000000327adb05b811e638--
+
+--===============0807221683==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0807221683==--
