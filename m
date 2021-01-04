@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997BB2E91D9
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAD92E9319
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 11:08:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 676DC89C8F;
-	Mon,  4 Jan 2021 08:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BDA89496;
+	Mon,  4 Jan 2021 10:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3D089B4D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 07:40:34 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id y8so14090554plp.8
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jan 2021 23:40:34 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2464F89496
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 10:08:00 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id v14so17911786wml.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 02:08:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=gkO4wZs2FgdAnD1CSmbghKQqG0ttWfnbDgOBZn/+SK0=;
- b=D6+RF/PzRVYdDbp9mVXRZkgt05lZoa0HdRGJaUPrO11l6JEOewUo9sGrnKJp0JNgxX
- 4POzjUouMSaEkJq2p27xDPvg+5ijWyEmdf5pnItczrPqK51OZNq7N5eq6OIoVluRZbjF
- creiG91y37GlocoV+MNhmAx4dcHTrwnsIEG6/A6vysRbuchsfHe7/gGt/dBIgmpS2Wzw
- /e70y98Vovryj6fJVpAteYFt6iBaZlm3OKQOKIEBLSkkk515hA6eKIcl+kncJbYdnATE
- DVyx+eTJWdSzWYY1JNH1ppkIdH3q1uEt2C2YgSlh24A3+oyYw+8NCHxgIKFT1XAj/Cxz
- BZfg==
+ :content-disposition:in-reply-to;
+ bh=miG7CO4g5j20n9mrQMJx+RS21ZtCLqOgtOcLQw9KSDs=;
+ b=Lg7fUwr3AMMbu21IW1G8pugaRA5SNCJaW71dzVrsNi0eLfCFI6DLso9TPduv3Fwl+d
+ F8LBc9rpDsiZlgcDymsDqFXHeGQ9r79AQg0D8eJtYMk+fRn4gqtUSNEW4zSUb4/s4UjB
+ orcsSCCOenu3XQzjy1ErOHJIZAOdGEJ0t7uSFKz65w56ete2sthEifuLASHttKbuRRma
+ paMnaDaig0mM0Qmd536zabVBAHcl9UN2JmSKpMU5UGtvh/aQGTcL7X24uRO6mYjwJdwW
+ LQwH9V1M3c7Ky/qU9v0QCX1PAOJPuRZolAzh7zseO9iVcUu0SIVFcSPqQsWkkpbxubSu
+ Rzew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gkO4wZs2FgdAnD1CSmbghKQqG0ttWfnbDgOBZn/+SK0=;
- b=T10gwZLQUsbX09s8/shcizQtLw+Xo4d5D4isT+BPuAVPZDKlXKDnuu3mnRZxbAR94U
- TACwTYSEoSSbV86+d6C+NBNnaZ98G2UJ7hs/WM6Ifi2s6u3g/ltb1/03tQ7pjtzoy9rq
- DXdPv/YOeP/Qx/SU0X2+2yGCVofgt1Yc++CA1uA2hfJcl+Gme+ZQOl8bijjHKwXyEQc6
- J/kNuFAsJPeH0wJXzkyn7FFbuXVS7LIiwQSkbFeTNr4C++LBVgiJ/jmoN3nir5QIjsVO
- pkc1/xR7HJMwkFr5i70mo1Nj/423jlm6cIEeI32VHqhpR8gn48+S2djAXCylyPaccQra
- gjYA==
-X-Gm-Message-State: AOAM533Dy3Ej865opTxxBnD1jogW1146xG85HtMqcw8SauRmZIrWq9jT
- B2Rkf6QvnqbCU1VHQP33vMGFxw==
-X-Google-Smtp-Source: ABdhPJyzODUMq/AyS4aF5tDIj0lxzfRVSiJgpUf3lUkc6Hi0IU7ZVuxe+GHkfVxWnfCCseGDVj9amA==
-X-Received: by 2002:a17:90a:4817:: with SMTP id
- a23mr28191220pjh.16.1609746034333; 
- Sun, 03 Jan 2021 23:40:34 -0800 (PST)
-Received: from localhost ([122.172.20.109])
- by smtp.gmail.com with ESMTPSA id b18sm55749806pfi.173.2021.01.03.23.40.33
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 03 Jan 2021 23:40:33 -0800 (PST)
-Date: Mon, 4 Jan 2021 13:10:31 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Yangtao Li <tiny.windzz@gmail.com>
-Subject: Re: [PATCH 31/31] PM / devfreq: convert to
- devm_pm_opp_register_notifier and remove unused API
-Message-ID: <20210104074031.k7njtbjot4r22flb@vireshk-i7>
-References: <20210103035706.24168-1-tiny.windzz@gmail.com>
+ :mime-version:content-disposition:in-reply-to;
+ bh=miG7CO4g5j20n9mrQMJx+RS21ZtCLqOgtOcLQw9KSDs=;
+ b=npUKrkLQhsSbuRHnWZFonBuTE4hfiKgkH4NlQFjPtuqNqodbgSOptd/Fz5yqrrkqhk
+ 7W31cDjQ9OiBGcTVjV2q/0hJUcEuOwIZy8/d5AMQU1x/yHuWD7rgA64GeXtnm3dYEP/q
+ Y1Q+hwaT4nxZ4iRyZ3jBw0g/41K9makmvFXQsLeN05ioMLYv/SVIEjuetB8G/YPj8Tc/
+ dkfzMRX9oFxyjtwvuaKSLOvuKiPO4MZgYdJtqc8a97wlJsn2zOsel7b5dGWW+V7h1Bq4
+ /2wior77xrt+eynMquNySkRxzaxOUVI1Ld6xOb4MtI+GD3QAuzjIu6ORL9MUNVJkETjn
+ ItTg==
+X-Gm-Message-State: AOAM531iQpHvCwAzJ5g9fWq5ZAUnLazg1fYxwmkeXBBYQY6+v1Xrv9ho
+ fb1F/jzuDTTjb2m0PKpXOot1xQ==
+X-Google-Smtp-Source: ABdhPJzf1aX815VmR6wjjt7zvuM5RGyRKlwUh6d84TKCy6s8zu4m42oY9tKbexlZo9VISvD5GidvuQ==
+X-Received: by 2002:a1c:7d58:: with SMTP id y85mr26041528wmc.50.1609754878758; 
+ Mon, 04 Jan 2021 02:07:58 -0800 (PST)
+Received: from holly.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id o23sm95611006wro.57.2021.01.04.02.07.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 02:07:58 -0800 (PST)
+Date: Mon, 4 Jan 2021 10:07:56 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: Re: [PATCH -next] video: backlight: use DEFINE_MUTEX (and
+ mutex_init() had been too late)
+Message-ID: <20210104100756.sjpzzchy4tklt2rd@holly.lan>
+References: <20201223141035.32178-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210103035706.24168-1-tiny.windzz@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
+In-Reply-To: <20201223141035.32178-1-zhengyongjun3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lee.jones@linaro.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03-01-21, 03:57, Yangtao Li wrote:
->  Use devm_pm_opp_* API to simplify code.
-> 
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+On Wed, Dec 23, 2020 at 10:10:35PM +0800, Zheng Yongjun wrote:
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+
+Can you explain the Subject for this patch in more detail?
+
+If this patch is required to correct a bug then it looks to me like it
+is incomplete.
+
+
+Daniel.
+
+
 > ---
->  drivers/devfreq/devfreq.c | 66 +--------------------------------------
->  include/linux/devfreq.h   | 23 --------------
->  2 files changed, 1 insertion(+), 88 deletions(-)
-
-Remove the unused stuff in a separate patch and let this layer keep
-doing the devm thing, I don't think others would need it.
-
--- 
-viresh
+>  drivers/video/backlight/backlight.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index 537fe1b376ad..d7a09c422547 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -64,7 +64,7 @@
+>   */
+>  
+>  static struct list_head backlight_dev_list;
+> -static struct mutex backlight_dev_list_mutex;
+> +static DEFINE_MUTEX(backlight_dev_list_mutex);
+>  static struct blocking_notifier_head backlight_notifier;
+>  
+>  static const char *const backlight_types[] = {
+> @@ -757,7 +757,6 @@ static int __init backlight_class_init(void)
+>  	backlight_class->dev_groups = bl_device_groups;
+>  	backlight_class->pm = &backlight_class_dev_pm_ops;
+>  	INIT_LIST_HEAD(&backlight_dev_list);
+> -	mutex_init(&backlight_dev_list_mutex);
+>  	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
+>  
+>  	return 0;
+> -- 
+> 2.22.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
