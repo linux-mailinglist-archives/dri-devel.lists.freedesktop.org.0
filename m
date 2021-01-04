@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725152E9354
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 11:30:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9C82E9392
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 11:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FB2894FF;
-	Mon,  4 Jan 2021 10:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 586C589C8F;
+	Mon,  4 Jan 2021 10:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C066A89B8F;
- Mon,  4 Jan 2021 10:30:05 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id b73so26781089edf.13;
- Mon, 04 Jan 2021 02:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=jAhrbtwG+6ed+DNQFu7tc1nkJ8bzBT1BIhV7/2UdB10=;
- b=l04tFPwzaoF0zdTU7cz/VYnZwFenJvq+6H2844tIXzDoJXbZHx9j88yn0WiYBUYhyI
- g/5KR4LIhTq1qvXRadGko2OM2/rAf+Ay+PsNxYI380Z+19LFl5NaDvB9RDbf6HZO5j4L
- AikIzMyVojiH6DByDfdZBL5FdA+a49Juw87c8DkrcXzZANFiHQQma9UIU7a9+slbIxyy
- SuTcmRMAjsmmXMfwfZGQpgbrQ0tdwszPYruUQ4IEAvEQYsVwzU2Iv/cK1jByXbT3apvW
- 0r0VCsrrO/BxiiAa1DXNGwd6OslZNm5FRle/SCeJugN1w1cBND9/p3IwNQ/pCMnYqq42
- e+LQ==
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE0889C46
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 10:46:44 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id w5so31646725wrm.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 02:46:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5cnKwGKMAW2uD7Mf320R7/SnXF3WX1LG6Qh3O1drZ/Q=;
+ b=hmCCGppBxS67+7BXqQG7Lw+tVho3R1OcBqp3hz5toxuy0QJeDKHzxhOHn/OPB9LuaB
+ TyRcrHvXbhdEl/+7VTeQDe1BX1fDZqTBfmYqeTSRNKfY8Iel4EnMnLHyDDkN8fNQTZtv
+ qoS7n7uPI/VlCfls/vUHdmk8+niCQIE8MyIRw9AQTPN4XlxsFdX3SEVmmoWUZ6B2JsXX
+ oPUpO1OI7PdcZphmKDlODxsyJmOXS6kmQx8Un4U4NBdwvlb7DtInP/gWNfpmZ3GTCCyu
+ yR1UNiR2nUC8UDLCULzVX+XQX/zN9uGPjEAuBM07HcHQbZ/gd9AtQbYGnTUXxCHq7nqR
+ zvew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=jAhrbtwG+6ed+DNQFu7tc1nkJ8bzBT1BIhV7/2UdB10=;
- b=YWS0UvhzyhOb9O/GVYwwJ4D4pfUlkAvXXbSYbDEnXSjTvXWe+DwdTcwM8fGqs0XhbY
- JBju+MhaCkC9rA60Rt+tba1iQxbt54lFCi7l/gJKdXtoHaabP+zCQWZorWfJ5TceMDao
- MMN2uoGs67UNEQ9oZn8P5W1VcSfJTmOL+c2FY+xQFJ2NlM5ptwde4C5y1qdSdXN46/lg
- haTSgPFnFJHlO6w1a6NYksSZ0xfwZAQZG5tpaGCVnJFJfg8q/orrqIdlVt2zXusCCk1o
- G8kTSmM7tcGH7m8GROPABuRf+tOrGjl/OI5LYHH5acD1whhP2J+Wc+QmUj6MpkyfSpNK
- 3m0Q==
-X-Gm-Message-State: AOAM533p/9wMxHlsikgZtk1UbmrIb+3MR/cWP3AKvl8dRDjY10dsocIo
- nO+DSVMv/cVxNWtkPGFSVgpSHdqYWxY=
-X-Google-Smtp-Source: ABdhPJxlAHsRyzbqfkpxBlPhMpweSghzFeOZhDyg/PLSiYniV5RQenWYKGpTMH1D6wgWLiQgPtj9VA==
-X-Received: by 2002:a50:d552:: with SMTP id f18mr65083171edj.168.1609756204494; 
- Mon, 04 Jan 2021 02:30:04 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id a20sm44145107edr.70.2021.01.04.02.30.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jan 2021 02:30:04 -0800 (PST)
-Subject: Re: [PATCH] drm: Check actual format for legacy pageflip.
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- dri-devel@lists.freedesktop.org
-References: <20210102140235.514039-1-bas@basnieuwenhuizen.nl>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <70bdaf24-8a05-f28c-9cbf-6709a5e35c6b@gmail.com>
-Date: Mon, 4 Jan 2021 11:30:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5cnKwGKMAW2uD7Mf320R7/SnXF3WX1LG6Qh3O1drZ/Q=;
+ b=ArAjr6MO7tC6pXVaAy8YUdzkLsalqkZc82IJwR3+jKd5t6FsIjX9sSqvKiaycMy08J
+ ExlrNPfBIW83FEna/l6Oal1/UTH86OVXLLeGVRyfbNzoQwoywVZkw+N7NFUOZDf6Yyjn
+ 2FNMziKmHz2mWnubN1TDIMGGX5Gb+AilHL5ORG8PnkJZz5QqJ9c+gvm57Q4q55335OhV
+ /npG4NAlw94Vnsxonk1QvP1O0Qanl1S25p3P4bFgPkiMTgSYpX6AQ8ioX0nmjhcpH9vM
+ MGJrDFf97KuFM5ImxlhAMHyog6bRDHrT0mh6dhVEc9r90m0V/7kpd5q6s/VEjTi3jtLC
+ 2H1Q==
+X-Gm-Message-State: AOAM530cZIybuf5Px/HOxnQXNuvr3HdETPf5fhbIGuctb0wP50RaL0Mg
+ gMpWZMA1Wt+a7PQAgCz7Sn94lw==
+X-Google-Smtp-Source: ABdhPJxLg9y2ii+HtYdwO5mHHkoRyLpzpRo5RBXbyYGGjZWmmsW9YQQWIhm9fV2y95zhm1wlI5iR0Q==
+X-Received: by 2002:adf:e452:: with SMTP id t18mr76358986wrm.177.1609757203325; 
+ Mon, 04 Jan 2021 02:46:43 -0800 (PST)
+Received: from holly.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id o23sm95805633wro.57.2021.01.04.02.46.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 02:46:42 -0800 (PST)
+Date: Mon, 4 Jan 2021 10:46:40 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: Re: [PATCH v2 -next] video: backlight: use DEFINE_MUTEX() for mutex
+ lock
+Message-ID: <20210104104640.2fe5lmi6hljb6rgr@holly.lan>
+References: <20201224132601.31791-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210102140235.514039-1-bas@basnieuwenhuizen.nl>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201224132601.31791-1-zhengyongjun3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +68,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: daniel.vetter@ffwll.ch, zhan.liu@amd.com, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lee.jones@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDIuMDEuMjEgdW0gMTU6MDIgc2NocmllYiBCYXMgTmlldXdlbmh1aXplbjoKPiBXaXRoIG1v
-ZGlmaWVycyBvbmUgY2FuIGFjdHVhbGx5IGhhdmUgZGlmZmVyZW50IGZvcm1hdF9pbmZvIHN0cnVj
-dHMKPiBmb3IgdGhlIHNhbWUgZm9ybWF0LCB3aGljaCBub3cgbWF0dGVycyBmb3IgQU1ER1BVIHNp
-bmNlIHdlIGNvbnZlcnQKPiBpbXBsaWNpdCBtb2RpZmllcnMgdG8gZXhwbGljaXQgbW9kaWZpZXJz
-IHdpdGggbXVsdGlwbGUgcGxhbmVzLgo+Cj4gSSBjaGVja2VkIG90aGVyIGRyaXZlcnMgYW5kIGl0
-IGRvZXNuJ3QgbG9vayBsaWtlIHRoZXkgZW5kIHVwIHRyaWdnZXJpbmcKPiB0aGlzIGNhc2Ugc28g
-SSB0aGluayB0aGlzIGlzIHNhZmUgdG8gcmVsYXguCj4KPiBTaWduZWQtb2ZmLWJ5OiBCYXMgTmll
-dXdlbmh1aXplbiA8YmFzQGJhc25pZXV3ZW5odWl6ZW4ubmw+Cj4gRml4ZXM6IDgxNjg1M2Y5ZGM0
-MCAoImRybS9hbWQvZGlzcGxheTogU2V0IG5ldyBmb3JtYXQgaW5mbyBmb3IgY29udmVydGVkIG1l
-dGFkYXRhLiIpCgpJIGRvbid0IGtub3cgdGhlIGRldGFpbHMgb2YgdGhlIGNvZGUgYXQgYWxsLCBi
-dXQgZnJvbSBhIGhpZ2ggbGV2ZWwgcG9pbnQgCm9mIHZpZXcgdGhhdCBtYWtlcyBtdWNoIG1vcmUg
-c2Vuc2UgdGhhbiB0aGUgb3JpZ2luYWwgcGF0Y2guCgpBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9k
-cm1fcGxhbmUuYyB8IDIgKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+IGluZGV4IGU2MjMxOTQ3Zjk4Ny4uZjUwODU5
-OTBjZmFjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+IEBAIC0xMTYzLDcgKzExNjMsNyBAQCBpbnQg
-ZHJtX21vZGVfcGFnZV9mbGlwX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gICAJaWYg
-KHJldCkKPiAgIAkJZ290byBvdXQ7Cj4gICAKPiAtCWlmIChvbGRfZmItPmZvcm1hdCAhPSBmYi0+
-Zm9ybWF0KSB7Cj4gKwlpZiAob2xkX2ZiLT5mb3JtYXQtPmZvcm1hdCAhPSBmYi0+Zm9ybWF0LT5m
-b3JtYXQpIHsKPiAgIAkJRFJNX0RFQlVHX0tNUygiUGFnZSBmbGlwIGlzIG5vdCBhbGxvd2VkIHRv
-IGNoYW5nZSBmcmFtZSBidWZmZXIgZm9ybWF0LlxuIik7Cj4gICAJCXJldCA9IC1FSU5WQUw7Cj4g
-ICAJCWdvdG8gb3V0OwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Thu, Dec 24, 2020 at 09:26:01PM +0800, Zheng Yongjun wrote:
+> mutex lock can be initialized automatically with DEFINE_MUTEX()
+> rather than explicitly calling mutex_init().
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> ---
+>  drivers/video/backlight/backlight.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index 537fe1b376ad..d7a09c422547 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -64,7 +64,7 @@
+>   */
+>  
+>  static struct list_head backlight_dev_list;
+> -static struct mutex backlight_dev_list_mutex;
+> +static DEFINE_MUTEX(backlight_dev_list_mutex);
+>  static struct blocking_notifier_head backlight_notifier;
+
+Why do we want to convert one of these variables to use a
+static initializers but leave the other two unchanged? Surely they
+should all be changed.
+
+
+Daniel.
+
+
+>  
+>  static const char *const backlight_types[] = {
+> @@ -757,7 +757,6 @@ static int __init backlight_class_init(void)
+>  	backlight_class->dev_groups = bl_device_groups;
+>  	backlight_class->pm = &backlight_class_dev_pm_ops;
+>  	INIT_LIST_HEAD(&backlight_dev_list);
+> -	mutex_init(&backlight_dev_list_mutex);
+>  	BLOCKING_INIT_NOTIFIER_HEAD(&backlight_notifier);
+>  
+>  	return 0;
+> -- 
+> 2.22.0
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
