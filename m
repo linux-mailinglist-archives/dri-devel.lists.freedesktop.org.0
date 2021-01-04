@@ -1,117 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25402E9795
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 15:48:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6DC2E97BF
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 15:55:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EA989F77;
-	Mon,  4 Jan 2021 14:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56B689CB5;
+	Mon,  4 Jan 2021 14:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8902989F8E
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 14:48:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jTJv/jrWWA/ICtCtLb3oSOGwlINY2LoZyDTV8ea/PsLDL6poP9rhbwGG5niMGpo6wOJXB5YoJzAJHul/YWLf/vqQwqcHfLMI3Ge3nVFUD08EzrTWExVRq3zBIkz2ZhkiYWjOiGpJU9pemY00OByxcXxiocP3XfCfPZJeO9YaY//HuP+ep6bBDdwLN9Mbmgr6w5a8IasPo3Lba9DRkYwTORa3TbX7UWmCU8h/rBFrWXxd4QkupMYO1EUbRo2urg8tb+z/iN+ReiemYl6nFzZIeWTtMzIEkd1DQ3G1l0R32OR/V2VOW8hBhdKWZZMtrPoeRwIgRSom1neUeeWB3weSLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dqXaQ67tYzRsRMlNbZLzKEtSJqcOmpaH3G49k8yO9pM=;
- b=NxYCvqJGK7PZXypnYHVCxHfFvrrpEg+PlsFB0K2dc/HQP8ofGYcxjJAOSYQLsXYH6FPDU+vkDT5ynku0GGeoHuxoPJglQNRKyhyQH3dF8Wo74x5GH8MZZxF6gdwIgimsVHLK/PMHR9Rk3imd7dky7rIWHbEzrJ0327Ha7FgCHhArkEh5aXVT1U+nnOsFH2ZLwPrgXZuveGune+mFKb+NfUXc32n5SXY5SIgAovStkPUS+uiFJMRsTobsH3Ml0MM/upPWyyVoDpMDE1shUe94loumRApm2SAw2fM3NMLOw7rWChaOTJ5IGwOPY2Vkiu/zi+yoyXih6g7AcV3U9P6dWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dqXaQ67tYzRsRMlNbZLzKEtSJqcOmpaH3G49k8yO9pM=;
- b=ituu6FfeNNc4s/z/kR0VHHGxGUkL4gyLEWLQpmv6ClZvJHDr4aylDGqVJZEOY21ZfIeZcyP1snqfhm4qpPvQU9durUcfzytUuuui9nWNC5qeGbyPxfT1bY2v1Kxbf0xnQMeTdovHE/G66udmsG8xPepc9m9V2ydmu9FvYP1JWtc=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3727.namprd12.prod.outlook.com (2603:10b6:208:15a::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19; Mon, 4 Jan
- 2021 14:48:25 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3721.024; Mon, 4 Jan 2021
- 14:48:25 +0000
-Subject: Re: 5.11-rc1 TTM list corruption
-To: Borislav Petkov <bp@alien8.de>
-References: <20201231104020.GA4504@zn.tnic>
- <e3bfa0a4-5d0a-bd68-6cc8-73db1d29f22c@amd.com>
- <20210104105802.GD32151@zn.tnic>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <e7ac0a5a-9384-b533-7b28-98e5469715bd@amd.com>
-Date: Mon, 4 Jan 2021 15:48:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210104105802.GD32151@zn.tnic>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR02CA0189.eurprd02.prod.outlook.com
- (2603:10a6:20b:28e::26) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB4489CB5
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 14:55:08 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 104EsilD011292;
+ Mon, 4 Jan 2021 14:54:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=dnocVcTsgoPYnIHPldL769OdktMS5cDE6wAGV/6tBS0=;
+ b=DOiqhhhGTBzi8XIy+mZ7zxs1yKUYl38bvcq4V9AYPJHbDxGQkMAMFxG/aRvqhW4LBiG2
+ zqAfPb4fhgdtYEwluwbKiU2sKUcUdNT6GFofNmOt2jqXTvoW+is2W0Pf8gZG7UbskJR9
+ 2x63uq+k8ojQZfECInbb9x2m8dlQCDgCFQUopEe3McG47aBhkMIntgxCflBWnIhkpnEM
+ bMbX/uj+dQvgfUBcKxkcy2mDJWDbyPRtW1Ccjbg1Fb6l49uu5GPvn/kJn+OuqT6FoYRr
+ N/hriICkUbnRHetOxVTiT1MO5KYNgrQNFhpobBXHbtTv/yiGoaoqQIQkH4+8r+zPxRfe qw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 35tebampjx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 04 Jan 2021 14:54:46 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 104EqYAe162863;
+ Mon, 4 Jan 2021 14:52:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 35v2ax951u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Jan 2021 14:52:45 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 104Eoucl008997;
+ Mon, 4 Jan 2021 14:50:56 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 04 Jan 2021 14:50:54 +0000
+Date: Mon, 4 Jan 2021 17:50:39 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v1 2/2] drm/bridge: anx7625: add MIPI DPI input feature
+ support
+Message-ID: <20210104145039.GT2809@kadam>
+References: <cover.1608883950.git.xji@analogixsemi.com>
+ <ec0282f620ac472886d3e349bb6a09394b747edb.1608883950.git.xji@analogixsemi.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR02CA0189.eurprd02.prod.outlook.com (2603:10a6:20b:28e::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19 via Frontend
- Transport; Mon, 4 Jan 2021 14:48:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e85c0930-7f30-4477-9c5d-08d8b0bfca66
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3727:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB372785E1C4FB48DB4B85D55983D20@MN2PR12MB3727.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XXKFuyFKNXxMb6/M0JJd+yfKLz4t/wdLPfYEGvQYBqxiO4ymDy7suEOOgG3QoKHDRbyqB7CBjyS2xKFluff1Vf4iMt6dvV/a2epnY3jLFsKsQtpqpYEvquhAAj8+D5tgizAYPJboZhITSEBNs2j49snPAahshxtdu/7q2ki3yJF5BdRdUEa0LheL6K4y8RqOLqjJoldFtCVTZAvaD/idV5lEKEMYeBmMi+t//m6VPeygMipeitpK9B9AP/RDbGIswq7tIGwFcDT/rMekasii39TY7YFugzRuvQutEtUYM7CoNkGp6C6HCcQkxeu667e3MXmbMR7Q6LM3rh5u24i7axwAxpG419aX6mK4rIhOSvFuyOXOzRz/JBPm8Y66aa3xAC7TxFFsgc6QkCQyf7GcDPgMjbOq1RtXuR734zC+1xT5YaDWjYCGyam0JxGwNdKc0vaxbbiME8n8fLv6x9ITdtaJm16727QXeJAviJ5ka1s=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(396003)(366004)(346002)(136003)(478600001)(4326008)(31696002)(6666004)(36756003)(8676002)(6486002)(2616005)(66476007)(316002)(6916009)(54906003)(4744005)(5660300002)(66556008)(16526019)(186003)(86362001)(8936002)(66946007)(52116002)(31686004)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RVgyVDl2Ym9hb0ZYK0JVR3doRWNoWU1PY09iZWpaeWVqaWRzYmRNMkhKYVFD?=
- =?utf-8?B?WExKUWtmMHllSzd0RnJVMlo5S0g3WkErblhZMUthS3VRM3dMVGZjZ3F5aHNi?=
- =?utf-8?B?RlhLajM2blVCWlJhb3hNWHpNS3M0bnBSbmtGcnRvRFlXeXJRMzlleS9YRVl6?=
- =?utf-8?B?eXhWR2ZXTGI1MW1aY3dHVWxrbFgrWm04MkZReHFvQTlyQ2llUXFvT0dCTi9S?=
- =?utf-8?B?K2dKY0h5U1VLWXVwVkdDWGppdU1TbmNieWdRYlZWR0N1Z3BYWmt3K0lxaXhG?=
- =?utf-8?B?ZUhFNytSVDZjMjhTTDBSVVJBb0lBTEYwZGx0N1ZXQW5KeDlTdjVqYk9PNzVD?=
- =?utf-8?B?QjExNHhpNHBzQUxGM1cvbCtwWklSNFVQMER2T28xZjhkRjBFRUFMalpIdW9p?=
- =?utf-8?B?MExnUHE3VlNiVk9vZE8zb0IzS2lKY1hETVBzZFRweHA3Z2pxQ213aTFoVVcr?=
- =?utf-8?B?ZCtOa2FJNklGYUN6QW9LQ0I1NWdHRnAvY2NTMU5LTVpXaEJWY3k0ZHZOK1dt?=
- =?utf-8?B?WVE2VTg0Y0lpMnI1dGViaGlhaHRuK3dSYW5TTkhDTVRDbEkrZ3BJUlNIMkpZ?=
- =?utf-8?B?Qk9JaUkzTmIwUk1vRnRLQjJGeGVJYURrV204aUozU2xTRHM3TmVuR2xOL2xq?=
- =?utf-8?B?Nm84VE1kUUVZcHdKaXJ6a0VYODJRV3FpUDFTMU5BRFlGN0FCQTREdm9oVGZR?=
- =?utf-8?B?b2lZQnlMY0tHSzJEdnhVRlBmeHI4a2RoM3A1djNqeFNFWjNRTTVYT0ZtVXh4?=
- =?utf-8?B?QVJFZWozZHkvQlN5ZGp0czZmNW5WTEJleTlwRVZwTzZKUUlpT1dHelBnMGVH?=
- =?utf-8?B?OURvSHdFMjQ4ZjRnb3JmdGxqZlh4Yll6V0hIYjBnMXNmd2h6bGRPNlRYWllz?=
- =?utf-8?B?dnJlYm50K3RDSWZJNUpBYWpJM2VyRVhjY1dDZ1QvNmdQdmFqTTA2a21PK2hz?=
- =?utf-8?B?U3lyOCtQZTV6MVJUUHJEd3lyamhkQ2MvU2tlaG10MGkyNmlTemt4akw5cWRw?=
- =?utf-8?B?ZWgyVE4vd2h2TEdsWW5ZR3JpUTBPWHZ5MWNSdlZwTkttU3BUSFRncDhHbDBt?=
- =?utf-8?B?YXBsL0hBV05FSlY1ZVk1TE81VXJNMHZRc2FFNTB2S1N0eU9VaWFnOUJZQ1Rl?=
- =?utf-8?B?UHBaWmVrRDVYMXpTTUU3SEJ3TGpQM2pHT2FOZms4Nk05Vk81cFgzOCt4SFVy?=
- =?utf-8?B?TUVqZjEyWktxY3lOZDh3SFRVSVJhU3U3OXlSZWttRUlXa3BxZGVvRE85ZzVn?=
- =?utf-8?B?L01WUmtSY0Y0RzB3QVdNRFVjWXBCMDZFZ1lpYThIZWdEY3lFMzY5Y1RqeXJT?=
- =?utf-8?B?d1FNVlNpWHh5TkhaeFFMUXJOWkV0V0MyVUJwMmQrcFdhMUtObHpFUEFaTGxB?=
- =?utf-8?B?Zlh1ZVZKRHU5R0VmTDJldVpTN2VnV1hCVWljbVJGS29WK3ZzbkI5OWRGM3d5?=
- =?utf-8?Q?u6/HZfZ8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2021 14:48:25.2890 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: e85c0930-7f30-4477-9c5d-08d8b0bfca66
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KMbm+cShUHTekUh6+YCRdeM+zOmhrAXdLTz7HD2/oHQR1+OIrP/MXR57bDtwwFgd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3727
+Content-Disposition: inline
+In-Reply-To: <ec0282f620ac472886d3e349bb6a09394b747edb.1608883950.git.xji@analogixsemi.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9853
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 adultscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101040097
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9853
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101040098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,22 +80,418 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Sheng Pan <span@analogixsemi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDQuMDEuMjEgdW0gMTE6NTggc2NocmllYiBCb3Jpc2xhdiBQZXRrb3Y6Cj4gT24gRnJpLCBK
-YW4gMDEsIDIwMjEgYXQgMDM6MzQ6MjhQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4gR29pbmcgdG8gZG91YmxlIGNoZWNrIHRoZSBjb2RlLCBidXQgY2FuIHlvdSByZXByb2R1Y2Ug
-dGhpcyBpc3N1ZQo+PiByZWxpYWJsZT8KPiBMZW1tZSBmaW5kIGEgdGVzdCBib3ggd2hpY2ggY2Fu
-IHRyaWdnZXIgaXQgdG9vIC0gdGhlIHNwbGF0IGhhcHBlbmVkCj4gb24gbXkgd29ya3N0YXRpb24g
-YW5kIEknZCBsaWtlIHRvIGF2b2lkIGRlYnVnZ2luZyB0aGVyZSBmb3Igb2J2aW91cwo+IHJlYXNv
-bnMuCgpQbGVhc2UgZG8gc28gc2luY2UgSSBjYW4ndCByZXByb2R1Y2UgdGhpcyBwcm9ibGVtIGFu
-ZCBkb3VibGUgY2hlY2tpbmcgCnRoZSBzb3VyY2UgZG9lc24ndCBzaG93IGFueXRoaW5nIG9idmlv
-dXMgZWl0aGVyLgoKVGhhbmtzLApDaHJpc3RpYW4uCgo+Cj4gVGh4Lgo+CgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Dec 25, 2020 at 07:02:15PM +0800, Xin Ji wrote:
+> +static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+> +				 u8 addrh, u8 addrm, u8 addrl,
+> +				 u8 len, u8 *buf)
+> +{
+> +	struct device *dev = &ctx->client->dev;
+> +	int ret;
+> +	u8 cmd;
+> +
+> +	if (len > MAX_DPCD_BUFFER_SIZE) {
+> +		DRM_DEV_ERROR(dev, "exceed aux buffer len.\n");
+> +		return -E2BIG;
+
+s/E2BIG/EINVAL/.  -E2BIG means something else.
+
+> +	}
+> +
+> +	cmd = ((len - 1) << 4) | 0x09;
+> +
+> +	/* Set command and length */
+> +	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +				AP_AUX_COMMAND, cmd);
+> +
+> +	/* Set aux access address */
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +				 AP_AUX_ADDR_7_0, addrl);
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +				 AP_AUX_ADDR_15_8, addrm);
+> +	ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> +				 AP_AUX_ADDR_19_16, addrh);
+> +
+> +	/* Enable aux access */
+> +	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> +				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
+> +
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "cannot access aux related register.\n");
+> +		return -EIO;
+> +	}
+> +
+> +	usleep_range(2000, 2100);
+> +
+> +	ret = wait_aux_op_finish(ctx);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "aux IO error: wait aux op finish.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
+> +				     AP_AUX_BUFF_START, len, buf);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "read dpcd register failed\n");
+> +		return -EIO;
+>  	}
+>  
+> -	return val;
+> +	return 0;
+>  }
+>  
+>  static int anx7625_video_mute_control(struct anx7625_data *ctx,
+> @@ -595,6 +663,101 @@ static int anx7625_dsi_config(struct anx7625_data *ctx)
+>  	return ret;
+>  }
+>  
+> +static int anx7625_api_dpi_config(struct anx7625_data *ctx)
+> +{
+> +	struct device *dev = &ctx->client->dev;
+> +	u16 freq = ctx->dt.pixelclock.min / 1000;
+> +	int ret;
+> +
+> +	/* configure pixel clock */
+> +	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +				PIXEL_CLOCK_L, freq & 0xFF);
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+> +				 PIXEL_CLOCK_H, (freq >> 8));
+> +
+> +	/* set DPI mode */
+> +	/* set to DPI PLL module sel */
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> +				 MIPI_DIGITAL_PLL_9, 0x20);
+> +	/* power down MIPI */
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> +				 MIPI_LANE_CTRL_10, 0x08);
+> +	/* enable DPI mode */
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
+> +				 MIPI_DIGITAL_PLL_18, 0x1C);
+> +	/* set first edge */
+> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
+> +				 VIDEO_CONTROL_0, 0x06);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(dev, "IO error : dpi phy set failed.\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static int anx7625_dpi_config(struct anx7625_data *ctx)
+> +{
+> +	struct device *dev = &ctx->client->dev;
+> +	int ret;
+> +
+> +	DRM_DEV_DEBUG_DRIVER(dev, "config dpi\n");
+> +
+> +	/* DSC disable */
+> +	ret = anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> +				R_DSC_CTRL_0, ~DSC_EN);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "IO error : disable dsc failed.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = anx7625_config_bit_matrix(ctx);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "config bit matrix failed.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = anx7625_api_dpi_config(ctx);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "mipi phy(dpi) setup failed.\n");
+> +		return ret;
+> +	}
+> +
+> +	/* set MIPI RX EN */
+> +	ret = anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+> +			       AP_AV_STATUS, AP_MIPI_RX_EN);
+> +	/* clear mute flag */
+> +	ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
+> +				 AP_AV_STATUS, (u8)~AP_MIPI_MUTE);
+> +	if (ret < 0)
+> +		DRM_DEV_ERROR(dev, "IO error : enable mipi rx failed.\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static int anx7625_hdcp_setting(struct anx7625_data *ctx)
+> +{
+> +	u8 bcap;
+> +	struct device *dev = &ctx->client->dev;
+> +
+> +	if (!(ctx->hdcp_support && ctx->hdcp_en)) {
+
+Push the ! in and remove the parentheses.
+
+	if (!ctx->hdcp_support || !ctx->hdcp_en) {
+
+
+> +		DRM_DEV_DEBUG_DRIVER(dev, "hdcp_support(%d), hdcp_en(%d)\n",
+> +				     ctx->hdcp_support, ctx->hdcp_en);
+> +		DRM_DEV_DEBUG_DRIVER(dev, "disable HDCP by config\n");
+> +		return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
+> +					 0xee, 0x9f);
+> +	}
+> +
+> +	anx7625_aux_dpcd_read(ctx, 0x06, 0x80, 0x28, 1, &bcap);
+> +	if (!(bcap & 0x01)) {
+> +		DRM_WARN("downstream not support HDCP 1.4, cap(%x).\n", bcap);
+> +		return anx7625_write_and(ctx, ctx->i2c.rx_p1_client,
+> +					 0xee, 0x9f);
+> +	}
+> +
+> +	DRM_DEV_DEBUG_DRIVER(dev, "enable HDCP 1.4\n");
+> +
+> +	return anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xee, 0x20);
+> +}
+> +
+>  static void anx7625_dp_start(struct anx7625_data *ctx)
+>  {
+>  	int ret;
+> @@ -605,9 +768,15 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
+>  		return;
+>  	}
+>  
+> +	/* HDCP config */
+> +	anx7625_hdcp_setting(ctx);
+> +
+>  	anx7625_config_audio_input(ctx);
+>  
+> -	ret = anx7625_dsi_config(ctx);
+> +	if (ctx->pdata.is_dpi)
+> +		ret = anx7625_dpi_config(ctx);
+> +	else
+> +		ret = anx7625_dsi_config(ctx);
+>  
+>  	if (ret < 0)
+>  		DRM_DEV_ERROR(dev, "MIPI phy setup error.\n");
+> @@ -688,8 +857,53 @@ static int sp_tx_get_edid_block(struct anx7625_data *ctx)
+>  	return c;
+>  }
+>  
+> -static int edid_read(struct anx7625_data *ctx,
+> -		     u8 offset, u8 *pblock_buf)
+> +static int check_hdcp_support(struct anx7625_data *ctx)
+> +{
+> +	int ret;
+> +	struct device *dev = &ctx->client->dev;
+> +
+> +	/* Select HDCP1.4 Key load */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_SRAM_SEL, 0x12);
+> +	/* Select flash addr low byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_ADDR_LOW, 0x91);
+> +	/* Select flash addr high byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_ADDR_HIGH, 0xa0);
+> +	/* Select sram length high byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, SRAM_LEN_HIGH, 0x00);
+> +	/* Select sram length low byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, SRAM_LEN_LOW, 0x27);
+> +	/* Select flash length high byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_LEN_HIGH, 0x02);
+> +	/* Select flash length low byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_LEN_LOW, 0x70);
+> +	/* Select sram addr high byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, SRAM_ADDR_HIGH, 0x00);
+> +	/* Select sram addr low byte */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, SRAM_ADDR_LOW, 0x00);
+> +	/* Enable load with decrypt_en */
+> +	anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, FLASH_LOAD_STA, 0x03);
+> +
+> +	usleep_range(10000, 11000);
+> +
+> +	/* Check load status */
+> +	ret = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, FLASH_LOAD_STA);
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "IO error : access flash load.\n");
+> +		return ret;
+> +	}
+> +
+> +	if ((ret & 0xF2) != 0xF2) {
+> +		ctx->hdcp_support = 0;
+> +		DRM_DEV_DEBUG_DRIVER(dev, "not support HDCP\n");
+> +	} else {
+> +		ctx->hdcp_support = 1;
+> +		DRM_DEV_DEBUG_DRIVER(dev, "support HDCP\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int edid_read(struct anx7625_data *ctx, u8 offset, u8 *pblock_buf)
+>  {
+>  	int ret, cnt;
+>  	struct device *dev = &ctx->client->dev;
+> @@ -718,6 +932,15 @@ static int edid_read(struct anx7625_data *ctx,
+>  	return 0;
+>  }
+>  
+> +void hdcp_enable(struct anx7625_data *ctx, int en)
+> +{
+> +	struct device *dev = &ctx->client->dev;
+> +
+> +	DRM_DEV_DEBUG_DRIVER(dev, "en(%d)\n", en);
+> +
+> +	ctx->hdcp_en = !!en;
+> +}
+> +
+>  static int segments_edid_read(struct anx7625_data *ctx,
+>  			      u8 segment, u8 *buf, u8 offset)
+>  {
+> @@ -992,8 +1215,10 @@ static void anx7625_chip_control(struct anx7625_data *ctx, int state)
+>  
+>  	if (state) {
+>  		atomic_inc(&ctx->power_status);
+> -		if (atomic_read(&ctx->power_status) == 1)
+> +		if (atomic_read(&ctx->power_status) == 1) {
+>  			anx7625_power_on_init(ctx);
+> +			check_hdcp_support(ctx);
+> +		}
+>  	} else {
+>  		if (atomic_read(&ctx->power_status)) {
+>  			atomic_dec(&ctx->power_status);
+> @@ -1051,6 +1276,7 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+>  		return;
+>  	}
+>  
+> +	ctx->hpd_status = 1;
+>  	ctx->hpd_high_cnt++;
+>  
+>  	/* Not support HDCP */
+> @@ -1060,8 +1286,10 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
+>  	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xec, 0x10);
+>  	/* Interrupt for DRM */
+>  	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client, 0xff, 0x01);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		DRM_DEV_ERROR(dev, "fail to setting HDCP/auth\n");
+>  		return;
+> +	}
+>  
+>  	ret = anx7625_reg_read(ctx, ctx->i2c.rx_p1_client, 0x86);
+>  	if (ret < 0)
+> @@ -1080,6 +1308,10 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
+>  	int ret, val;
+>  	struct device *dev = &ctx->client->dev;
+>  
+> +	/* Interrupt mode, no need poll HPD status, just return */
+> +	if (ctx->pdata.intp_irq)
+> +		return;
+> +
+>  	if (atomic_read(&ctx->power_status) != 1) {
+>  		DRM_DEV_DEBUG_DRIVER(dev, "No need to poling HPD status.\n");
+>  		return;
+> @@ -1130,6 +1362,22 @@ static void anx7625_remove_edid(struct anx7625_data *ctx)
+>  	ctx->slimport_edid_p.edid_block_num = -1;
+>  }
+>  
+> +static void anx7625_dp_adjust_swing(struct anx7625_data *ctx)
+> +{
+> +	struct device *dev = &ctx->client->dev;
+> +	int i;
+> +
+> +	if (!ctx->pdata.reg_table_size)
+> +		return;
+
+No need for this check.  Just remove it and the for loop becomes a no-op.
+
+> +
+> +	DRM_DEV_DEBUG_DRIVER(dev, "adjust DP tx swing\n");
+
+Delete this debug statement and use ftrace for this information.
+
+> +
+> +	for (i = 0; i < ctx->pdata.reg_table_size; i++)
+> +		anx7625_reg_write(ctx, ctx->i2c.tx_p1_client,
+> +				  ctx->pdata.art[i].offset & 0xFF,
+> +				  ctx->pdata.art[i].data & 0xFF);
+> +}
+> +
+>  static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
+>  {
+>  	struct device *dev = &ctx->client->dev;
+> @@ -1145,9 +1393,8 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
+>  	} else {
+>  		DRM_DEV_DEBUG_DRIVER(dev, " HPD high\n");
+>  		anx7625_start_dp_work(ctx);
+> +		anx7625_dp_adjust_swing(ctx);
+>  	}
+> -
+> -	ctx->hpd_status = 1;
+>  }
+>  
+>  static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
+> @@ -1224,12 +1471,63 @@ static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static int anx7625_get_u32_value(struct device_node *np,
+> +				 const char *name,
+> +				 int start_pos,
+> +				 int *reg_data)
+> +{
+> +	int i, ret;
+> +
+> +	/* each slot has 2 cells */
+> +	for (i = 0; i < 2; i++) {
+> +		ret = of_property_read_u32_index(np, name,
+> +						 start_pos + i,
+> +						 &reg_data[i]);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int anx7625_parse_dt(struct device *dev,
+>  			    struct anx7625_platform_data *pdata)
+>  {
+>  	struct device_node *np = dev->of_node;
+>  	struct drm_panel *panel;
+> -	int ret;
+> +	int ret, i;
+> +	int reg_data[2];
+> +	int total_size, num_regs, start_pos;
+> +
+> +	if (of_get_property(dev->of_node, "anx,swing-setting", &total_size)) {
+> +		/* each slot has 2 cells */
+> +		num_regs = total_size / (sizeof(u32) * 2);
+> +		if (num_regs > MAX_REG_SIZE)
+> +			num_regs = MAX_REG_SIZE;
+> +
+> +		pdata->reg_table_size = num_regs;
+> +
+> +		for (i = 0; i < num_regs; i++) {
+> +			start_pos = i * 2;
+> +			ret = anx7625_get_u32_value(np, "anx,swing-setting",
+> +						    start_pos, reg_data);
+> +			if (ret) {
+> +				DRM_DEV_ERROR(dev, "get swing-setting at %d\n",
+> +					      start_pos);
+> +				return -ENODEV;
+
+return ret;?
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
