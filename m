@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBEE2E9BCF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 18:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AD02E9BDB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 18:19:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB97C6E042;
-	Mon,  4 Jan 2021 17:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC6C6E040;
+	Mon,  4 Jan 2021 17:19:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBDF89C89;
- Mon,  4 Jan 2021 17:16:31 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id s19so6440265oos.2;
- Mon, 04 Jan 2021 09:16:31 -0800 (PST)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F0D6E02F;
+ Mon,  4 Jan 2021 17:19:36 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id d20so26728087otl.3;
+ Mon, 04 Jan 2021 09:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5jbZpSQhxdUbbMTL4dgvaaFMlciLivGcWgSqMngJ8Eg=;
- b=f6GsoGo0PTGq65kiH2FLh2K7AxuOFNTbfqSWLRxeyxFW3IPiGWfBw0Xpv1lFekT+zn
- 6W10rI7GjMXjc5IfDhWyjJ1u05MWb39o109tJztF+tXw+xAix0JDg4ShAq4CgDLH+W2h
- EHwat7M0lqn1pTpw+EayfFYMAvcl4tUfo7rFZMnkMjqIGzAjg3+cwEI3UzQ50O9WKMMx
- 330qAO4aY0bTjxsX3YNHGKccne5n/e0BKLRkRmvLFrq2jVY3tZuYhmSYD2IWfMJWXxyT
- BZqupH4bsWg6WvuFEK/VeXFo3IVDB7s7hywc1Efx6qrNx2ygOyR7/pXl+SNvovu+DitX
- /UqA==
+ :cc; bh=eUFGsNqtupRESQ2qco7sAkbPRghZqYBxJ2SVYT46+bk=;
+ b=uBQwp3+VllAF1kOh/5rXIJHFB8MmRRuuCEpIrWx9HGeV41X0hMXMnXLgttvnLYDX+o
+ raoeSNXlefBa3X4tBR4K+zgmy8RQjBkHKEDFSeNa+V1IZ9J7SogX+45JfNoEgyrru+zA
+ VtbTdRaBw8e39771nlD0ZMrZGfXQlOVZ4KjdkU66AcT347pRLBV1IhoXSoH2YRiqsgMQ
+ umE7Yw7xiuY7s3z54j6jwNPRj/zFuC0q5SlDNh5c3o3H3scZjAJSLX4SrHNH1tACk3Uw
+ T01EexboAraIOkXMo5tNmXHhEgFx/hepEdkX/n7cvsKvSnep9Xxs93Ln0w7azyAgui2B
+ n8sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5jbZpSQhxdUbbMTL4dgvaaFMlciLivGcWgSqMngJ8Eg=;
- b=GX/mcPMIruzEFs6Oc4oNBGSpRtz6oM7+TADxoZobTdoMT8U/OlOOhGlZxy0qnnDLlW
- 3mhAi4ZjkpjA0FDdxOW8/Qs8++FJjgDGhGC4wTuAJSyAvV58av/fOVS2JhZsT6fccWAI
- NvfK8HkjtUUyUabzcBJzf2e1EhOuhDcOTvKl5u44s8Brh8DbHxRKzanp3Wgh5cxdPWW2
- I7OlTIO2Wxyu5Adkt6hTQwZBu/LEKCmbhRddlQ4l0bi16ILTOGckrtdbbV52cdAKa0gJ
- x3XBXlgM0ubUN2HY4hckfVm44/aQseCWZiU4qEMkCQOCzTyyH7nmj4bkT3JgVVNw/KLc
- vy5w==
-X-Gm-Message-State: AOAM533T4lTxZdrmBww/6ZLSpqygMjYuzfzLmEUy3J1il/aoIzX2W1V3
- Ve6kGGlKHtlXubICrqeSj1kui8etd/WNw21tJBA=
-X-Google-Smtp-Source: ABdhPJyuMOxv4cXfgD2hnCz8nCBqP10l8peU5RXHwRDs0UkfvkqMh6jtMV5jIkqK/NQWHVEwcHEza9Lwl8vapdmzl7c=
-X-Received: by 2002:a4a:a2c5:: with SMTP id r5mr49224601ool.72.1609780590635; 
- Mon, 04 Jan 2021 09:16:30 -0800 (PST)
+ bh=eUFGsNqtupRESQ2qco7sAkbPRghZqYBxJ2SVYT46+bk=;
+ b=gm8VJSVJ2glcv9DeBpWo25cLEv9yz5Q6k03CSevH6thlteuwNpw03l8RfvzPZMB5eT
+ PnooImExdQnYAMUBmFqHnf4houiSWNbvIa3/Uec9+TpW/wLeN1sqOnpK80qt6WOx7ftS
+ +HYGPkvaoFT7+v9VVI20crMo3Y+T4vPAXYe56lhbv7xU4l2gSLo+dSp7JbNBxlLGHTwU
+ KtXEf86k9MfajSRslLQ2E34BH2L50q2zrehVmyJGJ8lZUTdpljTW77Qc77Ty0sLkd1Bj
+ K168x9SddBNzFbQu3OhPilrik9tQXQIPiwUvJj05yQsW5GxXq3PvWfl4J/+YRscPvBr0
+ DCWw==
+X-Gm-Message-State: AOAM532IBtsh0wRNFBbeeEDn4R+Jh6tqkIm/1O1DYix5laqv8yNWnEup
+ UUnVCSGB3+CDxthheCI3nNPV4yKoHR8RdrqLKy4=
+X-Google-Smtp-Source: ABdhPJzZelHdcFp2irRqSdV6JoidaETHC2vMKKmSRgl6LnZDu6WAE4/IQk8lu7LjmvJ5t+nRF8VVa1eJTVm7s+1Rgx8=
+X-Received: by 2002:a05:6830:1b7b:: with SMTP id
+ d27mr54874901ote.132.1609780775907; 
+ Mon, 04 Jan 2021 09:19:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
-In-Reply-To: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
+References: <1609210547-16776-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1609210547-16776-1-git-send-email-tiantao6@hisilicon.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Jan 2021 12:16:19 -0500
-Message-ID: <CADnq5_PwoHyoS=-Nc1EhBMRjwPwOfktgZr7RkeDSP9vBjSNUCQ@mail.gmail.com>
-Subject: Re: Enable fp16 display support for DCE8+, next try.
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Mon, 4 Jan 2021 12:19:25 -0500
+Message-ID: <CADnq5_OarN0dN7A=6fStpv44OTba1hYUP6_C=yvrGFPgbKHH8g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix comparison pointer to bool warning
+ in dc.c
+To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 28, 2020 at 1:51 PM Mario Kleiner
-<mario.kleiner.de@gmail.com> wrote:
+On Tue, Dec 29, 2020 at 4:42 AM Tian Tao <tiantao6@hisilicon.com> wrote:
 >
-> Hi and happy post-christmas!
+> Fixes coccicheck warning:
+> drivers/gpu/drm/amd/display/dc/core/dc.c:1543:12-19: WARNING: Comparison
+> to bool
+> drivers/gpu/drm/amd/display/dc/core/dc.c:1496:14-42: WARNING: Comparison
+> to bool
+> drivers/gpu/drm/amd/display/dc/core/dc.c:971:15-48: WARNING: Comparison
+> to bool
+> drivers/gpu/drm/amd/display/dc/core/dc.c:976:15-44: WARNING: Comparison
+> to bool
 >
-> I wrote a patch 1/1 that now checks plane scaling factors against
-> the pixel-format specific limits in the asic specific dc_plane_cap
-> structures during atomic check and other appropriate places.
->
-> This should prevent things like asking for scaling on fp16 framebuffers
-> if the hw can't do that. Hopefully this will now allow to safely enable
-> fp16 scanout also on older asic's like DCE-11.0, DCE-10 and DCE-8.
-> Patch 2/2 enables those DCE's now for fp16.
->
-> I used some quickly hacked up of IGT test kms_plane_scaling, manually
-> hacking the src fb size to make sure the patch correctly accepts or
-> rejects atomic commits based on allowable scaling factors for rgbx/a
-> 8 bit, 10, and fp16.
->
-> This fp16 support has been successfully tested with a Sea Islands /
-> DCE-8 laptop. I also confirmed that at least basic HDR signalling
-> over HDMI works for that DCE-8 machine with a HDR monitor. For this
-> i used the amdvlk driver which exposes fp16 since a while on supported
-> hw.
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
-Patches look good to me, but I'd like to get some feedback from the
-display folks as well.
-
->
-> There are other bugs in DC wrt. DCE-8 though, which didn't prevent
-> my testing, but may be worth looking into. My DCE-8 machine scrambles
-> the video output picture somewhat under Vulkan (radv and admvlk) if the
-> output signal precision isn't 8 bpc, ie. on 6 bpc (eDP laptop panel)
-> and 10 bpc, 12 bpc (HDMI deep color on external HDR monitor).
->
-> Another fun thing is getting a black screen if DC is enabled on at least
-> Linux 5.10+ (but not if i use the classic kms code in amdgpu-kms). If
-> i recompile the driver with a Ubuntu kconfig for Linux 5.9, the 5.10
-> kernel works, and the only obvious DC related difference is that DC's
-> new SI / DCE-6 asic support is disabled at compile time.
-
-Fixed here:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6bdeff12a96c9a5da95c8d11fefd145eb165e32a
-Patch should be in stable for 5.10 as well.
+Applied.  Thanks!
 
 Alex
+
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> index 58eb0d6..ea28b75 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+> @@ -968,12 +968,12 @@ struct dc *dc_create(const struct dc_init_data *init_params)
+>                 goto alloc_fail;
+>
+>         if (init_params->dce_environment == DCE_ENV_VIRTUAL_HW) {
+> -               if (false == dc_construct_ctx(dc, init_params)) {
+> +               if (!dc_construct_ctx(dc, init_params)) {
+>                         dc_destruct(dc);
+>                         goto construct_fail;
+>                 }
+>         } else {
+> -               if (false == dc_construct(dc, init_params)) {
+> +               if (!dc_construct(dc, init_params)) {
+>                         dc_destruct(dc);
+>                         goto construct_fail;
+>                 }
+> @@ -1493,7 +1493,7 @@ bool dc_commit_state(struct dc *dc, struct dc_state *context)
+>         enum dc_status result = DC_ERROR_UNEXPECTED;
+>         int i;
+>
+> -       if (false == context_changed(dc, context))
+> +       if (!context_changed(dc, context))
+>                 return DC_OK;
+>
+>         DC_LOG_DC("%s: %d streams\n",
+> @@ -1540,7 +1540,7 @@ bool dc_acquire_release_mpc_3dlut(
+>                 if (found_pipe_idx) {
+>                         if (acquire && pool->funcs->acquire_post_bldn_3dlut)
+>                                 ret = pool->funcs->acquire_post_bldn_3dlut(res_ctx, pool, mpcc_id, lut, shaper);
+> -                       else if (acquire == false && pool->funcs->release_post_bldn_3dlut)
+> +                       else if (!acquire && pool->funcs->release_post_bldn_3dlut)
+>                                 ret = pool->funcs->release_post_bldn_3dlut(res_ctx, pool, lut, shaper);
+>                 }
+>         }
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
