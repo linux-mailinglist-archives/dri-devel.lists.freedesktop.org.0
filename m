@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756B72E91DB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:39:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E203C2E9208
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7886C89CF3;
-	Mon,  4 Jan 2021 08:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CEF89EA9;
+	Mon,  4 Jan 2021 08:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AB8589A4F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 03:08:48 +0000 (UTC)
-X-UUID: 77c606a8b6504466ad3539b8f42d1d85-20210104
+ by gabe.freedesktop.org (Postfix) with ESMTP id 577668936E
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 05:57:30 +0000 (UTC)
+X-UUID: 95011aea59774b22a6e9bf7e135df9d1-20210104
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
- bh=FPK9ETN/EBdUIpqEXkfjhWCeHs6PHnTTo754Tn/L8j8=; 
- b=lPLmCKpnnNTHryJBkOdTMntgUW3zQec55YYxMIW/moUHzOxYOWyPqjEHTG4tX3i5V0FM9+Ui/2s/Fl0MaBbwXKz0TZJ+CEfFCok/X/aRp41WZBjsmsOBwRW3KPJFiGYDNQFByR84xX67ZrFjA3+zaSOGdmI/acVbLTAEiid2Geg=;
-X-UUID: 77c606a8b6504466ad3539b8f42d1d85-20210104
+ bh=QCHz3/xaCDIL21iydEhVWPDFe6T2A74wm/k7ncOkQ2s=; 
+ b=tI9gLUCbvthOatbvvw4qJyzGRXi2r/wjliPxikRn3ktx5mB2tdkwTpr0JBpThrVkMdmqK1OPUGcB9mJsHbfhLBjm7tQMLFuL2fEEkhckSHS5EP6YVuifugIE8LQdNpQCnwHedX1GQP59hc9Ni3Mk/IpkK7ntLEwQs4mMr82MP1w=;
+X-UUID: 95011aea59774b22a6e9bf7e135df9d1-20210104
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
  mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 823065018; Mon, 04 Jan 2021 11:08:45 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n1.mediatek.inc
- (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 4 Jan 2021 11:08:44 +0800
+ with ESMTP id 1804244745; Mon, 04 Jan 2021 13:57:26 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 4 Jan 2021 13:57:25 +0800
 Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 4 Jan 2021 11:08:43 +0800
-Message-ID: <1609729722.1574.1.camel@mhfsdcap03>
+ Transport; Mon, 4 Jan 2021 13:57:23 +0800
+Message-ID: <1609739844.1574.2.camel@mhfsdcap03>
 Subject: Re: [PATCH v3, 1/8] soc: mediatek: mmsys: create mmsys folder
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: Nicolas Boichat <drinkcat@chromium.org>
-Date: Mon, 4 Jan 2021 11:08:42 +0800
+Date: Mon, 4 Jan 2021 13:57:24 +0800
 In-Reply-To: <CANMq1KCRBz-rY6y3nHp8yh_QSohkmaYS=DqNDSPzvwmq-a09DQ@mail.gmail.com>
 References: <1609144630-14721-1-git-send-email-yongqiang.niu@mediatek.com>
  <1609144630-14721-2-git-send-email-yongqiang.niu@mediatek.com>
@@ -86,11 +86,15 @@ On Thu, 2020-12-31 at 09:21 +0800, Nicolas Boichat wrote:
 > >  drivers/soc/mediatek/mtk-mmsys.c       | 380 ---------------------------------
 > 
 > I wonder why this doesn't get detected as a rename?
-
-the rename message displayed when git commit -s
-git show will not show the rename information
-
 > 
+
+git commit --amend
+[detached HEAD 1f10c05] soc: mediatek: mmsys: create mmsys folder
+ 3 files changed, 3 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/soc/mediatek/mmsys/Makefile
+ rename drivers/soc/mediatek/{ => mmsys}/mtk-mmsys.c (100%)
+
+
 > >  4 files changed, 383 insertions(+), 381 deletions(-)
 > >  create mode 100644 drivers/soc/mediatek/mmsys/Makefile
 > >  create mode 100644 drivers/soc/mediatek/mmsys/mtk-mmsys.c
@@ -117,8 +121,6 @@ git show will not show the rename information
 > > \ No newline at end of file
 > 
 > Nit: newline at end of file please.
-
-it will be fixed in next version
 
 _______________________________________________
 dri-devel mailing list
