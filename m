@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE3A2E91F7
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F482E920C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6651F89D6C;
-	Mon,  4 Jan 2021 08:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F26189E1B;
+	Mon,  4 Jan 2021 08:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 375 seconds by postgrey-1.36 at gabe;
- Mon, 04 Jan 2021 07:21:57 UTC
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5ADDA89A77
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 07:21:57 +0000 (UTC)
-Received: from sunhao-CP65S.loongson.cn (unknown [10.20.42.162])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxjzSXwPJf3rAJAA--.2S2;
- Mon, 04 Jan 2021 15:15:35 +0800 (CST)
-From: Hao Sun <sunhao@loongson.cn>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/loongson: Add DDC support for loongson display controller
-Date: Mon,  4 Jan 2021 15:15:35 +0800
-Message-Id: <20210104071535.196192-1-sunhao@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA262895CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 07:19:13 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id w1so4868124pjc.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jan 2021 23:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=vXX8xe2A/FeRiUPzOKt0JcPzE3KP7HXla4w8NsLDWnc=;
+ b=YuGFCAwzc6s0ZWTmT9gJ9dm8xm/iUjFtuUFJRPZZY/029s2KACTxdL3ZqUZrKeogJd
+ Ck/BTqRIjMB5kEpsoEnDNSlIu8hBVdh25KA2kWlSOtZFYtONWP6o3CVkb5qpfF4QvDQs
+ 2KANTHMNVLyC/f2JaJ5cZrDJAWRoXsbRxpH9aBuvbWlZ29OSySy90D7abge4FuootsRW
+ WO3nv55h3wwq+1JvIQSL/NTB6Pq5v++NLIQBDpBwCAxWyT9uh0p0tan5aq359RYmBvW9
+ H4ZJZnDoyu8st82avvR/1WjDPqeisur7dfMRBYvklu+jNS3TNFshPHX/wRWrZGdhzEtL
+ hdCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=vXX8xe2A/FeRiUPzOKt0JcPzE3KP7HXla4w8NsLDWnc=;
+ b=Fbx0+S+iWHfZVoLQ8cNtVTQ8tvkgeRbI58UT7AnO4DzXtNXGF/5kKHl/8bB4LV8/9s
+ 1CNXh67gVuTGUFWcG4lprDXbabjhyzepYoMs3e5AvqGdVsexrq18wnZPan0SqPC65lg0
+ OoUwRcTXqSMFw+IDEnsy88G+UDj9uE+ls6Jvq6JMfThyv/1AzRZQYUa4EOJZstXgIIod
+ zeW3+g6EGKsS7xJCYUEipx7Eh8X/bt2hPCDsbEk9P5OOxEdvEakfew17a+WC6twNLYow
+ I3akeyR1Q9hWLuclZWTjO0wVJ3/zuGC2KVG8LyRlvhdoIjosnOAi1aaLvM60YrUVYrji
+ MZWw==
+X-Gm-Message-State: AOAM532EirbdmbbSLvT6CcQXpSWRK3MH3SqNTV0CwqvxSS8rd6DPtF7w
+ rHNn2EoVkk/pLNLMqkXgdlhnPA==
+X-Google-Smtp-Source: ABdhPJwvlRfdZmhb4sgIhlIMCp7GSIzc4CGLSDAZCiWizmME24cJXa5sePE9JLIPSO8GE4a2CzO61w==
+X-Received: by 2002:a17:902:9f88:b029:dc:292d:37c5 with SMTP id
+ g8-20020a1709029f88b02900dc292d37c5mr46034848plq.26.1609744753253; 
+ Sun, 03 Jan 2021 23:19:13 -0800 (PST)
+Received: from localhost ([122.172.20.109])
+ by smtp.gmail.com with ESMTPSA id h12sm45986820pgk.70.2021.01.03.23.19.12
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 03 Jan 2021 23:19:12 -0800 (PST)
+Date: Mon, 4 Jan 2021 12:49:10 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Yangtao Li <tiny.windzz@gmail.com>
+Subject: Re: [PATCH 07/31] serial: qcom_geni_serial: convert to use
+ devm_pm_opp_* API
+Message-ID: <20210104071910.2a2otwxyniu7c22z@vireshk-i7>
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-8-tiny.windzz@gmail.com>
 MIME-Version: 1.0
-X-CM-TRANSID: AQAAf9DxjzSXwPJf3rAJAA--.2S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfGFyUWr4fAF1UAF48tFyrJFb_yoW8Aryfuo
- W8ZFnxu3yrXFyxAa90gr1fXF1UZFn8Xa10yr4fAr4DZFW5trn8tFyYgw17AFyfAF4Yqr4U
- A34Sg3yrGrW7Ja1kn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYn7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
- x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
- JVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF
- 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
- 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
- r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
- 1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
- cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5WlkUUUUU
-X-CM-SenderInfo: xvxqxt3r6o00pqjv00gofq/
+Content-Disposition: inline
+In-Reply-To: <20210101165507.19486-8-tiny.windzz@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Mon, 04 Jan 2021 08:39:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,605 +71,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunhao@loongson.cn
+Cc: nm@ti.com, ulf.hansson@linaro.org, gustavoars@kernel.org,
+ jirislaby@kernel.org, airlied@linux.ie, linux-mmc@vger.kernel.org,
+ stanimir.varbanov@linaro.org, tanmay@codeaurora.org,
+ bjorn.andersson@linaro.org, natechancellor@gmail.com, thierry.reding@gmail.com,
+ tongtiangen@huawei.com, groeck@chromium.org, marijn.suijten@somainline.org,
+ digetx@gmail.com, steven.price@arm.com, mka@chromium.org,
+ chandanu@codeaurora.org, emil.velikov@collabora.com,
+ linux-samsung-soc@vger.kernel.org, jonathan@marek.ca, harigovi@codeaurora.org,
+ adrian.hunter@intel.com, vireshk@kernel.org, linux-pm@vger.kernel.org,
+ kyungmin.park@samsung.com, krzk@kernel.org, jonathanh@nvidia.com,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com,
+ alyssa.rosenzweig@collabora.com, linux-serial@vger.kernel.org,
+ airlied@redhat.com, smasetty@codeaurora.org, linux-imx@nxp.com,
+ freedreno@lists.freedesktop.org, kernel@pengutronix.de, tzimmermann@suse.de,
+ linux-arm-msm@vger.kernel.org, s.hauer@pengutronix.de,
+ linux-spi@vger.kernel.org, linux-media@vger.kernel.org,
+ abhinavk@codeaurora.org, akhilpo@codeaurora.org, khsieh@codeaurora.org,
+ lima@lists.freedesktop.org, broonie@kernel.org, rikard.falkeborn@gmail.com,
+ kalyan_t@codeaurora.org, linux-tegra@vger.kernel.org, varar@codeaurora.org,
+ mchehab@kernel.org, sean@poorly.run, linux-arm-kernel@lists.infradead.org,
+ dianders@chromium.org, akashast@codeaurora.org, rnayak@codeaurora.org,
+ parashar@codeaurora.org, tomeu.vizoso@collabora.com, sboyd@kernel.org,
+ gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, rjw@rjwysocki.net,
+ agross@kernel.org, linux-kernel@vger.kernel.org, miaoqinglang@huawei.com,
+ hoegsberg@google.com, yuq825@gmail.com, ddavenport@chromium.org,
+ masneyb@onstation.org, shawnguo@kernel.org, georgi.djakov@linaro.org,
+ lukasz.luba@arm.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add GPIO and I2C driver to detect connector and fetch EDID via DDC.
+On 01-01-21, 16:54, Yangtao Li wrote:
+> Use devm_pm_opp_* API to simplify code, and we don't need
+> to make opp_table glabal.
+> 
+> Let's remove opp_table from geni_se later.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> ---
+>  drivers/tty/serial/qcom_geni_serial.c | 23 +++++++++--------------
+>  1 file changed, 9 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
+> index 5aada7ebae35..36a92df8ec11 100644
+> --- a/drivers/tty/serial/qcom_geni_serial.c
+> +++ b/drivers/tty/serial/qcom_geni_serial.c
+> @@ -1352,6 +1352,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+>  	int irq;
+>  	bool console = false;
+>  	struct uart_driver *drv;
+> +	struct opp_table *opp_table;
+>  
+>  	if (of_device_is_compatible(pdev->dev.of_node, "qcom,geni-debug-uart"))
+>  		console = true;
+> @@ -1433,13 +1434,13 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+>  	if (of_property_read_bool(pdev->dev.of_node, "cts-rts-swap"))
+>  		port->cts_rts_swap = true;
+>  
+> -	port->se.opp_table = dev_pm_opp_set_clkname(&pdev->dev, "se");
+> -	if (IS_ERR(port->se.opp_table))
+> -		return PTR_ERR(port->se.opp_table);
+> +	opp_table = devm_pm_opp_set_clkname(&pdev->dev, "se");
+> +	if (IS_ERR(opp_table))
+> +		return PTR_ERR(opp_table);
+>  	/* OPP table is optional */
+> -	ret = dev_pm_opp_of_add_table(&pdev->dev);
+> +	ret = devm_pm_opp_of_add_table(&pdev->dev);
+>  	if (ret) {
+> -		dev_pm_opp_put_clkname(port->se.opp_table);
+> +		devm_pm_opp_put_clkname(&pdev->dev, opp_table);
 
-Signed-off-by: Hao Sun <sunhao@loongson.cn>
----
- drivers/gpu/drm/loongson/Makefile             |   3 +-
- drivers/gpu/drm/loongson/loongson_connector.c | 121 +++++++-
- drivers/gpu/drm/loongson/loongson_drv.c       |  16 +-
- drivers/gpu/drm/loongson/loongson_drv.h       |  10 +
- drivers/gpu/drm/loongson/loongson_i2c.c       | 264 ++++++++++++++++++
- drivers/gpu/drm/loongson/loongson_i2c.h       |  40 +++
- 6 files changed, 447 insertions(+), 7 deletions(-)
- create mode 100644 drivers/gpu/drm/loongson/loongson_i2c.c
- create mode 100644 drivers/gpu/drm/loongson/loongson_i2c.h
+We shouldn't be doing this here, i.e. put_clkname. Even when the OPP
+table isn't present, this driver calls dev_pm_opp_set_rate() which
+behaves like clk_set_rate() in this case and so the clk name is still
+required by the OPP core.
 
-diff --git a/drivers/gpu/drm/loongson/Makefile b/drivers/gpu/drm/loongson/Makefile
-index 22d063953b78..773b806e99a2 100644
---- a/drivers/gpu/drm/loongson/Makefile
-+++ b/drivers/gpu/drm/loongson/Makefile
-@@ -10,5 +10,6 @@ loongson-y := loongson_drv.o \
- 	loongson_plane.o \
- 	loongson_device.o \
- 	loongson_connector.o \
--	loongson_encoder.o
-+	loongson_encoder.o \
-+	loongson_i2c.o
- obj-$(CONFIG_DRM_LOONGSON) += loongson.o
-diff --git a/drivers/gpu/drm/loongson/loongson_connector.c b/drivers/gpu/drm/loongson/loongson_connector.c
-index 7bf1e40318c3..955a0ac1719a 100644
---- a/drivers/gpu/drm/loongson/loongson_connector.c
-+++ b/drivers/gpu/drm/loongson/loongson_connector.c
-@@ -2,21 +2,126 @@
- 
- #include "loongson_drv.h"
- 
-+static int loongson_do_probe_ddc_edid(struct i2c_adapter *adapter,
-+				      unsigned char *buf)
-+{
-+	u8 start = 0x0;
-+	u32 che_tmp = 0;
-+	u32 i;
-+
-+	struct i2c_msg msgs[] = { {
-+		.addr = DDC_ADDR,
-+		.flags = 0,
-+		.len = 1,
-+		.buf = &start,
-+	},
-+	{
-+		.addr = DDC_ADDR,
-+		.flags = I2C_M_RD,
-+		.len = EDID_LENGTH * 2,
-+		.buf = buf,
-+	} };
-+
-+	if (i2c_transfer(adapter, msgs, 2) == 2) {
-+		if (buf[126] != 0) {
-+			buf[126] = 0;
-+			che_tmp = 0;
-+			for (i = 0; i < 127; i++)
-+				che_tmp += buf[i];
-+			buf[127] = 256 - (che_tmp) % 256;
-+		}
-+		if (!drm_edid_block_valid(buf, 0, true, NULL)) {
-+			dev_warn_once(&adapter->dev, "Invalid EDID block\n");
-+			return false;
-+		}
-+	} else {
-+		dev_warn_once(&adapter->dev, "unable to read EDID block\n");
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static bool get_edid_i2c(struct loongson_connector *lconnector, u8 *edid)
-+{
-+	struct loongson_i2c *i2c = lconnector->i2c;
-+	bool ret = false;
-+
-+	if (i2c != NULL && i2c->adapter != NULL)
-+		ret = loongson_do_probe_ddc_edid(i2c->adapter, edid);
-+	else
-+		DRM_INFO_ONCE("get loongson connector adapter err\n");
-+
-+	return ret;
-+}
-+
- static int loongson_get_modes(struct drm_connector *connector)
- {
--	int count;
-+	struct loongson_connector *lconnector;
-+	u8 edid[EDID_LENGTH * 2];
-+	u32 size;
-+	bool success;
-+	u32 ret;
-+
-+	lconnector = to_loongson_connector(connector);
-+	size = sizeof(u8) * EDID_LENGTH * 2;
- 
--	count =  drm_add_modes_noedid(connector, 1920, 1080);
--	drm_set_preferred_mode(connector, 1024, 768);
-+	success = get_edid_i2c(lconnector, edid);
- 
--	return count;
-+	if (success) {
-+		drm_connector_update_edid_property(connector,
-+				(struct edid *)edid);
-+		ret = drm_add_edid_modes(connector, (struct edid *)edid);
-+	} else
-+		ret = drm_add_modes_noedid(connector, 1024, 768);
-+
-+	return ret;
- }
- 
-+static bool is_connected(struct loongson_connector *ls_connector)
-+{
-+	unsigned char start = 0x0;
-+	struct i2c_adapter *adapter;
-+	struct i2c_msg msgs = {
-+		.addr = DDC_ADDR,
-+		.flags = 0,
-+		.len = 1,
-+		.buf = &start,
-+	};
-+
-+	if (!ls_connector->i2c)
-+		return false;
-+
-+	adapter = ls_connector->i2c->adapter;
-+	if (i2c_transfer(adapter, &msgs, 1) != 1) {
-+		DRM_DEBUG_KMS("display-%d not connect\n", ls_connector->id);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
-+static enum drm_connector_status
-+loongson_detect(struct drm_connector *connector, bool force)
-+{
-+	struct loongson_connector *lconnector;
-+	enum drm_connector_status ret = connector_status_disconnected;
-+
-+	lconnector = to_loongson_connector(connector);
-+
-+	if (is_connected(lconnector))
-+		ret = connector_status_connected;
-+
-+	return ret;
-+}
-+
-+
- static const struct drm_connector_helper_funcs loongson_connector_helper = {
- 	.get_modes = loongson_get_modes,
- };
- 
- static const struct drm_connector_funcs loongson_connector_funcs = {
-+	.detect = loongson_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
-@@ -37,11 +142,17 @@ int loongson_connector_init(struct loongson_device *ldev, int index)
- 
- 	lconnector->ldev = ldev;
- 	lconnector->id = index;
-+	lconnector->i2c_id = index + DC_I2C_BASE;
-+
-+	lconnector->i2c = loongson_i2c_bus_match(ldev, lconnector->i2c_id);
-+	if (!lconnector->i2c)
-+		DRM_INFO("connector-%d match i2c-%d err\n", index,
-+			 lconnector->i2c_id);
- 
- 	ldev->mode_info[index].connector = lconnector;
- 	connector = &lconnector->base;
- 	drm_connector_init(ldev->dev, connector, &loongson_connector_funcs,
--			   DRM_MODE_CONNECTOR_Unknown);
-+			DRM_MODE_CONNECTOR_Unknown);
- 	drm_connector_helper_add(connector, &loongson_connector_helper);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/loongson/loongson_drv.c b/drivers/gpu/drm/loongson/loongson_drv.c
-index 7c5c51341d91..6d0dc5db902c 100644
---- a/drivers/gpu/drm/loongson/loongson_drv.c
-+++ b/drivers/gpu/drm/loongson/loongson_drv.c
-@@ -11,9 +11,10 @@
- 
- /* Interface history:
-  * 0.1 - riginal.
-+ * 0.2 - add i2c and connector detect.
-  */
- #define DRIVER_MAJOR 0
--#define DRIVER_MINOR 1
-+#define DRIVER_MINOR 2
- 
- static const struct drm_mode_config_funcs loongson_mode_funcs = {
- 	.fb_create = drm_gem_fb_create,
-@@ -31,6 +32,7 @@ static int loongson_device_init(struct drm_device *dev, uint32_t flags)
- 	resource_size_t aper_size;
- 	resource_size_t mmio_base;
- 	resource_size_t mmio_size;
-+	u32 ret;
- 
- 	/* GPU MEM */
- 	/* We need get 7A-gpu pci device information for ldev->gpu_pdev */
-@@ -72,6 +74,18 @@ static int loongson_device_init(struct drm_device *dev, uint32_t flags)
- 	if (ldev->io == NULL)
- 		return -ENOMEM;
- 
-+	ret = loongson_dc_gpio_init(ldev);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize dc gpios\n");
-+		return ret;
-+	}
-+
-+	ret = loongson_i2c_init(ldev);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize dc i2c\n");
-+		return ret;
-+	}
-+
- 	DRM_INFO("DC mmio_base 0x%llx mmio_size 0x%llx io 0x%x\n",
- 		 mmio_base, mmio_size, *(int *)ldev->io);
- 	DRM_INFO("GPU vram_start = 0x%x vram_size = 0x%x\n",
-diff --git a/drivers/gpu/drm/loongson/loongson_drv.h b/drivers/gpu/drm/loongson/loongson_drv.h
-index da3e5673eb2b..0dfc48375db0 100644
---- a/drivers/gpu/drm/loongson/loongson_drv.h
-+++ b/drivers/gpu/drm/loongson/loongson_drv.h
-@@ -18,6 +18,7 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_encoder.h>
-+#include "loongson_i2c.h"
- 
- /* General customization:
-  */
-@@ -28,6 +29,7 @@
- 
- #define to_loongson_crtc(x) container_of(x, struct loongson_crtc, base)
- #define to_loongson_encoder(x) container_of(x, struct loongson_encoder, base)
-+#define to_loongson_connector(x) container_of(x, struct loongson_connector, base)
- 
- #define LS7A_CHIPCFG_REG_BASE (0x10010000)
- #define PCI_DEVICE_ID_LOONGSON_DC 0x7a06
-@@ -85,8 +87,10 @@ struct loongson_encoder {
- struct loongson_connector {
- 	struct drm_connector base;
- 	struct loongson_device *ldev;
-+	struct loongson_i2c *i2c;
- 	u16 id;
- 	u32 type;
-+	u16 i2c_id;
- };
- 
- struct loongson_mode_info {
-@@ -109,6 +113,9 @@ struct loongson_device {
- 	u32 num_crtc;
- 	struct loongson_mode_info mode_info[2];
- 	struct pci_dev *gpu_pdev; /* loongson 7A gpu device info */
-+
-+	struct loongson_i2c i2c_bus[LS_MAX_I2C_BUS];
-+	struct gpio_chip chip;
- };
- 
- /* crtc */
-@@ -123,6 +130,9 @@ int loongson_encoder_init(struct loongson_device *ldev, int index);
- /* plane */
- int loongson_plane_init(struct loongson_crtc *lcrtc);
- 
-+/* i2c */
-+int loongson_dc_gpio_init(struct loongson_device *ldev);
-+
- /* device */
- u32 loongson_gpu_offset(struct drm_plane_state *state);
- u32 ls_mm_rreg(struct loongson_device *ldev, u32 offset);
-diff --git a/drivers/gpu/drm/loongson/loongson_i2c.c b/drivers/gpu/drm/loongson/loongson_i2c.c
-new file mode 100644
-index 000000000000..b34c9e3c45ca
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/loongson_i2c.c
-@@ -0,0 +1,264 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include "loongson_i2c.h"
-+#include "loongson_drv.h"
-+#include "linux/gpio.h"
-+#include <linux/gpio/consumer.h>
-+
-+static struct gpio i2c_gpios[4] = {
-+	{ .gpio = DC_GPIO_0, .flags = GPIOF_OPEN_DRAIN, .label = "i2c-6-sda" },
-+	{ .gpio = DC_GPIO_1, .flags = GPIOF_OPEN_DRAIN, .label = "i2c-6-scl" },
-+	{ .gpio = DC_GPIO_2, .flags = GPIOF_OPEN_DRAIN, .label = "i2c-7-sda" },
-+	{ .gpio = DC_GPIO_3, .flags = GPIOF_OPEN_DRAIN, .label = "i2c-7-scl" },
-+};
-+
-+static inline void __dc_gpio_set_dir(struct loongson_device *ldev, unsigned int pin, int input)
-+{
-+	u32 temp;
-+
-+	temp = ls_mm_rreg_locked(ldev, LS7A_DC_GPIO_CFG_OFFSET);
-+	if (input)
-+		temp |= 1UL << pin;
-+	else
-+		temp &= ~(1UL << pin);
-+	ls_mm_wreg_locked(ldev, LS7A_DC_GPIO_CFG_OFFSET, temp);
-+}
-+
-+static void __dc_gpio_set_val(struct loongson_device *ldev, unsigned int pin, int high)
-+{
-+	u32 temp;
-+
-+	temp = ls_mm_rreg_locked(ldev, LS7A_DC_GPIO_OUT_OFFSET);
-+	if (high)
-+		temp |= 1UL << pin;
-+	else
-+		temp &= ~(1UL << pin);
-+	ls_mm_wreg_locked(ldev, LS7A_DC_GPIO_OUT_OFFSET, temp);
-+}
-+
-+static int ls_dc_gpio_request(struct gpio_chip *chip, unsigned int pin)
-+{
-+	if (pin >= (chip->ngpio + chip->base))
-+		return -EINVAL;
-+	else
-+		return 0;
-+}
-+
-+static int ls_dc_gpio_dir_input(struct gpio_chip *chip, unsigned int pin)
-+{
-+	struct loongson_device *ldev;
-+
-+	ldev = container_of(chip, struct loongson_device, chip);
-+	__dc_gpio_set_dir(ldev, pin, 1);
-+
-+	return 0;
-+}
-+
-+static int ls_dc_gpio_dir_output(struct gpio_chip *chip, unsigned int pin, int value)
-+{
-+	struct loongson_device *ldev;
-+
-+	ldev = container_of(chip, struct loongson_device, chip);
-+	__dc_gpio_set_val(ldev, pin, value);
-+	__dc_gpio_set_dir(ldev, pin, 0);
-+
-+	return 0;
-+}
-+
-+static void ls_dc_gpio_set(struct gpio_chip *chip, unsigned int pin, int value)
-+{
-+	struct loongson_device *ldev;
-+
-+	ldev = container_of(chip, struct loongson_device, chip);
-+	__dc_gpio_set_val(ldev, pin, value);
-+}
-+
-+static int ls_dc_gpio_get(struct gpio_chip *chip, unsigned int pin)
-+{
-+	u32 val;
-+	struct loongson_device *ldev;
-+
-+	ldev = container_of(chip, struct loongson_device, chip);
-+	val = ls_mm_rreg_locked(ldev, LS7A_DC_GPIO_IN_OFFSET);
-+	return (val >> pin) & 1;
-+}
-+
-+static void loongson_i2c_set_data(void *i2c, int value)
-+{
-+	struct loongson_i2c *li2c = i2c;
-+	struct gpio_desc *gpiod = gpio_to_desc(i2c_gpios[li2c->data].gpio);
-+
-+	gpiod_set_value_cansleep(gpiod, value);
-+}
-+
-+static void loongson_i2c_set_clock(void *i2c, int value)
-+{
-+	struct loongson_i2c *li2c = i2c;
-+	struct gpio_desc *gpiod = gpio_to_desc(i2c_gpios[li2c->clock].gpio);
-+
-+	gpiod_set_value_cansleep(gpiod, value);
-+}
-+
-+static int loongson_i2c_get_data(void *i2c)
-+{
-+	struct loongson_i2c *li2c = i2c;
-+	struct gpio_desc *gpiod = gpio_to_desc(i2c_gpios[li2c->data].gpio);
-+
-+	return gpiod_get_value_cansleep(gpiod);
-+}
-+
-+static int loongson_i2c_get_clock(void *i2c)
-+{
-+	struct loongson_i2c *li2c = i2c;
-+	struct gpio_desc *gpiod = gpio_to_desc(i2c_gpios[li2c->clock].gpio);
-+
-+	return gpiod_get_value_cansleep(gpiod);
-+}
-+
-+static int loongson_i2c_create(struct loongson_i2c *li2c, const char *name)
-+{
-+	int ret;
-+	unsigned int i2c_num;
-+	struct i2c_client *i2c_cli;
-+	struct i2c_adapter *i2c_adapter;
-+	struct i2c_board_info i2c_info;
-+	struct i2c_algo_bit_data *i2c_algo_data;
-+	struct device *dev;
-+
-+	dev = &li2c->adapter->dev;
-+	i2c_num = li2c->i2c_id;
-+	i2c_adapter = kzalloc(sizeof(struct i2c_adapter), GFP_KERNEL);
-+	if (IS_ERR(i2c_adapter)) {
-+		ret = PTR_ERR(i2c_adapter);
-+		goto error_mem;
-+	}
-+	i2c_algo_data = kzalloc(sizeof(struct i2c_algo_bit_data), GFP_KERNEL);
-+	if (IS_ERR(i2c_algo_data)) {
-+		ret = PTR_ERR(i2c_algo_data);
-+		goto error_mem;
-+	}
-+
-+	i2c_adapter->owner = THIS_MODULE;
-+	i2c_adapter->class = I2C_CLASS_DDC;
-+	i2c_adapter->algo_data = i2c_algo_data;
-+	i2c_adapter->nr = i2c_num;
-+	snprintf(i2c_adapter->name, sizeof(i2c_adapter->name), "%s%d", name, i2c_num - DC_I2C_BASE);
-+	li2c->data = i2c_num % DC_I2C_BASE * 2;
-+	li2c->clock = i2c_num % DC_I2C_BASE * 2 + 1;
-+	DRM_INFO("Created i2c-%d, sda=%d, scl=%d\n", i2c_num, li2c->data, li2c->clock);
-+	if (gpio_cansleep(i2c_gpios[li2c->data].gpio) || gpio_cansleep(i2c_gpios[li2c->clock].gpio))
-+		dev_warn(dev, "Slow GPIO pins might wreak havoc I2C timing\n");
-+	i2c_algo_data->setsda = loongson_i2c_set_data;
-+	i2c_algo_data->setscl = loongson_i2c_set_clock;
-+	i2c_algo_data->getsda = loongson_i2c_get_data;
-+	i2c_algo_data->getscl = loongson_i2c_get_clock;
-+	i2c_algo_data->udelay = DC_I2C_TON;
-+	i2c_algo_data->timeout = usecs_to_jiffies(2200); /* from VESA */
-+	ret = i2c_bit_add_numbered_bus(i2c_adapter);
-+	if (ret) {
-+		DRM_ERROR("Failed to register i2c algo-bit adapter %s\n", i2c_adapter->name);
-+		kfree(i2c_adapter);
-+		i2c_adapter = NULL;
-+	}
-+
-+	li2c->adapter = i2c_adapter;
-+	i2c_algo_data->data = li2c;
-+	i2c_set_adapdata(li2c->adapter, li2c);
-+	DRM_INFO("Register i2c algo-bit adapter [%s]\n", i2c_adapter->name);
-+
-+	memset(&i2c_info, 0, sizeof(struct i2c_board_info));
-+	strncpy(i2c_info.type, name, I2C_NAME_SIZE);
-+	i2c_info.addr = DDC_ADDR;
-+	i2c_cli = i2c_new_client_device(i2c_adapter, &i2c_info);
-+	if (i2c_cli == NULL) {
-+		DRM_ERROR("Failed to create i2c adapter\n");
-+		return -EBUSY;
-+	}
-+	li2c->init = true;
-+	return 0;
-+
-+error_mem:
-+	DRM_ERROR("Failed to malloc memory for loongson i2c\n");
-+	return ret;
-+}
-+
-+static int loongson_i2c_add(struct loongson_device *ldev, const char *name)
-+{
-+	int i;
-+
-+	for (i = 0; i < LS_MAX_I2C_BUS; i++) {
-+		if (ldev->i2c_bus[i].use) {
-+			loongson_i2c_create(&ldev->i2c_bus[i], name);
-+		} else {
-+			DRM_DEBUG_DRIVER("i2c_bus[%d] not use\n", i);
-+			return -ENODEV;
-+		}
-+	}
-+	return 0;
-+}
-+
-+int loongson_dc_gpio_init(struct loongson_device *ldev)
-+{
-+	int ret;
-+	struct gpio_chip *chip;
-+
-+	chip = &ldev->chip;
-+	chip->label = "ls7a-dc-gpio";
-+	chip->base = LS7A_DC_GPIO_BASE;
-+	chip->ngpio = 4;
-+	chip->parent = ldev->dev->dev;
-+	chip->request = ls_dc_gpio_request;
-+	chip->direction_input = ls_dc_gpio_dir_input;
-+	chip->direction_output = ls_dc_gpio_dir_output;
-+	chip->set = ls_dc_gpio_set;
-+	chip->get = ls_dc_gpio_get;
-+	chip->can_sleep = false;
-+
-+	ret = devm_gpiochip_add_data(ldev->dev->dev, chip, ldev);
-+	if (ret) {
-+		DRM_ERROR("Failed to register ls7a dc gpio driver\n");
-+		return -ENODEV;
-+	}
-+	DRM_INFO("Registered ls7a dc gpio driver\n");
-+
-+	return 0;
-+}
-+
-+int loongson_i2c_init(struct loongson_device *ldev)
-+{
-+	int ret;
-+
-+	ret = gpio_request_array(i2c_gpios, ARRAY_SIZE(i2c_gpios));
-+	if (ret) {
-+		DRM_ERROR("Failed to request gpio array i2c_gpios\n");
-+		return -ENODEV;
-+	}
-+
-+	ldev->i2c_bus[0].i2c_id = 6;
-+	ldev->i2c_bus[0].use = true;
-+	ldev->i2c_bus[1].i2c_id = 7;
-+	ldev->i2c_bus[1].use = true;
-+
-+	loongson_i2c_add(ldev, DC_I2C_NAME);
-+
-+	return 0;
-+}
-+
-+struct loongson_i2c *loongson_i2c_bus_match(struct loongson_device *ldev, u32 i2c_id)
-+{
-+	u32 i;
-+	struct loongson_i2c *match = NULL, *tables;
-+
-+	tables = ldev->i2c_bus;
-+
-+	for (i = 0; i < LS_MAX_I2C_BUS; i++) {
-+		if (tables->i2c_id == i2c_id && tables->init == true) {
-+			match = tables;
-+			break;
-+		}
-+
-+		tables++;
-+	}
-+
-+	return match;
-+}
-diff --git a/drivers/gpu/drm/loongson/loongson_i2c.h b/drivers/gpu/drm/loongson/loongson_i2c.h
-new file mode 100644
-index 000000000000..164619007c0a
---- /dev/null
-+++ b/drivers/gpu/drm/loongson/loongson_i2c.h
-@@ -0,0 +1,40 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __LOONGSON_I2C_H__
-+#define __LOONGSON_I2C_H__
-+
-+#include <linux/i2c.h>
-+#include <linux/i2c-algo-bit.h>
-+#include <linux/gpio/driver.h>
-+#include <drm/drm_edid.h>
-+
-+// Modify this marco to config i2c bus speed, bus_freq = 500 / T
-+// Eg: i2c_bus_freq=100k when T=5
-+#define DC_I2C_TON 5
-+#define DC_I2C_BASE 6
-+#define DC_I2C_NAME "ls_dc_i2c"
-+#define LS_MAX_I2C_BUS 16
-+
-+/* Loongson 7A display controller proprietary GPIOs */
-+#define LS7A_DC_GPIO_BASE 73
-+#define DC_GPIO_0 (73)
-+#define DC_GPIO_1 (74)
-+#define DC_GPIO_2 (75)
-+#define DC_GPIO_3 (76)
-+#define LS7A_DC_GPIO_CFG_OFFSET (0x1660)
-+#define LS7A_DC_GPIO_IN_OFFSET (0x1650)
-+#define LS7A_DC_GPIO_OUT_OFFSET (0x1650)
-+
-+struct loongson_device;
-+struct loongson_i2c {
-+	struct i2c_adapter *adapter;
-+	u32 data, clock;
-+	bool use, init;
-+	u32 i2c_id;
-+};
-+
-+struct loongson_i2c *loongson_i2c_bus_match(struct loongson_device *ldev,
-+					    u32 i2c_id);
-+int loongson_i2c_init(struct loongson_device *ldev);
-+
-+#endif /* __LOONGSON_I2C_H__ */
+>  		if (ret != -ENODEV) {
+>  			dev_err(&pdev->dev, "invalid OPP table in device tree\n");
+>  			return ret;
+> @@ -1453,7 +1454,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+>  
+>  	ret = uart_add_one_port(drv, uport);
+>  	if (ret)
+> -		goto err;
+> +		return ret;
+>  
+>  	irq_set_status_flags(uport->irq, IRQ_NOAUTOEN);
+>  	ret = devm_request_irq(uport->dev, uport->irq, qcom_geni_serial_isr,
+> @@ -1461,7 +1462,7 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+>  	if (ret) {
+>  		dev_err(uport->dev, "Failed to get IRQ ret %d\n", ret);
+>  		uart_remove_one_port(drv, uport);
+> -		goto err;
+> +		return ret;
+>  	}
+>  
+>  	/*
+> @@ -1478,15 +1479,11 @@ static int qcom_geni_serial_probe(struct platform_device *pdev)
+>  		if (ret) {
+>  			device_init_wakeup(&pdev->dev, false);
+>  			uart_remove_one_port(drv, uport);
+> -			goto err;
+> +			return ret;
+>  		}
+>  	}
+>  
+>  	return 0;
+> -err:
+> -	dev_pm_opp_of_remove_table(&pdev->dev);
+> -	dev_pm_opp_put_clkname(port->se.opp_table);
+> -	return ret;
+>  }
+>  
+>  static int qcom_geni_serial_remove(struct platform_device *pdev)
+> @@ -1494,8 +1491,6 @@ static int qcom_geni_serial_remove(struct platform_device *pdev)
+>  	struct qcom_geni_serial_port *port = platform_get_drvdata(pdev);
+>  	struct uart_driver *drv = port->private_data.drv;
+>  
+> -	dev_pm_opp_of_remove_table(&pdev->dev);
+> -	dev_pm_opp_put_clkname(port->se.opp_table);
+>  	dev_pm_clear_wake_irq(&pdev->dev);
+>  	device_init_wakeup(&pdev->dev, false);
+>  	uart_remove_one_port(drv, &port->uport);
+> -- 
+> 2.25.1
+
 -- 
-2.25.1
-
+viresh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
