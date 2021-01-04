@@ -1,67 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09AB2E9CBA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 19:07:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 096362E9CBC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 19:07:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0543A8994D;
-	Mon,  4 Jan 2021 18:07:16 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D30B889FC3
- for <dri-devel@freedesktop.org>; Mon,  4 Jan 2021 18:07:13 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1609783634; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=txD1kK7c713c8W+M5K8v2Z4O5yjXvJH0xxaYw03By20=;
- b=i1mIBjpcOCjvTU87haQIq2TLQfJnnjapZmYKUi8JP7HL6103t6QyT6wpWhhVcc7SV3En+2/j
- /qjZoVhrBb1YBRFW6rIb1ONy7xIfRxUpzEYwz7VmEly0Ooa5qwRa4ipgSkpgoenPGwze+nc+
- fYYI5mtoHB3gTm3Q/MjEHnYnUwc=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5ff3594e3d84969114678b81 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Jan 2021 18:07:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 29EF1C433CA; Mon,  4 Jan 2021 18:07:10 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E3803C433CA;
- Mon,  4 Jan 2021 18:07:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E3803C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Mon, 4 Jan 2021 11:07:04 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Subject: Re: [PATCH v3 1/2] drm/msm: Add speed-bin support to a618 gpu
-Message-ID: <20210104180704.GA26690@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- robh@kernel.org, dri-devel@freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- mka@chromium.org, robdclark@gmail.com, dianders@chromium.org
-References: <1607337728-11398-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53FD989FD1;
+	Mon,  4 Jan 2021 18:07:29 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
+ [209.85.166.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A07089FD1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 18:07:27 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id q5so26112620ilc.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 10:07:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tQRLxYiw+2fFtd0f3CF/NPGXQgxFehEddPU+ldb4e7A=;
+ b=rfD8NJDelilUsyopZ2G80wPP1Z+lLq3UYusKIIfj91pQhOuJrSLnE4dSuUINszAXlL
+ h/GCpAuwCMvMHAYWWZTQ8h6SiDW/XWMtE/gBG0lsBX5OwSt38iabtEHwB8FcJxe0TIgG
+ h6/Fdz6cBzCWUB4Wc5I65xjTXScuwZi/wTHv8ej0E9tIrgqc70jy5t4WQF4XBxuZdWwh
+ /H9DA+73VxBvepEDhwKxN/VSSGowdh9IOvhKY2UrdUezrArvCYjIqTFcg0ZGPVWXCZWl
+ RVYVA8Y5stnk9ahvaQ5FyBFDz4r/BN87eUYurVth+lDlRQZR6UNCpO3D3SAOfmhhljoc
+ O4dA==
+X-Gm-Message-State: AOAM531EBFbCB0JmOvquiHaO45q5xXs2SjTofGgt7ZBHokFvzjuT5zPL
+ tzo3O3I/qkbTnhrvoSARGm5aWp7g6g==
+X-Google-Smtp-Source: ABdhPJz+OrAnPLau+cqZzxYToFknmJibpo1kjgK/1lgmN2RtTOr8yvVaEo7Kekus+6v8hT+KuQXfRg==
+X-Received: by 2002:a92:d4c4:: with SMTP id o4mr70365400ilm.28.1609783646250; 
+ Mon, 04 Jan 2021 10:07:26 -0800 (PST)
+Received: from xps15.herring.priv ([64.188.179.253])
+ by smtp.googlemail.com with ESMTPSA id k76sm45416614ilk.36.2021.01.04.10.07.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 10:07:25 -0800 (PST)
+From: Rob Herring <robh@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: Use OF graph schema
+Date: Mon,  4 Jan 2021 11:07:23 -0700
+Message-Id: <20210104180724.2275098-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1607337728-11398-1-git-send-email-akhilpo@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,199 +55,2101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
- dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 07, 2020 at 04:12:07PM +0530, Akhil P Oommen wrote:
-> Some GPUs support different max frequencies depending on the platform.
-> To identify the correct variant, we should check the gpu speedbin
-> fuse value. Add support for this speedbin detection to a6xx family
-> along with the required fuse details for a618 gpu.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> ---
-> Changes from v2:
-> 	1. Made the changes a6xx specific to save space.
-> Changes from v1:
-> 	1. Added the changes to support a618 sku to the series.
-> 	2. Avoid failing probe in case of an unsupported sku. (Rob)
-> 
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 74 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  2 +
->  2 files changed, 76 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 1306618..6304578 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -10,10 +10,13 @@
->  
->  #include <linux/bitfield.h>
->  #include <linux/devfreq.h>
-> +#include <linux/nvmem-consumer.h>
->  #include <linux/soc/qcom/llcc-qcom.h>
->  
->  #define GPU_PAS_ID 13
->  
-> +const u32 a618_speedbins[] = {0, 169, 174};
+Now that we have a graph schema, rework the display related schemas to use
+it. Mostly this is adding a reference to graph.yaml and dropping duplicate
+parts from schemas.
 
-This still feels too generic to me - this could easily be something like:
+In panel-common.yaml, 'ports' is dropped. Any binding using 'ports'
+should be one with more than 1 port node, and the binding must define
+what each port is.
 
-static u32 a618_get_speed_bin(int rev)
-{
-	if (rev == 0)
-		return 0;
-	else if (rev == 169)
-		return 1;
-	else if (rev == 174)
-		return 2;
-	
-	return UINT_MAX;
-}
+Note that ti,sn65dsi86.yaml, ti,tfp410,yaml and toshiba,tc358768.yaml will
+need further updates to use video-interfaces.yaml once that lands.
 
-I know Akhil can see a future where there might be other "pro" targets but it is
-unclear to me when those will see upstream support and even if they do a
-handful of inline-able functions still seem better to me than a group of const
-arrays.
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v3:
+ - Rework based on graph.yaml changes. 'port' nodes now have a $ref and
+   endpoint nodes do too if they define additional properties.
+ - Convert ste,mcde.yaml
 
-> +
->  static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
->  {
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> @@ -1208,6 +1211,10 @@ static void a6xx_destroy(struct msm_gpu *gpu)
->  	a6xx_gmu_remove(a6xx_gpu);
->  
->  	adreno_gpu_cleanup(adreno_gpu);
-> +
-> +	if (a6xx_gpu->opp_table)
-> +		dev_pm_opp_put_supported_hw(a6xx_gpu->opp_table);
-> +
->  	kfree(a6xx_gpu);
->  }
->  
-> @@ -1264,6 +1271,67 @@ static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
->  	return ring->memptrs->rptr = gpu_read(gpu, REG_A6XX_CP_RB_RPTR);
->  }
->  
-> +static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
-> +{
-> +	int i;
-> +
-> +	if (revn == 618) {
-> +		for (i = 0; i < ARRAY_SIZE(a618_speedbins); i++) {
-> +			if (fuse == a618_speedbins[i])
-> +				return  (1 << i);
-> +		}
-> +	}
+v2:
+ - Drop 'type: object' where we have a $ref
+ - Drop any common properties like 'reg', '#address-cells', "#size-cells',
+   'remote-endpoint'
+ - Keep description in ti,k2g-dss.yaml
+---
+ .../allwinner,sun4i-a10-display-backend.yaml  |  23 +---
+ .../allwinner,sun4i-a10-display-frontend.yaml |  19 +--
+ .../display/allwinner,sun4i-a10-hdmi.yaml     |  19 +--
+ .../display/allwinner,sun4i-a10-tcon.yaml     |  25 +---
+ .../allwinner,sun4i-a10-tv-encoder.yaml       |   6 +-
+ .../display/allwinner,sun6i-a31-drc.yaml      |  19 +--
+ .../display/allwinner,sun6i-a31-mipi-dsi.yaml |   6 +-
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  19 +--
+ .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |  19 +--
+ .../display/allwinner,sun8i-r40-tcon-top.yaml | 110 ++----------------
+ .../display/allwinner,sun9i-a80-deu.yaml      |  19 +--
+ .../display/amlogic,meson-dw-hdmi.yaml        |   4 +-
+ .../bindings/display/amlogic,meson-vpu.yaml   |   4 +-
+ .../bindings/display/brcm,bcm2835-dpi.yaml    |   7 +-
+ .../display/bridge/analogix,anx7625.yaml      |   6 +-
+ .../display/bridge/analogix,anx7814.yaml      |  19 +--
+ .../bindings/display/bridge/anx6345.yaml      |  18 +--
+ .../display/bridge/cdns,mhdp8546.yaml         |  22 +---
+ .../display/bridge/chrontel,ch7033.yaml       |   6 +-
+ .../display/bridge/intel,keembay-dsi.yaml     |  14 +--
+ .../bindings/display/bridge/ite,it6505.yaml   |   2 +-
+ .../display/bridge/lontium,lt9611.yaml        |  70 ++---------
+ .../bindings/display/bridge/lvds-codec.yaml   |  18 +--
+ .../bindings/display/bridge/nwl-dsi.yaml      |  41 ++-----
+ .../bindings/display/bridge/ps8640.yaml       |  24 +---
+ .../bindings/display/bridge/renesas,lvds.yaml |  18 +--
+ .../display/bridge/simple-bridge.yaml         |  18 +--
+ .../display/bridge/snps,dw-mipi-dsi.yaml      |   7 +-
+ .../display/bridge/thine,thc63lvd1024.yaml    |  21 +---
+ .../bindings/display/bridge/ti,sn65dsi86.yaml |  45 +------
+ .../bindings/display/bridge/ti,tfp410.yaml    |  24 +---
+ .../display/bridge/toshiba,tc358762.yaml      |  52 +--------
+ .../display/bridge/toshiba,tc358768.yaml      |  48 +-------
+ .../display/bridge/toshiba,tc358775.yaml      |  19 +--
+ .../connector/analog-tv-connector.yaml        |   1 +
+ .../display/connector/dvi-connector.yaml      |   1 +
+ .../display/connector/hdmi-connector.yaml     |   1 +
+ .../display/connector/vga-connector.yaml      |   1 +
+ .../bindings/display/imx/nxp,imx8mq-dcss.yaml |   2 +-
+ .../bindings/display/ingenic,lcd.yaml         |  10 +-
+ .../display/intel,keembay-display.yaml        |   2 +-
+ .../display/panel/advantech,idk-2121wr.yaml   |  21 ++--
+ .../bindings/display/panel/panel-common.yaml  |  11 +-
+ .../rockchip/rockchip,rk3066-hdmi.yaml        |  16 +--
+ .../display/rockchip/rockchip-vop.yaml        |   5 +-
+ .../bindings/display/st,stm32-dsi.yaml        |  12 +-
+ .../bindings/display/st,stm32-ltdc.yaml       |   8 +-
+ .../devicetree/bindings/display/ste,mcde.yaml |   5 +-
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  19 +--
+ .../bindings/display/ti/ti,j721e-dss.yaml     |  23 +---
+ .../bindings/display/ti/ti,k2g-dss.yaml       |   3 +-
+ 51 files changed, 185 insertions(+), 747 deletions(-)
 
-u32 val = UINT_MAX;
-
-if (revn == 618)
-	val = a618_get_speed_bin(fuse);
-
-if (val == UINT_MAX)
-	DRM_DEV_ERROR(dev, "Missing support for speed-bin %u. Some OPPs may not
-	be supported by hardware", fuse);
-
-return val;
-
-> +
-> +	DRM_DEV_ERROR(dev,
-> +			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
-> +			fuse);
-> +	return ~0U;
-> +}
-> +
-> +static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
-> +		u32 revn)
-> +{
-> +
-> +	struct opp_table *opp_table;
-> +	struct nvmem_cell *cell;
-> +	u32 supp_hw = ~0U;
-> +	void *buf;
-> +
-> +	cell = nvmem_cell_get(dev, "speed_bin");
-> +	/*
-> +	 * -ENOENT means that the platform doesn't support speedbin which is
-> +	 * fine
-> +	 */
-> +	if (PTR_ERR(cell) == -ENOENT)
-> +		return 0;
-> +	else if (IS_ERR(cell)) {
-> +		DRM_DEV_ERROR(dev,
-> +				"failed to read speed-bin. Some OPPs may not be supported by hardware");
-> +		goto done;
-> +	}
-> +
-> +	buf = nvmem_cell_read(cell, NULL);
-> +	if (IS_ERR(buf)) {
-> +		nvmem_cell_put(cell);
-> +		DRM_DEV_ERROR(dev,
-> +				"failed to read speed-bin. Some OPPs may not be supported by hardware");
-> +		goto done;
-> +	}
-> +
-> +	supp_hw = fuse_to_supp_hw(dev, revn, *((u32 *) buf));
-> +
-> +	kfree(buf);
-> +	nvmem_cell_put(cell);
-> +
-> +done:
-> +	opp_table = dev_pm_opp_set_supported_hw(dev, &supp_hw, 1);
-> +	if (IS_ERR(opp_table))
-> +		return PTR_ERR(opp_table);
-> +
-> +	a6xx_gpu->opp_table = opp_table;
-> +	return 0;
-> +}
-
-Beyond the comments above, I think the rest of this is reasonable.
-
-Jordan
-
-> +
->  static const struct adreno_gpu_funcs funcs = {
->  	.base = {
->  		.get_param = adreno_get_param,
-> @@ -1325,6 +1393,12 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  
->  	a6xx_llc_slices_init(pdev, a6xx_gpu);
->  
-> +	ret = a6xx_set_supported_hw(&pdev->dev, a6xx_gpu, info->revn);
-> +	if (ret) {
-> +		a6xx_destroy(&(a6xx_gpu->base.base));
-> +		return ERR_PTR(ret);
-> +	}
-> +
->  	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
->  	if (ret) {
->  		a6xx_destroy(&(a6xx_gpu->base.base));
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index e793d32..ce0610c 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -33,6 +33,8 @@ struct a6xx_gpu {
->  	void *llc_slice;
->  	void *htw_llc_slice;
->  	bool have_mmu500;
-> +
-> +	struct opp_table *opp_table;
->  };
->  
->  #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
-> -- 
-> 2.7.4
-> 
-
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
+index 86057d541065..12a7df0e38b2 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-backend.yaml
+@@ -84,36 +84,23 @@ properties:
+     const: dma-mem
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Output endpoints of the controller.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-frontend.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-frontend.yaml
+index 3eb1c2bbf4e7..055157fbf3bf 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-frontend.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-frontend.yaml
+@@ -57,35 +57,22 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
+index 75e6479397a5..7f11452539f4 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
+@@ -76,37 +76,24 @@ properties:
+       - const: audio-tx
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller. Usually an HDMI
+           connector.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+index 4c15a2644a7c..c13faf3e6581 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+@@ -115,31 +115,24 @@ properties:
+           - const: lvds
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: |
+           Output endpoints of the controller.
+ 
+         patternProperties:
+           "^endpoint(@[0-9])$":
+-            type: object
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
+ 
+             properties:
+               allwinner,tcon-channel:
+@@ -156,16 +149,10 @@ properties:
+                   property is not present, the endpoint number will be
+                   used as the channel number.
+ 
+-            unevaluatedProperties: true
+-
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tv-encoder.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tv-encoder.yaml
+index 6009324be967..afc0ed799e0e 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tv-encoder.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tv-encoder.yaml
+@@ -24,11 +24,9 @@ properties:
+     maxItems: 1
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+-      A port node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt. The
+-      first port should be the input endpoint, usually coming from the
++      The first port should be the input endpoint, usually coming from the
+       associated TCON.
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml
+index 0c1ce55940e1..71cce5687580 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-drc.yaml
+@@ -46,36 +46,23 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+index 7aa330dabc44..a738d7c12a97 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+@@ -47,11 +47,9 @@ properties:
+     const: dphy
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+-      A port node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt. That
+-      port should be the input endpoint, usually coming from the
++      The port should be the input endpoint, usually coming from the
+       associated TCON.
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+index c040eef56518..4f91eec26de9 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+@@ -43,35 +43,22 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+index fa4769a0b26e..b3e9992525c2 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+@@ -93,38 +93,25 @@ properties:
+       The VCC power supply of the controller
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller. Usually the associated
+           TCON.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller. Usually an HDMI
+           connector.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
+index b98ca609824b..ec21e8bf2767 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
+@@ -80,141 +80,45 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
+-      All ports should have only one endpoint connected to
+-      remote endpoint.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoint for Mixer 0 mux.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoint for Mixer 0 mux
+ 
+-        properties:
+-          "#address-cells":
+-            const: 1
+-
+-          "#size-cells":
+-            const: 0
+-
+-          reg: true
+-
+-        patternProperties:
+-          "^endpoint@[0-9]$":
+-            type: object
+-
+-            properties:
+-              reg:
+-                description: |
+-                  ID of the target TCON
+-
+-            required:
+-              - reg
+-
+-        required:
+-          - "#address-cells"
+-          - "#size-cells"
+-
+-        additionalProperties: false
+-
+       port@2:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoint for Mixer 1 mux.
+ 
+       port@3:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoint for Mixer 1 mux
+ 
+-        properties:
+-          "#address-cells":
+-            const: 1
+-
+-          "#size-cells":
+-            const: 0
+-
+-          reg: true
+-
+-        patternProperties:
+-          "^endpoint@[0-9]$":
+-            type: object
+-
+-            properties:
+-              reg:
+-                description: |
+-                  ID of the target TCON
+-
+-            required:
+-              - reg
+-
+-        required:
+-          - "#address-cells"
+-          - "#size-cells"
+-
+-        additionalProperties: false
+-
+       port@4:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoint for HDMI mux.
+ 
+-        properties:
+-          "#address-cells":
+-            const: 1
+-
+-          "#size-cells":
+-            const: 0
+-
+-          reg: true
+-
+-        patternProperties:
+-          "^endpoint@[0-9]$":
+-            type: object
+-
+-            properties:
+-              reg:
+-                description: |
+-                  ID of the target TCON
+-
+-            required:
+-              - reg
+-
+-        required:
+-          - "#address-cells"
+-          - "#size-cells"
+-
+-        additionalProperties: false
+-
+       port@5:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoint for HDMI mux
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+       - port@4
+       - port@5
+ 
+-    additionalProperties: false
+-
+ required:
+   - "#clock-cells"
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun9i-a80-deu.yaml b/Documentation/devicetree/bindings/display/allwinner,sun9i-a80-deu.yaml
+index 96de41d32b3e..637372ec4614 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun9i-a80-deu.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun9i-a80-deu.yaml
+@@ -40,36 +40,23 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      A ports node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Input endpoints of the controller.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Output endpoints of the controller.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+index 0da42ab8fd3a..cf5a208f2f10 100644
+--- a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+@@ -81,12 +81,12 @@ properties:
+     description: phandle to an external 5V regulator to power the HDMI logic
+ 
+   port@0:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+       A port node pointing to the VENC Input port node.
+ 
+   port@1:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+       A port node pointing to the TMDS Output port node.
+ 
+diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
+index a8d202c9d004..851cb0781217 100644
+--- a/Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
++++ b/Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml
+@@ -83,12 +83,12 @@ properties:
+     description: phandle to the associated power domain
+ 
+   port@0:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+       A port node pointing to the CVBS VDAC port node.
+ 
+   port@1:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+       A port node pointing to the HDMI-TX port node.
+ 
+diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+index 5c1024bbc1b3..c9ad0ecc9b6d 100644
+--- a/Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
++++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-dpi.yaml
+@@ -27,10 +27,9 @@ properties:
+       - const: pixel
+ 
+   port:
+-    type: object
+-    description: >
+-      Port node with a single endpoint connecting to the panel, as
+-      defined in Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/port
++    description:
++      Port node with a single endpoint connecting to the panel.
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+index 60585a4fc22b..d08b71dc5f75 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+@@ -35,16 +35,16 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Video port for MIPI DSI input.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Video port for panel or connector.
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+index 3ba477aefdd7..8e13f27b28ed 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+@@ -42,31 +42,18 @@ properties:
+     description: Regulator for 1.0V digital core power.
+ 
+   ports:
+-    type: object
+-    description:
+-      A node containing input and output port nodes with endpoint
+-      definitions as documented in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
+-      Documentation/devicetree/bindings/graph.txt
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Video port for HDMI input.
+ 
+-        properties:
+-          reg:
+-            const: 0
+-
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Video port for SlimPort, DisplayPort, eDP or MyDP output.
+ 
+-        properties:
+-          reg:
+-            const: 1
+-
+     required:
+       - port@0
+       - port@1
+diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+index 8c0e4f285fbc..ccf41688f0bb 100644
+--- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+@@ -34,31 +34,23 @@ properties:
+     description: Regulator for 2.5V digital core power.
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
+-
+       port@0:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for LVTTL input
+ 
+       port@1:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for eDP output (panel or connector).
+           May be omitted if EDID works reliably.
+ 
+     required:
+       - port@0
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index 74d675fc6e7b..63427878715e 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -57,47 +57,37 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description:
+-      Ports as described in Documentation/devicetree/bindings/graph.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           First input port representing the DP bridge input.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Second input port representing the DP bridge input.
+ 
+       port@2:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Third input port representing the DP bridge input.
+ 
+       port@3:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Fourth input port representing the DP bridge input.
+ 
+       port@4:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Output port representing the DP bridge output.
+ 
+     required:
+       - port@0
+       - port@4
+-      - '#address-cells'
+-      - '#size-cells'
+ 
+ allOf:
+   - if:
+diff --git a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+index 9f38f55fc990..bb6289c7d375 100644
+--- a/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/chrontel,ch7033.yaml
+@@ -19,16 +19,16 @@ properties:
+     description: I2C address of the device
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Video port for RGB input.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           DVI port, should be connected to a node compatible with the
+           dvi-connector binding.
+diff --git a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
+index ab5be2625224..dcb1336ee2a5 100644
+--- a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
+@@ -35,29 +35,21 @@ properties:
+       - const: clk_mipi_cfg
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      '#address-cells':
+-       const: 1
+-
+-      '#size-cells':
+-       const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: MIPI DSI input port.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: DSI output port.
+ 
+     required:
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+index efbb3d0117dc..eedf8b7f5173 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+@@ -55,7 +55,7 @@ properties:
+     description: extcon specifier for the Power Delivery
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description: A port node pointing to DPI host port node
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+index 7a1c89b995e2..5b9d36f7af30 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+@@ -38,82 +38,26 @@ properties:
+     description: Regulator for 3.3V IO power.
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Primary MIPI port-1 for MIPI input
+ 
+-        properties:
+-          reg:
+-            const: 0
+-
+-        patternProperties:
+-          "^endpoint(@[0-9])$":
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint:
+-                $ref: /schemas/types.yaml#/definitions/phandle
+-
+-        required:
+-          - reg
+-
+       port@1:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Additional MIPI port-2 for MIPI input, used in combination
+           with primary MIPI port-1 to drive higher resolution displays
+ 
+-        properties:
+-          reg:
+-            const: 1
+-
+-        patternProperties:
+-          "^endpoint(@[0-9])$":
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint:
+-                $ref: /schemas/types.yaml#/definitions/phandle
+-
+-        required:
+-          - reg
+-
+       port@2:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           HDMI port for HDMI output
+ 
+-        properties:
+-          reg:
+-            const: 2
+-
+-        patternProperties:
+-          "^endpoint(@[0-9])$":
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint:
+-                $ref: /schemas/types.yaml#/definitions/phandle
+-
+-        required:
+-          - reg
+-
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@2
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index e5e3c72630cf..717d09fffd11 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -45,25 +45,17 @@ properties:
+           - thine,thc63lvdm83d # For the THC63LVDM83D LVDS serializer
+ 
+   ports:
+-    type: object
+-    description: |
+-      This device has two video ports. Their connections are modeled using the
+-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt
+-    properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           For LVDS encoders, port 0 is the parallel input
+           For LVDS decoders, port 0 is the LVDS input
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           For LVDS encoders, port 1 is the LVDS output
+           For LVDS decoders, port 1 is the parallel output
+@@ -72,8 +64,6 @@ properties:
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+   powerdown-gpios:
+     description:
+       The GPIO used to control the power down line of this device.
+diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+index a125b2dd3a2f..350fb8f400f0 100644
+--- a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+@@ -84,40 +84,23 @@ properties:
+       - const: pclk
+ 
+   ports:
+-    type: object
+-    description:
+-      A node containing DSI input & output port nodes with endpoint
+-      definitions as documented in
+-      Documentation/devicetree/bindings/graph.txt.
++    $ref: /schemas/graph.yaml#/properties/ports
++
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         description:
+           Input port node to receive pixel data from the
+           display controller. Exactly one endpoint must be
+           specified.
+         properties:
+-          '#address-cells':
+-            const: 1
+-
+-          '#size-cells':
+-            const: 0
+-
+           endpoint@0:
++            $ref: /schemas/graph.yaml#/properties/endpoint
+             description: sub-node describing the input from LCDIF
+-            type: object
+ 
+           endpoint@1:
++            $ref: /schemas/graph.yaml#/properties/endpoint
+             description: sub-node describing the input from DCSS
+-            type: object
+-
+-          reg:
+-            const: 0
+-
+-        required:
+-          - '#address-cells'
+-          - '#size-cells'
+-          - reg
+ 
+         oneOf:
+           - required:
+@@ -125,28 +108,18 @@ properties:
+           - required:
+               - endpoint@1
+ 
+-        additionalProperties: false
++        unevaluatedProperties: false
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           DSI output port node to the panel or the next bridge
+           in the chain
+ 
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
+-
+     required:
+-      - '#address-cells'
+-      - '#size-cells'
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - '#address-cells'
+   - '#size-cells'
+diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+index 7e27cfcf770d..db85e12e7b98 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+@@ -43,34 +43,22 @@ properties:
+     description: Regulator for 3.3V digital core power.
+ 
+   ports:
+-    type: object
+-    description:
+-      A node containing DSI input & output port nodes with endpoint
+-      definitions as documented in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
+-      Documentation/devicetree/bindings/graph.txt
+-    properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for DSI input
+ 
+       port@1:
+-        type: object
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for eDP output (panel or connector).
+ 
+     required:
+       - port@0
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+index e5b163951b91..d74022cc6e29 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+@@ -49,33 +49,21 @@ properties:
+     maxItems: 1
+ 
+   ports:
+-    type: object
+-    description: |
+-      This device has two video ports. Their connections are modelled using the
+-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+-      Each port shall have a single endpoint.
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Parallel RGB input port
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: LVDS output port
+ 
+     required:
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+   power-domains:
+     maxItems: 1
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+index 3ddb35fcf0a2..45f8701d0514 100644
+--- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+@@ -30,31 +30,21 @@ properties:
+           - ti,ths8135
+ 
+   ports:
+-    type: object
+-    description: |
+-      This device has two video ports. Their connections are modeled using the
+-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+-    properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: The bridge input
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: The bridge output
+ 
+     required:
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+   enable-gpios:
+     maxItems: 1
+     description: GPIO controlling bridge enable
+diff --git a/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
+index e42cb610f545..3c3e51af154b 100644
+--- a/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/snps,dw-mipi-dsi.yaml
+@@ -47,14 +47,15 @@ properties:
+     const: apb
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Input node to receive pixel data.
++
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: DSI output node to panel.
+ 
+     required:
+diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+index 469ac4a34273..4f19a72122bd 100644
+--- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+@@ -25,11 +25,8 @@ properties:
+     const: thine,thc63lvd1024
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+     description: |
+-      This device has four video ports. Their connections are modeled using the
+-      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+-
+       The device can operate in single-link mode or dual-link mode. In
+       single-link mode, all pixels are received on port@0, and port@1 shall not
+       contain any endpoint. In dual-link mode, even-numbered pixels are
+@@ -37,34 +34,26 @@ properties:
+       port@1 shall contain endpoints.
+ 
+     properties:
+-      '#address-cells':
+-        const: 1
+-
+-      '#size-cells':
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: First LVDS input port
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Second LVDS input port
+ 
+       port@2:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: First digital CMOS/TTL parallel output
+ 
+       port@3:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Second digital CMOS/TTL parallel output
+ 
+     required:
+       - port@0
+       - port@2
+ 
+-    additionalProperties: false
+-
+   oe-gpios:
+     maxItems: 1
+     description: Output enable GPIO signal, pin name "OE", active high.
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index f8622bd0f61e..26932d2e86ab 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -71,54 +71,26 @@ properties:
+     description: See ../../pwm/pwm.yaml for description of the cell formats.
+ 
+   ports:
+-    type: object
+-    additionalProperties: false
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
+-        additionalProperties: false
+-
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Video port for MIPI DSI input
+ 
+-        properties:
+-          reg:
+-            const: 0
+-
+-          endpoint:
+-            type: object
+-            additionalProperties: false
+-            properties:
+-              remote-endpoint: true
+-
+-        required:
+-          - reg
+-
+       port@1:
+-        type: object
+-        additionalProperties: false
+-
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description:
+           Video port for eDP output (panel or connector).
+ 
+         properties:
+-          reg:
+-            const: 1
+-
+           endpoint:
+-            type: object
+-            additionalProperties: false
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
+ 
+             properties:
+-              remote-endpoint: true
+-
+               data-lanes:
+                 oneOf:
+                   - minItems: 1
+@@ -171,12 +143,7 @@ properties:
+             dependencies:
+               lane-polarities: [data-lanes]
+ 
+-        required:
+-          - reg
+-
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+index 605831c1e836..4c5dd8ec2951 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+@@ -31,23 +31,18 @@ properties:
+     maximum: 7
+ 
+   ports:
+-    description:
+-      A node containing input and output port nodes with endpoint
+-      definitions as documented in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+       port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: DPI input port.
+-        type: object
+ 
+         properties:
+-          reg:
+-            const: 0
+-
+           endpoint:
+-            type: object
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
+ 
+             properties:
+               pclk-sample:
+@@ -67,15 +62,8 @@ properties:
+                 default: 24
+ 
+       port@1:
++        $ref: /schemas/graph.yaml#/properties/port
+         description: DVI output port.
+-        type: object
+-
+-        properties:
+-          reg:
+-            const: 1
+-
+-          endpoint:
+-            type: object
+ 
+     required:
+       - port@0
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+index 195025e6803c..5216c27fc0ad 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+@@ -25,62 +25,20 @@ properties:
+     description: Regulator for 1.2V internal core power.
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
+-        additionalProperties: false
+-
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for MIPI DSI input
+ 
+-        properties:
+-          reg:
+-            const: 0
+-
+-        patternProperties:
+-          endpoint:
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint: true
+-
+-        required:
+-          - reg
+-
+       port@1:
+-        type: object
+-        additionalProperties: false
+-
+-        description: |
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
+           Video port for MIPI DPI output (panel or connector).
+ 
+-        properties:
+-          reg:
+-            const: 1
+-
+-        patternProperties:
+-          endpoint:
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint: true
+-
+-        required:
+-          - reg
+-
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+index c036a75db8f7..eacfe7165083 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+@@ -42,65 +42,30 @@ properties:
+     const: refclk
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
+-        additionalProperties: false
+-
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: |
+           Video port for RGB input
+ 
+         properties:
+-          reg:
+-            const: 0
+-
+-        patternProperties:
+           endpoint:
+-            type: object
+-            additionalProperties: false
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
+ 
+             properties:
+               data-lines:
+                 enum: [ 16, 18, 24 ]
+ 
+-              remote-endpoint: true
+-
+-        required:
+-          - reg
+-
+       port@1:
+-        type: object
+-        additionalProperties: false
+-
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Video port for DSI output (panel or connector).
+ 
+-        properties:
+-          reg:
+-            const: 1
+-
+-        patternProperties:
+-          endpoint:
+-            type: object
+-            additionalProperties: false
+-
+-            properties:
+-              remote-endpoint: true
+-
+-        required:
+-          - reg
+-
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+@@ -156,4 +121,3 @@ examples:
+         };
+       };
+     };
+-    
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+index fd3113aa9ccd..f018cabf0e44 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+@@ -44,31 +44,22 @@ properties:
+     description: Hardware reset, Low active
+ 
+   ports:
+-    type: object
+-    description:
+-      A node containing input and output port nodes with endpoint definitions
+-      as documented in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
+-    properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           DSI Input. The remote endpoint phandle should be a
+           reference to a valid mipi_dsi_host device node.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Video port for LVDS output (panel or connector).
+ 
+       port@2:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: |
+           Video port for Dual link LVDS output (panel or connector).
+ 
+diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+index eebe88fed999..a31ca2d52b86 100644
+--- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
++++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+@@ -25,6 +25,7 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+ 
+   port:
++    $ref: /schemas/graph.yaml#/properties/port
+     description: Connection to controller providing analog TV signals
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+index 71cb9220fa59..93eb14294e68 100644
+--- a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
++++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+@@ -36,6 +36,7 @@ properties:
+     description: the connector has pins for DVI dual-link
+ 
+   port:
++    $ref: /schemas/graph.yaml#/properties/port
+     description: Connection to controller providing DVI signals
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+index 14d7128af592..83c0d008265b 100644
+--- a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
++++ b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+@@ -37,6 +37,7 @@ properties:
+     maxItems: 1
+ 
+   port:
++    $ref: /schemas/graph.yaml#/properties/port
+     description: Connection to controller providing HDMI signals
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+index 5782c4bb3252..25f868002000 100644
+--- a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
++++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+@@ -20,6 +20,7 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   port:
++    $ref: /schemas/graph.yaml#/properties/port
+     description: Connection to controller providing VGA signals
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+index f1f25aa794d9..0091df9dd73b 100644
+--- a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
++++ b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+@@ -74,7 +74,7 @@ properties:
+       - description: Must be 400 MHz
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+       A port node pointing to the input port of a HDMI/DP or MIPI display bridge.
+ 
+diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+index 768050f30dba..50d2b0a50e8a 100644
+--- a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
++++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+@@ -39,18 +39,18 @@ properties:
+     minItems: 1
+ 
+   port:
+-    description: OF graph bindings (specified in bindings/graph.txt).
++    $ref: /schemas/graph.yaml#/properties/port
+ 
+   ports:
+-    description: OF graph bindings (specified in bindings/graph.txt).
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
++
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: DPI output, to interface with TFT panels.
+ 
+       port@8:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description: Link to the Image Processing Unit (IPU).
+           (See ingenic,ipu.yaml).
+ 
+diff --git a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+index 0a697d45c2ad..bc6622b010ca 100644
+--- a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
++++ b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+@@ -36,7 +36,7 @@ properties:
+     maxItems: 1
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description: Display output node to DSI.
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+index 6b7fddc80c41..67682fe77f10 100644
+--- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
++++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+@@ -37,34 +37,33 @@ properties:
+   panel-timing: true
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
++
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: The sink for odd pixels.
+         properties:
+-          reg:
+-            const: 0
+-
+           dual-lvds-odd-pixels: true
+ 
+         required:
+-          - reg
+           - dual-lvds-odd-pixels
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: The sink for even pixels.
+         properties:
+-          reg:
+-            const: 1
+-
+           dual-lvds-even-pixels: true
+ 
+         required:
+-          - reg
+           - dual-lvds-even-pixels
+ 
++    required:
++      - port@0
++      - port@1
++
+ additionalProperties: false
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+index cd6dc5461721..5b38dc89cb21 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+@@ -68,16 +68,7 @@ properties:
+ 
+   # Connectivity
+   port:
+-    type: object
+-
+-  ports:
+-    type: object
+-    description:
+-      Panels receive video data through one or multiple connections. While
+-      the nature of those connections is specific to the panel type, the
+-      connectivity is expressed in a standard fashion using ports as specified
+-      in the device graph bindings defined in
+-      Documentation/devicetree/bindings/graph.txt.
++    $ref: /schemas/graph.yaml#/properties/port
+ 
+   ddc-i2c-bus:
+     $ref: /schemas/types.yaml#/definitions/phandle
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
+index 4110d003ce1f..008c144257cb 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
+@@ -43,34 +43,24 @@ properties:
+       This soc uses GRF regs to switch the HDMI TX input between vop0 and vop1.
+ 
+   ports:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
+     properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
+-
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Port node with two endpoints, numbered 0 and 1,
+           connected respectively to vop0 and vop1.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           Port node with one endpoint connected to a hdmi-connector node.
+ 
+     required:
+-      - "#address-cells"
+-      - "#size-cells"
+       - port@0
+       - port@1
+ 
+-    additionalProperties: false
+-
+ required:
+   - compatible
+   - reg
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+index ed8148e26e24..6f43d885c9b3 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+@@ -70,10 +70,7 @@ properties:
+       - const: dclk
+ 
+   port:
+-    type: object
+-    description:
+-      A port node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt.
++    $ref: /schemas/graph.yaml#/properties/port
+ 
+   assigned-clocks:
+     maxItems: 2
+diff --git a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
+index 327a14d85df8..679daed4124e 100644
+--- a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
+@@ -51,20 +51,16 @@ properties:
+       Phandle of the regulator that provides the supply voltage.
+ 
+   ports:
+-    type: object
+-    description:
+-      A node containing DSI input & output port nodes with endpoint
+-      definitions as documented in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
+-      Documentation/devicetree/bindings/graph.txt
++    $ref: /schemas/graph.yaml#/properties/ports
++
+     properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           DSI input port node, connected to the ltdc rgb output port.
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           DSI output port node, connected to a panel or a bridge input port"
+ 
+diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+index bf8ad916e9b0..d54f9ca207af 100644
+--- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
++++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+@@ -35,15 +35,13 @@ properties:
+     maxItems: 1
+ 
+   port:
+-    type: object
+-    description:
+-      "Video port for DPI RGB output.
++    $ref: /schemas/graph.yaml#/properties/port
++    description: |
++      Video port for DPI RGB output.
+       ltdc has one video port with up to 2 endpoints:
+       - for external dpi rgb panel or bridge, using gpios.
+       - for internal dpi input of the MIPI DSI host controller.
+       Note: These 2 endpoints cannot be activated simultaneously.
+-      Please refer to the bindings defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt."
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/ste,mcde.yaml b/Documentation/devicetree/bindings/display/ste,mcde.yaml
+index 830c9b4091cc..de0c678b3c29 100644
+--- a/Documentation/devicetree/bindings/display/ste,mcde.yaml
++++ b/Documentation/devicetree/bindings/display/ste,mcde.yaml
+@@ -42,10 +42,9 @@ properties:
+     description: a phandle to the analog voltage regulator
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+-      A DPI port node with endpoint definitions as defined in
+-      Documentation/devicetree/bindings/media/video-interfaces.txt
++      A DPI port node
+ 
+   "#address-cells":
+     const: 1
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+index 4dc30738ee57..781c1868b0b8 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -74,30 +74,19 @@ properties:
+     type: boolean
+ 
+   ports:
+-    type: object
+-    description:
+-      Ports as described in Documentation/devicetree/bindings/graph.txt
+-    properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The DSS OLDI output port node form video port 1
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The DSS DPI output port node from video port 2
+ 
+-    required:
+-      - "#address-cells"
+-      - "#size-cells"
+-
+   ti,am65x-oldi-io-ctrl:
+     $ref: "/schemas/types.yaml#/definitions/phandle-array"
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+index c9a947d55fa4..2986f9acc9f0 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
+@@ -107,40 +107,29 @@ properties:
+     type: boolean
+ 
+   ports:
+-    type: object
+-    description:
+-      Ports as described in Documentation/devicetree/bindings/graph.txt
+-    properties:
+-      "#address-cells":
+-        const: 1
+-
+-      "#size-cells":
+-        const: 0
++    $ref: /schemas/graph.yaml#/properties/ports
+ 
++    properties:
+       port@0:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The output port node form video port 1
+ 
+       port@1:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The output port node from video port 2
+ 
+       port@2:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The output port node from video port 3
+ 
+       port@3:
+-        type: object
++        $ref: /schemas/graph.yaml#/properties/port
+         description:
+           The output port node from video port 4
+ 
+-    required:
+-      - "#address-cells"
+-      - "#size-cells"
+-
+   max-memory-bandwidth:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+index 8f87b82c6695..7ce7bbad5780 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+@@ -54,9 +54,8 @@ properties:
+     description: phandle to the associated power domain
+ 
+   port:
+-    type: object
++    $ref: /schemas/graph.yaml#/properties/port
+     description:
+-      Port as described in Documentation/devicetree/bindings/graph.txt.
+       The DSS DPI output port node
+ 
+   max-memory-bandwidth:
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
