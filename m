@@ -1,47 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D602E9957
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 17:00:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4AD2E9B04
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 17:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E776E042;
-	Mon,  4 Jan 2021 16:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C377089FEC;
+	Mon,  4 Jan 2021 16:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEAB6E03A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 16:00:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A745822509
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 16:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609776017;
- bh=AIuEZ3LHAXEEk/KvPhHnhOfNMQh/X1KomltrocF0mlU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pRJ8tSyb1fB8SAcpwXg+RNw05ab70tAJgrwk41A8nPKQSHOnaJIUj2dhVFSX7pTTt
- VsCo6DBteQcEwZdJC5mvr8L+0wUu3tGBPie6WRWl/yWFc4vUhbi/qCqbpIIYIhdFbI
- MYhLb0UU1paqzyl6fdx1e048kaW7HGIKkr4RC+gkxr97S7HF3fkYeqKs0cb4gYuS2a
- nP/QCq98XFI1+nbsHjM7vr+2t3nJRXCtdY+m+yI/6aCkvDzsg9wXxaxIKzQWsKAW4y
- LWzHP+MQVFkeS79yyKi6DNtdt6WPfpQXC9cZYmij7aIed/OWxTcU+6WJJED93Mc7gP
- KmQ1taAebDxZg==
-Received: by mail-ed1-f54.google.com with SMTP id h16so27812380edt.7
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 08:00:16 -0800 (PST)
-X-Gm-Message-State: AOAM5337iDRs+UTF4+zr3VDL+gnYM2vL8/SYzBaISXHDrLLOeiFD6pkz
- sch6B0BPi8rQ5CBmurQ4PEPopl7WGxFj3DaMgg==
-X-Google-Smtp-Source: ABdhPJz09bY6nrB961xN80l+39gUo+ZFgThja3sbx0kYfIMB3BU4C9ORV1WMuUDWx/iDN3uaOw6cOlCUml1MpR4z0oA=
-X-Received: by 2002:a05:6402:352:: with SMTP id
- r18mr70216121edw.373.1609776014373; 
- Mon, 04 Jan 2021 08:00:14 -0800 (PST)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D745E89FEC;
+ Mon,  4 Jan 2021 16:27:36 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id d20so26557518otl.3;
+ Mon, 04 Jan 2021 08:27:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vVWeNoJX1cgLUeJ3CqoI0q4ya4vtvYHomGSljWOIelQ=;
+ b=D/uEpYb0yHbl11UToFvzBFl2lJlUfE4fn76heoFGPOeDc1HKNv0weryzIt6hQRsqMy
+ LIT14BisAEm5EG77bqzRJOkxbssBSPan+hesJXWipWydVmVtAsgAhjOKl2deTIPMqVq2
+ HkuEs2BHqsEzgHXADzOMyEcxz/q95HbC0fXlqppER5gIHPGjj0FtLx1UaEEq0B2cEGM+
+ NMT18mqTCcQq5dZQyQEowx4mp9oVtdKhhi0IG8WrsEGWYkOSakCZ8lkmjD3Ad/WGv9yR
+ DjXonuwbBXvzhI6vEi0Stkt7jbS50wnUZz1tFirkPnBG5BY1odIMgOe41MVlXNnxTzHz
+ XjhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vVWeNoJX1cgLUeJ3CqoI0q4ya4vtvYHomGSljWOIelQ=;
+ b=Gi6PisZdh8pgDpFFvcU/OH5MsW2cjPYbHkNkh/3kP5jho/qcBMTQvqi7lFoxHoDXiv
+ 6GPAqKRZp8Go60bUSvXnTU/Muo5Ba88I4uvz63qJFtW0tkPE2hou3soLgi/lBoPAXiUP
+ mRZffMiX7UAdH43xfkB/ki6+B9n3wEN2RGRMvfiWC8kuDJv6MyoXf3trcP4K0Pmzaqpp
+ btv0WHQ81WHnWncgl0jmPe00bIYmufbqH/vwPSelJyG1ng2V/C07a5G5juCJvUtYw/2X
+ EpchSa+3wVznIYM9M7vxurtD9iF7TxdpoMzWT5MfgBhnn6G48JA/Z4k0rH6aUGLBTJYo
+ 7Y0g==
+X-Gm-Message-State: AOAM532hLOyeB8hp+w/XcYYKq3q4PAH0fBISHmZ4LoIZdcKERj58NJLN
+ +Ti6npjYLoWkVXl0/zwVZ+iHcub+MCOWwZkoAU0=
+X-Google-Smtp-Source: ABdhPJzJFoNQWX6BDueYwf7SO6MpaIbTr9OstjOU2hDYtkk8f+se6yEKUmpsrq2Nk+c0aC1Pclpgx/sXJ/6WQV0NBNw=
+X-Received: by 2002:a05:6830:1d66:: with SMTP id
+ l6mr52661235oti.23.1609777656259; 
+ Mon, 04 Jan 2021 08:27:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20210104071114.23657-1-Nick.Fan@mediatek.com>
-In-Reply-To: <20210104071114.23657-1-Nick.Fan@mediatek.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 4 Jan 2021 09:00:02 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqLBCWNqkQZWNXABLffVCPPW0FQ_8G8dXP+yrzw2Xf0dUw@mail.gmail.com>
-Message-ID: <CAL_JsqLBCWNqkQZWNXABLffVCPPW0FQ_8G8dXP+yrzw2Xf0dUw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: Convert Arm Mali Valhall GPU to DT
- schema
-To: Nick Fan <Nick.Fan@mediatek.com>
+References: <20201214175225.38975-1-ardb@kernel.org>
+ <CADnq5_M-U5QO_tmQQ8Q+v+kZXvUc7vjXnmKWYFjX1FmOJYk1OQ@mail.gmail.com>
+ <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
+ <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
+In-Reply-To: <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Jan 2021 11:27:24 -0500
+Message-ID: <CADnq5_PKV4Hekm9Dd_1U2e2RAeb3Mhz_uFSCabWgBNk2gCaAYw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
+To: Ard Biesheuvel <ardb@kernel.org>
+Content-Type: multipart/mixed; boundary="0000000000005e7f9105b81591c3"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,297 +65,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, srv_heupstream <srv_heupstream@mediatek.com>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
+Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Dave Martin <dave.martin@arm.com>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Will Deacon <will@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 4, 2021 at 12:11 AM Nick Fan <Nick.Fan@mediatek.com> wrote:
->
-> Convert the Arm Valhall GPU binding to DT schema format.
+--0000000000005e7f9105b81591c3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is the 2nd v1 you've sent. Please address my comments on the 1st v1.
+On Tue, Dec 29, 2020 at 8:17 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Wed, 16 Dec 2020 at 23:26, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Wed, 16 Dec 2020 at 19:00, Alex Deucher <alexdeucher@gmail.com> wrot=
+e:
+> > >
+> > > On Mon, Dec 14, 2020 at 12:53 PM Ard Biesheuvel <ardb@kernel.org> wro=
+te:
+> > > >
+> > > > This reverts commit c38d444e44badc557cf29fdfdfb823604890ccfa.
+> > > >
+> > > > Simply disabling -mgeneral-regs-only left and right is risky, given=
+ that
+> > > > the standard AArch64 ABI permits the use of FP/SIMD registers anywh=
+ere,
+> > > > and GCC is known to use SIMD registers for spilling, and may invent
+> > > > other uses of the FP/SIMD register file that have nothing to do wit=
+h the
+> > > > floating point code in question. Note that putting kernel_neon_begi=
+n()
+> > > > and kernel_neon_end() around the code that does use FP is not suffi=
+cient
+> > > > here, the problem is in all the other code that may be emitted with
+> > > > references to SIMD registers in it.
+> > > >
+> > > > So the only way to do this properly is to put all floating point co=
+de in
+> > > > a separate compilation unit, and only compile that unit with
+> > > > -mgeneral-regs-only. But perhaps the use of floating point here is
+> > > > something that should be reconsidered entirely.
+> > > >
+> > > > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > > > Cc: Will Deacon <will@kernel.org>
+> > > > Cc: Dave Martin <dave.martin@arm.com>
+> > > > Cc: Rob Herring <robh@kernel.org>
+> > > > Cc: Leo Li <sunpeng.li@amd.com>
+> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: Daniel Kolesa <daniel@octaforge.org>
+> > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> > >
+> > > Can rebase this on Linus' master branch?  There were a number of new
+> > > asics added which copy pasted the ARM64 support.
+> > >
+> >
+> > Not sure what you are asking me here. Reverting commit c38d444e44badc5
+> > on top of mainline is not going to fix the other code that was added.
+> > Or are you asking me to go and find the patches (how many?) that added
+> > new ASICs and fix them for arm64?
+> >
+> > Note that this code is critically broken, as it may corrupt user
+> > process state arbitrarily. So if new code was added that contains the
+> > same bug, it should be reverted so that the respective authors can fix
+> > it and resubmit.
+> >
+>
+> Is this simply about dropping the newly added references to
+> $(dml_rcflags) from the Makefile? Because that is quite trivial ...
 
->
-> Define a compatible string for the Mali Valhall GPU
-> for Mediatek's SoC platform.
->
-> Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
-> ---
->  .../bindings/gpu/arm,mali-valhall.yaml        | 252 ++++++++++++++++++
->  1 file changed, 252 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
-> new file mode 100644
-> index 000000000000..436294c032ff
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
-> @@ -0,0 +1,252 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/arm,mali-valhall.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ARM Mali Valhall GPU
-> +
-> +maintainers:
-> +  - Rob Herring <robh@kernel.org>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^gpu@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - mediatek,mt8192-mali
-> +      - const: arm,mali-valhall
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: GPU interrupt
-> +      - description: MMU interrupt
-> +      - description: Job interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: gpu
-> +      - const: mmu
-> +      - const: job
-> +
-> +  clocks:
-> +    minItems: 1
-> +
-> +  power-domains:
-> +    minItems: 1
-> +    maxItems: 5
-> +
-> +  mali-supply: true
-> +  sram-supply: true
-> +
-> +  operating-points-v2: true
-> +
-> +  "#cooling-cells":
-> +    const: 2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8192-mali
-> +    then:
-> +      properties:
-> +        sram-supply: true
-> +        power-domains:
-> +          description:
-> +            List of phandle and PM domain specifier as documented in
-> +            Documentation/devicetree/bindings/power/power_domain.txt
-> +          minItems: 5
-> +          maxItems: 5
-> +        power-domain-names:
-> +          items:
-> +            - const: core0
-> +            - const: core1
-> +            - const: core2
-> +            - const: core3
-> +            - const: core4
-> +
-> +      required:
-> +        - sram-supply
-> +        - power-domains
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    gpu@13000000 {
-> +           compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
-> +           reg = <0x13000000 0x4000>;
-> +           interrupts =
-> +                   <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                   <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
-> +                   <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
-> +           interrupt-names =
-> +                   "gpu",
-> +                   "mmu",
-> +                   "job";
-> +
-> +           clocks = <&mfgcfg 0>;
-> +
-> +           power-domains =
-> +                   <&scpsys 4>,
-> +                   <&scpsys 5>,
-> +                   <&scpsys 6>,
-> +                   <&scpsys 7>,
-> +                   <&scpsys 8>;
-> +
-> +           operating-points-v2 = <&gpu_opp_table>;
-> +           mali-supply = <&mt6315_7_vbuck1>;
-> +           sram-supply = <&mt6359_vsram_others_ldo_reg>;
-> +    };
-> +
-> +    gpu_opp_table: opp_table0 {
-> +      compatible = "operating-points-v2";
-> +      opp-shared;
-> +
-> +      opp-358000000 {
-> +              opp-hz = /bits/ 64 <358000000>;
-> +              opp-hz-real = /bits/ 64 <358000000>,
-> +                            /bits/ 64 <358000000>;
-> +              opp-microvolt = <606250>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-399000000 {
-> +              opp-hz = /bits/ 64 <399000000>;
-> +              opp-hz-real = /bits/ 64 <399000000>,
-> +                            /bits/ 64 <399000000>;
-> +              opp-microvolt = <618750>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-440000000 {
-> +              opp-hz = /bits/ 64 <440000000>;
-> +              opp-hz-real = /bits/ 64 <440000000>,
-> +                            /bits/ 64 <440000000>;
-> +              opp-microvolt = <631250>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-482000000 {
-> +              opp-hz = /bits/ 64 <482000000>;
-> +              opp-hz-real = /bits/ 64 <482000000>,
-> +                            /bits/ 64 <482000000>;
-> +              opp-microvolt = <643750>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-523000000 {
-> +              opp-hz = /bits/ 64 <523000000>;
-> +              opp-hz-real = /bits/ 64 <523000000>,
-> +                            /bits/ 64 <523000000>;
-> +              opp-microvolt = <656250>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-564000000 {
-> +              opp-hz = /bits/ 64 <564000000>;
-> +              opp-hz-real = /bits/ 64 <564000000>,
-> +                            /bits/ 64 <564000000>;
-> +              opp-microvolt = <668750>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-605000000 {
-> +              opp-hz = /bits/ 64 <605000000>;
-> +              opp-hz-real = /bits/ 64 <605000000>,
-> +                            /bits/ 64 <605000000>;
-> +              opp-microvolt = <681250>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-647000000 {
-> +              opp-hz = /bits/ 64 <647000000>;
-> +              opp-hz-real = /bits/ 64 <647000000>,
-> +                            /bits/ 64 <647000000>;
-> +              opp-microvolt = <693750>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-688000000 {
-> +              opp-hz = /bits/ 64 <688000000>;
-> +              opp-hz-real = /bits/ 64 <688000000>,
-> +                            /bits/ 64 <688000000>;
-> +              opp-microvolt = <706250>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-724000000 {
-> +              opp-hz = /bits/ 64 <724000000>;
-> +              opp-hz-real = /bits/ 64 <724000000>,
-> +                            /bits/ 64 <724000000>;
-> +              opp-microvolt = <725000>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-760000000 {
-> +              opp-hz = /bits/ 64 <760000000>;
-> +              opp-hz-real = /bits/ 64 <760000000>,
-> +                            /bits/ 64 <760000000>;
-> +              opp-microvolt = <743750>,
-> +                              <750000>;
-> +      };
-> +
-> +      opp-795000000 {
-> +              opp-hz = /bits/ 64 <795000000>;
-> +              opp-hz-real = /bits/ 64 <795000000>,
-> +                            /bits/ 64 <795000000>;
-> +              opp-microvolt = <762500>,
-> +                              <762500>;
-> +      };
-> +
-> +      opp-831000000 {
-> +              opp-hz = /bits/ 64 <831000000>;
-> +              opp-hz-real = /bits/ 64 <831000000>,
-> +                            /bits/ 64 <831000000>;
-> +              opp-microvolt = <781250>,
-> +                              <781250>;
-> +      };
-> +
-> +      opp-855000000 {
-> +              opp-hz = /bits/ 64 <855000000>;
-> +              opp-hz-real = /bits/ 64 <855000000>,
-> +                            /bits/ 64 <855000000>;
-> +              opp-microvolt = <793750>,
-> +                              <793750>;
-> +      };
-> +
-> +      opp-902000000 {
-> +              opp-hz = /bits/ 64 <902000000>;
-> +              opp-hz-real = /bits/ 64 <902000000>,
-> +                            /bits/ 64 <902000000>;
-> +              opp-microvolt = <818750>,
-> +                              <818750>;
-> +      };
-> +
-> +      opp-950000000 {
-> +              opp-hz = /bits/ 64 <950000000>;
-> +              opp-hz-real = /bits/ 64 <950000000>,
-> +                            /bits/ 64 <950000000>;
-> +              opp-microvolt = <843750>,
-> +                              <843750>;
-> +      };
-> +    };
-> +...
-> --
-> 2.18.0
->
+Yes, I was thinking something like the attached patch.
+
+Alex
+
+--0000000000005e7f9105b81591c3
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-drm-amdgpu-display-drop-DCN-support-for-aarch64.patch"
+Content-Disposition: attachment; 
+	filename="0001-drm-amdgpu-display-drop-DCN-support-for-aarch64.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kjis1l490>
+X-Attachment-Id: f_kjis1l490
+
+RnJvbSBmYmM5M2NhN2Q3NzM5ODYxY2U2M2Y2YjQ4M2NmMjNkN2NmMWQ2OWZiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
+b20+CkRhdGU6IE1vbiwgNCBKYW4gMjAyMSAxMToyNDoyMCAtMDUwMApTdWJqZWN0OiBbUEFUQ0hd
+IGRybS9hbWRncHUvZGlzcGxheTogZHJvcCBEQ04gc3VwcG9ydCBmb3IgYWFyY2g2NAoKRnJvbSBB
+cmQ6CgoiU2ltcGx5IGRpc2FibGluZyAtbWdlbmVyYWwtcmVncy1vbmx5IGxlZnQgYW5kIHJpZ2h0
+IGlzIHJpc2t5LCBnaXZlbiB0aGF0CnRoZSBzdGFuZGFyZCBBQXJjaDY0IEFCSSBwZXJtaXRzIHRo
+ZSB1c2Ugb2YgRlAvU0lNRCByZWdpc3RlcnMgYW55d2hlcmUsCmFuZCBHQ0MgaXMga25vd24gdG8g
+dXNlIFNJTUQgcmVnaXN0ZXJzIGZvciBzcGlsbGluZywgYW5kIG1heSBpbnZlbnQKb3RoZXIgdXNl
+cyBvZiB0aGUgRlAvU0lNRCByZWdpc3RlciBmaWxlIHRoYXQgaGF2ZSBub3RoaW5nIHRvIGRvIHdp
+dGggdGhlCmZsb2F0aW5nIHBvaW50IGNvZGUgaW4gcXVlc3Rpb24uIE5vdGUgdGhhdCBwdXR0aW5n
+IGtlcm5lbF9uZW9uX2JlZ2luKCkKYW5kIGtlcm5lbF9uZW9uX2VuZCgpIGFyb3VuZCB0aGUgY29k
+ZSB0aGF0IGRvZXMgdXNlIEZQIGlzIG5vdCBzdWZmaWNpZW50CmhlcmUsIHRoZSBwcm9ibGVtIGlz
+IGluIGFsbCB0aGUgb3RoZXIgY29kZSB0aGF0IG1heSBiZSBlbWl0dGVkIHdpdGgKcmVmZXJlbmNl
+cyB0byBTSU1EIHJlZ2lzdGVycyBpbiBpdC4KClNvIHRoZSBvbmx5IHdheSB0byBkbyB0aGlzIHBy
+b3Blcmx5IGlzIHRvIHB1dCBhbGwgZmxvYXRpbmcgcG9pbnQgY29kZSBpbgphIHNlcGFyYXRlIGNv
+bXBpbGF0aW9uIHVuaXQsIGFuZCBvbmx5IGNvbXBpbGUgdGhhdCB1bml0IHdpdGgKLW1nZW5lcmFs
+LXJlZ3Mtb25seS4iCgpEaXNhYmxlIHN1cHBvcnQgdW50aWwgdGhlIGNvZGUgY2FuIGJlIHByb3Bl
+cmx5IHJlZmFjdG9yZWQgdG8gc3VwcG9ydCB0aGlzCnByb3Blcmx5IG9uIGFhcmNoNjQuCgpSZXBv
+cnRlZC1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4KU2lnbmVkLW9mZi1ieTog
+QWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9LY29uZmlnICAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2Rpc3BsYXkvZGMvY2FsY3MvTWFrZWZpbGUgfCAgNCAtLS0tCiAuLi4vZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9jbGtfbWdyL01ha2VmaWxlICAgfCAyMSAtLS0tLS0tLS0tLS0tLS0tLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvTWFrZWZpbGUgfCAgNyAtLS0t
+LS0tCiAuLi4vZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX3Jlc291cmNlLmMgfCAgNyAt
+LS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvTWFrZWZpbGUgfCAg
+NCAtLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjEvTWFrZWZpbGUgfCAg
+NCAtLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMzAvTWFrZWZpbGUgfCAg
+NSAtLS0tLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMzAxL01ha2VmaWxlICAgIHwg
+IDQgLS0tLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMzAyL01ha2VmaWxlICAgIHwg
+IDQgLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9NYWtlZmlsZSAgIHwg
+IDQgLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RzYy9NYWtlZmlsZSAgIHwg
+IDQgLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL29zX3R5cGVzLmggICAgIHwg
+IDQgLS0tLQogMTMgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDczIGRlbGV0aW9ucygt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9LY29uZmlnIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L0tjb25maWcKaW5kZXggNzk3YjVkNGI0M2U1Li5lNTA5
+YTE3NWVkMTcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9LY29uZmln
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9LY29uZmlnCkBAIC02LDcgKzYsNyBA
+QCBjb25maWcgRFJNX0FNRF9EQwogCWJvb2wgIkFNRCBEQyAtIEVuYWJsZSBuZXcgZGlzcGxheSBl
+bmdpbmUiCiAJZGVmYXVsdCB5CiAJc2VsZWN0IFNORF9IREFfQ09NUE9ORU5UIGlmIFNORF9IREFf
+Q09SRQotCXNlbGVjdCBEUk1fQU1EX0RDX0RDTiBpZiAoWDg2IHx8IFBQQzY0IHx8IChBUk02NCAm
+JiBLRVJORUxfTU9ERV9ORU9OKSkgJiYgIShLQ09WX0lOU1RSVU1FTlRfQUxMICYmIEtDT1ZfRU5B
+QkxFX0NPTVBBUklTT05TKQorCXNlbGVjdCBEUk1fQU1EX0RDX0RDTiBpZiAoWDg2IHx8IFBQQzY0
+KSAmJiAhKEtDT1ZfSU5TVFJVTUVOVF9BTEwgJiYgS0NPVl9FTkFCTEVfQ09NUEFSSVNPTlMpCiAJ
+aGVscAogCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIGlmIHlvdSB3YW50IHRvIHVzZSB0aGUgbmV3IGRp
+c3BsYXkgZW5naW5lCiAJICBzdXBwb3J0IGZvciBBTURHUFUuIFRoaXMgYWRkcyByZXF1aXJlZCBz
+dXBwb3J0IGZvciBWZWdhIGFuZApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2RjL2NhbGNzL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Nh
+bGNzL01ha2VmaWxlCmluZGV4IDY0ZjUxNWQ3NDQxMC4uZjNjMDBmNDc5ZTFjIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2FsY3MvTWFrZWZpbGUKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NhbGNzL01ha2VmaWxlCkBAIC0zMywxMCArMzMs
+NiBAQCBpZmRlZiBDT05GSUdfUFBDNjQKIGNhbGNzX2NjZmxhZ3MgOj0gLW1oYXJkLWZsb2F0IC1t
+YWx0aXZlYwogZW5kaWYKIAotaWZkZWYgQ09ORklHX0FSTTY0Ci1jYWxjc19yY2ZsYWdzIDo9IC1t
+Z2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlmCi0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEg
+KCQoY2FsbCBjYy1pZnZlcnNpb24sIC1sdCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Nsa19tZ3IvTWFrZWZp
+bGUgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2xrX21nci9NYWtlZmlsZQppbmRl
+eCBkNTliMzgwZTdiN2YuLmZmOTZiZWU1N2JmYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9kaXNwbGF5L2RjL2Nsa19tZ3IvTWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9kaXNwbGF5L2RjL2Nsa19tZ3IvTWFrZWZpbGUKQEAgLTEwNCwxMyArMTA0LDYgQEAgaWZkZWYg
+Q09ORklHX1BQQzY0CiBDRkxBR1NfJChBTUREQUxQQVRIKS9kYy9jbGtfbWdyL2RjbjIxL3JuX2Ns
+a19tZ3IubyA6PSAkKGNhbGwgY2Mtb3B0aW9uLC1tbm8tZ251LWF0dHJpYnV0ZSkKIGVuZGlmCiAK
+LSMgcHJldmVudCBidWlsZCBlcnJvcnM6Ci0jIC4uLjogJy1tZ2VuZXJhbC1yZWdzLW9ubHknIGlz
+IGluY29tcGF0aWJsZSB3aXRoIHRoZSB1c2Ugb2YgZmxvYXRpbmctcG9pbnQgdHlwZXMKLSMgdGhp
+cyBmaWxlIGlzIHVudXNlZCBvbiBhcm02NCwganVzdCBsaWtlIG9uIHBwYzY0Ci1pZmRlZiBDT05G
+SUdfQVJNNjQKLUNGTEFHU19SRU1PVkVfJChBTUREQUxQQVRIKS9kYy9jbGtfbWdyL2RjbjIxL3Ju
+X2Nsa19tZ3IubyA6PSAtbWdlbmVyYWwtcmVncy1vbmx5Ci1lbmRpZgotCiBBTURfREFMX0NMS19N
+R1JfRENOMjEgPSAkKGFkZHByZWZpeCAkKEFNRERBTFBBVEgpL2RjL2Nsa19tZ3IvZGNuMjEvLCQo
+Q0xLX01HUl9EQ04yMSkpCiAKIEFNRF9ESVNQTEFZX0ZJTEVTICs9ICQoQU1EX0RBTF9DTEtfTUdS
+X0RDTjIxKQpAQCAtMTI1LDEzICsxMTgsNiBAQCBpZmRlZiBDT05GSUdfUFBDNjQKIENGTEFHU18k
+KEFNRERBTFBBVEgpL2RjL2Nsa19tZ3IvZGNuMzAvZGNuMzBfY2xrX21nci5vIDo9ICQoY2FsbCBj
+Yy1vcHRpb24sLW1uby1nbnUtYXR0cmlidXRlKQogZW5kaWYKIAotIyBwcmV2ZW50IGJ1aWxkIGVy
+cm9yczoKLSMgLi4uOiAnLW1nZW5lcmFsLXJlZ3Mtb25seScgaXMgaW5jb21wYXRpYmxlIHdpdGgg
+dGhlIHVzZSBvZiBmbG9hdGluZy1wb2ludCB0eXBlcwotIyB0aGlzIGZpbGUgaXMgdW51c2VkIG9u
+IGFybTY0LCBqdXN0IGxpa2Ugb24gcHBjNjQKLWlmZGVmIENPTkZJR19BUk02NAotQ0ZMQUdTX1JF
+TU9WRV8kKEFNRERBTFBBVEgpL2RjL2Nsa19tZ3IvZGNuMzAvZGNuMzBfY2xrX21nci5vIDo9IC1t
+Z2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlmCi0KIEFNRF9EQUxfQ0xLX01HUl9EQ04zMCA9ICQoYWRk
+cHJlZml4ICQoQU1EREFMUEFUSCkvZGMvY2xrX21nci9kY24zMC8sJChDTEtfTUdSX0RDTjMwKSkK
+IAogQU1EX0RJU1BMQVlfRklMRVMgKz0gJChBTURfREFMX0NMS19NR1JfRENOMzApCkBAIC0xNDYs
+MTMgKzEzMiw2IEBAIGlmZGVmIENPTkZJR19QUEM2NAogQ0ZMQUdTXyQoQU1EREFMUEFUSCkvZGMv
+Y2xrX21nci9kY24zMDEvdmdfY2xrX21nci5vIDo9ICQoY2FsbCBjYy1vcHRpb24sLW1uby1nbnUt
+YXR0cmlidXRlKQogZW5kaWYKIAotIyBwcmV2ZW50IGJ1aWxkIGVycm9yczoKLSMgLi4uOiAnLW1n
+ZW5lcmFsLXJlZ3Mtb25seScgaXMgaW5jb21wYXRpYmxlIHdpdGggdGhlIHVzZSBvZiBmbG9hdGlu
+Zy1wb2ludCB0eXBlcwotIyB0aGlzIGZpbGUgaXMgdW51c2VkIG9uIGFybTY0LCBqdXN0IGxpa2Ug
+b24gcHBjNjQKLWlmZGVmIENPTkZJR19BUk02NAotQ0ZMQUdTX1JFTU9WRV8kKEFNRERBTFBBVEgp
+L2RjL2Nsa19tZ3IvZGNuMzAxL3ZnX2Nsa19tZ3IubyA6PSAtbWdlbmVyYWwtcmVncy1vbmx5Ci1l
+bmRpZgotCiBBTURfREFMX0NMS19NR1JfRENOMzAxID0gJChhZGRwcmVmaXggJChBTUREQUxQQVRI
+KS9kYy9jbGtfbWdyL2RjbjMwMS8sJChDTEtfTUdSX0RDTjMwMSkpCiAKIEFNRF9ESVNQTEFZX0ZJ
+TEVTICs9ICQoQU1EX0RBTF9DTEtfTUdSX0RDTjMwMSkKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9kY24xMC9NYWtlZmlsZQppbmRleCA3MzNlNmU2ZTQzYmQuLjYyYWQxYTExYmZm
+OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL01ha2Vm
+aWxlCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9NYWtlZmlsZQpA
+QCAtMzEsMTEgKzMxLDQgQEAgRENOMTAgPSBkY24xMF9pbml0Lm8gZGNuMTBfcmVzb3VyY2UubyBk
+Y24xMF9pcHAubyBkY24xMF9od19zZXF1ZW5jZXIubyBcCiAKIEFNRF9EQUxfRENOMTAgPSAkKGFk
+ZHByZWZpeCAkKEFNRERBTFBBVEgpL2RjL2RjbjEwLywkKERDTjEwKSkKIAotIyBmaXg6Ci0jIC4u
+LjogJy1tZ2VuZXJhbC1yZWdzLW9ubHknIGlzIGluY29tcGF0aWJsZSB3aXRoIHRoZSB1c2Ugb2Yg
+ZmxvYXRpbmctcG9pbnQgdHlwZXMKLSMgYWFyY2g2NCBkb2VzIG5vdCBzdXBwb3J0IHNvZnQtZmxv
+YXQsIHNvIHVzZSBoYXJkLWZsb2F0IGFuZCBoYW5kbGUgdGhpcyBpbiBjb2RlCi1pZmRlZiBDT05G
+SUdfQVJNNjQKLUNGTEFHU19SRU1PVkVfJChBTUREQUxQQVRIKS9kYy9kY24xMC9kY24xMF9yZXNv
+dXJjZS5vIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlmCi0KIEFNRF9ESVNQTEFZX0ZJTEVT
+ICs9ICQoQU1EX0RBTF9EQ04xMCkKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
+cGxheS9kYy9kY24xMC9kY24xMF9yZXNvdXJjZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2RjL2RjbjEwL2RjbjEwX3Jlc291cmNlLmMKaW5kZXggYmRjMzc4MzE1MzVlLi4zNjc0NTE5
+M2MzOTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9k
+Y24xMF9yZXNvdXJjZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24x
+MC9kY24xMF9yZXNvdXJjZS5jCkBAIC0xNTM0LDE1ICsxNTM0LDggQEAgc3RhdGljIGJvb2wgZGNu
+MTBfcmVzb3VyY2VfY29uc3RydWN0KAogCW1lbWNweShkYy0+ZGNuX2lwLCAmZGNuMTBfaXBfZGVm
+YXVsdHMsIHNpemVvZihkY24xMF9pcF9kZWZhdWx0cykpOwogCW1lbWNweShkYy0+ZGNuX3NvYywg
+JmRjbjEwX3NvY19kZWZhdWx0cywgc2l6ZW9mKGRjbjEwX3NvY19kZWZhdWx0cykpOwogCi0jaWYg
+ZGVmaW5lZChDT05GSUdfQVJNNjQpCi0JLyogQWFyY2g2NCBkb2VzIG5vdCBzdXBwb3J0IC1tc29m
+dC1mbG9hdC8tbWZsb2F0LWFiaT1zb2Z0ICovCi0JRENfRlBfU1RBUlQoKTsKLQlkY24xMF9yZXNv
+dXJjZV9jb25zdHJ1Y3RfZnAoZGMpOwotCURDX0ZQX0VORCgpOwotI2Vsc2UKIAkvKiBPdGhlciBh
+cmNoaXRlY3R1cmVzIHdlIGJ1aWxkIGZvciBidWlsZCB0aGlzIHdpdGggc29mdC1mbG9hdCAqLwog
+CWRjbjEwX3Jlc291cmNlX2NvbnN0cnVjdF9mcChkYyk7Ci0jZW5kaWYKIAogCXBvb2wtPmJhc2Uu
+cHBfc211ID0gZGNuMTBfcHBfc211X2NyZWF0ZShjdHgpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2Rpc3BsYXkvZGMvZGNuMjAvTWFrZWZpbGUKaW5kZXggNjI0Y2IxMzQxZWYxLi41ZmNhZjc4
+MzM0ZmYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24yMC9N
+YWtlZmlsZQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvTWFrZWZp
+bGUKQEAgLTE3LDEwICsxNyw2IEBAIGlmZGVmIENPTkZJR19QUEM2NAogQ0ZMQUdTXyQoQU1EREFM
+UEFUSCkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2UubyA6PSAtbWhhcmQtZmxvYXQgLW1hbHRpdmVj
+CiBlbmRpZgogCi1pZmRlZiBDT05GSUdfQVJNNjQKLUNGTEFHU19SRU1PVkVfJChBTUREQUxQQVRI
+KS9kYy9kY24yMC9kY24yMF9yZXNvdXJjZS5vIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlm
+Ci0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNpb24sIC1s
+dCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIxL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9k
+aXNwbGF5L2RjL2RjbjIxL01ha2VmaWxlCmluZGV4IDFlZTVmYzAzYjdiMy4uYmI4Yzk1MTQxMDgy
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjEvTWFrZWZp
+bGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIxL01ha2VmaWxlCkBA
+IC0xMywxMCArMTMsNiBAQCBpZmRlZiBDT05GSUdfUFBDNjQKIENGTEFHU18kKEFNRERBTFBBVEgp
+L2RjL2RjbjIxL2RjbjIxX3Jlc291cmNlLm8gOj0gLW1oYXJkLWZsb2F0IC1tYWx0aXZlYwogZW5k
+aWYKIAotaWZkZWYgQ09ORklHX0FSTTY0Ci1DRkxBR1NfUkVNT1ZFXyQoQU1EREFMUEFUSCkvZGMv
+ZGNuMjEvZGNuMjFfcmVzb3VyY2UubyA6PSAtbWdlbmVyYWwtcmVncy1vbmx5Ci1lbmRpZgotCiBp
+ZmRlZiBDT05GSUdfQ0NfSVNfR0NDCiBpZmVxICgkKGNhbGwgY2MtaWZ2ZXJzaW9uLCAtbHQsIDA3
+MDEsIHkpLCB5KQogSVNfT0xEX0dDQyA9IDEKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kY24zMC9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
+eS9kYy9kY24zMC9NYWtlZmlsZQppbmRleCAyNDhjMjcxMWFhY2UuLmMyMDMzMWViNjJlMCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwL01ha2VmaWxlCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMC9NYWtlZmlsZQpAQCAtNDEs
+MTEgKzQxLDYgQEAgQ0ZMQUdTXyQoQU1EREFMUEFUSCkvZGMvZGNuMzAvZGNuMzBfcmVzb3VyY2Uu
+byA6PSAtbWhhcmQtZmxvYXQgLW1hbHRpdmVjCiBDRkxBR1NfJChBTUREQUxQQVRIKS9kYy9kY24z
+MC9kY24zMF9vcHRjLm8gOj0gLW1oYXJkLWZsb2F0IC1tYWx0aXZlYwogZW5kaWYKIAotaWZkZWYg
+Q09ORklHX0FSTTY0Ci1DRkxBR1NfUkVNT1ZFXyQoQU1EREFMUEFUSCkvZGMvZGNuMzAvZGNuMzBf
+cmVzb3VyY2UubyA6PSAtbWdlbmVyYWwtcmVncy1vbmx5Ci1DRkxBR1NfUkVNT1ZFXyQoQU1EREFM
+UEFUSCkvZGMvZGNuMzAvZGNuMzBfb3B0Yy5vIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlm
+Ci0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNpb24sIC1s
+dCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwMS9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9kY24zMDEvTWFrZWZpbGUKaW5kZXggMmZkNWQzNGU0YmE2Li4zY2E3ZDkxMWQy
+NWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMDEvTWFr
+ZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwMS9NYWtlZmls
+ZQpAQCAtMjEsMTAgKzIxLDYgQEAgaWZkZWYgQ09ORklHX1BQQzY0CiBDRkxBR1NfJChBTUREQUxQ
+QVRIKS9kYy9kY24zMDEvZGNuMzAxX3Jlc291cmNlLm8gOj0gLW1oYXJkLWZsb2F0IC1tYWx0aXZl
+YwogZW5kaWYKIAotaWZkZWYgQ09ORklHX0FSTTY0Ci1DRkxBR1NfUkVNT1ZFXyQoQU1EREFMUEFU
+SCkvZGMvZGNuMzAxL2RjbjMwMV9yZXNvdXJjZS5vIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVu
+ZGlmCi0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNpb24s
+IC1sdCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwMi9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kY24zMDIvTWFrZWZpbGUKaW5kZXggMzZlNDRlMWIwN2ZhLi44ZDQ5MjRi
+N2RjMjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMDIv
+TWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwMi9NYWtl
+ZmlsZQpAQCAtMjAsMTAgKzIwLDYgQEAgaWZkZWYgQ09ORklHX1BQQzY0CiBDRkxBR1NfJChBTURE
+QUxQQVRIKS9kYy9kY24zMDIvZGNuMzAyX3Jlc291cmNlLm8gOj0gLW1oYXJkLWZsb2F0IC1tYWx0
+aXZlYwogZW5kaWYKIAotaWZkZWYgQ09ORklHX0FSTTY0Ci1DRkxBR1NfUkVNT1ZFXyQoQU1EREFM
+UEFUSCkvZGMvZGNuMzAyL2RjbjMwMl9yZXNvdXJjZS5vIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkK
+LWVuZGlmCi0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNp
+b24sIC1sdCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kbWwvTWFrZWZpbGUKaW5kZXggYTAyYTMzZGNkNzBiLi42YmI3ZjI5MDU4
+MjEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvTWFrZWZp
+bGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9NYWtlZmlsZQpAQCAt
+MzMsMTAgKzMzLDYgQEAgaWZkZWYgQ09ORklHX1BQQzY0CiBkbWxfY2NmbGFncyA6PSAtbWhhcmQt
+ZmxvYXQgLW1hbHRpdmVjCiBlbmRpZgogCi1pZmRlZiBDT05GSUdfQVJNNjQKLWRtbF9yY2ZsYWdz
+IDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlmCi0KIGlmZGVmIENPTkZJR19DQ19JU19HQ0MK
+IGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNpb24sIC1sdCwgMDcwMSwgeSksIHkpCiBJU19PTERfR0ND
+ID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RzYy9NYWtl
+ZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kc2MvTWFrZWZpbGUKaW5kZXgg
+ZjI2MjRhMTE1NmU1Li44ZDMxZWI3NWM2YTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kc2MvTWFrZWZpbGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2RjL2RzYy9NYWtlZmlsZQpAQCAtMTAsMTAgKzEwLDYgQEAgaWZkZWYgQ09ORklHX1BQQzY0
+CiBkc2NfY2NmbGFncyA6PSAtbWhhcmQtZmxvYXQgLW1hbHRpdmVjCiBlbmRpZgogCi1pZmRlZiBD
+T05GSUdfQVJNNjQKLWRzY19yY2ZsYWdzIDo9IC1tZ2VuZXJhbC1yZWdzLW9ubHkKLWVuZGlmCi0K
+IGlmZGVmIENPTkZJR19DQ19JU19HQ0MKIGlmZXEgKCQoY2FsbCBjYy1pZnZlcnNpb24sIC1sdCwg
+MDcwMSwgeSksIHkpCiBJU19PTERfR0NDID0gMQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9kaXNwbGF5L2RjL29zX3R5cGVzLmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
+ZGMvb3NfdHlwZXMuaAppbmRleCA5NWNiNTY5MjllNzkuLjEyNmMyZjNhNGRkMyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL29zX3R5cGVzLmgKKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL29zX3R5cGVzLmgKQEAgLTU1LDEwICs1NSw2IEBACiAj
+aW5jbHVkZSA8YXNtL2ZwdS9hcGkuaD4KICNkZWZpbmUgRENfRlBfU1RBUlQoKSBrZXJuZWxfZnB1
+X2JlZ2luKCkKICNkZWZpbmUgRENfRlBfRU5EKCkga2VybmVsX2ZwdV9lbmQoKQotI2VsaWYgZGVm
+aW5lZChDT05GSUdfQVJNNjQpCi0jaW5jbHVkZSA8YXNtL25lb24uaD4KLSNkZWZpbmUgRENfRlBf
+U1RBUlQoKSBrZXJuZWxfbmVvbl9iZWdpbigpCi0jZGVmaW5lIERDX0ZQX0VORCgpIGtlcm5lbF9u
+ZW9uX2VuZCgpCiAjZWxpZiBkZWZpbmVkKENPTkZJR19QUEM2NCkKICNpbmNsdWRlIDxhc20vc3dp
+dGNoX3RvLmg+CiAjaW5jbHVkZSA8YXNtL2NwdXRhYmxlLmg+Ci0tIAoyLjI5LjIKCg==
+--0000000000005e7f9105b81591c3
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--0000000000005e7f9105b81591c3--
