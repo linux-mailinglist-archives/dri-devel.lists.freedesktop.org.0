@@ -2,33 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8762E916B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:04:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08D12E916D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 09:06:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D02389C14;
-	Mon,  4 Jan 2021 08:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48EB989B97;
+	Mon,  4 Jan 2021 08:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C735289C14
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 08:04:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2D689B97;
+ Mon,  4 Jan 2021 08:06:00 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4D523AD75;
- Mon,  4 Jan 2021 08:04:15 +0000 (UTC)
-Subject: Re: [PATCH v2] drm/hisilicon: Add load and unload callback functions
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1608799558-29564-1-git-send-email-tiantao6@hisilicon.com>
+ by mx2.suse.de (Postfix) with ESMTP id 8DEEAB7BC;
+ Mon,  4 Jan 2021 08:05:58 +0000 (UTC)
+Subject: Re: [PULL] drm-misc-next-fixes
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e1c6fa5a-27d4-1726-0ae8-5990839aac61@suse.de>
-Date: Mon, 4 Jan 2021 09:04:13 +0100
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <X+JFYlW1SEZa6ShA@linux-uq9g>
+Message-ID: <9677ee19-a083-7993-10d8-8ac437372c26@suse.de>
+Date: Mon, 4 Jan 2021 09:05:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <1608799558-29564-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <X+JFYlW1SEZa6ShA@linux-uq9g>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,135 +38,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0870894710=="
+Cc: Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: multipart/mixed; boundary="===============1482339250=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0870894710==
+--===============1482339250==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="u6hWuRE08bl3qPl4zHmAMlPyFZi3LrVu3"
+ boundary="CikGlNbcrUV0JEEAfU6Ps291agInWmKFX"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---u6hWuRE08bl3qPl4zHmAMlPyFZi3LrVu3
-Content-Type: multipart/mixed; boundary="ciPq5Np7IqVuo7gosp9iQSLBNK1WF6MRW";
+--CikGlNbcrUV0JEEAfU6Ps291agInWmKFX
+Content-Type: multipart/mixed; boundary="M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Message-ID: <e1c6fa5a-27d4-1726-0ae8-5990839aac61@suse.de>
-Subject: Re: [PATCH v2] drm/hisilicon: Add load and unload callback functions
-References: <1608799558-29564-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1608799558-29564-1-git-send-email-tiantao6@hisilicon.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Message-ID: <9677ee19-a083-7993-10d8-8ac437372c26@suse.de>
+Subject: Re: [PULL] drm-misc-next-fixes
+References: <X+JFYlW1SEZa6ShA@linux-uq9g>
+In-Reply-To: <X+JFYlW1SEZa6ShA@linux-uq9g>
 
---ciPq5Np7IqVuo7gosp9iQSLBNK1WF6MRW
+--M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-and a happy new year.
+it looks like this PR has not been merged yet.
 
-Am 24.12.20 um 09:45 schrieb Tian Tao:
-> Add the callback functions of drm_driver structure member functions
-> load and unload, no need to call load in the hibmc_pci_probe function
-> and unload in the hibmc_pci_remove function.
-
-The load and unload callbacks are left over from long ago. They are now=20
-deprecated.* Don't use them.
-
->=20
-> v2:
-> remove the hibmc_unload called from hibmc_pic_remove.
-
-If anything, you'd want to inline hibmc's load/unload into their callers.=
-
-
-Best regards
+Best regard
 Thomas
 
-*) White lie: They are used by the old non-KMS drivers. Anything with=20
-KMS should not use them.
+Am 22.12.20 um 20:13 schrieb Thomas Zimmermann:
+> Hi Dave and Daniel,
+>=20
+> here's this week's PR for drm-misc-next-fixes.
+>=20
+> Best regards
+> Thomas
+>=20
+> drm-misc-next-fixes-2020-12-22:
+> Short summary of fixes pull:
+>=20
+>   * dma-buf: Include <linux/vmalloc.h> for building on MIPS
+>   * komeda: Fix order of operation in commit tail; Fix NULL-pointer and=
 
+>             out-of-bounds access; Cleanups
+>   * ttm: Fix an unused-function warning
+> The following changes since commit ee46d16d2e40bebc2aa790fd7b6a056466ff=
+895c:
 >=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 18 +++++++---------=
---
->   1 file changed, 7 insertions(+), 11 deletions(-)
+>    drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge (2020-12-=
+15 11:01:10 +0100)
 >=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
-gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 0d4e902..10042cf 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -27,6 +27,9 @@
->  =20
->   DEFINE_DRM_GEM_FOPS(hibmc_fops);
->  =20
-> +static int hibmc_load(struct drm_device *dev, unsigned long flags);
-> +static void hibmc_unload(struct drm_device *dev);
-> +
->   static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
->   {
->   	struct drm_device *dev =3D (struct drm_device *)arg;
-> @@ -63,6 +66,8 @@ static const struct drm_driver hibmc_driver =3D {
->   	.dumb_map_offset        =3D drm_gem_vram_driver_dumb_mmap_offset,
->   	.gem_prime_mmap		=3D drm_gem_prime_mmap,
->   	.irq_handler		=3D hibmc_drm_interrupt,
-> +	.load			=3D hibmc_load,
-> +	.unload			=3D hibmc_unload,
->   };
->  =20
->   static int __maybe_unused hibmc_pm_suspend(struct device *dev)
-> @@ -248,7 +253,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *=
-priv)
->   	return 0;
->   }
->  =20
-> -static int hibmc_unload(struct drm_device *dev)
-> +static void hibmc_unload(struct drm_device *dev)
->   {
->   	drm_atomic_helper_shutdown(dev);
->  =20
-> @@ -256,11 +261,9 @@ static int hibmc_unload(struct drm_device *dev)
->   		drm_irq_uninstall(dev);
->  =20
->   	pci_disable_msi(dev->pdev);
-> -
-> -	return 0;
->   }
->  =20
-> -static int hibmc_load(struct drm_device *dev)
-> +static int hibmc_load(struct drm_device *dev, unsigned long flags)
->   {
->   	struct hibmc_drm_private *priv =3D to_hibmc_drm_private(dev);
->   	int ret;
-> @@ -335,12 +338,6 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->   		goto err_return;
->   	}
->  =20
-> -	ret =3D hibmc_load(dev);
-> -	if (ret) {
-> -		drm_err(dev, "failed to load hibmc: %d\n", ret);
-> -		goto err_return;
-> -	}
-> -
->   	ret =3D drm_dev_register(dev, 0);
->   	if (ret) {
->   		drm_err(dev, "failed to register drv for userspace access: %d\n",
-> @@ -363,7 +360,6 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
->   	struct drm_device *dev =3D pci_get_drvdata(pdev);
->  =20
->   	drm_dev_unregister(dev);
-> -	hibmc_unload(dev);
->   }
->  =20
->   static const struct pci_device_id hibmc_pci_table[] =3D {
+> are available in the Git repository at:
+>=20
+>    git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-=
+2020-12-22
+>=20
+> for you to fetch changes up to be3e477effba636ad25dcd244db264c6cd5c1f36=
+:
+>=20
+>    drm/komeda: Fix bit check to import to value of proper type (2020-12=
+-18 16:36:00 +0000)
+>=20
+> ----------------------------------------------------------------
+> Short summary of fixes pull:
+>=20
+>   * dma-buf: Include <linux/vmalloc.h> for building on MIPS
+>   * komeda: Fix order of operation in commit tail; Fix NULL-pointer and=
+
+>             out-of-bounds access; Cleanups
+>   * ttm: Fix an unused-function warning
+>=20
+> ----------------------------------------------------------------
+> Arnd Bergmann (1):
+>        drm/ttm: fix unused function warning
+>=20
+> Carsten Haitzler (3):
+>        drm/komeda: Remove useless variable assignment
+>        drm/komeda: Handle NULL pointer access code path in error case
+>        drm/komeda: Fix bit check to import to value of proper type
+>=20
+> Christian K=C3=B6nig (1):
+>        drm/qxl: don't allocate a dma_address array
+>=20
+> James Qian Wang (1):
+>        drm/komeda: Correct the sequence of hw_done() and flip_done()
+>=20
+> John Stultz (1):
+>        dma-buf: cma_heap: Include linux/vmalloc.h to fix build failures=
+ on MIPS
+>=20
+>   drivers/dma-buf/heaps/cma_heap.c                   |  1 +
+>   drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |  1 -
+>   drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |  4 +--
+>   .../gpu/drm/arm/display/komeda/komeda_pipeline.c   |  3 ++-
+>   .../drm/arm/display/komeda/komeda_pipeline_state.c |  4 +--
+>   drivers/gpu/drm/qxl/qxl_ttm.c                      |  2 +-
+>   drivers/gpu/drm/ttm/ttm_pool.c                     | 29 +++++++++++--=
+---------
+>   7 files changed, 22 insertions(+), 22 deletions(-)
+>=20
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
 
 --=20
@@ -181,32 +170,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---ciPq5Np7IqVuo7gosp9iQSLBNK1WF6MRW--
+--M05GCwQLsNs4HvlqDvODgLBRSWNdkn6zh--
 
---u6hWuRE08bl3qPl4zHmAMlPyFZi3LrVu3
+--CikGlNbcrUV0JEEAfU6Ps291agInWmKFX
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/yy/0FAwAAAAAACgkQlh/E3EQov+Bh
-wg/+IvCyezuD14UleRkSN4+mLh1au6dgj6AyGJKWiPcTl+Zr5+fvCrnubEBFFBcgWFCYGwg5cfJC
-RsiloINl/r7zcAXON5IVPVXnIFU+0jClbQicZMxqotYYPSnKgCcjL3E2Nmt+aLDVZhmD3OjWMIMg
-q6d7EGKacGm+o5hEuFQf3fQOAhy1IIXLC2yyNLzbkPnEBpuOdHuBYhmu5IS4u0hOtFanffhjmgZA
-a46qs80XKebZ3HG3vxLFwg07/9XVlelcGiERwTjY/Wq0wBXQ39N+gsLQFduj8fNMUen9M+iNnWsq
-9EsuGIFo1FJLsf0UY9xzGwrevlMXQT9HZGVWQbrJErVO5l1ViTPdgqSh326e1oGhklaq/A9eQ5pj
-KOQUoEk8KtAEGgmHI8M++JwUFeTXqnWlm/x9S+RNDo5UDX1BzP9oWkvwCih5OhF44COLzy4CfOZC
-zcLwdBvzGDiOF8Du4xL1cXJN0C+qWLvzfXNMMjP1bRwe6bJ/ckS+V0oijzSRndfR5QxBalcA8sD/
-3O3zM/Cr0fUvfD51LHQAIgebhSsYKvBjhhFV0ZUiNfdm8NjDcVEZstiBBGwz5FZamaOnbUPQFz98
-Wjsj+UoqiU3Hzh3gIXOsYgzId+21fmkUQ02zjk7vnfRC8fDo8aYbv0AAk6+UPXyIVaNdIM+J0a85
-wtY=
-=NaQb
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/yzF8FAwAAAAAACgkQlh/E3EQov+Dk
+bQ/+PAuyb0HGlrHk9QovoG5Ww81uE8HmrCZsUMGy3vMCbKyrYtbQ6f90iYMgGO811dx/XC9FRMaB
+qxiuBZL4I3NCjDT07uJm1BRo9goiLwWfYrryqRmsTVZrwTQ4X50+Z89mrSUj1yUmokpTuCI/71KZ
+B+CK+vgSxHdSP8CGxijzaruc0AZ5i8s+bjUi2+piE51RAZLQM1K6GMNzybJ/VCEGeK/6/OBz1hnV
+Oz3rXSwW1QUF/3mHFQ05KRxQrWD6jYKxbUOPFojgKUdIIYUH13AQDwtuvHEDsxik9qtztlYbyDIz
+Ax8LC6QSH/BnxDeX+M+L5kMXDfkTzWpLZ6D+wy9BwoNEG7/OgyMi2aDGoW0nz5TPx2X+jLf/It3R
+QGjLxKrhgP20Mc42uO8Pc7EthQT1pszb9b7tOQXmyukDfiqDNkCOwVmfVeSUSPCJl9GHzgs3NWJ7
+uILo7dRVClrvYvmZSYQjjDjQA0n45oBC4ndHPkHvDzbE6BOvkeYAKShki3ob0NHcxDH0+ClxRPda
+2EvjzxCV6js1bKK9U1acYM+u+7wgwWMbVWkZSGVboKUZY7yZxFpzsWom8zFLvgqABgamdeLrJgKo
+hzahC4XzoSXqFv5KS6i4bd1gWVaZYJbJtDxwt8fc+GHP4gKvasvRzM8sFmF+OpL6fRJQrtLpZ2ew
+LDk=
+=xvb0
 -----END PGP SIGNATURE-----
 
---u6hWuRE08bl3qPl4zHmAMlPyFZi3LrVu3--
+--CikGlNbcrUV0JEEAfU6Ps291agInWmKFX--
 
---===============0870894710==
+--===============1482339250==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -217,4 +206,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0870894710==--
+--===============1482339250==--
