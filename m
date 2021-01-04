@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEB72E9B83
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 18:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5742E9B9E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 18:03:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F16889FEC;
-	Mon,  4 Jan 2021 17:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1550989FF7;
+	Mon,  4 Jan 2021 17:03:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA7389FEC;
- Mon,  4 Jan 2021 17:00:38 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id r9so26587365otk.11;
- Mon, 04 Jan 2021 09:00:38 -0800 (PST)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB6389FF7;
+ Mon,  4 Jan 2021 17:03:11 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id x13so32868032oic.5;
+ Mon, 04 Jan 2021 09:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mLJaDNIBiSp2oExEtnWCPvISc7T9R6s/K5ftE3MvkzI=;
- b=hY56ihJuziw/5YQ7KCQQBkSqw7AbisOyW+vph4s5wGL2khGhvtWA/hnjqO9Cp6dNcc
- TZbEAx4h/eQY6oF4RMRdzsQLpoKAvf71IMknElWFWIkU/C2Od8KXZ6ZYTU+IbrgpEGxp
- dbs4ZSD+AqtrIw8X54RmzwvGJJdMNh55vlgxJiVhLxNL3BlejfBbVtE5ZpurF7vuHVgX
- Z5WKcybXlSVGRPI2S9xeCBGW5bOO1gRWNHZdqinFGCU2ugfQSEExGf5gKDE7xMgmLdi0
- 3Zhw4x9bmDpQxkqsNvEKsuZyhTNwuaP8Lmk0Yz3rmrUVjU+SZo61zXEU3uYBxkH+VPhH
- 1iSQ==
+ :cc; bh=bkfKIc8TYv8/nRpoPVoMEofElitz2KLsBoBEwufJSM0=;
+ b=iGIjA39XdTndy0R3+OqGy5LlHrdqOClBY1/FWEX5jyoMeg3HRVh87Ta21eQsaZnafO
+ j3v/KCXJ/0iGc8LDxzKuPWravYhZk0rczR5/b6B//M+D1COrM4LDB80FALGQWNQGXMCR
+ v0Qkxb70zsuujhkJJcLO/ungyAjilF5qjZf45da4Qb2ftbQpNpNHYMOZL0IfC9xJrCQT
+ qXmoU38fF+1t4Hu2NraVXvCe+X3FHiTSrSdXAWAhq1LbrZTRNlFtjYICJBc/Wmb5vaQB
+ mGxl/DIWqhVvUmpDJIRskxfFmckEGMfCz3qgS8jHz4talJtLXnj9eoq6DY88MJ2Sllaj
+ g3EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mLJaDNIBiSp2oExEtnWCPvISc7T9R6s/K5ftE3MvkzI=;
- b=aZltqyoCJ9QQOBri9Zfyil2+QRetlx+tUPW8qC5ShAoOkfdEHeb6nRnwLG0fCvpbCT
- MswgFf3N27tVwTkAfpPZhueHiz/qSyYrUE5F/hW7z6i64oswH08bcfzRYP2A+8AQ5E0Z
- N1vlKWrkuyznDjTACoTee7TifwS4ytUHSddVUSc9yZqmDVyUhyWaJtnX47fAwNuE0hbd
- WQdPV9I5r3teFqPl385377pjpCebMCaNSQMf/YKifI2T7LXrv2/vOEHp9bqXs4S4SXVz
- Z9lfpFw39YKLUkGdVsxUdn+31WaHct7DTcn4svqsPmacMJMhCXoOit95CNCZcXFR+Agr
- XC3g==
-X-Gm-Message-State: AOAM533myGnKbx50uRhewMGZjHreN2n5u0Wgzlv3EJ7B7vIn1MQ/Lp07
- X0fswojaW7zTgHXakAWOyr+vN6KsSKFzVhUtKIg=
-X-Google-Smtp-Source: ABdhPJwm7yJXYb0sKmhZ64e8rOh+obz10xknZR5Tj9FfQjOj0F2CBe+0kvbY+VEU7A/ESkv4gGGY6agIjBFEb7WawpY=
-X-Received: by 2002:a05:6830:1b7b:: with SMTP id
- d27mr54799967ote.132.1609779638100; 
- Mon, 04 Jan 2021 09:00:38 -0800 (PST)
+ bh=bkfKIc8TYv8/nRpoPVoMEofElitz2KLsBoBEwufJSM0=;
+ b=CkbuyA8T0skMzK0Z2ltqJZaaeMi1UgRzdCi9dI/v5E2iZJosze3nqKHY56z9v8y482
+ gfZJwKFzmuBS2jLOEfvIcsPGerAoH0m6gqGnelz1rsGuUanVD9VgU6qtvsx85rr39813
+ T7GqopVqi4Wk/nNXSRVR8wTpedPxZ8HjO4nYcjElhtlR4NolraCZchoOZLIDaAZUJosQ
+ VrrEb1sO79G2kYQr3jq/X+rhn2shZ8OVUOJGPu3mMou55PG40x9+NtBfZ3mrkmmJMipU
+ 85kxZBuqfk4v6d51neryfzJP+Da1oFEdoBxaEUKE3PxJNahaoBa3hP+vEKpxYOSSsYuB
+ wVCw==
+X-Gm-Message-State: AOAM530h9f1c6FPlKrffeWRcPs/L9hM35fyZlablF995LDDpLWHBW/be
+ aKZJ+mu4uwo2Qy3eRY3SRgEwNFtU/t85ew1oUxZHKWQj
+X-Google-Smtp-Source: ABdhPJxA/GM8cZ0BIWwtLaCo/AOxg5iblCGFiV28MHKxwkGcJDu7ZQLBuCsqx/yHA/FkZSq2MLM+ksDZ9eivPBKDDGM=
+X-Received: by 2002:aca:6202:: with SMTP id w2mr17652648oib.5.1609779790520;
+ Mon, 04 Jan 2021 09:03:10 -0800 (PST)
 MIME-Version: 1.0
-References: <1609057469-3844200-1-git-send-email-bodefang@126.com>
-In-Reply-To: <1609057469-3844200-1-git-send-email-bodefang@126.com>
+References: <20201222133100.19470-1-zhengyongjun3@huawei.com>
+In-Reply-To: <20201222133100.19470-1-zhengyongjun3@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Jan 2021 12:00:27 -0500
-Message-ID: <CADnq5_NhD5WUft5BnBrSjMn4x=5tb5Pje1_BUJyu60FtiFpNpw@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon:avoid null pointer dereference when dev is not
- bound
-To: Defang Bo <bodefang@126.com>
+Date: Mon, 4 Jan 2021 12:02:59 -0500
+Message-ID: <CADnq5_M6a0LOS3UrteaMcPtZVApJQoV=fR8jizbVzk96VFTHrA@mail.gmail.com>
+Subject: Re: [PATCH -next] gpu/drm/radeon: use DIV_ROUND_UP macro to do
+ calculation
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 27, 2020 at 3:56 PM Defang Bo <bodefang@126.com> wrote:
+On Wed, Dec 23, 2020 at 2:06 AM Zheng Yongjun <zhengyongjun3@huawei.com> wrote:
 >
-> [Why]
-> Similar to commit<0fa375e6>. If the set_state/can_switch code access the drm_device when dev is not bound,
-> a null pointer dereference can happen.
+> Don't open-code DIV_ROUND_UP() kernel macro.
 >
-> [How]
-> Add sanity checks to prevent it.
->
-> Signed-off-by: Defang Bo <bodefang@126.com>
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 
-Are you actually hitting this or is this just defensive?  I don't
-think we can actually get into a state where this would be a problem.
+Applied.  Thanks!
 
 Alex
 
+
 > ---
->  drivers/gpu/drm/radeon/radeon_device.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/radeon/r600_cs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-> index 266e3cb..50a1a60 100644
-> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> @@ -1224,6 +1224,9 @@ static void radeon_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
->  {
->         struct drm_device *dev = pci_get_drvdata(pdev);
+> diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
+> index 390a9621604a..a3aea5329712 100644
+> --- a/drivers/gpu/drm/radeon/r600_cs.c
+> +++ b/drivers/gpu/drm/radeon/r600_cs.c
+> @@ -219,7 +219,7 @@ int r600_fmt_get_nblocksx(u32 format, u32 w)
+>         if (bw == 0)
+>                 return 0;
 >
-> +       if (!dev)
-> +               return;
-> +
->         if (radeon_is_px(dev) && state == VGA_SWITCHEROO_OFF)
->                 return;
+> -       return (w + bw - 1) / bw;
+> +       return DIV_ROUND_UP(w, bw);
+>  }
 >
-> @@ -1257,6 +1260,9 @@ static void radeon_switcheroo_set_state(struct pci_dev *pdev, enum vga_switchero
->  static bool radeon_switcheroo_can_switch(struct pci_dev *pdev)
->  {
->         struct drm_device *dev = pci_get_drvdata(pdev);
-> +
-> +       if (!dev)
-> +               return false;
+>  int r600_fmt_get_nblocksy(u32 format, u32 h)
+> @@ -233,7 +233,7 @@ int r600_fmt_get_nblocksy(u32 format, u32 h)
+>         if (bh == 0)
+>                 return 0;
 >
->         /*
->          * FIXME: open_count is protected by drm_global_mutex but that would lead to
+> -       return (h + bh - 1) / bh;
+> +       return DIV_ROUND_UP(h, bh);
+>  }
+>
+>  struct array_mode_checker {
 > --
-> 2.7.4
+> 2.22.0
 >
 > _______________________________________________
 > amd-gfx mailing list
