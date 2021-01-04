@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754BA2E9B41
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 17:45:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046452E9B5D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jan 2021 17:54:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC7589F53;
-	Mon,  4 Jan 2021 16:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 454776E02F;
+	Mon,  4 Jan 2021 16:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3A8689F53
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jan 2021 16:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609778753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U5A588aZGpfVy5zsSnCSRhs6l4RkKAapxTpg6TKoXyU=;
- b=g4dRS4TrcwOtKPsq+Gs9mcA4/Q7gqNSFtDcEfBEYUfwMwP6EcUAy2HHcHrCYNqSo4MgSi8
- W15HnOhMr1r8iuO8SDhI3VwHvzRz9bn1UaklRYMbTADnMKawRrmI1Gu+rDPly0AnOUjWlf
- 11g5Uv4E7IQbIhg2kmYT1sbdHKgJWbQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-B9UpKEz6Nk-h34HrwGlTSg-1; Mon, 04 Jan 2021 11:45:49 -0500
-X-MC-Unique: B9UpKEz6Nk-h34HrwGlTSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DA25107ACE4;
- Mon,  4 Jan 2021 16:45:48 +0000 (UTC)
-Received: from omen.home (ovpn-112-183.phx2.redhat.com [10.3.112.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF99D60BFA;
- Mon,  4 Jan 2021 16:45:47 +0000 (UTC)
-Date: Mon, 4 Jan 2021 09:45:47 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: Couple of issues with amdgpu on my WX4100
-Message-ID: <20210104094547.06a61444@omen.home>
-In-Reply-To: <83f4291c-abe4-2995-b4ba-9f84c9235d14@amd.com>
-References: <4df8585ab0aac5abb1e9502d1d7cc49daa2a464f.camel@redhat.com>
- <83f4291c-abe4-2995-b4ba-9f84c9235d14@amd.com>
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195E989FF6;
+ Mon,  4 Jan 2021 16:54:24 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id r9so26566390otk.11;
+ Mon, 04 Jan 2021 08:54:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cth4uifEDzoQnw3xNDMIY6tlbdsSxWaVeVk+M7VOBMc=;
+ b=FWld9Hp9KGx+8ZF1QNRkRZfDTB2aRLhd2UE4jFM/yT4Y3vaBqz+ZgD6rW47DidnBW+
+ EtC9Hn+LvnAYtw68AeE1j9bBLzgA6yb0mFBQHVlOi/vLo4ou6ekNuNdJB2KjwdNSvKRF
+ 71+kQ5GWlBzeZfD5AVvwjKEzNFzT17V3WkglC3mwZnrLzDi9YsJfyGf3soNTcG6erkgB
+ 6nJW5XGjIBuLCGfmj5hJgMk28tDs27u75D0Z1t6eOk96pqNhNWyOGuWB9GsgQEmiuCpU
+ lRpaotOS0PDwR4Vh1X6HAKy3pPzOJ4kOCxoUgBsBa+GSTlLXWKRLQz0Z7sneX81xuIpV
+ SjsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cth4uifEDzoQnw3xNDMIY6tlbdsSxWaVeVk+M7VOBMc=;
+ b=bhaTHg9t+sal+vVA7nYNd7Qrk9+hCa1+XQe642RhMQvH+qs6v9BHcFOOTgpjXtE601
+ 6DPuFV5/BxvB7yWQ7yfrE9lhjEcMLqaIcvEUi0CeuLqP85G+BNk2S4vBxPEq+vPkB6JI
+ CQ2o2smZJiLrir2PrglwYV2NR0XM2zcvH7QX9gaC3+KtOY42NtaWal7daAwT6liXI0tK
+ zu0lAlekB+KccCSQ46zmQV/Ikw1fJVi9erSbVJ4A6ODZUN/+6SRueVh9zrq6M1yeBpiC
+ hg+VkgIpkqkQR0g7PFlhU6QQEXBls6ZvbmK6NlAS9CLyrodOtAf58P2KnoUT91CLMRXX
+ SCFg==
+X-Gm-Message-State: AOAM530PxrYIUm8+Z+7JcZHvgOo4XWZgliqA5VR/xDIufU4jbqkWujof
+ ygbV3zQ2ZKTkZMmhi+mdTAYL9KXw6tbtHW8IBdmGNCLT
+X-Google-Smtp-Source: ABdhPJw67J02jkRmT87wiCNQJ8l91ASJxBB8MGNVgKkgGZwKEgbtfn8z6nkverwcbffyKaa6rK6FONMyboJh8vS+2Dk=
+X-Received: by 2002:a9d:75d4:: with SMTP id c20mr38798110otl.311.1609779263477; 
+ Mon, 04 Jan 2021 08:54:23 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <1609376177-42827-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1609376177-42827-1-git-send-email-tiantao6@hisilicon.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Jan 2021 11:54:12 -0500
+Message-ID: <CADnq5_P2jT4O979T6MfBzvboM0EhYjSJHd94eFo=LevjO+0+4g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: remove unused including <linux/version.h>
+To: Tian Tao <tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +60,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Maxim Levitsky <mlevitsk@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCA0IEphbiAyMDIxIDEyOjM0OjM0ICswMTAwCkNocmlzdGlhbiBLw7ZuaWcgPGNocmlz
-dGlhbi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cgo+IEhpIE1heGltLAo+IAo+IEkgY2FuJ3QgaGVs
-cCB3aXRoIHRoZSBkaXNwbGF5IHJlbGF0ZWQgc3R1ZmYuIFByb2JhYmx5IGJlc3QgYXBwcm9hY2gg
-dG8gCj4gZ2V0IHRoaXMgZml4ZXMgd291bGQgYmUgdG8gb3BlbiB1cCBhIGJ1ZyB0cmFja2VyIGZv
-ciB0aGlzIG9uIEZETy4KPiAKPiBCdXQgSSdtIHRoZSBvbmUgd2hvIGltcGxlbWVudGVkIHRoZSBy
-ZXNpemVhYmxlIEJBUiBzdXBwb3J0IGFuZCB5b3VyIAo+IGFuYWx5c2lzIG9mIHRoZSBwcm9ibGVt
-IHNvdW5kcyBhYm91dCBjb3JyZWN0IHRvIG1lLgo+IAo+IFRoZSByZWFzb24gd2h5IHRoaXMgd29y
-a3Mgb24gTGludXggaXMgbW9zdCBsaWtlbHkgYmVjYXVzZSB3ZSByZXN0b3JlIHRoZSAKPiBCQVIg
-c2l6ZSBvbiByZXN1bWUgKGFuZCBtYXliZSBkdXJpbmcgaW5pdGlhbCBib290IGFzIHdlbGwpLgo+
-IAo+IFNlZSB0aGlzIHBhdGNoIGZvciByZWZlcmVuY2U6Cj4gCj4gY29tbWl0IGQzMjUyYWNlMGJj
-NjUyYTFhMjQ0NDU1NTU2YjZhNTQ5Zjk2OWJmOTkKPiBBdXRob3I6IENocmlzdGlhbiBLw7ZuaWcg
-PGNrb2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPgo+IERhdGU6wqDCoCBGcmkgSnVuIDI5
-IDE5OjU0OjU1IDIwMTggLTA1MDAKPiAKPiAgwqDCoMKgIFBDSTogUmVzdG9yZSByZXNpemVkIEJB
-UiBzdGF0ZSBvbiByZXN1bWUKPiAKPiAgwqDCoMKgIFJlc2l6ZSBCQVJzIGFmdGVyIHJlc3VtZSB0
-byB0aGUgZXhwZWN0ZWQgc2l6ZSBhZ2Fpbi4KPiAKPiAgwqDCoMKgIEJ1Z0xpbms6IGh0dHBzOi8v
-YnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTk5OTU5Cj4gIMKgwqDCoCBGaXhl
-czogZDY4OTVhZDM5ZjNiICgiZHJtL2FtZGdwdTogcmVzaXplIFZSQU0gQkFSIGZvciBDUFUgYWNj
-ZXNzIHY2IikKPiAgwqDCoMKgIEZpeGVzOiAyNzZiNzM4ZGViNWIgKCJQQ0k6IEFkZCByZXNpemFi
-bGUgQkFSIGluZnJhc3RydWN0dXJlIikKPiAgwqDCoMKgIFNpZ25lZC1vZmYtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAgwqDCoMKgIFNpZ25lZC1vZmYt
-Ynk6IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+Cj4gIMKgwqDCoCBDQzogc3Rh
-YmxlQHZnZXIua2VybmVsLm9yZ8KgwqDCoMKgwqAgIyB2NC4xNSsKPiAKPiAKPiBJdCBzaG91bGQg
-YmUgdHJpdmlhbCB0byBhZGQgdGhpcyB0byB0aGUgcmVzZXQgbW9kdWxlIGFzIHdlbGwuIE1vc3Qg
-Cj4gbGlrZWx5IGV2ZW4gY29tcGxldGVseSB2ZW5kb3IgaW5kZXBlbmRlbnQgc2luY2UgSSdtIG5v
-dCBzdXJlIHdoYXQgYSBidXMgCj4gcmVzZXQgd2lsbCBkbyB0byB0aGlzIGNvbmZpZ3VyYXRpb24g
-YW5kIHJlc3RvcmluZyBpdCBhbGwgdGhlIHRpbWUgc2hvdWxkIAo+IGJlIHRoZSBtb3N0IGRlZmVu
-c2l2ZSBhcHByb2FjaC4KCkhtbSwgdGhpcyBzaG91bGQgYWxyZWFkeSBiZSB1c2VkIGJ5IHRoZSBi
-dXMvc2xvdCByZXNldCBwYXRoOgoKcGNpX2J1c19yZXN0b3JlX2xvY2tlZCgpL3BjaV9zbG90X3Jl
-c3RvcmVfbG9ja2VkKCkKIHBjaV9kZXZfcmVzdG9yZSgpCiAgcGNpX3Jlc3RvcmVfc3RhdGUoKQog
-ICBwY2lfcmVzdG9yZV9yZWJhcl9zdGF0ZSgpCgpWRklPIHN1cHBvcnQgZm9yIHJlc2l6ZWFibGUg
-QkFScyBoYXMgYmVlbiBvbiBteSB0b2RvIGxpc3QsIGJ1dCBJIGRvbid0CmhhdmUgYWNjZXNzIHRv
-IGFueSBzeXN0ZW1zIHRoYXQgaGF2ZSBib3RoIGEgY2FwYWJsZSBkZXZpY2UgYW5kID40RwpkZWNv
-ZGluZyBlbmFibGVkIGluIHRoZSBCSU9TLiAgSWYgd2UgaGF2ZSBhIGNvbnNpc3RlbnQgdmlldyBv
-ZiB0aGUgQkFSCnNpemUgYWZ0ZXIgdGhlIEJBUnMgYXJlIGV4cGFuZGVkLCBJJ20gbm90IHN1cmUg
-d2h5IGl0IGRvZXNuJ3QganVzdAp3b3JrLiAgRldJVywgUUVNVSBjdXJyZW50bHkgaGlkZXMgdGhl
-IFJFQkFSIGNhcGFiaWxpdHkgdG8gdGhlIGd1ZXN0CmJlY2F1c2UgdGhlIGtlcm5lbCBkcml2ZXIg
-ZG9lc24ndCBzdXBwb3J0IGVtdWxhdGlvbiB0aHJvdWdoIGNvbmZpZwpzcGFjZSAoaWUuIGl0J3Mg
-cmVhZC1vbmx5LCB3aGljaCB0aGUgc3BlYyBkb2Vzbid0IHN1cHBvcnQpLgoKQUlVSSwgcmVzb3Vy
-Y2UgYWxsb2NhdGlvbiBjYW4gZmFpbCB3aGVuIGVuYWJsaW5nIFJFQkFSIHN1cHBvcnQsIHdoaWNo
-CmlzIGEgcHJvYmxlbSBpZiB0aGUgZmFpbHVyZSBvY2N1cnMgb24gdGhlIGhvc3QgYnV0IG5vdCB0
-aGUgZ3Vlc3Qgc2luY2UKd2UgaGF2ZSBubyBtZWFucyB2aWEgdGhlIGhhcmR3YXJlIHByb3RvY29s
-IHRvIGV4cG9zZSBzdWNoIGEgY29uZGl0aW9uLgpUaGVyZWZvcmUgdGhlIG1vZGVsIEkgd2FzIGNv
-bnNpZGVyaW5nIGZvciB2ZmlvLXBjaSB3b3VsZCBiZSB0byBzaW1wbHkKcHJlLWVuYWJsZSBSRUJB
-UiBhdCB0aGUgbWF4IHNpemUuICBJdCBtaWdodCBiZSBzdWZmaWNpZW50bHkgc2FmZSB0bwp0ZXN0
-IEJBUiBleHBhbnNpb24gb24gaW5pdGlhbGl6YXRpb24gYW5kIHRoZW4gYWxsb3cgdXNlciBjb250
-cm9sLCBidXQKSSdtIGNvbmNlcm5lZCB0aGF0IHJlc291cmNlIGF2YWlsYWJpbGl0eSBjb3VsZCBj
-aGFuZ2Ugd2hpbGUgYWxyZWFkeSBpbgp1c2UgYnkgdGhlIHVzZXIuICBUaGFua3MsCgpBbGV4Cgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Dec 31, 2020 at 5:42 AM Tian Tao <tiantao6@hisilicon.com> wrote:
+>
+> Remove including <linux/version.h> that don't need it.
+>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+Applied.  Thanks!
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c           | 1 -
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c   | 1 -
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 -
+>  3 files changed, 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 5675c1f..3255531 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -60,7 +60,6 @@
+>
+>  #include <linux/module.h>
+>  #include <linux/moduleparam.h>
+> -#include <linux/version.h>
+>  #include <linux/types.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/pci.h>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index f6f487e..3244a6e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -25,7 +25,6 @@
+>
+>  #include <linux/string.h>
+>  #include <linux/acpi.h>
+> -#include <linux/version.h>
+>  #include <linux/i2c.h>
+>
+>  #include <drm/drm_probe_helper.h>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 8ab0b90..5b0a4a7 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -23,7 +23,6 @@
+>   *
+>   */
+>
+> -#include <linux/version.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_dp_mst_helper.h>
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
