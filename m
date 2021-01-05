@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDD52EBB5C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F15552EBB64
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC28E89D8A;
-	Wed,  6 Jan 2021 08:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A744289D60;
+	Wed,  6 Jan 2021 08:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AEBD6E11A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 14:37:02 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1609857425; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=4DiNJfGzzRCDF2FL02HtG0SOdr7LDb46DzlmbUJfV6s=;
- b=sggrCJfK/iVUc96w+C6fR6lc91nUyJJFHAvvXx36JRUVrjtfvoMdLE2JnwfCIay0KXECYkwp
- MBxu+axtFlCGyhnURsDI1d4exgQYGwvv+rxsCmdBOt5dkUS3Ipy4IA5NpdFH1wrruxG5u3bE
- 4mLcZSBsJqdwyWnCVDq+IKejOds=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
- 5ff47988d3eb3c36b4aa9d15 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Jan 2021 14:36:56
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0ED76C43461; Tue,  5 Jan 2021 14:36:56 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from charante-linux.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E3526C433CA;
- Tue,  5 Jan 2021 14:36:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E3526C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=charante@codeaurora.org
-From: Charan Teja Reddy <charante@codeaurora.org>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	arnd@arndb.de
-Subject: [PATCH V2] dmabuf: fix use-after-free of dmabuf's file->f_inode
-Date: Tue,  5 Jan 2021 20:06:39 +0530
-Message-Id: <1609857399-31549-1-git-send-email-charante@codeaurora.org>
+Received: from mail-m964.mail.126.com (mail-m964.mail.126.com [123.126.96.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E79C46E176;
+ Tue,  5 Jan 2021 16:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=FIq1Qe5otFgwpdD56h
+ HaYrYnAQc9gbVeSMeCcDVMe9I=; b=kOlZRvMkuz1poa7vJvxKXxL4TAmQ6oar1k
+ MgL2hkT+m7fRuYhbSzEZiw7TuxWWhR9t5c+6SU5IqbUyWb32ky4b8gyiAqzLW09P
+ fwmLFNq51E+182Nl3MPcp97Er5Xa8b65JhomRUnf1n8BIvTwx+Z0DTS9usLLUwxv
+ 5Pc2g707c=
+Received: from localhost.localdomain (unknown [36.112.86.14])
+ by smtp9 (Coremail) with SMTP id NeRpCgCnwXSXjvRfCvlFQg--.36836S2;
+ Wed, 06 Jan 2021 00:06:48 +0800 (CST)
+From: Defang Bo <bodefang@126.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH v2] drm/amdgpu: Add check to prevenet IH overflow
+Date: Wed,  6 Jan 2021 00:06:39 +0800
+Message-Id: <1609862799-2549739-1-git-send-email-bodefang@126.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
+X-CM-TRANSID: NeRpCgCnwXSXjvRfCvlFQg--.36836S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtF43tr4kWr17uFWfGry3Arb_yoWxGw4kpa
+ 1Fq34Y9r1Iyr1IyryfZ3Z7uFn8Aw4qgFWfCryDA3W2gF4UJa4vgr98JayFqryUtFWfCF47
+ Kryagay5W3sFvrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRWrWrUUUUU=
+X-Originating-IP: [36.112.86.14]
+X-CM-SenderInfo: pergvwxdqjqiyswou0bp/1tbi6xgR11pD9eftTAAAsf
 X-Mailman-Approved-At: Wed, 06 Jan 2021 08:52:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,70 +48,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, "# 5 . 4+" <stable@vger.kernel.org>,
- linaro-mm-sig@lists.linaro.org, Charan Teja Reddy <charante@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Defang Bo <bodefang@126.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SXQgaXMgb2JzZXJ2ZWQgJ3VzZS1hZnRlci1mcmVlJyBvbiB0aGUgZG1hYnVmJ3MgZmlsZS0+Zl9p
-bm9kZSB3aXRoIHRoZQpyYWNlIGJldHdlZW4gY2xvc2luZyB0aGUgZG1hYnVmIGZpbGUgYW5kIHJl
-YWRpbmcgdGhlIGRtYWJ1ZidzIGRlYnVnCmluZm8uCgpDb25zaWRlciB0aGUgYmVsb3cgc2NlbmFy
-aW8gd2hlcmUgUDEgaXMgY2xvc2luZyB0aGUgZG1hX2J1ZiBmaWxlCmFuZCBQMiBpcyByZWFkaW5n
-IHRoZSBkbWFfYnVmJ3MgZGVidWcgaW5mbyBpbiB0aGUgc3lzdGVtOgoKUDEJCQkJCQlQMgoJCQkJ
-CWRtYV9idWZfZGVidWdfc2hvdygpCmRtYV9idWZfcHV0KCkKICBfX2ZwdXQoKQogICAgZmlsZS0+
-Zl9vcC0+cmVsZWFzZSgpCiAgICBkcHV0KCkKICAgIC4uLi4KICAgICAgZGVudHJ5X3VubGlua19p
-bm9kZSgpCiAgICAgICAgaXB1dChkZW50cnktPmRfaW5vZGUpCiAgICAgICAgKHdoZXJlIHRoZSBp
-bm9kZSBpcyBmcmVlZCkKCQkJCQltdXRleF9sb2NrKCZkYl9saXN0LmxvY2spCgkJCQkJcmVhZCAn
-ZG1hX2J1Zi0+ZmlsZS0+Zl9pbm9kZScKCQkJCQkodGhlIHNhbWUgaW5vZGUgaXMgZnJlZWQgYnkg
-UDEpCgkJCQkJbXV0ZXhfdW5sb2NrKCZkYl9saXN0LmxvY2spCiAgICAgIGRlbnRyeS0+ZF9vcC0+
-ZF9yZWxlYXNlKCktLT4KICAgICAgICBkbWFfYnVmX3JlbGVhc2UoKQogICAgICAgICAgLi4uLi4K
-ICAgICAgICAgIG11dGV4X2xvY2soJmRiX2xpc3QubG9jaykKICAgICAgICAgIHJlbW92ZXMgdGhl
-IGRtYWJ1ZiBmcm9tIHRoZSBsaXN0CiAgICAgICAgICBtdXRleF91bmxvY2soJmRiX2xpc3QubG9j
-aykKCkluIHRoZSBhYm92ZSBzY2VuYXJpbywgd2hlbiBkbWFfYnVmX3B1dCgpIGlzIGNhbGxlZCBv
-biBhIGRtYV9idWYsIGl0CmZpcnN0IGZyZWVzIHRoZSBkbWFfYnVmJ3MgZmlsZS0+Zl9pbm9kZSg9
-ZGVudHJ5LT5kX2lub2RlKSBhbmQgdGhlbgpyZW1vdmVzIHRoaXMgZG1hX2J1ZiBmcm9tIHRoZSBz
-eXN0ZW0gZGJfbGlzdC4gSW4gYmV0d2VlbiBQMiB0cmF2ZXJzaW5nCnRoZSBkYl9saXN0IHRyaWVz
-IHRvIGFjY2VzcyB0aGlzIGRtYV9idWYncyBmaWxlLT5mX2lub2RlIHRoYXQgd2FzIGZyZWVkCmJ5
-IFAxIHdoaWNoIGlzIGEgdXNlLWFmdGVyLWZyZWUgY2FzZS4KClNpbmNlLCBfX2ZwdXQoKSBjYWxs
-cyBmX29wLT5yZWxlYXNlIGZpcnN0IGFuZCB0aGVuIGxhdGVyIGNhbGxzIHRoZQpkX29wLT5kX3Jl
-bGVhc2UsIG1vdmUgdGhlIGRtYV9idWYncyBkYl9saXN0IHJlbW92YWwgZnJvbSBkX3JlbGVhc2Uo
-KSB0bwpmX29wLT5yZWxlYXNlKCkuIFRoaXMgZW5zdXJlcyB0aGF0IGRtYV9idWYncyBmaWxlLT5m
-X2lub2RlIGlzIG5vdAphY2Nlc3NlZCBhZnRlciBpdCBpcyByZWxlYXNlZC4KCkNjOiA8c3RhYmxl
-QHZnZXIua2VybmVsLm9yZz4gIyA1LjQrCkZpeGVzOiA0YWI1OWMzYzYzOGMgKCJkbWEtYnVmOiBN
-b3ZlIGRtYV9idWZfcmVsZWFzZSgpIGZyb20gZm9wcyB0byBkZW50cnlfb3BzIikKQWNrZWQtYnk6
-IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KU2lnbmVkLW9mZi1i
-eTogQ2hhcmFuIFRlamEgUmVkZHkgPGNoYXJhbnRlQGNvZGVhdXJvcmEub3JnPgotLS0KIFYyOiBS
-ZXNlbmRpbmcgd2l0aCBzdGFibGUgdGFncyBhbmQgQWNrcwoKIFYxOiBodHRwczovL2xvcmUua2Vy
-bmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTM2MDExOC8KCiBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1
-Zi5jIHwgMjEgKysrKysrKysrKysrKysrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTcgaW5zZXJ0
-aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1h
-LWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwppbmRleCAwZWI4MGMxLi5hMTRkY2Ji
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCisrKyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtYnVmLmMKQEAgLTc2LDEwICs3Niw2IEBAIHN0YXRpYyB2b2lkIGRtYV9idWZfcmVs
-ZWFzZShzdHJ1Y3QgZGVudHJ5ICpkZW50cnkpCiAKIAlkbWFidWYtPm9wcy0+cmVsZWFzZShkbWFi
-dWYpOwogCi0JbXV0ZXhfbG9jaygmZGJfbGlzdC5sb2NrKTsKLQlsaXN0X2RlbCgmZG1hYnVmLT5s
-aXN0X25vZGUpOwotCW11dGV4X3VubG9jaygmZGJfbGlzdC5sb2NrKTsKLQogCWlmIChkbWFidWYt
-PnJlc3YgPT0gKHN0cnVjdCBkbWFfcmVzdiAqKSZkbWFidWZbMV0pCiAJCWRtYV9yZXN2X2Zpbmko
-ZG1hYnVmLT5yZXN2KTsKIApAQCAtODgsNiArODQsMjIgQEAgc3RhdGljIHZvaWQgZG1hX2J1Zl9y
-ZWxlYXNlKHN0cnVjdCBkZW50cnkgKmRlbnRyeSkKIAlrZnJlZShkbWFidWYpOwogfQogCitzdGF0
-aWMgaW50IGRtYV9idWZfZmlsZV9yZWxlYXNlKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBm
-aWxlICpmaWxlKQoreworCXN0cnVjdCBkbWFfYnVmICpkbWFidWY7CisKKwlpZiAoIWlzX2RtYV9i
-dWZfZmlsZShmaWxlKSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwlkbWFidWYgPSBmaWxlLT5wcml2
-YXRlX2RhdGE7CisKKwltdXRleF9sb2NrKCZkYl9saXN0LmxvY2spOworCWxpc3RfZGVsKCZkbWFi
-dWYtPmxpc3Rfbm9kZSk7CisJbXV0ZXhfdW5sb2NrKCZkYl9saXN0LmxvY2spOworCisJcmV0dXJu
-IDA7Cit9CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZGVudHJ5X29wZXJhdGlvbnMgZG1hX2J1Zl9k
-ZW50cnlfb3BzID0gewogCS5kX2RuYW1lID0gZG1hYnVmZnNfZG5hbWUsCiAJLmRfcmVsZWFzZSA9
-IGRtYV9idWZfcmVsZWFzZSwKQEAgLTQxMyw2ICs0MjUsNyBAQCBzdGF0aWMgdm9pZCBkbWFfYnVm
-X3Nob3dfZmRpbmZvKHN0cnVjdCBzZXFfZmlsZSAqbSwgc3RydWN0IGZpbGUgKmZpbGUpCiB9CiAK
-IHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGRtYV9idWZfZm9wcyA9IHsKKwku
-cmVsZWFzZQk9IGRtYV9idWZfZmlsZV9yZWxlYXNlLAogCS5tbWFwCQk9IGRtYV9idWZfbW1hcF9p
-bnRlcm5hbCwKIAkubGxzZWVrCQk9IGRtYV9idWZfbGxzZWVrLAogCS5wb2xsCQk9IGRtYV9idWZf
-cG9sbCwKLS0gClFVQUxDT01NIElORElBLCBvbiBiZWhhbGYgb2YgUXVhbGNvbW0gSW5ub3ZhdGlv
-biBDZW50ZXIsIEluYy4gaXMgYQptZW1iZXIgb2YgdGhlIENvZGUgQXVyb3JhIEZvcnVtLCBob3N0
-ZWQgYnkgVGhlIExpbnV4IEZvdW5kYXRpb24KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Similar to commit <b82175750131>("drm/amdgpu: fix IH overflow on Vega10 v2").
+When an ring buffer overflow happens the appropriate bit is set in the WPTR
+register which is also written back to memory. But clearing the bit in the
+WPTR doesn't trigger another memory writeback.
+
+So what can happen is that we end up processing the buffer overflow over and
+over again because the bit is never cleared. Resulting in a random system
+lockup because of an infinite loop in an interrupt handler.
+
+Signed-off-by: Defang Bo <bodefang@126.com>
+---
+Changes since v1:
+- Modify the subject and replace the wrong register.
+---
+---
+ drivers/gpu/drm/amd/amdgpu/cz_ih.c      | 39 +++++++++++++++++++++------------
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c | 36 +++++++++++++++++++-----------
+ drivers/gpu/drm/amd/amdgpu/tonga_ih.c   | 37 ++++++++++++++++++++-----------
+ 3 files changed, 72 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/cz_ih.c b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
+index 1dca0cabc326..65361afb21ab 100644
+--- a/drivers/gpu/drm/amd/amdgpu/cz_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
+@@ -190,22 +190,33 @@ static u32 cz_ih_get_wptr(struct amdgpu_device *adev,
+ 			  struct amdgpu_ih_ring *ih)
+ {
+ 	u32 wptr, tmp;
+-
++
+ 	wptr = le32_to_cpu(*ih->wptr_cpu);
+ 
+-	if (REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW)) {
+-		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
+-		/* When a ring buffer overflow happen start parsing interrupt
+-		 * from the last not overwritten vector (wptr + 16). Hopefully
+-		 * this should allow us to catchup.
+-		 */
+-		dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
+-			wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
+-		ih->rptr = (wptr + 16) & ih->ptr_mask;
+-		tmp = RREG32(mmIH_RB_CNTL);
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+-		WREG32(mmIH_RB_CNTL, tmp);
+-	}
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	/* Double check that the overflow wasn't already cleared. */
++	wptr = RREG32(mmIH_RB_WPTR);
++
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
++
++	/* When a ring buffer overflow happen start parsing interrupt
++	 * from the last not overwritten vector (wptr + 16). Hopefully
++	 * this should allow us to catchup.
++	 */
++	dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
++		wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
++	ih->rptr = (wptr + 16) & ih->ptr_mask;
++	tmp = RREG32(mmIH_RB_CNTL);
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++	WREG32(mmIH_RB_CNTL, tmp);
++
++
++out:
+ 	return (wptr & ih->ptr_mask);
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+index a13dd9a51149..8e4dae8addb9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+@@ -193,19 +193,29 @@ static u32 iceland_ih_get_wptr(struct amdgpu_device *adev,
+ 
+ 	wptr = le32_to_cpu(*ih->wptr_cpu);
+ 
+-	if (REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW)) {
+-		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
+-		/* When a ring buffer overflow happen start parsing interrupt
+-		 * from the last not overwritten vector (wptr + 16). Hopefully
+-		 * this should allow us to catchup.
+-		 */
+-		dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
+-			 wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
+-		ih->rptr = (wptr + 16) & ih->ptr_mask;
+-		tmp = RREG32(mmIH_RB_CNTL);
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+-		WREG32(mmIH_RB_CNTL, tmp);
+-	}
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	/* Double check that the overflow wasn't already cleared. */
++	wptr = RREG32(mmIH_RB_WPTR);
++
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
++	/* When a ring buffer overflow happen start parsing interrupt
++	 * from the last not overwritten vector (wptr + 16). Hopefully
++	 * this should allow us to catchup.
++	 */
++	dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
++		wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
++	ih->rptr = (wptr + 16) & ih->ptr_mask;
++	tmp = RREG32(mmIH_RB_CNTL);
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++	WREG32(mmIH_RB_CNTL, tmp);
++
++
++out:
+ 	return (wptr & ih->ptr_mask);
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
+index e40140bf6699..2ba1ce323b6d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
+@@ -195,19 +195,30 @@ static u32 tonga_ih_get_wptr(struct amdgpu_device *adev,
+ 
+ 	wptr = le32_to_cpu(*ih->wptr_cpu);
+ 
+-	if (REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW)) {
+-		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
+-		/* When a ring buffer overflow happen start parsing interrupt
+-		 * from the last not overwritten vector (wptr + 16). Hopefully
+-		 * this should allow us to catchup.
+-		 */
+-		dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
+-			 wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
+-		ih->rptr = (wptr + 16) & ih->ptr_mask;
+-		tmp = RREG32(mmIH_RB_CNTL);
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+-		WREG32(mmIH_RB_CNTL, tmp);
+-	}
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	/* Double check that the overflow wasn't already cleared. */
++	wptr = RREG32(mmIH_RB_WPTR);
++
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++	wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
++
++	/* When a ring buffer overflow happen start parsing interrupt
++	 * from the last not overwritten vector (wptr + 16). Hopefully
++	 * this should allow us to catchup.
++	 */
++
++	dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
++		wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
++	ih->rptr = (wptr + 16) & ih->ptr_mask;
++	tmp = RREG32(mmIH_RB_CNTL);
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++	WREG32(mmIH_RB_CNTL, tmp);
++
++out:
+ 	return (wptr & ih->ptr_mask);
+ }
+ 
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
