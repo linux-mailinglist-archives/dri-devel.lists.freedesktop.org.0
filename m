@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE2F2EAFF2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 17:24:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982882EB01E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 17:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407996E062;
-	Tue,  5 Jan 2021 16:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3BBD6E062;
+	Tue,  5 Jan 2021 16:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 922376E056;
- Tue,  5 Jan 2021 16:23:56 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id w3so136745otp.13;
- Tue, 05 Jan 2021 08:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FTKn/nlkyqA8kXVoIphI/rMBuHjODUFMc5VgOOLdUrw=;
- b=pZ/jyMik91K+1ylbf7XkbpDjxbgBGw8Fd+C88n6cKje3qOfROs9IDdfS4OIOowNFwH
- Q/9tPinrxkYcUPnfMOS3i6WA7j/vfFN8DJf0sOyKkFToFsaWlHKDq8bI9PJlWHwkoRp4
- Z6Hxnxa73HlV7sXLEhsUP+Ty7h2kT0rO6Jz2uJPI11+iKgSjvgcnFie449s9Ni55ptBo
- ZGE5OMRr/AYdvg1EnxmGRSU2ppv7DV4yRLqGbFKfT4bOdYlP0LjqDZG19b9I8iwW/ZXc
- HhP3SqTXYEt377vFyvJuaEeFgB9nmUF1fcelBmTac8fhK0Ca5xFQZpLsNdaBUc8BBZq5
- oTnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FTKn/nlkyqA8kXVoIphI/rMBuHjODUFMc5VgOOLdUrw=;
- b=MJtqoDYW6j8HXvFzhdeF1FsRHCB5IMDWOgrDV8eWPiVJAbX/0+sEXL6/quKaJTsAAF
- 8jsiK60MIHfyNALAi1E0SWt9NMViFxinf2vjGIQwEr/ERWRZD+TJSFGNqoVb+ettq+sw
- Zt1iDdIwu6vuP1bf7630/F19NJbnNHPKg0rQWKEI5bFRIS51MHtVO4y/zMcuheB1ZEML
- f7cZNkWdQCrPE2k3O2Qf7NWrueCPcxBeaokcMWczrtkFnZSi1NZCqsEq951HHu/xBr5Y
- OxPF1+s4sL4UXrMk1idb6RAV8en9Ib3hUp8oCcOaCiqQ0SgpTXrphbmrx8Mifc9U3Oab
- cqwQ==
-X-Gm-Message-State: AOAM5334GWeS5/sTQDuRxwYw8EhW/aSzQN63FyXEYijgOu2qOSo4o+xf
- 1/OvLkdT4Nb8qk4Np8KDO80ZRoNKW6lc5K86Z1M=
-X-Google-Smtp-Source: ABdhPJyRWUBsoCx4/XJ5MEZ7mCkdEbV+cjQxbPsQMvgjaqy3kiHYP1CkY1Q/ZIfE8fF7eBvZYmWK0basD8XNSrUBeNE=
-X-Received: by 2002:a05:6830:1d66:: with SMTP id
- l6mr128339oti.23.1609863835853; 
- Tue, 05 Jan 2021 08:23:55 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 831116E056;
+ Tue,  5 Jan 2021 16:33:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83C64113E;
+ Tue,  5 Jan 2021 08:33:48 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 647673F70D;
+ Tue,  5 Jan 2021 08:33:37 -0800 (PST)
+Subject: Re: [PATCH 19/31] drm/panfrost: convert to use devm_pm_opp_* API
+To: Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
+ kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, digetx@gmail.com,
+ thierry.reding@gmail.com, jonathanh@nvidia.com, yuq825@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
+ robh@kernel.org, tomeu.vizoso@collabora.com,
+ alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+ agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+ lukasz.luba@arm.com, adrian.hunter@intel.com, ulf.hansson@linaro.org,
+ vireshk@kernel.org, nm@ti.com, sboyd@kernel.org, broonie@kernel.org,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, rjw@rjwysocki.net,
+ jcrouse@codeaurora.org, hoegsberg@google.com, eric@anholt.net,
+ tzimmermann@suse.de, marijn.suijten@somainline.org, gustavoars@kernel.org,
+ emil.velikov@collabora.com, jonathan@marek.ca, akhilpo@codeaurora.org,
+ smasetty@codeaurora.org, airlied@redhat.com, masneyb@onstation.org,
+ kalyan_t@codeaurora.org, tanmay@codeaurora.org, ddavenport@chromium.org,
+ jsanka@codeaurora.org, rnayak@codeaurora.org, tongtiangen@huawei.com,
+ miaoqinglang@huawei.com, khsieh@codeaurora.org, abhinavk@codeaurora.org,
+ chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+ mka@chromium.org, harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
+ natechancellor@gmail.com, georgi.djakov@linaro.org, akashast@codeaurora.org,
+ parashar@codeaurora.org, dianders@chromium.org
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-20-tiny.windzz@gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <63e5e2ae-0baf-cbd1-b2eb-43fac89acb7c@arm.com>
+Date: Tue, 5 Jan 2021 16:33:32 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201214175225.38975-1-ardb@kernel.org>
- <CADnq5_M-U5QO_tmQQ8Q+v+kZXvUc7vjXnmKWYFjX1FmOJYk1OQ@mail.gmail.com>
- <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
- <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
- <CADnq5_PKV4Hekm9Dd_1U2e2RAeb3Mhz_uFSCabWgBNk2gCaAYw@mail.gmail.com>
- <20210105130458.GA11108@willie-the-truck>
-In-Reply-To: <20210105130458.GA11108@willie-the-truck>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Jan 2021 11:23:44 -0500
-Message-ID: <CADnq5_PqR8wruqan+=vAELQdHSk8v0FLpbnrnLVsVoGZWszonw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
-To: Will Deacon <will@kernel.org>
+In-Reply-To: <20210101165507.19486-20-tiny.windzz@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,113 +64,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Dave Martin <dave.martin@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gNSwgMjAyMSBhdCA4OjA1IEFNIFdpbGwgRGVhY29uIDx3aWxsQGtlcm5lbC5v
-cmc+IHdyb3RlOgo+Cj4gT24gTW9uLCBKYW4gMDQsIDIwMjEgYXQgMTE6Mjc6MjRBTSAtMDUwMCwg
-QWxleCBEZXVjaGVyIHdyb3RlOgo+ID4gT24gVHVlLCBEZWMgMjksIDIwMjAgYXQgODoxNyBBTSBB
-cmQgQmllc2hldXZlbCA8YXJkYkBrZXJuZWwub3JnPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gV2Vk
-LCAxNiBEZWMgMjAyMCBhdCAyMzoyNiwgQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4g
-d3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBPbiBXZWQsIDE2IERlYyAyMDIwIGF0IDE5OjAwLCBBbGV4
-IERldWNoZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPiA+ID4gPgo+ID4gPiA+
-ID4gT24gTW9uLCBEZWMgMTQsIDIwMjAgYXQgMTI6NTMgUE0gQXJkIEJpZXNoZXV2ZWwgPGFyZGJA
-a2VybmVsLm9yZz4gd3JvdGU6Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IFRoaXMgcmV2ZXJ0cyBj
-b21taXQgYzM4ZDQ0NGU0NGJhZGM1NTdjZjI5ZmRmZGZiODIzNjA0ODkwY2NmYS4KPiA+ID4gPiA+
-ID4KPiA+ID4gPiA+ID4gU2ltcGx5IGRpc2FibGluZyAtbWdlbmVyYWwtcmVncy1vbmx5IGxlZnQg
-YW5kIHJpZ2h0IGlzIHJpc2t5LCBnaXZlbiB0aGF0Cj4gPiA+ID4gPiA+IHRoZSBzdGFuZGFyZCBB
-QXJjaDY0IEFCSSBwZXJtaXRzIHRoZSB1c2Ugb2YgRlAvU0lNRCByZWdpc3RlcnMgYW55d2hlcmUs
-Cj4gPiA+ID4gPiA+IGFuZCBHQ0MgaXMga25vd24gdG8gdXNlIFNJTUQgcmVnaXN0ZXJzIGZvciBz
-cGlsbGluZywgYW5kIG1heSBpbnZlbnQKPiA+ID4gPiA+ID4gb3RoZXIgdXNlcyBvZiB0aGUgRlAv
-U0lNRCByZWdpc3RlciBmaWxlIHRoYXQgaGF2ZSBub3RoaW5nIHRvIGRvIHdpdGggdGhlCj4gPiA+
-ID4gPiA+IGZsb2F0aW5nIHBvaW50IGNvZGUgaW4gcXVlc3Rpb24uIE5vdGUgdGhhdCBwdXR0aW5n
-IGtlcm5lbF9uZW9uX2JlZ2luKCkKPiA+ID4gPiA+ID4gYW5kIGtlcm5lbF9uZW9uX2VuZCgpIGFy
-b3VuZCB0aGUgY29kZSB0aGF0IGRvZXMgdXNlIEZQIGlzIG5vdCBzdWZmaWNpZW50Cj4gPiA+ID4g
-PiA+IGhlcmUsIHRoZSBwcm9ibGVtIGlzIGluIGFsbCB0aGUgb3RoZXIgY29kZSB0aGF0IG1heSBi
-ZSBlbWl0dGVkIHdpdGgKPiA+ID4gPiA+ID4gcmVmZXJlbmNlcyB0byBTSU1EIHJlZ2lzdGVycyBp
-biBpdC4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gU28gdGhlIG9ubHkgd2F5IHRvIGRvIHRoaXMg
-cHJvcGVybHkgaXMgdG8gcHV0IGFsbCBmbG9hdGluZyBwb2ludCBjb2RlIGluCj4gPiA+ID4gPiA+
-IGEgc2VwYXJhdGUgY29tcGlsYXRpb24gdW5pdCwgYW5kIG9ubHkgY29tcGlsZSB0aGF0IHVuaXQg
-d2l0aAo+ID4gPiA+ID4gPiAtbWdlbmVyYWwtcmVncy1vbmx5LiBCdXQgcGVyaGFwcyB0aGUgdXNl
-IG9mIGZsb2F0aW5nIHBvaW50IGhlcmUgaXMKPiA+ID4gPiA+ID4gc29tZXRoaW5nIHRoYXQgc2hv
-dWxkIGJlIHJlY29uc2lkZXJlZCBlbnRpcmVseS4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gQ2M6
-IENhdGFsaW4gTWFyaW5hcyA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+Cj4gPiA+ID4gPiA+IENj
-OiBXaWxsIERlYWNvbiA8d2lsbEBrZXJuZWwub3JnPgo+ID4gPiA+ID4gPiBDYzogRGF2ZSBNYXJ0
-aW4gPGRhdmUubWFydGluQGFybS5jb20+Cj4gPiA+ID4gPiA+IENjOiBSb2IgSGVycmluZyA8cm9i
-aEBrZXJuZWwub3JnPgo+ID4gPiA+ID4gPiBDYzogTGVvIExpIDxzdW5wZW5nLmxpQGFtZC5jb20+
-Cj4gPiA+ID4gPiA+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+
-Cj4gPiA+ID4gPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KPiA+ID4gPiA+ID4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiA+
-ID4gPiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+ID4gPiA+ID4g
-Q2M6IERhbmllbCBLb2xlc2EgPGRhbmllbEBvY3RhZm9yZ2Uub3JnPgo+ID4gPiA+ID4gPiBDYzog
-YW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gPiA+ID4gQ2M6IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQXJkIEJpZXNo
-ZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBDYW4gcmViYXNlIHRo
-aXMgb24gTGludXMnIG1hc3RlciBicmFuY2g/ICBUaGVyZSB3ZXJlIGEgbnVtYmVyIG9mIG5ldwo+
-ID4gPiA+ID4gYXNpY3MgYWRkZWQgd2hpY2ggY29weSBwYXN0ZWQgdGhlIEFSTTY0IHN1cHBvcnQu
-Cj4gPiA+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gTm90IHN1cmUgd2hhdCB5b3UgYXJlIGFza2luZyBt
-ZSBoZXJlLiBSZXZlcnRpbmcgY29tbWl0IGMzOGQ0NDRlNDRiYWRjNQo+ID4gPiA+IG9uIHRvcCBv
-ZiBtYWlubGluZSBpcyBub3QgZ29pbmcgdG8gZml4IHRoZSBvdGhlciBjb2RlIHRoYXQgd2FzIGFk
-ZGVkLgo+ID4gPiA+IE9yIGFyZSB5b3UgYXNraW5nIG1lIHRvIGdvIGFuZCBmaW5kIHRoZSBwYXRj
-aGVzIChob3cgbWFueT8pIHRoYXQgYWRkZWQKPiA+ID4gPiBuZXcgQVNJQ3MgYW5kIGZpeCB0aGVt
-IGZvciBhcm02ND8KPiA+ID4gPgo+ID4gPiA+IE5vdGUgdGhhdCB0aGlzIGNvZGUgaXMgY3JpdGlj
-YWxseSBicm9rZW4sIGFzIGl0IG1heSBjb3JydXB0IHVzZXIKPiA+ID4gPiBwcm9jZXNzIHN0YXRl
-IGFyYml0cmFyaWx5LiBTbyBpZiBuZXcgY29kZSB3YXMgYWRkZWQgdGhhdCBjb250YWlucyB0aGUK
-PiA+ID4gPiBzYW1lIGJ1ZywgaXQgc2hvdWxkIGJlIHJldmVydGVkIHNvIHRoYXQgdGhlIHJlc3Bl
-Y3RpdmUgYXV0aG9ycyBjYW4gZml4Cj4gPiA+ID4gaXQgYW5kIHJlc3VibWl0Lgo+ID4gPiA+Cj4g
-PiA+Cj4gPiA+IElzIHRoaXMgc2ltcGx5IGFib3V0IGRyb3BwaW5nIHRoZSBuZXdseSBhZGRlZCBy
-ZWZlcmVuY2VzIHRvCj4gPiA+ICQoZG1sX3JjZmxhZ3MpIGZyb20gdGhlIE1ha2VmaWxlPyBCZWNh
-dXNlIHRoYXQgaXMgcXVpdGUgdHJpdmlhbCAuLi4KPiA+Cj4gPiBZZXMsIEkgd2FzIHRoaW5raW5n
-IHNvbWV0aGluZyBsaWtlIHRoZSBhdHRhY2hlZCBwYXRjaC4KPiA+Cj4gPiBBbGV4Cj4KPiA+IEZy
-b20gZmJjOTNjYTdkNzczOTg2MWNlNjNmNmI0ODNjZjIzZDdjZjFkNjlmYiBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKPiA+IEZyb206IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1k
-LmNvbT4KPiA+IERhdGU6IE1vbiwgNCBKYW4gMjAyMSAxMToyNDoyMCAtMDUwMAo+ID4gU3ViamVj
-dDogW1BBVENIXSBkcm0vYW1kZ3B1L2Rpc3BsYXk6IGRyb3AgRENOIHN1cHBvcnQgZm9yIGFhcmNo
-NjQKPiA+Cj4gPiBGcm9tIEFyZDoKPiA+Cj4gPiAiU2ltcGx5IGRpc2FibGluZyAtbWdlbmVyYWwt
-cmVncy1vbmx5IGxlZnQgYW5kIHJpZ2h0IGlzIHJpc2t5LCBnaXZlbiB0aGF0Cj4gPiB0aGUgc3Rh
-bmRhcmQgQUFyY2g2NCBBQkkgcGVybWl0cyB0aGUgdXNlIG9mIEZQL1NJTUQgcmVnaXN0ZXJzIGFu
-eXdoZXJlLAo+ID4gYW5kIEdDQyBpcyBrbm93biB0byB1c2UgU0lNRCByZWdpc3RlcnMgZm9yIHNw
-aWxsaW5nLCBhbmQgbWF5IGludmVudAo+ID4gb3RoZXIgdXNlcyBvZiB0aGUgRlAvU0lNRCByZWdp
-c3RlciBmaWxlIHRoYXQgaGF2ZSBub3RoaW5nIHRvIGRvIHdpdGggdGhlCj4gPiBmbG9hdGluZyBw
-b2ludCBjb2RlIGluIHF1ZXN0aW9uLiBOb3RlIHRoYXQgcHV0dGluZyBrZXJuZWxfbmVvbl9iZWdp
-bigpCj4gPiBhbmQga2VybmVsX25lb25fZW5kKCkgYXJvdW5kIHRoZSBjb2RlIHRoYXQgZG9lcyB1
-c2UgRlAgaXMgbm90IHN1ZmZpY2llbnQKPiA+IGhlcmUsIHRoZSBwcm9ibGVtIGlzIGluIGFsbCB0
-aGUgb3RoZXIgY29kZSB0aGF0IG1heSBiZSBlbWl0dGVkIHdpdGgKPiA+IHJlZmVyZW5jZXMgdG8g
-U0lNRCByZWdpc3RlcnMgaW4gaXQuCj4gPgo+ID4gU28gdGhlIG9ubHkgd2F5IHRvIGRvIHRoaXMg
-cHJvcGVybHkgaXMgdG8gcHV0IGFsbCBmbG9hdGluZyBwb2ludCBjb2RlIGluCj4gPiBhIHNlcGFy
-YXRlIGNvbXBpbGF0aW9uIHVuaXQsIGFuZCBvbmx5IGNvbXBpbGUgdGhhdCB1bml0IHdpdGgKPiA+
-IC1tZ2VuZXJhbC1yZWdzLW9ubHkuIgo+ID4KPiA+IERpc2FibGUgc3VwcG9ydCB1bnRpbCB0aGUg
-Y29kZSBjYW4gYmUgcHJvcGVybHkgcmVmYWN0b3JlZCB0byBzdXBwb3J0IHRoaXMKPiA+IHByb3Bl
-cmx5IG9uIGFhcmNoNjQuCj4gPgo+ID4gUmVwb3J0ZWQtYnk6IEFyZCBCaWVzaGV1dmVsIDxhcmRi
-QGtlcm5lbC5vcmc+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
-S2NvbmZpZyAgICAgICAgICAgfCAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
-eS9kYy9jYWxjcy9NYWtlZmlsZSB8ICA0IC0tLS0KPiA+ICAuLi4vZ3B1L2RybS9hbWQvZGlzcGxh
-eS9kYy9jbGtfbWdyL01ha2VmaWxlICAgfCAyMSAtLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgZHJp
-dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL01ha2VmaWxlIHwgIDcgLS0tLS0tLQo+
-ID4gIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfcmVzb3VyY2UuYyB8ICA3IC0t
-LS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvTWFrZWZpbGUg
-fCAgNCAtLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIxL01ha2Vm
-aWxlIHwgIDQgLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMC9N
-YWtlZmlsZSB8ICA1IC0tLS0tCj4gPiAgLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMzAx
-L01ha2VmaWxlICAgIHwgIDQgLS0tLQo+ID4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Rj
-bjMwMi9NYWtlZmlsZSAgICB8ICA0IC0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3Bs
-YXkvZGMvZG1sL01ha2VmaWxlICAgfCAgNCAtLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9k
-aXNwbGF5L2RjL2RzYy9NYWtlZmlsZSAgIHwgIDQgLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvZGlzcGxheS9kYy9vc190eXBlcy5oICAgICB8ICA0IC0tLS0KPiA+ICAxMyBmaWxlcyBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgNzMgZGVsZXRpb25zKC0pCj4KPiBBY2tlZC1ieTogV2lsbCBE
-ZWFjb24gPHdpbGxAa2VybmVsLm9yZz4KCkFwcGxpZWQuICBUaGFua3MhCgpBbGV4Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 01/01/2021 16:54, Yangtao Li wrote:
+> Use devm_pm_opp_* API to simplify code, and remove opp_table
+> from panfrost_devfreq.
+> 
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 34 ++++++---------------
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.h |  1 -
+>   2 files changed, 10 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index f44d28fad085..c42fa9eb43b1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -92,25 +92,26 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>   	struct thermal_cooling_device *cooling;
+>   	struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
+>   
+> -	opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+> +	opp_table = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+>   					      pfdev->comp->num_supplies);
+>   	if (IS_ERR(opp_table)) {
+>   		ret = PTR_ERR(opp_table);
+>   		/* Continue if the optional regulator is missing */
+>   		if (ret != -ENODEV) {
+>   			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
+> -			goto err_fini;
+> +			return ret;
+>   		}
+> -	} else {
+> -		pfdevfreq->regulators_opp_table = opp_table;
+>   	}
+>   
+> -	ret = dev_pm_opp_of_add_table(dev);
+> +	ret = devm_pm_opp_of_add_table(dev);
+>   	if (ret) {
+> +		if (!IS_ERR(opp_table))
+> +			devm_pm_opp_put_regulators(dev, opp_table);
+> +
+>   		/* Optional, continue without devfreq */
+>   		if (ret == -ENODEV)
+>   			ret = 0;
+> -		goto err_fini;
+> +		return ret;
+>   	}
+>   	pfdevfreq->opp_of_table_added = true;
+>   
+> @@ -121,10 +122,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>   	cur_freq = clk_get_rate(pfdev->clock);
+>   
+>   	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
+> -	if (IS_ERR(opp)) {
+> -		ret = PTR_ERR(opp);
+> -		goto err_fini;
+> -	}
+> +	if (IS_ERR(opp))
+> +		return PTR_ERR(opp);
+>   
+>   	panfrost_devfreq_profile.initial_freq = cur_freq;
+>   	dev_pm_opp_put(opp);
+> @@ -133,8 +132,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>   					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
+>   	if (IS_ERR(devfreq)) {
+>   		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
+> -		ret = PTR_ERR(devfreq);
+> -		goto err_fini;
+> +		return PTR_ERR(devfreq);
+>   	}
+>   	pfdevfreq->devfreq = devfreq;
+>   
+> @@ -145,10 +143,6 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>   		pfdevfreq->cooling = cooling;
+>   
+>   	return 0;
+> -
+> -err_fini:
+> -	panfrost_devfreq_fini(pfdev);
+> -	return ret;
+>   }
+>   
+>   void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+> @@ -159,14 +153,6 @@ void panfrost_devfreq_fini(struct panfrost_device *pfdev)
+>   		devfreq_cooling_unregister(pfdevfreq->cooling);
+>   		pfdevfreq->cooling = NULL;
+>   	}
+> -
+> -	if (pfdevfreq->opp_of_table_added) {
+> -		dev_pm_opp_of_remove_table(&pfdev->pdev->dev);
+> -		pfdevfreq->opp_of_table_added = false;
+> -	}
+> -
+> -	dev_pm_opp_put_regulators(pfdevfreq->regulators_opp_table);
+> -	pfdevfreq->regulators_opp_table = NULL;
+>   }
+>   
+>   void panfrost_devfreq_resume(struct panfrost_device *pfdev)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> index db6ea48e21f9..a51854cc8c06 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> @@ -15,7 +15,6 @@ struct panfrost_device;
+>   
+>   struct panfrost_devfreq {
+>   	struct devfreq *devfreq;
+> -	struct opp_table *regulators_opp_table;
+>   	struct thermal_cooling_device *cooling;
+>   	bool opp_of_table_added;
+>   
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
