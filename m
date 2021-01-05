@@ -1,116 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8252EA89E
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 11:27:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E532EA8BF
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 11:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71266E0D4;
-	Tue,  5 Jan 2021 10:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BE66E0E5;
+	Tue,  5 Jan 2021 10:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB4596E0D2;
- Tue,  5 Jan 2021 10:27:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MglR6e6hJg89YKZ2CwKhARMfz96EUSJpU0uM5eWp5ajmXmcwU9l7DCqd3g8uSfjoqchFoBmRuKHFIzexAHSL07x9HXei8UTC6GXIrjA4zNI0iRZfAjhjwbJCml0xxa49Nr61H3nwbhY4Uxp+aTX0Zft2uv07cpUe/LdFc3Bsu0X03P5txZ/N8m9KRuo0x1F/vObpVrQ4YFmQfyPw+mmPxu3ROtBM3OCs3edAfVXSTUYJnJLX6w2l8aZPbYc99aHKtLeecuYW5joTBUZmA6E0GeeXvccJvYjZ3OU02HZnmnuhXGCmXKn6xtJTbMzQES9S118XDMduLRNZI7opiyt0lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Df/4GF+Pyrd4doSxXC2AtUplCDtBUVY3uTcEooSgyZ8=;
- b=WQawHe+gXrh4e+L3z59wn+ljWT/5O2J46VBTJ42taASnLPmPTQwclvCkMANfiEQkcJjywIlhuP5sDuO4JOSXN9qLBFRvov7NilRyLLFAsWH8H1wzTSlFrjhdtlRBHs55X0vAmU5PHYcfGHn3Ab0xNPHQnT1OjBHsL2gfmk5PCiWx3P5m9Y6OtpFkCzo3up7jel/0TbmgEX/tueGBwdNnVAG14VFX/kdJkHdKQkfPZiyfsFfqxgRhCXH8EC943Aqz/dU8F/Z0wYUXpul5bNrzkPDQlH6Nfd5XzpYr6xcwTZSoIWUm1nHs07TH3kBjqt/4W6xt/QZAA2pGPWh7VeWMIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Df/4GF+Pyrd4doSxXC2AtUplCDtBUVY3uTcEooSgyZ8=;
- b=tlLxChHURROGlboAtJnt0C5kjgbwEUh2c5t92bA1fvR58uonY9OEqoat2Ul3PS4tAFW72i1rV22uxllQbEw15gY+UobBpIZ7o20wxkeN9xxZUAiwHinhnctsXphMdsgYuMf3RPyJJJ3EFkG9NqNzMjsWxv01DeyKfO8qLu8ifaU=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2451.namprd12.prod.outlook.com (2603:10b6:207:4e::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19; Tue, 5 Jan
- 2021 10:27:33 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3742.006; Tue, 5 Jan 2021
- 10:27:32 +0000
-Subject: Re: [PATCH v2] drm/amdgpu:fix IH overflow on Cz
-To: Defang Bo <bodefang@126.com>, airlied@linux.ie, daniel@ffwll.ch,
- alexander.deucher@amd.com
-References: <1609831941-2277695-1-git-send-email-bodefang@126.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <f03d6316-4dfe-4409-8ea1-d1bca8a16360@amd.com>
-Date: Tue, 5 Jan 2021 11:27:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <1609831941-2277695-1-git-send-email-bodefang@126.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM9P193CA0010.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::15) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4526E0DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 10:31:44 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f103700ba0c0ccd6fae6c32.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f10:3700:ba0c:ccd:6fae:6c32])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ED6731EC0324;
+ Tue,  5 Jan 2021 11:31:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1609842700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=sTM0a3gEBd9UBpN3NNLvOkGXM0hcfH+4usRLsLqyqyM=;
+ b=MRHLRj5lNSQg/AdRDJNEQcbBTvBlOKms0rqAuuP8RHRxeuWkXFfjjfQ+ykXen4SsuKEa0W
+ r2NL6r3fNrJN+UhinUpgKuYYlRPhMEKpDygWlIO2EAKtrb6en/fS6odZ4BBgyyN7ksB0PZ
+ Hx0JHx9IGu2fbnZxGtOvZUBhMQIeDqs=
+Date: Tue, 5 Jan 2021 11:31:38 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Huang Rui <ray.huang@amd.com>
+Subject: Re: 5.11-rc1 TTM list corruption
+Message-ID: <20210105103138.GB28649@zn.tnic>
+References: <20201231104020.GA4504@zn.tnic>
+ <e3bfa0a4-5d0a-bd68-6cc8-73db1d29f22c@amd.com>
+ <20210104105802.GD32151@zn.tnic> <20210105041213.GA544780@hr-amd>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM9P193CA0010.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3721.20 via Frontend Transport; Tue, 5 Jan 2021 10:27:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: cfccc9a5-2765-4dba-6961-08d8b1648322
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2451:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB245157B4C07340EA59A3B71D83D10@BL0PR12MB2451.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RmJXzuMwFYe+BPRDpRFNrfjG7FfBuYtPLQ8P5sbHzoyepgMZjcBy3/foI3R5pcDvvwK4oLwtxdPZYSXeGoiPaEzLuWuAThxafzU+184QwdgafV1tcyQeflRclQ9eH1de98yDsF17Inf0/MQn1GcJ1Luy42KiFroirhT/eak87Y6do3srjHe/dUTl/bKdngsrbh2yEq+ZqArczbNNQL+SJKGd/URd2ANJvTMjTq/BacDi8KssyYsdKv4u8zjeqHrgfaijJBzbP5VN8GBh6jar3yVU7KXeyGuCOnV2nfxAEvX03lXbCI1qYGPJAoGMnuNHutqDvOjPmrfeiOk19OMSl6H/oNsc+/HdiHT/aaPUwwQ+oH9NGZrjfoR4PjLVRUTSq0M8CsvX1hPXCYvcP2QN36DrfeV7JCbx8D6GGFq5t7+UOdnW1CRVYuZjCdm14hycXtCwEp9z1GL2nrIFbXkVtXydjgj2OZ9aeVvNEqD/un9lqZw3lPv4koNWJ/4c8KWp
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(39860400002)(346002)(396003)(136003)(8676002)(4326008)(6636002)(52116002)(316002)(6486002)(2616005)(8936002)(6666004)(31696002)(478600001)(5660300002)(36756003)(16526019)(186003)(83380400001)(66946007)(66556008)(66476007)(2906002)(31686004)(86362001)(525324002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?V1p3dzU5YzlBcEIveG55Z0VOa203N1lOWE9aaE96N21NbEtlbE9uejN5ZE5T?=
- =?utf-8?B?QTBoZnpsQ0dEMi9vQXBiMFZwdzdNN1NJMEt4emtYeUZtbTVxZzR6cStLQ2ll?=
- =?utf-8?B?bk5aSmJtalF1cURrTVlPbkFtWEF2b3AzY000ZkdDaUduN2djQjVnNzc0OERN?=
- =?utf-8?B?NGxSYkpFTGVLUGYzVjJvUFU2YVVvL3VERmhtRFEvMVd3bUoweEN5SUpjTndu?=
- =?utf-8?B?VGJrVU5YZWVCbG9VSWlOcUZSUDBmZmxSTVlUa1VCUjM3Q0kyRVREbHpiOGdZ?=
- =?utf-8?B?NTJOSHV2cUhnY3l5MVNOWmlIYkZjckZGSmhpV3VteTZYU0tuSkY2VWNkbVFF?=
- =?utf-8?B?OC8zcmxnN1B0dUY2SmpqWTBJeDlwdUMwUVVoY2M1R1FobmtrTDJlcEpQY3ZN?=
- =?utf-8?B?RVg4OGRLdkQ0QlVaQjArQk1lYlZ1NkYweG1TdmoybUZSc3BJQXJDbW0wZmdQ?=
- =?utf-8?B?R2x4YlI4WlVCS3gybXdualkvbjhRUlhQREN1SWh1a0doY3hJLzk0em85Sytm?=
- =?utf-8?B?VkNNdC96NG8zcUIxRGp1WDNrTjJyTFIwSkFWWkZmeFVxbzRTWTRHeFRWaVNV?=
- =?utf-8?B?MTcvd1k1R1gxdnJEU243dEhMVXZZMWFnOVY2Ykkza0xjaDRoN3dlOVd1OTFJ?=
- =?utf-8?B?QnU5UUFxTllLT2dqUkowcU56dnYxQmM3VGpRd2tVNEdSazNBTjE5TkY4VHRi?=
- =?utf-8?B?SHFYekIzcWNoY3JPWDBvTnc4RkliTWJiN1pQZmRQUlJ4Wm81NFZYemQ5VW91?=
- =?utf-8?B?T08xcyt3eTdRc1hhWUxvd21odzA2b09zcnhiY213a2dod0M0WGowQ09nMnhk?=
- =?utf-8?B?a2szN3JVVUlzbHk1b1NHOG55QWpPNytiSjdNaG5XVXFLREFoN1hjZEU4blc2?=
- =?utf-8?B?Y2ROYnBhU1FjTHhHY01tSjZ5eHpmREp2NFAvRTNQaUVqVzF1QTR4RU0rZnJl?=
- =?utf-8?B?WnVVeHFYOXp6bEZseTNvdWdLYUo1bk5ZeU1kY2NRZ3A2Ly9KKzF2Ull0c1BO?=
- =?utf-8?B?QW82aGp5TThPUjhkNjdTalpMVzNqVWxvV0hVcy9OaVVjSzNNT0ZPdnBBSkxk?=
- =?utf-8?B?RTE0SU84QWxMb3A3cWJlL0lUT1FxT2p6NXp0a09MazRmNVRZdXd0WnJUYm13?=
- =?utf-8?B?ei9XQUtFVCtTOUxBZFcrLzBkdUVvOHFRcElGanpPTjdZSWRuYzlWV24zeVFI?=
- =?utf-8?B?UlMxTWwzYjMyZHlCSVJ6MGxIeDloeTNaQzFuY0tpUHEwekp0b0k3ZUJnZWZG?=
- =?utf-8?B?TUx5M25ydE9RZUZJdk50aG03MlJSSXV1b3NCallYUTQraVJ0NVdTejRJQ3FE?=
- =?utf-8?B?eWJVVWZTTVpUZ2FlTTd6aGh1a1JEVkxMWEQ5cHRaYWZJeDRUZkVKZnRZSitV?=
- =?utf-8?B?NE5TSmpxbGdqeUVQMlFHYXFla3U2RkgvcUFSUkhMY3lQMUZwTFV2Z3I2bEFR?=
- =?utf-8?Q?EWQXSNoL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2021 10:27:32.5992 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfccc9a5-2765-4dba-6961-08d8b1648322
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1RlCTqQAG4uYd9SQUczkScWVbsydbp8ny0eX6hmlNR21b2CPYnj+117HjkVN47FW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2451
+Content-Disposition: inline
+In-Reply-To: <20210105041213.GA544780@hr-amd>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,99 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.01.21 um 08:32 schrieb Defang Bo:
-> Similar to commit <b82175750131>("drm/amdgpu: fix IH overflow on Vega10 v2").
-> When an ring buffer overflow happens the appropriate bit is set in the WPTR
-> register which is also written back to memory. But clearing the bit in the
-> WPTR doesn't trigger another memory writeback.
->
-> So what can happen is that we end up processing the buffer overflow over and
-> over again because the bit is never cleared. Resulting in a random system
-> lockup because of an infinite loop in an interrupt handler.
+Hi,
 
-Really good point. I haven't had time to look into other generations 
-since fixing this for Vega.
+On Tue, Jan 05, 2021 at 12:12:13PM +0800, Huang Rui wrote:
+> I am reproducing this issue as well, are you using a Raven board?
 
-One major typo below which needs to be fixed.
+I have no clue what Raven is. The workstation I triggered it once on, has:
 
->
-> Signed-off-by: Defang Bo <bodefang@126.com>
-> ---
-> Changes since v1:
-> - Modify the code and correct the wrong fix.
-> ---
-> ---
->   drivers/gpu/drm/amd/amdgpu/cz_ih.c | 38 ++++++++++++++++++++++++--------------
->   1 file changed, 24 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/cz_ih.c b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-> index 1dca0cabc326..45dd47f45fa2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/cz_ih.c
-> @@ -190,22 +190,32 @@ static u32 cz_ih_get_wptr(struct amdgpu_device *adev,
->   			  struct amdgpu_ih_ring *ih)
->   {
->   	u32 wptr, tmp;
-> -
-> +
->   	wptr = le32_to_cpu(*ih->wptr_cpu);
->   
-> -	if (REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW)) {
-> -		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
-> -		/* When a ring buffer overflow happen start parsing interrupt
-> -		 * from the last not overwritten vector (wptr + 16). Hopefully
-> -		 * this should allow us to catchup.
-> -		 */
-> -		dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
-> -			wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
-> -		ih->rptr = (wptr + 16) & ih->ptr_mask;
-> -		tmp = RREG32(mmIH_RB_CNTL);
-> -		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
-> -		WREG32(mmIH_RB_CNTL, tmp);
-> -	}
-> +	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
-> +		goto out;
-> +
-> +	wptr = RREG32(mmIH_RB_CNTL);
+[    7.563968] [drm] radeon kernel modesetting enabled.
+[    7.581417] [drm] initializing kernel modesetting (CAICOS 0x1002:0x6779 0x174B:0xE164 0x00).
+[    7.609217] [drm] Detected VRAM RAM=2048M, BAR=256M
+[    7.614031] [drm] RAM width 64bits DDR
+[    7.639665] [drm] radeon: 2048M of VRAM memory ready
+[    7.644557] [drm] radeon: 1024M of GTT memory ready.
+[    7.649451] [drm] Loading CAICOS Microcode
+[    7.653548] [drm] Internal thermal controller without fan control
+[    7.661221] [drm] radeon: dpm initialized
+[    7.665227] [drm] GART: num cpu pages 262144, num gpu pages 262144
+[    7.671821] [drm] enabling PCIE gen 2 link speeds, disable with radeon.pcie_gen2=0
+[    7.703858] [drm] PCIE GART of 1024M enabled (table at 0x0000000000162000).
+[    7.749689] [drm] radeon: irq initialized.
+[    7.769826] [drm] ring test on 0 succeeded in 1 usecs
+[    7.774797] [drm] ring test on 3 succeeded in 3 usecs
+[    7.955500] [drm] ring test on 5 succeeded in 1 usecs
+[    7.960468] [drm] UVD initialized successfully.
+[    7.965047] [drm] ib test on ring 0 succeeded in 0 usecs
+[    7.970316] [drm] ib test on ring 3 succeeded in 0 usecs
+[    8.626877] [drm] ib test on ring 5 succeeded
+[    8.631376] [drm] Radeon Display Connectors
+[    8.635496] [drm] Connector 0:
+[    8.638503] [drm]   HDMI-A-1
+[    8.641339] [drm]   HPD2
+[    8.643835] [drm]   DDC: 0x6440 0x6440 0x6444 0x6444 0x6448 0x6448 0x644c 0x644c
+[    8.651102] [drm]   Encoders:
+[    8.654022] [drm]     DFP1: INTERNAL_UNIPHY1
+[    8.658224] [drm] Connector 1:
+[    8.661232] [drm]   DVI-D-1
+[    8.663982] [drm]   HPD4
+[    8.666479] [drm]   DDC: 0x6460 0x6460 0x6464 0x6464 0x6468 0x6468 0x646c 0x646c
+[    8.673745] [drm]   Encoders:
+[    8.676665] [drm]     DFP2: INTERNAL_UNIPHY
+[    8.680782] [drm] Connector 2:
+[    8.683789] [drm]   VGA-1
+[    8.686369] [drm]   DDC: 0x6430 0x6430 0x6434 0x6434 0x6438 0x6438 0x643c 0x643c
+[    8.693636] [drm]   Encoders:
+[    8.696555] [drm]     CRT1: INTERNAL_KLDSCP_DAC1
+[    8.788923] [drm] fb mappable at 0xE0363000
+[    8.793036] [drm] vram apper at 0xE0000000
+[    8.797064] [drm] size 9216000
+[    8.800071] [drm] fb depth is 24
+[    8.803249] [drm]    pitch is 7680
+[    8.807106] fbcon: radeondrmfb (fb0) is primary device
+[    8.918927] radeon 0000:1d:00.0: [drm] fb0: radeondrmfb frame buffer device
+[    8.938461] [drm] Initialized radeon 2.50.0 20080528 for 0000:1d:00.0 on minor 0
 
-That's the wrong register, you need to read the write pointer and not 
-the control register.
+HTH.
 
-Same problem in all other patches.
+-- 
+Regards/Gruss,
+    Boris.
 
-Regards,
-Christian.
-
-> +
-> +	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
-> +		goto out;
-> +
-> +	wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
-> +
-> +	/* When a ring buffer overflow happen start parsing interrupt
-> +	 * from the last not overwritten vector (wptr + 16). Hopefully
-> +	 * this should allow us to catchup.
-> +	 */
-> +	dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
-> +		wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
-> +	ih->rptr = (wptr + 16) & ih->ptr_mask;
-> +	tmp = RREG32(mmIH_RB_CNTL);
-> +	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
-> +	WREG32(mmIH_RB_CNTL, tmp);
-> +
-> +
-> +out:
->   	return (wptr & ih->ptr_mask);
->   }
->   
-
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
