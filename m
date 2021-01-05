@@ -1,29 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9CC2EA671
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:21:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C452EA67B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:22:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82606E05C;
-	Tue,  5 Jan 2021 08:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB55D6E09E;
+	Tue,  5 Jan 2021 08:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9223689FFD;
- Mon,  4 Jan 2021 19:31:56 +0000 (UTC)
-Received: from localhost.localdomain (abaf53.neoplus.adsl.tpnet.pl
- [83.6.169.53])
- by m-r1.th.seeweb.it (Postfix) with ESMTPA id 1BCEA20014;
- Mon,  4 Jan 2021 20:31:48 +0100 (CET)
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: phone-devel@vger.kernel.org
-Subject: [PATCH] drm/msm: Only enable A6xx LLCC code on A6xx
-Date: Mon,  4 Jan 2021 20:30:41 +0100
-Message-Id: <20210104193044.80591-1-konrad.dybcio@somainline.org>
-X-Mailer: git-send-email 2.29.2
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F47A89F45
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 00:34:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id A4C361F450BC
+Date: Mon, 4 Jan 2021 19:34:30 -0500
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH v6 3/4] drm/panfrost: devfreq: Disable devfreq when
+ num_supplies > 1
+Message-ID: <20210105003430.GA5061@kevin>
+References: <20210105001119.2129559-1-drinkcat@chromium.org>
+ <20210105081111.v6.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
 MIME-Version: 1.0
+In-Reply-To: <20210105081111.v6.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
 X-Mailman-Approved-At: Tue, 05 Jan 2021 08:21:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,91 +38,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Dave Airlie <airlied@redhat.com>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, fshao@chromium.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ boris.brezillon@collabora.com, hsinyi@chromium.org, hoegsberg@chromium.org
+Content-Type: multipart/mixed; boundary="===============1583766766=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using this code on A5xx (and probably older too) causes a
-smmu bug.
 
-Fixes: 474dadb8b0d5 ("drm/msm/a6xx: Add support for using system cache(LLC)")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 21 ++++++++++++---------
- drivers/gpu/drm/msm/adreno/adreno_gpu.h |  5 +++++
- 2 files changed, 17 insertions(+), 9 deletions(-)
+--===============1583766766==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 6cf9975e951e..f09175698827 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -191,8 +191,6 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
- 		struct platform_device *pdev)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
--	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
--	struct io_pgtable_domain_attr pgtbl_cfg;
- 	struct iommu_domain *iommu;
- 	struct msm_mmu *mmu;
- 	struct msm_gem_address_space *aspace;
-@@ -202,13 +200,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
- 	if (!iommu)
- 		return NULL;
- 
--	/*
--	 * This allows GPU to set the bus attributes required to use system
--	 * cache on behalf of the iommu page table walker.
--	 */
--	if (!IS_ERR(a6xx_gpu->htw_llc_slice)) {
--		pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
--		iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, &pgtbl_cfg);
-+
-+	if (adreno_is_a6xx(adreno_gpu)) {
-+		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+		struct io_pgtable_domain_attr pgtbl_cfg;
-+		/*
-+		* This allows GPU to set the bus attributes required to use system
-+		* cache on behalf of the iommu page table walker.
-+		*/
-+		if (!IS_ERR(a6xx_gpu->htw_llc_slice)) {
-+			pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
-+			iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, &pgtbl_cfg);
-+		}
- 	}
- 
- 	mmu = msm_iommu_new(&pdev->dev, iommu);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 4574d85c5680..08421fa54a50 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -226,6 +226,11 @@ static inline int adreno_is_a540(struct adreno_gpu *gpu)
- 	return gpu->revn == 540;
- }
- 
-+static inline bool adreno_is_a6xx(struct adreno_gpu *gpu)
-+{
-+	return ((gpu->revn < 700 && gpu->revn > 599));
-+}
-+
- static inline int adreno_is_a618(struct adreno_gpu *gpu)
- {
-        return gpu->revn == 618;
--- 
-2.29.2
+
+--VS++wcV0S1rZb1Fb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+> GPUs with more than a single regulator (e.g. G-57 on MT8183) will
+
+G72
+
+--VS++wcV0S1rZb1Fb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl/ztBAACgkQ/v5QWgr1
+WA1dGw//bJtIv+4vzSRzSNAQitDrJAY7AdKGkgonfTYEme9fQbjUKIsPa/m2q5/2
+tJZ1fFLF5gL7wgPV6fD4PtxyDUaZncaFUwIr6LDvCSu7a0AhoVk2OcO94Dr8IENo
+T9TtuWNEerkypeQ/XZ1VilsNawl/CqeDpje5g7lOncXTPpZ9/emeBhj4VyFrWmZn
+2X7J9FOOqUAZpKZbs4MvkEf2Vubxcme6fY3w6KTaaqNG8gHm3wdoHK0ZuowB1NXr
+X1LvSeXgUvah7LZN+RWh0fhZKXjP5LkuJGAYDFRRpYO25+SJ6km67fD91zQVfVGj
+WXYJyyLk+8u9ZiFvfY6dUFlKSbG3Srn4mk98lSyxkttaxv91Nom0V0ZSFeQe7tSC
+xZusXiy4Djj2Oe1LYadi+ujkBY+aRtb/ysafhIp5ahc+2L+BNImDiChOqQ3RJe8+
+t0iX92KnG8Pzmj/fZGQmCrgHMfRbl+soLYZqlbQ3rAri1RY0SihI0zm0M+UbFkTC
+ijcEMTeF6Lcvc9CDD2o4uB+G7VZpoozTBN9BJQAep28wcsCRD9hhMo7t56ZZNDFr
+6hpbEVrSjY9NCSno/DpcBSkyEdOFQZTIUr6lcSz3AbI810FbEsqqsTcHYYyzfJnQ
+pIivSpzS712jcaYu62/odpsDmfciHNF1o/K7n2UXIPzGQFAXvxw=
+=fUi4
+-----END PGP SIGNATURE-----
+
+--VS++wcV0S1rZb1Fb--
+
+--===============1583766766==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1583766766==--
