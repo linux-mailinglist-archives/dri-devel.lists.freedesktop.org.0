@@ -2,62 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64A02EA67D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06AF2EA667
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473F76E096;
-	Tue,  5 Jan 2021 08:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5365D6E06E;
+	Tue,  5 Jan 2021 08:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3F556E059
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 07:37:10 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1609832230; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=rpqI5hDm0c8EMztfmP5ol3o97td4NOlV5r9gOI8P84E=;
- b=ERxy0NEMNRaklxAZ5UxdRK3wBlFoKkzCNvmeRPZrh/jAcHwiZr9uBdhRg1yvc/+jwYceBRmb
- myMZUBUyxlXtRgbluXTAsTGh/loGjBGFl2Owy7aLup/L+NYphehSmjabLxCxTEVT/HCQys80
- hTKTapGPVDOQyBfn+6iUSparlf4=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
- 5ff41725584481b01b7b99f5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Jan 2021 07:37:09
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id EA39CC43463; Tue,  5 Jan 2021 07:37:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3123AC433ED;
- Tue,  5 Jan 2021 07:37:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3123AC433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=isaacm@codeaurora.org
-From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
- robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com, robh@kernel.org,
- tomeu.vizoso@collabora.com
-Subject: [PATCH RESEND 7/7] iommu/io-pgtable-arm: Allow building modular
- io-pgtable formats
-Date: Mon,  4 Jan 2021 23:36:45 -0800
-Message-Id: <1609832205-10055-8-git-send-email-isaacm@codeaurora.org>
+Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A8489F77;
+ Tue,  5 Jan 2021 07:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=D060oaWgS+D6xfgF0c
+ eaNFL97opPTlhJKxxlK74kGq0=; b=ejy+qPLncUfCRidg8RsJ5pVk9B8YHfZtw9
+ MVN/N4PnD48LoWNX4wr0wOqohsvtE97ddE1fuoY/g5mcQJbjN5xgeYNNrU94N0re
+ 5dzCQ7Y20rRddO6DLUavaEWpmy4tmZqr8TeFOQpOR8lj2HPEpuGfhwSdSwri1gWx
+ +4KD0QjWU=
+Received: from localhost.localdomain (unknown [36.112.86.14])
+ by smtp1 (Coremail) with SMTP id C8mowACHykTbF_RfhyZlNQ--.58132S2;
+ Tue, 05 Jan 2021 15:40:11 +0800 (CST)
+From: Defang Bo <bodefang@126.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/amdgpu:fix IH overflow on Iceland
+Date: Tue,  5 Jan 2021 15:40:01 +0800
+Message-Id: <1609832401-2281870-1-git-send-email-bodefang@126.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
-References: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
+X-CM-TRANSID: C8mowACHykTbF_RfhyZlNQ--.58132S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tr1rWF45XF1xurWDtFy7ZFb_yoW8Kw47pa
+ 1Sq3s09r1Iyr12yryfZ3Z7uFn8Cw1vgFWfGryDJw12gF4UJa4vgry3Jayaqry5tFZakFW7
+ trZIg3y5W3sFqrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRO6pQUUUUU=
+X-Originating-IP: [36.112.86.14]
+X-CM-SenderInfo: pergvwxdqjqiyswou0bp/1tbi6xsR11pD9eW2JgAAsv
 X-Mailman-Approved-At: Tue, 05 Jan 2021 08:21:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,83 +48,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno@lists.freedesktop.org, pdaly@codeaurora.org, pratikp@codeaurora.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org
+Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Defang Bo <bodefang@126.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that everything is in place for modular io-pgtable formats,
-allow the ARM LPAE and ARMV7S io-pgtable formats to be built
-as modules, and allow the io-pgtable framework to be enabled,
-without having to explicitly enable an io-pgtable format.
+Similar to commit <b82175750131>("drm/amdgpu: fix IH overflow on Vega10 v2")
+When an ring buffer overflow happens the appropriate bit is set in the WPTR
+register which is also written back to memory. But clearing the bit in the
+WPTR doesn't trigger another memory writeback.
 
-Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+So what can happen is that we end up processing the buffer overflow over and
+over again because the bit is never cleared. Resulting in a random system
+lockup because of an infinite loop in an interrupt handler.
+
+Signed-off-by: Defang Bo <bodefang@126.com>
 ---
- drivers/iommu/Kconfig              | 11 +++++++----
- drivers/iommu/io-pgtable-arm-v7s.c |  2 ++
- drivers/iommu/io-pgtable-arm.c     |  2 ++
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c | 37 +++++++++++++++++++++------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 192ef8f..d3c4e9a 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -25,12 +25,15 @@ if IOMMU_SUPPORT
+diff --git a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+index a13dd9a51149..d90f9000a445 100644
+--- a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+@@ -193,19 +193,30 @@ static u32 iceland_ih_get_wptr(struct amdgpu_device *adev,
  
- menu "Generic IOMMU Pagetable Support"
+ 	wptr = le32_to_cpu(*ih->wptr_cpu);
  
--# Selected by the actual pagetable implementations
- config IOMMU_IO_PGTABLE
--	bool
-+	bool "IOMMU Pagetable support"
-+	help
-+	  Enable support for using IOMMU pagetables. This option enables
-+	  the generic IOMMU pagetable framework for registering IOMMU
-+	  pagetable formats, as well as managing IOMMU pagetable instances.
- 
- config IOMMU_IO_PGTABLE_LPAE
--	bool "ARMv7/v8 Long Descriptor Format"
-+	tristate "ARMv7/v8 Long Descriptor Format"
- 	select IOMMU_IO_PGTABLE
- 	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
- 	help
-@@ -49,7 +52,7 @@ config IOMMU_IO_PGTABLE_LPAE_SELFTEST
- 	  If unsure, say N here.
- 
- config IOMMU_IO_PGTABLE_ARMV7S
--	bool "ARMv7/v8 Short Descriptor Format"
-+	tristate "ARMv7/v8 Short Descriptor Format"
- 	select IOMMU_IO_PGTABLE
- 	depends on ARM || ARM64 || COMPILE_TEST
- 	help
-diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-index 7e81135..69dbf86 100644
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -1014,3 +1014,5 @@ static void __exit arm_v7s_exit(void)
- 	io_pgtable_ops_unregister(ARM_V7S);
- }
- module_exit(arm_v7s_exit);
+-	if (REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW)) {
+-		wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
+-		/* When a ring buffer overflow happen start parsing interrupt
+-		 * from the last not overwritten vector (wptr + 16). Hopefully
+-		 * this should allow us to catchup.
+-		 */
+-		dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
+-			 wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
+-		ih->rptr = (wptr + 16) & ih->ptr_mask;
+-		tmp = RREG32(mmIH_RB_CNTL);
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
+-		WREG32(mmIH_RB_CNTL, tmp);
+-	}
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
 +
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 8ed52a0..8d4805f 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -1306,3 +1306,5 @@ static void __exit arm_lpae_exit(void)
- 		io_pgtable_ops_unregister(arm_lpae_init_fns_table[i].fmt);
- }
- module_exit(arm_lpae_exit);
++	wptr = RREG32(mmIH_RB_CNTL);
 +
-+MODULE_LICENSE("GPL v2");
++	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++		goto out;
++
++
++
++	wptr = REG_SET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW, 0);
++	/* When a ring buffer overflow happen start parsing interrupt
++	 * from the last not overwritten vector (wptr + 16). Hopefully
++	 * this should allow us to catchup.
++	 */
++	dev_warn(adev->dev, "IH ring buffer overflow (0x%08X, 0x%08X, 0x%08X)\n",
++		wptr, ih->rptr, (wptr + 16) & ih->ptr_mask);
++	ih->rptr = (wptr + 16) & ih->ptr_mask;
++	tmp = RREG32(mmIH_RB_CNTL);
++	tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_CLEAR, 1);
++	WREG32(mmIH_RB_CNTL, tmp);
++
++
++out:
+ 	return (wptr & ih->ptr_mask);
+ }
+ 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
