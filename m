@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0EFA2EA409
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 04:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2612EA430
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 05:01:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C55589CDE;
-	Tue,  5 Jan 2021 03:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3CA89CF3;
+	Tue,  5 Jan 2021 04:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8375189CD9;
- Tue,  5 Jan 2021 03:47:54 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id m12so69495169lfo.7;
- Mon, 04 Jan 2021 19:47:54 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D70DA89CF3;
+ Tue,  5 Jan 2021 04:01:27 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id m25so69491052lfc.11;
+ Mon, 04 Jan 2021 20:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:reply-to:from:date:message-id
  :subject:to:cc;
- bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
- b=X2HIPa+2nYHaUq4baszZeg/1lPwfRlrkiazbu8bWAZ/4KVDEZZ8UJLHkCiHzu5BoPv
- +d1r6dGtLI/e5iSeLti/uFDhKLFXF3tY06Jdc3OuTB+60jcWy7nbxvR/X/sbuy5Z2y0a
- zy9Qm2wdvLKFzbzpL5PwnIXh21X/23EVG7mYWxKtxfix082rS5faNNu/pQ57no+v4JD+
- BaQRjUTLWwn1bDT7po749l/CDI6APyFbpmhm4QydCPb2EdRw7tEUospHsYRRgYR6FHym
- oOmjm0bgU9pTqMTv2DoYi3myavoG+000acurgbb4dfthX9S8jl7kSgIjjgmMtRlfqb7V
- Jf3w==
+ bh=SQQuOKC1O0sf7eW3BCMzk/TTSkOU/Wo1ZPhVnA2VyuU=;
+ b=pofi22Yd5VW1o8B824chIwbMBxC2hE6GILeV7bxPEdAxPGOpfffZlp8k2E4gK0JICe
+ DN+KKIJ1vYB20DDYeBQFUSk4SemoWoHJMTDv6wSm87FCOkeGYbdW05SojFh4ZoHk/+z4
+ fTLP4AMIXDJtvqUw+Mzz7iL3iyjWgzDItfwu9cSShDJo61lDdViOtayU/jY/gvaqKz9W
+ 536ujgrNGTDemv9U10UXZ9pxDDX/B6GenSeUR+WRhiwRx3jV5cw+fQXCnj9g0T27nS6x
+ SE/xI+QWrUm3xX4Pgjqh3moeCucwx0iO4q6v+nXQGeCcyQxr2Ur+GEeeqiI5CiS8SLyJ
+ oKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
  :from:date:message-id:subject:to:cc;
- bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
- b=pl9xiQKOuIXk7Jr4skx443LMCa1gO28aHpOMCY/U+OD1N4SXVGjRNaVEh/KnpRklxQ
- ULEGXc5w3XdKlk1JScQe2xO7j21KUKxHvTYv+BywHuyJwsPGwvWjhAuudZ6ozwQe2oax
- byuljt8gKi5sHeW3jog4q3lePEvGSgPWTs4UzU8z7BVVnJo7sQU6+mu9/rVjdwj5wiw6
- mUOG/isko2O5I4YxNF7cTcfaUM0eAHODVe1K888fhJH2S0TkQ3cL8+aMxPN1sgux2W3T
- 5KFAMFtRu8XIFGyHiQo0UVJVGp0YsGcot1opATvZjUqeCEf5scZsCv6mOaAiGeP0NL2X
- 57vA==
-X-Gm-Message-State: AOAM5316qr55gV4EqoAIlclLLizIvRZFDGfO+kj4hlMha5FwWUlX3VPj
- FmMin5EpFRxS+L4+6q7oC09WR4G8rpC2iWHeN6I=
-X-Google-Smtp-Source: ABdhPJycvDA2y0kJZnyrX/YoD11eP5GdGX7X4MHU9HChkkRYsRnd6ay+qNKHQmx0en+WU3/yCpN8x9PBPa2srmvjcdU=
-X-Received: by 2002:a19:6b0d:: with SMTP id d13mr32595793lfa.63.1609818472823; 
- Mon, 04 Jan 2021 19:47:52 -0800 (PST)
+ bh=SQQuOKC1O0sf7eW3BCMzk/TTSkOU/Wo1ZPhVnA2VyuU=;
+ b=Rc1FgG6M65Z1RXGPuROxdriI2aAEmS0RkQCSpmKkji/n+ea1VbYW5KVSuYBqoInpDP
+ M7VOd7M+m5yXiYe5WPbNArjTGVRttQUa367iuPQApxUXjFBAuMzAnV/YOu27s+RHIZcP
+ Y/xSN6fq6Jw8Ft5M+kIocUm8OrHPYqgyLaeG27dhSktHYs5AYLuqgYdMEoJcxJbBswI0
+ FLnkCqu/SmQGti9wP+7YAOtFbnKV5+ZpHiW6o/AfuCGJ5oWBNCPKocddbujQN6pfKaMe
+ GkGH6DCafPvP66/5oq3+nCNVxUFXysdFZzlBwf3GmU+TMRq4LPVTjNZF1xTc0giqxMak
+ arSQ==
+X-Gm-Message-State: AOAM532q4bBmGzX+mhxxQcpflkR4BO3erUqmVyZX73BfrPemuAOMqro1
+ OcE2Ek4jBQ7UqPD4z+WvVwb/GIS/6TBrqOw6Myw=
+X-Google-Smtp-Source: ABdhPJxu21uHjyNWjYVVrY0kCQTURSa+kVb4E4YJv2XQs1DWZtV8BvIeHMut8ZaNQpth2To8kl++bOQ/w6Wk8MYKT9w=
+X-Received: by 2002:a19:4316:: with SMTP id q22mr17269237lfa.106.1609819286213; 
+ Mon, 04 Jan 2021 20:01:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20210103035445.23696-1-tiny.windzz@gmail.com>
-In-Reply-To: <20210103035445.23696-1-tiny.windzz@gmail.com>
+References: <20210103035514.23788-1-tiny.windzz@gmail.com>
+In-Reply-To: <20210103035514.23788-1-tiny.windzz@gmail.com>
 From: Chanwoo Choi <cwchoi00@gmail.com>
-Date: Tue, 5 Jan 2021 12:47:16 +0900
-Message-ID: <CAGTfZH0sLh=8XhBVOzUr9qO2w_=jp-OuWoh5vgNpnmXq6EzYHA@mail.gmail.com>
-Subject: Re: [PATCH 26/31] PM / devfreq: tegra30: convert to use devm_pm_opp_*
- API
+Date: Tue, 5 Jan 2021 13:00:49 +0900
+Message-ID: <CAGTfZH0DHXZqtiXNZrMA=pZMDG3zZpFez_sPvteAQgHXBs5WYQ@mail.gmail.com>
+Subject: Re: [PATCH 27/31] PM / devfreq: rk3399_dmc: convert to use
+ devm_pm_opp_* API
 To: Yangtao Li <tiny.windzz@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,86 +104,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
+Do you make this patch on latest source?
+When I apply this patch for test, it make the merge conflict error.
+
 On Sun, Jan 3, 2021 at 12:57 PM Yangtao Li <tiny.windzz@gmail.com> wrote:
 >
-> Use devm_pm_opp_* API to simplify code, and remove opp_table
-> from tegra_devfreq.
+> Use devm_pm_opp_* API to simplify code. Since devres release
+> can guarantee the order, let's remove
+> devm_devfreq_unregister_opp_notifier().
 >
 > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
 > ---
->  drivers/devfreq/tegra30-devfreq.c | 21 +++++++--------------
->  1 file changed, 7 insertions(+), 14 deletions(-)
+>  drivers/devfreq/rk3399_dmc.c | 22 +++-------------------
+>  1 file changed, 3 insertions(+), 19 deletions(-)
 >
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 117cad7968ab..4984cb91e9ea 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -178,7 +178,6 @@ struct tegra_devfreq_soc_data {
->
->  struct tegra_devfreq {
->         struct devfreq          *devfreq;
-> -       struct opp_table        *opp_table;
->
->         struct reset_control    *reset;
->         struct clk              *clock;
-> @@ -794,6 +793,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->         struct tegra_devfreq_device *dev;
->         struct tegra_devfreq *tegra;
->         struct devfreq *devfreq;
-> +       struct opp_tabl *opp_table;
-
-opp_tabl -> opp_table. It will make the build error. Please do build
-test at least.
-
->         unsigned int i;
->         long rate;
->         int err;
-> @@ -841,25 +841,25 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->                 return err;
+> diff --git a/drivers/devfreq/rk3399_dmc.c b/drivers/devfreq/rk3399_dmc.c
+> index 2e912166a993..9b8ab8be29d1 100644
+> --- a/drivers/devfreq/rk3399_dmc.c
+> +++ b/drivers/devfreq/rk3399_dmc.c
+> @@ -432,7 +432,7 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
+>          * We add a devfreq driver to our parent since it has a device tree node
+>          * with operating points.
+>          */
+> -       if (dev_pm_opp_of_add_table(dev)) {
+> +       if (devm_pm_opp_of_add_table(dev)) {
+>                 dev_err(dev, "Invalid operating-points in device tree.\n");
+>                 ret = -EINVAL;
+>                 goto err_edev;
+> @@ -448,7 +448,7 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
+>         opp = devfreq_recommended_opp(dev, &data->rate, 0);
+>         if (IS_ERR(opp)) {
+>                 ret = PTR_ERR(opp);
+> -               goto err_free_opp;
+> +               goto err_edev;
 >         }
 >
-> -       tegra->opp_table = dev_pm_opp_set_supported_hw(&pdev->dev,
-> -                                                      &hw_version, 1);
-> -       err = PTR_ERR_OR_ZERO(tegra->opp_table);
-> +       opp_table = devm_pm_opp_set_supported_hw(&pdev->dev,
-> +                                                &hw_version, 1);
-> +       err = PTR_ERR_OR_ZERO(opp_table);
->         if (err) {
->                 dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
->                 return err;
+>         data->rate = dev_pm_opp_get_freq(opp);
+> @@ -463,7 +463,7 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
+>                                            &data->ondemand_data);
+>         if (IS_ERR(data->devfreq)) {
+>                 ret = PTR_ERR(data->devfreq);
+> -               goto err_free_opp;
+> +               goto err_edev;
 >         }
 >
-> -       err = dev_pm_opp_of_add_table(&pdev->dev);
-> +       err = devm_pm_opp_of_add_table(&pdev->dev);
->         if (err) {
->                 dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
-> -               goto put_hw;
-> +               return err;
->         }
+>         devm_devfreq_register_opp_notifier(dev, data->devfreq);
+> @@ -473,27 +473,12 @@ static int rk3399_dmcfreq_probe(struct platform_device *pdev)
 >
->         err = clk_prepare_enable(tegra->clock);
->         if (err) {
->                 dev_err(&pdev->dev,
->                         "Failed to prepare and enable ACTMON clock\n");
-> -               goto remove_table;
-> +               return err;
->         }
+>         return 0;
 >
->         err = reset_control_reset(tegra->reset);
-> @@ -917,10 +917,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->         reset_control_reset(tegra->reset);
->  disable_clk:
->         clk_disable_unprepare(tegra->clock);
-> -remove_table:
+> -err_free_opp:
 > -       dev_pm_opp_of_remove_table(&pdev->dev);
-> -put_hw:
-> -       dev_pm_opp_put_supported_hw(tegra->opp_table);
+>  err_edev:
+>         devfreq_event_disable_edev(data->edev);
+>
+>         return ret;
+>  }
+>
+> -static int rk3399_dmcfreq_remove(struct platform_device *pdev)
+> -{
+> -       struct rk3399_dmcfreq *dmcfreq = dev_get_drvdata(&pdev->dev);
+> -
+> -       /*
+> -        * Before remove the opp table we need to unregister the opp notifier.
+> -        */
+> -       devm_devfreq_unregister_opp_notifier(dmcfreq->dev, dmcfreq->devfreq);
+> -       dev_pm_opp_of_remove_table(dmcfreq->dev);
 
-You might remove the 'devm_pm_opp_remove_all_dynamic(&pdev->dev)
-under ' remove_opp' goto statement.kkkk
+As the comment, we need to unregister the opp notifier before removing the OPP.
+Do you guarantee this sequence on your patch?
 
 
-(snip)
+> -
+> -       return 0;
+> -}
+> -
+>  static const struct of_device_id rk3399dmc_devfreq_of_match[] = {
+>         { .compatible = "rockchip,rk3399-dmc" },
+>         { },
+> @@ -502,7 +487,6 @@ MODULE_DEVICE_TABLE(of, rk3399dmc_devfreq_of_match);
+>
+>  static struct platform_driver rk3399_dmcfreq_driver = {
+>         .probe  = rk3399_dmcfreq_probe,
+> -       .remove = rk3399_dmcfreq_remove,
+>         .driver = {
+>                 .name   = "rk3399-dmc-freq",
+>                 .pm     = &rk3399_dmcfreq_pm,
+> --
+> 2.25.1
+>
+
+
 -- 
 Best Regards,
 Chanwoo Choi
