@@ -2,27 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A522EBB5A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910E82EBB67
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6AE289D4F;
-	Wed,  6 Jan 2021 08:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC8089DE3;
+	Wed,  6 Jan 2021 08:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5184C899F2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 12:39:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: benjamin.gaignard)
- with ESMTPSA id 69EED1F44F69
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/agpsupport: Fix warning in functions documentation
-Date: Tue,  5 Jan 2021 13:39:05 +0100
-Message-Id: <20210105123905.90330-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6729E89A72
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 13:46:20 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id t6so16400132plq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 05:46:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=g0jobtBXA5sj9lDPVNKn9xThUOLvezyzWjBOk2AQI4o=;
+ b=j7R993e1p6XDqUzZu9+3yl32GIoPMOJlG4ZrwT3Nc2s8L8eOVjRui8reMP0z2Nz0IH
+ dUv9QtWe0gosaeqypUR8P7x6ho54pHerFBxPLwpXGq8BskFLq9lTsdXSLx4g3tHEJvnG
+ hUWjb7zmLX1e3QpUo8VwyXqXZSIgdxY2rM22uSeXmqIMVa1TFMhEuNHffM+uLGAOTV8R
+ Kd12gCUHBb6Ske7B1FuHWdrmYvtP0Z+Zyj6FJcV3ZQP6iBmYVXDOEuWjHFa9a+pfPc0l
+ PwG8W5mVApfcvxSBLnk+QfzHZg/d+sZkgXaD4ht9/EHXsgFXQBQiyzPtSl3MBZmUfA+c
+ 0isA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=g0jobtBXA5sj9lDPVNKn9xThUOLvezyzWjBOk2AQI4o=;
+ b=cL//EOydbxZe27G3hxeTQrS07qFkPxLFpMDqJtYvlD+a88rg8K5f9uZIDW0Im2H+bR
+ A1CAoa55RgNY7GrYOqB/eJoiRrbp8sqXlxs92HS4SnaPUAT4jr2AAIEX7vqMJtzNvdpS
+ iKipGzZAlfIVFjVp9n/lceyYvbhjHn6kL3OX8gxZwdrU0zhvvo/PrvVx3KkpkWFcM3Gw
+ pIfJ+hUeuOyIFSEK566IePgm0VeY2rakv4juO1TYmcBmUDG2J2NXpuG5dLPTXj8j6Ozp
+ nZUFt8vckIDjmx6GzkALEuhFAhsQnbQhmxS/Ec0uMaYzP2oqbQPKIiUA4d/jmbiGDkwl
+ Nd2Q==
+X-Gm-Message-State: AOAM530xycgK/tSiJgeETp/TUrpDKd/wVIi/FL+NDtq9e5bG4TkY9hxB
+ sMhyBZxSuDWQQziaQqOXbzs=
+X-Google-Smtp-Source: ABdhPJxvd6mIQv1AA6rT/CDrdeIwQ5Gv03Zr0IMu8Te2vbFbkE9nf31TY6rfagk/VngB0+YLJKjv0Q==
+X-Received: by 2002:a17:90a:1b0d:: with SMTP id
+ q13mr4092457pjq.21.1609854380057; 
+ Tue, 05 Jan 2021 05:46:20 -0800 (PST)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id w63sm57582284pfc.20.2021.01.05.05.46.14
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 05 Jan 2021 05:46:19 -0800 (PST)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com
+Subject: [PATCH v3 0/6] Add Unisoc's drm kms module
+Date: Tue,  5 Jan 2021 21:46:01 +0800
+Message-Id: <1609854367-2720-1-git-send-email-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 06 Jan 2021 08:52:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -36,263 +65,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: orsonzhai@gmail.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ zhang.lyra@gmail.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the warnings reported in functions documentation when compiling with W=1
+ChangeList:
+RFC v1:
+1. only upstream modeset and atomic at first commit. 
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/gpu/drm/drm_agpsupport.c | 111 ++++++++++++++++---------------
- 1 file changed, 59 insertions(+), 52 deletions(-)
+RFC v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
-index 4c7ad46fdd21..db610db9303c 100644
---- a/drivers/gpu/drm/drm_agpsupport.c
-+++ b/drivers/gpu/drm/drm_agpsupport.c
-@@ -46,16 +46,16 @@
- #include "drm_legacy.h"
- 
- /**
-- * Get AGP information.
-+ * drm_agp_info - Get AGP information.
-  *
-- * \param inode device inode.
-- * \param file_priv DRM file private.
-- * \param cmd command.
-- * \param arg pointer to a (output) drm_agp_info structure.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device
-+ * @info: drm_agp_info structure to be fill
-  *
-  * Verifies the AGP device has been initialized and acquired and fills in the
-  * drm_agp_info structure with the information in drm_agp_head::agp_info.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_info(struct drm_device *dev, struct drm_agp_info *info)
- {
-@@ -93,13 +93,15 @@ int drm_agp_info_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Acquire the AGP device.
-+ * drm_agp_acquire - Acquire the AGP device.
-  *
-- * \param dev DRM device that is to acquire AGP.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device that is to acquire AGP.
-  *
-  * Verifies the AGP device hasn't been acquired before and calls
-  * \c agp_backend_acquire.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_acquire(struct drm_device *dev)
- {
-@@ -116,16 +118,17 @@ int drm_agp_acquire(struct drm_device *dev)
- EXPORT_SYMBOL(drm_agp_acquire);
- 
- /**
-- * Acquire the AGP device (ioctl).
-+ * drm_agp_acquire_ioctl - Acquire the AGP device (ioctl).
-  *
-- * \param inode device inode.
-- * \param file_priv DRM file private.
-- * \param cmd command.
-- * \param arg user argument.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device
-+ * @data: private data
-+ * @file_priv: DRM file private.
-  *
-  * Verifies the AGP device hasn't been acquired before and calls
-  * \c agp_backend_acquire.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_acquire_ioctl(struct drm_device *dev, void *data,
- 			  struct drm_file *file_priv)
-@@ -134,12 +137,14 @@ int drm_agp_acquire_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Release the AGP device.
-+ * drm_agp_release - Release the AGP device.
-  *
-- * \param dev DRM device that is to release AGP.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device that is to release AGP.
-  *
-  * Verifies the AGP device has been acquired and calls \c agp_backend_release.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_release(struct drm_device *dev)
- {
-@@ -158,14 +163,16 @@ int drm_agp_release_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Enable the AGP bus.
-+ * drm_agp_enable - Enable the AGP bus.
-  *
-- * \param dev DRM device that has previously acquired AGP.
-- * \param mode Requested AGP mode.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device that has previously acquired AGP.
-+ * @mode: Requested AGP mode.
-  *
-  * Verifies the AGP device has been acquired but not enabled, and calls
-  * \c agp_enable.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_enable(struct drm_device *dev, struct drm_agp_mode mode)
- {
-@@ -188,16 +195,16 @@ int drm_agp_enable_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Allocate AGP memory.
-+ * drm_agp_alloc - Allocate AGP memory.
-  *
-- * \param inode device inode.
-- * \param file_priv file private pointer.
-- * \param cmd command.
-- * \param arg pointer to a drm_agp_buffer structure.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device
-+ * @request: memory allocation request
-  *
-  * Verifies the AGP device is present and has been acquired, allocates the
-  * memory via agp_allocate_memory() and creates a drm_agp_mem entry for it.
-+ *
-+ * Returns:
-+ * zero on success or a negative number on failure.
-  */
- int drm_agp_alloc(struct drm_device *dev, struct drm_agp_buffer *request)
- {
-@@ -243,13 +250,14 @@ int drm_agp_alloc_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Search for the AGP memory entry associated with a handle.
-+ * drm_agp_lookup_entry - Search for the AGP memory entry associated with a handle.
-  *
-- * \param dev DRM device structure.
-- * \param handle AGP memory handle.
-- * \return pointer to the drm_agp_mem structure associated with \p handle.
-+ * @dev: DRM device structure.
-+ * @handle: AGP memory handle.
-  *
-  * Walks through drm_agp_head::memory until finding a matching handle.
-+ *
-+ * Returns: pointer to the drm_agp_mem structure associated with \p handle.
-  */
- static struct drm_agp_mem *drm_agp_lookup_entry(struct drm_device *dev,
- 						unsigned long handle)
-@@ -264,16 +272,15 @@ static struct drm_agp_mem *drm_agp_lookup_entry(struct drm_device *dev,
- }
- 
- /**
-- * Unbind AGP memory from the GATT (ioctl).
-+ * drm_agp_unbind - Unbind AGP memory from the GATT (ioctl).
-  *
-- * \param inode device inode.
-- * \param file_priv DRM file private.
-- * \param cmd command.
-- * \param arg pointer to a drm_agp_binding structure.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device structure.
-+ * @request: binding request
-  *
-  * Verifies the AGP device is present and acquired, looks-up the AGP memory
-  * entry and passes it to the unbind_agp() function.
-+ *
-+ * Returns: zero on success or a negative number on failure.
-  */
- int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
- {
-@@ -302,17 +309,16 @@ int drm_agp_unbind_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Bind AGP memory into the GATT (ioctl)
-+ * drm_agp_bind- Bind AGP memory into the GATT (ioctl)
-  *
-- * \param inode device inode.
-- * \param file_priv DRM file private.
-- * \param cmd command.
-- * \param arg pointer to a drm_agp_binding structure.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device structure.
-+ * @request: binding request
-  *
-  * Verifies the AGP device is present and has been acquired and that no memory
-  * is currently bound into the GATT. Looks-up the AGP memory entry and passes
-  * it to bind_agp() function.
-+ *
-+ * Returns: zero on success or a negative number on failure.
-  */
- int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
- {
-@@ -346,18 +352,17 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Free AGP memory (ioctl).
-+ * drm_agp_free - Free AGP memory (ioctl).
-  *
-- * \param inode device inode.
-- * \param file_priv DRM file private.
-- * \param cmd command.
-- * \param arg pointer to a drm_agp_buffer structure.
-- * \return zero on success or a negative number on failure.
-+ * @dev: DRM device structure.
-+ * @request: memory request to be released
-  *
-  * Verifies the AGP device is present and has been acquired and looks up the
-  * AGP memory entry. If the memory is currently bound, unbind it via
-  * unbind_agp(). Frees it via free_agp() as well as the entry itself
-  * and unlinks from the doubly linked list it's inserted in.
-+ *
-+ * Returns: zero on success or a negative number on failure.
-  */
- int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
- {
-@@ -389,9 +394,9 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * Initialize the AGP resources.
-+ * drm_agp_init - Initialize the AGP resources.
-  *
-- * \return pointer to a drm_agp_head structure.
-+ * @dev: DRM device structure.
-  *
-  * Gets the drm_agp_t structure which is made available by the agpgart module
-  * via the inter_module_* functions. Creates and initializes a drm_agp_head
-@@ -399,6 +404,8 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
-  *
-  * Note that final cleanup of the kmalloced structure is directly done in
-  * drm_pci_agp_destroy.
-+ *
-+ * Returns: pointer to a drm_agp_head structure.
-  */
- struct drm_agp_head *drm_agp_init(struct drm_device *dev)
- {
+RFC v3:
+1. multi crtc&encoder design have problem, so rollback to v1
+
+RFC v4:
+1. update to gcc-linaro-7.5.0
+2. update to Linux 5.6-rc3
+3. remove pm_runtime support
+4. add COMPILE_TEST, remove unused kconfig
+5. "drm_dev_put" on drm_unbind
+6. fix some naming convention issue
+7. remove semaphore lock for crtc flip
+8. remove static variables
+
+RFC v5:
+1. optimize encoder and connector code implementation
+2. use "platform_get_irq" and "platform_get_resource"
+3. drop useless function return type, drop unless debug log
+4. custom properties should be separate, so drop it
+5. use DRM_XXX replase pr_xxx
+6. drop dsi&dphy hal callback ops
+7. drop unless callback ops checking
+8. add comments for sprd dpu structure
+
+RFC v6:
+1. Access registers via readl/writel
+2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
+3. Remove always true checks for dpu core ops
+
+RFC v7:
+1. Fix DTC unit name warnings
+2. Fix the problem of maintainers
+3. Call drmm_mode_config_init to mode config init
+4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
+5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other subsystems
+6. Remove plane_update stuff, dpu handles all the HW update in crtc->atomic_flush
+7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
+
+v0:
+1. Remove dpu_core_ops stuff layer for sprd drtc driver, but dpu_layer need to keeping.
+   Because all the HW update in crtc->atomic_flush, we need temporary storage all layers for
+   the dpu pageflip of atomic_flush.
+2. Add ports subnode with port@X.
+
+v1:
+1. Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
+2. Add commit messages for Unisoc's virtual nodes.
+
+v2:
+1. Use drm_xxx to replace all DRM_XXX.
+2. Use kzalloc to replace devm_kzalloc for sprd_dsi/sprd_dpu structure init.
+3. Remove dpu_core_ops midlayer.
+
+v3:
+1. Remove dpu_layer midlayer and commit layers by aotmic_update
+
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi controller bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
+
+ .../display/sprd/sprd,display-subsystem.yaml       |   64 +
+ .../bindings/display/sprd/sprd,sharkl3-dpu.yaml    |   77 +
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml        |  102 ++
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/sprd/Kconfig                       |   13 +
+ drivers/gpu/drm/sprd/Makefile                      |    8 +
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.c                 |  794 +++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.h                 | 1475 ++++++++++++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c             |  157 +++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h             |   26 +
+ drivers/gpu/drm/sprd/megacores_pll.c               |  317 +++++
+ drivers/gpu/drm/sprd/megacores_pll.h               |  146 ++
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  985 +++++++++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |  120 ++
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  224 +++
+ drivers/gpu/drm/sprd/sprd_drm.h                    |   19 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    | 1162 +++++++++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  107 ++
+ 19 files changed, 5799 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
+
 -- 
-2.25.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
