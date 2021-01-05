@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6AE2EA357
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 03:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EFA2EA409
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 04:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73B189BA1;
-	Tue,  5 Jan 2021 02:27:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C55589CDE;
+	Tue,  5 Jan 2021 03:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F25D89BA1
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 02:27:26 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id n25so20339653pgb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 18:27:26 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8375189CD9;
+ Tue,  5 Jan 2021 03:47:54 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id m12so69495169lfo.7;
+ Mon, 04 Jan 2021 19:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=PRqghBQCezpF4101r4+aeMVY7BndpqHmm2VKbm8JDpY=;
- b=F2qbqxFbUlgt2yhECjDqxxONwyjp+UMru0yvfQ1E6IFD1VphsMPCK9L8Vm7qm587Ls
- 2PLA6DUgmFwmsDSFbyAh7LArEFEfwUS0QzsGU26ZSQw4k38kYTAI66LXCyRkUbGSV76d
- T+8POfBWb+oVKy2Tm6BQnlfDqM+iGois6sfHb5BWVkau/yL/BN3nEH6EfgOo1EVZ8rc8
- nkF466xuP0waoduQObyPGSGIsvt5Fu+pdwje/1fC3OlEU+c4n79sN15m/qmlaeSrBAQb
- 0aZp4uGhswV+nGHX+PdwKoelnqd1/keC8DfR+umKRjMQoyCVmM7BMjdUBtXsIC7gygKt
- J0Sw==
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
+ b=X2HIPa+2nYHaUq4baszZeg/1lPwfRlrkiazbu8bWAZ/4KVDEZZ8UJLHkCiHzu5BoPv
+ +d1r6dGtLI/e5iSeLti/uFDhKLFXF3tY06Jdc3OuTB+60jcWy7nbxvR/X/sbuy5Z2y0a
+ zy9Qm2wdvLKFzbzpL5PwnIXh21X/23EVG7mYWxKtxfix082rS5faNNu/pQ57no+v4JD+
+ BaQRjUTLWwn1bDT7po749l/CDI6APyFbpmhm4QydCPb2EdRw7tEUospHsYRRgYR6FHym
+ oOmjm0bgU9pTqMTv2DoYi3myavoG+000acurgbb4dfthX9S8jl7kSgIjjgmMtRlfqb7V
+ Jf3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=PRqghBQCezpF4101r4+aeMVY7BndpqHmm2VKbm8JDpY=;
- b=dfP27Ny8+bdqZ26mOE+XyFL6q/jFxzeTunP4xrVYmPczYCGYGWa4lOmQZU87p0nSw7
- uy9vJGOl3KNsUyxor6wIi5Tq746W9YXnHoDAA5rta2NnHrjJHufAZ6Wv85U8e6QQsd7/
- YQM6sK41yWI5RWd/LbkEjbzwLaFcANUvj2U8yf4TJyb6/RsDHgQCZo3aCcwOlnqaG4Mm
- TkXFzeKOEO2rmjB4dJY0biFD4ybTPpnm0NJmCskGZx4xVELsiNvUXYwXIMVTttDKLt+E
- gEREBrCaoBn9ht6x7v2PuR1ZzKb26tfOPTLOadfQ0Napxw0aVVkQm4/reQqpVjBYa37d
- pI7Q==
-X-Gm-Message-State: AOAM531xit97BnGexaSDWsT+6LY+5Bu9EGoaxeKUfaGe/tiRaDsFxjxL
- ObEQXSOOOLOzNXl7UyTUQyY=
-X-Google-Smtp-Source: ABdhPJwVs/+l19N7R69vDvY824a+P6c8VUB3XnFA8IpjUSmI9ddcz7mEl+Vfozs5zDyGEcP/Ecu8tQ==
-X-Received: by 2002:a63:1c09:: with SMTP id c9mr74096667pgc.185.1609813645940; 
- Mon, 04 Jan 2021 18:27:25 -0800 (PST)
-Received: from [192.168.1.8] (50-47-106-83.evrt.wa.frontiernet.net.
- [50.47.106.83])
- by smtp.gmail.com with ESMTPSA id s5sm55454610pfh.5.2021.01.04.18.27.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 18:27:25 -0800 (PST)
-Message-ID: <4f7818f99734c0912325e1f3b6b80cb2a04df3ef.camel@gmail.com>
-Subject: Re: [PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-From: Deepak Rawat <drawat.floss@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-hyperv@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Date: Mon, 04 Jan 2021 18:27:24 -0800
-In-Reply-To: <2b49fcd2-38f7-dae5-2992-721a8bd142a2@suse.de>
-References: <20210102060336.832866-1-drawat.floss@gmail.com>
- <2b49fcd2-38f7-dae5-2992-721a8bd142a2@suse.de>
-User-Agent: Evolution 3.38.2 
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=h3dbOszFbt6OQaWtwfejouXLhmx5RSkLak0dmAl0EsE=;
+ b=pl9xiQKOuIXk7Jr4skx443LMCa1gO28aHpOMCY/U+OD1N4SXVGjRNaVEh/KnpRklxQ
+ ULEGXc5w3XdKlk1JScQe2xO7j21KUKxHvTYv+BywHuyJwsPGwvWjhAuudZ6ozwQe2oax
+ byuljt8gKi5sHeW3jog4q3lePEvGSgPWTs4UzU8z7BVVnJo7sQU6+mu9/rVjdwj5wiw6
+ mUOG/isko2O5I4YxNF7cTcfaUM0eAHODVe1K888fhJH2S0TkQ3cL8+aMxPN1sgux2W3T
+ 5KFAMFtRu8XIFGyHiQo0UVJVGp0YsGcot1opATvZjUqeCEf5scZsCv6mOaAiGeP0NL2X
+ 57vA==
+X-Gm-Message-State: AOAM5316qr55gV4EqoAIlclLLizIvRZFDGfO+kj4hlMha5FwWUlX3VPj
+ FmMin5EpFRxS+L4+6q7oC09WR4G8rpC2iWHeN6I=
+X-Google-Smtp-Source: ABdhPJycvDA2y0kJZnyrX/YoD11eP5GdGX7X4MHU9HChkkRYsRnd6ay+qNKHQmx0en+WU3/yCpN8x9PBPa2srmvjcdU=
+X-Received: by 2002:a19:6b0d:: with SMTP id d13mr32595793lfa.63.1609818472823; 
+ Mon, 04 Jan 2021 19:47:52 -0800 (PST)
 MIME-Version: 1.0
+References: <20210103035445.23696-1-tiny.windzz@gmail.com>
+In-Reply-To: <20210103035445.23696-1-tiny.windzz@gmail.com>
+From: Chanwoo Choi <cwchoi00@gmail.com>
+Date: Tue, 5 Jan 2021 12:47:16 +0900
+Message-ID: <CAGTfZH0sLh=8XhBVOzUr9qO2w_=jp-OuWoh5vgNpnmXq6EzYHA@mail.gmail.com>
+Subject: Re: [PATCH 26/31] PM / devfreq: tegra30: convert to use devm_pm_opp_*
+ API
+To: Yangtao Li <tiny.windzz@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +62,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Hu <weh@microsoft.com>, Tang Shaofeng <shaofeng.tang@intel.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- Michael Kelley <mikelley@microsoft.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: cwchoi00@gmail.com
+Cc: Nishanth Menon <nm@ti.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ gustavoars@kernel.org, jirislaby@kernel.org, David Airlie <airlied@linux.ie>,
+ linux-mmc@vger.kernel.org, stanimir.varbanov@linaro.org, tanmay@codeaurora.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, natechancellor@gmail.com,
+ Thierry Reding <thierry.reding@gmail.com>, tongtiangen@huawei.com,
+ Guenter Roeck <groeck@chromium.org>, marijn.suijten@somainline.org,
+ Dmitry Osipenko <digetx@gmail.com>, steven.price@arm.com,
+ Matthias Kaehlcke <mka@chromium.org>, chandanu@codeaurora.org,
+ emil.velikov@collabora.com,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, jonathan@marek.ca,
+ harigovi@codeaurora.org, adrian.hunter@intel.com,
+ Viresh Kumar <vireshk@kernel.org>, Linux PM list <linux-pm@vger.kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ alyssa.rosenzweig@collabora.com, linux-serial@vger.kernel.org,
+ airlied@redhat.com, smasetty@codeaurora.org, dl-linux-imx <linux-imx@nxp.com>,
+ freedreno@lists.freedesktop.org, kernel@pengutronix.de, tzimmermann@suse.de,
+ linux-arm-msm@vger.kernel.org, s.hauer@pengutronix.de,
+ linux-spi@vger.kernel.org, linux-media@vger.kernel.org,
+ abhinavk@codeaurora.org, akhilpo@codeaurora.org, khsieh@codeaurora.org,
+ lima@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+ rikard.falkeborn@gmail.com, kalyan_t@codeaurora.org,
+ linux-tegra@vger.kernel.org, varar@codeaurora.org, mchehab@kernel.org,
+ sean@poorly.run, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Doug Anderson <dianders@chromium.org>, akashast@codeaurora.org,
+ rnayak@codeaurora.org, parashar@codeaurora.org, tomeu.vizoso@collabora.com,
+ Stephen Boyd <sboyd@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, agross@kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, miaoqinglang@huawei.com,
+ hoegsberg@google.com, yuq825@gmail.com, ddavenport@chromium.org,
+ masneyb@onstation.org, Shawn Guo <shawnguo@kernel.org>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIxLTAxLTA0IGF0IDE0OjAzICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90
-ZToKPiBIaSwKPiAKPiBJJ3ZlIGJlZW4gbG9va2luZyBmb3J3YXJkIHRvIHRoaXMgcGF0Y2hzZXQu
-IDopIFRoZSBjb2RlIGlzIHJlYWxseQo+IG5pY2UgCj4gYWxyZWFkeS4KClRoYW5rcyBUaG9tYXMg
-Zm9yIHRoZSByZXZpZXcuCgoKPiA+IMKgIAo+ID4gK2NvbmZpZyBEUk1fSFlQRVJWCj4gPiArwqDC
-oMKgwqDCoMKgwqB0cmlzdGF0ZSAiRFJNIFN1cHBvcnQgZm9yIGh5cGVydiBzeW50aGV0aWMgdmlk
-ZW8gZGV2aWNlIgo+ID4gK8KgwqDCoMKgwqDCoMKgZGVwZW5kcyBvbiBEUk0gJiYgUENJICYmIE1N
-VSAmJiBIWVBFUlYKPiA+ICvCoMKgwqDCoMKgwqDCoHNlbGVjdCBEUk1fS01TX0hFTFBFUgo+ID4g
-K8KgwqDCoMKgwqDCoMKgc2VsZWN0IERSTV9HRU1fU0hNRU1fSEVMUEVSCj4gCj4gU0hNRU0gaGVs
-cGVycyBtaWdodCBub3QgYmUgYSBnb29kIGNob2ljZSwgYmVjYXVzZSB5b3UgbmVlZCB0aGlzIGJs
-aXQgCj4gY29kZSwgd2hpY2ggaGFzIGEgbWVtY3B5Lgo+IAo+IEkgZ3Vlc3MgaXQncyBlYXNpbHkg
-cG9zc2libGUgdG8gY29uZmlndXJlIDE2IE1pQiBvciBtb3JlIGZvciB0aGUKPiBndWVzdCdzIAo+
-IFZSQU0/IElmIHNvLCBJIHN1Z2dlc3QgdG8gdXNlIFZSQU0gaGVscGVycy4gR3Vlc3RzIHdpbGwg
-YmUgYWJsZSB0byAKPiByZW5kZXIgaW50byBWUkFNIGRpcmVjdGx5IHdpdGggdGhlIGRyaXZlcidz
-IG1lbWNweS4gVGhlIGRyaXZlciB3aWxsCj4gZG8gCj4gcGFnZSBmbGlwcGluZy4gVGhlIGJvY2hz
-IGRyaXZlciB3b3VsZCBiZSBhbiBleGFtcGxlLgo+IAo+IEh5cGVydiBkb2Vzbid0IG5lZWQgYnVm
-ZmVyIHNoYXJpbmcgd2l0aCBvdGhlciBkZXZpY2VzLCBJIGd1ZXNzPwo+IAoKSXQncyBub3QgcG9z
-c2libGUgdG8gZG8gcGFnZSBmbGlwIHdpdGggdGhpcyB2aXJ0dWFsIGRldmljZS4gVGhlIGNhbGwg
-dG8KU1lOVEhWSURfVlJBTV9MT0NBVElPTiBpcyBvbmx5IGhvbm91cmVkIG9uY2UuIFNvIHVuZm9y
-dHVuYXRlbHkgbmVlZCB0bwp1c2UgU0hNRU0gaGVscGVycy4KCj4gPiArI2RlZmluZSBQQ0lfVkVO
-RE9SX0lEX01JQ1JPU09GVCAweDE0MTQKPiA+ICsjZGVmaW5lIFBDSV9ERVZJQ0VfSURfSFlQRVJW
-X1ZJREVPIDB4NTM1Mwo+ID4gKwo+ID4gK3N0cnVjdCBoeXBlcnZfZGV2aWNlIHsKPiAKPiBDb3Vs
-ZCB0aGlzIG5hbWUgbGVhZCB0byBjb25mbGljdHMgd2l0aCBvdGhlciBoeXBlcnYgZHJpdmVycz8g
-SQo+IHN1Z2dlc3QgCj4gdG8gbmFtZSBpdCBoeXBlcnZfZHJtX2RldmljZS4KPiAKPiAKClN1cmUg
-bWFrZSBzZW5zZSB0byB1c2UgaHlwZXJ2X2RybV9kZXZpY2UuCgo+ID4gCj4gPiArCj4gPiArc3Ry
-dWN0IHN5bnRodmlkX3BvaW50ZXJfc2hhcGUgewo+IAo+IERvIHlvdSBoYXZlIHBsYW5zIGZvciBh
-ZGRpbmcgY3Vyc29yIHN1cHBvcnQ/Cj4gCgpZZXMgSSBoYXZlIHRlc3RlZCB3aXRoIGEgcHJvdG90
-eXBlIGFuZCBjdXJzb3Igd29ya3MuIFdpbGwgYXR0ZW1wdCB0aGlzCmluIGZ1dHVyZSBpdGVyYXRp
-b24uCgo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgLyogTmVnb3RpYXRlIHRoZSBwcm90b2NvbCB2
-ZXJzaW9uIHdpdGggaG9zdCAqLwo+ID4gK8KgwqDCoMKgwqDCoMKgc3dpdGNoICh2bWJ1c19wcm90
-b192ZXJzaW9uKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqBjYXNlIFZFUlNJT05fV0lOMTA6Cj4gPiAr
-wqDCoMKgwqDCoMKgwqBjYXNlIFZFUlNJT05fV0lOMTBfVjU6Cj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgcmV0ID0gc3ludGh2aWRfbmVnb3RpYXRlX3ZlcihoZGV2LAo+ID4gU1lO
-VEhWSURfVkVSU0lPTl9XSU4xMCk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-aWYgKCFyZXQpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGJyZWFrOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZhbGx0aHJvdWdo
-Owo+ID4gK8KgwqDCoMKgwqDCoMKgY2FzZSBWRVJTSU9OX1dJTjg6Cj4gPiArwqDCoMKgwqDCoMKg
-wqBjYXNlIFZFUlNJT05fV0lOOF8xOgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oHJldCA9IHN5bnRodmlkX25lZ290aWF0ZV92ZXIoaGRldiwKPiA+IFNZTlRIVklEX1ZFUlNJT05f
-V0lOOCk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKCFyZXQpCj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZhbGx0aHJvdWdoOwo+ID4gK8KgwqDCoMKg
-wqDCoMKgY2FzZSBWRVJTSU9OX1dTMjAwODoKPiA+ICvCoMKgwqDCoMKgwqDCoGNhc2UgVkVSU0lP
-Tl9XSU43Ogo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IHN5bnRodmlk
-X25lZ290aWF0ZV92ZXIoaGRldiwKPiA+IFNZTlRIVklEX1ZFUlNJT05fV0lONyk7Cj4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgYnJlYWs7Cj4gPiArwqDCoMKgwqDCoMKgwqBkZWZh
-dWx0Ogo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IHN5bnRodmlkX25l
-Z290aWF0ZV92ZXIoaGRldiwKPiA+IFNZTlRIVklEX1ZFUlNJT05fV0lOMTApOwo+IAo+IEkgZG9u
-J3QgZ2V0IHRoZSBsb2dpYyBvZiB0aGlzIHN3aXRjaCBzdGF0ZW1lbnQuIElmIHRoZSBob3N0IGlz
-IFdpbjEwLAo+IEknZCBleHBlY3QgdGhlIGdyYXBoaWNzIGRldmljZSB0byB1c2UgV2luMTAncyBw
-cm90b2NvbCwgaWYgdGhlIGhvc3QKPiBpcyAKPiBXaW44LCB0aGUgZ3JhcGhpY3MgZGV2aWNlIHVz
-ZXMgd2luOCBwcm90b2NvbHMuIFNvIHdoYXQncyB0aGUgcG9pbnQgb2YKPiB0aGUgZmFsbHRocm91
-Z2hzPyBDYW4gdGhlcmUgYmUgbmV3ZXIgdmVyc2lvbnMgb2Ygdm1idXNfcHJvdG9fdmVyc2lvbiAK
-PiB0aGF0IG9ubHkgc3VwcG9ydCBvbGRlciBkZXZpY2VzPwo+IAo+IAoKVGhpcyBpcyBjb3BpZWQg
-YXMgaXQgaXMgZnJvbSBoeXBlcnZfZmIgZHJpdmVyLiBJIHN1cHBvc2UgdGhpcyBpcyBqdXN0CnRv
-IGFjY29tb2RhdGUgbmV3ZXIgdmVyc2lvbi4KPiAKCkRlZXBhawoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi,
+
+On Sun, Jan 3, 2021 at 12:57 PM Yangtao Li <tiny.windzz@gmail.com> wrote:
+>
+> Use devm_pm_opp_* API to simplify code, and remove opp_table
+> from tegra_devfreq.
+>
+> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> ---
+>  drivers/devfreq/tegra30-devfreq.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 117cad7968ab..4984cb91e9ea 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -178,7 +178,6 @@ struct tegra_devfreq_soc_data {
+>
+>  struct tegra_devfreq {
+>         struct devfreq          *devfreq;
+> -       struct opp_table        *opp_table;
+>
+>         struct reset_control    *reset;
+>         struct clk              *clock;
+> @@ -794,6 +793,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>         struct tegra_devfreq_device *dev;
+>         struct tegra_devfreq *tegra;
+>         struct devfreq *devfreq;
+> +       struct opp_tabl *opp_table;
+
+opp_tabl -> opp_table. It will make the build error. Please do build
+test at least.
+
+>         unsigned int i;
+>         long rate;
+>         int err;
+> @@ -841,25 +841,25 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>                 return err;
+>         }
+>
+> -       tegra->opp_table = dev_pm_opp_set_supported_hw(&pdev->dev,
+> -                                                      &hw_version, 1);
+> -       err = PTR_ERR_OR_ZERO(tegra->opp_table);
+> +       opp_table = devm_pm_opp_set_supported_hw(&pdev->dev,
+> +                                                &hw_version, 1);
+> +       err = PTR_ERR_OR_ZERO(opp_table);
+>         if (err) {
+>                 dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
+>                 return err;
+>         }
+>
+> -       err = dev_pm_opp_of_add_table(&pdev->dev);
+> +       err = devm_pm_opp_of_add_table(&pdev->dev);
+>         if (err) {
+>                 dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
+> -               goto put_hw;
+> +               return err;
+>         }
+>
+>         err = clk_prepare_enable(tegra->clock);
+>         if (err) {
+>                 dev_err(&pdev->dev,
+>                         "Failed to prepare and enable ACTMON clock\n");
+> -               goto remove_table;
+> +               return err;
+>         }
+>
+>         err = reset_control_reset(tegra->reset);
+> @@ -917,10 +917,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>         reset_control_reset(tegra->reset);
+>  disable_clk:
+>         clk_disable_unprepare(tegra->clock);
+> -remove_table:
+> -       dev_pm_opp_of_remove_table(&pdev->dev);
+> -put_hw:
+> -       dev_pm_opp_put_supported_hw(tegra->opp_table);
+
+You might remove the 'devm_pm_opp_remove_all_dynamic(&pdev->dev)
+under ' remove_opp' goto statement.kkkk
+
+
+(snip)
+-- 
+Best Regards,
+Chanwoo Choi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
