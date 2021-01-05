@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477C92EA67C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:22:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A063D2EA665
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 09:21:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA236E0A2;
-	Tue,  5 Jan 2021 08:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A32EF6E05A;
+	Tue,  5 Jan 2021 08:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADA1B89EBD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 03:06:51 +0000 (UTC)
-X-UUID: e1816ed1c88b43ba82df2510a01c0245-20210105
-X-UUID: e1816ed1c88b43ba82df2510a01c0245-20210105
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4462E89FD4
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 03:06:54 +0000 (UTC)
+X-UUID: 1faa70c1461a42378ff861de30b47ff4-20210105
+X-UUID: 1faa70c1461a42378ff861de30b47ff4-20210105
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 656330853; Tue, 05 Jan 2021 11:06:49 +0800
+ with ESMTP id 1192603702; Tue, 05 Jan 2021 11:06:51 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 5 Jan 2021 11:06:48 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 5 Jan 2021 11:06:49 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 5 Jan 2021 11:06:47 +0800
+ Transport; Tue, 5 Jan 2021 11:06:48 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v4, 08/10] soc: mediatek: mmsys: add component RDMA4
-Date: Tue, 5 Jan 2021 11:06:31 +0800
-Message-ID: <1609815993-22744-9-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v4,
+ 09/10] soc: mediatek: mmsys: Use function call for setting mmsys ovl
+ mout register
+Date: Tue, 5 Jan 2021 11:06:32 +0800
+Message-ID: <1609815993-22744-10-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1609815993-22744-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1609815993-22744-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -59,26 +61,53 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add component RDMA4
+Use function call for setting mmsys ovl mout register
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- include/linux/soc/mediatek/mtk-mmsys.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/soc/mediatek/mmsys/mtk-mmsys.c | 6 ++++++
+ include/linux/soc/mediatek/mtk-mmsys.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
+diff --git a/drivers/soc/mediatek/mmsys/mtk-mmsys.c b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+index 075d356..34728ed 100644
+--- a/drivers/soc/mediatek/mmsys/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+@@ -68,6 +68,9 @@ void mtk_mmsys_ddp_connect(struct device *dev,
+ 
+ 	if (funcs->sel_in)
+ 		funcs->sel_in(mmsys->regs, cur, next, true);
++
++	if (funcs->ovl_mout_en)
++		funcs->ovl_mout_en(mmsys->regs, cur, next, true);
+ }
+ EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
+ 
+@@ -86,6 +89,9 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+ 
+ 	if (funcs->sel_in)
+ 		funcs->sel_in(mmsys->regs, cur, next, false);
++
++	if (funcs->ovl_mout_en)
++		funcs->ovl_mout_en(mmsys->regs, cur, next, false);
+ }
+ EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_disconnect);
+ 
 diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index 13546e9..2c11617 100644
+index 2c11617..19318d2 100644
 --- a/include/linux/soc/mediatek/mtk-mmsys.h
 +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -38,6 +38,7 @@ enum mtk_ddp_comp_id {
- 	DDP_COMPONENT_RDMA0,
- 	DDP_COMPONENT_RDMA1,
- 	DDP_COMPONENT_RDMA2,
-+	DDP_COMPONENT_RDMA4,
- 	DDP_COMPONENT_UFOE,
- 	DDP_COMPONENT_WDMA0,
- 	DDP_COMPONENT_WDMA1,
+@@ -50,6 +50,10 @@ struct mtk_mmsys_conn_funcs {
+ 			enum mtk_ddp_comp_id cur,
+ 			enum mtk_ddp_comp_id next,
+ 			bool enable);
++	void (*ovl_mout_en)(void __iomem *config_regs,
++			    enum mtk_ddp_comp_id cur,
++			    enum mtk_ddp_comp_id next,
++			    bool enable);
+ 	void (*sel_in)(void __iomem *config_regs,
+ 		       enum mtk_ddp_comp_id cur,
+ 		       enum mtk_ddp_comp_id next,
 -- 
 1.8.1.1.dirty
 
