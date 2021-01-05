@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0767D2EB3AA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 20:52:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7427C2EB3C7
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 20:59:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1966E077;
-	Tue,  5 Jan 2021 19:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69CC96E077;
+	Tue,  5 Jan 2021 19:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A6589F4A;
- Tue,  5 Jan 2021 19:51:56 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id j12so847465ota.7;
- Tue, 05 Jan 2021 11:51:56 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 648DE89F4A;
+ Tue,  5 Jan 2021 19:59:42 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id 23so1240915lfg.10;
+ Tue, 05 Jan 2021 11:59:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=k3Wed7C5AkmR+TmCNihCRrXL8XkE/3Nb/NiiJKKADS4=;
- b=o+iBui5ryaYwfQUcHoheGHtT78Es5Q43DdFfNxd9PVOsue+A7HLQzD7xaWfG4s40Tg
- JGLhB09etbKdmpggn7NQB25KevkIxQQZXTElXoYNwglOoeY7Tll1+aEfeh7irNVm6pt5
- TGdClYgtSa0ItrwwhFbkfxR4+L4u7hxgSGYNSMblZlejdbl2FDxDL1HsQCXwTiuqHfX5
- BnmLYc+7tOl5DBMREkMP3ykD8KJ870aIYyTppobz2zaOLfyxoojL2EkmmzStYAfVHNJE
- 6RpAZPZQ6a/QQlEs6UqsQnYFKY3VQDt0exk4Fy6OZ276cieHSuxUoUGHLgiIY6K2vk3x
- H6Hg==
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=w3y172ugq1A8+DfHjAatLK3oOwXsMQTLgHeUXaHnUCU=;
+ b=tBCWlgeIGyCHy0ayfKSb2hKeKiEoFzcgiAtzEEfHQ70m4TqSwGsZqX3Xnx4VJJnvbt
+ n0OP+1QygM+MIfVv5A7Ue/siY9qUR3JrwvKGHP2W3QTyiHhYMLJ6zdE5Ged8pj1n+RjK
+ Bb3lYAmgD2urDHD+97GcmaR9/cYTYUc3lvg36iKQWZkukTkf+xsDRudzvwcq2WaBpdlE
+ x0mE68kMXoFvZrIZWNkF8AnSu3p+LzNJVWTcYgez90NbFkWXHh7/NpKY2fPkuOEA7ZKB
+ w1aIj7VtjxtrBSQz6IaOTRs86szJNL8Gutp0tvolPIaAjingl3R6BlglT66Kk2USW+JA
+ gNew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=k3Wed7C5AkmR+TmCNihCRrXL8XkE/3Nb/NiiJKKADS4=;
- b=S1+0fzCxwkkcUfAUmRZyR6vfzy850fg1qeUwV1x7gr8ZPF7TJ5WmsONrnDYBUdZtx3
- cdYq1aDFNWMUOY+bOrlptMCDwWPRPz+ogKCOM/7JobWBVBgi2z8APS88UQ8rQZ77JxqE
- 9x4HJ4IVmo39YUskqgvcoR96aYBuoZWnCGnuVbpVxynTVNGFf57RSLYmoqo78qc0YkP4
- nVSZDt/UKtttKryhjsTzp7063zMja79ohS7gU7q955JS7354EskK+4ueuDcChKMJ3UlW
- 2Tibdt4mw5mAVdgixVmNDTII4zL1Pgh59I1r5cn9Efyuu7zl3PLTi5bj0mo3cnot1qSD
- KSqw==
-X-Gm-Message-State: AOAM533LqNGdsExkkv0dAsYYFXIZb8DtgFUOlbVglJwkP+vzGSJIo+vJ
- iuJlZPLu71Cdq3DGeQL8a1LbGHP+uTE+VRuhG/Q=
-X-Google-Smtp-Source: ABdhPJw9f+l4RTDD4jWxywL0H48Wz9q+LVZFhWOjqWXLozDzKAVld3QYKHdAa8IGG/wOXcKkfxHlK2kVPPFj3nhz9aM=
-X-Received: by 2002:a9d:75d4:: with SMTP id c20mr808909otl.311.1609876314804; 
- Tue, 05 Jan 2021 11:51:54 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=w3y172ugq1A8+DfHjAatLK3oOwXsMQTLgHeUXaHnUCU=;
+ b=dgTZH0/tC1nYNRCgpcOuY5TTv+H0if9RmBhmFYaPlQY6ejziRuQ5JKi1oq8ozCYVO5
+ rAEKfQ2Z6jfcJixMkTRfA4QpdIgSVxRc5DOzHFRH8hHmMkpqF1cS4QTHQkZTLLc3yqNa
+ fgHWMFOBdppb+jMIf6Oit7uwXccZMxPeAyNTC+QvgCnIXNOWPefhmNKdIgc0vvhov9L3
+ NKhlJz2RCI61CWuoJ5A5nt8qRhi0JIYWHzUcsCpg1AALRJSq4Nw0AUzkQzcKRZ75sVA/
+ vFPy1Cit3d5c7KcnTwSUtSU9LvVmoHVDZvNy08FEIuBkqz3wjoYFFkg3flcfr8YZhyxk
+ 2NiA==
+X-Gm-Message-State: AOAM533CGhtW2KiPDsUhF88Qj/GrhVhqkaFmtDrzUX5ev04djSgaFX7d
+ b0KTCk7NNBjZd6OsYoOsO8r1OzM1iMEnkFh4Fo8=
+X-Google-Smtp-Source: ABdhPJxefm71gCAP6d5oS17blFAwFnEd9spoEWiCV79bTaAMdk7JG8QCTPTs9zQB67DoNESWvQ4nEkOaTe/eEP/zqxs=
+X-Received: by 2002:a2e:8156:: with SMTP id t22mr509678ljg.263.1609876780665; 
+ Tue, 05 Jan 2021 11:59:40 -0800 (PST)
 MIME-Version: 1.0
-References: <1609862799-2549739-1-git-send-email-bodefang@126.com>
- <adf3a79f-9e17-da80-3c45-9aa72fb0b85d@amd.com>
-In-Reply-To: <adf3a79f-9e17-da80-3c45-9aa72fb0b85d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Jan 2021 14:51:43 -0500
-Message-ID: <CADnq5_NsMDFC6ZkHwHvnvACLx8JAqxDm2OQot-dq+Sg28mndgg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Add check to prevenet IH overflow
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20210103035540.23886-1-tiny.windzz@gmail.com>
+ <CAGTfZH37=e4RgdR4xg-3s9-pRjqunHi2jfPQqQgVWkxW94GwOA@mail.gmail.com>
+In-Reply-To: <CAGTfZH37=e4RgdR4xg-3s9-pRjqunHi2jfPQqQgVWkxW94GwOA@mail.gmail.com>
+From: Chanwoo Choi <cwchoi00@gmail.com>
+Date: Wed, 6 Jan 2021 04:59:04 +0900
+Message-ID: <CAGTfZH0kg=-MLrvEb+oHkaAuS3mV+o+Oia=wUCf=n2v7s1oXMg@mail.gmail.com>
+Subject: Re: [PATCH 28/31] PM / devfreq: imx8m-ddrc: convert to use
+ devm_pm_opp_* API
+To: Yangtao Li <tiny.windzz@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,154 +63,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Defang Bo <bodefang@126.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: cwchoi00@gmail.com
+Cc: Nishanth Menon <nm@ti.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ gustavoars@kernel.org, jirislaby@kernel.org, David Airlie <airlied@linux.ie>,
+ linux-mmc@vger.kernel.org, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ tanmay@codeaurora.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ natechancellor@gmail.com, Thierry Reding <thierry.reding@gmail.com>,
+ tongtiangen@huawei.com, Guenter Roeck <groeck@chromium.org>,
+ marijn.suijten@somainline.org, Dmitry Osipenko <digetx@gmail.com>,
+ steven.price@arm.com, Matthias Kaehlcke <mka@chromium.org>,
+ chandanu@codeaurora.org, emil.velikov@collabora.com,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jonathan Marek <jonathan@marek.ca>, harigovi@codeaurora.org,
+ adrian.hunter@intel.com, Viresh Kumar <vireshk@kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ alyssa.rosenzweig@collabora.com, linux-serial@vger.kernel.org,
+ airlied@redhat.com, smasetty@codeaurora.org, dl-linux-imx <linux-imx@nxp.com>,
+ freedreno@lists.freedesktop.org, kernel@pengutronix.de, tzimmermann@suse.de,
+ linux-arm-msm@vger.kernel.org, s.hauer@pengutronix.de,
+ linux-spi@vger.kernel.org, linux-media@vger.kernel.org,
+ abhinavk@codeaurora.org, akhilpo@codeaurora.org, khsieh@codeaurora.org,
+ lima@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+ rikard.falkeborn@gmail.com, kalyan_t@codeaurora.org,
+ linux-tegra@vger.kernel.org, varar@codeaurora.org, mchehab@kernel.org,
+ sean@poorly.run, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Doug Anderson <dianders@chromium.org>, akashast@codeaurora.org,
+ rnayak@codeaurora.org, parashar@codeaurora.org, tomeu.vizoso@collabora.com,
+ Stephen Boyd <sboyd@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, agross@kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, miaoqinglang@huawei.com,
+ hoegsberg@google.com, yuq825@gmail.com, ddavenport@chromium.org,
+ masneyb@onstation.org, Shawn Guo <shawnguo@kernel.org>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Lukasz Luba <lukasz.luba@arm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gNSwgMjAyMSBhdCAxMTo0OSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMDUuMDEuMjEgdW0gMTc6MDYgc2Nocmll
-YiBEZWZhbmcgQm86Cj4gPiBTaW1pbGFyIHRvIGNvbW1pdCA8YjgyMTc1NzUwMTMxPigiZHJtL2Ft
-ZGdwdTogZml4IElIIG92ZXJmbG93IG9uIFZlZ2ExMCB2MiIpLgo+ID4gV2hlbiBhbiByaW5nIGJ1
-ZmZlciBvdmVyZmxvdyBoYXBwZW5zIHRoZSBhcHByb3ByaWF0ZSBiaXQgaXMgc2V0IGluIHRoZSBX
-UFRSCj4gPiByZWdpc3RlciB3aGljaCBpcyBhbHNvIHdyaXR0ZW4gYmFjayB0byBtZW1vcnkuIEJ1
-dCBjbGVhcmluZyB0aGUgYml0IGluIHRoZQo+ID4gV1BUUiBkb2Vzbid0IHRyaWdnZXIgYW5vdGhl
-ciBtZW1vcnkgd3JpdGViYWNrLgo+ID4KPiA+IFNvIHdoYXQgY2FuIGhhcHBlbiBpcyB0aGF0IHdl
-IGVuZCB1cCBwcm9jZXNzaW5nIHRoZSBidWZmZXIgb3ZlcmZsb3cgb3ZlciBhbmQKPiA+IG92ZXIg
-YWdhaW4gYmVjYXVzZSB0aGUgYml0IGlzIG5ldmVyIGNsZWFyZWQuIFJlc3VsdGluZyBpbiBhIHJh
-bmRvbSBzeXN0ZW0KPiA+IGxvY2t1cCBiZWNhdXNlIG9mIGFuIGluZmluaXRlIGxvb3AgaW4gYW4g
-aW50ZXJydXB0IGhhbmRsZXIuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogRGVmYW5nIEJvIDxib2Rl
-ZmFuZ0AxMjYuY29tPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4KPgo+IFRoYW5rcyBmb3IgdGhlIGhlbHAsCj4gQ2hyaXN0aWFuLgoK
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCgo+Cj4gPiAtLS0KPiA+IENoYW5nZXMgc2luY2UgdjE6
-Cj4gPiAtIE1vZGlmeSB0aGUgc3ViamVjdCBhbmQgcmVwbGFjZSB0aGUgd3JvbmcgcmVnaXN0ZXIu
-Cj4gPiAtLS0KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jel9paC5j
-ICAgICAgfCAzOSArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0KPiA+ICAgZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvaWNlbGFuZF9paC5jIHwgMzYgKysrKysrKysrKysrKysrKysr
-Ky0tLS0tLS0tLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3RvbmdhX2loLmMg
-ICB8IDM3ICsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+ICAgMyBmaWxlcyBjaGFu
-Z2VkLCA3MiBpbnNlcnRpb25zKCspLCA0MCBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvY3pfaWguYyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2N6X2loLmMKPiA+IGluZGV4IDFkY2EwY2FiYzMyNi4uNjUzNjFhZmIyMWFiIDEw
-MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvY3pfaWguYwo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvY3pfaWguYwo+ID4gQEAgLTE5MCwyMiArMTkw
-LDMzIEBAIHN0YXRpYyB1MzIgY3pfaWhfZ2V0X3dwdHIoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgYW1kZ3B1X2loX3JpbmcgKmlo
-KQo+ID4gICB7Cj4gPiAgICAgICB1MzIgd3B0ciwgdG1wOwo+ID4gLQo+ID4gKwo+ID4gICAgICAg
-d3B0ciA9IGxlMzJfdG9fY3B1KCppaC0+d3B0cl9jcHUpOwo+ID4KPiA+IC0gICAgIGlmIChSRUdf
-R0VUX0ZJRUxEKHdwdHIsIElIX1JCX1dQVFIsIFJCX09WRVJGTE9XKSkgewo+ID4gLSAgICAgICAg
-ICAgICB3cHRyID0gUkVHX1NFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVywg
-MCk7Cj4gPiAtICAgICAgICAgICAgIC8qIFdoZW4gYSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBw
-ZW4gc3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQKPiA+IC0gICAgICAgICAgICAgICogZnJvbSB0aGUg
-bGFzdCBub3Qgb3ZlcndyaXR0ZW4gdmVjdG9yICh3cHRyICsgMTYpLiBIb3BlZnVsbHkKPiA+IC0g
-ICAgICAgICAgICAgICogdGhpcyBzaG91bGQgYWxsb3cgdXMgdG8gY2F0Y2h1cC4KPiA+IC0gICAg
-ICAgICAgICAgICovCj4gPiAtICAgICAgICAgICAgIGRldl93YXJuKGFkZXYtPmRldiwgIklIIHJp
-bmcgYnVmZmVyIG92ZXJmbG93ICgweCUwOFgsIDB4JTA4WCwgMHglMDhYKVxuIiwKPiA+IC0gICAg
-ICAgICAgICAgICAgICAgICB3cHRyLCBpaC0+cnB0ciwgKHdwdHIgKyAxNikgJiBpaC0+cHRyX21h
-c2spOwo+ID4gLSAgICAgICAgICAgICBpaC0+cnB0ciA9ICh3cHRyICsgMTYpICYgaWgtPnB0cl9t
-YXNrOwo+ID4gLSAgICAgICAgICAgICB0bXAgPSBSUkVHMzIobW1JSF9SQl9DTlRMKTsKPiA+IC0g
-ICAgICAgICAgICAgdG1wID0gUkVHX1NFVF9GSUVMRCh0bXAsIElIX1JCX0NOVEwsIFdQVFJfT1ZF
-UkZMT1dfQ0xFQVIsIDEpOwo+ID4gLSAgICAgICAgICAgICBXUkVHMzIobW1JSF9SQl9DTlRMLCB0
-bXApOwo+ID4gLSAgICAgfQo+ID4gKyAgICAgaWYgKCFSRUdfR0VUX0ZJRUxEKHdwdHIsIElIX1JC
-X1dQVFIsIFJCX09WRVJGTE9XKSkKPiA+ICsgICAgICAgICAgICAgZ290byBvdXQ7Cj4gPiArCj4g
-PiArICAgICAvKiBEb3VibGUgY2hlY2sgdGhhdCB0aGUgb3ZlcmZsb3cgd2Fzbid0IGFscmVhZHkg
-Y2xlYXJlZC4gKi8KPiA+ICsgICAgIHdwdHIgPSBSUkVHMzIobW1JSF9SQl9XUFRSKTsKPiA+ICsK
-PiA+ICsgICAgIGlmICghUkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxP
-VykpCj4gPiArICAgICAgICAgICAgIGdvdG8gb3V0Owo+ID4gKwo+ID4gKyAgICAgd3B0ciA9IFJF
-R19TRVRfRklFTEQod3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1csIDApOwo+ID4gKwo+ID4g
-KyAgICAgLyogV2hlbiBhIHJpbmcgYnVmZmVyIG92ZXJmbG93IGhhcHBlbiBzdGFydCBwYXJzaW5n
-IGludGVycnVwdAo+ID4gKyAgICAgICogZnJvbSB0aGUgbGFzdCBub3Qgb3ZlcndyaXR0ZW4gdmVj
-dG9yICh3cHRyICsgMTYpLiBIb3BlZnVsbHkKPiA+ICsgICAgICAqIHRoaXMgc2hvdWxkIGFsbG93
-IHVzIHRvIGNhdGNodXAuCj4gPiArICAgICAgKi8KPiA+ICsgICAgIGRldl93YXJuKGFkZXYtPmRl
-diwgIklIIHJpbmcgYnVmZmVyIG92ZXJmbG93ICgweCUwOFgsIDB4JTA4WCwgMHglMDhYKVxuIiwK
-PiA+ICsgICAgICAgICAgICAgd3B0ciwgaWgtPnJwdHIsICh3cHRyICsgMTYpICYgaWgtPnB0cl9t
-YXNrKTsKPiA+ICsgICAgIGloLT5ycHRyID0gKHdwdHIgKyAxNikgJiBpaC0+cHRyX21hc2s7Cj4g
-PiArICAgICB0bXAgPSBSUkVHMzIobW1JSF9SQl9DTlRMKTsKPiA+ICsgICAgIHRtcCA9IFJFR19T
-RVRfRklFTEQodG1wLCBJSF9SQl9DTlRMLCBXUFRSX09WRVJGTE9XX0NMRUFSLCAxKTsKPiA+ICsg
-ICAgIFdSRUczMihtbUlIX1JCX0NOVEwsIHRtcCk7Cj4gPiArCj4gPiArCj4gPiArb3V0Ogo+ID4g
-ICAgICAgcmV0dXJuICh3cHRyICYgaWgtPnB0cl9tYXNrKTsKPiA+ICAgfQo+ID4KPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5kX2loLmMKPiA+IGluZGV4IGExM2RkOWE1MTE0OS4u
-OGU0ZGFlOGFkZGI5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-aWNlbGFuZF9paC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9pY2VsYW5k
-X2loLmMKPiA+IEBAIC0xOTMsMTkgKzE5MywyOSBAQCBzdGF0aWMgdTMyIGljZWxhbmRfaWhfZ2V0
-X3dwdHIoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsCj4gPgo+ID4gICAgICAgd3B0ciA9IGxl
-MzJfdG9fY3B1KCppaC0+d3B0cl9jcHUpOwo+ID4KPiA+IC0gICAgIGlmIChSRUdfR0VUX0ZJRUxE
-KHdwdHIsIElIX1JCX1dQVFIsIFJCX09WRVJGTE9XKSkgewo+ID4gLSAgICAgICAgICAgICB3cHRy
-ID0gUkVHX1NFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVywgMCk7Cj4gPiAt
-ICAgICAgICAgICAgIC8qIFdoZW4gYSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4gc3RhcnQg
-cGFyc2luZyBpbnRlcnJ1cHQKPiA+IC0gICAgICAgICAgICAgICogZnJvbSB0aGUgbGFzdCBub3Qg
-b3ZlcndyaXR0ZW4gdmVjdG9yICh3cHRyICsgMTYpLiBIb3BlZnVsbHkKPiA+IC0gICAgICAgICAg
-ICAgICogdGhpcyBzaG91bGQgYWxsb3cgdXMgdG8gY2F0Y2h1cC4KPiA+IC0gICAgICAgICAgICAg
-ICovCj4gPiAtICAgICAgICAgICAgIGRldl93YXJuKGFkZXYtPmRldiwgIklIIHJpbmcgYnVmZmVy
-IG92ZXJmbG93ICgweCUwOFgsIDB4JTA4WCwgMHglMDhYKVxuIiwKPiA+IC0gICAgICAgICAgICAg
-ICAgICAgICAgd3B0ciwgaWgtPnJwdHIsICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrKTsKPiA+
-IC0gICAgICAgICAgICAgaWgtPnJwdHIgPSAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzazsKPiA+
-IC0gICAgICAgICAgICAgdG1wID0gUlJFRzMyKG1tSUhfUkJfQ05UTCk7Cj4gPiAtICAgICAgICAg
-ICAgIHRtcCA9IFJFR19TRVRfRklFTEQodG1wLCBJSF9SQl9DTlRMLCBXUFRSX09WRVJGTE9XX0NM
-RUFSLCAxKTsKPiA+IC0gICAgICAgICAgICAgV1JFRzMyKG1tSUhfUkJfQ05UTCwgdG1wKTsKPiA+
-IC0gICAgIH0KPiA+ICsgICAgIGlmICghUkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBS
-Ql9PVkVSRkxPVykpCj4gPiArICAgICAgICAgICAgIGdvdG8gb3V0Owo+ID4gKwo+ID4gKyAgICAg
-LyogRG91YmxlIGNoZWNrIHRoYXQgdGhlIG92ZXJmbG93IHdhc24ndCBhbHJlYWR5IGNsZWFyZWQu
-ICovCj4gPiArICAgICB3cHRyID0gUlJFRzMyKG1tSUhfUkJfV1BUUik7Cj4gPiArCj4gPiArICAg
-ICBpZiAoIVJFR19HRVRfRklFTEQod3B0ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1cpKQo+ID4g
-KyAgICAgICAgICAgICBnb3RvIG91dDsKPiA+ICsKPiA+ICsgICAgIHdwdHIgPSBSRUdfU0VUX0ZJ
-RUxEKHdwdHIsIElIX1JCX1dQVFIsIFJCX09WRVJGTE9XLCAwKTsKPiA+ICsgICAgIC8qIFdoZW4g
-YSByaW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4gc3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQKPiA+
-ICsgICAgICAqIGZyb20gdGhlIGxhc3Qgbm90IG92ZXJ3cml0dGVuIHZlY3RvciAod3B0ciArIDE2
-KS4gSG9wZWZ1bGx5Cj4gPiArICAgICAgKiB0aGlzIHNob3VsZCBhbGxvdyB1cyB0byBjYXRjaHVw
-Lgo+ID4gKyAgICAgICovCj4gPiArICAgICBkZXZfd2FybihhZGV2LT5kZXYsICJJSCByaW5nIGJ1
-ZmZlciBvdmVyZmxvdyAoMHglMDhYLCAweCUwOFgsIDB4JTA4WClcbiIsCj4gPiArICAgICAgICAg
-ICAgIHdwdHIsIGloLT5ycHRyLCAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzayk7Cj4gPiArICAg
-ICBpaC0+cnB0ciA9ICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrOwo+ID4gKyAgICAgdG1wID0g
-UlJFRzMyKG1tSUhfUkJfQ05UTCk7Cj4gPiArICAgICB0bXAgPSBSRUdfU0VUX0ZJRUxEKHRtcCwg
-SUhfUkJfQ05UTCwgV1BUUl9PVkVSRkxPV19DTEVBUiwgMSk7Cj4gPiArICAgICBXUkVHMzIobW1J
-SF9SQl9DTlRMLCB0bXApOwo+ID4gKwo+ID4gKwo+ID4gK291dDoKPiA+ICAgICAgIHJldHVybiAo
-d3B0ciAmIGloLT5wdHJfbWFzayk7Cj4gPiAgIH0KPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvdG9uZ2FfaWguYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L3RvbmdhX2loLmMKPiA+IGluZGV4IGU0MDE0MGJmNjY5OS4uMmJhMWNlMzIzYjZkIDEwMDY0
-NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdG9uZ2FfaWguYwo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdG9uZ2FfaWguYwo+ID4gQEAgLTE5NSwxOSAr
-MTk1LDMwIEBAIHN0YXRpYyB1MzIgdG9uZ2FfaWhfZ2V0X3dwdHIoc3RydWN0IGFtZGdwdV9kZXZp
-Y2UgKmFkZXYsCj4gPgo+ID4gICAgICAgd3B0ciA9IGxlMzJfdG9fY3B1KCppaC0+d3B0cl9jcHUp
-Owo+ID4KPiA+IC0gICAgIGlmIChSRUdfR0VUX0ZJRUxEKHdwdHIsIElIX1JCX1dQVFIsIFJCX09W
-RVJGTE9XKSkgewo+ID4gLSAgICAgICAgICAgICB3cHRyID0gUkVHX1NFVF9GSUVMRCh3cHRyLCBJ
-SF9SQl9XUFRSLCBSQl9PVkVSRkxPVywgMCk7Cj4gPiAtICAgICAgICAgICAgIC8qIFdoZW4gYSBy
-aW5nIGJ1ZmZlciBvdmVyZmxvdyBoYXBwZW4gc3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQKPiA+IC0g
-ICAgICAgICAgICAgICogZnJvbSB0aGUgbGFzdCBub3Qgb3ZlcndyaXR0ZW4gdmVjdG9yICh3cHRy
-ICsgMTYpLiBIb3BlZnVsbHkKPiA+IC0gICAgICAgICAgICAgICogdGhpcyBzaG91bGQgYWxsb3cg
-dXMgdG8gY2F0Y2h1cC4KPiA+IC0gICAgICAgICAgICAgICovCj4gPiAtICAgICAgICAgICAgIGRl
-dl93YXJuKGFkZXYtPmRldiwgIklIIHJpbmcgYnVmZmVyIG92ZXJmbG93ICgweCUwOFgsIDB4JTA4
-WCwgMHglMDhYKVxuIiwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgd3B0ciwgaWgtPnJwdHIs
-ICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrKTsKPiA+IC0gICAgICAgICAgICAgaWgtPnJwdHIg
-PSAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzazsKPiA+IC0gICAgICAgICAgICAgdG1wID0gUlJF
-RzMyKG1tSUhfUkJfQ05UTCk7Cj4gPiAtICAgICAgICAgICAgIHRtcCA9IFJFR19TRVRfRklFTEQo
-dG1wLCBJSF9SQl9DTlRMLCBXUFRSX09WRVJGTE9XX0NMRUFSLCAxKTsKPiA+IC0gICAgICAgICAg
-ICAgV1JFRzMyKG1tSUhfUkJfQ05UTCwgdG1wKTsKPiA+IC0gICAgIH0KPiA+ICsgICAgIGlmICgh
-UkVHX0dFVF9GSUVMRCh3cHRyLCBJSF9SQl9XUFRSLCBSQl9PVkVSRkxPVykpCj4gPiArICAgICAg
-ICAgICAgIGdvdG8gb3V0Owo+ID4gKwo+ID4gKyAgICAgLyogRG91YmxlIGNoZWNrIHRoYXQgdGhl
-IG92ZXJmbG93IHdhc24ndCBhbHJlYWR5IGNsZWFyZWQuICovCj4gPiArICAgICB3cHRyID0gUlJF
-RzMyKG1tSUhfUkJfV1BUUik7Cj4gPiArCj4gPiArICAgICBpZiAoIVJFR19HRVRfRklFTEQod3B0
-ciwgSUhfUkJfV1BUUiwgUkJfT1ZFUkZMT1cpKQo+ID4gKyAgICAgICAgICAgICBnb3RvIG91dDsK
-PiA+ICsKPiA+ICsgICAgIHdwdHIgPSBSRUdfU0VUX0ZJRUxEKHdwdHIsIElIX1JCX1dQVFIsIFJC
-X09WRVJGTE9XLCAwKTsKPiA+ICsKPiA+ICsgICAgIC8qIFdoZW4gYSByaW5nIGJ1ZmZlciBvdmVy
-ZmxvdyBoYXBwZW4gc3RhcnQgcGFyc2luZyBpbnRlcnJ1cHQKPiA+ICsgICAgICAqIGZyb20gdGhl
-IGxhc3Qgbm90IG92ZXJ3cml0dGVuIHZlY3RvciAod3B0ciArIDE2KS4gSG9wZWZ1bGx5Cj4gPiAr
-ICAgICAgKiB0aGlzIHNob3VsZCBhbGxvdyB1cyB0byBjYXRjaHVwLgo+ID4gKyAgICAgICovCj4g
-PiArCj4gPiArICAgICBkZXZfd2FybihhZGV2LT5kZXYsICJJSCByaW5nIGJ1ZmZlciBvdmVyZmxv
-dyAoMHglMDhYLCAweCUwOFgsIDB4JTA4WClcbiIsCj4gPiArICAgICAgICAgICAgIHdwdHIsIGlo
-LT5ycHRyLCAod3B0ciArIDE2KSAmIGloLT5wdHJfbWFzayk7Cj4gPiArICAgICBpaC0+cnB0ciA9
-ICh3cHRyICsgMTYpICYgaWgtPnB0cl9tYXNrOwo+ID4gKyAgICAgdG1wID0gUlJFRzMyKG1tSUhf
-UkJfQ05UTCk7Cj4gPiArICAgICB0bXAgPSBSRUdfU0VUX0ZJRUxEKHRtcCwgSUhfUkJfQ05UTCwg
-V1BUUl9PVkVSRkxPV19DTEVBUiwgMSk7Cj4gPiArICAgICBXUkVHMzIobW1JSF9SQl9DTlRMLCB0
-bXApOwo+ID4gKwo+ID4gK291dDoKPiA+ICAgICAgIHJldHVybiAod3B0ciAmIGloLT5wdHJfbWFz
-ayk7Cj4gPiAgIH0KPiA+Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Yangtao,
+
+On Tue, Jan 5, 2021 at 1:13 PM Chanwoo Choi <cwchoi00@gmail.com> wrote:
+>
+> On Sun, Jan 3, 2021 at 12:58 PM Yangtao Li <tiny.windzz@gmail.com> wrote:
+> >
+> > Use devm_pm_opp_* API to simplify code.
+> >
+> > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+> > ---
+> >  drivers/devfreq/imx8m-ddrc.c | 15 ++-------------
+> >  1 file changed, 2 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/devfreq/imx8m-ddrc.c b/drivers/devfreq/imx8m-ddrc.c
+> > index bc82d3653bff..9383d6e5538b 100644
+> > --- a/drivers/devfreq/imx8m-ddrc.c
+> > +++ b/drivers/devfreq/imx8m-ddrc.c
+> > @@ -370,11 +370,6 @@ static int imx8m_ddrc_check_opps(struct device *dev)
+> >         return 0;
+> >  }
+> >
+> > -static void imx8m_ddrc_exit(struct device *dev)
+> > -{
+> > -       dev_pm_opp_of_remove_table(dev);
+> > -}
+> > -
+> >  static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> > @@ -419,7 +414,7 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >                 return ret;
+> >         }
+> >
+> > -       ret = dev_pm_opp_of_add_table(dev);
+> > +       ret = devm_pm_opp_of_add_table(dev);
+> >         if (ret < 0) {
+> >                 dev_err(dev, "failed to get OPP table\n");
+> >                 return ret;
+> > @@ -427,12 +422,11 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >
+> >         ret = imx8m_ddrc_check_opps(dev);
+> >         if (ret < 0)
+> > -               goto err;
+> > +               return ret;
+> >
+> >         priv->profile.polling_ms = 1000;
+> >         priv->profile.target = imx8m_ddrc_target;
+> >         priv->profile.get_dev_status = imx8m_ddrc_get_dev_status;
+> > -       priv->profile.exit = imx8m_ddrc_exit;
+> >         priv->profile.get_cur_freq = imx8m_ddrc_get_cur_freq;
+> >         priv->profile.initial_freq = clk_get_rate(priv->dram_core);
+> >
+> > @@ -441,13 +435,8 @@ static int imx8m_ddrc_probe(struct platform_device *pdev)
+> >         if (IS_ERR(priv->devfreq)) {
+> >                 ret = PTR_ERR(priv->devfreq);
+> >                 dev_err(dev, "failed to add devfreq device: %d\n", ret);
+> > -               goto err;
+> >         }
+> >
+> > -       return 0;
+> > -
+> > -err:
+> > -       dev_pm_opp_of_remove_table(dev);
+> >         return ret;
+>
+> devm_devfreq_add_device() doesn't return any integer value.
+> Even if devm_devfreq_add_device() returns the right devfreq instance,
+> the 'ret' value  is not the return value of  devm_devfreq_add_device().
+>
+> On this patch, 'ret' value of 'return ret' is from imx8m_ddrc_check_opps().
+> Surely, it is well working with this modification. But, it is not code
+> for exception handling.
+> So, we need to remain the following codes:
+>
+>     return 0;
+> err:
+>     return ret;
+>
+
+'err' is not necessary. You better to edit it as following:
+
+if (IS_ERR(priv->devfreq)) {
+    dev_err(dev, "failed to add devfreq device: %d\n", ret);
+    return PTR_ERR(priv->devfreq);
+}
+
+return 0;
+
+-- 
+Best Regards,
+Chanwoo Choi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
