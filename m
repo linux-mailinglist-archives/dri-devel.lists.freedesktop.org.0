@@ -1,35 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829572EAB5B
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 14:02:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE9B2EAB79
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 14:05:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71F7689862;
-	Tue,  5 Jan 2021 13:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28D4F89AB6;
+	Tue,  5 Jan 2021 13:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 092A289862
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 13:02:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E2CA22AAC;
- Tue,  5 Jan 2021 13:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1609851770;
- bh=/Tnbq4FC5ordGqRMZzBmEF2707cpXLotVuL1pB4INEg=;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93E0489AB3;
+ Tue,  5 Jan 2021 13:05:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F3D622240;
+ Tue,  5 Jan 2021 13:05:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1609851904;
+ bh=ecAslWQ6B5/J70Zk/sQRf9wb8OWGumYxLhSFQeps2yg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b7A+HlihRW0BWkxuWeObIBnymtaP0ufAI6iZqP+I33dmJaItT4s02eE21hd20fF/X
- d/gLGOgVM5jXbgjwt3xldxp8Yx05uXAdpw5ayzs7kX/HEqtzXpXUB3oUcRe35cTc//
- 0LAxDBVV/TNR3PSOx4/g/7uEn2gJ4Mz3qDyRHQzw=
-Date: Tue, 5 Jan 2021 14:04:14 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
-Message-ID: <X/RjziK30y56uZUj@kroah.com>
-References: <20210104230253.2805217-1-robh@kernel.org>
+ b=t5OUpmLL3CQBRciwQZ9jJ3AS//j7ilUb7E/S6WXwp2LSnjSCkf7eg6jM7XLsdGOGK
+ LBDUNtCxXuVBHFTQjFnHuAGUOV5owEThc/ZWhneOCZ4h0f/44KYiFbkDvkevZbVdSa
+ B1dmHuSClf8v5hKnbiqH98wvuWVoxEP3I8MpWxh35VdFqPAmi+ijwOZ7BoxlSy19tW
+ cdEzSuPEnBAX2MG3ShZ1fBpdwzE2OJhLMGlQyJMmBQQuKN1UIEiiJV76UyCJl0p+wL
+ Wg+Awld/73fYQxHcNxQeOTt/GfPV9HjExvnGTll84c4fGN0SN04KqOfWTjzpJ2anqV
+ uF1f4RruQLrRQ==
+Date: Tue, 5 Jan 2021 13:04:58 +0000
+From: Will Deacon <will@kernel.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
+Message-ID: <20210105130458.GA11108@willie-the-truck>
+References: <20201214175225.38975-1-ardb@kernel.org>
+ <CADnq5_M-U5QO_tmQQ8Q+v+kZXvUc7vjXnmKWYFjX1FmOJYk1OQ@mail.gmail.com>
+ <CAMj1kXHnPXqBnQsNQh3nJxDePxK=D55KES3BdVeJ0cFvYxAXAg@mail.gmail.com>
+ <CAMj1kXE7Z7=YJq4qYaB9NDDwi8nsXsg-KEXQ8V9wQB=uLCsdrw@mail.gmail.com>
+ <CADnq5_PKV4Hekm9Dd_1U2e2RAeb3Mhz_uFSCabWgBNk2gCaAYw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
+In-Reply-To: <CADnq5_PKV4Hekm9Dd_1U2e2RAeb3Mhz_uFSCabWgBNk2gCaAYw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,132 +50,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-ide@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-riscv@lists.infradead.org,
- linux-clk@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
- Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, linux-media@vger.kernel.org,
- Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- Sebastian Reichel <sre@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Dave Martin <dave.martin@arm.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
-> DT properties which can have multiple entries need to specify what the
-> entries are and define how many entries there can be. In the case of
-> only a single entry, just 'maxItems: 1' is sufficient.
-> 
-> Add the missing entry constraints. These were found with a modified
-> meta-schema. Unfortunately, there are a few cases where the size
-> constraints are not defined such as common bindings, so the meta-schema
-> can't be part of the normal checks.
-> 
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
-> Cc: Chanwoo Choi <cw00.choi@samsung.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Ohad Ben-Cohen <ohad@wizery.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Mon, Jan 04, 2021 at 11:27:24AM -0500, Alex Deucher wrote:
+> On Tue, Dec 29, 2020 at 8:17 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Wed, 16 Dec 2020 at 23:26, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > >
+> > > On Wed, 16 Dec 2020 at 19:00, Alex Deucher <alexdeucher@gmail.com> wr=
+ote:
+> > > >
+> > > > On Mon, Dec 14, 2020 at 12:53 PM Ard Biesheuvel <ardb@kernel.org> w=
+rote:
+> > > > >
+> > > > > This reverts commit c38d444e44badc557cf29fdfdfb823604890ccfa.
+> > > > >
+> > > > > Simply disabling -mgeneral-regs-only left and right is risky, giv=
+en that
+> > > > > the standard AArch64 ABI permits the use of FP/SIMD registers any=
+where,
+> > > > > and GCC is known to use SIMD registers for spilling, and may inve=
+nt
+> > > > > other uses of the FP/SIMD register file that have nothing to do w=
+ith the
+> > > > > floating point code in question. Note that putting kernel_neon_be=
+gin()
+> > > > > and kernel_neon_end() around the code that does use FP is not suf=
+ficient
+> > > > > here, the problem is in all the other code that may be emitted wi=
+th
+> > > > > references to SIMD registers in it.
+> > > > >
+> > > > > So the only way to do this properly is to put all floating point =
+code in
+> > > > > a separate compilation unit, and only compile that unit with
+> > > > > -mgeneral-regs-only. But perhaps the use of floating point here is
+> > > > > something that should be reconsidered entirely.
+> > > > >
+> > > > > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > > > > Cc: Will Deacon <will@kernel.org>
+> > > > > Cc: Dave Martin <dave.martin@arm.com>
+> > > > > Cc: Rob Herring <robh@kernel.org>
+> > > > > Cc: Leo Li <sunpeng.li@amd.com>
+> > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > > > > Cc: David Airlie <airlied@linux.ie>
+> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > Cc: Daniel Kolesa <daniel@octaforge.org>
+> > > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> > > >
+> > > > Can rebase this on Linus' master branch?  There were a number of new
+> > > > asics added which copy pasted the ARM64 support.
+> > > >
+> > >
+> > > Not sure what you are asking me here. Reverting commit c38d444e44badc5
+> > > on top of mainline is not going to fix the other code that was added.
+> > > Or are you asking me to go and find the patches (how many?) that added
+> > > new ASICs and fix them for arm64?
+> > >
+> > > Note that this code is critically broken, as it may corrupt user
+> > > process state arbitrarily. So if new code was added that contains the
+> > > same bug, it should be reverted so that the respective authors can fix
+> > > it and resubmit.
+> > >
+> >
+> > Is this simply about dropping the newly added references to
+> > $(dml_rcflags) from the Makefile? Because that is quite trivial ...
+> =
 
-<snip>
+> Yes, I was thinking something like the attached patch.
+> =
 
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> index 247ef00381ea..f76b25f7fc7a 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> @@ -83,6 +83,7 @@ properties:
->        Phandle of a companion.
->  
->    phys:
-> +    maxItems: 1
->      description: PHY specifier for the USB PHY
->  
->    phy-names:
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> index 2178bcc401bc..8e2bd61f2075 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> @@ -71,6 +71,7 @@ properties:
->        Overrides the detected port count
->  
->    phys:
-> +    maxItems: 1
->      description: PHY specifier for the USB PHY
->  
->    phy-names:
-> diff --git a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> index 678396eeeb78..f506225a4d57 100644
-> --- a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> @@ -40,7 +40,7 @@ properties:
->        - const: mc
->  
->    phys:
-> -    description: PHY specifier for the USB PHY
-> +    maxItems: 1
->  
->    usb-role-switch:
->      type: boolean
+> Alex
 
-Any reason you dropped the description for this entry, but not the other
-ones above?
+> From fbc93ca7d7739861ce63f6b483cf23d7cf1d69fb Mon Sep 17 00:00:00 2001
+> From: Alex Deucher <alexander.deucher@amd.com>
+> Date: Mon, 4 Jan 2021 11:24:20 -0500
+> Subject: [PATCH] drm/amdgpu/display: drop DCN support for aarch64
+> =
 
-> diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> index 388245b91a55..adce36e48bc9 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> @@ -15,13 +15,14 @@ properties:
->        - const: ti,j721e-usb
->  
->    reg:
-> -    description: module registers
-> +    maxItems: 1
->  
->    power-domains:
->      description:
->        PM domain provider node and an args specifier containing
->        the USB device id value. See,
->        Documentation/devicetree/bindings/soc/ti/sci-pm-domain.txt
-> +    maxItems: 1
->  
->    clocks:
->      description: Clock phandles to usb2_refclk and lpm_clk
+> From Ard:
+> =
 
-Same here, why remove the description?
+> "Simply disabling -mgeneral-regs-only left and right is risky, given that
+> the standard AArch64 ABI permits the use of FP/SIMD registers anywhere,
+> and GCC is known to use SIMD registers for spilling, and may invent
+> other uses of the FP/SIMD register file that have nothing to do with the
+> floating point code in question. Note that putting kernel_neon_begin()
+> and kernel_neon_end() around the code that does use FP is not sufficient
+> here, the problem is in all the other code that may be emitted with
+> references to SIMD registers in it.
+> =
 
-thanks,
+> So the only way to do this properly is to put all floating point code in
+> a separate compilation unit, and only compile that unit with
+> -mgeneral-regs-only."
+> =
 
-greg k-h
+> Disable support until the code can be properly refactored to support this
+> properly on aarch64.
+> =
+
+> Reported-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> ---
+>  drivers/gpu/drm/amd/display/Kconfig           |  2 +-
+>  drivers/gpu/drm/amd/display/dc/calcs/Makefile |  4 ----
+>  .../gpu/drm/amd/display/dc/clk_mgr/Makefile   | 21 -------------------
+>  drivers/gpu/drm/amd/display/dc/dcn10/Makefile |  7 -------
+>  .../drm/amd/display/dc/dcn10/dcn10_resource.c |  7 -------
+>  drivers/gpu/drm/amd/display/dc/dcn20/Makefile |  4 ----
+>  drivers/gpu/drm/amd/display/dc/dcn21/Makefile |  4 ----
+>  drivers/gpu/drm/amd/display/dc/dcn30/Makefile |  5 -----
+>  .../gpu/drm/amd/display/dc/dcn301/Makefile    |  4 ----
+>  .../gpu/drm/amd/display/dc/dcn302/Makefile    |  4 ----
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile   |  4 ----
+>  drivers/gpu/drm/amd/display/dc/dsc/Makefile   |  4 ----
+>  drivers/gpu/drm/amd/display/dc/os_types.h     |  4 ----
+>  13 files changed, 1 insertion(+), 73 deletions(-)
+
+Acked-by: Will Deacon <will@kernel.org>
+
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
