@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE702EB0D2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 18:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0062EB0D6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 18:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B53B2895B2;
-	Tue,  5 Jan 2021 17:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 456AC895B2;
+	Tue,  5 Jan 2021 17:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 342E9895B2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 17:02:06 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id 91so36850741wrj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 09:02:06 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4331F895B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 17:03:37 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id q75so217615wme.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 09:03:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tYopY2fL6CXBBPr+Io7iofacq52SjkW+6qo7DnbLuZg=;
- b=QT3kHkkQawIK5q8pxbOna44Gh3bj6kEue+Y8dUiY5BuXSHTU53V5LFg3T/8tnQ+nJ/
- JCsGr36ylVOETmLHFPBkc4RNu5hp3Oj0k/tlvf53skD9cd7TWztfW5BsHyczvVTGJdPN
- 35nOUbPNd/pVcnHm937YkoppK84QAuZ5ZxzPKjyAxY++K3v0YDqF09joEnqW9B4LCQtp
- jnqDNFKWjIUOyWWN2qdwBUj4IYAOVskFsx64mKrpczW6fOqswwGoxU84MCboVjoJwWMI
- /aK+W4H45H2WqN2l/cbuxXeCL2J0lqzVthU7C4Jhq79ZQhWY209SM0ai5B1JrP+2AaRF
- TPOA==
-X-Gm-Message-State: AOAM5339YKr9g30PKFkYlfMF2140Imy1l4wSiYV+4kgPV4yyLgMW6ZUW
- HAbnqgC3mOGtgSq3xtOMIOE=
-X-Google-Smtp-Source: ABdhPJw3khmjPZic1mPiMYLc4bWxpVK1upa/cveVFaPiOk/3t+tr7TLU+XjQIi2pQmR9ANetF6J2vw==
-X-Received: by 2002:a5d:43cc:: with SMTP id v12mr461023wrr.319.1609866124790; 
- Tue, 05 Jan 2021 09:02:04 -0800 (PST)
+ bh=n6KIIJ9J9dzDzP5DUFlGPnwQ7nEofIeMZEzRkiVgqQM=;
+ b=YZpnbbP10HA9ptvfCcBQForJrCfVGkQjHc+DUyut+/OBtL/9/YR4y16lLIeZfQ/J+l
+ iXwD9CwVf7Y6V019nMZz7Qzadqdtj3xkXXCPCDEmlJvA0MlRWnA5eod06j1j4uLCNScO
+ Y8UDsrT5eUKYYj2rZQfXOwjYYAPvIzJHLaUsVLDTaJLN556UeUj07OnLfW5h/ejRtqBm
+ oGlXv147xkII5wEBImnoWopb3g9wtvrDpFESRXU2pA4KcHuYl6C6EVlZkZ2JwF8PU89d
+ heWsbRi/fmTNdKgP6+Hle9sYXFba6vrC/8GoTOfkamC9gxTATXH8Y7YmRF0iiv51v4Mb
+ N+Qg==
+X-Gm-Message-State: AOAM530w0HvwI3Q18QxHNYuhrq6YTITnK7kzA3Qa2Ykn/nWpGOWtTtC/
+ ao9vDR+5B4zxmVjQhB3PRGQ=
+X-Google-Smtp-Source: ABdhPJxIvlNTGgGlYnSrfmBt1kSEImmptJoCJfWMJoE92dAAzlqcVazWUcMl6D9BuAaEKCQtH3p/Sg==
+X-Received: by 2002:a7b:c4d5:: with SMTP id g21mr116341wmk.92.1609866215958;
+ Tue, 05 Jan 2021 09:03:35 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id h9sm177309wme.11.2021.01.05.09.02.03
+ by smtp.googlemail.com with ESMTPSA id v20sm119655wml.34.2021.01.05.09.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 09:02:03 -0800 (PST)
-Date: Tue, 5 Jan 2021 18:02:02 +0100
+ Tue, 05 Jan 2021 09:03:34 -0800 (PST)
+Date: Tue, 5 Jan 2021 18:03:33 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v12 2/5] memory: tegra124-emc: Continue probing if
- timings are missing in device-tree
-Message-ID: <20210105170202.GB20651@kozik-lap>
+Subject: Re: [PATCH v12 3/5] memory: tegra124: Support interconnect framework
+Message-ID: <20210105170333.GC20651@kozik-lap>
 References: <20201228154920.18846-1-digetx@gmail.com>
- <20201228154920.18846-3-digetx@gmail.com>
+ <20201228154920.18846-4-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201228154920.18846-3-digetx@gmail.com>
+In-Reply-To: <20201228154920.18846-4-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,17 +73,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 28, 2020 at 06:49:17PM +0300, Dmitry Osipenko wrote:
-> EMC driver will become mandatory after turning it into interconnect
-> provider because interconnect users, like display controller driver, will
-> fail to probe using newer device-trees that have interconnect properties.
-> Thus make EMC driver to probe even if timings are missing in device-tree.
+On Mon, Dec 28, 2020 at 06:49:18PM +0300, Dmitry Osipenko wrote:
+> Now Internal and External memory controllers are memory interconnection
+> providers. This allows us to use interconnect API for tuning of memory
+> configuration. EMC driver now supports OPPs and DVFS.
 > 
 > Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+> Acked-by: Georgi Djakov <georgi.djakov@linaro.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/memory/tegra/tegra124-emc.c | 26 +++++++++-----------------
->  1 file changed, 9 insertions(+), 17 deletions(-)
+>  drivers/memory/tegra/Kconfig        |   1 +
+>  drivers/memory/tegra/tegra124-emc.c | 320 +++++++++++++++++++++++++++-
+>  drivers/memory/tegra/tegra124.c     |  82 ++++++-
+>  3 files changed, 391 insertions(+), 12 deletions(-)
 
 Thanks, applied.
 
