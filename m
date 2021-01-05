@@ -2,39 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9B62EA54C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 07:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376682EA593
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 07:48:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76B1489F31;
-	Tue,  5 Jan 2021 06:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6CB189948;
+	Tue,  5 Jan 2021 06:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0188C89F31
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 06:11:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C6BF3D7;
- Tue,  5 Jan 2021 07:11:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1609827062;
- bh=jFIsfetD8l3F4pytl6HUgLmgy0NU9fZ8ccxj4ssDQH8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=THzi7Yy2Njtx32SkB8TlL3SeYhATtuLXYK4CtlVqkN1Xu4Yrb77FUWX7zIukd6jld
- iQBPx/MNncJIrMKdnON1iSXnnHYAUKU8qfGFzRWZYoesxh0J8JdEcY5Cn/VpnkM27Y
- 5u+bseUNRg4WzmPkIlXW8naG4IO2uPBtgCHebgrg=
-Date: Tue, 5 Jan 2021 08:10:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: display: bridge: Add YAML schema for
- Synopsys DW-HDMI
-Message-ID: <X/QC6lz9Rzar0kry@pendragon.ideasonboard.com>
-References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3345189948
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 06:48:20 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id o13so70227714lfr.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jan 2021 22:48:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OpxZsk9jJXP2U2C3iXiY0AGX43J+hhnzXoyfUqqDyT8=;
+ b=HV5OYzJgzdKgjV9ln/TJArILsakLGNM5bDtgfkhefjmw5Rjatol/WFLS8x5J9vBayF
+ NNbDlXIhYKxeTK84AQs6308kIYuhgja4K2FcvnPEMnE6qP1yFaPaExh7FApoQ8dH2ygl
+ sAhG0WYQfKUUVgjCWKTlwEl68DmiJlL7vOaf4CZo55hQoLXojOnMwdenbRd+dHhjEVE9
+ FxW5PXJoF10b3h1rYCPSxF8mje4wd8ClYJx31klEpPZpHKWmFNCp9rSFVjLdtGhOoQs7
+ BVFqEOjq/CEobKvNG6SnrwpShUKMGI3gAxo9/Gx7s0lzsz7uCT+EUAak2F4ixcgJO5lw
+ 93QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OpxZsk9jJXP2U2C3iXiY0AGX43J+hhnzXoyfUqqDyT8=;
+ b=Bn05+lZ27UV8jAdiu8sxILsdEmv4UX63O9xrbxYbPs5eg1a1RcVTDFmDPASoOUbtzM
+ ka83ZjEVkiJbVjAPNBcPZ/CYx2Jev/6FslLjn5ynUQWo2LskLRQcS/ygXH1uIbdWAl2i
+ rKMfO35umRnjX5OqIYUq0Sa8NzRK6lWgPccoAPIplgi+AWwmjFvs+TMG8665tTExYeMy
+ 1Rbxqh6uJeHW6TQxmyXjj1DxO9rU3jYf+gkZ+biOJT1Slzr4x0oBYp4AsLNngUyCVkse
+ jZ+V1hCFXXCOy0UAq430BWYcyGXXjnsuEIsPtT+YCAEkoT3fxw7PsZ5+DE2l0mXjzkSO
+ 6dNA==
+X-Gm-Message-State: AOAM530arrSD3C3aGj2gQQG1JIpZJsxlbg4DiO2GgoeVmTTU0Fi6qbdW
+ UF99HiPjn05J3wsC2Yk+bqkmkF8B4UdxZvF2ANuCiw==
+X-Google-Smtp-Source: ABdhPJww36k15/BzfzFNtkEkRVVb1J7oNB6wbeGsjMWSPdmmxrY7TpN0ZzAMFQcC6cOlpcf5nxALWSLSOVFaPwQ1AgI=
+X-Received: by 2002:a2e:9dc1:: with SMTP id x1mr35175313ljj.32.1609829298531; 
+ Mon, 04 Jan 2021 22:48:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <1609760177-6083-1-git-send-email-charante@codeaurora.org>
+ <0dcbf9c5-3c28-0f57-0069-3fe5dc3aa7f6@gmail.com>
+In-Reply-To: <0dcbf9c5-3c28-0f57-0069-3fe5dc3aa7f6@gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Tue, 5 Jan 2021 12:18:07 +0530
+Message-ID: <CAO_48GEKimoZ0KiGj+TmQf9DvTitMDbFxRCvhusA2VcHwAGfug@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] dmabuf: fix use-after-free of dmabuf's
+ file->f_inode
+To: Christian Koenig <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,112 +63,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Mark Yao <markyao0591@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Arnd Bergmann <arnd@arndb.de>, LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ Charan Teja Reddy <charante@codeaurora.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 05, 2021 at 08:08:13AM +0200, Laurent Pinchart wrote:
-> Add a .yaml schema containing the common properties for the Synopsys
-> DesignWare HDMI TX controller. This isn't a full device tree binding
-> specification, but is meant to be referenced by platform-specific
-> bindings for the IP core.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-I forgot to add
-
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-here.
-
-> ---
-> Changes since v1:
-> 
-> - Add default to reg-io-width property
-> - Add additionalProperties
-> - Rebase on top of OF graph schema, dropped redundant properties
-> - Drop cec clock as it's device-specific
-> - Increase max clocks to 5 to accommodate the Rockchip DW-HDMI
-> ---
->  .../display/bridge/synopsys,dw-hdmi.yaml      | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..96c4bc06dbe7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/synopsys,dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common Properties for Synopsys DesignWare HDMI TX Controller
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> +
-> +description: |
-> +  This document defines device tree properties for the Synopsys DesignWare HDMI
-> +  TX controller (DWC HDMI TX) IP core. It doesn't constitute a full device tree
-> +  binding specification by itself but is meant to be referenced by device tree
-> +  bindings for the platform-specific integrations of the DWC HDMI TX.
-> +
-> +  When referenced from platform device tree bindings the properties defined in
-> +  this document are defined as follows. The platform device tree bindings are
-> +  responsible for defining whether each property is required or optional.
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-io-width:
-> +    description:
-> +      Width (in bytes) of the registers specified by the reg property.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [1, 4]
-> +    default: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - description: The bus clock for either AHB and APB
-> +      - description: The internal register configuration clock
-> +    additionalItems: true
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - const: iahb
-> +      - const: isfr
-> +    additionalItems: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +additionalProperties: true
-> +
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2hhcmFuLAoKT24gTW9uLCA0IEphbiAyMDIxIGF0IDE3OjIyLCBDaHJpc3RpYW4gS8O2bmln
+Cjxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAwNC4wMS4y
+MSB1bSAxMjozNiBzY2hyaWViIENoYXJhbiBUZWphIFJlZGR5Ogo+ID4gSXQgaXMgb2JzZXJ2ZWQg
+J3VzZS1hZnRlci1mcmVlJyBvbiB0aGUgZG1hYnVmJ3MgZmlsZS0+Zl9pbm9kZSB3aXRoIHRoZQo+
+ID4gcmFjZSBiZXR3ZWVuIGNsb3NpbmcgdGhlIGRtYWJ1ZiBmaWxlIGFuZCByZWFkaW5nIHRoZSBk
+bWFidWYncyBkZWJ1Zwo+ID4gaW5mby4KPiA+Cj4gPiBDb25zaWRlciB0aGUgYmVsb3cgc2NlbmFy
+aW8gd2hlcmUgUDEgaXMgY2xvc2luZyB0aGUgZG1hX2J1ZiBmaWxlCj4gPiBhbmQgUDIgaXMgcmVh
+ZGluZyB0aGUgZG1hX2J1ZidzIGRlYnVnIGluZm8gaW4gdGhlIHN5c3RlbToKPiA+Cj4gPiBQMSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUDIKPiA+ICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZG1hX2J1Zl9kZWJ1Z19zaG93KCkKPiA+IGRt
+YV9idWZfcHV0KCkKPiA+ICAgIF9fZnB1dCgpCj4gPiAgICAgIGZpbGUtPmZfb3AtPnJlbGVhc2Uo
+KQo+ID4gICAgICBkcHV0KCkKPiA+ICAgICAgLi4uLgo+ID4gICAgICAgIGRlbnRyeV91bmxpbmtf
+aW5vZGUoKQo+ID4gICAgICAgICAgaXB1dChkZW50cnktPmRfaW5vZGUpCj4gPiAgICAgICAgICAo
+d2hlcmUgdGhlIGlub2RlIGlzIGZyZWVkKQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBtdXRleF9sb2NrKCZkYl9saXN0LmxvY2spCj4gPiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHJlYWQgJ2RtYV9idWYtPmZpbGUtPmZfaW5vZGUnCj4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICh0aGUgc2FtZSBpbm9kZSBpcyBm
+cmVlZCBieSBQMSkKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbXV0
+ZXhfdW5sb2NrKCZkYl9saXN0LmxvY2spCj4gPiAgICAgICAgZGVudHJ5LT5kX29wLT5kX3JlbGVh
+c2UoKS0tPgo+ID4gICAgICAgICAgZG1hX2J1Zl9yZWxlYXNlKCkKPiA+ICAgICAgICAgICAgLi4u
+Li4KPiA+ICAgICAgICAgICAgbXV0ZXhfbG9jaygmZGJfbGlzdC5sb2NrKQo+ID4gICAgICAgICAg
+ICByZW1vdmVzIHRoZSBkbWFidWYgZnJvbSB0aGUgbGlzdAo+ID4gICAgICAgICAgICBtdXRleF91
+bmxvY2soJmRiX2xpc3QubG9jaykKPiA+Cj4gPiBJbiB0aGUgYWJvdmUgc2NlbmFyaW8sIHdoZW4g
+ZG1hX2J1Zl9wdXQoKSBpcyBjYWxsZWQgb24gYSBkbWFfYnVmLCBpdAo+ID4gZmlyc3QgZnJlZXMg
+dGhlIGRtYV9idWYncyBmaWxlLT5mX2lub2RlKD1kZW50cnktPmRfaW5vZGUpIGFuZCB0aGVuCj4g
+PiByZW1vdmVzIHRoaXMgZG1hX2J1ZiBmcm9tIHRoZSBzeXN0ZW0gZGJfbGlzdC4gSW4gYmV0d2Vl
+biBQMiB0cmF2ZXJzaW5nCj4gPiB0aGUgZGJfbGlzdCB0cmllcyB0byBhY2Nlc3MgdGhpcyBkbWFf
+YnVmJ3MgZmlsZS0+Zl9pbm9kZSB0aGF0IHdhcyBmcmVlZAo+ID4gYnkgUDEgd2hpY2ggaXMgYSB1
+c2UtYWZ0ZXItZnJlZSBjYXNlLgo+ID4KPiA+IFNpbmNlLCBfX2ZwdXQoKSBjYWxscyBmX29wLT5y
+ZWxlYXNlIGZpcnN0IGFuZCB0aGVuIGxhdGVyIGNhbGxzIHRoZQo+ID4gZF9vcC0+ZF9yZWxlYXNl
+LCBtb3ZlIHRoZSBkbWFfYnVmJ3MgZGJfbGlzdCByZW1vdmFsIGZyb20gZF9yZWxlYXNlKCkgdG8K
+PiA+IGZfb3AtPnJlbGVhc2UoKS4gVGhpcyBlbnN1cmVzIHRoYXQgZG1hX2J1ZidzIGZpbGUtPmZf
+aW5vZGUgaXMgbm90Cj4gPiBhY2Nlc3NlZCBhZnRlciBpdCBpcyByZWxlYXNlZC4KPiA+Cj4gPiBG
+aXhlczogNGFiNTljM2M2MzhjICgiZG1hLWJ1ZjogTW92ZSBkbWFfYnVmX3JlbGVhc2UoKSBmcm9t
+IGZvcHMgdG8gZGVudHJ5X29wcyIpCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaGFyYW4gVGVqYSBSZWRk
+eSA8Y2hhcmFudGVAY29kZWF1cm9yYS5vcmc+Cj4KPiBOb3QgYW4gZXhwZXJ0IG9uIHRoZSBkZWJ1
+Z2ZzIHN0dWZmIGluIERNQS1idWYsIGJ1dCB0aGUgZXhwbGFuYXRpb24KPiBzb3VuZHMgcGVyZmVj
+dGx5IGNvcnJlY3QgdG8gbWUuCj4KPiBBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0
+aWFuLmtvZW5pZ0BhbWQuY29tPgoKVGhhbmtzIGZvciB5b3VyIGZpeDsgSSB3aWxsIHF1ZXVlIGl0
+IHVwIGluIHRoZSBmaXhlcyBicmFuY2guIENhbiB5b3UKcGxlYXNlIGFsc28gc2VuZCBpdCB0byBi
+ZSBxdWV1ZWQgdG8gNS40KyBzdGFibGUgYnJhbmNoZXM/Cgo+Cj4gPiAtLS0KPiA+ICAgZHJpdmVy
+cy9kbWEtYnVmL2RtYS1idWYuYyB8IDIxICsrKysrKysrKysrKysrKysrLS0tLQo+ID4gICAxIGZp
+bGUgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
+YnVmLmMKPiA+IGluZGV4IDBlYjgwYzEuLmExNGRjYmIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJz
+L2RtYS1idWYvZG1hLWJ1Zi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4g
+PiBAQCAtNzYsMTAgKzc2LDYgQEAgc3RhdGljIHZvaWQgZG1hX2J1Zl9yZWxlYXNlKHN0cnVjdCBk
+ZW50cnkgKmRlbnRyeSkKPiA+Cj4gPiAgICAgICBkbWFidWYtPm9wcy0+cmVsZWFzZShkbWFidWYp
+Owo+ID4KPiA+IC0gICAgIG11dGV4X2xvY2soJmRiX2xpc3QubG9jayk7Cj4gPiAtICAgICBsaXN0
+X2RlbCgmZG1hYnVmLT5saXN0X25vZGUpOwo+ID4gLSAgICAgbXV0ZXhfdW5sb2NrKCZkYl9saXN0
+LmxvY2spOwo+ID4gLQo+ID4gICAgICAgaWYgKGRtYWJ1Zi0+cmVzdiA9PSAoc3RydWN0IGRtYV9y
+ZXN2ICopJmRtYWJ1ZlsxXSkKPiA+ICAgICAgICAgICAgICAgZG1hX3Jlc3ZfZmluaShkbWFidWYt
+PnJlc3YpOwo+ID4KPiA+IEBAIC04OCw2ICs4NCwyMiBAQCBzdGF0aWMgdm9pZCBkbWFfYnVmX3Jl
+bGVhc2Uoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQo+ID4gICAgICAga2ZyZWUoZG1hYnVmKTsKPiA+
+ICAgfQo+ID4KPiA+ICtzdGF0aWMgaW50IGRtYV9idWZfZmlsZV9yZWxlYXNlKHN0cnVjdCBpbm9k
+ZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpmaWxlKQo+ID4gK3sKPiA+ICsgICAgIHN0cnVjdCBkbWFf
+YnVmICpkbWFidWY7Cj4gPiArCj4gPiArICAgICBpZiAoIWlzX2RtYV9idWZfZmlsZShmaWxlKSkK
+PiA+ICsgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gPiArCj4gPiArICAgICBkbWFidWYg
+PSBmaWxlLT5wcml2YXRlX2RhdGE7Cj4gPiArCj4gPiArICAgICBtdXRleF9sb2NrKCZkYl9saXN0
+LmxvY2spOwo+ID4gKyAgICAgbGlzdF9kZWwoJmRtYWJ1Zi0+bGlzdF9ub2RlKTsKPiA+ICsgICAg
+IG11dGV4X3VubG9jaygmZGJfbGlzdC5sb2NrKTsKPiA+ICsKPiA+ICsgICAgIHJldHVybiAwOwo+
+ID4gK30KPiA+ICsKPiA+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkZW50cnlfb3BlcmF0aW9ucyBk
+bWFfYnVmX2RlbnRyeV9vcHMgPSB7Cj4gPiAgICAgICAuZF9kbmFtZSA9IGRtYWJ1ZmZzX2RuYW1l
+LAo+ID4gICAgICAgLmRfcmVsZWFzZSA9IGRtYV9idWZfcmVsZWFzZSwKPiA+IEBAIC00MTMsNiAr
+NDI1LDcgQEAgc3RhdGljIHZvaWQgZG1hX2J1Zl9zaG93X2ZkaW5mbyhzdHJ1Y3Qgc2VxX2ZpbGUg
+Km0sIHN0cnVjdCBmaWxlICpmaWxlKQo+ID4gICB9Cj4gPgo+ID4gICBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7Cj4gPiArICAgICAucmVsZWFzZSAg
+ICAgICAgPSBkbWFfYnVmX2ZpbGVfcmVsZWFzZSwKPiA+ICAgICAgIC5tbWFwICAgICAgICAgICA9
+IGRtYV9idWZfbW1hcF9pbnRlcm5hbCwKPiA+ICAgICAgIC5sbHNlZWsgICAgICAgICA9IGRtYV9i
+dWZfbGxzZWVrLAo+ID4gICAgICAgLnBvbGwgICAgICAgICAgID0gZG1hX2J1Zl9wb2xsLAo+CgpC
+ZXN0LApTdW1pdC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
