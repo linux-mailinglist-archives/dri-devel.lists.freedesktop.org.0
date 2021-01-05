@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79CD2EA53A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 07:09:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9B62EA54C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 07:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBCA389F19;
-	Tue,  5 Jan 2021 06:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B1489F31;
+	Tue,  5 Jan 2021 06:11:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD7C89FA6
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 06:08:49 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 152218AD;
- Tue,  5 Jan 2021 07:08:48 +0100 (CET)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0188C89F31
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 06:11:03 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C6BF3D7;
+ Tue,  5 Jan 2021 07:11:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1609826928;
- bh=GRxXgHSySbrKCLUspryvg1jzd/pT3GBRl0qA0nILnI4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HdSjMfNezi2bOPmEd5mYJiK0OqUrqMhipq3MNqXK4HMBFduB9r9jOOmJ3A2bNXA/Y
- Z5cPj+q233cQYhTpylgIKzTOjLn2kq8K8Gta3Hyc/fIdzXdbxswaAf/szMv60XSzvs
- zXgzGdUMZB+PnBXmrKiFLG0efjXUmF5jhbqqeNck=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 6/6] dt-bindings: display: bridge: Remove deprecated
- dw_hdmi.txt
-Date: Tue,  5 Jan 2021 08:08:18 +0200
-Message-Id: <20210105060818.24158-7-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
+ s=mail; t=1609827062;
+ bh=jFIsfetD8l3F4pytl6HUgLmgy0NU9fZ8ccxj4ssDQH8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=THzi7Yy2Njtx32SkB8TlL3SeYhATtuLXYK4CtlVqkN1Xu4Yrb77FUWX7zIukd6jld
+ iQBPx/MNncJIrMKdnON1iSXnnHYAUKU8qfGFzRWZYoesxh0J8JdEcY5Cn/VpnkM27Y
+ 5u+bseUNRg4WzmPkIlXW8naG4IO2uPBtgCHebgrg=
+Date: Tue, 5 Jan 2021 08:10:50 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: bridge: Add YAML schema for
+ Synopsys DW-HDMI
+Message-ID: <X/QC6lz9Rzar0kry@pendragon.ideasonboard.com>
 References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,68 +48,110 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Mark Yao <markyao0591@gmail.com>
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Mark Yao <markyao0591@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dw_hdmi.txt has been replaced with synopsys,dw-hdmi.yaml, and all
-references to the old file have been converted. Remove it.
+On Tue, Jan 05, 2021 at 08:08:13AM +0200, Laurent Pinchart wrote:
+> Add a .yaml schema containing the common properties for the Synopsys
+> DesignWare HDMI TX controller. This isn't a full device tree binding
+> specification, but is meant to be referenced by platform-specific
+> bindings for the IP core.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Rob Herring <robh@kernel.org>
----
- .../bindings/display/bridge/dw_hdmi.txt       | 33 -------------------
- 1 file changed, 33 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
+I forgot to add
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt b/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-deleted file mode 100644
-index 33bf981fbe33..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
-+++ /dev/null
-@@ -1,33 +0,0 @@
--Synopsys DesignWare HDMI TX Encoder
--===================================
--
--This document defines device tree properties for the Synopsys DesignWare HDMI
--TX Encoder (DWC HDMI TX). It doesn't constitue a device tree binding
--specification by itself but is meant to be referenced by platform-specific
--device tree bindings.
--
--When referenced from platform device tree bindings the properties defined in
--this document are defined as follows. The platform device tree bindings are
--responsible for defining whether each property is required or optional.
--
--- reg: Memory mapped base address and length of the DWC HDMI TX registers.
--
--- reg-io-width: Width of the registers specified by the reg property. The
--  value is expressed in bytes and must be equal to 1 or 4 if specified. The
--  register width defaults to 1 if the property is not present.
--
--- interrupts: Reference to the DWC HDMI TX interrupt.
--
--- clocks: References to all the clocks specified in the clock-names property
--  as specified in Documentation/devicetree/bindings/clock/clock-bindings.txt.
--
--- clock-names: The DWC HDMI TX uses the following clocks.
--
--  - "iahb" is the bus clock for either AHB and APB (mandatory).
--  - "isfr" is the internal register configuration clock (mandatory).
--  - "cec" is the HDMI CEC controller main clock (optional).
--
--- ports: The connectivity of the DWC HDMI TX with the rest of the system is
--  expressed in using ports as specified in the device graph bindings defined
--  in Documentation/devicetree/bindings/graph.txt. The numbering of the ports
--  is platform-specific.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+here.
+
+> ---
+> Changes since v1:
+> 
+> - Add default to reg-io-width property
+> - Add additionalProperties
+> - Rebase on top of OF graph schema, dropped redundant properties
+> - Drop cec clock as it's device-specific
+> - Increase max clocks to 5 to accommodate the Rockchip DW-HDMI
+> ---
+>  .../display/bridge/synopsys,dw-hdmi.yaml      | 58 +++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> new file mode 100644
+> index 000000000000..96c4bc06dbe7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+> @@ -0,0 +1,58 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/synopsys,dw-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common Properties for Synopsys DesignWare HDMI TX Controller
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  This document defines device tree properties for the Synopsys DesignWare HDMI
+> +  TX controller (DWC HDMI TX) IP core. It doesn't constitute a full device tree
+> +  binding specification by itself but is meant to be referenced by device tree
+> +  bindings for the platform-specific integrations of the DWC HDMI TX.
+> +
+> +  When referenced from platform device tree bindings the properties defined in
+> +  this document are defined as follows. The platform device tree bindings are
+> +  responsible for defining whether each property is required or optional.
+> +
+> +properties:
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reg-io-width:
+> +    description:
+> +      Width (in bytes) of the registers specified by the reg property.
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - enum: [1, 4]
+> +    default: 1
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 5
+> +    items:
+> +      - description: The bus clock for either AHB and APB
+> +      - description: The internal register configuration clock
+> +    additionalItems: true
+> +
+> +  clock-names:
+> +    minItems: 2
+> +    maxItems: 5
+> +    items:
+> +      - const: iahb
+> +      - const: isfr
+> +    additionalItems: true
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +additionalProperties: true
+> +
+> +...
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
