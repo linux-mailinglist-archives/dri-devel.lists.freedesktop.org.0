@@ -2,72 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861D12EAD3D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 15:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657532EADC5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jan 2021 16:00:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 954B86E13C;
-	Tue,  5 Jan 2021 14:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5438C89F0A;
+	Tue,  5 Jan 2021 15:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26EF56E134
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 14:18:17 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105EF1aM101866;
- Tue, 5 Jan 2021 14:17:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=VYAOVPzTCDHPVHPsBdE7ahRv/jF/NxuZ8z4HhpbF+Cc=;
- b=SE0oq+04evcDpFCjnKCLQPghRdLeNiXKbdU2N0XIAneKqhhzf23Zvr79nCj8PgDZKeBT
- Vrqmx/XGHjN15zW1ms4epwzNQU5uj94H9vI06S/3WMQWRUytPnmRXAruAVks8DE3bv1G
- le2GF33B/dwqudcnfm0TqscsGKjG3i4pChHv06qu/Jaxo5g2v298+cgEEHN15WZqM1Pa
- B4181mm3j3g1x2aogtZ9kHR2deCn6ZcTqVaFJ+M6U4kGSKYN6TYQZ1rcTZyGKnUyJkws
- woTjsAK9x83V48WFDhK1Pv1WqicOxw/ooBYKIrRKgV495PxV+vxmLPaKSMPBEI0JfThD Qg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35tgskrxp7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 14:17:59 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105EAlHG005518;
- Tue, 5 Jan 2021 14:17:58 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 35v1f8nbc7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 14:17:58 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105EHghU011314;
- Tue, 5 Jan 2021 14:17:42 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 14:17:41 +0000
-Date: Tue, 5 Jan 2021 17:17:01 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7625: add MIPI DPI input feature
- support
-Message-ID: <20210105141701.GG2809@kadam>
-References: <cover.1609380663.git.xji@analogixsemi.com>
- <f7fce2657d3c98a4d705f88eb9684f97b646793e.1609380663.git.xji@analogixsemi.com>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEB7589F0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jan 2021 15:00:04 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id b8so16503989plx.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 07:00:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=n7TlG8NN8jqja9Y8WW/SFKAXx/PSZJP7n6gKEltVpFU=;
+ b=eXHexYoCXgtAr+oro3RAi4gfVhK320MQZQrx7m30ZY0OxfQbvA00LFGYpOSQIOp6Zp
+ 3JGi19GS54y/X/0a3KrwCKvSFWREaeD6E4R8M1aNXeHoB8hFtsLvQN6eb4VyiLfBvSu1
+ 5UhFSCux5CuChplhG08+F1MTLE017f5ZigwMf4Rf1Oor/jJ3v7Ls4h3ET+Ks2ZAjLum0
+ NQh9vAiiyR0JyWVTN3fw6hTl/jb/oo2G3Q4SMrxjG4Z4nl31Rz2nWlfDovAYXQmNmwEf
+ xPoENgIUqO6eyVhZsjW3/8TI8VbH3eLl5MLsYSl4wH//StMZqSS+aguARmnipFZ2k+ye
+ CSfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=n7TlG8NN8jqja9Y8WW/SFKAXx/PSZJP7n6gKEltVpFU=;
+ b=cI+smZaXRnWv0Q0xHpKvAbwiwTAZFyPE1ElM5n01sQ2MQmOs5ubOYYSNwi4Od69jD5
+ Uf+mPWf2v7E72pen1Khg0o/GBlMHJB7oQlk7unLzAQ5Mnk8KLyNTlqhLE3L1r1mOvlH/
+ T8vBgi0DePUwFnZGOfSwp95o1lFt+Fv9pokwDHB67y9k9cPen2igslm9HAsI5kh+ezL9
+ 4bUbzs1j4OBwZI0FgO2hVXhc7PF2hGVOkQxpXI8WRc3Vzwrz3YB7OeBNGqzI6ttgQG/4
+ GfB79+cLftp1x03jAmmKMAzCxhatX6NkpvaVHz7BnEN1dta6ME/uP7qg/Dh8R3/gkxIQ
+ xTrQ==
+X-Gm-Message-State: AOAM531x787vFUI9B2j1s1X34t2y2PaRBjAc2oQjcx99SmDCGJF4BUG4
+ woiBwsETj649ucdPpoWjxFw=
+X-Google-Smtp-Source: ABdhPJzt2J2xbYGa8V2kGsXoiPVNPLpxYJEqiOjOODtDuZUQdq7tB1tHlFrmXSkPHwXwOMX7QndZgw==
+X-Received: by 2002:a17:90a:e60d:: with SMTP id
+ j13mr4560199pjy.52.1609858804291; 
+ Tue, 05 Jan 2021 07:00:04 -0800 (PST)
+Received: from adolin ([49.207.206.190])
+ by smtp.gmail.com with ESMTPSA id nm6sm2956012pjb.25.2021.01.05.07.00.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 07:00:03 -0800 (PST)
+Date: Tue, 5 Jan 2021 20:29:58 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: melissa.srw@gmail.com
+Subject: [PATCH V3] drm/vkms: Decouple config data for configfs
+Message-ID: <20210105145958.r5q553i6ji7fru6l@adolin>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f7fce2657d3c98a4d705f88eb9684f97b646793e.1609380663.git.xji@analogixsemi.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9854
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050090
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9854
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 malwarescore=0
- phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +64,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sheng Pan <span@analogixsemi.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 31, 2020 at 10:22:36AM +0800, Xin Ji wrote:
->  static int anx7625_read_ctrl_status_p0(struct anx7625_data *ctx)
->  {
->  	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, AP_AUX_CTRL_STATUS);
-> @@ -189,10 +203,64 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
->  			       AP_AUX_CTRL_STATUS);
->  	if (val < 0 || (val & 0x0F)) {
->  		DRM_DEV_ERROR(dev, "aux status %02x\n", val);
-> -		val = -EIO;
-> +		return -EIO;
->  	}
->  
-> -	return val;
-> +	return 0;
+Currently, data for the device instance is held by vkms_device.
+Add a separate type, vkms_config to contain configuration details
+for the device and various modes to be later used by configfs.
+This config data stays constant once the device is created.
 
-This s/val/0/ change seems like a bug fix.  Could you please send that
-as a separate patch at the start of the patch set?
+Accordingly, add vkms_create and vkms_destroy to initialize/destroy
+device through configfs. Currently, they are being called from vkms_init
+and vkms_exit, but will be evoked from configfs later on. When configfs
+is added, device configuration will be tracked by configfs and only vkms
+device lifetime will be handled by vkms_init and vkms_exit functions.
 
-> +}
+Modify usage of enable_cursor feature to reflect the changes in
+relevant files.
 
-regards,
-dan carpenter
+Add enable_writeback_connector feature to vkms_config type.
+
+Co-developed-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+Signed-off-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+
+---
+Changes in v2:
+- add Co-developed-by tag
+
+Changes in v3:
+- correct usage of Co-developed by tag(Melissa)
+- add enable_writeback_feature(Melissa)
+- modify commit message(Melissa)
+---
+ drivers/gpu/drm/vkms/vkms_drv.c    | 45 ++++++++++++++++++++++++------
+ drivers/gpu/drm/vkms/vkms_drv.h    | 12 ++++++--
+ drivers/gpu/drm/vkms/vkms_output.c | 13 +++++----
+ 3 files changed, 54 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index aef29393b811..fab964900dce 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -34,12 +34,16 @@
+ #define DRIVER_MAJOR	1
+ #define DRIVER_MINOR	0
+ 
+-static struct vkms_device *vkms_device;
++static struct vkms_config *default_config;
+ 
+-bool enable_cursor = true;
++static bool enable_cursor = true;
+ module_param_named(enable_cursor, enable_cursor, bool, 0444);
+ MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+ 
++static bool enable_writeback_connector = true;
++module_param_named(enable_writeback_connector, enable_writeback_connector, bool, 0444);
++MODULE_PARM_DESC(enable_writeback_connector, "Enable/Disable writeback connector support");
++
+ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+ 
+ static void vkms_release(struct drm_device *dev)
+@@ -122,10 +126,11 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ 	return vkms_output_init(vkmsdev, 0);
+ }
+ 
+-static int __init vkms_init(void)
++static int vkms_create(struct vkms_config *config)
+ {
+ 	int ret;
+ 	struct platform_device *pdev;
++	struct vkms_device *vkms_device;
+ 
+ 	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+ 	if (IS_ERR(pdev))
+@@ -143,6 +148,8 @@ static int __init vkms_init(void)
+ 		goto out_devres;
+ 	}
+ 	vkms_device->platform = pdev;
++	vkms_device->config = config;
++	config->dev = vkms_device;
+ 
+ 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+ 					   DMA_BIT_MASK(64));
+@@ -179,21 +186,43 @@ static int __init vkms_init(void)
+ 	return ret;
+ }
+ 
+-static void __exit vkms_exit(void)
++static int __init vkms_init(void)
++{
++	struct vkms_config *config = kmalloc(sizeof(*config), GFP_KERNEL);
++
++	default_config = config;
++
++	config->cursor = enable_cursor;
++	config->writeback = enable_writeback_connector;
++
++	return vkms_create(config);
++}
++
++static void vkms_destroy(struct vkms_config *config)
+ {
+ 	struct platform_device *pdev;
+ 
+-	if (!vkms_device) {
++	if (!config->dev) {
+ 		DRM_INFO("vkms_device is NULL.\n");
+ 		return;
+ 	}
+ 
+-	pdev = vkms_device->platform;
++	pdev = config->dev->platform;
+ 
+-	drm_dev_unregister(&vkms_device->drm);
+-	drm_atomic_helper_shutdown(&vkms_device->drm);
++	drm_dev_unregister(&config->dev->drm);
++	drm_atomic_helper_shutdown(&config->dev->drm);
+ 	devres_release_group(&pdev->dev, NULL);
+ 	platform_device_unregister(pdev);
++
++	config->dev = NULL;
++}
++
++static void __exit vkms_exit(void)
++{
++	if (default_config->dev)
++		vkms_destroy(default_config);
++
++	kfree(default_config);
+ }
+ 
+ module_init(vkms_init);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5ed91ff08cb3..caa1fafb6ca7 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -19,8 +19,6 @@
+ #define XRES_MAX  8192
+ #define YRES_MAX  8192
+ 
+-extern bool enable_cursor;
+-
+ struct vkms_composer {
+ 	struct drm_framebuffer fb;
+ 	struct drm_rect src, dst;
+@@ -82,10 +80,18 @@ struct vkms_output {
+ 	spinlock_t composer_lock;
+ };
+ 
++struct vkms_device;
++struct vkms_config {
++	bool writeback;
++	bool cursor;
++	/* only set when instantiated */
++	struct vkms_device *dev;
++};
+ struct vkms_device {
+ 	struct drm_device drm;
+ 	struct platform_device *platform;
+ 	struct vkms_output output;
++	const struct vkms_config *config;
+ };
+ 
+ #define drm_crtc_to_vkms_output(target) \
+@@ -123,4 +129,4 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
+ /* Writeback */
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+ 
+-#endif /* _VKMS_DRV_H_ */
++#endif /* _VKMS_DRV_H_ */
+\ No newline at end of file
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 4a1848b0318f..f5f6f15c362c 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -41,12 +41,13 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	struct drm_crtc *crtc = &output->crtc;
+ 	struct drm_plane *primary, *cursor = NULL;
+ 	int ret;
++	int writeback;
+ 
+ 	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
+ 	if (IS_ERR(primary))
+ 		return PTR_ERR(primary);
+ 
+-	if (enable_cursor) {
++	if (vkmsdev->config->cursor) {
+ 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+ 		if (IS_ERR(cursor)) {
+ 			ret = PTR_ERR(cursor);
+@@ -80,9 +81,11 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		goto err_attach;
+ 	}
+ 
+-	ret = vkms_enable_writeback_connector(vkmsdev);
+-	if (ret)
+-		DRM_ERROR("Failed to init writeback connector\n");
++	if (vkmsdev->config->writeback) {
++		writeback = vkms_enable_writeback_connector(vkmsdev);
++		if (writeback)
++			DRM_ERROR("Failed to init writeback connector\n");
++	}
+ 
+ 	drm_mode_config_reset(dev);
+ 
+@@ -98,7 +101,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	drm_crtc_cleanup(crtc);
+ 
+ err_crtc:
+-	if (enable_cursor)
++	if (vkmsdev->config->cursor)
+ 		drm_plane_cleanup(cursor);
+ 
+ err_cursor:
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
