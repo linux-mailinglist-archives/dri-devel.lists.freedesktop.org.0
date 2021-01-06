@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6B32ECBF0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428622ECC03
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C75566E415;
-	Thu,  7 Jan 2021 08:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE96A6E43C;
+	Thu,  7 Jan 2021 08:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7FF6E209
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 15:01:14 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97EBA6E20A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 15:09:09 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 63103580598;
- Wed,  6 Jan 2021 10:01:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 06 Jan 2021 10:01:13 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 03C0D5C014E;
+ Wed,  6 Jan 2021 10:09:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 06 Jan 2021 10:09:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=pq8hbaVaGOc5OfRuGXlFeZiorUD
- Bn36VjDYOTFbKyxs=; b=ShorEpq6Yy/xlS5QvMGkj+VfDauayX3AdBUr1HljprH
- epgaFW4HMvXaU2fu/f4XvWkSl7WdtKSZ4vM6vgzLQGhMhv+jfigzIs78kLH3KZnA
- 8GiFsnbb3VoKHbh8vV1B5VKSDGa9Dq9WGAe5hrYOQpjTMNyjRM598D0xRrwtKAYY
- pyc3Byv2GEC/G1is55ynRXo18eQHBrFbtCyODpd+IExfrBd82tffr8lMJPIVSNRE
- LUmpvtYBmRaN4buNBJBlyPY3E7NeBnc2a+XVfoZDmZqIcDO1PQ5YVEeVAtqymKXD
- DkvX8hITuI6W7EoN9i962AkZNhE2Ghp6zeU2SJJyMRA==
+ :content-type:in-reply-to; s=fm1; bh=AMfMGv8NGjUUraUJcmF/p2Kr+xF
+ 7CnZmDPXn8K9zbXw=; b=A6m0T83ePsBfiqYqgZUywCb84gNgWRkcoPuDh6zr91b
+ 9IjDD25Evyf1H7H2UFoAhUVcYZ5l6QRhYYU+5Hsv4FHLcHBFW7C9jcObAEgEf5KS
+ H9i8fHFPru6Wdio7r+Z9aEqNyLx2sNpI5uB8ykXa3rIGuhxr6uKPfBkTckc1izZQ
+ ayPxvhCw2B+iDkGZu9CBuCpsTD6CkBuXytEFrUEcC1TCW6P6dB4tDcFMOmNNq4YM
+ ZCjN72mE03QweXe/eExkBh3UK2Si9psX/Jbyr0d52YsRlI+X7/KSMCiNc3y4NOpV
+ SNV8deGYgpAPdx4BG+ENxWoWHB+112MaoLkdTZzrmgA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=pq8hba
- VaGOc5OfRuGXlFeZiorUDBn36VjDYOTFbKyxs=; b=G2+/xdgGTg+7Sb7rGZlocO
- WELj2rOd0jxhZESLpr2idKjVFSpNX+VDdTSrcge64TtopX1VwY4dbEXhg3PoU1BD
- 6VUNVYZ6sSe1OC7eye6YnPU/GFzOqKcrBpmkYoTsQSHby3t/9e6z6h8KDa2illXt
- fxGG5KYR/Ubt/XKs4yjJdU4/mtopFR/0iNKXrcT4imw8eL3DpOh+4H4GtVbE5JSp
- djl4fPO7c01hpjfoNI9lpzUkCKTtQ0WgAZ21mb4xuGFhc9DINe/PjYVGLDo66nUO
- QLjt5jIvY7ASaUeKOS1VvTwqBI15dGNEdpxK+YmBOd7hIyAdQJqPrFzfLAPmRNPg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AMfMGv
+ 8NGjUUraUJcmF/p2Kr+xF7CnZmDPXn8K9zbXw=; b=cVZMnJayOPOWlUVqNtgWV3
+ dTpcUCyHT731oTPVMSScx1QjVwewfLUnJdvi8aFC7Q95yGHiO0ll+kbph58OZcLf
+ HqJ8XL7ghRTiuCoxq1rLXW7sEQjgTcpewus7Hr8agIhg/kX+wi8e4YHTDeFb9Vjj
+ 0jOw268EtLOjjTJXa67ZAC37gdq13eAzKwW5AXRNUvoUl71kKFI6J6gUlZTr0dSS
+ KCqGHxmoBdSQLbAiR3kwh8MHvRqg2pOjHsq9lTS1WT4VVNbfKm+ifNHRH0ZyGEiB
+ BoWCkFAVOsrtW/YVrfgwmIVhdzD9MQ9oFIPFrmpksC+MJhP+atAyDg6scpvAS5mQ
  ==
-X-ME-Sender: <xms:ttD1X6DuimkHB60BlhDYf2Kx883cy5xRN-1AAf-yBoF9WgPa_ZOn_g>
- <xme:ttD1X0h2AcYf0LyeV6my4J48yRpLTVvT3-bvHAJO25R6T9MDjrniW-rVdLMItihow
- wZ1upqMtkoyi1ipZls>
+X-ME-Sender: <xms:k9L1XzKfsHNteDH8uL8VuAjru3cO3qBpPHbdZcEu0iZ09Kll88iYLw>
+ <xme:k9L1X3LQSFeE53O6mshMVvYyDYb4iTC1Z7R4MPLxp4SH-AxNLkBUczTHV7x9L5cfZ
+ r4wBMGOhDyc85QIbNo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdefledgjeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,22 +49,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdefledgjeduucetufdoteggod
  htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
  gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ttD1X9lkpBBbiHitDcxmiFduqUaKPEon7-5KIsw_nkro4S_XFnPDJw>
- <xmx:ttD1X4xSiTOqPMceL4g2WaOdhoTu1fw1MebvYOP-ddFQ2r9S_AJKtg>
- <xmx:ttD1X_Sx9Q42PxnPp-eI8qgLlWhuKJsV8P2KWAN27artatgz0DLSpw>
- <xmx:udD1X6E1isxixEyjuMJrjLeRlHORYUcCpiZS2qLNX6btlbvyJ329ig>
+X-ME-Proxy: <xmx:k9L1X7uEv5G8FF62F5e0TtWhcNiPXANNZC6SjE8fvd4S5XHHvYGr4Q>
+ <xmx:k9L1X8bxEuuLy0GZmNVYym8RPYU7dnF2HpylEepUnuEahRPedsGOaQ>
+ <xmx:k9L1X6aZFO8LvopRk3tZJSdDO8dcdslQcKT1qrEeBWjhNPeqKOHutg>
+ <xmx:lNL1X_M0LE_8sWGfMkr9AhbzsDEi02GiGzGWAEvWoElt8a3TWMLweg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 999F0240066;
- Wed,  6 Jan 2021 10:01:10 -0500 (EST)
-Date: Wed, 6 Jan 2021 16:01:08 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6B0771080059;
+ Wed,  6 Jan 2021 10:09:07 -0500 (EST)
+Date: Wed, 6 Jan 2021 16:09:05 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH] dt-bindings: bcm2835-vec: Add power-domains property
-Message-ID: <20210106150108.cjb35gbbystmgnhe@gilmour>
-References: <1608751473-12343-1-git-send-email-stefan.wahren@i2se.com>
+Subject: Re: [PATCH V2 1/4] drm/v3d: Use platform_get_irq_optional() to get
+ optional IRQs
+Message-ID: <20210106150905.twjp6kvcnf2v6eqy@gilmour>
+References: <1608755714-18233-1-git-send-email-stefan.wahren@i2se.com>
+ <1608755714-18233-2-git-send-email-stefan.wahren@i2se.com>
 MIME-Version: 1.0
-In-Reply-To: <1608751473-12343-1-git-send-email-stefan.wahren@i2se.com>
+In-Reply-To: <1608755714-18233-2-git-send-email-stefan.wahren@i2se.com>
 X-Mailman-Approved-At: Thu, 07 Jan 2021 08:53:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,54 +80,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
  linux-arm-kernel@lists.infradead.org,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============1052659383=="
+Content-Type: multipart/mixed; boundary="===============1670125056=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1052659383==
+--===============1670125056==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dezckgshvmtg3jl4"
+	protocol="application/pgp-signature"; boundary="56ymy2nz5f75j7xx"
 Content-Disposition: inline
 
 
---dezckgshvmtg3jl4
+--56ymy2nz5f75j7xx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 23, 2020 at 08:24:33PM +0100, Stefan Wahren wrote:
-> Adding the missing property power-domains to the bcm2835-vec schema to fix
-> the following dtbs_check issue:
+On Wed, Dec 23, 2020 at 09:35:11PM +0100, Stefan Wahren wrote:
+> From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 >=20
-> vec@7e806000: 'power-domains' does not match any of the regexes: ...
+> Aside from being more correct, the non optional version of the function
+> prints an error when failing to find the IRQ.
 >=20
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 > Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Thanks!
+Applied, thanks!
 Maxime
 
---dezckgshvmtg3jl4
+--56ymy2nz5f75j7xx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/XQtAAKCRDj7w1vZxhR
-xYwJAQCFCpfWlhu2SNIDx7JiCMtTUmYbKRmrMFZyFMWDRnbUnAEA/L1wi9hHHfaU
-2PEhQ+98gvY1IRnS+Qe0CplsaAWh2AY=
-=iFbb
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/XSkQAKCRDj7w1vZxhR
+xU2aAP9RMFIWJD5/tlu5qYA9TpTcXrbDwbl3p7sE+4hn4EFCxgEAvxC9lGV0og4l
+O0ubClrgwfCdBtCAjwzdZcFXUqHSRg8=
+=kHQZ
 -----END PGP SIGNATURE-----
 
---dezckgshvmtg3jl4--
+--56ymy2nz5f75j7xx--
 
---===============1052659383==
+--===============1670125056==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -136,4 +136,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1052659383==--
+--===============1670125056==--
