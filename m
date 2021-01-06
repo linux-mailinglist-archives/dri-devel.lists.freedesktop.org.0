@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2CD2EBB62
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8A42EBB60
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 09:53:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD3F89DBF;
-	Wed,  6 Jan 2021 08:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C00389DA4;
+	Wed,  6 Jan 2021 08:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E64899E6
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 01:55:36 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id hk16so766610pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 17:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=M2SnuavxPcXUJasCexKnjXWwhRBi46twzYFZCFVtxIA=;
- b=jaDmkjxUvv933vnXaE4le+w+4C0Bd4foHxhGcP6dcW/tNQyBdvdC1uMwWxXqUJtanL
- h/JnWWeoprKpQ5HR8NxHvwUySBVL7w0jELn2jUrKjC7FlK89tbyez+y1IiScIIvPhxc8
- AiXvSOYqXH3Np15o8MSmUnThKxABfQxLT4vZq83I3lWVJISw1kh2vfPKoNvJc1xvaOJB
- fEPXTm6XgOztjw7QJS08uxTdw6zqn8T3nnquHMHqFjI5ukqv+HRTwSJmCpQOx1bV3Xkd
- NG2cHtrZOP+7buEgNt6n5rNGFG8hzxitWbJV1V3FRmCJPCs/DS99SJmJmqTU06qHid4e
- DJsw==
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170E989CF3
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 02:36:10 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id b2so3041584edm.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Jan 2021 18:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bsBv85TTm4bgmfYBTRiSlgurbvsoPr/alhSs5wTQ52c=;
+ b=e24RhaxnHw3+cr9cGGVan/vH+w0VN606TrjGMOxFrDO81s9DQ2DGwpb170/u+doflG
+ WmTrDT6vTHh1hjO+318B9fsTAP37fFEnQ+O6LsxeZc6rP3ub6O76EjNRiduaGUPmuynP
+ JSIAdFlLl1VUBxTq3DPAi7JAkDpuUGUQ7VO/EQaXmGtouRHsPKrSSCjp77bSZTdnhHXH
+ dgl95XbpDhL0G28w62zpb6vvyegg+bGltGeqUWuICAmzPah/L3oetBLPFe9tcXmKXrQQ
+ juE+Zdlkw/EwZQMZ4TU2BHz4OesOEggqpSC0E8QXk445mY1NUYGdkKUNeABoGEFay0Y0
+ fscA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=M2SnuavxPcXUJasCexKnjXWwhRBi46twzYFZCFVtxIA=;
- b=QSVZ13GxsBjMdWnBUtklwH53q4RMCO0CNE6ttm+61yndd8faiBnLU/UYTLa71zK3nr
- 1GSccIkU/0nuO+yGUemsCuh40Me0phaXwkRdIAnjYXuYeS0cNd+kEjsKAZJlijGtzaib
- JFBEnmGr5nBTdUBrzKX24WNCvksXR8xovuRJAXU4xojZtAlmQ3QMOMls6Q81cH9UBJ5O
- WDQRelwwJuejwgtNY7oHkKDbpmZb/FvtECx9MeaeR5YzPEmbiQtKM2hQ++E+ulbNrGa8
- dmRHAq4VFbBLsMJWeGsHEc/0aWuvrCA81E+YBLRGE4BTdJc+RIjb491YcNEfS7MjdtVV
- 3T+Q==
-X-Gm-Message-State: AOAM530m1/pcH3Cl6CG7uGCa0n+Zn/SNsbFGJdNnEkWKxzWH27R31M+v
- 5I0w8qKBi8Fq3jPHyK6Yl/g=
-X-Google-Smtp-Source: ABdhPJyBKCiWl8KqpA3d/9qhuLzYJM2/8URZ+PH/AyWme2ojcsE4nRsA6SZa1w/6+Y6vqjUiBP87Hg==
-X-Received: by 2002:a17:902:6e02:b029:dc:8e14:a928 with SMTP id
- u2-20020a1709026e02b02900dc8e14a928mr1938073plk.24.1609898136435; 
- Tue, 05 Jan 2021 17:55:36 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
- by smtp.gmail.com with ESMTPSA id gm18sm425052pjb.55.2021.01.05.17.55.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 17:55:35 -0800 (PST)
-Date: Tue, 5 Jan 2021 17:55:31 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
-Message-ID: <X/UYk4RESSfjCIPI@google.com>
-References: <20210104230253.2805217-1-robh@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bsBv85TTm4bgmfYBTRiSlgurbvsoPr/alhSs5wTQ52c=;
+ b=ZU3TdEd4nj8u64VEskMoN5BM2jflofg9yxYV5ToCWaGYmvpv2VvJvj/eUQ9Cy/MXis
+ FcbngqlOcSiwA9zJ6EmD/a4Z6tGThYmN9iMhLzY8JRS1LLf4Rtmsz7yhamuMa1XF3+2s
+ C2Sb3hOPA2vXlWowdcRCIXGtCAP56FPgwCEu5/WqqKsea6mAPcoGFoZAtPXS7ScY+0JI
+ tB+VrZqAlR/S4IE0u6u3pbqYKulayGo0p9BOUefsOg8Q9tg305JViMJvqNOi48ohSUK8
+ On/9ktphTizgSqbY/7IbWO/f7rf3pJyAHbtpDTCIjKimjztOWJLxrCwbbyk89hbxwJuc
+ mj+A==
+X-Gm-Message-State: AOAM530SBA5KAYjkdly47y1dusp/Qlv3LYNmrHn949UBVeP/cdFYIINv
+ bTcXlZFiXCHaaQO1GzefgZtjxdQhiwQn66GIM5+M/NicUZo=
+X-Google-Smtp-Source: ABdhPJwxX9TWwIJFOsXAtq6lI8P07T6o74sKnQuOfsPo8Stl+MMSuybZBfFt/7RA4thtxmuzgxJ1Yj7oink8/xFF1fQ=
+X-Received: by 2002:a50:fd18:: with SMTP id i24mr2549874eds.146.1609900568600; 
+ Tue, 05 Jan 2021 18:36:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
+References: <CAFBinCA4EnbJZ5HnWzqP-LdLJE0FD_nGqA6PxdQaR5KfETgvTQ@mail.gmail.com>
+ <57a65a09-606a-8773-e1ff-4202e83779c8@baylibre.com>
+In-Reply-To: <57a65a09-606a-8773-e1ff-4202e83779c8@baylibre.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Wed, 6 Jan 2021 03:35:57 +0100
+Message-ID: <CAFBinCAxWfUjFvL8xqxPZLGcA2UeqBb-2zqYEf5TVX_yQi-hFg@mail.gmail.com>
+Subject: Re: discussion: re-structuring of the Amlogic Meson VPU DRM driver
+To: Neil Armstrong <narmstrong@baylibre.com>
 X-Mailman-Approved-At: Wed, 06 Jan 2021 08:52:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,38 +63,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-iio@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-ide@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- netdev@vger.kernel.org, linux-clk@vger.kernel.org,
- Chanwoo Choi <cw00.choi@samsung.com>, Marc Zyngier <maz@kernel.org>,
- linux-riscv@lists.infradead.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- linux-media@vger.kernel.org, Ohad Ben-Cohen <ohad@wizery.com>,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
->  .../input/touchscreen/elan,elants_i2c.yaml    |  1 +
+Hi Neil,
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Mon, Jan 4, 2021 at 2:29 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> Hi,
+>
+> Sorry for the delay...
+>
+> On 31/12/2020 00:24, Martin Blumenstingl wrote:
+> > Hi Neil and all interested people,
+> >
+> > in the past there were concerns about how some of the components are
+> > coupled in our Meson DRM driver(s).
+> > With this discussion I would like to achieve four things:
+> > 1. understand the current issues that we have> 2. come up with a TODO list of things that need to be tackled as well
+> > as recommendations how to solve it (for example: "driver ABC function
+> > ABC uses the recommended way - take that as reference")
+> > 3. one by one work on the items on the TODO list
+> > 4. add support for the 32-bit SoCs to the Meson VPU DRM driver
+> > (without adding more "not recommended" code)
+> >
+> > Disclaimer: I am not familiar with the DRM subsystem - so apologies if
+> > the terminology is not correct.
+> >
+> > drivers/gpu/drm/meson/meson_dw_hdmi.c currently serves four purposes:
+> > 1. manage the TOP (glue) registers for the dw-hdmi IP
+> > This is Amlogic specific and consists of things like HPD filtering,
+> > some internal resets, etc.
+> > In my opinion this part is supposed to stay in this driver
+> Yep, it's tightly coupled to the DW-HDMI core
+>
+> >
+> > 2. load the driver for the dw-hdmi IP by calling dw_hdmi_probe()
+> > I read somewhere that this is not recommended anymore and should be replaced.
+> > Is my understanding correct and what is the recommended replacement?
+> Yeah in fact the dw-hdmi glue should be a pure bridge, not a component anymore.
+>
+> This means it should probe by itself entirely, should not use the component stuff.
+OK, I see
 
--- 
-Dmitry
+> This also means all the VPU related part (mainly encoder and clock) should be moved
+> out of this file as a bridge and built with the meson_drm driver,
+> then find the "next bridge" like other drivers.
+is that linkage automatically set up with the endpoint definitions
+inside the .dts?
+
+> > 3. it manages the HDMI PHY registers in the HHI register area
+> > For the 32-bit SoCs I will not follow this pattern and will create a
+> > separate PHY instead.
+> > As a long-term goal I think we should also move this into a dedicated
+> > PHY driver.
+>
+> I looked at it, and ... it's complex. For the 32-bit socs it's easy because
+> you only have a single PHY setup, for the new gens you have to deal with the
+> 4k modes and co. This could be handle by adding a new parameters set to the
+> phy_configure union, but what should we add in it to be super generic ?
+you are right, on the 32-bit SoCs it's pretty easy actually.
+it's only "4k" and "everything else".
+
+I think using the phy_configure approach is the right way
+but to be honest: I have not thought about which parameters to add to
+that union (for the 64-bit SoCs) to make it "generic" enough
+also I think this is a TODO "for later", so no action needed now - but
+it's great to see that you had the same idea in mind :)
+
+> >
+> > 4. call back into VPU/VENC functions to set up these registers
+> > This is a blocker for 32-bit SoC support as I would have to duplicate
+> > this code if we don't make any changes. This includes things like
+> > calculating (and setting) clock frequencies, calling
+> > meson_venc_hdmi_mode_set for setting up the DVI pixel encoder, etc.
+> > My understanding is that this part should not be part of the
+> > meson_dw_hdmi driver, but "some other" driver. I don't understand
+> > which driver that's supposed to be though and how things would be
+> > wired up in the end.
+>
+> Yep it should be a bridge. You can chain bridges, it's designed for such use case.
+>
+> We will have internal bridges for encoders, ENCL+ENCP grouped for HDMI and ENCL.
+I see. adding to my question above: would this mean that we have then
+more "endpoints" defined in our .dts - one for the ENCI+ENCP (HDMI)
+output, another one for the ENCL (DSI), ...?
+
+> CVBS can be handled separately without bridges.
+indeed, let's postpone CVBS for now as it's easy to adapt the current
+code for the 32-bit SoCs.
+in a perfect world I think the CVBS encoder/bridge (whatever the
+correct type is) would be it's own driver as it's part of the HHI
+registers
+
+> I can have a try to move stuff if you can review/test on your side.
+> Would it be a good start ?
+that would be awesome
+if there's any way I can help (you add FIXMEs/TODOs to your code which
+you want me to solve, testing, etc.) then please let me know!
+
+> >
+> > In addition to HDMI my understanding is that for adding MIPI DSI
+> > support you would
+> > a) either have to follow the pattern from the meson_dw_hdmi driver or
+> > b) also require some better way to achieve this
+>
+> With the cut I described before, we'll need a add a simple ENCL bridge
+> in meson_drm and a standalone bridge for dw-mipi-dsi.
+that sounds like we don't need to duplicate any code which would be great
+
+> >
+> > The biggest question marks for me are #2 and #4 from the list above.
+> > Also is there anything I have missed?
+> > Any input, feedback and questions are welcome!
+> >
+> > PS: an additional topic on the TODO list will be "use the common clock
+> > framework" for clock setup. it's currently not clear to me if that's
+> > possible on the 64-bit SoCs in all cases.
+>
+> It's the same issue for 4k & co, the high freqs needs special PLL settings,
+> not sure how this would be easily doable in the PLL driver.
+> We may need to add a gx/g12 HDMI specific pll driver.
+the PLL settings are unfortunately also not very easy for the 32-bit SoCs.
+but let's have this discussion at another time, I think that changing
+the drm driver structure can be separate from this.
+
+
+Best regards,
+Martin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
