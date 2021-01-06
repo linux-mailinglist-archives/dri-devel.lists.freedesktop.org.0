@@ -2,35 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4762ECC09
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD312ECBF8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9516E435;
-	Thu,  7 Jan 2021 08:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC1F6E44A;
+	Thu,  7 Jan 2021 08:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D9089D99
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 19:55:35 +0000 (UTC)
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 06 Jan 2021 11:49:30 -0800
-X-QCInternal: smtphost
-Received: from veeras-linux.qualcomm.com ([10.134.68.137])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 06 Jan 2021 11:49:30 -0800
-Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
- id 2A9E621B46; Wed,  6 Jan 2021 11:49:30 -0800 (PST)
-From: Veera Sundaram Sankaran <veeras@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH RESEND v2 2/2] drm/drm_vblank: set the dma-fence timestamp
- during send_vblank_event
-Date: Wed,  6 Jan 2021 11:49:14 -0800
-Message-Id: <1609962554-13872-2-git-send-email-veeras@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
-References: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
+X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
+ Wed, 06 Jan 2021 20:47:52 UTC
+Received: from mail.siol.net (mailoutvs49.siol.net [185.57.226.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19DC489D9A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 20:47:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id 55370522E20;
+ Wed,  6 Jan 2021 21:40:17 +0100 (CET)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id gR7vxRChIE9O; Wed,  6 Jan 2021 21:40:16 +0100 (CET)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id B8CD4522E39;
+ Wed,  6 Jan 2021 21:40:16 +0100 (CET)
+Received: from kista.localdomain (cpe-86-58-58-53.static.triera.net
+ [86.58.58.53]) (Authenticated sender: 031275009)
+ by mail.siol.net (Postfix) with ESMTPSA id D70F3522E20;
+ Wed,  6 Jan 2021 21:40:15 +0100 (CET)
+From: Jernej Skrabec <jernej.skrabec@siol.net>
+To: mripard@kernel.org,
+	wens@csie.org
+Subject: [PATCH v3] drm/sun4i: de2: Reimplement plane z position setting logic
+Date: Wed,  6 Jan 2021 21:46:30 +0100
+Message-Id: <20210106204630.1800284-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 07 Jan 2021 08:53:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,131 +50,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Veera Sundaram Sankaran <veeras@codeaurora.org>, abhinavk@codeaurora.org,
- pdhaval@codeaurora.org, sean@poorly.run
-MIME-Version: 1.0
+Cc: jernej.skrabec@siol.net,
+ Roman Stratiienko <roman.stratiienko@globallogic.com>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ paul.kocialkowski@bootlin.com, linux-sunxi@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The explicit out-fences in crtc are signaled as part of vblank event,
-indicating all framebuffers present on the Atomic Commit request are
-scanned out on the screen. Though the fence signal and the vblank event
-notification happens at the same time, triggered by the same hardware
-vsync event, the timestamp set in both are different. With drivers
-supporting precise vblank timestamp the difference between the two
-timestamps would be even higher. This might have an impact on use-mode
-frameworks using these fence timestamps for purposes other than simple
-buffer usage. For instance, the Android framework [1] uses the
-retire-fences as an alternative to vblank when frame-updates are in
-progress. Set the fence timestamp during send vblank event using a new
-drm_send_event_timestamp_locked variant to avoid discrepancies.
+From: Roman Stratiienko <roman.stratiienko@globallogic.com>
 
-[1] https://android.googlesource.com/platform/frameworks/native/+/master/
-services/surfaceflinger/Scheduler/Scheduler.cpp#397
+To set blending channel order register software needs to know state and
+position of each channel, which impossible at plane commit stage.
 
-Changes in v2:
-- Use drm_send_event_timestamp_locked to update fence timestamp
-- add more information to commit text
+Move this procedure to atomic_flush stage, where all necessary information
+is available.
 
-Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+Fixes: f88c5ee77496 ("drm/sun4i: Implement zpos for DE2")
+Fixes: d8b3f454dab4 ("drm/sun4i: sun8i: Avoid clearing blending order at each atomic commit")
+Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+[rebased, addressed comments]
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/drm_file.c   | 43 +++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_vblank.c |  9 ++++++++-
- include/drm/drm_file.h       |  3 +++
- 3 files changed, 54 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 57 +++++++++++++++++++++-----
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    |  5 +++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 42 +++----------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 42 +++----------------
+ 4 files changed, 64 insertions(+), 82 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 0ac4566..5944bb9 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -775,6 +775,49 @@ void drm_event_cancel_free(struct drm_device *dev,
- EXPORT_SYMBOL(drm_event_cancel_free);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 5b42cf25cc86..d2153b10b08d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -250,6 +250,50 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
  
- /**
-+ * drm_send_event_timestamp_locked - send DRM event to file descriptor
-+ * @dev: DRM device
-+ * @e: DRM event to deliver
-+ * @timestamp: timestamp to set for the fence event
-+ *
-+ * This function sends the event @e, initialized with drm_event_reserve_init(),
-+ * to its associated userspace DRM file. Callers must already hold
-+ * &drm_device.event_lock, see drm_send_event() for the unlocked version.
-+ *
-+ * Note that the core will take care of unlinking and disarming events when the
-+ * corresponding DRM file is closed. Drivers need not worry about whether the
-+ * DRM file for this event still exists and can call this function upon
-+ * completion of the asynchronous work unconditionally.
-+ */
-+void drm_send_event_timestamp_locked(struct drm_device *dev,
-+			struct drm_pending_event *e, ktime_t timestamp)
-+{
-+	assert_spin_locked(&dev->event_lock);
+ static void sun8i_mixer_commit(struct sunxi_engine *engine)
+ {
++	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
++	int channel_by_zpos[SUN8I_MIXER_MAX_CHANNELS];
++	u32 base = sun8i_blender_base(mixer);
++	u32 route = 0, pipe_ctl = 0;
++	unsigned int channel_count;
++	int i, j;
 +
-+	if (e->completion) {
-+		complete_all(e->completion);
-+		e->completion_release(e->completion);
-+		e->completion = NULL;
++	channel_count = mixer->cfg->vi_num + mixer->cfg->ui_num;
++
++	DRM_DEBUG_DRIVER("Update blender routing\n");
++
++	for (i = 0; i < SUN8I_MIXER_MAX_CHANNELS; i++)
++		channel_by_zpos[i] = -1;
++
++	for (i = 0; i < channel_count; i++)	{
++		int zpos = mixer->channel_zpos[i];
++
++		if (zpos >= 0 && zpos < channel_count)
++			channel_by_zpos[zpos] = i;
 +	}
 +
-+	if (e->fence) {
-+		dma_fence_signal_timestamp(e->fence, timestamp);
-+		dma_fence_put(e->fence);
++	j = 0;
++	for (i = 0; i < channel_count; i++) {
++		int ch = channel_by_zpos[i];
++
++		if (ch >= 0) {
++			pipe_ctl |= SUN8I_MIXER_BLEND_PIPE_CTL_EN(j);
++			route |= ch << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
++			j++;
++		}
 +	}
 +
-+	if (!e->file_priv) {
-+		kfree(e);
-+		return;
-+	}
-+
-+	list_del(&e->pending_link);
-+	list_add_tail(&e->link,
-+		      &e->file_priv->event_list);
-+	wake_up_interruptible(&e->file_priv->event_wait);
-+}
-+EXPORT_SYMBOL(drm_send_event_timestamp_locked);
-+
-+/**
-  * drm_send_event_locked - send DRM event to file descriptor
-  * @dev: DRM device
-  * @e: DRM event to deliver
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index f135b79..286edbe 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1000,7 +1000,14 @@ static void send_vblank_event(struct drm_device *dev,
- 		break;
- 	}
- 	trace_drm_vblank_event_delivered(e->base.file_priv, e->pipe, seq);
--	drm_send_event_locked(dev, &e->base);
 +	/*
-+	 * Use the same timestamp for any associated fence signal to avoid
-+	 * mismatch in timestamps for vsync & fence events triggered by the
-+	 * same HW event. Frameworks like SurfaceFlinger in Android expects the
-+	 * retire-fence timestamp to match exactly with HW vsync as it uses it
-+	 * for its software vsync modeling.
++	 * Set fill color of bottom plane to black. Generally not needed
++	 * except when VI plane is at bottom (zpos = 0) and enabled.
 +	 */
-+	drm_send_event_timestamp_locked(dev, &e->base, now);
++	pipe_ctl |= SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0);
++
++	regmap_write(mixer->engine.regs,
++		     SUN8I_MIXER_BLEND_PIPE_CTL(base), pipe_ctl);
++
++	regmap_write(mixer->engine.regs,
++		     SUN8I_MIXER_BLEND_ROUTE(base), route);
++
+ 	DRM_DEBUG_DRIVER("Committing changes\n");
+ 
+ 	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
+@@ -479,23 +523,16 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
+ 	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
+ 		     SUN8I_MIXER_BLEND_COLOR_BLACK);
+ 
+-	/*
+-	 * Set fill color of bottom plane to black. Generally not needed
+-	 * except when VI plane is at bottom (zpos = 0) and enabled.
+-	 */
+-	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+-		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
+ 	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
+ 		     SUN8I_MIXER_BLEND_COLOR_BLACK);
+ 
+ 	plane_cnt = mixer->cfg->vi_num + mixer->cfg->ui_num;
+-	for (i = 0; i < plane_cnt; i++)
++	for (i = 0; i < plane_cnt; i++) {
++		mixer->channel_zpos[i] = -1;
+ 		regmap_write(mixer->engine.regs,
+ 			     SUN8I_MIXER_BLEND_MODE(base, i),
+ 			     SUN8I_MIXER_BLEND_MODE_DEF);
+-
+-	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
+-			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
++	}
+ 
+ 	return 0;
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 7576b523fdbb..7b378d6e4dd9 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -12,6 +12,8 @@
+ 
+ #include "sunxi_engine.h"
+ 
++#define SUN8I_MIXER_MAX_CHANNELS		5
++
+ #define SUN8I_MIXER_SIZE(w, h)			(((h) - 1) << 16 | ((w) - 1))
+ #define SUN8I_MIXER_COORD(x, y)			((y) << 16 | (x))
+ 
+@@ -179,6 +181,9 @@ struct sun8i_mixer {
+ 
+ 	struct clk			*bus_clk;
+ 	struct clk			*mod_clk;
++
++	/* -1 means that layer is disabled */
++	int channel_zpos[SUN8I_MIXER_MAX_CHANNELS];
+ };
+ 
+ static inline struct sun8i_mixer *
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 816ad4ce8996..9f82e7c33e90 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -24,12 +24,10 @@
+ #include "sun8i_ui_scaler.h"
+ 
+ static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
++				  int overlay, bool enable, unsigned int zpos)
+ {
+-	u32 val, bld_base, ch_base;
++	u32 val, ch_base;
+ 
+-	bld_base = sun8i_blender_base(mixer);
+ 	ch_base = sun8i_channel_base(mixer, channel);
+ 
+ 	DRM_DEBUG_DRIVER("%sabling channel %d overlay %d\n",
+@@ -44,32 +42,7 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+ 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
+ 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
+ 
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+-	if (enable) {
+-		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   val, val);
+-
+-		val = channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
+-				   val);
+-	}
++	mixer->channel_zpos[channel] = enable ? zpos : -1;
  }
  
- /**
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 716990b..b81b3bf 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -399,6 +399,9 @@ void drm_event_cancel_free(struct drm_device *dev,
- 			   struct drm_pending_event *p);
- void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e);
- void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
-+void drm_send_event_timestamp_locked(struct drm_device *dev,
-+				     struct drm_pending_event *e,
-+				     ktime_t timestamp);
+ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+@@ -267,11 +240,9 @@ static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+ 					  struct drm_plane_state *old_state)
+ {
+ 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
  
- struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
+-	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
++	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0);
+ }
  
+ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+@@ -279,12 +250,11 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ {
+ 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
+ 	unsigned int zpos = plane->state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+ 	if (!plane->state->visible) {
+ 		sun8i_ui_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++				      layer->overlay, false, 0);
+ 		return;
+ 	}
+ 
+@@ -295,7 +265,7 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+ 	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
++			      true, zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 76393fc976fe..c8c418fb906b 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -18,12 +18,10 @@
+ #include "sun8i_vi_scaler.h"
+ 
+ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
++				  int overlay, bool enable, unsigned int zpos)
+ {
+-	u32 val, bld_base, ch_base;
++	u32 val, ch_base;
+ 
+-	bld_base = sun8i_blender_base(mixer);
+ 	ch_base = sun8i_channel_base(mixer, channel);
+ 
+ 	DRM_DEBUG_DRIVER("%sabling VI channel %d overlay %d\n",
+@@ -38,32 +36,7 @@ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val);
+ 
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+-	if (enable) {
+-		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   val, val);
+-
+-		val = channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
+-				   val);
+-	}
++	mixer->channel_zpos[channel] = enable ? zpos : -1;
+ }
+ 
+ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+@@ -370,11 +343,9 @@ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+ 					  struct drm_plane_state *old_state)
+ {
+ 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
++	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0);
+ }
+ 
+ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+@@ -382,12 +353,11 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ {
+ 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
+ 	unsigned int zpos = plane->state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+ 	if (!plane->state->visible) {
+ 		sun8i_vi_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++				      layer->overlay, false, 0);
+ 		return;
+ 	}
+ 
+@@ -398,7 +368,7 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_vi_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+ 	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
++			      true, zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
 -- 
-2.7.4
+2.30.0
 
 _______________________________________________
 dri-devel mailing list
