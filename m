@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D061D2EC03C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 16:18:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C472EC144
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 17:36:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335A06E216;
-	Wed,  6 Jan 2021 15:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C21376E08E;
+	Wed,  6 Jan 2021 16:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6756E216
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 15:18:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD1BA878;
- Wed,  6 Jan 2021 16:18:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1609946288;
- bh=6Mbpshc2s926symhXWx345xx90B3Cra5PtgDj9FiqdA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C6JMRL/n2Qd7l9lfx527Y2Ktoyn9a3/c+aBLBvW3g1JnCHJey0qA//ZOg+ZLHcrX9
- i/Fyo8mhUAg1qj8hoNcomGOvi9mk2+o0/J/hBvIXUeFpD0y+UuCc7Ho+B6ZVMoCAn2
- ScfZDX2dbKpm5PgFPvWpPXQ2FPqW5/NER4Rx5Jyk=
-Date: Wed, 6 Jan 2021 17:17:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v3 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <X/XUow/ku/bsDXvr@pendragon.ideasonboard.com>
-References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CFE6E08E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 16:36:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4FCF72312F
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 16:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1609951010;
+ bh=ai320C/i8fqJR2sej6eOOTuLgqLIteCxyyp08G8iKLk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jbUqG0STBL4wVLlsfQTALXYXJLuhmER2HsgqTBkeQacSjcnS360EdBqsbig9QmMOr
+ j2ezkVc7ya1kR+yeEJee3xDR3zTy7ilsNNAaWk3g0/lnFPuiR4n5kkPyYE/ixQTuwC
+ HYEXyujAIu7XSd2xyITShU3yCPq3GT+eLDbyhp83asf9TctQgEtZqfVRRqfD6nJXKZ
+ Sdawbs0ALAJKBZBcv0MVKRrjocW89DCVeADYZv7EzXLX+enktbjflxPLpeaUitPY1w
+ 41sq5Nzs3oQKN3Zk6dxZzgsxR8cb//x9kNVQA0TWjeycKGPJlEGJWVDHKjaGkXRksj
+ k3m8aCmd54EqQ==
+Received: by mail-ed1-f42.google.com with SMTP id r5so4881999eda.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Jan 2021 08:36:50 -0800 (PST)
+X-Gm-Message-State: AOAM5334k0WDlusKyDM7r7VbFSn1ybbylpfGKKahcFjE7Rzp8XPqpP4C
+ Xdei4VSvE/KvxYToVpMzas8hwDBlgPSpkDYXSg==
+X-Google-Smtp-Source: ABdhPJzpUH6QdUBnvH2TcKustKPrfyYDr3r4JSutkE3V/dcxPu5UI4vmqh7oVVbk6+uNnml1r9fC6o6DyHP5x8UDeYk=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr4471752edw.303.1609951008829; 
+ Wed, 06 Jan 2021 08:36:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
+References: <1609815993-22744-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1609815993-22744-11-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1609815993-22744-11-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 7 Jan 2021 00:36:33 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9=wj=u6u+yMCxMgxQ+_g0E3NGeghsRMPavcE2kcEympQ@mail.gmail.com>
+Message-ID: <CAAOTY_9=wj=u6u+yMCxMgxQ+_g0E3NGeghsRMPavcE2kcEympQ@mail.gmail.com>
+Subject: Re: [PATCH v4, 10/10] soc: mediatek: mmsys: add mt8192 mmsys support
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,295 +53,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
- Mark Yao <markyao0591@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-Given that the maintainers property is mandatory in the schema, what's
-the procedure when no maintainer steps up for a converter YAML binding ?
-
-On Tue, Jan 05, 2021 at 08:08:16AM +0200, Laurent Pinchart wrote:
-> Convert the Rockchip HDMI TX text binding to YAML.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v2:
-> 
-> - Use Mark's @gmail.com e-mail address as the @rock-chips.com address
->   bounces
-> 
-> Changes since v1:
-> 
-> - Drop pinctrl-0 and pinctrl-1
-> - Use unevaluatedProperties instead of additionalProperties
-> - Drop reg and interrupts as they're checked in the base schema
-> - Rebase on top of OF graph schema, dropped redundant properties
-> - Fix identation for enum entries
-> - Tidy up clock names
-> ---
->  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
->  .../display/rockchip/rockchip,dw-hdmi.yaml    | 158 ++++++++++++++++++
->  2 files changed, 158 insertions(+), 74 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> deleted file mode 100644
-> index 3d32ce137e7f..000000000000
-> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> +++ /dev/null
-> @@ -1,74 +0,0 @@
-> -Rockchip DWC HDMI TX Encoder
-> -============================
-> -
-> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> -with a companion PHY IP.
-> -
-> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> -following device-specific properties.
-> -
-> -
-> -Required properties:
-> -
-> -- compatible: should be one of the following:
-> -		"rockchip,rk3228-dw-hdmi"
-> -		"rockchip,rk3288-dw-hdmi"
-> -		"rockchip,rk3328-dw-hdmi"
-> -		"rockchip,rk3399-dw-hdmi"
-> -- reg: See dw_hdmi.txt.
-> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> -- interrupts: HDMI interrupt number
-> -- clocks: See dw_hdmi.txt.
-> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> -  corresponding to the video input of the controller. The port shall have two
-> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> -
-> -Optional properties
-> -
-> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> -  connected to a system I2C master this property contains a phandle to that
-> -  I2C master controller.
-> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> -- clock-names: May contain "grf", power for grf io.
-> -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> -- phys: from general PHY binding: the phandle for the PHY device.
-> -- phy-names: Should be "hdmi" if phys references an external phy.
-> -
-> -Optional pinctrl entry:
-> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> -  cause the SDA line to be driven low to work around a hardware
-> -  errata.
-> -
-> -Example:
-> -
-> -hdmi: hdmi@ff980000 {
-> -	compatible = "rockchip,rk3288-dw-hdmi";
-> -	reg = <0xff980000 0x20000>;
-> -	reg-io-width = <4>;
-> -	ddc-i2c-bus = <&i2c5>;
-> -	rockchip,grf = <&grf>;
-> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> -	clock-names = "iahb", "isfr";
-> -	ports {
-> -		hdmi_in: port {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -			hdmi_in_vopb: endpoint@0 {
-> -				reg = <0>;
-> -				remote-endpoint = <&vopb_out_hdmi>;
-> -			};
-> -			hdmi_in_vopl: endpoint@1 {
-> -				reg = <1>;
-> -				remote-endpoint = <&vopl_out_hdmi>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..d3b2f87f152a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip DWC HDMI TX Encoder
-> +
-> +maintainers:
-> +  - Mark Yao <markyao0591@gmail.com>
-> +
-> +description: |
-> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> +  with a companion PHY IP.
-> +
-> +allOf:
-> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - rockchip,rk3228-dw-hdmi
-> +      - rockchip,rk3288-dw-hdmi
-> +      - rockchip,rk3328-dw-hdmi
-> +      - rockchip,rk3399-dw-hdmi
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - {}
-> +      - {}
-> +      # The next three clocks are all optional, but shall be specified in this
-> +      # order when present.
-> +      - description: The HDMI CEC controller main clock
-> +      - description: Power for GRF IO
-> +      - description: External clock for some HDMI PHY
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - {}
-> +      - {}
-> +      - enum:
-> +          - cec
-> +          - grf
-> +          - vpll
-> +      - enum:
-> +          - grf
-> +          - vpll
-> +      - const: vpll
-> +
-> +  ddc-i2c-bus:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      The HDMI DDC bus can be connected to either a system I2C master or the
-> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> +      to a system I2C master this property contains a phandle to that I2C
-> +      master controller.
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: The HDMI PHY
-> +
-> +  phy-names:
-> +    const: hdmi
-> +
-> +  pinctrl-names:
-> +    description:
-> +      The unwedge pinctrl entry shall drive the DDC SDA line low. This is
-> +      intended to work around a hardware errata that can cause the DDC I2C
-> +      bus to be wedged.
-> +    items:
-> +      - const: default
-> +      - const: unwedge
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: Input of the DWC HDMI TX
-> +
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +            description: Connection to the VOPB
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +            description: Connection to the VOPL
-> +
-> +        required:
-> +          - endpoint@0
-> +          - endpoint@1
-> +
-> +    required:
-> +      - port
-> +
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to the GRF to mux vopl/vopb.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-io-width
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - ports
-> +  - rockchip,grf
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rk3288-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    hdmi: hdmi@ff980000 {
-> +        compatible = "rockchip,rk3288-dw-hdmi";
-> +        reg = <0xff980000 0x20000>;
-> +        reg-io-width = <4>;
-> +        ddc-i2c-bus = <&i2c5>;
-> +        rockchip,grf = <&grf>;
-> +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> +        clock-names = "iahb", "isfr";
-> +
-> +        ports {
-> +            port {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                hdmi_in_vopb: endpoint@0 {
-> +                    reg = <0>;
-> +                    remote-endpoint = <&vopb_out_hdmi>;
-> +                };
-> +                hdmi_in_vopl: endpoint@1 {
-> +                    reg = <1>;
-> +                    remote-endpoint = <&vopl_out_hdmi>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMeW5tDHmnIg15pelIOmAseS6jCDkuIrljYgxMToxN+Wvq+mBk++8mgo+Cj4gYWRk
+IG10ODE5MiBtbXN5cyBzdXBwb3J0Cj4KPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5
+b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsv
+bW1zeXMvTWFrZWZpbGUgICAgICAgfCAgIDEgKwo+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9tbXN5
+cy9tdDgxOTItbW1zeXMuYyB8IDE0OSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAg
+ZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXRrLW1tc3lzLmMgICAgfCAgIDkgKysKPiAgaW5j
+bHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmggICAgfCAgIDEgKwo+ICA0IGZpbGVz
+IGNoYW5nZWQsIDE2MCBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L3NvYy9tZWRpYXRlay9tbXN5cy9tdDgxOTItbW1zeXMuYwo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvc29jL21lZGlhdGVrL21tc3lzL01ha2VmaWxlIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1z
+eXMvTWFrZWZpbGUKPiBpbmRleCAyNWVlYjllNS4uNzUwOGNkMyAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL3NvYy9tZWRpYXRlay9tbXN5cy9NYWtlZmlsZQo+ICsrKyBiL2RyaXZlcnMvc29jL21lZGlh
+dGVrL21tc3lzL01ha2VmaWxlCj4gQEAgLTEsNCArMSw1IEBACj4gICMgU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IEdQTC0yLjAtb25seQo+ICBvYmotJChDT05GSUdfTVRLX01NU1lTKSArPSBtdDI3
+MDEtbW1zeXMubwo+ICBvYmotJChDT05GSUdfTVRLX01NU1lTKSArPSBtdDgxODMtbW1zeXMubwo+
+ICtvYmotJChDT05GSUdfTVRLX01NU1lTKSArPSBtdDgxOTItbW1zeXMubwo+ICBvYmotJChDT05G
+SUdfTVRLX01NU1lTKSArPSBtdGstbW1zeXMubwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9t
+ZWRpYXRlay9tbXN5cy9tdDgxOTItbW1zeXMuYyBiL2RyaXZlcnMvc29jL21lZGlhdGVrL21tc3lz
+L210ODE5Mi1tbXN5cy5jCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwLi4y
+ZTM1MGQxCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvc29jL21lZGlhdGVrL21tc3lz
+L210ODE5Mi1tbXN5cy5jCj4gQEAgLTAsMCArMSwxNDkgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IEdQTC0yLjAKPiArLy8KPiArLy8gQ29weXJpZ2h0IChjKSAyMDIwIE1lZGlhVGVr
+IEluYy4KPiArCj4gKyNpbmNsdWRlIDxsaW51eC9kZXZpY2UuaD4KPiArI2luY2x1ZGUgPGxpbnV4
+L2lvLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9vZl9kZXZpY2UuaD4KPiArI2luY2x1ZGUgPGxpbnV4
+L3BsYXRmb3JtX2RldmljZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvc29jL21lZGlhdGVrL210ay1t
+bXN5cy5oPgo+ICsKPiArI2RlZmluZSBNTVNZU19PVkxfTU9VVF9FTiAgICAgICAgICAgICAgMHhm
+MDQKPiArI2RlZmluZSBESVNQX09WTDBfR09fQkxFTkQgICAgICAgICAgICAgICAgICAgICBCSVQo
+MCkKPiArI2RlZmluZSBESVNQX09WTDBfR09fQkcgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIEJJVCgxKQo+ICsjZGVmaW5lIERJU1BfT1ZMMF8yTF9HT19CTEVORCAgICAgICAgICAgICAg
+ICAgIEJJVCgyKQo+ICsjZGVmaW5lIERJU1BfT1ZMMF8yTF9HT19CRyAgICAgICAgICAgICAgICAg
+ICAgIEJJVCgzKQo+ICsjZGVmaW5lIERJU1BfT1ZMMV8yTF9NT1VUX0VOICAgICAgICAgICAweGYw
+OAo+ICsjZGVmaW5lIE9WTDFfMkxfTU9VVF9FTl9SRE1BMSAgICAgICAgICAgICAgICAgIEJJVCg0
+KQo+ICsjZGVmaW5lIERJU1BfT1ZMMF8yTF9NT1VUX0VOICAgICAgICAgICAweGYxOAo+ICsjZGVm
+aW5lIERJU1BfT1ZMMF9NT1VUX0VOICAgICAgICAgICAgICAweGYxYwo+ICsjZGVmaW5lIE9WTDBf
+TU9VVF9FTl9ESVNQX1JETUEwICAgICAgICAgICAgICAgICAgICAgICAgQklUKDApCj4gKyNkZWZp
+bmUgT1ZMMF9NT1VUX0VOX09WTDBfMkwgICAgICAgICAgICAgICAgICAgQklUKDQpCj4gKyNkZWZp
+bmUgRElTUF9SRE1BMF9TRUxfSU4gICAgICAgICAgICAgIDB4ZjJjCj4gKyNkZWZpbmUgUkRNQTBf
+U0VMX0lOX09WTDBfMkwgICAgICAgICAgICAgICAgICAgMHgzCj4gKyNkZWZpbmUgRElTUF9SRE1B
+MF9TT1VUX1NFTCAgICAgICAgICAgIDB4ZjMwCj4gKyNkZWZpbmUgUkRNQTBfU09VVF9DT0xPUjAg
+ICAgICAgICAgICAgICAgICAgICAgMHgxCj4gKyNkZWZpbmUgRElTUF9DQ09SUjBfU09VVF9TRUwg
+ICAgICAgICAgIDB4ZjM0Cj4gKyNkZWZpbmUgQ0NPUlIwX1NPVVRfQUFMMCAgICAgICAgICAgICAg
+ICAgICAgICAgMHgxCj4gKyNkZWZpbmUgRElTUF9BQUwwX1NFTF9JTiAgICAgICAgICAgICAgIDB4
+ZjM4Cj4gKyNkZWZpbmUgQUFMMF9TRUxfSU5fQ0NPUlIwICAgICAgICAgICAgICAgICAgICAgMHgx
+Cj4gKyNkZWZpbmUgRElTUF9ESVRIRVIwX01PVVRfRU4gICAgICAgICAgIDB4ZjNjCj4gKyNkZWZp
+bmUgRElUSEVSMF9NT1VUX0RTSTAgICAgICAgICAgICAgICAgICAgICAgQklUKDApCj4gKyNkZWZp
+bmUgRElTUF9EU0kwX1NFTF9JTiAgICAgICAgICAgICAgIDB4ZjQwCj4gKyNkZWZpbmUgRFNJMF9T
+RUxfSU5fRElUSEVSMCAgICAgICAgICAgICAgICAgICAgMHgxCj4gKyNkZWZpbmUgRElTUF9PVkwy
+XzJMX01PVVRfRU4gICAgICAgICAgIDB4ZjRjCj4gKyNkZWZpbmUgT1ZMMl8yTF9NT1VUX1JETUE0
+ICAgICAgICAgICAgICAgICAgICAgQklUKDApCj4gKwo+ICtzdGF0aWMgdm9pZCBtdGtfbW1zeXNf
+ZGRwX21vdXRfZW4odm9pZCBfX2lvbWVtICpjb25maWdfcmVncywKPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgZW51bSBtdGtfZGRwX2NvbXBfaWQgY3VyLAo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0LAo+ICsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIGVuYWJsZSkKPiArewo+ICsgICAgICAg
+dW5zaWduZWQgaW50IGFkZHIsIHZhbHVlLCByZWc7Cj4gKwo+ICsgICAgICAgaWYgKGN1ciA9PSBE
+RFBfQ09NUE9ORU5UX09WTF8yTDAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX1JETUEwKSB7Cj4g
+KyAgICAgICAgICAgICAgIGFkZHIgPSBESVNQX09WTDBfMkxfTU9VVF9FTjsKPiArICAgICAgICAg
+ICAgICAgdmFsdWUgPSBPVkwwX01PVVRfRU5fRElTUF9SRE1BMDsKPiArICAgICAgIH0gZWxzZSBp
+ZiAoY3VyID09IEREUF9DT01QT05FTlRfT1ZMXzJMMiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRf
+UkRNQTQpIHsKPiArICAgICAgICAgICAgICAgYWRkciA9IERJU1BfT1ZMMl8yTF9NT1VUX0VOOwo+
+ICsgICAgICAgICAgICAgICB2YWx1ZSA9IE9WTDJfMkxfTU9VVF9SRE1BNDsKPiArICAgICAgIH0g
+ZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfRElUSEVSICYmIG5leHQgPT0gRERQX0NPTVBP
+TkVOVF9EU0kwKSB7Cj4gKyAgICAgICAgICAgICAgIGFkZHIgPSBESVNQX0RJVEhFUjBfTU9VVF9F
+TjsKPiArICAgICAgICAgICAgICAgdmFsdWUgPSBESVRIRVIwX01PVVRfRFNJMDsKPiArICAgICAg
+IH0gZWxzZSB7Cj4gKyAgICAgICAgICAgICAgIHZhbHVlID0gMDsKPiArICAgICAgIH0KPiArCj4g
+KyAgICAgICBpZiAodmFsdWUpIHsKPiArICAgICAgICAgICAgICAgcmVnID0gcmVhZGxfcmVsYXhl
+ZChjb25maWdfcmVncyArIGFkZHIpOwo+ICsKPiArICAgICAgICAgICAgICAgaWYgKGVuYWJsZSkK
+PiArICAgICAgICAgICAgICAgICAgICAgICByZWcgfD0gdmFsdWU7Cj4gKyAgICAgICAgICAgICAg
+IGVsc2UKPiArICAgICAgICAgICAgICAgICAgICAgICByZWcgJj0gfnZhbHVlOwo+ICsKPiArICAg
+ICAgICAgICAgICAgd3JpdGVsX3JlbGF4ZWQocmVnLCBjb25maWdfcmVncyArIGFkZHIpOwo+ICsg
+ICAgICAgfQo+ICt9Cj4gKwo+ICtzdGF0aWMgdm9pZCBtdGtfbW1zeXNfZGRwX3NlbF9pbih2b2lk
+IF9faW9tZW0gKmNvbmZpZ19yZWdzLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0LAo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGJvb2wgZW5hYmxlKQo+ICt7Cj4gKyAgICAgICB1bnNpZ25lZCBpbnQgYWRkciwg
+dmFsdWUsIHJlZzsKPiArCj4gKyAgICAgICBpZiAoY3VyID09IEREUF9DT01QT05FTlRfT1ZMXzJM
+MCAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfUkRNQTApIHsKPiArICAgICAgICAgICAgICAgYWRk
+ciA9IERJU1BfUkRNQTBfU0VMX0lOOwo+ICsgICAgICAgICAgICAgICB2YWx1ZSA9IFJETUEwX1NF
+TF9JTl9PVkwwXzJMOwo+ICsgICAgICAgfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9D
+Q09SUiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfQUFMMCkgewo+ICsgICAgICAgICAgICAgICBh
+ZGRyID0gRElTUF9BQUwwX1NFTF9JTjsKPiArICAgICAgICAgICAgICAgdmFsdWUgPSBBQUwwX1NF
+TF9JTl9DQ09SUjA7Cj4gKyAgICAgICB9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX0RJ
+VEhFUiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfRFNJMCkgewo+ICsgICAgICAgICAgICAgICBh
+ZGRyID0gRElTUF9EU0kwX1NFTF9JTjsKPiArICAgICAgICAgICAgICAgdmFsdWUgPSBEU0kwX1NF
+TF9JTl9ESVRIRVIwOwo+ICsgICAgICAgfSBlbHNlIHsKPiArICAgICAgICAgICAgICAgdmFsdWUg
+PSAwOwo+ICsgICAgICAgfQo+ICsKPiArICAgICAgIGlmICh2YWx1ZSkgewo+ICsgICAgICAgICAg
+ICAgICByZWcgPSByZWFkbF9yZWxheGVkKGNvbmZpZ19yZWdzICsgYWRkcik7Cj4gKwo+ICsgICAg
+ICAgICAgICAgICBpZiAoZW5hYmxlKQo+ICsgICAgICAgICAgICAgICAgICAgICAgIHJlZyB8PSB2
+YWx1ZTsKPiArICAgICAgICAgICAgICAgZWxzZQo+ICsgICAgICAgICAgICAgICAgICAgICAgIHJl
+ZyAmPSB+dmFsdWU7Cj4gKwo+ICsgICAgICAgICAgICAgICB3cml0ZWxfcmVsYXhlZChyZWcsIGNv
+bmZpZ19yZWdzICsgYWRkcik7Cj4gKyAgICAgICB9Cj4gK30KPiArCj4gK3N0YXRpYyB2b2lkIG10
+a19tbXN5c19kZHBfc291dF9zZWwodm9pZCBfX2lvbWVtICpjb25maWdfcmVncywKPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwKPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIG5l
+eHQpCj4gK3sKPiArICAgICAgIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9SRE1BMCAmJiBuZXh0
+ID09IEREUF9DT01QT05FTlRfQ09MT1IwKSB7Cj4gKyAgICAgICAgICAgICAgIHdyaXRlbF9yZWxh
+eGVkKFJETUEwX1NPVVRfQ09MT1IwLCBjb25maWdfcmVncyArIERJU1BfUkRNQTBfU09VVF9TRUwp
+Owo+ICsgICAgICAgfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9DQ09SUiAmJiBuZXh0
+ID09IEREUF9DT01QT05FTlRfQUFMMCkgewo+ICsgICAgICAgICAgICAgICB3cml0ZWxfcmVsYXhl
+ZChDQ09SUjBfU09VVF9BQUwwLCBjb25maWdfcmVncyArIERJU1BfQ0NPUlIwX1NPVVRfU0VMKTsK
+PiArICAgICAgIH0KPiArfQo+ICsKPiArc3RhdGljIHZvaWQgbXRrX21tc3lzX292bF9tb3V0X2Vu
+KHZvaWQgX19pb21lbSAqY29uZmlnX3JlZ3MsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwKPiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgZW51bSBtdGtfZGRwX2NvbXBfaWQgbmV4dCwKPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgYm9vbCBlbmFibGUpCj4gK3sKPiArICAgICAgIHVuc2lnbmVkIGlu
+dCBhZGRyLCB2YWx1ZSwgcmVnOwo+ICsKPiArICAgICAgIGFkZHIgPSBNTVNZU19PVkxfTU9VVF9F
+TjsKPiArCj4gKyAgICAgICBpZiAoY3VyID09IEREUF9DT01QT05FTlRfT1ZMMCAmJiBuZXh0ID09
+IEREUF9DT01QT05FTlRfT1ZMXzJMMCkKPiArICAgICAgICAgICAgICAgdmFsdWUgPSBESVNQX09W
+TDBfR09fQkc7Cj4gKyAgICAgICBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9PVkxfMkww
+ICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9PVkwwKQo+ICsgICAgICAgICAgICAgICB2YWx1ZSA9
+IERJU1BfT1ZMMF8yTF9HT19CRzsKPiArICAgICAgIGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9O
+RU5UX09WTDApCj4gKyAgICAgICAgICAgICAgIHZhbHVlID0gRElTUF9PVkwwX0dPX0JMRU5EOwo+
+ICsgICAgICAgZWxzZSBpZiAoY3VyID09IEREUF9DT01QT05FTlRfT1ZMXzJMMCkKPiArICAgICAg
+ICAgICAgICAgdmFsdWUgPSBESVNQX09WTDBfMkxfR09fQkxFTkQ7Cj4gKyAgICAgICBlbHNlCj4g
+KyAgICAgICAgICAgICAgIHZhbHVlID0gMDsKPiArCj4gKyAgICAgICBpZiAodmFsdWUpIHsKPiAr
+ICAgICAgICAgICAgICAgcmVnID0gcmVhZGxfcmVsYXhlZChjb25maWdfcmVncyArIGFkZHIpOwo+
+ICsKPiArICAgICAgICAgICAgICAgaWYgKGVuYWJsZSkKPiArICAgICAgICAgICAgICAgICAgICAg
+ICByZWcgfD0gdmFsdWU7Cj4gKyAgICAgICAgICAgICAgIGVsc2UKPiArICAgICAgICAgICAgICAg
+ICAgICAgICByZWcgJj0gfnZhbHVlOwo+ICsKPiArICAgICAgICAgICAgICAgd3JpdGVsX3JlbGF4
+ZWQocmVnLCBjb25maWdfcmVncyArIGFkZHIpOwo+ICsgICAgICAgfQoKSSB0aGluayB5b3UgY291
+bGQgc3F1YXNoIG10a19tbXN5c19vdmxfbW91dF9lbigpIGludG8KbXRrX21tc3lzX2RkcF9tb3V0
+X2VuKCkgYW5kIGRpcmVjdGx5IHJlYWQvd3JpdGUgcmVnaXN0ZXIgaW4gaWYtZWxzZQpzdGF0ZW1l
+bnQuCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPiArfQo+ICsKPiArc3RydWN0IG10a19tbXN5c19j
+b25uX2Z1bmNzIG10ODE5Ml9tbXN5c19mdW5jcyA9IHsKPiArICAgICAgIC5tb3V0X2VuID0gbXRr
+X21tc3lzX2RkcF9tb3V0X2VuLAo+ICsgICAgICAgLm92bF9tb3V0X2VuID0gbXRrX21tc3lzX292
+bF9tb3V0X2VuLAo+ICsgICAgICAgLnNlbF9pbiA9IG10a19tbXN5c19kZHBfc2VsX2luLAo+ICsg
+ICAgICAgLnNvdXRfc2VsID0gbXRrX21tc3lzX2RkcF9zb3V0X3NlbCwKPiArfTsKPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXRrLW1tc3lzLmMgYi9kcml2ZXJzL3Nv
+Yy9tZWRpYXRlay9tbXN5cy9tdGstbW1zeXMuYwo+IGluZGV4IDM0NzI4ZWQuLjJjNzI2MDcgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXRrLW1tc3lzLmMKPiArKysg
+Yi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tbXN5cy9tdGstbW1zeXMuYwo+IEBAIC01MCw2ICs1MCwx
+MSBAQCBzdHJ1Y3QgbXRrX21tc3lzIHsKPiAgICAgICAgIC5mdW5jcyA9ICZtdDgxODNfbW1zeXNf
+ZnVuY3MsCj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2Rh
+dGEgbXQ4MTkyX21tc3lzX2RyaXZlcl9kYXRhID0gewo+ICsgICAgICAgLmNsa19kcml2ZXIgPSAi
+Y2xrLW10ODE5Mi1tbSIsCj4gKyAgICAgICAuZnVuY3MgPSAmbXQ4MTkyX21tc3lzX2Z1bmNzLAo+
+ICt9Owo+ICsKPiAgdm9pZCBtdGtfbW1zeXNfZGRwX2Nvbm5lY3Qoc3RydWN0IGRldmljZSAqZGV2
+LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIGN1ciwK
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0KQo+
+IEBAIC0xNTcsNiArMTYyLDEwIEBAIHN0YXRpYyBpbnQgbXRrX21tc3lzX3Byb2JlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gICAgICAgICAgICAgICAgIC5jb21wYXRpYmxlID0gIm1l
+ZGlhdGVrLG10ODE4My1tbXN5cyIsCj4gICAgICAgICAgICAgICAgIC5kYXRhID0gJm10ODE4M19t
+bXN5c19kcml2ZXJfZGF0YSwKPiAgICAgICAgIH0sCj4gKyAgICAgICB7Cj4gKyAgICAgICAgICAg
+ICAgIC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE5Mi1tbXN5cyIsCj4gKyAgICAgICAgICAg
+ICAgIC5kYXRhID0gJm10ODE5Ml9tbXN5c19kcml2ZXJfZGF0YSwKPiArICAgICAgIH0sCj4gICAg
+ICAgICB7IH0KPiAgfTsKPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRl
+ay9tdGstbW1zeXMuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oCj4g
+aW5kZXggMTkzMThkMi4uZWVlYzk2YSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L3NvYy9t
+ZWRpYXRlay9tdGstbW1zeXMuaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210
+ay1tbXN5cy5oCj4gQEAgLTY1LDYgKzY1LDcgQEAgc3RydWN0IG10a19tbXN5c19jb25uX2Z1bmNz
+IHsKPgo+ICBleHRlcm4gc3RydWN0IG10a19tbXN5c19jb25uX2Z1bmNzIG10MjcwMV9tbXN5c19m
+dW5jczsKPiAgZXh0ZXJuIHN0cnVjdCBtdGtfbW1zeXNfY29ubl9mdW5jcyBtdDgxODNfbW1zeXNf
+ZnVuY3M7Cj4gK2V4dGVybiBzdHJ1Y3QgbXRrX21tc3lzX2Nvbm5fZnVuY3MgbXQ4MTkyX21tc3lz
+X2Z1bmNzOwo+Cj4gIHZvaWQgbXRrX21tc3lzX2RkcF9jb25uZWN0KHN0cnVjdCBkZXZpY2UgKmRl
+diwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBjdXIs
+Cj4gLS0KPiAxLjguMS4xLmRpcnR5Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRp
+YXRla0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
