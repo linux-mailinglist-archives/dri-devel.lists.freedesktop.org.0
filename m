@@ -1,113 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901A52EC010
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 16:04:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D061D2EC03C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 16:18:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7DEF6E209;
-	Wed,  6 Jan 2021 15:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335A06E216;
+	Wed,  6 Jan 2021 15:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750075.outbound.protection.outlook.com [40.107.75.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB7C6E226;
- Wed,  6 Jan 2021 15:04:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fY1PTRccgJB725cgkz1kxaQAKPIwfASHP8/M2Upts7T/WUe5ZJN5ruKQGPGSU2IUlE3PQ0rVHsuHYOfoyUYdZJcXosp6U4ExFAyTg6YVLjshCuTfD2rI2kWVnYsfDhJhr0OXfg0GQpcYiYLHcDf/SKusgHLdRng40tFTbeSEeXwhAWvahtWrdSedZmo2Ye8LUkmc6+P5pfZoRrila5N91l77gNDwYoNVcMQahnFTha2RcUxdu6fMp8Dcz3Ei2+ACrd0A3dOXhk303C28+Aa3gQMhx8b3CbTThDDHfn3Ji1BaIPtomyEBjMBL6fkRfC9na9jeiCHXrIb2p972PhrjJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CvxD12I0Bh0M5viuYhZ0d9rAiBlyJV9beJa5Kk9nR6Q=;
- b=lilOrV1jTi2Y2C5OBjtJGLxEFwOOon9tM0xcWQP5uyJsDsCaTcUlLENZBxxXdGuXfMX2BdMvBLACGGaWOskpub1WXRYJ7nWP/+YZcOBu83Y8PdHZu+dUtaujcNgWw/pHKmKN2SJ8M80umJqdjJC7GliP7V/hLBmv3IFKkwTRe0dj4HwRTcn10F6n3AQS1WuvjRzJO/xOd8/8lI7cCpBRAHo7m/eYajqD72iI//487XjeGSj1viPGRDrTc2WJF/sCnnAgiwe5Eso8dv8G56hXT/6Wuz8XoscVwmKZvO3eh8FX/9e0DZonk9sYhy0YtNJegPEMiTHIjbObU5FZtnW8tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CvxD12I0Bh0M5viuYhZ0d9rAiBlyJV9beJa5Kk9nR6Q=;
- b=fVjcN5GKS8ksWIPD7J+8Ti0+FYDOeiW888eP+036z12fHXDFRktKdTgcSIx7HgrwLTiU6LasAWQcSUealJECUFRtMmSjWv8O0OdWwpO4Hpx2V5tdhe4SBiTGW//SyJIhJJG3Gm/N6z8Y5wcJ7Oq5XG40gEpuUMEypvEdofGliWs=
-Received: from DM6PR12MB2971.namprd12.prod.outlook.com (2603:10b6:5:118::28)
- by DM5PR12MB1593.namprd12.prod.outlook.com (2603:10b6:4:10::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19; Wed, 6 Jan
- 2021 15:04:04 +0000
-Received: from DM6PR12MB2971.namprd12.prod.outlook.com
- ([fe80::64a5:97ca:ceaf:17e0]) by DM6PR12MB2971.namprd12.prod.outlook.com
- ([fe80::64a5:97ca:ceaf:17e0%7]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
- 15:04:04 +0000
-From: "Liu, Zhan" <Zhan.Liu@amd.com>
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, Mario Kleiner
- <mario.kleiner.de@gmail.com>
-Subject: RE: [PATCH] drm: Check actual format for legacy pageflip.
-Thread-Topic: [PATCH] drm: Check actual format for legacy pageflip.
-Thread-Index: AQHW4Q/ijhWSZnncqUOk53kroda28KoUdpYAgANS5wCAACfwy4ACxqrQ
-Date: Wed, 6 Jan 2021 15:04:04 +0000
-Message-ID: <DM6PR12MB2971F5C08DA2DB1646E9FC379ED00@DM6PR12MB2971.namprd12.prod.outlook.com>
-References: <20210102140235.514039-1-bas@basnieuwenhuizen.nl>
- <CAEsyxyheUd-jyd7X=7HJcOWqcrHgwsTAFyVhW9rJhutEdb=6MQ@mail.gmail.com>,
- <CAP+8YyHJpE39aea8OhGuQNjaGjLq4vcK-hNL+pC_wL5qsHwv2A@mail.gmail.com>
- <DM6PR12MB29719139A32F7BA9037AA45B9ED20@DM6PR12MB2971.namprd12.prod.outlook.com>
-In-Reply-To: <DM6PR12MB29719139A32F7BA9037AA45B9ED20@DM6PR12MB2971.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=True;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2021-01-04T20:45:58.803Z;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
- Distribution
- Only; MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
- MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard; 
-authentication-results: basnieuwenhuizen.nl; dkim=none (message not signed)
- header.d=none;basnieuwenhuizen.nl; dmarc=none action=none
- header.from=amd.com;
-x-originating-ip: [165.204.55.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d72afc85-b2f8-4af8-6b70-08d8b2544ef3
-x-ms-traffictypediagnostic: DM5PR12MB1593:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR12MB1593CB0971250ADC293F0B5F9ED00@DM5PR12MB1593.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4Jp7xG1Ya01qE5ou1uIyvIAB+B32JqruD+0JyKAZocphc78M1/GyiyoJ5Icbh0mpPjbemLkPuK6aXxwU38K6mcs4zSgVo0gD4tTd5EvIDVymz/KHriBQ8xintbrc0+3XqeAzs6rUtx4/juRGm8KAdbaxQeAi2LsKiqAMD1Esct1gXWoraibmVNNIQzBNBhKhAY1zsLTZmn5MF4Vy7Fv2Pqy0y/oEdfyNlXkMHMHDFDby6LCKRT9B2sby73ITw6pJQPVBuD4rHnO/N28BvfTCSEPuPvBf3cX6x2zgTMMoNi2nPHmF8YxI+0fTVv/FuDWGM/Ku+D16e+RnL1fA93mi3nqZ9ccXTu1SPJzTCo4jIV2zmZCnOVzuk7/ISSzKq9ytmpDDkaaKLhY5qfeJXckFSA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2971.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(83380400001)(52536014)(71200400001)(4326008)(2906002)(66574015)(478600001)(33656002)(8936002)(186003)(55016002)(66946007)(66556008)(76116006)(64756008)(66446008)(66476007)(5660300002)(54906003)(26005)(6506007)(53546011)(9686003)(8676002)(7696005)(110136005)(86362001)(316002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?yJs03B28mGaODuhnDSDrwMMVP4ooblJ3YglCsiGkMTFBcxgZPu4F3cJ47T?=
- =?iso-8859-1?Q?wYas+PmLtwol4/WUo+/SVspNlZr17HzIIT+jW1ddACDdNFcOPaWwt8qGVl?=
- =?iso-8859-1?Q?QtxXp7gNLZPD6OmAM7oZrfrL5dyxKYkPhDa42o3DNFNg3p3oQ9p9DxAjFC?=
- =?iso-8859-1?Q?iu5QtDl+1LmNcIf+KU55LUJkWomkHarTAzfTetUygYfcarWjxqeLBTdSHw?=
- =?iso-8859-1?Q?KepIICbFfhw6MhK3NGNXd4yaZoQoHFujMiRbZPhjh09AystPFunqzRvyhu?=
- =?iso-8859-1?Q?eTaeOuCoi4ss2l8qEr9U1ie6kTSieGaZjeiBoOY7yo+VxzEhHKB+7pLTGR?=
- =?iso-8859-1?Q?00UTwIs0Tssp1SDaKYdOJw4+FQFVEZHEOylDxXY1phr7GTwM0Kjcu0zHGe?=
- =?iso-8859-1?Q?hm+C1lb6uWHkeCzA53b5+13QZjoLcDLfeb5sJ8lnvaMEbFGtJqnyTfvX+D?=
- =?iso-8859-1?Q?AVMtksVihw0RWl0N7SPwfYZpjez9pehe54nRG/9rlVjvtHfcbYyEOl4IbU?=
- =?iso-8859-1?Q?hFaBYzReJzZG7XvJScHdI6DZSoWkvpfQC04CZBMrs+lgQnJ3FHew3iY2D1?=
- =?iso-8859-1?Q?+ceiv6TvogFmL3pCjylv9vp7WZ4arcrJRuBz3QC3MS+ceAMNwWDGoRNAYD?=
- =?iso-8859-1?Q?8YSgSdw2fvkwt1KvIo4UmpxQXVYhzi2LZwaUsVGxz7L2tZpE7yMWpN24VQ?=
- =?iso-8859-1?Q?fQ+SxBsqRwr223CAV7psPdv02XdJuCO3rCqiCqAX0UDSDl9K34o6vXC4I5?=
- =?iso-8859-1?Q?W+dyLnks+/SHuN4PYLWiUunVWf+VGTuEtQWqJIXS404oadCs7EThKALvwG?=
- =?iso-8859-1?Q?dT1t8Ep9VEl+5FHeG2YAxHC3Q9qrRvTAFkDZH29GWiuWB1afQOP7Cod94I?=
- =?iso-8859-1?Q?NZHdnZGZQXBTYE+JQa4AKMDtC33AwTBRyxtylre+o7Ej7uVsA214jjxfxq?=
- =?iso-8859-1?Q?pBC9nlqAsJwBv+nfJwDmX+yC356O1eFaHC2tQwPU9jpLoGIP1WnGWjxzt+?=
- =?iso-8859-1?Q?ZbfaBUqeB7A5QxSKs=3D?=
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6756E216
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 15:18:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD1BA878;
+ Wed,  6 Jan 2021 16:18:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1609946288;
+ bh=6Mbpshc2s926symhXWx345xx90B3Cra5PtgDj9FiqdA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C6JMRL/n2Qd7l9lfx527Y2Ktoyn9a3/c+aBLBvW3g1JnCHJey0qA//ZOg+ZLHcrX9
+ i/Fyo8mhUAg1qj8hoNcomGOvi9mk2+o0/J/hBvIXUeFpD0y+UuCc7Ho+B6ZVMoCAn2
+ ScfZDX2dbKpm5PgFPvWpPXQ2FPqW5/NER4Rx5Jyk=
+Date: Wed, 6 Jan 2021 17:17:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v3 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <X/XUow/ku/bsDXvr@pendragon.ideasonboard.com>
+References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2971.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d72afc85-b2f8-4af8-6b70-08d8b2544ef3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2021 15:04:04.3238 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uAGzJcxixLY09VYPPbXaeccDXcFwG+L8UCelb/tdAK+Sl5Hcn2sdyXQni0EmwceI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1593
+Content-Disposition: inline
+In-Reply-To: <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,94 +47,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Kazlauskas,
- Nicholas" <Nicholas.Kazlauskas@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ Mark Yao <markyao0591@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - Internal Distribution Only]
+Hi Rob,
 
-> -----Original Message-----
-> From: Liu, Zhan <Zhan.Liu@amd.com>
-> Sent: 2021/January/04, Monday 3:46 PM
-> To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>; Mario Kleiner
-> <mario.kleiner.de@gmail.com>
-> Cc: dri-devel <dri-devel@lists.freedesktop.org>; amd-gfx list <amd-
-> gfx@lists.freedesktop.org>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Daniel Vetter <daniel.vetter@ffwll.ch>;
-> Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Ville Syrj=E4l=E4
-> <ville.syrjala@linux.intel.com>
-> Subject: Re: [PATCH] drm: Check actual format for legacy pageflip.
->
->
->
-> + Ville
->
-> On Sat, Jan 2, 2021 at 4:31 PM Mario Kleiner <mario.kleiner.de@gmail.com>
-> wrote:
-> >
-> > On Sat, Jan 2, 2021 at 3:02 PM Bas Nieuwenhuizen
-> > <bas@basnieuwenhuizen.nl> wrote:
-> > >
-> > > With modifiers one can actually have different format_info structs
-> > > for the same format, which now matters for AMDGPU since we convert
-> > > implicit modifiers to explicit modifiers with multiple planes.
-> > >
-> > > I checked other drivers and it doesn't look like they end up
-> > > triggering this case so I think this is safe to relax.
-> > >
-> > > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > > Fixes: 816853f9dc40 ("drm/amd/display: Set new format info for
-> > >converted metadata.")
-> > > ---
-> > >  drivers/gpu/drm/drm_plane.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_plane.c
-> > > b/drivers/gpu/drm/drm_plane.c index e6231947f987..f5085990cfac
-> > > 100644
-> > > --- a/drivers/gpu/drm/drm_plane.c
-> > > +++ b/drivers/gpu/drm/drm_plane.c
-> > > @@ -1163,7 +1163,7 @@ int drm_mode_page_flip_ioctl(struct
-> drm_device
-> > >*dev,
-> > >         if (ret)
-> > >                 goto out;
-> > >
-> > > -       if (old_fb->format !=3D fb->format) {
-> > > +       if (old_fb->format->format !=3D fb->format->format) {
-> >
->
-> I agree with this patch, though considering the original way was made by
-> Ville, I will wait for Ville's input first. Adding my "Acked-by" here.
->
-> This patch is:
-> Acked-by: Zhan Liu <zhan.liu@amd.com>
+Given that the maintainers property is mandatory in the schema, what's
+the procedure when no maintainer steps up for a converter YAML binding ?
 
-Ping...
+On Tue, Jan 05, 2021 at 08:08:16AM +0200, Laurent Pinchart wrote:
+> Convert the Rockchip HDMI TX text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v2:
+> 
+> - Use Mark's @gmail.com e-mail address as the @rock-chips.com address
+>   bounces
+> 
+> Changes since v1:
+> 
+> - Drop pinctrl-0 and pinctrl-1
+> - Use unevaluatedProperties instead of additionalProperties
+> - Drop reg and interrupts as they're checked in the base schema
+> - Rebase on top of OF graph schema, dropped redundant properties
+> - Fix identation for enum entries
+> - Tidy up clock names
+> ---
+>  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 158 ++++++++++++++++++
+>  2 files changed, 158 insertions(+), 74 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> deleted file mode 100644
+> index 3d32ce137e7f..000000000000
+> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> +++ /dev/null
+> @@ -1,74 +0,0 @@
+> -Rockchip DWC HDMI TX Encoder
+> -============================
+> -
+> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> -with a companion PHY IP.
+> -
+> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> -following device-specific properties.
+> -
+> -
+> -Required properties:
+> -
+> -- compatible: should be one of the following:
+> -		"rockchip,rk3228-dw-hdmi"
+> -		"rockchip,rk3288-dw-hdmi"
+> -		"rockchip,rk3328-dw-hdmi"
+> -		"rockchip,rk3399-dw-hdmi"
+> -- reg: See dw_hdmi.txt.
+> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> -- interrupts: HDMI interrupt number
+> -- clocks: See dw_hdmi.txt.
+> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> -  corresponding to the video input of the controller. The port shall have two
+> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> -
+> -Optional properties
+> -
+> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> -  connected to a system I2C master this property contains a phandle to that
+> -  I2C master controller.
+> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> -- clock-names: May contain "grf", power for grf io.
+> -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> -- phys: from general PHY binding: the phandle for the PHY device.
+> -- phy-names: Should be "hdmi" if phys references an external phy.
+> -
+> -Optional pinctrl entry:
+> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> -  cause the SDA line to be driven low to work around a hardware
+> -  errata.
+> -
+> -Example:
+> -
+> -hdmi: hdmi@ff980000 {
+> -	compatible = "rockchip,rk3288-dw-hdmi";
+> -	reg = <0xff980000 0x20000>;
+> -	reg-io-width = <4>;
+> -	ddc-i2c-bus = <&i2c5>;
+> -	rockchip,grf = <&grf>;
+> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> -	clock-names = "iahb", "isfr";
+> -	ports {
+> -		hdmi_in: port {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -			hdmi_in_vopb: endpoint@0 {
+> -				reg = <0>;
+> -				remote-endpoint = <&vopb_out_hdmi>;
+> -			};
+> -			hdmi_in_vopl: endpoint@1 {
+> -				reg = <1>;
+> -				remote-endpoint = <&vopl_out_hdmi>;
+> -			};
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> new file mode 100644
+> index 000000000000..d3b2f87f152a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip DWC HDMI TX Encoder
+> +
+> +maintainers:
+> +  - Mark Yao <markyao0591@gmail.com>
+> +
+> +description: |
+> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> +  with a companion PHY IP.
+> +
+> +allOf:
+> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - rockchip,rk3228-dw-hdmi
+> +      - rockchip,rk3288-dw-hdmi
+> +      - rockchip,rk3328-dw-hdmi
+> +      - rockchip,rk3399-dw-hdmi
+> +
+> +  reg-io-width:
+> +    const: 4
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 5
+> +    items:
+> +      - {}
+> +      - {}
+> +      # The next three clocks are all optional, but shall be specified in this
+> +      # order when present.
+> +      - description: The HDMI CEC controller main clock
+> +      - description: Power for GRF IO
+> +      - description: External clock for some HDMI PHY
+> +
+> +  clock-names:
+> +    minItems: 2
+> +    maxItems: 5
+> +    items:
+> +      - {}
+> +      - {}
+> +      - enum:
+> +          - cec
+> +          - grf
+> +          - vpll
+> +      - enum:
+> +          - grf
+> +          - vpll
+> +      - const: vpll
+> +
+> +  ddc-i2c-bus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The HDMI DDC bus can be connected to either a system I2C master or the
+> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> +      to a system I2C master this property contains a phandle to that I2C
+> +      master controller.
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description: The HDMI PHY
+> +
+> +  phy-names:
+> +    const: hdmi
+> +
+> +  pinctrl-names:
+> +    description:
+> +      The unwedge pinctrl entry shall drive the DDC SDA line low. This is
+> +      intended to work around a hardware errata that can cause the DDC I2C
+> +      bus to be wedged.
+> +    items:
+> +      - const: default
+> +      - const: unwedge
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Input of the DWC HDMI TX
+> +
+> +        properties:
+> +          endpoint@0:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +            description: Connection to the VOPB
+> +
+> +          endpoint@1:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +            description: Connection to the VOPL
+> +
+> +        required:
+> +          - endpoint@0
+> +          - endpoint@1
+> +
+> +    required:
+> +      - port
+> +
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the GRF to mux vopl/vopb.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-io-width
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - ports
+> +  - rockchip,grf
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rk3288-cru.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    hdmi: hdmi@ff980000 {
+> +        compatible = "rockchip,rk3288-dw-hdmi";
+> +        reg = <0xff980000 0x20000>;
+> +        reg-io-width = <4>;
+> +        ddc-i2c-bus = <&i2c5>;
+> +        rockchip,grf = <&grf>;
+> +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> +        clock-names = "iahb", "isfr";
+> +
+> +        ports {
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                hdmi_in_vopb: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&vopb_out_hdmi>;
+> +                };
+> +                hdmi_in_vopl: endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&vopl_out_hdmi>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
->
-> > This was btw. the original way before Ville made it more strict about
-> > 4 years ago, to catch issues related to tiling, and more complex
-> > layouts, like the dcc tiling/retiling introduced by your modifier
-> > patches. That's why I hope my alternative patch is a good solution for
-> > atomic drivers while keeping the strictness for potential legacy
-> > drivers.
-> >
-> > -mario
-> >
-> > >                 DRM_DEBUG_KMS("Page flip is not allowed to change
-> > >frame buffer format.\n");
-> > >                 ret =3D -EINVAL;
-> > >                 goto out;
-> > > --
-> > > 2.29.2
-> > >
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
