@@ -2,35 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C602EC23D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 18:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973222EC354
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 19:42:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F8289ACD;
-	Wed,  6 Jan 2021 17:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D85389D84;
+	Wed,  6 Jan 2021 18:42:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A2589ACD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 17:30:11 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kxCdN-0002cf-OY; Wed, 06 Jan 2021 18:30:09 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/imx: dw_hdmi-imx: depend on OF to fix randconfig compile
- tests on x86_64
-Date: Wed,  6 Jan 2021 18:30:03 +0100
-Message-Id: <20210106173003.14117-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D4789D84
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 18:42:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 18C5323131
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 18:42:47 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id 1349081F02; Wed,  6 Jan 2021 18:42:47 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211033] [bisected][regression] amdgpu: *ERROR* Restoring old
+ state failed with -12
+Date: Wed, 06 Jan 2021 18:42:46 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andre@tomt.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211033-2300-5k7sYISs6p@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211033-2300@https.bugzilla.kernel.org/>
+References: <bug-211033-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,41 +54,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The i.MX6 HDMI driver uses of_drm_find_bridge() and thus cannot be built
-with CONFIG_OF disabled:
+https://bugzilla.kernel.org/show_bug.cgi?id=211033
 
-    ld: drivers/gpu/drm/imx/dw_hdmi-imx.o: in function `dw_hdmi_imx_probe':
-    dw_hdmi-imx.c:(.text+0x29f): undefined reference to `of_drm_find_bridge'
+Andre Tomt (andre@tomt.net) changed:
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Fixes: c805ec7eb210 ("drm/imx: dw_hdmi-imx: move initialization into probe")
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/gpu/drm/imx/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |andre@tomt.net
 
-diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
-index 73fe2bc5633c..b5fa0e45a839 100644
---- a/drivers/gpu/drm/imx/Kconfig
-+++ b/drivers/gpu/drm/imx/Kconfig
-@@ -37,7 +37,7 @@ config DRM_IMX_LDB
- config DRM_IMX_HDMI
- 	tristate "Freescale i.MX DRM HDMI"
- 	select DRM_DW_HDMI
--	depends on DRM_IMX
-+	depends on DRM_IMX && OF
- 	help
- 	  Choose this if you want to use HDMI on i.MX6.
- 
+--- Comment #7 from Andre Tomt (andre@tomt.net) ---
+A revert for ea64b21c6638d1ac3120fff89eb20c0e525a21d9 has been queued in
+stable-queue, meaning it should show up in 5.10.6 and 5.4.88 if all goes well.
+
 -- 
-2.20.1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
