@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B967F2EBDE9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 13:56:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127C42EBDEA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Jan 2021 13:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804D56E07F;
-	Wed,  6 Jan 2021 12:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50FBC6E082;
+	Wed,  6 Jan 2021 12:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C176E07F
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 12:56:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id DC8C222D01
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 12:56:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD25A6E082
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 12:56:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id BD1282311D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Jan 2021 12:56:52 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id D3E5B86731; Wed,  6 Jan 2021 12:56:19 +0000 (UTC)
+ id B610A86731; Wed,  6 Jan 2021 12:56:52 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211043] amdgpu: Mouse cursor freeze of external mouse after a
  while (after kernel crash?) (KDE Plasma)
-Date: Wed, 06 Jan 2021 12:56:19 +0000
+Date: Wed, 06 Jan 2021 12:56:52 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -35,8 +35,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211043-2300-UQNXhM8X99@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.description
+Message-ID: <bug-211043-2300-51Nl2WeHQw@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211043-2300@https.bugzilla.kernel.org/>
 References: <bug-211043-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -61,9 +61,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211043
 
---- Comment #4 from Daniel (kdebugs@staznosti.sk) ---
-Actually, this happens with other mice as well (e.g. not a bluetooth one, but a
-USB dongle one, so the BT autosuspend is not related)
+Daniel (kdebugs@staznosti.sk) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #294529|mesg output complete        |dmesg output complete
+        description|                            |
 
 -- 
 You may reply to this email to add a comment.
