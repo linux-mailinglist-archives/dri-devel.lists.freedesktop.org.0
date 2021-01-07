@@ -1,34 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5770A2ECBE6
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:51:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA8C2ECC1A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 10:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5152989BC2;
-	Thu,  7 Jan 2021 08:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984A96E40F;
+	Thu,  7 Jan 2021 09:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C60A789BC2
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 08:51:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: tomeu) with ESMTPSA id E026A1F462C2
-Subject: Re: [PATCH v7 3/4] drm/panfrost: devfreq: Disable devfreq when
- num_supplies > 1
-To: Nicolas Boichat <drinkcat@chromium.org>
-References: <20210107082653.3519337-1-drinkcat@chromium.org>
- <20210107162632.v7.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
- <a1367c40-7c30-95c2-0c7f-7eec58f04b9e@collabora.com>
- <CANMq1KDXomm4X8vyDPCHRy_KmHuqdschOhWRjiaR1Zzb6Rs8Pw@mail.gmail.com>
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <b7254087-179b-11a3-a958-0154a31f532f@collabora.com>
-Date: Thu, 7 Jan 2021 09:51:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE4C6E40F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 09:00:29 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id c79so3469442pfc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 01:00:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A38XEG2bxzvR12086jQpwTTb/g0iT6/kG6TCSTQMuF8=;
+ b=HJnCLAsRHKWwLhQ7mKp+58XMFdmWbGx2dCO0jxV1ALEGSO6wf10jAomB5O+3gmuBHB
+ CTPoWHFdcP5Go3ofX1hhjyQDEi0/327NPX2VSj+mZcNIK2gvbIFO94nb2C70wwBJNaZ0
+ GsavQVH6iJa2B0zmPjPsSTxSS4hW7wytRLe9U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A38XEG2bxzvR12086jQpwTTb/g0iT6/kG6TCSTQMuF8=;
+ b=B9zCPUbqjBZfc8WGHldsEgBo+rGFJNGI36zSHu5YZbtJfzbieUCrzCQkwQWfN2AihJ
+ aUyUHbdpvSRNZ25fCgNAHncUESjLrCrKpFcPBpK5Lu59fvvCDfWMzbc04RP4RzFj0yFy
+ /c3cqROClHMd5fx41Isr3BUZq+ywY/wogwNd0pEGm9Ss0vQ/rBcNmW5w9R2ThA3hUplg
+ AVNN9bLAvRjoB2rN2xp28Qthz/9+5K0SNn7c8uLAVtXe5gSL/3gZonZFNopUhBtpe5/9
+ E7uEemqEKpv1vkQXzyRzozOw4/nOd75IkxRezFXlnDLIB/KhNe62mzzSVsHH7qtYRSWE
+ B52A==
+X-Gm-Message-State: AOAM532CxTKM82lvtDz/cvzETQgYiv+vZZ19XzNY6vHFybABNyxJ/Rma
+ mc+ZLRmFE16ROxcM8om7auluWA==
+X-Google-Smtp-Source: ABdhPJw9Ssl8Yb7I2NbXzQGWuVjK6p28ej36nNEL2Q2+nQZhP5RGtaadDnQqTtmMvEnuKGhzm6xJnA==
+X-Received: by 2002:a62:e30c:0:b029:19d:932b:a1e2 with SMTP id
+ g12-20020a62e30c0000b029019d932ba1e2mr7918416pfh.78.1610010028859; 
+ Thu, 07 Jan 2021 01:00:28 -0800 (PST)
+Received: from drinkcat2.tpe.corp.google.com
+ ([2401:fa00:1:b:7220:84ff:fe09:41dc])
+ by smtp.gmail.com with ESMTPSA id a29sm5022421pfr.73.2021.01.07.01.00.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jan 2021 01:00:28 -0800 (PST)
+From: Nicolas Boichat <drinkcat@chromium.org>
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Subject: [PATCH v8 0/4] drm/panfrost: Add support for mt8183 GPU
+Date: Thu,  7 Jan 2021 17:00:18 +0800
+Message-Id: <20210107090022.3536550-1-drinkcat@chromium.org>
+X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
 MIME-Version: 1.0
-In-Reply-To: <CANMq1KDXomm4X8vyDPCHRy_KmHuqdschOhWRjiaR1Zzb6Rs8Pw@mail.gmail.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,75 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fei Shao <fshao@chromium.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Kristian Kristensen <hoegsberg@chromium.org>
+Cc: devicetree@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, fshao@chromium.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, boris.brezillon@collabora.com,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ hsinyi@chromium.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ hoegsberg@chromium.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/7/21 9:49 AM, Nicolas Boichat wrote:
-> On Thu, Jan 7, 2021 at 4:31 PM Tomeu Vizoso <tomeu.vizoso@collabora.com> wrote:
->>
->> On 1/7/21 9:26 AM, Nicolas Boichat wrote:
->>> GPUs with more than a single regulator (e.g. G72 on MT8183) will
->>> require platform-specific handling, disable devfreq for now.
->>>
->>> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
->>> ---
->>>
->>> Changes in v7:
->>>    - Fix GPU ID in commit message
->>>
->>> Changes in v6:
->>>    - New change
->>>
->>>    drivers/gpu/drm/panfrost/panfrost_devfreq.c | 9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
->>> index f44d28fad085..1f49043aae73 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
->>> @@ -92,6 +92,15 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
->>>        struct thermal_cooling_device *cooling;
->>>        struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
->>>
->>> +     if (pfdev->comp->num_supplies > 1) {
->>> +             /*
->>> +              * GPUs with more than 1 supply require platform-specific handling:
->>> +              * continue without devfreq
->>> +              */
->>> +             DRM_DEV_ERROR(dev, "More than 1 supply is not supported yet\n");
->>
->> Should this be info instead?
-> 
-> Sure, will fix in v8.
+Hi!
 
-Thanks. With that change, patches 3 and 4 are R-b.
+Follow-up on the v5 [1], things have gotten significantly
+better in the last 9 months, thanks to the efforts on Bifrost
+support by the Collabora team (and probably others I'm not
+aware of).
 
-Thanks again!
+I've been testing this series on a MT8183/kukui device, with a
+chromeos-5.10 kernel [2], and got basic Chromium OS UI up with
+mesa 20.3.2 (lots of artifacts though).
 
-Tomeu
+devfreq is currently not supported, as we'll need:
+ - Clock core support for switching the GPU core clock (see 2/4).
+ - Platform-specific handling of the 2-regulator (see 3/4).
 
->>
->> Regards,
->>
->> Tomeu
->>
->>> +             return 0;
->>> +     }
->>> +
->>>        opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
->>>                                              pfdev->comp->num_supplies);
->>>        if (IS_ERR(opp_table)) {
->>>
+Since the latter is easy to detect, patch 3/4 just disables
+devfreq if the more than one regulator is specified in the
+compatible matching table.
+
+[1] https://patchwork.kernel.org/project/linux-mediatek/cover/20200306041345.259332-1-drinkcat@chromium.org/
+[2] https://crrev.com/c/2608070
+
+Changes in v8:
+ - Use DRM_DEV_INFO instead of ERROR
+
+Changes in v7:
+ - Fix GPU ID in commit message
+ - Fix GPU ID in commit message
+
+Changes in v6:
+ - Rebased, actually tested with recent mesa driver.
+
+Nicolas Boichat (4):
+  dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183
+  arm64: dts: mt8183: Add node for the Mali GPU
+  drm/panfrost: devfreq: Disable devfreq when num_supplies > 1
+  drm/panfrost: Add mt8183-mali compatible string
+
+ .../bindings/gpu/arm,mali-bifrost.yaml        |  25 +++++
+ arch/arm64/boot/dts/mediatek/mt8183-evb.dts   |   6 +
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |   6 +
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 105 ++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   9 ++
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  10 ++
+ 6 files changed, 161 insertions(+)
+
+-- 
+2.29.2.729.g45daf8777d-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
