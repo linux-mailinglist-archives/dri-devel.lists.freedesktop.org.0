@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D442ECF4D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 13:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5160A2ECF56
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 13:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAE46E446;
-	Thu,  7 Jan 2021 12:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD186E441;
+	Thu,  7 Jan 2021 12:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B872D6E43D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 12:02:39 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id t30so5420625wrb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 04:02:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JvU1aC1A9UKjCfFt/giBfqyTYtaAQHWCeq4Oq+LK8r0=;
- b=HK2d41TzgoegcOgPBBLoh4/MHq69o/91ofru6EBRE1JaEwYfuwhm65Kbcxxh/fIpmV
- Y8ERuHJ838N4enOKeURBxnSwNQqjX3Bqz5JjXWUh4l6kHONd9RRzlZqWktY/U8REVWcO
- 7Udz6jBSLV0aqalR7M8TUNBpubyObT5s9Al9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JvU1aC1A9UKjCfFt/giBfqyTYtaAQHWCeq4Oq+LK8r0=;
- b=VNVgmsOybsaivR+m0013KDvUfvm4ebE27rXdRif7CEcKsWGutp5em143r13B/urHGs
- 9koWxWlrORz62HcCK6TWAlTxbraot098QBeh2b5UUqTTfyWCs23k5yb5BC7b7NbPUKZ8
- RVwq0QpQ7j2E5DPxQMwPldZx8fFT1mcsiEZ2i6UAvyxSh/0LMzbWAHpRXiim8vli1P37
- qa+L9KX7BaGiEKBXp5TWYtDXf2UXdaTo9JmVRmkeey1w+F+x1E1tQHp3jorJe1wI0cba
- GwnUFQYgIxW50sev5MniKqcfmwdzUEwzzFDSYSR71jSEYo1pwmLsUbAXT9SrsLI6v2zd
- hd7w==
-X-Gm-Message-State: AOAM531gwGH8PYw9yjM2gvTV0eftGrZeuAkjE8wG8liXv/KbjME4OYfX
- Gio/oB6rFfb/9K1SbB/pDoUVqw==
-X-Google-Smtp-Source: ABdhPJyUDM8jyFTkZL7SE+IWEMBFA1+GLdX7Tm8RkimgogU6U682PPmD/8HTSyRZwJGtzcqcPh+Exw==
-X-Received: by 2002:adf:dc10:: with SMTP id t16mr8900910wri.345.1610020958344; 
- Thu, 07 Jan 2021 04:02:38 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a65sm7364555wmc.35.2021.01.07.04.02.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 04:02:37 -0800 (PST)
-Date: Thu, 7 Jan 2021 13:02:35 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PULL] drm-intel-next
-Message-ID: <X/b4W/gKZvaCLtyf@phenom.ffwll.local>
-References: <20210104211018.GA1094707@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB6C6E446
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 12:09:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CEE072336D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 12:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610021350;
+ bh=Bax/TD9n3UeF4RLUUYlRxx9HMo70f3ud0l2YLRw3aJY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tpCL7OQlHjsN4r7T3Mo2j2HPzP4X0bQVq2Wi4iYFY4q9KzPdReZfolrMuln/P4bIg
+ dDlctOUFIa3l4ncVGx2P+H0K6JIykMplib0B+uwY1a88eP3KtsuDj3jVrTJYpIy/up
+ 1w0KoP81u3P/iU5j2dEufUwbyyqbBz9xuQfonz7+tz4lqV0XtIvL87J+4hDn4/t7zh
+ QQ4jmsf6olG2RZ4e6PmNDPnkxdcQBnepXnry/cXkwhotYBDtcaMyWXa0FAIjPyHEo7
+ FK8ZURfkgYnOs5+IVVj/byCkveyw3Owey8kctMopuWkMtM5AXQQQWeLjEgBGFkWkcN
+ B8JJSO5h5WrNg==
+Received: by mail-ej1-f54.google.com with SMTP id 6so9368882ejz.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 04:09:09 -0800 (PST)
+X-Gm-Message-State: AOAM532+DxoMMifwRd/nVWpeO5kSkINDQMWY8lsbwudJZuzvXnGokRth
+ ZMgUhkQXtO4F5iZ3aqMYvkGLtygHKE0OWSyh2Q==
+X-Google-Smtp-Source: ABdhPJwLWYyQXSkeJmJYkDh2Wp/HMnw+iryfBXBAZeGMzi476416Ju5zo44dK3b7l2wd0kclwctstGJHZkRWEc8NWXM=
+X-Received: by 2002:a17:907:414c:: with SMTP id
+ od20mr6066221ejb.75.1610021348232; 
+ Thu, 07 Jan 2021 04:09:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210104211018.GA1094707@intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1609989081-29353-11-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1609989081-29353-11-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 7 Jan 2021 20:08:56 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-xZyFXTROVStte_-X0aNGLa0qZDe5AtC7M2RigOB1c3Q@mail.gmail.com>
+Message-ID: <CAAOTY_-xZyFXTROVStte_-X0aNGLa0qZDe5AtC7M2RigOB1c3Q@mail.gmail.com>
+Subject: Re: [PATCH v9, 10/11] drm/mediatek: add DDP support for MT8183
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,289 +54,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 04, 2021 at 01:10:18PM -0800, Rodrigo Vivi wrote:
-> Hi Dave and Daniel,
-> =
-
-> Happy New Year.
-> =
-
-> Here goes the first pull request targeting 5.12.
-> =
-
-> drm-intel-next-2021-01-04:
-> - Display hotplug fix for gen2/gen3 (Chris)
-> - Remove trailing semicolon (Tom)
-> - Suppress display warnings for old ifwi presend on our CI (Chris)
-> - OA/Perf related workaround (Lionel)
-> - Replace I915_READ/WRITE per new uncore and display read/write functions=
- (Jani)\
-> .
-> - PSR improvements (Jose)
-> - HDR and other color changes on LSPCON (Uma, Ville)
-> - FBC fixes for TGL (Uma)
-> - Record plane update times for debugging (Chris)
-> - Refactor panel backlight control functions (Dave)
-> - Display power improvements (Imre)
-> - Add VRR register definition (Manasi)
-> - Atomic modeset improvements for bigjoiner pipes (Ville)
-> - Switch off the scanout during driver unregister (Chris)
-> - Clean-up DP's FEW enable (Manasi)
-> - Fix VDSCP slice count (Manasi)
-> - Fix and clean up around rc_model_size for DSC (Jani)
-> - Remove Type-C noisy debug warn message (Sean)
-> - Display HPD code clean-up (Ville)
-> - Refactor Intel Display (Dave)
-> - Start adding support for Intel's eDP backlight controls (Lyude)
-
-Pulled, thanks.
--Daniel
-
-> =
-
-> Thanks,
-> Rodrigo.
-> =
-
-> The following changes since commit b3bf99daaee96a141536ce5c60a0d6dba6ec1d=
-23:
-> =
-
->   drm/i915/display: Defer initial modeset until after GGTT is initialised=
- (2020-11-26 11:01:52 +0000)
-> =
-
-> are available in the Git repository at:
-> =
-
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2021-01=
--04
-> =
-
-> for you to fetch changes up to b3304591f14b437b6bccd8dbff06006c11837031:
-> =
-
->   drm/i915/dp: Track pm_qos per connector (2020-12-30 21:22:55 +0000)
-> =
-
-> ----------------------------------------------------------------
-> - Display hotplug fix for gen2/gen3 (Chris)
-> - Remove trailing semicolon (Tom)
-> - Suppress display warnings for old ifwi presend on our CI (Chris)
-> - OA/Perf related workaround (Lionel)
-> - Replace I915_READ/WRITE per new uncore and display read/write functions=
- (Jani)\
-> .
-> - PSR improvements (Jose)
-> - HDR and other color changes on LSPCON (Uma, Ville)
-> - FBC fixes for TGL (Uma)
-> - Record plane update times for debugging (Chris)
-> - Refactor panel backlight control functions (Dave)
-> - Display power improvements (Imre)
-> - Add VRR register definition (Manasi)
-> - Atomic modeset improvements for bigjoiner pipes (Ville)
-> - Switch off the scanout during driver unregister (Chris)
-> - Clean-up DP's FEW enable (Manasi)
-> - Fix VDSCP slice count (Manasi)
-> - Fix and clean up around rc_model_size for DSC (Jani)
-> - Remove Type-C noisy debug warn message (Sean)
-> - Display HPD code clean-up (Ville)
-> - Refactor Intel Display (Dave)
-> - Start adding support for Intel's eDP backlight controls (Lyude)
-> =
-
-> ----------------------------------------------------------------
-> Chris Wilson (6):
->       Revert "drm/i915: re-order if/else ladder for hpd_irq_setup"
->       drm/i915/display: Suppress "Combo PHY A HW state changed unexpected=
-ly"
->       drm/i915/display: Record the plane update times for debugging
->       drm/i915/gem: Spring clean debugfs
->       drm/i915: Disable outputs during unregister
->       drm/i915/dp: Track pm_qos per connector
-> =
-
-> Dave Airlie (6):
->       drm/i915: refactor panel backlight control functions. (v2)
->       drm/i915/display: move needs_modeset to an inline in header
->       drm/i915/display: move to_intel_frontbuffer to header
->       drm/i915/display: fix misused comma
->       drm/i915: refactor cursor code out of i915_display.c
->       drm/i915: refactor i915 plane code into separate file.
-> =
-
-> Imre Deak (10):
->       drm/i915: Use CRTC index consistently during getting/putting CRTC p=
-ower domains
->       drm/i915: Factor out helpers to get/put a set of tracked power doma=
-ins
->       drm/i915: Track power references taken for enabled CRTCs
->       drm/i915/ddi: Track power reference taken for encoder DDI IO use
->       drm/i915/ddi: Track power reference taken for encoder main lane AUX=
- use
->       drm/i915: Track power reference taken for eDP VDD
->       drm/i915: Rename power_domains.wakeref to init_wakeref
->       drm/i915: Track power reference taken to disable power well functio=
-nality
->       drm/i915: Make intel_display_power_put_unchecked() an internal-only=
- function
->       drm/i915/icl: Fix initing the DSI DSC power refcount during HW read=
-out
-> =
-
-> Jani Nikula (15):
->       drm/i915/debugfs: remove RPS autotuning details from i915_rps_boost=
-_info
->       drm/i915: remove last traces of I915_READ_FW() and I915_WRITE_FW()
->       drm/i915/cdclk: prefer intel_de_write() over I915_WRITE()
->       drm/i915/debugfs: remove the i915_cache_sharing debugfs file
->       drm/i915/debugfs: replace I915_READ() with intel_uncore_read()
->       drm/i915/suspend: replace I915_READ()/WRITE() with intel_de_read()/=
-write()
->       drm/i915/pm: replace I915_READ()/WRITE() with intel_uncore_read()/w=
-rite()
->       drm/i915/irq: replace I915_READ()/WRITE() with intel_uncore_read()/=
-write()
->       drm/i915/gvt: replace I915_WRITE with intel_uncore_write
->       drm/i915: remove last traces of I915_READ(), I915_WRITE() and POSTI=
-NG_READ()
->       drm/dsc: use rc_model_size from DSC config for PPS
->       drm/i915/dsc: configure hardware using specified rc_model_size
->       drm/i915/dsc: make rc_model_size an encoder defined value
->       drm/dsc: add helper for calculating rc buffer size from DPCD
->       drm/i915/bios: fill in DSC rc_model_size from VBT
-> =
-
-> Jos=E9 Roberto de Souza (1):
->       drm/i915/display/psr: Calculate selective fetch plane registers
-> =
-
-> Lionel Landwerlin (1):
->       drm/i915/perf: also include Gen11 in OATAILPTR workaround
-> =
-
-> Lyude Paul (5):
->       drm/i915/dp: Program source OUI on eDP panels
->       drm/i915: Rename pwm_* backlight callbacks to ext_pwm_*
->       drm/i915: Pass down brightness values to enable/disable backlight c=
-allbacks
->       drm/i915/dp: Rename eDP VESA backlight interface functions
->       drm/i915/dp: Add register definitions for Intel HDR backlight inter=
-face
-> =
-
-> Manasi Navare (3):
->       drm/i915: Add VRR_CTL_LINE_COUNT field to VRR_CTL register def
->       drm/i915/dp: No need to poll FEC Enable Live bit
->       drm/i915/display/dp: Compute the correct slice count for VDSC on DP
-> =
-
-> Sean Paul (1):
->       drm/i915/display/tc: Only WARN once for bogus tc port flag
-> =
-
-> Tom Rix (1):
->       drm/i915: remove trailing semicolon in macro definition
-> =
-
-> Uma Shankar (15):
->       drm/i915/display: Add HDR Capability detection for LSPCON
->       drm/i915/display: Enable HDR on gen9 devices with MCA Lspcon
->       drm/i915/display: Attach HDR property for capable Gen9 devices
->       drm/i915/display: Fixes quantization range for YCbCr output
->       drm/i915/display: Add a WARN for invalid output range and format
->       drm/i915/display: Attach content type property for LSPCON
->       drm/i915/display: Enable colorspace programming for LSPCON devices
->       drm/i915/display: Nuke bogus lspcon check
->       drm/i915/display: Enable HDR for Parade based lspcon
->       drm/i915/lspcon: Create separate infoframe_enabled helper
->       drm/i915/display: Implement infoframes readback for LSPCON
->       drm/i915/display: Implement DRM infoframe read for LSPCON
->       drm/i915/lspcon: Do not send DRM infoframes to non-HDMI sinks
->       drm/i915/display/tgl: Disable FBC with PSR2
->       Revert "drm/i915/display/fbc: Disable fbc by default on TGL"
-> =
-
-> Ville Syrj=E4l=E4 (6):
->       drm/i915: Split intel_attach_colorspace_property() into HDMI vs. DP=
- variants
->       drm/i915: Track logically enabled planes for hw state
->       drm/i915: Add intel_atomic_add_affected_planes()
->       drm/i915: Properly flag modesets for all bigjoiner pipes
->       drm/i915: Call kill_bigjoiner_slave() earlier
->       drm/i915: Reduce duplicated switch cases in hpd code
-> =
-
->  drivers/gpu/drm/drm_dsc.c                          |   30 +-
->  drivers/gpu/drm/i915/Makefile                      |    4 +-
->  drivers/gpu/drm/i915/display/i9xx_plane.c          |  704 ++++++++
->  drivers/gpu/drm/i915/display/i9xx_plane.h          |   24 +
->  drivers/gpu/drm/i915/display/icl_dsi.c             |    7 +-
->  drivers/gpu/drm/i915/display/intel_atomic_plane.c  |    3 +
->  drivers/gpu/drm/i915/display/intel_bios.c          |   11 +-
->  drivers/gpu/drm/i915/display/intel_cdclk.c         |    7 +-
->  drivers/gpu/drm/i915/display/intel_combo_phy.c     |   20 +-
->  drivers/gpu/drm/i915/display/intel_connector.c     |   29 +-
->  drivers/gpu/drm/i915/display/intel_connector.h     |    3 +-
->  drivers/gpu/drm/i915/display/intel_cursor.c        |  806 +++++++++
->  drivers/gpu/drm/i915/display/intel_cursor.h        |   17 +
->  drivers/gpu/drm/i915/display/intel_ddi.c           |   83 +-
->  drivers/gpu/drm/i915/display/intel_display.c       | 1794 ++------------=
-------
->  drivers/gpu/drm/i915/display/intel_display.h       |   13 +-
->  .../gpu/drm/i915/display/intel_display_debugfs.c   |  124 ++
->  .../gpu/drm/i915/display/intel_display_debugfs.h   |    3 +
->  drivers/gpu/drm/i915/display/intel_display_power.c |  127 +-
->  drivers/gpu/drm/i915/display/intel_display_power.h |   37 +-
->  drivers/gpu/drm/i915/display/intel_display_types.h |   57 +-
->  drivers/gpu/drm/i915/display/intel_dp.c            |   95 +-
->  .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  115 +-
->  .../gpu/drm/i915/display/intel_dsi_dcs_backlight.c |   21 +-
->  drivers/gpu/drm/i915/display/intel_dvo.c           |    4 -
->  drivers/gpu/drm/i915/display/intel_fbc.c           |   19 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c          |   26 +-
->  drivers/gpu/drm/i915/display/intel_lspcon.c        |  162 +-
->  drivers/gpu/drm/i915/display/intel_lspcon.h        |   12 +
->  drivers/gpu/drm/i915/display/intel_panel.c         |  226 ++-
->  drivers/gpu/drm/i915/display/intel_psr.c           |   22 +-
->  drivers/gpu/drm/i915/display/intel_sprite.c        |   50 +-
->  drivers/gpu/drm/i915/display/intel_sprite.h        |   10 +
->  drivers/gpu/drm/i915/display/intel_tc.c            |    2 +-
->  drivers/gpu/drm/i915/display/intel_vdsc.c          |    4 +-
->  drivers/gpu/drm/i915/gvt/handlers.c                |    2 +-
->  drivers/gpu/drm/i915/i915_debugfs.c                |  582 +------
->  drivers/gpu/drm/i915/i915_drv.c                    |    8 +-
->  drivers/gpu/drm/i915/i915_drv.h                    |   41 +-
->  drivers/gpu/drm/i915/i915_irq.c                    |  382 ++---
->  drivers/gpu/drm/i915/i915_perf.c                   |    2 +-
->  drivers/gpu/drm/i915/i915_reg.h                    |    7 +-
->  drivers/gpu/drm/i915/i915_suspend.c                |   33 +-
->  drivers/gpu/drm/i915/intel_device_info.c           |    2 +-
->  drivers/gpu/drm/i915/intel_pm.c                    |  552 +++---
->  drivers/gpu/drm/i915/intel_sideband.c              |    4 +-
->  drivers/gpu/drm/i915/intel_uncore.c                |    4 +-
->  drivers/gpu/drm/i915/intel_uncore.h                |    6 +-
->  include/drm/drm_dsc.h                              |    1 +
->  49 files changed, 3222 insertions(+), 3075 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/display/i9xx_plane.c
->  create mode 100644 drivers/gpu/drm/i915/display/i9xx_plane.h
->  create mode 100644 drivers/gpu/drm/i915/display/intel_cursor.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_cursor.h
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMeW5tDHmnIg35pelIOmAseWbmyDkuIrljYgxMToxMuWvq+mBk++8mgo+Cj4gQWRk
+IEREUCBzdXBwb3J0IGZvciBNVDgxNjcgU29DLgo+Cj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5n
+IE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jIHwgNDggKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jIGIvZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMKPiBpbmRleCAxZjk5ZGI2Li4xMzA4MDQ2IDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMKPiBAQCAtMTUsNiArMTUsOCBA
+QAo+Cj4gICNkZWZpbmUgTVQyNzAxX0RJU1BfTVVURVgwX01PRDAgICAgICAgICAgICAgICAgICAg
+ICAgICAweDJjCj4gICNkZWZpbmUgTVQyNzAxX0RJU1BfTVVURVgwX1NPRjAgICAgICAgICAgICAg
+ICAgICAgICAgICAweDMwCj4gKyNkZWZpbmUgTVQ4MTgzX0RJU1BfTVVURVgwX01PRDAgICAgICAg
+ICAgICAgICAgICAgICAgICAweDMwCj4gKyNkZWZpbmUgTVQ4MTgzX0RJU1BfTVVURVgwX1NPRjAg
+ICAgICAgICAgICAgICAgICAgICAgICAweDJjCj4KPiAgI2RlZmluZSBESVNQX1JFR19NVVRFWF9F
+TihuKSAgICAgICAgICAgICAgICAgICAoMHgyMCArIDB4MjAgKiAobikpCj4gICNkZWZpbmUgRElT
+UF9SRUdfTVVURVgobikgICAgICAgICAgICAgICAgICAgICAgKDB4MjQgKyAweDIwICogKG4pKQo+
+IEBAIC0zOCw2ICs0MCwxOCBAQAo+ICAjZGVmaW5lIE1UODE2N19NVVRFWF9NT0RfRElTUF9ESVRI
+RVIgICAgICAgICAgIDE1Cj4gICNkZWZpbmUgTVQ4MTY3X01VVEVYX01PRF9ESVNQX1VGT0UgICAg
+ICAgICAgICAgMTYKPgo+ICsjZGVmaW5lIE1UODE4M19NVVRFWF9NT0RfRElTUF9SRE1BMCAgICAg
+ICAgICAgIDAKPiArI2RlZmluZSBNVDgxODNfTVVURVhfTU9EX0RJU1BfUkRNQTEgICAgICAgICAg
+ICAxCj4gKyNkZWZpbmUgTVQ4MTgzX01VVEVYX01PRF9ESVNQX09WTDAgICAgICAgICAgICAgOQo+
+ICsjZGVmaW5lIE1UODE4M19NVVRFWF9NT0RfRElTUF9PVkwwXzJMICAgICAgICAgIDEwCj4gKyNk
+ZWZpbmUgTVQ4MTgzX01VVEVYX01PRF9ESVNQX09WTDFfMkwgICAgICAgICAgMTEKPiArI2RlZmlu
+ZSBNVDgxODNfTVVURVhfTU9EX0RJU1BfV0RNQTAgICAgICAgICAgICAxMgo+ICsjZGVmaW5lIE1U
+ODE4M19NVVRFWF9NT0RfRElTUF9DT0xPUjAgICAgICAgICAgIDEzCj4gKyNkZWZpbmUgTVQ4MTgz
+X01VVEVYX01PRF9ESVNQX0NDT1JSMCAgICAgICAgICAgMTQKPiArI2RlZmluZSBNVDgxODNfTVVU
+RVhfTU9EX0RJU1BfQUFMMCAgICAgICAgICAgICAxNQo+ICsjZGVmaW5lIE1UODE4M19NVVRFWF9N
+T0RfRElTUF9HQU1NQTAgICAgICAgICAgIDE2Cj4gKyNkZWZpbmUgTVQ4MTgzX01VVEVYX01PRF9E
+SVNQX0RJVEhFUjAgICAgICAgICAgMTcKPiArCj4gICNkZWZpbmUgTVQ4MTczX01VVEVYX01PRF9E
+SVNQX09WTDAgICAgICAgICAgICAgMTEKPiAgI2RlZmluZSBNVDgxNzNfTVVURVhfTU9EX0RJU1Bf
+T1ZMMSAgICAgICAgICAgICAxMgo+ICAjZGVmaW5lIE1UODE3M19NVVRFWF9NT0RfRElTUF9SRE1B
+MCAgICAgICAgICAgIDEzCj4gQEAgLTg5LDYgKzEwMywxMCBAQAo+ICAjZGVmaW5lIE1UODE2N19N
+VVRFWF9TT0ZfRFBJMCAgICAgICAgICAyCj4gICNkZWZpbmUgTVQ4MTY3X01VVEVYX1NPRl9EUEkx
+ICAgICAgICAgIDMKPgo+ICsjZGVmaW5lIE1UODE4M19NVVRFWF9TT0ZfRFBJMCAgICAgICAgICAg
+ICAgICAgIDIKPiArI2RlZmluZSBNVDgxODNfTVVURVhfRU9GX0RTSTAgICAgICAgICAgICAgICAg
+ICAoTVVURVhfU09GX0RTSTAgPDwgNikKPiArI2RlZmluZSBNVDgxODNfTVVURVhfRU9GX0RQSTAg
+ICAgICAgICAgICAgICAgICAoTVQ4MTgzX01VVEVYX1NPRl9EUEkwIDw8IDYpCj4gKwo+Cj4gIHN0
+cnVjdCBtdGtfZGlzcF9tdXRleCB7Cj4gICAgICAgICBpbnQgaWQ7Cj4gQEAgLTE4Myw2ICsyMDEs
+MjAgQEAgc3RydWN0IG10a19kZHAgewo+ICAgICAgICAgW0REUF9DT01QT05FTlRfV0RNQTFdID0g
+TVQ4MTczX01VVEVYX01PRF9ESVNQX1dETUExLAo+ICB9Owo+Cj4gK3N0YXRpYyBjb25zdCB1bnNp
+Z25lZCBpbnQgbXQ4MTgzX211dGV4X21vZFtERFBfQ09NUE9ORU5UX0lEX01BWF0gPSB7Cj4gKyAg
+ICAgICBbRERQX0NPTVBPTkVOVF9BQUwwXSA9IE1UODE4M19NVVRFWF9NT0RfRElTUF9BQUwwLAo+
+ICsgICAgICAgW0REUF9DT01QT05FTlRfQ0NPUlJdID0gTVQ4MTgzX01VVEVYX01PRF9ESVNQX0ND
+T1JSMCwKPiArICAgICAgIFtERFBfQ09NUE9ORU5UX0NPTE9SMF0gPSBNVDgxODNfTVVURVhfTU9E
+X0RJU1BfQ09MT1IwLAo+ICsgICAgICAgW0REUF9DT01QT05FTlRfRElUSEVSXSA9IE1UODE4M19N
+VVRFWF9NT0RfRElTUF9ESVRIRVIwLAo+ICsgICAgICAgW0REUF9DT01QT05FTlRfR0FNTUFdID0g
+TVQ4MTgzX01VVEVYX01PRF9ESVNQX0dBTU1BMCwKPiArICAgICAgIFtERFBfQ09NUE9ORU5UX09W
+TDBdID0gTVQ4MTgzX01VVEVYX01PRF9ESVNQX09WTDAsCj4gKyAgICAgICBbRERQX0NPTVBPTkVO
+VF9PVkxfMkwwXSA9IE1UODE4M19NVVRFWF9NT0RfRElTUF9PVkwwXzJMLAo+ICsgICAgICAgW0RE
+UF9DT01QT05FTlRfT1ZMXzJMMV0gPSBNVDgxODNfTVVURVhfTU9EX0RJU1BfT1ZMMV8yTCwKPiAr
+ICAgICAgIFtERFBfQ09NUE9ORU5UX1JETUEwXSA9IE1UODE4M19NVVRFWF9NT0RfRElTUF9SRE1B
+MCwKPiArICAgICAgIFtERFBfQ09NUE9ORU5UX1JETUExXSA9IE1UODE4M19NVVRFWF9NT0RfRElT
+UF9SRE1BMSwKPiArICAgICAgIFtERFBfQ09NUE9ORU5UX1dETUEwXSA9IE1UODE4M19NVVRFWF9N
+T0RfRElTUF9XRE1BMCwKPiArfTsKPiArCj4gIHN0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgbXQy
+NzEyX211dGV4X3NvZltERFBfTVVURVhfU09GX0RTSTMgKyAxXSA9IHsKPiAgICAgICAgIFtERFBf
+TVVURVhfU09GX1NJTkdMRV9NT0RFXSA9IE1VVEVYX1NPRl9TSU5HTEVfTU9ERSwKPiAgICAgICAg
+IFtERFBfTVVURVhfU09GX0RTSTBdID0gTVVURVhfU09GX0RTSTAsCj4gQEAgLTIwMCw2ICsyMzIs
+MTIgQEAgc3RydWN0IG10a19kZHAgewo+ICAgICAgICAgW0REUF9NVVRFWF9TT0ZfRFBJMV0gPSBN
+VDgxNjdfTVVURVhfU09GX0RQSTEsCj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IHVuc2lnbmVkIGlu
+dCBtdDgxODNfbXV0ZXhfc29mW0REUF9NVVRFWF9TT0ZfRFNJMyArIDFdID0gewo+ICsgICAgICAg
+W0REUF9NVVRFWF9TT0ZfU0lOR0xFX01PREVdID0gTVVURVhfU09GX1NJTkdMRV9NT0RFLAo+ICsg
+ICAgICAgW0REUF9NVVRFWF9TT0ZfRFNJMF0gPSBNVVRFWF9TT0ZfRFNJMCB8IE1UODE4M19NVVRF
+WF9FT0ZfRFNJMCwKPiArICAgICAgIFtERFBfTVVURVhfU09GX0RQSTBdID0gTVQ4MTgzX01VVEVY
+X1NPRl9EUEkwIHwgTVQ4MTgzX01VVEVYX0VPRl9EUEkwLAoKQWNjb3JkaW5nIHRvIGRpc2N1c3Np
+b24gaW4gWzFdLCBhZGQgY29tbWVudCBmb3IgdGhlIG9kZCBFT0Ygc2V0dGluZy4KClsxXSBodHRw
+czovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtbWVkaWF0ZWsvcGF0Y2gvMTU5
+NTQ2OTc5OC0zODI0LTgtZ2l0LXNlbmQtZW1haWwteW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20v
+CgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPiArfTsKPiArCj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+bXRrX2RkcF9kYXRhIG10MjcwMV9kZHBfZHJpdmVyX2RhdGEgPSB7Cj4gICAgICAgICAubXV0ZXhf
+bW9kID0gbXQyNzAxX211dGV4X21vZCwKPiAgICAgICAgIC5tdXRleF9zb2YgPSBtdDI3MTJfbXV0
+ZXhfc29mLAo+IEBAIC0yMjksNiArMjY3LDE0IEBAIHN0cnVjdCBtdGtfZGRwIHsKPiAgICAgICAg
+IC5tdXRleF9zb2ZfcmVnID0gTVQyNzAxX0RJU1BfTVVURVgwX1NPRjAsCj4gIH07Cj4KPiArc3Rh
+dGljIGNvbnN0IHN0cnVjdCBtdGtfZGRwX2RhdGEgbXQ4MTgzX2RkcF9kcml2ZXJfZGF0YSA9IHsK
+PiArICAgICAgIC5tdXRleF9tb2QgPSBtdDgxODNfbXV0ZXhfbW9kLAo+ICsgICAgICAgLm11dGV4
+X3NvZiA9IG10ODE4M19tdXRleF9zb2YsCj4gKyAgICAgICAubXV0ZXhfbW9kX3JlZyA9IE1UODE4
+M19ESVNQX01VVEVYMF9NT0QwLAo+ICsgICAgICAgLm11dGV4X3NvZl9yZWcgPSBNVDgxODNfRElT
+UF9NVVRFWDBfU09GMCwKPiArICAgICAgIC5ub19jbGsgPSB0cnVlLAo+ICt9Owo+ICsKPiAgc3Ry
+dWN0IG10a19kaXNwX211dGV4ICptdGtfZGlzcF9tdXRleF9nZXQoc3RydWN0IGRldmljZSAqZGV2
+LCB1bnNpZ25lZCBpbnQgaWQpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBtdGtfZGRwICpkZHAgPSBk
+ZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiBAQCAtNDQ5LDYgKzQ5NSw4IEBAIHN0YXRpYyBpbnQgbXRr
+X2RkcF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgICAgICAgICAgLmRh
+dGEgPSAmbXQ4MTY3X2RkcF9kcml2ZXJfZGF0YX0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0g
+Im1lZGlhdGVrLG10ODE3My1kaXNwLW11dGV4IiwKPiAgICAgICAgICAgLmRhdGEgPSAmbXQ4MTcz
+X2RkcF9kcml2ZXJfZGF0YX0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10
+ODE4My1kaXNwLW11dGV4IiwKPiArICAgICAgICAgLmRhdGEgPSAmbXQ4MTgzX2RkcF9kcml2ZXJf
+ZGF0YX0sCj4gICAgICAgICB7fSwKPiAgfTsKPiAgTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgZGRw
+X2RyaXZlcl9kdF9tYXRjaCk7Cj4gLS0KPiAxLjguMS4xLmRpcnR5Cj4gX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5n
+IGxpc3QKPiBMaW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3Rz
+LmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
