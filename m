@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0D42EC89A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:03:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D75D2EC8A7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0238B6E417;
-	Thu,  7 Jan 2021 03:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 087706E42D;
+	Thu,  7 Jan 2021 03:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDE66E425;
+ (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EACB66E417;
  Thu,  7 Jan 2021 03:02:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dRaUid0CAyNzkmQmX3vXWv5edzhWN6oieNXRgg29N823bSmbvQyhv8EIkMH2iSJPLjcslcxNys5Xdl67y/E75lMT3Hquzg/JOHdYEoTZ0i2AJX267c03PzC3/r/TEehKBTWl9ISZLi9Y7rwSASaCMcrnSLs6ablO1qGIWuAIrMArtVNZmiBLk0xG8Kp3c26jhimi6CPv2/lT9WEVdY48nq8Slym2khJq88klnOHi+3VVYFZTV7LYozsaHeZZq/0gU+kRiLzst7KUDyDQsLfun6n24lk4ZVNlJQrSsZIoAAc8guLA1DImt0NHHAj0uDXKw4kgYSKyC3WIJzb+uGuIPQ==
+ b=Px+y6ba8+so9Y6p395o2rr0nVIBpIo+LvKJS5bw/c1N8Cnl+K7IwcuwN6d4n17L0JrWfHSTvLf+TPyIPu4us7hY94pwNKGn0HfND9KQ+9nJFu7ZLEwDxqHq0bFmi6INm+bGFo8GxW5eBc7ZuoykJ7zA8VOMHOXJMbLODk3qQyoQAK/BfCspyMNLrRxlNzAxXtDAjB78Sujsnxyuot3DxA8K/9OZ7Y30/N+GLBqXoFaPPiVqeznllUf5ZNNNLp55wxwWS7er9OhoCBQ6n7AkbFRpOfRpli1esOQrvRoqcjXH0343w2ub4OhnbRsuDp32fGYKP+RFH7EPXPvvgzLahbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1uM8d1EyC3bKrdl/0k/6aM/WfUoIgX4+U8DwjagjBbY=;
- b=S2U0gtZKupnyrvo+MAhmDkgRILS/cT7sgH8y9Pmg9IMcBm3XDwv62dXWZ8OwvpRaNJV/LWldSTHPeTmPi6UW1QkdILaKONC72FNwA4gzTPwipzXll00K0ec7zCa4PcFvX0+Y6IHlBPXaXfARmDFh6dMACB9vk08A4xi9UCKO6yn8LsSdiq2gQhUMa9xkM0xS+QJcGlGA/wKm9+CskidC6s5LR7I8x4Pejce7jvhGwqaLkEHbJYE4ih0wd5+ZwtDzOIoqMUgfPZx1QwxaRFWZr1FT4kCGPJELbyzSMwHsZw2HZ+VjL+evuUxm9LaFllT8yq2Xizs18Sqd/3CloG2jPA==
+ bh=kYGu+bV3N4LmksBxQ6n3cfHVkgWkt1rY9W/aod1dy90=;
+ b=USwoNthWgW1jePRNmD/dtAzBDJ8ccQXJZfZPPyMuvDDMNaoorAcO130+1qCZU5IcBt+H96tnudlzYm6YpeSil+KyGvqZwnvzZILHC2Oc89MlE/EPNywsShc5wZglvyIUTOU7kia1clI76/CdgSK5VQSz0Y0LBtYLy5hM2b4ugtxszDEDX2ib719Fh02jMErEvEM48FxszFlSEtX21bATkFGOFWZ89+XNee1FbG70fQprgmtwXt7vZXhZVkx9kxS+3u7BSp9MOBnZzqsVJ0zgNbJtnaWzdqEEDTW1yCHpGC0T+Rk31ko7dgb8pij7t2W+C5LDS2eIr8wGwaZAosRRyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1uM8d1EyC3bKrdl/0k/6aM/WfUoIgX4+U8DwjagjBbY=;
- b=CVydvg9fLq9wUs8Ewvq1UTis2saV6xU0XVl3IqnOEihUQ7q8s4jHo/9yCzsefv9Hghm3abkHs75a72rV7lcIhZ4a6WxdT6I8PcRdMisqWVeeqeccGUQ1VAzwC7FXznNY4sfe4gFlU1NM3w6vLDzkBFqX2E+crR8FV7enL5EBQSk=
+ bh=kYGu+bV3N4LmksBxQ6n3cfHVkgWkt1rY9W/aod1dy90=;
+ b=ozIlXvlWwbCPnTH7ePaSiNUfylHgD6xOcxfWnUZnWtKTg8/W94Z1/e0cO1YLKiqaJYnDp0n4/bIFDcsOl4TkkIDtRYkWz02AY9EmpvWXuk5A1Z60Oj55asXCbflFKLZ56LCkqRaD1HQQO0vBP3XYyIyxakyw5of4I6RA1vEE8+s=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -43,9 +43,10 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 15/35] drm/amdkfd: add xnack enabled flag to kfd_process
-Date: Wed,  6 Jan 2021 22:01:07 -0500
-Message-Id: <20210107030127.20393-16-Felix.Kuehling@amd.com>
+Subject: [PATCH 16/35] drm/amdkfd: add ioctl to configure and query xnack
+ retries
+Date: Wed,  6 Jan 2021 22:01:08 -0500
+Message-Id: <20210107030127.20393-17-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107030127.20393-1-Felix.Kuehling@amd.com>
 References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
@@ -58,48 +59,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from Harpoon.amd.com (165.204.55.251) by
  YT1PR01CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::17) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:02:56 +0000
+ 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:02:57 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fb3be138-30c7-41bf-5ef6-08d8b2b8bc38
+X-MS-Office365-Filtering-Correlation-Id: 7af2d3ec-3991-4064-77cb-08d8b2b8bc73
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3999:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB399942BA903815B152B634B992AF0@MN2PR12MB3999.namprd12.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3999AF9587487B41445B606B92AF0@MN2PR12MB3999.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2hyJ0QgnQIlcBJQbcwZtyjYpQSAQIZB1bedKPgLT/ZXnAX4sySzdwz5DLc5JlrrJvXu6CEqGJQ5IsSqszzNbmjQzbGzBh8FPD4KhfDOEaopRgijs1j97v8sJqNJBqpbE2Rpk66frDAIKnQWxfbt7rwg9BEqEwdYUOPdqXgZ6ubKAqeDSiHp9XdihWJUzzIossUGuikaHzlEJrzEt3NH/vEaBHvnYs+brpbwgunLhoyIK4E78znEEM858C4Z5yAI5HWkoaED536Fg8WNvjSYk+jygMs0Op7k5PEgPan5hFG48etPxQSHvidaVE3Q6dEKdyBpzb0XN3Z7tz5R6O+t4wpJDnTGE47b2GjbgaSbqRGUpXtK1B2ed7pbM1/hZuT3Hk4LVMycYZMnS2WRBpICFjQ==
+X-Microsoft-Antispam-Message-Info: Rze5e1fOIJdbn9yTA1K0O9fsRuPP0++b9+CMl5LFVJHs10ETbAukzkzh1vSesel1ou8pE10E7Mr63cNcyLoycH5fQXuY0iHYa4s/Jti3clS1W32juWEYpiukxyNqX31eQ61wCUGGX09xXcrY9DZfoRy3gsS8Qi13nksO0ZQoXLogols0lD9N6X6VuBSer73e/sh55FXqvWkPmd1aw85C94Wbaue6ExRSrS4O1A+QQnNMhEl9MGihjAKg80PKDY2d45HFbQdrcbOQ/wIy/t+CifiDl1El9jAea+6UIwnNnuZtw5QYFNqIIxk3XOz+blwrq1EKRQMp7LIuPQQN5IAVUkqGLMb61NahaT0HsVj58B+fj5kQwh43WmJsi+6H+PicUGNhR6pgS3A1golnky4Nqg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39860400002)(316002)(6666004)(7696005)(2616005)(956004)(8936002)(4326008)(66476007)(8676002)(478600001)(5660300002)(26005)(52116002)(1076003)(86362001)(16526019)(66946007)(450100002)(186003)(6486002)(36756003)(83380400001)(2906002)(66556008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?H+NSK+xRc8dZvSDcc4EP6L1uJxFFgQX6ie1SjgegpxGPEi9bFwbkRkEomtcZ?=
- =?us-ascii?Q?l39qyf/pawcBFEKckURealTMaKdmO8kTCcDoQ+qRR6YufFmDEp2DHbaz1awZ?=
- =?us-ascii?Q?8Ck31nLMiEcoBwRix4xUKEs6Hg92VldAogCEHecPHd9njuZCCOTxC0xo8zF2?=
- =?us-ascii?Q?rcOGd2LBubDsEGmnZ/zUvhj7qtGSUgxDXu3snTS2dqv1mhNiiBsK1mX8peLK?=
- =?us-ascii?Q?A6aX2MpeUfKlad7ABQ2mryqC4UjOZXxD5gZrpBf4uvlzSdvWNzpwiDEo29To?=
- =?us-ascii?Q?ephutNhXbugWJz4vHq9iDsXs/WZnmFgAHuQo0c+D0d1czmf1jvcZQsFSvVsA?=
- =?us-ascii?Q?l8U+HwYK5i0rEcwzx3InYBIC8ULyi/9x45DmjrbflkB8SpJEd7V6tqhAwECc?=
- =?us-ascii?Q?dxz5LLAYLl26R0DuopCoTXdU2MDTaga4paCTVRGbpV1KJ+mdMY1WezIaniTn?=
- =?us-ascii?Q?J9weAdwCIqBWKmnBTdTjI8YvwR5ZLeRppTKWJAGc194yKkcoOAzkcZ97O0TG?=
- =?us-ascii?Q?eQb5gaOn4+QdemxgrrqyrpReFzj5mruN8gv9mnmt3ulTvJyz3Cpbi5RrAMCz?=
- =?us-ascii?Q?5ePqA+PuoQpVH/C7bK4ZdGoWe+YglqL8dgRei3lYPOPu9SmvFXPzarVoWor6?=
- =?us-ascii?Q?/Ct0ZrG0PO3S5HkEiP6dKCFTcFXSvkp9cwpb68QntcOZlmpQlI4JTvOY/lTy?=
- =?us-ascii?Q?qyNcKqzLj7k3O+cDIwaoHTZp8/EsUFIkFBqX4s8AilMSzSk2rYx/09SpYpaT?=
- =?us-ascii?Q?J6RpAutFyvnnKCBXEKAEx9vT+Yj802ZIT+vNcWqSQCpwnZhOt6j6bXh6y26m?=
- =?us-ascii?Q?XbVZhADEVnHcfku9+/5JXekWtmFKwsw8seiiRLSoLkU0Q5ET3YJnWGLwpQXz?=
- =?us-ascii?Q?3/f7pRtxrmrozjr3E+L7rSv91tk8Iawhi7vpRWeg5IrmyGVeT4UQBA9Q4M15?=
- =?us-ascii?Q?JG81rxS7YKKIiJ3PSk3i4qpxVK7VcvFqxCnq1c8K6VJPDjIqq+E/FUFv1d6b?=
- =?us-ascii?Q?pq6p?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?f2nFI7c5Fzmdj69rYiTKqtqQPoT9zBsxhmzVdHDakc1yV1OMzrkYTdo6DLEW?=
+ =?us-ascii?Q?rKOhuTolVywof8wtexpckPdbITMHnwbUjz6qKrNfOvBR4TPNTRk5M556draR?=
+ =?us-ascii?Q?DbnzpYGLigRGH1J1KW3+xs2SmbqRId1oPMOfxJRXfM/BU5dMw/98Ly3MMAHN?=
+ =?us-ascii?Q?xYqOsbnID5/5XQtoO4CtX5vrDs0eu0/VLcENElIa5Og6IWGVGUDlaGpOZ95/?=
+ =?us-ascii?Q?Q5V27WalwvwXWwffNN9NH9v1U6EuzFSeyLi83wS/l3pA71Vw1vijOwT54nBv?=
+ =?us-ascii?Q?NAmBURD+kvDJw6cVyrprXbEneFPJqy37IpLwvNTam6HRtSab77LFlvEB9z9E?=
+ =?us-ascii?Q?FP2RthzIneWwBe4KpDUcTWt4W8FdJzcPd1GFhoiJKXU8k22tBensYUMLYfrL?=
+ =?us-ascii?Q?/lxusmo6hbNSQ2DCGNQOIIaJ3YR9augJk62DXmU83DLujt9GY6HoQ8grXmw5?=
+ =?us-ascii?Q?Y0LTuENLZf1y/oEClvv2E+NrVQpi+CEkwkWUT78EMskeINLLZwc1k6alxLkc?=
+ =?us-ascii?Q?+i58oIeEGWnoMT1VmnFyD/MKHp45ehq3OZoFyVvVG2zqv+wAYBoPvTFn62R2?=
+ =?us-ascii?Q?hBPvKoPe3kLnmHJ93j+o09OVKE7oNSF/VRIBgNf8HE5+cqn4eUtvUdkPcFA9?=
+ =?us-ascii?Q?UnHXC5iUVe0P2NP7Zg76yrfT+HM2a8b1vfk1DWAMPfs2wkFioB4fa8P/Hglk?=
+ =?us-ascii?Q?qhPy7albZVP6ibu/FVYpNWs+KFhfXZVag/l6wtMbsnReg1wxpwY/sZx2nB15?=
+ =?us-ascii?Q?daZKiH4JPvUWSQqfZesIgR5OUs6Js2UFUzNhT6cGiZr5T2o/z7sijpk+z2iV?=
+ =?us-ascii?Q?AFkgtvyttqVy1SvX9IwDF5aD0BMN33G2FM3cCWkh1ReRnpvuRQY8J8WIn82j?=
+ =?us-ascii?Q?mhrHgsSnwBLm4BXNK75MXvdSR5H/Ptb7z+WPcK8ZejPdRy0wqF9zCMk6Fc8t?=
+ =?us-ascii?Q?Wl28uZ9W50WmhwThsaAJxhcW90eXDMaLQIs6cS2ixC/ZXAeggMC7v+gh1cB/?=
+ =?us-ascii?Q?5bkF?=
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:02:57.0121 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:02:57.6274 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb3be138-30c7-41bf-5ef6-08d8b2b8bc38
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7af2d3ec-3991-4064-77cb-08d8b2b8bc73
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dqmtuSa+crAih6DLQ3Rf4b/m9fT+Gad+Z0Wix+fjAsjQdDw6w/plLmUph2DgBKVmZsoFRhm7gETQvV8matq2zw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: gUIXW1gFceV+ulGL6TSSLqZ8dhPHZXDgYrAsxq308jZf0OyQiBCwfhZ+3YKfZ3asLz0AKCl66csVlF2RLhslgA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3999
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,92 +122,127 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alex Sierra <alex.sierra@amd.com>
 
-This flag is useful at cpu invalidation page table
-decision. Between select queue eviction or page fault.
+Xnack retries are used for page fault recovery. Some AMD chip
+families support continuously retry while page table entries are invalid.
+The driver must handle the page fault interrupt and fill in a valid entry
+for the GPU to continue.
+
+This ioctl allows to enable/disable XNACK retries per KFD process.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  4 +++
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 36 ++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 28 +++++++++++++++
+ include/uapi/linux/kfd_ioctl.h           | 43 +++++++++++++++++++++++-
+ 2 files changed, 70 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index f1e95773e19b..7a4b4b6dcf32 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -821,6 +821,8 @@ struct kfd_process {
- 
- 	/* shared virtual memory registered by this process */
- 	struct svm_range_list svms;
-+
-+	bool xnack_enabled;
- };
- 
- #define KFD_PROCESS_TABLE_SIZE 5 /* bits: 32 entries */
-@@ -874,6 +876,8 @@ struct kfd_process_device *kfd_get_process_device_data(struct kfd_dev *dev,
- struct kfd_process_device *kfd_create_process_device_data(struct kfd_dev *dev,
- 							struct kfd_process *p);
- 
-+bool kfd_process_xnack_supported(struct kfd_process *p);
-+
- int kfd_reserved_mem_mmap(struct kfd_dev *dev, struct kfd_process *process,
- 			  struct vm_area_struct *vma);
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 0f31538b2a91..f7a50a364d78 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1157,6 +1157,39 @@ static int kfd_process_device_init_cwsr_dgpu(struct kfd_process_device *pdd)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 2d3ba7e806d5..a9a6a7c8ff21 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1747,6 +1747,31 @@ static int kfd_ioctl_smi_events(struct file *filep,
+ 	return kfd_smi_event_open(dev, &args->anon_fd);
  }
  
-+bool kfd_process_xnack_supported(struct kfd_process *p)
++static int kfd_ioctl_set_xnack_mode(struct file *filep,
++				    struct kfd_process *p, void *data)
 +{
-+	int i;
++	struct kfd_ioctl_set_xnack_mode_args *args = data;
++	int r = 0;
 +
-+	/* On most GFXv9 GPUs, the retry mode in the SQ must match the
-+	 * boot time retry setting. Mixing processes with different
-+	 * XNACK/retry settings can hang the GPU.
-+	 *
-+	 * Different GPUs can have different noretry settings depending
-+	 * on HW bugs or limitations. We need to find at least one
-+	 * XNACK mode for this process that's compatible with all GPUs.
-+	 * Fortunately GPUs with retry enabled (noretry=0) can run code
-+	 * built for XNACK-off. On GFXv9 it may perform slower.
-+	 *
-+	 * Therefore applications built for XNACK-off can always be
-+	 * supported and will be our fallback if any GPU does not
-+	 * support retry.
-+	 */
-+	for (i = 0; i < p->n_pdds; i++) {
-+		struct kfd_dev *dev = p->pdds[i]->dev;
-+
-+		/* Only consider GFXv9 and higher GPUs. Older GPUs don't
-+		 * support the SVM APIs and don't need to be considered
-+		 * for the XNACK mode selection.
-+		 */
-+		if (dev->device_info->asic_family >= CHIP_VEGA10 &&
-+		    dev->noretry)
-+			return false;
++	mutex_lock(&p->mutex);
++	if (args->xnack_enabled >= 0) {
++		if (!list_empty(&p->pqm.queues)) {
++			pr_debug("Process has user queues running\n");
++			mutex_unlock(&p->mutex);
++			return -EBUSY;
++		}
++		if (args->xnack_enabled && !kfd_process_xnack_supported(p))
++			r = -EPERM;
++		else
++			p->xnack_enabled = args->xnack_enabled;
++	} else {
++		args->xnack_enabled = p->xnack_enabled;
 +	}
++	mutex_unlock(&p->mutex);
 +
-+	return true;
++	return r;
 +}
 +
- /*
-  * On return the kfd_process is fully operational and will be freed when the
-  * mm is released
-@@ -1194,6 +1227,9 @@ static struct kfd_process *create_process(const struct task_struct *thread)
- 	if (err != 0)
- 		goto err_init_apertures;
+ static int kfd_ioctl_svm(struct file *filep, struct kfd_process *p, void *data)
+ {
+ 	struct kfd_ioctl_svm_args *args = data;
+@@ -1870,6 +1895,9 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
+ 			kfd_ioctl_smi_events, 0),
  
-+	/* Check XNACK support after PDDs are created in kfd_init_apertures */
-+	process->xnack_enabled = kfd_process_xnack_supported(process);
+ 	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SVM, kfd_ioctl_svm, 0),
 +
- 	err = svm_range_list_init(process);
- 	if (err)
- 		goto err_init_svm_range_list;
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SET_XNACK_MODE,
++			kfd_ioctl_set_xnack_mode, 0),
+ };
+ 
+ #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+index 5d4a4b3e0b61..b1a45cd37ab7 100644
+--- a/include/uapi/linux/kfd_ioctl.h
++++ b/include/uapi/linux/kfd_ioctl.h
+@@ -593,6 +593,44 @@ struct kfd_ioctl_svm_args {
+ 	struct kfd_ioctl_svm_attribute attrs[0];
+ };
+ 
++/**
++ * kfd_ioctl_set_xnack_mode_args - Arguments for set_xnack_mode
++ *
++ * @xnack_enabled:       [in/out] Whether to enable XNACK mode for this process
++ *
++ * @xnack_enabled indicates whether recoverable page faults should be
++ * enabled for the current process. 0 means disabled, positive means
++ * enabled, negative means leave unchanged. If enabled, virtual address
++ * translations on GFXv9 and later AMD GPUs can return XNACK and retry
++ * the access until a valid PTE is available. This is used to implement
++ * device page faults.
++ *
++ * On output, @xnack_enabled returns the (new) current mode (0 or
++ * positive). Therefore, a negative input value can be used to query
++ * the current mode without changing it.
++ *
++ * The XNACK mode fundamentally changes the way SVM managed memory works
++ * in the driver, with subtle effects on application performance and
++ * functionality.
++ *
++ * Enabling XNACK mode requires shader programs to be compiled
++ * differently. Furthermore, not all GPUs support changing the mode
++ * per-process. Therefore changing the mode is only allowed while no
++ * user mode queues exist in the process. This ensure that no shader
++ * code is running that may be compiled for the wrong mode. And GPUs
++ * that cannot change to the requested mode will prevent the XNACK
++ * mode from occurring. All GPUs used by the process must be in the
++ * same XNACK mode.
++ *
++ * GFXv8 or older GPUs do not support 48 bit virtual addresses or SVM.
++ * Therefore those GPUs are not considered for the XNACK mode switch.
++ *
++ * Return: 0 on success, -errno on failure
++ */
++struct kfd_ioctl_set_xnack_mode_args {
++	__s32 xnack_enabled;
++};
++
+ #define AMDKFD_IOCTL_BASE 'K'
+ #define AMDKFD_IO(nr)			_IO(AMDKFD_IOCTL_BASE, nr)
+ #define AMDKFD_IOR(nr, type)		_IOR(AMDKFD_IOCTL_BASE, nr, type)
+@@ -695,7 +733,10 @@ struct kfd_ioctl_svm_args {
+ 
+ #define AMDKFD_IOC_SVM	AMDKFD_IOWR(0x20, struct kfd_ioctl_svm_args)
+ 
++#define AMDKFD_IOC_SET_XNACK_MODE		\
++		AMDKFD_IOWR(0x21, struct kfd_ioctl_set_xnack_mode_args)
++
+ #define AMDKFD_COMMAND_START		0x01
+-#define AMDKFD_COMMAND_END		0x21
++#define AMDKFD_COMMAND_END		0x22
+ 
+ #endif
 -- 
 2.29.2
 
