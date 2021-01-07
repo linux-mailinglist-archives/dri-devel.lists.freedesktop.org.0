@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7926B2ECE11
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 11:45:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766E22ECE35
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 11:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C806E424;
-	Thu,  7 Jan 2021 10:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC816E424;
+	Thu,  7 Jan 2021 10:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86EB16E28B;
- Thu,  7 Jan 2021 10:45:26 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DC1BCAED0;
- Thu,  7 Jan 2021 10:45:23 +0000 (UTC)
-Subject: Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev to struct
- pci_device; replace pdev
-To: kernel test robot <lkp@intel.com>, airlied@linux.ie, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com
-References: <20210107080748.4768-9-tzimmermann@suse.de>
- <202101071706.J19283ri-lkp@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <3c496f96-5efa-41d2-5911-1495619fab68@suse.de>
-Date: Thu, 7 Jan 2021 11:45:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3FAD6E435;
+ Thu,  7 Jan 2021 10:53:10 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id d26so5141888wrb.12;
+ Thu, 07 Jan 2021 02:53:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=2OXkTs6KEv/x6hkMHE5zTaVrW/+v8Sqx3e19BxIVJ+I=;
+ b=oR64OAoTWGg+VS9Pps25gjWfw2TCLNDx2Z+pnVfLdC0tB99GNIXyszxZyORVqHn9zR
+ OlUNHw8WV4AJGcDUfr3JXnwlvZtPsgWoWJAQjWCuVhuD1+w8SikDx0Dvddqb4PPaiqNB
+ +Mo0RjC/RGQxpQzWa3+kcDLXqnW7Il6NbntlwLc2uonThlfCYBneEIpA4ZLBXTKWIkKT
+ MovP+e6BlgPgRV2qEtPz3ISK6sxGKYi6oABMGd0Tn6UPCFd+Qs3KFouAcG88YipWZGWG
+ hBA7av+1w/GUMyas1xn/dVmv6x9rm7mMJuV0GS3ZGRE5sQOzbm9RhsllrFlXW/Ba4ugK
+ ka7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=2OXkTs6KEv/x6hkMHE5zTaVrW/+v8Sqx3e19BxIVJ+I=;
+ b=c80TGogwQKnPLDwvnpdotCfN1uGV83SbHOWlM0NYqu8P2K6bEZcefSsxc+zhXL5+sp
+ 6++0y5vwSgALVUXrtyk8ZJ5VPFD6F+YlIKam8zpKI/Qcftyf+WPn9TZOM2a7uegE4GeG
+ b7qroZfhoJ+WUndRHwGdxVqZ9lvxJP1y6F8ElisKk5B3Upf3LP3/DwOEAsT5vdHNg2/y
+ 6RQKZ3VZYC0GmfrH5CEqcz70ef3hN/TjHihdByng8UAj3pFgZWhK5Pf/kovxu/dHk9YI
+ 1UNRI8bAhvRI7F3FKYjOGD3SNYn1vZBDPTnlBDxWdEebfot4pobgzWkn0L5MQWOfd0ci
+ hkQA==
+X-Gm-Message-State: AOAM531/oFVh6YE+c2DAZ4L7tvzWxNhCfJWuAyZX2omJrfMdtoMXMw60
+ dVGLPc64rRMFk/aSmW/9DykU4UAP1rw=
+X-Google-Smtp-Source: ABdhPJwhgj5P1mOJmJiU8Uh66fIom3vwgeuigfavc4lqNXJjm9zW1TXnvWtnagIP+VNIh684Ghmf/w==
+X-Received: by 2002:a5d:5005:: with SMTP id e5mr8142101wrt.279.1610016789466; 
+ Thu, 07 Jan 2021 02:53:09 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id z6sm7757274wrw.58.2021.01.07.02.53.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 02:53:08 -0800 (PST)
+Subject: Re: [PATCH 08/35] drm/amdgpu: add common HMM get pages function
+To: Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
+ <20210107030127.20393-9-Felix.Kuehling@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <92bfb065-b4cb-4d61-1177-9e7b2fb656e4@gmail.com>
+Date: Thu, 7 Jan 2021 11:53:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <202101071706.J19283ri-lkp@intel.com>
+In-Reply-To: <20210107030127.20393-9-Felix.Kuehling@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,331 +72,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0326829144=="
+Reply-To: christian.koenig@amd.com
+Cc: alex.sierra@amd.com, Philip Yang <Philip.Yang@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0326829144==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tJgV1SNd36h9nVoys3p0LHnpD6YWAprsK"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tJgV1SNd36h9nVoys3p0LHnpD6YWAprsK
-Content-Type: multipart/mixed; boundary="Z4YI4NmMDxFYDlF64HumYqEahAMduSxod";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kernel test robot <lkp@intel.com>, airlied@linux.ie, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com
-Cc: kbuild-all@lists.01.org, Sam Ravnborg <sam@ravnborg.org>,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Message-ID: <3c496f96-5efa-41d2-5911-1495619fab68@suse.de>
-Subject: Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev to struct
- pci_device; replace pdev
-References: <20210107080748.4768-9-tzimmermann@suse.de>
- <202101071706.J19283ri-lkp@intel.com>
-In-Reply-To: <202101071706.J19283ri-lkp@intel.com>
-
---Z4YI4NmMDxFYDlF64HumYqEahAMduSxod
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-AFAICT these are false positives. The instances have been fixed already.
-
-Am 07.01.21 um 10:45 schrieb kernel test robot:
-> Hi Thomas,
->=20
-> I love your patch! Yet something to improve:
->=20
-> [auto build test ERROR on drm-tip/drm-tip]
-> [cannot apply to drm-intel/for-linux-next linus/master v5.11-rc2 next-2=
-0210104]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.=
-
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
->=20
-> url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-=
-Move-struct-drm_device-pdev-to-legacy/20210107-161007
-> base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-> config: x86_64-randconfig-s021-20210107 (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
-> reproduce:
->          # apt-get install sparse
->          # sparse version: v0.6.3-208-g46a52ca4-dirty
->          # https://github.com/0day-ci/linux/commit/380912f7b62c23322562=
-c40e19efd7ad84d57e9c
->          git remote add linux-review https://github.com/0day-ci/linux
->          git fetch --no-tags linux-review Thomas-Zimmermann/drm-Move-st=
-ruct-drm_device-pdev-to-legacy/20210107-161007
->          git checkout 380912f7b62c23322562c40e19efd7ad84d57e9c
->          # save the attached .config to linux build tree
->          make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'=
- ARCH=3Dx86_64
->=20
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All errors (new ones prefixed by >>):
->=20
->     drivers/gpu/drm/gma500/oaktrail_device.c: In function 'oaktrail_chi=
-p_setup':
->>> drivers/gpu/drm/gma500/oaktrail_device.c:509:26: error: 'struct drm_d=
-evice' has no member named 'pdev'; did you mean 'dev'?
->       509 |  if (pci_enable_msi(dev->pdev))
->           |                          ^~~~
->           |                          dev
-> --
->     drivers/gpu/drm/gma500/oaktrail_lvds.c: In function 'oaktrail_lvds_=
-set_power':
->>> drivers/gpu/drm/gma500/oaktrail_lvds.c:63:25: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->        63 |   pm_request_idle(&dev->pdev->dev);
->           |                         ^~~~
->           |                         dev
-> --
->     drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function 'get_clock'=
-:
->     drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:69:11: warning: variable=
- 'tmp' set but not used [-Wunused-but-set-variable]
->        69 |  u32 val, tmp;
->           |           ^~~
->     drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function 'get_data':=
-
->     drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:83:11: warning: variable=
- 'tmp' set but not used [-Wunused-but-set-variable]
->        83 |  u32 val, tmp;
->           |           ^~~
->     drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function 'oaktrail_l=
-vds_i2c_init':
->>> drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:148:35: error: 'struct drm=
-_device' has no member named 'pdev'; did you mean 'dev'?
->       148 |  chan->adapter.dev.parent =3D &dev->pdev->dev;
->           |                                   ^~~~
->           |                                   dev
-> --
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_driver_load':=
-
->>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661:22: error: 'struct drm_device=
-' has no member named 'pdev'; did you mean 'dev'?
->       661 |  pci_set_master(dev->pdev);
->           |                      ^~~~
->           |                      dev
->     In file included from drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:31:
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:47: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       690 |  dev_priv->io_start =3D pci_resource_start(dev->pdev, 0);
->           |                                               ^~~~
->     include/linux/pci.h:1854:40: note: in definition of macro 'pci_reso=
-urce_start'
->      1854 | #define pci_resource_start(dev, bar) ((dev)->resource[(bar)=
-].start)
->           |                                        ^~~
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:691:49: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       691 |  dev_priv->vram_start =3D pci_resource_start(dev->pdev, 1);=
-
->           |                                                 ^~~~
->     include/linux/pci.h:1854:40: note: in definition of macro 'pci_reso=
-urce_start'
->      1854 | #define pci_resource_start(dev, bar) ((dev)->resource[(bar)=
-].start)
->           |                                        ^~~
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:692:49: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       692 |  dev_priv->mmio_start =3D pci_resource_start(dev->pdev, 2);=
-
->           |                                                 ^~~~
->     include/linux/pci.h:1854:40: note: in definition of macro 'pci_reso=
-urce_start'
->      1854 | #define pci_resource_start(dev, bar) ((dev)->resource[(bar)=
-].start)
->           |                                        ^~~
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:842:33: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       842 |  ret =3D pci_request_regions(dev->pdev, "vmwgfx probe");
->           |                                 ^~~~
->           |                                 dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:851:33: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       851 |   ret =3D pci_request_region(dev->pdev, 2, "vmwgfx stealth =
-probe");
->           |                                 ^~~~
->           |                                 dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:859:35: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->       859 |   ret =3D vmw_irq_install(dev, dev->pdev->irq);
->           |                                   ^~~~
->           |                                   dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1005:27: error: 'struct drm_dev=
-ice' has no member named 'pdev'; did you mean 'dev'?
->      1005 |   pci_release_region(dev->pdev, 2);
->           |                           ^~~~
->           |                           dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1007:28: error: 'struct drm_dev=
-ice' has no member named 'pdev'; did you mean 'dev'?
->      1007 |   pci_release_regions(dev->pdev);
->           |                            ^~~~
->           |                            dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_driver_unload=
-':
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1056:27: error: 'struct drm_dev=
-ice' has no member named 'pdev'; did you mean 'dev'?
->      1056 |   pci_release_region(dev->pdev, 2);
->           |                           ^~~~
->           |                           dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1058:28: error: 'struct drm_dev=
-ice' has no member named 'pdev'; did you mean 'dev'?
->      1058 |   pci_release_regions(dev->pdev);
->           |                            ^~~~
->           |                            dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_probe':
->     drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1522:7: error: 'struct drm_devi=
-ce' has no member named 'pdev'; did you mean 'dev'?
->      1522 |  dev->pdev =3D pdev;
->           |       ^~~~
->           |       dev
-> --
->     drivers/gpu/drm/vmwgfx/vmwgfx_fb.c: In function 'vmw_fb_init':
->>> drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:641:42: error: 'struct drm_device'=
- has no member named 'pdev'; did you mean 'dev'?
->       641 |  struct device *device =3D &vmw_priv->dev->pdev->dev;
->           |                                          ^~~~
->           |                                          dev
->     In file included from drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:35:
->     At top level:
->     drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:256:23: warning: 'vmw_cursor_pl=
-ane_formats' defined but not used [-Wunused-const-variable=3D]
->       256 | static const uint32_t vmw_cursor_plane_formats[] =3D {
->           |                       ^~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:248:23: warning: 'vmw_primary_p=
-lane_formats' defined but not used [-Wunused-const-variable=3D]
->       248 | static const uint32_t vmw_primary_plane_formats[] =3D {
->           |                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-> --
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function 'vmw_cmdbuf_set=
-_pool_size':
->>> drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1233:48: error: 'struct drm_de=
-vice' has no member named 'pdev'; did you mean 'dev'?
->      1233 |  man->map =3D dma_alloc_coherent(&dev_priv->dev->pdev->dev,=
- size,
->           |                                                ^~~~
->           |                                                dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function 'vmw_cmdbuf_man=
-_create':
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1316:28: error: 'struct drm_=
-device' has no member named 'pdev'; did you mean 'dev'?
->      1316 |            &dev_priv->dev->pdev->dev,
->           |                            ^~~~
->           |                            dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1325:22: error: 'struct drm_=
-device' has no member named 'pdev'; did you mean 'dev'?
->      1325 |      &dev_priv->dev->pdev->dev,
->           |                      ^~~~
->           |                      dev
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function 'vmw_cmdbuf_rem=
-ove_pool':
->     drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1390:42: error: 'struct drm_=
-device' has no member named 'pdev'; did you mean 'dev'?
->      1390 |   dma_free_coherent(&man->dev_priv->dev->pdev->dev,
->           |                                          ^~~~
->           |                                          dev
->=20
->=20
-> vim +509 drivers/gpu/drm/gma500/oaktrail_device.c
->=20
-> 1b082ccf5901108 Alan Cox           2011-11-03  503
-> 1b22edfd6efd02b Alan Cox           2011-11-29  504  static int oaktrail=
-_chip_setup(struct drm_device *dev)
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  505  {
-> 1b22edfd6efd02b Alan Cox           2011-11-29  506  	struct drm_psb_pri=
-vate *dev_priv =3D dev->dev_private;
-> 1b22edfd6efd02b Alan Cox           2011-11-29  507  	int ret;
-> 1b22edfd6efd02b Alan Cox           2011-11-29  508  =09
-> 9c0b6fcdc9faee5 Alan Cox           2012-05-11 @509  	if (pci_enable_msi=
-(dev->pdev))
-> 9c0b6fcdc9faee5 Alan Cox           2012-05-11  510  		dev_warn(dev->dev=
-, "Enabling MSI failed!\n");
-> 9c0b6fcdc9faee5 Alan Cox           2012-05-11  511
-> 8512e0748729a49 Alan Cox           2012-05-11  512  	dev_priv->regmap =3D=
- oaktrail_regmap;
-> 8512e0748729a49 Alan Cox           2012-05-11  513
-> 1b22edfd6efd02b Alan Cox           2011-11-29  514  	ret =3D mid_chip_s=
-etup(dev);
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  515  	if (ret < 0)
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  516  		return ret;
-> 4086b1e2b19729e Kirill A. Shutemov 2012-05-03  517  	if (!dev_priv->has=
-_gct) {
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  518  		/* Now pull the B=
-IOS data */
-> d839ede47a56ff5 Alan Cox           2012-05-03  519  		psb_intel_opregio=
-n_init(dev);
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  520  		psb_intel_init_bi=
-os(dev);
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  521  	}
-> 6528c897966c7d5 Patrik Jakobsson   2013-11-07  522  	gma_intel_setup_gm=
-bus(dev);
-> 5f503148efdda26 Alan Cox           2012-05-03  523  	oaktrail_hdmi_setu=
-p(dev);
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  524  	return 0;
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  525  }
-> aa0c45fdca0cff3 Alan Cox           2011-11-29  526
->=20
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
-
---Z4YI4NmMDxFYDlF64HumYqEahAMduSxod--
-
---tJgV1SNd36h9nVoys3p0LHnpD6YWAprsK
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/25kIFAwAAAAAACgkQlh/E3EQov+Ax
-ZhAAlk6YhkOQgj0DkXkR6ImjQQ0V6ekCDt80S5JdvMfkOa7l91eQkejfLII0smpWkejaBOFs/jvl
-Zs6/Eh1qwVEs9zdum0eeMeK3BWKVyPw7xHVmuIapOIRVFwXM6s1oNoHc089FAKkmViAqEPbH5ZUI
-L33yhTzapO+nYfHLibRUx2Olp1cxyuB27aKLSlQ/SAV/5axVmgVfYHQV2+ETsNyfZFmblwNjus8b
-/r9OvwtcM9iNzE4wLMbHKZSTUDgm6c5qGDgg+03iL91aq7sMx2v2kAbmi7zUn0G+0T8Xw33AxBcT
-r6Cw0mctRjU64FGbcv/1AzUMlOrdiReqaQt+DS4FJGr4HBPullX+KwKLuR6nJ3I/MMJPNbAqOGkr
-/J3uetklqPFB635uoYF0LFVFAqsIgjeqcMSvby7Q1nKpelY+Ncge9qt0kgYsXaHafv1p/ZgOb3Hk
-sB8xc6680uSSAAzRPJqGn+Rzj3Cb32+s/MIR/jPcHbsmSVj/8+D5wE394Ax8zPAfVs/QcM4fBiBg
-gtwrHm06T11H9rJBe655psRjejMSuz7GoYrvrt7pieqfFxABuPSj93XhwfotT4qdezzlqPf1aaI8
-DXJzRVGgazVpQWbAanhWoH0V+zmrhuHBqBSnKDtzkRIxKrFJzoOB1Axfn/BnSs8JVuVoJxyMqdw0
-T2E=
-=xw5L
------END PGP SIGNATURE-----
-
---tJgV1SNd36h9nVoys3p0LHnpD6YWAprsK--
-
---===============0326829144==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0326829144==--
+QW0gMDcuMDEuMjEgdW0gMDQ6MDEgc2NocmllYiBGZWxpeCBLdWVobGluZzoKPiBGcm9tOiBQaGls
+aXAgWWFuZyA8UGhpbGlwLllhbmdAYW1kLmNvbT4KPgo+IE1vdmUgdGhlIEhNTSBnZXQgcGFnZXMg
+ZnVuY3Rpb24gZnJvbSBhbWRncHVfdHRtIGFuZCB0byBhbWRncHVfbW4uIFRoaXMKPiBjb21tb24g
+ZnVuY3Rpb24gd2lsbCBiZSB1c2VkIGJ5IG5ldyBzdm0gQVBJcy4KPgo+IFNpZ25lZC1vZmYtYnk6
+IFBoaWxpcCBZYW5nIDxQaGlsaXAuWWFuZ0BhbWQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEZlbGl4
+IEt1ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPgoKQWNrZWQtYnk6IENocmlzdGlhbiBL
+w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfbW4uYyAgfCA4MyArKysrKysrKysrKysrKysrKysrKysrKysr
+Cj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfbW4uaCAgfCAgNyArKysKPiAg
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8IDc2ICsrKy0tLS0tLS0t
+LS0tLS0tLS0tLS0KPiAgIDMgZmlsZXMgY2hhbmdlZCwgMTAwIGluc2VydGlvbnMoKyksIDY2IGRl
+bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9tbi5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X21uLmMKPiBpbmRl
+eCA4MjhiNTE2N2ZmMTIuLjk5N2RhNDIzN2ExMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfbW4uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9tbi5jCj4gQEAgLTE1NSwzICsxNTUsODYgQEAgdm9pZCBhbWRncHVfbW5fdW5y
+ZWdpc3RlcihzdHJ1Y3QgYW1kZ3B1X2JvICpibykKPiAgIAltbXVfaW50ZXJ2YWxfbm90aWZpZXJf
+cmVtb3ZlKCZiby0+bm90aWZpZXIpOwo+ICAgCWJvLT5ub3RpZmllci5tbSA9IE5VTEw7Cj4gICB9
+Cj4gKwo+ICtpbnQgYW1kZ3B1X2htbV9yYW5nZV9nZXRfcGFnZXMoc3RydWN0IG1tdV9pbnRlcnZh
+bF9ub3RpZmllciAqbm90aWZpZXIsCj4gKwkJCSAgICAgICBzdHJ1Y3QgbW1fc3RydWN0ICptbSwg
+c3RydWN0IHBhZ2UgKipwYWdlcywKPiArCQkJICAgICAgIHVpbnQ2NF90IHN0YXJ0LCB1aW50NjRf
+dCBucGFnZXMsCj4gKwkJCSAgICAgICBzdHJ1Y3QgaG1tX3JhbmdlICoqcGhtbV9yYW5nZSwgYm9v
+bCByZWFkb25seSwKPiArCQkJICAgICAgIGJvb2wgbW1hcF9sb2NrZWQpCj4gK3sKPiArCXN0cnVj
+dCBobW1fcmFuZ2UgKmhtbV9yYW5nZTsKPiArCXVuc2lnbmVkIGxvbmcgdGltZW91dDsKPiArCXVu
+c2lnbmVkIGxvbmcgaTsKPiArCXVuc2lnbmVkIGxvbmcgKnBmbnM7Cj4gKwlpbnQgciA9IDA7Cj4g
+Kwo+ICsJaG1tX3JhbmdlID0ga3phbGxvYyhzaXplb2YoKmhtbV9yYW5nZSksIEdGUF9LRVJORUwp
+Owo+ICsJaWYgKHVubGlrZWx5KCFobW1fcmFuZ2UpKQo+ICsJCXJldHVybiAtRU5PTUVNOwo+ICsK
+PiArCXBmbnMgPSBrdm1hbGxvY19hcnJheShucGFnZXMsIHNpemVvZigqcGZucyksIEdGUF9LRVJO
+RUwpOwo+ICsJaWYgKHVubGlrZWx5KCFwZm5zKSkgewo+ICsJCXIgPSAtRU5PTUVNOwo+ICsJCWdv
+dG8gb3V0X2ZyZWVfcmFuZ2U7Cj4gKwl9Cj4gKwo+ICsJaG1tX3JhbmdlLT5ub3RpZmllciA9IG5v
+dGlmaWVyOwo+ICsJaG1tX3JhbmdlLT5kZWZhdWx0X2ZsYWdzID0gSE1NX1BGTl9SRVFfRkFVTFQ7
+Cj4gKwlpZiAoIXJlYWRvbmx5KQo+ICsJCWhtbV9yYW5nZS0+ZGVmYXVsdF9mbGFncyB8PSBITU1f
+UEZOX1JFUV9XUklURTsKPiArCWhtbV9yYW5nZS0+aG1tX3BmbnMgPSBwZm5zOwo+ICsJaG1tX3Jh
+bmdlLT5zdGFydCA9IHN0YXJ0Owo+ICsJaG1tX3JhbmdlLT5lbmQgPSBzdGFydCArIG5wYWdlcyAq
+IFBBR0VfU0laRTsKPiArCXRpbWVvdXQgPSBqaWZmaWVzICsgbXNlY3NfdG9famlmZmllcyhITU1f
+UkFOR0VfREVGQVVMVF9USU1FT1VUKTsKPiArCj4gK3JldHJ5Ogo+ICsJaG1tX3JhbmdlLT5ub3Rp
+Zmllcl9zZXEgPSBtbXVfaW50ZXJ2YWxfcmVhZF9iZWdpbihub3RpZmllcik7Cj4gKwo+ICsJaWYg
+KGxpa2VseSghbW1hcF9sb2NrZWQpKQo+ICsJCW1tYXBfcmVhZF9sb2NrKG1tKTsKPiArCj4gKwly
+ID0gaG1tX3JhbmdlX2ZhdWx0KGhtbV9yYW5nZSk7Cj4gKwo+ICsJaWYgKGxpa2VseSghbW1hcF9s
+b2NrZWQpKQo+ICsJCW1tYXBfcmVhZF91bmxvY2sobW0pOwo+ICsJaWYgKHVubGlrZWx5KHIpKSB7
+Cj4gKwkJLyoKPiArCQkgKiBGSVhNRTogVGhpcyB0aW1lb3V0IHNob3VsZCBlbmNvbXBhc3MgdGhl
+IHJldHJ5IGZyb20KPiArCQkgKiBtbXVfaW50ZXJ2YWxfcmVhZF9yZXRyeSgpIGFzIHdlbGwuCj4g
+KwkJICovCj4gKwkJaWYgKHIgPT0gLUVCVVNZICYmICF0aW1lX2FmdGVyKGppZmZpZXMsIHRpbWVv
+dXQpKQo+ICsJCQlnb3RvIHJldHJ5Owo+ICsJCWdvdG8gb3V0X2ZyZWVfcGZuczsKPiArCX0KPiAr
+Cj4gKwkvKgo+ICsJICogRHVlIHRvIGRlZmF1bHRfZmxhZ3MsIGFsbCBwYWdlcyBhcmUgSE1NX1BG
+Tl9WQUxJRCBvcgo+ICsJICogaG1tX3JhbmdlX2ZhdWx0KCkgZmFpbHMuIEZJWE1FOiBUaGUgcGFn
+ZXMgY2Fubm90IGJlIHRvdWNoZWQgb3V0c2lkZQo+ICsJICogdGhlIG5vdGlmaWVyX2xvY2ssIGFu
+ZCBtbXVfaW50ZXJ2YWxfcmVhZF9yZXRyeSgpIG11c3QgYmUgZG9uZSBmaXJzdC4KPiArCSAqLwo+
+ICsJZm9yIChpID0gMDsgcGFnZXMgJiYgaSA8IG5wYWdlczsgaSsrKQo+ICsJCXBhZ2VzW2ldID0g
+aG1tX3Bmbl90b19wYWdlKHBmbnNbaV0pOwo+ICsKPiArCSpwaG1tX3JhbmdlID0gaG1tX3Jhbmdl
+Owo+ICsKPiArCXJldHVybiAwOwo+ICsKPiArb3V0X2ZyZWVfcGZuczoKPiArCWt2ZnJlZShwZm5z
+KTsKPiArb3V0X2ZyZWVfcmFuZ2U6Cj4gKwlrZnJlZShobW1fcmFuZ2UpOwo+ICsKPiArCXJldHVy
+biByOwo+ICt9Cj4gKwo+ICtpbnQgYW1kZ3B1X2htbV9yYW5nZV9nZXRfcGFnZXNfZG9uZShzdHJ1
+Y3QgaG1tX3JhbmdlICpobW1fcmFuZ2UpCj4gK3sKPiArCWludCByOwo+ICsKPiArCXIgPSBtbXVf
+aW50ZXJ2YWxfcmVhZF9yZXRyeShobW1fcmFuZ2UtPm5vdGlmaWVyLAo+ICsJCQkJICAgIGhtbV9y
+YW5nZS0+bm90aWZpZXJfc2VxKTsKPiArCWt2ZnJlZShobW1fcmFuZ2UtPmhtbV9wZm5zKTsKPiAr
+CWtmcmVlKGhtbV9yYW5nZSk7Cj4gKwo+ICsJcmV0dXJuIHI7Cj4gK30KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X21uLmggYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfbW4uaAo+IGluZGV4IGEyOTIyMzhmNzVlYi4uN2Y3ZDM3YTQ1N2Mz
+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9tbi5oCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X21uLmgKPiBAQCAtMzAsNiAr
+MzAsMTMgQEAKPiAgICNpbmNsdWRlIDxsaW51eC93b3JrcXVldWUuaD4KPiAgICNpbmNsdWRlIDxs
+aW51eC9pbnRlcnZhbF90cmVlLmg+Cj4gICAKPiAraW50IGFtZGdwdV9obW1fcmFuZ2VfZ2V0X3Bh
+Z2VzKHN0cnVjdCBtbXVfaW50ZXJ2YWxfbm90aWZpZXIgKm5vdGlmaWVyLAo+ICsJCQkgICAgICAg
+c3RydWN0IG1tX3N0cnVjdCAqbW0sIHN0cnVjdCBwYWdlICoqcGFnZXMsCj4gKwkJCSAgICAgICB1
+aW50NjRfdCBzdGFydCwgdWludDY0X3QgbnBhZ2VzLAo+ICsJCQkgICAgICAgc3RydWN0IGhtbV9y
+YW5nZSAqKnBobW1fcmFuZ2UsIGJvb2wgcmVhZG9ubHksCj4gKwkJCSAgICAgICBib29sIG1tYXBf
+bG9ja2VkKTsKPiAraW50IGFtZGdwdV9obW1fcmFuZ2VfZ2V0X3BhZ2VzX2RvbmUoc3RydWN0IGht
+bV9yYW5nZSAqaG1tX3JhbmdlKTsKPiArCj4gICAjaWYgZGVmaW5lZChDT05GSUdfSE1NX01JUlJP
+UikKPiAgIGludCBhbWRncHVfbW5fcmVnaXN0ZXIoc3RydWN0IGFtZGdwdV9ibyAqYm8sIHVuc2ln
+bmVkIGxvbmcgYWRkcik7Cj4gICB2b2lkIGFtZGdwdV9tbl91bnJlZ2lzdGVyKHN0cnVjdCBhbWRn
+cHVfYm8gKmJvKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gaW5k
+ZXggYWFhZDllMzA0YWQ5Li5mNDIzZjQyY2I5YjUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3R0bS5jCj4gQEAgLTMyLDcgKzMyLDYgQEAKPiAgIAo+ICAgI2luY2x1ZGUg
+PGxpbnV4L2RtYS1tYXBwaW5nLmg+Cj4gICAjaW5jbHVkZSA8bGludXgvaW9tbXUuaD4KPiAtI2lu
+Y2x1ZGUgPGxpbnV4L2htbS5oPgo+ICAgI2luY2x1ZGUgPGxpbnV4L3BhZ2VtYXAuaD4KPiAgICNp
+bmNsdWRlIDxsaW51eC9zY2hlZC90YXNrLmg+Cj4gICAjaW5jbHVkZSA8bGludXgvc2NoZWQvbW0u
+aD4KPiBAQCAtODQzLDEwICs4NDIsOCBAQCBpbnQgYW1kZ3B1X3R0bV90dF9nZXRfdXNlcl9wYWdl
+cyhzdHJ1Y3QgYW1kZ3B1X2JvICpibywgc3RydWN0IHBhZ2UgKipwYWdlcykKPiAgIAlzdHJ1Y3Qg
+YW1kZ3B1X3R0bV90dCAqZ3R0ID0gKHZvaWQgKil0dG07Cj4gICAJdW5zaWduZWQgbG9uZyBzdGFy
+dCA9IGd0dC0+dXNlcnB0cjsKPiAgIAlzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYTsKPiAtCXN0
+cnVjdCBobW1fcmFuZ2UgKnJhbmdlOwo+IC0JdW5zaWduZWQgbG9uZyB0aW1lb3V0Owo+ICAgCXN0
+cnVjdCBtbV9zdHJ1Y3QgKm1tOwo+IC0JdW5zaWduZWQgbG9uZyBpOwo+ICsJYm9vbCByZWFkb25s
+eTsKPiAgIAlpbnQgciA9IDA7Cj4gICAKPiAgIAltbSA9IGJvLT5ub3RpZmllci5tbTsKPiBAQCAt
+ODYyLDc2ICs4NTksMjYgQEAgaW50IGFtZGdwdV90dG1fdHRfZ2V0X3VzZXJfcGFnZXMoc3RydWN0
+IGFtZGdwdV9ibyAqYm8sIHN0cnVjdCBwYWdlICoqcGFnZXMpCj4gICAJaWYgKCFtbWdldF9ub3Rf
+emVybyhtbSkpIC8qIEhhcHBlbnMgZHVyaW5nIHByb2Nlc3Mgc2h1dGRvd24gKi8KPiAgIAkJcmV0
+dXJuIC1FU1JDSDsKPiAgIAo+IC0JcmFuZ2UgPSBremFsbG9jKHNpemVvZigqcmFuZ2UpLCBHRlBf
+S0VSTkVMKTsKPiAtCWlmICh1bmxpa2VseSghcmFuZ2UpKSB7Cj4gLQkJciA9IC1FTk9NRU07Cj4g
+LQkJZ290byBvdXQ7Cj4gLQl9Cj4gLQlyYW5nZS0+bm90aWZpZXIgPSAmYm8tPm5vdGlmaWVyOwo+
+IC0JcmFuZ2UtPnN0YXJ0ID0gYm8tPm5vdGlmaWVyLmludGVydmFsX3RyZWUuc3RhcnQ7Cj4gLQly
+YW5nZS0+ZW5kID0gYm8tPm5vdGlmaWVyLmludGVydmFsX3RyZWUubGFzdCArIDE7Cj4gLQlyYW5n
+ZS0+ZGVmYXVsdF9mbGFncyA9IEhNTV9QRk5fUkVRX0ZBVUxUOwo+IC0JaWYgKCFhbWRncHVfdHRt
+X3R0X2lzX3JlYWRvbmx5KHR0bSkpCj4gLQkJcmFuZ2UtPmRlZmF1bHRfZmxhZ3MgfD0gSE1NX1BG
+Tl9SRVFfV1JJVEU7Cj4gLQo+IC0JcmFuZ2UtPmhtbV9wZm5zID0ga3ZtYWxsb2NfYXJyYXkodHRt
+LT5udW1fcGFnZXMsCj4gLQkJCQkJIHNpemVvZigqcmFuZ2UtPmhtbV9wZm5zKSwgR0ZQX0tFUk5F
+TCk7Cj4gLQlpZiAodW5saWtlbHkoIXJhbmdlLT5obW1fcGZucykpIHsKPiAtCQlyID0gLUVOT01F
+TTsKPiAtCQlnb3RvIG91dF9mcmVlX3JhbmdlczsKPiAtCX0KPiAtCj4gICAJbW1hcF9yZWFkX2xv
+Y2sobW0pOwo+ICAgCXZtYSA9IGZpbmRfdm1hKG1tLCBzdGFydCk7Cj4gKwltbWFwX3JlYWRfdW5s
+b2NrKG1tKTsKPiAgIAlpZiAodW5saWtlbHkoIXZtYSB8fCBzdGFydCA8IHZtYS0+dm1fc3RhcnQp
+KSB7Cj4gICAJCXIgPSAtRUZBVUxUOwo+IC0JCWdvdG8gb3V0X3VubG9jazsKPiArCQlnb3RvIG91
+dF9wdXRtbTsKPiAgIAl9Cj4gICAJaWYgKHVubGlrZWx5KChndHQtPnVzZXJmbGFncyAmIEFNREdQ
+VV9HRU1fVVNFUlBUUl9BTk9OT05MWSkgJiYKPiAgIAkJdm1hLT52bV9maWxlKSkgewo+ICAgCQly
+ID0gLUVQRVJNOwo+IC0JCWdvdG8gb3V0X3VubG9jazsKPiArCQlnb3RvIG91dF9wdXRtbTsKPiAg
+IAl9Cj4gLQltbWFwX3JlYWRfdW5sb2NrKG1tKTsKPiAtCXRpbWVvdXQgPSBqaWZmaWVzICsgbXNl
+Y3NfdG9famlmZmllcyhITU1fUkFOR0VfREVGQVVMVF9USU1FT1VUKTsKPiAtCj4gLXJldHJ5Ogo+
+IC0JcmFuZ2UtPm5vdGlmaWVyX3NlcSA9IG1tdV9pbnRlcnZhbF9yZWFkX2JlZ2luKCZiby0+bm90
+aWZpZXIpOwo+ICAgCj4gLQltbWFwX3JlYWRfbG9jayhtbSk7Cj4gLQlyID0gaG1tX3JhbmdlX2Zh
+dWx0KHJhbmdlKTsKPiAtCW1tYXBfcmVhZF91bmxvY2sobW0pOwo+IC0JaWYgKHVubGlrZWx5KHIp
+KSB7Cj4gLQkJLyoKPiAtCQkgKiBGSVhNRTogVGhpcyB0aW1lb3V0IHNob3VsZCBlbmNvbXBhc3Mg
+dGhlIHJldHJ5IGZyb20KPiAtCQkgKiBtbXVfaW50ZXJ2YWxfcmVhZF9yZXRyeSgpIGFzIHdlbGwu
+Cj4gLQkJICovCj4gLQkJaWYgKHIgPT0gLUVCVVNZICYmICF0aW1lX2FmdGVyKGppZmZpZXMsIHRp
+bWVvdXQpKQo+IC0JCQlnb3RvIHJldHJ5Owo+IC0JCWdvdG8gb3V0X2ZyZWVfcGZuczsKPiAtCX0K
+PiAtCj4gLQkvKgo+IC0JICogRHVlIHRvIGRlZmF1bHRfZmxhZ3MsIGFsbCBwYWdlcyBhcmUgSE1N
+X1BGTl9WQUxJRCBvcgo+IC0JICogaG1tX3JhbmdlX2ZhdWx0KCkgZmFpbHMuIEZJWE1FOiBUaGUg
+cGFnZXMgY2Fubm90IGJlIHRvdWNoZWQgb3V0c2lkZQo+IC0JICogdGhlIG5vdGlmaWVyX2xvY2ss
+IGFuZCBtbXVfaW50ZXJ2YWxfcmVhZF9yZXRyeSgpIG11c3QgYmUgZG9uZSBmaXJzdC4KPiAtCSAq
+Lwo+IC0JZm9yIChpID0gMDsgaSA8IHR0bS0+bnVtX3BhZ2VzOyBpKyspCj4gLQkJcGFnZXNbaV0g
+PSBobW1fcGZuX3RvX3BhZ2UocmFuZ2UtPmhtbV9wZm5zW2ldKTsKPiAtCj4gLQlndHQtPnJhbmdl
+ID0gcmFuZ2U7Cj4gKwlyZWFkb25seSA9IGFtZGdwdV90dG1fdHRfaXNfcmVhZG9ubHkodHRtKTsK
+PiArCXIgPSBhbWRncHVfaG1tX3JhbmdlX2dldF9wYWdlcygmYm8tPm5vdGlmaWVyLCBtbSwgcGFn
+ZXMsIHN0YXJ0LAo+ICsJCQkJICAgICAgIHR0bS0+bnVtX3BhZ2VzLCAmZ3R0LT5yYW5nZSwgcmVh
+ZG9ubHksCj4gKwkJCQkgICAgICAgZmFsc2UpOwo+ICtvdXRfcHV0bW06Cj4gICAJbW1wdXQobW0p
+Owo+ICAgCj4gLQlyZXR1cm4gMDsKPiAtCj4gLW91dF91bmxvY2s6Cj4gLQltbWFwX3JlYWRfdW5s
+b2NrKG1tKTsKPiAtb3V0X2ZyZWVfcGZuczoKPiAtCWt2ZnJlZShyYW5nZS0+aG1tX3BmbnMpOwo+
+IC1vdXRfZnJlZV9yYW5nZXM6Cj4gLQlrZnJlZShyYW5nZSk7Cj4gLW91dDoKPiAtCW1tcHV0KG1t
+KTsKPiAgIAlyZXR1cm4gcjsKPiAgIH0KPiAgIAo+IEBAIC05NjAsMTAgKzkwNyw3IEBAIGJvb2wg
+YW1kZ3B1X3R0bV90dF9nZXRfdXNlcl9wYWdlc19kb25lKHN0cnVjdCB0dG1fdHQgKnR0bSkKPiAg
+IAkJICogRklYTUU6IE11c3QgYWx3YXlzIGhvbGQgbm90aWZpZXJfbG9jayBmb3IgdGhpcywgYW5k
+IG11c3QKPiAgIAkJICogbm90IGlnbm9yZSB0aGUgcmV0dXJuIGNvZGUuCj4gICAJCSAqLwo+IC0J
+CXIgPSBtbXVfaW50ZXJ2YWxfcmVhZF9yZXRyeShndHQtPnJhbmdlLT5ub3RpZmllciwKPiAtCQkJ
+CQkgZ3R0LT5yYW5nZS0+bm90aWZpZXJfc2VxKTsKPiAtCQlrdmZyZWUoZ3R0LT5yYW5nZS0+aG1t
+X3BmbnMpOwo+IC0JCWtmcmVlKGd0dC0+cmFuZ2UpOwo+ICsJCXIgPSBhbWRncHVfaG1tX3Jhbmdl
+X2dldF9wYWdlc19kb25lKGd0dC0+cmFuZ2UpOwo+ICAgCQlndHQtPnJhbmdlID0gTlVMTDsKPiAg
+IAl9Cj4gICAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
