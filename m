@@ -1,37 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A3D2ECB16
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 08:50:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 563422ECB85
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7616E3FE;
-	Thu,  7 Jan 2021 07:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C81ED6E41D;
+	Thu,  7 Jan 2021 08:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9E06E3F9;
- Thu,  7 Jan 2021 07:50:36 +0000 (UTC)
-IronPort-SDR: 11Xnq13BnXETSpPJtVoaBzwkvnhC0Bb35gbqJpii253EMnq18vDWQHOk9FEml5lTzAtu/Pjg8C
- 46j407G7m/zA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9856"; a="156577808"
-X-IronPort-AV: E=Sophos;i="5.79,329,1602572400"; d="scan'208";a="156577808"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2021 23:50:36 -0800
-IronPort-SDR: 8c5cw/Si9ja+O1mGgH9NQtF2R0dm+4EdlewNmIEyDPM5Br+xOJ6aoU9Ten0Kz7p/jHou+3Fpok
- 1yMlrORLrTLQ==
-X-IronPort-AV: E=Sophos;i="5.79,329,1602572400"; d="scan'208";a="379622302"
-Received: from muhymini-mobl.amr.corp.intel.com (HELO localhost)
- ([10.213.207.83])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2021 23:50:31 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 07 Jan 2021 09:50:28 +0200
-Message-ID: <877dop18zf.fsf@intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAFFE89CA8;
+ Thu,  7 Jan 2021 08:07:57 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id CFBD9AE55;
+ Thu,  7 Jan 2021 08:07:54 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+Subject: [PATCH v3 0/8] drm: Move struct drm_device.pdev to legacy
+Date: Thu,  7 Jan 2021 09:07:40 +0100
+Message-Id: <20210107080748.4768-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,69 +36,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gvt-dev@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I merged many of the patches that were ready in v2 into drm-misc-next. In
+v3 remain only patches that need an r-b/a-b (i915/gt/gvt) or required
+a change from v2.
 
-Hi Dave & Daniel -
+The pdev field in struct drm_device points to a PCI device structure and
+goes back to UMS-only days when all DRM drivers were for PCI devices.
+Meanwhile we also support USB, SPI and platform devices. Each of those
+uses the generic device stored in struct drm_device.dev.
 
-Pretty quiet still, but here's some cc: stable fixes.
+To reduce duplication and remove the special case of PCI, this patchset
+converts all modesetting drivers from pdev to dev and makes pdev a field
+for legacy UMS drivers.
 
-(Well, one doesn't have the explicit stable tag, but the Fixes tag
-points at a commit in v3.9...)
+For PCI devices, the pointer in struct drm_device.dev can be upcasted to
+struct pci_device; or tested for PCI with dev_is_pci(). In several places
+the code can use the dev field directly.
 
-drm-intel-fixes-2021-01-07:
-drm/i915 fixes for v5.11-rc3:
-- Use per-connector PM QoS tracking for DP aux communication
-- GuC firmware fix for older Cometlakes
-- Clear the gpu reloc and shadow batches
+After converting all drivers and the DRM core, the pdev fields becomes
+only relevant for legacy drivers. In a later patchset, we may want to
+convert these as well and remove pdev entirely.
 
-BR,
-Jani.
+v3:
+	* fix one pdev reference in nouveau (Jeremy)
+	* rebases
+v2:
+	* move whitespace fixes into separate patches (Alex, Sam)
+	* move i915 gt/ and gvt/ changes into separate patches (Joonas)
 
-The following changes since commit e71ba9452f0b5b2e8dc8aa5445198cd9214a6a62:
 
-  Linux 5.11-rc2 (2021-01-03 15:55:30 -0800)
+Thomas Zimmermann (8):
+  drm/amdgpu: Fix trailing whitespaces
+  drm/amdgpu: Remove references to struct drm_device.pdev
+  drm/hibmc: Remove references to struct drm_device.pdev
+  drm/i915: Remove references to struct drm_device.pdev
+  drm/i915/gt: Remove references to struct drm_device.pdev
+  drm/i915/gvt: Remove references to struct drm_device.pdev
+  drm/nouveau: Remove references to struct drm_device.pdev
+  drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
 
-are available in the Git repository at:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 23 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 10 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 10 +--
+ drivers/gpu/drm/drm_agpsupport.c              |  9 ++-
+ drivers/gpu/drm/drm_bufs.c                    |  4 +-
+ drivers/gpu/drm/drm_edid.c                    |  7 ++-
+ drivers/gpu/drm/drm_irq.c                     | 12 ++--
+ drivers/gpu/drm/drm_pci.c                     | 26 ++++----
+ drivers/gpu/drm/drm_vm.c                      |  2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 13 ++--
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c   | 61 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    | 14 ++---
+ drivers/gpu/drm/i915/display/intel_csr.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c |  6 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  4 +-
+ drivers/gpu/drm/i915/display/intel_quirks.c   |  2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_vga.c      |  8 +--
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 10 +--
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |  6 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 +-
+ drivers/gpu/drm/i915/gvt/firmware.c           | 10 +--
+ drivers/gpu/drm/i915/gvt/gtt.c                | 12 ++--
+ drivers/gpu/drm/i915/gvt/gvt.c                |  6 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  4 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 20 +++---
+ drivers/gpu/drm/i915/i915_drv.h               |  2 +-
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  5 +-
+ drivers/gpu/drm/i915/i915_getparam.c          |  5 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
+ drivers/gpu/drm/i915/i915_irq.c               |  6 +-
+ drivers/gpu/drm/i915/i915_pmu.c               |  2 +-
+ drivers/gpu/drm/i915/i915_suspend.c           |  4 +-
+ drivers/gpu/drm/i915/i915_switcheroo.c        |  4 +-
+ drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+ drivers/gpu/drm/i915/intel_device_info.c      |  2 +-
+ drivers/gpu/drm/i915/intel_region_lmem.c      |  8 +--
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 -
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/arb.c        | 12 ++--
+ drivers/gpu/drm/nouveau/dispnv04/dfp.c        |  5 +-
+ drivers/gpu/drm/nouveau/dispnv04/disp.h       | 14 +++--
+ drivers/gpu/drm/nouveau/dispnv04/hw.c         | 10 +--
+ drivers/gpu/drm/nouveau/nouveau_abi16.c       |  7 ++-
+ drivers/gpu/drm/nouveau/nouveau_acpi.c        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bios.c        | 11 +++-
+ drivers/gpu/drm/nouveau/nouveau_connector.c   | 10 +--
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  5 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_vga.c         | 20 +++---
+ include/drm/drm_device.h                      | 12 +++-
+ 70 files changed, 296 insertions(+), 198 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-01-07
+--
+2.29.2
 
-for you to fetch changes up to 9397d66212cdf7a21c66523f1583e5d63a609e84:
-
-  drm/i915/dp: Track pm_qos per connector (2021-01-05 10:25:03 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v5.11-rc3:
-- Use per-connector PM QoS tracking for DP aux communication
-- GuC firmware fix for older Cometlakes
-- Clear the gpu reloc and shadow batches
-
-----------------------------------------------------------------
-Chris Wilson (2):
-      drm/i915/gt: Define guc firmware blob for older Cometlakes
-      drm/i915/dp: Track pm_qos per connector
-
-Matthew Auld (2):
-      drm/i915: clear the shadow batch
-      drm/i915: clear the gpu reloc batch
-
- drivers/gpu/drm/i915/display/intel_display_types.h |  3 +++
- drivers/gpu/drm/i915/display/intel_dp.c            |  8 +++++--
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  4 +++-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  1 +
- drivers/gpu/drm/i915/i915_cmd_parser.c             | 27 ++++++++--------------
- drivers/gpu/drm/i915/i915_drv.c                    |  5 ----
- drivers/gpu/drm/i915/i915_drv.h                    |  3 ---
- 7 files changed, 22 insertions(+), 29 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
