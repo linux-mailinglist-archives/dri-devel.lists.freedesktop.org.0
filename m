@@ -1,95 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893632ECBF9
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C31E2ECBF7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F96E41D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C265A6E425;
 	Thu,  7 Jan 2021 08:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
- [51.81.35.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4E789811
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:08 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
- by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 596D120F15
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:07 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id 2C9962008F
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:04 +0000 (UTC)
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id C55E33F1D0;
- Thu,  7 Jan 2021 05:46:01 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 93F492A7E5;
- Thu,  7 Jan 2021 05:46:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1609994761;
- bh=8unyk0aOxyvIXZOJPusmERGg+i43rMAKH28AqjQ7mUY=;
- h=Date:In-Reply-To:References:Subject:To:CC:From:From;
- b=tWG5DTHu16/GMSadEHWNO/lgoT9fzvzO4cYUEXp5Tvv4aTy9tVDas9RESuCa3EgyI
- g+EtosfDBEG8Nm3Z4/xZrYw7+Vk82TVV7SdOJ+gbDMA0WLpj9RClDJVTkHv9mFKQMq
- 74tltlvR96q9kIsGXVkVBHUET9RxtGDBgWeXkXOY=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 075XNDlJ-52U; Thu,  7 Jan 2021 05:46:00 +0100 (CET)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A37289A0F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:50:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1609995019; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=/idK/qn/qYwK24YxIeFblcenK6sv0rtJO1umkF2y1L0=;
+ b=pOuAcim1hk0gzHGZgcJQx4hwm8u2QgXA5EnsMVruMYsAuQrBwmZ0iQnNyRNc+SA3+daUqEF6
+ //KvHWI1JTEOimumw0POJi0auj4F4mrJ/oKgXubSEB8IUAq34Y5tE7Qn0Ezez0IynPuE2tLm
+ RKGNSw2nnr2ZtHM+3X47s+SnTDc=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5ff69309570e7133a2ff9de0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Jan 2021 04:50:17
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6DCBCC43465; Thu,  7 Jan 2021 04:50:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Thu,  7 Jan 2021 05:46:00 +0100 (CET)
-Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 934AD4228E;
- Thu,  7 Jan 2021 04:45:59 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=aosc.io header.i=@aosc.io header.b="HdmdzN6t"; 
- dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from [192.168.1.235] (unknown [59.41.161.221])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 231964228E;
- Thu,  7 Jan 2021 04:45:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1609994755; bh=8unyk0aOxyvIXZOJPusmERGg+i43rMAKH28AqjQ7mUY=;
- h=Date:In-Reply-To:References:Subject:To:CC:From:From;
- b=HdmdzN6tQ8OtkUpQeXMIGEF1zUavlVlWiiL1vh+Nh/HP5Yr+NlGVvEWwOMLiA1Pf0
- h4X4EAACCeCOyW0fafpJqRj4JpypRauSVDoNn90Ssl3y2UKPWLwgnpfb6hRTBYA50G
- W/6NnxPy5O2Zhl70TRDATe3EEmawivqOjiPlC5Kk=
-Date: Thu, 07 Jan 2021 12:00:21 +0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMty3ZCkEb9g5t6Hs5DN5yHXYvDhymriYqqV+6DZiC+Qb645ww@mail.gmail.com>
-References: <20201128125257.1626588-1-icenowy@aosc.io>
- <CAMty3ZCkEb9g5t6Hs5DN5yHXYvDhymriYqqV+6DZiC+Qb645ww@mail.gmail.com>
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 12866C433CA;
+ Thu,  7 Jan 2021 04:50:14 +0000 (UTC)
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/panel: feiyang-fy07024di26a30d: cleanup if panel
- attaching failed
-To: Jagan Teki <jagan@amarulasolutions.com>
-From: Icenowy Zheng <icenowy@aosc.io>
-Message-ID: <C1F366E9-0EDB-4679-BB93-92223F5B8C4A@aosc.io>
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spamd-Result: default: False [1.40 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[aosc.io:s=default];
- MID_RHS_MATCH_FROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.10)[text/plain]; DMARC_NA(0.00)[aosc.io];
- R_SPF_SOFTFAIL(0.00)[~all];
- HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1];
- ML_SERVERS(-3.10)[148.251.23.173]; TO_DN_ALL(0.00)[];
- DKIM_TRACE(0.00)[aosc.io:+]; RCPT_COUNT_SEVEN(0.00)[7];
- RECEIVED_SPAMHAUS_PBL(0.00)[59.41.161.221:received];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
- FREEMAIL_CC(0.00)[gmail.com,ravnborg.org,linux.ie,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- SUSPICIOUS_RECIPS(1.50)[]; RCVD_COUNT_TWO(0.00)[2]
-X-Rspamd-Queue-Id: 934AD4228E
+Date: Thu, 07 Jan 2021 10:20:14 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH] drm/msm: Only enable A6xx LLCC code on A6xx
+In-Reply-To: <20210104193044.80591-1-konrad.dybcio@somainline.org>
+References: <20210104193044.80591-1-konrad.dybcio@somainline.org>
+Message-ID: <8847b190c9d03afd731881689d9b28d3@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 07 Jan 2021 08:53:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,30 +64,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Dave Airlie <airlied@redhat.com>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cgrkuo4gMjAyMeW5tDHmnIg25pelIEdNVCswODowMCDkuIvljYg1OjQ3OjIwLCBKYWdhbiBUZWtp
-IDxqYWdhbkBhbWFydWxhc29sdXRpb25zLmNvbT4g5YaZ5YiwOgo+T24gU2F0LCBOb3YgMjgsIDIw
-MjAgYXQgNjoyMyBQTSBJY2Vub3d5IFpoZW5nIDxpY2Vub3d5QGFvc2MuaW8+IHdyb3RlOgo+Pgo+
-PiBBdHRhY2hpbmcgdGhlIHBhbmVsIGNhbiBmYWlsLCBzbyBjbGVhbnVwIHdvcmsgaXMgbmVjZXNz
-YXJ5LCBvdGhlcndpc2UKPj4gYSBwb2ludGVyIHRvIGZyZWVkIHN0cnVjdCBkcm1fcGFuZWwqIHdp
-bGwgcmVtYWluIGluIGRybV9wYW5lbCBjb2RlLgo+Pgo+PiBEbyB0aGUgY2xlYW51cCBpZiBwYW5l
-bCBhdHRhY2hpbmcgZmFpbGVkLgo+Pgo+PiBGaXhlczogNjlkYzY3OGFiYzJiICgiZHJtL3BhbmVs
-OiBBZGQgRmVpeWFuZyBGWTA3MDI0REkyNkEzMC1ECj5NSVBJLURTSSBMQ0QgcGFuZWwiKQo+Cj5U
-aGUgZmFjdCB0aGF0IHRoaXMgaGFzIGZhaWxlZCB0byBwcm9iZSBkdWUgdG8gcmVjZW50IGNoYW5n
-ZXMgaW4KPnN1bjZpX21pcGlfZHNpLmMgSSBkb24ndCBrbm93IGhvdyB0byBwdXQgdGhhdCBpbnRv
-IHRoZSBjb21taXQgbWVzc2FnZS4KCkl0J3Mgbm90IHJlbGF0ZWQsIHdlIHNob3VsZG4ndCBhc3N1
-bWUgdGhpcyBwYW5lbCBkcml2ZXIgd2lsbCBhbHdheXMKYmUgdXNlZCB3aXRoIHN1bnhpIFNvQ3Mu
-CgpJdCdzIGEgcGFuZWwgZHJpdmVyIGJ1ZyB0aGF0IGNhbm5vdCBkZWFsIHdpdGggLUVQUk9CRV9E
-RUZFUiB3ZWxsLgoKPj4gU2lnbmVkLW9mZi1ieTogSWNlbm93eSBaaGVuZyA8aWNlbm93eUBhb3Nj
-LmlvPgo+PiAtLS0KPgo+UmV2aWV3ZWQtYnk6IEphZ2FuIFRla2kgPGphZ2FuQGFtYXJ1bGFzb2x1
-dGlvbnMuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 2021-01-05 01:00, Konrad Dybcio wrote:
+> Using this code on A5xx (and probably older too) causes a
+> smmu bug.
+> 
+> Fixes: 474dadb8b0d5 ("drm/msm/a6xx: Add support for using system 
+> cache(LLC)")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Tested-by: AngeloGioacchino Del Regno 
+> <angelogioacchino.delregno@somainline.org>
+> ---
+
+Reviewed-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 21 ++++++++++++---------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  5 +++++
+>  2 files changed, 17 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 6cf9975e951e..f09175698827 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -191,8 +191,6 @@ adreno_iommu_create_address_space(struct msm_gpu 
+> *gpu,
+>  		struct platform_device *pdev)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> -	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> -	struct io_pgtable_domain_attr pgtbl_cfg;
+>  	struct iommu_domain *iommu;
+>  	struct msm_mmu *mmu;
+>  	struct msm_gem_address_space *aspace;
+> @@ -202,13 +200,18 @@ adreno_iommu_create_address_space(struct msm_gpu 
+> *gpu,
+>  	if (!iommu)
+>  		return NULL;
+> 
+> -	/*
+> -	 * This allows GPU to set the bus attributes required to use system
+> -	 * cache on behalf of the iommu page table walker.
+> -	 */
+> -	if (!IS_ERR(a6xx_gpu->htw_llc_slice)) {
+> -		pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
+> -		iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, 
+> &pgtbl_cfg);
+> +
+> +	if (adreno_is_a6xx(adreno_gpu)) {
+> +		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +		struct io_pgtable_domain_attr pgtbl_cfg;
+> +		/*
+> +		* This allows GPU to set the bus attributes required to use system
+> +		* cache on behalf of the iommu page table walker.
+> +		*/
+> +		if (!IS_ERR(a6xx_gpu->htw_llc_slice)) {
+> +			pgtbl_cfg.quirks = IO_PGTABLE_QUIRK_ARM_OUTER_WBWA;
+> +			iommu_domain_set_attr(iommu, DOMAIN_ATTR_IO_PGTABLE_CFG, 
+> &pgtbl_cfg);
+> +		}
+>  	}
+> 
+>  	mmu = msm_iommu_new(&pdev->dev, iommu);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 4574d85c5680..08421fa54a50 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -226,6 +226,11 @@ static inline int adreno_is_a540(struct adreno_gpu 
+> *gpu)
+>  	return gpu->revn == 540;
+>  }
+> 
+> +static inline bool adreno_is_a6xx(struct adreno_gpu *gpu)
+> +{
+> +	return ((gpu->revn < 700 && gpu->revn > 599));
+> +}
+> +
+>  static inline int adreno_is_a618(struct adreno_gpu *gpu)
+>  {
+>         return gpu->revn == 618;
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
