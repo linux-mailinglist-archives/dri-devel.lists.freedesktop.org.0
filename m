@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A6C2ED4EB
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 18:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35E02ED4F7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 18:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F6C6E46B;
-	Thu,  7 Jan 2021 17:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6EC6E4B0;
+	Thu,  7 Jan 2021 17:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D366E46B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 17:01:46 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id q75so6161473wme.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 09:01:46 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3271E6E4B0
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 17:03:52 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id c124so5749221wma.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 09:03:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=YC939lZu3XArQRLxODTHizuh8cYijZfhndLDZ+M1mbU=;
- b=WNMsqwxxu2Eb+9oDzHoG9oHkWytbGqvmfYOpZNxY+vb09otwL7+t14EP7Qx+CzACnC
- ofL1i2uS2180qdLHC7jfzXd/tngyG+csxvercS9PyY9eAMHHgWI67Nicw+0+e1b/u7Hh
- QhWZJyRocr9FiW2WGaKQGYj3bT1bHn/4NSWTE=
+ bh=+lEZ7oIvKm2BBIytBd5KhhxEP920NiQD+2lcPsM6TpM=;
+ b=aXGyCa495ZG85l0b9GcSnWCF+vWITZULQ1jgeIWz30mtovFXithyYA7NDdkUYSsaiA
+ 2q64Udru2WyZIrndsVRfcTalMAbqLk3mrYzPGFtzY3P70nTf0CQzMKxAGSzwONuw7eCo
+ 9j0clCA/wW0uujhaNReSTPsTzxojlJT6wQfuA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YC939lZu3XArQRLxODTHizuh8cYijZfhndLDZ+M1mbU=;
- b=fj7uXvTXUeY0CREvxDXvpLwru+8PVlVB5SULVQiBPkBgXKTbfhDpGPvdatGRS9QXv2
- JWgwIzeTnfLrWfJqEp2rF8hHG703lGItCOQS0hCs4oN/DGw/xnrPOxgHD0hX8AC5IxE4
- nG44jW2ypyw/zlnJ2rp8nrH0uXlTz3f+YhhyS0kSLdlvFrvhlvcuAy5UXYkSNx25tuxw
- 4n9TQ9+y3oppdySEu4CoEf4/rCHwtLkGw3E78seprwWzCmj/zYscxSuDIUvMvc8BqLG3
- ZYNpDYGgKkPU/Q7hrZilGPxJv/SZmt2AElw5xYFwe0f2/IeiBg40F7fUBEw9rWQ/dfpt
- vdLA==
-X-Gm-Message-State: AOAM532/8C9MwlrJgcfvUZ6NOJ01FeGsa5fV/wynfcprm4swMJRZ+Lv7
- rRPghI0SBTj5X1uUv7FMHzpjdg==
-X-Google-Smtp-Source: ABdhPJz3uFRZutfGtvEYA0JO9+wFgcjMDca874zIbOePszrDbfkNYjx6VVoXCi7dje2lhe2MVbGtVQ==
-X-Received: by 2002:a7b:c959:: with SMTP id i25mr8905935wml.74.1610038904917; 
- Thu, 07 Jan 2021 09:01:44 -0800 (PST)
+ bh=+lEZ7oIvKm2BBIytBd5KhhxEP920NiQD+2lcPsM6TpM=;
+ b=QZMT/KL6+2NXGz4FKH2G5twkSYfKgCtzRxP/SE+Bcg7g8HRNlujjweN7/T75ZnO3Yj
+ bsZAM9LFVPViIONUe9GVBERNFgA5Mjx0FlR6IWDQ0Kgg7yYGRwT8SqmCvwwlrxdWhftl
+ 2aCCKCQF2IBH75bur0vrqhHFWm5YtoECR0+A7QRCQL0gYJP+AlmUueReJBCY0XZsqcup
+ XiCY0rHVf1oxXG8KT/OVoiW10AnQL54VcGbGBKNrrBITkd0FiY0blSs2g9hkjteFdRSs
+ isDsXtVGS9GBgrHJxH3UtV5iOmSJyN+Th+IWUuvm6CEOzfu0Agd6RrhY3ijp36qq2+OV
+ +bqQ==
+X-Gm-Message-State: AOAM531QvUMLJ5K3PZwNVIrBv+db9etolGaoIOv7NBhyswQFh5qdKSfO
+ Na/2JO4nbZIECcaE7xRkbiPaQQ==
+X-Google-Smtp-Source: ABdhPJyZFJXjWI6KjgND1aIwwBqaBBETfIkkhLqYzm4hEc6WVovvc8CMhcP9MW9VeHf95jD4+hqFVA==
+X-Received: by 2002:a1c:8085:: with SMTP id b127mr8623554wmd.16.1610039030885; 
+ Thu, 07 Jan 2021 09:03:50 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y63sm8759768wmd.21.2021.01.07.09.01.43
+ by smtp.gmail.com with ESMTPSA id n11sm10279071wra.9.2021.01.07.09.03.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 09:01:44 -0800 (PST)
-Date: Thu, 7 Jan 2021 18:01:42 +0100
+ Thu, 07 Jan 2021 09:03:50 -0800 (PST)
+Date: Thu, 7 Jan 2021 18:03:48 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/pci: Use pcim_enable_device()
-Message-ID: <X/c+dp2HaVpe2QDI@phenom.ffwll.local>
-References: <1609151996-52706-1-git-send-email-tiantao6@hisilicon.com>
+Subject: Re: [PATCH] drm/qxl: Use managed mode-config init
+Message-ID: <X/c+9Nm2DvLXkBtM@phenom.ffwll.local>
+References: <1609153481-9909-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1609151996-52706-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1609153481-9909-1-git-send-email-tiantao6@hisilicon.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,49 +64,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 28, 2020 at 06:39:56PM +0800, Tian Tao wrote:
-> Using the managed function simplifies the error handling. After
-> unloading the driver, the PCI device should now get disabled as
-> well.
+On Mon, Dec 28, 2020 at 07:04:41PM +0800, Tian Tao wrote:
+> Using drmm_mode_config_init() sets up managed release of modesetting
+> resources.
 > 
 > Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
-We cant do this in core code because it changes the order of how the
-cleanup code is done. Also this is legacy code, pls don't touch that, not
-worth the effort :-)
+This changes the order of the cleanup actions, so most likely will break
+really badly. You can only move a cleanup action safely over to drmm_ if
+it is the last thing (at the time the patch is applied) done before
+cleanup is finished. There's a _lot_ of code that's run after
+qxl_modeset_fini.
 -Daniel
 
 > ---
->  drivers/gpu/drm/drm_pci.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/qxl/qxl_display.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index 6dba4b8..0616172 100644
-> --- a/drivers/gpu/drm/drm_pci.c
-> +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -207,7 +207,7 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
->  	if (IS_ERR(dev))
->  		return PTR_ERR(dev);
+> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+> index 012bce0..38d6b59 100644
+> --- a/drivers/gpu/drm/qxl/qxl_display.c
+> +++ b/drivers/gpu/drm/qxl/qxl_display.c
+> @@ -1195,7 +1195,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
+>  	int i;
+>  	int ret;
 >  
-> -	ret = pci_enable_device(pdev);
-> +	ret = pcim_enable_device(pdev);
+> -	drm_mode_config_init(&qdev->ddev);
+> +	ret = drmm_mode_config_init(&qdev->ddev);
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = qxl_create_monitors_object(qdev);
 >  	if (ret)
->  		goto err_free;
->  
-> @@ -234,7 +234,6 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
->  
->  err_agp:
->  	drm_pci_agp_destroy(dev);
-> -	pci_disable_device(pdev);
->  err_free:
->  	drm_dev_put(dev);
->  	return ret;
+> @@ -1228,5 +1230,4 @@ int qxl_modeset_init(struct qxl_device *qdev)
+>  void qxl_modeset_fini(struct qxl_device *qdev)
+>  {
+>  	qxl_destroy_monitors_object(qdev);
+> -	drm_mode_config_cleanup(&qdev->ddev);
+>  }
 > -- 
 > 2.7.4
 > 
