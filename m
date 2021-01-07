@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B543A2EC8A4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:03:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0D42EC89A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7DE6E42E;
-	Thu,  7 Jan 2021 03:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0238B6E417;
+	Thu,  7 Jan 2021 03:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
  (mail-mw2nam10on2056.outbound.protection.outlook.com [40.107.94.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FB16E424;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDE66E425;
  Thu,  7 Jan 2021 03:02:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I6Jghdq3s+UaMMs6AYTR6qq58VpfnoxdwvF7C2F2G1N3dPFjyhyjT+oyMBdb6wkapfq3pF4Va0wpjaqiThqfo4jaGYx9k4QQ78sXen0ixJQ3iJ1hpJndXg/T29FSMw3PAymbJiyJ+W5Pg/UMupJO4EOMQOHGOy2B8sMt/YgRNPhEZ0LuxP52XY5ayIRamd6qcsoxymBD7GbRjCY4wS+giZhYcW7Z1Dtk4cs9Ua9IS+rgAofu+Rvu3b+WGR8eqZnBJ8AjMWx8E3gpvXzWxl+vgXxPV4cMqoBpu1sWykzSgWmJp+hWFlwfyGRW2pdArXaSAOaKkg6OkXxYkSBn6TUyFA==
+ b=dRaUid0CAyNzkmQmX3vXWv5edzhWN6oieNXRgg29N823bSmbvQyhv8EIkMH2iSJPLjcslcxNys5Xdl67y/E75lMT3Hquzg/JOHdYEoTZ0i2AJX267c03PzC3/r/TEehKBTWl9ISZLi9Y7rwSASaCMcrnSLs6ablO1qGIWuAIrMArtVNZmiBLk0xG8Kp3c26jhimi6CPv2/lT9WEVdY48nq8Slym2khJq88klnOHi+3VVYFZTV7LYozsaHeZZq/0gU+kRiLzst7KUDyDQsLfun6n24lk4ZVNlJQrSsZIoAAc8guLA1DImt0NHHAj0uDXKw4kgYSKyC3WIJzb+uGuIPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ATb1jw7wYktzUuqqpumC5Q/j5LaBHNOlcF3HJyfolDI=;
- b=K2GCvdMbU7PjNpZS5qRAL7zG9NCqcAMjU8b/rERFH1WnMrh/CgdjXfLZJf2YlBpwPZjk8B9EsBNkBbXpbzJZlyDjR5REAUsb/YaFbPxgw9/GS7VKKYE7o+DslvADzan/P6S9u9IHoX5IzDFk3TcqSECbhL882Ao/8rOZRXCtRcMkbtA5ieADjeqP+bxp+XTbMH4U9mkILrzysJ4bqriZHsmrYRqPmwQNGh6rZ7M+FosWezDMG2YXrruueYEpa2nz7isshL/EiQ9puVkcmtFr3aVfMSl4udJ4RWvAb/y3msOk5XH/EZJO8941ZMQklbQ8ygrFD/hqHTbDzjDJ2gF4kg==
+ bh=1uM8d1EyC3bKrdl/0k/6aM/WfUoIgX4+U8DwjagjBbY=;
+ b=S2U0gtZKupnyrvo+MAhmDkgRILS/cT7sgH8y9Pmg9IMcBm3XDwv62dXWZ8OwvpRaNJV/LWldSTHPeTmPi6UW1QkdILaKONC72FNwA4gzTPwipzXll00K0ec7zCa4PcFvX0+Y6IHlBPXaXfARmDFh6dMACB9vk08A4xi9UCKO6yn8LsSdiq2gQhUMa9xkM0xS+QJcGlGA/wKm9+CskidC6s5LR7I8x4Pejce7jvhGwqaLkEHbJYE4ih0wd5+ZwtDzOIoqMUgfPZx1QwxaRFWZr1FT4kCGPJELbyzSMwHsZw2HZ+VjL+evuUxm9LaFllT8yq2Xizs18Sqd/3CloG2jPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ATb1jw7wYktzUuqqpumC5Q/j5LaBHNOlcF3HJyfolDI=;
- b=2P5Fs+w3kYZ8GkSUpPZS5RBCgthPESvP4T9bV/VTW7loaeIfp4pukMuNOKSngmRDX/gn/mBWV83KPyShqSpPGWmXsfna3D9nZgQ06zP/ONHQEP7wsXSBFgZqJpLV99rq2FIs6X88Ybl4tNhpAxWVy33QKXc2LqVCXPS2oycWqZ4=
+ bh=1uM8d1EyC3bKrdl/0k/6aM/WfUoIgX4+U8DwjagjBbY=;
+ b=CVydvg9fLq9wUs8Ewvq1UTis2saV6xU0XVl3IqnOEihUQ7q8s4jHo/9yCzsefv9Hghm3abkHs75a72rV7lcIhZ4a6WxdT6I8PcRdMisqWVeeqeccGUQ1VAzwC7FXznNY4sfe4gFlU1NM3w6vLDzkBFqX2E+crR8FV7enL5EBQSk=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -35,17 +35,17 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
  by MN2PR12MB3999.namprd12.prod.outlook.com (2603:10b6:208:158::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.24; Thu, 7 Jan
- 2021 03:02:56 +0000
+ 2021 03:02:57 +0000
 Received: from BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::9425:559:83c0:991b]) by BL0PR12MB4948.namprd12.prod.outlook.com
  ([fe80::9425:559:83c0:991b%9]) with mapi id 15.20.3742.006; Thu, 7 Jan 2021
- 03:02:56 +0000
+ 03:02:57 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/35] drm/amdkfd: svm range eviction and restore
-Date: Wed,  6 Jan 2021 22:01:06 -0500
-Message-Id: <20210107030127.20393-15-Felix.Kuehling@amd.com>
+Subject: [PATCH 15/35] drm/amdkfd: add xnack enabled flag to kfd_process
+Date: Wed,  6 Jan 2021 22:01:07 -0500
+Message-Id: <20210107030127.20393-16-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107030127.20393-1-Felix.Kuehling@amd.com>
 References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
@@ -58,48 +58,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from Harpoon.amd.com (165.204.55.251) by
  YT1PR01CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::17) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:02:55 +0000
+ 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:02:56 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f48960fd-8881-40b8-c188-08d8b2b8bbac
+X-MS-Office365-Filtering-Correlation-Id: fb3be138-30c7-41bf-5ef6-08d8b2b8bc38
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3999:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3999C615D21EE8789D3D901192AF0@MN2PR12MB3999.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB399942BA903815B152B634B992AF0@MN2PR12MB3999.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4qdeqo0BneGpmYsKNDtQ0QYn4BgpP45C9inAOHMk5pLJH/9tDco5qbv/5PpUkPa8wMgcBgpOCzCwFJklgYKqaZ/z8yJclGQRsxc3QZ/2cTEX8QN2fmzHWdl9A3Ib1AFYU61pZlVMB8iwYScQjaDpjRvfmghu/sUTwJVUeHwTyahUXxhZRE56KLcDUzxAumPzl2QPW3/hU9/v2eMM93lLngWChNdbdnlNNfoUVg74V8DxEH2363o1/BU5v6ARyC+9uU9SLegCnfXKLqpms6D9b+/o4uSvebhseG0A+K0iAYUb8plTlVpGtIeBeyRdywEOyMqXZFyAbT9HrxJJ7WWADFueteDbvkBUbNUiaTwXSgTy+VoxwKvd2L7KR8nUCZQ6MLqmpN+fH1rS1EqchfbF4g==
+X-Microsoft-Antispam-Message-Info: 2hyJ0QgnQIlcBJQbcwZtyjYpQSAQIZB1bedKPgLT/ZXnAX4sySzdwz5DLc5JlrrJvXu6CEqGJQ5IsSqszzNbmjQzbGzBh8FPD4KhfDOEaopRgijs1j97v8sJqNJBqpbE2Rpk66frDAIKnQWxfbt7rwg9BEqEwdYUOPdqXgZ6ubKAqeDSiHp9XdihWJUzzIossUGuikaHzlEJrzEt3NH/vEaBHvnYs+brpbwgunLhoyIK4E78znEEM858C4Z5yAI5HWkoaED536Fg8WNvjSYk+jygMs0Op7k5PEgPan5hFG48etPxQSHvidaVE3Q6dEKdyBpzb0XN3Z7tz5R6O+t4wpJDnTGE47b2GjbgaSbqRGUpXtK1B2ed7pbM1/hZuT3Hk4LVMycYZMnS2WRBpICFjQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39860400002)(316002)(6666004)(7696005)(2616005)(956004)(8936002)(4326008)(66476007)(8676002)(478600001)(5660300002)(26005)(52116002)(1076003)(86362001)(16526019)(66946007)(450100002)(186003)(6486002)(36756003)(83380400001)(2906002)(66556008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?EaminQR0lYN3Tv2+wNYW+21sVodoxuivzHyv+o6zX/baii6DFEmSh0+F3UQg?=
- =?us-ascii?Q?/248T9ZKqpduJZ4w21l8Hc+09PKcy3/JsUMFN1yozSRy2/bkfayC/fIRMd5Z?=
- =?us-ascii?Q?YdGhAtckmYJwM20VLd2+rBdJkT+5Zz63PZgHTQkRLjDxoTLYtmN8TD+VvfRQ?=
- =?us-ascii?Q?XNoj/dM6siRTVObN0lPR5lXsaAmsjX8r7gDFvsZcUafp1JA8X8JrgKQ2wEb7?=
- =?us-ascii?Q?WYJSK7vL43+3WHg+aOxtYtLKFegMHi0kFZkEWSTfzrh0d1NOt49uksNxDE4g?=
- =?us-ascii?Q?22sB1XEyFTaJDKLCBmulCtfQK74laSZitSw1MSJDL8JhBjOgpYJ5fbGF8YrT?=
- =?us-ascii?Q?jLjjph90MuoL1hmrFemwTKs6Mx767rZNd2t5uquzOScooJtBEEkPJEtWBVfl?=
- =?us-ascii?Q?mC2KG+LbUo9PUm9AN3u3obigxvWFyX1XLKg0I0Qg39BDiztHRJgp+DbWHT28?=
- =?us-ascii?Q?7ufj3uIfW8C+j3p2i84Oh+BgrxX7EcwFtltM84l068PiulQm7io17r5skj+6?=
- =?us-ascii?Q?rk5R2uGJddNcT4CrQ4M236E6h4A7e9z3hiSPpNivHETJR4jHr6h5WTGzMVr+?=
- =?us-ascii?Q?/dqeVzKxQK/OJj9LrTp4T29k56Qx2scVwUVYZmAXAX/xkVYX8xsT/eqtZ3z1?=
- =?us-ascii?Q?0iJN7FhhJjb5+J83ALKIye4q4rFtJWNczEIPpl2laXKb+a24deRCXaI2N9MU?=
- =?us-ascii?Q?qYN5/t3zWFPMJCs53LvZA1sxAjzyRnRTK5YAhkjes+5pbn38O0LdSLV1Qd9Z?=
- =?us-ascii?Q?MhTByk1w86wNP5+6nEXEklZkvQ7kNlHgzYgOIOTTII15QahaPYAgn7Two9lu?=
- =?us-ascii?Q?zf8zbsgyDudW1Zzl6x32Hi1ZAemr5jfn1BD+jG91ski8DDCiM8IAgh5sGPQM?=
- =?us-ascii?Q?IxPt0yYqn1oN791I24fL0OmWP319tq29vdXLV4jNUW9Crv15gQCQp9F16IMx?=
- =?us-ascii?Q?KANeJqbOYRw8wjmP/Cv0/9y0xER8BrraExLJRK8hJub2AHcWvtdXRg3/rN1b?=
- =?us-ascii?Q?mvOh?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?H+NSK+xRc8dZvSDcc4EP6L1uJxFFgQX6ie1SjgegpxGPEi9bFwbkRkEomtcZ?=
+ =?us-ascii?Q?l39qyf/pawcBFEKckURealTMaKdmO8kTCcDoQ+qRR6YufFmDEp2DHbaz1awZ?=
+ =?us-ascii?Q?8Ck31nLMiEcoBwRix4xUKEs6Hg92VldAogCEHecPHd9njuZCCOTxC0xo8zF2?=
+ =?us-ascii?Q?rcOGd2LBubDsEGmnZ/zUvhj7qtGSUgxDXu3snTS2dqv1mhNiiBsK1mX8peLK?=
+ =?us-ascii?Q?A6aX2MpeUfKlad7ABQ2mryqC4UjOZXxD5gZrpBf4uvlzSdvWNzpwiDEo29To?=
+ =?us-ascii?Q?ephutNhXbugWJz4vHq9iDsXs/WZnmFgAHuQo0c+D0d1czmf1jvcZQsFSvVsA?=
+ =?us-ascii?Q?l8U+HwYK5i0rEcwzx3InYBIC8ULyi/9x45DmjrbflkB8SpJEd7V6tqhAwECc?=
+ =?us-ascii?Q?dxz5LLAYLl26R0DuopCoTXdU2MDTaga4paCTVRGbpV1KJ+mdMY1WezIaniTn?=
+ =?us-ascii?Q?J9weAdwCIqBWKmnBTdTjI8YvwR5ZLeRppTKWJAGc194yKkcoOAzkcZ97O0TG?=
+ =?us-ascii?Q?eQb5gaOn4+QdemxgrrqyrpReFzj5mruN8gv9mnmt3ulTvJyz3Cpbi5RrAMCz?=
+ =?us-ascii?Q?5ePqA+PuoQpVH/C7bK4ZdGoWe+YglqL8dgRei3lYPOPu9SmvFXPzarVoWor6?=
+ =?us-ascii?Q?/Ct0ZrG0PO3S5HkEiP6dKCFTcFXSvkp9cwpb68QntcOZlmpQlI4JTvOY/lTy?=
+ =?us-ascii?Q?qyNcKqzLj7k3O+cDIwaoHTZp8/EsUFIkFBqX4s8AilMSzSk2rYx/09SpYpaT?=
+ =?us-ascii?Q?J6RpAutFyvnnKCBXEKAEx9vT+Yj802ZIT+vNcWqSQCpwnZhOt6j6bXh6y26m?=
+ =?us-ascii?Q?XbVZhADEVnHcfku9+/5JXekWtmFKwsw8seiiRLSoLkU0Q5ET3YJnWGLwpQXz?=
+ =?us-ascii?Q?3/f7pRtxrmrozjr3E+L7rSv91tk8Iawhi7vpRWeg5IrmyGVeT4UQBA9Q4M15?=
+ =?us-ascii?Q?JG81rxS7YKKIiJ3PSk3i4qpxVK7VcvFqxCnq1c8K6VJPDjIqq+E/FUFv1d6b?=
+ =?us-ascii?Q?pq6p?=
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:02:56.3271 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:02:57.0121 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: f48960fd-8881-40b8-c188-08d8b2b8bbac
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb3be138-30c7-41bf-5ef6-08d8b2b8bc38
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bxGJUFMurV2yCh82uffkOzhUm0po99AcuWyy668/79MSfHg4utlEpDOgvCLYBtEcprxnddGRAy0Op092oVfQzw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: dqmtuSa+crAih6DLQ3Rf4b/m9fT+Gad+Z0Wix+fjAsjQdDw6w/plLmUph2DgBKVmZsoFRhm7gETQvV8matq2zw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3999
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,319 +113,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, Philip Yang <Philip.Yang@amd.com>
+Cc: alex.sierra@amd.com, philip.yang@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Alex Sierra <alex.sierra@amd.com>
 
-HMM interval notifier callback notify CPU page table will be updated,
-stop process queues if the updated address belongs to svm range
-registered in process svms objects tree. Scheduled restore work to
-update GPU page table using new pages address in the updated svm range.
+This flag is useful at cpu invalidation page table
+decision. Between select queue eviction or page fault.
 
-svm restore work to use srcu to scan svms list to avoid deadlock between
-below two cases:
-
-case1: svm restore work takes svm lock to scan svms list, then call
-hmm_page_fault which takes mm->mmap_sem.
-case2: unmap event callback and set_attr ioctl takes mm->mmap_sem, than
-takes svm lock to add/remove ranges.
-
-Calling synchronize_srcu in unmap event callback will deadlock with
-restore work because restore work may wait for unmap event done to
-take mm->mmap_sem, so schedule srcu_free_work to wait for srcu read
-critical section done in svm restore work then free svm ranges.
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |   2 +
- drivers/gpu/drm/amd/amdkfd/kfd_process.c |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 169 ++++++++++++++++++++++-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h     |   2 +
- 4 files changed, 169 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  4 +++
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 36 ++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index 97cf267b6f51..f1e95773e19b 100644
+index f1e95773e19b..7a4b4b6dcf32 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -736,6 +736,8 @@ struct svm_range_list {
- 	struct list_head		free_list;
- 	struct mutex			free_list_lock;
- 	struct mmu_interval_notifier	notifier;
-+	atomic_t			evicted_ranges;
-+	struct delayed_work		restore_work;
+@@ -821,6 +821,8 @@ struct kfd_process {
+ 
+ 	/* shared virtual memory registered by this process */
+ 	struct svm_range_list svms;
++
++	bool xnack_enabled;
  };
  
- /* Process data */
+ #define KFD_PROCESS_TABLE_SIZE 5 /* bits: 32 entries */
+@@ -874,6 +876,8 @@ struct kfd_process_device *kfd_get_process_device_data(struct kfd_dev *dev,
+ struct kfd_process_device *kfd_create_process_device_data(struct kfd_dev *dev,
+ 							struct kfd_process *p);
+ 
++bool kfd_process_xnack_supported(struct kfd_process *p);
++
+ int kfd_reserved_mem_mmap(struct kfd_dev *dev, struct kfd_process *process,
+ 			  struct vm_area_struct *vma);
+ 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 791f17308b1b..0f31538b2a91 100644
+index 0f31538b2a91..f7a50a364d78 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1048,6 +1048,7 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
- 
- 	cancel_delayed_work_sync(&p->eviction_work);
- 	cancel_delayed_work_sync(&p->restore_work);
-+	cancel_delayed_work_sync(&p->svms.restore_work);
- 
- 	mutex_lock(&p->mutex);
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 3c4a036609c4..e3ba6e7262a7 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -21,6 +21,7 @@
-  */
- 
- #include <linux/types.h>
-+#include <linux/sched/task.h>
- #include "amdgpu_sync.h"
- #include "amdgpu_object.h"
- #include "amdgpu_vm.h"
-@@ -28,6 +29,8 @@
- #include "kfd_priv.h"
- #include "kfd_svm.h"
- 
-+#define AMDGPU_SVM_RANGE_RESTORE_DELAY_MS 1
-+
- /**
-  * svm_range_unlink - unlink svm_range from lists and interval tree
-  * @prange: svm range structure to be removed
-@@ -99,6 +102,7 @@ svm_range *svm_range_new(struct svm_range_list *svms, uint64_t start,
- 	INIT_LIST_HEAD(&prange->list);
- 	INIT_LIST_HEAD(&prange->update_list);
- 	INIT_LIST_HEAD(&prange->remove_list);
-+	atomic_set(&prange->invalid, 0);
- 	svm_range_set_default_attributes(&prange->preferred_loc,
- 					 &prange->prefetch_loc,
- 					 &prange->granularity, &prange->flags);
-@@ -191,6 +195,10 @@ svm_range_validate(struct mm_struct *mm, struct svm_range *prange)
- 
- 	r = svm_range_validate_ram(mm, prange);
- 
-+	pr_debug("svms 0x%p [0x%lx 0x%lx] ret %d invalid %d\n", prange->svms,
-+		 prange->it_node.start, prange->it_node.last,
-+		 r, atomic_read(&prange->invalid));
-+
- 	return r;
+@@ -1157,6 +1157,39 @@ static int kfd_process_device_init_cwsr_dgpu(struct kfd_process_device *pdd)
+ 	return 0;
  }
  
-@@ -757,6 +765,151 @@ static int svm_range_map_to_gpus(struct svm_range *prange, bool reserve_vm)
- 	return r;
- }
- 
-+static void svm_range_restore_work(struct work_struct *work)
++bool kfd_process_xnack_supported(struct kfd_process *p)
 +{
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct amdkfd_process_info *process_info;
-+	struct svm_range_list *svms;
-+	struct svm_range *prange;
-+	struct kfd_process *p;
-+	struct mm_struct *mm;
-+	int evicted_ranges;
-+	int srcu_idx;
-+	int invalid;
-+	int r;
++	int i;
 +
-+	svms = container_of(dwork, struct svm_range_list, restore_work);
-+	evicted_ranges = atomic_read(&svms->evicted_ranges);
-+	if (!evicted_ranges)
-+		return;
-+
-+	pr_debug("restore svm ranges\n");
-+
-+	/* kfd_process_notifier_release destroys this worker thread. So during
-+	 * the lifetime of this thread, kfd_process and mm will be valid.
++	/* On most GFXv9 GPUs, the retry mode in the SQ must match the
++	 * boot time retry setting. Mixing processes with different
++	 * XNACK/retry settings can hang the GPU.
++	 *
++	 * Different GPUs can have different noretry settings depending
++	 * on HW bugs or limitations. We need to find at least one
++	 * XNACK mode for this process that's compatible with all GPUs.
++	 * Fortunately GPUs with retry enabled (noretry=0) can run code
++	 * built for XNACK-off. On GFXv9 it may perform slower.
++	 *
++	 * Therefore applications built for XNACK-off can always be
++	 * supported and will be our fallback if any GPU does not
++	 * support retry.
 +	 */
-+	p = container_of(svms, struct kfd_process, svms);
-+	process_info = p->kgd_process_info;
-+	mm = p->mm;
-+	if (!mm)
-+		return;
++	for (i = 0; i < p->n_pdds; i++) {
++		struct kfd_dev *dev = p->pdds[i]->dev;
 +
-+	mutex_lock(&process_info->lock);
-+	mmap_read_lock(mm);
-+	srcu_idx = srcu_read_lock(&svms->srcu);
-+
-+	list_for_each_entry_rcu(prange, &svms->list, list) {
-+		invalid = atomic_read(&prange->invalid);
-+		if (!invalid)
-+			continue;
-+
-+		pr_debug("restoring svms 0x%p [0x%lx %lx] invalid %d\n",
-+			 prange->svms, prange->it_node.start,
-+			 prange->it_node.last, invalid);
-+
-+		r = svm_range_validate(mm, prange);
-+		if (r) {
-+			pr_debug("failed %d to validate [0x%lx 0x%lx]\n", r,
-+				 prange->it_node.start, prange->it_node.last);
-+
-+			goto unlock_out;
-+		}
-+
-+		r = svm_range_map_to_gpus(prange, true);
-+		if (r) {
-+			pr_debug("failed %d to map 0x%lx to gpu\n", r,
-+				 prange->it_node.start);
-+			goto unlock_out;
-+		}
-+
-+		if (atomic_cmpxchg(&prange->invalid, invalid, 0) != invalid)
-+			goto unlock_out;
-+	}
-+
-+	if (atomic_cmpxchg(&svms->evicted_ranges, evicted_ranges, 0) !=
-+	    evicted_ranges)
-+		goto unlock_out;
-+
-+	evicted_ranges = 0;
-+
-+	r = kgd2kfd_resume_mm(mm);
-+	if (r) {
-+		/* No recovery from this failure. Probably the CP is
-+		 * hanging. No point trying again.
++		/* Only consider GFXv9 and higher GPUs. Older GPUs don't
++		 * support the SVM APIs and don't need to be considered
++		 * for the XNACK mode selection.
 +		 */
-+		pr_debug("failed %d to resume KFD\n", r);
++		if (dev->device_info->asic_family >= CHIP_VEGA10 &&
++		    dev->noretry)
++			return false;
 +	}
 +
-+	pr_debug("restore svm ranges successfully\n");
-+
-+unlock_out:
-+	srcu_read_unlock(&svms->srcu, srcu_idx);
-+	mmap_read_unlock(mm);
-+	mutex_unlock(&process_info->lock);
-+
-+	/* If validation failed, reschedule another attempt */
-+	if (evicted_ranges) {
-+		pr_debug("reschedule to restore svm range\n");
-+		schedule_delayed_work(&svms->restore_work,
-+			msecs_to_jiffies(AMDGPU_SVM_RANGE_RESTORE_DELAY_MS));
-+	}
++	return true;
 +}
 +
-+/**
-+ * svm_range_evict - evict svm range
-+ *
-+ * Stop all queues of the process to ensure GPU doesn't access the memory, then
-+ * return to let CPU evict the buffer and proceed CPU pagetable update.
-+ *
-+ * Don't need use lock to sync cpu pagetable invalidation with GPU execution.
-+ * If invalidation happens while restore work is running, restore work will
-+ * restart to ensure to get the latest CPU pages mapping to GPU, then start
-+ * the queues.
-+ */
-+static int
-+svm_range_evict(struct svm_range_list *svms, struct mm_struct *mm,
-+		unsigned long start, unsigned long last)
-+{
-+	int invalid, evicted_ranges;
-+	int r = 0;
-+	struct interval_tree_node *node;
-+	struct svm_range *prange;
-+
-+	svms_lock(svms);
-+
-+	pr_debug("invalidate svms 0x%p [0x%lx 0x%lx]\n", svms, start, last);
-+
-+	node = interval_tree_iter_first(&svms->objects, start, last);
-+	while (node) {
-+		struct interval_tree_node *next;
-+
-+		prange = container_of(node, struct svm_range, it_node);
-+		next = interval_tree_iter_next(node, start, last);
-+
-+		invalid = atomic_inc_return(&prange->invalid);
-+		evicted_ranges = atomic_inc_return(&svms->evicted_ranges);
-+		if (evicted_ranges == 1) {
-+			pr_debug("evicting svms 0x%p range [0x%lx 0x%lx]\n",
-+				 prange->svms, prange->it_node.start,
-+				 prange->it_node.last);
-+
-+			/* First eviction, stop the queues */
-+			r = kgd2kfd_quiesce_mm(mm);
-+			if (r)
-+				pr_debug("failed to quiesce KFD\n");
-+
-+			pr_debug("schedule to restore svm %p ranges\n", svms);
-+			schedule_delayed_work(&svms->restore_work,
-+			   msecs_to_jiffies(AMDGPU_SVM_RANGE_RESTORE_DELAY_MS));
-+		}
-+		node = next;
-+	}
-+
-+	svms_unlock(svms);
-+
-+	return r;
-+}
-+
- struct svm_range *svm_range_clone(struct svm_range *old)
- {
- 	struct svm_range *new;
-@@ -994,6 +1147,11 @@ svm_range_unmap_from_cpu(struct mm_struct *mm, unsigned long start,
-  * svm_range_cpu_invalidate_pagetables - interval notifier callback
-  *
-  * MMU range unmap notifier to remove svm ranges
-+ *
-+ * If GPU vm fault retry is not enabled, evict the svm range, then restore
-+ * work will update GPU mapping.
-+ * If GPU vm fault retry is enabled, unmap the svm range from GPU, vm fault
-+ * will update GPU mapping.
-  */
- static bool
- svm_range_cpu_invalidate_pagetables(struct mmu_interval_notifier *mni,
-@@ -1009,15 +1167,14 @@ svm_range_cpu_invalidate_pagetables(struct mmu_interval_notifier *mni,
- 	if (range->event == MMU_NOTIFY_RELEASE) {
- 		pr_debug("cpu release range [0x%lx 0x%lx]\n", range->start,
- 			 range->end - 1);
--		return true;
--	}
--	if (range->event == MMU_NOTIFY_UNMAP) {
-+	} else if (range->event == MMU_NOTIFY_UNMAP) {
- 		pr_debug("mm 0x%p unmap range [0x%lx 0x%lx]\n", range->mm,
- 			 start, last);
- 		svm_range_unmap_from_cpu(mni->mm, start, last);
--		return true;
-+	} else {
-+		mmu_interval_set_seq(mni, cur_seq);
-+		svm_range_evict(svms, mni->mm, start, last);
- 	}
--
- 	return true;
- }
+ /*
+  * On return the kfd_process is fully operational and will be freed when the
+  * mm is released
+@@ -1194,6 +1227,9 @@ static struct kfd_process *create_process(const struct task_struct *thread)
+ 	if (err != 0)
+ 		goto err_init_apertures;
  
-@@ -1045,6 +1202,8 @@ int svm_range_list_init(struct kfd_process *p)
- 	svms->objects = RB_ROOT_CACHED;
- 	mutex_init(&svms->lock);
- 	INIT_LIST_HEAD(&svms->list);
-+	atomic_set(&svms->evicted_ranges, 0);
-+	INIT_DELAYED_WORK(&svms->restore_work, svm_range_restore_work);
- 	r = init_srcu_struct(&svms->srcu);
- 	if (r) {
- 		pr_debug("failed %d to init srcu\n", r);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-index fb68b5ee54f8..4c7daf8e0b6f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-@@ -50,6 +50,7 @@
-  * @perfetch_loc: last prefetch location, 0 for CPU, or GPU id
-  * @actual_loc: the actual location, 0 for CPU, or GPU id
-  * @granularity:migration granularity, log2 num pages
-+ * @invalid:    not 0 means cpu page table is invalidated
-  * @bitmap_access: index bitmap of GPUs which can access the range
-  * @bitmap_aip: index bitmap of GPUs which can access the range in place
-  *
-@@ -72,6 +73,7 @@ struct svm_range {
- 	uint32_t			prefetch_loc;
- 	uint32_t			actual_loc;
- 	uint8_t				granularity;
-+	atomic_t			invalid;
- 	DECLARE_BITMAP(bitmap_access, MAX_GPU_INSTANCE);
- 	DECLARE_BITMAP(bitmap_aip, MAX_GPU_INSTANCE);
- };
++	/* Check XNACK support after PDDs are created in kfd_init_apertures */
++	process->xnack_enabled = kfd_process_xnack_supported(process);
++
+ 	err = svm_range_list_init(process);
+ 	if (err)
+ 		goto err_init_svm_range_list;
 -- 
 2.29.2
 
