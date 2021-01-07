@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37AE82ECD6E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 11:04:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956E92ECD71
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 11:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9676E417;
-	Thu,  7 Jan 2021 10:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CAD6E40B;
+	Thu,  7 Jan 2021 10:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7DD6E417
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 10:04:32 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id m5so5017904wrx.9
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 02:04:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TOKENw19JN7GMD9uSy3dV/DFZRl6GO+oyV6IQtDql0k=;
- b=ZohrA9yuVm/9+HRj3f9dFkiH5fuIGvc5yO+ytdlPVqWSyOxHtgq1oip9LjRLl8xRDL
- NCOULf9WP6hQ9heYUccqjH9ff57H9S+6CBjslEystlHQIN6hO/hVwWdBDRfdpyk90wNr
- 1IuHz+ux5G0AOifHT2pNQt82JZg/81go4qe28=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TOKENw19JN7GMD9uSy3dV/DFZRl6GO+oyV6IQtDql0k=;
- b=t/Q0adCHrARGOcDnEYHZ7eJU+IgQG/taGJryT8g69SJpkQJOW12Pxwm2P2m7U2gIYp
- bTAG+tDX63G1tSnhPF66kZQ4EQfG90OwYm1Q18hl12wGW3zUU2oQ4XV1AHrJlDPMxaBw
- I0pE5uUO3gf3JaVg1XLHLcYlNB3/xYzrgrMXjXjqjfBmzuGCD+Vcw8AOofMkgEGQAVbL
- tRW4Lu51Q5V2zz5E6+Llk9V2bdSHK7INhuQbexHmEuFlPf8yj6orFczjCCNbrOs42WNf
- 19RKF7BqZDRPbx/y9zpKIvatDKF6AivhzfQNhgqj319E+5kF2L/2VKxOecUef2d653bl
- aA/g==
-X-Gm-Message-State: AOAM532IPV1SstEoDtti26pohV25kRsn8LUFU6skXkmsGamvMJTa57aa
- bSL/uZJPpqMhtKGxN9BpmEB6+A==
-X-Google-Smtp-Source: ABdhPJw93sU9VHbuFSRfTMBc3y4T7GSMwp97h60xsiW1i+WHC8/ovqYvh5KUlI9ju7eQZFDS565yNQ==
-X-Received: by 2002:a5d:4dcd:: with SMTP id f13mr8203608wru.10.1610013870758; 
- Thu, 07 Jan 2021 02:04:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 189sm7084352wma.22.2021.01.07.02.04.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 02:04:30 -0800 (PST)
-Date: Thu, 7 Jan 2021 11:04:28 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PULL] topic/dp-hdmi-2.1-pcon for drm-misc-next
-Message-ID: <X/bcrK5P7Igijwn+@phenom.ffwll.local>
-References: <87lfdpndkt.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE436E40B
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 10:05:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2240D2333F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 10:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610013926;
+ bh=XWCiwpuOus+rdx5NyKPd3hsIfab/jop8IOEOi6Fl1DA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZQlxjdoPZBXInGVwW3bTDZ4hvXBCLB1JkW5GjZ7QKa8miUN/QoTEvHKaXGjhCWP2k
+ OWMmcVm8Rg3sSrDhqtbGEpVn0q3L5vlm4t4JeTMxmErtvysj6IfrxbAxKpUhVXrYw1
+ 4fmh8vS3lE6eaDGvD0fsUQ6uJnqlaki1338DY8/effyd3TcAx2KLycvuc3imj5+mLA
+ NhtjcHxr8yATbbnFhHOwRI/uYoKSgb63DEawnvZArG6jb+uk7q9k8oRAqpl4MiFCCt
+ 9zOrqcpFKUppfsDVIXTTsjdi6+oBbYz7ONtFPM0OAXimIfeDJ/gzizKve1KoHORJcK
+ uNzbWlYafWYmg==
+Received: by mail-ed1-f46.google.com with SMTP id r5so7129663eda.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 02:05:26 -0800 (PST)
+X-Gm-Message-State: AOAM53268qqfCZXo2zqv6uCOOOFM3Ar+pPsx6QJNQZ8Va6bc/mN8E2mr
+ toXmeGP+VDIxMQUbgyT4JfyMAdefOnmQNr+yog==
+X-Google-Smtp-Source: ABdhPJy6aKdf+ALvz/JPUW+3K8X25ja4+q1SbtTR9U4Ty1Mcr7xuSbOEslRjkoLF1UiANP8PhaulwzMLGh/Te/js2dU=
+X-Received: by 2002:a50:c3c5:: with SMTP id i5mr1123540edf.166.1610013924641; 
+ Thu, 07 Jan 2021 02:05:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87lfdpndkt.fsf@intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1609989081-29353-6-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1609989081-29353-6-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 7 Jan 2021 18:05:13 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__Ox7jxLxQvm_mvAqEedj48=grH0Mao7xZ5bLuABZNeMQ@mail.gmail.com>
+Message-ID: <CAAOTY__Ox7jxLxQvm_mvAqEedj48=grH0Mao7xZ5bLuABZNeMQ@mail.gmail.com>
+Subject: Re: [PATCH v9,
+ 05/11] drm/mediatek: add fifo_size into rdma private data
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,171 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 23, 2020 at 10:14:58AM +0200, Jani Nikula wrote:
-> 
-> Hi Maarten, Maxime, and Thomas -
-> 
-> Here's the DP-HDMI2.1 PCON support topic pull consisting of the series
-> [1]. The series is split roughly 50-50 between drm helpers and i915, so
-> a topic branch seemed to be the right way to go.
-> 
-> I'll also pull this to drm-intel-next once you've merged to
-> drm-misc-next.
-
-I didn't see this merged into drm-misc-next, so pulled into drm-next. I'm
-processing an entire batch of pulls, I'll ping you on irc when it's all
-ready for backmerging.
-
-Cheers, Daniel
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> [1] https://patchwork.freedesktop.org/series/82098/
-> 
-> 
-> topic/dp-hdmi-2.1-pcon-2020-12-23:
-> Add support for DP-HDMI2.1 PCON
-> 
-> From the series cover letter:
-> 
-> This patch series attempts to add support for a DP-HDMI2.1 Protocol
-> Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
-> E5 to DisplayPort_v2.0:
-> https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
-> The details are mentioned in:
-> VESA DP-to-HDMI PCON Specification Standalone Document
-> https://groups.vesa.org/wg/DP/document/15651
-> 
-> This series starts with adding support for FRL (Fixed Rate Link)
-> Training between the PCON and HDMI2.1 sink.
-> As per HDMI2.1 specification, a new data-channel or lane is added in
-> FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
-> bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
-> lanes).
-> 
-> With these patches, the HDMI2.1 PCON can be configured to achieve FRL
-> training based on the maximum FRL rate supported by the panel, source
-> and the PCON.
-> The approach is to add the support for FRL training between PCON and
-> HDMI2.1 sink and gradually add other blocks for supporting higher
-> resolutions and other HDMI2.1 features, that can be supported by pcon
-> for the sources that do not natively support HDMI2.1.
-> 
-> This is done before the DP Link training between the source and PCON
-> is started. In case of FRL training is not achieved, the PCON will
-> work in the regular TMDS mode, without HDMI2.1 feature support.
-> Any interruption in FRL training between the PCON and HDMI2.1 sink is
-> notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
-> registers are read and FRL training is re-attempted.
-> 
-> Currently, we have tested the FRL training and are able to enable 4K
-> display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
-> panel.
-> 
-> The following changes since commit b3bf99daaee96a141536ce5c60a0d6dba6ec1d23:
-> 
->   drm/i915/display: Defer initial modeset until after GGTT is initialised (2020-11-26 11:01:52 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/topic/dp-hdmi-2.1-pcon-2020-12-23
-> 
-> for you to fetch changes up to 522508b665df3bbfdf40381d4e61777844b1703f:
-> 
->   drm/i915/display: Let PCON convert from RGB to YCbCr if it can (2020-12-22 17:59:07 +0200)
-> 
-> ----------------------------------------------------------------
-> Add support for DP-HDMI2.1 PCON
-> 
-> From the series cover letter:
-> 
-> This patch series attempts to add support for a DP-HDMI2.1 Protocol
-> Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
-> E5 to DisplayPort_v2.0:
-> https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
-> The details are mentioned in:
-> VESA DP-to-HDMI PCON Specification Standalone Document
-> https://groups.vesa.org/wg/DP/document/15651
-> 
-> This series starts with adding support for FRL (Fixed Rate Link)
-> Training between the PCON and HDMI2.1 sink.
-> As per HDMI2.1 specification, a new data-channel or lane is added in
-> FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
-> bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
-> lanes).
-> 
-> With these patches, the HDMI2.1 PCON can be configured to achieve FRL
-> training based on the maximum FRL rate supported by the panel, source
-> and the PCON.
-> The approach is to add the support for FRL training between PCON and
-> HDMI2.1 sink and gradually add other blocks for supporting higher
-> resolutions and other HDMI2.1 features, that can be supported by pcon
-> for the sources that do not natively support HDMI2.1.
-> 
-> This is done before the DP Link training between the source and PCON
-> is started. In case of FRL training is not achieved, the PCON will
-> work in the regular TMDS mode, without HDMI2.1 feature support.
-> Any interruption in FRL training between the PCON and HDMI2.1 sink is
-> notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
-> registers are read and FRL training is re-attempted.
-> 
-> Currently, we have tested the FRL training and are able to enable 4K
-> display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
-> panel.
-> 
-> ----------------------------------------------------------------
-> Ankit Nautiyal (11):
->       drm/edid: Parse DSC1.2 cap fields from HFVSDB block
->       drm/dp_helper: Add Helpers for FRL Link Training support for DP-HDMI2.1 PCON
->       drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon
->       drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion
->       drm/i915: Capture max frl rate for PCON in dfp cap structure
->       drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
->       drm/i915: Check for FRL training before DP Link training
->       drm/i915: Read DSC capabilities of the HDMI2.1 PCON encoder
->       drm/i915: Add helper functions for calculating DSC parameters for HDMI2.1
->       drm/i915/display: Configure PCON for DSC1.1 to DSC1.2 encoding
->       drm/i915/display: Let PCON convert from RGB to YCbCr if it can
-> 
-> Swati Sharma (4):
->       drm/edid: Add additional HFVSDB fields for HDMI2.1
->       drm/edid: Parse MAX_FRL field from HFVSDB block
->       drm/dp_helper: Add support for link failure detection
->       drm/i915: Add support for enabling link status and recovery
-> 
->  drivers/gpu/drm/drm_dp_helper.c                    | 566 +++++++++++++++++++++
->  drivers/gpu/drm/drm_edid.c                         | 103 ++++
->  drivers/gpu/drm/i915/display/intel_ddi.c           |   6 +-
->  drivers/gpu/drm/i915/display/intel_display_types.h |  10 +
->  drivers/gpu/drm/i915/display/intel_dp.c            | 440 +++++++++++++++-
->  drivers/gpu/drm/i915/display/intel_dp.h            |   7 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c          | 233 +++++++++
->  drivers/gpu/drm/i915/display/intel_hdmi.h          |   7 +
->  include/drm/drm_connector.h                        |  49 ++
->  include/drm/drm_dp_helper.h                        | 218 ++++++++
->  include/drm/drm_edid.h                             |  30 ++
->  11 files changed, 1650 insertions(+), 19 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMeW5tDHmnIg35pelIOmAseWbmyDkuIrljYgxMToxMuWvq+mBk++8mgo+Cj4gR2V0
+IHRoZSBmaWZvIHNpemUgZnJvbSBkZXZpY2UgdHJlZQo+IGJlY2F1c2UgZWFjaCByZG1hIGluIHRo
+ZSBzYW1lIFNvQyBtYXkgaGF2ZSBkaWZmZXJlbnQgZmlmbyBzaXplCgpSZXZpZXdlZC1ieTogQ2h1
+bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cgo+Cj4gU2lnbmVkLW9mZi1ieTog
+WW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMgfCAxOSArKysrKysrKysrKysrKysr
+KystCj4gIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMKPiBpbmRleCBkNDZiOGFl
+Li44YzY0ZDVjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlz
+cF9yZG1hLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5j
+Cj4gQEAgLTY0LDYgKzY0LDcgQEAgc3RydWN0IG10a19kaXNwX3JkbWEgewo+ICAgICAgICAgc3Ry
+dWN0IG10a19kZHBfY29tcCAgICAgICAgICAgICBkZHBfY29tcDsKPiAgICAgICAgIHN0cnVjdCBk
+cm1fY3J0YyAgICAgICAgICAgICAgICAgKmNydGM7Cj4gICAgICAgICBjb25zdCBzdHJ1Y3QgbXRr
+X2Rpc3BfcmRtYV9kYXRhICpkYXRhOwo+ICsgICAgICAgdTMyICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBmaWZvX3NpemU7Cj4gIH07Cj4KPiAgc3RhdGljIGlubGluZSBzdHJ1Y3QgbXRrX2Rp
+c3BfcmRtYSAqY29tcF90b19yZG1hKHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXApCj4gQEAgLTEz
+MiwxMiArMTMzLDE4IEBAIHN0YXRpYyB2b2lkIG10a19yZG1hX2NvbmZpZyhzdHJ1Y3QgbXRrX2Rk
+cF9jb21wICpjb21wLCB1bnNpZ25lZCBpbnQgd2lkdGgsCj4gICAgICAgICB1bnNpZ25lZCBpbnQg
+dGhyZXNob2xkOwo+ICAgICAgICAgdW5zaWduZWQgaW50IHJlZzsKPiAgICAgICAgIHN0cnVjdCBt
+dGtfZGlzcF9yZG1hICpyZG1hID0gY29tcF90b19yZG1hKGNvbXApOwo+ICsgICAgICAgdTMyIHJk
+bWFfZmlmb19zaXplOwo+Cj4gICAgICAgICBtdGtfZGRwX3dyaXRlX21hc2soY21kcV9wa3QsIHdp
+ZHRoLCBjb21wLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIERJU1BfUkVHX1JETUFfU0la
+RV9DT05fMCwgMHhmZmYpOwo+ICAgICAgICAgbXRrX2RkcF93cml0ZV9tYXNrKGNtZHFfcGt0LCBo
+ZWlnaHQsIGNvbXAsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgRElTUF9SRUdfUkRNQV9T
+SVpFX0NPTl8xLCAweGZmZmZmKTsKPgo+ICsgICAgICAgaWYgKHJkbWEtPmZpZm9fc2l6ZSkKPiAr
+ICAgICAgICAgICAgICAgcmRtYV9maWZvX3NpemUgPSByZG1hLT5maWZvX3NpemU7Cj4gKyAgICAg
+ICBlbHNlCj4gKyAgICAgICAgICAgICAgIHJkbWFfZmlmb19zaXplID0gUkRNQV9GSUZPX1NJWkUo
+cmRtYSk7Cj4gKwo+ICAgICAgICAgLyoKPiAgICAgICAgICAqIEVuYWJsZSBGSUZPIHVuZGVyZmxv
+dyBzaW5jZSBEU0kgYW5kIERQSSBjYW4ndCBiZSBibG9ja2VkLgo+ICAgICAgICAgICogS2VlcCB0
+aGUgRklGTyBwc2V1ZG8gc2l6ZSByZXNldCBkZWZhdWx0IG9mIDggS2lCLiBTZXQgdGhlCj4gQEAg
+LTE0Niw3ICsxNTMsNyBAQCBzdGF0aWMgdm9pZCBtdGtfcmRtYV9jb25maWcoc3RydWN0IG10a19k
+ZHBfY29tcCAqY29tcCwgdW5zaWduZWQgaW50IHdpZHRoLAo+ICAgICAgICAgICovCj4gICAgICAg
+ICB0aHJlc2hvbGQgPSB3aWR0aCAqIGhlaWdodCAqIHZyZWZyZXNoICogNCAqIDcgLyAxMDAwMDAw
+Owo+ICAgICAgICAgcmVnID0gUkRNQV9GSUZPX1VOREVSRkxPV19FTiB8Cj4gLSAgICAgICAgICAg
+ICBSRE1BX0ZJRk9fUFNFVURPX1NJWkUoUkRNQV9GSUZPX1NJWkUocmRtYSkpIHwKPiArICAgICAg
+ICAgICAgIFJETUFfRklGT19QU0VVRE9fU0laRShyZG1hX2ZpZm9fc2l6ZSkgfAo+ICAgICAgICAg
+ICAgICAgUkRNQV9PVVRQVVRfVkFMSURfRklGT19USFJFU0hPTEQodGhyZXNob2xkKTsKPiAgICAg
+ICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIHJlZywgY29tcCwgRElTUF9SRUdfUkRNQV9GSUZP
+X0NPTik7Cj4gIH0KPiBAQCAtMjkyLDYgKzI5OSwxNiBAQCBzdGF0aWMgaW50IG10a19kaXNwX3Jk
+bWFfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgICAgICAgICAgICAgICAg
+cmV0dXJuIGNvbXBfaWQ7Cj4gICAgICAgICB9Cj4KPiArICAgICAgIGlmIChvZl9maW5kX3Byb3Bl
+cnR5KGRldi0+b2Zfbm9kZSwgIm1lZGlhdGVrLHJkbWEtZmlmby1zaXplIiwgJnJldCkpIHsKPiAr
+ICAgICAgICAgICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT5vZl9ub2RlLAo+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAibWVkaWF0ZWsscmRt
+YS1maWZvLXNpemUiLAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAmcHJpdi0+Zmlmb19zaXplKTsKPiArICAgICAgICAgICAgICAgaWYgKHJldCkgewo+ICsgICAg
+ICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCByZG1hIGZpZm8g
+c2l6ZVxuIik7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiArICAgICAg
+ICAgICAgICAgfQo+ICsgICAgICAgfQo+ICsKPiAgICAgICAgIHJldCA9IG10a19kZHBfY29tcF9p
+bml0KGRldiwgZGV2LT5vZl9ub2RlLCAmcHJpdi0+ZGRwX2NvbXAsIGNvbXBfaWQsCj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAmbXRrX2Rpc3BfcmRtYV9mdW5jcyk7Cj4gICAgICAg
+ICBpZiAocmV0KSB7Cj4gLS0KPiAxLjguMS4xLmRpcnR5Cj4gX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QK
+PiBMaW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJh
+ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
