@@ -2,61 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B82EE77D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 22:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E392EE78A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 22:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC1966E431;
-	Thu,  7 Jan 2021 21:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBFB6E4B7;
+	Thu,  7 Jan 2021 21:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 229E76E431
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 21:15:33 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id v19so5973435pgj.12
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 13:15:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=njrcSIJAkGY2OvZcMcUOB/aiSRsE8gSP15fU7c5jB6I=;
- b=S3kadN9Nd3eJwxluh3P/NQ7i6yJ3iFEioWoVaqyB/bZBLo/xMbdx87OKNpbHiY7dGj
- 4ZrHeVUJkAGpssYpJVVRC4eKet8jVvhjl3Vo/qRstu0C3FbSIBKdXSwkeKajIal9Cvnm
- QQJmu+t49heDmdwEa0QklfX2n0M28+01N4UWhtpEHSrelW7kz7zZQprMRaqi8QWMv+UP
- CdE+a77alvo9VGxRRgQhzamyWjHWnYeaaAEnCCyhcZ5CLgOAX8r8YBB+sF0mV41A7qur
- pZ4yug/6pl/Fx6PBjUbsH2K5hIrWQD0rHI1l0ELVDOOftJZjPcfFOnojtZI5MMeKRzPA
- IG+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=njrcSIJAkGY2OvZcMcUOB/aiSRsE8gSP15fU7c5jB6I=;
- b=RsvANSsQ19tzOb1jddnnIFd6Yhh/RPup/T3ZAdWiXCC3Q4f65RISOFazYG2Du3aFYz
- vdshX8OlrtRFCW6pEnK83dYOWKcdTSVc2DZHCo+b5BQFxO+hg9X8AoftnZ1cKRpPMgti
- bjgUYgMM6UvwKcTSaXONdYA03+w6vOTv8XYmvwyn2f2NrRgTUSNxha6OHoW1D4wdJPHU
- ixsajsxrUIk+thXN3c/91zXp6osatJWCdCdnJXlMtwFj3sT46idz2Tq9exHL9iNlk+P/
- Y9qd/7qy65UCbfUnrBlqAYYeAteXCODnQJA9u9XnZSClRgv+Bar9zyuZTHdIUiXQLDFs
- PddA==
-X-Gm-Message-State: AOAM533CuDZNDyU71CkURy0vX7qDYD42TSZqNDlR88UfV1Hbgm7efhZW
- +sb2c2nu0O38bjZd5cKcxPsgcA==
-X-Google-Smtp-Source: ABdhPJwQof8Twnqw2nby4Kyyai2XBfyKyBoMmx2rspsxPT2kGDpWq9k2NH3i2fJiY/P1cArkpcSccA==
-X-Received: by 2002:a05:6a00:16c5:b029:19b:696:28a0 with SMTP id
- l5-20020a056a0016c5b029019b069628a0mr513757pfc.9.1610054132669; 
- Thu, 07 Jan 2021 13:15:32 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- b6sm6574055pfd.43.2021.01.07.13.15.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 13:15:31 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] dma-buf: heaps: Rework heep allocation hooks to return
- struct dma_buf instead of fd
-Date: Thu,  7 Jan 2021 21:15:25 +0000
-Message-Id: <20210107211525.75951-3-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210107211525.75951-1-john.stultz@linaro.org>
-References: <20210107211525.75951-1-john.stultz@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD0A6E4B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 21:17:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB48623441;
+ Thu,  7 Jan 2021 21:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610054279;
+ bh=5uoZNAJGLvzV9shzy8WW8XkIqE6H2k9ymeZVJrOtI2U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=ofjJMoRrimEABG4LRevwmiB41Ps4MRs38jGoi36wqXyh0ztgxlE33oPjaXvjh6rHE
+ wPttEqAFZ6h3AWNUiJa5r5nrUlo62dnEGh0LKEdRdjXqNUQKmv311SKXiQPda9Zag4
+ GHFQpxrlpVZdPDYB1Cf0nrjsmd0AkSxsZaWguM0rjEsuUVTjNAzsd42SjdCFT4JBqp
+ hfqY8/NR0LbT8qUp2XpGwD7+0QyP8CEwcNseC6wV4Pt6G6ZJcylNgkWKingruevsXr
+ OJAL2+xlCM0KsQwXPKX1b91RGVkW9uimIq56efrdjV3Ntvmqyc6xqlMeOqpIsmKwja
+ Rtol1IwF0trQg==
+Date: Thu, 7 Jan 2021 15:17:57 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Nirmoy Das <nirmoy.das@amd.com>
+Subject: Re: [PATCH 2/4] PCI: Add pci_rebar_bytes_to_size()
+Message-ID: <20210107211757.GA1391831@bjorn-Precision-5520>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210107175017.15893-3-nirmoy.das@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,127 +44,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ckoenig.leichtzumerken@gmail.com, dri-devel@lists.freedesktop.org,
+ devspam@moreofthesa.me.uk, linux-pci@vger.kernel.org, bhelgaas@google.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RXZlcnkgaGVhcCBuZWVkcyB0byBjcmVhdGUgYSBkbWFidWYgYW5kIHRoZW4gZXhwb3J0IGl0IHRv
-IGEgZmQKdmlhIGRtYV9idWZfZmQoKSwgc28gdG8gY29uc29saWRhdGUgdGhpbmdzIGEgYml0LCBo
-YXZlIHRoZSBoZWFwcwpqdXN0IHJldHVybiBhIHN0cnVjdCBkbWFidWYgKiBhbmQgbGV0IHRoZSB0
-b3AgbGV2ZWwKZG1hX2hlYXBfYnVmZmVyX2FsbG9jKCkgY2FsbCBoYW5kbGUgY3JlYXRpbmcgdGhl
-IGZkIHZpYQpkbWFfYnVmX2ZkKCkuCgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGlu
-YXJvLm9yZz4KQ2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+CkNjOiBMYXVyYSBB
-YmJvdHQgPGxhYmJvdHRAa2VybmVsLm9yZz4KQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJr
-ZXlAYXJtLmNvbT4KQ2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgpDYzog
-U3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT4KQ2M6IFNhbmRlZXAgUGF0aWwg
-PHNzcGF0aWxAZ29vZ2xlLmNvbT4KQ2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xl
-LmNvbT4KQ2M6IENocmlzIEdvbGRzd29ydGh5IDxjZ29sZHN3b0Bjb2RlYXVyb3JhLm9yZz4KQ2M6
-IMOYcmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5jb20+CkNjOiBSb2JpbiBNdXJwaHkgPHJvYmlu
-Lm11cnBoeUBhcm0uY29tPgpDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEu
-Y29tPgpDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzogSmFtZXMgSm9uZXMg
-PGpham9uZXNAbnZpZGlhLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzog
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0
-eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2RtYS1idWYvZG1hLWhlYXAu
-YyAgICAgICAgICB8IDE0ICsrKysrKysrKysrKystCiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvY21h
-X2hlYXAuYyAgICB8IDIyICsrKysrKystLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZG1hLWJ1Zi9o
-ZWFwcy9zeXN0ZW1faGVhcC5jIHwgMjEgKysrKysrKy0tLS0tLS0tLS0tLS0tCiBpbmNsdWRlL2xp
-bnV4L2RtYS1oZWFwLmggICAgICAgICAgICB8IDEyICsrKysrKy0tLS0tLQogNCBmaWxlcyBjaGFu
-Z2VkLCAzMyBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2RtYS1idWYvZG1hLWhlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtaGVhcC5jCmluZGV4
-IGFmZDIyYzlkYmRjZi4uNmI1ZGI5NTQ1NjlmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYv
-ZG1hLWhlYXAuYworKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWhlYXAuYwpAQCAtNTIsNiArNTIs
-OSBAQCBzdGF0aWMgaW50IGRtYV9oZWFwX2J1ZmZlcl9hbGxvYyhzdHJ1Y3QgZG1hX2hlYXAgKmhl
-YXAsIHNpemVfdCBsZW4sCiAJCQkJIHVuc2lnbmVkIGludCBmZF9mbGFncywKIAkJCQkgdW5zaWdu
-ZWQgaW50IGhlYXBfZmxhZ3MpCiB7CisJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsKKwlpbnQgZmQ7
-CisKIAkvKgogCSAqIEFsbG9jYXRpb25zIGZyb20gYWxsIGhlYXBzIGhhdmUgdG8gYmVnaW4KIAkg
-KiBhbmQgZW5kIG9uIHBhZ2UgYm91bmRhcmllcy4KQEAgLTYwLDcgKzYzLDE2IEBAIHN0YXRpYyBp
-bnQgZG1hX2hlYXBfYnVmZmVyX2FsbG9jKHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwgc2l6ZV90IGxl
-biwKIAlpZiAoIWxlbikKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLQlyZXR1cm4gaGVhcC0+b3BzLT5h
-bGxvY2F0ZShoZWFwLCBsZW4sIGZkX2ZsYWdzLCBoZWFwX2ZsYWdzKTsKKwlkbWFidWYgPSBoZWFw
-LT5vcHMtPmFsbG9jYXRlKGhlYXAsIGxlbiwgZmRfZmxhZ3MsIGhlYXBfZmxhZ3MpOworCWlmIChJ
-U19FUlIoZG1hYnVmKSkKKwkJcmV0dXJuIFBUUl9FUlIoZG1hYnVmKTsKKworCWZkID0gZG1hX2J1
-Zl9mZChkbWFidWYsIGZkX2ZsYWdzKTsKKwlpZiAoZmQgPCAwKSB7CisJCWRtYV9idWZfcHV0KGRt
-YWJ1Zik7CisJCS8qIGp1c3QgcmV0dXJuLCBhcyBwdXQgd2lsbCBjYWxsIHJlbGVhc2UgYW5kIHRo
-YXQgd2lsbCBmcmVlICovCisJfQorCXJldHVybiBmZDsKIH0KIAogc3RhdGljIGludCBkbWFfaGVh
-cF9vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpmaWxlKQpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgYi9kcml2ZXJzL2RtYS1idWYvaGVh
-cHMvY21hX2hlYXAuYwppbmRleCAwYzc2Y2JjM2ZiMTEuLjk4NWM0MWZmZDg1YiAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMKKysrIGIvZHJpdmVycy9kbWEtYnVm
-L2hlYXBzL2NtYV9oZWFwLmMKQEAgLTI3MiwxMCArMjcyLDEwIEBAIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgZG1hX2J1Zl9vcHMgY21hX2hlYXBfYnVmX29wcyA9IHsKIAkucmVsZWFzZSA9IGNtYV9oZWFw
-X2RtYV9idWZfcmVsZWFzZSwKIH07CiAKLXN0YXRpYyBpbnQgY21hX2hlYXBfYWxsb2NhdGUoc3Ry
-dWN0IGRtYV9oZWFwICpoZWFwLAotCQkJCSAgdW5zaWduZWQgbG9uZyBsZW4sCi0JCQkJICB1bnNp
-Z25lZCBsb25nIGZkX2ZsYWdzLAotCQkJCSAgdW5zaWduZWQgbG9uZyBoZWFwX2ZsYWdzKQorc3Rh
-dGljIHN0cnVjdCBkbWFfYnVmICpjbWFfaGVhcF9hbGxvY2F0ZShzdHJ1Y3QgZG1hX2hlYXAgKmhl
-YXAsCisJCQkJCSB1bnNpZ25lZCBsb25nIGxlbiwKKwkJCQkJIHVuc2lnbmVkIGxvbmcgZmRfZmxh
-Z3MsCisJCQkJCSB1bnNpZ25lZCBsb25nIGhlYXBfZmxhZ3MpCiB7CiAJc3RydWN0IGNtYV9oZWFw
-ICpjbWFfaGVhcCA9IGRtYV9oZWFwX2dldF9kcnZkYXRhKGhlYXApOwogCXN0cnVjdCBjbWFfaGVh
-cF9idWZmZXIgKmJ1ZmZlcjsKQEAgLTI5MCw3ICsyOTAsNyBAQCBzdGF0aWMgaW50IGNtYV9oZWFw
-X2FsbG9jYXRlKHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwKIAogCWJ1ZmZlciA9IGt6YWxsb2Moc2l6
-ZW9mKCpidWZmZXIpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIWJ1ZmZlcikKLQkJcmV0dXJuIC1FTk9N
-RU07CisJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwogCiAJSU5JVF9MSVNUX0hFQUQoJmJ1ZmZl
-ci0+YXR0YWNobWVudHMpOwogCW11dGV4X2luaXQoJmJ1ZmZlci0+bG9jayk7CkBAIC0zNDksMTUg
-KzM0OSw3IEBAIHN0YXRpYyBpbnQgY21hX2hlYXBfYWxsb2NhdGUoc3RydWN0IGRtYV9oZWFwICpo
-ZWFwLAogCQlyZXQgPSBQVFJfRVJSKGRtYWJ1Zik7CiAJCWdvdG8gZnJlZV9wYWdlczsKIAl9Ci0K
-LQlyZXQgPSBkbWFfYnVmX2ZkKGRtYWJ1ZiwgZmRfZmxhZ3MpOwotCWlmIChyZXQgPCAwKSB7Ci0J
-CWRtYV9idWZfcHV0KGRtYWJ1Zik7Ci0JCS8qIGp1c3QgcmV0dXJuLCBhcyBwdXQgd2lsbCBjYWxs
-IHJlbGVhc2UgYW5kIHRoYXQgd2lsbCBmcmVlICovCi0JCXJldHVybiByZXQ7Ci0JfQotCi0JcmV0
-dXJuIHJldDsKKwlyZXR1cm4gZG1hYnVmOwogCiBmcmVlX3BhZ2VzOgogCWtmcmVlKGJ1ZmZlci0+
-cGFnZXMpOwpAQCAtMzY2LDcgKzM1OCw3IEBAIHN0YXRpYyBpbnQgY21hX2hlYXBfYWxsb2NhdGUo
-c3RydWN0IGRtYV9oZWFwICpoZWFwLAogZnJlZV9idWZmZXI6CiAJa2ZyZWUoYnVmZmVyKTsKIAot
-CXJldHVybiByZXQ7CisJcmV0dXJuIEVSUl9QVFIocmV0KTsKIH0KIAogc3RhdGljIGNvbnN0IHN0
-cnVjdCBkbWFfaGVhcF9vcHMgY21hX2hlYXBfb3BzID0gewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9k
-bWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVt
-X2hlYXAuYwppbmRleCAyMzIxYzkxODkxZjYuLjdiMTU0NDI0YWViMyAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2hl
-YXBzL3N5c3RlbV9oZWFwLmMKQEAgLTMzMiwxMCArMzMyLDEwIEBAIHN0YXRpYyBzdHJ1Y3QgcGFn
-ZSAqYWxsb2NfbGFyZ2VzdF9hdmFpbGFibGUodW5zaWduZWQgbG9uZyBzaXplLAogCXJldHVybiBO
-VUxMOwogfQogCi1zdGF0aWMgaW50IHN5c3RlbV9oZWFwX2FsbG9jYXRlKHN0cnVjdCBkbWFfaGVh
-cCAqaGVhcCwKLQkJCQl1bnNpZ25lZCBsb25nIGxlbiwKLQkJCQl1bnNpZ25lZCBsb25nIGZkX2Zs
-YWdzLAotCQkJCXVuc2lnbmVkIGxvbmcgaGVhcF9mbGFncykKK3N0YXRpYyBzdHJ1Y3QgZG1hX2J1
-ZiAqc3lzdGVtX2hlYXBfYWxsb2NhdGUoc3RydWN0IGRtYV9oZWFwICpoZWFwLAorCQkJCQkgICAg
-dW5zaWduZWQgbG9uZyBsZW4sCisJCQkJCSAgICB1bnNpZ25lZCBsb25nIGZkX2ZsYWdzLAorCQkJ
-CQkgICAgdW5zaWduZWQgbG9uZyBoZWFwX2ZsYWdzKQogewogCXN0cnVjdCBzeXN0ZW1faGVhcF9i
-dWZmZXIgKmJ1ZmZlcjsKIAlERUZJTkVfRE1BX0JVRl9FWFBPUlRfSU5GTyhleHBfaW5mbyk7CkBA
-IC0zNTAsNyArMzUwLDcgQEAgc3RhdGljIGludCBzeXN0ZW1faGVhcF9hbGxvY2F0ZShzdHJ1Y3Qg
-ZG1hX2hlYXAgKmhlYXAsCiAKIAlidWZmZXIgPSBremFsbG9jKHNpemVvZigqYnVmZmVyKSwgR0ZQ
-X0tFUk5FTCk7CiAJaWYgKCFidWZmZXIpCi0JCXJldHVybiAtRU5PTUVNOworCQlyZXR1cm4gRVJS
-X1BUUigtRU5PTUVNKTsKIAogCUlOSVRfTElTVF9IRUFEKCZidWZmZXItPmF0dGFjaG1lbnRzKTsK
-IAltdXRleF9pbml0KCZidWZmZXItPmxvY2spOwpAQCAtNDAwLDE0ICs0MDAsNyBAQCBzdGF0aWMg
-aW50IHN5c3RlbV9oZWFwX2FsbG9jYXRlKHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwKIAkJcmV0ID0g
-UFRSX0VSUihkbWFidWYpOwogCQlnb3RvIGZyZWVfcGFnZXM7CiAJfQotCi0JcmV0ID0gZG1hX2J1
-Zl9mZChkbWFidWYsIGZkX2ZsYWdzKTsKLQlpZiAocmV0IDwgMCkgewotCQlkbWFfYnVmX3B1dChk
-bWFidWYpOwotCQkvKiBqdXN0IHJldHVybiwgYXMgcHV0IHdpbGwgY2FsbCByZWxlYXNlIGFuZCB0
-aGF0IHdpbGwgZnJlZSAqLwotCQlyZXR1cm4gcmV0OwotCX0KLQlyZXR1cm4gcmV0OworCXJldHVy
-biBkbWFidWY7CiAKIGZyZWVfcGFnZXM6CiAJZm9yX2VhY2hfc2d0YWJsZV9zZyh0YWJsZSwgc2cs
-IGkpIHsKQEAgLTQyMSw3ICs0MTQsNyBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2FsbG9jYXRl
-KHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwKIAkJX19mcmVlX3BhZ2VzKHBhZ2UsIGNvbXBvdW5kX29y
-ZGVyKHBhZ2UpKTsKIAlrZnJlZShidWZmZXIpOwogCi0JcmV0dXJuIHJldDsKKwlyZXR1cm4gRVJS
-X1BUUihyZXQpOwogfQogCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRtYV9oZWFwX29wcyBzeXN0ZW1f
-aGVhcF9vcHMgPSB7CmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1oZWFwLmggYi9pbmNs
-dWRlL2xpbnV4L2RtYS1oZWFwLmgKaW5kZXggNDU0ZTM1NGQxZmZiLi41YmM1Yzk0NmFmNTggMTAw
-NjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWhlYXAuaAorKysgYi9pbmNsdWRlL2xpbnV4L2Rt
-YS1oZWFwLmgKQEAgLTE2LDE1ICsxNiwxNSBAQCBzdHJ1Y3QgZG1hX2hlYXA7CiAKIC8qKgogICog
-c3RydWN0IGRtYV9oZWFwX29wcyAtIG9wcyB0byBvcGVyYXRlIG9uIGEgZ2l2ZW4gaGVhcAotICog
-QGFsbG9jYXRlOgkJYWxsb2NhdGUgZG1hYnVmIGFuZCByZXR1cm4gZmQKKyAqIEBhbGxvY2F0ZToJ
-CWFsbG9jYXRlIGRtYWJ1ZiBhbmQgcmV0dXJuIHN0cnVjdCBkbWFfYnVmIHB0cgogICoKLSAqIGFs
-bG9jYXRlIHJldHVybnMgZG1hYnVmIGZkICBvbiBzdWNjZXNzLCAtZXJybm8gb24gZXJyb3IuCisg
-KiBhbGxvY2F0ZSByZXR1cm5zIGRtYWJ1ZiBvbiBzdWNjZXNzLCBFUlJfUFRSKC1lcnJubykgb24g
-ZXJyb3IuCiAgKi8KIHN0cnVjdCBkbWFfaGVhcF9vcHMgewotCWludCAoKmFsbG9jYXRlKShzdHJ1
-Y3QgZG1hX2hlYXAgKmhlYXAsCi0JCQl1bnNpZ25lZCBsb25nIGxlbiwKLQkJCXVuc2lnbmVkIGxv
-bmcgZmRfZmxhZ3MsCi0JCQl1bnNpZ25lZCBsb25nIGhlYXBfZmxhZ3MpOworCXN0cnVjdCBkbWFf
-YnVmICooKmFsbG9jYXRlKShzdHJ1Y3QgZG1hX2hlYXAgKmhlYXAsCisJCQkJICAgIHVuc2lnbmVk
-IGxvbmcgbGVuLAorCQkJCSAgICB1bnNpZ25lZCBsb25nIGZkX2ZsYWdzLAorCQkJCSAgICB1bnNp
-Z25lZCBsb25nIGhlYXBfZmxhZ3MpOwogfTsKIAogLyoqCi0tIAoyLjE3LjEKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Jan 07, 2021 at 06:50:15PM +0100, Nirmoy Das wrote:
+> Users of pci_resize_resource() need a way to calculate bar size
+> from desired bytes. Add a helper function and export it so that
+> modular drivers can use it.
+
+s/bar/BAR/
+
+> Signed-off-by: Darren Salt <devspam@moreofthesa.me.uk>
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> ---
+>  drivers/pci/pci.c   | 2 +-
+>  include/linux/pci.h | 6 ++++++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index ef80ed451415..16216186b51c 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1648,7 +1648,7 @@ static void pci_restore_rebar_state(struct pci_dev =
+*pdev)
+>  		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
+>  		bar_idx =3D ctrl & PCI_REBAR_CTRL_BAR_IDX;
+>  		res =3D pdev->resource + bar_idx;
+> -		size =3D ilog2(resource_size(res)) - 20;
+> +		size =3D pci_rebar_bytes_to_size(resource_size(res));
+>  		ctrl &=3D ~PCI_REBAR_CTRL_BAR_SIZE;
+>  		ctrl |=3D size << PCI_REBAR_CTRL_BAR_SHIFT;
+>  		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 9999040cfad9..77fed01523e0 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1226,6 +1226,12 @@ void pci_update_resource(struct pci_dev *dev, int =
+resno);
+>  int __must_check pci_assign_resource(struct pci_dev *dev, int i);
+>  int __must_check pci_reassign_resource(struct pci_dev *dev, int i, resou=
+rce_size_t add_size, resource_size_t align);
+>  void pci_release_resource(struct pci_dev *dev, int resno);
+> +static inline int pci_rebar_bytes_to_size(u64 bytes)
+> +{
+> +	bytes =3D roundup_pow_of_two(bytes);
+> +	return max(ilog2(bytes), 20) - 20;
+
+This isn't returning a "size", is it?  It looks like it's returning
+the log2 of the number of MB the BAR will be, i.e., the encoding used
+by the Resizable BAR Control register "BAR Size" field.  Needs a brief
+comment to that effect and/or a different function name.
+
+> +}
+> +
+>  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar);
+>  int __must_check pci_resize_resource(struct pci_dev *dev, int i, int siz=
+e);
+>  int pci_select_bars(struct pci_dev *dev, unsigned long flags);
+> -- =
+
+> 2.29.2
+> =
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
