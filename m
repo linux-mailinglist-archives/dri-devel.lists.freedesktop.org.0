@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FF52EC8C6
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:04:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECBA2EC8CB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 04:04:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40DC96E428;
-	Thu,  7 Jan 2021 03:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F726E44D;
+	Thu,  7 Jan 2021 03:03:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com
  (mail-bn8nam11on2073.outbound.protection.outlook.com [40.107.236.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 578C76E3E3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E8C6E3DF;
  Thu,  7 Jan 2021 03:03:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lMYt6veoHnUKvBdRblqDzNBWQRdpIJPAOrlDIRNOXC5xQd53ATFnoeUz7HKJ7sbs9c6le6rKxaGpQ9yFm35io7xJ9bPB8EDOc9iYZAcLGF74jUIMkPEbepkUZh1bTDHs57UMpoEC6yBTbvTqHUcJwgxATJEnZxn7DzMQIpncg0UYyK4TY66gTVMWW7AUjx1tf4DpVIKkFsXHafe9ChSsW0KenYnQmI7n1VsWkZLOxV9brWeJ1qGgMy1f0A9x5XSuLXsIfxVGXqKLN44xmDVM6cuQMeyIr0WbtnhSiCQeV3qVXVtxj/CKXHas5Uv3IDzPRVPRR8F/rJTuZpSCSRYH9A==
+ b=LDlSpjv+LqXly6R57RVHdngbARq2vuiilZr4LNSXKl+DgcEC3johaAPOLTDiq8wQAbdcN0KP36Vn6jPPYe30guuWPdcc8fXHmB7sGOqDbqP/2Bzvnks7e64L7Aar/O27oHlejI7ohzDKQscUqpqdFyXzUGwsZLHy2qQTsN+hl0fBId9BfMoerFf43FIdN8HxQyw99gswDLpvtLhydKUDSc8gFQCE9NDPRYXIg0NBdRgShzZBXDSjSGjvnFz42ntEBSbANIm060O7YE6YZpTgI+wtt1cX01AxoRxCIoY4/qpuZrvAAaoiqqFGc2+t8qUAltk/4IgJ/Ay48oBhxHa4lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uuiazCUO1hOo4reSR2GSOlmbRjsQXu6KgIJFEQvfThU=;
- b=KwzaA8Nufaa7jxddIkIdc9PfeJ3ldqjUjR7yC+fmeRyZ5rKESsRQeX4Z20P5fjfCXHSMTuOcGyVMNjqukdPyLynzpNFoB8N2ptMj7uknea/Iik818il1B/lfocNcFQKPTrqlVPJZbDKKJN+Ev3hiS/EFSdFA7p00PeN9mVXE6nDX+fmsnkurs6qv8aiflWIWWHBOkPf8YrQTBA4764QcBpA8u+MdzoyRimdHL7ON0APQ7FfVkghm3c6VbS5L2gqlV226PWyYU47o5L2ExM0vmp8hgkHbsCVrf4euDPCVQYodO2KqOP126+E839zoolb1aABZVLIZkfORAuRPpHMKuQ==
+ bh=GoxOxd7OsZEi+1jywroviTOClk1bPUZ0DPJwyzvuaS0=;
+ b=dzbTK6jUj52Qtr/3Qvnm4haN9hvLGBSGKPa3/O5eBeNnPyz2jBArEVh7yE57j/lL6yaMwXeDzzeUKdYDKdTmkmYxZl46MdukB0fpGcl9qBcGaZ2noPvBGxMIiaScZnWaopmQ0OLeEY1wE9btOAR+5gcr28h+QJnlbScZ4hpRuk130dnFTO0gloqNRR/6PVPyYr6EKzg/QZjsgr8VN/MzdEAshydiypW2pJAYEiHJCkcrLf7kCcc+LhI36RI86MM3lbIEChA8I/NQtFwMU6P55e23CdOclJeHTm4oG2ZywL8n6OG30I5kEQC5uDxjF1DJRNKrD7jwReMXbiHkEGEQjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uuiazCUO1hOo4reSR2GSOlmbRjsQXu6KgIJFEQvfThU=;
- b=jQZDrXjQJiXnSmu8bZyUJduVOqG4Uh8Yvz8LHs388FGg5FTwDqZZhBsr/zqstX4MwvI8YTGgbyQ8slEHfjV/aohkBg46RsOPYHRb6kVn7AhtnAIn4/8RVU5l5J+pmkbIwa497D7d2m8kjx36bZWg1ccmLk9i38UKaX42/s8aCLg=
+ bh=GoxOxd7OsZEi+1jywroviTOClk1bPUZ0DPJwyzvuaS0=;
+ b=npE1cMM90F83M6eqvaXfFb4JN0eXAsb8vReQV37lgLYJ6kU6LSi+HF3KqS7PlJMqJ2ffac3EKH1e5nVFQ4cDjyTkOdoE6BwHuDr7iG32YnRBWpNOYieqVNxZrYYoT5PbmrtvO/PQz4DK9tsPYjFzPRKNhrIvzkWLjEAtTJMLhig=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -43,9 +43,9 @@ Received: from BL0PR12MB4948.namprd12.prod.outlook.com
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 31/35] drm/amdgpu: reserve fence slot to update page table
-Date: Wed,  6 Jan 2021 22:01:23 -0500
-Message-Id: <20210107030127.20393-32-Felix.Kuehling@amd.com>
+Subject: [PATCH 32/35] drm/amdgpu: enable retry fault wptr overflow
+Date: Wed,  6 Jan 2021 22:01:24 -0500
+Message-Id: <20210107030127.20393-33-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107030127.20393-1-Felix.Kuehling@amd.com>
 References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
@@ -58,48 +58,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from Harpoon.amd.com (165.204.55.251) by
  YT1PR01CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::17) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:03:05 +0000
+ 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 03:03:06 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5256b76e-4cc0-4208-8822-08d8b2b8d34e
+X-MS-Office365-Filtering-Correlation-Id: 7916b8af-6aef-4ae4-8080-08d8b2b8d387
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4408:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4408A2D1AD1C922E465A1A9492AF0@MN2PR12MB4408.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:126;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4408930F3109654C47D7E23392AF0@MN2PR12MB4408.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fOEgEFp3gsudx4KtN0bgkZfVb4VBJ+nrNP3faA1RdOMtwxn2VszNnlCzlxciFYCugfGxn0cCxzF+6nuS6UlvbhHH03uEzX0a0V8N8qvaIGaA2HI8id0bmvW0RKvu0qu+jeQXObiF5VfgtpoeMlzp785/pVG7LudT28joneO2xoHrJS2pUfqQQizB/0ZA1WVwLQGBY93gTPJ71TqrVIT5PULdBmV6+ZUXnQzUWh1W3X8hr1M9yJ3Yta2R+3vmzFFXTJTNC0sscVdBNxZjVvrENDtq/8pPQSKjo4uNMqw9UtGLusgG0P6vtyHljYuIzsdndR9vP0RIOb/o+ayC8KOA8qNeApHkqdZwzcdLfsCmErqBqGUPqudUiNpAJOri8nHyATYG6KslB7YpNYn2yTfjPw==
+X-Microsoft-Antispam-Message-Info: Q2ZZLwUbQgOrwXXOCi0JlJM9VfPo26NuBRXGIkgjOEHa9rwaU1FYReHliJLEqBa65p++OzZyE/m0Y5PHs2cxzd4oFqaSx4zlWoVC+ySFwJNgZ7d/BCnGxr9JLXzqtLwMqiAYmonBpz8bjyhB1svCF2atkaT8f8cmcylMhRCaxSGDbCl0KRn7Vq25S6InBKRyN2lmZ1g8dvJQMdngzihZyyIgdLa+WwpEhekB3X2ZJcxGsOiVViO26sQNBVrBr03cfuMke7C9iMo5Nde1QUpMeV248a8Kzemyw+79Y//d3k6MhRZhNB9zr3hbzPaQG6/IWFeLFK3xY/01NmYnCuTB3mlA0Ccc6lMSLf9nVeavM2A/GspZqeuJs5sgUiN5OstH6WlVXhRQl9Qpp+ZYNOPG6qqe4T7dBiOd/PuCJoIZG3IfG6MWOxR0qOUoQ92LUQcC
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(346002)(366004)(396003)(376002)(8676002)(2906002)(86362001)(450100002)(66556008)(4326008)(66476007)(8936002)(5660300002)(66946007)(1076003)(6486002)(83380400001)(52116002)(316002)(7696005)(2616005)(36756003)(16526019)(956004)(15650500001)(478600001)(26005)(6666004)(186003);
+ SFS:(4636009)(39860400002)(136003)(346002)(366004)(396003)(376002)(8676002)(2906002)(86362001)(450100002)(66556008)(4326008)(66476007)(8936002)(5660300002)(66946007)(1076003)(6486002)(83380400001)(52116002)(316002)(7696005)(2616005)(36756003)(16526019)(956004)(478600001)(26005)(6666004)(186003)(309714004);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?wXfgBTvhLZev7Y/+12Mkrvx/3rK+/XN701YWwjDVU294NYhjKQhdShRfJdzc?=
- =?us-ascii?Q?oz2de99qyiCPbQPVg7oJhJz7SRN2B47sZheIjwnlebOkkH/PXZW8r5YeFvUn?=
- =?us-ascii?Q?Ey9WsLiEcLJeGp0Jzp6+M0cOHeOQbndsK97N72yupetyD5adP7ddCkOWExLC?=
- =?us-ascii?Q?d52BVHG4B8c8Pv3YrPpKuss0qv/sjZJTZXZPQLsonx62prxWfbqMfRnIKqBr?=
- =?us-ascii?Q?n5wPMbkhyFjkPJpJS9UNRmnGblwBQcHoFM9I28D2Uvrhw7rTDFAaxLUCKo83?=
- =?us-ascii?Q?gj8qO+cfoXH9UYKl5jLEi79y03wYRIsbJL5fn2cjnO9hjuDc0Bon/+NJGSjZ?=
- =?us-ascii?Q?pRgiX5w/IawlO0ySXHoCO7x3jOMjtA6Cc9Jntoe7ZP/i1QvZyjGZqWX3NpW3?=
- =?us-ascii?Q?bnYcTaht88NIuUIROBC14rVKSMxFAnwLeO+aab3vN9k8+QGBlmytK6LuLDsl?=
- =?us-ascii?Q?gRCT/0qU/qjaneWISjTaJ45YHGfMGprTc/Gmz1nZR9CzI8mYjhOBBKDJ1tCp?=
- =?us-ascii?Q?kaotw58M/hOmV+aIivNbRF7IF+ch2Oi1G1/2BKzTeni2G0Q4SFtgopsWijOB?=
- =?us-ascii?Q?Tt+GlKwPsAmWc4svZwGYsAIyZmtHgfH2BcjKn3KMsBbZkMfSSK4u9cr82FH4?=
- =?us-ascii?Q?0mZB5daBtK2qmnwiu9sYVZwD1cJokoH16GpCBD1AyG/myG42Ax/BLMm4iL9k?=
- =?us-ascii?Q?LX+1N1P6xz2gdL3xHrXDR44GOj81My2i6nMEi4hXZfWhL69Dv1c9JBsg8Wri?=
- =?us-ascii?Q?xPWZtTqOoCcLXfLRd9YuIJ5F7wS2V5JZthQMBJ6hjccUrHV3KfVSvwCfIoUS?=
- =?us-ascii?Q?rf1TBQ4kso2x2T4jhmfmFyGjP33QmMktxwQWWrVs7s7hEjuQP7fLqlRayATU?=
- =?us-ascii?Q?fimrE5li1y8vP0RaEtfqZp44p2q9Mz5rY3Sd68YzIdLb80XtTwoEqgxeOURW?=
- =?us-ascii?Q?G6bFZwByoVw/93lp4pqq551swPUpaQgcrIOqJgXjSrflPasHT0zbXGJHvxbq?=
- =?us-ascii?Q?Iyja?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?du2LqJPaRLiN4uomttHPy6SCVVemqMJlRwOJ63L8XOCofXesqSbdVlICoB3A?=
+ =?us-ascii?Q?gqtUcRhkAuV5T9QvJAqT73UAl70rH1JJFS+m2kVDzpTc8X0hEPljXHP4k1RF?=
+ =?us-ascii?Q?sQ1e0ROL9WcTfYhpnuDQwu9a6XHyuZNgWKNp4hKcrkqC4W9dQXL2Dt+ZGq2C?=
+ =?us-ascii?Q?mhfHG3BTzSVA+tVO8R+ZouUnTUMwcAIm7M5BK4H3lyN18GN9Bf4X507iofNv?=
+ =?us-ascii?Q?y6oTNGochARRm1921UXZlUigHbfQswAG6Ezyp4ayb+CU3tqgiaaT/xgp90uE?=
+ =?us-ascii?Q?1kQn4uMkzwawmL3RQp4meDND/9m8959EBq350hvigDlsjxJJxt4Iu+TLaSnC?=
+ =?us-ascii?Q?kMv9a8kL2X/SJI+iMpQRCExJS80IKPPwum+6Lr25pugs4xcN3Uu7r4GZgsw0?=
+ =?us-ascii?Q?+3fWl8Bkw7mgClZwJFv5wfVXzRqlWkcklbmlpIFM46RmbFcKVXZUVHuoM5nL?=
+ =?us-ascii?Q?/BNJjkB0IDXlkRAEpz1/ClVvwPmJAMxzqjOdJhqFx41dKnLBzSXE9EW964vg?=
+ =?us-ascii?Q?Cr8BNRfX3CxPkOMPRD7wDJBWTrbAFY5OJZuIQljdRYDzxmyM8MZEUX+SXurf?=
+ =?us-ascii?Q?o7hayeo1KYIA6KV2OTB5DIWQWZ5W2+aMBcyuxGLsEWddzJlQBuDJoEXYJDSr?=
+ =?us-ascii?Q?uq6k1qZg5gyf3Xfn/p1h3NMm3klNo7BPGOiFh+2mVKESeuipytqHdbEbe6Nk?=
+ =?us-ascii?Q?AO0QgqR5coL/hQdF2Uc5xk7P+QfgUmgBJcgmDv3gCnq8D0EDi7zQpy2RXTPm?=
+ =?us-ascii?Q?ZR36uBNBrd+l6YigNOJ50PNZ3kRE8dx2mPYUDEdtf4zBayzenNmXM9EqUKkA?=
+ =?us-ascii?Q?aYbviRdC7hSiCqPEp8ZJvR5KJZMYPjFjQ4AJCzoG/51EPU39uBvveGkh2Z/m?=
+ =?us-ascii?Q?VLpuGXT/hyCpSM4nPkOkau2SXDW/nr44JBJqCcgnhxfA1PGHvNGCY5sBivBw?=
+ =?us-ascii?Q?D4cqrMVKt+iAEfwH9WRiif75Iy+WS8SdpXWyb1Og/nW1JYdm0nhHSdJ4XAxa?=
+ =?us-ascii?Q?Ae98?=
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:03:05.9638 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 03:03:06.4756 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5256b76e-4cc0-4208-8822-08d8b2b8d34e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7916b8af-6aef-4ae4-8080-08d8b2b8d387
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hrKMVundSkykos7gQfAPpBPx1+rSaejFnF+076VUoxRfktbE6zAXWtoEZjx6WyJyN/LdC5Zynz2ozOq/zGwTAQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1orUNXBnlbJlVi0DkFULpeATk1DeDpQh1/j8vpOYQ58cZ2kQZOkipGmiPWiN9agqEdod9j/DVFTxCOz5kl6VxQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4408
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,67 +121,182 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Philip Yang <Philip.Yang@amd.com>
 
-Forgot to reserve a fence slot to use sdma to update page table, cause
-below kernel BUG backtrace to handle vm retry fault while application is
-exiting.
+If xnack is on, VM retry fault interrupt send to IH ring1, and ring1
+will be full quickly. IH cannot receive other interrupts, this causes
+deadlock if migrating buffer using sdma and waiting for sdma done while
+handling retry fault.
 
-[  133.048143] kernel BUG at /home/yangp/git/compute_staging/kernel/drivers/dma-buf/dma-resv.c:281!
-[  133.048487] Workqueue: events amdgpu_irq_handle_ih1 [amdgpu]
-[  133.048506] RIP: 0010:dma_resv_add_shared_fence+0x204/0x280
-[  133.048672]  amdgpu_vm_sdma_commit+0x134/0x220 [amdgpu]
-[  133.048788]  amdgpu_vm_bo_update_range+0x220/0x250 [amdgpu]
-[  133.048905]  amdgpu_vm_handle_fault+0x202/0x370 [amdgpu]
-[  133.049031]  gmc_v9_0_process_interrupt+0x1ab/0x310 [amdgpu]
-[  133.049165]  ? kgd2kfd_interrupt+0x9a/0x180 [amdgpu]
-[  133.049289]  ? amdgpu_irq_dispatch+0xb6/0x240 [amdgpu]
-[  133.049408]  amdgpu_irq_dispatch+0xb6/0x240 [amdgpu]
-[  133.049534]  amdgpu_ih_process+0x9b/0x1c0 [amdgpu]
-[  133.049657]  amdgpu_irq_handle_ih1+0x21/0x60 [amdgpu]
-[  133.049669]  process_one_work+0x29f/0x640
-[  133.049678]  worker_thread+0x39/0x3f0
-[  133.049685]  ? process_one_work+0x640/0x640
+Remove VMC from IH storm client, enable ring1 write pointer overflow,
+then IH will drop retry fault interrupts and be able to receive other
+interrupts while driver is handling retry fault.
+
+IH ring1 write pointer doesn't writeback to memory by IH, and ring1
+write pointer recorded by self-irq is not updated, so always read
+the latest ring1 write pointer from register.
 
 Signed-off-by: Philip Yang <Philip.Yang@amd.com>
 Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c | 32 +++++++++-----------------
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c | 32 +++++++++-----------------
+ 2 files changed, 22 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index abdd4e7b4c3b..bd9de870f8f1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -3301,7 +3301,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, unsigned int pasid,
- 	struct amdgpu_bo *root;
- 	uint64_t value, flags;
- 	struct amdgpu_vm *vm;
--	long r;
-+	int r;
- 	bool is_compute_context = false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
+index 88626d83e07b..ca8efa5c6978 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega10_ih.c
+@@ -220,10 +220,8 @@ static int vega10_ih_enable_ring(struct amdgpu_device *adev,
+ 	tmp = vega10_ih_rb_cntl(ih, tmp);
+ 	if (ih == &adev->irq.ih)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RPTR_REARM, !!adev->irq.msi_enabled);
+-	if (ih == &adev->irq.ih1) {
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_ENABLE, 0);
++	if (ih == &adev->irq.ih1)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_FULL_DRAIN_ENABLE, 1);
+-	}
+ 	if (amdgpu_sriov_vf(adev)) {
+ 		if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp)) {
+ 			dev_err(adev->dev, "PSP program IH_RB_CNTL failed!\n");
+@@ -265,7 +263,6 @@ static int vega10_ih_irq_init(struct amdgpu_device *adev)
+ 	u32 ih_chicken;
+ 	int ret;
+ 	int i;
+-	u32 tmp;
  
- 	spin_lock(&adev->vm_manager.pasid_lock);
-@@ -3359,6 +3359,12 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, unsigned int pasid,
- 		value = 0;
+ 	/* disable irqs */
+ 	ret = vega10_ih_toggle_interrupts(adev, false);
+@@ -291,15 +288,6 @@ static int vega10_ih_irq_init(struct amdgpu_device *adev)
+ 		}
  	}
  
-+	r = dma_resv_reserve_shared(root->tbo.base.resv, 1);
-+	if (r) {
-+		pr_debug("failed %d to reserve fence slot\n", r);
-+		goto error_unlock;
+-	tmp = RREG32_SOC15(OSSSYS, 0, mmIH_STORM_CLIENT_LIST_CNTL);
+-	tmp = REG_SET_FIELD(tmp, IH_STORM_CLIENT_LIST_CNTL,
+-			    CLIENT18_IS_STORM_CLIENT, 1);
+-	WREG32_SOC15(OSSSYS, 0, mmIH_STORM_CLIENT_LIST_CNTL, tmp);
+-
+-	tmp = RREG32_SOC15(OSSSYS, 0, mmIH_INT_FLOOD_CNTL);
+-	tmp = REG_SET_FIELD(tmp, IH_INT_FLOOD_CNTL, FLOOD_CNTL_ENABLE, 1);
+-	WREG32_SOC15(OSSSYS, 0, mmIH_INT_FLOOD_CNTL, tmp);
+-
+ 	pci_set_master(adev->pdev);
+ 
+ 	/* enable interrupts */
+@@ -345,11 +333,17 @@ static u32 vega10_ih_get_wptr(struct amdgpu_device *adev,
+ 	u32 wptr, tmp;
+ 	struct amdgpu_ih_regs *ih_regs;
+ 
+-	wptr = le32_to_cpu(*ih->wptr_cpu);
+-	ih_regs = &ih->ih_regs;
++	if (ih == &adev->irq.ih) {
++		/* Only ring0 supports writeback. On other rings fall back
++		 * to register-based code with overflow checking below.
++		 */
++		wptr = le32_to_cpu(*ih->wptr_cpu);
+ 
+-	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
+-		goto out;
++		if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++			goto out;
 +	}
 +
- 	r = amdgpu_vm_bo_update_mapping(adev, adev, vm, true, false, NULL, addr,
- 					addr, flags, value, NULL, NULL,
- 					NULL);
-@@ -3370,7 +3376,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, unsigned int pasid,
- error_unlock:
- 	amdgpu_bo_unreserve(root);
- 	if (r < 0)
--		DRM_ERROR("Can't handle page fault (%ld)\n", r);
-+		DRM_ERROR("Can't handle page fault (%d)\n", r);
++	ih_regs = &ih->ih_regs;
  
- error_unref:
- 	amdgpu_bo_unref(&root);
+ 	/* Double check that the overflow wasn't already cleared. */
+ 	wptr = RREG32_NO_KIQ(ih_regs->ih_rb_wptr);
+@@ -440,15 +434,11 @@ static int vega10_ih_self_irq(struct amdgpu_device *adev,
+ 			      struct amdgpu_irq_src *source,
+ 			      struct amdgpu_iv_entry *entry)
+ {
+-	uint32_t wptr = cpu_to_le32(entry->src_data[0]);
+-
+ 	switch (entry->ring_id) {
+ 	case 1:
+-		*adev->irq.ih1.wptr_cpu = wptr;
+ 		schedule_work(&adev->irq.ih1_work);
+ 		break;
+ 	case 2:
+-		*adev->irq.ih2.wptr_cpu = wptr;
+ 		schedule_work(&adev->irq.ih2_work);
+ 		break;
+ 	default: break;
+diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+index 42032ca380cc..60d1bd51781e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
+@@ -220,10 +220,8 @@ static int vega20_ih_enable_ring(struct amdgpu_device *adev,
+ 	tmp = vega20_ih_rb_cntl(ih, tmp);
+ 	if (ih == &adev->irq.ih)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RPTR_REARM, !!adev->irq.msi_enabled);
+-	if (ih == &adev->irq.ih1) {
+-		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, WPTR_OVERFLOW_ENABLE, 0);
++	if (ih == &adev->irq.ih1)
+ 		tmp = REG_SET_FIELD(tmp, IH_RB_CNTL, RB_FULL_DRAIN_ENABLE, 1);
+-	}
+ 	if (amdgpu_sriov_vf(adev)) {
+ 		if (psp_reg_program(&adev->psp, ih_regs->psp_reg_id, tmp)) {
+ 			dev_err(adev->dev, "PSP program IH_RB_CNTL failed!\n");
+@@ -297,7 +295,6 @@ static int vega20_ih_irq_init(struct amdgpu_device *adev)
+ 	u32 ih_chicken;
+ 	int ret;
+ 	int i;
+-	u32 tmp;
+ 
+ 	/* disable irqs */
+ 	ret = vega20_ih_toggle_interrupts(adev, false);
+@@ -326,15 +323,6 @@ static int vega20_ih_irq_init(struct amdgpu_device *adev)
+ 		}
+ 	}
+ 
+-	tmp = RREG32_SOC15(OSSSYS, 0, mmIH_STORM_CLIENT_LIST_CNTL);
+-	tmp = REG_SET_FIELD(tmp, IH_STORM_CLIENT_LIST_CNTL,
+-			    CLIENT18_IS_STORM_CLIENT, 1);
+-	WREG32_SOC15(OSSSYS, 0, mmIH_STORM_CLIENT_LIST_CNTL, tmp);
+-
+-	tmp = RREG32_SOC15(OSSSYS, 0, mmIH_INT_FLOOD_CNTL);
+-	tmp = REG_SET_FIELD(tmp, IH_INT_FLOOD_CNTL, FLOOD_CNTL_ENABLE, 1);
+-	WREG32_SOC15(OSSSYS, 0, mmIH_INT_FLOOD_CNTL, tmp);
+-
+ 	pci_set_master(adev->pdev);
+ 
+ 	/* enable interrupts */
+@@ -379,11 +367,17 @@ static u32 vega20_ih_get_wptr(struct amdgpu_device *adev,
+ 	u32 wptr, tmp;
+ 	struct amdgpu_ih_regs *ih_regs;
+ 
+-	wptr = le32_to_cpu(*ih->wptr_cpu);
+-	ih_regs = &ih->ih_regs;
++	if (ih == &adev->irq.ih) {
++		/* Only ring0 supports writeback. On other rings fall back
++		 * to register-based code with overflow checking below.
++		 */
++		wptr = le32_to_cpu(*ih->wptr_cpu);
+ 
+-	if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
+-		goto out;
++		if (!REG_GET_FIELD(wptr, IH_RB_WPTR, RB_OVERFLOW))
++			goto out;
++	}
++
++	ih_regs = &ih->ih_regs;
+ 
+ 	/* Double check that the overflow wasn't already cleared. */
+ 	wptr = RREG32_NO_KIQ(ih_regs->ih_rb_wptr);
+@@ -473,15 +467,11 @@ static int vega20_ih_self_irq(struct amdgpu_device *adev,
+ 			      struct amdgpu_irq_src *source,
+ 			      struct amdgpu_iv_entry *entry)
+ {
+-	uint32_t wptr = cpu_to_le32(entry->src_data[0]);
+-
+ 	switch (entry->ring_id) {
+ 	case 1:
+-		*adev->irq.ih1.wptr_cpu = wptr;
+ 		schedule_work(&adev->irq.ih1_work);
+ 		break;
+ 	case 2:
+-		*adev->irq.ih2.wptr_cpu = wptr;
+ 		schedule_work(&adev->irq.ih2_work);
+ 		break;
+ 	default: break;
 -- 
 2.29.2
 
