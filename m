@@ -2,40 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074B92ECBEE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893632ECBF9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE4936E416;
-	Thu,  7 Jan 2021 08:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F96E41D;
+	Thu,  7 Jan 2021 08:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A5C36E3EB
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 03:11:39 +0000 (UTC)
-X-UUID: 129d882526e244f1a267047134544d23-20210107
-X-UUID: 129d882526e244f1a267047134544d23-20210107
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 36413729; Thu, 07 Jan 2021 11:11:36 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 7 Jan 2021 11:11:34 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 7 Jan 2021 11:11:34 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
- Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v9, 11/11] This patch add support for mediatek SOC MT8183
-Date: Thu, 7 Jan 2021 11:11:21 +0800
-Message-ID: <1609989081-29353-12-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
+ [51.81.35.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB4E789811
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:08 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+ by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 596D120F15
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:07 +0000 (UTC)
+Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
+ by relay5.mymailcheap.com (Postfix) with ESMTPS id 2C9962008F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 04:46:04 +0000 (UTC)
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay4.mymailcheap.com (Postfix) with ESMTPS id C55E33F1D0;
+ Thu,  7 Jan 2021 05:46:01 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 93F492A7E5;
+ Thu,  7 Jan 2021 05:46:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1609994761;
+ bh=8unyk0aOxyvIXZOJPusmERGg+i43rMAKH28AqjQ7mUY=;
+ h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+ b=tWG5DTHu16/GMSadEHWNO/lgoT9fzvzO4cYUEXp5Tvv4aTy9tVDas9RESuCa3EgyI
+ g+EtosfDBEG8Nm3Z4/xZrYw7+Vk82TVV7SdOJ+gbDMA0WLpj9RClDJVTkHv9mFKQMq
+ 74tltlvR96q9kIsGXVkVBHUET9RxtGDBgWeXkXOY=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 075XNDlJ-52U; Thu,  7 Jan 2021 05:46:00 +0100 (CET)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Thu,  7 Jan 2021 05:46:00 +0100 (CET)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 934AD4228E;
+ Thu,  7 Jan 2021 04:45:59 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=aosc.io header.i=@aosc.io header.b="HdmdzN6t"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [192.168.1.235] (unknown [59.41.161.221])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 231964228E;
+ Thu,  7 Jan 2021 04:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1609994755; bh=8unyk0aOxyvIXZOJPusmERGg+i43rMAKH28AqjQ7mUY=;
+ h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+ b=HdmdzN6tQ8OtkUpQeXMIGEF1zUavlVlWiiL1vh+Nh/HP5Yr+NlGVvEWwOMLiA1Pf0
+ h4X4EAACCeCOyW0fafpJqRj4JpypRauSVDoNn90Ssl3y2UKPWLwgnpfb6hRTBYA50G
+ W/6NnxPy5O2Zhl70TRDATe3EEmawivqOjiPlC5Kk=
+Date: Thu, 07 Jan 2021 12:00:21 +0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAMty3ZCkEb9g5t6Hs5DN5yHXYvDhymriYqqV+6DZiC+Qb645ww@mail.gmail.com>
+References: <20201128125257.1626588-1-icenowy@aosc.io>
+ <CAMty3ZCkEb9g5t6Hs5DN5yHXYvDhymriYqqV+6DZiC+Qb645ww@mail.gmail.com>
 MIME-Version: 1.0
-X-MTK: N
+Subject: Re: [PATCH] drm/panel: feiyang-fy07024di26a30d: cleanup if panel
+ attaching failed
+To: Jagan Teki <jagan@amarulasolutions.com>
+From: Icenowy Zheng <icenowy@aosc.io>
+Message-ID: <C1F366E9-0EDB-4679-BB93-92223F5B8C4A@aosc.io>
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spamd-Result: default: False [1.40 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[aosc.io:s=default];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; DMARC_NA(0.00)[aosc.io];
+ R_SPF_SOFTFAIL(0.00)[~all];
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1];
+ ML_SERVERS(-3.10)[148.251.23.173]; TO_DN_ALL(0.00)[];
+ DKIM_TRACE(0.00)[aosc.io:+]; RCPT_COUNT_SEVEN(0.00)[7];
+ RECEIVED_SPAMHAUS_PBL(0.00)[59.41.161.221:received];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+ FREEMAIL_CC(0.00)[gmail.com,ravnborg.org,linux.ie,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ SUSPICIOUS_RECIPS(1.50)[]; RCVD_COUNT_TWO(0.00)[2]
+X-Rspamd-Queue-Id: 934AD4228E
 X-Mailman-Approved-At: Thu, 07 Jan 2021 08:53:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,208 +103,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-1. add ovl private data
-2. add rdma private data
-3. add gamma privte data
-4. add main and external path module for crtc create
-
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c |  1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 18 +++++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  6 +++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c    | 45 +++++++++++++++++++++++++++++++
- 4 files changed, 70 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 4eab82a..10fed3b 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -176,6 +176,7 @@ static int mtk_disp_gamma_remove(struct platform_device *pdev)
- static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = &mt8173_gamma_driver_data},
-+	{ .compatible = "mediatek,mt8183-disp-gamma"},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 74ef6fc..b47c238 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -431,11 +431,29 @@ static int mtk_disp_ovl_remove(struct platform_device *pdev)
- 	.fmt_rgb565_is_0 = true,
- };
- 
-+static const struct mtk_disp_ovl_data mt8183_ovl_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 4,
-+	.fmt_rgb565_is_0 = true,
-+};
-+
-+static const struct mtk_disp_ovl_data mt8183_ovl_2l_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 2,
-+	.fmt_rgb565_is_0 = true,
-+};
-+
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
- 	  .data = &mt2701_ovl_driver_data},
- 	{ .compatible = "mediatek,mt8173-disp-ovl",
- 	  .data = &mt8173_ovl_driver_data},
-+	{ .compatible = "mediatek,mt8183-disp-ovl",
-+	  .data = &mt8183_ovl_driver_data},
-+	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
-+	  .data = &mt8183_ovl_2l_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_ovl_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 2d2cca2..e914e3a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -360,11 +360,17 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- 	.fifo_size = SZ_8K,
- };
- 
-+static const struct mtk_disp_rdma_data mt8183_rdma_driver_data = {
-+	.fifo_size = 5 * SZ_1K,
-+};
-+
- static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = &mt2701_rdma_driver_data},
- 	{ .compatible = "mediatek,mt8173-disp-rdma",
- 	  .data = &mt8173_rdma_driver_data},
-+	{ .compatible = "mediatek,mt8183-disp-rdma",
-+	  .data = &mt8183_rdma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 37fec25..b6e963e 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -131,6 +131,24 @@
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8183_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_OVL_2L0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSI0,
-+};
-+
-+static const enum mtk_ddp_comp_id mt8183_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_2L1,
-+	DDP_COMPONENT_RDMA1,
-+	DDP_COMPONENT_DPI0,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -163,6 +181,13 @@
- 	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
-+	.main_path = mt8183_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8183_mtk_ddp_main),
-+	.ext_path = mt8183_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
-+};
-+
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -377,12 +402,20 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt8173-disp-ovl",
- 	  .data = (void *)MTK_DISP_OVL },
-+	{ .compatible = "mediatek,mt8183-disp-ovl",
-+	  .data = (void *)MTK_DISP_OVL },
-+	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
-+	  .data = (void *)MTK_DISP_OVL_2L },
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8183-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
- 	  .data = (void *)MTK_DISP_WDMA },
-+	{ .compatible = "mediatek,mt8183-disp-ccorr",
-+	  .data = (void *)MTK_DISP_CCORR },
- 	{ .compatible = "mediatek,mt2701-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-color",
-@@ -391,22 +424,32 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_AAL},
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8183-disp-gamma",
-+	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8183-disp-dither",
-+	  .data = (void *)MTK_DISP_DITHER },
- 	{ .compatible = "mediatek,mt8173-disp-ufoe",
- 	  .data = (void *)MTK_DISP_UFOE },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
- 	  .data = (void *)MTK_DSI },
-+	{ .compatible = "mediatek,mt8183-dsi",
-+	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt2701-dpi",
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8173-dpi",
- 	  .data = (void *)MTK_DPI },
-+	{ .compatible = "mediatek,mt8183-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt2701-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2712-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8183-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2701-disp-pwm",
- 	  .data = (void *)MTK_DISP_BLS },
- 	{ .compatible = "mediatek,mt8173-disp-pwm",
-@@ -425,6 +468,8 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = &mt2712_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8173-mmsys",
- 	  .data = &mt8173_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8183-mmsys",
-+	  .data = &mt8183_mmsys_driver_data},
- 	{ }
- };
- 
--- 
-1.8.1.1.dirty
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Cgrkuo4gMjAyMeW5tDHmnIg25pelIEdNVCswODowMCDkuIvljYg1OjQ3OjIwLCBKYWdhbiBUZWtp
+IDxqYWdhbkBhbWFydWxhc29sdXRpb25zLmNvbT4g5YaZ5YiwOgo+T24gU2F0LCBOb3YgMjgsIDIw
+MjAgYXQgNjoyMyBQTSBJY2Vub3d5IFpoZW5nIDxpY2Vub3d5QGFvc2MuaW8+IHdyb3RlOgo+Pgo+
+PiBBdHRhY2hpbmcgdGhlIHBhbmVsIGNhbiBmYWlsLCBzbyBjbGVhbnVwIHdvcmsgaXMgbmVjZXNz
+YXJ5LCBvdGhlcndpc2UKPj4gYSBwb2ludGVyIHRvIGZyZWVkIHN0cnVjdCBkcm1fcGFuZWwqIHdp
+bGwgcmVtYWluIGluIGRybV9wYW5lbCBjb2RlLgo+Pgo+PiBEbyB0aGUgY2xlYW51cCBpZiBwYW5l
+bCBhdHRhY2hpbmcgZmFpbGVkLgo+Pgo+PiBGaXhlczogNjlkYzY3OGFiYzJiICgiZHJtL3BhbmVs
+OiBBZGQgRmVpeWFuZyBGWTA3MDI0REkyNkEzMC1ECj5NSVBJLURTSSBMQ0QgcGFuZWwiKQo+Cj5U
+aGUgZmFjdCB0aGF0IHRoaXMgaGFzIGZhaWxlZCB0byBwcm9iZSBkdWUgdG8gcmVjZW50IGNoYW5n
+ZXMgaW4KPnN1bjZpX21pcGlfZHNpLmMgSSBkb24ndCBrbm93IGhvdyB0byBwdXQgdGhhdCBpbnRv
+IHRoZSBjb21taXQgbWVzc2FnZS4KCkl0J3Mgbm90IHJlbGF0ZWQsIHdlIHNob3VsZG4ndCBhc3N1
+bWUgdGhpcyBwYW5lbCBkcml2ZXIgd2lsbCBhbHdheXMKYmUgdXNlZCB3aXRoIHN1bnhpIFNvQ3Mu
+CgpJdCdzIGEgcGFuZWwgZHJpdmVyIGJ1ZyB0aGF0IGNhbm5vdCBkZWFsIHdpdGggLUVQUk9CRV9E
+RUZFUiB3ZWxsLgoKPj4gU2lnbmVkLW9mZi1ieTogSWNlbm93eSBaaGVuZyA8aWNlbm93eUBhb3Nj
+LmlvPgo+PiAtLS0KPgo+UmV2aWV3ZWQtYnk6IEphZ2FuIFRla2kgPGphZ2FuQGFtYXJ1bGFzb2x1
+dGlvbnMuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
