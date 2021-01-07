@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA0A2ECB8C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6BA2ECB96
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:08:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4766B6E43B;
-	Thu,  7 Jan 2021 08:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F1E6E457;
+	Thu,  7 Jan 2021 08:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73FF6E42A;
- Thu,  7 Jan 2021 08:08:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 814206E42E;
+ Thu,  7 Jan 2021 08:08:01 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DE306AEB6;
- Thu,  7 Jan 2021 08:07:58 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7D13AAEB3;
+ Thu,  7 Jan 2021 08:07:59 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
  joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
-Subject: [PATCH v3 7/8] drm/nouveau: Remove references to struct
- drm_device.pdev
-Date: Thu,  7 Jan 2021 09:07:47 +0100
-Message-Id: <20210107080748.4768-8-tzimmermann@suse.de>
+Subject: [PATCH v3 8/8] drm: Upcast struct drm_device.dev to struct pci_device;
+ replace pdev
+Date: Thu,  7 Jan 2021 09:07:48 +0100
+Message-Id: <20210107080748.4768-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107080748.4768-1-tzimmermann@suse.de>
 References: <20210107080748.4768-1-tzimmermann@suse.de>
@@ -39,426 +39,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Jeremy Cline <jcline@redhat.com>,
+Cc: Sam Ravnborg <sam@ravnborg.org>, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gvt-dev@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+ intel-gvt-dev@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using struct drm_device.pdev is deprecated. Convert nouveau to struct
-drm_device.dev. No functional changes.
+We have DRM drivers based on USB, SPI and platform devices. All of them
+are fine with storing their device reference in struct drm_device.dev.
+PCI devices should be no exception. Therefore struct drm_device.pdev is
+deprecated.
 
-v3:
-	* fix nv04_dfp_update_backlight() as well (Jeremy)
+Instead upcast from struct drm_device.dev with to_pci_dev(). PCI-specific
+code can use dev_is_pci() to test for a PCI device. This patch changes
+the DRM core code and documentation accordingly. Struct drm_device.pdev
+is being moved to legacy status.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jeremy Cline <jcline@redhat.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/nouveau/dispnv04/arb.c      | 12 +++++++-----
- drivers/gpu/drm/nouveau/dispnv04/dfp.c      |  5 +++--
- drivers/gpu/drm/nouveau/dispnv04/disp.h     | 14 ++++++++------
- drivers/gpu/drm/nouveau/dispnv04/hw.c       | 10 ++++++----
- drivers/gpu/drm/nouveau/nouveau_abi16.c     |  7 ++++---
- drivers/gpu/drm/nouveau/nouveau_acpi.c      |  2 +-
- drivers/gpu/drm/nouveau/nouveau_bios.c      | 11 ++++++++---
- drivers/gpu/drm/nouveau/nouveau_connector.c | 10 ++++++----
- drivers/gpu/drm/nouveau/nouveau_drm.c       |  5 ++---
- drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  6 ++++--
- drivers/gpu/drm/nouveau/nouveau_vga.c       | 20 ++++++++++++--------
- 11 files changed, 61 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/drm_agpsupport.c |  9 ++++++---
+ drivers/gpu/drm/drm_bufs.c       |  4 ++--
+ drivers/gpu/drm/drm_edid.c       |  7 ++++++-
+ drivers/gpu/drm/drm_irq.c        | 12 +++++++-----
+ drivers/gpu/drm/drm_pci.c        | 26 +++++++++++++++-----------
+ drivers/gpu/drm/drm_vm.c         |  2 +-
+ include/drm/drm_device.h         | 12 +++++++++---
+ 7 files changed, 46 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/arb.c b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-index 9d4a2d97507e..1d3542d6006b 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/arb.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-@@ -200,16 +200,17 @@ nv04_update_arb(struct drm_device *dev, int VClk, int bpp,
- 	int MClk = nouveau_hw_get_clock(dev, PLL_MEMORY);
- 	int NVClk = nouveau_hw_get_clock(dev, PLL_CORE);
- 	uint32_t cfg1 = nvif_rd32(device, NV04_PFB_CFG1);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	sim_data.pclk_khz = VClk;
- 	sim_data.mclk_khz = MClk;
- 	sim_data.nvclk_khz = NVClk;
- 	sim_data.bpp = bpp;
- 	sim_data.two_heads = nv_two_heads(dev);
--	if ((dev->pdev->device & 0xffff) == 0x01a0 /*CHIPSET_NFORCE*/ ||
--	    (dev->pdev->device & 0xffff) == 0x01f0 /*CHIPSET_NFORCE2*/) {
-+	if ((pdev->device & 0xffff) == 0x01a0 /*CHIPSET_NFORCE*/ ||
-+	    (pdev->device & 0xffff) == 0x01f0 /*CHIPSET_NFORCE2*/) {
- 		uint32_t type;
--		int domain = pci_domain_nr(dev->pdev->bus);
-+		int domain = pci_domain_nr(pdev->bus);
- 
- 		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 1),
- 				      0x7c, &type);
-@@ -251,11 +252,12 @@ void
- nouveau_calc_arb(struct drm_device *dev, int vclk, int bpp, int *burst, int *lwm)
+diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
+index 4c7ad46fdd21..a4040fe4f4ba 100644
+--- a/drivers/gpu/drm/drm_agpsupport.c
++++ b/drivers/gpu/drm/drm_agpsupport.c
+@@ -103,11 +103,13 @@ int drm_agp_info_ioctl(struct drm_device *dev, void *data,
+  */
+ int drm_agp_acquire(struct drm_device *dev)
  {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_KELVIN)
- 		nv04_update_arb(dev, vclk, bpp, burst, lwm);
--	else if ((dev->pdev->device & 0xfff0) == 0x0240 /*CHIPSET_C51*/ ||
--		 (dev->pdev->device & 0xfff0) == 0x03d0 /*CHIPSET_C512*/) {
-+	else if ((pdev->device & 0xfff0) == 0x0240 /*CHIPSET_C51*/ ||
-+		 (pdev->device & 0xfff0) == 0x03d0 /*CHIPSET_C512*/) {
- 		*burst = 128;
- 		*lwm = 0x0480;
- 	} else
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-index 42687ea2a4ca..ce3d8c6ef000 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-@@ -488,12 +488,13 @@ static void nv04_dfp_update_backlight(struct drm_encoder *encoder, int mode)
- #ifdef __powerpc__
- 	struct drm_device *dev = encoder->dev;
- 	struct nvif_object *device = &nouveau_drm(dev)->client.device.object;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	/* BIOS scripts usually take care of the backlight, thanks
- 	 * Apple for your consistency.
- 	 */
--	if (dev->pdev->device == 0x0174 || dev->pdev->device == 0x0179 ||
--	    dev->pdev->device == 0x0189 || dev->pdev->device == 0x0329) {
-+	if (pdev->device == 0x0174 || pdev->device == 0x0179 ||
-+	    pdev->device == 0x0189 || pdev->device == 0x0329) {
- 		if (mode == DRM_MODE_DPMS_ON) {
- 			nvif_mask(device, NV_PBUS_DEBUG_DUALHEAD_CTL, 1 << 31, 1 << 31);
- 			nvif_mask(device, NV_PCRTC_GPIO_EXT, 3, 1);
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.h b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-index 5ace5e906949..f0a24126641a 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-@@ -130,7 +130,7 @@ static inline bool
- nv_two_heads(struct drm_device *dev)
- {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
--	const int impl = dev->pdev->device & 0x0ff0;
-+	const int impl = to_pci_dev(dev->dev)->device & 0x0ff0;
- 
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS && impl != 0x0100 &&
- 	    impl != 0x0150 && impl != 0x01a0 && impl != 0x0200)
-@@ -142,14 +142,14 @@ nv_two_heads(struct drm_device *dev)
- static inline bool
- nv_gf4_disp_arch(struct drm_device *dev)
- {
--	return nv_two_heads(dev) && (dev->pdev->device & 0x0ff0) != 0x0110;
-+	return nv_two_heads(dev) && (to_pci_dev(dev->dev)->device & 0x0ff0) != 0x0110;
- }
- 
- static inline bool
- nv_two_reg_pll(struct drm_device *dev)
- {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
--	const int impl = dev->pdev->device & 0x0ff0;
-+	const int impl = to_pci_dev(dev->dev)->device & 0x0ff0;
- 
- 	if (impl == 0x0310 || impl == 0x0340 || drm->client.device.info.family >= NV_DEVICE_INFO_V0_CURIE)
- 		return true;
-@@ -160,9 +160,11 @@ static inline bool
- nv_match_device(struct drm_device *dev, unsigned device,
- 		unsigned sub_vendor, unsigned sub_device)
- {
--	return dev->pdev->device == device &&
--		dev->pdev->subsystem_vendor == sub_vendor &&
--		dev->pdev->subsystem_device == sub_device;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
 +
-+	return pdev->device == device &&
-+		pdev->subsystem_vendor == sub_vendor &&
-+		pdev->subsystem_device == sub_device;
- }
- 
- #include <subdev/bios/init.h>
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/hw.c b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-index b674d68ef28a..f7d35657aa64 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/hw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-@@ -214,14 +214,15 @@ nouveau_hw_pllvals_to_clk(struct nvkm_pll_vals *pv)
- int
- nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type plltype)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct nvkm_pll_vals pllvals;
- 	int ret;
- 	int domain;
- 
--	domain = pci_domain_nr(dev->pdev->bus);
-+	domain = pci_domain_nr(pdev->bus);
- 
- 	if (plltype == PLL_MEMORY &&
--	    (dev->pdev->device & 0x0ff0) == CHIPSET_NFORCE) {
-+	    (pdev->device & 0x0ff0) == CHIPSET_NFORCE) {
- 		uint32_t mpllP;
- 		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 3),
- 				      0x6c, &mpllP);
-@@ -232,7 +233,7 @@ nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type plltype)
- 		return 400000 / mpllP;
- 	} else
- 	if (plltype == PLL_MEMORY &&
--	    (dev->pdev->device & 0xff0) == CHIPSET_NFORCE2) {
-+	    (pdev->device & 0xff0) == CHIPSET_NFORCE2) {
- 		uint32_t clock;
- 
- 		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 5),
-@@ -309,6 +310,7 @@ void
- nouveau_hw_save_vga_fonts(struct drm_device *dev, bool save)
- {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint8_t misc, gr4, gr5, gr6, seq2, seq4;
- 	bool graphicsmode;
- 	unsigned plane;
-@@ -327,7 +329,7 @@ nouveau_hw_save_vga_fonts(struct drm_device *dev, bool save)
- 	NV_INFO(drm, "%sing VGA fonts\n", save ? "Sav" : "Restor");
- 
- 	/* map first 64KiB of VRAM, holds VGA fonts etc */
--	iovram = ioremap(pci_resource_start(dev->pdev, 1), 65536);
-+	iovram = ioremap(pci_resource_start(pdev, 1), 65536);
- 	if (!iovram) {
- 		NV_ERROR(drm, "Failed to map VRAM, "
- 					"cannot save/restore VGA fonts.\n");
-diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-index 9a5be6f32424..f08b31d84d4d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-@@ -181,6 +181,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
- 	struct nvif_device *device = &drm->client.device;
- 	struct nvkm_gr *gr = nvxx_gr(device);
- 	struct drm_nouveau_getparam *getparam = data;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	switch (getparam->param) {
- 	case NOUVEAU_GETPARAM_CHIPSET_ID:
-@@ -188,13 +189,13 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
- 		break;
- 	case NOUVEAU_GETPARAM_PCI_VENDOR:
- 		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
--			getparam->value = dev->pdev->vendor;
-+			getparam->value = pdev->vendor;
- 		else
- 			getparam->value = 0;
- 		break;
- 	case NOUVEAU_GETPARAM_PCI_DEVICE:
- 		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
--			getparam->value = dev->pdev->device;
-+			getparam->value = pdev->device;
- 		else
- 			getparam->value = 0;
- 		break;
-@@ -205,7 +206,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
- 		case NV_DEVICE_INFO_V0_PCIE: getparam->value = 2; break;
- 		case NV_DEVICE_INFO_V0_SOC : getparam->value = 3; break;
- 		case NV_DEVICE_INFO_V0_IGP :
--			if (!pci_is_pcie(dev->pdev))
-+			if (!pci_is_pcie(pdev))
- 				getparam->value = 1;
- 			else
- 				getparam->value = 2;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_acpi.c b/drivers/gpu/drm/nouveau/nouveau_acpi.c
-index 69a84d0197d0..7c15f6448428 100644
---- a/drivers/gpu/drm/nouveau/nouveau_acpi.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_acpi.c
-@@ -377,7 +377,7 @@ nouveau_acpi_edid(struct drm_device *dev, struct drm_connector *connector)
- 		return NULL;
- 	}
- 
--	handle = ACPI_HANDLE(&dev->pdev->dev);
-+	handle = ACPI_HANDLE(dev->dev);
- 	if (!handle)
- 		return NULL;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
-index d204ea8a5618..7cc683b8dc7a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bios.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
-@@ -110,6 +110,9 @@ static int call_lvds_manufacturer_script(struct drm_device *dev, struct dcb_outp
- 	struct nvbios *bios = &drm->vbios;
- 	uint8_t sub = bios->data[bios->fp.xlated_entry + script] + (bios->fp.link_c_increment && dcbent->or & DCB_OUTPUT_C ? 1 : 0);
- 	uint16_t scriptofs = ROM16(bios->data[bios->init_script_tbls_ptr + sub * 2]);
-+#ifdef __powerpc__
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+#endif
- 
- 	if (!bios->fp.xlated_entry || !sub || !scriptofs)
- 		return -EINVAL;
-@@ -123,8 +126,8 @@ static int call_lvds_manufacturer_script(struct drm_device *dev, struct dcb_outp
- #ifdef __powerpc__
- 	/* Powerbook specific quirks */
- 	if (script == LVDS_RESET &&
--	    (dev->pdev->device == 0x0179 || dev->pdev->device == 0x0189 ||
--	     dev->pdev->device == 0x0329))
-+	    (pdev->device == 0x0179 || pdev->device == 0x0189 ||
-+	     pdev->device == 0x0329))
- 		nv_write_tmds(dev, dcbent->or, 0, 0x02, 0x72);
- #endif
- 
-@@ -2080,11 +2083,13 @@ nouveau_bios_init(struct drm_device *dev)
- {
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nvbios *bios = &drm->vbios;
-+	struct pci_dev *pdev;
- 	int ret;
- 
- 	/* only relevant for PCI devices */
--	if (!dev->pdev)
-+	if (!dev_is_pci(dev->dev))
- 		return 0;
-+	pdev = to_pci_dev(dev->dev);
- 
- 	if (!NVInitVBIOS(dev))
+ 	if (!dev->agp)
  		return -ENODEV;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 8b4b3688c7ae..14c29e68db8f 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -411,6 +411,7 @@ static struct nouveau_encoder *
- nouveau_connector_ddc_detect(struct drm_connector *connector)
+ 	if (dev->agp->acquired)
+ 		return -EBUSY;
+-	dev->agp->bridge = agp_backend_acquire(dev->pdev);
++	dev->agp->bridge = agp_backend_acquire(pdev);
+ 	if (!dev->agp->bridge)
+ 		return -ENODEV;
+ 	dev->agp->acquired = 1;
+@@ -402,14 +404,15 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
+  */
+ struct drm_agp_head *drm_agp_init(struct drm_device *dev)
  {
- 	struct drm_device *dev = connector->dev;
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct nouveau_encoder *nv_encoder = NULL, *found = NULL;
- 	struct drm_encoder *encoder;
- 	int ret;
-@@ -438,11 +439,11 @@ nouveau_connector_ddc_detect(struct drm_connector *connector)
- 				break;
+ 	struct drm_agp_head *head = NULL;
  
- 			if (switcheroo_ddc)
--				vga_switcheroo_lock_ddc(dev->pdev);
-+				vga_switcheroo_lock_ddc(pdev);
- 			if (nvkm_probe_i2c(nv_encoder->i2c, 0x50))
- 				found = nv_encoder;
- 			if (switcheroo_ddc)
--				vga_switcheroo_unlock_ddc(dev->pdev);
-+				vga_switcheroo_unlock_ddc(pdev);
+ 	head = kzalloc(sizeof(*head), GFP_KERNEL);
+ 	if (!head)
+ 		return NULL;
+-	head->bridge = agp_find_bridge(dev->pdev);
++	head->bridge = agp_find_bridge(pdev);
+ 	if (!head->bridge) {
+-		head->bridge = agp_backend_acquire(dev->pdev);
++		head->bridge = agp_backend_acquire(pdev);
+ 		if (!head->bridge) {
+ 			kfree(head);
+ 			return NULL;
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index aeb1327e3077..e3d77dfefb0a 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -326,7 +326,7 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+ 		 * As we're limiting the address to 2^32-1 (or less),
+ 		 * casting it down to 32 bits is no problem, but we
+ 		 * need to point to a 64bit variable first. */
+-		map->handle = dma_alloc_coherent(&dev->pdev->dev,
++		map->handle = dma_alloc_coherent(dev->dev,
+ 						 map->size,
+ 						 &map->offset,
+ 						 GFP_KERNEL);
+@@ -556,7 +556,7 @@ int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+ 	case _DRM_SCATTER_GATHER:
+ 		break;
+ 	case _DRM_CONSISTENT:
+-		dma_free_coherent(&dev->pdev->dev,
++		dma_free_coherent(dev->dev,
+ 				  map->size,
+ 				  map->handle,
+ 				  map->offset);
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 394cc55b3214..c2bbe7bee7b6 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -32,6 +32,7 @@
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/vga_switcheroo.h>
  
- 			break;
- 		}
-@@ -490,6 +491,7 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_drm *drm = nouveau_drm(connector->dev);
- 	struct drm_device *dev = connector->dev;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	if (nv_connector->detected_encoder == nv_encoder)
- 		return;
-@@ -511,8 +513,8 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
- 		connector->doublescan_allowed = true;
- 		if (drm->client.device.info.family == NV_DEVICE_INFO_V0_KELVIN ||
- 		    (drm->client.device.info.family == NV_DEVICE_INFO_V0_CELSIUS &&
--		     (dev->pdev->device & 0x0ff0) != 0x0100 &&
--		     (dev->pdev->device & 0x0ff0) != 0x0150))
-+		     (pdev->device & 0x0ff0) != 0x0100 &&
-+		     (pdev->device & 0x0ff0) != 0x0150))
- 			/* HW is broken */
- 			connector->interlace_allowed = false;
- 		else
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index d141a5f004af..1b2169e9c295 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -115,8 +115,8 @@ nouveau_platform_name(struct platform_device *platformdev)
- static u64
- nouveau_name(struct drm_device *dev)
+@@ -2075,9 +2076,13 @@ EXPORT_SYMBOL(drm_get_edid);
+ struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
+ 				     struct i2c_adapter *adapter)
  {
--	if (dev->pdev)
--		return nouveau_pci_name(dev->pdev);
-+	if (dev_is_pci(dev->dev))
-+		return nouveau_pci_name(to_pci_dev(dev->dev));
- 	else
- 		return nouveau_platform_name(to_platform_device(dev->dev));
- }
-@@ -760,7 +760,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
- 	if (ret)
- 		goto fail_drm;
+-	struct pci_dev *pdev = connector->dev->pdev;
++	struct drm_device *dev = connector->dev;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	struct edid *edid;
  
--	drm_dev->pdev = pdev;
- 	pci_set_drvdata(pdev, drm_dev);
- 
- 	ret = nouveau_drm_device_init(drm_dev);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 24ec5339efb4..4fc0fa696461 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -396,7 +396,9 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
- 	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
- 		fb->width, fb->height, nvbo->offset, nvbo);
- 
--	vga_switcheroo_client_fb_set(dev->pdev, info);
-+	if (dev_is_pci(dev->dev))
-+		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), info);
++	if (drm_WARN_ON_ONCE(dev, !dev_is_pci(dev->dev)))
++		return NULL;
 +
- 	return 0;
+ 	vga_switcheroo_lock_ddc(pdev);
+ 	edid = drm_get_edid(connector, adapter);
+ 	vga_switcheroo_unlock_ddc(pdev);
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index 803af4bbd214..c3bd664ea733 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -122,7 +122,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+ 		dev->driver->irq_preinstall(dev);
  
- out_unlock:
-@@ -548,7 +550,7 @@ nouveau_fbcon_init(struct drm_device *dev)
- 	int ret;
+ 	/* PCI devices require shared interrupts. */
+-	if (dev->pdev)
++	if (dev_is_pci(dev->dev))
+ 		sh_flags = IRQF_SHARED;
  
- 	if (!dev->mode_config.num_crtc ||
--	    (dev->pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-+	    (to_pci_dev(dev->dev)->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+ 	ret = request_irq(irq, dev->driver->irq_handler,
+@@ -140,7 +140,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+ 	if (ret < 0) {
+ 		dev->irq_enabled = false;
+ 		if (drm_core_check_feature(dev, DRIVER_LEGACY))
+-			vga_client_register(dev->pdev, NULL, NULL, NULL);
++			vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+ 		free_irq(irq, dev);
+ 	} else {
+ 		dev->irq = irq;
+@@ -203,7 +203,7 @@ int drm_irq_uninstall(struct drm_device *dev)
+ 	DRM_DEBUG("irq=%d\n", dev->irq);
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_LEGACY))
+-		vga_client_register(dev->pdev, NULL, NULL, NULL);
++		vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+ 
+ 	if (dev->driver->irq_uninstall)
+ 		dev->driver->irq_uninstall(dev);
+@@ -252,6 +252,7 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ {
+ 	struct drm_control *ctl = data;
+ 	int ret = 0, irq;
++	struct pci_dev *pdev;
+ 
+ 	/* if we haven't irq we fallback for compatibility reasons -
+ 	 * this used to be a separate function in drm_dma.h
+@@ -262,12 +263,13 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ 	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
  		return 0;
+ 	/* UMS was only ever supported on pci devices. */
+-	if (WARN_ON(!dev->pdev))
++	if (WARN_ON(!dev_is_pci(dev->dev)))
+ 		return -EINVAL;
  
- 	fbcon = kzalloc(sizeof(struct nouveau_fbdev), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
-index c85dd8afa3c3..7c4b374b3eca 100644
---- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-@@ -87,18 +87,20 @@ nouveau_vga_init(struct nouveau_drm *drm)
+ 	switch (ctl->func) {
+ 	case DRM_INST_HANDLER:
+-		irq = dev->pdev->irq;
++		pdev = to_pci_dev(dev->dev);
++		irq = pdev->irq;
+ 
+ 		if (dev->if_version < DRM_IF_VERSION(1, 2) &&
+ 		    ctl->irq != irq)
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index 6dba4b8ce4fe..c7868418e36d 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -65,7 +65,7 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
+ 		return NULL;
+ 
+ 	dmah->size = size;
+-	dmah->vaddr = dma_alloc_coherent(&dev->pdev->dev, size,
++	dmah->vaddr = dma_alloc_coherent(dev->dev, size,
+ 					 &dmah->busaddr,
+ 					 GFP_KERNEL);
+ 
+@@ -88,7 +88,7 @@ EXPORT_SYMBOL(drm_pci_alloc);
+  */
+ void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
  {
- 	struct drm_device *dev = drm->dev;
- 	bool runtime = nouveau_pmops_runtime();
-+	struct pci_dev *pdev;
- 
- 	/* only relevant for PCI devices */
--	if (!dev->pdev)
-+	if (!dev_is_pci(dev->dev))
- 		return;
-+	pdev = to_pci_dev(dev->dev);
- 
--	vga_client_register(dev->pdev, dev, NULL, nouveau_vga_set_decode);
-+	vga_client_register(pdev, dev, NULL, nouveau_vga_set_decode);
- 
- 	/* don't register Thunderbolt eGPU with vga_switcheroo */
--	if (pci_is_thunderbolt_attached(dev->pdev))
-+	if (pci_is_thunderbolt_attached(pdev))
- 		return;
- 
--	vga_switcheroo_register_client(dev->pdev, &nouveau_switcheroo_ops, runtime);
-+	vga_switcheroo_register_client(pdev, &nouveau_switcheroo_ops, runtime);
- 
- 	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
- 		vga_switcheroo_init_domain_pm_ops(drm->dev->dev, &drm->vga_pm_domain);
-@@ -109,17 +111,19 @@ nouveau_vga_fini(struct nouveau_drm *drm)
- {
- 	struct drm_device *dev = drm->dev;
- 	bool runtime = nouveau_pmops_runtime();
-+	struct pci_dev *pdev;
- 
- 	/* only relevant for PCI devices */
--	if (!dev->pdev)
-+	if (!dev_is_pci(dev->dev))
- 		return;
-+	pdev = to_pci_dev(dev->dev);
- 
--	vga_client_register(dev->pdev, NULL, NULL, NULL);
-+	vga_client_register(pdev, NULL, NULL, NULL);
- 
--	if (pci_is_thunderbolt_attached(dev->pdev))
-+	if (pci_is_thunderbolt_attached(pdev))
- 		return;
- 
--	vga_switcheroo_unregister_client(dev->pdev);
-+	vga_switcheroo_unregister_client(pdev);
- 	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
- 		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
+-	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
++	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr,
+ 			  dmah->busaddr);
+ 	kfree(dmah);
  }
+@@ -107,16 +107,18 @@ static int drm_get_pci_domain(struct drm_device *dev)
+ 		return 0;
+ #endif /* __alpha__ */
+ 
+-	return pci_domain_nr(dev->pdev->bus);
++	return pci_domain_nr(to_pci_dev(dev->dev)->bus);
+ }
+ 
+ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
+ 	master->unique = kasprintf(GFP_KERNEL, "pci:%04x:%02x:%02x.%d",
+ 					drm_get_pci_domain(dev),
+-					dev->pdev->bus->number,
+-					PCI_SLOT(dev->pdev->devfn),
+-					PCI_FUNC(dev->pdev->devfn));
++					pdev->bus->number,
++					PCI_SLOT(pdev->devfn),
++					PCI_FUNC(pdev->devfn));
+ 	if (!master->unique)
+ 		return -ENOMEM;
+ 
+@@ -126,12 +128,14 @@ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+ 
+ static int drm_pci_irq_by_busid(struct drm_device *dev, struct drm_irq_busid *p)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
+ 	if ((p->busnum >> 8) != drm_get_pci_domain(dev) ||
+-	    (p->busnum & 0xff) != dev->pdev->bus->number ||
+-	    p->devnum != PCI_SLOT(dev->pdev->devfn) || p->funcnum != PCI_FUNC(dev->pdev->devfn))
++	    (p->busnum & 0xff) != pdev->bus->number ||
++	    p->devnum != PCI_SLOT(pdev->devfn) || p->funcnum != PCI_FUNC(pdev->devfn))
+ 		return -EINVAL;
+ 
+-	p->irq = dev->pdev->irq;
++	p->irq = pdev->irq;
+ 
+ 	DRM_DEBUG("%d:%d:%d => IRQ %d\n", p->busnum, p->devnum, p->funcnum,
+ 		  p->irq);
+@@ -159,7 +163,7 @@ int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
+ 		return -EOPNOTSUPP;
+ 
+ 	/* UMS was only ever support on PCI devices. */
+-	if (WARN_ON(!dev->pdev))
++	if (WARN_ON(!dev_is_pci(dev->dev)))
+ 		return -EINVAL;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_HAVE_IRQ))
+@@ -183,7 +187,7 @@ void drm_pci_agp_destroy(struct drm_device *dev)
+ static void drm_pci_agp_init(struct drm_device *dev)
+ {
+ 	if (drm_core_check_feature(dev, DRIVER_USE_AGP)) {
+-		if (pci_find_capability(dev->pdev, PCI_CAP_ID_AGP))
++		if (pci_find_capability(to_pci_dev(dev->dev), PCI_CAP_ID_AGP))
+ 			dev->agp = drm_agp_init(dev);
+ 		if (dev->agp) {
+ 			dev->agp->agp_mtrr = arch_phys_wc_add(
+diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
+index 6d5a03b32238..9b3b989d7cad 100644
+--- a/drivers/gpu/drm/drm_vm.c
++++ b/drivers/gpu/drm/drm_vm.c
+@@ -278,7 +278,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+ 			case _DRM_SCATTER_GATHER:
+ 				break;
+ 			case _DRM_CONSISTENT:
+-				dma_free_coherent(&dev->pdev->dev,
++				dma_free_coherent(dev->dev,
+ 						  map->size,
+ 						  map->handle,
+ 						  map->offset);
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index 283a93ce4617..9d9db178119a 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -290,9 +290,6 @@ struct drm_device {
+ 	/** @agp: AGP data */
+ 	struct drm_agp_head *agp;
+ 
+-	/** @pdev: PCI device structure */
+-	struct pci_dev *pdev;
+-
+ #ifdef __alpha__
+ 	/** @hose: PCI hose, only used on ALPHA platforms. */
+ 	struct pci_controller *hose;
+@@ -336,6 +333,15 @@ struct drm_device {
+ 	/* Everything below here is for legacy driver, never use! */
+ 	/* private: */
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
++	/**
++	 * @pdev: PCI device structure
++	 *
++	 * This is deprecated. to get the PCI device, upcast from @dev
++	 * with to_pci_dev(). To test if the hardware is a PCI device,
++	 * use dev_is_pci() with @dev.
++	 */
++	struct pci_dev *pdev;
++
+ 	/* Context handle management - linked list of context handles */
+ 	struct list_head ctxlist;
+ 
 -- 
 2.29.2
 
