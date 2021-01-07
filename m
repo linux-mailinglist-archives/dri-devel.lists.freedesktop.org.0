@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6D82ECC01
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34752ECBF2
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Jan 2021 09:53:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E74356E453;
-	Thu,  7 Jan 2021 08:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7A16E42E;
+	Thu,  7 Jan 2021 08:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8AE146E3EB
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 03:11:36 +0000 (UTC)
-X-UUID: 629fe793e3764c14b77edd360c3d0b1b-20210107
-X-UUID: 629fe793e3764c14b77edd360c3d0b1b-20210107
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 068206E3EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 03:11:35 +0000 (UTC)
+X-UUID: 247e50b8d8f44adeb7fa56da9f7ac998-20210107
+X-UUID: 247e50b8d8f44adeb7fa56da9f7ac998-20210107
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 764407116; Thu, 07 Jan 2021 11:11:33 +0800
+ with ESMTP id 787687370; Thu, 07 Jan 2021 11:11:34 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 7 Jan 2021 11:11:31 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 7 Jan 2021 11:11:32 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 7 Jan 2021 11:11:31 +0800
+ Transport; Thu, 7 Jan 2021 11:11:32 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v9, 08/11] drm/mediatek: add has_dither private data for gamma
-Date: Thu, 7 Jan 2021 11:11:18 +0800
-Message-ID: <1609989081-29353-9-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v9, 09/11] drm/mediatek: enable dither function
+Date: Thu, 7 Jan 2021 11:11:19 +0800
+Message-ID: <1609989081-29353-10-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -60,52 +60,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-not all SoC has dither function in gamma module
-dd private data to control this function setting
+for 5 or 6 bpc panel, we need enable dither function
+to improve the display quality
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 38 ++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 8501821..4eab82a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -24,7 +24,7 @@
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 03589c9..81ed076 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -53,7 +53,9 @@
+ #define DITHER_EN				BIT(0)
+ #define DISP_DITHER_CFG				0x0020
+ #define DITHER_RELAY_MODE			BIT(0)
++#define DITHER_ENGINE_EN			BIT(1)
+ #define DISP_DITHER_SIZE			0x0030
++#define DITHER_REG(idx)				(0x100 + (idx) * 4)
+ 
  #define LUT_10BIT_MASK				0x03ff
  
- struct mtk_disp_gamma_data {
--	u32 reserved;
-+	bool has_dither;
- };
- 
- /**
-@@ -72,7 +72,8 @@ static void mtk_gamma_config(struct mtk_ddp_comp *comp, unsigned int w,
- 
- 	mtk_ddp_write(cmdq_pkt, h << 16 | w, comp, DISP_GAMMA_SIZE);
- 
--	mtk_dither_set(comp, bpc, DISP_GAMMA_CFG, cmdq_pkt);
-+	if (gamma->data && gamma->data->has_dither)
-+		mtk_dither_set(comp, bpc, DISP_GAMMA_CFG, cmdq_pkt);
- }
- 
- static void mtk_gamma_start(struct mtk_ddp_comp *comp)
-@@ -168,8 +169,13 @@ static int mtk_disp_gamma_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
-+	.has_dither = true,
-+};
+@@ -258,8 +260,42 @@ static void mtk_dither_config(struct mtk_ddp_comp *comp, unsigned int w,
+ 			      unsigned int h, unsigned int vrefresh,
+ 			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+ {
++	bool enable = true;
 +
- static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
--	{ .compatible = "mediatek,mt8173-disp-gamma"},
-+	{ .compatible = "mediatek,mt8173-disp-gamma",
-+	  .data = &mt8173_gamma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
++	const u32 dither_setting[] = {
++		0x00000000, /* 5 */
++		0x00003002, /* 6 */
++		0x00000000, /* 7 */
++		0x00000000, /* 8 */
++		0x00000000, /* 9 */
++		0x00000000, /* 10 */
++		0x00000000, /* 11 */
++		0x00000011, /* 12 */
++		0x00000000, /* 13 */
++		0x00000000, /* 14 */
++	};
++
++	if (bpc == 6) {
++		mtk_ddp_write(cmdq_pkt, 0x40400001, comp, DITHER_REG(15));
++		mtk_ddp_write(cmdq_pkt, 0x40404040, comp, DITHER_REG(16));
++	} else if (bpc == 5) {
++		mtk_ddp_write(cmdq_pkt, 0x50500001, comp, DITHER_REG(15));
++		mtk_ddp_write(cmdq_pkt, 0x50504040, comp, DITHER_REG(16));
++	} else {
++		enable = false;
++	}
++
++	if (enable) {
++		u32 idx;
++
++		for (idx = 0; idx < ARRAY_SIZE(dither_setting); idx++)
++			mtk_ddp_write(cmdq_pkt, dither_setting[idx], comp,
++				      DITHER_REG(idx + 5));
++	}
++
+ 	mtk_ddp_write(cmdq_pkt, h << 16 | w, comp, DISP_DITHER_SIZE);
+-	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, comp, DISP_DITHER_CFG);
++	mtk_ddp_write(cmdq_pkt, enable ? DITHER_ENGINE_EN : DITHER_RELAY_MODE,
++		      comp, DISP_DITHER_CFG);
+ }
+ 
+ static void mtk_dither_start(struct mtk_ddp_comp *comp)
 -- 
 1.8.1.1.dirty
 
