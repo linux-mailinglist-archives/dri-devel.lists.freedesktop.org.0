@@ -1,58 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9C32EFF39
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877362EFF40
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53D826E93B;
-	Sat,  9 Jan 2021 11:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048626E93F;
+	Sat,  9 Jan 2021 11:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC74C6E82C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 14:05:37 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1610114739; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=NolXsxXc4LnP1hy9iZM7qEDax7wxHeKW7dI9mmmMmqw=;
- b=jpxa842rf8MY3PYM1ijOIlW7Yt0EISqKf4TL6q5CtQ278rGiUuzGP/y6BG3ZBjMOT6HgHwRT
- Vep6bcoBo1AhCt7GMMIuUyc7/6AVxmzl5FYzsejJLeyWsaBpABmWFTIq9lssW4S5bwjXnQjw
- Q0RHFtFPMxIa93Kzyk/T+Zh3iuo=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5ff866af9f9cd52344f26554 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 08 Jan 2021 14:05:35
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6ED23C43463; Fri,  8 Jan 2021 14:05:34 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 726EDC433C6;
- Fri,  8 Jan 2021 14:05:33 +0000 (UTC)
+Received: from smtpcmd11116.aruba.it (smtpcmd11116.aruba.it [62.149.156.116])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 09AEB6E157
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 14:35:01 +0000 (UTC)
+Received: from [192.168.126.129] ([146.241.198.163])
+ by Aruba Outgoing Smtp  with ESMTPSA
+ id xsqukp55MkRIKxsqukltIC; Fri, 08 Jan 2021 15:35:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1610116500; bh=Lo2Rsw/Bj0EQ4nPx99gjoIOjPdT6/lAKPsJoh9P9CnQ=;
+ h=Subject:To:From:Date:MIME-Version:Content-Type;
+ b=GECIQzJVYpskURW8zlWbywwGOk/r1FaBFh38+4zAUCJg/7VkUbXo9RrcXs43dz6Gf
+ Hk6IR66si4NfMAS6VjxQ7Y+FR+skORcR4LcOu4Ftb/NL/JHo6yndH79mwzaSygIoC7
+ mmvIAw3ZRVRjT7uoxDp8Y9LCGJ0rHYy5qUkF7M26Oj6DQB3SSflhDnCYiDzRVsfJLJ
+ x1uZvDofNfC5+SWI1FfwrtCgaYI6XK6jocAhP9rljZiazujKmsv2JQ9Z9ClEOMs2hY
+ B2B8DoYKykbE13BebTTvYqEJn7v/Zl8zr2rzO9BsxqptVguYnDYlvEQjO1IwEAWceq
+ vkbUF9H4/UaOw==
+Subject: Re: [PATCH v2 2/2] drm/sun4i: tcon: improve DCLK polarity handling
+To: Maxime Ripard <maxime@cerno.tech>
+References: <3685133.SLcexNTYsu@kista>
+ <20210107023032.560182-1-giulio.benetti@benettiengineering.com>
+ <20210107023032.560182-3-giulio.benetti@benettiengineering.com>
+ <20210108092355.7p5uakxt7lpdu3bn@gilmour>
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+Message-ID: <35622307-5e88-a2ed-bdf9-fca6554efefc@benettiengineering.com>
+Date: Fri, 8 Jan 2021 15:34:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Date: Fri, 08 Jan 2021 19:35:33 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-Subject: Re: [PATCH] drm/msm: Only enable A6xx LLCC code on A6xx
-In-Reply-To: <fa091855-8096-6377-e173-ce1cd02f74ec@somainline.org>
-References: <CAF6AEGu0Sv6nYNDn0z61pXRjNyFLpLw5S4_O3opmrQ-UVNR_MA@mail.gmail.com>
- <20210108122601.14993-1-saiprakash.ranjan@codeaurora.org>
- <fa091855-8096-6377-e173-ce1cd02f74ec@somainline.org>
-Message-ID: <43c8779bc5f03be2e8072c6484dfcabb@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <20210108092355.7p5uakxt7lpdu3bn@gilmour>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfET0e/KrWMgOYO750tVJllExzFA7y1EbZAq7Vy7f1LHbU1AIS9bfFF2gRDQw7BAx6TJlFgTYFG80fY16s0XkdXezMmn8Gba93AYuD7jtpaAsr2xlCAvw
+ +rGjDZHgE7uxQUsUnKfQUz3NwRSl1Z2xYvnBWxUhqmXYfu5Zg2Ju1Iq1kz9Qs3TTZzY2CnfDyWTIYYYkTl7shiEDG3jX6v051MOJIrCQsD/O1uBY4kz04+7n
+ m1wYXGGDGBjUFHL2W1yRlYsw1rz9jJ3AOZBjug7Nz5kyrKW6CAziz/JsCNVxOvkQeto7EpkPsNFoTXakvcSCYKnYVBLmziE6d9B9KyQx469PrjFPBkW6KV/n
+ OOiSYreIb8U/DtLf7S1X484SGG2R8EmHsYDb3L9B/bpm91p1gM71gqQrzN9BEYDc9CQ74Z0mdnOfdt7watlaOgfrtHzoTaVmjSk72KetOzRqcqIg/yOjxxSM
+ YaPcLAMZjWSqGaSBDS30xmPF6Uvp91zKufDD3uQKpweL4kMxQdtkIhvh2WiYzndUPFkyfPNUHRBICuqS/wh2laMjX2SLi7M0CuK8aQ==
 X-Mailman-Approved-At: Sat, 09 Jan 2021 11:46:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,67 +56,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, jonathan@marek.ca, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
- martin.botka@somainline.org, akhilpo@codeaurora.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- marijn.suijten@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- angelogioacchino.delregno@somainline.org, airlied@redhat.com,
- phone-devel@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>,
+ Marjan Pascolo <marjan.pascolo@trexom.it>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-08 19:09, Konrad Dybcio wrote:
->> Konrad, can you please test this below change without your change?
-> 
-> This brings no difference, a BUG still happens. We're still calling
-> to_a6xx_gpu on ANY device that's probed! Too bad it won't turn my A330
-> into an A640..
-> 
-> Also, relying on disabling LLCC in the config is out of question as it
-> makes the arm32 kernel not compile with DRM/MSM and it just removes
-> the functionality on devices with a6xx.. (unless somebody removes the
-> dependency on it, which in my opinion is even worse and will cause
-> more problems for developers!).
-> 
-
-Disabling LLCC is not the suggestion, I was under the impression that
-was the cause here for the smmu bug. Anyways, the check for llc slice
-in case llcc is disabled is not correct as well. I will send a patch for
-that as well.
-
-> The bigger question is how and why did that piece of code ever make it
-> to adreno_gpu.c and not a6xx_gpu.c?
-> 
-
-My mistake, I will move it.
-
-> To solve it in a cleaner way I propose to move it to an a6xx-specific
-> file, or if it's going to be used with next-gen GPUs, perhaps manage
-> calling of this code via an adreno quirk/feature in adreno_device.c.
-> Now that I think about it, A5xx GPMU en/disable could probably managed
-> like that, instead of using tons of if-statements for each GPU model
-> that has it..
-> 
-> While we're at it, do ALL (and I truly do mean ALL, including the
-> low-end ones, this will be important later on) A6xx GPUs make use of
-> that feature?
-> 
-
-I do not have a list of all A6XX GPUs with me currently, but from what
-I know, A618, A630, A640, A650 has the support.
-
-Thanks,
-Sai
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiAxLzgvMjEgMTA6MjMgQU0sIE1heGltZSBSaXBhcmQgd3JvdGU6Cj4gSGksCj4gCj4g
+VGhhbmtzIGZvciB0aG9zZSBwYXRjaGVzCj4gCj4gT24gVGh1LCBKYW4gMDcsIDIwMjEgYXQgMDM6
+MzA6MzJBTSArMDEwMCwgR2l1bGlvIEJlbmV0dGkgd3JvdGU6Cj4+IEZyb206IEdpdWxpbyBCZW5l
+dHRpIDxnaXVsaW8uYmVuZXR0aUBtaWNyb25vdmFzcmwuY29tPgo+Pgo+PiBJdCB0dXJuZWQgb3V0
+KE1heGltZSBzdWdnZXN0aW9uKSB0aGF0IGJpdCAyNiBvZiBTVU40SV9UQ09OMF9JT19QT0xfUkVH
+IGlzCj4+IGRlZGljYXRlZCB0byBpbnZlcnQgRENMSyBwb2xhcml0eSBhbmQgdGhpcyBtYWtlcyB0
+aGluZyByZWFsbHkgZWFzaWVyIHRoYW4KPj4gYmVmb3JlLiBTbyBsZXQncyBoYW5kbGUgRENMSyBw
+b2xhcml0eSBieSBhZGRpbmcKPj4gU1VONElfVENPTjBfSU9fUE9MX0RDTEtfUE9TSVRJVkUgYXMg
+Yml0IDI2IGFuZCBhY3RpdmF0aW5nIGFjY29yZGluZyB0bwo+PiBidXNfZmxhZ3MgdGhlIHNhbWUg
+d2F5IGlzIGRvbmUgZm9yIGFsbCB0aGUgb3RoZXIgc2lnbmFscy4KPj4KPj4gQ2M6IE1heGltZSBS
+aXBhcmQgPG1heGltZUBjZXJuby50ZWNoPgo+IAo+IFN1Z2dlc3RlZC1ieSB3b3VsZCBiZSBuaWNl
+IGhlcmUgOikKCk9rLCBkaWRuJ3Qga25vdyBhYm91dCB0aGlzIHRhZwoKPj4gU2lnbmVkLW9mZi1i
+eTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+Cj4+IC0t
+LQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMgfCAyMCArLS0tLS0tLS0t
+LS0tLS0tLS0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmggfCAgMSAr
+Cj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQo+
+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMKPj4gaW5kZXggNTI1OThiYjBmYjBiLi4z
+MDE3MWNjZDg3ZTUgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90
+Y29uLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwo+PiBAQCAt
+NTY5LDI2ICs1NjksOCBAQCBzdGF0aWMgdm9pZCBzdW40aV90Y29uMF9tb2RlX3NldF9yZ2Ioc3Ry
+dWN0IHN1bjRpX3Rjb24gKnRjb24sCj4+ICAgCWlmIChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVT
+X0ZMQUdfREVfTE9XKQo+PiAgIAkJdmFsIHw9IFNVTjRJX1RDT04wX0lPX1BPTF9ERV9ORUdBVElW
+RTsKPj4gICAKPj4gLQkvKgo+PiAtCSAqIE9uIEEyMCBhbmQgc2ltaWxhciBTb0NzLCB0aGUgb25s
+eSB3YXkgdG8gYWNoaWV2ZSBQb3NpdGl2ZSBFZGdlCj4+IC0JICogKFJpc2luZyBFZGdlKSwgaXMg
+c2V0dGluZyBkY2xrIGNsb2NrIHBoYXNlIHRvIDIvMygyNDDCsCkuCj4+IC0JICogQnkgZGVmYXVs
+dCBUQ09OIHdvcmtzIGluIE5lZ2F0aXZlIEVkZ2UoRmFsbGluZyBFZGdlKSwKPj4gLQkgKiB0aGlz
+IGlzIHdoeSBwaGFzZSBpcyBzZXQgdG8gMCBpbiB0aGF0IGNhc2UuCj4+IC0JICogVW5mb3J0dW5h
+dGVseSB0aGVyZSdzIG5vIHdheSB0byBsb2dpY2FsbHkgaW52ZXJ0IGRjbGsgdGhyb3VnaAo+PiAt
+CSAqIElPX1BPTCByZWdpc3Rlci4KPj4gLQkgKiBUaGUgb25seSBhY2NlcHRhYmxlIHdheSB0byB3
+b3JrLCB0cmlwbGUgY2hlY2tlZCB3aXRoIHNjb3BlLAo+PiAtCSAqIGlzIHVzaW5nIGNsb2NrIHBo
+YXNlIHNldCB0byAwwrAgZm9yIE5lZ2F0aXZlIEVkZ2UgYW5kIHNldCB0byAyNDDCsAo+PiAtCSAq
+IGZvciBQb3NpdGl2ZSBFZGdlLgo+PiAtCSAqIE9uIEEzMyBhbmQgc2ltaWxhciBTb0NzIHRoZXJl
+IHdvdWxkIGJlIGEgOTDCsCBwaGFzZSBvcHRpb24sCj4+IC0JICogYnV0IGl0IGRpdmlkZXMgYWxz
+byBkY2xrIGJ5IDIuCj4+IC0JICogRm9sbG93aW5nIGNvZGUgaXMgYSB3YXkgdG8gYXZvaWQgcXVp
+cmtzIGFsbCBhcm91bmQgVENPTgo+PiAtCSAqIGFuZCBET1RDTE9DSyBkcml2ZXJzLgo+PiAtCSAq
+Lwo+PiAgIAlpZiAoaW5mby0+YnVzX2ZsYWdzICYgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVf
+UE9TRURHRSkKPj4gLQkJY2xrX3NldF9waGFzZSh0Y29uLT5kY2xrLCAwKTsKPj4gLQo+PiAtCWlm
+IChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVTX0ZMQUdfUElYREFUQV9EUklWRV9ORUdFREdFKQo+
+PiAtCQljbGtfc2V0X3BoYXNlKHRjb24tPmRjbGssIDI0MCk7Cj4+ICsJCXZhbCB8PSBTVU40SV9U
+Q09OMF9JT19QT0xfRENMS19QT1NJVElWRTsKPiAKPiBJJ20gbm90IHJlYWxseSBzdXJlIHdoeSB3
+ZSBuZWVkIHRoZSBmaXJzdCBwYXRjaCBvZiB0aGlzIHNlcmllcyBoZXJlPwoKVGhlIGlkZWEgd2Fz
+IHRvIGhhdmUgMiBmb3IgdGVzdGluZywgMXN0IG9uZSBpcyBhbHJlYWR5IGFwcGxpY2FibGUsIHdo
+aWxlIAp0aGUgb3RoZXIgbXVzdCBiZSB0ZXN0ZWQsIGJ1dCBJIGNhbiBzZW5kIG9ubHkgb25lIHdp
+dGggbm8gcHJvYmxlbS4KCj4gVGhhdCBwYXRjaCBvbmx5IHNlZW0gdG8gdW5kbyB3aGF0IHlvdSBk
+aWQgaW4gcGF0Y2ggMQoKTm8sIGl0IGRvZXNuJ3QsIHRoZSAybmQgb25lIGNoYW5nZSB0aGUgd2F5
+IGl0IGFjaGlldmUgdGhlIHNhbWUgdGhpbmcsIApiZWNhdXNlIHRoZSAxc3Qgc3dhcCBEQ0xLIHBo
+YXNlLCB3aGlsZSB0aGUgMm5kIHVzZXMgdGhlIElPX1BPTCBiaXQgdG8gCnNldCBJTyBwb2xhcml0
+eSBhY2NvcmRpbmcgdG8gYnVzX2ZsYWdzLgoKQmVzdCBSZWdhcmRzCi0tIApHaXVsaW8gQmVuZXR0
+aQpCZW5ldHRpIEVuZ2luZWVyaW5nIHNhcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
