@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484022EF52F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 16:53:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9652EF546
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 16:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE11C6E834;
-	Fri,  8 Jan 2021 15:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAB689BB2;
+	Fri,  8 Jan 2021 15:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099C36E833
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 15:53:49 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id r9so9996405otk.11
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 07:53:48 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBDEC899B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 15:59:53 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id e25so8864978wme.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 07:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7yGxCekSojHDYOKSkLKVDxqNk+xNiwlQRKwqadkl6Qg=;
- b=XYzfqLoPisd6/WCjRspggY1uo3hMVRGzQNIxiHjrqI/Y3r4WA3rNma5JQNjZumXAo+
- DlJUz9OescNJ8AeAM2cWG7lo4w8ZGxbqHa1GtXxcBLdq0BDHpUwkrl7BrpPH7N4cxmxv
- oiT0nhw3IUl4kuDDZBNBYMChMJ2ZV0fH1DKaM=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=+frVH2P3qgSnqL7HXhR9TCdoXNAxfK7Z0TgEh1F+V+k=;
+ b=lMHMa3eGLCu1da4yljPzgqxf9iNm+Y0UzZeNIIqpWrxgdmExkiJCVYi4gqAvkXYEhe
+ iCECOQDPtW/5gqiiCNJLNhUAALoGF3epXhBrXn2TGbI8qTV3xAKjgueMZaKD7mepmzfp
+ wzpD7AZLL6aL8BCauQNUXBxuolN7ihG1nq6lY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7yGxCekSojHDYOKSkLKVDxqNk+xNiwlQRKwqadkl6Qg=;
- b=UEbST08s/9IFtHI/dWsCsYNi/X+8hTuh/TbtWfgd/TdQuHJfEZ8s+gULtUEnHw2YVM
- EBcCXsqr8gtf/JHeZn68KUvmoTEt7pm0L2NH4+ovg3jeH27rVQ4xKf4GT7ovLYCq3LKP
- cF11IbojJoVSTzBo3Fh/vIwP8RNOQw5WlQV140cl5W8hGeGYrkOTZtabVsfEzG7aQJMu
- 6G00oBPa7OD75dFdOY2zOlgGp2Pp4sY3+th9+oj8/+Kh/p+ZrIG1surDA6spCy6KPNcj
- YiMLeNWTNS5N+MVE6i/FCD6wCbr8GjpEzuN9TSMojMZRFSYj0KD78Cmrv2DG+EvYnfwO
- E6eQ==
-X-Gm-Message-State: AOAM530OmoRJrWJ0TtdYy8vP/mJ2BouTGx/qfUnBg2RD4MRJpm0ySBvd
- 9rz3YG5W0NolyIVsUHjIhDodJwfIHKJniMyt62ToVg==
-X-Google-Smtp-Source: ABdhPJxaK0cDu0umLpp81gyT1/VEQ5bureaC+soHqdkcGlb84sTagjj3r9vdtwiy0mJE8KIZ+hXQNiWQrUGV/5GnQ9Y=
-X-Received: by 2002:a9d:23ca:: with SMTP id t68mr3051813otb.281.1610121228319; 
- Fri, 08 Jan 2021 07:53:48 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=+frVH2P3qgSnqL7HXhR9TCdoXNAxfK7Z0TgEh1F+V+k=;
+ b=bXxguvNGtfnbuNoTDs3k5TniG1JFqirnFnR2tuVi2zRtgg3s+eml3cuIvKDxqHbEMO
+ +w8VFmaTwAUIoK6AkUCVeC1twRrCoxnsi3yP2LLWGWFPMAHDpnu6hJ5FdUX5B6tkmlr4
+ dQ81pLlCR5Ji2ou091iER82bnoQQqxq1dBKz/Rzi2bKSi+n/1XnD+igfacYdv+KYVkGZ
+ sbLvH5acXU6B905VAGjqqGxWs2qL624QIwAF8EXZlLma58Bu2RIFWtIw1ba/piavIrJl
+ PmUDmz+Xoao/WAH05kS8HhSp2uebPbKGeqmXUCH86tLoss7/t8e53briOh28qUfkW9CV
+ n8Ow==
+X-Gm-Message-State: AOAM533A3WNHmsgxWfrOqXA2WhOMS1890x33q0tT6VQrsJqA3imRjpLz
+ HN6GL/zsVcNuUdwdC55kjoHvIA==
+X-Google-Smtp-Source: ABdhPJylobJ5eNy7WNKASR1cko+DeJQqWQ6sa9zNb1lgPek10t7CK8c4jmpQf7XzrEZoykVDJ8QZIQ==
+X-Received: by 2002:a1c:3cd5:: with SMTP id j204mr3554583wma.53.1610121592502; 
+ Fri, 08 Jan 2021 07:59:52 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h9sm13777969wre.24.2021.01.08.07.59.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 07:59:51 -0800 (PST)
+Date: Fri, 8 Jan 2021 16:57:50 +0100
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PULL] drm-fixes
+Message-ID: <X/iA/qwB8X11akLF@phenom.ffwll.local>
+Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@gmail.com>
 MIME-Version: 1.0
-References: <20210105182309.1362-1-christian.koenig@amd.com>
- <X/dN/YFtnVAIllds@phenom.ffwll.local>
- <ffa9d7f2-fe68-fb6a-8422-82b8949dbe1e@gmail.com>
- <X/hs1Rvm57zGPU8y@phenom.ffwll.local>
- <d066b08c-756c-bbef-0f30-d8c68ef92dbf@amd.com>
-In-Reply-To: <d066b08c-756c-bbef-0f30-d8c68ef92dbf@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 8 Jan 2021 16:53:37 +0100
-Message-ID: <CAKMK7uGcRM8E0hYZeJCUuON7+uZnyEVtwU0HrNwhoWcw9V2uNA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/radeon: stop re-init the TTM page pool
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +67,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>, Borislav Petkov <bp@alien8.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKYW4gOCwgMjAyMSBhdCAzOjM2IFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAwOC4wMS4yMSB1bSAxNTozMSBzY2hyaWVi
-IERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUaHUsIEphbiAwNywgMjAyMSBhdCAwOTowODoyOVBNICsw
-MTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4+IEFtIDA3LjAxLjIxIHVtIDE5OjA3IHNj
-aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+Pj4gT24gVHVlLCBKYW4gMDUsIDIwMjEgYXQgMDc6MjM6
-MDhQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IERyaXZlcnMgYXJlIG5v
-dCBzdXBwb3NlZCB0byBpbml0IHRoZSBwYWdlIHBvb2wgZGlyZWN0bHkgYW55IG1vcmUuCj4gPj4+
-Pgo+ID4+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgo+ID4+PiBQbGVhc2UgaW5jbHVkZSByZXBvcnRlZC1ieSBjcmVkaXRzIGFuZCBs
-aW5rIHRvIHRoZSBidWcgcmVwb3J0cyBvbgo+ID4+PiBsb3JlLmtlcm5lbC5vcmcgd2hlbiBtZXJn
-aW5nIHRoaXMuIEFsc28gSSBndWVzcyB0aGlzIHNob3VsZCBoYXZlIGEgRml4ZXM6Cj4gPj4+IGxp
-bmU/Cj4gPj4gSSdtIG5vdCBhd2FyZSBvZiBhIGJ1ZyByZXBvcnQsIGJ1dCB0aGUgcmVwb3J0ZWQt
-YnkvRml4ZXMgbGluZXMgYXJlIGluZGVlZAo+ID4+IG1pc3NpbmcuCj4gPiBUaGlzIG9uZSBoZXJl
-Ogo+ID4KPiA+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
-P3VybD1odHRwcyUzQSUyRiUyRmxvcmUua2VybmVsLm9yZyUyRmRyaS1kZXZlbCUyRjIwMjAxMjMx
-MTA0MDIwLkdBNDUwNCU0MHpuLnRuaWMlMkYmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5r
-b2VuaWclNDBhbWQuY29tJTdDM2FlZGUyMDMzNDhiNGYzMmVhMzEwOGQ4YjNlMjI0ZWMlN0MzZGQ4
-OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDU3MTMxMTc5MjU4NDg4
-JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1
-TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWJIVnc0
-bGoxZjhnNG9oVlRldUtOa2IwTEFiTHdZNk40S1dvcnRyM1Z0QW8lM0QmYW1wO3Jlc2VydmVkPTAK
-PiA+Cj4gPiBPciBkaWQgSSBnZXQgY29uZnVzZWQsIGFuZCB0aGUgYWJvdmUgaXMgeWV0IGFub3Ro
-ZXIgYnVnPwo+Cj4gWWVhaCwgYnV0IHRoYXQgd2FzIGp1c3QgcmVwb3J0ZWQgYnkgbWFpbC4gVGhl
-IGJ1ZyB0cmFja2VyIEkndmUgc2F3IHdhcwo+IG9wZW5lZCBhZnRlciB0aGUgcGF0Y2ggd2FzIGFs
-cmVhZHkgcHVzaGVkLgoKU3RpbGwgZ29vZCB0byBnaXZlIHJlcG9ydGVkLWJ5IGNyZWRpdHMgZm9y
-IG1haWxpbmcgbGlzdCByZXBvcnRzIGFuZApsaW5rIHRvIGxvcmUua2VybmVsLm9yZyBmb3IgdGhl
-IHJlcG9ydCwgdGhhdCdzIG5vdCBqdXN0IHVzZWZ1bCBmb3IKYnVnemlsbGEgcmVwb3J0cy4KCj4g
-Pj4gQlRXOiBBbnkgaWRlYSB3aHkgZGltIGFkZC1saW5rIGRvZXNuJ3Qgd29yaz8KPiA+IEhtIHdl
-IG9jY2FzaW9uYWxseSBoYXZlIGZ1biB3aXRoIGVtYWlsIHBhcnNpbmcgKGl0J3MgaGFyZCkgYW5k
-IGVzcGVjaWFsbHkKPiA+IHB5dGhvbiBjaGFuZ2VzIGluIGhvdyBlbmNvZGluZ3MgYXJlIGhhbmRs
-ZWQgZGlmZmVyZW50bHkgYmV0d2VlbiBweXRob24yCj4gPiBhbmQgcHl0aG9uMy4gSWYgeW91IGhh
-dmUgYSBzcGVjaWZpYyBleGFtcGxlIEkgY2FuIHRyeSBhbmQgdGFrZSBhIGxvb2sgd2h5Cj4gPiBp
-dCBkb2Vzbid0IHdvcmsuCj4KPiBJdCBqdXN0IGxvb2tzIHVwIGFuZCBkb2Vzbid0IHNlZW0gdG8g
-ZG8gYW55dGhpbmcuIEknbSBub3QgZmFtaWxpYXIgd2l0aAo+IHB5dGhvbiBzbyBJIGNhbiBqdXN0
-IGRlc2NyaWJlIHRoZSBzeW1wdG9tcy4KCkkgbWVhbnQgdGVsbCBtZSB3aGljaCBtYWlsIChwYXRj
-aHdvcmsgb3IgbG9yZSkgYW5kIEknbGwgdHJ5IHRvCnJlcHJvZHVjZSBhbmQgc2VlIHdoYXQncyBt
-YXliZSB1cC4KLURhbmllbAoKPgo+IENocmlzdGlhbi4KPgo+ID4gLURhbmllbAo+ID4KPiA+Pj4g
-QW5kIG1heWJlIHNvbWUgd29yZHMgb24gaG93L3doeSBzdHVmZiBibG93cyB1cC4KPiA+PiBKdXN0
-IGEgdHlwby4gSSd2ZSBmb3Jnb3QgdG8gcmVtb3ZlIHR3byBsaW5lcyBpbiByYWRlb24gd2hpbGUg
-cmViYXNpbmcgYW5kCj4gPj4gc3RpbGwgaGFkIHRoZSBzeW1ib2xzIGV4cG9ydGVkIHNvIG5ldmVy
-IG5vdGljZWQgdGhpcy4KPiA+Pgo+ID4+IENocmlzdGlhbi4KPiA+Pgo+ID4+PiAtRGFuaWVsCj4g
-Pj4+Cj4gPj4+PiAtLS0KPiA+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
-bS5jIHwgMyAtLS0KPiA+Pj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQo+ID4+
-Pj4KPiA+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
-YyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPj4+PiBpbmRleCBkNDMy
-OGZmNTc3NTcuLjM1YjcxNWY4MmVkOCAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9u
-L3JhZGVvbl90dG0uYwo+ID4+Pj4gQEAgLTcyOSw5ICs3MjksNiBAQCBpbnQgcmFkZW9uX3R0bV9p
-bml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ID4+Pj4gICAgICAgICAgICB9Cj4gPj4+
-PiAgICAgICAgICAgIHJkZXYtPm1tYW4uaW5pdGlhbGl6ZWQgPSB0cnVlOwo+ID4+Pj4gLSAgdHRt
-X3Bvb2xfaW5pdCgmcmRldi0+bW1hbi5iZGV2LnBvb2wsIHJkZXYtPmRldiwgcmRldi0+bmVlZF9z
-d2lvdGxiLAo+ID4+Pj4gLSAgICAgICAgICAgICAgICBkbWFfYWRkcmVzc2luZ19saW1pdGVkKCZy
-ZGV2LT5wZGV2LT5kZXYpKTsKPiA+Pj4+IC0KPiA+Pj4+ICAgICAgICAgICAgciA9IHJhZGVvbl90
-dG1faW5pdF92cmFtKHJkZXYpOwo+ID4+Pj4gICAgICAgICAgICBpZiAocikgewo+ID4+Pj4gICAg
-ICAgICAgICAgICAgICAgIERSTV9FUlJPUigiRmFpbGVkIGluaXRpYWxpemluZyBWUkFNIGhlYXAu
-XG4iKTsKPiA+Pj4+IC0tCj4gPj4+PiAyLjI1LjEKPiA+Pj4+Cj4gPj4+PiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4gZHJpLWRldmVsIG1haWxp
-bmcgbGlzdAo+ID4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4gaHR0
-cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNB
-JTJGJTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRl
-dmVsJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzNhZWRl
-MjAzMzQ4YjRmMzJlYTMxMDhkOGIzZTIyNGVjJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0
-ZTE4M2QlN0MwJTdDMCU3QzYzNzQ1NzEzMTE3OTI1ODQ4OCU3Q1Vua25vd24lN0NUV0ZwYkdac2Iz
-ZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENK
-WFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1wSHp1QXNKY1hmNUhsQWZKN3dZWWMlMkJzaXpa
-aFNMQkdXWEJoQ3lWTlJDZm8lM0QmYW1wO3Jlc2VydmVkPTAKPgoKCi0tIApEYW5pZWwgVmV0dGVy
-ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5j
-aApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Linus,
+
+Looks like people are back from the break, usual small pile of fixes all
+over. Next week Dave should be back. Only thing pending I'm aware of is a
+"this shouldn't have become uapi" reverts for amdgpu, but they're already
+on the list and not that important really so can wait another week.
+
+Cheers, Daniel
+
+drm-fixes-2021-01-08:
+drm-fixes for -rc3
+
+- fix for ttm list corruption in radeon, reported by a few people
+- fixes for amdgpu, i915, msm
+- dma-buf use-after free fix
+
+Cheers, Daniel
+
+The following changes since commit e71ba9452f0b5b2e8dc8aa5445198cd9214a6a62:
+
+  Linux 5.11-rc2 (2021-01-03 15:55:30 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-01-08
+
+for you to fetch changes up to 29f95f20581c4bb4e58c1cc1cb15bff9b931cad9:
+
+  Merge tag 'drm-misc-fixes-2021-01-08' of git://anongit.freedesktop.org/dr=
+m/drm-misc into drm-fixes (2021-01-08 10:39:18 +0100)
+
+----------------------------------------------------------------
+drm-fixes for -rc3
+
+- fix for ttm list corruption in radeon, reported by a few people
+- fixes for amdgpu, i915, msm
+- dma-buf use-after free fix
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/display: drop DCN support for aarch64
+      Revert "drm/amd/display: Fix memory leaks in S3 resume"
+
+Arnd Bergmann (1):
+      drm/amd/display: Fix unused variable warning
+
+Charan Teja Reddy (1):
+      dmabuf: fix use-after-free of dmabuf's file->f_inode
+
+Chris Wilson (2):
+      drm/i915/gt: Define guc firmware blob for older Cometlakes
+      drm/i915/dp: Track pm_qos per connector
+
+Christian K=F6nig (2):
+      drm/radeon: stop re-init the TTM page pool
+      drm/ttm: unexport ttm_pool_init/fini
+
+Craig Tatlor (1):
+      drm/msm: Call msm_init_vram before binding the gpu
+
+Daniel Vetter (4):
+      Merge tag 'amd-drm-fixes-5.11-2021-01-06' of https://gitlab.freedeskt=
+op.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2021-01-07' of git://anongit.freedesktop.o=
+rg/drm/drm-intel into drm-fixes
+      Merge tag 'drm-msm-fixes-2021-01-07' of https://gitlab.freedesktop.or=
+g/drm/msm into drm-fixes
+      Merge tag 'drm-misc-fixes-2021-01-08' of git://anongit.freedesktop.or=
+g/drm/drm-misc into drm-fixes
+
+Dennis Li (3):
+      drm/amdgpu: fix a memory protection fault when remove amdgpu device
+      drm/amdgpu: fix a GPU hang issue when remove device
+      drm/amdgpu: fix no bad_pages issue after umc ue injection
+
+Hawking Zhang (1):
+      drm/amdgpu: switched to cached noretry setting for vangogh
+
+Iskren Chernev (3):
+      drm/msm: Fix null dereference in _msm_gem_new
+      drm/msm: Ensure get_pages is called when locked
+      drm/msm: Add modparam to allow vram carveout
+
+Jiawei Gu (1):
+      drm/amdgpu: fix potential memory leak during navi12 deinitialization
+
+John Clements (2):
+      drm/amd/pm: updated PM to I2C controller port on sienna cichlid
+      drm/amdgpu: enable ras eeprom support for sienna cichlid
+
+Kevin Wang (1):
+      drm/amd/display: fix sysfs amdgpu_current_backlight_pwm NULL pointer =
+issue
+
+Konrad Dybcio (1):
+      drm/msm: Only enable A6xx LLCC code on A6xx
+
+Kuogee Hsieh (1):
+      drm/msm/dp: postpone irq_hpd event during connection pending state
+
+Matthew Auld (2):
+      drm/i915: clear the shadow batch
+      drm/i915: clear the gpu reloc batch
+
+Rob Clark (1):
+      drm/msm: Fix WARN_ON() splat in _free_object()
+
+Xiaojian Du (4):
+      drm/amd/pm: correct the sensor value of power for vangogh
+      drm/amd/pm: improve the fine grain tuning function for RV/RV2/PCO
+      drm/amd/pm: fix the failure when change power profile for renoir
+      drm/amd/pm: improve the fine grain tuning function for RV/RV2/PCO
+
+ drivers/dma-buf/dma-buf.c                          |  21 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  25 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   8 +-
+ drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c            |   2 +-
+ drivers/gpu/drm/amd/display/Kconfig                |   2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   7 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  |   2 +-
+ drivers/gpu/drm/amd/display/dc/calcs/Makefile      |   4 -
+ drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile    |  21 ---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   7 +-
+ drivers/gpu/drm/amd/display/dc/dcn10/Makefile      |   7 -
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |   7 -
+ drivers/gpu/drm/amd/display/dc/dcn20/Makefile      |   4 -
+ drivers/gpu/drm/amd/display/dc/dcn21/Makefile      |   4 -
+ drivers/gpu/drm/amd/display/dc/dcn30/Makefile      |   5 -
+ drivers/gpu/drm/amd/display/dc/dcn301/Makefile     |   4 -
+ drivers/gpu/drm/amd/display/dc/dcn302/Makefile     |   4 -
+ drivers/gpu/drm/amd/display/dc/dml/Makefile        |   4 -
+ drivers/gpu/drm/amd/display/dc/dsc/Makefile        |   4 -
+ drivers/gpu/drm/amd/display/dc/os_types.h          |   4 -
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   | 166 +++++++++++++++++=
+++--
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h   |   3 +
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |   1 +
+ drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c     |   1 +
+ drivers/gpu/drm/i915/display/intel_display_types.h |   3 +
+ drivers/gpu/drm/i915/display/intel_dp.c            |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   1 +
+ drivers/gpu/drm/i915/i915_cmd_parser.c             |  27 ++--
+ drivers/gpu/drm/i915/i915_drv.c                    |   5 -
+ drivers/gpu/drm/i915/i915_drv.h                    |   3 -
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  21 +--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   6 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |   7 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  12 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |   8 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |  13 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c                |   3 -
+ drivers/gpu/drm/ttm/ttm_pool.c                     |   2 -
+ 47 files changed, 302 insertions(+), 177 deletions(-)
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
