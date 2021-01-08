@@ -2,57 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAAC2EF015
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 10:53:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9332EF07A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 11:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3496E7EA;
-	Fri,  8 Jan 2021 09:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54FC889C6E;
+	Fri,  8 Jan 2021 10:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEE0C6E7DD
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 09:53:16 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id m5so8354845wrx.9
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 01:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NVijV9kjYtZixSo+bMIMrjGnd5OL7MvE3LxxyANLHaQ=;
- b=AUfE3uPHl2xXpEaMLbzd9CCCxzbdF+KwM4KrPIVN5SgctfYHKUtpiQOABPZolL5D+w
- zdYS4tSaxWjwwqxE5syWIdUX89EecPohYTb+Xi1FO/q+gerEn4V99ND8drumtD+QLZJe
- jOhLv2qSXZ7yr70EhMiOZ/7wVeXrutx9a5nqI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NVijV9kjYtZixSo+bMIMrjGnd5OL7MvE3LxxyANLHaQ=;
- b=TdhpWsf9yFNAcRuJccwxI7KDOvGtlmZdU8FCBlJFK8XimLGA0yQ+zSEoELHA1ttNLj
- t6eNRCEHWhxdaYKyRG5u/mGsrleEM0V1Tw6bVjahGbCzzAq1+99N1yxgxXv02n173Mtu
- XkG8vLBOa2ed6RKNzDCkXKtv5RmlOm2HQhG0RGqiuNpVqjpIGlJtrcg0bzUNe8Rsz99f
- 5NT8nRRNR21y+qRHErNz+duzewP8qDLDZCON0XJXDiwZAhGMvG6xXpYbTEMDyX7mnkEE
- 5Q7LARUkDF64OvtXbHL4oOtMn03FGN0d1NOvH0I1XzeQJpvHSE+9/d1DyDcRgb2qQInD
- b92Q==
-X-Gm-Message-State: AOAM531ZoEMnrin4EBJ3qZazMLJ7CVvgmSMaDG/kmmuVCTI9F9tWTb8F
- T84o5xpQR5ZC23fTL/vcppLEoQ==
-X-Google-Smtp-Source: ABdhPJx6N0leHlAbHgFIjjgNEvLchchHyHzuqzB+ZaQXeJ8UcVHbbrUEPbKkQZ+UjoqZxDVaNSZ6WA==
-X-Received: by 2002:adf:cc81:: with SMTP id p1mr2745272wrj.339.1610099595570; 
- Fri, 08 Jan 2021 01:53:15 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 125sm11914658wmc.27.2021.01.08.01.53.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 01:53:14 -0800 (PST)
-Date: Fri, 8 Jan 2021 10:53:12 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <X/griCbZHfyYt6cH@phenom.ffwll.local>
-References: <X/gnKs52t8xUuAlE@linux-uq9g>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0D089C6E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 10:13:46 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kxom8-0007zY-HY; Fri, 08 Jan 2021 11:13:44 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/modes: add non-OF stub for of_get_drm_display_mode
+Date: Fri,  8 Jan 2021 11:13:43 +0100
+Message-Id: <20210108101343.23695-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X/gnKs52t8xUuAlE@linux-uq9g>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +42,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 08, 2021 at 10:34:34AM +0100, Thomas Zimmermann wrote:
-> Hi Dave and Daniel,
-> =
+If CONFIG_OF is disabled, of_get_drm_display_mode is not compiled in,
+and drivers using it fail to build:
 
-> sorry for being a bit late. Here's this week's PR for drm-misc-fixes.
+  ld: drivers/gpu/drm/imx/parallel-display.o: in function `imx_pd_connector_get_modes':
+  parallel-display.c:(.text+0x8d): undefined reference to `of_get_drm_display_mode'
 
-No worries, Dave's out anyway so this is all in time for me to do the pull
-:-)
+Add an inline stub so they can be build-tested with non-OF
+configurations.
 
-> =
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ include/drm/drm_modes.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> Best regards
-> Thomas
-> =
+diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
+index a0d79d1c51e2..29ba4adf0c53 100644
+--- a/include/drm/drm_modes.h
++++ b/include/drm/drm_modes.h
+@@ -461,9 +461,19 @@ void drm_display_mode_from_videomode(const struct videomode *vm,
+ void drm_display_mode_to_videomode(const struct drm_display_mode *dmode,
+ 				   struct videomode *vm);
+ void drm_bus_flags_from_videomode(const struct videomode *vm, u32 *bus_flags);
++
++#if defined(CONFIG_OF)
+ int of_get_drm_display_mode(struct device_node *np,
+ 			    struct drm_display_mode *dmode, u32 *bus_flags,
+ 			    int index);
++#else
++static inline int of_get_drm_display_mode(struct device_node *np,
++					  struct drm_display_mode *dmode,
++					  u32 *bus_flags, int index)
++{
++	return -EINVAL;
++}
++#endif
+ 
+ void drm_mode_set_name(struct drm_display_mode *mode);
+ int drm_mode_vrefresh(const struct drm_display_mode *mode);
+-- 
+2.20.1
 
-> drm-misc-fixes-2021-01-08:
-> * dma-buf: fix a use-after-free
-> * radeon: don't init the TTM page pool manually
-> * ttm: unexport ttm_pool_{init,fini}()
-> The following changes since commit e71ba9452f0b5b2e8dc8aa5445198cd9214a6a=
-62:
-> =
-
->   Linux 5.11-rc2 (2021-01-03 15:55:30 -0800)
-> =
-
-> are available in the Git repository at:
-> =
-
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-01-=
-08
-
-Pulled, thanks.
--Daniel
-
-> =
-
-> for you to fetch changes up to a73858ef4d5e1d425e171f0f6a52864176a6a979:
-> =
-
->   drm/ttm: unexport ttm_pool_init/fini (2021-01-07 14:25:43 +0100)
-> =
-
-> ----------------------------------------------------------------
-> * dma-buf: fix a use-after-free
-> * radeon: don't init the TTM page pool manually
-> * ttm: unexport ttm_pool_{init,fini}()
-> =
-
-> ----------------------------------------------------------------
-> Charan Teja Reddy (1):
->       dmabuf: fix use-after-free of dmabuf's file->f_inode
-> =
-
-> Christian K=F6nig (2):
->       drm/radeon: stop re-init the TTM page pool
->       drm/ttm: unexport ttm_pool_init/fini
-> =
-
->  drivers/dma-buf/dma-buf.c           | 21 +++++++++++++++++----
->  drivers/gpu/drm/radeon/radeon_ttm.c |  3 ---
->  drivers/gpu/drm/ttm/ttm_pool.c      |  2 --
->  3 files changed, 17 insertions(+), 9 deletions(-)
-> =
-
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
