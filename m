@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115282EFF44
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9C32EFF39
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02FAB6E94A;
-	Sat,  9 Jan 2021 11:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D826E93B;
+	Sat,  9 Jan 2021 11:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2904F89A0F;
- Fri,  8 Jan 2021 13:56:40 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id c5so9078512wrp.6;
- Fri, 08 Jan 2021 05:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q91uhwFRfmIKcWPttNsrBoB66RrXUH9oGtyQnvttSXI=;
- b=DQXxUVb6TciWFgP7OcgXU45ci44YnDtH3mBxAimjk67e+oonwcPLS3fiWqg2MX48TZ
- c7TTeAzKDudMuKa3R6Flqfdmsi6qyMd0TJsq4RJ4i0E+tgLxRAlz/WiW9wo/RfcqnW/R
- 3sYx7mAWg34mTpqM62WXbEipKhnqNlzV/QEq1QIiMHuTqV+R0GWcV04OGlyDzCb0yXKH
- Rdp8aGDCKwBpgfZHx2Y3/uOYwE6WSUpQXM+Mt3aXpQ8EjetfkfkfVlZFTcwzG6YilRzU
- lzgW5KF2Vqk6OEQOSn51UUYldBKmXcBdFrywOjIGc94/yA47Zl0VIzwRDJMiG4HEy9O1
- +qRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q91uhwFRfmIKcWPttNsrBoB66RrXUH9oGtyQnvttSXI=;
- b=jlUL6BCSlM4ejE8sSGG4OEdBWXKYrRJBlwkXSssgE0ewG7AM3w0UVVdD5FWhmdwLNm
- 7lf0BCFFHHsAHxFNjgdX+c2GE57ElF+j0Hv/Q/nvYeJxlF4Zs+eX89VkUynKKq+bNfgv
- PPowdi59g2fD3QrD7RyzKQmYXicWBtqNWjdLhPCXa13KS3oiDFANeLHqFghEPMvkGv8u
- wtmrqL+StF5YD7CZ5vMbWohFrhMAabR0f9xOuiDmEsZu3GXc4RmLRZ/89xIu6IkELUwC
- mCNAcCtszGXdIoruO7LQgjkaCbluBkfkw6oofS4jz3Wmem/ZQNdKDSHJjxUQEtQjMgav
- ibRA==
-X-Gm-Message-State: AOAM531icPqCwT6hwf7T3+qQ56RXQl+hXZSxW0kW8fU74tSDiTKwLVhB
- 0btBtHC9jUdy2639zgZ62D8=
-X-Google-Smtp-Source: ABdhPJxVIIWUzakNhcBupPxQs6OS0tuLZs/ngkNh+3oV53GXiM+8RXAWH8x5kYYjsuYns8LiBt6ktA==
-X-Received: by 2002:adf:df06:: with SMTP id y6mr3804923wrl.241.1610114198890; 
- Fri, 08 Jan 2021 05:56:38 -0800 (PST)
-Received: from [192.168.74.106] (178-169-161-196.razgrad.ddns.bulsat.com.
- [178.169.161.196])
- by smtp.gmail.com with ESMTPSA id o124sm12646637wmb.5.2021.01.08.05.56.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 05:56:37 -0800 (PST)
-Subject: Re: [PATCH] drm/msm: Fix MSM_INFO_GET_IOVA with carveout
-To: Rob Clark <robdclark@gmail.com>
-References: <20210102202437.1630365-1-iskren.chernev@gmail.com>
- <CAF6AEGt868msEPdZwJTB3YQppwNLaavSsDm1mGznCu1jsSPxCQ@mail.gmail.com>
- <CAF6AEGvoG4DUSrsEBpsZV-gc42XnhvgqPWXvwa1SMMk1JoF15w@mail.gmail.com>
-From: Iskren Chernev <iskren.chernev@gmail.com>
-Message-ID: <a9479d08-e9db-dfa7-c2f5-a8de5a0a28c4@gmail.com>
-Date: Fri, 8 Jan 2021 15:56:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC74C6E82C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 14:05:37 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610114739; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=NolXsxXc4LnP1hy9iZM7qEDax7wxHeKW7dI9mmmMmqw=;
+ b=jpxa842rf8MY3PYM1ijOIlW7Yt0EISqKf4TL6q5CtQ278rGiUuzGP/y6BG3ZBjMOT6HgHwRT
+ Vep6bcoBo1AhCt7GMMIuUyc7/6AVxmzl5FYzsejJLeyWsaBpABmWFTIq9lssW4S5bwjXnQjw
+ Q0RHFtFPMxIa93Kzyk/T+Zh3iuo=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 5ff866af9f9cd52344f26554 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 08 Jan 2021 14:05:35
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6ED23C43463; Fri,  8 Jan 2021 14:05:34 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 726EDC433C6;
+ Fri,  8 Jan 2021 14:05:33 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGvoG4DUSrsEBpsZV-gc42XnhvgqPWXvwa1SMMk1JoF15w@mail.gmail.com>
-Content-Language: en-US
+Date: Fri, 08 Jan 2021 19:35:33 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH] drm/msm: Only enable A6xx LLCC code on A6xx
+In-Reply-To: <fa091855-8096-6377-e173-ce1cd02f74ec@somainline.org>
+References: <CAF6AEGu0Sv6nYNDn0z61pXRjNyFLpLw5S4_O3opmrQ-UVNR_MA@mail.gmail.com>
+ <20210108122601.14993-1-saiprakash.ranjan@codeaurora.org>
+ <fa091855-8096-6377-e173-ce1cd02f74ec@somainline.org>
+Message-ID: <43c8779bc5f03be2e8072c6484dfcabb@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Sat, 09 Jan 2021 11:46:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,86 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
+Cc: sean@poorly.run, jonathan@marek.ca, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
+ martin.botka@somainline.org, akhilpo@codeaurora.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ marijn.suijten@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
+ angelogioacchino.delregno@somainline.org, airlied@redhat.com,
+ phone-devel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2021-01-08 19:09, Konrad Dybcio wrote:
+>> Konrad, can you please test this below change without your change?
+> 
+> This brings no difference, a BUG still happens. We're still calling
+> to_a6xx_gpu on ANY device that's probed! Too bad it won't turn my A330
+> into an A640..
+> 
+> Also, relying on disabling LLCC in the config is out of question as it
+> makes the arm32 kernel not compile with DRM/MSM and it just removes
+> the functionality on devices with a6xx.. (unless somebody removes the
+> dependency on it, which in my opinion is even worse and will cause
+> more problems for developers!).
+> 
 
+Disabling LLCC is not the suggestion, I was under the impression that
+was the cause here for the smmu bug. Anyways, the check for llc slice
+in case llcc is disabled is not correct as well. I will send a patch for
+that as well.
 
-On 1/8/21 12:36 AM, Rob Clark wrote:
-> On Thu, Jan 7, 2021 at 9:20 AM Rob Clark <robdclark@gmail.com> wrote:
->>
->> On Sat, Jan 2, 2021 at 12:26 PM Iskren Chernev <iskren.chernev@gmail.com> wrote:
->>>
->>> The msm_gem_get_iova should be guarded with gpu != NULL and not aspace
->>> != NULL, because aspace is NULL when using vram carveout.
->>>
->>> Fixes: 933415e24bd0d ("drm/msm: Add support for private address space instances")
->>>
->>> Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
->>> ---
->>>  drivers/gpu/drm/msm/msm_drv.c | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->>> index c5e61cb3356df..c1953fb079133 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.c
->>> +++ b/drivers/gpu/drm/msm/msm_drv.c
->>> @@ -775,9 +775,10 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
->>>                 struct drm_file *file, struct drm_gem_object *obj,
->>>                 uint64_t *iova)
->>>  {
->>> +       struct msm_drm_private *priv = dev->dev_private;
->>>         struct msm_file_private *ctx = file->driver_priv;
->>>
->>> -       if (!ctx->aspace)
->>> +       if (!priv->gpu)
->>>                 return -EINVAL;
->>
->> Does this actually work?  It seems like you would hit a null ptr deref
->> in msm_gem_init_vma().. and in general I think a lot of code paths
->> would be surprised by a null address space, so this seems like a risky
->> idea.
->
-> oh, actually, I suppose it is ok, since in the vram carveout case we
-> create the vma up front when the gem obj is created..
->
-> (still, it does seem a bit fragile.. and easy for folks testing on
-> devices not using vram carvout to break.. hmm..)
+> The bigger question is how and why did that piece of code ever make it
+> to adreno_gpu.c and not a6xx_gpu.c?
+> 
 
-In _msm_gem_new add_vma is called with NULL, so consequently lookup_vma
-finds it when aspace is NULL.
+My mistake, I will move it.
 
-Also, this is how the code was before the "breaking" change, so it should
-not be worse.
+> To solve it in a cleaner way I propose to move it to an a6xx-specific
+> file, or if it's going to be used with next-gen GPUs, perhaps manage
+> calling of this code via an adreno quirk/feature in adreno_device.c.
+> Now that I think about it, A5xx GPMU en/disable could probably managed
+> like that, instead of using tons of if-statements for each GPU model
+> that has it..
+> 
+> While we're at it, do ALL (and I truly do mean ALL, including the
+> low-end ones, this will be important later on) A6xx GPUs make use of
+> that feature?
+> 
 
-I'll be happy to work on refactoring this a bit, but some some
-documentation about the different gpu/mdp pieces and how they fit together
-won't hurt.
+I do not have a list of all A6XX GPUs with me currently, but from what
+I know, A618, A630, A640, A650 has the support.
 
-Regards,
-Iskren
+Thanks,
+Sai
 
-> BR,
-> -R
->
->> Maybe instead we should be creating an address space for the vram carveout?
->>
->> BR,
->> -R
->>
->>
->>>         /*
->>> --
->>> 2.29.2
->>>
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
