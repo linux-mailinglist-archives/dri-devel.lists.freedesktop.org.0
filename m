@@ -2,70 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43C62EFF3A
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D3F2EFF45
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7112A6E93C;
-	Sat,  9 Jan 2021 11:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6583B6E943;
+	Sat,  9 Jan 2021 11:46:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7746E825
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 15:16:55 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 26A4B5C029F;
- Fri,  8 Jan 2021 10:16:52 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 08 Jan 2021 10:16:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=gEF+iBzLjyM0wR4beTJu/4hWPgq
- l8ApHKnxPAJ6MBH4=; b=WHlIMc5D6BTn8XDQfmgzuZ3/+OoY17VT7qzX3lYNb5p
- rk4WyMNCsINENeIRfnlFs7Rc7By0GkzB+2LC15hi18/XWtjI/atbauhlZBuRr3Ad
- cYIvcOZRRlpMBhKdJgXK59N+NbpByTubsyCp1VVf1CXhBRppxleaFXtE3q+Ps+Ch
- jX+JCFxC65OOFwxzcqk/nzSSa1tzkVrilYQyATynVAUL8indOnSswKxUy1w4B0pq
- DwxVJsSX8oWgcRQzCrpA7GvX+Rc79LVpzWC4djqUV/PaUMlA4/iaPp5zEaFo9Ya9
- C/hrzQ4sK0407naq2ZxGlkAbTLR2Zjbu9Lx+13HOONw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=gEF+iB
- zLjyM0wR4beTJu/4hWPgql8ApHKnxPAJ6MBH4=; b=LJU0RwYmkRSzTHJOKaoTk1
- 7t+009qY/A+GTF/g/va/jUU4DO1whjq6FU7RqsfKcYiNCj7HxkvM3kwIzckDWGEw
- Hw/6mMvIO9wZtEzONGTv5wDXNmNIJ4uaD6G3GmlwB5b8OrWWBedcHbd8SvMDCs4j
- E89KhxvtgK4DBiWAsqR8kvbh4DZjtftL2ryV/yWjO2m8Y5BKBCV1L8flKADyvgmB
- pHtGk0nMSAYeIZ7thg4mOwV+uCmA4NLLBCbVfQ5bhs5zUmqbp++IsYb7awProh4l
- C9fQBMEki0QPUbAfNp8cBfpOR9C5BE/P6HzqzD5oy9bV/4JXSd+X9yRp8nFOme8w
- ==
-X-ME-Sender: <xms:Ynf4X-UiD1tRpjnhEgfnWKgjBczWKn82r6CZW8zklqdoQeWJOGD9_g>
- <xme:Ynf4X6m13WfTYOjQC3fwqXNBJ0jLKCNlFufnmIhQ-ErCqpkQ7r4NkQkn1sgB_o-y5
- eRCN_04afHBeiFCVhM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeghedgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Ynf4XyaHyGc8AhHqMad4wvXf3tJDlqzE4avWVX64tccIG8xrUCci9A>
- <xmx:Ynf4X1UbuSlqPsO2O0U8ioBcwAGb2Y4v9s43i6m2C32SOyofosBUPg>
- <xmx:Ynf4X4nF_jbU4pFNnReX9I1UbDseV-QiKL5NOGnZ3DzESpVzROWFuw>
- <xmx:ZHf4X9yaH7RmPycGJjx9eFx-Qd2zi7AGxjDFgZKBTDaK-hiroCWLqg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3AB23108005C;
- Fri,  8 Jan 2021 10:16:50 -0500 (EST)
-Date: Fri, 8 Jan 2021 16:16:48 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/3] drm/vc4: Streamline the vmap and mmap code
-Message-ID: <20210108151648.lg4jor43u3ybnlzu@gilmour>
-References: <20210108140808.25775-1-tzimmermann@suse.de>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEF696E888
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 18:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=GgFFJ4hcRk9+UAJsMT8sbchAV7zRGgy6uNsRiOf7ev0=; b=tm8GEkPuhSAhfIgHvojD5FSi/b
+ xO3HyKT3HuqcBInQDvoayJy4QfgpiFZu2Ce71hqlz4pZSwSopPkcERYYcKHUtDH1Wc7E0xVB6RBqi
+ jGyx9nmDcSw2agzMzI6f4ItpA4kKFoje0IzEEAchWv6zBL9s1famUqra3IhRC7BBMQUOAK9WUaMPK
+ 6qerhTy+zUvyNpjOcT6210M+bxy0R/SsecZGlutwxCl9/Agp5nJ9vzBz/ViDYNQH7Hl2eSwncf54Z
+ wsfJOW7nMQEZcvllcR0KFXgf2IsnaB8jFLuQObrqgZ1phBfXRSN3/TIdzELDwJBRtfBsapfekyQn0
+ kkaSycPQ==;
+Received: from [2601:1c0:6280:3f0::79df]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kxwQl-00055n-76; Fri, 08 Jan 2021 18:24:11 +0000
+Subject: Re: [PATCH] drm/modes: add non-OF stub for of_get_drm_display_mode
+To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20210108101343.23695-1-p.zabel@pengutronix.de>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6bed2949-bf2d-d10c-0dec-58c4f86fae16@infradead.org>
+Date: Fri, 8 Jan 2021 10:24:03 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210108140808.25775-1-tzimmermann@suse.de>
+In-Reply-To: <20210108101343.23695-1-p.zabel@pengutronix.de>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 09 Jan 2021 11:46:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,63 +50,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0127578104=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 1/8/21 2:13 AM, Philipp Zabel wrote:
+> If CONFIG_OF is disabled, of_get_drm_display_mode is not compiled in,
+> and drivers using it fail to build:
+> 
+>   ld: drivers/gpu/drm/imx/parallel-display.o: in function `imx_pd_connector_get_modes':
+>   parallel-display.c:(.text+0x8d): undefined reference to `of_get_drm_display_mode'
+> 
+> Add an inline stub so they can be build-tested with non-OF
+> configurations.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
---===============0127578104==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="otastfe3ynmz5z3t"
-Content-Disposition: inline
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  include/drm/drm_modes.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
+> index a0d79d1c51e2..29ba4adf0c53 100644
+> --- a/include/drm/drm_modes.h
+> +++ b/include/drm/drm_modes.h
+> @@ -461,9 +461,19 @@ void drm_display_mode_from_videomode(const struct videomode *vm,
+>  void drm_display_mode_to_videomode(const struct drm_display_mode *dmode,
+>  				   struct videomode *vm);
+>  void drm_bus_flags_from_videomode(const struct videomode *vm, u32 *bus_flags);
+> +
+> +#if defined(CONFIG_OF)
+>  int of_get_drm_display_mode(struct device_node *np,
+>  			    struct drm_display_mode *dmode, u32 *bus_flags,
+>  			    int index);
+> +#else
+> +static inline int of_get_drm_display_mode(struct device_node *np,
+> +					  struct drm_display_mode *dmode,
+> +					  u32 *bus_flags, int index)
+> +{
+> +	return -EINVAL;
+> +}
+> +#endif
+>  
+>  void drm_mode_set_name(struct drm_display_mode *mode);
+>  int drm_mode_vrefresh(const struct drm_display_mode *mode);
+> 
 
 
---otastfe3ynmz5z3t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-Thanks for the series
-
-On Fri, Jan 08, 2021 at 03:08:05PM +0100, Thomas Zimmermann wrote:
-> Daniel recently pointed out that vc4 has test in it's vmap code that
-> cannot really fail. [1] I took the opportunity to cleanup vc'4 vmap
-> and mmap implementations.
->=20
-> The patches got smoke-tested by running fbdev and Xorg on an RPi3.
->=20
-> [1] https://lore.kernel.org/dri-devel/20201211094000.GK401619@phenom.ffwl=
-l.local/
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---otastfe3ynmz5z3t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/h3YAAKCRDj7w1vZxhR
-xffOAP0Vut9lbBPMS3z9agOJJ/8htYRpLOoSyWxQ++mRXYgxEQEAwEprmz/wpg/7
-xtTZmAjMXjhbG9UDeptzIrgEmSfXXQg=
-=0sly
------END PGP SIGNATURE-----
-
---otastfe3ynmz5z3t--
-
---===============0127578104==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+~Randy
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0127578104==--
