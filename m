@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5822EF86D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 20:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433CF2EF875
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 20:58:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D775D6E8BD;
-	Fri,  8 Jan 2021 19:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F33C6E8BD;
+	Fri,  8 Jan 2021 19:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 508706E8BD
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 19:55:47 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id m12so25726443lfo.7
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 11:55:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PJMq4objzVNcUblV8NE/DuldZCBKwJF/PtAQRpfJPNc=;
- b=vrBhrVXkMEbApDOfPouVo3hQgeMClLDDFTrQJuG42kKnLbo4UQvyEmnpXNVNMFotwC
- ndG6SVmWvpz1z2eiJmqH68y4K1/FZGQAdrZbDWLyWd47B7Oc0ty8OKSFmNiWl31EHMoD
- xAOfpJ1UbzfW2NnPJ0565Fqxjf8CLMH1bbI9QMDi54+CvunHBzvshWLRUPiRW+mMcy7+
- PwKs2pMhwxRvQSj4xkPHasXVtQnWrOQnhYal5iGmFa83CxIvJ2pmCtU1Mo0hbNQTgtJ2
- MBJc8C/3f609xACEZU8d0oVj0cxZHV77L1zBK/2XC6zJkoYOHa8YOdvH3JWni4Z8Dn07
- dtpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PJMq4objzVNcUblV8NE/DuldZCBKwJF/PtAQRpfJPNc=;
- b=ckNlebF/Kv+rhGErQc3QT5ySFAhlCX7oagAke6Bl5i623K+WTwaq0DD28FViXhiLo4
- 99gBcAT46Tw09UWLJJFRO2k0ojjgoArpwlvlelKtdYqcVdU6/uSH5aW2IOEAHnUYscJQ
- /vMSAqRH6PlJWfbZh6CwmiLBlRu7H9lYHnXEJiBGJ9Awf4toNMGwD7fCkp2T9oEABJtp
- woRQzbuwybnmI6Lmi9z8HKDBOqs++c1JWrBEedl3OfVh9jljxBqHvDje7645yalhCjvZ
- 2kVrw0TX+kBZd9BUCin10JGaIWtl6J8YDSIpNlMmdiqXk1lwOdzEEQM7qA6u0LTenrgF
- DZcQ==
-X-Gm-Message-State: AOAM531u9MN9FpcMfTArBuZg9iLBP201xt7RFCPoNeVfjpJZowXZyZNn
- G0PcKyrMpGE3w1pysxuhzTKnWVUXM9DKGpRtkeujJsQYcOk=
-X-Google-Smtp-Source: ABdhPJxTt/pq9Ctby6LYdcBcM6+wiAiQOmcWinms2iB1gVmjDc1A/yv94xhmvmRI7G2lqD56lARAFOaf9ejrNHPsLnM=
-X-Received: by 2002:ac2:50cc:: with SMTP id h12mr2121481lfm.508.1610135745778; 
- Fri, 08 Jan 2021 11:55:45 -0800 (PST)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8E46E8BD
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 19:58:49 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 1984E20021;
+ Fri,  8 Jan 2021 20:58:40 +0100 (CET)
+Date: Fri, 8 Jan 2021 20:58:39 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCHv1] video: omapfb2: Make standard and custom DSI command
+ mode panel driver mutually exclusive
+Message-ID: <20210108195839.GA1429715@ravnborg.org>
+References: <20210108122540.657501b2@canb.auug.org.au>
+ <20210108112441.14609-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
-References: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
-In-Reply-To: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 8 Jan 2021 11:55:34 -0800
-Message-ID: <CALAqxLVyCuQmEKYh+TBo7k5igP8piz8mAsFt4cChF9q=qmh8XQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 1/2] dma-fence: allow signaling drivers to set
- fence timestamp
-To: Veera Sundaram Sankaran <veeras@codeaurora.org>
+Content-Disposition: inline
+In-Reply-To: <20210108112441.14609-1-sebastian.reichel@collabora.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=rOUgymgbAAAA:8 a=QX4gbG5DAAAA:8 a=7gkXJVJtAAAA:8
+ a=bFzB3eAsRtkcaW2KersA:9 a=CjuIK1q_8ugA:10 a=MP9ZtiD8KjrkvI0BhSjB:22
+ a=AbAUZ8qAyYyZVLSsDulk:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +46,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
- abhinavk@codeaurora.org, Sean Paul <sean@poorly.run>,
- linux-media <linux-media@vger.kernel.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 7, 2021 at 12:53 AM Veera Sundaram Sankaran
-<veeras@codeaurora.org> wrote:
->
-> Some drivers have hardware capability to get the precise timestamp of
-> certain events based on which the fences are triggered. This allows it to
-> set accurate timestamp factoring out any software and IRQ latencies. Add
-> a timestamp variant of fence signal function, dma_fence_signal_timestamp
-> to allow drivers to update the precise timestamp for fences.
->
+Hi Sebatian,
 
-So, on quick review, this seems mostly sane. Though, it might be good
-to add some more detail about how the hardware timestamping fits into
-the kernel's CLOCK_MONOTONIC time domain.
+On Fri, Jan 08, 2021 at 12:24:41PM +0100, Sebastian Reichel wrote:
+> Standard DRM panel driver for DSI command mode panel used by omapfb2 is also
+> available now. Just like the other panels its module name clashes with the
+> module from drivers/video/fbdev/omap2/omapfb/displays, part of the deprecated
+> omapfb2 fbdev driver. As omapfb2 can only be compiled when the omapdrm driver
+> is disabled, and the DRM panel drivers are useless in that case, make the
+> omapfb2 panel depend on the standard DRM panels being disabled to fix
+> the name clash.
+> 
+> Fixes: cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-I just want to make sure this interface isn't abused to jam raw
-hardware-domain timestamps into the fence->timestamp, causing the
-meaning or time-domain of the fence->timestamp to be unclear or
-inconsistent.
+For a backport this looks good:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-It may be useful to add an additional patch to the documentation
-around the dma_fence structure to make the timestamp field semantics
-more explicit and avoid confusion?
+But why is it it we need omapfb at all when we have omapdrm?
+Can we sunset all or some parts of omap support in video/?
+If not, what is missing to do so.
 
-thanks
--john
+	Sam
+
+> ---
+> Laurent introduced and fixed the same issue for the other panels and
+> this simply replicates the same solution for DSI command mode panel.
+> ---
+>  drivers/video/fbdev/omap2/omapfb/displays/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/Kconfig b/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
+> index 744416dc530e..384d74a126dc 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
+> +++ b/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
+> @@ -43,6 +43,7 @@ config FB_OMAP2_PANEL_DPI
+>  config FB_OMAP2_PANEL_DSI_CM
+>  	tristate "Generic DSI Command Mode Panel"
+>  	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on DRM_PANEL_DSI_CM = n
+>  	help
+>  	  Driver for generic DSI command mode panels.
+>  
+> -- 
+> 2.29.2
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
