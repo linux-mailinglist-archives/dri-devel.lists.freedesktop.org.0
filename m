@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9892EF7A5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 19:48:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B54DB2EF7A6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 19:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA3D89FD7;
-	Fri,  8 Jan 2021 18:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC866E898;
+	Fri,  8 Jan 2021 18:49:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8E989FD7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 18:48:44 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kxwoU-0007Xj-Jj; Fri, 08 Jan 2021 19:48:42 +0100
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kxwoT-0007p1-JR; Fri, 08 Jan 2021 19:48:41 +0100
-Message-ID: <8c048f3677f706de306c19ecf6868c4109c1c40d.camel@pengutronix.de>
-Subject: [GIT PULL] drm/imx: compile test fixes
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 08 Jan 2021 19:48:41 +0100
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
+ [IPv6:2607:f8b0:4864:20::f2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 594A06E8A2
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 18:49:20 +0000 (UTC)
+Received: by mail-qv1-xf2f.google.com with SMTP id h16so4750613qvu.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 10:49:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MXFPUIE9MtzGsCGF9Js7PwExxNJpMKSgT7ZaHn20CSs=;
+ b=a3vl6hO+T9l9dVZWmv0q/vinuFwZGDfpQCub9I54wZuLl8KxGXjTFG+0giarjUOcNk
+ 7/9gdLFkUMF9TfEfVIZfZp6vFV/kO8i/7sxVgdpygnNeuS693CncEm4YMBPFxXDATukc
+ bBrT1EWQDx8G7evhuQw/xUr94lYFBIcNwES56/sWkTP4ZuagMOAe2Da9cRmLnCgYlyOw
+ uNkVf38nnjdTrIX48dgVPjgz6JFMTdw4uIPTyS1HV9TvBOiOyJLlLMQVmv2GtoeMQIJT
+ zpl2AWKlLjwbNtJDNKSWNVTy7tjddVhauTTlzqCxhcOKCno9HgEsGsY2FVlyCzNz3o5i
+ Xspg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MXFPUIE9MtzGsCGF9Js7PwExxNJpMKSgT7ZaHn20CSs=;
+ b=ZVxpE5ORndVVN9fw2OUeExf78VG1lubd3YHNw/8sEHyWWNnbxSjuxsdAksa6Wk2lEi
+ g2VRAOIT0Rf+fjs0cqIVJkfOFIGyDzKugg6lyHOeR7IFMe8gbU0qcq8yXf+LNA6cxu5D
+ fr7Omtxn/FBYLIpBXJcKTd8QdfCtvI+8rZJv2RxSasUL3k8+M4lm07KCq1UtDCpITtg8
+ 3lCeGeOu6EbhEaRAfAmqXbFe7vTdiX3piE6x03q6Fhss0DvkxXiIfekaAJku4GObqyYd
+ VuTubYRWvTEkashTXnitsNKsT/KgXxRVJBm/97G3QjEj4kRKUkLAK5RzfX7BZa2+nT7O
+ nU0w==
+X-Gm-Message-State: AOAM533dyluFvVwkz7oy1O9x/Bbh62RUDO2axA5fgIeyDT7r9fvHApgh
+ rUT+SfAbrS6cfazYCqSq4CFIudk8RzjJ+uF2hGfeTg==
+X-Google-Smtp-Source: ABdhPJxkPCtYO7wlJ0geE6jbL7M5x6cX2NiazCvwOiWfsS4pOVgWgp9bME6+XwzjwSBndAX8p8lZ4XMenYZG+/X/VDQ=
+X-Received: by 2002:a0c:8c87:: with SMTP id p7mr5115094qvb.46.1610131758765;
+ Fri, 08 Jan 2021 10:49:18 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210105114505.38210-1-christian.koenig@amd.com>
+In-Reply-To: <20210105114505.38210-1-christian.koenig@amd.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Fri, 8 Jan 2021 18:49:07 +0000
+Message-ID: <CAHbf0-HnCdsGO9No1Ug+QEaz2WXm12OOJ9VXvhYF1P98_6GU=A@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: Remove pinned bos from LRU in
+ ttm_bo_move_to_lru_tail() v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Lyude <cpaul@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,42 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0370854204=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
-this PR includes two fixes for x86_64 COMPILE_TEST builds with CONFIG_OF
-disabled.
+--===============0370854204==
+Content-Type: multipart/alternative; boundary="000000000000875cd805b86803da"
 
-The following changes since commit 16da8e9a7767ac77720f49bfa870def61a250cda:
+--000000000000875cd805b86803da
+Content-Type: text/plain; charset="UTF-8"
 
-  drm/imx: ipuv3-crtc: use drm managed resources (2021-01-04 12:59:34 +0100)
+Hi
 
-are available in the Git repository at:
+This breaks things for me on my Prime system
 
-  git://git.pengutronix.de/git/pza/linux.git tags/imx-drm-next-2021-01-08
+https://gitlab.freedesktop.org/drm/misc/-/issues/23
 
-for you to fetch changes up to 82581fcf070b68a91fb3a3ade08d9a76380a4789:
+Cheers
 
-  drm/modes: add non-OF stub for of_get_drm_display_mode (2021-01-08 19:42:14 +0100)
+Mike
 
-----------------------------------------------------------------
-drm/imx: compile test fixes
+--000000000000875cd805b86803da
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Fix COMPILE_TEST builds with CONFIG_OF disabled.
+<div dir=3D"ltr">Hi<div><br></div><div>This breaks things for me on my Prim=
+e system</div><div><br></div><div><a href=3D"https://gitlab.freedesktop.org=
+/drm/misc/-/issues/23">https://gitlab.freedesktop.org/drm/misc/-/issues/23<=
+/a><br></div><div><br></div><div>Cheers</div><div><br></div><div>Mike</div>=
+</div>
 
-----------------------------------------------------------------
-Philipp Zabel (2):
-      drm/imx: dw_hdmi-imx: depend on OF to fix randconfig compile tests on x86_64
-      drm/modes: add non-OF stub for of_get_drm_display_mode
+--000000000000875cd805b86803da--
 
- drivers/gpu/drm/imx/Kconfig |  2 +-
- include/drm/drm_modes.h     | 10 ++++++++++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+--===============0370854204==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0370854204==--
