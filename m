@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1942EF085
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 11:17:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D54D32EF2DC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 14:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B78C899F0;
-	Fri,  8 Jan 2021 10:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94CA36E32A;
+	Fri,  8 Jan 2021 13:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE37899F0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 10:17:41 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kxopt-0008R4-RV; Fri, 08 Jan 2021 11:17:37 +0100
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kxopo-0007ev-2X; Fri, 08 Jan 2021 11:17:32 +0100
-Message-ID: <8a37aaa3bd4d2b032f45cbab998943e6a7f5c086.camel@pengutronix.de>
-Subject: Re: linux-next: Tree for Jan 7
- (drivers/gpu/drm/imx/parallel-display.o)
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>
-Date: Fri, 08 Jan 2021 11:17:32 +0100
-In-Reply-To: <CAKMK7uGP6tmmSx8jFcGK_kLDYQO6PBy-TYMEj=WWh5VRTJ7cFQ@mail.gmail.com>
-References: <20210107140103.0cca6432@canb.auug.org.au>
- <e1042fe6-10e9-b62c-fae9-0d3b66e42866@infradead.org>
- <CAKMK7uGP6tmmSx8jFcGK_kLDYQO6PBy-TYMEj=WWh5VRTJ7cFQ@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCCD6E32A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 13:07:49 +0000 (UTC)
+IronPort-SDR: n56u1FNfeKnJulBqMu9Ddj87/vAm+ZcUkOOF3tuzmi0IvGJwru4Fr8XEZnD2J+QMC4Fg0nmb2D
+ rB+0eqLHjsoA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="165279994"
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="165279994"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2021 05:07:48 -0800
+IronPort-SDR: XwuvPVa/RMQZzUEEBUjTkYGnzBKJkI1/KXJBjEc/NCkmVlarl3HHEBYmYmZr1/CSiDmVqeumbl
+ 3z4LRDqZnraQ==
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="351672981"
+Received: from rgwhiteh-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.213.205.160])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2021 05:07:44 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de, dri-devel@lists.freedesktop.org,
+ xinliang.liu@linaro.org
+Subject: Re: [RFC] drm/connector: Set the default callback function for
+ drm_connector_funcs
+In-Reply-To: <d8e3cdca-79dd-2c41-27c1-b09a45670976@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1610092442-36168-1-git-send-email-tiantao6@hisilicon.com>
+ <d8e3cdca-79dd-2c41-27c1-b09a45670976@suse.de>
+Date: Fri, 08 Jan 2021 15:07:41 +0200
+Message-ID: <871revziea.fsf@intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,45 +52,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2021-01-08 at 10:03 +0100, Daniel Vetter wrote:
-> On Fri, Jan 8, 2021 at 9:55 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > On 1/6/21 7:01 PM, Stephen Rothwell wrote:
-> > > Hi all,
-> > > 
-> > > Changes since 20210106:
-> > > 
-> > 
-> > on x86_64:
-> > 
-> > ld: drivers/gpu/drm/imx/parallel-display.o: in function `imx_pd_connector_get_modes':
-> > parallel-display.c:(.text+0x8d): undefined reference to `of_get_drm_display_mode'
->
-> Probably something in the pull from philipp that I just merged
-> yesterday.
+On Fri, 08 Jan 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Drivers cannot legally declare the funcs instance as static const. 
+> Having static const allows for write protected pages.
 
-That is likely, although I'm not quite sure how that activated, the
-of_get_drm_display_mode call was there before.
+This. I've done quite a bit of refactoring all over the place to be
+ablet to move to the complete opposite direction. We want to keep all
+callback structs static const.
 
-> Philip, can you pls take care?
-> -Daniel
+If the idea here was good (on which I'm inclined to side with Thomas and
+Daniel that it isn't), the way to go would be to add a small wrapper for
+calling ->fill_modes(), with a different path for when it's NULL.
 
-Thank you for the notice, since the of_get_drm_display_mode() is only
-for legacy device trees I'd like to stub it out and keep compile test
-coverage:
+BR,
+Jani.
 
-https://lore.kernel.org/dri-devel/20210108101343.23695-1-p.zabel@pengutronix.de/T/#u
 
-regards
-Philipp
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
