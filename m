@@ -1,42 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB0F2EEADF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 02:25:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2C52EEB0E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 02:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C49BF6E5BD;
-	Fri,  8 Jan 2021 01:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC2789C6E;
+	Fri,  8 Jan 2021 01:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C093F6E5BD;
- Fri,  8 Jan 2021 01:25:45 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DBlm56rYNz9sRR;
- Fri,  8 Jan 2021 12:25:41 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1610069143;
- bh=ABTHMIc4R0Kwf7yGnAmGvgl/NcOc9dGiP5Xyj02DzsE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ot8h6L6ULexS+HiSagRc+G5duAqtlnHlVFwjn5velbqwKZTNx0ECFENAd53d9MewK
- vKoD4B86XkSCEPNwb2eC0ED8jgaTH8apqdkBBr6MnOXvHD7fZ+MJ/SjUyQtniM55vm
- I3ad7aNjkfHT4Agf/TG0aFQJGHYHPXhoWLFd3lZM5dreuPpqU2U51VYVRNYjUTqNX7
- yWJqiuUF+xqc+a8dh+czAWUpew5AFXin5lksI5OI0z0r8fRQDflkqBbMlvALi54cyM
- /ei3kH6CZXZtwOEmiIo4LFwRcSClWpuIJxZjp6fbZK7eWTGC4dN403eEa8zK0oz4VV
- Zj9r67lvZIMYg==
-Date: Fri, 8 Jan 2021 12:25:40 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the drm tree
-Message-ID: <20210108122540.657501b2@canb.auug.org.au>
-In-Reply-To: <20210108115518.2b3fdf58@canb.auug.org.au>
-References: <20210108115518.2b3fdf58@canb.auug.org.au>
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F24189C6E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 01:47:13 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id m25so19153277lfc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 17:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZxL3+je1NSV6woTHci+B4W89aIv+lfAiXbpBbR8SMjQ=;
+ b=UUD/9qxMtsnsshJ+iDgCtjlr+LJM0x/3OQnsg+Uspf6Y4mFvgayEsmYP8/m1Glyts6
+ CdUyN7Haj5Ckn2foLWvZVCpicGLjY55NqUCRWJ3Ya8JOG03XR9RAORwNl96oBms9K04r
+ pw7ucMQFbmzpH6cvjR3phCD1LTSK32e0W985o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZxL3+je1NSV6woTHci+B4W89aIv+lfAiXbpBbR8SMjQ=;
+ b=QzmZ3ucacc6OXkpgSVTc6x9FdInFgUitkc+EJ0OUleyPfpude6jCXBSmyzDrm63Nif
+ thwZkCYu5K7chPxE5jE4n5RTqrD1vbX/kZTOg6wg54lfQnclYs5jCK2QkXHPofVGw7Qz
+ KkW2vOQWB+LCFWn/qRkGGeyiGk2riIXzkdv2uld2WGB+Q8WTYbvLcmdwA4rwvef0R7hd
+ Dbffs21SIiBDQs/ild08AY4o2B6sJ3T3WP672VV0c/4fYRhjqMhUqEgtiz9n0f/f2x/L
+ /BiXGYWf1CeDDhmiJ6Wf0mIm+yuT2arYX7zVcHXF2wrRom1KdIUP36pW91Q1YRnXe/Qb
+ z/Lg==
+X-Gm-Message-State: AOAM531lPKolQSIh3/eXrd23o7Mx8KJtg4W000XkSGcIgFbfrzQ13cec
+ mhlJXMt/9IhNnDTnGq2uQw0+5qzStpwWdA==
+X-Google-Smtp-Source: ABdhPJxtMvvdVMNPScJeo7wJ/wvqMMcDZ3qay3T/isS9chit9fTTfeHgE3JHGW7/LdYgtZLFB4Mzgg==
+X-Received: by 2002:a19:3f12:: with SMTP id m18mr568084lfa.519.1610070431262; 
+ Thu, 07 Jan 2021 17:47:11 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id c14sm1542453lfd.186.2021.01.07.17.47.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 17:47:10 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id l11so19366330lfg.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 17:47:10 -0800 (PST)
+X-Received: by 2002:ac2:46ee:: with SMTP id q14mr667681lfo.145.1610070430334; 
+ Thu, 07 Jan 2021 17:47:10 -0800 (PST)
 MIME-Version: 1.0
+References: <20210107210726.269584-1-olvaffe@gmail.com>
+In-Reply-To: <20210107210726.269584-1-olvaffe@gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Thu, 7 Jan 2021 17:46:58 -0800
+X-Gmail-Original-Message-ID: <CAAfnVBm16mYG+fZrQp+gW6YZHcNBWRxbom6-L8Gxz273mjK4dw@mail.gmail.com>
+Message-ID: <CAAfnVBm16mYG+fZrQp+gW6YZHcNBWRxbom6-L8Gxz273mjK4dw@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: make sure context is created in gem open
+To: Chia-I Wu <olvaffe@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,70 +68,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0099112359=="
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0599167135=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0099112359==
-Content-Type: multipart/signed; boundary="Sig_/S/gy4U=EE40dCLQCVBFtyDN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+--===============0599167135==
+Content-Type: multipart/alternative; boundary="00000000000010a6fd05b859bc70"
 
---Sig_/S/gy4U=EE40dCLQCVBFtyDN
-Content-Type: text/plain; charset=US-ASCII
+--00000000000010a6fd05b859bc70
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Jan 7, 2021 at 1:07 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+
+> The context might still be missing when DRM_IOCTL_PRIME_FD_TO_HANDLE is
+> the first ioctl on the drm_file.
+>
+> Fixes: 72b48ae800da ("drm/virtio: enqueue virtio_gpu_create_context after
+> the first 3D ioctl")
+> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_gem.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> index c30c75ee83fc..8502400b2f9c 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -39,9 +39,6 @@ static int virtio_gpu_gem_create(struct drm_file *file,
+>         int ret;
+>         u32 handle;
+>
+> -       if (vgdev->has_virgl_3d)
+> -               virtio_gpu_create_context(dev, file);
+> -
+>         ret = virtio_gpu_object_create(vgdev, params, &obj, NULL);
+>         if (ret < 0)
+>                 return ret;
+> @@ -119,6 +116,11 @@ int virtio_gpu_gem_object_open(struct drm_gem_object
+> *obj,
+>         if (!vgdev->has_virgl_3d)
+>                 goto out_notify;
+>
+> +       /* the context might still be missing when the first ioctl is
+> +        * DRM_IOCTL_MODE_CREATE_DUMB or DRM_IOCTL_PRIME_FD_TO_HANDLE
+> +        */
+> +       virtio_gpu_create_context(obj->dev, file);
+> +
+>         objs = virtio_gpu_array_alloc(1);
+>         if (!objs)
+>                 return -ENOMEM;
+> --
+> 2.29.2.729.g45daf8777d-goog
+>
+> Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+
+--00000000000010a6fd05b859bc70
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-
-On Fri, 8 Jan 2021 11:55:18 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 7, 2021 at 1:07 PM Chia-I=
+ Wu &lt;<a href=3D"mailto:olvaffe@gmail.com">olvaffe@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The context m=
+ight still be missing when DRM_IOCTL_PRIME_FD_TO_HANDLE is<br>
+the first ioctl on the drm_file.<br>
+<br>
+Fixes: 72b48ae800da (&quot;drm/virtio: enqueue virtio_gpu_create_context af=
+ter the first 3D ioctl&quot;)<br>
+Cc: Gurchetan Singh &lt;<a href=3D"mailto:gurchetansingh@chromium.org" targ=
+et=3D"_blank">gurchetansingh@chromium.org</a>&gt;<br>
+Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
+">kraxel@redhat.com</a>&gt;<br>
+Signed-off-by: Chia-I Wu &lt;<a href=3D"mailto:olvaffe@gmail.com" target=3D=
+"_blank">olvaffe@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/virtio/virtgpu_gem.c | 8 +++++---<br>
+=C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/=
+virtgpu_gem.c<br>
+index c30c75ee83fc..8502400b2f9c 100644<br>
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c<br>
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c<br>
+@@ -39,9 +39,6 @@ static int virtio_gpu_gem_create(struct drm_file *file,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 handle;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (vgdev-&gt;has_virgl_3d)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_gpu_create_c=
+ontext(dev, file);<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D virtio_gpu_object_create(vgdev, params,=
+ &amp;obj, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 0)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+@@ -119,6 +116,11 @@ int virtio_gpu_gem_object_open(struct drm_gem_object *=
+obj,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!vgdev-&gt;has_virgl_3d)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_notify;<br=
 >
-> Hi all,
->=20
-> After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-> failed like this:
->=20
-> error: the following would cause module name conflict:
->   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.ko
->   drivers/gpu/drm/panel/panel-dsi-cm.ko
->=20
-> Maybe caused by commit
->=20
->   cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver")
->=20
-> I have used the drm tree from next-20210107 for today.
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* the context might still be missing when the =
+first ioctl is<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 * DRM_IOCTL_MODE_CREATE_DUMB or DRM_IOCTL_PRIM=
+E_FD_TO_HANDLE<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_gpu_create_context(obj-&gt;dev, file);<b=
+r>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 objs =3D virtio_gpu_array_alloc(1);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!objs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOMEM;<br>
+-- <br>
+2.29.2.729.g45daf8777d-goog<br>
+<br></blockquote><div>Reviewed-by: Gurchetan Singh &lt;<a href=3D"mailto:gu=
+rchetansingh@chromium.org">gurchetansingh@chromium.org</a>&gt;<br></div><di=
+v>=C2=A0</div></div></div>
 
-This has affected the drm-misc tree as well (since it merged in the drm
-tree).
+--00000000000010a6fd05b859bc70--
 
-I have used the drm-misc tree from next-20210107 for today.
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/S/gy4U=EE40dCLQCVBFtyDN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/3tJUACgkQAVBC80lX
-0GxC3gf/cT3tsaL/DIHXdAi/gnaxWdmBLyRBRvGTGqsqCI7pl2OFZg50HPMB3MYJ
-UsA0ZXF70tiSJmxcrmMzTqEWQB/3ybcYe3w7ozTzcFlYcaskRI9Trnq+JTYBfHwD
-yGY6Qb/t3zHpQqE/7TV/V2YGXXIRG7FI8IrSEFKWXJyyRf224mSyIrFC+iF9HBFH
-J3dJRURZEL7n0IrTzqiFcwUuUesiLVhH8WhUzZrG8pp5mwBtBSeRnl9Rm1Mv6DSz
-6TCvc7jZmQLQMCRwN6D4uanfjyDKrkDfXYWQGqtr/gCygm59OGq8sEopAQbWLOSd
-l/1yb7ce0PqDbsig+g2IIGg06sf+nQ==
-=DWQs
------END PGP SIGNATURE-----
-
---Sig_/S/gy4U=EE40dCLQCVBFtyDN--
-
---===============0099112359==
+--===============0599167135==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -123,4 +205,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0099112359==--
+--===============0599167135==--
