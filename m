@@ -1,53 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C665A2EE9F1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 00:51:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 416B52EEA95
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 01:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF546E563;
-	Thu,  7 Jan 2021 23:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1F06E5BF;
+	Fri,  8 Jan 2021 00:55:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
- [IPv6:2607:f8b0:4864:20::e30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B56B86E563
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Jan 2021 23:51:41 +0000 (UTC)
-Received: by mail-vs1-xe30.google.com with SMTP id x26so4635484vsq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 15:51:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=saxzFi2qg+LHi04jHDIQ3UvqFgOV5HAgl5X/y1F1t08=;
- b=dL/mVSlvGXthCVPyZ6Pe+O48W73y116kleZpYbPxK++MAfqzp1qMmveKDKu/OAi4qP
- qFOvto+IkJa192coHUzkjlT5xp9P5i270Vo9+7gDcXnbhVypCb4BQLgETBusGpkVch3+
- IR6xBKmCFQ9prL/01SEfafD6/FykeURCpL0Lk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=saxzFi2qg+LHi04jHDIQ3UvqFgOV5HAgl5X/y1F1t08=;
- b=Tyk6MZzDycZD3S8Qn4XBzTnTqbk0VAOEmM7zQWkFnjL5JKinpFA3jSz7RcUS/nNOfR
- rt//rgRueQvFi6g5eCerpjIfLWvv1M2Viv9W5V+MUMHd6WH7NQSWHdDeOXHdDp5XOQyj
- FvyU0e8xSsdLj4g1Ge9z40BdyVCMjO0tUihjJKdyWGfmf+c6uJRuTrzV0YHbCqf16kzz
- Y4lY+hpyIKd9WsBh0SCHgb22VnvEd5hUnYBqPx1FV4Pgl0GxOJxA2aXSJfb0dUw+10M2
- 8Nqpi9KwVaf6OeI+h5xuJM1bJOk9ZbuvxIhpDwhkjikoaHXHcbyH/kUFLsuyIHZGuv61
- naGw==
-X-Gm-Message-State: AOAM530ihKDX0KzGGSV/0JAWsq5jsrPuZBjBKqgPkFziMBQjoxTy8rFT
- ErhPDW1kdFcCVOWCaqtJAdnadwlkj7S6qVLpBGmAZw==
-X-Google-Smtp-Source: ABdhPJw1C0m4sHMYXtQQD3eml75tEOs+sgZjRpT4W2AlK3r6i58wCDPPBx6s6G1r3niZh+Am9726r1aTlNXyks4MGyY=
-X-Received: by 2002:a67:7993:: with SMTP id u141mr733890vsc.21.1610063500807; 
- Thu, 07 Jan 2021 15:51:40 -0800 (PST)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73756E5BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 00:55:23 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DBl542wsnz9sVy;
+ Fri,  8 Jan 2021 11:55:19 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1610067321;
+ bh=8IYZjYy93oOeLB3jJByA/BG6a411ChBAgHWFfX0UnK4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=eOOwPIbypN32yagVPErk634PG1KfH8jEhRvRZ9rWR8UI9+6QBmr/iK492iVJkmYxq
+ srDg90TEFwxC+OgTJsyn5q8T9h6NYjzwKM6HxS3CvsJSWquJfZS9sy6VCo+T2O8+HJ
+ /xpItjSiGJ6QCPhaDR5xXmRbR91eqtHVu4JS4ikWXY44BZUuECPrexU8NVBRWA5LGs
+ vG5x2taNEI0jl0XTp2qrGWWrQkJkM/RAfEftcpoejNuZzR7qubuibiAYhVXJ77DoX6
+ BKej1WPsaOEDBryX24FX/vt+jTAyhPNKafnGAHtgbucR2JbGbQPhKpOszV03+lqdro
+ dvCBxo9ejeMxQ==
+Date: Fri, 8 Jan 2021 11:55:18 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm tree
+Message-ID: <20210108115518.2b3fdf58@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20210105001119.2129559-1-drinkcat@chromium.org>
- <20210105081111.v6.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
- <a373044b-3e24-4e00-432f-46b0bd91b213@arm.com>
-In-Reply-To: <a373044b-3e24-4e00-432f-46b0bd91b213@arm.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Fri, 8 Jan 2021 07:51:29 +0800
-Message-ID: <CANMq1KCbA9FawgtK4+rjBKO=dFomrAt7kpN8K_180mHRAeUkAg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] drm/panfrost: devfreq: Disable devfreq when
- num_supplies > 1
-To: Steven Price <steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Fei Shao <fshao@chromium.org>,
- David Airlie <airlied@linux.ie>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Kristian Kristensen <hoegsberg@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1354519734=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 7, 2021 at 11:59 PM Steven Price <steven.price@arm.com> wrote:
->
-> On 05/01/2021 00:11, Nicolas Boichat wrote:
-> > GPUs with more than a single regulator (e.g. G-57 on MT8183) will
-> > require platform-specific handling, disable devfreq for now.
->
-> Can you explain what actually goes wrong here? AFAICT the existing code
-> does support controlling multiple regulators - but clearly this is the
-> first platform that exercises that code with num_supplies>1.
+--===============1354519734==
+Content-Type: multipart/signed; boundary="Sig_/hNb07TGy08xp_yj6p41Q8VV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Sure, I should have expanded in the commit message, will do in v9.
+--Sig_/hNb07TGy08xp_yj6p41Q8VV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-We have support for >1 supplies, and we need to enable them to get the
-GPU running _at all_ (and the default voltages should be safe by
-design).
+Hi all,
 
-For devfreq though:
- 1. There are constraints on the voltage difference between the core
-and SRAM, we have this caterpillar logic downstream [1], so somebody
-will need to port it (TBH I don't think it's overly critical at this
-point, as Bifrost support is still not very mature from what I can
-see, and devfreq is purely a performance thing).
- 2. The core [2] does not support multiple regulators, so we'll need
-custom code anyway. Even if we didn't have constraints.
+After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
 
-[1] https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/chromeos-4.19/drivers/gpu/arm/bifrost/platform/mediatek/mali_kbase_runtime_pm.c#367
-[2] https://elixir.bootlin.com/linux/latest/source/drivers/opp/core.c#L679
+error: the following would cause module name conflict:
+  drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.ko
+  drivers/gpu/drm/panel/panel-dsi-cm.ko
 
->
-> Steve
->
-> >
-> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > ---
-> >
-> > Changes in v6:
-> >   - New change
-> >
-> >   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 9 +++++++++
-> >   1 file changed, 9 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index f44d28fad085..1f49043aae73 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -92,6 +92,15 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
-> >       struct thermal_cooling_device *cooling;
-> >       struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
-> >
-> > +     if (pfdev->comp->num_supplies > 1) {
-> > +             /*
-> > +              * GPUs with more than 1 supply require platform-specific handling:
-> > +              * continue without devfreq
-> > +              */
-> > +             DRM_DEV_ERROR(dev, "More than 1 supply is not supported yet\n");
-> > +             return 0;
-> > +     }
-> > +
-> >       opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
-> >                                             pfdev->comp->num_supplies);
-> >       if (IS_ERR(opp_table)) {
-> >
->
+Maybe caused by commit
+
+  cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver")
+
+I have used the drm tree from next-20210107 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/hNb07TGy08xp_yj6p41Q8VV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/3rXcACgkQAVBC80lX
+0GwpnQf/cRDGdJtwX8a9ehF7kmUeSKv9+OCpPm4N76p5SWVzFTrE8V92sJEbmXt4
+iPWEszmS5wrS1682aUEDWskK1w5MCgItCurX6R7xOkOn4BI940XNBWTeSGMXV1ba
+8NRL8M76Co1FMxHwq8p+G84i/3ZBrU/d8K4eCIfB8ejz7nNG340LMfiDe3Er/E0S
+XoucdETmiHi2AvMZpJhXGIbFQR+lCDnycZjXV2Zrr6iNnmGVnx4sPQIgKIIGCA+v
+ds0gNkDuJtaQ60jpcw1uUguXKJX9jk09bVPALk5Av6XmSWq+sy8BMps02I7OBtkG
+zRpMK2CKl8gCGHze+agGcTIxzYlm9g==
+=+t14
+-----END PGP SIGNATURE-----
+
+--Sig_/hNb07TGy08xp_yj6p41Q8VV--
+
+--===============1354519734==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1354519734==--
