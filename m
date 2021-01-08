@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B852F2EF887
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 21:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A352EF897
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 21:15:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F286E7D7;
-	Fri,  8 Jan 2021 20:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6D76E8C2;
+	Fri,  8 Jan 2021 20:15:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7A46E7D7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 20:07:11 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id o10so14885479lfl.13
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 12:07:11 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 397CE6E8C3
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 20:15:04 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id c133so8744649wme.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 12:15:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vBXrHhQsMSZE24lPYHC5hE8Tvxsqc5QvSO99Uer2dqY=;
- b=CYo7SNrso54Do6MmIyzyVaUhqI0zqvwDsPmdS0hyjsFX370xglzPaYlMY6kZiBp9ls
- KF/PxuGWJq3ceChX36JZgI3NkxfXVej3u525jGJOzYxD2Jn/gc3XAcRVXJR1H0h6Yoh8
- blHEuVnR1bF7GYFV9sFozA9x9FezyzC9pX9aM0P694SJraxLzn0O/7SDeoGdvWxPHNhF
- q5P+3zPj1yFjIhgO2Wfd7rwR9v9+75JBP4H2NJgPM0OQilzktY5z+phOzC2p2FgI5w+H
- THvaKX7lDUI3l4cRQsw4mPZTVtlZhpFnB7pWzfBg4/ALhW7w1wSKWtYgZxY0uxJoTW7D
- GJEQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QeXXbkShC0KTgz4n+dtT2axDbKBu7SEofVtSgTaHdlA=;
+ b=EpUldkEu63PuzXZYe8Jr/P+khJQOipAojDEohRiyHCTrwR0wQhBpn8uRQqxNWXdbFI
+ L+dS4H5R6ZR6Nq1EnbNFG4xu1Ac1uz9nb8rmmiRJbO1/yFtULhfWjvOc+2S1rkJnnPpu
+ 8Cwz3Ikl8cVre8c+OOmS2DtGaPSKre5SgJiCEFW9g5mO9CXo9AnmUwcr8T0m/4djIU/b
+ ePHEJmMElk7oomdFJSXWhoidk98MWCrwHKc57ySEpTtXRKe6wXQwusjsoBXeE9/zJaH8
+ VeS5jFRmNpp+hqFVRac36sBQtcWD0EQMs+ioyWScgxcBIkYyXe3EQSenusSG1dL1dbhZ
+ 0ZEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vBXrHhQsMSZE24lPYHC5hE8Tvxsqc5QvSO99Uer2dqY=;
- b=E6q2nhvW4dO268fp89cyh2Z9yCMH5Pg9+V5H0nBDLTizGBW3Zf/YYfnTFOqhwG+hlf
- IXHWajVpXWJUDbo9ZVAcxfGU4C3o3XbCwVoY0VajGt1KGqW76KuHDeEDVGq5s4vPClhz
- qGJ6XBOQGhjsyqDdCIxH6UrRSXTZ6W11eeU/zUTFWzqSQWCLZDhYnXBT68WxnS5d6TY3
- YUtV1U0ULokzkg+WEaDXOBiLGBGvUAElWW2FZ6aLAq8PNY6kEKdtBcy+ycxc10eQbBf2
- piYeKbt14QYGkK9NayIPLC2yhMRy9dQIcIirFi0IX36vhezQkF7JeEhOygR1FQ85CWh4
- hGXA==
-X-Gm-Message-State: AOAM5308TdTTUtBSN2SRhFJC4rQi0K2rZ9wwjhBzodXvWqh+jOjDzkVh
- 8msKuEpbHkgyIoiWm1jp9gZas2G3s/4GB8HdnkG2PQ==
-X-Google-Smtp-Source: ABdhPJxJV8oC668VXcRm1+eI+UwseO9jyPGPM0WN+OvhmO/TzjibXRm7ZB6GKJkJHknJN/pO0gCe6n16FRaa/LRVp/4=
-X-Received: by 2002:a05:651c:2105:: with SMTP id
- a5mr2055232ljq.170.1610136429775; 
- Fri, 08 Jan 2021 12:07:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QeXXbkShC0KTgz4n+dtT2axDbKBu7SEofVtSgTaHdlA=;
+ b=fphBptRIUYRHNkjG61CrikO0u18iG3qNLnwK3BdTTTLq2HnMkwvtN5CZi1JSItOz8A
+ Fm/r+Hy53mUdQZ+jV9VkT63ravKo9zopxrpSHaP4hN/atOBYUKrIYoXOaNtW+hZI3LuO
+ Xh1Lz22g/v2N3C2rCin8U8Sakgpl2QWVaoGIO8LVkSUOfRQslSBmT0iTuFgBh2k2Vn6f
+ tcLWzf+lbxqnoIhOwa1IQdaeiOGHrijddYZdnta0F0TTQslzgbrowWrciSqTsMtgH4gw
+ w8BXLcamAvZItY4/fUYVIUtCbF4rvh7skNe5wALu7lAwZKIl1GDn81pm4SSAzUQaLl6U
+ pEJw==
+X-Gm-Message-State: AOAM530sxNRvZBRorqsbjRbX7O8tDfqPV10afqEZdOtAOWTU6BC7KYMs
+ xTCbDA5SLL7+CM9sGBw/gemSnQ==
+X-Google-Smtp-Source: ABdhPJwl3kU/DFu/+SHxqnLdc9NJoAEBkx5a1X6cfHiA0SIPK8+omrC1+fEQ6fahQl61Z3lNinh7/g==
+X-Received: by 2002:a1c:c308:: with SMTP id t8mr4593743wmf.22.1610136902655;
+ Fri, 08 Jan 2021 12:15:02 -0800 (PST)
+Received: from dell.default ([91.110.221.229])
+ by smtp.gmail.com with ESMTPSA id l8sm15598671wrb.73.2021.01.08.12.14.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 12:15:01 -0800 (PST)
+From: Lee Jones <lee.jones@linaro.org>
+To: lee.jones@linaro.org
+Subject: [PATCH 00/40] [Set 11] Rid W=1 warnings from GPU
+Date: Fri,  8 Jan 2021 20:14:17 +0000
+Message-Id: <20210108201457.3078600-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1609962554-13872-1-git-send-email-veeras@codeaurora.org>
- <1609962554-13872-2-git-send-email-veeras@codeaurora.org>
-In-Reply-To: <1609962554-13872-2-git-send-email-veeras@codeaurora.org>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 8 Jan 2021 12:06:58 -0800
-Message-ID: <CALAqxLUwg+zu8QqFimozkOM3jFk-K24syaAiGkD+5rf-FrKBBA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 2/2] drm/drm_vblank: set the dma-fence timestamp
- during send_vblank_event
-To: Veera Sundaram Sankaran <veeras@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,92 +64,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
- abhinavk@codeaurora.org, Sean Paul <sean@poorly.run>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Lewis Huang <Lewis.Huang@amd.com>, David Airlie <airlied@linux.ie>,
+ Feifei Xu <Feifei.Xu@amd.com>, Mauro Rossi <issor.oruam@gmail.com>,
+ dri-devel@lists.freedesktop.org, Qinglang Miao <miaoqinglang@huawei.com>,
+ Wyatt Wood <wyatt.wood@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ Charlene Liu <Charlene.Liu@amd.com>, Krunoslav Kovac <Krunoslav.Kovac@amd.com>,
+ Sean Paul <sean@poorly.run>, Mikita Lipski <mikita.lipski@amd.com>,
+ amd-gfx@lists.freedesktop.org, Eric Bernstein <eric.bernstein@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>, George Shen <george.shen@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>,
+ linux-arm-msm@vger.kernel.org, Kuogee Hsieh <khsieh@codeaurora.org>,
+ nouveau@lists.freedesktop.org, Evan Quan <evan.quan@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, Eryk Brol <eryk.brol@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ Igor Kravchenko <Igor.Kravchenko@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 7, 2021 at 12:54 AM Veera Sundaram Sankaran
-<veeras@codeaurora.org> wrote:
->
-> The explicit out-fences in crtc are signaled as part of vblank event,
-> indicating all framebuffers present on the Atomic Commit request are
-> scanned out on the screen. Though the fence signal and the vblank event
-> notification happens at the same time, triggered by the same hardware
-> vsync event, the timestamp set in both are different. With drivers
-> supporting precise vblank timestamp the difference between the two
-> timestamps would be even higher. This might have an impact on use-mode
-> frameworks using these fence timestamps for purposes other than simple
-> buffer usage. For instance, the Android framework [1] uses the
-> retire-fences as an alternative to vblank when frame-updates are in
-> progress. Set the fence timestamp during send vblank event using a new
-> drm_send_event_timestamp_locked variant to avoid discrepancies.
->
-> [1] https://android.googlesource.com/platform/frameworks/native/+/master/
-> services/surfaceflinger/Scheduler/Scheduler.cpp#397
->
-> Changes in v2:
-> - Use drm_send_event_timestamp_locked to update fence timestamp
-> - add more information to commit text
-
-Thanks for sending this out! One small note:
-
-> @@ -775,6 +775,49 @@ void drm_event_cancel_free(struct drm_device *dev,
->  EXPORT_SYMBOL(drm_event_cancel_free);
->
->  /**
-> + * drm_send_event_timestamp_locked - send DRM event to file descriptor
-> + * @dev: DRM device
-> + * @e: DRM event to deliver
-> + * @timestamp: timestamp to set for the fence event
-> + *
-> + * This function sends the event @e, initialized with drm_event_reserve_init(),
-> + * to its associated userspace DRM file. Callers must already hold
-> + * &drm_device.event_lock, see drm_send_event() for the unlocked version.
-> + *
-> + * Note that the core will take care of unlinking and disarming events when the
-> + * corresponding DRM file is closed. Drivers need not worry about whether the
-> + * DRM file for this event still exists and can call this function upon
-> + * completion of the asynchronous work unconditionally.
-> + */
-> +void drm_send_event_timestamp_locked(struct drm_device *dev,
-> +                       struct drm_pending_event *e, ktime_t timestamp)
-> +{
-> +       assert_spin_locked(&dev->event_lock);
-> +
-> +       if (e->completion) {
-> +               complete_all(e->completion);
-> +               e->completion_release(e->completion);
-> +               e->completion = NULL;
-> +       }
-> +
-> +       if (e->fence) {
-> +               dma_fence_signal_timestamp(e->fence, timestamp);
-> +               dma_fence_put(e->fence);
-> +       }
-> +
-> +       if (!e->file_priv) {
-> +               kfree(e);
-> +               return;
-> +       }
-> +
-> +       list_del(&e->pending_link);
-> +       list_add_tail(&e->link,
-> +                     &e->file_priv->event_list);
-> +       wake_up_interruptible(&e->file_priv->event_wait);
-> +}
-> +EXPORT_SYMBOL(drm_send_event_timestamp_locked);
-
-This seems to duplicate much of drm_send_event_locked().  Should a
-common backend function be used between them?
-
-thanks
--john
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBzZXQgaXMgcGFydCBvZiBhIGxhcmdlciBlZmZvcnQgYXR0ZW1wdGluZyB0byBjbGVhbi11
+cCBXPTEKa2VybmVsIGJ1aWxkcywgd2hpY2ggYXJlIGN1cnJlbnRseSBvdmVyd2hlbG1pbmdseSBy
+aWRkbGVkIHdpdGgKbmlnZ2x5IGxpdHRsZSB3YXJuaW5ncy4KCjMwMCBvdXQgb2YgNTAwMCBsZWZ0
+IQoKTGVlIEpvbmVzICg0MCk6CiAgZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvYmlvcy9pbml0OiBE
+ZW1vdGUgb2J2aW91cyBhYnVzZSBvZiBrZXJuZWwtZG9jCiAgZHJtL25vdXZlYXUvZGlzcG52NTAv
+ZGlzcDogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZSAncmV0JwogIGRybS9tc20vZHAvZHBfZGlzcGxh
+eTogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZSAnaHBkJwogIGRybS9hbWQvYW1kZ3B1L2FtZGdwdV9p
+aDogVXBkYXRlICdhbWRncHVfaWhfZGVjb2RlX2l2X2hlbHBlcigpJ3MKICAgIGZ1bmN0aW9uIGhl
+YWRlcgogIGRybS9hbWQvYW1kZ3B1L3ZlZ2EyMF9paDogQWRkIG1pc3NpbmcgZGVzY3JpcHRpb25z
+IGZvciAnaWgnIGFuZCBmaXgKICAgIHNwZWxsaW5nIGVycm9yCiAgZHJtL2FtZC9wbS9wb3dlcnBs
+YXkvaHdtZ3IvcHJvY2Vzc19wcHRhYmxlc192MV8wOiBQcm92aWRlIGRlc2NyaXB0aW9uCiAgICBv
+ZiAnY2FsbF9iYWNrX2Z1bmMnCiAgZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHBhdG9tY3Ry
+bDogRml4IGRvY3VtZW50YXRpb24gZm9yCiAgICAnbXBsbF9wYXJhbScKICBkcm0vYW1kL3BtL3Bv
+d2VycGxheS9od21nci92ZWdhMTJfaHdtZ3I6IEZpeCBsZWdhY3kgZnVuY3Rpb24gaGVhZGVyCiAg
+ICBmb3JtYXR0aW5nCiAgZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVnYTIwX2h3bWdyOiBG
+aXggbGVnYWN5IGZ1bmN0aW9uIGhlYWRlcgogICAgZm9ybWF0dGluZwogIGRybS9hbWQvcG0vcG93
+ZXJwbGF5L2h3bWdyL3NtdTdfaHdtZ3I6IEZpeCBmb3JtYXR0aW5nIGFuZCBzcGVsbGluZwogICAg
+aXNzdWVzCiAgZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvaHdtZ3I6IE1vdmUgcHJvdG90eXBl
+IGludG8gc2hhcmVkIGhlYWRlcgogIGRybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9o
+d21ncjogRml4IGEgYnVuY2ggb2Yga2VybmVsLWRvYwogICAgZm9ybWF0dGluZyBpc3N1ZXMKICBk
+cm0vYW1kL2Rpc3BsYXkvZGMvYmFzaWNzL2NvbnZlcnNpb246IERlbW90ZSBvYnZpb3VzIGtlcm5l
+bC1kb2MgYWJ1c2UKICBkcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9kZWJ1Z2Zz
+OiBEZW1vdGUgbm9uLWtlcm5lbC1kb2MKICAgIGNvbW1lbnQgYmxvY2tzCiAgZHJtL2FtZC9kaXNw
+bGF5L2RjL2Jpb3MvY29tbWFuZF90YWJsZV9oZWxwZXI6IEZpeCBrZXJuZWwtZG9jCiAgICBmb3Jt
+YXR0aW5nCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvY29tbWFuZF90YWJsZV9oZWxwZXIyOiBG
+aXggbGVnYWN5IGZvcm1hdHRpbmcKICAgIHByb2JsZW1zCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2Jp
+b3MvYmlvc19wYXJzZXI6IE1ha2UgbG9jYWwgZnVuY3Rpb25zIHN0YXRpYwogIGRybS9hbWQvZGlz
+cGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyOiBGaXggYSB3aG9sZSBidW5jaCBvZiBsZWdhY3kgZG9j
+CiAgICBmb3JtYXR0aW5nCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvY29tbWFuZF90YWJsZTog
+UmVtb3ZlIHVudXNlZCB2YXJpYWJsZQogIGluY2x1ZGU6IGRybTogZHJtX2F0b21pYzogTWFrZSB1
+c2Ugb2YgJ25ld19wbGFuZV9zdGF0ZScKICBkcm0vYW1kL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2Nh
+bGNzOiBSZW1vdmUgdW51c2VkIHZhcmlhYmxlcwogICAgJ3ZfZmlsdGVyX2luaXRfbW9kZScgYW5k
+ICdzY2xrX2x2bCcKICBkcm0vYW1kL2Rpc3BsYXkvZGMvYmlvcy9iaW9zX3BhcnNlcjI6IEZpeCBz
+b21lIGZvcm1hdHRpbmcgaXNzdWVzIGFuZAogICAgbWlzc2luZyBwYXJhbWV0ZXIgZG9jcwogIGRy
+bS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2F1ZGlvOiBNYWtlIGZ1bmN0aW9uIGludm9rZWQgYnkg
+cmVmZXJlbmNlCiAgICBzdGF0aWMKICBkcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9zdHJlYW1f
+ZW5jb2RlcjogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZQogICAgJ3JlZ3ZhbCcKICBkcm0vYW1kL2Rp
+c3BsYXkvZGMvZGNlL2RjZV9saW5rX2VuY29kZXI6IE1ha2UgZnVuY3Rpb25zIGludm9rZWQgYnkK
+ICAgIHJlZmVyZW5jZSBzdGF0aWMKICBkcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9jbG9ja19z
+b3VyY2U6IEZpeCBmb3JtYXR0aW5nL3NwZWxsaW5nIG9mCiAgICB3b3J0aHkgZnVuY3Rpb24gaGVh
+ZGVycwogIGRybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9od21ncjogRml4IHdvcnRo
+eSBmdW5jdGlvbiBoZWFkZXJzLAogICAgZGVtb3RlIGJhcmVseSBkb2N1bWVudGVkIG9uZQogIGRy
+bS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX3RyYW5zZm9ybTogUmVtb3ZlIDMgdW51c2VkL2xlZ2Fj
+eSB2YXJpYWJsZXMKICBkcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9kbWN1OiBTdGF0aWNpZnkg
+bG9jYWwgZnVuY3Rpb24gY2FsbAogICAgJ2RjZV9kbWN1X2xvYWRfaXJhbScKICBkcm0vYW1kL2Rp
+c3BsYXkvZGMvZGNlL2RjZV9kbWN1OiBNb3ZlICdhYm1fZ2Fpbl9zdGVwc2l6ZScgdG8gb25seQog
+ICAgc291cmNlIGZpbGUgaXQncyB1c2VkIGluCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2Vf
+b3BwOiBNYWtlIGxvY2FsIGZ1bmN0aW9ucyBhbmQgb25lcyBpbnZva2VkCiAgICBieSByZWZlcmVu
+Y2Ugc3RhdGljCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2VfYXV4OiBSZW1vdmUgdW51c2Vk
+IGZ1bmN0aW9uCiAgICAnZ2V0X2VuZ2luZV90eXBlJwogIGRybS9ub3V2ZWF1L252a20vc3ViZGV2
+L3ZvbHQvZ2syMGE6IERlbW90ZSBub24tY29uZm9ybWFudCBrZXJuZWwtZG9jCiAgICBoZWFkZXJz
+CiAgZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvYmlvc19wYXJzZXI6IEZpeCBtaXNzcGVsbGluZyBv
+ZiBmdW5jdGlvbgogICAgcGFyYW1ldGVyCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvY29tbWFu
+ZF90YWJsZTogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZSBhbmQKICAgIGFzc29jaWF0ZWQgY29tbWVu
+dAogIGRybS9hbWQvZGlzcGxheS9kYy9kY2UvZGNlX2kyY19odzogTWFrZSBmdW5jdGlvbnMgY2Fs
+bGVkIGJ5IHJlZmVyZW5jZQogICAgc3RhdGljCiAgZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2Vf
+aTJjX3N3OiBNYWtlIGEgYnVuY2ggb2YgbG9jYWwgZnVuY3Rpb25zCiAgICBzdGF0aWMKICBkcm0v
+YW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9wYW5lbF9jbnRsOiBSZW1vdmUgdW51c2VkIHZhcmlhYmxl
+cwogICAgJ2JsX3B3bV9jbnRsJyBhbmQgJ3B3bV9wZXJpb2RfY250bCcKICBkcm0vYW1kL2Rpc3Bs
+YXkvZGMvZGNlL2RtdWJfcHNyOiBEZW1vdGUgbm9uLWNvbmZvcm1hbnQga2VybmVsLWRvYwogICAg
+aGVhZGVycwogIGRybS9hbWQvZGlzcGxheS9kYy9ncGlvL2h3X2ZhY3Rvcnk6IERlbGV0ZSB1bnVz
+ZWQgZnVuY3Rpb24KICAgICdkYWxfaHdfZmFjdG9yeV9kZXN0cm95JwoKIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9paC5jICAgICAgICB8ICAgMiArCiBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS92ZWdhMjBfaWguYyAgICAgICAgfCAgIDUgKy0KIC4uLi9hbWQvZGlzcGxheS9h
+bWRncHVfZG0vYW1kZ3B1X2RtX2RlYnVnZnMuYyB8ICAgNCArLQogLi4uL2RybS9hbWQvZGlzcGxh
+eS9kYy9iYXNpY3MvY29udmVyc2lvbi5jICAgIHwgICA5ICstCiAuLi4vZ3B1L2RybS9hbWQvZGlz
+cGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyLmMgfCAxMTkgKysrKystLS0tLQogLi4uL2RybS9hbWQv
+ZGlzcGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyMi5jICAgIHwgIDI5ICsrLQogLi4uL2RybS9hbWQv
+ZGlzcGxheS9kYy9iaW9zL2NvbW1hbmRfdGFibGUuYyAgIHwgIDE2ICstCiAuLi4vZGlzcGxheS9k
+Yy9iaW9zL2NvbW1hbmRfdGFibGVfaGVscGVyLmMgICAgfCAgMjAgKy0KIC4uLi9kaXNwbGF5L2Rj
+L2Jpb3MvY29tbWFuZF90YWJsZV9oZWxwZXIyLmMgICB8ICAyMCArLQogLi4uL2dwdS9kcm0vYW1k
+L2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNzLmMgIHwgICA4ICstCiAuLi4vZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9kY2UvZGNlX2F1ZGlvLmMgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kY2UvZGNlX2F1eC5jICB8ICAgNiAtCiAuLi4vZHJtL2FtZC9kaXNwbGF5
+L2RjL2RjZS9kY2VfY2xvY2tfc291cmNlLmMgfCAgNTcgKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9kY2UvZGNlX2RtY3UuYyB8ICAgNiArLQogZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9kaXNwbGF5L2RjL2RjZS9kY2VfZG1jdS5oIHwgICAyIC0KIC4uLi9ncHUvZHJtL2FtZC9kaXNw
+bGF5L2RjL2RjZS9kY2VfaTJjX2h3LmMgICB8ICAgNCArLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3Bs
+YXkvZGMvZGNlL2RjZV9pMmNfc3cuYyAgIHwgICA5ICstCiAuLi4vZHJtL2FtZC9kaXNwbGF5L2Rj
+L2RjZS9kY2VfbGlua19lbmNvZGVyLmMgfCAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
+cGxheS9kYy9kY2UvZGNlX29wcC5jICB8ICAgOCArLQogLi4uL2RybS9hbWQvZGlzcGxheS9kYy9k
+Y2UvZGNlX3BhbmVsX2NudGwuYyAgIHwgICA4ICstCiAuLi4vYW1kL2Rpc3BsYXkvZGMvZGNlL2Rj
+ZV9zdHJlYW1fZW5jb2Rlci5jICAgfCAgIDMgKy0KIC4uLi9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNl
+L2RjZV90cmFuc2Zvcm0uYyAgICB8ICAxMyAtLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
+L2RjL2RjZS9kbXViX3Bzci5jIHwgIDIyICstCiAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9n
+cGlvL2h3X2ZhY3RvcnkuYyAgfCAgMTQgLS0KIC4uLi9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkv
+aHdtZ3IvaHdtZ3IuYyAgICB8ICAgMiArLQogLi4uL2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdy
+L3BwYXRvbWN0cmwuYyAgIHwgICA0ICstCiAuLi4vcG93ZXJwbGF5L2h3bWdyL3Byb2Nlc3NfcHB0
+YWJsZXNfdjFfMC5jICAgfCAgIDEgKwogLi4uL2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Nt
+dTdfaHdtZ3IuYyAgIHwgICA0ICstCiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVn
+YTEwX2h3bWdyLmMgfCAxMzcgKysrKysrLS0tLS0tCiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkv
+aHdtZ3IvdmVnYTEwX2h3bWdyLmggfCAgIDEgKwogLi4uL2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3
+bWdyL3ZlZ2ExMl9od21nci5jIHwgIDExICstCiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdt
+Z3IvdmVnYTIwX2h3bWdyLmMgfCAgMTEgKy0KIGRyaXZlcnMvZ3B1L2RybS9tc20vZHAvZHBfZGlz
+cGxheS5jICAgICAgICAgICB8ICAgMyAtCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1
+MC9kaXNwLmMgICAgICAgfCAgIDMgKy0KIC4uLi9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYv
+Ymlvcy9pbml0LmMgICB8IDIwNCArKysrKystLS0tLS0tLS0tLS0KIC4uLi9ncHUvZHJtL25vdXZl
+YXUvbnZrbS9zdWJkZXYvdm9sdC9nazIwYS5jICB8ICAgNCArLQogaW5jbHVkZS9kcm0vZHJtX2F0
+b21pYy5oICAgICAgICAgICAgICAgICAgICAgIHwgICAzICstCiAzNyBmaWxlcyBjaGFuZ2VkLCAz
+MjUgaW5zZXJ0aW9ucygrKSwgNDU1IGRlbGV0aW9ucygtKQoKQ2M6IEFsZXggRGV1Y2hlciA8YWxl
+eGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+CkNjOiBBbnRob255IEtvbyA8QW50aG9ueS5Lb29AYW1kLmNvbT4KQ2M6IEJlbiBTa2VnZ3MgPGJz
+a2VnZ3NAcmVkaGF0LmNvbT4KQ2M6IEJoYXdhbnByZWV0IExha2hhIDxCaGF3YW5wcmVldC5MYWto
+YUBhbWQuY29tPgpDYzogQ2hhcmxlbmUgTGl1IDxDaGFybGVuZS5MaXVAYW1kLmNvbT4KQ2M6ICJD
+aHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4Lmll
+PgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogRXJpYyBCZXJuc3RlaW4g
+PGVyaWMuYmVybnN0ZWluQGFtZC5jb20+CkNjOiBFcnlrIEJyb2wgPGVyeWsuYnJvbEBhbWQuY29t
+PgpDYzogRXZhbiBRdWFuIDxldmFuLnF1YW5AYW1kLmNvbT4KQ2M6IEZlaWZlaSBYdSA8RmVpZmVp
+Llh1QGFtZC5jb20+CkNjOiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4K
+Q2M6IGZyZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IEdlb3JnZSBTaGVuIDxnZW9y
+Z2Uuc2hlbkBhbWQuY29tPgpDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5j
+b20+CkNjOiBIYXdraW5nIFpoYW5nIDxIYXdraW5nLlpoYW5nQGFtZC5jb20+CkNjOiBJZ29yIEty
+YXZjaGVua28gPElnb3IuS3JhdmNoZW5rb0BhbWQuY29tPgpDYzogS3J1bm9zbGF2IEtvdmFjIDxL
+cnVub3NsYXYuS292YWNAYW1kLmNvbT4KQ2M6IEt1b2dlZSBIc2llaCA8a2hzaWVoQGNvZGVhdXJv
+cmEub3JnPgpDYzogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KQ2M6IExlbyBMaSA8
+c3VucGVuZy5saUBhbWQuY29tPgpDYzogTGV3aXMgSHVhbmcgPExld2lzLkh1YW5nQGFtZC5jb20+
+CkNjOiBsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZwpDYzogTWFhcnRlbiBMYW5raG9yc3Qg
+PG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IE1hdXJvIFJvc3NpIDxpc3Nv
+ci5vcnVhbUBnbWFpbC5jb20+CkNjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+
+CkNjOiBNaWtpdGEgTGlwc2tpIDxtaWtpdGEubGlwc2tpQGFtZC5jb20+CkNjOiBub3V2ZWF1QGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogUWluZ2xhbmcgTWlhbyA8bWlhb3FpbmdsYW5nQGh1YXdl
+aS5jb20+CkNjOiBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+CkNjOiBTZWFuIFBhdWwg
+PHNlYW5AcG9vcmx5LnJ1bj4KQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
+LmRlPgpDYzogV3lhdHQgV29vZCA8d3lhdHQud29vZEBhbWQuY29tPgotLSAKMi4yNS4xCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
