@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79E82EEED5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 09:55:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBB02EEEEB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 09:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA8B6E7EA;
-	Fri,  8 Jan 2021 08:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D62FF6E819;
+	Fri,  8 Jan 2021 08:55:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3156E6E5C1
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 01:48:14 +0000 (UTC)
-X-UUID: 729c725f5e6242db9551a4ee653bd7bd-20210108
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
- bh=NPP5jpMnteAgsJpkoNqsMUTLM/8AlhOp/XPWd4WayzM=; 
- b=aupKRcA3tCWLDs1A4m1gsP2wep+Lkr9qQ7DtVqvjgrg+uMwDFXNFg+0K28SyvrMW5FgFJXfFsi2Aiw04lRp13IxGKiPTbyvTQRKDuZp7kJf9jtCoJSF6OKJc71au9cChr/0wMNUZRkaeJuJuoO65wq68p5JE9MXTisQoLz6H2OA=;
-X-UUID: 729c725f5e6242db9551a4ee653bd7bd-20210108
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 488800082; Fri, 08 Jan 2021 09:48:09 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs08n2.mediatek.inc
- (172.21.101.56) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 8 Jan 2021 09:48:06 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 8 Jan 2021 09:48:05 +0800
-Message-ID: <1610070485.1574.10.camel@mhfsdcap03>
-Subject: Re: [PATCH v2] soc: mediatek: cmdq: add address shift in jump
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>
-Date: Fri, 8 Jan 2021 09:48:05 +0800
-In-Reply-To: <1608712499-24956-2-git-send-email-yongqiang.niu@mediatek.com>
-References: <1608712499-24956-1-git-send-email-yongqiang.niu@mediatek.com>
- <1608712499-24956-2-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A816E5C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 02:55:44 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id y8so4919435plp.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Jan 2021 18:55:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EG9c/QrlglkgwfRJUmQKNCPIJwJMfMxdpeBqAUmgOZk=;
+ b=E9WhvDhXJQdf3y2rdal5JO3AXwTEwU1jVVEuc6F2eI+a/CgUB9710YFUxBN3Epz9rt
+ CtM/qYL5hG734uFnQcymzO78uKgcphlwoNlsTILgh27HKID2rMlfyd8oPx3tpV/mdzkE
+ 3yafqJfaAPYHbZQHlO01JWTBvwtXn3LZetnYT6+j0JAHqbV4UAsPqu/yNzikLwxMth33
+ ifC67tCL2PAHvZtVjx8hCdrU/uQHC1YFbP0CUIditJKqGAhMn9Lzz/dPsb6ESBgiSs26
+ lOMDcpeinmxpMsB+H6bJXl1kXwgaq5Gb8znKenjfqGyVAhUGJBiW0fhT6weUEDrNfctJ
+ yNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EG9c/QrlglkgwfRJUmQKNCPIJwJMfMxdpeBqAUmgOZk=;
+ b=S0cTgPRw77Fkhobjg+ou4AKwcTB0b39uG9AIGOw9lU6navbLHlxloo6E97wlZYOdF7
+ POzGUKc7Ki15UsYVCjjeoQwmad0xljhoU1OiGJbbRGNX9otT6eSbqYME+airR4xtPjYd
+ TJpq9joMlsCTkoGyJf93vCRkz63SJh4v4g/+cCtB2VwsnGIpVxYPmk/BTyofIPjNV+Z4
+ J4m54+1tbulG7iVu/Df8s4V35Y1yOccZa14cTNPepfx9edku9BOqxfjt+ttTpGftkUAv
+ UU7wbnx8Q3XAGimfe0AytlYZuxlsHUgh4XQ3dur4cdHkYR2lwBUH6dStE/fXuTbibf4J
+ JGhA==
+X-Gm-Message-State: AOAM530IrJq5IKuzzlA563W16vVhM2tAwaIqTnvjIE7uPSFVF50MXdLO
+ 27JPl1sM3hgENGaQbtqPr+o=
+X-Google-Smtp-Source: ABdhPJzug/UItPAiUdNY4Kcu74DHwKQvsoTGi0xD0+uXuBVy+3GMxnsh5FcV6z+mzzlH7pdExirSpg==
+X-Received: by 2002:a17:90a:394f:: with SMTP id
+ n15mr1498276pjf.121.1610074543889; 
+ Thu, 07 Jan 2021 18:55:43 -0800 (PST)
+Received: from [10.230.29.29] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id q4sm8166487pgr.39.2021.01.07.18.55.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 18:55:42 -0800 (PST)
+Subject: Re: [PATCH] dt-bindings: bcm2835-vec: Add power-domains property
+To: Rob Herring <robh@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>
+References: <1608751473-12343-1-git-send-email-stefan.wahren@i2se.com>
+ <20210108024209.GA1769120@robh.at.kernel.org>
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <623a71eb-ac4e-7b75-db96-5dbbca98c4b2@gmail.com>
+Date: Thu, 7 Jan 2021 18:55:39 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.6.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 68847612D0C798759DAC2DE39BDF7DDFAD4EDA6D3284292B08F310D98A8DC2A62000:8
-X-MTK: N
+In-Reply-To: <20210108024209.GA1769120@robh.at.kernel.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 08 Jan 2021 08:55:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,51 +72,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- dennis-yc.hsieh@mediatek.com, linux-kernel@vger.kernel.org,
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Florian Fainelli <f.fainelli@gmail.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, damon.chu@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2020-12-23 at 16:34 +0800, Yongqiang Niu wrote:
-> Add address shift when compose jump instruction
-> to compatible with 35bit format.
-> 
-> Fixes: 0858fde496f8 ("mailbox: cmdq: variablize address shift in platform")
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Reviewed-by: Nicolas Boichat <drinkcat@chromium.org>
-> ---
->  drivers/mailbox/mtk-cmdq-mailbox.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-> index 5665b6e..75378e3 100644
-> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
-> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-> @@ -168,7 +168,8 @@ static void cmdq_task_insert_into_thread(struct cmdq_task *task)
->  	dma_sync_single_for_cpu(dev, prev_task->pa_base,
->  				prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
->  	prev_task_base[CMDQ_NUM_CMD(prev_task->pkt) - 1] =
-> -		(u64)CMDQ_JUMP_BY_PA << 32 | task->pa_base;
-> +		(u64)CMDQ_JUMP_BY_PA << 32 |
-> +		(task->pa_base >> task->cmdq->shift_pa);
->  	dma_sync_single_for_device(dev, prev_task->pa_base,
->  				   prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
->  
 
-hi jassi
 
-please confirm is there any question about this patch.
-if not, please apply this into next version, tks
+On 1/7/2021 6:42 PM, Rob Herring wrote:
+> On Wed, 23 Dec 2020 20:24:33 +0100, Stefan Wahren wrote:
+>> Adding the missing property power-domains to the bcm2835-vec schema to fix
+>> the following dtbs_check issue:
+>>
+>> vec@7e806000: 'power-domains' does not match any of the regexes: ...
+>>
+>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+>> ---
+>>  Documentation/devicetree/bindings/display/brcm,bcm2835-vec.yaml | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
+> 
+
+I thought you were going to apply this directly?
+-- 
+Florian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
