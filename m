@@ -1,42 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F00F2EF47A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 16:05:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 484022EF52F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 16:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66BE46E1FB;
-	Fri,  8 Jan 2021 15:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE11C6E834;
+	Fri,  8 Jan 2021 15:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF616E07B;
- Fri,  8 Jan 2021 15:05:26 +0000 (UTC)
-IronPort-SDR: ONffG2UsGrVgzYtp3Zq12WrrKJKvxTwKJlo1jFFhx0D/L22XD0n3xmhR75JXR6GaAHuovPNqeB
- WgIRlKAdGblw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="196175259"
-X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="196175259"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2021 07:05:25 -0800
-IronPort-SDR: FBGvmLPT5HSVhtytI3cq7+A5YKhYUjPW1QrEXXZd6v7ffAr9zUF8C6P3SKZ9mV8aAMq6BIp56C
- U8VUwjYChQOg==
-X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="380147241"
-Received: from rgwhiteh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.205.160])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2021 07:05:18 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v5 1/4] drm/i915: Keep track of pwm-related backlight
- hooks separately
-In-Reply-To: <20210107225207.28091-2-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210107225207.28091-1-lyude@redhat.com>
- <20210107225207.28091-2-lyude@redhat.com>
-Date: Fri, 08 Jan 2021 17:05:16 +0200
-Message-ID: <87r1mvxydv.fsf@intel.com>
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 099C36E833
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 15:53:49 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id r9so9996405otk.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 07:53:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7yGxCekSojHDYOKSkLKVDxqNk+xNiwlQRKwqadkl6Qg=;
+ b=XYzfqLoPisd6/WCjRspggY1uo3hMVRGzQNIxiHjrqI/Y3r4WA3rNma5JQNjZumXAo+
+ DlJUz9OescNJ8AeAM2cWG7lo4w8ZGxbqHa1GtXxcBLdq0BDHpUwkrl7BrpPH7N4cxmxv
+ oiT0nhw3IUl4kuDDZBNBYMChMJ2ZV0fH1DKaM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7yGxCekSojHDYOKSkLKVDxqNk+xNiwlQRKwqadkl6Qg=;
+ b=UEbST08s/9IFtHI/dWsCsYNi/X+8hTuh/TbtWfgd/TdQuHJfEZ8s+gULtUEnHw2YVM
+ EBcCXsqr8gtf/JHeZn68KUvmoTEt7pm0L2NH4+ovg3jeH27rVQ4xKf4GT7ovLYCq3LKP
+ cF11IbojJoVSTzBo3Fh/vIwP8RNOQw5WlQV140cl5W8hGeGYrkOTZtabVsfEzG7aQJMu
+ 6G00oBPa7OD75dFdOY2zOlgGp2Pp4sY3+th9+oj8/+Kh/p+ZrIG1surDA6spCy6KPNcj
+ YiMLeNWTNS5N+MVE6i/FCD6wCbr8GjpEzuN9TSMojMZRFSYj0KD78Cmrv2DG+EvYnfwO
+ E6eQ==
+X-Gm-Message-State: AOAM530OmoRJrWJ0TtdYy8vP/mJ2BouTGx/qfUnBg2RD4MRJpm0ySBvd
+ 9rz3YG5W0NolyIVsUHjIhDodJwfIHKJniMyt62ToVg==
+X-Google-Smtp-Source: ABdhPJxaK0cDu0umLpp81gyT1/VEQ5bureaC+soHqdkcGlb84sTagjj3r9vdtwiy0mJE8KIZ+hXQNiWQrUGV/5GnQ9Y=
+X-Received: by 2002:a9d:23ca:: with SMTP id t68mr3051813otb.281.1610121228319; 
+ Fri, 08 Jan 2021 07:53:48 -0800 (PST)
 MIME-Version: 1.0
+References: <20210105182309.1362-1-christian.koenig@amd.com>
+ <X/dN/YFtnVAIllds@phenom.ffwll.local>
+ <ffa9d7f2-fe68-fb6a-8422-82b8949dbe1e@gmail.com>
+ <X/hs1Rvm57zGPU8y@phenom.ffwll.local>
+ <d066b08c-756c-bbef-0f30-d8c68ef92dbf@amd.com>
+In-Reply-To: <d066b08c-756c-bbef-0f30-d8c68ef92dbf@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 8 Jan 2021 16:53:37 +0100
+Message-ID: <CAKMK7uGcRM8E0hYZeJCUuON7+uZnyEVtwU0HrNwhoWcw9V2uNA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/radeon: stop re-init the TTM page pool
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,92 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thaytan@noraisin.net, Dave Airlie <airlied@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, "open list:DRM
- DRIVERS" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Sean Paul <seanpaul@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Huang Rui <ray.huang@amd.com>, Borislav Petkov <bp@alien8.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Jan 2021, Lyude Paul <lyude@redhat.com> wrote:
-> @@ -1628,37 +1633,32 @@ static int lpt_setup_backlight(struct intel_connector *connector, enum pipe unus
->  	panel->backlight.active_low_pwm = pch_ctl1 & BLM_PCH_POLARITY;
->  
->  	pch_ctl2 = intel_de_read(dev_priv, BLC_PWM_PCH_CTL2);
-> -	panel->backlight.max = pch_ctl2 >> 16;
-> +	panel->backlight.pwm_level_max = pch_ctl2 >> 16;
->  
->  	cpu_ctl2 = intel_de_read(dev_priv, BLC_PWM_CPU_CTL2);
->  
-> -	if (!panel->backlight.max)
-> -		panel->backlight.max = get_backlight_max_vbt(connector);
-> +	if (!panel->backlight.pwm_level_max)
-> +		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
->  
-> -	if (!panel->backlight.max)
-> +	if (!panel->backlight.pwm_level_max)
->  		return -ENODEV;
->  
-> -	panel->backlight.min = get_backlight_min_vbt(connector);
-> +	panel->backlight.pwm_level_min = get_backlight_min_vbt(connector);
->  
-> -	panel->backlight.enabled = pch_ctl1 & BLM_PCH_PWM_ENABLE;
-> +	panel->backlight.pwm_enabled = pch_ctl1 & BLM_PCH_PWM_ENABLE;
->  
-> -	cpu_mode = panel->backlight.enabled && HAS_PCH_LPT(dev_priv) &&
-> +	cpu_mode = panel->backlight.pwm_enabled && HAS_PCH_LPT(dev_priv) &&
->  		   !(pch_ctl1 & BLM_PCH_OVERRIDE_ENABLE) &&
->  		   (cpu_ctl2 & BLM_PWM_ENABLE);
-> -	if (cpu_mode)
-> -		val = pch_get_backlight(connector);
-> -	else
-> -		val = lpt_get_backlight(connector);
-> -	val = intel_panel_compute_brightness(connector, val);
-> -	panel->backlight.level = clamp(val, panel->backlight.min,
-> -				       panel->backlight.max);
->  
->  	if (cpu_mode) {
-> +		val = intel_panel_sanitize_pwm_level(connector, pch_get_backlight(connector));
-> +
-
-(This really is a PITA to review, not because of how you do it but
-because of the hardware and the code itself. I'm just pointing out one
-thing here, but I'm not finished yet.)
-
-I think this sanitize call is wrong here. It should be called only when
-converting to and from the hw register. Here, we read directly from one
-hw register and write back to another hw register.
-
-Now, looking at the history, I think it's been wrong all the way since
-commit 5b1ec9ac7ab5 ("drm/i915/backlight: Fix backlight takeover on LPT,
-v3."). Probably nobody noticed, because AFAIK inverted brightness
-control has only ever been an issue on some gen4 platforms...
-
-*facepalm*
-
-BR,
-Jani.
-
->  		drm_dbg_kms(&dev_priv->drm,
->  			    "CPU backlight register was enabled, switching to PCH override\n");
->  
->  		/* Write converted CPU PWM value to PCH override register */
-> -		lpt_set_backlight(connector->base.state, panel->backlight.level);
-> +		lpt_set_backlight(connector->base.state, val);
->  		intel_de_write(dev_priv, BLC_PWM_PCH_CTL1,
->  			       pch_ctl1 | BLM_PCH_OVERRIDE_ENABLE);
->  
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBKYW4gOCwgMjAyMSBhdCAzOjM2IFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAwOC4wMS4yMSB1bSAxNTozMSBzY2hyaWVi
+IERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUaHUsIEphbiAwNywgMjAyMSBhdCAwOTowODoyOVBNICsw
+MTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4+IEFtIDA3LjAxLjIxIHVtIDE5OjA3IHNj
+aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+Pj4gT24gVHVlLCBKYW4gMDUsIDIwMjEgYXQgMDc6MjM6
+MDhQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IERyaXZlcnMgYXJlIG5v
+dCBzdXBwb3NlZCB0byBpbml0IHRoZSBwYWdlIHBvb2wgZGlyZWN0bHkgYW55IG1vcmUuCj4gPj4+
+Pgo+ID4+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgo+ID4+PiBQbGVhc2UgaW5jbHVkZSByZXBvcnRlZC1ieSBjcmVkaXRzIGFuZCBs
+aW5rIHRvIHRoZSBidWcgcmVwb3J0cyBvbgo+ID4+PiBsb3JlLmtlcm5lbC5vcmcgd2hlbiBtZXJn
+aW5nIHRoaXMuIEFsc28gSSBndWVzcyB0aGlzIHNob3VsZCBoYXZlIGEgRml4ZXM6Cj4gPj4+IGxp
+bmU/Cj4gPj4gSSdtIG5vdCBhd2FyZSBvZiBhIGJ1ZyByZXBvcnQsIGJ1dCB0aGUgcmVwb3J0ZWQt
+YnkvRml4ZXMgbGluZXMgYXJlIGluZGVlZAo+ID4+IG1pc3NpbmcuCj4gPiBUaGlzIG9uZSBoZXJl
+Ogo+ID4KPiA+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
+P3VybD1odHRwcyUzQSUyRiUyRmxvcmUua2VybmVsLm9yZyUyRmRyaS1kZXZlbCUyRjIwMjAxMjMx
+MTA0MDIwLkdBNDUwNCU0MHpuLnRuaWMlMkYmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5r
+b2VuaWclNDBhbWQuY29tJTdDM2FlZGUyMDMzNDhiNGYzMmVhMzEwOGQ4YjNlMjI0ZWMlN0MzZGQ4
+OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDU3MTMxMTc5MjU4NDg4
+JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1
+TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWJIVnc0
+bGoxZjhnNG9oVlRldUtOa2IwTEFiTHdZNk40S1dvcnRyM1Z0QW8lM0QmYW1wO3Jlc2VydmVkPTAK
+PiA+Cj4gPiBPciBkaWQgSSBnZXQgY29uZnVzZWQsIGFuZCB0aGUgYWJvdmUgaXMgeWV0IGFub3Ro
+ZXIgYnVnPwo+Cj4gWWVhaCwgYnV0IHRoYXQgd2FzIGp1c3QgcmVwb3J0ZWQgYnkgbWFpbC4gVGhl
+IGJ1ZyB0cmFja2VyIEkndmUgc2F3IHdhcwo+IG9wZW5lZCBhZnRlciB0aGUgcGF0Y2ggd2FzIGFs
+cmVhZHkgcHVzaGVkLgoKU3RpbGwgZ29vZCB0byBnaXZlIHJlcG9ydGVkLWJ5IGNyZWRpdHMgZm9y
+IG1haWxpbmcgbGlzdCByZXBvcnRzIGFuZApsaW5rIHRvIGxvcmUua2VybmVsLm9yZyBmb3IgdGhl
+IHJlcG9ydCwgdGhhdCdzIG5vdCBqdXN0IHVzZWZ1bCBmb3IKYnVnemlsbGEgcmVwb3J0cy4KCj4g
+Pj4gQlRXOiBBbnkgaWRlYSB3aHkgZGltIGFkZC1saW5rIGRvZXNuJ3Qgd29yaz8KPiA+IEhtIHdl
+IG9jY2FzaW9uYWxseSBoYXZlIGZ1biB3aXRoIGVtYWlsIHBhcnNpbmcgKGl0J3MgaGFyZCkgYW5k
+IGVzcGVjaWFsbHkKPiA+IHB5dGhvbiBjaGFuZ2VzIGluIGhvdyBlbmNvZGluZ3MgYXJlIGhhbmRs
+ZWQgZGlmZmVyZW50bHkgYmV0d2VlbiBweXRob24yCj4gPiBhbmQgcHl0aG9uMy4gSWYgeW91IGhh
+dmUgYSBzcGVjaWZpYyBleGFtcGxlIEkgY2FuIHRyeSBhbmQgdGFrZSBhIGxvb2sgd2h5Cj4gPiBp
+dCBkb2Vzbid0IHdvcmsuCj4KPiBJdCBqdXN0IGxvb2tzIHVwIGFuZCBkb2Vzbid0IHNlZW0gdG8g
+ZG8gYW55dGhpbmcuIEknbSBub3QgZmFtaWxpYXIgd2l0aAo+IHB5dGhvbiBzbyBJIGNhbiBqdXN0
+IGRlc2NyaWJlIHRoZSBzeW1wdG9tcy4KCkkgbWVhbnQgdGVsbCBtZSB3aGljaCBtYWlsIChwYXRj
+aHdvcmsgb3IgbG9yZSkgYW5kIEknbGwgdHJ5IHRvCnJlcHJvZHVjZSBhbmQgc2VlIHdoYXQncyBt
+YXliZSB1cC4KLURhbmllbAoKPgo+IENocmlzdGlhbi4KPgo+ID4gLURhbmllbAo+ID4KPiA+Pj4g
+QW5kIG1heWJlIHNvbWUgd29yZHMgb24gaG93L3doeSBzdHVmZiBibG93cyB1cC4KPiA+PiBKdXN0
+IGEgdHlwby4gSSd2ZSBmb3Jnb3QgdG8gcmVtb3ZlIHR3byBsaW5lcyBpbiByYWRlb24gd2hpbGUg
+cmViYXNpbmcgYW5kCj4gPj4gc3RpbGwgaGFkIHRoZSBzeW1ib2xzIGV4cG9ydGVkIHNvIG5ldmVy
+IG5vdGljZWQgdGhpcy4KPiA+Pgo+ID4+IENocmlzdGlhbi4KPiA+Pgo+ID4+PiAtRGFuaWVsCj4g
+Pj4+Cj4gPj4+PiAtLS0KPiA+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
+bS5jIHwgMyAtLS0KPiA+Pj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQo+ID4+
+Pj4KPiA+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
+YyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPj4+PiBpbmRleCBkNDMy
+OGZmNTc3NTcuLjM1YjcxNWY4MmVkOCAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9u
+L3JhZGVvbl90dG0uYwo+ID4+Pj4gQEAgLTcyOSw5ICs3MjksNiBAQCBpbnQgcmFkZW9uX3R0bV9p
+bml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ID4+Pj4gICAgICAgICAgICB9Cj4gPj4+
+PiAgICAgICAgICAgIHJkZXYtPm1tYW4uaW5pdGlhbGl6ZWQgPSB0cnVlOwo+ID4+Pj4gLSAgdHRt
+X3Bvb2xfaW5pdCgmcmRldi0+bW1hbi5iZGV2LnBvb2wsIHJkZXYtPmRldiwgcmRldi0+bmVlZF9z
+d2lvdGxiLAo+ID4+Pj4gLSAgICAgICAgICAgICAgICBkbWFfYWRkcmVzc2luZ19saW1pdGVkKCZy
+ZGV2LT5wZGV2LT5kZXYpKTsKPiA+Pj4+IC0KPiA+Pj4+ICAgICAgICAgICAgciA9IHJhZGVvbl90
+dG1faW5pdF92cmFtKHJkZXYpOwo+ID4+Pj4gICAgICAgICAgICBpZiAocikgewo+ID4+Pj4gICAg
+ICAgICAgICAgICAgICAgIERSTV9FUlJPUigiRmFpbGVkIGluaXRpYWxpemluZyBWUkFNIGhlYXAu
+XG4iKTsKPiA+Pj4+IC0tCj4gPj4+PiAyLjI1LjEKPiA+Pj4+Cj4gPj4+PiBfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4gZHJpLWRldmVsIG1haWxp
+bmcgbGlzdAo+ID4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4gaHR0
+cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNB
+JTJGJTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRl
+dmVsJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzNhZWRl
+MjAzMzQ4YjRmMzJlYTMxMDhkOGIzZTIyNGVjJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0
+ZTE4M2QlN0MwJTdDMCU3QzYzNzQ1NzEzMTE3OTI1ODQ4OCU3Q1Vua25vd24lN0NUV0ZwYkdac2Iz
+ZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENK
+WFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1wSHp1QXNKY1hmNUhsQWZKN3dZWWMlMkJzaXpa
+aFNMQkdXWEJoQ3lWTlJDZm8lM0QmYW1wO3Jlc2VydmVkPTAKPgoKCi0tIApEYW5pZWwgVmV0dGVy
+ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5j
+aApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
