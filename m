@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F8A2EF573
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 17:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273E62EF590
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 17:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5086E837;
-	Fri,  8 Jan 2021 16:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6150E6E835;
+	Fri,  8 Jan 2021 16:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D646E839
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 16:07:10 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id n42so10064607ota.12
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 08:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rc87f5rcCCpjuKD9UzipTakrSFwOvXYCMJeaB8uYEFs=;
- b=Zj7vtsigcTGkdoFGJTyED5S0D7tY00PF2LLmHYRmqZdXjLvXrBI/xlZ76GoSJjps18
- 7TQ2d1zNy9BcZTZ6uWfAmDIUjftb4WrcQGUKSoVfHSRYjdVAkmtvxmYU8hbuvG7rv5PF
- BG9s0wpRBQQolgFQmPfFvDXiMblGzLbuiDZnc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Rc87f5rcCCpjuKD9UzipTakrSFwOvXYCMJeaB8uYEFs=;
- b=EQy+3ykwBD2Sp3jRothpfF6ywETeKsXFntYXJk7j70jXxSfNxw3jOHtwczdRzED+Hy
- 1fh10XVo8vmr+wTxBxVbpMHYEEMNEuU7kvxcX2O16ALyS2YvRigD/VBq3lmwyFBOtho2
- 9qEwTxK0DNECpoZzZiymFziraXRyGJBsOHG/JIpyTEx7ds9BdC1KlYEWW+d8CvbndXnd
- XBfX28Xxe3NPMSDsWMhhX3+43Kl5dsjad4gEQZLnGchtd2AzRrcdz0qOdw5X24IryQzw
- ATtbK2Km+xn27RmVh7DsNQuE0VpOJ2HiQACFa7x3m47HlPPgdjekimqrffZXNClkEBra
- EDIQ==
-X-Gm-Message-State: AOAM531cYlSqGrxDwZRtt1cv9FtKQMgYcAlruJ9ae0AJ4/8nU7tfKQHn
- qvV1OJOSw4LNBaCDhcDbEACYLw5v4x7VFLTF+KR2qg==
-X-Google-Smtp-Source: ABdhPJycCpGcqWJUPmSgstMxIYVT6KYz20KQqoKOmH1P+VcKoApiRxZPodagCRld7keCSL9g98154hNSvnVyQNgHnBk=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr2993042otb.303.1610122029943; 
- Fri, 08 Jan 2021 08:07:09 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 496D76E835
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 16:12:35 +0000 (UTC)
+IronPort-SDR: b6P66A+kNGre37KgUoxfK2ciygGBk6prLduZGfmwrQSLdascDohHgSHhcEbfrph38dNQKbO0f5
+ Y/tB3kAR2BGw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="165304546"
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="165304546"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2021 08:12:34 -0800
+IronPort-SDR: JMbobQ7je7NHlqEgCJqr+/MvTBYSjiYikipnt+2BMt8dIYeeNWW8hzX84f1xJ/FHwBuwkoaUT5
+ 6Hcg9CKTDj0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,331,1602572400"; d="scan'208";a="351723950"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga008.fm.intel.com with ESMTP; 08 Jan 2021 08:12:33 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 8 Jan 2021 08:12:33 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 8 Jan 2021 08:12:32 -0800
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
+ Fri, 8 Jan 2021 08:12:25 -0800
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "airlied@redhat.com" <airlied@redhat.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+ <mripard@kernel.org>, "kraxel@redhat.com" <kraxel@redhat.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>, "sean@poorly.run"
+ <sean@poorly.run>, "eric@anholt.net" <eric@anholt.net>, "sam@ravnborg.org"
+ <sam@ravnborg.org>
+Subject: RE: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+Thread-Topic: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+Thread-Index: AQHW5aLP4hX76tQjY0SfdcD489sfwKod5bgg
+Date: Fri, 8 Jan 2021 16:12:25 +0000
+Message-ID: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+In-Reply-To: <20210108094340.15290-2-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
- <X/bTFWL3HYVc8LEF@phenom.ffwll.local>
- <6daf9ebc-507e-6e83-04dd-d7c5fc6998d6@amd.com>
- <X/hux3eX8Ywf61h7@phenom.ffwll.local>
- <ed44f9cf-a7fc-f02b-dfd7-26b14310bc79@amd.com>
-In-Reply-To: <ed44f9cf-a7fc-f02b-dfd7-26b14310bc79@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 8 Jan 2021 17:06:58 +0100
-Message-ID: <CAKMK7uF3GHAMuW2EL7TuX6b0TdVpkUB9wG4vOz_oMwCLL9K4BQ@mail.gmail.com>
-Subject: Re: [PATCH 00/35] Add HMM-based SVM memory manager to KFD
-To: Felix Kuehling <felix.kuehling@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,217 +77,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, "Yang, Philip" <philip.yang@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 8, 2021 at 4:58 PM Felix Kuehling <felix.kuehling@amd.com> wrote:
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Thomas Zimmermann
+>Sent: Friday, January 8, 2021 4:43 AM
+>To: sumit.semwal@linaro.org; christian.koenig@amd.com;
+>airlied@redhat.com; daniel@ffwll.ch; maarten.lankhorst@linux.intel.com;
+>mripard@kernel.org; kraxel@redhat.com; hdegoede@redhat.com;
+>sean@poorly.run; eric@anholt.net; sam@ravnborg.org
+>Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; dri-devel@lists.freedesktop.org;
+>virtualization@lists.linux-foundation.org; linaro-mm-sig@lists.linaro.org;
+>Thomas Zimmermann <tzimmermann@suse.de>; linux-
+>media@vger.kernel.org
+>Subject: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+>operations
 >
-> Am 2021-01-08 um 9:40 a.m. schrieb Daniel Vetter:
-> > On Thu, Jan 07, 2021 at 11:25:41AM -0500, Felix Kuehling wrote:
-> >> Am 2021-01-07 um 4:23 a.m. schrieb Daniel Vetter:
-> >>> On Wed, Jan 06, 2021 at 10:00:52PM -0500, Felix Kuehling wrote:
-> >>>> This is the first version of our HMM based shared virtual memory manager
-> >>>> for KFD. There are still a number of known issues that we're working through
-> >>>> (see below). This will likely lead to some pretty significant changes in
-> >>>> MMU notifier handling and locking on the migration code paths. So don't
-> >>>> get hung up on those details yet.
-> >>>>
-> >>>> But I think this is a good time to start getting feedback. We're pretty
-> >>>> confident about the ioctl API, which is both simple and extensible for the
-> >>>> future. (see patches 4,16) The user mode side of the API can be found here:
-> >>>> https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/blob/fxkamd/hmm-wip/src/svm.c
-> >>>>
-> >>>> I'd also like another pair of eyes on how we're interfacing with the GPU VM
-> >>>> code in amdgpu_vm.c (see patches 12,13), retry page fault handling (24,25),
-> >>>> and some retry IRQ handling changes (32).
-> >>>>
-> >>>>
-> >>>> Known issues:
-> >>>> * won't work with IOMMU enabled, we need to dma_map all pages properly
-> >>>> * still working on some race conditions and random bugs
-> >>>> * performance is not great yet
-> >>> Still catching up, but I think there's another one for your list:
-> >>>
-> >>>  * hmm gpu context preempt vs page fault handling. I've had a short
-> >>>    discussion about this one with Christian before the holidays, and also
-> >>>    some private chats with Jerome. It's nasty since no easy fix, much less
-> >>>    a good idea what's the best approach here.
-> >> Do you have a pointer to that discussion or any more details?
-> > Essentially if you're handling an hmm page fault from the gpu, you can
-> > deadlock by calling dma_fence_wait on a (chain of, possibly) other command
-> > submissions or compute contexts with dma_fence_wait. Which deadlocks if
-> > you can't preempt while you have that page fault pending. Two solutions:
-> >
-> > - your hw can (at least for compute ctx) preempt even when a page fault is
-> >   pending
+>The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+>allowed to pin the buffer or acquire the buffer's reservation object
+>lock.
 >
-> Our GFXv9 GPUs can do this. GFXv10 cannot.
-
-Uh, why did your hw guys drop this :-/
-
-> > - lots of screaming in trying to come up with an alternate solution. They
-> >   all suck.
+>This is a problem for callers that only require a short-term mapping
+>of the buffer without the pinning, or callers that have special locking
+>requirements. These may suffer from unnecessary overhead or interfere
+>with regular pin operations.
 >
-> My idea for GFXv10 is to avoid preemption for memory management purposes
-> and rely 100% on page faults instead. That is, if the memory manager
-> needs to prevent GPU access to certain memory, just invalidate the GPU
-> page table entries pointing to that memory. No waiting for fences is
-> necessary, except for the SDMA job that invalidates the PTEs, which runs
-> on a special high-priority queue that should never deadlock. That should
-> prevent the CPU getting involved in deadlocks in kernel mode. But you
-> can still deadlock the GPU in user mode if all compute units get stuck
-> in page faults and can't switch to any useful work any more. So it's
-> possible that we won't be able to use GPU page faults on our GFXv10 GPUs.
-
-This only works if _everything_ in the system works like this, since
-you're defacto breaking the cross-driver contract. As soon as there's
-some legacy gl workload (userptr) or another driver involved, this
-approach falls apart.
-
-I do think it can be rescued with what I call gang scheduling of
-engines: I.e. when a given engine is running a context (or a group of
-engines, depending how your hw works) that can cause a page fault, you
-must flush out all workloads running on the same engine which could
-block a dma_fence (preempt them, or for non-compute stuff, force their
-completion). And the other way round, i.e. before you can run a legacy
-gl workload with a dma_fence on these engines you need to preempt all
-ctxs that could cause page faults and take them at least out of the hw
-scheduler queue.
-
-Just reserving an sdma engine for copy jobs and ptes updates and that
-stuff is necessary, but not sufficient.
-
-Another approach that Jerome suggested is to track the reverse
-dependency graph of all dma_fence somehow and make sure that direct
-reclaim never recurses on an engine you're serving a pagefault for.
-Possible in theory, but in practice I think not feasible to implement
-because way too much work to implement.
-
-Either way it's imo really nasty to come up with a scheme here that
-doesn't fail in some corner, or becomes really nasty with inconsistent
-rules across different drivers and hw :-(
-
-Cheers, Daniel
-
+>The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+>their rsp callbacks in struct dma_buf_ops provide an alternative without
+>pinning or reservation locking. Callers are responsible for these
+>operations.
 >
-> Regards,
->   Felix
+>v4:
+>	* update documentation (Daniel)
 >
-> >
-> > Note that the dma_fence_wait is hard requirement, because we need that for
-> > mmu notifiers and shrinkers, disallowing that would disable dynamic memory
-> > management. Which is the current "ttm is self-limited to 50% of system
-> > memory" limitation Christian is trying to lift. So that's really not
-> > a restriction we can lift, at least not in upstream where we need to also
-> > support old style hardware which doesn't have page fault support and
-> > really has no other option to handle memory management than
-> > dma_fence_wait.
-> >
-> > Thread was here:
-> >
-> > https://lore.kernel.org/dri-devel/CAKMK7uGgoeF8LmFBwWh5mW1k4xWjuUh3hdSFpVH1NBM7K0=edA@mail.gmail.com/
-> >
-> > There's a few ways to resolve this (without having preempt-capable
-> > hardware), but they're all supremely nasty.
-> > -Daniel
-> >
-> >> Thanks,
-> >>   Felix
-> >>
-> >>
-> >>> I'll try to look at this more in-depth when I'm catching up on mails.
-> >>> -Daniel
-> >>>
-> >>>> Alex Sierra (12):
-> >>>>   drm/amdgpu: replace per_device_list by array
-> >>>>   drm/amdkfd: helper to convert gpu id and idx
-> >>>>   drm/amdkfd: add xnack enabled flag to kfd_process
-> >>>>   drm/amdkfd: add ioctl to configure and query xnack retries
-> >>>>   drm/amdkfd: invalidate tables on page retry fault
-> >>>>   drm/amdkfd: page table restore through svm API
-> >>>>   drm/amdkfd: SVM API call to restore page tables
-> >>>>   drm/amdkfd: add svm_bo reference for eviction fence
-> >>>>   drm/amdgpu: add param bit flag to create SVM BOs
-> >>>>   drm/amdkfd: add svm_bo eviction mechanism support
-> >>>>   drm/amdgpu: svm bo enable_signal call condition
-> >>>>   drm/amdgpu: add svm_bo eviction to enable_signal cb
-> >>>>
-> >>>> Philip Yang (23):
-> >>>>   drm/amdkfd: select kernel DEVICE_PRIVATE option
-> >>>>   drm/amdkfd: add svm ioctl API
-> >>>>   drm/amdkfd: Add SVM API support capability bits
-> >>>>   drm/amdkfd: register svm range
-> >>>>   drm/amdkfd: add svm ioctl GET_ATTR op
-> >>>>   drm/amdgpu: add common HMM get pages function
-> >>>>   drm/amdkfd: validate svm range system memory
-> >>>>   drm/amdkfd: register overlap system memory range
-> >>>>   drm/amdkfd: deregister svm range
-> >>>>   drm/amdgpu: export vm update mapping interface
-> >>>>   drm/amdkfd: map svm range to GPUs
-> >>>>   drm/amdkfd: svm range eviction and restore
-> >>>>   drm/amdkfd: register HMM device private zone
-> >>>>   drm/amdkfd: validate vram svm range from TTM
-> >>>>   drm/amdkfd: support xgmi same hive mapping
-> >>>>   drm/amdkfd: copy memory through gart table
-> >>>>   drm/amdkfd: HMM migrate ram to vram
-> >>>>   drm/amdkfd: HMM migrate vram to ram
-> >>>>   drm/amdgpu: reserve fence slot to update page table
-> >>>>   drm/amdgpu: enable retry fault wptr overflow
-> >>>>   drm/amdkfd: refine migration policy with xnack on
-> >>>>   drm/amdkfd: add svm range validate timestamp
-> >>>>   drm/amdkfd: multiple gpu migrate vram to vram
-> >>>>
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |    3 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |    4 +-
-> >>>>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |   16 +-
-> >>>>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   13 +-
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c        |   83 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h        |    7 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |    5 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   90 +-
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   47 +-
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   10 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/vega10_ih.c        |   32 +-
-> >>>>  drivers/gpu/drm/amd/amdgpu/vega20_ih.c        |   32 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/Kconfig            |    1 +
-> >>>>  drivers/gpu/drm/amd/amdkfd/Makefile           |    4 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  170 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_iommu.c        |    8 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  866 ++++++
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.h      |   59 +
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   52 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  200 +-
-> >>>>  .../amd/amdkfd/kfd_process_queue_manager.c    |    6 +-
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c          | 2564 +++++++++++++++++
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_svm.h          |  135 +
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_topology.c     |    1 +
-> >>>>  drivers/gpu/drm/amd/amdkfd/kfd_topology.h     |   10 +-
-> >>>>  include/uapi/linux/kfd_ioctl.h                |  169 +-
-> >>>>  26 files changed, 4296 insertions(+), 291 deletions(-)
-> >>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> >>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-> >>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> >>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.h
-> >>>>
-> >>>> --
-> >>>> 2.29.2
-> >>>>
-> >>>> _______________________________________________
-> >>>> dri-devel mailing list
-> >>>> dri-devel@lists.freedesktop.org
-> >>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>---
+> drivers/dma-buf/dma-buf.c | 81
+>+++++++++++++++++++++++++++++++++++++++
+> include/linux/dma-buf.h   | 34 ++++++++++++++++
+> 2 files changed, 115 insertions(+)
+>
+>diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>index b8465243eca2..01f9c74d97fa 100644
+>--- a/drivers/dma-buf/dma-buf.c
+>+++ b/drivers/dma-buf/dma-buf.c
+>@@ -1295,6 +1295,87 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
+>struct dma_buf_map *map)
+> }
+> EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>
+>+/**
+>+ * dma_buf_vmap_local - Create virtual mapping for the buffer object into
+>kernel
+>+ * address space.
+>+ * @dmabuf:	[in]	buffer to vmap
+>+ * @map:	[out]	returns the vmap pointer
+>+ *
+>+ * Unlike dma_buf_vmap() this is a short term mapping and will not pin
+>+ * the buffer. The struct dma_resv for the @dmabuf must be locked until
+>+ * dma_buf_vunmap_local() is called.
+>+ *
+>+ * Returns:
+>+ * 0 on success, or a negative errno code otherwise.
+>+ */
+>+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>*map)
+>+{
+>+	struct dma_buf_map ptr;
+>+	int ret = 0;
+>+
+>+	dma_buf_map_clear(map);
+>+
+>+	if (WARN_ON(!dmabuf))
+>+		return -EINVAL;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	if (!dmabuf->ops->vmap_local)
+>+		return -EINVAL;
 
+You are clearing the map, and then doing the above checks.
 
+Is it ok to change the map info and then exit on error?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Mike
+
+>+	mutex_lock(&dmabuf->lock);
+>+	if (dmabuf->vmapping_counter) {
+>+		dmabuf->vmapping_counter++;
+>+		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>+		*map = dmabuf->vmap_ptr;
+>+		goto out_unlock;
+>+	}
+>+
+>+	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+>+
+>+	ret = dmabuf->ops->vmap_local(dmabuf, &ptr);
+>+	if (WARN_ON_ONCE(ret))
+>+		goto out_unlock;
+>+
+>+	dmabuf->vmap_ptr = ptr;
+>+	dmabuf->vmapping_counter = 1;
+>+
+>+	*map = dmabuf->vmap_ptr;
+>+
+>+out_unlock:
+>+	mutex_unlock(&dmabuf->lock);
+>+	return ret;
+>+}
+>+EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
+>+
+>+/**
+>+ * dma_buf_vunmap_local - Unmap a vmap obtained by
+>dma_buf_vmap_local.
+>+ * @dmabuf:	[in]	buffer to vunmap
+>+ * @map:	[in]	vmap pointer to vunmap
+>+ *
+>+ * Release a mapping established with dma_buf_vmap_local().
+>+ */
+>+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>dma_buf_map *map)
+>+{
+>+	if (WARN_ON(!dmabuf))
+>+		return;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>+	BUG_ON(dmabuf->vmapping_counter == 0);
+>+	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
+>+
+>+	mutex_lock(&dmabuf->lock);
+>+	if (--dmabuf->vmapping_counter == 0) {
+>+		if (dmabuf->ops->vunmap_local)
+>+			dmabuf->ops->vunmap_local(dmabuf, map);
+>+		dma_buf_map_clear(&dmabuf->vmap_ptr);
+>+	}
+>+	mutex_unlock(&dmabuf->lock);
+>+}
+>+EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
+>+
+> #ifdef CONFIG_DEBUG_FS
+> static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> {
+>diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>index 628681bf6c99..aeed754b5467 100644
+>--- a/include/linux/dma-buf.h
+>+++ b/include/linux/dma-buf.h
+>@@ -264,6 +264,38 @@ struct dma_buf_ops {
+>
+> 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+
+>+	/**
+>+	 * @vmap_local:
+>+	 *
+>+	 * Creates a virtual mapping for the buffer into kernel address space.
+>+	 *
+>+	 * This callback establishes short-term mappings for situations where
+>+	 * callers only use the buffer for a bounded amount of time; such as
+>+	 * updates to the framebuffer or reading back contained information.
+>+	 * In contrast to the regular @vmap callback, vmap_local does never
+>pin
+>+	 * the buffer to a specific domain or acquire the buffer's reservation
+>+	 * lock.
+>+	 *
+>+	 * This is called with the &dma_buf.resv object locked. Callers must
+>hold
+>+	 * the lock until after removing the mapping with @vunmap_local.
+>+	 *
+>+	 * This callback is optional.
+>+	 *
+>+	 * Returns:
+>+	 *
+>+	 * 0 on success or a negative error code on failure.
+>+	 */
+>+	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+
+>+	/**
+>+	 * @vunmap_local:
+>+	 *
+>+	 * Removes a virtual mapping that was established by @vmap_local.
+>+	 *
+>+	 * This callback is optional.
+>+	 */
+>+	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+> };
+>
+> /**
+>@@ -501,4 +533,6 @@ int dma_buf_mmap(struct dma_buf *, struct
+>vm_area_struct *,
+> 		 unsigned long);
+> int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>*map);
+>+void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>dma_buf_map *map);
+> #endif /* __DMA_BUF_H__ */
+>--
+>2.29.2
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
