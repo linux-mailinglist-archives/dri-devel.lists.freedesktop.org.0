@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D302EF3B3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 15:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48862EF3B6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 15:08:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA816E07B;
-	Fri,  8 Jan 2021 14:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74EB16E82C;
+	Fri,  8 Jan 2021 14:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 159616E822
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA516E07B
  for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 14:08:13 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A345CB73E;
- Fri,  8 Jan 2021 14:08:11 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1121BB744;
+ Fri,  8 Jan 2021 14:08:12 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: mripard@kernel.org,
 	eric@anholt.net,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH 1/3] drm/vc4: Use drm_gem_cma_vmap() directly
-Date: Fri,  8 Jan 2021 15:08:06 +0100
-Message-Id: <20210108140808.25775-2-tzimmermann@suse.de>
+Subject: [PATCH 2/3] drm/vc4: Make several BO functions static
+Date: Fri,  8 Jan 2021 15:08:07 +0100
+Message-Id: <20210108140808.25775-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210108140808.25775-1-tzimmermann@suse.de>
 References: <20210108140808.25775-1-tzimmermann@suse.de>
@@ -46,59 +46,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Validated shaders cannot be exported. There's no need for testing this in
-the BO's vmap implementation. Call drm_gem_cma_vmap() directly instead.
+Rearrange the code to make BO functions static. This will also help
+with streamlining the BO's mmap implementation.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c  | 14 +-------------
- drivers/gpu/drm/vc4/vc4_drv.h |  1 -
- 2 files changed, 1 insertion(+), 14 deletions(-)
+ drivers/gpu/drm/vc4/vc4_bo.c  | 34 +++++++++++++++++-----------------
+ drivers/gpu/drm/vc4/vc4_drv.h |  2 --
+ 2 files changed, 17 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index dc316cb79e00..eff12be616b0 100644
+index eff12be616b0..f9b42ff098e3 100644
 --- a/drivers/gpu/drm/vc4/vc4_bo.c
 +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -386,7 +386,7 @@ static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
- 	.free = vc4_free_object,
- 	.export = vc4_prime_export,
- 	.get_sg_table = drm_gem_cma_get_sg_table,
--	.vmap = vc4_prime_vmap,
-+	.vmap = drm_gem_cma_vmap,
- 	.vm_ops = &vc4_vm_ops,
- };
+@@ -21,7 +21,7 @@
+ #include "vc4_drv.h"
+ #include "uapi/drm/vc4_drm.h"
  
-@@ -785,18 +785,6 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+-static vm_fault_t vc4_fault(struct vm_fault *vmf);
++static const struct drm_gem_object_funcs vc4_gem_object_funcs;
+ 
+ static const char * const bo_type_names[] = {
+ 	"kernel",
+@@ -376,20 +376,6 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
+ 	return bo;
+ }
+ 
+-static const struct vm_operations_struct vc4_vm_ops = {
+-	.fault = vc4_fault,
+-	.open = drm_gem_vm_open,
+-	.close = drm_gem_vm_close,
+-};
+-
+-static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
+-	.free = vc4_free_object,
+-	.export = vc4_prime_export,
+-	.get_sg_table = drm_gem_cma_get_sg_table,
+-	.vmap = drm_gem_cma_vmap,
+-	.vm_ops = &vc4_vm_ops,
+-};
+-
+ /**
+  * vc4_create_object - Implementation of driver->gem_create_object.
+  * @dev: DRM device
+@@ -538,7 +524,7 @@ static void vc4_bo_cache_free_old(struct drm_device *dev)
+ /* Called on the last userspace/kernel unreference of the BO.  Returns
+  * it to the BO cache if possible, otherwise frees it.
+  */
+-void vc4_free_object(struct drm_gem_object *gem_bo)
++static void vc4_free_object(struct drm_gem_object *gem_bo)
+ {
+ 	struct drm_device *dev = gem_bo->dev;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+@@ -673,7 +659,7 @@ static void vc4_bo_cache_time_timer(struct timer_list *t)
+ 	schedule_work(&vc4->bo_cache.time_work);
+ }
+ 
+-struct dma_buf * vc4_prime_export(struct drm_gem_object *obj, int flags)
++static struct dma_buf *vc4_prime_export(struct drm_gem_object *obj, int flags)
+ {
+ 	struct vc4_bo *bo = to_vc4_bo(obj);
+ 	struct dma_buf *dmabuf;
+@@ -785,6 +771,20 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
  	return drm_gem_prime_mmap(obj, vma);
  }
  
--int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
--{
--	struct vc4_bo *bo = to_vc4_bo(obj);
--
--	if (bo->validated_shader) {
--		DRM_DEBUG("mmaping of shader BOs not allowed.\n");
--		return -EINVAL;
--	}
--
--	return drm_gem_cma_vmap(obj, map);
--}
--
++static const struct vm_operations_struct vc4_vm_ops = {
++	.fault = vc4_fault,
++	.open = drm_gem_vm_open,
++	.close = drm_gem_vm_close,
++};
++
++static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
++	.free = vc4_free_object,
++	.export = vc4_prime_export,
++	.get_sg_table = drm_gem_cma_get_sg_table,
++	.vmap = drm_gem_cma_vmap,
++	.vm_ops = &vc4_vm_ops,
++};
++
  struct drm_gem_object *
  vc4_prime_import_sg_table(struct drm_device *dev,
  			  struct dma_buf_attachment *attach,
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 051ad4e31e52..61848c6f85ad 100644
+index 61848c6f85ad..a3d8d87fe355 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -808,7 +808,6 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
- 						 struct dma_buf_attachment *attach,
- 						 struct sg_table *sgt);
--int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
- int vc4_bo_cache_init(struct drm_device *dev);
- int vc4_bo_inc_usecnt(struct vc4_bo *bo);
- void vc4_bo_dec_usecnt(struct vc4_bo *bo);
+@@ -782,13 +782,11 @@ struct vc4_validated_shader_info {
+ 
+ /* vc4_bo.c */
+ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size);
+-void vc4_free_object(struct drm_gem_object *gem_obj);
+ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t size,
+ 			     bool from_cache, enum vc4_kernel_bo_type type);
+ int vc4_dumb_create(struct drm_file *file_priv,
+ 		    struct drm_device *dev,
+ 		    struct drm_mode_create_dumb *args);
+-struct dma_buf *vc4_prime_export(struct drm_gem_object *obj, int flags);
+ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv);
+ int vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
 -- 
 2.29.2
 
