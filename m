@@ -1,35 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC01A2EFF38
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E256D2EFF42
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 12:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3DC66E92A;
-	Sat,  9 Jan 2021 11:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB1E96E949;
+	Sat,  9 Jan 2021 11:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5346E20B
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 10:41:15 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DC04B5Hr5zj46B;
- Fri,  8 Jan 2021 18:40:26 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 8 Jan 2021 18:41:11 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon: Delete the empty function mode_valid
-Date: Fri, 8 Jan 2021 18:41:05 +0800
-Message-ID: <1610102465-36501-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E052B89870
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 11:25:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id 78BB81F416A5
+Received: by jupiter.universe (Postfix, from userid 1000)
+ id 5A3E74800B9; Fri,  8 Jan 2021 12:24:59 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sre@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCHv1] video: omapfb2: Make standard and custom DSI command mode
+ panel driver mutually exclusive
+Date: Fri,  8 Jan 2021 12:24:41 +0100
+Message-Id: <20210108112441.14609-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210108122540.657501b2@canb.auug.org.au>
+References: <20210108122540.657501b2@canb.auug.org.au>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 09 Jan 2021 11:46:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,47 +41,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-next@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on the drm_connector_mode_valid, if the hibmc implementation
-of mode_valid only returns MODE_OK, then we can not implement the
-mode_valid function.
+Standard DRM panel driver for DSI command mode panel used by omapfb2 is also
+available now. Just like the other panels its module name clashes with the
+module from drivers/video/fbdev/omap2/omapfb/displays, part of the deprecated
+omapfb2 fbdev driver. As omapfb2 can only be compiled when the omapdrm driver
+is disabled, and the DRM panel drivers are useless in that case, make the
+omapfb2 panel depend on the standard DRM panels being disabled to fix
+the name clash.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Fixes: cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 7 -------
- 1 file changed, 7 deletions(-)
+Laurent introduced and fixed the same issue for the other panels and
+this simply replicates the same solution for DSI command mode panel.
+---
+ drivers/video/fbdev/omap2/omapfb/displays/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index c76f996..c74a35b 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -43,12 +43,6 @@ static int hibmc_connector_get_modes(struct drm_connector *connector)
- 	return count;
- }
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/Kconfig b/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
+index 744416dc530e..384d74a126dc 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
++++ b/drivers/video/fbdev/omap2/omapfb/displays/Kconfig
+@@ -43,6 +43,7 @@ config FB_OMAP2_PANEL_DPI
+ config FB_OMAP2_PANEL_DSI_CM
+ 	tristate "Generic DSI Command Mode Panel"
+ 	depends on BACKLIGHT_CLASS_DEVICE
++	depends on DRM_PANEL_DSI_CM = n
+ 	help
+ 	  Driver for generic DSI command mode panels.
  
--static enum drm_mode_status hibmc_connector_mode_valid(struct drm_connector *connector,
--						       struct drm_display_mode *mode)
--{
--	return MODE_OK;
--}
--
- static void hibmc_connector_destroy(struct drm_connector *connector)
- {
- 	struct hibmc_connector *hibmc_connector = to_hibmc_connector(connector);
-@@ -60,7 +54,6 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
- static const struct drm_connector_helper_funcs
- 	hibmc_connector_helper_funcs = {
- 	.get_modes = hibmc_connector_get_modes,
--	.mode_valid = hibmc_connector_mode_valid,
- };
- 
- static const struct drm_connector_funcs hibmc_connector_funcs = {
 -- 
-2.7.4
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
