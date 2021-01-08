@@ -2,115 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E78C2EEDF8
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 08:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3922EEE4C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 09:04:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B114C6E7D4;
-	Fri,  8 Jan 2021 07:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C47C6E7D9;
+	Fri,  8 Jan 2021 08:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64DD6E7D4
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 07:47:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VlRcHqh5WUQuxFmAVt0QkdJTTRECg17R87U59bha4Gxiw1B4uj966m97dxKMQAm32G5Luvd/VLf1NHTLrbI2XIX66Bls7KUs+gEqPP4hMV68mIsqol/cG8wyTMsvmFucC+Bd85IBPnWMztfeJjIMPOuUY+xyVfEYro7vDDt3+D64C++O8IA0pIuQoEaFSI3C/V8CblrAvAkbLJCX5yrNPvMAXQpnV51K3vpXdJpgwYCJQZBbWxm600F2XuCSU6DPqDaoHK2NDzU0VftOA/TGPBamYYjvA6psnxW9yAGwUn8cBdBB9kCUlbDROnWXQuCbuuuS4+GR2QXQPG3RobwN9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UTpxKJxGklHB2Zg3f7x03fqZ4S2Bd/tqWLMD+wS6wVA=;
- b=hNm4YEEWfwSRFWUbshOH1T/bAXuVAsmNqccGHC/2XzcW33fRdjDwczE999ZuL8neJV5RSP9l5xdIdUmWyLnMmD/z9WS5SlzuiJbFLyjzt85CiQ2sSnBz8cCzW2cQomvJad1DquH+mMnPZgbQL3n5yhGtlsgXN6zHdiN2IeDiDDhG8Oa/atVtscDxUKIlb7MQtEg70YKKyU4osExkp3xnluKFRjIVy+jfrLtkvwiKEJPnKK1QpIkeTiM1XY1YeObUxZdKlzouDp0KIcZ3GhkYFFdNOIC4NPcidoxhEpvkEYfV6p9F+cX4Qb2YCQDlj0TM+8T6XMWdB4Bn2YMzua7sjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UTpxKJxGklHB2Zg3f7x03fqZ4S2Bd/tqWLMD+wS6wVA=;
- b=IdXu7CdrQfuJfEJxjqC0kTsD0HWD2kAjsns5MrwTxeBqRzMe01NlSs1zQ0twIb1tNtFIVthyaTP9AtJKVzMcyEov0VFzCxGG/EAgNp9gxQunU26J3fCyuCQcksNPTxJlPtYvNEcG1YzDrKWw2QEAa9r7OVGGAi7ixUmlQi4l7No=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4755.namprd12.prod.outlook.com (2603:10b6:208:82::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.9; Fri, 8 Jan
- 2021 07:47:42 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
- 07:47:42 +0000
-Subject: Re: [PATCH 4/4] PCI: Add a REBAR size quirk for Sapphire RX 5600 XT
- Pulse
-To: Bjorn Helgaas <helgaas@kernel.org>, Nirmoy Das <nirmoy.das@amd.com>
-References: <20210107213240.GA1392833@bjorn-Precision-5520>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ad8af2b2-f00f-0a31-97c3-35f8542c749e@amd.com>
-Date: Thu, 7 Jan 2021 21:25:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210107213240.GA1392833@bjorn-Precision-5520>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR0101CA0068.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::36) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 527F26E7D3;
+ Fri,  8 Jan 2021 08:04:47 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BEA14AD57;
+ Fri,  8 Jan 2021 08:04:45 +0000 (UTC)
+Subject: Re: [kbuild-all] Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev
+ to struct pci_device; replace pdev
+To: Rong Chen <rong.a.chen@intel.com>, kernel test robot <lkp@intel.com>,
+ airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+References: <20210107080748.4768-9-tzimmermann@suse.de>
+ <202101071706.J19283ri-lkp@intel.com>
+ <3c496f96-5efa-41d2-5911-1495619fab68@suse.de>
+ <7486aeef-9fa4-91cb-8e95-383990cf3567@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5ea2a270-2664-fad4-0048-ef498137e985@suse.de>
+Date: Fri, 8 Jan 2021 09:04:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0101CA0068.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Fri, 8 Jan 2021 07:47:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6a24b175-c3e8-43b0-cd18-08d8b3a9ae5f
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4755:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB47559C1D41279B857E3DC4F883AE0@BL0PR12MB4755.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: a9umNFg+ED5Wik8HDj6vQplGXHCEHqShaWLBEjt7G/ijDXMyyOTByTSPVZaMy1QA7KUOQSoNAp5nZCxa2aI0uCyrXS1oLDW9+8Q2xo5J45vTPr2moesdq0xGrV4iX84IXwDaZfJKSP+3ZDMmRqXtjhdsTgtppNMxXqIKYlYr1WvhWsvR53e+v6q2IwXHfHY+aeCFZx6QcL2HDPAciDj1wo44mGkHR6rgQ9Xke1v8/z4QOdaM6Xb7RR1aZIVbS0xDf36uRA7n4jQSKl0obJJfaelgJYbkIevt7wCIsTLkMZvFoI/fZT2Zr8KdZWUpaoNHUr3Mua05gkMWB8867GgGZD1WmXKdLLGTuMbEeBV+sE3EJP154spVTxidmDbl7ACl2lbQobfeinBeBx1xvMHmdeH7ahZsqQeNX/dyH4eNXCK7lvvP/CTT2bV8xzRlw+hEOatz09pIl4UYGkP8mmbn1fYKtmz6aVcXeSM0CbfxihjHdFjF65XpQazrA3qx8cdRYOMaadmSItvk82GW1eINiA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(2616005)(186003)(8936002)(16526019)(6636002)(6666004)(66946007)(86362001)(66556008)(52116002)(36756003)(66476007)(31696002)(478600001)(54906003)(45080400002)(66574015)(2906002)(110136005)(316002)(31686004)(83380400001)(6486002)(4326008)(8676002)(5660300002)(966005)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L2ZmbUxFaDZNdmVuSUVOME44Q1Y0Zkt3Y0g4bHQ1ZFlTS09vc1d4NzNpR2Ro?=
- =?utf-8?B?S0V4ZWtsbTdmMWxjTG1ZaVgxNWhDQjF4cDlBV3d6Q3o4NFY4SlNoRmlSVDdZ?=
- =?utf-8?B?VGEvN3VkWVJTbDJQdXAvd1VQdCtJMUJRd2EwWmJ3cXdBLzFpV1hnb1RyVE9P?=
- =?utf-8?B?SWRocDl4YjE4QnM3UnE0SFlva3JhckpvZ2ppSWQxeVptQkVjY3lLb3FZRkFX?=
- =?utf-8?B?bHhrYmxxRjMwNUdqRWk3RTByVEsySmc4SzlQZUhIblpmZVR6QmV6V3pIdGhy?=
- =?utf-8?B?b1RRZVlkM1hQd1RlYTJFcTl4cENWSURBMzgrL2EyMHNWWElJaThUcGdWQUFP?=
- =?utf-8?B?bmdRbzQ2WHBjeitaS0R2STVzK05iVFZNeDMxVWtRamVzeFF3VFc4ejFWRU01?=
- =?utf-8?B?NDRGRndCVzYwekJkaFRHcGZlNnpsQmlpTU1xZHdMRU1ab2c2cDU5S1BjQ0NH?=
- =?utf-8?B?QWJzZnpLdlNkTGlCc3ZDbGlhZnZnVHhTVjlrQVFBSEhTeWNaT2o0N1Vsc2FD?=
- =?utf-8?B?Ni9RdG9QVFlEZk5lVVl2RkZ5a0RsTGQzNU52TWtTb2V2S0JYMjl4ZzhpQ242?=
- =?utf-8?B?SlVhcjdGWEhYOWtXWkhHMlJxTklxc2J6RlcvVEczQ09keTgyT2dLamd2K1hv?=
- =?utf-8?B?R3p1bDVGeDFVbmRXMGxOVmEyemoySFA0WG02Nkc5OGtDV2dKd0s5YVNYK3Ru?=
- =?utf-8?B?eW44NUdxWlZwRHgraWwxVkJaVHpjWWRYUUY4MFhGYUtxeFVjc1BERVhocS9o?=
- =?utf-8?B?ZFI3MWpzVWUxeVNCOGRKNFNyQ2xBblBoM0U1enpGSlp4ZCs4dmRTR2E0WUdw?=
- =?utf-8?B?ZXZoaWdNaWtYdlByVDBxUENwYUcxVHhvTkpGUXRkQ0dLa2tuUEdIazJiQ05V?=
- =?utf-8?B?Q1hQU3YwRTB2anpRQ29Da0I2T1ZERmgzbWxiZ0l3M3d3Q0xaem03NGxGMXI1?=
- =?utf-8?B?S2U2bzVyUHRXczgzMEliWEIxR25MNE9hR1dtaXNnUml3WjM0a29yK3h1UDk3?=
- =?utf-8?B?N01hOUZJVUlKMmZwem9qRDVlM1FBOHNpUkpZZ0h6YStBbHAyT1FOamJCcm1t?=
- =?utf-8?B?QXVyQ0NCdzZaTXhlZnVud2wrMXFJYVRLNXk0NHU5aHdZV1hEY1RHc3JCb3Fn?=
- =?utf-8?B?SW1QS1pNaThKSWtQYmFscml1Ym94ZlBOYmJuY0pIWFhldDA4UXVLWkdDK2pt?=
- =?utf-8?B?amdMVU50ZHlOamc0UWtVdVFab1RUU3lvNlloOWt6bWtGUlJIaWEzaE5KZllm?=
- =?utf-8?B?UmlFWnBlUm5nTFI5TWo3d3BjeEhDT0FEd1FRTGNDZWVvR1pMemZkNWxCV01O?=
- =?utf-8?B?UkxOdUFIVGxVelhSR2N6eTR2NXdnenNyRDAwdFJydWFKUWdDWVBjUUk3Ni9B?=
- =?utf-8?B?emZ0L04yUFc0bHpwVS8rYlV4YytEcjBaUDVOWjArRWVSc2RwYWpyMFhBekFO?=
- =?utf-8?Q?6ROuqB3z?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 07:47:42.8464 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a24b175-c3e8-43b0-cd18-08d8b3a9ae5f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zwjjxoli6FBHu1z6E+R+D7aJmSZAGOnaGAfwfPWHNFedmdu1Kc9Sl4srhNd7mr6h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4755
+In-Reply-To: <7486aeef-9fa4-91cb-8e95-383990cf3567@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,77 +44,480 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, ckoenig.leichtzumerken@gmail.com,
- dri-devel@lists.freedesktop.org, devspam@moreofthesa.me.uk,
- linux-pci@vger.kernel.org, bhelgaas@google.com,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbuild-all@lists.01.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1760958607=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDcuMDEuMjEgdW0gMjI6MzIgc2NocmllYiBCam9ybiBIZWxnYWFzOgo+IE9uIFRodSwgSmFu
-IDA3LCAyMDIxIGF0IDA2OjUwOjE3UE0gKzAxMDAsIE5pcm1veSBEYXMgd3JvdGU6Cj4+IFJYIDU2
-MDAgWFQgUHVsc2UgYWR2ZXJ0aXNlcyBzdXBwb3J0IGZvciBCQVIwIGJlaW5nIDI1Nk1CLCA1MTJN
-QiwKPj4gb3IgMUdCLCBidXQgaXQgYWxzbyBzdXBwb3J0cyAyR0IsIDRHQiwgYW5kIDhHQi4gQWRk
-IGEgcmViYXIKPj4gc2l6ZSBxdWlyayBzbyB0aGF0IENQVSBjYW4gZnVsbHkgYWNjZXNzIHRoZSBC
-QVIwLgo+IFRoaXMgaXNuJ3QgcXVpdGUgYWNjdXJhdGUuICBUaGUgQ1BVIGNhbiBmdWxseSBhY2Nl
-c3MgQkFSIDAgbm8gbWF0dGVyCj4gd2hhdC4gIEkgdGhpbmsgdGhlIHByb2JsZW0geW91J3JlIHNv
-bHZpbmcgaXMgdGhhdCB3aXRob3V0IHRoaXMgcXVpcmssCj4gQkFSIDAgaXNuJ3QgYmlnIGVub3Vn
-aCB0byBjb3ZlciB0aGUgVlJBTS4KPgo+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmln
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCBy
-b2JvdCA8bGtwQGludGVsLmNvbT4KPj4gUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5j
-YXJwZW50ZXJAb3JhY2xlLmNvbT4KPiBJSVJDLCB0aGVzZSBSZXBvcnRlZC1ieSBsaW5lcyBhcmUg
-ZnJvbSB0aGUgImNhcCA9PSAweDNmMCIgcHJvYmxlbS4gIEl0Cj4gd291bGQgbWFrZSBzZW5zZSB0
-byBpbmNsdWRlIHRoZXNlIGlmIHRoaXMgcGF0Y2ggZml4ZWQgdGhhdCBwcm9ibGVtIGluCj4gc29t
-ZXRoaW5nIHRoYXQgaGFkIGFscmVhZHkgYmVlbiBtZXJnZWQuICBCdXQgdGhpcyAqaGFzbid0KiBi
-ZWVuCj4gbWVyZ2VkLCBzbyB0aGVzZSBsaW5lcyBvbmx5IG1ha2Ugc2Vuc2UgdG8gc29tZW9uZSB3
-aG8gdHJhd2xzIHRocm91Z2gKPiB0aGUgbWFpbGluZyBsaXN0IHRvIGZpbmQgdGhlIHByZXZpb3Vz
-IHZlcnNpb24uCj4KPiBJIGRvbid0IHJlYWxseSB0aGluayBpdCdzIHdvcnRod2hpbGUgdG8gaW5j
-bHVkZSB0aGVtLiAgSXQncyB0aGUgc2FtZQo+IGFzIGdpdmluZyBjcmVkaXQgdG8gcmV2aWV3ZXJz
-LCB3aGljaCB3ZSB0eXBpY2FsbHkgZG9uJ3QgZG8gZXhjZXB0IHZpYQo+IGEgUmV2aWV3ZWQtYnkg
-dGFnICh3aGljaCBJIHRoaW5rIGlzIHRvbyBzdHJvbmcgZm9yIHRoaXMgY2FzZSkgb3IgYQo+ICJ2
-MiIgY2hhbmdlcyBub3RlIGFmdGVyIHRoZSAiLS0tIiBsaW5lLiAgVGhhdCBkb2Vzbid0IGdldCBp
-bmNsdWRlZCBpbgo+IHRoZSBnaXQgaGlzdG9yeSwgYnV0IGlzIGVhc2lseSBmaW5kYWJsZSB2aWEg
-dGhlIExpbms6IHRhZ3MgYXMgYmVsb3cuCj4KPiBJZiB5b3UgbWVyZ2UgdGhlc2UgdmlhIGEgbm9u
-LVBDSSB0cmVlLCBwbGVhc2UgaW5jbHVkZSB0aGUgIkxpbms6Igo+IGxpbmVzIGluIHRoZSBQQ0kg
-cGF0Y2hlcywgZS5nLiwKPgo+ICAgIExpbms6IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3Rl
-Y3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxvcmUua2VybmVsLm9yZyUyRnIl
-MkYyMDIxMDEwNzE3NTAxNy4xNTg5My01LW5pcm1veS5kYXMlNDBhbWQuY29tJmFtcDtkYXRhPTA0
-JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzMzYzE0ZjUzNjFlODRkOWQwZTQ5
-MDhkOGIzNTNjNDEyJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3
-QzYzNzQ1NjUxOTY3ODYwMTYxNiU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdM
-akF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0Mx
-MDAwJmFtcDtzZGF0YT13WTlxYXozRFRaQTA2OXF6bk1DOVd2b3E5U1pJenlKSEUwWGthVlhvcUFj
-JTNEJmFtcDtyZXNlcnZlZD0wCj4KPiBmb3IgdGhpcyBvbmUuICBPYnZpb3VzbHkgdGhlIGxpbmsg
-aXMgZGlmZmVyZW50IGZvciBlYWNoIHBhdGNoIGFuZCB3aWxsCj4gY2hhbmdlIGlmIHlvdSByZXBv
-c3QgdGhlIHNlcmllcy4KPgo+IEknbSBub3Qgc3VyZSB3aHkgeW91IHB1dCB0aGUgYW1kIHBhdGNo
-IGluIHRoZSBtaWRkbGUgb2YgdGhlIHNlcmllcy4KPiBTZWVtcyBsaWtlIGl0IHdvdWxkIGJlIHNs
-aWdodGx5IHByZXR0aWVyIGFuZCBqdXN0IGFzIHNhZmUgdG8gcHV0IGl0IGF0Cj4gdGhlIGVuZC4K
-Pgo+PiBTaWduZWQtb2ZmLWJ5OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+Cj4gQWNr
-ZWQtYnk6IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+Cj4KPiBMZXQgbWUga25v
-dyBpZiB5b3Ugd2FudCBtZSB0byB0YWtlIHRoZSBzZXJpZXMuCgpJIHdpbGwgbWFrZSB0aGUgc3Vn
-Z2VzdGVkIGNoYW5nZXMgYW5kIHRha2UgdGhpcyB0aHJvdWdoIHRoZSBkcm0gc3Vic3lzdGVtLgoK
-VGhhdCBtYWtlcyBtb3JlIHNlbnNlIHNpbmNlIGl0IG9ubHkgYWZmZWN0cyBvdXIgaGFyZHdhcmUg
-YW55d2F5LgoKPgo+PiAtLS0KPj4gICBkcml2ZXJzL3BjaS9wY2kuYyB8IDkgKysrKysrKystCj4+
-ICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Pgo+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvcGNpLmMgYi9kcml2ZXJzL3BjaS9wY2kuYwo+PiBpbmRl
-eCAxNjIxNjE4NmI1MWMuLmIwNjFiYmQ0YWZiMSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9wY2kv
-cGNpLmMKPj4gKysrIGIvZHJpdmVycy9wY2kvcGNpLmMKPj4gQEAgLTM1NzcsNyArMzU3NywxNCBA
-QCB1MzIgcGNpX3JlYmFyX2dldF9wb3NzaWJsZV9zaXplcyhzdHJ1Y3QgcGNpX2RldiAqcGRldiwg
-aW50IGJhcikKPj4gICAJCXJldHVybiAwOwo+PiAgIAo+PiAgIAlwY2lfcmVhZF9jb25maWdfZHdv
-cmQocGRldiwgcG9zICsgUENJX1JFQkFSX0NBUCwgJmNhcCk7Cj4+IC0JcmV0dXJuIChjYXAgJiBQ
-Q0lfUkVCQVJfQ0FQX1NJWkVTKSA+PiA0Owo+PiArCWNhcCA9IChjYXAgJiBQQ0lfUkVCQVJfQ0FQ
-X1NJWkVTKSA+PiA0Owo+PiArCj4+ICsJLyogU2FwcGhpcmUgUlggNTYwMCBYVCBQdWxzZSBoYXMg
-YW4gaW52YWxpZCBjYXAgZHdvcmQgZm9yIEJBUiAwICovCj4+ICsJaWYgKHBkZXYtPnZlbmRvciA9
-PSBQQ0lfVkVORE9SX0lEX0FUSSAmJiBwZGV2LT5kZXZpY2UgPT0gMHg3MzFmICYmCj4+ICsJICAg
-IGJhciA9PSAwICYmIGNhcCA9PSAweDcwMCkKPj4gKwkJY2FwID0gMHgzZjAwOwo+IEkgdGhpbmsg
-dGhpcyBpcyBzdHJ1Y3R1cmVkIHdyb25nLiAgSXQgc2hvdWxkIGJlIGxpa2UgdGhpcyBzbyBpdCdz
-Cj4gZWFzaWVyIHRvIG1hdGNoIHdpdGggdGhlIHNwZWM6Cj4KPiAgICBjYXAgJj0gUENJX1JFQkFS
-X0NBUF9TSVpFUzsKPgo+ICAgIGlmICguLi4gJiYgY2FwID09IDB4NzAwMCkKPiAgICAgIGNhcCA9
-IDB4M2YwMDA7Cj4KPiAgICByZXR1cm4gY2FwID4+IDQ7CgpHb29kIHBvaW50LgoKVGhhbmtzLApD
-aHJpc3RpYW4uCgo+Cj4+ICsKPj4gKwlyZXR1cm4gY2FwOwo+PiAgIH0KPj4gICBFWFBPUlRfU1lN
-Qk9MKHBjaV9yZWJhcl9nZXRfcG9zc2libGVfc2l6ZXMpOwo+PiAgIAo+PiAtLSAKPj4gMi4yOS4y
-Cj4+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1760958607==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="M6ZQ7GQfZyXiH3rSkDewFLpWLttqZZLLF"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--M6ZQ7GQfZyXiH3rSkDewFLpWLttqZZLLF
+Content-Type: multipart/mixed; boundary="XVIYahJkxgNc1IX3Y50TSbQKGkD0hLYE2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rong Chen <rong.a.chen@intel.com>, kernel test robot <lkp@intel.com>,
+ airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com
+Cc: kbuild-all@lists.01.org, Sam Ravnborg <sam@ravnborg.org>,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Message-ID: <5ea2a270-2664-fad4-0048-ef498137e985@suse.de>
+Subject: Re: [kbuild-all] Re: [PATCH v3 8/8] drm: Upcast struct drm_device.dev
+ to struct pci_device; replace pdev
+References: <20210107080748.4768-9-tzimmermann@suse.de>
+ <202101071706.J19283ri-lkp@intel.com>
+ <3c496f96-5efa-41d2-5911-1495619fab68@suse.de>
+ <7486aeef-9fa4-91cb-8e95-383990cf3567@intel.com>
+In-Reply-To: <7486aeef-9fa4-91cb-8e95-383990cf3567@intel.com>
+
+--XVIYahJkxgNc1IX3Y50TSbQKGkD0hLYE2
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 08.01.21 um 02:25 schrieb Rong Chen:
+> Hi Thomas,
+>=20
+> Thanks for the feedback, do you mean the patch was applied to a wrong b=
+ase?
+
+I'm on drm-tip, which already has the patches that fix these issues. I=20
+think I should start using git's --base option when sending out patchsets=
+=2E
+
+Best regards
+Thomas
+
+>=20
+> Best Regards,
+> Rong Chen
+>=20
+> On 1/7/21 6:45 PM, Thomas Zimmermann wrote:
+>> AFAICT these are false positives. The instances have been fixed alread=
+y.
+>>
+>> Am 07.01.21 um 10:45 schrieb kernel test robot:
+>>> Hi Thomas,
+>>>
+>>> I love your patch! Yet something to improve:
+>>>
+>>> [auto build test ERROR on drm-tip/drm-tip]
+>>> [cannot apply to drm-intel/for-linux-next linus/master v5.11-rc2=20
+>>> next-20210104]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a not=
+e.
+>>> And when submitting patch, we suggest to use '--base' as documented i=
+n
+>>> https://git-scm.com/docs/git-format-patch]
+>>>
+>>> url:=20
+>>> https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-Move-s=
+truct-drm_device-pdev-to-legacy/20210107-161007=20
+>>>
+>>> base:=A0=A0 git://anongit.freedesktop.org/drm/drm-tip drm-tip
+>>> config: x86_64-randconfig-s021-20210107 (attached as .config)
+>>> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+>>> reproduce:
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 # apt-get install sparse
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 # sparse version: v0.6.3-208-g46a52ca4-dirty=
+
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 #=20
+>>> https://github.com/0day-ci/linux/commit/380912f7b62c23322562c40e19efd=
+7ad84d57e9c=20
+>>>
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 git remote add linux-review https://github.c=
+om/0day-ci/linux
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 git fetch --no-tags linux-review=20
+>>> Thomas-Zimmermann/drm-Move-struct-drm_device-pdev-to-legacy/20210107-=
+161007=20
+>>>
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 git checkout 380912f7b62c23322562c40e19efd7a=
+d84d57e9c
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 # save the attached .config to linux build t=
+ree
+>>> =A0=A0=A0=A0=A0=A0=A0=A0 make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -=
+D__CHECK_ENDIAN__'=20
+>>> ARCH=3Dx86_64
+>>>
+>>> If you fix the issue, kindly add following tag as appropriate
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_device.c: In function=20
+>>> 'oaktrail_chip_setup':
+>>>>> drivers/gpu/drm/gma500/oaktrail_device.c:509:26: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 509 |=A0 if (pci_enable_msi(dev->pdev))
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> --=20
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds.c: In function=20
+>>> 'oaktrail_lvds_set_power':
+>>>>> drivers/gpu/drm/gma500/oaktrail_lvds.c:63:25: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0=A0 63 |=A0=A0 pm_request_idle(&dev->pdev->dev);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> --=20
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function 'ge=
+t_clock':
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:69:11: warning: =
+
+>>> variable 'tmp' set but not used [-Wunused-but-set-variable]
+>>> =A0=A0=A0=A0=A0=A0 69 |=A0 u32 val, tmp;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function 'ge=
+t_data':
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:83:11: warning: =
+
+>>> variable 'tmp' set but not used [-Wunused-but-set-variable]
+>>> =A0=A0=A0=A0=A0=A0 83 |=A0 u32 val, tmp;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~
+>>> =A0=A0=A0 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c: In function=20
+>>> 'oaktrail_lvds_i2c_init':
+>>>>> drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c:148:35: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 148 |=A0 chan->adapter.dev.parent =3D &dev->pdev->dev=
+;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> --=20
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_drive=
+r_load':
+>>>>> drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661:22: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 661 |=A0 pci_set_master(dev->pdev);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 In file included from drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:3=
+1:
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:47: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 690 |=A0 dev_priv->io_start =3D pci_resource_start(de=
+v->pdev, 0);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0 include/linux/pci.h:1854:40: note: in definition of macro=20
+>>> 'pci_resource_start'
+>>> =A0=A0=A0=A0 1854 | #define pci_resource_start(dev, bar)=20
+>>> ((dev)->resource[(bar)].start)
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ ^~~
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:691:49: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 691 |=A0 dev_priv->vram_start =3D pci_resource_start(=
+dev->pdev, 1);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0 include/linux/pci.h:1854:40: note: in definition of macro=20
+>>> 'pci_resource_start'
+>>> =A0=A0=A0=A0 1854 | #define pci_resource_start(dev, bar)=20
+>>> ((dev)->resource[(bar)].start)
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ ^~~
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:692:49: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 692 |=A0 dev_priv->mmio_start =3D pci_resource_start(=
+dev->pdev, 2);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0 include/linux/pci.h:1854:40: note: in definition of macro=20
+>>> 'pci_resource_start'
+>>> =A0=A0=A0=A0 1854 | #define pci_resource_start(dev, bar)=20
+>>> ((dev)->resource[(bar)].start)
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ ^~~
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:842:33: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 842 |=A0 ret =3D pci_request_regions(dev->pdev, "vmwg=
+fx probe");
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:851:33: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 851 |=A0=A0 ret =3D pci_request_region(dev->pdev, 2, =
+"vmwgfx stealth=20
+>>> probe");
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:859:35: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 859 |=A0=A0 ret =3D vmw_irq_install(dev, dev->pdev->i=
+rq);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1005:27: error: 'struct=
+=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1005 |=A0=A0 pci_release_region(dev->pdev, 2);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1007:28: error: 'struct=
+=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1007 |=A0=A0 pci_release_regions(dev->pdev);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function=20
+>>> 'vmw_driver_unload':
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1056:27: error: 'struct=
+=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1056 |=A0=A0 pci_release_region(dev->pdev, 2);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1058:28: error: 'struct=
+=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1058 |=A0=A0 pci_release_regions(dev->pdev);
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_probe=
+':
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:1522:7: error: 'struct =
+
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1522 |=A0 dev->pdev =3D pdev;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0 dev
+>>> --=20
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_fb.c: In function 'vmw_fb_ini=
+t':
+>>>>> drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:641:42: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0=A0 641 |=A0 struct device *device =3D &vmw_priv->dev->pd=
+ev->dev;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 dev
+>>> =A0=A0=A0 In file included from drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:35=
+:
+>>> =A0=A0=A0 At top level:
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:256:23: warning:=20
+>>> 'vmw_cursor_plane_formats' defined but not used=20
+>>> [-Wunused-const-variable=3D]
+>>> =A0=A0=A0=A0=A0 256 | static const uint32_t vmw_cursor_plane_formats[=
+] =3D {
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~~~~~~~~~~~~~~~~~~~~~
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_kms.h:248:23: warning:=20
+>>> 'vmw_primary_plane_formats' defined but not used=20
+>>> [-Wunused-const-variable=3D]
+>>> =A0=A0=A0=A0=A0 248 | static const uint32_t vmw_primary_plane_formats=
+[] =3D {
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>> --=20
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function=20
+>>> 'vmw_cmdbuf_set_pool_size':
+>>>>> drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1233:48: error: 'struct=20
+>>>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1233 |=A0 man->map =3D dma_alloc_coherent(&dev_priv->dev=
+->pdev->dev,=20
+>>> size,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function=20
+>>> 'vmw_cmdbuf_man_create':
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1316:28: error: 'str=
+uct=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1316 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 &dev_priv->dev->=
+pdev->dev,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1325:22: error: 'str=
+uct=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1325 |=A0=A0=A0=A0=A0 &dev_priv->dev->pdev->dev,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 dev
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c: In function=20
+>>> 'vmw_cmdbuf_remove_pool':
+>>> =A0=A0=A0 drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1390:42: error: 'str=
+uct=20
+>>> drm_device' has no member named 'pdev'; did you mean 'dev'?
+>>> =A0=A0=A0=A0 1390 | dma_free_coherent(&man->dev_priv->dev->pdev->dev,=
+
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 ^~~~
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 dev
+>>>
+>>>
+>>> vim +509 drivers/gpu/drm/gma500/oaktrail_device.c
+>>>
+>>> 1b082ccf5901108 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-03=A0 =
+503
+>>> 1b22edfd6efd02b Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+504=A0 static int=20
+>>> oaktrail_chip_setup(struct drm_device *dev)
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+505=A0 {
+>>> 1b22edfd6efd02b Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+506=A0=A0=A0=A0=A0 struct=20
+>>> drm_psb_private *dev_priv =3D dev->dev_private;
+>>> 1b22edfd6efd02b Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+507=A0=A0=A0=A0=A0 int ret;
+>>> 1b22edfd6efd02b Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+508
+>>> 9c0b6fcdc9faee5 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-11 @50=
+9=A0=A0=A0=A0=A0 if=20
+>>> (pci_enable_msi(dev->pdev))
+>>> 9c0b6fcdc9faee5 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-11=A0 =
+510 dev_warn(dev->dev,=20
+>>> "Enabling MSI failed!\n");
+>>> 9c0b6fcdc9faee5 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-11=A0 =
+511
+>>> 8512e0748729a49 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-11=A0 =
+512 dev_priv->regmap =3D=20
+>>> oaktrail_regmap;
+>>> 8512e0748729a49 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-11=A0 =
+513
+>>> 1b22edfd6efd02b Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+514=A0=A0=A0=A0=A0 ret =3D=20
+>>> mid_chip_setup(dev);
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+515=A0=A0=A0=A0=A0 if (ret < 0)
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+516 return ret;
+>>> 4086b1e2b19729e Kirill A. Shutemov 2012-05-03=A0 517=A0=A0=A0=A0=A0 i=
+f=20
+>>> (!dev_priv->has_gct) {
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+518=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* Now=20
+>>> pull the BIOS data */
+>>> d839ede47a56ff5 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-03=A0 =
+519=20
+>>> psb_intel_opregion_init(dev);
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+520=20
+>>> psb_intel_init_bios(dev);
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+521=A0=A0=A0=A0=A0 }
+>>> 6528c897966c7d5 Patrik Jakobsson=A0=A0 2013-11-07=A0 522=20
+>>> gma_intel_setup_gmbus(dev);
+>>> 5f503148efdda26 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2012-05-03=A0 =
+523=20
+>>> oaktrail_hdmi_setup(dev);
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+524=A0=A0=A0=A0=A0 return 0;
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+525=A0 }
+>>> aa0c45fdca0cff3 Alan Cox=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2011-11-29=A0 =
+526
+>>>
+>>> ---
+>>> 0-DAY CI Kernel Test Service, Intel Corporation
+>>> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>>>
+>>
+>>
+>> _______________________________________________
+>> kbuild-all mailing list -- kbuild-all@lists.01.org
+>> To unsubscribe send an email to kbuild-all-leave@lists.01.org
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+
+--XVIYahJkxgNc1IX3Y50TSbQKGkD0hLYE2--
+
+--M6ZQ7GQfZyXiH3rSkDewFLpWLttqZZLLF
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/4EhwFAwAAAAAACgkQlh/E3EQov+Bf
+uA/+LNtvmG2bFCJBg9Iifz728Lwt8zz7xyE3ishAlrz34UJsku+adHHUic2IAqUHTFxqjLIj5uX/
+hiNi7WBiEpXdnBn87jQRgv4uUtVL5N4oXrTssFmrRSkH4IYoygBlXUtjII1H21XFGNjStFhRp0/F
+/SnuZwj0wM4saJdhKkBV0V1T2wyrJhHJKx+QEl19N09dj5l6VO8K7YuIjoSMarh88pNusKqZDXng
+0V2McrUQhrVvM0FVoAIiMHREWZ8Wo6zeesczVTuBcspAo8ND12Kwfkl98OgEuBjCcYQ7uDttjygc
+Qkct634T+2/h6LrPDw0/cwh6acNHFgUDbpFGgkdZCOFKvZ5vjlU40pr01v/AXOfbECvBlzEtW0Vw
+6wYBEvtzOxeE+CUgain87ukk0gmg54fDuHbFSX5h98aj1NcmdFIOoOM+HqF6emEwaMUZsC296KJy
+fikL9LVaeQ+GxEraTpB0qE4JflEQgrIpCv6z5SGKKiu2ROLL2QKJZF0vV26uPObu0vp2eByNZDk3
+KtvOLOJpY1pJul5sveCX/UA6HDhJ3q7PIkIC5E6XCABkER2p9bhOx79CVJ9yMjP3dFe7yH50jJHA
+atkxUFXgZgw5PQZSu3JnYNKewCqrpjO+nyWmy9Mv7NRAZOpwJm7l2NabS4hCLSMzUz6slhEm1W7M
+NCU=
+=LpaK
+-----END PGP SIGNATURE-----
+
+--M6ZQ7GQfZyXiH3rSkDewFLpWLttqZZLLF--
+
+--===============1760958607==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1760958607==--
