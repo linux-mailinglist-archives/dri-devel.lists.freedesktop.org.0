@@ -2,113 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57D32EF601
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 17:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A4E2EF609
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 17:53:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 453248999E;
-	Fri,  8 Jan 2021 16:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6606E83B;
+	Fri,  8 Jan 2021 16:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F57F89804;
- Fri,  8 Jan 2021 16:49:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kRuBzLxr4vH1nqSjBiAlyo+pVnm4RDtdavasUXMWPOPH1dLVM6TknLG35Qo9GrPoyJkZrG3iHKxkAuP2iycVWdkqO6Em6sbwN5BDROnCFl8nZ5DQcazAmYxv5PMSzSAdF9m95IzXe8wgtVb74putPrl3u+vCQDK9EaD4Dj3axk/QoHzqSSXJIvYUg83vj4Kgd5AwpqbnVgRanHdVmzbRZvkWuangTRQ0hQlgZbyV1a0GzH5gkpaiehQPSZM27KDoF88wkBM+ZVCIXBms6GHLEAGjP18NXwVmdj+jpsx+bwDNZyrOO5eRPS8xBPwgqg7TtZ6fpwFzbEmLKt2pldLdOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EMqCXUkaekO8jOZbuiq5kr5zx8B8FwJOsdrCmyzG13w=;
- b=XNtPUW1JtDWlXvITCoUEbEsIUhEMDDGJlKyEVzyCS9OEAZ/b81/BTeHxQjSLXGP8oGlf8RiReHYPoO9HMFr007frmKoG/IwJecqjNb8ey7Z2j8rj4KBY2B/ZumPyOjFFySeyWxgbGkeh7Gd+fg+enqpOHuCZ1c8VyGkg3zXfW9sMcrOhzBeOYB8UZW9bmwnFdJ5EdfDwIaJvoXPNu+oCVAXaYC1o9vardBLRsIdpvN36BaIfBplGAZIBYaeDs91wXtrSunPBlbdIcT7HNcw6gkZpFttTcV3n+D2JELk1w7+rMcQEh8CdZ8k+2wHvH83UXHjVO38OeTUBtzuoVwdVVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EMqCXUkaekO8jOZbuiq5kr5zx8B8FwJOsdrCmyzG13w=;
- b=hU5r2NnNNZdpHnoZqJSHQqLAwdN/+ngb8IZNeCe627zyZeWx/9Dy9wK0+6vOV/D+dZrdwXQrMHHDGACvDQV81kC/DaJH4kcZOEzW0EHfSuiCJ22q+u54Pvv9ZhsSQg5vXj8ON8nI2/teuzeGviSLbI1+NviTOjqbEsXJYVCDNgU=
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2702.namprd12.prod.outlook.com (2603:10b6:805:6c::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
- 2021 16:49:56 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::6d32:940b:f630:b37d]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::6d32:940b:f630:b37d%4]) with mapi id 15.20.3721.024; Fri, 8 Jan 2021
- 16:49:56 +0000
-From: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
-Thread-Topic: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
-Thread-Index: AQHWv8Yt2gqu0LJfYUyqJqszn9UdAKocot6AgAABZQCAAAEeAIAAAfAAgAFtnACAAAIDAIAAA5yAgAABtoCAACAtMg==
-Date: Fri, 8 Jan 2021 16:49:55 +0000
-Message-ID: <SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0@SN6PR12MB4623.namprd12.prod.outlook.com>
-References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
- <1605936082-3099-2-git-send-email-andrey.grodzovsky@amd.com>
- <a510b5c7-1898-f101-1cfd-a037e8fa445d@gmail.com>
- <e6bbd5fa-29b7-c74a-ea70-3979b573901b@amd.com>
- <5a61f76a-0b40-941f-8028-37202f296e74@gmail.com>
- <f374aaa4-4a30-e60c-cd4b-d463443c1137@amd.com>
- <X/c1IXX11chjHyl4@phenom.ffwll.local>
- <75c8a6f3-1e71-3242-6576-c0e661d6a62f@amd.com>
- <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
- <589ece1f-2718-87ab-ec07-4044c3df1c58@amd.com>
- <a140ca34-9cfc-9c2f-39e2-1af156faabfe@amd.com>
- <b73319b2-1723-6650-8d03-d8f775119e53@amd.com>
- <29ef0c97-ac1b-a8e6-ee57-16727ff1803e@amd.com>,
- <62645d03-704f-571e-bfe6-7d992b010a08@amd.com>
-In-Reply-To: <62645d03-704f-571e-bfe6-7d992b010a08@amd.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [99.228.232.87]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 87847b38-4d5e-4e28-723b-08d8b3f56dae
-x-ms-traffictypediagnostic: SN6PR12MB2702:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR12MB2702064D762A7E1C3921FCCCEAAE0@SN6PR12MB2702.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:580;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: y4jhfvem/WxOtKH8UjvkxZkVEZv34wL9pmVBpwPRct8pDyprkRWshoPx2pZU36vzRH/LvfDOq5gap9DxhFxoj3swG9dHPgsCdaAuDurCb84gpAVqbEn3FUwq/kPfwAqByIlNz3e47e0cPtheRLeYVnRHjrMNgwNu6frId/QCDbWaD1QBmzWSjUzjCotHhi1QGzLFlPZE11B1PV3b2JfJN6344+ljrIzjRr3nMaoPYx/zmSCKcErOg5V+rmA+uXURn+01BVEk7BrU3iT68QrNLHdAJUsYD+jjyr9kmfRS7BbAleP8WhmzbhGJTriit5ubK1JSwB6NHexQ5ZgGqVoYR1opENheq43PbvkjyYP1dg7WAFc+Q9TMWAe+TxrIRURmhJAzjhD0TmZzrugzV7+tYA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(136003)(376002)(396003)(39860400002)(64756008)(66556008)(66446008)(9686003)(91956017)(8676002)(54906003)(55016002)(71200400001)(52536014)(8936002)(7696005)(2906002)(4326008)(66476007)(110136005)(86362001)(66946007)(6506007)(33656002)(83380400001)(53546011)(478600001)(5660300002)(66574015)(26005)(316002)(76116006)(7416002)(186003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?QpLctO/29EdewbS/Xi2AKkO6XoekbP7W7x/YDER3SQ2NA7SaOMvxqRuJxd?=
- =?iso-8859-1?Q?csh/i7rVileov8D2lIrlMHq0EmFCLOMRDe+2WhJwjzsYXbKc1A7Y0XOfjZ?=
- =?iso-8859-1?Q?YRRyzJ9/hHjaoeYM6gfo9nhuEbkrUrOfilkGdb8idJ6+9Bz90RedHghjgZ?=
- =?iso-8859-1?Q?02EsZHS8gJ2oTLTiWe/EGS4dc5aXqJA4CWE5dRP7EgIlP/Rcv3dn+sEvEV?=
- =?iso-8859-1?Q?lvW28KxajUOv0F1IKXriwWvRquvNzH41y7cLoVSvQEdkJR5SZMBdMBTZqj?=
- =?iso-8859-1?Q?2pyl0A8GfBNazp/l06octDbB7og7D9KdIURxzIk69DIykzpjoxWYu7QVTd?=
- =?iso-8859-1?Q?CeuhxrW7+wWC/1kCkT7f3tZnVTUsLNWLZEpuEtfQV6vyP6bApRHjuxXGzc?=
- =?iso-8859-1?Q?I0VnDeipW3YjoNL8bVOsH2IiqLnv1aF9lTTWKog5VfmHZBdO1gEe8Zrjj6?=
- =?iso-8859-1?Q?BFvneJDoNOFnGb3tmMov76/cdLFJs1C6XYAjsRm+79ZYPbUS1yaJZkuVLZ?=
- =?iso-8859-1?Q?IZVVs8NRrLQpRejPh0CK/8nmVZ+PH/AsEmrqfYCdRDs5nQyB8SfS2/OP9w?=
- =?iso-8859-1?Q?KvyjRiDwSzWcsx76qWaAanok6UkPCORW29f56cuUwDqyjAaoxmxknSyOPT?=
- =?iso-8859-1?Q?EVIeLDTbNLkByQHK3q+//uKyA6788t0gy89G4lfjfDM7hhq7hvlo9y6Mho?=
- =?iso-8859-1?Q?bluGIrQSMjcDQlnFgCFwJTdnZH2KhXAgYuvrRMpxD4p55E86eWx2sCVPCx?=
- =?iso-8859-1?Q?4DYoBpcqV0kQy+/QMjpbkIh3QGTWnqNUTYvR2fMvUVNJBA3U+ct1uj0pr8?=
- =?iso-8859-1?Q?NhqQh1+DiUzqaKAsJuAYrgi6RRC5czBGmYWWFlDDgvZgYFEqCsk3vcrQA7?=
- =?iso-8859-1?Q?jvqvHgwrmf0fq5FlfLCrXaBkLatJCGr015K3MNOEnsGT1vW8XFbskQQlFM?=
- =?iso-8859-1?Q?fcan90566TEcra5/rv6kc35FAm5TomWdsZkNmy1tI0PAY/wy8cx6D7N7N6?=
- =?iso-8859-1?Q?WUnx7nd6Y3dlpCUYI=3D?=
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABA1E6E83B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 16:53:39 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id 15so12008153oix.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 08:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UB13OrqKGkLXdprxD/0nLtY4+n0oG4J3RFcVQd7ngbs=;
+ b=ecOdReHBaist9VVZra781h8I3exeVvlBmHs/z56VqNoY/rzkDECpkPKbybYFWljSLz
+ LrKTlrriJh5AqF9+d6XTjYHOrsmIL1o9I1bLdy8qmaVy476uT/2mRHujJTQjvhqRRnSX
+ zeai8Wr2Fof1QlRWYsDD8SpeIbVjjpq6GylpY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UB13OrqKGkLXdprxD/0nLtY4+n0oG4J3RFcVQd7ngbs=;
+ b=lLDUFX6Fl26TTDEfICplw8JO+YzX8PwOTHIuIvo/D/gotxlEvQrkXHGYHzvl0qKdwQ
+ /fMsj+zmKeU+KqKrxIyNtT+QCk1aKVVznMvQB5+WRhwOob9cEmbG88cqQJXY7LS/xY+b
+ cFW1L8Lh8iAqR6a3rtlVipX6gf8a6Oj8XFgpnMETyynPqvNcFWBevR8fdOJXbCBnWPW7
+ E8pWBIq89EwDEmUlFayEacPMu1bB7uxQI0t85pBm4d/aeUZ/AjKAC16JsjAU33JsKZ32
+ GqT4ZCgTDNuXHTz4P6DU3Ir1Xmd/mLHpUQk9J3sGslzsDhGrKyrdtb1z9jE6efj0wS7E
+ Y54Q==
+X-Gm-Message-State: AOAM533bnks1+A7+z3xgMiJcKpJmSnsmYbIWLm+xdxVlIOveIHBuFivj
+ AEhT30wH27lukufjgIStsE77toDjN5dEHmqrClJd5Q==
+X-Google-Smtp-Source: ABdhPJydG3w8NUQ6SEc4P3Ctha/3J7/32Ggl2/jocimfGOTFCOMfwPSZkO3I/tSa6rde02Ctpp8xhjZp0GbSD24Z7vY=
+X-Received: by 2002:aca:4e11:: with SMTP id c17mr2809699oib.14.1610124818682; 
+ Fri, 08 Jan 2021 08:53:38 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87847b38-4d5e-4e28-723b-08d8b3f56dae
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jan 2021 16:49:56.0044 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gtHzkOW2lMS/UInFhNmvUqqQ4ntH40r1UC3qjr6zW7LRYAfZLwr70lBTBxWwMxZ8dvudnxHGxURFZrG99bvr7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2702
+References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
+ <X/bTFWL3HYVc8LEF@phenom.ffwll.local>
+ <6daf9ebc-507e-6e83-04dd-d7c5fc6998d6@amd.com>
+ <X/hux3eX8Ywf61h7@phenom.ffwll.local>
+ <ed44f9cf-a7fc-f02b-dfd7-26b14310bc79@amd.com>
+ <CAKMK7uF3GHAMuW2EL7TuX6b0TdVpkUB9wG4vOz_oMwCLL9K4BQ@mail.gmail.com>
+ <277c78a5-0652-22e1-baaf-6c9da4746eb4@amd.com>
+In-Reply-To: <277c78a5-0652-22e1-baaf-6c9da4746eb4@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 8 Jan 2021 17:53:27 +0100
+Message-ID: <CAKMK7uGsxHMZ3kvD1Horh_zX8JvqdpcvSct1c-VyjQd8iyESQg@mail.gmail.com>
+Subject: Re: [PATCH 00/35] Add HMM-based SVM memory manager to KFD
+To: Felix Kuehling <felix.kuehling@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,416 +63,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "yuq825@gmail.com" <yuq825@gmail.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>
-Content-Type: multipart/mixed; boundary="===============0149771844=="
+Cc: Alex Sierra <alex.sierra@amd.com>, "Yang, Philip" <philip.yang@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0149771844==
-Content-Language: en-GB
-Content-Type: multipart/alternative;
-	boundary="_000_SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0SN6PR12MB4623namp_"
-
---_000_SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0SN6PR12MB4623namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Ok then, I guess I will proceed with the dummy pages list implementation th=
-en.
-
-Andrey
-
-________________________________
-From: Koenig, Christian <Christian.Koenig@amd.com>
-Sent: 08 January 2021 09:52
-To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Daniel Vetter <daniel@f=
-fwll.ch>
-Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-deve=
-l@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; daniel.vetter@ff=
-wll.ch <daniel.vetter@ffwll.ch>; robh@kernel.org <robh@kernel.org>; l.stach=
-@pengutronix.de <l.stach@pengutronix.de>; yuq825@gmail.com <yuq825@gmail.co=
-m>; eric@anholt.net <eric@anholt.net>; Deucher, Alexander <Alexander.Deuche=
-r@amd.com>; gregkh@linuxfoundation.org <gregkh@linuxfoundation.org>; ppaala=
-nen@gmail.com <ppaalanen@gmail.com>; Wentland, Harry <Harry.Wentland@amd.co=
-m>
-Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
-
-Mhm, I'm not aware of any let over pointer between TTM and GEM and we
-worked quite hard on reducing the size of the amdgpu_bo, so another
-extra pointer just for that corner case would suck quite a bit.
-
-Christian.
-
-Am 08.01.21 um 15:46 schrieb Andrey Grodzovsky:
-> Daniel had some objections to this (see bellow) and so I guess I need
-> you both to agree on the approach before I proceed.
+On Fri, Jan 8, 2021 at 5:36 PM Felix Kuehling <felix.kuehling@amd.com> wrote:
 >
-> Andrey
 >
-> On 1/8/21 9:33 AM, Christian K=F6nig wrote:
->> Am 08.01.21 um 15:26 schrieb Andrey Grodzovsky:
->>> Hey Christian, just a ping.
->>
->> Was there any question for me here?
->>
->> As far as I can see the best approach would still be to fill the VMA
->> with a single dummy page and avoid pointers in the GEM object.
->>
->> Christian.
->>
->>>
->>> Andrey
->>>
->>> On 1/7/21 11:37 AM, Andrey Grodzovsky wrote:
->>>>
->>>> On 1/7/21 11:30 AM, Daniel Vetter wrote:
->>>>> On Thu, Jan 07, 2021 at 11:26:52AM -0500, Andrey Grodzovsky wrote:
->>>>>> On 1/7/21 11:21 AM, Daniel Vetter wrote:
->>>>>>> On Tue, Jan 05, 2021 at 04:04:16PM -0500, Andrey Grodzovsky wrote:
->>>>>>>> On 11/23/20 3:01 AM, Christian K=F6nig wrote:
->>>>>>>>> Am 23.11.20 um 05:54 schrieb Andrey Grodzovsky:
->>>>>>>>>> On 11/21/20 9:15 AM, Christian K=F6nig wrote:
->>>>>>>>>>> Am 21.11.20 um 06:21 schrieb Andrey Grodzovsky:
->>>>>>>>>>>> Will be used to reroute CPU mapped BO's page faults once
->>>>>>>>>>>> device is removed.
->>>>>>>>>>> Uff, one page for each exported DMA-buf? That's not
->>>>>>>>>>> something we can do.
->>>>>>>>>>>
->>>>>>>>>>> We need to find a different approach here.
->>>>>>>>>>>
->>>>>>>>>>> Can't we call alloc_page() on each fault and link them together
->>>>>>>>>>> so they are freed when the device is finally reaped?
->>>>>>>>>> For sure better to optimize and allocate on demand when we reach
->>>>>>>>>> this corner case, but why the linking ?
->>>>>>>>>> Shouldn't drm_prime_gem_destroy be good enough place to free ?
->>>>>>>>> I want to avoid keeping the page in the GEM object.
->>>>>>>>>
->>>>>>>>> What we can do is to allocate a page on demand for each fault
->>>>>>>>> and link
->>>>>>>>> the together in the bdev instead.
->>>>>>>>>
->>>>>>>>> And when the bdev is then finally destroyed after the last
->>>>>>>>> application
->>>>>>>>> closed we can finally release all of them.
->>>>>>>>>
->>>>>>>>> Christian.
->>>>>>>> Hey, started to implement this and then realized that by
->>>>>>>> allocating a page
->>>>>>>> for each fault indiscriminately
->>>>>>>> we will be allocating a new page for each faulting virtual
->>>>>>>> address within a
->>>>>>>> VA range belonging the same BO
->>>>>>>> and this is obviously too much and not the intention. Should I
->>>>>>>> instead use
->>>>>>>> let's say a hashtable with the hash
->>>>>>>> key being faulting BO address to actually keep allocating and
->>>>>>>> reusing same
->>>>>>>> dummy zero page per GEM BO
->>>>>>>> (or for that matter DRM file object address for non imported
->>>>>>>> BOs) ?
->>>>>>> Why do we need a hashtable? All the sw structures to track this
->>>>>>> should
->>>>>>> still be around:
->>>>>>> - if gem_bo->dma_buf is set the buffer is currently exported as
->>>>>>> a dma-buf,
->>>>>>>     so defensively allocate a per-bo page
->>>>>>> - otherwise allocate a per-file page
->>>>>>
->>>>>> That exactly what we have in current implementation
->>>>>>
->>>>>>
->>>>>>> Or is the idea to save the struct page * pointer? That feels a
->>>>>>> bit like
->>>>>>> over-optimizing stuff. Better to have a simple implementation
->>>>>>> first and
->>>>>>> then tune it if (and only if) any part of it becomes a problem
->>>>>>> for normal
->>>>>>> usage.
->>>>>>
->>>>>> Exactly - the idea is to avoid adding extra pointer to
->>>>>> drm_gem_object,
->>>>>> Christian suggested to instead keep a linked list of dummy pages
->>>>>> to be
->>>>>> allocated on demand once we hit a vm_fault. I will then also
->>>>>> prefault the entire
->>>>>> VA range from vma->vm_end - vma->vm_start to vma->vm_end and map
->>>>>> them
->>>>>> to that single dummy page.
->>>>> This strongly feels like premature optimization. If you're worried
->>>>> about
->>>>> the overhead on amdgpu, pay down the debt by removing one of the
->>>>> redundant
->>>>> pointers between gem and ttm bo structs (I think we still have
->>>>> some) :-)
->>>>>
->>>>> Until we've nuked these easy&obvious ones we shouldn't play "avoid 1
->>>>> pointer just because" games with hashtables.
->>>>> -Daniel
->>>>
->>>>
->>>> Well, if you and Christian can agree on this approach and suggest
->>>> maybe what pointer is
->>>> redundant and can be removed from GEM struct so we can use the
->>>> 'credit' to add the dummy page
->>>> to GEM I will be happy to follow through.
->>>>
->>>> P.S Hash table is off the table anyway and we are talking only
->>>> about linked list here since by prefaulting
->>>> the entire VA range for a vmf->vma i will be avoiding redundant
->>>> page faults to same VMA VA range and so
->>>> don't need to search and reuse an existing dummy page but simply
->>>> create a new one for each next fault.
->>>>
->>>> Andrey
->>
-
-
---_000_SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0SN6PR12MB4623namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-<div style=3D"font-family: &quot;segoe ui westeuropean&quot;, &quot;segoe u=
-i&quot;, helvetica, arial, sans-serif; font-size: 12pt; color: rgb(0, 0, 0)=
-;">
-Ok then, I guess I will proceed with the dummy pages list implementation th=
-en.</div>
-<div style=3D"font-family: &quot;segoe ui westeuropean&quot;, &quot;segoe u=
-i&quot;, helvetica, arial, sans-serif; font-size: 12pt; color: rgb(0, 0, 0)=
-;">
-<br>
-</div>
-<div style=3D"font-family: &quot;segoe ui westeuropean&quot;, &quot;segoe u=
-i&quot;, helvetica, arial, sans-serif; font-size: 12pt; color: rgb(0, 0, 0)=
-;">
-Andrey</div>
-<div><br>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Koenig, Christian &lt=
-;Christian.Koenig@amd.com&gt;<br>
-<b>Sent:</b> 08 January 2021 09:52<br>
-<b>To:</b> Grodzovsky, Andrey &lt;Andrey.Grodzovsky@amd.com&gt;; Daniel Vet=
-ter &lt;daniel@ffwll.ch&gt;<br>
-<b>Cc:</b> amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
-gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt=
-;; daniel.vetter@ffwll.ch &lt;daniel.vetter@ffwll.ch&gt;; robh@kernel.org &=
-lt;robh@kernel.org&gt;; l.stach@pengutronix.de &lt;l.stach@pengutronix.de&g=
-t;;
- yuq825@gmail.com &lt;yuq825@gmail.com&gt;; eric@anholt.net &lt;eric@anholt=
-.net&gt;; Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; gregkh@linu=
-xfoundation.org &lt;gregkh@linuxfoundation.org&gt;; ppaalanen@gmail.com &lt=
-;ppaalanen@gmail.com&gt;; Wentland, Harry &lt;Harry.Wentland@amd.com&gt;<br=
+> Am 2021-01-08 um 11:06 a.m. schrieb Daniel Vetter:
+> > On Fri, Jan 8, 2021 at 4:58 PM Felix Kuehling <felix.kuehling@amd.com> wrote:
+> >> Am 2021-01-08 um 9:40 a.m. schrieb Daniel Vetter:
+> >>> On Thu, Jan 07, 2021 at 11:25:41AM -0500, Felix Kuehling wrote:
+> >>>> Am 2021-01-07 um 4:23 a.m. schrieb Daniel Vetter:
+> >>>>> On Wed, Jan 06, 2021 at 10:00:52PM -0500, Felix Kuehling wrote:
+> >>>>>> This is the first version of our HMM based shared virtual memory manager
+> >>>>>> for KFD. There are still a number of known issues that we're working through
+> >>>>>> (see below). This will likely lead to some pretty significant changes in
+> >>>>>> MMU notifier handling and locking on the migration code paths. So don't
+> >>>>>> get hung up on those details yet.
+> >>>>>>
+> >>>>>> But I think this is a good time to start getting feedback. We're pretty
+> >>>>>> confident about the ioctl API, which is both simple and extensible for the
+> >>>>>> future. (see patches 4,16) The user mode side of the API can be found here:
+> >>>>>> https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/blob/fxkamd/hmm-wip/src/svm.c
+> >>>>>>
+> >>>>>> I'd also like another pair of eyes on how we're interfacing with the GPU VM
+> >>>>>> code in amdgpu_vm.c (see patches 12,13), retry page fault handling (24,25),
+> >>>>>> and some retry IRQ handling changes (32).
+> >>>>>>
+> >>>>>>
+> >>>>>> Known issues:
+> >>>>>> * won't work with IOMMU enabled, we need to dma_map all pages properly
+> >>>>>> * still working on some race conditions and random bugs
+> >>>>>> * performance is not great yet
+> >>>>> Still catching up, but I think there's another one for your list:
+> >>>>>
+> >>>>>  * hmm gpu context preempt vs page fault handling. I've had a short
+> >>>>>    discussion about this one with Christian before the holidays, and also
+> >>>>>    some private chats with Jerome. It's nasty since no easy fix, much less
+> >>>>>    a good idea what's the best approach here.
+> >>>> Do you have a pointer to that discussion or any more details?
+> >>> Essentially if you're handling an hmm page fault from the gpu, you can
+> >>> deadlock by calling dma_fence_wait on a (chain of, possibly) other command
+> >>> submissions or compute contexts with dma_fence_wait. Which deadlocks if
+> >>> you can't preempt while you have that page fault pending. Two solutions:
+> >>>
+> >>> - your hw can (at least for compute ctx) preempt even when a page fault is
+> >>>   pending
+> >> Our GFXv9 GPUs can do this. GFXv10 cannot.
+> > Uh, why did your hw guys drop this :-/
+> >
+> >>> - lots of screaming in trying to come up with an alternate solution. They
+> >>>   all suck.
+> >> My idea for GFXv10 is to avoid preemption for memory management purposes
+> >> and rely 100% on page faults instead. That is, if the memory manager
+> >> needs to prevent GPU access to certain memory, just invalidate the GPU
+> >> page table entries pointing to that memory. No waiting for fences is
+> >> necessary, except for the SDMA job that invalidates the PTEs, which runs
+> >> on a special high-priority queue that should never deadlock. That should
+> >> prevent the CPU getting involved in deadlocks in kernel mode. But you
+> >> can still deadlock the GPU in user mode if all compute units get stuck
+> >> in page faults and can't switch to any useful work any more. So it's
+> >> possible that we won't be able to use GPU page faults on our GFXv10 GPUs.
+> > This only works if _everything_ in the system works like this, since
+> > you're defacto breaking the cross-driver contract. As soon as there's
+> > some legacy gl workload (userptr) or another driver involved, this
+> > approach falls apart.
 >
-<b>Subject:</b> Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM =
-object</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Mhm, I'm not aware of any let over pointer between=
- TTM and GEM and we
-<br>
-worked quite hard on reducing the size of the amdgpu_bo, so another <br>
-extra pointer just for that corner case would suck quite a bit.<br>
-<br>
-Christian.<br>
-<br>
-Am 08.01.21 um 15:46 schrieb Andrey Grodzovsky:<br>
-&gt; Daniel had some objections to this (see bellow) and so I guess I need =
-<br>
-&gt; you both to agree on the approach before I proceed.<br>
-&gt;<br>
-&gt; Andrey<br>
-&gt;<br>
-&gt; On 1/8/21 9:33 AM, Christian K=F6nig wrote:<br>
-&gt;&gt; Am 08.01.21 um 15:26 schrieb Andrey Grodzovsky:<br>
-&gt;&gt;&gt; Hey Christian, just a ping.<br>
-&gt;&gt;<br>
-&gt;&gt; Was there any question for me here?<br>
-&gt;&gt;<br>
-&gt;&gt; As far as I can see the best approach would still be to fill the V=
-MA <br>
-&gt;&gt; with a single dummy page and avoid pointers in the GEM object.<br>
-&gt;&gt;<br>
-&gt;&gt; Christian.<br>
-&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Andrey<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On 1/7/21 11:37 AM, Andrey Grodzovsky wrote:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On 1/7/21 11:30 AM, Daniel Vetter wrote:<br>
-&gt;&gt;&gt;&gt;&gt; On Thu, Jan 07, 2021 at 11:26:52AM -0500, Andrey Grodz=
-ovsky wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt; On 1/7/21 11:21 AM, Daniel Vetter wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; On Tue, Jan 05, 2021 at 04:04:16PM -0500, Andr=
-ey Grodzovsky wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 11/23/20 3:01 AM, Christian K=F6nig wro=
-te:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Am 23.11.20 um 05:54 schrieb Andrey Gr=
-odzovsky:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 11/21/20 9:15 AM, Christian K=
-=F6nig wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Am 21.11.20 um 06:21 schrieb A=
-ndrey Grodzovsky:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Will be used to reroute CP=
-U mapped BO's page faults once<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; device is removed.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Uff, one page for each exporte=
-d DMA-buf? That's not <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; something we can do.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; We need to find a different ap=
-proach here.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Can't we call alloc_page() on =
-each fault and link them together<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; so they are freed when the dev=
-ice is finally reaped?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; For sure better to optimize and al=
-locate on demand when we reach<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; this corner case, but why the link=
-ing ?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Shouldn't drm_prime_gem_destroy be=
- good enough place to free ?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; I want to avoid keeping the page in th=
-e GEM object.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; What we can do is to allocate a page o=
-n demand for each fault <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; and link<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; the together in the bdev instead.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; And when the bdev is then finally dest=
-royed after the last <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; application<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; closed we can finally release all of t=
-hem.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Christian.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Hey, started to implement this and then re=
-alized that by <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; allocating a page<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; for each fault indiscriminately<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; we will be allocating a new page for each =
-faulting virtual <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; address within a<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; VA range belonging the same BO<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; and this is obviously too much and not the=
- intention. Should I <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; instead use<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; let's say a hashtable with the hash<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; key being faulting BO address to actually =
-keep allocating and <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; reusing same<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; dummy zero page per GEM BO<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; (or for that matter DRM file object addres=
-s for non imported <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; BOs) ?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Why do we need a hashtable? All the sw structu=
-res to track this <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; should<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; still be around:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; - if gem_bo-&gt;dma_buf is set the buffer is c=
-urrently exported as <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; a dma-buf,<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; &nbsp;&nbsp;&nbsp; so defensively allocate a p=
-er-bo page<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; - otherwise allocate a per-file page<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; That exactly what we have in current implementatio=
-n<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Or is the idea to save the struct page * point=
-er? That feels a <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; bit like<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; over-optimizing stuff. Better to have a simple=
- implementation <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; first and<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; then tune it if (and only if) any part of it b=
-ecomes a problem <br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; for normal<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; usage.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Exactly - the idea is to avoid adding extra pointe=
-r to <br>
-&gt;&gt;&gt;&gt;&gt;&gt; drm_gem_object,<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Christian suggested to instead keep a linked list =
-of dummy pages <br>
-&gt;&gt;&gt;&gt;&gt;&gt; to be<br>
-&gt;&gt;&gt;&gt;&gt;&gt; allocated on demand once we hit a vm_fault. I will=
- then also <br>
-&gt;&gt;&gt;&gt;&gt;&gt; prefault the entire<br>
-&gt;&gt;&gt;&gt;&gt;&gt; VA range from vma-&gt;vm_end - vma-&gt;vm_start to=
- vma-&gt;vm_end and map <br>
-&gt;&gt;&gt;&gt;&gt;&gt; them<br>
-&gt;&gt;&gt;&gt;&gt;&gt; to that single dummy page.<br>
-&gt;&gt;&gt;&gt;&gt; This strongly feels like premature optimization. If yo=
-u're worried <br>
-&gt;&gt;&gt;&gt;&gt; about<br>
-&gt;&gt;&gt;&gt;&gt; the overhead on amdgpu, pay down the debt by removing =
-one of the <br>
-&gt;&gt;&gt;&gt;&gt; redundant<br>
-&gt;&gt;&gt;&gt;&gt; pointers between gem and ttm bo structs (I think we st=
-ill have <br>
-&gt;&gt;&gt;&gt;&gt; some) :-)<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Until we've nuked these easy&amp;obvious ones we shoul=
-dn't play &quot;avoid 1<br>
-&gt;&gt;&gt;&gt;&gt; pointer just because&quot; games with hashtables.<br>
-&gt;&gt;&gt;&gt;&gt; -Daniel<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Well, if you and Christian can agree on this approach and =
-suggest <br>
-&gt;&gt;&gt;&gt; maybe what pointer is<br>
-&gt;&gt;&gt;&gt; redundant and can be removed from GEM struct so we can use=
- the <br>
-&gt;&gt;&gt;&gt; 'credit' to add the dummy page<br>
-&gt;&gt;&gt;&gt; to GEM I will be happy to follow through.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; P.S Hash table is off the table anyway and we are talking =
-only <br>
-&gt;&gt;&gt;&gt; about linked list here since by prefaulting<br>
-&gt;&gt;&gt;&gt; the entire VA range for a vmf-&gt;vma i will be avoiding r=
-edundant <br>
-&gt;&gt;&gt;&gt; page faults to same VMA VA range and so<br>
-&gt;&gt;&gt;&gt; don't need to search and reuse an existing dummy page but =
-simply <br>
-&gt;&gt;&gt;&gt; create a new one for each next fault.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Andrey<br>
-&gt;&gt;<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
+> I think the scenario you have in mind involves a dma_fence that depends
+> on the resolution of a GPU page fault. With our user mode command
+> submission model for compute contexts, there are no DMA fences that get
+> signaled by compute jobs that could get stuck on page faults.
+>
+> The legacy GL workload would not get GPU page faults. The only way it
+> could get stuck is, if all CUs are stuck on page faults and the command
+> processor can't find any HW resources to execute it on. That's my user
+> mode deadlock scenario below. So yeah, you're right, kernel mode can't
+> avoid getting involved in that unless everything uses user mode command
+> submissions.
+>
+> If (big if) we switched to user mode command submission for all compute
+> and graphics contexts, and no longer use DMA fences to signal their
+> completion, I think that would solve the problem as far as the kernel is
+> concerned.
 
---_000_SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0SN6PR12MB4623namp_--
+We can't throw dma_fence away because it's uapi built into various
+compositor protocols. Otherwise we could pull a wddm2 like microsoft
+did on windows and do what you're describing. So completely getting
+rid of dma_fences (even just limited on newer gpus) is also a decadel
+effort at least, since that's roughly how long it'll take to sunset
+and convert everything over.
 
---===============0149771844==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+The other problem is that we're now building more stuff on top of
+dma_resv like the dynamic dma-buf p2p stuff, now integrated into rdma.
+I think even internally in the kernel it would be a massive pain to
+untangle our fencing sufficiently to make this all happen without
+loops. And I'm not even sure whether we could prevent deadlocks by
+splitting dma_fence up into the userspace sync parts and the kernel
+internal sync parts since they leak into each another.
 
+> > I do think it can be rescued with what I call gang scheduling of
+> > engines: I.e. when a given engine is running a context (or a group of
+> > engines, depending how your hw works) that can cause a page fault, you
+> > must flush out all workloads running on the same engine which could
+> > block a dma_fence (preempt them, or for non-compute stuff, force their
+> > completion). And the other way round, i.e. before you can run a legacy
+> > gl workload with a dma_fence on these engines you need to preempt all
+> > ctxs that could cause page faults and take them at least out of the hw
+> > scheduler queue.
+>
+> Yuck! But yeah, that would work. A less invasive alternative would be to
+> reserve some compute units for graphics contexts so we can guarantee
+> forward progress for graphics contexts even when all CUs working on
+> compute stuff are stuck on page faults.
+
+Won't this hurt compute workloads? I think we need something were at
+least pure compute or pure gl/vk workloads run at full performance.
+And without preempt we can't take anything back when we need it, so
+would have to always upfront reserve some cores just in case.
+
+> > Just reserving an sdma engine for copy jobs and ptes updates and that
+> > stuff is necessary, but not sufficient.
+> >
+> > Another approach that Jerome suggested is to track the reverse
+> > dependency graph of all dma_fence somehow and make sure that direct
+> > reclaim never recurses on an engine you're serving a pagefault for.
+> > Possible in theory, but in practice I think not feasible to implement
+> > because way too much work to implement.
+>
+> I agree.
+>
+>
+> >
+> > Either way it's imo really nasty to come up with a scheme here that
+> > doesn't fail in some corner, or becomes really nasty with inconsistent
+> > rules across different drivers and hw :-(
+>
+> Yeah. The cleanest approach is to avoid DMA fences altogether for
+> device/engines that can get stuck on page faults. A user mode command
+> submission model would do that.
+>
+> Reserving some compute units for graphics contexts that signal fences
+> but never page fault should also work.
+
+The trouble is you don't just need engines, you need compute
+resources/cores behind them too (assuming I'm understading correctly
+how this works on amd hw). Otherwise you end up with a gl context that
+should complete to resolve the deadlock, but can't because it can't
+run it's shader because all the shader cores are stuck in compute page
+faults somewhere. Hence the gang scheduling would need to be at a
+level were you can guarantee full isolation of hw resources, either
+because you can preempt stuck compute kernels and let gl shaders run,
+or because of hw core partitiion or something else. If you cant, you
+need to gang schedule the entire gpu.
+
+I think in practice that's not too ugly since for pure compute
+workloads you're not going to have a desktop running most likely. And
+for developer machines we should be able to push the occasional gfx
+update through the gpu still without causing too much stutter on the
+desktop or costing too much perf on the compute side. And pure gl/vk
+or pure compute workloads should keep running at full performance.
+-Daniel
+
+
+
+>
+> Regards,
+>   Felix
+>
+>
+> >
+> > Cheers, Daniel
+> >
+> >> Regards,
+> >>   Felix
+> >>
+> >>> Note that the dma_fence_wait is hard requirement, because we need that for
+> >>> mmu notifiers and shrinkers, disallowing that would disable dynamic memory
+> >>> management. Which is the current "ttm is self-limited to 50% of system
+> >>> memory" limitation Christian is trying to lift. So that's really not
+> >>> a restriction we can lift, at least not in upstream where we need to also
+> >>> support old style hardware which doesn't have page fault support and
+> >>> really has no other option to handle memory management than
+> >>> dma_fence_wait.
+> >>>
+> >>> Thread was here:
+> >>>
+> >>> https://lore.kernel.org/dri-devel/CAKMK7uGgoeF8LmFBwWh5mW1k4xWjuUh3hdSFpVH1NBM7K0=edA@mail.gmail.com/
+> >>>
+> >>> There's a few ways to resolve this (without having preempt-capable
+> >>> hardware), but they're all supremely nasty.
+> >>> -Daniel
+> >>>
+> >>>> Thanks,
+> >>>>   Felix
+> >>>>
+> >>>>
+> >>>>> I'll try to look at this more in-depth when I'm catching up on mails.
+> >>>>> -Daniel
+> >>>>>
+> >>>>>> Alex Sierra (12):
+> >>>>>>   drm/amdgpu: replace per_device_list by array
+> >>>>>>   drm/amdkfd: helper to convert gpu id and idx
+> >>>>>>   drm/amdkfd: add xnack enabled flag to kfd_process
+> >>>>>>   drm/amdkfd: add ioctl to configure and query xnack retries
+> >>>>>>   drm/amdkfd: invalidate tables on page retry fault
+> >>>>>>   drm/amdkfd: page table restore through svm API
+> >>>>>>   drm/amdkfd: SVM API call to restore page tables
+> >>>>>>   drm/amdkfd: add svm_bo reference for eviction fence
+> >>>>>>   drm/amdgpu: add param bit flag to create SVM BOs
+> >>>>>>   drm/amdkfd: add svm_bo eviction mechanism support
+> >>>>>>   drm/amdgpu: svm bo enable_signal call condition
+> >>>>>>   drm/amdgpu: add svm_bo eviction to enable_signal cb
+> >>>>>>
+> >>>>>> Philip Yang (23):
+> >>>>>>   drm/amdkfd: select kernel DEVICE_PRIVATE option
+> >>>>>>   drm/amdkfd: add svm ioctl API
+> >>>>>>   drm/amdkfd: Add SVM API support capability bits
+> >>>>>>   drm/amdkfd: register svm range
+> >>>>>>   drm/amdkfd: add svm ioctl GET_ATTR op
+> >>>>>>   drm/amdgpu: add common HMM get pages function
+> >>>>>>   drm/amdkfd: validate svm range system memory
+> >>>>>>   drm/amdkfd: register overlap system memory range
+> >>>>>>   drm/amdkfd: deregister svm range
+> >>>>>>   drm/amdgpu: export vm update mapping interface
+> >>>>>>   drm/amdkfd: map svm range to GPUs
+> >>>>>>   drm/amdkfd: svm range eviction and restore
+> >>>>>>   drm/amdkfd: register HMM device private zone
+> >>>>>>   drm/amdkfd: validate vram svm range from TTM
+> >>>>>>   drm/amdkfd: support xgmi same hive mapping
+> >>>>>>   drm/amdkfd: copy memory through gart table
+> >>>>>>   drm/amdkfd: HMM migrate ram to vram
+> >>>>>>   drm/amdkfd: HMM migrate vram to ram
+> >>>>>>   drm/amdgpu: reserve fence slot to update page table
+> >>>>>>   drm/amdgpu: enable retry fault wptr overflow
+> >>>>>>   drm/amdkfd: refine migration policy with xnack on
+> >>>>>>   drm/amdkfd: add svm range validate timestamp
+> >>>>>>   drm/amdkfd: multiple gpu migrate vram to vram
+> >>>>>>
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |    3 +
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |    4 +-
+> >>>>>>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  |   16 +-
+> >>>>>>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   13 +-
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c        |   83 +
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h        |    7 +
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |    5 +
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   90 +-
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   47 +-
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   10 +
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/vega10_ih.c        |   32 +-
+> >>>>>>  drivers/gpu/drm/amd/amdgpu/vega20_ih.c        |   32 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/Kconfig            |    1 +
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/Makefile           |    4 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  170 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_iommu.c        |    8 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  866 ++++++
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.h      |   59 +
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   52 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  200 +-
+> >>>>>>  .../amd/amdkfd/kfd_process_queue_manager.c    |    6 +-
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c          | 2564 +++++++++++++++++
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_svm.h          |  135 +
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_topology.c     |    1 +
+> >>>>>>  drivers/gpu/drm/amd/amdkfd/kfd_topology.h     |   10 +-
+> >>>>>>  include/uapi/linux/kfd_ioctl.h                |  169 +-
+> >>>>>>  26 files changed, 4296 insertions(+), 291 deletions(-)
+> >>>>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> >>>>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
+> >>>>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> >>>>>>  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_svm.h
+> >>>>>>
+> >>>>>> --
+> >>>>>> 2.29.2
+> >>>>>>
+> >>>>>> _______________________________________________
+> >>>>>> dri-devel mailing list
+> >>>>>> dri-devel@lists.freedesktop.org
+> >>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> >
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0149771844==--
