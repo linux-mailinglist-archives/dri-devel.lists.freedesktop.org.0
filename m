@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4592EFAA3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 22:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640552EFACC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 22:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8C96E8D2;
-	Fri,  8 Jan 2021 21:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1BC6E85E;
+	Fri,  8 Jan 2021 21:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAA3A6E8D0;
- Fri,  8 Jan 2021 21:33:15 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id x13so11076278oto.8;
- Fri, 08 Jan 2021 13:33:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YKKMZPzFpKxho3bukd3RyZu26SVVTZzu5IJZdgvrurM=;
- b=ibBuCMDBd9Ca8kKs+w9JHwKdX7HDBjpefkSLaAJIe1GpMkYahNzNtLttZn8t8dv0h8
- qi5LCXwKHd1ndV7KcDqm+EaHKv48qFKqxv5ZsTDoiD/7pumzQUhyc9v6+BC3RKS8mgPS
- Ih8CEQmeZTzYnQ3JYGC4xqZB7KeWdmj3HU0qZ8lmn6vPcl+bUv6P7RX3n9EUZHmKcaSl
- A+l6K+vlQJFpGn4+YtvYSfRn00xMFbBSdTgZa9wykw7lPI1M73dcZXJhMJ36wJ/QB1ND
- SBnKa4kjItrAJvXgHgGYAvPUXjbUFf5/86/RuemzgbynzKtyjARd9MdEw24hI7dpf9Z5
- YoBQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF2666E85B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 21:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610143138;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rY5ZPZc+UpoVk06JLNrDEFfoZnlAUfsw6zwHWZ87dfE=;
+ b=Z5WU6gTSOzGFnP4rt+e2CjqpjfwT5BJjQnYj92n8hVLfuI3u5njp7mNOV/0b5wZkEpNlu/
+ tJSrk+czOjgrGqLOjdSji1bw7P61Za+1DiFVMU1bOAPyFK/IekaKqBqQU25gxMJygYvj3o
+ +qJGSfANmq8cg0eVi/kvTBj/OC9k/3s=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-zd-K_wl2P_y9fx9h0Z0Sxg-1; Fri, 08 Jan 2021 16:58:56 -0500
+X-MC-Unique: zd-K_wl2P_y9fx9h0Z0Sxg-1
+Received: by mail-io1-f70.google.com with SMTP id a1so8947754ios.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 13:58:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YKKMZPzFpKxho3bukd3RyZu26SVVTZzu5IJZdgvrurM=;
- b=UULxe0oi45rrlthPZ7j91QPati3kz/vqmvCMyLllY5utrBEg2xF92eeMbeGCInmuq/
- Q2AwaP5RVOcAmp9Is3wgvO4qPaw0pkHI2rZLWE6GtfzuiGmVf5SVO73H1gGmKOpPLi6I
- OXvywc+jS1ATTiV+4up5o2z4BJolFmaUnmloD1/Y7tMj3M6dM/yiHxf6UsgBUccCZmZX
- 37+lI8nCpPwDon9+xdnQk2dDlYqnfw3CyiIJIWeW+3fH36eaSHrS828YnZqPFM4Li2V0
- h1plPp7083/jVN6p4pZ5AVl5QRlVEzmEn9baFWhQEtcUy+aMkFnch7R/0GAWCxewDJnE
- x8xQ==
-X-Gm-Message-State: AOAM530Jxh5yx5TxWhyvyCLnx6HKNeJNQTao0RrPCN5/J32P7nZZDsng
- U5Uk73tBcL/n14id2QoaNY7rUiEjh3i5DjDZBvmiE5fR
-X-Google-Smtp-Source: ABdhPJyt9JF0+J/SoNLSxNBQ+fFnSYJXc2gXT3EMG+AUcrKUp7z86nImhxU+sz0rqAid1YIV1X5eYkFEODrpdfuIr7k=
-X-Received: by 2002:a9d:75d4:: with SMTP id c20mr3931959otl.311.1610141595123; 
- Fri, 08 Jan 2021 13:33:15 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rY5ZPZc+UpoVk06JLNrDEFfoZnlAUfsw6zwHWZ87dfE=;
+ b=DdPc9Qdzxw401PaQ3qGqGLDH6ZZQGJuzpYrXNKJv0fh5kehMob3gsc4XidPkGMCaXk
+ aePVHUYD/DNImON24jElZP+7la1tbc46LKWm1WTnpfKSqMIn2GuuXm8PGaLCXZTthkZH
+ 6KVVp2vnkFqJNvBsJ1v93rQ1gQvujZnwDwbcQHfe9Tsk83deJa02MRVM0872TcfOl/kT
+ P8S6XuH5ggBBbZr2OV4RCJTKoheXuXaLDkILvJb44dqugBq7XpMEIGA5MWXtmng2upN/
+ QrX1g6eJsnG2roXJSt2VV36MhCciQHeNaRUky1H/q9O7rw69/hlSIxirqp9o1sxwHBwx
+ FFgQ==
+X-Gm-Message-State: AOAM532DQ5BZ3yAOHNKX4TJRo161QiF45zv7NJ1jl5PiWI0tLfaZ8kj4
+ QTqAg0ExfVHeTOohGs0DSOf10zHXsGyN7WlV8bVnzc6fPZkAwP5zkoGgWpLkkgP//I0YBnaATzq
+ In+4ziVZI/AQ4+BpCwzHArFassnxQ
+X-Received: by 2002:a6b:1454:: with SMTP id 81mr7014760iou.96.1610143135589;
+ Fri, 08 Jan 2021 13:58:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcL32QS4piiA/+xZFlxxD2vJ8+gVoEA1QeikN8eAe85m5gz3Phc/CaInN+y9uuwjkvaGhbYw==
+X-Received: by 2002:a6b:1454:: with SMTP id 81mr7014752iou.96.1610143135364;
+ Fri, 08 Jan 2021 13:58:55 -0800 (PST)
+Received: from dev.jcline.org ([2605:a601:a63a:4d01:c440:5c61:43ba:350c])
+ by smtp.gmail.com with ESMTPSA id h18sm5961873ioh.30.2021.01.08.13.58.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 13:58:54 -0800 (PST)
+From: Jeremy Cline <jcline@redhat.com>
+To: Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>
+Subject: [PATCH] amdgpu: Avoid sleeping during FPU critical sections
+Date: Fri,  8 Jan 2021 16:58:38 -0500
+Message-Id: <20210108215838.470637-1-jcline@redhat.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210105201548.1374211-1-alexander.deucher@amd.com>
- <CADnq5_OSJQEOOF3N5Z3uX1LY=p0xHJYAukPNj7kGn06teJG5Gw@mail.gmail.com>
- <MWHPR12MB162977B49AF804C7BF339C0BFEAE0@MWHPR12MB1629.namprd12.prod.outlook.com>
-In-Reply-To: <MWHPR12MB162977B49AF804C7BF339C0BFEAE0@MWHPR12MB1629.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 8 Jan 2021 16:33:04 -0500
-Message-ID: <CADnq5_MZ7PK2b35W_Y3vGtNLR+q9T=doZJGj=cKKnQOejqo+ww@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: update radeon/amdgpu/amdkfd git trees
-To: "Abramov, Slava" <Slava.Abramov@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +75,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jeremy Cline <jcline@redhat.com>,
+ Timothy Pearson <tpearson@raptorengineering.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKYW4gOCwgMjAyMSBhdCAzOjUyIFBNIEFicmFtb3YsIFNsYXZhIDxTbGF2YS5BYnJh
-bW92QGFtZC5jb20+IHdyb3RlOgo+Cj4gW0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEludGVybmFs
-IERpc3RyaWJ1dGlvbiBPbmx5XQo+Cj4KPiBXaHkgbm90IGp1c3QgaHR0cHM6Ly9naXRsYWIuZnJl
-ZWRlc2t0b3Aub3JnL2FnZDVmL2xpbnV4ID8KCkkgZ3Vlc3MgdGhhdCB3b3JrcyB0b28uCgpBbGV4
-Cgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gRnJvbTogYW1kLWdmeCA8YW1k
-LWdmeC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gb24gYmVoYWxmIG9mIEFsZXggRGV1
-Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPgo+IFNlbnQ6IEZyaWRheSwgSmFudWFyeSA4LCAy
-MDIxIDI6MzAgUE0KPiBUbzogYW1kLWdmeCBsaXN0IDxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZz47IE1hbGluZyBsaXN0IC0gRFJJIGRldmVsb3BlcnMgPGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmc+OyBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+OyBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBEZXVjaGVyLCBBbGV4YW5kZXIgPEFs
-ZXhhbmRlci5EZXVjaGVyQGFtZC5jb20+Cj4gU3ViamVjdDogUmU6IFtQQVRDSF0gTUFJTlRBSU5F
-UlM6IHVwZGF0ZSByYWRlb24vYW1kZ3B1L2FtZGtmZCBnaXQgdHJlZXMKPgo+IE9uIFR1ZSwgSmFu
-IDUsIDIwMjEgYXQgMzoxNSBQTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4g
-d3JvdGU6Cj4gPgo+ID4gRkRPIGlzIG91dCBvZiBzcGFjZSwgc28gbW92ZSB0byBnaXRsYWIuCj4g
-Pgo+ID4gU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQu
-Y29tPgo+Cj4gUGluZz8gIEFueSBvYmplY3Rpb25zPwo+Cj4gQWxleAo+Cj4gPiAtLS0KPiA+ICBN
-QUlOVEFJTkVSUyB8IDQgKystLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
-IDIgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRB
-SU5FUlMKPiA+IGluZGV4IGViMTg0NTljMWQxNi4uZTI4NzdiZTZiMTBkIDEwMDY0NAo+ID4gLS0t
-IGEvTUFJTlRBSU5FUlMKPiA+ICsrKyBiL01BSU5UQUlORVJTCj4gPiBAQCAtOTA3LDcgKzkwNyw3
-IEBAIEFNRCBLRkQKPiA+ICBNOiAgICAgRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFt
-ZC5jb20+Cj4gPiAgTDogICAgIGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiAgUzog
-ICAgIFN1cHBvcnRlZAo+ID4gLVQ6ICAgICBnaXQgZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9y
-Zy9+YWdkNWYvbGludXgKPiA+ICtUOiAgICAgZ2l0IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnBy
-b3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmdpdGxhYi5mcmVlZGVza3Rv
-cC5vcmclMkZhZ2Q1ZiUyRmxpbnV4LmdpdCZhbXA7ZGF0YT0wNCU3QzAxJTdDc2xhdmEuYWJyYW1v
-diU0MGFtZC5jb20lN0NiNGU4YWRjNTM5M2M0YjA1MmQ2OTA4ZDhiNDBiZDVkYiU3QzNkZDg5NjFm
-ZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0NTczMTA2Nzc0OTY4NDYlN0NV
-bmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklp
-TENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCZhbXA7c2RhdGE9eEs0T284anVO
-JTJGb0YxalZuTGNsUHR0OU1LTHpSUTNHUGllcmNkSDlvZ0ZFJTNEJmFtcDtyZXNlcnZlZD0wCj4g
-PiAgRjogICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmQqLltjaF0K
-PiA+ICBGOiAgICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQvCj4gPiAgRjogICAgIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9jaWtfc3RydWN0cy5oCj4gPiBAQCAtMTQ1OTYsNyArMTQ1
-OTYsNyBAQCBNOiAgICAgIEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4K
-PiA+ICBNOiAgICAgQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+
-ID4gIEw6ICAgICBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gIFM6ICAgICBTdXBw
-b3J0ZWQKPiA+IC1UOiAgICAgZ2l0IGdpdDovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmFnZDVm
-L2xpbnV4Cj4gPiArVDogICAgIGdpdCBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9u
-Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZnaXRsYWIuZnJlZWRlc2t0b3Aub3JnJTJG
-YWdkNWYlMkZsaW51eC5naXQmYW1wO2RhdGE9MDQlN0MwMSU3Q3NsYXZhLmFicmFtb3YlNDBhbWQu
-Y29tJTdDYjRlOGFkYzUzOTNjNGIwNTJkNjkwOGQ4YjQwYmQ1ZGIlN0MzZGQ4OTYxZmU0ODg0ZTYw
-OGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDU3MzEwNjc3NTA2ODQyJTdDVW5rbm93biU3
-Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2
-SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMwMDAmYW1wO3NkYXRhPUFOZXolMkJMSGFlcmdENkxh
-ZThhcmNKRHlpYmFmNXlQZ1J5ckJmekJwZDN2WSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4gIEY6ICAg
-ICBkcml2ZXJzL2dwdS9kcm0vYW1kLwo+ID4gIEY6ICAgICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9u
-Lwo+ID4gIEY6ICAgICBpbmNsdWRlL3VhcGkvZHJtL2FtZGdwdV9kcm0uaAo+ID4gLS0KPiA+IDIu
-MjkuMgo+ID4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0
-cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZh
-bWQtZ2Z4JmFtcDtkYXRhPTA0JTdDMDElN0NzbGF2YS5hYnJhbW92JTQwYW1kLmNvbSU3Q2I0ZThh
-ZGM1MzkzYzRiMDUyZDY5MDhkOGI0MGJkNWRiJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0
-ZTE4M2QlN0MwJTdDMCU3QzYzNzQ1NzMxMDY3NzUwNjg0MiU3Q1Vua25vd24lN0NUV0ZwYkdac2Iz
-ZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENK
-WFZDSTZNbjAlM0QlN0MzMDAwJmFtcDtzZGF0YT1neWl3VFNhWmZpQVFwSUklMkJKVXBybTV3SU56
-NVFFV2RRWW5tMDVXb0RiRDAlM0QmYW1wO3Jlc2VydmVkPTAKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+dcn20_resource_construct() includes a number of kzalloc(GFP_KERNEL)
+calls which can sleep, but kernel_fpu_begin() disables preemption and
+sleeping in this context is invalid.
+
+The only places the FPU appears to be required is in the
+init_soc_bounding_box() function and when calculating the
+{min,max}_fill_clk_mhz. Narrow the scope to just these two parts to
+avoid sleeping while using the FPU.
+
+Fixes: 7a8a3430be15 ("amdgpu: Wrap FPU dependent functions in dc20")
+Cc: Timothy Pearson <tpearson@raptorengineering.com>
+Signed-off-by: Jeremy Cline <jcline@redhat.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index e04ecf0fc0db..a4fa5bf016c1 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -3622,6 +3622,7 @@ static bool init_soc_bounding_box(struct dc *dc,
+ 	if (bb && ASICREV_IS_NAVI12_P(dc->ctx->asic_id.hw_internal_rev)) {
+ 		int i;
+ 
++		DC_FP_START();
+ 		dcn2_0_nv12_soc.sr_exit_time_us =
+ 				fixed16_to_double_to_cpu(bb->sr_exit_time_us);
+ 		dcn2_0_nv12_soc.sr_enter_plus_exit_time_us =
+@@ -3721,6 +3722,7 @@ static bool init_soc_bounding_box(struct dc *dc,
+ 			dcn2_0_nv12_soc.clock_limits[i].dram_speed_mts =
+ 					fixed16_to_double_to_cpu(bb->clock_limits[i].dram_speed_mts);
+ 		}
++		DC_FP_END();
+ 	}
+ 
+ 	if (pool->base.pp_smu) {
+@@ -3777,8 +3779,6 @@ static bool dcn20_resource_construct(
+ 	enum dml_project dml_project_version =
+ 			get_dml_project_version(ctx->asic_id.hw_internal_rev);
+ 
+-	DC_FP_START();
+-
+ 	ctx->dc_bios->regs = &bios_regs;
+ 	pool->base.funcs = &dcn20_res_pool_funcs;
+ 
+@@ -3959,8 +3959,10 @@ static bool dcn20_resource_construct(
+ 				ranges.reader_wm_sets[i].wm_inst = i;
+ 				ranges.reader_wm_sets[i].min_drain_clk_mhz = PP_SMU_WM_SET_RANGE_CLK_UNCONSTRAINED_MIN;
+ 				ranges.reader_wm_sets[i].max_drain_clk_mhz = PP_SMU_WM_SET_RANGE_CLK_UNCONSTRAINED_MAX;
++				DC_FP_START();
+ 				ranges.reader_wm_sets[i].min_fill_clk_mhz = (i > 0) ? (loaded_bb->clock_limits[i - 1].dram_speed_mts / 16) + 1 : 0;
+ 				ranges.reader_wm_sets[i].max_fill_clk_mhz = loaded_bb->clock_limits[i].dram_speed_mts / 16;
++				DC_FP_END();
+ 
+ 				ranges.num_reader_wm_sets = i + 1;
+ 			}
+@@ -4125,12 +4127,10 @@ static bool dcn20_resource_construct(
+ 		pool->base.oem_device = NULL;
+ 	}
+ 
+-	DC_FP_END();
+ 	return true;
+ 
+ create_fail:
+ 
+-	DC_FP_END();
+ 	dcn20_resource_destruct(pool);
+ 
+ 	return false;
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
