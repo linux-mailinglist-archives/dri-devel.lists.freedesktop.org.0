@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9E2EF8B9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 21:16:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5BE2EF8C2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Jan 2021 21:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAE76E8EE;
-	Fri,  8 Jan 2021 20:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A686E8DC;
+	Fri,  8 Jan 2021 20:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9106E8E3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 20:15:53 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id g185so9442330wmf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 12:15:53 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3DFF6E8E3
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Jan 2021 20:15:54 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id d13so10097995wrc.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 12:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0meb7DEluI5lCKKHhFh+KkZgGQmTED8UYQgsHtPH9AI=;
- b=b+8BELUy6TYHrFE+ojlTD5o+vZ/tEQjDu8czZAvyrxub0pcI6chJUoZ2lCPjCPjABv
- 9+quXXFHdgT6Fpuo23j3qGFJi++XkryIYAjEaiCDSGXtAvRT9g1+Br7tew2FKxP4QU07
- gLqxjq5/JKGeu+mhZHe5oN34VfOToSNyGQZvfc3QyL3AhJpOP2PyMwkzdeDcf3JXETdM
- +H/AiCaoEElkLOGti7xyPj7B/4lLWROEMkhiKh6Nzrryo1rOp18oWdsPR1pU6AukN/Qa
- Xukv2856sxNpzczu/PirBr3Ic93WgRUohpIWkUXjlu+/FzLwF2/0auSZoWOC7qcY0LVT
- IPhA==
+ bh=ltlvlK446O5/kBCmREtmpcuBIIBe0mrhh4gHbZyrmLA=;
+ b=eR0e+bPTMpDaQ5oVw+vorFfL18IIvsq9WMtJycz42nqe7lxrgpYAG+NnSqXEbvEPi8
+ VS8S6QvbmXY4DPgbH94+g8zc924maSiO9NmbgYltoBkVxN1f2D9fpIwVo7iGozb/ic86
+ R3wNL6C+wYq21lo0a6RGpG/We0wBq/no3/33xHyZ0I5G9cBZ10CDxQNUkE7nrutviyoX
+ g6nEgtqpjZM7Fei3hvQDT2w7dyEFEmxPNoDLO2Oo9Qjd0XacLjqQBA5gJXQerw8m8LoY
+ k3pMqPeXeo6pPh7ItawXSn1KL07TrqeD7nEcVbxfJs9/EJ0g5lBh96lDFF0oFIL7u9xv
+ bb8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0meb7DEluI5lCKKHhFh+KkZgGQmTED8UYQgsHtPH9AI=;
- b=o1MekUoVCZmzJaDM2c8sJ6OzXFKk7vFLDm/iCdEajeKnt0J1d7lsfMTuo72X6AOAQM
- phKGNSDhJ14ItYdDRucfYEmpGb7yOsNvgpFtWz1Ydk889rmGoiGgTBQvCwlX6LW68p9e
- ZePN5WOhSkSwT0m6NKPgd6HhnTu6fghJedEP/FEJhaJYR6qUjRDy+qXTrEctvWhzUoc0
- LSz4Xj5pHfea7rmUeiR2AHlRRqZNttVoSXR5nIgpP7qOtqqQ+tRRkOC47ZL7+A3QrOgD
- P8dSML5/wtPKMofkGBTNpljt73BgkAwXPk1QEy0Y5/sCiudVFR8EoENT1ge+OK2+lyfZ
- 4zCQ==
-X-Gm-Message-State: AOAM533JQxg8Ey9ZvDC8j0rfGP5m2vlejThODGUPOgZODdWVm6RlLU5k
- hJumSGNX5S1b9YuM/e5b6F2ARw==
-X-Google-Smtp-Source: ABdhPJypNc1DfLCl8VxEr0OvMckgJB9nFs1wGhAwDJWr8F5fydgjX/rVMxJA/ROmsyBPaHHuB4ie4w==
-X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr4612278wmf.134.1610136952039; 
- Fri, 08 Jan 2021 12:15:52 -0800 (PST)
+ bh=ltlvlK446O5/kBCmREtmpcuBIIBe0mrhh4gHbZyrmLA=;
+ b=eZkqPiNUZjvCoAo0W+G94f5ihGoJzNuWHrwp33JWt78V9tQH8TP94xcnom7Lli/mv6
+ sUCvXS3RrfUGZl/prFjdzpJfOz03apty1X7LgGv7VwSEDsRjNBDOjoqVKCOYA1mPhAWN
+ LfMxAs0167r+m43zfrhQ3kt6lLyPUbolUjDFwiBPArlkalYUba7RzgPVxmPer2YGkYNy
+ sGAvK0FGnoPDaSqN+Bt7qsjhK7Y+Ad5a94OVFDAveGPNG6HCId60y/rHdem4MtjFmC5A
+ 3tPKG71E/7PBGATUKKGdAXAqMijcFqxoe6xn1z/a6tzpFVePDilRq+iQEhQxvHJVioKA
+ 3jrQ==
+X-Gm-Message-State: AOAM533wL4zb8UAp/KhYvkAVRq63ia3pqXQcHX8XI/ZkUC3L3Nwh/5lr
+ NhSmbaV8IhguxJvSGhkSupniJQ==
+X-Google-Smtp-Source: ABdhPJywcpuW4qCShj6qOQWKOuISnPJDe556gUEO7+5pFKdb3vqCRrQBt55/KNmX2vM7BU51pX03EA==
+X-Received: by 2002:adf:9467:: with SMTP id 94mr5370698wrq.235.1610136953419; 
+ Fri, 08 Jan 2021 12:15:53 -0800 (PST)
 Received: from dell.default ([91.110.221.229])
- by smtp.gmail.com with ESMTPSA id l8sm15598671wrb.73.2021.01.08.12.15.50
+ by smtp.gmail.com with ESMTPSA id l8sm15598671wrb.73.2021.01.08.12.15.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 12:15:51 -0800 (PST)
+ Fri, 08 Jan 2021 12:15:52 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 33/40] drm/nouveau/nvkm/subdev/volt/gk20a: Demote
- non-conformant kernel-doc headers
-Date: Fri,  8 Jan 2021 20:14:50 +0000
-Message-Id: <20210108201457.3078600-34-lee.jones@linaro.org>
+Subject: [PATCH 34/40] drm/amd/display/dc/bios/bios_parser: Fix misspelling of
+ function parameter
+Date: Fri,  8 Jan 2021 20:14:51 +0000
+Message-Id: <20210108201457.3078600-35-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210108201457.3078600-1-lee.jones@linaro.org>
 References: <20210108201457.3078600-1-lee.jones@linaro.org>
@@ -67,61 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:53: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'speedo' not described in 'gk20a_volt_get_cvb_t_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'temp' not described in 'gk20a_volt_get_cvb_t_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 's_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 't_scale' not described in 'gk20a_volt_get_cvb_t_voltage'
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:69: warning: Function parameter or member 'coef' not described in 'gk20a_volt_get_cvb_t_voltage'
-
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-index ce5d83cdc7cf7..207e5278b37ed 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-@@ -45,7 +45,7 @@ static const struct cvb_coef gk20a_cvb_coef[] = {
- 	/* 852 */ { 1608418, -21643, -269,     0,    763,  -48},
- };
- 
--/**
-+/*
-  * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
-  */
- static inline int
-@@ -58,7 +58,7 @@ gk20a_volt_get_cvb_voltage(int speedo, int s_scale, const struct cvb_coef *coef)
- 	return mv;
- }
- 
--/**
-+/*
-  * cvb_t_mv =
-  * ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0) +
-  * ((c3 * speedo / s_scale + c4 + c5 * T / t_scale) * T / t_scale)
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyLmM6OTk3
+OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdzc19pbmZvJyBub3QgZGVz
+Y3JpYmVkIGluICdnZXRfc3NfaW5mb19mcm9tX3RibCcKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1Ly4uL2Rpc3BsYXkvZGMvYmlvcy9iaW9zX3BhcnNlci5jOjk5Nzogd2FybmluZzogRXhjZXNz
+IGZ1bmN0aW9uIHBhcmFtZXRlciAnc3NpbmZvJyBkZXNjcmlwdGlvbiBpbiAnZ2V0X3NzX2luZm9f
+ZnJvbV90YmwnCgpDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+CkNj
+OiBMZW8gTGkgPHN1bnBlbmcubGlAYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVy
+LmRldWNoZXJAYW1kLmNvbT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5p
+Z0BhbWQuY29tPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVs
+IFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJv
+Lm9yZz4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxp
+bmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvYmlvc19w
+YXJzZXIuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
+dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvYmlv
+cy9iaW9zX3BhcnNlci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jpb3MvYmlv
+c19wYXJzZXIuYwppbmRleCBkMjY1NGM1MGIwYjIwLi5jNjdkMjFhNWVlNTJmIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvYmlvcy9iaW9zX3BhcnNlci5jCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9iaW9zL2Jpb3NfcGFyc2VyLmMKQEAgLTk4
+Nyw4ICs5ODcsOCBAQCBzdGF0aWMgZW51bSBicF9yZXN1bHQgZ2V0X3NzX2luZm9fZnJvbV9pbnRl
+cm5hbF9zc19pbmZvX3RibF9WMl8xKAogICoKICAqIEBicDogICAgICBwb2ludGVyIHRvIHRoZSBC
+SU9TIHBhcnNlcgogICogQGlkOiAgICAgIHNwcmVhZCBzcHJlY3RydW0gaW5mbyBpbmRleAotICog
+QHNzaW5mbzogIHNwcmVjdHJ1bSBpbmZvcm1hdGlvbiBzdHJ1Y3R1cmUsCi0gKiByZXR1cm46OiAg
+QklPUyBwYXJzZXIgcmVzdWx0IGNvZGUKKyAqIEBzc19pbmZvOiBzcHJlY3RydW0gaW5mb3JtYXRp
+b24gc3RydWN0dXJlLAorICogcmV0dXJuOiAgIEJJT1MgcGFyc2VyIHJlc3VsdCBjb2RlCiAgKi8K
+IHN0YXRpYyBlbnVtIGJwX3Jlc3VsdCBnZXRfc3NfaW5mb19mcm9tX3RibCgKIAlzdHJ1Y3QgYmlv
+c19wYXJzZXIgKmJwLAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
