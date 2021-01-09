@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE982EFFCC
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 14:27:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E51F2F00AD
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 16:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FAD26E839;
-	Sat,  9 Jan 2021 13:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D96F56E8B3;
+	Sat,  9 Jan 2021 15:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1061 seconds by postgrey-1.36 at gabe;
- Sat, 09 Jan 2021 13:27:38 UTC
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323186E839
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 13:27:38 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1kyE09-00009K-D2; Sat, 09 Jan 2021 14:09:53 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: thierry.reding@gmail.com,
-	sam@ravnborg.org
-Subject: [PATCH] drm/panel: panel-simple: add bus-format and connector-type to
- Innolux n116bge
-Date: Sat,  9 Jan 2021 14:09:51 +0100
-Message-Id: <20210109130951.3448435-1-heiko@sntech.de>
+X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
+ Sat, 09 Jan 2021 13:44:56 UTC
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760BC89E59
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 13:44:56 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 673623EEB9;
+ Sat,  9 Jan 2021 14:37:38 +0100 (CET)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH 0/9] Qualcomm DRM DPU fixes
+Date: Sat,  9 Jan 2021 14:37:27 +0100
+Message-Id: <20210109133736.143469-1-angelogioacchino.delregno@somainline.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+X-Mailman-Approved-At: Sat, 09 Jan 2021 15:13:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,36 +40,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, konrad.dybcio@somainline.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ martin.botka@somainline.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ marijn.suijten@somainline.org, phone-devel@vger.kernel.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+This patch series brings some fixes to the Qualcomm DPU driver, aim is
+to get it prepared for "legacy" SoCs (like MSM8998, SDM630/660) and to
+finally get command-mode displays working on this driver.
 
-The Innolux n116bge panel has an eDP connector and 3*6 bits bus format.
+The series was tested against MSM8998 (the commit that introduces it to
+the hw-catalog is not included in this series, as it needs to be cleaned
+up a little more) and specifically on:
+- Sony Xperia XZ Premium (MSM8998), 4K dual-dsi LCD display, command-mode
+- F(x)Tec Pro1 (MSM8998), single-dsi OLED display, video-mode
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 2 ++
- 1 file changed, 2 insertions(+)
+... And it obviously worked just perfect!
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 41bbec72b2da..a0b65d263dce 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2265,6 +2265,8 @@ static const struct panel_desc innolux_n116bge = {
- 		.width = 256,
- 		.height = 144,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.connector_type = DRM_MODE_CONNECTOR_eDP,
- };
- 
- static const struct drm_display_mode innolux_n125hce_gn1_mode = {
+AngeloGioacchino Del Regno (9):
+  drm/msm/dpu: Fix VBIF_XINL_QOS_LVL_REMAP_000 register offset
+  drm/msm/dpu1: Move DPU_SSPP_QOS_8LVL bit to SDM845 and SC7180 masks
+  drm/msm/dpu1: Add prog_fetch_lines_worst_case to INTF_BLK macro
+  drm/msm/dpu1: Allow specifying features and sblk in DSPP_BLK macro
+  drm/msm/dpu: Disable autorefresh in command mode
+  drm/msm/dpu: Correctly configure vsync tearcheck for command mode
+  drm/msm/dpu: Remove unused call in wait_for_commit_done
+  drm/msm/dpu: Add a function to retrieve the current CTL status
+  drm/msm/dpu: Fix timeout issues on command mode panels
+
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 91 ++++++++++++++++---
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 39 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  6 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  7 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 26 ++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   |  9 +-
+ 7 files changed, 155 insertions(+), 37 deletions(-)
+
 -- 
 2.29.2
 
