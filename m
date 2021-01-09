@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B42F00A3
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 16:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C0B2F00AC
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 16:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED7C26E853;
-	Sat,  9 Jan 2021 15:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C790F6E8A3;
+	Sat,  9 Jan 2021 15:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7376E84B;
- Sat,  9 Jan 2021 13:51:16 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7E989F35
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 13:51:17 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 249841F56E;
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 65DDB1F570;
  Sat,  9 Jan 2021 14:51:15 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH 4/5] drm/msm/dsi_pll_10nm: Fix variable usage for
- pll_lockdet_rate
-Date: Sat,  9 Jan 2021 14:51:11 +0100
-Message-Id: <20210109135112.147759-5-angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 5/5] drm/msm/dsi_pll_10nm: Convert pr_err prints to
+ DRM_DEV_ERROR
+Date: Sat,  9 Jan 2021 14:51:12 +0100
+Message-Id: <20210109135112.147759-6-angelogioacchino.delregno@somainline.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210109135112.147759-1-angelogioacchino.delregno@somainline.org>
 References: <20210109135112.147759-1-angelogioacchino.delregno@somainline.org>
@@ -51,29 +51,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PLL_LOCKDET_RATE_1 was being programmed with a hardcoded value
-directly, but the same value was also being specified in the
-dsi_pll_regs struct pll_lockdet_rate variable: let's use it!
+DRM_DEV_ERROR should be used across this entire source: convert the
+pr_err prints to the first as a cleanup.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
-index 5be562dfbf06..df3e4584dfd7 100644
+index df3e4584dfd7..f1091c023836 100644
 --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
 +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
-@@ -302,7 +302,8 @@ static void dsi_pll_commit(struct dsi_pll_10nm *pll)
- 		  reg->frac_div_start_mid);
- 	pll_write(base + REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_HIGH_1,
- 		  reg->frac_div_start_high);
--	pll_write(base + REG_DSI_10nm_PHY_PLL_PLL_LOCKDET_RATE_1, 0x40);
-+	pll_write(base + REG_DSI_10nm_PHY_PLL_PLL_LOCKDET_RATE_1,
-+		  reg->pll_lockdet_rate);
- 	pll_write(base + REG_DSI_10nm_PHY_PLL_PLL_LOCK_DELAY, 0x06);
- 	pll_write(base + REG_DSI_10nm_PHY_PLL_CMODE, 0x10);
- 	pll_write(base + REG_DSI_10nm_PHY_PLL_CLOCK_INVERTERS,
+@@ -342,6 +342,7 @@ static int dsi_pll_10nm_vco_set_rate(struct clk_hw *hw, unsigned long rate,
+ 
+ static int dsi_pll_10nm_lock_status(struct dsi_pll_10nm *pll)
+ {
++	struct device *dev = &pll->pdev->dev;
+ 	int rc;
+ 	u32 status = 0;
+ 	u32 const delay_us = 100;
+@@ -354,8 +355,8 @@ static int dsi_pll_10nm_lock_status(struct dsi_pll_10nm *pll)
+ 				       delay_us,
+ 				       timeout_us);
+ 	if (rc)
+-		pr_err("DSI PLL(%d) lock failed, status=0x%08x\n",
+-		       pll->id, status);
++		DRM_DEV_ERROR(dev, "DSI PLL(%d) lock failed, status=0x%08x\n",
++			      pll->id, status);
+ 
+ 	return rc;
+ }
+@@ -402,6 +403,7 @@ static int dsi_pll_10nm_vco_prepare(struct clk_hw *hw)
+ {
+ 	struct msm_dsi_pll *pll = hw_clk_to_pll(hw);
+ 	struct dsi_pll_10nm *pll_10nm = to_pll_10nm(pll);
++	struct device *dev = &pll_10nm->pdev->dev;
+ 	int rc;
+ 
+ 	dsi_pll_enable_pll_bias(pll_10nm);
+@@ -410,7 +412,7 @@ static int dsi_pll_10nm_vco_prepare(struct clk_hw *hw)
+ 
+ 	rc = dsi_pll_10nm_vco_set_rate(hw,pll_10nm->vco_current_rate, 0);
+ 	if (rc) {
+-		pr_err("vco_set_rate failed, rc=%d\n", rc);
++		DRM_DEV_ERROR(dev, "vco_set_rate failed, rc=%d\n", rc);
+ 		return rc;
+ 	}
+ 
+@@ -427,7 +429,7 @@ static int dsi_pll_10nm_vco_prepare(struct clk_hw *hw)
+ 	/* Check for PLL lock */
+ 	rc = dsi_pll_10nm_lock_status(pll_10nm);
+ 	if (rc) {
+-		pr_err("PLL(%d) lock failed\n", pll_10nm->id);
++		DRM_DEV_ERROR(dev, "PLL(%d) lock failed\n", pll_10nm->id);
+ 		goto error;
+ 	}
+ 
 -- 
 2.29.2
 
