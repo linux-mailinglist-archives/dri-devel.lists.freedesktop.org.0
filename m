@@ -1,71 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5652EFD23
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 03:26:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB122EFD92
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 04:44:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5663D6E905;
-	Sat,  9 Jan 2021 02:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F003A6E416;
+	Sat,  9 Jan 2021 03:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 659A06E905
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 02:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610159180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3deUTSWo7icL2/kX+c+a8SQqHFNh2K28a4hRCkAQWWY=;
- b=DDrS+FmDUx23tshFtaYJ8a9k3zaUTIMWjR86PUomG56Cw+CNJj24rEy0lmo/g/O24pj+YG
- jCAVUtHMLqZ8L8Ljv/TDRhGGyrv2dTx4vm0cwBs3nJNC0ndcaPJMUllCn3kPXr9dKF0NLH
- WkOOAp/FEp3U0JnaI7cZafxNCpE8B7A=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-9TyF10dpNtyvIRGN-CSYaA-1; Fri, 08 Jan 2021 21:26:16 -0500
-X-MC-Unique: 9TyF10dpNtyvIRGN-CSYaA-1
-Received: by mail-il1-f199.google.com with SMTP id s23so12030577ilk.14
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 18:26:16 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19CEB6E416
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 03:44:28 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id u25so7036914lfc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Jan 2021 19:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HD/4viRtfwM399mGOKfKs0Gn3g0BoLDsv4d+I17dgcw=;
+ b=WK8ARnKNiOzvrjlOgn3JOdaq1kaUecOF/7zvSZnDR6+k0sE+pM3XL/wX0NhL8y+LWR
+ maEu4/DnDNd6Q2i9XurgxLiK0jbfmB9uFbCEoxVVeYb1zN1XL7wnDdadzZoU54KkrivG
+ 4PRSAlLJw7a+esJO5ppq5/CXBeqLV1eEbMZFZ1/Qw7KuM3+JQchcDZP2jKK7vLuI90zw
+ PHydTkyuaL6mpwSaiNwxIufYaZfiLBkaku5FGAtTxrz6RrGqR1LhkdP58evQ3+y0vvyP
+ Ls+yUy3ZjGBlGylO2bUghiCwYk5RLN4GVrYP3mmPGbZOcUrtSFNZW7vKYHpIUS823ySd
+ F5pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3deUTSWo7icL2/kX+c+a8SQqHFNh2K28a4hRCkAQWWY=;
- b=e62XyuDOLnBAXNw2nCCBWGYdOsFgkhwSkfX30DvHxaIRZ5IcMPF9eAd02NDZSj7XRS
- e5SuKgQtXBu4l2RlHTs8XD0HZQU7w8Uv/CMUWi5GKkHut4v5KtE1TLtEI4sVcX6XHOZw
- EtQzoI3Qez5GLP8p3nO3gufZaTlhTk7snGxsUXtLnAXZ18FsI6GUvt1ZFv0yeLczlnOJ
- K7SZufTYRxhEzKs7cWEoj66iIAL1r6TVAehFglr2h+rZ5G94sR8QCjzXL1MUJXVrltRx
- pKtNO+zeelvZMfoCCG18mLxagfjX0cW3t9OfhYgqxKC9cmUqtLIFuAoReh+uco0tm/zQ
- KhTQ==
-X-Gm-Message-State: AOAM533lNTkd5Zo8j0iB6burY/Qu4Lh+h/xWMBSD4uTCFSxClrP6IDe9
- bMu7Wghhfu47A4iwui5r0p+yHF2t6owMIutfUiwxLWQdsHwaNwFv8qhuGYHuTmZIYt5V/VCwkBX
- 3ufwcQXITemthM04nuNpbkfKgyUDr
-X-Received: by 2002:a92:6e12:: with SMTP id j18mr6527508ilc.47.1610159175660; 
- Fri, 08 Jan 2021 18:26:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzp6AdgQP1S6tAvq+SLTyOQGHsKz+zbQT3eexm4d0LcPmSvkxbYAXledHnV+hNlWHIra9IjOQ==
-X-Received: by 2002:a92:6e12:: with SMTP id j18mr6527493ilc.47.1610159175334; 
- Fri, 08 Jan 2021 18:26:15 -0800 (PST)
-Received: from xps13 ([2605:a601:a63a:4d01:b7b1:2714:939a:40b8])
- by smtp.gmail.com with ESMTPSA id s10sm3003553iob.4.2021.01.08.18.26.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 18:26:14 -0800 (PST)
-Date: Fri, 8 Jan 2021 21:26:12 -0500
-From: Jeremy Cline <jcline@redhat.com>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH] drm/amdkfd: Fix out-of-bounds read in
- kdf_create_vcrat_image_cpu()
-Message-ID: <20210109022612.GB248768@xps13>
-References: <20210108163104.411442-1-jcline@redhat.com>
- <a341f82d-5933-3df3-f665-cbb4fb5fc5ff@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HD/4viRtfwM399mGOKfKs0Gn3g0BoLDsv4d+I17dgcw=;
+ b=p/5Ivpt4Nm+XJpUaeHXrA8f5sC6bwQyiWfVfC30j1inAx6SmHkjUKA9CAdAtglFtoh
+ nEOWtirZn3AiUXj8vUpTkM8nDIBUTsbaiEMxAxX41ZAbu76pIaFkaJB3MFxDrfeRjbFy
+ H0sDoh1DCVVUEgIigPbVrJ0UVH94YixhqJw8MkN5M24l4cRUf7fEmt6N0wx65jtL64Rr
+ P7P3nopmEoDcFT0Hwg7t56yQ1yhgwko6VGpta4NdZcbvLbsu95pIZvDPhbSsrhHe+tFq
+ 9ZRonvBhdYuoCeNFCpv2/iYXryUHARtMCVaXWzGQeqGLB3A/9X8W3QIkQdLEsutNws28
+ JmkQ==
+X-Gm-Message-State: AOAM530jGERg3M5Uy5zHxxGN6C28XBUwg9DM4F7lIJ/AGhykAVkPxMm6
+ QtgdkQy6yxQ18bQjyQKdiA9fg/skbqk5U89ssdxNIQ==
+X-Google-Smtp-Source: ABdhPJyZXQilDKeEMaUqBwDSsXwImGMNtYgnwmPGpRArK1E1OR4/l0JkRDIUv/vXuXgmte5xrqEJ1m1RX8xMyQEYtVs=
+X-Received: by 2002:a05:6512:61:: with SMTP id
+ i1mr2683474lfo.343.1610163866124; 
+ Fri, 08 Jan 2021 19:44:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a341f82d-5933-3df3-f665-cbb4fb5fc5ff@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20210107202616.75170-1-john.stultz@linaro.org>
+In-Reply-To: <20210107202616.75170-1-john.stultz@linaro.org>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Sat, 9 Jan 2021 09:14:14 +0530
+Message-ID: <CAO_48GGyAhz_sXe22H6aZSiJQ2sSEgJ=HpaAkOfi-DmVmwvNtw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: cma_heap: Fix memory leak in CMA heap
+To: John Stultz <john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,271 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Kent Russell <kent.russell@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sandeep Patil <sspatil@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Bing Song <bing.song@nxp.com>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 08, 2021 at 06:46:17PM -0500, Felix Kuehling wrote:
-> Am 2021-01-08 um 11:31 a.m. schrieb Jeremy Cline:
-> > KASAN reported a slab-out-of-bounds read of size 1 in
-> > kdf_create_vcrat_image_cpu().
-> >
-> > This occurs when, for example, when on an x86_64 with a single NUMA node
-> > because kfd_fill_iolink_info_for_cpu() is a no-op, but afterwards the
-> > sub_type_hdr->length, which is out-of-bounds, is read and multiplied by
-> > entries. Fortunately, entries is 0 in this case so the overall
-> > crat_table->length is still correct.
-> 
-> That's a pretty big change to fix that. Wouldn't it be enough to add a
-> simple check after calling kfd_fill_iolink_info_for_cpu:
-> 
->     if (entries) {
->     	crat_table->length += (sub_type_hdr->length * entries);
->     	crat_table->total_entries += entries;
->     }
-> 
-> Or change the output parameters of the kfd_fill_..._for_cpu functions
-> from num_entries to size_filled, so the caller doesn't need to read
-> sub_type_hdr->length any more.
-> 
-
-For sure. I felt like this was a bit tidier afterwards, but that's an
-opinion and not one I hold strongly. I'll look at preparing a smaller fix
-next week.
-
-Thanks,
-Jeremy
-
-> >
-> > This refactors the helper functions to accept the crat_table directly
-> > and calculate the table entry pointer based on the current table length.
-> > This allows us to avoid an out-of-bounds read and hopefully makes the
-> > pointer arithmetic clearer. It should have no functional change beyond
-> > removing the out-of-bounds read.
-> >
-> > Fixes: b7b6c38529c9 ("drm/amdkfd: Calculate CPU VCRAT size dynamically (v2)")
-> > Signed-off-by: Jeremy Cline <jcline@redhat.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 86 +++++++++++++--------------
-> >  1 file changed, 40 insertions(+), 46 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > index 8cac497c2c45..e50db2c0f4ee 100644
-> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > @@ -829,21 +829,24 @@ int kfd_create_crat_image_acpi(void **crat_image, size_t *size)
-> >  /* kfd_fill_cu_for_cpu - Fill in Compute info for the given CPU NUMA node
-> >   *
-> >   *	@numa_node_id: CPU NUMA node id
-> > - *	@avail_size: Available size in the memory
-> > - *	@sub_type_hdr: Memory into which compute info will be filled in
-> > + *	@avail_size: Available space in bytes at the end of the @crat_table.
-> > + *	@crat_table: The CRAT table to append the Compute info to;
-> > + *		on success the table length and total_entries count is updated.
-> >   *
-> >   *	Return 0 if successful else return -ve value
-> >   */
-> >  static int kfd_fill_cu_for_cpu(int numa_node_id, int *avail_size,
-> > -				int proximity_domain,
-> > -				struct crat_subtype_computeunit *sub_type_hdr)
-> > +				struct crat_header *crat_table)
-> >  {
-> >  	const struct cpumask *cpumask;
-> > +	struct crat_subtype_computeunit *sub_type_hdr;
-> >  
-> >  	*avail_size -= sizeof(struct crat_subtype_computeunit);
-> >  	if (*avail_size < 0)
-> >  		return -ENOMEM;
-> >  
-> > +	sub_type_hdr = (typeof(sub_type_hdr))((char *)crat_table +
-> > +		crat_table->length);
-> >  	memset(sub_type_hdr, 0, sizeof(struct crat_subtype_computeunit));
-> >  
-> >  	/* Fill in subtype header data */
-> > @@ -855,36 +858,42 @@ static int kfd_fill_cu_for_cpu(int numa_node_id, int *avail_size,
-> >  
-> >  	/* Fill in CU data */
-> >  	sub_type_hdr->flags |= CRAT_CU_FLAGS_CPU_PRESENT;
-> > -	sub_type_hdr->proximity_domain = proximity_domain;
-> > +	sub_type_hdr->proximity_domain = crat_table->num_domains;
-> >  	sub_type_hdr->processor_id_low = kfd_numa_node_to_apic_id(numa_node_id);
-> >  	if (sub_type_hdr->processor_id_low == -1)
-> >  		return -EINVAL;
-> >  
-> >  	sub_type_hdr->num_cpu_cores = cpumask_weight(cpumask);
-> >  
-> > +	crat_table->length += sub_type_hdr->length;
-> > +	crat_table->total_entries++;
-> > +
-> >  	return 0;
-> >  }
-> >  
-> >  /* kfd_fill_mem_info_for_cpu - Fill in Memory info for the given CPU NUMA node
-> >   *
-> >   *	@numa_node_id: CPU NUMA node id
-> > - *	@avail_size: Available size in the memory
-> > - *	@sub_type_hdr: Memory into which compute info will be filled in
-> > + *	@avail_size: Available space in bytes at the end of the @crat_table.
-> > + *	@crat_table: The CRAT table to append the Memory info to;
-> > + *		on success the table length and total_entries count is updated.
-> >   *
-> >   *	Return 0 if successful else return -ve value
-> >   */
-> >  static int kfd_fill_mem_info_for_cpu(int numa_node_id, int *avail_size,
-> > -			int proximity_domain,
-> > -			struct crat_subtype_memory *sub_type_hdr)
-> > +			struct crat_header *crat_table)
-> >  {
-> >  	uint64_t mem_in_bytes = 0;
-> >  	pg_data_t *pgdat;
-> >  	int zone_type;
-> > +	struct crat_subtype_memory *sub_type_hdr;
-> >  
-> >  	*avail_size -= sizeof(struct crat_subtype_memory);
-> >  	if (*avail_size < 0)
-> >  		return -ENOMEM;
-> >  
-> > +	sub_type_hdr = (typeof(sub_type_hdr))((char *)crat_table +
-> > +		crat_table->length);
-> >  	memset(sub_type_hdr, 0, sizeof(struct crat_subtype_memory));
-> >  
-> >  	/* Fill in subtype header data */
-> > @@ -905,27 +914,37 @@ static int kfd_fill_mem_info_for_cpu(int numa_node_id, int *avail_size,
-> >  
-> >  	sub_type_hdr->length_low = lower_32_bits(mem_in_bytes);
-> >  	sub_type_hdr->length_high = upper_32_bits(mem_in_bytes);
-> > -	sub_type_hdr->proximity_domain = proximity_domain;
-> > +	sub_type_hdr->proximity_domain = crat_table->num_domains;
-> > +
-> > +	crat_table->length += sub_type_hdr->length;
-> > +	crat_table->total_entries++;
-> >  
-> >  	return 0;
-> >  }
-> >  
-> >  #ifdef CONFIG_X86_64
-> > +/* kfd_fill_iolink_info_for_cpu() - Add IO link info to a Virtual CRAT
-> > + *
-> > + * @numa_node_id: The NUMA node ID for the CPU; as from for_each_online_node()
-> > + * @avail_size: Available space in bytes at the end of the @crat_table.
-> > + * @crat_table: The CRAT table to append the IO link info to; on success the
-> > + *              table length and total_entries count is updated.
-> > + *
-> > + * Return: 0 if successful else return -ve value
-> > + */
-> >  static int kfd_fill_iolink_info_for_cpu(int numa_node_id, int *avail_size,
-> > -				uint32_t *num_entries,
-> > -				struct crat_subtype_iolink *sub_type_hdr)
-> > +				struct crat_header *crat_table)
-> >  {
-> >  	int nid;
-> >  	struct cpuinfo_x86 *c = &cpu_data(0);
-> >  	uint8_t link_type;
-> > +	struct crat_subtype_iolink *sub_type_hdr;
-> >  
-> >  	if (c->x86_vendor == X86_VENDOR_AMD)
-> >  		link_type = CRAT_IOLINK_TYPE_HYPERTRANSPORT;
-> >  	else
-> >  		link_type = CRAT_IOLINK_TYPE_QPI_1_1;
-> >  
-> > -	*num_entries = 0;
-> > -
-> >  	/* Create IO links from this node to other CPU nodes */
-> >  	for_each_online_node(nid) {
-> >  		if (nid == numa_node_id) /* node itself */
-> > @@ -935,6 +954,8 @@ static int kfd_fill_iolink_info_for_cpu(int numa_node_id, int *avail_size,
-> >  		if (*avail_size < 0)
-> >  			return -ENOMEM;
-> >  
-> > +		sub_type_hdr = (typeof(sub_type_hdr))((char *)crat_table +
-> > +			crat_table->length);
-> >  		memset(sub_type_hdr, 0, sizeof(struct crat_subtype_iolink));
-> >  
-> >  		/* Fill in subtype header data */
-> > @@ -947,8 +968,8 @@ static int kfd_fill_iolink_info_for_cpu(int numa_node_id, int *avail_size,
-> >  		sub_type_hdr->proximity_domain_to = nid;
-> >  		sub_type_hdr->io_interface_type = link_type;
-> >  
-> > -		(*num_entries)++;
-> > -		sub_type_hdr++;
-> > +		crat_table->length += sub_type_hdr->length;
-> > +		crat_table->total_entries++;
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -966,12 +987,8 @@ static int kfd_create_vcrat_image_cpu(void *pcrat_image, size_t *size)
-> >  	struct crat_header *crat_table = (struct crat_header *)pcrat_image;
-> >  	struct acpi_table_header *acpi_table;
-> >  	acpi_status status;
-> > -	struct crat_subtype_generic *sub_type_hdr;
-> >  	int avail_size = *size;
-> >  	int numa_node_id;
-> > -#ifdef CONFIG_X86_64
-> > -	uint32_t entries = 0;
-> > -#endif
-> >  	int ret = 0;
-> >  
-> >  	if (!pcrat_image)
-> > @@ -1003,48 +1020,25 @@ static int kfd_create_vcrat_image_cpu(void *pcrat_image, size_t *size)
-> >  	crat_table->total_entries = 0;
-> >  	crat_table->num_domains = 0;
-> >  
-> > -	sub_type_hdr = (struct crat_subtype_generic *)(crat_table+1);
-> > -
-> >  	for_each_online_node(numa_node_id) {
-> >  		if (kfd_numa_node_to_apic_id(numa_node_id) == -1)
-> >  			continue;
-> >  
-> >  		/* Fill in Subtype: Compute Unit */
-> > -		ret = kfd_fill_cu_for_cpu(numa_node_id, &avail_size,
-> > -			crat_table->num_domains,
-> > -			(struct crat_subtype_computeunit *)sub_type_hdr);
-> > +		ret = kfd_fill_cu_for_cpu(numa_node_id, &avail_size, crat_table);
-> >  		if (ret < 0)
-> >  			return ret;
-> > -		crat_table->length += sub_type_hdr->length;
-> > -		crat_table->total_entries++;
-> > -
-> > -		sub_type_hdr = (typeof(sub_type_hdr))((char *)sub_type_hdr +
-> > -			sub_type_hdr->length);
-> >  
-> >  		/* Fill in Subtype: Memory */
-> > -		ret = kfd_fill_mem_info_for_cpu(numa_node_id, &avail_size,
-> > -			crat_table->num_domains,
-> > -			(struct crat_subtype_memory *)sub_type_hdr);
-> > +		ret = kfd_fill_mem_info_for_cpu(numa_node_id, &avail_size, crat_table);
-> >  		if (ret < 0)
-> >  			return ret;
-> > -		crat_table->length += sub_type_hdr->length;
-> > -		crat_table->total_entries++;
-> > -
-> > -		sub_type_hdr = (typeof(sub_type_hdr))((char *)sub_type_hdr +
-> > -			sub_type_hdr->length);
-> >  
-> >  		/* Fill in Subtype: IO Link */
-> >  #ifdef CONFIG_X86_64
-> > -		ret = kfd_fill_iolink_info_for_cpu(numa_node_id, &avail_size,
-> > -				&entries,
-> > -				(struct crat_subtype_iolink *)sub_type_hdr);
-> > +		ret = kfd_fill_iolink_info_for_cpu(numa_node_id, &avail_size, crat_table);
-> >  		if (ret < 0)
-> >  			return ret;
-> > -		crat_table->length += (sub_type_hdr->length * entries);
-> > -		crat_table->total_entries += entries;
-> > -
-> > -		sub_type_hdr = (typeof(sub_type_hdr))((char *)sub_type_hdr +
-> > -				sub_type_hdr->length * entries);
-> >  #else
-> >  		pr_info("IO link not available for non x86 platforms\n");
-> >  #endif
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgSm9obiwKCk9uIEZyaSwgOCBKYW4gMjAyMSBhdCAwMTo1NiwgSm9obiBTdHVsdHogPGpvaG4u
+c3R1bHR6QGxpbmFyby5vcmc+IHdyb3RlOgo+Cj4gQmluZyBTb25nIG5vdGljZWQgdGhlIENNQSBo
+ZWFwIHdhcyBsZWFraW5nIG1lbW9yeSBkdWUgdG8gYSBmbHViCj4gSSBtYWRlIGluIGNvbW1pdCBh
+NWQyZDI5ZTI0YmUgKCJkbWEtYnVmOiBoZWFwczogTW92ZSBoZWFwLWhlbHBlcgo+IGxvZ2ljIGlu
+dG8gdGhlIGNtYV9oZWFwIGltcGxlbWVudGF0aW9uIiksIGFuZCBwcm92aWRlZCB0aGlzIGZpeAo+
+IHdoaWNoIGVuc3VyZXMgdGhlIHBhZ2VsaXN0IGlzIGFsc28gZnJlZWQgb24gcmVsZWFzZS4KVGhh
+bmtzIGZvciB5b3VyIHBhdGNoLgo+Cj4gQ2M6IEJpbmcgU29uZyA8YmluZy5zb25nQG54cC5jb20+
+Cj4gQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6IExpYW0g
+TWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+Cj4gQ2M6IExhdXJhIEFiYm90dCA8bGFiYm90dEBr
+ZXJuZWwub3JnPgo+IENjOiBCcmlhbiBTdGFya2V5IDxCcmlhbi5TdGFya2V5QGFybS5jb20+Cj4g
+Q2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgo+IENjOiBTdXJlbiBCYWdo
+ZGFzYXJ5YW4gPHN1cmVuYkBnb29nbGUuY29tPgo+IENjOiBTYW5kZWVwIFBhdGlsIDxzc3BhdGls
+QGdvb2dsZS5jb20+Cj4gQ2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xlLmNvbT4K
+PiBDYzogQ2hyaXMgR29sZHN3b3J0aHkgPGNnb2xkc3dvQGNvZGVhdXJvcmEub3JnPgo+IENjOiDD
+mHJqYW4gRWlkZSA8b3JqYW4uZWlkZUBhcm0uY29tPgo+IENjOiBSb2JpbiBNdXJwaHkgPHJvYmlu
+Lm11cnBoeUBhcm0uY29tPgo+IENjOiBFemVxdWllbCBHYXJjaWEgPGV6ZXF1aWVsQGNvbGxhYm9y
+YS5jb20+Cj4gQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KPiBDYzogSmFtZXMg
+Sm9uZXMgPGpham9uZXNAbnZpZGlhLmNvbT4KPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwu
+b3JnCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBSZXBvcnRlZC1ieTog
+QmluZyBTb25nIDxiaW5nLnNvbmdAbnhwLmNvbT4KPiBGaXhlczogYTVkMmQyOWUyNGJlICgiZG1h
+LWJ1ZjogaGVhcHM6IE1vdmUgaGVhcC1oZWxwZXIgbG9naWMgaW50byB0aGUgY21hX2hlYXAgaW1w
+bGVtZW50YXRpb24iKQo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBs
+aW5hcm8ub3JnPgoKSSB3aWxsIHF1ZXVlIGl0IHVwIHNvIGl0IGdldHMgaW4gdGhlIHY1LjExIGN5
+Y2xlLgo+IC0tLQo+ICBkcml2ZXJzL2RtYS1idWYvaGVhcHMvY21hX2hlYXAuYyB8IDMgKysrCj4g
+IDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2RtYS1idWYvaGVhcHMvY21hX2hlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVh
+cC5jCj4gaW5kZXggM2M0ZTM0MzAxMTcyLi4zNjRmYzJmM2U0OTkgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvaGVh
+cHMvY21hX2hlYXAuYwo+IEBAIC0yNTEsNiArMjUxLDkgQEAgc3RhdGljIHZvaWQgY21hX2hlYXBf
+ZG1hX2J1Zl9yZWxlYXNlKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpCj4gICAgICAgICAgICAgICAg
+IGJ1ZmZlci0+dmFkZHIgPSBOVUxMOwo+ICAgICAgICAgfQo+Cj4gKyAgICAgICAvKiBmcmVlIHBh
+Z2UgbGlzdCAqLwo+ICsgICAgICAga2ZyZWUoYnVmZmVyLT5wYWdlcyk7Cj4gKyAgICAgICAvKiBy
+ZWxlYXNlIG1lbW9yeSAqLwo+ICAgICAgICAgY21hX3JlbGVhc2UoY21hX2hlYXAtPmNtYSwgYnVm
+ZmVyLT5jbWFfcGFnZXMsIGJ1ZmZlci0+cGFnZWNvdW50KTsKPiAgICAgICAgIGtmcmVlKGJ1ZmZl
+cik7Cj4gIH0KPiAtLQo+IDIuMTcuMQo+CkJlc3QsClN1bWl0LgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
