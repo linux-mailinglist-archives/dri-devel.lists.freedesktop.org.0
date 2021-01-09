@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD1B2F00A8
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 16:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAFC2F00B1
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Jan 2021 16:13:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4A06E8BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 995B86E8C1;
 	Sat,  9 Jan 2021 15:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
+ Sat, 09 Jan 2021 13:44:56 UTC
 Received: from relay07.th.seeweb.it (relay07.th.seeweb.it
  [IPv6:2001:4b7a:2000:18::168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1355089E59
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 13:44:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC5BF89E59
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Jan 2021 13:44:56 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C6AD53EF1C;
- Sat,  9 Jan 2021 14:37:40 +0100 (CET)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1BD963EF1D;
+ Sat,  9 Jan 2021 14:37:41 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH 8/9] drm/msm/dpu: Add a function to retrieve the current CTL
- status
-Date: Sat,  9 Jan 2021 14:37:35 +0100
-Message-Id: <20210109133736.143469-9-angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 9/9] drm/msm/dpu: Fix timeout issues on command mode panels
+Date: Sat,  9 Jan 2021 14:37:36 +0100
+Message-Id: <20210109133736.143469-10-angelogioacchino.delregno@somainline.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210109133736.143469-1-angelogioacchino.delregno@somainline.org>
 References: <20210109133736.143469-1-angelogioacchino.delregno@somainline.org>
@@ -52,57 +53,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a function that returns whether the requested CTL is active or not:
-this will be used in a later commit to fix command mode panel issues.
+In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
+checking if the relative CTL is started by waiting for an interrupt
+to fire: it is fine to do that, but then sometimes we call this
+function while the CTL is up and has never been put down, but that
+interrupt gets raised only when the CTL gets a state change from
+0 to 1 (disabled to enabled), so we're going to wait for something
+that will never happen on its own.
+
+Solving this while avoiding to restart the CTL is actually possible
+and can be done by just checking if it is already up and running
+when the wait_for_commit_done function is called: in this case, so,
+if the CTL was already running, we can say that the commit is done
+if the command transmission is complete (in other terms, if the
+interface has been flushed).
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 6 ++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 7 +++++++
- 2 files changed, 13 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index 758c355b4fd8..626fd41379fb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -82,6 +82,11 @@ static inline void dpu_hw_ctl_trigger_start(struct dpu_hw_ctl *ctx)
- 	DPU_REG_WRITE(&ctx->hw, CTL_START, 0x1);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index 2311e98480b9..0624864da343 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -695,6 +695,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
+ 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
+ 		return 0;
+ 
++	if (phys_enc->hw_ctl->ops.is_started)
++		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
++
+ 	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
  }
  
-+static inline bool dpu_hw_ctl_is_started(struct dpu_hw_ctl *ctx)
-+{
-+	return !!(DPU_REG_READ(&ctx->hw, CTL_START) & BIT(0));
-+}
-+
- static inline void dpu_hw_ctl_trigger_pending(struct dpu_hw_ctl *ctx)
- {
- 	trace_dpu_hw_ctl_trigger_prepare(ctx->pending_flush_mask,
-@@ -550,6 +555,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 	ops->get_pending_flush = dpu_hw_ctl_get_pending_flush;
- 	ops->get_flush_register = dpu_hw_ctl_get_flush_register;
- 	ops->trigger_start = dpu_hw_ctl_trigger_start;
-+	ops->is_started = dpu_hw_ctl_is_started;
- 	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
- 	ops->reset = dpu_hw_ctl_reset_control;
- 	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index ec579b470a80..c376b5ae7803 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -59,6 +59,13 @@ struct dpu_hw_ctl_ops {
- 	 */
- 	void (*trigger_start)(struct dpu_hw_ctl *ctx);
- 
-+	/**
-+	 * check if the ctl is started
-+	 * @ctx       : ctl path ctx pointer
-+	 * @Return: true if started, false if stopped
-+	 */
-+	bool (*is_started)(struct dpu_hw_ctl *ctx);
-+
- 	/**
- 	 * kickoff prepare is in progress hw operation for sw
- 	 * controlled interfaces: DSI cmd mode and WB interface
 -- 
 2.29.2
 
