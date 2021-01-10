@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1722F0782
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jan 2021 15:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296E82F0783
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jan 2021 15:05:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73EE389B11;
-	Sun, 10 Jan 2021 14:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0D16E0BC;
+	Sun, 10 Jan 2021 14:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FCD89B11
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 14:05:07 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id y8so8113959plp.8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 06:05:07 -0800 (PST)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B2A6E0BC
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 14:05:46 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id x126so9373416pfc.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 06:05:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=zOtHKCqSIIbw45nUFGf2GcagWIsamTSzMZ9NY2lE63Y=;
- b=jkdL4v0sWJEgwwqMHF3GsdmsH66PEAXwsSSHBaLu9MxcuuDSxTVb6o2NJPzSxgN3pY
- BED1Mt9vffz75uR/OS+4YmgbsYcakEKEDsV+CFmfcN7lyBo0tJmS6yP8DsbQMJby7YZi
- iPiNfIvM0uzkuLMJjtuM0duBmcXaeyJe4OC7my+K3uO3ahPx2mK+6w8M0DIreZv5c8Yr
- mJUnqaEDvHUrGk2pzSDaUvjquiGwzpkUne2c7kxyK//ACxK1pSu+4D+dtjn9T/M5ys9m
- GQqEEqNtaLnZbH+IxHazb4NsfVWZXSKyudUvTHUE7/5eabiV3swqG+839rVWUt0gX8bx
- 1Ljg==
+ bh=PwUU1YKTRto1wQfZpKpX1jWiTQDtu3Oih3JGe/RizdY=;
+ b=JJAczVYOJr2piove4sRN5rNQ5PwlhTMnhuEoiIVroZAG6Kje6V7y/pzjfw9iOFLPxb
+ AdEwHEzOXTodscnF6Ex7EEL3VZTFdTGgQFz+XC8uD1+n8/J7FOtI2yz5SSjgHXLnTG6r
+ f3+tWuWtUv9Tmdfqg67aS6UErR5yoIUyGhcqNsW4HaYGKEIzGA/tUNPVyZDdlBFW9jsw
+ RdkOWj0pk7Sjo29ywJW3P8rnDWxGv4SYObrExO8M1k6kSDbkzet6HaAsPHwJ3lIJFvHU
+ /qGcaRY8BwXymij38uC13l4wgzaCtLeGPrAi2bY7FDY0iGnRmC9/SteIJxVjUZAg4983
+ BEXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zOtHKCqSIIbw45nUFGf2GcagWIsamTSzMZ9NY2lE63Y=;
- b=p/jyDJOUdD8kf5Es0EKn37aw53TYF5MUwaAzg7aEiV2tuZyDnY1lbxSGrLSuX7l8ws
- u/doyHBiacIuBQAFaeoQl23RcyypHcOqm1+fdhXtiQWKEUorTm6jpkuaBq5Eh1u99oOf
- or/K6x+9gBK8ld2GAJ23Xg3rfIa65BOfa/JNyVkzWAG9htTygEWgPrr0J6bdkEVO91PS
- Xl9T97uFBDZFFtL4KpQhimnObmPrHJNZwJ4ZdrU3+np/hIrimYROQn04NiSLo5MQelsW
- q03S1LWBHJSHIjXJZ+rqW4vM4306JEDcvyutkH6YejL6J02MmFdjzIXVxtaxJTKTBB82
- Ba3g==
-X-Gm-Message-State: AOAM531FH0Xgv5g/u1nZYrqIQ4LHb5LuLeaLpq6zVG+ypMiibPPe4fgu
- hirZXZpGM4Vjq7fCaSleDgs=
-X-Google-Smtp-Source: ABdhPJw+cu5SUG7hcrkHXhIsh2+fvVs8KAXD/UtVBaQLT9Md3en3TY8Jb98oTTQVnS4wbJgnCdloag==
-X-Received: by 2002:a17:902:ed45:b029:da:c274:d7ac with SMTP id
- y5-20020a170902ed45b02900dac274d7acmr12227359plb.69.1610287507249; 
- Sun, 10 Jan 2021 06:05:07 -0800 (PST)
+ bh=PwUU1YKTRto1wQfZpKpX1jWiTQDtu3Oih3JGe/RizdY=;
+ b=B50iZNGKwxEv6U4jdJHgauxKbPFjGoCSmT8DG20YzVNrvLaE3wV7Ot+7YNVwqYr6T/
+ 3DsFh9KSQYGrJA8Wd/mN9IjIFVhpI/zL6PnJf2FUQ+x5Ij87POC/kkneINYDbWKmZl69
+ ++qVHFYMME+5aO6vzU6/HDNA1MHID2KaScqvnFMMzw13Zwkuk4F7vQ51GSDBPEU9O/K1
+ 7ADU2LVIUWyX2OThBndTi7jrRzvoheEcW94Da9X0FlsUkytScxLh0g9ojcQiUT9PEAdx
+ JuU7llbciO+SGkGorQnOuhpzaQv//oIkvaW+htt/ZH12PRsjcSH7wDlXSls5YXv3Rojq
+ 1k0A==
+X-Gm-Message-State: AOAM530AAWqBrHPw1fxQqqTsr7XZLYdgrU5sseZIJ5fbppwGV/CGW2jT
+ KKmDZsXLa2ZjQWtZut6ebrY=
+X-Google-Smtp-Source: ABdhPJxGzAwaLioVlxKIni4tPEBYRHzS+nPpywLkNSMnCzjcbzKfrhgLhTld4VFrP3s1WKMAZuIabQ==
+X-Received: by 2002:aa7:9633:0:b029:19d:d05f:4964 with SMTP id
+ r19-20020aa796330000b029019dd05f4964mr12246859pfg.23.1610287545891; 
+ Sun, 10 Jan 2021 06:05:45 -0800 (PST)
 Received: from adolin ([49.207.199.194])
- by smtp.gmail.com with ESMTPSA id t5sm11317297pjr.22.2021.01.10.06.05.04
+ by smtp.gmail.com with ESMTPSA id ay21sm11828629pjb.1.2021.01.10.06.05.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jan 2021 06:05:06 -0800 (PST)
-Date: Sun, 10 Jan 2021 19:35:02 +0530
+ Sun, 10 Jan 2021 06:05:45 -0800 (PST)
+Date: Sun, 10 Jan 2021 19:35:41 +0530
 From: Sumera Priyadarsini <sylphrenadin@gmail.com>
 To: melissa.srw@gmail.com
-Subject: [PATCH V4 2/3] drm/vkms: Add support for writeback module
-Message-ID: <15802da4f1cdfed2b728c3d35731732f161dd073.1610200411.git.sylphrenadin@gmail.com>
+Subject: [PATCH V4 3/3] drm/vkms: Add information about module options
+Message-ID: <68b521bc789640a5f6437bcaa5d5960799be59c9.1610200411.git.sylphrenadin@gmail.com>
 References: <cover.1610200411.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -74,77 +74,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add enable_writeback feature to vkms_config as a module.
+Update vkms documentation to contain usage of `modinfo`
+command and steps to load vkms with module options enabled.
 
 Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c    | 5 +++++
- drivers/gpu/drm/vkms/vkms_drv.h    | 1 +
- drivers/gpu/drm/vkms/vkms_output.c | 9 ++++++---
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ Documentation/gpu/vkms.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 6b33975a5cb2..708f7f54001d 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -40,6 +40,10 @@ static bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 9e030c74a82e..45fe02f643a8 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -35,6 +35,16 @@ Now, to load the driver, use::
+ On running the lsmod command now, the VKMS driver will appear listed.
+ You can also observe the driver being loaded in the dmesg logs.
  
-+static bool enable_writeback = true;
-+module_param_named(enable_writeback, enable_writeback, bool, 0444);
-+MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector support");
++You can use the `modinfo` command to see module options for vkms::
 +
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
++  modinfo vkms
++
++Module options are helpful when testing, and enabling modules
++can be done while loading vkms. For example, to load vkms with cursor enabled,
++use::
++
++  sudo modprobe vkms enable_cursor=1
++
+ To disable the driver, use ::
  
- static void vkms_release(struct drm_device *dev)
-@@ -189,6 +193,7 @@ static int __init vkms_init(void)
- 	default_config = config;
- 
- 	config->cursor = enable_cursor;
-+	config->writeback = enable_writeback;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 6a27bd8875f2..b9b4e2bc11c0 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -83,6 +83,7 @@ struct vkms_output {
- struct vkms_device;
- 
- struct vkms_config {
-+	bool writeback;
- 	bool cursor;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 8f3ffb28b9d1..f5f6f15c362c 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -41,6 +41,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	struct drm_crtc *crtc = &output->crtc;
- 	struct drm_plane *primary, *cursor = NULL;
- 	int ret;
-+	int writeback;
- 
- 	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY, index);
- 	if (IS_ERR(primary))
-@@ -80,9 +81,11 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 		goto err_attach;
- 	}
- 
--	ret = vkms_enable_writeback_connector(vkmsdev);
--	if (ret)
--		DRM_ERROR("Failed to init writeback connector\n");
-+	if (vkmsdev->config->writeback) {
-+		writeback = vkms_enable_writeback_connector(vkmsdev);
-+		if (writeback)
-+			DRM_ERROR("Failed to init writeback connector\n");
-+	}
- 
- 	drm_mode_config_reset(dev);
- 
+   sudo modprobe -r vkms
 -- 
 2.25.1
 
