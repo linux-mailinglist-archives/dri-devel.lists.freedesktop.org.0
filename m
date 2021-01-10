@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A6D2F0DCC
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3922F0DCB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1EE889A57;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E20C789A4B;
 	Mon, 11 Jan 2021 08:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 498 seconds by postgrey-1.36 at gabe;
- Sun, 10 Jan 2021 12:06:59 UTC
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC3589EEB;
- Sun, 10 Jan 2021 12:06:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610280417;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:From:
- Subject:Sender;
- bh=suxnFiUZXehwYdxu3HHH3yerlSomJchhrhNdK2IYwzY=;
- b=kgjzebl1pdLpd8gwEDpD6V0AERckmwr/qqxoAMpwMgVX0Q4DpvO+VntOMRltmiQTDf
- mpBCzLfPuAk3J9C3bqVCH01CKkmDSReG+JazzEaC3vOUnfZGXdEbjle0AUpPDDj2C6oY
- DU3ZC9Ow5HnHwZzMh/+500aiAaOaYmAKG+UrVmXfpO69iZqh89Cxys2HuEoolyaQ+uCs
- nWaOP9ngk7ShCRXAfxfOnmWzsQ96R5eufk2jNuH9dEl2p5eXccnFjW1t7m+TBEUb7UQK
- W9Xq1LN84At+ImQ5P/VCbmi7XtANU1tTGaT88+PGEYzP+dqM6tXnZhVNfYsb5CSC+e7Y
- yArQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NMGHPrrwDOsPyQ="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.12.1 DYNA|AUTH)
- with ESMTPSA id m056b3x0ABrBL8P
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Sun, 10 Jan 2021 12:53:11 +0100 (CET)
-Subject: Re: [patch V3 13/37] mips/mm/highmem: Switch to generic kmap atomic
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <DUUPMQ.U53A0W7YJPGM@crapouillou.net>
-Date: Sun, 10 Jan 2021 12:53:10 +0100
-Message-Id: <6B074439-2E91-4FCF-84C8-82AE13D8C7F0@goldelico.com>
-References: <JUTMMQ.NNFWKIUV7UUJ1@crapouillou.net>
- <20210108235805.GA17543@alpha.franken.de>
- <20210109003352.GA18102@alpha.franken.de>
- <DUUPMQ.U53A0W7YJPGM@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6726689E43
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 15:35:44 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id b9so21312238ejy.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 07:35:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=naEHngvAfFaWU0qNEz4MsGy5SHtJ4Fc1pZjtZRQ/R7A=;
+ b=SKhejTHVrnmvxoi96I8oG2caR7ZKzOGKmjQdwbghyOYz7IJgq4zgEnak1joV2x0XwI
+ RSsMuDayu4oe6gizQfKuvkl0EouzfypKjiq6nAVWS9i87pd0th4TUG7zK/BQYEMnpmCH
+ VN/VpDZnDVAR7MqpaPgXovwhPKdUdV6YTdz6oQafe+LBMHGuxV1UDWIftC0Rqze1wCfk
+ 65RC/VZ4g/Jc0O9wzQOnfVm3JPoqnisJ/ETz/61rdTAdjiOBsRkKCycWbmw8uIK3dlAk
+ Kd0YnnI/cdheVRrRTEvaXOa5ShTyVJ8xKR6RiTVse5K3TXb/tJGHJ7H59qVg5kIV9SMP
+ uNiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=naEHngvAfFaWU0qNEz4MsGy5SHtJ4Fc1pZjtZRQ/R7A=;
+ b=KXnnJn6n0+92wmcKZ9oAm0PIyntmYEdKZ5iRkXSR3TT2Qlt/205rd+5xizygef+lTQ
+ q2N7p/oKxVEjgVrK+QoUmUYHO7yEtv410gTnU6e5EedkdJh09/DSVbn4Z4/CAj9Ih9DR
+ eWCiTdqKgeysfnMIS3ymWLu1N/dm9ltSxqdiWYdabUbQApRO3zn7N4P0vwxxCISl//wi
+ /qC6cJ0sW4EhhLjuKDEFYfomkPSriD7e2VLYx1xHDom0Qdoadvj6/9EFx0jtBtKancKv
+ h9y+bRgjnC7hlj/P0s8Rh5U5zJf7Z2sj3G1umTPIu0jsMl5hPUhIsipOeXIggFju/CMP
+ PlpQ==
+X-Gm-Message-State: AOAM531gqoRWsFOtCD77LmhxdvuQVkp/g2O/XcCau6TQbKl3dSSU/d7j
+ OsM5eyQOdwQhsu0H4Zy2No0=
+X-Google-Smtp-Source: ABdhPJzxnXR0a06rh8Z9nCUeV/eMkVI5BFMVGBdQyXJx+wfhB71QZy4bXa+FxYNnU6mD+fRauHWPLA==
+X-Received: by 2002:a17:906:1393:: with SMTP id
+ f19mr8083162ejc.431.1610292942807; 
+ Sun, 10 Jan 2021 07:35:42 -0800 (PST)
+Received: from localhost (ip1f10d3e8.dynamic.kabel-deutschland.de.
+ [31.16.211.232])
+ by smtp.gmail.com with ESMTPSA id a2sm5852660ejt.46.2021.01.10.07.35.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 10 Jan 2021 07:35:41 -0800 (PST)
+Date: Sun, 10 Jan 2021 16:35:32 +0100
+From: Oliver Graute <oliver.graute@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v1] drm/panel: simple: add SGD GKTW70SDAD1SD
+Message-ID: <20210110153532.GA7264@ripley>
+References: <1608381853-18582-1-git-send-email-oliver.graute@gmail.com>
+ <20210108214313.GA7979@ripley>
+ <CAOMZO5AXgeGYt4+4NMBRL1Hm-9M4X2DngdEBsJEAHq8+MRhQgQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5AXgeGYt4+4NMBRL1Hm-9M4X2DngdEBsJEAHq8+MRhQgQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Mailman-Approved-At: Mon, 11 Jan 2021 08:20:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,89 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, linux-aio@kvack.org, airlied@linux.ie,
- nouveau@lists.freedesktop.org, bigeasy@linutronix.de,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- linux-mips <linux-mips@vger.kernel.org>, bsegall@google.com, clm@fb.com,
- ray.huang@amd.com, paulus@samba.org, kraxel@redhat.com,
- sparclinux@vger.kernel.org, deanbo422@gmail.com, hch@lst.de,
- vincent.guittot@linaro.org, paulmck@kernel.org, mpe@ellerman.id.au,
- x86@kernel.org, linux@armlinux.org.uk, linux-csky@vger.kernel.org,
- mingo@kernel.org, peterz@infradead.org, linux-graphics-maintainer@vmware.com,
- bskeggs@redhat.com, airlied@redhat.com, linux-snps-arc@lists.infradead.org,
- linux-mm@kvack.org, mgorman@suse.de, linux-xtensa@linux-xtensa.org,
- arnd@arndb.de, intel-gfx@lists.freedesktop.org, sroland@vmware.com,
- josef@toxicpanda.com, rostedt@goodmis.org, torvalds@linuxfoundation.org,
- green.hu@gmail.com, rodrigo.vivi@intel.com, dsterba@suse.com,
- tglx@linutronix.de, virtualization@lists.linux-foundation.org,
- dietmar.eggemann@arm.com,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, chris@zankel.net,
- monstr@monstr.eu, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- nickhu@andestech.com, jcmvbkbc@gmail.com, linuxppc-dev@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- christian.koenig@amd.com, bcrl@kvack.org, spice-devel@lists.freedesktop.org,
- vgupta@synopsys.com, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- bristot@redhat.com, davem@davemloft.net, linux-btrfs@vger.kernel.org,
- viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Marco Felsch <m.felsch@pengutronix.de>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/01/21, Fabio Estevam wrote:
+> Hi Oliver,
+> 
+> On Fri, Jan 8, 2021 at 7:24 PM Oliver Graute <oliver.graute@gmail.com> wrote:
+> >
+> > On 19/12/20, Oliver Graute wrote:
+> > > Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
+> > > to panel-simple.
+> > >
+> > > The panel spec from Variscite can be found at:
+> > > https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
+> >
+> > some clue what bus_format and bus_flags I have to use?
+> >
+> > [   42.505156] panel-simple panel-lcd: Specify missing bus_flags
+> > [   42.511090] panel-simple panel-lcd: Specify missing bus_format
+> > [   42.615131] mxsfb 21c8000.lcdif: Cannot connect bridge: -517
+> 
+> Does this patch work?
+> https://pastebin.com/raw/diTMVsh8
 
-> Am 10.01.2021 um 12:35 schrieb Paul Cercueil <paul@crapouillou.net>:
-> =
+the first two errors are gone. But I still get this:
 
-> Hi Thomas,
-> =
+[   42.387107] mxsfb 21c8000.lcdif: Cannot connect bridge: -517
 
-> Le sam. 9 janv. 2021 =E0 1:33, Thomas Bogendoerfer <tsbogend@alpha.franke=
-n.de> a =E9crit :
->> On Sat, Jan 09, 2021 at 12:58:05AM +0100, Thomas Bogendoerfer wrote:
->>> On Fri, Jan 08, 2021 at 08:20:43PM +0000, Paul Cercueil wrote:
->>> > Hi Thomas,
->>> >
->>> > 5.11 does not boot anymore on Ingenic SoCs, I bisected it to this com=
-mit.
+The panel is still off perhaps I miss something else. 
 
-Just for completeness, I have no such problems booting CI20/jz4780 or Skyto=
-ne400/jz4730 (unpublished work) with 5.11-rc2.
-But may depend on board capabilites (ram size, memory layout or something e=
-lse).
+Best Regards,
 
->>> >
->>> > Any idea what could be happening?
->>> not yet, kernel crash log of a Malta QEMU is below.
->> update:
->> This dirty hack lets the Malta QEMU boot again:
->> diff --git a/mm/highmem.c b/mm/highmem.c
->> index c3a9ea7875ef..190cdda1149d 100644
->> --- a/mm/highmem.c
->> +++ b/mm/highmem.c
->> @@ -515,7 +515,7 @@ void *__kmap_local_pfn_prot(unsigned long pfn, pgpro=
-t_t prot)
->> 	vaddr =3D __fix_to_virt(FIX_KMAP_BEGIN + idx);
->> 	BUG_ON(!pte_none(*(kmap_pte - idx)));
->> 	pteval =3D pfn_pte(pfn, prot);
->> -	set_pte_at(&init_mm, vaddr, kmap_pte - idx, pteval);
->> +	set_pte(kmap_pte - idx, pteval);
->> 	arch_kmap_local_post_map(vaddr, pteval);
->> 	current->kmap_ctrl.pteval[kmap_local_idx()] =3D pteval;
->> 	preempt_enable();
->> set_pte_at() tries to update cache and could do an kmap_atomic() there.
->> Not sure, if this is allowed at this point.
-> =
-
-> Yes, I can confirm that your workaround works here too.
-> =
-
-> Cheers,
-> -Paul
-> =
-
-> =
-
-
+Oliver
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
