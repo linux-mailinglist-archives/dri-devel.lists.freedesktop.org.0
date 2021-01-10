@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082692F0A7F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 00:51:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF042F0A82
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 00:57:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6619589B18;
-	Sun, 10 Jan 2021 23:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2636689BDB;
+	Sun, 10 Jan 2021 23:57:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99AC89B18
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 23:51:07 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id m10so1632207lji.1
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 15:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TeXerxLFQDRy1M/7+6jRhfeAjoOXsFHoiOadjCR5Gxo=;
- b=Qt+slJnfi7kKerWix4WQ5h3IJviGUsa6pyl2XSZOa5Jguu/1sbrujcumGoqzIniiru
- QNv6GWf9r3YnXEybcNqWJgIJ1XTxXRieyeSHs9ZIiKMRjBDVi+TJ3rUG4FoIOeN/Sba9
- EKhHiqY4DBXj8uDRXj/mM9GuNN0nehxPDPN7cGJJfd0iXW8q7JW9QpfjO0vnWHjhR4+R
- NFQv2goTLNLfTyqFooMd7Ad79y/ZlR/gx+h+QhPhrLxhM9M2fjqAplekdwBhK31EyqbG
- CBtTuPAG2ILts4fD/jqhIKUVJ5RkCCONSzoku5Z5V0SfuLx7XEwiw2m9bzwYfB038CJT
- EMtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TeXerxLFQDRy1M/7+6jRhfeAjoOXsFHoiOadjCR5Gxo=;
- b=Oyua9ytKEdYcYfYjmFtHbIwaPk5w86t4MUnOABBCBNJ9NoKNwtqNpILL/nhDXX4nC8
- LeB4g9AWcio+tlF+8B7qfwa90OzzYXlTzJKy6SJYGoXTbA7VdVtbaYH6GLLAVJnith4/
- 2nwfIXARYWVA7Eh/MIv8yMZQL6ZSVEkv0xP2b3qA38bxHtpKmSfeb0Nwrr7UOJBt2C5Y
- eDy+nfJhGJTXUYyGjhZ/kpeiStdOsp8vHszjADBERB/4XCbECI2Z6NnFeVoje0im/EAE
- SRspJ7fP3nFXo7oFLFp/7/mq3+1WpYnkiIotDC7MmsmTCGahHVHw2vS2DaqXxzMx0XPH
- hstg==
-X-Gm-Message-State: AOAM532eGahGFQ7716m9Vf1HUwWL78BUPOF5elBg3AGskhFWk/q5+v9Y
- egMFSTScVu7bZUa2mSw4XFUe0PNHrul+M+WTNJM=
-X-Google-Smtp-Source: ABdhPJwqHKxSHgkILumAzY5OKQLD8YP9VBC1kI0H6ZXJ4LVIag60LgqtDk6Pt+7IEB25C6ZhnMGQxCj3WFsKVjDJ03E=
-X-Received: by 2002:a2e:bc05:: with SMTP id b5mr6529624ljf.444.1610322666121; 
- Sun, 10 Jan 2021 15:51:06 -0800 (PST)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8DF89BCD;
+ Sun, 10 Jan 2021 23:57:02 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DDYfJ5RlWz9sVt;
+ Mon, 11 Jan 2021 10:56:55 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1610323021;
+ bh=cLG23pR3dbiQqeVfbzXt+mehia79QJ4+25O39jU3DO0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GmTi4eskViAXPBq8cuIDorojxyBEZO4dxh1/uVkcwv8MRMOV5H9L6p9XzFjiqdRSg
+ mUTb4Ss5ycca0u5oEg05w6xeLAjoT6Xu/PssV/8T7QWPktGL9oKbgABvUKa9Q48Jrq
+ RHDbA3H6kPWG3yxD1Bdyky/fVadSZ/FeOu42unX/w7D2KqdC+cjEMxyByZHYeCgBZz
+ 7Pxpx0jGTldvKFlKQ4dPINJXvqAxKEwfaiKKdQq3nnI8CqzE1wz9Eh6NKrtQX9a8Yf
+ GrQ0QFjEzkkXlg0RWGOlf7Pijd1Nqgt52OLlXQiKr5I1XXVq2vr2jSQQH2KraQ9nWB
+ tVlqvXQIcALNg==
+Date: Mon, 11 Jan 2021 10:56:54 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: linux-next: build failure after merge of the drm tree
+Message-ID: <20210111105654.17e3aa76@canb.auug.org.au>
+In-Reply-To: <20210108122540.657501b2@canb.auug.org.au>
+References: <20210108115518.2b3fdf58@canb.auug.org.au>
+ <20210108122540.657501b2@canb.auug.org.au>
 MIME-Version: 1.0
-References: <1608381853-18582-1-git-send-email-oliver.graute@gmail.com>
- <20210108214313.GA7979@ripley>
- <CAOMZO5AXgeGYt4+4NMBRL1Hm-9M4X2DngdEBsJEAHq8+MRhQgQ@mail.gmail.com>
- <20210110153532.GA7264@ripley>
- <CAOMZO5C_hDWeVrCh7k+3OiA0jhQfawhGWE6hxnnFn=wA+dkTGQ@mail.gmail.com>
- <20210110200606.GD7264@ripley>
-In-Reply-To: <20210110200606.GD7264@ripley>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Sun, 10 Jan 2021 20:50:54 -0300
-Message-ID: <CAOMZO5DJUm4zutTB1oi5M0zj4_PFZEAbGzX6_LUAkX_dvEz=Qg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/panel: simple: add SGD GKTW70SDAD1SD
-To: Oliver Graute <oliver.graute@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +52,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Marco Felsch <m.felsch@pengutronix.de>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1853405594=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 10, 2021 at 5:09 PM Oliver Graute <oliver.graute@gmail.com> wrote:
+--===============1853405594==
+Content-Type: multipart/signed; boundary="Sig_/VbNUJrqU8Z1uA+OMxwmXnXl";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-> here the schematics and my dts. The board is using a LVDS connector for
-> the display.
+--Sig_/VbNUJrqU8Z1uA+OMxwmXnXl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The schematics shows the GKTW70SDAD1SD panel in the J4 connector, not
-the LVDS J7 connector.
+Hi all,
 
-> https://www.variscite.de/wp-content/uploads/2017/12/VAR-6ULCustomboard-Schematics.pdf
-> https://lore.kernel.org/linux-arm-kernel/1610144511-19018-3-git-send-email-oliver.graute@gmail.com/
+On Fri, 8 Jan 2021 12:25:40 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> On Fri, 8 Jan 2021 11:55:18 +1100 Stephen Rothwell <sfr@canb.auug.org.au>=
+ wrote:
+> >
+> > After merging the drm tree, today's linux-next build (x86_64 allmodconf=
+ig)
+> > failed like this:
+> >=20
+> > error: the following would cause module name conflict:
+> >   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.ko
+> >   drivers/gpu/drm/panel/panel-dsi-cm.ko
+> >=20
+> > Maybe caused by commit
+> >=20
+> >   cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver")
+> >=20
+> > I have used the drm tree from next-20210107 for today. =20
+>=20
+> This has affected the drm-misc tree as well (since it merged in the drm
+> tree).
+>=20
+> I have used the drm-misc tree from next-20210107 for today.
 
-As I mentioned earlier you should remove the display timings from the
-dts when using the compatible string for the panel.
+And now the drm-intel tree.
 
-power-supply = <&reg_touch_3v3> is not correct, as the reg_touch_3v3
-does not power the LCD.
+I have used the drm-intel tree from next-20210108 for today.
+--=20
+Cheers,
+Stephen Rothwell
 
-Another hint is to use the PLL5_VIDEO as the clock source for the
-lcdif controller as done in the imx6ul evk dtsi.
+--Sig_/VbNUJrqU8Z1uA+OMxwmXnXl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-It would also help if you could share the complete boot log.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/7lEYACgkQAVBC80lX
+0Gy0/gf9G7vW66eTK+izMbymxovjz3qNZPdMKQMRJtVY+9BmywvLdhb2/rQ2Jg9j
+7tdZkmqxV9aILccdwl600Gv77n8pdxo6v0gxdRIh4EggINDYs+RyytyUWa9nT0vf
+ElPag0eHJWvwgrHAjj/11vjqoBvR6kR/5JWIrTZ3XZW+F/BpNShXHy8U94EFaqt9
+PIWejalakASQCEmUzX6n6WM87Nb7DoTiaQkfRPaAqnovFhhG5Q/jj9Y4fDki+Lca
+NObjHxJINksH9/RwNYCQELv8X3okxfbUHc/E8JKL6Ya8xFzNIoPT4qnVW4yqsctq
+6Z0bppzxFI29q0OJc1tJi4iMEU+XVg==
+=AZPL
+-----END PGP SIGNATURE-----
+
+--Sig_/VbNUJrqU8Z1uA+OMxwmXnXl--
+
+--===============1853405594==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1853405594==--
