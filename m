@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE6E2F04C8
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Jan 2021 03:11:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8AE2F070B
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Jan 2021 13:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1932289D43;
-	Sun, 10 Jan 2021 02:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE36889F33;
+	Sun, 10 Jan 2021 12:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7078089BAB
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 02:11:16 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id r3so12728031wrt.2
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Jan 2021 18:11:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA1389F33
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 12:11:30 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id s26so33799925lfc.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Jan 2021 04:11:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FHh/PotdFl8qKlM9O+/UCzSj0fz6Apt0vpIe4lKp9dE=;
- b=U8nfYp58Zik5lmOVjNNUxUJPZB4niuxBIyalahDX8FWnVOPTkMpynnBs8gjF6BQOBz
- BzU5J6zkZne7BUP6D+1GQiIxK9AnMsEJhy9PVuBV4u/2uJT7hSdyr0FxqCRW4B6caKmu
- A0/Zbj3vHV4O+rnyP1PT+K7LTcn05pxS3dz58WRXMmtsfLDePRIvGSAf+e1XPEyUEcLh
- d4Yg3ta8+BJf8Bzb4X1wqGtA3aLg3/aN2G79TMQeZM5qG1MoJQTau1wM6dHsNWXpmibv
- tQG074M6Jg6pxV8y7l0f7gRgE/28b2ORB6m6jc5eApkfkGdN7izLK/fzyr1nAo5YK/Pt
- 5GOg==
+ bh=qwB5BqbLAMqpioaBNvXy5eduTzHMYRCzAhFgFL4vxjw=;
+ b=mMviX8/Qz3wgyxD+8g+2csJkoAwty4/sJZmqQjRz1y+jamI3dwOyHZYbgwO8v1QPYc
+ n09MfAwIRP8oQx5b6VrOy4vXWSqcMvGFllV/tT9x+6m0h56PDzgti20Nqgbfr4kBEWHE
+ 4vVnQckkcd8Zy/C38j2ilq7x/nkdm2wKyS7VMNtDxQveznYMQ0H+zmmVPsk1IBD/ntQI
+ wER9V8QKzKG4ZoIhgxzfwsdTt1AE9BUWkbrFX/pmjin6PcRL7b3zx7Lj10ZdS5fO3kkp
+ wZrs+ismjoDUjT4KXJ8dxY5KsyTqkz9PXhewDMiGMfyXAQJJH8LmseEMb+pXsS3i8B4g
+ YB+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FHh/PotdFl8qKlM9O+/UCzSj0fz6Apt0vpIe4lKp9dE=;
- b=iUjRYWrVD66EE1B5mnU2RcA9jnElEFsz+nv4g7yeQ9BwGSSOLxBRenxR+5TfDj+CAV
- FnXxbyZeXF3Ikk3UC2Lkm0UqZL4JcptxRBCppR/ijwAN9h0De6MCxLBH+h/9TrSp9qa0
- KqMG7OkeI98GlsSZHYirq5OjMAw/TZMnzI/rJ3puS0Xk/qBowblrSZnG45ZynIo0tAfO
- xAvcldh+T8WsUo88T4lzfVwyRF9Z0LCU31UVv5VbiM/MZkGlJlZlJ8EMCy7KabsV1B/T
- oK4GLEI9xZub1TUIal5qytSgsfIgH5zqcfWl5hnTWOQVjS/ZKU2hiGCFIrgIKwkttpDd
- ut2g==
-X-Gm-Message-State: AOAM531CdHr9fxmnbCp9wMfy0YsPVJ4zVQByHIGvaYe1118n3t9RycjW
- nhEoBZ6xfjQBTZxUPzkEHllfNnwRRIhU5Q==
-X-Google-Smtp-Source: ABdhPJwEHvvEVEkY22I+tzh63G8yn75NDuGVpSYW3Df/THsItUpV0s3sxgzO3thketw5a1OqiT04Qg==
-X-Received: by 2002:adf:e688:: with SMTP id r8mr10040861wrm.20.1610244674869; 
- Sat, 09 Jan 2021 18:11:14 -0800 (PST)
-Received: from bas-workstation.. ([2a02:aa12:a77f:2000:7285:c2ff:fe67:a82f])
- by smtp.gmail.com with ESMTPSA id o124sm17736882wmb.5.2021.01.09.18.11.13
+ bh=qwB5BqbLAMqpioaBNvXy5eduTzHMYRCzAhFgFL4vxjw=;
+ b=WzdsJWNHvrvqVmyvFK9Ikxisfo2DOhiXwbyEGfoaslA2qH/ATrYJHfp5lrU7w7Vvyc
+ Jvt1yRkFzyrK0BHbC6XoiCO9rVObPbtiRXoD6PJvYcONI+lyT8TC0LDLb/sdtA8GfzYq
+ 1kvBGnljfY0/Epe286bJkDAUPyKHawW/MWPRt/8KDU5UUbn31vwJbqwpP066dMWo9ui+
+ g77wwtBidCCL7sDTiNL7ZtFWZ+JtMLs6JeT9hnCXQbtaoHlrLX1GYAx1b4IlnFh3GG76
+ K+puxzz2b8FjtcbEYLOq7Ylj1JPUusnZODBRJcFZX5wbLY19DGBN0GJkGMt57BQGxMn6
+ pQmw==
+X-Gm-Message-State: AOAM532rLB25NJ3L+dp1//olY05zMD8ar/LDt3PzHLltx2Y0dcaSIlEt
+ OxAsUWvAWe3xMqt1iX8S+cbo9w==
+X-Google-Smtp-Source: ABdhPJynKYtdclM+q0f2z/XdY5kDz4GIdNqq4R+B4kMVOkj6z0GY5iGeciT8rJvgpS/gimNHun9Jxg==
+X-Received: by 2002:a19:a405:: with SMTP id q5mr5667614lfc.503.1610280688854; 
+ Sun, 10 Jan 2021 04:11:28 -0800 (PST)
+Received: from localhost.localdomain
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id b4sm2686674lfa.261.2021.01.10.04.11.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Jan 2021 18:11:14 -0800 (PST)
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm: Check actual format for legacy pageflip.
-Date: Sun, 10 Jan 2021 03:11:42 +0100
-Message-Id: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
+ Sun, 10 Jan 2021 04:11:28 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v8] backlight: lms283gf05: Convert to GPIO descriptors
+Date: Sun, 10 Jan 2021 13:09:26 +0100
+Message-Id: <20210110120926.80471-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,42 +67,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org, zhan.liu@amd.com,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2l0aCBtb2RpZmllcnMgb25lIGNhbiBhY3R1YWxseSBoYXZlIGRpZmZlcmVudCBmb3JtYXRfaW5m
-byBzdHJ1Y3RzCmZvciB0aGUgc2FtZSBmb3JtYXQsIHdoaWNoIG5vdyBtYXR0ZXJzIGZvciBBTURH
-UFUgc2luY2Ugd2UgY29udmVydAppbXBsaWNpdCBtb2RpZmllcnMgdG8gZXhwbGljaXQgbW9kaWZp
-ZXJzIHdpdGggbXVsdGlwbGUgcGxhbmVzLgoKSSBjaGVja2VkIG90aGVyIGRyaXZlcnMgYW5kIGl0
-IGRvZXNuJ3QgbG9vayBsaWtlIHRoZXkgZW5kIHVwIHRyaWdnZXJpbmcKdGhpcyBjYXNlIHNvIEkg
-dGhpbmsgdGhpcyBpcyBzYWZlIHRvIHJlbGF4LgoKU2lnbmVkLW9mZi1ieTogQmFzIE5pZXV3ZW5o
-dWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KUmV2aWV3ZWQtYnk6IFpoYW4gTGl1IDx6aGFuLmxp
-dUBhbWQuY29tPgpBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0Bh
-bWQuY29tPgpBY2tlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29t
-PgpGaXhlczogODE2ODUzZjlkYzQwICgiZHJtL2FtZC9kaXNwbGF5OiBTZXQgbmV3IGZvcm1hdCBp
-bmZvIGZvciBjb252ZXJ0ZWQgbWV0YWRhdGEuIikKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3Bs
-YW5lLmMgfCA5ICsrKysrKysrLQogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwppbmRleCBlNjIzMTk0N2Y5ODcuLmEwY2I3NDZiY2Iw
-YSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fcGxhbmUuYwpAQCAtMTE2Myw3ICsxMTYzLDE0IEBAIGludCBkcm1fbW9kZV9w
-YWdlX2ZsaXBfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAlpZiAocmV0KQogCQlnb3Rv
-IG91dDsKIAotCWlmIChvbGRfZmItPmZvcm1hdCAhPSBmYi0+Zm9ybWF0KSB7CisJLyoKKwkgKiBP
-bmx5IGNoZWNrIHRoZSBGT1VSQ0MgZm9ybWF0IGNvZGUsIGV4Y2x1ZGluZyBtb2RpZmllcnMuIFRo
-aXMgaXMKKwkgKiBlbm91Z2ggZm9yIGFsbCBsZWdhY3kgZHJpdmVycy4gQXRvbWljIGRyaXZlcnMg
-aGF2ZSB0aGVpciBvd24KKwkgKiBjaGVja3MgaW4gdGhlaXIgLT5hdG9taWNfY2hlY2sgaW1wbGVt
-ZW50YXRpb24sIHdoaWNoIHdpbGwKKwkgKiByZXR1cm4gLUVJTlZBTCBpZiBhbnkgaHcgb3IgZHJp
-dmVyIGNvbnN0cmFpbnQgaXMgdmlvbGF0ZWQgZHVlCisJICogdG8gbW9kaWZpZXIgY2hhbmdlcy4K
-KwkgKi8KKwlpZiAob2xkX2ZiLT5mb3JtYXQtPmZvcm1hdCAhPSBmYi0+Zm9ybWF0LT5mb3JtYXQp
-IHsKIAkJRFJNX0RFQlVHX0tNUygiUGFnZSBmbGlwIGlzIG5vdCBhbGxvd2VkIHRvIGNoYW5nZSBm
-cmFtZSBidWZmZXIgZm9ybWF0LlxuIik7CiAJCXJldCA9IC1FSU5WQUw7CiAJCWdvdG8gb3V0Owot
-LSAKMi4yOS4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This converts the lms283gf05 backlight driver to use GPIO
+descriptors and switches the single PXA Palm Z2 device
+over to defining these.
+
+Since the platform data was only used to convey GPIO
+information we can delete the platform data header.
+
+Notice that we define the proper active low semantics in
+the board file GPIO descriptor table (active low) and
+assert the reset line by bringing it to "1" (asserted).
+
+Cc: Marek Vasut <marex@denx.de>
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v7->v8:
+- Rebase onto v5.11-rc1
+- I wonder why this never seems to get merged...?
+ChangeLog v6->v7:
+- Rebase onto v5.10-rc1
+ChangeLog v5->v6:
+- Rebase onto v5.9-rc1
+ChangeLog v4->v5:
+- Rebase on v5.8-rc1
+- Collected Daniel's Reviewed-by tag.
+ChangeLog v3->v4:
+- Check IS_ERR() on the returned GPIO descriptor.
+- Unconditionally set consumer name since the API tolerates NULL.
+ChangeLog v2->v3:
+- Fix a use-before-allocated bug discovered by compile tests.
+- Remove unused ret variable as autobuilders complained.
+ChangeLog v1->v2:
+- Bring up the GPIO de-asserted in probe()
+
+Marek: I saw this was written by you, are you regularly
+testing the Z2 device?
+---
+ arch/arm/mach-pxa/z2.c               | 12 +++++---
+ drivers/video/backlight/lms283gf05.c | 43 +++++++++++-----------------
+ include/linux/spi/lms283gf05.h       | 16 -----------
+ 3 files changed, 25 insertions(+), 46 deletions(-)
+ delete mode 100644 include/linux/spi/lms283gf05.h
+
+diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
+index 21fd76bb09cd..89eb5243c85f 100644
+--- a/arch/arm/mach-pxa/z2.c
++++ b/arch/arm/mach-pxa/z2.c
+@@ -20,7 +20,6 @@
+ #include <linux/spi/spi.h>
+ #include <linux/spi/pxa2xx_spi.h>
+ #include <linux/spi/libertas_spi.h>
+-#include <linux/spi/lms283gf05.h>
+ #include <linux/power_supply.h>
+ #include <linux/mtd/physmap.h>
+ #include <linux/gpio.h>
+@@ -578,8 +577,13 @@ static struct pxa2xx_spi_chip lms283_chip_info = {
+ 	.gpio_cs	= GPIO88_ZIPITZ2_LCD_CS,
+ };
+ 
+-static const struct lms283gf05_pdata lms283_pdata = {
+-	.reset_gpio	= GPIO19_ZIPITZ2_LCD_RESET,
++static struct gpiod_lookup_table lms283_gpio_table = {
++	.dev_id = "spi2.0", /* SPI bus 2 chip select 0 */
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", GPIO19_ZIPITZ2_LCD_RESET,
++			    "reset", GPIO_ACTIVE_LOW),
++		{ },
++	},
+ };
+ 
+ static struct spi_board_info spi_board_info[] __initdata = {
+@@ -595,7 +599,6 @@ static struct spi_board_info spi_board_info[] __initdata = {
+ {
+ 	.modalias		= "lms283gf05",
+ 	.controller_data	= &lms283_chip_info,
+-	.platform_data		= &lms283_pdata,
+ 	.max_speed_hz		= 400000,
+ 	.bus_num		= 2,
+ 	.chip_select		= 0,
+@@ -615,6 +618,7 @@ static void __init z2_spi_init(void)
+ {
+ 	pxa2xx_set_spi_info(1, &pxa_ssp1_master_info);
+ 	pxa2xx_set_spi_info(2, &pxa_ssp2_master_info);
++	gpiod_add_lookup_table(&lms283_gpio_table);
+ 	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
+ }
+ #else
+diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
+index 0e45685bcc1c..36856962ed83 100644
+--- a/drivers/video/backlight/lms283gf05.c
++++ b/drivers/video/backlight/lms283gf05.c
+@@ -9,16 +9,16 @@
+ #include <linux/kernel.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/lcd.h>
+ 
+ #include <linux/spi/spi.h>
+-#include <linux/spi/lms283gf05.h>
+ #include <linux/module.h>
+ 
+ struct lms283gf05_state {
+ 	struct spi_device	*spi;
+ 	struct lcd_device	*ld;
++	struct gpio_desc	*reset;
+ };
+ 
+ struct lms283gf05_seq {
+@@ -90,13 +90,13 @@ static const struct lms283gf05_seq disp_pdwnseq[] = {
+ };
+ 
+ 
+-static void lms283gf05_reset(unsigned long gpio, bool inverted)
++static void lms283gf05_reset(struct gpio_desc *gpiod)
+ {
+-	gpio_set_value(gpio, !inverted);
++	gpiod_set_value(gpiod, 0); /* De-asserted */
+ 	mdelay(100);
+-	gpio_set_value(gpio, inverted);
++	gpiod_set_value(gpiod, 1); /* Asserted */
+ 	mdelay(20);
+-	gpio_set_value(gpio, !inverted);
++	gpiod_set_value(gpiod, 0); /* De-asserted */
+ 	mdelay(20);
+ }
+ 
+@@ -125,18 +125,15 @@ static int lms283gf05_power_set(struct lcd_device *ld, int power)
+ {
+ 	struct lms283gf05_state *st = lcd_get_data(ld);
+ 	struct spi_device *spi = st->spi;
+-	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+ 
+ 	if (power <= FB_BLANK_NORMAL) {
+-		if (pdata)
+-			lms283gf05_reset(pdata->reset_gpio,
+-					pdata->reset_inverted);
++		if (st->reset)
++			lms283gf05_reset(st->reset);
+ 		lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+ 	} else {
+ 		lms283gf05_toggle(spi, disp_pdwnseq, ARRAY_SIZE(disp_pdwnseq));
+-		if (pdata)
+-			gpio_set_value(pdata->reset_gpio,
+-					pdata->reset_inverted);
++		if (st->reset)
++			gpiod_set_value(st->reset, 1); /* Asserted */
+ 	}
+ 
+ 	return 0;
+@@ -150,24 +147,18 @@ static struct lcd_ops lms_ops = {
+ static int lms283gf05_probe(struct spi_device *spi)
+ {
+ 	struct lms283gf05_state *st;
+-	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+ 	struct lcd_device *ld;
+-	int ret = 0;
+-
+-	if (pdata != NULL) {
+-		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
+-				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
+-				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
+-				"LMS283GF05 RESET");
+-		if (ret)
+-			return ret;
+-	}
+ 
+ 	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
+ 				GFP_KERNEL);
+ 	if (st == NULL)
+ 		return -ENOMEM;
+ 
++	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(st->reset))
++		return PTR_ERR(st->reset);
++	gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
++
+ 	ld = devm_lcd_device_register(&spi->dev, "lms283gf05", &spi->dev, st,
+ 					&lms_ops);
+ 	if (IS_ERR(ld))
+@@ -179,8 +170,8 @@ static int lms283gf05_probe(struct spi_device *spi)
+ 	spi_set_drvdata(spi, st);
+ 
+ 	/* kick in the LCD */
+-	if (pdata)
+-		lms283gf05_reset(pdata->reset_gpio, pdata->reset_inverted);
++	if (st->reset)
++		lms283gf05_reset(st->reset);
+ 	lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+ 
+ 	return 0;
+diff --git a/include/linux/spi/lms283gf05.h b/include/linux/spi/lms283gf05.h
+deleted file mode 100644
+index f237b2d062e9..000000000000
+--- a/include/linux/spi/lms283gf05.h
++++ /dev/null
+@@ -1,16 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * lms283gf05.h - Platform glue for Samsung LMS283GF05 LCD
+- *
+- * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
+-*/
+-
+-#ifndef _INCLUDE_LINUX_SPI_LMS283GF05_H_
+-#define _INCLUDE_LINUX_SPI_LMS283GF05_H_
+-
+-struct lms283gf05_pdata {
+-	unsigned long	reset_gpio;
+-	bool		reset_inverted;
+-};
+-
+-#endif /* _INCLUDE_LINUX_SPI_LMS283GF05_H_ */
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
