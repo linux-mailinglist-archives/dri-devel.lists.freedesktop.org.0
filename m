@@ -2,46 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07A32F12CD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDF32F1687
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 807CE6E0B7;
-	Mon, 11 Jan 2021 13:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972C889E05;
+	Mon, 11 Jan 2021 13:53:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5061B89FC9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=JpaHpEgMxNEJtMbY9QYGfKpCqLloxFjHFKPFDzy5jHQ=; b=v1ZTFsyXrj66rzgWdUrLvnHOpC
- aRd1xq8U0vXqadG88kU13KS6IY0hQQwF5hyTznIE46pBOdPxGAiUkN0HkAotoUktq24UpD3oS5tP0
- +spQuKLTtT3mLSpSvgLf742ih+MNqsFk7TE0yhvFRAYUqWAGFtpR0zU2gcv9vVsDV/kr9lRJ6HOn7
- PkL8Cc5RfPJ7M5aCRFpPoWRYOtqs/aPtyCfd8fkSwKxn/XC+v1cpmp5v5J1zoGdhebCAbrqsqt0JE
- 1xgtq3+GfYaSqsebvySjU6cjZlYOEXHItdNtWa3hOmKUq6LSiqhex+6oJj42sCbl9x0w4bIyb0uJZ
- NN5c8LAg==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=toshino.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kywo7-0002tl-TT; Mon, 11 Jan 2021 15:00:27 +0200
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v5 21/21] drm/tegra: Add job firewall
-Date: Mon, 11 Jan 2021 15:00:19 +0200
-Message-Id: <20210111130019.3515669-22-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF2889E05
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:53:47 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id a12so16479405wrv.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 05:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fMPNkX/8H1jC2xE24snow1oc8tDSRTOYv9vkli4KgJU=;
+ b=mmNZ289a541WtDpTjP6vt2DymMxi9LdA45QjxzMGNyzSAl5pLWJx0Jv5lXuuRxB/4Q
+ zQCLuMB/NaTPJsYobwz5mF7NKl7UAtFCIwYT/XvmSbeH+fy1yve2tr8l0AnBvML9oaCm
+ ckboLyakm8FkZcK1dTodse5HIyH+ioNKtlCV7XxQmyJHXEWFxWAVL7yholk/vhlNC8K+
+ mw9zjs6bZ/x3pv+UGNxJXImwCtTmJJyWj5ErLX8OrSdAbvyytjmrIolqZnd2d7+ANNyO
+ qZyWUoQx9gzSLEPpsTtnY4KQEOE8orJCBqN/HXe1lk1vAI/7wMEOee+6yvP8+TYXS/yX
+ fCpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fMPNkX/8H1jC2xE24snow1oc8tDSRTOYv9vkli4KgJU=;
+ b=ja/t4gR5dlRI2WaNwaY95POeD4gMjNgXhlBSW2gXiQa+fbVusBOEUrx64hjKA29dn5
+ vYd2chODSipA4O9nZzrp6ZZQStvmwgIUObjarCHWmjo5vdY3nQlpD/t77rMH+oZ/d5GQ
+ AvJ+AyN1kP17g52XvLnTb9z2yPXkx/Enxo4Dq48s89fnqxugkg3rFO/SZ+Agxb5hvyAv
+ ADckpJIh62WW1utLHJ98TcbFpq8l2XmVMHNjLp/RIKMC9LJqNSqed5+tjx63VSIWAPWR
+ Z2DE29XT2nv0SpqW0YBgbaC6B12kVjeHCiwiPVn6Or7dTgBGiTkn1nu2v4QAdBmdnvqo
+ ZMAQ==
+X-Gm-Message-State: AOAM530mU7BX2SJKAaGU7AfXLmJwBWmwA3k+wmMKdjVl2gOmsKqn7Uqw
+ hchnGypnrOlyzbspHtHieeyrrA==
+X-Google-Smtp-Source: ABdhPJzT7EI2kkkFtBM1pfsfjjE8i3e7EN6nVo3pNyaA/srTVAy7q+whoch68hF2WT+4RkrkvfEZ+w==
+X-Received: by 2002:adf:cc81:: with SMTP id p1mr16236608wrj.339.1610373225758; 
+ Mon, 11 Jan 2021 05:53:45 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:7474:6cdc:8087:ca98?
+ ([2a01:e35:2ec0:82b0:7474:6cdc:8087:ca98])
+ by smtp.gmail.com with ESMTPSA id l16sm24598219wrx.5.2021.01.11.05.53.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 05:53:44 -0800 (PST)
+Subject: Re: [PATCH] drm/fourcc: fix Amlogic format modifier masks
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <20210110125103.15447-1-contact@emersion.fr>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <2805b9ce-f960-d903-10e3-bc1e2c38765d@baylibre.com>
+Date: Mon, 11 Jan 2021 14:53:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+In-Reply-To: <20210110125103.15447-1-contact@emersion.fr>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,343 +122,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Kevin Hilman <khilman@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a firewall that validates jobs before submission to ensure
-they don't do anything they aren't allowed to do, like accessing
-memory they should not access.
+Hi,
 
-The firewall is functionality-wise a copy of the firewall already
-implemented in gpu/host1x. It is copied here as it makes more
-sense for it to live on the DRM side, as it is only needed for
-userspace job submissions, and generally the data it needs to
-do its job is easier to access here.
+On 10/01/2021 13:51, Simon Ser wrote:
+> The comment says the layout and options use 8 bits, and the shift
+> uses 8 bits. However the mask is 0xf, ie. 0b00001111 (4 bits).
+> 
+> This could be surprising when introducing new layouts or options
+> that take more than 4 bits, as this would silently drop the high
+> bits.
 
-In the future, the other implementation will be removed.
+Indeed, but the masks are "private", and would be updated accordingly when introducing new layouts.
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
-v5:
-* Support SETCLASS opcode
-v3:
-* New patch
----
- drivers/gpu/drm/tegra/Makefile        |   1 +
- drivers/gpu/drm/tegra/uapi/firewall.c | 221 ++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/uapi/submit.c   |  14 +-
- drivers/gpu/drm/tegra/uapi/submit.h   |   4 +
- 4 files changed, 237 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/tegra/uapi/firewall.c
+> 
+> Make the masks consistent with the comment and the shift.
+> 
+> Found when writing a drm_info patch [1].
+> 
+> [1]: https://github.com/ascent12/drm_info/pull/67
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Fixes: d6528ec88309 ("drm/fourcc: Add modifier definitions for describing Amlogic Video Framebuffer Compression")
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 723c8e23ca87..5f42a14481bd 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1036,9 +1036,9 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>   * Not all combinations are valid, and different SoCs may support different
+>   * combinations of layout and options.
+>   */
+> -#define __fourcc_mod_amlogic_layout_mask 0xf
+> +#define __fourcc_mod_amlogic_layout_mask 0xff
+>  #define __fourcc_mod_amlogic_options_shift 8
+> -#define __fourcc_mod_amlogic_options_mask 0xf
+> +#define __fourcc_mod_amlogic_options_mask 0xff
+>  
+>  #define DRM_FORMAT_MOD_AMLOGIC_FBC(__layout, __options) \
+>  	fourcc_mod_code(AMLOGIC, \
+> 
 
-diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makefile
-index 059322e88943..4e3295f436f1 100644
---- a/drivers/gpu/drm/tegra/Makefile
-+++ b/drivers/gpu/drm/tegra/Makefile
-@@ -5,6 +5,7 @@ tegra-drm-y := \
- 	drm.o \
- 	uapi/uapi.o \
- 	uapi/submit.o \
-+	uapi/firewall.o \
- 	uapi/gather_bo.o \
- 	gem.o \
- 	fb.o \
-diff --git a/drivers/gpu/drm/tegra/uapi/firewall.c b/drivers/gpu/drm/tegra/uapi/firewall.c
-new file mode 100644
-index 000000000000..57427c2d23fa
---- /dev/null
-+++ b/drivers/gpu/drm/tegra/uapi/firewall.c
-@@ -0,0 +1,221 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2010-2020 NVIDIA Corporation */
-+
-+#include "../drm.h"
-+#include "../uapi.h"
-+
-+#include "submit.h"
-+
-+struct tegra_drm_firewall {
-+	struct tegra_drm_submit_data *submit;
-+	struct tegra_drm_client *client;
-+	u32 *data;
-+	u32 pos;
-+	u32 end;
-+	u32 class;
-+};
-+
-+static int fw_next(struct tegra_drm_firewall *fw, u32 *word)
-+{
-+	if (fw->pos == fw->end)
-+		return -EINVAL;
-+
-+	*word = fw->data[fw->pos++];
-+
-+	return 0;
-+}
-+
-+static bool fw_check_addr_valid(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < fw->submit->num_used_mappings; i++) {
-+		struct tegra_drm_mapping *m = fw->submit->used_mappings[i].mapping;
-+
-+		if (offset >= m->iova && offset <= m->iova_end)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static int fw_check_reg(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	bool is_addr;
-+	u32 word;
-+	int err;
-+
-+	err = fw_next(fw, &word);
-+	if (err)
-+		return err;
-+
-+	if (!fw->client->ops->is_addr_reg)
-+		return 0;
-+
-+	is_addr = fw->client->ops->is_addr_reg(fw->client->base.dev, fw->class,
-+					       offset);
-+
-+	if (!is_addr)
-+		return 0;
-+
-+	if (!fw_check_addr_valid(fw, word))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_seq(struct tegra_drm_firewall *fw, u32 offset,
-+			     u32 count, bool incr)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < count; i++) {
-+		if (fw_check_reg(fw, offset))
-+			return -EINVAL;
-+
-+		if (incr)
-+			offset++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_mask(struct tegra_drm_firewall *fw, u32 offset,
-+			      u16 mask)
-+{
-+	unsigned long bmask = mask;
-+	unsigned int bit;
-+
-+	for_each_set_bit(bit, &bmask, 16) {
-+		if (fw_check_reg(fw, offset+bit))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_imm(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	bool is_addr;
-+
-+	is_addr = fw->client->ops->is_addr_reg(fw->client->base.dev, fw->class,
-+					       offset);
-+	if (is_addr)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int fw_check_class(struct tegra_drm_firewall *fw, u32 class)
-+{
-+	if (!fw->client->ops->is_valid_class)
-+		return -EINVAL;
-+
-+	if (!fw->client->ops->is_valid_class(class))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+enum {
-+        HOST1X_OPCODE_SETCLASS  = 0x00,
-+        HOST1X_OPCODE_INCR      = 0x01,
-+        HOST1X_OPCODE_NONINCR   = 0x02,
-+        HOST1X_OPCODE_MASK      = 0x03,
-+        HOST1X_OPCODE_IMM       = 0x04,
-+        HOST1X_OPCODE_RESTART   = 0x05,
-+        HOST1X_OPCODE_GATHER    = 0x06,
-+        HOST1X_OPCODE_SETSTRMID = 0x07,
-+        HOST1X_OPCODE_SETAPPID  = 0x08,
-+        HOST1X_OPCODE_SETPYLD   = 0x09,
-+        HOST1X_OPCODE_INCR_W    = 0x0a,
-+        HOST1X_OPCODE_NONINCR_W = 0x0b,
-+        HOST1X_OPCODE_GATHER_W  = 0x0c,
-+        HOST1X_OPCODE_RESTART_W = 0x0d,
-+        HOST1X_OPCODE_EXTEND    = 0x0e,
-+};
-+
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit,
-+			  u32 *job_class)
-+{
-+	struct tegra_drm_firewall fw = {
-+		.submit = submit,
-+		.client = client,
-+		.data = data,
-+		.pos = start,
-+		.end = start+words,
-+		.class = *job_class,
-+	};
-+	bool payload_valid = false;
-+	u32 payload;
-+	int err;
-+
-+	while (fw.pos != fw.end) {
-+		u32 word, opcode, offset, count, mask, class;
-+
-+		err = fw_next(&fw, &word);
-+		if (err)
-+			return err;
-+
-+		opcode = (word & 0xf0000000) >> 28;
-+
-+		switch (opcode) {
-+		case HOST1X_OPCODE_SETCLASS:
-+			offset = word >> 16 & 0xfff;
-+			mask = word & 0x3f;
-+			class = (word >> 6) & 0x3ff;
-+			err = fw_check_class(&fw, class);
-+			fw.class = class;
-+			*job_class = class;
-+			if (!err)
-+				err = fw_check_regs_mask(&fw, offset, mask);
-+			break;
-+		case HOST1X_OPCODE_INCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, true);
-+			break;
-+		case HOST1X_OPCODE_NONINCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, false);
-+			break;
-+		case HOST1X_OPCODE_MASK:
-+			offset = (word >> 16) & 0xfff;
-+			mask = word & 0xffff;
-+			err = fw_check_regs_mask(&fw, offset, mask);
-+			break;
-+		case HOST1X_OPCODE_IMM:
-+			/* IMM cannot reasonably be used to write a pointer */
-+			offset = (word >> 16) & 0xfff;
-+			err = fw_check_regs_imm(&fw, offset);
-+			break;
-+		case HOST1X_OPCODE_SETPYLD:
-+			payload = word & 0xffff;
-+			payload_valid = true;
-+			break;
-+		case HOST1X_OPCODE_INCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
-+
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, true);
-+			break;
-+		case HOST1X_OPCODE_NONINCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
-+
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, false);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/tegra/uapi/submit.c b/drivers/gpu/drm/tegra/uapi/submit.c
-index 398be3065e21..8633844ae3d7 100644
---- a/drivers/gpu/drm/tegra/uapi/submit.c
-+++ b/drivers/gpu/drm/tegra/uapi/submit.c
-@@ -224,7 +224,8 @@ static int submit_job_add_gather(struct host1x_job *job,
- 				 struct tegra_drm_channel_ctx *ctx,
- 				 struct drm_tegra_submit_cmd_gather_uptr *cmd,
- 				 struct gather_bo *bo, u32 *offset,
--				 struct tegra_drm_submit_data *job_data)
-+				 struct tegra_drm_submit_data *job_data,
-+				 u32 *class)
- {
- 	u32 next_offset;
- 
-@@ -241,6 +242,10 @@ static int submit_job_add_gather(struct host1x_job *job,
- 	if (next_offset > bo->gather_data_words)
- 		return -EINVAL;
- 
-+	if (tegra_drm_fw_validate(ctx->client, bo->gather_data, *offset,
-+				  cmd->words, job_data, class))
-+		return -EINVAL;
-+
- 	host1x_job_add_gather(job, &bo->base, cmd->words, *offset * 4);
- 
- 	*offset = next_offset;
-@@ -255,10 +260,13 @@ static int submit_create_job(struct drm_device *drm, struct host1x_job **pjob,
- 			     struct tegra_drm_submit_data *job_data)
- {
- 	struct drm_tegra_submit_cmd *cmds;
--	u32 i, gather_offset = 0;
-+	u32 i, gather_offset = 0, class;
- 	struct host1x_job *job;
- 	int err;
- 
-+	/* Set initial class for firewall. */
-+	class = ctx->client->base.class;
-+
- 	cmds = alloc_copy_user_array(u64_to_user_ptr(args->cmds_ptr),
- 				     args->num_cmds, sizeof(*cmds));
- 	if (IS_ERR(cmds))
-@@ -284,7 +292,7 @@ static int submit_create_job(struct drm_device *drm, struct host1x_job **pjob,
- 		if (cmd->type == DRM_TEGRA_SUBMIT_CMD_GATHER_UPTR) {
- 			err = submit_job_add_gather(job, ctx, &cmd->gather_uptr,
- 						    bo, &gather_offset,
--						    job_data);
-+						    job_data, &class);
- 			if (err)
- 				goto free_job;
- 		} else if (cmd->type == DRM_TEGRA_SUBMIT_CMD_WAIT_SYNCPT) {
-diff --git a/drivers/gpu/drm/tegra/uapi/submit.h b/drivers/gpu/drm/tegra/uapi/submit.h
-index 0a165e9e4bda..cf6a2f0a29fc 100644
---- a/drivers/gpu/drm/tegra/uapi/submit.h
-+++ b/drivers/gpu/drm/tegra/uapi/submit.h
-@@ -14,4 +14,8 @@ struct tegra_drm_submit_data {
- 	u32 num_used_mappings;
- };
- 
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit,
-+			  u32 *job_class);
-+
- #endif
--- 
-2.30.0
+Anyway:
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 
+Thanks,
+Neil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
