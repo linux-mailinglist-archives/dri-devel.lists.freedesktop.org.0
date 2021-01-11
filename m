@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C9B2F1AC3
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 17:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EE02F1AC8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 17:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A1C6E106;
-	Mon, 11 Jan 2021 16:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A474D897EE;
+	Mon, 11 Jan 2021 16:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A506E106
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 16:19:34 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id 190so335416wmz.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 08:19:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=GKweivvV/MCkbxIb+dEuCmondK84mc3yFd2Dm4sVwKU=;
- b=zf9yevvuaN/7Mpolk4Tq0vrt7NA2/B8CG5E8d8qnAGPCt+5d497iKznwr8W096nKVg
- jYVrl9eV2yPdG95ziPv8qig4g16K7h6bVqXQiGeQmBjaOkEtKiK7sF0y1HDBeizcYYhY
- M1EjXXoX0SmhvsLWe3btD1CLMbwJzTBfhwloZD/TNJiNl3NxyFV9bc8J1RYsc3q4wqMZ
- vzA7Zmks9FDcw6VmAz6NteGYV5nCRBLV+WdD1TPfsRd6wmZwBPYjSBTJYeHL0JbMni9z
- /HEVrLN567EpR2+0+5clyaKnhyJosRtYD5P0Z4gfLGIgDI+EM8mhXOFArbSqIUxBAH6U
- pfqQ==
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83FC3897E8;
+ Mon, 11 Jan 2021 16:19:56 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id 11so170728oty.9;
+ Mon, 11 Jan 2021 08:19:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kQk/AQM450K6HsYuxG7JpSAzrWu0ODwrljUZHEZN97M=;
+ b=dib3q2aYgXhFR9Mf7C8qJfqLetr7N5C9iZNxz+f92ooZvmeeYlb3kE2bmHv4nRrPxE
+ t0/Cd/9TWcFLTAfL2uT7zM9d9dbk0YIH0rAPHIIOvyRCaruyj/tCr2k3GNMmbtcmZNxc
+ 454czti9ohIoixYtZ0PjaPbiwgwkOJXeFHq/iA6PGdinWBxxK4FbdWhBV3fnBqKAflQ5
+ t2u4gzdijpxx8XiFKIbTJgwS6hIXUOU4fCUZoEP8a/Pzi7ALxA4Ml3FsLWconULeyeFc
+ MCenWkYxvsphNjwz336GKmx1fYOvaIR4dHL1ll35Xbc58KJcfVWGb/GmDfoxY3LpvdiK
+ 446w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GKweivvV/MCkbxIb+dEuCmondK84mc3yFd2Dm4sVwKU=;
- b=Rffk0U3ZYllMUlMbA7hqXdME01sfP8KLeFf0RxclUsyIAROlKhsIlAe5ttmFyN/Vbc
- A/2SmSlmzzPlLb9WM7EIUpERAeUmlAypgg41zagxbos3WNAtsuBOMTn6I7bX70GQRyY+
- MGFw9nCPgS+JJ1rapyGGnGSb8fFc3lPmWLDqv0m7aFpZNETjaHIhFtn+8MM1WOZYKHdT
- gqeK0lKkHyfYo0zSTTBpU+HvijB56XG4tYUPN4lxthlToh81+RQ9s3nKEIaoWehadjzO
- 8rrWC9fSTq7raxUhzGNdOmbtaiW5l0qu4xZWnDusCPh2mTxgDO0kjlCDpoXT7EVXZz95
- JBkg==
-X-Gm-Message-State: AOAM530GK0ZykyTM6Vu/SvsnNOR7MDfLVeb38jyixShHIXDy2dYYcRrS
- hlqu8yY6j+q20iW5rbDVc7g+9g==
-X-Google-Smtp-Source: ABdhPJz6cSjcKtSr136d9+ANUaDuZygUhfiAf+XT4Yfc5OsJik7vzzcpdJX4b++ePKscKpYNcH9n3Q==
-X-Received: by 2002:a1c:b7d4:: with SMTP id h203mr417105wmf.59.1610381972707; 
- Mon, 11 Jan 2021 08:19:32 -0800 (PST)
-Received: from dell ([91.110.221.229])
- by smtp.gmail.com with ESMTPSA id f77sm250282wmf.42.2021.01.11.08.19.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 08:19:31 -0800 (PST)
-Date: Mon, 11 Jan 2021 16:19:30 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v8] backlight: lms283gf05: Convert to GPIO descriptors
-Message-ID: <20210111161930.GA3575260@dell>
-References: <20210110120926.80471-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kQk/AQM450K6HsYuxG7JpSAzrWu0ODwrljUZHEZN97M=;
+ b=kECmgkAsBYiwdcu903mamub1+9yjBJa5t8AYf+hWM0tbioJxnptpdo5Mfe7beRy0M8
+ zlTtAfSuGvbdzRVXG8ufecDZ67VD6iE8n2SWT6qWPO2qCZKyezsCiXTlfiYSejtDQaYv
+ 3NYq0l2lvfJ36TIPgWQ/gte33sezAlOUhusGGgcZ6sWeHTOKtRiX2qBbKtJ75r74qbfz
+ 8kpbcgVMnpG0Lc18mCByAVQQ9DOdR4B1gX4lNUXJ2jvQwyr2f5FFLGsk3ZzTbPFZQv7s
+ 877jB8eL1Jj9TflUcwCxrTdYZQ7b8n7smMI8fw/5ZDprJZbaKfbm5EMl3WRLyHENbEfw
+ YVWA==
+X-Gm-Message-State: AOAM530VDMMTsEsnk7oC3wut3eOKHjSqMwoV9Mkv2B76wu4xwlgceVB9
+ shYhxD+797MLphoNvRzVcvq47PGj1wUOWWIGNOw=
+X-Google-Smtp-Source: ABdhPJxjNJBIzHwvnWd7Rrj2OAzVwaOmzGHq9pKe7Im3VwHt0XIVxupVuAcl3wvoGfnI9OUDToAvu9pw2dMY3+pjTfs=
+X-Received: by 2002:a05:6830:1d66:: with SMTP id
+ l6mr11413214oti.23.1610381995915; 
+ Mon, 11 Jan 2021 08:19:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210110120926.80471-1-linus.walleij@linaro.org>
+References: <20210111114638.16530-1-colin.king@canonical.com>
+In-Reply-To: <20210111114638.16530-1-colin.king@canonical.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 11 Jan 2021 11:19:45 -0500
+Message-ID: <CADnq5_PoOSL3XMrK+ZTwppU0wqV3+uOHptA7=GN=EPDRqMZkSQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: Add missing BOOTUP_DEFAULT to
+ profile_name[]
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Xiaojian Du <Xiaojian.Du@amd.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAxMCBKYW4gMjAyMSwgTGludXMgV2FsbGVpaiB3cm90ZToKCj4gVGhpcyBjb252ZXJ0
-cyB0aGUgbG1zMjgzZ2YwNSBiYWNrbGlnaHQgZHJpdmVyIHRvIHVzZSBHUElPCj4gZGVzY3JpcHRv
-cnMgYW5kIHN3aXRjaGVzIHRoZSBzaW5nbGUgUFhBIFBhbG0gWjIgZGV2aWNlCj4gb3ZlciB0byBk
-ZWZpbmluZyB0aGVzZS4KPiAKPiBTaW5jZSB0aGUgcGxhdGZvcm0gZGF0YSB3YXMgb25seSB1c2Vk
-IHRvIGNvbnZleSBHUElPCj4gaW5mb3JtYXRpb24gd2UgY2FuIGRlbGV0ZSB0aGUgcGxhdGZvcm0g
-ZGF0YSBoZWFkZXIuCj4gCj4gTm90aWNlIHRoYXQgd2UgZGVmaW5lIHRoZSBwcm9wZXIgYWN0aXZl
-IGxvdyBzZW1hbnRpY3MgaW4KPiB0aGUgYm9hcmQgZmlsZSBHUElPIGRlc2NyaXB0b3IgdGFibGUg
-KGFjdGl2ZSBsb3cpIGFuZAo+IGFzc2VydCB0aGUgcmVzZXQgbGluZSBieSBicmluZ2luZyBpdCB0
-byAiMSIgKGFzc2VydGVkKS4KPiAKPiBDYzogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+Cj4g
-Q2M6IERhbmllbCBNYWNrIDxkYW5pZWxAem9ucXVlLm9yZz4KPiBDYzogSGFvamlhbiBaaHVhbmcg
-PGhhb2ppYW4uemh1YW5nQGdtYWlsLmNvbT4KPiBDYzogUm9iZXJ0IEphcnptaWsgPHJvYmVydC5q
-YXJ6bWlrQGZyZWUuZnI+Cj4gUmV2aWV3ZWQtYnk6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRo
-b21wc29uQGxpbmFyby5vcmc+Cj4gU2lnbmVkLW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGludXMu
-d2FsbGVpakBsaW5hcm8ub3JnPgo+IC0tLQo+IENoYW5nZUxvZyB2Ny0+djg6Cj4gLSBSZWJhc2Ug
-b250byB2NS4xMS1yYzEKPiAtIEkgd29uZGVyIHdoeSB0aGlzIG5ldmVyIHNlZW1zIHRvIGdldCBt
-ZXJnZWQuLi4/CgpCZWNhdXNlIHlvdSBuZWVkIFNQSSAmIFBYQSBBY2tzIGFuZCBhIG1lcmdlIHBs
-YW4uCgo+IENoYW5nZUxvZyB2Ni0+djc6Cj4gLSBSZWJhc2Ugb250byB2NS4xMC1yYzEKPiBDaGFu
-Z2VMb2cgdjUtPnY2Ogo+IC0gUmViYXNlIG9udG8gdjUuOS1yYzEKPiBDaGFuZ2VMb2cgdjQtPnY1
-Ogo+IC0gUmViYXNlIG9uIHY1LjgtcmMxCj4gLSBDb2xsZWN0ZWQgRGFuaWVsJ3MgUmV2aWV3ZWQt
-YnkgdGFnLgo+IENoYW5nZUxvZyB2My0+djQ6Cj4gLSBDaGVjayBJU19FUlIoKSBvbiB0aGUgcmV0
-dXJuZWQgR1BJTyBkZXNjcmlwdG9yLgo+IC0gVW5jb25kaXRpb25hbGx5IHNldCBjb25zdW1lciBu
-YW1lIHNpbmNlIHRoZSBBUEkgdG9sZXJhdGVzIE5VTEwuCj4gQ2hhbmdlTG9nIHYyLT52MzoKPiAt
-IEZpeCBhIHVzZS1iZWZvcmUtYWxsb2NhdGVkIGJ1ZyBkaXNjb3ZlcmVkIGJ5IGNvbXBpbGUgdGVz
-dHMuCj4gLSBSZW1vdmUgdW51c2VkIHJldCB2YXJpYWJsZSBhcyBhdXRvYnVpbGRlcnMgY29tcGxh
-aW5lZC4KPiBDaGFuZ2VMb2cgdjEtPnYyOgo+IC0gQnJpbmcgdXAgdGhlIEdQSU8gZGUtYXNzZXJ0
-ZWQgaW4gcHJvYmUoKQo+IAo+IE1hcmVrOiBJIHNhdyB0aGlzIHdhcyB3cml0dGVuIGJ5IHlvdSwg
-YXJlIHlvdSByZWd1bGFybHkKPiB0ZXN0aW5nIHRoZSBaMiBkZXZpY2U/Cj4gLS0tCj4gIGFyY2gv
-YXJtL21hY2gtcHhhL3oyLmMgICAgICAgICAgICAgICB8IDEyICsrKysrLS0tCj4gIGRyaXZlcnMv
-dmlkZW8vYmFja2xpZ2h0L2xtczI4M2dmMDUuYyB8IDQzICsrKysrKysrKysrLS0tLS0tLS0tLS0t
-LS0tLS0KPiAgaW5jbHVkZS9saW51eC9zcGkvbG1zMjgzZ2YwNS5oICAgICAgIHwgMTYgLS0tLS0t
-LS0tLS0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA0NiBkZWxldGlvbnMo
-LSkKPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvc3BpL2xtczI4M2dmMDUuaAoK
-LS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9w
-ZXIgU2VydmljZXMKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBT
-b0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Jan 11, 2021 at 6:46 AM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> A recent change added a new BOOTUP_DEFAULT power profile mode
+> to the PP_SMC_POWER_PROFILE enum but omitted updating the
+> corresponding profile_name array.  Fix this by adding in the
+> missing BOOTUP_DEFAULT to profile_name[].
+>
+> Addresses-Coverity: ("Out-of-bounds read")
+> Fixes: c27c9778a19e ("drm/amd/powerplay: support BOOTUP_DEFAULT power profile mode")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+
+Applied.  Thanks!
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> index 75ddcadf3802..4763cb095820 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> @@ -774,6 +774,7 @@ static int vangogh_get_power_profile_mode(struct smu_context *smu,
+>                                            char *buf)
+>  {
+>         static const char *profile_name[] = {
+> +                                       "BOOTUP_DEFAULT",
+>                                         "FULL_SCREEN_3D",
+>                                         "VIDEO",
+>                                         "VR",
+> --
+> 2.29.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
