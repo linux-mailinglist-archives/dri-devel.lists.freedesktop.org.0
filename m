@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDF02F1E89
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 20:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD242F1E8B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 20:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9FA89CDE;
-	Mon, 11 Jan 2021 19:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA2989DA9;
+	Mon, 11 Jan 2021 19:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81C9589CDE;
- Mon, 11 Jan 2021 19:06:22 +0000 (UTC)
-IronPort-SDR: pqj8lpapeW7cXyJ44/IMsxUW9Dtj6rSwlJnsEaD9czkuASVk6NLTdeBaHo6KD4CJwlRUsWrvpn
- 8M/uYKVCDO/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="175341689"
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="175341689"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2021 11:06:18 -0800
-IronPort-SDR: HgegMN+QJoNlG+LBCZkU3pLnkHgCS8ZbI2PFH/wCc+AU8b1KEY0ULH89tq6RT8UHfmUJDdVXcU
- IbTiuixtklOQ==
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="352713310"
-Received: from libresli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.213.207.39])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2021 11:06:10 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/4] drm/i915/dp: Enable Intel's HDR backlight
- interface (only SDR for now)
-In-Reply-To: <20210107225207.28091-3-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210107225207.28091-1-lyude@redhat.com>
- <20210107225207.28091-3-lyude@redhat.com>
-Date: Mon, 11 Jan 2021 21:06:06 +0200
-Message-ID: <87mtxfwaxt.fsf@intel.com>
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5016F89DA9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 19:06:39 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id 11so513556pfu.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 11:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=EIyCJKDhvNH8KI19OBGyEbU3SM6tfKfgJa5ae5NSM3Y=;
+ b=fbBQ87YXU2W7qZDXQ1APvYVhLACLHf0jqMewwV/mDRFvsSnfDR+pwWoyh4/S8kfYEr
+ 1v15ZzSqtbMtuxVJ93UgiM9geBLlm24aatkaJ46T+OIhDX/o1j8LIL/OFMR+HEPOi129
+ U+Vv+bKDDYHP3UjdaHrav+ZaYUgfFHlcdTB6ByfQTDv8Um2jMzF93zkyh9W8p/YKV/Eq
+ wzBLRUy+TUWGEJz8XSRBzXooRBuDMZsn6sW8tb1Ug3USDb2O6nzlWdZxwrR3vx3X+v8n
+ QDPzkfut4F6mh+N35Uu5lEHC+srr0z8Z2CnKATrRU2lJss3KHqTPjhUA7lW3CNkCIJnX
+ K98A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EIyCJKDhvNH8KI19OBGyEbU3SM6tfKfgJa5ae5NSM3Y=;
+ b=S59PaDJ0YAOE/F+rXyneoP9M4LuHBGUVfMzf6XhADpDua98pIQlQ4xBtTqg29pecIe
+ dXvj1S9faFjRZDQiw5OUeiMyoP6OMtskC1EHNOLXnTK1flst4rr8N8ui0ymY+umMUlnw
+ kzRvm5e2yLh2WSy+TMdESvkXw/d1rc1fG9JH83oIAW1/JDxU+jyPUmdq0Zd4P588U+/d
+ 85ZJa5VcbjLVFQn+oK/9Y91X2uVh2bd17VTjZ8Bsg4lvWJFVtW1DZFdwyk9igAuUenl3
+ N7UO3w9Rljnwbpe2zSBCQ3dwRi8ysBiwOU8qxYr7HBUZETMUtQLsJJUotFwGxUMmNQpY
+ P6XQ==
+X-Gm-Message-State: AOAM532diLgY+gCOcOFnLv+lg95OeTV05C6M+s9A1HtWpL29quZUZ/PU
+ 6YDHO15DxZrBrD8gTCWxAfM=
+X-Google-Smtp-Source: ABdhPJy72E4kZERS5fyGJBoAmidZTicX5DyA8rEAIZftM2cNodlBIkh5xPC0RV4QEiPze/JN3b005w==
+X-Received: by 2002:a63:2cd:: with SMTP id 196mr947417pgc.398.1610391998845;
+ Mon, 11 Jan 2021 11:06:38 -0800 (PST)
+Received: from adolin ([49.207.206.164])
+ by smtp.gmail.com with ESMTPSA id b18sm370264pfi.173.2021.01.11.11.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 11:06:38 -0800 (PST)
+Date: Tue, 12 Jan 2021 00:36:34 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: melissa.srw@gmail.com
+Subject: [PATCH V5 1/3] drm/vkms: Add vkms_config type
+Message-ID: <a090ad29b826185df30f80c66932dd2173d7b060.1610391685.git.sylphrenadin@gmail.com>
+References: <cover.1610391685.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <cover.1610391685.git.sylphrenadin@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,529 +66,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thaytan@noraisin.net, Arnd Bergmann <arnd@arndb.de>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Sean Paul <seanpaul@chromium.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- Manasi Navare <manasi.d.navare@intel.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Jan 2021, Lyude Paul <lyude@redhat.com> wrote:
-> So-recently a bunch of laptops on the market have started using DPCD
-> backlight controls instead of the traditional DDI backlight controls.
-> Originally we thought we had this handled by adding VESA backlight
-> control support to i915, but the story ended up being a lot more
-> complicated then that.
->
-> Simply put-there's two main backlight interfaces Intel can see in the
-> wild. Intel's proprietary HDR backlight interface, and the standard VESA
-> backlight interface. Note that many panels have been observed to report
-> support for both backlight interfaces, but testing has shown far more
-> panels work with the Intel HDR backlight interface at the moment.
-> Additionally, the VBT appears to be capable of reporting support for the
-> VESA backlight interface but not the Intel HDR interface which needs to
-> be probed by setting the right magic OUI.
->
-> On top of that however, there's also actually two different variants of
-> the Intel HDR backlight interface. The first uses the AUX channel for
-> controlling the brightness of the screen in both SDR and HDR mode, and
-> the second only uses the AUX channel for setting the brightness level in
-> HDR mode - relying on PWM for setting the brightness level in SDR mode.
->
-> For the time being we've been using EDIDs to maintain a list of quirks
-> for panels that safely do support the VESA backlight interface. Adding
-> support for Intel's HDR backlight interface in addition however, should
-> finally allow us to auto-detect eDP backlight controls properly so long
-> as we probe like so:
->
-> * If the panel's VBT reports VESA backlight support, assume it really
->   does support it
-> * If the panel's VBT reports DDI backlight controls:
->   * First probe for Intel's HDR backlight interface
->   * If that fails, probe for VESA's backlight interface
->   * If that fails, assume no DPCD backlight control
-> * If the panel's VBT reports any other backlight type: just assume it
->   doesn't have DPCD backlight controls
->
-> Changes since v4:
-> * Fix checkpatch issues
-> Changes since v3:
-> * Stop using drm_device and use drm_i915_private instead
-> * Don't forget to return from intel_dp_aux_hdr_get_backlight() if we fail
->   to read the current backlight mode from the DPCD
-> * s/uint8_t/u8/
-> * Remove unneeded parenthesis in intel_dp_aux_hdr_enable_backlight()
-> * Use drm_dbg_kms() in intel_dp_aux_init_backlight_funcs()
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Cc: thaytan@noraisin.net
-> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
-> ---
->  .../drm/i915/display/intel_display_types.h    |   9 +-
->  .../drm/i915/display/intel_dp_aux_backlight.c | 248 ++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_panel.c    |  42 ++-
->  drivers/gpu/drm/i915/display/intel_panel.h    |   4 +
->  4 files changed, 271 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index ee5c2d50b81a..b24d80ffd18b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -261,7 +261,14 @@ struct intel_panel {
->  		struct pwm_state pwm_state;
->  
->  		/* DPCD backlight */
-> -		u8 pwmgen_bit_count;
-> +		union {
-> +			struct {
-> +				u8 pwmgen_bit_count;
-> +			} vesa;
-> +			struct {
-> +				bool sdr_uses_aux;
-> +			} intel;
-> +		} edp;
->  
->  		struct backlight_device *device;
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 9775f33d1aac..5e761fb49a14 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -22,8 +22,26 @@
->   *
->   */
->  
-> +/*
-> + * Laptops with Intel GPUs which have panels that support controlling the
-> + * backlight through DP AUX can actually use two different interfaces: Intel's
-> + * proprietary DP AUX backlight interface, and the standard VESA backlight
-> + * interface. Unfortunately, at the time of writing this a lot of laptops will
-> + * advertise support for the standard VESA backlight interface when they
-> + * don't properly support it. However, on these systems the Intel backlight
-> + * interface generally does work properly. Additionally, these systems will
-> + * usually just indicate that they use PWM backlight controls in their VBIOS
-> + * for some reason.
-> + */
-> +
->  #include "intel_display_types.h"
->  #include "intel_dp_aux_backlight.h"
-> +#include "intel_panel.h"
-> +
-> +/* TODO:
-> + * Implement HDR, right now we just implement the bare minimum to bring us back into SDR mode so we
-> + * can make people's backlights work in the mean time
-> + */
->  
->  /*
->   * DP AUX registers for Intel's proprietary HDR backlight interface. We define
-> @@ -77,6 +95,179 @@
->  
->  #define INTEL_EDP_BRIGHTNESS_OPTIMIZATION_1                            0x359
->  
-> +/* Intel EDP backlight callbacks */
-> +static bool
-> +intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-> +	struct drm_dp_aux *aux = &intel_dp->aux;
-> +	struct intel_panel *panel = &connector->panel;
-> +	int ret;
-> +	u8 tcon_cap[4];
-> +
-> +	ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof(tcon_cap));
-> +	if (ret < 0)
-> +		return false;
-> +
-> +	if (!(tcon_cap[1] & INTEL_EDP_HDR_TCON_BRIGHTNESS_NITS_CAP))
-> +		return false;
-> +
-> +	if (tcon_cap[0] >= 1) {
-> +		drm_dbg_kms(&i915->drm, "Detected Intel HDR backlight interface version %d\n",
-> +			    tcon_cap[0]);
-> +	} else {
-> +		drm_dbg_kms(&i915->drm, "Detected unsupported HDR backlight interface version %d\n",
-> +			    tcon_cap[0]);
-> +		return false;
-> +	}
-> +
-> +	panel->backlight.edp.intel.sdr_uses_aux =
-> +		tcon_cap[2] & INTEL_EDP_SDR_TCON_BRIGHTNESS_AUX_CAP;
-> +
-> +	return true;
-> +}
-> +
-> +static u32
-> +intel_dp_aux_hdr_get_backlight(struct intel_connector *connector)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct intel_panel *panel = &connector->panel;
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-> +	u8 tmp;
-> +	u8 buf[2] = { 0 };
-> +
-> +	if (drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &tmp) < 0) {
-> +		drm_err(&i915->drm, "Failed to read current backlight mode from DPCD\n");
-> +		return 0;
-> +	}
-> +
-> +	if (!(tmp & INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE)) {
-> +		if (!panel->backlight.edp.intel.sdr_uses_aux) {
-> +			u32 pwm_level = panel->backlight.pwm_funcs->get(connector);
-> +
-> +			return intel_panel_backlight_level_from_pwm(connector, pwm_level);
-> +		}
-> +
-> +		/* Assume 100% brightness if backlight controls aren't enabled yet */
-> +		return panel->backlight.max;
-> +	}
-> +
-> +	if (drm_dp_dpcd_read(&intel_dp->aux, INTEL_EDP_BRIGHTNESS_NITS_LSB, buf, sizeof(buf)) < 0) {
-> +		drm_err(&i915->drm, "Failed to read brightness from DPCD\n");
-> +		return 0;
-> +	}
-> +
-> +	return (buf[1] << 8 | buf[0]);
-> +}
-> +
-> +static void
-> +intel_dp_aux_hdr_set_aux_backlight(const struct drm_connector_state *conn_state, u32 level)
-> +{
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +	struct drm_device *dev = connector->base.dev;
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-> +	u8 buf[4] = { 0 };
-> +
-> +	buf[0] = level & 0xFF;
-> +	buf[1] = (level & 0xFF00) >> 8;
-> +
-> +	if (drm_dp_dpcd_write(&intel_dp->aux, INTEL_EDP_BRIGHTNESS_NITS_LSB, buf, 4) < 0)
-> +		drm_err(dev, "Failed to write brightness level to DPCD\n");
-> +}
-> +
-> +static void
-> +intel_dp_aux_hdr_set_backlight(const struct drm_connector_state *conn_state, u32 level)
-> +{
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +	struct intel_panel *panel = &connector->panel;
-> +
-> +	if (panel->backlight.edp.intel.sdr_uses_aux) {
-> +		intel_dp_aux_hdr_set_aux_backlight(conn_state, level);
-> +	} else {
-> +		const u32 pwm_level = intel_panel_backlight_level_to_pwm(connector, level);
-> +
-> +		intel_panel_set_pwm_level(conn_state, pwm_level);
-> +	}
-> +}
-> +
-> +static void
-> +intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
-> +				  const struct drm_connector_state *conn_state, u32 level)
-> +{
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +	struct intel_panel *panel = &connector->panel;
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-> +	int ret;
-> +	u8 old_ctrl, ctrl;
-> +
-> +	ret = drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
-> +	if (ret < 0) {
-> +		drm_err(&i915->drm, "Failed to read current backlight control mode: %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	ctrl = old_ctrl;
-> +	if (panel->backlight.edp.intel.sdr_uses_aux) {
-> +		ctrl |= INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE;
-> +		intel_dp_aux_hdr_set_aux_backlight(conn_state, level);
-> +	} else {
-> +		u32 pwm_level = intel_panel_backlight_level_to_pwm(connector, level);
-> +
-> +		panel->backlight.pwm_funcs->enable(crtc_state, conn_state, pwm_level);
-> +
-> +		ctrl &= ~INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE;
-> +	}
-> +
-> +	if (ctrl != old_ctrl)
-> +		if (drm_dp_dpcd_writeb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, ctrl) < 0)
-> +			drm_err(&i915->drm, "Failed to configure DPCD brightness controls\n");
-> +}
-> +
-> +static void
-> +intel_dp_aux_hdr_disable_backlight(const struct drm_connector_state *conn_state, u32 level)
-> +{
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +	struct intel_panel *panel = &connector->panel;
-> +
-> +	/* Nothing to do for AUX based backlight controls */
-> +	if (panel->backlight.edp.intel.sdr_uses_aux)
-> +		return;
-> +
-> +	/* Note we want the actual pwm_level to be 0, regardless of pwm_min */
-> +	panel->backlight.pwm_funcs->disable(conn_state,
-> +					    intel_panel_sanitize_pwm_level(connector, 0));
-> +}
-> +
-> +static int
-> +intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pipe)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct intel_panel *panel = &connector->panel;
-> +	int ret;
-> +
-> +	if (panel->backlight.edp.intel.sdr_uses_aux) {
-> +		drm_dbg_kms(&i915->drm, "SDR backlight is controlled through DPCD\n");
-> +	} else {
-> +		drm_dbg_kms(&i915->drm, "SDR backlight is controlled through PWM\n");
-> +
-> +		ret = panel->backlight.pwm_funcs->setup(connector, pipe);
-> +		if (ret < 0) {
-> +			drm_err(&i915->drm,
-> +				"Failed to setup SDR backlight controls through PWM: %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	panel->backlight.max = 512;
-> +	panel->backlight.min = 0;
-> +	panel->backlight.level = intel_dp_aux_hdr_get_backlight(connector);
-> +	panel->backlight.enabled = panel->backlight.level != 0;
-> +
-> +	return 0;
-> +}
-> +
->  /* VESA backlight callbacks */
->  static void set_vesa_backlight_enable(struct intel_dp *intel_dp, bool enable)
->  {
-> @@ -195,7 +386,7 @@ static bool intel_dp_aux_vesa_set_pwm_freq(struct intel_connector *connector)
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> -	const u8 pn = connector->panel.backlight.pwmgen_bit_count;
-> +	const u8 pn = connector->panel.backlight.edp.vesa.pwmgen_bit_count;
->  	int freq, fxp, f, fxp_actual, fxp_min, fxp_max;
->  
->  	freq = dev_priv->vbt.backlight.pwm_freq_hz;
-> @@ -236,6 +427,7 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  	struct intel_panel *panel = &connector->panel;
->  	u8 dpcd_buf, new_dpcd_buf, edp_backlight_mode;
-> +	u8 pwmgen_bit_count = panel->backlight.edp.vesa.pwmgen_bit_count;
->  
->  	if (drm_dp_dpcd_readb(&intel_dp->aux,
->  			DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &dpcd_buf) != 1) {
-> @@ -256,7 +448,7 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
->  
->  		if (drm_dp_dpcd_writeb(&intel_dp->aux,
->  				       DP_EDP_PWMGEN_BIT_COUNT,
-> -				       panel->backlight.pwmgen_bit_count) < 0)
-> +				       pwmgen_bit_count) < 0)
->  			drm_dbg_kms(&i915->drm,
->  				    "Failed to write aux pwmgen bit count\n");
->  
-> @@ -364,7 +556,7 @@ static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connecto
->  			    "Failed to write aux pwmgen bit count\n");
->  		return max_backlight;
->  	}
-> -	panel->backlight.pwmgen_bit_count = pn;
-> +	panel->backlight.edp.vesa.pwmgen_bit_count = pn;
->  
->  	max_backlight = (1 << pn) - 1;
->  
-> @@ -405,6 +597,14 @@ intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
->  	return false;
->  }
->  
-> +static const struct intel_panel_bl_funcs intel_dp_hdr_bl_funcs = {
-> +	.setup = intel_dp_aux_hdr_setup_backlight,
-> +	.enable = intel_dp_aux_hdr_enable_backlight,
-> +	.disable = intel_dp_aux_hdr_disable_backlight,
-> +	.set = intel_dp_aux_hdr_set_backlight,
-> +	.get = intel_dp_aux_hdr_get_backlight,
-> +};
-> +
->  static const struct intel_panel_bl_funcs intel_dp_vesa_bl_funcs = {
->  	.setup = intel_dp_aux_vesa_setup_backlight,
->  	.enable = intel_dp_aux_vesa_enable_backlight,
-> @@ -413,36 +613,34 @@ static const struct intel_panel_bl_funcs intel_dp_vesa_bl_funcs = {
->  	.get = intel_dp_aux_vesa_get_backlight,
->  };
->  
-> -int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
-> +int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
->  {
-> -	struct intel_panel *panel = &intel_connector->panel;
-> -	struct intel_dp *intel_dp = enc_to_intel_dp(intel_connector->encoder);
-> +	struct drm_device *dev = connector->base.dev;
-> +	struct intel_panel *panel = &connector->panel;
-> +	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  
-> -	if (i915->params.enable_dpcd_backlight == 0 ||
-> -	    !intel_dp_aux_supports_vesa_backlight(intel_connector))
-> +	if (i915->params.enable_dpcd_backlight == 0)
->  		return -ENODEV;
->  
->  	/*
-> -	 * There are a lot of machines that don't advertise the backlight
-> -	 * control interface to use properly in their VBIOS, :\
-> +	 * A lot of eDP panels in the wild will report supporting both the
-> +	 * Intel proprietary backlight control interface, and the VESA
-> +	 * backlight control interface. Many of these panels are liars though,
-> +	 * and will only work with the Intel interface. So, always probe for
-> +	 * that first.
->  	 */
-> -	if (i915->vbt.backlight.type !=
-> -	    INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
-> -	    i915->params.enable_dpcd_backlight != 1 &&
-> -	    !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-> -			      DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
-> -		drm_info(&i915->drm,
-> -			 "Panel advertises DPCD backlight support, but "
-> -			 "VBT disagrees. If your backlight controls "
-> -			 "don't work try booting with "
-> -			 "i915.enable_dpcd_backlight=1. If your machine "
-> -			 "needs this, please file a _new_ bug report on "
-> -			 "drm/i915, see " FDO_BUG_URL " for details.\n");
-> -		return -ENODEV;
-> +	if (intel_dp_aux_supports_hdr_backlight(connector)) {
-> +		drm_dbg_kms(dev, "Using Intel proprietary eDP backlight controls\n");
-> +		panel->backlight.funcs = &intel_dp_hdr_bl_funcs;
-> +		return 0;
->  	}
->  
-> -	panel->backlight.funcs = &intel_dp_vesa_bl_funcs;
-> +	if (intel_dp_aux_supports_vesa_backlight(connector)) {
-> +		drm_dbg_kms(dev, "Using VESA eDP backlight controls\n");
-> +		panel->backlight.funcs = &intel_dp_vesa_bl_funcs;
-> +		return 0;
-> +	}
->  
-> -	return 0;
-> +	return -ENODEV;
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-> index 8c99bf404a32..f4f3abac3ee4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_panel.c
-> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
-> @@ -511,7 +511,7 @@ static u32 scale_hw_to_user(struct intel_connector *connector,
->  		     0, user_max);
->  }
->  
-> -static u32 intel_panel_sanitize_pwm_level(struct intel_connector *connector, u32 val)
-> +u32 intel_panel_sanitize_pwm_level(struct intel_connector *connector, u32 val)
+Currently, data for the device instance is held by vkms_device.
+Add a separate type, vkms_config to contain configuration details
+for the device and various modes to be later used by configfs.
+This config data stays constant once the device is created.
 
-I'm frankly thinking we shouldn't expose this, and instead limit this to
-fewer platforms. Maybe it could be baked into the platform specific
-functions for the affected GM45 platforms. I'd love to just nuke the
-module parameter.
+Accordingly, add vkms_create and vkms_destroy to initialize/destroy
+device through configfs. Currently, they are being called from vkms_init
+and vkms_exit, but will be evoked from configfs later on. When configfs
+is added, device configuration will be tracked by configfs and only vkms
+device lifetime will be handled by vkms_init and vkms_exit functions.
 
-Again, up to you, and this can be done later since you have the code
-already.
+Modify usage of enable_cursor feature to reflect the changes in
+relevant files.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Co-developed-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+Signed-off-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_drv.c    | 40 ++++++++++++++++++++++++------
+ drivers/gpu/drm/vkms/vkms_drv.h    | 12 +++++++--
+ drivers/gpu/drm/vkms/vkms_output.c |  4 +--
+ 3 files changed, 44 insertions(+), 12 deletions(-)
 
-
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
->  	struct intel_panel *panel = &connector->panel;
-> @@ -529,7 +529,7 @@ static u32 intel_panel_sanitize_pwm_level(struct intel_connector *connector, u32
->  	return val;
->  }
->  
-> -static void intel_panel_set_pwm_level(const struct drm_connector_state *conn_state, u32 val)
-> +void intel_panel_set_pwm_level(const struct drm_connector_state *conn_state, u32 val)
->  {
->  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> @@ -539,6 +539,36 @@ static void intel_panel_set_pwm_level(const struct drm_connector_state *conn_sta
->  	panel->backlight.pwm_funcs->set(conn_state, val);
->  }
->  
-> +u32 intel_panel_backlight_level_to_pwm(struct intel_connector *connector, u32 val)
-> +{
-> +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> +	struct intel_panel *panel = &connector->panel;
-> +
-> +	drm_WARN_ON_ONCE(&dev_priv->drm,
-> +			 panel->backlight.max == 0 || panel->backlight.pwm_level_max == 0);
-> +
-> +	val = scale(val, panel->backlight.min, panel->backlight.max,
-> +		    panel->backlight.pwm_level_min, panel->backlight.pwm_level_max);
-> +
-> +	return intel_panel_sanitize_pwm_level(connector, val);
-> +}
-> +
-> +u32 intel_panel_backlight_level_from_pwm(struct intel_connector *connector, u32 val)
-> +{
-> +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> +	struct intel_panel *panel = &connector->panel;
-> +
-> +	drm_WARN_ON_ONCE(&dev_priv->drm,
-> +			 panel->backlight.max == 0 || panel->backlight.pwm_level_max == 0);
-> +
-> +	if (dev_priv->params.invert_brightness > 0 ||
-> +	    (dev_priv->params.invert_brightness == 0 && dev_priv->quirks & QUIRK_INVERT_BRIGHTNESS))
-> +		val = panel->backlight.pwm_level_max - (val - panel->backlight.pwm_level_min);
-> +
-> +	return scale(val, panel->backlight.pwm_level_min, panel->backlight.pwm_level_max,
-> +		     panel->backlight.min, panel->backlight.max);
-> +}
-> +
->  static u32 lpt_get_backlight(struct intel_connector *connector)
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> @@ -2133,10 +2163,6 @@ intel_panel_init_backlight_funcs(struct intel_panel *panel)
->  		container_of(panel, struct intel_connector, panel);
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
->  
-> -	if (connector->base.connector_type == DRM_MODE_CONNECTOR_eDP &&
-> -	    intel_dp_aux_init_backlight_funcs(connector) == 0)
-> -		return;
-> -
->  	if (connector->base.connector_type == DRM_MODE_CONNECTOR_DSI &&
->  	    intel_dsi_dcs_init_backlight_funcs(connector) == 0)
->  		return;
-> @@ -2164,6 +2190,10 @@ intel_panel_init_backlight_funcs(struct intel_panel *panel)
->  		panel->backlight.pwm_funcs = &i9xx_pwm_funcs;
->  	}
->  
-> +	if (connector->base.connector_type == DRM_MODE_CONNECTOR_eDP &&
-> +	    intel_dp_aux_init_backlight_funcs(connector) == 0)
-> +		return;
-> +
->  	/* We're using a standard PWM backlight interface */
->  	panel->backlight.funcs = &pwm_bl_funcs;
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_panel.h b/drivers/gpu/drm/i915/display/intel_panel.h
-> index 5b813fe90557..a548347a975f 100644
-> --- a/drivers/gpu/drm/i915/display/intel_panel.h
-> +++ b/drivers/gpu/drm/i915/display/intel_panel.h
-> @@ -49,6 +49,10 @@ struct drm_display_mode *
->  intel_panel_edid_fixed_mode(struct intel_connector *connector);
->  struct drm_display_mode *
->  intel_panel_vbt_fixed_mode(struct intel_connector *connector);
-> +void intel_panel_set_pwm_level(const struct drm_connector_state *conn_state, u32 level);
-> +u32 intel_panel_sanitize_pwm_level(struct intel_connector *connector, u32 level);
-> +u32 intel_panel_backlight_level_to_pwm(struct intel_connector *connector, u32 level);
-> +u32 intel_panel_backlight_level_from_pwm(struct intel_connector *connector, u32 val);
->  
->  #if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
->  int intel_backlight_device_register(struct intel_connector *connector);
-
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index aef29393b811..6b33975a5cb2 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -34,9 +34,9 @@
+ #define DRIVER_MAJOR	1
+ #define DRIVER_MINOR	0
+ 
+-static struct vkms_device *vkms_device;
++static struct vkms_config *default_config;
+ 
+-bool enable_cursor = true;
++static bool enable_cursor = true;
+ module_param_named(enable_cursor, enable_cursor, bool, 0444);
+ MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+ 
+@@ -122,10 +122,11 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+ 	return vkms_output_init(vkmsdev, 0);
+ }
+ 
+-static int __init vkms_init(void)
++static int vkms_create(struct vkms_config *config)
+ {
+ 	int ret;
+ 	struct platform_device *pdev;
++	struct vkms_device *vkms_device;
+ 
+ 	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+ 	if (IS_ERR(pdev))
+@@ -143,6 +144,8 @@ static int __init vkms_init(void)
+ 		goto out_devres;
+ 	}
+ 	vkms_device->platform = pdev;
++	vkms_device->config = config;
++	config->dev = vkms_device;
+ 
+ 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+ 					   DMA_BIT_MASK(64));
+@@ -179,21 +182,42 @@ static int __init vkms_init(void)
+ 	return ret;
+ }
+ 
+-static void __exit vkms_exit(void)
++static int __init vkms_init(void)
++{
++	struct vkms_config *config = kmalloc(sizeof(*config), GFP_KERNEL);
++
++	default_config = config;
++
++	config->cursor = enable_cursor;
++
++	return vkms_create(config);
++}
++
++static void vkms_destroy(struct vkms_config *config)
+ {
+ 	struct platform_device *pdev;
+ 
+-	if (!vkms_device) {
++	if (!config->dev) {
+ 		DRM_INFO("vkms_device is NULL.\n");
+ 		return;
+ 	}
+ 
+-	pdev = vkms_device->platform;
++	pdev = config->dev->platform;
+ 
+-	drm_dev_unregister(&vkms_device->drm);
+-	drm_atomic_helper_shutdown(&vkms_device->drm);
++	drm_dev_unregister(&config->dev->drm);
++	drm_atomic_helper_shutdown(&config->dev->drm);
+ 	devres_release_group(&pdev->dev, NULL);
+ 	platform_device_unregister(pdev);
++
++	config->dev = NULL;
++}
++
++static void __exit vkms_exit(void)
++{
++	if (default_config->dev)
++		vkms_destroy(default_config);
++
++	kfree(default_config);
+ }
+ 
+ module_init(vkms_init);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5ed91ff08cb3..6a27bd8875f2 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -19,8 +19,6 @@
+ #define XRES_MAX  8192
+ #define YRES_MAX  8192
+ 
+-extern bool enable_cursor;
+-
+ struct vkms_composer {
+ 	struct drm_framebuffer fb;
+ 	struct drm_rect src, dst;
+@@ -82,10 +80,19 @@ struct vkms_output {
+ 	spinlock_t composer_lock;
+ };
+ 
++struct vkms_device;
++
++struct vkms_config {
++	bool cursor;
++	/* only set when instantiated */
++	struct vkms_device *dev;
++};
++
+ struct vkms_device {
+ 	struct drm_device drm;
+ 	struct platform_device *platform;
+ 	struct vkms_output output;
++	const struct vkms_config *config;
+ };
+ 
+ #define drm_crtc_to_vkms_output(target) \
+@@ -124,3 +131,4 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+ 
+ #endif /* _VKMS_DRV_H_ */
++
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 4a1848b0318f..8f3ffb28b9d1 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -46,7 +46,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	if (IS_ERR(primary))
+ 		return PTR_ERR(primary);
+ 
+-	if (enable_cursor) {
++	if (vkmsdev->config->cursor) {
+ 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+ 		if (IS_ERR(cursor)) {
+ 			ret = PTR_ERR(cursor);
+@@ -98,7 +98,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	drm_crtc_cleanup(crtc);
+ 
+ err_crtc:
+-	if (enable_cursor)
++	if (vkmsdev->config->cursor)
+ 		drm_plane_cleanup(cursor);
+ 
+ err_cursor:
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
