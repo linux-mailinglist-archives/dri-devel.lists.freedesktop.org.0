@@ -1,50 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747082F296F
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:57:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA8D2F2989
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBAFA6E0A8;
-	Tue, 12 Jan 2021 07:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADAD6E04B;
+	Tue, 12 Jan 2021 07:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 484 seconds by postgrey-1.36 at gabe;
- Mon, 11 Jan 2021 09:24:55 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0E189780;
- Mon, 11 Jan 2021 09:24:55 +0000 (UTC)
-Date: Mon, 11 Jan 2021 10:16:46 +0100
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF11389E3F;
+ Mon, 11 Jan 2021 10:14:39 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1610356608;
+ s=2020; t=1610360078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LEXe/B0Q3kSQ+pyi11QVzunFEXSDJfyzRctZD/mSGwY=;
- b=uCnnwbctZA1rQ3V0p2kZu+d3zaZFHTKUJPOo76b5D7cuxWEOXVJdpIqiLFP5aTXpvIjv9s
- qwAvW5WhwffRTnvcztEi2+1v/oENxwE79UOubMC7jJKeubOBD6zsvQUL74GztGQIAKB8HO
- BT4sxjhTakFs4dVqAQh6GY6Sn14JBtplCvPA2cmstH/p72FEB2TnSYVyeSL8sjTNI80v3T
- oCsDUl6wYJXQ9QueQxoB6wuP+fNUTobWuAtyizRQCOtZthAqYs4ojlXRNfsr2J83hANEKU
- KrLFmoV7Ai9vVG4RtXD3Lh/qUjXo6jULZnNtu/UYw3EhRXUZtNRGRg4NMuxugQ==
+ bh=vdITQROn2Urg2SWnxxpWECg8/2piMq1rysKQi+Js6AM=;
+ b=UnYkeRyOrRU1KtT5e+L+fQ3h1X+pI6IQmvvPVQCyBzb6fOAslMZh9kmf6riX6Uc0jR5HAW
+ kLM9jzvLqGc+Imjy/0I2rAsMH2VpuQIdJ98CwfEhcoTYCCXiQ/XwFpRt6Jep7zrPxwT0va
+ Xwof1xtTH5Z/PeoiWTuI7XI6GZ2R5aGzpohXNnayNbUAXzj5+Rf7t2lNRSQCuUkrunBvvh
+ E6YQGrr8aPBg88a1jm3tkQeNaO9yiXQdYW2cQM+bbmj0FEDrh39+sh5VynpFZhESsKImAx
+ DwV8ajINKrlorxI1UlTNWgwAXJMXRe809J7/lTBl2XxW6BUf7G/4P1Qx4lUTcA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1610356608;
+ s=2020e; t=1610360078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LEXe/B0Q3kSQ+pyi11QVzunFEXSDJfyzRctZD/mSGwY=;
- b=aQ0P+BB77W0OA8uLsIQDcnYrwKkOka8jvG0VLRGl2/Wpm04Edp57/CM7syBgLiKrsJkDcC
- 9SLKzMSTP9RzBiAw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: Re: [patch V3 13/37] mips/mm/highmem: Switch to generic kmap atomic
-Message-ID: <20210111091646.hkugbtlcced3vmno@linutronix.de>
-References: <JUTMMQ.NNFWKIUV7UUJ1@crapouillou.net>
- <20210108235805.GA17543@alpha.franken.de>
- <20210109003352.GA18102@alpha.franken.de>
+ bh=vdITQROn2Urg2SWnxxpWECg8/2piMq1rysKQi+Js6AM=;
+ b=X4gUVuzYQlznnJ4rBpJlj0pVo1A0rJo22Rpjt8+XaTFqV54Id4MU7M5oqDy1KDl8a6a4jG
+ +hpoSFj00cPTvyCg==
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [patch 02/30] genirq: Move status flag checks to core
+In-Reply-To: <20201227192049.GA195845@roeck-us.net>
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194042.703779349@linutronix.de>
+ <20201227192049.GA195845@roeck-us.net>
+Date: Mon, 11 Jan 2021 11:14:38 +0100
+Message-ID: <87im837pbl.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210109003352.GA18102@alpha.franken.de>
 X-Mailman-Approved-At: Tue, 12 Jan 2021 07:57:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,83 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, linux-aio@kvack.org,
- Paul Cercueil <paul@crapouillou.net>, airlied@linux.ie,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, bsegall@google.com, jcmvbkbc@gmail.com,
- ray.huang@amd.com, paulus@samba.org, kraxel@redhat.com,
- sparclinux@vger.kernel.org, deanbo422@gmail.com, hch@lst.de,
- vincent.guittot@linaro.org, paulmck@kernel.org, mpe@ellerman.id.au,
- x86@kernel.org, linux@armlinux.org.uk, linux-csky@vger.kernel.org,
- mingo@kernel.org, peterz@infradead.org, linux-graphics-maintainer@vmware.com,
- bskeggs@redhat.com, airlied@redhat.com, linux-snps-arc@lists.infradead.org,
- linux-mm@kvack.org, mgorman@suse.de, linux-xtensa@linux-xtensa.org,
- arnd@arndb.de, intel-gfx@lists.freedesktop.org, sroland@vmware.com,
- josef@toxicpanda.com, rostedt@goodmis.org, torvalds@linuxfoundation.org,
- green.hu@gmail.com, rodrigo.vivi@intel.com, dsterba@suse.com,
- tglx@linutronix.de, virtualization@lists.linux-foundation.org,
- dietmar.eggemann@arm.com, linux-arm-kernel@lists.infradead.org,
- chris@zankel.net, monstr@monstr.eu, nickhu@andestech.com, clm@fb.com,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, bcrl@kvack.org, spice-devel@lists.freedesktop.org,
- vgupta@synopsys.com, linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- bristot@redhat.com, davem@davemloft.net, linux-btrfs@vger.kernel.org,
- viro@zeniv.linux.org.uk
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Russell King <linux@armlinux.org.uk>, afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, linux-s390@vger.kernel.org,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Dave Jiang <dave.jiang@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Helge Deller <deller@gmx.de>, Michal Simek <michal.simek@xilinx.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Wambui Karuga <wambui.karugax@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Jon Mason <jdmason@kudzu.us>,
+ linux-gpio@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ Juergen Gross <jgross@suse.com>, David Airlie <airlied@linux.ie>,
+ linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Marc Zyngier <maz@kernel.org>, linux-ntb@googlegroups.com,
+ Saeed Mahameed <saeedm@nvidia.com>, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-09 01:33:52 [+0100], Thomas Bogendoerfer wrote:
-> On Sat, Jan 09, 2021 at 12:58:05AM +0100, Thomas Bogendoerfer wrote:
-> > On Fri, Jan 08, 2021 at 08:20:43PM +0000, Paul Cercueil wrote:
-> > > Hi Thomas,
-> > > 
-> > > 5.11 does not boot anymore on Ingenic SoCs, I bisected it to this commit.
-> > > 
-> > > Any idea what could be happening?
-> > 
-> > not yet, kernel crash log of a Malta QEMU is below.
-> 
-> update:
-> 
-> This dirty hack lets the Malta QEMU boot again:
-> 
-> diff --git a/mm/highmem.c b/mm/highmem.c
-> index c3a9ea7875ef..190cdda1149d 100644
-> --- a/mm/highmem.c
-> +++ b/mm/highmem.c
-> @@ -515,7 +515,7 @@ void *__kmap_local_pfn_prot(unsigned long pfn, pgprot_t prot)
->  	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
->  	BUG_ON(!pte_none(*(kmap_pte - idx)));
->  	pteval = pfn_pte(pfn, prot);
-> -	set_pte_at(&init_mm, vaddr, kmap_pte - idx, pteval);
-> +	set_pte(kmap_pte - idx, pteval);
->  	arch_kmap_local_post_map(vaddr, pteval);
->  	current->kmap_ctrl.pteval[kmap_local_idx()] = pteval;
->  	preempt_enable();
-> 
-> set_pte_at() tries to update cache and could do an kmap_atomic() there.
-So the old implementation used set_pte() while the new one uses
-set_pte_at().
+On Sun, Dec 27 2020 at 11:20, Guenter Roeck wrote:
+> On Thu, Dec 10, 2020 at 08:25:38PM +0100, Thomas Gleixner wrote:
+> Yes, but that means that irq_check_status_bit() may be called from modules,
+> but it is not exported, resulting in build errors such as the following.
+>
+> arm64:allmodconfig:
+>
+> ERROR: modpost: "irq_check_status_bit" [drivers/perf/arm_spe_pmu.ko] undefined!
 
-> Not sure, if this is allowed at this point.
-The problem is the recursion
-  kmap_atomic() -> __update_cache() -> kmap_atomic()
+Duh. Yes, that lacks an export obviously.
 
-and kmap_local_idx_push() runs out if index space before stack space.
+Thanks,
 
-I'm not sure if the __update_cache() worked for highmem. It has been
-added for that in commit
-   f4281bba81810 ("MIPS: Handle highmem pages in __update_cache")
-
-but it assumes that the address returned by kmap_atomic() is the same or
-related enough for flush_data_cache_page() to work.
-
-> Thomas.
-> 
-
-Sebastian
+        tglx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
