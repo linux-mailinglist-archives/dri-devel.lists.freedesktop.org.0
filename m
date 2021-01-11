@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57652F0AA1
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 01:39:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A642F0B83
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 04:39:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F34889C0A;
-	Mon, 11 Jan 2021 00:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D25689AB7;
+	Mon, 11 Jan 2021 03:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5B8899DC
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 00:39:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 071F822B2C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 00:39:17 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 0349A816A9; Mon, 11 Jan 2021 00:39:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211033] [bisected][regression] amdgpu: *ERROR* Restoring old
- state failed with -12
-Date: Mon, 11 Jan 2021 00:39:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: arturbac.ab@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211033-2300-iypzJeTkkr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211033-2300@https.bugzilla.kernel.org/>
-References: <bug-211033-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF3F89AB7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 03:39:03 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DDfZV5tq9z9sWL;
+ Mon, 11 Jan 2021 14:38:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1610336340;
+ bh=Kyl6NJ+tK5dzE/JpAjOlqWUko4jnUe2abgy8kErpX+s=;
+ h=Date:From:To:Cc:Subject:From;
+ b=M/X6Y42+hrLqlxjxkzMW3AcZJ+K2Rf1Q3JD8VFzMjNG4vIRp+Xzm85s3sAMjqLtXC
+ RpVsi0Wbaz39rc4WmSSMmr5+yeqppdum4lGuZ0avtWsDhSuKa4i8krVyeSYwTBHHaU
+ NAAP0MdaRUlQj6NkOuyi1rdld8pnknRNEq4C9P6A5D8Br8T7l0t1ngskApkkwDndA+
+ 4zO42x8IukHab2qYcP1yPMZ10g1gcB5LtIHoual+PdZP2+0Xul0F/Sp63dyTTmhjV6
+ dz16+pb2QjQjn4F+4SDokM0FMOi69M9uextSAQ6frxJTHuEO1IVsFf2pMc1hqDeD4F
+ QRIvyMe+X7Y2g==
+Date: Mon, 11 Jan 2021 14:38:58 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: linux-next: build warnings after merge of the amdgpu tree
+Message-ID: <20210111143858.6fbaaf9a@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,72 +46,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0337026907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211033
+--===============0337026907==
+Content-Type: multipart/signed; boundary="Sig_/c_+xUw76xFGqReoHVD3t9E9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---- Comment #10 from Artur Bac (arturbac.ab@gmail.com) ---
-5.10.6 works ok again with 2 monitors and Sapphire Nitro+ Radeon RX 5700 XT
+--Sig_/c_+xUw76xFGqReoHVD3t9E9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-here is dmesg output of drm on 5.10.6
+Hi all,
 
-[    3.471791] systemd[1]: Starting Load Kernel Module drm...
-[    3.482194] systemd[1]: modprobe@drm.service: Succeeded.
-[    3.482336] systemd[1]: Finished Load Kernel Module drm.
-[    3.562351] [drm] amdgpu kernel modesetting enabled.
-[    3.563495] [drm] initializing kernel modesetting (NAVI10 0x1002:0x731F
-0x1DA2:0xE409 0xC1).
-[    3.563505] [drm] register mmio base: 0xFCC00000
-[    3.563506] [drm] register mmio size: 524288
-[    3.564808] [drm] add ip block number 0 <nv_common>
-[    3.564810] [drm] add ip block number 1 <gmc_v10_0>
-[    3.564811] [drm] add ip block number 2 <navi10_ih>
-[    3.564812] [drm] add ip block number 3 <psp>
-[    3.564813] [drm] add ip block number 4 <smu>
-[    3.564814] [drm] add ip block number 5 <dm>
-[    3.564815] [drm] add ip block number 6 <gfx_v10_0>
-[    3.564816] [drm] add ip block number 7 <sdma_v5_0>
-[    3.564817] [drm] add ip block number 8 <vcn_v2_0>
-[    3.564818] [drm] add ip block number 9 <jpeg_v2_0>
-[    3.564848] [drm] VCN decode is enabled in VM mode
-[    3.564849] [drm] VCN encode is enabled in VM mode
-[    3.564850] [drm] JPEG decode is enabled in VM mode
-[    3.564865] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit,
-fragment size is 9-bit
-[    3.564878] [drm] Detected VRAM RAM=8176M, BAR=256M
-[    3.564879] [drm] RAM width 256bits GDDR6
-[    3.564935] [drm] amdgpu: 8176M of VRAM memory ready
-[    3.564937] [drm] amdgpu: 8176M of GTT memory ready.
-[    3.564938] [drm] GART: num cpu pages 131072, num gpu pages 131072
-[    3.565069] [drm] PCIE GART of 512M enabled (table at 0x0000008000900000).
-[    3.588344] [drm] Found VCN firmware Version ENC: 1.10 DEC: 5 VEP: 0
-Revision: 13
-[    3.588351] [drm] PSP loading VCN firmware
-[    4.166778] [drm] reserve 0x900000 from 0x81fe400000 for PSP TMR
-[    4.412518] [drm] Display Core initialized with v3.2.104!
-[    4.625413] [drm] kiq ring mec 2 pipe 1 q 0
-[    4.634394] [drm] VCN decode and encode initialized successfully(under DPG
-Mode).
-[    4.634532] [drm] JPEG decode initialized successfully.
-[    4.639105] [drm] fb mappable at 0xE0B0A000
-[    4.639107] [drm] vram apper at 0xE0000000
-[    4.639108] [drm] size 33177600
-[    4.639110] [drm] fb depth is 24
-[    4.639111] [drm]    pitch is 15360
-[    4.639171] fbcon: amdgpudrmfb (fb0) is primary device
-[    4.791132] amdgpu 0000:0f:00.0: [drm] fb0: amdgpudrmfb frame buffer device
-[    4.816294] [drm] Initialized amdgpu 3.40.0 20150101 for 0000:0f:00.0 on
-minor 0
+After merging the amdgpu tree, today's linux-next build (htmldocs)
+produced these warnings:
 
--- 
-You may reply to this email to add a comment.
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:340: warning: Incorrect u=
+se of kernel-doc format:          * @active_vblank_irq_count
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:379: warning: Function pa=
+rameter or member 'active_vblank_irq_count' not described in 'amdgpu_displa=
+y_manager'
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Introduced by commit
+
+  71338cb4a7c2 ("drm/amd/display: enable idle optimizations for linux (MALL=
+ stutter)")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/c_+xUw76xFGqReoHVD3t9E9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/7yFIACgkQAVBC80lX
+0GxGUgf/VGOxiBwXW8N+mAniWClcsI6w6h6GeWFCdk+6lREwXwKiQFfoMsdjyaj2
+oFd9Eu/o08cvG3gN1dZ8eO9TcAd+gnpLfLvF+v8OHwbAdygOGmXVCxjZVfchwNjF
+WFTIwCvs4jhwOSNU20Uec1aVPXnr5bM8wiqL+kxc8rpXq39+1jKjLcygqOq9Byyc
+Ri1gDMOV+/bT3mR2lUS0AX33TRaDGM7SXVwyc1KC/eG4q+FojoBQNf38OAUirL6t
+BXS+9Bw0qZRwdvYVHnStggfemAZ7TUzSnmPkC5K8U+GeuRoHKzzNv2ONQVhpZNVd
+MaUdZdwZZ9xg5DELhN5pUndl3mAGAg==
+=W6ng
+-----END PGP SIGNATURE-----
+
+--Sig_/c_+xUw76xFGqReoHVD3t9E9--
+
+--===============0337026907==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0337026907==--
