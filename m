@@ -2,42 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B402F298A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021F62F297B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:57:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4416E0CE;
-	Tue, 12 Jan 2021 07:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A79E6E0F0;
+	Tue, 12 Jan 2021 07:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpcmd15177.aruba.it (smtpcmd0757.aruba.it [62.149.156.57])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6BBFB89C99
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 17:46:20 +0000 (UTC)
-Received: from ubuntu.localdomain ([146.241.213.249])
- by Aruba Outgoing Smtp  with ESMTPSA
- id z1GjkRGDyiSGyz1Gjkaavf; Mon, 11 Jan 2021 18:46:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1610387178; bh=Ca6189y784Sxey3V9K1qguxyPzu74JGwy0/hBI3B9to=;
- h=From:To:Subject:Date:MIME-Version:Content-Type;
- b=LNp1jR0jPyCGKBnVVpN95O6afp6gqj/UGJWncmWtQONYy0mV+bu5uTSjruxU2v5tF
- 9jE0/7lYQPYTZficRPhGlTC11EZGRX6BWokg0OvxuTea8nyWOPLrp06A2TPNJdtheL
- WnvsMnakYYqN+PFt2/NAKmshJILXkQ7Xc9gL3wVJUh0hol6in8iNW/vHrFeAZFkyF+
- 16BLW6Ps1BP1xDOMCXEuFupwUJ+IqLNRo/EetQEJ6zkBT4Y1d5gl+rq8P3fvDXRayx
- DvR9C0ZiYU7dj/d2J7UuPGLceUK3rQ7YMDmmZJyt6CL1uJnwNmaz1UtoAl1pu9b+0u
- aZQqTdg+8cokQ==
-From: Giulio Benetti <giulio.benetti@benettiengineering.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v3] drm/sun4i: tcon: fix inverted DCLK polarity
-Date: Mon, 11 Jan 2021 18:46:16 +0100
-Message-Id: <20210111174616.904674-1-giulio.benetti@benettiengineering.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210111172052.7v522xam74xkq6se@gilmour>
-References: <20210111172052.7v522xam74xkq6se@gilmour>
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF436E072
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 19:54:04 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id n10so340166pgl.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 11:54:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=Vxk2nV7tt4HCztmmcM/p9PpvV3AZqTIQaGCtnRxgY5o=;
+ b=PYTOCCGpovAEIhp6SDc7oo7y6LDK0BrdmH5Bo6LK5wdMJMxJPgEfd+o4Ygb8Zm1W6N
+ WT12d307T0ug2fNJrkoAHMKl/62zRSABiCuI41DTLqQTmWvAKerQmPYf8hZZ6PZ4IkQg
+ 8XXC0t3qPdfh8ztVgYLAPMtyOlQzV4bAnFIN4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=Vxk2nV7tt4HCztmmcM/p9PpvV3AZqTIQaGCtnRxgY5o=;
+ b=CA3fInc8E/vTb69eeFWTXU3IpL/Klh/JAipkwTwVov8UTuzSMmEedjQKNMfo7Ky7s2
+ kbyRpFDedDlYDUSNSxiEStLQYZzEHek5UdGp3AdyLQdLrBgjaz87BOBptafvsBw2qg7Y
+ 67QgO8yLUno58lRkWhkCMoR+gorDCjeLC87LVnGVpbe1Zfe0JmjoHVsDxbX59v8HHg5J
+ YGBTWmWWBf78af/hUn5jAtGn+QNgm5hzReShsD7kwCAp3WwJMC0JIbovuRnnNAIEMUYY
+ f4pf08RYQDKC4vh6p92gu329CWZd4GLWZ37AUYY3XyuyVPqAhJ6p8/7sPIDeqs/LTYJF
+ 3/iw==
+X-Gm-Message-State: AOAM532CP00vGpWQMcsQBfbeTLEPDWkjTCKtzE1PZ2/V/NmOMdWSEsxv
+ 5t4ORFcPze8G20gb2X1DBSRt2gCSFcdPug==
+X-Google-Smtp-Source: ABdhPJxKRGtGDIO3VfXdh7jxqm6nRjvFkD4HG/tJC8VlSrZjMO2GjMyC/nt1FZND08abv6HToCiIrg==
+X-Received: by 2002:a65:494f:: with SMTP id q15mr1092942pgs.367.1610394844028; 
+ Mon, 11 Jan 2021 11:54:04 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id 5sm419116pff.125.2021.01.11.11.54.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 11:54:03 -0800 (PST)
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfDup+r40w/DVk1kX8+yAaIMrvruDTsL6bSVYHysQ+qH51PHBqAerYJz2xv2LvLOBlKINxaiuYF14IartUl3jr8NJsoHmf3BGfpc72sS8FwEqoiLjNu+A
- O3Iv8pPDbmBQ9Fdc1YmZV4tWYcg6H927yJzvX5ns83cStSHAYdgNmUa0eXg4jlJvsVLEB18JWL2Ux5RjxZZa3tIwrj7koz0wq+NsED3id3DTUVxJIipmRNvL
- kXbFpy0xbxq88aOYvEwMeWB96VNM9n+xCuyExKAjmulbCnMApbsXJe08zZDuSouJWOFguV/bYNXZcgEIDcD/WgQbs4V0mEto9+KwLNdOtNbwdUTcjki4XlZw
- nE5ERLzstZeJNCrucstlSJcTmPYmomrjE2WOoCFVz+NxhzYj1ffGGmIgOMpgskqfcIfnCW8goalkTeYsRN+d1RNlhEYgpENk7lFm/skG7W38b+zxwVG/SlZz
- gYfiuhQ4BmJWCsADAK1Oumy+7RzivPv4tM2goudcFuvwYmmos1k3GnLydRCsDcMKehQ/w2LGnktUntG8r50OGbM2tZc0gvAokxCV/w==
+In-Reply-To: <1610051425-20632-3-git-send-email-khsieh@codeaurora.org>
+References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
+ <1610051425-20632-3-git-send-email-khsieh@codeaurora.org>
+Subject: Re: [PATCH 2/2] drm/msm/dp: unplug interrupt missed after irq_hpd
+ handler
+From: Stephen Boyd <swboyd@chromium.org>
+To: Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run
+Date: Mon, 11 Jan 2021 11:54:01 -0800
+Message-ID: <161039484176.3661239.14240346276437866761@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Tue, 12 Jan 2021 07:57:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,71 +68,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
- Giulio Benetti <giulio.benetti@micronovasrl.com>,
- Marjan Pascolo <marjan.pascolo@trexom.it>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
+ Kuogee Hsieh <khsieh@codeaurora.org>, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+CgpE
-dXJpbmcgY29tbWl0IDg4YmM0MTc4NTY4YiAoImRybTogVXNlIG5ldwpEUk1fQlVTX0ZMQUdfKl8o
-RFJJVkV8U0FNUExFKV8oUE9TfE5FRylFREdFIGZsYWdzIikgRFJNX0JVU19GTEFHXyoKbWFjcm9z
-IGhhdmUgYmVlbiBjaGFuZ2VkIHRvIGF2b2lkIGFtYmlndWl0eSBidXQganVzdCBiZWNhdXNlIG9m
-IHRoaXMKYW1iaWd1aXR5IHByZXZpb3VzIERSTV9CVVNfRkxBR19QSVhEQVRBXyhQT1MvTkVHKUVE
-R0Ugd2VyZSB1c2VkIG1lYW5pbmcKX1NBTVBMRV8gbm90IF9EUklWRV8uIFRoaXMgbGVhZHMgdG8g
-RExDSyBpbnZlcnNpb24gYW5kIG5lZWQgdG8gZml4IGJ1dAppbnN0ZWFkIG9mIHN3YXBwaW5nIHBo
-YXNlIHZhbHVlcywgbGV0J3MgYWRvcHQgYW4gZWFzaWVyIGFwcHJvYWNoIE1heGltZQpzdWdnZXN0
-ZWQ6Ckl0IHR1cm5lZCBvdXQgdGhhdCBiaXQgMjYgb2YgU1VONElfVENPTjBfSU9fUE9MX1JFRyBp
-cyBkZWRpY2F0ZWQgdG8KaW52ZXJ0IERDTEsgcG9sYXJpdHkgYW5kIHRoaXMgbWFrZXMgdGhpbmdz
-IHJlYWxseSBlYXNpZXIgdGhhbiBiZWZvcmUuIFNvCmxldCdzIGhhbmRsZSBEQ0xLIHBvbGFyaXR5
-IGJ5IGFkZGluZyBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSBhcwpiaXQgMjYgYW5k
-IGFjdGl2YXRpbmcgYWNjb3JkaW5nIHRvIGJ1c19mbGFncyB0aGUgc2FtZSB3YXkgaXQgaXMgZG9u
-ZSBmb3IKYWxsIHRoZSBvdGhlciBzaWduYWxzIHBvbGFyaXR5LgoKRml4ZXM6IDg4YmM0MTc4NTY4
-YiAoImRybTogVXNlIG5ldyBEUk1fQlVTX0ZMQUdfKl8oRFJJVkV8U0FNUExFKV8oUE9TfE5FRylF
-REdFIGZsYWdzIikKU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVj
-aD4KU2lnbmVkLW9mZi1ieTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92
-YXNybC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyB8IDIwICst
-LS0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oIHwg
-IDEgKwogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5jCmluZGV4IGVhYWY1ZDcwZTM1Mi4uMzAxNzFjY2Q4
-N2U1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMKQEAgLTU2OSwyNiArNTY5LDggQEAg
-c3RhdGljIHZvaWQgc3VuNGlfdGNvbjBfbW9kZV9zZXRfcmdiKHN0cnVjdCBzdW40aV90Y29uICp0
-Y29uLAogCWlmIChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVTX0ZMQUdfREVfTE9XKQogCQl2YWwg
-fD0gU1VONElfVENPTjBfSU9fUE9MX0RFX05FR0FUSVZFOwogCi0JLyoKLQkgKiBPbiBBMjAgYW5k
-IHNpbWlsYXIgU29DcywgdGhlIG9ubHkgd2F5IHRvIGFjaGlldmUgUG9zaXRpdmUgRWRnZQotCSAq
-IChSaXNpbmcgRWRnZSksIGlzIHNldHRpbmcgZGNsayBjbG9jayBwaGFzZSB0byAyLzMoMjQwwrAp
-LgotCSAqIEJ5IGRlZmF1bHQgVENPTiB3b3JrcyBpbiBOZWdhdGl2ZSBFZGdlKEZhbGxpbmcgRWRn
-ZSksCi0JICogdGhpcyBpcyB3aHkgcGhhc2UgaXMgc2V0IHRvIDAgaW4gdGhhdCBjYXNlLgotCSAq
-IFVuZm9ydHVuYXRlbHkgdGhlcmUncyBubyB3YXkgdG8gbG9naWNhbGx5IGludmVydCBkY2xrIHRo
-cm91Z2gKLQkgKiBJT19QT0wgcmVnaXN0ZXIuCi0JICogVGhlIG9ubHkgYWNjZXB0YWJsZSB3YXkg
-dG8gd29yaywgdHJpcGxlIGNoZWNrZWQgd2l0aCBzY29wZSwKLQkgKiBpcyB1c2luZyBjbG9jayBw
-aGFzZSBzZXQgdG8gMMKwIGZvciBOZWdhdGl2ZSBFZGdlIGFuZCBzZXQgdG8gMjQwwrAKLQkgKiBm
-b3IgUG9zaXRpdmUgRWRnZS4KLQkgKiBPbiBBMzMgYW5kIHNpbWlsYXIgU29DcyB0aGVyZSB3b3Vs
-ZCBiZSBhIDkwwrAgcGhhc2Ugb3B0aW9uLAotCSAqIGJ1dCBpdCBkaXZpZGVzIGFsc28gZGNsayBi
-eSAyLgotCSAqIEZvbGxvd2luZyBjb2RlIGlzIGEgd2F5IHRvIGF2b2lkIHF1aXJrcyBhbGwgYXJv
-dW5kIFRDT04KLQkgKiBhbmQgRE9UQ0xPQ0sgZHJpdmVycy4KLQkgKi8KIAlpZiAoaW5mby0+YnVz
-X2ZsYWdzICYgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVfUE9TRURHRSkKLQkJY2xrX3NldF9w
-aGFzZSh0Y29uLT5kY2xrLCAyNDApOwotCi0JaWYgKGluZm8tPmJ1c19mbGFncyAmIERSTV9CVVNf
-RkxBR19QSVhEQVRBX0RSSVZFX05FR0VER0UpCi0JCWNsa19zZXRfcGhhc2UodGNvbi0+ZGNsaywg
-MCk7CisJCXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRTsKIAogCXJlZ21h
-cF91cGRhdGVfYml0cyh0Y29uLT5yZWdzLCBTVU40SV9UQ09OMF9JT19QT0xfUkVHLAogCQkJICAg
-U1VONElfVENPTjBfSU9fUE9MX0hTWU5DX1BPU0lUSVZFIHwKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9zdW40aS9zdW40aV90Y29uLmggYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlf
-dGNvbi5oCmluZGV4IGNmYmY0ZTZjMTY3OS4uMGNlNzFkMTBhMzFiIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40
-aS9zdW40aV90Y29uLmgKQEAgLTExMyw2ICsxMTMsNyBAQAogI2RlZmluZSBTVU40SV9UQ09OMF9J
-T19QT0xfUkVHCQkJMHg4OAogI2RlZmluZSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QSEFTRShw
-aGFzZSkJCSgocGhhc2UgJiAzKSA8PCAyOCkKICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX0RF
-X05FR0FUSVZFCQkJQklUKDI3KQorI2RlZmluZSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJ
-VElWRQkJQklUKDI2KQogI2RlZmluZSBTVU40SV9UQ09OMF9JT19QT0xfSFNZTkNfUE9TSVRJVkUJ
-CUJJVCgyNSkKICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX1ZTWU5DX1BPU0lUSVZFCQlCSVQo
-MjQpCiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+Quoting Kuogee Hsieh (2021-01-07 12:30:25)
+> There is HPD unplug interrupts missed at scenario of an irq_hpd
+> followed by unplug interrupts with around 10 ms in between.
+> Since both AUX_SW_RESET and DP_SW_RESET clear pending HPD interrupts,
+> irq_hpd handler should not issues either aux or sw reset to avoid
+> following unplug interrupt be cleared accidentally.
+
+So the problem is that we're resetting the DP aux phy in the middle of
+the HPD state machine transitioning states?
+
+> 
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 44f0c57..9c0ce98 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -190,6 +190,18 @@ int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog)
+>         return 0;
+>  }
+>  
+> +/**
+> + * dp_catalog_aux_reset() - reset AUX controller
+> + *
+> + * @aux: DP catalog structure
+> + *
+> + * return: void
+> + *
+> + * This function reset AUX controller
+> + *
+> + * NOTE: reset AUX controller will also clear any pending HPD related interrupts
+> + * 
+> + */
+>  void dp_catalog_aux_reset(struct dp_catalog *dp_catalog)
+>  {
+>         u32 aux_ctrl;
+> @@ -483,6 +495,18 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
+>         return 0;
+>  }
+>  
+> +/**
+> + * dp_catalog_ctrl_reset() - reset DP controller
+> + *
+> + * @aux: DP catalog structure
+
+It's called dp_catalog though.
+
+> + *
+> + * return: void
+> + *
+> + * This function reset DP controller
+
+resets the
+
+> + *
+> + * NOTE: reset DP controller will also clear any pending HPD related interrupts
+> + * 
+> + */
+>  void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog)
+>  {
+>         u32 sw_reset;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index e3462f5..f96c415 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1296,7 +1296,8 @@ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
+>          * transitioned to PUSH_IDLE. In order to start transmitting
+>          * a link training pattern, we have to first do soft reset.
+>          */
+> -       dp_catalog_ctrl_reset(ctrl->catalog);
+> +       if (*training_step != DP_TRAINING_NONE)
+
+Can we check for the positive value instead? i.e.
+DP_TRAINING_1/DP_TRAINING_2
+
+> +               dp_catalog_ctrl_reset(ctrl->catalog);
+>  
+>         ret = dp_ctrl_link_train(ctrl, cr, training_step);
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
