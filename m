@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CF32F12B9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:00:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AF62F12B7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:00:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 673E089CF6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A9A89D00;
 	Mon, 11 Jan 2021 13:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE3B89F73
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77EE26E09C
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,24 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Oi1QdUUWwjYZL2Zf/QHR0OpFobVbcjZqAoPAx8g/oL4=; b=HMnjlaGyYeLZtEeEKUlKN9e/cs
- YK6+/OJLS5urwP9bXFdZinxgGBAY1TQJgdjkvjbp85Dmfa137FV62r2HL4Zc6l5vdLXd6MXfpayT+
- 7FTTjcto1q7cOAoMmdlsYRkr4IANP1jrnyKp8rdCRGguDWO4QqSApS5jX4SNu+O2DSoZH+XBrkDYx
- bUzWcxh8iuf3jDW97Lklp9BG3X6DJEmVN8Po3t0+EM6zJSXfdmwqbsqQcXuhg1pRdDaq+3u3mMsZG
- a5xW8KgtfccI4q1sxJzG3C95mBM1uuN5y8gDX+s7oPSxRg+fIE8cr7WXa5X2OoUCmDBaGGAs0L1Cd
- GYGOIgEQ==;
+ bh=U4LMapHebtqQLMY7HEgN7zFM2ivBVZziq+5m4D+W0WE=; b=astueCCDkN5AJ4VghQUXJtxvJ9
+ CtOoLIj44JkIBsIM10T7e3PuVwJS15ZN1S8ZDc9u/Su2IFeWs8qrU3RttJGEimd6EcelOGOoATvR8
+ km9FwagT7Pail0kEJ7XfhKviLTkwzt4x8LMcb42L7JWckfEfoP1haOYPadz/IVh7mRmo6Ym1w+ViQ
+ dn6/OTbHuviBx0OVdDnGlRs11nX7O9ocnEIqcUS+qFzKA2lvCIWcINyOVIbVRvJViuRb0/dHKO78/
+ QGEU1GvdHmNRyVnzBTgHbBNS8T7QPKLyTwlB4McwwOZH4nCep6aQwWKj9SQEymRok+7P7GwZVDI0Q
+ TQ9RCVbw==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kywo6-0002tl-AR; Mon, 11 Jan 2021 15:00:26 +0200
+ id 1kywo6-0002tl-F5; Mon, 11 Jan 2021 15:00:26 +0200
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v5 02/21] gpu: host1x: Allow syncpoints without associated
- client
-Date: Mon, 11 Jan 2021 15:00:00 +0200
-Message-Id: <20210111130019.3515669-3-mperttunen@nvidia.com>
+Subject: [PATCH v5 04/21] gpu: host1x: Remove cancelled waiters immediately
+Date: Mon, 11 Jan 2021 15:00:02 +0200
+Message-Id: <20210111130019.3515669-5-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
@@ -62,122 +61,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Syncpoints don't need to be associated with any client,
-so remove the property, and expose host1x_syncpt_alloc.
-This will allow allocating syncpoints without prior knowledge
-of the engine that it will be used with.
+Before this patch, cancelled waiters would only be cleaned up
+once their threshold value was reached. Make host1x_intr_put_ref
+process the cancellation immediately to fix this.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v3:
-* Clean up host1x_syncpt_alloc signature to allow specifying
-  a name for the syncpoint.
-* Export the function.
+v5:
+* Add parameter to flush, i.e. wait for all pending waiters to
+  complete before returning. The reason this is not always true
+  is that the pending waiter might be the place that is calling
+  the put_ref.
 ---
- drivers/gpu/host1x/syncpt.c | 22 ++++++++++------------
- drivers/gpu/host1x/syncpt.h |  1 -
- include/linux/host1x.h      |  3 +++
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/host1x/intr.c   | 23 +++++++++++++++++------
+ drivers/gpu/host1x/intr.h   |  4 +++-
+ drivers/gpu/host1x/syncpt.c |  2 +-
+ 3 files changed, 21 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
+index 9245add23b5d..70e1096a4fe9 100644
+--- a/drivers/gpu/host1x/intr.c
++++ b/drivers/gpu/host1x/intr.c
+@@ -242,18 +242,29 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
+ 	return 0;
+ }
+ 
+-void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref)
++void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
++			 bool flush)
+ {
+ 	struct host1x_waitlist *waiter = ref;
+ 	struct host1x_syncpt *syncpt;
+ 
+-	while (atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED) ==
+-	       WLS_REMOVED)
+-		schedule();
++	atomic_cmpxchg(&waiter->state, WLS_PENDING, WLS_CANCELLED);
+ 
+ 	syncpt = host->syncpt + id;
+-	(void)process_wait_list(host, syncpt,
+-				host1x_syncpt_load(host->syncpt + id));
++
++	spin_lock(&syncpt->intr.lock);
++	if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) ==
++	    WLS_CANCELLED) {
++		list_del(&waiter->list);
++		kref_put(&waiter->refcount, waiter_release);
++	}
++	spin_unlock(&syncpt->intr.lock);
++
++	if (flush) {
++		/* Wait until any concurrently executing handler has finished. */
++		while (atomic_read(&waiter->state) != WLS_HANDLED)
++			cpu_relax();
++	}
+ 
+ 	kref_put(&waiter->refcount, waiter_release);
+ }
+diff --git a/drivers/gpu/host1x/intr.h b/drivers/gpu/host1x/intr.h
+index aac38194398f..6ea55e615e3a 100644
+--- a/drivers/gpu/host1x/intr.h
++++ b/drivers/gpu/host1x/intr.h
+@@ -74,8 +74,10 @@ int host1x_intr_add_action(struct host1x *host, struct host1x_syncpt *syncpt,
+  * Unreference an action submitted to host1x_intr_add_action().
+  * You must call this if you passed non-NULL as ref.
+  * @ref the ref returned from host1x_intr_add_action()
++ * @flush wait until any pending handlers have completed before returning.
+  */
+-void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref);
++void host1x_intr_put_ref(struct host1x *host, unsigned int id, void *ref,
++			 bool flush);
+ 
+ /* Initialize host1x sync point interrupt */
+ int host1x_intr_init(struct host1x *host, unsigned int irq_sync);
 diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index fce7892d5137..5982fdf64e1c 100644
+index 5982fdf64e1c..e48b4595cf53 100644
 --- a/drivers/gpu/host1x/syncpt.c
 +++ b/drivers/gpu/host1x/syncpt.c
-@@ -42,13 +42,13 @@ static void host1x_syncpt_base_free(struct host1x_syncpt_base *base)
- 		base->requested = false;
- }
- 
--static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
--						 struct host1x_client *client,
--						 unsigned long flags)
-+struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
-+					  unsigned long flags,
-+					  const char *name)
- {
- 	struct host1x_syncpt *sp = host->syncpt;
-+	char *full_name;
- 	unsigned int i;
--	char *name;
- 
- 	mutex_lock(&host->syncpt_mutex);
- 
-@@ -64,13 +64,11 @@ static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
- 			goto unlock;
+@@ -293,7 +293,7 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
+ 		}
  	}
  
--	name = kasprintf(GFP_KERNEL, "%02u-%s", sp->id,
--			 client ? dev_name(client->dev) : NULL);
--	if (!name)
-+	full_name = kasprintf(GFP_KERNEL, "%u-%s", sp->id, name);
-+	if (!full_name)
- 		goto free_base;
+-	host1x_intr_put_ref(sp->host, sp->id, ref);
++	host1x_intr_put_ref(sp->host, sp->id, ref, true);
  
--	sp->client = client;
--	sp->name = name;
-+	sp->name = full_name;
- 
- 	if (flags & HOST1X_SYNCPT_CLIENT_MANAGED)
- 		sp->client_managed = true;
-@@ -87,6 +85,7 @@ static struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
- 	mutex_unlock(&host->syncpt_mutex);
- 	return NULL;
- }
-+EXPORT_SYMBOL(host1x_syncpt_alloc);
- 
- /**
-  * host1x_syncpt_id() - retrieve syncpoint ID
-@@ -401,7 +400,7 @@ int host1x_syncpt_init(struct host1x *host)
- 	host1x_hw_syncpt_enable_protection(host);
- 
- 	/* Allocate sync point to use for clearing waits for expired fences */
--	host->nop_sp = host1x_syncpt_alloc(host, NULL, 0);
-+	host->nop_sp = host1x_syncpt_alloc(host, 0, "reserved-nop");
- 	if (!host->nop_sp)
- 		return -ENOMEM;
- 
-@@ -423,7 +422,7 @@ struct host1x_syncpt *host1x_syncpt_request(struct host1x_client *client,
- {
- 	struct host1x *host = dev_get_drvdata(client->host->parent);
- 
--	return host1x_syncpt_alloc(host, client, flags);
-+	return host1x_syncpt_alloc(host, flags, dev_name(client->dev));
- }
- EXPORT_SYMBOL(host1x_syncpt_request);
- 
-@@ -447,7 +446,6 @@ void host1x_syncpt_free(struct host1x_syncpt *sp)
- 	host1x_syncpt_base_free(sp->base);
- 	kfree(sp->name);
- 	sp->base = NULL;
--	sp->client = NULL;
- 	sp->name = NULL;
- 	sp->client_managed = false;
- 
-diff --git a/drivers/gpu/host1x/syncpt.h b/drivers/gpu/host1x/syncpt.h
-index 8e1d04dacaa0..3aa6b25b1b9c 100644
---- a/drivers/gpu/host1x/syncpt.h
-+++ b/drivers/gpu/host1x/syncpt.h
-@@ -33,7 +33,6 @@ struct host1x_syncpt {
- 	const char *name;
- 	bool client_managed;
- 	struct host1x *host;
--	struct host1x_client *client;
- 	struct host1x_syncpt_base *base;
- 
- 	/* interrupt data */
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 9eb77c87a83b..7137ce0e35d4 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -154,6 +154,9 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
- struct host1x_syncpt *host1x_syncpt_request(struct host1x_client *client,
- 					    unsigned long flags);
- void host1x_syncpt_free(struct host1x_syncpt *sp);
-+struct host1x_syncpt *host1x_syncpt_alloc(struct host1x *host,
-+					  unsigned long flags,
-+					  const char *name);
- 
- struct host1x_syncpt_base *host1x_syncpt_get_base(struct host1x_syncpt *sp);
- u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
+ done:
+ 	return err;
 -- 
 2.30.0
 
