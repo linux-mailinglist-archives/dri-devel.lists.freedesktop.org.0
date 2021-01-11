@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8302B2F2983
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB5A2F2978
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276656E098;
-	Tue, 12 Jan 2021 07:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DFF6E0D0;
+	Tue, 12 Jan 2021 07:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77A06E0E6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 14:23:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4B06E0E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 14:23:19 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3C1B0580672;
- Mon, 11 Jan 2021 09:23:17 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id A5420580673;
+ Mon, 11 Jan 2021 09:23:18 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 11 Jan 2021 09:23:17 -0500
+ by compute6.internal (MEProxy); Mon, 11 Jan 2021 09:23:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=MVW46ptQtxJas
- yB/IqBe+aAprx8OKwk5DHwQk11fjH8=; b=QJ3JpCgUiHC5Gr2hwNBvbQsmlesoW
- An73yeZ7n9Kr1Hb8Dm7AN7h2aOQyZyYEqHPyC5axBRY6ajUiCtTq3/+or8rthk6v
- QuCqqHylQIq67ySMfD4wTpHEErDN+F+CcXFvKwtlYMKKxjXKmsofLl/BP3hFehWv
- OPaAGrZ8vYHB2recViyQUMChVPLcpQL4d7FYUgTLHfYeBNXZf4XdKDb0mJk2Onyp
- KWWDnE+KOCk9GlnH7CF3OaxaikvDP82k0KOD18VQ/fjLTqhKqe7UcrHuBcltKRYY
- NN2a8Vs/lTYFBx274XBONC0d6/hk/+GaVFbILVNn5G7XUt41SIqaW9wbA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=SDxCcurjWzwhz
+ oqpeRp22hxUkocQjnOCHFbLsnXrelE=; b=D+LEoaF6HueE3Wks02j55NVuTL/cZ
+ 1CY4KCGOq32XRV2c+p9uS4hGFDEAHFV8pq1Jn8mPaQAM5AF45LLZYqDqePG+NtaV
+ uoKJvMD3Qg3GcIsCTNMPlD+YL7dSn8UBEH6cqwx8VG7o3CqIflJgCxDyHu/T9uCi
+ fawVKXb8s9lNK4m35p+F92E8PUwO/Ug6pNAVsLjSe9n/6V1ksimkCPWqLdHJHATF
+ BoOvkEQS1AU40oQO2t3kMXeVCi+X87nr9DfXHMkw+tt1QcF7OPsvem469KlOmN6V
+ Zyhm8i5S5MClRFDenX9Y2W1mb1DQKwCYxJ/rsDn1SLsaHdIpjiwhdJG0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=MVW46ptQtxJasyB/IqBe+aAprx8OKwk5DHwQk11fjH8=; b=VL/7Bq3k
- K/sxVpQyazOrzzqThEDBPdwgfRFWZJQGcwBJbLhWGufoTMUQYqhpQvF7r7Kbx4HS
- eYq9RrcHhg8M29QC+6Hjv98ZFCKS1L4Ln2kw5Zn1DqjU23sNIdEVu8SJ7m9+b2QX
- jGdbsUdPFvEr6J7yLgjqlV7OTiQdCX9W+kOiTGSlChCx0EcsQpGer9Bgx1m9lUvh
- 87xGowZI2HbVFLET8cK6I2KyURbYKf0rA6mM50d1+7tFeoHgcdwr5nnoF/y2BGpF
- euX2nrGn9DPwGq3nQ1y64JQVYii7zusXoazfDZpNezwLvbXijPqNDAD0/sO0o+xp
- oYJXuMtFyBamEA==
-X-ME-Sender: <xms:VV_8X0Fx4y6ZJjvttfF67VClDMEEGyFToojnVva_uY7RR9RmRMc-4w>
- <xme:VV_8X9W6eVwMrHJH65O2iFRjgli94GZ5rj6XP_4A2IBTc_co5Bo3b_AmD5OIHXUin
- dPXOIJL2VfI5blWcuo>
+ fm1; bh=SDxCcurjWzwhzoqpeRp22hxUkocQjnOCHFbLsnXrelE=; b=HhF6kXQQ
+ cEKEl9jZKhStuGk+b3lesfGKOY8hkTzPU1sHMOYIcPhOZdhgQwXpRzqQr5ZXGzqs
+ ndfwhsZC4BgGHRtFtUgWEMkcAlfoDX//PplH/MudRHyLwpsV7JGPmBUvDktZRRYO
+ SLYaeRHjx7IPFMIxIJVpxq6+dGh4CALFt/Rh4K9NticKUs8p8/1nbxLl4AW+YhUt
+ /8/RTlxb1chT2cfOq/wAsCrESnzimcIG+F6BZEYWO4Vxbs4lF6iW5M49rdXX4nb9
+ m1ETwHnT2Pbv7om7GzD45yA4Oxrbt0yPCdqK/Hqyj2PbMNL1l2LCaBrY04G7jqMV
+ teN4D7inzRH2rA==
+X-ME-Sender: <xms:Vl_8X5HRt8qKjpfBbOUcoUwhfPBzsJZN-xShvr2J4-OwZk60HUr08A>
+ <xme:Vl_8X-WcLq5u2b1y5t2c7tEePs_DxAFMVRyRjPxwzru5SiwH7mmjJBfuWz8niQeAV
+ iR54fX2AtEVWP6vzuM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddgieegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VV_8X-JCbKdMW04PDn6hOrtcuClyN3VOGJig3WoTGTD9Q3LWNEBeRw>
- <xmx:VV_8X2HyanaYvJuS668srybrqtzVp2--BAKnH9Qr8hHbORU7V_Jqkg>
- <xmx:VV_8X6Ud_EwfW4LGhwO9cQZcqk_SFoy0ffuTnTfCHuBO2-zFyd5g0g>
- <xmx:VV_8XzUVCtVF_6E5B02Z3ciqnSVPq1CZA3PewQ20DjUH9YvdTCWvpg>
+X-ME-Proxy: <xmx:Vl_8X7LjSjs0a_zSM-l1EoMrIc369zB8sbdkLOWUL84pQFH8-_r6EA>
+ <xmx:Vl_8X_FKcBBDleLaSYlx2QEstoA8EMpC_cLTl2iRWUCnA_V-lfb9CQ>
+ <xmx:Vl_8X_UylDOXK4QXHzKLcH-C-Mnys6FdsT4-jClevtHHriR48U7X5w>
+ <xmx:Vl_8X8Xq-dcaSe5McG77zpkAeyTlIcip_zw5GmUCQyxduILCvJ2tdQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id BB40C24005A;
- Mon, 11 Jan 2021 09:23:16 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 33EC6240057;
+ Mon, 11 Jan 2021 09:23:18 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 04/15] drm/vc4: hdmi: Fix up CEC registers
-Date: Mon, 11 Jan 2021 15:22:58 +0100
-Message-Id: <20210111142309.193441-5-maxime@cerno.tech>
+Subject: [PATCH v2 05/15] drm/vc4: hdmi: Restore cec physical address on
+ reconnect
+Date: Mon, 11 Jan 2021 15:22:59 +0100
+Message-Id: <20210111142309.193441-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210111142309.193441-1-maxime@cerno.tech>
 References: <20210111142309.193441-1-maxime@cerno.tech>
@@ -95,42 +96,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-The commit 311e305fdb4e ("drm/vc4: hdmi: Implement a register layout
-abstraction") forgot one CEC register, and made a copy and paste mistake
-for another one. Fix those mistakes.
+Currently we call cec_phys_addr_invalidate on a hotplug deassert.
+That may be due to a TV power cycling, or an AVR being switched
+on (and switching edid).
 
-Fixes: 311e305fdb4e ("drm/vc4: hdmi: Implement a register layout abstraction")
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+This makes CEC unusable since our controller wouldn't have a physical
+address anymore.
+
+Set it back up again on the hotplug assert.
+
+Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index 401863cb8c98..e1b58eac766f 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -29,6 +29,7 @@ enum vc4_hdmi_field {
- 	HDMI_CEC_CPU_MASK_SET,
- 	HDMI_CEC_CPU_MASK_STATUS,
- 	HDMI_CEC_CPU_STATUS,
-+	HDMI_CEC_CPU_SET,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 7945dbcee78c..c3a301396aad 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -136,20 +136,32 @@ static enum drm_connector_status
+ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
++	bool connected = false;
  
- 	/*
- 	 * Transmit data, first byte is low byte of the 32-bit reg.
-@@ -199,9 +200,10 @@ static const struct vc4_hdmi_register __maybe_unused vc4_hdmi_fields[] = {
- 	VC4_HDMI_REG(HDMI_TX_PHY_RESET_CTL, 0x02c0),
- 	VC4_HDMI_REG(HDMI_TX_PHY_CTL_0, 0x02c4),
- 	VC4_HDMI_REG(HDMI_CEC_CPU_STATUS, 0x0340),
-+	VC4_HDMI_REG(HDMI_CEC_CPU_SET, 0x0344),
- 	VC4_HDMI_REG(HDMI_CEC_CPU_CLEAR, 0x0348),
- 	VC4_HDMI_REG(HDMI_CEC_CPU_MASK_STATUS, 0x034c),
--	VC4_HDMI_REG(HDMI_CEC_CPU_MASK_SET, 0x034c),
-+	VC4_HDMI_REG(HDMI_CEC_CPU_MASK_SET, 0x0350),
- 	VC4_HDMI_REG(HDMI_CEC_CPU_MASK_CLEAR, 0x0354),
- 	VC4_HDMI_REG(HDMI_RAM_PACKET_START, 0x0400),
- };
+ 	if (vc4_hdmi->hpd_gpio) {
+ 		if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
+ 		    vc4_hdmi->hpd_active_low)
+-			return connector_status_connected;
+-		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+-		return connector_status_disconnected;
++			connected = true;
++	} else if (drm_probe_ddc(vc4_hdmi->ddc)) {
++		connected = true;
++	} else if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED) {
++		connected = true;
+ 	}
+ 
+-	if (drm_probe_ddc(vc4_hdmi->ddc))
+-		return connector_status_connected;
++	if (connected) {
++		if (connector->status != connector_status_connected) {
++			struct edid *edid = drm_get_edid(connector, vc4_hdmi->ddc);
++
++			if (edid) {
++				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
++				vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
++				kfree(edid);
++			}
++		}
+ 
+-	if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED)
+ 		return connector_status_connected;
++	}
++
+ 	cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+ 	return connector_status_disconnected;
+ }
 -- 
 2.29.2
 
