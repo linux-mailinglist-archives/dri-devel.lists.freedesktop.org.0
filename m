@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A502F0FB0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 11:07:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2CB2F0FC6
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 11:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5592B6E07D;
-	Mon, 11 Jan 2021 10:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5259389AFF;
+	Mon, 11 Jan 2021 10:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56266E07D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 10:07:51 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 190so13338825wmz.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 02:07:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=uWzaRMbmt2By8y7NAjed3CzVmUPuMLhbIN6Z2HhRiPk=;
- b=OAWDr412aSMYDUxWwDp6pKiepwKUJnkIBsf/3qFDM7Go3GGi3j9O+EUop4t7xMxLJL
- KFPI1PCaURTTX/1vBW6Mcq+PEkFAkG9JwoM6YCRHgxPviy6x8ZdUNAHNK/dYF35eJffN
- D2q/BhbwjMjMesCNIKWjqpeUdS/RY9rBvev+A=
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A4F89AFF
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 10:13:43 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id ce23so23877246ejb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 02:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=EheHVO6H1PA369vXwQvNpd7u7nXzQGDp7KDWKhw/NYw=;
+ b=NymWhk43I5+yNmhpWtTHKGFo/cNbWd0nuglN0ckKLY0eM1k0HHgIlAGzIAl0HESf2R
+ rqwCJhIGe5dhOO85Snrl/btAvrlzQpGGMyu4Q8ZYijSo1qXx7mYQwKc13OphqV9r232o
+ wE4rukKdOCq9MzfL5nDsTn0J9g3RwXnMCJLC7m5+yI91nlY6ATYc17ykA7Qv8uoy+Lzc
+ 7cuX4V+rMOTfY1leb23a+LS2FhHMVxKAAVPFxqcvZ7NVR1Y4nh7gGOs/LPl4k9wJDj9T
+ 1IhohwtXhssjiCrgz5yPKX65lrdyt+9I66oSoPztLy7qEtnfFVKVtGmW6z1Nwe3baEsL
+ /Ibw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=uWzaRMbmt2By8y7NAjed3CzVmUPuMLhbIN6Z2HhRiPk=;
- b=Q+7lLT16jnFBdCaOnygjnVNDjmhKl6My7bM1NJLMDkFair2rXtIJJet2OwjYXPlYXL
- k0j50deiOL2A+QosLnJFCB7xnD6lgAZPMz/06pKfMdE1zLFKT+VMW2QN9dmqjColArYk
- o350zncoGwFwMprnaZJHRn0Q1MwcsDpxIbsOWp06YNTGtQyPdDGURo1TXUF0dgsEiHe1
- YIZCn2VdhlAvVDNbJojYBbPFjTMT3gpiM+6zJkcS/v0RwBLR7JkiZ5g8ggYpaqN+/yAX
- Rg/WFRqBbM0yigttCVy8l2APYiXnq4dsJeahhczdXem62qo5xldC9iTVA1AxQH+o1dxo
- p8Pg==
-X-Gm-Message-State: AOAM531FuDW30ZGJK17LOHFGJyDi8Ck9uxEO0ZGf5mrRBp8q08puj4XF
- 181i+pPOy4leq36WeoyUuxaGbQ==
-X-Google-Smtp-Source: ABdhPJzfBNXH+bjslOlOA/6EO2izRzsf8AeNYCi7LatDfnaocu5Yh8op6AQw8R/KvstC7WsYcIoQyg==
-X-Received: by 2002:a1c:6144:: with SMTP id v65mr13815610wmb.125.1610359670546; 
- Mon, 11 Jan 2021 02:07:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i16sm23321093wrx.89.2021.01.11.02.07.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 02:07:49 -0800 (PST)
-Date: Mon, 11 Jan 2021 11:07:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Subject: Re: [PATCH V4 3/3] drm/vkms: Add information about module options
-Message-ID: <X/wjc/Hhv9PlnvgM@phenom.ffwll.local>
-Mail-Followup-To: Sumera Priyadarsini <sylphrenadin@gmail.com>,
- melissa.srw@gmail.com, rodrigosiqueiramelo@gmail.com,
- hamohammed.sa@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <cover.1610200411.git.sylphrenadin@gmail.com>
- <68b521bc789640a5f6437bcaa5d5960799be59c9.1610200411.git.sylphrenadin@gmail.com>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=EheHVO6H1PA369vXwQvNpd7u7nXzQGDp7KDWKhw/NYw=;
+ b=j0CmSyYu7+GlJmiePab9gZvKAwqYAV1sa8yeqNt/IwVjU/VhME5OfSeppbJPHplz73
+ azUYC/gfDYf9/LsAXG/lNXn2eB3VtKltmS7Zxr1MnHsvnxfTMonbmAYaM4tyMWPS9Ws5
+ Sp+cX4b3TG4H26PrZAfOFeBp0ayM4seEstCio2IGEc9ZQB7oa4+sC9a0q2Rhwr4zkrxG
+ L6X7WVRaR84FOqDdL26+d8cgTGwZ8E977IqdK2v+1kvpS623Hn9G3K5iSnS8PKx1JRs2
+ nX23DFF5gQDWj8yeOtKh73clPmPOq0GT9y2dLGSj999MtPOC2kIP8ol2hBS9WGWpylsT
+ zGhw==
+X-Gm-Message-State: AOAM533PB/NyRJ1tMwG9cGG+sBYpugMg8hk5RZqfhua+/OjxEu5377T6
+ Bd6dAG3c39ETwxKftolaVXt82Ul5pho=
+X-Google-Smtp-Source: ABdhPJwGHYoBRsc3nDfjfdMEIdFLYI1tET+ULRt5VD7TmQHQ2E4Zfm0VTbv3x9ePOCv6h+EUDe9e9A==
+X-Received: by 2002:a17:907:961c:: with SMTP id
+ gb28mr9820672ejc.393.1610360022502; 
+ Mon, 11 Jan 2021 02:13:42 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id z26sm7500909edl.71.2021.01.11.02.13.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 02:13:42 -0800 (PST)
+Subject: Re: [PATCH] drm/ttm: Remove pinned bos from LRU in
+ ttm_bo_move_to_lru_tail() v2
+To: Mike Lothian <mike@fireburn.co.uk>, Lyude <cpaul@redhat.com>
+References: <20210105114505.38210-1-christian.koenig@amd.com>
+ <CAHbf0-HnCdsGO9No1Ug+QEaz2WXm12OOJ9VXvhYF1P98_6GU=A@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <dca06e12-645c-0801-fbe9-1ee78bc5efde@gmail.com>
+Date: Mon, 11 Jan 2021 11:13:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <68b521bc789640a5f6437bcaa5d5960799be59c9.1610200411.git.sylphrenadin@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAHbf0-HnCdsGO9No1Ug+QEaz2WXm12OOJ9VXvhYF1P98_6GU=A@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +73,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: christian.koenig@amd.com
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 10, 2021 at 07:35:41PM +0530, Sumera Priyadarsini wrote:
-> Update vkms documentation to contain usage of `modinfo`
-> command and steps to load vkms with module options enabled.
-> 
-> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-> ---
->  Documentation/gpu/vkms.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 9e030c74a82e..45fe02f643a8 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -35,6 +35,16 @@ Now, to load the driver, use::
->  On running the lsmod command now, the VKMS driver will appear listed.
->  You can also observe the driver being loaded in the dmesg logs.
->  
+Am 08.01.21 um 19:49 schrieb Mike Lothian:
+> Hi
+>
+> This breaks things for me on my Prime system
+>
+> https://gitlab.freedesktop.org/drm/misc/-/issues/23
 
-Maybe start out with "vkms has optional features to simulate different
-kinds of hardware, which are exposed as module options." Just to make it
-clear why you'd want to look at module options and set them.
+This is most likely not correct.
 
-Otherwise lgtm, with that change on the entire series:
+The patch just fixes another bug which would break prime before it hits 
+the issue in the i915 driver.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Christian.
 
-> +You can use the `modinfo` command to see module options for vkms::
-> +
-> +  modinfo vkms
-> +
-> +Module options are helpful when testing, and enabling modules
-> +can be done while loading vkms. For example, to load vkms with cursor enabled,
-> +use::
-> +
-> +  sudo modprobe vkms enable_cursor=1
-> +
->  To disable the driver, use ::
->  
->    sudo modprobe -r vkms
-> -- 
-> 2.25.1
-> 
+>
+> Cheers
+>
+> Mike
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
