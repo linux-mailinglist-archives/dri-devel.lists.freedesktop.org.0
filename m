@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCB92F0DCA
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E1A2F0DCE
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C8989D2F;
-	Mon, 11 Jan 2021 08:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D4589932;
+	Mon, 11 Jan 2021 08:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 75C3489C61
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9557989C86
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:44:03 +0000 (UTC)
-X-UUID: 339b4f83d0924f52b1dab4da85b305e5-20210111
-X-UUID: 339b4f83d0924f52b1dab4da85b305e5-20210111
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+X-UUID: b0323047f5a146dd8786f8e0499d841a-20210111
+X-UUID: b0323047f5a146dd8786f8e0499d841a-20210111
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1010270250; Mon, 11 Jan 2021 15:43:58 +0800
+ with ESMTP id 2135816309; Mon, 11 Jan 2021 15:44:01 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 11 Jan 2021 15:43:58 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 11 Jan 2021 15:43:59 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 11 Jan 2021 15:43:57 +0800
+ Transport; Mon, 11 Jan 2021 15:43:58 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v3, 03/15] arm64: dts: mt8192: add display node
-Date: Mon, 11 Jan 2021 15:43:39 +0800
-Message-ID: <1610351031-21133-4-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v3, 04/15] drm/mediatek: add component OVL_2L2
+Date: Mon, 11 Jan 2021 15:43:40 +0800
+Message-ID: <1610351031-21133-5-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1610351031-21133-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1610351031-21133-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -60,164 +60,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add display node
+This patch add component OVL_2L2
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 134 +++++++++++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index e12e024..dcf9fdf 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -15,6 +15,11 @@
- 	#address-cells = <2>;
- 	#size-cells = <2>;
- 
-+	aliases {
-+		ovl2-2l2 = &ovl_2l2;
-+		rdma4 = &rdma4;
-+	};
-+
- 	clk26m: oscillator0 {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
-@@ -508,5 +513,134 @@
- 			#size-cells = <0>;
- 			status = "disabled";
- 		};
-+		
-+		mmsys: syscon@14000000 {
-+			compatible = "mediatek,mt8192-mmsys", "syscon";
-+			reg = <0 0x14000000 0 0x1000>;
-+			//mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST 1>,
-+			//	 <&gce 1 CMDQ_THR_PRIO_HIGHEST 1>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
-+			#clock-cells = <1>;
-+		};
-+
-+                mutex: mutex@14001000 {
-+			compatible = "mediatek,mt8192-disp-mutex";
-+			reg = <0 0x14001000 0 0x1000>;
-+			interrupts = <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//clocks = <&mmsys CLK_MM_DISP_MUTEX0>;
-+			//mediatek,gce-events = <CMDQ_EVENT_DISP_STREAM_DONE_ENG_EVENT_0>,
-+			//		      <CMDQ_EVENT_DISP_STREAM_DONE_ENG_EVENT_1>;
-+		};
-+
-+		ovl0: ovl@14005000 {
-+			compatible = "mediatek,mt8192-disp-ovl";
-+			reg = <0 0x14005000 0 0x1000>;
-+			interrupts = <GIC_SPI 254 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//clocks = <&mmsys CLK_MM_DISP_OVL0>;
-+			//iommus = <&iommu0 M4U_PORT_L0_OVL_RDMA0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
-+		};
-+
-+		ovl_2l0: ovl@14006000 {
-+			compatible = "mediatek,mt8192-disp-ovl-2l";
-+			reg = <0 0x14006000 0 0x1000>;
-+			interrupts = <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-+			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
-+		};
-+
-+		rdma0: rdma@14007000 {
-+			compatible = "mediatek,mt8192-disp-rdma";
-+			reg = <0 0x14007000 0 0x1000>;
-+			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//clocks = <&mmsys CLK_MM_DISP_RDMA0>;
-+			//iommus = <&iommu0 M4U_PORT_L0_DISP_RDMA0>;
-+			//mediatek,larb = <&larb0>;
-+			//mediatek,rdma-fifo-size = <5120>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x7000 0x1000>;
-+		};
-+
-+		color0: color@14009000 {
-+			compatible = "mediatek,mt8192-disp-color",
-+				     "mediatek,mt8173-disp-color";
-+			reg = <0 0x14009000 0 0x1000>;
-+			interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
-+		};
-+
-+		ccorr0: ccorr@1400a000 {
-+			compatible = "mediatek,mt8192-disp-ccorr";
-+			reg = <0 0x1400a000 0 0x1000>;
-+			interrupts = <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
-+		};
-+
-+		aal0: aal@1400b000 {
-+			compatible = "mediatek,mt8192-disp-aal";
-+			reg = <0 0x1400b000 0 0x1000>;
-+			interrupts = <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_AAL0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
-+		};
-+
-+		gamma0: gamma@1400c000 {
-+			compatible = "mediatek,mt8183-disp-gamma",
-+				     "mediatek,mt8192-disp-gamma";
-+			reg = <0 0x1400c000 0 0x1000>;
-+			interrupts = <GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
-+		};
-+
-+		postmask0: postmask@1400d000 {
-+			compatible = "mediatek,mt8192-disp-postmask";
-+			reg = <0 0x1400d000 0 0x1000>;
-+			interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_POSTMASK0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
-+		};
-+
-+		dither0: dither@1400e000 {
-+			compatible = "mediatek,mt8192-disp-dither",
-+				     "mediatek,mt8183-disp-dither";
-+			reg = <0 0x1400e000 0 0x1000>;
-+			interrupts = <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
-+		};
-+
-+		ovl_2l2: ovl@14014000 {
-+			compatible = "mediatek,mt8192-disp-ovl-2l";
-+			reg = <0 0x14014000 0 0x1000>;
-+			interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_OVL2_2L>;
-+			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2>,
-+			//	 <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2_HDR>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x4000 0x1000>;
-+		};
-+
-+		rdma4: rdma@14015000 {
-+			compatible = "mediatek,mt8192-disp-rdma";
-+			reg = <0 0x14015000 0 0x1000>;
-+			interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH 0>;
-+			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
-+			//clocks = <&mmsys CLK_MM_DISP_RDMA4>;
-+			//iommus = <&iommu0 M4U_PORT_L1_DISP_RDMA4>;
-+			//mediatek,rdma-fifo-size = <2048>;
-+			//mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x5000 0x1000>;
-+		};
- 	};
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 81ed076..a715127 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -383,6 +383,7 @@ struct mtk_ddp_comp_match {
+ 	[DDP_COMPONENT_OVL1]	= { MTK_DISP_OVL,	1, NULL },
+ 	[DDP_COMPONENT_OVL_2L0]	= { MTK_DISP_OVL_2L,	0, NULL },
+ 	[DDP_COMPONENT_OVL_2L1]	= { MTK_DISP_OVL_2L,	1, NULL },
++	[DDP_COMPONENT_OVL_2L2]	= { MTK_DISP_OVL_2L,	2, NULL },
+ 	[DDP_COMPONENT_PWM0]	= { MTK_DISP_PWM,	0, NULL },
+ 	[DDP_COMPONENT_PWM1]	= { MTK_DISP_PWM,	1, NULL },
+ 	[DDP_COMPONENT_PWM2]	= { MTK_DISP_PWM,	2, NULL },
 -- 
 1.8.1.1.dirty
 
