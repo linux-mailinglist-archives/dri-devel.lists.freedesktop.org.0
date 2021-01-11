@@ -1,115 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDF32F1687
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:53:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B872D2F16B5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:57:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972C889E05;
-	Mon, 11 Jan 2021 13:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A9A6E0CC;
+	Mon, 11 Jan 2021 13:57:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF2889E05
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:53:47 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id a12so16479405wrv.8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 05:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF2736E0CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:57:24 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id jx16so24805430ejb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 05:57:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fMPNkX/8H1jC2xE24snow1oc8tDSRTOYv9vkli4KgJU=;
- b=mmNZ289a541WtDpTjP6vt2DymMxi9LdA45QjxzMGNyzSAl5pLWJx0Jv5lXuuRxB/4Q
- zQCLuMB/NaTPJsYobwz5mF7NKl7UAtFCIwYT/XvmSbeH+fy1yve2tr8l0AnBvML9oaCm
- ckboLyakm8FkZcK1dTodse5HIyH+ioNKtlCV7XxQmyJHXEWFxWAVL7yholk/vhlNC8K+
- mw9zjs6bZ/x3pv+UGNxJXImwCtTmJJyWj5ErLX8OrSdAbvyytjmrIolqZnd2d7+ANNyO
- qZyWUoQx9gzSLEPpsTtnY4KQEOE8orJCBqN/HXe1lk1vAI/7wMEOee+6yvP8+TYXS/yX
- fCpQ==
+ bh=XBx1V4b4fgz+sgDuinfyedbeEXFOkc11fHFUcT4rhTw=;
+ b=MOSAIonZL6mQiHopFg0eQsBN1SV87jReGGTZs8FsknndFvl/rgHqoo3bVrnmozlH6a
+ dJYcIh/cJq4xTVsV0mlFXbe0qI4agEmm5Ldclec5bdi1n5FNptvmhGAHITesUje5FJIQ
+ gtOswEl9EHdnB8t/z4JFDrFfEmo5rSN4JAsehPNWQGsXHWelDahDPwh1QT6RBBbeBSIU
+ kaOQ6+L0NFS9bFZebEVyVoz0ViNeRxvM0uQHk0Dnoi98BfwQj63QcgPqtH3gOui0W3Ai
+ Xsq+mYCDAvcMd17QcKziL21wCEjTNGFVjMjrlryU+HzpFkkJq1vuhkb8+WQIUF8Dt6Qs
+ AjSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=fMPNkX/8H1jC2xE24snow1oc8tDSRTOYv9vkli4KgJU=;
- b=ja/t4gR5dlRI2WaNwaY95POeD4gMjNgXhlBSW2gXiQa+fbVusBOEUrx64hjKA29dn5
- vYd2chODSipA4O9nZzrp6ZZQStvmwgIUObjarCHWmjo5vdY3nQlpD/t77rMH+oZ/d5GQ
- AvJ+AyN1kP17g52XvLnTb9z2yPXkx/Enxo4Dq48s89fnqxugkg3rFO/SZ+Agxb5hvyAv
- ADckpJIh62WW1utLHJ98TcbFpq8l2XmVMHNjLp/RIKMC9LJqNSqed5+tjx63VSIWAPWR
- Z2DE29XT2nv0SpqW0YBgbaC6B12kVjeHCiwiPVn6Or7dTgBGiTkn1nu2v4QAdBmdnvqo
- ZMAQ==
-X-Gm-Message-State: AOAM530mU7BX2SJKAaGU7AfXLmJwBWmwA3k+wmMKdjVl2gOmsKqn7Uqw
- hchnGypnrOlyzbspHtHieeyrrA==
-X-Google-Smtp-Source: ABdhPJzT7EI2kkkFtBM1pfsfjjE8i3e7EN6nVo3pNyaA/srTVAy7q+whoch68hF2WT+4RkrkvfEZ+w==
-X-Received: by 2002:adf:cc81:: with SMTP id p1mr16236608wrj.339.1610373225758; 
- Mon, 11 Jan 2021 05:53:45 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:7474:6cdc:8087:ca98?
- ([2a01:e35:2ec0:82b0:7474:6cdc:8087:ca98])
- by smtp.gmail.com with ESMTPSA id l16sm24598219wrx.5.2021.01.11.05.53.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 05:53:44 -0800 (PST)
-Subject: Re: [PATCH] drm/fourcc: fix Amlogic format modifier masks
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-References: <20210110125103.15447-1-contact@emersion.fr>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <2805b9ce-f960-d903-10e3-bc1e2c38765d@baylibre.com>
-Date: Mon, 11 Jan 2021 14:53:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XBx1V4b4fgz+sgDuinfyedbeEXFOkc11fHFUcT4rhTw=;
+ b=aMTm35zTuw7FiA/vinFLc7BpKf/A7jgbUbroSvMhj094Hm8OXLAK/3p5uzVS9+xaE4
+ iOYMLI45zF6GROGCFn1ZIYca4Td/PgcarHDp9y/cx3MvG4NraBHN6xlYKQIyKtj/spf2
+ JRc37uxBzP26RFuoDaGIp8ocDxXGiBBZwnRRN84zWzuG4FtV4Np1avadKSDO2S3AL62X
+ Ijsq+4yqEJmrLgvpTYmN9ZnF0BPPnRC1fLneHWdH7EMnDJZmNYweFCzbrdcd/PS//zH1
+ myRXeoJtzGHUDMqastIJF4GvnzZaLxbsBfj+mq2oW52NelTpzUmibl+nO3rpL2tWMM/C
+ lC8w==
+X-Gm-Message-State: AOAM533pDq/z5Ir87wuvEfsJCsTylj4cJ/fEa3cADYQ6rOlMigzCWukU
+ 5FrZmKBOttr0r1Y6cgdiVTQ=
+X-Google-Smtp-Source: ABdhPJyGpu1ZJ4xg+b7S8fvDT1JLfYNTpExmBxx73JZIRy0AfxQPe/FQK18vjYH4PpIEqx1zJJe8kg==
+X-Received: by 2002:a17:907:2116:: with SMTP id
+ qn22mr10763144ejb.483.1610373443493; 
+ Mon, 11 Jan 2021 05:57:23 -0800 (PST)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:7a3d:b8c1:f6c5:8930])
+ by smtp.gmail.com with ESMTPSA id bm12sm7025822ejb.117.2021.01.11.05.57.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 05:57:22 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: mikhail.v.gavrilov@gmail.com
+Subject: [PATCH] drm/ttm: make the pool shrinker lock a mutex
+Date: Mon, 11 Jan 2021 14:57:21 +0100
+Message-Id: <20210111135721.2704-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210110125103.15447-1-contact@emersion.fr>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,66 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Hilman <khilman@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 10/01/2021 13:51, Simon Ser wrote:
-> The comment says the layout and options use 8 bits, and the shift
-> uses 8 bits. However the mask is 0xf, ie. 0b00001111 (4 bits).
-> 
-> This could be surprising when introducing new layouts or options
-> that take more than 4 bits, as this would silently drop the high
-> bits.
-
-Indeed, but the masks are "private", and would be updated accordingly when introducing new layouts.
-
-> 
-> Make the masks consistent with the comment and the shift.
-> 
-> Found when writing a drm_info patch [1].
-> 
-> [1]: https://github.com/ascent12/drm_info/pull/67
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Fixes: d6528ec88309 ("drm/fourcc: Add modifier definitions for describing Amlogic Video Framebuffer Compression")
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  include/uapi/drm/drm_fourcc.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 723c8e23ca87..5f42a14481bd 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -1036,9 +1036,9 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->   * Not all combinations are valid, and different SoCs may support different
->   * combinations of layout and options.
->   */
-> -#define __fourcc_mod_amlogic_layout_mask 0xf
-> +#define __fourcc_mod_amlogic_layout_mask 0xff
->  #define __fourcc_mod_amlogic_options_shift 8
-> -#define __fourcc_mod_amlogic_options_mask 0xf
-> +#define __fourcc_mod_amlogic_options_mask 0xff
->  
->  #define DRM_FORMAT_MOD_AMLOGIC_FBC(__layout, __options) \
->  	fourcc_mod_code(AMLOGIC, \
-> 
-
-Anyway:
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-
-Thanks,
-Neil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+c2V0X3BhZ2VzX3diKCkgbWlnaHQgc2xlZXAgYW5kIHNvIHdlIGNhbid0IGRvIHRoaXMgaW4gYW4g
+YXRvbWljIGNvbnRleHQuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+ClJlcG9ydGVkLWJ5OiBNaWtoYWlsIEdhdnJpbG92IDxtaWtoYWls
+LnYuZ2F2cmlsb3ZAZ21haWwuY29tPgpGaXhlczogZDA5OWZjOGY1NDBhICgiZHJtL3R0bTogbmV3
+IFRUIGJhY2tlbmQgYWxsb2NhdGlvbiBwb29sIHYzIikKLS0tCiBkcml2ZXJzL2dwdS9kcm0vdHRt
+L3R0bV9wb29sLmMgfCAyMCArKysrKysrKysrLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEw
+IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS90dG0vdHRtX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwppbmRl
+eCBhMDBiN2FiOWMxNGMuLjZhNmVlYmE0MjNkMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fcG9vbC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwpAQCAt
+NjYsNyArNjYsNyBAQCBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX3VuY2FjaGVk
+W01BWF9PUkRFUl07CiBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX2RtYTMyX3dy
+aXRlX2NvbWJpbmVkW01BWF9PUkRFUl07CiBzdGF0aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xv
+YmFsX2RtYTMyX3VuY2FjaGVkW01BWF9PUkRFUl07CiAKLXN0YXRpYyBzcGlubG9ja190IHNocmlu
+a2VyX2xvY2s7CitzdGF0aWMgc3RydWN0IG11dGV4IHNocmlua2VyX2xvY2s7CiBzdGF0aWMgc3Ry
+dWN0IGxpc3RfaGVhZCBzaHJpbmtlcl9saXN0Owogc3RhdGljIHN0cnVjdCBzaHJpbmtlciBtbV9z
+aHJpbmtlcjsKIApAQCAtMjQ5LDkgKzI0OSw5IEBAIHN0YXRpYyB2b2lkIHR0bV9wb29sX3R5cGVf
+aW5pdChzdHJ1Y3QgdHRtX3Bvb2xfdHlwZSAqcHQsIHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwKIAlz
+cGluX2xvY2tfaW5pdCgmcHQtPmxvY2spOwogCUlOSVRfTElTVF9IRUFEKCZwdC0+cGFnZXMpOwog
+Ci0Jc3Bpbl9sb2NrKCZzaHJpbmtlcl9sb2NrKTsKKwltdXRleF9sb2NrKCZzaHJpbmtlcl9sb2Nr
+KTsKIAlsaXN0X2FkZF90YWlsKCZwdC0+c2hyaW5rZXJfbGlzdCwgJnNocmlua2VyX2xpc3QpOwot
+CXNwaW5fdW5sb2NrKCZzaHJpbmtlcl9sb2NrKTsKKwltdXRleF91bmxvY2soJnNocmlua2VyX2xv
+Y2spOwogfQogCiAvKiBSZW1vdmUgYSBwb29sX3R5cGUgZnJvbSB0aGUgZ2xvYmFsIHNocmlua2Vy
+IGxpc3QgYW5kIGZyZWUgYWxsIHBhZ2VzICovCkBAIC0yNTksOSArMjU5LDkgQEAgc3RhdGljIHZv
+aWQgdHRtX3Bvb2xfdHlwZV9maW5pKHN0cnVjdCB0dG1fcG9vbF90eXBlICpwdCkKIHsKIAlzdHJ1
+Y3QgcGFnZSAqcCwgKnRtcDsKIAotCXNwaW5fbG9jaygmc2hyaW5rZXJfbG9jayk7CisJbXV0ZXhf
+bG9jaygmc2hyaW5rZXJfbG9jayk7CiAJbGlzdF9kZWwoJnB0LT5zaHJpbmtlcl9saXN0KTsKLQlz
+cGluX3VubG9jaygmc2hyaW5rZXJfbG9jayk7CisJbXV0ZXhfdW5sb2NrKCZzaHJpbmtlcl9sb2Nr
+KTsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShwLCB0bXAsICZwdC0+cGFnZXMsIGxydSkK
+IAkJdHRtX3Bvb2xfZnJlZV9wYWdlKHB0LT5wb29sLCBwdC0+Y2FjaGluZywgcHQtPm9yZGVyLCBw
+KTsKQEAgLTMwMiw3ICszMDIsNyBAQCBzdGF0aWMgdW5zaWduZWQgaW50IHR0bV9wb29sX3Nocmlu
+ayh2b2lkKQogCXVuc2lnbmVkIGludCBudW1fZnJlZWQ7CiAJc3RydWN0IHBhZ2UgKnA7CiAKLQlz
+cGluX2xvY2soJnNocmlua2VyX2xvY2spOworCW11dGV4X2xvY2soJnNocmlua2VyX2xvY2spOwog
+CXB0ID0gbGlzdF9maXJzdF9lbnRyeSgmc2hyaW5rZXJfbGlzdCwgdHlwZW9mKCpwdCksIHNocmlu
+a2VyX2xpc3QpOwogCiAJcCA9IHR0bV9wb29sX3R5cGVfdGFrZShwdCk7CkBAIC0zMTQsNyArMzE0
+LDcgQEAgc3RhdGljIHVuc2lnbmVkIGludCB0dG1fcG9vbF9zaHJpbmsodm9pZCkKIAl9CiAKIAls
+aXN0X21vdmVfdGFpbCgmcHQtPnNocmlua2VyX2xpc3QsICZzaHJpbmtlcl9saXN0KTsKLQlzcGlu
+X3VubG9jaygmc2hyaW5rZXJfbG9jayk7CisJbXV0ZXhfdW5sb2NrKCZzaHJpbmtlcl9sb2NrKTsK
+IAogCXJldHVybiBudW1fZnJlZWQ7CiB9CkBAIC01NjQsNyArNTY0LDcgQEAgaW50IHR0bV9wb29s
+X2RlYnVnZnMoc3RydWN0IHR0bV9wb29sICpwb29sLCBzdHJ1Y3Qgc2VxX2ZpbGUgKm0pCiB7CiAJ
+dW5zaWduZWQgaW50IGk7CiAKLQlzcGluX2xvY2soJnNocmlua2VyX2xvY2spOworCW11dGV4X2xv
+Y2soJnNocmlua2VyX2xvY2spOwogCiAJc2VxX3B1dHMobSwgIlx0ICIpOwogCWZvciAoaSA9IDA7
+IGkgPCBNQVhfT1JERVI7ICsraSkKQEAgLTYwMCw3ICs2MDAsNyBAQCBpbnQgdHRtX3Bvb2xfZGVi
+dWdmcyhzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsIHN0cnVjdCBzZXFfZmlsZSAqbSkKIAlzZXFfcHJp
+bnRmKG0sICJcbnRvdGFsXHQ6ICU4bHUgb2YgJThsdVxuIiwKIAkJICAgYXRvbWljX2xvbmdfcmVh
+ZCgmYWxsb2NhdGVkX3BhZ2VzKSwgcGFnZV9wb29sX3NpemUpOwogCi0Jc3Bpbl91bmxvY2soJnNo
+cmlua2VyX2xvY2spOworCW11dGV4X3VubG9jaygmc2hyaW5rZXJfbG9jayk7CiAKIAlyZXR1cm4g
+MDsKIH0KQEAgLTY0NCw3ICs2NDQsNyBAQCBpbnQgdHRtX3Bvb2xfbWdyX2luaXQodW5zaWduZWQg
+bG9uZyBudW1fcGFnZXMpCiAJaWYgKCFwYWdlX3Bvb2xfc2l6ZSkKIAkJcGFnZV9wb29sX3NpemUg
+PSBudW1fcGFnZXM7CiAKLQlzcGluX2xvY2tfaW5pdCgmc2hyaW5rZXJfbG9jayk7CisJbXV0ZXhf
+aW5pdCgmc2hyaW5rZXJfbG9jayk7CiAJSU5JVF9MSVNUX0hFQUQoJnNocmlua2VyX2xpc3QpOwog
+CiAJZm9yIChpID0gMDsgaSA8IE1BWF9PUkRFUjsgKytpKSB7Ci0tIAoyLjI1LjEKCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
