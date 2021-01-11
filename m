@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA052F0D57
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 08:44:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E41F42F0D7E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 08:49:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD5A89C3F;
-	Mon, 11 Jan 2021 07:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA1989CF3;
+	Mon, 11 Jan 2021 07:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835DA89C3F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:44:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 803CA89CF3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:49:38 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 00397AD6A;
- Mon, 11 Jan 2021 07:44:22 +0000 (UTC)
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20210111064320.72780-1-kuohsiang_chou@aspeedtech.com>
+ by mx2.suse.de (Postfix) with ESMTP id 0D896AD62;
+ Mon, 11 Jan 2021 07:49:37 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Use drm_crtc_mask()
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1610335818-32895-1-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/ast: Disable fast reset after DRAM initial
-Message-ID: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
-Date: Mon, 11 Jan 2021 08:44:21 +0100
+Message-ID: <adf7a7cb-ac91-5d46-6faf-f77362fa515c@suse.de>
+Date: Mon, 11 Jan 2021 08:49:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210111064320.72780-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <1610335818-32895-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,216 +41,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============0600129337=="
+Content-Type: multipart/mixed; boundary="===============1841732774=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0600129337==
+--===============1841732774==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="VTXPfHnMJUypUAkRAZXoX0g4VffYM8VYU"
+ boundary="bseePHVaxwue1iMzXgJRiCtQnNMdi4Noi"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VTXPfHnMJUypUAkRAZXoX0g4VffYM8VYU
-Content-Type: multipart/mixed; boundary="LBj3fJpi9mJIbX0X9L5LAn7kJSJPvNGKq";
+--bseePHVaxwue1iMzXgJRiCtQnNMdi4Noi
+Content-Type: multipart/mixed; boundary="FCC3G2ml740cYgBEccaqi4gPePszz46aU";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
-Message-ID: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
-Subject: Re: [PATCH] drm/ast: Disable fast reset after DRAM initial
-References: <20210111064320.72780-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20210111064320.72780-1-kuohsiang_chou@aspeedtech.com>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <adf7a7cb-ac91-5d46-6faf-f77362fa515c@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Use drm_crtc_mask()
+References: <1610335818-32895-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1610335818-32895-1-git-send-email-tiantao6@hisilicon.com>
 
---LBj3fJpi9mJIbX0X9L5LAn7kJSJPvNGKq
+--FCC3G2ml740cYgBEccaqi4gPePszz46aU
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 11.01.21 um 07:43 schrieb KuoHsiang Chou:
-> [Bug][AST2500]
-> When AST2500 acts as stand-alone VGA so that DRAM and DVO initializatio=
-n
-> have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-> However, HW suggests disable Fast reset mode after DRAM initializaton,
-> because fast reset mode is mainly designed for ARM ICE debugger.
-> Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be=
-
-> first enabled to avoid system deadlock before disable fast reset mode.
+Am 11.01.21 um 04:30 schrieb Tian Tao:
+> Use drm_crtc_mask() where appropriate.
 >=20
-> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-> ---
->   drivers/gpu/drm/ast/ast_drv.h  |  1 +
->   drivers/gpu/drm/ast/ast_main.c |  4 ++
->   drivers/gpu/drm/ast/ast_post.c | 72 ++++++++++++++++++++++-----------=
--
->   3 files changed, 51 insertions(+), 26 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_dr=
-v.h
-> index da6dfb677540..8bdd1482370d 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -320,6 +320,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
->   void ast_post_gpu(struct drm_device *dev);
->   u32 ast_mindwm(struct ast_private *ast, u32 r);
->   void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-> +void patch_ahb_ast2500(struct ast_private *ast);
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
-The function name should be named ast_patch_ahb_2500() because it's not=20
-static.
+Looks like the right thing to do.
 
->   /* ast dp501 */
->   void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
->   bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> index 3775fe26f792..3c072c6589a2 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -96,6 +96,10 @@ static void ast_detect_config_mode(struct drm_device=
- *dev, u32 *scu_rev)
->   	jregd0 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff)=
-;
->   	jregd1 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff)=
-;
->   	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-> +		/* Patch AST2500 */
-> +		if (((dev->pdev->revision & 0xF0) =3D=3D 0x40) && ((jregd0 & 0xC0) =3D=
-=3D 0))
-
-The field dev->pdev is considered deprecated. Instead, you can get the=20
-CP device from dev->dev like this
-
-struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-
-It's the same instance, but dev->pdev will removed soon.
-
-> +			patch_ahb_ast2500(ast);
-> +
->   		/* Double check it's actually working */
->   		data =3D ast_read32(ast, 0xf004);
->   		if (data !=3D 0xFFFFFFFF) {
-> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_p=
-ost.c
-> index 8902c2f84bf9..2d121c5b2233 100644
-> --- a/drivers/gpu/drm/ast/ast_post.c
-> +++ b/drivers/gpu/drm/ast/ast_post.c
-> @@ -2026,6 +2026,33 @@ static bool ast_dram_init_2500(struct ast_privat=
-e *ast)
->   	return true;
->   }
->=20
-> +void patch_ahb_ast2500(struct ast_private *ast)
-> +{
-> +	u32	data;
-> +
-> +patch_ahb_lock:
-> +	/* Clear bus lock condition */
-> +	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-> +	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-> +	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-> +	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> +	data =3D ast_mindwm(ast, 0x1e6e2070);
-> +	if (data & 0x08000000) {				/* check fast reset */
-> +
-> +		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-> +		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-> +		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-> +		udelay(1000);
-> +	}
-> +	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> +	do {
-> +		data =3D ast_mindwm(ast, 0x1e6e2000);
-> +		if (data =3D=3D 0xffffffff)
-> +			goto patch_ahb_lock;
-> +	}	while (data !=3D 1);
-> +	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);		/* clear fast reset */
-> +}
-> +
->   void ast_post_chip_2500(struct drm_device *dev)
->   {
->   	struct ast_private *ast =3D to_ast_private(dev);
-> @@ -2033,39 +2060,32 @@ void ast_post_chip_2500(struct drm_device *dev)=
-
->   	u8 reg;
->=20
->   	reg =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
-> -	if ((reg & 0x80) =3D=3D 0) {/* vga only */
-> +	if ((reg & 0xC0) =3D=3D 0) {/* vga only */
->   		/* Clear bus lock condition */
-> -		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-> -		ast_moutdwm(ast, 0x1e600084, 0x00010000);
-> -		ast_moutdwm(ast, 0x1e600088, 0x00000000);
-> -		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-> -		ast_write32(ast, 0xf004, 0x1e6e0000);
-> -		ast_write32(ast, 0xf000, 0x1);
-> -		ast_write32(ast, 0x12000, 0x1688a8a8);
-> -		while (ast_read32(ast, 0x12000) !=3D 0x1)
-> -			;
-> -
-> -		ast_write32(ast, 0x10000, 0xfc600309);
-> -		while (ast_read32(ast, 0x10000) !=3D 0x1)
-> -			;
-> +		patch_ahb_ast2500(ast);
-> +
-> +		/* Disable watchdog */
-> +		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-> +		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-> +		/* Reset USB port */
-> +		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);		/* add at V1.2 */
-> +		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);		/* add at V1.2 */
-> +		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {		/* add at V1.2 */
-> +			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);	/* add at V1.2 */
-> +			mdelay(100);					/* add at V1.2 */
-> +			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);	/* add at V1.2 */
-> +		}							/* add at V1.2 */
-> +		/* Modify eSPI reset pin */
-> +		temp =3D ast_mindwm(ast, 0x1E6E2070);			/* add at V1.3 */
-> +		if (temp & 0x02000000) {				/* add at V1.3 */
-> +			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);	/* add at V1.3 */
-> +		}
-
-Do these v1.2 and v1.3 code paths not need a version check in the code?
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Best regards
 Thomas
 
+> ---
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
->   		/* Slow down CPU/AHB CLK in VGA only mode */
->   		temp =3D ast_read32(ast, 0x12008);
->   		temp |=3D 0x73;
->   		ast_write32(ast, 0x12008, temp);
->=20
-> -		/* Reset USB port to patch USB unknown device issue */
-> -		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
-> -		temp  =3D ast_mindwm(ast, 0x1e6e2094);
-> -		temp |=3D 0x00004000;
-> -		ast_moutdwm(ast, 0x1e6e2094, temp);
-> -		temp  =3D ast_mindwm(ast, 0x1e6e2070);
-> -		if (temp & 0x00800000) {
-> -			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
-> -			mdelay(100);
-> -			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
-> -		}
-> -
->   		if (!ast_dram_init_2500(ast))
->   			drm_err(dev, "DRAM init failed !\n");
->=20
-> --
-> 2.18.4
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index c76f996..1c5f2fa 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -96,6 +96,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
+>   	struct drm_device *dev =3D &priv->dev;
+>   	struct hibmc_connector *hibmc_connector =3D &priv->connector;
+>   	struct drm_encoder *encoder =3D &priv->encoder;
+> +	struct drm_crtc *crtc =3D &priv->crtc;
+>   	struct drm_connector *connector =3D &hibmc_connector->base;
+>   	int ret;
+>  =20
+> @@ -105,7 +106,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)=
+
+>   		return ret;
+>   	}
+>  =20
+> -	encoder->possible_crtcs =3D 0x1;
+> +	encoder->possible_crtcs =3D drm_crtc_mask(crtc);
+>   	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);=
+
+>   	if (ret) {
+>   		drm_err(dev, "failed to init encoder: %d\n", ret);
 >=20
 
 --=20
@@ -260,32 +123,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---LBj3fJpi9mJIbX0X9L5LAn7kJSJPvNGKq--
+--FCC3G2ml740cYgBEccaqi4gPePszz46aU--
 
---VTXPfHnMJUypUAkRAZXoX0g4VffYM8VYU
+--bseePHVaxwue1iMzXgJRiCtQnNMdi4Noi
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/8AdUFAwAAAAAACgkQlh/E3EQov+AZ
-4g/9FKX4seEh3hmrKcOrt+iTyFpS01EDqbPoBrb7Jyuu5DPaKQtifWvalE58fA2OrUOMxLQNOlhM
-sjCd6NIbgPX5IU01vuOZuQ4nq0t9L0ZdBWtskFdF+ZJqnhP9kLuZ1kl1DcS5CzptAScQMY+cENxT
-XAfvze+o/5QXyq9u5E3VdkdsY2TQMdrO259C4tAWwyFLl+Ks6k5JAIvrLg9tAlp1BmZWif90evAF
-ikQ/7LHF3VHQFaoAOhuL1XkjolZu3SIIFDRfsMCLtk1Zuw8WSoAsO+OpMWdaQIQ7dxjvPTzqUTcM
-xjDtTODQKs83E2X1PrEhO6w7jUIWHHyEXWGjcWUgsCL/UbxlwyVxAufzl1zvWVADGSudPcEPQhso
-BGqN9tHoyp0QyPR/3wuIryXjwWCSeWAzSx9FZxRM9jIpJgduq9FVLbgxgaHnI9g536XLG/lA7Tq3
-5+iZZ3bYTFoyNNhI8Bdki99PEkHiXazg1VuXHA3TSGBLKWsYotpSYiqRIwRyw/AxbYi0jXEgG9iT
-tRsO7Exb9uehgTX15Hei5UNizOuOtAEED7BTiM+K+lHAfKw9FFyrOsFjddT9wNfUJv62Dc7R4ptD
-CBhVN4o4xGVDB5HQrLapx0gqVJVHCSccZ39J6qpLKFW3D9cMxLQqK/wIp1dDsj6RPjGwVkTK1LOI
-iB4=
-=xgqy
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/8Aw8FAwAAAAAACgkQlh/E3EQov+Dg
+4hAAlW8K/tpzqYx1MsSm0po+RLjHFvRThVyxAJKXUshohEwgwz8lWfhur2Mzq1pGvdLSt4LKq3T0
+oEJXt8FF4uErucQ+GzTkz/ud6Y0YGk9oQXIUiQq2J9h3z/m7Nil/mC6Rwqf47E7jQVaiK8pizVm/
+ZXDXUgEmGlVtqX1wRin2oJzWgrtO73O1n/esT6O73mp7bDtRCJ8UWx57ywMDGgUxp+YIuuHM8ADR
+4XOAzBjvX8D4KSWmdwDP0JWCWIYk/7NOSnLIDCmy4h6jtDYDFfajtJqz71fQS29BNVM90CrIzXwQ
+yxr86Xs2TJ3StTtP3bwvzHK2XuJgVwKFmFix0EvbtiIv4Io4BlyZwQVsEb0Ilcwd0V0cPUF6JtvV
+mOedGweXIFpA5yjb3EBiCWZBwkJez6gT+VPuQ2sHeh9/F6PmtZhDmHMW0MSD2FCOJ1SUmw/3GTGI
+LJIMNU36J6HV5E9zeRtDYPR+A9Oa+WPKizUpY+BW8Nsk3NZLAKchhwF6/YqCECWMrF9qJ/AOdYLO
+9WyHNFJ4YeC1s/7lCJdAHkoN6R+nonZ3DVj33TWHketw5TwgM3A+bqcLsmsoG58MG4ulJQJZ4pU8
+IDp+AH6tHtx0xLgwQslJNMRaZyihNKI34SpRZAek/PXCnvyyA1ly68V/mfvhz6XWxRz5X9bvy09b
+dGU=
+=tCxd
 -----END PGP SIGNATURE-----
 
---VTXPfHnMJUypUAkRAZXoX0g4VffYM8VYU--
+--bseePHVaxwue1iMzXgJRiCtQnNMdi4Noi--
 
---===============0600129337==
+--===============1841732774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -296,4 +159,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0600129337==--
+--===============1841732774==--
