@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E022F2300
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 23:57:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8480B2F2301
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 23:58:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A2089B3C;
-	Mon, 11 Jan 2021 22:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A058A89B42;
+	Mon, 11 Jan 2021 22:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F2189B3C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 22:57:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 548D222D05;
- Mon, 11 Jan 2021 22:57:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610405842;
- bh=nzNVDGYlZ0ANJ9Ze6s99EXMBaVbaaDlMYSL8SmAM23k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bE8DaDDgTN2MlqeQGHEW8Y1Zif7rWCpljBu28v/980ochKlm9hxHq7A29S0GwD2zM
- j7LzXVKB/7hCNfqC1S+0yEIYSyW1/YoJJ7RuOhwc/GCoKm6v93vh/caFfHLfQAYCRt
- jU+w6NI4nBhHH98cJTVyMe9NU79TvaCVjsV8AUP99pFTGEW6JtAwDjrlo5/LpWEeT7
- 1wqTFiaQ2XRLVbxj9iQTuxGLhNb/TRXMVGaW1GaCKe2cdc2LTLnVFCRL3co+RVnYkF
- UlMSQwE3zgWUc946cpJ9O+kYsu8fKokuqf7ykJ7pQr0wosyosC1g7gfAMvdQrmA4YC
- kDgJZ35McYbUA==
-Date: Mon, 11 Jan 2021 22:56:50 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v8] backlight: lms283gf05: Convert to GPIO descriptors
-Message-ID: <20210111225650.GL4728@sirena.org.uk>
-References: <20210110120926.80471-1-linus.walleij@linaro.org>
- <20210111161930.GA3575260@dell>
- <CACRpkdZoSdYss71McN-wy5NSDE6dnonzSHmrNdVkaLw7qmS6QA@mail.gmail.com>
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2170C89B42
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 22:58:02 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id q25so340830oij.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 14:58:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h99tgpjO+Fur4D6aDCs45LdGnZbg0FYuLTMw0nRoTag=;
+ b=jrVk2WVygYfcYkIw8q2jSFxZSohEtOQnXhFsv3Nn1LW9iq6QPMW927g1aDz80g5j1J
+ n+3Z6oiOL7NGyhHkNmlbz+JKHl/apF/xlHvMNoFWIhEFc93rff8+X5KaovpAyPnDUXp1
+ WSob2hkshQqiN0kRAahLfX4WfHLjPdv2adHyCuVJxPiaMqmz5xoHzmXlo+rU7VecO1k2
+ F6LOM9FWbMIpnZv6bpALmFWHsNg3J2CRsVnMaX+OCdDVqPrSt2Y32RWcvHeqiJmvY2rb
+ /l0jtGNp4jhFdoIjAZTXfWaKSmOgQOnw+KvzfFgSoZBiUziNzURQip6jOvIY14U1GuIb
+ C/+Q==
+X-Gm-Message-State: AOAM532Du1Yb77PvDA/7E4ACLUPt5wqxnyr2jZdWykVbSC8S8TXD8kUH
+ kYQ/VfS7tAKsPGJY5XNWDQ==
+X-Google-Smtp-Source: ABdhPJzd5KCXjk/WFQSJuFjKzPEwE7xBtIUQ5JCqULsw5oRqhu1vmf0h7DWbazrQ1J+2CGa0QBlZLg==
+X-Received: by 2002:aca:ec43:: with SMTP id k64mr649295oih.43.1610405881350;
+ Mon, 11 Jan 2021 14:58:01 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id w9sm259493otq.44.2021.01.11.14.57.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 14:58:00 -0800 (PST)
+Received: (nullmailer pid 3213802 invoked by uid 1000);
+ Mon, 11 Jan 2021 22:57:59 -0000
+Date: Mon, 11 Jan 2021 16:57:59 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 3/6] dt-bindings: display: imx: hdmi: Convert binding
+ to YAML
+Message-ID: <20210111225759.GA3202374@robh.at.kernel.org>
+References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210105060818.24158-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdZoSdYss71McN-wy5NSDE6dnonzSHmrNdVkaLw7qmS6QA@mail.gmail.com>
-X-Cookie: Too much is not enough.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Disposition: inline
+In-Reply-To: <20210105060818.24158-4-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,60 +61,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
-Content-Type: multipart/mixed; boundary="===============1492024001=="
+Cc: devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ Mark Yao <markyao0591@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 05, 2021 at 08:08:15AM +0200, Laurent Pinchart wrote:
+> Convert the i.MX6 HDMI TX text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Only specify maxItems for clocks
+> - Drop reg and interrupts as they're checked in the base schema
+> - Rebase on top of OF graph schema, dropped redundant properties
+> - Fix identation for enum entries
+> - Drop clock-names items, use maxItems only
+> ---
+>  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 130 ++++++++++++++++++
+>  .../devicetree/bindings/display/imx/hdmi.txt  |  65 ---------
+>  2 files changed, 130 insertions(+), 65 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> new file mode 100644
+> index 000000000000..f9b131bb3339
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> @@ -0,0 +1,130 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX6 DWC HDMI TX Encoder
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description: |
+> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> +  with a companion PHY IP.
+> +
+> +allOf:
+> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx6dl-hdmi
+> +      - fsl,imx6q-hdmi
+> +
+> +  reg-io-width:
+> +    const: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    maxItems: 2
+> +
+> +  ddc-i2c-bus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The HDMI DDC bus can be connected to either a system I2C master or the
+> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> +      to a system I2C master this property contains a phandle to that I2C
+> +      master controller.
 
---===============1492024001==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fDERRRNgB4on1jOB"
-Content-Disposition: inline
+This should be deprecated as it should be in the connector node. But 
+that's a separate issue.
 
+> +
+> +  gpr:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the iomuxc-gpr region containing the HDMI multiplexer control
+> +      register.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
+> +      This device has four video ports, corresponding to the four inputs of the
+> +      HDMI multiplexer. Each port shall have a single endpoint.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: First input of the HDMI multiplexer
 
---fDERRRNgB4on1jOB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+muxing should have been endpoints rather than ports...
 
-On Mon, Jan 11, 2021 at 10:40:46PM +0100, Linus Walleij wrote:
+Anyways, same 'port' issues here. With those fixes:
 
-> Mark, can I have your ACK for deleting
-> include/linux/spi/lms283gf05.h
-> As part of this patch sets?
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---fDERRRNgB4on1jOB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/817EACgkQJNaLcl1U
-h9Ck8Af+Ko3OmqgKQgxNpdnWd4y6vSp0OubqxCx8sTfI8Sba+Cm2BJb2L1xP1f6c
-9rVYlI5Tm4DoaV+I/kAFmR3z6jrDK6TdG5uxmEXUp177uJr4HOtmXQKJBirbEiDI
-IDwQ2mxibfSPJ9lu6G1f97oERseGjlew3DJRnU3tfDU1zLNCairJClwT4t1N9DxR
-BrRp5fpH0PKJuZeWdZeT17gR4XkgyBhfcgNDprXFsaermaxYCWvZD2g3HUr1Sn4x
-fNSSmHjQzrwMymsky4Sc2YLKkrw61mI87PhAMToUjggdUgqUafMVXCM7Yiz4yw2A
-UtEEDSyyzbTvhFd5huDYVdFRY+yPIg==
-=HLM/
------END PGP SIGNATURE-----
-
---fDERRRNgB4on1jOB--
-
---===============1492024001==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Second input of the HDMI multiplexer
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Third input of the HDMI multiplexer
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Fourth input of the HDMI multiplexer
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +      - required:
+> +          - port@2
+> +      - required:
+> +          - port@3
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - gpr
+> +  - interrupts
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +
+> +    hdmi: hdmi@120000 {
+> +        reg = <0x00120000 0x9000>;
+> +        interrupts = <0 115 0x04>;
+> +        gpr = <&gpr>;
+> +        clocks = <&clks IMX6QDL_CLK_HDMI_IAHB>,
+> +                 <&clks IMX6QDL_CLK_HDMI_ISFR>;
+> +        clock-names = "iahb", "isfr";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                hdmi_mux_0: endpoint {
+> +                    remote-endpoint = <&ipu1_di0_hdmi>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                hdmi_mux_1: endpoint {
+> +                    remote-endpoint = <&ipu1_di1_hdmi>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/imx/hdmi.txt b/Documentation/devicetree/bindings/display/imx/hdmi.txt
+> deleted file mode 100644
+> index 6d021e71c9cf..000000000000
+> --- a/Documentation/devicetree/bindings/display/imx/hdmi.txt
+> +++ /dev/null
+> @@ -1,65 +0,0 @@
+> -Freescale i.MX6 DWC HDMI TX Encoder
+> -===================================
+> -
+> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> -with a companion PHY IP.
+> -
+> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> -following device-specific properties.
+> -
+> -
+> -Required properties:
+> -
+> -- compatible : Shall be one of "fsl,imx6q-hdmi" or "fsl,imx6dl-hdmi".
+> -- reg: See dw_hdmi.txt.
+> -- interrupts: HDMI interrupt number
+> -- clocks: See dw_hdmi.txt.
+> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> -- ports: See dw_hdmi.txt. The DWC HDMI shall have between one and four ports,
+> -  numbered 0 to 3, corresponding to the four inputs of the HDMI multiplexer.
+> -  Each port shall have a single endpoint.
+> -- gpr : Shall contain a phandle to the iomuxc-gpr region containing the HDMI
+> -  multiplexer control register.
+> -
+> -Optional properties
+> -
+> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> -  connected to a system I2C master this property contains a phandle to that
+> -  I2C master controller.
+> -
+> -
+> -Example:
+> -
+> -	gpr: iomuxc-gpr@20e0000 {
+> -		/* ... */
+> -	};
+> -
+> -        hdmi: hdmi@120000 {
+> -                #address-cells = <1>;
+> -                #size-cells = <0>;
+> -                compatible = "fsl,imx6q-hdmi";
+> -                reg = <0x00120000 0x9000>;
+> -                interrupts = <0 115 0x04>;
+> -                gpr = <&gpr>;
+> -                clocks = <&clks 123>, <&clks 124>;
+> -                clock-names = "iahb", "isfr";
+> -                ddc-i2c-bus = <&i2c2>;
+> -
+> -                port@0 {
+> -                        reg = <0>;
+> -
+> -                        hdmi_mux_0: endpoint {
+> -                                remote-endpoint = <&ipu1_di0_hdmi>;
+> -                        };
+> -                };
+> -
+> -                port@1 {
+> -                        reg = <1>;
+> -
+> -                        hdmi_mux_1: endpoint {
+> -                                remote-endpoint = <&ipu1_di1_hdmi>;
+> -                        };
+> -                };
+> -        };
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1492024001==--
