@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD242F1E8B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 20:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7728D2F1E91
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 20:07:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA2989DA9;
-	Mon, 11 Jan 2021 19:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237E889DBD;
+	Mon, 11 Jan 2021 19:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5016F89DA9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 19:06:39 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id 11so513556pfu.4
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 11:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=EIyCJKDhvNH8KI19OBGyEbU3SM6tfKfgJa5ae5NSM3Y=;
- b=fbBQ87YXU2W7qZDXQ1APvYVhLACLHf0jqMewwV/mDRFvsSnfDR+pwWoyh4/S8kfYEr
- 1v15ZzSqtbMtuxVJ93UgiM9geBLlm24aatkaJ46T+OIhDX/o1j8LIL/OFMR+HEPOi129
- U+Vv+bKDDYHP3UjdaHrav+ZaYUgfFHlcdTB6ByfQTDv8Um2jMzF93zkyh9W8p/YKV/Eq
- wzBLRUy+TUWGEJz8XSRBzXooRBuDMZsn6sW8tb1Ug3USDb2O6nzlWdZxwrR3vx3X+v8n
- QDPzkfut4F6mh+N35Uu5lEHC+srr0z8Z2CnKATrRU2lJss3KHqTPjhUA7lW3CNkCIJnX
- K98A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EIyCJKDhvNH8KI19OBGyEbU3SM6tfKfgJa5ae5NSM3Y=;
- b=S59PaDJ0YAOE/F+rXyneoP9M4LuHBGUVfMzf6XhADpDua98pIQlQ4xBtTqg29pecIe
- dXvj1S9faFjRZDQiw5OUeiMyoP6OMtskC1EHNOLXnTK1flst4rr8N8ui0ymY+umMUlnw
- kzRvm5e2yLh2WSy+TMdESvkXw/d1rc1fG9JH83oIAW1/JDxU+jyPUmdq0Zd4P588U+/d
- 85ZJa5VcbjLVFQn+oK/9Y91X2uVh2bd17VTjZ8Bsg4lvWJFVtW1DZFdwyk9igAuUenl3
- N7UO3w9Rljnwbpe2zSBCQ3dwRi8ysBiwOU8qxYr7HBUZETMUtQLsJJUotFwGxUMmNQpY
- P6XQ==
-X-Gm-Message-State: AOAM532diLgY+gCOcOFnLv+lg95OeTV05C6M+s9A1HtWpL29quZUZ/PU
- 6YDHO15DxZrBrD8gTCWxAfM=
-X-Google-Smtp-Source: ABdhPJy72E4kZERS5fyGJBoAmidZTicX5DyA8rEAIZftM2cNodlBIkh5xPC0RV4QEiPze/JN3b005w==
-X-Received: by 2002:a63:2cd:: with SMTP id 196mr947417pgc.398.1610391998845;
- Mon, 11 Jan 2021 11:06:38 -0800 (PST)
-Received: from adolin ([49.207.206.164])
- by smtp.gmail.com with ESMTPSA id b18sm370264pfi.173.2021.01.11.11.06.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:06:38 -0800 (PST)
-Date: Tue, 12 Jan 2021 00:36:34 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: melissa.srw@gmail.com
-Subject: [PATCH V5 1/3] drm/vkms: Add vkms_config type
-Message-ID: <a090ad29b826185df30f80c66932dd2173d7b060.1610391685.git.sylphrenadin@gmail.com>
-References: <cover.1610391685.git.sylphrenadin@gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C20A89CDE;
+ Mon, 11 Jan 2021 19:07:30 +0000 (UTC)
+IronPort-SDR: 9bzIFXkeCNVqRNwFxBHtalH6lXayxg8n/lPVDXKgOyiBTad21FGi0wA4lxfFVCivlNLgUE5Dr7
+ AQact0Yq13Vw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="157098559"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="157098559"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2021 11:07:29 -0800
+IronPort-SDR: 12OcQy1fKKPohlZNhe1tPWmIM/NZ7ucT9RfazV4GHyN9VN8m4Hlmw00N7h9t7J/awfRJwK/Y8u
+ 2rYW0TT10U/g==
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="381115963"
+Received: from libresli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.213.207.39])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2021 11:07:24 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v5 3/4] drm/i915/dp: Allow forcing specific interfaces
+ through enable_dpcd_backlight
+In-Reply-To: <20210107225207.28091-4-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210107225207.28091-1-lyude@redhat.com>
+ <20210107225207.28091-4-lyude@redhat.com>
+Date: Mon, 11 Jan 2021 21:07:20 +0200
+Message-ID: <87k0sjwavr.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1610391685.git.sylphrenadin@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,185 +49,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: thaytan@noraisin.net, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, data for the device instance is held by vkms_device.
-Add a separate type, vkms_config to contain configuration details
-for the device and various modes to be later used by configfs.
-This config data stays constant once the device is created.
+On Thu, 07 Jan 2021, Lyude Paul <lyude@redhat.com> wrote:
+> Since we now support controlling panel backlights through DPCD using
+> both the standard VESA interface, and Intel's proprietary HDR backlight
+> interface, we should allow the user to be able to explicitly choose
+> between one or the other in the event that we're wrong about panels
+> reliably reporting support for the Intel HDR interface.
+>
+> So, this commit adds support for this by introducing two new
+> enable_dpcd_backlight options: 2 which forces i915 to only probe for the
+> VESA interface, and 3 which forces i915 to only probe for the Intel
+> backlight interface (might be useful if we find panels in the wild that
+> report the VESA interface in their VBT, but actually only support the
+> Intel backlight interface).
+>
+> v3:
+> * Rebase
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Accordingly, add vkms_create and vkms_destroy to initialize/destroy
-device through configfs. Currently, they are being called from vkms_init
-and vkms_exit, but will be evoked from configfs later on. When configfs
-is added, device configuration will be tracked by configfs and only vkms
-device lifetime will be handled by vkms_init and vkms_exit functions.
+Yup. Feels maybe a bit convoluted, but I'll trust your judgement as
+you've been playing with these.
 
-Modify usage of enable_cursor feature to reflect the changes in
-relevant files.
+BR,
+Jani.
 
-Co-developed-by: Daniel Vetter <danvet.vetter@ffwl.ch>
-Signed-off-by: Daniel Vetter <danvet.vetter@ffwl.ch>
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_drv.c    | 40 ++++++++++++++++++++++++------
- drivers/gpu/drm/vkms/vkms_drv.h    | 12 +++++++--
- drivers/gpu/drm/vkms/vkms_output.c |  4 +--
- 3 files changed, 44 insertions(+), 12 deletions(-)
+> Cc: thaytan@noraisin.net
+> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+> ---
+>  .../drm/i915/display/intel_dp_aux_backlight.c | 45 +++++++++++++++++--
+>  drivers/gpu/drm/i915/i915_params.c            |  2 +-
+>  2 files changed, 43 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index 5e761fb49a14..4b2cb20b1f94 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -613,15 +613,54 @@ static const struct intel_panel_bl_funcs intel_dp_vesa_bl_funcs = {
+>  	.get = intel_dp_aux_vesa_get_backlight,
+>  };
+>  
+> +enum intel_dp_aux_backlight_modparam {
+> +	INTEL_DP_AUX_BACKLIGHT_AUTO = -1,
+> +	INTEL_DP_AUX_BACKLIGHT_OFF = 0,
+> +	INTEL_DP_AUX_BACKLIGHT_ON = 1,
+> +	INTEL_DP_AUX_BACKLIGHT_FORCE_VESA = 2,
+> +	INTEL_DP_AUX_BACKLIGHT_FORCE_INTEL = 3,
+> +};
+> +
+>  int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
+>  {
+>  	struct drm_device *dev = connector->base.dev;
+>  	struct intel_panel *panel = &connector->panel;
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
+>  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	bool try_intel_interface = false, try_vesa_interface = false;
+>  
+> -	if (i915->params.enable_dpcd_backlight == 0)
+> +	/* Check the VBT and user's module parameters to figure out which
+> +	 * interfaces to probe
+> +	 */
+> +	switch (i915->params.enable_dpcd_backlight) {
+> +	case INTEL_DP_AUX_BACKLIGHT_OFF:
+>  		return -ENODEV;
+> +	case INTEL_DP_AUX_BACKLIGHT_AUTO:
+> +		switch (i915->vbt.backlight.type) {
+> +		case INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE:
+> +			try_vesa_interface = true;
+> +			break;
+> +		case INTEL_BACKLIGHT_DISPLAY_DDI:
+> +			try_intel_interface = true;
+> +			try_vesa_interface = true;
+> +			break;
+> +		default:
+> +			return -ENODEV;
+> +		}
+> +		break;
+> +	case INTEL_DP_AUX_BACKLIGHT_ON:
+> +		if (i915->vbt.backlight.type != INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE)
+> +			try_intel_interface = true;
+> +
+> +		try_vesa_interface = true;
+> +		break;
+> +	case INTEL_DP_AUX_BACKLIGHT_FORCE_VESA:
+> +		try_vesa_interface = true;
+> +		break;
+> +	case INTEL_DP_AUX_BACKLIGHT_FORCE_INTEL:
+> +		try_intel_interface = true;
+> +		break;
+> +	}
+>  
+>  	/*
+>  	 * A lot of eDP panels in the wild will report supporting both the
+> @@ -630,13 +669,13 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
+>  	 * and will only work with the Intel interface. So, always probe for
+>  	 * that first.
+>  	 */
+> -	if (intel_dp_aux_supports_hdr_backlight(connector)) {
+> +	if (try_intel_interface && intel_dp_aux_supports_hdr_backlight(connector)) {
+>  		drm_dbg_kms(dev, "Using Intel proprietary eDP backlight controls\n");
+>  		panel->backlight.funcs = &intel_dp_hdr_bl_funcs;
+>  		return 0;
+>  	}
+>  
+> -	if (intel_dp_aux_supports_vesa_backlight(connector)) {
+> +	if (try_vesa_interface && intel_dp_aux_supports_vesa_backlight(connector)) {
+>  		drm_dbg_kms(dev, "Using VESA eDP backlight controls\n");
+>  		panel->backlight.funcs = &intel_dp_vesa_bl_funcs;
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+> index 7f139ea4a90b..6939634e56ed 100644
+> --- a/drivers/gpu/drm/i915/i915_params.c
+> +++ b/drivers/gpu/drm/i915/i915_params.c
+> @@ -185,7 +185,7 @@ i915_param_named_unsafe(inject_probe_failure, uint, 0400,
+>  
+>  i915_param_named(enable_dpcd_backlight, int, 0400,
+>  	"Enable support for DPCD backlight control"
+> -	"(-1=use per-VBT LFP backlight type setting [default], 0=disabled, 1=enabled)");
+> +	"(-1=use per-VBT LFP backlight type setting [default], 0=disabled, 1=enable, 2=force VESA interface, 3=force Intel interface)");
+>  
+>  #if IS_ENABLED(CONFIG_DRM_I915_GVT)
+>  i915_param_named(enable_gvt, bool, 0400,
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index aef29393b811..6b33975a5cb2 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -34,9 +34,9 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
--static struct vkms_device *vkms_device;
-+static struct vkms_config *default_config;
- 
--bool enable_cursor = true;
-+static bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
- 
-@@ -122,10 +122,11 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- 	return vkms_output_init(vkmsdev, 0);
- }
- 
--static int __init vkms_init(void)
-+static int vkms_create(struct vkms_config *config)
- {
- 	int ret;
- 	struct platform_device *pdev;
-+	struct vkms_device *vkms_device;
- 
- 	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
- 	if (IS_ERR(pdev))
-@@ -143,6 +144,8 @@ static int __init vkms_init(void)
- 		goto out_devres;
- 	}
- 	vkms_device->platform = pdev;
-+	vkms_device->config = config;
-+	config->dev = vkms_device;
- 
- 	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
- 					   DMA_BIT_MASK(64));
-@@ -179,21 +182,42 @@ static int __init vkms_init(void)
- 	return ret;
- }
- 
--static void __exit vkms_exit(void)
-+static int __init vkms_init(void)
-+{
-+	struct vkms_config *config = kmalloc(sizeof(*config), GFP_KERNEL);
-+
-+	default_config = config;
-+
-+	config->cursor = enable_cursor;
-+
-+	return vkms_create(config);
-+}
-+
-+static void vkms_destroy(struct vkms_config *config)
- {
- 	struct platform_device *pdev;
- 
--	if (!vkms_device) {
-+	if (!config->dev) {
- 		DRM_INFO("vkms_device is NULL.\n");
- 		return;
- 	}
- 
--	pdev = vkms_device->platform;
-+	pdev = config->dev->platform;
- 
--	drm_dev_unregister(&vkms_device->drm);
--	drm_atomic_helper_shutdown(&vkms_device->drm);
-+	drm_dev_unregister(&config->dev->drm);
-+	drm_atomic_helper_shutdown(&config->dev->drm);
- 	devres_release_group(&pdev->dev, NULL);
- 	platform_device_unregister(pdev);
-+
-+	config->dev = NULL;
-+}
-+
-+static void __exit vkms_exit(void)
-+{
-+	if (default_config->dev)
-+		vkms_destroy(default_config);
-+
-+	kfree(default_config);
- }
- 
- module_init(vkms_init);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5ed91ff08cb3..6a27bd8875f2 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -19,8 +19,6 @@
- #define XRES_MAX  8192
- #define YRES_MAX  8192
- 
--extern bool enable_cursor;
--
- struct vkms_composer {
- 	struct drm_framebuffer fb;
- 	struct drm_rect src, dst;
-@@ -82,10 +80,19 @@ struct vkms_output {
- 	spinlock_t composer_lock;
- };
- 
-+struct vkms_device;
-+
-+struct vkms_config {
-+	bool cursor;
-+	/* only set when instantiated */
-+	struct vkms_device *dev;
-+};
-+
- struct vkms_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
- 	struct vkms_output output;
-+	const struct vkms_config *config;
- };
- 
- #define drm_crtc_to_vkms_output(target) \
-@@ -124,3 +131,4 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
- 
- #endif /* _VKMS_DRV_H_ */
-+
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 4a1848b0318f..8f3ffb28b9d1 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -46,7 +46,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	if (IS_ERR(primary))
- 		return PTR_ERR(primary);
- 
--	if (enable_cursor) {
-+	if (vkmsdev->config->cursor) {
- 		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
- 		if (IS_ERR(cursor)) {
- 			ret = PTR_ERR(cursor);
-@@ -98,7 +98,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
- 	drm_crtc_cleanup(crtc);
- 
- err_crtc:
--	if (enable_cursor)
-+	if (vkmsdev->config->cursor)
- 		drm_plane_cleanup(cursor);
- 
- err_cursor:
 -- 
-2.25.1
-
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
