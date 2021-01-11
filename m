@@ -1,35 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D922F0DCD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DFD2F0DD9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 09:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2566089D58;
-	Mon, 11 Jan 2021 08:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9862489DA9;
+	Mon, 11 Jan 2021 08:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57ACA896C7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 03:30:32 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DDfMF1Nl4zl3Vd;
- Mon, 11 Jan 2021 11:29:13 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 11 Jan 2021 11:30:25 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon: Use drm_crtc_mask()
-Date: Mon, 11 Jan 2021 11:30:18 +0800
-Message-ID: <1610335818-32895-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5250589AD2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 04:24:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610339060; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=YjLVjY//RNNWhBt038pBhnPhk7W2XO47G1a0lqsYg4I=;
+ b=pgJsI2I7V2PSS21DnValkw4DpFae0jd1uOJYQ67Ep3acmkjshDBnXpe6lI0DsqLZZywTujjQ
+ oNJmXA5We+9XK4e4MzxTndcSmeI1fGitCYUUCmUtBdKdtSqpRGktHj1cJBDGPaCN9XxRFXLs
+ Dbo/Co7zpbSg3l7AFSmAv4DJshE=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5ffbd2ef8fb3cda82f6ccffb (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 11 Jan 2021 04:24:15
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F0916C43469; Mon, 11 Jan 2021 04:24:13 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A8D5CC433C6;
+ Mon, 11 Jan 2021 04:24:12 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Date: Mon, 11 Jan 2021 09:54:12 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm: Only enable A6xx LLCC code on A6xx
+In-Reply-To: <CAF6AEGsd5B0R7H1noO+=LByx4zkdVvu1LALZWnevGbMRj76m2w@mail.gmail.com>
+References: <CAF6AEGu0Sv6nYNDn0z61pXRjNyFLpLw5S4_O3opmrQ-UVNR_MA@mail.gmail.com>
+ <20210108122601.14993-1-saiprakash.ranjan@codeaurora.org>
+ <fa091855-8096-6377-e173-ce1cd02f74ec@somainline.org>
+ <43c8779bc5f03be2e8072c6484dfcabb@codeaurora.org>
+ <CAF6AEGsd5B0R7H1noO+=LByx4zkdVvu1LALZWnevGbMRj76m2w@mail.gmail.com>
+Message-ID: <73609df52188588bf7d023e16a706a7a@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Mon, 11 Jan 2021 08:20:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,42 +68,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno <freedreno@lists.freedesktop.org>, phone-devel@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>, Jonathan <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_crtc_mask() where appropriate.
+Hi Rob,
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 2021-01-08 22:16, Rob Clark wrote:
+> On Fri, Jan 8, 2021 at 6:05 AM Sai Prakash Ranjan
+> <saiprakash.ranjan@codeaurora.org> wrote:
+>> 
+>> On 2021-01-08 19:09, Konrad Dybcio wrote:
+>> >> Konrad, can you please test this below change without your change?
+>> >
+>> > This brings no difference, a BUG still happens. We're still calling
+>> > to_a6xx_gpu on ANY device that's probed! Too bad it won't turn my A330
+>> > into an A640..
+>> >
+>> > Also, relying on disabling LLCC in the config is out of question as it
+>> > makes the arm32 kernel not compile with DRM/MSM and it just removes
+>> > the functionality on devices with a6xx.. (unless somebody removes the
+>> > dependency on it, which in my opinion is even worse and will cause
+>> > more problems for developers!).
+>> >
+>> 
+>> Disabling LLCC is not the suggestion, I was under the impression that
+>> was the cause here for the smmu bug. Anyways, the check for llc slice
+>> in case llcc is disabled is not correct as well. I will send a patch 
+>> for
+>> that as well.
+>> 
+>> > The bigger question is how and why did that piece of code ever make it
+>> > to adreno_gpu.c and not a6xx_gpu.c?
+>> >
+>> 
+>> My mistake, I will move it.
+> 
+> Thanks, since we don't have kernel-CI coverage for gpu, and there
+> probably isn't one person who has all the different devices supported
+> (or enough hours in the day to test them all), it is probably
+> better/safer to keep things in the backend code that is specific to a
+> given generation.
+> 
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index c76f996..1c5f2fa 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -96,6 +96,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	struct drm_device *dev = &priv->dev;
- 	struct hibmc_connector *hibmc_connector = &priv->connector;
- 	struct drm_encoder *encoder = &priv->encoder;
-+	struct drm_crtc *crtc = &priv->crtc;
- 	struct drm_connector *connector = &hibmc_connector->base;
- 	int ret;
- 
-@@ -105,7 +106,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 		return ret;
- 	}
- 
--	encoder->possible_crtcs = 0x1;
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
- 	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
- 	if (ret) {
- 		drm_err(dev, "failed to init encoder: %d\n", ret);
+Agreed, I will post this change soon and will introduce some feature
+check as well because we will need it for iommu prot flag as per 
+discussion
+here - 
+https://lore.kernel.org/lkml/20210108181830.GA5457@willie-the-truck/
+
+>> > To solve it in a cleaner way I propose to move it to an a6xx-specific
+>> > file, or if it's going to be used with next-gen GPUs, perhaps manage
+>> > calling of this code via an adreno quirk/feature in adreno_device.c.
+>> > Now that I think about it, A5xx GPMU en/disable could probably managed
+>> > like that, instead of using tons of if-statements for each GPU model
+>> > that has it..
+>> >
+>> > While we're at it, do ALL (and I truly do mean ALL, including the
+>> > low-end ones, this will be important later on) A6xx GPUs make use of
+>> > that feature?
+>> >
+>> 
+>> I do not have a list of all A6XX GPUs with me currently, but from what
+>> I know, A618, A630, A640, A650 has the support.
+>> 
+> 
+> From the PoV of bringing up new a6xx, we should probably consider that
+> some of them may not *yet* have LLCC enabled.  I have an 8cx laptop
+> and once I find time to get the display working, the next step would
+> be bringing up a680.. and I'd probably like to start without LLCC..
+> 
+
+Right, once I move the LLCC code to a6xx specific address space 
+creation,
+without LLCC slices for GPU specified in qcom llcc driver, we will not
+be using it.
+
+Thanks,
+Sai
+
 -- 
-2.7.4
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
