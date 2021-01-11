@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4862F2984
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95902F297D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752F66E0B7;
-	Tue, 12 Jan 2021 07:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F9E6E0DD;
+	Tue, 12 Jan 2021 07:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614056E0E3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 14:23:33 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id CB4DE58067E;
- Mon, 11 Jan 2021 09:23:32 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Mon, 11 Jan 2021 09:23:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=2UJ5fuVx0fd+N
- mWUjZ3j/otRbpaIkIN2Yqbqj/0LMQI=; b=gmJsgSzmBVOJgCOqeYyuojWlR6fr2
- Se2czyZ8KkbwfC+1qymwyhGA1OEioSYRIT6MtXKulxsuIsbWux2sJQTnNcwpZr0m
- HdCe2s7j3dALoOAxzhk+EbsC2gKSyPmpi0i5fTozbEQS/k1zWFCO+Ks/dlz0yt61
- ety5p4afG0mdSUdf1ajLNO3pH4PS17kL0DQPJ53/ka5cQeVY2+WpsR/FO5++gRWp
- 5S8PFCFvIxsKQho3BGfQ+8XQBG8uJB5WoNEpTSbLWYhBCjFlub1X1SxEjqvFEDx9
- ZvgzuYlfaOS5BGcc/N0txAtvrkaStN1e1G2pN4psX1ZTAPukVF6hnNX1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=2UJ5fuVx0fd+NmWUjZ3j/otRbpaIkIN2Yqbqj/0LMQI=; b=qtupaJIJ
- QPjWfZ2lvqir1OKsDTnKi/1v3hhg3B1SNt6Gir/jWhMcIKct5h90FuUo7Wx05cAI
- B644oGNBNhCOiX6K5sovwGH15OTz7UJfnlH7Ag2XLVGPXjSRkmLiMPgE7iyU04Iq
- HRAz4Hz7Vmbme3SBdtTnK/BxCEUcMw5IGIzVApsfeGFw0i2oLNMt506utk4uVtVk
- UJZYRDT7E2n3Z7FyUyOS/Yd5VgP51UVkJcDL5ZmZeeJgYV+AYRWJKoP1LcW3KnR2
- BMeMsB5W3sUvfuCo2fOA/RKImuqnTZyszdKh9HiG5Jh0Le/hGotLh8pcfu7D7lTF
- dzabEm4Es+rLfQ==
-X-ME-Sender: <xms:ZF_8X4zXA9D8hF6s9WwFDyNe625VUT7jJMKhhu4YF-qqc--haXkKBQ>
- <xme:ZF_8X8MP0Ip3NBzFXfQOR_VVcX1k8AFQqevJmwCN159hdjprEGFtnxsvHli6NNowk
- L1o6SxURaOBwZ9qtiA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddgieegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ZF_8X3PdqEsaWNBAAn-5wxQ2fD7r9hMwda3Ne61n-mJden-INbNphQ>
- <xmx:ZF_8X-SIio-iUAhVyTq9YiJEr2sJ9-XJ2-NEXT_SMAhmUULubeNjCA>
- <xmx:ZF_8X5AqKI7w7EVY6v6z5Kc7Vmb8K47mprZ9xdIF6Ttgso7AT4MUoQ>
- <xmx:ZF_8Xy0M_oXuoVtcLCYagfLbqFUPgk8rvwafjwAa2yEEhZctumKBCQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 660E824005A;
- Mon, 11 Jan 2021 09:23:32 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 15/15] ARM: dts: bcm2711: Add the CEC interrupt controller
-Date: Mon, 11 Jan 2021 15:23:09 +0100
-Message-Id: <20210111142309.193441-16-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210111142309.193441-1-maxime@cerno.tech>
-References: <20210111142309.193441-1-maxime@cerno.tech>
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BA76E103
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 15:42:47 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id d11so7539692qvo.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/A3K81mCc2dS4hJrTjzDKAgCNXohBPbNHXt40jMVfBE=;
+ b=CXrZBuSkG8rRms3ZL3rzrzAOF3aLMpWdW69IPOtx//RbSUIhNTMwQ9FMK2nCPInD+D
+ ZX6cGJzj5moC8jlrzTKKUXTa+JR/s9PdGesy9OId/yTn+wN2+ciOgS20FwZdZnOo8DHI
+ DDQuWmu5xvEtMw8CoTvnYScPHMK+9GCQG3WIAmdmvpnqLHvMHDjdfCtQvFm4aHNt2yQA
+ +AWVRQ5CFmmaTTXp5IiZFgYht1+EQbPJB228B4YDjoUBWtsDZ22ZUCFOK0BzORdcm2Cq
+ hw6V2zIS8PGacVXd9RLe4Zr7FiYVQX9y/qDTs8XlKHfiSfVcTLLIiZXTapof2a/I/qOi
+ 8/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/A3K81mCc2dS4hJrTjzDKAgCNXohBPbNHXt40jMVfBE=;
+ b=LBu1TiBud6WWTWjruqdjae4ZmgE4OavU4vxdsmIQ72AUG9h+bz/BFutOF76KKxZ+Bq
+ 5J/bGW15HrQpRjf6x+J/b1mqgj0XXZRoGj53LdghT3+oBeTJa7wwHS5mM42SQMrE7UQQ
+ YFeOjXVUa1VYfXv+ulTvc6pUIcEg/h7IodzE6pLFXTQLPAlWZt9TGUwng7AdMT5xmKJF
+ A5dervAeON1zjpu1sTN657kV21F8goBogj9vEoYWhT8UrgMl9sTO+xK1xtbkuO70DJBe
+ fwHkSRXNlg85bsrwJ3/E+NTh+yLsQCa4o+i4WxK3vls9VIWOL0e55yxbcEXxF/axBhm5
+ UcsA==
+X-Gm-Message-State: AOAM533Tq5FUzsSf+qmo43YS39hs+jPLqfFCtFjLmdIHBUbhumyHhVQH
+ ElwX37L3amkfRiYSZOrj9Fqfrw==
+X-Google-Smtp-Source: ABdhPJyqWR0zrhRhfIJaiKsvRsyRi99Jl6vsxixvOPVy/qex98L1qLKA8+KCmL3Ov+yPPxwU0W5tvA==
+X-Received: by 2002:a05:6214:1103:: with SMTP id
+ e3mr262417qvs.12.1610379766360; 
+ Mon, 11 Jan 2021 07:42:46 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id f10sm8111748qtg.27.2021.01.11.07.42.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 07:42:45 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kyzLB-005Xz6-9o; Mon, 11 Jan 2021 11:42:45 -0400
+Date: Mon, 11 Jan 2021 11:42:45 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+Message-ID: <20210111154245.GL504133@ziepe.ca>
+References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+ <MW3PR11MB4555CCCDD42F1ADEC61F7ACAE5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <MW3PR11MB4555CCCDD42F1ADEC61F7ACAE5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Tue, 12 Jan 2021 07:57:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,75 +73,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CEC and hotplug interrupts go through an interrupt controller shared
-between the two HDMI controllers.
+On Mon, Jan 11, 2021 at 03:24:18PM +0000, Xiong, Jianxin wrote:
+> Jason, will this series be able to get into 5.12?
 
-Let's add that interrupt controller and the interrupts for both HDMI
-controllers
+I was going to ask you where things are after the break? 
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/bcm2711.dtsi | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Did everyone agree the userspace stuff is OK now? Is Edward OK with
+the pyverbs changes, etc
 
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 8bb46ae76a92..06b15797ec11 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -316,6 +316,14 @@ bsc_intr: interrupt-controller@7ef00040 {
- 			#interrupt-cells = <1>;
- 		};
- 
-+		aon_intr: interrupt-controller@7ef00100 {
-+			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
-+			reg = <0x7ef00100 0x30>;
-+			interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+		};
-+
- 		hdmi0: hdmi@7ef00700 {
- 			compatible = "brcm,bcm2711-hdmi0";
- 			reg = <0x7ef00700 0x300>,
-@@ -338,6 +346,11 @@ hdmi0: hdmi@7ef00700 {
- 				    "hd";
- 			clock-names = "hdmi", "bvb", "audio", "cec";
- 			resets = <&dvp 0>;
-+			interrupt-parent = <&aon_intr>;
-+			interrupts = <0>, <1>, <2>,
-+				     <3>, <4>, <5>;
-+			interrupt-names = "cec-tx", "cec-rx", "cec-low",
-+					  "wakeup", "hpd-connected", "hpd-removed";
- 			ddc = <&ddc0>;
- 			dmas = <&dma 10>;
- 			dma-names = "audio-rx";
-@@ -377,6 +390,11 @@ hdmi1: hdmi@7ef05700 {
- 			ddc = <&ddc1>;
- 			clock-names = "hdmi", "bvb", "audio", "cec";
- 			resets = <&dvp 1>;
-+			interrupt-parent = <&aon_intr>;
-+			interrupts = <8>, <7>, <6>,
-+				     <9>, <10>, <11>;
-+			interrupt-names = "cec-tx", "cec-rx", "cec-low",
-+					  "wakeup", "hpd-connected", "hpd-removed";
- 			dmas = <&dma 17>;
- 			dma-names = "audio-rx";
- 			status = "disabled";
--- 
-2.29.2
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
