@@ -1,54 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0A72F1D86
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 19:08:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 445ED2F1DCF
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 19:18:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CC389D61;
-	Mon, 11 Jan 2021 18:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A47189DA9;
+	Mon, 11 Jan 2021 18:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0F589D61
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 18:08:10 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id w26so213118ljo.4
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 10:08:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V+B+6pMaa6Q7xKO+4h5rdcoXhhu4oZDjwR1J7UMT4Rk=;
- b=LlsxNoI4BImJb0lMWb1dLUOtq/B1wjQunMIZM7LAuw1JNemQ4vJXNku5ntxD2DJOw+
- lhYNetlVczBfhaQAmH86zJDVJNjZfJ06ZOs716T0hmQ4gUTnfVCa/tE/MZYRpInSxN8w
- yZCtu3+KZkg926Kow9Ofugn48c/v2xKoGKB8bjWzqvqgkZ6Khr87f6VyyWDQqrO5GRXT
- L5mlJr6WLiDJYLUvNvEfloqrEbdz/VAUon1BdmuY/xgyZ0spFe0ndX1AidRXt/wXQ5Cn
- yiIzisza6KGnBSdTGF1e430tHXgtZkxgtpq9QdEH0b/pTf1atBg/DnYoZJNHLhy/6RZS
- 8qDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V+B+6pMaa6Q7xKO+4h5rdcoXhhu4oZDjwR1J7UMT4Rk=;
- b=dNMIfu72nh17pr/iXo7xQYyZ/pl7d4NcOwq4OgN0mEhCCARKWtqJJpn2SzP7LzvOY2
- FcRfeC2QHIsQ8CINOrpJatGlkhDharqeNEQAYZ02oLknBuHayknIH03TyTn+ldw8wxak
- iB9zOdH4qhpf0UB2JSHVltT2VmZc71jOIj3W85Gwnj+JmA0fJHoHy7o7ScopEdW2dl/s
- wX7pv/7nSIEwrRJa+q0hFGJzHfWrOXKgQS//Ez6BpS3uPd/9NZ2TGh3cOe/ZdjZkCBa1
- fHrLZLDqXJyWu2OPqxTlIp9mgZKfE3wC5dTvsSs/kqsjKvxZGp6lu7tMr9MiCnyurjkn
- ab2A==
-X-Gm-Message-State: AOAM5303gVS+JpmhJ+g2qjSOlcSEJmMS1bfP0HZ9vZJUGfWnjhh0reMc
- eXboQEazbwqujnS1FTy+SJYnG/TDLigBL6bI3KU=
-X-Google-Smtp-Source: ABdhPJxQSnjahHHc+CEoLPrh1phEmZlVoro9RXebrNI+oYsadieuy+YiDRNGo/oxMiaj+jv6nvhkbJsb5wrTd8mhed8=
-X-Received: by 2002:a2e:b4b3:: with SMTP id q19mr273826ljm.121.1610388488972; 
- Mon, 11 Jan 2021 10:08:08 -0800 (PST)
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFAC189DA9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 18:18:25 +0000 (UTC)
+Date: Mon, 11 Jan 2021 18:18:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1610389102;
+ bh=1Ho/2THUoZgVetup5vR7UNEBKjRym/Cb6UIwtgZrjng=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=ZML5cQvS43XQrEVa799v+hM5X6M9Zkf5imA0tk+vMv14wm0ZOzPEPinB/bzNEQovs
+ tOG0gfG4qLix6jVl4HZq/smPcuhIaZhdKOIWjqAsyxxazKFs7hmRgmqEAnA8uAUltc
+ 444TJegRC3AVBSlyf41oLm/FXKLBC56mFIZssNnqFxiX+bQIJB3o9h5r70jC3ZoxBG
+ ++N8wH4ei21AqWsaiHbDwoEUBCcFcQrVCkxG1JqCLBwzgTXaUdTt1H5peBuL+9ZNy1
+ TXnMK/Zi3jS4p2au6IDcrZo4OVBdN9EBZiEIZO8iBblTW6shT207dxoVXdrZJulvDt
+ ZaHbohKzun8yw==
+To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: [ANNOUNCE] libdrm 2.4.104
+Message-ID: <ujcL5wh5uX2AA-w-lc6jY2Upcmrti3EczbkIsvULmHsulL1QsHxzilVvLyzRPScNcFC0sgYdO4CczQShNkTLKNB8ieYrOwXqmf8Ifiv707k=@emersion.fr>
 MIME-Version: 1.0
-References: <20210111125702.360745-1-geert+renesas@glider.be>
-In-Reply-To: <20210111125702.360745-1-geert+renesas@glider.be>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 11 Jan 2021 15:07:57 -0300
-Message-ID: <CAOMZO5ADSvcNvWx5vYui1v=jdUQ=K+HfETAm7xr5zg73DhqcFw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: nwl-dsi: Avoid potential multiplication
- overflow on 32-bit
-To: Geert Uytterhoeven <geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +45,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-On Mon, Jan 11, 2021 at 10:02 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> As nwl_dsi.lanes is u32, and NSEC_PER_SEC is 1000000000L, the second
-> multiplication in
->
->     dsi->lanes * 8 * NSEC_PER_SEC
->
-> will overflow on a 32-bit platform.  Fix this by making the constant
-> unsigned long long, forcing 64-bit arithmetic.
->
-> While iMX8 is arm64, this driver is currently used on 64-bit platforms
-> only, where long is 64-bit, so this cannot happen.  But the issue may
-> start to happen when the driver is reused for a 32-bit SoC, or when code
-> is copied for a new driver.
-
-This IP is also present on i.MX7ULP, which is 32-bit, but not supported yet.
-
-Thanks for taking care of this.
-
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyByZWxlYXNlIGJyaW5ncyB1cGRhdGVkIGtlcm5lbCBoZWFkZXJzIGFuZCBjb252ZXJ0cyBt
+YW4gcGFnZXMgdG8KcmVTdHJ1Y3R1cmVkVGV4dC4KCkFudG9uaW4gRMOpY2ltbyAoMSk6CiAgICAg
+IGhlYWRlcnM6IGRybTogU3luYyB3aXRoIGRybS1uZXh0CgpFbW1hbnVlbCBWYWRvdCAoMSk6CiAg
+ICAgIHRlc3RzL2FtZGdwdTogRml4IG9uIEZyZWVCU0QKCkx1YmVuIFR1aWtvdiAoMSk6CiAgICAg
+IHRlc3RzL2FtZGdwdTogRml4IGEgdHlwbwoKTHVib21pciBSaW50ZWwgKDMpOgogICAgICB0ZXN0
+cy9ldG5hdml2XzJkX3Rlc3Q6IGV4cGxhaW4gdGhlIGVycm9ycwogICAgICB0ZXN0cy9ldG5hdml2
+XzJkX3Rlc3Q6IHBpY2sgdGhlIDJEIGNvcmUKICAgICAgdGVzdHMvZXRuYXZpdl8yZF90ZXN0OiBj
+aGVjayB3aGV0aGVyIHRoZSByZW5kZXJpbmcgaXMgY29ycmVjdAoKTmljb2xhcyBDYXJhbWVsbGkg
+KDEpOgogICAgICB0ZXN0cy9tb2RldGVzdDogcmVtb3ZlIGJyYWNrZXQgaW4gZHVtcF9jb25uZWN0
+b3JzKCkKClNpbW9uIFNlciAoNik6CiAgICAgIG1hbjogY29udmVydCB0byByZVN0cnVjdHVyZWRU
+ZXh0CiAgICAgIERvY3VtZW50IGRybU1vZGVDb25uZWN0aW9uCiAgICAgIHhmODZkcm1Nb2RlLmg6
+IHVzZSBBTlNJIEM5OSBhcnJheXMKICAgICAgUmVtb3ZlIGRlZmluaXRpb25zIGR1cGxpY2F0ZWQg
+ZnJvbSBkcm1fbW9kZS5oCiAgICAgIFJlbW92ZSBvdXRkYXRlZCBjb21tZW50cyBhYm91dCBzdGRp
+bnQuaAogICAgICBCdW1wIHZlcnNpb24gdG8gMi40LjEwNAoKVGhvbmcgVGhhaSAoMSk6CiAgICAg
+IHRlc3RzL2FtZGdwdS92Y246IHVwZGF0ZSB0byBub3QgdXNlIGFzaWNfaWQgZm9yIFJlbm9pcgoK
+Z2l0IHRhZzogbGliZHJtLTIuNC4xMDQKCmh0dHBzOi8vZHJpLmZyZWVkZXNrdG9wLm9yZy9saWJk
+cm0vbGliZHJtLTIuNC4xMDQudGFyLnh6ClNIQTI1NjogZDY2YWQ4YjVjMjQ0MTAxNWFjMTMzM2U0
+MDEzN2JiODAzYzNiZGUzNjEyZmYwNDAyODZmY2MxMjE1OGVhMWJjYiAgbGliZHJtLTIuNC4xMDQu
+dGFyLnh6ClNIQTUxMjogMGZkYmVmNTNlMGU3YzQ0MWM4MDVjOTVhYzU1Y2EyYzk0ZjExZThmYTE4
+ZTM2YjRkYzc1MzRjMjJlMmI1YmM4ZWNhNzI4M2ZkZjQxNzg1ZGE3NTNmOThkMGI1ODkwMjMxMTFh
+YmRiYTcwZGI3ZTc5ODM3NzI5YjE1NDAyNTNkNmUgIGxpYmRybS0yLjQuMTA0LnRhci54egpQR1A6
+ICBodHRwczovL2RyaS5mcmVlZGVza3RvcC5vcmcvbGliZHJtL2xpYmRybS0yLjQuMTA0LnRhci54
+ei5zaWcKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
