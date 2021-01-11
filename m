@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5982F19DC
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 16:39:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0F82F1A04
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 16:49:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85D3A6E0FE;
-	Mon, 11 Jan 2021 15:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D99E6E101;
+	Mon, 11 Jan 2021 15:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C94216E0FB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 15:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610379562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V6s22bNSoq1L+NIFn/JvX6d51nE1mLRjnfTwZ0WeTw4=;
- b=UGpgWj79HBcdJnkBtUIGCZqpsA1rgF0hz/DFMjZHuYug6vpA4KOagjokW6GGCDOnPOXy/I
- WtpLn9zvsSG9Hpw/8bhHHCQj8qrP2yO52FgTgzx5VDrtOQJQhchCugxLHDn7ImNudFdUQN
- bo0YbxhPoItwWo1XdJeas/XaIGt23fQ=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-CtIfQqi6ODGLDf73TDdQyg-1; Mon, 11 Jan 2021 10:39:21 -0500
-X-MC-Unique: CtIfQqi6ODGLDf73TDdQyg-1
-Received: by mail-io1-f70.google.com with SMTP id x7so12787501ion.12
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:39:21 -0800 (PST)
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B39AC6E101
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 15:49:39 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id 11so61818oty.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 07:49:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7pI5yzrkUcgPAt0X+Zm7RmUBKnOlY5XxpK23F917uVU=;
+ b=ol4IP7LUMXzIiAjgzp+dknK0DB8U9Myfss+iZahvDjUTnL4MmkmK1iX50Ig0/INihk
+ febQFMtmeeGNuWopiVnB9aS8l365yUbcTpHNtsLqxnthKZmldZCy34BITEujV9bSJ7Sj
+ n12t9gEwJEttrfdc2C0aYS8glFVDfmFV6so7Srsbcye7kljx841ZBau1rELm1fVDrk4r
+ LkmO82aQTd9U9ks6Pt5F4Y3JHSnPs6JrJLLYdYXRK2WVkpwf3zkRd5S6OMakzIyaol/s
+ Vw8V+ZixPZnR1Xn54+vk47L3rHrjH7PeDjqY6iYTamcpS0h/KQB7GkJ39yQ/UiuRyky1
+ 4ugA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=V6s22bNSoq1L+NIFn/JvX6d51nE1mLRjnfTwZ0WeTw4=;
- b=MmjDvXJFLVvwb30pk8vzC+TXwh5hFq3Ypbs+PcWhk8c0WgWPRQzdWbtwylbXn5voZW
- ODOXPkQEqBF4wdBQP6N3Kq2YLWzR28ylrHirIxzeLbru1xbZoVO3+4a/927fRXHIhD8+
- iwJfBtuTVgXKnKxjLc+G/Q/4CHih64IN+6iJpCnhRxLViR7HkMSN3J0NKcWIv+ngF4J1
- BrBKGsc2n5kbdtGjQPVfnSXtStygp3Bw5ghLVTQZDV+tcvHwI7oZ43bgoZpMRxeX/ZT0
- 1dbpQB3u783EJCRpGNusSe2Nk9Wqz2E8hMmOBXmfmwIPA9g+WmKz/D0HaCgPZQiGjctz
- +XFw==
-X-Gm-Message-State: AOAM531Ywyz7TD+HAP0F10Qe63xXoZckOPvPd8YBQNPWUN9wSVGldlTq
- SfmShLHjIMFM9ChGLZxZhUEe6pi73ZDsWLZP0k5UBDEhg6X/An7yQNJ5AggdAxbVi9l0P3+wvWh
- Nf0Txf/PpdF6UxJqDyrK7U+ohJZkF
-X-Received: by 2002:a92:cf44:: with SMTP id c4mr15547589ilr.207.1610379560594; 
- Mon, 11 Jan 2021 07:39:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyzlggvM+nwzezd73mKCuiQILg/y8Tnj4twPqnA644Y3DXvue24trNEi0s1w98pXs6fxCdnvw==
-X-Received: by 2002:a92:cf44:: with SMTP id c4mr15547567ilr.207.1610379560359; 
- Mon, 11 Jan 2021 07:39:20 -0800 (PST)
-Received: from xps13 ([2605:a601:a63a:4d01:c3c1:7008:ba35:96])
- by smtp.gmail.com with ESMTPSA id t2sm16862182ili.31.2021.01.11.07.39.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 07:39:19 -0800 (PST)
-Date: Mon, 11 Jan 2021 10:39:17 -0500
-From: Jeremy Cline <jcline@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] amdgpu: Avoid sleeping during FPU critical sections
-Message-ID: <20210111153917.GA22594@xps13>
-References: <20210108215838.470637-1-jcline@redhat.com>
- <3c94f9d6-501d-271c-ca83-1cf4229cb3ab@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7pI5yzrkUcgPAt0X+Zm7RmUBKnOlY5XxpK23F917uVU=;
+ b=saHqkMObOZ+1S78lbqNCCmdRpk9XhCCoV6WcWCaMk2sPJeJc/2NPbF0B0tdl+mZ1nR
+ PRWdNBcnhibZ7Ehu5lLAbR06CdKdWDGgiMogy/eG5aWlrT5cs23CDj6gkxU1JFn25ORg
+ XBm8KRo2oJXM1DbDdfCuG6i6PKKUDHCc5iwupvKSYXRRC7yOn4kgS2TGYSEgAFCu+S+8
+ no3fhkQw+GK+Xwg0fYB5LJXKGaA3Yq3tEgd86LMcPc0g2yb2kCbwvcLCxa151aUqPE5g
+ hGAFqCIp2FKItHfGH7C8gi3n5XM3qlXCcefKrSBCwaqNubnVjMK2f1jltrP4D/nUNYRN
+ tVzw==
+X-Gm-Message-State: AOAM531DKNF0KuDBGAz2q9VGArZLXQDl9sXTaJtZwhf7mCxbt3xF+jRh
+ p0KeYZaM2EfzUCp/dTboHSg6vzY+8x56DdX7y0k=
+X-Google-Smtp-Source: ABdhPJyhXOvOyU9PkVO5HADK/d5XAObeXy36+VJEEL7RbKK/ruTat47UGYKBnOur2oXJyLr8ZPDW9RRJlwXfXsqhVDI=
+X-Received: by 2002:a9d:75d4:: with SMTP id c20mr11269634otl.311.1610380178989; 
+ Mon, 11 Jan 2021 07:49:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3c94f9d6-501d-271c-ca83-1cf4229cb3ab@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20201216024359.12995-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201216024359.12995-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201216024359.12995-2-laurent.pinchart+renesas@ideasonboard.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 11 Jan 2021 10:49:28 -0500
+Message-ID: <CADnq5_MWJH4BN6_JMLwUBxBygov-0W=PQm50JjxtrYuR6Js2fg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/10] drm: uapi: amd: Use SPDX in DRM drivers uAPI
+ headers
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,83 +62,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Timothy Pearson <tpearson@raptorengineering.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiBNb24sIEphbiAxMSwgMjAyMSBhdCAwOTo1Mzo1NkFNICswMTAwLCBDaHJpc3RpYW4g
-S8O2bmlnIHdyb3RlOgo+IEFtIDA4LjAxLjIxIHVtIDIyOjU4IHNjaHJpZWIgSmVyZW15IENsaW5l
-Ogo+ID4gZGNuMjBfcmVzb3VyY2VfY29uc3RydWN0KCkgaW5jbHVkZXMgYSBudW1iZXIgb2Yga3ph
-bGxvYyhHRlBfS0VSTkVMKQo+ID4gY2FsbHMgd2hpY2ggY2FuIHNsZWVwLCBidXQga2VybmVsX2Zw
-dV9iZWdpbigpIGRpc2FibGVzIHByZWVtcHRpb24gYW5kCj4gPiBzbGVlcGluZyBpbiB0aGlzIGNv
-bnRleHQgaXMgaW52YWxpZC4KPiA+IAo+ID4gVGhlIG9ubHkgcGxhY2VzIHRoZSBGUFUgYXBwZWFy
-cyB0byBiZSByZXF1aXJlZCBpcyBpbiB0aGUKPiA+IGluaXRfc29jX2JvdW5kaW5nX2JveCgpIGZ1
-bmN0aW9uIGFuZCB3aGVuIGNhbGN1bGF0aW5nIHRoZQo+ID4ge21pbixtYXh9X2ZpbGxfY2xrX21o
-ei4gTmFycm93IHRoZSBzY29wZSB0byBqdXN0IHRoZXNlIHR3byBwYXJ0cyB0bwo+ID4gYXZvaWQg
-c2xlZXBpbmcgd2hpbGUgdXNpbmcgdGhlIEZQVS4KPiA+IAo+ID4gRml4ZXM6IDdhOGEzNDMwYmUx
-NSAoImFtZGdwdTogV3JhcCBGUFUgZGVwZW5kZW50IGZ1bmN0aW9ucyBpbiBkYzIwIikKPiA+IENj
-OiBUaW1vdGh5IFBlYXJzb24gPHRwZWFyc29uQHJhcHRvcmVuZ2luZWVyaW5nLmNvbT4KPiA+IFNp
-Z25lZC1vZmYtYnk6IEplcmVteSBDbGluZSA8amNsaW5lQHJlZGhhdC5jb20+Cj4gCj4gR29vZCBj
-YXRjaCwgYnV0IEkgd291bGQgcmF0aGVyIHJlcGxhY2UgdGhlIGt6YWxsb2MoR0ZQX0tFUk5FTCkg
-d2l0aCBhCj4ga3phbGxvYyhHRlBfQVRPTUlDKSBmb3Igbm93Lgo+IAo+IFdlIGhhdmUgdG9ucyBv
-ZiBwcm9ibGVtcyB3aXRoIHRoaXMgRENfRlBfU1RBUlQoKS9EQ19GUF9FTkQoKSBhbm5vdGF0aW9u
-cyBhbmQKPiBhcmUgZXZlbiBpbiB0aGUgcHJvY2VzcyBvZiBtb3ZpbmcgdGhlbSBvdXQgb2YgdGhl
-IGZpbGUgYmVjYXVzZSB0aGUgY29tcGlsZXMKPiB0ZW5kIHRvIGNsdXR0ZXIgRlAgcmVnaXN0ZXJz
-IGV2ZW4gb3V0c2lkZSBvZiB0aGUgYW5ub3RhdGVkIHJhbmdlcyBvbiBzb21lCj4gYXJjaGl0ZWN0
-dXJlcy4KPiAKClRoYW5rcyBmb3IgdGhlIHJldmlldy4gSXMgaXQgYWNjZXB0YWJsZSB0byBtb3Zl
-IHRoZSBEQ19GUF9FTkQoKQphbm5vdGF0aW9uIHVwIHRvIHRoZSBsYXN0IHVzYWdlPyBLZWVwaW5n
-IGl0IHdoZXJlIGl0IGlzIGlzIHByb2JhYmx5CmRvLWFibGUsIGJ1dCBjb3ZlcnMgdGhpbmdzIGxp
-a2UgY2FsbHMgdG8gcmVzb3VyY2VfY29uc3RydWN0KCkgd2hpY2gKbWFrZXMgdXNlIG9mIHN0cnVj
-dCByZXNvdXJjZV9jcmVhdGVfZnVuY3MuIEknbSBndWVzc2luZyBvbmx5IGEgc3ViLXNldApvZiB0
-aGUgaW1wbGVtZW50YXRpb25zIGFyZSBjYWxsZWQgdmlhIHRoaXMgZnVuY3Rpb24sIGJ1dCBoYXZp
-bmcgYW4KaW50ZXJmYWNlIHdoaWNoIGNhbid0IHNsZWVwIHNvbWV0aW1lcyBkb2Vzbid0IHNvdW5k
-IGFwcGVhbGluZy4KCkhhcHB5IHRvIGRvIGl0LCBidXQgYmVmb3JlIEkgZ28gZG93biB0aGF0IHJv
-YWQgSSBqdXN0IHdhbnRlZCB0byBtYWtlCnN1cmUgdGhhdCdzIHdoYXQgeW91IGhhZCBpbiBtaW5k
-LgoKVGhhbmtzLApKZXJlbXkKCj4gPiAtLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNw
-bGF5L2RjL2RjbjIwL2RjbjIwX3Jlc291cmNlLmMgfCA4ICsrKystLS0tCj4gPiAgIDEgZmlsZSBj
-aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2Uu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24yMC9kY24yMF9yZXNvdXJjZS5j
-Cj4gPiBpbmRleCBlMDRlY2YwZmMwZGIuLmE0ZmE1YmYwMTZjMSAxMDA2NDQKPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24yMC9kY24yMF9yZXNvdXJjZS5jCj4gPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2Uu
-Ywo+ID4gQEAgLTM2MjIsNiArMzYyMiw3IEBAIHN0YXRpYyBib29sIGluaXRfc29jX2JvdW5kaW5n
-X2JveChzdHJ1Y3QgZGMgKmRjLAo+ID4gICAJaWYgKGJiICYmIEFTSUNSRVZfSVNfTkFWSTEyX1Ao
-ZGMtPmN0eC0+YXNpY19pZC5od19pbnRlcm5hbF9yZXYpKSB7Cj4gPiAgIAkJaW50IGk7Cj4gPiAr
-CQlEQ19GUF9TVEFSVCgpOwo+ID4gICAJCWRjbjJfMF9udjEyX3NvYy5zcl9leGl0X3RpbWVfdXMg
-PQo+ID4gICAJCQkJZml4ZWQxNl90b19kb3VibGVfdG9fY3B1KGJiLT5zcl9leGl0X3RpbWVfdXMp
-Owo+ID4gICAJCWRjbjJfMF9udjEyX3NvYy5zcl9lbnRlcl9wbHVzX2V4aXRfdGltZV91cyA9Cj4g
-PiBAQCAtMzcyMSw2ICszNzIyLDcgQEAgc3RhdGljIGJvb2wgaW5pdF9zb2NfYm91bmRpbmdfYm94
-KHN0cnVjdCBkYyAqZGMsCj4gPiAgIAkJCWRjbjJfMF9udjEyX3NvYy5jbG9ja19saW1pdHNbaV0u
-ZHJhbV9zcGVlZF9tdHMgPQo+ID4gICAJCQkJCWZpeGVkMTZfdG9fZG91YmxlX3RvX2NwdShiYi0+
-Y2xvY2tfbGltaXRzW2ldLmRyYW1fc3BlZWRfbXRzKTsKPiA+ICAgCQl9Cj4gPiArCQlEQ19GUF9F
-TkQoKTsKPiA+ICAgCX0KPiA+ICAgCWlmIChwb29sLT5iYXNlLnBwX3NtdSkgewo+ID4gQEAgLTM3
-NzcsOCArMzc3OSw2IEBAIHN0YXRpYyBib29sIGRjbjIwX3Jlc291cmNlX2NvbnN0cnVjdCgKPiA+
-ICAgCWVudW0gZG1sX3Byb2plY3QgZG1sX3Byb2plY3RfdmVyc2lvbiA9Cj4gPiAgIAkJCWdldF9k
-bWxfcHJvamVjdF92ZXJzaW9uKGN0eC0+YXNpY19pZC5od19pbnRlcm5hbF9yZXYpOwo+ID4gLQlE
-Q19GUF9TVEFSVCgpOwo+ID4gLQo+ID4gICAJY3R4LT5kY19iaW9zLT5yZWdzID0gJmJpb3NfcmVn
-czsKPiA+ICAgCXBvb2wtPmJhc2UuZnVuY3MgPSAmZGNuMjBfcmVzX3Bvb2xfZnVuY3M7Cj4gPiBA
-QCAtMzk1OSw4ICszOTU5LDEwIEBAIHN0YXRpYyBib29sIGRjbjIwX3Jlc291cmNlX2NvbnN0cnVj
-dCgKPiA+ICAgCQkJCXJhbmdlcy5yZWFkZXJfd21fc2V0c1tpXS53bV9pbnN0ID0gaTsKPiA+ICAg
-CQkJCXJhbmdlcy5yZWFkZXJfd21fc2V0c1tpXS5taW5fZHJhaW5fY2xrX21oeiA9IFBQX1NNVV9X
-TV9TRVRfUkFOR0VfQ0xLX1VOQ09OU1RSQUlORURfTUlOOwo+ID4gICAJCQkJcmFuZ2VzLnJlYWRl
-cl93bV9zZXRzW2ldLm1heF9kcmFpbl9jbGtfbWh6ID0gUFBfU01VX1dNX1NFVF9SQU5HRV9DTEtf
-VU5DT05TVFJBSU5FRF9NQVg7Cj4gPiArCQkJCURDX0ZQX1NUQVJUKCk7Cj4gPiAgIAkJCQlyYW5n
-ZXMucmVhZGVyX3dtX3NldHNbaV0ubWluX2ZpbGxfY2xrX21oeiA9IChpID4gMCkgPyAobG9hZGVk
-X2JiLT5jbG9ja19saW1pdHNbaSAtIDFdLmRyYW1fc3BlZWRfbXRzIC8gMTYpICsgMSA6IDA7Cj4g
-PiAgIAkJCQlyYW5nZXMucmVhZGVyX3dtX3NldHNbaV0ubWF4X2ZpbGxfY2xrX21oeiA9IGxvYWRl
-ZF9iYi0+Y2xvY2tfbGltaXRzW2ldLmRyYW1fc3BlZWRfbXRzIC8gMTY7Cj4gPiArCQkJCURDX0ZQ
-X0VORCgpOwo+ID4gICAJCQkJcmFuZ2VzLm51bV9yZWFkZXJfd21fc2V0cyA9IGkgKyAxOwo+ID4g
-ICAJCQl9Cj4gPiBAQCAtNDEyNSwxMiArNDEyNywxMCBAQCBzdGF0aWMgYm9vbCBkY24yMF9yZXNv
-dXJjZV9jb25zdHJ1Y3QoCj4gPiAgIAkJcG9vbC0+YmFzZS5vZW1fZGV2aWNlID0gTlVMTDsKPiA+
-ICAgCX0KPiA+IC0JRENfRlBfRU5EKCk7Cj4gPiAgIAlyZXR1cm4gdHJ1ZTsKPiA+ICAgY3JlYXRl
-X2ZhaWw6Cj4gPiAtCURDX0ZQX0VORCgpOwo+ID4gICAJZGNuMjBfcmVzb3VyY2VfZGVzdHJ1Y3Qo
-cG9vbCk7Cj4gPiAgIAlyZXR1cm4gZmFsc2U7Cj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Dec 15, 2020 at 9:44 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+>
+> The AMD DRM drivers uAPI headers are licensed under the MIT license,
+> and carry copies of the license with slight variations. Replace them
+> with SPDX headers.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>  include/uapi/drm/amdgpu_drm.h | 19 +------------------
+>  include/uapi/drm/r128_drm.h   | 20 +-------------------
+>  include/uapi/drm/radeon_drm.h | 20 +-------------------
+>  3 files changed, 3 insertions(+), 56 deletions(-)
+>
+> diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+> index 7fb9c09ee93f..8ca36b088d71 100644
+> --- a/include/uapi/drm/amdgpu_drm.h
+> +++ b/include/uapi/drm/amdgpu_drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /* amdgpu_drm.h -- Public header for the amdgpu driver -*- linux-c -*-
+>   *
+>   * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+> @@ -5,24 +6,6 @@
+>   * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+>   * Copyright 2014 Advanced Micro Devices, Inc.
+>   *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice shall be included in
+> - * all copies or substantial portions of the Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+> - *
+>   * Authors:
+>   *    Kevin E. Martin <martin@valinux.com>
+>   *    Gareth Hughes <gareth@valinux.com>
+> diff --git a/include/uapi/drm/r128_drm.h b/include/uapi/drm/r128_drm.h
+> index 690e9c62f510..c426e6a1c843 100644
+> --- a/include/uapi/drm/r128_drm.h
+> +++ b/include/uapi/drm/r128_drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /* r128_drm.h -- Public header for the r128 driver -*- linux-c -*-
+>   * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
+>   */
+> @@ -6,25 +7,6 @@
+>   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+>   * All rights reserved.
+>   *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> - * DEALINGS IN THE SOFTWARE.
+> - *
+>   * Authors:
+>   *    Gareth Hughes <gareth@valinux.com>
+>   *    Kevin E. Martin <martin@valinux.com>
+> diff --git a/include/uapi/drm/radeon_drm.h b/include/uapi/drm/radeon_drm.h
+> index 490a59cc4532..b5c4ef813a9e 100644
+> --- a/include/uapi/drm/radeon_drm.h
+> +++ b/include/uapi/drm/radeon_drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /* radeon_drm.h -- Public header for the radeon driver -*- linux-c -*-
+>   *
+>   * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
+> @@ -5,25 +6,6 @@
+>   * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+>   * All rights reserved.
+>   *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> - * DEALINGS IN THE SOFTWARE.
+> - *
+>   * Authors:
+>   *    Kevin E. Martin <martin@valinux.com>
+>   *    Gareth Hughes <gareth@valinux.com>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
