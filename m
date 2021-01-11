@@ -1,71 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0D32F17F9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 15:20:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E81EB2F1915
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 16:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D3489EBD;
-	Mon, 11 Jan 2021 14:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09CC6E0FD;
+	Mon, 11 Jan 2021 15:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C94389EBD;
- Mon, 11 Jan 2021 14:20:32 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10BEFXFM115478;
- Mon, 11 Jan 2021 14:20:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=BrqJCuBmXx6UGLHoH+CvaHfmcRqBTVTUUsikhIG4KBY=;
- b=I3oZ3xppknkzAG7JoTFvjvqEsFdkKvc3/yJIWf+O6hp/2hpy38asNyhcfZH8lldv4d0n
- 5REYrJDFQgE9ScKyTZpU8aA8xhuH5hIHJnQyP7wsvtOBNQHPkVGwr8zY9WHd6tInLK1A
- yPERRdFElcgKTMHUG9yBhSglcmKpfFGCQz3VOEKzZzi+He8kCyYZ6tPqCKMOkSPEGusL
- 96K47z5oYMEfbC70e6BFDUNx2YyrBngEU5tmrNvztkQb/EYASJjJt7IjHH0W7id6i8n5
- AC0jn+UK391bkoV9JyuS+soDRzl9TnO+/biqbfb9Qey3l5iStQ+3EqmWrsVRTbJB8JK4 4g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 360kg1hbwk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 11 Jan 2021 14:20:22 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10BEGQn8195534;
- Mon, 11 Jan 2021 14:18:22 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 360kf3k300-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 14:18:21 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10BEIInG026813;
- Mon, 11 Jan 2021 14:18:20 GMT
-Received: from mwanda (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 11 Jan 2021 06:18:18 -0800
-Date: Mon, 11 Jan 2021 17:18:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [PATCH v2] drm/i915: selftest_lrc: Fix error code in
- live_preempt_user()
-Message-ID: <X/xeIMP16sDekYrh@mwanda>
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B856E0EC;
+ Mon, 11 Jan 2021 15:02:56 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id o11so17168053ote.4;
+ Mon, 11 Jan 2021 07:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PVe5tb97fQjRx5AP2dVJADvRtz8yRPWNi+Pm6+8G1wo=;
+ b=F0H3K3kl/cpn0wHHpdSyz4cCvw7cdUXyaHBy2e4ADlpp0Af3OGEV/BGcujhVD/Z2DN
+ V0uqIDTHXJz2OX04ol2I/b3GDVIKmSbp5qBgEVMgWCNPmOcWAX9dJsO2qez3Iqvw7OY3
+ N8Eh7mVDT6QnbAgbjouS5uEdL644XdHqWfEVGmw1IjNX1OdnkdEFMttZ0ETs16HWSR5L
+ ly8TkHxnyaZJ4M+T9KQLpL2wNtcmuWn4fu51+c6ukm+XyGxX6QEd+591XPBYmV8hBGUv
+ 2bMNDbeun1Yx2IF3oHoW7grlSuAjExgB8czlMLB5HUTa1OcXQAsBj3s2m0gOLOZy1fEl
+ cKsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PVe5tb97fQjRx5AP2dVJADvRtz8yRPWNi+Pm6+8G1wo=;
+ b=N1vb7haMq5QhwXxHifYBWUEdsocSS70P4VPYAIbaBLBJksX4T3V4eTOqfqo1vi0Dx9
+ CWzZHVA6jNdtjBimFOwACwKxVYfjBnLThvKjaCee9jWFf9kylTxHJcP70SYIGQRx4w+r
+ P6VxY3/Cdy4St1NfLrnNqajGCCnVqoO4PKqh8vaEz30CSYu3zzvQiL74PvzmsvFT34ph
+ FGl5dYts7VM0CHy1QBoYqLA1Fa45A4LC3W/4ZrDtTT7hFRTnLRewdYEFJKAE2t1NyPQX
+ n+YJNw/EQKUfmudMHimurUTVEa9zlxgLo9d2LxXY+h+8V41GpF/dxeX9cwEyN2+BSRq3
+ 7MOQ==
+X-Gm-Message-State: AOAM531AxsT8UFaUf3tIdNeByTFrvcQebfo//bf8i67s7Ms3sCgZDAqv
+ cXyWoNs5iR/qZ7jBS6a3EKd0BF6ZbFC/25TfrC0=
+X-Google-Smtp-Source: ABdhPJw/80gBo+9eanDHSCpWvC5mz8+Y5OB7KfHePHxcimAqYWEk+W7zF8OfMF6O/CgVSghONYrwFcjfecFoL/ehgXE=
+X-Received: by 2002:a05:6830:1b7b:: with SMTP id
+ d27mr11714457ote.132.1610377374176; 
+ Mon, 11 Jan 2021 07:02:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <161037060292.28181.5373987654669273170@build.alporthouse.com>
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9860
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101110087
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9860
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101110087
+References: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
+In-Reply-To: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 11 Jan 2021 10:02:43 -0500
+Message-ID: <CADnq5_OVtCubsGP=-=q-hYJ3e6a3=pozi7ZhDiqdUkUKLCiwMg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Check actual format for legacy pageflip.
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Zhan Liu <zhan.liu@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This error path should return a negative error code instead of success.
-
-Fixes: c92724de6db1 ("drm/i915/selftests: Try to detect rollback during batchbuffer preemption")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
----
-v2: The first version of the patch fixed some other error paths but
-    those have already been fixed.
-
- drivers/gpu/drm/i915/gt/selftest_lrc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-index 95d41c01d0e0..e11d6bb26e86 100644
---- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-@@ -3264,8 +3264,10 @@ static int live_preempt_user(void *arg)
- 
- 			rq = create_gpr_client(engine, global,
- 					       NUM_GPR * i * sizeof(u32));
--			if (IS_ERR(rq))
-+			if (IS_ERR(rq)) {
-+				err = PTR_ERR(rq);
- 				goto end_test;
-+			}
- 
- 			client[i] = rq;
- 		}
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBKYW4gOSwgMjAyMSBhdCA5OjExIFBNIEJhcyBOaWV1d2VuaHVpemVuCjxiYXNAYmFz
+bmlldXdlbmh1aXplbi5ubD4gd3JvdGU6Cj4KPiBXaXRoIG1vZGlmaWVycyBvbmUgY2FuIGFjdHVh
+bGx5IGhhdmUgZGlmZmVyZW50IGZvcm1hdF9pbmZvIHN0cnVjdHMKPiBmb3IgdGhlIHNhbWUgZm9y
+bWF0LCB3aGljaCBub3cgbWF0dGVycyBmb3IgQU1ER1BVIHNpbmNlIHdlIGNvbnZlcnQKPiBpbXBs
+aWNpdCBtb2RpZmllcnMgdG8gZXhwbGljaXQgbW9kaWZpZXJzIHdpdGggbXVsdGlwbGUgcGxhbmVz
+Lgo+Cj4gSSBjaGVja2VkIG90aGVyIGRyaXZlcnMgYW5kIGl0IGRvZXNuJ3QgbG9vayBsaWtlIHRo
+ZXkgZW5kIHVwIHRyaWdnZXJpbmcKPiB0aGlzIGNhc2Ugc28gSSB0aGluayB0aGlzIGlzIHNhZmUg
+dG8gcmVsYXguCj4KPiBTaWduZWQtb2ZmLWJ5OiBCYXMgTmlldXdlbmh1aXplbiA8YmFzQGJhc25p
+ZXV3ZW5odWl6ZW4ubmw+Cj4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
+ZXJAZmZ3bGwuY2g+Cj4gUmV2aWV3ZWQtYnk6IFpoYW4gTGl1IDx6aGFuLmxpdUBhbWQuY29tPgo+
+IEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4g
+QWNrZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBGaXhl
+czogODE2ODUzZjlkYzQwICgiZHJtL2FtZC9kaXNwbGF5OiBTZXQgbmV3IGZvcm1hdCBpbmZvIGZv
+ciBjb252ZXJ0ZWQgbWV0YWRhdGEuIikKCkRvIHlvdSBoYXZlIGNvbW1pdCByaWdodHMgdG8gZHJt
+LW1pc2Mgb3IgZG8geW91IG5lZWQgc29tZW9uZSB0byBjb21taXQKdGhpcyBmb3IgeW91PwoKVGhh
+bmtzIQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jIHwgOSArKysr
+KysrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fcGxhbmUuYwo+IGluZGV4IGU2MjMxOTQ3Zjk4Ny4uYTBjYjc0NmJjYjBhIDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fcGxhbmUuYwo+IEBAIC0xMTYzLDcgKzExNjMsMTQgQEAgaW50IGRybV9tb2RlX3Bh
+Z2VfZmxpcF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAgICAgICAgaWYgKHJldCkK
+PiAgICAgICAgICAgICAgICAgZ290byBvdXQ7Cj4KPiAtICAgICAgIGlmIChvbGRfZmItPmZvcm1h
+dCAhPSBmYi0+Zm9ybWF0KSB7Cj4gKyAgICAgICAvKgo+ICsgICAgICAgICogT25seSBjaGVjayB0
+aGUgRk9VUkNDIGZvcm1hdCBjb2RlLCBleGNsdWRpbmcgbW9kaWZpZXJzLiBUaGlzIGlzCj4gKyAg
+ICAgICAgKiBlbm91Z2ggZm9yIGFsbCBsZWdhY3kgZHJpdmVycy4gQXRvbWljIGRyaXZlcnMgaGF2
+ZSB0aGVpciBvd24KPiArICAgICAgICAqIGNoZWNrcyBpbiB0aGVpciAtPmF0b21pY19jaGVjayBp
+bXBsZW1lbnRhdGlvbiwgd2hpY2ggd2lsbAo+ICsgICAgICAgICogcmV0dXJuIC1FSU5WQUwgaWYg
+YW55IGh3IG9yIGRyaXZlciBjb25zdHJhaW50IGlzIHZpb2xhdGVkIGR1ZQo+ICsgICAgICAgICog
+dG8gbW9kaWZpZXIgY2hhbmdlcy4KPiArICAgICAgICAqLwo+ICsgICAgICAgaWYgKG9sZF9mYi0+
+Zm9ybWF0LT5mb3JtYXQgIT0gZmItPmZvcm1hdC0+Zm9ybWF0KSB7Cj4gICAgICAgICAgICAgICAg
+IERSTV9ERUJVR19LTVMoIlBhZ2UgZmxpcCBpcyBub3QgYWxsb3dlZCB0byBjaGFuZ2UgZnJhbWUg
+YnVmZmVyIGZvcm1hdC5cbiIpOwo+ICAgICAgICAgICAgICAgICByZXQgPSAtRUlOVkFMOwo+ICAg
+ICAgICAgICAgICAgICBnb3RvIG91dDsKPiAtLQo+IDIuMjkuMgo+Cj4gX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+
+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
