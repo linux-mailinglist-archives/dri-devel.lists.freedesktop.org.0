@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E02F12BD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:00:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B992F12B8
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 14:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8163989E15;
-	Mon, 11 Jan 2021 13:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6634F89CAD;
+	Mon, 11 Jan 2021 13:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 786556E0AF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E59889CAD
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 13:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,23 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=7n2gKdsF8sLDRPh8ygBiHdQp2l0r9DW8tKFzrBBuOF4=; b=lXxjXygLBA4mxyFDRcE2Pja13/
- /UWrJkGEHPT7oQokHLnU01vmgCeQDY1+3pvDLVixARp+ykHSP7ptmB0muZzwy4CnmwAduq4FpmNdr
- xAF2zl5iKeGj5eIRlIzSyXR4I7nyYgEaBLPn0IaUWfs96hyDE81kiHboI1emn+gOtgdc0bm6eFKd7
- Gr6buUbQOxiqqM42o/59QtxAj40dNrmUPuOdmuZumSq//UbJ31tW6mSVUIGWRCvU8Uhu0EBgVGcoO
- dsbwg6HMU4wtzKm1mpHtumPHQ5L4Z7qC+WliaED0uK9go8A7GQD1pZa2TrB1zn085mg39dH5DvZOv
- nT+cZNFg==;
+ bh=4BqOmgnbz3jRo532sguxiE+SKClNnusdWbWHhTwmdLc=; b=GXhktYK9A2cWYhaD9/uL/lfls3
+ brg4px+aGVQ9Jvi4JPt+rQ0+IPWZ+MlWP0KYviLzXgb/esLXT1he9giW94w1eWZBc3C9BIO3Ln6XM
+ 3TVKmWE2t8B8ydmjhdPXLpB59U5AhGc5qSI2X6hi5kam+dJ3lWMb5A8nVfYKwZsIWUo5q3x0wpnhH
+ 3pylYIhBJ8DdHne8AkpktnsDYLiuD8+VPZz2qfQwmFSYn9OHr4O7PlKNQL6Fz2XrET/9UMXmamXGp
+ +NHlf+/7YbdtG1j/YFQhWRVGLoAcBLnkP4UybUywMBom7P8G7ybZwNs+cJ9TlCxS9I0QbLxatUXZQ
+ 8DLkRbPw==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kywo6-0002tl-Sl; Mon, 11 Jan 2021 15:00:26 +0200
+ id 1kywo6-0002tl-Vn; Mon, 11 Jan 2021 15:00:27 +0200
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v5 09/21] gpu: host1x: DMA fences and userspace fence creation
-Date: Mon, 11 Jan 2021 15:00:07 +0200
-Message-Id: <20210111130019.3515669-10-mperttunen@nvidia.com>
+Subject: [PATCH v5 10/21] gpu: host1x: Add no-recovery mode
+Date: Mon, 11 Jan 2021 15:00:08 +0200
+Message-Id: <20210111130019.3515669-11-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
 References: <20210111130019.3515669-1-mperttunen@nvidia.com>
@@ -61,474 +61,253 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an implementation of dma_fences based on syncpoints. Syncpoint
-interrupts are used to signal fences. Additionally, after
-software signaling has been enabled, a 30 second timeout is started.
-If the syncpoint threshold is not reached within this period,
-the fence is signalled with an -ETIMEDOUT error code. This is to
-allow fences that would never reach their syncpoint threshold to
-be cleaned up.
+Add a new property for jobs to enable or disable recovery i.e.
+CPU increments of syncpoints to max value on job timeout. This
+allows for a more solid model for hanged jobs, where userspace
+doesn't need to guess if a syncpoint increment happened because
+the job completed, or because job timeout was triggered.
 
-Additionally, add a new /dev/host1x IOCTL for creating sync_file
-file descriptors backed by syncpoint fences.
+On job timeout, we stop the channel, NOP all future jobs on the
+channel using the same syncpoint, mark the syncpoint as locked
+and resume the channel from the next job, if any.
+
+The future jobs are NOPed, since because we don't do the CPU
+increments, the value of the syncpoint is no longer synchronized,
+and any waiters would become confused if a future job incremented
+the syncpoint. The syncpoint is marked locked to ensure that any
+future jobs cannot increment the syncpoint either, until the
+application has recognized the situation and reallocated the
+syncpoint.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
 v5:
 * Update for change in put_ref prototype.
-v4:
-* Fix _signal prototype and include it to avoid warning
-* Remove use of unused local in error path
+* Fixed typo in comment.
 v3:
-* Move declaration of host1x_fence_extract to public header
+* Move 'locked' check inside CDMA lock to prevent race
+* Add clarifying comment to NOP-patching code
 ---
- drivers/gpu/host1x/Makefile |   1 +
- drivers/gpu/host1x/fence.c  | 208 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/host1x/fence.h  |  13 +++
- drivers/gpu/host1x/intr.c   |   9 ++
- drivers/gpu/host1x/intr.h   |   2 +
- drivers/gpu/host1x/uapi.c   | 103 ++++++++++++++++++
- include/linux/host1x.h      |   4 +
- 7 files changed, 340 insertions(+)
- create mode 100644 drivers/gpu/host1x/fence.c
- create mode 100644 drivers/gpu/host1x/fence.h
+ drivers/gpu/drm/tegra/drm.c        |  1 +
+ drivers/gpu/host1x/cdma.c          | 58 ++++++++++++++++++++++++++----
+ drivers/gpu/host1x/hw/channel_hw.c |  2 +-
+ drivers/gpu/host1x/job.c           |  4 +++
+ drivers/gpu/host1x/syncpt.c        |  2 ++
+ drivers/gpu/host1x/syncpt.h        | 12 +++++++
+ include/linux/host1x.h             |  9 +++++
+ 7 files changed, 81 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
-index 882f928d75e1..a48af2cefae1 100644
---- a/drivers/gpu/host1x/Makefile
-+++ b/drivers/gpu/host1x/Makefile
-@@ -10,6 +10,7 @@ host1x-y = \
- 	debug.o \
- 	mipi.o \
- 	uapi.o \
-+	fence.o \
- 	hw/host1x01.o \
- 	hw/host1x02.o \
- 	hw/host1x04.o \
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-new file mode 100644
-index 000000000000..e96ad93ff656
---- /dev/null
-+++ b/drivers/gpu/host1x/fence.c
-@@ -0,0 +1,208 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Syncpoint dma_fence implementation
-+ *
-+ * Copyright (c) 2020, NVIDIA Corporation.
-+ */
-+
-+#include <linux/dma-fence.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/slab.h>
-+#include <linux/sync_file.h>
-+
-+#include "fence.h"
-+#include "intr.h"
-+#include "syncpt.h"
-+
-+DEFINE_SPINLOCK(lock);
-+
-+struct host1x_syncpt_fence {
-+	struct dma_fence base;
-+
-+	atomic_t signaling;
-+
-+	struct host1x_syncpt *sp;
-+	u32 threshold;
-+
-+	struct host1x_waitlist *waiter;
-+	void *waiter_ref;
-+
-+	struct delayed_work timeout_work;
-+};
-+
-+static const char *syncpt_fence_get_driver_name(struct dma_fence *f)
-+{
-+	return "host1x";
-+}
-+
-+static const char *syncpt_fence_get_timeline_name(struct dma_fence *f)
-+{
-+	return "syncpoint";
-+}
-+
-+static bool syncpt_fence_enable_signaling(struct dma_fence *f)
-+{
-+	struct host1x_syncpt_fence *sf =
-+		container_of(f, struct host1x_syncpt_fence, base);
-+	int err;
-+
-+	if (host1x_syncpt_is_expired(sf->sp, sf->threshold))
-+		return false;
-+
-+	dma_fence_get(f);
-+
-+	/*
-+	 * The dma_fence framework requires the fence driver to keep a
-+	 * reference to any fences for which 'enable_signaling' has been
-+	 * called (and that have not been signalled).
-+	 * 
-+	 * We provide a userspace API to create arbitrary syncpoint fences,
-+	 * so we cannot normally guarantee that all fences get signalled.
-+	 * As such, setup a timeout, so that long-lasting fences will get
-+	 * reaped eventually.
-+	 */
-+	schedule_delayed_work(&sf->timeout_work, msecs_to_jiffies(30000));
-+
-+	err = host1x_intr_add_action(sf->sp->host, sf->sp, sf->threshold,
-+				     HOST1X_INTR_ACTION_SIGNAL_FENCE, f,
-+				     sf->waiter, &sf->waiter_ref);
-+	if (err) {
-+		cancel_delayed_work_sync(&sf->timeout_work);
-+		dma_fence_put(f);
-+		return false;
-+	}
-+
-+	/* intr framework takes ownership of waiter */
-+	sf->waiter = NULL;
-+
-+	/*
-+	 * The fence may get signalled at any time after the above call,
-+	 * so we need to initialize all state used by signalling
-+	 * before it.
-+	 */
-+
-+	return true;
-+}
-+
-+static void syncpt_fence_release(struct dma_fence *f)
-+{
-+	struct host1x_syncpt_fence *sf =
-+		container_of(f, struct host1x_syncpt_fence, base);
-+
-+	if (sf->waiter)
-+		kfree(sf->waiter);
-+
-+	dma_fence_free(f);
-+}
-+
-+const struct dma_fence_ops syncpt_fence_ops = {
-+	.get_driver_name = syncpt_fence_get_driver_name,
-+	.get_timeline_name = syncpt_fence_get_timeline_name,
-+	.enable_signaling = syncpt_fence_enable_signaling,
-+	.release = syncpt_fence_release,
-+};
-+
-+void host1x_fence_signal(struct host1x_syncpt_fence *f)
-+{
-+	if (atomic_xchg(&f->signaling, 1))
-+		return;
-+
-+	/*
-+	 * Cancel pending timeout work - if it races, it will
-+	 * not get 'f->signaling' and return.
-+	 */
-+	cancel_delayed_work_sync(&f->timeout_work);
-+
-+	host1x_intr_put_ref(f->sp->host, f->sp->id, f->waiter_ref, false);
-+
-+	dma_fence_signal(&f->base);
-+	dma_fence_put(&f->base);
-+}
-+
-+static void do_fence_timeout(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = (struct delayed_work *)work;
-+	struct host1x_syncpt_fence *f =
-+		container_of(dwork, struct host1x_syncpt_fence, timeout_work);
-+
-+	if (atomic_xchg(&f->signaling, 1))
-+		return;
-+
-+	/*
-+	 * Cancel pending timeout work - if it races, it will
-+	 * not get 'f->signaling' and return.
-+	 */
-+	host1x_intr_put_ref(f->sp->host, f->sp->id, f->waiter_ref, true);
-+
-+	dma_fence_set_error(&f->base, -ETIMEDOUT);
-+	dma_fence_signal(&f->base);
-+	dma_fence_put(&f->base);
-+}
-+
-+struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold)
-+{
-+	struct host1x_syncpt_fence *fence;
-+
-+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence)
-+		return ERR_PTR(-ENOMEM);
-+
-+	fence->waiter = kzalloc(sizeof(*fence->waiter), GFP_KERNEL);
-+	if (!fence->waiter)
-+		return ERR_PTR(-ENOMEM);
-+
-+	fence->sp = sp;
-+	fence->threshold = threshold;
-+
-+	dma_fence_init(&fence->base, &syncpt_fence_ops, &lock,
-+		       dma_fence_context_alloc(1), 0);
-+
-+	INIT_DELAYED_WORK(&fence->timeout_work, do_fence_timeout);
-+
-+	return &fence->base;
-+}
-+EXPORT_SYMBOL(host1x_fence_create);
-+
-+int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold)
-+{
-+	struct sync_file *file;
-+	struct dma_fence *f;
-+	int fd;
-+
-+	f = host1x_fence_create(sp, threshold);
-+	if (IS_ERR(f))
-+		return PTR_ERR(f);
-+
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0) {
-+		dma_fence_put(f);
-+		return fd;
-+	}
-+
-+	file = sync_file_create(f);
-+	dma_fence_put(f);
-+	if (!file)
-+		return -ENOMEM;
-+
-+	fd_install(fd, file->file);
-+
-+	return fd;
-+}
-+EXPORT_SYMBOL(host1x_fence_create_fd);
-+
-+int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold)
-+{
-+	struct host1x_syncpt_fence *f;
-+
-+	if (fence->ops != &syncpt_fence_ops)
-+		return -EINVAL;
-+
-+	f = container_of(fence, struct host1x_syncpt_fence, base);
-+
-+	*id = f->sp->id;
-+	*threshold = f->threshold;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(host1x_fence_extract);
-diff --git a/drivers/gpu/host1x/fence.h b/drivers/gpu/host1x/fence.h
-new file mode 100644
-index 000000000000..70c91de82f14
---- /dev/null
-+++ b/drivers/gpu/host1x/fence.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2020, NVIDIA Corporation.
-+ */
-+
-+#ifndef HOST1X_FENCE_H
-+#define HOST1X_FENCE_H
-+
-+struct host1x_syncpt_fence;
-+
-+void host1x_fence_signal(struct host1x_syncpt_fence *fence);
-+
-+#endif
-diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
-index 70e1096a4fe9..bcffc4d7879b 100644
---- a/drivers/gpu/host1x/intr.c
-+++ b/drivers/gpu/host1x/intr.c
-@@ -13,6 +13,7 @@
- #include <trace/events/host1x.h>
- #include "channel.h"
- #include "dev.h"
-+#include "fence.h"
- #include "intr.h"
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 5a6037eff37f..cd81b52a9e06 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -197,6 +197,7 @@ int tegra_drm_submit(struct tegra_drm_context *context,
+ 	job->client = client;
+ 	job->class = client->class;
+ 	job->serialize = true;
++	job->syncpt_recovery = true;
  
- /* Wait list management */
-@@ -121,12 +122,20 @@ static void action_wakeup_interruptible(struct host1x_waitlist *waiter)
- 	wake_up_interruptible(wq);
- }
+ 	/*
+ 	 * Track referenced BOs so that they can be unreferenced after the
+diff --git a/drivers/gpu/host1x/cdma.c b/drivers/gpu/host1x/cdma.c
+index 6e6ca774f68d..765e5aa64eb6 100644
+--- a/drivers/gpu/host1x/cdma.c
++++ b/drivers/gpu/host1x/cdma.c
+@@ -312,10 +312,6 @@ static void update_cdma_locked(struct host1x_cdma *cdma)
+ 	bool signal = false;
+ 	struct host1x_job *job, *n;
  
-+static void action_signal_fence(struct host1x_waitlist *waiter)
-+{
-+	struct host1x_syncpt_fence *f = waiter->data;
-+
-+	host1x_fence_signal(f);
-+}
-+
- typedef void (*action_handler)(struct host1x_waitlist *waiter);
+-	/* If CDMA is stopped, queue is cleared and we can return */
+-	if (!cdma->running)
+-		return;
+-
+ 	/*
+ 	 * Walk the sync queue, reading the sync point registers as necessary,
+ 	 * to consume as many sync queue entries as possible without blocking
+@@ -324,7 +320,8 @@ static void update_cdma_locked(struct host1x_cdma *cdma)
+ 		struct host1x_syncpt *sp = job->syncpt;
  
- static const action_handler action_handlers[HOST1X_INTR_ACTION_COUNT] = {
- 	action_submit_complete,
- 	action_wakeup,
- 	action_wakeup_interruptible,
-+	action_signal_fence,
- };
+ 		/* Check whether this syncpt has completed, and bail if not */
+-		if (!host1x_syncpt_is_expired(sp, job->syncpt_end)) {
++		if (!host1x_syncpt_is_expired(sp, job->syncpt_end) &&
++		    !job->cancelled) {
+ 			/* Start timer on next pending syncpt */
+ 			if (job->timeout)
+ 				cdma_start_timer_locked(cdma, job);
+@@ -413,8 +410,11 @@ void host1x_cdma_update_sync_queue(struct host1x_cdma *cdma,
+ 	else
+ 		restart_addr = cdma->last_pos;
  
- static void run_handlers(struct list_head completed[HOST1X_INTR_ACTION_COUNT])
-diff --git a/drivers/gpu/host1x/intr.h b/drivers/gpu/host1x/intr.h
-index 6ea55e615e3a..e4c346099273 100644
---- a/drivers/gpu/host1x/intr.h
-+++ b/drivers/gpu/host1x/intr.h
-@@ -33,6 +33,8 @@ enum host1x_intr_action {
- 	 */
- 	HOST1X_INTR_ACTION_WAKEUP_INTERRUPTIBLE,
++	if (!job)
++		goto resume;
++
+ 	/* do CPU increments for the remaining syncpts */
+-	if (job) {
++	if (job->syncpt_recovery) {
+ 		dev_dbg(dev, "%s: perform CPU incr on pending buffers\n",
+ 			__func__);
  
-+	HOST1X_INTR_ACTION_SIGNAL_FENCE,
-+
- 	HOST1X_INTR_ACTION_COUNT
- };
+@@ -433,8 +433,44 @@ void host1x_cdma_update_sync_queue(struct host1x_cdma *cdma,
  
-diff --git a/drivers/gpu/host1x/uapi.c b/drivers/gpu/host1x/uapi.c
-index 27b8761c3f35..e931756a5e16 100644
---- a/drivers/gpu/host1x/uapi.c
-+++ b/drivers/gpu/host1x/uapi.c
-@@ -11,8 +11,10 @@
- #include <linux/fs.h>
- #include <linux/host1x.h>
- #include <linux/nospec.h>
-+#include <linux/sync_file.h>
- 
- #include "dev.h"
-+#include "fence.h"
- #include "syncpt.h"
- #include "uapi.h"
- 
-@@ -195,6 +197,99 @@ static int dev_file_ioctl_alloc_syncpoint(struct host1x *host1x,
- 	return err;
- }
- 
-+static int dev_file_ioctl_create_fence(struct host1x *host1x, void __user *data)
-+{
-+	struct host1x_create_fence args;
-+	unsigned long copy_err;
-+	int fd;
-+
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	if (args.reserved[0])
-+		return -EINVAL;
-+
-+	if (args.id >= host1x_syncpt_nb_pts(host1x))
-+		return -EINVAL;
-+
-+	args.id = array_index_nospec(args.id, host1x_syncpt_nb_pts(host1x));
-+
-+	fd = host1x_fence_create_fd(&host1x->syncpt[args.id], args.threshold);
-+	if (fd < 0)
-+		return fd;
-+
-+	args.fence_fd = fd;
-+
-+	copy_err = copy_to_user(data, &args, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int dev_file_ioctl_fence_extract(struct host1x *host1x, void __user *data)
-+{
-+	struct host1x_fence_extract_fence __user *fences_user_ptr;
-+	struct dma_fence *fence, **fences;
-+	struct host1x_fence_extract args;
-+	struct dma_fence_array *array;
-+	unsigned int num_fences, i;
-+	unsigned long copy_err;
-+	int err;
-+
-+	copy_err = copy_from_user(&args, data, sizeof(args));
-+	if (copy_err)
-+		return -EFAULT;
-+
-+	fences_user_ptr = u64_to_user_ptr(args.fences_ptr);
-+
-+	if (args.reserved[0] || args.reserved[1])
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(args.fence_fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	array = to_dma_fence_array(fence);
-+	if (array) {
-+		fences = array->fences;
-+		num_fences = array->num_fences;
+ 		dev_dbg(dev, "%s: finished sync_queue modification\n",
+ 			__func__);
 +	} else {
-+		fences = &fence;
-+		num_fences = 1;
-+	}
++		struct host1x_job *failed_job = job;
 +
-+	for (i = 0; i < min(num_fences, args.num_fences); i++) {
-+		struct host1x_fence_extract_fence f;
++		host1x_job_dump(dev, job);
 +
-+		err = host1x_fence_extract(fences[i], &f.id, &f.threshold);
-+		if (err)
-+			goto put_fence;
++		host1x_syncpt_set_locked(job->syncpt);
++		failed_job->cancelled = true;
 +
-+		copy_err = copy_to_user(fences_user_ptr + i, &f, sizeof(f));
-+		if (copy_err) {
-+			err = -EFAULT;
-+			goto put_fence;
++		list_for_each_entry_continue(job, &cdma->sync_queue, list) {
++			unsigned int i;
++
++			if (job->syncpt != failed_job->syncpt)
++				continue;
++
++			for (i = 0; i < job->num_slots; i++) {
++				unsigned int slot = (job->first_get/8 + i) %
++						    HOST1X_PUSHBUFFER_SLOTS;
++				u32 *mapped = cdma->push_buffer.mapped;
++
++				/*
++				 * Overwrite opcodes with 0 word writes
++				 * to offset 0xbad. This does nothing but
++				 * has a easily detected signature in debug
++				 * traces.
++				 */
++				mapped[2*slot+0] = 0x1bad0000;
++				mapped[2*slot+1] = 0x1bad0000;
++			}
++
++			job->cancelled = true;
 +		}
++
++		wmb();
++
++		update_cdma_locked(cdma);
+ 	}
+ 
++resume:
+ 	/* roll back DMAGET and start up channel again */
+ 	host1x_hw_cdma_resume(host1x, cdma, restart_addr);
+ }
+@@ -490,6 +526,16 @@ int host1x_cdma_begin(struct host1x_cdma *cdma, struct host1x_job *job)
+ 
+ 	mutex_lock(&cdma->lock);
+ 
++	/*
++	 * Check if syncpoint was locked due to previous job timeout.
++	 * This needs to be done within the cdma lock to avoid a race
++	 * with the timeout handler.
++	 */
++	if (job->syncpt->locked) {
++		mutex_unlock(&cdma->lock);
++		return -EPERM;
 +	}
 +
-+	args.num_fences = i+1;
+ 	if (job->timeout) {
+ 		/* init state on first submit with timeout value */
+ 		if (!cdma->timeout.initialized) {
+diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
+index d4c28faf27d1..bf21512e5078 100644
+--- a/drivers/gpu/host1x/hw/channel_hw.c
++++ b/drivers/gpu/host1x/hw/channel_hw.c
+@@ -191,7 +191,7 @@ static int channel_submit(struct host1x_job *job)
+ 	/* schedule a submit complete interrupt */
+ 	err = host1x_intr_add_action(host, sp, syncval,
+ 				     HOST1X_INTR_ACTION_SUBMIT_COMPLETE, ch,
+-				     completed_waiter, NULL);
++				     completed_waiter, &job->waiter);
+ 	completed_waiter = NULL;
+ 	WARN(err, "Failed to set submit complete interrupt");
+ 
+diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
+index adbdc225de8d..8f59b34672c2 100644
+--- a/drivers/gpu/host1x/job.c
++++ b/drivers/gpu/host1x/job.c
+@@ -79,6 +79,10 @@ static void job_free(struct kref *ref)
+ {
+ 	struct host1x_job *job = container_of(ref, struct host1x_job, ref);
+ 
++	if (job->waiter)
++		host1x_intr_put_ref(job->syncpt->host, job->syncpt->id,
++				    job->waiter, false);
 +
-+	copy_err = copy_to_user(data, &args, sizeof(args));
-+	if (copy_err) {
-+		err = -EFAULT;
-+		goto put_fence;
-+	}
+ 	if (job->syncpt)
+ 		host1x_syncpt_put(job->syncpt);
+ 
+diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
+index 8a189a7c8d68..81315cd1a3ed 100644
+--- a/drivers/gpu/host1x/syncpt.c
++++ b/drivers/gpu/host1x/syncpt.c
+@@ -385,6 +385,8 @@ static void syncpt_release(struct kref *ref)
+ {
+ 	struct host1x_syncpt *sp = container_of(ref, struct host1x_syncpt, ref);
+ 
++	sp->locked = false;
 +
-+	return 0;
+ 	mutex_lock(&sp->host->syncpt_mutex);
+ 
+ 	host1x_syncpt_base_free(sp->base);
+diff --git a/drivers/gpu/host1x/syncpt.h b/drivers/gpu/host1x/syncpt.h
+index a6766f8d55ee..93e894677d89 100644
+--- a/drivers/gpu/host1x/syncpt.h
++++ b/drivers/gpu/host1x/syncpt.h
+@@ -40,6 +40,13 @@ struct host1x_syncpt {
+ 
+ 	/* interrupt data */
+ 	struct host1x_syncpt_intr intr;
 +
-+put_fence:
-+	dma_fence_put(fence);
-+
-+	return err;
++	/* 
++	 * If a submission incrementing this syncpoint fails, lock it so that
++	 * further submission cannot be made until application has handled the
++	 * failure.
++	 */
++	bool locked;
+ };
+ 
+ /* Initialize sync point array  */
+@@ -115,4 +122,9 @@ static inline int host1x_syncpt_is_valid(struct host1x_syncpt *sp)
+ 	return sp->id < host1x_syncpt_nb_pts(sp->host);
+ }
+ 
++static inline void host1x_syncpt_set_locked(struct host1x_syncpt *sp)
++{
++	sp->locked = true;
 +}
 +
- static long dev_file_ioctl(struct file *file, unsigned int cmd,
- 			   unsigned long arg)
- {
-@@ -210,6 +305,14 @@ static long dev_file_ioctl(struct file *file, unsigned int cmd,
- 		err = dev_file_ioctl_alloc_syncpoint(file->private_data, data);
- 		break;
- 
-+	case HOST1X_IOCTL_CREATE_FENCE:
-+		err = dev_file_ioctl_create_fence(file->private_data, data);
-+		break;
-+
-+	case HOST1X_IOCTL_FENCE_EXTRACT:
-+		err = dev_file_ioctl_fence_extract(file->private_data, data);
-+		break;
-+
- 	default:
- 		err = -ENOTTY;
- 	}
+ #endif
 diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index b3178ae51cae..080f9d3d29eb 100644
+index 080f9d3d29eb..81ca70066c76 100644
 --- a/include/linux/host1x.h
 +++ b/include/linux/host1x.h
-@@ -165,6 +165,10 @@ u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
+@@ -233,9 +233,15 @@ struct host1x_job {
+ 	u32 syncpt_incrs;
+ 	u32 syncpt_end;
  
- struct host1x_syncpt *host1x_syncpt_fd_get(int fd);
- 
-+struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold);
-+int host1x_fence_create_fd(struct host1x_syncpt *sp, u32 threshold);
-+int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold);
++	/* Completion waiter ref */
++	void *waiter;
 +
- /*
-  * host1x channel
-  */
+ 	/* Maximum time to wait for this job */
+ 	unsigned int timeout;
+ 
++	/* Job has timed out and should be released */
++	bool cancelled;
++
+ 	/* Index and number of slots used in the push buffer */
+ 	unsigned int first_get;
+ 	unsigned int num_slots;
+@@ -256,6 +262,9 @@ struct host1x_job {
+ 
+ 	/* Add a channel wait for previous ops to complete */
+ 	bool serialize;
++
++	/* Fast-forward syncpoint increments on job timeout */
++	bool syncpt_recovery;
+ };
+ 
+ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
 -- 
 2.30.0
 
