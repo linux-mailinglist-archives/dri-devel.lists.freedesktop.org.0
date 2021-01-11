@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36542F1AFB
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 17:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF39C2F1B26
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Jan 2021 17:39:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D69989CA0;
-	Mon, 11 Jan 2021 16:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD17C89EAE;
+	Mon, 11 Jan 2021 16:39:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63A6489C1E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 16:32:38 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id q75so459406wme.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 08:32:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=VZdH60EuGMKkmr8lqMIhejGhytbSg0G7wV4v2lwFyXE=;
- b=CQIFawl4ORfpLfps2O+BOFZM3ykPUmDF3knAkCHjFxKBD0mhvwgUiuHKmnFntGClZu
- J448Kza+c+w3cWxmCWzoDGk2G5+Jr2YVJIWUyUTxZZrYw1jTMnrpZ6JGUt9A1HCiaTJD
- Ne0KzPR19lI753im0Db7prHqXacIHjorp0ZvI=
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D780E89E01
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 16:39:47 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id m23so238107ioy.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Jan 2021 08:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6RtG2MQLaBsAC56nCZKcBSqEJTZMVf/AohqsRx6DIsU=;
+ b=Qx4SuI4OEhGwr6TFozNzygnxB6Xkd9GRnG3vV0FKgaVlArvwODzuHA8hpG9bCpdjL7
+ eULzyiD3kkWgAP/S9FtDLPhX+VA7SG5ch2UIeQ8najTIkUSQNciRmUQRERfBeBWpdodk
+ otaB2qtK3WR109ii7BoC8/oi7Aj32zknuJ4aiUMwM9UUEf5ZJlu9g4A55j6vDcBzjOmg
+ wqhn31YUEtE+4dpwO7SyLpBhwOBwxXhURmjb5cTFTkdjD+kmEk7GwL+VbxEgnN8TZj9j
+ AYRdaKv/aba2CjVaTi1TevwGz1dl3p1b/rkAtWv3BWF5kBOteJ9xJnAlD7lRYjIIXq/J
+ OJFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=VZdH60EuGMKkmr8lqMIhejGhytbSg0G7wV4v2lwFyXE=;
- b=rNt381NVQAxvgJ66W9RZxMvSs2y2Jt8ighveXt3UzHsulMASzS6lC+Oq6Miq9HRFt5
- R5tkPM43M02txNsyffZ0FOhlCC07lDD6dJDQWfOBOXb0lG/XKKYXpg04+WWW/M0U4ysu
- Et64JUrDxGy5ttjO0lSNNXAvRU8kpAJPZnlxdxfyvlS+c4AyvRhi4lfDr7LDQIaq1ka+
- ZClSATlHYd/ofxwHqUBwq74ljttB88Qg7bRKNbiG7XNygtXym1F9RkBjD35V+joyAx7w
- QRKLThReDquNXimwLWMfXvKOQOtOw+6ult3ZE95WLvPXH4k6KZFayvtMHdh2ZOjVkXN+
- dszw==
-X-Gm-Message-State: AOAM530WXMJnbL1WDI7PHJEbkGZy1cDmpkr/VwxfL5bq00xqntuckHA1
- m9roEafJPMUlFjepJCM0XDfMHyd75kqw7VdZ
-X-Google-Smtp-Source: ABdhPJy7rD9+fUXp9/6HK4DWSzraPNDKHbAST+rG6g4n8v9vLsakVgoMpacyQKhRHZxQsXi9AblWGg==
-X-Received: by 2002:a7b:c8da:: with SMTP id f26mr497147wml.50.1610382757113;
- Mon, 11 Jan 2021 08:32:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z3sm174381wrn.59.2021.01.11.08.32.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 08:32:36 -0800 (PST)
-Date: Mon, 11 Jan 2021 17:32:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] amdgpu: Avoid sleeping during FPU critical sections
-Message-ID: <X/x9ojzg8XcCG+ZT@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, 
- Jeremy Cline <jcline@redhat.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Timothy Pearson <tpearson@raptorengineering.com>
-References: <20210108215838.470637-1-jcline@redhat.com>
- <3c94f9d6-501d-271c-ca83-1cf4229cb3ab@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6RtG2MQLaBsAC56nCZKcBSqEJTZMVf/AohqsRx6DIsU=;
+ b=eUFveC0PyhtSX5Vqx/tLqCLnHZnApRxFYe4twdtOcL4o2FQ1uYDb4h8DnPWUXtn9us
+ ccp1NTaUxB3jl0kbim2J81A2+PpkNbyqLhf5isDg9QIPaiFxJGAR4WofMOQ2UnIzkHgL
+ MrDgjheBJbWhepaxSLXYRZQ9ig36q19gqtdiiwJvEBNSWKDt8tgGU8wlx7VTDqvFKhGO
+ 1hlHQmJkvJYWM8+dl5s/T/KikCFeuJZ1n7wAQp7bRRTzX1qI0ytBP9ZGXeYyu4/TDPv6
+ CNeZq44MTNeqV5WDOYV9WWGZNtLEcDFZ6LL2GCvUUS9zW3/xjE0OKRMS6YrMnaAg8+2i
+ 4yTw==
+X-Gm-Message-State: AOAM530MKEfrXhwNW4sMYx2rCCqxDf7nW0h+hheJRYRrQRgrefPuB5we
+ kAQ84HP6F/ctKLG0BIzzXNcikw2B7NTGZGAoa+rZbw==
+X-Google-Smtp-Source: ABdhPJydeMjMj1/GjrmfjQzAS7JPmLiAwNZ2xCJOtcbXqizmA/SEBoXsKn/ta7NqGOzzGPbgM3UPLpYyY0tsGjZFwa8=
+X-Received: by 2002:a6b:b2cf:: with SMTP id b198mr88195iof.19.1610383187247;
+ Mon, 11 Jan 2021 08:39:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3c94f9d6-501d-271c-ca83-1cf4229cb3ab@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
+ <CADnq5_OVtCubsGP=-=q-hYJ3e6a3=pozi7ZhDiqdUkUKLCiwMg@mail.gmail.com>
+In-Reply-To: <CADnq5_OVtCubsGP=-=q-hYJ3e6a3=pozi7ZhDiqdUkUKLCiwMg@mail.gmail.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Mon, 11 Jan 2021 17:40:06 +0100
+Message-ID: <CAP+8YyGAuYW+qOCDmQR+_X0y-jC5sKoxm+k7V8YrAEaTM942dA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Check actual format for legacy pageflip.
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,119 +63,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jeremy Cline <jcline@redhat.com>,
- Timothy Pearson <tpearson@raptorengineering.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Zhan Liu <zhan.liu@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 09:53:56AM +0100, Christian K=F6nig wrote:
-> Am 08.01.21 um 22:58 schrieb Jeremy Cline:
-> > dcn20_resource_construct() includes a number of kzalloc(GFP_KERNEL)
-> > calls which can sleep, but kernel_fpu_begin() disables preemption and
-> > sleeping in this context is invalid.
-> > =
-
-> > The only places the FPU appears to be required is in the
-> > init_soc_bounding_box() function and when calculating the
-> > {min,max}_fill_clk_mhz. Narrow the scope to just these two parts to
-> > avoid sleeping while using the FPU.
-> > =
-
-> > Fixes: 7a8a3430be15 ("amdgpu: Wrap FPU dependent functions in dc20")
-> > Cc: Timothy Pearson <tpearson@raptorengineering.com>
-> > Signed-off-by: Jeremy Cline <jcline@redhat.com>
-> =
-
-> Good catch, but I would rather replace the kzalloc(GFP_KERNEL) with a
-> kzalloc(GFP_ATOMIC) for now.
-> =
-
-> We have tons of problems with this DC_FP_START()/DC_FP_END() annotations =
-and
-> are even in the process of moving them out of the file because the compil=
-es
-> tend to clutter FP registers even outside of the annotated ranges on some
-> architectures.
-
-Out of curiosity, what's the plan? Soft-fp implementation for DC so you
-can keep the algorithms all unchanged, or redoing them as some fixed point
-with careful review and retesting everything? Something else?
--Daniel
-
-> =
-
-> Regards,
-> Christian.
-> =
-
-> > ---
-> >   drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 8 ++++----
-> >   1 file changed, 4 insertions(+), 4 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/dr=
-ivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-> > index e04ecf0fc0db..a4fa5bf016c1 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-> > @@ -3622,6 +3622,7 @@ static bool init_soc_bounding_box(struct dc *dc,
-> >   	if (bb && ASICREV_IS_NAVI12_P(dc->ctx->asic_id.hw_internal_rev)) {
-> >   		int i;
-> > +		DC_FP_START();
-> >   		dcn2_0_nv12_soc.sr_exit_time_us =3D
-> >   				fixed16_to_double_to_cpu(bb->sr_exit_time_us);
-> >   		dcn2_0_nv12_soc.sr_enter_plus_exit_time_us =3D
-> > @@ -3721,6 +3722,7 @@ static bool init_soc_bounding_box(struct dc *dc,
-> >   			dcn2_0_nv12_soc.clock_limits[i].dram_speed_mts =3D
-> >   					fixed16_to_double_to_cpu(bb->clock_limits[i].dram_speed_mts);
-> >   		}
-> > +		DC_FP_END();
-> >   	}
-> >   	if (pool->base.pp_smu) {
-> > @@ -3777,8 +3779,6 @@ static bool dcn20_resource_construct(
-> >   	enum dml_project dml_project_version =3D
-> >   			get_dml_project_version(ctx->asic_id.hw_internal_rev);
-> > -	DC_FP_START();
-> > -
-> >   	ctx->dc_bios->regs =3D &bios_regs;
-> >   	pool->base.funcs =3D &dcn20_res_pool_funcs;
-> > @@ -3959,8 +3959,10 @@ static bool dcn20_resource_construct(
-> >   				ranges.reader_wm_sets[i].wm_inst =3D i;
-> >   				ranges.reader_wm_sets[i].min_drain_clk_mhz =3D PP_SMU_WM_SET_RANG=
-E_CLK_UNCONSTRAINED_MIN;
-> >   				ranges.reader_wm_sets[i].max_drain_clk_mhz =3D PP_SMU_WM_SET_RANG=
-E_CLK_UNCONSTRAINED_MAX;
-> > +				DC_FP_START();
-> >   				ranges.reader_wm_sets[i].min_fill_clk_mhz =3D (i > 0) ? (loaded_b=
-b->clock_limits[i - 1].dram_speed_mts / 16) + 1 : 0;
-> >   				ranges.reader_wm_sets[i].max_fill_clk_mhz =3D loaded_bb->clock_li=
-mits[i].dram_speed_mts / 16;
-> > +				DC_FP_END();
-> >   				ranges.num_reader_wm_sets =3D i + 1;
-> >   			}
-> > @@ -4125,12 +4127,10 @@ static bool dcn20_resource_construct(
-> >   		pool->base.oem_device =3D NULL;
-> >   	}
-> > -	DC_FP_END();
-> >   	return true;
-> >   create_fail:
-> > -	DC_FP_END();
-> >   	dcn20_resource_destruct(pool);
-> >   	return false;
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBKYW4gMTEsIDIwMjEgYXQgNDowMiBQTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
+QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBTYXQsIEphbiA5LCAyMDIxIGF0IDk6MTEgUE0gQmFz
+IE5pZXV3ZW5odWl6ZW4KPiA8YmFzQGJhc25pZXV3ZW5odWl6ZW4ubmw+IHdyb3RlOgo+ID4KPiA+
+IFdpdGggbW9kaWZpZXJzIG9uZSBjYW4gYWN0dWFsbHkgaGF2ZSBkaWZmZXJlbnQgZm9ybWF0X2lu
+Zm8gc3RydWN0cwo+ID4gZm9yIHRoZSBzYW1lIGZvcm1hdCwgd2hpY2ggbm93IG1hdHRlcnMgZm9y
+IEFNREdQVSBzaW5jZSB3ZSBjb252ZXJ0Cj4gPiBpbXBsaWNpdCBtb2RpZmllcnMgdG8gZXhwbGlj
+aXQgbW9kaWZpZXJzIHdpdGggbXVsdGlwbGUgcGxhbmVzLgo+ID4KPiA+IEkgY2hlY2tlZCBvdGhl
+ciBkcml2ZXJzIGFuZCBpdCBkb2Vzbid0IGxvb2sgbGlrZSB0aGV5IGVuZCB1cCB0cmlnZ2VyaW5n
+Cj4gPiB0aGlzIGNhc2Ugc28gSSB0aGluayB0aGlzIGlzIHNhZmUgdG8gcmVsYXguCj4gPgo+ID4g
+U2lnbmVkLW9mZi1ieTogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5s
+Pgo+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
+Cj4gPiBSZXZpZXdlZC1ieTogWmhhbiBMaXUgPHpoYW4ubGl1QGFtZC5jb20+Cj4gPiBBY2tlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4gQWNrZWQt
+Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiA+IEZpeGVzOiA4
+MTY4NTNmOWRjNDAgKCJkcm0vYW1kL2Rpc3BsYXk6IFNldCBuZXcgZm9ybWF0IGluZm8gZm9yIGNv
+bnZlcnRlZCBtZXRhZGF0YS4iKQo+Cj4gRG8geW91IGhhdmUgY29tbWl0IHJpZ2h0cyB0byBkcm0t
+bWlzYyBvciBkbyB5b3UgbmVlZCBzb21lb25lIHRvIGNvbW1pdAo+IHRoaXMgZm9yIHlvdT8KCkkg
+ZG9uJ3QgaGF2ZSBjb21taXQgcmlnaHRzIHNvIGlmIHRoZSBwYXRjaCBjb3VsZCBiZSBjb21taXR0
+ZWQgZm9yIG1lCnRoYXQgd291bGQgYmUgYXBwcmVjaWF0ZWQhCj4KPiBUaGFua3MhCj4KPiBBbGV4
+Cj4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyB8IDkgKysrKysrKyst
+Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4K
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3BsYW5lLmMKPiA+IGluZGV4IGU2MjMxOTQ3Zjk4Ny4uYTBjYjc0NmJjYjBhIDEw
+MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jCj4gPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMKPiA+IEBAIC0xMTYzLDcgKzExNjMsMTQgQEAgaW50IGRy
+bV9tb2RlX3BhZ2VfZmxpcF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gICAgICAg
+ICBpZiAocmV0KQo+ID4gICAgICAgICAgICAgICAgIGdvdG8gb3V0Owo+ID4KPiA+IC0gICAgICAg
+aWYgKG9sZF9mYi0+Zm9ybWF0ICE9IGZiLT5mb3JtYXQpIHsKPiA+ICsgICAgICAgLyoKPiA+ICsg
+ICAgICAgICogT25seSBjaGVjayB0aGUgRk9VUkNDIGZvcm1hdCBjb2RlLCBleGNsdWRpbmcgbW9k
+aWZpZXJzLiBUaGlzIGlzCj4gPiArICAgICAgICAqIGVub3VnaCBmb3IgYWxsIGxlZ2FjeSBkcml2
+ZXJzLiBBdG9taWMgZHJpdmVycyBoYXZlIHRoZWlyIG93bgo+ID4gKyAgICAgICAgKiBjaGVja3Mg
+aW4gdGhlaXIgLT5hdG9taWNfY2hlY2sgaW1wbGVtZW50YXRpb24sIHdoaWNoIHdpbGwKPiA+ICsg
+ICAgICAgICogcmV0dXJuIC1FSU5WQUwgaWYgYW55IGh3IG9yIGRyaXZlciBjb25zdHJhaW50IGlz
+IHZpb2xhdGVkIGR1ZQo+ID4gKyAgICAgICAgKiB0byBtb2RpZmllciBjaGFuZ2VzLgo+ID4gKyAg
+ICAgICAgKi8KPiA+ICsgICAgICAgaWYgKG9sZF9mYi0+Zm9ybWF0LT5mb3JtYXQgIT0gZmItPmZv
+cm1hdC0+Zm9ybWF0KSB7Cj4gPiAgICAgICAgICAgICAgICAgRFJNX0RFQlVHX0tNUygiUGFnZSBm
+bGlwIGlzIG5vdCBhbGxvd2VkIHRvIGNoYW5nZSBmcmFtZSBidWZmZXIgZm9ybWF0LlxuIik7Cj4g
+PiAgICAgICAgICAgICAgICAgcmV0ID0gLUVJTlZBTDsKPiA+ICAgICAgICAgICAgICAgICBnb3Rv
+IG91dDsKPiA+IC0tCj4gPiAyLjI5LjIKPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+ID4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiA+IGFtZC1n
+ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
