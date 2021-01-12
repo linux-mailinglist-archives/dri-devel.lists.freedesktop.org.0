@@ -1,27 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1F2F29C1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:11:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E392F29BF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF876E118;
-	Tue, 12 Jan 2021 08:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B32C46E114;
+	Tue, 12 Jan 2021 08:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E37A6E0EA;
- Tue, 12 Jan 2021 08:10:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC386E0EA;
+ Tue, 12 Jan 2021 08:10:43 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3DB36B7D3;
+ by mx2.suse.de (Postfix) with ESMTP id AF825B7D5;
  Tue, 12 Jan 2021 08:10:41 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com
-Subject: [PATCH 4/6] drm: Merge CONFIG_DRM_VM into CONFIG_DRM_LEGACY
-Date: Tue, 12 Jan 2021 09:10:33 +0100
-Message-Id: <20210112081035.6882-5-tzimmermann@suse.de>
+Subject: [PATCH 5/6] drm/radeon: Store PCI controller in struct
+ radeon_device.hose
+Date: Tue, 12 Jan 2021 09:10:34 +0100
+Message-Id: <20210112081035.6882-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112081035.6882-1-tzimmermann@suse.de>
 References: <20210112081035.6882-1-tzimmermann@suse.de>
@@ -45,67 +46,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CONFIG_DRM_VM gets selected by CONFIG_DRM_LEGACY, but nothing else. So
-remove it and build drm_vm.o as part of CONFIG_DRM_LEGACY.
+Moves struct drm_device.hose into struct radeon_device. The field in
+struct DRM device is only for legacy drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/Kconfig      | 5 -----
- drivers/gpu/drm/Makefile     | 3 +--
- drivers/gpu/drm/drm_legacy.h | 2 +-
- 3 files changed, 2 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/radeon/radeon.h     | 3 +++
+ drivers/gpu/drm/radeon/radeon_drv.c | 4 ----
+ drivers/gpu/drm/radeon/radeon_kms.c | 4 ++++
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+ 4 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0973f408d75f..8bf103de1594 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -214,10 +214,6 @@ config DRM_GEM_SHMEM_HELPER
- 	help
- 	  Choose this if you need the GEM shmem helper functions
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index 6bcb851d7e22..f09989bdce98 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -2313,6 +2313,9 @@ struct radeon_device {
+ 	struct device			*dev;
+ 	struct drm_device		*ddev;
+ 	struct pci_dev			*pdev;
++#ifdef __alpha__
++	struct pci_controller		*hose;
++#endif
+ 	struct rw_semaphore		exclusive_lock;
+ 	/* ASIC */
+ 	union radeon_asic_config	config;
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index 8193a2e9c415..efeb115ae70e 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -342,10 +342,6 @@ static int radeon_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto err_free;
  
--config DRM_VM
--	bool
--	depends on DRM && MMU
+-#ifdef __alpha__
+-	dev->hose = pdev->sysdata;
+-#endif
 -
- config DRM_SCHED
- 	tristate
- 	depends on DRM
-@@ -391,7 +387,6 @@ source "drivers/gpu/drm/xlnx/Kconfig"
- menuconfig DRM_LEGACY
- 	bool "Enable legacy drivers (DANGEROUS)"
- 	depends on DRM && MMU
--	select DRM_VM
- 	help
- 	  Enable legacy DRI1 drivers. Those drivers expose unsafe and dangerous
- 	  APIs to user-space, which can be used to circumvent access
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ba0ecb7756c6..926adef289db 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -21,9 +21,8 @@ drm-y       :=	drm_auth.o drm_cache.o \
- 		drm_managed.o drm_vblank_work.o
+ 	pci_set_drvdata(pdev, dev);
  
- drm-$(CONFIG_DRM_LEGACY) += drm_bufs.o drm_context.o drm_dma.o drm_legacy_misc.o drm_lock.o \
--		drm_memory.o drm_scatter.o
-+		drm_memory.o drm_scatter.o drm_vm.o
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
--drm-$(CONFIG_DRM_VM) += drm_vm.o
- drm-$(CONFIG_COMPAT) += drm_ioc32.o
- drm-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_gem_cma_helper.o
- drm-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_gem_shmem_helper.o
-diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-index 1be3ea320474..f71358f9eac9 100644
---- a/drivers/gpu/drm/drm_legacy.h
-+++ b/drivers/gpu/drm/drm_legacy.h
-@@ -127,7 +127,7 @@ static inline void drm_legacy_master_rmmaps(struct drm_device *dev,
- static inline void drm_legacy_rmmaps(struct drm_device *dev) {}
+ 	if (pci_find_capability(pdev, PCI_CAP_ID_AGP))
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index 7c360d31ab6a..2479d6ab7a36 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -115,6 +115,10 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
+ 	}
+ 	dev->dev_private = (void *)rdev;
+ 
++#ifdef __alpha__
++	rdev->hose = pdev->sysdata;
++#endif
++
+ 	/* update BUS flag */
+ 	if (pci_find_capability(pdev, PCI_CAP_ID_AGP)) {
+ 		flags |= RADEON_IS_AGP;
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 35b715f82ed8..e8c66d10478f 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -324,7 +324,7 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_reso
+ 		 * access, as done in ttm_bo_vm_fault().
+ 		 */
+ 		mem->bus.offset = (mem->bus.offset & 0x0ffffffffUL) +
+-			rdev->ddev->hose->dense_mem_base;
++			rdev->hose->dense_mem_base;
  #endif
- 
--#if IS_ENABLED(CONFIG_DRM_VM) && IS_ENABLED(CONFIG_DRM_LEGACY)
-+#if IS_ENABLED(CONFIG_DRM_LEGACY)
- void drm_legacy_vma_flush(struct drm_device *d);
- #else
- static inline void drm_legacy_vma_flush(struct drm_device *d)
+ 		break;
+ 	default:
 -- 
 2.29.2
 
