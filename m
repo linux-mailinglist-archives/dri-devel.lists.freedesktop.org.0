@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD802F462B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFC62F4630
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FA26E0F7;
-	Wed, 13 Jan 2021 08:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDF76E111;
+	Wed, 13 Jan 2021 08:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7322D89C19;
- Tue, 12 Jan 2021 19:57:32 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id w2so2011231pfc.13;
- Tue, 12 Jan 2021 11:57:32 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D59AB89893
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 22:07:45 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id o10so5637089lfl.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 14:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=8dVFyFiyF8C+YWyOq836m8QU0axjla2SznTviLPhcFk=;
- b=KhkahF+Q+s5CL6PHq2P1p5hNDDOSnWQVZeJHVkiJzQhVDLAvJhxj8n1E9aK1rgLP+i
- D+GyyNExLtp5vqHuX6XcII2nR2HAhVZ8lkxZwd4reXmQg3exTBn6wTnseA41PObhqgKI
- X5Jnnx7uSDTirc71GLq0F9EZXxJZqur5wErdPlF/qs4NtCir6SGBgne1wRnQjWCib11j
- MvYDBmNdZlu7oLX/ViQbbPVfWB0NVLfcAMTRTy66FUwgs67AVQR+uKE0fMB3TMxEoAOJ
- ZhgSJlPdp1tiT7pk4YaB/179iyH8zmCvUlG4DSvhXQiplw8sE2Ob4oeBhvKbW0TvnMVW
- T1lg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HbMIN0aiVbYBLJRZm7poztAbwQ7fEt7uXkvRYAH+Q4E=;
+ b=pYsD9mwkI1AiuSqOs76AfqLZ0ur+C6ghnk0JO30q206dd7bSXjprXUDi0AmGreQ738
+ N3JZ2WfpqVQNY+nB2/RPysZxaja0WWFMN/V9ZBod5K/YF1ywI8mNbT3CCUHFFJtl16uI
+ vSXyP60NpWF0/AmTnewU6ZWPj7QGPhceq4wxLVP3CodK6EL1GIvysBIQGV/mmG/N3hz0
+ PmbS/pcPCHIEv1E2ocIV8Pcqjt0z72mkrkpFFbK5JRX2wTWqYB6738AAY+CumBktfqFI
+ nOF9/yR7J6alKp8eHDN8zZBVQ9VZf64Aux9iDzn8EkNeKVwJgfrLwaX86yQb2ZvxwKNy
+ 2fag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=8dVFyFiyF8C+YWyOq836m8QU0axjla2SznTviLPhcFk=;
- b=rxFsGU/mTp6us8EEyqCk8xRm1tJYq9ebiyfA5wWn8fqDcGZpm0ANv5obL5pcX4Ddkx
- MfVfeCz5/UJKjkSlgnjOUAeglC572ZvMzYRJemYx+nVgl8ha5tXkxWgy9Swf/xZnpo8S
- KMukreeLGNoHVPlPbhPk6hEi3I7gh376cgLw4Tu6pMR8lNVCukB1e4KAwZI7341wFulQ
- SmOw6Th05o9D588xQQ+lvxjfFS71kGR0DdP/ZZZKG+y8HEGz/5kefiAluxfu6EFbQ6P0
- 0zF1qw35hkVUgMo9KtkHxB8kodAhwQc6ArxPMdQjnMDOxALN2AQHLzXf/eSVO3LBPfAp
- ryag==
-X-Gm-Message-State: AOAM5316pZygyRwGUBRYgcXXsTJt/uIgXxSr1DKYprReVIGL0Rq/4BWs
- tRK0OMGFPcwWaMX8Tb1dNlE=
-X-Google-Smtp-Source: ABdhPJxWZJ0yiE0hSvXxmHZNYo4sSoW3/0CiG7pxMwVjn8U2zFJvSb5sR5sDJhAAPd+z95PzYX+sEg==
-X-Received: by 2002:aa7:9a07:0:b029:1a6:5f93:a19f with SMTP id
- w7-20020aa79a070000b02901a65f93a19fmr865506pfj.21.1610481451911; 
- Tue, 12 Jan 2021 11:57:31 -0800 (PST)
-Received: from jordon-HP-15-Notebook-PC.domain.name ([122.179.121.136])
- by smtp.gmail.com with ESMTPSA id 11sm4759328pgz.22.2021.01.12.11.57.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 12 Jan 2021 11:57:31 -0800 (PST)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, Xiaojian.Du@amd.com, ray.huang@amd.com, evan.quan@amd.com,
- lijo.lazar@amd.com, Jinzhou.Su@amd.com, Xiaomeng.Hou@amd.com
-Subject: [PATCH] drm: amdgpu: pm: Mark vangogh_clk_dpm_is_enabled() as static
-Date: Wed, 13 Jan 2021 01:27:22 +0530
-Message-Id: <1610481442-6606-1-git-send-email-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 1.9.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HbMIN0aiVbYBLJRZm7poztAbwQ7fEt7uXkvRYAH+Q4E=;
+ b=kc5M9DPVoD0qeXIAftpg/ca3vItz2cw+VUZ0Flhh6Gghu6q/6rFiuUggPmw3Ql8Ne1
+ td+NtykhQWB1dnOD60NrY75Rmukbu9jaJmD1RqI6utiQhr58QqYTdSYFqfsDxX+Dlc1r
+ h9maM9KAbPDnmpulJmA0wQlHvxMmso4xFhE8vtvWHy+lk4vrP7EP2SN7zkQkGQpvbOVc
+ gvh/+WC3HT6a427y3iyQV3JNB3KuJDvpRo+W0YiPHth/2Jyn1LTAmevidZio6wxQqp4U
+ YV/Skt2nBwSmqza5DHKTgWCRa1sxdKz0j9aRU8TWs/r3YbGKxcKtF115KJhihXz5ELvR
+ AhBQ==
+X-Gm-Message-State: AOAM530glLqlFvcfg9DRxPjhTLAXaWqEQ1ZLznjtEc5alENOFa0GLCmw
+ LX+U36jSlJN1PycZww5WGA8=
+X-Google-Smtp-Source: ABdhPJwCVUf3gXP6dL642xFpV//ZourQlvFx41nTt8T3BZPRIRHf81Lf1Au81rvwtWvHgU0kjycpiQ==
+X-Received: by 2002:ac2:446c:: with SMTP id y12mr386576lfl.373.1610489264305; 
+ Tue, 12 Jan 2021 14:07:44 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
+ [109.252.192.57])
+ by smtp.googlemail.com with ESMTPSA id w13sm498190ljw.28.2021.01.12.14.07.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jan 2021 14:07:43 -0800 (PST)
+Subject: Re: [PATCH v5 04/21] gpu: host1x: Remove cancelled waiters immediately
+To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-5-mperttunen@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1c2c4a31-68a2-c938-fe65-6059d9889126@gmail.com>
+Date: Wed, 13 Jan 2021 01:07:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
+MIME-Version: 1.0
+In-Reply-To: <20210111130019.3515669-5-mperttunen@nvidia.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,48 +73,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Souptick Joarder <jrdr.linux@gmail.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kernel test robot throws below warnings ->
-
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:594:6:
-warning: no previous prototype for 'vangogh_clk_dpm_is_enabled'
-[-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:594:6:
-warning: no previous prototype for function 'vangogh_clk_dpm_is_enabled'
-[-Wmissing-prototypes]
-
-Mark vangogh_clk_dpm_is_enabled() as static.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
----
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-index 75ddcad..3ffe56e 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
-@@ -610,7 +610,7 @@ static int vangogh_get_profiling_clk_mask(struct smu_context *smu,
- 	return 0;
- }
- 
--bool vangogh_clk_dpm_is_enabled(struct smu_context *smu,
-+static bool vangogh_clk_dpm_is_enabled(struct smu_context *smu,
- 				enum smu_clk_type clk_type)
- {
- 	enum smu_feature_mask feature_id = 0;
--- 
-1.9.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTEuMDEuMjAyMSAxNjowMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gLXZvaWQgaG9z
+dDF4X2ludHJfcHV0X3JlZihzdHJ1Y3QgaG9zdDF4ICpob3N0LCB1bnNpZ25lZCBpbnQgaWQsIHZv
+aWQgKnJlZikKPiArdm9pZCBob3N0MXhfaW50cl9wdXRfcmVmKHN0cnVjdCBob3N0MXggKmhvc3Qs
+IHVuc2lnbmVkIGludCBpZCwgdm9pZCAqcmVmLAo+ICsJCQkgYm9vbCBmbHVzaCkKPiAgewo+ICAJ
+c3RydWN0IGhvc3QxeF93YWl0bGlzdCAqd2FpdGVyID0gcmVmOwo+ICAJc3RydWN0IGhvc3QxeF9z
+eW5jcHQgKnN5bmNwdDsKPiAgCj4gLQl3aGlsZSAoYXRvbWljX2NtcHhjaGcoJndhaXRlci0+c3Rh
+dGUsIFdMU19QRU5ESU5HLCBXTFNfQ0FOQ0VMTEVEKSA9PQo+IC0JICAgICAgIFdMU19SRU1PVkVE
+KQo+IC0JCXNjaGVkdWxlKCk7Cj4gKwlhdG9taWNfY21weGNoZygmd2FpdGVyLT5zdGF0ZSwgV0xT
+X1BFTkRJTkcsIFdMU19DQU5DRUxMRUQpOwo+ICAKPiAgCXN5bmNwdCA9IGhvc3QtPnN5bmNwdCAr
+IGlkOwo+IC0JKHZvaWQpcHJvY2Vzc193YWl0X2xpc3QoaG9zdCwgc3luY3B0LAo+IC0JCQkJaG9z
+dDF4X3N5bmNwdF9sb2FkKGhvc3QtPnN5bmNwdCArIGlkKSk7Cj4gKwo+ICsJc3Bpbl9sb2NrKCZz
+eW5jcHQtPmludHIubG9jayk7Cj4gKwlpZiAoYXRvbWljX2NtcHhjaGcoJndhaXRlci0+c3RhdGUs
+IFdMU19DQU5DRUxMRUQsIFdMU19IQU5ETEVEKSA9PQo+ICsJICAgIFdMU19DQU5DRUxMRUQpIHsK
+PiArCQlsaXN0X2RlbCgmd2FpdGVyLT5saXN0KTsKPiArCQlrcmVmX3B1dCgmd2FpdGVyLT5yZWZj
+b3VudCwgd2FpdGVyX3JlbGVhc2UpOwo+ICsJfQo+ICsJc3Bpbl91bmxvY2soJnN5bmNwdC0+aW50
+ci5sb2NrKTsKPiArCj4gKwlpZiAoZmx1c2gpIHsKPiArCQkvKiBXYWl0IHVudGlsIGFueSBjb25j
+dXJyZW50bHkgZXhlY3V0aW5nIGhhbmRsZXIgaGFzIGZpbmlzaGVkLiAqLwo+ICsJCXdoaWxlIChh
+dG9taWNfcmVhZCgmd2FpdGVyLT5zdGF0ZSkgIT0gV0xTX0hBTkRMRUQpCj4gKwkJCWNwdV9yZWxh
+eCgpOwo+ICsJfQoKQSBidXN5LWxvb3Agc2hvdWxkbid0IGJlIHVzZWQgaW4ga2VybmVsIHVubGVz
+cyB0aGVyZSBpcyBhIHZlcnkgZ29vZApyZWFzb24uIFRoZSB3YWl0X2V2ZW50KCkgc2hvdWxkIGJl
+IHVzZWQgaW5zdGVhZC4KCkJ1dCBwbGVhc2UgZG9uJ3QgaHVycnkgdG8gdXBkYXRlIHRoaXMgcGF0
+Y2gsIHdlIG1heSBuZWVkIG9yIHdhbnQgdG8KcmV0aXJlIHRoZSBob3N0MXgtd2FpdGVyIGFuZCB0
+aGVuIHRoZXNlIGFsbCB3YWl0ZXItcmVsYXRlZCBwYXRjaGVzIHdvbid0CmJlIG5lZWRlZC4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
