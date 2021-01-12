@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE172F2A31
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584492F2A2F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:44:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE656E12E;
-	Tue, 12 Jan 2021 08:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1FAA6E133;
+	Tue, 12 Jan 2021 08:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2516E12E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:44:07 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id y187so1257461wmd.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:44:07 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426526E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:44:08 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id q75so1264862wme.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iyIOXJ0VIdV0CXTR26cIPfrtzhrJA9S+eFXB+R458hU=;
- b=HkGZwlq1P0ysdDMqtzTlW4gaZzaMCx39NpYnz33gc+0zJhGNJrRgtzudAkPme0jJ4F
- EtjbRwN+A1FwivXzCrCbVP4SlqT9nbTeq568hduKxC3IqF7iIr0FWuCkbW4Z+fUQuD9O
- t2TBmKrUOVzJh256mJRy+pdulk14JKL/5skWU=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kqYpsT8tRXiU0h9tSugnl1w5GVBQE+BgN+gKdJbBbeg=;
+ b=P1/rWC2L6RpOiEyNiKPaQw2AbjfoETAwDm0rF3sFUjIJk1uMZB60yVgt3X2KN3Y3+v
+ BLGLuUxjPhrZTA9ZMzRiBxaOqd8A19ma/ccSv8thjNUvGgXiCEkWsfe+MgoLX2gPouzo
+ rmvMapDOaBF3uEvSdIcHPQ+mCO2kNFwIVM0SY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iyIOXJ0VIdV0CXTR26cIPfrtzhrJA9S+eFXB+R458hU=;
- b=IfAvN8P0GIh/oDOSzhU8Jyqp/cuZHsvHcud+p8J1lNI7nUPjjZ5XwL0+H5Jhlk1NfA
- kZjhqDujuHeApgsgS+CNs9WMUMD1ZaFRSAt9Vh6c0M3swYYJff8AZwfbxbBLvHqY9vXz
- qljaZeyq6g3GFphcYmJ/EKhwobkKXm6guc5GGXSsj5N49a3Gfvf3YvD/rhtircKqaLRE
- WwX+bS91ROlGEhOv46HS92ScNcTx7YIffihm5Onk7x+BFVwRuk14ik4LmfVMrCDQH0fA
- Mzf1hpaCQKPdHZgoQDqvBMTp+YzdbFBZ8KRYqr2kzCDAePGXbDK//T0K50QMqS6d2x75
- tBAg==
-X-Gm-Message-State: AOAM531gEbUr4qvmYWdxjgFBoJCEkPNZWhJX1fYJen694UqmLxrmNXF8
- bALCZbGtyM7DlL2oGvpiZnMY5+El5p5bwPeN
-X-Google-Smtp-Source: ABdhPJw0jsoTfdgfDqSan74YFsQhbeEdH0p3gDMPrB2EylYyKB1p5aav/nLxqEh4m6Dt23AN4Sj3/A==
-X-Received: by 2002:a1c:10c:: with SMTP id 12mr2456868wmb.186.1610441045594;
- Tue, 12 Jan 2021 00:44:05 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kqYpsT8tRXiU0h9tSugnl1w5GVBQE+BgN+gKdJbBbeg=;
+ b=MaC47BlyFPdpSCyCHqZzbxkJHHHqTyEy5jkVGCT4TauLGH5DqB+wPnJBAYjorJ7PGS
+ ZgtRfmBWq3rbJ8a2dA3H7nhcPQKCBxaAkLSput3Yfp7O3qeHZVDUOFTYgtE8eR6SGyKr
+ kt6P67ZKO+r6kKD1kEgXzDJMQMs3W5JQeSRvW7evrDB5Pj+KV2ntORhCSxIn+1ZYh9/e
+ nKlWXBZ69O/ZgE7brT5SLYSpJhBy/tPVLI2kRW5m2KlyoT2bD65NpjZQTmmFArdpfQIX
+ wDY98nIY/drhz6VmRks1MAguta54TNEkM8iKf+xt6uWkL5OUx2LDWkutROTcP6mzhp1J
+ UQTg==
+X-Gm-Message-State: AOAM530u8WQpapQwXFsCgv8d/gmrHHgj9b7EV/JIvwXtF9hVa/C0XsSm
+ g7EicsAHuJn4vCg2sd9TVJvBOGuUUZTom4ca
+X-Google-Smtp-Source: ABdhPJw0zPZ2Um5bvXkw/av2U1QHYenDdRT+UkF03oDG6Vh0af6/ZiD7BNG6UWg4XuqjgDAw1PrrCA==
+X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr2381518wmf.95.1610441046731; 
+ Tue, 12 Jan 2021 00:44:06 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j15sm3707017wrr.85.2021.01.12.00.44.04
+ by smtp.gmail.com with ESMTPSA id j15sm3707017wrr.85.2021.01.12.00.44.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 00:44:04 -0800 (PST)
+ Tue, 12 Jan 2021 00:44:06 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 01/15] drm/arc: Switch to devm_drm_dev_alloc
-Date: Tue, 12 Jan 2021 09:43:44 +0100
-Message-Id: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 02/15] drm/arc: Stop using drm_device->dev_private
+Date: Tue, 12 Jan 2021 09:43:45 +0100
+Message-Id: <20210112084358.2771527-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
+References: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,117 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Alexey Brodkin <abrodkin@synopsys.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>, tiantao6@hisilicon.com,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, tiantao6@hisilicon.com,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Need to embedded the drm_device, but for now we keep the usual
-  pointer chasing.
-- No more devm_kzalloc, which fixes a lifetime issues on driver
-  remove.
-- No more drm_dev_put, that's done by devm_ now.
+Upcasting using a container_of macro is more typesafe, faster and
+easier for the compiler to optimize.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- drivers/gpu/drm/arc/arcpgu.h     |  1 +
- drivers/gpu/drm/arc/arcpgu_drv.c | 33 +++++++++++++-------------------
- 2 files changed, 14 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/arc/arcpgu.h      | 2 ++
+ drivers/gpu/drm/arc/arcpgu_crtc.c | 4 ++--
+ drivers/gpu/drm/arc/arcpgu_drv.c  | 4 +---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/arc/arcpgu.h b/drivers/gpu/drm/arc/arcpgu.h
-index 6aac44b953ad..cd9e932f501e 100644
+index cd9e932f501e..87821c91a00c 100644
 --- a/drivers/gpu/drm/arc/arcpgu.h
 +++ b/drivers/gpu/drm/arc/arcpgu.h
-@@ -9,6 +9,7 @@
- #define _ARCPGU_H_
+@@ -17,6 +17,8 @@ struct arcpgu_drm_private {
+ 	struct drm_plane	*plane;
+ };
  
- struct arcpgu_drm_private {
-+	struct drm_device	drm;
- 	void __iomem		*regs;
- 	struct clk		*clk;
- 	struct drm_framebuffer	*fb;
++#define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
++
+ #define crtc_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_private, crtc)
+ 
+ static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
+diff --git a/drivers/gpu/drm/arc/arcpgu_crtc.c b/drivers/gpu/drm/arc/arcpgu_crtc.c
+index 042d7b54a6de..c32038b6366f 100644
+--- a/drivers/gpu/drm/arc/arcpgu_crtc.c
++++ b/drivers/gpu/drm/arc/arcpgu_crtc.c
+@@ -178,7 +178,7 @@ static const struct drm_plane_funcs arc_pgu_plane_funcs = {
+ 
+ static struct drm_plane *arc_pgu_plane_init(struct drm_device *drm)
+ {
+-	struct arcpgu_drm_private *arcpgu = drm->dev_private;
++	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
+ 	struct drm_plane *plane = NULL;
+ 	int ret;
+ 
+@@ -202,7 +202,7 @@ static struct drm_plane *arc_pgu_plane_init(struct drm_device *drm)
+ 
+ int arc_pgu_setup_crtc(struct drm_device *drm)
+ {
+-	struct arcpgu_drm_private *arcpgu = drm->dev_private;
++	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
+ 	struct drm_plane *primary;
+ 	int ret;
+ 
 diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index f164818ec477..68eb4a31c54b 100644
+index 68eb4a31c54b..c6a8deb56b0f 100644
 --- a/drivers/gpu/drm/arc/arcpgu_drv.c
 +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -42,18 +42,14 @@ static void arcpgu_setup_mode_config(struct drm_device *drm)
- 
- DEFINE_DRM_GEM_CMA_FOPS(arcpgu_drm_ops);
- 
--static int arcpgu_load(struct drm_device *drm)
-+static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- {
--	struct platform_device *pdev = to_platform_device(drm->dev);
--	struct arcpgu_drm_private *arcpgu;
-+	struct platform_device *pdev = to_platform_device(arcpgu->drm.dev);
- 	struct device_node *encoder_node = NULL, *endpoint_node = NULL;
-+	struct drm_device *drm = &arcpgu->drm;
+@@ -50,8 +50,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
  	struct resource *res;
  	int ret;
  
--	arcpgu = devm_kzalloc(&pdev->dev, sizeof(*arcpgu), GFP_KERNEL);
--	if (arcpgu == NULL)
--		return -ENOMEM;
+-	drm->dev_private = arcpgu;
 -
- 	drm->dev_private = arcpgu;
- 
  	arcpgu->clk = devm_clk_get(drm->dev, "pxlclk");
-@@ -162,30 +158,28 @@ static struct drm_driver arcpgu_drm_driver = {
- 
- static int arcpgu_probe(struct platform_device *pdev)
+ 	if (IS_ERR(arcpgu->clk))
+ 		return PTR_ERR(arcpgu->clk);
+@@ -120,7 +118,7 @@ static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
  {
--	struct drm_device *drm;
-+	struct arcpgu_drm_private *arcpgu;
- 	int ret;
+ 	struct drm_info_node *node = (struct drm_info_node *)m->private;
+ 	struct drm_device *drm = node->minor->dev;
+-	struct arcpgu_drm_private *arcpgu = drm->dev_private;
++	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
+ 	unsigned long clkrate = clk_get_rate(arcpgu->clk);
+ 	unsigned long mode_clock = arcpgu->crtc.mode.crtc_clock * 1000;
  
--	drm = drm_dev_alloc(&arcpgu_drm_driver, &pdev->dev);
--	if (IS_ERR(drm))
--		return PTR_ERR(drm);
-+	arcpgu = devm_drm_dev_alloc(&pdev->dev, &arcpgu_drm_driver,
-+				    struct arcpgu_drm_private, drm);
-+	if (IS_ERR(arcpgu))
-+		return PTR_ERR(arcpgu);
- 
--	ret = arcpgu_load(drm);
-+	ret = arcpgu_load(arcpgu);
- 	if (ret)
--		goto err_unref;
-+		return ret;
- 
--	ret = drm_dev_register(drm, 0);
-+	ret = drm_dev_register(&arcpgu->drm, 0);
- 	if (ret)
- 		goto err_unload;
- 
--	drm_fbdev_generic_setup(drm, 16);
-+	drm_fbdev_generic_setup(&arcpgu->drm, 16);
- 
- 	return 0;
- 
- err_unload:
--	arcpgu_unload(drm);
--
--err_unref:
--	drm_dev_put(drm);
-+	arcpgu_unload(&arcpgu->drm);
- 
- 	return ret;
- }
-@@ -196,7 +190,6 @@ static int arcpgu_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(drm);
- 	arcpgu_unload(drm);
--	drm_dev_put(drm);
- 
- 	return 0;
- }
 -- 
 2.29.2
 
