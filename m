@@ -1,32 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D531A2F4615
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A19C52F4616
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210AE89DFB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59F556E095;
 	Wed, 13 Jan 2021 08:21:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09A6E1CF
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 12:02:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
- with ESMTPSA id 12E091F45198
-Received: by earth.universe (Postfix, from userid 1000)
- id C46B83C0C94; Tue, 12 Jan 2021 13:02:46 +0100 (CET)
-Date: Tue, 12 Jan 2021 13:02:46 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCHv1] video: omapfb2: Make standard and custom DSI command
- mode panel driver mutually exclusive
-Message-ID: <20210112120246.ujhjyylrlgfrfvig@earth.universe>
-References: <20210108122540.657501b2@canb.auug.org.au>
- <20210108112441.14609-1-sebastian.reichel@collabora.com>
- <20210108195839.GA1429715@ravnborg.org>
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Tue, 12 Jan 2021 12:54:47 UTC
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692AB6E1F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 12:54:47 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5ffd9ae90002>; Tue, 12 Jan 2021 04:49:45 -0800
+Received: from [172.27.1.139] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Jan
+ 2021 12:49:37 +0000
+Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>, Alex Deucher
+ <alexdeucher@gmail.com>
+References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+ <MW3PR11MB4555CCCDD42F1ADEC61F7ACAE5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20210111154245.GL504133@ziepe.ca>
+ <MW3PR11MB4555953F638E8EDCD9F2CA90E5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <CADnq5_NTwynVt=ZPF-hiNFaWfEWiDnoTQCS0k1zx421=UAFSNA@mail.gmail.com>
+ <MW3PR11MB455518915ED5AE1F2FF0CAB1E5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+From: Yishai Hadas <yishaih@nvidia.com>
+Message-ID: <8aa96c52-f31f-b8d8-bf16-897775bd9c78@nvidia.com>
+Date: Tue, 12 Jan 2021 14:49:16 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210108195839.GA1429715@ravnborg.org>
+In-Reply-To: <MW3PR11MB455518915ED5AE1F2FF0CAB1E5AB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1610455785; bh=Kb5mhXf8+nPz3gANP9X6mGklYoy6MOrBECmhqgZmGjc=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language:X-Originating-IP:X-ClientProxiedBy;
+ b=IfFZJwiMzlIbG2e23sgbOGF/6ahNHlaRyxw8IQQW6QM1USDmncOBcr971afXjpOlv
+ kogItNoLz7bsYW4niTvSwJB7tnjt3TdsrW0yaoQo5i06GGlR/FVfKWokLsBLsDNVUW
+ vHbF9zPQj22sCbDvu7g3CxASLkcWgORmXCDdsbyzOdxDXifmiZvCHpMwYr31ar3NsH
+ rtxntJ9EVI/VLJCp3yyuCJMkmiEWtOZSvcD2jtT9mXPdRw69y1lQK5/lMn2qbmp7/8
+ NNkjc642yDLLxyXlB6LecFH5BXLJyX5mpqGkiBOruhhuNCtAnqCw68qW93N6SYK0in
+ tSAneGAAirkdg==
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,114 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
- Tomi Valkeinen <tomba@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-next@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com
-Content-Type: multipart/mixed; boundary="===============1311424816=="
+Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug
+ Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 1/11/2021 7:55 PM, Xiong, Jianxin wrote:
+>> -----Original Message-----
+>> From: Alex Deucher <alexdeucher@gmail.com>
+>> Sent: Monday, January 11, 2021 9:47 AM
+>> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+>> Cc: Jason Gunthorpe <jgg@ziepe.ca>; Leon Romanovsky <leon@kernel.org>; linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org;
+>> Doug Ledford <dledford@redhat.com>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig <christian.koenig@amd.com>
+>> Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+>>
+>> On Mon, Jan 11, 2021 at 12:44 PM Xiong, Jianxin <jianxin.xiong@intel.com> wrote:
+>>>> -----Original Message-----
+>>>> From: Jason Gunthorpe <jgg@ziepe.ca>
+>>>> Sent: Monday, January 11, 2021 7:43 AM
+>>>> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+>>>> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org;
+>>>> Doug Ledford <dledford@redhat.com>; Leon Romanovsky
+>>>> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian
+>>>> Koenig <christian.koenig@amd.com>; Vetter, Daniel
+>>>> <daniel.vetter@intel.com>
+>>>> Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+>>>>
+>>>> On Mon, Jan 11, 2021 at 03:24:18PM +0000, Xiong, Jianxin wrote:
+>>>>> Jason, will this series be able to get into 5.12?
+>>>> I was going to ask you where things are after the break?
+>>>>
+>>>> Did everyone agree the userspace stuff is OK now? Is Edward OK with
+>>>> the pyverbs changes, etc
+>>>>
+>>> There is no new comment on the both the kernel and userspace series. I
+>>> assume silence means no objection. I will ask for opinions on the userspace thread.
+>> Do you have a link to the userspace thread?
+>>
+> https://www.spinics.net/lists/linux-rdma/msg98135.html
+>
+Any reason why the 'fork' comment that was given few times wasn't not 
+handled / answered ?
 
---===============1311424816==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iijg5xf7wxvodjnw"
-Content-Disposition: inline
+Specifically,
 
+ibv_reg_dmabuf_mr() doesn't call ibv_dontfork_range() but ibv_dereg_mr 
+does call its opposite API (i.e. ibv_dofork_range())
 
---iijg5xf7wxvodjnw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-[replace Tomi's TI mail address with something working]
-
-Hi,
-
-On Fri, Jan 08, 2021 at 08:58:39PM +0100, Sam Ravnborg wrote:
-> Hi Sebastian,
->=20
-> On Fri, Jan 08, 2021 at 12:24:41PM +0100, Sebastian Reichel wrote:
-> > Standard DRM panel driver for DSI command mode panel used by omapfb2 is=
- also
-> > available now. Just like the other panels its module name clashes with =
-the
-> > module from drivers/video/fbdev/omap2/omapfb/displays, part of the depr=
-ecated
-> > omapfb2 fbdev driver. As omapfb2 can only be compiled when the omapdrm =
-driver
-> > is disabled, and the DRM panel drivers are useless in that case, make t=
-he
-> > omapfb2 panel depend on the standard DRM panels being disabled to fix
-> > the name clash.
-> >=20
-> > Fixes: cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel dri=
-ver")
-> > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->=20
-> For a backport this looks good:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-Thanks.
-
-> But why is it it we need omapfb at all when we have omapdrm?
-
-I think there are two reasons omapfb has not been killed yet. One
-reason was missing support for manually updated DSI panels, which
-have been working since 1 or 2 kernel releases now. The other reason
-is some people using it in combination with an out-of-tree PowerVR
-kernel driver. There is currently work going on to use a more recent
-PowerVR driver based on omapdrm driven by Maemo Leste people.
-
-> Can we sunset all or some parts of omap support in video/?
-> If not, what is missing to do so.
-
-IDK the exact status of the PowerVR work and have not been using
-omapfb myself for years. I don't think there is a reason to rush
-this, so my suggestion is removing it in 3 steps giving people
-the chance to complain:
-
-1. Add 'depends on EXPERT' to 'FB_OMAP2' and add deprecation notice
-   referencing omapdrm in help text in 5.12
-2. Add 'depends on BROKEN' in 5.13
-3. Drop drivers/video/fbdev/omap2 afterwards
-
--- Sebastian
-
---iijg5xf7wxvodjnw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/9j9YACgkQ2O7X88g7
-+prP1A//Vgw/MQFN4Vxba+rQpa+HIzqlPLKGsiMXfU4Xhix/+Csd+gL8u+8rWNjG
-+Fx+MeNgwQPnyGXnHoi822auQ2s5XVJkRjXH5tKxmW5Emu0W+xKvZMlZ552WlJ0u
-w9Y6689o+enXxXizPHM4o1fyl6K5NPBZu/9z8xjn0IkWnZU8zYMo+/fEetRGMW06
-VbZvZkKynGV8kjWXhwATJx/Xk+ZU7ZvY5z+d6LP26alM5fxVhl1ODxPEo5ADPvX8
-Ue8fpNzXowu+GcfHZbWlFdZlG6Vr1IsiOG/gyzWKVTR3wIyzFTBSiYBJMGIcKfI1
-FtnrO6Pqrp9mxDSzW9MpaIF97+QZ84QvN98ot5BLl7FTP/NCBUk312Wv9xaWC7Du
-MKZ9RzIB1rhOni/5sGOsEQkNT+77GlKfU87HwbyDzYzYBTrWkfYMOPkdmRG6RXhg
-nyBgPSY4cbeA8n25j+YUV85P6k1OtTLcaosDAw22RNe8IGe7NvWvcPvzhNpXa1oa
-nHMMuqVT0ZblCP35vW8HfqQ5mkhzeVE5HM6qGooddTRPZx0zEo5CbbWn0qg983ln
-DV33qMVCzUpqUpwJw1TSjfZJM8ieHVcajQ7hvRWkpw/+Grr//ejCcnmht+nbSRIe
-HNqAi8JOmKLHfELAMaNRpJZniA+BWGSPW27h7sRdXelW8p2dzSA=
-=lu/2
------END PGP SIGNATURE-----
-
---iijg5xf7wxvodjnw--
-
---===============1311424816==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Yishai
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1311424816==--
