@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3AA2F2A70
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7092F2A78
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:01:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65C56E159;
-	Tue, 12 Jan 2021 08:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F2B6E165;
+	Tue, 12 Jan 2021 09:01:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5B6E15A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:59:15 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id k10so1177619wmi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:59:15 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C9A6E160
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:01:34 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id c5so1598005wrp.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=GqZbfd292c2sQog8Ere/PW5Jk+USpo47OxwE8iZOWRE=;
- b=O1Uq64y8MGmEjY260boCVRBtzTHkeoOUDqgQbqhA8mda6M4UheqmuJezOmf+T8KK+A
- GNBbcxrzA0ttNe8/yZ0IJLn28T55OFIdz0SK7dbbi/zCsuYGgz7Ne5MebMrNwORjiWVc
- QoMu94Jl4brzai2CRHOh4p/syXsterwuJIO+o=
+ bh=rvdotRgawhIL6mvIVyI/dyFURn6mdvmeVOlnSFghUUA=;
+ b=WA27r8HUAy4eaksQTJck5ZrE7peKFw6nOcSJzp6aNX42gNXEoazVRHEX7/Cvwiv6LU
+ lgpRQki72QahsKTP8Vq57/SfBopknVJuQ+aXAqD1CkjuIS4CmiheckhThItM1QWgygHb
+ AVLYjBmdEoUhkULwQflLRgWBYkPrmr1t++3FI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GqZbfd292c2sQog8Ere/PW5Jk+USpo47OxwE8iZOWRE=;
- b=hpg/qAxOJRHj/E3dmC173en3H9t/MX80GDaoVkDFT1UJAVsPrHddhZmcHa+P79x8ky
- VHactLKxiTCVJ/pkOzdyqE+yaIAeieFD2D+Ypiu1sp2Z5wyV48xMXl14gRXjUkjpoIy+
- gJghW6Vi/Iis4vZMXjqyq/zlQj8f+k3dwlurC2wmTr0TzW/7gJBay1DQgDOctUwR2zK/
- KCxHlzcW4WMUNv3xqOGruEYG3giBur8DuKFj4obtuR2Pfb+K9m3h5ZH9TJW+DtiLpxy6
- OzmPaFaXgRJ4gLL2CyDnUIrGoIOD/pG4oQXhF3oUT5AQzUnd0yAtHpvIwj8c2mjcuWEO
- 4ZEQ==
-X-Gm-Message-State: AOAM531CImkDwpneoqv18aDAIuu7dNm+TcOEkLo5bkigXp+EyyUlORHl
- cHJEWSfY8rVb4ksK5/j0PfQeGl66ljElhydH
-X-Google-Smtp-Source: ABdhPJzsyFVT25ad075mC5LNEzSH7DdnWIb8vRqny9Y1p7emZR+PdoVhFMTWXythQRAqpJjEfRkLCQ==
-X-Received: by 2002:a05:600c:208:: with SMTP id
- 8mr2564611wmi.146.1610441953979; 
- Tue, 12 Jan 2021 00:59:13 -0800 (PST)
+ bh=rvdotRgawhIL6mvIVyI/dyFURn6mdvmeVOlnSFghUUA=;
+ b=l5IpweqOO1H+0Rv6tSoH/kS7lD8lAoyvfUmvHF/OM4LgYWTJVVrDixj8DB8yMFGOJ/
+ EWeVNxz/al87tWMLGv/FO9jAZefEwGYUuZSV2sH2YbgeeJhJ9shzzN+qYa+Wk2UZE4mP
+ 7lQX1nzM4nNRuQrgEhysJVHMycDX+VVckWZrNHCN/LlcXpa0ISU+hPILdEhhXsPd+/Ub
+ 4HvEx90r8e88YyjK8OoRa9DkWHmYICVNlU21YNOyKMPE+Oq5Uy66qp9Ifd3q3HdANlrF
+ 1Qw/29hw7zBxGAVjQFbWxtCepTWybewgTHxvjRBtP6HRo//GNF9s9nSBRQ57PiuC41sj
+ CiKg==
+X-Gm-Message-State: AOAM5328yCGr6jgbghB2hMqN6OtIWlWYuOq52/4TxgtNR3140m+rGbw1
+ pouTkGH/cw0WSkJxE8sMWPFP1w==
+X-Google-Smtp-Source: ABdhPJzE1BHOOjXJ8oRIHu9inyACpheLoIi8I07LnC3sMfePGXduVT29tRmGL2joiZ8b+wtwZ1gnkg==
+X-Received: by 2002:adf:ec41:: with SMTP id w1mr3169707wrn.12.1610442093566;
+ Tue, 12 Jan 2021 01:01:33 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o3sm3533801wrc.93.2021.01.12.00.59.12
+ by smtp.gmail.com with ESMTPSA id a62sm2667930wmf.7.2021.01.12.01.01.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 00:59:13 -0800 (PST)
-Date: Tue, 12 Jan 2021 09:59:11 +0100
+ Tue, 12 Jan 2021 01:01:32 -0800 (PST)
+Date: Tue, 12 Jan 2021 10:01:30 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/6] drm: Inline AGP wrappers into their only callers
-Message-ID: <X/1k30zps1I36JDd@phenom.ffwll.local>
+Subject: Re: [PATCH 2/6] drm: Implement drm_need_swiotlb() in drm_cache.c
+Message-ID: <X/1laqvIEeBKhOHw@phenom.ffwll.local>
 References: <20210112081035.6882-1-tzimmermann@suse.de>
- <20210112081035.6882-2-tzimmermann@suse.de>
+ <20210112081035.6882-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210112081035.6882-2-tzimmermann@suse.de>
+In-Reply-To: <20210112081035.6882-3-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,134 +73,124 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 12, 2021 at 09:10:30AM +0100, Thomas Zimmermann wrote:
-> The AGP wrapper functions serve no purpose.
+On Tue, Jan 12, 2021 at 09:10:31AM +0100, Thomas Zimmermann wrote:
+> The function is declared in drm_cache.h. I also removed the curly
+> braces from the for loop to adhere to kernel coding style.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-They do, without them we fail compiling (I think at least) when agp isn't
-enabled. Did you check for that? I should all work if we have the dummy
-inlines for relevant agp functions in linux/agp_backend.h.
--Daniel
+s/implement in/move to/ in the subject. Also would be nice to add
+kerneldoc while moving (there's not kerneldoc for drm_memory) to avoid the
+new warning. With that fixed:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+It's mildly confusing, but in a way drm_cache.c is our "hack around
+dma-api layering issues" pile, so fits :-) Maybe we should even make this
+the official DOC: kerneldoc intro section for this file ...
+
+Cheers, Daniel
 
 > ---
->  drivers/gpu/drm/drm_agpsupport.c | 12 ++++++------
->  drivers/gpu/drm/drm_memory.c     | 18 ------------------
->  include/drm/drm_agpsupport.h     | 18 ------------------
->  3 files changed, 6 insertions(+), 42 deletions(-)
+>  drivers/gpu/drm/drm_cache.c  | 32 ++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_memory.c | 33 ---------------------------------
+>  2 files changed, 32 insertions(+), 33 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
-> index 4c7ad46fdd21..8b690ef306de 100644
-> --- a/drivers/gpu/drm/drm_agpsupport.c
-> +++ b/drivers/gpu/drm/drm_agpsupport.c
-> @@ -285,7 +285,7 @@ int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
->  	entry = drm_agp_lookup_entry(dev, request->handle);
->  	if (!entry || !entry->bound)
->  		return -EINVAL;
-> -	ret = drm_unbind_agp(entry->memory);
-> +	ret = agp_unbind_memory(entry->memory);
->  	if (ret == 0)
->  		entry->bound = 0;
->  	return ret;
-> @@ -326,7 +326,7 @@ int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
->  	if (!entry || entry->bound)
->  		return -EINVAL;
->  	page = DIV_ROUND_UP(request->offset, PAGE_SIZE);
-> -	retcode = drm_bind_agp(entry->memory, page);
-> +	retcode = agp_bind_memory(entry->memory, page);
->  	if (retcode)
->  		return retcode;
->  	entry->bound = dev->agp->base + (page << PAGE_SHIFT);
-> @@ -369,11 +369,11 @@ int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
->  	if (!entry)
->  		return -EINVAL;
->  	if (entry->bound)
-> -		drm_unbind_agp(entry->memory);
-> +		agp_unbind_memory(entry->memory);
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 0fe3c496002a..49551a7fa22f 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -30,6 +30,7 @@
 >  
->  	list_del(&entry->head);
+>  #include <linux/export.h>
+>  #include <linux/highmem.h>
+> +#include <xen/xen.h>
 >  
-> -	drm_free_agp(entry->memory, entry->pages);
-> +	agp_free_memory(entry->memory);
->  	kfree(entry);
->  	return 0;
+>  #include <drm/drm_cache.h>
+>  
+> @@ -176,3 +177,34 @@ drm_clflush_virt_range(void *addr, unsigned long length)
+>  #endif
 >  }
-> @@ -453,8 +453,8 @@ void drm_legacy_agp_clear(struct drm_device *dev)
->  
->  	list_for_each_entry_safe(entry, tempe, &dev->agp->memory, head) {
->  		if (entry->bound)
-> -			drm_unbind_agp(entry->memory);
-> -		drm_free_agp(entry->memory, entry->pages);
-> +			agp_unbind_memory(entry->memory);
-> +		agp_free_memory(entry->memory);
->  		kfree(entry);
->  	}
->  	INIT_LIST_HEAD(&dev->agp->memory);
+>  EXPORT_SYMBOL(drm_clflush_virt_range);
+> +
+> +bool drm_need_swiotlb(int dma_bits)
+> +{
+> +	struct resource *tmp;
+> +	resource_size_t max_iomem = 0;
+> +
+> +	/*
+> +	 * Xen paravirtual hosts require swiotlb regardless of requested dma
+> +	 * transfer size.
+> +	 *
+> +	 * NOTE: Really, what it requires is use of the dma_alloc_coherent
+> +	 *       allocator used in ttm_dma_populate() instead of
+> +	 *       ttm_populate_and_map_pages(), which bounce buffers so much in
+> +	 *       Xen it leads to swiotlb buffer exhaustion.
+> +	 */
+> +	if (xen_pv_domain())
+> +		return true;
+> +
+> +	/*
+> +	 * Enforce dma_alloc_coherent when memory encryption is active as well
+> +	 * for the same reasons as for Xen paravirtual hosts.
+> +	 */
+> +	if (mem_encrypt_active())
+> +		return true;
+> +
+> +	for (tmp = iomem_resource.child; tmp; tmp = tmp->sibling)
+> +		max_iomem = max(max_iomem,  tmp->end);
+> +
+> +	return max_iomem > ((u64)1 << dma_bits);
+> +}
+> +EXPORT_SYMBOL(drm_need_swiotlb);
 > diff --git a/drivers/gpu/drm/drm_memory.c b/drivers/gpu/drm/drm_memory.c
-> index fbea69d6f909..f4f2bffdd5bd 100644
+> index f4f2bffdd5bd..e4f20a2eb6e7 100644
 > --- a/drivers/gpu/drm/drm_memory.c
 > +++ b/drivers/gpu/drm/drm_memory.c
-> @@ -100,24 +100,6 @@ static void *agp_remap(unsigned long offset, unsigned long size,
->  	return addr;
+> @@ -37,7 +37,6 @@
+>  #include <linux/highmem.h>
+>  #include <linux/pci.h>
+>  #include <linux/vmalloc.h>
+> -#include <xen/xen.h>
+>  
+>  #include <drm/drm_agpsupport.h>
+>  #include <drm/drm_cache.h>
+> @@ -138,35 +137,3 @@ void drm_legacy_ioremapfree(struct drm_local_map *map, struct drm_device *dev)
+>  		iounmap(map->handle);
 >  }
->  
-> -/** Wrapper around agp_free_memory() */
-> -void drm_free_agp(struct agp_memory *handle, int pages)
+>  EXPORT_SYMBOL(drm_legacy_ioremapfree);
+> -
+> -bool drm_need_swiotlb(int dma_bits)
 > -{
-> -	agp_free_memory(handle);
+> -	struct resource *tmp;
+> -	resource_size_t max_iomem = 0;
+> -
+> -	/*
+> -	 * Xen paravirtual hosts require swiotlb regardless of requested dma
+> -	 * transfer size.
+> -	 *
+> -	 * NOTE: Really, what it requires is use of the dma_alloc_coherent
+> -	 *       allocator used in ttm_dma_populate() instead of
+> -	 *       ttm_populate_and_map_pages(), which bounce buffers so much in
+> -	 *       Xen it leads to swiotlb buffer exhaustion.
+> -	 */
+> -	if (xen_pv_domain())
+> -		return true;
+> -
+> -	/*
+> -	 * Enforce dma_alloc_coherent when memory encryption is active as well
+> -	 * for the same reasons as for Xen paravirtual hosts.
+> -	 */
+> -	if (mem_encrypt_active())
+> -		return true;
+> -
+> -	for (tmp = iomem_resource.child; tmp; tmp = tmp->sibling) {
+> -		max_iomem = max(max_iomem,  tmp->end);
+> -	}
+> -
+> -	return max_iomem > ((u64)1 << dma_bits);
 > -}
-> -
-> -/** Wrapper around agp_bind_memory() */
-> -int drm_bind_agp(struct agp_memory *handle, unsigned int start)
-> -{
-> -	return agp_bind_memory(handle, start);
-> -}
-> -
-> -/** Wrapper around agp_unbind_memory() */
-> -int drm_unbind_agp(struct agp_memory *handle)
-> -{
-> -	return agp_unbind_memory(handle);
-> -}
-> -
->  #else /*  CONFIG_AGP  */
->  static inline void *agp_remap(unsigned long offset, unsigned long size,
->  			      struct drm_device *dev)
-> diff --git a/include/drm/drm_agpsupport.h b/include/drm/drm_agpsupport.h
-> index 664e120b93e6..f3136750c490 100644
-> --- a/include/drm/drm_agpsupport.h
-> +++ b/include/drm/drm_agpsupport.h
-> @@ -28,10 +28,6 @@ struct drm_agp_head {
->  
->  #if IS_ENABLED(CONFIG_AGP)
->  
-> -void drm_free_agp(struct agp_memory * handle, int pages);
-> -int drm_bind_agp(struct agp_memory * handle, unsigned int start);
-> -int drm_unbind_agp(struct agp_memory * handle);
-> -
->  struct drm_agp_head *drm_agp_init(struct drm_device *dev);
->  void drm_legacy_agp_clear(struct drm_device *dev);
->  int drm_agp_acquire(struct drm_device *dev);
-> @@ -61,20 +57,6 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
->  
->  #else /* CONFIG_AGP */
->  
-> -static inline void drm_free_agp(struct agp_memory * handle, int pages)
-> -{
-> -}
-> -
-> -static inline int drm_bind_agp(struct agp_memory * handle, unsigned int start)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -static inline int drm_unbind_agp(struct agp_memory * handle)
-> -{
-> -	return -ENODEV;
-> -}
-> -
->  static inline struct drm_agp_head *drm_agp_init(struct drm_device *dev)
->  {
->  	return NULL;
+> -EXPORT_SYMBOL(drm_need_swiotlb);
 > -- 
 > 2.29.2
 > 
