@@ -2,33 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CAA2F2940
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1590C2F298C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CFE88E4D;
-	Tue, 12 Jan 2021 07:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 256526E0D8;
+	Tue, 12 Jan 2021 07:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2966A88E4D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 07:54:05 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AD129AC8F;
- Tue, 12 Jan 2021 07:54:03 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-Message-ID: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
-Date: Tue, 12 Jan 2021 08:54:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C90416E0D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 07:58:30 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 10C7rL15067704;
+ Tue, 12 Jan 2021 15:53:21 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 12 Jan 2021 15:58:18 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm/ast: Disable fast reset after DRAM initial
+Date: Tue, 12 Jan 2021 15:58:11 +0800
+Message-ID: <20210112075811.9354-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
+References: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <X/yFj9zIdW52UKk4@phenom.ffwll.local>
+X-Originating-IP: [192.168.2.206]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 10C7rL15067704
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,185 +47,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com, kraxel@redhat.com,
- airlied@redhat.com, virtualization@lists.linux-foundation.org, sean@poorly.run,
- linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1080680951=="
+Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
+ airlied@redhat.com, arc_sung@aspeedtech.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1080680951==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq"
+[Bug][AST2500]
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq
-Content-Type: multipart/mixed; boundary="U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, kraxel@redhat.com,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net, sam@ravnborg.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org
-Message-ID: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
-In-Reply-To: <X/yFj9zIdW52UKk4@phenom.ffwll.local>
+V1:
+When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
+have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
+However, HW suggests disable Fast reset mode after DRAM initializaton,
+because fast reset mode is mainly designed for ARM ICE debugger.
+Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
+first enabled to avoid system deadlock before disable fast reset mode.
 
---U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+V2:
+Use to_pci_dev() to get revision of PCI configuration.
 
-Hi
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+---
+ drivers/gpu/drm/ast/ast_drv.h  |  1 +
+ drivers/gpu/drm/ast/ast_main.c |  5 +++
+ drivers/gpu/drm/ast/ast_post.c | 71 +++++++++++++++++++++-------------
+ 3 files changed, 51 insertions(+), 26 deletions(-)
 
-Am 11.01.21 um 18:06 schrieb Daniel Vetter:
-> On Fri, Jan 08, 2021 at 10:43:38AM +0100, Thomas Zimmermann wrote:
->> Cursor updates in vboxvideo require a short-term mapping of the
->> source BO. Use drm_gem_vram_vmap_local() and avoid the pinning
->> operations.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> All these drivers patches break the dma_resv_lock vs
-> dma_fence_begin/end_signalling nesting rules, so this doesn't work.
->=20
-> Generally this is what the prepare/cleanup_fb hooks are for, that's whe=
-re
-> mappings (including vmaps) are meant to be set up, permanently.
->=20
-> I'm kinda not clear on why we need all these changes, I thought the
-> locking problem is just in the fb helper paths, because it's outside of=
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index da6dfb677540..a2cf5fef2399 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -320,6 +320,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
+ void ast_post_gpu(struct drm_device *dev);
+ u32 ast_mindwm(struct ast_private *ast, u32 r);
+ void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
++void ast_patch_ahb_2500(struct ast_private *ast);
+ /* ast dp501 */
+ void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
+ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 3775fe26f792..0e4dfcc25623 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -69,6 +69,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+ {
+ 	struct device_node *np = dev->pdev->dev.of_node;
+ 	struct ast_private *ast = to_ast_private(dev);
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	uint32_t data, jregd0, jregd1;
 
-> the atomic path and could conflict with an atomic update at the same ti=
-me?
-> So only that one should get the vmap_local treatment, everything else
-> should keep the normal vmap treatment.
+ 	/* Defaults */
+@@ -96,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+ 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+ 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
+ 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
++		/* Patch AST2500 */
++		if (((pdev->revision & 0xF0) == 0x40) && ((jregd0 & 0xC0) == 0))
++			ast_patch_ahb_2500(ast);
++
+ 		/* Double check it's actually working */
+ 		data = ast_read32(ast, 0xf004);
+ 		if (data != 0xFFFFFFFF) {
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 8902c2f84bf9..1f0007daa005 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -2026,6 +2026,33 @@ static bool ast_dram_init_2500(struct ast_private *ast)
+ 	return true;
+ }
 
-Kind of responding to all your comment on the driver changes:
++void ast_patch_ahb_2500(struct ast_private *ast)
++{
++	u32	data;
++
++patch_ahb_lock:
++	/* Clear bus lock condition */
++	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
++	ast_moutdwm(ast, 0x1e600084, 0x00010000);
++	ast_moutdwm(ast, 0x1e600088, 0x00000000);
++	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
++	data = ast_mindwm(ast, 0x1e6e2070);
++	if (data & 0x08000000) {					/* check fast reset */
++
++		ast_moutdwm(ast, 0x1E785004, 0x00000010);
++		ast_moutdwm(ast, 0x1E785008, 0x00004755);
++		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
++		udelay(1000);
++	}
++	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
++	do {
++		data = ast_mindwm(ast, 0x1e6e2000);
++		if (data == 0xffffffff)
++			goto patch_ahb_lock;
++	}	while (data != 1);
++	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
++}
++
+ void ast_post_chip_2500(struct drm_device *dev)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
+@@ -2033,39 +2060,31 @@ void ast_post_chip_2500(struct drm_device *dev)
+ 	u8 reg;
 
-These drivers only require short-term mappings, so using vmap_local=20
-would be the natural choice. For SHMEM helpers, it's mostly a cosmetic=20
-thing. For VRAM helpers, I was hoping to remove the vmap/vunmap helpers=20
-entirely. One cannot really map the BOs for the long-term, so not having =
+ 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+-	if ((reg & 0x80) == 0) {/* vga only */
++	if ((reg & 0xC0) == 0) {/* vga only */
+ 		/* Clear bus lock condition */
+-		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+-		ast_moutdwm(ast, 0x1e600084, 0x00010000);
+-		ast_moutdwm(ast, 0x1e600088, 0x00000000);
+-		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+-		ast_write32(ast, 0xf004, 0x1e6e0000);
+-		ast_write32(ast, 0xf000, 0x1);
+-		ast_write32(ast, 0x12000, 0x1688a8a8);
+-		while (ast_read32(ast, 0x12000) != 0x1)
+-			;
+-
+-		ast_write32(ast, 0x10000, 0xfc600309);
+-		while (ast_read32(ast, 0x10000) != 0x1)
+-			;
++		ast_patch_ahb_2500(ast);
++
++		/* Disable watchdog */
++		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
++		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
++		/* Reset USB port */
++		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
++		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
++		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
++			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
++			mdelay(100);
++			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
++		}
++		/* Modify eSPI reset pin */
++		temp = ast_mindwm(ast, 0x1E6E2070);
++		if (temp & 0x02000000)
++			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
 
-the helpers at all would make sense.
+ 		/* Slow down CPU/AHB CLK in VGA only mode */
+ 		temp = ast_read32(ast, 0x12008);
+ 		temp |= 0x73;
+ 		ast_write32(ast, 0x12008, temp);
 
-But reading all your comments on the driver patches, I'd rather not=20
-update the drivers here but later convert them to use=20
-prepare_fb/cleanup_fb in the correct way.
+-		/* Reset USB port to patch USB unknown device issue */
+-		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
+-		temp  = ast_mindwm(ast, 0x1e6e2094);
+-		temp |= 0x00004000;
+-		ast_moutdwm(ast, 0x1e6e2094, temp);
+-		temp  = ast_mindwm(ast, 0x1e6e2070);
+-		if (temp & 0x00800000) {
+-			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
+-			mdelay(100);
+-			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
+-		}
+-
+ 		if (!ast_dram_init_2500(ast))
+ 			drm_err(dev, "DRAM init failed !\n");
 
-Best regards
-Thomas
-
-> -Daniel
->> ---
->>   drivers/gpu/drm/vboxvideo/vbox_mode.c | 15 +++++++++------
->>   1 file changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/v=
-boxvideo/vbox_mode.c
->> index dbc0dd53c69e..215b37c78c10 100644
->> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> @@ -381,7 +381,8 @@ static void vbox_cursor_atomic_update(struct drm_p=
-lane *plane,
->>   		container_of(plane->dev, struct vbox_private, ddev);
->>   	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc);
->>   	struct drm_framebuffer *fb =3D plane->state->fb;
->> -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]);=
-
->> +	struct drm_gem_object *obj =3D fb->obj[0];
->> +	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(obj);
->>   	u32 width =3D plane->state->crtc_w;
->>   	u32 height =3D plane->state->crtc_h;
->>   	size_t data_size, mask_size;
->> @@ -401,11 +402,12 @@ static void vbox_cursor_atomic_update(struct drm=
-_plane *plane,
->>  =20
->>   	vbox_crtc->cursor_enabled =3D true;
->>  =20
->> -	ret =3D drm_gem_vram_vmap(gbo, &map);
->> +	ret =3D dma_resv_lock(obj->resv, NULL);
->> +	if (ret)
->> +		return;
->> +	ret =3D drm_gem_vram_vmap_local(gbo, &map);
->>   	if (ret) {
->> -		/*
->> -		 * BUG: we should have pinned the BO in prepare_fb().
->> -		 */
->> +		dma_resv_unlock(obj->resv);
->>   		mutex_unlock(&vbox->hw_mutex);
->>   		DRM_WARN("Could not map cursor bo, skipping update\n");
->>   		return;
->> @@ -421,7 +423,8 @@ static void vbox_cursor_atomic_update(struct drm_p=
-lane *plane,
->>   	data_size =3D width * height * 4 + mask_size;
->>  =20
->>   	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size)=
-;
->> -	drm_gem_vram_vunmap(gbo, &map);
->> +	drm_gem_vram_vunmap_local(gbo, &map);
->> +	dma_resv_unlock(obj->resv);
->>  =20
->>   	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
->>   		VBOX_MOUSE_POINTER_ALPHA;
->> --=20
->> 2.29.2
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---U5F6Qhzznh14i5jrMNqGuORkmSSSTnYpz--
-
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9VZoFAwAAAAAACgkQlh/E3EQov+A8
-Wg/+I0SyUQpi71oPpCBYek68iAu50GKUZW7dK67ZMc9RA0DBTxFA5uc7aSSFJtQSIuCZ/EQpFJml
-C7QXHsubugL2XGOrYEHTEmMCBEiv5Do1Rn0IgFcBjrs5BhaqYP3Gt/io8yR+TA8NQDYy1QIzR5aU
-mrv00bklvUF0i1TMtd+slbdUcnV92eHrTVD6WrKVAPXxyLJvSyQfu3lipPGFvtQAiOHpUieFPPzF
-ffJpWXUZic5zZvesXyEiCLx0gVBl75I6PX/2gesMZatLKGNHFtf9U3rwSoXCKxPMLgjEQEZru3Fl
-3jVASrvsp7/B2c7Wl3eNaLQixFP20NdhBGQhbF8WmMsW1xTCX3TEiFiq9lLq+S/nJUfv56u2blDQ
-4yxfPtlhk8CGBRceHLqmWlgI4hoodMTDT0gov7vvZFHFYmg5JYQpsPSjPAG2kv+3vRGRylU9mJmC
-L/m6tDfpDaGmfct6EN0qbFnYjs7WcYLuNpHUCiyEPNKMWZ6A//w6zGHjUj8i5ffzaDW17tUXP16l
-hlIyxQNT5huFWZ2yj+FOF0BDGT71EyKNu/8qp5HxDvG/KOqwzxvLt90tOpAPUciJO6TP/pB+bjbM
-bqvN9HjrWJHc1bAmbyJ5H3DC8gjnEw8LrAf8Jy6B8OTY0d5tRUCVYksHYBKSfMmCQ86n0xdibpTi
-qmE=
-=+rp9
------END PGP SIGNATURE-----
-
---fr9R9evr0luTzgmklT8KDcbSQUGqt97Kq--
-
---===============1080680951==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+--
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1080680951==--
