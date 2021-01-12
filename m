@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61642F2F79
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 13:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C9B2F2F7C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 13:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80356E201;
-	Tue, 12 Jan 2021 12:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9206E20F;
+	Tue, 12 Jan 2021 12:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41C56E201;
- Tue, 12 Jan 2021 12:56:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B22D22333B;
- Tue, 12 Jan 2021 12:56:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2CE6E20E;
+ Tue, 12 Jan 2021 12:56:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4DFAE23357;
+ Tue, 12 Jan 2021 12:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456193;
- bh=IO07lAPmVIHL6U9iLfamBIZXzOpk67bl0Wv3eCpJyL4=;
+ s=k20201202; t=1610456200;
+ bh=j95pEarjfZy0tnTagImw8sNicWtXpt4JszqSf45d5DE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KDio7TW/YhbSgh15W+Ct9JQQeZjMT2tk8f4xosGw7S3JGGv3RJkM9GFCPHn/QrU7O
- 4n4WMKf+d44A4rhX48V6PFetMUX0OThQkNLfxezAFDQMWKM2KqpmoqqKA6wyihODSu
- m6OdbHgeWrt6Pi+Q/9ZKgL8z6MVTgOJKxDBOMO9GIIR+NO6mVT8g4iryq9pkL9Il5c
- 0J1ZnW7YGbukA+j9TWzc27odOSU9COYkTdmVpmGY/0PGOjY3lrUqdKTp2SEi5E3SKb
- tcVmRgDCmErCx/jjwEqAxzAuiAV7bpB7u+XLqo2OgMmAmIVyDu9QKA+heJM4uI9XSF
- HvkDV6hCIotpQ==
+ b=rDs0GvFeIDH81f6qKJb7s+zZLxe2l3/MWAV0BdKlSGMg+UVpspZdn6ZXJctN1Qi06
+ tYJaZVQePGKjzOl0cosYla9ASSTG8355c8vPAwVtFgF+uzrejj+OQqrkXa/RwaCWxo
+ hnMP+AtyaiIpjinAXQA8fmGaOyvOsZBIXHR3pTzobUZvv9ZbLbwSdzjVSn00fhtoRP
+ oEkyQuUnHk8zTyV8lNjGfDxjGXK2E9kVJz3cRZKzLu4q4Vc2CoE06/pcmDiYHuhW9G
+ hKXeOlgpSRJUhC9LfnIHwq4nGeSNmIoO095OFPinmkzNOn9j5mjikKlRSESMhukLr/
+ 4VTEXbebZEdyw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 44/51] drm/amdgpu: fix potential memory leak
- during navi12 deinitialization
-Date: Tue, 12 Jan 2021 07:55:26 -0500
-Message-Id: <20210112125534.70280-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 49/51] drm/msm: Call msm_init_vram before binding
+ the gpu
+Date: Tue, 12 Jan 2021 07:55:31 -0500
+Message-Id: <20210112125534.70280-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
 References: <20210112125534.70280-1-sashal@kernel.org>
@@ -49,79 +49,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- Jiawei Gu <Jiawei.Gu@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ Craig Tatlor <ctatlor97@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Alexey Minnekhanov <alexeymin@postmarketos.org>,
+ freedreno@lists.freedesktop.org, Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiawei Gu <Jiawei.Gu@amd.com>
+From: Craig Tatlor <ctatlor97@gmail.com>
 
-[ Upstream commit e6d5c64efaa34aae3815a9afeb1314a976142e83 ]
+[ Upstream commit d863f0c7b536288e2bd40cbc01c10465dd226b11 ]
 
-Navi12 HDCP & DTM deinitialization needs continue to free bo if already
-created though initialized flag is not set.
+vram.size is needed when binding a gpu without an iommu and is defined
+in msm_init_vram(), so run that before binding it.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Jiawei Gu <Jiawei.Gu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Craig Tatlor <ctatlor97@gmail.com>
+Reviewed-by: Brian Masney <masneyb@onstation.org>
+Tested-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index a6dbe4b83533f..2f47f81a74a57 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -1283,8 +1283,12 @@ static int psp_hdcp_terminate(struct psp_context *psp)
- 	if (amdgpu_sriov_vf(psp->adev))
- 		return 0;
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 49685571dc0ee..d556c353e5aea 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -444,14 +444,14 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
  
--	if (!psp->hdcp_context.hdcp_initialized)
--		return 0;
-+	if (!psp->hdcp_context.hdcp_initialized) {
-+		if (psp->hdcp_context.hdcp_shared_buf)
-+			goto out;
-+		else
-+			return 0;
-+	}
+ 	drm_mode_config_init(ddev);
  
- 	ret = psp_hdcp_unload(psp);
+-	/* Bind all our sub-components: */
+-	ret = component_bind_all(dev, ddev);
++	ret = msm_init_vram(ddev);
  	if (ret)
-@@ -1292,6 +1296,7 @@ static int psp_hdcp_terminate(struct psp_context *psp)
+ 		goto err_destroy_mdss;
  
- 	psp->hdcp_context.hdcp_initialized = false;
- 
-+out:
- 	/* free hdcp shared memory */
- 	amdgpu_bo_free_kernel(&psp->hdcp_context.hdcp_shared_bo,
- 			      &psp->hdcp_context.hdcp_shared_mc_addr,
-@@ -1430,8 +1435,12 @@ static int psp_dtm_terminate(struct psp_context *psp)
- 	if (amdgpu_sriov_vf(psp->adev))
- 		return 0;
- 
--	if (!psp->dtm_context.dtm_initialized)
--		return 0;
-+	if (!psp->dtm_context.dtm_initialized) {
-+		if (psp->dtm_context.dtm_shared_buf)
-+			goto out;
-+		else
-+			return 0;
-+	}
- 
- 	ret = psp_dtm_unload(psp);
+-	ret = msm_init_vram(ddev);
++	/* Bind all our sub-components: */
++	ret = component_bind_all(dev, ddev);
  	if (ret)
-@@ -1439,6 +1448,7 @@ static int psp_dtm_terminate(struct psp_context *psp)
+-		goto err_msm_uninit;
++		goto err_destroy_mdss;
  
- 	psp->dtm_context.dtm_initialized = false;
+ 	dma_set_max_seg_size(dev, UINT_MAX);
  
-+out:
- 	/* free hdcp shared memory */
- 	amdgpu_bo_free_kernel(&psp->dtm_context.dtm_shared_bo,
- 			      &psp->dtm_context.dtm_shared_mc_addr,
 -- 
 2.27.0
 
