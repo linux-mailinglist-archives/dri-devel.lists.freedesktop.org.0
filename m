@@ -2,39 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1590C2F298C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DA32F29B7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:10:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256526E0D8;
-	Tue, 12 Jan 2021 07:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D106E0F7;
+	Tue, 12 Jan 2021 08:10:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C90416E0D8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 07:58:30 +0000 (UTC)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 10C7rL15067704;
- Tue, 12 Jan 2021 15:53:21 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 12 Jan 2021 15:58:18 +0800
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/ast: Disable fast reset after DRAM initial
-Date: Tue, 12 Jan 2021 15:58:11 +0800
-Message-ID: <20210112075811.9354-1-kuohsiang_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
-References: <88f197b6-4df8-76ca-ec31-7f8f739f161e@suse.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBCAB6E0EA;
+ Tue, 12 Jan 2021 08:10:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 78A87B74C;
+ Tue, 12 Jan 2021 08:10:39 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com
+Subject: [PATCH 0/6] Move struct drm_device.hose to legacy section
+Date: Tue, 12 Jan 2021 09:10:29 +0100
+Message-Id: <20210112081035.6882-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Originating-IP: [192.168.2.206]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 10C7rL15067704
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,166 +36,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Bug][AST2500]
+This patchset moves struct drm_device.hose to the section for legacy
+drivers. As part of this, a number of other changes are applied in
+order to protect all uses of hose by CONFIG_DRM_LEGACY.
 
-V1:
-When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
-have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-However, HW suggests disable Fast reset mode after DRAM initializaton,
-because fast reset mode is mainly designed for ARM ICE debugger.
-Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
-first enabled to avoid system deadlock before disable fast reset mode.
+Patches 1 to 3 move non-legacy code out put drm_memory.c and add the
+remaining I/O-memory helpers to the legacy code.
 
-V2:
-Use to_pci_dev() to get revision of PCI configuration.
+Patch 4 addresses CONFIG_DRM_VM, which is only selected by legacy
+drivers, so drm_vm.c can directly be compiled by CONFIG_DRM_LEGACY.
 
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
----
- drivers/gpu/drm/ast/ast_drv.h  |  1 +
- drivers/gpu/drm/ast/ast_main.c |  5 +++
- drivers/gpu/drm/ast/ast_post.c | 71 +++++++++++++++++++++-------------
- 3 files changed, 51 insertions(+), 26 deletions(-)
+Patch 5 changes radeon to maintain its own copy of the hose field of
+struct drm_device.
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index da6dfb677540..a2cf5fef2399 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -320,6 +320,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
- void ast_post_gpu(struct drm_device *dev);
- u32 ast_mindwm(struct ast_private *ast, u32 r);
- void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-+void ast_patch_ahb_2500(struct ast_private *ast);
- /* ast dp501 */
- void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 3775fe26f792..0e4dfcc25623 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -69,6 +69,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- {
- 	struct device_node *np = dev->pdev->dev.of_node;
- 	struct ast_private *ast = to_ast_private(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint32_t data, jregd0, jregd1;
+Patch 6 makes the hose field legacy.
 
- 	/* Defaults */
-@@ -96,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
- 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-+		/* Patch AST2500 */
-+		if (((pdev->revision & 0xF0) == 0x40) && ((jregd0 & 0xC0) == 0))
-+			ast_patch_ahb_2500(ast);
-+
- 		/* Double check it's actually working */
- 		data = ast_read32(ast, 0xf004);
- 		if (data != 0xFFFFFFFF) {
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 8902c2f84bf9..1f0007daa005 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -2026,6 +2026,33 @@ static bool ast_dram_init_2500(struct ast_private *ast)
- 	return true;
- }
+The patchset has been compile-tested w/o CONFIG_DRM_LEGACY enabled.
 
-+void ast_patch_ahb_2500(struct ast_private *ast)
-+{
-+	u32	data;
-+
-+patch_ahb_lock:
-+	/* Clear bus lock condition */
-+	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-+	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-+	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-+	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+	data = ast_mindwm(ast, 0x1e6e2070);
-+	if (data & 0x08000000) {					/* check fast reset */
-+
-+		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-+		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-+		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-+		udelay(1000);
-+	}
-+	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+	do {
-+		data = ast_mindwm(ast, 0x1e6e2000);
-+		if (data == 0xffffffff)
-+			goto patch_ahb_lock;
-+	}	while (data != 1);
-+	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
-+}
-+
- void ast_post_chip_2500(struct drm_device *dev)
- {
- 	struct ast_private *ast = to_ast_private(dev);
-@@ -2033,39 +2060,31 @@ void ast_post_chip_2500(struct drm_device *dev)
- 	u8 reg;
+Thomas Zimmermann (6):
+  drm: Inline AGP wrappers into their only callers
+  drm: Implement drm_need_swiotlb() in drm_cache.c
+  drm: Build drm_memory.o only for legacy drivers
+  drm: Merge CONFIG_DRM_VM into CONFIG_DRM_LEGACY
+  drm/radeon: Store PCI controller in struct radeon_device.hose
+  drm: Move struct drm_device.hose to legacy section
 
- 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
--	if ((reg & 0x80) == 0) {/* vga only */
-+	if ((reg & 0xC0) == 0) {/* vga only */
- 		/* Clear bus lock condition */
--		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
--		ast_moutdwm(ast, 0x1e600084, 0x00010000);
--		ast_moutdwm(ast, 0x1e600088, 0x00000000);
--		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
--		ast_write32(ast, 0xf004, 0x1e6e0000);
--		ast_write32(ast, 0xf000, 0x1);
--		ast_write32(ast, 0x12000, 0x1688a8a8);
--		while (ast_read32(ast, 0x12000) != 0x1)
--			;
--
--		ast_write32(ast, 0x10000, 0xfc600309);
--		while (ast_read32(ast, 0x10000) != 0x1)
--			;
-+		ast_patch_ahb_2500(ast);
-+
-+		/* Disable watchdog */
-+		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-+		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-+		/* Reset USB port */
-+		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
-+		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
-+		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
-+			mdelay(100);
-+			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
-+		}
-+		/* Modify eSPI reset pin */
-+		temp = ast_mindwm(ast, 0x1E6E2070);
-+		if (temp & 0x02000000)
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
+ drivers/gpu/drm/Kconfig             |  5 ---
+ drivers/gpu/drm/Makefile            |  6 ++--
+ drivers/gpu/drm/drm_agpsupport.c    | 12 +++----
+ drivers/gpu/drm/drm_cache.c         | 32 ++++++++++++++++++
+ drivers/gpu/drm/drm_file.c          |  2 ++
+ drivers/gpu/drm/drm_legacy.h        |  2 +-
+ drivers/gpu/drm/drm_memory.c        | 51 -----------------------------
+ drivers/gpu/drm/radeon/radeon.h     |  3 ++
+ drivers/gpu/drm/radeon/radeon_drv.c |  4 ---
+ drivers/gpu/drm/radeon/radeon_kms.c |  4 +++
+ drivers/gpu/drm/radeon/radeon_ttm.c |  2 +-
+ include/drm/drm_agpsupport.h        | 18 ----------
+ include/drm/drm_device.h            |  9 ++---
+ 13 files changed, 57 insertions(+), 93 deletions(-)
 
- 		/* Slow down CPU/AHB CLK in VGA only mode */
- 		temp = ast_read32(ast, 0x12008);
- 		temp |= 0x73;
- 		ast_write32(ast, 0x12008, temp);
 
--		/* Reset USB port to patch USB unknown device issue */
--		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
--		temp  = ast_mindwm(ast, 0x1e6e2094);
--		temp |= 0x00004000;
--		ast_moutdwm(ast, 0x1e6e2094, temp);
--		temp  = ast_mindwm(ast, 0x1e6e2070);
--		if (temp & 0x00800000) {
--			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
--			mdelay(100);
--			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
--		}
--
- 		if (!ast_dram_init_2500(ast))
- 			drm_err(dev, "DRAM init failed !\n");
-
+base-commit: cd0df21e28c36de80356344ff8683be2813c6ff2
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
 --
-2.18.4
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
