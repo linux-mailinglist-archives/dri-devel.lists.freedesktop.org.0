@@ -1,36 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58682F4624
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AED2F4627
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6306E0D8;
-	Wed, 13 Jan 2021 08:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B816E0FD;
+	Wed, 13 Jan 2021 08:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6226489C86
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:02:58 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 489341F665;
- Tue, 12 Jan 2021 19:02:55 +0100 (CET)
-Subject: Re: [PATCH 9/9] drm/msm/dpu: Fix timeout issues on command mode panels
-To: linux-arm-msm@vger.kernel.org
-References: <20210109133736.143469-1-angelogioacchino.delregno@somainline.org>
- <20210109133736.143469-10-angelogioacchino.delregno@somainline.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Message-ID: <bdc67afc-3736-5497-c43f-5165c55e0354@somainline.org>
-Date: Tue, 12 Jan 2021 19:02:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138EF89D46
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:14:52 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id b26so4756845lff.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:14:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WmlXJxV3426flC9X6XIEScZVjUI1xhJoJxCzxaO19QU=;
+ b=mpHRBNE8Zqrl/cKeGtplmH7385gfBvkxDOLO7fQaNM10orQk9DaSZucKRSt8Ibi6JF
+ Wa8kqgOuIJdt/GAaGoe0vDhIL9JRunMpvzpP+aInQmt1j5/F6R3v1w7VMWCEavpydKlF
+ rnAWSIClBmMm5VwcbsN1UYvZh49paiZLn3Q2u1d5uCiP5oaYzOZFQB9ieV6DJhBW7ChI
+ pQGNu+jw5dAGan/0nYzuatENMwNfU1i9T6rKbGwjBx0o37l/frQ1sijXhHLNNcTbpS56
+ JChOqiZHr2Rtpa4fzuv+SRAha+1XhAXteyPFtWbsERZCsSMk2ER4lmGvWEdBx6itH+So
+ X4AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WmlXJxV3426flC9X6XIEScZVjUI1xhJoJxCzxaO19QU=;
+ b=Qi7ml8JxaRyWOr0+EgBC2Y0+P80Oqqw86jhljvmyAOD57Hjgk3UIeJKFFBWdPc9xQ0
+ Bvypg2fAd+xuOJyyuvBqkC9D+Efez7Y8mBUgXT9/g8Hc9bOLprof8XBSl5255mJki4Qk
+ N09zVCMEpVUqj/ILQnh5SoCkGpJkgKtiiEChSFBi5LlqS9PGBcWAxnafiFhQMJCz0jvT
+ 4C9uhFnOngQDosVRDodjqvgW0xbMhCBB5D2JSGlBPoEG07W0iKzSPtHjNei1d9xcn6ag
+ S0DAkPpaeEIjuqcihkBsJlMCA/d674NIo9bAUp7OU7poGl2PKLEzww6OiHjv+Sa1c3eK
+ C0wA==
+X-Gm-Message-State: AOAM532g+eiNqiuyDmLfE/XEZAKfZVhGYqvJJEc2xKjzeLhJSOiomyez
+ x6uQ7b/KweuWx5jmdp+ntvzBhEU7EV8=
+X-Google-Smtp-Source: ABdhPJwRWJWf2uR9zyaVmRb/EqRQCPK9M4/RpuVB5UAs0Qe/O4slPwwUcPAjhdkAO5hAxRt2B4acBg==
+X-Received: by 2002:a19:787:: with SMTP id 129mr79178lfh.234.1610475290531;
+ Tue, 12 Jan 2021 10:14:50 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
+ [109.252.192.57])
+ by smtp.gmail.com with ESMTPSA id r8sm417420ljd.140.2021.01.12.10.14.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 10:14:49 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>,
+ Anton Bambura <jenneron@protonmail.com>
+Subject: [PATCH v1 0/3] Activate Tegra114 SoC support by Tegra DRM driver
+Date: Tue, 12 Jan 2021 21:14:18 +0300
+Message-Id: <20210112181421.21293-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210109133736.143469-10-angelogioacchino.delregno@somainline.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,54 +68,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- martin.botka@somainline.org, marijn.suijten@somainline.org,
- phone-devel@vger.kernel.org, sean@poorly.run
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/01/21 14:37, AngeloGioacchino Del Regno ha scritto:
-> In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
-> checking if the relative CTL is started by waiting for an interrupt
-> to fire: it is fine to do that, but then sometimes we call this
-> function while the CTL is up and has never been put down, but that
-> interrupt gets raised only when the CTL gets a state change from
-> 0 to 1 (disabled to enabled), so we're going to wait for something
-> that will never happen on its own.
-> 
-> Solving this while avoiding to restart the CTL is actually possible
-> and can be done by just checking if it is already up and running
-> when the wait_for_commit_done function is called: in this case, so,
-> if the CTL was already running, we can say that the commit is done
-> if the command transmission is complete (in other terms, if the
-> interface has been flushed).
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 2311e98480b9..0624864da343 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -695,6 +695,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
->   	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
->   		return 0;
->   
-> +	if (phys_enc->hw_ctl->ops.is_started)
-> +		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
-> +
->   	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
->   }
->   
-> 
+This series enables Tegra DRM driver for Tegra114 SoC and corrects GR2D
+compatible entries, which is a minor correction, but it conflicts with
+the Tegra114 enablement if applied separately, so I included it all in
+a single small series.
 
-Sorry, this patch is obviously faulty, Took it from the wrong local 
-tree. I will send a V2.
+Patches are tested by Anton Bambura on his ASUS TF701T tablet device,
+which is powered by Tegra114 SoC. Display panel now works on Tegra114.
+
+Dmitry Osipenko (3):
+  drm/tegra: dc: Enable display controller driver for Tegra114
+  drm/tegra: gr2d: Correct swapped device-tree compatibles
+  drm/tegra: gr2d: Add compatible for Tegra114
+
+ drivers/gpu/drm/tegra/drm.c  | 2 ++
+ drivers/gpu/drm/tegra/gr2d.c | 9 +++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
