@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C9B2F2F7C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 13:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181582F2F80
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 13:57:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9206E20F;
-	Tue, 12 Jan 2021 12:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 227CC6E210;
+	Tue, 12 Jan 2021 12:57:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2CE6E20E;
- Tue, 12 Jan 2021 12:56:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4DFAE23357;
- Tue, 12 Jan 2021 12:56:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1EBB6E20C;
+ Tue, 12 Jan 2021 12:57:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6311A23136;
+ Tue, 12 Jan 2021 12:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610456200;
- bh=j95pEarjfZy0tnTagImw8sNicWtXpt4JszqSf45d5DE=;
+ s=k20201202; t=1610456238;
+ bh=KVEfEUWOLEQmT7+CQxXQJ3XRAZoF8/ksCh1myHnPp1c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rDs0GvFeIDH81f6qKJb7s+zZLxe2l3/MWAV0BdKlSGMg+UVpspZdn6ZXJctN1Qi06
- tYJaZVQePGKjzOl0cosYla9ASSTG8355c8vPAwVtFgF+uzrejj+OQqrkXa/RwaCWxo
- hnMP+AtyaiIpjinAXQA8fmGaOyvOsZBIXHR3pTzobUZvv9ZbLbwSdzjVSn00fhtoRP
- oEkyQuUnHk8zTyV8lNjGfDxjGXK2E9kVJz3cRZKzLu4q4Vc2CoE06/pcmDiYHuhW9G
- hKXeOlgpSRJUhC9LfnIHwq4nGeSNmIoO095OFPinmkzNOn9j5mjikKlRSESMhukLr/
- 4VTEXbebZEdyw==
+ b=MNq/x0gx3q5FhtdvXASqolw4zJEHmNR+uWzL1cH+3BUjubDh8ZXr+JZRKWFOta1SN
+ S8nN5SaMjJpy82EI1xPQ1gSu4hE2JJIkZ9oMJOqo9pS4aTUUFGi7dY+0X3YrMgSdIH
+ /+OVjJzWSDKcUsSAZvt2WZLsVmlj3pjXv+y8bD4HlN68gxEYjWkzpdI69v034C0Kr0
+ FLKti5sJx2UnRVjp5ux+9GmejxvbFHGhtPglncrf5wc/d5QY4o4nlBGHmQx3VtfbNy
+ lPnDEaVHLOp+Rt0Q+XzLS4E/gpKcG7aSCm9IrAL5OFkD4sPaSZWpTZjjHGXaJIY5hA
+ uuWlYF93VTHuA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 49/51] drm/msm: Call msm_init_vram before binding
- the gpu
-Date: Tue, 12 Jan 2021 07:55:31 -0500
-Message-Id: <20210112125534.70280-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 24/28] drm/amdgpu: fix a GPU hang issue when
+ remove device
+Date: Tue, 12 Jan 2021 07:56:40 -0500
+Message-Id: <20210112125645.70739-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
-References: <20210112125534.70280-1-sashal@kernel.org>
+In-Reply-To: <20210112125645.70739-1-sashal@kernel.org>
+References: <20210112125645.70739-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,55 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- Craig Tatlor <ctatlor97@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Alexey Minnekhanov <alexeymin@postmarketos.org>,
- freedreno@lists.freedesktop.org, Brian Masney <masneyb@onstation.org>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Craig Tatlor <ctatlor97@gmail.com>
+From: Dennis Li <Dennis.Li@amd.com>
 
-[ Upstream commit d863f0c7b536288e2bd40cbc01c10465dd226b11 ]
+[ Upstream commit 88e21af1b3f887d217f2fb14fc7e7d3cd87ebf57 ]
 
-vram.size is needed when binding a gpu without an iommu and is defined
-in msm_init_vram(), so run that before binding it.
+When GFXOFF is enabled and GPU is idle, driver will fail to access some
+registers. Therefore change to disable power gating before all access
+registers with MMIO.
 
-Signed-off-by: Craig Tatlor <ctatlor97@gmail.com>
-Reviewed-by: Brian Masney <masneyb@onstation.org>
-Tested-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Dmesg log is as following:
+amdgpu 0000:03:00.0: amdgpu: amdgpu: finishing device.
+amdgpu: cp queue pipe 4 queue 0 preemption failed
+amdgpu 0000:03:00.0: amdgpu: failed to write reg 2890 wait reg 28a2
+amdgpu 0000:03:00.0: amdgpu: failed to write reg 1a6f4 wait reg 1a706
+amdgpu 0000:03:00.0: amdgpu: failed to write reg 2890 wait reg 28a2
+amdgpu 0000:03:00.0: amdgpu: failed to write reg 1a6f4 wait reg 1a706
+
+Signed-off-by: Dennis Li <Dennis.Li@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 49685571dc0ee..d556c353e5aea 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -444,14 +444,14 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 29141bff4b572..3b3fc9a426e91 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2057,11 +2057,11 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
+ 	if (adev->gmc.xgmi.num_physical_nodes > 1)
+ 		amdgpu_xgmi_remove_device(adev);
  
- 	drm_mode_config_init(ddev);
+-	amdgpu_amdkfd_device_fini(adev);
+-
+ 	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
+ 	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
  
--	/* Bind all our sub-components: */
--	ret = component_bind_all(dev, ddev);
-+	ret = msm_init_vram(ddev);
- 	if (ret)
- 		goto err_destroy_mdss;
- 
--	ret = msm_init_vram(ddev);
-+	/* Bind all our sub-components: */
-+	ret = component_bind_all(dev, ddev);
- 	if (ret)
--		goto err_msm_uninit;
-+		goto err_destroy_mdss;
- 
- 	dma_set_max_seg_size(dev, UINT_MAX);
- 
++	amdgpu_amdkfd_device_fini(adev);
++
+ 	/* need to disable SMC first */
+ 	for (i = 0; i < adev->num_ip_blocks; i++) {
+ 		if (!adev->ip_blocks[i].status.hw)
 -- 
 2.27.0
 
