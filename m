@@ -2,71 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42962F2C2E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 11:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1EC2F2C40
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 11:08:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAD76E1A8;
-	Tue, 12 Jan 2021 10:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72BD6E1A4;
+	Tue, 12 Jan 2021 10:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B322E6E19C;
- Tue, 12 Jan 2021 10:07:31 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10C9tJ6j063075;
- Tue, 12 Jan 2021 10:07:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=qke5d5/aNaSSKkThN5FT7wSxphV5md/SPNTgBKloGFo=;
- b=LKqXS39KXK3pfLIXVuq47zf+WMd80DpW7E++m/8GDK0B/jkmjAQHFPn1MT8a6zwoP+LF
- 5i4NRUTgCZKWIuCdx6XuS/7sY6D3SDs+uyMi/sgvQPNt/RzTaPiNcqC5Mi6EEwEoMqGO
- F5WOIgDoR3n0bjYcpBUCdKqumTZ/s1l+lWLRnorlRhDGy0AVj6QQTihbgpmwvn8GsR72
- f6M2b6czEpm4tPKHpScyN4Lkebo5SS7aAy7RgKdlBzjTwKyE/YMSJlrRJCLt88GfkEwD
- AEAwHIKLdc/gSuuNG5OBelqsrENCfWboBrbUax8yDIu5hFJPBNGGrE7cvBIc44zf4aWf BQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 360kvjwfsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 12 Jan 2021 10:07:24 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10C9pjg3181291;
- Tue, 12 Jan 2021 10:07:24 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 360ke69p35-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jan 2021 10:07:24 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10CA7JpG003574;
- Tue, 12 Jan 2021 10:07:20 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 12 Jan 2021 02:07:18 -0800
-Date: Tue, 12 Jan 2021 13:07:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH][next] drm/amdgpu: Add missing BOOTUP_DEFAULT to
- profile_name[]
-Message-ID: <20210112100706.GF5083@kadam>
-References: <20210111114638.16530-1-colin.king@canonical.com>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1086E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:08:22 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id q75so1531819wme.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 02:08:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=v2mt446N8NK3Z4hVhx7wan+9dSWmCpE+8A3GRJUn+6A=;
+ b=QfRz6EpvLTAtQQqGqjsNr/+cKu/b7xw5uygbt5vp//RNF/HRwZbSuf8cI5X4t+swyt
+ VejsBchkl7g19m4peRdyfGzVFdEocepT8YIWdxw0mryQMAlogWWLYMWtla2UZOsOjnHd
+ 4y+2armQ74upwN2enX2Kig6SYjkBzx8g9n64zl2ynfLpwyFQsHGWjfdOTZnRKYdrSPGW
+ QVMT7qnftyIomFiFuky69g1WpeiSZprHyYqoTZzkDoI/3oj0yWRUOxMLqcPR96lFt8i3
+ j0E5jXQ0Ru56gf47ys8RWufAOrDVVgKb13SiX96eJFsPkpnt15SHL0n5f6NRniuYl2m9
+ ZWQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v2mt446N8NK3Z4hVhx7wan+9dSWmCpE+8A3GRJUn+6A=;
+ b=LuabMv+Gby/I0b1spM+trS3awf+xygk1QN99WkmIM5EbX0fZ6ItKCq4D9jJWVlWGFq
+ auBznYnACqwys5l1uZ6J2Ka/ibtmYzu6/WUrP589GeGFcDC7tJK0BKsdmGNyQSLGnR68
+ FfOlPxkCD0MIQmZbbMPx2kxCR4SkghBJUKLga0s5XngdSVfTFBJehQYLtDfV5zrnzS2f
+ kax4UfpMVKncCjCyAMIj8IdoXxTN8u1icpuSE3pGGignTjC394XdOMMP43kQLnLTi6ud
+ FKB7jfNhiuKxxFm9LZSxBMk+Ma7ewWeb+R42hIb7ug5+/DSC8E3zN9iGGYaV8hf0svIF
+ G/9A==
+X-Gm-Message-State: AOAM532dkV8AcDVvhpCqK/Dpahqvz/x7xEDfJYhfY5AGmvBhjfPUVK4H
+ qI6MK8+HDHO3aF73XY98CwRjAFZaBgfL2Q==
+X-Google-Smtp-Source: ABdhPJwxzR6Kcp0fXKel6Ld0yttofevJnXbclu+fNE4WQ2QfdNTv6SzAqJRvkC0pT6YSkMOUzemk1g==
+X-Received: by 2002:a1c:7703:: with SMTP id t3mr2751447wmi.47.1610446101069;
+ Tue, 12 Jan 2021 02:08:21 -0800 (PST)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id e15sm3469632wrg.72.2021.01.12.02.08.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 02:08:20 -0800 (PST)
+Date: Tue, 12 Jan 2021 07:08:13 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Subject: Re: [PATCH V5 1/3] drm/vkms: Add vkms_config type
+Message-ID: <20210112100813.xci2u33tcbyb3cna@smtp.gmail.com>
+References: <cover.1610391685.git.sylphrenadin@gmail.com>
+ <a090ad29b826185df30f80c66932dd2173d7b060.1610391685.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210111114638.16530-1-colin.king@canonical.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9861
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101120054
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9861
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1011 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101120054
+In-Reply-To: <a090ad29b826185df30f80c66932dd2173d7b060.1610391685.git.sylphrenadin@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,31 +67,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaojian Du <Xiaojian.Du@amd.com>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 11:46:38AM +0000, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On 01/12, Sumera Priyadarsini wrote:
+> Currently, data for the device instance is held by vkms_device.
+> Add a separate type, vkms_config to contain configuration details
+> for the device and various modes to be later used by configfs.
+> This config data stays constant once the device is created.
 > 
-> A recent change added a new BOOTUP_DEFAULT power profile mode
-> to the PP_SMC_POWER_PROFILE enum but omitted updating the
-> corresponding profile_name array.  Fix this by adding in the
-> missing BOOTUP_DEFAULT to profile_name[].
+> Accordingly, add vkms_create and vkms_destroy to initialize/destroy
+> device through configfs. Currently, they are being called from vkms_init
+> and vkms_exit, but will be evoked from configfs later on. When configfs
+> is added, device configuration will be tracked by configfs and only vkms
+> device lifetime will be handled by vkms_init and vkms_exit functions.
 > 
+> Modify usage of enable_cursor feature to reflect the changes in
+> relevant files.
+> 
+> Co-developed-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+> Signed-off-by: Daniel Vetter <danvet.vetter@ffwl.ch>
+> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c    | 40 ++++++++++++++++++++++++------
+>  drivers/gpu/drm/vkms/vkms_drv.h    | 12 +++++++--
+>  drivers/gpu/drm/vkms/vkms_output.c |  4 +--
+>  3 files changed, 44 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index aef29393b811..6b33975a5cb2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -34,9 +34,9 @@
+>  #define DRIVER_MAJOR	1
+>  #define DRIVER_MINOR	0
+>  
+> -static struct vkms_device *vkms_device;
+> +static struct vkms_config *default_config;
+>  
+> -bool enable_cursor = true;
+> +static bool enable_cursor = true;
+>  module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>  MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+>  
+> @@ -122,10 +122,11 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	return vkms_output_init(vkmsdev, 0);
+>  }
+>  
+> -static int __init vkms_init(void)
+> +static int vkms_create(struct vkms_config *config)
+>  {
+>  	int ret;
+>  	struct platform_device *pdev;
+> +	struct vkms_device *vkms_device;
+>  
+>  	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+>  	if (IS_ERR(pdev))
+> @@ -143,6 +144,8 @@ static int __init vkms_init(void)
+>  		goto out_devres;
+>  	}
+>  	vkms_device->platform = pdev;
+> +	vkms_device->config = config;
+> +	config->dev = vkms_device;
+>  
+>  	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>  					   DMA_BIT_MASK(64));
+> @@ -179,21 +182,42 @@ static int __init vkms_init(void)
+>  	return ret;
+>  }
+>  
+> -static void __exit vkms_exit(void)
+> +static int __init vkms_init(void)
+> +{
+> +	struct vkms_config *config = kmalloc(sizeof(*config), GFP_KERNEL);
+> +
+> +	default_config = config;
+> +
+> +	config->cursor = enable_cursor;
+> +
+> +	return vkms_create(config);
+> +}
+> +
+> +static void vkms_destroy(struct vkms_config *config)
+>  {
+>  	struct platform_device *pdev;
+>  
+> -	if (!vkms_device) {
+> +	if (!config->dev) {
+>  		DRM_INFO("vkms_device is NULL.\n");
+>  		return;
+>  	}
+>  
+> -	pdev = vkms_device->platform;
+> +	pdev = config->dev->platform;
+>  
+> -	drm_dev_unregister(&vkms_device->drm);
+> -	drm_atomic_helper_shutdown(&vkms_device->drm);
+> +	drm_dev_unregister(&config->dev->drm);
+> +	drm_atomic_helper_shutdown(&config->dev->drm);
+>  	devres_release_group(&pdev->dev, NULL);
+>  	platform_device_unregister(pdev);
+> +
+> +	config->dev = NULL;
+> +}
+> +
+> +static void __exit vkms_exit(void)
+> +{
+> +	if (default_config->dev)
+> +		vkms_destroy(default_config);
+> +
+> +	kfree(default_config);
+>  }
+>  
+>  module_init(vkms_init);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 5ed91ff08cb3..6a27bd8875f2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -19,8 +19,6 @@
+>  #define XRES_MAX  8192
+>  #define YRES_MAX  8192
+>  
+> -extern bool enable_cursor;
+> -
+>  struct vkms_composer {
+>  	struct drm_framebuffer fb;
+>  	struct drm_rect src, dst;
+> @@ -82,10 +80,19 @@ struct vkms_output {
+>  	spinlock_t composer_lock;
+>  };
+>  
+> +struct vkms_device;
+> +
+> +struct vkms_config {
+> +	bool cursor;
+> +	/* only set when instantiated */
+> +	struct vkms_device *dev;
+> +};
+> +
+>  struct vkms_device {
+>  	struct drm_device drm;
+>  	struct platform_device *platform;
+>  	struct vkms_output output;
+> +	const struct vkms_config *config;
+>  };
+>  
+>  #define drm_crtc_to_vkms_output(target) \
+> @@ -124,3 +131,4 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+>  
+>  #endif /* _VKMS_DRV_H_ */
+> +
+There is an extra line here
 
-Still not enough to prevent the array overflow.  It needs POWERSAVE as
-well.
+Apart from that, looks good to me.
 
-regards,
-dan carpenter
+Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
 
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 4a1848b0318f..8f3ffb28b9d1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -46,7 +46,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
+>  
+> -	if (enable_cursor) {
+> +	if (vkmsdev->config->cursor) {
+>  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+>  		if (IS_ERR(cursor)) {
+>  			ret = PTR_ERR(cursor);
+> @@ -98,7 +98,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  	drm_crtc_cleanup(crtc);
+>  
+>  err_crtc:
+> -	if (enable_cursor)
+> +	if (vkmsdev->config->cursor)
+>  		drm_plane_cleanup(cursor);
+>  
+>  err_cursor:
+> -- 
+> 2.25.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
