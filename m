@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304F72F2AFC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60032F2B1A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B073F6E188;
-	Tue, 12 Jan 2021 09:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A6C6E18F;
+	Tue, 12 Jan 2021 09:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E98246E196
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:18:31 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id y17so1638385wrr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:18:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=f87gsBH+2KVPSXH+nJ57D/wr8V36ShZYd9Y32P2PsAI=;
- b=L9PD95tk5asxdssK6FkNUeFcgsqydu6mtFz7vR4nbPey+cT4DVDf1WOKiZnUpp9ZmD
- KSR1HLU8hPuhCV2Tu/oae5ICSkF66dtiOQoloary4PJs7XVuY+mJlt+AkwWC0AMBO2yj
- Vv5NWY4NyUzYbwzc2w+TXriscEZFAYX3fd0OQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=f87gsBH+2KVPSXH+nJ57D/wr8V36ShZYd9Y32P2PsAI=;
- b=cz+rHtR8tUW+0mWyyjDo6O39QI1rpuzDKLgP/z+VVIXXiSCWxXiNXI5jrhosakTygG
- bhcjksMluPt/FMKpcGCKQkL1S9TCLCJtjUlQJQ0v8mqR3xwP3+Tw8uYlBukh+O+FMfgM
- bnLTTEEjxMBBZtmmT61O8nCNUyUD9W+WZT6F/C+Nf3AVO7PWVHA8tdlCT7pkx9HOab8I
- 9S2pv4TGHL0WoyYKhvFK5OOrdHCawn0QHi0LLZgB7pQlos8sdgnYV4TVIhKJmen/UYQW
- CTvSUEAu/MUc+SwkZ9UjkFbEI07Q2dT4Z6uGESZv8Wo9qpomx/ocR+Hr8y5+WuMP6+/j
- g0xw==
-X-Gm-Message-State: AOAM531GHVseI4lvMtXLmG4RvuUPKQ0rlAWrdm/LvujHeqBxdebYgRUq
- XChjuJjGaCkG0jGPFFHipOlkyw==
-X-Google-Smtp-Source: ABdhPJyjVF9IanPechzGYbhoKCcezn8CSCB/pz1NPBPsHDY7evJDL6obrdoAtEpS5Tk7EHgD8iE+Qw==
-X-Received: by 2002:a5d:528a:: with SMTP id c10mr3189848wrv.117.1610443110667; 
- Tue, 12 Jan 2021 01:18:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g191sm3121403wmg.39.2021.01.12.01.18.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 01:18:29 -0800 (PST)
-Date: Tue, 12 Jan 2021 10:18:28 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH v2] drm: Check actual format for legacy pageflip.
-Message-ID: <X/1pZISyZm6xfQ+6@phenom.ffwll.local>
-References: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
- <CADnq5_OVtCubsGP=-=q-hYJ3e6a3=pozi7ZhDiqdUkUKLCiwMg@mail.gmail.com>
- <CAP+8YyGAuYW+qOCDmQR+_X0y-jC5sKoxm+k7V8YrAEaTM942dA@mail.gmail.com>
- <CADnq5_PZ_yE-K6BzgcSUhOZ_b9nhWpbj7nau2ZopxMLa7igpQA@mail.gmail.com>
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 581EF6E190
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:21:56 +0000 (UTC)
+Date: Tue, 12 Jan 2021 09:21:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1610443313;
+ bh=P7Xq0acnLz9yj6KgKO1+MbJIrgeDLzDdM6heYyrfd4o=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=G6eHKKIQ3TPMBPpOa+mw4Is/3/XTksJFFoUGYuAN5O9L48nF1cBBkQZ0xo80JXVf/
+ gZSiYPFX4mnqR0mtWg1sb629vK3PCVXJbX1ER9Kv1BCIwIyTMFww+EWVuMPXg+x33k
+ JTNAQ9lo2UUQpIPABE93Y8iRGHIO+XBPXCcOxNHEARZZEwr5fJvm1HwRUBUzgBTn/p
+ oe3BGpWwRwjrsRcpPKO84g9U70X7nOe8p5T4xZCpBhLcfcTkj/gCHJ6zFAB0p3s1N5
+ pBSpu7G93K6/2OCovpRVqMpRN/DS33OXr6YZKpjKyLQnaK2UiauwcUfnBXpNt+/RUW
+ Z2RCmT9ehkWrw==
+To: "Chen, Xiaogang" <Xiaogang.Chen@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: RE: [PATCH 1/2] drm: distinguish return value of
+ drm_dp_check_and_send_link_address.
+Message-ID: <fhO3DFK9BjC0oXptdSRyxVqyxYGUM2BV9bgl-IoQa1E8CiTQVz0BbZXGdqawwnkryfbVMeyVIBTYPOpBkOKca34wehM7OAKJOzBtWQo4ovs=@emersion.fr>
+In-Reply-To: <DM6PR12MB2602B6281BF8C9430115E03BE3AA0@DM6PR12MB2602.namprd12.prod.outlook.com>
+References: <1609740098-32603-1-git-send-email-xiaogang.chen@amd.com>
+ <DM6PR12MB2602B6281BF8C9430115E03BE3AA0@DM6PR12MB2602.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_PZ_yE-K6BzgcSUhOZ_b9nhWpbj7nau2ZopxMLa7igpQA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,121 +49,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Zhan Liu <zhan.liu@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 04:28:31PM -0500, Alex Deucher wrote:
-> On Mon, Jan 11, 2021 at 11:39 AM Bas Nieuwenhuizen
-> <bas@basnieuwenhuizen.nl> wrote:
-> >
-> > On Mon, Jan 11, 2021 at 4:02 PM Alex Deucher <alexdeucher@gmail.com> wr=
-ote:
-> > >
-> > > On Sat, Jan 9, 2021 at 9:11 PM Bas Nieuwenhuizen
-> > > <bas@basnieuwenhuizen.nl> wrote:
-> > > >
-> > > > With modifiers one can actually have different format_info structs
-> > > > for the same format, which now matters for AMDGPU since we convert
-> > > > implicit modifiers to explicit modifiers with multiple planes.
-> > > >
-> > > > I checked other drivers and it doesn't look like they end up trigge=
-ring
-> > > > this case so I think this is safe to relax.
-> > > >
-> > > > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > Reviewed-by: Zhan Liu <zhan.liu@amd.com>
-> > > > Acked-by: Christian K=F6nig <christian.koenig@amd.com>
-> > > > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > Fixes: 816853f9dc40 ("drm/amd/display: Set new format info for conv=
-erted metadata.")
-> > >
-> > > Do you have commit rights to drm-misc or do you need someone to commit
-> > > this for you?
-> >
-> > I don't have commit rights so if the patch could be committed for me
-> > that would be appreciated!
-> =
+On Tuesday, January 12th, 2021 at 7:36 AM, Chen, Xiaogang <Xiaogang.Chen@amd.com> wrote:
 
-> Pushed to drm-misc-fixes.  Thanks!
-> =
+> Any comment?
+>
+> -----Original Message-----
+> From: Xiaogang.Chen <xiaogang.chen@amd.com>
+> Sent: Monday, January 4, 2021 12:02 AM
+> To: amd-gfx@lists.freedesktop.org; Wentland, Harry <Harry.Wentland@amd.com>; dri-devel@lists.freedesktop.org; airlied@linux.ie
+> Cc: Chen, Xiaogang <Xiaogang.Chen@amd.com>
+> Subject: [PATCH 1/2] drm: distinguish return value of drm_dp_check_and_send_link_address.
+>
+> From: Xiaogang Chen <xiaogang.chen@amd.com>
+>
+> drm_dp_check_and_send_link_address discovers MST device topology.
+> It can return both positive and negative values. When it returns positive values there is no error found. If it returns negative values there is error found, such as get NAK , timeout, etc. Following drm_kms_helper_hotplug_event should be called when drm_dp_check_and_send_link_address returns positive value.
+>
+> Signed-off-by: Xiaogang Chen <xiaogang.chen@amd.com>
 
-> If you want access to drm-misc, I don't see any reason you shouldn't have=
- it.
+To the best of my knowledge, this sounds correct.
 
-There's some old-school bash tooling involved since we're (not yet, I can
-hope) doing gitlab MR:
+Please wrap your commit message into 80-character lines so that it's easier
+to read. Regardless, this is:
 
-https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
-
-Otherwise makes sense imo.
--Daniel
-
-> =
-
-> Alex
-> =
-
-> =
-
-> > >
-> > > Thanks!
-> > >
-> > > Alex
-> > >
-> > > > ---
-> > > >  drivers/gpu/drm/drm_plane.c | 9 ++++++++-
-> > > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plan=
-e.c
-> > > > index e6231947f987..a0cb746bcb0a 100644
-> > > > --- a/drivers/gpu/drm/drm_plane.c
-> > > > +++ b/drivers/gpu/drm/drm_plane.c
-> > > > @@ -1163,7 +1163,14 @@ int drm_mode_page_flip_ioctl(struct drm_devi=
-ce *dev,
-> > > >         if (ret)
-> > > >                 goto out;
-> > > >
-> > > > -       if (old_fb->format !=3D fb->format) {
-> > > > +       /*
-> > > > +        * Only check the FOURCC format code, excluding modifiers. =
-This is
-> > > > +        * enough for all legacy drivers. Atomic drivers have their=
- own
-> > > > +        * checks in their ->atomic_check implementation, which will
-> > > > +        * return -EINVAL if any hw or driver constraint is violate=
-d due
-> > > > +        * to modifier changes.
-> > > > +        */
-> > > > +       if (old_fb->format->format !=3D fb->format->format) {
-> > > >                 DRM_DEBUG_KMS("Page flip is not allowed to change f=
-rame buffer format.\n");
-> > > >                 ret =3D -EINVAL;
-> > > >                 goto out;
-> > > > --
-> > > > 2.29.2
-> > > >
-> > > > _______________________________________________
-> > > > amd-gfx mailing list
-> > > > amd-gfx@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Simon Ser <contact@emersion.fr>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
