@@ -2,57 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5332F2E63
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 12:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C557D2F2F21
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 13:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE306E1E9;
-	Tue, 12 Jan 2021 11:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF85189FAC;
+	Tue, 12 Jan 2021 12:32:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFDE6E1CF
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 11:51:15 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id n8so2534501ljg.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 03:51:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=6moJeJqDS+Hx6MR6GidrbRrCLfXvlKb00iIvNI6nvMg=;
- b=Jwbbrx2oUjhmRVD4fy0c1aB9LjXb0CRyb5TODeRCH1tWz+EzorwfM784/L2scTOKue
- q7rmyJNxcxiZWIMDomCeXedUtR3OKzmGVQQuVezBjlbT+ydycEHX/MNXLEdFI98oTLk/
- uhIzet/V4YjoSP3hnjOHCmo6Movu4AgEi0dmVeyM2i5ZvgE9GACRcCb4R4ZkkzzhWvMh
- EJTR2uqFLQuJf3yXiiRI8Pc18QF+8jeOpc77uhZBffLweDK2hugAFk0AzqEG3GhrMqo+
- nHbVRzhC1ZobT53qdzbHFjPjh8D22sQFHuzie+wpGkZDR9o3AKIMS8AOn0DBD7Y5Jhri
- u7/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=6moJeJqDS+Hx6MR6GidrbRrCLfXvlKb00iIvNI6nvMg=;
- b=rcnmovnLYhJpNXT3fO4QGEypZzz8F4KWJimUJrg4/t7G+E+05nCHkGq8VDb7Q9Y4LV
- pyw4M4byHyBiEt/iZ/3mjrlZekwwfeMftnFtdXOWsgoHyTRjJWRZnS0rzlFam0jdwPAT
- Og/PZwGKsFr0odjV+IHTS/c7KxaWR1LBg2asRCh07KxCvNWG19el0hfESGSJBTQe4BL3
- uGsoKMcsQc6WZ3xgPW8Yg8AamjyKhaj28+0yqlRcB3AyDSntXy/CaJ9EfWqF/WFvWXr6
- ULo+rNyzg3HQlWbm/GSRD7lr1tjf28E0UrzUiJBuDtJp7Pj7DTZxaRx635X5VC9lAnPn
- nflQ==
-X-Gm-Message-State: AOAM5301R9PyC5VB+ecd62WpMLApQZZAEamwMQX3ZY7KGfv0k7G24RBW
- J01PfxJQ0Bp2ZvhcWmoeNx4=
-X-Google-Smtp-Source: ABdhPJzvQido0cBG24fXNTB1p5H2se27B8OBucCbXY2pdePrpd5FjbwPhXpSN2aD9AzfPcBk+OJXBQ==
-X-Received: by 2002:a2e:914d:: with SMTP id q13mr1818124ljg.205.1610452273856; 
- Tue, 12 Jan 2021 03:51:13 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id u12sm280110lff.250.2021.01.12.03.51.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 03:51:13 -0800 (PST)
-Date: Tue, 12 Jan 2021 13:50:43 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 0/4] drm: rcar-du: Add cubic LUT support
-Message-ID: <20210112135043.30388d3d@eldfell>
-In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E00C89FAC;
+ Tue, 12 Jan 2021 12:32:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UuNFqLUnJjL/z596s2qrTaAEcCkmjKbPZaIoLrFCoBucTjwgybaumJF/ecwapeYRAB0Mq7U+v1Au5zsg4zlDTr2EPqdvR/cTW1RuWQpNRlOug859Bb4JA6vG04H2elOBYq4HCuRo7+gV3VKMt8fwG6pz+Y/mu7ts26HZ9W8ZUk4SPpfJE33DjznfuMKpfweOzlSWisjhGs+eyJV3G3rUDbN9X3gFJ85oeg0Rn8TebpHm9gc8B6p6rRPkW3brv63cfFh0mPE5gNGEptmvjfqX9WlXcytsW/C8hhpTN3dpcDDfR5d5jqbtaWsq2Okfm9d742e1r+vf6IKya45sZ5Eceg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rihv2JY+UInS82FNEsv+x/nM3kwwrA/AQto0dUX5gP8=;
+ b=IJIMwu/0+D9gDQgQpmxCit3HR3pINvuQSKxXtepCExEu72bMYA/Ww1hI1BMwKJ46TxOf+2vfaOnXvn3HBQnNNGCRNrRgmuvTSsKUjjvrlwdksmAg2fblc7Ogzq/3oVV+NEbT4OaHoNsGaR78GUW5CVeW4g/ZQmQXpWAp7WjnHGFvO1EpoK9hiudNsqEArvfPUmRc3aDkvRf/sTmjIfdKLWD2UHIsnJMwEHynEebhcm29U3pZRI1OBBBMNfn57EokENFZZBhD/CeRooryH/OkimqXkyiOGotHY4G72lJbNEVu/bbDhlXXcxQ++WPWTwVzs8coVURU0i8FKjc1LrryaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rihv2JY+UInS82FNEsv+x/nM3kwwrA/AQto0dUX5gP8=;
+ b=ij9xwx/NbKMA05ndOQJwG21Hz77ivdyZ6WV6Qyq8iER0mf9ZcD45chk3XV/HJKG1RXdcSpfSQBtfX//Uqr33gXyUPH7x0XXxp84FByd1p5f0oTWR3jzp/ypAqz2xoiR0/dZlW8BKqUoy7zIBXWdV0HQsmGt+DeI7RoUY2Ux+jtk=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4360.namprd12.prod.outlook.com (2603:10b6:208:266::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 12 Jan
+ 2021 12:32:11 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3742.012; Tue, 12 Jan 2021
+ 12:32:11 +0000
+Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+References: <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
+ <589ece1f-2718-87ab-ec07-4044c3df1c58@amd.com>
+ <a140ca34-9cfc-9c2f-39e2-1af156faabfe@amd.com>
+ <b73319b2-1723-6650-8d03-d8f775119e53@amd.com>
+ <29ef0c97-ac1b-a8e6-ee57-16727ff1803e@amd.com>
+ <62645d03-704f-571e-bfe6-7d992b010a08@amd.com>
+ <SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0@SN6PR12MB4623.namprd12.prod.outlook.com>
+ <X/x5RD0xQxWUYvQ3@phenom.ffwll.local> <X/x5nXM7bZDl+MWR@phenom.ffwll.local>
+ <db1e456d-8493-c94e-942e-ed19a2e1b931@amd.com>
+ <X/1niT8MNvcEwDFS@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <a0435d29-dabb-89ad-cdd0-1b5f1e32b7c9@amd.com>
+Date: Tue, 12 Jan 2021 13:32:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <X/1niT8MNvcEwDFS@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM4P190CA0021.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:200:56::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4P190CA0021.EURP190.PROD.OUTLOOK.COM (2603:10a6:200:56::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.9 via Frontend Transport; Tue, 12 Jan 2021 12:32:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f84741d0-7e9b-4d76-ced5-08d8b6f615cb
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4360:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB43607F7CA35BD22E32F69CF783AA0@MN2PR12MB4360.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HrMUlbHH9PmLLyCrdGO/CRwiWwjXns8Ji/QStCt2X/jJn8/ewjKJNeOzWWojNShoAb4V53uyjskLCDWz5D87Yq5PWUyuHF03JyAoVBCIkMZR7p7IUt3u1NW7omPYLpJxgNEDrbgKTJpASt7L+fouA5JRbiQMqYemUahriAMo+sc7qnapXQxwX8NtcjI7CqOh1SSxZs79zBX+U4qRi9D57JqdST99uylyYdOESbrXi6hqyxi7m02w/WbiFCr+jTv+79S1F1VSpRU2sLICWCn9Aa+J71rARqKScI9VOJ6ZSIdtqDsqEXlIGWOtvjK49A+tS0XuLpeGIiLXly/JDSxRvufngMhA1r23eG1ZN3bJ/FhW2YZxigACdKL0f4JqkXEOqhgP9OVJ91CPNbCYQG1ZCfjPi48L3r7vyPA6MxU1m1BYCzVe8Hw3zN0GeCELyWWqER/+a0dfFgX8Ta23lXzqff9aHQ2qFfMlbt9D7ls8k7Q=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(396003)(366004)(376002)(136003)(6486002)(8936002)(31696002)(6666004)(2906002)(4326008)(66556008)(66946007)(86362001)(5660300002)(66476007)(478600001)(2616005)(31686004)(8676002)(6636002)(16526019)(186003)(110136005)(36756003)(7416002)(53546011)(52116002)(54906003)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?R2VtbCtnNjR4RmtSZjVHTDNCNlBoVnhLMldmQ29wOUZTVEQzMlB1WlVtSmxH?=
+ =?utf-8?B?NnVlclR6MlVXTEt5VkNiNG5FZlcydXBoQ0FxMk5obHI2a1NydGJIdmh0NTZt?=
+ =?utf-8?B?OExUWFBUZGNpeXBKc1dFcXFpTVBMS3BSLzhEYmlSSDVkQStzcVNndGg5Zzg1?=
+ =?utf-8?B?a0RsVVM4U2VRSXBmQXBBMXdjZjUwSE1NaTFGVVdVK0FLekdBWEgvZlJzMkhV?=
+ =?utf-8?B?U3I0cVYxekRYNXA3ZnJiYU95MzYrR3d6THBRbE1UN2VvV1BtVVpXRTI4R0di?=
+ =?utf-8?B?dWl2dGVSREpBN3RkNWNnb3g3eHpQaDhGaWRUUDJaSmVPd3BreWxzdnpSQ0xp?=
+ =?utf-8?B?UHhuS29JQkRFMmJQWjFweFNYZXpBYnBpV2c4blhJSGtQaUF1WG0wenB2dXpu?=
+ =?utf-8?B?SVBlZjdqckRMb3o1QmlnSHVLNW9HUWZmc3d6QXhwLzdQQ25oazExeXQ4WU5k?=
+ =?utf-8?B?RU0ySkcrbEM0NVlxUnVwNld4VytMUXlGamEwNEErcU5VNmlNYWcvdit2VTZX?=
+ =?utf-8?B?SU1xVjVFaW9BZEU1R0RtRzZoSW5VcUkxOEt5a2FYRjBiZTFFZjJYMEdOYW5L?=
+ =?utf-8?B?ZkY3NUExbXlIWDB4SjI3TWdkU0VtbS9maUFFcTl5U0xJeUhRcFB5ZDE3aGV4?=
+ =?utf-8?B?VzFGSTk5WDQ4VjRNRStiSjJmMHI0UytvOU01bVNpNmxLWWQvbU1FdGVWd2dr?=
+ =?utf-8?B?UjhvaFZYTzd6UGZML1g1MUxieFY4TlpYSGkwenhvbWRNYmJWRGxTVDlyOUpo?=
+ =?utf-8?B?RmZUQ3NBQ3ZpVVFJWUluTVl0SWpHdXkwYSsyNWI5amIvWllJci9YSkl3UlU3?=
+ =?utf-8?B?emFYaVc2K28yVzhReVFWU292VllVSmp0bm1JbVZFNU9ZdmhpWHVYdEFTWXd2?=
+ =?utf-8?B?bC9TdkpCeWdVMmhtT1VUNHIxWFVoY1RmTU84WTk3U2psOWUyNnlwRnVNSVZu?=
+ =?utf-8?B?bE80eEdPNW1GU2JISzhGQ0tuNDJHbXl6Q0tQVzI3cnpMaHN4azdVSmNzQWdX?=
+ =?utf-8?B?U3cvNkwzTWZ5VE0xZU41YW41NENzaTNUUUdHV1lkN3JwVndLSVNKb2dDVG82?=
+ =?utf-8?B?MkJPdkZpZlAzTDdKZ21nT2pGZ1RuSHZ3aUJOTnFXUTBlaVFWQUF1TWx0b3BB?=
+ =?utf-8?B?ZjJic1FSc2R6dWVkZGJ5WXROeXFGcWc2UkIxRkZMR2txdlRhdFdoYk8wQnpq?=
+ =?utf-8?B?M3IzeGNGSExaY282VTJoTEFEeGt4UHF2Rzh6bWlVK3djaUpYRzVJcFJqa1V0?=
+ =?utf-8?B?WlBZMjA0eTlzZ1NtdmcxbEo0alRIMm4zTDQwbElIUEtidHVnWGxBRWREYTdQ?=
+ =?utf-8?B?NzVwUUhMM25uS0JNcWRuUURuT1JWKzVQbUdoTDV6aHc3ekJYRThNMEtzWVho?=
+ =?utf-8?B?WnNvd2k4SjNpNWdEby90RlozRHR2aHQ0NEpMVUtoMWdqYlJ6cXlhN2s4MTdG?=
+ =?utf-8?Q?8QqoEr5b?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 12:32:11.5914 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: f84741d0-7e9b-4d76-ced5-08d8b6f615cb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8YjAGzSzYwOD2ScdaGIqocFkrIWbfU5FaeSzaKVypoqrREggPjYlKw56pFGcwCfr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4360
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,227 +130,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0633438856=="
+Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "yuq825@gmail.com" <yuq825@gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0633438856==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/YTIKGpk2iLi69YChR+ELP9e"; protocol="application/pgp-signature"
+Am 12.01.21 um 10:10 schrieb Daniel Vetter:
+> On Mon, Jan 11, 2021 at 03:45:10PM -0500, Andrey Grodzovsky wrote:
+>> On 1/11/21 11:15 AM, Daniel Vetter wrote:
+>>> On Mon, Jan 11, 2021 at 05:13:56PM +0100, Daniel Vetter wrote:
+>>>> On Fri, Jan 08, 2021 at 04:49:55PM +0000, Grodzovsky, Andrey wrote:
+>>>>> Ok then, I guess I will proceed with the dummy pages list implementation then.
+>>>>>
+>>>>> Andrey
+>>>>>
+>>>>> ________________________________
+>>>>> From: Koenig, Christian <Christian.Koenig@amd.com>
+>>>>> Sent: 08 January 2021 09:52
+>>>>> To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Daniel Vetter <daniel@ffwll.ch>
+>>>>> Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; daniel.vetter@ffwll.ch <daniel.vetter@ffwll.ch>; robh@kernel.org <robh@kernel.org>; l.stach@pengutronix.de <l.stach@pengutronix.de>; yuq825@gmail.com <yuq825@gmail.com>; eric@anholt.net <eric@anholt.net>; Deucher, Alexander <Alexander.Deucher@amd.com>; gregkh@linuxfoundation.org <gregkh@linuxfoundation.org>; ppaalanen@gmail.com <ppaalanen@gmail.com>; Wentland, Harry <Harry.Wentland@amd.com>
+>>>>> Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
+>>>>>
+>>>>> Mhm, I'm not aware of any let over pointer between TTM and GEM and we
+>>>>> worked quite hard on reducing the size of the amdgpu_bo, so another
+>>>>> extra pointer just for that corner case would suck quite a bit.
+>>>> We have a ton of other pointers in struct amdgpu_bo (or any of it's lower
+>>>> things) which are fairly single-use, so I'm really not much seeing the
+>>>> point in making this a special case. It also means the lifetime management
+>>>> becomes a bit iffy, since we can't throw away the dummy page then the last
+>>>> reference to the bo is released (since we don't track it there), but only
+>>>> when the last pointer to the device is released. Potentially this means a
+>>>> pile of dangling pages hanging around for too long.
+>>> Also if you really, really, really want to have this list, please don't
+>>> reinvent it since we have it already. drmm_ is exactly meant for resources
+>>> that should be freed when the final drm_device reference disappears.
+>>> -Daniel
+>>
+>> I maybe was eager to early, see i need to explicitly allocate the dummy page
+>> using page_alloc so
+>> i cannot use drmm_kmalloc for this, so once again like with the list i need
+>> to wrap it with a container struct
+>> which i can then allocate using drmm_kmalloc and inside there will be page
+>> pointer. But then
+>> on release it needs to free the page and so i supposedly need to use drmm_add_action
+>> to free the page before the container struct is released but drmm_kmalloc
+>> doesn't allow to set
+>> release action on struct allocation. So I created a new
+>> drmm_kmalloc_with_action API function
+>> but then you also need to supply the optional data pointer for the release
+>> action (the struct page in this case)
+>> and so this all becomes a bit overcomplicated (but doable). Is this extra
+>> API worth adding ? Maybe it can
+>> be useful in general.
+> drm_add_action_or_reset (for better control flow) has both a void * data
+> and a cleanup function (and it internally allocates the tracking structure
+> for that for you). So should work as-is? Allocating a tracking structure
+> for our tracking structure for a page would definitely be a bit too much.
+>
+> Essentiall drmm_add_action is your kcalloc_with_action function you want,
+> as long as all you need is a single void * pointer (we could do the
+> kzalloc_with_action though, there's enough space, just no need yet for any
+> of the current users).
 
---Sig_/YTIKGpk2iLi69YChR+ELP9e
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Yeah, but my thinking was that we should use the page LRU for this and 
+not another container structure.
 
-On Mon, 21 Dec 2020 03:57:26 +0200
-Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+Christian.
 
-> Hello,
->=20
-> This patch series adds cubic (3D) look up table support to the CMM and
-> DU drivers, and extend the KMS userspace API to expose the cubic LUT to
-> userspace.
-
-Hi,
-
-when you say "cubic" I immediately think "polynomial of third degree",
-and got really curious how that works. But it seems that is not at all
-what you have here, instead you have a 3D LUT with probably
-trilinear(?) interpolation.
-
-I would suggest to stop using the misleading term "cubic" (e.g. cubic
-interpolation is a thing).
-
-Where does the abbreviation CLU come from? If that refers to cubic as
-well, it would be best to change that too to avoid misleading.
-
-Unless your hardware actually does cubic interpolation in the 3D LUT?
-
-> The code is fairly straightforward. Patch 1/4 refactors the CMM (color
-> management module, the Renesas R-Car IP core that handles 1D and 3D
-> lookup tables for the display) driver, which currently supports the 1D
-> (a.k.a. gamma) table only, to prepare for 3D LUT support (including a
-> modification to the API between the CMM and DU drivers). The CMM driver
-> is then extended in patch 2/4 to support the 3D LUT.
->=20
-> Patch 3/4 adds support for the 3D LUT in the KMS core and the KMS
-> userspace API, in the form of two new properties. I expect this to be
-> the most controversial part of the series, not so much for the feature
-> itself, but for when it is inserted in the color management pipeline.
->=20
-> Finally, patch 4/4 wires the KMS extension to the DU driver.
->=20
-> The R-Car CMM applies the 3D LUT at the output of the display, where
-> data is transmitted in RGB space (when outputting YUV data to the
-> display the CMM can't be used according to the documentation, but I
-> wouldn't be entirely surprised if this limitation could be worked
-> around), before the 1D LUT. I've located the 3D LUT between the CTM and
-> the gamma LUT, but it could equally be placed before the degamma LUT or
-> between the degamma LUT and the CTM in my case, as the R-Car color
-> management pipeline has no CTM and has a single 1D LUT on the output
-> side (there's provision for 1D LUT on the input side for some of the
-> planes, but that's a separate topic).
->=20
-> I however don't expect this to necessarily match all hardware though,
-> and this feature may require us to give up on a fixed, one size fits
-> them all, color management pipeline exposed to userspace. Whether this
-> would mean device-specific APIs (not necessarily in the form of
-> device-specific properties, but in how they map to hardware features, as
-> I think helpers to handle a 3D LUT property in the KMS core can save
-> code duplication in drivers), or the need for a new property to expose
-> the order in which color management operations are implemented, I don't
-> know.
-
-That is a difficult problem indeed. Userspace must know everything what
-happens to the pixel values exactly, beyond that I have no suggestions
-there.
-
-> I started having a look at userspace to see how this could be handled,
-> searching for color management support in weston, kwin and wlroots/sway.
-> All three support setting the gamma table when using the DRM/KMS
-> backend, weston and kwin through the legacy API, and wlroots through the
-> atomic API. Weston reads an ICC profile using Little CMS and applies the
-> gamma table. kwin is a bit more elaborate, it also uses Little CMS to
-> read an ICC profile, but additionally supports setting the brightness
-> and color temperature. It however only sets a gamma table in the end.
-> Wlroots seems to have an API to set the gamma table, but I haven't seen
-> where sway uses it (I may have missed that though). In any case, there's
-> limited support there for color management.
->=20
-> Inputs would be appreciated on this, for instance with feedback on how
-> X.org and Android handle color management, on how 3D LUTs are
-> implemented on other platforms, or in general on how we would like to
-> use them. I don't mind doing some work in userspace to prototype this,
-> but I won't have the bandwidth to design a completely new framework.
-
-The idea for Weston (and Wayland in general) is that the display server
-uses a CMM to compute a transformation it needs to apply, based on the
-display and content color properties (e.g. ICC profiles) and more. What
-that transformation exactly is depends on the CMM, and it may further
-depend on what kind of ICC profiles are being used (an ICC file may
-contain different kinds of transformation definitions, from
-parameterised standard formulas to 1D and 3D LUTs and chains of those).
-So a display server gets a more or less opaque transformation object
-from a CMM and needs to implement what it describes somehow.
-
-Implementing the transformation depends on what kind of API the CMM
-offers. The good thing with a 3D LUT is that, AFAIU, no matter what the
-actual transformation is, it can always be represented as a 3D LUT. The
-only open question then is the size and precision of the 3D LUT, and
-how it is interpolated. If the precision is sufficient, a display
-server may choose to use the hardware 3D LUT.
-
-All this I believe should be internal to a Wayland display server.
-
-Mind, that everything I talk about in the above is done in *addition*
-to "the LUT" (VCGT tag in ICC files). In the X11 model of color
-management, "the LUT" is considered calibration and is 3 x 1D. If some
-LUT was in place when profiling a monitor, the same LUT must also be in
-place when using that monitor color profile. Confusingly, calibration
-values like "the LUT" are not considered as part of the color profile,
-even though technically "the LUT" can be saved in an ICC file. For more
-information, see:
-https://ninedegreesbelow.com/photography/monitor-profile-calibrate-confuse.=
-html
-https://gitlab.freedesktop.org/swick/wayland-protocols/-/blob/color/unstabl=
-e/color-management/color.rst
-
-The code you saw in Weston loading a LUT from an ICC profile does the
-VCGT tag part and nothing else. IOW, it loads a calibration, not a
-monitor color profile. A 3D LUT could be regarded as calibration as it
-is in the old-school model, or it could be actively computed and used
-like the Wayland model being designed.
-
-Loading a LUT from the VCGT tag is not really color management. It's
-just calibration, like tuning the monitor brightness knob.
-
-Simon already pointed you to
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/14
-and Weston work is underway as well, but it may be quite some time
-before Weston could actually take advantage of a KMS 3D LUT. In Weston
-we consider hardware features like the 3D LUT as optional optimisations
-that can be used if the circumstances are right. This means that we
-want the "software path", that is, GL shaders, to work first. Shaders
-we can run and test everywhere, but the 3D LUT is not always available
-and requires a writeback connector to test in an automated test suite..
-
-As a summary, I could say that X.org does not do color management. Period.
-X.org does allow loading "the LUT" (VCGT), but it does nothing with
-color profiles. Applying color profiles is left for each X11 app to do
-on their own to their own pixels. If X11 protocol extensions do not
-already support setting a 3D LUT, then you have to add that to the
-protocol.
-
-Wayland is being designed differently: the display server is
-responsible for color management, unless Wayland applications
-explicitly ask to do it themselves. Wayland protocol is intended to
-not allow free-to-all access to hardware LUTs like X11 does.
-
-Therefore, I would say that while adding X11 protocol to set a 3D LUT
-in hardware does mechanically exercise the UAPI, it does not in my
-opinion prove anything about the usability of the UAPI, because it
-lacks an actual use case. You would need something to meaningfully and
-purposefully to set the 3D LUT to some particular values to reach some
-specific effect or goal for a real world use case. This may be an
-unpopular opinion, but IMO X11 RandR is little more than a library ABI
-exposing KMS UAPI as is, similar to libdrm: an interface, not a full
-application alone.
-
-CrOS and Kodi mentioned by danvet sound like much better proving
-vehicles than X.org, Weston I'm afraid might be quite some months away
-still.
-
-
-A consideration from KMS UAPI point of view: for the 3D LUT to be
-usable for Wayland compositors, setting the 3D LUT must be either
-glitch-free, or if it can cause a hickup, glitch, stall, or anything
-else not observed during a normal pageflip, it must require
-ALLOW_MODESET.
-
-If setting any KMS property is possible without ALLOW_MODESET but it
-may cause a visible glitch, pageflip timings included, then that KMS
-property is much less useful to a Wayland display server as it can only
-be used as if it always required ALLOW_MODESET, even with drivers where
-it is glitch-free.
-
-
-Thanks,
-pq
-
---Sig_/YTIKGpk2iLi69YChR+ELP9e
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/9jRMACgkQI1/ltBGq
-qqfUPRAAmZLOyByACirPhYAtpQYbx3v5CZdlNEf9MJn4bj4gTvTHi72FZRPBgRH3
-oqqeAIdX00mo9pvs/Z9etC7A1OJDD/kmYt0pFqThwZ+FE/Qd5zmVGkt/uKsIGVN9
-Qn7UdOl0n3DdOFTAjt36FB2vuJ1vOB8RDdEqcgknO9a5ezms9jpxLCuOwqqTaptW
-TnN0LFR7KlulSNDNjsBx5IZ5rI+ey4AzZ+QCkZsalb1m4CVqPsJF0JAx/MFJZyO+
-0sQeVUHptpdhR7ntgepOdagqLsVRbk9rv3MImdNTlUlhaEhO4Lqxkno+saPOtdG9
-TD2giG7aDmQ0x97PL4bFIc9NRMi4gqBwAeXQ6tNK1QXU2SLflIUyey2XYDLHsYnv
-YKFWvUoozUqB6zOs8D5/xLQ2kPfePywQTosgtmQMTnMcrNKqEZHVDhMjLdPSAFMV
-7OHxkmCyEdgNvTBaMiACyS7XQyeXgiZt5YVyiuSnG7xPYEX0GnGEKouRMjiqQlIA
-tM5orFzbdC2UCpTEX4Aa+sE0P0aRNXEgkEBYeZ+z2wA4TPEUghKBlVQXfQw9DrAQ
-7s9vw2rOYUespNx9k9Q7h9l1FI44rYwgYYyKMVkoS3PlPgOIP1f/bHs2nUoGK9Op
-6hMKhfytDHJjs33dRCH3My1lJF13px+TNKdJ9uM3oMIsddTXKuc=
-=7fOl
------END PGP SIGNATURE-----
-
---Sig_/YTIKGpk2iLi69YChR+ELP9e--
-
---===============0633438856==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> -Daniel
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0633438856==--
