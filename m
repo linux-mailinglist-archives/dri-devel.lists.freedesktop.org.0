@@ -2,53 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B73F2F3403
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 16:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EAF2F34B2
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 16:54:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACAB6E3AC;
-	Tue, 12 Jan 2021 15:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098906E2D5;
+	Tue, 12 Jan 2021 15:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
- [209.85.167.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0BF66E3C1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 15:17:18 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id q25so2641750oij.10
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 07:17:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=U7LK4UzPdbNSe+Oygrvbhl0Tngy8RGFCOMYee0BjfHA=;
- b=cJcoYMJHPSpDPdnTLfMMpoioMye69CZONIdP6Y7UpGB31/Ez2yusLos0jC0o2YXeMO
- l602FVlRBGT5B9ZIhmGvA2ARQg5czVEwOPCwpYYmG0hz+1riulVo4QJUgu9tHzMr25UW
- /58YTwDswHQwbIyF85BTy7fc7V2GAOiWQDVTty8XZjJuzGdFjkkTOQ2la+fqMBn2jx54
- esn8PjJTcM/52PpPQoJZxwOgKYUusYiVhNY/blHdONhnLSse+e2D4pNysYtPORMQPZGJ
- QU1bPKG/jCQeS4SbzaFOFkV7kSu9wWQ0m7L+wZ3IaQd7MM8eMvFH0GqrW5cB4QFwB+B6
- cHIg==
-X-Gm-Message-State: AOAM532Mm8SEiZVTQ9JxkoLHc5G6XvsCKU54u8DGtArd/ya9crD6Rbrc
- oA5PkU4r/Th2hJjZj5I/VQ==
-X-Google-Smtp-Source: ABdhPJy7og7K5vQTgkYvnb6VatKPn/a/pJ2fdNDVuTbkLT7qh9eTfyeAJZZ3a88SS/SVyOCAPN3/UA==
-X-Received: by 2002:aca:b343:: with SMTP id c64mr2676923oif.156.1610464637944; 
- Tue, 12 Jan 2021 07:17:17 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id b15sm679413otj.15.2021.01.12.07.17.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 07:17:16 -0800 (PST)
-Received: (nullmailer pid 366629 invoked by uid 1000);
- Tue, 12 Jan 2021 15:17:15 -0000
-Date: Tue, 12 Jan 2021 09:17:15 -0600
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v8 1/4] dt-bindings: display: Document the Xylon LogiCVC
- display controller
-Message-ID: <20210112151715.GA354038@robh.at.kernel.org>
-References: <20201223212947.160565-1-paul.kocialkowski@bootlin.com>
- <20201223212947.160565-2-paul.kocialkowski@bootlin.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 146A46E233;
+ Tue, 12 Jan 2021 15:54:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hD2LH2LeVpRHGhiBge/od0AnYMvbiLmwxRNGarHu5Xwe5Em4V413hWE909nTnzAUk/o+4qsBUnpNiu7hrMM+S0y1bCwpaAKxE/kPwEg4WQOWaKzFho9obAXBlzhTtyVxpmUp1/Vwk0sv5OMkaiIdpUjYdIE6vvWWF6lH1p0O6C65i8PiF4XFoDKCDZXYBayc53w5ttUivZwfB6B1xnW4fn/X8YCPeWf9En7cVHie1GuLlJPQv0cf7O0uA9uvm61e7sUgAjsBnIniGUhTdUQNwvrY3uFsQB9XtECCEnueVMBpHRdpsIrDnW8jxkDCc2BngsvUuwN8xPjAAoBs4IJ91A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9xmXuxpIuGK+ZbeDRIOMIs2gwEIEZNzkI2Rh5zG6eF8=;
+ b=dxKgF8oy+LqOQsj0YPlNWhdfLUWBHCRZKn2oKHtx1nN4l5EA4tkEu5S2JgrhrQyrVqkajJU9b2EgXJ4lTKo8JFUEmuEgcNitRiT/4f+jxJwxdidDEkLrn5/XVxDiAGsFkhdCUge8YndS5jWk77z8DzqcOeoU2OVWmL3ASn+vPRgwqkW26jUAqwoj5VMFTlNiKa1qvX0IM311DsIsMtM8CwSV4/7qZK4pXGFCT9gdT/AzfAazhd3ssjz5g7gqLakUYJ8fVBuDsrIy9ZpkHq75PBESeX08NgIkRGXKU06khXG7GBppWoI5eeKZenmH+R4XW0rMFCOgEb8j6xQxnmrZ5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9xmXuxpIuGK+ZbeDRIOMIs2gwEIEZNzkI2Rh5zG6eF8=;
+ b=cx//H+t8wudW2w4H06CaukiGgmt5BKO5X1U0mbEUSuNTutEZtxy0/AnEV51XhZo3jF2WxecqZeOLAEkt+y/0keA7FD79e9sPTkpE2O+vf0Kw7yUxYIAohxgaML2oi0mhwmcLvP7Nh2uQq/ozZJc3gowrhWE1zKIyAQxvdV+ijHM=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SA0PR12MB4541.namprd12.prod.outlook.com (2603:10b6:806:9e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Tue, 12 Jan
+ 2021 15:54:33 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::5d30:b29d:5f5b:6921]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::5d30:b29d:5f5b:6921%5]) with mapi id 15.20.3742.012; Tue, 12 Jan 2021
+ 15:54:33 +0000
+Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
+ <589ece1f-2718-87ab-ec07-4044c3df1c58@amd.com>
+ <a140ca34-9cfc-9c2f-39e2-1af156faabfe@amd.com>
+ <b73319b2-1723-6650-8d03-d8f775119e53@amd.com>
+ <29ef0c97-ac1b-a8e6-ee57-16727ff1803e@amd.com>
+ <62645d03-704f-571e-bfe6-7d992b010a08@amd.com>
+ <SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0@SN6PR12MB4623.namprd12.prod.outlook.com>
+ <X/x5RD0xQxWUYvQ3@phenom.ffwll.local> <X/x5nXM7bZDl+MWR@phenom.ffwll.local>
+ <db1e456d-8493-c94e-942e-ed19a2e1b931@amd.com>
+ <X/1niT8MNvcEwDFS@phenom.ffwll.local>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <562a80f6-e5eb-6fe4-eb73-a0e9fd9a7d91@amd.com>
+Date: Tue, 12 Jan 2021 10:54:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <X/1niT8MNvcEwDFS@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [2607:fea8:3edf:49b0:1cf9:5b19:bbcc:fe65]
+X-ClientProxiedBy: YT1PR01CA0079.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::18) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201223212947.160565-2-paul.kocialkowski@bootlin.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:1cf9:5b19:bbcc:fe65]
+ (2607:fea8:3edf:49b0:1cf9:5b19:bbcc:fe65) by
+ YT1PR01CA0079.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.9 via Frontend Transport; Tue, 12 Jan 2021 15:54:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ae9f7842-fd4a-426e-380a-08d8b7125afc
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4541:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4541E919C2AE11E462698B0EEAAA0@SA0PR12MB4541.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OQYgQSVR99An6hyF5LzLs5BS/mMvLalYtjaTjM4+PeJ06GjSbG0eE1YQgsIpDpjsM3f3E9NTKa+3J2Btxfm4w+uStmM67MGyxYG3cfmgpYR7Lwp3c9lAoXMBU1ZAZr8NRSPYc1F1Ywx/qfY/2wiB1nMeplKDqflf8XQfr3A7uvVSWS2/Fz2hbvTYmj4ta5mUszXxawXvsGmzBrfmDOXUu/TPk4+fEGv3agrX6zN2IjS823oqdYGthTU2FuYtAS4Ma6wj9a0M8gMC2sp6yxugRvKxVByezB4AhU3Z9X0mijHR0iycN6qfu2oXu3ApE82n6nYNAZr56fwg72RVaTAHszJyLIzdJOXAl7CGQEiVLLywExfGk6Mk1jjvsPuzOru6gPZ0KNFdSmcivPusbh7NBU0ZpfAz/M0Dk9XKO6vaJrPtcFeEbtt2Xadv9DLlKXwX0mJPC3+NsqEmZAs3atlFb6PkQLRtluW4pHrPpEKckh4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(2906002)(53546011)(8676002)(66476007)(6666004)(5660300002)(478600001)(7416002)(66946007)(66556008)(4326008)(6916009)(86362001)(16526019)(54906003)(6486002)(52116002)(8936002)(4744005)(36756003)(316002)(2616005)(31686004)(31696002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SkRjZFBhaWc5c3FJR3MxY3pBSEhoOXB3OEZKWWhZY2wyL2pVWU9VWHk1SWhK?=
+ =?utf-8?B?Z3pIeWxJaTlaU2xSZ0ZmRGNmcHhJQW5IRHJpa2dEOXhKUDVScVRsRHJBc1ph?=
+ =?utf-8?B?U0tmMUxrNWxGWmo0c1c4WE1xMmJoNmJpU0VUczYyY0R0WXNXbjdSci9CVUlO?=
+ =?utf-8?B?YlNzTmNZRUJXMWVnM2hVUkdvSWJ6MnUwRXltSk9ORVhHVlFCQjY5aDRiVlFU?=
+ =?utf-8?B?N1RDWFd0Q3ppUnlYZUtEUHdoNlR2SXBadXBjZXhWTjQrY25Yd0lhUlVzTVdn?=
+ =?utf-8?B?SVhFLy9GZjBvOHZac2x0NVFpUEsxclAyNnI5QStMelltZjIxckJjQTRyMGtB?=
+ =?utf-8?B?NW5PSGdmajhYUFJLbEhLcGd5RmZNbXljRDlXSlRYMm9pWVE5aWNBVE10T1N3?=
+ =?utf-8?B?ZFhrYmRPOHhMNGVuaGgzWC83WHBZNVU5T3lXenZsUW92Wmc0dWhkbWE3dGVa?=
+ =?utf-8?B?OEQzVFU2MXBrWDQ3Z09DZU9KYmpnNG1JMFFGZ1FJSEVZaGE0dTZtbEVKcXhv?=
+ =?utf-8?B?Wm5sR3hnaU1jckY0bWFUY3JWYzNlYVk1elBGYVpxNUUybmFWeTRJUlVRRm84?=
+ =?utf-8?B?SUJXZG5VYTVBYVZRNWp1Q05ydlJRWHpycmo1Zkx6c3dKSksxdldFeW5IRWdR?=
+ =?utf-8?B?QzNGb0pIU0pocHFORFEzUmN2SElFU1JWUGM2U21SaW40S2d1M1Izc1dqRWk3?=
+ =?utf-8?B?Y3FHaDRYOVRPUi83UjdrZHE4aWgzY3RIY2dsZjJLeUlsVzBiL0RFN0FIbHc1?=
+ =?utf-8?B?OUVuOFlkYnR1Q1ByQTlQV083TTRKMWduZ1lwT2Q0U2NEQzUwbktmOHlOU01q?=
+ =?utf-8?B?bzJHL05nV004YmhRaGRUdENSYU9iWFJxdExXcldvU3dxakpoMi80REludklU?=
+ =?utf-8?B?VUhiOStUbWxVYU15Y2Q4U29yYnRJdnBLYlJKZmxZN0dDcjkxeUVTQzdVRzJE?=
+ =?utf-8?B?SkkwWXNmNXpsVGdCR29hajV6YjNWelV4UVNOaUdqN0RkQTNsSXZHcUZIYm5K?=
+ =?utf-8?B?dnJXYkhFZFFFdi9kY2hNZTZLOXZpaXlKWXpEV2pmek40WVpIYWViR1VXOGlE?=
+ =?utf-8?B?TVhFS2xqMDlDem92MTRnVlFqZ28vd3VhUk12ZzAvaDZwL3hrME9XdWtDRVJ2?=
+ =?utf-8?B?aHpsNFN1aFdLNHpUZ1ZwN1FwQS9mVmNGbThnNUhudkFnK2owanRoSnJyV2lW?=
+ =?utf-8?B?clZjTmZXemVUUm1pQVhSWXhpM1VBNkFmeVlVdmt5bHdNWWl0MHp4WTFoWWVj?=
+ =?utf-8?B?dm9KcTFzTHZQS01vT0dWUERZRklIY0kvalNZd0RVUGJ1cEgyRXRUZmc5VS9I?=
+ =?utf-8?B?Q2laNGVMYUNhVE85UWdlbjE4K0tFTU5salY4VXc1R3Y5bVNkZUdrQUMvdDE2?=
+ =?utf-8?B?L3Z5VDBsNC9zdEZmYlVQZ09XUFhFakppdWwvdTJld3M1ZkVJV0FCK3NhanRq?=
+ =?utf-8?Q?ugztukQ6?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 15:54:33.5898 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae9f7842-fd4a-426e-380a-08d8b7125afc
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uKMYV4+85QrT53vk9hiI47QoRq1+2SBzFw5cZASu7ulJepbWs8/Ory7ZyYj1ndpIJE6jA/EVb+mCWeT/iL+HNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4541
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,362 +129,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, "yuq825@gmail.com" <yuq825@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 23, 2020 at 10:29:44PM +0100, Paul Kocialkowski wrote:
-> The Xylon LogiCVC is a display controller implemented as programmable
-> logic in Xilinx FPGAs.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
->  .../display/xylon,logicvc-display.yaml        | 313 ++++++++++++++++++
->  1 file changed, 313 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-> new file mode 100644
-> index 000000000000..aca78334ad2c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-> @@ -0,0 +1,313 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2019 Bootlin
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/xylon,logicvc-display.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Xylon LogiCVC display controller
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +description: |
-> +  The Xylon LogiCVC is a display controller that supports multiple layers.
-> +  It is usually implemented as programmable logic and was optimized for use
-> +  with Xilinx Zynq-7000 SoCs and Xilinx FPGAs.
-> +
-> +  Because the controller is intended for use in a FPGA, most of the
-> +  configuration of the controller takes place at logic configuration bitstream
-> +  synthesis time. As a result, many of the device-tree bindings are meant to
-> +  reflect the synthesis configuration and must not be configured differently.
-> +  Matching synthesis parameters are provided when applicable.
-> +
-> +  Layers are declared in the "layers" sub-node and have dedicated configuration.
-> +  In version 3 of the controller, each layer has fixed memory offset and address
-> +  starting from the video memory base address for its framebuffer. In version 4,
-> +  framebuffers are configured with a direct memory address instead.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - xylon,logicvc-3.02.a-display
-> +      - xylon,logicvc-4.01.a-display
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 4
-> +    items:
-> +      # vclk is required and must be provided as first item.
-> +      - const: vclk
-> +      # Other clocks are optional and can be provided in any order.
-> +      - enum:
-> +          - vclk2
-> +          - lvdsclk
-> +          - lvdsclkn
-> +      - enum:
-> +          - vclk2
-> +          - lvdsclk
-> +          - lvdsclkn
-> +      - enum:
-> +          - vclk2
-> +          - lvdsclk
-> +          - lvdsclkn
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  memory-region:
-> +    maxItems: 1
-> +
-> +  xylon,display-interface:
-> +    enum:
-> +      # Parallel RGB interface (C_DISPLAY_INTERFACE == 0)
-> +      - parallel-rgb
-> +      # ITU-T BR656 interface (C_DISPLAY_INTERFACE == 1)
-> +      - bt656
-> +      # 4-bit LVDS interface (C_DISPLAY_INTERFACE == 2)
-> +      - lvds-4bits
-> +      # 3-bit LVDS interface (C_DISPLAY_INTERFACE == 4)
-> +      - lvds-3bits
-> +      # DVI interface (C_DISPLAY_INTERFACE == 5)
-> +      - dvi
-> +    description: Display output interface (C_DISPLAY_INTERFACE).
+So - basically allocate the page and pass it as void* pointer to drmm_add_action
+with a release function which will do the free page, right ?
 
-As I mentioned before, we have standard properties for these or you know 
-the setting based on the panel/bridge attached. 
+Andrey
 
-> +
-> +  xylon,display-colorspace:
-> +    enum:
-> +      # RGB colorspace (C_DISPLAY_COLOR_SPACE == 0)
-> +      - rgb
-> +      # YUV 4:2:2 colorspace (C_DISPLAY_COLOR_SPACE == 1)
-> +      - yuv422
-> +      # YUV 4:4:4 colorspace (C_DISPLAY_COLOR_SPACE == 2)
-> +      - yuv444
-> +    description: Display output colorspace (C_DISPLAY_COLOR_SPACE).
-> +
-> +  xylon,display-depth:
-> +    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    description: Display output depth (C_PIXEL_DATA_WIDTH).
-> +
-> +  xylon,row-stride:
-> +    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    description: Fixed number of pixels in a framebuffer row (C_ROW_STRIDE).
-> +
-> +  xylon,syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      Syscon phandle representing the top-level logicvc instance, useful when
-> +      the parent node is not the top-level logicvc instance.
-
-Why do you need to support both ways? Drop this and require it to be the 
-parent node.
-
-> +
-> +  xylon,dithering:
-> +    $ref: "/schemas/types.yaml#/definitions/flag"
-> +    description: Dithering module is enabled (C_XCOLOR)
-> +
-> +  xylon,background-layer:
-> +    $ref: "/schemas/types.yaml#/definitions/flag"
-> +    description: |
-> +      The last layer is used to display a black background (C_USE_BACKGROUND).
-> +      The layer must still be registered.
-> +
-> +  xylon,layers-configurable:
-> +    $ref: "/schemas/types.yaml#/definitions/flag"
-> +    description: |
-> +      Configuration of layers' size, position and offset is enabled
-> +      (C_USE_SIZE_POSITION).
-> +
-> +  layers:
-> +    type: object
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^layer@[0-9]+$":
-> +        type: object
-> +
-> +        properties:
-> +          reg:
-> +            maxItems: 1
-> +
-> +          xylon,layer-depth:
-> +            $ref: "/schemas/types.yaml#/definitions/uint32"
-> +            description: Layer depth (C_LAYER_X_DATA_WIDTH).
-> +
-> +          xylon,layer-colorspace:
-> +            enum:
-> +              # RGB colorspace (C_LAYER_X_TYPE == 0)
-> +              - rgb
-> +              # YUV packed colorspace (C_LAYER_X_TYPE == 0)
-> +              - yuv
-> +            description: Layer colorspace (C_LAYER_X_TYPE).
-> +
-> +          xylon,layer-alpha-mode:
-> +            enum:
-> +              # Alpha is configured layer-wide (C_LAYER_X_ALPHA_MODE == 0)
-> +              - layer
-> +              # Alpha is configured per-pixel (C_LAYER_X_ALPHA_MODE == 1)
-> +              - pixel
-> +            description: Alpha mode for the layer (C_LAYER_X_ALPHA_MODE).
-> +
-> +          xylon,layer-base-offset:
-> +            $ref: "/schemas/types.yaml#/definitions/uint32"
-> +            description: |
-> +              Offset in number of lines (C_LAYER_X_OFFSET) starting from the
-> +              video RAM base (C_VMEM_BASEADDR), only for version 3.
-> +
-> +          xylon,layer-buffer-offset:
-> +            $ref: "/schemas/types.yaml#/definitions/uint32"
-> +            description: |
-> +              Offset in number of lines (C_BUFFER_*_OFFSET) starting from the
-> +              layer base offset for the second buffer used in double-buffering.
-> +
-> +          xylon,layer-primary:
-> +            $ref: "/schemas/types.yaml#/definitions/flag"
-> +            description: |
-> +              Layer should be registered as a primary plane (exactly one is
-> +              required).
-> +
-> +        additionalProperties: false
-> +
-> +        required:
-> +          - reg
-> +          - xylon,layer-depth
-> +          - xylon,layer-colorspace
-> +          - xylon,layer-alpha-mode
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - layer@0
-> +
-> +    additionalProperties: false
-> +
-> +    description: |
-> +      The description of the display controller layers, containing layer
-> +      sub-nodes that each describe a registered layer.
-> +
-> +  ports:
-> +    type: object
-
-You have to define what each port is. If only 1, then use just 'port'.
-
-We now have graph.yaml (in dt-schema). You need to reference that here. 
-See drm-misc-next as everything has been converted.
-
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - xylon,display-interface
-> +  - xylon,display-colorspace
-> +  - xylon,display-depth
-> +  - xylon,row-stride
-> +  - layers
-> +  - ports
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    logicvc: logicvc@43c00000 {
-> +      compatible = "xylon,logicvc-3.02.a", "syscon", "simple-mfd";
-> +      reg = <0x43c00000 0x6000>;
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <1>;
-> +
-> +      logicvc_display: display@0 {
-> +        compatible = "xylon,logicvc-3.02.a-display";
-> +        reg = <0x0 0x6000>;
-> +
-> +        memory-region = <&logicvc_cma>;
-> +
-> +        clocks = <&logicvc_vclk 0>, <&logicvc_lvdsclk 0>;
-> +        clock-names = "vclk", "lvdsclk";
-> +
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <0 34 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +        xylon,display-interface = "lvds-4bits";
-> +        xylon,display-colorspace = "rgb";
-> +        xylon,display-depth = <16>;
-> +        xylon,row-stride = <1024>;
-> +
-> +        xylon,layers-configurable;
-> +
-> +        layers {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          layer@0 {
-> +            reg = <0>;
-> +            xylon,layer-depth = <16>;
-> +            xylon,layer-colorspace = "rgb";
-> +            xylon,layer-alpha-mode = "layer";
-> +            xylon,layer-base-offset = <0>;
-> +            xylon,layer-buffer-offset = <480>;
-> +            xylon,layer-primary;
-> +          };
-> +
-> +          layer@1 {
-> +            reg = <1>;
-> +            xylon,layer-depth = <16>;
-> +            xylon,layer-colorspace = "rgb";
-> +            xylon,layer-alpha-mode = "layer";
-> +            xylon,layer-base-offset = <2400>;
-> +            xylon,layer-buffer-offset = <480>;
-> +          };
-> +
-> +          layer@2 {
-> +            reg = <2>;
-> +            xylon,layer-depth = <16>;
-> +            xylon,layer-colorspace = "rgb";
-> +            xylon,layer-alpha-mode = "layer";
-> +            xylon,layer-base-offset = <960>;
-> +            xylon,layer-buffer-offset = <480>;
-> +          };
-> +
-> +          layer@3 {
-> +            reg = <3>;
-> +            xylon,layer-depth = <16>;
-> +            xylon,layer-colorspace = "rgb";
-> +            xylon,layer-alpha-mode = "layer";
-> +            xylon,layer-base-offset = <480>;
-> +            xylon,layer-buffer-offset = <480>;
-> +          };
-> +
-> +          layer@4 {
-> +            reg = <4>;
-> +            xylon,layer-depth = <16>;
-> +            xylon,layer-colorspace = "rgb";
-> +            xylon,layer-alpha-mode = "layer";
-> +            xylon,layer-base-offset = <8192>;
-> +            xylon,layer-buffer-offset = <480>;
-> +          };
-> +        };
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          logicvc_out: port@1 {
-> +            reg = <1>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            logicvc_output: endpoint@0 {
-> +              reg = <0>;
-> +              remote-endpoint = <&panel_input>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> -- 
-> 2.29.2
-> 
+On 1/12/21 4:10 AM, Daniel Vetter wrote:
+> drm_add_action_or_reset (for better control flow) has both a void * data
+> and a cleanup function (and it internally allocates the tracking structure
+> for that for you). So should work as-is? Allocating a tracking structure
+> for our tracking structure for a page would definitely be a bit too much.
+>
+> Essentiall drmm_add_action is your kcalloc_with_action function you want,
+> as long as all you need is a single void * pointer (we could do the
+> kzalloc_with_action though, there's enough space, just no need yet for any
+> of the current users).
+> -Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
