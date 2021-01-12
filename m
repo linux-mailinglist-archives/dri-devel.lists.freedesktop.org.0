@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEFC2F463A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 738DF2F4625
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33BD6E11C;
-	Wed, 13 Jan 2021 08:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A6A6E0EF;
+	Wed, 13 Jan 2021 08:21:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF4EF892AE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:14:53 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id s26so4755482lfc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:14:53 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7532894D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:14:54 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id u25so4801248lfc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:14:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=msnFgTIvhBhJ/63vki9LgWjLm9F05aUy7cZgdK84yvM=;
- b=s9eohj9LLXJ388upYnETYopHeoP6jkpD7tpGsDWcPe7X45I9JjcFNzQuaImJRSOird
- atbeyd8cIQFWmEDNSrHPFOLDAdE9ozyBvdB5rWYQ1hdryS4idjdqjVZ2IiM7pNxIm+EQ
- w9euvLM/I4pBFyXyeh/3WLoT/Z3nKklcjsf9fxJDhLUGIebaqpPmos85/StATf0VPMDU
- gsgm66NSUdSSr6qs+nYS9fG/maI0CtrYqtTRIi0PbGSRBBZu4gK8k/YHTLWZ4WRoyT1S
- 9b6Ex+LclRNwTq1paKD/k0HMmYdfOIwzkTMpMGj4s05sd4FhyxOzw95zdtKl4VUp6PBT
- J1sA==
+ bh=EhvpCXfXEGgbj1XNgFmk5csruT29p6F6IHATsZnGuB0=;
+ b=saLNy4wrApcawB8BTgH8PDwcACYsJuO/sT58oEcMHmB4ix9U67QEkcsamzOrZC4Q98
+ frmIKv2vNJ8d0ftt7CNMI7Eu0BKxAdQbKEcj0bXnhaxpq8ioPo0FoPD30dVroRE4+lgE
+ BDGDQ3wuvILPrfsieF1PeRPJj1e2PtkHlvoeb+BImaqxp2/1QZ2O5WtnY0znouqcWBxw
+ RdDAko/K6AT9ZlqYNdVY92fIjcUKXzdid8Cdw/Qit8+ceS7nCxHu8F0s0rjn+w1Pebr+
+ Pq/ANxpHexVKXru4Es9hYpLBxtKtpadOOogkLu2Q0rLX9MvLc8z5tQHCEvN/ZU+wVCcd
+ vVrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=msnFgTIvhBhJ/63vki9LgWjLm9F05aUy7cZgdK84yvM=;
- b=iOeeSAwvxseJMPsGR3RmEOgGXMMhwolOF+xwnlirhrIY8jZ+i4nGAHkxXpzfz0dExp
- EIetaj7cbF+Zdqde8luLUmUmKqFqDpfwQemUcl5hyUEYIQlgE8tnHRGV0ybEjrYRvCw7
- quE0wwmyzH2NUIYd+pnTxbZq+UCP4O67RJAoCUggwejFmMwwXsjMociq+xFaNQsJNrve
- uiPZqCgF5vbwANcyeJRF+Edp3u2UrM+Fz4PtMhAgKsnNyT2t8dIA7CErmMKNjLcpTDcV
- Rvlj8/VfvZIHeP/6gqlP3UVD0gwh0+jqyQIo2qRNDYOI+8AdvGjVaGQeN09In0da6xPN
- n/Rw==
-X-Gm-Message-State: AOAM533fYy4/wVrbwtcq2DV6euyOcl5WIr9vknGchOvqijeS+vI3NIxe
- 0fRqym2kwAx0Ozqt19zQCDQ=
-X-Google-Smtp-Source: ABdhPJwhiKXJCkbclv5OM1o5nyJwcIx7TRfjiuG6ec10XAs1n/7v4CYEEXjaHxagqXQV7+Abkxmegg==
-X-Received: by 2002:a19:385e:: with SMTP id d30mr75450lfj.187.1610475292261;
- Tue, 12 Jan 2021 10:14:52 -0800 (PST)
+ bh=EhvpCXfXEGgbj1XNgFmk5csruT29p6F6IHATsZnGuB0=;
+ b=DvuJpVb1bx8DOEb8V6zz6iVgLv+YPC8ql66CIs1XQxaV+vR+SJ3oEW14DQ/Ul2VtX4
+ E5mbziRaTDCAaKZgW4cm2WZ4jG1iIDBlRzOAvR1Zqprneq31hIcFeMK9YJ2jOhtcLhrl
+ 5DC1y7whhoXCGKODC9/EO0kF+O9ootOF1eWMBT0GBqND7kD7taS2AVrZXXE5LXProvXg
+ mYoPned5mNy8PG+uzdf8X1HM77QRntAI2Gc/IJUMOyxBNEs8HVgasA4be4qwWLZorItb
+ 5g7qaPauur0uY2YT2yIsgWv7FtUxfh52wSXrTNtsNY5NXZrPt2hFEiqc8sfpFrsA1ktD
+ rTYw==
+X-Gm-Message-State: AOAM531kKeybKrtHTxRycNsTTMCKwShaNOcKIG5ZLfOaOtI/cSOhSmxH
+ HnE5sQsLnQX/Rz2Xip6SrZE=
+X-Google-Smtp-Source: ABdhPJx49e3mU5MGwu0rz7h3L5r7xsREqFiHciTjzQWB50fOLe08nTBrky2LB3Y0lLMj+cm0VdI+fg==
+X-Received: by 2002:a05:6512:21a5:: with SMTP id
+ c5mr64558lft.423.1610475293102; 
+ Tue, 12 Jan 2021 10:14:53 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
  [109.252.192.57])
- by smtp.gmail.com with ESMTPSA id r8sm417420ljd.140.2021.01.12.10.14.51
+ by smtp.gmail.com with ESMTPSA id r8sm417420ljd.140.2021.01.12.10.14.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:14:51 -0800 (PST)
+ Tue, 12 Jan 2021 10:14:52 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Anton Bambura <jenneron@protonmail.com>
-Subject: [PATCH v1 2/3] drm/tegra: gr2d: Correct swapped device-tree
- compatibles
-Date: Tue, 12 Jan 2021 21:14:20 +0300
-Message-Id: <20210112181421.21293-3-digetx@gmail.com>
+Subject: [PATCH v1 3/3] drm/tegra: gr2d: Add compatible for Tegra114
+Date: Tue, 12 Jan 2021 21:14:21 +0300
+Message-Id: <20210112181421.21293-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112181421.21293-1-digetx@gmail.com>
 References: <20210112181421.21293-1-digetx@gmail.com>
@@ -77,31 +77,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device-tree compatibles are swapped in the code, correct them.
+Tegra114 has GR2D hardware block, support it by the 2D driver.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com>
-Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-Tested-by: Matt Merhar <mattmerhar@protonmail.com>
+Tested-by: Anton Bambura <jenneron@protonmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/gr2d.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tegra/drm.c  | 1 +
+ drivers/gpu/drm/tegra/gr2d.c | 5 +++++
+ 2 files changed, 6 insertions(+)
 
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index e24e05a47197..47e7945dbc3b 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1318,6 +1318,7 @@ static const struct of_device_id host1x_drm_subdevs[] = {
+ 	{ .compatible = "nvidia,tegra114-dc", },
+ 	{ .compatible = "nvidia,tegra114-dsi", },
+ 	{ .compatible = "nvidia,tegra114-hdmi", },
++	{ .compatible = "nvidia,tegra114-gr2d", },
+ 	{ .compatible = "nvidia,tegra114-gr3d", },
+ 	{ .compatible = "nvidia,tegra124-dc", },
+ 	{ .compatible = "nvidia,tegra124-sor", },
 diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
-index 1a0d3ba6e525..f30aa86e4c9f 100644
+index f30aa86e4c9f..adbe2ddcda19 100644
 --- a/drivers/gpu/drm/tegra/gr2d.c
 +++ b/drivers/gpu/drm/tegra/gr2d.c
-@@ -162,8 +162,8 @@ static const struct gr2d_soc tegra30_gr2d_soc = {
+@@ -161,7 +161,12 @@ static const struct gr2d_soc tegra30_gr2d_soc = {
+ 	.version = 0x30,
  };
  
++static const struct gr2d_soc tegra114_gr2d_soc = {
++	.version = 0x35,
++};
++
  static const struct of_device_id gr2d_match[] = {
--	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra20_gr2d_soc },
--	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra30_gr2d_soc },
-+	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra30_gr2d_soc },
-+	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra20_gr2d_soc },
++	{ .compatible = "nvidia,tegra114-gr2d", .data = &tegra114_gr2d_soc },
+ 	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra30_gr2d_soc },
+ 	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra20_gr2d_soc },
  	{ },
- };
- MODULE_DEVICE_TABLE(of, gr2d_match);
 -- 
 2.29.2
 
