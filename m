@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AD62F2AF5
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:17:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304F72F2AFC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46406E182;
-	Tue, 12 Jan 2021 09:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B073F6E188;
+	Tue, 12 Jan 2021 09:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B63D36E182
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:17:13 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id t30so1689940wrb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:17:13 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98246E196
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:18:31 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id y17so1638385wrr.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=BkFPPAMUp2t1YrBY41qrS/Q9HpIRZgTIhFUpfiEfe3I=;
- b=cnwEUlV2QnvwNPkrS3zUaCdwjmeHQOssIIjMjbPTgCx7ymC6qa2UuAHdpQUkF7hMSu
- KSdMe9AaLfIe2eAvAxK6jNSO+4SAAKFPYG+xFYpsQ5xPpcXVnRpWpp5VWcxXOb2V4+62
- Rde1SXCDtujP5MblELcIKnpJEUx6jUPagkjrs=
+ bh=f87gsBH+2KVPSXH+nJ57D/wr8V36ShZYd9Y32P2PsAI=;
+ b=L9PD95tk5asxdssK6FkNUeFcgsqydu6mtFz7vR4nbPey+cT4DVDf1WOKiZnUpp9ZmD
+ KSR1HLU8hPuhCV2Tu/oae5ICSkF66dtiOQoloary4PJs7XVuY+mJlt+AkwWC0AMBO2yj
+ Vv5NWY4NyUzYbwzc2w+TXriscEZFAYX3fd0OQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=BkFPPAMUp2t1YrBY41qrS/Q9HpIRZgTIhFUpfiEfe3I=;
- b=T9mzucqmZxSiWA9r3N+OCGDe+El85jTTxfE9mgE07T6n7DMF1P8lSX9oreCzPxuf8/
- wlWRkCKEK07mvCXeOPOYd12W8ubjJs8k63nsU9EM4cMLcKOfDr+Pd6yMSKUXIsTJ81Rk
- 7u/gmYk/GDxg9g1iqftW75KZ0iHA2+wSqgJBaJ2KhdR1y7c2RSAUdnzPaLHEYNiskZ9s
- M0fQAaa+3Kymr2yz1ej7JNzD+jGpdHRJqCXtwxph0HFPhaKbAkySLdRnf0uXUpdP9cND
- 4ktaEpuVtz9/xOa3tXRv2K2FIqKD3mXQu6RbjCcPeBF24oHNonbuLSfmhpGGyeUaalQL
- jLzw==
-X-Gm-Message-State: AOAM532srHAcydlwuUL8O1E13jJPM+VZwE8I4US+ikv1DGFjz2WjGI5d
- Tb3T2DJZtDUshDSpoHx3RDntGw==
-X-Google-Smtp-Source: ABdhPJx/V56gELooyGmDglikPZdA+XTA2xRFVdYCGu7EQxYoL6V/sTE/BkKNN5kG9dRt4iF6SIVi8g==
-X-Received: by 2002:a5d:558a:: with SMTP id i10mr3256036wrv.363.1610443032442; 
- Tue, 12 Jan 2021 01:17:12 -0800 (PST)
+ bh=f87gsBH+2KVPSXH+nJ57D/wr8V36ShZYd9Y32P2PsAI=;
+ b=cz+rHtR8tUW+0mWyyjDo6O39QI1rpuzDKLgP/z+VVIXXiSCWxXiNXI5jrhosakTygG
+ bhcjksMluPt/FMKpcGCKQkL1S9TCLCJtjUlQJQ0v8mqR3xwP3+Tw8uYlBukh+O+FMfgM
+ bnLTTEEjxMBBZtmmT61O8nCNUyUD9W+WZT6F/C+Nf3AVO7PWVHA8tdlCT7pkx9HOab8I
+ 9S2pv4TGHL0WoyYKhvFK5OOrdHCawn0QHi0LLZgB7pQlos8sdgnYV4TVIhKJmen/UYQW
+ CTvSUEAu/MUc+SwkZ9UjkFbEI07Q2dT4Z6uGESZv8Wo9qpomx/ocR+Hr8y5+WuMP6+/j
+ g0xw==
+X-Gm-Message-State: AOAM531GHVseI4lvMtXLmG4RvuUPKQ0rlAWrdm/LvujHeqBxdebYgRUq
+ XChjuJjGaCkG0jGPFFHipOlkyw==
+X-Google-Smtp-Source: ABdhPJyjVF9IanPechzGYbhoKCcezn8CSCB/pz1NPBPsHDY7evJDL6obrdoAtEpS5Tk7EHgD8iE+Qw==
+X-Received: by 2002:a5d:528a:: with SMTP id c10mr3189848wrv.117.1610443110667; 
+ Tue, 12 Jan 2021 01:18:30 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm3810117wrv.44.2021.01.12.01.17.11
+ by smtp.gmail.com with ESMTPSA id g191sm3121403wmg.39.2021.01.12.01.18.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 01:17:11 -0800 (PST)
-Date: Tue, 12 Jan 2021 10:17:09 +0100
+ Tue, 12 Jan 2021 01:18:29 -0800 (PST)
+Date: Tue, 12 Jan 2021 10:18:28 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-Message-ID: <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
- <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH v2] drm: Check actual format for legacy pageflip.
+Message-ID: <X/1pZISyZm6xfQ+6@phenom.ffwll.local>
+References: <20210110021142.28221-1-bas@basnieuwenhuizen.nl>
+ <CADnq5_OVtCubsGP=-=q-hYJ3e6a3=pozi7ZhDiqdUkUKLCiwMg@mail.gmail.com>
+ <CAP+8YyGAuYW+qOCDmQR+_X0y-jC5sKoxm+k7V8YrAEaTM942dA@mail.gmail.com>
+ <CADnq5_PZ_yE-K6BzgcSUhOZ_b9nhWpbj7nau2ZopxMLa7igpQA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
+In-Reply-To: <CADnq5_PZ_yE-K6BzgcSUhOZ_b9nhWpbj7nau2ZopxMLa7igpQA@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,142 +68,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com, kraxel@redhat.com,
- airlied@redhat.com, virtualization@lists.linux-foundation.org, sean@poorly.run,
- linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Zhan Liu <zhan.liu@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 12, 2021 at 08:54:02AM +0100, Thomas Zimmermann wrote:
-> Hi
+On Mon, Jan 11, 2021 at 04:28:31PM -0500, Alex Deucher wrote:
+> On Mon, Jan 11, 2021 at 11:39 AM Bas Nieuwenhuizen
+> <bas@basnieuwenhuizen.nl> wrote:
+> >
+> > On Mon, Jan 11, 2021 at 4:02 PM Alex Deucher <alexdeucher@gmail.com> wr=
+ote:
+> > >
+> > > On Sat, Jan 9, 2021 at 9:11 PM Bas Nieuwenhuizen
+> > > <bas@basnieuwenhuizen.nl> wrote:
+> > > >
+> > > > With modifiers one can actually have different format_info structs
+> > > > for the same format, which now matters for AMDGPU since we convert
+> > > > implicit modifiers to explicit modifiers with multiple planes.
+> > > >
+> > > > I checked other drivers and it doesn't look like they end up trigge=
+ring
+> > > > this case so I think this is safe to relax.
+> > > >
+> > > > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > Reviewed-by: Zhan Liu <zhan.liu@amd.com>
+> > > > Acked-by: Christian K=F6nig <christian.koenig@amd.com>
+> > > > Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> > > > Fixes: 816853f9dc40 ("drm/amd/display: Set new format info for conv=
+erted metadata.")
+> > >
+> > > Do you have commit rights to drm-misc or do you need someone to commit
+> > > this for you?
+> >
+> > I don't have commit rights so if the patch could be committed for me
+> > that would be appreciated!
 > =
 
-> Am 11.01.21 um 18:06 schrieb Daniel Vetter:
-> > On Fri, Jan 08, 2021 at 10:43:38AM +0100, Thomas Zimmermann wrote:
-> > > Cursor updates in vboxvideo require a short-term mapping of the
-> > > source BO. Use drm_gem_vram_vmap_local() and avoid the pinning
-> > > operations.
-> > > =
-
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > =
-
-> > All these drivers patches break the dma_resv_lock vs
-> > dma_fence_begin/end_signalling nesting rules, so this doesn't work.
-> > =
-
-> > Generally this is what the prepare/cleanup_fb hooks are for, that's whe=
-re
-> > mappings (including vmaps) are meant to be set up, permanently.
-> > =
-
-> > I'm kinda not clear on why we need all these changes, I thought the
-> > locking problem is just in the fb helper paths, because it's outside of
-> > the atomic path and could conflict with an atomic update at the same ti=
-me?
-> > So only that one should get the vmap_local treatment, everything else
-> > should keep the normal vmap treatment.
+> Pushed to drm-misc-fixes.  Thanks!
 > =
 
-> Kind of responding to all your comment on the driver changes:
-> =
+> If you want access to drm-misc, I don't see any reason you shouldn't have=
+ it.
 
-> These drivers only require short-term mappings, so using vmap_local would=
- be
-> the natural choice. For SHMEM helpers, it's mostly a cosmetic thing. For
-> VRAM helpers, I was hoping to remove the vmap/vunmap helpers entirely. One
-> cannot really map the BOs for the long-term, so not having the helpers at
-> all would make sense.
-> =
+There's some old-school bash tooling involved since we're (not yet, I can
+hope) doing gitlab MR:
 
-> But reading all your comments on the driver patches, I'd rather not update
-> the drivers here but later convert them to use prepare_fb/cleanup_fb in t=
-he
-> correct way.
+https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
 
-Ack from me on this plan. I think I got all the other patches with an r-b
-or ack?
+Otherwise makes sense imo.
 -Daniel
 
 > =
 
-> Best regards
-> Thomas
+> Alex
 > =
-
-> > -Daniel
-> > > ---
-> > >   drivers/gpu/drm/vboxvideo/vbox_mode.c | 15 +++++++++------
-> > >   1 file changed, 9 insertions(+), 6 deletions(-)
-> > > =
-
-> > > diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/=
-vboxvideo/vbox_mode.c
-> > > index dbc0dd53c69e..215b37c78c10 100644
-> > > --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-> > > +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-> > > @@ -381,7 +381,8 @@ static void vbox_cursor_atomic_update(struct drm_=
-plane *plane,
-> > >   		container_of(plane->dev, struct vbox_private, ddev);
-> > >   	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc);
-> > >   	struct drm_framebuffer *fb =3D plane->state->fb;
-> > > -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
-> > > +	struct drm_gem_object *obj =3D fb->obj[0];
-> > > +	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(obj);
-> > >   	u32 width =3D plane->state->crtc_w;
-> > >   	u32 height =3D plane->state->crtc_h;
-> > >   	size_t data_size, mask_size;
-> > > @@ -401,11 +402,12 @@ static void vbox_cursor_atomic_update(struct dr=
-m_plane *plane,
-> > >   	vbox_crtc->cursor_enabled =3D true;
-> > > -	ret =3D drm_gem_vram_vmap(gbo, &map);
-> > > +	ret =3D dma_resv_lock(obj->resv, NULL);
-> > > +	if (ret)
-> > > +		return;
-> > > +	ret =3D drm_gem_vram_vmap_local(gbo, &map);
-> > >   	if (ret) {
-> > > -		/*
-> > > -		 * BUG: we should have pinned the BO in prepare_fb().
-> > > -		 */
-> > > +		dma_resv_unlock(obj->resv);
-> > >   		mutex_unlock(&vbox->hw_mutex);
-> > >   		DRM_WARN("Could not map cursor bo, skipping update\n");
-> > >   		return;
-> > > @@ -421,7 +423,8 @@ static void vbox_cursor_atomic_update(struct drm_=
-plane *plane,
-> > >   	data_size =3D width * height * 4 + mask_size;
-> > >   	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size=
-);
-> > > -	drm_gem_vram_vunmap(gbo, &map);
-> > > +	drm_gem_vram_vunmap_local(gbo, &map);
-> > > +	dma_resv_unlock(obj->resv);
-> > >   	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
-> > >   		VBOX_MOUSE_POINTER_ALPHA;
-> > > -- =
-
-> > > 2.29.2
-> > > =
-
-> > =
 
 > =
 
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
+> > >
+> > > Thanks!
+> > >
+> > > Alex
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/drm_plane.c | 9 ++++++++-
+> > > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plan=
+e.c
+> > > > index e6231947f987..a0cb746bcb0a 100644
+> > > > --- a/drivers/gpu/drm/drm_plane.c
+> > > > +++ b/drivers/gpu/drm/drm_plane.c
+> > > > @@ -1163,7 +1163,14 @@ int drm_mode_page_flip_ioctl(struct drm_devi=
+ce *dev,
+> > > >         if (ret)
+> > > >                 goto out;
+> > > >
+> > > > -       if (old_fb->format !=3D fb->format) {
+> > > > +       /*
+> > > > +        * Only check the FOURCC format code, excluding modifiers. =
+This is
+> > > > +        * enough for all legacy drivers. Atomic drivers have their=
+ own
+> > > > +        * checks in their ->atomic_check implementation, which will
+> > > > +        * return -EINVAL if any hw or driver constraint is violate=
+d due
+> > > > +        * to modifier changes.
+> > > > +        */
+> > > > +       if (old_fb->format->format !=3D fb->format->format) {
+> > > >                 DRM_DEBUG_KMS("Page flip is not allowed to change f=
+rame buffer format.\n");
+> > > >                 ret =3D -EINVAL;
+> > > >                 goto out;
+> > > > --
+> > > > 2.29.2
+> > > >
+> > > > _______________________________________________
+> > > > amd-gfx mailing list
+> > > > amd-gfx@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
 -- =
 
