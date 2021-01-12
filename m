@@ -2,53 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62972F2AD0
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C532F2ADB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A85F6E16D;
-	Tue, 12 Jan 2021 09:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6FF6E17B;
+	Tue, 12 Jan 2021 09:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C5E6E16D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:10:37 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id q18so1656754wrn.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:10:37 -0800 (PST)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94216E171
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:13:53 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id d203so1675636oia.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:13:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=O6sBsy2mXrzSsZgD+zsgzajVilwjgxGqKDzmfyk52Hk=;
- b=K/3EDgRwyTlaN1IBFnjNQO2K7iO2YzP4f0M8/WXfFDkhyKHRsivSBctQzwoyORBnDS
- NPd/sQ2qNJYs6yW+8NnW8sPGuF50nYjDyeuysS5F9JlyxmIi/t+onX4rMGhPSkljyygR
- hmYOHbXunXgpKdUNQdLpbASAU2FaUkiQ5PoZM=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1HaggRQy5fyTk3oIn8MDa/AY4B4Q68rI+mGwg9cUQtI=;
+ b=fDeDUBfH8K3wLY7jMdK4am3DcgyoQzTiOiPb5Gy6gev1Ys9vyRJEyP8Dhd2em1OZr0
+ mCedru06nUnXXZCL//N5+0THpbiNO7idQ5dB0G48TDcE0bbNZA1FKnM73pLlFRh8XB8f
+ rxY7LvFRjJNo3c2rZ3czpMSN7jVHHoR8M1fZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=O6sBsy2mXrzSsZgD+zsgzajVilwjgxGqKDzmfyk52Hk=;
- b=fgSLCCVKiskoMDpMTQ2pFUxHDZmS9c1ruCKmUDAHQDeJolXRQRNrqIcGXyb2WEAalL
- Dp5JV+WXrtIjlVS6P0iiQPmTpBmudPTRNwHaxydx4UPwH847xuidXjsCZcvfnypWZ5Cs
- Q/Wm2W2TsWEzA9wfOAURTZeflQ7J18tcFwsHpReIWuXJoLvowaAyxb2xNaTvzARnKm1b
- b02A2WmFCETrONAKSBpawNllyOZYjJsVw5XeD80kd1+oMPDHiotHRHGpu8aEoBcco2kZ
- jPl9NIYO2tTwmMZOVgBiEqBuQQ/Aj2q8cnEDLBSJqa1bUWPDFNPgFt8zNgAHghGdgbMg
- pl+Q==
-X-Gm-Message-State: AOAM531wpdZECPaCHmGBLGYk0J4s7O5RLKHTHJqrXmusIcs/bWKPUIpb
- 8L7Zwrkfv/u2P+/jpXafeHdv6g==
-X-Google-Smtp-Source: ABdhPJwA0gauqF7x1nhRoB9Q7cVU41RgM7oHp9f0APzrZzwrHsSia5WsM6MjiMPfdgdTdDAIVEUEhA==
-X-Received: by 2002:a5d:6a4c:: with SMTP id t12mr3161471wrw.249.1610442636437; 
- Tue, 12 Jan 2021 01:10:36 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q73sm3089252wme.44.2021.01.12.01.10.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 01:10:35 -0800 (PST)
-Date: Tue, 12 Jan 2021 10:10:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
-Message-ID: <X/1niT8MNvcEwDFS@phenom.ffwll.local>
-References: <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1HaggRQy5fyTk3oIn8MDa/AY4B4Q68rI+mGwg9cUQtI=;
+ b=DB2pK16qiFOEHf3rwgfooZw3Uqzz0TtGklVVG7psytrNvJ6vfF+cozfPa7/Ic2CegU
+ bY16dNK57aiW5819XQ4I6VGCoOStpMq7w25/uwAs9R/eeJUkNs0dWIGHH/nRFU2ARhw0
+ qgsw/d7G6nj4RKF0tyqxkegg5ay+RkZpUqyqqE6WHesDbMuQAO7epT+ggpeVlqKRYqxe
+ o5YzPIWK1SRzeKSX5EBk652fXHCxtjkZkX4Rljg2qAQa/BSwmpQCxgKXEjQ2pz33ICp2
+ kO8pbtpKdzH0xJ4+XxT3/A9xcLB3uopXBjlGTNRXat3/ciG80lpAnSYTy7Y5iNEnXGGb
+ P9vw==
+X-Gm-Message-State: AOAM530gzh9L2wFFrPMdJkDWLVcvkI35VRLEyvkKVgajZ+MpKPE0tcvg
+ 0luy5P3C9ehI9H0184kBO+K2rfnJsNExOZgcVyS4ow==
+X-Google-Smtp-Source: ABdhPJyy/00ITAJbP9FaJUdb/44h4IcWXhBJ3FAVSZAcQCKRHzRrlhNekC2G4SS2cldSixI/Rwc6LM15TGhyZKi8e3o=
+X-Received: by 2002:aca:54d8:: with SMTP id i207mr1746819oib.101.1610442833199; 
+ Tue, 12 Jan 2021 01:13:53 -0800 (PST)
+MIME-Version: 1.0
+References: <f374aaa4-4a30-e60c-cd4b-d463443c1137@amd.com>
+ <X/c1IXX11chjHyl4@phenom.ffwll.local>
+ <75c8a6f3-1e71-3242-6576-c0e661d6a62f@amd.com>
+ <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
  <589ece1f-2718-87ab-ec07-4044c3df1c58@amd.com>
  <a140ca34-9cfc-9c2f-39e2-1af156faabfe@amd.com>
  <b73319b2-1723-6650-8d03-d8f775119e53@amd.com>
@@ -56,12 +50,13 @@ References: <X/c3PKL70HXBt3Jk@phenom.ffwll.local>
  <62645d03-704f-571e-bfe6-7d992b010a08@amd.com>
  <SN6PR12MB46235A1D04FDF4BBD9E60F94EAAE0@SN6PR12MB4623.namprd12.prod.outlook.com>
  <X/x5RD0xQxWUYvQ3@phenom.ffwll.local>
- <X/x5nXM7bZDl+MWR@phenom.ffwll.local>
- <db1e456d-8493-c94e-942e-ed19a2e1b931@amd.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <db1e456d-8493-c94e-942e-ed19a2e1b931@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+ <99bae58b-dde2-bd46-5944-a89b106a6ae0@amd.com>
+In-Reply-To: <99bae58b-dde2-bd46-5944-a89b106a6ae0@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 12 Jan 2021 10:13:41 +0100
+Message-ID: <CAKMK7uGJuOGKYNwLGhmumqS26HCCKoiuKLk+bzkcR2gTrdCh=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM object
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,319 +69,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "yuq825@gmail.com" <yuq825@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ "yuq825@gmail.com" <yuq825@gmail.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 03:45:10PM -0500, Andrey Grodzovsky wrote:
-> =
-
-> On 1/11/21 11:15 AM, Daniel Vetter wrote:
-> > On Mon, Jan 11, 2021 at 05:13:56PM +0100, Daniel Vetter wrote:
-> > > On Fri, Jan 08, 2021 at 04:49:55PM +0000, Grodzovsky, Andrey wrote:
-> > > > Ok then, I guess I will proceed with the dummy pages list implement=
-ation then.
-> > > > =
-
-> > > > Andrey
-> > > > =
-
-> > > > ________________________________
-> > > > From: Koenig, Christian <Christian.Koenig@amd.com>
-> > > > Sent: 08 January 2021 09:52
-> > > > To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Daniel Vetter <=
-daniel@ffwll.ch>
-> > > > Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; =
-dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; daniel.v=
-etter@ffwll.ch <daniel.vetter@ffwll.ch>; robh@kernel.org <robh@kernel.org>;=
- l.stach@pengutronix.de <l.stach@pengutronix.de>; yuq825@gmail.com <yuq825@=
-gmail.com>; eric@anholt.net <eric@anholt.net>; Deucher, Alexander <Alexande=
-r.Deucher@amd.com>; gregkh@linuxfoundation.org <gregkh@linuxfoundation.org>=
-; ppaalanen@gmail.com <ppaalanen@gmail.com>; Wentland, Harry <Harry.Wentlan=
-d@amd.com>
-> > > > Subject: Re: [PATCH v3 01/12] drm: Add dummy page per device or GEM=
- object
-> > > > =
-
-> > > > Mhm, I'm not aware of any let over pointer between TTM and GEM and =
-we
-> > > > worked quite hard on reducing the size of the amdgpu_bo, so another
-> > > > extra pointer just for that corner case would suck quite a bit.
-> > > We have a ton of other pointers in struct amdgpu_bo (or any of it's l=
-ower
-> > > things) which are fairly single-use, so I'm really not much seeing the
-> > > point in making this a special case. It also means the lifetime manag=
-ement
-> > > becomes a bit iffy, since we can't throw away the dummy page then the=
- last
-> > > reference to the bo is released (since we don't track it there), but =
-only
-> > > when the last pointer to the device is released. Potentially this mea=
-ns a
-> > > pile of dangling pages hanging around for too long.
-> > Also if you really, really, really want to have this list, please don't
-> > reinvent it since we have it already. drmm_ is exactly meant for resour=
-ces
-> > that should be freed when the final drm_device reference disappears.
-> > -Daniel
-> =
-
-> =
-
-> I maybe was eager to early, see i need to explicitly allocate the dummy p=
-age
-> using page_alloc so
-> i cannot use drmm_kmalloc for this, so once again like with the list i ne=
-ed
-> to wrap it with a container struct
-> which i can then allocate using drmm_kmalloc and inside there will be page
-> pointer. But then
-> on release it needs to free the page and so i supposedly need to use drmm=
-_add_action
-> to free the page before the container struct is released but drmm_kmalloc
-> doesn't allow to set
-> release action on struct allocation. So I created a new
-> drmm_kmalloc_with_action API function
-> but then you also need to supply the optional data pointer for the release
-> action (the struct page in this case)
-> and so this all becomes a bit overcomplicated (but doable). Is this extra
-> API worth adding ? Maybe it can
-> be useful in general.
-
-drm_add_action_or_reset (for better control flow) has both a void * data
-and a cleanup function (and it internally allocates the tracking structure
-for that for you). So should work as-is? Allocating a tracking structure
-for our tracking structure for a page would definitely be a bit too much.
-
-Essentiall drmm_add_action is your kcalloc_with_action function you want,
-as long as all you need is a single void * pointer (we could do the
-kzalloc_with_action though, there's enough space, just no need yet for any
-of the current users).
--Daniel
-
-> =
-
-> Andrey
-> =
-
-> =
-
-> =
-
-> > > If you need some ideas for redundant pointers:
-> > > - destroy callback (kinda not cool to not have this const anyway), we
-> > >    could refcount it all with the overall gem bo. Quite a bit of work.
-> > > - bdev pointer, if we move the device ttm stuff into struct drm_devic=
-e, or
-> > >    create a common struct ttm_device, we can ditch that
-> > > - We could probably merge a few of the fields and find 8 bytes somewh=
-ere
-> > > - we still have 2 krefs, would probably need to fix that before we can
-> > >    merge the destroy callbacks
-> > > =
-
-> > > So there's plenty of room still, if the size of a bo struct is really=
- that
-> > > critical. Imo it's not.
-> > > =
-
-> > > =
-
-> > > > Christian.
-> > > > =
-
-> > > > Am 08.01.21 um 15:46 schrieb Andrey Grodzovsky:
-> > > > > Daniel had some objections to this (see bellow) and so I guess I =
-need
-> > > > > you both to agree on the approach before I proceed.
-> > > > > =
-
-> > > > > Andrey
-> > > > > =
-
-> > > > > On 1/8/21 9:33 AM, Christian K=F6nig wrote:
-> > > > > > Am 08.01.21 um 15:26 schrieb Andrey Grodzovsky:
-> > > > > > > Hey Christian, just a ping.
-> > > > > > Was there any question for me here?
-> > > > > > =
-
-> > > > > > As far as I can see the best approach would still be to fill th=
-e VMA
-> > > > > > with a single dummy page and avoid pointers in the GEM object.
-> > > > > > =
-
-> > > > > > Christian.
-> > > > > > =
-
-> > > > > > > Andrey
-> > > > > > > =
-
-> > > > > > > On 1/7/21 11:37 AM, Andrey Grodzovsky wrote:
-> > > > > > > > On 1/7/21 11:30 AM, Daniel Vetter wrote:
-> > > > > > > > > On Thu, Jan 07, 2021 at 11:26:52AM -0500, Andrey Grodzovs=
-ky wrote:
-> > > > > > > > > > On 1/7/21 11:21 AM, Daniel Vetter wrote:
-> > > > > > > > > > > On Tue, Jan 05, 2021 at 04:04:16PM -0500, Andrey Grod=
-zovsky wrote:
-> > > > > > > > > > > > On 11/23/20 3:01 AM, Christian K=F6nig wrote:
-> > > > > > > > > > > > > Am 23.11.20 um 05:54 schrieb Andrey Grodzovsky:
-> > > > > > > > > > > > > > On 11/21/20 9:15 AM, Christian K=F6nig wrote:
-> > > > > > > > > > > > > > > Am 21.11.20 um 06:21 schrieb Andrey Grodzovsk=
-y:
-> > > > > > > > > > > > > > > > Will be used to reroute CPU mapped BO's pag=
-e faults once
-> > > > > > > > > > > > > > > > device is removed.
-> > > > > > > > > > > > > > > Uff, one page for each exported DMA-buf? That=
-'s not
-> > > > > > > > > > > > > > > something we can do.
-> > > > > > > > > > > > > > > =
-
-> > > > > > > > > > > > > > > We need to find a different approach here.
-> > > > > > > > > > > > > > > =
-
-> > > > > > > > > > > > > > > Can't we call alloc_page() on each fault and =
-link them together
-> > > > > > > > > > > > > > > so they are freed when the device is finally =
-reaped?
-> > > > > > > > > > > > > > For sure better to optimize and allocate on dem=
-and when we reach
-> > > > > > > > > > > > > > this corner case, but why the linking ?
-> > > > > > > > > > > > > > Shouldn't drm_prime_gem_destroy be good enough =
-place to free ?
-> > > > > > > > > > > > > I want to avoid keeping the page in the GEM objec=
-t.
-> > > > > > > > > > > > > =
-
-> > > > > > > > > > > > > What we can do is to allocate a page on demand fo=
-r each fault
-> > > > > > > > > > > > > and link
-> > > > > > > > > > > > > the together in the bdev instead.
-> > > > > > > > > > > > > =
-
-> > > > > > > > > > > > > And when the bdev is then finally destroyed after=
- the last
-> > > > > > > > > > > > > application
-> > > > > > > > > > > > > closed we can finally release all of them.
-> > > > > > > > > > > > > =
-
-> > > > > > > > > > > > > Christian.
-> > > > > > > > > > > > Hey, started to implement this and then realized th=
-at by
-> > > > > > > > > > > > allocating a page
-> > > > > > > > > > > > for each fault indiscriminately
-> > > > > > > > > > > > we will be allocating a new page for each faulting =
-virtual
-> > > > > > > > > > > > address within a
-> > > > > > > > > > > > VA range belonging the same BO
-> > > > > > > > > > > > and this is obviously too much and not the intentio=
-n. Should I
-> > > > > > > > > > > > instead use
-> > > > > > > > > > > > let's say a hashtable with the hash
-> > > > > > > > > > > > key being faulting BO address to actually keep allo=
-cating and
-> > > > > > > > > > > > reusing same
-> > > > > > > > > > > > dummy zero page per GEM BO
-> > > > > > > > > > > > (or for that matter DRM file object address for non=
- imported
-> > > > > > > > > > > > BOs) ?
-> > > > > > > > > > > Why do we need a hashtable? All the sw structures to =
-track this
-> > > > > > > > > > > should
-> > > > > > > > > > > still be around:
-> > > > > > > > > > > - if gem_bo->dma_buf is set the buffer is currently e=
-xported as
-> > > > > > > > > > > a dma-buf,
-> > > > > > > > > > >      so defensively allocate a per-bo page
-> > > > > > > > > > > - otherwise allocate a per-file page
-> > > > > > > > > > That exactly what we have in current implementation
-> > > > > > > > > > =
-
-> > > > > > > > > > =
-
-> > > > > > > > > > > Or is the idea to save the struct page * pointer? Tha=
-t feels a
-> > > > > > > > > > > bit like
-> > > > > > > > > > > over-optimizing stuff. Better to have a simple implem=
-entation
-> > > > > > > > > > > first and
-> > > > > > > > > > > then tune it if (and only if) any part of it becomes =
-a problem
-> > > > > > > > > > > for normal
-> > > > > > > > > > > usage.
-> > > > > > > > > > Exactly - the idea is to avoid adding extra pointer to
-> > > > > > > > > > drm_gem_object,
-> > > > > > > > > > Christian suggested to instead keep a linked list of du=
-mmy pages
-> > > > > > > > > > to be
-> > > > > > > > > > allocated on demand once we hit a vm_fault. I will then=
- also
-> > > > > > > > > > prefault the entire
-> > > > > > > > > > VA range from vma->vm_end - vma->vm_start to vma->vm_en=
-d and map
-> > > > > > > > > > them
-> > > > > > > > > > to that single dummy page.
-> > > > > > > > > This strongly feels like premature optimization. If you'r=
-e worried
-> > > > > > > > > about
-> > > > > > > > > the overhead on amdgpu, pay down the debt by removing one=
- of the
-> > > > > > > > > redundant
-> > > > > > > > > pointers between gem and ttm bo structs (I think we still=
- have
-> > > > > > > > > some) :-)
-> > > > > > > > > =
-
-> > > > > > > > > Until we've nuked these easy&obvious ones we shouldn't pl=
-ay "avoid 1
-> > > > > > > > > pointer just because" games with hashtables.
-> > > > > > > > > -Daniel
-> > > > > > > > =
-
-> > > > > > > > Well, if you and Christian can agree on this approach and s=
-uggest
-> > > > > > > > maybe what pointer is
-> > > > > > > > redundant and can be removed from GEM struct so we can use =
-the
-> > > > > > > > 'credit' to add the dummy page
-> > > > > > > > to GEM I will be happy to follow through.
-> > > > > > > > =
-
-> > > > > > > > P.S Hash table is off the table anyway and we are talking o=
-nly
-> > > > > > > > about linked list here since by prefaulting
-> > > > > > > > the entire VA range for a vmf->vma i will be avoiding redun=
-dant
-> > > > > > > > page faults to same VMA VA range and so
-> > > > > > > > don't need to search and reuse an existing dummy page but s=
-imply
-> > > > > > > > create a new one for each next fault.
-> > > > > > > > =
-
-> > > > > > > > Andrey
-> > > -- =
-
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fbl=
-og.ffwll.ch%2F&amp;data=3D04%7C01%7Candrey.grodzovsky%40amd.com%7C4b581c55d=
-f204ca3d07408d8b64c1db8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637459=
-785321798393%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
-JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DEvvAip8vs9fzVRS1rb0r5ODiBMn=
-gxPuI9GKR2%2F%2B2LzE%3D&amp;reserved=3D0
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBKYW4gMTIsIDIwMjEgYXQgOToxMiBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTEuMDEuMjEgdW0gMTc6MTMgc2Nocmll
+YiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gRnJpLCBKYW4gMDgsIDIwMjEgYXQgMDQ6NDk6NTVQTSAr
+MDAwMCwgR3JvZHpvdnNreSwgQW5kcmV5IHdyb3RlOgo+ID4+IE9rIHRoZW4sIEkgZ3Vlc3MgSSB3
+aWxsIHByb2NlZWQgd2l0aCB0aGUgZHVtbXkgcGFnZXMgbGlzdCBpbXBsZW1lbnRhdGlvbiB0aGVu
+Lgo+ID4+Cj4gPj4gQW5kcmV5Cj4gPj4KPiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwo+ID4+IEZyb206IEtvZW5pZywgQ2hyaXN0aWFuIDxDaHJpc3RpYW4uS29lbmlnQGFtZC5j
+b20+Cj4gPj4gU2VudDogMDggSmFudWFyeSAyMDIxIDA5OjUyCj4gPj4gVG86IEdyb2R6b3Zza3ks
+IEFuZHJleSA8QW5kcmV5Lkdyb2R6b3Zza3lAYW1kLmNvbT47IERhbmllbCBWZXR0ZXIgPGRhbmll
+bEBmZndsbC5jaD4KPiA+PiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcgPGFtZC1n
+ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZyA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47IGRhbmllbC52ZXR0ZXJAZmZ3bGwu
+Y2ggPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+OyByb2JoQGtlcm5lbC5vcmcgPHJvYmhAa2VybmVs
+Lm9yZz47IGwuc3RhY2hAcGVuZ3V0cm9uaXguZGUgPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+OyB5
+dXE4MjVAZ21haWwuY29tIDx5dXE4MjVAZ21haWwuY29tPjsgZXJpY0BhbmhvbHQubmV0IDxlcmlj
+QGFuaG9sdC5uZXQ+OyBEZXVjaGVyLCBBbGV4YW5kZXIgPEFsZXhhbmRlci5EZXVjaGVyQGFtZC5j
+b20+OyBncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZyA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5v
+cmc+OyBwcGFhbGFuZW5AZ21haWwuY29tIDxwcGFhbGFuZW5AZ21haWwuY29tPjsgV2VudGxhbmQs
+IEhhcnJ5IDxIYXJyeS5XZW50bGFuZEBhbWQuY29tPgo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
+djMgMDEvMTJdIGRybTogQWRkIGR1bW15IHBhZ2UgcGVyIGRldmljZSBvciBHRU0gb2JqZWN0Cj4g
+Pj4KPiA+PiBNaG0sIEknbSBub3QgYXdhcmUgb2YgYW55IGxldCBvdmVyIHBvaW50ZXIgYmV0d2Vl
+biBUVE0gYW5kIEdFTSBhbmQgd2UKPiA+PiB3b3JrZWQgcXVpdGUgaGFyZCBvbiByZWR1Y2luZyB0
+aGUgc2l6ZSBvZiB0aGUgYW1kZ3B1X2JvLCBzbyBhbm90aGVyCj4gPj4gZXh0cmEgcG9pbnRlciBq
+dXN0IGZvciB0aGF0IGNvcm5lciBjYXNlIHdvdWxkIHN1Y2sgcXVpdGUgYSBiaXQuCj4gPiBXZSBo
+YXZlIGEgdG9uIG9mIG90aGVyIHBvaW50ZXJzIGluIHN0cnVjdCBhbWRncHVfYm8gKG9yIGFueSBv
+ZiBpdCdzIGxvd2VyCj4gPiB0aGluZ3MpIHdoaWNoIGFyZSBmYWlybHkgc2luZ2xlLXVzZSwgc28g
+SSdtIHJlYWxseSBub3QgbXVjaCBzZWVpbmcgdGhlCj4gPiBwb2ludCBpbiBtYWtpbmcgdGhpcyBh
+IHNwZWNpYWwgY2FzZS4gSXQgYWxzbyBtZWFucyB0aGUgbGlmZXRpbWUgbWFuYWdlbWVudAo+ID4g
+YmVjb21lcyBhIGJpdCBpZmZ5LCBzaW5jZSB3ZSBjYW4ndCB0aHJvdyBhd2F5IHRoZSBkdW1teSBw
+YWdlIHRoZW4gdGhlIGxhc3QKPiA+IHJlZmVyZW5jZSB0byB0aGUgYm8gaXMgcmVsZWFzZWQgKHNp
+bmNlIHdlIGRvbid0IHRyYWNrIGl0IHRoZXJlKSwgYnV0IG9ubHkKPiA+IHdoZW4gdGhlIGxhc3Qg
+cG9pbnRlciB0byB0aGUgZGV2aWNlIGlzIHJlbGVhc2VkLiBQb3RlbnRpYWxseSB0aGlzIG1lYW5z
+IGEKPiA+IHBpbGUgb2YgZGFuZ2xpbmcgcGFnZXMgaGFuZ2luZyBhcm91bmQgZm9yIHRvbyBsb25n
+Lgo+Cj4gWWVhaCwgYWxsIG9mIHRoZW0gYXJlIGFscmVhZHkgb24gbXkgVE9ETyBsaXN0LCBidXQg
+c2VlIGJlbG93Lgo+Cj4gPiBJZiB5b3UgbmVlZCBzb21lIGlkZWFzIGZvciByZWR1bmRhbnQgcG9p
+bnRlcnM6Cj4gPiAtIGRlc3Ryb3kgY2FsbGJhY2sgKGtpbmRhIG5vdCBjb29sIHRvIG5vdCBoYXZl
+IHRoaXMgY29uc3QgYW55d2F5KSwgd2UKPiA+ICAgIGNvdWxkIHJlZmNvdW50IGl0IGFsbCB3aXRo
+IHRoZSBvdmVyYWxsIGdlbSBiby4gUXVpdGUgYSBiaXQgb2Ygd29yay4KPgo+IFRoZSBiaWdnZXIg
+cHJvYmxlbXMgaXMgdGhhdCBUVE0gYmFzZWQgZHJpdmVycyBhcmUgdXNpbmcgdGhlIGRlc3Ryb3kK
+PiBjYWxsYmFjayBwb2ludGVyIHRvIGRpc3RpbmN0IGdob3N0IG9iamVjdHMgZnJvbSByZWFsIG9u
+ZXMuCj4KPiBXZSBmaXJzdCBuZWVkIHRvIGdldCByaWQgb2YgdGhvc2UuIEkgYWxyZWFkeSBoYXZl
+IGEgcGxhbiBmb3IgdGhhdCBhbmQKPiB+MjAlIG9mIGl0IGltcGxlbWVudGVkLCBidXQgaXQgaXMg
+bW9yZSBjb21wbGljYXRlZCBiZWNhdXNlIG9mIHRoZSBkcml2ZXIKPiBzcGVjaWZpYyBiYWNrZW5k
+cyBpbiBOb3V2ZWF1LCBBbWRncHUgYW5kIHZtd2dmeC4KPgo+ID4gLSBiZGV2IHBvaW50ZXIsIGlm
+IHdlIG1vdmUgdGhlIGRldmljZSB0dG0gc3R1ZmYgaW50byBzdHJ1Y3QgZHJtX2RldmljZSwgb3IK
+PiA+ICAgIGNyZWF0ZSBhIGNvbW1vbiBzdHJ1Y3QgdHRtX2RldmljZSwgd2UgY2FuIGRpdGNoIHRo
+YXQKPgo+IFllcywgZXhhY3RseSB0aGF0J3Mgd2hhdCBteSBkZXZpY2Ugc3RydWN0dXJlIHJlbmFt
+ZSBwYXRjaCBzZXQgaXMgYWltaW5nCj4gZm9yIDopCgpIbSBhbHJlYWR5IG9uIHRoZSBsaXN0IGFu
+ZCBkaWQgSSBtaXNzIGl0PwoKPiA+IC0gV2UgY291bGQgcHJvYmFibHkgbWVyZ2UgYSBmZXcgb2Yg
+dGhlIGZpZWxkcyBhbmQgZmluZCA4IGJ5dGVzIHNvbWV3aGVyZQo+Cj4gUGxlYXNlIHBvaW50IG91
+dCB3aGVyZS4KCkZsYWdzIGFuZCBib29sIGRlbGV0ZWQgbG9va2VkIGNvbXByZXNzaWJsZSBhdCBh
+IGdsYW5jZS4gTm90IHN1cmUKdGhhdCdzIHdvcnRoIGl0LgoKPiA+IC0gd2Ugc3RpbGwgaGF2ZSAy
+IGtyZWZzLCB3b3VsZCBwcm9iYWJseSBuZWVkIHRvIGZpeCB0aGF0IGJlZm9yZSB3ZSBjYW4KPiA+
+ICAgIG1lcmdlIHRoZSBkZXN0cm95IGNhbGxiYWNrcwo+Cj4gWWVzLCBhbHJlYWR5IG9uIG15IFRP
+RE8gbGlzdCBhcyB3ZWxsLiBCdXQgdGhlIGxhc3QgdGltZSBJIGxvb2tlZCBpbnRvCj4gdGhpcyBJ
+IHdhcyBibG9ja2VkIGJ5IHRoZSBzdHJ1Y3RfbXV0ZXggb25jZSBtb3JlLgoKVWggc3RydWN0X211
+dGV4LCBJIHRob3VnaHQgd2UndmUga2lsbGVkIHRoYXQgZm9yIGdvb2QuIEhvdyBpcyBpdApnZXR0
+aW5nIGluIHRoZSB3YXk/Cgo+ID4gU28gdGhlcmUncyBwbGVudHkgb2Ygcm9vbSBzdGlsbCwgaWYg
+dGhlIHNpemUgb2YgYSBibyBzdHJ1Y3QgaXMgcmVhbGx5IHRoYXQKPiA+IGNyaXRpY2FsLiBJbW8g
+aXQncyBub3QuCj4KPiBJdCBpcy4gU2VlIHdlIGhhZCBhIHNpemUgb2Ygc3RydWN0IGFtZGdwdV9i
+byBvZiBvdmVyIDE1MDAgYnl0ZXMgYmVjYXVzZQo+IHdlIHN0b3BwZWQgY2FyaW5nIGZvciB0aGF0
+LCBubyB3ZSBhcmUgZG93biB0byA4MTYgYXQgdGhlIG1vbWVudC4KPgo+IFdlIHJlYWxseSBuZWVk
+IHRvIGdldCByaWQgb2YgdGhpcyBkdXBsaWNhdGlvbiBvZiBmdW5jdGlvbmFsaXR5IGFuZAo+IHN0
+cnVjdHVyZSBiZXR3ZWVuIFRUTSBhbmQgR0VNLgoKWWVhaCwgYW5kIGlmIHlvdSBoYXZlIHBhdGNo
+ZXMgbmFnIG1lLCBoYXBweSB0byByZXZpZXcgdGhlbSBhbnl0aW1lIHJlYWxseS4KCkNoZWVycywg
+RGFuaWVsCgo+Cj4gQ2hyaXN0aWFuLgo+Cj4gPiAtRGFuaWVsCj4gPgo+ID4KPiA+PiBDaHJpc3Rp
+YW4uCj4gPj4KPiA+PiBBbSAwOC4wMS4yMSB1bSAxNTo0NiBzY2hyaWViIEFuZHJleSBHcm9kem92
+c2t5Ogo+ID4+PiBEYW5pZWwgaGFkIHNvbWUgb2JqZWN0aW9ucyB0byB0aGlzIChzZWUgYmVsbG93
+KSBhbmQgc28gSSBndWVzcyBJIG5lZWQKPiA+Pj4geW91IGJvdGggdG8gYWdyZWUgb24gdGhlIGFw
+cHJvYWNoIGJlZm9yZSBJIHByb2NlZWQuCj4gPj4+Cj4gPj4+IEFuZHJleQo+ID4+Pgo+ID4+PiBP
+biAxLzgvMjEgOTozMyBBTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+Pj4+IEFtIDA4LjAx
+LjIxIHVtIDE1OjI2IHNjaHJpZWIgQW5kcmV5IEdyb2R6b3Zza3k6Cj4gPj4+Pj4gSGV5IENocmlz
+dGlhbiwganVzdCBhIHBpbmcuCj4gPj4+PiBXYXMgdGhlcmUgYW55IHF1ZXN0aW9uIGZvciBtZSBo
+ZXJlPwo+ID4+Pj4KPiA+Pj4+IEFzIGZhciBhcyBJIGNhbiBzZWUgdGhlIGJlc3QgYXBwcm9hY2gg
+d291bGQgc3RpbGwgYmUgdG8gZmlsbCB0aGUgVk1BCj4gPj4+PiB3aXRoIGEgc2luZ2xlIGR1bW15
+IHBhZ2UgYW5kIGF2b2lkIHBvaW50ZXJzIGluIHRoZSBHRU0gb2JqZWN0Lgo+ID4+Pj4KPiA+Pj4+
+IENocmlzdGlhbi4KPiA+Pj4+Cj4gPj4+Pj4gQW5kcmV5Cj4gPj4+Pj4KPiA+Pj4+PiBPbiAxLzcv
+MjEgMTE6MzcgQU0sIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+ID4+Pj4+PiBPbiAxLzcvMjEg
+MTE6MzAgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPj4+Pj4+PiBPbiBUaHUsIEphbiAwNywg
+MjAyMSBhdCAxMToyNjo1MkFNIC0wNTAwLCBBbmRyZXkgR3JvZHpvdnNreSB3cm90ZToKPiA+Pj4+
+Pj4+PiBPbiAxLzcvMjEgMTE6MjEgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPj4+Pj4+Pj4+
+IE9uIFR1ZSwgSmFuIDA1LCAyMDIxIGF0IDA0OjA0OjE2UE0gLTA1MDAsIEFuZHJleSBHcm9kem92
+c2t5IHdyb3RlOgo+ID4+Pj4+Pj4+Pj4gT24gMTEvMjMvMjAgMzowMSBBTSwgQ2hyaXN0aWFuIEvD
+tm5pZyB3cm90ZToKPiA+Pj4+Pj4+Pj4+PiBBbSAyMy4xMS4yMCB1bSAwNTo1NCBzY2hyaWViIEFu
+ZHJleSBHcm9kem92c2t5Ogo+ID4+Pj4+Pj4+Pj4+PiBPbiAxMS8yMS8yMCA5OjE1IEFNLCBDaHJp
+c3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4+Pj4+Pj4+Pj4+Pj4gQW0gMjEuMTEuMjAgdW0gMDY6MjEg
+c2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiA+Pj4+Pj4+Pj4+Pj4+PiBXaWxsIGJlIHVzZWQg
+dG8gcmVyb3V0ZSBDUFUgbWFwcGVkIEJPJ3MgcGFnZSBmYXVsdHMgb25jZQo+ID4+Pj4+Pj4+Pj4+
+Pj4+IGRldmljZSBpcyByZW1vdmVkLgo+ID4+Pj4+Pj4+Pj4+Pj4gVWZmLCBvbmUgcGFnZSBmb3Ig
+ZWFjaCBleHBvcnRlZCBETUEtYnVmPyBUaGF0J3Mgbm90Cj4gPj4+Pj4+Pj4+Pj4+PiBzb21ldGhp
+bmcgd2UgY2FuIGRvLgo+ID4+Pj4+Pj4+Pj4+Pj4KPiA+Pj4+Pj4+Pj4+Pj4+IFdlIG5lZWQgdG8g
+ZmluZCBhIGRpZmZlcmVudCBhcHByb2FjaCBoZXJlLgo+ID4+Pj4+Pj4+Pj4+Pj4KPiA+Pj4+Pj4+
+Pj4+Pj4+IENhbid0IHdlIGNhbGwgYWxsb2NfcGFnZSgpIG9uIGVhY2ggZmF1bHQgYW5kIGxpbmsg
+dGhlbSB0b2dldGhlcgo+ID4+Pj4+Pj4+Pj4+Pj4gc28gdGhleSBhcmUgZnJlZWQgd2hlbiB0aGUg
+ZGV2aWNlIGlzIGZpbmFsbHkgcmVhcGVkPwo+ID4+Pj4+Pj4+Pj4+PiBGb3Igc3VyZSBiZXR0ZXIg
+dG8gb3B0aW1pemUgYW5kIGFsbG9jYXRlIG9uIGRlbWFuZCB3aGVuIHdlIHJlYWNoCj4gPj4+Pj4+
+Pj4+Pj4+IHRoaXMgY29ybmVyIGNhc2UsIGJ1dCB3aHkgdGhlIGxpbmtpbmcgPwo+ID4+Pj4+Pj4+
+Pj4+PiBTaG91bGRuJ3QgZHJtX3ByaW1lX2dlbV9kZXN0cm95IGJlIGdvb2QgZW5vdWdoIHBsYWNl
+IHRvIGZyZWUgPwo+ID4+Pj4+Pj4+Pj4+IEkgd2FudCB0byBhdm9pZCBrZWVwaW5nIHRoZSBwYWdl
+IGluIHRoZSBHRU0gb2JqZWN0Lgo+ID4+Pj4+Pj4+Pj4+Cj4gPj4+Pj4+Pj4+Pj4gV2hhdCB3ZSBj
+YW4gZG8gaXMgdG8gYWxsb2NhdGUgYSBwYWdlIG9uIGRlbWFuZCBmb3IgZWFjaCBmYXVsdAo+ID4+
+Pj4+Pj4+Pj4+IGFuZCBsaW5rCj4gPj4+Pj4+Pj4+Pj4gdGhlIHRvZ2V0aGVyIGluIHRoZSBiZGV2
+IGluc3RlYWQuCj4gPj4+Pj4+Pj4+Pj4KPiA+Pj4+Pj4+Pj4+PiBBbmQgd2hlbiB0aGUgYmRldiBp
+cyB0aGVuIGZpbmFsbHkgZGVzdHJveWVkIGFmdGVyIHRoZSBsYXN0Cj4gPj4+Pj4+Pj4+Pj4gYXBw
+bGljYXRpb24KPiA+Pj4+Pj4+Pj4+PiBjbG9zZWQgd2UgY2FuIGZpbmFsbHkgcmVsZWFzZSBhbGwg
+b2YgdGhlbS4KPiA+Pj4+Pj4+Pj4+Pgo+ID4+Pj4+Pj4+Pj4+IENocmlzdGlhbi4KPiA+Pj4+Pj4+
+Pj4+IEhleSwgc3RhcnRlZCB0byBpbXBsZW1lbnQgdGhpcyBhbmQgdGhlbiByZWFsaXplZCB0aGF0
+IGJ5Cj4gPj4+Pj4+Pj4+PiBhbGxvY2F0aW5nIGEgcGFnZQo+ID4+Pj4+Pj4+Pj4gZm9yIGVhY2gg
+ZmF1bHQgaW5kaXNjcmltaW5hdGVseQo+ID4+Pj4+Pj4+Pj4gd2Ugd2lsbCBiZSBhbGxvY2F0aW5n
+IGEgbmV3IHBhZ2UgZm9yIGVhY2ggZmF1bHRpbmcgdmlydHVhbAo+ID4+Pj4+Pj4+Pj4gYWRkcmVz
+cyB3aXRoaW4gYQo+ID4+Pj4+Pj4+Pj4gVkEgcmFuZ2UgYmVsb25naW5nIHRoZSBzYW1lIEJPCj4g
+Pj4+Pj4+Pj4+PiBhbmQgdGhpcyBpcyBvYnZpb3VzbHkgdG9vIG11Y2ggYW5kIG5vdCB0aGUgaW50
+ZW50aW9uLiBTaG91bGQgSQo+ID4+Pj4+Pj4+Pj4gaW5zdGVhZCB1c2UKPiA+Pj4+Pj4+Pj4+IGxl
+dCdzIHNheSBhIGhhc2h0YWJsZSB3aXRoIHRoZSBoYXNoCj4gPj4+Pj4+Pj4+PiBrZXkgYmVpbmcg
+ZmF1bHRpbmcgQk8gYWRkcmVzcyB0byBhY3R1YWxseSBrZWVwIGFsbG9jYXRpbmcgYW5kCj4gPj4+
+Pj4+Pj4+PiByZXVzaW5nIHNhbWUKPiA+Pj4+Pj4+Pj4+IGR1bW15IHplcm8gcGFnZSBwZXIgR0VN
+IEJPCj4gPj4+Pj4+Pj4+PiAob3IgZm9yIHRoYXQgbWF0dGVyIERSTSBmaWxlIG9iamVjdCBhZGRy
+ZXNzIGZvciBub24gaW1wb3J0ZWQKPiA+Pj4+Pj4+Pj4+IEJPcykgPwo+ID4+Pj4+Pj4+PiBXaHkg
+ZG8gd2UgbmVlZCBhIGhhc2h0YWJsZT8gQWxsIHRoZSBzdyBzdHJ1Y3R1cmVzIHRvIHRyYWNrIHRo
+aXMKPiA+Pj4+Pj4+Pj4gc2hvdWxkCj4gPj4+Pj4+Pj4+IHN0aWxsIGJlIGFyb3VuZDoKPiA+Pj4+
+Pj4+Pj4gLSBpZiBnZW1fYm8tPmRtYV9idWYgaXMgc2V0IHRoZSBidWZmZXIgaXMgY3VycmVudGx5
+IGV4cG9ydGVkIGFzCj4gPj4+Pj4+Pj4+IGEgZG1hLWJ1ZiwKPiA+Pj4+Pj4+Pj4gICAgICBzbyBk
+ZWZlbnNpdmVseSBhbGxvY2F0ZSBhIHBlci1ibyBwYWdlCj4gPj4+Pj4+Pj4+IC0gb3RoZXJ3aXNl
+IGFsbG9jYXRlIGEgcGVyLWZpbGUgcGFnZQo+ID4+Pj4+Pj4+IFRoYXQgZXhhY3RseSB3aGF0IHdl
+IGhhdmUgaW4gY3VycmVudCBpbXBsZW1lbnRhdGlvbgo+ID4+Pj4+Pj4+Cj4gPj4+Pj4+Pj4KPiA+
+Pj4+Pj4+Pj4gT3IgaXMgdGhlIGlkZWEgdG8gc2F2ZSB0aGUgc3RydWN0IHBhZ2UgKiBwb2ludGVy
+PyBUaGF0IGZlZWxzIGEKPiA+Pj4+Pj4+Pj4gYml0IGxpa2UKPiA+Pj4+Pj4+Pj4gb3Zlci1vcHRp
+bWl6aW5nIHN0dWZmLiBCZXR0ZXIgdG8gaGF2ZSBhIHNpbXBsZSBpbXBsZW1lbnRhdGlvbgo+ID4+
+Pj4+Pj4+PiBmaXJzdCBhbmQKPiA+Pj4+Pj4+Pj4gdGhlbiB0dW5lIGl0IGlmIChhbmQgb25seSBp
+ZikgYW55IHBhcnQgb2YgaXQgYmVjb21lcyBhIHByb2JsZW0KPiA+Pj4+Pj4+Pj4gZm9yIG5vcm1h
+bAo+ID4+Pj4+Pj4+PiB1c2FnZS4KPiA+Pj4+Pj4+PiBFeGFjdGx5IC0gdGhlIGlkZWEgaXMgdG8g
+YXZvaWQgYWRkaW5nIGV4dHJhIHBvaW50ZXIgdG8KPiA+Pj4+Pj4+PiBkcm1fZ2VtX29iamVjdCwK
+PiA+Pj4+Pj4+PiBDaHJpc3RpYW4gc3VnZ2VzdGVkIHRvIGluc3RlYWQga2VlcCBhIGxpbmtlZCBs
+aXN0IG9mIGR1bW15IHBhZ2VzCj4gPj4+Pj4+Pj4gdG8gYmUKPiA+Pj4+Pj4+PiBhbGxvY2F0ZWQg
+b24gZGVtYW5kIG9uY2Ugd2UgaGl0IGEgdm1fZmF1bHQuIEkgd2lsbCB0aGVuIGFsc28KPiA+Pj4+
+Pj4+PiBwcmVmYXVsdCB0aGUgZW50aXJlCj4gPj4+Pj4+Pj4gVkEgcmFuZ2UgZnJvbSB2bWEtPnZt
+X2VuZCAtIHZtYS0+dm1fc3RhcnQgdG8gdm1hLT52bV9lbmQgYW5kIG1hcAo+ID4+Pj4+Pj4+IHRo
+ZW0KPiA+Pj4+Pj4+PiB0byB0aGF0IHNpbmdsZSBkdW1teSBwYWdlLgo+ID4+Pj4+Pj4gVGhpcyBz
+dHJvbmdseSBmZWVscyBsaWtlIHByZW1hdHVyZSBvcHRpbWl6YXRpb24uIElmIHlvdSdyZSB3b3Jy
+aWVkCj4gPj4+Pj4+PiBhYm91dAo+ID4+Pj4+Pj4gdGhlIG92ZXJoZWFkIG9uIGFtZGdwdSwgcGF5
+IGRvd24gdGhlIGRlYnQgYnkgcmVtb3Zpbmcgb25lIG9mIHRoZQo+ID4+Pj4+Pj4gcmVkdW5kYW50
+Cj4gPj4+Pj4+PiBwb2ludGVycyBiZXR3ZWVuIGdlbSBhbmQgdHRtIGJvIHN0cnVjdHMgKEkgdGhp
+bmsgd2Ugc3RpbGwgaGF2ZQo+ID4+Pj4+Pj4gc29tZSkgOi0pCj4gPj4+Pj4+Pgo+ID4+Pj4+Pj4g
+VW50aWwgd2UndmUgbnVrZWQgdGhlc2UgZWFzeSZvYnZpb3VzIG9uZXMgd2Ugc2hvdWxkbid0IHBs
+YXkgImF2b2lkIDEKPiA+Pj4+Pj4+IHBvaW50ZXIganVzdCBiZWNhdXNlIiBnYW1lcyB3aXRoIGhh
+c2h0YWJsZXMuCj4gPj4+Pj4+PiAtRGFuaWVsCj4gPj4+Pj4+Cj4gPj4+Pj4+IFdlbGwsIGlmIHlv
+dSBhbmQgQ2hyaXN0aWFuIGNhbiBhZ3JlZSBvbiB0aGlzIGFwcHJvYWNoIGFuZCBzdWdnZXN0Cj4g
+Pj4+Pj4+IG1heWJlIHdoYXQgcG9pbnRlciBpcwo+ID4+Pj4+PiByZWR1bmRhbnQgYW5kIGNhbiBi
+ZSByZW1vdmVkIGZyb20gR0VNIHN0cnVjdCBzbyB3ZSBjYW4gdXNlIHRoZQo+ID4+Pj4+PiAnY3Jl
+ZGl0JyB0byBhZGQgdGhlIGR1bW15IHBhZ2UKPiA+Pj4+Pj4gdG8gR0VNIEkgd2lsbCBiZSBoYXBw
+eSB0byBmb2xsb3cgdGhyb3VnaC4KPiA+Pj4+Pj4KPiA+Pj4+Pj4gUC5TIEhhc2ggdGFibGUgaXMg
+b2ZmIHRoZSB0YWJsZSBhbnl3YXkgYW5kIHdlIGFyZSB0YWxraW5nIG9ubHkKPiA+Pj4+Pj4gYWJv
+dXQgbGlua2VkIGxpc3QgaGVyZSBzaW5jZSBieSBwcmVmYXVsdGluZwo+ID4+Pj4+PiB0aGUgZW50
+aXJlIFZBIHJhbmdlIGZvciBhIHZtZi0+dm1hIGkgd2lsbCBiZSBhdm9pZGluZyByZWR1bmRhbnQK
+PiA+Pj4+Pj4gcGFnZSBmYXVsdHMgdG8gc2FtZSBWTUEgVkEgcmFuZ2UgYW5kIHNvCj4gPj4+Pj4+
+IGRvbid0IG5lZWQgdG8gc2VhcmNoIGFuZCByZXVzZSBhbiBleGlzdGluZyBkdW1teSBwYWdlIGJ1
+dCBzaW1wbHkKPiA+Pj4+Pj4gY3JlYXRlIGEgbmV3IG9uZSBmb3IgZWFjaCBuZXh0IGZhdWx0Lgo+
+ID4+Pj4+Pgo+ID4+Pj4+PiBBbmRyZXkKPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
+Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
