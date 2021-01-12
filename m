@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7102F297C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38F92F291C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 08:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792B76E107;
-	Tue, 12 Jan 2021 07:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFB489503;
+	Tue, 12 Jan 2021 07:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6117689FA0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 06:49:42 +0000 (UTC)
-X-UUID: 53ad132c3bbd4df2a672afda0b4b230e-20210112
-X-UUID: 53ad132c3bbd4df2a672afda0b4b230e-20210112
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <nick.fan@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1963451269; Tue, 12 Jan 2021 14:49:36 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 12 Jan 2021 14:49:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 12 Jan 2021 14:49:36 +0800
-From: Nick Fan <Nick.Fan@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v4 2/2] arm64: dts: mt8192: Add node for the Mali GPU
-Date: Tue, 12 Jan 2021 14:49:33 +0800
-Message-ID: <20210112064933.12951-2-Nick.Fan@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210112064933.12951-1-Nick.Fan@mediatek.com>
-References: <20210112064933.12951-1-Nick.Fan@mediatek.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1468289238
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 07:45:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 50CA2AC95;
+ Tue, 12 Jan 2021 07:45:02 +0000 (UTC)
+Subject: Re: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@redhat.com" <airlied@redhat.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "sean@poorly.run" <sean@poorly.run>, "eric@anholt.net" <eric@anholt.net>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+ <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <65f6679c-dc53-e902-bcd1-a960caef756b@suse.de>
+Date: Tue, 12 Jan 2021 08:45:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MTK: N
-X-Mailman-Approved-At: Tue, 12 Jan 2021 07:57:10 +0000
+In-Reply-To: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,250 +51,343 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Nick Fan <Nick.Fan@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1538275829=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic GPU node for mt8192.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1538275829==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa"
 
-Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
----
-This patch depends on Mediatek power and regulator support.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa
+Content-Type: multipart/mixed; boundary="usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "airlied@redhat.com" <airlied@redhat.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "sean@poorly.run" <sean@poorly.run>, "eric@anholt.net" <eric@anholt.net>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Message-ID: <65f6679c-dc53-e902-bcd1-a960caef756b@suse.de>
+Subject: Re: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+ operations
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-2-tzimmermann@suse.de>
+ <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
+In-Reply-To: <39d9d40bf6284ef29c777776f9f2b5a3@intel.com>
 
-Listed as following.
+--usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-[1]https://lore.kernel.org/patchwork/patch/1336293/
-[2]https://patchwork.kernel.org/project/linux-mediatek/list/?series=374013
-[3]https://lore.kernel.org/patchwork/patch/1356037/
-[4]https://patchwork.kernel.org/project/linux-mediatek/list/?series=405777
-[5]https://lore.kernel.org/patchwork/patch/1356175/
-[6]https://patchwork.kernel.org/project/linux-mediatek/patch/1605700894-32699-6-git-send-email-hsin-hsiung.wang@mediatek.com/
-[7]https://patchwork.kernel.org/project/linux-mediatek/patch/1608104827-7937-10-git-send-email-hsin-hsiung.wang@mediatek.com/
----
----
- arch/arm64/boot/dts/mediatek/mt8192-evb.dts |   7 +
- arch/arm64/boot/dts/mediatek/mt8192.dtsi    | 172 ++++++++++++++++++++
- 2 files changed, 179 insertions(+)
+Hi
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-index 6c1e2b3e8a60..48c0e240dd92 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-@@ -5,6 +5,7 @@
-  */
- /dts-v1/;
- #include "mt8192.dtsi"
-+#include "mt6359.dtsi"
- 
- / {
- 	model = "MediaTek MT8192 evaluation board";
-@@ -70,6 +71,12 @@
- 	};
- };
- 
-+&gpu {
-+	supply-names = "mali","sram";
-+	mali-supply = <&mt6315_7_vbuck1>;
-+	sram-supply = <&mt6359_vsram_others_ldo_reg>;
-+};
-+
- &uart0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index d6a4ad242a33..9abba13df68e 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -822,6 +822,178 @@
- 			#clock-cells = <1>;
- 		};
- 
-+		gpu: mali@13000000 {
-+			compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
-+			reg = <0 0x13000000 0 0x4000>;
-+			interrupts =
-+				<GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
-+				<GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
-+				<GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
-+			interrupt-names =
-+				"gpu",
-+				"mmu",
-+				"job";
-+
-+			clocks =
-+				<&apmixedsys CLK_APMIXED_MFGPLL>,
-+				<&topckgen CLK_TOP_MFG_PLL_SEL>,
-+				<&topckgen CLK_TOP_MFG_REF_SEL>,
-+				<&mfgcfg CLK_MFG_BG3D>;
-+			clock-names =
-+				"clk_main_parent",
-+				"clk_mux",
-+				"clk_sub_parent",
-+				"subsys_mfg_cg";
-+
-+			power-domains =
-+				<&spm MT8192_POWER_DOMAIN_MFG2>,
-+				<&spm MT8192_POWER_DOMAIN_MFG3>,
-+				<&spm MT8192_POWER_DOMAIN_MFG4>,
-+				<&spm MT8192_POWER_DOMAIN_MFG5>,
-+				<&spm MT8192_POWER_DOMAIN_MFG6>;
-+			power-domain-names = "core0",
-+					     "core1",
-+					     "core2",
-+					     "core3",
-+					     "core4";
-+
-+			operating-points-v2 = <&gpu_opp_table>;
-+			#cooling-cells = <2>;
-+		};
-+
-+		gpu_opp_table: opp_table0 {
-+			compatible = "operating-points-v2";
-+			opp-shared;
-+
-+			opp-358000000 {
-+				opp-hz = /bits/ 64 <358000000>;
-+				opp-hz-real = /bits/ 64 <358000000>,
-+					      /bits/ 64 <358000000>;
-+				opp-microvolt = <606250>,
-+						<750000>;
-+			};
-+
-+			opp-399000000 {
-+				opp-hz = /bits/ 64 <399000000>;
-+				opp-hz-real = /bits/ 64 <399000000>,
-+					      /bits/ 64 <399000000>;
-+				opp-microvolt = <618750>,
-+						<750000>;
-+			};
-+
-+			opp-440000000 {
-+				opp-hz = /bits/ 64 <440000000>;
-+				opp-hz-real = /bits/ 64 <440000000>,
-+					      /bits/ 64 <440000000>;
-+				opp-microvolt = <631250>,
-+						<750000>;
-+			};
-+
-+			opp-482000000 {
-+				opp-hz = /bits/ 64 <482000000>;
-+				opp-hz-real = /bits/ 64 <482000000>,
-+					      /bits/ 64 <482000000>;
-+				opp-microvolt = <643750>,
-+						<750000>;
-+			};
-+
-+			opp-523000000 {
-+				opp-hz = /bits/ 64 <523000000>;
-+				opp-hz-real = /bits/ 64 <523000000>,
-+					      /bits/ 64 <523000000>;
-+				opp-microvolt = <656250>,
-+						<750000>;
-+			};
-+
-+			opp-564000000 {
-+				opp-hz = /bits/ 64 <564000000>;
-+				opp-hz-real = /bits/ 64 <564000000>,
-+					      /bits/ 64 <564000000>;
-+				opp-microvolt = <668750>,
-+						<750000>;
-+			};
-+
-+			opp-605000000 {
-+				opp-hz = /bits/ 64 <605000000>;
-+				opp-hz-real = /bits/ 64 <605000000>,
-+					      /bits/ 64 <605000000>;
-+				opp-microvolt = <681250>,
-+						<750000>;
-+			};
-+
-+			opp-647000000 {
-+				opp-hz = /bits/ 64 <647000000>;
-+				opp-hz-real = /bits/ 64 <647000000>,
-+					      /bits/ 64 <647000000>;
-+				opp-microvolt = <693750>,
-+						<750000>;
-+			};
-+
-+			opp-688000000 {
-+				opp-hz = /bits/ 64 <688000000>;
-+				opp-hz-real = /bits/ 64 <688000000>,
-+					      /bits/ 64 <688000000>;
-+				opp-microvolt = <706250>,
-+						<750000>;
-+			};
-+
-+			opp-724000000 {
-+				opp-hz = /bits/ 64 <724000000>;
-+				opp-hz-real = /bits/ 64 <724000000>,
-+					      /bits/ 64 <724000000>;
-+				opp-microvolt = <725000>,
-+						<750000>;
-+			};
-+
-+			opp-760000000 {
-+				opp-hz = /bits/ 64 <760000000>;
-+				opp-hz-real = /bits/ 64 <760000000>,
-+					      /bits/ 64 <760000000>;
-+				opp-microvolt = <743750>,
-+						<750000>;
-+			};
-+
-+			opp-795000000 {
-+				opp-hz = /bits/ 64 <795000000>;
-+				opp-hz-real = /bits/ 64 <795000000>,
-+					      /bits/ 64 <795000000>;
-+				opp-microvolt = <762500>,
-+						<762500>;
-+			};
-+
-+			opp-831000000 {
-+				opp-hz = /bits/ 64 <831000000>;
-+				opp-hz-real = /bits/ 64 <831000000>,
-+					      /bits/ 64 <831000000>;
-+				opp-microvolt = <781250>,
-+						<781250>;
-+			};
-+
-+			opp-855000000 {
-+				opp-hz = /bits/ 64 <855000000>;
-+				opp-hz-real = /bits/ 64 <855000000>,
-+					      /bits/ 64 <855000000>;
-+				opp-microvolt = <793750>,
-+						<793750>;
-+			};
-+
-+			opp-902000000 {
-+				opp-hz = /bits/ 64 <902000000>;
-+				opp-hz-real = /bits/ 64 <902000000>,
-+					      /bits/ 64 <902000000>;
-+				opp-microvolt = <818750>,
-+						<818750>;
-+			};
-+
-+			opp-950000000 {
-+				opp-hz = /bits/ 64 <950000000>;
-+				opp-hz-real = /bits/ 64 <950000000>,
-+					      /bits/ 64 <950000000>;
-+				opp-microvolt = <843750>,
-+						<843750>;
-+			};
-+		};
-+
- 		mfgcfg: syscon@13fbf000 {
- 			compatible = "mediatek,mt8192-mfgcfg", "syscon";
- 			reg = <0 0x13fbf000 0 0x1000>;
--- 
-2.18.0
+Am 08.01.21 um 17:12 schrieb Ruhl, Michael J:
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of=
+
+>> Thomas Zimmermann
+>> Sent: Friday, January 8, 2021 4:43 AM
+>> To: sumit.semwal@linaro.org; christian.koenig@amd.com;
+>> airlied@redhat.com; daniel@ffwll.ch; maarten.lankhorst@linux.intel.com=
+;
+>> mripard@kernel.org; kraxel@redhat.com; hdegoede@redhat.com;
+>> sean@poorly.run; eric@anholt.net; sam@ravnborg.org
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>; dri-devel@lists.freedeskto=
+p.org;
+>> virtualization@lists.linux-foundation.org; linaro-mm-sig@lists.linaro.=
+org;
+>> Thomas Zimmermann <tzimmermann@suse.de>; linux-
+>> media@vger.kernel.org
+>> Subject: [PATCH v4 01/13] dma-buf: Add vmap_local and vnumap_local
+>> operations
+>>
+>> The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+>> allowed to pin the buffer or acquire the buffer's reservation object
+>> lock.
+>>
+>> This is a problem for callers that only require a short-term mapping
+>> of the buffer without the pinning, or callers that have special lockin=
+g
+>> requirements. These may suffer from unnecessary overhead or interfere
+>> with regular pin operations.
+>>
+>> The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+>> their rsp callbacks in struct dma_buf_ops provide an alternative witho=
+ut
+>> pinning or reservation locking. Callers are responsible for these
+>> operations.
+>>
+>> v4:
+>> 	* update documentation (Daniel)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> ---
+>> drivers/dma-buf/dma-buf.c | 81
+>> +++++++++++++++++++++++++++++++++++++++
+>> include/linux/dma-buf.h   | 34 ++++++++++++++++
+>> 2 files changed, 115 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index b8465243eca2..01f9c74d97fa 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -1295,6 +1295,87 @@ void dma_buf_vunmap(struct dma_buf *dmabuf,
+>> struct dma_buf_map *map)
+>> }
+>> EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>>
+>> +/**
+>> + * dma_buf_vmap_local - Create virtual mapping for the buffer object =
+into
+>> kernel
+>> + * address space.
+>> + * @dmabuf:	[in]	buffer to vmap
+>> + * @map:	[out]	returns the vmap pointer
+>> + *
+>> + * Unlike dma_buf_vmap() this is a short term mapping and will not pi=
+n
+>> + * the buffer. The struct dma_resv for the @dmabuf must be locked unt=
+il
+>> + * dma_buf_vunmap_local() is called.
+>> + *
+>> + * Returns:
+>> + * 0 on success, or a negative errno code otherwise.
+>> + */
+>> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map)
+>> +{
+>> +	struct dma_buf_map ptr;
+>> +	int ret =3D 0;
+>> +
+>> +	dma_buf_map_clear(map);
+>> +
+>> +	if (WARN_ON(!dmabuf))
+>> +		return -EINVAL;
+>> +
+>> +	dma_resv_assert_held(dmabuf->resv);
+>> +
+>> +	if (!dmabuf->ops->vmap_local)
+>> +		return -EINVAL;
+>=20
+> You are clearing the map, and then doing the above checks.
+>=20
+> Is it ok to change the map info and then exit on error?
+
+In vmap_local map argument returns the mapping's address. Callers are=20
+expected to check the return code. But I would expect a careless caller=20
+to not check, or check for map being cleared. Clearing it here first is=20
+the save thing to do.
+
+Best regards
+Thomas
+
+>=20
+> Mike
+>=20
+>> +	mutex_lock(&dmabuf->lock);
+>> +	if (dmabuf->vmapping_counter) {
+>> +		dmabuf->vmapping_counter++;
+>> +		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>> +		*map =3D dmabuf->vmap_ptr;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+>> +
+>> +	ret =3D dmabuf->ops->vmap_local(dmabuf, &ptr);
+>> +	if (WARN_ON_ONCE(ret))
+>> +		goto out_unlock;
+>> +
+>> +	dmabuf->vmap_ptr =3D ptr;
+>> +	dmabuf->vmapping_counter =3D 1;
+>> +
+>> +	*map =3D dmabuf->vmap_ptr;
+>> +
+>> +out_unlock:
+>> +	mutex_unlock(&dmabuf->lock);
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
+>> +
+>> +/**
+>> + * dma_buf_vunmap_local - Unmap a vmap obtained by
+>> dma_buf_vmap_local.
+>> + * @dmabuf:	[in]	buffer to vunmap
+>> + * @map:	[in]	vmap pointer to vunmap
+>> + *
+>> + * Release a mapping established with dma_buf_vmap_local().
+>> + */
+>> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>> dma_buf_map *map)
+>> +{
+>> +	if (WARN_ON(!dmabuf))
+>> +		return;
+>> +
+>> +	dma_resv_assert_held(dmabuf->resv);
+>> +
+>> +	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+>> +	BUG_ON(dmabuf->vmapping_counter =3D=3D 0);
+>> +	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
+>> +
+>> +	mutex_lock(&dmabuf->lock);
+>> +	if (--dmabuf->vmapping_counter =3D=3D 0) {
+>> +		if (dmabuf->ops->vunmap_local)
+>> +			dmabuf->ops->vunmap_local(dmabuf, map);
+>> +		dma_buf_map_clear(&dmabuf->vmap_ptr);
+>> +	}
+>> +	mutex_unlock(&dmabuf->lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
+>> +
+>> #ifdef CONFIG_DEBUG_FS
+>> static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>> {
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index 628681bf6c99..aeed754b5467 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -264,6 +264,38 @@ struct dma_buf_ops {
+>>
+>> 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>> 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +
+>> +	/**
+>> +	 * @vmap_local:
+>> +	 *
+>> +	 * Creates a virtual mapping for the buffer into kernel address spac=
+e.
+>> +	 *
+>> +	 * This callback establishes short-term mappings for situations wher=
+e
+>> +	 * callers only use the buffer for a bounded amount of time; such as=
+
+>> +	 * updates to the framebuffer or reading back contained information.=
+
+>> +	 * In contrast to the regular @vmap callback, vmap_local does never
+>> pin
+>> +	 * the buffer to a specific domain or acquire the buffer's reservati=
+on
+>> +	 * lock.
+>> +	 *
+>> +	 * This is called with the &dma_buf.resv object locked. Callers must=
+
+>> hold
+>> +	 * the lock until after removing the mapping with @vunmap_local.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 *
+>> +	 * Returns:
+>> +	 *
+>> +	 * 0 on success or a negative error code on failure.
+>> +	 */
+>> +	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +
+>> +	/**
+>> +	 * @vunmap_local:
+>> +	 *
+>> +	 * Removes a virtual mapping that was established by @vmap_local.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 */
+>> +	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> };
+>>
+>> /**
+>> @@ -501,4 +533,6 @@ int dma_buf_mmap(struct dma_buf *, struct
+>> vm_area_struct *,
+>> 		 unsigned long);
+>> int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>> void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map
+>> *map);
+>> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct
+>> dma_buf_map *map);
+>> #endif /* __DMA_BUF_H__ */
+>> --
+>> 2.29.2
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--usVErwPLg02GQl5mnHWNZvhlyTGeK9IqA--
+
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9U3wFAwAAAAAACgkQlh/E3EQov+DN
+qA//arRnPM7UBr2PsEvXdUHdZ1y6EycvzSr+GIFoKVvKY/YxgLaQnEvS2C/jGnHeTU0AA+PANq2E
+CUgz2eC/E7p2e1DIFx6qtXjhWEJs+jsDwAFlUhBeSIB9lQIlwWDnv67UkwrHok76iPMO+F5qkzhH
+dsZ7THbWb8cIClaQtIhUhZhYSGKZ7545+79Iq1fgo4WpN33zutR/xP8F0zkwXSMhQhlb5WHrK56Z
+lqc8OlzwRqqoihElEzBFlw2q//cqgFnhcA3eLyZWapMYS/MkGBjGWFXRZZxlEm0My7vG+f6xUEa/
+sj7SwnpyArT0dkxiR/OLwsQ+f4861V0mskoGa6za9WvdE39oDEXUI4z7wuOV2kjjHwbIix5f4YPW
+rffx/U4SXIsronOpy7KYYw7oUnapQq+bNcFgeuikkEEdQSOfAeER457g7yxf7ztP4iCUFuH3ACaV
+U3DA7cQJMyMuEcDXdv1ZAHP0zO4C7MgEJTaNT0nBE7OqoyrCIwLLgBS3krz8o1OSFVXON6SBbZwT
+OYiCLMyIJu/WwvPMrB93Yt4h5YugeqcUPj5Lz/S1MtK2B6GeL/AMUVpP8wveKjHkvfuYmyQg6Z4g
+659iSVK0b0n5DOtotcZOGHonBKbDxPNtvHC+bK/TvkO7d/NDR3wKzOTjQWrkAH7DS02Sk7+upUOw
+ufI=
+=mvIW
+-----END PGP SIGNATURE-----
+
+--6WKlEn2ogx340hDjGhFgfNOvKVdRpjgVa--
+
+--===============1538275829==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1538275829==--
