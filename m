@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49EE2F29B6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:10:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 855D52F29BC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:10:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 365DC6E10D;
-	Tue, 12 Jan 2021 08:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 779266E112;
+	Tue, 12 Jan 2021 08:10:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A696E0EA;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB55C6E0EA;
  Tue, 12 Jan 2021 08:10:41 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C03FAB722;
- Tue, 12 Jan 2021 08:10:39 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 406AEB71E;
+ Tue, 12 Jan 2021 08:10:40 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com
-Subject: [PATCH 1/6] drm: Inline AGP wrappers into their only callers
-Date: Tue, 12 Jan 2021 09:10:30 +0100
-Message-Id: <20210112081035.6882-2-tzimmermann@suse.de>
+Subject: [PATCH 2/6] drm: Implement drm_need_swiotlb() in drm_cache.c
+Date: Tue, 12 Jan 2021 09:10:31 +0100
+Message-Id: <20210112081035.6882-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112081035.6882-1-tzimmermann@suse.de>
 References: <20210112081035.6882-1-tzimmermann@suse.de>
@@ -45,127 +45,110 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AGP wrapper functions serve no purpose.
+The function is declared in drm_cache.h. I also removed the curly
+braces from the for loop to adhere to kernel coding style.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_agpsupport.c | 12 ++++++------
- drivers/gpu/drm/drm_memory.c     | 18 ------------------
- include/drm/drm_agpsupport.h     | 18 ------------------
- 3 files changed, 6 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/drm_cache.c  | 32 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_memory.c | 33 ---------------------------------
+ 2 files changed, 32 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
-index 4c7ad46fdd21..8b690ef306de 100644
---- a/drivers/gpu/drm/drm_agpsupport.c
-+++ b/drivers/gpu/drm/drm_agpsupport.c
-@@ -285,7 +285,7 @@ int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
- 	entry = drm_agp_lookup_entry(dev, request->handle);
- 	if (!entry || !entry->bound)
- 		return -EINVAL;
--	ret = drm_unbind_agp(entry->memory);
-+	ret = agp_unbind_memory(entry->memory);
- 	if (ret == 0)
- 		entry->bound = 0;
- 	return ret;
-@@ -326,7 +326,7 @@ int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
- 	if (!entry || entry->bound)
- 		return -EINVAL;
- 	page = DIV_ROUND_UP(request->offset, PAGE_SIZE);
--	retcode = drm_bind_agp(entry->memory, page);
-+	retcode = agp_bind_memory(entry->memory, page);
- 	if (retcode)
- 		return retcode;
- 	entry->bound = dev->agp->base + (page << PAGE_SHIFT);
-@@ -369,11 +369,11 @@ int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
- 	if (!entry)
- 		return -EINVAL;
- 	if (entry->bound)
--		drm_unbind_agp(entry->memory);
-+		agp_unbind_memory(entry->memory);
+diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+index 0fe3c496002a..49551a7fa22f 100644
+--- a/drivers/gpu/drm/drm_cache.c
++++ b/drivers/gpu/drm/drm_cache.c
+@@ -30,6 +30,7 @@
  
- 	list_del(&entry->head);
+ #include <linux/export.h>
+ #include <linux/highmem.h>
++#include <xen/xen.h>
  
--	drm_free_agp(entry->memory, entry->pages);
-+	agp_free_memory(entry->memory);
- 	kfree(entry);
- 	return 0;
+ #include <drm/drm_cache.h>
+ 
+@@ -176,3 +177,34 @@ drm_clflush_virt_range(void *addr, unsigned long length)
+ #endif
  }
-@@ -453,8 +453,8 @@ void drm_legacy_agp_clear(struct drm_device *dev)
- 
- 	list_for_each_entry_safe(entry, tempe, &dev->agp->memory, head) {
- 		if (entry->bound)
--			drm_unbind_agp(entry->memory);
--		drm_free_agp(entry->memory, entry->pages);
-+			agp_unbind_memory(entry->memory);
-+		agp_free_memory(entry->memory);
- 		kfree(entry);
- 	}
- 	INIT_LIST_HEAD(&dev->agp->memory);
+ EXPORT_SYMBOL(drm_clflush_virt_range);
++
++bool drm_need_swiotlb(int dma_bits)
++{
++	struct resource *tmp;
++	resource_size_t max_iomem = 0;
++
++	/*
++	 * Xen paravirtual hosts require swiotlb regardless of requested dma
++	 * transfer size.
++	 *
++	 * NOTE: Really, what it requires is use of the dma_alloc_coherent
++	 *       allocator used in ttm_dma_populate() instead of
++	 *       ttm_populate_and_map_pages(), which bounce buffers so much in
++	 *       Xen it leads to swiotlb buffer exhaustion.
++	 */
++	if (xen_pv_domain())
++		return true;
++
++	/*
++	 * Enforce dma_alloc_coherent when memory encryption is active as well
++	 * for the same reasons as for Xen paravirtual hosts.
++	 */
++	if (mem_encrypt_active())
++		return true;
++
++	for (tmp = iomem_resource.child; tmp; tmp = tmp->sibling)
++		max_iomem = max(max_iomem,  tmp->end);
++
++	return max_iomem > ((u64)1 << dma_bits);
++}
++EXPORT_SYMBOL(drm_need_swiotlb);
 diff --git a/drivers/gpu/drm/drm_memory.c b/drivers/gpu/drm/drm_memory.c
-index fbea69d6f909..f4f2bffdd5bd 100644
+index f4f2bffdd5bd..e4f20a2eb6e7 100644
 --- a/drivers/gpu/drm/drm_memory.c
 +++ b/drivers/gpu/drm/drm_memory.c
-@@ -100,24 +100,6 @@ static void *agp_remap(unsigned long offset, unsigned long size,
- 	return addr;
+@@ -37,7 +37,6 @@
+ #include <linux/highmem.h>
+ #include <linux/pci.h>
+ #include <linux/vmalloc.h>
+-#include <xen/xen.h>
+ 
+ #include <drm/drm_agpsupport.h>
+ #include <drm/drm_cache.h>
+@@ -138,35 +137,3 @@ void drm_legacy_ioremapfree(struct drm_local_map *map, struct drm_device *dev)
+ 		iounmap(map->handle);
  }
- 
--/** Wrapper around agp_free_memory() */
--void drm_free_agp(struct agp_memory *handle, int pages)
+ EXPORT_SYMBOL(drm_legacy_ioremapfree);
+-
+-bool drm_need_swiotlb(int dma_bits)
 -{
--	agp_free_memory(handle);
+-	struct resource *tmp;
+-	resource_size_t max_iomem = 0;
+-
+-	/*
+-	 * Xen paravirtual hosts require swiotlb regardless of requested dma
+-	 * transfer size.
+-	 *
+-	 * NOTE: Really, what it requires is use of the dma_alloc_coherent
+-	 *       allocator used in ttm_dma_populate() instead of
+-	 *       ttm_populate_and_map_pages(), which bounce buffers so much in
+-	 *       Xen it leads to swiotlb buffer exhaustion.
+-	 */
+-	if (xen_pv_domain())
+-		return true;
+-
+-	/*
+-	 * Enforce dma_alloc_coherent when memory encryption is active as well
+-	 * for the same reasons as for Xen paravirtual hosts.
+-	 */
+-	if (mem_encrypt_active())
+-		return true;
+-
+-	for (tmp = iomem_resource.child; tmp; tmp = tmp->sibling) {
+-		max_iomem = max(max_iomem,  tmp->end);
+-	}
+-
+-	return max_iomem > ((u64)1 << dma_bits);
 -}
--
--/** Wrapper around agp_bind_memory() */
--int drm_bind_agp(struct agp_memory *handle, unsigned int start)
--{
--	return agp_bind_memory(handle, start);
--}
--
--/** Wrapper around agp_unbind_memory() */
--int drm_unbind_agp(struct agp_memory *handle)
--{
--	return agp_unbind_memory(handle);
--}
--
- #else /*  CONFIG_AGP  */
- static inline void *agp_remap(unsigned long offset, unsigned long size,
- 			      struct drm_device *dev)
-diff --git a/include/drm/drm_agpsupport.h b/include/drm/drm_agpsupport.h
-index 664e120b93e6..f3136750c490 100644
---- a/include/drm/drm_agpsupport.h
-+++ b/include/drm/drm_agpsupport.h
-@@ -28,10 +28,6 @@ struct drm_agp_head {
- 
- #if IS_ENABLED(CONFIG_AGP)
- 
--void drm_free_agp(struct agp_memory * handle, int pages);
--int drm_bind_agp(struct agp_memory * handle, unsigned int start);
--int drm_unbind_agp(struct agp_memory * handle);
--
- struct drm_agp_head *drm_agp_init(struct drm_device *dev);
- void drm_legacy_agp_clear(struct drm_device *dev);
- int drm_agp_acquire(struct drm_device *dev);
-@@ -61,20 +57,6 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
- 
- #else /* CONFIG_AGP */
- 
--static inline void drm_free_agp(struct agp_memory * handle, int pages)
--{
--}
--
--static inline int drm_bind_agp(struct agp_memory * handle, unsigned int start)
--{
--	return -ENODEV;
--}
--
--static inline int drm_unbind_agp(struct agp_memory * handle)
--{
--	return -ENODEV;
--}
--
- static inline struct drm_agp_head *drm_agp_init(struct drm_device *dev)
- {
- 	return NULL;
+-EXPORT_SYMBOL(drm_need_swiotlb);
 -- 
 2.29.2
 
