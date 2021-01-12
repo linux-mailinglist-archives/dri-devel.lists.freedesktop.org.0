@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4552F4634
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDFE2F4629
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2BF06E110;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACF36E10D;
 	Wed, 13 Jan 2021 08:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 423 seconds by postgrey-1.36 at gabe;
- Tue, 12 Jan 2021 10:54:04 UTC
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6F02D6E1BA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:54:04 +0000 (UTC)
-Received: from zhangzhijie.loongson.cn (unknown [10.20.41.29])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axhbwafv1f4hsDAA--.2816S2;
- Tue, 12 Jan 2021 18:46:50 +0800 (CST)
-From: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm: Improve the output_poll_changed  description
-Date: Tue, 12 Jan 2021 18:46:44 +0800
-Message-Id: <20210112104644.341345-1-zhangzhijie@loongson.cn>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-X-CM-TRANSID: AQAAf9Axhbwafv1f4hsDAA--.2816S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKw17uw47tFy5XFWUWF48WFg_yoW3Kwb_uF
- yxXrZ7Gr1kZasxCF48Zan5tr4293W8urs5u3s5KFZxXa9xt3W3Awn5tryfZrW5W3WUGrn0
- 9a93X3sFvw1xKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb2xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF04k2
- 0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
- 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
- IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
- AIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
- z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: x2kd0wx2klyx3h6o00pqjv00gofq/1tbiAQATAF3QvM1wCAAAsW
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
+ [81.169.146.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB2589690
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 11:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610451712;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:Message-Id:Cc:Date:From:Subject:From:Subject:Sender;
+ bh=EpwVukQQ+OYL/SNYIYJknXafUxWYO+RYpZDfwGwh/2o=;
+ b=I4QDxp4xQmnGK0uEAboLtizkvfZ10bpdRTH5/lUAcSswAtXhb6o06s94DK946sSsnT
+ uT0CdxckLjZoWZzgqwOrRpCkCpcAvhMui+ytzOJ250ZUw5GAkYOcJtMT0D9vqZAQJhxU
+ JgwCEbrEPM28L4qLiobp+rbz0cXeLzplJ+YHzUquSxtzEYie7ZDpm3G8j/CKwmQoKf0t
+ adZ2+mZsb6ARLuLFqeehKIupvxPGuP7E4hGu0ayOA4biEWR9pHjx1Isreq87xWk6FTBY
+ Xl+ibcclz59oNxo8KxvfeSY76QPBmwhXNN0n/maR5l3xr9GC6fpmIFYdNcSvJU8LASt1
+ 6Rqw==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSUXA0MbAo="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.12.1 DYNA|AUTH)
+ with ESMTPSA id m056b3x0CBfaU0W
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 12 Jan 2021 12:41:36 +0100 (CET)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Subject: What ist the standard way to define connector type and bus format
+ with device tree?
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+Date: Tue, 12 Jan 2021 12:41:36 +0100
+Message-Id: <CD0942AC-045E-41A2-A24F-F368C9438899@goldelico.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,38 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangzhijie@loongson.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Paul Boddie <paul@boddie.org.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhangzhijie <zhangzhijie@loongson.cn>
+Hi,
+according to bindings/display/panel/panel-common.yaml
+and by using "panel-simple" as compatible string we
+can define almost all properties of a DSI panel by a
+device tree entry.
 
-codeview the implementation of few Drivers.
-this callback was used by drm_kms_helper_hotplug_event()
+Except the connector and bus format which can only be
+set by adding the same information to the panel-simple tables.
 
-Signed-off-by: zhangzhijie <zhangzhijie@loongson.cn>
----
- include/drm/drm_mode_config.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This leads to big problems because DRM can't match the
+display with any lcd controller. The least issue is a
+warning:
 
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index ab424ddd7665..e01c4d0f07d1 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -104,7 +104,7 @@ struct drm_mode_config_funcs {
- 	 * changes.
- 	 *
- 	 * Drivers implementing fbdev emulation with the helpers can call
--	 * drm_fb_helper_hotplug_changed from this hook to inform the fbdev
-+	 * drm_kms_helper_hotplug_event() from this hook to inform the fbdev
- 	 * helper of output changes.
- 	 *
- 	 * FIXME:
--- 
-2.29.2
+[    0.313431] panel-simple claa070vc01: Specify missing connector_type
+
+Are we missing some documentation or code that reads
+some "connector-type" and "bus-format" property?
+
+BR and thanks,
+Nikolaus
 
 _______________________________________________
 dri-devel mailing list
