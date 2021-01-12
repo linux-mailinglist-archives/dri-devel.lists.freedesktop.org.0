@@ -1,53 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430D12F38EA
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 19:33:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2712F3B2A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 20:53:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F61C89D4F;
-	Tue, 12 Jan 2021 18:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B494589B8F;
+	Tue, 12 Jan 2021 19:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6185089D4F
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:32:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610476377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Fsfp6Tlzxk1arsz2/ofjl5QdDrFXpWy4Nprp5AyazSc=;
- b=UpbxbxSak7phzDT7eDjhBCSt+a2I9kgCNM1BT5Ty13L1EpiRV8Kzei8+iaI2rhwDnMIe3m
- vinJrOCCDDVfaVrDfPI7Tti8xMJXgy85MxYdVIbaaxgJ+RGZUuxISSYcCo+S+ByC7Xc9g4
- MHo0Y8qsIwD8/GJgyzi23dhWpzuShs8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-RoExnjTqNk-h3ESbQ7YTPg-1; Tue, 12 Jan 2021 13:32:53 -0500
-X-MC-Unique: RoExnjTqNk-h3ESbQ7YTPg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0646A100C600;
- Tue, 12 Jan 2021 18:32:52 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-143.ams2.redhat.com [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BAD65D9D2;
- Tue, 12 Jan 2021 18:32:50 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 5.11 regression fix] drm/ttm: fix combining __GFP_HIGHMEM and
- __GFP_DMA32 flag for DMA32 pools
-Date: Tue, 12 Jan 2021 19:32:49 +0100
-Message-Id: <20210112183249.437759-1-hdegoede@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B9A89B8F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 19:53:34 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1kzPjQ-0002Op-GH; Tue, 12 Jan 2021 20:53:32 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1kzPjP-0003s3-68; Tue, 12 Jan 2021 20:53:31 +0100
+Date: Tue, 12 Jan 2021 20:53:30 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: rename GPIO register bits
+Message-ID: <20210112195330.yye2rbn6y4zydpay@pengutronix.de>
+References: <20201210081853.17060-1-shawnguo@kernel.org>
+ <CAD=FV=WZQAaF1SXSP-co_O8=pYepzMHz5FjUfnbRJY_VH0AFpA@mail.gmail.com>
+ <CAD=FV=Xu+KjGDKPi6x8spf5OWBUohTQeM37B41Y-qihKd4Z4-A@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAD=FV=Xu+KjGDKPi6x8spf5OWBUohTQeM37B41Y-qihKd4Z4-A@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,101 +48,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, Shawn Guo <shawnguo@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: multipart/mixed; boundary="===============1833525527=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R0ZQX1RSQU5TSFVHRV9MSUdIVCBpbmNsdWRlcyBfX0dGUF9ISUdITUVNIGFuZCBjb21iaW5pbmcK
-X19HRlBfSElHSE1FTSB3aXRoIF9fR0ZQX0RNQTMyIGlzIG5vdCBhbGxvd2VkLgoKU28gd2UgbXVz
-dCBub3Qgc2V0IGFkZCBHRlBfVFJBTlNIVUdFX0xJR0hUIHRvIHRoZSBnZnBfZmxhZ3Mgd2hlbgph
-bGxvY2F0aW5nIHBhZ2VzIGZyb20gYSBkbWEzMiBwb29sLgoKVGhpcyBmaXhlcyB0aGUgZm9sbG93
-aW5nIG9vcHMgd2hlbiB1c2luZyBhIGRyaXZlciB3aGljaCB1c2VzIERNQTMyCnBvb2xzIHN1Y2gg
-YXMgdGhlIHZib3h2aWRlbyBkcml2ZXI6CgpbICA0MTkuODUyMTk0XSAtLS0tLS0tLS0tLS1bIGN1
-dCBoZXJlIF0tLS0tLS0tLS0tLS0KWyAgNDE5Ljg1MjIwMF0ga2VybmVsIEJVRyBhdCBpbmNsdWRl
-L2xpbnV4L2dmcC5oOjQ1NyEKWyAgNDE5Ljg1MjIwOF0gaW52YWxpZCBvcGNvZGU6IDAwMDAgWyM0
-XSBTTVAgUFRJClsgIDQxOS44NTIyMTJdIENQVTogMCBQSUQ6IDE1MjIgQ29tbTogWG9yZyBUYWlu
-dGVkOiBHICAgICAgRCAgICAgICAgICAgNS4xMS4wLXJjMisgIzE4NwpbICA0MTkuODUyMjE0XSBI
-YXJkd2FyZSBuYW1lOiBpbm5vdGVrIEdtYkggVmlydHVhbEJveC9WaXJ0dWFsQm94LCBCSU9TIFZp
-cnR1YWxCb3ggMTIvMDEvMjAwNgpbICA0MTkuODUyMjE2XSBSSVA6IDAwMTA6X19hbGxvY19wYWdl
-c19ub2RlbWFzaysweDMxYS8weDNkMApbICA0MTkuODUyMjIyXSBDb2RlOiAwMCAwMCA4YiAwNSBh
-OCAzYiA5MyAwMSA4NSBjMCAwZiA4NSAwMyBmZSBmZiBmZiA4OSBlOCA0NCA4OSBmYSBjMSBlOCAw
-MyA4MCBjYSA4MCA4MyBlMCAwMyA4MyBmOCAwMSA0NCAwZiA0NCBmYSBlOSBlOSBmZCBmZiBmZiA8
-MGY+IDBiIDBmIDBiIGU5IDc5IGZkIGZmIGZmIDMxIGMwIGU5IDg4IGZkIGZmIGZmIGU4IDQxIGFk
-IGZiIGZmIDQ4ClsgIDQxOS44NTIyMjRdIFJTUDogMDAwMDpmZmZmYjExNjQwOTZiYzYwIEVGTEFH
-UzogMDAwMTAyNDcKWyAgNDE5Ljg1MjIyN10gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAw
-MDAwMDAwMDAwMDAwMCBSQ1g6IDAwMDAwMDAwMDAwMGU4ZTgKWyAgNDE5Ljg1MjIyOV0gUkRYOiAw
-MDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDAwMDAwMDAwNiBSREk6IDAwMDAwMDAwMDAxOTJk
-YzYKWyAgNDE5Ljg1MjIzMF0gUkJQOiAwMDAwMDAwMDAwMTkyZGM2IFIwODogMDAwMDAwMDAwMDAw
-MDAwMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKWyAgNDE5Ljg1MjIzMl0gUjEwOiAwMDAwMDAwMDAw
-MDAwMDE3IFIxMTogMDAwMDdmZjMwM2QwYTAwMCBSMTI6IDAwMDAwMDAwMDAwMDAwMDkKWyAgNDE5
-Ljg1MjIzM10gUjEzOiAwMDAwMDAwMDAwMDAwMDA5IFIxNDogZmZmZjhiZTRjYWZlMDg4MCBSMTU6
-IGZmZmY4YmU1YzI2ZmUwMDAKWyAgNDE5Ljg1MjIzNV0gRlM6ICAwMDAwN2ZmMzA0NmUwZjAwKDAw
-MDApIEdTOmZmZmY4YmU1ZGJjMDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApbICA0
-MTkuODUyMjM3XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUw
-MDMzClsgIDQxOS44NTIyMzldIENSMjogMDAwMDdmZjMwM2QwYTAwMCBDUjM6IDAwMDAwMDAwMGFm
-ZDgwMDQgQ1I0OiAwMDAwMDAwMDAwMDcwNmYwClsgIDQxOS44NTIyNDNdIERSMDogMDAwMDAwMDAw
-MDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwClsgIDQx
-OS44NTIyNDRdIERSMzogMDAwMDAwMDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBmZjAgRFI3
-OiAwMDAwMDAwMDAwMDAwNDAwClsgIDQxOS44NTIyNDZdIENhbGwgVHJhY2U6ClsgIDQxOS44NTIy
-NTJdICB0dG1fcG9vbF9hbGxvYysweDJlOC8weDVmMCBbdHRtXQpbICA0MTkuODUyMjYxXSAgdHRt
-X3R0X3BvcHVsYXRlKzB4OWYvMHhlMCBbdHRtXQpbICA0MTkuODUyMjY3XSAgdHRtX2JvX3ZtX2Zh
-dWx0X3Jlc2VydmVkKzB4MjM2LzB4NmUwIFt0dG1dClsgIDQxOS44NTIyNzRdICB0dG1fYm9fdm1f
-ZmF1bHQrMHg0YS8weGUwIFt0dG1dClsgIDQxOS44NTIyNzldICBfX2RvX2ZhdWx0KzB4MzcvMHgx
-MTAKWyAgNDE5Ljg1MjI4M10gIGhhbmRsZV9tbV9mYXVsdCsweDE0OTMvMHgxOTkwClsgIDQxOS44
-NTIyODhdICBkb191c2VyX2FkZHJfZmF1bHQrMHgxYzcvMHg0YzAKWyAgNDE5Ljg1MjI5Ml0gIGV4
-Y19wYWdlX2ZhdWx0KzB4NjcvMHgyNTAKWyAgNDE5Ljg1MjI5NV0gID8gYXNtX2V4Y19wYWdlX2Zh
-dWx0KzB4OC8weDMwClsgIDQxOS44NTIyOTldICBhc21fZXhjX3BhZ2VfZmF1bHQrMHgxZS8weDMw
-ClsgIDQxOS44NTIzMDFdIFJJUDogMDAzMzoweDdmZjMwNGYzY2RmOApbICA0MTkuODUyMzA0XSBD
-b2RlOiA4MyBjMCAwNCA4MyBmYSAwMyA3ZSBlYSBhOCAwZiA3NSBlZSA4MyBmYSA3ZiA3ZSBlMSA4
-MyBjMiA4MCA4OSBkNiBjMSBlZSAwNyA4ZCA0ZSAwMSA0OCBjMSBlMSAwNyA0OCAwMSBjMSAwZiAx
-ZiA4MCAwMCAwMCAwMCAwMCA8MGY+IDI5IDAwIDQ4IDgzIGU4IDgwIDBmIDI5IDQwIDkwIDBmIDI5
-IDQwIGEwIDBmIDI5IDQwIGIwIDBmIDI5IDQwClsgIDQxOS44NTIzMDZdIFJTUDogMDAyYjowMDAw
-N2ZmZWMzNjBlN2Q4IEVGTEFHUzogMDAwMTAyMDYKWyAgNDE5Ljg1MjMwOF0gUkFYOiAwMDAwN2Zm
-MzAzZDBhMDAwIFJCWDogMDAwMDAwMDAwMDAwMDJlMiBSQ1g6IDAwMDA3ZmYzMDNkMGIzMDAKWyAg
-NDE5Ljg1MjMwOV0gUkRYOiAwMDAwMDAwMDAwMDAxMmMwIFJTSTogMDAwMDAwMDAwMDAwMDAyNSBS
-REk6IDAwMDAwMDAwMDAwMDAwMDAKWyAgNDE5Ljg1MjMxMV0gUkJQOiAwMDAwMDAwMDAwMDAxMzQw
-IFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKWyAgNDE5Ljg1MjMx
-Ml0gUjEwOiAwMDAwN2ZmMzAzZDBhMDAwIFIxMTogMDAwMDAwMDAwMDAwMTM0MCBSMTI6IDAwMDA3
-ZmYzMDNkMGEwMDAKWyAgNDE5Ljg1MjMxM10gUjEzOiAwMDAwNTU2NjY1ZjFlYjMwIFIxNDogMDAw
-MDAwMDAwMDAwMDAwMCBSMTU6IDAwMDAwMDAwMDAwMDAwMDAKWyAgNDE5Ljg1MjMxOF0gTW9kdWxl
-cyBsaW5rZWQgaW46IHh0X0NIRUNLU1VNIHh0X01BU1FVRVJBREUgeHRfY29ubnRyYWNrIGlwdF9S
-RUpFQ1QgbmZfbmF0X3RmdHAgbmZfY29ubnRyYWNrX3RmdHAgdHVuIGJyaWRnZSBzdHAgbGxjIG5m
-dF9vYmpyZWYgbmZfY29ubnRyYWNrX25ldGJpb3NfbnMgbmZfY29ubnRyYWNrX2Jyb2FkY2FzdCBu
-ZnRfZmliX2luZXQgbmZ0X2ZpYl9pcHY0IG5mdF9maWJfaXB2NiBuZnRfZmliIG5mdF9yZWplY3Rf
-aW5ldCBuZl9yZWplY3RfaXB2NCBuZl9yZWplY3RfaXB2NiBuZnRfcmVqZWN0IG5mdF9jdCBuZnRf
-Y2hhaW5fbmF0IHJma2lsbCBpcDZ0YWJsZV9uYXQgaXA2dGFibGVfbWFuZ2xlIGlwNnRhYmxlX3Jh
-dyBpcDZ0YWJsZV9zZWN1cml0eSBpcHRhYmxlX25hdCBuZl9uYXQgbmZfY29ubnRyYWNrIG5mX2Rl
-ZnJhZ19pcHY2IG5mX2RlZnJhZ19pcHY0IGlwdGFibGVfbWFuZ2xlIGlwdGFibGVfcmF3IGlwdGFi
-bGVfc2VjdXJpdHkgaXBfc2V0IG5mX3RhYmxlcyB2Ym94c2YgbmZuZXRsaW5rIGlwNnRhYmxlX2Zp
-bHRlciBpcDZfdGFibGVzIGlwdGFibGVfZmlsdGVyIHN1bnJwYyB2ZmF0IGZhdCBpbnRlbF9yYXBs
-X21zciBqb3lkZXYgaW50ZWxfcmFwbF9jb21tb24gaW50ZWxfcG93ZXJjbGFtcCBjcmN0MTBkaWZf
-cGNsbXVsIGNyYzMyX3BjbG11bCBnaGFzaF9jbG11bG5pX2ludGVsIHNuZF9pbnRlbDh4MCByYXBs
-IHNuZF9hYzk3X2NvZGVjIGFjOTdfYnVzIHNuZF9zZXEgc25kX3NlcV9kZXZpY2Ugc25kX3BjbSBw
-Y3Nwa3Igc25kX3RpbWVyIHNuZCBzb3VuZGNvcmUgaTJjX3BpaXg0IHZib3hndWVzdCBpcF90YWJs
-ZXMgdmJveHZpZGVvIGRybV92cmFtX2hlbHBlciBkcm1fa21zX2hlbHBlciBjZWMgZHJtX3R0bV9o
-ZWxwZXIgdHRtIGNyYzMyY19pbnRlbCBzZXJpb19yYXcgZTEwMDAgZHJtIGRybV9wcml2YWN5X3Nj
-cmVlbl9oZWxwZXIgYXRhX2dlbmVyaWMgcGF0YV9hY3BpIHZpZGVvIGZ1c2UKWyAgNDE5Ljg1MjM3
-NV0gLS0tWyBlbmQgdHJhY2UgNTExZTUzNDY4OTdkOTUyNiBdLS0tCgpOb3RlIGluIGNhc2Ugb2Yg
-dGhlIHZib3h2aWRlbyBkcml2ZXIgdGhlIERNQTMyIHBvb2wgaXMgYWxsb2NhdGVkIHRocm91Z2gK
-ZHJtX3ZyYW1faGVscGVyX2FsbG9jX21tKCkgd2hpY2ggaXMgYWxzbyB1c2VkIGJ5IHRoZSBib2No
-cyBhbmQKaGlzaWxpY29uL2hpYm1jIGRyaXZlcnMuCgpDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
-aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpGaXhlczogZDA5OWZjOGY1NDBhICgiZHJtL3R0bTogbmV3
-IFRUIGJhY2tlbmQgYWxsb2NhdGlvbiBwb29sIHYzIikKU2lnbmVkLW9mZi1ieTogSGFucyBkZSBH
-b2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9w
-b29sLmMgfCA1ICsrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwppbmRleCA3YjJmNjA2MTY3NTAuLjhiMzJmZDhj
-OGNjYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwpAQCAtODAsOCArODAsOSBAQCBzdGF0aWMgc3Ry
-dWN0IHBhZ2UgKnR0bV9wb29sX2FsbG9jX3BhZ2Uoc3RydWN0IHR0bV9wb29sICpwb29sLCBnZnBf
-dCBnZnBfZmxhZ3MsCiAJdm9pZCAqdmFkZHI7CiAKIAlpZiAob3JkZXIpIHsKLQkJZ2ZwX2ZsYWdz
-IHw9IEdGUF9UUkFOU0hVR0VfTElHSFQgfCBfX0dGUF9OT1JFVFJZIHwKLQkJCV9fR0ZQX0tTV0FQ
-RF9SRUNMQUlNOworCQlpZiAoIXBvb2wtPnVzZV9kbWEzMikKKwkJCWdmcF9mbGFncyB8PSBHRlBf
-VFJBTlNIVUdFX0xJR0hUOworCQlnZnBfZmxhZ3MgfD0gX19HRlBfTk9SRVRSWSB8IF9fR0ZQX0tT
-V0FQRF9SRUNMQUlNOwogCQlnZnBfZmxhZ3MgJj0gfl9fR0ZQX01PVkFCTEU7CiAJCWdmcF9mbGFn
-cyAmPSB+X19HRlBfQ09NUDsKIAl9Ci0tIAoyLjI4LjAKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============1833525527==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zhwsoj6neqbff4z6"
+Content-Disposition: inline
+
+
+--zhwsoj6neqbff4z6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 11, 2021 at 02:25:37PM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Mon, Jan 11, 2021 at 2:16 PM Doug Anderson <dianders@chromium.org> wro=
+te:
+> >
+> > Hi,
+> >
+> > On Thu, Dec 10, 2020 at 12:19 AM Shawn Guo <shawnguo@kernel.org> wrote:
+> > >
+> > > From: Shawn Guo <shawn.guo@linaro.org>
+> > >
+> > > It renames GPIO register bits to drop 'SN_' prefix, so that they are
+> > > consistent to other definitions - prefixing register name with 'SN_' =
+but
+> > > not for bit fields.
+> > >
+> > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 26 +++++++++++++-------------
+> > >  1 file changed, 13 insertions(+), 13 deletions(-)
+> >
+> > Sorry for taking so long to get back to this.  I think it came into my
+> > inbox at the same time as a pile of other things and then got lost.
+> > Your change looks good to me.  Sorry for being inconsistent when
+> > adding those defines and thanks for fixing them!
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>=20
+> Hrm, I just caught up on more email and found that in:
+>=20
+> https://lore.kernel.org/r/20201210174338.kecryijwptzc2mi7@pengutronix.de
+>=20
+> ...that Uwe would prefer to keep these bits what I have and change all
+> the others.  ;-)  I don't have a strong opinion either way, but I
+> definitely agree that it'd be better for all the defines to be
+> consistent.  If I had to arbitrarily make the decision one way or the
+> other I'd probably land Shawn's patch but I certainly wouldn't object
+> if we went Uwe's way either.  :-P
+
+For the the relevant argument for prefixes is that tools like ctags and
+cscope work more reliable. Take for example the name TX_TIMEOUT. There
+are around 60 symbols with that name in the kernel tree. This is quite
+annoying if you want to jump from a certain use to its definition.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zhwsoj6neqbff4z6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/9/jgACgkQwfwUeK3K
+7AkTjgf/cdCZysOs/5E5rJ4qIq18G8H3lZlyWVDEx0m4hnuKIOMyiyE+tOjHt6XC
+9QbYM3x+dKyUJ9yHVmPbt4vI+StHxPVMZBsGWbnWHbDAWKFeM50WFHkNUU6iwyZT
+mS93KHAafZu639GF1TjhWN68UCeDb/JX8ITxpit+0cUXXav5kv49iCr7ob4TBUVQ
+8hbf51NpP3FAXuXTJ4eThlJI0GJfiPKmZ/cVHbElx5VIjvGBmGpgqIH3ii1bwxMc
+64/AD9XjG3kCRxVZzrCu5Q+mSezp9XyX4tbKKMeeSj2YStA9m+q4MXSFWgqQoGYY
+aLNmLZ6WMdKHSXIcfZm96IEsucizdw==
+=Fx4Z
+-----END PGP SIGNATURE-----
+
+--zhwsoj6neqbff4z6--
+
+--===============1833525527==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1833525527==--
