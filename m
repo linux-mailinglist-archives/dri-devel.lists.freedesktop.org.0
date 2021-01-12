@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5BD2F3BA6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 21:57:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E40F2F3BB2
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 22:05:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5998D898F0;
-	Tue, 12 Jan 2021 20:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E527C898F0;
+	Tue, 12 Jan 2021 21:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71FAD898F0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 20:57:34 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DFjZJ1JDbz9sWk;
- Wed, 13 Jan 2021 07:57:27 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1610485049;
- bh=oOt9UC3bfgNLTO1XfajBqrAQGTUzyQ0gZrLFC6E3HKU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Hv1aowxpQ+GcGQfyulfIc1P1mB3L6lGbSlN5XXUsET7xYh1wkqDT0x80p8aZPvq1i
- 2HTwdUHTD2S43mwoK7jW08qs/SnxBF6H3u2cIboP5QIwNeyA/jtbs3U8cTknHK78dB
- Z9OrIql/t1s8V1mzT7RdF+MWtnXevTBc50ONHqDBqstOjaVD+5Z0JHv0NMhr0OKMa2
- 8j4YRR8rOsbQawaCwbtT/qkPG1pWVAj7bBMDgnGP+ILpHLtPEteoU4nM0ZjXkLTgah
- oyCYQXJCXVN20UCtTuetN/8DKj6mcc5RfIlk0OMEz4J3nOw/7eJWCUGnXDPY7F2gbp
- olsd3EKG41vFw==
-Date: Wed, 13 Jan 2021 07:57:26 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v7 00/17] follow_pfn and other iomap races
-Message-ID: <20210113075726.2ffaef97@canb.auug.org.au>
-In-Reply-To: <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
-References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
- <X/2jC9kBBQCfbC3d@phenom.ffwll.local>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDCC1898F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 21:04:58 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id d13so3919602wrc.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 13:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=v4xV9g2m1b67bsLcVGdEvyfTd+DgiyIQglAT13edfZk=;
+ b=NtZkZGFam5ta+af3U6MCp3WsAKc45QXgaxIvvE/J4lBRovmutCyzaZNtW5KFIqspRE
+ 5lLlCaibg+H4qVOgS+AcHh4LXg3y1g40vcNGBOJvO36+/72O1APWlLNXI3tWOZCm/qtA
+ mcn+mYRAQFP1THwRWWuXFE8Yn5B6C9tDCumvdnJzHJb9eRNOmSrVp60/E1qreV+6/4rL
+ yEi5YBlNnpgPic0LcbO2R0x+HWorkovAmY9+06bHMYcKMp/+W3rpdsngtCSgf6pE5c+i
+ 8clNhp5JOyjsdzK9sOe32B8I7bhwisoeII0hYMc0sIp7hvIb0xR5TclA9q5zPqnMKFIX
+ l7cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v4xV9g2m1b67bsLcVGdEvyfTd+DgiyIQglAT13edfZk=;
+ b=TrJpl4TlscyY2iEBDB5avuHGgunDf3hxRyOmbx7wMlePCEFCPDTlrPhshaOhUcpYlr
+ atq7SDOQ8c0n/t608WGWwyxRkFWYwz13MrX2C+VKeNhs1jLrKeDoBFgtMk2F3/s3hZgy
+ OZz9bhcODAIqM5QCRKn4ZB5dig0vKyrM6Fgex+iRkhy78pY2DAMRCyqDvwrST0DK5VOj
+ e/mRgo6HcmNZzjfz20gkuW9o1pVfZQ/sqx5PQkgBgXxU7nPgi9ru5maI4ZxA/3oyMwNl
+ 5bTdftYNCp6YZ/CptGU2isFE5mZ3AIwLLeAFdAT7b2EEqjPonJs2uq+3sxUaUnU7l9Jq
+ C8VQ==
+X-Gm-Message-State: AOAM532996EiOon6oE9RHsqXLUsDA9UPq8kjdhHdWEXpmQYlz4/3EQFp
+ 4lWPOl9c3lgVoCEZEfC2o5c11y43wFyOww==
+X-Google-Smtp-Source: ABdhPJx2pI+nhlLJi41E3ignw391szWh1B4zzxhhvVavwSBaKM+QRdRepzD46HilHW7CQNirUMMeYQ==
+X-Received: by 2002:adf:b78d:: with SMTP id s13mr681390wre.344.1610485497530; 
+ Tue, 12 Jan 2021 13:04:57 -0800 (PST)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id d18sm5449676wmb.30.2021.01.12.13.04.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 13:04:56 -0800 (PST)
+Date: Tue, 12 Jan 2021 18:04:50 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Subject: Re: [PATCH V5 0/3] Decouple config data for configfs
+Message-ID: <20210112210450.dzipxaiu4e26hyak@smtp.gmail.com>
+References: <cover.1610391685.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <cover.1610391685.git.sylphrenadin@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,84 +66,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1386215145=="
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1386215145==
-Content-Type: multipart/signed; boundary="Sig_/3kQvshNRwSzGT637_7v3ycs";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+On 01/12, Sumera Priyadarsini wrote:
+> This patchset aims to lay down some prep work before configfs can be
+> implemented for the vkms driver. The first patch in the series adds a
+> new type vkms_config to track device configuration. The second and third
+> patch add module testing support for writeback operations.
+> 
+> The first patch is developed by Daniel Vetter.
+> 
+> Daniel Vetter (1):
+>   drm/vkms: Add vkms_config type
+> 
+> Sumera Priyadarsini (3):
+>   drm/vkms: Add vkms_config type
+>   drm/vkms: Add support for writeback module
+>   drm/vkms: Add information about module options
+> 
+>  Documentation/gpu/vkms.rst         | 12 ++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.c    | 45 ++++++++++++++++++++++++------
+>  drivers/gpu/drm/vkms/vkms_drv.h    | 13 +++++++--
+>  drivers/gpu/drm/vkms/vkms_output.c | 13 +++++----
+>  4 files changed, 68 insertions(+), 15 deletions(-)
 
---Sig_/3kQvshNRwSzGT637_7v3ycs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Applied to drm-misc-next.
+I fixed the extra line issue while applying.
 
-Hi Daniel,
+Thanks for your patches,
 
-On Tue, 12 Jan 2021 14:24:27 +0100 Daniel Vetter <daniel@ffwll.ch> wrote:
->=20
-> As Jason suggested, I've pulled the first 1 patches into a topic branch.
->=20
-> Stephen, can you please add the below to linux-next for the 5.12 merge
-> window?
->=20
-> git://anongit.freedesktop.org/drm/drm topic/iomem-mmap-vs-gup
+Melissa
 
-Added from today.
-
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
-
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
-
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
-
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
---Sig_/3kQvshNRwSzGT637_7v3ycs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/+DTYACgkQAVBC80lX
-0GxNGgf9EtCDsHg2G5ATJxLMpj0++NlXWmIf8gLWRE7OQLpBu+7tP4EgP4BGf0B6
-XKm8FFDJGaYQ+dRRCMllLCFLfjZsxDDRqyQxAZ0TeZNIIW8gBLIHfC73jlqv9i5N
-q43QxSqU2CatsUkqt0P9G4JeE5mvDmgr6p4b4Webza6UBzqVvRNLxctL+OP7h+1f
-p9kM7E1sHfUofXAeBYGp0DBtEPDzxBjwyyQlcIknDJtNwPMUet2tPvL9Z8nUoODF
-z4upF0XEmm4ijYuHOfdxpKg2wHObICkSlbE1sMPs6jb6+DAaW7auRagOsyejlShO
-HQrjuzmMDQGxl5vGPO1+K8ZQFRxudg==
-=AR5e
------END PGP SIGNATURE-----
-
---Sig_/3kQvshNRwSzGT637_7v3ycs--
-
---===============1386215145==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> 
+> ---
+> Changes in v2:
+>  - add Co-developed-by tag
+>  
+> Changes in v3:
+>  - correct usage of Co-developed by tag(Melissa)
+>  - add enable_writeback_feature(Melissa)
+>  - modify commit message(Melissa)
+> 
+> Changes in v4:
+>  - split previous patch into patchset(Melissa)
+>  - fix checkpatch issue(Melissa)
+>  - update docs(Daniel)
+> 
+> Changes in v5:
+>  - modify docs patch(Daniel)
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1386215145==--
