@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A512F2A66
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3AA2F2A70
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4C86E158;
-	Tue, 12 Jan 2021 08:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65C56E159;
+	Tue, 12 Jan 2021 08:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3156E158
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:56:44 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id t30so1620120wrb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:56:44 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5B6E15A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:59:15 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id k10so1177619wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=gg3b4S3+NvBTyr0GUYFPJqJgJwEUKIraiC/Q4OrzhDU=;
- b=kV8jbVHGZ83kAA2ockVKP3nZ5skWlkzOniECMv+Rr/OaHN1qkfgvADTHs23Z849hPg
- cfxkiQwka5IjJInacK/GqMNA1rjVXxZhD5+JfCl8dSj1nLGSd6U9wAqRMJjtA6dgfOa+
- b/jSWh3tzjAmeno4fLk642Ita4/dgb+Vy3bTg=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=GqZbfd292c2sQog8Ere/PW5Jk+USpo47OxwE8iZOWRE=;
+ b=O1Uq64y8MGmEjY260boCVRBtzTHkeoOUDqgQbqhA8mda6M4UheqmuJezOmf+T8KK+A
+ GNBbcxrzA0ttNe8/yZ0IJLn28T55OFIdz0SK7dbbi/zCsuYGgz7Ne5MebMrNwORjiWVc
+ QoMu94Jl4brzai2CRHOh4p/syXsterwuJIO+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=gg3b4S3+NvBTyr0GUYFPJqJgJwEUKIraiC/Q4OrzhDU=;
- b=n84Yo67mCvzDC0an055IRrfmZjeCFBiE1XWDqpIYZxj4zUdZE6dIM6DgpG/giDbQrC
- vxZsIlcT8u8xCA7UwsiW5sSd819YA0MSt09Vr6/Muj3OMeSgRO7VNzeJqQlXBX1fWWIC
- AT7ehvrvpbi7lzBrVq5D5SK60y0bTDGsj6AaHlgRWyHtNz1yEw0bPRBp33C/8o1WNNQc
- SH4kn6uMpYs4ECbW2Bi27pM5Os0q00Cp6kePg0SB3vdcDeZk6Xtz2/pnRf7Zjog7ucSA
- ptj3g6vvUFLdhQ36tb23FRIf8xr6tQ69ppDvO15hDjj/o0pJbi7t44eGgruy8miiMKNh
- /zkA==
-X-Gm-Message-State: AOAM531EaAy0uJmXh//0fungrHfjBChHY27PM1l1dc6rWnWvaPO2170B
- 5RcqYVHziQ7I5pEC0ywkcyN0fQ==
-X-Google-Smtp-Source: ABdhPJz94xA5LyGQws93JRw6mmTqO9rvy26w4v3WTl1SAD+5pg6u83ZfeyEgolrvXRuDnKy0SDb+Qw==
-X-Received: by 2002:adf:e60f:: with SMTP id p15mr3112146wrm.60.1610441803328; 
- Tue, 12 Jan 2021 00:56:43 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GqZbfd292c2sQog8Ere/PW5Jk+USpo47OxwE8iZOWRE=;
+ b=hpg/qAxOJRHj/E3dmC173en3H9t/MX80GDaoVkDFT1UJAVsPrHddhZmcHa+P79x8ky
+ VHactLKxiTCVJ/pkOzdyqE+yaIAeieFD2D+Ypiu1sp2Z5wyV48xMXl14gRXjUkjpoIy+
+ gJghW6Vi/Iis4vZMXjqyq/zlQj8f+k3dwlurC2wmTr0TzW/7gJBay1DQgDOctUwR2zK/
+ KCxHlzcW4WMUNv3xqOGruEYG3giBur8DuKFj4obtuR2Pfb+K9m3h5ZH9TJW+DtiLpxy6
+ OzmPaFaXgRJ4gLL2CyDnUIrGoIOD/pG4oQXhF3oUT5AQzUnd0yAtHpvIwj8c2mjcuWEO
+ 4ZEQ==
+X-Gm-Message-State: AOAM531CImkDwpneoqv18aDAIuu7dNm+TcOEkLo5bkigXp+EyyUlORHl
+ cHJEWSfY8rVb4ksK5/j0PfQeGl66ljElhydH
+X-Google-Smtp-Source: ABdhPJzsyFVT25ad075mC5LNEzSH7DdnWIb8vRqny9Y1p7emZR+PdoVhFMTWXythQRAqpJjEfRkLCQ==
+X-Received: by 2002:a05:600c:208:: with SMTP id
+ 8mr2564611wmi.146.1610441953979; 
+ Tue, 12 Jan 2021 00:59:13 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o23sm4068104wro.57.2021.01.12.00.56.42
+ by smtp.gmail.com with ESMTPSA id o3sm3533801wrc.93.2021.01.12.00.59.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 00:56:42 -0800 (PST)
-Date: Tue, 12 Jan 2021 09:56:40 +0100
+ Tue, 12 Jan 2021 00:59:13 -0800 (PST)
+Date: Tue, 12 Jan 2021 09:59:11 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Zhaoge Zhang <zhangzhaoge@loongson.cn>
-Subject: Re: [PATCH] drm: Fix macro name DRM_MODE_PROP_OBJECT in code comment
-Message-ID: <X/1kSJ/y+5BIotd4@phenom.ffwll.local>
-Mail-Followup-To: Zhaoge Zhang <zhangzhaoge@loongson.cn>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1610416479-32736-1-git-send-email-zhangzhaoge@loongson.cn>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/6] drm: Inline AGP wrappers into their only callers
+Message-ID: <X/1k30zps1I36JDd@phenom.ffwll.local>
+References: <20210112081035.6882-1-tzimmermann@suse.de>
+ <20210112081035.6882-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1610416479-32736-1-git-send-email-zhangzhaoge@loongson.cn>
+In-Reply-To: <20210112081035.6882-2-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +66,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 12, 2021 at 09:54:39AM +0800, Zhaoge Zhang wrote:
-> Signed-off-by: Zhaoge Zhang <zhangzhaoge@loongson.cn>
-> ---
->  include/drm/drm_property.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jan 12, 2021 at 09:10:30AM +0100, Thomas Zimmermann wrote:
+> The AGP wrapper functions serve no purpose.
 > 
-> diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
-> index 4a0a80d..bbf5c1fd 100644
-> --- a/include/drm/drm_property.h
-> +++ b/include/drm/drm_property.h
-> @@ -114,7 +114,7 @@ struct drm_property {
->  	 *     by the property. Bitmask properties are created using
->  	 *     drm_property_create_bitmask().
->  	 *
-> -	 * DRM_MODE_PROB_OBJECT
-> +	 * DRM_MODE_PROP_OBJECT
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Nice catch, merged to drm-misc-next, thanks for your patch.
+They do, without them we fail compiling (I think at least) when agp isn't
+enabled. Did you check for that? I should all work if we have the dummy
+inlines for relevant agp functions in linux/agp_backend.h.
 -Daniel
 
->  	 *     Object properties are used to link modeset objects. This is used
->  	 *     extensively in the atomic support to create the display pipeline,
->  	 *     by linking &drm_framebuffer to &drm_plane, &drm_plane to
+> ---
+>  drivers/gpu/drm/drm_agpsupport.c | 12 ++++++------
+>  drivers/gpu/drm/drm_memory.c     | 18 ------------------
+>  include/drm/drm_agpsupport.h     | 18 ------------------
+>  3 files changed, 6 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
+> index 4c7ad46fdd21..8b690ef306de 100644
+> --- a/drivers/gpu/drm/drm_agpsupport.c
+> +++ b/drivers/gpu/drm/drm_agpsupport.c
+> @@ -285,7 +285,7 @@ int drm_agp_unbind(struct drm_device *dev, struct drm_agp_binding *request)
+>  	entry = drm_agp_lookup_entry(dev, request->handle);
+>  	if (!entry || !entry->bound)
+>  		return -EINVAL;
+> -	ret = drm_unbind_agp(entry->memory);
+> +	ret = agp_unbind_memory(entry->memory);
+>  	if (ret == 0)
+>  		entry->bound = 0;
+>  	return ret;
+> @@ -326,7 +326,7 @@ int drm_agp_bind(struct drm_device *dev, struct drm_agp_binding *request)
+>  	if (!entry || entry->bound)
+>  		return -EINVAL;
+>  	page = DIV_ROUND_UP(request->offset, PAGE_SIZE);
+> -	retcode = drm_bind_agp(entry->memory, page);
+> +	retcode = agp_bind_memory(entry->memory, page);
+>  	if (retcode)
+>  		return retcode;
+>  	entry->bound = dev->agp->base + (page << PAGE_SHIFT);
+> @@ -369,11 +369,11 @@ int drm_agp_free(struct drm_device *dev, struct drm_agp_buffer *request)
+>  	if (!entry)
+>  		return -EINVAL;
+>  	if (entry->bound)
+> -		drm_unbind_agp(entry->memory);
+> +		agp_unbind_memory(entry->memory);
+>  
+>  	list_del(&entry->head);
+>  
+> -	drm_free_agp(entry->memory, entry->pages);
+> +	agp_free_memory(entry->memory);
+>  	kfree(entry);
+>  	return 0;
+>  }
+> @@ -453,8 +453,8 @@ void drm_legacy_agp_clear(struct drm_device *dev)
+>  
+>  	list_for_each_entry_safe(entry, tempe, &dev->agp->memory, head) {
+>  		if (entry->bound)
+> -			drm_unbind_agp(entry->memory);
+> -		drm_free_agp(entry->memory, entry->pages);
+> +			agp_unbind_memory(entry->memory);
+> +		agp_free_memory(entry->memory);
+>  		kfree(entry);
+>  	}
+>  	INIT_LIST_HEAD(&dev->agp->memory);
+> diff --git a/drivers/gpu/drm/drm_memory.c b/drivers/gpu/drm/drm_memory.c
+> index fbea69d6f909..f4f2bffdd5bd 100644
+> --- a/drivers/gpu/drm/drm_memory.c
+> +++ b/drivers/gpu/drm/drm_memory.c
+> @@ -100,24 +100,6 @@ static void *agp_remap(unsigned long offset, unsigned long size,
+>  	return addr;
+>  }
+>  
+> -/** Wrapper around agp_free_memory() */
+> -void drm_free_agp(struct agp_memory *handle, int pages)
+> -{
+> -	agp_free_memory(handle);
+> -}
+> -
+> -/** Wrapper around agp_bind_memory() */
+> -int drm_bind_agp(struct agp_memory *handle, unsigned int start)
+> -{
+> -	return agp_bind_memory(handle, start);
+> -}
+> -
+> -/** Wrapper around agp_unbind_memory() */
+> -int drm_unbind_agp(struct agp_memory *handle)
+> -{
+> -	return agp_unbind_memory(handle);
+> -}
+> -
+>  #else /*  CONFIG_AGP  */
+>  static inline void *agp_remap(unsigned long offset, unsigned long size,
+>  			      struct drm_device *dev)
+> diff --git a/include/drm/drm_agpsupport.h b/include/drm/drm_agpsupport.h
+> index 664e120b93e6..f3136750c490 100644
+> --- a/include/drm/drm_agpsupport.h
+> +++ b/include/drm/drm_agpsupport.h
+> @@ -28,10 +28,6 @@ struct drm_agp_head {
+>  
+>  #if IS_ENABLED(CONFIG_AGP)
+>  
+> -void drm_free_agp(struct agp_memory * handle, int pages);
+> -int drm_bind_agp(struct agp_memory * handle, unsigned int start);
+> -int drm_unbind_agp(struct agp_memory * handle);
+> -
+>  struct drm_agp_head *drm_agp_init(struct drm_device *dev);
+>  void drm_legacy_agp_clear(struct drm_device *dev);
+>  int drm_agp_acquire(struct drm_device *dev);
+> @@ -61,20 +57,6 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void *data,
+>  
+>  #else /* CONFIG_AGP */
+>  
+> -static inline void drm_free_agp(struct agp_memory * handle, int pages)
+> -{
+> -}
+> -
+> -static inline int drm_bind_agp(struct agp_memory * handle, unsigned int start)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -static inline int drm_unbind_agp(struct agp_memory * handle)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+>  static inline struct drm_agp_head *drm_agp_init(struct drm_device *dev)
+>  {
+>  	return NULL;
 > -- 
-> 2.7.4
+> 2.29.2
 > 
 
 -- 
