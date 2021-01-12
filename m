@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FCB2F2A40
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:44:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6462F2A42
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 09:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53E5B6E14C;
-	Tue, 12 Jan 2021 08:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C914E6E151;
+	Tue, 12 Jan 2021 08:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF296E140
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:44:21 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id m4so183879wrx.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:44:21 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1A56E140
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:44:23 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id d13so1507745wrc.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 00:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yONOghH9XKfLdBbsmYmcUxNvyur91GJ2/vGJcIXVS2A=;
- b=PoT046FNG5xSUSGcsjxzXSKX86PLBicvfz/PdwsHrKAAHmV2mWX3fiiDT6m9fekijO
- fYANU07h2xJ1T6VnkXxqbwsIHQI+Qg9EJFA0MHLIRb5QvVvSdEIkJzS5XgBoBgaVuLaN
- LX58DtuxULaja5T03oTNd5u/uG+SJVdH2GIMA=
+ bh=fmmsbGkaB6zq+1LZSq6n8dOr5YNFbvWrXSRh1IwGpQU=;
+ b=R5rXvbAqsEiU9Cp1lAo4XLMoja3x2jCFMqAk9hN1hbYssErZlrP1GJ3oy+9w8Mur6o
+ N7NFdoYkBj2GR+SmDhxQkG2VG8rt9vwVaJMWvl261SVxSMJLU7w3wC650n39d02rihgI
+ 8qktF+CFFb+iXdtftF9fialL5FoAZGTdLBWOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yONOghH9XKfLdBbsmYmcUxNvyur91GJ2/vGJcIXVS2A=;
- b=bjAaeLgAHHmo9LiZMQtzPvHqY2RJDdsdNQP9DD/52gNX2VCt9nyaAQ4K/rYh2KaE+D
- hsx++uD1aM+umY5kUlyId/VceEwOVvkHufgLv21IRGAAPumEoMQ1fQybLGgk/ZBicPoy
- cIWr/Ta1ZwhIITD+NWjF74me5HfW3pG7sU7s5If8r4njbY/dhgxguvK1uiW3G/F8oRbT
- 8GPBT3uRPnYGE75POGeYS+ZUu/ohvtH/2jiLHjb37rhauZgL1dMgDHOdmLyZu2PFn9/y
- fuhUFj8amKU3ALPg884ZPbzclLVjorjbAC1sgnL7JYh2NXY1wSQyqQVvlPvVEXyoXg1P
- naow==
-X-Gm-Message-State: AOAM530AcyDvFTqvu06qqbM+uCrwmJytxHT26eorZuHdo/1vbeSFWFwK
- QRshbw26cnHNabJW8e4bLtoK86vyQX5FrV4N
-X-Google-Smtp-Source: ABdhPJzZ+LgZLVjC1A3IxUWd2nWIx8u4UqJGEGBTN42o1LDzib0ZlDqMc6IPNiDuDJ1eHbgG77LgbQ==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr3181887wrm.29.1610441060416; 
- Tue, 12 Jan 2021 00:44:20 -0800 (PST)
+ bh=fmmsbGkaB6zq+1LZSq6n8dOr5YNFbvWrXSRh1IwGpQU=;
+ b=lQHZ46DWclrui4hD5nprtoct5M0mqkx4y87ihdFUFBWSk8eavTczFFW8cszYzehul4
+ 3p1bIEufngZk7nVdtwMdy/vGAP8ZGy8YizyTKlvgG5ivo59RGgAF8jSYPdzwz5mf1uBw
+ GvrCR0xvLabK2/p5YrgwCzCPtthU49hKqpl91j+BGq0zKHRAkZ5VpLEJja0idJV5m4xQ
+ jIyZQyqOLOnSBFbGws3fAcGTHCnYbUmc5PxRccAs7y74DiJd2HLxuNibrDDoIwH7sM5A
+ bCjfZ9b5alWIvIm71nBeKOe6+x28jEfJH/7fkpeuObgsBW3JKIvzaCLvIxihnx0O1S+S
+ jP3A==
+X-Gm-Message-State: AOAM533qTA7LacUnrJ8EZq1BbzyG/HSiFP/nFq4aBiZ8xs2NvffWNJ2Q
+ npY5yhylCcDtQZcZXj0GIxiGvFM+4/CF17Lx
+X-Google-Smtp-Source: ABdhPJz7obIH6Qe3d0LnEUDNyPMwr0BqWxIn5VRn69h64pk1CP7TInJUSETA+G7lROBOMByXvAExjg==
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr3041556wrv.397.1610441061503; 
+ Tue, 12 Jan 2021 00:44:21 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j15sm3707017wrr.85.2021.01.12.00.44.19
+ by smtp.gmail.com with ESMTPSA id j15sm3707017wrr.85.2021.01.12.00.44.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 00:44:19 -0800 (PST)
+ Tue, 12 Jan 2021 00:44:20 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 14/15] drm/arc: Initialize sim connector before display pipe
-Date: Tue, 12 Jan 2021 09:43:57 +0100
-Message-Id: <20210112084358.2771527-14-daniel.vetter@ffwll.ch>
+Subject: [PATCH 15/15] drm/arc: Move to drm/tiny
+Date: Tue, 12 Jan 2021 09:43:58 +0100
+Message-Id: <20210112084358.2771527-15-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
 References: <20210112084358.2771527-1-daniel.vetter@ffwll.ch>
@@ -63,124 +63,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Alexey Brodkin <abrodkin@synopsys.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>, tiantao6@hisilicon.com,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, tiantao6@hisilicon.com,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-That way we can get rid of this final piece of init code, and use the
-simple pipe helpers as intended.
+Because it is.
 
-v2: Fix indent (Sam)
+v2: Delete now unused crtc funcs (0day)
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Alexey Brodkin <abrodkin@synopsys.com>
 ---
- drivers/gpu/drm/arc/arcpgu_drv.c | 53 ++++++++++----------------------
- 1 file changed, 17 insertions(+), 36 deletions(-)
+ MAINTAINERS                                         |  2 +-
+ drivers/gpu/drm/Kconfig                             |  2 --
+ drivers/gpu/drm/Makefile                            |  1 -
+ drivers/gpu/drm/arc/Kconfig                         | 10 ----------
+ drivers/gpu/drm/arc/Makefile                        |  3 ---
+ drivers/gpu/drm/tiny/Kconfig                        | 10 ++++++++++
+ drivers/gpu/drm/tiny/Makefile                       |  1 +
+ drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} |  0
+ 8 files changed, 12 insertions(+), 17 deletions(-)
+ delete mode 100644 drivers/gpu/drm/arc/Kconfig
+ delete mode 100644 drivers/gpu/drm/arc/Makefile
+ rename drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} (100%)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index 0a0b54993773..8edfe6601151 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -95,32 +95,11 @@ static const struct drm_connector_funcs arcpgu_drm_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 17b92e6a0f06..9330902cc9e9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1307,7 +1307,7 @@ ARC PGU DRM DRIVER
+ M:	Alexey Brodkin <abrodkin@synopsys.com>
+ S:	Supported
+ F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
+-F:	drivers/gpu/drm/arc/
++F:	drivers/gpu/drm/tiny/arcpgu.c
  
--static int arcpgu_drm_sim_init(struct drm_device *drm, struct device_node *np)
-+static int arcpgu_drm_sim_init(struct drm_device *drm, struct drm_connector *connector)
- {
--	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
--	struct drm_encoder *encoder;
--	struct drm_connector *connector;
--	int ret;
--
--	encoder = &arcpgu->pipe.encoder;
--
--	connector = &arcpgu->sim_conn;
- 	drm_connector_helper_add(connector, &arcpgu_drm_connector_helper_funcs);
--
--	ret = drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
--			DRM_MODE_CONNECTOR_VIRTUAL);
--	if (ret < 0) {
--		dev_err(drm->dev, "failed to initialize drm connector\n");
--		return ret;
--	}
--
--	ret = drm_connector_attach_encoder(connector, encoder);
--	if (ret < 0) {
--		dev_err(drm->dev, "could not attach connector to encoder\n");
--		return ret;
--	}
--
--	return 0;
-+	return drm_connector_init(drm, connector, &arcpgu_drm_connector_funcs,
-+				  DRM_MODE_CONNECTOR_VIRTUAL);
- }
+ ARCNET NETWORK LAYER
+ M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 0973f408d75f..041af75ee6fa 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -352,8 +352,6 @@ source "drivers/gpu/drm/vc4/Kconfig"
  
- #define ENCODE_PGU_XY(x, y)	((((x) - 1) << 16) | ((y) - 1))
-@@ -267,6 +246,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- {
- 	struct platform_device *pdev = to_platform_device(arcpgu->drm.dev);
- 	struct device_node *encoder_node = NULL, *endpoint_node = NULL;
-+	struct drm_connector *connector = NULL;
- 	struct drm_device *drm = &arcpgu->drm;
- 	struct resource *res;
- 	int ret;
-@@ -301,13 +281,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 	if (dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(32)))
- 		return -ENODEV;
+ source "drivers/gpu/drm/etnaviv/Kconfig"
  
--	ret = drm_simple_display_pipe_init(drm, &arcpgu->pipe, &arc_pgu_pipe_funcs,
--					   arc_pgu_supported_formats,
--					   ARRAY_SIZE(arc_pgu_supported_formats),
--					   NULL, NULL);
--	if (ret)
--		return ret;
+-source "drivers/gpu/drm/arc/Kconfig"
 -
- 	/*
- 	 * There is only one output port inside each device. It is linked with
- 	 * encoder endpoint.
-@@ -316,8 +289,21 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 	if (endpoint_node) {
- 		encoder_node = of_graph_get_remote_port_parent(endpoint_node);
- 		of_node_put(endpoint_node);
-+	} else {
-+		connector = &arcpgu->sim_conn;
-+		dev_info(drm->dev, "no encoder found. Assumed virtual LCD on simulation platform\n");
-+		ret = arcpgu_drm_sim_init(drm, connector);
-+		if (ret < 0)
-+			return ret;
- 	}
+ source "drivers/gpu/drm/hisilicon/Kconfig"
  
-+	ret = drm_simple_display_pipe_init(drm, &arcpgu->pipe, &arc_pgu_pipe_funcs,
-+					   arc_pgu_supported_formats,
-+					   ARRAY_SIZE(arc_pgu_supported_formats),
-+					   NULL, connector);
-+	if (ret)
-+		return ret;
+ source "drivers/gpu/drm/mediatek/Kconfig"
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index fefaff4c832d..4e4937609269 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -110,7 +110,6 @@ obj-y			+= panel/
+ obj-y			+= bridge/
+ obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
+ obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
+-obj-$(CONFIG_DRM_ARCPGU)+= arc/
+ obj-y			+= hisilicon/
+ obj-$(CONFIG_DRM_ZTE)	+= zte/
+ obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
+diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
+deleted file mode 100644
+index e8f3d63e0b91..000000000000
+--- a/drivers/gpu/drm/arc/Kconfig
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-config DRM_ARCPGU
+-	tristate "ARC PGU"
+-	depends on DRM && OF
+-	select DRM_KMS_CMA_HELPER
+-	select DRM_KMS_HELPER
+-	help
+-	  Choose this option if you have an ARC PGU controller.
+-
+-	  If M is selected the module will be called arcpgu.
+diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
+deleted file mode 100644
+index b26f2495c532..000000000000
+--- a/drivers/gpu/drm/arc/Makefile
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-arcpgu-y := arcpgu_drv.o
+-obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 2b6414f0fa75..9bbaa1a69050 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -1,5 +1,15 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
++config DRM_ARCPGU
++	tristate "ARC PGU"
++	depends on DRM && OF
++	select DRM_KMS_CMA_HELPER
++	select DRM_KMS_HELPER
++	help
++	  Choose this option if you have an ARC PGU controller.
 +
- 	if (encoder_node) {
- 		struct drm_bridge *bridge;
++	  If M is selected the module will be called arcpgu.
++
+ config DRM_CIRRUS_QEMU
+ 	tristate "Cirrus driver for QEMU emulated device"
+ 	depends on DRM && PCI && MMU
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index 6ae4e9e5a35f..bef6780bdd6f 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
-@@ -329,11 +315,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
- 		ret = drm_simple_display_pipe_attach_bridge(&arcpgu->pipe, bridge);
- 		if (ret)
- 			return ret;
--	} else {
--		dev_info(drm->dev, "no encoder found. Assumed virtual LCD on simulation platform\n");
--		ret = arcpgu_drm_sim_init(drm, NULL);
--		if (ret < 0)
--			return ret;
- 	}
- 
- 	drm_mode_config_reset(drm);
++obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
+ obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/tiny/arcpgu.c
+similarity index 100%
+rename from drivers/gpu/drm/arc/arcpgu_drv.c
+rename to drivers/gpu/drm/tiny/arcpgu.c
 -- 
 2.29.2
 
