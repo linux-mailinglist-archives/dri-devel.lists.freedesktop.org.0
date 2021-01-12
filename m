@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B1A2F2AE6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:16:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AD62F2AF5
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEE76E17D;
-	Tue, 12 Jan 2021 09:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46406E182;
+	Tue, 12 Jan 2021 09:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D366E17D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:16:05 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id i9so1654415wrc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:16:05 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63D36E182
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:17:13 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id t30so1689940wrb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 01:17:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cvReRwy9emQXXnNKJ1WV85zP9TH2TW7Rwxm8NFJ4R1o=;
- b=RaR+/wkU4qcISp0cCGr/mb5nv0cFZE+Fgo9Z7NPkfZIzyihDBBzysQTaEh1dajesCN
- nIewTC3wPuZuI1X/MdST7nRqsJCfYftnR8hpr4i9SjbsoANFDYUWGLPUhgJjl5JoPCwo
- e2T47RafY6tAEpOkx4LNz6WYh83RU+uaT00Pw=
+ bh=BkFPPAMUp2t1YrBY41qrS/Q9HpIRZgTIhFUpfiEfe3I=;
+ b=cnwEUlV2QnvwNPkrS3zUaCdwjmeHQOssIIjMjbPTgCx7ymC6qa2UuAHdpQUkF7hMSu
+ KSdMe9AaLfIe2eAvAxK6jNSO+4SAAKFPYG+xFYpsQ5xPpcXVnRpWpp5VWcxXOb2V4+62
+ Rde1SXCDtujP5MblELcIKnpJEUx6jUPagkjrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=cvReRwy9emQXXnNKJ1WV85zP9TH2TW7Rwxm8NFJ4R1o=;
- b=PckteXHSxj04KMx96xmnJyWisRAmOn0je8TkRHAPYSjCdeZZDJzwJW1yDWY1aikOK4
- MZ2tH35y7cJjsceDU5cN3vymSg8gwL/FztlriI3q2hMWYPsfLxXPCzjjbm2UXMh0l/gt
- nsZ00ZbeEdXk6jiqaUU1eGizecNnT6sxdlzkst3s7JlOtVoEJdBNl6btf74xmzZhysY9
- ggPHic0V+5mwRNAptrjBy3nB2gftQX3KUuhfI/eaVj33uH6QMF7YCcSP+aDRddixjSpo
- HucX9IbXpXfGjxzMbBP19ae0yz+SY1daMVBDpekXq1XObx9LkKUbHJ19vS2Ho7azudmY
- ShCw==
-X-Gm-Message-State: AOAM5325u6mdsikS15gHd9d7wQlfNT2yAg1PpbYIXNG6bX49VoiJ85Mq
- lfye4kJpv1+SSGWkBvJKCQV3Aw==
-X-Google-Smtp-Source: ABdhPJzXaM6utKjCus690qaEmvs0MavRCx3bgdQHxU7t0bIWU1r9Li7FHYU3GYXhrcARhrKXAwOtHQ==
-X-Received: by 2002:a5d:67c1:: with SMTP id n1mr3179328wrw.205.1610442964117; 
- Tue, 12 Jan 2021 01:16:04 -0800 (PST)
+ bh=BkFPPAMUp2t1YrBY41qrS/Q9HpIRZgTIhFUpfiEfe3I=;
+ b=T9mzucqmZxSiWA9r3N+OCGDe+El85jTTxfE9mgE07T6n7DMF1P8lSX9oreCzPxuf8/
+ wlWRkCKEK07mvCXeOPOYd12W8ubjJs8k63nsU9EM4cMLcKOfDr+Pd6yMSKUXIsTJ81Rk
+ 7u/gmYk/GDxg9g1iqftW75KZ0iHA2+wSqgJBaJ2KhdR1y7c2RSAUdnzPaLHEYNiskZ9s
+ M0fQAaa+3Kymr2yz1ej7JNzD+jGpdHRJqCXtwxph0HFPhaKbAkySLdRnf0uXUpdP9cND
+ 4ktaEpuVtz9/xOa3tXRv2K2FIqKD3mXQu6RbjCcPeBF24oHNonbuLSfmhpGGyeUaalQL
+ jLzw==
+X-Gm-Message-State: AOAM532srHAcydlwuUL8O1E13jJPM+VZwE8I4US+ikv1DGFjz2WjGI5d
+ Tb3T2DJZtDUshDSpoHx3RDntGw==
+X-Google-Smtp-Source: ABdhPJx/V56gELooyGmDglikPZdA+XTA2xRFVdYCGu7EQxYoL6V/sTE/BkKNN5kG9dRt4iF6SIVi8g==
+X-Received: by 2002:a5d:558a:: with SMTP id i10mr3256036wrv.363.1610443032442; 
+ Tue, 12 Jan 2021 01:17:12 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e15sm3229876wrg.72.2021.01.12.01.16.02
+ by smtp.gmail.com with ESMTPSA id l5sm3810117wrv.44.2021.01.12.01.17.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 01:16:03 -0800 (PST)
-Date: Tue, 12 Jan 2021 10:16:01 +0100
+ Tue, 12 Jan 2021 01:17:11 -0800 (PST)
+Date: Tue, 12 Jan 2021 10:17:09 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 1/2] drm/radeon: stop re-init the TTM page pool
-Message-ID: <X/1o0STyJjU+wDC7@phenom.ffwll.local>
-References: <20210105182309.1362-1-christian.koenig@amd.com>
- <X/dN/YFtnVAIllds@phenom.ffwll.local>
- <ffa9d7f2-fe68-fb6a-8422-82b8949dbe1e@gmail.com>
- <X/hs1Rvm57zGPU8y@phenom.ffwll.local>
- <d066b08c-756c-bbef-0f30-d8c68ef92dbf@amd.com>
- <CAKMK7uGcRM8E0hYZeJCUuON7+uZnyEVtwU0HrNwhoWcw9V2uNA@mail.gmail.com>
- <42d82248-0bec-ea1c-8d6e-d032a2e53c43@gmail.com>
- <X/x6EP1HE/sjQla0@phenom.ffwll.local>
- <0da70aa5-d943-687c-6d54-c825f229bf40@amd.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
+ cursor update
+Message-ID: <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
+References: <20210108094340.15290-1-tzimmermann@suse.de>
+ <20210108094340.15290-12-tzimmermann@suse.de>
+ <X/yFj9zIdW52UKk4@phenom.ffwll.local>
+ <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0da70aa5-d943-687c-6d54-c825f229bf40@amd.com>
+In-Reply-To: <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,169 +69,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel <dri-devel@lists.freedesktop.org>
+Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com, kraxel@redhat.com,
+ airlied@redhat.com, virtualization@lists.linux-foundation.org, sean@poorly.run,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 12, 2021 at 08:53:03AM +0100, Christian K=F6nig wrote:
-> Am 11.01.21 um 17:17 schrieb Daniel Vetter:
-> > On Mon, Jan 11, 2021 at 11:16:13AM +0100, Christian K=F6nig wrote:
-> > > Am 08.01.21 um 16:53 schrieb Daniel Vetter:
-> > > > On Fri, Jan 8, 2021 at 3:36 PM Christian K=F6nig <christian.koenig@=
-amd.com> wrote:
-> > > > > Am 08.01.21 um 15:31 schrieb Daniel Vetter:
-> > > > > > On Thu, Jan 07, 2021 at 09:08:29PM +0100, Christian K=F6nig wro=
-te:
-> > > > > > > Am 07.01.21 um 19:07 schrieb Daniel Vetter:
-> > > > > > > > On Tue, Jan 05, 2021 at 07:23:08PM +0100, Christian K=F6nig=
- wrote:
-> > > > > > > > > Drivers are not supposed to init the page pool directly a=
-ny more.
-> > > > > > > > > =
-
-> > > > > > > > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.co=
-m>
-> > > > > > > > Please include reported-by credits and link to the bug repo=
-rts on
-> > > > > > > > lore.kernel.org when merging this. Also I guess this should=
- have a Fixes:
-> > > > > > > > line?
-> > > > > > > I'm not aware of a bug report, but the reported-by/Fixes line=
-s are indeed
-> > > > > > > missing.
-> > > > > > This one here:
-> > > > > > =
-
-> > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
-2F%2Flore.kernel.org%2Fdri-devel%2F20201231104020.GA4504%40zn.tnic%2F&amp;d=
-ata=3D04%7C01%7Cchristian.koenig%40amd.com%7Cff77249040634cf2750308d8b64c61=
-6d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637459786459556204%7CUnknow=
-n%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI=
-6Mn0%3D%7C1000&amp;sdata=3Dm8tjDXFtsEwtcv9byq5r1sbUuqb8q%2BAn63r4aKMpcaM%3D=
-&amp;reserved=3D0
-> > > > > > =
-
-> > > > > > Or did I get confused, and the above is yet another bug?
-> > > > > Yeah, but that was just reported by mail. The bug tracker I've sa=
-w was
-> > > > > opened after the patch was already pushed.
-> > > > Still good to give reported-by credits for mailing list reports and
-> > > > link to lore.kernel.org for the report, that's not just useful for
-> > > > bugzilla reports.
-> > > That's indeed true, but I was distracted by the fact that drm-misc-fi=
-xes
-> > > wasn't up to date :)
-> > > =
-
-> > > Going to add that earlier next time.
-> > > =
-
-> > > > > > > BTW: Any idea why dim add-link doesn't work?
-> > > > > > Hm we occasionally have fun with email parsing (it's hard) and =
-especially
-> > > > > > python changes in how encodings are handled differently between=
- python2
-> > > > > > and python3. If you have a specific example I can try and take =
-a look why
-> > > > > > it doesn't work.
-> > > > > It just looks up and doesn't seem to do anything. I'm not familia=
-r with
-> > > > > python so I can just describe the symptoms.
-> > > > I meant tell me which mail (patchwork or lore) and I'll try to
-> > > > reproduce and see what's maybe up.
-> > > It doesn't seem to work in general. E.g. any patch I try I just don't=
- get
-> > > any progress in over 10 Minutes.
-> > > =
-
-> > > Maybe some server is not responding?
-> > Uh dim add-link pretty similar to dim apply-patch, it takes the mbox on
-> > stdin and does only local git stuff with it.
+On Tue, Jan 12, 2021 at 08:54:02AM +0100, Thomas Zimmermann wrote:
+> Hi
 > =
 
-> AH! Since it was getting a branch parameter I was assuming that it looks =
-at
-> patches on that branch!
+> Am 11.01.21 um 18:06 schrieb Daniel Vetter:
+> > On Fri, Jan 08, 2021 at 10:43:38AM +0100, Thomas Zimmermann wrote:
+> > > Cursor updates in vboxvideo require a short-term mapping of the
+> > > source BO. Use drm_gem_vram_vmap_local() and avoid the pinning
+> > > operations.
+> > > =
 
-Yeah the branch parameter is just so it knows where it should add the
-Link: Since the link is presumably not there yet we can't fish out the
-original mbox from archives anyway.
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > =
+
+> > All these drivers patches break the dma_resv_lock vs
+> > dma_fence_begin/end_signalling nesting rules, so this doesn't work.
+> > =
+
+> > Generally this is what the prepare/cleanup_fb hooks are for, that's whe=
+re
+> > mappings (including vmaps) are meant to be set up, permanently.
+> > =
+
+> > I'm kinda not clear on why we need all these changes, I thought the
+> > locking problem is just in the fb helper paths, because it's outside of
+> > the atomic path and could conflict with an atomic update at the same ti=
+me?
+> > So only that one should get the vmap_local treatment, everything else
+> > should keep the normal vmap treatment.
+> =
+
+> Kind of responding to all your comment on the driver changes:
+> =
+
+> These drivers only require short-term mappings, so using vmap_local would=
+ be
+> the natural choice. For SHMEM helpers, it's mostly a cosmetic thing. For
+> VRAM helpers, I was hoping to remove the vmap/vunmap helpers entirely. One
+> cannot really map the BOs for the long-term, so not having the helpers at
+> all would make sense.
+> =
+
+> But reading all your comments on the driver patches, I'd rather not update
+> the drivers here but later convert them to use prepare_fb/cleanup_fb in t=
+he
+> correct way.
+
+Ack from me on this plan. I think I got all the other patches with an r-b
+or ack?
 -Daniel
 
 > =
 
-> Thanks for the explanation,
-> Christian.
+> Best regards
+> Thomas
 > =
 
 > > -Daniel
-> > =
-
-> > > Christian.
+> > > ---
+> > >   drivers/gpu/drm/vboxvideo/vbox_mode.c | 15 +++++++++------
+> > >   1 file changed, 9 insertions(+), 6 deletions(-)
 > > > =
 
-> > > > -Daniel
-> > > > =
-
-> > > > > Christian.
-> > > > > =
-
-> > > > > > -Daniel
-> > > > > > =
-
-> > > > > > > > And maybe some words on how/why stuff blows up.
-> > > > > > > Just a typo. I've forgot to remove two lines in radeon while =
-rebasing and
-> > > > > > > still had the symbols exported so never noticed this.
-> > > > > > > =
-
-> > > > > > > Christian.
-> > > > > > > =
-
-> > > > > > > > -Daniel
-> > > > > > > > =
-
-> > > > > > > > > ---
-> > > > > > > > >      drivers/gpu/drm/radeon/radeon_ttm.c | 3 ---
-> > > > > > > > >      1 file changed, 3 deletions(-)
-> > > > > > > > > =
-
-> > > > > > > > > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/driver=
-s/gpu/drm/radeon/radeon_ttm.c
-> > > > > > > > > index d4328ff57757..35b715f82ed8 100644
-> > > > > > > > > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> > > > > > > > > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> > > > > > > > > @@ -729,9 +729,6 @@ int radeon_ttm_init(struct radeon_dev=
-ice *rdev)
-> > > > > > > > >              }
-> > > > > > > > >              rdev->mman.initialized =3D true;
-> > > > > > > > > -  ttm_pool_init(&rdev->mman.bdev.pool, rdev->dev, rdev->=
-need_swiotlb,
-> > > > > > > > > -                dma_addressing_limited(&rdev->pdev->dev)=
+> > > diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/=
+vboxvideo/vbox_mode.c
+> > > index dbc0dd53c69e..215b37c78c10 100644
+> > > --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> > > +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> > > @@ -381,7 +381,8 @@ static void vbox_cursor_atomic_update(struct drm_=
+plane *plane,
+> > >   		container_of(plane->dev, struct vbox_private, ddev);
+> > >   	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc);
+> > >   	struct drm_framebuffer *fb =3D plane->state->fb;
+> > > -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+> > > +	struct drm_gem_object *obj =3D fb->obj[0];
+> > > +	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(obj);
+> > >   	u32 width =3D plane->state->crtc_w;
+> > >   	u32 height =3D plane->state->crtc_h;
+> > >   	size_t data_size, mask_size;
+> > > @@ -401,11 +402,12 @@ static void vbox_cursor_atomic_update(struct dr=
+m_plane *plane,
+> > >   	vbox_crtc->cursor_enabled =3D true;
+> > > -	ret =3D drm_gem_vram_vmap(gbo, &map);
+> > > +	ret =3D dma_resv_lock(obj->resv, NULL);
+> > > +	if (ret)
+> > > +		return;
+> > > +	ret =3D drm_gem_vram_vmap_local(gbo, &map);
+> > >   	if (ret) {
+> > > -		/*
+> > > -		 * BUG: we should have pinned the BO in prepare_fb().
+> > > -		 */
+> > > +		dma_resv_unlock(obj->resv);
+> > >   		mutex_unlock(&vbox->hw_mutex);
+> > >   		DRM_WARN("Could not map cursor bo, skipping update\n");
+> > >   		return;
+> > > @@ -421,7 +423,8 @@ static void vbox_cursor_atomic_update(struct drm_=
+plane *plane,
+> > >   	data_size =3D width * height * 4 + mask_size;
+> > >   	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size=
 );
-> > > > > > > > > -
-> > > > > > > > >              r =3D radeon_ttm_init_vram(rdev);
-> > > > > > > > >              if (r) {
-> > > > > > > > >                      DRM_ERROR("Failed initializing VRAM =
-heap.\n");
-> > > > > > > > > --
-> > > > > > > > > 2.25.1
-> > > > > > > > > =
+> > > -	drm_gem_vram_vunmap(gbo, &map);
+> > > +	drm_gem_vram_vunmap_local(gbo, &map);
+> > > +	dma_resv_unlock(obj->resv);
+> > >   	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+> > >   		VBOX_MOUSE_POINTER_ALPHA;
+> > > -- =
 
-> > > > > > > > > _______________________________________________
-> > > > > > > > > dri-devel mailing list
-> > > > > > > > > dri-devel@lists.freedesktop.org
-> > > > > > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhtt=
-ps%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=
-=3D04%7C01%7Cchristian.koenig%40amd.com%7Cff77249040634cf2750308d8b64c616d%=
-7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637459786459556204%7CUnknown%7=
-CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn=
-0%3D%7C1000&amp;sdata=3DnBl4CRoSoA3t%2Bd4sZ4My4L27GiCiJwRenoILGU9LbO4%3D&am=
-p;reserved=3D0
+> > > 2.29.2
+> > > =
+
+> > =
+
 > =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
 
 
 -- =
