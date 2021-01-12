@@ -1,62 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738DF2F4625
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 968FC2F463B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A6A6E0EF;
-	Wed, 13 Jan 2021 08:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02836E140;
+	Wed, 13 Jan 2021 08:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7532894D7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 18:14:54 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id u25so4801248lfc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 10:14:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EhvpCXfXEGgbj1XNgFmk5csruT29p6F6IHATsZnGuB0=;
- b=saLNy4wrApcawB8BTgH8PDwcACYsJuO/sT58oEcMHmB4ix9U67QEkcsamzOrZC4Q98
- frmIKv2vNJ8d0ftt7CNMI7Eu0BKxAdQbKEcj0bXnhaxpq8ioPo0FoPD30dVroRE4+lgE
- BDGDQ3wuvILPrfsieF1PeRPJj1e2PtkHlvoeb+BImaqxp2/1QZ2O5WtnY0znouqcWBxw
- RdDAko/K6AT9ZlqYNdVY92fIjcUKXzdid8Cdw/Qit8+ceS7nCxHu8F0s0rjn+w1Pebr+
- Pq/ANxpHexVKXru4Es9hYpLBxtKtpadOOogkLu2Q0rLX9MvLc8z5tQHCEvN/ZU+wVCcd
- vVrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EhvpCXfXEGgbj1XNgFmk5csruT29p6F6IHATsZnGuB0=;
- b=DvuJpVb1bx8DOEb8V6zz6iVgLv+YPC8ql66CIs1XQxaV+vR+SJ3oEW14DQ/Ul2VtX4
- E5mbziRaTDCAaKZgW4cm2WZ4jG1iIDBlRzOAvR1Zqprneq31hIcFeMK9YJ2jOhtcLhrl
- 5DC1y7whhoXCGKODC9/EO0kF+O9ootOF1eWMBT0GBqND7kD7taS2AVrZXXE5LXProvXg
- mYoPned5mNy8PG+uzdf8X1HM77QRntAI2Gc/IJUMOyxBNEs8HVgasA4be4qwWLZorItb
- 5g7qaPauur0uY2YT2yIsgWv7FtUxfh52wSXrTNtsNY5NXZrPt2hFEiqc8sfpFrsA1ktD
- rTYw==
-X-Gm-Message-State: AOAM531kKeybKrtHTxRycNsTTMCKwShaNOcKIG5ZLfOaOtI/cSOhSmxH
- HnE5sQsLnQX/Rz2Xip6SrZE=
-X-Google-Smtp-Source: ABdhPJx49e3mU5MGwu0rz7h3L5r7xsREqFiHciTjzQWB50fOLe08nTBrky2LB3Y0lLMj+cm0VdI+fg==
-X-Received: by 2002:a05:6512:21a5:: with SMTP id
- c5mr64558lft.423.1610475293102; 
- Tue, 12 Jan 2021 10:14:53 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.gmail.com with ESMTPSA id r8sm417420ljd.140.2021.01.12.10.14.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:14:52 -0800 (PST)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>,
- Anton Bambura <jenneron@protonmail.com>
-Subject: [PATCH v1 3/3] drm/tegra: gr2d: Add compatible for Tegra114
-Date: Tue, 12 Jan 2021 21:14:21 +0300
-Message-Id: <20210112181421.21293-4-digetx@gmail.com>
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07ED789F0A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 19:26:50 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 215183E7BE;
+ Tue, 12 Jan 2021 20:26:47 +0100 (CET)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2 0/7] Qualcomm DRM DPU fixes
+Date: Tue, 12 Jan 2021 20:26:25 +0100
+Message-Id: <20210112192632.502897-1-angelogioacchino.delregno@somainline.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112181421.21293-1-digetx@gmail.com>
-References: <20210112181421.21293-1-digetx@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,50 +38,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, konrad.dybcio@somainline.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ martin.botka@somainline.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ marijn.suijten@somainline.org, phone-devel@vger.kernel.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra114 has GR2D hardware block, support it by the 2D driver.
+This patch series brings some fixes to the Qualcomm DPU driver, aim is
+to get it prepared for "legacy" SoCs (like MSM8998, SDM630/660) and to
+finally get command-mode displays working on this driver.
 
-Tested-by: Anton Bambura <jenneron@protonmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/drm.c  | 1 +
- drivers/gpu/drm/tegra/gr2d.c | 5 +++++
- 2 files changed, 6 insertions(+)
+The series was tested against MSM8998 (the commit that introduces it to
+the hw-catalog is not included in this series, as it needs to be cleaned
+up a little more) and specifically on:
+- Sony Xperia XZ Premium (MSM8998), 4K dual-dsi LCD display, command-mode
+- F(x)Tec Pro1 (MSM8998), single-dsi OLED display, video-mode
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index e24e05a47197..47e7945dbc3b 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1318,6 +1318,7 @@ static const struct of_device_id host1x_drm_subdevs[] = {
- 	{ .compatible = "nvidia,tegra114-dc", },
- 	{ .compatible = "nvidia,tegra114-dsi", },
- 	{ .compatible = "nvidia,tegra114-hdmi", },
-+	{ .compatible = "nvidia,tegra114-gr2d", },
- 	{ .compatible = "nvidia,tegra114-gr3d", },
- 	{ .compatible = "nvidia,tegra124-dc", },
- 	{ .compatible = "nvidia,tegra124-sor", },
-diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
-index f30aa86e4c9f..adbe2ddcda19 100644
---- a/drivers/gpu/drm/tegra/gr2d.c
-+++ b/drivers/gpu/drm/tegra/gr2d.c
-@@ -161,7 +161,12 @@ static const struct gr2d_soc tegra30_gr2d_soc = {
- 	.version = 0x30,
- };
- 
-+static const struct gr2d_soc tegra114_gr2d_soc = {
-+	.version = 0x35,
-+};
-+
- static const struct of_device_id gr2d_match[] = {
-+	{ .compatible = "nvidia,tegra114-gr2d", .data = &tegra114_gr2d_soc },
- 	{ .compatible = "nvidia,tegra30-gr2d", .data = &tegra30_gr2d_soc },
- 	{ .compatible = "nvidia,tegra20-gr2d", .data = &tegra20_gr2d_soc },
- 	{ },
+... And it obviously worked just perfect!
+
+Changes in v2:
+- Dropped patches "drm/msm/dpu: Add a function to retrieve the current CTL status"
+  and "drm/msm/dpu: Fix timeout issues on command mode panels" as the
+  second patch was wrong.
+- Fixed patch apply issues on latest linux-next and 5.11-rcX
+
+AngeloGioacchino Del Regno (7):
+  drm/msm/dpu: Fix VBIF_XINL_QOS_LVL_REMAP_000 register offset
+  drm/msm/dpu: Move DPU_SSPP_QOS_8LVL bit to SDM845 and SC7180 masks
+  drm/msm/dpu: Add prog_fetch_lines_worst_case to INTF_BLK macro
+  drm/msm/dpu: Allow specifying features and sblk in DSPP_BLK macro
+  drm/msm/dpu: Disable autorefresh in command mode
+  drm/msm/dpu: Correctly configure vsync tearcheck for command mode
+  drm/msm/dpu: Remove unused call in wait_for_commit_done
+
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 90 +++++++++++++++----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 49 +++++-----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 26 ++++++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   |  9 +-
+ 5 files changed, 147 insertions(+), 41 deletions(-)
+
 -- 
 2.29.2
 
