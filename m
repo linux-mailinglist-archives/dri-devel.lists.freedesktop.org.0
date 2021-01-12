@@ -1,36 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B945B2F2BCD
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:53:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 402042F2BF7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Jan 2021 10:57:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29D986E185;
-	Tue, 12 Jan 2021 09:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC406E19A;
+	Tue, 12 Jan 2021 09:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D856E185
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 09:53:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8A26E198;
+ Tue, 12 Jan 2021 09:56:55 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 40D28AC8F;
- Tue, 12 Jan 2021 09:53:15 +0000 (UTC)
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
+ by mx2.suse.de (Postfix) with ESMTP id 12825AC8F;
+ Tue, 12 Jan 2021 09:56:54 +0000 (UTC)
+Subject: Re: [PATCH 1/6] drm: Inline AGP wrappers into their only callers
 To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
- <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
- <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
+References: <20210112081035.6882-1-tzimmermann@suse.de>
+ <20210112081035.6882-2-tzimmermann@suse.de>
+ <X/1k30zps1I36JDd@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b92c3b2c-9993-5050-7d0b-2beb41098787@suse.de>
-Date: Tue, 12 Jan 2021 10:53:13 +0100
+Message-ID: <db1ccba8-f890-cbd4-9417-19c71b3d5b5e@suse.de>
+Date: Tue, 12 Jan 2021 10:56:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
+In-Reply-To: <X/1k30zps1I36JDd@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,175 +40,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- hdegoede@redhat.com, kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org,
- christian.koenig@amd.com, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0040854725=="
+Cc: airlied@linux.ie, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============1120733018=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0040854725==
+--===============1120733018==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="VfIOqAoYLyjeSozmZQvGtQP8PcMB5gALG"
+ boundary="83R3OKgb5FUxLOaz6VORZZ5GnjHlGAqN4"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VfIOqAoYLyjeSozmZQvGtQP8PcMB5gALG
-Content-Type: multipart/mixed; boundary="6YcwXAACbQbZD7Ebd4YXPTSwPsT7mQnRv";
+--83R3OKgb5FUxLOaz6VORZZ5GnjHlGAqN4
+Content-Type: multipart/mixed; boundary="cI19EithxEu2URgZY4x9nGfn1DKPa8HzC";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- hdegoede@redhat.com, kraxel@redhat.com, airlied@redhat.com,
- virtualization@lists.linux-foundation.org, sean@poorly.run,
- linux-media@vger.kernel.org
-Message-ID: <b92c3b2c-9993-5050-7d0b-2beb41098787@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/vboxvideo: Use drm_gem_vram_vmap_local() in
- cursor update
-References: <20210108094340.15290-1-tzimmermann@suse.de>
- <20210108094340.15290-12-tzimmermann@suse.de>
- <X/yFj9zIdW52UKk4@phenom.ffwll.local>
- <a42dbfad-4280-eeea-5915-71061f732a4a@suse.de>
- <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
-In-Reply-To: <X/1pFaa9I7WFjtJW@phenom.ffwll.local>
+Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
+Message-ID: <db1ccba8-f890-cbd4-9417-19c71b3d5b5e@suse.de>
+Subject: Re: [PATCH 1/6] drm: Inline AGP wrappers into their only callers
+References: <20210112081035.6882-1-tzimmermann@suse.de>
+ <20210112081035.6882-2-tzimmermann@suse.de>
+ <X/1k30zps1I36JDd@phenom.ffwll.local>
+In-Reply-To: <X/1k30zps1I36JDd@phenom.ffwll.local>
 
---6YcwXAACbQbZD7Ebd4YXPTSwPsT7mQnRv
+--cI19EithxEu2URgZY4x9nGfn1DKPa8HzC
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 12.01.21 um 10:17 schrieb Daniel Vetter:
-> On Tue, Jan 12, 2021 at 08:54:02AM +0100, Thomas Zimmermann wrote:
->> Hi
+Am 12.01.21 um 09:59 schrieb Daniel Vetter:
+> On Tue, Jan 12, 2021 at 09:10:30AM +0100, Thomas Zimmermann wrote:
+>> The AGP wrapper functions serve no purpose.
 >>
->> Am 11.01.21 um 18:06 schrieb Daniel Vetter:
->>> On Fri, Jan 08, 2021 at 10:43:38AM +0100, Thomas Zimmermann wrote:
->>>> Cursor updates in vboxvideo require a short-term mapping of the
->>>> source BO. Use drm_gem_vram_vmap_local() and avoid the pinning
->>>> operations.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>> All these drivers patches break the dma_resv_lock vs
->>> dma_fence_begin/end_signalling nesting rules, so this doesn't work.
->>>
->>> Generally this is what the prepare/cleanup_fb hooks are for, that's w=
-here
->>> mappings (including vmaps) are meant to be set up, permanently.
->>>
->>> I'm kinda not clear on why we need all these changes, I thought the
->>> locking problem is just in the fb helper paths, because it's outside =
-of
->>> the atomic path and could conflict with an atomic update at the same =
-time?
->>> So only that one should get the vmap_local treatment, everything else=
-
->>> should keep the normal vmap treatment.
->>
->> Kind of responding to all your comment on the driver changes:
->>
->> These drivers only require short-term mappings, so using vmap_local wo=
-uld be
->> the natural choice. For SHMEM helpers, it's mostly a cosmetic thing. F=
-or
->> VRAM helpers, I was hoping to remove the vmap/vunmap helpers entirely.=
- One
->> cannot really map the BOs for the long-term, so not having the helpers=
- at
->> all would make sense.
->>
->> But reading all your comments on the driver patches, I'd rather not up=
-date
->> the drivers here but later convert them to use prepare_fb/cleanup_fb i=
-n the
->> correct way.
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> Ack from me on this plan. I think I got all the other patches with an r=
--b
-> or ack?
+> They do, without them we fail compiling (I think at least) when agp isn=
+'t
 
-The shmem patch needs an update from my side.
+I thought so. But the only callers are in drm_agpsupport.c, which=20
+depends on CONFIG_AGP in the Makefile. So I expected this to work.
 
 Best regards
 Thomas
 
+> enabled. Did you check for that? I should all work if we have the dummy=
+
+> inlines for relevant agp functions in linux/agp_backend.h.
 > -Daniel
 >=20
+>> ---
+>>   drivers/gpu/drm/drm_agpsupport.c | 12 ++++++------
+>>   drivers/gpu/drm/drm_memory.c     | 18 ------------------
+>>   include/drm/drm_agpsupport.h     | 18 ------------------
+>>   3 files changed, 6 insertions(+), 42 deletions(-)
 >>
->> Best regards
->> Thomas
->>
->>> -Daniel
->>>> ---
->>>>    drivers/gpu/drm/vboxvideo/vbox_mode.c | 15 +++++++++------
->>>>    1 file changed, 9 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm=
-/vboxvideo/vbox_mode.c
->>>> index dbc0dd53c69e..215b37c78c10 100644
->>>> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
->>>> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
->>>> @@ -381,7 +381,8 @@ static void vbox_cursor_atomic_update(struct drm=
-_plane *plane,
->>>>    		container_of(plane->dev, struct vbox_private, ddev);
->>>>    	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc)=
-;
->>>>    	struct drm_framebuffer *fb =3D plane->state->fb;
->>>> -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]=
-);
->>>> +	struct drm_gem_object *obj =3D fb->obj[0];
->>>> +	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(obj);
->>>>    	u32 width =3D plane->state->crtc_w;
->>>>    	u32 height =3D plane->state->crtc_h;
->>>>    	size_t data_size, mask_size;
->>>> @@ -401,11 +402,12 @@ static void vbox_cursor_atomic_update(struct d=
-rm_plane *plane,
->>>>    	vbox_crtc->cursor_enabled =3D true;
->>>> -	ret =3D drm_gem_vram_vmap(gbo, &map);
->>>> +	ret =3D dma_resv_lock(obj->resv, NULL);
->>>> +	if (ret)
->>>> +		return;
->>>> +	ret =3D drm_gem_vram_vmap_local(gbo, &map);
->>>>    	if (ret) {
->>>> -		/*
->>>> -		 * BUG: we should have pinned the BO in prepare_fb().
->>>> -		 */
->>>> +		dma_resv_unlock(obj->resv);
->>>>    		mutex_unlock(&vbox->hw_mutex);
->>>>    		DRM_WARN("Could not map cursor bo, skipping update\n");
->>>>    		return;
->>>> @@ -421,7 +423,8 @@ static void vbox_cursor_atomic_update(struct drm=
-_plane *plane,
->>>>    	data_size =3D width * height * 4 + mask_size;
->>>>    	copy_cursor_image(src, vbox->cursor_data, width, height, mask_si=
-ze);
->>>> -	drm_gem_vram_vunmap(gbo, &map);
->>>> +	drm_gem_vram_vunmap_local(gbo, &map);
->>>> +	dma_resv_unlock(obj->resv);
->>>>    	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE =
-|
->>>>    		VBOX_MOUSE_POINTER_ALPHA;
->>>> --=20
->>>> 2.29.2
->>>>
->>>
->>
+>> diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_ag=
+psupport.c
+>> index 4c7ad46fdd21..8b690ef306de 100644
+>> --- a/drivers/gpu/drm/drm_agpsupport.c
+>> +++ b/drivers/gpu/drm/drm_agpsupport.c
+>> @@ -285,7 +285,7 @@ int drm_agp_unbind(struct drm_device *dev, struct =
+drm_agp_binding *request)
+>>   	entry =3D drm_agp_lookup_entry(dev, request->handle);
+>>   	if (!entry || !entry->bound)
+>>   		return -EINVAL;
+>> -	ret =3D drm_unbind_agp(entry->memory);
+>> +	ret =3D agp_unbind_memory(entry->memory);
+>>   	if (ret =3D=3D 0)
+>>   		entry->bound =3D 0;
+>>   	return ret;
+>> @@ -326,7 +326,7 @@ int drm_agp_bind(struct drm_device *dev, struct dr=
+m_agp_binding *request)
+>>   	if (!entry || entry->bound)
+>>   		return -EINVAL;
+>>   	page =3D DIV_ROUND_UP(request->offset, PAGE_SIZE);
+>> -	retcode =3D drm_bind_agp(entry->memory, page);
+>> +	retcode =3D agp_bind_memory(entry->memory, page);
+>>   	if (retcode)
+>>   		return retcode;
+>>   	entry->bound =3D dev->agp->base + (page << PAGE_SHIFT);
+>> @@ -369,11 +369,11 @@ int drm_agp_free(struct drm_device *dev, struct =
+drm_agp_buffer *request)
+>>   	if (!entry)
+>>   		return -EINVAL;
+>>   	if (entry->bound)
+>> -		drm_unbind_agp(entry->memory);
+>> +		agp_unbind_memory(entry->memory);
+>>  =20
+>>   	list_del(&entry->head);
+>>  =20
+>> -	drm_free_agp(entry->memory, entry->pages);
+>> +	agp_free_memory(entry->memory);
+>>   	kfree(entry);
+>>   	return 0;
+>>   }
+>> @@ -453,8 +453,8 @@ void drm_legacy_agp_clear(struct drm_device *dev)
+>>  =20
+>>   	list_for_each_entry_safe(entry, tempe, &dev->agp->memory, head) {
+>>   		if (entry->bound)
+>> -			drm_unbind_agp(entry->memory);
+>> -		drm_free_agp(entry->memory, entry->pages);
+>> +			agp_unbind_memory(entry->memory);
+>> +		agp_free_memory(entry->memory);
+>>   		kfree(entry);
+>>   	}
+>>   	INIT_LIST_HEAD(&dev->agp->memory);
+>> diff --git a/drivers/gpu/drm/drm_memory.c b/drivers/gpu/drm/drm_memory=
+=2Ec
+>> index fbea69d6f909..f4f2bffdd5bd 100644
+>> --- a/drivers/gpu/drm/drm_memory.c
+>> +++ b/drivers/gpu/drm/drm_memory.c
+>> @@ -100,24 +100,6 @@ static void *agp_remap(unsigned long offset, unsi=
+gned long size,
+>>   	return addr;
+>>   }
+>>  =20
+>> -/** Wrapper around agp_free_memory() */
+>> -void drm_free_agp(struct agp_memory *handle, int pages)
+>> -{
+>> -	agp_free_memory(handle);
+>> -}
+>> -
+>> -/** Wrapper around agp_bind_memory() */
+>> -int drm_bind_agp(struct agp_memory *handle, unsigned int start)
+>> -{
+>> -	return agp_bind_memory(handle, start);
+>> -}
+>> -
+>> -/** Wrapper around agp_unbind_memory() */
+>> -int drm_unbind_agp(struct agp_memory *handle)
+>> -{
+>> -	return agp_unbind_memory(handle);
+>> -}
+>> -
+>>   #else /*  CONFIG_AGP  */
+>>   static inline void *agp_remap(unsigned long offset, unsigned long si=
+ze,
+>>   			      struct drm_device *dev)
+>> diff --git a/include/drm/drm_agpsupport.h b/include/drm/drm_agpsupport=
+=2Eh
+>> index 664e120b93e6..f3136750c490 100644
+>> --- a/include/drm/drm_agpsupport.h
+>> +++ b/include/drm/drm_agpsupport.h
+>> @@ -28,10 +28,6 @@ struct drm_agp_head {
+>>  =20
+>>   #if IS_ENABLED(CONFIG_AGP)
+>>  =20
+>> -void drm_free_agp(struct agp_memory * handle, int pages);
+>> -int drm_bind_agp(struct agp_memory * handle, unsigned int start);
+>> -int drm_unbind_agp(struct agp_memory * handle);
+>> -
+>>   struct drm_agp_head *drm_agp_init(struct drm_device *dev);
+>>   void drm_legacy_agp_clear(struct drm_device *dev);
+>>   int drm_agp_acquire(struct drm_device *dev);
+>> @@ -61,20 +57,6 @@ int drm_agp_bind_ioctl(struct drm_device *dev, void=
+ *data,
+>>  =20
+>>   #else /* CONFIG_AGP */
+>>  =20
+>> -static inline void drm_free_agp(struct agp_memory * handle, int pages=
+)
+>> -{
+>> -}
+>> -
+>> -static inline int drm_bind_agp(struct agp_memory * handle, unsigned i=
+nt start)
+>> -{
+>> -	return -ENODEV;
+>> -}
+>> -
+>> -static inline int drm_unbind_agp(struct agp_memory * handle)
+>> -{
+>> -	return -ENODEV;
+>> -}
+>> -
+>>   static inline struct drm_agp_head *drm_agp_init(struct drm_device *d=
+ev)
+>>   {
+>>   	return NULL;
 >> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>> 2.29.2
 >>
->=20
->=20
->=20
 >=20
 
 --=20
@@ -223,32 +240,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---6YcwXAACbQbZD7Ebd4YXPTSwPsT7mQnRv--
+--cI19EithxEu2URgZY4x9nGfn1DKPa8HzC--
 
---VfIOqAoYLyjeSozmZQvGtQP8PcMB5gALG
+--83R3OKgb5FUxLOaz6VORZZ5GnjHlGAqN4
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9cYkFAwAAAAAACgkQlh/E3EQov+Bp
-1w//cf4oCOD3SQzwZxnBmyRMrDwj3/hsNqEq1i9vX4NnDjAO56/tMRS3IqWvXOHO/gyWT/bd84Sa
-YVxRrEbD0jNlEvcxOhJb90+LqjXG1h2bQ76vfMKkgARzg3oKtVjzrsWj1H8BEW9d2HBizgVSDiD2
-TGh6OEP3SozxfRoVnmGetdnZAzSVRQNNKmOGNGjxyHjLLmzveCA/vwyQehuQfdeF+fKlUJpzdtP3
-e0re0dW7TNHlW9FRM8Alv1vhlE1FxGbkGZpC3qDX8hApAOLn+29m4ZEcAtvPFu6HmBKsDf6/Sx1E
-OfYyi6c2Yt7/u5Bx6dxIBlvGdzlifldI9BxY2mauFCh2TXtsWJVhTphaTJBjBDvjID3znpvlAwoE
-ejHwHyTByRa3Mx0g2Jey1wWUxknRfaRECTsFx3Dl/PCP2sb7LSMHxzbrhXRrj5GpvXB5knm5LlKf
-fKQhhALZInj9AZ0eHTx8kj7byiN7pdlcpmnuTmH6jizfdIvIjPjJGZxELiBVzWnC2nrgYCTxCKto
-yIdQm84ILER57yHOK95vqpeMD6PoS0N1MbkX8RFMTO8gGYsUFUqxqevzLaDfR/U+yjmqPqXO+wtB
-X3c3PQHAo0091FFszaaDFAj6lFFYqZTI+47FpULuvC0u+n8YYI0FOr+xRQLqrBsOQFuWOU9tBwR2
-nYM=
-=jSnm
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/9cmUFAwAAAAAACgkQlh/E3EQov+Cw
+8RAAkQkY8jUNQLhTpSFrz6qvglx/NDLAq+LYk2/bIFvccH+f++ygmdMyG7J0AAcR3fpsTak6CxyV
+AL+A6SW7S7NszfbupWstOSmKhm2ocQA1uchnLt+ATelhqizX+8XMiK0gKuckgN1MNodskd0kyWID
+k8WiisxuCncuHwISC6fO5Rqsmc8wxTn7G6p1EaH6BX9H3NNhK4eVDLtqfpZzTzmiTCBPYz4uO/pO
+Fyo6mmFIzqjKmuOxkeQpEp6LJIaNwxqp9dshLX8Ps94GOPKVgp9ThvZBkS1UpGAs3DLVvtRhYcIG
+5PsF/29bMSGjR0Mj+eSGkTmxwEOgx3C0QKKptECo8bnBn0R3x9YHp+uLWzTkAc4pHNmOVkSsaayZ
+H50rWqpMrSbkBfwwNq1F7PYk4iPm232gr0QX61eaf/KpJJeGob6GKriWg29epbiSvdRZMkYQ6ufe
+wPgVqJiMYxmi7pWXwuLQfWeAEmwO99WphviKNBn1mYFX/1rmB6DOeoFHFmsr7UVz3L2NgpR5QBaV
+t4pCsD2cl/gVhNuTG60BukGvNkiiyKrDTKFlQwAZedv8y5DaQYBhmB12Z/TnhUzoCU7RJmSsr+0N
+jEmX1ZXp7BJ4AIsn3R5o7Yv3orCsQ3CLqm+cNsv4FTyVANuY2C2I204jtypaxCMqqRMLElmdsf2T
+3Bc=
+=Zmm3
 -----END PGP SIGNATURE-----
 
---VfIOqAoYLyjeSozmZQvGtQP8PcMB5gALG--
+--83R3OKgb5FUxLOaz6VORZZ5GnjHlGAqN4--
 
---===============0040854725==
+--===============1120733018==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -259,4 +276,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0040854725==--
+--===============1120733018==--
