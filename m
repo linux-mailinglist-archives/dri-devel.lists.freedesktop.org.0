@@ -1,47 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7E82F461F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567F42F4631
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 655FD6E0CE;
-	Wed, 13 Jan 2021 08:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A776E0FE;
+	Wed, 13 Jan 2021 08:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E0D36E12D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:41:35 +0000 (UTC)
-X-UUID: 205d9bc5ae484039b5bc8029a7d7d10f-20210112
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=VBTKGTT0+mSnrPTP8B0PzlHyEFPhZjWk4u8GPBambi8=; 
- b=cFXg4jCN+sAigMXN/uu5sH/C8HVT3NuhcDWT1LLTvrHH2KunH74NoAWfUiW2OPFKPxWBfC7OohAZHHE8rWPXGV1oGviqF+rs0LMM+v8w8ywTGYBJeIC8sG1mMN6uipJh9bH1qnUDW4oMcpfALubytn82Es3iPvayUDEjQBh2iME=;
-X-UUID: 205d9bc5ae484039b5bc8029a7d7d10f-20210112
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <nick.fan@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1553792856; Tue, 12 Jan 2021 16:41:31 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 12 Jan 2021 16:41:29 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 12 Jan 2021 16:41:29 +0800
-Message-ID: <1610440889.1140.9.camel@mtksdaap41>
-Subject: Re: [PATCH v2 2/2] arm64: dts: mt8192: Add node for the Mali GPU
-From: Nick Fan <nick.fan@mediatek.com>
-To: Steven Price <steven.price@arm.com>
-Date: Tue, 12 Jan 2021 16:41:29 +0800
-In-Reply-To: <3d3bf91a-92b0-385c-b7c1-35af7732f05f@arm.com>
-References: <20210105053632.5476-1-Nick.Fan@mediatek.com>
- <20210105053632.5476-2-Nick.Fan@mediatek.com>
- <3d3bf91a-92b0-385c-b7c1-35af7732f05f@arm.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2091.outbound.protection.outlook.com [40.107.243.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DA36E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 08:57:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CEk20uS7ho1XfRGvatXq1kwoxlPHIPTwcB5Ku+WmH9YsUv92n1+8v0PY3qYsWTh2xa4wk6ZvMkFoj8ib0C3Dmv7ZZqGcfj287W3wz68ok1GOttxIWpmx4iEASMJjR613p73Wle+mjKORnn7zVaAbtkaVtnqpXA6KNPufm9NY+qaMQoN7+H6M1BITmM/jUtEj2tNzeyYFCjObc9g9SznpAGWow5JGeUQbJkkYYU31FLW4ug3dJKpcWCSpumJhHQ9m4GaLL2EUc4ZpjrLIXNS1D7zaGlUsgBt1QD5pBvVnK7iY5fy7A+za5t98qZ8q//xj7/swhIEowf7DGiCBDvxhdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2o2xK03t4sqDgpWZYk3HgHRyqmFDJ+1zILwkNrjEyKE=;
+ b=HgUscuojrxv+kAKHUh4hhgD0gvJJDpOsURLLttHhwty2ktpP4Ed8LYB3qKA/i0iOZRJuktyQJiU/QFwQ6eAfmRkYAGdI5a6e+SN8aWsjPQeJiuWFA9Xc1oYMj/L4/v2uZwTnUYg4vbknhopzWWpIaqk/78W/lziSbzCanRNrJQ+dm1bo9JEWWf+NXHMlENdQm5pGvudL7yu9vkvMZqfaxTttSjmSRrshGm1+Q6tNvkKoxQPPeFdqQNkZTleMJDJTBaLg05J/q56mUAekjsXB8a+dM9STJ1jXO7SSRRFdv+n1IComXwBXajBVegsFD2KGDgni1jBiXkDZlGJ4WnabPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2o2xK03t4sqDgpWZYk3HgHRyqmFDJ+1zILwkNrjEyKE=;
+ b=vq7umOqJPzMN+PVp6h+iadp2oC2jN1xS/+JgFqk/XNAkmdEW21ggovAH4VHtRyjvykKzXxNkUpK+isY1NTYRkUsf2+gP3M+KkYUdbMowLvY8Tu61aS/+YxFQb4zr0AgtuISmejQU04jhRQJyUIGqvhQchtW/926sDUf+WJbKxt8=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BYAPR04MB4744.namprd04.prod.outlook.com (2603:10b6:a03:16::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.12; Tue, 12 Jan
+ 2021 08:57:43 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::b59c:9ae:6e98:5e1e]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::b59c:9ae:6e98:5e1e%8]) with mapi id 15.20.3742.012; Tue, 12 Jan 2021
+ 08:57:42 +0000
+Date: Tue, 12 Jan 2021 16:57:37 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: drm/bridge: anx7625: add DPI flag
+ and swing setting
+Message-ID: <20210112085737.GC5827@pc-user>
+References: <cover.1609380663.git.xji@analogixsemi.com>
+ <d13442f84fefccc992d6c5e48ac1e6129882af31.1609380663.git.xji@analogixsemi.com>
+ <20210111221435.GA3138373@robh.at.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20210111221435.GA3138373@robh.at.kernel.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [61.148.116.10]
+X-ClientProxiedBy: HK0PR01CA0066.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::30) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-X-MTK: N
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pc-user (61.148.116.10) by
+ HK0PR01CA0066.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::30) with
+ Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.20.3742.6 via Frontend
+ Transport; Tue, 12 Jan 2021 08:57:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e5d8db33-a72c-429d-86d0-08d8b6d81f56
+X-MS-TrafficTypeDiagnostic: BYAPR04MB4744:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR04MB4744B7061B3251BC8B727862C7AA0@BYAPR04MB4744.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YhaAjRz82v+nsHZvtIlxYk8e2APMl3S4uHxxNRonMYAGrtIXlS9N8TkUGuxeMkmGKRrS6Lz7t5trL6qQ1rCPNedZjxpk0gpnzQFNhYyqFoASXRCTMBt5GcHx+2Y8zaN9JHCU46/rhvkVita6UWjWvBoAWSHg0YNDjTks2Y5aFdNv2O65ERQYqo/YFE78nN3EzNrQOn9RUpZvumzAAD+hqaTZjknM2k+0CwzTtB3vNCmKON9AaE6NQGcvfnCrji/c+nFQTiO7BoKNJE/hUr0Vx/Ci1KY8S74Re6Rr5A98mq3bVvFvgXr1loGUrRSt813HoExSCsy+xkKDlaqbmDm3BwBtJZbMPrGXfjVpM9l3v2SUNIp0rjEYLXU32RNgcvmGCHzL4Vmofc9B28KZ7iGr0Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39840400004)(376002)(366004)(346002)(396003)(136003)(66476007)(9686003)(66556008)(6666004)(478600001)(55016002)(16526019)(54906003)(186003)(8936002)(4326008)(83380400001)(86362001)(6496006)(52116002)(33716001)(1076003)(316002)(6916009)(8676002)(26005)(7416002)(5660300002)(2906002)(956004)(66946007)(33656002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2Y+igmaKLGLR3OOUMF7vy+nDkpznNS7ItLGZEGrp+Ta2904bmA7OP2udvC28?=
+ =?us-ascii?Q?fPR5eStiICGBnVQPyTNwnx3u21p3/KpYoXT4O4pAqQ0wtOhPNckTUvN7/q8x?=
+ =?us-ascii?Q?MjLZwkuGSL+1782NTqiaMXMxdkgRzD1opZ5LVwUN3NFxfXiEvWJ5lMxpzl2y?=
+ =?us-ascii?Q?s2iNsB94SzD0LZ5Z6ELm8414C9mMJtJbwfPyxQoOxXAVbovEriAbR9bNVnjg?=
+ =?us-ascii?Q?WfyA0vP1n/3jzGPeYnHkWKYT2aylLRELen+i4y/4nBivJ5NAH1CIYDQ59SK/?=
+ =?us-ascii?Q?EHi954u+dRGVeNlxkGKxUKCNOAROVtyVe/BUNiVOlseTZXdY/ObTNC7lU80X?=
+ =?us-ascii?Q?/Lbar7ed7oIq3EvbFRYSRK1WtBsIw+9dx/KC+osHLBZ7yFa4gVckk5uDgqqi?=
+ =?us-ascii?Q?P9UPdiTYS+eLcJKTYQqIkfxjYaNlGL65iWT7Iqro7W3GfX0Kio6SxhiQulDh?=
+ =?us-ascii?Q?CZb/X21qeNaB+cix1l3hLVLLPW8LhglfNkVmGu00rXiyfwo5FlO/B8fMUEPi?=
+ =?us-ascii?Q?N+9Ca2Cl5uIvfl7fWaUk8iwPwjhtlMMIA9Ljt5V6HSSOmxdGfaQZR7HleSxE?=
+ =?us-ascii?Q?1MT3Lyq/RDNl9kB4dsbMQY2mKgJiNvqkLfWt144dIybWH+8228II1pWlSliq?=
+ =?us-ascii?Q?rdz0fu0ydz8TWpuczA28/ilskjd4ahgSl1BonQkccpaMhzkjDDIFxFPWUol9?=
+ =?us-ascii?Q?C9Nmid1NeFRAOJIhaKwaMmQpyH+V9czUYqQgJ54M/mvL6yXAF5vw/ZMV085C?=
+ =?us-ascii?Q?4coG0rdkxvNzrtUHc9PEspMhD7K/fy8ronrtbEe4uXKHoJTQpcGsk4lFm2Lu?=
+ =?us-ascii?Q?IuaGJyiuErLmDTKD08hfjZnmDByD7yXqW9EbBkWeDiNWBuKXBUJt6wnCxO4w?=
+ =?us-ascii?Q?D2r2lXByuNI+TwJjrKMylpvWRm64wJhX7sHrZj+n0Woa2kt6rRggGcZMMZOv?=
+ =?us-ascii?Q?EhDz/DuZInNnApbP25XKXQsnhDv775ySsVR7+UaBijXDaa26U56xSS/KWkp1?=
+ =?us-ascii?Q?XzdK?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 08:57:42.6128 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5d8db33-a72c-429d-86d0-08d8b6d81f56
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C++vXsUIa5eXaE2UKV2JiYQONLENSCDbhaVgtVY7OuZd7KCwXqMtmM5v2J0krwXVcKJ0/5jqWq5Dje7ndILw+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4744
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,276 +117,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Boichat <drinkcat@google.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2021-01-08 at 15:58 +0000, Steven Price wrote:
-> On 05/01/2021 05:36, Nick Fan wrote:
-> > Add a basic GPU node for mt8192.
+Hi Rob Herring, thanks for the comments.
+
+On Mon, Jan 11, 2021 at 04:14:35PM -0600, Rob Herring wrote:
+> On Thu, Dec 31, 2020 at 10:21:12AM +0800, Xin Ji wrote:
+> > Add DPI flag for distinguish MIPI input signal type, DSI or DPI. Add
+> > swing setting for adjusting DP tx PHY swing
 > > 
-> > Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
+> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
 > > ---
-> > This patch depends on Mediatek power and regulator support.
+> >  .../bindings/display/bridge/analogix,anx7625.yaml  | 25 ++++++++++++++++++++--
+> >  1 file changed, 23 insertions(+), 2 deletions(-)
 > > 
-> > Listed as following.
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > index 60585a4..4eb0ea3 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > @@ -34,6 +34,16 @@ properties:
+> >      description: used for reset chip control, RESET_N pin B7.
+> >      maxItems: 1
+> >  
+> > +  analogix,swing-setting:
+> > +    type: uint8-array
+> 
+> Humm, this should have be rejected by the meta-schema.
+We needs define an array to adjust DP tx PHY swing, the developer hopes these
+settings are changeable, so I moved the register data to DT. Can you
+give me some suggestion if it is rejected by the meta-schema?
+> 
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> 
+> This is how types are defined other than boolean or nodes (object).
+> 
+> > +    description: an array of swing register setting for DP tx PHY
+> > +
+> > +  analogix,mipi-dpi-in:
+> > +    type: int
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: indicate the MIPI rx signal type is DPI or DSI
+> 
+> Why does this need to be in DT, you should be able to determine this 
+> based on what you are connected to.
+As the anx7625 can receive MIPI DSI and DPI data (depends on hardware
+implement, we have a project which have two anx7625, one is DSI input,
+the other is DPI input), we needs to let driver know what kind of MIPI
+rx signal input. And there is no other way to tell driver the MIPI rx
+signal type, we needs define this flag.
+> 
+> > +
+> >    ports:
+> >      type: object
+> >  
+> > @@ -49,8 +59,8 @@ properties:
+> >            Video port for panel or connector.
+> >  
+> >      required:
+> > -        - port@0
+> > -        - port@1
+> > +      - port@0
+> > +      - port@1
+> >  
+> >  required:
+> >    - compatible
+> > @@ -72,6 +82,17 @@ examples:
+> >              reg = <0x58>;
+> >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+> >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+> > +            analogix,swing-setting = <0x00 0x14>, <0x01 0x54>,
+> > +                <0x02 0x64>, <0x03 0x74>, <0x04 0x29>,
+> > +                <0x05 0x7b>, <0x06 0x77>, <0x07 0x5b>,
+> > +                <0x08 0x7f>, <0x0c 0x20>, <0x0d 0x60>,
+> > +                <0x10 0x60>, <0x12 0x40>, <0x13 0x60>,
+> > +                <0x14 0x14>, <0x15 0x54>, <0x16 0x64>,
+> > +                <0x17 0x74>, <0x18 0x29>, <0x19 0x7b>,
+> > +                <0x1a 0x77>, <0x1b 0x5b>, <0x1c 0x7f>,
+> > +                <0x20 0x20>, <0x21 0x60>, <0x24 0x60>,
+> > +                <0x26 0x40>, <0x27 0x60>;
+> 
+> This is a matrix, which is different from an array type.
+OK, I'll change to array if this vendor define has been accepted.
+> 
+> > +            analogix,mipi-dpi-in = <0>;
+> >  
+> >              ports {
+> >                  #address-cells = <1>;
+> > -- 
+> > 2.7.4
 > > 
-> > [1]https://lore.kernel.org/patchwork/patch/1336293/
-> > [2]https://patchwork.kernel.org/project/linux-mediatek/list/?series=374013
-> > [3]https://lore.kernel.org/patchwork/patch/1356037/
-> > [4]https://patchwork.kernel.org/project/linux-mediatek/list/?series=405777
-> > [5]https://lore.kernel.org/patchwork/patch/1356175/
-> > [6]https://patchwork.kernel.org/project/linux-mediatek/patch/1605700894-32699-6-git-send-email-hsin-hsiung.wang@mediatek.com/
-> > [7]https://patchwork.kernel.org/project/linux-mediatek/patch/1608104827-7937-10-git-send-email-hsin-hsiung.wang@mediatek.com/
-> > ---
-> > ---
-> >   arch/arm64/boot/dts/mediatek/mt8192-evb.dts |   7 +
-> >   arch/arm64/boot/dts/mediatek/mt8192.dtsi    | 176 ++++++++++++++++++++
-> >   2 files changed, 183 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-> > index 6c1e2b3e8a60..48c0e240dd92 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-> > @@ -5,6 +5,7 @@
-> >    */
-> >   /dts-v1/;
-> >   #include "mt8192.dtsi"
-> > +#include "mt6359.dtsi"
-> >   
-> >   / {
-> >   	model = "MediaTek MT8192 evaluation board";
-> > @@ -70,6 +71,12 @@
-> >   	};
-> >   };
-> >   
-> > +&gpu {
-> > +	supply-names = "mali","sram";
-> > +	mali-supply = <&mt6315_7_vbuck1>;
-> > +	sram-supply = <&mt6359_vsram_others_ldo_reg>;
-> > +};
-> > +
-> >   &uart0 {
-> >   	status = "okay";
-> >   };
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-> > index d6a4ad242a33..de166ea750af 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-> > @@ -822,6 +822,182 @@
-> >   			#clock-cells = <1>;
-> >   		};
-> >   
-> > +		gpu: mali@13000000 {
-> > +			compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
-> > +			reg = <0 0x13000000 0 0x4000>;
-> > +			interrupts =
-> > +				<GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
-> > +				<GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
-> > +				<GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>,
-> > +				<GIC_SPI 366 IRQ_TYPE_LEVEL_HIGH 0>,
-> > +				<GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +			interrupt-names =
-> > +				"GPU",
-> > +				"MMU",
-> > +				"JOB",
-> > +				"EVENT",
-> > +				"PWR";
-> 
-> These interrupt names don't match the binding you've posted (GPU, MMU, 
-> JOB are upper case here, lower case in the binding). Also EVENT and PWR 
-> are not mentioned in the binding - should they be?
-> 
-> I know there are differences here between kbase's requirements and the 
-> existing upstream bindings (case specifically), but I haven't seen a 
-> binding containing EVENT and PWR before.
-> 
-> Steve
-> 
-Thanks for your comment.
-Yes, the EVENT and PWR should be removed.
-And the rest of interrupt names are corrected to lower case.
-
-Please check my updated version 4 for this.
-https://lore.kernel.org/patchwork/patch/1363862/
-
-Nick Fan
-
-> > +
-> > +			clocks =
-> > +				<&apmixedsys CLK_APMIXED_MFGPLL>,
-> > +				<&topckgen CLK_TOP_MFG_PLL_SEL>,
-> > +				<&topckgen CLK_TOP_MFG_REF_SEL>,
-> > +				<&mfgcfg CLK_MFG_BG3D>;
-> > +			clock-names =
-> > +				"clk_main_parent",
-> > +				"clk_mux",
-> > +				"clk_sub_parent",
-> > +				"subsys_mfg_cg";
-> > +
-> > +			power-domains =
-> > +				<&scpsys MT8192_POWER_DOMAIN_MFG2>,
-> > +				<&scpsys MT8192_POWER_DOMAIN_MFG3>,
-> > +				<&scpsys MT8192_POWER_DOMAIN_MFG4>,
-> > +				<&scpsys MT8192_POWER_DOMAIN_MFG5>,
-> > +				<&scpsys MT8192_POWER_DOMAIN_MFG6>;
-> > +			power-domain-names = "core0",
-> > +					     "core1",
-> > +					     "core2",
-> > +					     "core3",
-> > +					     "core4";
-> > +
-> > +			operating-points-v2 = <&gpu_opp_table>;
-> > +			#cooling-cells = <2>;
-> > +		};
-> > +
-> > +		gpu_opp_table: opp_table0 {
-> > +			compatible = "operating-points-v2";
-> > +			opp-shared;
-> > +
-> > +			opp-358000000 {
-> > +				opp-hz = /bits/ 64 <358000000>;
-> > +				opp-hz-real = /bits/ 64 <358000000>,
-> > +					      /bits/ 64 <358000000>;
-> > +				opp-microvolt = <606250>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-399000000 {
-> > +				opp-hz = /bits/ 64 <399000000>;
-> > +				opp-hz-real = /bits/ 64 <399000000>,
-> > +					      /bits/ 64 <399000000>;
-> > +				opp-microvolt = <618750>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-440000000 {
-> > +				opp-hz = /bits/ 64 <440000000>;
-> > +				opp-hz-real = /bits/ 64 <440000000>,
-> > +					      /bits/ 64 <440000000>;
-> > +				opp-microvolt = <631250>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-482000000 {
-> > +				opp-hz = /bits/ 64 <482000000>;
-> > +				opp-hz-real = /bits/ 64 <482000000>,
-> > +					      /bits/ 64 <482000000>;
-> > +				opp-microvolt = <643750>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-523000000 {
-> > +				opp-hz = /bits/ 64 <523000000>;
-> > +				opp-hz-real = /bits/ 64 <523000000>,
-> > +					      /bits/ 64 <523000000>;
-> > +				opp-microvolt = <656250>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-564000000 {
-> > +				opp-hz = /bits/ 64 <564000000>;
-> > +				opp-hz-real = /bits/ 64 <564000000>,
-> > +					      /bits/ 64 <564000000>;
-> > +				opp-microvolt = <668750>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-605000000 {
-> > +				opp-hz = /bits/ 64 <605000000>;
-> > +				opp-hz-real = /bits/ 64 <605000000>,
-> > +					      /bits/ 64 <605000000>;
-> > +				opp-microvolt = <681250>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-647000000 {
-> > +				opp-hz = /bits/ 64 <647000000>;
-> > +				opp-hz-real = /bits/ 64 <647000000>,
-> > +					      /bits/ 64 <647000000>;
-> > +				opp-microvolt = <693750>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-688000000 {
-> > +				opp-hz = /bits/ 64 <688000000>;
-> > +				opp-hz-real = /bits/ 64 <688000000>,
-> > +					      /bits/ 64 <688000000>;
-> > +				opp-microvolt = <706250>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-724000000 {
-> > +				opp-hz = /bits/ 64 <724000000>;
-> > +				opp-hz-real = /bits/ 64 <724000000>,
-> > +					      /bits/ 64 <724000000>;
-> > +				opp-microvolt = <725000>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-760000000 {
-> > +				opp-hz = /bits/ 64 <760000000>;
-> > +				opp-hz-real = /bits/ 64 <760000000>,
-> > +					      /bits/ 64 <760000000>;
-> > +				opp-microvolt = <743750>,
-> > +						<750000>;
-> > +			};
-> > +
-> > +			opp-795000000 {
-> > +				opp-hz = /bits/ 64 <795000000>;
-> > +				opp-hz-real = /bits/ 64 <795000000>,
-> > +					      /bits/ 64 <795000000>;
-> > +				opp-microvolt = <762500>,
-> > +						<762500>;
-> > +			};
-> > +
-> > +			opp-831000000 {
-> > +				opp-hz = /bits/ 64 <831000000>;
-> > +				opp-hz-real = /bits/ 64 <831000000>,
-> > +					      /bits/ 64 <831000000>;
-> > +				opp-microvolt = <781250>,
-> > +						<781250>;
-> > +			};
-> > +
-> > +			opp-855000000 {
-> > +				opp-hz = /bits/ 64 <855000000>;
-> > +				opp-hz-real = /bits/ 64 <855000000>,
-> > +					      /bits/ 64 <855000000>;
-> > +				opp-microvolt = <793750>,
-> > +						<793750>;
-> > +			};
-> > +
-> > +			opp-902000000 {
-> > +				opp-hz = /bits/ 64 <902000000>;
-> > +				opp-hz-real = /bits/ 64 <902000000>,
-> > +					      /bits/ 64 <902000000>;
-> > +				opp-microvolt = <818750>,
-> > +						<818750>;
-> > +			};
-> > +
-> > +			opp-950000000 {
-> > +				opp-hz = /bits/ 64 <950000000>;
-> > +				opp-hz-real = /bits/ 64 <950000000>,
-> > +					      /bits/ 64 <950000000>;
-> > +				opp-microvolt = <843750>,
-> > +						<843750>;
-> > +			};
-> > +		};
-> > +
-> >   		mfgcfg: syscon@13fbf000 {
-> >   			compatible = "mediatek,mt8192-mfgcfg", "syscon";
-> >   			reg = <0 0x13fbf000 0 0x1000>;
-> > 
-> 
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
