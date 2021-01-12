@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627172F4628
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9842F461E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF376E0EA;
-	Wed, 13 Jan 2021 08:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D596E0DD;
+	Wed, 13 Jan 2021 08:21:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com
- [IPv6:2607:f8b0:4864:20::a32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47EC6E22C
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 13:58:18 +0000 (UTC)
-Received: by mail-vk1-xa32.google.com with SMTP id m145so615138vke.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 05:58:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NXadZdz8Ctiv1n9eDAHyiJm1Q2gQ3cn9xSsA8PIpIy8=;
- b=X6eafdEk/mhZKGkplAkeZlHtw5MHYiPGzuLqaU/8QIJNUYdB77gAnLlDUNAiD4hMNh
- xtLhe6wxwEiVq1lSHcSdByEjddJcVv0v0t0oPEFeAc9L27R7dcQSR2snp4mzm54uhMOV
- QKMmK332VJC9oTr7isDNxdOmzA+cqgmtgUlK1ECND3GRn5P+0A4DXM4oMIsVo0M63aHu
- tz/gPl2J8bw3GAsqZAj7v5VCFpg1TO+MjzWZoFbxAP5iVZXNmoKqZLzr4y4p5HBfjEPW
- z4ZdM03MFp9BUDCj2gplHxCyRyXtyF1F2XMD9c4mZY1sgSAu7ecGDfwd89/tv+VfhSp4
- YzPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NXadZdz8Ctiv1n9eDAHyiJm1Q2gQ3cn9xSsA8PIpIy8=;
- b=UYb+aWLrsm/5YACCAXtJsgH5JWiZvnBA2i9XJPaDLGB3YEuHbTnVQztHsDhrRbyoz5
- GxfATOUybKEoBBaQbvRpoqGyQg4wGYbFfsYP/UtF9mKooPvo/cdR5l2mkDaUCY03pRtq
- FRo0UWemFwLAR/V7EL8ii8T208JvexCUhcy3gnzhPJfABCpA4IvTgrz7fWbjMjPMUYSX
- hi+rj5OxObn2/5xRT8mFbsALOBM2S3EEusgkVaCyTyhvu56nTzlI2CFkcyNitNoRWc0w
- CTMb/PxP5rTrMh+XMQsarfl+MjqllDj8Z1oZaKHBBeqXciCq24iOVaa01JUPscVYDOca
- iKLg==
-X-Gm-Message-State: AOAM531FasvG1FhqOMgl84szfXJCvRKwkNrz+ZLYaToM6XLWHTdbgKoj
- zNTZVYKelf90kUQRK0fpwGFZDrvCzvyXmp1Mer7JnA==
-X-Google-Smtp-Source: ABdhPJy+B3y/eESbyu3OC6gky5khJjR8g/IPWLuj2VIXLHRwiMv4vqF7OT9LeQIvE4BHFVFqSxmsFb+5AO9DEtsQ0nY=
-X-Received: by 2002:a1f:8f08:: with SMTP id r8mr3665187vkd.15.1610459897870;
- Tue, 12 Jan 2021 05:58:17 -0800 (PST)
+Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net
+ [194.109.24.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4046E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Jan 2021 15:24:33 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id zLWwkDG4AAiIczLWzkb6sH; Tue, 12 Jan 2021 16:24:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1610465072; bh=1OyeVWqwRc/wrbPIfm6Pc49TyW8Sr26ODJ48G86Gs5s=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=QN17MDUq76yjSJp9JgKj0t5+QCA7LTaGlx4D2smYnBexveQM1St+0W4GQf4+ZRkRw
+ VwnbJuYsYs73sMRyXVK9ucRabA4cfQo7cpv38gKAHOVQq1VmnSLr4NjSSN1y0lPhS0
+ p3lBjXuZdYR4dqOK6crdH9IYPkUtCxrMqtgq/ny0b4DBp0hvQ25GoBWO2m9rwjlPjY
+ 31+IhxFB2HI3LbL8U5KXKFvId/8qXrfh6hmcfB4oC0KokkrIgySKzls95CR19ddWR2
+ cIBFVvUvjFwKBIhLFqqvqMkSAzBP5Voi1kHyNfK3KUd8OxrQMhIAUBBboavW6OO4oY
+ IB42swW+o0r8g==
+Subject: Re: [PATCH v2 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
+To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+References: <20210111142309.193441-1-maxime@cerno.tech>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5dda3c71-5faf-683b-c25a-37aa1849fb62@xs4all.nl>
+Date: Tue, 12 Jan 2021 16:24:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201217180638.22748-1-digetx@gmail.com>
- <20201217180638.22748-32-digetx@gmail.com>
-In-Reply-To: <20201217180638.22748-32-digetx@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 12 Jan 2021 14:57:41 +0100
-Message-ID: <CAPDyKFrRKbQS1+t_nGH9RRKf0WGcAf-Pjzo1rJt=Sz=SMWOa7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 31/48] soc/tegra: regulators: Support Core domain state
- syncing
-To: Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <20210111142309.193441-1-maxime@cerno.tech>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfP4e8LRmD5sFFemCB8ehtVxFGymcEiWgrR+Xll7iDbyobc3v/NeXkY7N72lJS0UD573xKf9fCpnl5szqKGCSioyEF7wToEBx1OvCWSV57Es03G8KfHZD
+ mHrnTbeNM3jh7ugOJH3feOwDl1rpodYHpB5Cs6dVqJqbczhcvTQ2flqALVpEZFo0JPuDLvCdODYTORMvDdj7lgRYbiQGJ4fyL1w2BTpCXIt7PaWDRia1Kry+
+ qiLv0R0y3GjnP0UJW1hCrLN8F8ykJ5K3NsF6NdC042Q7MfXRFbzE04M+UGy0BGotBa3Lj86+ronzk/HLnA6RJbHbVHYXbJ+UZHAc6oMEPq3VP6oUn1QIYyUW
+ BXqiYrLwDG4KRaDbMJ4yiky+J3JikK5OH91nnQ1M4iENiRBYeLT1MNWeIy7zChxbL7IRHCSe9C39bvQ8MAwZPYH8BVQe5ftAfdoz7rp04by8mswxBLGlD1oq
+ e8NEbnN+YL0fTVsnMetIvIEgPrkFm/RsiutgzXI2Q284OUyej9iZjn/x7UF5ect+A6GP8YLnVOMSUj39h75wn7wLQbPgiYf2T15RRrGnY2XIk8nzpa4xr3h7
+ KsNgYVwS6QqpFjgn2JkJ1Da7lBEwKXOatoQ/DMi1j1krG6DNITL5gMDuLUT1qm8JYrN2wDyK01CSMz9n7CTOVlHtnar+NjyAaTEZsT6IbnQy9cfNRHX1MbMf
+ bZ5rLJSFTf0=
 X-Mailman-Approved-At: Wed, 13 Jan 2021 08:21:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,140 +60,383 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-clk <linux-clk@vger.kernel.org>,
- driverdevel <devel@driverdev.osuosl.org>, Kevin Hilman <khilman@kernel.org>,
- Nicolas Chauvet <kwizart@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- DTML <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Dec 2020 at 19:07, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> The core voltage shall not drop until state of Core domain is synced,
-> i.e. all device drivers that use Core domain are loaded and ready.
->
-> Support Core domain state syncing. The Core domain driver invokes the
-> core-regulator voltage syncing once the state of domain is synced, at
-> this point the Core voltage is allowed to go lower.
->
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Hi Maxime,
 
-This looks reasonable to me, feel free to add:
+On 11/01/2021 15:22, Maxime Ripard wrote:
+> Hi,
+> 
+> Here's a series introducing the CEC support for the BCM2711 found on the
+> RaspberryPi4.
+> 
+> The BCM2711 HDMI controller uses a similar layout for the CEC registers, the
+> main difference being that the interrupt handling part is now shared between
+> both HDMI controllers.
+> 
+> This series is mainly about fixing a couple of bugs, reworking the driver to
+> support having two different interrupts, one for each direction, provided by an
+> external irqchip, and enables the irqchip driver for the controller we have.
+> 
+> This has been tested on an RPi3 and RPi4, but requires the latest firmware.
+> It's is based on the 10 and 12 bpc series.
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Thank you for this series, I plan to test this later this week.
 
-Kind regards
-Uffe
+Regards,
 
+	Hans
 
-> ---
->  drivers/soc/tegra/regulators-tegra20.c | 19 ++++++++++++++++++-
->  drivers/soc/tegra/regulators-tegra30.c | 18 +++++++++++++++++-
->  2 files changed, 35 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/soc/tegra/regulators-tegra20.c b/drivers/soc/tegra/regulators-tegra20.c
-> index 367a71a3cd10..e2c11d442591 100644
-> --- a/drivers/soc/tegra/regulators-tegra20.c
-> +++ b/drivers/soc/tegra/regulators-tegra20.c
-> @@ -16,6 +16,8 @@
->  #include <linux/regulator/driver.h>
->  #include <linux/regulator/machine.h>
->
-> +#include <soc/tegra/common.h>
-> +
->  struct tegra_regulator_coupler {
->         struct regulator_coupler coupler;
->         struct regulator_dev *core_rdev;
-> @@ -38,6 +40,21 @@ static int tegra20_core_limit(struct tegra_regulator_coupler *tegra,
->         int core_cur_uV;
->         int err;
->
-> +       /*
-> +        * Tegra20 SoC has critical DVFS-capable devices that are
-> +        * permanently-active or active at a boot time, like EMC
-> +        * (DRAM controller) or Display controller for example.
-> +        *
-> +        * The voltage of a CORE SoC power domain shall not be dropped below
-> +        * a minimum level, which is determined by device's clock rate.
-> +        * This means that we can't fully allow CORE voltage scaling until
-> +        * the state of all DVFS-critical CORE devices is synced.
-> +        */
-> +       if (tegra_soc_core_domain_state_synced()) {
-> +               pr_info_once("voltage state synced\n");
-> +               return 0;
-> +       }
-> +
->         if (tegra->core_min_uV > 0)
->                 return tegra->core_min_uV;
->
-> @@ -58,7 +75,7 @@ static int tegra20_core_limit(struct tegra_regulator_coupler *tegra,
->          */
->         tegra->core_min_uV = core_max_uV;
->
-> -       pr_info("core minimum voltage limited to %duV\n", tegra->core_min_uV);
-> +       pr_info("core voltage initialized to %duV\n", tegra->core_min_uV);
->
->         return tegra->core_min_uV;
->  }
-> diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
-> index 0e776b20f625..42d675b79fa3 100644
-> --- a/drivers/soc/tegra/regulators-tegra30.c
-> +++ b/drivers/soc/tegra/regulators-tegra30.c
-> @@ -16,6 +16,7 @@
->  #include <linux/regulator/driver.h>
->  #include <linux/regulator/machine.h>
->
-> +#include <soc/tegra/common.h>
->  #include <soc/tegra/fuse.h>
->
->  struct tegra_regulator_coupler {
-> @@ -39,6 +40,21 @@ static int tegra30_core_limit(struct tegra_regulator_coupler *tegra,
->         int core_cur_uV;
->         int err;
->
-> +       /*
-> +        * Tegra30 SoC has critical DVFS-capable devices that are
-> +        * permanently-active or active at a boot time, like EMC
-> +        * (DRAM controller) or Display controller for example.
-> +        *
-> +        * The voltage of a CORE SoC power domain shall not be dropped below
-> +        * a minimum level, which is determined by device's clock rate.
-> +        * This means that we can't fully allow CORE voltage scaling until
-> +        * the state of all DVFS-critical CORE devices is synced.
-> +        */
-> +       if (tegra_soc_core_domain_state_synced()) {
-> +               pr_info_once("voltage state synced\n");
-> +               return 0;
-> +       }
-> +
->         if (tegra->core_min_uV > 0)
->                 return tegra->core_min_uV;
->
-> @@ -59,7 +75,7 @@ static int tegra30_core_limit(struct tegra_regulator_coupler *tegra,
->          */
->         tegra->core_min_uV = core_max_uV;
->
-> -       pr_info("core minimum voltage limited to %duV\n", tegra->core_min_uV);
-> +       pr_info("core voltage initialized to %duV\n", tegra->core_min_uV);
->
->         return tegra->core_min_uV;
->  }
-> --
-> 2.29.2
->
+> 
+> Here is the cec-compliance output:
+> 
+> pi@raspberrypi:~$ cec-ctl --tuner -p 1.0.0.0
+> The CEC adapter doesn't allow setting the physical address manually, ignore this option.
+> 
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> pi@raspberrypi:~$ cec-compliance
+> cec-compliance SHA                 : not available
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Compliance test for device /dev/cec0:
+> 
+>     The test results mean the following:
+>         OK                  Supported correctly by the device.
+>         OK (Not Supported)  Not supported and not mandatory for the device.
+>         OK (Presumed)       Presumably supported.  Manually check to confirm.
+>         OK (Unexpected)     Supported correctly but is not expected to be supported for this device.
+>         OK (Refused)        Supported by the device, but was refused.
+>         FAIL                Failed and was expected to be supported by this device.
+> 
+> Find remote devices:
+> 	Polling: OK
+> 
+> Network topology:
+> 	System Information for device 0 (TV) from device 3 (Tuner 1):
+> 		CEC Version                : 2.0
+> 		Physical Address           : 0.0.0.0
+> 		Primary Device Type        : TV
+> 		Vendor ID                  : 0x000c03
+> 		OSD Name                   : 'TV  '
+> 		Power Status               : Tx, OK, Rx, OK, Feature Abort
+> 
+> Total: 1, Succeeded: 1, Failed: 0, Warnings: 0
+> 
+> pi@raspberrypi:~$ cec-ctl -d1 --tuner -p 1.0.0.0
+> The CEC adapter doesn't allow setting the physical address manually, ignore this option.
+> 
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> pi@raspberrypi:~$ cec-compliance -d1
+> cec-compliance SHA                 : not available
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : 1.0.0.0
+> 	Logical Address Mask       : 0x0008
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Tuner
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 3 (Tuner 1)
+> 	    Primary Device Type    : Tuner
+> 	    Logical Address Type   : Tuner
+> 	    All Device Types       : Tuner
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Compliance test for device /dev/cec1:
+> 
+>     The test results mean the following:
+>         OK                  Supported correctly by the device.
+>         OK (Not Supported)  Not supported and not mandatory for the device.
+>         OK (Presumed)       Presumably supported.  Manually check to confirm.
+>         OK (Unexpected)     Supported correctly but is not expected to be supported for this device.
+>         OK (Refused)        Supported by the device, but was refused.
+>         FAIL                Failed and was expected to be supported by this device.
+> 
+> Find remote devices:
+> 	Polling: OK
+> 
+> Network topology:
+> 	System Information for device 0 (TV) from device 3 (Tuner 1):
+> 		CEC Version                : 2.0
+> 		Physical Address           : 0.0.0.0
+> 		Primary Device Type        : TV
+> 		Vendor ID                  : 0x000c03
+> 		OSD Name                   : 'TV  '
+> 		Power Status               : Tx, OK, Rx, OK, Feature Abort
+> 
+> Total: 1, Succeeded: 1, Failed: 0, Warnings: 0
+> 
+> And for the hotplug detect test:
+> 
+> pi@raspberrypi:~$ cec-ctl --playback
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : f.f.f.f
+> 	Logical Address Mask       : 0x0000
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Playback
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : Not Allocated
+> 	    Primary Device Type    : Playback
+> 	    Logical Address Type   : Playback
+> 	    All Device Types       : Playback
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> pi@raspberrypi:~$ cec-ctl -t0 --image-view-on
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : f.f.f.f
+> 	Logical Address Mask       : 0x0000
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Playback
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : Not Allocated
+> 	    Primary Device Type    : Playback
+> 	    Logical Address Type   : Playback
+> 	    All Device Types       : Playback
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Transmit from Unregistered to TV (15 to 0):
+> CEC_MSG_IMAGE_VIEW_ON (0x04)
+> 	Sequence: 1 Tx Timestamp: 9182.611s
+> pi@raspberrypi:~$ cec-ctl -d1 --playback
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : f.f.f.f
+> 	Logical Address Mask       : 0x0000
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Playback
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : Not Allocated
+> 	    Primary Device Type    : Playback
+> 	    Logical Address Type   : Playback
+> 	    All Device Types       : Playback
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> pi@raspberrypi:~$ cec-ctl -d1 -t0 --image-view-on
+> Driver Info:
+> 	Driver Name                : vc4_hdmi
+> 	Adapter Name               : vc4
+> 	Capabilities               : 0x0000010e
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 	Driver version             : 5.10.0
+> 	Available Logical Addresses: 1
+> 	Physical Address           : f.f.f.f
+> 	Logical Address Mask       : 0x0000
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : Playback
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : Not Allocated
+> 	    Primary Device Type    : Playback
+> 	    Logical Address Type   : Playback
+> 	    All Device Types       : Playback
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Transmit from Unregistered to TV (15 to 0):
+> CEC_MSG_IMAGE_VIEW_ON (0x04)
+> 	Sequence: 1 Tx Timestamp: 9207.191s
+> 
+> With the pulse-eight side reporting:
+> 
+> $ sudo cec-ctl -M
+> Driver Info:
+> 	Driver Name                : pulse8-cec
+> 	Adapter Name               : serio0
+> 	Capabilities               : 0x0000003f
+> 		Physical Address
+> 		Logical Addresses
+> 		Transmit
+> 		Passthrough
+> 		Remote Control Support
+> 		Monitor All
+> 	Driver version             : 5.9.16
+> 	Available Logical Addresses: 1
+> 	Connector Info             : None
+> 	Physical Address           : 0.0.0.0
+> 	Logical Address Mask       : 0x0001
+> 	CEC Version                : 2.0
+> 	Vendor ID                  : 0x000c03 (HDMI)
+> 	OSD Name                   : 'TV  '
+> 	Logical Addresses          : 1 (Allow RC Passthrough)
+> 
+> 	  Logical Address          : 0 (TV)
+> 	    Primary Device Type    : TV
+> 	    Logical Address Type   : TV
+> 	    All Device Types       : TV
+> 	    RC TV Profile          : None
+> 	    Device Features        :
+> 		None
+> 
+> Initial Event: State Change: PA: 0.0.0.0, LA mask: 0x0001, Conn Info: no
+> 
+> Received from Unregistered to TV (15 to 0): IMAGE_VIEW_ON (0x04)
+> Received from Unregistered to TV (15 to 0): IMAGE_VIEW_ON (0x04)
+> 
+> Let me know what you think,
+> Maxime
+> 
+> Changes from v1:
+>   - Removed the irqchip patch in favor of a select in mach-bcm
+>   - Fixed HDMI1 interrupt numbers
+>   - Removed redundant call to drm_connector_update_edid_property
+>   - Fixed the condition in vc4_hdmi_connector_detect
+>   - Added the tags
+>   - Rebased on top of drm-misc-next-2021-01-06
+> 
+> Dom Cobley (5):
+>   drm/vc4: hdmi: Move hdmi reset to bind
+>   drm/vc4: hdmi: Fix register offset with longer CEC messages
+>   drm/vc4: hdmi: Fix up CEC registers
+>   drm/vc4: hdmi: Restore cec physical address on reconnect
+>   drm/vc4: hdmi: Remove cec_available flag
+> 
+> Maxime Ripard (10):
+>   ARM: bcm: Select BRCMSTB_L2_IRQ for bcm2835
+>   drm/vc4: hdmi: Compute the CEC clock divider from the clock rate
+>   drm/vc4: hdmi: Update the CEC clock divider on HSM rate change
+>   drm/vc4: hdmi: Introduce a CEC clock
+>   drm/vc4: hdmi: Split the interrupt handlers
+>   drm/vc4: hdmi: Support BCM2711 CEC interrupt setup
+>   drm/vc4: hdmi: Don't register the CEC adapter if there's no interrupts
+>   dt-binding: display: bcm2711-hdmi: Add CEC and hotplug interrupts
+>   ARM: dts: bcm2711: Add the BSC interrupt controller
+>   ARM: dts: bcm2711: Add the CEC interrupt controller
+> 
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml   |  20 +-
+>  arch/arm/boot/dts/bcm2711.dtsi                |  30 +++
+>  arch/arm/mach-bcm/Kconfig                     |   1 +
+>  arch/arm64/Kconfig.platforms                  |   1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                | 223 ++++++++++++++----
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                |  11 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h           |   4 +-
+>  7 files changed, 234 insertions(+), 56 deletions(-)
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
