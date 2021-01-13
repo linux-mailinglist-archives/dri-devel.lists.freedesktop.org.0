@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8280B2F4C34
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 14:27:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52542F4C4D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 14:39:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2B76E9B9;
-	Wed, 13 Jan 2021 13:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 642E06E9C0;
+	Wed, 13 Jan 2021 13:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 215316E9B9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 13:27:52 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id m4so2105488wrx.9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 05:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=lCYeQanLeA2mtO0z/liQy5Dnl5RdZOuMbLpbxzXLYSM=;
- b=RM7obAOpCVYsksTktgWwg95mnocQUP4J2idqoOH1I23qMZu5ScRVysh5fUBpT+QdNf
- yom/XZYGe5nQ8mWhLH3p8+GODbEA64QbsDkTN9t0G9EiYWKTraSdM1tEhkdcAJQoKy4h
- T2lMsMf36l8+yHWWjYQe8vEr4zyLGtfMerQSY=
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D8B6E9C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 13:39:39 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id q2so2442601iow.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 05:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xgTgs61ABAeTIu4meq1gFhQVUqlSz56o+VLUzN/aTDc=;
+ b=RxSatAaoGEBNhcmpkc8Gtx+RaaMYwvbvFGuUiPkr/S9m0x7khUARsrckrQAfFq0O6e
+ GNCa/cS0SOlxaS4MzULxDxXHhPpvjD7mGgD0VUjn+VNy2ihQKS+VTh9Zwn9AGK11HyDQ
+ 1+Xyc/cl21GvuePt7pugxTa0hQzu8jqZZUqbEITISM006cjU3BvQGS5uRuT2uXXFuzuN
+ 8wC7fy+YzSaCUwsmZbNV87S+g1s7iKO99PYlbgH5j/BwlNypqN1H0XmBRHMtfPO2orSn
+ 4OxRX4UvlP4JOPMWsM0bb7BCXIdSwT/rU/TbUYNZvWcXgN9m2ujeYthOUq8o1wU0oC1B
+ TTQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lCYeQanLeA2mtO0z/liQy5Dnl5RdZOuMbLpbxzXLYSM=;
- b=TqABCzyKv/98dTBAhDWuac2g65pYbeOEimOficNu1aphsqifKkzo6Dl0XPv0hmBuuI
- E6k7wODsCuM6f6AuN/kQEb6/uNwhU7OCUXQlRwhNfsxVNluGGmM002ocNS+z+3pomun+
- JDAqVv3OZ5pzbKeV6NYBVjdPdZeeGNRlWPB+sWQV3VmKO5STb5chPjZpqFQGsw4SZ9S1
- vrOd/XcrIPW9WYKojX33jPzird5MhJT1K3+f+/jJG/fCX3b+y83SYn2V/i+el2yw0wO4
- KDBgmjFLxu0wSTlYrV0lL6mb4ViK28dtMj3YibOBQVmxHa48Z47K4CCO23MWtQwl+FqD
- LKJA==
-X-Gm-Message-State: AOAM530icaQnU8RQpMGDaZz9KJZP2Z5gvGHsD5nAH2UR089khGGHFYdd
- bBNN13PVMdQ7FizBBiyEeFM1yG804+KeGCy4
-X-Google-Smtp-Source: ABdhPJzNQg8ByMbIOtPrlbE2iiqSgkltGAKXdz/c3IsithtAJh2PbsvKM9KsgmhLs882BmaFn7J5YQ==
-X-Received: by 2002:a5d:660c:: with SMTP id n12mr2673044wru.291.1610544470622; 
- Wed, 13 Jan 2021 05:27:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l16sm3383241wrx.5.2021.01.13.05.27.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 05:27:49 -0800 (PST)
-Date: Wed, 13 Jan 2021 14:27:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: stop using GFP_TRANSHUGE_LIGHT
-Message-ID: <X/71UyN5bxZCr3pe@phenom.ffwll.local>
-References: <20210113131325.223511-1-christian.koenig@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xgTgs61ABAeTIu4meq1gFhQVUqlSz56o+VLUzN/aTDc=;
+ b=Hw0GkoE+rlUK+ruHHuACUfmAPZeJ2OQCF6VuowfdItCOOfdWeoJ9aQbKtG0ILujSgv
+ 0SyCINMXpP7r7rKLz6BszEPvsj0kCtepQfs17sRkVja/A6vYEFSlRkBiaBNhoyBJfUuF
+ xIXOCu7IZUzoiq4EKsLOoXLpBldQpzf8WWM0iPCC09LxMDEYD2Dl9PZLKIRXJmIwObp3
+ A/AFRdMw6nOpcComOhULaUhgOMptVOjN9vPUjddAUJcYiHwZzyLYdQatFGf0RxKWuVQ5
+ SUN9yJyRiDdJyD92/528dntKvQcsgvaEnk2HNL/fGgWkzlCOqIzUdcNkRZF7XTDwehni
+ J0pA==
+X-Gm-Message-State: AOAM530eOP2f9qkODxs5FcFfbMg58nKttvE23UOXxXZbUnfL+a+GxbqI
+ VCHktY/NLChbtn84itLdRv2D257oZtvFG1f1Lnr6cg==
+X-Google-Smtp-Source: ABdhPJxPBE5Zgt+JuL0vRAIEt+idJH41paJpG45J+XFcvvOEq8OajLGQ2aR9bF6fvxbscMWjDU5i4uX9oS7CC81/t7E=
+X-Received: by 2002:a05:6e02:194a:: with SMTP id
+ x10mr2279141ilu.165.1610545178382; 
+ Wed, 13 Jan 2021 05:39:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210113131325.223511-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210106223909.34476-1-sean@poorly.run>
+ <20210113101942.GK11717@intel.com>
+In-Reply-To: <20210113101942.GK11717@intel.com>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 13 Jan 2021 08:39:02 -0500
+Message-ID: <CAMavQKLzGR2j2UJXymNrhy3Yp4ssKC=-J87ak4=8aUKn3vdB2A@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
+ HDCP 1.4 over MST
+To: Anshuman Gupta <anshuman.gupta@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,71 +63,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hdegoede@redhat.com, ray.huang@amd.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 13, 2021 at 02:13:25PM +0100, Christian K=F6nig wrote:
-> The only flag we really need is __GFP_NOMEMALLOC, highmem depends on
-> dma32 and moveable/compound should never be set in the first place.
-> =
+On Wed, Jan 13, 2021 at 5:34 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+>
+> On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
+> > From: Sean Paul <seanpaul@chromium.org>
+> >
+> > The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
+> IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
+> "The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
+> transaction to query the downstream status for a particular stream."
+>
+> I feel it useful for scenario in which a non hdcp supported monitor
+> is hot plugged to MST branch. Source really doesn't know about the hdcp
+> capable device on MST branch, it just know the capability of immediate
+> downstream device. QSES can fetch the HDCP capability from MST topology.
+> We don't require to enable stream encryption for such streams.
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+I agree it's useful when it works, but unfortunately it's broken on at
+least 2 MST bridge chips I've encountered :/
 
-Needs Fixes: line and References to the GFP_TRANSHUGE_LIGHT report from
-Hans and for the chromium report for the mmap fail. With those:
+Until we can figure out a) how to fix them (ie: firmware updates), or
+b) how to enumerate all of the broken chips to create quirks, we
+probably just want to disable QSES for HDCP 1.4.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Sean
 
-Also I guess really time for me to stitch together that hack to catch
-dma-buf sglist struct page abusers ...
--Daniel
-
-> ---
->  drivers/gpu/drm/ttm/ttm_pool.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
-l.c
-> index 8cd776adc592..11e0313db0ea 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -79,12 +79,13 @@ static struct page *ttm_pool_alloc_page(struct ttm_po=
-ol *pool, gfp_t gfp_flags,
->  	struct page *p;
->  	void *vaddr;
->  =
-
-> -	if (order) {
-> -		gfp_flags |=3D GFP_TRANSHUGE_LIGHT | __GFP_NORETRY |
-> +	/* Don't set the __GFP_COMP flag for higher order allocations.
-> +	 * Mapping pages directly into an userspace process and calling
-> +	 * put_page() on a TTM allocated page is illegal.
-> +	 */
-> +	if (order)
-> +		gfp_flags |=3D __GFP_NOMEMALLOC | __GFP_NORETRY |
->  			__GFP_KSWAPD_RECLAIM;
-> -		gfp_flags &=3D ~__GFP_MOVABLE;
-> -		gfp_flags &=3D ~__GFP_COMP;
-> -	}
->  =
-
->  	if (!pool->use_dma_alloc) {
->  		p =3D alloc_pages(gfp_flags, order);
-> -- =
-
-> 2.25.1
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > check, it was always a nice-to-have. After deploying this across various
+> > devices, we've determined that some MST bridge chips do not properly
+> > support this call for HDCP 1.4 (namely Synaptics and Realtek).
+> >
+> > I had considered creating a quirk for this, but I think it's more
+> > prudent to just disable the check entirely since I don't have an idea
+> > how widespread support is.
+> May be we can remove it from the link check and can retain as utility ?
+> Thanks,
+> Anshuman Gupta.
+> >
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
+> >  1 file changed, 1 insertion(+), 25 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > index 03424d20e9f7..b6a9606bf09a 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+> >       return ret;
+> >  }
+> >
+> > -static
+> > -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+> > -                               struct intel_connector *connector)
+> > -{
+> > -     struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> > -     struct intel_dp *intel_dp = &dig_port->dp;
+> > -     struct drm_dp_query_stream_enc_status_ack_reply reply;
+> > -     int ret;
+> > -
+> > -     if (!intel_dp_hdcp_check_link(dig_port, connector))
+> > -             return false;
+> > -
+> > -     ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
+> > -                                               connector->port, &reply);
+> > -     if (ret) {
+> > -             drm_dbg_kms(&i915->drm,
+> > -                         "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
+> > -                         connector->base.base.id, connector->base.name, ret);
+> > -             return false;
+> > -     }
+> > -
+> > -     return reply.auth_completed && reply.encryption_enabled;
+> > -}
+> > -
+> >  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+> >       .write_an_aksv = intel_dp_hdcp_write_an_aksv,
+> >       .read_bksv = intel_dp_hdcp_read_bksv,
+> > @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+> >       .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
+> >       .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
+> >       .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
+> > -     .check_link = intel_dp_mst_hdcp_check_link,
+> > +     .check_link = intel_dp_hdcp_check_link,
+> >       .hdcp_capable = intel_dp_hdcp_capable,
+> >
+> >       .protocol = HDCP_PROTOCOL_DP,
+> > --
+> > Sean Paul, Software Engineer, Google / Chromium OS
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
