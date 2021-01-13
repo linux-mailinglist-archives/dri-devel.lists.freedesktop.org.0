@@ -1,52 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264DE2F5D6A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3742F5D52
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE9C6E123;
-	Thu, 14 Jan 2021 09:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7405D6E10D;
+	Thu, 14 Jan 2021 09:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32C16E3D8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 09:33:29 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id b64so943210qkc.12
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 01:33:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aSSMZaLwu/9dwFOQ4pwytWHBiv3JbaNrKM24rxWA6bg=;
- b=A3sGeKXMwvf0FWboCZmz8xvjI+V1YQrxtBbk2p5Cf1QMjGBrW53hJRJeGIyf7TZaYb
- wWF5FZ8mtM5+3CsmJGgoQDf5gEiNxdZhKmptutGGyHVgDB4JuZdrMukzvPbTQ8jpz9wI
- u6HdpooUjgqFxrfR1RqMP5mkOQlSXzyhW15Ys=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aSSMZaLwu/9dwFOQ4pwytWHBiv3JbaNrKM24rxWA6bg=;
- b=V0E68/b6wcTUesmKL1pzi3+ssR4KECXso6SAeo2NQnjL6fEr5TzFHuOlzARrR2lsXP
- S3oVkmPDcfg0ssOPNMqIFN5FlXy/EvkN4vM5GpRSkOavDljZQzSFwHYTa31yjba/9DI8
- kOfOhPnpoQK0BWL+T82IQm0FoLVH4fS7IShcj4FFBXMDW3YZZ1jAXxYijyI7K8u7bMQB
- 0yguwcGcUobkK4JPky7lnZ3mHDQ0yK5l8u5oPUXQn0Wmfh0EvrrfEuwIb8gY/6fp0yKk
- IMHGj8gVXZBL4BFjI5Q+ugW5N2U27A4x/b1KyqS6l878vSq7bfGN5EZnX77yJD/2JM9f
- psUw==
-X-Gm-Message-State: AOAM533pvsMxEhXikIjlP46nCIl3kxQhmVw4FX/uY36a/mNAQJK8hWNu
- F7h8UHCjK0jl7440lTcrUGj+V6+jdYZ/9995qFeCsw==
-X-Google-Smtp-Source: ABdhPJxFoeCMKjXIwaelaQ40FLmiq8HK7DNnZpHM2WeYs1q+VaZFiGlKvZJYjYA+ZwQa6YPAXBtNxTMJobFc8lfWAVs=
-X-Received: by 2002:a37:4497:: with SMTP id r145mr1092681qka.241.1610530408846; 
- Wed, 13 Jan 2021 01:33:28 -0800 (PST)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED8A6E3D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 09:34:35 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 45AF85C030C;
+ Wed, 13 Jan 2021 04:34:35 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 13 Jan 2021 04:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=JrwMSxIZ4fmzOXSSXAHv5VM6EiE
+ fmZGeZPaeJtwvY88=; b=dhr690iVBh1l3irTWsRus1PGyehY0xS89e7omAlRNNa
+ aOJdXaLHsa2XFx+t8CAf/g54pAryg5J0KcMHxIfGFU04B/qHqrLfJFu0gcgzl6y3
+ mBmWwQUvqcRstMJLt33qbnOJ7Ep75VTo51H3gkNs7co+m+9n63C+HpnkBfYR5n+V
+ trxtrbl8itIgEHFSz9q3SA2gfUf8KEHGp+OLOUXJLFMAdtSXTcqiPHlB0nFLc1vB
+ 5VPQeDD/0IANncfeLeoGpkW+DkQsqUm2qgRvtaen+2CF6MJsNF8VHAfZE6U8OdGs
+ BJDWZmipYvQQVOKxLmenvntd7UAze+5lWQjHVZzC1Xw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=JrwMSx
+ IZ4fmzOXSSXAHv5VM6EiEfmZGeZPaeJtwvY88=; b=HRPwBFp8xpvt/V4FqI2ahP
+ LTyh/84OPZiogivfnZOO1rzHc1AJWDs2YcZlEo2hxaOAJde1YLwLRfXuaPoevnM7
+ U5HI+vEg1Qe9Ymkn/xQYCMFEmvgU1IzjVY2EEScWPP3p1OjB1J0DLKF705xnTHoM
+ hHQKap2A07B43/IrMtF0CQzTsuIT7uSxFfpIl5BVQhFNLnmoVs3uu7xEEbXqx2kN
+ 16JE+XKZedqHK8lo/a85KsmuXp4+pIxcGQ9flSnxuym3RHG/k1ecx1eENoUp4T1/
+ pDHAdvbPzufwqtZKvZAgnysyIbbtHSgvyFx+DZXig17llQ3i+6GY6/XgcreVdEiw
+ ==
+X-ME-Sender: <xms:qb7-X0AbTRzOCLNEANk1LqHfkIFyfML9LkkxoEO7XYuMHf_MGX6cdw>
+ <xme:qb7-X_9PkZ-5vFIDM32X65xnDzrz6VLdahY7b_hkx1k2vNE-7OI2iMmmR-v4_XbsD
+ ewoUEaYJsvk5s4tnL0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdefgddtiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qb7-X3J3aK4a5NWJAAvVLrmLFBkk72l3dbsKR4-bIVxakU2eEf8now>
+ <xmx:qb7-Xwhbzp45_G8HNRf1U-uxApYxttLNzDIy2Oal11nqP74BZZRhiA>
+ <xmx:qb7-X_7YMvrjZ5SO8I0EJyv29_Poy_2mMpjisV-1fSCnw7yZE6zf7g>
+ <xmx:q77-X2a1JRp_qj5UvdpCcWcXlFHv73TmGpOs0SJblFnNTX6fACEy7w>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 678EE24005E;
+ Wed, 13 Jan 2021 04:34:33 -0500 (EST)
+Date: Wed, 13 Jan 2021 10:34:19 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH 0/3] drm/sun4i: de2/de3: CSC improvements
+Message-ID: <20210113093419.jwlz336f5jl6dlbp@gilmour>
+References: <20210110201947.3611649-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-References: <20210113084733.1181460-1-stevensd@chromium.org>
- <e0797913-7314-979f-cea8-6af3a67a22a6@amd.com>
-In-Reply-To: <e0797913-7314-979f-cea8-6af3a67a22a6@amd.com>
-From: David Stevens <stevensd@chromium.org>
-Date: Wed, 13 Jan 2021 18:33:17 +0900
-Message-ID: <CAD=HUj4isb5-knjijDj6MqGkk6xSQuXt3uBK8jBy1qtxHM9NZg@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: use compound pages for THP
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20210110201947.3611649-1-jernej.skrabec@siol.net>
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,47 +78,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: irlied@linux.ie, linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1948722594=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKYW4gMTMsIDIwMjEgYXQgNTo1OCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMTMuMDEuMjEgdW0gMDk6NDcgc2Nocmll
-YiBEYXZpZCBTdGV2ZW5zOgo+ID4gQ29tcG91bmQgcGFnZSBtZXRhZGF0YSBpcyBuZWNlc3Nhcnkg
-Zm9yIHBhZ2UgcmVmZXJlbmNlIGNvdW50aW5nIHRvIHdvcmsKPiA+IHByb3Blcmx5IG9uIHBhZ2Vz
-IGJlc2lkZXMgdGhlIGhlYWQgcGFnZS4gV2l0aG91dCBpdCwgcHV0X3BhZ2UKPiA+IGNvcnJlc3Bv
-bmRpbmcgdG8gdGhlIGxhc3Qgb3V0c3RhbmRpbmcgZ2V0X3BhZ2UgY2FsbCBvbiBhIHRhaWwgcGFn
-ZSB3aWxsCj4gPiBlbmQgdXAgZnJlZWluZyB0aGF0IHBhZ2UsIGV2ZW4gaWYgdGhlIGJvIHN0aWxs
-IHJlZmVyZW5jZXMgdGhlIHBhZ2UuCj4KPiBOQUssIEkgc2hvdWxkIGFkZCBhIGNvbW1lbnQgc2lu
-Y2UgSSBjYW4ndCBjb3VudCBhbnkgbW9yZSBob3cgbWFueSB0aW1lcwo+IHBlb3BsZSBjYW1lIHVw
-IHdpdGggdGhpcy4KPgo+IENhbGxpbmcgcHV0X3BhZ2UoKSBvbiBhIFRUTSBhbGxvY2F0ZWQgcGFn
-ZSBpcyBzdHJpY3RseSBpbGxlZ2FsIGluIHRoZQo+IGZpcnN0IHBsYWNlIHNpbmNlIHRoZXkgYXJl
-IG5vdCByZWZlcmVuY2UgY291bnRlZC4KPgo+IFBsZWFzZSBkb24ndCB0ZWxsIG1lIHNvbWVib2R5
-IG9uY2UgbW9yZSB0cmllZCB0byBtbWFwKCkgcGFnZXMgZnJvbSBhCj4gRE1BLWJ1ZiBjcmVhdGVk
-IHNnX3RhYmxlIGludG8gYSBwcm9jZXNzIGFkZHJlc3Mgc3BhY2U/CgpJIHJhbiBpbnRvIHRoaXMg
-b24gYSBzeXN0ZW0gdXNpbmcgdGhlIGN1cnJlbnRseSBpbiBkZXZlbG9wbWVudAp2aXJ0aW8tZ3B1
-IGJsb2IgcmVzb3VyY2VzIFsxXS4gVGhlIGltcGxlbWVudGF0aW9uIHBhc3NlcyBkbWEgYnVmZmVy
-cwphbGxvY2F0ZWQgYnkgdGhlIGhvc3QgZ3B1IHRvIEtWTV9TRVRfVVNFUl9NRU1PUllfUkVHSU9O
-LCBzbyB0aGUgZ3Vlc3QKY2FuIGRpcmVjdGx5IGFjY2VzcyB0aGUgYnVmZmVycyB3aXRob3V0IHRo
-ZSBuZWVkIGZvciBhbiBpbnRlcm1lZGlhdGUKY29weS4KClsxXSBodHRwczovL3BhdGNod29yay5r
-ZXJuZWwub3JnL3Byb2plY3QvZHJpLWRldmVsL2NvdmVyLzIwMjAwODE0MDI0MDAwLjI0ODUtMS1n
-dXJjaGV0YW5zaW5naEBjaHJvbWl1bS5vcmcvCgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4g
-Pgo+ID4gU2lnbmVkLW9mZi1ieTogRGF2aWQgU3RldmVucyA8c3RldmVuc2RAY2hyb21pdW0ub3Jn
-Pgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYyB8IDEgLQo+ID4g
-ICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29sLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29s
-LmMKPiA+IGluZGV4IDdiMmY2MDYxNjc1MC4uMDkyMzliOTNkYzJjIDEwMDY0NAo+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-dHRtL3R0bV9wb29sLmMKPiA+IEBAIC04Myw3ICs4Myw2IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAq
-dHRtX3Bvb2xfYWxsb2NfcGFnZShzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsIGdmcF90IGdmcF9mbGFn
-cywKPiA+ICAgICAgICAgICAgICAgZ2ZwX2ZsYWdzIHw9IEdGUF9UUkFOU0hVR0VfTElHSFQgfCBf
-X0dGUF9OT1JFVFJZIHwKPiA+ICAgICAgICAgICAgICAgICAgICAgICBfX0dGUF9LU1dBUERfUkVD
-TEFJTTsKPiA+ICAgICAgICAgICAgICAgZ2ZwX2ZsYWdzICY9IH5fX0dGUF9NT1ZBQkxFOwo+ID4g
-LSAgICAgICAgICAgICBnZnBfZmxhZ3MgJj0gfl9fR0ZQX0NPTVA7Cj4gPiAgICAgICB9Cj4gPgo+
-ID4gICAgICAgaWYgKCFwb29sLT51c2VfZG1hX2FsbG9jKSB7Cj4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1948722594==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qgjxzrlk4sgmyzfn"
+Content-Disposition: inline
+
+
+--qgjxzrlk4sgmyzfn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jan 10, 2021 at 09:19:44PM +0100, Jernej Skrabec wrote:
+> This short series reworks CSC handling to remove duplicated constants
+> (patch 1 and 2) and adds BT2020 encoding to DE3 (patch 3).
+>=20
+> Please take a look.
+
+Applied, thanks
+Maxime
+
+--qgjxzrlk4sgmyzfn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/6+mwAKCRDj7w1vZxhR
+xUc7APoC0Q4MKG4EokWBqJ5XpZ4/Jg3DVn1OLVBeohNP0dujnAEAl6bhdfhR20Cs
+e6IlFjAMEx1/STdLorUJMWcqhVq3fgA=
+=cseC
+-----END PGP SIGNATURE-----
+
+--qgjxzrlk4sgmyzfn--
+
+--===============1948722594==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1948722594==--
