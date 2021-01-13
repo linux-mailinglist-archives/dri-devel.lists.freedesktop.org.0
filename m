@@ -1,65 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0FA2F5D87
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF5B2F5D77
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61046E17D;
-	Thu, 14 Jan 2021 09:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2B5E6E14F;
+	Thu, 14 Jan 2021 09:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3EA6E867
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:14:24 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id u25so4167659lfc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:14:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fDpcPGN452QW5OstMWYz6Q82ZuKqAUV5xehi8i2tN9I=;
- b=KNIpNxOC+0ROwINquN8usqkfwfSG1mVjw4G5frTgIAtMXE/ZlrsvZ9RzieWI1aAUar
- 1SrvSfGs2AwG8TwkVEVddhPNl2E1MTBkFbhWbVRNeCJAojAqxVx1trnCDTsAuECAdUMH
- rHTcLYcLmBOBY+ugXSuWGyD+3C1YjIjQdSCU6Qm4Xtu+loXqQK/6IEobK2aJ/LjKYgLf
- LQe77X1Kcc0sN1PYh4riwM+/vgpb6bcC78JzMTt/uRh4NftsSEqZ0BT92RxnxPrEOji5
- AgM1Z5XoRCPxSvrllK7DCROD54YDlhKqKkT8LnnxGr1kcKLCx1/Cm8/W97vHNqxe1pT6
- Ulig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fDpcPGN452QW5OstMWYz6Q82ZuKqAUV5xehi8i2tN9I=;
- b=Fu1ZIcf0U4V0qD1myiklUqmDzKm+5to0eoLbsmlCses92gK/zpJDntE4fLS+CA1KSY
- y84cfAPdwm8S7GgPCWXY06CW7ToA+R76bl9Pe5ViMNNTvsnfR/OYCKyBe1SKJFnvaIeP
- vPd9xSh/WOBhUCi7TuVji4chGR7BslTO8SwGMbFDG/GM3Gtnyry90WZ/Zxt+YWcnGN7A
- erc0h+wRZ84dEt8JuPWZUYgQOh8bvHqdRCToTFzahws5UuP36A1y8GL8F4D/NgpzjnJz
- ttF1LowMFsC5N+Wxdq8G8kXlWIOr0nkqKfdL+iA49FFoPEZ1TvhWnHmra7ocPjek7R6B
- o5hg==
-X-Gm-Message-State: AOAM533zzZbqGtN+tnTgVOhyya4MqdgjJexEWYvrF9y3OOSYKRwYFy+J
- zHV4x1HuCbBtQh18/n2QLxA=
-X-Google-Smtp-Source: ABdhPJw3rJ5CLT9LFCN3W+KjUdWcmLiOEm8u1wnTDpduvU3f3O2g3ybptVU+hhr5ywH3iJ0HBkFFAA==
-X-Received: by 2002:ac2:4950:: with SMTP id o16mr1327813lfi.19.1610561662520; 
- Wed, 13 Jan 2021 10:14:22 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.googlemail.com with ESMTPSA id z14sm284407lfq.130.2021.01.13.10.14.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 10:14:21 -0800 (PST)
-Subject: Re: [PATCH v5 15/21] drm/tegra: Add new UAPI to header
-To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-16-mperttunen@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a0fdac0d-88cf-6eda-6611-fca951253060@gmail.com>
-Date: Wed, 13 Jan 2021 21:14:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70DBB6E879;
+ Wed, 13 Jan 2021 18:33:44 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3AC653F0E3;
+ Wed, 13 Jan 2021 19:33:41 +0100 (CET)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: robdclark@gmail.com
+Subject: [PATCH v3 0/7] Add support for Adreno 508/509/512
+Date: Wed, 13 Jan 2021 19:33:32 +0100
+Message-Id: <20210113183339.446239-1-angelogioacchino.delregno@somainline.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210111130019.3515669-16-mperttunen@nvidia.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,30 +38,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ martin.botka@somainline.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ marijn.suijten@somainline.org, phone-devel@vger.kernel.org, sean@poorly.run
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTEuMDEuMjAyMSAxNjowMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gK3N0cnVjdCBk
-cm1fdGVncmFfc3VibWl0X2J1ZiB7Cj4gKwkvKioKPiArCSAqIEBtYXBwaW5nX2lkOiBbaW5dCj4g
-KwkgKgo+ICsJICogSWRlbnRpZmllciBvZiB0aGUgbWFwcGluZyB0byB1c2UgaW4gdGhlIHN1Ym1p
-c3Npb24uCj4gKwkgKi8KPiArCV9fdTMyIG1hcHBpbmdfaWQ7CgpJJ20gbm93IGluIHByb2Nlc3Mg
-b2YgdHJ5aW5nIG91dCB0aGUgVUFQSSB1c2luZyBncmF0ZSBkcml2ZXJzIGFuZCB0aGlzCmJlY29t
-ZXMgdGhlIGZpcnN0IG9ic3RhY2xlLgoKTG9va3MgbGlrZSB0aGlzIGlzIG5vdCBnb2luZyB0byB3
-b3JrIHdlbGwgZm9yIG9sZGVyIFRlZ3JhIFNvQ3MsIGluCnBhcnRpY3VsYXIgZm9yIFQyMCwgd2hp
-Y2ggaGFzIGEgc21hbGwgR0FSVC4KCkdpdmVuIHRoYXQgdGhlIHVzZWZ1bG5lc3Mgb2YgdGhlIHBh
-cnRpYWwgbWFwcGluZyBmZWF0dXJlIGlzIHZlcnkKcXVlc3Rpb25hYmxlIHVudGlsIGl0IHdpbGwg
-YmUgcHJvdmVuIHdpdGggYSByZWFsIHVzZXJzcGFjZSwgd2Ugc2hvdWxkCnN0YXJ0IHdpdGggYSBk
-eW5hbWljIG1hcHBpbmdzIHRoYXQgYXJlIGRvbmUgYXQgYSB0aW1lIG9mIGpvYiBzdWJtaXNzaW9u
-LgoKRFJNIGFscmVhZHkgc2hvdWxkIGhhdmUgZXZlcnl0aGluZyBuZWNlc3NhcnkgZm9yIGNyZWF0
-aW5nIGFuZCBtYW5hZ2luZwpjYWNoZXMgb2YgbWFwcGluZ3MsIGdyYXRlIGtlcm5lbCBkcml2ZXIg
-aGFzIGJlZW4gdXNpbmcgZHJtX21tX3NjYW4gZm9yIGEKbG9uZyB0aW1lIG5vdyBmb3IgdGhhdC4K
-Ckl0IHNob3VsZCBiZSBmaW5lIHRvIHN1cHBvcnQgdGhlIHN0YXRpYyBtYXBwaW5nIGZlYXR1cmUs
-IGJ1dCBpdCBzaG91bGQKYmUgZG9uZSBzZXBhcmF0ZWx5IHdpdGggdGhlIGRybV9tbSBpbnRlZ3Jh
-dGlvbiwgSU1PLgoKV2hhdCBkbyB0aGluaz8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+In this patch series, we are adding support for lower end Adreno 5
+series GPUs, such as A508, A509 and A512 that we have found in the
+Qualcomm SDM630, SDM636 and SDM660 SoCs.
+
+On a note, adding support for these three units, also adds 99% of
+the required "things" for another two GPUs, A505 and A506 but, even
+if adding them requires literally two lines of code, noone of us has
+got any SoC equipped with these ones hence we wouldn't be able to
+test. Even though there is basically no reason for them to not work
+correctly, kernel side, I chose to avoid adding the two "magic" lines.
+
+Anyway, this patchset also addresses some issues that we've found in
+the A5XX part of the Adreno driver, regarding a logic mistake in one
+of the VPC protect values and a forced overwrite of the register named
+A5XX_PC_DBG_ECO_CNTL, forcing the setting of vtxFifo and primFifo
+thresholds that was valid only for higher end GPUs.
+
+This patch series has been tested on the following devices:
+ - Sony Xperia XA2 Ultra (SDM630 Nile Discovery)
+ - Sony Xperia 10        (SDM630 Ganges Kirin)
+ - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
+
+Changes in v3:
+ - Rebased on 5.11-rc3
+ - Changed emails to reflect new ones
+ - Tested on F(x)Tec Pro1 and Xperia XZ Premium (MSM8998)
+
+Changes in v2:
+ - Define REG_A5XX_UCHE_MODE_CNTL and fix open-coded
+   REG_A5XX_VPC_DBG_ECO_CNTL in the all flat shading optimization
+   disablement commit, as requested by Rob Clark.
+
+AngeloGioacchino Del Regno (4):
+  drm/msm/a5xx: Remove overwriting A5XX_PC_DBG_ECO_CNTL register
+  drm/msm/a5xx: Separate A5XX_PC_DBG_ECO_CNTL write from main branch
+  drm/msm/a5xx: Add support for Adreno 508, 509, 512 GPUs
+  drm/msm/a5xx: Reset VBIF before PC only on A510 and A530
+
+Konrad Dybcio (3):
+  drm/msm/a5xx: Fix VPC protect value in gpu_write()
+  drm/msm/a5xx: Disable flat shading optimization
+  drm/msm/a5xx: Disable UCHE global filter
+
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h      |   2 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 195 ++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/a5xx_power.c    |   4 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  52 ++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  15 ++
+ 5 files changed, 241 insertions(+), 27 deletions(-)
+
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
