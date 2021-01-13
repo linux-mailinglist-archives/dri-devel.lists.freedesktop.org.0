@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCC02F5D4A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:28:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E052F5D86
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDC3C6E0FD;
-	Thu, 14 Jan 2021 09:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CDE6E182;
+	Thu, 14 Jan 2021 09:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABA386E177
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 08:47:50 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id b3so821592pft.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 00:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QoNieAZwQHLgxomuapjkBumRUy7lrrmCEnKb+YYdBG8=;
- b=cC14kghJMqVr32ARRTARfaFiRG7f1mW1J8Fqn8Kurn+KMqANWD/rkaUQrPzkP+Q/LZ
- l+fEZIbkc9tdpsqraiM6tPy9mw0pIfjh2ShAkEbYlAgvrnpKw5wuGEgy5Dbw/mOJHest
- RQeqwngSA0Gpn3qNSm8o3i3vwbyVYhEmWr0ME=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QoNieAZwQHLgxomuapjkBumRUy7lrrmCEnKb+YYdBG8=;
- b=ovfzquMleCA421Tx4+rs+kmjVVhf29GD4fe0J0nDlKSRg5r/ol6Rxg5kuSCO5bq3Z7
- yuoaFZ2qquHbc72X/z8I5IqjaCC9gQCzbJw0WbRKF3V5wIxUYkKTdKB8fGzhdlGW3Sp0
- c45YKuGRRLO/GQ1vQFzUaBHn48vtnpKIgLxd4NKvQeUEBbb2oKPchC2Mnl7wFMGv4i4D
- 9QkfZY80iD57au0jdO6lqiGP27TXI+gE78wMkFqPPrtZR/0w14D9EHho8dYkTrYJsqsY
- araOzDJ7CEK6+aNJ4fy2Mh8/GeLQadevEaiA2XEcXVHm0GDW3NWgcVSSZNnknxAZDxLv
- l+EA==
-X-Gm-Message-State: AOAM533V02x4LIcgdvY+lv36EVpLVUpLrFj0+ofxujHkW/SnX0G77Ezo
- 0zhhi+dgCp5t5iuX/pG4vY6rUg==
-X-Google-Smtp-Source: ABdhPJw+Frz9JPhlVZa4cOr6ax1eWqPFMccUCqObgtbJeCByVkPPzri4wEaQMgXspWjrg8+aNJYAZQ==
-X-Received: by 2002:a62:7907:0:b029:19d:cf5d:20ae with SMTP id
- u7-20020a6279070000b029019dcf5d20aemr1221505pfc.2.1610527670281; 
- Wed, 13 Jan 2021 00:47:50 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:f693:9fff:fef4:a930])
- by smtp.gmail.com with ESMTPSA id m22sm1806934pgj.46.2021.01.13.00.47.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 00:47:49 -0800 (PST)
-From: David Stevens <stevensd@chromium.org>
-To: Christian Koenig <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: use compound pages for THP
-Date: Wed, 13 Jan 2021 17:47:33 +0900
-Message-Id: <20210113084733.1181460-1-stevensd@chromium.org>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+X-Greylist: delayed 2873 seconds by postgrey-1.36 at gabe;
+ Wed, 13 Jan 2021 09:38:58 UTC
+Received: from fallback21.mail.ru (fallback21.m.smailru.net [94.100.176.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5439C6E3E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 09:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+ s=mail3; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=bRQrLk/AIylq09T8n6NdSnETaspKyr7IOoyf79+XhNY=; 
+ b=rLSyo2S/gi7jgwJA2/Bw0hVnI2TGSot03EBULb/IAxsFuzp/I/iyYsvX3j8HzVLuOdxLmE+fASe4a3SQurtyDCpW55lfssP1jsbbVPduwoNoafpdA5Rxc2PGLVGGkr5dQ0B5PdofaVE74PiS2JDRIY/3OJoEOxnCQKXm/gMCuaI=;
+Received: from [10.161.64.59] (port=47800 helo=smtp51.i.mail.ru)
+ by fallback21.m.smailru.net with esmtp (envelope-from <fido_max@inbox.ru>)
+ id 1kzbrr-0007rm-31
+ for dri-devel@lists.freedesktop.org; Wed, 13 Jan 2021 11:51:03 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+ s=mail3; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=bRQrLk/AIylq09T8n6NdSnETaspKyr7IOoyf79+XhNY=; 
+ b=jS9sGpMNE3Kqda+jivMP8rt7PUg+RihaDOqnNa4MQN+6a/lwr6LKfOZwTcHVs6KgzewFgSYw9AtaRRwAhS5fB/jW32+Tk0jVbwZEvQvF5XPt7VaN4m5z5TQb1E9KWUHhpRpHyTXve6nLzdINbgqPzsnuTlbhfDLi1tm2G7joaco=;
+Received: by smtp51.i.mail.ru with esmtpa (envelope-from <fido_max@inbox.ru>)
+ id 1kzbro-0008Lb-24; Wed, 13 Jan 2021 11:51:00 +0300
+From: Maxim Kochetkov <fido_max@inbox.ru>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Add 1080p to vmw_kms_connector_builtin list
+Date: Wed, 13 Jan 2021 11:51:56 +0300
+Message-Id: <20210113085156.13179-1-fido_max@inbox.ru>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9D0E79FBC973162CD81CC0669AF3BE2AC14A0BAA29BC1501600894C459B0CD1B9D3D113855E30C82C505A7715B3DE8A2954F7F300FA7FCDDC96422291B010A18A
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7589DF9800DB1E191EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006371AB0416A4896C0B38638F802B75D45FF5571747095F342E8C7A0BC55FA0FE5FC081036C1CE0AB31497E96D1E99A360B0F05D887354F0AAA8389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C0DEC8C2C8BCD2534D8941B15DA834481FCF19DD082D7633A0EF3E4896CB9E6436389733CBF5DBD5E9D5E8D9A59859A8B636DA1BED736F9328CC7F00164DA146DA6F5DAA56C3B73B237318B6A418E8EAB8D32BA5DBAC0009BE9E8FC8737B5C224921F2395506A8491876E601842F6C81A12EF20D2F80756B5F7E9C4E3C761E06A776E601842F6C81A127C277FBC8AE2E8BF21E68C5F714699F3AA81AA40904B5D9DBF02ECDB25306B2B25CBF701D1BE8734AD6D5ED66289B5278DA827A17800CE7465FACE6EB770F7493EC92FD9297F6715571747095F342E857739F23D657EF2BD5E8D9A59859A8B659DF8EA86ED09BA9089D37D7C0E48F6C5571747095F342E857739F23D657EF2B6825BDBE14D8E7028C9DFF55498CEFB0BD9CCCA9EDD067B1EDA766A37F9254B7
+X-B7AD71C0: 6FEFE4C63DFE2D85469AD6E133326EAB5BF2BB004D2C50356C52B5BA14B7E50172A84C65A86D0F2877D6CB4B17BF719479311020FFC8D4AD65748F937EFDD944283C1DC97F2B0614
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CD9CBB3A052EDBDE58DE5289F92E22F2C7A659A7612099F669C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A49510FB958DCE06DB6ED91DBE5ABE359A3485EE9140A7D39D5E4DBAB5AF249FA793EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D348CDF4129B2EA85609FFAA1D4D710AC5D57C287405EDBE0C196C8ABD70A68117825323C8A0E59B95A1D7E09C32AA3244C2AB726BCE118365986420174EB83BC0D7101BF96129E40118D5DD81C2BAB7D1D
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj4exXbGs3yZp1CtB6p3rCwA==
+X-Mailru-Sender: 11C2EC085EDE56FA9C10FA2967F5AB2424A056FEC5FA276D21CC42A6A4485A7511673F9418A63257EE9242D420CFEBFD3DDE9B364B0DF2891A624F84B2C74EDA4239CF2AF0A6D4F80DA7A0AF5A3A8387
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B40E5D90E44ABF6C6604BA033ECC7B62DED89E37DF61FCAB88049FFFDB7839CE9E65808158F3E57AA7A20E4DA4D4A0462B0E8DECEAEB4B1B4D3E9B644D2DD4A220
+X-7FA49CB5: 0D63561A33F958A51F85D790ED19B3A17A10BFBB04EFC29CF75B7380DB97F9D88941B15DA834481FA18204E546F3947C2F20CBB68F4D2F81F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637F35A6E24A0A0A547389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063733A25861FFD6A8E5D32BA5DBAC0009BE395957E7521B51C292C30CA92C8B5C6467F23339F89546C55F5C1EE8F4F765FC015CA81987D179B8A7F4EDE966BC389F395957E7521B51C24C7702A67D5C33162DBA43225CD8A89F443EE4078611238157739F23D657EF2BB5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DB48C21F01D89DB561574AF45C6390F7469DAA53EE0834AAEE
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CD9CBB3A052EDBDE582B44A1284DE93AA09377B89AB9CE31E9C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A4DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj4exXbGs3yZoFfwZ097FMGA==
+X-Mailru-MI: 800
+X-Mailru-Sender: A5480F10D64C9005F4843EF15D8AD6F8AC5310FAE9F4D15EC09340E048AC4ADCEFAC7B9FAC0FB745C099ADC76E806A99D50E20E2BC48EF5A30D242760C51EA9CEAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
+X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Stevens <stevensd@chromium.org>
+Cc: airlied@linux.ie, sroland@vmware.com, linux-graphics-maintainer@vmware.com,
+ Maxim Kochetkov <fido_max@inbox.ru>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compound page metadata is necessary for page reference counting to work
-properly on pages besides the head page. Without it, put_page
-corresponding to the last outstanding get_page call on a tail page will
-end up freeing that page, even if the bo still references the page.
+It allows to set 1080p mode without vmware/virtulabox tools installed.
 
-Signed-off-by: David Stevens <stevensd@chromium.org>
+Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 7b2f60616750..09239b93dc2c 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -83,7 +83,6 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
- 		gfp_flags |= GFP_TRANSHUGE_LIGHT | __GFP_NORETRY |
- 			__GFP_KSWAPD_RECLAIM;
- 		gfp_flags &= ~__GFP_MOVABLE;
--		gfp_flags &= ~__GFP_COMP;
- 	}
- 
- 	if (!pool->use_dma_alloc) {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 312ed0881a99..b47622c6a112 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -2103,6 +2103,10 @@ static struct drm_display_mode vmw_kms_connector_builtin[] = {
+ 	{ DRM_MODE("1856x1392", DRM_MODE_TYPE_DRIVER, 218250, 1856, 1952,
+ 		   2176, 2528, 0, 1392, 1393, 1396, 1439, 0,
+ 		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC) },
++	/* 1920x1080@60Hz */
++	{ DRM_MODE("1920x1080", DRM_MODE_TYPE_DRIVER, 148500, 1920, 2008,
++		   2052, 2200, 0, 1080, 1084, 1089, 1125, 0,
++		   DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
+ 	/* 1920x1200@60Hz */
+ 	{ DRM_MODE("1920x1200", DRM_MODE_TYPE_DRIVER, 193250, 1920, 2056,
+ 		   2256, 2592, 0, 1200, 1203, 1209, 1245, 0,
 -- 
-2.30.0.284.gd98b1dd5eaa7-goog
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
