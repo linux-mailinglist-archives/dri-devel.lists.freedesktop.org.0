@@ -2,43 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148952F4919
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 11:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444342F4A31
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 12:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FDCE6E49F;
-	Wed, 13 Jan 2021 10:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477FE6E563;
+	Wed, 13 Jan 2021 11:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406AB6E49D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:59:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65B06235FA;
- Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610535570;
- bh=OG8KARVyVfWYeNIgPTfTdgsyg/2eyYBbFoiOqndpscA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C6y6kfCLqJoaNBZjagFxC2DgAOjVcfgzTmVYim/sVNZZ1oh8fWHV2beHlGn9HAkST
- 6t/Z6cmxn97UbDjITbUJOS12Zl+6FJaySTwjuPuByHABHmi4Zh5ojE4zWrunibi1Xr
- jkpIyRZBEwuyM1K4qu+Mjz97juTQL3qfYo6F5tqmsrOLjYfrTLgDNIANMNdiWNa+KV
- +4zicVDyahiyVYwCZumJzJtAymc1gCCavBO5nRiroinsvcD+kcS2xxXlCysuxz5xtQ
- /gVvgRDRGkZkF1Vl9vTCrDaRmUpd76mbqlkcwwYDskSgngmx+NLTkT3nT0m90DK6uW
- uu51KA4N23VNA==
-Received: by mail.kernel.org with local (Exim 4.94)
- (envelope-from <mchehab@kernel.org>)
- id 1kzds7-00DpGp-SO; Wed, 13 Jan 2021 11:59:27 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 22/24] dt-bindings: memory: mediatek: update mediatek,
- smi-larb.yaml references
-Date: Wed, 13 Jan 2021 11:59:23 +0100
-Message-Id: <c70bd79b311a65babe7374eaf81974563400a943.1610535350.git.mchehab+huawei@kernel.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0999A6E563
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 11:31:15 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 888B7AF0D;
+ Wed, 13 Jan 2021 11:31:13 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tiantao6@hisilicon.com
+Subject: [PATCH] drm/hisilicon/hibmc: Remove hibmc_ttm.c
+Date: Wed, 13 Jan 2021 12:31:07 +0100
+Message-Id: <20210113113107.12005-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
-References: <cover.1610535349.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,88 +35,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bin Liu <bin.liu@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Rick Chang <rick.chang@mediatek.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
- Houlong Wei <houlong.wei@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Gong junjie <gongjunjie2@huawei.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changeset 27bb0e42855a ("dt-bindings: memory: mediatek: Convert SMI to DT schema")
-renamed: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-to: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml.
+The file is not in use. It got re-added by a rebased patch. Removing
+it.
 
-Update its cross-references accordingly.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 4d4dad21cc7b ("drm/hibmc: Remove references to struct drm_device.pdev")
+Reported-by: Tian Tao <tiantao6@hisilicon.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Tian Tao  <tiantao6@hisilicon.com>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Chen Feng <puck.chen@hisilicon.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Gong junjie <gongjunjie2@huawei.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
- .../devicetree/bindings/media/mediatek-jpeg-decoder.txt         | 2 +-
- .../devicetree/bindings/media/mediatek-jpeg-encoder.txt         | 2 +-
- Documentation/devicetree/bindings/media/mediatek-mdp.txt        | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c | 61 ---------------------
+ 1 file changed, 61 deletions(-)
+ delete mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-index 865e1e1b88ac..ed76332ec01e 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-@@ -61,7 +61,7 @@ Required properties (DMA function blocks):
- 	"mediatek,<chip>-disp-wdma"
-   the supported chips are mt2701, mt8167 and mt8173.
- - larb: Should contain a phandle pointing to the local arbiter device as defined
--  in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-+  in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
- - iommus: Should point to the respective IOMMU block with master port as
-   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   for details.
-diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-index 044b11913c49..cf60c5acc0e4 100644
---- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-@@ -16,7 +16,7 @@ Required properties:
- - power-domains: a phandle to the power domain, see
-   Documentation/devicetree/bindings/power/power_domain.txt for details.
- - mediatek,larb: must contain the local arbiters in the current Socs, see
--  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-+  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-   for details.
- - iommus: should point to the respective IOMMU block with master port as
-   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-index 736be7cad385..acfb50375b8a 100644
---- a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-@@ -14,7 +14,7 @@ Required properties:
- - power-domains: a phandle to the power domain, see
-   Documentation/devicetree/bindings/power/power_domain.txt for details.
- - mediatek,larb: must contain the local arbiters in the current SoCs, see
--  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-+  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-   for details.
- - iommus: should point to the respective IOMMU block with master port as
-   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp.txt b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-index 0d03e3ae2be2..f4798d04e925 100644
---- a/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-@@ -28,7 +28,7 @@ Required properties (DMA function blocks, child node):
-   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   for details.
- - mediatek,larb: must contain the local arbiters in the current Socs, see
--  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-+  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-   for details.
- 
- Example:
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+deleted file mode 100644
+index 77f075075db2..000000000000
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
++++ /dev/null
+@@ -1,61 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/* Hisilicon Hibmc SoC drm driver
+- *
+- * Based on the bochs drm driver.
+- *
+- * Copyright (c) 2016 Huawei Limited.
+- *
+- * Author:
+- *	Rongrong Zou <zourongrong@huawei.com>
+- *	Rongrong Zou <zourongrong@gmail.com>
+- *	Jianhua Li <lijianhua@huawei.com>
+- */
+-
+-#include <linux/pci.h>
+-
+-#include <drm/drm_atomic_helper.h>
+-#include <drm/drm_gem.h>
+-#include <drm/drm_gem_framebuffer_helper.h>
+-#include <drm/drm_gem_vram_helper.h>
+-#include <drm/drm_print.h>
+-
+-#include "hibmc_drm_drv.h"
+-
+-int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+-{
+-	struct drm_vram_mm *vmm;
+-	int ret;
+-	struct drm_device *dev = hibmc->dev;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+-	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(pdev, 0),
+-				       hibmc->fb_size);
+-	if (IS_ERR(vmm)) {
+-		ret = PTR_ERR(vmm);
+-		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+-{
+-	if (!hibmc->dev->vram_mm)
+-		return;
+-
+-	drm_vram_helper_release_mm(hibmc->dev);
+-}
+-
+-int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+-		      struct drm_mode_create_dumb *args)
+-{
+-	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
+-}
+-
+-const struct drm_mode_config_funcs hibmc_mode_funcs = {
+-	.mode_valid = drm_vram_helper_mode_valid,
+-	.atomic_check = drm_atomic_helper_check,
+-	.atomic_commit = drm_atomic_helper_commit,
+-	.fb_create = drm_gem_fb_create,
+-};
 -- 
 2.29.2
 
