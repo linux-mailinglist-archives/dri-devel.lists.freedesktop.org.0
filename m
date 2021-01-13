@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECE52F52EC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421D62F52FA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19BDF6E891;
-	Wed, 13 Jan 2021 19:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97F86EC06;
+	Wed, 13 Jan 2021 19:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9076E891
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:01:32 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 6981F804E7;
- Wed, 13 Jan 2021 20:01:20 +0100 (CET)
-Date: Wed, 13 Jan 2021 20:01:18 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 00/31] Rid W=1 warnings from Video
-Message-ID: <20210113190118.GA180942@ravnborg.org>
-References: <20210113145009.1272040-1-lee.jones@linaro.org>
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373266E896
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:03:43 +0000 (UTC)
+Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Wed, 13 Jan 2021 11:03:34 -0800
+Received: from vertex.vmware.com (unknown [10.21.245.145])
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 2F9A6202F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 11:03:39 -0800 (PST)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v3 0/8] Misc cleanups and fixes for vmwgfx
+Date: Wed, 13 Jan 2021 14:03:30 -0500
+Message-ID: <20210113190338.292507-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210113145009.1272040-1-lee.jones@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=agyv3xnNEhhBd4aT2ugA:9 a=CjuIK1q_8ugA:10
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,61 +40,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Eddie C. Dost" <ecd@skynet.be>, linux-fbdev@vger.kernel.org,
- Anthony Tong <atong@uiuc.edu>, Alex Kern <alex.kern@gmx.de>,
- dri-devel@lists.freedesktop.org, Oliver Kropp <dok@directfb.org>,
- Software Engineering <lg@denx.de>, Antonino Daplas <adaplas@pol.net>,
- Frodo Looijaard <frodol@dds.nl>, Steffen Trumtrar <s.trumtrar@pengutronix.de>,
- Urs Ganse <ursg@uni.de>, Thibaut VARENE <varenet@parisc-linux.org>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Helge Deller <deller@gmx.de>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, Ani Joshi <ajoshi@unixbox.com>,
- Emmanuel Marty <core@ggi-project.org>,
- "Mark D. Studebaker" <mdsxyz123@yahoo.com>,
- Alex Dewar <alex.dewar90@gmail.com>, daniel.mantione@freepascal.org,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- carter@compsci.bristol.ac.uk, Alan Cox <alan@redhat.com>,
- Jeff Garzik <jgarzik@pobox.com>, Ilario Nardinocchi <nardinoc@cs.unibo.it>,
- Jakub Jelinek <jakub@redhat.com>, Ani Joshi <ajoshi@shell.unixbox.com>,
- "Thomas J. Moore" <dark@mama.indstate.edu>, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- John Fremlin <vii@users.sourceforge.net>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- William Rucklidge <wjr@cs.cornell.edu>, Paul Mundt <lethal@chaoticdreams.org>,
- Brad Douglas <brad@neruo.com>, Ralph Metzler <rjkm@thp.uni-koeln.de>,
- James Simmons <jsimmons@users.sf.net>, Ghozlane Toumi <gtoumi@laposte.net>,
- Jim Hague <jim.hague@acm.org>,
- Egbert Eich <Egbert.Eich@physik.tu-darmstadt.de>,
- Jes Sorensen <jds@kom.auc.dk>, Gerd Knorr <kraxel@goldbach.in-berlin.de>,
- Jingoo Han <jingoohan1@gmail.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Martin Mares <mj@ucw.cz>,
- linux-kernel@vger.kernel.org, Ben Dooks <ben@simtec.co.uk>,
- Hannu Mallat <hmallat@cc.hut.fi>, Philip Edelbrock <phil@netroedge.com>,
- Jakub Jelinek <jj@ultra.linux.cz>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
+This is the same set I've sent earlier in the week. CI found a warning
+and I wanted to give the systems a chance to compile/run the fixed
+version before submitting it.
 
-On Wed, Jan 13, 2021 at 02:49:38PM +0000, Lee Jones wrote:
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
-> 
-> This patch-set clears all of the W=1 warnings currently residing
-> in drivers/video.
+Roland Scheidegger (1):
+  drm/vmwgfx: add Zack Rusin as maintainer
 
-I am sorry to say that I expect most of your nice patches to clash
-with patches that is already present in drm-misc-next.
+Zack Rusin (7):
+  drm/vmwgfx: Remove stealth mode
+  drm/vmwgfx: Switch to a managed drm device
+  drm/vmwgfx: Cleanup fifo mmio handling
+  drm/vmwgfx: Cleanup pci resource allocation
+  drm/vmwgfx: Remove the throttling code
+  drm/vmwgfx: Cleanup the cmd/fifo split
+  drm/vmwgfx: Fix display register usage for some older configs
 
-drivers/video/ are warning free with W=1 in drm-misc-next today.
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/vmwgfx/Makefile               |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_binding.c       |  52 ++---
+ .../vmwgfx/{vmwgfx_fifo.c => vmwgfx_cmd.c}    | 127 +++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |  22 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |  40 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       |  12 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 220 +++++++++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  92 +++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  22 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |  12 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  28 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c           |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c           |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  74 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |   9 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_marker.c        | 155 ------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c           |  16 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  28 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |  24 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |  32 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c  |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |  40 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |   6 +-
+ 28 files changed, 434 insertions(+), 645 deletions(-)
+ rename drivers/gpu/drm/vmwgfx/{vmwgfx_fifo.c => vmwgfx_cmd.c} (82%)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_marker.c
 
-I do not know why drm-misc-next is not yet pullled into linux-next.
+-- 
+2.27.0
 
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
