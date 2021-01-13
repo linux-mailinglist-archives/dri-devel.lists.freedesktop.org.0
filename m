@@ -1,57 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277872F522E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 19:34:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B9B2F52A3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 19:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E39DB6E87B;
-	Wed, 13 Jan 2021 18:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA346EBA1;
+	Wed, 13 Jan 2021 18:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCCE6E87B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:34:24 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id d9so6127050iob.6
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:34:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qhXeNXqf2nMW0tbzQsPH52fdTd1onMoGx9oO3h73os4=;
- b=B2wT3tlGRwcelcolq1Q8J06eDkdxigC7WRDZOJmG/xp4r3y1QVhTux4m+iVfzLKpnX
- rFQq1WjtLenDC/NAXYI9ll63bjEQsuflSB5xneaOHeR6SmlnD2YOoRn7ohfYJ+R+Qrr/
- ht6L4Eor9A7M9ULMMQYCPUgkLyQpwQPiBS2rlv+x6ynQJlvnsHkkEI/RJSO0GO4XYeIk
- ufgfaMbNMZ1a7rSfBOGp7AKnOX8ZS0iqeTDLQ9QxmDk5L93whve4ggaooFqI+Bu9QkPa
- lfgVOWyNFGvlzWByQH0B3L4mYu3+XJqO+FJsSdzPICkBCnOD517MI4NXRqDrL2DfVEn2
- d3Qw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4796EBA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610563694;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XCkM8tqtFmqAljGsn+lrhwLEcfZSOOvR/2PaL+unCN0=;
+ b=XyzI4bB4k3SDMmN+l1RVoograne414apoNVD0sTojNQ1hTIzxOfouG/f4JHKFKyIugkmdX
+ DbHqiaP4dQzW0Au0ge7iF8P87ob9saAN54MOGQQQhO+9wyMIOnCxNimITUzIkR5uD0KEX/
+ 1zmUWd5+DLFio2OvVpoPS8gEuV1lfw8=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-FZlFM6EuNFCs0yi_0L1o9Q-1; Wed, 13 Jan 2021 13:48:13 -0500
+X-MC-Unique: FZlFM6EuNFCs0yi_0L1o9Q-1
+Received: by mail-qt1-f199.google.com with SMTP id h7so2122531qtn.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:48:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qhXeNXqf2nMW0tbzQsPH52fdTd1onMoGx9oO3h73os4=;
- b=ePSjkWwNTs+RedVaN6R4CS55ZvL5is4w1qjLsHfqB+C6GCOVGFaXPt0r56o9Uy2kJV
- w/4SlsRU/LIuvNX7YMRAX5Kcs2MC0a4UQXgjeC35iBcDHCZBFV0zi31UNyP54xH4tYSx
- DwGRgOlNLnWSIH86Pvt31rKusvJkWspCLDj7wrWrnB7FaskHLV2vndwbc79hp/ML4FAq
- /xfxXs0cGvneRoTpZ4B9QdtlbiI7E8zr+W2rDmLQcOSz87JwCHPzbTLiat6/sHOvm5iF
- Nw1TzzHVH4c8Li3VdH14F3N9GsNBbLbsIJyEG5kfQoeATk+IFuSEN+e88o+TWn50gEyp
- EQsg==
-X-Gm-Message-State: AOAM531e2iXpyQdwjjL4swOR0/lV/U9ZoK3t49Xtvdxi+dZVmn9F12Ea
- P/gxFluh4WBLt8jtkf2TEuQoKGQKS1+U5v7oCRdZ3Q==
-X-Google-Smtp-Source: ABdhPJy7qyGj/zlNnpZyeNdVFN6leh4pzdesUK2e2gGhsm0EEV0AXidhSEtaHxhj8ZHlnhlhvFWQHV6zBEJDiDXCVDs=
-X-Received: by 2002:a92:77c9:: with SMTP id s192mr3420021ilc.75.1610562863782; 
- Wed, 13 Jan 2021 10:34:23 -0800 (PST)
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=XCkM8tqtFmqAljGsn+lrhwLEcfZSOOvR/2PaL+unCN0=;
+ b=IbcLe/4CE8lEkew8jOK8Dy7JiDlfDv8S4rNHTa710tE20w4n1dRWI7hAJQcoEL+08R
+ IV9507was6ificNLsdG/k67ozerD7i9moOdZxXl9nHgwSYQY9KTcGTXui9WpgCp/m2p5
+ mgSQMJCEcCHXNhFdG29z43DVG0Xyf+nscnpoy4Et109rY75NrGtpl+B20sPKNBTKeBIV
+ vI1RyhwO14me3XmIBK591s6KFi0tg60SBSlvL+ccpc32awP2WbGVTeQcX7zm4iY+EJfD
+ 5CkfivWSr3pjjfGdM6L8XbQ3yjeH0FLpGB4g4uzh8uverKv9NZsZgWAQPjA55wVl1URj
+ 9dLA==
+X-Gm-Message-State: AOAM531Io2PQ7tMMy/HLw1Jhy37BO30awk6r68lrI+WO//l1YWMx9AyE
+ ZFPbYUG74Psyt4IQwTIYvL0wixfsTT73knvu582Z6gnK6oK2uL9K7Su59J3hgvx+SrQUnHYr7Ja
+ vr2GGoly9uUaYRX6la/jhzpUY0Yep
+X-Received: by 2002:ac8:6c4a:: with SMTP id z10mr3566589qtu.183.1610563692843; 
+ Wed, 13 Jan 2021 10:48:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzsr8BSxKJOMODCmmzJTXvHIK23vnDy1EDAf3ht8aYtQMMUO2lCrf8B/jgZneMtm/Hs7ut10w==
+X-Received: by 2002:ac8:6c4a:: with SMTP id z10mr3566570qtu.183.1610563692657; 
+ Wed, 13 Jan 2021 10:48:12 -0800 (PST)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id z20sm1505438qtb.31.2021.01.13.10.48.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 10:48:11 -0800 (PST)
+Message-ID: <a391f7b14dfede904d805a01340345deb4cf2617.camel@redhat.com>
+Subject: Re: [PATCH 28/30] drm/nouveau/dispnv50/headc57d: Make local
+ function 'headc57d_olut' static
+From: Lyude Paul <lyude@redhat.com>
+To: Lee Jones <lee.jones@linaro.org>
+Date: Wed, 13 Jan 2021 13:48:10 -0500
+In-Reply-To: <20210113080752.1003793-29-lee.jones@linaro.org>
+References: <20210113080752.1003793-1-lee.jones@linaro.org>
+ <20210113080752.1003793-29-lee.jones@linaro.org>
+Organization: Red Hat
+User-Agent: Evolution 3.38.2 (3.38.2-1.fc33)
 MIME-Version: 1.0
-References: <20210106223909.34476-1-sean@poorly.run>
- <20210113101942.GK11717@intel.com>
- <CAMavQKLzGR2j2UJXymNrhy3Yp4ssKC=-J87ak4=8aUKn3vdB2A@mail.gmail.com>
- <CAKMK7uEdLsaNqArT+x4V8YqtoAT0ue7gOf5Lsa6259QEDr0VCw@mail.gmail.com>
-In-Reply-To: <CAKMK7uEdLsaNqArT+x4V8YqtoAT0ue7gOf5Lsa6259QEDr0VCw@mail.gmail.com>
-From: Sean Paul <sean@poorly.run>
-Date: Wed, 13 Jan 2021 13:33:47 -0500
-Message-ID: <CAMavQKKHKaWnGOg_dRZ-nYO1GrhEjYT8sxxcFwXpcD0Aym0APQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
- HDCP 1.4 over MST
-To: Daniel Vetter <daniel@ffwll.ch>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,151 +83,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: lyude@redhat.com
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 13, 2021 at 9:31 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Jan 13, 2021 at 2:39 PM Sean Paul <sean@poorly.run> wrote:
-> >
-> > On Wed, Jan 13, 2021 at 5:34 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
-> > >
-> > > On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
-> > > > From: Sean Paul <seanpaul@chromium.org>
-> > > >
-> > > > The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
-> > > IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
-> > > "The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
-> > > transaction to query the downstream status for a particular stream."
-> > >
-> > > I feel it useful for scenario in which a non hdcp supported monitor
-> > > is hot plugged to MST branch. Source really doesn't know about the hdcp
-> > > capable device on MST branch, it just know the capability of immediate
-> > > downstream device. QSES can fetch the HDCP capability from MST topology.
-> > > We don't require to enable stream encryption for such streams.
-> >
-> > I agree it's useful when it works, but unfortunately it's broken on at
-> > least 2 MST bridge chips I've encountered :/
-> >
-> > Until we can figure out a) how to fix them (ie: firmware updates), or
-> > b) how to enumerate all of the broken chips to create quirks, we
-> > probably just want to disable QSES for HDCP 1.4.
->
-> What happens when the user plugs in a non-hdcp screen into a hub which
-> doesn't do QSES? Just black screen?
->
-
-Good question, thanks for forcing me to explain myself more thoroughly :)
-
-This patch doesn't change that behavior, QSES is currently only used
-as a means for verifying the stream continues to be encrypted in
-steady-state (ie: after auth has already completed and the pixels are
-flowing).
-
-If one wanted to check HDCP 1.4 capability upfront, QSES wouldn't be
-the way to do it. Instead you would tunnel a remote DPCD to the sink
-to read the BCAPS register (ie: the same way we check non-MST
-connectors).
-
-So QSES is currently only around in HDCP 1.4 as an extra precaution
-against a bug in the code preventing the MST stream from being
-encrypted. IMO broken HW overrules suspenders when we already have a
-belt :)
-
-
-Sean
-
-> That would suck a bit, otoh with broken hw I don't see how we could do
-> better :-/
-> -Daniel
->
-> > Sean
-> >
-> > > > check, it was always a nice-to-have. After deploying this across various
-> > > > devices, we've determined that some MST bridge chips do not properly
-> > > > support this call for HDCP 1.4 (namely Synaptics and Realtek).
-> > > >
-> > > > I had considered creating a quirk for this, but I think it's more
-> > > > prudent to just disable the check entirely since I don't have an idea
-> > > > how widespread support is.
-> > > May be we can remove it from the link check and can retain as utility ?
-> > > Thanks,
-> > > Anshuman Gupta.
-> > > >
-> > > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
-> > > >  1 file changed, 1 insertion(+), 25 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > > > index 03424d20e9f7..b6a9606bf09a 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > > > @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
-> > > >       return ret;
-> > > >  }
-> > > >
-> > > > -static
-> > > > -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> > > > -                               struct intel_connector *connector)
-> > > > -{
-> > > > -     struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> > > > -     struct intel_dp *intel_dp = &dig_port->dp;
-> > > > -     struct drm_dp_query_stream_enc_status_ack_reply reply;
-> > > > -     int ret;
-> > > > -
-> > > > -     if (!intel_dp_hdcp_check_link(dig_port, connector))
-> > > > -             return false;
-> > > > -
-> > > > -     ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
-> > > > -                                               connector->port, &reply);
-> > > > -     if (ret) {
-> > > > -             drm_dbg_kms(&i915->drm,
-> > > > -                         "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
-> > > > -                         connector->base.base.id, connector->base.name, ret);
-> > > > -             return false;
-> > > > -     }
-> > > > -
-> > > > -     return reply.auth_completed && reply.encryption_enabled;
-> > > > -}
-> > > > -
-> > > >  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> > > >       .write_an_aksv = intel_dp_hdcp_write_an_aksv,
-> > > >       .read_bksv = intel_dp_hdcp_read_bksv,
-> > > > @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> > > >       .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
-> > > >       .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
-> > > >       .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> > > > -     .check_link = intel_dp_mst_hdcp_check_link,
-> > > > +     .check_link = intel_dp_hdcp_check_link,
-> > > >       .hdcp_capable = intel_dp_hdcp_capable,
-> > > >
-> > > >       .protocol = HDCP_PROTOCOL_DP,
-> > > > --
-> > > > Sean Paul, Software Engineer, Google / Chromium OS
-> > > >
-> > > > _______________________________________________
-> > > > Intel-gfx mailing list
-> > > > Intel-gfx@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UmV2aWV3ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpPbiBXZWQsIDIwMjEt
+MDEtMTMgYXQgMDg6MDcgKzAwMDAsIExlZSBKb25lcyB3cm90ZToKPiBGaXhlcyB0aGUgZm9sbG93
+aW5nIFc9MSBrZXJuZWwgYnVpbGQgd2FybmluZyhzKToKPiAKPiDCoGRyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmM6MTczOjE6IHdhcm5pbmc6IG5vIHByZXZpb3VzCj4g
+cHJvdG90eXBlIGZvciDigJhoZWFkYzU3ZF9vbHV04oCZIFstV21pc3NpbmctcHJvdG90eXBlc10K
+PiAKPiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+IENjOiBEYXZpZCBBaXJs
+aWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5j
+aD4KPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBDYzogZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4g
+wqBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oZWFkYzU3ZC5jIHwgMiArLQo+IMKg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmMKPiBiL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmMKPiBpbmRleCBmZDUxNTI3
+YjU2YjgzLi5iZGNmZDI0MGQ2MWM4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9k
+aXNwbnY1MC9oZWFkYzU3ZC5jCj4gQEAgLTE2OSw3ICsxNjksNyBAQCBoZWFkYzU3ZF9vbHV0X2xv
+YWQoc3RydWN0IGRybV9jb2xvcl9sdXQgKmluLCBpbnQgc2l6ZSwKPiB2b2lkIF9faW9tZW0gKm1l
+bSkKPiDCoMKgwqDCoMKgwqDCoMKgd3JpdGV3KHJlYWR3KG1lbSAtIDQpLCBtZW0gKyA0KTsKPiDC
+oH0KPiDCoAo+IC1ib29sCj4gK3N0YXRpYyBib29sCj4gwqBoZWFkYzU3ZF9vbHV0KHN0cnVjdCBu
+djUwX2hlYWQgKmhlYWQsIHN0cnVjdCBudjUwX2hlYWRfYXRvbSAqYXN5aCwgaW50IHNpemUpCj4g
+wqB7Cj4gwqDCoMKgwqDCoMKgwqDCoGlmIChzaXplICE9IDAgJiYgc2l6ZSAhPSAyNTYgJiYgc2l6
+ZSAhPSAxMDI0KQoKLS0gClNpbmNlcmVseSwKICAgTHl1ZGUgUGF1bCAoc2hlL2hlcikKICAgU29m
+dHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAogICAKTm90ZTogSSBkZWFsIHdpdGggYSBsb3Qgb2Yg
+ZW1haWxzIGFuZCBoYXZlIGEgbG90IG9mIGJ1Z3Mgb24gbXkgcGxhdGUuIElmIHlvdSd2ZQphc2tl
+ZCBtZSBhIHF1ZXN0aW9uLCBhcmUgd2FpdGluZyBmb3IgYSByZXZpZXcvbWVyZ2Ugb24gYSBwYXRj
+aCwgZXRjLiBhbmQgSQpoYXZlbid0IHJlc3BvbmRlZCBpbiBhIHdoaWxlLCBwbGVhc2UgZmVlbCBm
+cmVlIHRvIHNlbmQgbWUgYW5vdGhlciBlbWFpbCB0byBjaGVjawpvbiBteSBzdGF0dXMuIEkgZG9u
+J3QgYml0ZSEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
