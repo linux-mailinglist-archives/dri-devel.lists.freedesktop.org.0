@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DA32F4DA0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 15:51:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C302F4DA7
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 15:51:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93BF96EA6B;
-	Wed, 13 Jan 2021 14:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B010E6EA74;
+	Wed, 13 Jan 2021 14:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B5AA6EA64
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 14:50:54 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 3so1854229wmg.4
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 06:50:54 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4BED6EA64
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 14:50:55 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id c5so2410076wrp.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 06:50:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9xOmpZJSJcGjkWdwzXh/1wdxHxk1qdbTp529iSzZw+A=;
- b=MymSG+nXTdHHBzQGPOze7DAAa+ej555u1BcqPgKwDdULmCR+9lifj/RBMgwbwLjlyt
- elvEBNHzvmvW/yms4fg79Qi5WzxgrFr7YClQKZgIpcNwnQ6ljdR5HdRdcTX3fA10rdIO
- aO30H/7nbBKrI5hxOWH6sSs6sEMtOANO1pinWzByh2d2GV3m/EpoTjowTDqX+0kZ8xaX
- liF75WImH8LTXSQqNUBp9HlqfewIAHFYh7spBcCRwDuq6cWAwda7+vnAqeuvQNX58v7P
- 03COI9tjDj1PG/ZMJxlUk7Sxq24UPa6mvTMs6nk8c9qwdcBQeIG7i50znWEf+3nSQ5RB
- JzdQ==
+ bh=BzS3qZvHYgaPOU1XJ8pzaZK9gKJ87LqYUfVBvla6rAk=;
+ b=r5T8a1xoDb37mL9jIaJql8CuqF65c13F0JN0BADlmBJtoOSiLcHLQQE0zXy42jaISG
+ L+mOCdoDYshlaFwezWabUiL61Rpla5d4FFyMQCCDUECkUNO1e6hFSngniGnbMl3TwRw+
+ 0YBTdOFYXyzAsLFnu8j9xEbDQHDJuqj6YN1tK1TxHEmTQvc5vFrEV8J9bQUUCzhlQc/L
+ uEKFperGkCjqCYYjupjJDiL5O1pf0WMWVTyoYuZMKqCrDTJBlNsucq2nS6FxjcouMcm8
+ ZJnYRxOZO/pAbljJIw7+ZWc1fEo6pqh7BSCCdYtMIEOpTqkl93Az01qWCSLh9dnj+3/e
+ 0yYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9xOmpZJSJcGjkWdwzXh/1wdxHxk1qdbTp529iSzZw+A=;
- b=jKVuVopLCL3udHgA3+xINnolXvglvSG182iR4eZucMKfUf11y6neoNobjOweJZ3Ly/
- KOILGB6soaRAv0DXXcl06smpvn92JO/m4IinTgOblXzBO6d7bmuUyWZ1rK6KN2lg86CG
- zNPDN9traY56KRAfprM8J+q8b/qwfYXmuNZ4mxiD9z4/iS9ktDAusQEnjXjmcwHjfrt+
- GWd9acoBs15yEY/eWAiLCQfdYDqyrtWCil3qOGtl9UI2ZDHGCFQXvLjklSNwK/b43Jlf
- qtagPeao0BXkYNT1rekI2YDerWI/4cjyLisCyvifxFAVdGjUxxO4xIGF4wlKy18JzPvq
- Mbag==
-X-Gm-Message-State: AOAM532IGYqlYY+hfGyNQySbP0HgDuhKQFJfoiBqmm49BCqNOxekvgF2
- T6g5g8I/eKVyfIL+PPBmCu6MGA==
-X-Google-Smtp-Source: ABdhPJy1eR+KY9VjvEkheIzVcqWp7XoiAxVirwoH+ntCmyxPC42Czfx3zHGSaOqSDxojIeI3efM6eQ==
-X-Received: by 2002:a05:600c:29cc:: with SMTP id
- s12mr1724821wmd.180.1610549453390; 
- Wed, 13 Jan 2021 06:50:53 -0800 (PST)
+ bh=BzS3qZvHYgaPOU1XJ8pzaZK9gKJ87LqYUfVBvla6rAk=;
+ b=ftlRTnABwAVZ3vvFYlD5lebN8VnHli8DzsLBMukl7FIAfg+yLSpeyHLwEHOj/MV58h
+ Ibfx/dtUUoCehYQNXlqJ/isHrMXJpyVekqFxAmXnN+VfcFVKC3HViBqFuDQ/jhb0qTrV
+ tOee41a2NRpKdYU/60rdzLz0xZZw13970p8TvdSBTox04NxepS+2VWpYoERpnae9nuIV
+ iUpo2mgPxAhyCpd2TPaspRrHHt9JBpAOAHiphVF+JlTI6bNeS7KbgguwdaPiQMlHUBbf
+ F+R4T+mGe6Ir5w6b4TZsUJ1mgnDcBzdhboBuOXFiQ9TeCFWI1/z5+IJrzOJm1CkqDPUw
+ MM5A==
+X-Gm-Message-State: AOAM531SAqBfSxJbyx5wufPDmtVQoZGezJlpvKrsf84SMB5mGoUVm94v
+ OsFfqzRJCP2ViBCiFOvN/ocW6w==
+X-Google-Smtp-Source: ABdhPJwWW8Mh0VQz40rTJwa/0e7kE/8p2NvxyZJuFij95jhV38CZu46wo+9mK5ByYWZwB9G7KRUEhQ==
+X-Received: by 2002:a5d:5227:: with SMTP id i7mr3134555wra.68.1610549454505;
+ Wed, 13 Jan 2021 06:50:54 -0800 (PST)
 Received: from dell.default ([91.110.221.229])
- by smtp.gmail.com with ESMTPSA id t188sm3273433wmf.9.2021.01.13.06.50.52
+ by smtp.gmail.com with ESMTPSA id t188sm3273433wmf.9.2021.01.13.06.50.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 06:50:52 -0800 (PST)
+ Wed, 13 Jan 2021 06:50:53 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 28/31] video: fbdev: cirrusfb: Add description for 'info' and
- correct spelling of 'regbase'
-Date: Wed, 13 Jan 2021 14:50:06 +0000
-Message-Id: <20210113145009.1272040-29-lee.jones@linaro.org>
+Subject: [PATCH 29/31] video: fbdev: s1d13xxxfb: Function name must be on the
+ 2nd line in kernel-doc
+Date: Wed, 13 Jan 2021 14:50:07 +0000
+Message-Id: <20210113145009.1272040-30-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210113145009.1272040-1-lee.jones@linaro.org>
 References: <20210113145009.1272040-1-lee.jones@linaro.org>
@@ -68,8 +67,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jeff Garzik <jgarzik@pobox.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Thibaut VARENE <varenet@parisc-linux.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Dooks <ben@simtec.co.uk>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,45 +78,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/video/fbdev/cirrusfb.c:2815: warning: Function parameter or member 'info' not described in 'cirrusfb_dbg_print_regs'
- drivers/video/fbdev/cirrusfb.c:2815: warning: Function parameter or member 'regbase' not described in 'cirrusfb_dbg_print_regs'
- drivers/video/fbdev/cirrusfb.c:2815: warning: Excess function parameter 'base' description in 'cirrusfb_dbg_print_regs'
- drivers/video/fbdev/cirrusfb.c:2859: warning: Function parameter or member 'info' not described in 'cirrusfb_dbg_reg_dump'
- drivers/video/fbdev/cirrusfb.c:2859: warning: Function parameter or member 'regbase' not described in 'cirrusfb_dbg_reg_dump'
- drivers/video/fbdev/cirrusfb.c:2859: warning: Excess function parameter 'base' description in 'cirrusfb_dbg_reg_dump'
+ drivers/video/fbdev/s1d13xxxfb.c:515: warning: Cannot understand  *
 
-Cc: Jeff Garzik <jgarzik@pobox.com>
+Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>
+Cc: Thibaut VARENE <varenet@parisc-linux.org>
+Cc: Ben Dooks <ben@simtec.co.uk>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-fbdev@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/cirrusfb.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/s1d13xxxfb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
-index f05160fa34da9..bb2cc753c1cf5 100644
---- a/drivers/video/fbdev/cirrusfb.c
-+++ b/drivers/video/fbdev/cirrusfb.c
-@@ -2800,7 +2800,8 @@ static void bestclock(long freq, int *nom, int *den, int *div)
+diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
+index e6e8bc74412c6..b21627c07f8d0 100644
+--- a/drivers/video/fbdev/s1d13xxxfb.c
++++ b/drivers/video/fbdev/s1d13xxxfb.c
+@@ -512,7 +512,6 @@ s1d13xxxfb_bitblt_copyarea(struct fb_info *info, const struct fb_copyarea *area)
+ }
  
  /**
-  * cirrusfb_dbg_print_regs
-- * @base: If using newmmio, the newmmio base address, otherwise %NULL
-+ * @info: frame buffer info structure
-+ * @regbase: If using newmmio, the newmmio base address, otherwise %NULL
-  * @reg_class: type of registers to read: %CRT, or %SEQ
-  *
-  * DESCRIPTION:
-@@ -2847,7 +2848,8 @@ static void cirrusfb_dbg_print_regs(struct fb_info *info,
- 
- /**
-  * cirrusfb_dbg_reg_dump
-- * @base: If using newmmio, the newmmio base address, otherwise %NULL
-+ * @info: frame buffer info structure
-+ * @regbase: If using newmmio, the newmmio base address, otherwise %NULL
-  *
-  * DESCRIPTION:
-  * Dumps a list of interesting VGA and CIRRUSFB registers.  If @base is %NULL,
+- *
+  *	s1d13xxxfb_bitblt_solidfill - accelerated solidfill function
+  *	@info : framebuffer structure
+  *	@rect : fb_fillrect structure
 -- 
 2.25.1
 
