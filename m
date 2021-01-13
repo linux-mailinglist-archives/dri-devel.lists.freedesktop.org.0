@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3142F5D5D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E892F5D8F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFD26E114;
-	Thu, 14 Jan 2021 09:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161766E175;
+	Thu, 14 Jan 2021 09:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 420 seconds by postgrey-1.36 at gabe;
- Wed, 13 Jan 2021 10:54:37 UTC
-Received: from smtpcmd02102.aruba.it (smtpcmd02102.aruba.it [62.149.158.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 789766E48E
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:54:37 +0000 (UTC)
-Received: from ubuntu.localdomain ([146.241.213.249])
+Received: from smtpcmd15177.aruba.it (smtpcmd0757.aruba.it [62.149.156.57])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 06A556E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:48:50 +0000 (UTC)
+Received: from [192.168.126.129] ([146.241.213.249])
  by Aruba Outgoing Smtp  with ESMTPSA
- id zdgYkpGEuM8oXzdgYkw9Bi; Wed, 13 Jan 2021 11:47:34 +0100
+ id zdhhkq3XHiSGyzdhjktF2U; Wed, 13 Jan 2021 11:48:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1610534854; bh=9qQyXA1FoXtBqukZr+f9ZXHvisI/kRQH2J5vy5XyEIo=;
- h=From:To:Subject:Date:MIME-Version:Content-Type;
- b=S6jzU0A7GrZFhi2GtlbrSsbkvCLBbMUPJBGLy9eOvomu6IVOFRuEIi7+GstCjiSgu
- dQKuh9WB6uahVhyCAKCtSbqD0OLpm+LAkIvoEFObsgd5HyjgUMSB1OhqG87CCBk2gE
- ZVNAvLSua84xAAmkJ3GpDdXU+hW1s1XbqNaiXpJR6nL9mmoAjY7E+DArWp+hS5v0Op
- 097PnvKn5guAk0+6ZiX1BqFqYcZHQQ+Me89BWLYM7W6+GVPdRU1QkJG0rKoo0+neV1
- myVB3vGzF6m3tm8i2EOkzzHO1VTP0OHIuqstk7MPFgJltv1fGW5byZ/nWJwJoSVBza
- tkeNGlcYiTtXw==
-From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+ t=1610534929; bh=A0c7v5QF0kGnUG1xFhye+7y0Ji9UZ3lTSdIODU4p75Y=;
+ h=Subject:To:From:Date:MIME-Version:Content-Type;
+ b=TsUGOj5TI5ANqq/CKrGkMw7tQy9vEnMVZpLMDV5u22zUYvbo/BSzjJNywlFgrg08a
+ wHW8b5Zyjphql1bKaXC6t3PhAUF47LVhX8+mpmBBAAJVMMGBeSDluzkMQYtS6QLAOr
+ Fjwog3UuJPodL+RWIllas6526qDTu50NbAPbwRvlwY28eJ8qeoRPBBbCgyRtvO71vh
+ deDnM7syphT2ojLCiCu5+jIh7e67UJWfd2KATSXMQq7cOd4NScXyCtuyND+7U1Jx8A
+ mnhKon9HP80or26SC+SD1L1gBV3VXvSEyzFwY7gofDOTf7ReypOz8UBRusIpn/a4r/
+ HtSyo/UTXrzgg==
+Subject: Re: [PATCH v3] drm/sun4i: tcon: fix inverted DCLK polarity
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4] drm/sun4i: tcon: fix inverted DCLK polarity
-Date: Wed, 13 Jan 2021 11:47:25 +0100
-Message-Id: <20210113104725.770459-1-giulio.benetti@benettiengineering.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210113094214.5ijq3inmffticym6@gilmour>
-References: <20210113094214.5ijq3inmffticym6@gilmour>
+References: <20210111172052.7v522xam74xkq6se@gilmour>
+ <20210111174616.904674-1-giulio.benetti@benettiengineering.com>
+ <20210113094214.5ijq3inmffticym6@gilmour>
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+Message-ID: <f74a69d0-079b-69a2-98fc-65aabc69daef@benettiengineering.com>
+Date: Wed, 13 Jan 2021 11:48:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfKOmPT1i9gArIC10WEB2Cw3vWYQTurVk9+ZL0ZbFumP8RZ/5bgpdB6saoV83KQ0rIsKqA5WDklykap4YzgK76/u1D/biEoFBIitr6YQxxZl7/xY+WaHb
- 5B6YDCYzVe51IP2JS0ezr+65FUu7Fnn7Czg6VAfddH8XRvcNIQjE9UMtnxyM0/MhLVbavdMxAhu6P4q9ieetTJk4XDNumZMKFvCYCkMqjwv/Xj58jrXRFMS9
- DqhitwiojBnu1j6sE/gZ9LvvJjiAzAq/icQwEa7T9LWiFoz3hjpQJvN/KYlEF0h2lEOtzVmArNd2Nkm2Q/j2xwWwccaJF05jccxvRPNLUVLkPZ805eXAm2Xn
- q5gWpTpBzc7CXEGUTqj4WVK5o9b7fsCASRiO4S0sJxIJzfOCfxzhQqv4VQKCsm75JJfuBgS/bibdSv6hjUsAHkYPuPB1gnprEDUUQwd9w3Y3IVvFJh8yy33D
- 9UMWsD8uxlPMuFWhmhtw8zi8RPQ2aNig5/bdYVnXjmv90C/0lhhP7bynZdOiTtDzA3ugeOIbWhVkFjR7S9SvkWSf+iT+oylKKRuE8g==
+In-Reply-To: <20210113094214.5ijq3inmffticym6@gilmour>
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfHvWPh5pLOS3KfYu6MtfyvhEvIzfKXG6+TpmxOAcuM5RBEEiAvPgXV0bT4EIMPqrktqnbIcaBPUynjGHTCNM1rLhbOXO9d6p90gUYDXCjRED54d5tW9r
+ aYOP3EVO77HSI3wim2LlCXRYZOeDXaDR/0swdv8Z4VdfNfQwsywDYEWXhfAsgwtr2h6VEEt2FezQo3QOy2OkFiTCdB3tPf5vOcmFHY0Qo/6l6RZDdxLYHat0
+ bddRrSYCM/K6oyfWNRZI9sHDD8jSXKvup5GnMIknuEujIWLwk8BY8fqKQtV/TSu/fYe+bF8rN4G0oxHdKTOAX8esLmdq97s/8Bzglwt3q1qOUTjtmFDrUPQ2
+ 0kuCLobKHncDtmOAimCoQYkTL16VfAqXUuRqSHYDiPmOJU6AVmUEXIYsAnxBBLcYZ4z/vwvOr1c+PNyZ4VhApFZTi9zKc6Amixx3TD/TgfHFoOF87jjC8tdk
+ YvTV7LrRT8XzT2BeFUgb7VwHYyJAPgUrJkDauKSUzB2DX9huoekpjJrECpRBMEobQ3bFfmlBRmessApxAuvWFmAzZc8ZjjhPHMpBPg==
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,70 +60,91 @@ Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
  linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
  Giulio Benetti <giulio.benetti@micronovasrl.com>,
  Marjan Pascolo <marjan.pascolo@trexom.it>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1252"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+CgpE
-dXJpbmcgY29tbWl0IDg4YmM0MTc4NTY4YiAoImRybTogVXNlIG5ldwpEUk1fQlVTX0ZMQUdfKl8o
-RFJJVkV8U0FNUExFKV8oUE9TfE5FRylFREdFIGZsYWdzIikgRFJNX0JVU19GTEFHXyoKbWFjcm9z
-IGhhdmUgYmVlbiBjaGFuZ2VkIHRvIGF2b2lkIGFtYmlndWl0eSBidXQganVzdCBiZWNhdXNlIG9m
-IHRoaXMKYW1iaWd1aXR5IHByZXZpb3VzIERSTV9CVVNfRkxBR19QSVhEQVRBXyhQT1MvTkVHKUVE
-R0Ugd2VyZSB1c2VkIG1lYW5pbmcKX1NBTVBMRV8gbm90IF9EUklWRV8uIFRoaXMgbGVhZHMgdG8g
-RExDSyBpbnZlcnNpb24gYW5kIG5lZWQgdG8gZml4IGJ1dAppbnN0ZWFkIG9mIHN3YXBwaW5nIHBo
-YXNlIHZhbHVlcywgbGV0J3MgYWRvcHQgYW4gZWFzaWVyIGFwcHJvYWNoIE1heGltZQpzdWdnZXN0
-ZWQ6Ckl0IHR1cm5lZCBvdXQgdGhhdCBiaXQgMjYgb2YgU1VONElfVENPTjBfSU9fUE9MX1JFRyBp
-cyBkZWRpY2F0ZWQgdG8KaW52ZXJ0IERDTEsgcG9sYXJpdHkgYW5kIHRoaXMgbWFrZXMgdGhpbmdz
-IHJlYWxseSBlYXNpZXIgdGhhbiBiZWZvcmUuIFNvCmxldCdzIGhhbmRsZSBEQ0xLIHBvbGFyaXR5
-IGJ5IGFkZGluZyBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSBhcwpiaXQgMjYgYW5k
-IGFjdGl2YXRpbmcgYWNjb3JkaW5nIHRvIGJ1c19mbGFncyB0aGUgc2FtZSB3YXkgaXQgaXMgZG9u
-ZSBmb3IKYWxsIHRoZSBvdGhlciBzaWduYWxzIHBvbGFyaXR5LgoKRml4ZXM6IDg4YmM0MTc4NTY4
-YiAoImRybTogVXNlIG5ldyBEUk1fQlVTX0ZMQUdfKl8oRFJJVkV8U0FNUExFKV8oUE9TfE5FRylF
-REdFIGZsYWdzIikKU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVj
-aD4KU2lnbmVkLW9mZi1ieTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92
-YXNybC5jb20+Ci0tLQpWMi0+VjM6Ci0gc3F1YXNoIDIgcGF0Y2hlcyBpbnRvIDEKVjMtPlY0Ogot
-IGFkZCBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSB0byByZWdtYXBfdXBkYXRlX2Jp
-dHMoKQotLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMgfCAyMSArKy0tLS0t
-LS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmggfCAgMSAr
-CiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyBiL2RyaXZlcnMvZ3B1
-L2RybS9zdW40aS9zdW40aV90Y29uLmMKaW5kZXggZWFhZjVkNzBlMzUyLi42ZTQ1NGQzMTY4NTIg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwpAQCAtNTY5LDMwICs1NjksMTMgQEAgc3Rh
-dGljIHZvaWQgc3VuNGlfdGNvbjBfbW9kZV9zZXRfcmdiKHN0cnVjdCBzdW40aV90Y29uICp0Y29u
-LAogCWlmIChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVTX0ZMQUdfREVfTE9XKQogCQl2YWwgfD0g
-U1VONElfVENPTjBfSU9fUE9MX0RFX05FR0FUSVZFOwogCi0JLyoKLQkgKiBPbiBBMjAgYW5kIHNp
-bWlsYXIgU29DcywgdGhlIG9ubHkgd2F5IHRvIGFjaGlldmUgUG9zaXRpdmUgRWRnZQotCSAqIChS
-aXNpbmcgRWRnZSksIGlzIHNldHRpbmcgZGNsayBjbG9jayBwaGFzZSB0byAyLzMoMjQwwrApLgot
-CSAqIEJ5IGRlZmF1bHQgVENPTiB3b3JrcyBpbiBOZWdhdGl2ZSBFZGdlKEZhbGxpbmcgRWRnZSks
-Ci0JICogdGhpcyBpcyB3aHkgcGhhc2UgaXMgc2V0IHRvIDAgaW4gdGhhdCBjYXNlLgotCSAqIFVu
-Zm9ydHVuYXRlbHkgdGhlcmUncyBubyB3YXkgdG8gbG9naWNhbGx5IGludmVydCBkY2xrIHRocm91
-Z2gKLQkgKiBJT19QT0wgcmVnaXN0ZXIuCi0JICogVGhlIG9ubHkgYWNjZXB0YWJsZSB3YXkgdG8g
-d29yaywgdHJpcGxlIGNoZWNrZWQgd2l0aCBzY29wZSwKLQkgKiBpcyB1c2luZyBjbG9jayBwaGFz
-ZSBzZXQgdG8gMMKwIGZvciBOZWdhdGl2ZSBFZGdlIGFuZCBzZXQgdG8gMjQwwrAKLQkgKiBmb3Ig
-UG9zaXRpdmUgRWRnZS4KLQkgKiBPbiBBMzMgYW5kIHNpbWlsYXIgU29DcyB0aGVyZSB3b3VsZCBi
-ZSBhIDkwwrAgcGhhc2Ugb3B0aW9uLAotCSAqIGJ1dCBpdCBkaXZpZGVzIGFsc28gZGNsayBieSAy
-LgotCSAqIEZvbGxvd2luZyBjb2RlIGlzIGEgd2F5IHRvIGF2b2lkIHF1aXJrcyBhbGwgYXJvdW5k
-IFRDT04KLQkgKiBhbmQgRE9UQ0xPQ0sgZHJpdmVycy4KLQkgKi8KIAlpZiAoaW5mby0+YnVzX2Zs
-YWdzICYgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVfUE9TRURHRSkKLQkJY2xrX3NldF9waGFz
-ZSh0Y29uLT5kY2xrLCAyNDApOwotCi0JaWYgKGluZm8tPmJ1c19mbGFncyAmIERSTV9CVVNfRkxB
-R19QSVhEQVRBX0RSSVZFX05FR0VER0UpCi0JCWNsa19zZXRfcGhhc2UodGNvbi0+ZGNsaywgMCk7
-CisJCXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRTsKIAogCXJlZ21hcF91
-cGRhdGVfYml0cyh0Y29uLT5yZWdzLCBTVU40SV9UQ09OMF9JT19QT0xfUkVHLAogCQkJICAgU1VO
-NElfVENPTjBfSU9fUE9MX0hTWU5DX1BPU0lUSVZFIHwKIAkJCSAgIFNVTjRJX1RDT04wX0lPX1BP
-TF9WU1lOQ19QT1NJVElWRSB8CisJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElW
-RSB8CiAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfREVfTkVHQVRJVkUsCiAJCQkgICB2YWwpOwog
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oIGIvZHJpdmVy
-cy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAppbmRleCBjZmJmNGU2YzE2NzkuLjBjZTcxZDEw
-YTMxYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAorKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oCkBAIC0xMTMsNiArMTEzLDcgQEAK
-ICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX1JFRwkJCTB4ODgKICNkZWZpbmUgU1VONElfVENP
-TjBfSU9fUE9MX0RDTEtfUEhBU0UocGhhc2UpCQkoKHBoYXNlICYgMykgPDwgMjgpCiAjZGVmaW5l
-IFNVTjRJX1RDT04wX0lPX1BPTF9ERV9ORUdBVElWRQkJCUJJVCgyNykKKyNkZWZpbmUgU1VONElf
-VENPTjBfSU9fUE9MX0RDTEtfUE9TSVRJVkUJCUJJVCgyNikKICNkZWZpbmUgU1VONElfVENPTjBf
-SU9fUE9MX0hTWU5DX1BPU0lUSVZFCQlCSVQoMjUpCiAjZGVmaW5lIFNVTjRJX1RDT04wX0lPX1BP
-TF9WU1lOQ19QT1NJVElWRQkJQklUKDI0KQogCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 1/13/21 10:42 AM, Maxime Ripard wrote:
+> Hi,
+> =
+
+> On Mon, Jan 11, 2021 at 06:46:16PM +0100, Giulio Benetti wrote:
+>> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
+>>
+>> During commit 88bc4178568b ("drm: Use new
+>> DRM_BUS_FLAG_*_(DRIVE|SAMPLE)_(POS|NEG)EDGE flags") DRM_BUS_FLAG_*
+>> macros have been changed to avoid ambiguity but just because of this
+>> ambiguity previous DRM_BUS_FLAG_PIXDATA_(POS/NEG)EDGE were used meaning
+>> _SAMPLE_ not _DRIVE_. This leads to DLCK inversion and need to fix but
+>> instead of swapping phase values, let's adopt an easier approach Maxime
+>> suggested:
+>> It turned out that bit 26 of SUN4I_TCON0_IO_POL_REG is dedicated to
+>> invert DCLK polarity and this makes things really easier than before. So
+>> let's handle DCLK polarity by adding SUN4I_TCON0_IO_POL_DCLK_POSITIVE as
+>> bit 26 and activating according to bus_flags the same way it is done for
+>> all the other signals polarity.
+>>
+>> Fixes: 88bc4178568b ("drm: Use new DRM_BUS_FLAG_*_(DRIVE|SAMPLE)_(POS|NE=
+G)EDGE flags")
+>> Suggested-by: Maxime Ripard <maxime@cerno.tech>
+>> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+>> ---
+>>   drivers/gpu/drm/sun4i/sun4i_tcon.c | 20 +-------------------
+>>   drivers/gpu/drm/sun4i/sun4i_tcon.h |  1 +
+>>   2 files changed, 2 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/=
+sun4i_tcon.c
+>> index eaaf5d70e352..30171ccd87e5 100644
+>> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+>> @@ -569,26 +569,8 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_t=
+con *tcon,
+>>   	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
+>>   		val |=3D SUN4I_TCON0_IO_POL_DE_NEGATIVE;
+>>   =
+
+>> -	/*
+>> -	 * On A20 and similar SoCs, the only way to achieve Positive Edge
+>> -	 * (Rising Edge), is setting dclk clock phase to 2/3(240=B0).
+>> -	 * By default TCON works in Negative Edge(Falling Edge),
+>> -	 * this is why phase is set to 0 in that case.
+>> -	 * Unfortunately there's no way to logically invert dclk through
+>> -	 * IO_POL register.
+>> -	 * The only acceptable way to work, triple checked with scope,
+>> -	 * is using clock phase set to 0=B0 for Negative Edge and set to 240=
+=B0
+>> -	 * for Positive Edge.
+>> -	 * On A33 and similar SoCs there would be a 90=B0 phase option,
+>> -	 * but it divides also dclk by 2.
+>> -	 * Following code is a way to avoid quirks all around TCON
+>> -	 * and DOTCLOCK drivers.
+>> -	 */
+>>   	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE)
+>> -		clk_set_phase(tcon->dclk, 240);
+>> -
+>> -	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+>> -		clk_set_phase(tcon->dclk, 0);
+>> +		val |=3D SUN4I_TCON0_IO_POL_DCLK_POSITIVE;
+>>   =
+
+>>   	regmap_update_bits(tcon->regs, SUN4I_TCON0_IO_POL_REG,
+>>   			   SUN4I_TCON0_IO_POL_HSYNC_POSITIVE |
+> =
+
+> You need to add SUN4I_TCON0_IO_POL_DCLK_POSITIVE to the mask you're
+> going to change here too
+
+Ah, lost it during squash, I send a v4.
+
+Thank you
+Best regards
+-- =
+
+Giulio Benetti
+Benetti Engineering sas
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
