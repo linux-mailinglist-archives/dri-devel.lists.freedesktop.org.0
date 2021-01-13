@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D293A2F4D94
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 15:50:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF142F4D96
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 15:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1226EA5F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57CEE6EA60;
 	Wed, 13 Jan 2021 14:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC8846EA60
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 14:50:39 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id g10so1855516wmh.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 06:50:39 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4226EA5F
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 14:50:41 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id i63so1846011wma.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 06:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DB5ZhlcS73D7+78VKV5C4ED9gkOhY09FF/WaEagoeZU=;
- b=AONsu4c49jYlWKZxIV71Fh+XZdaNm/Vzg4dgCbN9JbxTF4zXdk0hxy5yUAjRqlY1Xp
- nIupPjhqoIDmU9VkNJPtK0bN3YDe0f2AqkiUUwaqnLI5f/UzmCGOhingAiMylna4SnJ7
- hLXn2MQXPU6i1MKuVELPGT8kK+K/FZOJI4dUhj0jPoBZq2Enr9vntVzkeQDu+4qMmsGJ
- v9PLkQKSiH7g77yfRhELqhLTHFPLU2Zj+6aaz97t1aI4q7b6mzr8jI36fIERyEk5M18O
- pFAOSj+Sqvp1t7uHTA6T4HOtbxb08KOCHlGCDgPp2Qf5TW3Vp2vXs9ztiYrfKzPx/xqZ
- 1DRw==
+ bh=fDDpX4Tq8YbOoBzLmaAPLoJ0FkV3kIft9xiJt5MwHsk=;
+ b=P/TckwyC+Zpm96Xw3jhnQcTPN4yEDByRSGHhaDy4FTUtGMu06Iu1Lz1wyjqkxnYGD8
+ Ka0UeFrgp+iGG7nEK9sOqDisiaFpLSK1hp1DISbHIQX8TDn4GphpHRUfABx50dTEboH0
+ qeaFWlT7UN/Vu7aoSNXpYCaMFlK+DfSHuhMJjBshrb8gKl2yGkzp7JIUWGPZphFnEfly
+ 608DGRjP7K/CPR0c/OxOSedMrPcUuDd1OSXearvHBAU6PUJXtpFKR1uPWbedCfsb9D0l
+ VZxN7mXIKLzNxEZYF8QgplqX7VbOWBfbEy/IEpStDEkkgxcfNRAH9CcHckNWX7BTHpf7
+ EMTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DB5ZhlcS73D7+78VKV5C4ED9gkOhY09FF/WaEagoeZU=;
- b=IMCmo18BzMw8qT49PmVE1E6nPCX0YAv8wVhsfZD7qW1QCIPCvka9hLZVJsTJx9TapZ
- gSTKTPt+c9xRzZnxaiVs7yCCfQhBHjCQ4yYFTtm/rj+s8OQeAuTBlRZg7yxYJsinpA4l
- rxRtvWNP15oLSDi3PtqCypEijDjxuYIeJthpvvuhJyM3ew8DU285jqaGcK39E3Of3I/n
- 2Vr2tBTg7I4tjZWN8muAGZV7BTqsi13vmnQYPEazeKsRxPE8vpK03e5kSyDv4OtYF/5Y
- 48WnlwOK+qzyGZFuJs0HEj22dZewqhCJFYekTGbBBbOX9n7uu9cpIgHi2nVM1Q17xdZP
- /qEg==
-X-Gm-Message-State: AOAM5328eNfu+lgP9wSNKnHo+PxAQmHb5In++Bk2k2pjO6gnQVhZzn9N
- K5w1kNuJssu1q5eSOWwMoWeUWA==
-X-Google-Smtp-Source: ABdhPJwgYTdZ2SuZ1GC/GjtSB8bSmqwzQcGAszf80Fej8Y4hpcF1LKJ1kwg1EITnZXMFsMy/JoGVCg==
-X-Received: by 2002:a1c:4843:: with SMTP id v64mr2570638wma.186.1610549438672; 
- Wed, 13 Jan 2021 06:50:38 -0800 (PST)
+ bh=fDDpX4Tq8YbOoBzLmaAPLoJ0FkV3kIft9xiJt5MwHsk=;
+ b=XiOzTXQxRXkT+TxEIqVzEX4DZZvy6PM1C3Up6OiDU1Sc7RGP+LqZyxmkEB4GyGvN00
+ Y/blPYy2awy7dh9Y4xEc2/3zbSqoPtHste+7mqZbv/C/LoMrO+DCiUnpYfF8/YqdyGGZ
+ 11xCV/FIlSLcOQXzisGmQ/geGDh95ky0Z3rGqBAWV68CUflbYXjjVFcox/v2f5jC76pU
+ te2mOGiomusO0Zr3nBpvhRj6MH86j0ctnDV9Pk7wuBieS3kmgnnoDCLWtgXuC9MCceSA
+ u8s5VEm9ZdccQ4bF7Slm6r1hhSVmGlp+knakonpnqUROem9pC6tNdsDhSudlXTuZbY+x
+ wqoQ==
+X-Gm-Message-State: AOAM53288IZ03pW7nm5cp3mTaB/SF8Xcwg8po1XaQ/o9n5hO+Cm0QNwI
+ BTNbTmeuTBkV935pjv/YSpusgw==
+X-Google-Smtp-Source: ABdhPJzYqXQr0JAQFjeee0qoDpAYIIkOJfbnlgTUbeOjt6+QKL+q1AvPdGMRRUWutIMa4sTg1X4bsA==
+X-Received: by 2002:a1c:a5d8:: with SMTP id o207mr2598878wme.30.1610549439832; 
+ Wed, 13 Jan 2021 06:50:39 -0800 (PST)
 Received: from dell.default ([91.110.221.229])
- by smtp.gmail.com with ESMTPSA id t188sm3273433wmf.9.2021.01.13.06.50.37
+ by smtp.gmail.com with ESMTPSA id t188sm3273433wmf.9.2021.01.13.06.50.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 06:50:38 -0800 (PST)
+ Wed, 13 Jan 2021 06:50:39 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 16/31] video: fbdev: pm2fb: Fix some kernel-doc formatting
- issues
-Date: Wed, 13 Jan 2021 14:49:54 +0000
-Message-Id: <20210113145009.1272040-17-lee.jones@linaro.org>
+Subject: [PATCH 17/31] video: fbdev: aty: radeon_monitor: Remove unused
+ variable 'mon_types'
+Date: Wed, 13 Jan 2021 14:49:55 +0000
+Message-Id: <20210113145009.1272040-18-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210113145009.1272040-1-lee.jones@linaro.org>
 References: <20210113145009.1272040-1-lee.jones@linaro.org>
@@ -67,80 +67,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jim Hague <jim.hague@acm.org>, Jakub Jelinek <jakub@redhat.com>,
- linux-fbdev@vger.kernel.org, Ilario Nardinocchi <nardinoc@CS.UniBO.IT>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/video/fbdev/pm2fb.c:1515: warning: Function parameter or member 'pdev' not described in 'pm2fb_probe'
- drivers/video/fbdev/pm2fb.c:1515: warning: Function parameter or member 'id' not described in 'pm2fb_probe'
- drivers/video/fbdev/pm2fb.c:1721: warning: Function parameter or member 'pdev' not described in 'pm2fb_remove'
- drivers/video/fbdev/pm2fb.c:1765: warning: Function parameter or member 'options' not described in 'pm2fb_setup'
-
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Jim Hague <jim.hague@acm.org>
-Cc: Ilario Nardinocchi <nardinoc@CS.UniBO.IT>
-Cc: Jakub Jelinek <jakub@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/video/fbdev/pm2fb.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
-index 27893fa139b08..6a30096676374 100644
---- a/drivers/video/fbdev/pm2fb.c
-+++ b/drivers/video/fbdev/pm2fb.c
-@@ -1504,12 +1504,12 @@ static const struct fb_ops pm2fb_ops = {
- 
- 
- /**
-- * Device initialisation
-+ * pm2fb_probe - Device initialisation
-  *
-  * Initialise and allocate resource for PCI device.
-  *
-- * @param	pdev	PCI device.
-- * @param	id	PCI device ID.
-+ * @pdev:	PCI device.
-+ * @id:		PCI device ID.
-  */
- static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-@@ -1711,11 +1711,11 @@ static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- }
- 
- /**
-- * Device removal.
-+ * pm2fb_remove - Device removal.
-  *
-  * Release all device resources.
-  *
-- * @param	pdev	PCI device to clean up.
-+ * @pdev:	PCI device to clean up.
-  */
- static void pm2fb_remove(struct pci_dev *pdev)
- {
-@@ -1756,7 +1756,7 @@ MODULE_DEVICE_TABLE(pci, pm2fb_id_table);
- 
- 
- #ifndef MODULE
--/**
-+/*
-  * Parse user specified options.
-  *
-  * This is, comma-separated options following `video=pm2fb:'.
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy92aWRlby9mYmRldi9hdHkvcmFkZW9uX21vbml0b3IuYzogSW4gZnVuY3Rpb24g4oCYcmFkZW9u
+X3Byb2JlX3NjcmVlbnPigJk6CiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2F0eS9yYWRlb25fbW9uaXRv
+ci5jOjQ5MTo4OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhtb25fdHlwZXPigJkgc2V0IGJ1dCBub3Qg
+dXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkNjOiBCZW5qYW1pbiBIZXJyZW5zY2ht
+aWR0IDxiZW5oQGtlcm5lbC5jcmFzaGluZy5vcmc+CkNjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5l
+bC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTog
+TGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2
+L2F0eS9yYWRlb25fbW9uaXRvci5jIHwgNCArLS0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9h
+dHkvcmFkZW9uX21vbml0b3IuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L3JhZGVvbl9tb25p
+dG9yLmMKaW5kZXggOTk2NmM1OGFhMjZjZC4uNWZmMDFhYTM4OTM4MSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy92aWRlby9mYmRldi9hdHkvcmFkZW9uX21vbml0b3IuYworKysgYi9kcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2F0eS9yYWRlb25fbW9uaXRvci5jCkBAIC00ODgsMTIgKzQ4OCwxMCBAQCB2b2lkIHJh
+ZGVvbl9wcm9iZV9zY3JlZW5zKHN0cnVjdCByYWRlb25mYl9pbmZvICpyaW5mbywKICNpZiBkZWZp
+bmVkKERFQlVHKSAmJiBkZWZpbmVkKENPTkZJR19GQl9SQURFT05fSTJDKQogCQl7CiAJCQl1OCAq
+RURJRHNbNF0gPSB7IE5VTEwsIE5VTEwsIE5VTEwsIE5VTEwgfTsKLQkJCWludCBtb25fdHlwZXNb
+NF0gPSB7TVRfTk9ORSwgTVRfTk9ORSwgTVRfTk9ORSwgTVRfTk9ORX07CiAJCQlpbnQgaTsKIAog
+CQkJZm9yIChpID0gMDsgaSA8IDQ7IGkrKykKLQkJCQltb25fdHlwZXNbaV0gPSByYWRlb25fcHJv
+YmVfaTJjX2Nvbm5lY3RvcihyaW5mbywKLQkJCQkJCQkJCSAgaSsxLCAmRURJRHNbaV0pOworCQkJ
+CXJhZGVvbl9wcm9iZV9pMmNfY29ubmVjdG9yKHJpbmZvLCBpKzEsICZFRElEc1tpXSk7CiAJCX0K
+ICNlbmRpZiAvKiBERUJVRyAqLwogCQkvKgotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
