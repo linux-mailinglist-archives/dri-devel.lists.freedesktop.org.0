@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3732F48BA
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 11:34:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FCD2F4916
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 11:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862616E44B;
-	Wed, 13 Jan 2021 10:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A425C6E49B;
+	Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0698B6E44B;
- Wed, 13 Jan 2021 10:34:25 +0000 (UTC)
-IronPort-SDR: qyaXFNgrJJA6BrLmdst1bMIbtdNVQrFslEJ0v0hPE/3FyPNJ+ZxSuwxwnv+VL22HsvE29GPzkj
- q5SlrxZkHD9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="262970888"
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="262970888"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2021 02:34:17 -0800
-IronPort-SDR: VoDVJ2Kl4wmP9IJ/eHm59zPfEa6T+PlTGS0FAH1DZwVOVqS7lf3Mr4+iwsufjxiquhtlXJxgbq
- MJjwNiy1QbUA==
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="567812370"
-Received: from unknown (HELO intel.com) ([10.223.74.179])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2021 02:34:14 -0800
-Date: Wed, 13 Jan 2021 15:49:43 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
- HDCP 1.4 over MST
-Message-ID: <20210113101942.GK11717@intel.com>
-References: <20210106223909.34476-1-sean@poorly.run>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5F46E49B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96C0123383;
+ Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610535569;
+ bh=UsiaJ5TeFRIuOKIuSBE3ueTDIjqdP8/ojUP8xNThLiU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JwQBO8e3swkxbw4v0qYoQuzfOutZcHgnI0MSHLSa7aQYUqKKz9xGmdslvbE+6X+pl
+ iQOsreIaYUaopfrnoALMeRcoV8b2ewED6qoB6VZAohTV2XoiM/Ugq8CdhsTDpkpFSC
+ sHsApbyrBjWJlSbUXBv7tLCy1UNX3cGrSSAD7j++4HLesIzeEjFZVPQJn2J5oLmjON
+ LO6JcKkXMZsrXk8YpCGzlX782pac1zAqJFB7uHTlnn9sXRcGD3zlcwAV7Mf5VR7pFG
+ iH9Nqr9o9EuUz7C11onQCo1Sg/vfJIRxblyM1+yeUPdfpo0R+ivUmKOYdf8WcgHtgm
+ MAEc9cWWKa5YQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+ (envelope-from <mchehab@kernel.org>)
+ id 1kzds7-00DpFo-1W; Wed, 13 Jan 2021 11:59:27 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: [PATCH 00/24] Fix broken file docs cross-references
+Date: Wed, 13 Jan 2021 11:59:01 +0100
+Message-Id: <cover.1610535349.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210106223909.34476-1-sean@poorly.run>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,95 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-iio@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+ dri-devel@lists.freedesktop.org, Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ Joel Fernandes <joel@joelfernandes.org>, linux-arch@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ David Airlie <airlied@linux.ie>, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Daniel Lustig <dlustig@nvidia.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
-IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
-"The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
-transaction to query the downstream status for a particular stream."
+File renames and yaml conversions broke file references for several files,
+as reported by:
 
-I feel it useful for scenario in which a non hdcp supported monitor
-is hot plugged to MST branch. Source really doesn't know about the hdcp
-capable device on MST branch, it just know the capability of immediate 
-downstream device. QSES can fetch the HDCP capability from MST topology. 
-We don't require to enable stream encryption for such streams. 
-> check, it was always a nice-to-have. After deploying this across various
-> devices, we've determined that some MST bridge chips do not properly
-> support this call for HDCP 1.4 (namely Synaptics and Realtek).
-> 
-> I had considered creating a quirk for this, but I think it's more
-> prudent to just disable the check entirely since I don't have an idea
-> how widespread support is.
-May be we can remove it from the link check and can retain as utility ?
-Thanks,
-Anshuman Gupta.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
->  1 file changed, 1 insertion(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index 03424d20e9f7..b6a9606bf09a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
->  	return ret;
->  }
->  
-> -static
-> -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> -				  struct intel_connector *connector)
-> -{
-> -	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> -	struct intel_dp *intel_dp = &dig_port->dp;
-> -	struct drm_dp_query_stream_enc_status_ack_reply reply;
-> -	int ret;
-> -
-> -	if (!intel_dp_hdcp_check_link(dig_port, connector))
-> -		return false;
-> -
-> -	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
-> -						  connector->port, &reply);
-> -	if (ret) {
-> -		drm_dbg_kms(&i915->drm,
-> -			    "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
-> -			    connector->base.base.id, connector->base.name, ret);
-> -		return false;
-> -	}
-> -
-> -	return reply.auth_completed && reply.encryption_enabled;
-> -}
-> -
->  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
->  	.read_bksv = intel_dp_hdcp_read_bksv,
-> @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
->  	.read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
->  	.toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> -	.check_link = intel_dp_mst_hdcp_check_link,
-> +	.check_link = intel_dp_hdcp_check_link,
->  	.hdcp_capable = intel_dp_hdcp_capable,
->  
->  	.protocol = HDCP_PROTOCOL_DP,
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+	./scripts/documentation-file-ref-check
+
+Fix most of them.
+
+Please notice that this series was generated against  linux-next
+(next-20210113).  So, it is better if the fixup patch could be added
+at the same tree that received the patch renaming the filename.
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (24):
+  MAINTAINERS: update adi,ad5758.yaml reference
+  MAINTAINERS: update fsl,dpaa2-console.yaml reference
+  MAINTAINERS: update st,hts221.yaml reference
+  MAINTAINERS: update dpot-dac.yaml reference
+  MAINTAINERS: update envelope-detector.yaml reference
+  MAINTAINERS: update current-sense-amplifier.yaml reference
+  MAINTAINERS: update current-sense-shunt.yaml reference
+  MAINTAINERS: update voltage-divider.yaml reference
+  MAINTAINERS: update mtk-sd.yaml reference
+  MAINTAINERS: update atmel,sama5d2-adc.yaml reference
+  MAINTAINERS: update pni,rm3100.yaml reference
+  MAINTAINERS: update renesas,rcar-gyroadc.yaml reference
+  MAINTAINERS: update st,lsm6dsx.yaml reference
+  MAINTAINERS: update st,vl53l0x.yaml reference
+  MAINTAINERS: update ti,dac7612.yaml reference
+  Documentation/hwmon/ina2xx.rst: update ti,ina2xx.yaml reference
+  arch/Kconfig: update unaligned-memory-access.rst reference
+  include/linux/iio/dac/mcp4725.h: update a microchip,mcp4725.yaml ref
+  doc: update rcu_dereference.rst reference
+  ASoC: audio-graph-card: update audio-graph-card.yaml reference
+  dt-bindings: display: mediatek: update mediatek,dpi.yaml reference
+  dt-bindings: memory: mediatek: update mediatek,smi-larb.yaml
+    references
+  dt-bindings:iio:adc: update adc.yaml reference
+  dt-bindings: phy: update phy-cadence-sierra.yaml reference
+
+ .../bindings/display/bridge/sii902x.txt       |  2 +-
+ .../display/mediatek/mediatek,disp.txt        |  4 +--
+ .../bindings/iio/adc/adi,ad7192.yaml          |  2 +-
+ .../bindings/media/mediatek-jpeg-decoder.txt  |  2 +-
+ .../bindings/media/mediatek-jpeg-encoder.txt  |  2 +-
+ .../bindings/media/mediatek-mdp.txt           |  2 +-
+ .../bindings/phy/ti,phy-j721e-wiz.yaml        |  2 +-
+ Documentation/hwmon/ina2xx.rst                |  2 +-
+ MAINTAINERS                                   | 30 +++++++++----------
+ arch/Kconfig                                  |  2 +-
+ include/linux/iio/dac/mcp4725.h               |  2 +-
+ tools/memory-model/Documentation/glossary.txt |  2 +-
+ 12 files changed, 27 insertions(+), 27 deletions(-)
+
+-- 
+2.29.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
