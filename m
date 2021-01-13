@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C582F5D5F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8332F5D4D
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B64B6E133;
-	Thu, 14 Jan 2021 09:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD7036E112;
+	Thu, 14 Jan 2021 09:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B34646E2C0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 09:13:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43FC36E2ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 09:15:23 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 381185C0194;
- Wed, 13 Jan 2021 04:13:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 13 Jan 2021 04:13:23 -0500
+ by mailout.nyi.internal (Postfix) with ESMTP id 837765C0194;
+ Wed, 13 Jan 2021 04:15:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 13 Jan 2021 04:15:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Tn9fTmFYI/uQtrgkhZOhaGqWOAS
- vTLv8TiF5nATR2Ss=; b=CZrPKwH3QSiZepq1UFfaxHTCzECBKR83BxdgoftWeWc
- +Im6Aw26YlAHS3ZitHwoTtUvwp4DRxrfeho1ALkzj7IvjEuZxPqnky6afNQuwLId
- ZYiIlgRX6eZBL6HECRgrkGINUFni2AsfyeZsMxTSII0iXPtjk/u81rHqJtTch9bf
- Txt8YRSuZEiO+qeMMJdgpo1XNHJzHO8cI8/y4If4ynrSvM12R0qFpu0vHNk4p339
- MVx+ce1ztx5DEDCUPqXuPNsSxtBfrhm84EYszK18rB0mR86ONBJ335XNnGIIPgK3
- 04l1JFwQ/fS9jrEne3Raor8yuGLz6rBhDVoENkDFOXQ==
+ :content-type:in-reply-to; s=fm1; bh=MygAzndgaPE7EJwkItlbKgKXiN2
+ CNI7nQQx9sgMYLls=; b=UseYZKOUCwmaff8O7R7dr7RqrkIP2KfckYCRZ4yfgM4
+ gG06kjJSWsVwK33Fxhi54pvH9SWPrpzAlDwhyT5+yABOvpN9WXYBi2cVDMjp2sUA
+ 5rzXhwHxgI6dt9U0582jFJ4g6mzKG7mEFzjNC8OSy8pt98JB5ofMOXI4GpYBUkBl
+ kDMATcAB1pz/OMxmCFan8MnWF5SgxPwMILVDalivXIzDyqOVqioYAnrh+2bwKkkd
+ j9JK0mvTiQGPm7+gPJKy8L9DKO4/Toj8ZpOojb5A7PF6cYKCp73Z/9WTlgrBykGD
+ DTrF8I1Cl2j+OR5SelBSkKfG8nTLO8WIAI67jzaYBXA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Tn9fTm
- FYI/uQtrgkhZOhaGqWOASvTLv8TiF5nATR2Ss=; b=D3wCxVaZilRDnnL0DUx7SF
- +gcNeHwEZKywNfjdkFbDugXJ6JoiF36P88cRHvyy+Ukbm/aIrSS9VkaxrWWrWBcP
- HA1NK+OFbU4lrGzf5q5H+pAe0phm+Te/xreoKr0TpJJ1ldO2JiY9TzWwx0R9JDVo
- 900UR/WBGrScTbIG1BU9bdPxXuTQwGFP56lrzu9tULX01RqeYj7Vsvg6h6mZO+WP
- f6v1S7oToFwUNGn4DRSeQ0Qt+zqv8PNCcfuV5aOW7GRZKVQvto+88gimuo9jjg00
- f91ZV7dIxiWiOg9ta0b6gO2mBlZ9n8Ihwb4Kso61Of8avCqy2sZ3E35k1iRroJjg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=MygAzn
+ dgaPE7EJwkItlbKgKXiN2CNI7nQQx9sgMYLls=; b=pC8rk5qZ5AiOFAj5r7lboA
+ E6gh3WF3ru89YdYX/Z//YDYzW/9nm9YywflxgCf25VuDwkASY+CuMnzFAdCE0rnB
+ WjeTk4eCUnYIQB4129x9tYvJk6+NahazU/p7LRuC8+2Ki2mBWwIosHtK5upUFZjs
+ eofOAaameEAT9d5teB0DnZUrByd9/EH3xTNWCQxby/FZ8T3ssucTwyNnX9ARbeQg
+ xTXLSUP3ISGMM4dqzqmBnKEGJduHrPHU2zFcO9ZZrvx0ch2PJFWJFLuhH4iJX1pC
+ bGn4JXVuRFCH4JE0l8XunGAbctRw5ah8LJ6Ol80Rbt9NSCKtVNrPp4p5SysMObkA
  ==
-X-ME-Sender: <xms:srn-X-cSuLYV6T-2jdlMK279HM-ZGdpcBT7p8ymH210aioT37gKQgA>
- <xme:srn-X4OyRTSdUu1yz6NGo99DpQaXHUGvkCPAk51_5fAbunwuSuQkEKG0U4fOsqAB7
- EBrll6GxIWgxokUPFE>
+X-ME-Sender: <xms:Kbr-X8yboJKKAcUlEBxcSIUVR9qiG_9CFQEhjYQ9JPAGoBBxYcIbzQ>
+ <xme:Kbr-XwS6YYo5tHglW8RPs51H5hE0nc4weDf8-aSn4c6bbSSEKrUciVQouYZ9Lw8WY
+ nuytS5LWgpS7JmWrNk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdefgddtudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:srn-X_gLMwLg3dwBZDCWA00Bwl4pSCfy90CohARGAxS8CAdlZHqlXQ>
- <xmx:srn-X79UACq1QDsmzPmFlwiugvym96rMg5lWKYHZ84GskRjS6E1SAw>
- <xmx:srn-X6tznywr7dtF-paLBWwSVgZ6js9YtMAf-E_aAtFaRKsTWgxhXA>
- <xmx:s7n-X3_j3Mb9eDws0t9b6hJgOCxa4GynymAkvvf8_YqeH5kRpI5lQA>
+ gvrhhnpeffteetveeijeetuefhffegkeetgffhieelheehtdduudethffhjedtvddtudel
+ vdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Kbr-X-UjzKO4cM42ZOQ4HmJFBI6t1mkrTLKGbAvw40g6hLe70LiEog>
+ <xmx:Kbr-X6hyKhiPz8307O8jZQCLfVZT6ioevX3LAiFk1GmxjpwtR6mvOg>
+ <xmx:Kbr-X-CFOQz0dWMh04ijGXr23MjScsJK6jLmrqN4NC-bFj6dO6tJjQ>
+ <xmx:Krr-Xw2M3D-tJVYXC__TpdynpzkDt971IN-7yThHIsUDupFnAcglfg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C04A71080059;
- Wed, 13 Jan 2021 04:13:21 -0500 (EST)
-Date: Wed, 13 Jan 2021 10:13:19 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id A5F26240057;
+ Wed, 13 Jan 2021 04:15:21 -0500 (EST)
+Date: Wed, 13 Jan 2021 10:15:20 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH v3] drm/sun4i: de2: Reimplement plane z position setting
- logic
-Message-ID: <20210113091319.vcemlo5ldn27472h@gilmour>
-References: <20210106204630.1800284-1-jernej.skrabec@siol.net>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: [PATCH V3] dt-bindings: gpu: Convert v3d to json-schema
+Message-ID: <20210113091520.btk53z5mrhmaqd6h@gilmour>
+References: <1610189433-29985-1-git-send-email-stefan.wahren@i2se.com>
 MIME-Version: 1.0
-In-Reply-To: <20210106204630.1800284-1-jernej.skrabec@siol.net>
+In-Reply-To: <1610189433-29985-1-git-send-email-stefan.wahren@i2se.com>
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,283 +79,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Stratiienko <roman.stratiienko@globallogic.com>, airlied@linux.ie,
- linux-sunxi@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, paul.kocialkowski@bootlin.com, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0712982258=="
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: multipart/mixed; boundary="===============0114880493=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0712982258==
+--===============0114880493==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7lkz52fdez73ediq"
+	protocol="application/pgp-signature"; boundary="sfw42jwsi5m26ljh"
 Content-Disposition: inline
 
 
---7lkz52fdez73ediq
+--sfw42jwsi5m26ljh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Wed, Jan 06, 2021 at 09:46:30PM +0100, Jernej Skrabec wrote:
-> From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+On Sat, Jan 09, 2021 at 11:50:32AM +0100, Stefan Wahren wrote:
+> This converts the v3d bindings to yaml format.
 >=20
-> To set blending channel order register software needs to know state and
-> position of each channel, which impossible at plane commit stage.
->=20
-> Move this procedure to atomic_flush stage, where all necessary information
-> is available.
-
-Expanding a bit on what the blending order register is supposed to be
-doing, why it's impossible at the plane commit, and why atomic_flush is
-a better option would be nice
-
-> Fixes: f88c5ee77496 ("drm/sun4i: Implement zpos for DE2")
-> Fixes: d8b3f454dab4 ("drm/sun4i: sun8i: Avoid clearing blending order at =
-each atomic commit")
-> Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
-> [rebased, addressed comments]
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 > ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 57 +++++++++++++++++++++-----
->  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  5 +++
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 42 +++----------------
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 42 +++----------------
->  4 files changed, 64 insertions(+), 82 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.c
-> index 5b42cf25cc86..d2153b10b08d 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -250,6 +250,50 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw=
-_format)
-> =20
->  static void sun8i_mixer_commit(struct sunxi_engine *engine)
->  {
-> +	struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
-> +	int channel_by_zpos[SUN8I_MIXER_MAX_CHANNELS];
-> +	u32 base =3D sun8i_blender_base(mixer);
-> +	u32 route =3D 0, pipe_ctl =3D 0;
-> +	unsigned int channel_count;
-> +	int i, j;
+> Changes in V3:
+> - drop redundant maxItems in case we already have items defined
+> - fix order of reg-names enum
+> - tag required items in description
+> - add reg-names to required properties
+> - drop clock-names
+>=20
+>  .../devicetree/bindings/gpu/brcm,bcm-v3d.txt       | 33 ----------
+>  .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 72 ++++++++++++++++=
+++++++
+>  2 files changed, 72 insertions(+), 33 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.ya=
+ml
+>=20
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt b/Doc=
+umentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+> deleted file mode 100644
+> index b2df82b..0000000
+> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -Broadcom V3D GPU
+> -
+> -Only the Broadcom V3D 3.x and newer GPUs are covered by this binding.
+> -For V3D 2.x, see brcm,bcm-vc4.txt.
+> -
+> -Required properties:
+> -- compatible:	Should be "brcm,7268-v3d" or "brcm,7278-v3d"
+> -- reg:		Physical base addresses and lengths of the register areas
+> -- reg-names:	Names for the register areas.  The "hub" and "core0"
+> -		  register areas are always required.  The "gca" register area
+> -		  is required if the GCA cache controller is present.  The
+> -		  "bridge" register area is required if an external reset
+> -		  controller is not present.
+> -- interrupts:	The interrupt numbers.  The first interrupt is for the hub,
+> -		  while the following interrupts are separate interrupt lines
+> -		  for the cores (if they don't share the hub's interrupt).
+> -		  See bindings/interrupt-controller/interrupts.txt
+> -
+> -Optional properties:
+> -- clocks:	The core clock the unit runs on
+> -- resets:	The reset line for v3d, if not using a mapping of the bridge
+> -		  See bindings/reset/reset.txt
+> -
+> -v3d {
+> -	compatible =3D "brcm,7268-v3d";
+> -	reg =3D <0xf1204000 0x100>,
+> -	      <0xf1200000 0x4000>,
+> -	      <0xf1208000 0x4000>,
+> -	      <0xf1204100 0x100>;
+> -	reg-names =3D "bridge", "hub", "core0", "gca";
+> -	interrupts =3D <0 78 4>,
+> -		     <0 77 4>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Do=
+cumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> new file mode 100644
+> index 0000000..3b543d4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/brcm,bcm-v3d.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	channel_count =3D mixer->cfg->vi_num + mixer->cfg->ui_num;
+> +title: Broadcom V3D GPU Bindings
 > +
-> +	DRM_DEBUG_DRIVER("Update blender routing\n");
+> +maintainers:
+> +  - Eric Anholt <eric@anholt.net>
+> +  - Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 > +
-> +	for (i =3D 0; i < SUN8I_MIXER_MAX_CHANNELS; i++)
-> +		channel_by_zpos[i] =3D -1;
+> +properties:
+> +  $nodename:
+> +    pattern: '^gpu@[a-f0-9]+$'
 > +
-> +	for (i =3D 0; i < channel_count; i++)	{
-> +		int zpos =3D mixer->channel_zpos[i];
+> +  compatible:
+> +    enum:
+> +      - brcm,7268-v3d
+> +      - brcm,7278-v3d
+> +
+> +  reg:
+> +    items:
+> +      - description: hub register (required)
+> +      - description: core0 register (required)
+> +      - description: GCA cache controller register (if GCA controller pr=
+esent)
+> +      - description: bridge register (if no external reset controller)
+> +    minItems: 2
 
-Why do we need the channel_zpos in the mixer structure, this looks
-related to the state itself, so we should store it into a custom state
-structure
+maxItems will be set to 2 in this case, while it would be 4 I guess?
 
-> +		if (zpos >=3D 0 && zpos < channel_count)
-> +			channel_by_zpos[zpos] =3D i;
-> +	}
-> +
-> +	j =3D 0;
-> +	for (i =3D 0; i < channel_count; i++) {
-> +		int ch =3D channel_by_zpos[i];
-> +
-> +		if (ch >=3D 0) {
-> +			pipe_ctl |=3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(j);
-> +			route |=3D ch << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(j);
-> +			j++;
-> +		}
-> +	}
-
-Similarly, having a comment somewhere to explain that algorithm would be
-nice.
-
-> +	/*
-> +	 * Set fill color of bottom plane to black. Generally not needed
-> +	 * except when VI plane is at bottom (zpos =3D 0) and enabled.
-> +	 */
-> +	pipe_ctl |=3D SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0);
-> +
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_PIPE_CTL(base), pipe_ctl);
-> +
-> +	regmap_write(mixer->engine.regs,
-> +		     SUN8I_MIXER_BLEND_ROUTE(base), route);
-> +
->  	DRM_DEBUG_DRIVER("Committing changes\n");
-> =20
->  	regmap_write(engine->regs, SUN8I_MIXER_GLOBAL_DBUFF,
-> @@ -479,23 +523,16 @@ static int sun8i_mixer_bind(struct device *dev, str=
-uct device *master,
->  	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_BKCOLOR(base),
->  		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-> =20
-> -	/*
-> -	 * Set fill color of bottom plane to black. Generally not needed
-> -	 * except when VI plane is at bottom (zpos =3D 0) and enabled.
-> -	 */
-> -	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-> -		     SUN8I_MIXER_BLEND_PIPE_CTL_FC_EN(0));
->  	regmap_write(mixer->engine.regs, SUN8I_MIXER_BLEND_ATTR_FCOLOR(base, 0),
->  		     SUN8I_MIXER_BLEND_COLOR_BLACK);
-> =20
->  	plane_cnt =3D mixer->cfg->vi_num + mixer->cfg->ui_num;
-> -	for (i =3D 0; i < plane_cnt; i++)
-> +	for (i =3D 0; i < plane_cnt; i++) {
-> +		mixer->channel_zpos[i] =3D -1;
->  		regmap_write(mixer->engine.regs,
->  			     SUN8I_MIXER_BLEND_MODE(base, i),
->  			     SUN8I_MIXER_BLEND_MODE_DEF);
-> -
-> -	regmap_update_bits(mixer->engine.regs, SUN8I_MIXER_BLEND_PIPE_CTL(base),
-> -			   SUN8I_MIXER_BLEND_PIPE_CTL_EN_MSK, 0);
-> +	}
-> =20
->  	return 0;
-> =20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.h
-> index 7576b523fdbb..7b378d6e4dd9 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> @@ -12,6 +12,8 @@
-> =20
->  #include "sunxi_engine.h"
-> =20
-> +#define SUN8I_MIXER_MAX_CHANNELS		5
-> +
->  #define SUN8I_MIXER_SIZE(w, h)			(((h) - 1) << 16 | ((w) - 1))
->  #define SUN8I_MIXER_COORD(x, y)			((y) << 16 | (x))
-> =20
-> @@ -179,6 +181,9 @@ struct sun8i_mixer {
-> =20
->  	struct clk			*bus_clk;
->  	struct clk			*mod_clk;
-> +
-> +	/* -1 means that layer is disabled */
-> +	int channel_zpos[SUN8I_MIXER_MAX_CHANNELS];
->  };
-> =20
->  static inline struct sun8i_mixer *
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
-4i/sun8i_ui_layer.c
-> index 816ad4ce8996..9f82e7c33e90 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -24,12 +24,10 @@
->  #include "sun8i_ui_scaler.h"
-> =20
->  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
-> -				  int overlay, bool enable, unsigned int zpos,
-> -				  unsigned int old_zpos)
-> +				  int overlay, bool enable, unsigned int zpos)
->  {
-> -	u32 val, bld_base, ch_base;
-> +	u32 val, ch_base;
-> =20
-> -	bld_base =3D sun8i_blender_base(mixer);
->  	ch_base =3D sun8i_channel_base(mixer, channel);
-> =20
->  	DRM_DEBUG_DRIVER("%sabling channel %d overlay %d\n",
-> @@ -44,32 +42,7 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer *=
-mixer, int channel,
->  			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
->  			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
-> =20
-> -	if (!enable || zpos !=3D old_zpos) {
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
-> -				   0);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
-> -				   0);
-> -	}
-> -
-> -	if (enable) {
-> -		val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> -				   val, val);
-> -
-> -		val =3D channel << SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(zpos);
-> -
-> -		regmap_update_bits(mixer->engine.regs,
-> -				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> -				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(zpos),
-> -				   val);
-> -	}
-> +	mixer->channel_zpos[channel] =3D enable ? zpos : -1;
->  }
-> =20
->  static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int ch=
-annel,
-> @@ -267,11 +240,9 @@ static void sun8i_ui_layer_atomic_disable(struct drm=
-_plane *plane,
->  					  struct drm_plane_state *old_state)
->  {
->  	struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(plane);
-> -	unsigned int old_zpos =3D old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer =3D layer->mixer;
-> =20
-> -	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
-> -			      old_zpos);
-> +	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0);
->  }
-> =20
->  static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
-> @@ -279,12 +250,11 @@ static void sun8i_ui_layer_atomic_update(struct drm=
-_plane *plane,
->  {
->  	struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(plane);
->  	unsigned int zpos =3D plane->state->normalized_zpos;
-> -	unsigned int old_zpos =3D old_state->normalized_zpos;
->  	struct sun8i_mixer *mixer =3D layer->mixer;
-> =20
->  	if (!plane->state->visible) {
->  		sun8i_ui_layer_enable(mixer, layer->channel,
-> -				      layer->overlay, false, 0, old_zpos);
-> +				      layer->overlay, false, 0);
->  		return;
->  	}
-> =20
-> @@ -295,7 +265,7 @@ static void sun8i_ui_layer_atomic_update(struct drm_p=
-lane *plane,
->  	sun8i_ui_layer_update_buffer(mixer, layer->channel,
->  				     layer->overlay, plane);
->  	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
-> -			      true, zpos, old_zpos);
-> +			      true, zpos);
->  }
-
-The prototype change could be in a separate patch, it would make things
-easier to review.
+Looks fine otherwise
 
 Maxime
 
---7lkz52fdez73ediq
+--sfw42jwsi5m26ljh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/65rwAKCRDj7w1vZxhR
-xdV4APsFPA4cMgAoq4Sb2HMWf7gmKjULe5gHGRG121MpvmEH5wEA2ceHxq3EltdV
-mDfAi7tQAjzWj/4nN0MjCfR2kBt1rAY=
-=0eaD
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/66KAAKCRDj7w1vZxhR
+xWGqAP0ctcD91iQuKDGJftdswF0t0Cle2waMy0MgAZCzY1CFsAEA5TvpFr1D0WVc
+LgNjEYsl9oXX6M1jnsFYCBhRYkAO9As=
+=qgAJ
 -----END PGP SIGNATURE-----
 
---7lkz52fdez73ediq--
+--sfw42jwsi5m26ljh--
 
---===============0712982258==
+--===============0114880493==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -366,4 +229,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0712982258==--
+--===============0114880493==--
