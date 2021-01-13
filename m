@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AA62F5D7D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAB22F5D74
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2A66E145;
-	Thu, 14 Jan 2021 09:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D1F6E12D;
+	Thu, 14 Jan 2021 09:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6C589259
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 20:21:20 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id v3so1701161plz.13
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:21:20 -0800 (PST)
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9859889259
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 20:22:13 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id b5so1902517pjk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:22:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=u6R4AQJwna1Zvnrc86J9azzfneuprQEtwwFsQuVc3og=;
- b=iGXcSZ3vf/7+lrMXeBvMLEppSiK1QOGxXONM1Ag/hWB8KQDBSrKEAAFvMTVAdX8mo2
- 904o7LBICMF1rvrHUaBQjuc6HXgMDjU58eUM9Bo7IEbtvn1CjU0CPmJprq1EE7mt5lrJ
- kMGx+WtjLTWHCgokFZwc9UoaNZ94W7yzydDh4=
+ bh=uYdhB/IsYvawJycPiJl/5+j+upKU06AcD0VCLNhUlaw=;
+ b=Rnw8wZNgL/NU7d2j/IIT/v+xRriznTX2qmL+omKVWccZWTvuTw7vDiomDS6UqXCVtu
+ RDi9A8BkpwgPlvTPdfZPVe2go7pOrs5TIR1bdHo9kHujsG0rM7sKTOUJ+lm0Y8jnkZBb
+ VFVtI49gAXxI3why8VhPZj/v+9SFTgJJD2Q6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=u6R4AQJwna1Zvnrc86J9azzfneuprQEtwwFsQuVc3og=;
- b=NGmC3JbcNmzPnVhM6IOmm0cmPGy4kJZcrk+a38mgOAscEaYA/pxCvkJdtI2SGmMTAX
- runM3ONBtOAi4VLv9mXgRQhwxtgTCdkVeTRLmfCATG/0nDRAMvUcAmXCvuk46ZETeBXP
- TeFzvLpNThtpr/yOP7CgisYLgrsUOdbpllxJFn9xZkvjv+MdQhYmNRSCbK5zmonINw9h
- 8kRA6XdjnXVRSGozCLCRV/xs8ZbHrfI+NC3Co4EtOHqWWkKX0xYTscm6zfpPrrVsWL9R
- YpjSr61Kjdib6ABiYfTLByPBCnm8p2G6XtJvCQC2yR1z9YrZAueGlm9hHu+5O5ot2vmD
- vL2g==
-X-Gm-Message-State: AOAM533Wo1vejs/RPvti/EuNc/8fk0OjkAWO7r9AgVagv13jUG1gcrWk
- /Q/RIXFYj2b3Xczky42kCTxTLBl20B1bJA==
-X-Google-Smtp-Source: ABdhPJxcze093Ox1ieIVbzxnheFHDjdf8Jr9Y7KtYj1RjSs7J3v7DkFm1CU87BqHfMy/L0UhxaPWgA==
-X-Received: by 2002:a17:90a:3e4f:: with SMTP id
- t15mr1038628pjm.57.1610569279973; 
- Wed, 13 Jan 2021 12:21:19 -0800 (PST)
+ bh=uYdhB/IsYvawJycPiJl/5+j+upKU06AcD0VCLNhUlaw=;
+ b=DkM3Yw+btMIPe4nfpABQqcA1nQV2O51Lc0CIPSkmRtcV6bxf9xTEAC06G6ZShxMmjw
+ lg9y9kKx+n3Fj8iLl3duoBSVT6M83xgLa7/DFApkr/VE6IQFjRzeauH47BA7pveCls/I
+ EO9Ugv7ZnFFW5V+ay+R+TuUd9EQbbMA5jhJbgReZETiV4+ZB3JW0dY0XWNANbi9/aYqx
+ 81ZSx+lM4xBKkL4TtAPs2xJCydMMb/WA8mShImXpcPwQJHzDx+lk8cbhK4PZAX7oygu2
+ g3gBXH9K2M9kK+lJY/q6ohkwenIU5BRhSs+JWRHRCGjFODkP2QB7ArOsGC6O12A9M9xn
+ kduQ==
+X-Gm-Message-State: AOAM531Y1lQYgMwl71kJlSnkWGrNcWD5HOFLG/XEYbrD08ynGXvsuiyp
+ DMgkvaUPi4U6wMcBOTFi1f3/SW64h64Pnw==
+X-Google-Smtp-Source: ABdhPJyBYSOo7yqM0F3+0FagAGnq8EmkmQDZ6U/aCeqO+pjCFDUxsNUGyXyAWMpF2WReDekTNDdTcQ==
+X-Received: by 2002:a17:90a:8985:: with SMTP id
+ v5mr1011035pjn.27.1610569332989; 
+ Wed, 13 Jan 2021 12:22:12 -0800 (PST)
 Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id g26sm3323866pfo.35.2021.01.13.12.21.19
+ by smtp.gmail.com with ESMTPSA id l197sm3488968pfd.97.2021.01.13.12.22.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 12:21:19 -0800 (PST)
+ Wed, 13 Jan 2021 12:22:12 -0800 (PST)
 MIME-Version: 1.0
 In-Reply-To: <17a116011ae60194834210a4a0c877b3@codeaurora.org>
 References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
@@ -54,8 +54,8 @@ Subject: Re: [PATCH 1/2] drm/msm/dp: postpone irq_hpd event during connection
  pending state
 From: Stephen Boyd <swboyd@chromium.org>
 To: khsieh@codeaurora.org
-Date: Wed, 13 Jan 2021 12:21:17 -0800
-Message-ID: <161056927774.3661239.6186577459996584479@swboyd.mtv.corp.google.com>
+Date: Wed, 13 Jan 2021 12:22:10 -0800
+Message-ID: <161056933099.3661239.9450322359293035316@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,19 +94,9 @@ Quoting khsieh@codeaurora.org (2021-01-13 09:44:24)
 > timing and start transmit video panel.
 > Therefore irq_hpd should not be handled if it occurred before connected 
 > state.
-> > 
-> >> are valid before start link training.
-> > 
-> > Can this part about link rate and lane being valid be split off into
-> > another patch?
-> > 
-> ok, i will spilt this patch into two.
-> I will merge irq_hpd event part into 2nd patch (drm/msm/dp: unplug 
-> interrupt missed after irq_hpd handler).
 
-It looks like Rob already picked this patch up
-
-https://gitlab.freedesktop.org/drm/msm/-/commit/2b5f09cadfc576817c0450e01d454f750909b103
+Sure that's what's going on in the patch but you didn't answer my
+question. Why does irq_hpd happen before connected state?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
