@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF592F5D7E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7102F5D72
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D41966E158;
-	Thu, 14 Jan 2021 09:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD316E113;
+	Thu, 14 Jan 2021 09:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3937D6EB66
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 17:44:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 648BB6EB72
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 17:48:30 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1610559868; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1610560111; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=vOsB4J/79wyZ5M6QDFAE82hn7FsSeNUr4X2jpE2ij1U=;
- b=phH7FhvgrmERDzbEgtLiriBPRovKwM/xzC5xxzEWpR22bM6IjRRaLTnvm0Ep4nITx250UBxc
- xyju0RPBqzhH2jolfojEew5jgOFCnZMAtBOJ0g1xyMWCRnMYjABz/ob8Lip2LJYB3rsB/rPD
- UnHApyi2KJJmBoKVx439nDE9mAE=
+ MIME-Version: Sender; bh=NP9L1of0mfv0VlmLgAx+c+h3tPTXbzkvkcqDPng1QsI=;
+ b=o5yX3gsPFaoeCi9ABsaVc6hMwoUWaZkH0KhLXDJtUYOmZ2AANunSaCHMt6jDZht6IjsB0BZ3
+ TX4R1M2R96ReueaQdo0Vyoi7nvM+E2d98Hq9MUtrObGI+G7smvo4AsceFMiqYXnR43sEh+hh
+ Eh0BS5sNTLylueRp/a6CnGtGunQ=
 X-Mailgun-Sending-Ip: 69.72.43.15
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5fff317a8fb3cda82f02dacd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 17:44:26
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5fff326ac88af06107558d36 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 17:48:26
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id BD6B2C43463; Wed, 13 Jan 2021 17:44:25 +0000 (UTC)
+ id 20F1BC43466; Wed, 13 Jan 2021 17:48:26 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E9A53C433CA;
- Wed, 13 Jan 2021 17:44:24 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2A003C433C6;
+ Wed, 13 Jan 2021 17:48:25 +0000 (UTC)
 MIME-Version: 1.0
-Date: Wed, 13 Jan 2021 09:44:24 -0800
+Date: Wed, 13 Jan 2021 09:48:25 -0800
 From: khsieh@codeaurora.org
 To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 1/2] drm/msm/dp: postpone irq_hpd event during connection
- pending state
-In-Reply-To: <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
+Subject: Re: [PATCH 2/2] drm/msm/dp: unplug interrupt missed after irq_hpd
+ handler
+In-Reply-To: <161039484176.3661239.14240346276437866761@swboyd.mtv.corp.google.com>
 References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
- <1610051425-20632-2-git-send-email-khsieh@codeaurora.org>
- <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
-Message-ID: <17a116011ae60194834210a4a0c877b3@codeaurora.org>
+ <1610051425-20632-3-git-send-email-khsieh@codeaurora.org>
+ <161039484176.3661239.14240346276437866761@swboyd.mtv.corp.google.com>
+Message-ID: <e7e1e5f8808fc35a3bed9e6291c76460@codeaurora.org>
 X-Sender: khsieh@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
@@ -75,61 +75,95 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-11 11:55, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-01-07 12:30:24)
->> irq_hpd event can only be executed at connected state. Therefore
->> irq_hpd event should be postponed if it happened at connection
->> pending state. This patch also make sure both link rate and lane
+On 2021-01-11 11:54, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-01-07 12:30:25)
+>> There is HPD unplug interrupts missed at scenario of an irq_hpd
+>> followed by unplug interrupts with around 10 ms in between.
+>> Since both AUX_SW_RESET and DP_SW_RESET clear pending HPD interrupts,
+>> irq_hpd handler should not issues either aux or sw reset to avoid
+>> following unplug interrupt be cleared accidentally.
 > 
-> Why does it happen at connection pending state?
-plug in need two state to complete it.
-advance to connection pending state once link training completed and 
-sent uevent notification to frame work.
-transition to connected state after frame work provided resolution 
-timing and start transmit video panel.
-Therefore irq_hpd should not be handled if it occurred before connected 
-state.
+> So the problem is that we're resetting the DP aux phy in the middle of
+> the HPD state machine transitioning states?
 > 
->> are valid before start link training.
-> 
-> Can this part about link rate and lane being valid be split off into
-> another patch?
-> 
-ok, i will spilt this patch into two.
-I will merge irq_hpd event part into 2nd patch (drm/msm/dp: unplug 
-interrupt missed after irq_hpd handler).
-
+yes, after reset aux, hw clear pending hpd interrupts
 >> 
 >> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
 >> ---
-> 
-> Any fixes tag?
-> 
->>  drivers/gpu/drm/msm/dp/dp_display.c |  7 +++++++
->>  drivers/gpu/drm/msm/dp/dp_panel.c   | 12 +++++++++---
->>  2 files changed, 16 insertions(+), 3 deletions(-)
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c 
+>> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>> index 44f0c57..9c0ce98 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>> @@ -190,6 +190,18 @@ int dp_catalog_aux_clear_hw_interrupts(struct 
+>> dp_catalog *dp_catalog)
+>>         return 0;
+>>  }
 >> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 6e971d5..3bc7ed2 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -693,6 +693,13 @@ static int dp_irq_hpd_handle(struct 
->> dp_display_private *dp, u32 data)
->>                 return 0;
->>         }
+>> +/**
+>> + * dp_catalog_aux_reset() - reset AUX controller
+>> + *
+>> + * @aux: DP catalog structure
+>> + *
+>> + * return: void
+>> + *
+>> + * This function reset AUX controller
+>> + *
+>> + * NOTE: reset AUX controller will also clear any pending HPD related 
+>> interrupts
+>> + *
+>> + */
+>>  void dp_catalog_aux_reset(struct dp_catalog *dp_catalog)
+>>  {
+>>         u32 aux_ctrl;
+>> @@ -483,6 +495,18 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog 
+>> *dp_catalog,
+>>         return 0;
+>>  }
 >> 
->> +       if (state == ST_CONNECT_PENDING) {
->> +               /* wait until ST_CONNECTED */
->> +               dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 
->> */
->> +               mutex_unlock(&dp->event_mutex);
->> +               return 0;
->> +       }
->> +
->>         ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
->>         if (ret == -ECONNRESET) { /* cable unplugged */
->>                 dp->core_initialized = false;
+>> +/**
+>> + * dp_catalog_ctrl_reset() - reset DP controller
+>> + *
+>> + * @aux: DP catalog structure
+> 
+> It's called dp_catalog though.
+registers access are through dp_catalog_xxxx
+> 
+>> + *
+>> + * return: void
+>> + *
+>> + * This function reset DP controller
+> 
+> resets the
+> 
+>> + *
+>> + * NOTE: reset DP controller will also clear any pending HPD related 
+>> interrupts
+>> + *
+>> + */
+>>  void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog)
+>>  {
+>>         u32 sw_reset;
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
+>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index e3462f5..f96c415 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1296,7 +1296,8 @@ static int dp_ctrl_setup_main_link(struct 
+>> dp_ctrl_private *ctrl,
+>>          * transitioned to PUSH_IDLE. In order to start transmitting
+>>          * a link training pattern, we have to first do soft reset.
+>>          */
+>> -       dp_catalog_ctrl_reset(ctrl->catalog);
+>> +       if (*training_step != DP_TRAINING_NONE)
+> 
+> Can we check for the positive value instead? i.e.
+> DP_TRAINING_1/DP_TRAINING_2
+> 
+>> +               dp_catalog_ctrl_reset(ctrl->catalog);
+>> 
+>>         ret = dp_ctrl_link_train(ctrl, cr, training_step);
+>> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
