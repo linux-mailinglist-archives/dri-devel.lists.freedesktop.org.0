@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A6D2F51C4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 19:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277872F522E
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 19:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 852016E868;
-	Wed, 13 Jan 2021 18:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39DB6E87B;
+	Wed, 13 Jan 2021 18:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDD06E868
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fxk8FC/4d2crn+3zm1zGej5xKLXNtBBzyvyv/Y3Jjb8=; b=P29jVlBJb8/tSoZzi9BTOby85f
- bfW7U+7Rk8+3nkjfYlZ+IWGlexj2XIrFSk4RvTlqqlY7opSjxaOVi3odBildZJSYehUIr6qkb70Zq
- c+M3qwENQMKQ+cr1TE6wSHm3SoUDR48RLar8YoFfteoH2my8PQCW1ob/ygZ25fHyb6nShBm9RyiJi
- VFu8Sece24kXgDbYwUl7Mp0xxBZkZ3aLQHIPUv9jsRt9JfmEgVrDNh6e11/hNfGzRPRlLuJT9a8ym
- 0tKUKE1F0QT6onXJI+CXzNBsjuty84JiHIRNCM+IkLcwQg3MCE6LansyIbU2iwQiCgwMLKvBI38gy
- S73SNZ/w==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1kzkgd-0006bW-Ju; Wed, 13 Jan 2021 20:16:03 +0200
-Subject: Re: [PATCH v5 04/21] gpu: host1x: Remove cancelled waiters immediately
-To: Dmitry Osipenko <digetx@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-5-mperttunen@nvidia.com>
- <1c2c4a31-68a2-c938-fe65-6059d9889126@gmail.com>
- <1f98ce42-dc6b-299c-f55e-f6dd87b99cab@kapsi.fi>
- <b0a983a1-6379-1a27-5c8d-05fee58e696a@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <0711f02f-8995-50c7-736d-4a8669bad288@kapsi.fi>
-Date: Wed, 13 Jan 2021 20:16:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCCE6E87B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:34:24 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id d9so6127050iob.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:34:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qhXeNXqf2nMW0tbzQsPH52fdTd1onMoGx9oO3h73os4=;
+ b=B2wT3tlGRwcelcolq1Q8J06eDkdxigC7WRDZOJmG/xp4r3y1QVhTux4m+iVfzLKpnX
+ rFQq1WjtLenDC/NAXYI9ll63bjEQsuflSB5xneaOHeR6SmlnD2YOoRn7ohfYJ+R+Qrr/
+ ht6L4Eor9A7M9ULMMQYCPUgkLyQpwQPiBS2rlv+x6ynQJlvnsHkkEI/RJSO0GO4XYeIk
+ ufgfaMbNMZ1a7rSfBOGp7AKnOX8ZS0iqeTDLQ9QxmDk5L93whve4ggaooFqI+Bu9QkPa
+ lfgVOWyNFGvlzWByQH0B3L4mYu3+XJqO+FJsSdzPICkBCnOD517MI4NXRqDrL2DfVEn2
+ d3Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qhXeNXqf2nMW0tbzQsPH52fdTd1onMoGx9oO3h73os4=;
+ b=ePSjkWwNTs+RedVaN6R4CS55ZvL5is4w1qjLsHfqB+C6GCOVGFaXPt0r56o9Uy2kJV
+ w/4SlsRU/LIuvNX7YMRAX5Kcs2MC0a4UQXgjeC35iBcDHCZBFV0zi31UNyP54xH4tYSx
+ DwGRgOlNLnWSIH86Pvt31rKusvJkWspCLDj7wrWrnB7FaskHLV2vndwbc79hp/ML4FAq
+ /xfxXs0cGvneRoTpZ4B9QdtlbiI7E8zr+W2rDmLQcOSz87JwCHPzbTLiat6/sHOvm5iF
+ Nw1TzzHVH4c8Li3VdH14F3N9GsNBbLbsIJyEG5kfQoeATk+IFuSEN+e88o+TWn50gEyp
+ EQsg==
+X-Gm-Message-State: AOAM531e2iXpyQdwjjL4swOR0/lV/U9ZoK3t49Xtvdxi+dZVmn9F12Ea
+ P/gxFluh4WBLt8jtkf2TEuQoKGQKS1+U5v7oCRdZ3Q==
+X-Google-Smtp-Source: ABdhPJy7qyGj/zlNnpZyeNdVFN6leh4pzdesUK2e2gGhsm0EEV0AXidhSEtaHxhj8ZHlnhlhvFWQHV6zBEJDiDXCVDs=
+X-Received: by 2002:a92:77c9:: with SMTP id s192mr3420021ilc.75.1610562863782; 
+ Wed, 13 Jan 2021 10:34:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b0a983a1-6379-1a27-5c8d-05fee58e696a@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20210106223909.34476-1-sean@poorly.run>
+ <20210113101942.GK11717@intel.com>
+ <CAMavQKLzGR2j2UJXymNrhy3Yp4ssKC=-J87ak4=8aUKn3vdB2A@mail.gmail.com>
+ <CAKMK7uEdLsaNqArT+x4V8YqtoAT0ue7gOf5Lsa6259QEDr0VCw@mail.gmail.com>
+In-Reply-To: <CAKMK7uEdLsaNqArT+x4V8YqtoAT0ue7gOf5Lsa6259QEDr0VCw@mail.gmail.com>
+From: Sean Paul <sean@poorly.run>
+Date: Wed, 13 Jan 2021 13:33:47 -0500
+Message-ID: <CAMavQKKHKaWnGOg_dRZ-nYO1GrhEjYT8sxxcFwXpcD0Aym0APQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
+ HDCP 1.4 over MST
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +64,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMS8xMy8yMSA2OjI5IFBNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMTMuMDEuMjAyMSAw
-MToyMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IE9uIDEvMTMvMjEgMTI6MDcgQU0s
-IERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4+IDExLjAxLjIwMjEgMTY6MDAsIE1pa2tvIFBlcnR0
-dW5lbiDQv9C40YjQtdGCOgo+Pj4+IC12b2lkIGhvc3QxeF9pbnRyX3B1dF9yZWYoc3RydWN0IGhv
-c3QxeCAqaG9zdCwgdW5zaWduZWQgaW50IGlkLCB2b2lkCj4+Pj4gKnJlZikKPj4+PiArdm9pZCBo
-b3N0MXhfaW50cl9wdXRfcmVmKHN0cnVjdCBob3N0MXggKmhvc3QsIHVuc2lnbmVkIGludCBpZCwg
-dm9pZAo+Pj4+ICpyZWYsCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBib29sIGZsdXNo
-KQo+Pj4+ICDCoCB7Cj4+Pj4gIMKgwqDCoMKgwqAgc3RydWN0IGhvc3QxeF93YWl0bGlzdCAqd2Fp
-dGVyID0gcmVmOwo+Pj4+ICDCoMKgwqDCoMKgIHN0cnVjdCBob3N0MXhfc3luY3B0ICpzeW5jcHQ7
-Cj4+Pj4gIMKgIC3CoMKgwqAgd2hpbGUgKGF0b21pY19jbXB4Y2hnKCZ3YWl0ZXItPnN0YXRlLCBX
-TFNfUEVORElORywKPj4+PiBXTFNfQ0FOQ0VMTEVEKSA9PQo+Pj4+IC3CoMKgwqDCoMKgwqDCoMKg
-wqDCoCBXTFNfUkVNT1ZFRCkKPj4+PiAtwqDCoMKgwqDCoMKgwqAgc2NoZWR1bGUoKTsKPj4+PiAr
-wqDCoMKgIGF0b21pY19jbXB4Y2hnKCZ3YWl0ZXItPnN0YXRlLCBXTFNfUEVORElORywgV0xTX0NB
-TkNFTExFRCk7Cj4+Pj4gIMKgIMKgwqDCoMKgwqAgc3luY3B0ID0gaG9zdC0+c3luY3B0ICsgaWQ7
-Cj4+Pj4gLcKgwqDCoCAodm9pZClwcm9jZXNzX3dhaXRfbGlzdChob3N0LCBzeW5jcHQsCj4+Pj4g
-LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBob3N0MXhfc3luY3B0X2xvYWQoaG9zdC0+
-c3luY3B0ICsgaWQpKTsKPj4+PiArCj4+Pj4gK8KgwqDCoCBzcGluX2xvY2soJnN5bmNwdC0+aW50
-ci5sb2NrKTsKPj4+PiArwqDCoMKgIGlmIChhdG9taWNfY21weGNoZygmd2FpdGVyLT5zdGF0ZSwg
-V0xTX0NBTkNFTExFRCwgV0xTX0hBTkRMRUQpID09Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIFdMU19D
-QU5DRUxMRUQpIHsKPj4+PiArwqDCoMKgwqDCoMKgwqAgbGlzdF9kZWwoJndhaXRlci0+bGlzdCk7
-Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGtyZWZfcHV0KCZ3YWl0ZXItPnJlZmNvdW50LCB3YWl0ZXJf
-cmVsZWFzZSk7Cj4+Pj4gK8KgwqDCoCB9Cj4+Pj4gK8KgwqDCoCBzcGluX3VubG9jaygmc3luY3B0
-LT5pbnRyLmxvY2spOwo+Pj4+ICsKPj4+PiArwqDCoMKgIGlmIChmbHVzaCkgewo+Pj4+ICvCoMKg
-wqDCoMKgwqDCoCAvKiBXYWl0IHVudGlsIGFueSBjb25jdXJyZW50bHkgZXhlY3V0aW5nIGhhbmRs
-ZXIgaGFzCj4+Pj4gZmluaXNoZWQuICovCj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHdoaWxlIChhdG9t
-aWNfcmVhZCgmd2FpdGVyLT5zdGF0ZSkgIT0gV0xTX0hBTkRMRUQpCj4+Pj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgY3B1X3JlbGF4KCk7Cj4+Pj4gK8KgwqDCoCB9Cj4+Pgo+Pj4gQSBidXN5LWxv
-b3Agc2hvdWxkbid0IGJlIHVzZWQgaW4ga2VybmVsIHVubGVzcyB0aGVyZSBpcyBhIHZlcnkgZ29v
-ZAo+Pj4gcmVhc29uLiBUaGUgd2FpdF9ldmVudCgpIHNob3VsZCBiZSB1c2VkIGluc3RlYWQuCj4+
-Pgo+Pj4gQnV0IHBsZWFzZSBkb24ndCBodXJyeSB0byB1cGRhdGUgdGhpcyBwYXRjaCwgd2UgbWF5
-IG5lZWQgb3Igd2FudCB0bwo+Pj4gcmV0aXJlIHRoZSBob3N0MXgtd2FpdGVyIGFuZCB0aGVuIHRo
-ZXNlIGFsbCB3YWl0ZXItcmVsYXRlZCBwYXRjaGVzIHdvbid0Cj4+PiBiZSBuZWVkZWQuCj4+Pgo+
-Pgo+PiBZZXMsIHdlIHNob3VsZCBpbXByb3ZlIHRoZSBpbnRyIGNvZGUgdG8gcmVtb3ZlIGFsbCB0
-aGlzIGNvbXBsZXhpdHkuIEJ1dAo+PiBsZXQncyBtZXJnZSB0aGlzIGZpcnN0IHRvIGdldCBhIGZ1
-bmN0aW9uYWwgYmFzZWxpbmUgYW5kIGRvIGxhcmdlciBkZXNpZ24KPj4gY2hhbmdlcyBpbiBmb2xs
-b3ctdXAgcGF0Y2hlcy4KPj4KPj4gSXQgaXMgY3VtYmVyc29tZSBmb3IgbWUgdG8gZGV2ZWxvcCBm
-dXJ0aGVyIHNlcmllcyAob2Ygd2hpY2ggSSBoYXZlCj4+IHNldmVyYWwgdW5kZXIgd29yayBhbmQg
-cGxhbm5pbmcpIHdpdGggdGhpcyBiYXNlbGluZSBzZXJpZXMgbm90IGJlaW5nCj4+IG1lcmdlZC4g
-VGhlIHVuY2VydGFpbnR5IG9uIHRoZSBhcHByb3ZhbCBvZiB0aGUgVUFQSSBkZXNpZ24gYWxzbyBt
-YWtlcyBpdAo+PiBoYXJkIHRvIGtub3cgd2hldGhlciBpdCBtYWtlcyBzZW5zZSBmb3IgbWUgdG8g
-d29yayBvbiB0b3Agb2YgdGhpcyBjb2RlCj4+IG9yIG5vdCwgc28gSSdkIGxpa2UgdG8gZm9jdXMg
-b24gd2hhdCdzIG5lZWRlZCB0byBnZXQgdGhpcyBtZXJnZWQgaW5zdGVhZAo+PiBvZiBmdXJ0aGVy
-IHJlZGVzaWduIG9mIHRoZSBkcml2ZXIgYXQgdGhpcyB0aW1lLgo+IAo+IElzIHRoaXMgcGF0Y2gg
-KGFuZCBzb21lIG90aGVycykgbmVjZXNzYXJ5IGZvciB0aGUgbmV3IFVBUEk/IElmIG5vdCwKPiBj
-b3VsZCB3ZSBwbGVhc2UgbmFycm93IGRvd24gdGhlIHBhdGNoZXMgdG8gdGhlIG1pbmltdW0gdGhh
-dCBpcyBuZWVkZWQKPiBmb3IgdHJ5aW5nIG91dCB0aGUgbmV3IFVBUEk/Cj4gCgpZZXMsIGl0IGlz
-IG5lY2Vzc2FyeS4gSSB0cmllZCB0byByZXZlcnQgaXQgYW5kIGhhbGYgdGhlIHRlc3RzIGluIHRo
-ZSAKdGVzdCBzdWl0ZSBzdGFydCBmYWlsaW5nLgoKSSB0aGluayBwYXRjaGVzIDAxLCAwMywgMTQg
-YW5kIDE3IGFyZSBub3Qgc3RyaWN0bHkgcmVxdWlyZWQsIHRob3VnaCAKcmV2ZXJ0aW5nIDAzIHdp
-bGwgY2F1c2Ugb25lIG9mIHRoZSBzeW5jcG9pbnQgdGVzdHMgdG8gZmFpbC4KCk1pa2tvCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Jan 13, 2021 at 9:31 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Jan 13, 2021 at 2:39 PM Sean Paul <sean@poorly.run> wrote:
+> >
+> > On Wed, Jan 13, 2021 at 5:34 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+> > >
+> > > On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
+> > > > From: Sean Paul <seanpaul@chromium.org>
+> > > >
+> > > > The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
+> > > IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
+> > > "The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
+> > > transaction to query the downstream status for a particular stream."
+> > >
+> > > I feel it useful for scenario in which a non hdcp supported monitor
+> > > is hot plugged to MST branch. Source really doesn't know about the hdcp
+> > > capable device on MST branch, it just know the capability of immediate
+> > > downstream device. QSES can fetch the HDCP capability from MST topology.
+> > > We don't require to enable stream encryption for such streams.
+> >
+> > I agree it's useful when it works, but unfortunately it's broken on at
+> > least 2 MST bridge chips I've encountered :/
+> >
+> > Until we can figure out a) how to fix them (ie: firmware updates), or
+> > b) how to enumerate all of the broken chips to create quirks, we
+> > probably just want to disable QSES for HDCP 1.4.
+>
+> What happens when the user plugs in a non-hdcp screen into a hub which
+> doesn't do QSES? Just black screen?
+>
+
+Good question, thanks for forcing me to explain myself more thoroughly :)
+
+This patch doesn't change that behavior, QSES is currently only used
+as a means for verifying the stream continues to be encrypted in
+steady-state (ie: after auth has already completed and the pixels are
+flowing).
+
+If one wanted to check HDCP 1.4 capability upfront, QSES wouldn't be
+the way to do it. Instead you would tunnel a remote DPCD to the sink
+to read the BCAPS register (ie: the same way we check non-MST
+connectors).
+
+So QSES is currently only around in HDCP 1.4 as an extra precaution
+against a bug in the code preventing the MST stream from being
+encrypted. IMO broken HW overrules suspenders when we already have a
+belt :)
+
+
+Sean
+
+> That would suck a bit, otoh with broken hw I don't see how we could do
+> better :-/
+> -Daniel
+>
+> > Sean
+> >
+> > > > check, it was always a nice-to-have. After deploying this across various
+> > > > devices, we've determined that some MST bridge chips do not properly
+> > > > support this call for HDCP 1.4 (namely Synaptics and Realtek).
+> > > >
+> > > > I had considered creating a quirk for this, but I think it's more
+> > > > prudent to just disable the check entirely since I don't have an idea
+> > > > how widespread support is.
+> > > May be we can remove it from the link check and can retain as utility ?
+> > > Thanks,
+> > > Anshuman Gupta.
+> > > >
+> > > > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
+> > > >  1 file changed, 1 insertion(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > > > index 03424d20e9f7..b6a9606bf09a 100644
+> > > > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > > > @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+> > > >       return ret;
+> > > >  }
+> > > >
+> > > > -static
+> > > > -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+> > > > -                               struct intel_connector *connector)
+> > > > -{
+> > > > -     struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> > > > -     struct intel_dp *intel_dp = &dig_port->dp;
+> > > > -     struct drm_dp_query_stream_enc_status_ack_reply reply;
+> > > > -     int ret;
+> > > > -
+> > > > -     if (!intel_dp_hdcp_check_link(dig_port, connector))
+> > > > -             return false;
+> > > > -
+> > > > -     ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
+> > > > -                                               connector->port, &reply);
+> > > > -     if (ret) {
+> > > > -             drm_dbg_kms(&i915->drm,
+> > > > -                         "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
+> > > > -                         connector->base.base.id, connector->base.name, ret);
+> > > > -             return false;
+> > > > -     }
+> > > > -
+> > > > -     return reply.auth_completed && reply.encryption_enabled;
+> > > > -}
+> > > > -
+> > > >  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+> > > >       .write_an_aksv = intel_dp_hdcp_write_an_aksv,
+> > > >       .read_bksv = intel_dp_hdcp_read_bksv,
+> > > > @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+> > > >       .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
+> > > >       .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
+> > > >       .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
+> > > > -     .check_link = intel_dp_mst_hdcp_check_link,
+> > > > +     .check_link = intel_dp_hdcp_check_link,
+> > > >       .hdcp_capable = intel_dp_hdcp_capable,
+> > > >
+> > > >       .protocol = HDCP_PROTOCOL_DP,
+> > > > --
+> > > > Sean Paul, Software Engineer, Google / Chromium OS
+> > > >
+> > > > _______________________________________________
+> > > > Intel-gfx mailing list
+> > > > Intel-gfx@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
