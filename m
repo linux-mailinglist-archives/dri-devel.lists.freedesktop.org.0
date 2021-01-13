@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A002F5D81
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 402B72F5D89
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37FF6E157;
-	Thu, 14 Jan 2021 09:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0326E6E17F;
+	Thu, 14 Jan 2021 09:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7ED26EC46
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 20:25:56 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id b5so1907626pjk.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=gcin89rV0I7IqOVbv9QUmTeBAufbW/EP7UVT7uECDZc=;
- b=W3/hfnVx1RKsL4BcMpubo4sIVkeHPQNvBiKClmnTGfqiZIKSQNo4mDZfx0kJQnXQm7
- D6jatbyMCWCHJMfpg2HfYmnwgMGkzs5HYGM0kgMjpRA0wpvjZq/pIqVf6PJsRt+Kx6XW
- r/YcVR2l5+N25gm2DaDM+Ap+SK+7GQuvK7rx4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=gcin89rV0I7IqOVbv9QUmTeBAufbW/EP7UVT7uECDZc=;
- b=K+xn5rqIYBf7I/NT6npP1opKE7DI98OHx5W5ZKv0cWFrIBOLcblVnotK4OD7NHYJak
- rNf0/9YG7v52TFRBEk0eT04MnqvXo8aGIPfAJ0tkIVadPV7kJ9C8c32uKbVbraMmxeeD
- Gqx0xF36PEsHyDdGFJ4ch71C36nRuzYVcZOoclryQB8byblm/QHvf1d5kPxs2xxhD+ub
- SYo7c3rTvRrzNZO2ixgK9g6Wvytj2AzqjEn6M/j9qGvY+3OekgQz0vvqwGqWAKYXn7UJ
- SHIaey/1OCOlQ0WNZc3GB3d6NlBeG+CZ3ALtjLrYjnDP4UMpjG9xMNS1S9C+JeF65Sqo
- Eh1w==
-X-Gm-Message-State: AOAM533ExzyoB2U3VNABTVBLcYgx5SsfQtnUU4roASufWjSkpy64yDDm
- CgXwPOCJliESx1jDfvCFD8b+Sw==
-X-Google-Smtp-Source: ABdhPJycCWJ3lRjFwltpCDQVyM6m4HdsDCiUKkLSp4ACw4lxoBY0IFDGY9PSQ9YLIGnXpVCrdx04ug==
-X-Received: by 2002:a17:902:9009:b029:dc:52a6:575 with SMTP id
- a9-20020a1709029009b02900dc52a60575mr3869284plp.57.1610569556468; 
- Wed, 13 Jan 2021 12:25:56 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id 36sm3511232pgr.56.2021.01.13.12.25.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 12:25:55 -0800 (PST)
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9CAB6ECAD
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 23:44:37 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610581479; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=8vGGmTsigGzkFUAuddb3DTMDXkW08K6re37CVJR/miI=;
+ b=c2V/YchwwzWmkNdRZPhh+F0dMkMmrgjSc03XOQivjw/bKrt6puoR1YJMRp0mRsfvTjrOHqmd
+ D/Yl18gkksowyvSgf72Adj8UB3nvuwFGbWgFRuErFbeBr7PRXQepBTfHLLZv/A70KsLqezyk
+ FvHQvAB5o+nMWXA/ImCAfwfvqKE=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 5fff85e28fb3cda82f07e8da (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 23:44:34
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 00C0DC43465; Wed, 13 Jan 2021 23:44:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2A44AC433C6;
+ Wed, 13 Jan 2021 23:44:32 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1610564400-29788-1-git-send-email-khsieh@codeaurora.org>
-References: <1610564400-29788-1-git-send-email-khsieh@codeaurora.org>
-Subject: Re: [PATCH v2 0/2]  fix missing unplug interrupt problem
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run
-Date: Wed, 13 Jan 2021 12:25:54 -0800
-Message-ID: <161056955435.3661239.1548841852585636847@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Date: Wed, 13 Jan 2021 15:44:32 -0800
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 1/2] drm/msm/dp: postpone irq_hpd event during connection
+ pending state
+In-Reply-To: <161056933099.3661239.9450322359293035316@swboyd.mtv.corp.google.com>
+References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
+ <1610051425-20632-2-git-send-email-khsieh@codeaurora.org>
+ <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
+ <17a116011ae60194834210a4a0c877b3@codeaurora.org>
+ <161056933099.3661239.9450322359293035316@swboyd.mtv.corp.google.com>
+Message-ID: <b4a6e7695d12c3191bff75668f386da9@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,26 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- Kuogee Hsieh <khsieh@codeaurora.org>, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, sean@poorly.run
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-01-13 10:59:58)
-> Both AUX_SW_RESET and DP_SW_RESET clear pending HPD interrupts.
-> Therefore irq_hpd handler should not issues either aux or sw reset
-> to avoid following unplug interrupt be cleared accidentally.
+On 2021-01-13 12:22, Stephen Boyd wrote:
+> Quoting khsieh@codeaurora.org (2021-01-13 09:44:24)
+>> On 2021-01-11 11:55, Stephen Boyd wrote:
+>> > Quoting Kuogee Hsieh (2021-01-07 12:30:24)
+>> >> irq_hpd event can only be executed at connected state. Therefore
+>> >> irq_hpd event should be postponed if it happened at connection
+>> >> pending state. This patch also make sure both link rate and lane
+>> >
+>> > Why does it happen at connection pending state?
+>> plug in need two state to complete it.
+>> advance to connection pending state once link training completed and
+>> sent uevent notification to frame work.
+>> transition to connected state after frame work provided resolution
+>> timing and start transmit video panel.
+>> Therefore irq_hpd should not be handled if it occurred before 
+>> connected
+>> state.
 > 
-> Kuogee Hsieh (2):
->   drm/msm/dp: return fail when both link lane and rate are 0 at dpcd
->     read
->   drm/msm/dp: unplug interrupt missed after irq_hpd handler
+> Sure that's what's going on in the patch but you didn't answer my
+> question. Why does irq_hpd happen before connected state?
 
-It won't apply to the drm msm tree. Please rebase and resend.
+I have no idea why it happen this way.
+during debug 
+https://partnerissuetracker.corp.google.com/issues/170598152
+I saw two different scenario
+1) irq_hpd followed by unplug with less than 20 ms in between. this one 
+fixed by this patch set.
+2) plug followed by irq_hpd around 300ms in between. it does not cause 
+problem. but it should be handled in order (after connected state).
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
