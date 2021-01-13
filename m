@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52542F4C4D
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 14:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D716D2F4CB3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 15:06:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 642E06E9C0;
-	Wed, 13 Jan 2021 13:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F3636E9F3;
+	Wed, 13 Jan 2021 14:06:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D8B6E9C0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 13:39:39 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id q2so2442601iow.13
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 05:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xgTgs61ABAeTIu4meq1gFhQVUqlSz56o+VLUzN/aTDc=;
- b=RxSatAaoGEBNhcmpkc8Gtx+RaaMYwvbvFGuUiPkr/S9m0x7khUARsrckrQAfFq0O6e
- GNCa/cS0SOlxaS4MzULxDxXHhPpvjD7mGgD0VUjn+VNy2ihQKS+VTh9Zwn9AGK11HyDQ
- 1+Xyc/cl21GvuePt7pugxTa0hQzu8jqZZUqbEITISM006cjU3BvQGS5uRuT2uXXFuzuN
- 8wC7fy+YzSaCUwsmZbNV87S+g1s7iKO99PYlbgH5j/BwlNypqN1H0XmBRHMtfPO2orSn
- 4OxRX4UvlP4JOPMWsM0bb7BCXIdSwT/rU/TbUYNZvWcXgN9m2ujeYthOUq8o1wU0oC1B
- TTQw==
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F866E9C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 14:06:12 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id y187so1722718wmd.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 06:06:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PuB9AtsbL57Sf3a4kUmMKSYxRAD6+mN4emlNl3f9yCc=;
+ b=CxVKPnmBcMg1ScTz2Wp7OQZJuPc9+gpiJ+JlCYN6Nyr7ytccijkhKaHNDHZxxaODJC
+ sktKBeblYT6pNWHjIU2Bu1i27ImC4PNkMWua5Wz4rZ5EBI9AFNiwW4+rKC+qBYKTHVjC
+ lGCPXwZhAXuQw3n7nI1i0AL1R5F9Cxp8tVREE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xgTgs61ABAeTIu4meq1gFhQVUqlSz56o+VLUzN/aTDc=;
- b=Hw0GkoE+rlUK+ruHHuACUfmAPZeJ2OQCF6VuowfdItCOOfdWeoJ9aQbKtG0ILujSgv
- 0SyCINMXpP7r7rKLz6BszEPvsj0kCtepQfs17sRkVja/A6vYEFSlRkBiaBNhoyBJfUuF
- xIXOCu7IZUzoiq4EKsLOoXLpBldQpzf8WWM0iPCC09LxMDEYD2Dl9PZLKIRXJmIwObp3
- A/AFRdMw6nOpcComOhULaUhgOMptVOjN9vPUjddAUJcYiHwZzyLYdQatFGf0RxKWuVQ5
- SUN9yJyRiDdJyD92/528dntKvQcsgvaEnk2HNL/fGgWkzlCOqIzUdcNkRZF7XTDwehni
- J0pA==
-X-Gm-Message-State: AOAM530eOP2f9qkODxs5FcFfbMg58nKttvE23UOXxXZbUnfL+a+GxbqI
- VCHktY/NLChbtn84itLdRv2D257oZtvFG1f1Lnr6cg==
-X-Google-Smtp-Source: ABdhPJxPBE5Zgt+JuL0vRAIEt+idJH41paJpG45J+XFcvvOEq8OajLGQ2aR9bF6fvxbscMWjDU5i4uX9oS7CC81/t7E=
-X-Received: by 2002:a05:6e02:194a:: with SMTP id
- x10mr2279141ilu.165.1610545178382; 
- Wed, 13 Jan 2021 05:39:38 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PuB9AtsbL57Sf3a4kUmMKSYxRAD6+mN4emlNl3f9yCc=;
+ b=Du6SVnzeOj6r+5N/K6U78CJKnqllJkY7Npbs7YCjB0cZP37v2ViA+WvtOXfOUqg+4g
+ /zomU4Hvk0s1deutKZiDyQxlToSijm7kLHjW7DGiB8GUcUn24o/2iahpOSyWvsQMEOiN
+ MhbWPXVmWSEDtebIL42tI4x3gMYnZjETk5KxIYFXfAnEWHnZO3LFXrhw1YhtTPyAuXPD
+ yWPe2sdl0fWxBWX+fkZ1uHxCi313CMIWCXTyv6J1dMoyrWPdgSrkRY9o7vQUAinp0L2a
+ ZR/oONpFUvQJalWlZJPEmY7MmuK0MOtE0Ey9ARs9NOAK4D3wmjwcFmkSp1i/hrjS62I2
+ 9veQ==
+X-Gm-Message-State: AOAM530hIus+/PCZY3xOHrslZ1R6Xa6xq2ogX/5dOQUlghGoyxPpxmAz
+ S/hxxr2tOYXeBzhD8PN9pMIeGbmp9624tIEg
+X-Google-Smtp-Source: ABdhPJwDA7rrRqm6VAVvCKB++joJBjMpeLpdhwEvxaUmndBbZOKzgsDgvMWoa8xdALfSxtRH+BW4EA==
+X-Received: by 2002:a05:600c:2219:: with SMTP id
+ z25mr2385510wml.27.1610546771304; 
+ Wed, 13 Jan 2021 06:06:11 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y68sm3590295wmc.0.2021.01.13.06.06.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 06:06:10 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm-buf: Add debug option
+Date: Wed, 13 Jan 2021 15:06:04 +0100
+Message-Id: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210106223909.34476-1-sean@poorly.run>
- <20210113101942.GK11717@intel.com>
-In-Reply-To: <20210113101942.GK11717@intel.com>
-From: Sean Paul <sean@poorly.run>
-Date: Wed, 13 Jan 2021 08:39:02 -0500
-Message-ID: <CAMavQKLzGR2j2UJXymNrhy3Yp4ssKC=-J87ak4=8aUKn3vdB2A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
- HDCP 1.4 over MST
-To: Anshuman Gupta <anshuman.gupta@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,108 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, David Stevens <stevensd@chromium.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 13, 2021 at 5:34 AM Anshuman Gupta <anshuman.gupta@intel.com> wrote:
->
-> On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
-> IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
-> "The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
-> transaction to query the downstream status for a particular stream."
->
-> I feel it useful for scenario in which a non hdcp supported monitor
-> is hot plugged to MST branch. Source really doesn't know about the hdcp
-> capable device on MST branch, it just know the capability of immediate
-> downstream device. QSES can fetch the HDCP capability from MST topology.
-> We don't require to enable stream encryption for such streams.
-
-I agree it's useful when it works, but unfortunately it's broken on at
-least 2 MST bridge chips I've encountered :/
-
-Until we can figure out a) how to fix them (ie: firmware updates), or
-b) how to enumerate all of the broken chips to create quirks, we
-probably just want to disable QSES for HDCP 1.4.
-
-Sean
-
-> > check, it was always a nice-to-have. After deploying this across various
-> > devices, we've determined that some MST bridge chips do not properly
-> > support this call for HDCP 1.4 (namely Synaptics and Realtek).
-> >
-> > I had considered creating a quirk for this, but I think it's more
-> > prudent to just disable the check entirely since I don't have an idea
-> > how widespread support is.
-> May be we can remove it from the link check and can retain as utility ?
-> Thanks,
-> Anshuman Gupta.
-> >
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
-> >  1 file changed, 1 insertion(+), 25 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > index 03424d20e9f7..b6a9606bf09a 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
-> >       return ret;
-> >  }
-> >
-> > -static
-> > -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> > -                               struct intel_connector *connector)
-> > -{
-> > -     struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> > -     struct intel_dp *intel_dp = &dig_port->dp;
-> > -     struct drm_dp_query_stream_enc_status_ack_reply reply;
-> > -     int ret;
-> > -
-> > -     if (!intel_dp_hdcp_check_link(dig_port, connector))
-> > -             return false;
-> > -
-> > -     ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
-> > -                                               connector->port, &reply);
-> > -     if (ret) {
-> > -             drm_dbg_kms(&i915->drm,
-> > -                         "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
-> > -                         connector->base.base.id, connector->base.name, ret);
-> > -             return false;
-> > -     }
-> > -
-> > -     return reply.auth_completed && reply.encryption_enabled;
-> > -}
-> > -
-> >  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> >       .write_an_aksv = intel_dp_hdcp_write_an_aksv,
-> >       .read_bksv = intel_dp_hdcp_read_bksv,
-> > @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> >       .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
-> >       .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
-> >       .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> > -     .check_link = intel_dp_mst_hdcp_check_link,
-> > +     .check_link = intel_dp_hdcp_check_link,
-> >       .hdcp_capable = intel_dp_hdcp_capable,
-> >
-> >       .protocol = HDCP_PROTOCOL_DP,
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V2UgaGF2ZSB0b28gbWFueSBwZW9wbGUgYWJ1c2luZyB0aGUgc3RydWN0IHBhZ2UgdGhleSBjYW4g
+Z2V0IGF0IGJ1dApyZWFsbHkgc2hvdWxkbid0IGluIGltcG9ydGVycy4gQXNpZGUgZnJvbSB0aGF0
+IHRoZSBiYWNraW5nIHBhZ2UgbWlnaHQKc2ltcGx5IG5vdCBleGlzdCAoZm9yIGR5bmFtaWMgcDJw
+IG1hcHBpbmdzKSBsb29raW5nIGF0IGl0IGFuZCB1c2luZyBpdAplLmcuIGZvciBtbWFwIGNhbiBh
+bHNvIHdyZWFrIHRoZSBwYWdlIGhhbmRsaW5nIG9mIHRoZSBleHBvcnRlcgpjb21wbGV0ZWx5LiBJ
+bXBvcnRlcnMgcmVhbGx5IG11c3QgZ28gdGhyb3VnaCB0aGUgcHJvcGVyIGludGVyZmFjZSBsaWtl
+CmRtYV9idWZfbW1hcCBmb3IgZXZlcnl0aGluZy4KCkp1c3QgYW4gUkZDIHRvIHNlZSB3aGV0aGVy
+IHRoaXMgaWRlYSBoYXMgc29tZSBzdGlja2luZXNzLiBkZWZhdWx0IHkKZm9yIG5vdyB0byBtYWtl
+IHN1cmUgaW50ZWwtZ2Z4LWNpIHBpY2tzIGl0IHVwIHRvby4KCkknbSBzZW1pLXRlbXB0ZWQgdG8g
+ZW5mb3JjZSB0aGlzIGZvciBkeW5hbWljIGltcG9ydGVycyBzaW5jZSB0aG9zZQpyZWFsbHkgaGF2
+ZSBubyBleGN1c2UgYXQgYWxsIHRvIGJyZWFrIHRoZSBydWxlcy4KClVuZm9ydHVhbnRlbHkgd2Ug
+Y2FuJ3Qgc3RvcmUgdGhlIHJpZ2h0IHBvaW50ZXJzIHNvbWV3aGVyZSBzYWZlIHRvIG1ha2UKc3Vy
+ZSB3ZSBvb3BzIG9uIHNvbWV0aGluZyByZWNvZ25pemFibGUsIHNvIGJlc3QgaXMgdG8ganVzdCB3
+cmFuZ2xlCnRoZW0gYSBiaXQgYnkgZmxpcHBpbmcgYWxsIHRoZSBiaXRzLiBBdCBsZWFzdCBvbiB4
+ODYga2VybmVsIGFkZHJlc3NlcwpoYXZlIGFsbCB0aGVpciBoaWdoIGJpdHMgc2V0cyBhbmQgdGhl
+IHN0cnVjdCBwYWdlIGFycmF5IGlzIGZhaXJseSBsb3cKaW4gdGhlIGtlcm5lbCBtYXBwaW5nLCBz
+byBmbGlwcGluZyBhbGwgdGhlIGJpdHMgZ2l2ZXMgdXMgYSB2ZXJ5IGhpZ2gKcG9pbnRlciBpbiB1
+c2Vyc3BhY2UgYW5kIGhlbmNlIGV4Y2VsbGVudCBjaGFuY2VzIGZvciBhbiBpbnZhbGlkCmRlcmVm
+ZXJlbmNlLgoKU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
+bC5jb20+CkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogIkNo
+cmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBEYXZpZCBTdGV2
+ZW5zIDxzdGV2ZW5zZEBjaHJvbWl1bS5vcmc+CkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5v
+cmcKQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwotLS0KIGRyaXZlcnMvZG1hLWJ1
+Zi9LY29uZmlnICAgfCAgOCArKysrKysrCiBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwgNDkg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tCiAyIGZpbGVzIGNoYW5nZWQs
+IDUzIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9k
+bWEtYnVmL0tjb25maWcgYi9kcml2ZXJzL2RtYS1idWYvS2NvbmZpZwppbmRleCA0ZjgyMjRhNmFj
+OTUuLmNkZGI1NDllNWU1OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL0tjb25maWcKKysr
+IGIvZHJpdmVycy9kbWEtYnVmL0tjb25maWcKQEAgLTUwLDYgKzUwLDE0IEBAIGNvbmZpZyBETUFC
+VUZfTU9WRV9OT1RJRlkKIAkgIFRoaXMgaXMgbWFya2VkIGV4cGVyaW1lbnRhbCBiZWNhdXNlIHdl
+IGRvbid0IHlldCBoYXZlIGEgY29uc2lzdGVudAogCSAgZXhlY3V0aW9uIGNvbnRleHQgYW5kIG1l
+bW9yeSBtYW5hZ2VtZW50IGJldHdlZW4gZHJpdmVycy4KIAorY29uZmlnIERNQUJVRl9ERUJVRwor
+CWJvb2wgIkRNQS1CVUYgZGVidWcgY2hlY2tzIgorCWRlZmF1bHQgeQorCWhlbHAKKwkgIFRoaXMg
+b3B0aW9uIGVuYWJsZXMgYWRkaXRpb25hbCBjaGVja3MgZm9yIERNQS1CVUYgaW1wb3J0ZXJzIGFu
+ZAorCSAgZXhwb3J0ZXJzLiBTcGVjaWZpY2FsbHkgaXQgdmFsaWRhdGVzIHRoYXQgaW1wb3J0ZXJz
+IGRvIG5vdCBwZWVrIGF0IHRoZQorCSAgdW5kZXJseWluZyBzdHJ1Y3QgcGFnZSB3aGVuIHRoZXkg
+aW1wb3J0IGEgYnVmZmVyLgorCiBjb25maWcgRE1BQlVGX1NFTEZURVNUUwogCXRyaXN0YXRlICJT
+ZWxmdGVzdHMgZm9yIHRoZSBkbWEtYnVmIGludGVyZmFjZXMiCiAJZGVmYXVsdCBuCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYu
+YwppbmRleCAxYzliZDUxZGIxMTAuLjZlNDcyNWY3ZGZkZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9k
+bWEtYnVmL2RtYS1idWYuYworKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCkBAIC02NjYs
+NiArNjY2LDMwIEBAIHZvaWQgZG1hX2J1Zl9wdXQoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKIH0K
+IEVYUE9SVF9TWU1CT0xfR1BMKGRtYV9idWZfcHV0KTsKIAorc3RhdGljIHN0cnVjdCBzZ190YWJs
+ZSAqIF9fbWFwX2RtYV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLAorCQkJ
+CSAgICAgICBlbnVtIGRtYV9kYXRhX2RpcmVjdGlvbiBkaXJlY3Rpb24pCit7CisJc3RydWN0IHNn
+X3RhYmxlICpzZ190YWJsZTsKKworCXNnX3RhYmxlID0gYXR0YWNoLT5kbWFidWYtPm9wcy0+bWFw
+X2RtYV9idWYoYXR0YWNoLCBkaXJlY3Rpb24pOworCisjaWYgQ09ORklHX0RNQUJVRl9ERUJVRwor
+CWlmIChzZ190YWJsZSkgeworCQlpbnQgaTsKKwkJc3RydWN0IHNjYXR0ZXJsaXN0ICpzZzsKKwor
+CQkvKiBUbyBjYXRjaCBhYnVzZSBvZiB0aGUgdW5kZXJseWluZyBzdHJ1Y3QgcGFnZSBieSBpbXBv
+cnRlcnMgbWl4CisJCSAqIHVwIHRoZSBiaXRzLCBidXQgdGFrZSBjYXJlIHRvIHByZXNlcnZlIHRo
+ZSBsb3cgU0dfIGJpdHMgdG8KKwkJICogbm90IGNvcnJ1cHQgdGhlIHNndC4gVGhlIG1peGluZyBp
+cyB1bmRvbmUgaW4gX191bm1hcF9kbWFfYnVmCisJCSAqIGJlZm9yZSBwYXNzaW5nIHRoZSBzZ3Qg
+YmFjayB0byB0aGUgZXhwb3J0ZXIuICovCisJCWZvcl9lYWNoX3NndGFibGVfc2coc2dfdGFibGUs
+IHNnLCBpKQorCQkJc2ctPnBhZ2VfbGluayBePSB+MHhmZlVMOworCX0KKyNlbmRpZgorCisJcmV0
+dXJuIHNnX3RhYmxlOworfQorCiAvKioKICAqIGRtYV9idWZfZHluYW1pY19hdHRhY2ggLSBBZGQg
+dGhlIGRldmljZSB0byBkbWFfYnVmJ3MgYXR0YWNobWVudHMgbGlzdAogICogQGRtYWJ1ZjoJCVtp
+bl0JYnVmZmVyIHRvIGF0dGFjaCBkZXZpY2UgdG8uCkBAIC03MzcsNyArNzYxLDcgQEAgZG1hX2J1
+Zl9keW5hbWljX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZGV2aWNlICpk
+ZXYsCiAJCQkJZ290byBlcnJfdW5sb2NrOwogCQl9CiAKLQkJc2d0ID0gZG1hYnVmLT5vcHMtPm1h
+cF9kbWFfYnVmKGF0dGFjaCwgRE1BX0JJRElSRUNUSU9OQUwpOworCQlzZ3QgPSBfX21hcF9kbWFf
+YnVmKGF0dGFjaCwgRE1BX0JJRElSRUNUSU9OQUwpOwogCQlpZiAoIXNndCkKIAkJCXNndCA9IEVS
+Ul9QVFIoLUVOT01FTSk7CiAJCWlmIChJU19FUlIoc2d0KSkgewpAQCAtNzg0LDYgKzgwOCwyMyBA
+QCBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICpkbWFfYnVmX2F0dGFjaChzdHJ1Y3QgZG1hX2J1
+ZiAqZG1hYnVmLAogfQogRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9hdHRhY2gpOwogCitzdGF0
+aWMgdm9pZCBfX3VubWFwX2RtYV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNo
+LAorCQkJICAgIHN0cnVjdCBzZ190YWJsZSAqc2dfdGFibGUsCisJCQkgICAgZW51bSBkbWFfZGF0
+YV9kaXJlY3Rpb24gZGlyZWN0aW9uKQoreworCisjaWYgQ09ORklHX0RNQUJVRl9ERUJVRworCWlm
+IChzZ190YWJsZSkgeworCQlpbnQgaTsKKwkJc3RydWN0IHNjYXR0ZXJsaXN0ICpzZzsKKworCQlm
+b3JfZWFjaF9zZ3RhYmxlX3NnKHNnX3RhYmxlLCBzZywgaSkKKwkJCXNnLT5wYWdlX2xpbmsgXj0g
+fjB4ZmZVTDsKKwl9CisjZW5kaWYKKwlhdHRhY2gtPmRtYWJ1Zi0+b3BzLT51bm1hcF9kbWFfYnVm
+KGF0dGFjaCwgc2dfdGFibGUsIGRpcmVjdGlvbik7Cit9CisKIC8qKgogICogZG1hX2J1Zl9kZXRh
+Y2ggLSBSZW1vdmUgdGhlIGdpdmVuIGF0dGFjaG1lbnQgZnJvbSBkbWFidWYncyBhdHRhY2htZW50
+cyBsaXN0CiAgKiBAZG1hYnVmOglbaW5dCWJ1ZmZlciB0byBkZXRhY2ggZnJvbS4KQEAgLTgwMiw3
+ICs4NDMsNyBAQCB2b2lkIGRtYV9idWZfZGV0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0
+cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCkKIAkJaWYgKGRtYV9idWZfaXNfZHluYW1p
+YyhhdHRhY2gtPmRtYWJ1ZikpCiAJCQlkbWFfcmVzdl9sb2NrKGF0dGFjaC0+ZG1hYnVmLT5yZXN2
+LCBOVUxMKTsKIAotCQlkbWFidWYtPm9wcy0+dW5tYXBfZG1hX2J1ZihhdHRhY2gsIGF0dGFjaC0+
+c2d0LCBhdHRhY2gtPmRpcik7CisJCV9fdW5tYXBfZG1hX2J1ZihhdHRhY2gsIGF0dGFjaC0+c2d0
+LCBhdHRhY2gtPmRpcik7CiAKIAkJaWYgKGRtYV9idWZfaXNfZHluYW1pYyhhdHRhY2gtPmRtYWJ1
+ZikpIHsKIAkJCWRtYV9idWZfdW5waW4oYXR0YWNoKTsKQEAgLTkyNCw3ICs5NjUsNyBAQCBzdHJ1
+Y3Qgc2dfdGFibGUgKmRtYV9idWZfbWFwX2F0dGFjaG1lbnQoc3RydWN0IGRtYV9idWZfYXR0YWNo
+bWVudCAqYXR0YWNoLAogCQl9CiAJfQogCi0Jc2dfdGFibGUgPSBhdHRhY2gtPmRtYWJ1Zi0+b3Bz
+LT5tYXBfZG1hX2J1ZihhdHRhY2gsIGRpcmVjdGlvbik7CisJc2dfdGFibGUgPSBfX21hcF9kbWFf
+YnVmKGF0dGFjaCwgZGlyZWN0aW9uKTsKIAlpZiAoIXNnX3RhYmxlKQogCQlzZ190YWJsZSA9IEVS
+Ul9QVFIoLUVOT01FTSk7CiAKQEAgLTk4Nyw3ICsxMDI4LDcgQEAgdm9pZCBkbWFfYnVmX3VubWFw
+X2F0dGFjaG1lbnQoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLAogCWlmIChkbWFf
+YnVmX2lzX2R5bmFtaWMoYXR0YWNoLT5kbWFidWYpKQogCQlkbWFfcmVzdl9hc3NlcnRfaGVsZChh
+dHRhY2gtPmRtYWJ1Zi0+cmVzdik7CiAKLQlhdHRhY2gtPmRtYWJ1Zi0+b3BzLT51bm1hcF9kbWFf
+YnVmKGF0dGFjaCwgc2dfdGFibGUsIGRpcmVjdGlvbik7CisJX191bm1hcF9kbWFfYnVmKGF0dGFj
+aCwgc2dfdGFibGUsIGRpcmVjdGlvbik7CiAKIAlpZiAoZG1hX2J1Zl9pc19keW5hbWljKGF0dGFj
+aC0+ZG1hYnVmKSAmJgogCSAgICAhSVNfRU5BQkxFRChDT05GSUdfRE1BQlVGX01PVkVfTk9USUZZ
+KSkKLS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
