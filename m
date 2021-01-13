@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BD02F52F9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27732F5300
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:04:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7247A6EBA8;
-	Wed, 13 Jan 2021 19:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F236EC0D;
+	Wed, 13 Jan 2021 19:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
  [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 855BC6E896
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEAC26EBA8
  for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:03:43 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
  EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
  15.0.1156.6; Wed, 13 Jan 2021 11:03:36 -0800
 Received: from vertex.vmware.com (unknown [10.21.245.145])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id DA153202F1;
- Wed, 13 Jan 2021 11:03:40 -0800 (PST)
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 9BA22202F1;
+ Wed, 13 Jan 2021 11:03:41 -0800 (PST)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 3/8] drm/vmwgfx: Switch to a managed drm device
-Date: Wed, 13 Jan 2021 14:03:33 -0500
-Message-ID: <20210113190338.292507-4-zackr@vmware.com>
+Subject: [PATCH v3 4/8] drm/vmwgfx: Cleanup fifo mmio handling
+Date: Wed, 13 Jan 2021 14:03:34 -0500
+Message-ID: <20210113190338.292507-5-zackr@vmware.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210113190338.292507-1-zackr@vmware.com>
 References: <20210113190338.292507-1-zackr@vmware.com>
@@ -49,606 +49,627 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To cleanup some of the error handling and prepare for some
-other work lets switch to a managed drm device. It will
-let us get a better handle on some of the error paths.
+Going forward the svga device might reuse mmio for general
+register accesses, in order to prepare for that we need to
+cleanup our naming and handling of fifo specific mmio reads
+and writes. As part of this work lets switch to managed
+mapping of the fifo mmio to make the error handling cleaner.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Reviewed-by: Roland Scheidegger <sroland@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c     |  8 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        | 74 +++++++++-------------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c         | 10 +--
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c      |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        | 36 +++++------
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c        |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  6 +-
- 10 files changed, 68 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c   | 37 ++++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h   | 31 +++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 24 ++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c  | 83 +++++++++++++--------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c | 13 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c   |  9 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c   | 14 ++---
+ 7 files changed, 98 insertions(+), 113 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 83a8d34704ea..546c94e9268a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -1230,7 +1230,7 @@ int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man,
- 
- 	/* First, try to allocate a huge chunk of DMA memory */
- 	size = PAGE_ALIGN(size);
--	man->map = dma_alloc_coherent(dev_priv->dev->dev, size,
-+	man->map = dma_alloc_coherent(dev_priv->drm.dev, size,
- 				      &man->handle, GFP_KERNEL);
- 	if (man->map) {
- 		man->using_mob = false;
-@@ -1313,7 +1313,7 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
- 	man->num_contexts = (dev_priv->capabilities & SVGA_CAP_HP_CMD_QUEUE) ?
- 		2 : 1;
- 	man->headers = dma_pool_create("vmwgfx cmdbuf",
--				       dev_priv->dev->dev,
-+				       dev_priv->drm.dev,
- 				       sizeof(SVGACBHeader),
- 				       64, PAGE_SIZE);
- 	if (!man->headers) {
-@@ -1322,7 +1322,7 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
- 	}
- 
- 	man->dheaders = dma_pool_create("vmwgfx inline cmdbuf",
--					dev_priv->dev->dev,
-+					dev_priv->drm.dev,
- 					sizeof(struct vmw_cmdbuf_dheader),
- 					64, PAGE_SIZE);
- 	if (!man->dheaders) {
-@@ -1387,7 +1387,7 @@ void vmw_cmdbuf_remove_pool(struct vmw_cmdbuf_man *man)
- 		ttm_bo_put(man->cmd_space);
- 		man->cmd_space = NULL;
- 	} else {
--		dma_free_coherent(man->dev_priv->dev->dev,
-+		dma_free_coherent(man->dev_priv->drm.dev,
- 				  man->size, man->map, man->handle);
- 	}
- }
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 99bbc25fce31..fdc865e4655e 100644
+index fdc865e4655e..d7d2b5e6371d 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -609,7 +609,7 @@ static int vmw_dma_select_mode(struct vmw_private *dev_priv)
-  */
- static int vmw_dma_masks(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	int ret = 0;
+@@ -683,7 +683,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
  
- 	ret = dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64));
-@@ -644,25 +644,17 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
- #endif
- }
+ 	dev_priv->io_start = pci_resource_start(pdev, 0);
+ 	dev_priv->vram_start = pci_resource_start(pdev, 1);
+-	dev_priv->mmio_start = pci_resource_start(pdev, 2);
++	dev_priv->fifo_mem_start = pci_resource_start(pdev, 2);
  
--static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
-+static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
- {
--	struct vmw_private *dev_priv;
- 	int ret;
- 	uint32_t svga_id;
- 	enum vmw_res_type i;
- 	bool refuse_dma = false;
- 	char host_log[100] = {0};
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	dev_priv->assume_16bpp = !!vmw_assume_16bpp;
+ 
+@@ -713,7 +713,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
+ 	}
+ 
+ 	dev_priv->vram_size = vmw_read(dev_priv, SVGA_REG_VRAM_SIZE);
+-	dev_priv->mmio_size = vmw_read(dev_priv, SVGA_REG_MEM_SIZE);
++	dev_priv->fifo_mem_size = vmw_read(dev_priv, SVGA_REG_MEM_SIZE);
+ 	dev_priv->fb_max_width = vmw_read(dev_priv, SVGA_REG_MAX_WIDTH);
+ 	dev_priv->fb_max_height = vmw_read(dev_priv, SVGA_REG_MAX_HEIGHT);
+ 
+@@ -797,19 +797,21 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
+ 		DRM_INFO("Max dedicated hypervisor surface memory is %u kiB\n",
+ 			 (unsigned)dev_priv->memory_size / 1024);
+ 	}
+-	DRM_INFO("Maximum display memory size is %u kiB\n",
+-		 dev_priv->prim_bb_mem / 1024);
+-	DRM_INFO("VRAM at 0x%08x size is %u kiB\n",
+-		 dev_priv->vram_start, dev_priv->vram_size / 1024);
+-	DRM_INFO("MMIO at 0x%08x size is %u kiB\n",
+-		 dev_priv->mmio_start, dev_priv->mmio_size / 1024);
 -
--	dev_priv = kzalloc(sizeof(*dev_priv), GFP_KERNEL);
--	if (unlikely(!dev_priv)) {
--		DRM_ERROR("Failed allocating a device private struct.\n");
--		return -ENOMEM;
--	}
-+	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
- 
- 	pci_set_master(pdev);
- 
--	dev_priv->dev = dev;
- 	dev_priv->vmw_chipset = chipset;
- 	dev_priv->last_read_seqno = (uint32_t) -100;
- 	mutex_init(&dev_priv->cmdbuf_mutex);
-@@ -795,7 +787,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	if (unlikely(ret != 0))
+-	dev_priv->mmio_virt = memremap(dev_priv->mmio_start,
+-				       dev_priv->mmio_size, MEMREMAP_WB);
+-
+-	if (unlikely(dev_priv->mmio_virt == NULL)) {
++	DRM_INFO("Maximum display memory size is %llu kiB\n",
++		 (uint64_t)dev_priv->prim_bb_mem / 1024);
++	DRM_INFO("VRAM at %pa size is %llu kiB\n",
++		 &dev_priv->vram_start, (uint64_t)dev_priv->vram_size / 1024);
++	DRM_INFO("MMIO at %pa size is %llu kiB\n",
++		 &dev_priv->fifo_mem_start, (uint64_t)dev_priv->fifo_mem_size / 1024);
++
++	dev_priv->fifo_mem = devm_memremap(dev_priv->drm.dev,
++					   dev_priv->fifo_mem_start,
++					   dev_priv->fifo_mem_size,
++					   MEMREMAP_WB);
++
++	if (unlikely(dev_priv->fifo_mem == NULL)) {
+ 		ret = -ENOMEM;
+-		DRM_ERROR("Failed mapping MMIO.\n");
++		DRM_ERROR("Failed mapping the FIFO MMIO.\n");
  		goto out_err0;
- 
--	dma_set_max_seg_size(dev->dev, U32_MAX);
-+	dma_set_max_seg_size(dev_priv->drm.dev, U32_MAX);
- 
- 	if (dev_priv->capabilities & SVGA_CAP_GMR2) {
- 		DRM_INFO("Max GMR ids is %u\n",
-@@ -839,7 +831,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 		goto out_err4;
  	}
  
--	dev->dev_private = dev_priv;
-+	dev_priv->drm.dev_private = dev_priv;
- 
- 	ret = pci_request_regions(pdev, "vmwgfx probe");
- 	if (ret) {
-@@ -848,7 +840,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
+@@ -819,7 +821,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
+ 	    !vmw_fifo_have_pitchlock(dev_priv)) {
+ 		ret = -ENOSYS;
+ 		DRM_ERROR("Hardware has no pitchlock\n");
+-		goto out_err4;
++		goto out_err0;
  	}
  
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK) {
--		ret = vmw_irq_install(dev, pdev->irq);
-+		ret = vmw_irq_install(&dev_priv->drm, pdev->irq);
- 		if (ret != 0) {
- 			DRM_ERROR("Failed installing irq: %d\n", ret);
- 			goto out_no_irq;
-@@ -865,8 +857,8 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 				    DRM_FILE_PAGE_OFFSET_START,
- 				    DRM_FILE_PAGE_OFFSET_SIZE);
- 	ret = ttm_bo_device_init(&dev_priv->bdev, &vmw_bo_driver,
--				 dev_priv->dev->dev,
--				 dev->anon_inode->i_mapping,
-+				 dev_priv->drm.dev,
-+				 dev_priv->drm.anon_inode->i_mapping,
- 				 &dev_priv->vma_manager,
- 				 dev_priv->map_mode == vmw_dma_alloc_coherent,
- 				 false);
-@@ -946,7 +938,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	if (ret)
- 		goto out_no_fifo;
+ 	dev_priv->tdev = ttm_object_device_init(&ttm_mem_glob, 12,
+@@ -828,7 +830,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
+ 	if (unlikely(dev_priv->tdev == NULL)) {
+ 		DRM_ERROR("Unable to initialize TTM object management.\n");
+ 		ret = -ENOMEM;
+-		goto out_err4;
++		goto out_err0;
+ 	}
  
--	DRM_INFO("Atomic: %s\n", (dev->driver->driver_features & DRIVER_ATOMIC)
-+	DRM_INFO("Atomic: %s\n", (dev_priv->drm.driver->driver_features & DRIVER_ATOMIC)
- 		 ? "yes." : "no.");
- 	if (dev_priv->sm_type == VMW_SM_5)
- 		DRM_INFO("SM5 support available.\n");
-@@ -991,7 +983,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	vmw_fence_manager_takedown(dev_priv->fman);
- out_no_fman:
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK)
--		vmw_irq_uninstall(dev_priv->dev);
-+		vmw_irq_uninstall(&dev_priv->drm);
- out_no_irq:
+ 	dev_priv->drm.dev_private = dev_priv;
+@@ -988,8 +990,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
  	pci_release_regions(pdev);
  out_no_device:
-@@ -1041,7 +1033,7 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	vmw_release_device_late(dev_priv);
- 	vmw_fence_manager_takedown(dev_priv->fman);
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK)
--		vmw_irq_uninstall(dev_priv->dev);
-+		vmw_irq_uninstall(&dev_priv->drm);
+ 	ttm_object_device_release(&dev_priv->tdev);
+-out_err4:
+-	memunmap(dev_priv->mmio_virt);
+ out_err0:
+ 	for (i = vmw_res_context; i < vmw_res_max; ++i)
+ 		idr_destroy(&dev_priv->res_idr[i]);
+@@ -1037,7 +1037,6 @@ static void vmw_driver_unload(struct drm_device *dev)
  	pci_release_regions(pdev);
  
  	ttm_object_device_release(&dev_priv->tdev);
-@@ -1239,7 +1231,7 @@ void vmw_svga_disable(struct vmw_private *dev_priv)
- 	 * to be inconsistent with the device, causing modesetting problems.
- 	 *
- 	 */
--	vmw_kms_lost_device(dev_priv->dev);
-+	vmw_kms_lost_device(&dev_priv->drm);
- 	ttm_write_lock(&dev_priv->reservation_sem, false);
- 	spin_lock(&dev_priv->svga_lock);
- 	if (ttm_resource_manager_used(man)) {
-@@ -1261,8 +1253,6 @@ static void vmw_remove(struct pci_dev *pdev)
+-	memunmap(dev_priv->mmio_virt);
+ 	if (dev_priv->ctx.staged_bindings)
+ 		vmw_binding_state_free(dev_priv->ctx.staged_bindings);
  
- 	drm_dev_unregister(dev);
- 	vmw_driver_unload(dev);
--	drm_dev_put(dev);
--	pci_disable_device(pdev);
- }
- 
- static unsigned long
-@@ -1363,7 +1353,7 @@ static int vmw_pm_freeze(struct device *kdev)
- 	 * No user-space processes should be running now.
- 	 */
- 	ttm_suspend_unlock(&dev_priv->reservation_sem);
--	ret = vmw_kms_suspend(dev_priv->dev);
-+	ret = vmw_kms_suspend(&dev_priv->drm);
- 	if (ret) {
- 		ttm_suspend_lock(&dev_priv->reservation_sem);
- 		DRM_ERROR("Failed to freeze modesetting.\n");
-@@ -1424,7 +1414,7 @@ static int vmw_pm_restore(struct device *kdev)
- 	dev_priv->suspend_locked = false;
- 	ttm_suspend_unlock(&dev_priv->reservation_sem);
- 	if (dev_priv->suspend_state)
--		vmw_kms_resume(dev_priv->dev);
-+		vmw_kms_resume(&dev_priv->drm);
- 
- 	if (dev_priv->enable_fb)
- 		vmw_fb_on(dev_priv);
-@@ -1493,42 +1483,36 @@ static struct pci_driver vmw_pci_driver = {
- 
- static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
--	struct drm_device *dev;
-+	struct vmw_private *vmw;
- 	int ret;
- 
- 	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "svgadrmfb");
- 	if (ret)
- 		return ret;
- 
--	ret = pci_enable_device(pdev);
-+	ret = pcim_enable_device(pdev);
- 	if (ret)
- 		return ret;
- 
--	dev = drm_dev_alloc(&driver, &pdev->dev);
--	if (IS_ERR(dev)) {
--		ret = PTR_ERR(dev);
--		goto err_pci_disable_device;
--	}
-+	vmw = devm_drm_dev_alloc(&pdev->dev, &driver,
-+				 struct vmw_private, drm);
-+	if (IS_ERR(vmw))
-+		return PTR_ERR(vmw);
- 
--	pci_set_drvdata(pdev, dev);
-+	vmw->drm.pdev = pdev;
-+	pci_set_drvdata(pdev, &vmw->drm);
- 
--	ret = vmw_driver_load(dev, ent->driver_data);
-+	ret = vmw_driver_load(vmw, ent->device);
- 	if (ret)
--		goto err_drm_dev_put;
-+		return ret;
- 
--	ret = drm_dev_register(dev, ent->driver_data);
--	if (ret)
--		goto err_vmw_driver_unload;
-+	ret = drm_dev_register(&vmw->drm, 0);
-+	if (ret) {
-+		vmw_driver_unload(&vmw->drm);
-+		return ret;
-+	}
- 
- 	return 0;
--
--err_vmw_driver_unload:
--	vmw_driver_unload(dev);
--err_drm_dev_put:
--	drm_dev_put(dev);
--err_pci_disable_device:
--	pci_disable_device(pdev);
--	return ret;
- }
- 
- static int __init vmwgfx_init(void)
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 5509f9b66bfd..f8e579225fb8 100644
+index f8e579225fb8..912812a35d33 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -489,11 +489,11 @@ enum vmw_sm_type {
- };
+@@ -496,12 +496,13 @@ struct vmw_private {
  
- struct vmw_private {
-+	struct drm_device drm;
- 	struct ttm_bo_device bdev;
- 
- 	struct vmw_fifo_state fifo;
- 
--	struct drm_device *dev;
  	struct drm_vma_offset_manager vma_manager;
  	unsigned long vmw_chipset;
- 	unsigned int io_start;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-index a244b6c3e5a1..f319b8a97f52 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-@@ -481,7 +481,7 @@ static int vmw_fb_kms_detach(struct vmw_fb_par *par,
- 			DRM_ERROR("Could not unset a mode.\n");
- 			return ret;
- 		}
--		drm_mode_destroy(par->vmw_priv->dev, par->set_mode);
-+		drm_mode_destroy(&par->vmw_priv->drm, par->set_mode);
- 		par->set_mode = NULL;
- 	}
+-	unsigned int io_start;
+-	uint32_t vram_start;
+-	uint32_t vram_size;
+-	uint32_t prim_bb_mem;
+-	uint32_t mmio_start;
+-	uint32_t mmio_size;
++	resource_size_t io_start;
++	resource_size_t vram_start;
++	resource_size_t vram_size;
++	resource_size_t prim_bb_mem;
++	u32 *fifo_mem;
++	resource_size_t fifo_mem_start;
++	resource_size_t fifo_mem_size;
+ 	uint32_t fb_max_width;
+ 	uint32_t fb_max_height;
+ 	uint32_t texture_max_width;
+@@ -510,7 +511,6 @@ struct vmw_private {
+ 	uint32_t stdu_max_height;
+ 	uint32_t initial_width;
+ 	uint32_t initial_height;
+-	u32 *mmio_virt;
+ 	uint32_t capabilities;
+ 	uint32_t capabilities2;
+ 	uint32_t max_gmr_ids;
+@@ -1575,28 +1575,29 @@ static inline void vmw_fifo_resource_dec(struct vmw_private *dev_priv)
+ }
  
-@@ -567,7 +567,7 @@ static int vmw_fb_set_par(struct fb_info *info)
- 	struct drm_display_mode *mode;
- 	int ret;
- 
--	mode = drm_mode_duplicate(vmw_priv->dev, &new_mode);
-+	mode = drm_mode_duplicate(&vmw_priv->drm, &new_mode);
- 	if (!mode) {
- 		DRM_ERROR("Could not create new fb mode.\n");
- 		return -ENOMEM;
-@@ -581,7 +581,7 @@ static int vmw_fb_set_par(struct fb_info *info)
- 					mode->hdisplay *
- 					DIV_ROUND_UP(var->bits_per_pixel, 8),
- 					mode->vdisplay)) {
--		drm_mode_destroy(vmw_priv->dev, mode);
-+		drm_mode_destroy(&vmw_priv->drm, mode);
- 		return -EINVAL;
- 	}
- 
-@@ -615,7 +615,7 @@ static int vmw_fb_set_par(struct fb_info *info)
- 
- out_unlock:
- 	if (par->set_mode)
--		drm_mode_destroy(vmw_priv->dev, par->set_mode);
-+		drm_mode_destroy(&vmw_priv->drm, par->set_mode);
- 	par->set_mode = mode;
- 
- 	mutex_unlock(&par->bo_mutex);
-@@ -638,7 +638,7 @@ static const struct fb_ops vmw_fb_ops = {
- 
- int vmw_fb_init(struct vmw_private *vmw_priv)
+ /**
+- * vmw_mmio_read - Perform a MMIO read from volatile memory
++ * vmw_fifo_mem_read - Perform a MMIO read from the fifo memory
+  *
+- * @addr: The address to read from
++ * @fifo_reg: The fifo register to read from
+  *
+  * This function is intended to be equivalent to ioread32() on
+  * memremap'd memory, but without byteswapping.
+  */
+-static inline u32 vmw_mmio_read(u32 *addr)
++static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
  {
--	struct device *device = vmw_priv->dev->dev;
-+	struct device *device = vmw_priv->drm.dev;
- 	struct vmw_fb_par *par;
- 	struct fb_info *info;
- 	unsigned fb_width, fb_height;
+-	return READ_ONCE(*addr);
++	return READ_ONCE(*(vmw->fifo_mem + fifo_reg));
+ }
+ 
+ /**
+- * vmw_mmio_write - Perform a MMIO write to volatile memory
++ * vmw_fifo_mem_write - Perform a MMIO write to volatile memory
+  *
+- * @addr: The address to write to
++ * @addr: The fifo register to write to
+  *
+  * This function is intended to be equivalent to iowrite32 on
+  * memremap'd memory, but without byteswapping.
+  */
+-static inline void vmw_mmio_write(u32 value, u32 *addr)
++static inline void vmw_fifo_mem_write(struct vmw_private *vmw, u32 fifo_reg,
++				      u32 value)
+ {
+-	WRITE_ONCE(*addr, value);
++	WRITE_ONCE(*(vmw->fifo_mem + fifo_reg), value);
+ }
+ #endif
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 0f8d29397157..66fa81e20990 100644
+index 66fa81e20990..378ec7600154 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -1033,7 +1033,7 @@ int vmw_event_fence_action_queue(struct drm_file *file_priv,
- 	eaction->action.type = VMW_ACTION_EVENT;
- 
- 	eaction->fence = vmw_fence_obj_reference(fence);
--	eaction->dev = fman->dev_priv->dev;
-+	eaction->dev = &fman->dev_priv->drm;
- 	eaction->tv_sec = tv_sec;
- 	eaction->tv_usec = tv_usec;
- 
-@@ -1055,7 +1055,7 @@ static int vmw_event_fence_action_create(struct drm_file *file_priv,
- {
- 	struct vmw_event_fence_pending *event;
+@@ -141,8 +141,7 @@ static bool vmw_fence_enable_signaling(struct dma_fence *f)
  	struct vmw_fence_manager *fman = fman_from_fence(fence);
--	struct drm_device *dev = fman->dev_priv->dev;
-+	struct drm_device *dev = &fman->dev_priv->drm;
+ 	struct vmw_private *dev_priv = fman->dev_priv;
+ 
+-	u32 *fifo_mem = dev_priv->mmio_virt;
+-	u32 seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
++	u32 seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
+ 	if (seqno - fence->base.seqno < VMW_FENCE_WRAP)
+ 		return false;
+ 
+@@ -401,14 +400,12 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
+ 				      u32 passed_seqno)
+ {
+ 	u32 goal_seqno;
+-	u32 *fifo_mem;
+ 	struct vmw_fence_obj *fence;
+ 
+ 	if (likely(!fman->seqno_valid))
+ 		return false;
+ 
+-	fifo_mem = fman->dev_priv->mmio_virt;
+-	goal_seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE_GOAL);
++	goal_seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE_GOAL);
+ 	if (likely(passed_seqno - goal_seqno >= VMW_FENCE_WRAP))
+ 		return false;
+ 
+@@ -416,8 +413,9 @@ static bool vmw_fence_goal_new_locked(struct vmw_fence_manager *fman,
+ 	list_for_each_entry(fence, &fman->fence_list, head) {
+ 		if (!list_empty(&fence->seq_passed_actions)) {
+ 			fman->seqno_valid = true;
+-			vmw_mmio_write(fence->base.seqno,
+-				       fifo_mem + SVGA_FIFO_FENCE_GOAL);
++			vmw_fifo_mem_write(fman->dev_priv,
++					   SVGA_FIFO_FENCE_GOAL,
++					   fence->base.seqno);
+ 			break;
+ 		}
+ 	}
+@@ -445,18 +443,17 @@ static bool vmw_fence_goal_check_locked(struct vmw_fence_obj *fence)
+ {
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 	u32 goal_seqno;
+-	u32 *fifo_mem;
+ 
+ 	if (dma_fence_is_signaled_locked(&fence->base))
+ 		return false;
+ 
+-	fifo_mem = fman->dev_priv->mmio_virt;
+-	goal_seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE_GOAL);
++	goal_seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE_GOAL);
+ 	if (likely(fman->seqno_valid &&
+ 		   goal_seqno - fence->base.seqno < VMW_FENCE_WRAP))
+ 		return false;
+ 
+-	vmw_mmio_write(fence->base.seqno, fifo_mem + SVGA_FIFO_FENCE_GOAL);
++	vmw_fifo_mem_write(fman->dev_priv, SVGA_FIFO_FENCE_GOAL,
++			   fence->base.seqno);
+ 	fman->seqno_valid = true;
+ 
+ 	return true;
+@@ -468,9 +465,8 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+ 	struct list_head action_list;
+ 	bool needs_rerun;
+ 	uint32_t seqno, new_seqno;
+-	u32 *fifo_mem = fman->dev_priv->mmio_virt;
+ 
+-	seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
++	seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
+ rerun:
+ 	list_for_each_entry_safe(fence, next_fence, &fman->fence_list, head) {
+ 		if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
+@@ -492,7 +488,7 @@ static void __vmw_fences_update(struct vmw_fence_manager *fman)
+ 
+ 	needs_rerun = vmw_fence_goal_new_locked(fman, seqno);
+ 	if (unlikely(needs_rerun)) {
+-		new_seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
++		new_seqno = vmw_fifo_mem_read(fman->dev_priv, SVGA_FIFO_FENCE);
+ 		if (new_seqno != seqno) {
+ 			seqno = new_seqno;
+ 			goto rerun;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+index a95156fc5db7..4674bc1c32f0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+@@ -38,7 +38,6 @@ struct vmw_temp_set_context {
+ 
+ bool vmw_fifo_have_3d(struct vmw_private *dev_priv)
+ {
+-	u32 *fifo_mem = dev_priv->mmio_virt;
+ 	uint32_t fifo_min, hwversion;
+ 	const struct vmw_fifo_state *fifo = &dev_priv->fifo;
+ 
+@@ -62,11 +61,11 @@ bool vmw_fifo_have_3d(struct vmw_private *dev_priv)
+ 	if (!(dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO))
+ 		return false;
+ 
+-	fifo_min = vmw_mmio_read(fifo_mem  + SVGA_FIFO_MIN);
++	fifo_min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
+ 	if (fifo_min <= SVGA_FIFO_3D_HWVERSION * sizeof(unsigned int))
+ 		return false;
+ 
+-	hwversion = vmw_mmio_read(fifo_mem +
++	hwversion = vmw_fifo_mem_read(dev_priv,
+ 				  ((fifo->capabilities &
+ 				    SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
+ 				   SVGA_FIFO_3D_HWVERSION_REVISED :
+@@ -87,13 +86,12 @@ bool vmw_fifo_have_3d(struct vmw_private *dev_priv)
+ 
+ bool vmw_fifo_have_pitchlock(struct vmw_private *dev_priv)
+ {
+-	u32  *fifo_mem = dev_priv->mmio_virt;
+ 	uint32_t caps;
+ 
+ 	if (!(dev_priv->capabilities & SVGA_CAP_EXTENDED_FIFO))
+ 		return false;
+ 
+-	caps = vmw_mmio_read(fifo_mem + SVGA_FIFO_CAPABILITIES);
++	caps = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CAPABILITIES);
+ 	if (caps & SVGA_FIFO_CAP_PITCHLOCK)
+ 		return true;
+ 
+@@ -102,7 +100,6 @@ bool vmw_fifo_have_pitchlock(struct vmw_private *dev_priv)
+ 
+ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ {
+-	u32  *fifo_mem = dev_priv->mmio_virt;
+ 	uint32_t max;
+ 	uint32_t min;
+ 
+@@ -139,19 +136,19 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 	if (min < PAGE_SIZE)
+ 		min = PAGE_SIZE;
+ 
+-	vmw_mmio_write(min, fifo_mem + SVGA_FIFO_MIN);
+-	vmw_mmio_write(dev_priv->mmio_size, fifo_mem + SVGA_FIFO_MAX);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_MIN, min);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_MAX, dev_priv->fifo_mem_size);
+ 	wmb();
+-	vmw_mmio_write(min,  fifo_mem + SVGA_FIFO_NEXT_CMD);
+-	vmw_mmio_write(min,  fifo_mem + SVGA_FIFO_STOP);
+-	vmw_mmio_write(0, fifo_mem + SVGA_FIFO_BUSY);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_NEXT_CMD, min);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_STOP, min);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_BUSY, 0);
+ 	mb();
+ 
+ 	vmw_write(dev_priv, SVGA_REG_CONFIG_DONE, 1);
+ 
+-	max = vmw_mmio_read(fifo_mem + SVGA_FIFO_MAX);
+-	min = vmw_mmio_read(fifo_mem  + SVGA_FIFO_MIN);
+-	fifo->capabilities = vmw_mmio_read(fifo_mem + SVGA_FIFO_CAPABILITIES);
++	max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
++	min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
++	fifo->capabilities = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CAPABILITIES);
+ 
+ 	DRM_INFO("Fifo max 0x%08x min 0x%08x cap 0x%08x\n",
+ 		 (unsigned int) max,
+@@ -159,7 +156,7 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 		 (unsigned int) fifo->capabilities);
+ 
+ 	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
+-	vmw_mmio_write(dev_priv->last_read_seqno, fifo_mem + SVGA_FIFO_FENCE);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, dev_priv->last_read_seqno);
+ 	vmw_marker_queue_init(&fifo->marker_queue);
+ 
+ 	return 0;
+@@ -167,7 +164,7 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 
+ void vmw_fifo_ping_host(struct vmw_private *dev_priv, uint32_t reason)
+ {
+-	u32 *fifo_mem = dev_priv->mmio_virt;
++	u32 *fifo_mem = dev_priv->fifo_mem;
+ 
+ 	if (cmpxchg(fifo_mem + SVGA_FIFO_BUSY, 0, 1) == 0)
+ 		vmw_write(dev_priv, SVGA_REG_SYNC, reason);
+@@ -175,13 +172,11 @@ void vmw_fifo_ping_host(struct vmw_private *dev_priv, uint32_t reason)
+ 
+ void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ {
+-	u32  *fifo_mem = dev_priv->mmio_virt;
+-
+ 	vmw_write(dev_priv, SVGA_REG_SYNC, SVGA_SYNC_GENERIC);
+ 	while (vmw_read(dev_priv, SVGA_REG_BUSY) != 0)
+ 		;
+ 
+-	dev_priv->last_read_seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
++	dev_priv->last_read_seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
+ 
+ 	vmw_write(dev_priv, SVGA_REG_CONFIG_DONE,
+ 		  dev_priv->config_done_state);
+@@ -205,11 +200,10 @@ void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 
+ static bool vmw_fifo_is_full(struct vmw_private *dev_priv, uint32_t bytes)
+ {
+-	u32  *fifo_mem = dev_priv->mmio_virt;
+-	uint32_t max = vmw_mmio_read(fifo_mem + SVGA_FIFO_MAX);
+-	uint32_t next_cmd = vmw_mmio_read(fifo_mem + SVGA_FIFO_NEXT_CMD);
+-	uint32_t min = vmw_mmio_read(fifo_mem + SVGA_FIFO_MIN);
+-	uint32_t stop = vmw_mmio_read(fifo_mem + SVGA_FIFO_STOP);
++	uint32_t max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
++	uint32_t next_cmd = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_NEXT_CMD);
++	uint32_t min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
++	uint32_t stop = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_STOP);
+ 
+ 	return ((max - next_cmd) + (stop - min) <= bytes);
+ }
+@@ -298,7 +292,7 @@ static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
+ 				    uint32_t bytes)
+ {
+ 	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
+-	u32  *fifo_mem = dev_priv->mmio_virt;
++	u32  *fifo_mem = dev_priv->fifo_mem;
+ 	uint32_t max;
+ 	uint32_t min;
+ 	uint32_t next_cmd;
+@@ -306,9 +300,9 @@ static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
  	int ret;
  
- 	event = kzalloc(sizeof(*event), GFP_KERNEL);
+ 	mutex_lock(&fifo_state->fifo_mutex);
+-	max = vmw_mmio_read(fifo_mem + SVGA_FIFO_MAX);
+-	min = vmw_mmio_read(fifo_mem + SVGA_FIFO_MIN);
+-	next_cmd = vmw_mmio_read(fifo_mem + SVGA_FIFO_NEXT_CMD);
++	max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
++	min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
++	next_cmd = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_NEXT_CMD);
+ 
+ 	if (unlikely(bytes >= (max - min)))
+ 		goto out_err;
+@@ -319,7 +313,7 @@ static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
+ 	fifo_state->reserved_size = bytes;
+ 
+ 	while (1) {
+-		uint32_t stop = vmw_mmio_read(fifo_mem + SVGA_FIFO_STOP);
++		uint32_t stop = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_STOP);
+ 		bool need_bounce = false;
+ 		bool reserve_in_place = false;
+ 
+@@ -353,8 +347,9 @@ static void *vmw_local_fifo_reserve(struct vmw_private *dev_priv,
+ 				fifo_state->using_bounce_buffer = false;
+ 
+ 				if (reserveable)
+-					vmw_mmio_write(bytes, fifo_mem +
+-						       SVGA_FIFO_RESERVED);
++					vmw_fifo_mem_write(dev_priv,
++							   SVGA_FIFO_RESERVED,
++							   bytes);
+ 				return (void __force *) (fifo_mem +
+ 							 (next_cmd >> 2));
+ 			} else {
+@@ -402,10 +397,11 @@ void *vmw_fifo_reserve_dx(struct vmw_private *dev_priv, uint32_t bytes,
+ }
+ 
+ static void vmw_fifo_res_copy(struct vmw_fifo_state *fifo_state,
+-			      u32  *fifo_mem,
++			      struct vmw_private *vmw,
+ 			      uint32_t next_cmd,
+ 			      uint32_t max, uint32_t min, uint32_t bytes)
+ {
++	u32 *fifo_mem = vmw->fifo_mem;
+ 	uint32_t chunk_size = max - next_cmd;
+ 	uint32_t rest;
+ 	uint32_t *buffer = (fifo_state->dynamic_buffer != NULL) ?
+@@ -414,7 +410,7 @@ static void vmw_fifo_res_copy(struct vmw_fifo_state *fifo_state,
+ 	if (bytes < chunk_size)
+ 		chunk_size = bytes;
+ 
+-	vmw_mmio_write(bytes, fifo_mem + SVGA_FIFO_RESERVED);
++	vmw_fifo_mem_write(vmw, SVGA_FIFO_RESERVED, bytes);
+ 	mb();
+ 	memcpy(fifo_mem + (next_cmd >> 2), buffer, chunk_size);
+ 	rest = bytes - chunk_size;
+@@ -423,7 +419,7 @@ static void vmw_fifo_res_copy(struct vmw_fifo_state *fifo_state,
+ }
+ 
+ static void vmw_fifo_slow_copy(struct vmw_fifo_state *fifo_state,
+-			       u32  *fifo_mem,
++			       struct vmw_private *vmw,
+ 			       uint32_t next_cmd,
+ 			       uint32_t max, uint32_t min, uint32_t bytes)
+ {
+@@ -431,12 +427,12 @@ static void vmw_fifo_slow_copy(struct vmw_fifo_state *fifo_state,
+ 	    fifo_state->dynamic_buffer : fifo_state->static_buffer;
+ 
+ 	while (bytes > 0) {
+-		vmw_mmio_write(*buffer++, fifo_mem + (next_cmd >> 2));
++		vmw_fifo_mem_write(vmw, (next_cmd >> 2), *buffer++);
+ 		next_cmd += sizeof(uint32_t);
+ 		if (unlikely(next_cmd == max))
+ 			next_cmd = min;
+ 		mb();
+-		vmw_mmio_write(next_cmd, fifo_mem + SVGA_FIFO_NEXT_CMD);
++		vmw_fifo_mem_write(vmw, SVGA_FIFO_NEXT_CMD, next_cmd);
+ 		mb();
+ 		bytes -= sizeof(uint32_t);
+ 	}
+@@ -445,10 +441,9 @@ static void vmw_fifo_slow_copy(struct vmw_fifo_state *fifo_state,
+ static void vmw_local_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes)
+ {
+ 	struct vmw_fifo_state *fifo_state = &dev_priv->fifo;
+-	u32  *fifo_mem = dev_priv->mmio_virt;
+-	uint32_t next_cmd = vmw_mmio_read(fifo_mem + SVGA_FIFO_NEXT_CMD);
+-	uint32_t max = vmw_mmio_read(fifo_mem + SVGA_FIFO_MAX);
+-	uint32_t min = vmw_mmio_read(fifo_mem + SVGA_FIFO_MIN);
++	uint32_t next_cmd = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_NEXT_CMD);
++	uint32_t max = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MAX);
++	uint32_t min = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_MIN);
+ 	bool reserveable = fifo_state->capabilities & SVGA_FIFO_CAP_RESERVE;
+ 
+ 	if (fifo_state->dx)
+@@ -462,10 +457,10 @@ static void vmw_local_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes)
+ 
+ 	if (fifo_state->using_bounce_buffer) {
+ 		if (reserveable)
+-			vmw_fifo_res_copy(fifo_state, fifo_mem,
++			vmw_fifo_res_copy(fifo_state, dev_priv,
+ 					  next_cmd, max, min, bytes);
+ 		else
+-			vmw_fifo_slow_copy(fifo_state, fifo_mem,
++			vmw_fifo_slow_copy(fifo_state, dev_priv,
+ 					   next_cmd, max, min, bytes);
+ 
+ 		if (fifo_state->dynamic_buffer) {
+@@ -481,11 +476,11 @@ static void vmw_local_fifo_commit(struct vmw_private *dev_priv, uint32_t bytes)
+ 		if (next_cmd >= max)
+ 			next_cmd -= max - min;
+ 		mb();
+-		vmw_mmio_write(next_cmd, fifo_mem + SVGA_FIFO_NEXT_CMD);
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_NEXT_CMD, next_cmd);
+ 	}
+ 
+ 	if (reserveable)
+-		vmw_mmio_write(0, fifo_mem + SVGA_FIFO_RESERVED);
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_RESERVED, 0);
+ 	mb();
+ 	up_write(&fifo_state->rwsem);
+ 	vmw_fifo_ping_host(dev_priv, SVGA_SYNC_GENERIC);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+index f681b7b4df1b..c21a841dfc6d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+@@ -67,7 +67,6 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 		break;
+ 	case DRM_VMW_PARAM_FIFO_HW_VERSION:
+ 	{
+-		u32 *fifo_mem = dev_priv->mmio_virt;
+ 		const struct vmw_fifo_state *fifo = &dev_priv->fifo;
+ 
+ 		if ((dev_priv->capabilities & SVGA_CAP_GBOBJECTS)) {
+@@ -76,11 +75,11 @@ int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+ 		}
+ 
+ 		param->value =
+-			vmw_mmio_read(fifo_mem +
+-				      ((fifo->capabilities &
+-					SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
+-				       SVGA_FIFO_3D_HWVERSION_REVISED :
+-				       SVGA_FIFO_3D_HWVERSION));
++			vmw_fifo_mem_read(dev_priv,
++					  ((fifo->capabilities &
++					    SVGA_FIFO_CAP_3D_HWVERSION_REVISED) ?
++						   SVGA_FIFO_3D_HWVERSION_REVISED :
++						   SVGA_FIFO_3D_HWVERSION));
+ 		break;
+ 	}
+ 	case DRM_VMW_PARAM_MAX_SURF_MEMORY:
+@@ -235,7 +234,7 @@ int vmw_get_cap_3d_ioctl(struct drm_device *dev, void *data,
+ 		if (unlikely(ret != 0))
+ 			goto out_err;
+ 	} else {
+-		fifo_mem = dev_priv->mmio_virt;
++		fifo_mem = dev_priv->fifo_mem;
+ 		memcpy(bounce, &fifo_mem[SVGA_FIFO_3D_CAPS], size);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+index 75f3efee21a4..c62bbe1d2eb6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+@@ -117,8 +117,7 @@ static bool vmw_fifo_idle(struct vmw_private *dev_priv, uint32_t seqno)
+ void vmw_update_seqno(struct vmw_private *dev_priv,
+ 			 struct vmw_fifo_state *fifo_state)
+ {
+-	u32 *fifo_mem = dev_priv->mmio_virt;
+-	uint32_t seqno = vmw_mmio_read(fifo_mem + SVGA_FIFO_FENCE);
++	uint32_t seqno = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_FENCE);
+ 
+ 	if (dev_priv->last_read_seqno != seqno) {
+ 		dev_priv->last_read_seqno = seqno;
+@@ -222,11 +221,9 @@ int vmw_fallback_wait(struct vmw_private *dev_priv,
+ 		}
+ 	}
+ 	finish_wait(&dev_priv->fence_queue, &__wait);
+-	if (ret == 0 && fifo_idle) {
+-		u32 *fifo_mem = dev_priv->mmio_virt;
++	if (ret == 0 && fifo_idle)
++		vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, signal_seq);
+ 
+-		vmw_mmio_write(signal_seq, fifo_mem + SVGA_FIFO_FENCE);
+-	}
+ 	wake_up_all(&dev_priv->fence_queue);
+ out_err:
+ 	if (fifo_idle)
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 7dc96125e5c2..b5f60dcebdf9 100644
+index b5f60dcebdf9..bd8f7322f1eb 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -236,7 +236,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
-  */
- void vmw_kms_legacy_hotspot_clear(struct vmw_private *dev_priv)
+@@ -128,15 +128,14 @@ static int vmw_cursor_update_bo(struct vmw_private *dev_priv,
+ static void vmw_cursor_update_position(struct vmw_private *dev_priv,
+ 				       bool show, int x, int y)
  {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_display_unit *du;
- 	struct drm_crtc *crtc;
+-	u32 *fifo_mem = dev_priv->mmio_virt;
+ 	uint32_t count;
  
-@@ -252,7 +252,7 @@ void vmw_kms_legacy_hotspot_clear(struct vmw_private *dev_priv)
- 
- void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_display_unit *du;
- 	struct drm_crtc *crtc;
- 
-@@ -891,7 +891,7 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
- 					   bool is_bo_proxy)
- 
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_framebuffer_surface *vfbs;
- 	enum SVGA3dSurfaceFormat format;
- 	int ret;
-@@ -1003,11 +1003,11 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
- 	struct drm_clip_rect norect;
- 	int ret, increment = 1;
- 
--	drm_modeset_lock_all(dev_priv->dev);
-+	drm_modeset_lock_all(&dev_priv->drm);
- 
- 	ret = ttm_read_lock(&dev_priv->reservation_sem, true);
- 	if (unlikely(ret != 0)) {
--		drm_modeset_unlock_all(dev_priv->dev);
-+		drm_modeset_unlock_all(&dev_priv->drm);
- 		return ret;
- 	}
- 
-@@ -1036,7 +1036,7 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
- 	vmw_fifo_flush(dev_priv, false);
- 	ttm_read_unlock(&dev_priv->reservation_sem);
- 
--	drm_modeset_unlock_all(dev_priv->dev);
-+	drm_modeset_unlock_all(&dev_priv->drm);
- 
- 	return ret;
+ 	spin_lock(&dev_priv->cursor_lock);
+-	vmw_mmio_write(show ? 1 : 0, fifo_mem + SVGA_FIFO_CURSOR_ON);
+-	vmw_mmio_write(x, fifo_mem + SVGA_FIFO_CURSOR_X);
+-	vmw_mmio_write(y, fifo_mem + SVGA_FIFO_CURSOR_Y);
+-	count = vmw_mmio_read(fifo_mem + SVGA_FIFO_CURSOR_COUNT);
+-	vmw_mmio_write(++count, fifo_mem + SVGA_FIFO_CURSOR_COUNT);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_ON, show ? 1 : 0);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_X, x);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_Y, y);
++	count = vmw_fifo_mem_read(dev_priv, SVGA_FIFO_CURSOR_COUNT);
++	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_CURSOR_COUNT, ++count);
+ 	spin_unlock(&dev_priv->cursor_lock);
  }
-@@ -1213,7 +1213,7 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
- 				      *mode_cmd)
  
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_framebuffer_bo *vfbd;
- 	unsigned int requested_size;
- 	struct drm_format_name_buf format_name;
-@@ -1319,7 +1319,7 @@ vmw_kms_new_framebuffer(struct vmw_private *dev_priv,
- 	    bo && only_2d &&
- 	    mode_cmd->width > 64 &&  /* Don't create a proxy for cursor */
- 	    dev_priv->active_display_unit == vmw_du_screen_target) {
--		ret = vmw_create_bo_proxy(dev_priv->dev, mode_cmd,
-+		ret = vmw_create_bo_proxy(&dev_priv->drm, mode_cmd,
- 					  bo, &surface);
- 		if (ret)
- 			return ERR_PTR(ret);
-@@ -1780,7 +1780,7 @@ vmw_kms_create_hotplug_mode_update_property(struct vmw_private *dev_priv)
- 		return;
- 
- 	dev_priv->hotplug_mode_update_property =
--		drm_property_create_range(dev_priv->dev,
-+		drm_property_create_range(&dev_priv->drm,
- 					  DRM_MODE_PROP_IMMUTABLE,
- 					  "hotplug_mode_update", 0, 1);
- 
-@@ -1791,7 +1791,7 @@ vmw_kms_create_hotplug_mode_update_property(struct vmw_private *dev_priv)
- 
- int vmw_kms_init(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	int ret;
- 
- 	drm_mode_config_init(dev);
-@@ -1823,7 +1823,7 @@ int vmw_kms_close(struct vmw_private *dev_priv)
- 	 * but since it destroys encoders and our destructor calls
- 	 * drm_encoder_cleanup which takes the lock we deadlock.
- 	 */
--	drm_mode_config_cleanup(dev_priv->dev);
-+	drm_mode_config_cleanup(&dev_priv->drm);
- 	if (dev_priv->active_display_unit == vmw_du_legacy)
- 		ret = vmw_kms_ldu_close_display(dev_priv);
- 
-@@ -1934,7 +1934,7 @@ void vmw_disable_vblank(struct drm_crtc *crtc)
- static int vmw_du_update_layout(struct vmw_private *dev_priv,
- 				unsigned int num_rects, struct drm_rect *rects)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct vmw_display_unit *du;
- 	struct drm_connector *con;
- 	struct drm_connector_list_iter conn_iter;
-@@ -2366,7 +2366,7 @@ int vmw_kms_helper_dirty(struct vmw_private *dev_priv,
- 	if (dirty->crtc) {
- 		units[num_units++] = vmw_crtc_to_du(dirty->crtc);
- 	} else {
--		list_for_each_entry(crtc, &dev_priv->dev->mode_config.crtc_list,
-+		list_for_each_entry(crtc, &dev_priv->drm.mode_config.crtc_list,
- 				    head) {
- 			struct drm_plane *plane = crtc->primary;
- 
-@@ -2568,8 +2568,8 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
- 	int i = 0;
- 	int ret = 0;
- 
--	mutex_lock(&dev_priv->dev->mode_config.mutex);
--	list_for_each_entry(con, &dev_priv->dev->mode_config.connector_list,
-+	mutex_lock(&dev_priv->drm.mode_config.mutex);
-+	list_for_each_entry(con, &dev_priv->drm.mode_config.connector_list,
- 			    head) {
- 		if (i == unit)
- 			break;
-@@ -2577,7 +2577,7 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
- 		++i;
- 	}
- 
--	if (&con->head == &dev_priv->dev->mode_config.connector_list) {
-+	if (&con->head == &dev_priv->drm.mode_config.connector_list) {
- 		DRM_ERROR("Could not find initial display unit.\n");
- 		ret = -EINVAL;
- 		goto out_unlock;
-@@ -2611,7 +2611,7 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
- 	}
- 
-  out_unlock:
--	mutex_unlock(&dev_priv->dev->mode_config.mutex);
-+	mutex_unlock(&dev_priv->drm.mode_config.mutex);
- 
- 	return ret;
- }
-@@ -2631,7 +2631,7 @@ vmw_kms_create_implicit_placement_property(struct vmw_private *dev_priv)
- 		return;
- 
- 	dev_priv->implicit_placement_property =
--		drm_property_create_range(dev_priv->dev,
-+		drm_property_create_range(&dev_priv->drm,
- 					  DRM_MODE_PROP_IMMUTABLE,
- 					  "implicit_placement", 0, 1);
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index 9d1de5b5cc6a..6586e58240ca 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -355,7 +355,7 @@ static const struct drm_crtc_helper_funcs vmw_ldu_crtc_helper_funcs = {
- static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- {
- 	struct vmw_legacy_display_unit *ldu;
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_plane *primary, *cursor;
-@@ -479,7 +479,7 @@ static int vmw_ldu_init(struct vmw_private *dev_priv, unsigned unit)
- 
- int vmw_kms_ldu_init_display(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	int i, ret;
- 
- 	if (dev_priv->ldu_priv) {
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-index 4bdad2f2d130..ff803850ee20 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-@@ -829,7 +829,7 @@ static const struct drm_crtc_helper_funcs vmw_sou_crtc_helper_funcs = {
- static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
- {
- 	struct vmw_screen_object_unit *sou;
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_plane *primary, *cursor;
-@@ -946,7 +946,7 @@ static int vmw_sou_init(struct vmw_private *dev_priv, unsigned unit)
- 
- int vmw_kms_sou_init_display(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	int i, ret;
- 
- 	if (!(dev_priv->capabilities & SVGA_CAP_SCREEN_OBJECT_2)) {
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index 27ab2c50312b..d0d40da3e4e4 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -1713,7 +1713,7 @@ static const struct drm_crtc_helper_funcs vmw_stdu_crtc_helper_funcs = {
- static int vmw_stdu_init(struct vmw_private *dev_priv, unsigned unit)
- {
- 	struct vmw_screen_target_display_unit *stdu;
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_plane *primary, *cursor;
-@@ -1861,7 +1861,7 @@ static void vmw_stdu_destroy(struct vmw_screen_target_display_unit *stdu)
-  */
- int vmw_kms_stdu_init_display(struct vmw_private *dev_priv)
- {
--	struct drm_device *dev = dev_priv->dev;
-+	struct drm_device *dev = &dev_priv->drm;
- 	int i, ret;
- 
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index 1c75f73538c0..dbb068830d80 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -309,7 +309,7 @@ void vmw_piter_start(struct vmw_piter *viter, const struct vmw_sg_table *vsgt,
-  */
- static void vmw_ttm_unmap_from_dma(struct vmw_ttm_tt *vmw_tt)
- {
--	struct device *dev = vmw_tt->dev_priv->dev->dev;
-+	struct device *dev = vmw_tt->dev_priv->drm.dev;
- 
- 	dma_unmap_sgtable(dev, &vmw_tt->sgt, DMA_BIDIRECTIONAL, 0);
- 	vmw_tt->sgt.nents = vmw_tt->sgt.orig_nents;
-@@ -330,7 +330,7 @@ static void vmw_ttm_unmap_from_dma(struct vmw_ttm_tt *vmw_tt)
-  */
- static int vmw_ttm_map_for_dma(struct vmw_ttm_tt *vmw_tt)
- {
--	struct device *dev = vmw_tt->dev_priv->dev->dev;
-+	struct device *dev = vmw_tt->dev_priv->drm.dev;
- 
- 	return dma_map_sgtable(dev, &vmw_tt->sgt, DMA_BIDIRECTIONAL, 0);
- }
-@@ -385,7 +385,7 @@ static int vmw_ttm_map_dma(struct vmw_ttm_tt *vmw_tt)
- 		sg = __sg_alloc_table_from_pages(&vmw_tt->sgt, vsgt->pages,
- 				vsgt->num_pages, 0,
- 				(unsigned long) vsgt->num_pages << PAGE_SHIFT,
--				dma_get_max_seg_size(dev_priv->dev->dev),
-+				dma_get_max_seg_size(dev_priv->drm.dev),
- 				NULL, 0, GFP_KERNEL);
- 		if (IS_ERR(sg)) {
- 			ret = PTR_ERR(sg);
+@@ -1876,8 +1875,7 @@ int vmw_kms_write_svga(struct vmw_private *vmw_priv,
+ 	if (vmw_priv->capabilities & SVGA_CAP_PITCHLOCK)
+ 		vmw_write(vmw_priv, SVGA_REG_PITCHLOCK, pitch);
+ 	else if (vmw_fifo_have_pitchlock(vmw_priv))
+-		vmw_mmio_write(pitch, vmw_priv->mmio_virt +
+-			       SVGA_FIFO_PITCHLOCK);
++		vmw_fifo_mem_write(vmw_priv, SVGA_FIFO_PITCHLOCK, pitch);
+ 	vmw_write(vmw_priv, SVGA_REG_WIDTH, width);
+ 	vmw_write(vmw_priv, SVGA_REG_HEIGHT, height);
+ 	vmw_write(vmw_priv, SVGA_REG_BITS_PER_PIXEL, bpp);
 -- 
 2.27.0
 
