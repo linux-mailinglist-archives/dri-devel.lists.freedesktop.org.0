@@ -1,36 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30EDC2F52FC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:03:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0952F530D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 20:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 963436EC02;
-	Wed, 13 Jan 2021 19:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F28F6EC05;
+	Wed, 13 Jan 2021 19:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54EBC6EC08
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:03:45 +0000 (UTC)
-Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Wed, 13 Jan 2021 11:03:41 -0800
-Received: from vertex.vmware.com (unknown [10.21.245.145])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 53CB5202ED;
- Wed, 13 Jan 2021 11:03:44 -0800 (PST)
-From: Zack Rusin <zackr@vmware.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 8/8] drm/vmwgfx: Fix display register usage for some older
- configs
-Date: Wed, 13 Jan 2021 14:03:38 -0500
-Message-ID: <20210113190338.292507-9-zackr@vmware.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210113190338.292507-1-zackr@vmware.com>
-References: <20210113190338.292507-1-zackr@vmware.com>
-MIME-Version: 1.0
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
- designate permitted sender hosts)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 833306EC05
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:08:59 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.194]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MkYsS-1kE66E3h8g-00lz2n; Wed, 13 Jan 2021 20:08:52 +0100
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Eric Anholt <eric@anholt.net>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH V4] dt-bindings: gpu: Convert v3d to json-schema
+Date: Wed, 13 Jan 2021 20:08:37 +0100
+Message-Id: <1610564917-11559-1-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+X-Provags-ID: V03:K1:iHvA9Y/sB5q3WE1S3ZUJR6kCt5z001K1LzszE2traPHzBDwN8BE
+ 6bwgVNJbRU2K0lQU2VS++uKV3eicxZ1xaCVXUOU4BUD9dbxIRDTNjlseMq55oTUluxoMb1J
+ q4/HKXYCUuHLFv38WXdgvfQUFZAZHscbsrxbZ6Mzqab0FHdRgY05TgN7b1e6yAtNoO8xcvc
+ XwXQmnjZZcUOLeF2cWRsw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dF6IekFQiwQ=:9ggfLAcmRmpENItzBhDCKM
+ LPzM6KcdMpvcJeutsCfIGyIMWcN9CoYP3czAIq9nl+bQP2XoetA/H0WxFiNT9VkznqOn17d9+
+ KcfLFvIpBbNAoGx69OBk+9s1mkI4/zj+B3h4HCO8ylebKguQcwtAbFUOX5EKZm6Dlrd4orPQF
+ 9DMtIS6deh3i4vz9KfAvegMtifWDsou40VebMmZMecGCHk08v4MtU9mGW2+TXpExCvEmWH160
+ rJ2tqXiZT5B4D7uHkJPtEO+fPhaNAkp/Oh2jMSLet6ub/Q7+wde9UnQfIuuNeyqZYiKC+yenT
+ SyrvdX+Nkd2fs3QqylFl+Ml5+QphdKkYTgS+DSajI5HwyH2liIwTmgpaiw9B3XsCIxxypbIxv
+ AAIoqAXMr1p27oi3IigEmCxkuM7t+87h9TaOKniwD7UZPvUmTK8on5P3SkYuAUjuUAsTr282g
+ 4x8OKWR1og==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,55 +49,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can't be setting the display_id register to an invalid value
-because that makes our device reset the fb which causes nasty
-flicker (due to destruction and creation of a new fb).
-Also we can't be using the BITS_PER_PIXEL register if the
-8BIT_EMULATION is not supported.
+This converts the v3d bindings to yaml format.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 3 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index f2a9188d0b7d..9a89f658e501 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1875,7 +1875,8 @@ int vmw_kms_write_svga(struct vmw_private *vmw_priv,
- 		vmw_fifo_mem_write(vmw_priv, SVGA_FIFO_PITCHLOCK, pitch);
- 	vmw_write(vmw_priv, SVGA_REG_WIDTH, width);
- 	vmw_write(vmw_priv, SVGA_REG_HEIGHT, height);
--	vmw_write(vmw_priv, SVGA_REG_BITS_PER_PIXEL, bpp);
-+	if ((vmw_priv->capabilities & SVGA_CAP_8BIT_EMULATION) != 0)
-+		vmw_write(vmw_priv, SVGA_REG_BITS_PER_PIXEL, bpp);
- 
- 	if (vmw_read(vmw_priv, SVGA_REG_DEPTH) != depth) {
- 		DRM_ERROR("Invalid depth %u for %u bpp, host expects %u\n",
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index ac806ae78894..9a9508edbc9e 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -125,7 +125,6 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
- 		vmw_write(dev_priv, SVGA_REG_DISPLAY_POSITION_Y, crtc->y);
- 		vmw_write(dev_priv, SVGA_REG_DISPLAY_WIDTH, crtc->mode.hdisplay);
- 		vmw_write(dev_priv, SVGA_REG_DISPLAY_HEIGHT, crtc->mode.vdisplay);
--		vmw_write(dev_priv, SVGA_REG_DISPLAY_ID, SVGA_ID_INVALID);
- 
- 		i++;
- 	}
+Changes in V4:
+- define order for required reg-names
+- adapt example
+
+Changes in V3:
+- drop redundant maxItems in case we already have items defined
+- fix order of reg-names enum
+- tag required items in description
+- add reg-names to required properties
+- drop clock-names
+
+ .../devicetree/bindings/gpu/brcm,bcm-v3d.txt       | 33 ----------
+ .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 75 ++++++++++++++++++++++
+ 2 files changed, 75 insertions(+), 33 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+ create mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+
+diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+deleted file mode 100644
+index b2df82b..0000000
+--- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Broadcom V3D GPU
+-
+-Only the Broadcom V3D 3.x and newer GPUs are covered by this binding.
+-For V3D 2.x, see brcm,bcm-vc4.txt.
+-
+-Required properties:
+-- compatible:	Should be "brcm,7268-v3d" or "brcm,7278-v3d"
+-- reg:		Physical base addresses and lengths of the register areas
+-- reg-names:	Names for the register areas.  The "hub" and "core0"
+-		  register areas are always required.  The "gca" register area
+-		  is required if the GCA cache controller is present.  The
+-		  "bridge" register area is required if an external reset
+-		  controller is not present.
+-- interrupts:	The interrupt numbers.  The first interrupt is for the hub,
+-		  while the following interrupts are separate interrupt lines
+-		  for the cores (if they don't share the hub's interrupt).
+-		  See bindings/interrupt-controller/interrupts.txt
+-
+-Optional properties:
+-- clocks:	The core clock the unit runs on
+-- resets:	The reset line for v3d, if not using a mapping of the bridge
+-		  See bindings/reset/reset.txt
+-
+-v3d {
+-	compatible = "brcm,7268-v3d";
+-	reg = <0xf1204000 0x100>,
+-	      <0xf1200000 0x4000>,
+-	      <0xf1208000 0x4000>,
+-	      <0xf1204100 0x100>;
+-	reg-names = "bridge", "hub", "core0", "gca";
+-	interrupts = <0 78 4>,
+-		     <0 77 4>;
+-};
+diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+new file mode 100644
+index 0000000..fbce844
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/brcm,bcm-v3d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Broadcom V3D GPU Bindings
++
++maintainers:
++  - Eric Anholt <eric@anholt.net>
++  - Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
++
++properties:
++  $nodename:
++    pattern: '^gpu@[a-f0-9]+$'
++
++  compatible:
++    enum:
++      - brcm,7268-v3d
++      - brcm,7278-v3d
++
++  reg:
++    items:
++      - description: hub register (required)
++      - description: core0 register (required)
++      - description: GCA cache controller register (if GCA controller present)
++      - description: bridge register (if no external reset controller)
++    minItems: 2
++
++  reg-names:
++    items:
++      - const: hub
++      - const: core0
++      - enum: [ bridge, gca ]
++      - enum: [ bridge, gca ]
++    minItems: 2
++    maxItems: 4
++
++  interrupts:
++    items:
++      - description: hub interrupt (required)
++      - description: core interrupts (if it doesn't share the hub's interrupt)
++    minItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    gpu@f1200000 {
++      compatible = "brcm,7268-v3d";
++      reg = <0xf1200000 0x4000>,
++            <0xf1208000 0x4000>,
++            <0xf1204000 0x100>,
++            <0xf1204100 0x100>;
++      reg-names = "hub", "core0", "bridge", "gca";
++      interrupts = <0 78 4>,
++                   <0 77 4>;
++    };
++
++...
 -- 
-2.27.0
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
