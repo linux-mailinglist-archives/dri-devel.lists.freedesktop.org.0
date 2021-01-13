@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9432F5D51
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF592F5D7E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A6D6E10E;
-	Thu, 14 Jan 2021 09:28:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D41966E158;
+	Thu, 14 Jan 2021 09:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439AE6E82B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 16:29:57 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id u11so3196322ljo.13
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 08:29:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2siudaJetlL4FSQZMNVVHzMkL7ELpV6uopIfOVvMWs8=;
- b=l8xop7pH+Setq82fKbZ4EFQTUoHmoBO+t6Pph1Vzjk1CYRrAOcfLtsKkFoL5ddaiW8
- SxVevzBvjl7o4Rha9onDBL5KVYidZ2YAWAk7Z6lQ4fF6s9ZE+x57O1ZW1S2nNhqLXA8v
- 6HQAyjn/UVHjp2GqZAJZLnd+7TtaqiG4wQUpHcfc1dXL4cXmsyLUGxW3tw89IlSTAodI
- aFdfjT3Pz26d2/k9mCgIFIhZ/xAyuAKYDgT/wSf4WTkh9DHVGDITFgx2hewOMH2HIT3F
- 3sLC41ibMjc4jlPswFQ3YAjSDGSZ0BIUVyBNBCIN/yz6uM7NKZlw1sWB+bi+WbDB4PAG
- fDFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2siudaJetlL4FSQZMNVVHzMkL7ELpV6uopIfOVvMWs8=;
- b=XbtaYsYWrnNjsj4z1m+MPZF7411YIP5kVXDwpp4uua8zQveFowj4pkiZNQxtwOOA2F
- hwRCyummtESYmB/K+xLc352gptlKtizlQF4Od7Eq91RJ0X+EUCwwGE/u+0eqIQYDpROX
- etjYImnDxHffpbuChBIT/Thfpaxlyef9draQ259BnT9YCxK1nD/mGu9J+pWaENDcVtJp
- 4gs0yswSIIErjIaaqU2dx9rJpXnDrXoxuR/9ACPSHwoVB7SBK0qEm7UcHjxx814LfjnY
- Mwn5dMpH7N1jJRbQ38nTzZz/mejq74LN8tfP/C9YJoHwR78G50ZmcOL/DurYjcAyhJ86
- 2UKg==
-X-Gm-Message-State: AOAM531Dz9IEnmGqrTwkEWiTZQmZhWlFMbALHBaywnSowG/EY7lRIMnP
- 3Zw3b1CWybRu5w6a84yDB4s=
-X-Google-Smtp-Source: ABdhPJxo5bxVwGtUe+l+R6oDxiDXlb5UzmCR9sb2VRDgxNSPyvKLX/oyuSi47L0DYwnaxTXsky5Ibw==
-X-Received: by 2002:a2e:96c5:: with SMTP id d5mr1275164ljj.321.1610555395703; 
- Wed, 13 Jan 2021 08:29:55 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.googlemail.com with ESMTPSA id b141sm254508lfd.148.2021.01.13.08.29.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 08:29:54 -0800 (PST)
-Subject: Re: [PATCH v5 04/21] gpu: host1x: Remove cancelled waiters immediately
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-5-mperttunen@nvidia.com>
- <1c2c4a31-68a2-c938-fe65-6059d9889126@gmail.com>
- <1f98ce42-dc6b-299c-f55e-f6dd87b99cab@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b0a983a1-6379-1a27-5c8d-05fee58e696a@gmail.com>
-Date: Wed, 13 Jan 2021 19:29:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3937D6EB66
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 17:44:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610559868; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=vOsB4J/79wyZ5M6QDFAE82hn7FsSeNUr4X2jpE2ij1U=;
+ b=phH7FhvgrmERDzbEgtLiriBPRovKwM/xzC5xxzEWpR22bM6IjRRaLTnvm0Ep4nITx250UBxc
+ xyju0RPBqzhH2jolfojEew5jgOFCnZMAtBOJ0g1xyMWCRnMYjABz/ob8Lip2LJYB3rsB/rPD
+ UnHApyi2KJJmBoKVx439nDE9mAE=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5fff317a8fb3cda82f02dacd (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 17:44:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id BD6B2C43463; Wed, 13 Jan 2021 17:44:25 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E9A53C433CA;
+ Wed, 13 Jan 2021 17:44:24 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1f98ce42-dc6b-299c-f55e-f6dd87b99cab@kapsi.fi>
-Content-Language: en-US
+Date: Wed, 13 Jan 2021 09:44:24 -0800
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 1/2] drm/msm/dp: postpone irq_hpd event during connection
+ pending state
+In-Reply-To: <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
+References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
+ <1610051425-20632-2-git-send-email-khsieh@codeaurora.org>
+ <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
+Message-ID: <17a116011ae60194834210a4a0c877b3@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,57 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, sean@poorly.run
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTMuMDEuMjAyMSAwMToyMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gMS8xMy8y
-MSAxMjowNyBBTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAxMS4wMS4yMDIxIDE2OjAwLCBN
-aWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4+IC12b2lkIGhvc3QxeF9pbnRyX3B1dF9yZWYo
-c3RydWN0IGhvc3QxeCAqaG9zdCwgdW5zaWduZWQgaW50IGlkLCB2b2lkCj4+PiAqcmVmKQo+Pj4g
-K3ZvaWQgaG9zdDF4X2ludHJfcHV0X3JlZihzdHJ1Y3QgaG9zdDF4ICpob3N0LCB1bnNpZ25lZCBp
-bnQgaWQsIHZvaWQKPj4+ICpyZWYsCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvb2wg
-Zmx1c2gpCj4+PiDCoCB7Cj4+PiDCoMKgwqDCoMKgIHN0cnVjdCBob3N0MXhfd2FpdGxpc3QgKndh
-aXRlciA9IHJlZjsKPj4+IMKgwqDCoMKgwqAgc3RydWN0IGhvc3QxeF9zeW5jcHQgKnN5bmNwdDsK
-Pj4+IMKgIC3CoMKgwqAgd2hpbGUgKGF0b21pY19jbXB4Y2hnKCZ3YWl0ZXItPnN0YXRlLCBXTFNf
-UEVORElORywKPj4+IFdMU19DQU5DRUxMRUQpID09Cj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-V0xTX1JFTU9WRUQpCj4+PiAtwqDCoMKgwqDCoMKgwqAgc2NoZWR1bGUoKTsKPj4+ICvCoMKgwqAg
-YXRvbWljX2NtcHhjaGcoJndhaXRlci0+c3RhdGUsIFdMU19QRU5ESU5HLCBXTFNfQ0FOQ0VMTEVE
-KTsKPj4+IMKgIMKgwqDCoMKgwqAgc3luY3B0ID0gaG9zdC0+c3luY3B0ICsgaWQ7Cj4+PiAtwqDC
-oMKgICh2b2lkKXByb2Nlc3Nfd2FpdF9saXN0KGhvc3QsIHN5bmNwdCwKPj4+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaG9zdDF4X3N5bmNwdF9sb2FkKGhvc3QtPnN5bmNwdCArIGlk
-KSk7Cj4+PiArCj4+PiArwqDCoMKgIHNwaW5fbG9jaygmc3luY3B0LT5pbnRyLmxvY2spOwo+Pj4g
-K8KgwqDCoCBpZiAoYXRvbWljX2NtcHhjaGcoJndhaXRlci0+c3RhdGUsIFdMU19DQU5DRUxMRUQs
-IFdMU19IQU5ETEVEKSA9PQo+Pj4gK8KgwqDCoMKgwqDCoMKgIFdMU19DQU5DRUxMRUQpIHsKPj4+
-ICvCoMKgwqDCoMKgwqDCoCBsaXN0X2RlbCgmd2FpdGVyLT5saXN0KTsKPj4+ICvCoMKgwqDCoMKg
-wqDCoCBrcmVmX3B1dCgmd2FpdGVyLT5yZWZjb3VudCwgd2FpdGVyX3JlbGVhc2UpOwo+Pj4gK8Kg
-wqDCoCB9Cj4+PiArwqDCoMKgIHNwaW5fdW5sb2NrKCZzeW5jcHQtPmludHIubG9jayk7Cj4+PiAr
-Cj4+PiArwqDCoMKgIGlmIChmbHVzaCkgewo+Pj4gK8KgwqDCoMKgwqDCoMKgIC8qIFdhaXQgdW50
-aWwgYW55IGNvbmN1cnJlbnRseSBleGVjdXRpbmcgaGFuZGxlciBoYXMKPj4+IGZpbmlzaGVkLiAq
-Lwo+Pj4gK8KgwqDCoMKgwqDCoMKgIHdoaWxlIChhdG9taWNfcmVhZCgmd2FpdGVyLT5zdGF0ZSkg
-IT0gV0xTX0hBTkRMRUQpCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjcHVfcmVsYXgoKTsK
-Pj4+ICvCoMKgwqAgfQo+Pgo+PiBBIGJ1c3ktbG9vcCBzaG91bGRuJ3QgYmUgdXNlZCBpbiBrZXJu
-ZWwgdW5sZXNzIHRoZXJlIGlzIGEgdmVyeSBnb29kCj4+IHJlYXNvbi4gVGhlIHdhaXRfZXZlbnQo
-KSBzaG91bGQgYmUgdXNlZCBpbnN0ZWFkLgo+Pgo+PiBCdXQgcGxlYXNlIGRvbid0IGh1cnJ5IHRv
-IHVwZGF0ZSB0aGlzIHBhdGNoLCB3ZSBtYXkgbmVlZCBvciB3YW50IHRvCj4+IHJldGlyZSB0aGUg
-aG9zdDF4LXdhaXRlciBhbmQgdGhlbiB0aGVzZSBhbGwgd2FpdGVyLXJlbGF0ZWQgcGF0Y2hlcyB3
-b24ndAo+PiBiZSBuZWVkZWQuCj4+Cj4gCj4gWWVzLCB3ZSBzaG91bGQgaW1wcm92ZSB0aGUgaW50
-ciBjb2RlIHRvIHJlbW92ZSBhbGwgdGhpcyBjb21wbGV4aXR5LiBCdXQKPiBsZXQncyBtZXJnZSB0
-aGlzIGZpcnN0IHRvIGdldCBhIGZ1bmN0aW9uYWwgYmFzZWxpbmUgYW5kIGRvIGxhcmdlciBkZXNp
-Z24KPiBjaGFuZ2VzIGluIGZvbGxvdy11cCBwYXRjaGVzLgo+IAo+IEl0IGlzIGN1bWJlcnNvbWUg
-Zm9yIG1lIHRvIGRldmVsb3AgZnVydGhlciBzZXJpZXMgKG9mIHdoaWNoIEkgaGF2ZQo+IHNldmVy
-YWwgdW5kZXIgd29yayBhbmQgcGxhbm5pbmcpIHdpdGggdGhpcyBiYXNlbGluZSBzZXJpZXMgbm90
-IGJlaW5nCj4gbWVyZ2VkLiBUaGUgdW5jZXJ0YWludHkgb24gdGhlIGFwcHJvdmFsIG9mIHRoZSBV
-QVBJIGRlc2lnbiBhbHNvIG1ha2VzIGl0Cj4gaGFyZCB0byBrbm93IHdoZXRoZXIgaXQgbWFrZXMg
-c2Vuc2UgZm9yIG1lIHRvIHdvcmsgb24gdG9wIG9mIHRoaXMgY29kZQo+IG9yIG5vdCwgc28gSSdk
-IGxpa2UgdG8gZm9jdXMgb24gd2hhdCdzIG5lZWRlZCB0byBnZXQgdGhpcyBtZXJnZWQgaW5zdGVh
-ZAo+IG9mIGZ1cnRoZXIgcmVkZXNpZ24gb2YgdGhlIGRyaXZlciBhdCB0aGlzIHRpbWUuCgpJcyB0
-aGlzIHBhdGNoIChhbmQgc29tZSBvdGhlcnMpIG5lY2Vzc2FyeSBmb3IgdGhlIG5ldyBVQVBJPyBJ
-ZiBub3QsCmNvdWxkIHdlIHBsZWFzZSBuYXJyb3cgZG93biB0aGUgcGF0Y2hlcyB0byB0aGUgbWlu
-aW11bSB0aGF0IGlzIG5lZWRlZApmb3IgdHJ5aW5nIG91dCB0aGUgbmV3IFVBUEk/Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2021-01-11 11:55, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-01-07 12:30:24)
+>> irq_hpd event can only be executed at connected state. Therefore
+>> irq_hpd event should be postponed if it happened at connection
+>> pending state. This patch also make sure both link rate and lane
+> 
+> Why does it happen at connection pending state?
+plug in need two state to complete it.
+advance to connection pending state once link training completed and 
+sent uevent notification to frame work.
+transition to connected state after frame work provided resolution 
+timing and start transmit video panel.
+Therefore irq_hpd should not be handled if it occurred before connected 
+state.
+> 
+>> are valid before start link training.
+> 
+> Can this part about link rate and lane being valid be split off into
+> another patch?
+> 
+ok, i will spilt this patch into two.
+I will merge irq_hpd event part into 2nd patch (drm/msm/dp: unplug 
+interrupt missed after irq_hpd handler).
+
+>> 
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> ---
+> 
+> Any fixes tag?
+> 
+>>  drivers/gpu/drm/msm/dp/dp_display.c |  7 +++++++
+>>  drivers/gpu/drm/msm/dp/dp_panel.c   | 12 +++++++++---
+>>  2 files changed, 16 insertions(+), 3 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 6e971d5..3bc7ed2 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -693,6 +693,13 @@ static int dp_irq_hpd_handle(struct 
+>> dp_display_private *dp, u32 data)
+>>                 return 0;
+>>         }
+>> 
+>> +       if (state == ST_CONNECT_PENDING) {
+>> +               /* wait until ST_CONNECTED */
+>> +               dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 
+>> */
+>> +               mutex_unlock(&dp->event_mutex);
+>> +               return 0;
+>> +       }
+>> +
+>>         ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+>>         if (ret == -ECONNRESET) { /* cable unplugged */
+>>                 dp->core_initialized = false;
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
