@@ -1,33 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8852F4854
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 11:09:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3732F48BA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 11:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D40696E427;
-	Wed, 13 Jan 2021 10:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862616E44B;
+	Wed, 13 Jan 2021 10:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820606E427
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:09:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 21E48AC8F;
- Wed, 13 Jan 2021 10:09:27 +0000 (UTC)
-Subject: Re: [PATCH] drm/hisilicon: Fix build error
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org
-References: <1610529568-25754-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <020abb57-8f15-1908-50e6-cdcd67588f86@suse.de>
-Date: Wed, 13 Jan 2021 11:09:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0698B6E44B;
+ Wed, 13 Jan 2021 10:34:25 +0000 (UTC)
+IronPort-SDR: qyaXFNgrJJA6BrLmdst1bMIbtdNVQrFslEJ0v0hPE/3FyPNJ+ZxSuwxwnv+VL22HsvE29GPzkj
+ q5SlrxZkHD9A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="262970888"
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="262970888"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2021 02:34:17 -0800
+IronPort-SDR: VoDVJ2Kl4wmP9IJ/eHm59zPfEa6T+PlTGS0FAH1DZwVOVqS7lf3Mr4+iwsufjxiquhtlXJxgbq
+ MJjwNiy1QbUA==
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="567812370"
+Received: from unknown (HELO intel.com) ([10.223.74.179])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2021 02:34:14 -0800
+Date: Wed, 13 Jan 2021 15:49:43 +0530
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Disable the QSES check for
+ HDCP 1.4 over MST
+Message-ID: <20210113101942.GK11717@intel.com>
+References: <20210106223909.34476-1-sean@poorly.run>
 MIME-Version: 1.0
-In-Reply-To: <1610529568-25754-1-git-send-email-tiantao6@hisilicon.com>
+Content-Disposition: inline
+In-Reply-To: <20210106223909.34476-1-sean@poorly.run>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,120 +48,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0818602461=="
+Cc: David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0818602461==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XTups1Kf2YVQZcgU5vSmBrPJUfIANkBo5"
+On 2021-01-07 at 04:08:58 +0530, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> The HDCP 1.4 spec does not require the QUERY_STREAM_ENCRYPTION_STATUS
+IMHO DP 1.4 vesa specs I.3.5 mark QSES as desirale for both HDCP 1.4 and HDCP 2.2.
+"The MST Source device may use a QUERY_STREAM_ENCRYPTION_STATUS message
+transaction to query the downstream status for a particular stream."
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XTups1Kf2YVQZcgU5vSmBrPJUfIANkBo5
-Content-Type: multipart/mixed; boundary="sczPSSomHQCyH09BN7ILCRqRSYR6O55RR";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org
-Message-ID: <020abb57-8f15-1908-50e6-cdcd67588f86@suse.de>
-Subject: Re: [PATCH] drm/hisilicon: Fix build error
-References: <1610529568-25754-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1610529568-25754-1-git-send-email-tiantao6@hisilicon.com>
-
---sczPSSomHQCyH09BN7ILCRqRSYR6O55RR
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 13.01.21 um 10:19 schrieb Tian Tao:
-> Fix the following errors:
-> divers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c:
-> In function =E2=80=98hibmc_hw_map=E2=80=99:
-> drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c:213:25:
-> error: =E2=80=98dev=E2=80=99 undeclared (first use in this function);
->=20
-> Fixes: 4d4dad21cc7bee "drm/hibmc: Remove references to struct drm_devic=
-e.pdev"
-
-I think I messed up the rebasing of this patch. Thank you for taking=20
-care. hibmc_ttm.c can be removed. I can take care of this later today.
-
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
+I feel it useful for scenario in which a non hdcp supported monitor
+is hot plugged to MST branch. Source really doesn't know about the hdcp
+capable device on MST branch, it just know the capability of immediate 
+downstream device. QSES can fetch the HDCP capability from MST topology. 
+We don't require to enable stream encryption for such streams. 
+> check, it was always a nice-to-have. After deploying this across various
+> devices, we've determined that some MST bridge chips do not properly
+> support this call for HDCP 1.4 (namely Synaptics and Realtek).
+> 
+> I had considered creating a quirk for this, but I think it's more
+> prudent to just disable the check entirely since I don't have an idea
+> how widespread support is.
+May be we can remove it from the link check and can retain as utility ?
+Thanks,
+Anshuman Gupta.
+> 
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
 > ---
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
-gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 0a2edc7..abd6250 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -210,7 +210,7 @@ static void hibmc_hw_config(struct hibmc_drm_privat=
-e *priv)
->  =20
->   static int hibmc_hw_map(struct hibmc_drm_private *priv)
->   {
-> -	struct pci_dev *pdev =3D dev->pdev;
-> +	struct drm_device *dev =3D &priv->dev;
->   	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->   	resource_size_t addr, size, ioaddr, iosize;
->  =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---sczPSSomHQCyH09BN7ILCRqRSYR6O55RR--
-
---XTups1Kf2YVQZcgU5vSmBrPJUfIANkBo5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/+xtUFAwAAAAAACgkQlh/E3EQov+B4
-vA/+IhwzbEl2hVTpcI2a2Xv8izK4zi0pObEkWMZSojluS4wPigd80oPr8X9SVP8h50EYeY/g948F
-EcbujBjKimC37dXvzuHfoy13jpIoLA37VwHxY/TurygWsptgIL+tzYFOsgJD9SDdplPbvwCnYOXF
-GHGNRP+aQJyoJiFe/S3Xh00V1DaXpdIJHtDq/3KgD1nk1QRpZlBpJyHRWywO1ZQYWE2ahI1UYwv/
-DhXSt2U7brGIv+Om8Dy/GU/huKng4t45CqDuOHwLHO1RI4idB4BEirNzxYDplA7q33jhikdFVmT/
-fgYWFC7ngO/UuOb+orJzz5UvvpOVLqKuCTrydRChjOAAshLj8teQMFzhLP0uWxzvL4MD4idFM3x/
-w1dN302Zhwawg92faocruKgxkqodYy9kNQqviBtcOecJ2M16YSURYn90GfrCQbGxsYW9Vp1IXLH6
-EAPZXD2BU6ff8q/RCwWeSIS3S3CLkn6hZ41tB+gRpWk/WvqZ6KQ/0/1s22v98RzVADRn0dGYIZnq
-VwIi3FVe9onyI8irW+vTOJWnmkjUP11C/hpGbN77VRCF/pjXL6dwBY5WpP9f4D8P6qAmjVQF+0JF
-Y4xvDvNEFEKW2SP1lnjMMRp3CrXQRn1QlUDvnpI4Xg+8IejMANshD+JLxw3BhoI+1TLi0SwILTLC
-sxs=
-=H3bf
------END PGP SIGNATURE-----
-
---XTups1Kf2YVQZcgU5vSmBrPJUfIANkBo5--
-
---===============0818602461==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 26 +-------------------
+>  1 file changed, 1 insertion(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> index 03424d20e9f7..b6a9606bf09a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> @@ -640,30 +640,6 @@ intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+>  	return ret;
+>  }
+>  
+> -static
+> -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+> -				  struct intel_connector *connector)
+> -{
+> -	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> -	struct intel_dp *intel_dp = &dig_port->dp;
+> -	struct drm_dp_query_stream_enc_status_ack_reply reply;
+> -	int ret;
+> -
+> -	if (!intel_dp_hdcp_check_link(dig_port, connector))
+> -		return false;
+> -
+> -	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
+> -						  connector->port, &reply);
+> -	if (ret) {
+> -		drm_dbg_kms(&i915->drm,
+> -			    "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
+> -			    connector->base.base.id, connector->base.name, ret);
+> -		return false;
+> -	}
+> -
+> -	return reply.auth_completed && reply.encryption_enabled;
+> -}
+> -
+>  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+>  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
+>  	.read_bksv = intel_dp_hdcp_read_bksv,
+> @@ -674,7 +650,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+>  	.read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
+>  	.read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
+>  	.toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
+> -	.check_link = intel_dp_mst_hdcp_check_link,
+> +	.check_link = intel_dp_hdcp_check_link,
+>  	.hdcp_capable = intel_dp_hdcp_capable,
+>  
+>  	.protocol = HDCP_PROTOCOL_DP,
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0818602461==--
