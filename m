@@ -2,42 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB6A2F5D75
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BFE2F5D70
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 906FE6E139;
-	Thu, 14 Jan 2021 09:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F32F6E150;
+	Thu, 14 Jan 2021 09:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpweb147.aruba.it (smtpweb147.aruba.it [62.149.158.147])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3474D6EB1A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 16:05:35 +0000 (UTC)
-Received: from ubuntu.localdomain ([146.241.213.249])
- by Aruba Outgoing Smtp  with ESMTPSA
- id zieJkU4CD5BgLzieJkLwdj; Wed, 13 Jan 2021 17:05:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1610553934; bh=vVVA4Opin9OtrAi4JKFF69zz8U3z+kSm0iZZv2AXo0E=;
- h=From:To:Subject:Date:MIME-Version:Content-Type;
- b=C8vaE1KcaPwamF1yndjEovf1ptF5PZIFv4880+ztpTxyOUqEL6AyODRy3kOxy2RZQ
- 6UDgyeQZbNKu55pzl9EbkhywVz14j/ieB8osZYCXdCFgWBE6njH+1L5NCo/NrYhZA1
- HIa8HwoSvclNRLI229zA6euTFtPrmfUCmUVNg3VO/Gy1Cf2ViIohgZcE/NEkmnPde6
- DbSl6NlmCunbP7k9Z9xa2XKKiJkO7eRTFy+i1BfkSf9+YD+9dZzIAoofb+8cX/TpGj
- uPDmAQjpPalMIHuOi1k/6QR5GOxKFlDEw1HwoUBQi2iZZhALZ4xuU1RFcCS27xdoOO
- 8xHuL0wCzTshQ==
-From: Giulio Benetti <giulio.benetti@benettiengineering.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5] drm/sun4i: tcon: fix inverted DCLK polarity
-Date: Wed, 13 Jan 2021 17:05:26 +0100
-Message-Id: <20210113160526.928766-1-giulio.benetti@benettiengineering.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210113104725.770459-1-giulio.benetti@benettiengineering.com>
-References: <20210113104725.770459-1-giulio.benetti@benettiengineering.com>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E926EB1B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 16:11:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 502AFA22;
+ Wed, 13 Jan 2021 11:11:28 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 13 Jan 2021 11:11:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=b3d3UD3T3SVRKYXWvtuLGaC4DpJ
+ MEGRmIS6rLC5g2W4=; b=PvVlBxfHXJcrSYmtch0io3B9Gpk07ASTjkz0P+RTgfR
+ lbM5HSI15BD+ZJjuUa9+SlHfOpbGU8gO/2UPpJ+jauWG2dUAy8GlDbrhf3OzW0hh
+ CqbNc//7bc0BelwF6T8mMbtPfspZTfdb7B1w8YFtMPeIVfcsaU43EPfIKzVv0qkA
+ ITMQZU1Ht6iFO4lFjoFl+zqqbTCva4uEHeDe4ZgVlJKi3Ifi9fPqk817E21EJmq9
+ CZvWdjXhYNVeW3saG6l0tKgH0oqE+CKFCAwklNsC9BJQ+vIof/rErToKlz473B1Z
+ zCvFVhKKJRw/TynJCJ9S4lh277PGH3blkVkLzos15HA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=b3d3UD
+ 3T3SVRKYXWvtuLGaC4DpJMEGRmIS6rLC5g2W4=; b=bDybs4xhjgwU1IbsmjiVFA
+ LN7uQvRroriusWHkiabzqMxFWNFqMzDE7MssHEdC+Xjf74X9rpZuut3cH4jtx4N1
+ 378v6O5NXfpHxV9MxpaEd7VkrWRpFga4YDkTsbYuIsZaCGD7Sh3bBVBEgkQExVeB
+ uASqLdMSUlI76j1zGPO5o9owU4/ZhIZs2YvumzAe5Kq6tpOcyyBavZUr82UcaXlF
+ wqHgBjnukNVKQ+19Bgtas+RhQd6S6LfDGTHULdwPtjk4uZ4lXMoTivIsvGjYw3aI
+ d85dnFQvg5VF5vTpKw8TVRorMzBzuSbqd4p0ZGQuLl3+bIELzVcVZbk2fq7xeYiQ
+ ==
+X-ME-Sender: <xms:rxv_X8TUdVB5AWh4fapYm9fLunJ2ozk_n0-UcjFUGEWhrxJMlMQ1pw>
+ <xme:rxv_X1ytuxxTedt6qy1o7m3_iNBqPALPuODiwqrwegwbO5tbU1FU-jlm2e4PK6KfL
+ L0LC-15TFoj942GjLs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdefgdekhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrje
+ einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+ gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:rxv_X8DIPPXVu9SS8IRy3R0BwVckQw7xp6vljMIc6TG-vFsfGY5x3w>
+ <xmx:rxv_XxHa8cq1M6H7yfGuSA0ti-UN-kuhO-FIF5CRmqFY_MRoYWN5ZQ>
+ <xmx:rxv_XzP0rv90p3296taj_nT9_PxCq-cz9EvUjBlCodNUKDQhf591fg>
+ <xmx:rxv_X7WDCiJA6RgIMGv9yJRM3XAGva89GnBUG8SCYzOEiBxTCMkMyg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id F1E1B240069;
+ Wed, 13 Jan 2021 11:11:26 -0500 (EST)
+Date: Wed, 13 Jan 2021 17:11:24 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Ryutaroh Matsumoto <ryutaroh@ict.e.titech.ac.jp>
+Subject: Re: [PATCH RFT 0/2] drm/vc4: Clear the display list on startup
+Message-ID: <20210113161124.zfqv5hklxlg5qltm@gilmour>
+References: <20210112134730.810697-1-maxime@cerno.tech>
+ <20210112195655.GA16821@xanadu.blop.info>
+ <20210113.095159.2007886149433657238.ryutaroh@ict.e.titech.ac.jp>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfPHjKTt1umdvQBS37mgZ8A8jNdkItS6XleUm2Vrj7oIZQNMEu7RIrkrck8ANEZ/VyNbwxA7UzXqsfIpXinJ0DkgiSQNMcbskc30Ozi0vz1C4EuhPNf+x
- KYwN/yfo/M4iavqbBWlxbgNTvVRq+tUIYvwriIVNE5t+TN10cNw834AkAJyOuD8Gv6ATCu01CMJl7exSUQ3nAYgVSuIahlDchlKLzVoNsKli6Do5frNL4NNz
- EvYK9UcxbeZQXNuNGSVG2OF590S22rW09FnmvR9ydXr1xR1s3fWVUbY0u02a2ncSHC//CxFkKBmUfvXlBTkNvjofH0udhtW+tUJSVN6/0AZ8XBeg+X76hrPd
- vnn94DBkoVVMuJonw4NuSdnMH4fJwapE3LuyPqj6t9BoqJB7qVkp2ZLitTU1gOvHihhPzq6EL2IdPQ0fI+3AJSKAI11ZJL3FHJyIoJ/v3sxsIE+H5weUiWNn
- Zavh592HQNSGNedWDS01T14+9zOjcXDfbrsHg4SIqUciKkx+t30Jl6ntRfNRpewKhK2CVbSf0yWLdKmi4JVm3g9LfBHL8wAS0hsfkQ==
+In-Reply-To: <20210113.095159.2007886149433657238.ryutaroh@ict.e.titech.ac.jp>
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,81 +81,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
- Giulio Benetti <giulio.benetti@micronovasrl.com>,
- Marjan Pascolo <marjan.pascolo@trexom.it>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: lucas@debian.org, dri-devel@lists.freedesktop.org,
+ dave.stevenson@raspberrypi.com
+Content-Type: multipart/mixed; boundary="===============1786137644=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+CgpE
-dXJpbmcgY29tbWl0IDg4YmM0MTc4NTY4YiAoImRybTogVXNlIG5ldwpEUk1fQlVTX0ZMQUdfKl8o
-RFJJVkV8U0FNUExFKV8oUE9TfE5FRylFREdFIGZsYWdzIikgRFJNX0JVU19GTEFHXyoKbWFjcm9z
-IGhhdmUgYmVlbiBjaGFuZ2VkIHRvIGF2b2lkIGFtYmlndWl0eSBidXQganVzdCBiZWNhdXNlIG9m
-IHRoaXMKYW1iaWd1aXR5IHByZXZpb3VzIERSTV9CVVNfRkxBR19QSVhEQVRBXyhQT1MvTkVHKUVE
-R0Ugd2VyZSB1c2VkIG1lYW5pbmcKX1NBTVBMRV8gbm90IF9EUklWRV8uIFRoaXMgbGVhZHMgdG8g
-RExDSyBpbnZlcnNpb24gYW5kIG5lZWQgdG8gZml4IGJ1dAppbnN0ZWFkIG9mIHN3YXBwaW5nIHBo
-YXNlIHZhbHVlcywgbGV0J3MgYWRvcHQgYW4gZWFzaWVyIGFwcHJvYWNoIE1heGltZQpzdWdnZXN0
-ZWQ6Ckl0IHR1cm5lZCBvdXQgdGhhdCBiaXQgMjYgb2YgU1VONElfVENPTjBfSU9fUE9MX1JFRyBp
-cyBkZWRpY2F0ZWQgdG8KaW52ZXJ0IERDTEsgcG9sYXJpdHkgYW5kIHRoaXMgbWFrZXMgdGhpbmdz
-IHJlYWxseSBlYXNpZXIgdGhhbiBiZWZvcmUuIFNvCmxldCdzIGhhbmRsZSBEQ0xLIHBvbGFyaXR5
-IGJ5IGFkZGluZyBTVU40SV9UQ09OMF9JT19QT0xfRENMS19EUklWRV9ORUdFREdFCmFzIGJpdCAy
-NiBhbmQgYWN0aXZhdGluZyBhY2NvcmRpbmcgdG8gYnVzX2ZsYWdzIHRoZSBzYW1lIHdheSBpdCBp
-cyBkb25lCmZvciBhbGwgdGhlIG90aGVyIHNpZ25hbHMgcG9sYXJpdHkuCgpGaXhlczogODhiYzQx
-Nzg1NjhiICgiZHJtOiBVc2UgbmV3IERSTV9CVVNfRkxBR18qXyhEUklWRXxTQU1QTEUpXyhQT1N8
-TkVHKUVER0UgZmxhZ3MiKQpTdWdnZXN0ZWQtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJu
-by50ZWNoPgpTaWduZWQtb2ZmLWJ5OiBHaXVsaW8gQmVuZXR0aSA8Z2l1bGlvLmJlbmV0dGlAbWlj
-cm9ub3Zhc3JsLmNvbT4KLS0tClYyLT5WMzoKLSBzcXVhc2ggMiBwYXRjaGVzIGludG8gMQpWMy0+
-VjQ6Ci0gYWRkIFNVTjRJX1RDT04wX0lPX1BPTF9EQ0xLX1BPU0lUSVZFIHRvIHJlZ21hcF91cGRh
-dGVfYml0cygpClY0LT5WNToKcG9sYXJpdHkgaXMgc3RpbGwgd3Jvbmcgc286Ci0gbGV0J3MgdXNl
-IFNVTjRJX1RDT04wX0lPX1BPTF9EQ0xLX0RSSVZFX05FR0VER0UgbWFjcm8KICBpbnN0ZWFkIG9m
-IF9EQ0xLX1BPU0lUSVZFKHRoYXQgd291bGQgbWFrZSBzZW5zZSBvbmx5IGluIHJlYWx0aW9uIHdp
-dGggRENMSykKLSBpbnZlcnQgY29uZGl0aW9uIHVzaW5nIF9ORUdFREdFIGluc3RlYWQgb2YgX1BP
-U0VER0UgYW5kIHRoZW4gbWF0Y2hpbmcgd2l0aAogIHJlZ2lzdGVyIGJpdCBTVU40SV9UQ09OMF9J
-T19QT0xfRENMS19EUklWRV9ORUdFREdFCi0gY29ycmVjdCBjb21taXQgbG9nIGFjY29yZGluZyB0
-byBWNC0+VjUgY2hhbmdlcwotLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMg
-fCAyMSArKy0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90
-Y29uLmggfCAgMSArCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyBi
-L2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMKaW5kZXggZWFhZjVkNzBlMzUyLi5j
-MTcyY2NmZmY3ZTUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29u
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwpAQCAtNTY5LDMwICs1
-NjksMTMgQEAgc3RhdGljIHZvaWQgc3VuNGlfdGNvbjBfbW9kZV9zZXRfcmdiKHN0cnVjdCBzdW40
-aV90Y29uICp0Y29uLAogCWlmIChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVTX0ZMQUdfREVfTE9X
-KQogCQl2YWwgfD0gU1VONElfVENPTjBfSU9fUE9MX0RFX05FR0FUSVZFOwogCi0JLyoKLQkgKiBP
-biBBMjAgYW5kIHNpbWlsYXIgU29DcywgdGhlIG9ubHkgd2F5IHRvIGFjaGlldmUgUG9zaXRpdmUg
-RWRnZQotCSAqIChSaXNpbmcgRWRnZSksIGlzIHNldHRpbmcgZGNsayBjbG9jayBwaGFzZSB0byAy
-LzMoMjQwwrApLgotCSAqIEJ5IGRlZmF1bHQgVENPTiB3b3JrcyBpbiBOZWdhdGl2ZSBFZGdlKEZh
-bGxpbmcgRWRnZSksCi0JICogdGhpcyBpcyB3aHkgcGhhc2UgaXMgc2V0IHRvIDAgaW4gdGhhdCBj
-YXNlLgotCSAqIFVuZm9ydHVuYXRlbHkgdGhlcmUncyBubyB3YXkgdG8gbG9naWNhbGx5IGludmVy
-dCBkY2xrIHRocm91Z2gKLQkgKiBJT19QT0wgcmVnaXN0ZXIuCi0JICogVGhlIG9ubHkgYWNjZXB0
-YWJsZSB3YXkgdG8gd29yaywgdHJpcGxlIGNoZWNrZWQgd2l0aCBzY29wZSwKLQkgKiBpcyB1c2lu
-ZyBjbG9jayBwaGFzZSBzZXQgdG8gMMKwIGZvciBOZWdhdGl2ZSBFZGdlIGFuZCBzZXQgdG8gMjQw
-wrAKLQkgKiBmb3IgUG9zaXRpdmUgRWRnZS4KLQkgKiBPbiBBMzMgYW5kIHNpbWlsYXIgU29DcyB0
-aGVyZSB3b3VsZCBiZSBhIDkwwrAgcGhhc2Ugb3B0aW9uLAotCSAqIGJ1dCBpdCBkaXZpZGVzIGFs
-c28gZGNsayBieSAyLgotCSAqIEZvbGxvd2luZyBjb2RlIGlzIGEgd2F5IHRvIGF2b2lkIHF1aXJr
-cyBhbGwgYXJvdW5kIFRDT04KLQkgKiBhbmQgRE9UQ0xPQ0sgZHJpdmVycy4KLQkgKi8KLQlpZiAo
-aW5mby0+YnVzX2ZsYWdzICYgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVfUE9TRURHRSkKLQkJ
-Y2xrX3NldF9waGFzZSh0Y29uLT5kY2xrLCAyNDApOwotCiAJaWYgKGluZm8tPmJ1c19mbGFncyAm
-IERSTV9CVVNfRkxBR19QSVhEQVRBX0RSSVZFX05FR0VER0UpCi0JCWNsa19zZXRfcGhhc2UodGNv
-bi0+ZGNsaywgMCk7CisJCXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19EUklWRV9ORUdF
-REdFOwogCiAJcmVnbWFwX3VwZGF0ZV9iaXRzKHRjb24tPnJlZ3MsIFNVTjRJX1RDT04wX0lPX1BP
-TF9SRUcsCiAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfSFNZTkNfUE9TSVRJVkUgfAogCQkJICAg
-U1VONElfVENPTjBfSU9fUE9MX1ZTWU5DX1BPU0lUSVZFIHwKKwkJCSAgIFNVTjRJX1RDT04wX0lP
-X1BPTF9EQ0xLX0RSSVZFX05FR0RHRSB8CiAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfREVfTkVH
-QVRJVkUsCiAJCQkgICB2YWwpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkv
-c3VuNGlfdGNvbi5oIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAppbmRleCBj
-ZmJmNGU2YzE2NzkuLmM1YWMxYjAyNDgyYyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1
-bjRpL3N1bjRpX3Rjb24uaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5o
-CkBAIC0xMTMsNiArMTEzLDcgQEAKICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX1JFRwkJCTB4
-ODgKICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX0RDTEtfUEhBU0UocGhhc2UpCQkoKHBoYXNl
-ICYgMykgPDwgMjgpCiAjZGVmaW5lIFNVTjRJX1RDT04wX0lPX1BPTF9ERV9ORUdBVElWRQkJCUJJ
-VCgyNykKKyNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX0RDTEtfRFJJVkVfTkVHRURHRQkJQklU
-KDI2KQogI2RlZmluZSBTVU40SV9UQ09OMF9JT19QT0xfSFNZTkNfUE9TSVRJVkUJCUJJVCgyNSkK
-ICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX1ZTWU5DX1BPU0lUSVZFCQlCSVQoMjQpCiAKLS0g
-CjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1786137644==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="obq7rx2pv5ck7foe"
+Content-Disposition: inline
+
+
+--obq7rx2pv5ck7foe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Ryutaroh, Lucas,
+
+On Wed, Jan 13, 2021 at 09:51:59AM +0900, Ryutaroh Matsumoto wrote:
+> Hi Lucas,
+>=20
+> > week-end, so I cannot test before early next week. However I'm Ccing
+> > Ryutaroh Matsumoto who could also reproduce it. Maybe he is in a better
+> > position to test this (@Ryutaroh: I bounced the patches to you).
+>=20
+> Should I apply PATCH RFT 0--2/2 to
+> https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.7.tar.xz
+> or some branch of someone's git repo?
+>=20
+> On my Raspberry Pi 4B 8GB model, all versioins up to upstream 5.10.6
+> fail to boot on USB MSD due to changes to the USB handling by raspi
+> introduced in 5.10 series, and failed to boot from an SD card up to 5.10.3
+> or so. No working WiFi connections neither on my raspi 4b.
+>=20
+> I am unsure if I can test the patch reliably. But I will try it within a =
+few days.
+
+We just had another lead on this one and that patch doesn't seem to
+prove useful to fix it, so it's probably better to hold off the testing
+at this point
+
+Thanks!
+Maxime
+
+--obq7rx2pv5ck7foe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/8brAAKCRDj7w1vZxhR
+xUr0AQDphhzkzC0cjwj2n00BX6nWfZER9/2771fs0T0cUk5XkgEAnQ4ZpEwGDNgp
+DSF5Qi6O12jxt2GQ8Br0xviOR07yMQc=
+=7Xfq
+-----END PGP SIGNATURE-----
+
+--obq7rx2pv5ck7foe--
+
+--===============1786137644==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1786137644==--
