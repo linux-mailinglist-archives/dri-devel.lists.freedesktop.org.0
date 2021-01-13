@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BFF2F4AA7
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 12:51:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48822F4B31
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 13:21:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65006E7D3;
-	Wed, 13 Jan 2021 11:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924676E81C;
+	Wed, 13 Jan 2021 12:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B786E7D3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 11:51:11 +0000 (UTC)
-IronPort-SDR: emGl98yw/f315JGTxwMXsIzJ9sf/a/tun1GcObrGYyHD3dWZ9khgqElfO8S09plSeXoKSJ6LTs
- D2416h0Tbe5A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="157966972"
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="157966972"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2021 03:51:08 -0800
-IronPort-SDR: an4H7LUXPDvQY7jFMsRInuGlh9jsjcQqBCmuFOF96ctFB5KiLLk18mdCwKxKK5ovL+cMcbHMvW
- d0dv/d77Eu8w==
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; d="scan'208";a="353433389"
-Received: from iklein-mobl.ger.corp.intel.com (HELO localhost) ([10.249.40.83])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2021 03:51:03 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Koba Ko <koba.ko@canonical.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/dp_mst: Align mst link rate with soure rate
-In-Reply-To: <20210113014105.28110-2-koba.ko@canonical.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210113014105.28110-1-koba.ko@canonical.com>
- <20210113014105.28110-2-koba.ko@canonical.com>
-Date: Wed, 13 Jan 2021 13:51:00 +0200
-Message-ID: <8735z5t5qz.fsf@intel.com>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F359F6E81C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:21:36 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id y17so1881654wrr.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 04:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=8cweqr2u1jR2S4d8aPK1BgoPHFtAzieEjaISmB5R/+w=;
+ b=uIL+BhRPYiZV6kElq1U6y2b/gFj4HPtngXhB5I4pSjkfAsQmSh9ztksWnRCVrtDTDJ
+ BMK8/HPOQXE7ks2Bmqjo0rhjkTsqIaYolAFbDtU2BgZNLZXDm9rc3A/eOtlRdRu/k2r6
+ G3ZrYgJ8WirhF7wUupkOG07L/tdGsXko6Ks2oD+8X6MZKwn4F6IFjFP6i6QfJbK9pzZC
+ wx2xcv1lPzHwwxFsvdlUc+SSCWwYqxkKEpXFj4NvAmG/knPCPyugkP5fOdpfzJA4osgP
+ FJqZomg+nne1PmW2d0BZKTMKqnjXO0JOXbd5uUYqJaDShv9kdHMBDWYAmiygEvYp5ctR
+ sLxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=8cweqr2u1jR2S4d8aPK1BgoPHFtAzieEjaISmB5R/+w=;
+ b=YKh54CFznZvP/4un5ufw03PvnU55kldk0jODO3cwIc2+L6nrN0mFFB+H84CsRl3hEo
+ Ej+6+Ujg477IxJFNBX0cxp1iezsZf5fZkg9Kq4sMKKGajPG3mm2SBRK8JJuWMMyr8yf4
+ gUeAYtNHX52pPGQIo2XfLJeb4/av9hHeVYFPJevmwjSjf1pzyoLClIOgJqckFh0pksM4
+ PqfeYz9yTx9pyt+EDlgbnvB04u8JvFN3HXHDKi/sR78+BmNDViw00DSxQzNkgXJLMlc7
+ Xoh2JlD7pp+gu240L1IK484zPO1Fb8xnroH3WK1z0JZBNG2gJLkqdst4fzUTkqf4+WVR
+ Bd2g==
+X-Gm-Message-State: AOAM532yb6ihKHYwHJRv4snGHW7VaqMWGKOSuZL3Hgf6qkQutCGjHO+z
+ CmBsC092xfU5neK5my/DFlhOSg==
+X-Google-Smtp-Source: ABdhPJwI3ljFeHcNJZXE3Sc+lkxm+uIGbNtwwFbeOSf0wbDaK1pBaMREYnuzG85HUfzOCOZpkL/pKg==
+X-Received: by 2002:a5d:6a88:: with SMTP id s8mr2412998wru.118.1610540495627; 
+ Wed, 13 Jan 2021 04:21:35 -0800 (PST)
+Received: from dell ([91.110.221.229])
+ by smtp.gmail.com with ESMTPSA id b7sm2755408wru.33.2021.01.13.04.21.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 04:21:34 -0800 (PST)
+Date: Wed, 13 Jan 2021 12:21:33 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: cy_huang <u0084500@gmail.com>
+Subject: Re: [PATCH v5 1/6] mfd: rt4831: Adds support for Richtek RT4831 core
+Message-ID: <20210113122133.GC3975472@dell>
+References: <1608217244-314-1-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1608217244-314-1-git-send-email-u0084500@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,156 +67,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ChiYuan Huang <cy_huang@richtek.com>,
+ broonie@kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Jan 2021, Koba Ko <koba.ko@canonical.com> wrote:
-> After read the link rate from MST hub, align with
-> maximum source rate.
->
-> Signed-off-by: Koba Ko <koba.ko@canonical.com>
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c   | 8 ++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c | 7 +++++++
->  include/drm/drm_dp_helper.h             | 8 ++++++++
->  include/drm/drm_dp_mst_helper.h         | 4 ++++
->  4 files changed, 27 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 6982ecbf30b5..e7ceae97be85 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -3672,6 +3672,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
->  {
->  	int ret = 0;
->  	struct drm_dp_mst_branch *mstb = NULL;
-> +	unsigned int max_link_rate_tbl[MAX_DRM_DP_MAX_RATE + 1] = {
-> +		DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW_5_4,
-> +		DP_LINK_BW_8_1, DP_LINK_RATE_TABLE
-> +	};
-
-Please no. Read on for why.
-
->  
->  	mutex_lock(&mgr->payload_lock);
->  	mutex_lock(&mgr->lock);
-> @@ -3693,6 +3697,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
->  			goto out_unlock;
->  		}
->  
-> +		if (mgr->max_source_rate < MAX_DRM_DP_MAX_RATE)
-> +			mgr->dpcd[1] = max_link_rate_tbl[mgr->max_source_rate];
-
-Make ->max_source_rate the actual physical rate in kHz, and use
-drm_dp_link_rate_to_bw_code() here.
-
-> +
->  		mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr->dpcd[1],
->  							mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
->  		if (mgr->pbn_div == 0) {
-> @@ -5422,6 +5429,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
->  	mgr->aux = aux;
->  	mgr->max_dpcd_transaction_bytes = max_dpcd_transaction_bytes;
->  	mgr->max_payloads = max_payloads;
-> +	mgr->max_source_rate = MAX_DRM_DP_MAX_RATE;
->  	mgr->conn_base_id = conn_base_id;
->  	if (max_payloads + 1 > sizeof(mgr->payload_mask) * 8 ||
->  	    max_payloads + 1 > sizeof(mgr->vcpi_mask) * 8)
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 469e765a1b7b..a89b4c823123 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5392,6 +5392,13 @@ intel_dp_configure_mst(struct intel_dp *intel_dp)
->  	intel_dp->is_mst = sink_can_mst &&
->  		i915->params.enable_dp_mst;
->  
-> +	if (intel_dp_source_supports_hbr3(intel_dp))
-> +		intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR3;
-> +	else if (intel_dp_source_supports_hbr2(intel_dp))
-> +		intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR2;
-> +	else
-> +		intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR;
-
-Whenever this file references a "rate", it's the rate in kHz. This is
-confusing. Use the rate in kHz.
-
-Also, please look at how intel_dp_source_supports_hbr* are implemented;
-we already have all the supported source rates cached in intel_dp.
-
-The max source rate is:
-
-	intel_dp->source_rates[intel_dp->num_source_rates - 1].
-
-No need to do the if ladder here at all. If you like, you can add a
-helper:
-
-int intel_dp_max_source_rate(struct intel_dp *intel_dp)
-{
-        return intel_dp->source_rates[intel_dp->num_source_rates - 1];
-}
-
-and reuse that in the supports_hbr* functions:
-
-bool intel_dp_source_supports_hbr2(struct intel_dp *intel_dp)
-{
-        return intel_dp_max_source_rate(intel_dp) >= 540000;
-}
-
-> +
->  	drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
->  					intel_dp->is_mst);
->  }
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 6236f212da61..ef2b328469cd 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -183,6 +183,14 @@ struct drm_device;
->  #define DP_SUPPORTED_LINK_RATES		    0x010 /* eDP 1.4 */
->  # define DP_MAX_SUPPORTED_RATES		     8	    /* 16-bit little-endian */
->  
-> +enum drm_dp_max_link_rate {
-> +	DRM_DP_MAX_RATE_RBR = 0,
-> +	DRM_DP_MAX_RATE_HBR,
-> +	DRM_DP_MAX_RATE_HBR2,
-> +	DRM_DP_MAX_RATE_HBR3,
-> +	MAX_DRM_DP_MAX_RATE
-> +};
-
-We already have 1) actual physical rates, in kHz, and 2) the DPCD rate
-codes, such as DP_LINK_BW_1_62.
-
-Do *not* add a third representation. Prefer kHz throughout, and convert
-to/from the DPCD codes near where they are needed.
-
-> +
->  /* Multiple stream transport */
->  #define DP_FAUX_CAP			    0x020   /* 1.2 */
->  # define DP_FAUX_CAP_1			    (1 << 0)
-> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-> index f5e92fe9151c..e7d8c899fea0 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -593,6 +593,10 @@ struct drm_dp_mst_topology_mgr {
->  	 * @max_payloads: maximum number of payloads the GPU can generate.
->  	 */
->  	int max_payloads;
-> +	/**
-> +	 * @max_source_rate: maximum link rate of source.
-> +	 */
-> +	int max_source_rate;
-
-Again, make this the actual rate in kHz. That's what I'd think it is by
-reading the comment above anyway.
-
->  	/**
->  	 * @conn_base_id: DRM connector ID this mgr is connected to. Only used
->  	 * to build the MST connector path value.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxNyBEZWMgMjAyMCwgY3lfaHVhbmcgd3JvdGU6Cgo+IEZyb206IENoaVl1YW4gSHVh
+bmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+IAo+IFRoaXMgYWRkcyBzdXBwb3J0IFJpY2h0ZWsg
+UlQ0ODMxIGNvcmUuIEl0IGluY2x1ZGVzIGZvdXIgY2hhbm5lbCBXTEVEIGRyaXZlcgo+IGFuZCBE
+aXNwbGF5IEJpYXMgVm9sdGFnZSBvdXRwdXRzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENoaVl1YW4g
+SHVhbmcgPGN5X2h1YW5nQHJpY2h0ZWsuY29tPgo+IC0tLQo+IHNpbmNlIHY1Cj4gLSBSZW5hbWUg
+ZmlsZSBuYW1lIGZyb20gcnQ0ODMxLWNvcmUuYyB0byBydDQ4MzEuYwo+IC0gQ2hhbmdlIFJJQ0hU
+RUtfVklEIHRvIFJJQ0hURUtfVkVORE9SX0lELgo+IC0gQ2hhbmdlIGdwaW9fZGVzYyBuYW1laW5n
+IGZyb20gJ2VuYWJsZScgdG8gJ2VuYWJsZV9ncGlvJyBpbiBwcm9iZS4KPiAtIENoYW5nZSB2YXJp
+YWJsZSAndmFsJyB0byB0aGUgbWVhbmluZ2Z1bCBuYW1lICdjaGlwX2lkJy4KPiAtIFJlZmluZSB0
+aGUgZXJyb3IgbG9nIHdoZW4gdmVuZG9yIGlkIGlzIG5vdCBtYXRjaGVkLgo+IC0gUmVtb3ZlIG9m
+X21hdGNoX3B0ci4KPiAKPiBzaW5jZSB2Mgo+IC0gUmVmaW5lIEtjb25maWcgZGVzY3JpcHRpb25z
+Lgo+IC0gQWRkIGNvcHlyaWdodC4KPiAtIFJlZmluZSBlcnJvciBsb2dzIGluIHByb2JlLgo+IC0g
+UmVmaW5lIGNvbW1lbnQgbGluZXMgaW4gcmVtb3ZlIGFuZCBzaHV0ZG93bi4KPiAtLS0KPiAgZHJp
+dmVycy9tZmQvS2NvbmZpZyAgfCAgMTAgKysrKysKPiAgZHJpdmVycy9tZmQvTWFrZWZpbGUgfCAg
+IDEgKwo+ICBkcml2ZXJzL21mZC9ydDQ4MzEuYyB8IDEyNCArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCAxMzUgaW5z
+ZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZmQvcnQ0ODMxLmMKPiAK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZmQvS2NvbmZpZyBiL2RyaXZlcnMvbWZkL0tjb25maWcK
+PiBpbmRleCA4Yjk5YTEzLi5kZmIyNjQwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWZkL0tjb25m
+aWcKPiArKysgYi9kcml2ZXJzL21mZC9LY29uZmlnCj4gQEAgLTEwODgsNiArMTA4OCwxNiBAQCBj
+b25maWcgTUZEX1JEQzMyMVgKPiAgCSAgc291dGhicmlkZ2Ugd2hpY2ggcHJvdmlkZXMgYWNjZXNz
+IHRvIEdQSU9zIGFuZCBXYXRjaGRvZyB1c2luZyB0aGUKPiAgCSAgc291dGhicmlkZ2UgUENJIGRl
+dmljZSBjb25maWd1cmF0aW9uIHNwYWNlLgo+ICAKPiArY29uZmlnIE1GRF9SVDQ4MzEKPiArCXRy
+aXN0YXRlICJSaWNodGVrIFJUNDgzMSBmb3VyIGNoYW5uZWwgV0xFRCBhbmQgRGlzcGxheSBCaWFz
+IFZvbHRhZ2UiCj4gKwlkZXBlbmRzIG9uIEkyQwo+ICsJc2VsZWN0IE1GRF9DT1JFCj4gKwlzZWxl
+Y3QgUkVHTUFQX0kyQwo+ICsJaGVscAo+ICsJICBUaGlzIGVuYWJsZXMgc3VwcG9ydCBmb3IgdGhl
+IFJpY2h0ZWsgUlQ0ODMxIHRoYXQgaW5jbHVkZXMgNCBjaGFubmVsCj4gKwkgIFdMRUQgZHJpdmlu
+ZyBhbmQgRGlzcGxheSBCaWFzIFZvbHRhZ2UuIEl0J3MgY29tbW9ubHkgdXNlZCB0byBwcm92aWRl
+Cj4gKwkgIHBvd2VyIHRvIHRoZSBMQ0QgZGlzcGxheSBhbmQgTENEIGJhY2tsaWdodC4KPiArCj4g
+IGNvbmZpZyBNRkRfUlQ1MDMzCj4gIAl0cmlzdGF0ZSAiUmljaHRlayBSVDUwMzMgUG93ZXIgTWFu
+YWdlbWVudCBJQyIKPiAgCWRlcGVuZHMgb24gSTJDCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWZk
+L01ha2VmaWxlIGIvZHJpdmVycy9tZmQvTWFrZWZpbGUKPiBpbmRleCAxNzgwMDE5Li4yOGQyNDdi
+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWZkL01ha2VmaWxlCj4gKysrIGIvZHJpdmVycy9tZmQv
+TWFrZWZpbGUKPiBAQCAtMjM1LDYgKzIzNSw3IEBAIG9iai0kKENPTkZJR19NRkRfTUVORjIxQk1D
+KQkrPSBtZW5mMjFibWMubwo+ICBvYmotJChDT05GSUdfTUZEX0hJNjQyMV9QTUlDKQkrPSBoaTY0
+MjEtcG1pYy1jb3JlLm8KPiAgb2JqLSQoQ09ORklHX01GRF9ISTY1NVhfUE1JQykgICArPSBoaTY1
+NXgtcG1pYy5vCj4gIG9iai0kKENPTkZJR19NRkRfRExOMikJCSs9IGRsbjIubwo+ICtvYmotJChD
+T05GSUdfTUZEX1JUNDgzMSkJKz0gcnQ0ODMxLm8KPiAgb2JqLSQoQ09ORklHX01GRF9SVDUwMzMp
+CSs9IHJ0NTAzMy5vCj4gIG9iai0kKENPTkZJR19NRkRfU0tZODE0NTIpCSs9IHNreTgxNDUyLm8K
+PiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWZkL3J0NDgzMS5jIGIvZHJpdmVycy9tZmQvcnQ0
+ODMxLmMKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwLi4yYmY4MzY0Cj4g
+LS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvbWZkL3J0NDgzMS5jCj4gQEAgLTAsMCArMSwx
+MjQgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjArCj4gKy8qCj4gKyAq
+IENvcHlyaWdodCAoYykgMjAyMCBSaWNodGVrIFRlY2hub2xvZ3kgQ29ycC4KCk5pdDogSWYgeW91
+IHJlc3BpbiB0aGlzLCBwbGVhc2UgYnVtcCB0aGUgZGF0ZS4KCj4gKyAqIEF1dGhvcjogQ2hpWXVh
+biBIdWFuZyA8Y3lfaHVhbmdAcmljaHRlay5jb20+Cj4gKyAqLwo+ICsKPiArI2luY2x1ZGUgPGxp
+bnV4L2dwaW8vY29uc3VtZXIuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2kyYy5oPgo+ICsjaW5jbHVk
+ZSA8bGludXgva2VybmVsLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9tZmQvY29yZS5oPgo+ICsjaW5j
+bHVkZSA8bGludXgvbW9kdWxlLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4KPiArCj4g
+KyNkZWZpbmUgUlQ0ODMxX1JFR19SRVZJU0lPTgkweDAxCj4gKyNkZWZpbmUgUlQ0ODMxX1JFR19F
+TkFCTEUJMHgwOAo+ICsjZGVmaW5lIFJUNDgzMV9SRUdfSTJDUFJPVAkweDE1Cj4gKwo+ICsjZGVm
+aW5lIFJJQ0hURUtfVkVORE9SX0lECTB4MDMKPiArI2RlZmluZSBSVDQ4MzFfVklEX01BU0sJCUdF
+Tk1BU0soMSwgMCkKPiArI2RlZmluZSBSVDQ4MzFfUkVTRVRfTUFTSwlCSVQoNykKPiArI2RlZmlu
+ZSBSVDQ4MzFfSTJDU0FGRVRNUl9NQVNLCUJJVCgwKQo+ICsKPiArc3RhdGljIGNvbnN0IHN0cnVj
+dCBtZmRfY2VsbCBydDQ4MzFfc3ViZGV2c1tdID0gewo+ICsJT0ZfTUZEX0NFTEwoInJ0NDgzMS1i
+YWNrbGlnaHQiLCBOVUxMLCBOVUxMLCAwLCAwLCAicmljaHRlayxydDQ4MzEtYmFja2xpZ2h0Iiks
+Cj4gKwlNRkRfQ0VMTF9OQU1FKCJydDQ4MzEtcmVndWxhdG9yIikKPiArfTsKPiArCj4gK3N0YXRp
+YyBib29sIHJ0NDgzMV9pc19hY2Nlc3NpYmxlX3JlZyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHVuc2ln
+bmVkIGludCByZWcpCj4gK3sKPiArCWlmIChyZWcgPj0gUlQ0ODMxX1JFR19SRVZJU0lPTiAmJiBy
+ZWcgPD0gUlQ0ODMxX1JFR19JMkNQUk9UKQo+ICsJCXJldHVybiB0cnVlOwo+ICsJcmV0dXJuIGZh
+bHNlOwo+ICt9Cj4gKwo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHJlZ21hcF9jb25maWcgcnQ0ODMx
+X3JlZ21hcF9jb25maWcgPSB7Cj4gKwkucmVnX2JpdHMgPSA4LAo+ICsJLnZhbF9iaXRzID0gOCwK
+PiArCS5tYXhfcmVnaXN0ZXIgPSBSVDQ4MzFfUkVHX0kyQ1BST1QsCj4gKwo+ICsJLnJlYWRhYmxl
+X3JlZyA9IHJ0NDgzMV9pc19hY2Nlc3NpYmxlX3JlZywKPiArCS53cml0ZWFibGVfcmVnID0gcnQ0
+ODMxX2lzX2FjY2Vzc2libGVfcmVnLAo+ICt9Owo+ICsKPiArc3RhdGljIGludCBydDQ4MzFfcHJv
+YmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkKPiArewo+ICsJc3RydWN0IGdwaW9fZGVzYyAq
+ZW5hYmxlX2dwaW87Cj4gKwlzdHJ1Y3QgcmVnbWFwICpyZWdtYXA7Cj4gKwl1bnNpZ25lZCBpbnQg
+Y2hpcF9pZDsKPiArCWludCByZXQ7Cj4gKwo+ICsJZW5hYmxlX2dwaW8gPSBkZXZtX2dwaW9kX2dl
+dF9vcHRpb25hbCgmY2xpZW50LT5kZXYsICJlbmFibGUiLCBHUElPRF9PVVRfSElHSCk7Cj4gKwlp
+ZiAoSVNfRVJSKGVuYWJsZV9ncGlvKSkgewo+ICsJCWRldl9lcnIoJmNsaWVudC0+ZGV2LCAiRmFp
+bGVkIHRvIGdldCAnZW5hYmxlJyBHUElPXG4iKTsKPiArCQlyZXR1cm4gUFRSX0VSUihlbmFibGVf
+Z3Bpbyk7Cj4gKwl9Cj4gKwo+ICsJcmVnbWFwID0gZGV2bV9yZWdtYXBfaW5pdF9pMmMoY2xpZW50
+LCAmcnQ0ODMxX3JlZ21hcF9jb25maWcpOwo+ICsJaWYgKElTX0VSUihyZWdtYXApKSB7Cj4gKwkJ
+ZGV2X2VycigmY2xpZW50LT5kZXYsICJGYWlsZWQgdG8gaW5pdGlhbGl6ZSByZWdtYXBcbiIpOwo+
+ICsJCXJldHVybiBQVFJfRVJSKHJlZ21hcCk7Cj4gKwl9Cj4gKwo+ICsJcmV0ID0gcmVnbWFwX3Jl
+YWQocmVnbWFwLCBSVDQ4MzFfUkVHX1JFVklTSU9OLCAmY2hpcF9pZCk7Cj4gKwlpZiAocmV0KSB7
+Cj4gKwkJZGV2X2VycigmY2xpZW50LT5kZXYsICJGYWlsZWQgdG8gZ2V0IEgvVyByZXZpc2lvblxu
+Iik7Cj4gKwkJcmV0dXJuIHJldDsKPiArCX0KPiArCj4gKwlpZiAoKGNoaXBfaWQgJiBSVDQ4MzFf
+VklEX01BU0spICE9IFJJQ0hURUtfVkVORE9SX0lEKSB7Cj4gKwkJZGV2X2VycigmY2xpZW50LT5k
+ZXYsICJDaGlwIHZlbmRvciBJRCAweCUwMnggbm90IG1hdGNoZWRcbiIsIGNoaXBfaWQpOwo+ICsJ
+CXJldHVybiAtRU5PREVWOwo+ICsJfQo+ICsKPiArCS8qCj4gKwkgKiBVc2VkIHRvIHByZXZlbnQg
+dGhlIGFibm9ybWFsIHNodXRkb3duLgo+ICsJICogSWYgU0NML1NEQSBib3RoIGtlZXAgbG93IGZv
+ciBvbmUgc2Vjb25kIHRvIHJlc2V0IEhXLgo+ICsJICovCj4gKwlyZXQgPSByZWdtYXBfdXBkYXRl
+X2JpdHMocmVnbWFwLCBSVDQ4MzFfUkVHX0kyQ1BST1QsIFJUNDgzMV9JMkNTQUZFVE1SX01BU0ss
+Cj4gKwkJCQkgUlQ0ODMxX0kyQ1NBRkVUTVJfTUFTSyk7Cj4gKwlpZiAocmV0KSB7Cj4gKwkJZGV2
+X2VycigmY2xpZW50LT5kZXYsICJGYWlsZWQgdG8gZW5hYmxlIEkyQyBzYWZldHkgdGltZXJcbiIp
+Owo+ICsJCXJldHVybiByZXQ7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIGRldm1fbWZkX2FkZF9kZXZp
+Y2VzKCZjbGllbnQtPmRldiwgUExBVEZPUk1fREVWSURfQVVUTywgcnQ0ODMxX3N1YmRldnMsCj4g
+KwkJCQkgICAgQVJSQVlfU0laRShydDQ4MzFfc3ViZGV2cyksIE5VTEwsIDAsIE5VTEwpOwo+ICt9
+Cj4gKwo+ICtzdGF0aWMgaW50IHJ0NDgzMV9yZW1vdmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVu
+dCkKPiArewo+ICsJc3RydWN0IHJlZ21hcCAqcmVnbWFwID0gZGV2X2dldF9yZWdtYXAoJmNsaWVu
+dC0+ZGV2LCBOVUxMKTsKPiArCj4gKwkvKiBEaXNhYmxlIFdMRUQgYW5kIERTViBvdXRwdXRzICov
+Cj4gKwlyZXR1cm4gcmVnbWFwX3VwZGF0ZV9iaXRzKHJlZ21hcCwgUlQ0ODMxX1JFR19FTkFCTEUs
+IFJUNDgzMV9SRVNFVF9NQVNLLCBSVDQ4MzFfUkVTRVRfTUFTSyk7Cj4gK30KPiArCj4gK3N0YXRp
+YyB2b2lkIHJ0NDgzMV9zaHV0ZG93bihzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50KQo+ICt7Cj4g
+KwlzdHJ1Y3QgcmVnbWFwICpyZWdtYXAgPSBkZXZfZ2V0X3JlZ21hcCgmY2xpZW50LT5kZXYsIE5V
+TEwpOwo+ICsKPiArCS8qIERpc2FibGUgV0xFRCBhbmQgRFNWIG91dHB1dHMgKi8KPiArCXJlZ21h
+cF91cGRhdGVfYml0cyhyZWdtYXAsIFJUNDgzMV9SRUdfRU5BQkxFLCBSVDQ4MzFfUkVTRVRfTUFT
+SywgUlQ0ODMxX1JFU0VUX01BU0spOwo+ICt9CgpXaGF0IGlzIHlvdXIgcmVhc29uIGZvciBwcm92
+aWRpbmcgYSAuc2h1dGRvd24oKSByb3V0aW5lPwoKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9k
+ZXZpY2VfaWQgX19tYXliZV91bnVzZWQgcnQ0ODMxX29mX21hdGNoW10gPSB7Cj4gKwl7IC5jb21w
+YXRpYmxlID0gInJpY2h0ZWsscnQ0ODMxIiwgfSwKPiArCXt9Cj4gK307Cj4gK01PRFVMRV9ERVZJ
+Q0VfVEFCTEUob2YsIHJ0NDgzMV9vZl9tYXRjaCk7Cj4gKwo+ICtzdGF0aWMgc3RydWN0IGkyY19k
+cml2ZXIgcnQ0ODMxX2RyaXZlciA9IHsKPiArCS5kcml2ZXIgPSB7Cj4gKwkJLm5hbWUgPSAicnQ0
+ODMxIiwKPiArCQkub2ZfbWF0Y2hfdGFibGUgPSBydDQ4MzFfb2ZfbWF0Y2gsCj4gKwl9LAo+ICsJ
+LnByb2JlX25ldyA9IHJ0NDgzMV9wcm9iZSwKPiArCS5yZW1vdmUgPSBydDQ4MzFfcmVtb3ZlLAo+
+ICsJLnNodXRkb3duID0gcnQ0ODMxX3NodXRkb3duLAo+ICt9Owo+ICttb2R1bGVfaTJjX2RyaXZl
+cihydDQ4MzFfZHJpdmVyKTsKPiArCj4gK01PRFVMRV9BVVRIT1IoIkNoaVl1YW4gSHVhbmcgPGN5
+X2h1YW5nQHJpY2h0ZWsuY29tPiIpOwo+ICtNT0RVTEVfTElDRU5TRSgiR1BMIHYyIik7CgotLSAK
+TGVlIEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBT
+ZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MK
+Rm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
