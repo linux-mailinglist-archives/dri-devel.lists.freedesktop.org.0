@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7102F5D72
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0FA2F5D87
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD316E113;
-	Thu, 14 Jan 2021 09:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61046E17D;
+	Thu, 14 Jan 2021 09:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 648BB6EB72
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 17:48:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1610560111; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=NP9L1of0mfv0VlmLgAx+c+h3tPTXbzkvkcqDPng1QsI=;
- b=o5yX3gsPFaoeCi9ABsaVc6hMwoUWaZkH0KhLXDJtUYOmZ2AANunSaCHMt6jDZht6IjsB0BZ3
- TX4R1M2R96ReueaQdo0Vyoi7nvM+E2d98Hq9MUtrObGI+G7smvo4AsceFMiqYXnR43sEh+hh
- Eh0BS5sNTLylueRp/a6CnGtGunQ=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5fff326ac88af06107558d36 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 17:48:26
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 20F1BC43466; Wed, 13 Jan 2021 17:48:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 2A003C433C6;
- Wed, 13 Jan 2021 17:48:25 +0000 (UTC)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3EA6E867
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 18:14:24 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id u25so4167659lfc.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:14:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fDpcPGN452QW5OstMWYz6Q82ZuKqAUV5xehi8i2tN9I=;
+ b=KNIpNxOC+0ROwINquN8usqkfwfSG1mVjw4G5frTgIAtMXE/ZlrsvZ9RzieWI1aAUar
+ 1SrvSfGs2AwG8TwkVEVddhPNl2E1MTBkFbhWbVRNeCJAojAqxVx1trnCDTsAuECAdUMH
+ rHTcLYcLmBOBY+ugXSuWGyD+3C1YjIjQdSCU6Qm4Xtu+loXqQK/6IEobK2aJ/LjKYgLf
+ LQe77X1Kcc0sN1PYh4riwM+/vgpb6bcC78JzMTt/uRh4NftsSEqZ0BT92RxnxPrEOji5
+ AgM1Z5XoRCPxSvrllK7DCROD54YDlhKqKkT8LnnxGr1kcKLCx1/Cm8/W97vHNqxe1pT6
+ Ulig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fDpcPGN452QW5OstMWYz6Q82ZuKqAUV5xehi8i2tN9I=;
+ b=Fu1ZIcf0U4V0qD1myiklUqmDzKm+5to0eoLbsmlCses92gK/zpJDntE4fLS+CA1KSY
+ y84cfAPdwm8S7GgPCWXY06CW7ToA+R76bl9Pe5ViMNNTvsnfR/OYCKyBe1SKJFnvaIeP
+ vPd9xSh/WOBhUCi7TuVji4chGR7BslTO8SwGMbFDG/GM3Gtnyry90WZ/Zxt+YWcnGN7A
+ erc0h+wRZ84dEt8JuPWZUYgQOh8bvHqdRCToTFzahws5UuP36A1y8GL8F4D/NgpzjnJz
+ ttF1LowMFsC5N+Wxdq8G8kXlWIOr0nkqKfdL+iA49FFoPEZ1TvhWnHmra7ocPjek7R6B
+ o5hg==
+X-Gm-Message-State: AOAM533zzZbqGtN+tnTgVOhyya4MqdgjJexEWYvrF9y3OOSYKRwYFy+J
+ zHV4x1HuCbBtQh18/n2QLxA=
+X-Google-Smtp-Source: ABdhPJw3rJ5CLT9LFCN3W+KjUdWcmLiOEm8u1wnTDpduvU3f3O2g3ybptVU+hhr5ywH3iJ0HBkFFAA==
+X-Received: by 2002:ac2:4950:: with SMTP id o16mr1327813lfi.19.1610561662520; 
+ Wed, 13 Jan 2021 10:14:22 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
+ [109.252.192.57])
+ by smtp.googlemail.com with ESMTPSA id z14sm284407lfq.130.2021.01.13.10.14.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 10:14:21 -0800 (PST)
+Subject: Re: [PATCH v5 15/21] drm/tegra: Add new UAPI to header
+To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+ <20210111130019.3515669-16-mperttunen@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a0fdac0d-88cf-6eda-6611-fca951253060@gmail.com>
+Date: Wed, 13 Jan 2021 21:14:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Date: Wed, 13 Jan 2021 09:48:25 -0800
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 2/2] drm/msm/dp: unplug interrupt missed after irq_hpd
- handler
-In-Reply-To: <161039484176.3661239.14240346276437866761@swboyd.mtv.corp.google.com>
-References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
- <1610051425-20632-3-git-send-email-khsieh@codeaurora.org>
- <161039484176.3661239.14240346276437866761@swboyd.mtv.corp.google.com>
-Message-ID: <e7e1e5f8808fc35a3bed9e6291c76460@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <20210111130019.3515669-16-mperttunen@nvidia.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,105 +73,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-11 11:54, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-01-07 12:30:25)
->> There is HPD unplug interrupts missed at scenario of an irq_hpd
->> followed by unplug interrupts with around 10 ms in between.
->> Since both AUX_SW_RESET and DP_SW_RESET clear pending HPD interrupts,
->> irq_hpd handler should not issues either aux or sw reset to avoid
->> following unplug interrupt be cleared accidentally.
-> 
-> So the problem is that we're resetting the DP aux phy in the middle of
-> the HPD state machine transitioning states?
-> 
-yes, after reset aux, hw clear pending hpd interrupts
->> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
->> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c 
->> b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> index 44f0c57..9c0ce98 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> @@ -190,6 +190,18 @@ int dp_catalog_aux_clear_hw_interrupts(struct 
->> dp_catalog *dp_catalog)
->>         return 0;
->>  }
->> 
->> +/**
->> + * dp_catalog_aux_reset() - reset AUX controller
->> + *
->> + * @aux: DP catalog structure
->> + *
->> + * return: void
->> + *
->> + * This function reset AUX controller
->> + *
->> + * NOTE: reset AUX controller will also clear any pending HPD related 
->> interrupts
->> + *
->> + */
->>  void dp_catalog_aux_reset(struct dp_catalog *dp_catalog)
->>  {
->>         u32 aux_ctrl;
->> @@ -483,6 +495,18 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog 
->> *dp_catalog,
->>         return 0;
->>  }
->> 
->> +/**
->> + * dp_catalog_ctrl_reset() - reset DP controller
->> + *
->> + * @aux: DP catalog structure
-> 
-> It's called dp_catalog though.
-registers access are through dp_catalog_xxxx
-> 
->> + *
->> + * return: void
->> + *
->> + * This function reset DP controller
-> 
-> resets the
-> 
->> + *
->> + * NOTE: reset DP controller will also clear any pending HPD related 
->> interrupts
->> + *
->> + */
->>  void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog)
->>  {
->>         u32 sw_reset;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index e3462f5..f96c415 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1296,7 +1296,8 @@ static int dp_ctrl_setup_main_link(struct 
->> dp_ctrl_private *ctrl,
->>          * transitioned to PUSH_IDLE. In order to start transmitting
->>          * a link training pattern, we have to first do soft reset.
->>          */
->> -       dp_catalog_ctrl_reset(ctrl->catalog);
->> +       if (*training_step != DP_TRAINING_NONE)
-> 
-> Can we check for the positive value instead? i.e.
-> DP_TRAINING_1/DP_TRAINING_2
-> 
->> +               dp_catalog_ctrl_reset(ctrl->catalog);
->> 
->>         ret = dp_ctrl_link_train(ctrl, cr, training_step);
->> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTEuMDEuMjAyMSAxNjowMCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gK3N0cnVjdCBk
+cm1fdGVncmFfc3VibWl0X2J1ZiB7Cj4gKwkvKioKPiArCSAqIEBtYXBwaW5nX2lkOiBbaW5dCj4g
+KwkgKgo+ICsJICogSWRlbnRpZmllciBvZiB0aGUgbWFwcGluZyB0byB1c2UgaW4gdGhlIHN1Ym1p
+c3Npb24uCj4gKwkgKi8KPiArCV9fdTMyIG1hcHBpbmdfaWQ7CgpJJ20gbm93IGluIHByb2Nlc3Mg
+b2YgdHJ5aW5nIG91dCB0aGUgVUFQSSB1c2luZyBncmF0ZSBkcml2ZXJzIGFuZCB0aGlzCmJlY29t
+ZXMgdGhlIGZpcnN0IG9ic3RhY2xlLgoKTG9va3MgbGlrZSB0aGlzIGlzIG5vdCBnb2luZyB0byB3
+b3JrIHdlbGwgZm9yIG9sZGVyIFRlZ3JhIFNvQ3MsIGluCnBhcnRpY3VsYXIgZm9yIFQyMCwgd2hp
+Y2ggaGFzIGEgc21hbGwgR0FSVC4KCkdpdmVuIHRoYXQgdGhlIHVzZWZ1bG5lc3Mgb2YgdGhlIHBh
+cnRpYWwgbWFwcGluZyBmZWF0dXJlIGlzIHZlcnkKcXVlc3Rpb25hYmxlIHVudGlsIGl0IHdpbGwg
+YmUgcHJvdmVuIHdpdGggYSByZWFsIHVzZXJzcGFjZSwgd2Ugc2hvdWxkCnN0YXJ0IHdpdGggYSBk
+eW5hbWljIG1hcHBpbmdzIHRoYXQgYXJlIGRvbmUgYXQgYSB0aW1lIG9mIGpvYiBzdWJtaXNzaW9u
+LgoKRFJNIGFscmVhZHkgc2hvdWxkIGhhdmUgZXZlcnl0aGluZyBuZWNlc3NhcnkgZm9yIGNyZWF0
+aW5nIGFuZCBtYW5hZ2luZwpjYWNoZXMgb2YgbWFwcGluZ3MsIGdyYXRlIGtlcm5lbCBkcml2ZXIg
+aGFzIGJlZW4gdXNpbmcgZHJtX21tX3NjYW4gZm9yIGEKbG9uZyB0aW1lIG5vdyBmb3IgdGhhdC4K
+Ckl0IHNob3VsZCBiZSBmaW5lIHRvIHN1cHBvcnQgdGhlIHN0YXRpYyBtYXBwaW5nIGZlYXR1cmUs
+IGJ1dCBpdCBzaG91bGQKYmUgZG9uZSBzZXBhcmF0ZWx5IHdpdGggdGhlIGRybV9tbSBpbnRlZ3Jh
+dGlvbiwgSU1PLgoKV2hhdCBkbyB0aGluaz8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
