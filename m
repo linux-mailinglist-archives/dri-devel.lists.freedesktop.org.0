@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FD12F5D64
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3142F5D5D
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB6B6E116;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFD26E114;
 	Thu, 14 Jan 2021 09:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB35D6E453
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:38:15 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id v21so2143656iol.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 02:38:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=Rf0qkGcLKZcXOCwuSoJ3U1uuRWEpE0nNPdXTF3l2hL4=;
- b=emxp24hmV71JsHoCgA02tMcdEMu7R0DrEB6uVk0SLRaY6vcbxS/udyXA95bUpp1V26
- l8mVgp2Kai3ptgdOm6kTfJf08+92jc+QvB5DmPXKRkJR4Rvh3+FcyBVu7fifp8QkIJql
- aon7U7EgV0Lo4TH0e5yxcTY0v1ttmoyh1rTJlqKCT6QRzXxP2jjBj1aNdk/PB2p/busV
- qFq/vcYfSaTlRNna4cTRRNkT6y6zGE2aC8totI3z8YmtirtcW/VyHytBgra9kk68A+er
- Tm7/OoOmkD4xNvEYvaRTuPDiHmNC23TtlhI7YhTl3OEKd+8SXHv3TqH6Ah02/JRL8Oj9
- pIKg==
-X-Gm-Message-State: AOAM532qkxycjc6dEBv1QqAG4hVqYQbQd2V3BuFzRzOYyiVpdv8mnvX1
- irwPk3yyhYGiQRgVqsw0xTzDIs0MVEsZAtFP2+5yEyzOew1g
-X-Google-Smtp-Source: ABdhPJxIhbMxWbqH09VI31IeFE5tniINNYJsm+xRvLC1RO/aVt96bC7M+rTNvvoBEMKrvWy0erLgmcwV3LR6kmS2XHxJrP6DxWSC
+X-Greylist: delayed 420 seconds by postgrey-1.36 at gabe;
+ Wed, 13 Jan 2021 10:54:37 UTC
+Received: from smtpcmd02102.aruba.it (smtpcmd02102.aruba.it [62.149.158.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 789766E48E
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 10:54:37 +0000 (UTC)
+Received: from ubuntu.localdomain ([146.241.213.249])
+ by Aruba Outgoing Smtp  with ESMTPSA
+ id zdgYkpGEuM8oXzdgYkw9Bi; Wed, 13 Jan 2021 11:47:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1610534854; bh=9qQyXA1FoXtBqukZr+f9ZXHvisI/kRQH2J5vy5XyEIo=;
+ h=From:To:Subject:Date:MIME-Version:Content-Type;
+ b=S6jzU0A7GrZFhi2GtlbrSsbkvCLBbMUPJBGLy9eOvomu6IVOFRuEIi7+GstCjiSgu
+ dQKuh9WB6uahVhyCAKCtSbqD0OLpm+LAkIvoEFObsgd5HyjgUMSB1OhqG87CCBk2gE
+ ZVNAvLSua84xAAmkJ3GpDdXU+hW1s1XbqNaiXpJR6nL9mmoAjY7E+DArWp+hS5v0Op
+ 097PnvKn5guAk0+6ZiX1BqFqYcZHQQ+Me89BWLYM7W6+GVPdRU1QkJG0rKoo0+neV1
+ myVB3vGzF6m3tm8i2EOkzzHO1VTP0OHIuqstk7MPFgJltv1fGW5byZ/nWJwJoSVBza
+ tkeNGlcYiTtXw==
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v4] drm/sun4i: tcon: fix inverted DCLK polarity
+Date: Wed, 13 Jan 2021 11:47:25 +0100
+Message-Id: <20210113104725.770459-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210113094214.5ijq3inmffticym6@gilmour>
+References: <20210113094214.5ijq3inmffticym6@gilmour>
 MIME-Version: 1.0
-X-Received: by 2002:a92:b008:: with SMTP id x8mr1773225ilh.297.1610534295232; 
- Wed, 13 Jan 2021 02:38:15 -0800 (PST)
-Date: Wed, 13 Jan 2021 02:38:15 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000090e80805b8c5bc59@google.com>
-Subject: memory leak in fbcon_set_font
-From: syzbot <syzbot+2f2c18881a450f22d1bf@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
- dri-devel@lists.freedesktop.org, george.kennedy@oracle.com, 
- gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
- yepeilin.cs@gmail.com
+X-CMAE-Envelope: MS4wfKOmPT1i9gArIC10WEB2Cw3vWYQTurVk9+ZL0ZbFumP8RZ/5bgpdB6saoV83KQ0rIsKqA5WDklykap4YzgK76/u1D/biEoFBIitr6YQxxZl7/xY+WaHb
+ 5B6YDCYzVe51IP2JS0ezr+65FUu7Fnn7Czg6VAfddH8XRvcNIQjE9UMtnxyM0/MhLVbavdMxAhu6P4q9ieetTJk4XDNumZMKFvCYCkMqjwv/Xj58jrXRFMS9
+ DqhitwiojBnu1j6sE/gZ9LvvJjiAzAq/icQwEa7T9LWiFoz3hjpQJvN/KYlEF0h2lEOtzVmArNd2Nkm2Q/j2xwWwccaJF05jccxvRPNLUVLkPZ805eXAm2Xn
+ q5gWpTpBzc7CXEGUTqj4WVK5o9b7fsCASRiO4S0sJxIJzfOCfxzhQqv4VQKCsm75JJfuBgS/bibdSv6hjUsAHkYPuPB1gnprEDUUQwd9w3Y3IVvFJh8yy33D
+ 9UMWsD8uxlPMuFWhmhtw8zi8RPQ2aNig5/bdYVnXjmv90C/0lhhP7bynZdOiTtDzA3ugeOIbWhVkFjR7S9SvkWSf+iT+oylKKRuE8g==
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,183 +53,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>,
+ Marjan Pascolo <marjan.pascolo@trexom.it>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    e609571b Merge tag 'nfs-for-5.11-2' of git://git.linux-nfs..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=165261e0d00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=850b6de5f8959443
-dashboard link: https://syzkaller.appspot.com/bug?extid=2f2c18881a450f22d1bf
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ab20c7500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1008b770d00000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2f2c18881a450f22d1bf@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 34.510s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 36.030s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 37.550s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 37.630s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 37.720s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-BUG: memory leak
-unreferenced object 0xffff88811813ea00 (size 512):
-  comm "syz-executor939", pid 10246, jiffies 4294971847 (age 37.810s)
-  hex dump (first 32 bytes):
-    b0 55 1f 9b 00 00 00 00 00 01 00 00 06 00 00 00  .U..............
-    11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000062fad90>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000062fad90>] fbcon_set_font+0x128/0x370 drivers/video/fbdev/core/fbcon.c:2454
-    [<00000000ed2d1b1e>] con_font_set drivers/tty/vt/vt.c:4667 [inline]
-    [<00000000ed2d1b1e>] con_font_op+0x497/0x740 drivers/tty/vt/vt.c:4711
-    [<00000000fd6b18ad>] vt_io_ioctl drivers/tty/vt/vt_ioctl.c:596 [inline]
-    [<00000000fd6b18ad>] vt_ioctl+0xeab/0x19d0 drivers/tty/vt/vt_ioctl.c:817
-    [<00000000369331c6>] tty_ioctl+0x6c3/0xc40 drivers/tty/tty_io.c:2658
-    [<00000000a092c047>] vfs_ioctl fs/ioctl.c:48 [inline]
-    [<00000000a092c047>] __do_sys_ioctl fs/ioctl.c:753 [inline]
-    [<00000000a092c047>] __se_sys_ioctl fs/ioctl.c:739 [inline]
-    [<00000000a092c047>] __x64_sys_ioctl+0xfc/0x140 fs/ioctl.c:739
-    [<00000000705a3959>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
-    [<00000000f35163f9>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-executing program
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-executing program
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-write to /proc/sys/kernel/hung_task_check_interval_secs failed: No such file or directory
-write to /proc/sys/kernel/softlockup_all_cpu_backtrace failed: No such file or directory
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+CgpE
+dXJpbmcgY29tbWl0IDg4YmM0MTc4NTY4YiAoImRybTogVXNlIG5ldwpEUk1fQlVTX0ZMQUdfKl8o
+RFJJVkV8U0FNUExFKV8oUE9TfE5FRylFREdFIGZsYWdzIikgRFJNX0JVU19GTEFHXyoKbWFjcm9z
+IGhhdmUgYmVlbiBjaGFuZ2VkIHRvIGF2b2lkIGFtYmlndWl0eSBidXQganVzdCBiZWNhdXNlIG9m
+IHRoaXMKYW1iaWd1aXR5IHByZXZpb3VzIERSTV9CVVNfRkxBR19QSVhEQVRBXyhQT1MvTkVHKUVE
+R0Ugd2VyZSB1c2VkIG1lYW5pbmcKX1NBTVBMRV8gbm90IF9EUklWRV8uIFRoaXMgbGVhZHMgdG8g
+RExDSyBpbnZlcnNpb24gYW5kIG5lZWQgdG8gZml4IGJ1dAppbnN0ZWFkIG9mIHN3YXBwaW5nIHBo
+YXNlIHZhbHVlcywgbGV0J3MgYWRvcHQgYW4gZWFzaWVyIGFwcHJvYWNoIE1heGltZQpzdWdnZXN0
+ZWQ6Ckl0IHR1cm5lZCBvdXQgdGhhdCBiaXQgMjYgb2YgU1VONElfVENPTjBfSU9fUE9MX1JFRyBp
+cyBkZWRpY2F0ZWQgdG8KaW52ZXJ0IERDTEsgcG9sYXJpdHkgYW5kIHRoaXMgbWFrZXMgdGhpbmdz
+IHJlYWxseSBlYXNpZXIgdGhhbiBiZWZvcmUuIFNvCmxldCdzIGhhbmRsZSBEQ0xLIHBvbGFyaXR5
+IGJ5IGFkZGluZyBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSBhcwpiaXQgMjYgYW5k
+IGFjdGl2YXRpbmcgYWNjb3JkaW5nIHRvIGJ1c19mbGFncyB0aGUgc2FtZSB3YXkgaXQgaXMgZG9u
+ZSBmb3IKYWxsIHRoZSBvdGhlciBzaWduYWxzIHBvbGFyaXR5LgoKRml4ZXM6IDg4YmM0MTc4NTY4
+YiAoImRybTogVXNlIG5ldyBEUk1fQlVTX0ZMQUdfKl8oRFJJVkV8U0FNUExFKV8oUE9TfE5FRylF
+REdFIGZsYWdzIikKU3VnZ2VzdGVkLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVj
+aD4KU2lnbmVkLW9mZi1ieTogR2l1bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92
+YXNybC5jb20+Ci0tLQpWMi0+VjM6Ci0gc3F1YXNoIDIgcGF0Y2hlcyBpbnRvIDEKVjMtPlY0Ogot
+IGFkZCBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSB0byByZWdtYXBfdXBkYXRlX2Jp
+dHMoKQotLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMgfCAyMSArKy0tLS0t
+LS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmggfCAgMSAr
+CiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCgpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyBiL2RyaXZlcnMvZ3B1
+L2RybS9zdW40aS9zdW40aV90Y29uLmMKaW5kZXggZWFhZjVkNzBlMzUyLi42ZTQ1NGQzMTY4NTIg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwpAQCAtNTY5LDMwICs1NjksMTMgQEAgc3Rh
+dGljIHZvaWQgc3VuNGlfdGNvbjBfbW9kZV9zZXRfcmdiKHN0cnVjdCBzdW40aV90Y29uICp0Y29u
+LAogCWlmIChpbmZvLT5idXNfZmxhZ3MgJiBEUk1fQlVTX0ZMQUdfREVfTE9XKQogCQl2YWwgfD0g
+U1VONElfVENPTjBfSU9fUE9MX0RFX05FR0FUSVZFOwogCi0JLyoKLQkgKiBPbiBBMjAgYW5kIHNp
+bWlsYXIgU29DcywgdGhlIG9ubHkgd2F5IHRvIGFjaGlldmUgUG9zaXRpdmUgRWRnZQotCSAqIChS
+aXNpbmcgRWRnZSksIGlzIHNldHRpbmcgZGNsayBjbG9jayBwaGFzZSB0byAyLzMoMjQwwrApLgot
+CSAqIEJ5IGRlZmF1bHQgVENPTiB3b3JrcyBpbiBOZWdhdGl2ZSBFZGdlKEZhbGxpbmcgRWRnZSks
+Ci0JICogdGhpcyBpcyB3aHkgcGhhc2UgaXMgc2V0IHRvIDAgaW4gdGhhdCBjYXNlLgotCSAqIFVu
+Zm9ydHVuYXRlbHkgdGhlcmUncyBubyB3YXkgdG8gbG9naWNhbGx5IGludmVydCBkY2xrIHRocm91
+Z2gKLQkgKiBJT19QT0wgcmVnaXN0ZXIuCi0JICogVGhlIG9ubHkgYWNjZXB0YWJsZSB3YXkgdG8g
+d29yaywgdHJpcGxlIGNoZWNrZWQgd2l0aCBzY29wZSwKLQkgKiBpcyB1c2luZyBjbG9jayBwaGFz
+ZSBzZXQgdG8gMMKwIGZvciBOZWdhdGl2ZSBFZGdlIGFuZCBzZXQgdG8gMjQwwrAKLQkgKiBmb3Ig
+UG9zaXRpdmUgRWRnZS4KLQkgKiBPbiBBMzMgYW5kIHNpbWlsYXIgU29DcyB0aGVyZSB3b3VsZCBi
+ZSBhIDkwwrAgcGhhc2Ugb3B0aW9uLAotCSAqIGJ1dCBpdCBkaXZpZGVzIGFsc28gZGNsayBieSAy
+LgotCSAqIEZvbGxvd2luZyBjb2RlIGlzIGEgd2F5IHRvIGF2b2lkIHF1aXJrcyBhbGwgYXJvdW5k
+IFRDT04KLQkgKiBhbmQgRE9UQ0xPQ0sgZHJpdmVycy4KLQkgKi8KIAlpZiAoaW5mby0+YnVzX2Zs
+YWdzICYgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVfUE9TRURHRSkKLQkJY2xrX3NldF9waGFz
+ZSh0Y29uLT5kY2xrLCAyNDApOwotCi0JaWYgKGluZm8tPmJ1c19mbGFncyAmIERSTV9CVVNfRkxB
+R19QSVhEQVRBX0RSSVZFX05FR0VER0UpCi0JCWNsa19zZXRfcGhhc2UodGNvbi0+ZGNsaywgMCk7
+CisJCXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRTsKIAogCXJlZ21hcF91
+cGRhdGVfYml0cyh0Y29uLT5yZWdzLCBTVU40SV9UQ09OMF9JT19QT0xfUkVHLAogCQkJICAgU1VO
+NElfVENPTjBfSU9fUE9MX0hTWU5DX1BPU0lUSVZFIHwKIAkJCSAgIFNVTjRJX1RDT04wX0lPX1BP
+TF9WU1lOQ19QT1NJVElWRSB8CisJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElW
+RSB8CiAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfREVfTkVHQVRJVkUsCiAJCQkgICB2YWwpOwog
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oIGIvZHJpdmVy
+cy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAppbmRleCBjZmJmNGU2YzE2NzkuLjBjZTcxZDEw
+YTMxYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5oCkBAIC0xMTMsNiArMTEzLDcgQEAK
+ICNkZWZpbmUgU1VONElfVENPTjBfSU9fUE9MX1JFRwkJCTB4ODgKICNkZWZpbmUgU1VONElfVENP
+TjBfSU9fUE9MX0RDTEtfUEhBU0UocGhhc2UpCQkoKHBoYXNlICYgMykgPDwgMjgpCiAjZGVmaW5l
+IFNVTjRJX1RDT04wX0lPX1BPTF9ERV9ORUdBVElWRQkJCUJJVCgyNykKKyNkZWZpbmUgU1VONElf
+VENPTjBfSU9fUE9MX0RDTEtfUE9TSVRJVkUJCUJJVCgyNikKICNkZWZpbmUgU1VONElfVENPTjBf
+SU9fUE9MX0hTWU5DX1BPU0lUSVZFCQlCSVQoMjUpCiAjZGVmaW5lIFNVTjRJX1RDT04wX0lPX1BP
+TF9WU1lOQ19QT1NJVElWRQkJQklUKDI0KQogCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
