@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202DB2F4BAC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 13:54:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C70392F4BAD
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Jan 2021 13:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53CAF6E98F;
-	Wed, 13 Jan 2021 12:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E58416E990;
+	Wed, 13 Jan 2021 12:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2892D6E98F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:54:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D111233F6;
- Wed, 13 Jan 2021 12:54:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94356E990
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:54:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4E32222F9;
+ Wed, 13 Jan 2021 12:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610542452;
- bh=XoZ3+HkveJD688OqbQa5akCHJkS2iwMRFZB5mx2FwrE=;
+ s=k20201202; t=1610542472;
+ bh=ha4DGgePmLUz5DawJjbkL39gsXdnG9tY1EHFdTU1Pm4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g9IbYmvjigVKlTn8edw3PK0dgtTohMoxtNPCdhRnl+MGU7m2tDz+ynHglun++V5zy
- tGIRZ8hjjK0LGMDFNoJqPdX8FVaHMUEg2EN2jm6SnIAPzM+vI95UkPgS2QB5/EHJ4K
- BQ7zRMJXSTFeiNn9JKqBRmhJkW9Xu+1/qjYwpcZDbLgwq63msdB0gntMCe1hYCEXPI
- b5/XJEoVPXosWsZaQScSkMIu0mhZH3IPjpvORmXO/lINyWAUuhGkHqZtUHV0LIiXBI
- vRL/9PlvPEYfn41Hreo8a5Ar4K79RkNgUlL6OQT/Q/z65f1qxDwAtn/zLXWNdhpFe3
- uu0ghyv3YOfWQ==
-Date: Wed, 13 Jan 2021 18:24:08 +0530
+ b=ow7pz/hS8zbpvP8E0oy4yive0IVP0A+4IlWeVlUaWJboi4zm1/f5ZZkcWHW7rmZ2i
+ nqhdOxXT/5HMclwSrI9qtK1feBzX9qNvn4XqLiwRVeNeZ4g0dXiw19sUtaYF0SE3HY
+ Oqq5nCk57pjy+YcHvpovnh2u8w82wffWnXJ70dRZYmG5TWyi7ZsHOheVI1yVoyKi5p
+ N/SIrIvnGGpEPxgb3r40QNghtTzDP53r+mt9ehoyTk3bGpV1lJUJfSuM/3M/aj6hR0
+ jFPjj2Xhe4xQ1WQOSxW8hTzA/78zidUkTqriu6eY8oHozZueELfGctE6HLB8beG75x
+ JTaGQ+PByZ2RA==
+Date: Wed, 13 Jan 2021 18:24:27 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: Re: [PATCH v5 05/11] dt-bindings: phy: convert phy-mtk-ufs.txt to
+Subject: Re: [PATCH v5 06/11] dt-bindings: phy: convert HDMI PHY binding to
  YAML schema
-Message-ID: <20210113125408.GL2771@vkoul-mobl>
+Message-ID: <20210113125427.GM2771@vkoul-mobl>
 References: <20201225075258.33352-1-chunfeng.yun@mediatek.com>
- <20201225075258.33352-5-chunfeng.yun@mediatek.com>
+ <20201225075258.33352-6-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201225075258.33352-5-chunfeng.yun@mediatek.com>
+In-Reply-To: <20201225075258.33352-6-chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,7 +64,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25-12-20, 15:52, Chunfeng Yun wrote:
-> Convert phy-mtk-ufs.txt to YAML schema mediatek,ufs-phy.yaml
+> Convert HDMI PHY binding to YAML schema mediatek,hdmi-phy.yaml
 
 Applied, thanks
 
