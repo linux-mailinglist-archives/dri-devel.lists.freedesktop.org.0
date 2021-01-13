@@ -2,35 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E8C2F5D76
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AA62F5D7D
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27D46E14D;
-	Thu, 14 Jan 2021 09:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2A66E145;
+	Thu, 14 Jan 2021 09:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F086EC28
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 19:52:29 +0000 (UTC)
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Jan 2021 11:52:28 -0800
-X-QCInternal: smtphost
-Received: from veeras-linux.qualcomm.com ([10.134.68.137])
- by ironmsg02-sd.qualcomm.com with ESMTP; 13 Jan 2021 11:52:28 -0800
-Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
- id 3CCF121B9E; Wed, 13 Jan 2021 11:52:28 -0800 (PST)
-From: Veera Sundaram Sankaran <veeras@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
- daniel@ffwll.ch, john.stultz@linaro.org
-Subject: [PATCH v3 2/2] drm/drm_vblank: set the dma-fence timestamp during
- send_vblank_event
-Date: Wed, 13 Jan 2021 11:52:19 -0800
-Message-Id: <1610567539-16750-2-git-send-email-veeras@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
-References: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6C589259
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 20:21:20 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id v3so1701161plz.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 12:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=u6R4AQJwna1Zvnrc86J9azzfneuprQEtwwFsQuVc3og=;
+ b=iGXcSZ3vf/7+lrMXeBvMLEppSiK1QOGxXONM1Ag/hWB8KQDBSrKEAAFvMTVAdX8mo2
+ 904o7LBICMF1rvrHUaBQjuc6HXgMDjU58eUM9Bo7IEbtvn1CjU0CPmJprq1EE7mt5lrJ
+ kMGx+WtjLTWHCgokFZwc9UoaNZ94W7yzydDh4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=u6R4AQJwna1Zvnrc86J9azzfneuprQEtwwFsQuVc3og=;
+ b=NGmC3JbcNmzPnVhM6IOmm0cmPGy4kJZcrk+a38mgOAscEaYA/pxCvkJdtI2SGmMTAX
+ runM3ONBtOAi4VLv9mXgRQhwxtgTCdkVeTRLmfCATG/0nDRAMvUcAmXCvuk46ZETeBXP
+ TeFzvLpNThtpr/yOP7CgisYLgrsUOdbpllxJFn9xZkvjv+MdQhYmNRSCbK5zmonINw9h
+ 8kRA6XdjnXVRSGozCLCRV/xs8ZbHrfI+NC3Co4EtOHqWWkKX0xYTscm6zfpPrrVsWL9R
+ YpjSr61Kjdib6ABiYfTLByPBCnm8p2G6XtJvCQC2yR1z9YrZAueGlm9hHu+5O5ot2vmD
+ vL2g==
+X-Gm-Message-State: AOAM533Wo1vejs/RPvti/EuNc/8fk0OjkAWO7r9AgVagv13jUG1gcrWk
+ /Q/RIXFYj2b3Xczky42kCTxTLBl20B1bJA==
+X-Google-Smtp-Source: ABdhPJxcze093Ox1ieIVbzxnheFHDjdf8Jr9Y7KtYj1RjSs7J3v7DkFm1CU87BqHfMy/L0UhxaPWgA==
+X-Received: by 2002:a17:90a:3e4f:: with SMTP id
+ t15mr1038628pjm.57.1610569279973; 
+ Wed, 13 Jan 2021 12:21:19 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id g26sm3323866pfo.35.2021.01.13.12.21.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 12:21:19 -0800 (PST)
+MIME-Version: 1.0
+In-Reply-To: <17a116011ae60194834210a4a0c877b3@codeaurora.org>
+References: <y> <1610051425-20632-1-git-send-email-khsieh@codeaurora.org>
+ <1610051425-20632-2-git-send-email-khsieh@codeaurora.org>
+ <161039491877.3661239.1387205899512360969@swboyd.mtv.corp.google.com>
+ <17a116011ae60194834210a4a0c877b3@codeaurora.org>
+Subject: Re: [PATCH 1/2] drm/msm/dp: postpone irq_hpd event during connection
+ pending state
+From: Stephen Boyd <swboyd@chromium.org>
+To: khsieh@codeaurora.org
+Date: Wed, 13 Jan 2021 12:21:17 -0800
+Message-ID: <161056927774.3661239.6186577459996584479@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,189 +70,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Veera Sundaram Sankaran <veeras@codeaurora.org>, abhinavk@codeaurora.org,
- pdhaval@codeaurora.org, sean@poorly.run
-MIME-Version: 1.0
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The explicit out-fences in crtc are signaled as part of vblank event,
-indicating all framebuffers present on the Atomic Commit request are
-scanned out on the screen. Though the fence signal and the vblank event
-notification happens at the same time, triggered by the same hardware
-vsync event, the timestamp set in both are different. With drivers
-supporting precise vblank timestamp the difference between the two
-timestamps would be even higher. This might have an impact on use-mode
-frameworks using these fence timestamps for purposes other than simple
-buffer usage. For instance, the Android framework [1] uses the
-retire-fences as an alternative to vblank when frame-updates are in
-progress. Set the fence timestamp during send vblank event using a new
-drm_send_event_timestamp_locked variant to avoid discrepancies.
+Quoting khsieh@codeaurora.org (2021-01-13 09:44:24)
+> On 2021-01-11 11:55, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2021-01-07 12:30:24)
+> >> irq_hpd event can only be executed at connected state. Therefore
+> >> irq_hpd event should be postponed if it happened at connection
+> >> pending state. This patch also make sure both link rate and lane
+> > 
+> > Why does it happen at connection pending state?
+> plug in need two state to complete it.
+> advance to connection pending state once link training completed and 
+> sent uevent notification to frame work.
+> transition to connected state after frame work provided resolution 
+> timing and start transmit video panel.
+> Therefore irq_hpd should not be handled if it occurred before connected 
+> state.
+> > 
+> >> are valid before start link training.
+> > 
+> > Can this part about link rate and lane being valid be split off into
+> > another patch?
+> > 
+> ok, i will spilt this patch into two.
+> I will merge irq_hpd event part into 2nd patch (drm/msm/dp: unplug 
+> interrupt missed after irq_hpd handler).
 
-[1] https://android.googlesource.com/platform/frameworks/native/+/master/
-services/surfaceflinger/Scheduler/Scheduler.cpp#397
+It looks like Rob already picked this patch up
 
-Changes in v2:
-- Use drm_send_event_timestamp_locked to update fence timestamp
-- add more information to commit text
-
-Changes in v3:
-- use same backend helper function for variants of drm_send_event to
-avoid code duplications
-
-Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
----
- drivers/gpu/drm/drm_file.c   | 71 ++++++++++++++++++++++++++++++++++++--------
- drivers/gpu/drm/drm_vblank.c |  9 +++++-
- include/drm/drm_file.h       |  3 ++
- 3 files changed, 70 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 0ac4566..b8348ca 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -775,20 +775,19 @@ void drm_event_cancel_free(struct drm_device *dev,
- EXPORT_SYMBOL(drm_event_cancel_free);
- 
- /**
-- * drm_send_event_locked - send DRM event to file descriptor
-+ * drm_send_event_helper - send DRM event to file descriptor
-  * @dev: DRM device
-  * @e: DRM event to deliver
-+ * @timestamp: timestamp to set for the fence event in kernel's CLOCK_MONOTONIC
-+ * time domain
-  *
-- * This function sends the event @e, initialized with drm_event_reserve_init(),
-- * to its associated userspace DRM file. Callers must already hold
-- * &drm_device.event_lock, see drm_send_event() for the unlocked version.
-- *
-- * Note that the core will take care of unlinking and disarming events when the
-- * corresponding DRM file is closed. Drivers need not worry about whether the
-- * DRM file for this event still exists and can call this function upon
-- * completion of the asynchronous work unconditionally.
-+ * This helper function sends the event @e, initialized with
-+ * drm_event_reserve_init(), to its associated userspace DRM file.
-+ * The timestamp variant of dma_fence_signal is used when the caller
-+ * sends a valid timestamp.
-  */
--void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
-+void drm_send_event_helper(struct drm_device *dev,
-+			struct drm_pending_event *e, ktime_t timestamp)
- {
- 	assert_spin_locked(&dev->event_lock);
- 
-@@ -799,7 +798,10 @@ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
- 	}
- 
- 	if (e->fence) {
--		dma_fence_signal(e->fence);
-+		if (timestamp)
-+			dma_fence_signal_timestamp(e->fence, timestamp);
-+		else
-+			dma_fence_signal(e->fence);
- 		dma_fence_put(e->fence);
- 	}
- 
-@@ -814,6 +816,51 @@ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
- 	wake_up_interruptible_poll(&e->file_priv->event_wait,
- 		EPOLLIN | EPOLLRDNORM);
- }
-+
-+/**
-+ * drm_send_event_timestamp_locked - send DRM event to file descriptor
-+ * @dev: DRM device
-+ * @e: DRM event to deliver
-+ * @timestamp: timestamp to set for the fence event in kernel's CLOCK_MONOTONIC
-+ * time domain
-+ *
-+ * This function sends the event @e, initialized with drm_event_reserve_init(),
-+ * to its associated userspace DRM file. Callers must already hold
-+ * &drm_device.event_lock.
-+ *
-+ * Note that the core will take care of unlinking and disarming events when the
-+ * corresponding DRM file is closed. Drivers need not worry about whether the
-+ * DRM file for this event still exists and can call this function upon
-+ * completion of the asynchronous work unconditionally.
-+ */
-+void drm_send_event_timestamp_locked(struct drm_device *dev,
-+			struct drm_pending_event *e, ktime_t timestamp)
-+{
-+	WARN_ON(!timestamp);
-+
-+	drm_send_event_helper(dev, e, timestamp);
-+
-+}
-+EXPORT_SYMBOL(drm_send_event_timestamp_locked);
-+
-+/**
-+ * drm_send_event_locked - send DRM event to file descriptor
-+ * @dev: DRM device
-+ * @e: DRM event to deliver
-+ *
-+ * This function sends the event @e, initialized with drm_event_reserve_init(),
-+ * to its associated userspace DRM file. Callers must already hold
-+ * &drm_device.event_lock, see drm_send_event() for the unlocked version.
-+ *
-+ * Note that the core will take care of unlinking and disarming events when the
-+ * corresponding DRM file is closed. Drivers need not worry about whether the
-+ * DRM file for this event still exists and can call this function upon
-+ * completion of the asynchronous work unconditionally.
-+ */
-+void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e)
-+{
-+	drm_send_event_helper(dev, e, 0);
-+}
- EXPORT_SYMBOL(drm_send_event_locked);
- 
- /**
-@@ -836,7 +883,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
- 	unsigned long irqflags;
- 
- 	spin_lock_irqsave(&dev->event_lock, irqflags);
--	drm_send_event_locked(dev, e);
-+	drm_send_event_helper(dev, e, 0);
- 	spin_unlock_irqrestore(&dev->event_lock, irqflags);
- }
- EXPORT_SYMBOL(drm_send_event);
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index f135b79..286edbe 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1000,7 +1000,14 @@ static void send_vblank_event(struct drm_device *dev,
- 		break;
- 	}
- 	trace_drm_vblank_event_delivered(e->base.file_priv, e->pipe, seq);
--	drm_send_event_locked(dev, &e->base);
-+	/*
-+	 * Use the same timestamp for any associated fence signal to avoid
-+	 * mismatch in timestamps for vsync & fence events triggered by the
-+	 * same HW event. Frameworks like SurfaceFlinger in Android expects the
-+	 * retire-fence timestamp to match exactly with HW vsync as it uses it
-+	 * for its software vsync modeling.
-+	 */
-+	drm_send_event_timestamp_locked(dev, &e->base, now);
- }
- 
- /**
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 716990b..b81b3bf 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -399,6 +399,9 @@ void drm_event_cancel_free(struct drm_device *dev,
- 			   struct drm_pending_event *p);
- void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e);
- void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
-+void drm_send_event_timestamp_locked(struct drm_device *dev,
-+				     struct drm_pending_event *e,
-+				     ktime_t timestamp);
- 
- struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
- 
--- 
-2.7.4
-
+https://gitlab.freedesktop.org/drm/msm/-/commit/2b5f09cadfc576817c0450e01d454f750909b103
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
