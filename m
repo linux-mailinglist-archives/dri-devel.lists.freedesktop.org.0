@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6865C2F6646
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:50:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 206EC2F6649
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:51:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA36F89FF6;
-	Thu, 14 Jan 2021 16:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E2D89F6F;
+	Thu, 14 Jan 2021 16:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56EA189F6F;
- Thu, 14 Jan 2021 16:50:33 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id x13so5756684oto.8;
- Thu, 14 Jan 2021 08:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=L+TgfptYtNVwPcoqIzpc+5x5pT5jGcrCtNNE8GbycVQ=;
- b=OU+ltv1/I1mq2l+2K0dxg49+eeRyGQPUoZIqH6PnpCygeJzSwYom/ikzMn/exSo+kG
- XGryLRYg/tmP2bElPqcqydE71+8acjxa8ClBmwzdjoTlltEbALf6+nILf6YUYQfBiHOu
- ewTMAhgmHUA9jAMuDXKdUWR2eh1u4g4vIa0+bnJlkhGfqEFQDba0JDXa8cnR4qumPQEU
- kzhG9d0F2tDVUdlfwMkqFFy+l/+xKw46w9D5Yqwtxdi5Epq42DOuv4HUIvrVq3VrOwgN
- k+RVxTcfgQrWqltPgBFuwsgm0B5dZtnRq+AB6iShCbYnYCUB9aNFaB/0FGLoXdNk3EOL
- pV9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=L+TgfptYtNVwPcoqIzpc+5x5pT5jGcrCtNNE8GbycVQ=;
- b=JEjYuMoVocAZ7FfMWnY4oQKl0xPEaIUWpcMFRJYTTKY/9bMjNF+XW5CmsBdBPUO0iN
- FXZRtaYSqnMdatpsItAQIAh1z4tnzUrBlqVeL+ctVcOh9zZDscON+0/Goh+U2+JTe8oV
- idV68nLRuqzRFLLT3AFBMNCVglFr0101KizgtMjj0iPok+gWs7qCX/px1ZSYLzd3nlqE
- sQihuJtI1IQTwWl+6bEdYCA9pyqvIKJHiEv1PQ2wBqb8DjsGmnaK3uNrLtUEOr2EODiC
- ADzhrgI9odim2/juf6g6NM0Sj4Dv3DY77QHKxJh5wFoiAYegjRWX46x5vUHGnDFrJRpp
- hqIw==
-X-Gm-Message-State: AOAM533IvNlYRSM9RUPSbRp3DArOtKpISe6btWxSI6l/8K2uZwNMpEJ3
- iooWm56Df6uGJ897GEgylCi/Ed613AdpMoNwPFnC+/oZ
-X-Google-Smtp-Source: ABdhPJyDq5ns73KgHKa6b8H0X02mufxys2TirNlA/0Nqjtj6UrkIsOVk0kiLYwtG+xP1vqvJELUEAj5pmPN1zv3Moeg=
-X-Received: by 2002:a05:6830:1b7b:: with SMTP id
- d27mr5391755ote.132.1610643032581; 
- Thu, 14 Jan 2021 08:50:32 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7A489F6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:51:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610643094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=81k+ap4vU/W71Kd/MpXEpnFZ0rgYeGS0U7BvC24vboE=;
+ b=VXdWkrNpAVYJ0yNMktMHyopS3uiciynB/toCd/mQG4zAnLcWYJPoXCZ9Frk2xu5ZmesGYM
+ Aejq9sv8v9D6Vv+2gPYULt/Cz7MXI+wD54E900aDb8Hwvy5TE0k4FCWubx7se30v5nFh0z
+ Qf728k1A0KBMZPiXglkfLm83OLvJQOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-yszHMnM9O6aqdP4Dphqf-Q-1; Thu, 14 Jan 2021 11:51:32 -0500
+X-MC-Unique: yszHMnM9O6aqdP4Dphqf-Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD2457247;
+ Thu, 14 Jan 2021 16:51:30 +0000 (UTC)
+Received: from redhat.com (ovpn-115-63.rdu2.redhat.com [10.10.115.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAEE35C67A;
+ Thu, 14 Jan 2021 16:51:29 +0000 (UTC)
+Date: Thu, 14 Jan 2021 11:51:28 -0500
+From: Jerome Glisse <jglisse@redhat.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: HMM fence (was Re: [PATCH 00/35] Add HMM-based SVM memory
+ manager to KFD)
+Message-ID: <20210114165128.GB10147@redhat.com>
+References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
+ <X/bTFWL3HYVc8LEF@phenom.ffwll.local>
+ <6daf9ebc-507e-6e83-04dd-d7c5fc6998d6@amd.com>
+ <X/hux3eX8Ywf61h7@phenom.ffwll.local>
+ <20210113165646.GB521755@redhat.com>
+ <c1ecb381-20cc-850b-4491-99c6b413f7df@gmail.com>
+ <CAKMK7uHXRwE7tgHM0K921pEyrpZWz7G5q_OcrS4tBPAN-f3k-g@mail.gmail.com>
+ <5267b98d-05f4-9e8a-e424-b226f72ce066@amd.com>
 MIME-Version: 1.0
-References: <20210108201457.3078600-1-lee.jones@linaro.org>
- <20210108201457.3078600-22-lee.jones@linaro.org>
-In-Reply-To: <20210108201457.3078600-22-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Jan 2021 11:50:21 -0500
-Message-ID: <CADnq5_MK8VqPiRzLFAn4a7U_-Ptq12bR6KYHdq4D0yzNjWPpQg@mail.gmail.com>
-Subject: Re: [PATCH 21/40] drm/amd/display/dc/calcs/dce_calcs: Remove unused
- variables 'v_filter_init_mode' and 'sclk_lvl'
-To: Lee Jones <lee.jones@linaro.org>
+In-Reply-To: <5267b98d-05f4-9e8a-e424-b226f72ce066@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jglisse@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,80 +70,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alex Sierra <alex.sierra@amd.com>, "Yang, Philip" <philip.yang@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIEZyaSwgSmFuIDgsIDIwMjEgYXQgMzoxNSBQTSBM
-ZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xs
-b3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNzLmM6IEluIGZ1bmN0aW9uIOKA
-mGNhbGN1bGF0ZV9iYW5kd2lkdGjigJk6Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4u
-L2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNzLmM6MTA5OjE4OiB3YXJuaW5nOiB2YXJpYWJsZSDi
-gJh2X2ZpbHRlcl9pbml0X21vZGXigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNl
-dC12YXJpYWJsZV0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9j
-YWxjcy9kY2VfY2FsY3MuYzogSW4gZnVuY3Rpb24g4oCYYndfY2FsY3PigJk6Cj4gIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNzLmM6MzAzMToy
-MTogd2FybmluZzogdmFyaWFibGUg4oCYc2Nsa19sdmzigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1
-bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPgo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2Vu
-dGxhbmRAYW1kLmNvbT4KPiBDYzogTGVvIExpIDxzdW5wZW5nLmxpQGFtZC5jb20+Cj4gQ2M6IEFs
-ZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBDYzogIkNocmlzdGlhbiBL
-w7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWly
-bGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENj
-OiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJv
-Lm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NhbGNzL2RjZV9j
-YWxjcy5jIHwgOCArLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDcg
-ZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2RjL2NhbGNzL2RjZV9jYWxjcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Nh
-bGNzL2RjZV9jYWxjcy5jCj4gaW5kZXggZWY0MWIyODdjYmUyMy4uMTU4ZDkyN2MwM2U1NSAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNz
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY2FsY3MvZGNlX2NhbGNz
-LmMKPiBAQCAtMTA2LDcgKzEwNiw2IEBAIHN0YXRpYyB2b2lkIGNhbGN1bGF0ZV9iYW5kd2lkdGgo
-Cj4gICAgICAgICBib29sIGxwdF9lbmFibGVkOwo+ICAgICAgICAgZW51bSBid19kZWZpbmVzIHNj
-bGtfbWVzc2FnZTsKPiAgICAgICAgIGVudW0gYndfZGVmaW5lcyB5Y2xrX21lc3NhZ2U7Cj4gLSAg
-ICAgICBlbnVtIGJ3X2RlZmluZXMgdl9maWx0ZXJfaW5pdF9tb2RlW21heGltdW1fbnVtYmVyX29m
-X3N1cmZhY2VzXTsKPiAgICAgICAgIGVudW0gYndfZGVmaW5lcyB0aWxpbmdfbW9kZVttYXhpbXVt
-X251bWJlcl9vZl9zdXJmYWNlc107Cj4gICAgICAgICBlbnVtIGJ3X2RlZmluZXMgc3VyZmFjZV90
-eXBlW21heGltdW1fbnVtYmVyX29mX3N1cmZhY2VzXTsKPiAgICAgICAgIGVudW0gYndfZGVmaW5l
-cyB2b2x0YWdlOwo+IEBAIC03OTIsMTIgKzc5MSw4IEBAIHN0YXRpYyB2b2lkIGNhbGN1bGF0ZV9i
-YW5kd2lkdGgoCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkYXRhLT52X2ZpbHRl
-cl9pbml0W2ldID0gYndfYWRkKGRhdGEtPnZfZmlsdGVyX2luaXRbaV0sIGJ3X2ludF90b19maXhl
-ZCgxKSk7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgfQo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgIGlmIChkYXRhLT5zdGVyZW9fbW9kZVtpXSA9PSBid19kZWZfdG9wX2JvdHRvbSkgewo+IC0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdl9maWx0ZXJfaW5pdF9tb2RlW2ldID0gYndf
-ZGVmX21hbnVhbDsKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRhdGEtPnZfZmls
-dGVyX2luaXRbaV0gPSBid19taW4yKGRhdGEtPnZfZmlsdGVyX2luaXRbaV0sIGJ3X2ludF90b19m
-aXhlZCg0KSk7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgfQo+IC0gICAgICAgICAgICAgICAg
-ICAgICAgIGVsc2Ugewo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdl9maWx0ZXJf
-aW5pdF9tb2RlW2ldID0gYndfZGVmX2F1dG87Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgfQo+
-ICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChkYXRhLT5zdGVyZW9fbW9kZVtpXSA9PSBid19k
-ZWZfdG9wX2JvdHRvbSkgewo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF0YS0+
-bnVtX2xpbmVzX2F0X2ZyYW1lX3N0YXJ0ID0gYndfaW50X3RvX2ZpeGVkKDEpOwo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgIH0KPiBAQCAtMzAyOCw3ICszMDIzLDcgQEAgYm9vbCBid19jYWxjcyhz
-dHJ1Y3QgZGNfY29udGV4dCAqY3R4LAo+ICAgICAgICAgICAgICAgICBjYWxjc19vdXRwdXQtPmFs
-bF9kaXNwbGF5c19pbl9zeW5jID0gZmFsc2U7Cj4KPiAgICAgICAgIGlmIChkYXRhLT5udW1iZXJf
-b2ZfZGlzcGxheXMgIT0gMCkgewo+IC0gICAgICAgICAgICAgICB1aW50OF90IHljbGtfbHZsLCBz
-Y2xrX2x2bDsKPiArICAgICAgICAgICAgICAgdWludDhfdCB5Y2xrX2x2bDsKPiAgICAgICAgICAg
-ICAgICAgc3RydWN0IGJ3X2ZpeGVkIGhpZ2hfc2NsayA9IHZiaW9zLT5oaWdoX3NjbGs7Cj4gICAg
-ICAgICAgICAgICAgIHN0cnVjdCBid19maXhlZCBtaWQxX3NjbGsgPSB2Ymlvcy0+bWlkMV9zY2xr
-Owo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgYndfZml4ZWQgbWlkMl9zY2xrID0gdmJpb3MtPm1p
-ZDJfc2NsazsKPiBAQCAtMzA0OSw3ICszMDQ0LDYgQEAgYm9vbCBid19jYWxjcyhzdHJ1Y3QgZGNf
-Y29udGV4dCAqY3R4LAo+ICAgICAgICAgICAgICAgICBjYWxjdWxhdGVfYmFuZHdpZHRoKGRjZWlw
-LCB2YmlvcywgZGF0YSk7Cj4KPiAgICAgICAgICAgICAgICAgeWNsa19sdmwgPSBkYXRhLT55X2Ns
-a19sZXZlbDsKPiAtICAgICAgICAgICAgICAgc2Nsa19sdmwgPSBkYXRhLT5zY2xrX2xldmVsOwo+
-Cj4gICAgICAgICAgICAgICAgIGNhbGNzX291dHB1dC0+bmJwX3N0YXRlX2NoYW5nZV9lbmFibGUg
-PQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGRhdGEtPm5icF9zdGF0ZV9jaGFuZ2VfZW5hYmxl
-Owo+IC0tCj4gMi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Thu, Jan 14, 2021 at 02:37:36PM +0100, Christian K=C3=B6nig wrote:
+> Am 14.01.21 um 12:52 schrieb Daniel Vetter:
+> > [SNIP]
+> > > > I had a new idea, i wanted to think more about it but have not yet,
+> > > > anyway here it is. Adding a new callback to dma fence which ask the
+> > > > question can it dead lock ? Any time a GPU driver has pending page
+> > > > fault (ie something calling into the mm) it answer yes, otherwise
+> > > > no. The GPU shrinker would ask the question before waiting on any
+> > > > dma-fence and back of if it gets yes. Shrinker can still try many
+> > > > dma buf object for which it does not get a yes on associated fence.
+> > > > =
+
+> > > > This does not solve the mmu notifier case, for this you would just
+> > > > invalidate the gem userptr object (with a flag but not releasing the
+> > > > page refcount) but you would not wait for the GPU (ie no dma fence
+> > > > wait in that code path anymore). The userptr API never really made
+> > > > the contract that it will always be in sync with the mm view of the
+> > > > world so if different page get remapped to same virtual address
+> > > > while GPU is still working with the old pages it should not be an
+> > > > issue (it would not be in our usage of userptr for compositor and
+> > > > what not).
+> > > The current working idea in my mind goes into a similar direction.
+> > > =
+
+> > > But instead of a callback I'm adding a complete new class of HMM fenc=
+es.
+> > > =
+
+> > > Waiting in the MMU notfier, scheduler, TTM etc etc is only allowed for
+> > > the dma_fences and HMM fences are ignored in container objects.
+> > > =
+
+> > > When you handle an implicit or explicit synchronization request from
+> > > userspace you need to block for HMM fences to complete before taking =
+any
+> > > resource locks.
+> > Isnt' that what I call gang scheduling? I.e. you either run in HMM
+> > mode, or in legacy fencing mode (whether implicit or explicit doesn't
+> > really matter I think). By forcing that split we avoid the problem,
+> > but it means occasionally full stalls on mixed workloads.
+> > =
+
+> > But that's not what Jerome wants (afaiui at least), I think his idea
+> > is to track the reverse dependencies of all the fences floating
+> > around, and then skip evicting an object if you have to wait for any
+> > fence that is problematic for the current calling context. And I don't
+> > think that's very feasible in practice.
+> > =
+
+> > So what kind of hmm fences do you have in mind here?
+> =
+
+> It's a bit more relaxed than your gang schedule.
+> =
+
+> See the requirements are as follow:
+> =
+
+> 1. dma_fences never depend on hmm_fences.
+> 2. hmm_fences can never preempt dma_fences.
+> 3. dma_fences must be able to preempt hmm_fences or we always reserve eno=
+ugh
+> hardware resources (CUs) to guarantee forward progress of dma_fences.
+> =
+
+> Critical sections are MMU notifiers, page faults, GPU schedulers and
+> dma_reservation object locks.
+> =
+
+> 4. It is valid to wait for a dma_fences in critical sections.
+> 5. It is not valid to wait for hmm_fences in critical sections.
+> =
+
+> Fence creation either happens during command submission or by adding
+> something like a barrier or signal command to your userspace queue.
+> =
+
+> 6. If we have an hmm_fence as implicit or explicit dependency for creatin=
+g a
+> dma_fence we must wait for that before taking any locks or reserving
+> resources.
+> 7. If we have a dma_fence as implicit or explicit dependency for creating=
+ an
+> hmm_fence we can wait later on. So busy waiting or special WAIT hardware
+> commands are valid.
+> =
+
+> This prevents hard cuts, e.g. can mix hmm_fences and dma_fences at the sa=
+me
+> time on the hardware.
+> =
+
+> In other words we can have a high priority gfx queue running jobs based on
+> dma_fences and a low priority compute queue running jobs based on
+> hmm_fences.
+> =
+
+> Only when we switch from hmm_fence to dma_fence we need to block the
+> submission until all the necessary resources (both memory as well as CUs)
+> are available.
+> =
+
+> This is somewhat an extension to your gang submit idea.
+
+What is hmm_fence ? You should not have fence with hmm at all.
+So i am kind of scare now.
+
+Cheers,
+J=C3=A9r=C3=B4me
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
