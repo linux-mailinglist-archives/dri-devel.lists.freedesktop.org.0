@@ -1,38 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6222F5F50
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 11:55:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EEA2F5FA2
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 12:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23EB789208;
-	Thu, 14 Jan 2021 10:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D03846E241;
+	Thu, 14 Jan 2021 11:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B15A891EC;
- Thu, 14 Jan 2021 10:55:03 +0000 (UTC)
-IronPort-SDR: e9mtSoTYEmeajIM5pM+VeM9sJ/Qo9RroTPO896M5IcLJOG7bDaDtpQzdiyQRGqzsFg/V93P9iD
- qBASdbfwdzsQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="196997142"
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="196997142"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 02:55:00 -0800
-IronPort-SDR: 5NS0vfQB0197Xd+J0LCoQhDUHrAQbMSjeqMN8WENRipU7pApqTkW+T799tTWiIo8G7tXXHQdKy
- ZeDm1TWrXKFg==
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="424911372"
-Received: from dforourk-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.213.254.146])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 02:54:56 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 14 Jan 2021 12:54:53 +0200
-Message-ID: <87sg73pz42.fsf@intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 592AC89491;
+ Thu, 14 Jan 2021 11:16:45 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E5D7AB7A6;
+ Thu, 14 Jan 2021 11:16:43 +0000 (UTC)
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+References: <20210114113107.622102e0@canb.auug.org.au>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <524351d0-506d-bd49-ab50-66316d7e5105@suse.de>
+Date: Thu, 14 Jan 2021 12:16:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210114113107.622102e0@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,92 +41,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0388711250=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0388711250==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jJL4pOPwDC6gspy7p5JwzKT8iKU9cxx8Y"
 
-Hi Dave & Daniel -
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jJL4pOPwDC6gspy7p5JwzKT8iKU9cxx8Y
+Content-Type: multipart/mixed; boundary="oYbDUBfhMYZhf86gzX4V6y4JZK6TwFz2I";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Message-ID: <524351d0-506d-bd49-ab50-66316d7e5105@suse.de>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+References: <20210114113107.622102e0@canb.auug.org.au>
+In-Reply-To: <20210114113107.622102e0@canb.auug.org.au>
 
-drm-intel-fixes-2021-01-14:
-drm/i915 fixes for v5.11-rc4:
-- Allow the sysadmin to override security mitigations
-- Restore clear-residual mitigations for ivb/byt
-- Limit VFE threads based on GT
-- GVT: fix vfio edid and full display detection
-- Fix DSI DSC power refcounting
-- Fix LPT CPU mode backlight takeover
-- Disable RPM wakeref assertions during driver shutdown
-- Fix DSI sequence sleeps
+--oYbDUBfhMYZhf86gzX4V6y4JZK6TwFz2I
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Jani.
+Hi
 
-The following changes since commit 7c53f6b671f4aba70ff15e1b05148b10d58c2837:
+Am 14.01.21 um 01:31 schrieb Stephen Rothwell:
+> Hi all,
+>=20
+> After merging the drm-misc tree, today's linux-next build (arm
+> multi_v7_defconfig) failed like this:
+>=20
+> drivers/gpu/drm/drm_cache.c: In function 'drm_need_swiotlb':
+> drivers/gpu/drm/drm_cache.c:202:6: error: implicit declaration of funct=
+ion 'mem_encrypt_active' [-Werror=3Dimplicit-function-declaration]
+>    202 |  if (mem_encrypt_active())
+>        |      ^~~~~~~~~~~~~~~~~~
+>=20
+>=20
+> Caused by commit
+>=20
+>    3abc66706385 ("drm: Implement drm_need_swiotlb() in drm_cache.c")
+>=20
+> I have used the drm-misc tree from next-20210107 again for today.
 
-  Linux 5.11-rc3 (2021-01-10 14:34:50 -0800)
+Sorry for the breakage. Fixed in drm-misc-next.
 
-are available in the Git repository at:
+Best regards
+Thomas
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-01-14
+>=20
 
-for you to fetch changes up to 984cadea032b103c5824a5f29d0a36b3e9df6333:
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 
-  drm/i915: Allow the sysadmin to override security mitigations (2021-01-12 19:03:40 +0200)
 
-----------------------------------------------------------------
-drm/i915 fixes for v5.11-rc4:
-- Allow the sysadmin to override security mitigations
-- Restore clear-residual mitigations for ivb/byt
-- Limit VFE threads based on GT
-- GVT: fix vfio edid and full display detection
-- Fix DSI DSC power refcounting
-- Fix LPT CPU mode backlight takeover
-- Disable RPM wakeref assertions during driver shutdown
-- Fix DSI sequence sleeps
+--oYbDUBfhMYZhf86gzX4V6y4JZK6TwFz2I--
 
-----------------------------------------------------------------
-Chris Wilson (4):
-      drm/i915: Disable RPM wakeref assertions during driver shutdown
-      drm/i915/gt: Limit VFE threads based on GT
-      drm/i915/gt: Restore clear-residual mitigations for Ivybridge, Baytrail
-      drm/i915: Allow the sysadmin to override security mitigations
+--jJL4pOPwDC6gspy7p5JwzKT8iKU9cxx8Y
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Colin Xu (1):
-      drm/i915/gvt: Fix vfio_edid issue for BXT/APL
+-----BEGIN PGP SIGNATURE-----
 
-Hans de Goede (1):
-      drm/i915/dsi: Use unconditional msleep for the panel_on_delay when there is no reset-deassert MIPI-sequence
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAAKBoFAwAAAAAACgkQlh/E3EQov+Bt
+zA//b9VYy7/b8sble+TS3HnmjvwcuMbp5ETrD8Ju40SU8bM+8Qb9NT6TL9FeAQro5UFKzMt1Jmci
+zXK+lkNyUxUo44hoDIUTVVlvvQQqUYbtB/wMWS6FoKHODyG/jfR9JtTPzmRuSmn2gesrBmZcCGe5
+0FL6UEJHH+U7Xw9Lmlxo7GSsVx6SUbDFNMz82DDoWU5lOd0Z0wMbJO/FVv5nGrlj3LuvDv+bUxf+
+BOWPyseaVLGYCu6ZfSfTWjNF8sN/ZI6XIrWidRjWeBK+rQFMKTqkkZFb+QtfPQLvcHiHlPEFv5FN
+bUfM65PZ4hxLWsdW6qhMSInDEqU6BwmWXph12UvX7ZvROz8xm3u/LqhGX3xNo/plmr/xFY4CkH8p
+BWWrO43zVbrqK1SEj8rQkPECiXXVhu8fD493WOT/dTaZkGbhqUrokLnATUdVBlfSFDurbr30JPSb
+8qAXS/40K6xNYUwpvCkSOxnvmjTH5GLGB8OjMGGhz/bEUx/mQNwIC3uRSjRioiBd+9DA9KMz3lvG
+C0nnQd7i9KwQVrAs3Me/cPmzcEYQUv39vmSLxoPaCGmyxG8VX/rwdPTSZ5EBm68jisj9quvzyEJx
+Kz7QoaUeG4dP6DGtezZ78rH5Yt8FyfPfCrc/YDdqApG4CojSLAPZ22aBQLLPnJM/dBwxtGVbHFt5
+jqU=
+=0oEf
+-----END PGP SIGNATURE-----
 
-Imre Deak (1):
-      drm/i915/icl: Fix initing the DSI DSC power refcount during HW readout
+--jJL4pOPwDC6gspy7p5JwzKT8iKU9cxx8Y--
 
-Jani Nikula (2):
-      drm/i915/backlight: fix CPU mode backlight takeover on LPT
-      Merge tag 'gvt-fixes-2020-01-08' of https://github.com/intel/gvt-linux into drm-intel-fixes
+--===============0388711250==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
- drivers/gpu/drm/i915/Makefile                   |   1 +
- drivers/gpu/drm/i915/display/icl_dsi.c          |   4 -
- drivers/gpu/drm/i915/display/intel_panel.c      |   9 +-
- drivers/gpu/drm/i915/display/vlv_dsi.c          |  16 ++-
- drivers/gpu/drm/i915/gt/gen7_renderclear.c      | 157 ++++++++++++++----------
- drivers/gpu/drm/i915/gt/intel_ring_submission.c |   6 +-
- drivers/gpu/drm/i915/gvt/display.c              |  81 ++++++++----
- drivers/gpu/drm/i915/gvt/vgpu.c                 |   5 +-
- drivers/gpu/drm/i915/i915_drv.c                 |   4 +
- drivers/gpu/drm/i915/i915_mitigations.c         | 146 ++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_mitigations.h         |  13 ++
- 11 files changed, 339 insertions(+), 103 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/i915_mitigations.c
- create mode 100644 drivers/gpu/drm/i915/i915_mitigations.h
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0388711250==--
