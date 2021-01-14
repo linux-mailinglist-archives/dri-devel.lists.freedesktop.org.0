@@ -2,33 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3D52F6D9E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 23:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC1C2F6DFF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 23:17:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0113189FA5;
-	Thu, 14 Jan 2021 22:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3933389DA7;
+	Thu, 14 Jan 2021 22:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC5889F77;
- Thu, 14 Jan 2021 22:01:40 +0000 (UTC)
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BCA89C6C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 22:17:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610662650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PHqv9djxTiAr8ecA5Naqbz25n3sfE+zwJHTkd0CJIK0=;
+ b=idrqyNLwxMmIUGoCy2sqlSNWy1mjrLmM4Hm+bXPYy6gP5MmYOKtUPzHLFMVRmMnfI/YK4A
+ /rTpNqWrNFoImCTjs+zCe9wW+EXFzx7VXfxtFeae5UpIo9z6MoBoNONXqdNgvX3IRFaMmX
+ IA8kHVWJRiPNo9doL5Bo1KvTjH1jLVs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-TJu_suf0OGG5_SPN_JR_ag-1; Thu, 14 Jan 2021 17:17:28 -0500
+X-MC-Unique: TJu_suf0OGG5_SPN_JR_ag-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5983123A5E;
- Thu, 14 Jan 2021 22:01:39 +0000 (UTC)
-Date: Thu, 14 Jan 2021 17:01:37 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [BUG] on reboot: bisected to: drm/i915: Shut down
- displays gracefully on reboot
-Message-ID: <20210114170137.002763b3@gandalf.local.home>
-In-Reply-To: <161066015368.19482.10094410867880595092@build.alporthouse.com>
-References: <20210114163206.4a562d82@gandalf.local.home>
- <161066015368.19482.10094410867880595092@build.alporthouse.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1D2C1922021;
+ Thu, 14 Jan 2021 22:17:27 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-115-182.rdu2.redhat.com
+ [10.10.115.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E0F310016F6;
+ Thu, 14 Jan 2021 22:17:27 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/5] drm/i915: Add support for Intel's eDP backlight
+ controls
+Date: Thu, 14 Jan 2021 17:17:04 -0500
+Message-Id: <20210114221709.2261452-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,26 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Jan 2021 21:35:53 +0000
-Chris Wilson <chris@chris-wilson.co.uk> wrote:
+A while ago we ran into issues while trying to enable the eDP backlight
+control interface as defined by VESA, in order to make the DPCD
+backlight controls on newer laptop panels work. The issue ended up being
+much more complicated however, as we also apparently needed to add
+support for an Intel-specific DPCD backlight control interface as the
+VESA interface is broken on many laptop panels. For lack of a better
+name, we just call this the Intel HDR backlight interface.
 
-> Quoting Steven Rostedt (2021-01-14 21:32:06)
-> > On reboot, one of my test boxes now triggers the following warning:  
-> 
-> 057fe3535eb3 ("drm/i915: Disable RPM wakeref assertions during driver shutdown")
-> is included with the drm-intel-fixes PR.
+While this only adds support for the SDR backlight mode (I think), this
+will fix a lot of user's laptop panels that we weren't able to properly
+automatically detect DPCD backlight controls on previously.
 
-Thanks, I take it, it will be going into mainline soon.
+Series-wide changes in v7:
+* Add another patch that allows passing the current display pipe to
+  intel_panel_bl_funcs.get(), which should fix the lockdep issues we
+  were seeing with Intel's CI
 
--- Steve
+Lyude Paul (5):
+  drm/i915: Pass port to intel_panel_bl_funcs.get()
+  drm/i915: Keep track of pwm-related backlight hooks separately
+  drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)
+  drm/i915/dp: Allow forcing specific interfaces through
+    enable_dpcd_backlight
+  drm/dp: Revert "drm/dp: Introduce EDID-based quirks"
+
+ drivers/gpu/drm/drm_dp_helper.c               |  83 +---
+ drivers/gpu/drm/drm_dp_mst_topology.c         |   3 +-
+ .../drm/i915/display/intel_display_types.h    |  16 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |   9 +-
+ .../drm/i915/display/intel_dp_aux_backlight.c | 290 +++++++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   3 +-
+ .../i915/display/intel_dsi_dcs_backlight.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    | 395 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_panel.h    |   4 +
+ drivers/gpu/drm/i915/display/intel_psr.c      |   2 +-
+ drivers/gpu/drm/i915/i915_params.c            |   2 +-
+ include/drm/drm_dp_helper.h                   |  21 +-
+ 12 files changed, 519 insertions(+), 311 deletions(-)
+
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
