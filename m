@@ -2,33 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8197A2F5C97
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 09:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085742F5C9B
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 09:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513C289F4F;
-	Thu, 14 Jan 2021 08:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 585A4893C9;
+	Thu, 14 Jan 2021 08:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 350A889F4F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:45:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4413488130
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:49:53 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B7370ABD6;
- Thu, 14 Jan 2021 08:45:34 +0000 (UTC)
-Subject: Re: [PATCH] drm: Include <linux/mem_encrypt.h> in drm_cache.c
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-References: <20210114080535.17132-1-tzimmermann@suse.de>
- <52cbf649-8c19-d4e8-152b-cd0946e1aba8@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id D400AABD6;
+ Thu, 14 Jan 2021 08:49:51 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e0e35bac-0094-1e38-a853-cbf2f9d9d301@suse.de>
-Date: Thu, 14 Jan 2021 09:45:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+To: eric@anholt.net,
+	mripard@kernel.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/vc4: Initialize vc4_drm_driver with CMA helper defaults
+Date: Thu, 14 Jan 2021 09:49:49 +0100
+Message-Id: <20210114084949.29014-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <52cbf649-8c19-d4e8-152b-cd0946e1aba8@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,134 +38,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, kernel test robot <lkp@intel.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1208610013=="
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1208610013==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="TOiq0gwrLRq3H6Y4CbJLYCaDUnl3mCecO"
+The function vc4_prime_import_sg_table() is an otherwise empty wrapper
+around CMA's drm_gem_cma_prime_import_sg_table(). Removing it in favor
+of the latter allows to initialize vc4_drm_driver with CMA's initializer
+macro.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TOiq0gwrLRq3H6Y4CbJLYCaDUnl3mCecO
-Content-Type: multipart/mixed; boundary="l4gYzn6OEcFmkBw53CR3c0xCSctxlObjP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, kernel test robot
- <lkp@intel.com>, dri-devel@lists.freedesktop.org
-Message-ID: <e0e35bac-0094-1e38-a853-cbf2f9d9d301@suse.de>
-Subject: Re: [PATCH] drm: Include <linux/mem_encrypt.h> in drm_cache.c
-References: <20210114080535.17132-1-tzimmermann@suse.de>
- <52cbf649-8c19-d4e8-152b-cd0946e1aba8@amd.com>
-In-Reply-To: <52cbf649-8c19-d4e8-152b-cd0946e1aba8@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/vc4/vc4_bo.c  | 14 --------------
+ drivers/gpu/drm/vc4/vc4_drv.c |  7 +------
+ drivers/gpu/drm/vc4/vc4_drv.h |  3 ---
+ 3 files changed, 1 insertion(+), 23 deletions(-)
 
---l4gYzn6OEcFmkBw53CR3c0xCSctxlObjP
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 14.01.21 um 09:23 schrieb Christian K=C3=B6nig:
-> Am 14.01.21 um 09:05 schrieb Thomas Zimmermann:
->> The function drm_need_swiotbl() needs mem_encrypt_active() from
->> <linux/mem_encrypt.h>. The include got lost when refactoring the
->> code recently.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Fixes: 3abc66706385 ("drm: Implement drm_need_swiotlb() in drm_cache.c=
-")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: dri-devel@lists.freedesktop.org
->=20
-> You are typing faster than me :)
->=20
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-
-Pushed to -misc-next. Thanks for the fast reply.
-
-Best regards
-Thomas
-
->=20
->> ---
->> =C2=A0 drivers/gpu/drm/drm_cache.c | 1 +
->> =C2=A0 1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c=
-
->> index 49551a7fa22f..79a50ef1250f 100644
->> --- a/drivers/gpu/drm/drm_cache.c
->> +++ b/drivers/gpu/drm/drm_cache.c
->> @@ -30,6 +30,7 @@
->> =C2=A0 #include <linux/export.h>
->> =C2=A0 #include <linux/highmem.h>
->> +#include <linux/mem_encrypt.h>
->> =C2=A0 #include <xen/xen.h>
->> =C2=A0 #include <drm/drm_cache.h>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---l4gYzn6OEcFmkBw53CR3c0xCSctxlObjP--
-
---TOiq0gwrLRq3H6Y4CbJLYCaDUnl3mCecO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAABK0FAwAAAAAACgkQlh/E3EQov+BS
-jRAApB9X9J9KPDYU9zQRPP5GdUSRs+K4y41z4Lxuv9Hpu2rn7RfNDZwHEyQBc3pnliwSSygvGgg1
-CTizcxwxIyt73wwR9ZFB09/mce9pJJQt6CrP0ATdu4BQs60RBJnYZ24Iw4uQcN2v5C+yFbU1HX2t
-dz87g+jJlEOqhGc0ShCEIUPDRdDwpl/N2W99GREG+CX2frHhd+2Cx+/XUjudd/b1oGs539ozY5JC
-exUFVnuBR9W7GC/ip0kXS0TAHnsMCSjsrDdl20N3yz1pdfsoHTslNdOk3GCHIqC7hts6B/AOj4XQ
-CPPsQUui/l+xUcSxn/sBVMPyQNh2G1mKlZGpHMLu6GQxjTp+W2FjCz3cqC9gLBCn/fAU4WggG8kK
-p1neOZ9QPHtQ+Kl9jaeJGaeLzCNHS5nW/iwj1aq/x1/4GkLooP6RC3y+2cT3tx/y7AcwQ3PK98Qy
-mx5JlpCyPzEug3urY2k5dWDhuvdxcFZU3exwqKGy7/g7IJa883dJxL8JKQCSxnfxBmYQwdnTdURy
-8irOBT4abh+ECC+cWPG6gRXhSzdoZpBwKVzaxp8NQFD0RA0hR+8UiS9mGclvHM/pwyRG5cRsjV4W
-L6lG52xmMN55XJTTqKYryVKJr6u68OEUuNE5ZdaaWP29FIItIMtpHrG4XKIxOrsPsjcgHl9+MbRR
-DfA=
-=LS2B
------END PGP SIGNATURE-----
-
---TOiq0gwrLRq3H6Y4CbJLYCaDUnl3mCecO--
-
---===============1208610013==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+index 28e48ef2d295..fddaeb0b09c1 100644
+--- a/drivers/gpu/drm/vc4/vc4_bo.c
++++ b/drivers/gpu/drm/vc4/vc4_bo.c
+@@ -738,20 +738,6 @@ static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
+ 	.vm_ops = &vc4_vm_ops,
+ };
+ 
+-struct drm_gem_object *
+-vc4_prime_import_sg_table(struct drm_device *dev,
+-			  struct dma_buf_attachment *attach,
+-			  struct sg_table *sgt)
+-{
+-	struct drm_gem_object *obj;
+-
+-	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
+-	if (IS_ERR(obj))
+-		return obj;
+-
+-	return obj;
+-}
+-
+ static int vc4_grab_bin_bo(struct vc4_dev *vc4, struct vc4_file *vc4file)
+ {
+ 	int ret;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index d9b3bba7f2b7..556ad0f02a0d 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -180,12 +180,7 @@ static struct drm_driver vc4_drm_driver = {
+ 
+ 	.gem_create_object = vc4_create_object,
+ 
+-	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+-	.gem_prime_import_sg_table = vc4_prime_import_sg_table,
+-	.gem_prime_mmap = drm_gem_prime_mmap,
+-
+-	.dumb_create = vc4_dumb_create,
++	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(vc4_dumb_create),
+ 
+ 	.ioctls = vc4_drm_ioctls,
+ 	.num_ioctls = ARRAY_SIZE(vc4_drm_ioctls),
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 0d9c0ecc4769..a7500716cf3f 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -801,9 +801,6 @@ int vc4_get_hang_state_ioctl(struct drm_device *dev, void *data,
+ 			     struct drm_file *file_priv);
+ int vc4_label_bo_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_priv);
+-struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
+-						 struct dma_buf_attachment *attach,
+-						 struct sg_table *sgt);
+ int vc4_bo_cache_init(struct drm_device *dev);
+ int vc4_bo_inc_usecnt(struct vc4_bo *bo);
+ void vc4_bo_dec_usecnt(struct vc4_bo *bo);
+-- 
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1208610013==--
