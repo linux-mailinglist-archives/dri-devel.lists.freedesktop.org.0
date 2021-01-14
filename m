@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAA62F5ACB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 07:45:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0052F5ACD
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 07:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6F189722;
-	Thu, 14 Jan 2021 06:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 309FA89739;
+	Thu, 14 Jan 2021 06:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B670489722
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 06:45:04 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 062E789728
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 06:45:05 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E15DFDB;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id ABF671231;
  Thu, 14 Jan 2021 07:45:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1610606702;
- bh=ir+4oWK+yxsWVlXSTjgRzMMfZHM5FBEY18+d1uFAJ+0=;
+ s=mail; t=1610606703;
+ bh=GRxXgHSySbrKCLUspryvg1jzd/pT3GBRl0qA0nILnI4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZkrIdO4dZegkcu1n1XQXJiWaxbwpyDpcNE+teZoegZvNuIIll9gLbA96dFskrhbQd
- 6ZQpWjUI2LjVl6f2vzrPvgG6aFgldsNy4TapkFe3RAvt1kjojsivWQNGowpGO/PYCI
- unvtSWwGa10e5WIJTwv/RwbA3TGLo+HLYu/hOfus=
+ b=NmSBC8vnVPxo9xtRp/FPSI+QfBIlzkm+1GrtvxwVgVRYFTh20r+Wx1rssM5NXfymm
+ s5c6T/nJz0J2wXWyRZ2+gkiW9yBZ/DTrGPuLUQ/PNyNt58ZBfVftJQumfOUQPF6pXU
+ 1JIi2snk4E3ha9rXXU7uKAOivBzRPZhwCR44rhuQ=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 6/7] dt-bindings: display: sun8i-a83t-dw-hdmi: Reference
- dw-hdmi YAML schema
-Date: Thu, 14 Jan 2021 08:44:36 +0200
-Message-Id: <20210114064437.5793-7-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v4 7/7] dt-bindings: display: bridge: Remove deprecated
+ dw_hdmi.txt
+Date: Thu, 14 Jan 2021 08:44:37 +0200
+Message-Id: <20210114064437.5793-8-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210114064437.5793-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210114064437.5793-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -53,31 +53,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the reference to the DWC HDMI text DT binding with a reference
-to the YAML equivalent.
+dw_hdmi.txt has been replaced with synopsys,dw-hdmi.yaml, and all
+references to the old file have been converted. Remove it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Acked-by: Rob Herring <robh@kernel.org>
-Acked-by: Chen-Yu Tsai <wens@csie.org>
 ---
- .../bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../bindings/display/bridge/dw_hdmi.txt       | 33 -------------------
+ 1 file changed, 33 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
 
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-index fa4769a0b26e..5cbf655c3a07 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
-@@ -12,8 +12,8 @@ description: |
-   and CEC.
- 
-   These DT bindings follow the Synopsys DWC HDMI TX bindings defined
--  in Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with
--  the following device-specific properties.
-+  in bridge/synopsys,dw-hdmi.yaml with the following device-specific
-+  properties.
- 
- maintainers:
-   - Chen-Yu Tsai <wens@csie.org>
+diff --git a/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt b/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
+deleted file mode 100644
+index 33bf981fbe33..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Synopsys DesignWare HDMI TX Encoder
+-===================================
+-
+-This document defines device tree properties for the Synopsys DesignWare HDMI
+-TX Encoder (DWC HDMI TX). It doesn't constitue a device tree binding
+-specification by itself but is meant to be referenced by platform-specific
+-device tree bindings.
+-
+-When referenced from platform device tree bindings the properties defined in
+-this document are defined as follows. The platform device tree bindings are
+-responsible for defining whether each property is required or optional.
+-
+-- reg: Memory mapped base address and length of the DWC HDMI TX registers.
+-
+-- reg-io-width: Width of the registers specified by the reg property. The
+-  value is expressed in bytes and must be equal to 1 or 4 if specified. The
+-  register width defaults to 1 if the property is not present.
+-
+-- interrupts: Reference to the DWC HDMI TX interrupt.
+-
+-- clocks: References to all the clocks specified in the clock-names property
+-  as specified in Documentation/devicetree/bindings/clock/clock-bindings.txt.
+-
+-- clock-names: The DWC HDMI TX uses the following clocks.
+-
+-  - "iahb" is the bus clock for either AHB and APB (mandatory).
+-  - "isfr" is the internal register configuration clock (mandatory).
+-  - "cec" is the HDMI CEC controller main clock (optional).
+-
+-- ports: The connectivity of the DWC HDMI TX with the rest of the system is
+-  expressed in using ports as specified in the device graph bindings defined
+-  in Documentation/devicetree/bindings/graph.txt. The numbering of the ports
+-  is platform-specific.
 -- 
 Regards,
 
