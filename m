@@ -2,42 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868422F62C6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 15:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359FD2F62F7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 15:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2C2E6E3EC;
-	Thu, 14 Jan 2021 14:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AF86E3F9;
+	Thu, 14 Jan 2021 14:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 095986E3EC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 14:13:31 +0000 (UTC)
-Date: Thu, 14 Jan 2021 14:13:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1610633608;
- bh=1xVDP+DpaqaHjOhRD3Fsqb5+o8cs19izEhMuZCBEwqo=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=U2Hms97g1LH6vW09r/VQijPieVbd5M9KZwfFYnqZFw/WNKkybteyo212qly59QGy0
- LSTanfzOSaut0zhy+9zyobjVH3TMApTgiDPYLRvVxKsvMl11EYZ3L32WPZmNp1NW4R
- V3LVXh8W8ggu+nkW2g3ArIDh1UfjiisPsMf+bNXFhmgaOL72zTI3RVeSyGC3so683M
- ic9bJj5ZZAlyotwvabcw0tx7AUVOZIas3d+CqwWozevv5SsR+VKJUMSPRTa0VE6TDl
- 83mfmm+irCRNF/pJUrFEAYtS9q2j3YP1SyubM6A2hFlaxL7vDwVysoOpObQNfEDw0b
- FF4/qFMEONT5g==
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 15/16] drm: drm_crc: fix a kernel-doc markup
-Message-ID: <GS4SAPqf7Gl2MJ4pYYlRq38wmiYovdE5GErbY3GKxpiySr5i_FKHGWBMnA7MIDR64-bKHEJPfo7aqbzaDz4DCeoyCW97VVEOUAWGoK1pUHE=@emersion.fr>
-In-Reply-To: <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
- <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
- <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D72D6E3F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 14:22:51 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id 15so3887554pgx.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 06:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=XCkrYWoe/EDhhrXT2w0od5wYE+gjn97ezYkPBm+ukcM=;
+ b=ebIHMxRoG6Lw6Qnnz194cWulVJ7CtdgwPORoBI0MUI/Bjh+CaA1EvTwcTrUKR7l/Or
+ P7c62cN+XXpUhrhIXm4LEPH3P/XDJBZ6e81d8hu2wO4OZwZ4vVYX7oEzolC/JDbLAonB
+ hOPPTb0LlRcxoBcHH8BvvasxXRbE5lpaINX76S1OXvU1xaYlB7jRg5a2CXx4lVNKj+in
+ ugWjcWODpZq+a5zEwnq7aBDTJPFb5iIWYLdf7881E3DJ0JWU/MkGXdBLW7j/Y/S/Qi20
+ QTJmFajIUJPeL0UY7Wx1xO6L6kQAeh/mam9h/SgyENbFVHzP2bzWylU6/8UTYFgQiOLO
+ 1TJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=XCkrYWoe/EDhhrXT2w0od5wYE+gjn97ezYkPBm+ukcM=;
+ b=sIfzJ0WGPyQe/sI7TiOvEHny/v29wlmZboeErL3+xpp5s1qBBSNQRjOHgJMq/ni+CL
+ Ki9mFqclNysZxP8gyeaDeifMDbhbaOA5fHlieQBtTJ+W503fDsO5gnZSdQN8VuU1lIUH
+ Bhk6R7pf+Bh5bIA9lmh2odY/oMKMb2TEAyK1Sf6PNckoROdObvVFgm5nV8v+DaN8qAfT
+ c3LRvNLVw7Boj3NGUcickJGwUfq90HIeaXSqUMLFMWXrex9EtnIgklU5MTCXyp2XZhof
+ Fu+c42reNkC8Vqs5qVzVATq3C5rBbFeNzZaz2Nr1pTR4tGcLG3qUkCGMobgExoOIHeSi
+ 5EPg==
+X-Gm-Message-State: AOAM532EvyaEmkzrh5tMjkgujfSzX8ciedEYmoi00BXbQMzyCMiLusZ6
+ +HN5dygZ0CKodL6mWQwFIJZ4yWxzcXI=
+X-Google-Smtp-Source: ABdhPJw4LchfsuTQIaiDfd10NoFHz9inHbHookIrfvLa/tt7v2jFq5AdBQtjlzwjbZPnKwz2ldkKCQ==
+X-Received: by 2002:a63:d601:: with SMTP id q1mr7650939pgg.417.1610634171161; 
+ Thu, 14 Jan 2021 06:22:51 -0800 (PST)
+Received: from adolin ([49.207.193.3])
+ by smtp.gmail.com with ESMTPSA id c11sm5924498pjv.3.2021.01.14.06.22.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 06:22:50 -0800 (PST)
+Date: Thu, 14 Jan 2021 19:52:45 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: daniel@ffwll.ch
+Subject: [PATCH] drm/vblank: Fix typo in docs
+Message-ID: <20210114142245.udr7v2aa43ho56xs@adolin>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,31 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, January 14th, 2021 at 9:06 AM, Simon Ser <contact@emersion.fr> wrote:
-
-> On Thursday, January 14th, 2021 at 9:04 AM, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->
-> > A function has a different name between their prototype
-> > and its kernel-doc markup:
-> >
-> > 	../include/drm/drm_crtc.h:1257: warning: expecting prototype for drm_crtc_alloc_with_planes(). Prototype was for drmm_crtc_alloc_with_planes() instead
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
-> Acked-by: Simon Ser <contact@emersion.fr>
-
-Pushed to drm-misc-next, thanks for the fix!
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4IHR5cG8gaW4gaW50cm8gY2hhcHRlciBpbiBkcm1fdmJsYW5rLmMuCkNoYW5nZSAnc2Fjbicg
+dG8gJ3NjYW4nLgoKU2lnbmVkLW9mZi1ieTogU3VtZXJhIFByaXlhZGFyc2luaSA8c3lscGhyZW5h
+ZGluQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJs
+YW5rLmMKaW5kZXggZDMwZTJmMmI4ZjNjLi4zMDkxMmQ4ZjgyYTUgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV92Ymxhbmsu
+YwpAQCAtNzQsNyArNzQsNyBAQAogICogICAgICAgICAgICAgICAgfOKGk+KGk+KGk+KGk+KGk+KG
+k+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KG
+k+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk+KGk3wgICB1cGRhdGVz
+IHRoZQogICogICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgZnJhbWUgYXMgaXQKICAqICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIHRyYXZlbHMgZG93bgotICogICAgICAgICAg
+ICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgKCJzYWNu
+IG91dCIpCisgKiAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgICAoInNjYW4gb3V0IikKICAqICAgICAgICAgICAgICAgIHwgICAgICAgICAg
+ICAgICBPbGQgZnJhbWUgICAgICAgICAgICAgICAgfAogICogICAgICAgICAgICAgICAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgKiAgICAgICAgICAgICAgICB8
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKLS0gCjIuMjUuMQoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
