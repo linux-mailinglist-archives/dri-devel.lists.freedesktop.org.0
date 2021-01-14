@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970CB2F6BE3
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 21:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D842F6BE5
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 21:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A3E6E072;
-	Thu, 14 Jan 2021 20:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88EC96E111;
+	Thu, 14 Jan 2021 20:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C811D6E072;
- Thu, 14 Jan 2021 20:14:10 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id j26so4475091qtq.8;
- Thu, 14 Jan 2021 12:14:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RPbl9mK2lHqtPxJYaVs7f9iaLeSoE19/DXnFWnPze78=;
- b=jxL0Yp2GK02I05yc0ZALbdmDOboGxKPQX82PDnnZJa/46Va918XcXYvV9jj8O7maRP
- uWGgveAnL06gGAi+zX9+4Vf+bQC/ApsAEpNDH/lY0OKFQbiOBkdQggPFG9J36t9Pfvin
- KMtvOsno7wjHqP5/tIxm1xl5MTAI4aqRgdEUgJkSaxL4KosibnSh9Fzy+XkcRq/RzZsY
- gdPN+sODNuz5GIF9m0ENswNVuQ6rIhKNRfZIgc4eYQSr81ZslSO4kw3MKB4MiGi8/6sF
- RxJYRXydWko7TnkGlUpg/lQm2rOia5JT4UmgAZw0oAvS2hnMqF5o1cCRBG+NIBrJyayd
- pzXQ==
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E595B6E111
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 20:14:43 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id j12so6391730ota.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 12:14:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RPbl9mK2lHqtPxJYaVs7f9iaLeSoE19/DXnFWnPze78=;
- b=qNDJ4wtjuqlV8g2dNOnhWRT/Ppuw6gVNK5AnkEa1UQEeY2pOnKm0SaNrcTjqoNfXjW
- 5+ihnAJzhXJRm3w8Ud1vhKCEAYqoqVU6YJ7GnMSRH1H2w5G828Sg0A1bCKTrleOPxdNC
- H1i8eUTJ7zeNdXjqzbmco295bEcXxZRmF8qR2pU/uLUbsEzHtXMMC8Wg8f2bOWw+qeV1
- nLq+rY1BATvXoUseVPQS7WcwsE/fMH+fbo1RBMatvKRIoXIABETKvQDoKrWwHapGIYVT
- Ha4f87nZxIygZKBiD9kMgEKw33Y84YBYdGpeZJsKl7MkaoI+NS3BWYJ+RKTX0B5kkDKR
- MfZw==
-X-Gm-Message-State: AOAM531Aby8dfcWr+HHRKETcpjQzWTuVuexDIBBVHu55D2C8qiWu+LWJ
- yTp0EB3m/keOhIXgKyV/NbdclVERNXA=
-X-Google-Smtp-Source: ABdhPJw/0SAtNvLbH/6QPg/7sGxDmkd17woxAavvh8nyyF8sxLeTCITmmYKuJHkWpMaPt+HUS0GHAQ==
-X-Received: by 2002:ac8:7949:: with SMTP id r9mr8650298qtt.112.1610655249689; 
- Thu, 14 Jan 2021 12:14:09 -0800 (PST)
-Received: from localhost.localdomain ([192.161.78.242])
- by smtp.gmail.com with ESMTPSA id n66sm3588886qkn.136.2021.01.14.12.14.08
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mhouMjNkCaF9CWhf0l9RnVYSQE5T0c+RJ3SWWCrRIT8=;
+ b=AMHnDsdFpRntHemMcTfdQzpnmQIThqTZPKP4hmiE3Yzpucq0nIiyFm7Yp10hZw9a9R
+ p4oMZlFKPXREX0sh/46P22jok0qC9rM+CF00m6YJfDohAWn1C3B5awhfgXF/D/5evxsb
+ Hr4RlC7qJY+Df5bST4XxDKoyzu1WjjqTF2HwWyjs5a1GAi5zxzmvlOoyWRbZkYxOzpH5
+ MYaFw5ONbOPntBZzWwCGej6C2ZbPasl0EIoHctx2LfLVN7OeuGghtU6quZhCeCUeSwVV
+ i0aGjuTnWrFX3H7YZPR9lgDYHL8SvNkclLVAiW0hzXfCEpD5g7S6IYUkAbBm3EPSFKGf
+ lX1A==
+X-Gm-Message-State: AOAM531bS8GjbeXwzeSCBD1J1+5Kg9VewFXu3R5ccpn8VzdM8M9yewXS
+ CwWtvLeUItC/oTb0IuycdQ==
+X-Google-Smtp-Source: ABdhPJzq6mF+Q3lGzEPm5wH++9BNibn6XXQls/kyl3A1COzRB3pAeuey66JxeInPzKqltEFrCUXK8w==
+X-Received: by 2002:a9d:2021:: with SMTP id n30mr5850280ota.350.1610655283208; 
+ Thu, 14 Jan 2021 12:14:43 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id v17sm1260325ott.7.2021.01.14.12.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 12:14:09 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd drm-fixes-5.11
-Date: Thu, 14 Jan 2021 15:13:54 -0500
-Message-Id: <20210114201354.3998-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.29.2
+ Thu, 14 Jan 2021 12:14:42 -0800 (PST)
+Received: (nullmailer pid 3515403 invoked by uid 1000);
+ Thu, 14 Jan 2021 20:14:41 -0000
+Date: Thu, 14 Jan 2021 14:14:41 -0600
+From: Rob Herring <robh@kernel.org>
+To: Nick Fan <Nick.Fan@mediatek.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: Add DT schema for Arm Mali Valhall GPU
+Message-ID: <20210114201441.GA3509434@robh.at.kernel.org>
+References: <20210112064933.12951-1-Nick.Fan@mediatek.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210112064933.12951-1-Nick.Fan@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,111 +59,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Tue, Jan 12, 2021 at 02:49:32PM +0800, Nick Fan wrote:
+> Add devicetree schema for Arm Mali Valhall GPU
+> 
+> Define a compatible string for the Mali Valhall GPU
+> for Mediatek's SoC platform.
+> 
+> Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
+> ---
+>  .../bindings/gpu/arm,mali-valhall.yaml        | 252 ++++++++++++++++++
+>  1 file changed, 252 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> new file mode 100644
+> index 000000000000..ecf249a58435
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> @@ -0,0 +1,252 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2020 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/arm,mali-valhall.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Mali Valhall GPU
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^gpu@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8192-mali
+> +      - const: arm,mali-valhall
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: GPU interrupt
+> +      - description: MMU interrupt
+> +      - description: Job interrupt
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: gpu
+> +      - const: mmu
+> +      - const: job
+> +
+> +  clocks:
+> +    minItems: 1
+> +
+> +  power-domains:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  mali-supply: true
+> +  sram-supply: true
+> +
+> +  operating-points-v2: true
+> +
+> +  "#cooling-cells":
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8192-mali
+> +    then:
+> +      properties:
+> +        sram-supply: true
+> +        power-domains:
+> +          description:
+> +            List of phandle and PM domain specifier as documented in
+> +            Documentation/devicetree/bindings/power/power_domain.txt
+> +          minItems: 5
+> +          maxItems: 5
+> +        power-domain-names:
+> +          items:
+> +            - const: core0
+> +            - const: core1
+> +            - const: core2
+> +            - const: core3
+> +            - const: core4
+> +
+> +      required:
+> +        - sram-supply
+> +        - power-domains
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    gpu@13000000 {
+> +           compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
+> +           reg = <0x13000000 0x4000>;
+> +           interrupts =
+> +                   <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
+> +           interrupt-names =
+> +                   "gpu",
+> +                   "mmu",
+> +                   "job";
+> +
+> +           clocks = <&mfgcfg 0>;
+> +
+> +           power-domains =
+> +                   <&spm 4>,
+> +                   <&spm 5>,
+> +                   <&spm 6>,
+> +                   <&spm 7>,
+> +                   <&spm 8>;
+> +
+> +           operating-points-v2 = <&gpu_opp_table>;
+> +           mali-supply = <&mt6315_7_vbuck1>;
+> +           sram-supply = <&mt6359_vsram_others_ldo_reg>;
+> +    };
+> +
+> +    gpu_opp_table: opp_table0 {
 
-Fixes for 5.11.
+Make this a child node of the gpu node.
 
-The following changes since commit 7c53f6b671f4aba70ff15e1b05148b10d58c2837:
+> +      compatible = "operating-points-v2";
+> +      opp-shared;
+> +
+> +      opp-358000000 {
+> +              opp-hz = /bits/ 64 <358000000>;
+> +              opp-hz-real = /bits/ 64 <358000000>,
+> +                            /bits/ 64 <358000000>;
 
-  Linux 5.11-rc3 (2021-01-10 14:34:50 -0800)
+This is not part of the OPP binding. It's not clear what it's purpose 
+would be given the values are always the same as opp-hz.
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.11-2021-01-14
-
-for you to fetch changes up to 2f0fa789f7b9fb022440f8f846cae175233987aa:
-
-  drm/amd/display: Fix to be able to stop crc calculation (2021-01-14 14:06:43 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.11-2021-01-14:
-
-amdgpu:
-- Update repo location in MAINTAINERS
-- Add some new renoir PCI IDs
-- Revert CRC UAPI changes
-- Revert OLED display fix which cases clocking problems for some systems
-- Misc vangogh fixes
-- GFX fix for sienna cichlid
-- DCN1.0 fix for pipe split
-- Fix incorrect PSP command
-
-amdkfd:
-- Fix possible out of bounds read in vcrat creation
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      MAINTAINERS: update radeon/amdgpu/amdkfd git trees
-
-Alexandre Demers (1):
-      drm/amdgpu: fix DRM_INFO flood if display core is not supported (bug 210921)
-
-Huang Rui (1):
-      drm/amdgpu: fix vram type and bandwidth error for DDR5 and DDR4
-
-Jeremy Cline (1):
-      drm/amdkfd: Fix out-of-bounds read in kdf_create_vcrat_image_cpu()
-
-Li, Roman (1):
-      drm/amd/display: disable dcn10 pipe split by default
-
-Likun Gao (1):
-      drm/amdgpu: set power brake sequence
-
-Nikola Cornij (1):
-      drm/amd/display: Add a missing DCN3.01 API mapping
-
-Prike Liang (1):
-      drm/amdgpu: add green_sardine device id (v2)
-
-Qingqing Zhuo (1):
-      drm/amd/display: NULL pointer hang
-
-Rodrigo Siqueira (4):
-      Revert "drm/amd/display: Fixed Intermittent blue screen on OLED panel"
-      Revert "drm/amd/display: Fix unused variable warning"
-      Revert "drm/amdgpu/disply: fix documentation warnings in display manager"
-      Revert "drm/amd/display: Expose new CRC window property"
-
-Victor Zhao (1):
-      drm/amdgpu/psp: fix psp gfx ctrl cmds
-
-Wayne Lin (1):
-      drm/amd/display: Fix to be able to stop crc calculation
-
-Wesley Chalmers (1):
-      drm/amd/display: Initialize stack variable
-
-chen gong (1):
-      drm/amdgpu/gfx10: add updated GOLDEN_TSC_COUNT_UPPER/LOWER register offsets for VGH
-
-mengwang (1):
-      drm/amdgpu: add new device id for Renior
-
- MAINTAINERS                                        |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |  53 +++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  48 ++++++-
- drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h            |   2 +-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |   3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  11 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 142 ++-------------------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  38 ------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  54 +-------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  |   5 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   8 +-
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c   |   2 +-
- .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |   4 +-
- .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   1 +
- .../display/dc/dml/dcn20/display_mode_vba_20v2.c   |  11 +-
- 17 files changed, 125 insertions(+), 265 deletions(-)
+> +              opp-microvolt = <606250>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-399000000 {
+> +              opp-hz = /bits/ 64 <399000000>;
+> +              opp-hz-real = /bits/ 64 <399000000>,
+> +                            /bits/ 64 <399000000>;
+> +              opp-microvolt = <618750>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-440000000 {
+> +              opp-hz = /bits/ 64 <440000000>;
+> +              opp-hz-real = /bits/ 64 <440000000>,
+> +                            /bits/ 64 <440000000>;
+> +              opp-microvolt = <631250>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-482000000 {
+> +              opp-hz = /bits/ 64 <482000000>;
+> +              opp-hz-real = /bits/ 64 <482000000>,
+> +                            /bits/ 64 <482000000>;
+> +              opp-microvolt = <643750>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-523000000 {
+> +              opp-hz = /bits/ 64 <523000000>;
+> +              opp-hz-real = /bits/ 64 <523000000>,
+> +                            /bits/ 64 <523000000>;
+> +              opp-microvolt = <656250>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-564000000 {
+> +              opp-hz = /bits/ 64 <564000000>;
+> +              opp-hz-real = /bits/ 64 <564000000>,
+> +                            /bits/ 64 <564000000>;
+> +              opp-microvolt = <668750>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-605000000 {
+> +              opp-hz = /bits/ 64 <605000000>;
+> +              opp-hz-real = /bits/ 64 <605000000>,
+> +                            /bits/ 64 <605000000>;
+> +              opp-microvolt = <681250>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-647000000 {
+> +              opp-hz = /bits/ 64 <647000000>;
+> +              opp-hz-real = /bits/ 64 <647000000>,
+> +                            /bits/ 64 <647000000>;
+> +              opp-microvolt = <693750>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-688000000 {
+> +              opp-hz = /bits/ 64 <688000000>;
+> +              opp-hz-real = /bits/ 64 <688000000>,
+> +                            /bits/ 64 <688000000>;
+> +              opp-microvolt = <706250>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-724000000 {
+> +              opp-hz = /bits/ 64 <724000000>;
+> +              opp-hz-real = /bits/ 64 <724000000>,
+> +                            /bits/ 64 <724000000>;
+> +              opp-microvolt = <725000>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-760000000 {
+> +              opp-hz = /bits/ 64 <760000000>;
+> +              opp-hz-real = /bits/ 64 <760000000>,
+> +                            /bits/ 64 <760000000>;
+> +              opp-microvolt = <743750>,
+> +                              <750000>;
+> +      };
+> +
+> +      opp-795000000 {
+> +              opp-hz = /bits/ 64 <795000000>;
+> +              opp-hz-real = /bits/ 64 <795000000>,
+> +                            /bits/ 64 <795000000>;
+> +              opp-microvolt = <762500>,
+> +                              <762500>;
+> +      };
+> +
+> +      opp-831000000 {
+> +              opp-hz = /bits/ 64 <831000000>;
+> +              opp-hz-real = /bits/ 64 <831000000>,
+> +                            /bits/ 64 <831000000>;
+> +              opp-microvolt = <781250>,
+> +                              <781250>;
+> +      };
+> +
+> +      opp-855000000 {
+> +              opp-hz = /bits/ 64 <855000000>;
+> +              opp-hz-real = /bits/ 64 <855000000>,
+> +                            /bits/ 64 <855000000>;
+> +              opp-microvolt = <793750>,
+> +                              <793750>;
+> +      };
+> +
+> +      opp-902000000 {
+> +              opp-hz = /bits/ 64 <902000000>;
+> +              opp-hz-real = /bits/ 64 <902000000>,
+> +                            /bits/ 64 <902000000>;
+> +              opp-microvolt = <818750>,
+> +                              <818750>;
+> +      };
+> +
+> +      opp-950000000 {
+> +              opp-hz = /bits/ 64 <950000000>;
+> +              opp-hz-real = /bits/ 64 <950000000>,
+> +                            /bits/ 64 <950000000>;
+> +              opp-microvolt = <843750>,
+> +                              <843750>;
+> +      };
+> +    };
+> +...
+> -- 
+> 2.18.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
