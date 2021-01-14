@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1703D2F63CF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 16:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA682F63D0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 16:10:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468C56E40B;
-	Thu, 14 Jan 2021 15:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB4036E418;
+	Thu, 14 Jan 2021 15:10:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 437436E40B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 15:10:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id F0FDA6E418
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 15:10:33 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A9A3ED1;
- Thu, 14 Jan 2021 07:10:28 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C5641042;
+ Thu, 14 Jan 2021 07:10:33 -0800 (PST)
 Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EEF853F70D;
- Thu, 14 Jan 2021 07:10:26 -0800 (PST)
-Subject: Re: [PATCH v10 3/4] drm/panfrost: devfreq: Disable devfreq when
- num_supplies > 1
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5CF6A3F70D;
+ Thu, 14 Jan 2021 07:10:31 -0800 (PST)
+Subject: Re: [PATCH v10 4/4] drm/panfrost: Add mt8183-mali compatible string
 To: Nicolas Boichat <drinkcat@chromium.org>, Rob Herring <robh@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 References: <20210113060703.3122661-1-drinkcat@chromium.org>
- <20210113140546.v10.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
+ <20210113140546.v10.4.I5f6b04431828ec9c3e41e65f3337cec6a127480d@changeid>
 From: Steven Price <steven.price@arm.com>
-Message-ID: <495a0ad3-ef01-d4b8-eb1f-e70d55fd7ddf@arm.com>
-Date: Thu, 14 Jan 2021 15:10:25 +0000
+Message-ID: <6e2a6e89-1b5b-eb75-df91-d0f243ab7ec5@arm.com>
+Date: Thu, 14 Jan 2021 15:10:30 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210113140546.v10.3.I3af068abe30c9c85cabc4486385c52e56527a509@changeid>
+In-Reply-To: <20210113140546.v10.4.I5f6b04431828ec9c3e41e65f3337cec6a127480d@changeid>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,73 +46,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, fshao@chromium.org,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, boris.brezillon@collabora.com,
- hsinyi@chromium.org, hoegsberg@chromium.org
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, hoegsberg@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13/01/2021 06:07, Nicolas Boichat wrote:
-> GPUs with more than a single regulator (e.g. G72 on MT8183) will
-> require platform-specific handling for devfreq, for 2 reasons:
->   1. The opp core (drivers/opp/core.c:_generic_set_opp_regulator)
->      does not support multiple regulators, so we'll need custom
->      handlers.
->   2. Generally, platforms with 2 regulators have platform-specific
->      constraints on how the voltages should be set (e.g.
->      minimum/maximum voltage difference between them), so we
->      should not just create generic handlers that simply
->      change the voltages without taking care of those constraints.
-> 
-> Disable devfreq for now on those GPUs.
+> Add support for MT8183's G72 Bifrost.
 > 
 > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
 > Reviewed-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 
-Thanks for the clarification in the commit message.
+LGTM
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
 > 
-> (no changes since v9)
-> 
-> Changes in v9:
->   - Explain why devfreq needs to be disabled for GPUs with >1
->     regulators.
-> 
-> Changes in v8:
->   - Use DRM_DEV_INFO instead of ERROR
+> (no changes since v7)
 > 
 > Changes in v7:
 >   - Fix GPU ID in commit message
 > 
 > Changes in v6:
->   - New change
+>   - Context conflicts, reflow the code.
+>   - Use ARRAY_SIZE for power domains too.
 > 
->   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
+> Changes in v5:
+>   - Change power domain name from 2d to core2.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> index f44d28fad085..812cfecdee3b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> @@ -92,6 +92,15 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
->   	struct thermal_cooling_device *cooling;
->   	struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
+> Changes in v4:
+>   - Add power domain names.
+> 
+> Changes in v3:
+>   - Match mt8183-mali instead of bifrost, as we require special
+>     handling for the 2 regulators and 3 power domains.
+> 
+>   drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 83a461bdeea8..ca07098a6141 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -665,6 +665,15 @@ static const struct panfrost_compatible amlogic_data = {
+>   	.vendor_quirk = panfrost_gpu_amlogic_quirk,
+>   };
 >   
-> +	if (pfdev->comp->num_supplies > 1) {
-> +		/*
-> +		 * GPUs with more than 1 supply require platform-specific handling:
-> +		 * continue without devfreq
-> +		 */
-> +		DRM_DEV_INFO(dev, "More than 1 supply is not supported yet\n");
-> +		return 0;
-> +	}
+> +const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
+> +const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
+> +static const struct panfrost_compatible mediatek_mt8183_data = {
+> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies),
+> +	.supply_names = mediatek_mt8183_supplies,
+> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
+> +	.pm_domain_names = mediatek_mt8183_pm_domains,
+> +};
 > +
->   	opp_table = dev_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
->   					      pfdev->comp->num_supplies);
->   	if (IS_ERR(opp_table)) {
+>   static const struct of_device_id dt_match[] = {
+>   	/* Set first to probe before the generic compatibles */
+>   	{ .compatible = "amlogic,meson-gxm-mali",
+> @@ -681,6 +690,7 @@ static const struct of_device_id dt_match[] = {
+>   	{ .compatible = "arm,mali-t860", .data = &default_data, },
+>   	{ .compatible = "arm,mali-t880", .data = &default_data, },
+>   	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
+> +	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(of, dt_match);
 > 
 
 _______________________________________________
