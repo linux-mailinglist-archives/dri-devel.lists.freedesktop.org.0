@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54F42F5E02
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7D2F5E04
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:47:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F82E6E17E;
-	Thu, 14 Jan 2021 09:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317276E18F;
+	Thu, 14 Jan 2021 09:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6206E16F;
- Thu, 14 Jan 2021 09:46:43 +0000 (UTC)
-IronPort-SDR: iXWMl4CqKiUuRVDtQl38PQPy9csvFSVDYk6A9L4qDssPupL0zQ7xBzojIcgnab6ej0gx+r8FAE
- Vg9gnetFApzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="242410684"
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="242410684"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 01:46:42 -0800
-IronPort-SDR: sDmzKPaAVGa0n0zU1Ppdet5foPYkhwmBhiAGtHbRPO28n8aEdK8EpVhtMohL4fi8Nx2hYo5uCu
- Dj1yZ2b1Qf1Q==
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="382211169"
-Received: from dforourk-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.213.254.146])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 01:46:36 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v6 1/4] drm/i915: Keep track of pwm-related backlight
- hooks separately
-In-Reply-To: <871reornzr.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210113235426.2190684-1-lyude@redhat.com>
- <20210113235426.2190684-2-lyude@redhat.com> <871reornzr.fsf@intel.com>
-Date: Thu, 14 Jan 2021 11:46:33 +0200
-Message-ID: <87y2gvq29y.fsf@intel.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2D9E6E188
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:47:43 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id t30so5091321wrb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 01:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Lr4HFDQD/OgLdFSt2T0Qk+36tgxVy2abGau5r4jbqrs=;
+ b=GsrwHCxarW2zyPDywcUCydLmWIeKGtMZ72RWDQ0CdNKLQeMQ/4YdCAKLmFwgmg4Asy
+ n7o5qe/M53TD5QTUEBV7x9eP1F3nQIUxz0EwqvC6gnL60FIvztZN7FzL9TMp3V9eE2yf
+ J55/eiTc0epkVvHfebgu2W/FeAkHYgJ3I3EoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Lr4HFDQD/OgLdFSt2T0Qk+36tgxVy2abGau5r4jbqrs=;
+ b=F2kGYYqiromzNd/x54Pf3Yzk4IHqXYGdBpmZE/AWlbyZAhYMVN+76C1L1Y19sLYmcw
+ ucfBMSIFgG1vqn/zW5TCiRMwBwP5ZcxYg8qkEq53Bm7Esjjhx1f3fuDs3Ynx8tMm7AR6
+ VivRNF1DwViFrLMQLN1m5CbSGTuv02YywHM2Q4Tds2zWp7RhCJtVHBXpefmzBrDzJIet
+ Pgl273YQqvT6ezXrDW76Md8DZdiprH6phK37dueRFhzrt5+nxz+fxYiHnPveE57YZtw0
+ Kb02xcEDv2d5R+Rlu/Ant9pvOkddenDXEJuxSh6osv2tgyjtv8cyZHEDX3R3LIJVHZVN
+ fC8Q==
+X-Gm-Message-State: AOAM5329Ogl77Dp9UG41KQByFpn4yjINmI2NFQZvRsp75qGgZ8gTU0c8
+ k6CMXi324+ZOKotbf3dl5DC2/w==
+X-Google-Smtp-Source: ABdhPJzRB16m0qIFLLDYx22LgQGloNR8gD4PIbsLjruBzLlDpi5UaTEz+LfG4jWmkSZoevmoI9Q4tQ==
+X-Received: by 2002:a05:6000:108b:: with SMTP id
+ y11mr6877710wrw.379.1610617662616; 
+ Thu, 14 Jan 2021 01:47:42 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m5sm8207087wrz.18.2021.01.14.01.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 01:47:41 -0800 (PST)
+Date: Thu, 14 Jan 2021 10:47:40 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
+Message-ID: <YAATPMc+1jmhxnsF@phenom.ffwll.local>
+References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
+ <161055261490.6195.7986280621869334351@build.alporthouse.com>
+ <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com>
+ <161057213487.6195.581396740566956696@build.alporthouse.com>
+ <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
+ <161061619887.19482.10606780107376365239@build.alporthouse.com>
+ <CAKMK7uE58dJabnaTNgePTyio_JY3=kvFZtu1RT1eFeGDK76ZeA@mail.gmail.com>
+ <161061753732.19482.13146900597152116822@build.alporthouse.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <161061753732.19482.13146900597152116822@build.alporthouse.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,160 +72,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thaytan@noraisin.net, Arnd Bergmann <arnd@arndb.de>,
- Anshuman Gupta <anshuman.gupta@intel.com>, David Airlie <airlied@linux.ie>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ DMA BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Jan 2021, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Wed, 13 Jan 2021, Lyude Paul <lyude@redhat.com> wrote:
->> Currently, every different type of backlight hook that i915 supports is
->> pretty straight forward - you have a backlight, probably through PWM
->> (but maybe DPCD), with a single set of platform-specific hooks that are
->> used for controlling it.
->>
->> HDR backlights, in particular VESA and Intel's HDR backlight
->> implementations, can end up being more complicated. With Intel's
->> proprietary interface, HDR backlight controls always run through the
->> DPCD. When the backlight is in SDR backlight mode however, the driver
->> may need to bypass the TCON and control the backlight directly through
->> PWM.
->>
->> So, in order to support this we'll need to split our backlight callbacks
->> into two groups: a set of high-level backlight control callbacks in
->> intel_panel, and an additional set of pwm-specific backlight control
->> callbacks. This also implies a functional changes for how these
->> callbacks are used:
->>
->> * We now keep track of two separate backlight level ranges, one for the
->>   high-level backlight, and one for the pwm backlight range
->> * We also keep track of backlight enablement and PWM backlight
->>   enablement separately
->> * Since the currently set backlight level might not be the same as the
->>   currently programmed PWM backlight level, we stop setting
->>   panel->backlight.level with the currently programmed PWM backlight
->>   level in panel->backlight.pwm_funcs->setup(). Instead, we rely
->>   on the higher level backlight control functions to retrieve the
->>   current PWM backlight level (in this case, intel_pwm_get_backlight()).
->>   Note that there are still a few PWM backlight setup callbacks that
->>   do actually need to retrieve the current PWM backlight level, although
->>   we no longer save this value in panel->backlight.level like before.
->>
->> Additionally, we drop the call to lpt_get_backlight() in
->> lpt_setup_backlight(), and avoid unconditionally writing the PWM value that
->> we get from it and only write it back if we're in CPU mode, and switching
->> to PCH mode. The reason for this is because in the original codepath for
->> this, it was expected that the intel_panel_bl_funcs->setup() hook would be
->> responsible for fetching the initial backlight level. On lpt systems, the
->> only time we could ever be in PCH backlight mode is during the initial
->> driver load - meaning that outside of the setup() hook, lpt_get_backlight()
->> will always be the callback used for retrieving the current backlight
->> level. After this patch we still need to fetch and write-back the PCH
->> backlight value if we're switching from CPU mode to PCH, but because
->> intel_pwm_setup_backlight() will retrieve the backlight level after setup()
->> using the get() hook, which always ends up being lpt_get_backlight(). Thus
->> - an additional call to lpt_get_backlight() in lpt_setup_backlight() is
->> made redundant.
->>
->> v7:
->> * Use panel->backlight.pwm_funcs->get() to get the backlight level in
->>   intel_pwm_setup_backlight(), lest we upset lockdep
->
-> I think this change is wrong, as it now bypasses
-> intel_panel_invert_pwm_level(). Please explain. I don't see anything in
-> there that could trigger a lockdep warning.
->
-> Perhaps it's the below you're referring to, but I think the root cause
-> is different?
->
->> @@ -1788,22 +1780,17 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
->>  	panel->backlight.active_low_pwm = ctl2 & BLM_POLARITY_I965;
->>  
->>  	ctl = intel_de_read(dev_priv, VLV_BLC_PWM_CTL(pipe));
->> -	panel->backlight.max = ctl >> 16;
->> +	panel->backlight.pwm_level_max = ctl >> 16;
->>  
->> -	if (!panel->backlight.max)
->> -		panel->backlight.max = get_backlight_max_vbt(connector);
->> +	if (!panel->backlight.pwm_level_max)
->> +		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
->>  
->> -	if (!panel->backlight.max)
->> +	if (!panel->backlight.pwm_level_max)
->>  		return -ENODEV;
->>  
->> -	panel->backlight.min = get_backlight_min_vbt(connector);
->> +	panel->backlight.pwm_level_min = get_backlight_min_vbt(connector);
->>  
->> -	val = _vlv_get_backlight(dev_priv, pipe);
->
-> Turns out this is a meaningful change, as the higher level
-> vlv_get_backlight() function that will be called instead hits:
->
-> <4>[   12.870202] i915 0000:00:02.0: drm_WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex))
->
-> in intel_connector_get_pipe(connector).
->
-> It's a real problem. See this, it's obvious (in retrospect):
->
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_19348/fi-bsw-kefka/igt@runner@aborted.html
-> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_19348/fi-bsw-kefka/boot0.txt
->
-> I don't have a quick answer how this could be handled neatly. Perhaps
-> the ->get call (or rather, intel_pwm_get_backlight) to set
-> panel->backlight.level needs to be spread out to the end of each
-> pwm_funcs->setup function after all? Though it's at the wrong
-> abstraction level wrt level being a higher level, uh, level.
->
-> I don't think it's enough to just grab connection_mutex around setup
-> (and even checking if we can do that is a bunch of digging) - I think
-> it's likely intel_connector_get_pipe() returns INVALID_PIPE at that
-> point.
->
-> Okay, here's a clumsy suggestion that I think works around this and
-> unblocks the series until we figure out a better way:
->
-> 1. At the end of vlv_setup_backlight():
->
-> 	/* add fixme comment about how wrong this is */
-> 	panel->backlight.level = intel_panel_invert_pwm_level(connector, _vlv_get_backlight());
-> 	
->
-> 2. In intel_pwm_setup_backlight() only set level if ->setup didn't:
->
-> 	if (!panel->backlight.level)
->         	panel->backlight.level = intel_pwm_get_backlight(connector);
+On Thu, Jan 14, 2021 at 09:45:37AM +0000, Chris Wilson wrote:
+> Quoting Daniel Vetter (2021-01-14 09:30:32)
+> > On Thu, Jan 14, 2021 at 10:23 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > > The only other problem I see with the implementation is that there's
+> > > nothing that says that each dmabuf->ops->map_dma_buf() returns a new
+> > > sg_table, so we may end up undoing the xor. Or should each dma-buf
+> > > return a fresh dma-mapping for iommu isolation?
+> > 
+> > Maybe I screwed it up, but that's why I extracted the little helpers:
+> > We scramble when we get the sgtable from exporter, and unscramble
+> > before we pass it back. dma-buf.c does some caching and will hand back
+> > the same sgtable, but for that case we don't re-scramble.
+> 
+> The attachment is only mapped once, but there can be more than one
+> attachment, and the backend could return the same sg_table for each
+> mapping. Conceivably, it could return its own private sg_table where it
+> wants to maintain the struct page. Seems like just adding a sentence to
+> @map_dma_buf to clarify that each call should return a new sg_table will
+> suffice.
 
-Of course, if ->setup ends up setting the level to 0, it hits the same
-issue. :(
-
->
-> What do you think?
->
-> BR,
-> Jani.
->
->> -	val = intel_panel_compute_brightness(connector, val);
->> -	panel->backlight.level = clamp(val, panel->backlight.min,
->> -				       panel->backlight.max);
->> -
->> -	panel->backlight.enabled = ctl2 & BLM_PWM_ENABLE;
->> +	panel->backlight.pwm_enabled = ctl2 & BLM_PWM_ENABLE;
->>  
->>  	return 0;
->>  }
->> @@ -1828,24 +1815,18 @@ bxt_setup_backlight(struct intel_connector *connector, enum pipe unused)
-
+Ah yes good point, will augment (once CI stops being angry at me).
+-Daniel
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
