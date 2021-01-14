@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD32F65AD
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78A82F65AC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F9B89C9D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3132589CAC;
 	Thu, 14 Jan 2021 16:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C32089C9D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7FCE89C9D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:07 +0000 (UTC)
 Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
  [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE5D62B3;
- Thu, 14 Jan 2021 17:24:05 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17DBE8D7;
+ Thu, 14 Jan 2021 17:24:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1610641445;
- bh=hXfu5UH4biLC000racXZNQYm7fv8Vam4UwXoKqIH4UA=;
- h=From:To:Cc:Subject:Date:From;
- b=Pz3pEQ9lfAgsD48O1v4mOyKGPfVhIvBXM0Rz6mx1fI2loqZOv2wBMQ3PWF8tQ2z/k
- ryVW7awL1ixCPMRYNSLHcMEKGjVN4OlvnnHJkPDFZhZoUOr9FjyWjDiODt+qIEGc2f
- yfKg3awvuCLBg1BmdNFyHInR9is8vO6jGFNTCdBM=
+ s=mail; t=1610641446;
+ bh=2CrI55V+CC0flZtb85RcD+t2O3kw9X2bl5LDnO6fxNo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=tIQJv3ciWLBICW1quW5Kdf34vBaHwL3dK+X8I/HIOAnsb0q4DPp55cDqNrKG2OQQD
+ TM4ExWkziXtQPqZmLjaJnENsHh9fXcCDt5Ojx9t1IcbA8uGDEvUOt0iNzRkQ0xYtPc
+ NkDO3t/79ZLxO6J3k2FBpQJKAGYHsXE7ALyom0u8=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 00/10] drm: rcar-du: Rework CRTC and groups for atomic
- commits
-Date: Thu, 14 Jan 2021 16:22:45 +0000
-Message-Id: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4 01/10] media: vsp1: drm: Split vsp1_du_setup_lif()
+Date: Thu, 14 Jan 2021 16:22:46 +0000
+Message-Id: <20210114162255.705868-2-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
+References: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,103 +47,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ulrich Hecht <uli+renesas@fpond.eu>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series refactors atomic commit tail handling in the R-Car DU
-driver to simplify the code flow, and open the door to further
-optimisations. It rebases the series posted by Laurent "[PATCH v3 00/10]
-drm: rcar-du: Rework CRTC and groups for atomic commits", which was
-itself based upon work that I had started originally.
+Break vsp1_du_setup_lif() into components more suited to the DRM Atomic
+API. The existing vsp1_du_setup_lif() API call is maintained as it is
+still used from the DU.
 
-A few minor updates were required for the rebase, and review comments
-from v3 were handled, along with minor updates based upon suggestions
-from 'checkpatch.pl --strict'.
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Changes since v3:
+- Minor formatting updates to fix checkpatch.pl --strict
+- Spelling correction.
 
+Changes since v2:
 
-The R-Car DU is a bit of a strange beast, with support for up to four
-CRTCs that share resources in groups of two CRTCs. Depending on the
-generation, planes can be shared (on Gen 1 and Gen 2), and output
-routing configuration is also handled at the group level to some extent.
-Furthermore, many configuration parameters, especially those related to
-routing or clock handling, require the whole group to be restarted to
-take effect, even when the parameter itself affects a single CRTC only.
+- Minor formatting changes
+- Fix NULL pointer dereference in vsp1_du_setup_lif()
 
-This hardware architecture is difficult to handle properly on the
-software side, and has resulted in group usage being reference-counted
-while CRTC usage only tracks the enabled state. Calls are then
-unbalanced and difficult to trace, especially for the configuration of
-output routing, and implementation of new shared resources is hindered.
-This patch series aims at solving this problem.
+ drivers/media/platform/vsp1/vsp1_drm.c | 219 ++++++++++++++++++-------
+ include/media/vsp1.h                   |  31 +++-
+ 2 files changed, 187 insertions(+), 63 deletions(-)
 
-The series starts with 4 patches that touch the API between the DU and
-VSP drivers. It became apparent that we need to split the configuration
-of the VSP to allow fine grain control of setting the mode configuration
-and enabling/disabling of the pipeline. To support the cross-component
-API, the new interface is added in patch 01/10, including an
-implementation of vsp1_du_setup_lif() to support the transition. Patch
-02/10 prepares for the new call flow that will call the atomic flush
-handler before enabling the pipeline. The DRM usage is adapted in patch
-03/10, before the call is removed entirely in patch 04/10.
-
-The next two patches convert CRTC clock handling and initial setup,
-potentially called from both the CRTC .atomic_begin() and
-.atomic_enable() operations, to a simpler code flow controlled by the
-commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
-them back in standby respectively at the beginning and end of the commit
-tail handler, based on the CRTC atomic state instead of state
-information stored in the custom rcar_du_crtc structure. Patch 06/10
-then performs a similar change for the CRTC mode setting configuration.
-
-Finally, the last four patches introduce a DRM private object for the
-CRTC groups, along with an associated state. Patch 07/10 adds a helper
-macro to easily iterate over CRTC groups, and patch 08/10 adds the group
-private objects and empty states. Patches 09/10 and 10/10 respectively
-move the group setup and routing configuration under control of the
-commit tail handler, simplifying the configuration and moving state
-information from driver structures to state structures.
-
-More refactoring is expected, with plane assignment being moved to group
-states, and group restart being optimised to avoid flickering. Better
-configuration of pixel clocks could also be implemented on top of this
-series.
-
-The whole series has been tested on Salvator-XS with the DU test suite
-(http://git.ideasonboard.com/renesas/kms-tests.git).  No failure or
-change in behaviour has been noticed.
-
-Kieran Bingham (8):
-  media: vsp1: drm: Split vsp1_du_setup_lif()
-  drm: rcar-du: Convert to the new VSP atomic API
-  media: vsp1: drm: Remove vsp1_du_setup_lif()
-  drm: rcar-du: Handle CRTC standby from commit tail handler
-  drm: rcar-du: Handle CRTC configuration from commit tail handler
-  drm: rcar-du: Provide for_each_group helper
-  drm: rcar-du: Create a group state object
-  drm: rcar-du: Perform group setup from the atomic tail handler
-
-Laurent Pinchart (2):
-  media: vsp1: drm: Don't configure hardware when the pipeline is
-    disabled
-  drm: rcar-du: Centralise routing configuration in commit tail handler
-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 160 ++++++----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
- drivers/gpu/drm/rcar-du/rcar_du_group.c | 390 +++++++++++++++++++-----
- drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
- drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   3 +
- drivers/media/platform/vsp1/vsp1_drm.c  | 188 ++++++++----
- drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
- include/media/vsp1.h                    |  25 +-
- 12 files changed, 644 insertions(+), 276 deletions(-)
-
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+index 86d5e3f4b1ff..2bac80014bf4 100644
+--- a/drivers/media/platform/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/vsp1/vsp1_drm.c
+@@ -616,10 +616,10 @@ int vsp1_du_init(struct device *dev)
+ EXPORT_SYMBOL_GPL(vsp1_du_init);
+ 
+ /**
+- * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
++ * vsp1_du_atomic_modeset - Configure the mode as part of an atomic update
+  * @dev: the VSP device
+  * @pipe_index: the DRM pipeline index
+- * @cfg: the LIF configuration
++ * @cfg: the mode configuration
+  *
+  * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
+  * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
+@@ -636,14 +636,12 @@ EXPORT_SYMBOL_GPL(vsp1_du_init);
+  *
+  * Return 0 on success or a negative error code on failure.
+  */
+-int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+-		      const struct vsp1_du_lif_config *cfg)
++int vsp1_du_atomic_modeset(struct device *dev, unsigned int pipe_index,
++			   const struct vsp1_du_modeset_config *cfg)
+ {
+ 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+ 	struct vsp1_drm_pipeline *drm_pipe;
+ 	struct vsp1_pipeline *pipe;
+-	unsigned long flags;
+-	unsigned int i;
+ 	int ret;
+ 
+ 	if (pipe_index >= vsp1->info->lif_count)
+@@ -652,60 +650,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 	drm_pipe = &vsp1->drm->pipe[pipe_index];
+ 	pipe = &drm_pipe->pipe;
+ 
+-	if (!cfg) {
+-		struct vsp1_brx *brx;
+-
+-		mutex_lock(&vsp1->drm->lock);
+-
+-		brx = to_brx(&pipe->brx->subdev);
+-
+-		/*
+-		 * NULL configuration means the CRTC is being disabled, stop
+-		 * the pipeline and turn the light off.
+-		 */
+-		ret = vsp1_pipeline_stop(pipe);
+-		if (ret == -ETIMEDOUT)
+-			dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
+-
+-		for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
+-			struct vsp1_rwpf *rpf = pipe->inputs[i];
+-
+-			if (!rpf)
+-				continue;
+-
+-			/*
+-			 * Remove the RPF from the pipe and the list of BRx
+-			 * inputs.
+-			 */
+-			WARN_ON(!rpf->entity.pipe);
+-			rpf->entity.pipe = NULL;
+-			list_del(&rpf->entity.list_pipe);
+-			pipe->inputs[i] = NULL;
+-
+-			brx->inputs[rpf->brx_input].rpf = NULL;
+-		}
+-
+-		drm_pipe->du_complete = NULL;
+-		pipe->num_inputs = 0;
+-
+-		dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
+-			__func__, pipe->lif->index,
+-			BRX_NAME(pipe->brx));
+-
+-		list_del(&pipe->brx->list_pipe);
+-		pipe->brx->pipe = NULL;
+-		pipe->brx = NULL;
+-
+-		mutex_unlock(&vsp1->drm->lock);
+-
+-		vsp1_dlm_reset(pipe->output->dlm);
+-		vsp1_device_put(vsp1);
+-
+-		dev_dbg(vsp1->dev, "%s: pipeline disabled\n", __func__);
+-
+-		return 0;
+-	}
+-
+ 	drm_pipe->width = cfg->width;
+ 	drm_pipe->height = cfg->height;
+ 	pipe->interlaced = cfg->interlaced;
+@@ -722,8 +666,43 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		goto unlock;
+ 
+ 	ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
+-	if (ret < 0)
+-		goto unlock;
++
++unlock:
++	mutex_unlock(&vsp1->drm->lock);
++
++	return ret;
++}
++
++/**
++ * vsp1_du_atomic_enable - Enable and start a DU pipeline
++ * @dev: the VSP device
++ * @pipe_index: the DRM pipeline index
++ * @cfg: the enablement configuration
++ *
++ * The @pipe_index argument selects which DRM pipeline to enable. The number of
++ * available pipelines depends on the VSP instance.
++ *
++ * The configuration passes a callback function to register notification of
++ * frame completion events.
++ *
++ * Return 0 on success or a negative error code on failure.
++ */
++int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
++			  const struct vsp1_du_enable_config *cfg)
++{
++	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
++	struct vsp1_drm_pipeline *drm_pipe;
++	struct vsp1_pipeline *pipe;
++	unsigned long flags;
++	int ret;
++
++	if (pipe_index >= vsp1->info->lif_count)
++		return -EINVAL;
++
++	drm_pipe = &vsp1->drm->pipe[pipe_index];
++	pipe = &drm_pipe->pipe;
++
++	mutex_lock(&vsp1->drm->lock);
+ 
+ 	/* Enable the VSP1. */
+ 	ret = vsp1_device_get(vsp1);
+@@ -759,6 +738,122 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(vsp1_du_atomic_enable);
++
++/**
++ * vsp1_du_atomic_disable - Disable and stop a DU pipeline
++ * @dev: the VSP device
++ * @pipe_index: the DRM pipeline index
++ *
++ * The @pipe_index argument selects which DRM pipeline to disable. The number
++ * of available pipelines depend on the VSP instance.
++ *
++ * Return 0 on success or a negative error code on failure.
++ */
++int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
++{
++	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
++	struct vsp1_drm_pipeline *drm_pipe;
++	struct vsp1_pipeline *pipe;
++	struct vsp1_brx *brx;
++	unsigned int i;
++	int ret;
++
++	if (pipe_index >= vsp1->info->lif_count)
++		return -EINVAL;
++
++	drm_pipe = &vsp1->drm->pipe[pipe_index];
++	pipe = &drm_pipe->pipe;
++
++	mutex_lock(&vsp1->drm->lock);
++
++	brx = to_brx(&pipe->brx->subdev);
++
++	/* Stop the pipeline and turn the light off. */
++	ret = vsp1_pipeline_stop(pipe);
++	if (ret == -ETIMEDOUT)
++		dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
++
++	for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
++		struct vsp1_rwpf *rpf = pipe->inputs[i];
++
++		if (!rpf)
++			continue;
++
++		/* Remove the RPF from the pipe and the list of BRx inputs. */
++		WARN_ON(!rpf->entity.pipe);
++		rpf->entity.pipe = NULL;
++		list_del(&rpf->entity.list_pipe);
++		pipe->inputs[i] = NULL;
++
++		brx->inputs[rpf->brx_input].rpf = NULL;
++	}
++
++	drm_pipe->du_complete = NULL;
++	pipe->num_inputs = 0;
++
++	dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n", __func__,
++		pipe->lif->index, BRX_NAME(pipe->brx));
++
++	list_del(&pipe->brx->list_pipe);
++	pipe->brx->pipe = NULL;
++	pipe->brx = NULL;
++
++	mutex_unlock(&vsp1->drm->lock);
++
++	vsp1_dlm_reset(pipe->output->dlm);
++	vsp1_device_put(vsp1);
++
++	dev_dbg(vsp1->dev, "%s: pipeline disabled\n", __func__);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(vsp1_du_atomic_disable);
++
++/**
++ * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
++ * @dev: the VSP device
++ * @pipe_index: the DRM pipeline index
++ * @cfg: the LIF configuration
++ *
++ * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
++ * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
++ * source pads, and the LIF sink pad.
++ *
++ * The @pipe_index argument selects which DRM pipeline to setup. The number of
++ * available pipelines depend on the VSP instance.
++ *
++ * As the media bus code on the blend unit source pad is conditioned by the
++ * configuration of its sink 0 pad, we also set up the formats on all blend unit
++ * sinks, even if the configuration will be overwritten later by
++ * vsp1_du_setup_rpf(). This ensures that the blend unit configuration is set to
++ * a well defined state.
++ *
++ * Return 0 on success or a negative error code on failure.
++ */
++int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
++		      const struct vsp1_du_lif_config *cfg)
++{
++	struct vsp1_du_modeset_config modes;
++	struct vsp1_du_enable_config enable;
++	int ret;
++
++	if (!cfg)
++		return vsp1_du_atomic_disable(dev, pipe_index);
++
++	modes.width = cfg->width;
++	modes.height = cfg->height;
++	modes.interlaced = cfg->interlaced;
++
++	ret = vsp1_du_atomic_modeset(dev, pipe_index, &modes);
++	if (ret)
++		return ret;
++
++	enable.callback = cfg->callback;
++	enable.callback_data = cfg->callback_data;
++
++	return vsp1_du_atomic_enable(dev, pipe_index, &enable);
++}
+ EXPORT_SYMBOL_GPL(vsp1_du_setup_lif);
+ 
+ /**
+diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+index cc1b0d42ce95..253db8029752 100644
+--- a/include/media/vsp1.h
++++ b/include/media/vsp1.h
+@@ -21,7 +21,7 @@ int vsp1_du_init(struct device *dev);
+ #define VSP1_DU_STATUS_WRITEBACK	BIT(1)
+ 
+ /**
+- * struct vsp1_du_lif_config - VSP LIF configuration
++ * struct vsp1_du_lif_config - VSP LIF configuration - Deprecated
+  * @width: output frame width
+  * @height: output frame height
+  * @interlaced: true for interlaced pipelines
+@@ -42,6 +42,30 @@ struct vsp1_du_lif_config {
+ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		      const struct vsp1_du_lif_config *cfg);
+ 
++/**
++ * struct vsp1_du_modeset_config - VSP display mode configuration
++ * @width: output frame width
++ * @height: output frame height
++ * @interlaced: true for interlaced pipelines
++ */
++struct vsp1_du_modeset_config {
++	unsigned int width;
++	unsigned int height;
++	bool interlaced;
++};
++
++/**
++ * struct vsp1_du_enable_config - VSP enable configuration
++ * @callback: frame completion callback function (optional). When a callback
++ *	      is provided, the VSP driver guarantees that it will be called once
++ *	      and only once for each vsp1_du_atomic_flush() call.
++ * @callback_data: data to be passed to the frame completion callback
++ */
++struct vsp1_du_enable_config {
++	void (*callback)(void *data, unsigned int status, u32 crc);
++	void *callback_data;
++};
++
+ /**
+  * struct vsp1_du_atomic_config - VSP atomic configuration parameters
+  * @pixelformat: plane pixel format (V4L2 4CC)
+@@ -106,6 +130,11 @@ struct vsp1_du_atomic_pipe_config {
+ 	struct vsp1_du_writeback_config writeback;
+ };
+ 
++int vsp1_du_atomic_modeset(struct device *dev, unsigned int pipe_index,
++			   const struct vsp1_du_modeset_config *cfg);
++int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
++			  const struct vsp1_du_enable_config *cfg);
++int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index);
+ void vsp1_du_atomic_begin(struct device *dev, unsigned int pipe_index);
+ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+ 			  unsigned int rpf,
 -- 
 2.25.1
 
