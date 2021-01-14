@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E842F74BE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6662F74B2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADE189B7B;
-	Fri, 15 Jan 2021 08:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8245D6E17B;
+	Fri, 15 Jan 2021 08:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2080.outbound.protection.outlook.com [40.107.20.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE766E156
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:33:30 +0000 (UTC)
+ (mail-db8eur05on2072.outbound.protection.outlook.com [40.107.20.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9283C6E156
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:33:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CNCuWiJyWr2X5msRu0Mef1GJpkhZFWJJSqWAkoeqVeAWBtZyJq1v4YsmEjSzOJNMgTmVQYs1fzKTjzCK33DJvGoQhe/F5/PEQsbkZKGa8omvMNocvrZ2aU0jA6nNSBIMt0POmCXTrbLw7W4uJLkxKnZnzhpYMWm2iNns6/ghe7t3syEDUCWLB5TG3mQnskQh/j3zYX2m73sut67ST44omx9yjwCOuYXCWhopBXSjVRvy5C7oTUqSFNsDrkhnlAdPUulAmJnVhJg32OxYtOHP13wzUnfK9W0kVhHvUe/1ZISkK/KEne8puO6vSGB07zm1TF1Jxr25L/xakAViedSV9Q==
+ b=NhVRgEjj0CQVCmrLGyNevGz+w5mOttNVW3u+gtnHu3+VFVQ49aawSc+XsGe6wwkVyvYALMtbaLD9S/l3QaSeU5AEJsd2ihRefdmJ841wqaatHocyGF+6W+07R1M7bVaR/zyMgjCXrW1EMxv2UUPp2IOafXnIcrbNZTa2z98U3MqcOGRENQPM9qOPHrf4j2Ub0UEwk84qhgo9aSpgqFd0Fyf0QrxgfFz8zq0QJEF0aDIrBH+/EqTaa6Xc4+it0i25sD3Uyron2cFsXF0n7tbXHRuxexvOSmVqU4mi0FV6AvZOvm9iNjQ6avYdZhJV2mcGjvLDX1mG6wLa3pMxOcX5dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3mmCx4n6uPlIp+Ih07hhLlymtVqKrUBNk5Wcb8iA0BA=;
- b=Lbqo6gpieJS4+Fx3dTtDW1UAIkDq7zSZnmrtK366qtBOGHkALnanTb8M0nM/KPjfD9AlQSMlY5IeNzi9PzE89D7xKMz/i7GCVVUqeqIBheXnvoVeNxcLB4/kvulN2RY0sTm8x3yo0dmjUGCC5SZi2FGj7EymOnkz1ewcJhuyJU/cMiu9VkREVWTWck/pNROXfbgVTnJGy9pCeckulflMAwfJX2en1iGw9qroIbdy+az42lZbjpBFJI4gynfzOYdm6tF+m5ERs/a7NDNv/M4JSecWkUNvDta0r+howEnK4DjPgJxlf/xuUd754zpZVQEY8wOHc2HzzsrJUL61dIfDjA==
+ bh=VJ3H+X6uwu5lbJh2qrP15UZo7MAswxblkVTXlPTxWnc=;
+ b=XMA0fL1j+tiFkeAso0ZKa0X/Y8CH8nfvgTyCKbkWLagZpaA535SN3lfhv2HVNfoGWm915DBb3Ad8/TtlglPeqIIUnOcES1IrSfujCEue1gTlXiLK4YTJe+0R3eNw1DuuXgt1l2yE6dG6atkMM/24g9O6+WfsHm+6fz17aBQ/EDY73EjtOfBbJ/S8CXzOmsLrL52oa73jq3HQMjJ+VibrSq2pexOUak0HHG9VdXutSnZ3bAP+olZX+yEs0m7T6Sr5D9+tMrBBAakp5qAMuvaHA4JU7GkPQ+vW3j5QgWARftMf8q17kEI66opK0048FqiinIxGbJfSZJ6+337p2+5c5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3mmCx4n6uPlIp+Ih07hhLlymtVqKrUBNk5Wcb8iA0BA=;
- b=LZVJHt5P3S9dFk4NaFReNNGYofArRXUrs4N+1LYv45aAuxQtWWq6gKACdXekL5K33oZrsAmo9DPRxnFp6nteUqCwn9t55noUoyhwFtWrzB5e25BQcPW11gArNlrTxW6g+OwnsDG8dbKst3L+RDQuCRu3csIteCiMio8VvE8r69o=
+ bh=VJ3H+X6uwu5lbJh2qrP15UZo7MAswxblkVTXlPTxWnc=;
+ b=LLrbUduTZKbeVw6OWJchP/bpIU1urjtHbn2w6sWusjcSw5yAN+DLXTohj+IMkfk9LqIE2cqTk9bqdrduOzTGtbr/P9JC+5zG5YXVSPjyVUITXulLSUFeWXqbaCOgriFUon0bCxPv+3cPAqDCrXjquKiH+QR1Z2R5z7D1NUb3q+4=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
@@ -34,19 +34,18 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR04MB5710.eurprd04.prod.outlook.com (2603:10a6:803:df::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
- 2021 09:33:24 +0000
+ 2021 09:33:31 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3763.010; Thu, 14 Jan 2021
- 09:33:24 +0000
+ 09:33:31 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v2 09/14] drm/bridge: imx: Add i.MX8qxp pixel link to DPI
- support
-Date: Thu, 14 Jan 2021 17:22:07 +0800
-Message-Id: <1610616132-8220-10-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v2 10/14] drm/bridge: imx: Add LDB driver helper support
+Date: Thu, 14 Jan 2021 17:22:08 +0800
+Message-Id: <1610616132-8220-11-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
 References: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
@@ -59,53 +58,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR04CA0175.apcprd04.prod.outlook.com (2603:1096:4:14::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 09:33:17 +0000
+ 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 09:33:25 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c20ad988-2361-45fb-88af-08d8b86f70e8
+X-MS-Office365-Filtering-Correlation-Id: d53b0c6a-db55-4f09-5ad9-08d8b86f74de
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5710:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB57105B554695683E8350F1A698A80@VI1PR04MB5710.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB5710A0A33E7CD4CA2D4A2C3698A80@VI1PR04MB5710.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FOLCaDDW3bG4dDJAtkP7QeNcKUsIpqoJW4h4RjB0YluxBNAj7N5e8/+oMwVSI4q4On4uTgWkJEr2PpI1LByprUejgQ1YzbQijMOHACyUqCMhyVeK/uH/AClN/YrI/ENeStgVC0euJJR5YYrIE2Gx1aVeHcC7twxPeeP6enR8PPh8MAwzo0h8odZPsyvpBcmeygupsdmc0cnuCnd7RjosNfgi/RE76w6S98eSYg11TaJWsBkTeQsYvCzSNRe2IdfH6gwaMGK0EiHYVR4V6l2t/CzzcZLKB/n9TP0fXNnnx5C+viehpgKFco7wrmaRmN+ZzE+rEYoUA8bB9PMWHeszL7Y958mFBgpcmgAx5zWpxduqFP6mdAdmYr2UE0MpqbyrIGxJjRJyPnbAV9WOReU5sw==
+X-Microsoft-Antispam-Message-Info: ycYvztDoYmoprV7jKMj6XRjver962DeZXPIGLRQoPbna3KjB9+KZMQILekL40inVljCKKlwZGP9dSnk3Kj6Es2t3bweEp2KOkqZIDc+JF4GziT1kCFLcTi8ARF0UrJ5WRjyUUYF4KEgp7xSK4pUc/GMpusp/guJLZMgglA1ic1Xs/qgMyI6LnD76EenxJ5NUuJ7XocAXpTL0gbht9XhrVp7Cy5WRKxH5ukgNNNU674c0V7M70VdB+sfcDy25F4ZJfF9T22q/sDmzWZ8pgqucZsxHhSUTF9Fg77Z4bxov9T5NAogzWoLysJn+Rdw7v8kZt8cRt70ixPMwlAtvzedHHLyVZEZJaJKH1f/hvzzTl9qKc5T4T13DR9ravIwJxQEcv7tojc9WW0tNG2TOYI8oPZFlA/+UPInzFOpfGCBBu5Rqw8r8Qwp3p76rkJifH41koy4KETdZQybDkcSLmdlf8w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(36756003)(6486002)(956004)(8676002)(26005)(30864003)(6666004)(66556008)(6512007)(66476007)(478600001)(6506007)(8936002)(83380400001)(2616005)(7416002)(86362001)(4326008)(316002)(5660300002)(186003)(52116002)(2906002)(66946007)(16526019);
+ SFS:(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(36756003)(6486002)(956004)(8676002)(26005)(30864003)(6666004)(66556008)(6512007)(66476007)(478600001)(6506007)(8936002)(2616005)(7416002)(86362001)(4326008)(316002)(5660300002)(186003)(52116002)(2906002)(66946007)(69590400011)(16526019);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?N0doeFQ4NHJZMlFrZVREd2lFSDdEc3JaTDFzUXFsSTNpR1FiYjllYTNmMFJt?=
- =?utf-8?B?UXVjK2hYU0ZpKy80NVNWdW52bjRINGxzVU54bkdBUXVsam92U2J4cGdUYU5M?=
- =?utf-8?B?OXBsSzh4RU5HcHdNR29JNFgra1FaMlhUN2UrODg0YXMrWE5LTnBUM1RkK2tV?=
- =?utf-8?B?d00yVzhwalAwMGd1Vjd4b05BTnIyWVRTV3hDelNSUmVNNlMyc1o5dWVneHJh?=
- =?utf-8?B?djVkUDR0RXBhN0k4V2JMYVk3QkJDYTE2aGFsSUJGNjVMRDFRbUpmV0tVSjNq?=
- =?utf-8?B?MWs0bFI0bGVvWEhRc0hTempxSjdxY2xsdHdSUFZjdUY3VzJuUU5NZWZKRHF1?=
- =?utf-8?B?VXdTSldjT2NtWGtkSlVkY0x4cnZlYXQ2NklUcnZFWGNpRmtGTGJ6Ujl5MzZS?=
- =?utf-8?B?Vy9jMGZSbWx4S2lsMTRKdFgrZXBWOGg3NE10QTlCdzd6THoxMjN2dk5kVEhl?=
- =?utf-8?B?K1plV0ZjVUxSMkpBYjdIVFVzbDZQb1E5bU9lYXp6ZWFsK0JZYVp2b2VJZ3NB?=
- =?utf-8?B?RUMyRXJpQ20weEoxNVkxdXhQUThSZkczQjV4dXJSeGZRRXVIdnJLS3MrVVRC?=
- =?utf-8?B?Z2pDWlQ2Ly9rdmQxaytKOWZtSkFJRVBhdUtWVHlLRnNxS0ZYcWdEV3FoL3Fi?=
- =?utf-8?B?TGcwYmd2TDRmeUJPSEVPTS9kbHpITVRkckVLdjBFSXpNTy9yS1ZmaUh0dTlF?=
- =?utf-8?B?cEhTWXM0bllxbWxIa0pvZDd4V3pBTFlmSWtPUFpvUGtSWWQzS3V4cjBDdXdk?=
- =?utf-8?B?a2lzSGN0cWkyZ29YZktpZ0dsaGlOdWJlVUhvanhHRm9haVI4Q1JJRS9ERVJG?=
- =?utf-8?B?Z24wSjJQY1BFZHcxdHMrMkk4ais0d0Z5ay9rRDdUMlI2c1IzbmEwZTliRnkv?=
- =?utf-8?B?M0lPNkcwTkc3YVRiU0p5dDVSMUdkY29GY09VUGhhMXZpRVRhbWc1Q3pQUzJv?=
- =?utf-8?B?cSs4RElERStRWDZGSTdwVk4wcDZaZ3JSOEFHZlJCOWVLY1p6MmtkLzZmbk9i?=
- =?utf-8?B?Z3F6R2l4aUJVK1Z5eWhUREtNQUdMeUdhKzJwMUE1V1VjelZMV2h3WDZUcklu?=
- =?utf-8?B?Tk90Tk1OYnczY3JZQ3BCZlBSRXN5YUltSWNwVy9zekVkR3NEd0R0Q3NLWURl?=
- =?utf-8?B?a1YyQVdTQ3hObmJJMkE3b3kvWkR4aE5ZSU5QdWFyZDRuSnFhaVpnMzVva1lD?=
- =?utf-8?B?QWcyUlpZZW10VEdUWEkxMlViTXhiVVFiaDhQRE9CMTVnUmQ2SG9WUlg3Tlpn?=
- =?utf-8?B?VXBpajlKSnQ1dXBFTHBTSGNDUXZBcFdGN1ZpcVZSRktRNlFwSEdqUzlteFJ4?=
- =?utf-8?Q?in0Tq1puQ2nNs=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?kxKJapa6eQ+TFRkhC8AR7PPlsejtuTBHvdvvdf+kgzvJsBRUiEOGbjZqzC5t?=
+ =?us-ascii?Q?oR2FeIfU1zST3Zc6FpD4WFTXEYN6ccg8brO4zOZcyI6YNMo4YwiC929l7YL4?=
+ =?us-ascii?Q?oALLCQep4iBUoYyt1Rs+hcQB+xD+HNh7uZC5eBB9RH8uHFJI+4SbNTx2XJzi?=
+ =?us-ascii?Q?Tkxxvn6s9W0nGHsvU+4nhVFKeY9ONcJma+8Sn6/hUwHYORvya3uevPmLnSHr?=
+ =?us-ascii?Q?tj/f75ggZ333cD7UYWv4/8Vakz1Nnetx1jCWJubXmmtpF1yoem++CJZxbaxG?=
+ =?us-ascii?Q?iQ36g91DYbXzqs7ThjO23rTdCmELpJMh1nyKpvChQVOvqTkGPRA6uNY3jE1w?=
+ =?us-ascii?Q?aDd9xChqR+v/mVzSaSXdGQecVQr5W6RyzqZ+w0/RESMq9xxX+6KDDQhoXW7w?=
+ =?us-ascii?Q?O/OegPUfDWDizPqQ4Gf7I3qICIG341ubXHF+Mym29ZbjfeVzSyxh2YVKgS5S?=
+ =?us-ascii?Q?xhn7gZ6qMI6PsN2chAaDWlZxWu66YCgDCFN6FVxoT8KLh7Hr/4gNFS4F6soK?=
+ =?us-ascii?Q?aCeEXomvrX4Bk+dDSmQQ16VTyR9/JqhrM0KW7EUpAC3/eqfSRjScQPUWzD0b?=
+ =?us-ascii?Q?Gm6NXC+3nQArbG4kLbeUH/drXJ8WIicIaRCQu7uDHxPMzOU+HIBE/iJzGzx0?=
+ =?us-ascii?Q?2A8j0hPsz3uN96PQfkKr3oFR9M8wvJRlWdSUpeXeSeQ6dqVJGniBg7bDdAFN?=
+ =?us-ascii?Q?IwMbWCMzyxOqs5RRQPQw75b/VzPZdGi4RD7hRVYiu6SJftd+pW3j5ceb/4Xq?=
+ =?us-ascii?Q?A4xaxWfOoBJ9907I93ZWED1TYDlegKs3HVtLofLWZKpNDvzKIJmXCvobpRAu?=
+ =?us-ascii?Q?gVz5UZ5x85MnZ0rl+4kb6tjfwpRwlwsyNc+4pG08R6PKGIxBkCTP/9o2oY23?=
+ =?us-ascii?Q?U9GKjbIRIz5aNa4ndKUuR0UTKVDNydym4TBSukKUBXUaxCRrOij4Tysc3rTy?=
+ =?us-ascii?Q?P4BZ22UDxoZgTkDPF0RVn7jFNSYPrY5BVHbYLuIfruM8/5ufWFdTghfHjrlZ?=
+ =?us-ascii?Q?xRVv?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 09:33:24.4765 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 09:33:31.3525 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: c20ad988-2361-45fb-88af-08d8b86f70e8
+X-MS-Exchange-CrossTenant-Network-Message-Id: d53b0c6a-db55-4f09-5ad9-08d8b86f74de
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3vnDraeDHHMWsVAp7kxXva+ckfU6S6Ehj1YHMU1T6TEk8KVvYX2GJitcbzSvA4FA9Qdr9JFzCkY4ND3hQW52iw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: xUIY9dRnDc28P21oWCGAy0HT5sq4vasLWV5qEMkSDtMPN5DQmOHnIwmwlLvnJrb47lgSfMQ1NChR3p844J0wKw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5710
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,274 +118,415 @@ Cc: jernej.skrabec@siol.net, narmstrong@baylibre.com, airlied@linux.ie,
  s.hauer@pengutronix.de, jonas@kwiboo.se, kishon@ti.com, a.hajda@samsung.com,
  vkoul@kernel.org, robh+dt@kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
  mchehab@kernel.org, shawnguo@kernel.org, Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBhZGRzIGEgZHJtIGJyaWRnZSBkcml2ZXIgZm9yIGkuTVg4cXhwIHBpeGVsIGxp
-bmsgdG8gZGlzcGxheQpwaXhlbCBpbnRlcmZhY2UoUFhMMkRQSSkuICBUaGUgUFhMMkRQSSBpbnRl
-cmZhY2VzIHRoZSBwaXhlbCBsaW5rIDM2LWJpdApkYXRhIG91dHB1dCBhbmQgdGhlIERTSSBjb250
-cm9sbGVy4oCZcyBNSVBJLURQSSAyNC1iaXQgZGF0YSBpbnB1dCwgYW5kCmlucHV0cyBvZiBMVkRT
-IERpc3BsYXkgQnJpZGdlKExEQikgbW9kdWxlIHVzZWQgaW4gTFZEUyBtb2RlLCB0byByZW1hcAp0
-aGUgcGl4ZWwgY29sb3IgY29kaW5ncyBiZXR3ZWVuIHRob3NlIG1vZHVsZXMuIFRoZSBQWEwyRFBJ
-IGlzIHB1cmVseQpjb21iaW5hdG9yaWFsLgoKU2lnbmVkLW9mZi1ieTogTGl1IFlpbmcgPHZpY3Rv
-ci5saXVAbnhwLmNvbT4KLS0tCnYxLT52MjoKKiBEcm9wIHVubmVjZXNzYXJ5IHBvcnQgYXZhaWxh
-YmlsaXR5IGNoZWNrLgoKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14L0tjb25maWcgICAgICAg
-ICAgIHwgICA4ICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14L01ha2VmaWxlICAgICAgICAg
-IHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14L2lteDhxeHAtcHhsMmRwaS5jIHwg
-NDg4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA0OTcgaW5z
-ZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14
-L2lteDhxeHAtcHhsMmRwaS5jCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9p
-bXgvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaW14L0tjb25maWcKaW5kZXggNGQx
-ZjAyNy4uMWVhMWNlNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvS2Nv
-bmZpZworKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9LY29uZmlnCkBAIC0xNCwzICsx
-NCwxMSBAQCBjb25maWcgRFJNX0lNWDhRWFBfUElYRUxfTElOSwogCWhlbHAKIAkgIENob29zZSB0
-aGlzIHRvIGVuYWJsZSBkaXNwbGF5IHBpeGVsIGxpbmsgZm91bmQgaW4KIAkgIEZyZWVzY2FsZSBp
-Lk1YOHFtL3F4cCBwcm9jZXNzb3JzLgorCitjb25maWcgRFJNX0lNWDhRWFBfUElYRUxfTElOS19U
-T19EUEkKKwl0cmlzdGF0ZSAiRnJlZXNjYWxlIGkuTVg4UVhQIHBpeGVsIGxpbmsgdG8gZGlzcGxh
-eSBwaXhlbCBpbnRlcmZhY2UiCisJZGVwZW5kcyBvbiBPRgorCXNlbGVjdCBEUk1fS01TX0hFTFBF
-UgorCWhlbHAKKwkgIENob29zZSB0aGlzIHRvIGVuYWJsZSBwaXhlbCBsaW5rIHRvIGRpc3BsYXkg
-cGl4ZWwgaW50ZXJmYWNlKFBYTDJEUEkpCisJICBmb3VuZCBpbiBGcmVlc2NhbGUgaS5NWDhxeHAg
-cHJvY2Vzc29yLgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgvTWFrZWZp
-bGUgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9NYWtlZmlsZQppbmRleCBjMTU0NjlmLi5l
-NzRkZDY0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9NYWtlZmlsZQor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9NYWtlZmlsZQpAQCAtMSwyICsxLDMgQEAK
-IG9iai0kKENPTkZJR19EUk1fSU1YOFFYUF9QSVhFTF9DT01CSU5FUikgKz0gaW14OHF4cC1waXhl
-bC1jb21iaW5lci5vCiBvYmotJChDT05GSUdfRFJNX0lNWDhRWFBfUElYRUxfTElOSykgKz0gaW14
-OHF4cC1waXhlbC1saW5rLm8KK29iai0kKENPTkZJR19EUk1fSU1YOFFYUF9QSVhFTF9MSU5LX1RP
-X0RQSSkgKz0gaW14OHF4cC1weGwyZHBpLm8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2UvaW14L2lteDhxeHAtcHhsMmRwaS5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pbXgv
-aW14OHF4cC1weGwyZHBpLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAuLjMx
-NjlkYjAKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2lteC9pbXg4
-cXhwLXB4bDJkcGkuYwpAQCAtMCwwICsxLDQ4OCBAQAorLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZp
-ZXI6IEdQTC0yLjArCisKKy8qCisgKiBDb3B5cmlnaHQgMjAyMCBOWFAKKyAqLworCisjaW5jbHVk
-ZSA8bGludXgvZmlybXdhcmUvaW14L3N2Yy9taXNjLmg+CisjaW5jbHVkZSA8bGludXgvbWZkL3N5
-c2Nvbi5oPgorI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgorI2luY2x1ZGUgPGxpbnV4L29mLmg+
-CisjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+CisjaW5jbHVkZSA8bGludXgvb2ZfZ3JhcGgu
-aD4KKyNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KKyNpbmNsdWRlIDxsaW51eC9w
-bV9ydW50aW1lLmg+CisjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+CisKKyNpbmNsdWRlIDxkcm0v
-ZHJtX2F0b21pY19zdGF0ZV9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2JyaWRnZS5oPgor
-I2luY2x1ZGUgPGRybS9kcm1fb2YuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+CisKKyNp
-bmNsdWRlIDxkdC1iaW5kaW5ncy9maXJtd2FyZS9pbXgvcnNyYy5oPgorCisjZGVmaW5lIFBYTDJE
-UElfQ1RSTAkweDQwCisjZGVmaW5lICBDRkcxXzE2QklUCTB4MAorI2RlZmluZSAgQ0ZHMl8xNkJJ
-VAkweDEKKyNkZWZpbmUgIENGRzNfMTZCSVQJMHgyCisjZGVmaW5lICBDRkcxXzE4QklUCTB4Mwor
-I2RlZmluZSAgQ0ZHMl8xOEJJVAkweDQKKyNkZWZpbmUgIENGR18yNEJJVAkweDUKKworI2RlZmlu
-ZSBEUklWRVJfTkFNRQkiaW14OHF4cC1weGwyZHBpIgorCitzdHJ1Y3QgaW14OHF4cF9weGwyZHBp
-IHsKKwlzdHJ1Y3QgcmVnbWFwICpyZWdtYXA7CisJc3RydWN0IGRybV9icmlkZ2UgYnJpZGdlOwor
-CXN0cnVjdCBkcm1fYnJpZGdlICpuZXh0X2JyaWRnZTsKKwlzdHJ1Y3QgZHJtX2JyaWRnZSAqY29t
-cGFuaW9uOworCXN0cnVjdCBkZXZpY2UgKmRldjsKKwlzdHJ1Y3QgaW14X3NjX2lwYyAqaXBjX2hh
-bmRsZTsKKwl1MzIgcnNjOworCXUzMiBpbl9idXNfZm9ybWF0OworCXUzMiBvdXRfYnVzX2Zvcm1h
-dDsKKwl1MzIgcGxfc2VsOworCWludCBpZDsKK307CisKKyNkZWZpbmUgYnJpZGdlX3RvX3AyZChi
-KQljb250YWluZXJfb2YoYiwgc3RydWN0IGlteDhxeHBfcHhsMmRwaSwgYnJpZGdlKQorCitzdGF0
-aWMgaW50IGlteDhxeHBfcHhsMmRwaV9icmlkZ2VfYXR0YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpi
-cmlkZ2UsCisJCQkJCSBlbnVtIGRybV9icmlkZ2VfYXR0YWNoX2ZsYWdzIGZsYWdzKQoreworCXN0
-cnVjdCBpbXg4cXhwX3B4bDJkcGkgKnAyZCA9IGJyaWRnZS0+ZHJpdmVyX3ByaXZhdGU7CisKKwlp
-ZiAoIShmbGFncyAmIERSTV9CUklER0VfQVRUQUNIX05PX0NPTk5FQ1RPUikpIHsKKwkJRFJNX0RF
-Vl9FUlJPUihwMmQtPmRldiwKKwkJCSAgICAgICJkbyBub3Qgc3VwcG9ydCBjcmVhdGluZyBhIGRy
-bV9jb25uZWN0b3JcbiIpOworCQlyZXR1cm4gLUVJTlZBTDsKKwl9CisKKwlpZiAoIWJyaWRnZS0+
-ZW5jb2RlcikgeworCQlEUk1fREVWX0VSUk9SKHAyZC0+ZGV2LCAibWlzc2luZyBlbmNvZGVyXG4i
-KTsKKwkJcmV0dXJuIC1FTk9ERVY7CisJfQorCisJcmV0dXJuIGRybV9icmlkZ2VfYXR0YWNoKGJy
-aWRnZS0+ZW5jb2RlciwKKwkJCQkgcDJkLT5uZXh0X2JyaWRnZSwgYnJpZGdlLAorCQkJCSBEUk1f
-QlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1IpOworfQorCitzdGF0aWMgaW50CitpbXg4cXhwX3B4
-bDJkcGlfYnJpZGdlX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAorCQkJ
-CSAgICBzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqYnJpZGdlX3N0YXRlLAorCQkJCSAgICBzdHJ1
-Y3QgZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCisJCQkJICAgIHN0cnVjdCBkcm1fY29ubmVj
-dG9yX3N0YXRlICpjb25uX3N0YXRlKQoreworCXN0cnVjdCBpbXg4cXhwX3B4bDJkcGkgKnAyZCA9
-IGJyaWRnZS0+ZHJpdmVyX3ByaXZhdGU7CisKKwlwMmQtPmluX2J1c19mb3JtYXQgPSBicmlkZ2Vf
-c3RhdGUtPmlucHV0X2J1c19jZmcuZm9ybWF0OworCXAyZC0+b3V0X2J1c19mb3JtYXQgPSBicmlk
-Z2Vfc3RhdGUtPm91dHB1dF9idXNfY2ZnLmZvcm1hdDsKKworCXJldHVybiAwOworfQorCitzdGF0
-aWMgdm9pZAoraW14OHF4cF9weGwyZHBpX2JyaWRnZV9tb2RlX3NldChzdHJ1Y3QgZHJtX2JyaWRn
-ZSAqYnJpZGdlLAorCQkJCWNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlLAorCQkJ
-CWNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlKQoreworCXN0cnVj
-dCBpbXg4cXhwX3B4bDJkcGkgKnAyZCA9IGJyaWRnZS0+ZHJpdmVyX3ByaXZhdGU7CisJc3RydWN0
-IGlteDhxeHBfcHhsMmRwaSAqY29tcGFuaW9uX3AyZDsKKwlpbnQgcmV0OworCisJcmV0ID0gcG1f
-cnVudGltZV9nZXRfc3luYyhwMmQtPmRldik7CisJaWYgKHJldCA8IDApCisJCURSTV9ERVZfRVJS
-T1IocDJkLT5kZXYsCisJCQkgICAgICAiZmFpbGVkIHRvIGdldCBydW50aW1lIFBNIHN5bmM6ICVk
-XG4iLCByZXQpOworCisJcmV0ID0gaW14X3NjX21pc2Nfc2V0X2NvbnRyb2wocDJkLT5pcGNfaGFu
-ZGxlLCBwMmQtPnJzYywKKwkJCQkgICAgICBJTVhfU0NfQ19QWExfTElOS19TRUwsIHAyZC0+cGxf
-c2VsKTsKKwlpZiAocmV0KQorCQlEUk1fREVWX0VSUk9SKHAyZC0+ZGV2LAorCQkJICAgICAgImZh
-aWxlZCB0byBzZXQgcGl4ZWwgbGluayBzZWxlY3Rpb24oJXUpOiAlZFxuIiwKKwkJCQkJCQlwMmQt
-PnBsX3NlbCwgcmV0KTsKKworCXN3aXRjaCAocDJkLT5vdXRfYnVzX2Zvcm1hdCkgeworCWNhc2Ug
-TUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgyNDoKKwkJcmVnbWFwX3dyaXRlKHAyZC0+cmVnbWFwLCBQ
-WEwyRFBJX0NUUkwsIENGR18yNEJJVCk7CisJCWJyZWFrOworCWNhc2UgTUVESUFfQlVTX0ZNVF9S
-R0I2NjZfMVgyNF9DUEFESEk6CisJCXJlZ21hcF93cml0ZShwMmQtPnJlZ21hcCwgUFhMMkRQSV9D
-VFJMLCBDRkcyXzE4QklUKTsKKwkJYnJlYWs7CisJZGVmYXVsdDoKKwkJRFJNX0RFVl9FUlJPUihw
-MmQtPmRldiwKKwkJCSAgICAgICJ1bnN1cHBvcnRlZCBvdXRwdXQgYnVzIGZvcm1hdCAweCUwOHhc
-biIsCisJCQkJCQkJcDJkLT5vdXRfYnVzX2Zvcm1hdCk7CisJfQorCisJaWYgKHAyZC0+Y29tcGFu
-aW9uKSB7CisJCWNvbXBhbmlvbl9wMmQgPSBicmlkZ2VfdG9fcDJkKHAyZC0+Y29tcGFuaW9uKTsK
-KworCQljb21wYW5pb25fcDJkLT5pbl9idXNfZm9ybWF0ID0gcDJkLT5pbl9idXNfZm9ybWF0Owor
-CQljb21wYW5pb25fcDJkLT5vdXRfYnVzX2Zvcm1hdCA9IHAyZC0+b3V0X2J1c19mb3JtYXQ7CisK
-KwkJcDJkLT5jb21wYW5pb24tPmZ1bmNzLT5tb2RlX3NldChwMmQtPmNvbXBhbmlvbiwgbW9kZSwK
-KwkJCQkJCQlhZGp1c3RlZF9tb2RlKTsKKwl9Cit9CisKK3N0YXRpYyB2b2lkCitpbXg4cXhwX3B4
-bDJkcGlfYnJpZGdlX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCisJ
-CQkJICAgICAgc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUgKm9sZF9icmlkZ2Vfc3RhdGUpCit7CisJ
-c3RydWN0IGlteDhxeHBfcHhsMmRwaSAqcDJkID0gYnJpZGdlLT5kcml2ZXJfcHJpdmF0ZTsKKwlp
-bnQgcmV0OworCisJcmV0ID0gcG1fcnVudGltZV9wdXQocDJkLT5kZXYpOworCWlmIChyZXQgPCAw
-KQorCQlEUk1fREVWX0VSUk9SKHAyZC0+ZGV2LCAiZmFpbGVkIHRvIHB1dCBydW50aW1lIFBNOiAl
-ZFxuIiwgcmV0KTsKKworCWlmIChwMmQtPmNvbXBhbmlvbikKKwkJcDJkLT5jb21wYW5pb24tPmZ1
-bmNzLT5hdG9taWNfZGlzYWJsZShwMmQtPmNvbXBhbmlvbiwKKwkJCQkJCQlvbGRfYnJpZGdlX3N0
-YXRlKTsKK30KKworc3RhdGljIGNvbnN0IHUzMiBpbXg4cXhwX3B4bDJkcGlfYnVzX291dHB1dF9m
-bXRzW10gPSB7CisJTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgyNCwKKwlNRURJQV9CVVNfRk1UX1JH
-QjY2Nl8xWDI0X0NQQURISSwKK307CisKK3N0YXRpYyBib29sIGlteDhxeHBfcHhsMmRwaV9idXNf
-b3V0cHV0X2ZtdF9zdXBwb3J0ZWQodTMyIGZtdCkKK3sKKwlpbnQgaTsKKworCWZvciAoaSA9IDA7
-IGkgPCBBUlJBWV9TSVpFKGlteDhxeHBfcHhsMmRwaV9idXNfb3V0cHV0X2ZtdHMpOyBpKyspIHsK
-KwkJaWYgKGlteDhxeHBfcHhsMmRwaV9idXNfb3V0cHV0X2ZtdHNbaV0gPT0gZm10KQorCQkJcmV0
-dXJuIHRydWU7CisJfQorCisJcmV0dXJuIGZhbHNlOworfQorCitzdGF0aWMgdTMyICoKK2lteDhx
-eHBfcHhsMmRwaV9icmlkZ2VfYXRvbWljX2dldF9pbnB1dF9idXNfZm10cyhzdHJ1Y3QgZHJtX2Jy
-aWRnZSAqYnJpZGdlLAorCQkJCQlzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZSAqYnJpZGdlX3N0YXRl
-LAorCQkJCQlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsCisJCQkJCXN0cnVjdCBk
-cm1fY29ubmVjdG9yX3N0YXRlICpjb25uX3N0YXRlLAorCQkJCQl1MzIgb3V0cHV0X2ZtdCwKKwkJ
-CQkJdW5zaWduZWQgaW50ICpudW1faW5wdXRfZm10cykKK3sKKwl1MzIgKmlucHV0X2ZtdHM7CisK
-KwlpZiAoIWlteDhxeHBfcHhsMmRwaV9idXNfb3V0cHV0X2ZtdF9zdXBwb3J0ZWQob3V0cHV0X2Zt
-dCkpCisJCXJldHVybiBOVUxMOworCisJKm51bV9pbnB1dF9mbXRzID0gMTsKKworCWlucHV0X2Zt
-dHMgPSBrbWFsbG9jKHNpemVvZigqaW5wdXRfZm10cyksIEdGUF9LRVJORUwpOworCWlmICghaW5w
-dXRfZm10cykKKwkJcmV0dXJuIE5VTEw7CisKKwlzd2l0Y2ggKG91dHB1dF9mbXQpIHsKKwljYXNl
-IE1FRElBX0JVU19GTVRfUkdCODg4XzFYMjQ6CisJCWlucHV0X2ZtdHNbMF0gPSBNRURJQV9CVVNf
-Rk1UX1JHQjg4OF8xWDM2X0NQQURMTzsKKwkJYnJlYWs7CisJY2FzZSBNRURJQV9CVVNfRk1UX1JH
-QjY2Nl8xWDI0X0NQQURISToKKwkJaW5wdXRfZm10c1swXSA9IE1FRElBX0JVU19GTVRfUkdCNjY2
-XzFYMzZfQ1BBRExPOworCQlicmVhazsKKwlkZWZhdWx0OgorCQlrZnJlZShpbnB1dF9mbXRzKTsK
-KwkJaW5wdXRfZm10cyA9IE5VTEw7CisJCWJyZWFrOworCX0KKworCXJldHVybiBpbnB1dF9mbXRz
-OworfQorCitzdGF0aWMgdTMyICoKK2lteDhxeHBfcHhsMmRwaV9icmlkZ2VfYXRvbWljX2dldF9v
-dXRwdXRfYnVzX2ZtdHMoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKKwkJCQkJc3RydWN0IGRy
-bV9icmlkZ2Vfc3RhdGUgKmJyaWRnZV9zdGF0ZSwKKwkJCQkJc3RydWN0IGRybV9jcnRjX3N0YXRl
-ICpjcnRjX3N0YXRlLAorCQkJCQlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0
-ZSwKKwkJCQkJdW5zaWduZWQgaW50ICpudW1fb3V0cHV0X2ZtdHMpCit7CisJKm51bV9vdXRwdXRf
-Zm10cyA9IEFSUkFZX1NJWkUoaW14OHF4cF9weGwyZHBpX2J1c19vdXRwdXRfZm10cyk7CisJcmV0
-dXJuIGttZW1kdXAoaW14OHF4cF9weGwyZHBpX2J1c19vdXRwdXRfZm10cywKKwkJCXNpemVvZihp
-bXg4cXhwX3B4bDJkcGlfYnVzX291dHB1dF9mbXRzKSwgR0ZQX0tFUk5FTCk7Cit9CisKK3N0YXRp
-YyBjb25zdCBzdHJ1Y3QgZHJtX2JyaWRnZV9mdW5jcyBpbXg4cXhwX3B4bDJkcGlfYnJpZGdlX2Z1
-bmNzID0geworCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlCT0gZHJtX2F0b21pY19oZWxwZXJfYnJp
-ZGdlX2R1cGxpY2F0ZV9zdGF0ZSwKKwkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUJPSBkcm1fYXRvbWlj
-X2hlbHBlcl9icmlkZ2VfZGVzdHJveV9zdGF0ZSwKKwkuYXRvbWljX3Jlc2V0CQk9IGRybV9hdG9t
-aWNfaGVscGVyX2JyaWRnZV9yZXNldCwKKwkuYXR0YWNoCQkJPSBpbXg4cXhwX3B4bDJkcGlfYnJp
-ZGdlX2F0dGFjaCwKKwkuYXRvbWljX2NoZWNrCQk9IGlteDhxeHBfcHhsMmRwaV9icmlkZ2VfYXRv
-bWljX2NoZWNrLAorCS5tb2RlX3NldAkJPSBpbXg4cXhwX3B4bDJkcGlfYnJpZGdlX21vZGVfc2V0
-LAorCS5hdG9taWNfZGlzYWJsZQkJPSBpbXg4cXhwX3B4bDJkcGlfYnJpZGdlX2F0b21pY19kaXNh
-YmxlLAorCS5hdG9taWNfZ2V0X2lucHV0X2J1c19mbXRzID0KKwkJCWlteDhxeHBfcHhsMmRwaV9i
-cmlkZ2VfYXRvbWljX2dldF9pbnB1dF9idXNfZm10cywKKwkuYXRvbWljX2dldF9vdXRwdXRfYnVz
-X2ZtdHMgPQorCQkJaW14OHF4cF9weGwyZHBpX2JyaWRnZV9hdG9taWNfZ2V0X291dHB1dF9idXNf
-Zm10cywKK307CisKK3N0YXRpYyBzdHJ1Y3QgZGV2aWNlX25vZGUgKgoraW14OHF4cF9weGwyZHBp
-X2dldF9hdmFpbGFibGVfZXBfZnJvbV9wb3J0KHN0cnVjdCBpbXg4cXhwX3B4bDJkcGkgKnAyZCwK
-KwkJCQkJICAgdTMyIHBvcnRfaWQpCit7CisJc3RydWN0IGRldmljZV9ub2RlICpwb3J0LCAqZXA7
-CisJaW50IGVwX2NudDsKKworCXBvcnQgPSBvZl9ncmFwaF9nZXRfcG9ydF9ieV9pZChwMmQtPmRl
-di0+b2Zfbm9kZSwgcG9ydF9pZCk7CisJaWYgKCFwb3J0KSB7CisJCURSTV9ERVZfRVJST1IocDJk
-LT5kZXYsICJmYWlsZWQgdG8gZ2V0IHBvcnRAJXVcbiIsIHBvcnRfaWQpOworCQlyZXR1cm4gRVJS
-X1BUUigtRU5PREVWKTsKKwl9CisKKwllcF9jbnQgPSBvZl9nZXRfYXZhaWxhYmxlX2NoaWxkX2Nv
-dW50KHBvcnQpOworCWlmIChlcF9jbnQgPT0gMCkgeworCQlEUk1fREVWX0VSUk9SKHAyZC0+ZGV2
-LCAibm8gYXZhaWxhYmxlIGVuZHBvaW50cyBvZiBwb3J0QCV1XG4iLAorCQkJCQkJCQlwb3J0X2lk
-KTsKKwkJZXAgPSBFUlJfUFRSKC1FTk9ERVYpOworCQlnb3RvIG91dDsKKwl9IGVsc2UgaWYgKGVw
-X2NudCA+IDEpIHsKKwkJRFJNX0RFVl9FUlJPUihwMmQtPmRldiwKKwkJCSJpbnZhbGlkIGF2YWls
-YWJsZSBlbmRwb2ludHMgb2YgcG9ydEAldVxuIiwgcG9ydF9pZCk7CisJCWVwID0gRVJSX1BUUigt
-RU5PVFNVUFApOworCQlnb3RvIG91dDsKKwl9CisKKwllcCA9IG9mX2dldF9uZXh0X2F2YWlsYWJs
-ZV9jaGlsZChwb3J0LCBOVUxMKTsKKwlpZiAoIWVwKSB7CisJCURSTV9ERVZfRVJST1IocDJkLT5k
-ZXYsCisJCQkgICAgICAiZmFpbGVkIHRvIGdldCBhdmFpbGFibGUgZW5kcG9pbnQgb2YgcG9ydEAl
-dVxuIiwKKwkJCQkJCQkJcG9ydF9pZCk7CisJCWVwID0gRVJSX1BUUigtRU5PREVWKTsKKwkJZ290
-byBvdXQ7CisJfQorb3V0OgorCW9mX25vZGVfcHV0KHBvcnQpOworCXJldHVybiBlcDsKK30KKwor
-c3RhdGljIHN0cnVjdCBkcm1fYnJpZGdlICoKK2lteDhxeHBfcHhsMmRwaV9maW5kX25leHRfYnJp
-ZGdlKHN0cnVjdCBpbXg4cXhwX3B4bDJkcGkgKnAyZCkKK3sKKwlzdHJ1Y3QgZGV2aWNlX25vZGUg
-KmVwLCAqcmVtb3RlOworCXN0cnVjdCBkcm1fYnJpZGdlICpuZXh0X2JyaWRnZTsKKwlpbnQgcmV0
-OworCisJZXAgPSBpbXg4cXhwX3B4bDJkcGlfZ2V0X2F2YWlsYWJsZV9lcF9mcm9tX3BvcnQocDJk
-LCAxKTsKKwlpZiAoSVNfRVJSKGVwKSkgeworCQlyZXQgPSBQVFJfRVJSKGVwKTsKKwkJcmV0dXJu
-IEVSUl9QVFIocmV0KTsKKwl9CisKKwlyZW1vdGUgPSBvZl9ncmFwaF9nZXRfcmVtb3RlX3BvcnRf
-cGFyZW50KGVwKTsKKwlpZiAoIXJlbW90ZSB8fCAhb2ZfZGV2aWNlX2lzX2F2YWlsYWJsZShyZW1v
-dGUpKSB7CisJCURSTV9ERVZfRVJST1IocDJkLT5kZXYsICJubyBhdmFpbGFibGUgcmVtb3RlXG4i
-KTsKKwkJbmV4dF9icmlkZ2UgPSBFUlJfUFRSKC1FTk9ERVYpOworCQlnb3RvIG91dDsKKwl9IGVs
-c2UgaWYgKCFvZl9kZXZpY2VfaXNfYXZhaWxhYmxlKHJlbW90ZS0+cGFyZW50KSkgeworCQlEUk1f
-REVWX0VSUk9SKHAyZC0+ZGV2LCAicmVtb3RlIHBhcmVudCBpcyBub3QgYXZhaWxhYmxlXG4iKTsK
-KwkJbmV4dF9icmlkZ2UgPSBFUlJfUFRSKC1FTk9ERVYpOworCQlnb3RvIG91dDsKKwl9CisKKwlu
-ZXh0X2JyaWRnZSA9IG9mX2RybV9maW5kX2JyaWRnZShyZW1vdGUpOworCWlmICghbmV4dF9icmlk
-Z2UpIHsKKwkJbmV4dF9icmlkZ2UgPSBFUlJfUFRSKC1FUFJPQkVfREVGRVIpOworCQlnb3RvIG91
-dDsKKwl9CitvdXQ6CisJb2Zfbm9kZV9wdXQocmVtb3RlKTsKKwlvZl9ub2RlX3B1dChlcCk7CisK
-KwlyZXR1cm4gbmV4dF9icmlkZ2U7Cit9CisKK3N0YXRpYyBpbnQgaW14OHF4cF9weGwyZHBpX3Nl
-dF9waXhlbF9saW5rX3NlbChzdHJ1Y3QgaW14OHF4cF9weGwyZHBpICpwMmQpCit7CisJc3RydWN0
-IGRldmljZV9ub2RlICplcDsKKwlzdHJ1Y3Qgb2ZfZW5kcG9pbnQgZW5kcG9pbnQ7CisJaW50IHJl
-dDsKKworCWVwID0gaW14OHF4cF9weGwyZHBpX2dldF9hdmFpbGFibGVfZXBfZnJvbV9wb3J0KHAy
-ZCwgMCk7CisJaWYgKElTX0VSUihlcCkpCisJCXJldHVybiBQVFJfRVJSKGVwKTsKKworCXJldCA9
-IG9mX2dyYXBoX3BhcnNlX2VuZHBvaW50KGVwLCAmZW5kcG9pbnQpOworCWlmIChyZXQpIHsKKwkJ
-RFJNX0RFVl9FUlJPUihwMmQtPmRldiwKKwkJCSAgICAgICJmYWlsZWQgdG8gcGFyc2UgZW5kcG9p
-bnQgb2YgcG9ydEAwOiAlZFxuIiwgcmV0KTsKKwkJZ290byBvdXQ7CisJfQorCisJcDJkLT5wbF9z
-ZWwgPSBlbmRwb2ludC5pZDsKK291dDoKKwlvZl9ub2RlX3B1dChlcCk7CisKKwlyZXR1cm4gcmV0
-OworfQorCitzdGF0aWMgaW50IGlteDhxeHBfcHhsMmRwaV9wYXJzZV9kdF9jb21wYW5pb24oc3Ry
-dWN0IGlteDhxeHBfcHhsMmRwaSAqcDJkKQoreworCXN0cnVjdCBpbXg4cXhwX3B4bDJkcGkgKmNv
-bXBhbmlvbl9wMmQ7CisJc3RydWN0IGRldmljZSAqZGV2ID0gcDJkLT5kZXY7CisJc3RydWN0IGRl
-dmljZV9ub2RlICpjb21wYW5pb247CisJc3RydWN0IGRldmljZV9ub2RlICpwb3J0MSwgKnBvcnQy
-OworCWNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgKm1hdGNoOworCWludCBkdWFsX2xpbms7CisJ
-aW50IHJldCA9IDA7CisKKwkvKiBMb2NhdGUgdGhlIGNvbXBhbmlvbiBQWEwyRFBJIGZvciBkdWFs
-LWxpbmsgb3BlcmF0aW9uLCBpZiBhbnkuICovCisJY29tcGFuaW9uID0gb2ZfcGFyc2VfcGhhbmRs
-ZShkZXYtPm9mX25vZGUsICJmc2wsY29tcGFuaW9uLXB4bDJkcGkiLCAwKTsKKwlpZiAoIWNvbXBh
-bmlvbikKKwkJcmV0dXJuIDA7CisKKwlpZiAoIW9mX2RldmljZV9pc19hdmFpbGFibGUoY29tcGFu
-aW9uKSkgeworCQlEUk1fREVWX0VSUk9SKGRldiwgImNvbXBhbmlvbiBQWEwyRFBJIGlzIG5vdCBh
-dmFpbGFibGVcbiIpOworCQlyZXQgPSAtRU5PREVWOworCQlnb3RvIG91dDsKKwl9CisKKwkvKgor
-CSAqIFNhbml0eSBjaGVjazogdGhlIGNvbXBhbmlvbiBicmlkZ2UgbXVzdCBoYXZlIHRoZSBzYW1l
-IGNvbXBhdGlibGUKKwkgKiBzdHJpbmcuCisJICovCisJbWF0Y2ggPSBvZl9tYXRjaF9kZXZpY2Uo
-ZGV2LT5kcml2ZXItPm9mX21hdGNoX3RhYmxlLCBkZXYpOworCWlmICghb2ZfZGV2aWNlX2lzX2Nv
-bXBhdGlibGUoY29tcGFuaW9uLCBtYXRjaC0+Y29tcGF0aWJsZSkpIHsKKwkJRFJNX0RFVl9FUlJP
-UihkZXYsICJjb21wYW5pb24gUFhMMkRQSSBpcyBpbmNvbXBhdGlibGVcbiIpOworCQlyZXQgPSAt
-RU5YSU87CisJCWdvdG8gb3V0OworCX0KKworCXAyZC0+Y29tcGFuaW9uID0gb2ZfZHJtX2ZpbmRf
-YnJpZGdlKGNvbXBhbmlvbik7CisJaWYgKCFwMmQtPmNvbXBhbmlvbikgeworCQlyZXQgPSAtRVBS
-T0JFX0RFRkVSOworCQlEUk1fREVWX0RFQlVHX0RSSVZFUihwMmQtPmRldiwKKwkJCQkiZmFpbGVk
-IHRvIGZpbmQgY29tcGFuaW9uIGJyaWRnZTogJWRcbiIsIHJldCk7CisJCWdvdG8gb3V0OworCX0K
-KworCWNvbXBhbmlvbl9wMmQgPSBicmlkZ2VfdG9fcDJkKHAyZC0+Y29tcGFuaW9uKTsKKworCS8q
-CisJICogV2UgbmVlZCB0byB3b3JrIG91dCBpZiB0aGUgc2luayBpcyBleHBlY3RpbmcgdXMgdG8g
-ZnVuY3Rpb24gaW4KKwkgKiBkdWFsLWxpbmsgbW9kZS4gIFdlIGRvIHRoaXMgYnkgbG9va2luZyBh
-dCB0aGUgRFQgcG9ydCBub2RlcyB0aGF0CisJICogdGhlIG5leHQgYnJpZGdlcyBhcmUgY29ubmVj
-dGVkIHRvLiAgSWYgdGhleSBhcmUgbWFya2VkIGFzIGV4cGVjdGluZworCSAqIGV2ZW4gcGl4ZWxz
-IGFuZCBvZGQgcGl4ZWxzIHRoYW4gd2UgbmVlZCB0byB1c2UgdGhlIGNvbXBhbmlvbiBQWEwyRFBJ
-LgorCSAqLworCXBvcnQxID0gb2ZfZ3JhcGhfZ2V0X3BvcnRfYnlfaWQocDJkLT5uZXh0X2JyaWRn
-ZS0+b2Zfbm9kZSwgMSk7CisJcG9ydDIgPSBvZl9ncmFwaF9nZXRfcG9ydF9ieV9pZChjb21wYW5p
-b25fcDJkLT5uZXh0X2JyaWRnZS0+b2Zfbm9kZSwgMSk7CisJZHVhbF9saW5rID0gZHJtX29mX2x2
-ZHNfZ2V0X2R1YWxfbGlua19waXhlbF9vcmRlcihwb3J0MSwgcG9ydDIpOworCW9mX25vZGVfcHV0
-KHBvcnQxKTsKKwlvZl9ub2RlX3B1dChwb3J0Mik7CisKKwlpZiAoZHVhbF9saW5rIDwgMCkgewor
-CQlyZXQgPSBkdWFsX2xpbms7CisJCURSTV9ERVZfRVJST1IoZGV2LCAiZmFpbGVkIHRvIGdldCBk
-dWFsIGxpbmsgcGl4ZWwgb3JkZXI6ICVkXG4iLAorCQkJCQkJCQkJcmV0KTsKKwkJZ290byBvdXQ7
-CisJfQorCisJRFJNX0RFVl9ERUJVR19EUklWRVIoZGV2LAorCQkiZHVhbC1saW5rIGNvbmZpZ3Vy
-YXRpb24gZGV0ZWN0ZWQgKGNvbXBhbmlvbiBicmlkZ2UgJXBPRilcbiIsCisJCQkJCQkJCWNvbXBh
-bmlvbik7CitvdXQ6CisJb2Zfbm9kZV9wdXQoY29tcGFuaW9uKTsKKwlyZXR1cm4gcmV0OworfQor
-CitzdGF0aWMgaW50IGlteDhxeHBfcHhsMmRwaV9icmlkZ2VfcHJvYmUoc3RydWN0IHBsYXRmb3Jt
-X2RldmljZSAqcGRldikKK3sKKwlzdHJ1Y3QgaW14OHF4cF9weGwyZHBpICpwMmQ7CisJc3RydWN0
-IGRldmljZSAqZGV2ID0gJnBkZXYtPmRldjsKKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wID0gZGV2
-LT5vZl9ub2RlOworCWludCByZXQ7CisKKwlwMmQgPSBkZXZtX2t6YWxsb2MoZGV2LCBzaXplb2Yo
-KnAyZCksIEdGUF9LRVJORUwpOworCWlmICghcDJkKQorCQlyZXR1cm4gLUVOT01FTTsKKworCXAy
-ZC0+cmVnbWFwID0gc3lzY29uX3JlZ21hcF9sb29rdXBfYnlfcGhhbmRsZShucCwgImZzbCxzeXNj
-b24iKTsKKwlpZiAoSVNfRVJSKHAyZC0+cmVnbWFwKSkgeworCQlyZXQgPSBQVFJfRVJSKHAyZC0+
-cmVnbWFwKTsKKwkJaWYgKHJldCAhPSAtRVBST0JFX0RFRkVSKQorCQkJRFJNX0RFVl9FUlJPUihk
-ZXYsICJmYWlsZWQgdG8gZ2V0IHJlZ21hcDogJWRcbiIsIHJldCk7CisJCXJldHVybiByZXQ7CisJ
-fQorCisJcDJkLT5pZCA9IG9mX2FsaWFzX2dldF9pZChucCwgInB4bDJkcGkiKTsKKwlpZiAocDJk
-LT5pZCA8IDApIHsKKwkJRFJNX0RFVl9FUlJPUihkZXYsICJmYWlsZWQgdG8gZ2V0IFBYTDJEUEkg
-bm9kZSBhbGlhcyBpZDogJWRcbiIsCisJCQkJCQkJCXAyZC0+aWQpOworCQlyZXR1cm4gcDJkLT5p
-ZDsKKwl9CisKKwlyZXQgPSBpbXhfc2N1X2dldF9oYW5kbGUoJnAyZC0+aXBjX2hhbmRsZSk7CisJ
-aWYgKHJldCkgeworCQlpZiAocmV0ICE9IC1FUFJPQkVfREVGRVIpCisJCQlEUk1fREVWX0VSUk9S
-KGRldiwgImZhaWxlZCB0byBnZXQgU0NVIGlwYyBoYW5kbGU6ICVkXG4iLAorCQkJCQkJCQkJcmV0
-KTsKKwkJcmV0dXJuIHJldDsKKwl9CisKKwlwMmQtPmRldiA9IGRldjsKKwlwMmQtPnJzYyA9IHAy
-ZC0+aWQgPyBJTVhfU0NfUl9NSVBJXzEgOiBJTVhfU0NfUl9NSVBJXzA7CisKKwlwMmQtPm5leHRf
-YnJpZGdlID0gaW14OHF4cF9weGwyZHBpX2ZpbmRfbmV4dF9icmlkZ2UocDJkKTsKKwlpZiAoSVNf
-RVJSKHAyZC0+bmV4dF9icmlkZ2UpKSB7CisJCXJldCA9IFBUUl9FUlIocDJkLT5uZXh0X2JyaWRn
-ZSk7CisJCWlmIChyZXQgIT0gLUVQUk9CRV9ERUZFUikKKwkJCURSTV9ERVZfRVJST1IoZGV2LCAi
-ZmFpbGVkIHRvIGZpbmQgbmV4dCBicmlkZ2U6ICVkXG4iLAorCQkJCQkJCQkJcmV0KTsKKwkJcmV0
-dXJuIHJldDsKKwl9CisKKwlyZXQgPSBpbXg4cXhwX3B4bDJkcGlfc2V0X3BpeGVsX2xpbmtfc2Vs
-KHAyZCk7CisJaWYgKHJldCkKKwkJcmV0dXJuIHJldDsKKworCXJldCA9IGlteDhxeHBfcHhsMmRw
-aV9wYXJzZV9kdF9jb21wYW5pb24ocDJkKTsKKwlpZiAocmV0KQorCQlyZXR1cm4gcmV0OworCisJ
-cGxhdGZvcm1fc2V0X2RydmRhdGEocGRldiwgcDJkKTsKKwlwbV9ydW50aW1lX2VuYWJsZShkZXYp
-OworCisJcDJkLT5icmlkZ2UuZHJpdmVyX3ByaXZhdGUgPSBwMmQ7CisJcDJkLT5icmlkZ2UuZnVu
-Y3MgPSAmaW14OHF4cF9weGwyZHBpX2JyaWRnZV9mdW5jczsKKwlwMmQtPmJyaWRnZS5vZl9ub2Rl
-ID0gbnA7CisKKwlkcm1fYnJpZGdlX2FkZCgmcDJkLT5icmlkZ2UpOworCisJcmV0dXJuIHJldDsK
-K30KKworc3RhdGljIGludCBpbXg4cXhwX3B4bDJkcGlfYnJpZGdlX3JlbW92ZShzdHJ1Y3QgcGxh
-dGZvcm1fZGV2aWNlICpwZGV2KQoreworCXN0cnVjdCBpbXg4cXhwX3B4bDJkcGkgKnAyZCA9IHBs
-YXRmb3JtX2dldF9kcnZkYXRhKHBkZXYpOworCisJZHJtX2JyaWRnZV9yZW1vdmUoJnAyZC0+YnJp
-ZGdlKTsKKworCXBtX3J1bnRpbWVfZGlzYWJsZSgmcGRldi0+ZGV2KTsKKworCXJldHVybiAwOwor
-fQorCitzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBpbXg4cXhwX3B4bDJkcGlfZHRf
-aWRzW10gPSB7CisJeyAuY29tcGF0aWJsZSA9ICJmc2wsaW14OHF4cC1weGwyZHBpIiwgfSwKKwl7
-IC8qIHNlbnRpbmVsICovIH0KK307CitNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBpbXg4cXhwX3B4
-bDJkcGlfZHRfaWRzKTsKKworc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgaW14OHF4cF9w
-eGwyZHBpX2JyaWRnZV9kcml2ZXIgPSB7CisJLnByb2JlCT0gaW14OHF4cF9weGwyZHBpX2JyaWRn
-ZV9wcm9iZSwKKwkucmVtb3ZlID0gaW14OHF4cF9weGwyZHBpX2JyaWRnZV9yZW1vdmUsCisJLmRy
-aXZlcgk9IHsKKwkJLm9mX21hdGNoX3RhYmxlID0gaW14OHF4cF9weGwyZHBpX2R0X2lkcywKKwkJ
-Lm5hbWUgPSBEUklWRVJfTkFNRSwKKwl9LAorfTsKK21vZHVsZV9wbGF0Zm9ybV9kcml2ZXIoaW14
-OHF4cF9weGwyZHBpX2JyaWRnZV9kcml2ZXIpOworCitNT0RVTEVfREVTQ1JJUFRJT04oImkuTVg4
-UVhQIHBpeGVsIGxpbmsgdG8gRFBJIGJyaWRnZSBkcml2ZXIiKTsKK01PRFVMRV9BVVRIT1IoIkxp
-dSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+Iik7CitNT0RVTEVfTElDRU5TRSgiR1BMIHYyIik7
-CitNT0RVTEVfQUxJQVMoInBsYXRmb3JtOiIgRFJJVkVSX05BTUUpOwotLSAKMi43LjQKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This patch adds a helper to support LDB drm bridge drivers for
+i.MX SoCs.  Helper functions exported from this driver should
+implement common logics for all LDB modules embedded in i.MX SoCs.
+
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v1->v2:
+* No change.
+
+ drivers/gpu/drm/bridge/imx/Kconfig          |   8 +
+ drivers/gpu/drm/bridge/imx/Makefile         |   1 +
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 248 ++++++++++++++++++++++++++++
+ include/drm/bridge/imx_ldb_helper.h         |  98 +++++++++++
+ 4 files changed, 355 insertions(+)
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+ create mode 100644 include/drm/bridge/imx_ldb_helper.h
+
+diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+index 1ea1ce7..23e24fd 100644
+--- a/drivers/gpu/drm/bridge/imx/Kconfig
++++ b/drivers/gpu/drm/bridge/imx/Kconfig
+@@ -1,3 +1,11 @@
++config DRM_IMX_LVDS_BRIDGE_HELPER
++	tristate "Freescale i.MX LVDS display bridge helper"
++	depends on OF
++	select DRM_PANEL_BRIDGE
++	help
++	  Helper to support Freescale i.MX LVDS Display Bridge(LDB).
++	  This bridge is embedded in a SoC.
++
+ config DRM_IMX8QXP_PIXEL_COMBINER
+ 	tristate "Freescale i.MX8QM/QXP pixel combiner"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
+index e74dd64..902b703 100644
+--- a/drivers/gpu/drm/bridge/imx/Makefile
++++ b/drivers/gpu/drm/bridge/imx/Makefile
+@@ -1,3 +1,4 @@
++obj-$(CONFIG_DRM_IMX_LVDS_BRIDGE_HELPER) += imx-ldb-helper.o
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
+diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+new file mode 100644
+index 00000000..ccf06a7
+--- /dev/null
++++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+@@ -0,0 +1,248 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2012 Sascha Hauer, Pengutronix
++ * Copyright 2019,2020 NXP
++ */
++
++#include <linux/mfd/syscon.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++
++#include <drm/bridge/imx_ldb_helper.h>
++#include <drm/drm_of.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_print.h>
++
++bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
++{
++	return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
++}
++EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
++
++bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
++{
++	return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
++	       ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
++}
++EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
++
++int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
++				   struct drm_bridge_state *bridge_state,
++				   struct drm_crtc_state *crtc_state,
++				   struct drm_connector_state *conn_state)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++
++	ldb_ch->in_bus_format = bridge_state->input_bus_cfg.format;
++	ldb_ch->out_bus_format = bridge_state->output_bus_cfg.format;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
++
++void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				const struct drm_display_mode *adjusted_mode)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++	struct ldb *ldb = ldb_ch->ldb;
++	bool is_split = ldb_channel_is_split_link(ldb_ch);
++
++	if (is_split)
++		ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
++
++	switch (ldb_ch->out_bus_format) {
++	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++		if (ldb_ch->chno == 0 || is_split)
++			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24;
++		if (ldb_ch->chno == 1 || is_split)
++			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24;
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++		if (ldb_ch->chno == 0 || is_split)
++			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24 |
++					 LDB_BIT_MAP_CH0_JEIDA;
++		if (ldb_ch->chno == 1 || is_split)
++			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24 |
++					 LDB_BIT_MAP_CH1_JEIDA;
++		break;
++	}
++}
++EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
++
++void ldb_bridge_enable_helper(struct drm_bridge *bridge)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++	struct ldb *ldb = ldb_ch->ldb;
++
++	/*
++	 * Platform specific bridge drivers should set ldb_ctrl properly
++	 * for the enablement, so just write the ctrl_reg here.
++	 */
++	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
++}
++EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
++
++void ldb_bridge_disable_helper(struct drm_bridge *bridge)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++	struct ldb *ldb = ldb_ch->ldb;
++	bool is_split = ldb_channel_is_split_link(ldb_ch);
++
++	if (ldb_ch->chno == 0 || is_split)
++		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
++	if (ldb_ch->chno == 1 || is_split)
++		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
++
++	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
++}
++EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
++
++int ldb_bridge_attach_helper(struct drm_bridge *bridge,
++			     enum drm_bridge_attach_flags flags)
++{
++	struct ldb_channel *ldb_ch = bridge->driver_private;
++	struct ldb *ldb = ldb_ch->ldb;
++
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
++		DRM_DEV_ERROR(ldb->dev,
++			      "do not support creating a drm_connector\n");
++		return -EINVAL;
++	}
++
++	if (!bridge->encoder) {
++		DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
++		return -ENODEV;
++	}
++
++	return drm_bridge_attach(bridge->encoder,
++				ldb_ch->next_bridge, bridge,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++}
++EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
++
++int ldb_init_helper(struct ldb *ldb)
++{
++	struct device *dev = ldb->dev;
++	struct device_node *np = dev->of_node;
++	struct device_node *child;
++	int ret;
++	u32 i;
++
++	ldb->regmap = syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
++	if (IS_ERR(ldb->regmap)) {
++		ret = PTR_ERR(ldb->regmap);
++		if (ret != -EPROBE_DEFER)
++			DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
++		return ret;
++	}
++
++	for_each_available_child_of_node(np, child) {
++		struct ldb_channel *ldb_ch;
++
++		ret = of_property_read_u32(child, "reg", &i);
++		if (ret || i > MAX_LDB_CHAN_NUM - 1) {
++			ret = -EINVAL;
++			DRM_DEV_ERROR(dev,
++				      "invalid channel node address: %u\n", i);
++			of_node_put(child);
++			return ret;
++		}
++
++		ldb_ch = ldb->channel[i];
++		ldb_ch->ldb = ldb;
++		ldb_ch->chno = i;
++		ldb_ch->is_available = true;
++		ldb_ch->np = child;
++
++		ldb->available_ch_cnt++;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(ldb_init_helper);
++
++int ldb_find_next_bridge_helper(struct ldb *ldb)
++{
++	struct device *dev = ldb->dev;
++	struct ldb_channel *ldb_ch;
++	int ret, i;
++
++	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
++		ldb_ch = ldb->channel[i];
++
++		if (!ldb_ch->is_available)
++			continue;
++
++		ret = drm_of_find_panel_or_bridge(ldb_ch->np, 1, 0,
++						  &ldb_ch->panel,
++						  &ldb_ch->next_bridge);
++		if (ret) {
++			if (ret != -EPROBE_DEFER)
++				DRM_DEV_ERROR(dev,
++					"failed to find panel or bridge: %d\n",
++									ret);
++			return ret;
++		}
++
++		if (ldb_ch->panel) {
++			ldb_ch->next_bridge = devm_drm_panel_bridge_add(dev,
++								ldb_ch->panel);
++			if (IS_ERR(ldb_ch->next_bridge)) {
++				ret = PTR_ERR(ldb_ch->next_bridge);
++				DRM_DEV_ERROR(dev,
++					"failed to add panel bridge: %d\n",
++									ret);
++				return ret;
++			}
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
++
++void ldb_add_bridge_helper(struct ldb *ldb,
++			   const struct drm_bridge_funcs *bridge_funcs)
++{
++	struct ldb_channel *ldb_ch;
++	int i;
++
++	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
++		ldb_ch = ldb->channel[i];
++
++		if (!ldb_ch->is_available)
++			continue;
++
++		ldb_ch->bridge.driver_private = ldb_ch;
++		ldb_ch->bridge.funcs = bridge_funcs;
++		ldb_ch->bridge.of_node = ldb_ch->np;
++
++		drm_bridge_add(&ldb_ch->bridge);
++	}
++}
++EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
++
++void ldb_remove_bridge_helper(struct ldb *ldb)
++{
++	struct ldb_channel *ldb_ch;
++	int i;
++
++	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
++		ldb_ch = ldb->channel[i];
++
++		if (!ldb_ch->is_available)
++			continue;
++
++		drm_bridge_remove(&ldb_ch->bridge);
++	}
++}
++EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
++
++MODULE_DESCRIPTION("Freescale i.MX LVDS Display Bridge driver helper");
++MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:imx-ldb-helper");
+diff --git a/include/drm/bridge/imx_ldb_helper.h b/include/drm/bridge/imx_ldb_helper.h
+new file mode 100644
+index 00000000..2a7ba97
+--- /dev/null
++++ b/include/drm/bridge/imx_ldb_helper.h
+@@ -0,0 +1,98 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++/*
++ * Copyright 2019,2020 NXP
++ */
++
++#ifndef __FSL_IMX_LDB__
++#define __FSL_IMX_LDB__
++
++#include <linux/device.h>
++#include <linux/kernel.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_bridge.h>
++#include <drm/drm_device.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_panel.h>
++
++#define LDB_CH0_MODE_EN_TO_DI0		(1 << 0)
++#define LDB_CH0_MODE_EN_TO_DI1		(3 << 0)
++#define LDB_CH0_MODE_EN_MASK		(3 << 0)
++#define LDB_CH1_MODE_EN_TO_DI0		(1 << 2)
++#define LDB_CH1_MODE_EN_TO_DI1		(3 << 2)
++#define LDB_CH1_MODE_EN_MASK		(3 << 2)
++#define LDB_SPLIT_MODE_EN		(1 << 4)
++#define LDB_DATA_WIDTH_CH0_24		(1 << 5)
++#define LDB_BIT_MAP_CH0_JEIDA		(1 << 6)
++#define LDB_DATA_WIDTH_CH1_24		(1 << 7)
++#define LDB_BIT_MAP_CH1_JEIDA		(1 << 8)
++#define LDB_DI0_VS_POL_ACT_LOW		(1 << 9)
++#define LDB_DI1_VS_POL_ACT_LOW		(1 << 10)
++
++#define MAX_LDB_CHAN_NUM		2
++
++enum ldb_channel_link_type {
++	LDB_CH_SINGLE_LINK,
++	LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS,
++	LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS,
++};
++
++struct ldb;
++
++struct ldb_channel {
++	struct ldb *ldb;
++	struct drm_bridge bridge;
++	struct drm_panel *panel;
++	struct drm_bridge *next_bridge;
++	struct device_node *np;
++	u32 chno;
++	bool is_available;
++	u32 in_bus_format;
++	u32 out_bus_format;
++	enum ldb_channel_link_type link_type;
++};
++
++struct ldb {
++	struct regmap *regmap;
++	struct device *dev;
++	struct ldb_channel *channel[MAX_LDB_CHAN_NUM];
++	unsigned int ctrl_reg;
++	u32 ldb_ctrl;
++	unsigned int available_ch_cnt;
++};
++
++#define bridge_to_ldb_ch(b)	container_of(b, struct ldb_channel, bridge)
++
++bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch);
++bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch);
++
++int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
++				   struct drm_bridge_state *bridge_state,
++				   struct drm_crtc_state *crtc_state,
++				   struct drm_connector_state *conn_state);
++
++void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				const struct drm_display_mode *adjusted_mode);
++
++void ldb_bridge_enable_helper(struct drm_bridge *bridge);
++
++void ldb_bridge_disable_helper(struct drm_bridge *bridge);
++
++int ldb_bridge_attach_helper(struct drm_bridge *bridge,
++			     enum drm_bridge_attach_flags flags);
++
++int ldb_init_helper(struct ldb *ldb);
++
++int ldb_find_next_bridge_helper(struct ldb *ldb);
++
++void ldb_add_bridge_helper(struct ldb *ldb,
++			   const struct drm_bridge_funcs *bridge_funcs);
++
++void ldb_remove_bridge_helper(struct ldb *ldb);
++
++#endif /* __FSL_IMX_LDB__ */
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
