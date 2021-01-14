@@ -1,67 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5102F5F3C
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 11:49:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6222F5F50
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 11:55:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3712C6E1D3;
-	Thu, 14 Jan 2021 10:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23EB789208;
+	Thu, 14 Jan 2021 10:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5765389FEA;
- Thu, 14 Jan 2021 10:49:36 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id b2so5214437edm.3;
- Thu, 14 Jan 2021 02:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=7kCrJNs7SleUF5a0C10+uWgQXYlm/wQDZ/+nLIU9ppM=;
- b=LJ61J5VwjpTUhDevsde1RV6/2Y2x+YRNUg5q4PwrC7gPM7Kar5idFcSYmwS8cXZM4z
- s50y2mPvVYSlCTKUSnyl7AZ0SIq4+5S/svopFs+4+ouzkv/3ZnsClozljz/VFae1Crwp
- 8C2qjaC7RZSOHaHWNSCMw4egIXquhkgo/OhS2B4vIphNeE7Gdyjpxlb9YskszpvoA3qy
- KrNdbGeB1F04l9HB2ho78YkbIrxpRyQwqpLaKmRX3Bgo+OttCE1c9sJJLbmNnRPK4KwU
- QWlp/aocA+iaUzTgZGdkxgTHkxSp4t6zNdCJO9VS++ZaU888wRZLnCEG6+9TxuqRUJRD
- avWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=7kCrJNs7SleUF5a0C10+uWgQXYlm/wQDZ/+nLIU9ppM=;
- b=D/AIK4xtMJ6+NSSxK9Xkaqf/Wyt1arCeAyZxcyLdmaO/xhk+Aq3gHgULIICU/BOmBG
- 7B6LjNvhQLZjrA6vkXR6GLubjDpYN/x0nXcfSe28RVz3vy5uwFSBDP77eURzjKNPxVmA
- 7nhRzLx5/cmBYC+8V8ZLePQr3z04L+PYc15HCSq3FFwOJCXPdoNeClSLCQMqCLNETJ6/
- iXG1uwEVH6LF68QWpuCKS5AYLXr3rlYo2or8zxpjIKj7mECa5as67FYy6Gc9qx+OYepY
- BXSC0pudmufdQapiyRgXBpqEI1xAYpuaZMvn1iw82cLmpfvzEu/EjW6RCmEKv4v/ScTz
- 8eQg==
-X-Gm-Message-State: AOAM5310qtf/OSyK6ySJO7iSqI4fi/VWk36ZqsehEfvTsd9Djx5jlKku
- 30B1HvxOSqGcgIY6jQNiyiYtsvMr6mU=
-X-Google-Smtp-Source: ABdhPJxzYMGAMKaKZifFcW5O4tUqqsEiGkgL4uuLczzNT1uSqv28ACDef103navkGx3Vi1RWbbKDwg==
-X-Received: by 2002:a05:6402:1045:: with SMTP id
- e5mr5355789edu.40.1610621374731; 
- Thu, 14 Jan 2021 02:49:34 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id x25sm1604629edv.65.2021.01.14.02.49.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 02:49:33 -0800 (PST)
-Subject: Re: [PATCH 00/35] Add HMM-based SVM memory manager to KFD
-To: Jerome Glisse <jglisse@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
- <X/bTFWL3HYVc8LEF@phenom.ffwll.local>
- <6daf9ebc-507e-6e83-04dd-d7c5fc6998d6@amd.com>
- <X/hux3eX8Ywf61h7@phenom.ffwll.local> <20210113165646.GB521755@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c1ecb381-20cc-850b-4491-99c6b413f7df@gmail.com>
-Date: Thu, 14 Jan 2021 11:49:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B15A891EC;
+ Thu, 14 Jan 2021 10:55:03 +0000 (UTC)
+IronPort-SDR: e9mtSoTYEmeajIM5pM+VeM9sJ/Qo9RroTPO896M5IcLJOG7bDaDtpQzdiyQRGqzsFg/V93P9iD
+ qBASdbfwdzsQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="196997142"
+X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="196997142"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2021 02:55:00 -0800
+IronPort-SDR: 5NS0vfQB0197Xd+J0LCoQhDUHrAQbMSjeqMN8WENRipU7pApqTkW+T799tTWiIo8G7tXXHQdKy
+ ZeDm1TWrXKFg==
+X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="424911372"
+Received: from dforourk-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.213.254.146])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2021 02:54:56 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 14 Jan 2021 12:54:53 +0200
+Message-ID: <87sg73pz42.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210113165646.GB521755@redhat.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,101 +45,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: alex.sierra@amd.com, philip.yang@amd.com,
- Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTMuMDEuMjEgdW0gMTc6NTYgc2NocmllYiBKZXJvbWUgR2xpc3NlOgo+IE9uIEZyaSwgSmFu
-IDA4LCAyMDIxIGF0IDAzOjQwOjA3UE0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+IE9u
-IFRodSwgSmFuIDA3LCAyMDIxIGF0IDExOjI1OjQxQU0gLTA1MDAsIEZlbGl4IEt1ZWhsaW5nIHdy
-b3RlOgo+Pj4gQW0gMjAyMS0wMS0wNyB1bSA0OjIzIGEubS4gc2NocmllYiBEYW5pZWwgVmV0dGVy
-Ogo+Pj4+IE9uIFdlZCwgSmFuIDA2LCAyMDIxIGF0IDEwOjAwOjUyUE0gLTA1MDAsIEZlbGl4IEt1
-ZWhsaW5nIHdyb3RlOgo+Pj4+PiBUaGlzIGlzIHRoZSBmaXJzdCB2ZXJzaW9uIG9mIG91ciBITU0g
-YmFzZWQgc2hhcmVkIHZpcnR1YWwgbWVtb3J5IG1hbmFnZXIKPj4+Pj4gZm9yIEtGRC4gVGhlcmUg
-YXJlIHN0aWxsIGEgbnVtYmVyIG9mIGtub3duIGlzc3VlcyB0aGF0IHdlJ3JlIHdvcmtpbmcgdGhy
-b3VnaAo+Pj4+PiAoc2VlIGJlbG93KS4gVGhpcyB3aWxsIGxpa2VseSBsZWFkIHRvIHNvbWUgcHJl
-dHR5IHNpZ25pZmljYW50IGNoYW5nZXMgaW4KPj4+Pj4gTU1VIG5vdGlmaWVyIGhhbmRsaW5nIGFu
-ZCBsb2NraW5nIG9uIHRoZSBtaWdyYXRpb24gY29kZSBwYXRocy4gU28gZG9uJ3QKPj4+Pj4gZ2V0
-IGh1bmcgdXAgb24gdGhvc2UgZGV0YWlscyB5ZXQuCj4+Pj4+Cj4+Pj4+IEJ1dCBJIHRoaW5rIHRo
-aXMgaXMgYSBnb29kIHRpbWUgdG8gc3RhcnQgZ2V0dGluZyBmZWVkYmFjay4gV2UncmUgcHJldHR5
-Cj4+Pj4+IGNvbmZpZGVudCBhYm91dCB0aGUgaW9jdGwgQVBJLCB3aGljaCBpcyBib3RoIHNpbXBs
-ZSBhbmQgZXh0ZW5zaWJsZSBmb3IgdGhlCj4+Pj4+IGZ1dHVyZS4gKHNlZSBwYXRjaGVzIDQsMTYp
-IFRoZSB1c2VyIG1vZGUgc2lkZSBvZiB0aGUgQVBJIGNhbiBiZSBmb3VuZCBoZXJlOgo+Pj4+PiBo
-dHRwczovL2dpdGh1Yi5jb20vUmFkZW9uT3BlbkNvbXB1dGUvUk9DVC1UaHVuay1JbnRlcmZhY2Uv
-YmxvYi9meGthbWQvaG1tLXdpcC9zcmMvc3ZtLmMKPj4+Pj4KPj4+Pj4gSSdkIGFsc28gbGlrZSBh
-bm90aGVyIHBhaXIgb2YgZXllcyBvbiBob3cgd2UncmUgaW50ZXJmYWNpbmcgd2l0aCB0aGUgR1BV
-IFZNCj4+Pj4+IGNvZGUgaW4gYW1kZ3B1X3ZtLmMgKHNlZSBwYXRjaGVzIDEyLDEzKSwgcmV0cnkg
-cGFnZSBmYXVsdCBoYW5kbGluZyAoMjQsMjUpLAo+Pj4+PiBhbmQgc29tZSByZXRyeSBJUlEgaGFu
-ZGxpbmcgY2hhbmdlcyAoMzIpLgo+Pj4+Pgo+Pj4+Pgo+Pj4+PiBLbm93biBpc3N1ZXM6Cj4+Pj4+
-ICogd29uJ3Qgd29yayB3aXRoIElPTU1VIGVuYWJsZWQsIHdlIG5lZWQgdG8gZG1hX21hcCBhbGwg
-cGFnZXMgcHJvcGVybHkKPj4+Pj4gKiBzdGlsbCB3b3JraW5nIG9uIHNvbWUgcmFjZSBjb25kaXRp
-b25zIGFuZCByYW5kb20gYnVncwo+Pj4+PiAqIHBlcmZvcm1hbmNlIGlzIG5vdCBncmVhdCB5ZXQK
-Pj4+PiBTdGlsbCBjYXRjaGluZyB1cCwgYnV0IEkgdGhpbmsgdGhlcmUncyBhbm90aGVyIG9uZSBm
-b3IgeW91ciBsaXN0Ogo+Pj4+Cj4+Pj4gICAqIGhtbSBncHUgY29udGV4dCBwcmVlbXB0IHZzIHBh
-Z2UgZmF1bHQgaGFuZGxpbmcuIEkndmUgaGFkIGEgc2hvcnQKPj4+PiAgICAgZGlzY3Vzc2lvbiBh
-Ym91dCB0aGlzIG9uZSB3aXRoIENocmlzdGlhbiBiZWZvcmUgdGhlIGhvbGlkYXlzLCBhbmQgYWxz
-bwo+Pj4+ICAgICBzb21lIHByaXZhdGUgY2hhdHMgd2l0aCBKZXJvbWUuIEl0J3MgbmFzdHkgc2lu
-Y2Ugbm8gZWFzeSBmaXgsIG11Y2ggbGVzcwo+Pj4+ICAgICBhIGdvb2QgaWRlYSB3aGF0J3MgdGhl
-IGJlc3QgYXBwcm9hY2ggaGVyZS4KPj4+IERvIHlvdSBoYXZlIGEgcG9pbnRlciB0byB0aGF0IGRp
-c2N1c3Npb24gb3IgYW55IG1vcmUgZGV0YWlscz8KPj4gRXNzZW50aWFsbHkgaWYgeW91J3JlIGhh
-bmRsaW5nIGFuIGhtbSBwYWdlIGZhdWx0IGZyb20gdGhlIGdwdSwgeW91IGNhbgo+PiBkZWFkbG9j
-ayBieSBjYWxsaW5nIGRtYV9mZW5jZV93YWl0IG9uIGEgKGNoYWluIG9mLCBwb3NzaWJseSkgb3Ro
-ZXIgY29tbWFuZAo+PiBzdWJtaXNzaW9ucyBvciBjb21wdXRlIGNvbnRleHRzIHdpdGggZG1hX2Zl
-bmNlX3dhaXQuIFdoaWNoIGRlYWRsb2NrcyBpZgo+PiB5b3UgY2FuJ3QgcHJlZW1wdCB3aGlsZSB5
-b3UgaGF2ZSB0aGF0IHBhZ2UgZmF1bHQgcGVuZGluZy4gVHdvIHNvbHV0aW9uczoKPj4KPj4gLSB5
-b3VyIGh3IGNhbiAoYXQgbGVhc3QgZm9yIGNvbXB1dGUgY3R4KSBwcmVlbXB0IGV2ZW4gd2hlbiBh
-IHBhZ2UgZmF1bHQgaXMKPj4gICAgcGVuZGluZwo+Pgo+PiAtIGxvdHMgb2Ygc2NyZWFtaW5nIGlu
-IHRyeWluZyB0byBjb21lIHVwIHdpdGggYW4gYWx0ZXJuYXRlIHNvbHV0aW9uLiBUaGV5Cj4+ICAg
-IGFsbCBzdWNrLgo+Pgo+PiBOb3RlIHRoYXQgdGhlIGRtYV9mZW5jZV93YWl0IGlzIGhhcmQgcmVx
-dWlyZW1lbnQsIGJlY2F1c2Ugd2UgbmVlZCB0aGF0IGZvcgo+PiBtbXUgbm90aWZpZXJzIGFuZCBz
-aHJpbmtlcnMsIGRpc2FsbG93aW5nIHRoYXQgd291bGQgZGlzYWJsZSBkeW5hbWljIG1lbW9yeQo+
-PiBtYW5hZ2VtZW50LiBXaGljaCBpcyB0aGUgY3VycmVudCAidHRtIGlzIHNlbGYtbGltaXRlZCB0
-byA1MCUgb2Ygc3lzdGVtCj4+IG1lbW9yeSIgbGltaXRhdGlvbiBDaHJpc3RpYW4gaXMgdHJ5aW5n
-IHRvIGxpZnQuIFNvIHRoYXQncyByZWFsbHkgbm90Cj4+IGEgcmVzdHJpY3Rpb24gd2UgY2FuIGxp
-ZnQsIGF0IGxlYXN0IG5vdCBpbiB1cHN0cmVhbSB3aGVyZSB3ZSBuZWVkIHRvIGFsc28KPj4gc3Vw
-cG9ydCBvbGQgc3R5bGUgaGFyZHdhcmUgd2hpY2ggZG9lc24ndCBoYXZlIHBhZ2UgZmF1bHQgc3Vw
-cG9ydCBhbmQKPj4gcmVhbGx5IGhhcyBubyBvdGhlciBvcHRpb24gdG8gaGFuZGxlIG1lbW9yeSBt
-YW5hZ2VtZW50IHRoYW4KPj4gZG1hX2ZlbmNlX3dhaXQuCj4+Cj4+IFRocmVhZCB3YXMgaGVyZToK
-Pj4KPj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsL0NBS01LN3VHZ29lRjhMbUZC
-d1doNW1XMWs0eFdqdVVoM2hkU0ZwVkgxTkJNN0swPWVkQUBtYWlsLmdtYWlsLmNvbS8KPj4KPj4g
-VGhlcmUncyBhIGZldyB3YXlzIHRvIHJlc29sdmUgdGhpcyAod2l0aG91dCBoYXZpbmcgcHJlZW1w
-dC1jYXBhYmxlCj4+IGhhcmR3YXJlKSwgYnV0IHRoZXkncmUgYWxsIHN1cHJlbWVseSBuYXN0eS4K
-Pj4gLURhbmllbAo+Pgo+IEkgaGFkIGEgbmV3IGlkZWEsIGkgd2FudGVkIHRvIHRoaW5rIG1vcmUg
-YWJvdXQgaXQgYnV0IGhhdmUgbm90IHlldCwKPiBhbnl3YXkgaGVyZSBpdCBpcy4gQWRkaW5nIGEg
-bmV3IGNhbGxiYWNrIHRvIGRtYSBmZW5jZSB3aGljaCBhc2sgdGhlCj4gcXVlc3Rpb24gY2FuIGl0
-IGRlYWQgbG9jayA/IEFueSB0aW1lIGEgR1BVIGRyaXZlciBoYXMgcGVuZGluZyBwYWdlCj4gZmF1
-bHQgKGllIHNvbWV0aGluZyBjYWxsaW5nIGludG8gdGhlIG1tKSBpdCBhbnN3ZXIgeWVzLCBvdGhl
-cndpc2UKPiBuby4gVGhlIEdQVSBzaHJpbmtlciB3b3VsZCBhc2sgdGhlIHF1ZXN0aW9uIGJlZm9y
-ZSB3YWl0aW5nIG9uIGFueQo+IGRtYS1mZW5jZSBhbmQgYmFjayBvZiBpZiBpdCBnZXRzIHllcy4g
-U2hyaW5rZXIgY2FuIHN0aWxsIHRyeSBtYW55Cj4gZG1hIGJ1ZiBvYmplY3QgZm9yIHdoaWNoIGl0
-IGRvZXMgbm90IGdldCBhIHllcyBvbiBhc3NvY2lhdGVkIGZlbmNlLgo+Cj4gVGhpcyBkb2VzIG5v
-dCBzb2x2ZSB0aGUgbW11IG5vdGlmaWVyIGNhc2UsIGZvciB0aGlzIHlvdSB3b3VsZCBqdXN0Cj4g
-aW52YWxpZGF0ZSB0aGUgZ2VtIHVzZXJwdHIgb2JqZWN0ICh3aXRoIGEgZmxhZyBidXQgbm90IHJl
-bGVhc2luZyB0aGUKPiBwYWdlIHJlZmNvdW50KSBidXQgeW91IHdvdWxkIG5vdCB3YWl0IGZvciB0
-aGUgR1BVIChpZSBubyBkbWEgZmVuY2UKPiB3YWl0IGluIHRoYXQgY29kZSBwYXRoIGFueW1vcmUp
-LiBUaGUgdXNlcnB0ciBBUEkgbmV2ZXIgcmVhbGx5IG1hZGUKPiB0aGUgY29udHJhY3QgdGhhdCBp
-dCB3aWxsIGFsd2F5cyBiZSBpbiBzeW5jIHdpdGggdGhlIG1tIHZpZXcgb2YgdGhlCj4gd29ybGQg
-c28gaWYgZGlmZmVyZW50IHBhZ2UgZ2V0IHJlbWFwcGVkIHRvIHNhbWUgdmlydHVhbCBhZGRyZXNz
-Cj4gd2hpbGUgR1BVIGlzIHN0aWxsIHdvcmtpbmcgd2l0aCB0aGUgb2xkIHBhZ2VzIGl0IHNob3Vs
-ZCBub3QgYmUgYW4KPiBpc3N1ZSAoaXQgd291bGQgbm90IGJlIGluIG91ciB1c2FnZSBvZiB1c2Vy
-cHRyIGZvciBjb21wb3NpdG9yIGFuZAo+IHdoYXQgbm90KS4KClRoZSBjdXJyZW50IHdvcmtpbmcg
-aWRlYSBpbiBteSBtaW5kIGdvZXMgaW50byBhIHNpbWlsYXIgZGlyZWN0aW9uLgoKQnV0IGluc3Rl
-YWQgb2YgYSBjYWxsYmFjayBJJ20gYWRkaW5nIGEgY29tcGxldGUgbmV3IGNsYXNzIG9mIEhNTSBm
-ZW5jZXMuCgpXYWl0aW5nIGluIHRoZSBNTVUgbm90Zmllciwgc2NoZWR1bGVyLCBUVE0gZXRjIGV0
-YyBpcyBvbmx5IGFsbG93ZWQgZm9yIAp0aGUgZG1hX2ZlbmNlcyBhbmQgSE1NIGZlbmNlcyBhcmUg
-aWdub3JlZCBpbiBjb250YWluZXIgb2JqZWN0cy4KCldoZW4geW91IGhhbmRsZSBhbiBpbXBsaWNp
-dCBvciBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24gcmVxdWVzdCBmcm9tIAp1c2Vyc3BhY2UgeW91
-IG5lZWQgdG8gYmxvY2sgZm9yIEhNTSBmZW5jZXMgdG8gY29tcGxldGUgYmVmb3JlIHRha2luZyBh
-bnkgCnJlc291cmNlIGxvY2tzLgoKUmVnYXJkcywKQ2hyaXN0aWFuLgoKPgo+IE1heWJlIGkgb3Zl
-cmxvb2sgc29tZXRoaW5nIHRoZXJlLgo+Cj4gQ2hlZXJzLAo+IErDg8KpcsODwrRtZQo+Cj4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBhbWQtZ2Z4IG1h
-aWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4CgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+Hi Dave & Daniel -
+
+drm-intel-fixes-2021-01-14:
+drm/i915 fixes for v5.11-rc4:
+- Allow the sysadmin to override security mitigations
+- Restore clear-residual mitigations for ivb/byt
+- Limit VFE threads based on GT
+- GVT: fix vfio edid and full display detection
+- Fix DSI DSC power refcounting
+- Fix LPT CPU mode backlight takeover
+- Disable RPM wakeref assertions during driver shutdown
+- Fix DSI sequence sleeps
+
+BR,
+Jani.
+
+The following changes since commit 7c53f6b671f4aba70ff15e1b05148b10d58c2837:
+
+  Linux 5.11-rc3 (2021-01-10 14:34:50 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-01-14
+
+for you to fetch changes up to 984cadea032b103c5824a5f29d0a36b3e9df6333:
+
+  drm/i915: Allow the sysadmin to override security mitigations (2021-01-12 19:03:40 +0200)
+
+----------------------------------------------------------------
+drm/i915 fixes for v5.11-rc4:
+- Allow the sysadmin to override security mitigations
+- Restore clear-residual mitigations for ivb/byt
+- Limit VFE threads based on GT
+- GVT: fix vfio edid and full display detection
+- Fix DSI DSC power refcounting
+- Fix LPT CPU mode backlight takeover
+- Disable RPM wakeref assertions during driver shutdown
+- Fix DSI sequence sleeps
+
+----------------------------------------------------------------
+Chris Wilson (4):
+      drm/i915: Disable RPM wakeref assertions during driver shutdown
+      drm/i915/gt: Limit VFE threads based on GT
+      drm/i915/gt: Restore clear-residual mitigations for Ivybridge, Baytrail
+      drm/i915: Allow the sysadmin to override security mitigations
+
+Colin Xu (1):
+      drm/i915/gvt: Fix vfio_edid issue for BXT/APL
+
+Hans de Goede (1):
+      drm/i915/dsi: Use unconditional msleep for the panel_on_delay when there is no reset-deassert MIPI-sequence
+
+Imre Deak (1):
+      drm/i915/icl: Fix initing the DSI DSC power refcount during HW readout
+
+Jani Nikula (2):
+      drm/i915/backlight: fix CPU mode backlight takeover on LPT
+      Merge tag 'gvt-fixes-2020-01-08' of https://github.com/intel/gvt-linux into drm-intel-fixes
+
+ drivers/gpu/drm/i915/Makefile                   |   1 +
+ drivers/gpu/drm/i915/display/icl_dsi.c          |   4 -
+ drivers/gpu/drm/i915/display/intel_panel.c      |   9 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c          |  16 ++-
+ drivers/gpu/drm/i915/gt/gen7_renderclear.c      | 157 ++++++++++++++----------
+ drivers/gpu/drm/i915/gt/intel_ring_submission.c |   6 +-
+ drivers/gpu/drm/i915/gvt/display.c              |  81 ++++++++----
+ drivers/gpu/drm/i915/gvt/vgpu.c                 |   5 +-
+ drivers/gpu/drm/i915/i915_drv.c                 |   4 +
+ drivers/gpu/drm/i915/i915_mitigations.c         | 146 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_mitigations.h         |  13 ++
+ 11 files changed, 339 insertions(+), 103 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_mitigations.c
+ create mode 100644 drivers/gpu/drm/i915/i915_mitigations.h
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
