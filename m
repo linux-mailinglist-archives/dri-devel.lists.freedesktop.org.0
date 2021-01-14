@@ -2,46 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA2C2F74B1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0D42F74AA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 049DF89BAF;
-	Fri, 15 Jan 2021 08:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69F7A89F6F;
+	Fri, 15 Jan 2021 08:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpweb147.aruba.it (smtpweb147.aruba.it [62.149.158.147])
- by gabe.freedesktop.org (Postfix) with ESMTP id 63E486E24D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 11:40:54 +0000 (UTC)
-Received: from [192.168.1.184] ([79.10.42.7])
- by Aruba Outgoing Smtp  with ESMTPA
- id 00zhlmCP65BgL00zilVupq; Thu, 14 Jan 2021 12:40:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1610624452; bh=5fQqfvw4DkWANFTt5ckFnOsldleYY7vSY0pJjS8pZDU=;
- h=Subject:To:From:Date:MIME-Version:Content-Type;
- b=ip+aYt1qggLYSmK3c2sbh8LUW/Nucij64rUPQGyTYzXAR6ITw/LE6xoftdOvK1BFn
- a6KFB0AEUzepiqp3F6BebnTAITOWDu5RysAlo49L9k1/XY4S7dm2dHxCHEBjyn/gW1
- WtvzJCjXSz2/2ZB1IimdZOgc4DAC63AZf0hOMvNKx9P8UBbMlgppJgfzCjtfeKN91s
- 1u3s4QodU/ROl868SIPLq3/4/x2tNmofp3ZNtq7tBMgD4HAvc/VpqfGMqJnxBnpjH/
- PGWfUpYOYmqWUI920O6GKD1JiNj+PpXNQgecibF0LafXANIZddkTF1GgYp7sUAlz1Y
- N6rD/NJkGtu7g==
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88D746E24D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 11:42:29 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id A3AC11575;
+ Thu, 14 Jan 2021 06:42:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 14 Jan 2021 06:42:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=t6PlT8muw6VrCHVALFPUTNXxD5o
+ 0m/g2bY8zMhmjaog=; b=sOaWEOjE6VHnvqZpyI97Cr8XxUxD5usf7urGMrvRpe8
+ 1G65ZHQp4ls+nv30chVh7bN1WU0RmOyORUXGPg0ERLWdPj2QvHRzLaCqNhC0pice
+ wUHuDF55hGJnnUbn1di0+ZJJVsyu47sOtl/dwxIJp5b9olZk8NIejQvwCVul6myU
+ 59B/Ak6ALq2QuNW+mZRLzazuep5wPLXGOfVN1VS2/+FDa1BQnHdcY+Rm45R+fOOu
+ M33M/HtVo1maqgfqlXOl878F/Flzxfbs1KSeI/q2Bar0SN9tBqBKyVqD9stnPFBk
+ vRKylG6ShpyKQ4bkEqOUMS3AhpPbgWL1M2zXgDpyiZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=t6PlT8
+ muw6VrCHVALFPUTNXxD5o0m/g2bY8zMhmjaog=; b=qKLeiG9bCXCgvEnjB/ZKMK
+ Ukle0+PggfmkvT0FPYoXadH+dQuCmU/Ls6ILeqK2TOoGUw7Q+pkH52dRlRMZaGN1
+ /3OBdHux0X2523hMmw6LcOjqnZFrwQTAMl9iRYC28WQa18MDjusaXCeZD8pO9IuZ
+ i45OLHykI59SXrT/pA4w2h/KcyTKCbbXzfkZvKT+jAiIaPaAeMlc4yXt/X/dOUFX
+ omtlFv0JiARcqJh9KyaX11iaa8OOIaqRT/BCkmBNPLvrlrGqgiSmD30xjXom3mNO
+ vs4gaXFx8EAievGW1jLCmPkekvffrL+6VnZau6ix8lTwCcuPIl5ivXa9IKuGjkmw
+ ==
+X-ME-Sender: <xms:HC4AYBF3Kx-lNP83KK1pb9DkNuB6rdBmntWgvlaWRb1FaQZxvgTY_A>
+ <xme:HC4AYKrjvnEM_koz9JiP2EbTWpWVRuDUTnxjsmADTZfxyO7_L3jJJMD2baM-hO_wi
+ U9bzaaPDsK3om5ZhdY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddtgddthecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HC4AYCReHhd_M2m6bsOj_f1KKb1JRtSigIbcry1QyKZBd8Rf-bcKLg>
+ <xmx:HC4AYPNkhNMICmwO-dpogZxvVTuvdltI9H4P-QVV4vcZxA6um177Qw>
+ <xmx:HC4AYNNVkwCgyFhNj1uSFrYZK7-IKFPF0osWR7JeKTcVpqaoMQua-g>
+ <xmx:IC4AYI_dJu1p3LwuMqGBL9zZrqjuJxl8iPKi--hlW3GzAnDsylDwPMzvDP0>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5E62C1080059;
+ Thu, 14 Jan 2021 06:42:20 -0500 (EST)
+Date: Thu, 14 Jan 2021 12:42:19 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Giulio Benetti <giulio.benetti@benettiengineering.com>
 Subject: Re: [PATCH v6] drm/sun4i: tcon: fix inverted DCLK polarity
-To: Giulio Benetti <giulio.benetti@benettiengineering.com>,
- Maxime Ripard <maxime@cerno.tech>
+Message-ID: <20210114114219.faulkwww3dhdqwmc@gilmour>
 References: <d244aa6b-00b7-d768-83cb-e5a228b7ee08@trexom.it>
  <20210114081732.9386-1-giulio.benetti@benettiengineering.com>
-From: Marjan Pascolo <marjan.pascolo@trexom.it>
-Message-ID: <08782c29-4988-8b8e-fbd2-61b9beff9fef@trexom.it>
-Date: Thu, 14 Jan 2021 12:40:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
 MIME-Version: 1.0
 In-Reply-To: <20210114081732.9386-1-giulio.benetti@benettiengineering.com>
-Content-Language: it
-X-CMAE-Envelope: MS4wfBVV2/iWGDhknf2LRCaTWYHc0JBSU+9FbBOzV8xo1c9IaZP6h0MQedJBMvbEL045NtestzcjSdSR2QaDGCw/d+/Y5OjyuRGE7NqkpLpAdHTT4QGs/FQu
- oAJ2p1vXfFyj8eZZ85HpydmmlVcGff2KC99Of4vyzOmgpwwp2I9Isi4Ur761XZmUv9xk6KDcS4MrJZy5TXaVzOSNQWK52uWGqXKMHHWEurHxf5SXYgnPkeBg
- ecSqKI/z/2abJHwwLEKkUJSB7kg5ujdPsLaEuSIO6Mk7cNFMfhVy5xU2cLkqlzOR/HE9lCo/oiVMvxgsXSZvdNW1nE6SLZDk21i3/QJhQzyPNkzsN26LdYEs
- av01kIWcpAikbGXS10un/VXrwgHx6KKxORU8mSgnz7K6aNbEwH4QD51DOX/YwG0oTD44YJr7nV3hRRPsUhW1UkeSgEeNQrVf1IVK5NS6V8pO1Amp3kLFpB8j
- T00PUHifcvBzKs5SZn//uiDXu+Y6l9bqTTWJsHupvhMUG3futlMa3S68UJhp/j/dl62YLHl+Wm6mOq8X
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,90 +81,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>, airlied@linux.ie,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- treding@nvidia.com, Giulio Benetti <giulio.benetti@micronovasrl.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ linux-arm-kernel@lists.infradead.org, treding@nvidia.com,
+ Giulio Benetti <giulio.benetti@micronovasrl.com>,
+ Marjan Pascolo <marjan.pascolo@trexom.it>
+Content-Type: multipart/mixed; boundary="===============1464218736=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpUZXN0ZWQgb24gYTEzIGFuZCB3b3Jrcy4KCkhlcmUgYXJlIHJlc3VsdHM6Cgp3aXRo
-IERSSVZFX05FR0VER0UKCmh0dHBzOi8vcGFzdGVib2FyZC5jby9KSkFHREF5LmpwZwoKaHR0cHM6
-Ly9wYXN0ZWJvYXJkLmNvL0pKQUhEQWouanBnCgp3aXRoIERSSVZFX1BPU0VER0UKCmh0dHBzOi8v
-cGFzdGVib2FyZC5jby9KSkFJYkJmLmpwZwoKaHR0cHM6Ly9wYXN0ZWJvYXJkLmNvL0pKQUlHZm8u
-anBnCgoKSWwgMTQvMDEvMjAyMSAwOToxNywgR2l1bGlvIEJlbmV0dGkgaGEgc2NyaXR0bzoKPiBG
-cm9tOiBHaXVsaW8gQmVuZXR0aSA8Z2l1bGlvLmJlbmV0dGlAbWljcm9ub3Zhc3JsLmNvbT4KPgo+
-IER1cmluZyBjb21taXQgODhiYzQxNzg1NjhiICgiZHJtOiBVc2UgbmV3Cj4gRFJNX0JVU19GTEFH
-XypfKERSSVZFfFNBTVBMRSlfKFBPU3xORUcpRURHRSBmbGFncyIpIERSTV9CVVNfRkxBR18qCj4g
-bWFjcm9zIGhhdmUgYmVlbiBjaGFuZ2VkIHRvIGF2b2lkIGFtYmlndWl0eSBidXQganVzdCBiZWNh
-dXNlIG9mIHRoaXMKPiBhbWJpZ3VpdHkgcHJldmlvdXMgRFJNX0JVU19GTEFHX1BJWERBVEFfKFBP
-Uy9ORUcpRURHRSB3ZXJlIHVzZWQgbWVhbmluZwo+IF9TQU1QTEVfIG5vdCBfRFJJVkVfLiBUaGlz
-IGxlYWRzIHRvIERMQ0sgaW52ZXJzaW9uIGFuZCBuZWVkIHRvIGZpeCBidXQKPiBpbnN0ZWFkIG9m
-IHN3YXBwaW5nIHBoYXNlIHZhbHVlcywgbGV0J3MgYWRvcHQgYW4gZWFzaWVyIGFwcHJvYWNoIE1h
-eGltZQo+IHN1Z2dlc3RlZDoKPiBJdCB0dXJuZWQgb3V0IHRoYXQgYml0IDI2IG9mIFNVTjRJX1RD
-T04wX0lPX1BPTF9SRUcgaXMgZGVkaWNhdGVkIHRvCj4gaW52ZXJ0IERDTEsgcG9sYXJpdHkgYW5k
-IHRoaXMgbWFrZXMgdGhpbmdzIHJlYWxseSBlYXNpZXIgdGhhbiBiZWZvcmUuIFNvCj4gbGV0J3Mg
-aGFuZGxlIERDTEsgcG9sYXJpdHkgYnkgYWRkaW5nIFNVTjRJX1RDT04wX0lPX1BPTF9EQ0xLX0RS
-SVZFX05FR0VER0UKPiBhcyBiaXQgMjYgYW5kIGFjdGl2YXRpbmcgYWNjb3JkaW5nIHRvIGJ1c19m
-bGFncyB0aGUgc2FtZSB3YXkgaXQgaXMgZG9uZQo+IGZvciBhbGwgdGhlIG90aGVyIHNpZ25hbHMg
-cG9sYXJpdHkuCj4KPiBGaXhlczogODhiYzQxNzg1NjhiICgiZHJtOiBVc2UgbmV3IERSTV9CVVNf
-RkxBR18qXyhEUklWRXxTQU1QTEUpXyhQT1N8TkVHKUVER0UgZmxhZ3MiKQo+IFN1Z2dlc3RlZC1i
-eTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+Cj4gU2lnbmVkLW9mZi1ieTogR2l1
-bGlvIEJlbmV0dGkgPGdpdWxpby5iZW5ldHRpQG1pY3Jvbm92YXNybC5jb20+CgpUZXN0ZWQtYnk6
-IE1hcmphbiBQYXNjb2xvIDxtYXJqYW4ucGFzY29sb0B0cmV4b20uaXQ+CltUZXN0ZWQgc3VjY2Vz
-c2Z1bGx5IHdpdGggQTEzXQoKPiAtLS0KPiBWMi0+VjM6Cj4gLSBzcXVhc2ggMiBwYXRjaGVzIGlu
-dG8gMQo+IFYzLT5WNDoKPiAtIGFkZCBTVU40SV9UQ09OMF9JT19QT0xfRENMS19QT1NJVElWRSB0
-byByZWdtYXBfdXBkYXRlX2JpdHMoKSBhcyBzdWdnZXN0ZWQgYnkgTWF4aW1lCj4gVjQtPlY1Ogo+
-IHBvbGFyaXR5IGlzIHN0aWxsIHdyb25nIHNvOgo+IC0gbGV0J3MgdXNlIFNVTjRJX1RDT04wX0lP
-X1BPTF9EQ0xLX0RSSVZFX05FR0VER0UgbWFjcm8KPiAgICBpbnN0ZWFkIG9mIF9EQ0xLX1BPU0lU
-SVZFKHRoYXQgd291bGQgbWFrZSBzZW5zZSBvbmx5IGluIHJlYWx0aW9uIHdpdGggRENMSykKPiAt
-IGludmVydCBjb25kaXRpb24gdXNpbmcgX05FR0VER0UgaW5zdGVhZCBvZiBfUE9TRURHRSBhbmQg
-dGhlbiBtYXRjaGluZyB3aXRoCj4gICAgcmVnaXN0ZXIgYml0IFNVTjRJX1RDT04wX0lPX1BPTF9E
-Q0xLX0RSSVZFX05FR0VER0UKPiAtIGNvcnJlY3QgY29tbWl0IGxvZyBhY2NvcmRpbmcgdG8gVjQt
-PlY1IGNoYW5nZXMKPiBWNS0+VjY6Cj4gLSBmaXggdHlwbyBpbiBTVU40SV9UQ09OMF9JT19QT0xf
-RENMS19EUklWRV9ORUdFREdFIGFzIHN1Z2dlc3RlZCBieSBNYXJqYW4KPiAtLS0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmMgfCAyMSArKy0tLS0tLS0tLS0tLS0tLS0tLS0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmggfCAgMSArCj4gICAyIGZpbGVz
-IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYyBiL2RyaXZlcnMvZ3B1L2RybS9z
-dW40aS9zdW40aV90Y29uLmMKPiBpbmRleCBlYWFmNWQ3MGUzNTIuLjZiOWFmNGMwOGNkNiAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5jCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwo+IEBAIC01NjksMzAgKzU2OSwxMyBAQCBz
-dGF0aWMgdm9pZCBzdW40aV90Y29uMF9tb2RlX3NldF9yZ2Ioc3RydWN0IHN1bjRpX3Rjb24gKnRj
-b24sCj4gICAJaWYgKGluZm8tPmJ1c19mbGFncyAmIERSTV9CVVNfRkxBR19ERV9MT1cpCj4gICAJ
-CXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfREVfTkVHQVRJVkU7Cj4gICAKPiAtCS8qCj4gLQkg
-KiBPbiBBMjAgYW5kIHNpbWlsYXIgU29DcywgdGhlIG9ubHkgd2F5IHRvIGFjaGlldmUgUG9zaXRp
-dmUgRWRnZQo+IC0JICogKFJpc2luZyBFZGdlKSwgaXMgc2V0dGluZyBkY2xrIGNsb2NrIHBoYXNl
-IHRvIDIvMygyNDDCsCkuCj4gLQkgKiBCeSBkZWZhdWx0IFRDT04gd29ya3MgaW4gTmVnYXRpdmUg
-RWRnZShGYWxsaW5nIEVkZ2UpLAo+IC0JICogdGhpcyBpcyB3aHkgcGhhc2UgaXMgc2V0IHRvIDAg
-aW4gdGhhdCBjYXNlLgo+IC0JICogVW5mb3J0dW5hdGVseSB0aGVyZSdzIG5vIHdheSB0byBsb2dp
-Y2FsbHkgaW52ZXJ0IGRjbGsgdGhyb3VnaAo+IC0JICogSU9fUE9MIHJlZ2lzdGVyLgo+IC0JICog
-VGhlIG9ubHkgYWNjZXB0YWJsZSB3YXkgdG8gd29yaywgdHJpcGxlIGNoZWNrZWQgd2l0aCBzY29w
-ZSwKPiAtCSAqIGlzIHVzaW5nIGNsb2NrIHBoYXNlIHNldCB0byAwwrAgZm9yIE5lZ2F0aXZlIEVk
-Z2UgYW5kIHNldCB0byAyNDDCsAo+IC0JICogZm9yIFBvc2l0aXZlIEVkZ2UuCj4gLQkgKiBPbiBB
-MzMgYW5kIHNpbWlsYXIgU29DcyB0aGVyZSB3b3VsZCBiZSBhIDkwwrAgcGhhc2Ugb3B0aW9uLAo+
-IC0JICogYnV0IGl0IGRpdmlkZXMgYWxzbyBkY2xrIGJ5IDIuCj4gLQkgKiBGb2xsb3dpbmcgY29k
-ZSBpcyBhIHdheSB0byBhdm9pZCBxdWlya3MgYWxsIGFyb3VuZCBUQ09OCj4gLQkgKiBhbmQgRE9U
-Q0xPQ0sgZHJpdmVycy4KPiAtCSAqLwo+IC0JaWYgKGluZm8tPmJ1c19mbGFncyAmIERSTV9CVVNf
-RkxBR19QSVhEQVRBX0RSSVZFX1BPU0VER0UpCj4gLQkJY2xrX3NldF9waGFzZSh0Y29uLT5kY2xr
-LCAyNDApOwo+IC0KPiAgIAlpZiAoaW5mby0+YnVzX2ZsYWdzICYgRFJNX0JVU19GTEFHX1BJWERB
-VEFfRFJJVkVfTkVHRURHRSkKPiAtCQljbGtfc2V0X3BoYXNlKHRjb24tPmRjbGssIDApOwo+ICsJ
-CXZhbCB8PSBTVU40SV9UQ09OMF9JT19QT0xfRENMS19EUklWRV9ORUdFREdFOwo+ICAgCj4gICAJ
-cmVnbWFwX3VwZGF0ZV9iaXRzKHRjb24tPnJlZ3MsIFNVTjRJX1RDT04wX0lPX1BPTF9SRUcsCj4g
-ICAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfSFNZTkNfUE9TSVRJVkUgfAo+ICAgCQkJICAgU1VO
-NElfVENPTjBfSU9fUE9MX1ZTWU5DX1BPU0lUSVZFIHwKPiArCQkJICAgU1VONElfVENPTjBfSU9f
-UE9MX0RDTEtfRFJJVkVfTkVHRURHRSB8Cj4gICAJCQkgICBTVU40SV9UQ09OMF9JT19QT0xfREVf
-TkVHQVRJVkUsCj4gICAJCQkgICB2YWwpOwo+ICAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9zdW40aS9zdW40aV90Y29uLmggYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNv
-bi5oCj4gaW5kZXggY2ZiZjRlNmMxNjc5Li5jNWFjMWIwMjQ4MmMgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9z
-dW40aS9zdW40aV90Y29uLmgKPiBAQCAtMTEzLDYgKzExMyw3IEBACj4gICAjZGVmaW5lIFNVTjRJ
-X1RDT04wX0lPX1BPTF9SRUcJCQkweDg4Cj4gICAjZGVmaW5lIFNVTjRJX1RDT04wX0lPX1BPTF9E
-Q0xLX1BIQVNFKHBoYXNlKQkJKChwaGFzZSAmIDMpIDw8IDI4KQo+ICAgI2RlZmluZSBTVU40SV9U
-Q09OMF9JT19QT0xfREVfTkVHQVRJVkUJCQlCSVQoMjcpCj4gKyNkZWZpbmUgU1VONElfVENPTjBf
-SU9fUE9MX0RDTEtfRFJJVkVfTkVHRURHRQkJQklUKDI2KQo+ICAgI2RlZmluZSBTVU40SV9UQ09O
-MF9JT19QT0xfSFNZTkNfUE9TSVRJVkUJCUJJVCgyNSkKPiAgICNkZWZpbmUgU1VONElfVENPTjBf
-SU9fUE9MX1ZTWU5DX1BPU0lUSVZFCQlCSVQoMjQpCj4gICAKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1464218736==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="lcvqz25cpg3ywj2t"
+Content-Disposition: inline
+
+
+--lcvqz25cpg3ywj2t
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 14, 2021 at 09:17:32AM +0100, Giulio Benetti wrote:
+> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
+>=20
+> During commit 88bc4178568b ("drm: Use new
+> DRM_BUS_FLAG_*_(DRIVE|SAMPLE)_(POS|NEG)EDGE flags") DRM_BUS_FLAG_*
+> macros have been changed to avoid ambiguity but just because of this
+> ambiguity previous DRM_BUS_FLAG_PIXDATA_(POS/NEG)EDGE were used meaning
+> _SAMPLE_ not _DRIVE_. This leads to DLCK inversion and need to fix but
+> instead of swapping phase values, let's adopt an easier approach Maxime
+> suggested:
+> It turned out that bit 26 of SUN4I_TCON0_IO_POL_REG is dedicated to
+> invert DCLK polarity and this makes things really easier than before. So
+> let's handle DCLK polarity by adding SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE
+> as bit 26 and activating according to bus_flags the same way it is done
+> for all the other signals polarity.
+>=20
+> Fixes: 88bc4178568b ("drm: Use new DRM_BUS_FLAG_*_(DRIVE|SAMPLE)_(POS|NEG=
+)EDGE flags")
+> Suggested-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+> ---
+> V2->V3:
+> - squash 2 patches into 1
+> V3->V4:
+> - add SUN4I_TCON0_IO_POL_DCLK_POSITIVE to regmap_update_bits() as suggest=
+ed by Maxime
+> V4->V5:
+> polarity is still wrong so:
+> - let's use SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE macro
+>   instead of _DCLK_POSITIVE(that would make sense only in realtion with D=
+CLK)
+> - invert condition using _NEGEDGE instead of _POSEDGE and then matching w=
+ith
+>   register bit SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE
+> - correct commit log according to V4->V5 changes
+> V5->V6:
+> - fix typo in SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE as suggested by Marjan
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 21 ++-------------------
+>  drivers/gpu/drm/sun4i/sun4i_tcon.h |  1 +
+>  2 files changed, 3 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/s=
+un4i_tcon.c
+> index eaaf5d70e352..6b9af4c08cd6 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -569,30 +569,13 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_t=
+con *tcon,
+>  	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
+>  		val |=3D SUN4I_TCON0_IO_POL_DE_NEGATIVE;
+> =20
+> -	/*
+> -	 * On A20 and similar SoCs, the only way to achieve Positive Edge
+> -	 * (Rising Edge), is setting dclk clock phase to 2/3(240=B0).
+> -	 * By default TCON works in Negative Edge(Falling Edge),
+> -	 * this is why phase is set to 0 in that case.
+> -	 * Unfortunately there's no way to logically invert dclk through
+> -	 * IO_POL register.
+> -	 * The only acceptable way to work, triple checked with scope,
+> -	 * is using clock phase set to 0=B0 for Negative Edge and set to 240=B0
+> -	 * for Positive Edge.
+> -	 * On A33 and similar SoCs there would be a 90=B0 phase option,
+> -	 * but it divides also dclk by 2.
+> -	 * Following code is a way to avoid quirks all around TCON
+> -	 * and DOTCLOCK drivers.
+> -	 */
+> -	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE)
+> -		clk_set_phase(tcon->dclk, 240);
+> -
+>  	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+> -		clk_set_phase(tcon->dclk, 0);
+> +		val |=3D SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE;
+> =20
+>  	regmap_update_bits(tcon->regs, SUN4I_TCON0_IO_POL_REG,
+>  			   SUN4I_TCON0_IO_POL_HSYNC_POSITIVE |
+>  			   SUN4I_TCON0_IO_POL_VSYNC_POSITIVE |
+> +			   SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE |
+>  			   SUN4I_TCON0_IO_POL_DE_NEGATIVE,
+>  			   val);
+> =20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/s=
+un4i_tcon.h
+> index cfbf4e6c1679..c5ac1b02482c 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+> @@ -113,6 +113,7 @@
+>  #define SUN4I_TCON0_IO_POL_REG			0x88
+>  #define SUN4I_TCON0_IO_POL_DCLK_PHASE(phase)		((phase & 3) << 28)
+>  #define SUN4I_TCON0_IO_POL_DE_NEGATIVE			BIT(27)
+> +#define SUN4I_TCON0_IO_POL_DCLK_DRIVE_NEGEDGE		BIT(26)
+>  #define SUN4I_TCON0_IO_POL_HSYNC_POSITIVE		BIT(25)
+>  #define SUN4I_TCON0_IO_POL_VSYNC_POSITIVE		BIT(24)
+> =20
+> --=20
+> 2.25.1
+>=20
+Applied, thanks!
+Maxime
+
+--lcvqz25cpg3ywj2t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAAuGwAKCRDj7w1vZxhR
+xaoIAP9OtTnumUDxgNNTQFtC7oOJn1YsBUjkqVZp2fi9J7qkwAD+NE2kvzKlPgZf
+UYE0jF/kx7nz7FX3odyMJmy16ZDJrA0=
+=wEvo
+-----END PGP SIGNATURE-----
+
+--lcvqz25cpg3ywj2t--
+
+--===============1464218736==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1464218736==--
