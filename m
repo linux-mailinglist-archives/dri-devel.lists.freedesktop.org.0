@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C473F2F65AF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F012F65B0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C863989FA5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15896E08C;
 	Thu, 14 Jan 2021 16:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2607289F0A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423DB89F41
  for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:11 +0000 (UTC)
 Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
  [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 715EAB87;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE638FDB;
  Thu, 14 Jan 2021 17:24:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1610641447;
- bh=eWZL3uR7aIaMFvyWgGOxEbslCY/dFvdleeP2xAGhhDg=;
+ s=mail; t=1610641448;
+ bh=fP5KKc5tyrHk0EOKBNwhOcakxu2ma05NgfV8e3gGWI0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W9KLsOrpczllt9lyqicPWCff9nzZsNFVW28Younfwh0azwkWUigcMMXGnrBfqH46I
- U16VSVUbdgn3myMQ7GehfNDbR5fehvLd3+Z4ijHiVzjU0Dj7IRLnL+DIZqUj8aMR4n
- ls+bHqrs29ZmqBb7Pomy7dSc+m/PZ6/Hl9XQJLvs=
+ b=u10z3IZ63Gk1Q4nfEfG4NI5iFBsev/Ki4RX3Dmq/cX1Hp1X7DXzhiQj7MbXfqWiTw
+ QzfOTO+cwx9X50VQbP/VGrJ5AJw/AmbA/HRmous4xcMjJkTXJwapqYCI8iZRJaZ/Sf
+ hqJlM1eVB1BJBK2UpyfOkRBGDIM/QoEnP7Ci6fJg=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 04/10] media: vsp1: drm: Remove vsp1_du_setup_lif()
-Date: Thu, 14 Jan 2021 16:22:49 +0000
-Message-Id: <20210114162255.705868-5-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4 05/10] drm: rcar-du: Handle CRTC standby from commit tail
+ handler
+Date: Thu, 14 Jan 2021 16:22:50 +0000
+Message-Id: <20210114162255.705868-6-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
@@ -55,108 +56,218 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vsp1_du_setup_lif() function is deprecated, and the users have been
-removed. Remove the implementation and the associated configuration
-structure.
+Manage the power state, and initial configuration of the CRTC from the
+commit tail handler. CRTCs which need to be activated are taken out of
+standby, and any deactivated CRTCs are put into standby.
+
+This aims at removing CRTC state tracking from the rcar_du_crtc
+structure. The initial configuration of the CRTC background colours and
+disabling of all planes is taken out of rcar_du_crtc_setup() and moved
+inline into rcar_du_crtc_enable(). rcar_du_crtc_get() and
+rcar_du_crtc_put() are kept as they are needed to configure the VSP at
+the correct time, this will be addressed in a separate change.
 
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/platform/vsp1/vsp1_drm.c | 46 --------------------------
- include/media/vsp1.h                   | 22 ------------
- 2 files changed, 68 deletions(-)
+Changes since v2:
 
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
-index fa79cac32e49..46692460f8a6 100644
---- a/drivers/media/platform/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/vsp1/vsp1_drm.c
-@@ -814,52 +814,6 @@ int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
+- Add more documentation
+- Keep rcar_du_crtc_get() and rcar_du_crtc_put()
+- Renamed rcar_du_crtc_enable() to rcar_du_crtc_exit_standby() and
+  rcar_du_crtc_disable() to rcar_du_crtc_enter_standby()
+- Reword commit message
+
+Changes since v1:
+
+- Registers sequence confirmed unchanged
+- Re-ordered in the series to handle before groups
+- Do not merge rcar_du_crtc_setup() (now handled by _crtc_pre_commit)
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 90 ++++++++++++++++++++------
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h |  5 ++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c  |  4 ++
+ 3 files changed, 81 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index 53838dde2f29..55c0e0259153 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -521,17 +521,10 @@ static void rcar_du_cmm_setup(struct drm_crtc *crtc)
+ 
+ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+ {
+-	/* Set display off and background to black */
+-	rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
+-	rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
+-
+ 	/* Configure display timings and output routing */
+ 	rcar_du_crtc_set_display_timing(rcrtc);
+ 	rcar_du_group_set_routing(rcrtc->group);
+ 
+-	/* Start with all planes disabled. */
+-	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
+-
+ 	/* Enable the VSP compositor. */
+ 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE)) {
+ 		rcar_du_vsp_modeset(rcrtc);
+@@ -542,17 +535,10 @@ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+ 	drm_crtc_vblank_on(&rcrtc->crtc);
  }
- EXPORT_SYMBOL_GPL(vsp1_du_atomic_disable);
  
--/**
-- * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
-- * @dev: the VSP device
-- * @pipe_index: the DRM pipeline index
-- * @cfg: the LIF configuration
-- *
-- * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
-- * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
-- * source pads, and the LIF sink pad.
-- *
-- * The @pipe_index argument selects which DRM pipeline to setup. The number of
-- * available pipelines depend on the VSP instance.
-- *
-- * As the media bus code on the blend unit source pad is conditioned by the
-- * configuration of its sink 0 pad, we also set up the formats on all blend unit
-- * sinks, even if the configuration will be overwritten later by
-- * vsp1_du_setup_rpf(). This ensures that the blend unit configuration is set to
-- * a well defined state.
-- *
-- * Return 0 on success or a negative error code on failure.
-- */
--int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
--		      const struct vsp1_du_lif_config *cfg)
--{
--	struct vsp1_du_modeset_config modes;
--	struct vsp1_du_enable_config enable;
--	int ret;
--
--	if (!cfg)
--		return vsp1_du_atomic_disable(dev, pipe_index);
--
--	modes.width = cfg->width;
--	modes.height = cfg->height;
--	modes.interlaced = cfg->interlaced;
--
--	ret = vsp1_du_atomic_modeset(dev, pipe_index, &modes);
--	if (ret)
--		return ret;
--
--	enable.callback = cfg->callback;
--	enable.callback_data = cfg->callback_data;
--
--	return vsp1_du_atomic_enable(dev, pipe_index, &enable);
--}
--EXPORT_SYMBOL_GPL(vsp1_du_setup_lif);
--
- /**
-  * vsp1_du_atomic_begin - Prepare for an atomic update
-  * @dev: the VSP device
-diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-index 253db8029752..a4eda8c9d048 100644
---- a/include/media/vsp1.h
-+++ b/include/media/vsp1.h
-@@ -20,28 +20,6 @@ int vsp1_du_init(struct device *dev);
- #define VSP1_DU_STATUS_COMPLETE		BIT(0)
- #define VSP1_DU_STATUS_WRITEBACK	BIT(1)
+-static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
++static int rcar_du_crtc_exit_standby(struct rcar_du_crtc *rcrtc)
+ {
+ 	int ret;
  
--/**
-- * struct vsp1_du_lif_config - VSP LIF configuration - Deprecated
-- * @width: output frame width
-- * @height: output frame height
-- * @interlaced: true for interlaced pipelines
-- * @callback: frame completion callback function (optional). When a callback
-- *	      is provided, the VSP driver guarantees that it will be called once
-- *	      and only once for each vsp1_du_atomic_flush() call.
-- * @callback_data: data to be passed to the frame completion callback
-- */
--struct vsp1_du_lif_config {
--	unsigned int width;
--	unsigned int height;
--	bool interlaced;
+-	/*
+-	 * Guard against double-get, as the function is called from both the
+-	 * .atomic_enable() and .atomic_begin() handlers.
+-	 */
+-	if (rcrtc->initialized)
+-		return 0;
 -
--	void (*callback)(void *data, unsigned int status, u32 crc);
--	void *callback_data;
--};
--
--int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
--		      const struct vsp1_du_lif_config *cfg);
--
- /**
-  * struct vsp1_du_modeset_config - VSP display mode configuration
-  * @width: output frame width
+ 	ret = clk_prepare_enable(rcrtc->clock);
+ 	if (ret < 0)
+ 		return ret;
+@@ -565,8 +551,12 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+ 	if (ret < 0)
+ 		goto error_group;
+ 
+-	rcar_du_crtc_setup(rcrtc);
+-	rcrtc->initialized = true;
++	/* Set display off and background to black. */
++	rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
++	rcar_du_crtc_write(rcrtc, BPOR, BPOR_RGB(0, 0, 0));
++
++	/* Start with all planes disabled. */
++	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
+ 
+ 	return 0;
+ 
+@@ -577,13 +567,29 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+ 	return ret;
+ }
+ 
+-static void rcar_du_crtc_put(struct rcar_du_crtc *rcrtc)
++static void rcar_du_crtc_enter_standby(struct rcar_du_crtc *rcrtc)
+ {
+ 	rcar_du_group_put(rcrtc->group);
+ 
+ 	clk_disable_unprepare(rcrtc->extclock);
+ 	clk_disable_unprepare(rcrtc->clock);
++}
++
++static void rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
++{
++	/*
++	 * Guard against double-get, as the function is called from both the
++	 * .atomic_enable() and .atomic_begin() handlers.
++	 */
++	if (rcrtc->initialized)
++		return;
++
++	rcar_du_crtc_setup(rcrtc);
++	rcrtc->initialized = true;
++}
+ 
++static void rcar_du_crtc_put(struct rcar_du_crtc *rcrtc)
++{
+ 	rcrtc->initialized = false;
+ }
+ 
+@@ -714,6 +720,54 @@ static int rcar_du_crtc_atomic_check(struct drm_crtc *crtc,
+ 	return 0;
+ }
+ 
++/*
++ * Take all CRTCs that are made active in this commit out of standby.
++ * CRTCs that are deactivated by the commit are untouched and will be
++ * put in standby by rcar_du_crtc_atomic_enter_standby().
++ */
++int rcar_du_crtc_atomic_exit_standby(struct drm_device *dev,
++				     struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
++	unsigned int i;
++	int ret;
++
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
++
++		if (crtc_state->active_changed && crtc_state->active) {
++			ret = rcar_du_crtc_exit_standby(rcrtc);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return 0;
++}
++
++/*
++ * Put all CRTCs that have been deactivated by this commit in standby.
++ * This shall be called at the end of the commit tail handler as the
++ * last operation that touches the CRTC hardware.
++ */
++int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
++				      struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state;
++	struct drm_crtc *crtc;
++	unsigned int i;
++
++	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
++
++		if (crtc_state->active_changed && !crtc_state->active)
++			rcar_du_crtc_enter_standby(rcrtc);
++	}
++
++	return 0;
++}
++
+ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				       struct drm_atomic_state *state)
+ {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+index 5f2940c42225..7ff0618b9998 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+@@ -109,6 +109,11 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+ 
+ void rcar_du_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc);
+ 
++int rcar_du_crtc_atomic_exit_standby(struct drm_device *dev,
++				     struct drm_atomic_state *state);
++int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
++				      struct drm_atomic_state *state);
++
+ void rcar_du_crtc_dsysr_clr_set(struct rcar_du_crtc *rcrtc, u32 clr, u32 set);
+ 
+ #endif /* __RCAR_DU_CRTC_H__ */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index fdb8a0d127ad..ff50316b87b5 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -462,11 +462,15 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 	}
+ 
+ 	/* Apply the atomic update. */
++	rcar_du_crtc_atomic_exit_standby(dev, old_state);
++
+ 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+ 	drm_atomic_helper_commit_planes(dev, old_state,
+ 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+ 	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+ 
++	rcar_du_crtc_atomic_enter_standby(dev, old_state);
++
+ 	drm_atomic_helper_commit_hw_done(old_state);
+ 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
+ 
 -- 
 2.25.1
 
