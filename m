@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF9D2F60FB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 13:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720F42F6141
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 13:52:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60AA6E2DF;
-	Thu, 14 Jan 2021 12:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88E7A6E334;
+	Thu, 14 Jan 2021 12:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D026E2DE;
- Thu, 14 Jan 2021 12:19:20 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id f4so7838781ejx.7;
- Thu, 14 Jan 2021 04:19:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=EQePhKhEM9igPYEkBVCzhdTRwRroXkRR/+H0epmiTT4=;
- b=BXPEgZ4y0n1AGvNsp7P5cKsOLsmQ1lntbMdhfvfFnaYQJNoD4/I0QWyhxjtct8KThw
- RmZ+NqbPhckOgjZp1bpqzLPutNfpJ5P/xeQ5Vk/HL4rcvLJEMzy40YmRzKs3oUKqBZVy
- cT7o6EaFVa98BE6y9QveMc+3Ny3l8s3ZAXWtL0OuDuw1RxD3vFvRQlBuQiul/rXrM+3e
- 6er4Pc1FGEghm4wML+fhEIGDxsoT435VPHCS2PECTDwDxdtHVldfP+TuT3zdmx/BlX7v
- 5+vfDJevA0VrXrp92IyoGMS+jDCFUQILBH5bJEQlE9tYAIgt401pquxiIfRS/EATEKDN
- LbLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=EQePhKhEM9igPYEkBVCzhdTRwRroXkRR/+H0epmiTT4=;
- b=NCAixutqqibunzkzNcs8+yw8V/sp3XV25v/cJPJBa63nyN65EiHwVNsfQgr/PmkV0b
- I48uITak0Te3QksTgzAJ99aHHJAxWebuH5C30YoQ1Baz+HG4TbVSZzhTXwbxxFBSZps5
- XrHqWeQFrBBn7W6JbWEu7PBahbhNs1L2Umj+avQUI89Gs0bp9jGlS1pSvIWRhHG9edrY
- rTJiYp7cnEqKvrzAQCItg8snz+bl1wzdMMVR/hIa+rkR9mz7S+A5bWSvY5/vQwVNR/m5
- DtSlcPdP3/c+DWLEzVOVUKOG7ZGVY6MkmTFf6ADUW5S8KM/5MLW0c4HMWIchJ19Pnla+
- hcMQ==
-X-Gm-Message-State: AOAM532Y6Sn5Q6DDlpnJ1Njds9EJGTgYj9lkcsYTV38qwzM2A6Dfwfl9
- Z0TmDIil5RhFap8vzUnR2knNcwwAtvo=
-X-Google-Smtp-Source: ABdhPJyDVSktZxxTfkW3TuTfHpaas2af2NFlTXZkvKf5GmmqpkZcTM7LQ+tJHsT5mG0vmi4mAIVB7Q==
-X-Received: by 2002:a17:906:4a4f:: with SMTP id
- a15mr5214528ejv.541.1610626758961; 
- Thu, 14 Jan 2021 04:19:18 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id bm12sm1941278ejb.117.2021.01.14.04.19.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 04:19:18 -0800 (PST)
-Subject: Re: [PATCH 00/35] Add HMM-based SVM memory manager to KFD
-To: Felix Kuehling <felix.kuehling@amd.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210107030127.20393-1-Felix.Kuehling@amd.com>
- <X/bTFWL3HYVc8LEF@phenom.ffwll.local>
- <6daf9ebc-507e-6e83-04dd-d7c5fc6998d6@amd.com>
- <X/hux3eX8Ywf61h7@phenom.ffwll.local>
- <ed44f9cf-a7fc-f02b-dfd7-26b14310bc79@amd.com>
- <CAKMK7uF3GHAMuW2EL7TuX6b0TdVpkUB9wG4vOz_oMwCLL9K4BQ@mail.gmail.com>
- <277c78a5-0652-22e1-baaf-6c9da4746eb4@amd.com>
- <CAKMK7uGsxHMZ3kvD1Horh_zX8JvqdpcvSct1c-VyjQd8iyESQg@mail.gmail.com>
- <c64dcd12-d03f-c60f-d329-272ec0d5335e@amd.com>
- <X/x81/ltEuQpTVzW@phenom.ffwll.local>
- <b9db6b8c-3979-d499-d276-77b9e9a2ab6a@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <fbd26c26-b84a-f9c6-95fd-3afd79c0bd47@gmail.com>
-Date: Thu, 14 Jan 2021 13:19:16 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A909E6E28A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 12:52:02 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11BD92B3;
+ Thu, 14 Jan 2021 13:52:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1610628720;
+ bh=gfkioPrienCjfy/5MrmXV+t0dze3HvJ5YwzkUydBlHo=;
+ h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+ b=ihJfY6jLajgtlMY15M1/uE1tlh1CADbHBEiyCfY6gWU1HZ1Zgc7lKPJmrdVyizqts
+ BRGdKmCez+mHLrEKATWiSmP5OhwFASDSChfU11UbJHr0pRmzCJgqfgBgEbnda4DXcr
+ GyCIVCpcKsxiW5mYJJfTTmNbI/KGXmW1c6CaeFDs=
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, eric@anholt.net,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+Date: Thu, 14 Jan 2021 12:51:56 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b9db6b8c-3979-d499-d276-77b9e9a2ab6a@amd.com>
-Content-Language: en-US
+In-Reply-To: <20201123115646.11004-3-tzimmermann@suse.de>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,153 +54,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Alex Sierra <alex.sierra@amd.com>, "Yang, Philip" <philip.yang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTQuMDEuMjEgdW0gMDY6MzQgc2NocmllYiBGZWxpeCBLdWVobGluZzoKPiBBbSAyMDIxLTAx
-LTExIHVtIDExOjI5IGEubS4gc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+PiBPbiBGcmksIEphbiAw
-OCwgMjAyMSBhdCAxMjo1NjoyNFBNIC0wNTAwLCBGZWxpeCBLdWVobGluZyB3cm90ZToKPj4+IEFt
-IDIwMjEtMDEtMDggdW0gMTE6NTMgYS5tLiBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4+Pj4gT24g
-RnJpLCBKYW4gOCwgMjAyMSBhdCA1OjM2IFBNIEZlbGl4IEt1ZWhsaW5nIDxmZWxpeC5rdWVobGlu
-Z0BhbWQuY29tPiB3cm90ZToKPj4+Pj4gQW0gMjAyMS0wMS0wOCB1bSAxMTowNiBhLm0uIHNjaHJp
-ZWIgRGFuaWVsIFZldHRlcjoKPj4+Pj4+IE9uIEZyaSwgSmFuIDgsIDIwMjEgYXQgNDo1OCBQTSBG
-ZWxpeCBLdWVobGluZyA8ZmVsaXgua3VlaGxpbmdAYW1kLmNvbT4gd3JvdGU6Cj4+Pj4+Pj4gQW0g
-MjAyMS0wMS0wOCB1bSA5OjQwIGEubS4gc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+Pj4+Pj4+PiBP
-biBUaHUsIEphbiAwNywgMjAyMSBhdCAxMToyNTo0MUFNIC0wNTAwLCBGZWxpeCBLdWVobGluZyB3
-cm90ZToKPj4+Pj4+Pj4+IEFtIDIwMjEtMDEtMDcgdW0gNDoyMyBhLm0uIHNjaHJpZWIgRGFuaWVs
-IFZldHRlcjoKPj4+Pj4+Pj4+PiBPbiBXZWQsIEphbiAwNiwgMjAyMSBhdCAxMDowMDo1MlBNIC0w
-NTAwLCBGZWxpeCBLdWVobGluZyB3cm90ZToKPj4+Pj4+Pj4+Pj4gVGhpcyBpcyB0aGUgZmlyc3Qg
-dmVyc2lvbiBvZiBvdXIgSE1NIGJhc2VkIHNoYXJlZCB2aXJ0dWFsIG1lbW9yeSBtYW5hZ2VyCj4+
-Pj4+Pj4+Pj4+IGZvciBLRkQuIFRoZXJlIGFyZSBzdGlsbCBhIG51bWJlciBvZiBrbm93biBpc3N1
-ZXMgdGhhdCB3ZSdyZSB3b3JraW5nIHRocm91Z2gKPj4+Pj4+Pj4+Pj4gKHNlZSBiZWxvdykuIFRo
-aXMgd2lsbCBsaWtlbHkgbGVhZCB0byBzb21lIHByZXR0eSBzaWduaWZpY2FudCBjaGFuZ2VzIGlu
-Cj4+Pj4+Pj4+Pj4+IE1NVSBub3RpZmllciBoYW5kbGluZyBhbmQgbG9ja2luZyBvbiB0aGUgbWln
-cmF0aW9uIGNvZGUgcGF0aHMuIFNvIGRvbid0Cj4+Pj4+Pj4+Pj4+IGdldCBodW5nIHVwIG9uIHRo
-b3NlIGRldGFpbHMgeWV0Lgo+Pj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+PiBCdXQgSSB0aGluayB0aGlz
-IGlzIGEgZ29vZCB0aW1lIHRvIHN0YXJ0IGdldHRpbmcgZmVlZGJhY2suIFdlJ3JlIHByZXR0eQo+
-Pj4+Pj4+Pj4+PiBjb25maWRlbnQgYWJvdXQgdGhlIGlvY3RsIEFQSSwgd2hpY2ggaXMgYm90aCBz
-aW1wbGUgYW5kIGV4dGVuc2libGUgZm9yIHRoZQo+Pj4+Pj4+Pj4+PiBmdXR1cmUuIChzZWUgcGF0
-Y2hlcyA0LDE2KSBUaGUgdXNlciBtb2RlIHNpZGUgb2YgdGhlIEFQSSBjYW4gYmUgZm91bmQgaGVy
-ZToKPj4+Pj4+Pj4+Pj4gaHR0cHM6Ly9naXRodWIuY29tL1JhZGVvbk9wZW5Db21wdXRlL1JPQ1Qt
-VGh1bmstSW50ZXJmYWNlL2Jsb2IvZnhrYW1kL2htbS13aXAvc3JjL3N2bS5jCj4+Pj4+Pj4+Pj4+
-Cj4+Pj4+Pj4+Pj4+IEknZCBhbHNvIGxpa2UgYW5vdGhlciBwYWlyIG9mIGV5ZXMgb24gaG93IHdl
-J3JlIGludGVyZmFjaW5nIHdpdGggdGhlIEdQVSBWTQo+Pj4+Pj4+Pj4+PiBjb2RlIGluIGFtZGdw
-dV92bS5jIChzZWUgcGF0Y2hlcyAxMiwxMyksIHJldHJ5IHBhZ2UgZmF1bHQgaGFuZGxpbmcgKDI0
-LDI1KSwKPj4+Pj4+Pj4+Pj4gYW5kIHNvbWUgcmV0cnkgSVJRIGhhbmRsaW5nIGNoYW5nZXMgKDMy
-KS4KPj4+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+Pj4gS25vd24gaXNzdWVzOgo+Pj4+
-Pj4+Pj4+PiAqIHdvbid0IHdvcmsgd2l0aCBJT01NVSBlbmFibGVkLCB3ZSBuZWVkIHRvIGRtYV9t
-YXAgYWxsIHBhZ2VzIHByb3Blcmx5Cj4+Pj4+Pj4+Pj4+ICogc3RpbGwgd29ya2luZyBvbiBzb21l
-IHJhY2UgY29uZGl0aW9ucyBhbmQgcmFuZG9tIGJ1Z3MKPj4+Pj4+Pj4+Pj4gKiBwZXJmb3JtYW5j
-ZSBpcyBub3QgZ3JlYXQgeWV0Cj4+Pj4+Pj4+Pj4gU3RpbGwgY2F0Y2hpbmcgdXAsIGJ1dCBJIHRo
-aW5rIHRoZXJlJ3MgYW5vdGhlciBvbmUgZm9yIHlvdXIgbGlzdDoKPj4+Pj4+Pj4+Pgo+Pj4+Pj4+
-Pj4+ICAgKiBobW0gZ3B1IGNvbnRleHQgcHJlZW1wdCB2cyBwYWdlIGZhdWx0IGhhbmRsaW5nLiBJ
-J3ZlIGhhZCBhIHNob3J0Cj4+Pj4+Pj4+Pj4gICAgIGRpc2N1c3Npb24gYWJvdXQgdGhpcyBvbmUg
-d2l0aCBDaHJpc3RpYW4gYmVmb3JlIHRoZSBob2xpZGF5cywgYW5kIGFsc28KPj4+Pj4+Pj4+PiAg
-ICAgc29tZSBwcml2YXRlIGNoYXRzIHdpdGggSmVyb21lLiBJdCdzIG5hc3R5IHNpbmNlIG5vIGVh
-c3kgZml4LCBtdWNoIGxlc3MKPj4+Pj4+Pj4+PiAgICAgYSBnb29kIGlkZWEgd2hhdCdzIHRoZSBi
-ZXN0IGFwcHJvYWNoIGhlcmUuCj4+Pj4+Pj4+PiBEbyB5b3UgaGF2ZSBhIHBvaW50ZXIgdG8gdGhh
-dCBkaXNjdXNzaW9uIG9yIGFueSBtb3JlIGRldGFpbHM/Cj4+Pj4+Pj4+IEVzc2VudGlhbGx5IGlm
-IHlvdSdyZSBoYW5kbGluZyBhbiBobW0gcGFnZSBmYXVsdCBmcm9tIHRoZSBncHUsIHlvdSBjYW4K
-Pj4+Pj4+Pj4gZGVhZGxvY2sgYnkgY2FsbGluZyBkbWFfZmVuY2Vfd2FpdCBvbiBhIChjaGFpbiBv
-ZiwgcG9zc2libHkpIG90aGVyIGNvbW1hbmQKPj4+Pj4+Pj4gc3VibWlzc2lvbnMgb3IgY29tcHV0
-ZSBjb250ZXh0cyB3aXRoIGRtYV9mZW5jZV93YWl0LiBXaGljaCBkZWFkbG9ja3MgaWYKPj4+Pj4+
-Pj4geW91IGNhbid0IHByZWVtcHQgd2hpbGUgeW91IGhhdmUgdGhhdCBwYWdlIGZhdWx0IHBlbmRp
-bmcuIFR3byBzb2x1dGlvbnM6Cj4+Pj4+Pj4+Cj4+Pj4+Pj4+IC0geW91ciBodyBjYW4gKGF0IGxl
-YXN0IGZvciBjb21wdXRlIGN0eCkgcHJlZW1wdCBldmVuIHdoZW4gYSBwYWdlIGZhdWx0IGlzCj4+
-Pj4+Pj4+ICAgIHBlbmRpbmcKPj4+Pj4+PiBPdXIgR0ZYdjkgR1BVcyBjYW4gZG8gdGhpcy4gR0ZY
-djEwIGNhbm5vdC4KPj4+Pj4+IFVoLCB3aHkgZGlkIHlvdXIgaHcgZ3V5cyBkcm9wIHRoaXMgOi0v
-Cj4+PiBQZXJmb3JtYW5jZS4gSXQncyB0aGUgc2FtZSByZWFzb24gd2h5IHRoZSBYTkFDSyBtb2Rl
-IHNlbGVjdGlvbiBBUEkKPj4+IGV4aXN0cyAocGF0Y2ggMTYpLiBXaGVuIHdlIGVuYWJsZSByZWNv
-dmVyYWJsZSBwYWdlIGZhdWx0IGhhbmRsaW5nIGluIHRoZQo+Pj4gY29tcHV0ZSB1bml0cyBvbiBH
-Rlh2OSwgaXQgY29zdHMgc29tZSBwZXJmb3JtYW5jZSBldmVuIHdoZW4gbm8gcGFnZQo+Pj4gZmF1
-bHRzIGFyZSBoYXBwZW5pbmcuIE9uIEdGWHYxMCB0aGF0IHJldHJ5IGZhdWx0IGhhbmRsaW5nIG1v
-dmVkIG91dCBvZgo+Pj4gdGhlIGNvbXB1dGUgdW5pdHMsIHNvIHRoZXkgZG9uJ3QgdGFrZSB0aGUg
-cGVyZm9ybWFuY2UgaGl0LiBCdXQgdGhhdAo+Pj4gc2FjcmlmaWNlZCB0aGUgYWJpbGl0eSB0byBw
-cmVlbXB0IGR1cmluZyBwYWdlIGZhdWx0cy4gV2UnbGwgbmVlZCB0byB3b3JrCj4+PiB3aXRoIG91
-ciBoYXJkd2FyZSB0ZWFtcyB0byByZXN0b3JlIHRoYXQgY2FwYWJpbGl0eSBpbiBhIGZ1dHVyZSBn
-ZW5lcmF0aW9uLgo+PiBBaCB5ZXMsIHlvdSBuZWVkIHRvIHN0YWxsIGluIG1vcmUgcG9pbnRzIGlu
-IHRoZSBjb21wdXRlIGNvcmVzIHRvIG1ha2Ugc3VyZQo+PiB5b3UgY2FuIHJlY292ZXIgaWYgdGhl
-IHBhZ2UgZmF1bHQgZ2V0cyBpbnRlcnJ1cHRlZC4KPj4KPj4gTWF5YmUgbXkga25vd2xlZGdlIGlz
-IG91dGRhdGVkLCBidXQgbXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IG52aWRpYSBjYW4KPj4gYWxz
-byBwcmVlbXB0IChidXQgb25seSBmb3IgY29tcHV0ZSBqb2JzLCBzaW5jZSBvaCBkZWFyIHRoZSBw
-YWluIHRoaXMgd291bGQKPj4gYmUgZm9yIGFsbCB0aGUgZml4ZWQgZnVuY3Rpb24gc3R1ZmYpLiBT
-aW5jZSBnZngxMCBtb3ZlZCBwYWdlIGZhdWx0Cj4+IGhhbmRsaW5nIGZ1cnRoZXIgYXdheSBmcm9t
-IGNvbXB1dGUgY29yZXMsIGRvIHlvdSBrbm93IHdoZXRoZXIgdGhpcyBub3cKPj4gbWVhbnMgeW91
-IGNhbiBkbyBwYWdlIGZhdWx0cyBmb3IgKHNvbWU/KSBmaXhlZCBmdW5jdGlvbiBzdHVmZiB0b28/
-IE9yCj4+IHN0aWxsIG9ubHkgZm9yIGNvbXB1dGU/Cj4gSSdtIG5vdCBzdXJlLgo+Cj4KPj4gU3Vw
-cG9ydGluZyBwYWdlIGZhdWx0IGZvciAzZCB3b3VsZCBiZSByZWFsIHBhaW4gd2l0aCB0aGUgY29y
-bmVyIHdlJ3JlCj4+IHN0dWNrIGluIHJpZ2h0IG5vdywgYnV0IGJldHRlciB3ZSBrbm93IGFib3V0
-IHRoaXMgZWFybHkgdGhhbiBsYXRlciA6LS8KPiBJIGtub3cgQ2hyaXN0aWFuIGhhdGVzIHRoZSBp
-ZGVhLgoKV2VsbCBJIGRvbid0IGhhdGUgdGhlIGlkZWEuIEkganVzdCBkb24ndCB0aGluayB0aGF0
-IHRoaXMgd2lsbCBldmVyIHdvcmsgCmNvcnJlY3RseSBhbmQgcGVyZm9ybWFudC4KCkEgYmlnIHBh
-cnQgb2YgdGhlIGFkZGl0aW9uYWwgZnVuIGlzIHRoYXQgd2UgY3VycmVudGx5IGhhdmUgYSBtaXgg
-b2YgSE1NIApjYXBhYmxlIGVuZ2luZXMgKDNELCBjb21wdXRlLCBETUEpIGFuZCBub3QgSE1NIGNh
-cGFibGUgZW5naW5lcyAoZGlzcGxheSwgCm11bHRpbWVkaWEgZXRjLi4pLgoKPiBXZSBrbm93IHRo
-YXQgcGFnZSBmYXVsdHMgb24gR1BVcyBjYW4gYmUKPiBhIGh1Z2UgcGVyZm9ybWFuY2UgZHJhaW4g
-YmVjYXVzZSB5b3UncmUgc3RhbGxpbmcgcG90ZW50aWFsbHkgc28gbWFueQo+IHRocmVhZHMgYW5k
-IHRoZSBDUFUgY2FuIGJlY29tZSBhIGJvdHRsZSBuZWNrIGRlYWxpbmcgd2l0aCBhbGwgdGhlIHBh
-Z2UKPiBmYXVsdHMgZnJvbSBtYW55IEdQVSB0aHJlYWRzLiBPbiB0aGUgY29tcHV0ZSBzaWRlLCBh
-cHBsaWNhdGlvbnMgd2lsbCBiZQo+IG9wdGltaXplZCB0byBhdm9pZCB0aGVtIGFzIG11Y2ggYXMg
-cG9zc2libGUsIGUuZy4gYnkgcHJlLWZhdWx0aW5nIG9yCj4gcHJlLWZldGNoaW5nIGRhdGEgYmVm
-b3JlIGl0J3MgbmVlZGVkLgo+Cj4gQnV0IEkgdGhpbmsgeW91IG5lZWQgcGFnZSBmYXVsdHMgdG8g
-bWFrZSBvdmVyY29tbWl0dGVkIG1lbW9yeSB3aXRoIHVzZXIKPiBtb2RlIGNvbW1hbmQgc3VibWlz
-c2lvbiBub3Qgc3Vjay4KClllYWgsIGNvbXBsZXRlbHkgYWdyZWUuCgpUaGUgb25seSBzaG9ydCB0
-ZXJtIGFsdGVybmF0aXZlIEkgc2VlIGlzIHRvIGhhdmUgYW4gSU9DVEwgdGVsbGluZyB0aGUgCmtl
-cm5lbCB3aGljaCBtZW1vcnkgaXMgY3VycmVudGx5IGluIHVzZS4gQW5kIHRoYXQgaXMgY29tcGxl
-dGUgbm9uc2Vuc2UgCmNhdXNlIGl0IGtpbGxzIHRoZSBhZHZhbnRhZ2Ugd2h5IHdlIHdhbnQgdXNl
-ciBtb2RlIGNvbW1hbmQgc3VibWlzc2lvbiBpbiAKdGhlIGZpcnN0IHBsYWNlLgoKUmVnYXJkcywK
-Q2hyaXN0aWFuLgoKPj4+Pj4+IEkgZG8gdGhpbmsgaXQgY2FuIGJlIHJlc2N1ZWQgd2l0aCB3aGF0
-IEkgY2FsbCBnYW5nIHNjaGVkdWxpbmcgb2YKPj4+Pj4+IGVuZ2luZXM6IEkuZS4gd2hlbiBhIGdp
-dmVuIGVuZ2luZSBpcyBydW5uaW5nIGEgY29udGV4dCAob3IgYSBncm91cCBvZgo+Pj4+Pj4gZW5n
-aW5lcywgZGVwZW5kaW5nIGhvdyB5b3VyIGh3IHdvcmtzKSB0aGF0IGNhbiBjYXVzZSBhIHBhZ2Ug
-ZmF1bHQsIHlvdQo+Pj4+Pj4gbXVzdCBmbHVzaCBvdXQgYWxsIHdvcmtsb2FkcyBydW5uaW5nIG9u
-IHRoZSBzYW1lIGVuZ2luZSB3aGljaCBjb3VsZAo+Pj4+Pj4gYmxvY2sgYSBkbWFfZmVuY2UgKHBy
-ZWVtcHQgdGhlbSwgb3IgZm9yIG5vbi1jb21wdXRlIHN0dWZmLCBmb3JjZSB0aGVpcgo+Pj4+Pj4g
-Y29tcGxldGlvbikuIEFuZCB0aGUgb3RoZXIgd2F5IHJvdW5kLCBpLmUuIGJlZm9yZSB5b3UgY2Fu
-IHJ1biBhIGxlZ2FjeQo+Pj4+Pj4gZ2wgd29ya2xvYWQgd2l0aCBhIGRtYV9mZW5jZSBvbiB0aGVz
-ZSBlbmdpbmVzIHlvdSBuZWVkIHRvIHByZWVtcHQgYWxsCj4+Pj4+PiBjdHhzIHRoYXQgY291bGQg
-Y2F1c2UgcGFnZSBmYXVsdHMgYW5kIHRha2UgdGhlbSBhdCBsZWFzdCBvdXQgb2YgdGhlIGh3Cj4+
-Pj4+PiBzY2hlZHVsZXIgcXVldWUuCj4+Pj4+IFl1Y2shIEJ1dCB5ZWFoLCB0aGF0IHdvdWxkIHdv
-cmsuIEEgbGVzcyBpbnZhc2l2ZSBhbHRlcm5hdGl2ZSB3b3VsZCBiZSB0bwo+Pj4+PiByZXNlcnZl
-IHNvbWUgY29tcHV0ZSB1bml0cyBmb3IgZ3JhcGhpY3MgY29udGV4dHMgc28gd2UgY2FuIGd1YXJh
-bnRlZQo+Pj4+PiBmb3J3YXJkIHByb2dyZXNzIGZvciBncmFwaGljcyBjb250ZXh0cyBldmVuIHdo
-ZW4gYWxsIENVcyB3b3JraW5nIG9uCj4+Pj4+IGNvbXB1dGUgc3R1ZmYgYXJlIHN0dWNrIG9uIHBh
-Z2UgZmF1bHRzLgo+Pj4+IFdvbid0IHRoaXMgaHVydCBjb21wdXRlIHdvcmtsb2Fkcz8gSSB0aGlu
-ayB3ZSBuZWVkIHNvbWV0aGluZyB3ZXJlIGF0Cj4+Pj4gbGVhc3QgcHVyZSBjb21wdXRlIG9yIHB1
-cmUgZ2wvdmsgd29ya2xvYWRzIHJ1biBhdCBmdWxsIHBlcmZvcm1hbmNlLgo+Pj4+IEFuZCB3aXRo
-b3V0IHByZWVtcHQgd2UgY2FuJ3QgdGFrZSBhbnl0aGluZyBiYWNrIHdoZW4gd2UgbmVlZCBpdCwg
-c28KPj4+PiB3b3VsZCBoYXZlIHRvIGFsd2F5cyB1cGZyb250IHJlc2VydmUgc29tZSBjb3JlcyBq
-dXN0IGluIGNhc2UuCj4+PiBZZXMsIGl0IHdvdWxkIGh1cnQgcHJvcG9ydGlvbmFsbHkgdG8gaG93
-IG1hbnkgQ1VzIGdldCByZXNlcnZlZC4gT24gYmlnCj4+PiBHUFVzIHdpdGggbWFueSBDVXMgdGhl
-IGltcGFjdCBjb3VsZCBiZSBxdWl0ZSBzbWFsbC4KPj4gQWxzbywgd2UgY291bGQgZG8gdGhlIHJl
-c2VydmF0aW9uIG9ubHkgZm9yIHRoZSB0aW1lIHdoZW4gdGhlcmUncyBhY3R1YWxseQo+PiBhIGxl
-Z2FjeSBjb250ZXh0IHdpdGggbm9ybWFsIGRtYV9mZW5jZSBpbiB0aGUgc2NoZWR1bGVyIHF1ZXVl
-LiBBc3N1bWluZwo+PiB0aGF0IHJlc2VydmluZy91bnJlc2VydmluZyBvZiBDVXMgaXNuJ3QgdG9v
-IGV4cGVuc2l2ZSBvcGVyYXRpb24uIElmIGl0J3MKPj4gYXMgZXhwZW5zaXZlIGFzIGEgZnVsbCBz
-dGFsbCBwcm9iYWJseSBub3Qgd29ydGggdGhlIGNvbXBsZXhpdHkgaGVyZSBhbmQKPj4ganVzdCBn
-byB3aXRoIGEgZnVsbCBzdGFsbCBhbmQgb25seSBydW4gb25lIG9yIHRoZSBvdGhlciBhdCBhIHRp
-bWUuCj4+Cj4+IFdydCBkZXNrdG9wcyBJJ20gYWxzbyBzb21ld2hhdCB3b3JyaWVkIHRoYXQgd2Ug
-bWlnaHQgZW5kIHVwIGtpbGxpbmcKPj4gZGVza3RvcCB3b3JrbG9hZHMgaWYgdGhlcmUncyBub3Qg
-ZW5vdWdoIENVcyByZXNlcnZlZCBmb3IgdGhlc2UgYW5kIHRoZXkKPj4gZW5kIHVwIHRha2luZyB0
-b28gbG9uZyBhbmQgYW5nZXIgZWl0aGVyIHRkciBvciB3b3JzZSB0aGUgdXNlciBiZWNhdXNlIHRo
-ZQo+PiBkZXNrdG9wIGlzIHVudXNlYWJsZSB3aGVuIHlvdSBzdGFydCBhIGNvbXB1dGUgam9iIGFu
-ZCBnZXQgYSBiaWcgcGlsZSBvZgo+PiBmYXVsdHMuIFByb2JhYmx5IG5lZWRzIHNvbWUgdGVzdGlu
-ZyB0byBzZWUgaG93IGJhZCBpdCBpcy4KPj4KPj4+IFRoYXQgc2FpZCwgSSdtIG5vdCBzdXJlIGl0
-J2xsIHdvcmsgb24gb3VyIGhhcmR3YXJlLiBPdXIgQ1VzIGNhbiBleGVjdXRlCj4+PiBtdWx0aXBs
-ZSB3YXZlZnJvbnRzIGZyb20gZGlmZmVyZW50IGNvbnRleHRzIGFuZCBzd2l0Y2ggYmV0d2VlbiB0
-aGVtIHdpdGgKPj4+IGZpbmUgZ3JhbnVsYXJpdHkuIEknZCBuZWVkIHRvIGNoZWNrIHdpdGggb3Vy
-IEhXIGVuZ2luZWVycyB3aGV0aGVyIHRoaXMKPj4+IENVLWludGVybmFsIGNvbnRleHQgc3dpdGNo
-aW5nIGlzIHN0aWxsIHBvc3NpYmxlIGR1cmluZyBwYWdlIGZhdWx0cyBvbgo+Pj4gR0ZYdjEwLgo+
-PiBZb3UnZCBuZWVkIHRvIGRvIHRoZSByZXNlcnZhdGlvbiBmb3IgYWxsIGNvbnRleHRzL2VuZ2lu
-ZXMgd2hpY2ggY2FuIGNhdXNlCj4+IHBhZ2UgZmF1bHRzLCBvdGhlcmV3aXNlIGl0J2QgbGVhay4K
-PiBBbGwgZW5naW5lcyB0aGF0IGNhbiBwYWdlIGZhdWx0IGFuZCBjYW5ub3QgYmUgcHJlZW1wdGVk
-IGR1cmluZyBmYXVsdHMuCj4KPiBSZWdhcmRzLAo+ICDCoCBGZWxpeAo+CgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Thomas,
+
+On 23/11/2020 11:56, Thomas Zimmermann wrote:
+> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
+> and offset as in the old implementation and immediately maps in the
+> buffer's memory pages.
+> 
+> Changing CMA helpers to use the GEM object function allows for the
+> removal of the special implementations for mmap and gem_prime_mmap
+> callbacks. The regular functions drm_gem_mmap() and drm_gem_prime_mmap()
+> are now used.
+
+I've encountered a memory leak regression in our Renesas R-Car DU tests,
+and git bisection has led me to this patch (as commit f5ca8eb6f9).
+
+Running the tests sequentially, while grepping /proc/meminfo for Cma, it
+is evident that CMA memory is not released, until exhausted and the
+allocations fail (seen in [0]) shown by the error report:
+
+>     self.fbs.append(pykms.DumbFramebuffer(self.card, mode.hdisplay, mode.vdisplay, "XR24"))
+> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate memory
+
+
+Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pass
+successfully [1] on the commit previous to that (bc2532ab7c2):
+
+Reverting f5ca8eb6f9 also produces a successful pass [2]
+
+ [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed at f5ca8eb6f9
+ [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success at bc2532ab7c2
+ [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success with revert
+
+
+I don't believe we handle mmap specially in the RCar-DU driver, so I
+wonder if this issue has hit anyone else as well?
+
+Any ideas of a repair without a revert ? Or do we just need to submit a
+revert?
+
+I've yet to fully understand the implications of the patch below.
+
+Thanks
+--
+Regards
+
+Kieran
+
+
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_file.c           |   3 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c | 121 +++++++++------------------
+>  drivers/gpu/drm/pl111/pl111_drv.c    |   2 +-
+>  drivers/gpu/drm/vc4/vc4_bo.c         |   2 +-
+>  include/drm/drm_gem_cma_helper.h     |  10 +--
+>  5 files changed, 44 insertions(+), 94 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index b50380fa80ce..80886d50d0f1 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -113,8 +113,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
+>   * The memory mapping implementation will vary depending on how the driver
+>   * manages memory. Legacy drivers will use the deprecated drm_legacy_mmap()
+>   * function, modern drivers should use one of the provided memory-manager
+> - * specific implementations. For GEM-based drivers this is drm_gem_mmap(), and
+> - * for drivers which use the CMA GEM helpers it's drm_gem_cma_mmap().
+> + * specific implementations. For GEM-based drivers this is drm_gem_mmap().
+>   *
+>   * No other file operations are supported by the DRM userspace API. Overall the
+>   * following is an example &file_operations structure::
+> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+> index 6a4ef335ebc9..7942cf05cd93 100644
+> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+> @@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
+>  	.print_info = drm_gem_cma_print_info,
+>  	.get_sg_table = drm_gem_cma_get_sg_table,
+>  	.vmap = drm_gem_cma_vmap,
+> +	.mmap = drm_gem_cma_mmap,
+>  	.vm_ops = &drm_gem_cma_vm_ops,
+>  };
+>  
+> @@ -277,62 +278,6 @@ const struct vm_operations_struct drm_gem_cma_vm_ops = {
+>  };
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
+>  
+> -static int drm_gem_cma_mmap_obj(struct drm_gem_cma_object *cma_obj,
+> -				struct vm_area_struct *vma)
+> -{
+> -	int ret;
+> -
+> -	/*
+> -	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+> -	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> -	 * the whole buffer.
+> -	 */
+> -	vma->vm_flags &= ~VM_PFNMAP;
+> -	vma->vm_pgoff = 0;
+> -
+> -	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
+> -			  cma_obj->paddr, vma->vm_end - vma->vm_start);
+> -	if (ret)
+> -		drm_gem_vm_close(vma);
+> -
+> -	return ret;
+> -}
+> -
+> -/**
+> - * drm_gem_cma_mmap - memory-map a CMA GEM object
+> - * @filp: file object
+> - * @vma: VMA for the area to be mapped
+> - *
+> - * This function implements an augmented version of the GEM DRM file mmap
+> - * operation for CMA objects: In addition to the usual GEM VMA setup it
+> - * immediately faults in the entire object instead of using on-demaind
+> - * faulting. Drivers which employ the CMA helpers should use this function
+> - * as their ->mmap() handler in the DRM device file's file_operations
+> - * structure.
+> - *
+> - * Instead of directly referencing this function, drivers should use the
+> - * DEFINE_DRM_GEM_CMA_FOPS().macro.
+> - *
+> - * Returns:
+> - * 0 on success or a negative error code on failure.
+> - */
+> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
+> -{
+> -	struct drm_gem_cma_object *cma_obj;
+> -	struct drm_gem_object *gem_obj;
+> -	int ret;
+> -
+> -	ret = drm_gem_mmap(filp, vma);
+> -	if (ret)
+> -		return ret;
+> -
+> -	gem_obj = vma->vm_private_data;
+> -	cma_obj = to_drm_gem_cma_obj(gem_obj);
+> -
+> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+> -
+>  #ifndef CONFIG_MMU
+>  /**
+>   * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
+> @@ -500,33 +445,6 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
+>  
+> -/**
+> - * drm_gem_cma_prime_mmap - memory-map an exported CMA GEM object
+> - * @obj: GEM object
+> - * @vma: VMA for the area to be mapped
+> - *
+> - * This function maps a buffer imported via DRM PRIME into a userspace
+> - * process's address space. Drivers that use the CMA helpers should set this
+> - * as their &drm_driver.gem_prime_mmap callback.
+> - *
+> - * Returns:
+> - * 0 on success or a negative error code on failure.
+> - */
+> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
+> -			   struct vm_area_struct *vma)
+> -{
+> -	struct drm_gem_cma_object *cma_obj;
+> -	int ret;
+> -
+> -	ret = drm_gem_mmap_obj(obj, obj->size, vma);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	cma_obj = to_drm_gem_cma_obj(obj);
+> -	return drm_gem_cma_mmap_obj(cma_obj, vma);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
+> -
+>  /**
+>   * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
+>   *     address space
+> @@ -553,6 +471,43 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
+>  
+> +/**
+> + * drm_gem_cma_mmap - memory-map an exported CMA GEM object
+> + * @obj: GEM object
+> + * @vma: VMA for the area to be mapped
+> + *
+> + * This function maps a buffer into a userspace process's address space.
+> + * In addition to the usual GEM VMA setup it immediately faults in the entire
+> + * object instead of using on-demand faulting. Drivers that use the CMA
+> + * helpers should set this as their &drm_gem_object_funcs.mmap callback.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+> +{
+> +	struct drm_gem_cma_object *cma_obj;
+> +	int ret;
+> +
+> +	/*
+> +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+> +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> +	 * the whole buffer.
+> +	 */
+> +	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
+> +	vma->vm_flags &= ~VM_PFNMAP;
+> +
+> +	cma_obj = to_drm_gem_cma_obj(obj);
+> +
+> +	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
+> +			  cma_obj->paddr, vma->vm_end - vma->vm_start);
+> +	if (ret)
+> +		drm_gem_vm_close(vma);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+> +
+>  /**
+>   * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
+>   *	scatter/gather table and get the virtual address of the buffer
+> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+> index 40e6708fbbe2..e4dcaef6c143 100644
+> --- a/drivers/gpu/drm/pl111/pl111_drv.c
+> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
+> @@ -228,7 +228,7 @@ static const struct drm_driver pl111_drm_driver = {
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+>  	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
+> -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+> +	.gem_prime_mmap = drm_gem_prime_mmap,
+>  
+>  #if defined(CONFIG_DEBUG_FS)
+>  	.debugfs_init = pl111_debugfs_init,
+> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> index 813e6cb3f9af..dc316cb79e00 100644
+> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> @@ -782,7 +782,7 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>  		return -EINVAL;
+>  	}
+>  
+> -	return drm_gem_cma_prime_mmap(obj, vma);
+> +	return drm_gem_prime_mmap(obj, vma);
+>  }
+>  
+>  int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
+> index 4680275ab339..0a9711caa3e8 100644
+> --- a/include/drm/drm_gem_cma_helper.h
+> +++ b/include/drm/drm_gem_cma_helper.h
+> @@ -59,7 +59,7 @@ struct drm_gem_cma_object {
+>  		.poll		= drm_poll,\
+>  		.read		= drm_read,\
+>  		.llseek		= noop_llseek,\
+> -		.mmap		= drm_gem_cma_mmap,\
+> +		.mmap		= drm_gem_mmap,\
+>  		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
+>  	}
+>  
+> @@ -76,9 +76,6 @@ int drm_gem_cma_dumb_create(struct drm_file *file_priv,
+>  			    struct drm_device *drm,
+>  			    struct drm_mode_create_dumb *args);
+>  
+> -/* set vm_flags and we can change the VM attribute to other one at here */
+> -int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
+> -
+>  /* allocate physical memory */
+>  struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+>  					      size_t size);
+> @@ -101,9 +98,8 @@ struct drm_gem_object *
+>  drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
+>  				  struct dma_buf_attachment *attach,
+>  				  struct sg_table *sgt);
+> -int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
+> -			   struct vm_area_struct *vma);
+>  int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
+> @@ -123,7 +119,7 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
+>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
+> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap
+> +	.gem_prime_mmap		= drm_gem_prime_mmap
+>  
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
