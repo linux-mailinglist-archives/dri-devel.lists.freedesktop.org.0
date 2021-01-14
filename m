@@ -2,54 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72462F6576
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD32F65AD
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E48D6E027;
-	Thu, 14 Jan 2021 16:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F9B89C9D;
+	Thu, 14 Jan 2021 16:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FCC6E027
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:11:19 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id i6so5652694otr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
- b=Zi8S4ocJOhLeZPI7DA82w2n/RGNymWj4EnipZ421KIVCN3q+pn6FHQlQjVv4fbVCTq
- Arl+l+jzarPBMM/Q4vO6TR9DcPVhQMO9VvuyqHQXyLCv+FfsVMoypWDiVtBzddb+YuxA
- K1x1YV7KyaUREwbkOGl2QJAf+Oot3y9DhjTh0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
- b=VKnNFc00a4qOi3R2YjNZ6zYsPYlqxnqCFO/G7F318q4UP8Q1cJnqVfT+Wk2WloQqVy
- liq04E1lm9HWnwQUm+NAmiqhg6IbpNPLwB5mo0DfPQAZt9eFIkfmcAUkqZw+kADYydxN
- XtkUGzz6Py06BIJ2Mg7mZ1daNC8D/rkHwOFdzGExgsz26X6XjPcQI0Dhyz3Z5t6NI5P5
- kezDP8QuH3x4WT9mwgqS7xa+wV/XND4i/4c/8VpU+EONSJ0rLri+2ML1Ve5twiAiBqT6
- bdx5eQFv9zvNY5wOXQkKU6ZsRO+iMTmrikxFsNhoOVI2oSRcj8qnQSuaivggUwEe0AtI
- vrVA==
-X-Gm-Message-State: AOAM533G0b7QHLz3r91nwFNLXK6HhOL2wbQy8dysurLpVsXaqFv5vji+
- pEM+lJ1gArmrVrJIa7IcuY6Q9QJVsIhLgovF9sHuSQ==
-X-Google-Smtp-Source: ABdhPJzzz22o9OQD7ab1kI0cLaSVhXvWLJ9AS4BVjPKCWnUBdp3at3x0E09pBUvROlXehDbVAiUAp+GHsISnTag0oIg=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr4945559otb.303.1610640679142; 
- Thu, 14 Jan 2021 08:11:19 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C32089C9D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:08 +0000 (UTC)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
+ [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE5D62B3;
+ Thu, 14 Jan 2021 17:24:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1610641445;
+ bh=hXfu5UH4biLC000racXZNQYm7fv8Vam4UwXoKqIH4UA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Pz3pEQ9lfAgsD48O1v4mOyKGPfVhIvBXM0Rz6mx1fI2loqZOv2wBMQ3PWF8tQ2z/k
+ ryVW7awL1ixCPMRYNSLHcMEKGjVN4OlvnnHJkPDFZhZoUOr9FjyWjDiODt+qIEGc2f
+ yfKg3awvuCLBg1BmdNFyHInR9is8vO6jGFNTCdBM=
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 00/10] drm: rcar-du: Rework CRTC and groups for atomic
+ commits
+Date: Thu, 14 Jan 2021 16:22:45 +0000
+Message-Id: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-In-Reply-To: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 14 Jan 2021 17:11:07 +0100
-Message-ID: <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To: Geert Uytterhoeven <geert@linux-m68k.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,112 +46,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Phillip Susi <phill@thesusis.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Daniel,
->
-> CC linux-fbdev
->
-> On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > > On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> wrote:
-> > > > > Could we pause this madness? Scrollback is still useful. I needed it
-> > > > > today... it was too small, so command results I was looking for
-> > > > > already scrolled away, but... life will be really painful with 0
-> > > > > scrollback.
-> > > >
-> > > > > You'll need it, too... as soon as you get oops and will want to see
-> > > > > errors just prior to that oops.
-> > > >
-> > > > > If it means I get to maintain it... I'm not happy about it but that's
-> > > > > better than no scrollback.
-> > > >
-> > > > Amen!  What self respecting admin installs a gui on servers?  What do we
-> > > > have to do to get this back in?  What was so buggy with this code that
-> > > > it needed to be removed?  Why was it such a burden to just leave it be?
-> > >
-> > > It really was buggy, with security implications. And we have no maintainers.
-> > >
-> > > So the scroll-back code can't come back until we have a maintainer and
-> > > a cleaner and simpler implementation.
-> > >
-> > > And no, maintaining it really doesn't mean "just get it back to the
-> > > old broken state".
-> > >
-> > > So far I haven't actually seen any patches, which means that it's not
-> > > coming back.
-> > >
-> > > The good news? If you have an actual text VGA console, that should
-> > > still work just fine.
->
-> IIRC, all of this was written for systems lacking VGA text consoles
-> in the first place...
->
-> > Also on anything that is remotely modern (i.e. runs a drm kernel
-> > modesetting driver undearneath the fbdev/fbcon stack) there's a pile
-> > more issues on top of just the scrollback/fbcon code being a mess.
->
-> Would it help to remove DRM_FBDEV_EMULATION (instead)?
+This patch series refactors atomic commit tail handling in the R-Car DU
+driver to simplify the code flow, and open the door to further
+optimisations. It rebases the series posted by Laurent "[PATCH v3 00/10]
+drm: rcar-du: Rework CRTC and groups for atomic commits", which was
+itself based upon work that I had started originally.
 
-It's a problem with the hardware. "Write some registers and done"
-isn't how display blocks work nowadays. So your proposal amounts to
-"no fbdev/fbcon for anything modern-ish".
-
-Also I said "a pile more", most of the issues in fbcon/fbdev code
-apply for all drivers.
-
-> > Specifically the locking is somewhere between yolo and outright
-> > deadlocks. This holds even more so if the use case here is "I want
-> > scrollback for an oops". There's rough sketches for how it could be
-> > solved, but it's all very tricky work.
->
-> When an oops happens, all bets are off.  At that point, all information
-> you can extract from the system is valuable, and additional locking
-> issues are moot.
-
-Except the first oops then scrolls aways because it's getting buried
-under further fail. Your locking needs to be minimally good enough to
-not make the situation worse.
--Daniel
-
-> > Also adding dri-devel since defacto that's the only place where
-> > display people hang out nowadays.
->
-> Please keep on CCing linux-fbdev, especially for patches removing
-> fbdev features.
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+A few minor updates were required for the rebase, and review comments
+from v3 were handled, along with minor updates based upon suggestions
+from 'checkpatch.pl --strict'.
 
 
+The R-Car DU is a bit of a strange beast, with support for up to four
+CRTCs that share resources in groups of two CRTCs. Depending on the
+generation, planes can be shared (on Gen 1 and Gen 2), and output
+routing configuration is also handled at the group level to some extent.
+Furthermore, many configuration parameters, especially those related to
+routing or clock handling, require the whole group to be restarted to
+take effect, even when the parameter itself affects a single CRTC only.
+
+This hardware architecture is difficult to handle properly on the
+software side, and has resulted in group usage being reference-counted
+while CRTC usage only tracks the enabled state. Calls are then
+unbalanced and difficult to trace, especially for the configuration of
+output routing, and implementation of new shared resources is hindered.
+This patch series aims at solving this problem.
+
+The series starts with 4 patches that touch the API between the DU and
+VSP drivers. It became apparent that we need to split the configuration
+of the VSP to allow fine grain control of setting the mode configuration
+and enabling/disabling of the pipeline. To support the cross-component
+API, the new interface is added in patch 01/10, including an
+implementation of vsp1_du_setup_lif() to support the transition. Patch
+02/10 prepares for the new call flow that will call the atomic flush
+handler before enabling the pipeline. The DRM usage is adapted in patch
+03/10, before the call is removed entirely in patch 04/10.
+
+The next two patches convert CRTC clock handling and initial setup,
+potentially called from both the CRTC .atomic_begin() and
+.atomic_enable() operations, to a simpler code flow controlled by the
+commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
+them back in standby respectively at the beginning and end of the commit
+tail handler, based on the CRTC atomic state instead of state
+information stored in the custom rcar_du_crtc structure. Patch 06/10
+then performs a similar change for the CRTC mode setting configuration.
+
+Finally, the last four patches introduce a DRM private object for the
+CRTC groups, along with an associated state. Patch 07/10 adds a helper
+macro to easily iterate over CRTC groups, and patch 08/10 adds the group
+private objects and empty states. Patches 09/10 and 10/10 respectively
+move the group setup and routing configuration under control of the
+commit tail handler, simplifying the configuration and moving state
+information from driver structures to state structures.
+
+More refactoring is expected, with plane assignment being moved to group
+states, and group restart being optimised to avoid flickering. Better
+configuration of pixel clocks could also be implemented on top of this
+series.
+
+The whole series has been tested on Salvator-XS with the DU test suite
+(http://git.ideasonboard.com/renesas/kms-tests.git).  No failure or
+change in behaviour has been noticed.
+
+Kieran Bingham (8):
+  media: vsp1: drm: Split vsp1_du_setup_lif()
+  drm: rcar-du: Convert to the new VSP atomic API
+  media: vsp1: drm: Remove vsp1_du_setup_lif()
+  drm: rcar-du: Handle CRTC standby from commit tail handler
+  drm: rcar-du: Handle CRTC configuration from commit tail handler
+  drm: rcar-du: Provide for_each_group helper
+  drm: rcar-du: Create a group state object
+  drm: rcar-du: Perform group setup from the atomic tail handler
+
+Laurent Pinchart (2):
+  media: vsp1: drm: Don't configure hardware when the pipeline is
+    disabled
+  drm: rcar-du: Centralise routing configuration in commit tail handler
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 160 ++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 390 +++++++++++++++++++-----
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   3 +
+ drivers/media/platform/vsp1/vsp1_drm.c  | 188 ++++++++----
+ drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
+ include/media/vsp1.h                    |  25 +-
+ 12 files changed, 644 insertions(+), 276 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
