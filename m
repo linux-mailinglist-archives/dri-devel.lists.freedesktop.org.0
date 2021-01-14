@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941F42F65AE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C473F2F65AF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFFFA6E15C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C863989FA5;
 	Thu, 14 Jan 2021 16:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCCBA89F41
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2607289F0A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:11 +0000 (UTC)
 Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
  [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0608EB77;
- Thu, 14 Jan 2021 17:24:06 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 715EAB87;
+ Thu, 14 Jan 2021 17:24:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1610641447;
- bh=DOQm06BQXPNUG2wcu5FWU2cy/C1+HUvEnc6VBcWLIbU=;
+ bh=eWZL3uR7aIaMFvyWgGOxEbslCY/dFvdleeP2xAGhhDg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R3O/6B/r2zzdlvDZPpWHHKfI3hcTikEijg7UqOKpnLuJ6j4OJgWideIVKxHjatiQI
- fgtGnmv/wiO9Nub8DP4/gU+bKiKMlk5ps/W7IY4EiDkPmW0pYCHtnxhr8+NubceUUB
- zcb++uei5hu3OhHLvang4CjqreiSBLsjmMmIf/O8=
+ b=W9KLsOrpczllt9lyqicPWCff9nzZsNFVW28Younfwh0azwkWUigcMMXGnrBfqH46I
+ U16VSVUbdgn3myMQ7GehfNDbR5fehvLd3+Z4ijHiVzjU0Dj7IRLnL+DIZqUj8aMR4n
+ ls+bHqrs29ZmqBb7Pomy7dSc+m/PZ6/Hl9XQJLvs=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 03/10] drm: rcar-du: Convert to the new VSP atomic API
-Date: Thu, 14 Jan 2021 16:22:48 +0000
-Message-Id: <20210114162255.705868-4-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4 04/10] media: vsp1: drm: Remove vsp1_du_setup_lif()
+Date: Thu, 14 Jan 2021 16:22:49 +0000
+Message-Id: <20210114162255.705868-5-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
@@ -55,117 +55,108 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The configuration API between the VSP and the DU has been updated to
-provide finer grain control over modesetting, and enablement.
-
-Split rcar_du_vsp_enable() into rcar_du_vsp_modeset() and
-rcar_du_vsp_enable() accordingly, and update each function to use the
-new VSP API.
-
-There are no further users of the deprecated vsp1_du_setup_lif() which
-can now be removed.
+The vsp1_du_setup_lif() function is deprecated, and the users have been
+removed. Remove the implementation and the associated configuration
+structure.
 
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v2:
+ drivers/media/platform/vsp1/vsp1_drm.c | 46 --------------------------
+ include/media/vsp1.h                   | 22 ------------
+ 2 files changed, 68 deletions(-)
 
-- Minor formatting changes
-
-Changes since v3:
-- Minor formatting for checkpatch.pl --strict
-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  4 +++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 20 ++++++++++++++------
- drivers/gpu/drm/rcar-du/rcar_du_vsp.h  |  3 +++
- 3 files changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index ea7e39d03545..53838dde2f29 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -533,8 +533,10 @@ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
- 	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
- 
- 	/* Enable the VSP compositor. */
--	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
-+	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE)) {
-+		rcar_du_vsp_modeset(rcrtc);
- 		rcar_du_vsp_enable(rcrtc);
-+	}
- 
- 	/* Turn vertical blanking interrupt reporting on. */
- 	drm_crtc_vblank_on(&rcrtc->crtc);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 53221d8473c1..b9e6b8531c96 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -46,16 +46,14 @@ static void rcar_du_vsp_complete(void *private, unsigned int status, u32 crc)
- 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc);
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+index fa79cac32e49..46692460f8a6 100644
+--- a/drivers/media/platform/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/vsp1/vsp1_drm.c
+@@ -814,52 +814,6 @@ int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
  }
+ EXPORT_SYMBOL_GPL(vsp1_du_atomic_disable);
  
--void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
-+void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc)
- {
- 	const struct drm_display_mode *mode = &crtc->crtc.state->adjusted_mode;
- 	struct rcar_du_device *rcdu = crtc->dev;
--	struct vsp1_du_lif_config cfg = {
-+	struct vsp1_du_modeset_config cfg = {
- 		.width = mode->hdisplay,
- 		.height = mode->vdisplay,
- 		.interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE,
--		.callback = rcar_du_vsp_complete,
--		.callback_data = crtc,
- 	};
- 	struct rcar_du_plane_state state = {
- 		.state = {
-@@ -92,12 +90,22 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
- 	 */
- 	crtc->group->need_restart = true;
+-/**
+- * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
+- * @dev: the VSP device
+- * @pipe_index: the DRM pipeline index
+- * @cfg: the LIF configuration
+- *
+- * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
+- * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
+- * source pads, and the LIF sink pad.
+- *
+- * The @pipe_index argument selects which DRM pipeline to setup. The number of
+- * available pipelines depend on the VSP instance.
+- *
+- * As the media bus code on the blend unit source pad is conditioned by the
+- * configuration of its sink 0 pad, we also set up the formats on all blend unit
+- * sinks, even if the configuration will be overwritten later by
+- * vsp1_du_setup_rpf(). This ensures that the blend unit configuration is set to
+- * a well defined state.
+- *
+- * Return 0 on success or a negative error code on failure.
+- */
+-int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+-		      const struct vsp1_du_lif_config *cfg)
+-{
+-	struct vsp1_du_modeset_config modes;
+-	struct vsp1_du_enable_config enable;
+-	int ret;
+-
+-	if (!cfg)
+-		return vsp1_du_atomic_disable(dev, pipe_index);
+-
+-	modes.width = cfg->width;
+-	modes.height = cfg->height;
+-	modes.interlaced = cfg->interlaced;
+-
+-	ret = vsp1_du_atomic_modeset(dev, pipe_index, &modes);
+-	if (ret)
+-		return ret;
+-
+-	enable.callback = cfg->callback;
+-	enable.callback_data = cfg->callback_data;
+-
+-	return vsp1_du_atomic_enable(dev, pipe_index, &enable);
+-}
+-EXPORT_SYMBOL_GPL(vsp1_du_setup_lif);
+-
+ /**
+  * vsp1_du_atomic_begin - Prepare for an atomic update
+  * @dev: the VSP device
+diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+index 253db8029752..a4eda8c9d048 100644
+--- a/include/media/vsp1.h
++++ b/include/media/vsp1.h
+@@ -20,28 +20,6 @@ int vsp1_du_init(struct device *dev);
+ #define VSP1_DU_STATUS_COMPLETE		BIT(0)
+ #define VSP1_DU_STATUS_WRITEBACK	BIT(1)
  
--	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
-+	vsp1_du_atomic_modeset(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
-+}
-+
-+void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
-+{
-+	struct vsp1_du_enable_config cfg = {
-+		.callback = rcar_du_vsp_complete,
-+		.callback_data = crtc,
-+	};
-+
-+	vsp1_du_atomic_enable(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
- }
- 
- void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
- {
--	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
-+	vsp1_du_atomic_disable(crtc->vsp->vsp, crtc->vsp_pipe);
- }
- 
- void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-index 9b4724159378..7c141523434d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
-@@ -58,6 +58,7 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
- #ifdef CONFIG_DRM_RCAR_VSP
- int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 		     unsigned int crtcs);
-+void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_enable(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
- void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
-@@ -73,6 +74,8 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
- {
- 	return -ENXIO;
- }
-+
-+static inlinc void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_enable(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
- static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
+-/**
+- * struct vsp1_du_lif_config - VSP LIF configuration - Deprecated
+- * @width: output frame width
+- * @height: output frame height
+- * @interlaced: true for interlaced pipelines
+- * @callback: frame completion callback function (optional). When a callback
+- *	      is provided, the VSP driver guarantees that it will be called once
+- *	      and only once for each vsp1_du_atomic_flush() call.
+- * @callback_data: data to be passed to the frame completion callback
+- */
+-struct vsp1_du_lif_config {
+-	unsigned int width;
+-	unsigned int height;
+-	bool interlaced;
+-
+-	void (*callback)(void *data, unsigned int status, u32 crc);
+-	void *callback_data;
+-};
+-
+-int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+-		      const struct vsp1_du_lif_config *cfg);
+-
+ /**
+  * struct vsp1_du_modeset_config - VSP display mode configuration
+  * @width: output frame width
 -- 
 2.25.1
 
