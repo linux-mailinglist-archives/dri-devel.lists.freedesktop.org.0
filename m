@@ -1,107 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20522F74B9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 143362F74B3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19B516E1D3;
-	Fri, 15 Jan 2021 08:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B15A6E2DF;
+	Fri, 15 Jan 2021 08:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2044.outbound.protection.outlook.com [40.107.20.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E6F6E174
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:34:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GwvLy91fvOIc1A2S1z+XTvKS55Jw7otC12w+V/XuGhCHuRqI0cAZAyzq7JLXVcAu7Y5kZQuLtJma54cw29UQzxKiFMPDSAaHB6xbyff46H6sU3M7AL1pn2Vo8ai/rSUBPRGFEbVqunXQn7ut6vXl7gKDk7DFMpQ57PPxkibqxQGEaAbvh6qEzfiEP87+dL+wCVVwkHyoUPb2xuMVqTbYRshPWf1TEY21Xz/JCrFDpaM9OabJjGAOrSM4egHjt/vcBoSrKVkyGjtbYlg90/heHWFagZIeed+yN6OmYZsPQwIMPqh4E3ANesrVlEa7Ps3sV1zfM67CY0g3MzKoY1aKGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RPGwZZSneUfhDGZOeYNPLrTJdq7r/2K0LdPZzQLAvg8=;
- b=PeI7A6/RTmdEmBNN0uF7Gl/tPSgtWzOpe2aZBP/dP8i0lCFJenxRaI5C1CO5j8SMq6mYoFoyZh1Oe5PW2TS48QfHh+QMhnJclfVmzsHIUBHQ6vr8vWx3sft/3Cr9tyL7H2RnoMvYOWHCwDgm1gKKwK4sOAQX0xSqDXarTbrhVQlqH4E/0ezTLjeEu0TzHdlLcRLWft83cTADK3lD/x8IkkcYsJPvoY/kYEysc/5xYGQSoUx/3tzGdDlH80rcZkCW1LRr5hfDwRVS+y9RC2/Ph/yO9a2xAEoTsqA/Yr8kYHacPvPX5h+JYCwqMHil4pH6LyOFuQiLIM9sl8AurVcjGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RPGwZZSneUfhDGZOeYNPLrTJdq7r/2K0LdPZzQLAvg8=;
- b=iGYpiu5lGOiW/vNf/51pUGv5Ilz+wb5zfgElFRKf4Cy2KPHTv25x9EHHJtUKHGnOKGhcEECcuixv+slApT+jbHyUUy4ejukZpq9UpaKucbr1IsSMH2zzqSiWUNP6pKJW4ZV87bcm9cWoMNjCnAE+JmbfRwQ/xkGlnesk1XJ4eCs=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5710.eurprd04.prod.outlook.com (2603:10a6:803:df::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
- 2021 09:33:57 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3763.010; Thu, 14 Jan 2021
- 09:33:57 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: [PATCH v2 14/14] MAINTAINERS: add maintainer for DRM bridge drivers
- for i.MX SoCs
-Date: Thu, 14 Jan 2021 17:22:12 +0800
-Message-Id: <1610616132-8220-15-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
-References: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR04CA0175.apcprd04.prod.outlook.com
- (2603:1096:4:14::13) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1939B6E185
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:47:12 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 6137514E6;
+ Thu, 14 Jan 2021 04:47:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 14 Jan 2021 04:47:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=YeoC/XPMJSGadPpNUxvwKIrv3ZE
+ qZF5+iat+jggahE4=; b=bTeuEf98XkwnF7DP7YlW/XAeJvTPGrlAkA1i7/L95Tj
+ bNy1snOw/cJhc/07pJ2zSN5tsZw6EbTZ5/JVelckUkjvodFpVnER8nhlxm4DSbNe
+ ZZoGyteSTeIW7J+/+TGAeZ3S1tV3MeRTm7se/WfExENzn+XGk5z+iPoEC07NIXZ2
+ RPpbs/mHevVlBKoCdgod4TjQUzukGngjg2WY9d1Xy+RbXctkTUWcglD4umjA4O4Y
+ LXbqLBdbrKE0owZ+3DL8DA/OF7XwuSQ4AXtjyfeTsNcHp+kxVuRvEWZkoOnBKrH0
+ OU5GFrr4V6JemjtbokHjkYgxK2Xm5b9n12IDXsSrkGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YeoC/X
+ PMJSGadPpNUxvwKIrv3ZEqZF5+iat+jggahE4=; b=Gnj5PKP6YSGx7mE4pQiYFh
+ 4+RvnhariRHd4gVMBGj/ibq/X/xGs/mNGtCf7IHqZAVZXqWC34SoxJSFQWEgPkLo
+ GY7gN9+yA7oDjkOYgJia8nmZD2sYMFNFp3KbjKIERjsQisKFxu8TYlUsJ1h+VarW
+ +FGKYuuYPoq2UAfjG/PZtj+msPZidBHY0/jXP4XNpcbX7Si4MiUtehU3XzZuNFKz
+ 6mniLrkseXtHbY9AW/BrsF47uQxUZLP0OdvLMmO/FOcqGn8YZvtGqmcY7aVoEXY7
+ +qOG1bzgfQXGJAT3/rRnJN/mm+tIKQm4ck+EUloCbBJLaPt5qFjeMtdh9GmKb0Gg
+ ==
+X-ME-Sender: <xms:HBMAYBR97g_pu93KCbujpbLikaDE1BC9zo3q_ceVYM1lzHY8gBiXnw>
+ <xme:HBMAYKxVUfuO2B_rtXLFxP5oIofsGUFizegoimN5WWutFDxaFRaS69ZHkykzdSMat
+ 1NyWGkoAn1jBfZ9ysk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdehgddthecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HBMAYG1aii7fMAxllZKjZT31Q_IzD1ohEWZcKgbip60gopNuGBGkMA>
+ <xmx:HBMAYJDahUVvoA5MDSF9uTv4fxVYFLWM6F-GIdNbA7edoXuwOyq7bg>
+ <xmx:HBMAYKgzX3UrVB7P3PFVyzmLBFocLUlRIfSttunKR4BwEsI5cpNjDw>
+ <xmx:HBMAYNsNbs7zNaa0wFYqb5jQCCh0ETwHB2fVGYXEL9dosaGUwzeXiw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B5E6B1080068;
+ Thu, 14 Jan 2021 04:47:06 -0500 (EST)
+Date: Thu, 14 Jan 2021 10:46:59 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vc4: Initialize vc4_drm_driver with CMA helper
+ defaults
+Message-ID: <20210114094659.3qwtgjpnzk7j3yyq@gilmour>
+References: <20210114084949.29014-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by
- SG2PR04CA0175.apcprd04.prod.outlook.com (2603:1096:4:14::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 09:33:51 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 911eb7ed-3499-43ad-e742-08d8b86f8451
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5710:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB571003EDE0BF363CED1D9C6398A80@VI1PR04MB5710.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e5KT5FHDF0hUvFRJkZORUegpjQqsEcMEGq8cGIJuTnwMas1v3v+WPJt+0841VjFx8gGCGVMpsXby9EEfUzDl194Y+NiCpDixm7LYoTG/ClUL6Lf5qRgnT8/uYqf7Ja6Xw4hP1thy11ST/q1WYSj20texafwQNMBJJMcE6PUNlaxeDuEhkziOZXzSY/zV5Aj8bFoQRY0sS6QNSrpCvIkVvaU/TDj4yFiD70j3Am0McJQ4aXDnKCjbtUn55Won05wDiX/6Y6D0e4MsrsqDWpZ1xfZZsOQ6su45JVcQmy5aA1wjtREppacujREI6EE8azwBLQXSQHp/hQDpPtHVxNmnqSAXYChqS/TdmYVvW1DE7uWMpIydmCSKh8gkPdtGCZIVSUkb4/xwX4Z8Zt1K10X5tK1ewibFInGhgZW3xmRSG9s4galLZaiJyq8qjmFVwjfJBTLvND9RjLPkz9MVCCBsEg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(6029001)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(36756003)(6486002)(956004)(8676002)(26005)(6666004)(66556008)(6512007)(66476007)(478600001)(6506007)(8936002)(2616005)(7416002)(86362001)(4326008)(316002)(5660300002)(186003)(52116002)(2906002)(66946007)(69590400011)(16526019);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?NagFmmdJOOZFJSJyFruvSRZOC2ojITp7tCNbLJ+G2IpMsd0d3IAHh0mXUdNx?=
- =?us-ascii?Q?KZyqN368Y9aLeGdiOHaj2NsoXSYa4BgYzy+wrtVxbWw33Uo4f6+tp4IXvt2w?=
- =?us-ascii?Q?i4HquL9LSfGaMZ4gV+ahMmlEZdswdhFhcOCiofF9xPCuiRzVpbeTv3hhrISE?=
- =?us-ascii?Q?QMPofjRJeRpIdfX8CLox7IOK3OfgUTUOFn+3+9vKToilTmARqgXQ6lRoXoXP?=
- =?us-ascii?Q?I44aDZ3rpZW+YDtWqjv2CzGmI/O4c4a1GtzMXw27Es1y3ryDyAjyG+Q3XUUH?=
- =?us-ascii?Q?/1n8ya6mGjsqVrA2ohu6qZ9iBhg5jhRWOkO8cxaIeDxNp1KGkytj8U2BXgzQ?=
- =?us-ascii?Q?3kfRPPjdh3QQ5mq3B3zOXIMqr7u7gCzADXFKgInk39fIMxgY74DhSYjs3V6y?=
- =?us-ascii?Q?3I1xWPs2Or7sIlCiN3dkDG1Osx4mnvpx2heZadFtN/MCJsQlBk7nBT69NM29?=
- =?us-ascii?Q?X7INbnytSKKewNVG6LE5jYkrP6oMQpTGy1PJBGB/mBI5DxvfdCMSnNMhvoRW?=
- =?us-ascii?Q?3FcNZf10/v9qEojHgV/ReTOi8w2ZhwVr9i6vN3EfSjrvJodYyFl5tc2tifk4?=
- =?us-ascii?Q?ccKfPsO3QsF+nkCWQldQqrNuV7MNxp/GZweA5q/O08KYDMqIlMxy+l5ZFZUO?=
- =?us-ascii?Q?zYB3L/aTurPcNNlhqaCSZ3Q2Us6vX4uUSsEzShKuSzsZBZWR7J+ftaoKnT3d?=
- =?us-ascii?Q?OJIuShuwl7l9hcwjVDJtoVMnx2bvXTlqxjoRmPkjwck3Tqb6XcWzLBmM974n?=
- =?us-ascii?Q?23bz1YHhVJFpWK5+DLt12rJR0BdqOevUN1a3XO7oIDSZvuVc2tamCNDCIRbc?=
- =?us-ascii?Q?a9F1sc2wW8TTMp8DEl/MZdgnFEbZkN9SwbIObIZxLrn6Z9lQB4fzNMiINt4s?=
- =?us-ascii?Q?XuHPV1dHgJJuALMZ6T6/S+gduaRlwATeJtGLseRQ6dRZBwxpUXLJu7Mv0J01?=
- =?us-ascii?Q?trLK1MzukdEHe/gng3chpQAZrv0jhWlE1P7CBkU1FKE236N38XIeDi1tOWOm?=
- =?us-ascii?Q?3VyL?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 09:33:57.2226 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: 911eb7ed-3499-43ad-e742-08d8b86f8451
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rEQUQtNkPMlVu4MavPZcrboeOsFjbnInlBsdMZNoY7RBbj2jcnvR7tCxjfKWN4pp+reztbvl9PjnCkypvnWgmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5710
+In-Reply-To: <20210114084949.29014-1-tzimmermann@suse.de>
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,50 +79,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, narmstrong@baylibre.com, airlied@linux.ie,
- s.hauer@pengutronix.de, jonas@kwiboo.se, kishon@ti.com, a.hajda@samsung.com,
- vkoul@kernel.org, robh+dt@kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
- mchehab@kernel.org, shawnguo@kernel.org, Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1409874021=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as the maintainer of DRM bridge drivers for i.MX SoCs.
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v1->v2:
-* No change.
+--===============1409874021==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tblpmw3pqdrlafk4"
+Content-Disposition: inline
 
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 389abcf..539dc58 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5891,6 +5891,16 @@ F:	Documentation/devicetree/bindings/display/imx/
- F:	drivers/gpu/drm/imx/
- F:	drivers/gpu/ipu-v3/
- 
-+DRM DRIVERS FOR FREESCALE IMX BRIDGE
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-+F:	drivers/gpu/drm/bridge/imx/
-+
- DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
- M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.7.4
+--tblpmw3pqdrlafk4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 14, 2021 at 09:49:49AM +0100, Thomas Zimmermann wrote:
+> The function vc4_prime_import_sg_table() is an otherwise empty wrapper
+> around CMA's drm_gem_cma_prime_import_sg_table(). Removing it in favor
+> of the latter allows to initialize vc4_drm_driver with CMA's initializer
+> macro.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
+Maxime
+
+--tblpmw3pqdrlafk4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAATEwAKCRDj7w1vZxhR
+xURdAQDrfm9YEnIU3ug6QZyvhluuR8e5jrrphUN0JAnSeQPHQgEAummZl2MbBs8X
++xG0QQvMettBYRTk9FLJBttyp+9j4g8=
+=FxpY
+-----END PGP SIGNATURE-----
+
+--tblpmw3pqdrlafk4--
+
+--===============1409874021==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1409874021==--
