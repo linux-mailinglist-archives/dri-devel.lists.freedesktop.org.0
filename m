@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6662F74B2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA312F74A9
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8245D6E17B;
-	Fri, 15 Jan 2021 08:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A10889B5F;
+	Fri, 15 Jan 2021 08:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2072.outbound.protection.outlook.com [40.107.20.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9283C6E156
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:33:36 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60083.outbound.protection.outlook.com [40.107.6.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1BC16E15C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:33:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NhVRgEjj0CQVCmrLGyNevGz+w5mOttNVW3u+gtnHu3+VFVQ49aawSc+XsGe6wwkVyvYALMtbaLD9S/l3QaSeU5AEJsd2ihRefdmJ841wqaatHocyGF+6W+07R1M7bVaR/zyMgjCXrW1EMxv2UUPp2IOafXnIcrbNZTa2z98U3MqcOGRENQPM9qOPHrf4j2Ub0UEwk84qhgo9aSpgqFd0Fyf0QrxgfFz8zq0QJEF0aDIrBH+/EqTaa6Xc4+it0i25sD3Uyron2cFsXF0n7tbXHRuxexvOSmVqU4mi0FV6AvZOvm9iNjQ6avYdZhJV2mcGjvLDX1mG6wLa3pMxOcX5dw==
+ b=kYvaAQnm98EWgP6FJMeQFAK5mM0wYmTJDGTiDlthsMCW5k+twvObxWdeAwgUvq9Kig+fIuTlHmju4XpxWjQjDpJBs/P3Kl3/QwHK8si6Zp4aPbYKWbXgu57zwQoALk5x0vn4yqlic5AfqvbT/7huHWuTPxkm6gUoreEYFj2mivDRWLAoCE3wLEwmEJk+E90dsQx5vqMxyKWYy74UJ+HjzKOzMW/is1vh8WMkKlt4dIX4ccpNGkZnpj127nshfQfp87T1AN0vnHnLc8P+N6JRLKB74Rq3/htvft6fOJ+Ia9/wkFY+b0wee2TR+9RnISI3jPx8M5LlNNrWHxss8Ybtlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJ3H+X6uwu5lbJh2qrP15UZo7MAswxblkVTXlPTxWnc=;
- b=XMA0fL1j+tiFkeAso0ZKa0X/Y8CH8nfvgTyCKbkWLagZpaA535SN3lfhv2HVNfoGWm915DBb3Ad8/TtlglPeqIIUnOcES1IrSfujCEue1gTlXiLK4YTJe+0R3eNw1DuuXgt1l2yE6dG6atkMM/24g9O6+WfsHm+6fz17aBQ/EDY73EjtOfBbJ/S8CXzOmsLrL52oa73jq3HQMjJ+VibrSq2pexOUak0HHG9VdXutSnZ3bAP+olZX+yEs0m7T6Sr5D9+tMrBBAakp5qAMuvaHA4JU7GkPQ+vW3j5QgWARftMf8q17kEI66opK0048FqiinIxGbJfSZJ6+337p2+5c5A==
+ bh=gRNxQmgk0+i5vewy3fwh2emkae6eP6B2zW6D3OP470o=;
+ b=BoXmpED0qxIevDN/Hg3iGy96XN/lroArIaIpkdozZ9s1xmBbclgELN6a102YuBEIfcR3h0ER1giUNPgEsafnPOtTtJ31a1pJXx2z9QuEz1KntviIqTP3c/QqdAHy62W01QkXD6b+eXFtxd2aPAUOM48bl/6D1tYa9lruS2SwQ5VuU8T5Zv8kgcZqHXV5m9uh3ccaBWBQHJ0IdlU1FEUVgJ2P2Bq1wG8zdgLfWbva+hw8OkjounUHTO/msruouTwI1NmPhOSyF0ZY7AVTYN9VnPNrzogrIzP+riy8JRwTuyzU/IwmRKwM8ArcJu80o3bs4hQIig17SdkUE9v9ffRzPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJ3H+X6uwu5lbJh2qrP15UZo7MAswxblkVTXlPTxWnc=;
- b=LLrbUduTZKbeVw6OWJchP/bpIU1urjtHbn2w6sWusjcSw5yAN+DLXTohj+IMkfk9LqIE2cqTk9bqdrduOzTGtbr/P9JC+5zG5YXVSPjyVUITXulLSUFeWXqbaCOgriFUon0bCxPv+3cPAqDCrXjquKiH+QR1Z2R5z7D1NUb3q+4=
+ bh=gRNxQmgk0+i5vewy3fwh2emkae6eP6B2zW6D3OP470o=;
+ b=HW499y3e2Hb7/soUhbGWcXIfSUdGbLOuaMnZd9a6bGdcxhpsr8RlOJllRyK5s20eQQPYuFMVvDzbXlY5s1Qp5aF32P3cvpir408MTmPx3INPKF0pQwsHSoKu3q3qxPSRSjMuPqfusnnrC7g93/B2hrROl4YF1ipaelqB0xq8WHA=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5710.eurprd04.prod.outlook.com (2603:10a6:803:df::18)
+ by VI1PR04MB4893.eurprd04.prod.outlook.com (2603:10a6:803:5c::24)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
- 2021 09:33:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Thu, 14 Jan
+ 2021 09:33:37 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3763.010; Thu, 14 Jan 2021
- 09:33:31 +0000
+ 09:33:37 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v2 10/14] drm/bridge: imx: Add LDB driver helper support
-Date: Thu, 14 Jan 2021 17:22:08 +0800
-Message-Id: <1610616132-8220-11-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v2 11/14] dt-bindings: display: bridge: Add i.MX8qm/qxp LVDS
+ display bridge binding
+Date: Thu, 14 Jan 2021 17:22:09 +0800
+Message-Id: <1610616132-8220-12-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
 References: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
@@ -58,49 +59,49 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR04CA0175.apcprd04.prod.outlook.com (2603:1096:4:14::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 09:33:25 +0000
+ 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 09:33:31 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d53b0c6a-db55-4f09-5ad9-08d8b86f74de
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5710:
+X-MS-Office365-Filtering-Correlation-Id: 1a99552d-d015-4106-421e-08d8b86f789f
+X-MS-TrafficTypeDiagnostic: VI1PR04MB4893:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB5710A0A33E7CD4CA2D4A2C3698A80@VI1PR04MB5710.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB4893BF5F5E2D0260D80B11C098A80@VI1PR04MB4893.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ycYvztDoYmoprV7jKMj6XRjver962DeZXPIGLRQoPbna3KjB9+KZMQILekL40inVljCKKlwZGP9dSnk3Kj6Es2t3bweEp2KOkqZIDc+JF4GziT1kCFLcTi8ARF0UrJ5WRjyUUYF4KEgp7xSK4pUc/GMpusp/guJLZMgglA1ic1Xs/qgMyI6LnD76EenxJ5NUuJ7XocAXpTL0gbht9XhrVp7Cy5WRKxH5ukgNNNU674c0V7M70VdB+sfcDy25F4ZJfF9T22q/sDmzWZ8pgqucZsxHhSUTF9Fg77Z4bxov9T5NAogzWoLysJn+Rdw7v8kZt8cRt70ixPMwlAtvzedHHLyVZEZJaJKH1f/hvzzTl9qKc5T4T13DR9ravIwJxQEcv7tojc9WW0tNG2TOYI8oPZFlA/+UPInzFOpfGCBBu5Rqw8r8Qwp3p76rkJifH41koy4KETdZQybDkcSLmdlf8w==
+X-Microsoft-Antispam-Message-Info: a1/4k55ea6jVZfiBSyVcXKt5WPXtlJah8bFLW3sCbnPFVwHu335rXy7iTxO828Gb8baun3/9Caf16K7e+xwqKDVygnMzwqRJtZnwIA3wmOsfpABSVU7EbJGDSwcKlWb+/VFO1ggUL3Y3PSmY3dNto9qmbeWI+8AaTchTYHJiRsrvUXrAzwKCfO5EzuX05N+5mVXKTO6hVMsbnirMJC+gFsZaZuXInSESSnm2lWLho8N9pFL/17JyamK06KJM/2KZvQk7Lan6T1pTknArV32BKpvVsERbVdHC5QX24rgQX70qHmDVRGEYKr7NaK7tBK62/JgGxxH+Mowy0DkTcpqNgffDWq4IAL86gIOBXbOLsXV7PABZIr4bc4nPDVFNE1vB+xETi3SnqLOEyAC1u3N/O+9zqv3og3PYhFdRuC+0f70uN3b77g1xOtdfaQMiWvKoRmjCxo43wXckdfU9iQhh1CwIjuT4fLuXxmQ79xCfv758VFC7Zi1A29Na0NchFSwKx38NHPQHeuTxUJ3OIOBZZg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(36756003)(6486002)(956004)(8676002)(26005)(30864003)(6666004)(66556008)(6512007)(66476007)(478600001)(6506007)(8936002)(2616005)(7416002)(86362001)(4326008)(316002)(5660300002)(186003)(52116002)(2906002)(66946007)(69590400011)(16526019);
+ SFS:(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(36756003)(6486002)(16526019)(186003)(5660300002)(4326008)(478600001)(83380400001)(8676002)(26005)(66946007)(316002)(966005)(52116002)(8936002)(6666004)(6512007)(69590400011)(66556008)(6506007)(66476007)(86362001)(956004)(2616005)(2906002)(7416002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?kxKJapa6eQ+TFRkhC8AR7PPlsejtuTBHvdvvdf+kgzvJsBRUiEOGbjZqzC5t?=
- =?us-ascii?Q?oR2FeIfU1zST3Zc6FpD4WFTXEYN6ccg8brO4zOZcyI6YNMo4YwiC929l7YL4?=
- =?us-ascii?Q?oALLCQep4iBUoYyt1Rs+hcQB+xD+HNh7uZC5eBB9RH8uHFJI+4SbNTx2XJzi?=
- =?us-ascii?Q?Tkxxvn6s9W0nGHsvU+4nhVFKeY9ONcJma+8Sn6/hUwHYORvya3uevPmLnSHr?=
- =?us-ascii?Q?tj/f75ggZ333cD7UYWv4/8Vakz1Nnetx1jCWJubXmmtpF1yoem++CJZxbaxG?=
- =?us-ascii?Q?iQ36g91DYbXzqs7ThjO23rTdCmELpJMh1nyKpvChQVOvqTkGPRA6uNY3jE1w?=
- =?us-ascii?Q?aDd9xChqR+v/mVzSaSXdGQecVQr5W6RyzqZ+w0/RESMq9xxX+6KDDQhoXW7w?=
- =?us-ascii?Q?O/OegPUfDWDizPqQ4Gf7I3qICIG341ubXHF+Mym29ZbjfeVzSyxh2YVKgS5S?=
- =?us-ascii?Q?xhn7gZ6qMI6PsN2chAaDWlZxWu66YCgDCFN6FVxoT8KLh7Hr/4gNFS4F6soK?=
- =?us-ascii?Q?aCeEXomvrX4Bk+dDSmQQ16VTyR9/JqhrM0KW7EUpAC3/eqfSRjScQPUWzD0b?=
- =?us-ascii?Q?Gm6NXC+3nQArbG4kLbeUH/drXJ8WIicIaRCQu7uDHxPMzOU+HIBE/iJzGzx0?=
- =?us-ascii?Q?2A8j0hPsz3uN96PQfkKr3oFR9M8wvJRlWdSUpeXeSeQ6dqVJGniBg7bDdAFN?=
- =?us-ascii?Q?IwMbWCMzyxOqs5RRQPQw75b/VzPZdGi4RD7hRVYiu6SJftd+pW3j5ceb/4Xq?=
- =?us-ascii?Q?A4xaxWfOoBJ9907I93ZWED1TYDlegKs3HVtLofLWZKpNDvzKIJmXCvobpRAu?=
- =?us-ascii?Q?gVz5UZ5x85MnZ0rl+4kb6tjfwpRwlwsyNc+4pG08R6PKGIxBkCTP/9o2oY23?=
- =?us-ascii?Q?U9GKjbIRIz5aNa4ndKUuR0UTKVDNydym4TBSukKUBXUaxCRrOij4Tysc3rTy?=
- =?us-ascii?Q?P4BZ22UDxoZgTkDPF0RVn7jFNSYPrY5BVHbYLuIfruM8/5ufWFdTghfHjrlZ?=
- =?us-ascii?Q?xRVv?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?IE/5BFqhetddCC7owOQbUMnHomiOab0atJL78ls7qd2HIR9cipWuz4vu8bPk?=
+ =?us-ascii?Q?EbCtV5MkwqXFeQ+JHPAwKjB0zSQM4Fba7WlGrAttkW+gBkuOpekErz7TanB4?=
+ =?us-ascii?Q?zu6iG6qb44chHr8QSuqyaY5/vU6rJ/alQJ9JYdlmZjvEUyc3B3eHJFaPKPkc?=
+ =?us-ascii?Q?N0FjD4XPfm95BvWyV/KzjQ07Ix6gndojMWrE3SUHsK4vNb4/Z0L5T7lctDBX?=
+ =?us-ascii?Q?GGVGVuIVILPCIsknSwPGUVCHMB4+u/JkHIQZYJHrIgUmP9KH9d9TBqOL7r5z?=
+ =?us-ascii?Q?fXO4+lKiW/uUIxI7dmhXgdJddQI/CCHGQ/BYEHbFFH03NFAOraaAxx1MVFMq?=
+ =?us-ascii?Q?ge3wKOGq7uco5r5vrOmLgw0FsymzB88UG9XS7Sp+ee195YHUBjL5GSHFO0yG?=
+ =?us-ascii?Q?PsOcsTvUPH83ZFrcXj2Vd8ieG3MQsOTSDjGZjeO7JKSQttjf8qtV+end95Rz?=
+ =?us-ascii?Q?ROS7+mcxDpZfJY124bTOIqu70mHRz0bb4uYRAQTM3xTSmpnQCWhrOmxk5NGH?=
+ =?us-ascii?Q?jK1bFDx/hzRJuwGwRWoZjvtTVBYdzcj9jccK8hT+q1+V2/cwgx3mPBY13Cvd?=
+ =?us-ascii?Q?f173OqB6BVaaaqV7nlaSJS4IDzu7nGpPNF1eAtYfC+ivaoOV2n1h/lj6T3AF?=
+ =?us-ascii?Q?6amYtXUUfXpA5UldkEw8dcm58Q2uT4Aa3/HM7iwl08QcduEWt6EZTUA6sFW1?=
+ =?us-ascii?Q?yu30wwlkSRKTeRnAhsdBYdP1uZQa3HVBskzHF3jLyEddRv/OkvC/sM0Hhbph?=
+ =?us-ascii?Q?Twb54vmcYmJCzvaihb8NZHOIpywRlc89YM5brpSqSciIzJVNLJUeFok8d6bD?=
+ =?us-ascii?Q?HQEC9MKaOHBUFF5mprs8QDRYtQzwwUaAo5FrSm/Et/LpqZ5955j35KjUrIAE?=
+ =?us-ascii?Q?/UX50Bj/pMRZwJPEquoMosZYGUZ0u5pLjKNwYXoS4rNDDkcQiNi//QeAPrBv?=
+ =?us-ascii?Q?db7txAPJ/9oMIEJIGEwWSIzAKdBrd/BiRf9nPIqyUeF8TyJUyd4aRdsneE1X?=
+ =?us-ascii?Q?t+/u?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 09:33:31.3525 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 09:33:37.6139 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: d53b0c6a-db55-4f09-5ad9-08d8b86f74de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a99552d-d015-4106-421e-08d8b86f789f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xUIY9dRnDc28P21oWCGAy0HT5sq4vasLWV5qEMkSDtMPN5DQmOHnIwmwlLvnJrb47lgSfMQ1NChR3p844J0wKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5710
+X-MS-Exchange-CrossTenant-UserPrincipalName: pBi/tKBqAFSSvDlM3s2KYvmHzAKbBUbxYPvsJsLB7TSWbdPksUV5yKWlzTjYa+pJ5CVAlye/I9OQMaj8MP0iEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4893
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -123,406 +124,200 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a helper to support LDB drm bridge drivers for
-i.MX SoCs.  Helper functions exported from this driver should
-implement common logics for all LDB modules embedded in i.MX SoCs.
+This patch adds bindings for i.MX8qm/qxp LVDS display bridge(LDB).
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v1->v2:
-* No change.
+* Use graph schema. (Laurent)
+* Side note i.MX8qxp LDB official name 'pixel mapper'. (Laurent)
 
- drivers/gpu/drm/bridge/imx/Kconfig          |   8 +
- drivers/gpu/drm/bridge/imx/Makefile         |   1 +
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 248 ++++++++++++++++++++++++++++
- include/drm/bridge/imx_ldb_helper.h         |  98 +++++++++++
- 4 files changed, 355 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
- create mode 100644 include/drm/bridge/imx_ldb_helper.h
+ .../bindings/display/bridge/fsl,imx8qxp-ldb.yaml   | 176 +++++++++++++++++++++
+ 1 file changed, 176 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
 
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index 1ea1ce7..23e24fd 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -1,3 +1,11 @@
-+config DRM_IMX_LVDS_BRIDGE_HELPER
-+	tristate "Freescale i.MX LVDS display bridge helper"
-+	depends on OF
-+	select DRM_PANEL_BRIDGE
-+	help
-+	  Helper to support Freescale i.MX LVDS Display Bridge(LDB).
-+	  This bridge is embedded in a SoC.
-+
- config DRM_IMX8QXP_PIXEL_COMBINER
- 	tristate "Freescale i.MX8QM/QXP pixel combiner"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index e74dd64..902b703 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -1,3 +1,4 @@
-+obj-$(CONFIG_DRM_IMX_LVDS_BRIDGE_HELPER) += imx-ldb-helper.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
 new file mode 100644
-index 00000000..ccf06a7
+index 00000000..514ac90
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-@@ -0,0 +1,248 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2012 Sascha Hauer, Pengutronix
-+ * Copyright 2019,2020 NXP
-+ */
-+
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/bridge/imx_ldb_helper.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
-+{
-+	return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
-+}
-+EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
-+
-+bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
-+{
-+	return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
-+	       ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-+}
-+EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
-+
-+int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+
-+	ldb_ch->in_bus_format = bridge_state->input_bus_cfg.format;
-+	ldb_ch->out_bus_format = bridge_state->output_bus_cfg.format;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
-+
-+void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb *ldb = ldb_ch->ldb;
-+	bool is_split = ldb_channel_is_split_link(ldb_ch);
-+
-+	if (is_split)
-+		ldb->ldb_ctrl |= LDB_SPLIT_MODE_EN;
-+
-+	switch (ldb_ch->out_bus_format) {
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		if (ldb_ch->chno == 0 || is_split)
-+			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24;
-+		if (ldb_ch->chno == 1 || is_split)
-+			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+		if (ldb_ch->chno == 0 || is_split)
-+			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH0_24 |
-+					 LDB_BIT_MAP_CH0_JEIDA;
-+		if (ldb_ch->chno == 1 || is_split)
-+			ldb->ldb_ctrl |= LDB_DATA_WIDTH_CH1_24 |
-+					 LDB_BIT_MAP_CH1_JEIDA;
-+		break;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
-+
-+void ldb_bridge_enable_helper(struct drm_bridge *bridge)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb *ldb = ldb_ch->ldb;
-+
-+	/*
-+	 * Platform specific bridge drivers should set ldb_ctrl properly
-+	 * for the enablement, so just write the ctrl_reg here.
-+	 */
-+	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-+}
-+EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
-+
-+void ldb_bridge_disable_helper(struct drm_bridge *bridge)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb *ldb = ldb_ch->ldb;
-+	bool is_split = ldb_channel_is_split_link(ldb_ch);
-+
-+	if (ldb_ch->chno == 0 || is_split)
-+		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-+	if (ldb_ch->chno == 1 || is_split)
-+		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-+
-+	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-+}
-+EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
-+
-+int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags)
-+{
-+	struct ldb_channel *ldb_ch = bridge->driver_private;
-+	struct ldb *ldb = ldb_ch->ldb;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		DRM_DEV_ERROR(ldb->dev,
-+			      "do not support creating a drm_connector\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!bridge->encoder) {
-+		DRM_DEV_ERROR(ldb->dev, "missing encoder\n");
-+		return -ENODEV;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder,
-+				ldb_ch->next_bridge, bridge,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
-+
-+int ldb_init_helper(struct ldb *ldb)
-+{
-+	struct device *dev = ldb->dev;
-+	struct device_node *np = dev->of_node;
-+	struct device_node *child;
-+	int ret;
-+	u32 i;
-+
-+	ldb->regmap = syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
-+	if (IS_ERR(ldb->regmap)) {
-+		ret = PTR_ERR(ldb->regmap);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
-+		return ret;
-+	}
-+
-+	for_each_available_child_of_node(np, child) {
-+		struct ldb_channel *ldb_ch;
-+
-+		ret = of_property_read_u32(child, "reg", &i);
-+		if (ret || i > MAX_LDB_CHAN_NUM - 1) {
-+			ret = -EINVAL;
-+			DRM_DEV_ERROR(dev,
-+				      "invalid channel node address: %u\n", i);
-+			of_node_put(child);
-+			return ret;
-+		}
-+
-+		ldb_ch = ldb->channel[i];
-+		ldb_ch->ldb = ldb;
-+		ldb_ch->chno = i;
-+		ldb_ch->is_available = true;
-+		ldb_ch->np = child;
-+
-+		ldb->available_ch_cnt++;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ldb_init_helper);
-+
-+int ldb_find_next_bridge_helper(struct ldb *ldb)
-+{
-+	struct device *dev = ldb->dev;
-+	struct ldb_channel *ldb_ch;
-+	int ret, i;
-+
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		ldb_ch = ldb->channel[i];
-+
-+		if (!ldb_ch->is_available)
-+			continue;
-+
-+		ret = drm_of_find_panel_or_bridge(ldb_ch->np, 1, 0,
-+						  &ldb_ch->panel,
-+						  &ldb_ch->next_bridge);
-+		if (ret) {
-+			if (ret != -EPROBE_DEFER)
-+				DRM_DEV_ERROR(dev,
-+					"failed to find panel or bridge: %d\n",
-+									ret);
-+			return ret;
-+		}
-+
-+		if (ldb_ch->panel) {
-+			ldb_ch->next_bridge = devm_drm_panel_bridge_add(dev,
-+								ldb_ch->panel);
-+			if (IS_ERR(ldb_ch->next_bridge)) {
-+				ret = PTR_ERR(ldb_ch->next_bridge);
-+				DRM_DEV_ERROR(dev,
-+					"failed to add panel bridge: %d\n",
-+									ret);
-+				return ret;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
-+
-+void ldb_add_bridge_helper(struct ldb *ldb,
-+			   const struct drm_bridge_funcs *bridge_funcs)
-+{
-+	struct ldb_channel *ldb_ch;
-+	int i;
-+
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		ldb_ch = ldb->channel[i];
-+
-+		if (!ldb_ch->is_available)
-+			continue;
-+
-+		ldb_ch->bridge.driver_private = ldb_ch;
-+		ldb_ch->bridge.funcs = bridge_funcs;
-+		ldb_ch->bridge.of_node = ldb_ch->np;
-+
-+		drm_bridge_add(&ldb_ch->bridge);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
-+
-+void ldb_remove_bridge_helper(struct ldb *ldb)
-+{
-+	struct ldb_channel *ldb_ch;
-+	int i;
-+
-+	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
-+		ldb_ch = ldb->channel[i];
-+
-+		if (!ldb_ch->is_available)
-+			continue;
-+
-+		drm_bridge_remove(&ldb_ch->bridge);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
-+
-+MODULE_DESCRIPTION("Freescale i.MX LVDS Display Bridge driver helper");
-+MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:imx-ldb-helper");
-diff --git a/include/drm/bridge/imx_ldb_helper.h b/include/drm/bridge/imx_ldb_helper.h
-new file mode 100644
-index 00000000..2a7ba97
---- /dev/null
-+++ b/include/drm/bridge/imx_ldb_helper.h
-@@ -0,0 +1,98 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+
-+/*
-+ * Copyright 2019,2020 NXP
-+ */
-+
-+#ifndef __FSL_IMX_LDB__
-+#define __FSL_IMX_LDB__
-+
-+#include <linux/device.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_encoder.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_panel.h>
-+
-+#define LDB_CH0_MODE_EN_TO_DI0		(1 << 0)
-+#define LDB_CH0_MODE_EN_TO_DI1		(3 << 0)
-+#define LDB_CH0_MODE_EN_MASK		(3 << 0)
-+#define LDB_CH1_MODE_EN_TO_DI0		(1 << 2)
-+#define LDB_CH1_MODE_EN_TO_DI1		(3 << 2)
-+#define LDB_CH1_MODE_EN_MASK		(3 << 2)
-+#define LDB_SPLIT_MODE_EN		(1 << 4)
-+#define LDB_DATA_WIDTH_CH0_24		(1 << 5)
-+#define LDB_BIT_MAP_CH0_JEIDA		(1 << 6)
-+#define LDB_DATA_WIDTH_CH1_24		(1 << 7)
-+#define LDB_BIT_MAP_CH1_JEIDA		(1 << 8)
-+#define LDB_DI0_VS_POL_ACT_LOW		(1 << 9)
-+#define LDB_DI1_VS_POL_ACT_LOW		(1 << 10)
-+
-+#define MAX_LDB_CHAN_NUM		2
-+
-+enum ldb_channel_link_type {
-+	LDB_CH_SINGLE_LINK,
-+	LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS,
-+	LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS,
-+};
-+
-+struct ldb;
-+
-+struct ldb_channel {
-+	struct ldb *ldb;
-+	struct drm_bridge bridge;
-+	struct drm_panel *panel;
-+	struct drm_bridge *next_bridge;
-+	struct device_node *np;
-+	u32 chno;
-+	bool is_available;
-+	u32 in_bus_format;
-+	u32 out_bus_format;
-+	enum ldb_channel_link_type link_type;
-+};
-+
-+struct ldb {
-+	struct regmap *regmap;
-+	struct device *dev;
-+	struct ldb_channel *channel[MAX_LDB_CHAN_NUM];
-+	unsigned int ctrl_reg;
-+	u32 ldb_ctrl;
-+	unsigned int available_ch_cnt;
-+};
-+
-+#define bridge_to_ldb_ch(b)	container_of(b, struct ldb_channel, bridge)
-+
-+bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch);
-+bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch);
-+
-+int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state);
-+
-+void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode);
-+
-+void ldb_bridge_enable_helper(struct drm_bridge *bridge);
-+
-+void ldb_bridge_disable_helper(struct drm_bridge *bridge);
-+
-+int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags);
-+
-+int ldb_init_helper(struct ldb *ldb);
-+
-+int ldb_find_next_bridge_helper(struct ldb *ldb);
-+
-+void ldb_add_bridge_helper(struct ldb *ldb,
-+			   const struct drm_bridge_funcs *bridge_funcs);
-+
-+void ldb_remove_bridge_helper(struct ldb *ldb);
-+
-+#endif /* __FSL_IMX_LDB__ */
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+@@ -0,0 +1,176 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-ldb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX8qm/qxp LVDS Display Bridge
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  The Freescale i.MX8qm/qxp LVDS Display Bridge(LDB) has two channels.
++
++  For i.MX8qxp LDB, each channel supports up to 24bpp parallel input color
++  format and can map the input to VESA or JEIDA standards.  The two channels
++  cannot be used simultaneously, that is to say, the user should pick one of
++  them to use.  Two LDB channels from two LDB instances can work together in
++  LDB split mode to support a dual link LVDS display.  The channel indexes
++  have to be different.  Channel0 outputs odd pixels and channel1 outputs
++  even pixels.
++
++  For i.MX8qm LDB, each channel additionally supports up to 30bpp parallel
++  input color format.  The two channels can be used simultaneously, either
++  in dual mode or split mode.  In dual mode, the two channels output identical
++  data.  In split mode, channel0 outputs odd pixels and channel1 outputs even
++  pixels.
++
++  A side note is that i.MX8qm/qxp LDB is officially called pixel mapper in
++  the SoC reference manuals.  The pixel mapper uses logic of LDBs embedded in
++  i.MX6qdl/sx SoCs, i.e., it is essentially based on them.  To keep the naming
++  consistency, this binding calls it LDB.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8qm-ldb
++      - fsl,imx8qxp-ldb
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: pixel clock
++      - description: bypass clock
++
++  clock-names:
++    items:
++      - const: pixel
++      - const: bypass
++
++  power-domains:
++    maxItems: 1
++
++  fsl,syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      A phandle which points to Control and Status Registers(CSR) module.
++
++  fsl,companion-ldb:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      A phandle which points to companion LDB which is used in LDB split mode.
++
++patternProperties:
++  "^channel@[0-1]$":
++    type: object
++    description: Represents a channel of LDB.
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      reg:
++        description: The channel index.
++        enum: [ 0, 1 ]
++
++      phys:
++        description: A phandle to the phy module representing the LVDS PHY.
++        maxItems: 1
++
++      phy-names:
++        const: lvds_phy
++
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port of the channel.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output port of the channel.
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++      - reg
++      - phys
++      - phy-names
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++  - clocks
++  - clock-names
++  - power-domains
++  - fsl,syscon
++  - channel@0
++  - channel@1
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8qm-ldb
++    then:
++      properties:
++        fsl,companion-ldb: false
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/firmware/imx/rsrc.h>
++    ldb {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        compatible = "fsl,imx8qxp-ldb";
++        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
++                 <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
++        clock-names = "pixel", "bypass";
++        power-domains = <&pd IMX_SC_R_LVDS_0>;
++        fsl,syscon = <&mipi_lvds_0_csr>;
++
++        channel@0 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            reg = <0>;
++            phys = <&mipi_lvds_0_phy>;
++            phy-names = "lvds_phy";
++
++            port@0 {
++                reg = <0>;
++
++                mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
++                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
++                };
++            };
++        };
++
++        channel@1 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            reg = <1>;
++            phys = <&mipi_lvds_0_phy>;
++            phy-names = "lvds_phy";
++
++            port@0 {
++                reg = <0>;
++
++                mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
++                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
++                };
++            };
++        };
++    };
 -- 
 2.7.4
 
