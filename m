@@ -1,69 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CE22F5D73
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:29:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24C02F5CBD
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBEA6E135;
-	Thu, 14 Jan 2021 09:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2CAA6E072;
+	Thu, 14 Jan 2021 09:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 529326E061
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:36:11 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id x20so6842282lfe.12
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 00:36:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gGqP5AIlQ/3sPKWxFqWQSGbJK/2glJGRflSBF6MEnRc=;
- b=OCT4NYM8fLFCM9pB68jDrPrghf91OtMDdLivY4BqywVH7zLSP36IpMtwX843hHQsMk
- 67sz3lDa6ZKjLFIJgTfhiRw0LIIkmcdeGKEri3FHC4zz9YptKgQJ+adAnAsSeg/UhAMO
- eOdHpvpPQwP+D4DbTEkz9bZelsuFoBz2U4G4q3t/snAMyaADWz03atIgSgWPYxzxZLHj
- sovEzyMnfhndnmSah+M3jeY3cCaLAfpv9pBT+s1Tnl5CLcUSiyN3Cxv+uXWYkrIhoO7f
- WSh+8hnBYLDUHCKsfgFkfFdkreZORwMXPFdV0LMCwcxBOxt0mE1hjgpTAzSKG5zdQaOo
- 2dhg==
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EFFC6E072
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:03:09 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id w124so5206789oia.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 01:03:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M2SpU3YtVk3fHAkyH4YoVmkExKtr/aqdhNIMU89mM+s=;
+ b=MPLkDIH277s12ooEyh6vtprpn/MHJyXZ9viUdtEkfJtl9Dv+Shy8pUusFQZdrDMKf9
+ sbsf+q8Cllce6TZulonndTmYO2effkUz48KmCkXaNXyz1RMNCwJc7HUclN2UO3LtVUnG
+ +/jOxySXEAV8smcy4tt8HDihtb+AGeL1/SPSQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gGqP5AIlQ/3sPKWxFqWQSGbJK/2glJGRflSBF6MEnRc=;
- b=rwNtY5DFtVUz+lqyAAPLr7p5OZ7ehDFgyp5Q/v1Ww42O/n/xSi3In8h2Y8ANdBNOGS
- L9G+iqQaAPoQAw1z0RNVlPnLw23uHICteLYQU+12eufXmm9REzpu7Lk20adt1R3TObxp
- 7ScFdxcfk6J6CZopBHuMAT1E6u0n3GpynvDM7oO12nCtfMUeiPtrr3heBdMYyz3v6wKy
- gg7cfMZJkGz4WC2YdI3lCla0JQoqCnR2lsHZaefiZ4TNd+2iqMXk3nRAuNrjUFEOCFKm
- 09iQAvbIew9mnvQOyYwqwCMVyYXIxSapHTOK9cGiIukVBsh0xV265T5q00QgFxgfRjYF
- dl4g==
-X-Gm-Message-State: AOAM5300phmxUjbPjDII/hNbFzBUhhOs85xJI6b908ggwCl2TC7Xev9j
- zKGWv1sHtqr7zM2OhJdNzj4=
-X-Google-Smtp-Source: ABdhPJwmfwmxCHtQP5uj2Dslrj7H8TPJyiQE/qZDLgHCvvSKou4Mo0p+9Z1JMFSmEkic+tY2+WGSYQ==
-X-Received: by 2002:a19:c504:: with SMTP id w4mr2803552lfe.288.1610613369720; 
- Thu, 14 Jan 2021 00:36:09 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.googlemail.com with ESMTPSA id y9sm387492ljm.94.2021.01.14.00.36.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 00:36:09 -0800 (PST)
-Subject: Re: [PATCH v5 15/21] drm/tegra: Add new UAPI to header
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <20210111130019.3515669-16-mperttunen@nvidia.com>
- <a0fdac0d-88cf-6eda-6611-fca951253060@gmail.com>
- <cc746d91-e6b2-53d8-17ff-59cbc8bb522f@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a51f7552-cec6-efe1-25dd-76422ef7a3e4@gmail.com>
-Date: Thu, 14 Jan 2021 11:36:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M2SpU3YtVk3fHAkyH4YoVmkExKtr/aqdhNIMU89mM+s=;
+ b=L73hFPZZ7a7/LdCRA8Twh3n0mHHGHJiEp2qcLxl2RDBrSHEW/3NsFMfLJbXN6Xqtsj
+ z9tFBEuysj+2+WayCjtLMPepTVcD1gWm9z06lHMRbjElQEfcFavEBI92jn+bUAOyI24Q
+ 2G7pn6iEK3UB4/aukY1//0tEQA/w2jCSX9z/SLrL8ilwU4ctaSezwj1y6FCYnF66vVbV
+ qKhtzCagg+pp9pVJaxE7dcRdgFcTZDkLm+h8OGLWBQmrMpBfFl22eL6qfO3+uBaMEfqc
+ AEPSa5PizZXgR3AMK1TcHIe7EFaO0759Ive5PPWjvCnEgP13Z7kKVFJVToa9rUmq8o+d
+ a0DQ==
+X-Gm-Message-State: AOAM5331PwHTibCCmiProU7M8c9IUHZvlGxLQ4eF8eRqp3KM1pz32D9q
+ KdmVvK/ZFZNPp4EQ+P/RjdeSIXpIyPfIzaZL3SWgtw==
+X-Google-Smtp-Source: ABdhPJw/NLDHmJl3LpZPy4aab7MitydGFYAGaqJqX+iuigNroRxFyWQFXHlqsKYoFzfs/iuXSPj9sasgK8V7p03TLPg=
+X-Received: by 2002:aca:4d08:: with SMTP id a8mr2031999oib.128.1610614988755; 
+ Thu, 14 Jan 2021 01:03:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cc746d91-e6b2-53d8-17ff-59cbc8bb522f@kapsi.fi>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 14 Jan 2021 09:28:31 +0000
+References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
+ <161055261490.6195.7986280621869334351@build.alporthouse.com>
+ <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com>
+ <161057213487.6195.581396740566956696@build.alporthouse.com>
+In-Reply-To: <161057213487.6195.581396740566956696@build.alporthouse.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 14 Jan 2021 10:02:57 +0100
+Message-ID: <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ John Stultz <john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +61,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?moderated_list=3ADMA_BUFFER_SHARING_FRAMEWORK_=3Clinaro=2Dmm=2Dsig=40l?=
+ =?UTF-8?Q?ists=2Elinaro=2Eorg=3E=2C_David_Stevens_=3Cstevensd=40chromium=2Eorg=3E=2C_Dan?=
+ =?UTF-8?Q?iel_Vetter_=3Cdaniel=2Evetter=40intel=2Ecom=3E=2C_Christian_K=C3=B6nig_=3Cchri?=
+ =?UTF-8?Q?stian=2Ekoenig=40amd=2Ecom=3E=2C_open_list=3ADMA_BUFFER_SHARING_FRAMEWOR?=
+ =?UTF-8?Q?K?= <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTMuMDEuMjAyMSAyMTo1NiwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gMS8xMy8y
-MSA4OjE0IFBNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDExLjAxLjIwMjEgMTY6MDAsIE1p
-a2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4gK3N0cnVjdCBkcm1fdGVncmFfc3VibWl0X2J1
-ZiB7Cj4+PiArwqDCoMKgIC8qKgo+Pj4gK8KgwqDCoMKgICogQG1hcHBpbmdfaWQ6IFtpbl0KPj4+
-ICvCoMKgwqDCoCAqCj4+PiArwqDCoMKgwqAgKiBJZGVudGlmaWVyIG9mIHRoZSBtYXBwaW5nIHRv
-IHVzZSBpbiB0aGUgc3VibWlzc2lvbi4KPj4+ICvCoMKgwqDCoCAqLwo+Pj4gK8KgwqDCoCBfX3Uz
-MiBtYXBwaW5nX2lkOwo+Pgo+PiBJJ20gbm93IGluIHByb2Nlc3Mgb2YgdHJ5aW5nIG91dCB0aGUg
-VUFQSSB1c2luZyBncmF0ZSBkcml2ZXJzIGFuZCB0aGlzCj4+IGJlY29tZXMgdGhlIGZpcnN0IG9i
-c3RhY2xlLgo+Pgo+PiBMb29rcyBsaWtlIHRoaXMgaXMgbm90IGdvaW5nIHRvIHdvcmsgd2VsbCBm
-b3Igb2xkZXIgVGVncmEgU29DcywgaW4KPj4gcGFydGljdWxhciBmb3IgVDIwLCB3aGljaCBoYXMg
-YSBzbWFsbCBHQVJULgo+Pgo+PiBHaXZlbiB0aGF0IHRoZSB1c2VmdWxuZXNzIG9mIHRoZSBwYXJ0
-aWFsIG1hcHBpbmcgZmVhdHVyZSBpcyB2ZXJ5Cj4+IHF1ZXN0aW9uYWJsZSB1bnRpbCBpdCB3aWxs
-IGJlIHByb3ZlbiB3aXRoIGEgcmVhbCB1c2Vyc3BhY2UsIHdlIHNob3VsZAo+PiBzdGFydCB3aXRo
-IGEgZHluYW1pYyBtYXBwaW5ncyB0aGF0IGFyZSBkb25lIGF0IGEgdGltZSBvZiBqb2Igc3VibWlz
-c2lvbi4KPj4KPj4gRFJNIGFscmVhZHkgc2hvdWxkIGhhdmUgZXZlcnl0aGluZyBuZWNlc3Nhcnkg
-Zm9yIGNyZWF0aW5nIGFuZCBtYW5hZ2luZwo+PiBjYWNoZXMgb2YgbWFwcGluZ3MsIGdyYXRlIGtl
-cm5lbCBkcml2ZXIgaGFzIGJlZW4gdXNpbmcgZHJtX21tX3NjYW4gZm9yIGEKPj4gbG9uZyB0aW1l
-IG5vdyBmb3IgdGhhdC4KPj4KPj4gSXQgc2hvdWxkIGJlIGZpbmUgdG8gc3VwcG9ydCB0aGUgc3Rh
-dGljIG1hcHBpbmcgZmVhdHVyZSwgYnV0IGl0IHNob3VsZAo+PiBiZSBkb25lIHNlcGFyYXRlbHkg
-d2l0aCB0aGUgZHJtX21tIGludGVncmF0aW9uLCBJTU8uCj4+Cj4+IFdoYXQgZG8gdGhpbms/Cj4+
-Cj4gCj4gQ2FuIHlvdSBlbGFib3JhdGUgb24gdGhlIHJlcXVpcmVtZW50cyB0byBiZSBhYmxlIHRv
-IHVzZSBHQVJUPyBBcmUgdGhlcmUKPiBhbnkgb3RoZXIgcmVhc29ucyB0aGlzIHdvdWxkIG5vdCB3
-b3JrIG9uIG9sZGVyIGNoaXBzPwoKV2UgaGF2ZSBhbGwgRFJNIGRldmljZXMgaW4gYSBzaW5nbGUg
-YWRkcmVzcyBzcGFjZSBvbiBUMzArLCBoZW5jZSBoYXZpbmcKZHVwbGljYXRlZCBtYXBwaW5ncyBm
-b3IgZWFjaCBkZXZpY2Ugc2hvdWxkIGJlIGEgYml0IHdhc3RlZnVsLgoKPiBJIHRoaW5rIHdlIHNo
-b3VsZCBrZWVwIENIQU5ORUxfTUFQIGFuZCBtYXBwaW5nX2lkcywgYnV0IGlmIGUuZy4gZm9yIEdB
-UlQKPiB3ZSBjYW5ub3QgZG8gbWFwcGluZyBpbW1lZGlhdGVseSBhdCBDSEFOTkVMX01BUCB0aW1l
-LCB3ZSBjYW4ganVzdCB0cmVhdAo+IGl0IGFzIGEgInJlZ2lzdHJhdGlvbiIgY2FsbCBmb3IgdGhl
-IEdFTSBvYmplY3QgLSBwb3RlbnRpYWxseSBuby1vcCBsaWtlCj4gZGlyZWN0IHBoeXNpY2FsIGFk
-ZHJlc3NpbmcgaXMuIFdlIGNhbiB0aGVuIGRvIHdoYXRldmVyIGlzIG5lZWRlZCBhdAo+IHN1Ym1p
-dCB0aW1lLiBUaGlzIHdheSB3ZSBjYW4gaGF2ZSB0aGUgYmVzdCBvZiBib3RoIHdvcmxkcy4KCkkg
-aGF2ZSBzb21lIHRob3VnaHRzIG5vdywgYnV0IG5vdGhpbmcgY29uY3JldGUgeWV0LiBNYXliZSB3
-ZSB3aWxsIG5lZWQKdG8gY3JlYXRlIGEgcGVyLVNvQyBvcHMgZm9yIE1NLgoKSSdsbCBmaW5pc2gg
-d2l0aCB0cnlpbmcgd2hhdCB3ZSBjdXJyZW50bHkgaGF2ZSB0byBzZWUgd2hhdCBlbHNlIGlzCm1p
-c3NpbmcgYW5kIHRoZW4gd2Ugd2lsbCBkZWNpZGUgd2hhdCB0byBkbyBhYm91dCBpdC4KCj4gTm90
-ZSB0aGF0IHBhcnRpYWwgbWFwcGluZ3MgYXJlIGFscmVhZHkgbm90IHByZXNlbnQgaW4gdGhpcyB2
-ZXJzaW9uIG9mCj4gdGhlIFVBUEkuCgpPaCwgcmlnaHQgOikgSSBoYXZlbid0IGdvdCBjbG9zZWx5
-IHRvIHRoaXMgcGFydCBvZiByZXZpZXdpbmcgeWV0LgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Jan 13, 2021 at 10:08 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> Quoting Daniel Vetter (2021-01-13 20:50:11)
+> > On Wed, Jan 13, 2021 at 4:43 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > >
+> > > Quoting Daniel Vetter (2021-01-13 14:06:04)
+> > > > We have too many people abusing the struct page they can get at but
+> > > > really shouldn't in importers. Aside from that the backing page might
+> > > > simply not exist (for dynamic p2p mappings) looking at it and using it
+> > > > e.g. for mmap can also wreak the page handling of the exporter
+> > > > completely. Importers really must go through the proper interface like
+> > > > dma_buf_mmap for everything.
+> > >
+> > > If the exporter doesn't want to expose the struct page, why are they
+> > > setting it in the exported sg_table?
+> >
+> > You need to store it somewhere, otherwise the dma-api doesn't work.
+> > Essentially this achieves clearing/resetting the struct page pointer,
+> > without additional allocations somewhere, or tons of driver changes
+> > (since presumably the driver does keep track of the struct page
+> > somewhere too).
+>
+> Only for mapping, and that's before the export -- if there's even a
+> struct page to begin with.
+>
+> > Also as long as we have random importers looking at struct page we
+> > can't just remove it, or crashes everywhere. So it has to be some
+> > debug option you can disable.
+>
+> Totally agreed that nothing generic can rely on pages being transported
+> via dma-buf, and memfd is there if you do want a suitable transport. The
+> one I don't know about is dma-buf heap, do both parties there consent to
+> transport pages via the dma-buf? i.e. do they have special cases for
+> import/export between heaps?
+
+heaps shouldn't be any different wrt the interface exposed to
+importers. Adding John just in case I missed something.
+
+I think the only problem we have is that the first import for ttm
+simply pulled out the struct page and ignored the sgtable otherwise,
+then that copypasted to places and we're still have some of that left.
+Although it's a lot better. So largely the problem is importers being
+a bit silly.
+
+I also think I should change the defaulty y to default y if
+DMA_API_DEBUG or something like that, to make sure it's actually
+enabled often enough.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
