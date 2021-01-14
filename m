@@ -2,39 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158E92F5595
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 01:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE55C2F55BF
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 02:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFE1892D8;
-	Thu, 14 Jan 2021 00:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED9E989CB2;
+	Thu, 14 Jan 2021 01:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 602CA892D8;
- Thu, 14 Jan 2021 00:31:15 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DGQGQ2Jmmz9sVw;
- Thu, 14 Jan 2021 11:31:09 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1610584272;
- bh=It9u9AKn8AqBdEwES376MSZ2+L2Lf5GTcdM2JalDxYM=;
- h=Date:From:To:Cc:Subject:From;
- b=q98T5wVzCNjJktmx2+1FOtj7sQImUpqYcy0fQPY0+Torhr+Xfw9453WacLy1wXVaM
- IVpxEFG5LZ7lltJkDI8SY9CoZ5d4Lu5/9Ey23znTPXn5Oov/f4Z206iLfedsP2zX1v
- 9p1gRN6gFB+yjARaPX5XYu+5U+So7m4Je8jMkeo73h43zoT4N3uIIdFMpo/2iFPCin
- joggwauko+vU4xegW/hiBkMZDosMwL+F4NqwQo8sdUhynId4ZhoQosTEdzokcCSW3v
- 9spztwD1RIms1nUNwdbnX1Ku7aMTZ6pz1p8y1YTmnlqcjnaQ6VbdIBpvCbpk5Vw70y
- Q9CSxN7ROv4LA==
-Date: Thu, 14 Jan 2021 11:31:07 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20210114113107.622102e0@canb.auug.org.au>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3B189CB2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 01:16:47 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id v67so5672950lfa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Jan 2021 17:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HV7acaig/IuRZH0FvYIco0+cS2A927XztjWMUTsde/M=;
+ b=IXFf8TxyLoXqmiwzz7jnOBU1brF71r/TNOHrgUJum6TzTj2MIzEndUMppFjUPpZn98
+ 4HDRv5Mvwa5T7985Dy+e/m+R7NkWVG/359jcS5PeLV5tSzqbLd3rGClr5PYTPtr351Bv
+ EyCVa+dYmnuYdWmJDX3DTEXb6uiUo0D9zv4W+ZWMNR0210lP16WR8KA9MbrSNaD39ByL
+ s/nV32dLVX9hpWXJPGrnyO/BnYr3h9GdmP62XTGTGY6YQeKEI2gpmkAFWyeQ2PDcKV+v
+ 77jr6b5CADe+kxxmnh17PJZXtSagcndB2UDmXd48HiYlMzsV3htGuZTOjwhNzedCh3Cx
+ kDfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HV7acaig/IuRZH0FvYIco0+cS2A927XztjWMUTsde/M=;
+ b=qA/hxfshdr7jlzWyfFGf+Ft9RF598iD506/RR+kV8Jc+k2EjxZ7fY4aEiaqu/Lttqi
+ cbzCS/E0GkzDHwy5knQNaCKR+ePNxQx1cMZI7ROaZrcnfS/USnxPaRUIGj84TRr0Z3gh
+ piqx3jd6BXweITn/XBCeqhXBBmlMW19OMsBZVJuza7pbRrzdlN31Hk0bGkcuOZWXTjAr
+ 8CD2lm0EsHSdxilBY7+6oU4DrboSRKc5kIWGTTSfhB9dU4i0qzT+Eqh+ixjI1lDdhkEk
+ /ST+mstzBhYw1Fr4gCxdhA7AwO5QFXd6PD1z6IVOAJH5jzt2Lnys0PPTed81ndL47lbs
+ wTnA==
+X-Gm-Message-State: AOAM5313kb+N+epXDpw8q6hg4K7bOPIbi2itAXRuysqtCZy1lyyp5lJU
+ ZI63EaQnfC5nYsGe4pCu4wh9lFK9c9Bfg25WUoM2RQ==
+X-Google-Smtp-Source: ABdhPJyI7Qrj9xwod84Gx794EFJRqixlMuHqyjZlGkjTwv6t48YBJWudycgrvf0f6eTRNZ69PMLPYboo+0BS1hJIeXs=
+X-Received: by 2002:ac2:5145:: with SMTP id q5mr1915337lfd.626.1610587005736; 
+ Wed, 13 Jan 2021 17:16:45 -0800 (PST)
 MIME-Version: 1.0
+References: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+In-Reply-To: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
+From: John Stultz <john.stultz@linaro.org>
+Date: Wed, 13 Jan 2021 17:16:34 -0800
+Message-ID: <CALAqxLVCf0w2oO2CPYp4R=Fk2yPGptDXY3v+RW5qzycg8R3NeA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dma-fence: allow signaling drivers to set fence
+ timestamp
+To: Veera Sundaram Sankaran <veeras@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,70 +61,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============0295247172=="
+Cc: David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
+ abhinavk@codeaurora.org, Sean Paul <sean@poorly.run>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0295247172==
-Content-Type: multipart/signed; boundary="Sig_/.60J4ibaN=8y4IZ8pGCRClm";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+On Wed, Jan 13, 2021 at 11:52 AM Veera Sundaram Sankaran
+<veeras@codeaurora.org> wrote:
+> Some drivers have hardware capability to get the precise HW timestamp
+> of certain events based on which the fences are triggered. The delta
+> between the event HW timestamp & current HW reference timestamp can
+> be used to calculate the timestamp in kernel's CLOCK_MONOTONIC time
+> domain. This allows it to set accurate timestamp factoring out any
+> software and IRQ latencies. Add a timestamp variant of fence signal
+> function, dma_fence_signal_timestamp to allow drivers to update the
+> precise timestamp for fences.
+>
+> Changes in v2:
+> - Add a new fence signal variant instead of modifying fence struct
+>
+> Changes in v3:
+> - Add timestamp domain information to commit-text and
+> dma_fence_signal_timestamp documentation
+>
+> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
 
---Sig_/.60J4ibaN=8y4IZ8pGCRClm
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Looks ok to me, also did some brief testing w/ AOSP and didn't see any
+regressions.
 
-Hi all,
+Reviewed-by: John Stultz <john.stultz@linaro.org>
 
-After merging the drm-misc tree, today's linux-next build (arm
-multi_v7_defconfig) failed like this:
-
-drivers/gpu/drm/drm_cache.c: In function 'drm_need_swiotlb':
-drivers/gpu/drm/drm_cache.c:202:6: error: implicit declaration of function =
-'mem_encrypt_active' [-Werror=3Dimplicit-function-declaration]
-  202 |  if (mem_encrypt_active())
-      |      ^~~~~~~~~~~~~~~~~~
-
-
-Caused by commit
-
-  3abc66706385 ("drm: Implement drm_need_swiotlb() in drm_cache.c")
-
-I have used the drm-misc tree from next-20210107 again for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/.60J4ibaN=8y4IZ8pGCRClm
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl//kMsACgkQAVBC80lX
-0Gzqswf/ULSfqCkg299tDBU1Jv00UQUpTkd2drH/SRDVl76H3qegClo8UzQnkpNS
-g4xUBFGhY5gnjwrT7lbeDobdFaZxDA6pJWfAESEYev7/Sm31gKxNXQBTVDF/+yEk
-8gIcSjyg24WYTjSZCNLOd4Fo9GoDur5nReYvjz0aSF3+YwHi8QcFKVawcgtiufEj
-QK/hjDBQfWuULsFe2I1VeXP+Z9MGRMvm2udW/Pok1vh1GmKLSGCIcRrdAQD0u9Dc
-uYHXUAFNRC/+mpWEOcAXXJUbwHwMiI5rb9GjqZmd/JWM1hhidDcbtZg/CqpsMYMk
-maZV82UkTtFvMKEo3DhJQBBREE+wiA==
-=V+bW
------END PGP SIGNATURE-----
-
---Sig_/.60J4ibaN=8y4IZ8pGCRClm--
-
---===============0295247172==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0295247172==--
