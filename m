@@ -2,40 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95C82F5CC3
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E9B2F5CF1
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 10:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6BE26E07F;
-	Thu, 14 Jan 2021 09:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86FF6E08C;
+	Thu, 14 Jan 2021 09:11:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E941A6E07F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:04:47 +0000 (UTC)
-IronPort-SDR: 2rgORN+pWIW6jZFaxDs8CfkguWvFOvbISTgr/jzB+IHxgKdUh1e6H9bZHXxi7TaB4Fdlwry1sQ
- 87MDf5QFUcxQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="239879114"
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="239879114"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 01:04:43 -0800
-IronPort-SDR: G8QGeNRrjTIX+UfYb2dYkwKbshkJZWnK/VbTJufU8URmutTPv10plPssRnoEi0mIXK3ALsiWcT
- DjXC4Fny/cWg==
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="382199636"
-Received: from dforourk-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.213.254.146])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 01:04:22 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 00/31] Rid W=1 warnings from Video
-In-Reply-To: <20210113202546.GG3975472@dell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFC06E08C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 09:11:13 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id x13so4575253oto.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 01:11:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1QrDVL3JghRKNRHXL12rqtEE0tKj2MqpWK7d7Dp7koU=;
+ b=j27X4dwjO4Ly94sasNgINsUIh1NWEsF5UTfak9x5atHAeWWZiIbuaLwkiXiyHR4lHC
+ 2nQXhfulw5ihbAKgOjlO32328eHJ98wHGC3O3Tms28ltWSytb+hNjW6GzhnnBj9Ws/I/
+ v9vITQfeAskAHWoUudBGMewa24VNZNWjqsIyw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1QrDVL3JghRKNRHXL12rqtEE0tKj2MqpWK7d7Dp7koU=;
+ b=HX/TSvDxOC9AuzkD+eZ0r25nFYmws7v4UA2ox6KzbymQZUyO2/EBBcRmXnUdJ8tAVa
+ gbyW2Vn6a/k8SnSYY/jU2sAqh0rosBH3htFiqemJWJuGe7Xn0I2Rrde2QJmzzYgtPCAH
+ A3X37ky0vnanlU5bQDkNzwvjONJ+ke68tDR5F31DpeRNIWPKHfKJm5EkBUy3Om6ocJ0a
+ c6TnYuQfNN0PrnpWFTuN4w0HXe81v/tMkSWYMPOtHGGtKfqdeZWYq7U+lMQb/g2DvkVh
+ KfveQn01PNi/s9w20A1Rwe3Un0N7jIqrFLUVPUdInYF3l0l6fGdL2Ep/f2jJQj8vv31/
+ F9Ug==
+X-Gm-Message-State: AOAM531mdvgscyqDBTHo38gyMsh8EzTyrH1sl/FiXaxX0MTALFt9d8VR
+ VNPKH29Z3ZI2hxERQV8/JYCJkE6EjMOGUqPqSBhlug==
+X-Google-Smtp-Source: ABdhPJzCOWPyVHkXXcDvYk5dCjB0QhimhzZ6T8IE/czFeItPQR0TAeKiu6z7JidRPyHoe2BOUth2Y9ayNic9tvMeU0U=
+X-Received: by 2002:a9d:23ca:: with SMTP id t68mr4050934otb.281.1610615472722; 
+ Thu, 14 Jan 2021 01:11:12 -0800 (PST)
+MIME-Version: 1.0
 References: <20210113145009.1272040-1-lee.jones@linaro.org>
  <20210113190118.GA180942@ravnborg.org> <20210113202546.GG3975472@dell>
-Date: Thu, 14 Jan 2021 11:04:19 +0200
-Message-ID: <877dofriss.fsf@intel.com>
-MIME-Version: 1.0
+ <877dofriss.fsf@intel.com>
+In-Reply-To: <877dofriss.fsf@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 14 Jan 2021 10:11:01 +0100
+Message-ID: <CAKMK7uEU32=Sw4F6b4RzkX0Y6svVn0nL+b6cm6e6KYN8bni_SQ@mail.gmail.com>
+Subject: Re: [PATCH 00/31] Rid W=1 warnings from Video
+To: Jani Nikula <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,80 +59,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jakub Jelinek <jakub@redhat.com>, linux-fbdev@vger.kernel.org,
+Cc: "Eddie C. Dost" <ecd@skynet.be>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  Anthony Tong <atong@uiuc.edu>, Alex Kern <alex.kern@gmx.de>,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Software Engineering <lg@denx.de>, Paul Mundt <lethal@chaoticdreams.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Oliver Kropp <dok@directfb.org>,
+ Software Engineering <lg@denx.de>, Antonino Daplas <adaplas@pol.net>,
  Frodo Looijaard <frodol@dds.nl>, Steffen Trumtrar <s.trumtrar@pengutronix.de>,
- James Simmons <jsimmons@users.sf.net>, Urs Ganse <ursg@uni.de>,
+ Lee Jones <lee.jones@linaro.org>, Urs Ganse <ursg@uni.de>,
  Thibaut VARENE <varenet@parisc-linux.org>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Helge Deller <deller@gmx.de>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, Ani Joshi <ajoshi@unixbox.com>,
- Emmanuel Marty <core@ggi-project.org>,
- "Mark D. Studebaker" <mdsxyz123@yahoo.com>, daniel.mantione@freepascal.org,
+ Evgeny Novikov <novikov@ispras.ru>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Ani Joshi <ajoshi@unixbox.com>, daniel.mantione@freepascal.org,
+ "Mark D. Studebaker" <mdsxyz123@yahoo.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Emmanuel Marty <core@ggi-project.org>,
  carter@compsci.bristol.ac.uk, Alan Cox <alan@redhat.com>,
- Jeff Garzik <jgarzik@pobox.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- "Eddie C. Dost" <ecd@skynet.be>, Ani Joshi <ajoshi@shell.unixbox.com>,
+ Jeff Garzik <jgarzik@pobox.com>, Ilario Nardinocchi <nardinoc@cs.unibo.it>,
+ Jakub Jelinek <jakub@redhat.com>, Ani Joshi <ajoshi@shell.unixbox.com>,
  "Thomas J. Moore" <dark@mama.indstate.edu>, Arnd Bergmann <arnd@arndb.de>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  John Fremlin <vii@users.sourceforge.net>,
- Ilario Nardinocchi <nardinoc@cs.unibo.it>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  Thomas Winischhofer <thomas@winischhofer.net>,
- Jakub Jelinek <jj@ultra.linux.cz>, William Rucklidge <wjr@cs.cornell.edu>,
- Antonino Daplas <adaplas@pol.net>, Brad Douglas <brad@neruo.com>,
- Ralph Metzler <rjkm@thp.uni-koeln.de>, Alex Dewar <alex.dewar90@gmail.com>,
- Philip Edelbrock <phil@netroedge.com>, Jim Hague <jim.hague@acm.org>,
+ William Rucklidge <wjr@cs.cornell.edu>, Paul Mundt <lethal@chaoticdreams.org>,
+ Brad Douglas <brad@neruo.com>, Ralph Metzler <rjkm@thp.uni-koeln.de>,
+ James Simmons <jsimmons@users.sf.net>, Ghozlane Toumi <gtoumi@laposte.net>,
+ Jim Hague <jim.hague@acm.org>,
  Egbert Eich <Egbert.Eich@physik.tu-darmstadt.de>,
  Jes Sorensen <jds@kom.auc.dk>, Gerd Knorr <kraxel@goldbach.in-berlin.de>,
- Jingoo Han <jingoohan1@gmail.com>, Oliver Kropp <dok@directfb.org>,
- Martin Mares <mj@ucw.cz>, linux-kernel@vger.kernel.org,
- Ben Dooks <ben@simtec.co.uk>, Hannu Mallat <hmallat@cc.hut.fi>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Martin Mares <mj@ucw.cz>,
+ Philip Edelbrock <phil@netroedge.com>, Ben Dooks <ben@simtec.co.uk>,
+ Hannu Mallat <hmallat@cc.hut.fi>,
  Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Ghozlane Toumi <gtoumi@laposte.net>, Mike Rapoport <rppt@kernel.org>
+ Jakub Jelinek <jj@ultra.linux.cz>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Jan 2021, Lee Jones <lee.jones@linaro.org> wrote:
-> On Wed, 13 Jan 2021, Sam Ravnborg wrote:
+On Thu, Jan 14, 2021 at 10:04 AM Jani Nikula
+<jani.nikula@linux.intel.com> wrote:
 >
->> Hi Lee,
->> 
->> On Wed, Jan 13, 2021 at 02:49:38PM +0000, Lee Jones wrote:
->> > This set is part of a larger effort attempting to clean-up W=1
->> > kernel builds, which are currently overwhelmingly riddled with
->> > niggly little warnings.
->> > 
->> > This patch-set clears all of the W=1 warnings currently residing
->> > in drivers/video.
->> 
->> I am sorry to say that I expect most of your nice patches to clash
->> with patches that is already present in drm-misc-next.
->> 
->> drivers/video/ are warning free with W=1 in drm-misc-next today.
->> 
->> I do not know why drm-misc-next is not yet pullled into linux-next.
+> On Wed, 13 Jan 2021, Lee Jones <lee.jones@linaro.org> wrote:
+> > On Wed, 13 Jan 2021, Sam Ravnborg wrote:
+> >
+> >> Hi Lee,
+> >>
+> >> On Wed, Jan 13, 2021 at 02:49:38PM +0000, Lee Jones wrote:
+> >> > This set is part of a larger effort attempting to clean-up W=1
+> >> > kernel builds, which are currently overwhelmingly riddled with
+> >> > niggly little warnings.
+> >> >
+> >> > This patch-set clears all of the W=1 warnings currently residing
+> >> > in drivers/video.
+> >>
+> >> I am sorry to say that I expect most of your nice patches to clash
+> >> with patches that is already present in drm-misc-next.
+> >>
+> >> drivers/video/ are warning free with W=1 in drm-misc-next today.
+> >>
+> >> I do not know why drm-misc-next is not yet pullled into linux-next.
+> >
+> > Well that kinda sucks.  What are the chances of that?
+> >
+> > Most of my patches fix issues that have been there for years!
+
+I planned to go through them all today, let's see what's still needed.
+
+> We auto-update the for-linux-next and for-linux-next-fixes branches, and
+> they seem to be up-to-date [1].
+
+It only happened last week instead of right after -rc1 due to some
+confusion, but it should have been in linux-next for a few days
+already.
+
+> How recent are the fixes, maybe because of this: [2]?
 >
-> Well that kinda sucks.  What are the chances of that?
+> BR,
+> Jani.
 >
-> Most of my patches fix issues that have been there for years!
+>
+> [1] https://cgit.freedesktop.org/drm/drm-misc
+> [2] http://lore.kernel.org/r/20210114113107.622102e0@canb.auug.org.au
 
-We auto-update the for-linux-next and for-linux-next-fixes branches, and
-they seem to be up-to-date [1].
+Patch for that just got committted, so this shouldn't be too big a
+window for drm-misc-next to be excluded should have been very small.
+-Daniel
 
-How recent are the fixes, maybe because of this: [2]?
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-BR,
-Jani.
 
-
-[1] https://cgit.freedesktop.org/drm/drm-misc
-[2] http://lore.kernel.org/r/20210114113107.622102e0@canb.auug.org.au
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
