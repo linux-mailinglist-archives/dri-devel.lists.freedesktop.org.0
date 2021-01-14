@@ -2,28 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E4B2F5BF5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 09:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D052F5BF6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 09:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F8C6E038;
-	Thu, 14 Jan 2021 08:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 839296E03E;
+	Thu, 14 Jan 2021 08:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA606E038
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:05:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7BC45AE61;
- Thu, 14 Jan 2021 08:05:38 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-Subject: [PATCH] drm: Include <linux/mem_encrypt.h> in drm_cache.c
-Date: Thu, 14 Jan 2021 09:05:35 +0100
-Message-Id: <20210114080535.17132-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA7786E03E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 08:07:04 +0000 (UTC)
+Date: Thu, 14 Jan 2021 08:06:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1610611621;
+ bh=oZoLOvB8GFNjTNukq9k4F1x8Zrh7VuJWPVVKWBKbx6E=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=QntvKbV1vbBi+N/094QDG70LEkXfRBGSma8e3IoD4jHW+TxXVRJbXS9E1IGSKVB4d
+ r1x0dNCfc3xC0p7aPRVYcrCXoU/zHBPHs6VcIudLRyY/D8YlQtBOAIlUwlLWFsLTy6
+ mmrHtEA0JagQIO6GtkHlDdNY/uA5IsOJr5urCGRkg+G8K4w/hmRuPgq8lufieWChJD
+ 5TcCRFeHcuvG+KLwDvBouFhhnl7ADS8pN4F/SPg4uoyG/3rE7WKxn3YWUzTM7WuiUy
+ 5RjlIBQoAGXy+1qVUL3Mhm74oiIaUtj7oCiQnrh+BFVUKoZzfMmZCwRP8ixSh6c4yY
+ 2Kh9d84w2LHiw==
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v6 15/16] drm: drm_crc: fix a kernel-doc markup
+Message-ID: <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
+In-Reply-To: <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org>
+ <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,34 +49,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGZ1bmN0aW9uIGRybV9uZWVkX3N3aW90YmwoKSBuZWVkcyBtZW1fZW5jcnlwdF9hY3RpdmUo
-KSBmcm9tCjxsaW51eC9tZW1fZW5jcnlwdC5oPi4gVGhlIGluY2x1ZGUgZ290IGxvc3Qgd2hlbiBy
-ZWZhY3RvcmluZyB0aGUKY29kZSByZWNlbnRseS4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpGaXhlczogM2FiYzY2NzA2Mzg1ICgiZHJtOiBJ
-bXBsZW1lbnQgZHJtX25lZWRfc3dpb3RsYigpIGluIGRybV9jYWNoZS5jIikKUmVwb3J0ZWQtYnk6
-IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpDYzogVGhvbWFzIFppbW1lcm1hbm4g
-PHR6aW1tZXJtYW5uQHN1c2UuZGU+CkNjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
-bmlnQGFtZC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpD
-YzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4K
-Q2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KQ2M6IERhdmlkIEFpcmxpZSA8
-YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2NhY2hlLmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2FjaGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2Fj
-aGUuYwppbmRleCA0OTU1MWE3ZmEyMmYuLjc5YTUwZWYxMjUwZiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9jYWNoZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2FjaGUuYwpA
-QCAtMzAsNiArMzAsNyBAQAogCiAjaW5jbHVkZSA8bGludXgvZXhwb3J0Lmg+CiAjaW5jbHVkZSA8
-bGludXgvaGlnaG1lbS5oPgorI2luY2x1ZGUgPGxpbnV4L21lbV9lbmNyeXB0Lmg+CiAjaW5jbHVk
-ZSA8eGVuL3hlbi5oPgogCiAjaW5jbHVkZSA8ZHJtL2RybV9jYWNoZS5oPgotLSAKMi4yOS4yCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thursday, January 14th, 2021 at 9:04 AM, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> A function has a different name between their prototype
+> and its kernel-doc markup:
+>
+> 	../include/drm/drm_crtc.h:1257: warning: expecting prototype for drm_crtc_alloc_with_planes(). Prototype was for drmm_crtc_alloc_with_planes() instead
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Acked-by: Simon Ser <contact@emersion.fr>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
