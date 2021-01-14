@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91392F65B1
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2B82F65B6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Jan 2021 17:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 177CA6E17E;
-	Thu, 14 Jan 2021 16:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7AE76E027;
+	Thu, 14 Jan 2021 16:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDCBE89F73
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E366E17E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 16:24:14 +0000 (UTC)
 Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net
  [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C78A91508;
- Thu, 14 Jan 2021 17:24:08 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 409818D7;
+ Thu, 14 Jan 2021 17:24:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1610641449;
- bh=ZiaSi4ZIWMnQkmja46QYdDXMyRy892v7aQHp0ryTsOs=;
+ bh=WUVDqOVKjC8/d7VNEAOBw0f9CPhuvr9vlUwSUsdupCg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KG3s7gA+Xy/XClOU5kQw+8Zkf7d1TcsumlXMtrrSvfHE9WySUivfrJhIyRUUCWNSk
- 0ToT9s6kb9STRI7Sl6omr6Zn5ozQ1+q/JEYIp6vJXjTvsa8m42ptRP1CAyQeGz5pWp
- SkVb45F2fd6j99BfDu9+idwqZksA84gAr7TQl13Y=
+ b=C28r2MV6+oV8IduYuL7mDkfyWbRSz2NASyy5jWs1U/fQepz/kWUy3c6Wdbz6Qf4oa
+ 7xm3gxzgXIQj3q+l3f2WsR+U5yoGu5OhaorDurZyv2EtLD26vE+MVGkcmI7VW8V/zx
+ wD03NWXMkLLEOf19ld/YlMOaXBNADF486nzslKpY=
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 07/10] drm: rcar-du: Provide for_each_group helper
-Date: Thu, 14 Jan 2021 16:22:52 +0000
-Message-Id: <20210114162255.705868-8-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v4 08/10] drm: rcar-du: Create a group state object
+Date: Thu, 14 Jan 2021 16:22:53 +0000
+Message-Id: <20210114162255.705868-9-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20210114162255.705868-1-kieran.bingham+renesas@ideasonboard.com>
@@ -55,76 +55,305 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactoring of the group control code will soon require more iteration
-over the available groups. Simplify this process by introducing a group
-iteration helper.
+Create a new private state object for the DU groups, and move the
+initialisation of a group object to a new function rcar_du_group_init().
 
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
+Changes since v3:
+- Rebase to v5.11
+- Fix pointer passing for drm_atomic_private_obj_init()
+- Fix checkpatch.pl --strict warning about if (state == NULL)
+
 Changes since v2:
 
-- Don't assign __group in the condition part of the for statement of the
-  for_each_rcdu_group() macro
+- Call mutex_destroy() when cleaning up the group
+- Include mutex.h and slab.h
+- Squash "drm: rcar-du: Add rcar_du_get_{old,new}_group_state()"
 
- drivers/gpu/drm/rcar-du/rcar_du_drv.h |  5 +++++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 10 ++--------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 144 ++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  29 +++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  27 +----
+ 3 files changed, 177 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 02ca2d0e1b55..e792ba7f5145 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -104,6 +104,11 @@ static inline struct rcar_du_device *to_rcar_du_device(struct drm_device *dev)
- 	return container_of(dev, struct rcar_du_device, ddev);
- }
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+index 88a783ceb3e9..7c13def703b7 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+@@ -25,6 +25,11 @@
  
-+#define for_each_rcdu_group(__rcdu, __group, __i) \
-+	for ((__i) = 0, (__group) = &(__rcdu)->groups[0]; \
-+	     (__i) < DIV_ROUND_UP((__rcdu)->num_crtcs, 2); \
-+	     __i++, __group++)
+ #include <linux/clk.h>
+ #include <linux/io.h>
++#include <linux/slab.h>
 +
- static inline bool rcar_du_has(struct rcar_du_device *rcdu,
- 			       unsigned int feature)
- {
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_device.h>
+ 
+ #include "rcar_du_drv.h"
+ #include "rcar_du_group.h"
+@@ -361,3 +366,142 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
+ 
+ 	return rcar_du_set_dpad0_vsp1_routing(rgrp->dev);
+ }
++
++/* -----------------------------------------------------------------------------
++ * Group State Handling
++ */
++
++static struct drm_private_state *
++rcar_du_group_atomic_duplicate_state(struct drm_private_obj *obj)
++{
++	struct rcar_du_group_state *state;
++
++	if (WARN_ON(!obj->state))
++		return NULL;
++
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return NULL;
++
++	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->state);
++
++	return &state->state;
++}
++
++static void rcar_du_group_atomic_destroy_state(struct drm_private_obj *obj,
++					       struct drm_private_state *state)
++{
++	kfree(to_rcar_group_state(state));
++}
++
++static const struct drm_private_state_funcs rcar_du_group_state_funcs = {
++	.atomic_duplicate_state = rcar_du_group_atomic_duplicate_state,
++	.atomic_destroy_state = rcar_du_group_atomic_destroy_state,
++};
++
++/**
++ * rcar_du_get_old_group_state - get old group state, if it exists
++ * @state: global atomic state object
++ * @rgrp: group to grab
++ *
++ * This function returns the old group state for the given group, or
++ * NULL if the group is not part of the global atomic state.
++ */
++struct rcar_du_group_state *
++rcar_du_get_old_group_state(struct drm_atomic_state *state,
++			    struct rcar_du_group *rgrp)
++{
++	struct drm_private_obj *obj = &rgrp->private;
++	struct drm_private_state *pstate;
++	unsigned int i;
++
++	for (i = 0; i < state->num_private_objs; i++) {
++		if (obj == state->private_objs[i].ptr) {
++			pstate = state->private_objs[i].old_state;
++			return to_rcar_group_state(pstate);
++		}
++	}
++
++	return NULL;
++}
++
++/**
++ * rcar_du_get_new_group_state - get new group state, if it exists
++ * @state: global atomic state object
++ * @rgrp: group to grab
++ *
++ * This function returns the new group state for the given group, or
++ * NULL if the group is not part of the global atomic state.
++ */
++struct rcar_du_group_state *
++rcar_du_get_new_group_state(struct drm_atomic_state *state,
++			    struct rcar_du_group *rgrp)
++{
++	struct drm_private_obj *obj = &rgrp->private;
++	struct drm_private_state *pstate;
++	unsigned int i;
++
++	for (i = 0; i < state->num_private_objs; i++) {
++		if (obj == state->private_objs[i].ptr) {
++			pstate = state->private_objs[i].new_state;
++			return to_rcar_group_state(pstate);
++		}
++	}
++
++	return NULL;
++}
++
++/* -----------------------------------------------------------------------------
++ * Init and Cleanup
++ */
++
++/*
++ * rcar_du_group_init - Initialise and reset a group object
++ *
++ * Return 0 in case of success or a negative error code otherwise.
++ */
++int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
++		       unsigned int index)
++{
++	static const unsigned int mmio_offsets[] = {
++		DU0_REG_OFFSET, DU2_REG_OFFSET
++	};
++
++	struct rcar_du_group_state *state;
++
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return -ENOMEM;
++
++	drm_atomic_private_obj_init(&rcdu->ddev, &rgrp->private, &state->state,
++				    &rcar_du_group_state_funcs);
++
++	mutex_init(&rgrp->lock);
++
++	rgrp->dev = rcdu;
++	rgrp->mmio_offset = mmio_offsets[index];
++	rgrp->index = index;
++	/* Extract the channel mask for this group only. */
++	rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * index))
++			    & GENMASK(1, 0);
++	rgrp->num_crtcs = hweight8(rgrp->channels_mask);
++
++	/*
++	 * If we have more than one CRTC in this group pre-associate
++	 * the low-order planes with CRTC 0 and the high-order planes
++	 * with CRTC 1 to minimize flicker occurring when the
++	 * association is changed.
++	 */
++	rgrp->dptsr_planes = rgrp->num_crtcs > 1
++			   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
++			   : 0;
++
++	return 0;
++}
++
++void rcar_du_group_cleanup(struct rcar_du_group *rgrp)
++{
++	mutex_destroy(&rgrp->lock);
++
++	drm_atomic_private_obj_fini(&rgrp->private);
++}
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+index e9906609c635..f0b94eb77746 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+@@ -12,12 +12,15 @@
+ 
+ #include <linux/mutex.h>
+ 
++#include <drm/drm_atomic.h>
++
+ #include "rcar_du_plane.h"
+ 
+ struct rcar_du_device;
+ 
+ /*
+  * struct rcar_du_group - CRTCs and planes group
++ * @private: The base drm private object
+  * @dev: the DU device
+  * @mmio_offset: registers offset in the device memory map
+  * @index: group index
+@@ -33,6 +36,8 @@ struct rcar_du_device;
+  * @need_restart: the group needs to be restarted due to a configuration change
+  */
+ struct rcar_du_group {
++	struct drm_private_obj private;
++
+ 	struct rcar_du_device *dev;
+ 	unsigned int mmio_offset;
+ 	unsigned int index;
+@@ -51,6 +56,19 @@ struct rcar_du_group {
+ 	bool need_restart;
+ };
+ 
++#define to_rcar_group(s) container_of(s, struct rcar_du_group, private)
++
++/**
++ * struct rcar_du_group_state - Driver-specific group state
++ * @state: base DRM private state
++ */
++struct rcar_du_group_state {
++	struct drm_private_state state;
++};
++
++#define to_rcar_group_state(s) \
++	container_of(s, struct rcar_du_group_state, state)
++
+ u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg);
+ void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
+ 
+@@ -62,4 +80,15 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp);
+ 
+ int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu);
+ 
++struct rcar_du_group_state *
++rcar_du_get_old_group_state(struct drm_atomic_state *state,
++			    struct rcar_du_group *rgrp);
++struct rcar_du_group_state *
++rcar_du_get_new_group_state(struct drm_atomic_state *state,
++			    struct rcar_du_group *rgrp);
++
++int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
++		       unsigned int index);
++void rcar_du_group_cleanup(struct rcar_du_group *rgrp);
++
+ #endif /* __RCAR_DU_GROUP_H__ */
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 3c10c329c81c..732aac342dab 100644
+index 732aac342dab..d3069fb284fb 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -771,9 +771,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+@@ -26,6 +26,7 @@
+ #include "rcar_du_crtc.h"
+ #include "rcar_du_drv.h"
+ #include "rcar_du_encoder.h"
++#include "rcar_du_group.h"
+ #include "rcar_du_kms.h"
+ #include "rcar_du_regs.h"
+ #include "rcar_du_vsp.h"
+@@ -765,10 +766,6 @@ static void rcar_du_modeset_cleanup(struct drm_device *dev, void *res)
  
+ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ {
+-	static const unsigned int mmio_offsets[] = {
+-		DU0_REG_OFFSET, DU2_REG_OFFSET
+-	};
+-
  	struct drm_device *dev = &rcdu->ddev;
  	struct drm_encoder *encoder;
-+	struct rcar_du_group *rgrp;
- 	unsigned int dpad0_sources;
- 	unsigned int num_encoders;
--	unsigned int num_groups;
- 	unsigned int swindex;
- 	unsigned int hwindex;
- 	unsigned int i;
-@@ -820,11 +820,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 		return ret;
+ 	struct rcar_du_group *rgrp;
+@@ -821,25 +818,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
  
  	/* Initialize the groups. */
--	num_groups = DIV_ROUND_UP(rcdu->num_crtcs, 2);
+ 	for_each_rcdu_group(rcdu, rgrp, i) {
+-		mutex_init(&rgrp->lock);
 -
--	for (i = 0; i < num_groups; ++i) {
--		struct rcar_du_group *rgrp = &rcdu->groups[i];
+-		rgrp->dev = rcdu;
+-		rgrp->mmio_offset = mmio_offsets[i];
+-		rgrp->index = i;
+-		/* Extract the channel mask for this group only. */
+-		rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * i))
+-				   & GENMASK(1, 0);
+-		rgrp->num_crtcs = hweight8(rgrp->channels_mask);
 -
-+	for_each_rcdu_group(rcdu, rgrp, i) {
- 		mutex_init(&rgrp->lock);
+-		/*
+-		 * If we have more than one CRTCs in this group pre-associate
+-		 * the low-order planes with CRTC 0 and the high-order planes
+-		 * with CRTC 1 to minimize flicker occurring when the
+-		 * association is changed.
+-		 */
+-		rgrp->dptsr_planes = rgrp->num_crtcs > 1
+-				   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
+-				   : 0;
++		ret = rcar_du_group_init(rcdu, rgrp, i);
++		if (ret < 0)
++			return ret;
  
- 		rgrp->dev = rcdu;
-@@ -866,8 +862,6 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 
- 	/* Create the CRTCs. */
- 	for (swindex = 0, hwindex = 0; swindex < rcdu->num_crtcs; ++hwindex) {
--		struct rcar_du_group *rgrp;
--
- 		/* Skip unpopulated DU channels. */
- 		if (!(rcdu->info->channels_mask & BIT(hwindex)))
- 			continue;
+ 		if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE)) {
+ 			ret = rcar_du_planes_init(rgrp);
 -- 
 2.25.1
 
