@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BC12F74AF
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F22F2F74B5
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5146E6E2DE;
-	Fri, 15 Jan 2021 08:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E0A6E1B2;
+	Fri, 15 Jan 2021 08:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEFE89C6B
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 03:49:05 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id x13so7339301oto.8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 19:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BWxsOOk11ALTjpUo3gLg8gd+IkymuxCP/NKNZLVJFbA=;
- b=ewezM9RxdGM/uSiiRAmWujXTI9dtfQm5Dmu9UdJcEiy8HT9tl8JJeuU5m67GTdKBJL
- Ff9VlozGfXlzOC3F1CtcxO7+6chjpke5sgbirzJtr/eDnv0X3ehy2d2exQlI9V93xdGP
- l4rCRcW7QV8UI2Z901kzIeqNObCbHDm55Beum1Y71lNJ+Mo80pUe52nOrvhTwdSZnnFp
- ofNKEEh1z/Do75c4V8wyZojW1ktPPCLkIpp1bpEOhNhHbssWHheLTiTOhci0XbrbxUMf
- Rrqlm9jNZ36dnoolclqOhgLhu2557Q6o8fA6Fp9YfhZl7DxZfKxKXnuQ9R4ttaCMnEXP
- Xm5A==
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA6196E15D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 07:03:01 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id q20so4913046pfu.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 23:03:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rU651G1q8SPGxvy1RlE5EGkWyPFzSWihmuiOJwz0Sb0=;
+ b=UiPe/K8OEIfEc+DaQYUt/imBoVx48hzIE4EuvFN5bSYro7pRpKZ/V+ScLTWxzaG9Dp
+ QGOkdL4tbMdnjHEr5/+fQOv0zQlbMzudRg3ByfTIFLTqZVwHdFUpZFz5pOoHo9BfQ2L4
+ PdlnbVHqBY8mtTqp7AMHnzwYmjtGZQVf/N/C0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BWxsOOk11ALTjpUo3gLg8gd+IkymuxCP/NKNZLVJFbA=;
- b=OyN5LZ3yyQPikLE6W1xkUPbiu+GCD2kbV7XyETMIO4x+X3HJSnOrjhVtwC6JrY9QCG
- 4PH5/XEdiTOhzRvnsKwvGPIQg9BGe7WSyIQtZHMERhsUm17Cg+YIMRAIoQEx5yddOAIf
- UOGtOdPaOKxCbeCcHdm5AjZdK3oW3orTnSs04HlMWzB2rR8wvTYY2V0+pfWuI4m+iPxE
- FhVmXDdhffVS6sEYxbz5UVGzpVoCQJKryhDgXphb5+3D+0Tsic2PsxnJvnqC5e54Hi5S
- aBVn28mSA99T01MQUWXdFrXO7cnwfpyUQew5dzUUt0ieMOPEAthvPn0gd5cvGo6e2nwp
- lOJA==
-X-Gm-Message-State: AOAM533PWDC83jctJtg5vmcxrq09FeodJweE3ZbX92Z9Mtw4mHjIyXW0
- QR0pmvoGfBML4jB8blZBjHW2vQ==
-X-Google-Smtp-Source: ABdhPJzwnCONBKp/lWmJdpN0ixlFfOCGdbrjs3S8aglD1bPkpwcVl3PyK0rfxg+yKpN6SYy8wBzmgw==
-X-Received: by 2002:a05:6830:214c:: with SMTP id
- r12mr6909580otd.208.1610682545010; 
- Thu, 14 Jan 2021 19:49:05 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id h26sm1577280ots.9.2021.01.14.19.49.03
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rU651G1q8SPGxvy1RlE5EGkWyPFzSWihmuiOJwz0Sb0=;
+ b=ELMC+fGa+11nGmM7v1tr187QprXxKIIBDOQt81yh/PiYM53xc6mGbXeLF274hx1q46
+ 05fXe7PD/ofVHPf1pWIXRrvY2S93eL9Wp7wZdoIOUB+sMg3gvb2K/9GteSiyG3cf1MGq
+ acHT5SfFG377NA0q/OKYcFD2BfRu6B7oZL3AWzhSBfMTwSY3VzvajU8gh2D5TAInhMHp
+ NR6eaKplKNibyujAjuh3NRJGwsL2orzWwRFOPR2AF4O4tQjh6ive8GXq7k20/Nuh9PHH
+ ajrvVMc8+SN7x3tIbNP4ZL/0n9rf3sKwCbyN1lhTHWQsDGs2LxbMCULA7QE80vLjnZGR
+ 7qGg==
+X-Gm-Message-State: AOAM530y64CtolWBosPFho3cHSo0V4Qy3a1OmJuqd6umXDv+NG3ASTq+
+ MSmK77DDW2VEA8sHU3P649aM1Q==
+X-Google-Smtp-Source: ABdhPJwwnHBqKTxgk9dBqJY8K268Shf+AZRV+hcUdg8NVF2FkJLIhWDbWyQZX6vKfEEIWEih66QInQ==
+X-Received: by 2002:a63:5642:: with SMTP id g2mr11276841pgm.434.1610694181339; 
+ Thu, 14 Jan 2021 23:03:01 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
+ by smtp.gmail.com with ESMTPSA id x12sm7101064pfj.25.2021.01.14.23.02.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 19:49:04 -0800 (PST)
-Date: Thu, 14 Jan 2021 21:49:02 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] drm/bridge/lontium-lt9611uxc: fix waiting for EDID
- to become available
-Message-ID: <YAEQrnlHA+Z8YTij@builder.lan>
-References: <20201127092316.122246-1-dmitry.baryshkov@linaro.org>
+ Thu, 14 Jan 2021 23:03:00 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Xin Ji <xji@analogixsemi.com>,
+	David Airlie <airlied@linux.ie>
+Subject: [PATCH v3 1/2] dt-bindings: drm/bridge: anx7625: Add power supplies
+Date: Fri, 15 Jan 2021 15:02:50 +0800
+Message-Id: <20210115070250.2271571-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201127092316.122246-1-dmitry.baryshkov@linaro.org>
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,84 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod Koul <vkoul@kernel.org>,
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 27 Nov 03:23 CST 2020, Dmitry Baryshkov wrote:
+anx7625 requires 3 power supply regulators.
 
-> - Call wake_up() when EDID ready event is received to wake
->   wait_event_interruptible_timeout()
-> 
-> - Increase waiting timeout, reading EDID can take longer than 100ms, so
->   let's be on a safe side.
-> 
-> - Return NULL pointer from get_edid() callback rather than ERR_PTR()
->   pointer, as DRM code does NULL checks rather than IS_ERR().
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index 0c98d27f84ac..b708700e182d 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -145,8 +145,10 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
->  
->  	lt9611uxc_unlock(lt9611uxc);
->  
-> -	if (irq_status & BIT(0))
-> +	if (irq_status & BIT(0)) {
->  		lt9611uxc->edid_read = !!(hpd_status & BIT(0));
-> +		wake_up_all(&lt9611uxc->wq);
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/display/bridge/analogix,anx7625.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-This seems like a really good idea :)
+diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+index 60585a4fc22b..3ae97d9523e5 100644
+--- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+@@ -34,6 +34,15 @@ properties:
+     description: used for reset chip control, RESET_N pin B7.
+     maxItems: 1
+ 
++  vdd10-supply:
++    description: Regulator that provides the supply 1.0V power.
++
++  vdd18-supply:
++    description: Regulator that provides the supply 1.8V power.
++
++  vdd33-supply:
++    description: Regulator that provides the supply 3.3V power.
++
+   ports:
+     type: object
+ 
+@@ -55,6 +64,9 @@ properties:
+ required:
+   - compatible
+   - reg
++  - vdd10-supply
++  - vdd18-supply
++  - vdd33-supply
+   - ports
+ 
+ additionalProperties: false
+@@ -72,6 +84,9 @@ examples:
+             reg = <0x58>;
+             enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+             reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
++            vdd10-supply = <&pp1000_mipibrdg>;
++            vdd18-supply = <&pp1800_mipibrdg>;
++            vdd33-supply = <&pp3300_mipibrdg>;
+ 
+             ports {
+                 #address-cells = <1>;
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
-> +	}
->  
->  	if (irq_status & BIT(1)) {
->  		if (lt9611uxc->connector.dev)
-> @@ -465,7 +467,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
->  static int lt9611uxc_wait_for_edid(struct lt9611uxc *lt9611uxc)
->  {
->  	return wait_event_interruptible_timeout(lt9611uxc->wq, lt9611uxc->edid_read,
-> -			msecs_to_jiffies(100));
-> +			msecs_to_jiffies(500));
->  }
->  
->  static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
-> @@ -503,7 +505,10 @@ static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
->  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
->  	if (ret < 0) {
->  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
-> -		return ERR_PTR(ret);
-> +		return NULL;
-> +	} else if (ret == 0) {
-> +		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
-> +		return NULL;
-
-This looks like it should be a separate patch.
-
-Regards,
-Bjorn
-
->  	}
->  
->  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-> -- 
-> 2.29.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
