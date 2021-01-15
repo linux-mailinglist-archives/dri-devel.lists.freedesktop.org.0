@@ -1,42 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92A82F7724
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 12:06:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7152F7726
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 12:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC9A89B57;
-	Fri, 15 Jan 2021 11:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9876189E3B;
+	Fri, 15 Jan 2021 11:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6353889B57
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 11:06:01 +0000 (UTC)
-Date: Fri, 15 Jan 2021 11:05:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1610708758;
- bh=N/sH6rig+uVVViywcq0nAaYzVcO9pb5G6PCzlBRo7A4=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=SCe+LDPsOnogLZh4QV2R0bzyEYlTnrwVSnWOsD6FwL3sYwc//DI72V74enmc0lAar
- UVLaW3/FZtpoPunGhHSWG1D+UhFoQRl1XDi9US84s0xxc6G1nPA14rx+X9SMofOx/E
- 7PH5T0qzg/th9OK+HkGOmlajLxwdbDzBzIe4xazS/7Lw4B3N1cIMi5xMCMvTHd76HY
- FTMdfaS8LKvfsVcNHByjg3fb0ldua+qLqxELzg2/mVTKMTHrYgJlCZO0WC9cn3PnV5
- +Jn8ryOS+UqZz95pu/e5LOBsd01bcHvLn0pkIDNcIDDguHZs8s5+fujB26mdXb3LN1
- +DVelYE3cCwVA==
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684BA89E3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 11:06:36 +0000 (UTC)
+X-Originating-IP: 86.247.11.12
+Received: from haruko.lan (lfbn-idf2-1-654-12.w86-247.abo.wanadoo.fr
+ [86.247.11.12]) (Authenticated sender: schroder@emersion.fr)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 13A3060009;
+ Fri, 15 Jan 2021 11:06:33 +0000 (UTC)
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v4 2/5] drm/doc: document the type plane property
-Message-ID: <P9LiAZrbvSONX_tx4jjrn8n_00rDsAQlbxgWNrK1cO9L9BEKYM1y_4qH8Zo3_Oihtj88PVxxS1a38-3AgeHFvD5iJlDuCnVo2ZK6_nPaMs4=@emersion.fr>
-In-Reply-To: <X+H7qJI6gqPa57tL@phenom.ffwll.local>
-References: <20201222133524.160842-1-contact@emersion.fr>
- <20201222133524.160842-3-contact@emersion.fr>
- <X+H7qJI6gqPa57tL@phenom.ffwll.local>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 1/2] drm/doc: fix drm_plane_type docs
+Date: Fri, 15 Jan 2021 12:06:25 +0100
+Message-Id: <20210115110626.12233-1-contact@emersion.fr>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,62 +37,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, December 22nd, 2020 at 2:59 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+The docs for enum drm_plane_type mention legacy IOCTLs, however the
+plane type is not tied to legacy IOCTLs, the drm_cursor.primary and
+cursor fields are. Add a small paragraph to reference these.
 
-> > + * type:
-> > + *     Immutable property describing the type of the plane.
-> > + *
-> > + *     For user-space which has enabled the &DRM_CLIENT_CAP_UNIVERSAL_PLANES
->
-> s/UNIVERSAL_PLANES/ATOMIC/ here?
->
-> With just universal planes you don't have atomic test-only. But I guess it
-> also works as-is, I'm just not entirely clear what you want to state here.
+Instead, document expectations for primary and cursor planes for
+non-legacy userspace. Note that these docs are for driver developers,
+not userspace developers, so internal kernel APIs are mentionned.
 
-Right. This paragraph was written when I wasn't aware about ATOMIC implicitly
-enabling UNIVERSAL_PLANES. Fixed in v5.
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+ include/drm/drm_plane.h | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-> > + *     capability, the plane type is just a hint and is mostly superseded by
-> > + *     atomic test-only commits. The type hint can still be used to come up
-> > + *     more easily with a plane configuration accepted by the driver. Note that
-> > + *     &DRM_CLIENT_CAP_UNIVERSAL_PLANES is implicitly enabled by
-> > + *     &DRM_CLIENT_CAP_ATOMIC.
-> > + *
-> > + *     The value of this property can be one of the following:
-> > + *
-> > + *     "Primary":
-> > + *         To light up a CRTC, attaching a primary plane is the most likely to
-> > + *         work if it covers the whole CRTC and doesn't have scaling or
-> > + *         cropping set up.
-> > + *
-> > + *         Drivers may support more features for the primary plane, user-space
-> > + *         can find out with test-only atomic commits.
-> > + *
-> > + *         Primary planes are implicitly used by the kernel in the legacy
-> > + *         IOCTLs &DRM_IOCTL_MODE_SETCRTC and &DRM_IOCTL_MODE_PAGE_FLIP.
-> > + *         Therefore user-space must not mix explicit usage of any primary
-> > + *         plane (e.g. through an atomic commit) with these legacy IOCTLs.
->
-> Empty line here for reading comfort in plain text? Same below.
->
-> Since you mention formats below, I also wonder whether we should state
-> here that xrgb8888 is generally supported, worst case through software
-> emulation. That's defacto the uapi we have to adhere to.
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 8ef06ee1c8eb..95ab14a4336a 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -538,10 +538,14 @@ struct drm_plane_funcs {
+  *
+  * For compatibility with legacy userspace, only overlay planes are made
+  * available to userspace by default. Userspace clients may set the
+- * DRM_CLIENT_CAP_UNIVERSAL_PLANES client capability bit to indicate that they
++ * &DRM_CLIENT_CAP_UNIVERSAL_PLANES client capability bit to indicate that they
+  * wish to receive a universal plane list containing all plane types. See also
+  * drm_for_each_legacy_plane().
+  *
++ * In addition to setting each plane's type, drivers need to setup the
++ * &drm_crtc.primary and optionally &drm_crtc.cursor pointers for legacy
++ * IOCTLs. See drm_crtc_init_with_planes().
++ *
+  * WARNING: The values of this enum is UABI since they're exposed in the "type"
+  * property.
+  */
+@@ -557,19 +561,20 @@ enum drm_plane_type {
+ 	/**
+ 	 * @DRM_PLANE_TYPE_PRIMARY:
+ 	 *
+-	 * Primary planes represent a "main" plane for a CRTC.  Primary planes
+-	 * are the planes operated upon by CRTC modesetting and flipping
+-	 * operations described in the &drm_crtc_funcs.page_flip and
+-	 * &drm_crtc_funcs.set_config hooks.
++	 * A primary plane attached to a CRTC is the most likely to be able to
++	 * light up the CRTC when no scaling/cropping is used and the plane
++	 * covers the whole CRTC.
+ 	 */
+ 	DRM_PLANE_TYPE_PRIMARY,
+ 
+ 	/**
+ 	 * @DRM_PLANE_TYPE_CURSOR:
+ 	 *
+-	 * Cursor planes represent a "cursor" plane for a CRTC.  Cursor planes
+-	 * are the planes operated upon by the DRM_IOCTL_MODE_CURSOR and
+-	 * DRM_IOCTL_MODE_CURSOR2 IOCTLs.
++	 * A cursor plane attached to a CRTC is more likely to be able to be
++	 * enabled when no scaling/cropping is used and the framebuffer has the
++	 * size indicated by &drm_mode_config.cursor_width and
++	 * &drm_mode_config.cursor_height. Additionally, if the driver doesn't
++	 * support modifiers, the framebuffer should have a linear layout.
+ 	 */
+ 	DRM_PLANE_TYPE_CURSOR,
+ };
+-- 
+2.30.0
 
-I wonder. If a new driver decides not to support XRGB8888, that wouldn't be a
-kernel regression because it's about new hardware. Do we want to formally lock
-future drivers into XRGB8888 support? Or do we want to open the door for a
-driver to break this assumption, even if most user-space won't work on the new
-hardware?
-
-I guess all of this is mostly theoretical at this point.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
