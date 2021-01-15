@@ -1,53 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAA32F7B6F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 14:02:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D962F7BF3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 14:09:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A80AC6E3E5;
-	Fri, 15 Jan 2021 13:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56E9B6E3F9;
+	Fri, 15 Jan 2021 13:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8603A6E3E5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 13:02:32 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v15so5541609wrx.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 05:02:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6tgeiOra21yoj4kXFYdlG4DW84Yj2ltAJxlaPRrP6lU=;
- b=RDMe588ugsyWXnm/w6cJfFhtEfb4FPX3y5LTZmFVGpVAUsam0zY/OmhWJ5U/r5eUTV
- O5QGTPe4apcpwNkc/03dyc1w5wM3195EYMsqy0fSdfeMBWpc5ugdViuCrnOd7E1sWAaW
- k8tTbT/VWbZbkblbryqcGT5zk9lD0G5iFHh2Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6tgeiOra21yoj4kXFYdlG4DW84Yj2ltAJxlaPRrP6lU=;
- b=Ew69a0r2/TvTe9laV53IcS3j008UFMjnArwYxPpG4BbE6/Xf+3ilRXOD5lv3XkEL3S
- 6I3ZtPgzp9F9uqI4jC+AImka738CV7DfPF0Rkhn/nJlbqKTB0DKM95GkoUJo7CrriLiV
- SmLy5aYtDTrDo/ndecsE+bUTw4IXjvqIlOVVM+T8a9yDrdYeWaZXQhcadbs5mOMi2mM+
- X0jUgCOTvZ9u37C/PmCVt6q3q260fMXolwmVSwiGDfcz3BVhX6p6stCTgo7Zn83Dq3fW
- SyMLoC3NLZuQYBj5B9Dz6rTEvp+EcY0JYhkrFH3dzkctlvRHS5p5Ovt/A+wq/c9LdSOE
- GqLg==
-X-Gm-Message-State: AOAM532VeDFa8Sbj/N7GHmU+xsixgGf5HO3m58Wm8NBOQlTnnDHvcTaZ
- 1SZTN3qju03rF5iemJJZKoV/eg==
-X-Google-Smtp-Source: ABdhPJw1SgJk5XC0sw8ILQtdppFBswqYR0wMRM5GleMhsV0npAuSaqX43N6PCXuSLz0gegjG4jTzxw==
-X-Received: by 2002:a5d:6045:: with SMTP id j5mr12640959wrt.223.1610715751211; 
- Fri, 15 Jan 2021 05:02:31 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g5sm15408057wro.60.2021.01.15.05.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 05:02:30 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm-buf: Add debug option
-Date: Fri, 15 Jan 2021 14:02:19 +0100
-Message-Id: <20210115130219.3915789-1-daniel.vetter@ffwll.ch>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6B76E3F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 13:09:14 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1l0Oqm-0001DP-5Q; Fri, 15 Jan 2021 13:09:12 +0000
+From: Colin King <colin.king@canonical.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>,
+ Sumera Priyadarsini <sylphrenadin@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/vkms: Fix missing kmalloc allocation failure check
+Date: Fri, 15 Jan 2021 13:09:11 +0000
+Message-Id: <20210115130911.71073-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,126 +42,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linaro-mm-sig@lists.linaro.org,
- David Stevens <stevensd@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgaGF2ZSB0b28gbWFueSBwZW9wbGUgYWJ1c2luZyB0aGUgc3RydWN0IHBhZ2UgdGhleSBjYW4g
-Z2V0IGF0IGJ1dApyZWFsbHkgc2hvdWxkbid0IGluIGltcG9ydGVycy4gQXNpZGUgZnJvbSB0aGF0
-IHRoZSBiYWNraW5nIHBhZ2UgbWlnaHQKc2ltcGx5IG5vdCBleGlzdCAoZm9yIGR5bmFtaWMgcDJw
-IG1hcHBpbmdzKSBsb29raW5nIGF0IGl0IGFuZCB1c2luZyBpdAplLmcuIGZvciBtbWFwIGNhbiBh
-bHNvIHdyZWFrIHRoZSBwYWdlIGhhbmRsaW5nIG9mIHRoZSBleHBvcnRlcgpjb21wbGV0ZWx5LiBJ
-bXBvcnRlcnMgcmVhbGx5IG11c3QgZ28gdGhyb3VnaCB0aGUgcHJvcGVyIGludGVyZmFjZSBsaWtl
-CmRtYV9idWZfbW1hcCBmb3IgZXZlcnl0aGluZy4KCkknbSBzZW1pLXRlbXB0ZWQgdG8gZW5mb3Jj
-ZSB0aGlzIGZvciBkeW5hbWljIGltcG9ydGVycyBzaW5jZSB0aG9zZQpyZWFsbHkgaGF2ZSBubyBl
-eGN1c2UgYXQgYWxsIHRvIGJyZWFrIHRoZSBydWxlcy4KClVuZm9ydHVhbnRlbHkgd2UgY2FuJ3Qg
-c3RvcmUgdGhlIHJpZ2h0IHBvaW50ZXJzIHNvbWV3aGVyZSBzYWZlIHRvIG1ha2UKc3VyZSB3ZSBv
-b3BzIG9uIHNvbWV0aGluZyByZWNvZ25pemFibGUsIHNvIGJlc3QgaXMgdG8ganVzdCB3cmFuZ2xl
-CnRoZW0gYSBiaXQgYnkgZmxpcHBpbmcgYWxsIHRoZSBiaXRzLiBBdCBsZWFzdCBvbiB4ODYga2Vy
-bmVsIGFkZHJlc3NlcwpoYXZlIGFsbCB0aGVpciBoaWdoIGJpdHMgc2V0cyBhbmQgdGhlIHN0cnVj
-dCBwYWdlIGFycmF5IGlzIGZhaXJseSBsb3cKaW4gdGhlIGtlcm5lbCBtYXBwaW5nLCBzbyBmbGlw
-cGluZyBhbGwgdGhlIGJpdHMgZ2l2ZXMgdXMgYSB2ZXJ5IGhpZ2gKcG9pbnRlciBpbiB1c2Vyc3Bh
-Y2UgYW5kIGhlbmNlIGV4Y2VsbGVudCBjaGFuY2VzIGZvciBhbiBpbnZhbGlkCmRlcmVmZXJlbmNl
-LgoKdjI6IEFkZCBhIG5vdGUgdG8gdGhlIEBtYXBfZG1hX2J1ZiBob29rIHRoYXQgZXhwb3J0ZXJz
-IHNob3VsZG4ndCBkbwpmYW5jeSBjYWNoaW5nIHRyaWNrcywgd2hpY2ggd291bGQgYmxvdyB1cCB3
-aXRoIHRoaXMgYWRkcmVzcyBzY3JhbWJsaW5nCnRyaWNrIGhlcmUgKENocmlzKQoKRW5hYmxlIGJ5
-IGRlZmF1bHQgd2hlbiBDT05GSUdfRE1BX0FQSV9ERUJVRyBpcyBlbmFibGVkLgoKUmV2aWV3ZWQt
-Ynk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgpTaWduZWQtb2ZmLWJ5
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IENocmlzIFdpbHNv
-biA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13
-YWxAbGluYXJvLm9yZz4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0Bh
-bWQuY29tPgpDYzogRGF2aWQgU3RldmVucyA8c3RldmVuc2RAY2hyb21pdW0ub3JnPgpDYzogbGlu
-dXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5v
-cmcKLS0tCiBkcml2ZXJzL2RtYS1idWYvS2NvbmZpZyAgIHwgIDggKysrKysrKwogZHJpdmVycy9k
-bWEtYnVmL2RtYS1idWYuYyB8IDQ5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-LS0tLQogaW5jbHVkZS9saW51eC9kbWEtYnVmLmggICB8ICA2ICsrKysrCiAzIGZpbGVzIGNoYW5n
-ZWQsIDU5IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kbWEtYnVmL0tjb25maWcgYi9kcml2ZXJzL2RtYS1idWYvS2NvbmZpZwppbmRleCA0ZjgyMjRh
-NmFjOTUuLjRlMTZjNzFjMjRiNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL0tjb25maWcK
-KysrIGIvZHJpdmVycy9kbWEtYnVmL0tjb25maWcKQEAgLTUwLDYgKzUwLDE0IEBAIGNvbmZpZyBE
-TUFCVUZfTU9WRV9OT1RJRlkKIAkgIFRoaXMgaXMgbWFya2VkIGV4cGVyaW1lbnRhbCBiZWNhdXNl
-IHdlIGRvbid0IHlldCBoYXZlIGEgY29uc2lzdGVudAogCSAgZXhlY3V0aW9uIGNvbnRleHQgYW5k
-IG1lbW9yeSBtYW5hZ2VtZW50IGJldHdlZW4gZHJpdmVycy4KIAorY29uZmlnIERNQUJVRl9ERUJV
-RworCWJvb2wgIkRNQS1CVUYgZGVidWcgY2hlY2tzIgorCWRlZmF1bHQgeSBpZiBETUFfQVBJX0RF
-QlVHCisJaGVscAorCSAgVGhpcyBvcHRpb24gZW5hYmxlcyBhZGRpdGlvbmFsIGNoZWNrcyBmb3Ig
-RE1BLUJVRiBpbXBvcnRlcnMgYW5kCisJICBleHBvcnRlcnMuIFNwZWNpZmljYWxseSBpdCB2YWxp
-ZGF0ZXMgdGhhdCBpbXBvcnRlcnMgZG8gbm90IHBlZWsgYXQgdGhlCisJICB1bmRlcmx5aW5nIHN0
-cnVjdCBwYWdlIHdoZW4gdGhleSBpbXBvcnQgYSBidWZmZXIuCisKIGNvbmZpZyBETUFCVUZfU0VM
-RlRFU1RTCiAJdHJpc3RhdGUgIlNlbGZ0ZXN0cyBmb3IgdGhlIGRtYS1idWYgaW50ZXJmYWNlcyIK
-IAlkZWZhdWx0IG4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9kcml2
-ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCmluZGV4IDFjOWJkNTFkYjExMC4uNmU0NzI1ZjdkZmRlIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1
-Zi9kbWEtYnVmLmMKQEAgLTY2Niw2ICs2NjYsMzAgQEAgdm9pZCBkbWFfYnVmX3B1dChzdHJ1Y3Qg
-ZG1hX2J1ZiAqZG1hYnVmKQogfQogRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9wdXQpOwogCitz
-dGF0aWMgc3RydWN0IHNnX3RhYmxlICogX19tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRh
-Y2htZW50ICphdHRhY2gsCisJCQkJICAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uIGRpcmVj
-dGlvbikKK3sKKwlzdHJ1Y3Qgc2dfdGFibGUgKnNnX3RhYmxlOworCisJc2dfdGFibGUgPSBhdHRh
-Y2gtPmRtYWJ1Zi0+b3BzLT5tYXBfZG1hX2J1ZihhdHRhY2gsIGRpcmVjdGlvbik7CisKKyNpZiBD
-T05GSUdfRE1BQlVGX0RFQlVHCisJaWYgKHNnX3RhYmxlKSB7CisJCWludCBpOworCQlzdHJ1Y3Qg
-c2NhdHRlcmxpc3QgKnNnOworCisJCS8qIFRvIGNhdGNoIGFidXNlIG9mIHRoZSB1bmRlcmx5aW5n
-IHN0cnVjdCBwYWdlIGJ5IGltcG9ydGVycyBtaXgKKwkJICogdXAgdGhlIGJpdHMsIGJ1dCB0YWtl
-IGNhcmUgdG8gcHJlc2VydmUgdGhlIGxvdyBTR18gYml0cyB0bworCQkgKiBub3QgY29ycnVwdCB0
-aGUgc2d0LiBUaGUgbWl4aW5nIGlzIHVuZG9uZSBpbiBfX3VubWFwX2RtYV9idWYKKwkJICogYmVm
-b3JlIHBhc3NpbmcgdGhlIHNndCBiYWNrIHRvIHRoZSBleHBvcnRlci4gKi8KKwkJZm9yX2VhY2hf
-c2d0YWJsZV9zZyhzZ190YWJsZSwgc2csIGkpCisJCQlzZy0+cGFnZV9saW5rIF49IH4weGZmVUw7
-CisJfQorI2VuZGlmCisKKwlyZXR1cm4gc2dfdGFibGU7Cit9CisKIC8qKgogICogZG1hX2J1Zl9k
-eW5hbWljX2F0dGFjaCAtIEFkZCB0aGUgZGV2aWNlIHRvIGRtYV9idWYncyBhdHRhY2htZW50cyBs
-aXN0CiAgKiBAZG1hYnVmOgkJW2luXQlidWZmZXIgdG8gYXR0YWNoIGRldmljZSB0by4KQEAgLTcz
-Nyw3ICs3NjEsNyBAQCBkbWFfYnVmX2R5bmFtaWNfYXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFi
-dWYsIHN0cnVjdCBkZXZpY2UgKmRldiwKIAkJCQlnb3RvIGVycl91bmxvY2s7CiAJCX0KIAotCQlz
-Z3QgPSBkbWFidWYtPm9wcy0+bWFwX2RtYV9idWYoYXR0YWNoLCBETUFfQklESVJFQ1RJT05BTCk7
-CisJCXNndCA9IF9fbWFwX2RtYV9idWYoYXR0YWNoLCBETUFfQklESVJFQ1RJT05BTCk7CiAJCWlm
-ICghc2d0KQogCQkJc2d0ID0gRVJSX1BUUigtRU5PTUVNKTsKIAkJaWYgKElTX0VSUihzZ3QpKSB7
-CkBAIC03ODQsNiArODA4LDIzIEBAIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmRtYV9idWZf
-YXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCiB9CiBFWFBPUlRfU1lNQk9MX0dQTChkbWFf
-YnVmX2F0dGFjaCk7CiAKK3N0YXRpYyB2b2lkIF9fdW5tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1
-Zl9hdHRhY2htZW50ICphdHRhY2gsCisJCQkgICAgc3RydWN0IHNnX3RhYmxlICpzZ190YWJsZSwK
-KwkJCSAgICBlbnVtIGRtYV9kYXRhX2RpcmVjdGlvbiBkaXJlY3Rpb24pCit7CisKKyNpZiBDT05G
-SUdfRE1BQlVGX0RFQlVHCisJaWYgKHNnX3RhYmxlKSB7CisJCWludCBpOworCQlzdHJ1Y3Qgc2Nh
-dHRlcmxpc3QgKnNnOworCisJCWZvcl9lYWNoX3NndGFibGVfc2coc2dfdGFibGUsIHNnLCBpKQor
-CQkJc2ctPnBhZ2VfbGluayBePSB+MHhmZlVMOworCX0KKyNlbmRpZgorCWF0dGFjaC0+ZG1hYnVm
-LT5vcHMtPnVubWFwX2RtYV9idWYoYXR0YWNoLCBzZ190YWJsZSwgZGlyZWN0aW9uKTsKK30KKwog
-LyoqCiAgKiBkbWFfYnVmX2RldGFjaCAtIFJlbW92ZSB0aGUgZ2l2ZW4gYXR0YWNobWVudCBmcm9t
-IGRtYWJ1ZidzIGF0dGFjaG1lbnRzIGxpc3QKICAqIEBkbWFidWY6CVtpbl0JYnVmZmVyIHRvIGRl
-dGFjaCBmcm9tLgpAQCAtODAyLDcgKzg0Myw3IEBAIHZvaWQgZG1hX2J1Zl9kZXRhY2goc3RydWN0
-IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKQogCQlp
-ZiAoZG1hX2J1Zl9pc19keW5hbWljKGF0dGFjaC0+ZG1hYnVmKSkKIAkJCWRtYV9yZXN2X2xvY2so
-YXR0YWNoLT5kbWFidWYtPnJlc3YsIE5VTEwpOwogCi0JCWRtYWJ1Zi0+b3BzLT51bm1hcF9kbWFf
-YnVmKGF0dGFjaCwgYXR0YWNoLT5zZ3QsIGF0dGFjaC0+ZGlyKTsKKwkJX191bm1hcF9kbWFfYnVm
-KGF0dGFjaCwgYXR0YWNoLT5zZ3QsIGF0dGFjaC0+ZGlyKTsKIAogCQlpZiAoZG1hX2J1Zl9pc19k
-eW5hbWljKGF0dGFjaC0+ZG1hYnVmKSkgewogCQkJZG1hX2J1Zl91bnBpbihhdHRhY2gpOwpAQCAt
-OTI0LDcgKzk2NSw3IEBAIHN0cnVjdCBzZ190YWJsZSAqZG1hX2J1Zl9tYXBfYXR0YWNobWVudChz
-dHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsCiAJCX0KIAl9CiAKLQlzZ190YWJsZSA9
-IGF0dGFjaC0+ZG1hYnVmLT5vcHMtPm1hcF9kbWFfYnVmKGF0dGFjaCwgZGlyZWN0aW9uKTsKKwlz
-Z190YWJsZSA9IF9fbWFwX2RtYV9idWYoYXR0YWNoLCBkaXJlY3Rpb24pOwogCWlmICghc2dfdGFi
-bGUpCiAJCXNnX3RhYmxlID0gRVJSX1BUUigtRU5PTUVNKTsKIApAQCAtOTg3LDcgKzEwMjgsNyBA
-QCB2b2lkIGRtYV9idWZfdW5tYXBfYXR0YWNobWVudChzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50
-ICphdHRhY2gsCiAJaWYgKGRtYV9idWZfaXNfZHluYW1pYyhhdHRhY2gtPmRtYWJ1ZikpCiAJCWRt
-YV9yZXN2X2Fzc2VydF9oZWxkKGF0dGFjaC0+ZG1hYnVmLT5yZXN2KTsKIAotCWF0dGFjaC0+ZG1h
-YnVmLT5vcHMtPnVubWFwX2RtYV9idWYoYXR0YWNoLCBzZ190YWJsZSwgZGlyZWN0aW9uKTsKKwlf
-X3VubWFwX2RtYV9idWYoYXR0YWNoLCBzZ190YWJsZSwgZGlyZWN0aW9uKTsKIAogCWlmIChkbWFf
-YnVmX2lzX2R5bmFtaWMoYXR0YWNoLT5kbWFidWYpICYmCiAJICAgICFJU19FTkFCTEVEKENPTkZJ
-R19ETUFCVUZfTU9WRV9OT1RJRlkpKQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEtYnVm
-LmggYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaAppbmRleCA2Mjg2ODFiZjZjOTkuLmVmZGM1NmI5
-ZDk1ZiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKKysrIGIvaW5jbHVkZS9s
-aW51eC9kbWEtYnVmLmgKQEAgLTE1NCw2ICsxNTQsMTIgQEAgc3RydWN0IGRtYV9idWZfb3BzIHsK
-IAkgKiBPbiBmYWlsdXJlLCByZXR1cm5zIGEgbmVnYXRpdmUgZXJyb3IgdmFsdWUgd3JhcHBlZCBp
-bnRvIGEgcG9pbnRlci4KIAkgKiBNYXkgYWxzbyByZXR1cm4gLUVJTlRSIHdoZW4gYSBzaWduYWwg
-d2FzIHJlY2VpdmVkIHdoaWxlIGJlaW5nCiAJICogYmxvY2tlZC4KKwkgKgorCSAqIE5vdGUgdGhh
-dCBleHBvcnRlcnMgc2hvdWxkIG5vdCB0cnkgdG8gY2FjaGUgdGhlIHNjYXR0ZXIgbGlzdCwgb3IK
-KwkgKiByZXR1cm4gdGhlIHNhbWUgb25lIGZvciBtdWx0aXBsZSBjYWxscy4gQ2FjaGluZyBpcyBk
-b25lIGVpdGhlciBieSB0aGUKKwkgKiBETUEtQlVGIGNvZGUgKGZvciBub24tZHluYW1pYyBpbXBv
-cnRlcnMpIG9yIHRoZSBpbXBvcnRlci4gT3duZXJzaGlwCisJICogb2YgdGhlIHNjYXR0ZXIgbGlz
-dCBpcyB0cmFuc2ZlcnJlZCB0byB0aGUgY2FsbGVyLCBhbmQgcmV0dXJuZWQgYnkKKwkgKiBAdW5t
-YXBfZG1hX2J1Zi4KIAkgKi8KIAlzdHJ1Y3Qgc2dfdGFibGUgKiAoKm1hcF9kbWFfYnVmKShzdHJ1
-Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICosCiAJCQkJCSBlbnVtIGRtYV9kYXRhX2RpcmVjdGlvbik7
-Ci0tIAoyLjI5LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+From: Colin Ian King <colin.king@canonical.com>
+
+Currently the kmalloc allocation for config is not being null
+checked and could potentially lead to a null pointer dereference.
+Fix this by adding the missing null check.
+
+Addresses-Coverity: ("Dereference null return value")
+Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/vkms/vkms_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 708f7f54001d..2173b82606f6 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -188,7 +188,11 @@ static int vkms_create(struct vkms_config *config)
+ 
+ static int __init vkms_init(void)
+ {
+-	struct vkms_config *config = kmalloc(sizeof(*config), GFP_KERNEL);
++	struct vkms_config *config;
++
++	config = kmalloc(sizeof(*config), GFP_KERNEL);
++	if (!config)
++		return -ENOMEM;
+ 
+ 	default_config = config;
+ 
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
