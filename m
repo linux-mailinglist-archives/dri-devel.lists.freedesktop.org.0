@@ -2,28 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784D62F7476
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ABF2F7483
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:42:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF126E17B;
-	Fri, 15 Jan 2021 08:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF3A6E1B2;
+	Fri, 15 Jan 2021 08:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDA86E17B
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:39:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890D06E1B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:42:38 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0DEAEAC24;
- Fri, 15 Jan 2021 08:39:41 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1974DB729;
+ Fri, 15 Jan 2021 08:42:37 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon/hibmc: Remove hibmc_ttm.c
+To: tiantao6@hisilicon.com
+References: <20210113113107.12005-1-tzimmermann@suse.de>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, kieran.bingham+renesas@ideasonboard.com
-Subject: [PATCH] drm: Set vm_ops to GEM object's values during mmap
-Date: Fri, 15 Jan 2021 09:39:38 +0100
-Message-Id: <20210115083938.21747-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
+Message-ID: <7c5611ac-772e-6529-6072-e192d05c916d@suse.de>
+Date: Fri, 15 Jan 2021 09:42:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210113113107.12005-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,95 +38,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Gong junjie <gongjunjie2@huawei.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1416272286=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GEM mmap code relies on the GEM object's mmap callback to set the
-VMA's vm_ops field. This is easily forgotten and lead to a memory leak
-in the CMA helpers. Instead set the vm_ops field in the DRM core code
-to the GEM object's value. Drivers with different needs can override
-this in their mmap callback.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1416272286==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="VHOLXA5VTXUoN4JVrjVjdYUhJro7H7nu3"
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: f5ca8eb6f9bd ("drm/cma-helper: Implement mmap as GEM CMA object functions")
-Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/drm_gem.c   | 23 ++++++++++++-----------
- drivers/gpu/drm/drm_prime.c |  4 ++++
- 2 files changed, 16 insertions(+), 11 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--VHOLXA5VTXUoN4JVrjVjdYUhJro7H7nu3
+Content-Type: multipart/mixed; boundary="0giusCf8M19XCjkJzIjgWTwoCrZsMFGRm";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tiantao6@hisilicon.com
+Cc: dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, John Stultz
+ <john.stultz@linaro.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Gong junjie <gongjunjie2@huawei.com>
+Message-ID: <7c5611ac-772e-6529-6072-e192d05c916d@suse.de>
+Subject: Re: [PATCH] drm/hisilicon/hibmc: Remove hibmc_ttm.c
+References: <20210113113107.12005-1-tzimmermann@suse.de>
+In-Reply-To: <20210113113107.12005-1-tzimmermann@suse.de>
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 34b2f111c01c..54d95621fcbb 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1069,27 +1069,28 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 
- 	vma->vm_private_data = obj;
- 
-+	if (!obj->funcs->vm_ops) {
-+		ret = -EINVAL;
-+		goto err_drm_gem_object_put;
-+	}
-+	vma->vm_ops = obj->funcs->vm_ops;
-+
- 	if (obj->funcs->mmap) {
- 		ret = obj->funcs->mmap(obj, vma);
--		if (ret) {
--			drm_gem_object_put(obj);
--			return ret;
--		}
-+		if (ret)
-+			goto err_drm_gem_object_put;
- 		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
- 	} else {
--		if (obj->funcs->vm_ops)
--			vma->vm_ops = obj->funcs->vm_ops;
--		else {
--			drm_gem_object_put(obj);
--			return -EINVAL;
--		}
+--0giusCf8M19XCjkJzIjgWTwoCrZsMFGRm
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+ping for review
+
+Am 13.01.21 um 12:31 schrieb Thomas Zimmermann:
+> The file is not in use. It got re-added by a rebased patch. Removing
+> it.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 4d4dad21cc7b ("drm/hibmc: Remove references to struct drm_device=
+=2Epdev")
+> Reported-by: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Tian Tao  <tiantao6@hisilicon.com>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Chen Feng <puck.chen@hisilicon.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Gong junjie <gongjunjie2@huawei.com>
+> ---
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c | 61 --------------------=
 -
- 		vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
- 		vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
- 		vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 	}
- 
- 	return 0;
-+
-+err_drm_gem_object_put:
-+	drm_gem_object_put(obj);
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_mmap_obj);
- 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 683aa29ecd3b..0549ec190583 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -717,6 +717,10 @@ int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 	vma->vm_pgoff += drm_vma_node_start(&obj->vma_node);
- 
- 	if (obj->funcs && obj->funcs->mmap) {
-+		if (!obj->funcs->vm_ops)
-+			return -EINVAL;
-+		vma->vm_ops = obj->funcs->vm_ops;
-+
- 		ret = obj->funcs->mmap(obj, vma);
- 		if (ret)
- 			return ret;
--- 
-2.29.2
+>   1 file changed, 61 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/=
+drm/hisilicon/hibmc/hibmc_ttm.c
+> deleted file mode 100644
+> index 77f075075db2..000000000000
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/* Hisilicon Hibmc SoC drm driver
+> - *
+> - * Based on the bochs drm driver.
+> - *
+> - * Copyright (c) 2016 Huawei Limited.
+> - *
+> - * Author:
+> - *	Rongrong Zou <zourongrong@huawei.com>
+> - *	Rongrong Zou <zourongrong@gmail.com>
+> - *	Jianhua Li <lijianhua@huawei.com>
+> - */
+> -
+> -#include <linux/pci.h>
+> -
+> -#include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_gem.h>
+> -#include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_gem_vram_helper.h>
+> -#include <drm/drm_print.h>
+> -
+> -#include "hibmc_drm_drv.h"
+> -
+> -int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+> -{
+> -	struct drm_vram_mm *vmm;
+> -	int ret;
+> -	struct drm_device *dev =3D hibmc->dev;
+> -	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
+> -
+> -	vmm =3D drm_vram_helper_alloc_mm(dev, pci_resource_start(pdev, 0),
+> -				       hibmc->fb_size);
+> -	if (IS_ERR(vmm)) {
+> -		ret =3D PTR_ERR(vmm);
+> -		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+> -{
+> -	if (!hibmc->dev->vram_mm)
+> -		return;
+> -
+> -	drm_vram_helper_release_mm(hibmc->dev);
+> -}
+> -
+> -int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+> -		      struct drm_mode_create_dumb *args)
+> -{
+> -	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
+> -}
+> -
+> -const struct drm_mode_config_funcs hibmc_mode_funcs =3D {
+> -	.mode_valid =3D drm_vram_helper_mode_valid,
+> -	.atomic_check =3D drm_atomic_helper_check,
+> -	.atomic_commit =3D drm_atomic_helper_commit,
+> -	.fb_create =3D drm_gem_fb_create,
+> -};
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--0giusCf8M19XCjkJzIjgWTwoCrZsMFGRm--
+
+--VHOLXA5VTXUoN4JVrjVjdYUhJro7H7nu3
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmABVXsFAwAAAAAACgkQlh/E3EQov+CQ
+fRAAyYaHKPigxQSf/eQGbLFrqxY7o2cudjJHmlPnkwhYF7slvbcxvWUH9r4g/VoHXTMGvGpsi+Pn
+zB3kB63+0TUSF4k9bQ7Z9b+O03dt3kSrfImvnEuYfCtfu1eobklj5jLB1SzrZRAvcgIXu/tyir/s
+PWNsPBrLvK/jGG5t48IEE8r1/GuoCwJCSyf+8stIZh9YBF6Nn8LqT6oWv/AQcNwIkya/GfwAQ9LZ
+10JkUSd5HCMcmVmCFa8D1k6YPULrPmmA2UUbR1SeLYPZXRCP7D/TWOuEJH72eVMBNpFdhDXChGJZ
+Kghra1dvvP1BN/lq2neUZWrmdQECm79fZLzx4Jdd31nn0Edr6mfgWxfMDAA+Bbtm3txH3qPO5y0R
+H+6ixLmvhyzYpR0yHApv5rs7ZRa8HV7IvGVN/Of0PqWWHRNrgHA/2rcdR/v5TrUqDd8d81z9qJIW
+fyJOJn1Mnwsz5GkT8GV52XxqVhxTOM2xNwJZOtqPCNows935yoNFYppOPPrh1qCgU4qbovi+Ao7p
+5luh004NZTrd6Xhz9o/Sp2m590Q2h6GUmMr0Odt7RqYbaZx7dWbFXXrq3eeJD/OURq288Dp0wjpn
+IjaxPbmQ3mkI0kWVozPj+gZb9WTsUI+tpEnXkBI0x4XQW19rO3etF2Lh3d8Tw4rYXlDA9b9+93KB
+z8o=
+=MqkA
+-----END PGP SIGNATURE-----
+
+--VHOLXA5VTXUoN4JVrjVjdYUhJro7H7nu3--
+
+--===============1416272286==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1416272286==--
