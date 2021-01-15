@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA47B2F83B3
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:16:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A55662F83AD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:16:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1B56E4F1;
-	Fri, 15 Jan 2021 18:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64EF56E4D4;
+	Fri, 15 Jan 2021 18:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B446E4D2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:16:28 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id k10so8220133wmi.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:16:28 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2716E4D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:16:29 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id 6so2911948wri.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:16:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ist2qaMcFyPJ0b0T5b259LCtzdvkGcAXrLj6GtIUIKA=;
- b=VQCHrIKm7/CTiVE6GNmynsfACZnXKCYS24SYjRRSWQ+0E7tkdGKZR2D8B5JfDmP19u
- Sp7x6uR0JcsH+gX+hBMcorqNaWjt5kkEZWiq1KQ9sX80mKilNN2fcQdYDB0sj0gQdIDM
- xOTymz8SN/aWa8nc0cbTl1fEvoUQazZGZwRF+pIykVYFRwLr4ceFAj0jc00u2CNhRSCa
- nMpG+Pbs+uD4PaxoIBC+uFiuituSY2qRQkU6wEblTpNd45QpRZS5M75KS2r/21r8df35
- p/BYCeY15O9TymDlEFBXeFShpazqpjehgB+1SSBuFRFbRNffl/gyA/2QXw3pZchw9M0n
- Tl3A==
+ bh=ouF11XatezVbFMuPjsn7FwMINIqwkDbexOTfYg8EXx4=;
+ b=Gk/bU3FB1IFDV8OfDg9iJegntzsA+v1LnclxDJt+hsb7B4CgA13LFMBZCzfJN+gsWX
+ 4jHt/mC202CfahomgeLpBcXw0YKenaVlwcrOqoWo95y1alita7OLMMIC+RdNbS7Qnlme
+ yyHeijNl3qu0QtHk9jO4YQ5oI7E2HOTmXVR3w88AFncHrcLrmwit+YFBZYpP7uEpwpgG
+ ANejlTeY5nMYc3NEJMrYiVncAdkanlvh1jpcxOo58Rr/KdyXYyY6RYfgLJrjSrnFIHaP
+ plEjM7ddJ8zkdB1439qXoEo6KAX5vVV4wmUA+W8vCa+yhZumnGW7wPFSBZtfA+6CKRMk
+ KQtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ist2qaMcFyPJ0b0T5b259LCtzdvkGcAXrLj6GtIUIKA=;
- b=d4F4PnxgG1Wjn/L5bdyApYuJ2S1NPyPSbQ9bgwOE928zVxWPIJWohA85VGVu6Mtj87
- Ok11Ykw9BZQVP0IZ7yfd10WZFoQ9JLaBPT1Vh6MxYznZdI7KAz7SkoH/3OSG6ttXSUTg
- lhuyH+1I1el0YOgu/I28i4E21/uIb+xT5SK8GLG6thz096WEglLbmhN2uGhSBMomzzsK
- ZuN5MtkDaqxxz/R8cP1W/3y05LwxsbgAw0bk+BTGmQI/HK4FYwFSY19ZkEe0E7CWjOwi
- 5xiIYX85pfDvpSZST2zG39rfxaWs31rAhJU+jRKmAGNAYe5y/XA67C5VFiZlQ2a3bWIf
- hJAA==
-X-Gm-Message-State: AOAM533t2xua5HhH2VwV+D8FKcKg0z1diY03vyWlSN0g9r64no29z4aa
- lLFpfsVh1lPQB6abJwHPeC7plw==
-X-Google-Smtp-Source: ABdhPJwsR4sddknZLa7jcLTBaIuE7RjisKawBK3M+o+x1MC/HL2jnakWZ3qsJqRtEF6Kzb7QNJ2M+Q==
-X-Received: by 2002:a1c:3206:: with SMTP id y6mr9699299wmy.127.1610734587226; 
- Fri, 15 Jan 2021 10:16:27 -0800 (PST)
+ bh=ouF11XatezVbFMuPjsn7FwMINIqwkDbexOTfYg8EXx4=;
+ b=Lhd+vgyueKxbirNKFh1LrObwz8vBQPKbzrjF1tY8ma0+EicrKtr26iyTn2r0DK0GAh
+ XnWbETnOGE2kpH5ze4HxZSfPQOcASXeRIOEe0C4z/cc2+Mh21DuinUdJ6NOqDZcSaDIe
+ 8mdV7Py6bwj9EhZ8iKXL+GHh0jQTbVweWUI39NtpYXLoScQ72V+YpZ44dQ9so4RWV+aI
+ 8iG8v+y7UXNKLiiRINvkDBFL4Zwi3ALLEisBpG1uipIw/uAbPhxbyGpahyULj3emsOAF
+ kXAeg8A/ICrED1IUyKlLQMy065BxnPOXuxuM8XjG3zXvEFFWkM/tZS0sFPXH8kWF+QQE
+ J05w==
+X-Gm-Message-State: AOAM531R4WwkxQzQY0Q3PjbAOeNq30owU5qOUfuKUq04JsN5HjAS6+7C
+ d6h4dTbsFxfxDPoA55e4/k1E9A==
+X-Google-Smtp-Source: ABdhPJxWIcNsX9CfW4n898DqqtkFvgS6ZiJ3Dm+q2aQO76ewoRPXBVCi8e54Aik3hGgwUT/JjGyNYA==
+X-Received: by 2002:adf:ef49:: with SMTP id c9mr10085990wrp.172.1610734588620; 
+ Fri, 15 Jan 2021 10:16:28 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id b133sm14405979wme.33.2021.01.15.10.16.26
+ by smtp.gmail.com with ESMTPSA id b133sm14405979wme.33.2021.01.15.10.16.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:16:26 -0800 (PST)
+ Fri, 15 Jan 2021 10:16:27 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 15/29] drm/gma500/cdv_intel_display: Demote kernel-doc abuse
- in 'cdv_intel_panel_fitter_pipe()'s header
-Date: Fri, 15 Jan 2021 18:15:47 +0000
-Message-Id: <20210115181601.3432599-16-lee.jones@linaro.org>
+Subject: [PATCH 16/29] drm/gma500/cdv_intel_lvds: Demote unworthy headers to
+ standard blocks and fix another
+Date: Fri, 15 Jan 2021 18:15:48 +0000
+Message-Id: <20210115181601.3432599-17-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181601.3432599-1-lee.jones@linaro.org>
 References: <20210115181601.3432599-1-lee.jones@linaro.org>
@@ -68,7 +68,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ Jesse Barnes <jesse.barnes@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -76,31 +76,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/gma500/cdv_intel_display.c:559: warning: Function parameter or member 'dev' not described in 'cdv_intel_panel_fitter_pipe'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:83: warning: Function parameter or member 'dev' not described in 'cdv_intel_lvds_set_backlight'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:83: warning: Function parameter or member 'level' not described in 'cdv_intel_lvds_set_backlight'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:107: warning: Function parameter or member 'dev' not described in 'cdv_intel_lvds_set_power'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:107: warning: Function parameter or member 'encoder' not described in 'cdv_intel_lvds_set_power'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:107: warning: Function parameter or member 'on' not described in 'cdv_intel_lvds_set_power'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:298: warning: Function parameter or member 'connector' not described in 'cdv_intel_lvds_get_modes'
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c:480: warning: Function parameter or member 'mode_dev' not described in 'cdv_intel_lvds_init'
 
 Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Eric Anholt <eric@anholt.net>
+Cc: Jesse Barnes <jesse.barnes@intel.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/gma500/cdv_intel_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
-index 686385a66167b..5d33022497793 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_display.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
-@@ -551,7 +551,7 @@ void cdv_update_wm(struct drm_device *dev, struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+index b62368962c219..5bff7d9e3aa6e 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
+@@ -74,7 +74,7 @@ static u32 cdv_intel_lvds_get_max_backlight(struct drm_device *dev)
+ 	return retval;
+ }
+ 
+-/**
++/*
+  * Sets the backlight level.
+  *
+  * level backlight level, from 0 to cdv_intel_lvds_get_max_backlight().
+@@ -99,7 +99,7 @@ static void cdv_intel_lvds_set_backlight(struct drm_device *dev, int level)
  	}
  }
  
 -/**
 +/*
-  * Return the pipe currently connected to the panel fitter,
-  * or -1 if the panel fitter is not present or not in use
+  * Sets the power state for the panel.
   */
+ static void cdv_intel_lvds_set_power(struct drm_device *dev,
+@@ -291,7 +291,7 @@ static void cdv_intel_lvds_mode_set(struct drm_encoder *encoder,
+ 	REG_WRITE(PFIT_CONTROL, pfit_control);
+ }
+ 
+-/**
++/*
+  * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
+  */
+ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
+@@ -471,6 +471,7 @@ static bool lvds_is_present_in_vbt(struct drm_device *dev,
+ /**
+  * cdv_intel_lvds_init - setup LVDS connectors on this device
+  * @dev: drm device
++ * @mode_dev: PSB mode device
+  *
+  * Create the connector, register the LVDS DDC bus, and try to figure out what
+  * modes we can display on the LVDS panel (if present).
 -- 
 2.25.1
 
