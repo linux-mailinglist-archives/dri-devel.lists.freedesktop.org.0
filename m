@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2AB2F8383
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330D72F8385
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF9006E4AE;
-	Fri, 15 Jan 2021 18:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABAC6E4B5;
+	Fri, 15 Jan 2021 18:14:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D3C6E49C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:01 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id k10so8213448wmi.3
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:01 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE016E49C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:02 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id w5so10181425wrm.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eAMyYaaj1VFxGbNOafp+nzJ0Q2eH0I8k2Xo9CJpOSL4=;
- b=yVjWmOGvJzeDni3tCIMOzMmMGeotfx0zrqnDbf4Clmyd04/rjS+q0vmqap5y7zg4Io
- 7h1D4HYxOw/emRxXYKSS0UPCw+YELiJjQhMGu6Fy0Uj+H1b1v6SEx18+huC92+skY/oE
- ysSeaM6p0n4eY95XH9EEsl1HIJT0gd5ayHE8di3BTOfP4imM+Ivsp8UyOqj7f4SECp8T
- naf24hYPEYQWtTPW3tTd4cbe0Y1G8nanx71tnqR/WsoDLa2c2NVoI7n/nf+Yv+wa5XPc
- CImYGw6BvnacySDNght925HnYU893MxmOQbdVzZhvA0BUaQXeAuUjkStV7Rn3CMAm7HK
- t/NA==
+ bh=4hRh93h6Ap5slKiR2lojMOAMN9uOZEFE9uCUxTKVOZ0=;
+ b=L0fqAYHr8HLZtGjdqMD143kc5XmQf/YmOSw8lmVA5+T5CRtjE9urWP4t6hYR+S6CAO
+ ztAgllI0d8M0uqueieIkohfp9oCqK27wJMQhv8bkCxXCJ5RYYmhzJXcFdvWuFzxYHzzE
+ GTz6bJ3ekyz3tyS+3yR/RaMYzkpnFo8ZVCJpPlczC6hiddMbhW+OxqJHAGqF04pnhtSv
+ twSm+JNMxuLSqH0/7Bj4Uk0YgMHzX+eRqY3oaK8oNZIOhixgAZM1kuQV4o7B8BzC8epj
+ HAwePLUZBut2Qg0JMkUIPR4Vc5VFau5RnU/7pha5iK+oPtgoqGMtP7QDgn45Wb55z8MT
+ NhZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eAMyYaaj1VFxGbNOafp+nzJ0Q2eH0I8k2Xo9CJpOSL4=;
- b=OPq9rZk5QLhsNGb7ZK8viIYU0ysjaMUD7gX9o/BfmolBm5APKb/LS60822m9d8xtmG
- /VDE3ySoGAfyvkuJjVam8W8pDFHChhhE+/z86yxIpIc9rgAksDmErHvFDAOVY+RbbaHm
- loO7isD/9fM7vWxTqDR7L45AEndJeZ2jCq9ZQ8o6+qcJK0MNXXhOeeABHyeh9BzHE7U8
- oRZ4DGScXc5q5heXPoZvwX4+MZIjf2hVA8PKyXC3mr+2qHWwESRT+PBTQajee78dqA1I
- 2iJ0CLACeTUiOaiD+1uf+8oQ7BXpL+pe+g6VAnashVVnFkqieMwAXyNhLRVp1bhgA6zh
- yd/Q==
-X-Gm-Message-State: AOAM530pIDNUHBqzacKRwZZwW40ts6gItnvz3K+NwQCHh37yepRJK/VJ
- o3+3LB0txCbXZqKPOZJnSJn7cg==
-X-Google-Smtp-Source: ABdhPJwe9r4nkJlVMT4urFaM/FAN0HUOKO2Kd3dORP++jhEf8U1Dg6bSWhgp5TG+hNJ3w3cTCkA9Rw==
-X-Received: by 2002:a7b:ce96:: with SMTP id q22mr10104491wmj.165.1610734439880; 
- Fri, 15 Jan 2021 10:13:59 -0800 (PST)
+ bh=4hRh93h6Ap5slKiR2lojMOAMN9uOZEFE9uCUxTKVOZ0=;
+ b=U1AT59ZhBwR/Nx0+VJkdQr7ViXklc7KRdaC3Nsc1UBFJyg5GjcV98bUgns5218/GKv
+ SufnljmfLdA/O1HyuwWtGyGBvO50E5YXnv/FsT8Q7M/S25v0aFP8mdcUQCSF6/MdraKV
+ GSjmtbjOjAuZhf/F3wzG80Z78DOx9IxKh0kNKfVz8OTCl2eq4LdGgkYcOlglZmyxsuFX
+ eKmrLz6ProAwLKiyOgY7g8i0YuDYBlo9Q73+M3AlY+8wOa98Nw2XsazWoI0wYPD3tYmk
+ klcrNLKDq5+YAAldXL6NUH/fQKFm20REdcagF6tbcBKMnGV6cEdP6nkqcA1I0No+f80d
+ cXgg==
+X-Gm-Message-State: AOAM531xjSZBA+WHdAqTI+LVwVkDlXeq7+y+VpRcPyYilE9t1zNGznrp
+ BUmxBmsqM6Alf4OH+b1NdyYROg==
+X-Google-Smtp-Source: ABdhPJwC47WOemGmAPk2kis09Wl6b15wqaHG88CkeWRKRwzEE16uui9xQCF4DGMAYfV5I1KkHL5FtQ==
+X-Received: by 2002:a5d:6749:: with SMTP id l9mr14597082wrw.395.1610734441481; 
+ Fri, 15 Jan 2021 10:14:01 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.13.58
+ by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.14.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:13:59 -0800 (PST)
+ Fri, 15 Jan 2021 10:14:00 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 28/40] drm/vmwgfx/vmwgfx_context: Demote kernel-doc abuses
-Date: Fri, 15 Jan 2021 18:13:01 +0000
-Message-Id: <20210115181313.3431493-29-lee.jones@linaro.org>
+Subject: [PATCH 29/40] drm/vmwgfx/vmwgfx_scrn: Demote unworthy kernel-doc
+ headers and update others
+Date: Fri, 15 Jan 2021 18:13:02 +0000
+Message-Id: <20210115181313.3431493-30-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181313.3431493-1-lee.jones@linaro.org>
 References: <20210115181313.3431493-1-lee.jones@linaro.org>
@@ -76,10 +77,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c:121: warning: Function parameter or member 'dev_priv' not described in 'vmw_context_cotables_unref'
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c:121: warning: Function parameter or member 'uctx' not described in 'vmw_context_cotables_unref'
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c:681: warning: Function parameter or member 'base' not described in 'vmw_user_context_base_to_res'
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c:707: warning: Function parameter or member 'p_base' not described in 'vmw_user_context_base_release'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:90: warning: cannot understand function prototype: 'struct vmw_screen_object_unit '
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:122: warning: Function parameter or member 'dev_priv' not described in 'vmw_sou_fifo_create'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:122: warning: Function parameter or member 'sou' not described in 'vmw_sou_fifo_create'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:122: warning: Function parameter or member 'x' not described in 'vmw_sou_fifo_create'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:122: warning: Function parameter or member 'y' not described in 'vmw_sou_fifo_create'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:122: warning: Function parameter or member 'mode' not described in 'vmw_sou_fifo_create'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:168: warning: Function parameter or member 'dev_priv' not described in 'vmw_sou_fifo_destroy'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:168: warning: Function parameter or member 'sou' not described in 'vmw_sou_fifo_destroy'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:283: warning: Function parameter or member 'state' not described in 'vmw_sou_crtc_atomic_enable'
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c:293: warning: Function parameter or member 'state' not described in 'vmw_sou_crtc_atomic_disable'
 
 Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
 Cc: Roland Scheidegger <sroland@vmware.com>
@@ -88,40 +95,65 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_context.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-index 6f4d0da11ad87..4a5a3e246216d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
-@@ -112,7 +112,7 @@ static const struct vmw_res_func vmw_dx_context_func = {
- 	.unbind = vmw_dx_context_unbind
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index b0db059b8cfbe..6feb61a1a3041 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -84,7 +84,7 @@ struct vmw_kms_sou_define_gmrfb {
+ 	SVGAFifoCmdDefineGMRFB body;
  };
  
 -/**
 +/*
-  * Context management:
+  * Display unit using screen objects.
   */
+ struct vmw_screen_object_unit {
+@@ -112,7 +112,7 @@ static void vmw_sou_crtc_destroy(struct drm_crtc *crtc)
+ 	vmw_sou_destroy(vmw_crtc_to_sou(crtc));
+ }
  
-@@ -672,7 +672,7 @@ static int vmw_dx_context_destroy(struct vmw_resource *res)
+-/**
++/*
+  * Send the fifo command to create a screen.
+  */
+ static int vmw_sou_fifo_create(struct vmw_private *dev_priv,
+@@ -160,7 +160,7 @@ static int vmw_sou_fifo_create(struct vmw_private *dev_priv,
  	return 0;
  }
  
 -/**
 +/*
-  * User-space context management:
+  * Send the fifo command to destroy a screen.
   */
- 
-@@ -698,7 +698,7 @@ static void vmw_user_context_free(struct vmw_resource *res)
- 			    vmw_user_context_size);
- }
- 
--/**
-+/*
-  * This function is called when user space has no more references on the
-  * base object. It releases the base-object's reference on the resource object.
+ static int vmw_sou_fifo_destroy(struct vmw_private *dev_priv,
+@@ -263,7 +263,7 @@ static void vmw_sou_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ /**
+  * vmw_sou_crtc_helper_prepare - Noop
+  *
+- * @crtc: CRTC associated with the new screen
++ * @crtc:  CRTC associated with the new screen
+  *
+  * Prepares the CRTC for a mode set, but we don't need to do anything here.
   */
+@@ -275,6 +275,7 @@ static void vmw_sou_crtc_helper_prepare(struct drm_crtc *crtc)
+  * vmw_sou_crtc_atomic_enable - Noop
+  *
+  * @crtc: CRTC associated with the new screen
++ * @state: Unused
+  *
+  * This is called after a mode set has been completed.
+  */
+@@ -287,6 +288,7 @@ static void vmw_sou_crtc_atomic_enable(struct drm_crtc *crtc,
+  * vmw_sou_crtc_atomic_disable - Turns off CRTC
+  *
+  * @crtc: CRTC to be turned off
++ * @state: Unused
+  */
+ static void vmw_sou_crtc_atomic_disable(struct drm_crtc *crtc,
+ 					struct drm_atomic_state *state)
 -- 
 2.25.1
 
