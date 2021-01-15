@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1275F2F8063
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 17:16:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BB92F8074
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 17:18:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11FCF6E0C1;
-	Fri, 15 Jan 2021 16:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0408C6E0CA;
+	Fri, 15 Jan 2021 16:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494866E0C1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 16:16:24 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m4so9819377wrx.9
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:16:24 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317BD6E0CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 16:18:35 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id u14so3877734wmq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=g7JbEVsR6hed7rNs5IQiLomB3I1tp8PyB2urljaCSwE=;
- b=EsFnt9FjssJUKYVHi70fmTgHzWLbKC8a9WAzFKSxrf2NwiJGIkPhpi9cqWsMMHIB1N
- 56YBnNK5YkLq02FYZvJ3naIV4nj7WkXefd7zBjzyJ6jSS/ewW7CumW7LMHddyYkwWFwm
- XHgUg2rdsLX7wWzh5HPJHQZ13FtzHuCeb1JRiE8G6bqEU2uZHonQvu8CfC6/5G5DKvU9
- rwRoTK8qFugcegCdeYpfZ/8cBNnrQeVkRNNt6AbFSTIzMYVScfb8u2yDh+0ntMe8uTxJ
- M0ebTDWVyMbjGwz/ovff8GQh+RHQGGsldgrbdgsOXMNTeEiV4aUSE/LSTns3/1DndBJj
- tmpQ==
+ bh=YCiDkthl4OIFxn0mzHzqR9AizFHqaokWfRlzuTBX9TI=;
+ b=sQ3cNpO5YXwK4VHLZJoZzyjhtCNBqZPphdpKRuS+jSbpL9WMgVmOISpXp4XgMZbpdV
+ MFpIFNCfhfiyCdQgCzqtDgHSP9j/sRBjSjL0SHVQjnbl5JnoZMXGudb3AtlQNt8r4XnJ
+ o4Sy6sj63fpCahORQi/NgsaVtQkhQuWsoDXLnuITDZFtOlKJSZueU2iR7UMr9Q2SnEXF
+ pTpOWZMgvt/oecW4bIKdkEx/qgOMVdUAWTCGAm5L1JgeDG+qclHaitwt0vakQlKDyjzC
+ /o4wW5rW/DlzEd1Z+EhnHqdbw5nwCrKaBleIiRADUJWScra52As9aL6CXI8SBLUq4OwD
+ nerg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=g7JbEVsR6hed7rNs5IQiLomB3I1tp8PyB2urljaCSwE=;
- b=d3XiP7AasOoJvLHQ04aj4PltlYlIRiBmtJXJWAuONDPvRsQ+/9kpKs2cYCkYEE3N01
- ykWJEgO541xjftVED+2a6jFRvO+s5cWcI16TXeiRE0dr+VtbA9HTiAy9uWj6wFDHA9by
- NWWyS3DHDh0h+Ge1cc/aCvjGPm9w44cttsmZe8tmwQzVcb2r/WBzGuCHM7UvJO1i3Hx/
- Rd0wa5GRC+23GYwzyZFROZPSJ6HRdAh/tiLZ3Rw4Ht/j4C7DkwjNj093FuD+MxWrLjgF
- MXeB0hP4YGa8AbSwHJezAq6k0LljYIXFb3VQjEbCEZutfjxydJiOuq1Y60eL8MBw/Djz
- ofKA==
-X-Gm-Message-State: AOAM531ka4pnpUcRO5dgFDosJLXAmoCCfg8GhHCfryEPHhZBVKLwViMP
- jLetnilKe+o7oa+srzzb1Jo=
-X-Google-Smtp-Source: ABdhPJz9jeKybwSSqsE8URg/01ZwtZjzdv2knp6hjtYRPUNR7Rp/VuENkn+AnJYqxLoh1SkihlMmSA==
-X-Received: by 2002:adf:80d0:: with SMTP id 74mr14192059wrl.110.1610727382984; 
- Fri, 15 Jan 2021 08:16:22 -0800 (PST)
+ bh=YCiDkthl4OIFxn0mzHzqR9AizFHqaokWfRlzuTBX9TI=;
+ b=V+uMxhMM5LXNuQMdoq9JXTPGUz+VfAO1avm9PLu2I5ca1Rf3CpLU398OrD6xKE5g7X
+ +vx/h1Q43BZgKLS+vaJ/eV6KttHZSEC/jI47S6cr9a8A9ezr81xEMSV2aavM20HYog24
+ 5HMCBkeUY+WBdeUC0JZKzmFEVp5YHODZnCzji9U6vBjr3w4+JUADBL4P2Q5MEwMqygOG
+ FBr/9GRkFWlVk5R+zlmWlMYEg/rRJ3bJJI/NsmJnZB6dwfdhOF/7+HhXTCwb585H7n3G
+ Uv/ABddhO/NuVTePKO1+8RljHQFppMGdcrE7kD11fBirTatb9Of7XMTtjnhQTWAiTw88
+ +Qhg==
+X-Gm-Message-State: AOAM5318h15+LOfwmUGS/6AjfmsOL4TbCNJP2w0PXAb2fmxXNPGvcyEa
+ iLNbmtfxN2Egiroc3tV92HY=
+X-Google-Smtp-Source: ABdhPJzzC8coE3a103G+lyWv2TG0YUO3toql0/DlMZNWZflDdbjFRJ0HTdJWJsCsRTJcMCvamkt4hQ==
+X-Received: by 2002:a7b:c8da:: with SMTP id f26mr9500058wml.50.1610727513875; 
+ Fri, 15 Jan 2021 08:18:33 -0800 (PST)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id p8sm16034262wru.50.2021.01.15.08.16.21
+ by smtp.gmail.com with ESMTPSA id b13sm14625594wrt.31.2021.01.15.08.18.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 08:16:21 -0800 (PST)
-Date: Fri, 15 Jan 2021 17:16:20 +0100
+ Fri, 15 Jan 2021 08:18:32 -0800 (PST)
+Date: Fri, 15 Jan 2021 17:18:31 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Subject: Re: [PATCH 1/2] drm/tegra: falcon: Support newer VIC firmware
-Message-ID: <YAG/1MTY8BdO+Msr@ulmo>
-References: <20210112113707.3837876-1-mperttunen@nvidia.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 1/3] drm/tegra: dc: Enable display controller driver
+ for Tegra114
+Message-ID: <YAHAV0ZO1ad6deVB@ulmo>
+References: <20210112181421.21293-1-digetx@gmail.com>
+ <20210112181421.21293-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210112113707.3837876-1-mperttunen@nvidia.com>
+In-Reply-To: <20210112181421.21293-2-digetx@gmail.com>
 User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,63 +68,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com
-Content-Type: multipart/mixed; boundary="===============1392014589=="
+Cc: linux-tegra@vger.kernel.org, Anton Bambura <jenneron@protonmail.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============1987689890=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1392014589==
+--===============1987689890==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="J0xAiNj7E4FsUDNa"
+	protocol="application/pgp-signature"; boundary="Ty3i9iS3x+Y93JVm"
 Content-Disposition: inline
 
 
---J0xAiNj7E4FsUDNa
+--Ty3i9iS3x+Y93JVm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 12, 2021 at 01:37:06PM +0200, Mikko Perttunen wrote:
-> Support newer VIC firmware by accepting the new magic number 0x10fe,
-> loading the full code segment instead of just the first page at boot
-> time, and skipping FCE setup if the firmware header indicates that
-> FCE is handled internally by the firmware.
+On Tue, Jan 12, 2021 at 09:14:19PM +0300, Dmitry Osipenko wrote:
+> Display controller driver isn't listed as a DRM sub-device for Tegra114,
+> thus display driver isn't loaded on Tegra114. Enable display controller
+> driver for Tegra114 SoC.
 >=20
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> Tested-by: Anton Bambura <jenneron@protonmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/gpu/drm/tegra/falcon.c |  9 +++++----
->  drivers/gpu/drm/tegra/vic.c    | 21 +++++++++++++--------
->  2 files changed, 18 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/tegra/drm.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Both patches applied, thanks.
+Good catch! This used to be covered by an "nvidia,tegra20-dc" fallback
+in the DTS, but that was removed at some point.
+
+Applied, thanks.
 
 Thierry
 
---J0xAiNj7E4FsUDNa
+--Ty3i9iS3x+Y93JVm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmABv9IACgkQ3SOs138+
-s6HRaA//flUNiwu+BTIMkgejTbqnIfXuvdwappq+ITMYLcl/WxAgr1j50JRyB+o1
-oQIGSQIR4inK11HkoFI0F0hpYLVvVFkBdhUMedC4di44lSGYchMPlukwiYn5/eKG
-VgI1IXKjaPbSzj0ckVETO+KROhU9O/P5lxbLWaipfjzoJ6uK7cu3dVqXGWYvJeA8
-WoDBstZDAKGmp/OlNV5s/xnuwCsUjjNDW8njBiSt44saCQNzeUalZyfrdRnjLAy2
-Oet87FmOCDr/+F9Q0AruFiIBHPU4Glhgy6ZaFo9SndO3G9Sr6q4tKjmEefGvMBjO
-3VfNiNLe99Og4PeMG0hI33rdVlvVl7b5Npcvm3z966W7U4/ESVVmTvpromg/rFG0
-QTDktpzlWJey+v3SdtbdnFSGdY2OliK84w1xGmHfPDip0u09ZV6kenKXAkjht1s+
-46RHmTh3b3tme8wzcMfHXkgj0lUXxg+dzYIYgCv6iDHMQ9RUyzKTFxktAnw5lW6q
-wnkADbcNZ14M81e9MCAbKH8veAQ23ilCUpEavzHu06C0fALpNOuiTrOxogOFTqCZ
-nrXGMlL2GdH2Rb8icgDOywDmam+u9yoYBcRmhQv6PuPj3xwalXnYV8DIYH4kJwRv
-hI2/CdZu+FW+8UzjRLP656ajTv1Mi11y3Jp+wPrCQsiVtahBMdA=
-=6QL4
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmABwFcACgkQ3SOs138+
+s6EZMA//eyUzW+atqGI456yWuRpLNCkvwa500E5zuhW/MDsPu1FluH29CB4mtIiX
+lBWwy3Qvpim9+8EHgwPTuh2Cv8L6Q6oMRJMfH2CUn0STzkPNaPxoXXHVYfkhdCgd
+wRFCMP8yt+cvnKD9rTz0fH5YDd+dM69UPSorjHKWPRxMD2Ig0f+CbHl1zORkmHkU
+aN49ueeyuPmzxlOnoUIydE1iVQ8tf+TaH7oCzbczqqCbu2hkEoFWVWCy2RPjOvF0
+M/H7JJMpr8zMC/WIznU9JE46Rrq2XTFNLT4E2/UNeNTCfjTSdb+z4lSI/Ek+Ttzk
+SufLVsas/91QMUfDcprbkLhMqG2sg6QmKufNkGuixF4GMNQLk55AagI1L+aI/SUT
+2yxabcKkUC0MYGshd94qOy6++mqVUY7R9RMIs41YxNcsLcYPC63/5fegrRRnRWWE
+uBJDpd4T4xik1uiJFd3QVeqk/cogSmQDQlmAg3rJBC0iub7iuoKHypfbTfG16Tj/
+cmsXMWpcI+QOrrzuL23f3VIJCLSKFi0uHcsfg4d8HKLMDSQU4ZmYCq1anRyDAGLc
+y6w2tkVOW0ywEG0F9cXhszMfJQ9tuHOJw2n5RLTzi8PR0cAybbSlWhPZdyXe7lxS
+1xsRedGVAcMOIsuMCha1Q5p5YR/1QMZbfYQ/PQsLzxtF35c6imY=
+=IfFI
 -----END PGP SIGNATURE-----
 
---J0xAiNj7E4FsUDNa--
+--Ty3i9iS3x+Y93JVm--
 
---===============1392014589==
+--===============1987689890==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -133,4 +138,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1392014589==--
+--===============1987689890==--
