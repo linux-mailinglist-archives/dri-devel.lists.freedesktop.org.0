@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C484A2F73F9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3122F7422
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22CB6E17E;
-	Fri, 15 Jan 2021 08:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B6E6E175;
+	Fri, 15 Jan 2021 08:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
- [209.85.167.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67FEB6E17E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:06:45 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id n186so853363oia.5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 00:06:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KHJ4LFBTeySXrAB0B3j8k7W0q4a43BLWpsk73jsTU8I=;
- b=tRmKi/8MViAHv1WZ9nxZNB8BK1gwnd8Dg+Z7pspjMvKmrxvDIGE7HExe/y+ltngWa2
- 9NiENbFjOdqxfrL+9R+qxP1QkVi0vzZLxzCJjVfPUyV/eXdGCFqVs799/MgZWfZUl894
- K/tvhe2wzWbazvXV3SfThUDkRMW/DF44JXsw2ERq0bsy9hkRqwyomde06flkgNwCQ6kh
- 5xGjalDDBWphPSXtnPdr1lyEQEt9jHeCpO9QBibYHUj8vvcrlkxifhBiP9t5NS51AfuI
- 1m03MzPhbywWVUl/iqtHASIqZVnsjdkOF2vZgKVjDlkPDO6sw1LLuvvBzteMGwm0aeug
- 7I3A==
-X-Gm-Message-State: AOAM530coSH3DyG6zanLNFeSE0e3BwUaD8I2/CVfR1LL/Mpj5U60QwOs
- rlmcGzMnGB3aHWeK+8VXh0muCfDuHSYQiw60J+s=
-X-Google-Smtp-Source: ABdhPJxGZI0PFSd8/9cz6QQtwsEnLh5GsODfVqU6ivhGty9KZLXuVxw9DoF5rLCTCgOv7jS7bGnrUuqWBkh8Mye41/s=
-X-Received: by 2002:aca:4b16:: with SMTP id y22mr4929340oia.148.1610698004707; 
- Fri, 15 Jan 2021 00:06:44 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67AC46E175
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:16:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DEB59AB7A;
+ Fri, 15 Jan 2021 08:15:58 +0000 (UTC)
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+To: kieran.bingham+renesas@ideasonboard.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, eric@anholt.net,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+ <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+ <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
+ <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
+ <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
+ <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
+Date: Fri, 15 Jan 2021 09:15:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
-In-Reply-To: <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 15 Jan 2021 09:06:33 +0100
-Message-ID: <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To: Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,102 +49,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Phillip Susi <phill@thesusis.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0085203122=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0085203122==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh"
 
-On Thu, Jan 14, 2021 at 5:11 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
-> > > <torvalds@linux-foundation.org> wrote:
-> > > > On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> wrote:
-> > > > > > Could we pause this madness? Scrollback is still useful. I needed it
-> > > > > > today... it was too small, so command results I was looking for
-> > > > > > already scrolled away, but... life will be really painful with 0
-> > > > > > scrollback.
-> > > > >
-> > > > > > You'll need it, too... as soon as you get oops and will want to see
-> > > > > > errors just prior to that oops.
-> > > > >
-> > > > > > If it means I get to maintain it... I'm not happy about it but that's
-> > > > > > better than no scrollback.
-> > > > >
-> > > > > Amen!  What self respecting admin installs a gui on servers?  What do we
-> > > > > have to do to get this back in?  What was so buggy with this code that
-> > > > > it needed to be removed?  Why was it such a burden to just leave it be?
-> > > >
-> > > > It really was buggy, with security implications. And we have no maintainers.
-> > > >
-> > > > So the scroll-back code can't come back until we have a maintainer and
-> > > > a cleaner and simpler implementation.
-> > > >
-> > > > And no, maintaining it really doesn't mean "just get it back to the
-> > > > old broken state".
-> > > >
-> > > > So far I haven't actually seen any patches, which means that it's not
-> > > > coming back.
-> > > >
-> > > > The good news? If you have an actual text VGA console, that should
-> > > > still work just fine.
-> >
-> > IIRC, all of this was written for systems lacking VGA text consoles
-> > in the first place...
-> >
-> > > Also on anything that is remotely modern (i.e. runs a drm kernel
-> > > modesetting driver undearneath the fbdev/fbcon stack) there's a pile
-> > > more issues on top of just the scrollback/fbcon code being a mess.
-> >
-> > Would it help to remove DRM_FBDEV_EMULATION (instead)?
->
-> It's a problem with the hardware. "Write some registers and done"
-> isn't how display blocks work nowadays. So your proposal amounts to
-> "no fbdev/fbcon for anything modern-ish".
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
+Content-Type: multipart/mixed; boundary="4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kieran.bingham+renesas@ideasonboard.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, eric@anholt.net,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
+Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
+ functions
+References: <20201123115646.11004-1-tzimmermann@suse.de>
+ <20201123115646.11004-3-tzimmermann@suse.de>
+ <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
+ <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
+ <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
+ <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
+ <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
 
-With "modern-ish" actually meaning: "desktop/gaming/mobile-style
-3D-accelerated wide-color display hardware".  There's plenty of display
-hardware that doesn't fall into that class, and is served by fbdev (also
-out-of-tree due to the moratorium) because of that.
+--4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Also I said "a pile more", most of the issues in fbcon/fbdev code
-> apply for all drivers.
->
-> > > Specifically the locking is somewhere between yolo and outright
-> > > deadlocks. This holds even more so if the use case here is "I want
-> > > scrollback for an oops". There's rough sketches for how it could be
-> > > solved, but it's all very tricky work.
-> >
-> > When an oops happens, all bets are off.  At that point, all information
-> > you can extract from the system is valuable, and additional locking
-> > issues are moot.
->
-> Except the first oops then scrolls aways because it's getting buried
-> under further fail. Your locking needs to be minimally good enough to
-> not make the situation worse.
+Hi
 
-When an oops happens, all bets are off...
+Am 14.01.21 um 17:28 schrieb Kieran Bingham:
+> Hi Thomas,
+>=20
+> On 14/01/2021 15:15, Thomas Zimmermann wrote:
+>>>>> On 23/11/2020 11:56, Thomas Zimmermann wrote:
+>>>>>> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
+>>>>>> and offset as in the old implementation and immediately maps in th=
+e
+>>>>>> buffer's memory pages.
+>>>>>>
+>>>>>> Changing CMA helpers to use the GEM object function allows for the=
 
-Gr{oetje,eeting}s,
+>>>>>> removal of the special implementations for mmap and gem_prime_mmap=
 
-                        Geert
+>>>>>> callbacks. The regular functions drm_gem_mmap() and
+>>>>>> drm_gem_prime_mmap()
+>>>>>> are now used.
+>>>>>
+>>>>> I've encountered a memory leak regression in our Renesas R-Car DU
+>>>>> tests,
+>>>>> and git bisection has led me to this patch (as commit f5ca8eb6f9).
+>>>>>
+>>>>> Running the tests sequentially, while grepping /proc/meminfo for
+>>>>> Cma, it
+>>>>> is evident that CMA memory is not released, until exhausted and the=
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>>>>> allocations fail (seen in [0]) shown by the error report:
+>>>>>
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.fbs.append(pykms.DumbFramebuf=
+fer(self.card, mode.hdisplay,
+>>>>>> mode.vdisplay, "XR24"))
+>>>>>> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate mem=
+ory
+>>>>>
+>>>>>
+>>>>> Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pas=
+s
+>>>>> successfully [1] on the commit previous to that (bc2532ab7c2):
+>>>>>
+>>>>> Reverting f5ca8eb6f9 also produces a successful pass [2]
+>>>>>
+>>>>>  =C2=A0=C2=A0 [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed a=
+t f5ca8eb6f9
+>>>>>  =C2=A0=C2=A0 [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success =
+at bc2532ab7c2
+>>>>>  =C2=A0=C2=A0 [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success =
+with revert
+>>>>>
+>>>>>
+>>>>> I don't believe we handle mmap specially in the RCar-DU driver, so =
+I
+>>>>> wonder if this issue has hit anyone else as well?
+>>>>>
+>>>>> Any ideas of a repair without a revert ? Or do we just need to subm=
+it a
+>>>>> revert?
+>>>>
+>>>> I think we might not be setting the VMA ops and therefore not finali=
+ze
+>>>> the BO correctly. Could you please apply the attched (quick-and-dirt=
+y)
+>>>> patch and try again?
+>>>
+>>> Thanks for the quick response.
+>>>
+>>> I can confirm the quick-and-dirty patch resolves the issue:
+>>>  =C2=A0=C2=A0 https://paste.ubuntu.com/p/sKDp3dNvwV/
+>>>
+>>> You can add a
+>>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> Great! If you don't mind, I'd also add you in the Reported-by tag.
+>=20
+> Certainly!
+>=20
+>>>
+>>> if it stays like that, but I suspect there might be a better place to=
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>>> initialise the ops rather than in the mmap call itself.
+>>
+>> I think that's the fix, basically. We could put such a line as a
+>> fall-back somewhere into the DRM core code. But I don't know if this
+>> really works with all drivers. Maybe there's one that requires vm_ops =
+to
+>> be NULL.
+>=20
+> Ok, that's reaching beyond code I've explored, so I'll leave it to you.=
+
+
+Daniel asked for a fix in the DRM core, so I'll go with the alternative=20
+approach. If you have the time, I'd appreciate another test run.
+
+Best regards
+Thomas
+
+>=20
+>=20
+>> Thanks for reporting this issue and testing quickly.
+>=20
+> Thanks for fixing so quickly :-)
+>=20
+> Regards
+>=20
+> Kieran
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL--
+
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmABTz0FAwAAAAAACgkQlh/E3EQov+CV
+xA/+PoKFAj2XjMj4k6um1i/stJIlU8XfqnXWd2QV0TvhmeUkW9XsDLSn4NGcJzCeDqfZAMu6o8xB
+t38plEFr9gOI2fKxKOntbxN+OID1BPRgJ0hjuuqHiNxv4fyOozfsHJIq8vTZYOZ1RmNHJcWqGTy2
+7OjyNQqGk1AXbBNjPBITMX8Eq78YJ/acqGaCoTIRNI4HNV6RcKP/1phXrqwMeLu9E8k+iiQXDwFQ
+gR3RClr9R3F+YFW6gXI81arcevOXtvM9dG4XzIRht5EYHO4c+pFxqiRsphDC3UIskMcvlsf7JvNX
+2DM94E6Z2JdEvYflEHwD4j8MFG8ryJzR2AGtQwirxg60SImcH8vljSMTNswH7gE28S/iOXD0R23k
+dQd2/qE2I7frg+o0/JAKi45frK7eTKqO3SBBYP1OYdjTAVGkvaEG4YZV4DGObUO5veA5njMdVkTP
+l0/RRfYwZhr+gFWXi+vPV8AyyAKaeKqJOIaLOqVijwvy7MN0911ePGQEs4+JTlu3WmSbwPjBeB/J
+U2CuzziziRGPrygQGBVh2odeVo0XBuIasyrXMGz+nFDUcY6o3zDE2cvT2c1Yah4U7eYQ/M2QCm68
+WpbBrHELD45ARuibozMh2G1iobh721vRNTCBtRpltuWrMtleg7s/Ob2RCvQxH25mpH4cHFjS8Wk/
+UNs=
+=hO8Z
+-----END PGP SIGNATURE-----
+
+--Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh--
+
+--===============0085203122==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0085203122==--
