@@ -1,44 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D5F2F7577
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 10:32:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AD02F7595
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 10:37:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A97189DC7;
-	Fri, 15 Jan 2021 09:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CCD89EB8;
+	Fri, 15 Jan 2021 09:37:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8BD89DC7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 09:32:15 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93369527;
- Fri, 15 Jan 2021 10:32:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1610703134;
- bh=iJNoISSX+0zuc3sxRZBflXmONagugA70NMH8FqPkDE0=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=ltr19rITev1t3ZvDQcqGTLRTOfT6wkF3DXheNnbiYzrIK3NGgW0WNifVcecB16JpN
- l/G/CKw2OzC/qkv78eGuU/f3pCZmmihJijQQ7R4SYDdSIjT4HWlLjFkGIFPjWo7lwS
- S569r773AZJ0HnW7txSoT5nJqFFjlM/PYn0ofh2U=
-Subject: Re: [PATCH] drm: Set vm_ops to GEM object's values during mmap
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com
-References: <20210115083938.21747-1-tzimmermann@suse.de>
- <ac1a64d7-d117-521b-ec7a-61116a3f0df0@ideasonboard.com>
- <11206023-8595-6b68-5e74-d4b7edcc528e@suse.de>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <318a8d3a-d99f-2db6-6429-20754c93288b@ideasonboard.com>
-Date: Fri, 15 Jan 2021 09:32:10 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F60189F08;
+ Fri, 15 Jan 2021 09:37:55 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1l0LYH-0007Sv-Je; Fri, 15 Jan 2021 09:37:53 +0000
+Subject: Re: [PATCH][next] drm/amdgpu: Add missing BOOTUP_DEFAULT to
+ profile_name[]
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20210111114638.16530-1-colin.king@canonical.com>
+ <20210112100706.GF5083@kadam>
+From: Colin Ian King <colin.king@canonical.com>
+Message-ID: <51efd2a7-f2cf-dc28-4b86-5e89d13564ca@canonical.com>
+Date: Fri, 15 Jan 2021 09:37:53 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <11206023-8595-6b68-5e74-d4b7edcc528e@suse.de>
-Content-Language: en-GB
+In-Reply-To: <20210112100706.GF5083@kadam>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,87 +43,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Xiaojian Du <Xiaojian.Du@amd.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTUvMDEvMjAyMSAwOToyOCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gSGkKPiAKPiBB
-bSAxNS4wMS4yMSB1bSAxMDoxNyBzY2hyaWViIEtpZXJhbiBCaW5naGFtOgo+PiBIaSBUaG9tYXMs
-Cj4+Cj4+IE9uIDE1LzAxLzIwMjEgMDg6MzksIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+Pj4g
-VGhlIEdFTSBtbWFwIGNvZGUgcmVsaWVzIG9uIHRoZSBHRU0gb2JqZWN0J3MgbW1hcCBjYWxsYmFj
-ayB0byBzZXQgdGhlCj4+PiBWTUEncyB2bV9vcHMgZmllbGQuIFRoaXMgaXMgZWFzaWx5IGZvcmdv
-dHRlbiBhbmQgbGVhZCB0byBhIG1lbW9yeSBsZWFrCj4+Cj4+IMKgIHMvbGVhZC9jYW4gbGVhZC8K
-Pj4KPj4+IGluIHRoZSBDTUEgaGVscGVycy4gSW5zdGVhZCBzZXQgdGhlIHZtX29wcyBmaWVsZCBp
-biB0aGUgRFJNIGNvcmUgY29kZQo+Pj4gdG8gdGhlIEdFTSBvYmplY3QncyB2YWx1ZS4gRHJpdmVy
-cyB3aXRoIGRpZmZlcmVudCBuZWVkcyBjYW4gb3ZlcnJpZGUKPj4+IHRoaXMgaW4gdGhlaXIgbW1h
-cCBjYWxsYmFjay4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4KPj4+IEZpeGVzOiBmNWNhOGViNmY5YmQgKCJkcm0vY21hLWhlbHBl
-cjogSW1wbGVtZW50IG1tYXAgYXMgR0VNIENNQQo+Pj4gb2JqZWN0IGZ1bmN0aW9ucyIpCj4+PiBS
-ZXBvcnRlZC1ieTogS2llcmFuIEJpbmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNv
-bmJvYXJkLmNvbT4KPj4KPj4gVGhpcyBhbHNvIHdvcmtzIGhlcmUuCj4+IMKgIC0gaHR0cHM6Ly9w
-YXN0ZS51YnVudHUuY29tL3AvUzJRNTg2cmd3VC8KPj4KPj4gVGVzdGVkLWJ5OiBLaWVyYW4gQmlu
-Z2hhbSA8a2llcmFuLmJpbmdoYW0rcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgo+IAo+IEdyZWF0
-ISBJIGhhdmUgdG8gc2VuZCBvdXQgYW5vdGhlciBpdGVyYXRpb24gb2YgdGhlIHBhdGNoLCBidXQg
-SSB0aGluawo+IHRoZSBjaGFuZ2UgaXMgc3VjaCB0aGF0IEkgY2FuIGtlZXAgdGhlIFRlc3RlZC1i
-eS4KCkkgaGF2ZSB0aGlzIHRlc3QgYXV0b21hdGVkIG5vdywgc28gSSdsbCBraWNrIG9mZiBhIHZh
-bGlkYXRpb24gcnVuIG9uIHRoZQpuZXcgcGF0Y2ggYXMgd2VsbC4KCi0tCktpZXJhbgoKCj4gCj4g
-QmVzdCByZWdhcmRzCj4gVGhvbWFzCj4gCj4+Cj4+PiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFy
-ZEBrZXJuZWwub3JnPgo+Pj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3Jz
-dEBsaW51eC5pbnRlbC5jb20+Cj4+PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4Lmll
-Pgo+Pj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPj4+IENjOiBFcmljIEFu
-aG9sdCA8ZXJpY0BhbmhvbHQubmV0Pgo+Pj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPj4+IC0tLQo+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uY8KgwqAgfCAyMyAr
-KysrKysrKysrKystLS0tLS0tLS0tLQo+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5j
-IHzCoCA0ICsrKysKPj4+IMKgIDIgZmlsZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgMTEg
-ZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jCj4+PiBpbmRleCAzNGIyZjExMWMwMWMuLjU0
-ZDk1NjIxZmNiYiAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMKPj4+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMKPj4+IEBAIC0xMDY5LDI3ICsxMDY5LDI4
-IEBAIGludCBkcm1fZ2VtX21tYXBfb2JqKHN0cnVjdCBkcm1fZ2VtX29iamVjdAo+Pj4gKm9iaiwg
-dW5zaWduZWQgbG9uZyBvYmpfc2l6ZSwKPj4+IMKgIMKgwqDCoMKgwqAgdm1hLT52bV9wcml2YXRl
-X2RhdGEgPSBvYmo7Cj4+PiDCoCArwqDCoMKgIGlmICghb2JqLT5mdW5jcy0+dm1fb3BzKSB7Cj4+
-PiArwqDCoMKgwqDCoMKgwqAgcmV0ID0gLUVJTlZBTDsKPj4+ICvCoMKgwqDCoMKgwqDCoCBnb3Rv
-IGVycl9kcm1fZ2VtX29iamVjdF9wdXQ7Cj4+PiArwqDCoMKgIH0KPj4+ICvCoMKgwqAgdm1hLT52
-bV9vcHMgPSBvYmotPmZ1bmNzLT52bV9vcHM7Cj4+PiArCj4+PiDCoMKgwqDCoMKgIGlmIChvYmot
-PmZ1bmNzLT5tbWFwKSB7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gb2JqLT5mdW5jcy0+
-bW1hcChvYmosIHZtYSk7Cj4+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKHJldCkgewo+Pj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZHJtX2dlbV9vYmplY3RfcHV0KG9iaik7Cj4+PiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+Pj4gLcKgwqDCoMKgwqDCoMKgIH0KPj4+ICvCoMKg
-wqDCoMKgwqDCoCBpZiAocmV0KQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJf
-ZHJtX2dlbV9vYmplY3RfcHV0Owo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIFdBUk5fT04oISh2bWEt
-PnZtX2ZsYWdzICYgVk1fRE9OVEVYUEFORCkpOwo+Pj4gwqDCoMKgwqDCoCB9IGVsc2Ugewo+Pj4g
-LcKgwqDCoMKgwqDCoMKgIGlmIChvYmotPmZ1bmNzLT52bV9vcHMpCj4+PiAtwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB2bWEtPnZtX29wcyA9IG9iai0+ZnVuY3MtPnZtX29wczsKPj4+IC3CoMKgwqDC
-oMKgwqDCoCBlbHNlIHsKPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9nZW1fb2JqZWN0
-X3B1dChvYmopOwo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+
-PiAtwqDCoMKgwqDCoMKgwqAgfQo+Pj4gLQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHZtYS0+dm1f
-ZmxhZ3MgfD0gVk1fSU8gfCBWTV9QRk5NQVAgfCBWTV9ET05URVhQQU5EIHwKPj4+IFZNX0RPTlRE
-VU1QOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHZtYS0+dm1fcGFnZV9wcm90ID0KPj4+IHBncHJv
-dF93cml0ZWNvbWJpbmUodm1fZ2V0X3BhZ2VfcHJvdCh2bWEtPnZtX2ZsYWdzKSk7Cj4+PiDCoMKg
-wqDCoMKgwqDCoMKgwqAgdm1hLT52bV9wYWdlX3Byb3QgPSBwZ3Byb3RfZGVjcnlwdGVkKHZtYS0+
-dm1fcGFnZV9wcm90KTsKPj4+IMKgwqDCoMKgwqAgfQo+Pj4gwqAgwqDCoMKgwqDCoCByZXR1cm4g
-MDsKPj4+ICsKPj4+ICtlcnJfZHJtX2dlbV9vYmplY3RfcHV0Ogo+Pj4gK8KgwqDCoCBkcm1fZ2Vt
-X29iamVjdF9wdXQob2JqKTsKPj4+ICvCoMKgwqAgcmV0dXJuIHJldDsKPj4+IMKgIH0KPj4+IMKg
-IEVYUE9SVF9TWU1CT0woZHJtX2dlbV9tbWFwX29iaik7Cj4+PiDCoCBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9wcmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4+
-PiBpbmRleCA2ODNhYTI5ZWNkM2IuLjA1NDllYzE5MDU4MyAxMDA2NDQKPj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmlt
-ZS5jCj4+PiBAQCAtNzE3LDYgKzcxNywxMCBAQCBpbnQgZHJtX2dlbV9wcmltZV9tbWFwKHN0cnVj
-dCBkcm1fZ2VtX29iamVjdAo+Pj4gKm9iaiwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCj4+
-PiDCoMKgwqDCoMKgIHZtYS0+dm1fcGdvZmYgKz0gZHJtX3ZtYV9ub2RlX3N0YXJ0KCZvYmotPnZt
-YV9ub2RlKTsKPj4+IMKgIMKgwqDCoMKgwqAgaWYgKG9iai0+ZnVuY3MgJiYgb2JqLT5mdW5jcy0+
-bW1hcCkgewo+Pj4gK8KgwqDCoMKgwqDCoMKgIGlmICghb2JqLT5mdW5jcy0+dm1fb3BzKQo+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+PiArwqDCoMKgwqDCoMKg
-wqAgdm1hLT52bV9vcHMgPSBvYmotPmZ1bmNzLT52bV9vcHM7Cj4+PiArCj4+PiDCoMKgwqDCoMKg
-wqDCoMKgwqAgcmV0ID0gb2JqLT5mdW5jcy0+bW1hcChvYmosIHZtYSk7Cj4+PiDCoMKgwqDCoMKg
-wqDCoMKgwqAgaWYgKHJldCkKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBy
-ZXQ7Cj4+Pgo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKPj4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On 12/01/2021 10:07, Dan Carpenter wrote:
+> On Mon, Jan 11, 2021 at 11:46:38AM +0000, Colin King wrote:
+>> From: Colin Ian King <colin.king@canonical.com>
+>>
+>> A recent change added a new BOOTUP_DEFAULT power profile mode
+>> to the PP_SMC_POWER_PROFILE enum but omitted updating the
+>> corresponding profile_name array.  Fix this by adding in the
+>> missing BOOTUP_DEFAULT to profile_name[].
+>>
+> 
+> Still not enough to prevent the array overflow.  It needs POWERSAVE as
+> well.
+
+Thanks for checking, but there is a 1-to-1 relation ship now:
+
+enum PP_SMC_POWER_PROFILE {
+        PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT = 0x0,
+        PP_SMC_POWER_PROFILE_FULLSCREEN3D = 0x1,
+        PP_SMC_POWER_PROFILE_POWERSAVING  = 0x2,
+        PP_SMC_POWER_PROFILE_VIDEO        = 0x3,
+        PP_SMC_POWER_PROFILE_VR           = 0x4,
+        PP_SMC_POWER_PROFILE_COMPUTE      = 0x5,
+        PP_SMC_POWER_PROFILE_CUSTOM       = 0x6,
+        PP_SMC_POWER_PROFILE_COUNT,
+};
+
+vs
+
+        static const char *profile_name[] = {
+                                        "BOOTUP_DEFAULT",
+                                        "3D_FULL_SCREEN",
+                                        "POWER_SAVING",
+                                        "VIDEO",
+                                        "VR",
+                                        "COMPUTE",
+                                        "CUSTOM"};
+
+
+unless I'm missing something because I've not had enough coffee.
+
+Colin
+
+> 
+> regards,
+> dan carpenter
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
