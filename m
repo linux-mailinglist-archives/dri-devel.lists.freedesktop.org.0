@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4000A2F8046
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 17:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726CC2F804A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 17:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CA76E0C1;
-	Fri, 15 Jan 2021 16:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6FE6E0C1;
+	Fri, 15 Jan 2021 16:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F010F6E0C1;
- Fri, 15 Jan 2021 16:09:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 416E36E0C1;
+ Fri, 15 Jan 2021 16:10:31 +0000 (UTC)
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
  [66.24.58.225])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EE2102388B;
- Fri, 15 Jan 2021 16:09:15 +0000 (UTC)
-Date: Fri, 15 Jan 2021 11:09:14 -0500
+ by mail.kernel.org (Postfix) with ESMTPSA id D8331238A0;
+ Fri, 15 Jan 2021 16:10:29 +0000 (UTC)
+Date: Fri, 15 Jan 2021 11:10:28 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [Intel-gfx] [BUG] on reboot: bisected to: drm/i915: Shut down
- displays gracefully on reboot
-Message-ID: <20210115110914.540bf44d@gandalf.local.home>
-In-Reply-To: <CAHk-=wgqPnjOUa0aDRHXC0UAePrM6kRUD9gR4g2x0mq91FD4xA@mail.gmail.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [BUG] on reboot: bisected to: drm/i915: Shut down displays
+ gracefully on reboot
+Message-ID: <20210115111028.76aec4ac@gandalf.local.home>
+In-Reply-To: <87mtxaprjy.fsf@intel.com>
 References: <20210114163206.4a562d82@gandalf.local.home>
- <161066015368.19482.10094410867880595092@build.alporthouse.com>
- <20210114170137.002763b3@gandalf.local.home>
- <CAHk-=wgqPnjOUa0aDRHXC0UAePrM6kRUD9gR4g2x0mq91FD4xA@mail.gmail.com>
+ <20210114163435.767ccbb0@gandalf.local.home>
+ <87mtxaprjy.fsf@intel.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,28 +42,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Jan 2021 20:15:45 -0800
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Fri, 15 Jan 2021 09:50:25 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-> On Thu, Jan 14, 2021 at 2:01 PM Steven Rostedt <rostedt@goodmis.org> wrote:
-> >
-> > Thanks, I take it, it will be going into mainline soon.  
+> >>   fe0f1e3bfdfeb53e18f1206aea4f40b9bd1f291c
+> >>   ("drm/i915: Shut down displays gracefully on reboot")
+> >> 
+> >> Which makes sense, as it happens on shutdown.  
 > 
-> Just got merged - it might be a good idea to verify that your problem is solved.
+> Please try this pull, heading to -rc4, which cointains "drm/i915:
+> Disable RPM wakeref assertions during driver shutdown":
 > 
+> http://lore.kernel.org/r/87sg73pz42.fsf@intel.com
 
-Yep, I just tested commit: 5ee88057889bbca5f5bb96031b62b3756b33e164 which
-was your master of this morning. The problem appears to be removed.
+
+Yep, Linus pulled in 057fe3535eb3 last night and it appears to fix the
+issue in mainline.
 
 Thanks!
 
