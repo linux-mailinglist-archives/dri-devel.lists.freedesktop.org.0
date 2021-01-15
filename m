@@ -1,74 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657582F8D00
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E532F8CF7
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B296E5C5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B687B6E5D3;
 	Sat, 16 Jan 2021 10:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81136E45E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:44 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 807C45C01AD;
- Fri, 15 Jan 2021 13:14:41 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 15 Jan 2021 13:14:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=O0QO0kBHWpyZ7sOw1tflo9GJqtC
- LGDDPbKvFQKYvP/k=; b=ii+G6VUCs2S6Kf+bBjmcEylWqaWd52nt4Khp6ibbejT
- iqT6lrAAxwxjqbmWPMk7jTd++sY5gJquoIq7a+2qlWM19/iaGx/cR7gq2TRLH5Ns
- j2Tsp8J9hosLVPB40ap38rLWDX/PM2AZoXQBma99Gg7TRp0dAepXaWqI+MbJVi/v
- 2uq6Y5yz9JKpnGMEn0jro+nubknzkEjBN2y2nIMphsPfFbfKFkelMD/mCUZzcUE/
- x5YYDHcv61LSLrqF7+oSRiVoWCAKYrZSheYbF3gQ+edcV1nu65WVv33mE8Q5ge5/
- /oAqHzNkkMVVFafikJo0HFWornfqmlLs4haAUrLr4nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=O0QO0k
- BHWpyZ7sOw1tflo9GJqtCLGDDPbKvFQKYvP/k=; b=BinXkS89uOwUG+kp9/N5YG
- w7/5LMuefpvBLUPa8L5MJNd8ezgkLehlm69LbAuXU9HulXgGXgGE1Fkijil2tTvD
- l+N3MGY3GRgBQvt7j/0pJdxBMMajmnw1z7Cxposh/ICupPJpkGUhPnwWxhHA4Hw9
- AedNJ6zOFn5xw0/uepRfhayen/QV6XSfJnj9Zzc7KdQQtCgMLtT+33ChPNRiGtbd
- SdoKxz60YD384kRPh2aDgAyDbMWzTz9eU6NZ+kvAH3MyfEOkvrag32K+GTBP0ZTs
- HYO1u9JMNiPxyVdH9AeQqtXHpLruxNkk+IdRrX3QNL3QyWLX30sesmyc+fnW6Ddw
- ==
-X-ME-Sender: <xms:kNsBYGS04asJV0fWYainAyaAPKgUeXQXwV3cUW85CMSKg2338ljgcg>
- <xme:kNsBYLzCUUMM1bO2OThBCKyREuCLPM6j-FqsaBQYkGNnEzBUi4J47DW08vVonYNrZ
- lTlgAXa7qNfAIXal8c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddvgdekhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
- vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrje
- einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
- gihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:kNsBYD0qdaPv_aKez48nIooCjwCtcv2X3YrY_VsL6QTjJStFS_xmZQ>
- <xmx:kNsBYCA29fc4r9FtiF0Gotow1ANpWpMMyBy-2eJxicdto7VMLNW-mw>
- <xmx:kNsBYPiPzMMrFN761DwS1AksCP1QxfOIaXFNUh6RG90shbwXMEo6EQ>
- <xmx:kdsBYFbNgIIbGCVLmVm_x-TFtBqKshqNcwrUXCGnDHtkfXQ8Malhqg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3A36A24005D;
- Fri, 15 Jan 2021 13:14:40 -0500 (EST)
-Date: Fri, 15 Jan 2021 19:14:37 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH RFC] drm/vc4: hdmi: Avoid ASoC error messages on startup
-Message-ID: <20210115181437.uqlkrbapv6ydswuy@gilmour>
-References: <1609256210-19863-1-git-send-email-stefan.wahren@i2se.com>
- <ab03444f-feb2-fbab-97fc-a070ccbe06b4@i2se.com>
- <20210113091957.odclfwmeykrkyq7v@gilmour>
- <20210113114223.GB4641@sirena.org.uk>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D906E4E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:21:20 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 065C4AA6F;
+ Fri, 15 Jan 2021 18:21:19 +0000 (UTC)
+Message-ID: <b707107cfd81e556e446c8691f04dc8d247f81ac.camel@suse.de>
+Subject: Re: [PATCH V4] dt-bindings: gpu: Convert v3d to json-schema
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Stefan Wahren <stefan.wahren@i2se.com>, Eric Anholt <eric@anholt.net>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
+Date: Fri, 15 Jan 2021 19:21:17 +0100
+In-Reply-To: <1610564917-11559-1-git-send-email-stefan.wahren@i2se.com>
+References: <1610564917-11559-1-git-send-email-stefan.wahren@i2se.com>
+User-Agent: Evolution 3.38.3 
 MIME-Version: 1.0
-In-Reply-To: <20210113114223.GB4641@sirena.org.uk>
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,61 +40,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, David Airlie <airlied@linux.ie>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============1153670606=="
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1042030434=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1153670606==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xnbynu5cedivklzn"
-Content-Disposition: inline
+--===============1042030434==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-9bhOjb89UhlJwDzoHjSe"
 
 
---xnbynu5cedivklzn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--=-9bhOjb89UhlJwDzoHjSe
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Wed, Jan 13, 2021 at 11:42:23AM +0000, Mark Brown wrote:
-> On Wed, Jan 13, 2021 at 10:19:57AM +0100, Maxime Ripard wrote:
+On Wed, 2021-01-13 at 20:08 +0100, Stefan Wahren wrote:
+> This converts the v3d bindings to yaml format.
 >=20
-> > I'd like to get Mark's opinion before merging though
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+
+Reviewed-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+
+Regards,
+Nicolas
+
 >=20
-> I'm not sure what the question is here?  I get CCed on a bunch of not
-> obviously relevant DRM patches so there's a good chance I've just
-> deleted some relevnat discussion.
+> Changes in V4:
+> - define order for required reg-names
+> - adapt example
+>=20
+> Changes in V3:
+> - drop redundant maxItems in case we already have items defined
+> - fix order of reg-names enum
+> - tag required items in description
+> - add reg-names to required properties
+> - drop clock-names
+>=20
+> =C2=A0.../devicetree/bindings/gpu/brcm,bcm-v3d.txt       | 33 ----------
+> =C2=A0.../devicetree/bindings/gpu/brcm,bcm-v3d.yaml      | 75 +++++++++++=
++++++++++++
+> =C2=A02 files changed, 75 insertions(+), 33 deletions(-)
+> =C2=A0delete mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v=
+3d.txt
+> =C2=A0create mode 100644 Documentation/devicetree/bindings/gpu/brcm,bcm-v=
+3d.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt b/Doc=
+umentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+> deleted file mode 100644
+> index b2df82b..0000000
+> --- a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -Broadcom V3D GPU
+> -
+> -Only the Broadcom V3D 3.x and newer GPUs are covered by this binding.
+> -For V3D 2.x, see brcm,bcm-vc4.txt.
+> -
+> -Required properties:
+> -- compatible:	Should be "brcm,7268-v3d" or "brcm,7278-v3d"
+> -- reg:		Physical base addresses and lengths of the register areas
+> -- reg-names:	Names for the register areas.  The "hub" and "core0"
+> -		  register areas are always required.  The "gca" register area
+> -		  is required if the GCA cache controller is present.  The
+> -		  "bridge" register area is required if an external reset
+> -		  controller is not present.
+> -- interrupts:	The interrupt numbers.  The first interrupt is for the hub=
+,
+> -		  while the following interrupts are separate interrupt lines
+> -		  for the cores (if they don't share the hub's interrupt).
+> -		  See bindings/interrupt-controller/interrupts.txt
+> -
+> -Optional properties:
+> -- clocks:	The core clock the unit runs on
+> -- resets:	The reset line for v3d, if not using a mapping of the bridge
+> -		  See bindings/reset/reset.txt
+> -
+> -v3d {
+> -	compatible =3D "brcm,7268-v3d";
+> -	reg =3D <0xf1204000 0x100>,
+> -	      <0xf1200000 0x4000>,
+> -	      <0xf1208000 0x4000>,
+> -	      <0xf1204100 0x100>;
+> -	reg-names =3D "bridge", "hub", "core0", "gca";
+> -	interrupts =3D <0 78 4>,
+> -		     <0 77 4>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml b/Do=
+cumentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> new file mode 100644
+> index 0000000..fbce844
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/brcm,bcm-v3d.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom V3D GPU Bindings
+> +
+> +maintainers:
+> +  - Eric Anholt <eric@anholt.net>
+> +  - Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^gpu@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    enum:
+> +      - brcm,7268-v3d
+> +      - brcm,7278-v3d
+> +
+> +  reg:
+> +    items:
+> +      - description: hub register (required)
+> +      - description: core0 register (required)
+> +      - description: GCA cache controller register (if GCA controller pr=
+esent)
+> +      - description: bridge register (if no external reset controller)
+> +    minItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: hub
+> +      - const: core0
+> +      - enum: [ bridge, gca ]
+> +      - enum: [ bridge, gca ]
+> +    minItems: 2
+> +    maxItems: 4
+> +
+> +  interrupts:
+> +    items:
+> +      - description: hub interrupt (required)
+> +      - description: core interrupts (if it doesn't share the hub's inte=
+rrupt)
+> +    minItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    gpu@f1200000 {
+> +      compatible =3D "brcm,7268-v3d";
+> +      reg =3D <0xf1200000 0x4000>,
+> +            <0xf1208000 0x4000>,
+> +            <0xf1204000 0x100>,
+> +            <0xf1204100 0x100>;
+> +      reg-names =3D "hub", "core0", "bridge", "gca";
+> +      interrupts =3D <0 78 4>,
+> +                   <0 77 4>;
+> +    };
+> +
+> +...
 
-The patch is question is here:
-https://lore.kernel.org/dri-devel/1609256210-19863-1-git-send-email-stefan.=
-wahren@i2se.com/
-
-In particular, I'm not so sure whether it's fine to return -EPROBE_DEFER
-in the startup hook.
-
-Thanks!
-Maxime
 
 
---xnbynu5cedivklzn
+--=-9bhOjb89UhlJwDzoHjSe
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAHbjQAKCRDj7w1vZxhR
-xXJVAQCpnGE0lElFUsjQWsGBbxYuDo6fTj2QZCDugDD2h5giuQEAtFomo8PiN+nI
-/hbCrZSnoW4YnTzXZAhq7EE7Dc53ng4=
-=v5TX
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAB3R0ACgkQlfZmHno8
+x/6zlAgAr4hmHIcqPIBSJv91KJeRqu6x3uKC+AxZNzD3O+P4ajSUtYjdBeZ7UAcq
+JI/l6zhuTsALg8CjWSFsbwXxkOzzfamUNk80gqo/0ug87hhODasgLui53GrOFjH6
+06k8EoncuUwwNmiPTQGOqEg82Kitxx4mjhV7jJgCbI10LewDgVB2IPlAVwkpTW/z
+nqJ/Hk1AlHcWKqozBVGw7veNCG83yk+Sf/tdjuYA9rS1LTk8y8sE0uu/sZtailHu
+sFm8S8a0ouFSMPRYwVYrZaIRC+lbDK5Kf6S3iKUFU6s3/gqnZHgrIyRSDfaoMDll
+9IoxDo306UB0DwM67LnVvxSMivBacQ==
+=4lrW
 -----END PGP SIGNATURE-----
 
---xnbynu5cedivklzn--
+--=-9bhOjb89UhlJwDzoHjSe--
 
---===============1153670606==
+
+--===============1042030434==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -147,4 +247,5 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1153670606==--
+--===============1042030434==--
+
