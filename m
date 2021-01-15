@@ -1,55 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F38D2F7E96
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 15:51:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EE62F7ECD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 16:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490B96E450;
-	Fri, 15 Jan 2021 14:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAB1889D52;
+	Fri, 15 Jan 2021 15:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E376E44B;
- Fri, 15 Jan 2021 14:51:13 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id n186so1887902oia.5;
- Fri, 15 Jan 2021 06:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=y2gm270jJ4fGeFDHYGPDAXebuqjuFYEvjiQVda/6GCg=;
- b=Gq36vMLKgcScX9q7ZNK+QUZTJGsS9ihKQNGxL+RWS/TeoDne9QJMWwpP88tmvFWxEI
- u7GF7wOUCbZ6sdPHfd02hGY/b3ixAmYd8FYbgd26QyKYdIE/t4R5jFzAXwE97FVy+4Az
- gYGrY6vqjwKaFhJAYvItGmTvDgqwDh8DT3VtK8KjnTzOGwTG2CTI1Oz7ZYwPIG4ZEl+l
- rgm9Tw+tn19X09DXDf4L8Eb4Eziwa+PAHoSGiPGs6XnnN8XrR6jk9KdLhLwiSfcE/hRl
- 0VU/lk1vgBEAAeX6wV8zjkJu3ZPNU44208wMtKdwT7gjVeOuufypTe4hBZ1Q6iRLVslB
- lVhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y2gm270jJ4fGeFDHYGPDAXebuqjuFYEvjiQVda/6GCg=;
- b=rgfDtAHpUxvmNFCAzuGPk/Qi4jq+TgFXi07EoUZKjJWh24TPBz5ii2RABksKaQ15/B
- lZ1EZX/TSIrngRE+pgfmbJnbzph5uazUxOk1ed427eVXFDm2LINQENEZHdHgAy6iNnPE
- NmFgtFePCxm9Scagoh1B3ikuPAzW5LKZCO6v41+IiTPU0fQFf16nrVWpP34QVWS9rV7T
- FIrkwV2e6XEGLaPJzS5fdDitGXblL5H4s/W9Vq0UAEJjP6T0Qwxjdb4aO5SMOHYSKJRs
- p/wkwdWoJdjaNtk4oMfjQIidxd/dGtMQGdszvJ1MlDxN6UBdg+f23yTUZauKmfKxW5c6
- U7bw==
-X-Gm-Message-State: AOAM530FUjCfPngidvvReX2DueAMok1ZxeWGZK0iZ6uwzN4GcnqgW4Cs
- cowmSF3YMYrKIBlsT/eCc/aST76fyoXVNp+Dpz8=
-X-Google-Smtp-Source: ABdhPJzchTshup902GEUYWdrVqTlHuK/ZgqTWoLDcSBewYVLZIWg4P3vdKaqldv97NXOqVLNbYr5JijGGYtCLlSpdn8=
-X-Received: by 2002:aca:4f97:: with SMTP id d145mr5792331oib.123.1610722272805; 
- Fri, 15 Jan 2021 06:51:12 -0800 (PST)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2061.outbound.protection.outlook.com [40.107.100.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F10989D52
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 15:02:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NehHC9Iy69rwDNNr3ROH0p2y1yCdbryqtND9hU7gdiP/nEZp6NKDVn0dWu6jC4OkZWIQ1LF9Om7phxxFwknlZ8VXR0iSNkFOv7x1bUVHCM2jaF5sySR+aHteUq6FcxMiYNP+JOi2vAbxDT07e3v3Gsr+GAQa9MxrYiBeXXmRBQlcLr2il49FSjoNcOquOXgER8axIIbELtop/WQQBO4ozqvWMbPV4pjV/rXkzHhmKfIUCHmuPf6/GwnA2OMcLXHCB8vUxdUwrJqnWAIbqWrZG2JUWkybH0Ijs8iYr0rV/rGzbsT2DBuRs6uAq0o/J8ONPG9HhF5lJO8fdYPECY4Yag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cHkdgQThqXuZhDnj3OHb4q6VpVfuQwJNtHMvPWUUEf4=;
+ b=Ho3qLmYiQ5qrI9jZeFokvSVIKdw3zTMsAzJiVOgx1RmwiFxFoR6n4Bn0Q851WJQyPDN+Vw8Xg7MeW68zgiTTG/bkbAWt3+nz8G1V0HcsnbGKmqOS6IBke1oX7RKd+nIlMwUb324pcWJOAxmlKbHsUMrIZwrEtYiAlcQ1ZJzfmIDhDv8EkKdnm7uW/hB/jiJcGwxANoPUcljWVhca7+Ipah7gvHVcQJ4PsvOVl9j3WHbIKj61cjpMcdAcl4lxJp9q2kadG9ppEMqo5PzJ50iBpG9E6t+yb7uA4FltKJDMPnVjHBW7sxlvTs0T7Ttb/xrd+IvRNwduneeqaEbmAunhRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cHkdgQThqXuZhDnj3OHb4q6VpVfuQwJNtHMvPWUUEf4=;
+ b=t8aU8pBER6ixB+/fF6UFegi33Hb2xEuXluYrcUSILW6CaG4U82xY0IVb1woDpib8jMPGvQmhKU1st1PrBhxNCHBo0AdDGyrN09q54a2J0xOoBee4H076fQ5Q31I352TsShjrHNTcPJIKfkxXFnxTAxG/lqfMIJ0aAgXzHN/325A=
+Authentication-Results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3916.namprd12.prod.outlook.com (2603:10b6:5:1ca::21)
+ by DM6PR12MB3259.namprd12.prod.outlook.com (2603:10b6:5:180::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Fri, 15 Jan
+ 2021 15:02:15 +0000
+Received: from DM6PR12MB3916.namprd12.prod.outlook.com
+ ([fe80::f872:3677:28c3:660b]) by DM6PR12MB3916.namprd12.prod.outlook.com
+ ([fe80::f872:3677:28c3:660b%5]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
+ 15:02:15 +0000
+From: Nirmoy Das <nirmoy.das@amd.com>
+To: tzimmermann@suse.de,
+	Christian.Koenig@amd.com
+Subject: [PATCH] drm/amdgpu: Remove unused variable
+Date: Fri, 15 Jan 2021 16:02:01 +0100
+Message-Id: <20210115150201.34256-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210115122310.7dd6bb11@canb.auug.org.au>
+References: <20210115122310.7dd6bb11@canb.auug.org.au>
+X-Originating-IP: [165.204.84.11]
+X-ClientProxiedBy: BN1PR10CA0004.namprd10.prod.outlook.com
+ (2603:10b6:408:e0::9) To DM6PR12MB3916.namprd12.prod.outlook.com
+ (2603:10b6:5:1ca::21)
 MIME-Version: 1.0
-References: <20210114212148.23714-1-alexander.deucher@amd.com>
- <CAPM=9tyS_JyY3=ZSmrmmgfK=Cm1NRcMjpgA3Jj=BZXPH=Ady0w@mail.gmail.com>
-In-Reply-To: <CAPM=9tyS_JyY3=ZSmrmmgfK=Cm1NRcMjpgA3Jj=BZXPH=Ady0w@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 15 Jan 2021 09:51:01 -0500
-Message-ID: <CADnq5_N5ZwypdZtY8Dp-p+H-ew-X5=dBTgc3p6duBH6=fXTU6g@mail.gmail.com>
-Subject: Re: [pull] amdgpu drm-next-5.12
-To: Dave Airlie <airlied@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.amd.com (165.204.84.11) by
+ BN1PR10CA0004.namprd10.prod.outlook.com (2603:10b6:408:e0::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.9 via Frontend Transport; Fri, 15 Jan 2021 15:02:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b8de4114-e5bc-49ba-ea6c-08d8b9668b73
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3259:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3259567EBAC814353BE9FAD78BA70@DM6PR12MB3259.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:418;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pHqRyiViCsWD+Pp0riGTYvOoe+uWALvP6horZcjIQLVSja57WPuDd8rrX6kkptOVFiyZ/+NaCIASbtn7VDCiISUgz8VDX51Db8SW5n642HpSanrrUGtuiW/ci3MIBSVEwJA7kp4ivPyMadp+9g/Cj7nTlLFZ1faAxWJ86ZRFBlLwaD/Zr3z7BeiUM80Xa81JVgVYhgNAqv52CvJwOe8WP7Psgcp4Pj76B8bjYdeNhilNBbBukjcfcu/GoABW3LrXwzy693tCH/d3QMryf2D+oq0d6aKdMTuaO4cKvDbmD7TezW+SHf5M/Cix0Dl0H69ThM5OFlSzwaXYuPCbYK5tu8X1f5iduPZJX37D1joyXTYJ+/qxf9xxksy+8T6mbTjD/o0a9u8vgGgIiQCmK5KwkQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3916.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(136003)(39860400002)(396003)(2906002)(6636002)(316002)(4744005)(16526019)(26005)(44832011)(2616005)(52116002)(956004)(86362001)(36756003)(6486002)(186003)(6666004)(478600001)(4326008)(66476007)(8676002)(5660300002)(8936002)(83380400001)(1076003)(66946007)(66556008)(7696005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9/Gd5TISPZLfmoRNvUkOzWqbMsfpf1CU3TiCDT9xrDitUlU+Tik9tCah2J2Q?=
+ =?us-ascii?Q?HpTkK4oBDdaCysT7e4LRuKxpp9X0V+yS980K0TLHBOE/iTFT2+eK3LB62uzB?=
+ =?us-ascii?Q?2qsLTZRe08MKnsrcehBIGqLfNu8Ymg7siWOUGlI6CtjCkzbpRby8ePF0q7Sk?=
+ =?us-ascii?Q?KKPJWQN2XJhaWH+uNUMcttd7yj0fP1lgO5zSleWejdgaqLhyD8/40ltK42C6?=
+ =?us-ascii?Q?WNwXx6OBCwmfURnLamGVsnX1eqcb2tr0NQt5kGirUodb5x5/l/dLB73UNsXl?=
+ =?us-ascii?Q?MhPsIzL1C5BXDXHKxRxby6hJD4LbrfGHQ2gMlpDzurMB4e+tbTRK4F1e1s5M?=
+ =?us-ascii?Q?vib7VJz4+htFSZtPV/OWuIM1ilw+hz0L/gDMwgheaScJsZCo2OG5nSPXAbxd?=
+ =?us-ascii?Q?9U3hzJm0iZgdaoHDEpUqDJmS3rTC3zdcYA0oxv3f9PdF2E1RcUZiIodcsioF?=
+ =?us-ascii?Q?tzWjw9wMGkiq/tMBuZwNfdE0QZyCSYYVBDT8I/Vo4s4NlFJYxGR/HqoJMfKO?=
+ =?us-ascii?Q?wArGxkhxPyI7GwTmdQ/vZkDEp/J3Kj6t3wH69qHx6N+LSsiu/pbhlP6wBhCP?=
+ =?us-ascii?Q?iakVITaiq3ElkRqsfofebiLUKXiOwtgpcu+eHE286qwdGTAWIqT3GOk11unb?=
+ =?us-ascii?Q?3CQ2NQLgEoeDxvti60EN+uWTQiwnfI6okpiAniozPPY4X7z1g5ABe8aDyAbX?=
+ =?us-ascii?Q?yDxG3OONh3loGI1nFyXIJuu5ilbKtdR8gfx0KQM+wnAoOJ4E5zPYXDdzHyS8?=
+ =?us-ascii?Q?O+IvZwynfE8n64PIxsoUP7RXomo8WPPJ1TXbVtlk4mqoyR59o1/0RLZZDjmD?=
+ =?us-ascii?Q?jktixc0wfRPTqTjgFk/Mtme5kfdNynl9yYUsMfv4ZdAO6OPolJl3jizHHt1z?=
+ =?us-ascii?Q?I2Ufaa0cgqsBDOEfRnDuq+Q7XQxt6Y10/1FHtipaccM9MNR8zyP3m+WVx3Jd?=
+ =?us-ascii?Q?dzvCzdMaW8tTRsqf1w9eqYjmWrQWIAseBCOTsnUop0qwKVH3Esj1U7SiREFd?=
+ =?us-ascii?Q?jNHt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8de4114-e5bc-49ba-ea6c-08d8b9668b73
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3916.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 15:02:15.8692 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9sMFwor+Ffia2hpvh43nZMjElM5UzKB46IYg/TgnIn07GILh5z6FGmMTlTv0/VGC/cm7OUgLSIlqxGz7LEwn1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3259
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,67 +111,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: sfr@canb.auug.org.au, Nirmoy Das <nirmoy.das@amd.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKYW4gMTUsIDIwMjEgYXQgMjoyOCBBTSBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFp
-bC5jb20+IHdyb3RlOgo+Cj4gT24gRnJpLCAxNSBKYW4gMjAyMSBhdCAwNzoyMiwgQWxleCBEZXVj
-aGVyIDxhbGV4ZGV1Y2hlckBnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+IEhpIERhdmUsIERhbmll
-bCwKPiA+Cj4gPiBNb3JlIG5ldyBzdHVmZiBmb3IgNS4xMi4KPiA+Cj4gPiBUaGUgZm9sbG93aW5n
-IGNoYW5nZXMgc2luY2UgY29tbWl0IDA0NGE0OGY0MjBiOWQzYzE5YTEzNWI4MjFjMzRkZTViMmJl
-ZTQwNzU6Cj4gPgo+ID4gICBkcm0vYW1kZ3B1OiBmaXggRFJNX0lORk8gZmxvb2QgaWYgZGlzcGxh
-eSBjb3JlIGlzIG5vdCBzdXBwb3J0ZWQgKGJ1ZyAyMTA5MjEpICgyMDIxLTAxLTA4IDE1OjE4OjU3
-IC0wNTAwKQo+ID4KPiA+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Ogo+
-ID4KPiA+ICAgaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2FnZDVmL2xpbnV4LmdpdCB0
-YWdzL2FtZC1kcm0tbmV4dC01LjEyLTIwMjEtMDEtMTQKPiA+Cj4gPiBmb3IgeW91IHRvIGZldGNo
-IGNoYW5nZXMgdXAgdG8gZGYxZjA1NjBkMjhmNDg5NWUyZDYxYWY4MjY3MjhlZmI2MTk3NmY5ZjoK
-PiA+Cj4gPiAgIGRybS9hbWQvZGlzcGxheTogU2ltcGxpZnkgYm9vbCBjb21wYXJpc29uICgyMDIx
-LTAxLTE0IDEzOjIwOjIxIC0wNTAwKQo+Cj4gYXJtIDMyLzY0IGJ1aWxkcyBzYXkgbm8uCj4KPiAg
-IENDIFtNXSAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvaW5zdG1lbS9nazIw
-YS5vCj4gL2hvbWUvYWlybGllZC9kZXZlbC9rZXJuZWwvZGltL3NyYy9kcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS8uLi9wbS9zd3NtdS9zbXUxMS92YW5nb2doX3BwdC5jOgo+IEluIGZ1bmN0aW9u
-IOKAmHZhbmdvZ2hfZ2V0X3NtdV9tZXRyaWNzX2RhdGHigJk6Cj4gL2hvbWUvYWlybGllZC9kZXZl
-bC9rZXJuZWwvZGltL3NyYy9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9zd3NtdS9z
-bXUxMS92YW5nb2doX3BwdC5jOjMwMDoxMDoKPiBlcnJvcjog4oCYYm9vdF9jcHVfZGF0YeKAmSB1
-bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbik7IGRpZAo+IHlvdSBtZWFuIOKA
-mGJsX2dldF9kYXRh4oCZPwo+ICAgICAgICAgICBib290X2NwdV9kYXRhLng4Nl9tYXhfY29yZXMg
-KiBzaXplb2YodWludDE2X3QpKTsKPiAgICAgICAgICAgXn5+fn5+fn5+fn5+fgo+ICAgICAgICAg
-ICBibF9nZXRfZGF0YQo+IC9ob21lL2FpcmxpZWQvZGV2ZWwva2VybmVsL2RpbS9zcmMvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG0vc3dzbXUvc211MTEvdmFuZ29naF9wcHQuYzozMDA6
-MTA6Cj4gbm90ZTogZWFjaCB1bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBv
-bmNlIGZvciBlYWNoCj4gZnVuY3Rpb24gaXQgYXBwZWFycyBpbgo+IC9ob21lL2FpcmxpZWQvZGV2
-ZWwva2VybmVsL2RpbS9zcmMvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG0vc3dzbXUv
-c211MTEvdmFuZ29naF9wcHQuYzoKPiBJbiBmdW5jdGlvbiDigJh2YW5nb2doX3JlYWRfc2Vuc29y
-4oCZOgo+IC9ob21lL2FpcmxpZWQvZGV2ZWwva2VybmVsL2RpbS9zcmMvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvLi4vcG0vc3dzbXUvc211MTEvdmFuZ29naF9wcHQuYzoxMzIwOjExOgo+IGVy
-cm9yOiDigJhib290X2NwdV9kYXRh4oCZIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1
-bmN0aW9uKTsgZGlkCj4geW91IG1lYW4g4oCYYmxfZ2V0X2RhdGHigJk/Cj4gICAgKnNpemUgPSBi
-b290X2NwdV9kYXRhLng4Nl9tYXhfY29yZXMgKiBzaXplb2YodWludDE2X3QpOwo+ICAgICAgICAg
-ICAgXn5+fn5+fn5+fn5+fgo+ICAgICAgICAgICAgYmxfZ2V0X2RhdGEKPiAvaG9tZS9haXJsaWVk
-L2RldmVsL2tlcm5lbC9kaW0vc3JjL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3N3
-c211L3NtdTExL3ZhbmdvZ2hfcHB0LmM6Cj4gSW4gZnVuY3Rpb24g4oCYdmFuZ29naF9vZF9lZGl0
-X2RwbV90YWJsZeKAmToKPiAvaG9tZS9haXJsaWVkL2RldmVsL2tlcm5lbC9kaW0vc3JjL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3N3c211L3NtdTExL3ZhbmdvZ2hfcHB0LmM6MTQ2
-MDoxOToKPiBlcnJvcjog4oCYYm9vdF9jcHVfZGF0YeKAmSB1bmRlY2xhcmVkIChmaXJzdCB1c2Ug
-aW4gdGhpcyBmdW5jdGlvbik7IGRpZAo+IHlvdSBtZWFuIOKAmGJsX2dldF9kYXRh4oCZPwo+ICAg
-IGlmIChpbnB1dFswXSA+PSBib290X2NwdV9kYXRhLng4Nl9tYXhfY29yZXMpIHsKPiAgICAgICAg
-ICAgICAgICAgICAgXn5+fn5+fn5+fn5+fgo+ICAgICAgICAgICAgICAgICAgICBibF9nZXRfZGF0
-YQo+IG1ha2VbNV06ICoqKiBbL2hvbWUvYWlybGllZC9kZXZlbC9rZXJuZWwvZGltL3NyYy9zY3Jp
-cHRzL01ha2VmaWxlLmJ1aWxkOjI3OToKPiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9w
-bS9zd3NtdS9zbXUxMS92YW5nb2doX3BwdC5vXSBFcnJvciAxCj4KPgo+IE5vdCBzdXJlIHVzaW5n
-IGJvb3RfY3B1X2RhdGEgaW4gYSBkcml2ZXIgaXMgdGhhdCBnb29kIGFuIGlkZWEsIG1heWJlCj4g
-dGhlcmUgaXMgYSBiZXR0ZXIgaW50ZXJmYWNlIHRvIGdldCB0aGF0IHNvcnQgb2YgaW5mb3JtYXRp
-b24sIGJ1dCBldmVuCj4gc28gaXQgc2hvdWxkIGJ1aWxkIG9uIGFybS4KCkknbSBub3Qgc3VyZSBp
-ZiB0aGVyZSBpcyBhIGdlbmVyaWMgaW50ZXJmYWNlIGZvciB0aGlzIG9yIG5vdCwgYnV0IHRoaXMK
-aXMgZm9yIFNPQyBwb3dlciBtYW5hZ2VtZW50IG9uIGFuIEFQVSwgc28gaXQncyBvbmx5IHJlbGV2
-YW50IHRvIHg4Ni4KSSdsbCBzZW5kIG91dCBhIHBhdGNoIHRvIGZpeCB0aGUgYnVpbGQuCgpBbGV4
-CgoKPgo+IERhdmUuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Remove unused adev variable
+
+Fixes:   8f66090b7bb7 ("drm/amdgpu: Remove references to struct drm_device.pdev")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 0150a51b65ef..f764803c53a4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -926,7 +926,6 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
+ 				       struct drm_file *file_priv,
+ 				       const struct drm_mode_fb_cmd2 *mode_cmd)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_gem_object *obj;
+ 	struct amdgpu_framebuffer *amdgpu_fb;
+ 	int ret;
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
