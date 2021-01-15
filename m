@@ -1,46 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D462F74B7
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BC12F74AF
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3FA36E1BC;
-	Fri, 15 Jan 2021 08:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5146E6E2DE;
+	Fri, 15 Jan 2021 08:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id C5D886E10A;
- Fri, 15 Jan 2021 03:42:03 +0000 (UTC)
-Received: from zhangzhijie.loongson.cn (unknown [10.20.41.29])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxxbwADwFg4a0EAA--.5262S2;
- Fri, 15 Jan 2021 11:41:52 +0800 (CST)
-From: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
-To: alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- christian.koenig@amd.com
-Subject: [PATCH] drm/amdgpu:this forword declear  maybe  not used
-Date: Fri, 15 Jan 2021 11:41:52 +0800
-Message-Id: <20210115034152.1800769-1-zhangzhijie@loongson.cn>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCEFE89C6B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 03:49:05 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id x13so7339301oto.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 19:49:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BWxsOOk11ALTjpUo3gLg8gd+IkymuxCP/NKNZLVJFbA=;
+ b=ewezM9RxdGM/uSiiRAmWujXTI9dtfQm5Dmu9UdJcEiy8HT9tl8JJeuU5m67GTdKBJL
+ Ff9VlozGfXlzOC3F1CtcxO7+6chjpke5sgbirzJtr/eDnv0X3ehy2d2exQlI9V93xdGP
+ l4rCRcW7QV8UI2Z901kzIeqNObCbHDm55Beum1Y71lNJ+Mo80pUe52nOrvhTwdSZnnFp
+ ofNKEEh1z/Do75c4V8wyZojW1ktPPCLkIpp1bpEOhNhHbssWHheLTiTOhci0XbrbxUMf
+ Rrqlm9jNZ36dnoolclqOhgLhu2557Q6o8fA6Fp9YfhZl7DxZfKxKXnuQ9R4ttaCMnEXP
+ Xm5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BWxsOOk11ALTjpUo3gLg8gd+IkymuxCP/NKNZLVJFbA=;
+ b=OyN5LZ3yyQPikLE6W1xkUPbiu+GCD2kbV7XyETMIO4x+X3HJSnOrjhVtwC6JrY9QCG
+ 4PH5/XEdiTOhzRvnsKwvGPIQg9BGe7WSyIQtZHMERhsUm17Cg+YIMRAIoQEx5yddOAIf
+ UOGtOdPaOKxCbeCcHdm5AjZdK3oW3orTnSs04HlMWzB2rR8wvTYY2V0+pfWuI4m+iPxE
+ FhVmXDdhffVS6sEYxbz5UVGzpVoCQJKryhDgXphb5+3D+0Tsic2PsxnJvnqC5e54Hi5S
+ aBVn28mSA99T01MQUWXdFrXO7cnwfpyUQew5dzUUt0ieMOPEAthvPn0gd5cvGo6e2nwp
+ lOJA==
+X-Gm-Message-State: AOAM533PWDC83jctJtg5vmcxrq09FeodJweE3ZbX92Z9Mtw4mHjIyXW0
+ QR0pmvoGfBML4jB8blZBjHW2vQ==
+X-Google-Smtp-Source: ABdhPJzwnCONBKp/lWmJdpN0ixlFfOCGdbrjs3S8aglD1bPkpwcVl3PyK0rfxg+yKpN6SYy8wBzmgw==
+X-Received: by 2002:a05:6830:214c:: with SMTP id
+ r12mr6909580otd.208.1610682545010; 
+ Thu, 14 Jan 2021 19:49:05 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id h26sm1577280ots.9.2021.01.14.19.49.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 19:49:04 -0800 (PST)
+Date: Thu, 14 Jan 2021 21:49:02 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/2] drm/bridge/lontium-lt9611uxc: fix waiting for EDID
+ to become available
+Message-ID: <YAEQrnlHA+Z8YTij@builder.lan>
+References: <20201127092316.122246-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-X-CM-TRANSID: AQAAf9AxxbwADwFg4a0EAA--.5262S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1kuw1DWr13tF15KF4kWFg_yoWkGrX_Ca
- y2qrn5Wr43JrnYqr12krWfWas2qrWrJr4kGr1xtF95t3srJry0yryDC3WxGa4ruw4Ig3W5
- Z3WqgF1ay3ZxKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
- W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
- 1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
- IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUZa9-UUUUU=
-X-CM-SenderInfo: x2kd0wx2klyx3h6o00pqjv00gofq/1tbiAQACAF3QvM2fqgABsL
+Content-Disposition: inline
+In-Reply-To: <20201127092316.122246-1-dmitry.baryshkov@linaro.org>
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,50 +70,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mchehab+huawei@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- zhangzhijie@loongson.cn, nicholas.kazlauskas@amd.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+On Fri 27 Nov 03:23 CST 2020, Dmitry Baryshkov wrote:
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 2ee6edb3df93..ef4acb1d4a80 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -58,10 +58,10 @@
- /* Forward declarations */
- struct amdgpu_device;
- struct drm_device;
--struct amdgpu_dm_irq_handler_data;
- struct dc;
- struct amdgpu_bo;
- struct dmub_srv;
-+struct dc_plane_state;
- 
- struct common_irq_params {
- 	struct amdgpu_device *adev;
-@@ -438,11 +438,6 @@ struct amdgpu_dm_connector {
- 
- extern const struct amdgpu_ip_block_version dm_ip_block;
- 
--struct amdgpu_framebuffer;
--struct amdgpu_display_manager;
--struct dc_validation_set;
--struct dc_plane_state;
--
- struct dm_plane_state {
- 	struct drm_plane_state base;
- 	struct dc_plane_state *dc_state;
--- 
-2.29.2
+> - Call wake_up() when EDID ready event is received to wake
+>   wait_event_interruptible_timeout()
+> 
+> - Increase waiting timeout, reading EDID can take longer than 100ms, so
+>   let's be on a safe side.
+> 
+> - Return NULL pointer from get_edid() callback rather than ERR_PTR()
+>   pointer, as DRM code does NULL checks rather than IS_ERR().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index 0c98d27f84ac..b708700e182d 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -145,8 +145,10 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
+>  
+>  	lt9611uxc_unlock(lt9611uxc);
+>  
+> -	if (irq_status & BIT(0))
+> +	if (irq_status & BIT(0)) {
+>  		lt9611uxc->edid_read = !!(hpd_status & BIT(0));
+> +		wake_up_all(&lt9611uxc->wq);
 
+This seems like a really good idea :)
+
+> +	}
+>  
+>  	if (irq_status & BIT(1)) {
+>  		if (lt9611uxc->connector.dev)
+> @@ -465,7 +467,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
+>  static int lt9611uxc_wait_for_edid(struct lt9611uxc *lt9611uxc)
+>  {
+>  	return wait_event_interruptible_timeout(lt9611uxc->wq, lt9611uxc->edid_read,
+> -			msecs_to_jiffies(100));
+> +			msecs_to_jiffies(500));
+>  }
+>  
+>  static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+> @@ -503,7 +505,10 @@ static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
+>  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
+>  	if (ret < 0) {
+>  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
+> -		return ERR_PTR(ret);
+> +		return NULL;
+> +	} else if (ret == 0) {
+> +		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
+> +		return NULL;
+
+This looks like it should be a separate patch.
+
+Regards,
+Bjorn
+
+>  	}
+>  
+>  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
+> -- 
+> 2.29.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
