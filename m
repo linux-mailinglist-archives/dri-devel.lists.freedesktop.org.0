@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BCF2F8381
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538DC2F8382
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F6A6E4AB;
-	Fri, 15 Jan 2021 18:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47AD86E4AD;
+	Fri, 15 Jan 2021 18:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B627E6E49C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:08 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id c124so8205039wma.5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:08 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC6E6E49C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:09 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id q18so10221671wrn.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e4bk6qPXM66REGe7AKVzGIJtGtbIBYeQRfbgzaiwlYw=;
- b=fbb83iZMimVayaujWI7iqzvQdiDkC19anKbQzeQLH9LqVfAVeEbBkPQu4blHEoLKev
- i3i3zIQCkHlJGER+MRp3TWy9xSSMDlpvtIy+T8YazOBmD33GNLsZnl7rNXojiajHELwb
- cfXqzHGIWk5gyOSmMyiNZe/p2nKDoGO67Drb4QHc7MZVy5K6Y05wlwy1LkXtY/7aTZX5
- s6NjqotAtkTBef5VABXoZTQFMfwN/VaHFPoi2Pgt2WgYoCyKJqnPkAehJwXPmsHli5Z+
- 6JX3/EkQaeQjxG+o00JgKm8ma0pfZza2tMXHL+iJTR7bI7/yGXY8jSVIv97xynJUvCuo
- xupw==
+ bh=rAHTpQV67+yi8IQrXKtmnaLMIm66ZFnUBK29ghZYvfc=;
+ b=Nhj14BJzABYIFqNisKEiHe7Xysxmd1ToE7+1Z1jwpfJT2WG2FjxKeE1v5ohYi1M+u2
+ PwptNNWwEs2UT1csoXAAnC8d+x+92BeB9CpbKasePwnJu7qcmvY6/3Dwp0fPi7p0C2/m
+ 0wfu9hHvHgb3mY7ErQ5OX3aBEj80z8N0W1o5wrVgIbIhWRIF2UARd+crx/VxL2myuKKV
+ CaeJK6h4Wb0OScZBmCHbxBE5exHnFWRlXf+KIt/E+T3lOB9y+7mof02reoPT6TAMmOfM
+ cmcD3b2dpRs5adKgFBRo3x4OfAnRy5275lq9GH6pLyego75IXwUDd0X5LOJ70l6D8X0N
+ gI4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e4bk6qPXM66REGe7AKVzGIJtGtbIBYeQRfbgzaiwlYw=;
- b=AmmKH3sCEPz5eSoBElBWbThy4IKwZZAu730HDOPXBT6eOpZd3Gh6rVWUV+KwuHh+A8
- sQCY/jE1LvENe5TBdgoRGJ4zm+NCba4U7E4c3NZ/orbcG14XAQTWe+uWTvJMt897MQM9
- l66cP/Id2JZ9SaazXi9BZIqX2bTrCrBm3Uq5K7frcIo1gBm5LCMneJN2AB+ayWRQESwM
- wrS/WbVGPg7PmNiMT0JcS2hXf4OnZBCBCAq7aFcHhocXQj5P19wT+G9NFegg2dr2Pced
- 5iduOEs+XvrrDpoEqpvp0QyLc+b4FnipH0rHWwtHk1xc1l9BlNrMNUAMwqdRwFHJjgcd
- UmLA==
-X-Gm-Message-State: AOAM531HxlTTt/AsSI/VqhZlNmIgM7Un4rgi7MUgM4tDDB1EItWBrcLb
- bMayLHtzgDmhpEaiWatiPfvUnA==
-X-Google-Smtp-Source: ABdhPJyC90DXJbQi68KM16rzl+PXjOw/34j6vjAGEAnISOreJODFMHF+Ahf6R8hUIqHswTaf/dZF7A==
-X-Received: by 2002:a1c:9684:: with SMTP id y126mr10136669wmd.2.1610734447408; 
- Fri, 15 Jan 2021 10:14:07 -0800 (PST)
+ bh=rAHTpQV67+yi8IQrXKtmnaLMIm66ZFnUBK29ghZYvfc=;
+ b=iDWfO+TZNpcGEcG7TNgB71usM3LVURK8mGNnMLGkVUDyoHf8rxePPuzh1t1ESaeZts
+ NO64FP+o90r5VUUK3EmYFUPqi6o+9gZL8aKc+yX9yosl5pIGmPezA/3o+UIJKQJs+9Y3
+ StG9xBJ1A0aTcs0csBLOyK4fDCVRpuFVYMw2Skk8EfhZ4IPHNqTO6SZnLPjdrzHOSpdj
+ ViEk8czPF0wBKkeRV6kocFbJvtI4HJQdb0tG5ekOmkb4xOoGjKH/rMtpWkdH+HL5jPah
+ YAcXU4tcJbcauNTPEUn0UTYETR5KYSBB1lXuuN+y+n5HPzysXUu3ux6PciT0aRsFEpwt
+ PNoA==
+X-Gm-Message-State: AOAM530cr+uU3gEMsVMxmHGyIFEtTdMUhhZYt0xpCnsA/YTa+eGNsYj+
+ j0FVNdhimrQOXXHnJsP0Mgtrqg==
+X-Google-Smtp-Source: ABdhPJya07h3DVptEeRHtjRpX4ZhUhiKUWJNJfS7SRBdQy1whh2AMhi6JfbWr5rUIdQF/chrtL/tsg==
+X-Received: by 2002:adf:92c2:: with SMTP id 60mr14645619wrn.266.1610734448617; 
+ Fri, 15 Jan 2021 10:14:08 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.14.06
+ by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.14.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:14:06 -0800 (PST)
+ Fri, 15 Jan 2021 10:14:07 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 34/40] drm/gma500/mmu: Remove unused function
- 'psb_get_default_pd_addr'
-Date: Fri, 15 Jan 2021 18:13:07 +0000
-Message-Id: <20210115181313.3431493-35-lee.jones@linaro.org>
+Subject: [PATCH 35/40] drm/vmwgfx/vmwgfx_cmdbuf_res: Rename param description
+ and remove another
+Date: Fri, 15 Jan 2021 18:13:08 +0000
+Message-Id: <20210115181313.3431493-36-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181313.3431493-1-lee.jones@linaro.org>
 References: <20210115181313.3431493-1-lee.jones@linaro.org>
@@ -67,33 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2dtYTUwMC9tbXUuYzo0MjA6MTA6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3Rv
-dHlwZSBmb3Ig4oCYcHNiX2dldF9kZWZhdWx0X3BkX2FkZHLigJkgWy1XbWlzc2luZy1wcm90b3R5
-cGVzXQoKQ2M6IFBhdHJpayBKYWtvYnNzb24gPHBhdHJpay5yLmpha29ic3NvbkBnbWFpbC5jb20+
-CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWxAZmZ3bGwuY2g+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25l
-ZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL2dtYTUwMC9tbXUuYyB8IDkgLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgOSBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL21tdS5jIGIvZHJp
-dmVycy9ncHUvZHJtL2dtYTUwMC9tbXUuYwppbmRleCA0MmI1M2MwMWI3OWY0Li4wMTRkYWYwMjgw
-NDg1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL21tdS5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9nbWE1MDAvbW11LmMKQEAgLTQxNiwxNSArNDE2LDYgQEAgc3RydWN0IHBzYl9t
-bXVfcGQgKnBzYl9tbXVfZ2V0X2RlZmF1bHRfcGQoc3RydWN0IHBzYl9tbXVfZHJpdmVyICpkcml2
-ZXIpCiAJcmV0dXJuIHBkOwogfQogCi0vKiBSZXR1cm5zIHRoZSBwaHlzaWNhbCBhZGRyZXNzIG9m
-IHRoZSBQRCBzaGFyZWQgYnkgc2d4L21zdmR4ICovCi11aW50MzJfdCBwc2JfZ2V0X2RlZmF1bHRf
-cGRfYWRkcihzdHJ1Y3QgcHNiX21tdV9kcml2ZXIgKmRyaXZlcikKLXsKLQlzdHJ1Y3QgcHNiX21t
-dV9wZCAqcGQ7Ci0KLQlwZCA9IHBzYl9tbXVfZ2V0X2RlZmF1bHRfcGQoZHJpdmVyKTsKLQlyZXR1
-cm4gcGFnZV90b19wZm4ocGQtPnApIDw8IFBBR0VfU0hJRlQ7Ci19Ci0KIHZvaWQgcHNiX21tdV9k
-cml2ZXJfdGFrZWRvd24oc3RydWN0IHBzYl9tbXVfZHJpdmVyICpkcml2ZXIpCiB7CiAJc3RydWN0
-IGRybV9kZXZpY2UgKmRldiA9IGRyaXZlci0+ZGV2OwotLSAKMi4yNS4xCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Also fix a small formatting issue.
+
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:83: warning: Function parameter or member 'res_type' not described in 'vmw_cmdbuf_res_lookup'
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:83: warning: Excess function parameter 'resource_type' description in 'vmw_cmdbuf_res_lookup'
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:161: warning: Excess function parameter 'man' description in 'vmw_cmdbuf_res_revert'
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c:330: warning: Cannot understand  *
+
+Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Roland Scheidegger <sroland@vmware.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+index 44d858ce4ce7f..92509fbf2fd1d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c
+@@ -69,7 +69,7 @@ struct vmw_cmdbuf_res_manager {
+  * vmw_cmdbuf_res_lookup - Look up a command buffer resource
+  *
+  * @man: Pointer to the command buffer resource manager
+- * @resource_type: The resource type, that combined with the user key
++ * @res_type: The resource type, that combined with the user key
+  * identifies the resource.
+  * @user_key: The user key.
+  *
+@@ -148,7 +148,6 @@ void vmw_cmdbuf_res_commit(struct list_head *list)
+ /**
+  * vmw_cmdbuf_res_revert - Revert a list of command buffer resource actions
+  *
+- * @man: Pointer to the command buffer resource manager
+  * @list: Caller's list of command buffer resource action
+  *
+  * This function reverts a list of command buffer resource
+@@ -327,7 +326,6 @@ void vmw_cmdbuf_res_man_destroy(struct vmw_cmdbuf_res_manager *man)
+ }
+ 
+ /**
+- *
+  * vmw_cmdbuf_res_man_size - Return the size of a command buffer managed
+  * resource manager
+  *
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
