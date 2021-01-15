@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02292F8CED
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C32F8CEC
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78E1D6E56D;
-	Sat, 16 Jan 2021 10:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1A06E580;
+	Sat, 16 Jan 2021 10:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEA46E418;
- Fri, 15 Jan 2021 14:13:58 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id EBAC758073A;
- Fri, 15 Jan 2021 09:13:55 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 15 Jan 2021 09:13:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=tj2SxXoSa96FfDtLrh9IpSrjSWA
- c9uYGz+Dn9iyVoAo=; b=B7b719RQYKeJsatdvoMfftPaZ7yza1XeB2tdCt+EfXJ
- lyEobF8ynRrdN7pxtUoPCNN3dfilyUknC7aTjyaF4oJihyfecKY12lq6IgiU5Cz1
- Vra/Uwe7W13TjbG6KqN24oHHPrC1/88iYYfOg2wCPjrXLB0GDaNS3PDyATP1pXej
- 5HHLRWc0r29gZRdE1uLJv6pc5aMOPi8ZjLC6JAnQxX87d99PTR+kZ/k9Z6nQNm9V
- x0WGFJchuLQni4XDfFsGtGRZ9mYyCjTdEq5nOBG8T+RIbswMnhUDy8bhLPUdPJvI
- Ni7wAgdzO3zMr5uZO/F7sboexu5D3QU0T8Ed3vI5MfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=tj2SxX
- oSa96FfDtLrh9IpSrjSWAc9uYGz+Dn9iyVoAo=; b=DTqsOZTgs9er9+yzawQmVO
- EOeS6CKr4HyuLl1Yw82EDZwnh0QHN5cjBgpXqnYBdSbWrNbwkp9N2XMK7EYX8r47
- C9HpReELYzpXVluMpuKyw3ejZ8pmHfhNErU8JqDJKz1nvBhuTMozZybUfLkRlKFy
- u2E2sWQ6Hxicg8XS8nbDcE/Gh051JO+KFaMy4eUJ+RcFWpumsnC/RfTUndRQIQ2s
- 5xaHQOvXcstvWyD6/WxLpHKrjF6/I3gBVrpytWckvlOIAglOredeUiQELEYTy5zG
- +exHNkvTbt7stB1+rpKVkYMYIrThkTZfSiww74c9ZUcBd2e3p0ecO1+CynzXS5eg
- ==
-X-ME-Sender: <xms:H6MBYOphsPeraZvMbHHV6sLX5m-JNpn4N51-5cOKmFM8gMm2xAOY-g>
- <xme:H6MBYMoIwGXMdtT-Fsl9-KrgVARKtOi_kXKLYdcxBmnFZjJ58f8hrFq1ckqpq6FE8
- mQPdpg_0m4q8_-tvhQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddvgdefjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:H6MBYDOSQRizwP04l9Nf6wzq-zGR4MatK7JR6FJEsLhumsMXksPkcA>
- <xmx:H6MBYN59LINByHvjPYVhqDg7R7cpfkKcmkhFOGEVIJGkFNwicaJ64Q>
- <xmx:H6MBYN7P8pv9yOTCe00vHPLOHR1qcvl-XR7wdurFxKpteNJ_AQYgUw>
- <xmx:I6MBYNDAKvlsHXR02UWThVa9nKgwADq3hUf0BbgvTdaNMMntJSZNLA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 869AA1080059;
- Fri, 15 Jan 2021 09:13:51 -0500 (EST)
-Date: Fri, 15 Jan 2021 15:13:49 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 02/10] drm: Rename plane atomic_check state names
-Message-ID: <20210115141349.7oq5hwsj37qcpk5j@gilmour>
-References: <20210115125703.1315064-1-maxime@cerno.tech>
- <20210115125703.1315064-2-maxime@cerno.tech>
- <221e5626-d97c-9d4e-07cc-e696c92ceb65@suse.de>
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC4716E450
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 14:58:39 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id i6so8769984otr.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 06:58:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=k6zq/oTDBPEVQXeNZprpbOkQyyC64uIYxfSBvN3TmvM=;
+ b=oOF/c9xBVldXUxxpi5Nc9ut3B7Nh2a3hdjV57iOvIg45toFBIufjv13Ie7fe6Wj1RA
+ o9ljw7wuQ+Y+htcKPGPjQCLM2KcCDAzugoe1ixiWaTOBV/zO2UDAYoFQZtiKzbp4Cm5K
+ z+0Gdd7wgrXztPZ3WX/wUg1TmWHop0b432ag5WCu8IHI8zWgSjysAksx1aqXBPTX2N6i
+ 5PxYf2r3QumTuVL/C7wUQrxRB70MHx2CwOzYjUlYuBwLNCCl0ZKPeCkK8BFTkt/oeCrh
+ CJ50pKjmnbfcmNHTbAwAr+XBlETGaCQ2xVVClNoqptOrz2gPT5noNs11dnN0dy76t8ib
+ dvRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=k6zq/oTDBPEVQXeNZprpbOkQyyC64uIYxfSBvN3TmvM=;
+ b=J6PknUZ+W3TUi7E4qI3prbuXDoQdSXA650+SUF0IBbyGk628j86VyRniOMrGnxbDnV
+ Bnw+za/matnk3L97A5hdj9OUQL6pS4UiTAu9JhQ9WmT5a+H49kMm+LE2Mj5MDrqygYID
+ GwAoJfFfqEEoE8t1ZqkFeOqxUMdhOsc/v2tS2T8E26CApNGelvcuv2YaMydjQYyC3Byg
+ sTrapU8Iu4vMKTmRZfTrZIPuuwy9/eWsphblBtwfYHrzw+aeczgVljr1Oet9cJWw5NlG
+ M918koZpnS05w4Kfwl3fq+OVCUBn4iRK7+4OlZ6k7zuqL4Wfz23D+j7wevcz8NoS10DB
+ nSFA==
+X-Gm-Message-State: AOAM532CEZMXCMycJO8ZiyIeZ2NE+PZ81B0LtPBC8SRIeCUJvtXTpgrr
+ twr4r+TonPFyeb5htfM1FcwDBw==
+X-Google-Smtp-Source: ABdhPJzrz6ko7/CrZVI8YHHgYTiqBb6tK1nxWMvciQsEf/hPcvcxI/0P3D2Mc94/pd9tQ0qfn6xkTA==
+X-Received: by 2002:a05:6830:210a:: with SMTP id
+ i10mr8487364otc.145.1610722718969; 
+ Fri, 15 Jan 2021 06:58:38 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id x20sm1796368oov.33.2021.01.15.06.58.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 06:58:38 -0800 (PST)
+Date: Fri, 15 Jan 2021 08:58:36 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/3] drm/bridge/lontium-lt9611uxc: fix waiting for
+ EDID to become available
+Message-ID: <YAGtnPqxe90wj+8K@builder.lan>
+References: <20210115110225.127075-1-dmitry.baryshkov@linaro.org>
+ <20210115110225.127075-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <221e5626-d97c-9d4e-07cc-e696c92ceb65@suse.de>
+Content-Disposition: inline
+In-Reply-To: <20210115110225.127075-2-dmitry.baryshkov@linaro.org>
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,121 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
- Michal Simek <michal.simek@xilinx.com>, NXP Linux Team <linux-imx@nxp.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Leo Li <sunpeng.li@amd.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- Edmund Dea <edmund.j.dea@intel.com>, virtualization@lists.linux-foundation.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>, Yannick Fertre <yannick.fertre@st.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- linux-tegra@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, amd-gfx@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Chen Feng <puck.chen@hisilicon.com>, Alison Wang <alison.wang@nxp.com>,
- spice-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
- Philippe Cornu <philippe.cornu@st.com>, Vincent Abriou <vincent.abriou@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Paul Cercueil <paul@crapouillou.net>,
- linux-renesas-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Russell King <linux@armlinux.org.uk>, linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jyri Sarha <jyri.sarha@iki.fi>
-Content-Type: multipart/mixed; boundary="===============1165266473=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri 15 Jan 05:02 CST 2021, Dmitry Baryshkov wrote:
 
---===============1165266473==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pc7g53zcvckyysz5"
-Content-Disposition: inline
+> - Call wake_up() when EDID ready event is received to wake
+>   wait_event_interruptible_timeout()
+> 
+> - Increase waiting timeout, reading EDID can take longer than 100ms, so
+>   let's be on a safe side.
+> 
 
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
---pc7g53zcvckyysz5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Regards,
+Bjorn
 
-Hi,
-
-On Fri, Jan 15, 2021 at 02:46:36PM +0100, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 15.01.21 um 13:56 schrieb Maxime Ripard:
-> > diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ip=
-uv3-plane.c
-> > index 8a4235d9d9f1..2cb09e9d9306 100644
-> > --- a/drivers/gpu/drm/imx/ipuv3-plane.c
-> > +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-> > @@ -344,12 +344,12 @@ static const struct drm_plane_funcs ipu_plane_fun=
-cs =3D {
-> >   };
-> >   static int ipu_plane_atomic_check(struct drm_plane *plane,
-> > -				  struct drm_plane_state *state)
-> > +				  struct drm_plane_state *new_state)
->=20
-> It's not 'new_plane_state' ?
-
-That function is using old_state for plane->state:
-
-> >   {
-> >   	struct drm_plane_state *old_state =3D plane->state;
-
-Here ^
-
-So it felt more natural to keep the convention in use in that driver
-
-Maxime
-
---pc7g53zcvckyysz5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAGjHQAKCRDj7w1vZxhR
-xRyQAP9z6jgYoVLN5O08Gfa2bipU5kwBoAnOqoWm5tZt0atb8QEA9iY4poTgz6cv
-u2lw2ErmnQLG6Rt10lvZcTmjIdOF5QI=
-=AOj1
------END PGP SIGNATURE-----
-
---pc7g53zcvckyysz5--
-
---===============1165266473==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index 0c98d27f84ac..a59e811f1705 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -145,8 +145,10 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
+>  
+>  	lt9611uxc_unlock(lt9611uxc);
+>  
+> -	if (irq_status & BIT(0))
+> +	if (irq_status & BIT(0)) {
+>  		lt9611uxc->edid_read = !!(hpd_status & BIT(0));
+> +		wake_up_all(&lt9611uxc->wq);
+> +	}
+>  
+>  	if (irq_status & BIT(1)) {
+>  		if (lt9611uxc->connector.dev)
+> @@ -465,7 +467,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
+>  static int lt9611uxc_wait_for_edid(struct lt9611uxc *lt9611uxc)
+>  {
+>  	return wait_event_interruptible_timeout(lt9611uxc->wq, lt9611uxc->edid_read,
+> -			msecs_to_jiffies(100));
+> +			msecs_to_jiffies(500));
+>  }
+>  
+>  static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+> -- 
+> 2.29.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1165266473==--
