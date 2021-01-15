@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA6E2F74B0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532DD2F74A0
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C5389BAC;
-	Fri, 15 Jan 2021 08:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62BE389A74;
+	Fri, 15 Jan 2021 08:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0366E160
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 07:03:12 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id 30so5431911pgr.6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 23:03:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Jl2+hlh3x6jkGwlX8WqlsLyequQpH3wXfp/SkKRuhe4=;
- b=Z+cBgFMgXTm78gUF5OKaiv/CgSP2yAzAPQDOk8e7Okn8sxsQ4vpnFw8EOlzyzMDao9
- om3ph+cY69yK3tHyKd9mF/1IOKtChvr8Wyu8QbG/fgz94sjloBk7MP2w8sNiHHa8YxfC
- Qzs2gfrkxUeCuXZ0GHRHA4kdl3ff44yIgJ/xE=
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41F2A89F55
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 07:41:40 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id my11so5123875pjb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 23:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=O+ju7GzUSXgEyONqw2hDG3TWhp+lRUaB6LNMrBnInUE=;
+ b=c4aQ4cyO+IgwfmpdLIqX1q419sayYIGKJD7IUTfQz/7f8CHhBNqAF3Wzrjya7/P7hH
+ TxL/eVFXPOVDkVf5wwZ7v4kMLifmKRHFlyLUHIGST1zgiVGMHkR4hNYOkf4lveAhA0oS
+ 1JhKVacOoCfPS5nlfV+CbFh2UMrIOLz53NDcGWOpf0HOehUB3NoZjDItyhGiAit5SYUA
+ htG0JawNAtwSzaVx015CNsEZEjiDBl98T+2wbYYjqRGUd5LgPSdeAVGnCAz3lL9uOC12
+ 8ABg0muchJyr4U4WR8mCRraOsIinPmYPLeoNSV/pmoNU0DQDIiI2WD4AIRmyA6QaSdUH
+ eMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jl2+hlh3x6jkGwlX8WqlsLyequQpH3wXfp/SkKRuhe4=;
- b=OVuleHVoyy65JpB7Xh3TrSJn2AZJbS9SMMtJMpzrTKEbZZ+Mmyi5pT9L6O8TIi1ek6
- uV2Z69Rap9cxW3NjlARvHM2Ty73CZOSGcsN45g7Q4MldrVSE2FlnbtMyNM+Ze/GcZkCo
- YsR42vDpcF0lNky1DX0a5l7yXWmibf9jfRSTRoGliEZpg0pdb4vlB0FKBclYwoXqSvrG
- GrsMGJ+NEqgGrP2ALeK6yMRlStJAzRSaBX9xg26IMheRjcZCCSXVBB51eFPWlenscC9+
- GnoIdXNyqd/UsPzsFD8e41sJusEnLZPIESPAz27xmacs1KHRyNWAB+Xfs24ghlm7FtTS
- Qonw==
-X-Gm-Message-State: AOAM530zVAw5sUOCGVOxvNsl58gyJQwjw991GNFSY6t8L7WQmcU88Pbz
- CrkLxC88Hoo3hXNUKVgsBvYOBQ==
-X-Google-Smtp-Source: ABdhPJyfblq3yeliOQGfgSMELoffZ1xsuuDx5AbEg/nZkDji079XClxuemor1VUY8+ydtI9Oo8u8Pw==
-X-Received: by 2002:a65:488d:: with SMTP id n13mr10912182pgs.315.1610694191580; 
- Thu, 14 Jan 2021 23:03:11 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
- by smtp.gmail.com with ESMTPSA id x12sm7101064pfj.25.2021.01.14.23.03.08
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=O+ju7GzUSXgEyONqw2hDG3TWhp+lRUaB6LNMrBnInUE=;
+ b=PYqkDqHpUvIj9lV/Vf16LlDvEWzY06Z1pD/UmsKX4ijPYzUcfebKmUt3gq3uvq+XnC
+ iPSk2c9pNOGpR8yc3bI96mA+xr06OX55Cl/N8VffVFCB+541+AXBagdZ8jfmz8mjKAPS
+ FEVla9p9KvnDjF8yPrPRYiWt27n4AhfJLbb535aNttYSJB3FFA685zVMLTGg0FLOWvbE
+ dd2i6DSkyXf1oGK8c/FGzTsVKwgm043ujmG6pNGnDxFYCvue02tEAgUJEp0sKjoag4nF
+ CSq239BHP2LxJ4gMwc9UVklYktikoKjxUbTeql5w2xs9RY+VP2lbs/zOjnfWyV65Iebx
+ 1zNw==
+X-Gm-Message-State: AOAM533OIoQfnEK+u585TTp+Y2c7GKPUfk36QWsO7nxZ14pBOMZIissr
+ vAKJ1s38grl97gHQag0hQ4pa4w==
+X-Google-Smtp-Source: ABdhPJwsuvXD5qgp029828wqLpR1cX2SOM/CqGlwkz97B2cHjqrKqUR1XAm+Epc/0bMXU0qByl31WQ==
+X-Received: by 2002:a17:902:a412:b029:db:cf5a:8427 with SMTP id
+ p18-20020a170902a412b02900dbcf5a8427mr11747670plq.48.1610696499826; 
+ Thu, 14 Jan 2021 23:41:39 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id 4sm7656692pjn.14.2021.01.14.23.41.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 23:03:11 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Xin Ji <xji@analogixsemi.com>,
-	David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 2/2] drm/bridge: anx7625: disable regulators when power off
-Date: Fri, 15 Jan 2021 15:02:52 +0800
-Message-Id: <20210115070250.2271571-2-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-In-Reply-To: <20210115070250.2271571-1-hsinyi@chromium.org>
-References: <20210115070250.2271571-1-hsinyi@chromium.org>
+ Thu, 14 Jan 2021 23:41:39 -0800 (PST)
+Subject: [PATCH] drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused warning
+Date: Thu, 14 Jan 2021 23:40:43 -0800
+Message-Id: <20210115074043.2944-1-palmer@dabbelt.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: heiko@sntech.de
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,129 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, Palmer Dabbelt <palmerdabbelt@google.com>,
+ hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel-team@android.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When suspending the driver, anx7625_power_standby() will be called to
-turn off reset-gpios and enable-gpios. However, power supplies are not
-disabled. To save power, the driver can get the power supply regulators
-and turn off them in anx7625_power_standby().
+From: Palmer Dabbelt <palmerdabbelt@google.com>
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-Change:
-v3: add delays between regulators power on
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 34 +++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
- 2 files changed, 35 insertions(+)
+cdn_dp_resume is only used under PM_SLEEP, and now that it's static an
+unused function warning is triggered undner !PM_SLEEP.  This
+conditionally enables the function to avoid the warning.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 65cc05982f82..23283ba0c4f9 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-@@ -875,12 +876,25 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
- static void anx7625_power_on(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
-+	int ret, i;
- 
- 	if (!ctx->pdata.low_power_mode) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
- 		return;
- 	}
- 
-+	for (i = 0; i < ARRAY_SIZE(ctx->pdata.supplies); i++) {
-+		ret = regulator_enable(ctx->pdata.supplies[i].consumer);
-+		if (ret < 0) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "cannot enable supply %d: %d\n",
-+					     i, ret);
-+			goto reg_err;
-+		}
-+		usleep_range(2000, 2100);
-+	}
-+
-+	usleep_range(4000, 4100);
-+
- 	/* Power on pin enable */
- 	gpiod_set_value(ctx->pdata.gpio_p_on, 1);
- 	usleep_range(10000, 11000);
-@@ -889,11 +903,16 @@ static void anx7625_power_on(struct anx7625_data *ctx)
- 	usleep_range(10000, 11000);
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "power on !\n");
-+	return;
-+reg_err:
-+	for (--i; i >= 0; i--)
-+		regulator_disable(ctx->pdata.supplies[i].consumer);
+Fixes: 7c49abb4c2f8 ("drm/rockchip: cdn-dp-core: Make cdn_dp_core_suspend/resume static")
+Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index a4a45daf93f2..063a60d213ba 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -1121,6 +1121,7 @@ static int cdn_dp_suspend(struct device *dev)
+ 	return ret;
  }
  
- static void anx7625_power_standby(struct anx7625_data *ctx)
++#ifdef CONFIG_PM_SLEEP
+ static int cdn_dp_resume(struct device *dev)
  {
- 	struct device *dev = &ctx->client->dev;
-+	int ret;
+ 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+@@ -1133,6 +1134,7 @@ static int cdn_dp_resume(struct device *dev)
  
- 	if (!ctx->pdata.low_power_mode) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
-@@ -904,6 +923,12 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
- 	usleep_range(1000, 1100);
- 	gpiod_set_value(ctx->pdata.gpio_p_on, 0);
- 	usleep_range(1000, 1100);
-+
-+	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
-+				     ctx->pdata.supplies);
-+	if (ret < 0)
-+		DRM_DEV_DEBUG_DRIVER(dev, "cannot disable supplies %d\n", ret);
-+
- 	DRM_DEV_DEBUG_DRIVER(dev, "power down\n");
+ 	return 0;
  }
++#endif
  
-@@ -1742,6 +1767,15 @@ static int anx7625_i2c_probe(struct i2c_client *client,
- 	platform->client = client;
- 	i2c_set_clientdata(client, platform);
- 
-+	pdata->supplies[0].supply = "vdd10";
-+	pdata->supplies[1].supply = "vdd18";
-+	pdata->supplies[2].supply = "vdd33";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pdata->supplies),
-+				      pdata->supplies);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "fail to get power supplies: %d\n", ret);
-+		return ret;
-+	}
- 	anx7625_init_gpio(platform);
- 
- 	atomic_set(&platform->power_status, 0);
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 193ad86c5450..e4a086b3a3d7 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -350,6 +350,7 @@ struct s_edid_data {
- struct anx7625_platform_data {
- 	struct gpio_desc *gpio_p_on;
- 	struct gpio_desc *gpio_reset;
-+	struct regulator_bulk_data supplies[3];
- 	struct drm_bridge *panel_bridge;
- 	int intp_irq;
- 	u32 low_power_mode;
+ static int cdn_dp_probe(struct platform_device *pdev)
+ {
 -- 
-2.30.0.284.gd98b1dd5eaa7-goog
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
