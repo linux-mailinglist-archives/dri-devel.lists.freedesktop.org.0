@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3122F7422
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:16:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 500632F7445
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:26:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B6E6E175;
-	Fri, 15 Jan 2021 08:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF38F6E1ED;
+	Fri, 15 Jan 2021 08:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67AC46E175
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 08:16:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DEB59AB7A;
- Fri, 15 Jan 2021 08:15:58 +0000 (UTC)
-Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
- functions
-To: kieran.bingham+renesas@ideasonboard.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, eric@anholt.net,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201123115646.11004-1-tzimmermann@suse.de>
- <20201123115646.11004-3-tzimmermann@suse.de>
- <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
- <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
- <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
- <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
- <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
-Date: Fri, 15 Jan 2021 09:15:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789506E1BD;
+ Fri, 15 Jan 2021 08:26:35 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 23602727-1500050 for multiple; Fri, 15 Jan 2021 08:25:47 +0000
 MIME-Version: 1.0
-In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
+In-Reply-To: <YAATPMc+1jmhxnsF@phenom.ffwll.local>
+References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
+ <161055261490.6195.7986280621869334351@build.alporthouse.com>
+ <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com>
+ <161057213487.6195.581396740566956696@build.alporthouse.com>
+ <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
+ <161061619887.19482.10606780107376365239@build.alporthouse.com>
+ <CAKMK7uE58dJabnaTNgePTyio_JY3=kvFZtu1RT1eFeGDK76ZeA@mail.gmail.com>
+ <161061753732.19482.13146900597152116822@build.alporthouse.com>
+ <YAATPMc+1jmhxnsF@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 15 Jan 2021 08:25:46 +0000
+Message-ID: <161069914606.19482.1823329746575120144@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,196 +46,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0085203122=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ DMA BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0085203122==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh"
+Quoting Daniel Vetter (2021-01-14 09:47:40)
+> On Thu, Jan 14, 2021 at 09:45:37AM +0000, Chris Wilson wrote:
+> > Quoting Daniel Vetter (2021-01-14 09:30:32)
+> > > On Thu, Jan 14, 2021 at 10:23 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > > > The only other problem I see with the implementation is that there's
+> > > > nothing that says that each dmabuf->ops->map_dma_buf() returns a new
+> > > > sg_table, so we may end up undoing the xor. Or should each dma-buf
+> > > > return a fresh dma-mapping for iommu isolation?
+> > > 
+> > > Maybe I screwed it up, but that's why I extracted the little helpers:
+> > > We scramble when we get the sgtable from exporter, and unscramble
+> > > before we pass it back. dma-buf.c does some caching and will hand back
+> > > the same sgtable, but for that case we don't re-scramble.
+> > 
+> > The attachment is only mapped once, but there can be more than one
+> > attachment, and the backend could return the same sg_table for each
+> > mapping. Conceivably, it could return its own private sg_table where it
+> > wants to maintain the struct page. Seems like just adding a sentence to
+> > @map_dma_buf to clarify that each call should return a new sg_table will
+> > suffice.
+> 
+> Ah yes good point, will augment (once CI stops being angry at me).
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
-Content-Type: multipart/mixed; boundary="4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kieran.bingham+renesas@ideasonboard.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, eric@anholt.net,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <1c1e4df6-006b-f631-7f0a-0a11b546bf8e@suse.de>
-Subject: Re: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object
- functions
-References: <20201123115646.11004-1-tzimmermann@suse.de>
- <20201123115646.11004-3-tzimmermann@suse.de>
- <e297b08d-a7ac-a3c8-abdf-bb89bc6810ce@ideasonboard.com>
- <d6b5376d-05c9-bb43-3071-820d675d921e@suse.de>
- <d67ce6c5-71f1-ec1e-ca89-db0997f96b61@ideasonboard.com>
- <6afaad84-505a-87e7-a7ce-9f45c9cc79bd@suse.de>
- <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
-In-Reply-To: <fe8c3a4f-24cc-8a78-1162-addadcd0f79e@ideasonboard.com>
-
---4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 14.01.21 um 17:28 schrieb Kieran Bingham:
-> Hi Thomas,
->=20
-> On 14/01/2021 15:15, Thomas Zimmermann wrote:
->>>>> On 23/11/2020 11:56, Thomas Zimmermann wrote:
->>>>>> The new GEM object function drm_gem_cma_mmap() sets the VMA flags
->>>>>> and offset as in the old implementation and immediately maps in th=
-e
->>>>>> buffer's memory pages.
->>>>>>
->>>>>> Changing CMA helpers to use the GEM object function allows for the=
-
->>>>>> removal of the special implementations for mmap and gem_prime_mmap=
-
->>>>>> callbacks. The regular functions drm_gem_mmap() and
->>>>>> drm_gem_prime_mmap()
->>>>>> are now used.
->>>>>
->>>>> I've encountered a memory leak regression in our Renesas R-Car DU
->>>>> tests,
->>>>> and git bisection has led me to this patch (as commit f5ca8eb6f9).
->>>>>
->>>>> Running the tests sequentially, while grepping /proc/meminfo for
->>>>> Cma, it
->>>>> is evident that CMA memory is not released, until exhausted and the=
-
->>>>> allocations fail (seen in [0]) shown by the error report:
->>>>>
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.fbs.append(pykms.DumbFramebuf=
-fer(self.card, mode.hdisplay,
->>>>>> mode.vdisplay, "XR24"))
->>>>>> ValueError: DRM_IOCTL_MODE_CREATE_DUMB failed: Cannot allocate mem=
-ory
->>>>>
->>>>>
->>>>> Failing tests at f5ca8eb6f9 can be seen at [0], while the tests pas=
-s
->>>>> successfully [1] on the commit previous to that (bc2532ab7c2):
->>>>>
->>>>> Reverting f5ca8eb6f9 also produces a successful pass [2]
->>>>>
->>>>>  =C2=A0=C2=A0 [0] https://paste.ubuntu.com/p/VjPGPgswxR/ # Failed a=
-t f5ca8eb6f9
->>>>>  =C2=A0=C2=A0 [1] https://paste.ubuntu.com/p/78RRp2WpNR/ # Success =
-at bc2532ab7c2
->>>>>  =C2=A0=C2=A0 [2] https://paste.ubuntu.com/p/qJKjZZN2pt/ # Success =
-with revert
->>>>>
->>>>>
->>>>> I don't believe we handle mmap specially in the RCar-DU driver, so =
-I
->>>>> wonder if this issue has hit anyone else as well?
->>>>>
->>>>> Any ideas of a repair without a revert ? Or do we just need to subm=
-it a
->>>>> revert?
->>>>
->>>> I think we might not be setting the VMA ops and therefore not finali=
-ze
->>>> the BO correctly. Could you please apply the attched (quick-and-dirt=
-y)
->>>> patch and try again?
->>>
->>> Thanks for the quick response.
->>>
->>> I can confirm the quick-and-dirty patch resolves the issue:
->>>  =C2=A0=C2=A0 https://paste.ubuntu.com/p/sKDp3dNvwV/
->>>
->>> You can add a
->>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>
->> Great! If you don't mind, I'd also add you in the Reported-by tag.
->=20
-> Certainly!
->=20
->>>
->>> if it stays like that, but I suspect there might be a better place to=
-
->>> initialise the ops rather than in the mmap call itself.
->>
->> I think that's the fix, basically. We could put such a line as a
->> fall-back somewhere into the DRM core code. But I don't know if this
->> really works with all drivers. Maybe there's one that requires vm_ops =
-to
->> be NULL.
->=20
-> Ok, that's reaching beyond code I've explored, so I'll leave it to you.=
-
-
-Daniel asked for a fix in the DRM core, so I'll go with the alternative=20
-approach. If you have the time, I'd appreciate another test run.
-
-Best regards
-Thomas
-
->=20
->=20
->> Thanks for reporting this issue and testing quickly.
->=20
-> Thanks for fixing so quickly :-)
->=20
-> Regards
->=20
-> Kieran
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---4SMfsDSRy9oRo45qeK3KFv7zGjvngFvtL--
-
---Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmABTz0FAwAAAAAACgkQlh/E3EQov+CV
-xA/+PoKFAj2XjMj4k6um1i/stJIlU8XfqnXWd2QV0TvhmeUkW9XsDLSn4NGcJzCeDqfZAMu6o8xB
-t38plEFr9gOI2fKxKOntbxN+OID1BPRgJ0hjuuqHiNxv4fyOozfsHJIq8vTZYOZ1RmNHJcWqGTy2
-7OjyNQqGk1AXbBNjPBITMX8Eq78YJ/acqGaCoTIRNI4HNV6RcKP/1phXrqwMeLu9E8k+iiQXDwFQ
-gR3RClr9R3F+YFW6gXI81arcevOXtvM9dG4XzIRht5EYHO4c+pFxqiRsphDC3UIskMcvlsf7JvNX
-2DM94E6Z2JdEvYflEHwD4j8MFG8ryJzR2AGtQwirxg60SImcH8vljSMTNswH7gE28S/iOXD0R23k
-dQd2/qE2I7frg+o0/JAKi45frK7eTKqO3SBBYP1OYdjTAVGkvaEG4YZV4DGObUO5veA5njMdVkTP
-l0/RRfYwZhr+gFWXi+vPV8AyyAKaeKqJOIaLOqVijwvy7MN0911ePGQEs4+JTlu3WmSbwPjBeB/J
-U2CuzziziRGPrygQGBVh2odeVo0XBuIasyrXMGz+nFDUcY6o3zDE2cvT2c1Yah4U7eYQ/M2QCm68
-WpbBrHELD45ARuibozMh2G1iobh721vRNTCBtRpltuWrMtleg7s/Ob2RCvQxH25mpH4cHFjS8Wk/
-UNs=
-=hO8Z
------END PGP SIGNATURE-----
-
---Z1Vmp2DJmmPcU5Hbu7TztMW9VSXTZi4yh--
-
---===============0085203122==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Fwiw, with a quick explanation of "don't do this" in the docs,
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0085203122==--
