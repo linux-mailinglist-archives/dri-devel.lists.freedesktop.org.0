@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AF42F8CE5
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CF82F8CF4
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0FE6E55C;
-	Sat, 16 Jan 2021 10:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E03736E5C1;
+	Sat, 16 Jan 2021 10:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D5DA6E250
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 11:02:36 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id n11so9945407lji.5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 03:02:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bVcjRs+Ok7w3SNArmcDX5s4jqseIUriYsAY++usO/v4=;
- b=fIxlssTjF9bpwqr0geCcR+J3tdYEWhq7wPNyJHJbQiSukYyUEqXPwA9D0TkaDkzxMA
- zG4lXbdrCx5FT9VSkj2NGhulPDcPyq8fUrXdmTi4VkmvR7UHnuj3rklnQsZE7YYlH6zS
- cSGJZhD72bBP1DXw12/+s1gAJMnHBdUMme0fyiQG+f3iYu+BPZar4Okhl172YtCc/sFy
- iczY+MN9pFkpLtNSojxEmFzTIyu46LfHwNLEszbKsNjqIrIyoE0LP/PjItp0vsJ+VC5T
- GVWib6T2i+uqQacta7ngU6eXf3W2uas4ZXMzy0dC2p4TMs7PlC0evbUip1FWLVqSWn6U
- CA8g==
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3F16E0AB;
+ Fri, 15 Jan 2021 11:43:40 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id w1so12817208ejf.11;
+ Fri, 15 Jan 2021 03:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=/9sksIUuZatO+aX8p4iLJ2mKZetuSFmDz0PF+YiOHOI=;
+ b=YEJANZ1/9r+EPbKaQQTb3YhWamtM4DH9to+g8PWbIoYfCC2B9io/PF88pVRzv8fh61
+ Wapvntn5ABjZ4BADq3kEhzYrfLziVhaprSzQD1mSf1hjsxKCDAxUsCWMtzTpTyJwZ/Ql
+ 2OKtFYFS//RkJM5MTRb5VHYlKtLi9PAgP2o50L/4C4rwV7bn6D8U0duHKDpPSdNh6r8E
+ fybYpMd8V3cr0MKirGnUYPOuP/QV5wYCu0q7b9Pr2IZ35zwJ6tnVquuJfw/sbV7u9O9h
+ oxFe7U6FfWf/79W+zxcUMZshS+fHCd56UJ7c8Y63FqlccwNeRBJ3ePAYCGUunR7p5scq
+ zUsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bVcjRs+Ok7w3SNArmcDX5s4jqseIUriYsAY++usO/v4=;
- b=NtQmS84w1NfGSxdIWqh+bK2vbY1HynvWl5HfNbo5Qc4hesYk6I5+cfznabO9Q+zhV6
- RFSD+Uf0R6ta8yHIye59uyQrRtHkoeqhrBCmkwi3DCGa/SF65HoKpZDe3d/6b1JNx4cA
- YUrAQzFAkVlvZ2jqBOJ1vhbzUbWC3fxzObryRfgRRiiNnMGrgQiGnH7kea0xVtqw6XqX
- 9RLqo8disEH0XHKrRT1MrbnQwDbE53t8u9UBdJdbFkrW7b0d2dDPdycNc/gHR5dwpukz
- 5y0oBihynn+3mbZClQhqhRXmOwWLiaIOPSSGwc6O0KZE8FQW++9QrwQxsFrwxtmm2vDr
- GiWQ==
-X-Gm-Message-State: AOAM532I65MQGHJ/UnISj3WUSyFTu301cHXvaBQL+HVUmMvjIswMcpDE
- eUXx0W7GlpAT5OyqdYkfpIluSGdBUMS/dJkRo0A=
-X-Google-Smtp-Source: ABdhPJx+vSidLuf7CEXA+qiT7NNvlmkvI2jBc+mmViJfgFuO4vTXlBlMitK8hF/Is63y7O0BETr0SQ==
-X-Received: by 2002:a05:651c:228:: with SMTP id
- z8mr5408367ljn.310.1610708554557; 
- Fri, 15 Jan 2021 03:02:34 -0800 (PST)
-Received: from eriador.lumag.spb.ru ([188.162.64.106])
- by smtp.gmail.com with ESMTPSA id s8sm862020lfi.21.2021.01.15.03.02.32
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=/9sksIUuZatO+aX8p4iLJ2mKZetuSFmDz0PF+YiOHOI=;
+ b=rLEw5jQC37NEYVq6sqIYK55dDIN1gxAM7pWPLDLL5xCtJHV3mbR2I4mUy5sS9AwfIe
+ OK/R7YLoKdrcDN4swo3bTnErz3Liyfpb2JmjAJ5Ku0PJaUQM1Y6Un1hq/hsVlQXm2kK9
+ WsF0dMkqT6O9jN54maE5P+b84y8ag76y3u0h9oNx2ToHxF3QQDKORg8aNSgG6gjtdEh8
+ 52/m4gEDyksT0sV0yqN9FoXd9H/jAMs3MxQjlg0YPfbVVPHl/OYUJawRMHJE/biHoUik
+ 70DrCNcqLrToD/2+K32Qe51iyXcVKuitHHVj44JUk8oQlL8E9sEXOd66b/UdX49IV1Yy
+ W9Wg==
+X-Gm-Message-State: AOAM531Y0FmmCoXGhaJTW+IAqweK2U1sV2pmvhDF2MWILpAEdogBuZTa
+ HnOqTiv6mbUH+f6hrLmzNUA=
+X-Google-Smtp-Source: ABdhPJwET0Z8ZFGqMNHwdHfY36RdnFX6xRQgu56Fz+Cxj0NantVxngAd4EdKk1sELCE/DGiWkoU/OQ==
+X-Received: by 2002:a17:906:48c:: with SMTP id
+ f12mr3397945eja.431.1610711018663; 
+ Fri, 15 Jan 2021 03:43:38 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d39:a000:7c85:8e80:b862:a8bf])
+ by smtp.gmail.com with ESMTPSA id a2sm3184105ejt.46.2021.01.15.03.43.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 03:02:33 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/bridge/lontium-lt9611uxc: move HPD notification
- out of IRQ handler
-Date: Fri, 15 Jan 2021 14:02:25 +0300
-Message-Id: <20210115110225.127075-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210115110225.127075-1-dmitry.baryshkov@linaro.org>
-References: <20210115110225.127075-1-dmitry.baryshkov@linaro.org>
-MIME-Version: 1.0
+ Fri, 15 Jan 2021 03:43:37 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/dp_helper: tweak kerneldoc to address warning
+Date: Fri, 15 Jan 2021 12:43:29 +0100
+Message-Id: <20210115114329.27152-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,131 +65,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm hotplug handling code (drm_client_dev_hotplug()) can wait on mutex,
-thus delaying further lt9611uxc IRQ events processing.  It was observed
-occasionally during bootups, when drm_client_modeset_probe() was waiting
-for EDID ready event, which was delayed because IRQ handler was stuck
-trying to deliver hotplug event.
-Move hotplug notifications from IRQ handler to separate work to be able
-to process IRQ events without delays.
+Commit 07c9b8634fb6 ("drm/dp_helper: Add helpers to configure PCONs
+RGB-YCbCr Conversion") introduces a warning with make htmldocs in
+./drivers/gpu/drm/drm_dp_helper.c:965 for
+drm_dp_downstream_rgb_to_ycbcr_conversion():
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+  warning: Excess function parameter 'colorspc' description
+  warning: Function parameter or member 'color_spc' not described
+
+Tweak the kerneldoc for drm_dp_downstream_rgb_to_ycbcr_conversion().
+
+Fixes: 07c9b8634fb6 ("drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 30 +++++++++++++++++-----
- 1 file changed, 24 insertions(+), 6 deletions(-)
+applies cleanly on next-20210115
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index b708700e182d..88630bc2921f 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -14,6 +14,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/wait.h>
-+#include <linux/workqueue.h>
- 
- #include <sound/hdmi-codec.h>
- 
-@@ -36,6 +37,7 @@ struct lt9611uxc {
- 	struct mutex ocm_lock;
- 
- 	struct wait_queue_head wq;
-+	struct work_struct work;
- 
- 	struct device_node *dsi0_node;
- 	struct device_node *dsi1_node;
-@@ -52,6 +54,7 @@ struct lt9611uxc {
- 
- 	bool hpd_supported;
- 	bool edid_read;
-+	bool hdmi_connected;
- 	uint8_t fw_version;
- };
- 
-@@ -151,15 +154,26 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
- 	}
- 
- 	if (irq_status & BIT(1)) {
--		if (lt9611uxc->connector.dev)
--			drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
--		else
--			drm_bridge_hpd_notify(&lt9611uxc->bridge, !!(hpd_status & BIT(1)));
-+		lt9611uxc->hdmi_connected = !!(hpd_status & BIT(1));
-+		schedule_work(&lt9611uxc->work);
- 	}
- 
- 	return IRQ_HANDLED;
+Jani, please pick this minor doc warning fixup.
+
+ drivers/gpu/drm/drm_dp_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 3ecde451f523..d60e94ac6fdd 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -954,7 +954,7 @@ EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
+  *                                               RGB->YCbCr conversion capability
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: downstream facing port capabilities
+- * @colorspc: Colorspace for which conversion cap is sought
++ * @color_spc: Colorspace for which conversion cap is sought
+  *
+  * Returns: whether the downstream facing port can convert RGB->YCbCr for a given
+  * colorspace.
+@@ -3134,7 +3134,7 @@ int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8 pps_param[6])
  }
+ EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
  
-+void lt9611uxc_hpd_work(struct work_struct *work)
-+{
-+	struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
-+
-+	if (lt9611uxc->connector.dev)
-+		drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
-+	else
-+		drm_bridge_hpd_notify(&lt9611uxc->bridge,
-+				      lt9611uxc->hdmi_connected ?
-+				      connector_status_connected :
-+				      connector_status_disconnected);
-+}
-+
- static void lt9611uxc_reset(struct lt9611uxc *lt9611uxc)
- {
- 	gpiod_set_value_cansleep(lt9611uxc->reset_gpio, 1);
-@@ -447,7 +461,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
- 	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
- 	unsigned int reg_val = 0;
- 	int ret;
--	int connected = 1;
-+	bool connected = true;
- 
- 	if (lt9611uxc->hpd_supported) {
- 		lt9611uxc_lock(lt9611uxc);
-@@ -457,8 +471,9 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
- 		if (ret)
- 			dev_err(lt9611uxc->dev, "failed to read hpd status: %d\n", ret);
- 		else
--			connected  = reg_val & BIT(1);
-+			connected  = !!(reg_val & BIT(1));
- 	}
-+	lt9611uxc->hdmi_connected = connected;
- 
- 	return connected ?  connector_status_connected :
- 				connector_status_disconnected;
-@@ -931,6 +946,8 @@ static int lt9611uxc_probe(struct i2c_client *client,
- 	lt9611uxc->fw_version = ret;
- 
- 	init_waitqueue_head(&lt9611uxc->wq);
-+	INIT_WORK(&lt9611uxc->work, lt9611uxc_hpd_work);
-+
- 	ret = devm_request_threaded_irq(dev, client->irq, NULL,
- 					lt9611uxc_irq_thread_handler,
- 					IRQF_ONESHOT, "lt9611uxc", lt9611uxc);
-@@ -967,6 +984,7 @@ static int lt9611uxc_remove(struct i2c_client *client)
- 	struct lt9611uxc *lt9611uxc = i2c_get_clientdata(client);
- 
- 	disable_irq(client->irq);
-+	flush_scheduled_work();
- 	lt9611uxc_audio_exit(lt9611uxc);
- 	drm_bridge_remove(&lt9611uxc->bridge);
- 
+-/*
++/**
+  * drm_dp_pcon_convert_rgb_to_ycbcr() - Configure the PCon to convert RGB to Ycbcr
+  * @aux: displayPort AUX channel
+  * @color_spc: Color-space/s for which conversion is to be enabled, 0 for disable.
 -- 
-2.29.2
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
