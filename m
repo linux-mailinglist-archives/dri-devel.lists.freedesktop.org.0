@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFDD2F8367
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA162F836E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EDD6E480;
-	Fri, 15 Jan 2021 18:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674426E483;
+	Fri, 15 Jan 2021 18:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73CD6E480
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:13:32 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id a9so6746937wrt.5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:13:32 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA9616E480
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:13:34 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id d26so10186986wrb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ja/1FFTGOv6AaggbEFEZcUW2YjyBuvrOQaBJpOOoCfs=;
- b=ghF0kG8rNEQVOXAUreNjXGcJ48KjNg9l5Ypq/mQHTLuOAZzim1Tgi51UYfBff6o/5k
- SqJZsUxrQ2OQ2MC4A/in2xeKuyglvlerxtbegG8LeZMZWP5cxJRHQK0X354kmcGB6Ran
- s9B8lpGNLa3wdOJvkz7ETmHhR9fgPWpeJ6rsQF3l8L7MsEelRNXwQqZqKso6zKDgNR8C
- e6DcT9hKAhYY+8mR7q/15hXGU0+6zlJjE1MoYm4ZEF8FQkcJxX1KOEhVNUBsIhSjt7kf
- cN1gw5k2GbmPbroZiq6Hv+zvbSvAQBcsJ4nrPDlKUVifSUUV8B8dCoQokTHyAQm3r3wt
- Qzsg==
+ bh=fAAEuD3RlEr/SK+ua/zk+cZbQLwjXz0Jv5gG/pDSRFI=;
+ b=RNlz61U66+BUG1s+nfI5teKJXRzuhAMcV/qAFVRXV+wo32MjqVdz82qZ+lAO7fU6y1
+ 6AeYS8NZOV1XOpHbW/l8uDFRm91lwC39apk+K9velV1B1eYzstpRzlMpCDA8KTHqXr9w
+ UKqvIVaChpMvb5Xu2BYeV67rF7W62o/haTbVgcfVDoNHWaS2uYXSsrYQuwtsaA7cFUD0
+ 1d4o9RxUprSwq8f+2rKLEt1HiQFe3SzaQ+tFDP7FSt6o6cK8dxAjmEmaTxYFQuKq5WbD
+ s1Im/XIHYHvruuyaGxAt3cLHIhdXy44KcuI/A0h5AKziCv8119TfPyA8Cbu5/MZhOwBg
+ 4szw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ja/1FFTGOv6AaggbEFEZcUW2YjyBuvrOQaBJpOOoCfs=;
- b=TfTBvydTOoA6GvGZb4L7SbJ3CDL1XWSkIc6mo08y4kjlxW1EN642n/wdf3+sNF8p9O
- LVa7iIQfw4ZzrRX8tFPYIINU7uQukAKtGz3ToGa8uzUKgreIffiH56FUKepZD3Stu1ve
- d/SSi6tpyIr6kA0gz6vjO79XgjjprnD7TMm9FLtC5o3UFTzevtgbS1FtPt8tojTDbrOB
- uNNUz4NlknTlzvnwOKCsdXRUXWT03y7L9duLIO0PFaz5z02f0/GZGnB0Be+smk+jCHzX
- Oded9g1/+hxq83CtGk7eHcRL6C8PpU93QBOU5PpczU/zaT5GM+SIod2EIhQ0NYr50iUv
- fFXg==
-X-Gm-Message-State: AOAM533s7Ot+WxxVylL+0baImUolnThTFkwkFeFsbKastJo+7zl/e1cj
- f8yZJnYLFszKTuuK1ssnWR1tJA==
-X-Google-Smtp-Source: ABdhPJxs93jdlE+R+l0+00KbInYFz0hyGWh21RRCg+gQ2ikl2wjRWfhBWoZr6RR9J0t/xrD1VNYXrg==
-X-Received: by 2002:adf:ab5b:: with SMTP id r27mr14285129wrc.282.1610734411548; 
- Fri, 15 Jan 2021 10:13:31 -0800 (PST)
+ bh=fAAEuD3RlEr/SK+ua/zk+cZbQLwjXz0Jv5gG/pDSRFI=;
+ b=q33uAj0kRLsYI+u9OAmr9rhrvILMmSiBkdsHWuAtyN94XlYaO40ORsa8jzIavSGiiG
+ //1xNaEr30qw0pEHm4/i2NkqgHU6+phqR9Gu9YjUzrZcsegpznFis+iemH0SqpLeWyyy
+ s3/FW5oZ0PBWuFPKqQfEflzUv341jzoxLVW0+7jsf/oGm1WraZHHvHlwUhS9z8JavKjA
+ o5k2lZm50mAADqVHHOlrbJmQsETV72rgiW0xskmomeB2R9H3QBWIYN/fi3TE9fdX/RJk
+ rEICDqN5nnoP9zLC5HDqoVS39tRk7nTWyEPIJ202b2eeskRYh3TRneHCuzBeFOpdBIo4
+ n3cA==
+X-Gm-Message-State: AOAM530x+/3L7PNvcBF1TLR6aM/FXQ2LFEEfKZXjEKCEFjiQG9PaUkaw
+ DlwU1Igu621HTgjty1hErxAiz68UWgwzkniX
+X-Google-Smtp-Source: ABdhPJzlmSdMVzlgQMNkUxNs186KSUwDnAnO4SsNgnPYTbXf9gsWuDYH8x8BWmMJW6fVGztzH9DU9A==
+X-Received: by 2002:a5d:4c45:: with SMTP id n5mr14777366wrt.396.1610734413540; 
+ Fri, 15 Jan 2021 10:13:33 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.13.30
+ by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.13.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:13:30 -0800 (PST)
+ Fri, 15 Jan 2021 10:13:32 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 11/40] drm/vmwgfx/vmwgfx_ttm_buffer: Supply some missing
- parameter descriptions
-Date: Fri, 15 Jan 2021 18:12:44 +0000
-Message-Id: <20210115181313.3431493-12-lee.jones@linaro.org>
+Subject: [PATCH 12/40] drm/vmwgfx/vmwgfx_fifo: Demote non-conformant
+ kernel-doc header
+Date: Fri, 15 Jan 2021 18:12:45 +0000
+Message-Id: <20210115181313.3431493-13-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181313.3431493-1-lee.jones@linaro.org>
 References: <20210115181313.3431493-1-lee.jones@linaro.org>
@@ -77,8 +77,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:275: warning: Function parameter or member 'p_offset' not described in 'vmw_piter_start'
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:676: warning: Function parameter or member 'evict' not described in 'vmw_move_notify'
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c:299: warning: Function parameter or member 'dev_priv' not described in 'vmw_local_fifo_reserve'
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c:299: warning: Function parameter or member 'bytes' not described in 'vmw_local_fifo_reserve'
 
 Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
 Cc: Roland Scheidegger <sroland@vmware.com>
@@ -87,29 +87,22 @@ Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index dbb068830d800..6a44567e4ba52 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -265,6 +265,7 @@ static dma_addr_t __vmw_piter_sg_addr(struct vmw_piter *viter)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index 7400d617ae3cc..20246a7c97c9d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -276,7 +276,7 @@ static int vmw_fifo_wait(struct vmw_private *dev_priv,
+ 	return ret;
+ }
+ 
+-/**
++/*
+  * Reserve @bytes number of bytes in the fifo.
   *
-  * @viter: Pointer to the iterator to initialize
-  * @vsgt: Pointer to a struct vmw_sg_table to initialize from
-+ * @p_offset: Pointer offset used to update current array position
-  *
-  * Note that we're following the convention of __sg_page_iter_start, so that
-  * the iterator doesn't point to a valid page after initialization; it has
-@@ -664,6 +665,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resourc
-  * vmw_move_notify - TTM move_notify_callback
-  *
-  * @bo: The TTM buffer object about to move.
-+ * @evict: Unused
-  * @mem: The struct ttm_resource indicating to what memory
-  *       region the move is taking place.
-  *
+  * This function will return NULL (error) on two conditions:
 -- 
 2.25.1
 
