@@ -2,57 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD362F8CFD
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12482F8CEF
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2046E593;
-	Sat, 16 Jan 2021 10:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDBD6E5B9;
+	Sat, 16 Jan 2021 10:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A44B6E103
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 15:38:15 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id p13so10873523ljg.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 07:38:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=np7NzB7wfkcACJ1os8We+O07848Y4P70nqUkbzUTgDs=;
- b=t00qaEi6lOd+IuwTn4lfivRZr2r6bww6gD0Fm5i2hXcqCPplsPZ/VChC5bjVS6yZIE
- lTofLit9IGQ6aqUuc5rzmtBdptqWyLQaidbIri6PsfD46QhzRIQWga+nhIjYGQPiTh1M
- PiQ1TleNTRqcaEo00y/Ko1IiZ1m5DZHMeTBjbCVw5oR/vUUzOk3XJmD+fqcZG6m8aztb
- 6L0eETnrAVTBClTZy1fWMIt4NkheZJxayLY/lJPv+6mpeFMRzTGr1oAlPtyQcxM2Fk+y
- /UMv4WdQ/nH5Dhuuki3mYzK4Gh4RGxkr4+kFyTiYce4XtnrM8LPWtR+LWHX9jS4WkQix
- 5qBw==
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1392B8996F;
+ Fri, 15 Jan 2021 16:23:56 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id md11so5346238pjb.0;
+ Fri, 15 Jan 2021 08:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:subject:to:cc:autocrypt:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=0bWLsMzRrkvBTIGz2qcs1q3qe/AihEtVALbGuZhphZQ=;
+ b=Uahn2aILaF+kfuhg1e3jaEezXEZxAqy3IQJHTMJcv+dpWdO3H6ZkZgkgpAdDGEps53
+ w4b2SUnUVeRhxgDVYCqAEPNyFxJnzylyw4dLV2Rlg/3+eVDsCts6Mkjh6sK58ogR7zVm
+ DUstZa/eUdtYgFnC2Td9n+Ao1fghTX6QAOdP3vU6bHZ/OlpfcrssEIAcg1BWq8jc4pei
+ ZYZHRlqgzCZPk2+fo79v7QAMH7zdAd1aqHImuUh8QhadV3nxiofgLTfUK7IKhEey4B+9
+ 5SsKrUjwIqp030tmTEHn4mYnMPoFeVRmccu8tEOmBoshRHe6w5Wah67QOQZFs782qSt7
+ 9a9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=np7NzB7wfkcACJ1os8We+O07848Y4P70nqUkbzUTgDs=;
- b=EDGori+ou9+E8S+UPYFfxPiDom49uqEqJ8j+Q8zH+p70mMi9sCXf1walxsYlToDHs9
- Cnr/6u+3BIZVetAgsvIeiTWFTLonKDq4NElapt9d6ZVSImxj6vk1RIuu/0kAhirDDc20
- 5WP3JbIpJl6vJM7bOklVRTkHE/uurDRzFeBBqh+0R7Oaj4GO8APpHeVg2Zy/MaxzKlCW
- F265i8sid7yKOQn5rRNjejKLr2eGtzTwKXt0SRqvRVGNsWwArhrXgrA0mvCBOlzWX+Ip
- b+O/IgAsEFluEyX7gXOwSUqexMDP1Gl0E8ZuDgb/v0YrPfXdUXhLbk1A7SmdFuiGHiBr
- l/oQ==
-X-Gm-Message-State: AOAM533E3ziCjkb0XXj9ikNJoEmNqN+gTG3tBJg/h+4mmYCxFXEylCKE
- 2GsOo5Bxzpfib3d44UFfQ3ODag==
-X-Google-Smtp-Source: ABdhPJybYqbIGH4asZebBm2bhf5RYRavuBbAwqINxy5qSLno5lRFaX3rIb5PnosZFI/0i0qdmj9yhg==
-X-Received: by 2002:a2e:9988:: with SMTP id w8mr5257201lji.107.1610725093780; 
- Fri, 15 Jan 2021 07:38:13 -0800 (PST)
-Received: from eriador.lumag.spb.ru ([188.162.64.106])
- by smtp.gmail.com with ESMTPSA id s16sm838281ljj.34.2021.01.15.07.38.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 07:38:13 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] drm/msm/dpu1: add support for qseed3lite used on sm8250
-Date: Fri, 15 Jan 2021 18:38:11 +0300
-Message-Id: <20210115153811.401996-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.29.2
+ h=x-gm-message-state:from:subject:to:cc:autocrypt:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=0bWLsMzRrkvBTIGz2qcs1q3qe/AihEtVALbGuZhphZQ=;
+ b=bXYDO6CKBaWHZEQgdMb5EIXiWzzYPBqKNGoFSHgPKBBoHZ+f5bH7Ge7V1zTSu4qVG+
+ kSApissxZQCkbQvD8MtkpR79EiSzRQYxtlpzfbBZIBPjkXWfRnwSKUbtk6VcHzAnATU+
+ EVt5PQRC0c0MlfteOcQzMk9H9PgPyL0wSKzOTBB6yVVvKtd/2+RqQaQ3c8bt0S7DCDV6
+ rHGSeW4v5AZ7w0xK6MklnpHdBMvpAK4s+zE8avTwRZlOfjBcD1J1R7TrRabtPBfNVAmj
+ cuOpSuJDvubID0t3guSO8iiYigvB2gxcGXe26QhKxIq6B+pLhYJdNn7WFYX4JDxVBHKz
+ 1F2A==
+X-Gm-Message-State: AOAM5335JevB5juSoXNWOf6hznFB8Za+n5Nj2vPz42C0yuaLYY6ryYsm
+ t2AMeFZvrb0yukXiSCxCRqA=
+X-Google-Smtp-Source: ABdhPJyR9jUdD0f5T0RcVxpMXHdIVprpMgj01Ne22eCwIcE74dzujRUMYWw3xAL6AuuQbgVPi/7NsQ==
+X-Received: by 2002:a17:902:8b8b:b029:de:3a7f:299d with SMTP id
+ ay11-20020a1709028b8bb02900de3a7f299dmr11839024plb.16.1610727835637; 
+ Fri, 15 Jan 2021 08:23:55 -0800 (PST)
+Received: from [127.0.0.1] ([14.33.99.107])
+ by smtp.gmail.com with ESMTPSA id x1sm8521064pfc.112.2021.01.15.08.23.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 08:23:54 -0800 (PST)
+From: Jinoh Kang <jinoh.kang.kr@gmail.com>
+Subject: [PATCH] drm/i915/userptr: detect un-GUP-able pages early
+To: =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
+ <marmarek@invisiblethingslab.com>
+Autocrypt: addr=jinoh.kang.kr@gmail.com; keydata=
+ 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
+ Nv8WeK9sQ0q6RmWqnT1HwyCBsVRR18k6XBM=
+Message-ID: <c742707e-eb6d-6a22-3006-52dc3bf458d8@gmail.com>
+Date: Fri, 15 Jan 2021 16:23:31 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
 MIME-Version: 1.0
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,277 +122,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SM8250 has quite unique qseed lut type: qseed3lite, which is a
-lightweight version of qseed3 scaler.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 38 +++++++++-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   | 73 ++++++++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |  3 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  1 +
- 7 files changed, 112 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 90393fe9e59c..93c6184903b6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -21,6 +21,9 @@
- #define VIG_SC7180_MASK \
- 	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED4))
- 
-+#define VIG_SM8250_MASK \
-+	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3LITE))
-+
- #define DMA_SDM845_MASK \
- 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
- 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
-@@ -185,7 +188,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
- static const struct dpu_caps sm8250_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3, /* TODO: qseed3 lite */
-+	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -444,6 +447,34 @@ static const struct dpu_sspp_cfg sc7180_sspp[] = {
- 		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
- };
- 
-+static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
-+				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
-+static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
-+				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
-+static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
-+				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
-+static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
-+				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
-+
-+static const struct dpu_sspp_cfg sm8250_sspp[] = {
-+	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
-+		sm8250_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-+	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
-+		sm8250_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
-+	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
-+		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
-+	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
-+		sm8250_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
-+	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-+		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-+	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
-+		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-+	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
-+		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-+	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
-+		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-+};
-+
- /*************************************************************
-  * MIXER sub blocks config
-  *************************************************************/
-@@ -969,9 +1000,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.mdp = sm8250_mdp,
- 		.ctl_count = ARRAY_SIZE(sm8150_ctl),
- 		.ctl = sm8150_ctl,
--		/* TODO: sspp qseed version differs from 845 */
--		.sspp_count = ARRAY_SIZE(sdm845_sspp),
--		.sspp = sdm845_sspp,
-+		.sspp_count = ARRAY_SIZE(sm8250_sspp),
-+		.sspp = sm8250_sspp,
- 		.mixer_count = ARRAY_SIZE(sm8150_lm),
- 		.mixer = sm8150_lm,
- 		.dspp_count = ARRAY_SIZE(sm8150_dspp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index eaef99db2d2f..ea4647d21a20 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -95,6 +95,7 @@ enum {
-  * @DPU_SSPP_SRC             Src and fetch part of the pipes,
-  * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
-  * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
-+ * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
-  * @DPU_SSPP_SCALER_QSEED4,  QSEED4 algorithm support
-  * @DPU_SSPP_SCALER_RGB,     RGB Scaler, supported by RGB pipes
-  * @DPU_SSPP_CSC,            Support of Color space converion
-@@ -114,6 +115,7 @@ enum {
- 	DPU_SSPP_SRC = 0x1,
- 	DPU_SSPP_SCALER_QSEED2,
- 	DPU_SSPP_SCALER_QSEED3,
-+	DPU_SSPP_SCALER_QSEED3LITE,
- 	DPU_SSPP_SCALER_QSEED4,
- 	DPU_SSPP_SCALER_RGB,
- 	DPU_SSPP_CSC,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 2c2ca5335aa8..34d81aa16041 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -673,6 +673,7 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
- 		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
- 
- 	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
-+			test_bit(DPU_SSPP_SCALER_QSEED3LITE, &features) ||
- 			test_bit(DPU_SSPP_SCALER_QSEED4, &features)) {
- 		c->ops.setup_scaler = _dpu_hw_sspp_setup_scaler3;
- 		c->ops.get_scaler_ver = _dpu_hw_sspp_get_scaler3_ver;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 85b018a9b03c..fdfd4b46e2c6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -28,6 +28,7 @@ struct dpu_hw_pipe;
- #define DPU_SSPP_SCALER ((1UL << DPU_SSPP_SCALER_RGB) | \
- 	(1UL << DPU_SSPP_SCALER_QSEED2) | \
- 	 (1UL << DPU_SSPP_SCALER_QSEED3) | \
-+	 (1UL << DPU_SSPP_SCALER_QSEED3LITE) | \
- 	  (1UL << DPU_SSPP_SCALER_QSEED4))
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-index 84e9875994a8..f94584c982cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-@@ -59,6 +59,19 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
- #define QSEED3_SEP_LUT_SIZE \
- 	(QSEED3_LUT_SIZE * QSEED3_SEPARABLE_LUTS * sizeof(u32))
- 
-+/* DPU_SCALER_QSEED3LITE */
-+#define QSEED3LITE_COEF_LUT_Y_SEP_BIT         4
-+#define QSEED3LITE_COEF_LUT_UV_SEP_BIT        5
-+#define QSEED3LITE_COEF_LUT_CTRL              0x4C
-+#define QSEED3LITE_COEF_LUT_SWAP_BIT          0
-+#define QSEED3LITE_DIR_FILTER_WEIGHT          0x60
-+#define QSEED3LITE_FILTERS                 2
-+#define QSEED3LITE_SEPARABLE_LUTS             10
-+#define QSEED3LITE_LUT_SIZE                   33
-+#define QSEED3LITE_SEP_LUT_SIZE \
-+	        (QSEED3LITE_LUT_SIZE * QSEED3LITE_SEPARABLE_LUTS * sizeof(u32))
-+
-+
- void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
- 		u32 reg_off,
- 		u32 val,
-@@ -156,6 +169,57 @@ static void _dpu_hw_setup_scaler3_lut(struct dpu_hw_blk_reg_map *c,
- 
- }
- 
-+static void _dpu_hw_setup_scaler3lite_lut(struct dpu_hw_blk_reg_map *c,
-+		struct dpu_hw_scaler3_cfg *scaler3_cfg, u32 offset)
-+{
-+	int j, filter;
-+	int config_lut = 0x0;
-+	unsigned long lut_flags;
-+	u32 lut_addr, lut_offset;
-+	u32 *lut[QSEED3LITE_FILTERS] = {NULL, NULL};
-+	static const uint32_t off_tbl[QSEED3_FILTERS] = { 0x000, 0x200 };
-+
-+	DPU_REG_WRITE(c, QSEED3LITE_DIR_FILTER_WEIGHT + offset, scaler3_cfg->dir_weight);
-+
-+	if (!scaler3_cfg->sep_lut)
-+		return;
-+
-+	lut_flags = (unsigned long) scaler3_cfg->lut_flag;
-+	if (test_bit(QSEED3_COEF_LUT_Y_SEP_BIT, &lut_flags) &&
-+		(scaler3_cfg->y_rgb_sep_lut_idx < QSEED3LITE_SEPARABLE_LUTS) &&
-+		(scaler3_cfg->sep_len == QSEED3LITE_SEP_LUT_SIZE)) {
-+		lut[0] = scaler3_cfg->sep_lut +
-+			scaler3_cfg->y_rgb_sep_lut_idx * QSEED3LITE_LUT_SIZE;
-+		config_lut = 1;
-+	}
-+	if (test_bit(QSEED3_COEF_LUT_UV_SEP_BIT, &lut_flags) &&
-+		(scaler3_cfg->uv_sep_lut_idx < QSEED3LITE_SEPARABLE_LUTS) &&
-+		(scaler3_cfg->sep_len == QSEED3LITE_SEP_LUT_SIZE)) {
-+		lut[1] = scaler3_cfg->sep_lut +
-+			scaler3_cfg->uv_sep_lut_idx * QSEED3LITE_LUT_SIZE;
-+		config_lut = 1;
-+	}
-+
-+	if (config_lut) {
-+		for (filter = 0; filter < QSEED3LITE_FILTERS; filter++) {
-+			if (!lut[filter])
-+				continue;
-+			lut_offset = 0;
-+			lut_addr = QSEED3_COEF_LUT + offset + off_tbl[filter];
-+			for (j = 0; j < QSEED3LITE_LUT_SIZE; j++) {
-+				DPU_REG_WRITE(c,
-+					lut_addr,
-+					(lut[filter])[lut_offset++]);
-+				lut_addr += 4;
-+			}
-+		}
-+	}
-+
-+	if (test_bit(QSEED3_COEF_LUT_SWAP_BIT, &lut_flags))
-+		DPU_REG_WRITE(c, QSEED3_COEF_LUT_CTRL + offset, BIT(0));
-+
-+}
-+
- static void _dpu_hw_setup_scaler3_de(struct dpu_hw_blk_reg_map *c,
- 		struct dpu_hw_scaler3_de_cfg *de_cfg, u32 offset)
- {
-@@ -242,9 +306,12 @@ void dpu_hw_setup_scaler3(struct dpu_hw_blk_reg_map *c,
- 		op_mode |= BIT(8);
- 	}
- 
--	if (scaler3_cfg->lut_flag)
--		_dpu_hw_setup_scaler3_lut(c, scaler3_cfg,
--								scaler_offset);
-+	if (scaler3_cfg->lut_flag) {
-+		if (scaler_version < 0x2004)
-+			_dpu_hw_setup_scaler3_lut(c, scaler3_cfg, scaler_offset);
-+		else
-+			_dpu_hw_setup_scaler3lite_lut(c, scaler3_cfg, scaler_offset);
-+	}
- 
- 	if (scaler_version == 0x1002) {
- 		phase_init =
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-index 234eb7d65753..ff3cffde84cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-@@ -97,6 +97,7 @@ struct dpu_hw_scaler3_de_cfg {
-  * @ cir_lut:      pointer to circular filter LUT
-  * @ sep_lut:      pointer to separable filter LUT
-  * @ de: detail enhancer configuration
-+ * @ dir_weight:   Directional weight
-  */
- struct dpu_hw_scaler3_cfg {
- 	u32 enable;
-@@ -137,6 +138,8 @@ struct dpu_hw_scaler3_cfg {
- 	 * Detail enhancer settings
- 	 */
- 	struct dpu_hw_scaler3_de_cfg de;
-+
-+	u32 dir_weight;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index bc0231a50132..f898a8f67b7f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1465,6 +1465,7 @@ static int _dpu_plane_init_debugfs(struct drm_plane *plane)
- 			pdpu->debugfs_root, &pdpu->debugfs_src);
- 
- 	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
-+			cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
- 			cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
- 			cfg->features & BIT(DPU_SSPP_SCALER_QSEED4)) {
- 		dpu_debugfs_setup_regset32(&pdpu->debugfs_scaler,
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SWYgR1VQLWluZWxpZ2libGUgcGFnZXMgYXJlIHBhc3NlZCB0byBhIEdFTSB1c2VycHRyIG9iamVj
+dCwgLUVGQVVMVCBpcwpyZXR1cm5lZCBvbmx5IHdoZW4gdGhlIG9iamVjdCBpcyBhY3R1YWxseSBi
+b3VuZC4KClRoZSB4Zjg2LXZpZGVvLWludGVsIHVzZXJzcGFjZSBkcml2ZXIgY2Fubm90IGRpZmZl
+cmVudGlhdGUgdGhpcwpjb25kaXRpb24sIGFuZCBtYXJrcyB0aGUgR1BVIGFzIHdlZGdlZC4gIFRo
+aXMgbm90IG9ubHkgZGlzYWJsZXMgZ3JhcGhpY3MKYWNjZWxlcmF0aW9uIGJ1dCBtYXkgYWxzbyBj
+cmlwcGxlIG90aGVyIGZ1bmN0aW9ucyBzdWNoIGFzIFZUIHN3aXRjaC4KClNvbHZlIHRoaXMgYnkg
+InByZWZhdWx0aW5nIiB1c2VyIHBhZ2VzIG9uIEdFTSBvYmplY3QgY3JlYXRpb24sIHRlc3RpbmcK
+d2hldGhlciBhbGwgcGFnZXMgYXJlIGVsaWdpYmxlIGZvciBnZXRfdXNlcl9wYWdlcygpIGluIHRo
+ZSBwcm9jZXNzLgpPbiBmYWlsdXJlLCByZXR1cm4gLUVGQVVMVCBzbyB0aGF0IHVzZXJzcGFjZSBj
+YW4gZmFsbGJhY2sgdG8gc29mdHdhcmUKYmxpdHRpbmcuCgpUaGlzIGJlaGF2aW9yIGNhbiBiZSBl
+bmFibGVkIHZpYSBhIG5ldyBtb2RwYXJhbSAiZ2VtX3VzZXJwdHJfcHJlZmF1bHQiLAp3aGljaCBp
+cyBmYWxzZSBieSBkZWZhdWx0LgoKS25vd24gdXNlIGNhc2VzOgoKLSBBcyBhIGRlYnVnZ2luZyBh
+aWQsIGludmFsaWQgcG9pbnRlcnMgYW5kL29yIHdyb25nIHBhZ2VzIHBhc3NlZCB0bwogIHVzZXJw
+dHIgY291bGQgYmUgY2F1Z2h0IG11Y2ggZWFybGllci4KLSBRdWJlcyBPUyBSNC4wIHVzZXMgVk1f
+UEZOTUFQIHBhZ2VzIGZyb20gZHJpdmVycy94ZW4vcHJpdmNtZC5jLCBpbgogIG9yZGVyIHRvIG1h
+cCBmcmFtZWJ1ZmZlcnMgZnJvbSBYZW4gZ3Vlc3QgdG8gZG9tMC4gIFRoZXNlIHBhZ2VzIGFyZSBu
+b3QKICBHVVAtYWJsZSwgYnV0IHRoZXkgY2Fubm90IGJlIGV4cG9zZWQgdmlhIERNQS1CVUYgZWl0
+aGVyLiAgUHJldmlvdXNseQogIHRoaXMgaXNzdWUgaGFkIGdvbmUgc29tZWhvdyB1bmRldGVjdGVk
+LCB1bnRpbCBzb21lIHBhdGNoIGJldHdlZW4KICB2NC4xNCBhbmQgdjQuMTkgdHJpZ2dlcmVkIGl0
+LgoKU2lnbmVkLW9mZi1ieTogSmlub2ggS2FuZyA8amlub2gua2FuZy5rckBnbWFpbC5jb20+CkNj
+OiBNYXJlayBNYXJjenlrb3dza2ktR8OzcmVja2kgPG1hcm1hcmVrQGludmlzaWJsZXRoaW5nc2xh
+Yi5jb20+CkNjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tPgpDYzog
+Sm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29tPgpDYzogUm9k
+cmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgpDYzogRGF2aWQgQWlybGllIDxhaXJs
+aWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogQ2hy
+aXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+CkNjOiBNYXR0aGV3IEF1bGQgPG1h
+dHRoZXcuYXVsZEBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVf
+Z2VtX3VzZXJwdHIuYyB8IDM1ICsrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV9wYXJhbXMuYyAgICAgICAgICB8ICAzICsrCiBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9pOTE1X3BhcmFtcy5oICAgICAgICAgIHwgIDEgKwogMyBmaWxlcyBjaGFuZ2VkLCAzOSBpbnNl
+cnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
+X3VzZXJwdHIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV91c2VycHRyLmMK
+aW5kZXggZjJlYWVkNmFjYTNkLi41ZDY1M2RmMmY3NTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2dlbS9pOTE1X2dlbV91c2VycHRyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ2VtL2k5MTVfZ2VtX3VzZXJwdHIuYwpAQCAtNzEyLDYgKzcxMiwzMyBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Rfb3BzIGk5MTVfZ2VtX3VzZXJwdHJfb3BzID0g
+ewogCS5yZWxlYXNlID0gaTkxNV9nZW1fdXNlcnB0cl9yZWxlYXNlLAogfTsKIAorc3RhdGljIGlu
+dCBpOTE1X2dlbV91c2VycHRyX3ByZWZhdWx0KHVuc2lnbmVkIGxvbmcgc3RhcnQsCisJCQkJICAg
+ICB1bnNpZ25lZCBsb25nIG5yX3BhZ2VzLAorCQkJCSAgICAgYm9vbCByZWFkb25seSkKK3sKKwl1
+bnNpZ25lZCBpbnQgZ3VwX2ZsYWdzID0gKHJlYWRvbmx5ID8gMCA6IEZPTExfV1JJVEUpIHwgRk9M
+TF9OT1dBSVQ7CisJaW50IGVyciA9IDA7CisKKwltbWFwX3JlYWRfbG9jayhjdXJyZW50LT5tbSk7
+CisJd2hpbGUgKG5yX3BhZ2VzKSB7CisJCWxvbmcgcmV0OworCisJCXJldCA9IGdldF91c2VyX3Bh
+Z2VzKHN0YXJ0LCBucl9wYWdlcywgZ3VwX2ZsYWdzLCBOVUxMLCBOVUxMKTsKKwkJaWYgKHJldCA8
+IDApIHsKKwkJCWVyciA9IChpbnQpcmV0OworCQkJYnJlYWs7CisJCX0KKwkJaWYgKHJldCA9PSAw
+KQorCQkJcmV0ID0gMTsgIC8qIHNraXAgdGhpcyBwYWdlICovCisKKwkJc3RhcnQgKz0gcmV0IDw8
+IFBBR0VfU0hJRlQ7CisJCW5yX3BhZ2VzIC09IHJldDsKKwl9CisJbW1hcF9yZWFkX3VubG9jayhj
+dXJyZW50LT5tbSk7CisKKwlyZXR1cm4gZXJyOworfQorCiAvKgogICogQ3JlYXRlcyBhIG5ldyBt
+bSBvYmplY3QgdGhhdCB3cmFwcyBzb21lIG5vcm1hbCBtZW1vcnkgZnJvbSB0aGUgcHJvY2Vzcwog
+ICogY29udGV4dCAtIHVzZXIgbWVtb3J5LgpAQCAtNzk2LDYgKzgyMywxNCBAQCBpOTE1X2dlbV91
+c2VycHRyX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJaWYgKCFhY2Nlc3Nfb2soKGNo
+YXIgX191c2VyICopKHVuc2lnbmVkIGxvbmcpYXJncy0+dXNlcl9wdHIsIGFyZ3MtPnVzZXJfc2l6
+ZSkpCiAJCXJldHVybiAtRUZBVUxUOwogCisJaWYgKGk5MTVfbW9kcGFyYW1zLmdlbV91c2VycHRy
+X3ByZWZhdWx0KSB7CisJCXJldCA9IGk5MTVfZ2VtX3VzZXJwdHJfcHJlZmF1bHQoKHVuc2lnbmVk
+IGxvbmcpYXJncy0+dXNlcl9wdHIsCisJCQkJCQlhcmdzLT51c2VyX3NpemUgPj4gUEFHRV9TSElG
+VCwKKwkJCQkJCWFyZ3MtPmZsYWdzICYgSTkxNV9VU0VSUFRSX1JFQURfT05MWSk7CisJCWlmIChy
+ZXQpCisJCQlyZXR1cm4gcmV0OworCX0KKwogCWlmIChhcmdzLT5mbGFncyAmIEk5MTVfVVNFUlBU
+Ul9SRUFEX09OTFkpIHsKIAkJLyoKIAkJICogT24gYWxtb3N0IGFsbCBvZiB0aGUgb2xkZXIgaHcs
+IHdlIGNhbm5vdCB0ZWxsIHRoZSBHUFUgdGhhdApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV9wYXJhbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcGFyYW1zLmMK
+aW5kZXggN2YxMzllYTRhOTBiLi5iNWUwYTg4YzA1OWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2k5MTVfcGFyYW1zLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9w
+YXJhbXMuYwpAQCAtMTk3LDYgKzE5Nyw5IEBAIGk5MTVfcGFyYW1fbmFtZWRfdW5zYWZlKGZha2Vf
+bG1lbV9zdGFydCwgdWxvbmcsIDA0MDAsCiAJIkZha2UgTE1FTSBzdGFydCBvZmZzZXQgKGRlZmF1
+bHQ6IDApIik7CiAjZW5kaWYKIAoraTkxNV9wYXJhbV9uYW1lZChnZW1fdXNlcnB0cl9wcmVmYXVs
+dCwgYm9vbCwgMDYwMCwKKwkiUHJlZmF1bHQgcGFnZXMgd2hlbiB1c2VycHRyIEdFTSBvYmplY3Qg
+aXMgY3JlYXRlZCAoZGVmYXVsdDogZmFsc2UpIik7CisKIHN0YXRpYyBfX2Fsd2F5c19pbmxpbmUg
+dm9pZCBfcHJpbnRfcGFyYW0oc3RydWN0IGRybV9wcmludGVyICpwLAogCQkJCQkgY29uc3QgY2hh
+ciAqbmFtZSwKIAkJCQkJIGNvbnN0IGNoYXIgKnR5cGUsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pOTE1X3BhcmFtcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wYXJh
+bXMuaAppbmRleCAzMzBjMDNlMmI0ZjcuLjMyM2Y2MDI5OGIwNSAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaTkxNV9wYXJhbXMuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+OTE1X3BhcmFtcy5oCkBAIC03OSw2ICs3OSw3IEBAIHN0cnVjdCBkcm1fcHJpbnRlcjsKIAlwYXJh
+bShib29sLCBkaXNhYmxlX2Rpc3BsYXksIGZhbHNlLCAwNDAwKSBcCiAJcGFyYW0oYm9vbCwgdmVy
+Ym9zZV9zdGF0ZV9jaGVja3MsIHRydWUsIDApIFwKIAlwYXJhbShib29sLCBudWNsZWFyX3BhZ2Vm
+bGlwLCBmYWxzZSwgMDQwMCkgXAorCXBhcmFtKGJvb2wsIGdlbV91c2VycHRyX3ByZWZhdWx0LCBm
+YWxzZSwgMDYwMCkgXAogCXBhcmFtKGJvb2wsIGVuYWJsZV9kcF9tc3QsIHRydWUsIDA2MDApIFwK
+IAlwYXJhbShib29sLCBlbmFibGVfZ3Z0LCBmYWxzZSwgMDQwMCkKIAotLSAKMi4yNi4yCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
