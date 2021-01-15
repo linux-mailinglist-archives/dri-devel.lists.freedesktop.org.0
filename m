@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD12F8386
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 992602F837B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480096E484;
-	Fri, 15 Jan 2021 18:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3D26E4A6;
+	Fri, 15 Jan 2021 18:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BCB6E4A7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:12 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id a12so10180142wrv.8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:12 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC3F6E457
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:14:13 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id k10so8213961wmi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Am4t8b9En1HIfsclMg+25TY7LAvRdlrz1SUTzn1fYz4=;
- b=M77jBSyJi06eqwSb0fQBTfnZ6ireTJ4ExXO9TEhHwoQ0gXWo1v183KS92TUeVaZNun
- YaX4duc8tuj90M1fTQ98u9PMbQ7Bejo7m/hnKIcm49IzS1dh3qyft6nJFFvkFkYBiNry
- 1Q/zs3xW7pMSKqv/lq/YTh6y5aZnafrgpq2vVAWsmVe0Q+UNzzL0nacr2TGkrdOlb/eq
- T3pzb174ylDgVUTO5QSkquN67H3RgsAoicWZOaTge4rkS7bE4D0HJRPNMF+NSBzgHaLx
- ZrQpEF7vifXb2dfhbkakdeZikPe+eIitwHnJCTNbbkkaP9BR8tNBrZemhTmDcmOFhh0g
- kzyA==
+ bh=lUllZlLn2aeKUdYiVAeIic/5IUxXot0e1d7nGV4+J9E=;
+ b=xHzJWvUBBvuWc4Xl5VACsWf7N/b0v4PM+Qxj0aEVX4T/Ialsfqoba2uENutm20zcbe
+ SaHvLTlmH58mQ6cFwjcCCodq/QHt72Iu43Xb329LXWojJa7oAy5FXhy2ROEXFtld/q0I
+ 6Bkq0aU2nuUl1WAISSsKA03rO1HtN7OS/vQAo0Mu59atH1sWKQ0BOJRGdqbbI/AxDYJa
+ mKMP7dh/5SkXbKhLTNWDNw72XJlZ69B4cfYOT2tlqPa+14eFXTZ3+232t6Gh/e4fD3UI
+ 5beVeeQ+z6ZFxtKsL6isJU1T08spSkRPfoQeca1f2M5VIPsgFuCTmP1gzibzEXNMEy+/
+ sPCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Am4t8b9En1HIfsclMg+25TY7LAvRdlrz1SUTzn1fYz4=;
- b=e4lTBpl8c8SW2qwiFJQVFBlAkZsG1sz5EX8K/bXLdoEFkCGH/YSkseRDK3dur3OjBB
- q6Mr5y+F4rqa8iQQ34gxPBgM3IGegS1Zd6dO2sAqXojOpptpPOIc3K5I/oq506Fa0ar/
- NqriRf6Py1Q2oyhNet+TuE5CXRDqFT4y1Zq4sG4KNNx1SSmr9ELuWTDBg+Wgk+e7SJ3j
- UlviyCyiTXcLdP7U9861NVb6Rumshgn8lO/gMFcsqVcb2huQb1GH0gk7eejaVdqO/23L
- i9vmA2CJMX5z39Gx6cvXOKoe0qBYUNSEdpeEzjjKfDjjXGHBNl48LVUUkNnWI1x7upYe
- 3B2A==
-X-Gm-Message-State: AOAM533+C1mbhGGmOCqbp1JqlNnoMVz9Qdn5eKlJLIAd3q+/pmk/NEl3
- e/1CctZguSzsbWbU9zWbeqBlkw==
-X-Google-Smtp-Source: ABdhPJxzcvRMerU+KtZl29WVJZPfR54Qpi1F+qdlK8hpl724S36xxPcQ89RHjXLf3mqalXSZNoQr5g==
-X-Received: by 2002:adf:902a:: with SMTP id h39mr14400546wrh.147.1610734450977; 
- Fri, 15 Jan 2021 10:14:10 -0800 (PST)
+ bh=lUllZlLn2aeKUdYiVAeIic/5IUxXot0e1d7nGV4+J9E=;
+ b=Ak7iUBCmE4+1c++UClCTwTbLnym7pqbpoBGQJgoVJCyIqSRsJTN9p1N2TptTxhlJVB
+ ascIosxfaQgUbBUODhG3tLRwv4ukcaybb031rEmS8YgVKWV+znSpj4WrZSGQoZq9Mmlu
+ 5nyoyo8cKdNqAfN3TImtpz+qA3gdq6GgE46AbntPESWHdkb4LFci4PvvjoPNgUKgqHja
+ e4G2GtANwPfNzO+nBckMPDghGkd8W8vW+ExW5r2x+z42o+/gRs7FOrbxIkCj/Xp+HAza
+ Eur27vaI+D+wqrpLBxrK75ihzHFshYq5yunlO7+yRgQ10uZ1Sff7jzMQ4nDEVvUXzaXs
+ Xrrw==
+X-Gm-Message-State: AOAM532pYCNA9C+XHp6GVVlU7RLE2keepKIVDOP6Yq09R90ulepZZ9BX
+ 2PTZb3Wy372dW7k3YcuoZts/0Q==
+X-Google-Smtp-Source: ABdhPJynbLDNvhU7p2qnSMtIi5F12pD7Q5un3SKOf86x40VZpdtU+jnB7rT+88JShOlhxgtI/k3xDw==
+X-Received: by 2002:a1c:e2c3:: with SMTP id z186mr9844691wmg.144.1610734452136; 
+ Fri, 15 Jan 2021 10:14:12 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.14.09
+ by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.14.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:14:10 -0800 (PST)
+ Fri, 15 Jan 2021 10:14:11 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 37/40] drm/vmwgfx/vmwgfx_cmdbuf: Fix a bunch of missing or
- incorrectly formatted/named params
-Date: Fri, 15 Jan 2021 18:13:10 +0000
-Message-Id: <20210115181313.3431493-38-lee.jones@linaro.org>
+Subject: [PATCH 38/40] drm/gma500/power: Remove excess param description
+ 'state'
+Date: Fri, 15 Jan 2021 18:13:11 +0000
+Message-Id: <20210115181313.3431493-39-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181313.3431493-1-lee.jones@linaro.org>
 References: <20210115181313.3431493-1-lee.jones@linaro.org>
@@ -67,9 +67,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Rajesh Poornachandran <rajesh.poornachandran@intel.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Benjamin Defnet <benjamin.r.defnet@intel.com>,
+ Alan Cox <alan@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,92 +78,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:58: warning: Function parameter or member 'block_submission' not described in 'vmw_cmdbuf_context'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:109: warning: cannot understand function prototype: 'struct vmw_cmdbuf_man '
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:164: warning: Function parameter or member 'handle' not described in 'vmw_cmdbuf_header'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:257: warning: Function parameter or member 'header' not described in '__vmw_cmdbuf_header_free'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:380: warning: Function parameter or member 'notempty' not described in 'vmw_cmdbuf_ctx_process'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1168: warning: Function parameter or member 'context' not described in 'vmw_cmdbuf_preempt'
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:1193: warning: Function parameter or member 'context' not described in 'vmw_cmdbuf_startstop'
+ drivers/gpu/drm/gma500/power.c:190: warning: Excess function parameter 'state' description in 'gma_power_suspend'
 
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Roland Scheidegger <sroland@vmware.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Benjamin Defnet <benjamin.r.defnet@intel.com>
+Cc: Rajesh Poornachandran <rajesh.poornachandran@intel.com>
+Cc: Alan Cox <alan@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/gma500/power.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 45fbc41440f1e..3158924ffa852 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -48,6 +48,7 @@
-  * @hw_submitted: List of command buffers submitted to hardware.
-  * @preempted: List of preempted command buffers.
-  * @num_hw_submitted: Number of buffers currently being processed by hardware
-+ * @block_submission: Identifies a block command submission.
-  */
- struct vmw_cmdbuf_context {
- 	struct list_head submitted;
-@@ -58,7 +59,7 @@ struct vmw_cmdbuf_context {
- };
- 
+diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+index 89842e09cd2aa..56ef88237ef66 100644
+--- a/drivers/gpu/drm/gma500/power.c
++++ b/drivers/gpu/drm/gma500/power.c
+@@ -180,7 +180,6 @@ static bool gma_resume_pci(struct pci_dev *pdev)
  /**
-- * struct vmw_cmdbuf_man: - Command buffer manager
-+ * struct vmw_cmdbuf_man - Command buffer manager
+  *	gma_power_suspend		-	bus callback for suspend
+  *	@_dev: our device
+- *	@state: suspend type
   *
-  * @cur_mutex: Mutex protecting the command buffer used for incremental small
-  * kernel command submissions, @cur.
-@@ -143,7 +144,7 @@ struct vmw_cmdbuf_man {
-  * @cb_context: The device command buffer context.
-  * @list: List head for attaching to the manager lists.
-  * @node: The range manager node.
-- * @handle. The DMA address of @cb_header. Handed to the device on command
-+ * @handle: The DMA address of @cb_header. Handed to the device on command
-  * buffer submission.
-  * @cmd: Pointer to the command buffer space of this buffer.
-  * @size: Size of the command buffer space of this buffer.
-@@ -249,7 +250,7 @@ static void vmw_cmdbuf_header_inline_free(struct vmw_cmdbuf_header *header)
-  * __vmw_cmdbuf_header_free - Free a struct vmw_cmdbuf_header  and its
-  * associated structures.
-  *
-- * header: Pointer to the header to free.
-+ * @header: Pointer to the header to free.
-  *
-  * For internal use. Must be called with man::lock held.
-  */
-@@ -365,10 +366,11 @@ static void vmw_cmdbuf_ctx_submit(struct vmw_cmdbuf_man *man,
- }
- 
- /**
-- * vmw_cmdbuf_ctx_submit: Process a command buffer context.
-+ * vmw_cmdbuf_ctx_process - Process a command buffer context.
-  *
-  * @man: The command buffer manager.
-  * @ctx: The command buffer context.
-+ * @notempty: Pass back count of non-empty command submitted lists.
-  *
-  * Submit command buffers to hardware if possible, and process finished
-  * buffers. Typically freeing them, but on preemption or error take
-@@ -1161,6 +1163,7 @@ static int vmw_cmdbuf_send_device_command(struct vmw_cmdbuf_man *man,
-  * context.
-  *
-  * @man: The command buffer manager.
-+ * @context: Device context to pass command through.
-  *
-  * Synchronously sends a preempt command.
-  */
-@@ -1184,6 +1187,7 @@ static int vmw_cmdbuf_preempt(struct vmw_cmdbuf_man *man, u32 context)
-  * context.
-  *
-  * @man: The command buffer manager.
-+ * @context: Device context to start/stop.
-  * @enable: Whether to enable or disable the context.
-  *
-  * Synchronously sends a device start / stop context command.
+  *	Called back by the PCI layer during a suspend of the system. We
+  *	perform the necessary shut down steps and save enough state that
 -- 
 2.25.1
 
