@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5851C2F74A6
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D462F74B7
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20D389C86;
-	Fri, 15 Jan 2021 08:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3FA36E1BC;
+	Fri, 15 Jan 2021 08:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8103889498
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 03:33:46 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id w3so7292124otp.13
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 19:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fRczbUbBhyeMbRNGSVxv3+jG6ocVKICkYf8hNaQiA40=;
- b=WwM8HsQenb0RHqPUfHN8HlIOusKmws4CAUPzJUQKgPTivnrm+e/L/o6SRP8uxsqKSW
- wu8AKrlTSeL33CdsxW7+Q2IuHLzuFq+SOyBoLVex2SzB4Jaws37irmyUnn0whudzEvYb
- qqN9y6aDMXodpMw7Fie8WNBDAbCDZuixL/H2NbOfd/+uKfjCzGbleHgTdfblmwHrYjof
- jjLNo68t4xnYQnzXMYRUvWq5nGwS3ux+iQ0dWarO9b9tlzzSfe/MWrkjEVdTkPnZYP+6
- xNd6Gc+HOuA+oWvRHVLSn7WPJpNkkTb2+X9vs5lE3sEaQv0hY8VpvrOP21f0hI/I7TfY
- gdFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fRczbUbBhyeMbRNGSVxv3+jG6ocVKICkYf8hNaQiA40=;
- b=sjynexfjvM44H+SDSUhTGmPLRpRQqExAFsbtcPdmWRCS1GAb9EM4NRLGWS6UFRJE//
- WgAOgTEafD7UzCwrLvWCSmIitHiHIzmG2bZ+ij3eM/hKWMfwd7ERQukOeXzwoeaeRO0k
- mDx6hcggEDSWufGp0F9JjMZUeztsEdEBmJocvFqfL7xMBKcochQhgrUg1NW4LF11S/Es
- Zyu+KoxI6KuPA9FeWvAiqruxMqTuUZcQFbHIsRxaglbUXaaMT85tJQdKzJH8hv3MRc7f
- ctf0NfIjqmzLc0Nz3aViF3/TZTA3MUHvbgHIRpLab9L3GuLYWkpPjBSoJH5K+aUIgVmj
- u9MA==
-X-Gm-Message-State: AOAM531QSlc41EIS4vfPDUhh7kA/ictywEgxE5eXPoqjyD1RBWCm2odC
- qnUeRqVrc7oJB5L6+kDK/zs7WA==
-X-Google-Smtp-Source: ABdhPJzFL6cdTF4R58GGCBOQmQ22buEMMhKJfkQk0vF8xh2lAjnh5m3SIuBeuBCg/rEWwlp7yGqgUQ==
-X-Received: by 2002:a9d:7c82:: with SMTP id q2mr6777669otn.205.1610681625635; 
- Thu, 14 Jan 2021 19:33:45 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id 94sm1548656otw.41.2021.01.14.19.33.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 19:33:44 -0800 (PST)
-Date: Thu, 14 Jan 2021 21:33:43 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 2/2] drm/bridge/lontium-lt9611uxc: move HPD notification
- out of IRQ handler
-Message-ID: <YAENF3G66CGFRQ68@builder.lan>
-References: <20201127092316.122246-1-dmitry.baryshkov@linaro.org>
- <20201127092316.122246-2-dmitry.baryshkov@linaro.org>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C5D886E10A;
+ Fri, 15 Jan 2021 03:42:03 +0000 (UTC)
+Received: from zhangzhijie.loongson.cn (unknown [10.20.41.29])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxxbwADwFg4a0EAA--.5262S2;
+ Fri, 15 Jan 2021 11:41:52 +0800 (CST)
+From: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
+To: alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ christian.koenig@amd.com
+Subject: [PATCH] drm/amdgpu:this forword declear  maybe  not used
+Date: Fri, 15 Jan 2021 11:41:52 +0800
+Message-Id: <20210115034152.1800769-1-zhangzhijie@loongson.cn>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201127092316.122246-2-dmitry.baryshkov@linaro.org>
+X-CM-TRANSID: AQAAf9AxxbwADwFg4a0EAA--.5262S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1kuw1DWr13tF15KF4kWFg_yoWkGrX_Ca
+ y2qrn5Wr43JrnYqr12krWfWas2qrWrJr4kGr1xtF95t3srJry0yryDC3WxGa4ruw4Ig3W5
+ Z3WqgF1ay3ZxKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+ 8cxan2IY04v7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+ W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+ 1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+ IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF
+ 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUZa9-UUUUU=
+X-CM-SenderInfo: x2kd0wx2klyx3h6o00pqjv00gofq/1tbiAQACAF3QvM2fqgABsL
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,142 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: mchehab+huawei@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ zhangzhijie@loongson.cn, nicholas.kazlauskas@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 27 Nov 03:23 CST 2020, Dmitry Baryshkov wrote:
+Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-> drm hotplug handling code (drm_client_dev_hotplug()) can wait on mutex,
-> thus delaying further lt9611uxc IRQ events processing.  It was observed
-> occasionally during bootups, when drm_client_modeset_probe() was waiting
-> for EDID ready event, which was delayed because IRQ handler was stuck
-> trying to deliver hotplug event.
-> Move hotplug notifications from IRQ handler to separate work to be able
-> to process IRQ events without delays.
-> 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 2ee6edb3df93..ef4acb1d4a80 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -58,10 +58,10 @@
+ /* Forward declarations */
+ struct amdgpu_device;
+ struct drm_device;
+-struct amdgpu_dm_irq_handler_data;
+ struct dc;
+ struct amdgpu_bo;
+ struct dmub_srv;
++struct dc_plane_state;
+ 
+ struct common_irq_params {
+ 	struct amdgpu_device *adev;
+@@ -438,11 +438,6 @@ struct amdgpu_dm_connector {
+ 
+ extern const struct amdgpu_ip_block_version dm_ip_block;
+ 
+-struct amdgpu_framebuffer;
+-struct amdgpu_display_manager;
+-struct dc_validation_set;
+-struct dc_plane_state;
+-
+ struct dm_plane_state {
+ 	struct drm_plane_state base;
+ 	struct dc_plane_state *dc_state;
+-- 
+2.29.2
 
-I see a couple of other drivers doing the same, and the patch looks
-good.
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 30 +++++++++++++++++-----
->  1 file changed, 24 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index b708700e182d..88630bc2921f 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -14,6 +14,7 @@
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/wait.h>
-> +#include <linux/workqueue.h>
->  
->  #include <sound/hdmi-codec.h>
->  
-> @@ -36,6 +37,7 @@ struct lt9611uxc {
->  	struct mutex ocm_lock;
->  
->  	struct wait_queue_head wq;
-> +	struct work_struct work;
->  
->  	struct device_node *dsi0_node;
->  	struct device_node *dsi1_node;
-> @@ -52,6 +54,7 @@ struct lt9611uxc {
->  
->  	bool hpd_supported;
->  	bool edid_read;
-> +	bool hdmi_connected;
->  	uint8_t fw_version;
->  };
->  
-> @@ -151,15 +154,26 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
->  	}
->  
->  	if (irq_status & BIT(1)) {
-> -		if (lt9611uxc->connector.dev)
-> -			drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
-> -		else
-> -			drm_bridge_hpd_notify(&lt9611uxc->bridge, !!(hpd_status & BIT(1)));
-> +		lt9611uxc->hdmi_connected = !!(hpd_status & BIT(1));
-> +		schedule_work(&lt9611uxc->work);
->  	}
->  
->  	return IRQ_HANDLED;
->  }
->  
-> +void lt9611uxc_hpd_work(struct work_struct *work)
-> +{
-> +	struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
-> +
-> +	if (lt9611uxc->connector.dev)
-> +		drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
-> +	else
-> +		drm_bridge_hpd_notify(&lt9611uxc->bridge,
-> +				      lt9611uxc->hdmi_connected ?
-> +				      connector_status_connected :
-> +				      connector_status_disconnected);
-> +}
-> +
->  static void lt9611uxc_reset(struct lt9611uxc *lt9611uxc)
->  {
->  	gpiod_set_value_cansleep(lt9611uxc->reset_gpio, 1);
-> @@ -447,7 +461,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
->  	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
->  	unsigned int reg_val = 0;
->  	int ret;
-> -	int connected = 1;
-> +	bool connected = true;
->  
->  	if (lt9611uxc->hpd_supported) {
->  		lt9611uxc_lock(lt9611uxc);
-> @@ -457,8 +471,9 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
->  		if (ret)
->  			dev_err(lt9611uxc->dev, "failed to read hpd status: %d\n", ret);
->  		else
-> -			connected  = reg_val & BIT(1);
-> +			connected  = !!(reg_val & BIT(1));
->  	}
-> +	lt9611uxc->hdmi_connected = connected;
->  
->  	return connected ?  connector_status_connected :
->  				connector_status_disconnected;
-> @@ -931,6 +946,8 @@ static int lt9611uxc_probe(struct i2c_client *client,
->  	lt9611uxc->fw_version = ret;
->  
->  	init_waitqueue_head(&lt9611uxc->wq);
-> +	INIT_WORK(&lt9611uxc->work, lt9611uxc_hpd_work);
-> +
->  	ret = devm_request_threaded_irq(dev, client->irq, NULL,
->  					lt9611uxc_irq_thread_handler,
->  					IRQF_ONESHOT, "lt9611uxc", lt9611uxc);
-> @@ -967,6 +984,7 @@ static int lt9611uxc_remove(struct i2c_client *client)
->  	struct lt9611uxc *lt9611uxc = i2c_get_clientdata(client);
->  
->  	disable_irq(client->irq);
-> +	flush_scheduled_work();
->  	lt9611uxc_audio_exit(lt9611uxc);
->  	drm_bridge_remove(&lt9611uxc->bridge);
->  
-> -- 
-> 2.29.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
