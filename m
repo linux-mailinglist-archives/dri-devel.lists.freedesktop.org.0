@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9FE2F836D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:14:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F8E2F836C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 19:13:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970406E486;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E336E47E;
 	Fri, 15 Jan 2021 18:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 447C66E479
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:13:39 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id c124so8203629wma.5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:13:39 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C62736E486
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 18:13:40 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id g10so8392548wmh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 10:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xM/nZ90UZtBcAp5QNv/pK0XIOjFNxIv5JhwEyUdhjVM=;
- b=jjY6jrbjNmOrQiQDYOGRkAAIiAp/6KDE3vmYhx4DqYAVJjpaPO83rezynTkZus38Qc
- t4wRn0YT/RSRwfnRTuWoEOpz/oXXr745uuuvPdCu+12MhIBHFSt2gJEvgsBLyW/9NYTv
- ly0ALvUs7CphR/MaClnLwLV8D5t+U1d613DS5Ggu7iVr21IFw0AJkn2+X1AVVVnIYVy7
- g5brib7pVjxVa/FshrKlb7Rwar9BQtK7rSn4J+HPC4TEdSofTkNVdXk5EfoJXoj/pd6L
- QoZ0ZMeczQrR7iFB5Q3YWBBBQnw5ClVzOK+CTQ2dAlRZP7Yi5bldSl6piHZfCrjplOtm
- eoDw==
+ bh=J8jnXbYZh9fQLGbXGQ/O0REzwyF7YhVgi5AkTd6twPI=;
+ b=uF/0vIlBVC846lYN4HISdxnnS7K8yJ+3K/lfoibQMwkvdkdW1pKP/jh6fQ3gVoS9DA
+ VIwmyj5LSrRc/XtozbDaXoUExRLAfyrQOFdiV/o1k3v32UjqQXeZ02YrXYIwbJ418a7X
+ KGMiWIg3PhKnYEnxeDp94ruSxvdzn1VRb2iUPR1NKnkGlOcnpOgbvmHn7jucnhF/CO1X
+ Vv8mqhwmgXj78y3TC0NcSG6YV3Udw6VRK6/89Hp2/XetCnbN5nVwvc4e7racI41l8zAW
+ Y3CFATlEdyGbecMlUCoVJ6U5yJMiFQvDwf/ziz8hJ0s/wpbJe6M9MEfGlReSz0+cFrDn
+ q2IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xM/nZ90UZtBcAp5QNv/pK0XIOjFNxIv5JhwEyUdhjVM=;
- b=VwbqsMt43mxEonq783xb+8ujdGIKt/1om4vRXtTMzMPVI/cgn7oCYRLJvjo7t8jqum
- WsQYvf932il0qkV1wMG/xiw9uBqG4EOjhA0+rI4Ti4ZekFdcgUM9pBFnpi3XMtija5Mh
- TG48xY8d7mpJujtBGsCPcYUuV/Jn85jAjVbz3vBbITVmH7PRiW1huMy0UD6LABXcQq67
- 4nMemo91gZsTri2iujtPLtaE5bbX8R+js0zUMJo1gKtRmB9SjS/5VVk1i5Q/NYGyBcns
- lmAbj56PBGapaE0JXjkPdORKyQlT8uNvP63E46pw2XJHsEWJ8A3XqRwI8thwSB7zafN8
- dE+g==
-X-Gm-Message-State: AOAM533MaI3y9gvz78riVvyWk++nUQvEToTRoKoESHs6jYsvP6KgBnqT
- /9uzzZUe9ky0rWb4DDPP5q4UmQ==
-X-Google-Smtp-Source: ABdhPJyz6t3vpry+yHHvZkuxg824UAQtjwFbNBG9Psqyj5I2KEjDtM4i6aE0P4Q7B9LdiEt4kTRXPg==
-X-Received: by 2002:a1c:356:: with SMTP id 83mr10209410wmd.31.1610734417929;
- Fri, 15 Jan 2021 10:13:37 -0800 (PST)
+ bh=J8jnXbYZh9fQLGbXGQ/O0REzwyF7YhVgi5AkTd6twPI=;
+ b=fs4AyHGRZyRhvWdOSAXF4IWhI/Q/XTI1uuSwGh9ChEKC8MN5wdzQG5fdqdjM5/ipuH
+ 14aj05futOEpJg+6r7hNrJK4f7uOxhkV2umBd15mRheOy1EZ1z7jEC+h8cWpsxij9+65
+ w+VhHeVJFy4BLnrIwm/pqj9ZGibhoqUc1U6QrN/kMy1TVxtyIWmHHgUnbir64rjIVu/1
+ iyRaq0MWDwLuqahlM3xjUJMU9Dg4JXnpflAWcegJodv3pGf3GUMrKlb1VzZF/c4hDi/8
+ l2yFaeOT05A34cxfAlUlv3qZyeBrHknj0vTbWbxL2LLLWWbPK05YIAbXkgcqka0qu39X
+ ocjg==
+X-Gm-Message-State: AOAM530EJOgXZ803YGAL5QPH2zNK6ESM4X5tpLiAj0H2j9ea67Ny6pi+
+ pT4qkN5lDJ0RcE4i/DhU44WzHg==
+X-Google-Smtp-Source: ABdhPJwnCR0Nzz3e0c6LzffEGLK2o6EAODTUN633CFgBq6cZO9FrWPi92VhlIb0jckP0HwOwMQr3lQ==
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr10045620wmg.189.1610734419371; 
+ Fri, 15 Jan 2021 10:13:39 -0800 (PST)
 Received: from dell.default ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.13.35
+ by smtp.gmail.com with ESMTPSA id j2sm16123484wrh.78.2021.01.15.10.13.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 10:13:36 -0800 (PST)
+ Fri, 15 Jan 2021 10:13:38 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 14/40] drm/gma500/framebuffer: Fix some possible doc-rot issues
-Date: Fri, 15 Jan 2021 18:12:47 +0000
-Message-Id: <20210115181313.3431493-15-lee.jones@linaro.org>
+Subject: [PATCH 15/40] drm/gma500/gem: Add and rename some function parameter
+ descriptions
+Date: Fri, 15 Jan 2021 18:12:48 +0000
+Message-Id: <20210115181313.3431493-16-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115181313.3431493-1-lee.jones@linaro.org>
 References: <20210115181313.3431493-1-lee.jones@linaro.org>
@@ -68,64 +69,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/gma500/framebuffer.c:171: warning: Function parameter or member 'obj' not described in 'psb_framebuffer_init'
- drivers/gpu/drm/gma500/framebuffer.c:171: warning: Excess function parameter 'gt' description in 'psb_framebuffer_init'
- drivers/gpu/drm/gma500/framebuffer.c:212: warning: Function parameter or member 'obj' not described in 'psb_framebuffer_create'
- drivers/gpu/drm/gma500/framebuffer.c:212: warning: Excess function parameter 'gt' description in 'psb_framebuffer_create'
- drivers/gpu/drm/gma500/framebuffer.c:262: warning: Function parameter or member 'fb_helper' not described in 'psbfb_create'
- drivers/gpu/drm/gma500/framebuffer.c:262: warning: Excess function parameter 'fbdev' description in 'psbfb_create'
-
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/gma500/framebuffer.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 22c80e87aeb41..ebe9dccf2d830 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -159,7 +159,7 @@ static const struct fb_ops psbfb_unaccel_ops = {
-  *	@dev: our DRM device
-  *	@fb: framebuffer to set up
-  *	@mode_cmd: mode description
-- *	@gt: backing object
-+ *	@obj: backing object
-  *
-  *	Configure and fill in the boilerplate for our frame buffer. Return
-  *	0 on success or an error code if we fail.
-@@ -197,7 +197,7 @@ static int psb_framebuffer_init(struct drm_device *dev,
-  *	psb_framebuffer_create	-	create a framebuffer backed by gt
-  *	@dev: our DRM device
-  *	@mode_cmd: the description of the requested mode
-- *	@gt: the backing object
-+ *	@obj: the backing object
-  *
-  *	Create a framebuffer object backed by the gt, and fill in the
-  *	boilerplate required
-@@ -252,7 +252,7 @@ static struct gtt_range *psbfb_alloc(struct drm_device *dev, int aligned_size)
- 
- /**
-  *	psbfb_create		-	create a framebuffer
-- *	@fbdev: the framebuffer device
-+ *	@fb_helper: the framebuffer helper
-  *	@sizes: specification of the layout
-  *
-  *	Create a framebuffer to the specifications provided
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9nZW0uYzo1Nzo1OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5
+cGUgZm9yIOKAmHBzYl9nZW1fY3JlYXRl4oCZIFstV21pc3NpbmctcHJvdG90eXBlc10KIGRyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmM6NTk6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBv
+ciBtZW1iZXIgJ3N0b2xlbicgbm90IGRlc2NyaWJlZCBpbiAncHNiX2dlbV9jcmVhdGUnCiBkcml2
+ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jOjU5OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIg
+b3IgbWVtYmVyICdhbGlnbicgbm90IGRlc2NyaWJlZCBpbiAncHNiX2dlbV9jcmVhdGUnCiBkcml2
+ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jOjExMDogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVy
+IG9yIG1lbWJlciAnZmlsZScgbm90IGRlc2NyaWJlZCBpbiAncHNiX2dlbV9kdW1iX2NyZWF0ZScK
+IGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmM6MTEwOiB3YXJuaW5nOiBFeGNlc3MgZnVuY3Rp
+b24gcGFyYW1ldGVyICdkcm1fZmlsZScgZGVzY3JpcHRpb24gaW4gJ3BzYl9nZW1fZHVtYl9jcmVh
+dGUnCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jOjEzNTogd2FybmluZzogRXhjZXNzIGZ1
+bmN0aW9uIHBhcmFtZXRlciAndm1hJyBkZXNjcmlwdGlvbiBpbiAncHNiX2dlbV9mYXVsdCcKCkNj
+OiBQYXRyaWsgSmFrb2Jzc29uIDxwYXRyaWsuci5qYWtvYnNzb25AZ21haWwuY29tPgpDYzogRGF2
+aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZm
+d2xsLmNoPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5
+OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvZ2VtLmMgfCA1ICsrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jCmluZGV4IGRiODI3ZTU5MTQwM2MuLjVlZjU0
+ODBmOTk5ZTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nZW0uYwpAQCAtNDksNiArNDksOCBAQCBjb25zdCBzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgcHNiX2dlbV9vYmplY3RfZnVuY3MgPSB7CiAgKglAZGV2
+OiBvdXIgZGV2aWNlCiAgKglAc2l6ZTogdGhlIHNpemUgcmVxdWVzdGVkCiAgKglAaGFuZGxlcDog
+cmV0dXJuZWQgaGFuZGxlIChvcGFxdWUgbnVtYmVyKQorICoJQHN0b2xlbjogdW51c2VkCisgKglA
+YWxpZ246IHVudXNlZAogICoKICAqCUNyZWF0ZSBhIEdFTSBvYmplY3QsIGZpbGwgaW4gdGhlIGJv
+aWxlcnBsYXRlIGFuZCBhdHRhY2ggYSBoYW5kbGUgdG8KICAqCWl0IHNvIHRoYXQgdXNlcnNwYWNl
+IGNhbiBzcGVhayBhYm91dCBpdC4gVGhpcyBkb2VzIHRoZSBjb3JlIHdvcmsKQEAgLTk3LDcgKzk5
+LDcgQEAgaW50IHBzYl9nZW1fY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwgc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwgdTY0IHNpemUsCiAKIC8qKgogICoJcHNiX2dlbV9kdW1iX2NyZWF0ZQkt
+CWNyZWF0ZSBhIGR1bWIgYnVmZmVyCi0gKglAZHJtX2ZpbGU6IG91ciBjbGllbnQgZmlsZQorICoJ
+QGZpbGU6IG91ciBjbGllbnQgZmlsZQogICoJQGRldjogb3VyIGRldmljZQogICoJQGFyZ3M6IHRo
+ZSByZXF1ZXN0ZWQgYXJndW1lbnRzIGNvcGllZCBmcm9tIHVzZXJzcGFjZQogICoKQEAgLTExNiw3
+ICsxMTgsNiBAQCBpbnQgcHNiX2dlbV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUs
+IHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAKIC8qKgogICoJcHNiX2dlbV9mYXVsdAkJLQlwYWdl
+ZmF1bHQgaGFuZGxlciBmb3IgR0VNIG9iamVjdHMKLSAqCUB2bWE6IHRoZSBWTUEgb2YgdGhlIEdF
+TSBvYmplY3QKICAqCUB2bWY6IGZhdWx0IGRldGFpbAogICoKICAqCUludm9rZWQgd2hlbiBhIGZh
+dWx0IG9jY3VycyBvbiBhbiBtbWFwIG9mIGEgR0VNIG1hbmFnZWQgYXJlYS4gR0VNCi0tIAoyLjI1
+LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
