@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F792F74A7
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D922F74BD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 09:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F10C89B22;
-	Fri, 15 Jan 2021 08:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9BE6E34B;
+	Fri, 15 Jan 2021 08:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A381D6E140
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 02:09:44 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id n7so5056445pgg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 18:09:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=dannooC+A5LWkd3Ac8LXRquK9ciYe/oflIGuwcSGfTA=;
- b=obhcRYWu1TQQF/rfqb1MHAvpWn0lWgr5DV/FVMgO4R3PA6AqHp2JDcWe+z4aqaw8fG
- /z8NKxNFYn8UgxEbuiYJic06U6Tu8UtcaGGEA6+AY2Qwl59QA1dAk0S5OOrOHS1GKtAj
- fizvuhKMBbE7LzFBCtiT/HpDf/7ImkRfbEuD8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=dannooC+A5LWkd3Ac8LXRquK9ciYe/oflIGuwcSGfTA=;
- b=oDB1gQLCy4XcbeMyA9nwtq+VZpS4UUfMADNjDCYC4I+mSal2DdT9wSDiYnKV3ApU8f
- qGuvoU0jDk5qTFlTeF/bUNEyUq9Q08g6P8hxk1BrZcjbXZamo5yUenRVRlwHsQ+LlwQD
- 0bMZjL6WZBoVPnOj5ivim5AJ49tOa+6CmBX4IJRACzN+8QzwsgeETym2Xi/ILD9gbezt
- Sr8rDfti5LL2Gy6YLTXMjd+LyhuhcVGpL2L63h4hcePkpAKpH4tdRU5x713FjH5xhUdG
- BgPWwNWvwXb2vggrk/E+e25DGHD4Lp7Z/NIzb3G+Y5M4Vti4xJ/VdDHm01zhIboDNZ3Y
- 9OCA==
-X-Gm-Message-State: AOAM531wxHqVkTorxPND12mnrLSSFM9wZg9mUZIS4YXSXsf2+1cOiLcc
- IrGo5ZNCQ1SlRDbsgqSUkWAuXA==
-X-Google-Smtp-Source: ABdhPJyWGZRCJiQNQl64uo7yCE8fHw8Vw4JwrWpDJL+EJJpEiGsGhi5X4/dekyMOyA8SjfJJ153MMw==
-X-Received: by 2002:a63:da4f:: with SMTP id l15mr10386961pgj.22.1610676584423; 
- Thu, 14 Jan 2021 18:09:44 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id w11sm6721197pge.28.2021.01.14.18.09.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 18:09:43 -0800 (PST)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7ACEF89498
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 03:34:06 +0000 (UTC)
+Received: from zhangzhijie.loongson.cn (unknown [10.20.41.29])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax1bweDQFgA60EAA--.5257S2;
+ Fri, 15 Jan 2021 11:33:50 +0800 (CST)
+From: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v2] drm: Improve the output_poll_changed description
+Date: Fri, 15 Jan 2021 11:33:28 +0800
+Message-Id: <20210115033328.1799514-1-zhangzhijie@loongson.cn>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210114172254.1.I33fcbd64ab409cfe4f9491bf449f51925a4d3281@changeid>
-References: <20210114172254.1.I33fcbd64ab409cfe4f9491bf449f51925a4d3281@changeid>
-Subject: Re: [PATCH] drm/panel-simple: Undo enable if HPD never asserts
-From: Stephen Boyd <swboyd@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Date: Thu, 14 Jan 2021 18:09:42 -0800
-Message-ID: <161067658243.3661239.4774914368205323276@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-CM-TRANSID: AQAAf9Ax1bweDQFgA60EAA--.5257S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrtFW5CF43GFW7Kw15tr45GFg_yoW8JryUpr
+ sIkryFkr48tF93uF4UGrWIg3W8AanrGF40qFWkKw4SkwnxtwnIvF9Ygr45uFyrWFZxJF45
+ Xasa9r98A3Z5CrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+ W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE-syl
+ 42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+ WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+ I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+ 4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+ 0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: x2kd0wx2klyx3h6o00pqjv00gofq/1tbiAQACAF3QvM2fqQAAsJ
 X-Mailman-Approved-At: Fri, 15 Jan 2021 08:55:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,28 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: zhangzhijie@loongson.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2021-01-14 17:22:59)
-> If the HPD signal never asserts in panel_simple_prepare() and we
-> return an error, we should unset the enable GPIO and disable the
-> regulator to make it consistent for the caller.
-> 
-> At the moment I have some hardware where HPD sometimes doesn't assert.
-> Obviously that needs to be debugged, but this patch makes it so that
-> if I add a retry that I can make things work.
-> 
-> Fixes: 48834e6084f1 ("drm/panel-simple: Support hpd-gpios for delaying prepare()")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
+From: zhangzhijie <zhangzhijie@loongson.cn>
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+this callback was used by drm_kms_helper_hotplug_event()
+
+V2: (Thanks for Daniel's suggestions)
+- remove the FIXME below.since with the drm_client
+- infrastructure and the generic fbdev emulation we've
+- resolved this all very neatly now.
+
+Signed-off-by: zhangzhijie <zhangzhijie@loongson.cn>
+Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
+---
+ include/drm/drm_mode_config.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index ab424ddd7665..50541980f7f2 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -104,13 +104,8 @@ struct drm_mode_config_funcs {
+ 	 * changes.
+ 	 *
+ 	 * Drivers implementing fbdev emulation with the helpers can call
+-	 * drm_fb_helper_hotplug_changed from this hook to inform the fbdev
++	 * drm_kms_helper_hotplug_event() from this hook to inform the fbdev
+ 	 * helper of output changes.
+-	 *
+-	 * FIXME:
+-	 *
+-	 * Except that there's no vtable for device-level helper callbacks
+-	 * there's no reason this is a core function.
+ 	 */
+ 	void (*output_poll_changed)(struct drm_device *dev);
+ 
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
