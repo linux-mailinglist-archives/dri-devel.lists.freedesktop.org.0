@@ -2,56 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AAF2F8643
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 21:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900642F86AD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 21:29:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48F146E15C;
-	Fri, 15 Jan 2021 20:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9DB6E48E;
+	Fri, 15 Jan 2021 20:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0526E487
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 20:08:23 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id o17so14974610lfg.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 12:08:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d+EPX/VWpJj2Kmk5Q5zZssFSGXKhH2fYu5LFm+A3OQY=;
- b=C5L9mPrgwxor/EMphYQ64LokUxMeN+N+rbK2dWGM/Qh1lOeJDEPsje9APFkubFrqHb
- QOoGnTxBz/CKeTlpIO/8fq3SbUHJTjU0sF2IBLepYlKl/DnHD9nrPNHN9ICURYPBpUDf
- kBXVgzuIRwB5uMzYMJLi42nnNoVkrhS9oh60+W9V5hS/nkpkkD5oGlaDKcuBOfRpsFtb
- v/uCvYWxtqYbfsvi2Fd9xqrAXsfxpUzSwR7nbOp8QSEvTIBMGLJ8dGC39/8h9ZeVK3Z4
- nOC1FBjD+6pjGf+qvAfj7jTlM8r/XkFPH/TAgcPejJYc3XoVCWqhkjV6A9np6lmcVp2q
- 7ViA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d+EPX/VWpJj2Kmk5Q5zZssFSGXKhH2fYu5LFm+A3OQY=;
- b=b1HWi4y9ESFsOMrqjr7F9roQRgCmn1APZjcW1UKhePrUQweZ4yJyZQzy3cunLaEWG4
- 9BYprNZ6zNgbysZ07VNTIl6jHuh0ts0upiRYW82S8hJUXIJ5SgGADzHe6jRGh2Vgh1Uy
- P+tIPVTCJ5WpZPVUWi8CNDoDqlM5wx00oMkjOdeGDqiEKooZAQT7Vovu9uh8WRZ1fBhC
- jtG2qLtYZl63lU+QSsfCEwoZ9uyHPXzV4iv7ppLnqctPwoXEko4U3H6/FtPdNShb7Fuu
- mEyIewgC2psAaUWHFc/akd89tLtCWrvoAZaRp9a+knd+9o2Gl42+YJ5dK5arbCVTfJpO
- GJgw==
-X-Gm-Message-State: AOAM530D04uo+f7hOyY3T+uvAZaMk1wuqMmyaHTviuLuZt+/wPXnPl9u
- eGANeww63wIzx89CrEMo67ljvtldFW6nHsgbuW/pfw==
-X-Google-Smtp-Source: ABdhPJxS56/W58MCPOSvN37WwT8INoO+4zH5jbgEoeT9FfCMxK+CD/sf82tE0Sa+/3PBj/nmCYe8JiYSQ1eKWJ5BX8Y=
-X-Received: by 2002:ac2:5145:: with SMTP id q5mr5808847lfd.626.1610741301404; 
- Fri, 15 Jan 2021 12:08:21 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8240C6E48E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 20:29:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E61358B;
+ Fri, 15 Jan 2021 21:29:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1610742556;
+ bh=8R5qOZgwIXX9QIBlCIV/R54viYQ+tS8st/8kK+PspT4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rXfe/Bd4sxDcopxrQyulKr6sWDtZgNWVEUmMmsnebMU4/0jVNn/8hLQVXHqwR4Iqy
+ dmLamgDdsuehH2QKJU5DVGWdiVNzsC5Rqtv2JHOZ59k4V2CtY3G/tqo9iglvRf5/6q
+ dndbBomFsfYf9WqlpJf3+ozL6ojiJBE1hiTgHRnI=
+Date: Fri, 15 Jan 2021 22:28:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 02/10] drm: Rename plane atomic_check state names
+Message-ID: <YAH7C0EOsisHhqvR@pendragon.ideasonboard.com>
+References: <20210115125703.1315064-1-maxime@cerno.tech>
+ <20210115125703.1315064-2-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20210113140604.3615437-1-daniel.vetter@ffwll.ch>
- <161055261490.6195.7986280621869334351@build.alporthouse.com>
- <CAKMK7uEnnEj_YAR5Tm3jpS7MNPkqB43JBhQnY_K0YQ+LE9wL1g@mail.gmail.com>
- <161057213487.6195.581396740566956696@build.alporthouse.com>
- <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
-In-Reply-To: <CAKMK7uGXtu0V8TVaQ2XyuE9vOdJOWKrCYUNkh0FJMfucSyS2vg@mail.gmail.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 15 Jan 2021 12:08:10 -0800
-Message-ID: <CALAqxLWedYkMiYA750e6vCw6q52XxjwEMNm4h7b67FexQEemtg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm-buf: Add debug option
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20210115125703.1315064-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +46,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Hridya Valsaraju <hridya@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- =?UTF-8?Q?moderated_list=3ADMA_BUFFER_SHARING_FRAMEWORK_=3Clinaro=2Dmm=2Dsig=40l?=
- =?UTF-8?Q?ists=2Elinaro=2Eorg=3E=2C_David_Stevens_=3Cstevensd=40chromium=2Eorg=3E=2C_Dan?=
- =?UTF-8?Q?iel_Vetter_=3Cdaniel=2Evetter=40intel=2Ecom=3E=2C_Christian_K=C3=B6nig_=3Cchri?=
- =?UTF-8?Q?stian=2Ekoenig=40amd=2Ecom=3E=2C_open_list=3ADMA_BUFFER_SHARING_FRAMEWOR?=
- =?UTF-8?Q?K?= <linux-media@vger.kernel.org>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
+ Michal Simek <michal.simek@xilinx.com>, NXP Linux Team <linux-imx@nxp.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Leo Li <sunpeng.li@amd.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ Edmund Dea <edmund.j.dea@intel.com>, virtualization@lists.linux-foundation.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-rockchip@lists.infradead.org,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>, Yannick Fertre <yannick.fertre@st.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ linux-tegra@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, amd-gfx@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Chen Feng <puck.chen@hisilicon.com>, Alison Wang <alison.wang@nxp.com>,
+ spice-devel@lists.freedesktop.org, Tomi Valkeinen <tomba@kernel.org>,
+ Philippe Cornu <philippe.cornu@st.com>, Vincent Abriou <vincent.abriou@st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Paul Cercueil <paul@crapouillou.net>,
+ linux-renesas-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Russell King <linux@armlinux.org.uk>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jyri Sarha <jyri.sarha@iki.fi>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 14, 2021 at 1:03 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Wed, Jan 13, 2021 at 10:08 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > Quoting Daniel Vetter (2021-01-13 20:50:11)
-> > > On Wed, Jan 13, 2021 at 4:43 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > >
-> > > > Quoting Daniel Vetter (2021-01-13 14:06:04)
-> > > > > We have too many people abusing the struct page they can get at but
-> > > > > really shouldn't in importers. Aside from that the backing page might
-> > > > > simply not exist (for dynamic p2p mappings) looking at it and using it
-> > > > > e.g. for mmap can also wreak the page handling of the exporter
-> > > > > completely. Importers really must go through the proper interface like
-> > > > > dma_buf_mmap for everything.
-> > > >
-> > > > If the exporter doesn't want to expose the struct page, why are they
-> > > > setting it in the exported sg_table?
-> > >
-> > > You need to store it somewhere, otherwise the dma-api doesn't work.
-> > > Essentially this achieves clearing/resetting the struct page pointer,
-> > > without additional allocations somewhere, or tons of driver changes
-> > > (since presumably the driver does keep track of the struct page
-> > > somewhere too).
-> >
-> > Only for mapping, and that's before the export -- if there's even a
-> > struct page to begin with.
-> >
-> > > Also as long as we have random importers looking at struct page we
-> > > can't just remove it, or crashes everywhere. So it has to be some
-> > > debug option you can disable.
-> >
-> > Totally agreed that nothing generic can rely on pages being transported
-> > via dma-buf, and memfd is there if you do want a suitable transport. The
-> > one I don't know about is dma-buf heap, do both parties there consent to
-> > transport pages via the dma-buf? i.e. do they have special cases for
-> > import/export between heaps?
->
-> heaps shouldn't be any different wrt the interface exposed to
-> importers. Adding John just in case I missed something.
+Hi Maxime,
 
-I'm not aware of how this would be an issue right off for dma-buf
-heaps. Obviously there may be some corner cases with things like
-secure heaps, but I've not gotten to work on any of those yet and
-there's none in-tree.  I did test out the patch on HiKey960 (using the
-cma and system heap for display and gpu buffers - admittedly not
-particularly complex) and didn't see any issues with it enabled.
+Thank you for the patch.
 
-I've added Suren and Hridya for more input but don't have any
-objections right off.
+On Fri, Jan 15, 2021 at 01:56:54PM +0100, Maxime Ripard wrote:
+> Most drivers call the argument to the plane atomic_check hook simply
+> state, which is going to conflict with the global atomic state in a
+> later rework. Let's rename it to new_plane_state (or new_state depending
+> on the convention used in the driver).
+> 
+> This was done using the coccinelle script below, and built tested:
+> 
+> @ plane_atomic_func @
+> identifier helpers;
+> identifier func;
+> @@
+> 
+>  static const struct drm_plane_helper_funcs helpers = {
+>  	.atomic_check = func,
+>  };
+> 
+> @ has_old_state @
+> identifier plane_atomic_func.func;
+> identifier plane;
+> expression e;
+> symbol old_state;
+> symbol state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_plane_state *state)
+>  {
+>  	...
+>  	struct drm_plane_state *old_state = e;
+>  	...
+>  }
+> 
+> @ depends on has_old_state @
+> identifier plane_atomic_func.func;
+> identifier plane;
+> symbol old_state;
+> @@
+> 
+>  func(struct drm_plane *plane,
+> -	struct drm_plane_state *state
+> +	struct drm_plane_state *new_state
+>      )
+>  {
+>  	<+...
+> -	state
+> +	new_state
+> 	...+>
+>  }
+> 
+> @ has_state @
+> identifier plane_atomic_func.func;
+> identifier plane;
+> symbol state;
+> @@
+> 
+>  func(struct drm_plane *plane, struct drm_plane_state *state)
+>  {
+>  	...
+>  }
+> 
+> @ depends on has_state @
+> identifier plane_atomic_func.func;
+> identifier plane;
+> symbol old_state;
+> @@
+> 
+>  func(struct drm_plane *plane,
+> -	struct drm_plane_state *state
+> +	struct drm_plane_state *new_plane_state
+>      )
+>  {
+>  	<+...
+> -	state
+> +	new_plane_state
+> 	...+>
+>  }
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-thanks
--john
+[...]
+
+>  drivers/gpu/drm/omapdrm/omap_plane.c          | 19 +++++----
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  7 ++--
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  7 ++--
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c            | 10 +++--
+
+For these, with the comment below addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  41 files changed, 402 insertions(+), 357 deletions(-)
+
+[snip]
+
+> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+> index 51dc24acea73..78d0eb1fd69d 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+> @@ -99,18 +99,19 @@ static void omap_plane_atomic_disable(struct drm_plane *plane,
+>  }
+>  
+>  static int omap_plane_atomic_check(struct drm_plane *plane,
+> -				   struct drm_plane_state *state)
+> +				   struct drm_plane_state *new_plane_state)
+>  {
+>  	struct drm_crtc_state *crtc_state;
+>  
+> -	if (!state->fb)
+> +	if (!new_plane_state->fb)
+>  		return 0;
+>  
+>  	/* crtc should only be NULL when disabling (i.e., !state->fb) */
+
+s/state/new_plane_state/ here too ?
+
+> -	if (WARN_ON(!state->crtc))
+> +	if (WARN_ON(!new_plane_state->crtc))
+>  		return 0;
+>  
+> -	crtc_state = drm_atomic_get_existing_crtc_state(state->state, state->crtc);
+> +	crtc_state = drm_atomic_get_existing_crtc_state(new_plane_state->state,
+> +							new_plane_state->crtc);
+>  	/* we should have a crtc state if the plane is attached to a crtc */
+>  	if (WARN_ON(!crtc_state))
+>  		return 0;
+> @@ -118,17 +119,17 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
+>  	if (!crtc_state->enable)
+>  		return 0;
+>  
+> -	if (state->crtc_x < 0 || state->crtc_y < 0)
+> +	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0)
+>  		return -EINVAL;
+>  
+> -	if (state->crtc_x + state->crtc_w > crtc_state->adjusted_mode.hdisplay)
+> +	if (new_plane_state->crtc_x + new_plane_state->crtc_w > crtc_state->adjusted_mode.hdisplay)
+
+I can't help thinking we're using too long variable names... :-(
+
+>  		return -EINVAL;
+>  
+> -	if (state->crtc_y + state->crtc_h > crtc_state->adjusted_mode.vdisplay)
+> +	if (new_plane_state->crtc_y + new_plane_state->crtc_h > crtc_state->adjusted_mode.vdisplay)
+>  		return -EINVAL;
+>  
+> -	if (state->rotation != DRM_MODE_ROTATE_0 &&
+> -	    !omap_framebuffer_supports_rotation(state->fb))
+> +	if (new_plane_state->rotation != DRM_MODE_ROTATE_0 &&
+> +	    !omap_framebuffer_supports_rotation(new_plane_state->fb))
+>  		return -EINVAL;
+>  
+>  	return 0;
+
+[...]
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
