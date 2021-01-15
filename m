@@ -2,54 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37AEC2F6FEF
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 02:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4B22F6FEE
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 02:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD356E153;
-	Fri, 15 Jan 2021 01:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA6E6E151;
+	Fri, 15 Jan 2021 01:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A9B6E153
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 01:23:21 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id be12so3858875plb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 17:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZAPHsHm+2XIrQA1OESxVnuIMSm0KrZ79SJ4XDucyPvM=;
- b=XUdrUW23+dnz/P8wVglvFy5MQnCedEURA9CI4MMRuUKdnhcoWPKTdiUkIabfVKNb0+
- +QLeH6rzURyT0mdSAohSkm5+Kt8j2kQYJjMMQyM2VhTYQVRiojOgol90egFLH0uGRhoA
- CLmyHN9qaqqRJV0ecTBp1n71z2wIh++hf5H5o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZAPHsHm+2XIrQA1OESxVnuIMSm0KrZ79SJ4XDucyPvM=;
- b=RZqvgxTiZyBNjkPUx/fqtxrYntx+OvxNdsQr2GT1BiDMwv6GPJzmXPKRjwPak8AOZu
- mi4KAwcXuChY3xfDPLAsAi4sYRYKxtFKUkM2/xdRHpsaxiROpYGS3SK8D/HE5Gvcm/fT
- VXlFT8URi3vFXOa8c3nGGDebNs1QbownTbGYj/n4avzWgQNEMYuizBf2BR/KHogxjeKd
- 9FHGzrIAyofT6bFqpZlaU95y0PTgzA5mF6q0oXKcJ/TIkvi2Z8OgGdUSK8zzkPLGu8Mu
- YjvSq2C4RE66BIDbUx3kHPvOR8kx1C6rxR0mgVroRXLYGWzLFzzJBJ5TcnHreFgtWXOX
- 75EQ==
-X-Gm-Message-State: AOAM531EvyeKqxwFjIccSShH+0nOrn9Eft3OuuA7Gl8uQt58BClENe+X
- YQkzngfRUKtZC8P7Wqi8YbgLG7dwAoj8bIq4
-X-Google-Smtp-Source: ABdhPJzaiZtuHHebdoNCQc0Ip8w+8uPtCbHJezMb+dhXNEAYWBnV188vW2zTFJDriySZf0NjMZkzQA==
-X-Received: by 2002:a17:902:8306:b029:da:d7f0:9e16 with SMTP id
- bd6-20020a1709028306b02900dad7f09e16mr10351975plb.53.1610673800871; 
- Thu, 14 Jan 2021 17:23:20 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
- by smtp.gmail.com with ESMTPSA id b65sm2885816pga.54.2021.01.14.17.23.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 17:23:20 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/panel-simple: Undo enable if HPD never asserts
-Date: Thu, 14 Jan 2021 17:22:59 -0800
-Message-Id: <20210114172254.1.I33fcbd64ab409cfe4f9491bf449f51925a4d3281@changeid>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00186E14D;
+ Fri, 15 Jan 2021 01:23:17 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DH3N04yNjz9sVr;
+ Fri, 15 Jan 2021 12:23:11 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1610673794;
+ bh=HuR/UqsyYV6V2u8mtzj/Ev7wCFWabBAH4XNDWYxTz6A=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Ee+XO8v5HN+j72pKq6l6bqD93UKVTfLr+C9twDIrMFrBPj8rU9yo51mQv4lS7Zl3Q
+ RrihKh0wbRhJbjXge1mpqc3KM0gboWpb2AAznpn00ntXyYDx42ikRo9zSFNc3AtClU
+ Iet8U61KPV/xfMhbySBlg2b7B7ov4Dars1J9OGw9Xnkc2IYiqXFMECl5UIMFaT1d/m
+ J7KEbm7uSbMU/N8GZenMIZKR1igONxvW1cL4PW16wjcQhbxxHqiqNFUcemqJ9LgrD9
+ PlTRUb4b+OzavmU8WDJ1LLetru5wp3QHWRuOa+viWVN2QI+uxib65wyEkP2UV1K+j3
+ gRrpSGEA3gFPA==
+Date: Fri, 15 Jan 2021 12:23:10 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warnings after merge of the drm-misc tree
+Message-ID: <20210115122310.7dd6bb11@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,67 +47,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nirmoy Das <nirmoy.das@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Darren Salt <devspam@moreofthesa.me.uk>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============1055210935=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the HPD signal never asserts in panel_simple_prepare() and we
-return an error, we should unset the enable GPIO and disable the
-regulator to make it consistent for the caller.
+--===============1055210935==
+Content-Type: multipart/signed; boundary="Sig_/Vpa+x8VRDC3FcD559.RaF=y";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-At the moment I have some hardware where HPD sometimes doesn't assert.
-Obviously that needs to be debugged, but this patch makes it so that
-if I add a retry that I can make things work.
+--Sig_/Vpa+x8VRDC3FcD559.RaF=y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 48834e6084f1 ("drm/panel-simple: Support hpd-gpios for delaying prepare()")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+Hi all,
 
- drivers/gpu/drm/panel/panel-simple.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) produced this warning:
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 71ae200ac48a..b89394b44f43 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -406,7 +406,7 @@ static int panel_simple_prepare(struct drm_panel *panel)
- 		if (IS_ERR(p->hpd_gpio)) {
- 			err = panel_simple_get_hpd_gpio(panel->dev, p, false);
- 			if (err)
--				return err;
-+				goto error;
- 		}
- 
- 		err = readx_poll_timeout(gpiod_get_value_cansleep, p->hpd_gpio,
-@@ -418,13 +418,19 @@ static int panel_simple_prepare(struct drm_panel *panel)
- 		if (err) {
- 			dev_err(panel->dev,
- 				"error waiting for hpd GPIO: %d\n", err);
--			return err;
-+			goto error;
- 		}
- 	}
- 
- 	p->prepared_time = ktime_get();
- 
- 	return 0;
-+
-+error:
-+	gpiod_set_value_cansleep(p->enable_gpio, 0);
-+	regulator_disable(p->supply);
-+
-+	return err;
- }
- 
- static int panel_simple_enable(struct drm_panel *panel)
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
+drivers/gpu/drm/amd/amdgpu/amdgpu_display.c: In function 'amdgpu_display_us=
+er_framebuffer_create':
+drivers/gpu/drm/amd/amdgpu/amdgpu_display.c:929:24: warning: unused variabl=
+e 'adev' [-Wunused-variable]
+  929 |  struct amdgpu_device *adev =3D drm_to_adev(dev);
+      |                        ^~~~
+
+Introduced by commit
+
+  8f66090b7bb7 ("drm/amdgpu: Remove references to struct drm_device.pdev")
+
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function 'amdgpu_device_resi=
+ze_fb_bar':
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1109:6: warning: unused variable=
+ 'space_needed' [-Wunused-variable]
+ 1109 |  u64 space_needed =3D roundup_pow_of_two(adev->gmc.real_vram_size);
+      |      ^~~~~~~~~~~~
+
+Introduced by commit
+
+  453f617a30aa ("drm/amdgpu: Resize BAR0 to the maximum available size, eve=
+n if it doesn't cover VRAM")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/Vpa+x8VRDC3FcD559.RaF=y
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAA7n4ACgkQAVBC80lX
+0GwDEwf/fmr7nK+fiyHfcFlaNUOW7oDnJ8N3XqSam65tbF5eqAFACd79w+UrHr3l
+nRofuChmVJ1cXGKC0HegELL7XakKuqinfxuqOle4k0lqkN+ZRlMlUo99TQDfEY+J
+WSXhCkLYf6jSwUtpg1WEmCc81ljhcJy3HonWN/UqlFdC9oSDg5MvTQMfakXl0/SO
+kaGp/Gjw7+w99zb8gZhofC+jcow6Uq7qftXn4vRsrL4pUAjbQu/dq4YtExewXBQs
+qAIX3yKN2sSTz6opGWFnPH+grzf8MAgfIO61vWfHsbfxt0WAwsA+KmnQAhwU7sxJ
+ZpGvaBUlk25Ub7Kv6JJVDyHtTdc0Xg==
+=Hkir
+-----END PGP SIGNATURE-----
+
+--Sig_/Vpa+x8VRDC3FcD559.RaF=y--
+
+--===============1055210935==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1055210935==--
