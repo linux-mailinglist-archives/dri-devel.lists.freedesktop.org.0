@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE7C2F6EEB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 00:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B733D2F6FD2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 02:07:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1046E05D;
-	Thu, 14 Jan 2021 23:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357F36E140;
+	Fri, 15 Jan 2021 01:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2AF46E05D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 23:27:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 668CE23AAA
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 23:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610666840;
- bh=4Zj3Wl9MmezHCv26E0/LT5ibGDbwFsMqnirwMOVtjqE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aBLoFuP9S4Nc3XrlPFcxpWS2vWovEqXQd9fxBf6JZfHE2hegibJmRABAh+PPF7RLr
- 73MX39xJBmv973lJK2GoCa78CI7e7G04MIaff7ut6UhF0nf7DXAlQp6HjQtzcLRfPf
- qcKkvU09liZCmxbEsjeFf/3FIG+og4y4FNILMH6O3Azz0G2n6fx34/CS4Ifp+IRf8P
- GlSwRBKhSCKwj6xECjsMMrWT7dC3mTU2EJcd+cX61/zSv/Bf6Jedjx7HfcjCJeaHMw
- qHg4v4Gty8N54mrBohg1Eb9qnSlVTgZ9PnbsE1nflAsGuiMaKbYb5ZnqU4rge2ElDP
- RpGeHwhRWfojA==
-Received: by mail-ej1-f53.google.com with SMTP id w1so10690403ejf.11
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 15:27:20 -0800 (PST)
-X-Gm-Message-State: AOAM530WdU7LFmWoucpjcLbNcX/G+K8yyNWa8OOxk8CSFTeQyxmMeUuq
- MzcfAGyRzBtFteARqiVoAhRNqHzQPuH5UFvpUQ==
-X-Google-Smtp-Source: ABdhPJwT7znQYQKLZ+6Sn6y2n9e+stArAY5GAuMtoUClRK/SPi6pP38lZV6DIyg4QRGopg8Iq3NUruuIGHT/VFxhO+Y=
-X-Received: by 2002:a17:906:fb1a:: with SMTP id
- lz26mr6911340ejb.194.1610666838951; 
- Thu, 14 Jan 2021 15:27:18 -0800 (PST)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6546E140
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 01:07:02 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id k4so3569723ybp.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Jan 2021 17:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=ptMG8h/t27FZ04Kp7gTFbJoVOkYkpr/EhrsbG2AgIbM=;
+ b=AzOzgEXs9RbZ6SHFH5yRscm8btBA3c+bF96dTQAf5BCV9IPi5OY+8Rs6YP3JpX1APn
+ zju2/DAQpfWZogB846RY/6guay5Wv6eFYuMafPylKhNbuQazOU9DgDWnV1eE0ag2ItaM
+ tHy9JVxViPjL6oecW7jrYStdvhXo1I5g5pUyD8HCw0dXRNBleqmwJtSt2+7Mzv5kpL+6
+ /O98RjnEL4oFv31zbHqyT5lBhCsXAHKZ0UsdGEzWS8+aSH9ZDXx5sXkg9DK4OMCjpkC2
+ EkMnX0ymHmC+QnHuJvSzOSzsM0592naT0MATIYrJySo5XPOvlVgGCQuxhF371eNHUta0
+ 1L6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=ptMG8h/t27FZ04Kp7gTFbJoVOkYkpr/EhrsbG2AgIbM=;
+ b=CwQ65MN7Ru6dlClsTPaeIAFik+K4Ln26/wi/kCWcSGmIxV040actNJJc9XqAbu+Dle
+ ArUmxe7jkgvgjsXI5peETE+VVsgQcQAfFQYIt5+IO6ICPVQ3sTp0OLvvkFOeRf7Fx+xD
+ 3Qa0ma0sI1U5t0WOkbNAYExgONwiMUJBwytiCTC7O0oi0XzWsRqHg98qUOhLZWIU696T
+ BwFyJHwq3eFWdYX37a8ccI3hXD3oXfhajWjIIse+jXTd7+nAgOGLnZX7v8MJcnBOeEEs
+ Pk8Q3HVS9W4Eo4Fiz2IY/AbJW5G3bnXgfRYt494HHS3WvlEmwb/GHJblIHLyypdCQCuQ
+ w/2g==
+X-Gm-Message-State: AOAM530POLYXR+TiJQvtw02Bgd5uxReF3wvav8Lu+jWk776h8Kt27M4h
+ 7ZtIjinOYP2ZaPb1SuPTTBmD7ON4pQkFYrntou0jhNTKM+5NrQ==
+X-Google-Smtp-Source: ABdhPJzRcB8FYVP5ll1w6Dgwi8d/GN8xG2CjTABF2rnp4zReYwZM7PbTZMTD43/kYGhcSHdRULpgqD+rSbQS+5CG4t4=
+X-Received: by 2002:a25:b703:: with SMTP id t3mr16361227ybj.96.1610672821296; 
+ Thu, 14 Jan 2021 17:07:01 -0800 (PST)
 MIME-Version: 1.0
-References: <1609989081-29353-1-git-send-email-yongqiang.niu@mediatek.com>
- <1609989081-29353-6-git-send-email-yongqiang.niu@mediatek.com>
- <CAAOTY__Ox7jxLxQvm_mvAqEedj48=grH0Mao7xZ5bLuABZNeMQ@mail.gmail.com>
-In-Reply-To: <CAAOTY__Ox7jxLxQvm_mvAqEedj48=grH0Mao7xZ5bLuABZNeMQ@mail.gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 15 Jan 2021 07:27:07 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8psXwmWqKidGKZN05jcNqhq4igNmbbXX2xePYDgwHDDg@mail.gmail.com>
-Message-ID: <CAAOTY_8psXwmWqKidGKZN05jcNqhq4igNmbbXX2xePYDgwHDDg@mail.gmail.com>
-Subject: Re: [PATCH v9,
- 05/11] drm/mediatek: add fifo_size into rdma private data
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Fri, 15 Jan 2021 11:06:50 +1000
+Message-ID: <CACAvsv4P90mcF_ByAh+ghz+ZVD2N2bPbD7xHYYArE1kYrvsGcQ@mail.gmail.com>
+Subject: [PULL] nouveau-fixes 5.11
+To: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,84 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCkNodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPiDm
-lrwgMjAyMeW5tDHmnIg35pelIOmAseWbmyDkuIvljYg2OjA15a+r6YGT77yaCj4KPiBIaSwgWW9u
-Z3FpYW5nOgo+Cj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+IOaW
-vCAyMDIx5bm0MeaciDfml6Ug6YCx5ZubIOS4iuWNiDExOjEy5a+r6YGT77yaCj4gPgo+ID4gR2V0
-IHRoZSBmaWZvIHNpemUgZnJvbSBkZXZpY2UgdHJlZQo+ID4gYmVjYXVzZSBlYWNoIHJkbWEgaW4g
-dGhlIHNhbWUgU29DIG1heSBoYXZlIGRpZmZlcmVudCBmaWZvIHNpemUKPgo+IFJldmlld2VkLWJ5
-OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4KCkFwcGxpZWQgdG8gbWVk
-aWF0ZWstZHJtLW5leHQgWzFdLCB0aGFua3MuCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9w
-dWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVk
-aWF0ZWstZHJtLW5leHQKClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gPgo+ID4gU2lnbmVkLW9m
-Zi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gPiAtLS0K
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5jIHwgMTkgKysrKysr
-KysrKysrKysrKysrLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZGlzcF9yZG1hLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5j
-Cj4gPiBpbmRleCBkNDZiOGFlLi44YzY0ZDVjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kaXNwX3JkbWEuYwo+ID4gQEAgLTY0LDYgKzY0LDcgQEAgc3RydWN0IG10a19k
-aXNwX3JkbWEgewo+ID4gICAgICAgICBzdHJ1Y3QgbXRrX2RkcF9jb21wICAgICAgICAgICAgIGRk
-cF9jb21wOwo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2NydGMgICAgICAgICAgICAgICAgICpjcnRj
-Owo+ID4gICAgICAgICBjb25zdCBzdHJ1Y3QgbXRrX2Rpc3BfcmRtYV9kYXRhICpkYXRhOwo+ID4g
-KyAgICAgICB1MzIgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpZm9fc2l6ZTsKPiA+ICB9
-Owo+ID4KPiA+ICBzdGF0aWMgaW5saW5lIHN0cnVjdCBtdGtfZGlzcF9yZG1hICpjb21wX3RvX3Jk
-bWEoc3RydWN0IG10a19kZHBfY29tcCAqY29tcCkKPiA+IEBAIC0xMzIsMTIgKzEzMywxOCBAQCBz
-dGF0aWMgdm9pZCBtdGtfcmRtYV9jb25maWcoc3RydWN0IG10a19kZHBfY29tcCAqY29tcCwgdW5z
-aWduZWQgaW50IHdpZHRoLAo+ID4gICAgICAgICB1bnNpZ25lZCBpbnQgdGhyZXNob2xkOwo+ID4g
-ICAgICAgICB1bnNpZ25lZCBpbnQgcmVnOwo+ID4gICAgICAgICBzdHJ1Y3QgbXRrX2Rpc3BfcmRt
-YSAqcmRtYSA9IGNvbXBfdG9fcmRtYShjb21wKTsKPiA+ICsgICAgICAgdTMyIHJkbWFfZmlmb19z
-aXplOwo+ID4KPiA+ICAgICAgICAgbXRrX2RkcF93cml0ZV9tYXNrKGNtZHFfcGt0LCB3aWR0aCwg
-Y29tcCwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIERJU1BfUkVHX1JETUFfU0laRV9D
-T05fMCwgMHhmZmYpOwo+ID4gICAgICAgICBtdGtfZGRwX3dyaXRlX21hc2soY21kcV9wa3QsIGhl
-aWdodCwgY29tcCwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIERJU1BfUkVHX1JETUFf
-U0laRV9DT05fMSwgMHhmZmZmZik7Cj4gPgo+ID4gKyAgICAgICBpZiAocmRtYS0+Zmlmb19zaXpl
-KQo+ID4gKyAgICAgICAgICAgICAgIHJkbWFfZmlmb19zaXplID0gcmRtYS0+Zmlmb19zaXplOwo+
-ID4gKyAgICAgICBlbHNlCj4gPiArICAgICAgICAgICAgICAgcmRtYV9maWZvX3NpemUgPSBSRE1B
-X0ZJRk9fU0laRShyZG1hKTsKPiA+ICsKPiA+ICAgICAgICAgLyoKPiA+ICAgICAgICAgICogRW5h
-YmxlIEZJRk8gdW5kZXJmbG93IHNpbmNlIERTSSBhbmQgRFBJIGNhbid0IGJlIGJsb2NrZWQuCj4g
-PiAgICAgICAgICAqIEtlZXAgdGhlIEZJRk8gcHNldWRvIHNpemUgcmVzZXQgZGVmYXVsdCBvZiA4
-IEtpQi4gU2V0IHRoZQo+ID4gQEAgLTE0Niw3ICsxNTMsNyBAQCBzdGF0aWMgdm9pZCBtdGtfcmRt
-YV9jb25maWcoc3RydWN0IG10a19kZHBfY29tcCAqY29tcCwgdW5zaWduZWQgaW50IHdpZHRoLAo+
-ID4gICAgICAgICAgKi8KPiA+ICAgICAgICAgdGhyZXNob2xkID0gd2lkdGggKiBoZWlnaHQgKiB2
-cmVmcmVzaCAqIDQgKiA3IC8gMTAwMDAwMDsKPiA+ICAgICAgICAgcmVnID0gUkRNQV9GSUZPX1VO
-REVSRkxPV19FTiB8Cj4gPiAtICAgICAgICAgICAgIFJETUFfRklGT19QU0VVRE9fU0laRShSRE1B
-X0ZJRk9fU0laRShyZG1hKSkgfAo+ID4gKyAgICAgICAgICAgICBSRE1BX0ZJRk9fUFNFVURPX1NJ
-WkUocmRtYV9maWZvX3NpemUpIHwKPiA+ICAgICAgICAgICAgICAgUkRNQV9PVVRQVVRfVkFMSURf
-RklGT19USFJFU0hPTEQodGhyZXNob2xkKTsKPiA+ICAgICAgICAgbXRrX2RkcF93cml0ZShjbWRx
-X3BrdCwgcmVnLCBjb21wLCBESVNQX1JFR19SRE1BX0ZJRk9fQ09OKTsKPiA+ICB9Cj4gPiBAQCAt
-MjkyLDYgKzI5OSwxNiBAQCBzdGF0aWMgaW50IG10a19kaXNwX3JkbWFfcHJvYmUoc3RydWN0IHBs
-YXRmb3JtX2RldmljZSAqcGRldikKPiA+ICAgICAgICAgICAgICAgICByZXR1cm4gY29tcF9pZDsK
-PiA+ICAgICAgICAgfQo+ID4KPiA+ICsgICAgICAgaWYgKG9mX2ZpbmRfcHJvcGVydHkoZGV2LT5v
-Zl9ub2RlLCAibWVkaWF0ZWsscmRtYS1maWZvLXNpemUiLCAmcmV0KSkgewo+ID4gKyAgICAgICAg
-ICAgICAgIHJldCA9IG9mX3Byb3BlcnR5X3JlYWRfdTMyKGRldi0+b2Zfbm9kZSwKPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAibWVkaWF0ZWsscmRtYS1maWZv
-LXNpemUiLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZw
-cml2LT5maWZvX3NpemUpOwo+ID4gKyAgICAgICAgICAgICAgIGlmIChyZXQpIHsKPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCByZG1hIGZpZm8g
-c2l6ZVxuIik7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gKyAg
-ICAgICAgICAgICAgIH0KPiA+ICsgICAgICAgfQo+ID4gKwo+ID4gICAgICAgICByZXQgPSBtdGtf
-ZGRwX2NvbXBfaW5pdChkZXYsIGRldi0+b2Zfbm9kZSwgJnByaXYtPmRkcF9jb21wLCBjb21wX2lk
-LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmbXRrX2Rpc3BfcmRtYV9mdW5j
-cyk7Cj4gPiAgICAgICAgIGlmIChyZXQpIHsKPiA+IC0tCj4gPiAxLjguMS4xLmRpcnR5Cj4gPiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gTGludXgt
-bWVkaWF0ZWsgbWFpbGluZyBsaXN0Cj4gPiBMaW51eC1tZWRpYXRla0BsaXN0cy5pbmZyYWRlYWQu
-b3JnCj4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LW1lZGlhdGVrCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hey Dave,
+
+As requested, here's a tree with the non-Ampere-specific fixes split
+out, as most of them are potentially relevant to already-supported
+GPUs.
+
+I'll send another pull request with bare-bones GA102/GA104 support shortly.
+
+Ben.
+
+The following changes since commit 7c53f6b671f4aba70ff15e1b05148b10d58c2837:
+
+  Linux 5.11-rc3 (2021-01-10 14:34:50 -0800)
+
+are available in the Git repository at:
+
+  git://github.com/skeggsb/linux 04.00-ampere-lite-fixes
+
+for you to fetch changes up to caeb6ab899c3d36a74cda6e299c6e1c9c4e2a22e:
+
+  drm/nouveau/kms/nv50-: fix case where notifier buffer is at offset 0
+(2021-01-15 10:25:17 +1000)
+
+----------------------------------------------------------------
+Ben Skeggs (7):
+      drm/nouveau/bios: fix issue shadowing expansion ROMs
+      drm/nouveau/privring: ack interrupts the same way as RM
+      drm/nouveau/i2c/gk110: split out from i2c/gk104
+      drm/nouveau/i2c/gk110-: disable hw-initiated dpcd reads
+      drm/nouveau/i2c/gm200: increase width of aux semaphore owner fields
+      drm/nouveau/mmu: fix vram heap sizing
+      drm/nouveau/kms/nv50-: fix case where notifier buffer is at offset 0
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |  4 ++--
+ drivers/gpu/drm/nouveau/dispnv50/disp.h            |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c        |  2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/i2c.h  |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  | 12 +++++------
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c  |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/Kbuild     |  1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.h      |  7 +++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c   | 10 +++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c | 17 ++++++++++------
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/gk110.c    | 45
+++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/gm200.c    |  7 +++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/pad.h      |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/priv.h     |  4 ++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/ibus/gf100.c   | 10 +++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/ibus/gk104.c   | 10 +++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/base.c     |  6 +++---
+ 17 files changed, 112 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/i2c/gk110.c
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
