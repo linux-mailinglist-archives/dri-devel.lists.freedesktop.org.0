@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12482F8CEF
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251DC2F8CEB
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDBD6E5B9;
-	Sat, 16 Jan 2021 10:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5756E581;
+	Sat, 16 Jan 2021 10:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1392B8996F;
- Fri, 15 Jan 2021 16:23:56 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id md11so5346238pjb.0;
- Fri, 15 Jan 2021 08:23:56 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2036E453;
+ Fri, 15 Jan 2021 17:03:43 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id n7so6398608pgg.2;
+ Fri, 15 Jan 2021 09:03:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:autocrypt:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=0bWLsMzRrkvBTIGz2qcs1q3qe/AihEtVALbGuZhphZQ=;
- b=Uahn2aILaF+kfuhg1e3jaEezXEZxAqy3IQJHTMJcv+dpWdO3H6ZkZgkgpAdDGEps53
- w4b2SUnUVeRhxgDVYCqAEPNyFxJnzylyw4dLV2Rlg/3+eVDsCts6Mkjh6sK58ogR7zVm
- DUstZa/eUdtYgFnC2Td9n+Ao1fghTX6QAOdP3vU6bHZ/OlpfcrssEIAcg1BWq8jc4pei
- ZYZHRlqgzCZPk2+fo79v7QAMH7zdAd1aqHImuUh8QhadV3nxiofgLTfUK7IKhEey4B+9
- 5SsKrUjwIqp030tmTEHn4mYnMPoFeVRmccu8tEOmBoshRHe6w5Wah67QOQZFs782qSt7
- 9a9A==
+ h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Wfr2hsEJctqK8mul39f6mhfwx/+dC9UWOsd11iMX7PQ=;
+ b=NQoLnD0D3gPRmzjHel0yTn3+F+0LDJ1YHgxNIqY5giQ0dCu51GPzuDdk/iWtmheIVq
+ tAYE6GTvXcJY7nbMyFoJJ8c7hKG+989Aie8BJOnYZ3UVlzvuUKM0CewGq7Psw5L3TNBi
+ D7UBCwUxVoN0+d4IdLFi2QjmpdiVTcShRPXuTNuiiYnyq4P1Mh7rTTIL6ZMNbdfHzmbJ
+ HWbJl9L/CzeqpC2LguxdPD5tNpFaJO0RqhNnx3o8lPDbs4YG9NnkWn674tauCb0TRA03
+ BJsqHx/3islh9gQtNpHaAffJ5kn5eCdeQqnk+C0yTugC5uZXINvC6/6MviBWlGp60Z2G
+ o8rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:autocrypt:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=0bWLsMzRrkvBTIGz2qcs1q3qe/AihEtVALbGuZhphZQ=;
- b=bXYDO6CKBaWHZEQgdMb5EIXiWzzYPBqKNGoFSHgPKBBoHZ+f5bH7Ge7V1zTSu4qVG+
- kSApissxZQCkbQvD8MtkpR79EiSzRQYxtlpzfbBZIBPjkXWfRnwSKUbtk6VcHzAnATU+
- EVt5PQRC0c0MlfteOcQzMk9H9PgPyL0wSKzOTBB6yVVvKtd/2+RqQaQ3c8bt0S7DCDV6
- rHGSeW4v5AZ7w0xK6MklnpHdBMvpAK4s+zE8avTwRZlOfjBcD1J1R7TrRabtPBfNVAmj
- cuOpSuJDvubID0t3guSO8iiYigvB2gxcGXe26QhKxIq6B+pLhYJdNn7WFYX4JDxVBHKz
- 1F2A==
-X-Gm-Message-State: AOAM5335JevB5juSoXNWOf6hznFB8Za+n5Nj2vPz42C0yuaLYY6ryYsm
- t2AMeFZvrb0yukXiSCxCRqA=
-X-Google-Smtp-Source: ABdhPJyR9jUdD0f5T0RcVxpMXHdIVprpMgj01Ne22eCwIcE74dzujRUMYWw3xAL6AuuQbgVPi/7NsQ==
-X-Received: by 2002:a17:902:8b8b:b029:de:3a7f:299d with SMTP id
- ay11-20020a1709028b8bb02900de3a7f299dmr11839024plb.16.1610727835637; 
- Fri, 15 Jan 2021 08:23:55 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Wfr2hsEJctqK8mul39f6mhfwx/+dC9UWOsd11iMX7PQ=;
+ b=AhR5YE6WBbKoGRaqCFvoBm0X0zcttidkkOscDu1VnL8OfBxLReTLz7ILBiWQecGQNz
+ Z4+4JfYrqBK4JbXTooAP9mYpEwoEu62bMH8xetZocF/tZ/6U9Kj0RdKiVH/9QfZ5xh4v
+ pH9YjRPsCMedU6yvZ39O1k8tXD5NBK+pDKRgPbUoxZXJ7zQ0T/rykcJSNUHelRgjAX1k
+ wWn787yNFLVCaxGFxGlBUgFTbu3+3Pxo/iaHQZ/RL+Ao2eZ8gxFqqQ7Rivzz9MMkdckH
+ X4YveLNl+7fTJ3iKyl/pc7+Hj5IioWHWz8wRK+bU3/MvbF67tIBv55HgW0egTxxw2L5r
+ HdgA==
+X-Gm-Message-State: AOAM531Mba6Nbc5V/R/Su1DqvBNFI1+kd3qyQeg6I5ItzDjM08UBzy03
+ I1FjV9asbZ6nnQWhJOod0JM=
+X-Google-Smtp-Source: ABdhPJx2E6JOcWg6s4qIJE5id+oMBPh0pfErK2+ylbinqmM95QcFU/0vzhyTgXbDzDZZzGU+FJBwVw==
+X-Received: by 2002:a63:1152:: with SMTP id 18mr13651121pgr.268.1610730222966; 
+ Fri, 15 Jan 2021 09:03:42 -0800 (PST)
 Received: from [127.0.0.1] ([14.33.99.107])
- by smtp.gmail.com with ESMTPSA id x1sm8521064pfc.112.2021.01.15.08.23.50
+ by smtp.gmail.com with ESMTPSA id g6sm9064528pjj.48.2021.01.15.09.03.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jan 2021 08:23:54 -0800 (PST)
+ Fri, 15 Jan 2021 09:03:42 -0800 (PST)
+Subject: Re: [PATCH] drm/i915/userptr: detect un-GUP-able pages early
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= <marmarek@invisiblethingslab.com>
+References: <c742707e-eb6d-6a22-3006-52dc3bf458d8@gmail.com>
+ <161072980241.18103.11713889922046524226@build.alporthouse.com>
 From: Jinoh Kang <jinoh.kang.kr@gmail.com>
-Subject: [PATCH] drm/i915/userptr: detect un-GUP-able pages early
-To: =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
- <marmarek@invisiblethingslab.com>
 Autocrypt: addr=jinoh.kang.kr@gmail.com; keydata=
  xsFNBF/Q7MUBEADVIU6g5ui3gcTQV9jbneUb6xdUQJtEDOWG6pThD+nKAwQFYtZpCUSWgGVg
  osMQTyZu7HpEMvxoYNmO+1ZHtARugq2tl6BH11vEJgTsoF8IFrgyXNlinS+Kq6I8s6py96Pl
@@ -104,10 +106,11 @@ Autocrypt: addr=jinoh.kang.kr@gmail.com; keydata=
  tvgog5utx5uRL5mZPJmMTVD1t/FKGaIR1PpGy4e0g15Y9EkpFEYBYZl3ttXQM456ZqifB/Wb
  pgaToX5LrY7TCHQe9skAN/RsppjrL8HCxF0rz6/LKnUCPC71/dfBIrIigYeBdK9UkNXAq/5c
  Nv8WeK9sQ0q6RmWqnT1HwyCBsVRR18k6XBM=
-Message-ID: <c742707e-eb6d-6a22-3006-52dc3bf458d8@gmail.com>
-Date: Fri, 15 Jan 2021 16:23:31 +0000
+Message-ID: <1277b18e-9a19-fd0c-41fc-4923bcd772fd@gmail.com>
+Date: Fri, 15 Jan 2021 17:03:18 +0000
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
 MIME-Version: 1.0
+In-Reply-To: <161072980241.18103.11713889922046524226@build.alporthouse.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,90 +127,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgR1VQLWluZWxpZ2libGUgcGFnZXMgYXJlIHBhc3NlZCB0byBhIEdFTSB1c2VycHRyIG9iamVj
-dCwgLUVGQVVMVCBpcwpyZXR1cm5lZCBvbmx5IHdoZW4gdGhlIG9iamVjdCBpcyBhY3R1YWxseSBi
-b3VuZC4KClRoZSB4Zjg2LXZpZGVvLWludGVsIHVzZXJzcGFjZSBkcml2ZXIgY2Fubm90IGRpZmZl
-cmVudGlhdGUgdGhpcwpjb25kaXRpb24sIGFuZCBtYXJrcyB0aGUgR1BVIGFzIHdlZGdlZC4gIFRo
-aXMgbm90IG9ubHkgZGlzYWJsZXMgZ3JhcGhpY3MKYWNjZWxlcmF0aW9uIGJ1dCBtYXkgYWxzbyBj
-cmlwcGxlIG90aGVyIGZ1bmN0aW9ucyBzdWNoIGFzIFZUIHN3aXRjaC4KClNvbHZlIHRoaXMgYnkg
-InByZWZhdWx0aW5nIiB1c2VyIHBhZ2VzIG9uIEdFTSBvYmplY3QgY3JlYXRpb24sIHRlc3RpbmcK
-d2hldGhlciBhbGwgcGFnZXMgYXJlIGVsaWdpYmxlIGZvciBnZXRfdXNlcl9wYWdlcygpIGluIHRo
-ZSBwcm9jZXNzLgpPbiBmYWlsdXJlLCByZXR1cm4gLUVGQVVMVCBzbyB0aGF0IHVzZXJzcGFjZSBj
-YW4gZmFsbGJhY2sgdG8gc29mdHdhcmUKYmxpdHRpbmcuCgpUaGlzIGJlaGF2aW9yIGNhbiBiZSBl
-bmFibGVkIHZpYSBhIG5ldyBtb2RwYXJhbSAiZ2VtX3VzZXJwdHJfcHJlZmF1bHQiLAp3aGljaCBp
-cyBmYWxzZSBieSBkZWZhdWx0LgoKS25vd24gdXNlIGNhc2VzOgoKLSBBcyBhIGRlYnVnZ2luZyBh
-aWQsIGludmFsaWQgcG9pbnRlcnMgYW5kL29yIHdyb25nIHBhZ2VzIHBhc3NlZCB0bwogIHVzZXJw
-dHIgY291bGQgYmUgY2F1Z2h0IG11Y2ggZWFybGllci4KLSBRdWJlcyBPUyBSNC4wIHVzZXMgVk1f
-UEZOTUFQIHBhZ2VzIGZyb20gZHJpdmVycy94ZW4vcHJpdmNtZC5jLCBpbgogIG9yZGVyIHRvIG1h
-cCBmcmFtZWJ1ZmZlcnMgZnJvbSBYZW4gZ3Vlc3QgdG8gZG9tMC4gIFRoZXNlIHBhZ2VzIGFyZSBu
-b3QKICBHVVAtYWJsZSwgYnV0IHRoZXkgY2Fubm90IGJlIGV4cG9zZWQgdmlhIERNQS1CVUYgZWl0
-aGVyLiAgUHJldmlvdXNseQogIHRoaXMgaXNzdWUgaGFkIGdvbmUgc29tZWhvdyB1bmRldGVjdGVk
-LCB1bnRpbCBzb21lIHBhdGNoIGJldHdlZW4KICB2NC4xNCBhbmQgdjQuMTkgdHJpZ2dlcmVkIGl0
-LgoKU2lnbmVkLW9mZi1ieTogSmlub2ggS2FuZyA8amlub2gua2FuZy5rckBnbWFpbC5jb20+CkNj
-OiBNYXJlayBNYXJjenlrb3dza2ktR8OzcmVja2kgPG1hcm1hcmVrQGludmlzaWJsZXRoaW5nc2xh
-Yi5jb20+CkNjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tPgpDYzog
-Sm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5AbGludXguaW50ZWwuY29tPgpDYzogUm9k
-cmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgpDYzogRGF2aWQgQWlybGllIDxhaXJs
-aWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogQ2hy
-aXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+CkNjOiBNYXR0aGV3IEF1bGQgPG1h
-dHRoZXcuYXVsZEBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVf
-Z2VtX3VzZXJwdHIuYyB8IDM1ICsrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJt
-L2k5MTUvaTkxNV9wYXJhbXMuYyAgICAgICAgICB8ICAzICsrCiBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X3BhcmFtcy5oICAgICAgICAgIHwgIDEgKwogMyBmaWxlcyBjaGFuZ2VkLCAzOSBpbnNl
-cnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X3VzZXJwdHIuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV91c2VycHRyLmMK
-aW5kZXggZjJlYWVkNmFjYTNkLi41ZDY1M2RmMmY3NTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2dlbS9pOTE1X2dlbV91c2VycHRyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZ2VtL2k5MTVfZ2VtX3VzZXJwdHIuYwpAQCAtNzEyLDYgKzcxMiwzMyBAQCBzdGF0aWMgY29u
-c3Qgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3Rfb3BzIGk5MTVfZ2VtX3VzZXJwdHJfb3BzID0g
-ewogCS5yZWxlYXNlID0gaTkxNV9nZW1fdXNlcnB0cl9yZWxlYXNlLAogfTsKIAorc3RhdGljIGlu
-dCBpOTE1X2dlbV91c2VycHRyX3ByZWZhdWx0KHVuc2lnbmVkIGxvbmcgc3RhcnQsCisJCQkJICAg
-ICB1bnNpZ25lZCBsb25nIG5yX3BhZ2VzLAorCQkJCSAgICAgYm9vbCByZWFkb25seSkKK3sKKwl1
-bnNpZ25lZCBpbnQgZ3VwX2ZsYWdzID0gKHJlYWRvbmx5ID8gMCA6IEZPTExfV1JJVEUpIHwgRk9M
-TF9OT1dBSVQ7CisJaW50IGVyciA9IDA7CisKKwltbWFwX3JlYWRfbG9jayhjdXJyZW50LT5tbSk7
-CisJd2hpbGUgKG5yX3BhZ2VzKSB7CisJCWxvbmcgcmV0OworCisJCXJldCA9IGdldF91c2VyX3Bh
-Z2VzKHN0YXJ0LCBucl9wYWdlcywgZ3VwX2ZsYWdzLCBOVUxMLCBOVUxMKTsKKwkJaWYgKHJldCA8
-IDApIHsKKwkJCWVyciA9IChpbnQpcmV0OworCQkJYnJlYWs7CisJCX0KKwkJaWYgKHJldCA9PSAw
-KQorCQkJcmV0ID0gMTsgIC8qIHNraXAgdGhpcyBwYWdlICovCisKKwkJc3RhcnQgKz0gcmV0IDw8
-IFBBR0VfU0hJRlQ7CisJCW5yX3BhZ2VzIC09IHJldDsKKwl9CisJbW1hcF9yZWFkX3VubG9jayhj
-dXJyZW50LT5tbSk7CisKKwlyZXR1cm4gZXJyOworfQorCiAvKgogICogQ3JlYXRlcyBhIG5ldyBt
-bSBvYmplY3QgdGhhdCB3cmFwcyBzb21lIG5vcm1hbCBtZW1vcnkgZnJvbSB0aGUgcHJvY2Vzcwog
-ICogY29udGV4dCAtIHVzZXIgbWVtb3J5LgpAQCAtNzk2LDYgKzgyMywxNCBAQCBpOTE1X2dlbV91
-c2VycHRyX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJaWYgKCFhY2Nlc3Nfb2soKGNo
-YXIgX191c2VyICopKHVuc2lnbmVkIGxvbmcpYXJncy0+dXNlcl9wdHIsIGFyZ3MtPnVzZXJfc2l6
-ZSkpCiAJCXJldHVybiAtRUZBVUxUOwogCisJaWYgKGk5MTVfbW9kcGFyYW1zLmdlbV91c2VycHRy
-X3ByZWZhdWx0KSB7CisJCXJldCA9IGk5MTVfZ2VtX3VzZXJwdHJfcHJlZmF1bHQoKHVuc2lnbmVk
-IGxvbmcpYXJncy0+dXNlcl9wdHIsCisJCQkJCQlhcmdzLT51c2VyX3NpemUgPj4gUEFHRV9TSElG
-VCwKKwkJCQkJCWFyZ3MtPmZsYWdzICYgSTkxNV9VU0VSUFRSX1JFQURfT05MWSk7CisJCWlmIChy
-ZXQpCisJCQlyZXR1cm4gcmV0OworCX0KKwogCWlmIChhcmdzLT5mbGFncyAmIEk5MTVfVVNFUlBU
-Ul9SRUFEX09OTFkpIHsKIAkJLyoKIAkJICogT24gYWxtb3N0IGFsbCBvZiB0aGUgb2xkZXIgaHcs
-IHdlIGNhbm5vdCB0ZWxsIHRoZSBHUFUgdGhhdApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2k5MTUvaTkxNV9wYXJhbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcGFyYW1zLmMK
-aW5kZXggN2YxMzllYTRhOTBiLi5iNWUwYTg4YzA1OWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfcGFyYW1zLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9w
-YXJhbXMuYwpAQCAtMTk3LDYgKzE5Nyw5IEBAIGk5MTVfcGFyYW1fbmFtZWRfdW5zYWZlKGZha2Vf
-bG1lbV9zdGFydCwgdWxvbmcsIDA0MDAsCiAJIkZha2UgTE1FTSBzdGFydCBvZmZzZXQgKGRlZmF1
-bHQ6IDApIik7CiAjZW5kaWYKIAoraTkxNV9wYXJhbV9uYW1lZChnZW1fdXNlcnB0cl9wcmVmYXVs
-dCwgYm9vbCwgMDYwMCwKKwkiUHJlZmF1bHQgcGFnZXMgd2hlbiB1c2VycHRyIEdFTSBvYmplY3Qg
-aXMgY3JlYXRlZCAoZGVmYXVsdDogZmFsc2UpIik7CisKIHN0YXRpYyBfX2Fsd2F5c19pbmxpbmUg
-dm9pZCBfcHJpbnRfcGFyYW0oc3RydWN0IGRybV9wcmludGVyICpwLAogCQkJCQkgY29uc3QgY2hh
-ciAqbmFtZSwKIAkJCQkJIGNvbnN0IGNoYXIgKnR5cGUsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9pOTE1X3BhcmFtcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wYXJh
-bXMuaAppbmRleCAzMzBjMDNlMmI0ZjcuLjMyM2Y2MDI5OGIwNSAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9wYXJhbXMuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X3BhcmFtcy5oCkBAIC03OSw2ICs3OSw3IEBAIHN0cnVjdCBkcm1fcHJpbnRlcjsKIAlwYXJh
-bShib29sLCBkaXNhYmxlX2Rpc3BsYXksIGZhbHNlLCAwNDAwKSBcCiAJcGFyYW0oYm9vbCwgdmVy
-Ym9zZV9zdGF0ZV9jaGVja3MsIHRydWUsIDApIFwKIAlwYXJhbShib29sLCBudWNsZWFyX3BhZ2Vm
-bGlwLCBmYWxzZSwgMDQwMCkgXAorCXBhcmFtKGJvb2wsIGdlbV91c2VycHRyX3ByZWZhdWx0LCBm
-YWxzZSwgMDYwMCkgXAogCXBhcmFtKGJvb2wsIGVuYWJsZV9kcF9tc3QsIHRydWUsIDA2MDApIFwK
-IAlwYXJhbShib29sLCBlbmFibGVfZ3Z0LCBmYWxzZSwgMDQwMCkKIAotLSAKMi4yNi4yCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 1/15/21 4:56 PM, Chris Wilson wrote:
+> Quoting Jinoh Kang (2021-01-15 16:23:31)
+>> If GUP-ineligible pages are passed to a GEM userptr object, -EFAULT is
+>> returned only when the object is actually bound.
+>>
+>> The xf86-video-intel userspace driver cannot differentiate this
+>> condition, and marks the GPU as wedged.
+> 
+> The idea was to call gem_set_domain on the object to validate the pages
+> after creation. I only did that for read-only... I did however make mesa
+> use set-domain for validation.
+
+Thanks for the info!
+
+> 
+> As a question how are you getting to call userptr on something that
+> wasn't passed by SHM ipc?
+
+Basically XShmAttachFd, which is not exposed on libX11.
+
+> 
+>> This not only disables graphics
+>> acceleration but may also cripple other functions such as VT switch.
+> 
+> That should be a non-sequitur; certainly VT switch works without ever
+> using the GPU.
+
+Not that VT switch doesn't work; rather, there's some heavy graphic
+artifacts such as blank rectangles or part of window going completely
+transparent.  I suppose that's another issue.
+
+> 
+>> Solve this by "prefaulting" user pages on GEM object creation, testing
+>> whether all pages are eligible for get_user_pages() in the process.
+>> On failure, return -EFAULT so that userspace can fallback to software
+>> blitting.
+> 
+> See https://patchwork.freedesktop.org/series/33449/ for adding PROBE |
+> POPULATE flags.
+> 
+> But we can just use set-domain.
+
+So this patch was unnecessary.  Thanks for the pointer as to how to
+patch the userspace.
+
+> -Chris
+> 
+
+-- 
+Sincerely,
+Jinoh Kang
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
