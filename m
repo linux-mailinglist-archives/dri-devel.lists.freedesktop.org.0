@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211FB2F8CFC
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD362F8CFD
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE1986E5BE;
-	Sat, 16 Jan 2021 10:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2046E593;
+	Sat, 16 Jan 2021 10:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B356E450
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 14:59:10 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id x5so8749695otp.9
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 06:59:10 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A44B6E103
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 15:38:15 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id p13so10873523ljg.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 07:38:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BgP0/6eUZBd02FT4Yca7Ri+xdr/2QbRxZxHfgskufLU=;
- b=RIbhpeGpWe759rgFYc+tr07bnXRAiFhqtWEfQ0U9aKt+UKqZdiiP5V0I0c4wySr6+n
- d2R6rcawvn2giKZxoRnFhURFvXZfwN9xtfgm1WBhQxc8Bezx11/UmnckQwmPYUiqhY8d
- AJu2c+sXoeQGbcLtBNMINVrWN6fiF/m7tWpYrIodNCd44CnSb1aXARbJOjpjiJKnrTdG
- OA70uX3y0ak73kkz3LXBiRYEKY2Nim3ONjGlrLs+RUrrpnuS2nOm87BXpcgE/oHmTWCA
- 1mH/bBhPfNy5c9cojup9ln5wKQIvNsasAbDUee7EKH/e6dOZFixvYzFzhMnuIHu3JArg
- Aa5g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=np7NzB7wfkcACJ1os8We+O07848Y4P70nqUkbzUTgDs=;
+ b=t00qaEi6lOd+IuwTn4lfivRZr2r6bww6gD0Fm5i2hXcqCPplsPZ/VChC5bjVS6yZIE
+ lTofLit9IGQ6aqUuc5rzmtBdptqWyLQaidbIri6PsfD46QhzRIQWga+nhIjYGQPiTh1M
+ PiQ1TleNTRqcaEo00y/Ko1IiZ1m5DZHMeTBjbCVw5oR/vUUzOk3XJmD+fqcZG6m8aztb
+ 6L0eETnrAVTBClTZy1fWMIt4NkheZJxayLY/lJPv+6mpeFMRzTGr1oAlPtyQcxM2Fk+y
+ /UMv4WdQ/nH5Dhuuki3mYzK4Gh4RGxkr4+kFyTiYce4XtnrM8LPWtR+LWHX9jS4WkQix
+ 5qBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BgP0/6eUZBd02FT4Yca7Ri+xdr/2QbRxZxHfgskufLU=;
- b=IurbguAUYiGRnNU4iYY9xPQAs0mTkuXE/5YT/R1c/tHkp+12pYOuDri3SJrEdXLaJ/
- IKsztg3sjsP/FAZL0tUZ11omA79Ov6SWZYFQCUZMNoM1qpqlxshl7Zo0rEhAspp/s+jm
- PwEYagNrhKW+IOCEytWUP4Z9dEbFjSfhr54P0XJLHkJM6C1c+833d1FXILg+bHlvJNB8
- j+RuKVBHxQF9PDULivOB2LeqvF7lRE0sYfP7ZWzXNFTZZvMmE9ezDM+M1hdYjAxbhHc7
- xh4tYCCjREZZIub/dpqUUREzQPJMM+PZ1CQsc954UsdCUzWLLWIXbKmB/zJvANpZToHm
- 7qtw==
-X-Gm-Message-State: AOAM531KfPyNRSPBD20vqdZa3ZTXv0jahnOfGpyVa/cVpLeahg+FeP8s
- r3anDSM3rRtPn17Sm5F5RXB7XA==
-X-Google-Smtp-Source: ABdhPJyGMhf/hePzRXY2gpEmcb/cM8zoxN5bkOxhQgTyF6SZyoif8C/0rHizikN2InILdX/QDDLx1A==
-X-Received: by 2002:a05:6830:10a:: with SMTP id
- i10mr1753711otp.5.1610722750197; 
- Fri, 15 Jan 2021 06:59:10 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id z38sm1808320ooi.34.2021.01.15.06.59.09
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=np7NzB7wfkcACJ1os8We+O07848Y4P70nqUkbzUTgDs=;
+ b=EDGori+ou9+E8S+UPYFfxPiDom49uqEqJ8j+Q8zH+p70mMi9sCXf1walxsYlToDHs9
+ Cnr/6u+3BIZVetAgsvIeiTWFTLonKDq4NElapt9d6ZVSImxj6vk1RIuu/0kAhirDDc20
+ 5WP3JbIpJl6vJM7bOklVRTkHE/uurDRzFeBBqh+0R7Oaj4GO8APpHeVg2Zy/MaxzKlCW
+ F265i8sid7yKOQn5rRNjejKLr2eGtzTwKXt0SRqvRVGNsWwArhrXgrA0mvCBOlzWX+Ip
+ b+O/IgAsEFluEyX7gXOwSUqexMDP1Gl0E8ZuDgb/v0YrPfXdUXhLbk1A7SmdFuiGHiBr
+ l/oQ==
+X-Gm-Message-State: AOAM533E3ziCjkb0XXj9ikNJoEmNqN+gTG3tBJg/h+4mmYCxFXEylCKE
+ 2GsOo5Bxzpfib3d44UFfQ3ODag==
+X-Google-Smtp-Source: ABdhPJybYqbIGH4asZebBm2bhf5RYRavuBbAwqINxy5qSLno5lRFaX3rIb5PnosZFI/0i0qdmj9yhg==
+X-Received: by 2002:a2e:9988:: with SMTP id w8mr5257201lji.107.1610725093780; 
+ Fri, 15 Jan 2021 07:38:13 -0800 (PST)
+Received: from eriador.lumag.spb.ru ([188.162.64.106])
+ by smtp.gmail.com with ESMTPSA id s16sm838281ljj.34.2021.01.15.07.38.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 06:59:09 -0800 (PST)
-Date: Fri, 15 Jan 2021 08:59:07 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 2/3] drm/bridge/lontium-lt9611uxc: fix get_edid return
- code
-Message-ID: <YAGtu9GYuphys1GF@builder.lan>
-References: <20210115110225.127075-1-dmitry.baryshkov@linaro.org>
- <20210115110225.127075-3-dmitry.baryshkov@linaro.org>
+ Fri, 15 Jan 2021 07:38:13 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>
+Subject: [PATCH] drm/msm/dpu1: add support for qseed3lite used on sm8250
+Date: Fri, 15 Jan 2021 18:38:11 +0300
+Message-Id: <20210115153811.401996-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210115110225.127075-3-dmitry.baryshkov@linaro.org>
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,53 +66,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 15 Jan 05:02 CST 2021, Dmitry Baryshkov wrote:
+SM8250 has quite unique qseed lut type: qseed3lite, which is a
+lightweight version of qseed3 scaler.
 
-> Return NULL pointer from get_edid() callback rather than ERR_PTR()
-> pointer, as DRM code does NULL checks rather than IS_ERR(). Also while
-> we are at it, return NULL if getting EDID timed out.
-> 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 38 +++++++++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   | 73 ++++++++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |  3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  1 +
+ 7 files changed, 112 insertions(+), 7 deletions(-)
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 90393fe9e59c..93c6184903b6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -21,6 +21,9 @@
+ #define VIG_SC7180_MASK \
+ 	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED4))
+ 
++#define VIG_SM8250_MASK \
++	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3LITE))
++
+ #define DMA_SDM845_MASK \
+ 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+ 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+@@ -185,7 +188,7 @@ static const struct dpu_caps sm8150_dpu_caps = {
+ static const struct dpu_caps sm8250_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+-	.qseed_type = DPU_SSPP_SCALER_QSEED3, /* TODO: qseed3 lite */
++	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
+ 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+ 	.ubwc_version = DPU_HW_UBWC_VER_40,
+ 	.has_src_split = true,
+@@ -444,6 +447,34 @@ static const struct dpu_sspp_cfg sc7180_sspp[] = {
+ 		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
+ };
+ 
++static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
++				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
++				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
++				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
++static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
++				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
++
++static const struct dpu_sspp_cfg sm8250_sspp[] = {
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
++		sm8250_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
++		sm8250_vig_sblk_1, 4,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
++		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
++		sm8250_vig_sblk_3, 12,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_SDM845_MASK,
++		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_SDM845_MASK,
++		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
++	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_SDM845_MASK,
++		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
++};
++
+ /*************************************************************
+  * MIXER sub blocks config
+  *************************************************************/
+@@ -969,9 +1000,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+ 		.mdp = sm8250_mdp,
+ 		.ctl_count = ARRAY_SIZE(sm8150_ctl),
+ 		.ctl = sm8150_ctl,
+-		/* TODO: sspp qseed version differs from 845 */
+-		.sspp_count = ARRAY_SIZE(sdm845_sspp),
+-		.sspp = sdm845_sspp,
++		.sspp_count = ARRAY_SIZE(sm8250_sspp),
++		.sspp = sm8250_sspp,
+ 		.mixer_count = ARRAY_SIZE(sm8150_lm),
+ 		.mixer = sm8150_lm,
+ 		.dspp_count = ARRAY_SIZE(sm8150_dspp),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index eaef99db2d2f..ea4647d21a20 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -95,6 +95,7 @@ enum {
+  * @DPU_SSPP_SRC             Src and fetch part of the pipes,
+  * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
+  * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
++ * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
+  * @DPU_SSPP_SCALER_QSEED4,  QSEED4 algorithm support
+  * @DPU_SSPP_SCALER_RGB,     RGB Scaler, supported by RGB pipes
+  * @DPU_SSPP_CSC,            Support of Color space converion
+@@ -114,6 +115,7 @@ enum {
+ 	DPU_SSPP_SRC = 0x1,
+ 	DPU_SSPP_SCALER_QSEED2,
+ 	DPU_SSPP_SCALER_QSEED3,
++	DPU_SSPP_SCALER_QSEED3LITE,
+ 	DPU_SSPP_SCALER_QSEED4,
+ 	DPU_SSPP_SCALER_RGB,
+ 	DPU_SSPP_CSC,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 2c2ca5335aa8..34d81aa16041 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -673,6 +673,7 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+ 		c->ops.setup_multirect = dpu_hw_sspp_setup_multirect;
+ 
+ 	if (test_bit(DPU_SSPP_SCALER_QSEED3, &features) ||
++			test_bit(DPU_SSPP_SCALER_QSEED3LITE, &features) ||
+ 			test_bit(DPU_SSPP_SCALER_QSEED4, &features)) {
+ 		c->ops.setup_scaler = _dpu_hw_sspp_setup_scaler3;
+ 		c->ops.get_scaler_ver = _dpu_hw_sspp_get_scaler3_ver;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index 85b018a9b03c..fdfd4b46e2c6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -28,6 +28,7 @@ struct dpu_hw_pipe;
+ #define DPU_SSPP_SCALER ((1UL << DPU_SSPP_SCALER_RGB) | \
+ 	(1UL << DPU_SSPP_SCALER_QSEED2) | \
+ 	 (1UL << DPU_SSPP_SCALER_QSEED3) | \
++	 (1UL << DPU_SSPP_SCALER_QSEED3LITE) | \
+ 	  (1UL << DPU_SSPP_SCALER_QSEED4))
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+index 84e9875994a8..f94584c982cd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+@@ -59,6 +59,19 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
+ #define QSEED3_SEP_LUT_SIZE \
+ 	(QSEED3_LUT_SIZE * QSEED3_SEPARABLE_LUTS * sizeof(u32))
+ 
++/* DPU_SCALER_QSEED3LITE */
++#define QSEED3LITE_COEF_LUT_Y_SEP_BIT         4
++#define QSEED3LITE_COEF_LUT_UV_SEP_BIT        5
++#define QSEED3LITE_COEF_LUT_CTRL              0x4C
++#define QSEED3LITE_COEF_LUT_SWAP_BIT          0
++#define QSEED3LITE_DIR_FILTER_WEIGHT          0x60
++#define QSEED3LITE_FILTERS                 2
++#define QSEED3LITE_SEPARABLE_LUTS             10
++#define QSEED3LITE_LUT_SIZE                   33
++#define QSEED3LITE_SEP_LUT_SIZE \
++	        (QSEED3LITE_LUT_SIZE * QSEED3LITE_SEPARABLE_LUTS * sizeof(u32))
++
++
+ void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
+ 		u32 reg_off,
+ 		u32 val,
+@@ -156,6 +169,57 @@ static void _dpu_hw_setup_scaler3_lut(struct dpu_hw_blk_reg_map *c,
+ 
+ }
+ 
++static void _dpu_hw_setup_scaler3lite_lut(struct dpu_hw_blk_reg_map *c,
++		struct dpu_hw_scaler3_cfg *scaler3_cfg, u32 offset)
++{
++	int j, filter;
++	int config_lut = 0x0;
++	unsigned long lut_flags;
++	u32 lut_addr, lut_offset;
++	u32 *lut[QSEED3LITE_FILTERS] = {NULL, NULL};
++	static const uint32_t off_tbl[QSEED3_FILTERS] = { 0x000, 0x200 };
++
++	DPU_REG_WRITE(c, QSEED3LITE_DIR_FILTER_WEIGHT + offset, scaler3_cfg->dir_weight);
++
++	if (!scaler3_cfg->sep_lut)
++		return;
++
++	lut_flags = (unsigned long) scaler3_cfg->lut_flag;
++	if (test_bit(QSEED3_COEF_LUT_Y_SEP_BIT, &lut_flags) &&
++		(scaler3_cfg->y_rgb_sep_lut_idx < QSEED3LITE_SEPARABLE_LUTS) &&
++		(scaler3_cfg->sep_len == QSEED3LITE_SEP_LUT_SIZE)) {
++		lut[0] = scaler3_cfg->sep_lut +
++			scaler3_cfg->y_rgb_sep_lut_idx * QSEED3LITE_LUT_SIZE;
++		config_lut = 1;
++	}
++	if (test_bit(QSEED3_COEF_LUT_UV_SEP_BIT, &lut_flags) &&
++		(scaler3_cfg->uv_sep_lut_idx < QSEED3LITE_SEPARABLE_LUTS) &&
++		(scaler3_cfg->sep_len == QSEED3LITE_SEP_LUT_SIZE)) {
++		lut[1] = scaler3_cfg->sep_lut +
++			scaler3_cfg->uv_sep_lut_idx * QSEED3LITE_LUT_SIZE;
++		config_lut = 1;
++	}
++
++	if (config_lut) {
++		for (filter = 0; filter < QSEED3LITE_FILTERS; filter++) {
++			if (!lut[filter])
++				continue;
++			lut_offset = 0;
++			lut_addr = QSEED3_COEF_LUT + offset + off_tbl[filter];
++			for (j = 0; j < QSEED3LITE_LUT_SIZE; j++) {
++				DPU_REG_WRITE(c,
++					lut_addr,
++					(lut[filter])[lut_offset++]);
++				lut_addr += 4;
++			}
++		}
++	}
++
++	if (test_bit(QSEED3_COEF_LUT_SWAP_BIT, &lut_flags))
++		DPU_REG_WRITE(c, QSEED3_COEF_LUT_CTRL + offset, BIT(0));
++
++}
++
+ static void _dpu_hw_setup_scaler3_de(struct dpu_hw_blk_reg_map *c,
+ 		struct dpu_hw_scaler3_de_cfg *de_cfg, u32 offset)
+ {
+@@ -242,9 +306,12 @@ void dpu_hw_setup_scaler3(struct dpu_hw_blk_reg_map *c,
+ 		op_mode |= BIT(8);
+ 	}
+ 
+-	if (scaler3_cfg->lut_flag)
+-		_dpu_hw_setup_scaler3_lut(c, scaler3_cfg,
+-								scaler_offset);
++	if (scaler3_cfg->lut_flag) {
++		if (scaler_version < 0x2004)
++			_dpu_hw_setup_scaler3_lut(c, scaler3_cfg, scaler_offset);
++		else
++			_dpu_hw_setup_scaler3lite_lut(c, scaler3_cfg, scaler_offset);
++	}
+ 
+ 	if (scaler_version == 0x1002) {
+ 		phase_init =
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+index 234eb7d65753..ff3cffde84cd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+@@ -97,6 +97,7 @@ struct dpu_hw_scaler3_de_cfg {
+  * @ cir_lut:      pointer to circular filter LUT
+  * @ sep_lut:      pointer to separable filter LUT
+  * @ de: detail enhancer configuration
++ * @ dir_weight:   Directional weight
+  */
+ struct dpu_hw_scaler3_cfg {
+ 	u32 enable;
+@@ -137,6 +138,8 @@ struct dpu_hw_scaler3_cfg {
+ 	 * Detail enhancer settings
+ 	 */
+ 	struct dpu_hw_scaler3_de_cfg de;
++
++	u32 dir_weight;
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index bc0231a50132..f898a8f67b7f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -1465,6 +1465,7 @@ static int _dpu_plane_init_debugfs(struct drm_plane *plane)
+ 			pdpu->debugfs_root, &pdpu->debugfs_src);
+ 
+ 	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
++			cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+ 			cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+ 			cfg->features & BIT(DPU_SSPP_SCALER_QSEED4)) {
+ 		dpu_debugfs_setup_regset32(&pdpu->debugfs_scaler,
+-- 
+2.29.2
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index a59e811f1705..b708700e182d 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -505,7 +505,10 @@ static struct edid *lt9611uxc_bridge_get_edid(struct drm_bridge *bridge,
->  	ret = lt9611uxc_wait_for_edid(lt9611uxc);
->  	if (ret < 0) {
->  		dev_err(lt9611uxc->dev, "wait for EDID failed: %d\n", ret);
-> -		return ERR_PTR(ret);
-> +		return NULL;
-> +	} else if (ret == 0) {
-> +		dev_err(lt9611uxc->dev, "wait for EDID timeout\n");
-> +		return NULL;
->  	}
->  
->  	return drm_do_get_edid(connector, lt9611uxc_get_edid_block, lt9611uxc);
-> -- 
-> 2.29.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
