@@ -1,53 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4072F7C7D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 14:25:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0002F7C96
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 14:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E80E6E40A;
-	Fri, 15 Jan 2021 13:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48D906E40D;
+	Fri, 15 Jan 2021 13:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B48E86E40A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 13:25:38 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id l207so9524549oib.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 05:25:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K50fymFwwgAwWgVlH3TJWbeGWCkL0HpABIVSxMeyoEw=;
- b=FSnbPn1FT0MV4DKTU3e0RnAeuAQ71EKPrZA16T/sSAsfo3GKiuLfaq55NHetrbSS2Q
- ScwhL8zlb5AZjCzwi88HxZq994SWUnJ7VoB4ERFTqFKYXhScmGG7skXyNdftcOAgd6EJ
- XuoL+16Ft9LNt6D9Nq4ao3VqsuZB9oM/9iahI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K50fymFwwgAwWgVlH3TJWbeGWCkL0HpABIVSxMeyoEw=;
- b=guZeNf+VoC4okL3KRzTcbSf/aL0lg1mGxm7pdAv0yP5tVxYwT89m+DVyI6LRIZv0z9
- GHpZaQPjV1k27gHxKUB3JlDnSgmz3Sa3K5EJvABvoz39mZhQIKcUaAX7fLbTUVcpLW5s
- xf040YeBBx1dzUsqoiM6UcyXdIpdRi/dQA+1lF5yqoiHM5N6lpQCzlH/LCNB1yAzC+b3
- TvnnsqEHyIiC7bqY87AV7vSjwinjKikKAgtNqrRNh1pMrXJHhnfcbSH0Zym9Q8qT8nLm
- thHStg9f4NrMkvOKFSbDJgOHyMdwF1tlHiIJZOPqJ4yBxQBvW9YAhbqNKpfhwY2hHFyM
- 009g==
-X-Gm-Message-State: AOAM532r3cmiT8cAryQk4Rx+U5cDd2suXhrVyjUgMRS109lYHi/pXgxi
- IpQK1H4Ra4Q16sHvRZoFYfcVRVOuZDD2+Kq9iCV2jA==
-X-Google-Smtp-Source: ABdhPJwor6avZfOwUX7wMIiqwwll30mCqE6YhlyAATBVpzvlaAQZdhw+kHZB7DP7zznKELrpVRJA6xEn+zozujahjVI=
-X-Received: by 2002:aca:54d8:: with SMTP id i207mr5562786oib.101.1610717137891; 
- Fri, 15 Jan 2021 05:25:37 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BB16E40D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Jan 2021 13:27:52 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89D6D527;
+ Fri, 15 Jan 2021 14:27:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1610717270;
+ bh=1e+Cq1tmwETjYMmNBUSatTqVYwWvGeI0xiVYiJsCsDI=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=sqv0D1jsL8LKyJ4mkZVaBSp3v+v0Mmxpf2VDkLzplqCDpBrbwWhvHHSF3C3PoslZj
+ aVEuGaueqNjb9GDGEBTQyo+INSGMzuN7pjZLNCZWXNpqSRg1ehI+lpWypfVDsppxpt
+ fSVS+ePaThzM5WOcLhHOU9LRcv0N+k3h+pDexeso=
+Subject: Re: [PATCH] drm: rcar-du: Use drmm_encoder_alloc() to manage encoder
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210113170253.443820-1-kieran.bingham+renesas@ideasonboard.com>
+ <X/94HaYff+rNR2YD@pendragon.ideasonboard.com>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <62ed8b3b-1bf8-31a7-da9e-012788afbf87@ideasonboard.com>
+Date: Fri, 15 Jan 2021 13:27:47 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201222133524.160842-1-contact@emersion.fr>
- <20201222133524.160842-3-contact@emersion.fr>
- <X+H7qJI6gqPa57tL@phenom.ffwll.local>
- <P9LiAZrbvSONX_tx4jjrn8n_00rDsAQlbxgWNrK1cO9L9BEKYM1y_4qH8Zo3_Oihtj88PVxxS1a38-3AgeHFvD5iJlDuCnVo2ZK6_nPaMs4=@emersion.fr>
-In-Reply-To: <P9LiAZrbvSONX_tx4jjrn8n_00rDsAQlbxgWNrK1cO9L9BEKYM1y_4qH8Zo3_Oihtj88PVxxS1a38-3AgeHFvD5iJlDuCnVo2ZK6_nPaMs4=@emersion.fr>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 15 Jan 2021 14:25:26 +0100
-Message-ID: <CAKMK7uEFwkQ=ruJY9JeYj-MUVxqS_me+pWj3D+iot+9qwN3hMA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] drm/doc: document the type plane property
-To: Simon Ser <contact@emersion.fr>
+In-Reply-To: <X/94HaYff+rNR2YD@pendragon.ideasonboard.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,74 +49,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: David Airlie <airlied@linux.ie>, linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 15, 2021 at 12:06 PM Simon Ser <contact@emersion.fr> wrote:
->
-> On Tuesday, December 22nd, 2020 at 2:59 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > > + * type:
-> > > + *     Immutable property describing the type of the plane.
-> > > + *
-> > > + *     For user-space which has enabled the &DRM_CLIENT_CAP_UNIVERSAL_PLANES
-> >
-> > s/UNIVERSAL_PLANES/ATOMIC/ here?
-> >
-> > With just universal planes you don't have atomic test-only. But I guess it
-> > also works as-is, I'm just not entirely clear what you want to state here.
->
-> Right. This paragraph was written when I wasn't aware about ATOMIC implicitly
-> enabling UNIVERSAL_PLANES. Fixed in v5.
->
-> > > + *     capability, the plane type is just a hint and is mostly superseded by
-> > > + *     atomic test-only commits. The type hint can still be used to come up
-> > > + *     more easily with a plane configuration accepted by the driver. Note that
-> > > + *     &DRM_CLIENT_CAP_UNIVERSAL_PLANES is implicitly enabled by
-> > > + *     &DRM_CLIENT_CAP_ATOMIC.
-> > > + *
-> > > + *     The value of this property can be one of the following:
-> > > + *
-> > > + *     "Primary":
-> > > + *         To light up a CRTC, attaching a primary plane is the most likely to
-> > > + *         work if it covers the whole CRTC and doesn't have scaling or
-> > > + *         cropping set up.
-> > > + *
-> > > + *         Drivers may support more features for the primary plane, user-space
-> > > + *         can find out with test-only atomic commits.
-> > > + *
-> > > + *         Primary planes are implicitly used by the kernel in the legacy
-> > > + *         IOCTLs &DRM_IOCTL_MODE_SETCRTC and &DRM_IOCTL_MODE_PAGE_FLIP.
-> > > + *         Therefore user-space must not mix explicit usage of any primary
-> > > + *         plane (e.g. through an atomic commit) with these legacy IOCTLs.
-> >
-> > Empty line here for reading comfort in plain text? Same below.
-> >
-> > Since you mention formats below, I also wonder whether we should state
-> > here that xrgb8888 is generally supported, worst case through software
-> > emulation. That's defacto the uapi we have to adhere to.
->
-> I wonder. If a new driver decides not to support XRGB8888, that wouldn't be a
-> kernel regression because it's about new hardware. Do we want to formally lock
-> future drivers into XRGB8888 support? Or do we want to open the door for a
-> driver to break this assumption, even if most user-space won't work on the new
-> hardware?
->
-> I guess all of this is mostly theoretical at this point.
+Hi Laurent,
 
-It's been practical since a few years, since a lot of the simple
-panels we've added don't support xrgb8888. That's why we have the
-fairly good horror show of format conversions in drm_format_helper.c.
-And we've done this because too much general distro userspace just
-keels over real bad if xrgb8888 doesn't work.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 13/01/2021 22:45, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Jan 13, 2021 at 05:02:53PM +0000, Kieran Bingham wrote:
+>> The encoder allocation was converted to a DRM managed resource at the
+>> same time as the addition of a new helper drmm_encoder_alloc() which
+>> simplifies the same process.
+>>
+>> Convert the custom drm managed resource allocation of the encoder
+>> with the helper to simplify the implementation, and prevent hitting a
+>> WARN_ON() due to the handling the drm_encoder_init() call directly
+>> without registering a .destroy() function op.
+>>
+>> Fixes: f5f16725edbc ("drm: rcar-du: Use DRM-managed allocation for encoders")
+> 
+> We could equally point to the patch that has added drmm_encoder_alloc(),
+> but I'm fine taking the blame :-)
+
+Perhaps, we could point there indeed, I'm surprised that patch/series
+didn't seem to add any users of drmm_encoder_alloc() as far as I can see.
+
+I don't think this is a "blame" though. Just a reference to the most
+relevant change.
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+
+Thanks.
+
+Kieran
+
+
+>> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> ---
+>>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 31 +++++------------------
+>>  1 file changed, 6 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> index ba8c6038cd63..ca3761772211 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> @@ -48,21 +48,12 @@ static unsigned int rcar_du_encoder_count_ports(struct device_node *node)
+>>  static const struct drm_encoder_funcs rcar_du_encoder_funcs = {
+>>  };
+>>  
+>> -static void rcar_du_encoder_release(struct drm_device *dev, void *res)
+>> -{
+>> -	struct rcar_du_encoder *renc = res;
+>> -
+>> -	drm_encoder_cleanup(&renc->base);
+>> -	kfree(renc);
+>> -}
+>> -
+>>  int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>>  			 enum rcar_du_output output,
+>>  			 struct device_node *enc_node)
+>>  {
+>>  	struct rcar_du_encoder *renc;
+>>  	struct drm_bridge *bridge;
+>> -	int ret;
+>>  
+>>  	/*
+>>  	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+>> @@ -101,26 +92,16 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>>  			return -ENOLINK;
+>>  	}
+>>  
+>> -	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
+>> -	if (renc == NULL)
+>> -		return -ENOMEM;
+>> -
+>> -	renc->output = output;
+>> -
+>>  	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+>>  		enc_node, output);
+>>  
+>> -	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
+>> -			       DRM_MODE_ENCODER_NONE, NULL);
+>> -	if (ret < 0) {
+>> -		kfree(renc);
+>> -		return ret;
+>> -	}
+>> +	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
+>> +				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
+>> +				  NULL);
+>> +	if (!renc)
+>> +		return -ENOMEM;
+>>  
+>> -	ret = drmm_add_action_or_reset(&rcdu->ddev, rcar_du_encoder_release,
+>> -				       renc);
+>> -	if (ret)
+>> -		return ret;
+>> +	renc->output = output;
+>>  
+>>  	/*
+>>  	 * Attach the bridge to the encoder. The bridge will create the
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
