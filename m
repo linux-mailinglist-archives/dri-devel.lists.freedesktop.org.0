@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5974F2F8727
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 22:06:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C76C82F878B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Jan 2021 22:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5623E6E47A;
-	Fri, 15 Jan 2021 21:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C766E4A5;
+	Fri, 15 Jan 2021 21:20:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 159966E47A;
- Fri, 15 Jan 2021 21:06:34 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA79C6E49B;
+ Fri, 15 Jan 2021 21:20:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D77A258B;
- Fri, 15 Jan 2021 22:06:31 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6241F58B;
+ Fri, 15 Jan 2021 22:20:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1610744792;
- bh=T6hbV1O1oRjYL8zdng4qI1ulSsCeoFenYqaoA4x2R1U=;
+ s=mail; t=1610745638;
+ bh=gBrtw5MNkdCbuPvi2cTqhl5za5Pqp/q6zVdWl/a94uc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p+HucoNHt8b2/xNw2SqwXz+mxRCAMPmim4GRd9N7lVM740JU7m+MeQeAmI23QbbZJ
- 5b2DgI1hHEzzRPPfkCkaIrro6c0Xzs3tmqlHK++ZReexfl/MjcWXoizCyFa49MR3MP
- FeLurhztnooLUnIirndDiO8cTiqI3R4yaO82o0cg=
-Date: Fri, 15 Jan 2021 23:06:14 +0200
+ b=DpGlh+3zv26rFKiVKPMFcYE9SIJo78wTzt+f/qWBARm/BpkTmg6EAErEFPBPbbPhX
+ fh5IdmlIWmtQSiBr7ktLcqDESDp5TwoTZAovDL33H8Kodwu6i7gIW5IBgS4KdC5rwv
+ RKLhIq/ekLRDmOepJkHy4FhmHBsfknCCplWClCys=
+Date: Fri, 15 Jan 2021 23:20:21 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 09/10] drm/atomic: Pass the full state to planes atomic
- disable and update
-Message-ID: <YAIDxoyUtQooCsET@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 10/10] drm: Use state helper instead of the plane state
+ pointer
+Message-ID: <YAIHFTYiry6ebUsY@pendragon.ideasonboard.com>
 References: <20210115125703.1315064-1-maxime@cerno.tech>
- <20210115125703.1315064-9-maxime@cerno.tech>
+ <20210115125703.1315064-10-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210115125703.1315064-9-maxime@cerno.tech>
+In-Reply-To: <20210115125703.1315064-10-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,8 +53,7 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  linux-samsung-soc@vger.kernel.org, Vincent Abriou <vincent.abriou@st.com>,
  Michal Simek <michal.simek@xilinx.com>,
  Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, spice-devel@lists.freedesktop.org,
  Sascha Hauer <s.hauer@pengutronix.de>, Roland Scheidegger <sroland@vmware.com>,
  Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
@@ -65,10 +64,9 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org,
  Thierry Reding <thierry.reding@gmail.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
  Alexey Brodkin <abrodkin@synopsys.com>, Jonathan Hunter <jonathanh@nvidia.com>,
  linux-rockchip@lists.infradead.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Dave Airlie <airlied@redhat.com>, Alexandre Torgue <alexandre.torgue@st.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
  linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
@@ -80,12 +78,12 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Kevin Hilman <khilman@baylibre.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- linux-tegra@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Sam Ravnborg <sam@ravnborg.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, spice-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomba@kernel.org>, Philippe Cornu <philippe.cornu@st.com>,
+ Alison Wang <alison.wang@nxp.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Philippe Cornu <philippe.cornu@st.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
  Liviu Dudau <liviu.dudau@arm.com>, Paul Cercueil <paul@crapouillou.net>,
@@ -93,8 +91,7 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Joonyoung Shim <jy0922.shim@samsung.com>, Russell King <linux@armlinux.org.uk>,
  Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
  linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@siol.net>,
  Nicolas Ferre <nicolas.ferre@microchip.com>, Jyri Sarha <jyri.sarha@iki.fi>
 Content-Type: text/plain; charset="us-ascii"
@@ -106,49 +103,24 @@ Hi Maxime,
 
 Thank you for the patch.
 
-On Fri, Jan 15, 2021 at 01:57:01PM +0100, Maxime Ripard wrote:
-> The current atomic helpers have either their object state being passed as
-> an argument or the full atomic state.
-> 
-> The former is the pattern that was done at first, before switching to the
-> latter for new hooks or when it was needed.
-> 
-> Let's start convert all the remaining helpers to provide a consistent
+On Fri, Jan 15, 2021 at 01:57:02PM +0100, Maxime Ripard wrote:
+> Many drivers reference the plane->state pointer in order to get the
+> current plane state in their atomic_update or atomic_disable hooks,
 
-s/start convert/convert/ ?
+Please don't use the word "current", it's ambiguous. Do you mean old
+state or new state ?
 
-> interface, starting with the planes atomic_update and atomic_disable.
+> which would be the new plane state in the global atomic state since
+> _swap_state happened when those hooks are run.
 
-You're not starting anymore, its 09/10 already :-)
+Is this relevant ? drm_atomic_helper_swap_state() doesn't change the
+old_state and new_state pointers in drm_atomic_state as far as I can
+tell.
 
-> The conversion was done using the coccinelle script below, built tested on
-> all the drivers.
+> Use the drm_atomic_get_new_plane_state helper to get that state to make it
+> more obvious.
 > 
-> @@
-> identifier plane, plane_state;
-> symbol state;
-> @@
-> 
->  struct drm_plane_helper_funcs {
->  	...
-> 	void (*atomic_update)(struct drm_plane *plane,
-> -			      struct drm_plane_state *plane_state);
-> +			      struct drm_atomic_state *state);
->  	...
->  }
-> 
-> @@
-> identifier plane, plane_state;
-> symbol state;
-> @@
-> 
->  struct drm_plane_helper_funcs {
-> 	...
-> 	void (*atomic_disable)(struct drm_plane *plane,
-> -			       struct drm_plane_state *plane_state);
-> +			       struct drm_atomic_state *state);
-> 	...
->  }
+> This was made using the coccinelle script below:
 > 
 > @ plane_atomic_func @
 > identifier helpers;
@@ -158,193 +130,86 @@ You're not starting anymore, its 09/10 already :-)
 > (
 >  static const struct drm_plane_helper_funcs helpers = {
 >  	...,
->  	.atomic_update = func,
+>  	.atomic_disable = func,
 > 	...,
 >  };
 > |
 >  static const struct drm_plane_helper_funcs helpers = {
 >  	...,
->  	.atomic_disable = func,
+>  	.atomic_update = func,
 > 	...,
 >  };
 > )
 > 
-> @@
-> struct drm_plane_helper_funcs *FUNCS;
-> identifier f;
-> identifier crtc_state;
-> identifier plane, plane_state, state;
-> expression e;
+> @ adds_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, state;
+> identifier new_state;
 > @@
 > 
->  f(struct drm_crtc_state *crtc_state)
+>  func(struct drm_plane *plane, struct drm_atomic_state *state)
 >  {
 >  	...
->  	struct drm_atomic_state *state = e;
->  	<+...
-> (
-> -	FUNCS->atomic_disable(plane, plane_state)
-> +	FUNCS->atomic_disable(plane, state)
-> |
-> -	FUNCS->atomic_update(plane, plane_state)
-> +	FUNCS->atomic_update(plane, state)
-> )
->  	...+>
+> -	struct drm_plane_state *new_state = plane->state;
+> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+> 	...
 >  }
 > 
-> @@
-> identifier plane_atomic_func.func;
-> identifier plane;
-> symbol state;
-> @@
-> 
->  func(struct drm_plane *plane,
-> -    struct drm_plane_state *state)
-> +    struct drm_plane_state *old_plane_state)
->  {
-> 	<...
-> -	state
-> +	old_plane_state
-> 	...>
->  }
-> 
-> @ ignores_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane, old_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_plane_state *old_state)
->  {
-> 	... when != old_state
->  }
-> 
-> @ adds_old_state depends on plane_atomic_func && !ignores_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane, plane_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_plane_state *plane_state)
->  {
-> +	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
->  	...
->  }
-> 
-> @ depends on plane_atomic_func @
-> identifier plane_atomic_func.func;
-> identifier plane, plane_state;
-> @@
-> 
->  func(struct drm_plane *plane,
-> -     struct drm_plane_state *plane_state
-> +     struct drm_atomic_state *state
->      )
->  { ... }
-> 
-> @ include depends on adds_old_state @
+> @ include depends on adds_new_state @
 > @@
 > 
 >  #include <drm/drm_atomic.h>
 > 
-> @ no_include depends on !include && adds_old_state @
+> @ no_include depends on !include && adds_new_state @
 > @@
 > 
 > + #include <drm/drm_atomic.h>
 >   #include <drm/...>
-> 
-> @@
-> identifier plane_atomic_func.func;
-> identifier plane, state;
-> identifier plane_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_atomic_state *state) {
->  	...
->  	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
->  	<+...
-> -	plane_state->state
-> +	state
->  	...+>
->  }
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
 
 [snip]
 
->  drivers/gpu/drm/drm_atomic_helper.c           |  8 ++++----
->  drivers/gpu/drm/drm_simple_kms_helper.c       |  4 +++-
->  drivers/gpu/drm/omapdrm/omap_plane.c          |  4 ++--
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c       |  4 +++-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  4 +++-
->  include/drm/drm_modeset_helper_vtables.h      |  4 ++--
-
-For these,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-For drivers/gpu/drm/xlnx/zynqmp_disp.c, please see below.
+>  drivers/gpu/drm/omapdrm/omap_plane.c            | 6 ++++--
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c         | 3 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c           | 3 ++-
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c              | 3 ++-
 
 [snip]
 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index e278680b7d5a..39f9e6e76064 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -1166,8 +1166,10 @@ zynqmp_disp_plane_atomic_check(struct drm_plane *plane,
->  
->  static void
->  zynqmp_disp_plane_atomic_disable(struct drm_plane *plane,
-> -				 struct drm_plane_state *old_state)
-> +				 struct drm_atomic_state *state)
+> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+> index cd8cf7c786b5..021a94de84a1 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+> @@ -44,7 +44,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
 >  {
-> +	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+>  	struct omap_drm_private *priv = plane->dev->dev_private;
+>  	struct omap_plane *omap_plane = to_omap_plane(plane);
+> -	struct drm_plane_state *new_state = plane->state;
+
+This seems to imply that you're interested in the new state.
+
+> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
 > +									   plane);
->  	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
->  
->  	if (!old_state->fb)
-> @@ -1178,8 +1180,10 @@ zynqmp_disp_plane_atomic_disable(struct drm_plane *plane,
->  
->  static void
->  zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
-> -				struct drm_plane_state *old_state)
-> +				struct drm_atomic_state *state)
->  {
-> +	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-> +								           plane);
->  	struct drm_plane_state *new_state = plane->state;
->  	struct zynqmp_disp_layer *layer = plane_to_layer(plane);
->  	bool format_changed = false;
-> @@ -1485,20 +1489,12 @@ static void
->  zynqmp_disp_crtc_atomic_disable(struct drm_crtc *crtc,
->  				struct drm_atomic_state *state)
->  {
-> -	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
-> -									      crtc);
->  	struct zynqmp_disp *disp = crtc_to_disp(crtc);
-> -	struct drm_plane_state *old_plane_state;
->  
->  	/*
-> -	 * Disable the plane if active. The old plane state can be NULL in the
-> -	 * .shutdown() path if the plane is already disabled, skip
-> -	 * zynqmp_disp_plane_atomic_disable() in that case.
-> +	 * Disable the plane if active.
->  	 */
-> -	old_plane_state = drm_atomic_get_old_plane_state(old_crtc_state->state,
-> -							 crtc->primary);
-> -	if (old_plane_state)
 
-You're removing this check, but there's no safeguard in
-zynqmp_disp_plane_atomic_disable(). Can drm_atomic_get_old_plane_state()
-return NULL there ?
+Does this really make things more obvious ?
 
-> -		zynqmp_disp_plane_atomic_disable(crtc->primary, old_plane_state);
-> +	zynqmp_disp_plane_atomic_disable(crtc->primary, state);
+>  	struct omap_overlay_info info;
+>  	int ret;
 >  
->  	zynqmp_disp_disable(disp);
+> @@ -89,7 +90,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
+>  static void omap_plane_atomic_disable(struct drm_plane *plane,
+>  				      struct drm_atomic_state *state)
+>  {
+> -	struct drm_plane_state *new_state = plane->state;
+> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+> +									   plane);
+>  	struct omap_drm_private *priv = plane->dev->dev_private;
+>  	struct omap_plane *omap_plane = to_omap_plane(plane);
 >  
 
 [snip]
-> 
 
 -- 
 Regards,
