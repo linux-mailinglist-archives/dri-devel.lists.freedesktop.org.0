@@ -2,59 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D092F8CF6
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8782F8CF1
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Jan 2021 11:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7236E5B4;
-	Sat, 16 Jan 2021 10:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8740B6E5A2;
+	Sat, 16 Jan 2021 10:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B82F66E49C
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jan 2021 01:12:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1610759549; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=aYQd6ct3X1FYUJHEYVMsedCk4QxqYq8AVbHhlk4z8d4=;
- b=ZrbtsvF9FtXYAm9Dc7wutvp/k+VNteqBll71UrvtBx/iVcxjSHlmiD2nK3oPl4Ux4RvGcJV1
- gUletLaZLXjmJv3L8arl04IUvG/R5EIWlpU7Ec8t1pL036gDFsJtkNotS2GybuVHYZlnSuMR
- O2L0aBkp8kpJSF7SMrmnk6a9jIE=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 60023d7c7086580d325a4761 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 16 Jan 2021 01:12:28
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1AA16C43463; Sat, 16 Jan 2021 01:12:28 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: veeras)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 96E60C433CA;
- Sat, 16 Jan 2021 01:12:26 +0000 (UTC)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42FD36E4EA;
+ Sat, 16 Jan 2021 05:11:40 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id s15so5772136plr.9;
+ Fri, 15 Jan 2021 21:11:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PXzS8aDWu6xxUoSTQEQCGpy3cWp/RHPt68K5SBPTpHU=;
+ b=f6u9NKw6hlB4+gXP3wa9Vu/V1R+SfR0yaU/Nfda14ttnWZ7ytHOxjIksewCb/W+KjA
+ bGIZcyadotyKfsdLdNnqZdk1oDG4AG5MEQ0691U0XAak4FBuMVHLrph9us+g2AaLJWOd
+ +YrD1pIJAPMxAe+/MQv6cjGSv+jW8Bgwj8pRmdG3MxpkwSjQ0rW4fo+DRIofFlO6CYrC
+ EyEQCCrvKOUlrwrNdGELpg+JjZCwJddM7e9gubVOLEtgP/QQeAmjyxhwhbOvZufFZOX1
+ 6jLgUiUKB7zvwVQsp7GYIRv2KRGN4g5cNG5TErOekEYC8x/PQBkQYWqn9ytpppdfpgC2
+ ly0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:autocrypt:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=PXzS8aDWu6xxUoSTQEQCGpy3cWp/RHPt68K5SBPTpHU=;
+ b=ToeH/PYBW+Sa4yoborEaD7uGZoXpUzhrEsP9U/3/4enH6GUlYsA+J/mzq3ifgaM60H
+ 0Ls20Hu/WGWch5jGf7BaRMR+PkMkA1DoFiu5i1EdYETBn9ZLt5wnsvz5kmNz3lIxMEIG
+ 57m1UY2oyfO7gzs9JcL666+vHiz1hVlMy8Edu5r0GQg0895i1xYofRQQRnbfWCXZQtC9
+ A7NshkoEijBi4wtD5qBfvVt96Emzq8bNbfQNb1QcjOvzGNytdAYaoLHoA3+75IWl2Ala
+ ANQ3p/500zDgreIdBgCcY/jDbB2+fmPbLZLxN+XSmNEjVGyHld8n5OGHSTqeH5TY8ZFq
+ oJpg==
+X-Gm-Message-State: AOAM533ecTSZ/s1b/9eHElooHUare6jjZItLgaXIhal2zH3lz6+3y9QV
+ tzj+WtSX/dWrM4RAnQHuz80=
+X-Google-Smtp-Source: ABdhPJxB+QocAYEUnaEzCn9prdchvObT7nXTPWNr7kqcqRpt50UbpIRTL0K1obB3JmklJQn923zzOg==
+X-Received: by 2002:a17:90a:2e83:: with SMTP id
+ r3mr13736820pjd.112.1610773899773; 
+ Fri, 15 Jan 2021 21:11:39 -0800 (PST)
+Received: from [127.0.0.1] ([14.33.99.107])
+ by smtp.gmail.com with ESMTPSA id o83sm2285975pfd.158.2021.01.15.21.11.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 21:11:39 -0800 (PST)
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= <marmarek@invisiblethingslab.com>
+References: <c742707e-eb6d-6a22-3006-52dc3bf458d8@gmail.com>
+ <161072980241.18103.11713889922046524226@build.alporthouse.com>
+ <161073047349.18103.16410031184146072179@build.alporthouse.com>
+From: Jinoh Kang <jinoh.kang.kr@gmail.com>
+Autocrypt: addr=jinoh.kang.kr@gmail.com; keydata=
+ xsFNBF/Q7MUBEADVIU6g5ui3gcTQV9jbneUb6xdUQJtEDOWG6pThD+nKAwQFYtZpCUSWgGVg
+ osMQTyZu7HpEMvxoYNmO+1ZHtARugq2tl6BH11vEJgTsoF8IFrgyXNlinS+Kq6I8s6py96Pl
+ Fk2b9Y3ok64DJUrmFjfgCAxO0RY/ZFS1vXMqibExzMLODTChrXal0Z9tjxQBkARPXeDmVg8c
+ qW0121/3ODyi04jri34f5luRQe2PMJsqKAmd6Ok9zNkvc3wQZw7t3MiMEJjf1/eZa/He4OoI
+ CO0zQY9dRhQBqgO67lnVziCRfRb4WCHxO03zE7C8ud/UOmuMM4Qh8rAyW3sJ2TbIqwvQepuc
+ vC/Q+Av0GtuUCArUw4GbOibUDxhe1eTZViIYAghkzOxUWeDs1PXRPVnRu6PAGsQP39/2ZPAB
+ wune9t2SEs4o2Js0Vx0c2O/vMXt3uHqtaGNdCJgqlBkNXHlrv47wF7bBMQSf4SepAg+1ZqfI
+ wGgEWmWhBV+8Kqyb1zYIAPsqyvl/2E//XcvKk/70q0QhASGkUvEI8AWAGDdkVPrBfwIqhvWY
+ ycMnOl12k5e161uvL1NiUIbvG41/lCzQqhmaDfYznwsC1YRfx/STNaoIdBqR+niUhJbEGpfy
+ z1BqOYMHpFx1sKFfJesMDyLBDaQBuO5X2mKmpHvCyfy9ouBNmQARAQABzSRKaW5vaCBLYW5n
+ IDxqaW5vaC5rYW5nLmtyQGdtYWlsLmNvbT7CwZQEEwEIAD4WIQRCo/a4eJTkYSJv2ktDGVOB
+ YOvS5gUCX9DsxQIbLwUJAeEzgAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRBDGVOBYOvS
+ 5mhUEACHpb/kXi02ED27HYHk0j4QFokIFSBx4gdMueu86OQzQuJ4LqOZQmX0IsvedmLuECot
+ kNE7uhpINj9qNFUZjkD26N2kpnh1EUiHHhGnPAi0KCjsF4t9IR7NgwyeFgScmKAGvDQeLSHZ
+ V3A9/ZIuo2cwp9nJKFkljE4P+ADmTpOv2j0XM8o+y7VILnNwanDXuyKh8T37oyecgP0y4aiN
+ QcsCfCKgyomFuDomNrj8CwyIS36oyYJwXxl34KBaNLmXRmLFIleApcFkqBewSdAqBWqbu3yt
+ V/zbK5uTwx4JKatPk1zgvJKfdHuQW//+H0Rufvosk7JUNkft5T9Cx7Fihts+4HWzvLFU97h8
+ E0Tby5paW3/Z8UGRHf+1eYfS39/9hN/Wphw4eoXpN9GDkgMpzKauquHEuKNKwpQ3LuGM4cO7
+ TXJLF3Zyx0vwMTu/v4gvILBhppc2MlGDeW48eKH4i4oJhpvjwFku7rh8IG/d0F4I0RpaiqYb
+ l3lw0niIVbTKguoMXxhmZLGn8uRuo7CLpqFZyaGOFgPEV889sHE78+FqrXv6cT00cOh6a6p5
+ 2XlLC6TphePZ56HCcr9n5E2elEI3eCOsGp6UnOPV9mxjmZ/fd512B3goflgq+T9TgOOUSnX7
+ ioz/igRhHwjSZd3nlocCmHvWpQ6RaGBH/Bi5lOorts7BTQRf0OzFARAAx8fgWCVxM1CZWKGj
+ 5HKYV5IJy4D5/YVvi2ob05I18a5lz1dXLOu598rL9gX3V9bZ1k6Q7lh5glNyITnTnlAnpVNu
+ zXbPlbJb35Bwmns3OgGi0tCPWxlsn5GZacXUnByVylwcR0OKA9ekWB2CJk0BVpBzKf3c/JgS
+ bLNKNG9lpDlypJGMZBWbwODK5HdKKridfUJiFHdE6wErdryjTT75NDTzQoKTeMG/TgyBTLY5
+ Ebc6AXryTGGi2THU/ufC+m7/NMhXQGR1dc1dZsPUELXR4XfE36HVfKi3lHT6jY+ylQqIhiQr
+ haAun5mpitoOCWyeMvQCrXB+Qe1JzpVHQB2mPZ2RAMD82+wZE3kGh3XiOheY+NFb2ahTvZMe
+ otf3/uH6k0LehKt2jVbVjaxAelqCMjBzOlPeaYlD1NTXXX9RGRUUQThfJezcCt/iOv64wayV
+ N6ua8dMCrFWzS66bsrsdSmlucB/S7VvNLCFStSJnoW1s4MdQ387NVK3NC41tpx9qVzwIc4X/
+ 0jS2xA2EHC/+HMx8CXQiXPV98WP2Hd4TEmX4SAiIXuiXrN84ANJx/bPn/iS3QXBiY1YNI787
+ oinlL4BJTM+rpZgTgsQk3M0QfenrVIqn7c/L+vk7r0TV4oq/+w2mKLAQX3co00+mrRfANajb
+ xA4oODN5wd649jV7NZUAEQEAAcLDsgQYAQgAJhYhBEKj9rh4lORhIm/aS0MZU4Fg69LmBQJf
+ 0OzFAhsuBQkB4TOAAkAJEEMZU4Fg69LmwXQgBBkBCAAdFiEEzGktrvc/U3kFXd9AGlqQRGyE
+ q/UFAl/Q7MUACgkQGlqQRGyEq/WMqBAAhGe/MaK0zyYkMD7ZPgg7rCBhkFAqZg7/UiQE4l1S
+ 0vZ9HJjV6QhK9MJknzTKWr+r7G1xvfCfVTEubKmFfdgTXXEM61EEGOnGbptwoKVzmYLJpoo3
+ WvEHfGoF+vnc4r58GSxfKZCnhn7wRrRs8toGP3FNh6V3wQ2JEXhaT098IpUSo2RnuULzUvFU
+ GG0NxB6e9nCoppLF3JUDnf6DdN00gkBgGVd2iKuK8P3Zzy/GJPp4GSw0Y1sFglab71/e9mtQ
+ /QZ3z+PgFyAH1vPzmPh0hC5thbdhBoJWrHDpYM7RzcfJOnAyPmo9FufEB9wREESK0yy+2h9l
+ fq56H5aBch3TSb23cIiA4x7OhHgkaTmsURiSSh9eP2/eXedClRXvvGMoc/LP837qtZz52eDD
+ HcLy7AA2+hPbDqIy+ZxmYOw9bjbLH6QGv2hKGvDwtEF12r4MaYHiae/vbbIOjkQ21m9bc6gO
+ 5kPqWanl2rpka4PdDmg125MTNyBOZk+83exMY+56eTViccMHs+vUmtqxluR539B8sCHalcci
+ 3Udb4vUWRNFweYM85utgbSR3MCdsA6r/wuLwIA/vsKzaSTjg2I7KO4/KiNV3AUChafXjAkZM
+ hPs3OPukWRSAfHSixxyygLTB52irbfhV/qVsS5RKe2nL6PClmumU9eOdljrZ6FW8mxt93A//
+ YocGSec7S3LeWzxauzcQn1TMtuLLMAUs/CTYHBhQDf2UMprHd2O9cpwNULtedXtRSkug/lA4
+ BsGzSJsbgoGkR4/D9PQK2FeqzvAkrOmuQqz6iCMxOnaJLAROzTaKlpAqf+h7kP7979RkXttw
+ Ax75QQO2oUKhqehvYo1MRZJBVUa4Oq7gBZAe7kmRI78fKAOGUZDQtOpGuvAawR+U6MubgB8O
+ 8ZP/4DV8x0uzpWugpuCj2+d2heaqrsMumomWt7w4utfz8LFETaK4eIbswwEgB1PpT9nA+0vr
+ 03mgjzWiW7D5jDPCegZ9a2JcIwKhWTdNR1uayj5hG7rdvScL5zMXlMHGK6Jb9EvBTnmnW/Bh
+ mBRUTfAckuZP2GGvcnIv86pcVbLfRsENgN9XVjfn+I+r3pTMjhSIb/B0q2acaINe3GUWIq9V
+ o01sX4DgkHW6wE6hlMfxxBq5Avu180VZ96rCilkf8abWidtPn/7IP31CSLz5JNL0x2OQC+WD
+ tvgog5utx5uRL5mZPJmMTVD1t/FKGaIR1PpGy4e0g15Y9EkpFEYBYZl3ttXQM456ZqifB/Wb
+ pgaToX5LrY7TCHQe9skAN/RsppjrL8HCxF0rz6/LKnUCPC71/dfBIrIigYeBdK9UkNXAq/5c
+ Nv8WeK9sQ0q6RmWqnT1HwyCBsVRR18k6XBM=
+Subject: Re: [PATCH] drm/i915/userptr: detect un-GUP-able pages early
+Message-ID: <e3ef8af7-f3fb-a6aa-9838-a90b6d5516ac@gmail.com>
+Date: Sat, 16 Jan 2021 05:11:16 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
 MIME-Version: 1.0
-Date: Fri, 15 Jan 2021 17:12:26 -0800
-From: veeras@codeaurora.org
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [PATCH v3 2/2] drm/drm_vblank: set the dma-fence timestamp during
- send_vblank_event
-In-Reply-To: <CALAqxLUZhb7p26w-a3AmNzFtpB2xDU8k3951VYGGtqgnsqj03A@mail.gmail.com>
-References: <1610567539-16750-1-git-send-email-veeras@codeaurora.org>
- <1610567539-16750-2-git-send-email-veeras@codeaurora.org>
- <CALAqxLVdNGCPyB+nQKh2iv41Xr_VarVz3ZLc99mNrShtVr2SAw@mail.gmail.com>
- <e13db164c6efaf8524fb863e8f0e2f0f@codeaurora.org>
- <CALAqxLUZhb7p26w-a3AmNzFtpB2xDU8k3951VYGGtqgnsqj03A@mail.gmail.com>
-Message-ID: <32f2787d1fa278febcc9a7abac298a99@codeaurora.org>
-X-Sender: veeras@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <161073047349.18103.16410031184146072179@build.alporthouse.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 16 Jan 2021 10:44:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,199 +127,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
- abhinavk@codeaurora.org, Sean Paul <sean@poorly.run>,
- linux-media <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-01-15 14:29, John Stultz wrote:
-> On Thu, Jan 14, 2021 at 12:54 PM <veeras@codeaurora.org> wrote:
->> 
->> On 2021-01-13 18:28, John Stultz wrote:
->> > On Wed, Jan 13, 2021 at 11:52 AM Veera Sundaram Sankaran
->> > <veeras@codeaurora.org> wrote:
->> >>
->> >> The explicit out-fences in crtc are signaled as part of vblank event,
->> >> indicating all framebuffers present on the Atomic Commit request are
->> >> scanned out on the screen. Though the fence signal and the vblank
->> >> event
->> >> notification happens at the same time, triggered by the same hardware
->> >> vsync event, the timestamp set in both are different. With drivers
->> >> supporting precise vblank timestamp the difference between the two
->> >> timestamps would be even higher. This might have an impact on use-mode
->> >> frameworks using these fence timestamps for purposes other than simple
->> >> buffer usage. For instance, the Android framework [1] uses the
->> >> retire-fences as an alternative to vblank when frame-updates are in
->> >> progress. Set the fence timestamp during send vblank event using a new
->> >> drm_send_event_timestamp_locked variant to avoid discrepancies.
->> >>
->> >> [1]
->> >> https://android.googlesource.com/platform/frameworks/native/+/master/
->> >> services/surfaceflinger/Scheduler/Scheduler.cpp#397
->> >>
->> >> Changes in v2:
->> >> - Use drm_send_event_timestamp_locked to update fence timestamp
->> >> - add more information to commit text
->> >>
->> >> Changes in v3:
->> >> - use same backend helper function for variants of drm_send_event to
->> >> avoid code duplications
->> >>
->> >> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
->> >> ---
->> >>  drivers/gpu/drm/drm_file.c   | 71
->> >> ++++++++++++++++++++++++++++++++++++--------
->> >>  drivers/gpu/drm/drm_vblank.c |  9 +++++-
->> >>  include/drm/drm_file.h       |  3 ++
->> >>  3 files changed, 70 insertions(+), 13 deletions(-)
->> >>
->> >> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> >> index 0ac4566..b8348ca 100644
->> >> --- a/drivers/gpu/drm/drm_file.c
->> >> +++ b/drivers/gpu/drm/drm_file.c
->> >> @@ -775,20 +775,19 @@ void drm_event_cancel_free(struct drm_device
->> >> *dev,
->> >>  EXPORT_SYMBOL(drm_event_cancel_free);
->> >>
->> >>  /**
->> >> - * drm_send_event_locked - send DRM event to file descriptor
->> >> + * drm_send_event_helper - send DRM event to file descriptor
->> >>   * @dev: DRM device
->> >>   * @e: DRM event to deliver
->> >> + * @timestamp: timestamp to set for the fence event in kernel's
->> >> CLOCK_MONOTONIC
->> >> + * time domain
->> >>   *
->> >> - * This function sends the event @e, initialized with
->> >> drm_event_reserve_init(),
->> >> - * to its associated userspace DRM file. Callers must already hold
->> >> - * &drm_device.event_lock, see drm_send_event() for the unlocked
->> >> version.
->> >> - *
->> >> - * Note that the core will take care of unlinking and disarming
->> >> events when the
->> >> - * corresponding DRM file is closed. Drivers need not worry about
->> >> whether the
->> >> - * DRM file for this event still exists and can call this function
->> >> upon
->> >> - * completion of the asynchronous work unconditionally.
->> >> + * This helper function sends the event @e, initialized with
->> >> + * drm_event_reserve_init(), to its associated userspace DRM file.
->> >> + * The timestamp variant of dma_fence_signal is used when the caller
->> >> + * sends a valid timestamp.
->> >>   */
->> >> -void drm_send_event_locked(struct drm_device *dev, struct
->> >> drm_pending_event *e)
->> >> +void drm_send_event_helper(struct drm_device *dev,
->> >> +                       struct drm_pending_event *e, ktime_t
->> >> timestamp)
->> >>  {
->> >>         assert_spin_locked(&dev->event_lock);
->> >>
->> >> @@ -799,7 +798,10 @@ void drm_send_event_locked(struct drm_device
->> >> *dev, struct drm_pending_event *e)
->> >>         }
->> >>
->> >>         if (e->fence) {
->> >> -               dma_fence_signal(e->fence);
->> >> +               if (timestamp)
->> >> +                       dma_fence_signal_timestamp(e->fence,
->> >> timestamp);
->> >> +               else
->> >> +                       dma_fence_signal(e->fence);
->> >>                 dma_fence_put(e->fence);
->> >>         }
->> >>
->> >> @@ -814,6 +816,51 @@ void drm_send_event_locked(struct drm_device
->> >> *dev, struct drm_pending_event *e)
->> >>         wake_up_interruptible_poll(&e->file_priv->event_wait,
->> >>                 EPOLLIN | EPOLLRDNORM);
->> >>  }
->> >> +
->> >> +/**
->> >> + * drm_send_event_timestamp_locked - send DRM event to file
->> >> descriptor
->> >> + * @dev: DRM device
->> >> + * @e: DRM event to deliver
->> >> + * @timestamp: timestamp to set for the fence event in kernel's
->> >> CLOCK_MONOTONIC
->> >> + * time domain
->> >> + *
->> >> + * This function sends the event @e, initialized with
->> >> drm_event_reserve_init(),
->> >> + * to its associated userspace DRM file. Callers must already hold
->> >> + * &drm_device.event_lock.
->> >> + *
->> >> + * Note that the core will take care of unlinking and disarming
->> >> events when the
->> >> + * corresponding DRM file is closed. Drivers need not worry about
->> >> whether the
->> >> + * DRM file for this event still exists and can call this function
->> >> upon
->> >> + * completion of the asynchronous work unconditionally.
->> >> + */
->> >> +void drm_send_event_timestamp_locked(struct drm_device *dev,
->> >> +                       struct drm_pending_event *e, ktime_t
->> >> timestamp)
->> >> +{
->> >> +       WARN_ON(!timestamp);
->> >> +
->> >> +       drm_send_event_helper(dev, e, timestamp);
->> >> +
->> >> +}
->> >> +EXPORT_SYMBOL(drm_send_event_timestamp_locked);
->> >
->> >
->> > Hey Veera,
->> >   So actually, after closer look at the testing I was doing, we seem
->> > to be hitting that WARN_ON right as the display first comes up (I see
->> > this on both db845c and HiKey960).
->> > It seems in drm_crtc_send_vblank_event(), if "now" is set by
->> > drm_vblank_count_and_time(), the first timestamp value we get from it
->> > seems to be 0.
->> >
->> > Let me know if you need any help reproducing and sorting this issue
->> > out.
->> >
->> Hi John,
->> Thanks for the review and testing.
->> Since vblank timestamp being set to 0 is acceptable currently, I think
->> it would
->> be safe to remove the WARN_ON in drm_send_event_timestamp_locked(), so
->> the same
->> would be applied to the corresponding fences as well. Especially with
->> high
->> precision vblank timestamping enabled, driver is free to set and there
->> is no
->> timestamp validation within drm. This is a separate work and can be
->> decoupled
->> from this patch. Or we can use the appropriate  drm_send_event variant
->> from send_vblank_event() based on the availability of "now" timestamp.
->> Please let me know your opinion, I will modify the patch accordingly.
+On 1/15/21 5:07 PM, Chris Wilson wrote:
+> Quoting Chris Wilson (2021-01-15 16:56:42)
+>> Quoting Jinoh Kang (2021-01-15 16:23:31)
+>>> If GUP-ineligible pages are passed to a GEM userptr object, -EFAULT is
+>>> returned only when the object is actually bound.
+>>>
+>>> The xf86-video-intel userspace driver cannot differentiate this
+>>> condition, and marks the GPU as wedged.
+>>
+>> The idea was to call gem_set_domain on the object to validate the pages
+>> after creation. I only did that for read-only... I did however make mesa
+>> use set-domain for validation.
 > 
-> 
-> Not sure if I know the vblank details well enough to really recommend a 
-> path.
-> I suspect there needs to be some special case handling of the
-> initialization state so the first vblank isn't at time 0, but I'd need
-> to dig more to understand it.
-> 
-> I'd guess removing the warning is ok for now, but it does seem like
-> something needs to eventually be fixed.
+> Hmm, I remember a reason why we wanted to be lazy in populating the
+> pages was that we would often be called to create a map that was never
+> used. So the additional gup + bind was measurable, and we would rather
+> just have a probe.
+> -Chris
 > 
 
-Thanks John. Agree that path might need a fix. Updated the current patch
-with warn removed. Please take a look.
+try_upload__blt uses the map immediately, so I guess that would be an
+appropriate place to patch.
 
-Thanks,
-Veera
+> Basically XShmAttachFd, which is not exposed on libX11.
 
-> thanks
-> -john
+To clarify: privcmd pages cannot actually be passed by fd, since it's
+tightly bound with current->mm.  There's some sysv shmop hooking hack
+involved, which is injected in Xorg side.
+
+---
+
+Besides, is there an equivalent code path that lets you eagerly *unpin*
+pages when closing an userptr object without waiting for the worker?
+
+This is actually more of a problem in drivers/xen/grant-table.c side,
+since it hangs the current task until all page refs are released, and
+it didn't even use ZONE_DEVICE pages until recently (while still not
+using dev_pagemap_ops::page_free, since the unpopulated-alloc pgmap
+is not MEMORY_DEVICE_FS_DAX apparently).
+
+(You could say that we should switch to DMA-BUF instead and that would
+be a valid criticism.  I'm merely figuring out what the best workaround
+for the current status quo would be.)
+
+I'm using something like the following:
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.c       | 8 ++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h | 1 +
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c      | 3 ++-
+ drivers/gpu/drm/i915/i915_params.c               | 3 +++
+ drivers/gpu/drm/i915/i915_params.h               | 1 +
+ 5 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 00d24000b5e8..4352a5788fd8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -167,6 +167,14 @@ static void i915_gem_close_object(struct drm_gem_object *gem, struct drm_file *f
+ 		i915_lut_handle_free(lut);
+ 		i915_gem_object_put(obj);
+ 	}
++
++	if (i915_modparams.gem_userptr_close_immediate &&
++	    i915_gem_object_type_has(obj, I915_GEM_OBJECT_IMM_RELEASE) &&
++	    i915_gem_object_is_shrinkable(obj) &&
++	    !atomic_read(&obj->mm.shrink_pin) &&
++	    i915_gem_object_unbind(obj, I915_GEM_OBJECT_UNBIND_ACTIVE |
++					I915_GEM_OBJECT_UNBIND_TEST) == 0)
++		__i915_gem_object_put_pages(obj);
+ }
+ 
+ static void __i915_gem_free_object_rcu(struct rcu_head *head)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index e2d9b7e1e152..0ac1dfed0b91 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -36,6 +36,7 @@ struct drm_i915_gem_object_ops {
+ #define I915_GEM_OBJECT_IS_PROXY	BIT(3)
+ #define I915_GEM_OBJECT_NO_MMAP		BIT(4)
+ #define I915_GEM_OBJECT_ASYNC_CANCEL	BIT(5)
++#define I915_GEM_OBJECT_IMM_RELEASE	BIT(7)
+ 
+ 	/* Interface between the GEM object and its backing storage.
+ 	 * get_pages() is called once prior to the use of the associated set
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index f2eaed6aca3d..baa91daf43a1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -705,7 +705,8 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
+ 	.flags = I915_GEM_OBJECT_HAS_STRUCT_PAGE |
+ 		 I915_GEM_OBJECT_IS_SHRINKABLE |
+ 		 I915_GEM_OBJECT_NO_MMAP |
+-		 I915_GEM_OBJECT_ASYNC_CANCEL,
++		 I915_GEM_OBJECT_ASYNC_CANCEL |
++		 I915_GEM_OBJECT_IMM_RELEASE,
+ 	.get_pages = i915_gem_userptr_get_pages,
+ 	.put_pages = i915_gem_userptr_put_pages,
+ 	.dmabuf_export = i915_gem_userptr_dmabuf_export,
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index 7f139ea4a90b..4d056fd1b6e7 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -197,6 +197,9 @@ i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
+ 	"Fake LMEM start offset (default: 0)");
+ #endif
+ 
++i915_param_named(gem_userptr_close_immediate, bool, 0600,
++	"Immediately release pages when userptr GEM object is closed (default:false)");
++
+ static __always_inline void _print_param(struct drm_printer *p,
+ 					 const char *name,
+ 					 const char *type,
+diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
+index 330c03e2b4f7..a94367a0345b 100644
+--- a/drivers/gpu/drm/i915/i915_params.h
++++ b/drivers/gpu/drm/i915/i915_params.h
+@@ -79,6 +79,7 @@ struct drm_printer;
+ 	param(bool, disable_display, false, 0400) \
+ 	param(bool, verbose_state_checks, true, 0) \
+ 	param(bool, nuclear_pageflip, false, 0400) \
++	param(bool, gem_userptr_close_immediate, false, 0600) \
+ 	param(bool, enable_dp_mst, true, 0600) \
+ 	param(bool, enable_gvt, false, 0400)
+ 
+-- 
+Sincerely,
+Jinoh Kang
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
