@@ -2,25 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2456B2F9B37
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717E22F9B36
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:25:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FBC6E199;
-	Mon, 18 Jan 2021 08:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BAC76E19C;
+	Mon, 18 Jan 2021 08:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B3D89F85
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 11:27:25 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/3] drm/ingenic: Fix non-OSD mode
-Date: Sun, 17 Jan 2021 11:26:46 +0000
-Message-Id: <20210117112646.98353-4-paul@crapouillou.net>
-In-Reply-To: <20210117112646.98353-1-paul@crapouillou.net>
-References: <20210117112646.98353-1-paul@crapouillou.net>
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73BD789F3B
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 11:29:06 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id m3so23954129ioy.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 03:29:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=P/d1FEPC5iUSKICunGAq3DjPk63uAX3l81ePhtYb8N0=;
+ b=Nik2lp8UdOzkZQs09/pkuzEZ6AWsp2hT+CwpCg3kVni1jcZ6/0pWVbL/E1Ut2xTUPt
+ MT/LvbgFL9IOdhLRVCSLp+UDJg/DLJQRkg7Zj+KwCZfDDqe7FLTzrHqgeoWgoH99HFAZ
+ fsMp8sbZcwIfm7IPIwB1FZMoKFyTfnsM9/1/NXy2MtaSkd+Rf79inPuWpIqzXj2W7n9O
+ fkMdL/3wh8BVo25e3xUV062aUbfaBaVQw9lZJhuP/XWQ3Py0HQAtpjnH70OwRarnN0KW
+ /Hw1pI2oUEOteySkeMvAGkBuL0Cz/e1MTtEDa1E3XXiK/ZuQNAxTkrIpIxF1KainZ4Ie
+ JCCA==
+X-Gm-Message-State: AOAM531fHQc46X9QOR9qeYuEOpCrBhs3GUvoW6FlWPv002b8kCTWRAMr
+ iiz74OPfNI34ScTFZXhTRK5UmvLTEoa2kRYE51N6CwRAPe+Q
+X-Google-Smtp-Source: ABdhPJx5wlmIgilxar3mPnrNpenLIHXRB8QsmmaXtwL5co5ZgqUuD4L6Odq9Is16TpVeRpNjHvh4NXgVuwKnnAtq+1m2JAFvsRlf
 MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:411:: with SMTP id
+ p17mr8267172ilr.33.1610882945873; 
+ Sun, 17 Jan 2021 03:29:05 -0800 (PST)
+Date: Sun, 17 Jan 2021 03:29:05 -0800
+In-Reply-To: <00000000000091111005b435456e@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c37b3a05b916e95a@google.com>
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference in
+ fbcon_cursor
+From: syzbot <syzbot+b67aaae8d3a927f68d20@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, daniel.vetter@intel.com, 
+ dri-devel@lists.freedesktop.org, george.kennedy@oracle.com, 
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, melissa.srw@gmail.com, natechancellor@gmail.com, 
+ sam@ravnborg.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, 
+ yepeilin.cs@gmail.com
 X-Mailman-Approved-At: Mon, 18 Jan 2021 08:25:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -34,77 +60,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though the JZ4740 did not have the OSD mode, it had (according to
-the documentation) two DMA channels, but there is absolutely no
-information about how to select the second DMA channel.
+syzbot has bisected this issue to:
 
-Make the ingenic-drm driver work in non-OSD mode by using the
-foreground0 plane (which is bound to the DMA0 channel) as the primary
-plane, instead of the foreground1 plane, which is the primary plane
-when in OSD mode.
+commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri Oct 9 23:21:56 2020 +0000
 
-Fixes: 3c9bea4ef32b ("drm/ingenic: Add support for OSD mode")
-Cc: <stable@vger.kernel.org> # v5.8+
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+    drm/vkms: fbdev emulation support
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index d23a3292a0e0..9d883864e078 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -553,7 +553,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 		height = state->src_h >> 16;
- 		cpp = state->fb->format->cpp[0];
- 
--		if (priv->soc_info->has_osd && plane->type == DRM_PLANE_TYPE_OVERLAY)
-+		if (!priv->soc_info->has_osd || plane->type == DRM_PLANE_TYPE_OVERLAY)
- 			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
- 		else
- 			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
-@@ -814,6 +814,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	const struct jz_soc_info *soc_info;
- 	struct ingenic_drm *priv;
- 	struct clk *parent_clk;
-+	struct drm_plane *primary;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct drm_encoder *encoder;
-@@ -928,9 +929,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (soc_info->has_osd)
- 		priv->ipu_plane = drm_plane_from_index(drm, 0);
- 
--	drm_plane_helper_add(&priv->f1, &ingenic_drm_plane_helper_funcs);
-+	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
- 
--	ret = drm_universal_plane_init(drm, &priv->f1, 1,
-+	drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
-+
-+	ret = drm_universal_plane_init(drm, primary, 1,
- 				       &ingenic_drm_primary_plane_funcs,
- 				       priv->soc_info->formats_f1,
- 				       priv->soc_info->num_formats_f1,
-@@ -942,7 +945,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 
- 	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
- 
--	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->f1,
-+	ret = drm_crtc_init_with_planes(drm, &priv->crtc, primary,
- 					NULL, &ingenic_drm_crtc_funcs, NULL);
- 	if (ret) {
- 		dev_err(dev, "Failed to init CRTC: %i\n", ret);
--- 
-2.29.2
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=148e2748d00000
+start commit:   b3a3cbde Add linux-next specific files for 20210115
+git tree:       linux-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=168e2748d00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=128e2748d00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ea08dae6aab586f
+dashboard link: https://syzkaller.appspot.com/bug?extid=b67aaae8d3a927f68d20
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15cd8fe0d00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17af5258d00000
 
+Reported-by: syzbot+b67aaae8d3a927f68d20@syzkaller.appspotmail.com
+Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
