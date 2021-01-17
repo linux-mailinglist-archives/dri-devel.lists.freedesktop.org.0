@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44BB2F9B2F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 706B62F9B3E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F3B6E11F;
-	Mon, 18 Jan 2021 08:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE1B6E1CD;
+	Mon, 18 Jan 2021 08:25:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF8789B03
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 00:23:58 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id 23so18780820lfg.10
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Jan 2021 16:23:58 -0800 (PST)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7B989B49
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 00:24:00 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id p13so14497441ljg.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Jan 2021 16:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/Jk4A9FOCp2DyHnXydTrDuuZ1YyYaDOR8NdDMm+cUsI=;
- b=a+DTCqyrhAjbZAurA0t2Ty8uGwXfEgkKNcDoRSisJM2VIOqXwTKIVFp90KmzyvSxad
- S9VzI9pyCyUAxU567qAM0AhOBclY/z2JZopJgrCcJrDkevsNYljg+DQ01IxhxoJi3LQS
- rcySTUdpUT5EJmtj4hn/qZfn0EMMsis7AzlR47kTgxrjORVPiDSGyRqWl7cQropxe+7k
- +e+n3ABl3jIxD1/Mb9rTejnVcY/kHH+SA7NjL9kpFpSrr69zhpUd+ThryEk/kRq3ETAF
- zveBnVxUOu2LO1CoN1dipYmGPunBlBrllmsknQgg8ji4e6Bj1cho/OICVH7iitHhz6zY
- N1cA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gHRQ0xxynPvZxQkJ0XwkKO8LykVQgvPwVrEG9Eu8CIA=;
+ b=a6xn4dTZ2IFPAX0OuBOTeKJNnVYS33dqQWXOkWew7MdddpflJN/lH4msVuofd7VNE1
+ uSdDZWYEmIVjE1pkdkEaoUlcRhhVl8QS7YgwMOa3nUL8T0/6LV89dXyV5cbqm+/On3+B
+ QD3gXecTGRMAgFZnedB4sPbuyf3vOJdVTSDsNInZc4y1cM1utPNxb57fY4fq33AbobcZ
+ uGPj5UGNfFfgTTAnM68lTSoVLNz00eqkd4smeVYNzh0CO/86ISInkRr5NcupXimuJOVH
+ unHFEgPdgxJIZHJEbvxYKJVKodGDIrbZ6Ouxnhy4O2dvxAD6+V99V6FD5rOCPjrjzJOS
+ 3Tsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/Jk4A9FOCp2DyHnXydTrDuuZ1YyYaDOR8NdDMm+cUsI=;
- b=DtCawc3Lsg5Zcp+mVvAXMX+79LmnqzdlqxBjHxOmX4au1sULcF6bbQRv1ubxjUMvSW
- /hvsEdWr6ORGNTce6NYYUXt2oKKwaj5I9rB+nbwHSI2QLujts/HPOIY77CTMyuEXSshS
- tYggUtOiY1eyAMbUlyMjmaSM5xG1YbeLhZGS64t+LD1z4d59Eu0HLEul+l1UuPWaukQM
- mG/ZtcqjgFy0zuw4rJcrr9XfJXKgFOlthABbRIvkRJJofXlEUEEyd5L2sRNmDRIcs6+X
- EXqCvXExPo25B8CfHAyWTryMxgCiv3qTPulwU8pDbuO+1PMd5MZ696B68CAGqdVw64gb
- MGDQ==
-X-Gm-Message-State: AOAM530lQ3AW696Y6C2RJlapkhTrpdSFV7F8Vs+46dM1g3bQfiUNLKGr
- 2CA8gi4nYp29/CilEyXJIsG7a+b55tA2fns3
-X-Google-Smtp-Source: ABdhPJztiPlj+sIVQy5p/4XKh8Ofta8tWsk+VZjL7nUft0CBVO9Ga8CALGyI94EiwwLbAf/JD40V+Q==
-X-Received: by 2002:a19:3d5:: with SMTP id 204mr7994701lfd.21.1610843036723;
- Sat, 16 Jan 2021 16:23:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gHRQ0xxynPvZxQkJ0XwkKO8LykVQgvPwVrEG9Eu8CIA=;
+ b=LDtqBFt8BkLFCT2itd8rHVMd6PW8sAdTs0nJV4qmOo4itN7aDLLuvZ2yqWPeKcZqKQ
+ KH3IEG7vb72tpJMiHlWfhB/2yk/f71daXgwdjWne++xBttAxh9rCW1QxwM/6gyVQVhBc
+ nWBI5mlZlGklAU+kCRomyp7xYKtToLHI9LHfXlqvYZxivjAXMOJogHkxahZsuP/VGe2I
+ 1AqOdxTrUsaq25xiOXQ6DHmRBOBXpEpcuJqsjtK9dc3joAmJWPuhNbRK3bsbtmiqOlxW
+ 6WtelJfQEHs0WQX7lod3MIop4bf5QfSyt+FSxYHyCwVG1ZGPFOjmrZCfmx7gV+P5+wBj
+ vRJg==
+X-Gm-Message-State: AOAM531N7kQbPbxTW5V5UTo8Rs4zKYxqJD4GtN15M+xHxK8LBQher0jH
+ UgXhoGxS8N7VYTE5SdDoMcoX7JA3Xp0i3LIl
+X-Google-Smtp-Source: ABdhPJxRg3eJAQoDyiUkVKBvBiFd2B9eEiPA2IEMEdjLSpsknS2wV9RDFNyeQd9YpoVEE2kPJavj2g==
+X-Received: by 2002:a2e:9985:: with SMTP id w5mr8241208lji.122.1610843038203; 
+ Sat, 16 Jan 2021 16:23:58 -0800 (PST)
 Received: from eriador.lumag.spb.ru ([94.25.228.101])
- by smtp.gmail.com with ESMTPSA id q1sm962468lfu.48.2021.01.16.16.23.55
+ by smtp.gmail.com with ESMTPSA id q1sm962468lfu.48.2021.01.16.16.23.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Jan 2021 16:23:56 -0800 (PST)
+ Sat, 16 Jan 2021 16:23:57 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3 0/3] drm/bridge/lontium-lt9611uxc: fix handling of EDID/HPD
-Date: Sun, 17 Jan 2021 03:23:52 +0300
-Message-Id: <20210117002355.435860-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 1/3] drm/bridge/lontium-lt9611uxc: fix waiting for EDID to
+ become available
+Date: Sun, 17 Jan 2021 03:23:53 +0300
+Message-Id: <20210117002355.435860-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210117002355.435860-1-dmitry.baryshkov@linaro.org>
+References: <20210117002355.435860-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 18 Jan 2021 08:25:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,24 +80,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These three patches provide fixes for HPD handling and EDID readout for
-Lontium lt9611uxc DSI-to-HDMI bridge driver.
+- Call wake_up() when EDID ready event is received to wake
+  wait_event_interruptible_timeout()
 
-Changes since v2:
- - Declare lt9611uxc_hpd_work as static
+- Increase waiting timeout, reading EDID can take longer than 100ms, so
+  let's be on a safe side.
 
-Changes since v1:
- - Split first patch into two smaller patches
- - Add Fixes tags
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
+---
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Dmitry Baryshkov (3):
-      drm/bridge/lontium-lt9611uxc: fix waiting for EDID to become available
-      drm/bridge/lontium-lt9611uxc: fix get_edid return code
-      drm/bridge/lontium-lt9611uxc: move HPD notification out of IRQ handler
-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 41 +++++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 0c98d27f84ac..a59e811f1705 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -145,8 +145,10 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
+ 
+ 	lt9611uxc_unlock(lt9611uxc);
+ 
+-	if (irq_status & BIT(0))
++	if (irq_status & BIT(0)) {
+ 		lt9611uxc->edid_read = !!(hpd_status & BIT(0));
++		wake_up_all(&lt9611uxc->wq);
++	}
+ 
+ 	if (irq_status & BIT(1)) {
+ 		if (lt9611uxc->connector.dev)
+@@ -465,7 +467,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
+ static int lt9611uxc_wait_for_edid(struct lt9611uxc *lt9611uxc)
+ {
+ 	return wait_event_interruptible_timeout(lt9611uxc->wq, lt9611uxc->edid_read,
+-			msecs_to_jiffies(100));
++			msecs_to_jiffies(500));
+ }
+ 
+ static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+-- 
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
