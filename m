@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366E02F9B3C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:25:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2456B2F9B37
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 09:25:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5346E1B4;
-	Mon, 18 Jan 2021 08:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FBC6E199;
+	Mon, 18 Jan 2021 08:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3887889F85
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 11:27:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B3D89F85
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 11:27:25 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/3] drm/ingenic: Register devm action to cleanup encoders
-Date: Sun, 17 Jan 2021 11:26:45 +0000
-Message-Id: <20210117112646.98353-3-paul@crapouillou.net>
+Subject: [PATCH 3/3] drm/ingenic: Fix non-OSD mode
+Date: Sun, 17 Jan 2021 11:26:46 +0000
+Message-Id: <20210117112646.98353-4-paul@crapouillou.net>
 In-Reply-To: <20210117112646.98353-1-paul@crapouillou.net>
 References: <20210117112646.98353-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,46 +42,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the encoders have been devm-allocated, they will be freed way
-before drm_mode_config_cleanup() is called. To avoid use-after-free
-conditions, we then must ensure that drm_encoder_cleanup() is called
-before the encoders are freed.
+Even though the JZ4740 did not have the OSD mode, it had (according to
+the documentation) two DMA channels, but there is absolutely no
+information about how to select the second DMA channel.
 
-Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
-Cc: <stable@vger.kernel.org> # 5.8+
+Make the ingenic-drm driver work in non-OSD mode by using the
+foreground0 plane (which is bound to the DMA0 channel) as the primary
+plane, instead of the foreground1 plane, which is the primary plane
+when in OSD mode.
+
+Fixes: 3c9bea4ef32b ("drm/ingenic: Add support for OSD mode")
+Cc: <stable@vger.kernel.org> # v5.8+
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 368bfef8b340..d23a3292a0e0 100644
+index d23a3292a0e0..9d883864e078 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -803,6 +803,11 @@ static void __maybe_unused ingenic_drm_release_rmem(void *d)
- 	of_reserved_mem_device_release(d);
- }
+@@ -553,7 +553,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 		height = state->src_h >> 16;
+ 		cpp = state->fb->format->cpp[0];
  
-+static void ingenic_drm_encoder_cleanup(void *encoder)
-+{
-+	drm_encoder_cleanup(encoder);
-+}
-+
- static int ingenic_drm_bind(struct device *dev, bool has_components)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -1011,6 +1016,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			return ret;
- 		}
+-		if (priv->soc_info->has_osd && plane->type == DRM_PLANE_TYPE_OVERLAY)
++		if (!priv->soc_info->has_osd || plane->type == DRM_PLANE_TYPE_OVERLAY)
+ 			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
+ 		else
+ 			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
+@@ -814,6 +814,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	const struct jz_soc_info *soc_info;
+ 	struct ingenic_drm *priv;
+ 	struct clk *parent_clk;
++	struct drm_plane *primary;
+ 	struct drm_bridge *bridge;
+ 	struct drm_panel *panel;
+ 	struct drm_encoder *encoder;
+@@ -928,9 +929,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	if (soc_info->has_osd)
+ 		priv->ipu_plane = drm_plane_from_index(drm, 0);
  
-+		ret = devm_add_action_or_reset(dev, ingenic_drm_encoder_cleanup,
-+					       encoder);
-+		if (ret)
-+			return ret;
+-	drm_plane_helper_add(&priv->f1, &ingenic_drm_plane_helper_funcs);
++	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
+ 
+-	ret = drm_universal_plane_init(drm, &priv->f1, 1,
++	drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
 +
- 		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 		if (ret) {
- 			dev_err(dev, "Unable to attach bridge\n");
++	ret = drm_universal_plane_init(drm, primary, 1,
+ 				       &ingenic_drm_primary_plane_funcs,
+ 				       priv->soc_info->formats_f1,
+ 				       priv->soc_info->num_formats_f1,
+@@ -942,7 +945,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 
+ 	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
+ 
+-	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->f1,
++	ret = drm_crtc_init_with_planes(drm, &priv->crtc, primary,
+ 					NULL, &ingenic_drm_crtc_funcs, NULL);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to init CRTC: %i\n", ret);
 -- 
 2.29.2
 
