@@ -2,62 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DA22FA83C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 19:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7640A2FAA3D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 20:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116C46E563;
-	Mon, 18 Jan 2021 18:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712626E573;
+	Mon, 18 Jan 2021 19:33:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C576E454
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 18:03:41 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id g1so17931179edu.4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 10:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=VE5dS/K6+mlA/xDSWx/xrkP+6TV7zHaZLCQABHwVPBc=;
- b=niIgAQftt+iRc9Z5Rd0ZBVUIJw+UnBiAL1ORdEAfqHO9a3jOkKW/kVL/UQJf3qOkiT
- aQuAMpm4E8xW0tAf+FTZhBcS8TpfwbxbMHmtQvV6ox9DjnFFkpHa/JKdk+xwsHj9Qj+D
- cM8SLBciAm3LEIcZKQpCr1tQ/WaAlYG2wKbkB04LYXwoxacAgZLi7VtgwrRAKD2A7HrS
- 7S7FGTCZuhB1FIMEgUg4dvnL9kt3D/cvHKofVbYo8nGxBBGMEk2Gc/u/YoVJ9MHfSQnp
- Nhf/onJWCx/BAjrrtB5CaACnqxsTPDzlW8F0r4mH5Z40zPMQtA99bhdLoFeHYjDZ4ego
- e1Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VE5dS/K6+mlA/xDSWx/xrkP+6TV7zHaZLCQABHwVPBc=;
- b=aEQJYJNWqOrUsNzJ2feIfx/MD1bViiSmPJ+6BG+tGzkn9wcO/7W+koHl9O+BtmvV16
- 8nm/6f+DeeFaLZ+PIJs43T/edFbeVVfOEG6CWKMZFGaXL2j7dWMv3txxRtHNyuE9sjq+
- QotIU2h3qEJaXJQW4OoiZUZLgPAAS0jyqi304II5IGSg+JZDgx2P3CvJNrJ56GtmK0BS
- Kz46mC4Wv1x+IeKgo/z7vo5g1SlPvi3rG4qju4LXHA7eU4BWrVlLGwBvWRJmo+OpM0o/
- UyNhL3s4i8OSAQKIRcGyght0cXtrmc2WUtB30HkIvKFKQ3EQAj7OTDZyUsXD0OqlPibm
- /ccg==
-X-Gm-Message-State: AOAM532RKQK9sLtWpfnV+RW8hFFDCLpnbWurHfqHW+xKxCu/MvdjwivC
- Uu3d83cKS6Vr1CCADTDLHkzl58Aj60c=
-X-Google-Smtp-Source: ABdhPJzjLHgUaYzajBP6OisVZojLERChVEt+qJ0CvomcPa+ueUUtHlwwBcFkDZX4N3CTwjnZZqvZ3w==
-X-Received: by 2002:a05:6402:3116:: with SMTP id
- dc22mr480138edb.325.1610993020444; 
- Mon, 18 Jan 2021 10:03:40 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:4449:7b65:bfa0:95f5])
- by smtp.gmail.com with ESMTPSA id x5sm10651160edi.35.2021.01.18.10.03.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 10:03:39 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/syncobj: make lockdep complain on WAIT_FOR_SUBMIT v2
-Date: Mon, 18 Jan 2021 19:03:34 +0100
-Message-Id: <20210118180334.43714-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210118180334.43714-1-christian.koenig@amd.com>
-References: <20210118180334.43714-1-christian.koenig@amd.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr770054.outbound.protection.outlook.com [40.107.77.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 175296E570;
+ Mon, 18 Jan 2021 19:33:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aG+BdsFNDgowqXooMz0qykp8S4m4ikklXeyEIsutpdCSdyuRZMb4ozPB3b0tPFum1TJYtc4amUtT5uicXZQ4xsG7vChb/yQIiRpcmJ50z3vjUTz4AVm54l38AnpUZzY2T7r2WHdA+JJXuW6R0l1KaVteKjicV+rNVu0D46BhBf7GEXSgU8iYlrToEs0yKsMzZZACfj/lSRmjfCuAVFR6WxTqMh6VW151IO3QTRHS45hN5tsa5IEEyaimBUySMqDvYTX+HYWP64VDasMyozret+dr9gHXmzWPvAjFIvWDIHsfArCvFxqUM1r9yotm1rfkps/5PwnKw629ij3swGfWdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M+AkQcHX+xzrwhhEM/zgfqpPUe8og6Dd2tQTJeYsE5U=;
+ b=DMiCl4fshBiggsNeFPMHzlvHpa0cCCCr2WFq5C94oB9OEmWXipJUJvAExdbenMtdWr6KCFQ6DzLZR2Rbn9nTxK8KDMwB/8pfm97gvnS4k+FuS7VVKNfGqlxEEUD8TsNC/I8rQjK0t1WMOxmZ9g7vI9w1k44y3kcTCPoHSavYPMP3/NXWNKM6WpA1VMxUaf0mm219MF9gR8nPqUoQku/GA2wYopAuLQnIm9bgQNZ/wCE2NWH7AgswQQlyUP/KoxmPQAFCTs5dXztIxjzGYFS9fz7ApINntFxDpTv+9gn78fkMa0SolJ/H+efNaFA2A8U/78PWC0QDDAsSkzURrydGNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M+AkQcHX+xzrwhhEM/zgfqpPUe8og6Dd2tQTJeYsE5U=;
+ b=X5IKBtm9EtKJRnZrIJll03uhTSyVw9u10Qd33PSwXV2XzryTOOQ0mku9Kh9NvCtdkuk3UFAEBHv7vy019cGTJonHhyazFSUOTExoDtwFI/c/LIV/8Q0SE22/8N9bgJQ7Brp8ehAF7kqRE6D/EHkbAcBegTzmqxcfzkYAUVliA9k=
+Received: from (2603:10b6:208:8f::18) by
+ BLAPR05MB7409.namprd05.prod.outlook.com (2603:10b6:208:294::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.4; Mon, 18 Jan 2021 19:33:09 +0000
+Received: from BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::856b:10f9:d35c:cde1]) by BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::856b:10f9:d35c:cde1%4]) with mapi id 15.20.3784.010; Mon, 18 Jan 2021
+ 19:33:09 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 5/6] drm/vmwgfx: Remove reference to struct
+ drm_device.pdev
+Thread-Topic: [PATCH v4 5/6] drm/vmwgfx: Remove reference to struct
+ drm_device.pdev
+Thread-Index: AQHW7Zvj340/8ECBAEqG6awTVqydY6otxkSA
+Date: Mon, 18 Jan 2021 19:33:09 +0000
+Message-ID: <4AE40A60-7DE8-4018-9CDB-FA4EE4F378CB@vmware.com>
+References: <20210118131420.15874-1-tzimmermann@suse.de>
+ <20210118131420.15874-6-tzimmermann@suse.de>
+In-Reply-To: <20210118131420.15874-6-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+authentication-results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=vmware.com;
+x-originating-ip: [71.175.59.246]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 01136b05-f562-4d13-4d7a-08d8bbe7e320
+x-ms-traffictypediagnostic: BLAPR05MB7409:
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BLAPR05MB740903A7FB2BA3EFCB58CBA1CEA49@BLAPR05MB7409.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: v7SUfQ3hfgpjKQHJLvMynkVewAxiYSkUONBopywHRupMH5Y1fYOO3WsohR/0GcYEHog/oGeGiQ7ddPmsKpXHhUqdOzUWNsGHSPhwQlbV8fsZ+g9hI/ps1vMpLApDsAWWKpHMGUY7RCr3BpB3obvAaxG1VGP893EbbJGYcJ5jPOX9iVtE0wZ31xE3/VYtGct094KSJcfrMbGkceO/CUCjfXHXSf4otIdXfz7JqLB3DAvRDmxXB8YwauWuA4poel/do8sMn6C4agF7ndW/fhEoarQBGPkIwYsq/Fffnb4UmbG+WJiVbKnJQzsb3iR+2swthgBUUcOf6aSVuOaIylFq1wcP3TBmQ92MmqasWrwzuFMl5Ec82FFD4Oj1BjjIk9WiZm2awz/oQA//gKJZeu2S3ZHXrdoh7BJorF2lBBkY/BHAqFfXxc1pgc0RCbcRnLqhoS+ty3XdBTGq7OWn3HgEGmnsCfwWbsonq6QnDPu2R90pejg2HXnDy4c+MzQdikf1+uLazwG150xSfNU7gIV1Md4P2LM/iTWupJRy2IMstk7MTjwgG0Vb2+fuUN2OEFRxlse2hD98xq+q3oF7AJoCIg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR05MB5186.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(366004)(346002)(376002)(396003)(86362001)(478600001)(6512007)(76116006)(8936002)(316002)(8676002)(66556008)(64756008)(53546011)(6506007)(66476007)(33656002)(186003)(26005)(66946007)(36756003)(83380400001)(2616005)(66446008)(4326008)(5660300002)(107886003)(71200400001)(6486002)(54906003)(2906002)(6916009)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?EXpmoVEDsqdPMTRwzyJQe1Y8W2izArOW9W3i0ObJEHNQlolU+8sG3jUFo3Z1?=
+ =?us-ascii?Q?t1jmgGGMkOZad3lqryGRSoGMe4mkri/69gcT+3QXcFPSien1YwYZr6ORNTRx?=
+ =?us-ascii?Q?tBDEbgV0I81a1FAB15v6KxfEtLOarD6sKp8HHVjqVvbC7XmCP7nFCTYOqPy0?=
+ =?us-ascii?Q?ekoc6nRFqgL+U1G7DYp+Z51WqfbFv7MRIIxZ5yLmBrbeUpxDICXSfVMv48OI?=
+ =?us-ascii?Q?6Bxj5WBM6/OmpgbwI/G30lGhdHr4En6ESug9BIb1kas9mTe1RZlrTZBKAbcf?=
+ =?us-ascii?Q?LvhfN/Fm71VQVCGMHQyUZo7iqDt+Q713Zj/vqWsrNfZ13lMXYHQV3C5AsfX9?=
+ =?us-ascii?Q?CZuZ4juVpy0qUt71vvCtxKZ6/1Fzx2ubvp4EOviQmA/cg0GMpsAdfS9lyOXX?=
+ =?us-ascii?Q?OQssz9kRZqdK0knSJMwMgntNlKfinVixIVKOcQdwxLeMq8f7qQ2PtHQURhuH?=
+ =?us-ascii?Q?Q4nBh9aOO7XQple79EiUmWKDUHdmGFz49PJiYMHYMaTOGpO7gf2DK/LR53Cn?=
+ =?us-ascii?Q?zhJte4V13OOT/iQcFOj9w/fj+0lcECsyBweFzSCSpctdf2x1EGSI4FjRHhxs?=
+ =?us-ascii?Q?QtODksVigYmYAJ7QRuOnf5hbSE0BXC0Tz3shGRZLOKuO6S/KKW2HQU+I+ZCT?=
+ =?us-ascii?Q?/a4Y2KFySdF491PgJB1j+MNOVoQIqt5yArzpKVRO9MIK3mfzYAEZONdSQCZs?=
+ =?us-ascii?Q?Hnk07qYMYCJOGk4rQNlYcTjNW7BtkMTfisJoi9+3imr/iz9t82TR94CGtRGR?=
+ =?us-ascii?Q?7JD95asC9/oWJ5aJNa8CWNXQCJ/EDvyai/GQq4tucMTZA+AOYZlxfkAylgjo?=
+ =?us-ascii?Q?ZUnakxmm8taAZLMnpu6R8Cq05MOh1Fk4uHqJjBY2osHED8KI80Ykp5jOYM8m?=
+ =?us-ascii?Q?9z/TLn0KeOJMr4p4IfwQzJlnQcqfZGGU/3CEa+Pac8Yt22YD5jel2FiCNQ8i?=
+ =?us-ascii?Q?NWGG36Fn9TaOGj9A6k75N5AnS+qsBERIKMdUz8iyM1cZ8m6sm/qTfHlMaz7s?=
+ =?us-ascii?Q?4z2X?=
+Content-ID: <C844590CC3171849874BAF6A1BD101A2@namprd05.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR05MB5186.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01136b05-f562-4d13-4d7a-08d8bbe7e320
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2021 19:33:09.3940 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b6/RhD9ghtJaNTG1t17RNSjZFHwOKKaTsl5NJRYApFSpPkAObflOjKENrw4phRJbzxRNpL58fU1qVwNYqvsYmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR05MB7409
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +112,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Martin Krastev <krastevm@vmware.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RFJNX1NZTkNPQkpfV0FJVF9GTEFHU19XQUlUX0ZPUl9TVUJNSVQgY2FuJ3QgYmUgdXNlZCB3aGVu
-IHdlIGhvbGQgbG9ja3MKc2luY2Ugd2UgYXJlIGJhc2ljYWxseSB3YWl0aW5nIGZvciB1c2Vyc3Bh
-Y2UgdG8gZG8gc29tZXRoaW5nLgoKSG9sZGluZyBhIGxvY2sgd2hpbGUgZG9pbmcgc28gY2FuIHRy
-aXZpYWwgZGVhZGxvY2sgd2l0aCBwYWdlIGZhdWx0cwpldGMuLi4KClNvIG1ha2UgbG9ja2RlcCBj
-b21wbGFpbiB3aGVuIGEgZHJpdmVyIHRyaWVzIHRvIGRvIHRoaXMuCgp2MjogQWRkIGxvY2tkZXBf
-YXNzZXJ0X25vbmVfaGVsZCgpIG1hY3JvLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fc3lu
-Y29iai5jIHwgNyArKysrKysrCiBpbmNsdWRlL2xpbnV4L2xvY2tkZXAuaCAgICAgICB8IDUgKysr
-KysKIDIgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMK
-aW5kZXggNmU3NGU2NzQ1ZWNhLi5mNTE0NTg2MTUxNTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fc3luY29iai5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCkBA
-IC0zODcsNiArMzg3LDEzIEBAIGludCBkcm1fc3luY29ial9maW5kX2ZlbmNlKHN0cnVjdCBkcm1f
-ZmlsZSAqZmlsZV9wcml2YXRlLAogCWlmICghc3luY29iaikKIAkJcmV0dXJuIC1FTk9FTlQ7CiAK
-KwkvKiBXYWl0aW5nIGZvciB1c2Vyc3BhY2Ugd2l0aCBsb2NrcyBoZWxwIGlzIGlsbGVnYWwgY2F1
-c2UgdGhhdCBjYW4KKwkgKiB0cml2aWFsIGRlYWRsb2NrIHdpdGggcGFnZSBmYXVsdHMgZm9yIGV4
-YW1wbGUuIE1ha2UgbG9ja2RlcCBjb21wbGFpbgorCSAqIGFib3V0IGl0IGVhcmx5IG9uLgorCSAq
-LworCWlmIChmbGFncyAmIERSTV9TWU5DT0JKX1dBSVRfRkxBR1NfV0FJVF9GT1JfU1VCTUlUKQor
-CQlsb2NrZGVwX2Fzc2VydF9ub25lX2hlbGRfb25jZSgpOworCiAJKmZlbmNlID0gZHJtX3N5bmNv
-YmpfZmVuY2VfZ2V0KHN5bmNvYmopOwogCWRybV9zeW5jb2JqX3B1dChzeW5jb2JqKTsKIApkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9saW51eC9sb2NrZGVwLmggYi9pbmNsdWRlL2xpbnV4L2xvY2tkZXAu
-aAppbmRleCBiOWU5YWRlYzczZTguLjZlYjExN2MwZDBmMyAxMDA2NDQKLS0tIGEvaW5jbHVkZS9s
-aW51eC9sb2NrZGVwLmgKKysrIGIvaW5jbHVkZS9saW51eC9sb2NrZGVwLmgKQEAgLTMxMCw2ICsz
-MTAsMTAgQEAgZXh0ZXJuIHZvaWQgbG9ja191bnBpbl9sb2NrKHN0cnVjdCBsb2NrZGVwX21hcCAq
-bG9jaywgc3RydWN0IHBpbl9jb29raWUpOwogCQlXQVJOX09OX09OQ0UoZGVidWdfbG9ja3MgJiYg
-IWxvY2tkZXBfaXNfaGVsZChsKSk7CVwKIAl9IHdoaWxlICgwKQogCisjZGVmaW5lIGxvY2tkZXBf
-YXNzZXJ0X25vbmVfaGVsZF9vbmNlKCkJZG8gewkJCQlcCisJCVdBUk5fT05fT05DRShkZWJ1Z19s
-b2NrcyAmJiBjdXJyZW50LT5sb2NrZGVwX2RlcHRoKTsJXAorCX0gd2hpbGUgKDApCisKICNkZWZp
-bmUgbG9ja2RlcF9yZWN1cnNpbmcodHNrKQkoKHRzayktPmxvY2tkZXBfcmVjdXJzaW9uKQogCiAj
-ZGVmaW5lIGxvY2tkZXBfcGluX2xvY2sobCkJbG9ja19waW5fbG9jaygmKGwpLT5kZXBfbWFwKQpA
-QCAtMzg3LDYgKzM5MSw3IEBAIGV4dGVybiBpbnQgbG9ja2RlcF9pc19oZWxkKGNvbnN0IHZvaWQg
-Kik7CiAjZGVmaW5lIGxvY2tkZXBfYXNzZXJ0X2hlbGRfd3JpdGUobCkJZG8geyAodm9pZCkobCk7
-IH0gd2hpbGUgKDApCiAjZGVmaW5lIGxvY2tkZXBfYXNzZXJ0X2hlbGRfcmVhZChsKQkJZG8geyAo
-dm9pZCkobCk7IH0gd2hpbGUgKDApCiAjZGVmaW5lIGxvY2tkZXBfYXNzZXJ0X2hlbGRfb25jZShs
-KQkJZG8geyAodm9pZCkobCk7IH0gd2hpbGUgKDApCisjZGVmaW5lIGxvY2tkZXBfYXNzZXJ0X25v
-bmVfaGVsZF9vbmNlKCkJZG8geyB9IHdoaWxlICgwKQogCiAjZGVmaW5lIGxvY2tkZXBfcmVjdXJz
-aW5nKHRzaykJCQkoMCkKIAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+
+> On Jan 18, 2021, at 08:14, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> 
+> Using struct drm_device.pdev is deprecated in favor of drm_device.dev.
+> The reference to the field was reintroduced during a rebase.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 9703bb329206 ("drm/vmwgfx: Switch to a managed drm device")
+> Cc: Zack Rusin <zackr@vmware.com>
+> Cc: Martin Krastev <krastevm@vmware.com>
+> Cc: Roland Scheidegger <sroland@vmware.com>
+> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+> drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 1 -
+> 1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 8c3eb00e8b54..545b83e338fc 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1524,7 +1524,6 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+> 	if (IS_ERR(vmw))
+> 		return PTR_ERR(vmw);
+> 
+> -	vmw->drm.pdev = pdev;
+> 	pci_set_drvdata(pdev, &vmw->drm);
+> 
+> 	ret = vmw_driver_load(vmw, ent->device);
+
+Ah, sorry about that. Looks good.
+
+Reviewed-by: Zack Rusin <zackr@vmware.com>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
