@@ -1,66 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE592FA074
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 13:53:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A632FA0F4
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 14:14:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BC889E06;
-	Mon, 18 Jan 2021 12:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC25F6E1E9;
+	Mon, 18 Jan 2021 13:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83BD89E06
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 12:52:58 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id c5so16349802wrp.6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 04:52:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=D1pyQppAA+wvHZoSq97i6wx6SxOqkfmcx7zBXfJmsUE=;
- b=ccLPRV7H6TPy5FaDHa6HRufGAmVTtUcPP0aNjYLtg7BXTDqPoAL1KqRBVJ8YssQe/q
- SkJeenWJs9M0OHU4D60tMaVsxRqbR/TpwkR+twarnfpbxmrItmT+5oZs954YiaGq4t7K
- mo2P5xg0rwUDd3yTU/qU14hKBc4MKtJOwKmPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=D1pyQppAA+wvHZoSq97i6wx6SxOqkfmcx7zBXfJmsUE=;
- b=JQE13dQGEFATLrVxUWZ3LvLdPHgvEAK5Jsg+f4eTNCSf1uorMWvgpWx2CywVV7+aLN
- vyduZjmdF6UKTMUr9SDZM9GUlxQI3Uml9y3pmxsIbmg9amcOi/YdRLP8RwgcFI3XR+UG
- Cj4u/dAKBPWVsLPWp2uMjxlLb+tEE3/b1QXIDzbrvfgvMij74uBDP3spi86GQt1jjcu1
- SHuwXIf3GUUOxBf7gJb8Uc/ZlNVYhjg3IUgphBn+YgMNibgR2wKt6RUbndcA43Wgmzuc
- QfS6pbJa4CPwMstaqlhc1Typgf/YQcswTWtIFBJBhiiuxXy0wQgzk/qMko6eH5ONtX3y
- 5lFw==
-X-Gm-Message-State: AOAM533ZRQr8lHSO4T0oHfor2RRY8RjCroo4hWwxdDn4i1zzMPJe6MhV
- xMKLrUg7IJsBpHWpisMAIVXCOQ==
-X-Google-Smtp-Source: ABdhPJzxIHaZac3kc6pq7MGlzbkyFJIIStSfDrlGhD0mywUk57483NkSG1rJNT2xYmJt1OLnql1nDQ==
-X-Received: by 2002:adf:f4d0:: with SMTP id h16mr26228451wrp.30.1610974377438; 
- Mon, 18 Jan 2021 04:52:57 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i18sm30793367wrp.74.2021.01.18.04.52.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 04:52:56 -0800 (PST)
-Date: Mon, 18 Jan 2021 13:52:54 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/3] drm/ingenic: Register devm action to cleanup encoders
-Message-ID: <YAWEpjU6BmeK8deo@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, od@zcrc.me, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210117112646.98353-1-paul@crapouillou.net>
- <20210117112646.98353-3-paul@crapouillou.net>
- <YAVYUzR9+ic5lEjE@pendragon.ideasonboard.com>
- <1BO4NQ.1RZAXLMVC01T@crapouillou.net>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BF689994;
+ Mon, 18 Jan 2021 13:14:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id F063BB96A;
+ Mon, 18 Jan 2021 13:14:28 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, sroland@vmware.com, zackr@vmware.com
+Subject: [PATCH v4 0/6] drm: Move struct drm_device.pdev to legacy
+Date: Mon, 18 Jan 2021 14:14:14 +0100
+Message-Id: <20210118131420.15874-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1BO4NQ.1RZAXLMVC01T@crapouillou.net>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,110 +36,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, od@zcrc.me,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-graphics-maintainer@vmware.com, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 18, 2021 at 11:37:49AM +0000, Paul Cercueil wrote:
-> Hi Laurent,
-> =
+I merged more patches into drm-misc-next. I'm mostly sending out v4 of
+this patchset to split the final patch into the core changes and the
+patch for moving pdev behind CONFIG_DRM_LEGACY. The former are required
+to fix a reported bug. [1] There's also a fix to vmwgfx.
 
-> Le lun. 18 janv. 2021 =E0 11:43, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> a =E9crit :
-> > Hi Paul,
-> > =
+The pdev field in struct drm_device points to a PCI device structure and
+goes back to UMS-only days when all DRM drivers were for PCI devices.
+Meanwhile we also support USB, SPI and platform devices. Each of those
+uses the generic device stored in struct drm_device.dev.
 
-> > Thank you for the patch.
-> > =
+To reduce duplication and remove the special case of PCI, this patchset
+converts all modesetting drivers from pdev to dev and makes pdev a field
+for legacy UMS drivers.
 
-> > On Sun, Jan 17, 2021 at 11:26:45AM +0000, Paul Cercueil wrote:
-> > >  Since the encoders have been devm-allocated, they will be freed way
-> > >  before drm_mode_config_cleanup() is called. To avoid use-after-free
-> > >  conditions, we then must ensure that drm_encoder_cleanup() is called
-> > >  before the encoders are freed.
-> > =
+For PCI devices, the pointer in struct drm_device.dev can be upcasted to
+struct pci_device; or tested for PCI with dev_is_pci(). In several places
+the code can use the dev field directly.
 
-> > How about allocating the encoder with drmm_encoder_alloc() instead ?
-> =
+After converting all drivers and the DRM core, the pdev fields becomes
+only relevant for legacy drivers. In a later patchset, we may want to
+convert these as well and remove pdev entirely.
 
-> That would work, but it is not yet in drm-misc-fixes :(
+v4:
+	* merged several patches
+	* moved core changes into separate patch
+	* vmwgfx build fix
+v3:
+	* merged several patches
+	* fix one pdev reference in nouveau (Jeremy)
+	* rebases
+v2:
+	* move whitespace fixes into separate patches (Alex, Sam)
+	* move i915 gt/ and gvt/ changes into separate patches (Joonas)
 
-Well I think then we should only fix this in drm-misc-next. Adding more
-broken usage of devm_ isn't really a good idea.
+[1] https://lore.kernel.org/dri-devel/7851c78c-8c57-3c84-cd49-a72703095a5d@suse.de/
 
-If you want this in -fixes, then I think hand-roll it. But devm_ for drm
-objects really is the wrong fix.
--Daniel
+Thomas Zimmermann (6):
+  drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
+  drm/i915: Remove references to struct drm_device.pdev
+  drm/i915/gt: Remove references to struct drm_device.pdev
+  drm/i915/gvt: Remove references to struct drm_device.pdev
+  drm/vmwgfx: Remove reference to struct drm_device.pdev
+  drm: Move struct drm_device.pdev to legacy section
 
-> =
+ drivers/gpu/drm/drm_agpsupport.c              |  9 ++++---
+ drivers/gpu/drm/drm_bufs.c                    |  4 +--
+ drivers/gpu/drm/drm_edid.c                    |  7 ++++-
+ drivers/gpu/drm/drm_irq.c                     | 12 +++++----
+ drivers/gpu/drm/drm_pci.c                     | 26 +++++++++++--------
+ drivers/gpu/drm/drm_vm.c                      |  2 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    | 14 +++++-----
+ drivers/gpu/drm/i915/display/intel_csr.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 ++--
+ drivers/gpu/drm/i915/display/intel_opregion.c |  6 ++---
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  4 +--
+ drivers/gpu/drm/i915/display/intel_quirks.c   |  2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_vga.c      |  8 +++---
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 ++---
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 10 +++----
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 +--
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  8 +++---
+ drivers/gpu/drm/i915/gt/intel_reset.c         |  6 ++---
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 ++--
+ drivers/gpu/drm/i915/gvt/firmware.c           | 10 +++----
+ drivers/gpu/drm/i915/gvt/gtt.c                | 12 ++++-----
+ drivers/gpu/drm/i915/gvt/gvt.c                |  6 ++---
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  4 +--
+ drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 20 +++++++-------
+ drivers/gpu/drm/i915/i915_drv.h               |  2 +-
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  5 ++--
+ drivers/gpu/drm/i915/i915_getparam.c          |  5 ++--
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
+ drivers/gpu/drm/i915/i915_irq.c               |  6 ++---
+ drivers/gpu/drm/i915/i915_pmu.c               |  2 +-
+ drivers/gpu/drm/i915/i915_suspend.c           |  4 +--
+ drivers/gpu/drm/i915/i915_switcheroo.c        |  4 +--
+ drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+ drivers/gpu/drm/i915/intel_device_info.c      |  2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           |  4 +--
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 -
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  1 -
+ include/drm/drm_device.h                      |  6 ++---
+ 50 files changed, 137 insertions(+), 125 deletions(-)
 
-> -Paul
-> =
+--
+2.29.2
 
-> > >  Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
-> > >  Cc: <stable@vger.kernel.org> # 5.8+
-> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > >  ---
-> > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 10 ++++++++++
-> > >   1 file changed, 10 insertions(+)
-> > > =
-
-> > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  index 368bfef8b340..d23a3292a0e0 100644
-> > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  @@ -803,6 +803,11 @@ static void __maybe_unused
-> > > ingenic_drm_release_rmem(void *d)
-> > >   	of_reserved_mem_device_release(d);
-> > >   }
-> > > =
-
-> > >  +static void ingenic_drm_encoder_cleanup(void *encoder)
-> > >  +{
-> > >  +	drm_encoder_cleanup(encoder);
-> > >  +}
-> > >  +
-> > >   static int ingenic_drm_bind(struct device *dev, bool
-> > > has_components)
-> > >   {
-> > >   	struct platform_device *pdev =3D to_platform_device(dev);
-> > >  @@ -1011,6 +1016,11 @@ static int ingenic_drm_bind(struct device
-> > > *dev, bool has_components)
-> > >   			return ret;
-> > >   		}
-> > > =
-
-> > >  +		ret =3D devm_add_action_or_reset(dev, ingenic_drm_encoder_cleanup,
-> > >  +					       encoder);
-> > >  +		if (ret)
-> > >  +			return ret;
-> > >  +
-> > >   		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
-> > >   		if (ret) {
-> > >   			dev_err(dev, "Unable to attach bridge\n");
-> > =
-
-> > --
-> > Regards,
-> > =
-
-> > Laurent Pinchart
-> =
-
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
