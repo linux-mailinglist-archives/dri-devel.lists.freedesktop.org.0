@@ -1,29 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D52D2FA2CC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FA12FA326
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96DC7898BC;
-	Mon, 18 Jan 2021 14:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF1176E2C7;
+	Mon, 18 Jan 2021 14:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2251C898BC
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 14:21:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 398A11FB;
- Mon, 18 Jan 2021 06:21:47 -0800 (PST)
-Received: from cubie.arm.com (unknown [10.37.8.38])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 847FA3F68F;
- Mon, 18 Jan 2021 06:21:46 -0800 (PST)
-From: carsten.haitzler@foss.arm.com
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63D46E2C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 14:35:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6098A221E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 14:35:11 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id 56A9982AAE; Mon, 18 Jan 2021 14:35:11 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/komeda: Fix bit check to import to value of proper type
-Date: Mon, 18 Jan 2021 14:20:13 +0000
-Message-Id: <20210118142013.277404-1-carsten.haitzler@foss.arm.com>
-X-Mailer: git-send-email 2.29.2
+Subject: [Bug 211263] New: amdgpu: navi (RX 5500 XT) high power consumption
+ while idling on 75Hz display
+Date: Mon, 18 Jan 2021 14:35:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: contato-myghi63@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-211263-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,86 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carsten Haitzler <carsten.haitzler@arm.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=211263
 
-Another issue found by KASAN. The bit finding is bueried inside the
-dp_for_each_set_bit() macro (that passes on to for_each_set_bit() that
-calls the bit stuff. These bit functions want an unsigned long pointer
-as input and just dumbly casting leads to out-of-bounds accesses.
-This fixes that.
+            Bug ID: 211263
+           Summary: amdgpu: navi (RX 5500 XT) high power consumption while
+                    idling on 75Hz display
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.10.7
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: contato-myghi63@protonmail.com
+        Regression: No
 
-Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
----
- .../drm/arm/display/komeda/komeda_pipeline_state.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Created attachment 294731
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294731&action=edit
+corectrl monitoring at 60hz and 75hz
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-index e8b1e15312d8..f7dddb9f015d 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-@@ -1232,7 +1232,8 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
- 	struct komeda_component_state *c_st;
- 	struct komeda_component *c;
--	u32 disabling_comps, id;
-+	u32 id;
-+	unsigned long disabling_comps;
- 
- 	WARN_ON(!old);
- 
-@@ -1262,7 +1263,6 @@ int komeda_release_unclaimed_resources(struct komeda_pipeline *pipe,
- 		st = komeda_pipeline_get_new_state(pipe, drm_st);
- 	else
- 		st = komeda_pipeline_get_state_and_set_crtc(pipe, drm_st, NULL);
--
- 	if (WARN_ON(IS_ERR_OR_NULL(st)))
- 		return -EINVAL;
- 
-@@ -1287,7 +1287,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *old;
- 	struct komeda_component *c;
- 	struct komeda_component_state *c_st;
--	u32 id, disabling_comps = 0;
-+	u32 id;
-+	unsigned long disabling_comps;
- 
- 	old = komeda_pipeline_get_old_state(pipe, old_state);
- 
-@@ -1297,7 +1298,7 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
- 		disabling_comps = old->active_comps &
- 				  pipe->standalone_disabled_comps;
- 
--	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
-+	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
- 			 pipe->id, old->active_comps, disabling_comps);
- 
- 	dp_for_each_set_bit(id, disabling_comps) {
-@@ -1331,13 +1332,14 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
- 	struct komeda_pipeline_state *old;
- 	struct komeda_component *c;
--	u32 id, changed_comps = 0;
-+	u32 id;
-+	unsigned long changed_comps;
- 
- 	old = komeda_pipeline_get_old_state(pipe, old_state);
- 
- 	changed_comps = new->active_comps | old->active_comps;
- 
--	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
-+	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
- 			 pipe->id, new->active_comps, changed_comps);
- 
- 	dp_for_each_set_bit(id, changed_comps) {
+Overview:
+
+My RX 5500XT (GV-R55XTOC-8GD) consumes about 15W on idle if my monitor
+(24MK430) is on 75Hz, and just 3W on 60Hz. This did never happened before 5.10
+kernels. Any older kernel consumes 3W even on 75Hz, same hardware, same
+configurations.
+
+Steps to reproduce:
+Install any distro with 5.10 kernel on a system that have high refresh rate
+display and AMD NAVI GPU.
+
+Actual results:
+High GPU power consumption while idling, GPU heating and fans spinning up while
+doing nothing on the computer.
+
+Expected results:
+Low power consumption and low GPU heat.
+
+Operational System:
+Arch Linux (latest packages avaliable from the repository)
+
+Additional Information:
+Here's my tlp configuration (keep in mind: that same configuration was applied
+on kernel 5.9.14 and 5.4.90, both working properly with 3W at 75Hz):
+
+RADEON_POWER_PROFILE_ON_AC=high
+RADEON_DPM_PERF_LEVEL_ON_AC=auto
+RADEON_DPM_STATE_ON_AC=performance
+
 -- 
-2.29.2
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
