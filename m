@@ -1,52 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9AC2F9AC7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 08:46:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CD92F9AD3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 08:54:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACBAF6E0F4;
-	Mon, 18 Jan 2021 07:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039E86E0F5;
+	Mon, 18 Jan 2021 07:54:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D584F6E0F4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 07:46:25 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id d189so16817856oig.11
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Jan 2021 23:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=l+LSWdfCYn1btsVCSU91NdRUd3kcTfJ/C+5NiKfK6SI=;
- b=W0cnYh/jL15j51JJaDQSLKs4Fw3EBt1PqoGtgqfgQc4uMMbvLVH5MOGTqhXJvtMqe0
- y7UcWh3NJCHn3lEaLBn78RWuaiCU2kEegm49FfX2h0wMjfl9S6/gW5MnkKpjZgF+z9Pa
- uMYWfZClKmvC6eBfO8HLDJOnGgjw4YwZFgvPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=l+LSWdfCYn1btsVCSU91NdRUd3kcTfJ/C+5NiKfK6SI=;
- b=K/LWcGUQKKK/+GUWpT3Uzl/mk7jmmTOcDax+CECECtO5zmHXQQLuYOAQnIQGlFvFnY
- jHgVcTvR6F2tcML39GcTpogWdx7hMO8eMSjb/uXZFxbSIzWW06aUFgTeF3sPK5HP3ePU
- jCEQkeU6gxByGqq/vsg0ynu+E3skfIJDE0H7x6dWCx5IwyKmS4CuiP1f6nU5fcxpx9Jt
- kh3NsfOV3P5rU8wIgKJ0ZcayYsZyI5M5MqGfOgsCfwU8ZAvKbz5UtTnHzJiq+LJcitgs
- bChH/GUKIlOJCMDF32XgRz90pSrhTJ/zrIpOfrxoBowdlaQM9S+xAj4tEvK9vpELFVXI
- KUGg==
-X-Gm-Message-State: AOAM533hagE5/lo+SHdb3epz341qKDb5nv520tSSA3MGRoYvDl37lJqN
- VFWVX++N8NvtHq8JWek7sgMyQQZLQuVBcUbCkDwcKw==
-X-Google-Smtp-Source: ABdhPJwNF8zbOxc9vhWr1zvlpelmYS7pUhb2t2qRoI5vRhVEntkQXVrg8oZGjA2VthlKaMTEowMZinUyAzwxHEoLrt4=
-X-Received: by 2002:aca:ad92:: with SMTP id w140mr1117924oie.128.1610955985196; 
- Sun, 17 Jan 2021 23:46:25 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 909666E0F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 07:54:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 259ABAB9F;
+ Mon, 18 Jan 2021 07:54:08 +0000 (UTC)
+Subject: Re: Change eats memory on my server
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Eli Cohen <elic@nvidia.com>
+References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
+ <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
+ <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
+ <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
+Date: Mon, 18 Jan 2021 08:54:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210118012246.1858892-1-zhangzhijie@loongson.cn>
- <fd296f78-86df-e933-78ff-4b66e978e730@suse.de>
-In-Reply-To: <fd296f78-86df-e933-78ff-4b66e978e730@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 18 Jan 2021 08:46:14 +0100
-Message-ID: <CAKMK7uHsRS3e2CSnHMw=LKyxVBuL88i7a677F_zPwOLyJ76Org@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: Improve the output_poll_changed description
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,62 +42,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, linux-kernel@vger.kernel.org,
  dri-devel <dri-devel@lists.freedesktop.org>,
- "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ virtualization@lists.linux-foundation.org
+Content-Type: multipart/mixed; boundary="===============1810436913=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKYW4gMTgsIDIwMjEgYXQgNzo1MyBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMTguMDEuMjEgdW0gMDI6MjIgc2No
-cmllYiBaaGlKaWUuWmhhbmc6Cj4gPiBGcm9tOiB6aGFuZ3poaWppZSA8emhhbmd6aGlqaWVAbG9v
-bmdzb24uY24+Cj4gPgo+ID4gdGhpcyBjYWxsYmFjayB3YXMgdXNlZCBieSBkcm1fa21zX2hlbHBl
-cl9ob3RwbHVnX2V2ZW50KCkKPiA+Cj4gPiBWMjogKFRoYW5rcyBmb3IgRGFuaWVsJ3Mgc3VnZ2Vz
-dGlvbnMpCj4gPiAtIHJlbW92ZSB0aGUgRklYTUUgYmVsb3cuc2luY2Ugd2l0aCB0aGUgZHJtX2Ns
-aWVudAo+ID4gLSBpbmZyYXN0cnVjdHVyZSBhbmQgdGhlIGdlbmVyaWMgZmJkZXYgZW11bGF0aW9u
-IHdlJ3ZlCj4gPiAtIHJlc29sdmVkIHRoaXMgYWxsIHZlcnkgbmVhdGx5IG5vdy4KPiA+Cj4gPiBW
-MzogQWRkIGNvbW1lbnRzIHRoYXQgVGhpcyBob29rIGlzIGRlcHJlY2F0ZWQKPiA+IC0gbmV3IGlt
-cGxlbWVudGF0aW9uIG1ldGhvZHMgaW5zdGVhZCBvZiB0aGlzIGhvb2sKPiA+Cj4gPiBTaWduZWQt
-b2ZmLWJ5OiB6aGFuZ3poaWppZSA8emhhbmd6aGlqaWVAbG9vbmdzb24uY24+Cj4gPiBTaWduZWQt
-b2ZmLWJ5OiBaaGlKaWUuWmhhbmcgPHpoYW5nemhpamllQGxvb25nc29uLmNuPgo+ID4gLS0tCj4g
-PiAgIGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oIHwgMTIgKysrKysrLS0tLS0tCj4gPiAg
-IDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCj4gPgo+ID4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oIGIvaW5jbHVkZS9kcm0v
-ZHJtX21vZGVfY29uZmlnLmgKPiA+IGluZGV4IGFiNDI0ZGRkNzY2NS4uYTA4NDQ4MmQ1NzlhIDEw
-MDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiA+ICsrKyBiL2lu
-Y2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oCj4gPiBAQCAtMTAzLDE0ICsxMDMsMTQgQEAgc3Ry
-dWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyB7Cj4gPiAgICAgICAgKiBDYWxsYmFjayB1c2VkIGJ5
-IGhlbHBlcnMgdG8gaW5mb3JtIHRoZSBkcml2ZXIgb2Ygb3V0cHV0IGNvbmZpZ3VyYXRpb24KPiA+
-ICAgICAgICAqIGNoYW5nZXMuCj4gPiAgICAgICAgKgo+ID4gLSAgICAgICogRHJpdmVycyBpbXBs
-ZW1lbnRpbmcgZmJkZXYgZW11bGF0aW9uIHdpdGggdGhlIGhlbHBlcnMgY2FuIGNhbGwKPiA+IC0g
-ICAgICAqIGRybV9mYl9oZWxwZXJfaG90cGx1Z19jaGFuZ2VkIGZyb20gdGhpcyBob29rIHRvIGlu
-Zm9ybSB0aGUgZmJkZXYKPiA+ICsgICAgICAqIERyaXZlcnMgaW1wbGVtZW50aW5nIGZiZGV2IGVt
-dWxhdGlvbiB3aXRoIHRoZSBoZWxwZXJzLiBEcml2ZXJzIHVzZQo+ID4gKyAgICAgICogZHJtX2tt
-c19oZWxwZXJfaG90cGx1Z19ldmVudCgpIHRvIGNhbGwgdGhpcyBob29rIHRvIGluZm9ybSB0aGUg
-ZmJkZXYKPgo+IEkgZG9uJ3QgdW5kZXJzdGFuZCB0aGlzLiBNYXliZSBpdCdzICJEcml2ZXJzIGlt
-cGxlbWVudGluZyBmYmRldgo+IGVtdWxhdGlvbiB1c2UgZHJtX2ttc19oZWxwZXJfaG90cGx1Z19l
-dmVudCgpIHRvIGNhbGwgLi4uIiA/CgpZZWFoIHRoaXMganVzdCBkb2Vzbid0IG1ha2Ugc2Vuc2Ug
-bm93LCB0aGlzIGlzIG5vdCB0aGUgaW50ZXJlc3RpbmcKaW5mb3JtYXRpb24uIFJlbW92aW5nIHRo
-ZSBoaW50IHRoYXQgdGhpcyBzaG91bGQgYmUgaW1wbGVtZW50ZWQgdXNpbmcKZHJtX2ZiX2hlbHBl
-cl9ob3RwbHVnX2NoYW5nZWQgaXMgcmVhbGx5IG5vdCBnb29kLgotRGFuaWVsCgo+Cj4gQmVzdCBy
-ZWdhcmRzCj4gVGhvbWFzCj4KPiA+ICAgICAgICAqIGhlbHBlciBvZiBvdXRwdXQgY2hhbmdlcy4K
-PiA+ICAgICAgICAqCj4gPiAtICAgICAgKiBGSVhNRToKPiA+IC0gICAgICAqCj4gPiAtICAgICAg
-KiBFeGNlcHQgdGhhdCB0aGVyZSdzIG5vIHZ0YWJsZSBmb3IgZGV2aWNlLWxldmVsIGhlbHBlciBj
-YWxsYmFja3MKPiA+IC0gICAgICAqIHRoZXJlJ3Mgbm8gcmVhc29uIHRoaXMgaXMgYSBjb3JlIGZ1
-bmN0aW9uLgo+ID4gKyAgICAgICogVGhpcyBob29rIGlzIGRlcHJlY2F0ZWQsIGRyaXZlcnMgc2hv
-dWxkIGluc3RlYWQgdXNlCj4gPiArICAgICAgKiBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpIHdo
-aWNoIHRha2VzIGNhcmUgb2YgYW55IG5lY2Vzc2FyeQo+ID4gKyAgICAgICogaG90cGx1ZyBldmVu
-dCBmb3J3YXJkaW5nIGFscmVhZHkgd2l0aG91dCBmdXJ0aGVyIGludm9sdmVtZW50IGJ5Cj4gPiAr
-ICAgICAgKiB0aGUgZHJpdmVyLgo+ID4gICAgICAgICovCj4gPiAgICAgICB2b2lkICgqb3V0cHV0
-X3BvbGxfY2hhbmdlZCkoc3RydWN0IGRybV9kZXZpY2UgKmRldik7Cj4gPgo+ID4KPgo+IC0tCj4g
-VGhvbWFzIFppbW1lcm1hbm4KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0
-d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
-ZXJnLCBHZXJtYW55Cj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xo
-cmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
-Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1810436913==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="RcFgwA8dRwaXHq7Dlf1wzDAElghb4FzhR"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RcFgwA8dRwaXHq7Dlf1wzDAElghb4FzhR
+Content-Type: multipart/mixed; boundary="rl4018eEF1PLVTLuxIvjk8vMW2R5W6PKf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Eli Cohen <elic@nvidia.com>
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org
+Message-ID: <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
+Subject: Re: Change eats memory on my server
+References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
+ <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
+ <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
+ <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
+In-Reply-To: <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
+
+--rl4018eEF1PLVTLuxIvjk8vMW2R5W6PKf
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 18.01.21 um 08:43 schrieb Christian K=C3=B6nig:
+> Hi Eli,
+>=20
+> have you already tried using kmemleak?
+>=20
+> This sounds like a leak of memory allocated using kmalloc(), so kmemlea=
+k=20
+> should be able to catch it.
+
+I have an idea what happens here. When the refcount is 0 in kmap, a new=20
+page mapping for the BO is being established. But VRAM helpers unmap the =
+
+previous pages only on BO moves or frees; not in kunmap. So the old=20
+mapping might still be around. I'll send out a test patch later today.
+
+Best regards
+Thomas
+
+>=20
+> Regards,
+> Christian.
+>=20
+> Am 17.01.21 um 06:08 schrieb Eli Cohen:
+>> On Fri, Jan 15, 2021 at 10:03:50AM +0100, Thomas Zimmermann wrote:
+>>> Could you please double-check that 3fb91f56aea4 ("drm/udl: Retrieve U=
+SB
+>>> device from struct drm_device.dev") works correctly
+>> Checked again, it does not seem to leak.
+>>
+>>> and that 823efa922102
+>>> ("drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()") is broken=
+?
+>>>
+>> Yes, this one leaks, as does the one preceding it:
+>>
+>> 1086db71a1db ("drm/vram-helper: Remove invariant parameters from=20
+>> internal kmap function")
+>>> For one of the broken commits, could you please send us the output of=
+
+>>>
+>>> =C2=A0=C2=A0 dmesg | grep -i drm
+>>>
+>>> after most of the memory got leaked?
+>>>
+>> I ran the following script in the shell:
+>>
+>> while true; do cat /proc/meminfo | grep MemFree:; sleep 5; done
+>>
+>> and this is what I saw before I got disconnected from the shell:
+>>
+>> MemFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 148208 =
+kB
+>> MemFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 148304 =
+kB
+>> MemFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 146660 =
+kB
+>> Connection to nps-server-24 closed by remote host.
+>> Connection to nps-server-24 closed.
+>>
+>>
+>> I also mointored the output of dmesg | grep -i drm
+>> The last output I was able to save on disk is this:
+>>
+>> [=C2=A0=C2=A0 46.140720] ast 0000:03:00.0: [drm] Using P2A bridge for =
+configuration
+>> [=C2=A0=C2=A0 46.140737] ast 0000:03:00.0: [drm] AST 2500 detected
+>> [=C2=A0=C2=A0 46.140754] ast 0000:03:00.0: [drm] Analog VGA only
+>> [=C2=A0=C2=A0 46.140772] ast 0000:03:00.0: [drm] dram MCLK=3D800 Mhz t=
+ype=3D7=20
+>> bus_width=3D16
+>> [=C2=A0=C2=A0 46.153553] [drm] Initialized ast 0.1.0 20120228 for 0000=
+:03:00.0=20
+>> on minor 0
+>> [=C2=A0=C2=A0 46.165097] fbcon: astdrmfb (fb0) is primary device
+>> [=C2=A0=C2=A0 46.391381] ast 0000:03:00.0: [drm] fb0: astdrmfb frame b=
+uffer device
+>> [=C2=A0=C2=A0 56.097697] systemd[1]: Starting Load Kernel Module drm..=
+=2E
+>> [=C2=A0=C2=A0 56.343556] systemd[1]: modprobe@drm.service: Succeeded.
+>> [=C2=A0=C2=A0 56.350382] systemd[1]: Finished Load Kernel Module drm.
+>> [13319.469462] [=C2=A0=C2=A0 2683] 70889=C2=A0 2683=C2=A0=C2=A0=C2=A0 =
+55586=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 73728=
+     =20
+>> 138=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0 tdrm
+>> [13320.658386] [=C2=A0=C2=A0 2683] 70889=C2=A0 2683=C2=A0=C2=A0=C2=A0 =
+55586=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 73728=
+     =20
+>> 138=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0 tdrm
+>> [13321.800970] [=C2=A0=C2=A0 2683] 70889=C2=A0 2683=C2=A0=C2=A0=C2=A0 =
+55586=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0 73728=
+     =20
+>> 138=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0 tdrm
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--rl4018eEF1PLVTLuxIvjk8vMW2R5W6PKf--
+
+--RcFgwA8dRwaXHq7Dlf1wzDAElghb4FzhR
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAFPp8FAwAAAAAACgkQlh/E3EQov+C2
+9Q//YK5YC86F30mSz1L+lODlHgKbWSTKpOwXpJHBO/8BhSSsfwR52qphdeIyH4IQYuYoO0soKG0F
+cdRTFgyHHsF+u57i4yfIxJVlnlp4noMy+GvGfr2QnYr+/dc3lbKMDxWV4AEUIFlA9eMwXrb3vZi5
+M6EDs8JRUHg9LIEMv9yO0iRxfromTeoIabRUGQL/W9ELEXZr2DxO0lCS8C9H2ZuIQAyFKpymgOpW
+t/nbpjGjppGhKY1DsDWfo3qbCqgOlY+46YHeRDna+KtvPWvLQGb9iebr+wkY1UtJYUeoG7i8eb4m
+XIwjLf41mT41BUgeGsaxziUVXtpPY/YvedKi3kiVOABe+HipnJDaJpsaTQIrICDj+FXvOIlrwhCs
+cs9VQUiDdLpHqdS1nq8pfEu/dAD8UMZTqtH2EwvUwJINw2+TFl7/nAVbNQEDsCo0zuw+X658ZL03
+A6zY+QQ2KJP/wmfs3drB7yhX13X3QoLsBjleaY/tKW5SZUU0/ELT9AR2ZkEePalIivL9uwiDhHUr
+v8rcH0UlpINkAFZZps3r8jeoKp/HzVIYie2fNvJvX3a+F/XxyGzbwBEB4g4NeByuwPDAZ4pC0J5y
+v/3aeCBKbzs4QxEQclNCczaH5Y2XIFHQYv+4S0LxBPEALI070lvPHELuyOHEo5zkenkouPFHKdom
+Tas=
+=d9xt
+-----END PGP SIGNATURE-----
+
+--RcFgwA8dRwaXHq7Dlf1wzDAElghb4FzhR--
+
+--===============1810436913==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1810436913==--
