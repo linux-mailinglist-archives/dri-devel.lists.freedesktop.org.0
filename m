@@ -2,28 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91242FA370
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8588D2FA36F
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:46:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4506F6E2F2;
-	Mon, 18 Jan 2021 14:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD396E2C7;
+	Mon, 18 Jan 2021 14:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDE56E2E6
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D636E2C7
  for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 14:46:46 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F40A1ABDA;
- Mon, 18 Jan 2021 14:46:44 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel.vetter@ffwll.ch, airlied@linux.ie, christian.koenig@amd.com,
- elic@nvidia.com
-Subject: [PATCH] drm/vram-helper: Reuse existing page mappings in vmap
-Date: Mon, 18 Jan 2021 15:46:39 +0100
-Message-Id: <20210118144639.27307-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
+Received: by mail-wr1-x42e.google.com with SMTP id q18so16736605wrn.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 06:46:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OFCYur2p1RG6wq2GuEDBaWE0Jb4tQR4iZ3ZSFGTYM3Q=;
+ b=MORI3SlYIrEkdmnCv+sjKCAmt9E08uuQb12loXc/lT36i7Bm4U3JdKozMG0qxvUrzw
+ IMVXaOFnQZAzmhic3tx7YaB0IcMjXKAl8lA802YdXPEMuzut8sXnLwFwdIp6dUMmqUjx
+ um9R3CaD5IRuDrSAgDos6Nn2Lt9/Q1M2fhjAA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=OFCYur2p1RG6wq2GuEDBaWE0Jb4tQR4iZ3ZSFGTYM3Q=;
+ b=ChXnnOHNThjTLpwaEfK96j7rKTC+gGVuXSb1Ck7X4QAZxx0Cj4+AAwRFlSBi1W0RS7
+ W7jw+GsFAIP8D1XULT5CnY/Gh7FXv3rYbmcjAbrK6t3kEMsUoSJ2LkH+kS0i3oUxLvt0
+ H5VSwWjdf5NoVqKvSQtaVXftnLyNbIaI0jbWfiKOryN1oyCpzkyTj4zSny3jlQjypcFl
+ pdx5bJ2Bl+F4m/j2J95udLKzsw3N3odiFU00+p+7aerfPYiy9LIML5mE72YBvdKvYPlQ
+ oqYUUwv2V38RVjYAfRO9BC23HKh7ktRsPiEhXALHKZdmYlThu3bWf36D5I6TEEbfPDmo
+ gDTw==
+X-Gm-Message-State: AOAM53345mWtvWVJzGADpdrH5Oul9OM/s4jr+TFlRF16ime4cadWQsor
+ fo+e8ucoxq2Fx2RO2xno/tgvIQ==
+X-Google-Smtp-Source: ABdhPJyDCDO+1fmc1K2ew5LzU7f8vg/ienWX3/ewHzh+gElcHa7lnFCJ1WZ1SRCLGxPa5q6k2ZRqsw==
+X-Received: by 2002:a5d:4491:: with SMTP id j17mr25684833wrq.78.1610981205075; 
+ Mon, 18 Jan 2021 06:46:45 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id r1sm31249890wrl.95.2021.01.18.06.46.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 06:46:44 -0800 (PST)
+Date: Mon, 18 Jan 2021 15:46:42 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH 00/40] [Set 14] Rid W=1 warnings from GPU
+Message-ID: <YAWfUl56zsi18/Y+@phenom.ffwll.local>
+Mail-Followup-To: Zack Rusin <zackr@vmware.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Alan Cox <alan@linux.intel.com>,
+ Benjamin Defnet <benjamin.r.defnet@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Eric Anholt <eric@anholt.net>,
+ Jesse Barnes <jesse.barnes@intel.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rajesh Poornachandran <rajesh.poornachandran@intel.com>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>
+References: <20210115181313.3431493-1-lee.jones@linaro.org>
+ <328B978C-0A69-4220-BE63-7C4E4D627225@vmware.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <328B978C-0A69-4220-BE63-7C4E4D627225@vmware.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,49 +83,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rajesh Poornachandran <rajesh.poornachandran@intel.com>,
+ David Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Benjamin Defnet <benjamin.r.defnet@intel.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Jesse Barnes <jesse.barnes@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alan Cox <alan@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rm9yIHBlcmZvcm1hbmNlLCBCTyBwYWdlIG1hcHBpbmdzIGNhbiBzdGF5IGluIHBsYWNlIGV2ZW4g
-aWYgdGhlCm1hcCBjb3VudGVyIGhhcyByZXR1cm5lZCB0byAwLiBJbiB0aGVzZSBjYXNlcywgdGhl
-IGV4aXN0aW5nIHBhZ2UKbWFwcGluZyBoYXMgdG8gYmUgcmV1c2VkIGJ5IHRoZSBuZXh0IHZtYXAg
-b3BlcmF0aW9uLiBPdGhlcndpc2UKYSBuZXcgbWFwcGluZyB3b3VsZCBiZSBpbnN0YWxsZWQgYW5k
-IHRoZSBvbGQgbWFwcGluZydzIHBhZ2VzIGxlYWsuCgpGaXggdGhlIGlzc3VlIGJ5IHJldXNpbmcg
-ZXhpc3RpbmcgcGFnZSBtYXBwaW5ncyBmb3Igdm1hcCBvcGVyYXRpb25zLgoKU2lnbmVkLW9mZi1i
-eTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiAxMDg2ZGI3
-MWExZGIgKCJkcm0vdnJhbS1oZWxwZXI6IFJlbW92ZSBpbnZhcmlhbnQgcGFyYW1ldGVycyBmcm9t
-IGludGVybmFsIGttYXAgZnVuY3Rpb24iKQpBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
-aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpUZXN0ZWQtYnk6IEVsaSBDb2hlbiA8ZWxpY0BudmlkaWEu
-Y29tPgpSZXBvcnRlZC1ieTogRWxpIENvaGVuIDxlbGljQG52aWRpYS5jb20+CkNjOiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
-aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFu
-a2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVs
-Lm9yZz4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-LS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jIHwgMTQgKysrKysrKysr
-KystLS0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCmluZGV4IDAyY2EyMmU5MDI5MC4uMGIy
-MzJhNzNjMWI3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBl
-ci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKQEAgLTM4Nyw5
-ICszODcsMTYgQEAgc3RhdGljIGludCBkcm1fZ2VtX3ZyYW1fa21hcF9sb2NrZWQoc3RydWN0IGRy
-bV9nZW1fdnJhbV9vYmplY3QgKmdibywKIAlpZiAoZ2JvLT52bWFwX3VzZV9jb3VudCA+IDApCiAJ
-CWdvdG8gb3V0OwogCi0JcmV0ID0gdHRtX2JvX3ZtYXAoJmdiby0+Ym8sICZnYm8tPm1hcCk7Ci0J
-aWYgKHJldCkKLQkJcmV0dXJuIHJldDsKKwkvKgorCSAqIFZSQU0gaGVscGVycyB1bm1hcCB0aGUg
-Qk8gb25seSBvbiBkZW1hbmQuIFNvIHRoZSBwcmV2aW91cworCSAqIHBhZ2UgbWFwcGluZyBtaWdo
-dCBzdGlsbCBiZSBhcm91bmQuIE9ubHkgdm1hcCBpZiB0aGUgdGhlcmUncworCSAqIG5vIG1hcHBp
-bmcgcHJlc2VudC4KKwkgKi8KKwlpZiAoZG1hX2J1Zl9tYXBfaXNfbnVsbCgmZ2JvLT5tYXApKSB7
-CisJCXJldCA9IHR0bV9ib192bWFwKCZnYm8tPmJvLCAmZ2JvLT5tYXApOworCQlpZiAocmV0KQor
-CQkJcmV0dXJuIHJldDsKKwl9CiAKIG91dDoKIAkrK2diby0+dm1hcF91c2VfY291bnQ7CkBAIC01
-NzcsNiArNTg0LDcgQEAgc3RhdGljIHZvaWQgZHJtX2dlbV92cmFtX2JvX2RyaXZlcl9tb3ZlX25v
-dGlmeShzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvLAogCQlyZXR1cm47CiAKIAl0dG1f
-Ym9fdnVubWFwKGJvLCAmZ2JvLT5tYXApOworCWRtYV9idWZfbWFwX2NsZWFyKCZnYm8tPm1hcCk7
-IC8qIGV4cGxpY2l0bHkgY2xlYXIgbWFwcGluZyBmb3IgbmV4dCB2bWFwIGNhbGwgKi8KIH0KIAog
-c3RhdGljIGludCBkcm1fZ2VtX3ZyYW1fYm9fZHJpdmVyX21vdmUoc3RydWN0IGRybV9nZW1fdnJh
-bV9vYmplY3QgKmdibywKLS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On Fri, Jan 15, 2021 at 06:22:23PM +0000, Zack Rusin wrote:
+> 
+> > On Jan 15, 2021, at 13:12, Lee Jones <lee.jones@linaro.org> wrote:
+> > 
+> > This set is part of a larger effort attempting to clean-up W=1
+> > kernel builds, which are currently overwhelmingly riddled with
+> > niggly little warnings.
+> > 
+> > Penultimate set, promise. :)
+> 
+> 
+> Thank you for all that work. For all the vmwgfx bits:
+> Reviewed-by: Zack Rusin <zackr@vmware.com>
+
+I pulled all the non-vmxgfx patches to drm-misc-next, I'll leave the vmw
+stuff to Zack.
+
+Thanks for your work here!
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
