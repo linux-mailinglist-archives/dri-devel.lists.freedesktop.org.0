@@ -1,29 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8E52FB43E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:37:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671602FB449
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:38:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294026E84B;
-	Tue, 19 Jan 2021 08:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D699D6E85A;
+	Tue, 19 Jan 2021 08:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC446E3F5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 16:16:13 +0000 (UTC)
-Received: from localhost.localdomain (abaf224.neoplus.adsl.tpnet.pl
- [83.6.169.224])
- by m-r2.th.seeweb.it (Postfix) with ESMTPA id 499983EED6;
- Mon, 18 Jan 2021 17:16:09 +0100 (CET)
-From: Konrad Dybcio <konrad.dybcio@somainline.org>
-To: phone-devel@vger.kernel.org
-Subject: [PATCH] drm/msm/dsi: Correct io_start for MSM8994 (20nm PHY)
-Date: Mon, 18 Jan 2021 17:15:58 +0100
-Message-Id: <20210118161600.104877-1-konrad.dybcio@somainline.org>
-X-Mailer: git-send-email 2.29.2
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F73D6E444
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 17:02:13 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 583BD17D7;
+ Mon, 18 Jan 2021 12:02:10 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 18 Jan 2021 12:02:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=aCtNSj2HSao+inp7HktheCsuocF
+ 99GwXfTqjyswziGA=; b=YmLl6ohx+f/H98h3T06lnAm/WOzNKJTW+w+ivVzrw0k
+ ZwO4cQuBMzTlcR48KM7Jk6cNtx0VeQD0CZYzuyxQixumZsTn3SJYd6HpFwmTIKse
+ Y3eRtFc4FraGZZr2Tgd2hcCc0LDQVVztg9JQxJN/uV16206MZ+QmBxlDzExyZMdW
+ J8nDYTrWi0paEK2WzXxoAThbRk4WAU5eXaW9otGzW0GW/1shH93zLaVWBETrXB4o
+ vK25ouBsphmeTlA82a7GtkmyW7xK9mbbLoDHDD8oISrya62zhZeF8osfBFDi6DZq
+ Bn/BIEI43Wz1t7vpNoCzWfD9EtQbHP0gzIK5ENceiaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aCtNSj
+ 2HSao+inp7HktheCsuocF99GwXfTqjyswziGA=; b=goAJu6a2PkWzLVoI5TzHDV
+ 3qNGVTJSoT549oRMRnGLiKp7LSHx6VSJJ4NcJUqCdwgEPxbMBdMd7NPBOzjQzoao
+ D9y+Q4505Uy6SyS3Vqg5QZ2ME5s2AonZ3C7h0Nk41QOX1CwP8tDlgTAvHuUjkpZN
+ GinevSF1KKKWYpy9X90aj9eRuuYqYvtUKO3J2JVzQo7bQO4lAW2AWBIm4Tw0G8+G
+ e9HcT1ClJae1FUG+mTwu1gbhDe8ykavWibA94csvt29X79hGx1LHvSblPXBvcEpg
+ uLJJDW9ZdDjFZ4eYMKC5bTXBW6Hk3ygFEYHB3GGgAfcryA0A7a81C6+6oacMYecA
+ ==
+X-ME-Sender: <xms:D78FYBKSxS2xI0HBDiWz9-uPs0txxHM6xdC9AGEnbgyONe7yKHVWbg>
+ <xme:D78FYPLIFb-HJEfHuYvDuUVQUtIfbL3UizoiBw1HzAHNLRBRLc9C0Dzjrrc2GuVtM
+ YO-Z4eN9xHWTB5wWTo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdeljecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:D78FYDF8XXIdRsJIWFDRLvCro73wcz5mka3Wb2MT2HsOogcSsEz5yQ>
+ <xmx:D78FYEncskvoEJh4tittN-79TgzpDNqdOPE4PO-qfzsR2yKXikN-4Q>
+ <xmx:D78FYAJOCBD9If8Jsh_f4ax6Uh1XH1PRFtd4hnpUR3TS49lNOjCnJA>
+ <xmx:Eb8FYB1S_eRrJiDxVxAXKcXmJXHwlTiIHT8M8_ucBaodfnZDid_uiHFWwI8>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 42FEF108005C;
+ Mon, 18 Jan 2021 12:02:07 -0500 (EST)
+Date: Mon, 18 Jan 2021 18:02:05 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 03/10] drm/atmel-hlcdc: Rename custom plane state variable
+Message-ID: <20210118170205.bflnpka2eutrryyp@gilmour>
+References: <20210115125703.1315064-1-maxime@cerno.tech>
+ <20210115125703.1315064-3-maxime@cerno.tech>
+ <20210115204324.GA529973@ravnborg.org>
 MIME-Version: 1.0
+In-Reply-To: <20210115204324.GA529973@ravnborg.org>
 X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,43 +80,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Hai Li <hali@codeaurora.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, David Airlie <airlied@linux.ie>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0286642839=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous registers were *almost* correct, but instead of
-PHYs, they were pointing at DSI PLLs, resulting in the PHY id
-autodetection failing miserably.
 
-Fixes: dcefc117cc19 ("drm/msm/dsi: Add support for msm8x94")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--===============0286642839==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qdgoqrhxkbmwjqu6"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
-index 1afb7c579dbb..eca86bf448f7 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c
-@@ -139,7 +139,7 @@ const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs = {
- 		.disable = dsi_20nm_phy_disable,
- 		.init = msm_dsi_phy_init_common,
- 	},
--	.io_start = { 0xfd998300, 0xfd9a0300 },
-+	.io_start = { 0xfd998500, 0xfd9a0500 },
- 	.num_dsi_phy = 2,
- };
- 
--- 
-2.29.2
+
+--qdgoqrhxkbmwjqu6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sam
+
+On Fri, Jan 15, 2021 at 09:43:24PM +0100, Sam Ravnborg wrote:
+> On Fri, Jan 15, 2021 at 01:56:55PM +0100, Maxime Ripard wrote:
+> > Subsequent reworks will pass the global atomic state in the function
+> > prototype, and atomic_check and atomic_update already have such a
+> > variable already. Let's change them to ease the rework.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>=20
+> I assume you will push this patch as part of the series.
+
+Yep, that's the plan
+
+Thanks for the review,
+Maxime
+
+--qdgoqrhxkbmwjqu6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAW/DQAKCRDj7w1vZxhR
+xS4KAQC4Q57cifiOtnbWri+uKleeQ4EjvTJxRqYQUuWj921DowEAkcxlz2fzgD6C
+196JQiStZArABUiHXItNhtJlsgvCoAA=
+=WccY
+-----END PGP SIGNATURE-----
+
+--qdgoqrhxkbmwjqu6--
+
+--===============0286642839==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0286642839==--
