@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFE62FA175
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 14:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166502FA198
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 14:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AEC6E20E;
-	Mon, 18 Jan 2021 13:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C01BE6E239;
+	Mon, 18 Jan 2021 13:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26C96E20E
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 13:28:00 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id v184so9552652wma.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 05:28:00 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DCB6E1E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 13:30:57 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id e15so7383859wme.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 05:30:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=CIzsGliBbSopdadL1aItIFfvgfPFm1TH0AYXUH5P8f0=;
- b=EG1bU1Clp69oWVePE+R8+uBrdoblAVGgjD0Rsl1PG7Dtkt1Y5MiFJNJEr4ggev4ueL
- EqMjCrKKFrn3BdgZTy2G2l/JGR8hhIzxHrXcmcyRxs5NhCf0KUwPm42lZ7D10W+TbZyi
- yocTmgFxoWNwmtqj7G+KGa+17F+DHQp48HcJ8=
+ :content-disposition:in-reply-to;
+ bh=jKZnFPqAQknoSSGM20J7V5Zk4rueuE5g6IsVhaZxibA=;
+ b=CxELPnjBVAd5r8SUXKjQxJH6+baAk7f2CDSKs4Acyt3vkMKDU7z4u2fkfharZMdmkH
+ BRCgV8k7IJltjOC/41LEZSG1/zJUACiAMOZM+N/g/G8WoVJmKITc0joMO1VTm0I2SzHo
+ EH8EXfPuvzPjFWbqu0PZXfg1i28N7GNV4+Lm4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=CIzsGliBbSopdadL1aItIFfvgfPFm1TH0AYXUH5P8f0=;
- b=OcC2ohYDoMJd8Jmu8TZL5Pb/HTA/REguFt2kZlCqjUzfJkHI1PY/1WdTIVsPQbrs+a
- aXTYG7evr1PwkXOKm2BTTTtwv2zcCa+kd+QKymdZhgj06FokFaLEr8TL//qsBNvssQeE
- HooEuve9OOEfYUbbPCBasgWZmzhpWwUGRx8VWy9wBf1rIzJrhv9f6brWYpv1XOZ6/9Sn
- UExEH/0tsIq1Cw8UBUnXhIRpgEhs2pDWZxGcAQVqejfGt5e16OtHaPS4x8eMGrBpOI5a
- L0MPbzPniNSEUtWv+LHETq5R379wcngJh5cvdbv0f1WmFh6Qq8xn710KWdwdtP1ekZzY
- UwVQ==
-X-Gm-Message-State: AOAM532sAo9G8IbMKV4AMuN90R3jcTrxVYGV/w5vpURFrAvaae7Qdhjx
- 25FqY62hpAHywZXVOE3D/AdSqA==
-X-Google-Smtp-Source: ABdhPJynswhW/jHIjYf7YzQkhm6cv1Qf880du20KnNrjVLb6EYSgnJjXgAOQMSOVVdy6g+3DjqdirA==
-X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr576249wmk.140.1610976479503;
- Mon, 18 Jan 2021 05:27:59 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=jKZnFPqAQknoSSGM20J7V5Zk4rueuE5g6IsVhaZxibA=;
+ b=PsKKvi2Zxezb2yKgvkHGBXi+QBuWh80GGzp0J/jFIQzYgbjCR88XXFd56lkWuR1t4U
+ Xna0cXZ/2W0SoAvMniTi8Bn4gnzfRoEH0w0HTNP+f58vV0o69I4BPh+/dD7iiIIQTRcU
+ 7uYNjiioh1zYaahoZxsVK3ilVztHYfdrW+JmuCZqYt8MBP3ZDoPeMcSudE5CeQIuasC8
+ w+w04tqj0H0wwZXIC+QTPlroZHZinn/I+DURuKe7STlOn+sIu7PuzNfYesOjAyFKRDeh
+ 2g2SZ2ZY766WFpJ198taEAp5wJYLM4KE77pCIH/73sXyuolUs6xwhDPhERHzFPmmpdE1
+ g7jA==
+X-Gm-Message-State: AOAM532vvNkFyVGADgIZpQWMQLksRXCqBJ6VL/qY69uksgaqXMJhlUi/
+ 1GhNkNboClDTSFqDmhs+bW2Dmg==
+X-Google-Smtp-Source: ABdhPJyxTQM5JPR8jr+XO/IUBtP4lOZYhj2oJrrjKZ1x6K11OME5G98jBYuI+aKLK2Qtx/6XAVSFjA==
+X-Received: by 2002:a05:600c:2903:: with SMTP id
+ i3mr20569295wmd.41.1610976656190; 
+ Mon, 18 Jan 2021 05:30:56 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a130sm25804754wmf.4.2021.01.18.05.27.58
+ by smtp.gmail.com with ESMTPSA id w13sm29325709wrt.52.2021.01.18.05.30.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 05:27:58 -0800 (PST)
-Date: Mon, 18 Jan 2021 14:27:56 +0100
+ Mon, 18 Jan 2021 05:30:55 -0800 (PST)
+Date: Mon, 18 Jan 2021 14:30:53 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] dma-buf: Add debug option
-Message-ID: <YAWM3M8sFXB0xeii@phenom.ffwll.local>
-References: <20210115130219.3915789-1-daniel.vetter@ffwll.ch>
- <20210115164739.3958206-1-daniel.vetter@ffwll.ch>
- <e2e5a693-6e8a-7712-b5e9-93d7dc1c3c08@amd.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 1/6] drm: Upcast struct drm_device.dev to struct
+ pci_device; replace pdev
+Message-ID: <YAWNjcXghNBocFeU@phenom.ffwll.local>
+References: <20210118131420.15874-1-tzimmermann@suse.de>
+ <20210118131420.15874-2-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e2e5a693-6e8a-7712-b5e9-93d7dc1c3c08@amd.com>
+In-Reply-To: <20210118131420.15874-2-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,213 +67,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, linaro-mm-sig@lists.linaro.org,
- David Stevens <stevensd@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: airlied@linux.ie, Sam Ravnborg <sam@ravnborg.org>,
+ intel-gfx@lists.freedesktop.org, sroland@vmware.com,
+ linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org,
+ Andy Lavr <andy.lavr@gmail.com>, intel-gvt-dev@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 15, 2021 at 07:52:53PM +0100, Christian K=F6nig wrote:
-> Am 15.01.21 um 17:47 schrieb Daniel Vetter:
-> > We have too many people abusing the struct page they can get at but
-> > really shouldn't in importers. Aside from that the backing page might
-> > simply not exist (for dynamic p2p mappings) looking at it and using it
-> > e.g. for mmap can also wreak the page handling of the exporter
-> > completely. Importers really must go through the proper interface like
-> > dma_buf_mmap for everything.
-> > =
+On Mon, Jan 18, 2021 at 02:14:15PM +0100, Thomas Zimmermann wrote:
+> We have DRM drivers based on USB, SPI and platform devices. All of them
+> are fine with storing their device reference in struct drm_device.dev.
+> PCI devices should be no exception. Therefore struct drm_device.pdev is
+> deprecated.
+> 
+> Instead upcast from struct drm_device.dev with to_pci_dev(). PCI-specific
+> code can use dev_is_pci() to test for a PCI device. This patch changes
+> the DRM core code and documentation accordingly.
+> 
+> v4:
+> 	* split-off pdev deprecation into separate patch
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Tested-by: Andy Lavr <andy.lavr@gmail.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-> > I'm semi-tempted to enforce this for dynamic importers since those
-> > really have no excuse at all to break the rules.
-> > =
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> > Unfortuantely we can't store the right pointers somewhere safe to make
-> > sure we oops on something recognizable, so best is to just wrangle
-> > them a bit by flipping all the bits. At least on x86 kernel addresses
-> > have all their high bits sets and the struct page array is fairly low
-> > in the kernel mapping, so flipping all the bits gives us a very high
-> > pointer in userspace and hence excellent chances for an invalid
-> > dereference.
-> > =
+> ---
+>  drivers/gpu/drm/drm_agpsupport.c |  9 ++++++---
+>  drivers/gpu/drm/drm_bufs.c       |  4 ++--
+>  drivers/gpu/drm/drm_edid.c       |  7 ++++++-
+>  drivers/gpu/drm/drm_irq.c        | 12 +++++++-----
+>  drivers/gpu/drm/drm_pci.c        | 26 +++++++++++++++-----------
+>  drivers/gpu/drm/drm_vm.c         |  2 +-
+>  6 files changed, 37 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
+> index 8b690ef306de..7e765cb0efee 100644
+> --- a/drivers/gpu/drm/drm_agpsupport.c
+> +++ b/drivers/gpu/drm/drm_agpsupport.c
+> @@ -103,11 +103,13 @@ int drm_agp_info_ioctl(struct drm_device *dev, void *data,
+>   */
+>  int drm_agp_acquire(struct drm_device *dev)
+>  {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+>  	if (!dev->agp)
+>  		return -ENODEV;
+>  	if (dev->agp->acquired)
+>  		return -EBUSY;
+> -	dev->agp->bridge = agp_backend_acquire(dev->pdev);
+> +	dev->agp->bridge = agp_backend_acquire(pdev);
+>  	if (!dev->agp->bridge)
+>  		return -ENODEV;
+>  	dev->agp->acquired = 1;
+> @@ -402,14 +404,15 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
+>   */
+>  struct drm_agp_head *drm_agp_init(struct drm_device *dev)
+>  {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  	struct drm_agp_head *head = NULL;
+>  
+>  	head = kzalloc(sizeof(*head), GFP_KERNEL);
+>  	if (!head)
+>  		return NULL;
+> -	head->bridge = agp_find_bridge(dev->pdev);
+> +	head->bridge = agp_find_bridge(pdev);
+>  	if (!head->bridge) {
+> -		head->bridge = agp_backend_acquire(dev->pdev);
+> +		head->bridge = agp_backend_acquire(pdev);
+>  		if (!head->bridge) {
+>  			kfree(head);
+>  			return NULL;
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index aeb1327e3077..e3d77dfefb0a 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -326,7 +326,7 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+>  		 * As we're limiting the address to 2^32-1 (or less),
+>  		 * casting it down to 32 bits is no problem, but we
+>  		 * need to point to a 64bit variable first. */
+> -		map->handle = dma_alloc_coherent(&dev->pdev->dev,
+> +		map->handle = dma_alloc_coherent(dev->dev,
+>  						 map->size,
+>  						 &map->offset,
+>  						 GFP_KERNEL);
+> @@ -556,7 +556,7 @@ int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+>  	case _DRM_SCATTER_GATHER:
+>  		break;
+>  	case _DRM_CONSISTENT:
+> -		dma_free_coherent(&dev->pdev->dev,
+> +		dma_free_coherent(dev->dev,
+>  				  map->size,
+>  				  map->handle,
+>  				  map->offset);
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 394cc55b3214..c2bbe7bee7b6 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> +#include <linux/pci.h>
+>  #include <linux/slab.h>
+>  #include <linux/vga_switcheroo.h>
+>  
+> @@ -2075,9 +2076,13 @@ EXPORT_SYMBOL(drm_get_edid);
+>  struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
+>  				     struct i2c_adapter *adapter)
+>  {
+> -	struct pci_dev *pdev = connector->dev->pdev;
+> +	struct drm_device *dev = connector->dev;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  	struct edid *edid;
+>  
+> +	if (drm_WARN_ON_ONCE(dev, !dev_is_pci(dev->dev)))
+> +		return NULL;
+> +
+>  	vga_switcheroo_lock_ddc(pdev);
+>  	edid = drm_get_edid(connector, adapter);
+>  	vga_switcheroo_unlock_ddc(pdev);
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index 803af4bbd214..c3bd664ea733 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -122,7 +122,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+>  		dev->driver->irq_preinstall(dev);
+>  
+>  	/* PCI devices require shared interrupts. */
+> -	if (dev->pdev)
+> +	if (dev_is_pci(dev->dev))
+>  		sh_flags = IRQF_SHARED;
+>  
+>  	ret = request_irq(irq, dev->driver->irq_handler,
+> @@ -140,7 +140,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+>  	if (ret < 0) {
+>  		dev->irq_enabled = false;
+>  		if (drm_core_check_feature(dev, DRIVER_LEGACY))
+> -			vga_client_register(dev->pdev, NULL, NULL, NULL);
+> +			vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+>  		free_irq(irq, dev);
+>  	} else {
+>  		dev->irq = irq;
+> @@ -203,7 +203,7 @@ int drm_irq_uninstall(struct drm_device *dev)
+>  	DRM_DEBUG("irq=%d\n", dev->irq);
+>  
+>  	if (drm_core_check_feature(dev, DRIVER_LEGACY))
+> -		vga_client_register(dev->pdev, NULL, NULL, NULL);
+> +		vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+>  
+>  	if (dev->driver->irq_uninstall)
+>  		dev->driver->irq_uninstall(dev);
+> @@ -252,6 +252,7 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+>  {
+>  	struct drm_control *ctl = data;
+>  	int ret = 0, irq;
+> +	struct pci_dev *pdev;
+>  
+>  	/* if we haven't irq we fallback for compatibility reasons -
+>  	 * this used to be a separate function in drm_dma.h
+> @@ -262,12 +263,13 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+>  		return 0;
+>  	/* UMS was only ever supported on pci devices. */
+> -	if (WARN_ON(!dev->pdev))
+> +	if (WARN_ON(!dev_is_pci(dev->dev)))
+>  		return -EINVAL;
+>  
+>  	switch (ctl->func) {
+>  	case DRM_INST_HANDLER:
+> -		irq = dev->pdev->irq;
+> +		pdev = to_pci_dev(dev->dev);
+> +		irq = pdev->irq;
+>  
+>  		if (dev->if_version < DRM_IF_VERSION(1, 2) &&
+>  		    ctl->irq != irq)
+> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+> index 5370e6b492fd..2294a1580d35 100644
+> --- a/drivers/gpu/drm/drm_pci.c
+> +++ b/drivers/gpu/drm/drm_pci.c
+> @@ -70,7 +70,7 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
+>  		return NULL;
+>  
+>  	dmah->size = size;
+> -	dmah->vaddr = dma_alloc_coherent(&dev->pdev->dev, size,
+> +	dmah->vaddr = dma_alloc_coherent(dev->dev, size,
+>  					 &dmah->busaddr,
+>  					 GFP_KERNEL);
+>  
+> @@ -93,7 +93,7 @@ EXPORT_SYMBOL(drm_pci_alloc);
+>   */
+>  void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
+>  {
+> -	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
+> +	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr,
+>  			  dmah->busaddr);
+>  	kfree(dmah);
+>  }
+> @@ -112,16 +112,18 @@ static int drm_get_pci_domain(struct drm_device *dev)
+>  		return 0;
+>  #endif /* __alpha__ */
+>  
+> -	return pci_domain_nr(dev->pdev->bus);
+> +	return pci_domain_nr(to_pci_dev(dev->dev)->bus);
+>  }
+>  
+>  int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+>  {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+>  	master->unique = kasprintf(GFP_KERNEL, "pci:%04x:%02x:%02x.%d",
+>  					drm_get_pci_domain(dev),
+> -					dev->pdev->bus->number,
+> -					PCI_SLOT(dev->pdev->devfn),
+> -					PCI_FUNC(dev->pdev->devfn));
+> +					pdev->bus->number,
+> +					PCI_SLOT(pdev->devfn),
+> +					PCI_FUNC(pdev->devfn));
+>  	if (!master->unique)
+>  		return -ENOMEM;
+>  
+> @@ -131,12 +133,14 @@ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+>  
+>  static int drm_pci_irq_by_busid(struct drm_device *dev, struct drm_irq_busid *p)
+>  {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+>  	if ((p->busnum >> 8) != drm_get_pci_domain(dev) ||
+> -	    (p->busnum & 0xff) != dev->pdev->bus->number ||
+> -	    p->devnum != PCI_SLOT(dev->pdev->devfn) || p->funcnum != PCI_FUNC(dev->pdev->devfn))
+> +	    (p->busnum & 0xff) != pdev->bus->number ||
+> +	    p->devnum != PCI_SLOT(pdev->devfn) || p->funcnum != PCI_FUNC(pdev->devfn))
+>  		return -EINVAL;
+>  
+> -	p->irq = dev->pdev->irq;
+> +	p->irq = pdev->irq;
+>  
+>  	DRM_DEBUG("%d:%d:%d => IRQ %d\n", p->busnum, p->devnum, p->funcnum,
+>  		  p->irq);
+> @@ -164,7 +168,7 @@ int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
+>  		return -EOPNOTSUPP;
+>  
+>  	/* UMS was only ever support on PCI devices. */
+> -	if (WARN_ON(!dev->pdev))
+> +	if (WARN_ON(!dev_is_pci(dev->dev)))
+>  		return -EINVAL;
+>  
+>  	if (!drm_core_check_feature(dev, DRIVER_HAVE_IRQ))
+> @@ -188,7 +192,7 @@ void drm_pci_agp_destroy(struct drm_device *dev)
+>  static void drm_pci_agp_init(struct drm_device *dev)
+>  {
+>  	if (drm_core_check_feature(dev, DRIVER_USE_AGP)) {
+> -		if (pci_find_capability(dev->pdev, PCI_CAP_ID_AGP))
+> +		if (pci_find_capability(to_pci_dev(dev->dev), PCI_CAP_ID_AGP))
+>  			dev->agp = drm_agp_init(dev);
+>  		if (dev->agp) {
+>  			dev->agp->agp_mtrr = arch_phys_wc_add(
+> diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
+> index 6d5a03b32238..9b3b989d7cad 100644
+> --- a/drivers/gpu/drm/drm_vm.c
+> +++ b/drivers/gpu/drm/drm_vm.c
+> @@ -278,7 +278,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+>  			case _DRM_SCATTER_GATHER:
+>  				break;
+>  			case _DRM_CONSISTENT:
+> -				dma_free_coherent(&dev->pdev->dev,
+> +				dma_free_coherent(dev->dev,
+>  						  map->size,
+>  						  map->handle,
+>  						  map->offset);
+> -- 
+> 2.29.2
+> 
 
-> > v2: Add a note to the @map_dma_buf hook that exporters shouldn't do
-> > fancy caching tricks, which would blow up with this address scrambling
-> > trick here (Chris)
-> > =
-
-> > Enable by default when CONFIG_DMA_API_DEBUG is enabled.
-> > =
-
-> > v3: Only one copy of the mangle/unmangle code (Christian)
-> > =
-
-> > v4: #ifdef, not #if (0day)
-> > =
-
-> > v5: sg_table can also be an ERR_PTR (Chris, Christian)
-> > =
-
-> > Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> (v2)
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: David Stevens <stevensd@chromium.org>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> =
-
-> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Stuffed into drm-misc-next, thanks for reviewing to both of you.
--Daniel
-> =
-
-> > ---
-> >   drivers/dma-buf/Kconfig   |  8 +++++++
-> >   drivers/dma-buf/dma-buf.c | 46 +++++++++++++++++++++++++++++++++++----
-> >   include/linux/dma-buf.h   |  6 +++++
-> >   3 files changed, 56 insertions(+), 4 deletions(-)
-> > =
-
-> > diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> > index 4f8224a6ac95..4e16c71c24b7 100644
-> > --- a/drivers/dma-buf/Kconfig
-> > +++ b/drivers/dma-buf/Kconfig
-> > @@ -50,6 +50,14 @@ config DMABUF_MOVE_NOTIFY
-> >   	  This is marked experimental because we don't yet have a consistent
-> >   	  execution context and memory management between drivers.
-> > +config DMABUF_DEBUG
-> > +	bool "DMA-BUF debug checks"
-> > +	default y if DMA_API_DEBUG
-> > +	help
-> > +	  This option enables additional checks for DMA-BUF importers and
-> > +	  exporters. Specifically it validates that importers do not peek at =
-the
-> > +	  underlying struct page when they import a buffer.
-> > +
-> >   config DMABUF_SELFTESTS
-> >   	tristate "Selftests for the dma-buf interfaces"
-> >   	default n
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 1c9bd51db110..f264b70c383e 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -666,6 +666,34 @@ void dma_buf_put(struct dma_buf *dmabuf)
-> >   }
-> >   EXPORT_SYMBOL_GPL(dma_buf_put);
-> > +static void mangle_sg_table(struct sg_table *sg_table)
-> > +{
-> > +#ifdef CONFIG_DMABUF_DEBUG
-> > +	int i;
-> > +	struct scatterlist *sg;
-> > +
-> > +	/* To catch abuse of the underlying struct page by importers mix
-> > +	 * up the bits, but take care to preserve the low SG_ bits to
-> > +	 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
-> > +	 * before passing the sgt back to the exporter. */
-> > +	for_each_sgtable_sg(sg_table, sg, i)
-> > +		sg->page_link ^=3D ~0xffUL;
-> > +#endif
-> > +
-> > +}
-> > +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *atta=
-ch,
-> > +				       enum dma_data_direction direction)
-> > +{
-> > +	struct sg_table *sg_table;
-> > +
-> > +	sg_table =3D attach->dmabuf->ops->map_dma_buf(attach, direction);
-> > +
-> > +	if (!IS_ERR_OR_NULL(sg_table))
-> > +		mangle_sg_table(sg_table);
-> > +
-> > +	return sg_table;
-> > +}
-> > +
-> >   /**
-> >    * dma_buf_dynamic_attach - Add the device to dma_buf's attachments l=
-ist
-> >    * @dmabuf:		[in]	buffer to attach device to.
-> > @@ -737,7 +765,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
-ct device *dev,
-> >   				goto err_unlock;
-> >   		}
-> > -		sgt =3D dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> > +		sgt =3D __map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> >   		if (!sgt)
-> >   			sgt =3D ERR_PTR(-ENOMEM);
-> >   		if (IS_ERR(sgt)) {
-> > @@ -784,6 +812,16 @@ struct dma_buf_attachment *dma_buf_attach(struct d=
-ma_buf *dmabuf,
-> >   }
-> >   EXPORT_SYMBOL_GPL(dma_buf_attach);
-> > +static void __unmap_dma_buf(struct dma_buf_attachment *attach,
-> > +			    struct sg_table *sg_table,
-> > +			    enum dma_data_direction direction)
-> > +{
-> > +	/* uses XOR, hence this unmangles */
-> > +	mangle_sg_table(sg_table);
-> > +
-> > +	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
-> > +}
-> > +
-> >   /**
-> >    * dma_buf_detach - Remove the given attachment from dmabuf's attachm=
-ents list
-> >    * @dmabuf:	[in]	buffer to detach from.
-> > @@ -802,7 +840,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
-dma_buf_attachment *attach)
-> >   		if (dma_buf_is_dynamic(attach->dmabuf))
-> >   			dma_resv_lock(attach->dmabuf->resv, NULL);
-> > -		dmabuf->ops->unmap_dma_buf(attach, attach->sgt, attach->dir);
-> > +		__unmap_dma_buf(attach, attach->sgt, attach->dir);
-> >   		if (dma_buf_is_dynamic(attach->dmabuf)) {
-> >   			dma_buf_unpin(attach);
-> > @@ -924,7 +962,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_=
-buf_attachment *attach,
-> >   		}
-> >   	}
-> > -	sg_table =3D attach->dmabuf->ops->map_dma_buf(attach, direction);
-> > +	sg_table =3D __map_dma_buf(attach, direction);
-> >   	if (!sg_table)
-> >   		sg_table =3D ERR_PTR(-ENOMEM);
-> > @@ -987,7 +1025,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attac=
-hment *attach,
-> >   	if (dma_buf_is_dynamic(attach->dmabuf))
-> >   		dma_resv_assert_held(attach->dmabuf->resv);
-> > -	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
-> > +	__unmap_dma_buf(attach, sg_table, direction);
-> >   	if (dma_buf_is_dynamic(attach->dmabuf) &&
-> >   	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 628681bf6c99..efdc56b9d95f 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -154,6 +154,12 @@ struct dma_buf_ops {
-> >   	 * On failure, returns a negative error value wrapped into a pointer.
-> >   	 * May also return -EINTR when a signal was received while being
-> >   	 * blocked.
-> > +	 *
-> > +	 * Note that exporters should not try to cache the scatter list, or
-> > +	 * return the same one for multiple calls. Caching is done either by =
-the
-> > +	 * DMA-BUF code (for non-dynamic importers) or the importer. Ownership
-> > +	 * of the scatter list is transferred to the caller, and returned by
-> > +	 * @unmap_dma_buf.
-> >   	 */
-> >   	struct sg_table * (*map_dma_buf)(struct dma_buf_attachment *,
-> >   					 enum dma_data_direction);
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
