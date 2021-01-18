@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39812F96ED
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 01:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8C72F96FB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 01:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AFA989C13;
-	Mon, 18 Jan 2021 00:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A07D289A5E;
+	Mon, 18 Jan 2021 00:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A34289A5D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 00:56:33 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872AA89A5E;
+ Mon, 18 Jan 2021 00:59:30 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DJtdl2zSjz9sWL;
- Mon, 18 Jan 2021 11:56:26 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DJtjB2nRsz9sWL;
+ Mon, 18 Jan 2021 11:59:25 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1610931390;
- bh=dblihYaz5X39tjfecv/dai/t29h3iT+VXjnXgyxnQ+s=;
- h=Date:From:To:Cc:Subject:From;
- b=Z4/J6Gm8hLAk4tkbn4nod18cxVArddA9NWDnQreEPD8qdGbPnOBXGVOSGigfVerW8
- Rv9WOTwHM2rEHzk4hMue+Nb06PNfwW4AsgJcRL3XPCi9rEDjBIDzPrnNIoqUS4n/WQ
- ahQz1H1niNZ6sbhXZMD96Okn3LiOONu2E+mB5mAli6wFltzFYUTLmpXKKhOpGevEYA
- +YsRX0vUDOUrxdVhXXYLBbiOvW3IdJxdBUgdt65cM6Xocrm8aGFdjd0FiW9G0Yhx6v
- yhkTWd6D0xLmPueH08j1hCvpZpV0is3WKMCVOr9pVbDgdrElN6tmIF+LhDtDBzxpQb
- ExKXP/WZte56g==
-Date: Mon, 18 Jan 2021 11:56:25 +1100
+ s=201702; t=1610931568;
+ bh=svII/HmAsm5G6p6FTM3HPSB/f9VYboynbv9ZEgEsrMI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=TxROplxJxcjHydkMqRrhcdN/SDHCF9/5o52q692V7iyAkSLyKGsOYuZT/B2FIe3V2
+ oBFlooA/ZsH4exIcXbR/rFaS4SdQCP7Igw4VE/EqHGbhu2xZprNx65B4KTBAs0DaDj
+ 4JzX09tQ9Ufngk3sZcEdS1aQ+ofZGANqAsk4P8XUMv6WasbgOqCK38R38PGq5l6Y98
+ /mXeV6cmNHzB1i3PTqtWpLElA48UJD0ZQaL7TRG9NQITitxcVoIN/b1xOKdiatZnB7
+ pqHRKx3vRqz184L+x2VNA8e+XarAQQMsvKZWn37u3u+QIVpKwnyl78IwTsPkk3UP4L
+ J34NLI5R6TBuw==
+Date: Mon, 18 Jan 2021 11:59:24 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20210118115625.0dae1d02@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: linux-next: build failure after merge of the drm tree
+Message-ID: <20210118115924.6ee14fd3@canb.auug.org.au>
+In-Reply-To: <20210111105654.17e3aa76@canb.auug.org.au>
+References: <20210108115518.2b3fdf58@canb.auug.org.au>
+ <20210108122540.657501b2@canb.auug.org.au>
+ <20210111105654.17e3aa76@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,117 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0804965416=="
+Cc: Dave Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1946144947=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0804965416==
-Content-Type: multipart/signed; boundary="Sig_/j/H4e3/VxnyZ5RlZTzvJSXm";
+--===============1946144947==
+Content-Type: multipart/signed; boundary="Sig_/_RhqA5rtq/IoWL38l0P.S8M";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/j/H4e3/VxnyZ5RlZTzvJSXm
+--Sig_/_RhqA5rtq/IoWL38l0P.S8M
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+On Mon, 11 Jan 2021 10:56:54 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> On Fri, 8 Jan 2021 12:25:40 +1100 Stephen Rothwell <sfr@canb.auug.org.au>=
+ wrote:
+> >
+> > On Fri, 8 Jan 2021 11:55:18 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
+u> wrote: =20
+> > >
+> > > After merging the drm tree, today's linux-next build (x86_64 allmodco=
+nfig)
+> > > failed like this:
+> > >=20
+> > > error: the following would cause module name conflict:
+> > >   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.ko
+> > >   drivers/gpu/drm/panel/panel-dsi-cm.ko
+> > >=20
+> > > Maybe caused by commit
+> > >=20
+> > >   cf64148abcfd ("drm/panel: Move OMAP's DSI command mode panel driver=
+")
+> > >=20
+> > > I have used the drm tree from next-20210107 for today.   =20
+> >=20
+> > This has affected the drm-misc tree as well (since it merged in the drm
+> > tree).
+> >=20
+> > I have used the drm-misc tree from next-20210107 for today. =20
+>=20
+> And now the drm-intel tree.
+>=20
+> I have used the drm-intel tree from next-20210108 for today.
 
-  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-
-between commits:
-
-  3c517ca5212f ("Revert "drm/amdgpu/disply: fix documentation warnings in d=
-isplay manager"")
-  a7ddd22151fc ("Revert "drm/amd/display: Expose new CRC window property"")
-
-from Linus' tree and commit:
-
-  71338cb4a7c2 ("drm/amd/display: enable idle optimizations for linux (MALL=
- stutter)")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+This is still affecting the drm and drm-intel trees.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 1182dafcef02,f084e2fc9569..000000000000
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@@ -336,6 -336,39 +336,13 @@@ struct amdgpu_display_manager=20
-  	 */
-  	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
- =20
-+ 	/**
-+ 	 * @active_vblank_irq_count
-+ 	 *
-+ 	 * number of currently active vblank irqs
-+ 	 */
-+ 	uint32_t active_vblank_irq_count;
-+=20
- -#ifdef CONFIG_DEBUG_FS
- -	/**
- -	 * @crc_win_x_start_property:
- -	 *
- -	 * X start of the crc calculation window
- -	 */
- -	struct drm_property *crc_win_x_start_property;
- -	/**
- -	 * @crc_win_y_start_property:
- -	 *
- -	 * Y start of the crc calculation window
- -	 */
- -	struct drm_property *crc_win_y_start_property;
- -	/**
- -	 * @crc_win_x_end_property:
- -	 *
- -	 * X end of the crc calculation window
- -	 */
- -	struct drm_property *crc_win_x_end_property;
- -	/**
- -	 * @crc_win_y_end_property:
- -	 *
- -	 * Y end of the crc calculation window
- -	 */
- -	struct drm_property *crc_win_y_end_property;
- -#endif
-  	/**
-  	 * @mst_encoders:
-  	 *
-
---Sig_/j/H4e3/VxnyZ5RlZTzvJSXm
+--Sig_/_RhqA5rtq/IoWL38l0P.S8M
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAE3LkACgkQAVBC80lX
-0GyWsAf8DbG8yMIm6wKl2OuMErnvA9zPz2NaqaQRFhiNApZsTin4cxJ0TnbrV8B7
-SmwQiBwyDXFejeUsCMdEhQXOdiJI660az7sBAy9zfAB20Z46Kf27Akzou272r322
-BKUGSdcPBSQo+8+TG5ICtXS2MexjAwlOICmc5OaI17V/HCiuvQS4fgpvsp/o0nUa
-bzdNY+xdM3KS5V97PBEMkyQ7yyDLkEx/HYgGjV4WrpokULFrdipqgj03mnasXR2y
-HB1bXvQb+qHWbLhuM8OUgBjMV8K3A5M8rucmh2At4qUI890+JeBWLNdD34TeELuP
-laxqtMCqc5vtepmoJlToYThCwzClQg==
-=bLvs
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAE3WwACgkQAVBC80lX
+0GxM0gf7BvnfAOaSmmZIeghwp+16WK0KtenVXwvzgaz44vqHjLfQB7s+/u40v+wX
+f23elvd4/BiMQputNl9plOGduAiDFEPx/DHmIEqDsqM3Uw7x5NG1bfYusjN1hxBA
+1BhAgGLJdb37XgyDbYDkDLQy3CDZ8QDb6Wb6/cxQH5dhkgV5ySJUoTz+oV9nkDeJ
+oTPnhm4qfr87zARS35yqV+sNhBrz4fcwsGjhMR+lUXnvjQOo8KrBHjYzpGfE4RqJ
+nkKiZdhVQft0fuTpbBBP5rvIrGLh3g7/JbHIyveaAflSQktIVYYBcHfOMh5SSfcg
+dUnXUXv5pksjRWQkZdxD5UuEoQe5Vg==
+=1Z6B
 -----END PGP SIGNATURE-----
 
---Sig_/j/H4e3/VxnyZ5RlZTzvJSXm--
+--Sig_/_RhqA5rtq/IoWL38l0P.S8M--
 
---===============0804965416==
+--===============1946144947==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -167,4 +140,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0804965416==--
+--===============1946144947==--
