@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E3F2FACF6
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 22:49:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDDA2FACFB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 22:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DAE26E593;
-	Mon, 18 Jan 2021 21:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71EDD6E595;
+	Mon, 18 Jan 2021 21:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B14726E593;
- Mon, 18 Jan 2021 21:49:49 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id 34so6956604otd.5;
- Mon, 18 Jan 2021 13:49:49 -0800 (PST)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32EDC6E593;
+ Mon, 18 Jan 2021 21:52:49 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id x13so17784493oto.8;
+ Mon, 18 Jan 2021 13:52:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=p9nGZMUHspJ8Gr+jRu3UsEJFq2sKV5whavJ8rCsMvxk=;
- b=GS+vtKCUne+eK/vtHUsXHBRNYFbLk3dtkHTlnaF9QOB/NxAmQ0xQSCMn3Lu2jG3hNM
- q9KboH4AUZk3CQy4BqPQwu5ThIj6yLOrpRm5PaqZyhhs7wSu9S0uTSPHdf5rCmC8A3An
- CEv3ISIO+7ZOf0LGbtU6LUOkBBA1V7P6Nqv77TWhdiBvgE+zMdOHVyPNFTk9F+zPjCQi
- hlxx8g6wh02UdsvmaMhuIZayJixdjH7/zWR9fzPi7JCUHUMBhQMbZRAjV+WlEICYKji0
- h8o035cDYesWDzcYuJRRqwnqvi34WHzNnMkOfx5Fd0NWn30lOYhOe2UywZIieEBF1TW8
- ZmVQ==
+ :cc; bh=oLxfqjTvp8Id83UScDcwxgOhF9UZooF2vHxIW2TXHic=;
+ b=Vu/gUIvKVC5bTDduDjv9yNLtdplX2S+YCZMSE48n/vtfm33TWRJ1JJTOg2MFgJO0Iu
+ HYQrzcz5wR1UQ2dZwIFe0J+MdudYXf5vJ6ZcvYfFDSLEl+UjH426vwPepasV/nDQUQKt
+ RwRpF5NHQYYyqAbLTaS4Q13VHda4CcWzC3riqCwriEFo1l7c5pqrQlfXlBXvE9NSiNMD
+ 8pz7wiEHqJXFFzsOubhw7egeNm8kqDdfMPrpt9zoOAhO6LhiqGuevAevUwrdhZsqrzqe
+ XhfEaGN6/GVRhhB468IIhzWFjhuUmgme4iGaoV0LOjpEFYFhWKe37E5hlJCvviWW07zc
+ r34A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=p9nGZMUHspJ8Gr+jRu3UsEJFq2sKV5whavJ8rCsMvxk=;
- b=GdT0YaCVi5trVtCErzpRaXZ2KmpvCKl9BFucoj1+/Z0kbn/MzNJwiBeeQD0qSJQwN+
- WaTIF6REUPnSBtwOpSgGjUEd2VrDqMrTWAnVptok8VVzNKkoBKVWTDAve+4YV9qn4TqY
- nlYldmqwmDDpy1XZi+w4twgE3i4ZT/+uS+DEvtwb4kb4JV+xKYA+g0jVgfZp5l6Z8KmJ
- WQxRC8p6ucGfabAjbfegeuiYRHgQYHIQlpRx7f807jWih4fh7gJHxrBpZr1Woo9cONwQ
- P/9wGqv71N5XT8yoYtgsC2QPZ0UL85faM5tNwYRdhnE7a6TzX0O3KlvTXdJ91d3eZqja
- WomA==
-X-Gm-Message-State: AOAM531ejGBKCH5WD9a6iAtoE/AM9YMN5b6KYhO3iRMpBTpMEcQTDty6
- BE86EgZ1Yu5MNDM2O/0PC+oAcvaDyXqVkm2acrI=
-X-Google-Smtp-Source: ABdhPJwhiwM8Chn49kJ1X7/M1GzIGqvCr9vjm2PyVKMo+aNIJbugA+mYaLYB2bDGSWicBdWb9eaJcz/oSLc6oUtq1ak=
-X-Received: by 2002:a9d:75d4:: with SMTP id c20mr1147835otl.311.1611006589088; 
- Mon, 18 Jan 2021 13:49:49 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=oLxfqjTvp8Id83UScDcwxgOhF9UZooF2vHxIW2TXHic=;
+ b=rkSFTIbJjqy6N+kS7AMJQAT5grS0LYBlIFs3v8TppiZAQ+3/kGITvZN9kogDHfTP7U
+ LAW9cfbqRurd65aq90y8sAF6ahh+k/xzub+UzuqjEVLWWNhWCbqp332lIn2C4cnnbwcP
+ MXy1vDSBd2wKXgiBdGvatKoK1FJt31Q8/ivS1eGikufJCR8kh9EGEzMPHbGn2YKjWNsk
+ Q91QUYSmbdCfJqFxIC+4BS2WlVnPGHblV/QPpMn297sSN4OC1OHrP7thMhb8clqwQZKq
+ sdCp5vZgAZ+PViHuwFzFkBfUb/xRrAlgZ6upPmwHyybZwWgx2W/AgyZFnHlSf0uNJyPy
+ gjWQ==
+X-Gm-Message-State: AOAM530CIUgsmVA6fA1RFPiirgrZeccAcESZ34tuM6wYqWWHmzVcpGxi
+ vjFrJSOMjs7vjM/29alQppGITyM3V8yPZpM6BzH4nild
+X-Google-Smtp-Source: ABdhPJxRAq4lRwpv3vfBHtyBlx9zpMJw0RuEBe6cWXGb5CAIHIfnox73f/ltX8W5Abzg9LznmUivVXbo7lcXB1Jrq8U=
+X-Received: by 2002:a9d:2ac2:: with SMTP id e60mr1165181otb.23.1611006768451; 
+ Mon, 18 Jan 2021 13:52:48 -0800 (PST)
 MIME-Version: 1.0
 References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
- <1611003683-3534-5-git-send-email-andrey.grodzovsky@amd.com>
-In-Reply-To: <1611003683-3534-5-git-send-email-andrey.grodzovsky@amd.com>
+ <1611003683-3534-8-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1611003683-3534-8-git-send-email-andrey.grodzovsky@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 18 Jan 2021 16:49:38 -0500
-Message-ID: <CADnq5_M6X5zN2TN=K0ao9aXkgy5HF=v9v7WFr7M0vV_mih1EzA@mail.gmail.com>
-Subject: Re: [PATCH v4 04/14] drm/sched: Cancel and flush all oustatdning jobs
- before finish.
+Date: Mon, 18 Jan 2021 16:52:37 -0500
+Message-ID: <CADnq5_PEzNaeakyYfyTgKgDeTpGimoJ7he6Jv9x5SL91mZo=KA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/14] drm/amdgpu: Register IOMMU topology notifier per
+ device.
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,31 +68,207 @@ Cc: Greg KH <gregkh@linuxfoundation.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, "Deucher,
  Alexander" <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKYW4gMTgsIDIwMjEgYXQgNDowMiBQTSBBbmRyZXkgR3JvZHpvdnNreQo8YW5kcmV5
-Lmdyb2R6b3Zza3lAYW1kLmNvbT4gd3JvdGU6Cj4KPiBUbyBhdm9pZCBhbnkgcG9zc2libGUgdXNl
-IGFmdGVyIGZyZWUuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5
-Lmdyb2R6b3Zza3lAYW1kLmNvbT4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
-aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKSW4gdGhlIHN1YmplY3Q6Cm91c3RhdGRuaW5nIC0+IG91
-dHN0YW5kaW5nCgpBbGV4CgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hl
-ZF9tYWluLmMgfCAzICsrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwo+IGluZGV4IDk5N2FhMTUuLjkyNjM3
-YjcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYwo+IEBAIC04OTks
-NiArODk5LDkgQEAgdm9pZCBkcm1fc2NoZWRfZmluaShzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIg
-KnNjaGVkKQo+ICAgICAgICAgaWYgKHNjaGVkLT50aHJlYWQpCj4gICAgICAgICAgICAgICAgIGt0
-aHJlYWRfc3RvcChzY2hlZC0+dGhyZWFkKTsKPgo+ICsgICAgICAgLyogQ29uZmlybSBubyB3b3Jr
-IGxlZnQgYmVoaW5kIGFjY2Vzc2luZyBkZXZpY2Ugc3RydWN0dXJlcyAqLwo+ICsgICAgICAgY2Fu
-Y2VsX2RlbGF5ZWRfd29ya19zeW5jKCZzY2hlZC0+d29ya190ZHIpOwo+ICsKPiAgICAgICAgIHNj
-aGVkLT5yZWFkeSA9IGZhbHNlOwo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3NjaGVkX2Zpbmkp
-Owo+IC0tCj4gMi43LjQKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-YW1kLWdmeApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Jan 18, 2021 at 4:02 PM Andrey Grodzovsky
+<andrey.grodzovsky@amd.com> wrote:
+>
+> Handle all DMA IOMMU gropup related dependencies before the
+
+gropup -> group
+
+Alex
+
+> group is removed.
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  5 ++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 46 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c   |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h   |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 10 +++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  2 ++
+>  6 files changed, 65 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 478a7d8..2953420 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -51,6 +51,7 @@
+>  #include <linux/dma-fence.h>
+>  #include <linux/pci.h>
+>  #include <linux/aer.h>
+> +#include <linux/notifier.h>
+>
+>  #include <drm/ttm/ttm_bo_api.h>
+>  #include <drm/ttm/ttm_bo_driver.h>
+> @@ -1041,6 +1042,10 @@ struct amdgpu_device {
+>
+>         bool                            in_pci_err_recovery;
+>         struct pci_saved_state          *pci_state;
+> +
+> +       struct notifier_block           nb;
+> +       struct blocking_notifier_head   notifier;
+> +       struct list_head                device_bo_list;
+>  };
+>
+>  static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 45e23e3..e99f4f1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -70,6 +70,8 @@
+>  #include <drm/task_barrier.h>
+>  #include <linux/pm_runtime.h>
+>
+> +#include <linux/iommu.h>
+> +
+>  MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
+>  MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
+>  MODULE_FIRMWARE("amdgpu/raven_gpu_info.bin");
+> @@ -3200,6 +3202,39 @@ static const struct attribute *amdgpu_dev_attributes[] = {
+>  };
+>
+>
+> +static int amdgpu_iommu_group_notifier(struct notifier_block *nb,
+> +                                    unsigned long action, void *data)
+> +{
+> +       struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, nb);
+> +       struct amdgpu_bo *bo = NULL;
+> +
+> +       /*
+> +        * Following is a set of IOMMU group dependencies taken care of before
+> +        * device's IOMMU group is removed
+> +        */
+> +       if (action == IOMMU_GROUP_NOTIFY_DEL_DEVICE) {
+> +
+> +               spin_lock(&ttm_bo_glob.lru_lock);
+> +               list_for_each_entry(bo, &adev->device_bo_list, bo) {
+> +                       if (bo->tbo.ttm)
+> +                               ttm_tt_unpopulate(bo->tbo.bdev, bo->tbo.ttm);
+> +               }
+> +               spin_unlock(&ttm_bo_glob.lru_lock);
+> +
+> +               if (adev->irq.ih.use_bus_addr)
+> +                       amdgpu_ih_ring_fini(adev, &adev->irq.ih);
+> +               if (adev->irq.ih1.use_bus_addr)
+> +                       amdgpu_ih_ring_fini(adev, &adev->irq.ih1);
+> +               if (adev->irq.ih2.use_bus_addr)
+> +                       amdgpu_ih_ring_fini(adev, &adev->irq.ih2);
+> +
+> +               amdgpu_gart_dummy_page_fini(adev);
+> +       }
+> +
+> +       return NOTIFY_OK;
+> +}
+> +
+> +
+>  /**
+>   * amdgpu_device_init - initialize the driver
+>   *
+> @@ -3304,6 +3339,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>
+>         INIT_WORK(&adev->xgmi_reset_work, amdgpu_device_xgmi_reset_func);
+>
+> +       INIT_LIST_HEAD(&adev->device_bo_list);
+> +
+>         adev->gfx.gfx_off_req_count = 1;
+>         adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+>
+> @@ -3575,6 +3612,15 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>         if (amdgpu_device_cache_pci_state(adev->pdev))
+>                 pci_restore_state(pdev);
+>
+> +       BLOCKING_INIT_NOTIFIER_HEAD(&adev->notifier);
+> +       adev->nb.notifier_call = amdgpu_iommu_group_notifier;
+> +
+> +       if (adev->dev->iommu_group) {
+> +               r = iommu_group_register_notifier(adev->dev->iommu_group, &adev->nb);
+> +               if (r)
+> +                       goto failed;
+> +       }
+> +
+>         return 0;
+>
+>  failed:
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
+> index 0db9330..486ad6d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c
+> @@ -92,7 +92,7 @@ static int amdgpu_gart_dummy_page_init(struct amdgpu_device *adev)
+>   *
+>   * Frees the dummy page used by the driver (all asics).
+>   */
+> -static void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev)
+> +void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev)
+>  {
+>         if (!adev->dummy_page_addr)
+>                 return;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
+> index afa2e28..5678d9c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h
+> @@ -61,6 +61,7 @@ int amdgpu_gart_table_vram_pin(struct amdgpu_device *adev);
+>  void amdgpu_gart_table_vram_unpin(struct amdgpu_device *adev);
+>  int amdgpu_gart_init(struct amdgpu_device *adev);
+>  void amdgpu_gart_fini(struct amdgpu_device *adev);
+> +void amdgpu_gart_dummy_page_fini(struct amdgpu_device *adev);
+>  int amdgpu_gart_unbind(struct amdgpu_device *adev, uint64_t offset,
+>                        int pages);
+>  int amdgpu_gart_map(struct amdgpu_device *adev, uint64_t offset,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 6cc9919..4a1de69 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -94,6 +94,10 @@ static void amdgpu_bo_destroy(struct ttm_buffer_object *tbo)
+>         }
+>         amdgpu_bo_unref(&bo->parent);
+>
+> +       spin_lock(&ttm_bo_glob.lru_lock);
+> +       list_del(&bo->bo);
+> +       spin_unlock(&ttm_bo_glob.lru_lock);
+> +
+>         kfree(bo->metadata);
+>         kfree(bo);
+>  }
+> @@ -613,6 +617,12 @@ static int amdgpu_bo_do_create(struct amdgpu_device *adev,
+>         if (bp->type == ttm_bo_type_device)
+>                 bo->flags &= ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
+>
+> +       INIT_LIST_HEAD(&bo->bo);
+> +
+> +       spin_lock(&ttm_bo_glob.lru_lock);
+> +       list_add_tail(&bo->bo, &adev->device_bo_list);
+> +       spin_unlock(&ttm_bo_glob.lru_lock);
+> +
+>         return 0;
+>
+>  fail_unreserve:
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> index 9ac3756..5ae8555 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -110,6 +110,8 @@ struct amdgpu_bo {
+>         struct list_head                shadow_list;
+>
+>         struct kgd_mem                  *kfd_bo;
+> +
+> +       struct list_head                bo;
+>  };
+>
+>  static inline struct amdgpu_bo *ttm_to_amdgpu_bo(struct ttm_buffer_object *tbo)
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
