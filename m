@@ -2,122 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB922FA14F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 14:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFE62FA175
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 14:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506186E221;
-	Mon, 18 Jan 2021 13:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7AEC6E20E;
+	Mon, 18 Jan 2021 13:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2078.outbound.protection.outlook.com [40.107.243.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA0F6E218
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 13:23:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EynpIcg6pl1OqgoYAEHmataSOt95r1FUvsqlPec6S2mZSmksMX3RZWROiVjPLJwLkLqpKo1cGNCM6pdgVX7E/iMDWTNYsFlm2aCsgGNPoNa9r9L41zHo9P+qlvy0vJqhBpe6z3aFzSEgv4rIALlA7ASHuWjD4ntmcL1ztpXiLF9tKWXFbk9UkSYEJ2JFbveTaPUVSha3GNhHZmbD+OCjW3gUqMvwUmI2Xm851wfaKERjiFzwq9XTSDm/fwiZHZX3YKR1z24WIA5/ewyFH6C+LH7GpJO90ljoVBidmjLMO5wQ+XQ/Rc1UGQV2cesmsomXlDjg/0MonnIR0yEBARzbAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/TT/rmioQVcHW2TITi9TVVty49oa/+9u2kRmxbq004=;
- b=Ci4rFXlPvdvJtva/QCjwX/k0dRE2nClFZWT6/YBHAFlmeN+QXjs/W+pORNyUZYrgyNAPUkeXvhRGxk/2WbnJmkY0bbPGnJ1ybTxqmJ56MUEleM00EDRHeElCk7rRCpS4wihP/pSKZ/xL223RAZUPPP8ZsLjSSTSePcb5WdGBGvyD7fIZW6INzx9rIXt7UY1TBiw6wPVcX5FpTGWx2g1p/kX3r4dCBGYS3jxQsTAJKHipbaZN3VU2bIadD6FfpQ+viKwwk/D+25TUoK6Tb2wwZ7trRDBlmpdblXDV9DW19iwetT0YRxzq3JwJ1Ixe4g8oIV/BasrIdRqRRtZA4rtM0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/TT/rmioQVcHW2TITi9TVVty49oa/+9u2kRmxbq004=;
- b=221TjYAK3+z1b+C5FmJ/fxBysGtj7ybPNnaWC48GyIb8HRHv0Axfo/DHN4rplQbSaVHKR9s0LQXUqLch8QpwehrIuxYwdsq5B9Nm2uRAzMcfRSibsL7jgZt5VqO/aaQycuHdyIBcssh+HGfSqKwAE8xTfnjU8wO2P9UYxsnaHlM=
-Authentication-Results: lists.linux-foundation.org; dkim=none (message not
- signed) header.d=none;lists.linux-foundation.org; dmarc=none action=none
- header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4047.namprd12.prod.outlook.com (2603:10b6:208:1de::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Mon, 18 Jan
- 2021 13:23:36 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3763.014; Mon, 18 Jan 2021
- 13:23:36 +0000
-Subject: Re: Change eats memory on my server
-To: Eli Cohen <elic@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
- <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
- <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
- <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
- <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
- <20210118091302.GB40909@mtl-vdi-166.wap.labs.mlnx>
- <052812fd-10ce-abf4-d12a-91d4fd66ed54@suse.de>
- <20210118131608.GA50817@mtl-vdi-166.wap.labs.mlnx>
- <c9078ed1-a3c6-32b9-b76f-cc511cb54c83@suse.de>
- <20210118132225.GA51141@mtl-vdi-166.wap.labs.mlnx>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <b36485a3-2fc6-bf3f-fea2-6a7d040f4df1@amd.com>
-Date: Mon, 18 Jan 2021 14:23:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210118132225.GA51141@mtl-vdi-166.wap.labs.mlnx>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR07CA0007.eurprd07.prod.outlook.com
- (2603:10a6:205:1::20) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26C96E20E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 13:28:00 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id v184so9552652wma.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 05:28:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=CIzsGliBbSopdadL1aItIFfvgfPFm1TH0AYXUH5P8f0=;
+ b=EG1bU1Clp69oWVePE+R8+uBrdoblAVGgjD0Rsl1PG7Dtkt1Y5MiFJNJEr4ggev4ueL
+ EqMjCrKKFrn3BdgZTy2G2l/JGR8hhIzxHrXcmcyRxs5NhCf0KUwPm42lZ7D10W+TbZyi
+ yocTmgFxoWNwmtqj7G+KGa+17F+DHQp48HcJ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CIzsGliBbSopdadL1aItIFfvgfPFm1TH0AYXUH5P8f0=;
+ b=OcC2ohYDoMJd8Jmu8TZL5Pb/HTA/REguFt2kZlCqjUzfJkHI1PY/1WdTIVsPQbrs+a
+ aXTYG7evr1PwkXOKm2BTTTtwv2zcCa+kd+QKymdZhgj06FokFaLEr8TL//qsBNvssQeE
+ HooEuve9OOEfYUbbPCBasgWZmzhpWwUGRx8VWy9wBf1rIzJrhv9f6brWYpv1XOZ6/9Sn
+ UExEH/0tsIq1Cw8UBUnXhIRpgEhs2pDWZxGcAQVqejfGt5e16OtHaPS4x8eMGrBpOI5a
+ L0MPbzPniNSEUtWv+LHETq5R379wcngJh5cvdbv0f1WmFh6Qq8xn710KWdwdtP1ekZzY
+ UwVQ==
+X-Gm-Message-State: AOAM532sAo9G8IbMKV4AMuN90R3jcTrxVYGV/w5vpURFrAvaae7Qdhjx
+ 25FqY62hpAHywZXVOE3D/AdSqA==
+X-Google-Smtp-Source: ABdhPJynswhW/jHIjYf7YzQkhm6cv1Qf880du20KnNrjVLb6EYSgnJjXgAOQMSOVVdy6g+3DjqdirA==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr576249wmk.140.1610976479503;
+ Mon, 18 Jan 2021 05:27:59 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a130sm25804754wmf.4.2021.01.18.05.27.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 05:27:58 -0800 (PST)
+Date: Mon, 18 Jan 2021 14:27:56 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-buf: Add debug option
+Message-ID: <YAWM3M8sFXB0xeii@phenom.ffwll.local>
+References: <20210115130219.3915789-1-daniel.vetter@ffwll.ch>
+ <20210115164739.3958206-1-daniel.vetter@ffwll.ch>
+ <e2e5a693-6e8a-7712-b5e9-93d7dc1c3c08@amd.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR07CA0007.eurprd07.prod.outlook.com (2603:10a6:205:1::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.4 via Frontend Transport; Mon, 18 Jan 2021 13:23:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9fab0432-a020-4574-281b-08d8bbb442b8
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4047:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4047FD6ED109D26B70BE17DE83A40@MN2PR12MB4047.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WBE/KV2au+bkFJT+f8LfS+s3yOqpP4Qg63PfXDmH0uawwyOpquLPzEsupTt7vWw4TiursHXhlRrr2um9++boOk7Bi4jtPtx61mMUqZk7QtyQtXO59T3b16Yim42r6lECTKtYDPmCJpbHgrAUWHsRnR+N3azz9co10p6XnYTy1MRPOWkJR6NDueAGppz8eBaWKuRzkXMQ6zK9nd8IMKbSMSHgIajfCCf6dZbXSCe3s/CCfMDRZ1JDryIYQM85ygx0UCHOCvl5akRuR5eSsX/cnlZNC6go9nNZOT4nfc0Fo44vC+rzAnE147OlQaQchzPNRXvMl5+oQVI1vRgsvnqMbXMP9Xv31lbq8oaaDUSVsezgCnPXlNBla6u8Aeo2Qj99sASgrV2eOaGsvzqThVXYEJHDFxUkyLlpM9+iT677EWJkHYVeO9fVZIBjBzQIV6U1ut5WY9c/PzG46/WRfVKsmHvN7GvAClbUe0qPDmf+Ce+V5itCON9KjXoCOFzLHbjvan2KS8/sviw1dabplbtA+DkkCHusWIE9xsUf1zAOE0FqQgY0PaotlDornJ+YJ+nPWv+pUc8E42iOkEnQd28q+0wutl7wWtwHOIkKkH7Vd9M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(6486002)(8936002)(16526019)(4744005)(4326008)(186003)(66556008)(66946007)(6666004)(2616005)(66476007)(36756003)(8676002)(478600001)(31686004)(5660300002)(110136005)(86362001)(31696002)(316002)(2906002)(52116002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Nm0wUkJmVzhRM240TVQxNkZvN2dOdFNCSWlPdTdpSnJsN21FbXk0UWpxVGpM?=
- =?utf-8?B?NlJuVS8raDZIdmNvOW1aMEhGcUtleEpqOWNUZWMvdTlUTHdtcTVaWnNWekk0?=
- =?utf-8?B?azhoZll1MmtkRjYyOEEzQnNlaC8vTmhpd0dsRDFIY2dYQm10K2U5eVhMK05T?=
- =?utf-8?B?RFBZT3NMek1kcFZpQzd6amk4NS96aUwzejcwTlpTeit4Nm16K3NDa1cxSlF1?=
- =?utf-8?B?SU1qdCs3QkdOTWE5dTlMRDFaN3pXUVkyTTV4WUE1MjNHb0U4UHBFT1hVOW1l?=
- =?utf-8?B?UTBKaUV6MzVxSWF6bDRKazI5V3Y1ZWZhM2VLTzU2ZXZXU045a09iWCtXdllF?=
- =?utf-8?B?Q0JXaXh6T3hpcUtJa0lHb1o2WUtLR2VYRU12ZnllRndyanFzVXpyc0NCd0Ry?=
- =?utf-8?B?OGhnWkFJOVdPeUI5UUV0NjZpbjhDUHVwc1RVRXBJRUE2MVVWdS9aY3g5UU0z?=
- =?utf-8?B?NmZjSlZ1RjIrTDFJZHhicmRGVXpVRUY1eGNjeVFDdXBhdnM3eUl6RHF5b1lG?=
- =?utf-8?B?NGRPTks2RnFWNWZXQXRmQ2FobHZqZjdRNkpURzY2Wi9jQ1JMckhmR3dXVDZG?=
- =?utf-8?B?dmhFV01sUy81aDNEQXhEVnpURGM1eEZ2MitsK0thRFVYRjJuTHVBazJaRVVI?=
- =?utf-8?B?SDRHeHhFdGlkMS9pVEEraGRURDNXTDQvcWcwM2ZIOGFoNTZwNThGZHNSUDFF?=
- =?utf-8?B?anBMK1lMQkc4aWk1elpxNm9DVW9ZRnpJVU5VRzNLVGptampkNzRPbC9SdUQ2?=
- =?utf-8?B?NUx4MlpZSmRIS2hIT1VidjNOWkMxS29KaDRkUFdUc3NtQTQ1dnFQREtyay9M?=
- =?utf-8?B?UHhCYTc2UmRIcDVoVVdwTkJkaTh2UzBBMVVMY010Tm43ZXZ6UC82bVcybDNP?=
- =?utf-8?B?SENTci9Zd1k3TVptTzQvN3piNFowOTJQb1JpOUpFRG5Xa0NwaEFJUEtFeXVk?=
- =?utf-8?B?bG9ULy83VjQ5WnlkRHFiZlNWMGRpM0c5WVhBRmZDN1pjZXhWL0YyMzNWMWVJ?=
- =?utf-8?B?eTE5U2lQWWNnQzRUWVdLdWxjRk5iVVZhS1dEbzBYdVBZdFdMcEhKYktmSFdF?=
- =?utf-8?B?Uk1TaWlHTmQ5VmV6bzA4V0FaL1o4a3Nwcm9iZlU3Nnk2V3k3UmpkU3pGdjRj?=
- =?utf-8?B?OVArc1NIY0VaQytKT2diMytDSnVWYW0xQ1cwUzVmd3dzekdoeUlvODB2bkRJ?=
- =?utf-8?B?dk5UNXVxNVVmTCtMTTc2aFdRTEJVazh6dkF4dHd0VVN2d2JYZmJVelpEZ001?=
- =?utf-8?B?ZlBzcjRTbkQwM0NMZjdVQmVka1lRRnNsWFpxbmtWY3BTTXhWU3pTZlRLaHhR?=
- =?utf-8?B?VjllWGpaTDVPcEE0Y1FZZkd3TlRuSkxoQ0JaQVJYTUxLQjZFSGMvMHhYcFgr?=
- =?utf-8?B?dkg1N2ptc213bkFyMUp3ZjhsQ0tlMkdKTVBHeUNtYkwwL0ZxU1ZQMWpvLzh6?=
- =?utf-8?B?UkErSDREM3dKckFWYi9qQzR1dkR6VURPUmN6TDZWc3NoMW43QThpVGo3RHJD?=
- =?utf-8?Q?qe6w9UMe92uR2Y+JZCEJ6G1m1Tg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fab0432-a020-4574-281b-08d8bbb442b8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2021 13:23:36.3146 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YaK3nvAeRXM/3xvlu8HgbIeRBLrLz4+dj1pa+f4NGEb5/EFELncYs40BT4oK18GG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4047
+Content-Disposition: inline
+In-Reply-To: <e2e5a693-6e8a-7712-b5e9-93d7dc1c3c08@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,32 +67,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, linaro-mm-sig@lists.linaro.org,
+ David Stevens <stevensd@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTguMDEuMjEgdW0gMTQ6MjIgc2NocmllYiBFbGkgQ29oZW46Cj4gT24gTW9uLCBKYW4gMTgs
-IDIwMjEgYXQgMDI6MjA6NDlQTSArMDEwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4+IEhp
-Cj4+Cj4+IEFtIDE4LjAxLjIxIHVtIDE0OjE2IHNjaHJpZWIgRWxpIENvaGVuOgo+Pj4gT24gTW9u
-LCBKYW4gMTgsIDIwMjEgYXQgMTA6MzA6NTZBTSArMDEwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6Cj4+Pj4gSGVyZSdzIHRoZSBwYXRjaCBhZ2FpbnN0IHRoZSBsYXRlc3QgRFJNIHRyZWUuIHY1
-LjExLXJjMyBzaG91bGQgd29yayBhcyB3ZWxsLgo+Pj4+Cj4+Pj4gSSB3YXMgYWJsZSB0byByZXBy
-b2R1Y2UgdGhlIG1lbW9yeSBsZWFrIGxvY2FsbHkgYW5kIGZvdW5kIHRoYXQgdGhlIHBhdGNoCj4+
-Pj4gZml4ZXMgaXQuIFBsZWFzZSBnaXZlIGl0IGEgdHJ5Lgo+Pj4+Cj4+PiBBcyBmYXIgYXMgSSBh
-bSBjb25jZXJuZWQsIHRoaXMgaXNzdWUgaXMgZml4ZWQgYnkgdGhlIHBhdGNoIHlvdSBzZW50Lgo+
-Pj4KPj4+IFRoYW5rcyBmb3IgbG9va2luZyBpbnRvIGl0Lgo+PiBPSywgZ3JlYXQuIEknbGwgcHJl
-cGFyZSB0aGUgcmVhbCBwYXRjaCBzb29uLiBDYW4gSSBhZGQgeW91ciBSZXBvcnRlZC1ieSBhbmQK
-Pj4gVGVzdGVkLWJ5IHRhZ3M/Cj4gWWVzLCBzdXJlLgoKRmVlbCBmcmVlIHRvIGFkZCBhbiBBY2tl
-ZC1ieSBmcm9tIG15IHNpZGUgYXMgd2VsbC4KCkNocmlzdGlhbi4KCj4KPj4gQmVzdCByZWdhcmRz
-Cj4+IFRob21hcwo+Pgo+Pj4gRWxpCj4+Pgo+PiAtLSAKPj4gVGhvbWFzIFppbW1lcm1hbm4KPj4g
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgKPj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4+IChI
-UkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5k
-w7ZyZmZlcgo+Pgo+Cj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Fri, Jan 15, 2021 at 07:52:53PM +0100, Christian K=F6nig wrote:
+> Am 15.01.21 um 17:47 schrieb Daniel Vetter:
+> > We have too many people abusing the struct page they can get at but
+> > really shouldn't in importers. Aside from that the backing page might
+> > simply not exist (for dynamic p2p mappings) looking at it and using it
+> > e.g. for mmap can also wreak the page handling of the exporter
+> > completely. Importers really must go through the proper interface like
+> > dma_buf_mmap for everything.
+> > =
+
+> > I'm semi-tempted to enforce this for dynamic importers since those
+> > really have no excuse at all to break the rules.
+> > =
+
+> > Unfortuantely we can't store the right pointers somewhere safe to make
+> > sure we oops on something recognizable, so best is to just wrangle
+> > them a bit by flipping all the bits. At least on x86 kernel addresses
+> > have all their high bits sets and the struct page array is fairly low
+> > in the kernel mapping, so flipping all the bits gives us a very high
+> > pointer in userspace and hence excellent chances for an invalid
+> > dereference.
+> > =
+
+> > v2: Add a note to the @map_dma_buf hook that exporters shouldn't do
+> > fancy caching tricks, which would blow up with this address scrambling
+> > trick here (Chris)
+> > =
+
+> > Enable by default when CONFIG_DMA_API_DEBUG is enabled.
+> > =
+
+> > v3: Only one copy of the mangle/unmangle code (Christian)
+> > =
+
+> > v4: #ifdef, not #if (0day)
+> > =
+
+> > v5: sg_table can also be an ERR_PTR (Chris, Christian)
+> > =
+
+> > Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> (v2)
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: David Stevens <stevensd@chromium.org>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> =
+
+> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+
+Stuffed into drm-misc-next, thanks for reviewing to both of you.
+-Daniel
+> =
+
+> > ---
+> >   drivers/dma-buf/Kconfig   |  8 +++++++
+> >   drivers/dma-buf/dma-buf.c | 46 +++++++++++++++++++++++++++++++++++----
+> >   include/linux/dma-buf.h   |  6 +++++
+> >   3 files changed, 56 insertions(+), 4 deletions(-)
+> > =
+
+> > diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> > index 4f8224a6ac95..4e16c71c24b7 100644
+> > --- a/drivers/dma-buf/Kconfig
+> > +++ b/drivers/dma-buf/Kconfig
+> > @@ -50,6 +50,14 @@ config DMABUF_MOVE_NOTIFY
+> >   	  This is marked experimental because we don't yet have a consistent
+> >   	  execution context and memory management between drivers.
+> > +config DMABUF_DEBUG
+> > +	bool "DMA-BUF debug checks"
+> > +	default y if DMA_API_DEBUG
+> > +	help
+> > +	  This option enables additional checks for DMA-BUF importers and
+> > +	  exporters. Specifically it validates that importers do not peek at =
+the
+> > +	  underlying struct page when they import a buffer.
+> > +
+> >   config DMABUF_SELFTESTS
+> >   	tristate "Selftests for the dma-buf interfaces"
+> >   	default n
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 1c9bd51db110..f264b70c383e 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -666,6 +666,34 @@ void dma_buf_put(struct dma_buf *dmabuf)
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_put);
+> > +static void mangle_sg_table(struct sg_table *sg_table)
+> > +{
+> > +#ifdef CONFIG_DMABUF_DEBUG
+> > +	int i;
+> > +	struct scatterlist *sg;
+> > +
+> > +	/* To catch abuse of the underlying struct page by importers mix
+> > +	 * up the bits, but take care to preserve the low SG_ bits to
+> > +	 * not corrupt the sgt. The mixing is undone in __unmap_dma_buf
+> > +	 * before passing the sgt back to the exporter. */
+> > +	for_each_sgtable_sg(sg_table, sg, i)
+> > +		sg->page_link ^=3D ~0xffUL;
+> > +#endif
+> > +
+> > +}
+> > +static struct sg_table * __map_dma_buf(struct dma_buf_attachment *atta=
+ch,
+> > +				       enum dma_data_direction direction)
+> > +{
+> > +	struct sg_table *sg_table;
+> > +
+> > +	sg_table =3D attach->dmabuf->ops->map_dma_buf(attach, direction);
+> > +
+> > +	if (!IS_ERR_OR_NULL(sg_table))
+> > +		mangle_sg_table(sg_table);
+> > +
+> > +	return sg_table;
+> > +}
+> > +
+> >   /**
+> >    * dma_buf_dynamic_attach - Add the device to dma_buf's attachments l=
+ist
+> >    * @dmabuf:		[in]	buffer to attach device to.
+> > @@ -737,7 +765,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >   				goto err_unlock;
+> >   		}
+> > -		sgt =3D dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
+> > +		sgt =3D __map_dma_buf(attach, DMA_BIDIRECTIONAL);
+> >   		if (!sgt)
+> >   			sgt =3D ERR_PTR(-ENOMEM);
+> >   		if (IS_ERR(sgt)) {
+> > @@ -784,6 +812,16 @@ struct dma_buf_attachment *dma_buf_attach(struct d=
+ma_buf *dmabuf,
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_attach);
+> > +static void __unmap_dma_buf(struct dma_buf_attachment *attach,
+> > +			    struct sg_table *sg_table,
+> > +			    enum dma_data_direction direction)
+> > +{
+> > +	/* uses XOR, hence this unmangles */
+> > +	mangle_sg_table(sg_table);
+> > +
+> > +	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+> > +}
+> > +
+> >   /**
+> >    * dma_buf_detach - Remove the given attachment from dmabuf's attachm=
+ents list
+> >    * @dmabuf:	[in]	buffer to detach from.
+> > @@ -802,7 +840,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
+dma_buf_attachment *attach)
+> >   		if (dma_buf_is_dynamic(attach->dmabuf))
+> >   			dma_resv_lock(attach->dmabuf->resv, NULL);
+> > -		dmabuf->ops->unmap_dma_buf(attach, attach->sgt, attach->dir);
+> > +		__unmap_dma_buf(attach, attach->sgt, attach->dir);
+> >   		if (dma_buf_is_dynamic(attach->dmabuf)) {
+> >   			dma_buf_unpin(attach);
+> > @@ -924,7 +962,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_=
+buf_attachment *attach,
+> >   		}
+> >   	}
+> > -	sg_table =3D attach->dmabuf->ops->map_dma_buf(attach, direction);
+> > +	sg_table =3D __map_dma_buf(attach, direction);
+> >   	if (!sg_table)
+> >   		sg_table =3D ERR_PTR(-ENOMEM);
+> > @@ -987,7 +1025,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attac=
+hment *attach,
+> >   	if (dma_buf_is_dynamic(attach->dmabuf))
+> >   		dma_resv_assert_held(attach->dmabuf->resv);
+> > -	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+> > +	__unmap_dma_buf(attach, sg_table, direction);
+> >   	if (dma_buf_is_dynamic(attach->dmabuf) &&
+> >   	    !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 628681bf6c99..efdc56b9d95f 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -154,6 +154,12 @@ struct dma_buf_ops {
+> >   	 * On failure, returns a negative error value wrapped into a pointer.
+> >   	 * May also return -EINTR when a signal was received while being
+> >   	 * blocked.
+> > +	 *
+> > +	 * Note that exporters should not try to cache the scatter list, or
+> > +	 * return the same one for multiple calls. Caching is done either by =
+the
+> > +	 * DMA-BUF code (for non-dynamic importers) or the importer. Ownership
+> > +	 * of the scatter list is transferred to the caller, and returned by
+> > +	 * @unmap_dma_buf.
+> >   	 */
+> >   	struct sg_table * (*map_dma_buf)(struct dma_buf_attachment *,
+> >   					 enum dma_data_direction);
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
