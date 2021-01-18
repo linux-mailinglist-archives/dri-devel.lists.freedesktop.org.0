@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671602FB449
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CC32FB435
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:37:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D699D6E85A;
-	Tue, 19 Jan 2021 08:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F586E842;
+	Tue, 19 Jan 2021 08:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F73D6E444
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 17:02:13 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 583BD17D7;
- Mon, 18 Jan 2021 12:02:10 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 18 Jan 2021 12:02:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=aCtNSj2HSao+inp7HktheCsuocF
- 99GwXfTqjyswziGA=; b=YmLl6ohx+f/H98h3T06lnAm/WOzNKJTW+w+ivVzrw0k
- ZwO4cQuBMzTlcR48KM7Jk6cNtx0VeQD0CZYzuyxQixumZsTn3SJYd6HpFwmTIKse
- Y3eRtFc4FraGZZr2Tgd2hcCc0LDQVVztg9JQxJN/uV16206MZ+QmBxlDzExyZMdW
- J8nDYTrWi0paEK2WzXxoAThbRk4WAU5eXaW9otGzW0GW/1shH93zLaVWBETrXB4o
- vK25ouBsphmeTlA82a7GtkmyW7xK9mbbLoDHDD8oISrya62zhZeF8osfBFDi6DZq
- Bn/BIEI43Wz1t7vpNoCzWfD9EtQbHP0gzIK5ENceiaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aCtNSj
- 2HSao+inp7HktheCsuocF99GwXfTqjyswziGA=; b=goAJu6a2PkWzLVoI5TzHDV
- 3qNGVTJSoT549oRMRnGLiKp7LSHx6VSJJ4NcJUqCdwgEPxbMBdMd7NPBOzjQzoao
- D9y+Q4505Uy6SyS3Vqg5QZ2ME5s2AonZ3C7h0Nk41QOX1CwP8tDlgTAvHuUjkpZN
- GinevSF1KKKWYpy9X90aj9eRuuYqYvtUKO3J2JVzQo7bQO4lAW2AWBIm4Tw0G8+G
- e9HcT1ClJae1FUG+mTwu1gbhDe8ykavWibA94csvt29X79hGx1LHvSblPXBvcEpg
- uLJJDW9ZdDjFZ4eYMKC5bTXBW6Hk3ygFEYHB3GGgAfcryA0A7a81C6+6oacMYecA
- ==
-X-ME-Sender: <xms:D78FYBKSxS2xI0HBDiWz9-uPs0txxHM6xdC9AGEnbgyONe7yKHVWbg>
- <xme:D78FYPLIFb-HJEfHuYvDuUVQUtIfbL3UizoiBw1HzAHNLRBRLc9C0Dzjrrc2GuVtM
- YO-Z4eN9xHWTB5wWTo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdeljecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:D78FYDF8XXIdRsJIWFDRLvCro73wcz5mka3Wb2MT2HsOogcSsEz5yQ>
- <xmx:D78FYEncskvoEJh4tittN-79TgzpDNqdOPE4PO-qfzsR2yKXikN-4Q>
- <xmx:D78FYAJOCBD9If8Jsh_f4ax6Uh1XH1PRFtd4hnpUR3TS49lNOjCnJA>
- <xmx:Eb8FYB1S_eRrJiDxVxAXKcXmJXHwlTiIHT8M8_ucBaodfnZDid_uiHFWwI8>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 42FEF108005C;
- Mon, 18 Jan 2021 12:02:07 -0500 (EST)
-Date: Mon, 18 Jan 2021 18:02:05 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 03/10] drm/atmel-hlcdc: Rename custom plane state variable
-Message-ID: <20210118170205.bflnpka2eutrryyp@gilmour>
-References: <20210115125703.1315064-1-maxime@cerno.tech>
- <20210115125703.1315064-3-maxime@cerno.tech>
- <20210115204324.GA529973@ravnborg.org>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D06C46E573
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 19:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=zEJ22T1F3C1ubeY5/smo9KBx7Q8j3vhMGHt2WDHCSaU=; b=cUK7zXfaMBn25pUSZdxNvgLj0O
+ uBg6xKKhdWyrtkQsCeMm3Kn2EP3pjEcLEaJlRAIQGlRZqIMSlXBjMmiDq24QOgwRdcAixbOQIeRtB
+ JtLV8PvHMSm/mPAOJXRVgeZX6U0Q6qbvFkONMl5WP2fuSOx/lWFaATpxT0mg0x72l5aED38rusqNm
+ PC/v95/FvgmYcdZcV9FeBgB9fGW8ClMfBV3xeztFJtFb3VIaZhB78qb/W5j+cev6r61SnFFs2L8EU
+ NYb/JsL9GsKhYVBmOpAziNtG+Gzi+wus9dZqfq3pWQ5I/RztgB1hrXnEqf13vDoRTdC6gkeIhTt4q
+ Enu8wHBA==;
+Received: from [2601:1c0:6280:3f0::9abc]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l1aPk-0007XE-C8; Mon, 18 Jan 2021 19:42:12 +0000
+Subject: Re: [PATCH] drm/syncobj: make lockdep complain on WAIT_FOR_SUBMIT v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210118180334.43714-1-christian.koenig@amd.com>
+ <20210118180334.43714-2-christian.koenig@amd.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <3ebc7345-1b3f-8e7f-dc12-eacfd3a993d9@infradead.org>
+Date: Mon, 18 Jan 2021 11:42:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210115204324.GA529973@ravnborg.org>
+In-Reply-To: <20210118180334.43714-2-christian.koenig@amd.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,69 +53,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Boris Brezillon <bbrezillon@kernel.org>, David Airlie <airlied@linux.ie>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0286642839=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0286642839==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qdgoqrhxkbmwjqu6"
-Content-Disposition: inline
-
-
---qdgoqrhxkbmwjqu6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Sam
-
-On Fri, Jan 15, 2021 at 09:43:24PM +0100, Sam Ravnborg wrote:
-> On Fri, Jan 15, 2021 at 01:56:55PM +0100, Maxime Ripard wrote:
-> > Subsequent reworks will pass the global atomic state in the function
-> > prototype, and atomic_check and atomic_update already have such a
-> > variable already. Let's change them to ease the rework.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->=20
-> I assume you will push this patch as part of the series.
-
-Yep, that's the plan
-
-Thanks for the review,
-Maxime
-
---qdgoqrhxkbmwjqu6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAW/DQAKCRDj7w1vZxhR
-xS4KAQC4Q57cifiOtnbWri+uKleeQ4EjvTJxRqYQUuWj921DowEAkcxlz2fzgD6C
-196JQiStZArABUiHXItNhtJlsgvCoAA=
-=WccY
------END PGP SIGNATURE-----
-
---qdgoqrhxkbmwjqu6--
-
---===============0286642839==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0286642839==--
+SGksCgpKdXN0IGEgY29tbWVudCBhYm91dCB0aGUgY29tbWVudHM6CgpPbiAxLzE4LzIxIDEwOjAz
+IEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IERSTV9TWU5DT0JKX1dBSVRfRkxBR1NfV0FJ
+VF9GT1JfU1VCTUlUIGNhbid0IGJlIHVzZWQgd2hlbiB3ZSBob2xkIGxvY2tzCj4gc2luY2Ugd2Ug
+YXJlIGJhc2ljYWxseSB3YWl0aW5nIGZvciB1c2Vyc3BhY2UgdG8gZG8gc29tZXRoaW5nLgo+IAo+
+IEhvbGRpbmcgYSBsb2NrIHdoaWxlIGRvaW5nIHNvIGNhbiB0cml2aWFsIGRlYWRsb2NrIHdpdGgg
+cGFnZSBmYXVsdHMKPiBldGMuLi4KPiAKPiBTbyBtYWtlIGxvY2tkZXAgY29tcGxhaW4gd2hlbiBh
+IGRyaXZlciB0cmllcyB0byBkbyB0aGlzLgo+IAo+IHYyOiBBZGQgbG9ja2RlcF9hc3NlcnRfbm9u
+ZV9oZWxkKCkgbWFjcm8uCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNv
+YmouYyB8IDcgKysrKysrKwo+ICBpbmNsdWRlL2xpbnV4L2xvY2tkZXAuaCAgICAgICB8IDUgKysr
+KysKPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5j
+b2JqLmMKPiBpbmRleCA2ZTc0ZTY3NDVlY2EuLmY1MTQ1ODYxNTE1OCAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+c3luY29iai5jCj4gQEAgLTM4Nyw2ICszODcsMTMgQEAgaW50IGRybV9zeW5jb2JqX2ZpbmRfZmVu
+Y2Uoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXZhdGUsCj4gIAlpZiAoIXN5bmNvYmopCj4gIAkJ
+cmV0dXJuIC1FTk9FTlQ7Cj4gIAo+ICsJLyogV2FpdGluZyBmb3IgdXNlcnNwYWNlIHdpdGggbG9j
+a3MgaGVscCBpcyBpbGxlZ2FsIGNhdXNlIHRoYXQgY2FuCgoJICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgaGVsZCAgICAgICAgICAgIGJlY2F1c2UKCj4gKwkgKiB0cml2aWFsIGRl
+YWRsb2NrIHdpdGggcGFnZSBmYXVsdHMgZm9yIGV4YW1wbGUuIE1ha2UgbG9ja2RlcCBjb21wbGFp
+bgoKCSAgIHRyaXZpYWxseQoKPiArCSAqIGFib3V0IGl0IGVhcmx5IG9uLgo+ICsJICovCj4gKwlp
+ZiAoZmxhZ3MgJiBEUk1fU1lOQ09CSl9XQUlUX0ZMQUdTX1dBSVRfRk9SX1NVQk1JVCkKPiArCQls
+b2NrZGVwX2Fzc2VydF9ub25lX2hlbGRfb25jZSgpOwo+ICsKPiAgCSpmZW5jZSA9IGRybV9zeW5j
+b2JqX2ZlbmNlX2dldChzeW5jb2JqKTsKPiAgCWRybV9zeW5jb2JqX3B1dChzeW5jb2JqKTsKPiAg
+CgoKdGhhbmtzLgotLSAKflJhbmR5CllvdSBjYW4ndCBkbyBhbnl0aGluZyB3aXRob3V0IGhhdmlu
+ZyB0byBkbyBzb21ldGhpbmcgZWxzZSBmaXJzdC4KLS0gQmVsZWZhbnQncyBMYXcKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
