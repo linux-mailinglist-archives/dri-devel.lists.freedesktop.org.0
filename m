@@ -1,70 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375F92FB434
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:37:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8DF2FB439
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583A86E05F;
-	Tue, 19 Jan 2021 08:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1049E6E845;
+	Tue, 19 Jan 2021 08:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9566E17C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 10:04:17 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id E283F129A;
- Mon, 18 Jan 2021 05:04:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 18 Jan 2021 05:04:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Uy1WS46IbpC3KuVCb+N/ATn8mS5
- U7Ff2FfbpjZEa518=; b=tn1gpcp0AsJYsA1s9QMepflLiNX5nRZjRbPHbx2jr5r
- obrZztyBgqGO3R/dSEB/pmPZBCPmg2nEnfvCOOLwfAD8iTe4DcWJy98e5Z4m88yy
- JIrq0ZohckFvjA8l7cnnPw6EicHVvjJQvRAZsrVGEIfYsPvCI0yu9R312OP8b7l0
- LSMiLfD1709ghSsyVGdREmLqrUT9SO92ZVeFb/G+b+zyvI99KzRL/lgSq2oMq308
- e6dOByzdtkueZ+WyNn6bLyfZAkRi315iZ4zq9p7T/5x9cXb6Ra3s7cIitRc4DBvn
- MNw/uJjRwSy7NkdQqSqPv5Wp+auZqOuWe4D8H+Kyhuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Uy1WS4
- 6IbpC3KuVCb+N/ATn8mS5U7Ff2FfbpjZEa518=; b=DgT4DwAzME/QP7DSl51adt
- nKf6W3TdgwIs1d/Ak8vP7br5ohBIUEc8FrYu0rh0AI2GP36Lzd3huuG3ZTEDFykV
- 8TgI0wIRnI21r/rBYWS7W42SJKy9OtI5nGTYKsTLsgyIe9BG5XiuGLcVg/jhpStv
- doiRCk2+4rKH+2jEpPR+GyFDeEoVnEIOJNsVyK180/+Ae/+F8nrWNwmlcypTI7XB
- QVHCjRZCr5TCZGtQLD43jr89/bJMCjDnDsEIV8GEvMl/40Eo9/KTe1Y7OMftONGq
- 3gGuQzTsoKHXlEphxg+x2i/2Yki0FT+hHeOzwlEdEIAsG2JRltnsuGAh3pTGRk3w
- ==
-X-ME-Sender: <xms:G10FYIby5IPLGuvEU01_4thuKEWqHSc7Dn-ikfJJVQYJNi61Pi97Hw>
- <xme:G10FYBO1B3siq7e4tLqzeHDo6OGQMvQEVhecTL4Q1JM5fODpQbXrRcuT7PZBO4Xe-
- GGzFUezUqGuRUZTyjs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdduudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:G10FYNZgvGNd504E7uF45gybFLb-BSIuoZciluHijSNk7VDCpEnm6g>
- <xmx:G10FYP3ME94XJJxenXjSvVR3vyYEZyE-vvPXiLiUw9Z3xocOTOWjxA>
- <xmx:G10FYDepwD9mLSaDsi4NXDfYV5DsbmNa3d8ak9KHWgMtwfRgXQBoHw>
- <xmx:HF0FYGXcVCqOXE2s7kued5TbOgEaqgEJxSKqBBR6-rZPwMYj-5kqhA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 86762108005C;
- Mon, 18 Jan 2021 05:04:11 -0500 (EST)
-Date: Mon, 18 Jan 2021 11:04:10 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH] drm/vc4: Unify PCM card's driver_name
-Message-ID: <20210118100410.co3qph4gsvy3kloy@gilmour>
-References: <20210115191209.12852-1-nsaenzjulienne@suse.de>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016686E1C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 10:39:17 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B600565550000>; Mon, 18 Jan 2021 02:39:17 -0800
+Received: from mtl-vdi-166.wap.labs.mlnx (172.20.145.6) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Mon, 18 Jan 2021 10:39:12 +0000
+Date: Mon, 18 Jan 2021 12:39:09 +0200
+From: Eli Cohen <elic@nvidia.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: Change eats memory on my server
+Message-ID: <20210118103909.GA45040@mtl-vdi-166.wap.labs.mlnx>
+References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
+ <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
+ <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
+ <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
+ <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
+ <20210118091302.GB40909@mtl-vdi-166.wap.labs.mlnx>
+ <052812fd-10ce-abf4-d12a-91d4fd66ed54@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210115191209.12852-1-nsaenzjulienne@suse.de>
+Content-Disposition: inline
+In-Reply-To: <052812fd-10ce-abf4-d12a-91d4fd66ed54@suse.de>
+User-Agent: Mutt/1.9.5 (bf161cf53efb) (2018-04-13)
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1610966357; bh=hBDtQFyBlKJXIsW/egiLl0IA6V2Hx4RRaCTuyKQG5o8=;
+ h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+ Content-Type:Content-Disposition:Content-Transfer-Encoding:
+ In-Reply-To:User-Agent:X-Originating-IP:X-ClientProxiedBy;
+ b=UGpuMd4GMtUQMeptbVKeyZy+ylDCkUFgkGvl0O+QmFLFHvQKIMwBJkg9lI7/7p+r1
+ rBISSDlJ+SW6+C9Lj1lB2iFGsBpsmc/gux8FUIlo9kof6wHXFMABHhDQ7cb92tMkcl
+ Clispq+IEL00sZN4oQvcSzq+AbE2LEZAoDoNGX5vC8iv99gpH8kJ7BFWKWwKxc2h9Y
+ P9Tg2L3Ut4G/l+97j/jINCZhyHkXse7DdbyAJY+Pud7uTF1YY3C5tuflryGAGyOnQP
+ eW/JwgIk1BmkCd2xzNFwkC371sNjK3FbEl7o7YmptgEahdiougFzkq7Y2GpbM+mm7L
+ zxkAMDZE7aOUg==
 X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,66 +62,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stefan.wahren@i2se.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tiwai@suse.com, broonie@kernel.org
-Content-Type: multipart/mixed; boundary="===============0262911145=="
+Cc: daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org, sam@ravnborg.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 18, 2021 at 10:30:56AM +0100, Thomas Zimmermann wrote:
+> Hi
+> =
 
---===============0262911145==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tfzxfn4dcinwkokd"
-Content-Disposition: inline
+> Am 18.01.21 um 10:13 schrieb Eli Cohen:
+> > On Mon, Jan 18, 2021 at 08:54:07AM +0100, Thomas Zimmermann wrote:
+> > > Hi
+> > > =
+
+> > > Am 18.01.21 um 08:43 schrieb Christian K=F6nig:
+> > > > Hi Eli,
+> > > > =
+
+> > > > have you already tried using kmemleak?
+> > > > =
+
+> > > > This sounds like a leak of memory allocated using kmalloc(), so kme=
+mleak
+> > > > should be able to catch it.
+> > > =
+
+> > > I have an idea what happens here. When the refcount is 0 in kmap, a n=
+ew page
+> > > mapping for the BO is being established. But VRAM helpers unmap the p=
+revious
+> > > pages only on BO moves or frees; not in kunmap. So the old mapping mi=
+ght
+> > > still be around. I'll send out a test patch later today.
+> > > =
+
+> > =
+
+> > Great! Looking forward to test it.
+> =
+
+> Here's the patch against the latest DRM tree. v5.11-rc3 should work as we=
+ll.
+> =
+
+> I was able to reproduce the memory leak locally and found that the patch
+> fixes it. Please give it a try.
+> =
 
 
---tfzxfn4dcinwkokd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thomas, thanks for looking into it. My first impression is that the
+patch indeed fixes the leak.
 
-On Fri, Jan 15, 2021 at 08:12:09PM +0100, Nicolas Saenz Julienne wrote:
-> User-space ALSA matches a card's driver name against an internal list of
-> aliases in order to select the correct configuration for the system.
-> When the driver name isn't defined, the match is performed against the
-> card's name.
->=20
-> With the introduction of RPi4 we now have two HDMI ports with two
-> distinct audio cards. This is reflected in their names, making them
-> different from previous RPi versions. With this, ALSA ultimately misses
-> the board's configuration on RPi4.
->=20
-> In order to avoid this, set "card->driver_name" to "vc4-hdmi"
-> unanimously.
->=20
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Fixes: f437bc1ec731 ("drm/vc4: drv: Support BCM2711")
+I will report again later today.
 
-Applied, thanks
-Maxime
+> Best regards
+> Thomas
+> =
 
---tfzxfn4dcinwkokd
-Content-Type: application/pgp-signature; name="signature.asc"
+> > =
 
------BEGIN PGP SIGNATURE-----
+> > > Best regards
+> > > Thomas
+> > > =
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAVdGgAKCRDj7w1vZxhR
-xb9RAQDb8FrlzrhimVVkmB4VtzIoNkE+tBqN140kwfhlh8De0AD/TBTRgycXlwEM
-AMZosesAa3hV4y4MYHHwpj8F+lV+EAk=
-=bj5l
------END PGP SIGNATURE-----
+> > > > =
 
---tfzxfn4dcinwkokd--
+> > > > Regards,
+> > > > Christian.
+> > > > =
 
---===============0262911145==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > > > Am 17.01.21 um 06:08 schrieb Eli Cohen:
+> > > > > On Fri, Jan 15, 2021 at 10:03:50AM +0100, Thomas Zimmermann wrote:
+> > > > > > Could you please double-check that 3fb91f56aea4 ("drm/udl: Retr=
+ieve USB
+> > > > > > device from struct drm_device.dev") works correctly
+> > > > > Checked again, it does not seem to leak.
+> > > > > =
+
+> > > > > > and that 823efa922102
+> > > > > > ("drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()") is =
+broken?
+> > > > > > =
+
+> > > > > Yes, this one leaks, as does the one preceding it:
+> > > > > =
+
+> > > > > 1086db71a1db ("drm/vram-helper: Remove invariant parameters from
+> > > > > internal kmap function")
+> > > > > > For one of the broken commits, could you please send us the out=
+put of
+> > > > > > =
+
+> > > > > >  =A0=A0 dmesg | grep -i drm
+> > > > > > =
+
+> > > > > > after most of the memory got leaked?
+> > > > > > =
+
+> > > > > I ran the following script in the shell:
+> > > > > =
+
+> > > > > while true; do cat /proc/meminfo | grep MemFree:; sleep 5; done
+> > > > > =
+
+> > > > > and this is what I saw before I got disconnected from the shell:
+> > > > > =
+
+> > > > > MemFree:=A0=A0=A0=A0=A0=A0=A0=A0=A0 148208 kB
+> > > > > MemFree:=A0=A0=A0=A0=A0=A0=A0=A0=A0 148304 kB
+> > > > > MemFree:=A0=A0=A0=A0=A0=A0=A0=A0=A0 146660 kB
+> > > > > Connection to nps-server-24 closed by remote host.
+> > > > > Connection to nps-server-24 closed.
+> > > > > =
+
+> > > > > =
+
+> > > > > I also mointored the output of dmesg | grep -i drm
+> > > > > The last output I was able to save on disk is this:
+> > > > > =
+
+> > > > > [=A0=A0 46.140720] ast 0000:03:00.0: [drm] Using P2A bridge for c=
+onfiguration
+> > > > > [=A0=A0 46.140737] ast 0000:03:00.0: [drm] AST 2500 detected
+> > > > > [=A0=A0 46.140754] ast 0000:03:00.0: [drm] Analog VGA only
+> > > > > [=A0=A0 46.140772] ast 0000:03:00.0: [drm] dram MCLK=3D800 Mhz ty=
+pe=3D7
+> > > > > bus_width=3D16
+> > > > > [=A0=A0 46.153553] [drm] Initialized ast 0.1.0 20120228 for 0000:=
+03:00.0
+> > > > > on minor 0
+> > > > > [=A0=A0 46.165097] fbcon: astdrmfb (fb0) is primary device
+> > > > > [=A0=A0 46.391381] ast 0000:03:00.0: [drm] fb0: astdrmfb frame bu=
+ffer device
+> > > > > [=A0=A0 56.097697] systemd[1]: Starting Load Kernel Module drm...
+> > > > > [=A0=A0 56.343556] systemd[1]: modprobe@drm.service: Succeeded.
+> > > > > [=A0=A0 56.350382] systemd[1]: Finished Load Kernel Module drm.
+> > > > > [13319.469462] [=A0=A0 2683] 70889=A0 2683=A0=A0=A0 55586=A0=A0=
+=A0=A0=A0=A0=A0 0=A0=A0=A0 73728
+> > > > > 138=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0 tdrm
+> > > > > [13320.658386] [=A0=A0 2683] 70889=A0 2683=A0=A0=A0 55586=A0=A0=
+=A0=A0=A0=A0=A0 0=A0=A0=A0 73728
+> > > > > 138=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0 tdrm
+> > > > > [13321.800970] [=A0=A0 2683] 70889=A0 2683=A0=A0=A0 55586=A0=A0=
+=A0=A0=A0=A0=A0 0=A0=A0=A0 73728
+> > > > > 138=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0 tdrm
+> > > > =
+
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > =
+
+> > > -- =
+
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> > > (HRB 36809, AG N=FCrnberg)
+> > > Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> > > =
+
+> > =
+
+> > =
+
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+> sh: colordiff: command not found
+> cat: write error: Broken pipe
+
+
+
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0262911145==--
