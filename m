@@ -2,25 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159812FB448
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A782FB443
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD9F6E857;
-	Tue, 19 Jan 2021 08:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9C596E852;
+	Tue, 19 Jan 2021 08:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CEA89A32
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 11:38:05 +0000 (UTC)
-Date: Mon, 18 Jan 2021 11:37:49 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/3] drm/ingenic: Register devm action to cleanup encoders
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-Id: <1BO4NQ.1RZAXLMVC01T@crapouillou.net>
-In-Reply-To: <YAVYUzR9+ic5lEjE@pendragon.ideasonboard.com>
-References: <20210117112646.98353-1-paul@crapouillou.net>
- <20210117112646.98353-3-paul@crapouillou.net>
- <YAVYUzR9+ic5lEjE@pendragon.ideasonboard.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E1889CBC
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 12:10:42 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8274BB7C4;
+ Mon, 18 Jan 2021 12:10:41 +0000 (UTC)
+Message-ID: <750e397a995502fe15aabe8d9ba1b944bfce1cb8.camel@suse.de>
+Subject: Re: [PATCH RFC] drm/vc4: hdmi: Avoid ASoC error messages on startup
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Stefan Wahren <stefan.wahren@i2se.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>
+Date: Mon, 18 Jan 2021 13:10:40 +0100
+In-Reply-To: <03dc115b-2271-c7b2-289b-4710c97efb9a@i2se.com>
+References: <1609256210-19863-1-git-send-email-stefan.wahren@i2se.com>
+ <ab03444f-feb2-fbab-97fc-a070ccbe06b4@i2se.com>
+ <20210113091957.odclfwmeykrkyq7v@gilmour>
+ <20210113114223.GB4641@sirena.org.uk>
+ <20210115181437.uqlkrbapv6ydswuy@gilmour>
+ <20210115183949.GH4384@sirena.org.uk>
+ <03dc115b-2271-c7b2-289b-4710c97efb9a@i2se.com>
+User-Agent: Evolution 3.38.3 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -35,94 +45,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, od@zcrc.me, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1343046993=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
 
-Le lun. 18 janv. 2021 =E0 11:43, Laurent Pinchart =
+--===============1343046993==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-8ZC7mFE38K9F9VmpR8HL"
 
-<laurent.pinchart@ideasonboard.com> a =E9crit :
-> Hi Paul,
-> =
 
-> Thank you for the patch.
-> =
+--=-8ZC7mFE38K9F9VmpR8HL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Sun, Jan 17, 2021 at 11:26:45AM +0000, Paul Cercueil wrote:
->>  Since the encoders have been devm-allocated, they will be freed way
->>  before drm_mode_config_cleanup() is called. To avoid use-after-free
->>  conditions, we then must ensure that drm_encoder_cleanup() is called
->>  before the encoders are freed.
-> =
+Hi Stefan, Maxime,
 
-> How about allocating the encoder with drmm_encoder_alloc() instead ?
+On Mon, 2021-01-18 at 12:28 +0100, Stefan Wahren wrote:
+> Hi,
+>=20
+> Am 15.01.21 um 19:39 schrieb Mark Brown:
+> > On Fri, Jan 15, 2021 at 07:14:37PM +0100, Maxime Ripard wrote:
+> > > On Wed, Jan 13, 2021 at 11:42:23AM +0000, Mark Brown wrote:
+> > > > On Wed, Jan 13, 2021 at 10:19:57AM +0100, Maxime Ripard wrote:
+> > > > > I'd like to get Mark's opinion before merging though
+> > > > I'm not sure what the question is here?  I get CCed on a bunch of n=
+ot
+> > > > obviously relevant DRM patches so there's a good chance I've just
+> > > > deleted some relevnat discussion.
+> > > The patch is question is here:
+> > > https://lore.kernel.org/dri-devel/1609256210-19863-1-git-send-email-s=
+tefan.wahren@i2se.com/
+> > > In particular, I'm not so sure whether it's fine to return -EPROBE_DE=
+FER
+> > > in the startup hook.
+> > I wouldn't expect that to do anything useful and IIRC that error code
+> > will end up in userspace which isn't good.  If the driver wants to defe=
+r
+> > probe it should defer it from the probe() routine, after the driver has
+> > been instantiated I'm not sure what the expectation would be.  In
+> > general a driver should acquire all resources it needs when probing.
+>=20
+> understand. Unfortunately, currently i don't have the time to
+> investigate how we can achieve this with this drm driver.
+>=20
+> Maybe some else can take over?
 
-That would work, but it is not yet in drm-misc-fixes :(
+My two cents: IIUC it's a tricky one since components don't have a way to
+express dependencies. Somewhat similar to what happened with the DSI
+bus/display race. To what extent vc4-crtc has a dependency with vc4-hdmi?
+Couldn't we move vc4-hdmi component's registration at the end of
+vc4_crtc_bind()?
 
--Paul
+Regards,
+Nicolas
 
->>  Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
->>  Cc: <stable@vger.kernel.org> # 5.8+
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 10 ++++++++++
->>   1 file changed, 10 insertions(+)
->> =
 
->>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
+--=-8ZC7mFE38K9F9VmpR8HL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
->> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  index 368bfef8b340..d23a3292a0e0 100644
->>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  @@ -803,6 +803,11 @@ static void __maybe_unused =
+-----BEGIN PGP SIGNATURE-----
 
->> ingenic_drm_release_rmem(void *d)
->>   	of_reserved_mem_device_release(d);
->>   }
->> =
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAFesAACgkQlfZmHno8
+x/5fFwgAsicEUl0oiKDxkomw2jhG5oGD/iFYCosFj8kiXhE3RFGpKe9Bb4gYRKsi
+7pcjsN5lzPJhssy18z0bTIISIm1wAYyB8ysbVMHqjykYrWbkeN+xXXEvsgFtX2aY
+fNBMeyaUtWFXgk2RPd5wX4erTHUxpb44xt2I98YhEbjsIPinRX8DykRDUa8dZSFN
+FhU/UkmCqJEq4T2j+Ne0cnriZjzd84/ULbE7oLBJwbYlj6lS7xlvvbyFOTvtw2rc
+S696WxIeLhBnf7TZRHdVr8wc4Pewi0eC0lEtm6mguxio2aQ+V72zUi/Z2dOJmPZ7
+krCUu4Wd9wAL104mFHkMB91E0vFzRg==
+=fMa0
+-----END PGP SIGNATURE-----
 
->>  +static void ingenic_drm_encoder_cleanup(void *encoder)
->>  +{
->>  +	drm_encoder_cleanup(encoder);
->>  +}
->>  +
->>   static int ingenic_drm_bind(struct device *dev, bool =
+--=-8ZC7mFE38K9F9VmpR8HL--
 
->> has_components)
->>   {
->>   	struct platform_device *pdev =3D to_platform_device(dev);
->>  @@ -1011,6 +1016,11 @@ static int ingenic_drm_bind(struct device =
 
->> *dev, bool has_components)
->>   			return ret;
->>   		}
->> =
-
->>  +		ret =3D devm_add_action_or_reset(dev, ingenic_drm_encoder_cleanup,
->>  +					       encoder);
->>  +		if (ret)
->>  +			return ret;
->>  +
->>   		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
->>   		if (ret) {
->>   			dev_err(dev, "Unable to attach bridge\n");
-> =
-
-> --
-> Regards,
-> =
-
-> Laurent Pinchart
-
+--===============1343046993==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1343046993==--
+
