@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F9E2FA383
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:48:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D410C2FA397
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Jan 2021 15:52:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4106E39B;
-	Mon, 18 Jan 2021 14:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C026E3F2;
+	Mon, 18 Jan 2021 14:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EA06E39B
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 14:48:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEFF6E3EB;
+ Mon, 18 Jan 2021 14:52:03 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3A1A6AC4F;
- Mon, 18 Jan 2021 14:48:02 +0000 (UTC)
-Subject: Re: Change eats memory on my server
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Eli Cohen <elic@nvidia.com>
-References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
- <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
- <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
- <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
- <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
- <20210118091302.GB40909@mtl-vdi-166.wap.labs.mlnx>
- <052812fd-10ce-abf4-d12a-91d4fd66ed54@suse.de>
- <20210118131608.GA50817@mtl-vdi-166.wap.labs.mlnx>
- <c9078ed1-a3c6-32b9-b76f-cc511cb54c83@suse.de>
- <20210118132225.GA51141@mtl-vdi-166.wap.labs.mlnx>
- <b36485a3-2fc6-bf3f-fea2-6a7d040f4df1@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id EDD1AACB0;
+ Mon, 18 Jan 2021 14:52:01 +0000 (UTC)
+Subject: Re: [PATCH v4 3/6] drm/i915/gt: Remove references to struct
+ drm_device.pdev
+To: Chris Wilson <chris@chris-wilson.co.uk>, airlied@linux.ie,
+ daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, sroland@vmware.com, zackr@vmware.com
+References: <20210118131420.15874-1-tzimmermann@suse.de>
+ <20210118131420.15874-4-tzimmermann@suse.de>
+ <161097709046.27171.15246982051954461820@build.alporthouse.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <38ddb62c-0b4c-dcc3-e6c2-e025b38d8acd@suse.de>
-Date: Mon, 18 Jan 2021 15:48:01 +0100
+Message-ID: <07aa5189-e024-7596-67f9-3c4acfea4beb@suse.de>
+Date: Mon, 18 Jan 2021 15:51:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <b36485a3-2fc6-bf3f-fea2-6a7d040f4df1@amd.com>
+In-Reply-To: <161097709046.27171.15246982051954461820@build.alporthouse.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,108 +43,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org
-Content-Type: multipart/mixed; boundary="===============1660709543=="
+Cc: intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: multipart/mixed; boundary="===============0518104746=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1660709543==
+--===============0518104746==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="RFpo06B9jGZEhhL16cYJ7esrE31blbXkf"
+ boundary="dCRsEuwTjKinUFnbnRmo5LMjDxJ4hfWO8"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---RFpo06B9jGZEhhL16cYJ7esrE31blbXkf
-Content-Type: multipart/mixed; boundary="DybqpbsvVNQqMROSujaTMxRj4hCA3VW1b";
+--dCRsEuwTjKinUFnbnRmo5LMjDxJ4hfWO8
+Content-Type: multipart/mixed; boundary="aKClrsJUCphEMMBlXbdb0YdE9bE6mvwE7";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Eli Cohen <elic@nvidia.com>
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org
-Message-ID: <38ddb62c-0b4c-dcc3-e6c2-e025b38d8acd@suse.de>
-Subject: Re: Change eats memory on my server
-References: <20210114151529.GA79120@mtl-vdi-166.wap.labs.mlnx>
- <23cf7712-1daf-23b8-b596-792c9586d6b4@suse.de>
- <20210117050837.GA225992@mtl-vdi-166.wap.labs.mlnx>
- <83f74a11-b3c0-db2e-8301-4292d60d803b@amd.com>
- <2ea2630b-8782-c662-91fe-683d8b5d6c99@suse.de>
- <20210118091302.GB40909@mtl-vdi-166.wap.labs.mlnx>
- <052812fd-10ce-abf4-d12a-91d4fd66ed54@suse.de>
- <20210118131608.GA50817@mtl-vdi-166.wap.labs.mlnx>
- <c9078ed1-a3c6-32b9-b76f-cc511cb54c83@suse.de>
- <20210118132225.GA51141@mtl-vdi-166.wap.labs.mlnx>
- <b36485a3-2fc6-bf3f-fea2-6a7d040f4df1@amd.com>
-In-Reply-To: <b36485a3-2fc6-bf3f-fea2-6a7d040f4df1@amd.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>, airlied@linux.ie,
+ daniel@ffwll.ch, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, sroland@vmware.com, zackr@vmware.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-graphics-maintainer@vmware.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org
+Message-ID: <07aa5189-e024-7596-67f9-3c4acfea4beb@suse.de>
+Subject: Re: [PATCH v4 3/6] drm/i915/gt: Remove references to struct
+ drm_device.pdev
+References: <20210118131420.15874-1-tzimmermann@suse.de>
+ <20210118131420.15874-4-tzimmermann@suse.de>
+ <161097709046.27171.15246982051954461820@build.alporthouse.com>
+In-Reply-To: <161097709046.27171.15246982051954461820@build.alporthouse.com>
 
---DybqpbsvVNQqMROSujaTMxRj4hCA3VW1b
+--aKClrsJUCphEMMBlXbdb0YdE9bE6mvwE7
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 18.01.21 um 14:23 schrieb Christian K=C3=B6nig:
-> Am 18.01.21 um 14:22 schrieb Eli Cohen:
->> On Mon, Jan 18, 2021 at 02:20:49PM +0100, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 18.01.21 um 14:16 schrieb Eli Cohen:
->>>> On Mon, Jan 18, 2021 at 10:30:56AM +0100, Thomas Zimmermann wrote:
->>>>> Here's the patch against the latest DRM tree. v5.11-rc3 should work=
-=20
->>>>> as well.
->>>>>
->>>>> I was able to reproduce the memory leak locally and found that the =
-
->>>>> patch
->>>>> fixes it. Please give it a try.
->>>>>
->>>> As far as I am concerned, this issue is fixed by the patch you sent.=
-
->>>>
->>>> Thanks for looking into it.
->>> OK, great. I'll prepare the real patch soon. Can I add your=20
->>> Reported-by and
->>> Tested-by tags?
->> Yes, sure.
+Am 18.01.21 um 14:38 schrieb Chris Wilson:
+> Quoting Thomas Zimmermann (2021-01-18 13:14:17)
+>> Using struct drm_device.pdev is deprecated. Convert i915 to struct
+>> drm_device.dev. No functional changes.
 >=20
-> Feel free to add an Acked-by from my side as well.
+> This needs to be before or in the previous patch, as that patch removed=
 
-Done, thanks. I sent out the patch. If no one complains, I'll merge it=20
-on Wednesday or so.
+> assignment of i915->drm.pdev.
+>=20
+> Or the removal of the assignment moved to the end as a separate patch.
+> That makes more sense.
+
+Makes sense. The patches can be reordered easily. There was some=20
+discussion on irc about how the i915 patches first need a merge of the=20
+i915 tree to the gvt tree, or something like that.
 
 Best regards
 Thomas
 
+> -Chris
 >=20
-> Christian.
->=20
->>
->>> Best regards
->>> Thomas
->>>
->>>> Eli
->>>>
->>> --=20
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>> (HRB 36809, AG N=C3=BCrnberg)
->>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>
->>
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 --=20
 Thomas Zimmermann
@@ -161,32 +113,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---DybqpbsvVNQqMROSujaTMxRj4hCA3VW1b--
+--aKClrsJUCphEMMBlXbdb0YdE9bE6mvwE7--
 
---RFpo06B9jGZEhhL16cYJ7esrE31blbXkf
+--dCRsEuwTjKinUFnbnRmo5LMjDxJ4hfWO8
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAFn6EFAwAAAAAACgkQlh/E3EQov+CH
-yg//Xhj5Fv/eYkVaZPeOWgWWPRkdPgwstEiH02JjVlD8H2tXsK4h0yE86PxnsdHeBBhekNnfXMu+
-jwPLMJzpksiQUp7fqKrn2eKD6B/TJGBKrb964HmotgjHhaI/JdIXqT/zm9N/Xtv5V7p2Y9xEGoW9
-iFr3neQbQOkZCSbCCvkuxevuiDpGnfGS35zAo8JxKtGY1vOspEZZjqqa51ugW57cT1PMXW93C+6E
-F1mYSl5TSb+R2BuwuHsRi2Dcqz92cpw1wCZZX7F4bxFw9k9baZhCc8O4yUrcGAeBdpokptfgiZdc
-njXDImoX0XjTSIwExGnQWLvhNq54ptwyg/Vc+Ht9jTQ7vFO7R4u5GIEcVCJ5gDrKFXD2h6SgAEdv
-PJGcuSF/GyVHRsXwRRDCi4ckFCU+BpQAoKAjFA5lpRTHecbhoBMIKiq9Khfv96/P8b1fzFSeZfM7
-GIrMF7Pbf7yIcRuUQGtPphwcMIoVvqG1oa+i8lRnlCT5TXisjnVu34XfSyujDwM/+S42u6k/Hooh
-5QcOmb2lQ9KWyadyu09xIi+jU6ew68CXlYbpKiBnmmkScGQh0p+SlC6nz77nATUXf1pr1oUjBbAr
-hWKSLPh4KPK5UmkarZ9CSjPWRW3q0adw/zEMc2ZtHVhHOkJUdPzu3SFMX81SjCocG7EbMWHhToJp
-NXE=
-=VHCv
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAFoI4FAwAAAAAACgkQlh/E3EQov+DX
+rA//cjF/f5x4zOt1GqAF+23isnmF9Bg2enEUFKyXLxsiPdUCtu0QclSphbiBPb9Ujp4iGXep6qQh
+ZZTIlmZ/Ed37MmCbwjOeJbquEuxHUoZlMZLFEXMNwrzr54I85mdkfnWnzABpqMiiFw4jwAizeMA/
+P75uPCHYM1POKPtSxSKQcnQBm11rY+c6+oi+NjdPlyntHfpJAelGtwEscnBy94+hbj+dqso75dYp
+bOHNAykst154v1MrcELV95517q3lAMi8r2WauO3br17V07dWUMPRbnwzfjSjtlyBwvBeLf8WW/aS
+EghA5zQdoqIlBxmsqp0CmZar8J5Ro4RJl57rTMvbeEpphDdGK4ewnbiA3Tyz+ZNGJNokrqlLV9rl
+Yu6Iqzk+T1u4jlxruJUGHxX2Sn3XAd5UCH2tqgvJRIItD8EcqAgCF3Latdo5k7wAFmkErNAY+ge2
+L5ta/NQzKg0Fe4dKBH86eTugcNLk06SsdYfCRRaMrerFTFtglDh3PHgHqAHBuyVZtIIf2sfvh/gP
+KcyMFdllkD7627kZQkk0IRD+Eh9F1vmWt3i7yur9ZozD8dVHd0mrn6TORw/rif6dq8ExCuhqo5Sc
++x9qhDzlHXb8pVeCpenRZuQLTctHeecuOBcvgJw+qSoVOlmvHSUAlouvI/bOV/Ucdact9qXoNNOZ
+n+A=
+=CH+b
 -----END PGP SIGNATURE-----
 
---RFpo06B9jGZEhhL16cYJ7esrE31blbXkf--
+--dCRsEuwTjKinUFnbnRmo5LMjDxJ4hfWO8--
 
---===============1660709543==
+--===============0518104746==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -197,4 +149,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1660709543==--
+--===============0518104746==--
