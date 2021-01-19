@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3212FC484
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 00:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F365E2FC48E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 00:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 049C36E045;
-	Tue, 19 Jan 2021 23:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A376E040;
+	Tue, 19 Jan 2021 23:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 743B56E045
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 23:13:12 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id b64so23677709qkc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 15:13:12 -0800 (PST)
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFEB6E040
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 23:15:54 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id z9so5136682qtv.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 15:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=zFDeRRXpIwJ9CiC4D5FKzuA49LZcu+/pdjtRByjt0xo=;
- b=sqoHROC9LkFMGRZVIpGm0kyyjpzP41GfuKZ6mpuqTy3cS8R7YsvLzEgPG0D25QKUTw
- 7+IuUbBr3hZNyJnPEqcqXm0gkA+zzQAheq9QCFPcA7Wbpv1GAS5/kRv+h46uknGyg08y
- w3ZjMPDmm0//W9KTj6/wqUJfxQ+6GWVTny5GJvSuWIjWaO0VX2n9nrXGQ02xQSpzU4/i
- /7ojzbLEryT9wZYreis+nUEM4SEi4Wy2Av7legkmZKHJlPmHos8exBA2sjZpYddGy6kz
- 329Mec5o4iU4riYH/AJsLFGly3xA2050pddCbb9vFr0PVCurQIWH1BFot1ZDJ3wqBPA3
- Oeeg==
+ b=EUpoc6ZmND4/VQFJlNvyzA1vM7qWFDa/JLRRBwFMkWpVdv1v4LoWIcmIzkguUXq4O2
+ tyCX3jHlX+jcXwNSTt507WhTtYKJ6hNRmnimOffTJaoQsly+XNAPPohBnwSDAR3Pw7mf
+ GAAYeakFrr5Nw6EaAksJJ4qmBCLvBjNorGfCYAM92sqSqZ9UJaK0jUAIpXQuV9lZ1Y7m
+ M5X2YQqK9t+4MWgNCi1LesjtdXpibBLzox8J/xrVALmGUWZbwi9quSbOpMF1GCtFbGDI
+ Gja0M1RRHfTMFryrqq8gUdkILJHBnrAxTMolFg3Z0vV/ZPFMmjSYIBRNlMKaoDqyzbux
+ 6eZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=zFDeRRXpIwJ9CiC4D5FKzuA49LZcu+/pdjtRByjt0xo=;
- b=raTOFbW4prUYd2uvnDbKA+rQIanzyoYsUM7ISKFBqwK/lr0qHq7UltbUR7LJ+bIfeR
- JJ2wbLK8hXNbQiUPK/oxItPoNg0iHRjTzkUQeSiiL4ihLq/hso9KVRM132kNOrN9IjMp
- MT/myqBVS9ZWN6cPOZ25Ne99eCgKq9rdJ/TVme72jyDAo9LRi0iqeZVdLBGI7vVr7zhT
- wSkmK5OWRu3l6lZzefTh9nL4Lfx2LBV8V+P9qj8BAbU8sJmu+ssySEqDLbUYYztTQyf8
- 3ccESl/Bk0AplEr1uc0pjwvvtVu+KuUVr41PNowqEnp1tR6UoApqiJX7PnTdhyxK1v26
- 1GQg==
-X-Gm-Message-State: AOAM533bx2rj13F/aMtxh/vBYyFHduYfWRJ/AixqwLm7NfzDW8oaeV0x
- m9g+N2zNjKBOLXUbahyNw0o=
-X-Google-Smtp-Source: ABdhPJxgRZBW3+fVONVNJTB6QzcuDx+eY1pKQbv+mTe76B4trG+p0wwmu64ftSl1PErrEcQFCLuxcQ==
-X-Received: by 2002:a37:8703:: with SMTP id j3mr6871202qkd.455.1611097991587; 
- Tue, 19 Jan 2021 15:13:11 -0800 (PST)
+ b=iDCV2xXuE6nROJjliezb/zYdWMhrQPrFd/E3XLd0frp81+70Y9BqSWCSBItH1KI5rq
+ ysqNqkCm81RlYBVbdBowMKxh09bRTZYUo1NQVxmFhEK7mV9ENdXDIxrtUyHHX0speLAP
+ NZbLcfCbEzPMH9+XQmVepU6L0k/3Nfpnq4LuIV4bkl7nMIwElxi27M6k1ihcZB3tNQaB
+ HlhVwDN09rqsjZ2QCiWvLF4QRxPLA/wMm5Akztspp/m/7YvU3rRaiu1kjs+kqFNxV8Aj
+ tskX9HnW3GH5fFRJduROFo1Ril4bDcXsLvsHRGpuZBq9dsN9JT53vJOQ+7yzawY4fmQV
+ Qgfw==
+X-Gm-Message-State: AOAM531cgDqAQMJ/bqtDKzsy969sQGezSScBw6+nPs7XFipWnnLSqipC
+ zIXBHeuFt8BLyTIDKVDAaym8wiwJMPQ=
+X-Google-Smtp-Source: ABdhPJxRxBvysOQ/vcLW6AKkF0q0Axqn6H/FqkJq5ehZ2p0mvcqwsD3v6dCpUYb+zlxOYcf6ECom8g==
+X-Received: by 2002:ac8:5c41:: with SMTP id j1mr6663954qtj.306.1611098153671; 
+ Tue, 19 Jan 2021 15:15:53 -0800 (PST)
 Received: from localhost.localdomain ([177.194.79.136])
- by smtp.gmail.com with ESMTPSA id q185sm149865qka.96.2021.01.19.15.13.07
+ by smtp.gmail.com with ESMTPSA id e38sm94564qtb.30.2021.01.19.15.15.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 15:13:10 -0800 (PST)
+ Tue, 19 Jan 2021 15:15:52 -0800 (PST)
 From: Fabio Estevam <festevam@gmail.com>
 To: robdclark@gmail.com
 Subject: [PATCH v2 1/2] drm/msm: Call shutdown conditionally
-Date: Tue, 19 Jan 2021 20:10:54 -0300
-Message-Id: <20210119231055.2497880-1-festevam@gmail.com>
+Date: Tue, 19 Jan 2021 20:13:40 -0300
+Message-Id: <20210119231341.2498036-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
