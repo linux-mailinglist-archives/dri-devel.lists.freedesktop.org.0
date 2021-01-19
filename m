@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A40A2FB6C9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:16:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45472FB8AA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:32:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8216E3A0;
-	Tue, 19 Jan 2021 14:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF636E3A0;
+	Tue, 19 Jan 2021 14:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD306E3D2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:16:41 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id v184so12634576wma.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nFt+YpFVsbMYP8EV/m0Vt/3QX8JhlLGdGkPHttBpPdU=;
- b=IpHX5vNj31fIGlRfpqJBn+ss8IFqmlrjnlBqouM6PKqcdkXBOxi1MkC3skOv5CmnL5
- ZCJv1p3RZxy5pVtTlxlWGaFLBJ+3KXpOfzfkxKQwH0R4dEgW3lGs4d6CW9rumrSazspe
- YN74N0kKRnq8r9VC1dRAzJbXHmQExC0Q3miVA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nFt+YpFVsbMYP8EV/m0Vt/3QX8JhlLGdGkPHttBpPdU=;
- b=gN51JHh8v6VcF1YsQ96MGpfnQzJxFD9njtiUf5tZrwgVPppXHiCR6v7gwPcTe+KuwJ
- QKgR06bB/GOBnBVJFVdYOSoZ1cOXDGcZmzsjQU1QGxKKzpgU4GXZGiMvP/6k7xZ6NvrC
- nFI2qIzHK6p4zdek3n4/4Km+zmTeE5CBwEQ7fgGUK8+BB8Q6PCQfAkJSN02HpllhLNW+
- TMFrr8quy9z+ii7mIV9bcalYMx8Uhux7AkVlqiELiA70s8mSpAQd1jvo0BQcyG/Pk5wr
- v69bUaKvVY+KnL9JiPVBwN3L4fj0GPJRncR30YNep3DVNBtza1HY2E6rPKBGSdEVzhEW
- F/bw==
-X-Gm-Message-State: AOAM5316+87WDFyufStAiNRy+4EBRQ0rhJ7KbGjb8iEfkSw0rAixaD5d
- mjV3vUVIUObpJWeeeQ2kiuuItA==
-X-Google-Smtp-Source: ABdhPJwVtNScv/jsZYA/ZP7uPNCplDzK4xVFfxK+pOpNHk8+bos5V6RzwEX/7lKNTwyqRm1rPvr/xQ==
-X-Received: by 2002:a7b:cc83:: with SMTP id p3mr2463988wma.10.1611065800353;
- Tue, 19 Jan 2021 06:16:40 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n10sm34962822wrx.21.2021.01.19.06.16.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 06:16:39 -0800 (PST)
-Date: Tue, 19 Jan 2021 15:16:37 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH v4 00/14] RFC Support hot device unplug in amdgpu
-Message-ID: <YAbpxbTifiupYJML@phenom.ffwll.local>
-References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECDCD6E3A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:32:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2014F206E9;
+ Tue, 19 Jan 2021 14:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611066726;
+ bh=Tduvv18LK/LCkLs3ZnFGc8LwDL80UuULmc4HIuM8pAY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=prM3R5m3uo3uXxwz5GeHrVafgNEbazb911/CI5WpXB7mO0+x4TdgpD/xfl7vPnlJZ
+ RQsVqKJuk3PN4R4txzMSyCZaE72+c4UfnjcSxVefqnxyckuXd2lD6+sVDOm9sB3/vH
+ hju2ZT4LQV1lPp7LQu8FKl+QWHFfDJWRhHidhWT8=
+Date: Tue, 19 Jan 2021 15:32:04 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
+Message-ID: <YAbtZBU5PMr68q9E@kroah.com>
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+ <20201127164131.2244124-13-daniel.vetter@ffwll.ch>
+ <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,159 +44,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, ckoenig.leichtzumerken@gmail.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, Alexander.Deucher@amd.com, yuq825@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 18, 2021 at 04:01:09PM -0500, Andrey Grodzovsky wrote:
-> Until now extracting a card either by physical extraction (e.g. eGPU with 
-> thunderbolt connection or by emulation through  syfs -> /sys/bus/pci/devices/device_id/remove) 
-> would cause random crashes in user apps. The random crashes in apps were 
-> mostly due to the app having mapped a device backed BO into its address 
-> space was still trying to access the BO while the backing device was gone.
-> To answer this first problem Christian suggested to fix the handling of mapped 
-> memory in the clients when the device goes away by forcibly unmap all buffers the 
-> user processes has by clearing their respective VMAs mapping the device BOs. 
-> Then when the VMAs try to fill in the page tables again we check in the fault 
-> handlerif the device is removed and if so, return an error. This will generate a 
-> SIGBUS to the application which can then cleanly terminate.This indeed was done 
-> but this in turn created a problem of kernel OOPs were the OOPSes were due to the 
-> fact that while the app was terminating because of the SIGBUSit would trigger use 
-> after free in the driver by calling to accesses device structures that were already 
-> released from the pci remove sequence.This was handled by introducing a 'flush' 
-> sequence during device removal were we wait for drm file reference to drop to 0 
-> meaning all user clients directly using this device terminated.
-> 
-> v2:
-> Based on discussions in the mailing list with Daniel and Pekka [1] and based on the document 
-> produced by Pekka from those discussions [2] the whole approach with returning SIGBUS and 
-> waiting for all user clients having CPU mapping of device BOs to die was dropped. 
-> Instead as per the document suggestion the device structures are kept alive until 
-> the last reference to the device is dropped by user client and in the meanwhile all existing and new CPU mappings of the BOs 
-> belonging to the device directly or by dma-buf import are rerouted to per user 
-> process dummy rw page.Also, I skipped the 'Requirements for KMS UAPI' section of [2] 
-> since i am trying to get the minimal set of requirements that still give useful solution 
-> to work and this is the'Requirements for Render and Cross-Device UAPI' section and so my 
-> test case is removing a secondary device, which is render only and is not involved 
-> in KMS.
-> 
-> v3:
-> More updates following comments from v2 such as removing loop to find DRM file when rerouting 
-> page faults to dummy page,getting rid of unnecessary sysfs handling refactoring and moving 
-> prevention of GPU recovery post device unplug from amdgpu to scheduler layer. 
-> On top of that added unplug support for the IOMMU enabled system.
-> 
-> v4:
-> Drop last sysfs hack and use sysfs default attribute.
-> Guard against write accesses after device removal to avoid modifying released memory.
-> Update dummy pages handling to on demand allocation and release through drm managed framework.
-> Add return value to scheduler job TO handler (by Luben Tuikov) and use this in amdgpu for prevention 
-> of GPU recovery post device unplug
-> Also rebase on top of drm-misc-mext instead of amd-staging-drm-next
-> 
-> With these patches I am able to gracefully remove the secondary card using sysfs remove hook while glxgears 
-> is running off of secondary card (DRI_PRIME=1) without kernel oopses or hangs and keep working 
-> with the primary card or soft reset the device without hangs or oopses
-> 
-> TODOs for followup work:
-> Convert AMDGPU code to use devm (for hw stuff) and drmm (for sw stuff and allocations) (Daniel)
-> Support plugging the secondary device back after unplug - currently still experiencing HW error on plugging back.
-> Add support for 'Requirements for KMS UAPI' section of [2] - unplugging primary, display connected card.
-> 
-> [1] - Discussions during v3 of the patchset https://www.spinics.net/lists/amd-gfx/msg55576.html
-> [2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/lists/dri-devel/msg259755.html
-> [3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issues/1081
+On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
+> On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
+ote:
+> >
+> > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> > the default for all driver uses.
+> >
+> > Except there's two more ways to access PCI BARs: sysfs and proc mmap
+> > support. Let's plug that hole.
+> >
+> > For revoke_devmem() to work we need to link our vma into the same
+> > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > mapping we need to adjust vma->vm_file->f_mapping. The cleanest way is
+> > to adjust this at at ->open time:
+> >
+> > - for sysfs this is easy, now that binary attributes support this. We
+> >   just set bin_attr->mapping when mmap is supported
+> > - for procfs it's a bit more tricky, since procfs pci access has only
+> >   one file per device, and access to a specific resources first needs
+> >   to be set up with some ioctl calls. But mmap is only supported for
+> >   the same resources as sysfs exposes with mmap support, and otherwise
+> >   rejected, so we can set the mapping unconditionally at open time
+> >   without harm.
+> >
+> > A special consideration is for arch_can_pci_mmap_io() - we need to
+> > make sure that the ->f_mapping doesn't alias between ioport and iomem
+> > space. There's only 2 ways in-tree to support mmap of ioports: generic
+> > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the single
+> > architecture hand-rolling. Both approach support ioport mmap through a
+> > special pfn range and not through magic pte attributes. Aliasing is
+> > therefore not a problem.
+> >
+> > The only difference in access checks left is that sysfs PCI mmap does
+> > not check for CAP_RAWIO. I'm not really sure whether that should be
+> > added or not.
+> >
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: linux-pci@vger.kernel.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > --
+> > v2:
+> > - Totally new approach: Adjust filp->f_mapping at open time. Note that
+> >   this now works on all architectures, not just those support
+> >   ARCH_GENERIC_PCI_MMAP_RESOURCE
+> > ---
+> >  drivers/pci/pci-sysfs.c | 4 ++++
+> >  drivers/pci/proc.c      | 1 +
+> >  2 files changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > index d15c881e2e7e..3f1c31bc0b7c 100644
+> > --- a/drivers/pci/pci-sysfs.c
+> > +++ b/drivers/pci/pci-sysfs.c
+> > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+> >         b->legacy_io->read =3D pci_read_legacy_io;
+> >         b->legacy_io->write =3D pci_write_legacy_io;
+> >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
+> > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> >         pci_adjust_legacy_attr(b, pci_mmap_io);
+> >         error =3D device_create_bin_file(&b->dev, b->legacy_io);
+> >         if (error)
+> > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+> >         b->legacy_mem->size =3D 1024*1024;
+> >         b->legacy_mem->attr.mode =3D 0600;
+> >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
+> > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> =
 
-btw have you tried this out with some of the igts we have? core_hotunplug
-is the one I'm thinking of. Might be worth to extend this for amdgpu
-specific stuff (like run some batches on it while hotunplugging).
+> Unlike the normal pci stuff below, the legacy files here go boom
+> because they're set up much earlier in the boot sequence. This only
+> affects HAVE_PCI_LEGACY architectures, which aren't that many. So what
+> should we do here now:
+> - drop the devmem revoke for these
+> - rework the init sequence somehow to set up these files a lot later
+> - redo the sysfs patch so that it doesn't take an address_space
+> pointer, but instead a callback to get at that (since at open time
+> everything is set up). Imo rather ugly
+> - ditch this part of the series (since there's not really any takers
+> for the latter parts it might just not make sense to push for this)
+> - something else?
+> =
 
-Since there's so many corner cases we need to test here (shared dma-buf,
-shared dma_fence) I think it would make sense to have a shared testcase
-across drivers. Only specific thing would be some hooks to keep the gpu
-busy in some fashion while we yank the driver. But just to get it started
-you can throw in entirely amdgpu specific subtests and just share some of
-the test code.
--Daniel
+> Bjorn, Greg, thoughts?
 
-> 
-> Andrey Grodzovsky (13):
->   drm/ttm: Remap all page faults to per process dummy page.
->   drm: Unamp the entire device address space on device unplug
->   drm/ttm: Expose ttm_tt_unpopulate for driver use
->   drm/sched: Cancel and flush all oustatdning jobs before finish.
->   drm/amdgpu: Split amdgpu_device_fini into early and late
->   drm/amdgpu: Add early fini callback
->   drm/amdgpu: Register IOMMU topology notifier per device.
->   drm/amdgpu: Fix a bunch of sdma code crash post device unplug
->   drm/amdgpu: Remap all page faults to per process dummy page.
->   dmr/amdgpu: Move some sysfs attrs creation to default_attr
->   drm/amdgpu: Guard against write accesses after device removal
->   drm/sched: Make timeout timer rearm conditional.
->   drm/amdgpu: Prevent any job recoveries after device is unplugged.
-> 
-> Luben Tuikov (1):
->   drm/scheduler: Job timeout handler returns status
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  11 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c      |  17 +--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 149 ++++++++++++++++++++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           |  20 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c         |  15 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c          |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h          |   1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c           |   9 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c       |  25 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c           |  26 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h           |   3 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c           |  19 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c           |  12 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c        |  10 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h        |   2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c           |  53 +++++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h           |   3 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c           |   1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c          |  70 ++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h          |  52 +-------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c           |  21 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c            |   8 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c      |  14 +-
->  drivers/gpu/drm/amd/amdgpu/cik_ih.c               |   2 +-
->  drivers/gpu/drm/amd/amdgpu/cz_ih.c                |   2 +-
->  drivers/gpu/drm/amd/amdgpu/iceland_ih.c           |   2 +-
->  drivers/gpu/drm/amd/amdgpu/navi10_ih.c            |   2 +-
->  drivers/gpu/drm/amd/amdgpu/psp_v11_0.c            |  16 +--
->  drivers/gpu/drm/amd/amdgpu/psp_v12_0.c            |   8 +-
->  drivers/gpu/drm/amd/amdgpu/psp_v3_1.c             |   8 +-
->  drivers/gpu/drm/amd/amdgpu/si_ih.c                |   2 +-
->  drivers/gpu/drm/amd/amdgpu/tonga_ih.c             |   2 +-
->  drivers/gpu/drm/amd/amdgpu/vega10_ih.c            |   2 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  12 +-
->  drivers/gpu/drm/amd/include/amd_shared.h          |   2 +
->  drivers/gpu/drm/drm_drv.c                         |   3 +
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c           |  10 +-
->  drivers/gpu/drm/lima/lima_sched.c                 |   4 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c           |   9 +-
->  drivers/gpu/drm/scheduler/sched_main.c            |  18 ++-
->  drivers/gpu/drm/ttm/ttm_bo_vm.c                   |  82 +++++++++++-
->  drivers/gpu/drm/ttm/ttm_tt.c                      |   1 +
->  drivers/gpu/drm/v3d/v3d_sched.c                   |  32 ++---
->  include/drm/gpu_scheduler.h                       |  17 ++-
->  include/drm/ttm/ttm_bo_api.h                      |   2 +
->  45 files changed, 583 insertions(+), 198 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+What sysfs patch are you referring to here?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
