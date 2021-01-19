@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45472FB8AA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:32:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E5F2FB901
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:35:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF636E3A0;
-	Tue, 19 Jan 2021 14:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C5D8996E;
+	Tue, 19 Jan 2021 14:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECDCD6E3A0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:32:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2014F206E9;
- Tue, 19 Jan 2021 14:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611066726;
- bh=Tduvv18LK/LCkLs3ZnFGc8LwDL80UuULmc4HIuM8pAY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=prM3R5m3uo3uXxwz5GeHrVafgNEbazb911/CI5WpXB7mO0+x4TdgpD/xfl7vPnlJZ
- RQsVqKJuk3PN4R4txzMSyCZaE72+c4UfnjcSxVefqnxyckuXd2lD6+sVDOm9sB3/vH
- hju2ZT4LQV1lPp7LQu8FKl+QWHFfDJWRhHidhWT8=
-Date: Tue, 19 Jan 2021 15:32:04 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
-Message-ID: <YAbtZBU5PMr68q9E@kroah.com>
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196A68996E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:34:58 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id e70so4510244ote.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4e0CGYDHUfu279fyABP5Y+REbie5VpiNs9f4Knw2Cok=;
+ b=VBqn8DUOGeynSeRg3k1zvnxZgxHVN/m4CmDY5MHMndd1hrRsvbsOlsUR+N5zIlZNjv
+ I1JtDyXv8bu7TYIBeBou0qbqzOTX9l2l0clQMWnlaS5BEAD0UdAQ7SGwdm49iZ4AHegS
+ P3+zFz0CEInVbSD6li/gqZsMR+ZONkqJPxGNc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4e0CGYDHUfu279fyABP5Y+REbie5VpiNs9f4Knw2Cok=;
+ b=cFu96p4WrBblmI5Qxe/Cc1cgKQN9lGbVYcDB17MdwoX9T9k0S8qcToP/rXbkP2JvfP
+ wTRC2o7zCIJ/hgm/E8ePQsUB77YLpwQs6PZQrzXSvD/5pEABBafjBqYVL6eD9KURMHpc
+ 3z2G12b4skHNA2EGz7jXy5sLpiMIsGqljqW6jAhlcnHKy/WxEHaWs/C2oDyFPdu/Naxd
+ QWAEKt2hWgf1/R6uKMfLjeaMk7yFVmTT7Fx7v0l+IRBmRXzqzgZL1mbeIRd/sEOUnbEK
+ BXjttaDkcG91sN9KyyL7yeNjsVGlMKTgyPb3L3jHopekQmdtT0qbGTqcArOdIdhE+/Qu
+ KcXA==
+X-Gm-Message-State: AOAM533Yyq+41A3cxKj6AkYVj2gr5pJzSCdSayRbly9P8loyPvUYMw8h
+ S7pyOXM2tHnIM3n6bT+0dL1oGOEsMBpR0WuSxIWvSg==
+X-Google-Smtp-Source: ABdhPJxNAs6mhMviXMtFn7M206VEX/Eake/mU9seAOwtJ76LA2Emqx8YbNqRC8ThlQu1JNtpKUawwkeGr99A8LNHJEY=
+X-Received: by 2002:a9d:ea6:: with SMTP id 35mr3626432otj.188.1611066898227;
+ Tue, 19 Jan 2021 06:34:58 -0800 (PST)
+MIME-Version: 1.0
 References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
  <20201127164131.2244124-13-daniel.vetter@ffwll.ch>
  <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
+ <YAbtZBU5PMr68q9E@kroah.com>
+In-Reply-To: <YAbtZBU5PMr68q9E@kroah.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 19 Jan 2021 15:34:47 +0100
+Message-ID: <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
+Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,127 +68,117 @@ Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
  LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Linux MM <linux-mm@kvack.org>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
  Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Dan Williams <dan.j.williams@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
-> On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
-ote:
-> >
-> > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
-> > the region") /dev/kmem zaps ptes when the kernel requests exclusive
-> > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
-> > the default for all driver uses.
-> >
-> > Except there's two more ways to access PCI BARs: sysfs and proc mmap
-> > support. Let's plug that hole.
-> >
-> > For revoke_devmem() to work we need to link our vma into the same
-> > address_space, with consistent vma->vm_pgoff. ->pgoff is already
-> > adjusted, because that's how (io_)remap_pfn_range works, but for the
-> > mapping we need to adjust vma->vm_file->f_mapping. The cleanest way is
-> > to adjust this at at ->open time:
-> >
-> > - for sysfs this is easy, now that binary attributes support this. We
-> >   just set bin_attr->mapping when mmap is supported
-> > - for procfs it's a bit more tricky, since procfs pci access has only
-> >   one file per device, and access to a specific resources first needs
-> >   to be set up with some ioctl calls. But mmap is only supported for
-> >   the same resources as sysfs exposes with mmap support, and otherwise
-> >   rejected, so we can set the mapping unconditionally at open time
-> >   without harm.
-> >
-> > A special consideration is for arch_can_pci_mmap_io() - we need to
-> > make sure that the ->f_mapping doesn't alias between ioport and iomem
-> > space. There's only 2 ways in-tree to support mmap of ioports: generic
-> > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the single
-> > architecture hand-rolling. Both approach support ioport mmap through a
-> > special pfn range and not through magic pte attributes. Aliasing is
-> > therefore not a problem.
-> >
-> > The only difference in access checks left is that sysfs PCI mmap does
-> > not check for CAP_RAWIO. I'm not really sure whether that should be
-> > added or not.
-> >
-> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: linux-pci@vger.kernel.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > --
-> > v2:
-> > - Totally new approach: Adjust filp->f_mapping at open time. Note that
-> >   this now works on all architectures, not just those support
-> >   ARCH_GENERIC_PCI_MMAP_RESOURCE
-> > ---
-> >  drivers/pci/pci-sysfs.c | 4 ++++
-> >  drivers/pci/proc.c      | 1 +
-> >  2 files changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > index d15c881e2e7e..3f1c31bc0b7c 100644
-> > --- a/drivers/pci/pci-sysfs.c
-> > +++ b/drivers/pci/pci-sysfs.c
-> > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_bus *b)
-> >         b->legacy_io->read =3D pci_read_legacy_io;
-> >         b->legacy_io->write =3D pci_write_legacy_io;
-> >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
-> > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> >         pci_adjust_legacy_attr(b, pci_mmap_io);
-> >         error =3D device_create_bin_file(&b->dev, b->legacy_io);
-> >         if (error)
-> > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_bus *b)
-> >         b->legacy_mem->size =3D 1024*1024;
-> >         b->legacy_mem->attr.mode =3D 0600;
-> >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
-> > +       b->legacy_io->mapping =3D iomem_get_mapping();
-> =
-
-> Unlike the normal pci stuff below, the legacy files here go boom
-> because they're set up much earlier in the boot sequence. This only
-> affects HAVE_PCI_LEGACY architectures, which aren't that many. So what
-> should we do here now:
-> - drop the devmem revoke for these
-> - rework the init sequence somehow to set up these files a lot later
-> - redo the sysfs patch so that it doesn't take an address_space
-> pointer, but instead a callback to get at that (since at open time
-> everything is set up). Imo rather ugly
-> - ditch this part of the series (since there's not really any takers
-> for the latter parts it might just not make sense to push for this)
-> - something else?
-> =
-
-> Bjorn, Greg, thoughts?
-
-What sysfs patch are you referring to here?
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBKYW4gMTksIDIwMjEgYXQgMzozMiBQTSBHcmVnIEtyb2FoLUhhcnRtYW4KPGdyZWdr
+aEBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToKPgo+IE9uIFR1ZSwgSmFuIDE5LCAyMDIxIGF0
+IDA5OjE3OjU1QU0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBGcmksIE5vdiAy
+NywgMjAyMCBhdCA1OjQyIFBNIERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
+IHdyb3RlOgo+ID4gPgo+ID4gPiBTaW5jZSAzMjM0YWM2NjRhODcgKCIvZGV2L21lbTogUmV2b2tl
+IG1hcHBpbmdzIHdoZW4gYSBkcml2ZXIgY2xhaW1zCj4gPiA+IHRoZSByZWdpb24iKSAvZGV2L2tt
+ZW0gemFwcyBwdGVzIHdoZW4gdGhlIGtlcm5lbCByZXF1ZXN0cyBleGNsdXNpdmUKPiA+ID4gYWNj
+Y2VzcyB0byBhbiBpb21lbSByZWdpb24uIEFuZCB3aXRoIENPTkZJR19JT19TVFJJQ1RfREVWTUVN
+LCB0aGlzIGlzCj4gPiA+IHRoZSBkZWZhdWx0IGZvciBhbGwgZHJpdmVyIHVzZXMuCj4gPiA+Cj4g
+PiA+IEV4Y2VwdCB0aGVyZSdzIHR3byBtb3JlIHdheXMgdG8gYWNjZXNzIFBDSSBCQVJzOiBzeXNm
+cyBhbmQgcHJvYyBtbWFwCj4gPiA+IHN1cHBvcnQuIExldCdzIHBsdWcgdGhhdCBob2xlLgo+ID4g
+Pgo+ID4gPiBGb3IgcmV2b2tlX2Rldm1lbSgpIHRvIHdvcmsgd2UgbmVlZCB0byBsaW5rIG91ciB2
+bWEgaW50byB0aGUgc2FtZQo+ID4gPiBhZGRyZXNzX3NwYWNlLCB3aXRoIGNvbnNpc3RlbnQgdm1h
+LT52bV9wZ29mZi4gLT5wZ29mZiBpcyBhbHJlYWR5Cj4gPiA+IGFkanVzdGVkLCBiZWNhdXNlIHRo
+YXQncyBob3cgKGlvXylyZW1hcF9wZm5fcmFuZ2Ugd29ya3MsIGJ1dCBmb3IgdGhlCj4gPiA+IG1h
+cHBpbmcgd2UgbmVlZCB0byBhZGp1c3Qgdm1hLT52bV9maWxlLT5mX21hcHBpbmcuIFRoZSBjbGVh
+bmVzdCB3YXkgaXMKPiA+ID4gdG8gYWRqdXN0IHRoaXMgYXQgYXQgLT5vcGVuIHRpbWU6Cj4gPiA+
+Cj4gPiA+IC0gZm9yIHN5c2ZzIHRoaXMgaXMgZWFzeSwgbm93IHRoYXQgYmluYXJ5IGF0dHJpYnV0
+ZXMgc3VwcG9ydCB0aGlzLiBXZQo+ID4gPiAgIGp1c3Qgc2V0IGJpbl9hdHRyLT5tYXBwaW5nIHdo
+ZW4gbW1hcCBpcyBzdXBwb3J0ZWQKPiA+ID4gLSBmb3IgcHJvY2ZzIGl0J3MgYSBiaXQgbW9yZSB0
+cmlja3ksIHNpbmNlIHByb2NmcyBwY2kgYWNjZXNzIGhhcyBvbmx5Cj4gPiA+ICAgb25lIGZpbGUg
+cGVyIGRldmljZSwgYW5kIGFjY2VzcyB0byBhIHNwZWNpZmljIHJlc291cmNlcyBmaXJzdCBuZWVk
+cwo+ID4gPiAgIHRvIGJlIHNldCB1cCB3aXRoIHNvbWUgaW9jdGwgY2FsbHMuIEJ1dCBtbWFwIGlz
+IG9ubHkgc3VwcG9ydGVkIGZvcgo+ID4gPiAgIHRoZSBzYW1lIHJlc291cmNlcyBhcyBzeXNmcyBl
+eHBvc2VzIHdpdGggbW1hcCBzdXBwb3J0LCBhbmQgb3RoZXJ3aXNlCj4gPiA+ICAgcmVqZWN0ZWQs
+IHNvIHdlIGNhbiBzZXQgdGhlIG1hcHBpbmcgdW5jb25kaXRpb25hbGx5IGF0IG9wZW4gdGltZQo+
+ID4gPiAgIHdpdGhvdXQgaGFybS4KPiA+ID4KPiA+ID4gQSBzcGVjaWFsIGNvbnNpZGVyYXRpb24g
+aXMgZm9yIGFyY2hfY2FuX3BjaV9tbWFwX2lvKCkgLSB3ZSBuZWVkIHRvCj4gPiA+IG1ha2Ugc3Vy
+ZSB0aGF0IHRoZSAtPmZfbWFwcGluZyBkb2Vzbid0IGFsaWFzIGJldHdlZW4gaW9wb3J0IGFuZCBp
+b21lbQo+ID4gPiBzcGFjZS4gVGhlcmUncyBvbmx5IDIgd2F5cyBpbi10cmVlIHRvIHN1cHBvcnQg
+bW1hcCBvZiBpb3BvcnRzOiBnZW5lcmljCj4gPiA+IHBjaSBtbWFwIChBUkNIX0dFTkVSSUNfUENJ
+X01NQVBfUkVTT1VSQ0UpLCBhbmQgc3BhcmMgYXMgdGhlIHNpbmdsZQo+ID4gPiBhcmNoaXRlY3R1
+cmUgaGFuZC1yb2xsaW5nLiBCb3RoIGFwcHJvYWNoIHN1cHBvcnQgaW9wb3J0IG1tYXAgdGhyb3Vn
+aCBhCj4gPiA+IHNwZWNpYWwgcGZuIHJhbmdlIGFuZCBub3QgdGhyb3VnaCBtYWdpYyBwdGUgYXR0
+cmlidXRlcy4gQWxpYXNpbmcgaXMKPiA+ID4gdGhlcmVmb3JlIG5vdCBhIHByb2JsZW0uCj4gPiA+
+Cj4gPiA+IFRoZSBvbmx5IGRpZmZlcmVuY2UgaW4gYWNjZXNzIGNoZWNrcyBsZWZ0IGlzIHRoYXQg
+c3lzZnMgUENJIG1tYXAgZG9lcwo+ID4gPiBub3QgY2hlY2sgZm9yIENBUF9SQVdJTy4gSSdtIG5v
+dCByZWFsbHkgc3VyZSB3aGV0aGVyIHRoYXQgc2hvdWxkIGJlCj4gPiA+IGFkZGVkIG9yIG5vdC4K
+PiA+ID4KPiA+ID4gQWNrZWQtYnk6IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+
+Cj4gPiA+IFJldmlld2VkLWJ5OiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNv
+bT4KPiA+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
+bC5jb20+Cj4gPiA+IENjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KPiA+ID4gQ2M6
+IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgo+ID4gPiBDYzogRGFuIFdpbGxpYW1z
+IDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gPiA+IENjOiBBbmRyZXcgTW9ydG9uIDxha3Bt
+QGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+ID4gPiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBu
+dmlkaWEuY29tPgo+ID4gPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+
+Cj4gPiA+IENjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+ID4gPiBDYzogRGFuIFdpbGxpYW1z
+IDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gPiA+IENjOiBHcmVnIEtyb2FoLUhhcnRtYW4g
+PGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4gPiBDYzogbGludXgtbW1Aa3ZhY2sub3Jn
+Cj4gPiA+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiA+ID4gQ2M6
+IGxpbnV4LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+ID4gPiBDYzogbGludXgtbWVkaWFA
+dmdlci5rZXJuZWwub3JnCj4gPiA+IENjOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUu
+Y29tPgo+ID4gPiBDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwo+ID4gPiBTaWduZWQtb2Zm
+LWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gPiAtLQo+ID4g
+PiB2MjoKPiA+ID4gLSBUb3RhbGx5IG5ldyBhcHByb2FjaDogQWRqdXN0IGZpbHAtPmZfbWFwcGlu
+ZyBhdCBvcGVuIHRpbWUuIE5vdGUgdGhhdAo+ID4gPiAgIHRoaXMgbm93IHdvcmtzIG9uIGFsbCBh
+cmNoaXRlY3R1cmVzLCBub3QganVzdCB0aG9zZSBzdXBwb3J0Cj4gPiA+ICAgQVJDSF9HRU5FUklD
+X1BDSV9NTUFQX1JFU09VUkNFCj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9wY2kvcGNpLXN5c2Zz
+LmMgfCA0ICsrKysKPiA+ID4gIGRyaXZlcnMvcGNpL3Byb2MuYyAgICAgIHwgMSArCj4gPiA+ICAy
+IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9wY2kvcGNpLXN5c2ZzLmMgYi9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYwo+ID4gPiBp
+bmRleCBkMTVjODgxZTJlN2UuLjNmMWMzMWJjMGI3YyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVy
+cy9wY2kvcGNpLXN5c2ZzLmMKPiA+ID4gKysrIGIvZHJpdmVycy9wY2kvcGNpLXN5c2ZzLmMKPiA+
+ID4gQEAgLTkyOSw2ICs5MjksNyBAQCB2b2lkIHBjaV9jcmVhdGVfbGVnYWN5X2ZpbGVzKHN0cnVj
+dCBwY2lfYnVzICpiKQo+ID4gPiAgICAgICAgIGItPmxlZ2FjeV9pby0+cmVhZCA9IHBjaV9yZWFk
+X2xlZ2FjeV9pbzsKPiA+ID4gICAgICAgICBiLT5sZWdhY3lfaW8tPndyaXRlID0gcGNpX3dyaXRl
+X2xlZ2FjeV9pbzsKPiA+ID4gICAgICAgICBiLT5sZWdhY3lfaW8tPm1tYXAgPSBwY2lfbW1hcF9s
+ZWdhY3lfaW87Cj4gPiA+ICsgICAgICAgYi0+bGVnYWN5X2lvLT5tYXBwaW5nID0gaW9tZW1fZ2V0
+X21hcHBpbmcoKTsKPiA+ID4gICAgICAgICBwY2lfYWRqdXN0X2xlZ2FjeV9hdHRyKGIsIHBjaV9t
+bWFwX2lvKTsKPiA+ID4gICAgICAgICBlcnJvciA9IGRldmljZV9jcmVhdGVfYmluX2ZpbGUoJmIt
+PmRldiwgYi0+bGVnYWN5X2lvKTsKPiA+ID4gICAgICAgICBpZiAoZXJyb3IpCj4gPiA+IEBAIC05
+NDEsNiArOTQyLDcgQEAgdm9pZCBwY2lfY3JlYXRlX2xlZ2FjeV9maWxlcyhzdHJ1Y3QgcGNpX2J1
+cyAqYikKPiA+ID4gICAgICAgICBiLT5sZWdhY3lfbWVtLT5zaXplID0gMTAyNCoxMDI0Owo+ID4g
+PiAgICAgICAgIGItPmxlZ2FjeV9tZW0tPmF0dHIubW9kZSA9IDA2MDA7Cj4gPiA+ICAgICAgICAg
+Yi0+bGVnYWN5X21lbS0+bW1hcCA9IHBjaV9tbWFwX2xlZ2FjeV9tZW07Cj4gPiA+ICsgICAgICAg
+Yi0+bGVnYWN5X2lvLT5tYXBwaW5nID0gaW9tZW1fZ2V0X21hcHBpbmcoKTsKPiA+Cj4gPiBVbmxp
+a2UgdGhlIG5vcm1hbCBwY2kgc3R1ZmYgYmVsb3csIHRoZSBsZWdhY3kgZmlsZXMgaGVyZSBnbyBi
+b29tCj4gPiBiZWNhdXNlIHRoZXkncmUgc2V0IHVwIG11Y2ggZWFybGllciBpbiB0aGUgYm9vdCBz
+ZXF1ZW5jZS4gVGhpcyBvbmx5Cj4gPiBhZmZlY3RzIEhBVkVfUENJX0xFR0FDWSBhcmNoaXRlY3R1
+cmVzLCB3aGljaCBhcmVuJ3QgdGhhdCBtYW55LiBTbyB3aGF0Cj4gPiBzaG91bGQgd2UgZG8gaGVy
+ZSBub3c6Cj4gPiAtIGRyb3AgdGhlIGRldm1lbSByZXZva2UgZm9yIHRoZXNlCj4gPiAtIHJld29y
+ayB0aGUgaW5pdCBzZXF1ZW5jZSBzb21laG93IHRvIHNldCB1cCB0aGVzZSBmaWxlcyBhIGxvdCBs
+YXRlcgo+ID4gLSByZWRvIHRoZSBzeXNmcyBwYXRjaCBzbyB0aGF0IGl0IGRvZXNuJ3QgdGFrZSBh
+biBhZGRyZXNzX3NwYWNlCj4gPiBwb2ludGVyLCBidXQgaW5zdGVhZCBhIGNhbGxiYWNrIHRvIGdl
+dCBhdCB0aGF0IChzaW5jZSBhdCBvcGVuIHRpbWUKPiA+IGV2ZXJ5dGhpbmcgaXMgc2V0IHVwKS4g
+SW1vIHJhdGhlciB1Z2x5Cj4gPiAtIGRpdGNoIHRoaXMgcGFydCBvZiB0aGUgc2VyaWVzIChzaW5j
+ZSB0aGVyZSdzIG5vdCByZWFsbHkgYW55IHRha2Vycwo+ID4gZm9yIHRoZSBsYXR0ZXIgcGFydHMg
+aXQgbWlnaHQganVzdCBub3QgbWFrZSBzZW5zZSB0byBwdXNoIGZvciB0aGlzKQo+ID4gLSBzb21l
+dGhpbmcgZWxzZT8KPiA+Cj4gPiBCam9ybiwgR3JlZywgdGhvdWdodHM/Cj4KPiBXaGF0IHN5c2Zz
+IHBhdGNoIGFyZSB5b3UgcmVmZXJyaW5nIHRvIGhlcmU/CgpDdXJyZW50bHkgaW4gbGludXgtbmV4
+dDoKCmNvbW1pdCA3NGIzMDE5NTM5NWM0MDZjNzg3MjgwYTc3YWU1NWFlZDgyZGJiZmM3IChIRUFE
+IC0+CnRvcGljL2lvbWVtLW1tYXAtdnMtZ3VwLCBkcm0vdG9waWMvaW9tZW0tbW1hcC12cy1ndXAp
+CkF1dGhvcjogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KRGF0ZTogICBG
+cmkgTm92IDI3IDE3OjQxOjI1IDIwMjAgKzAxMDAKCiAgIHN5c2ZzOiBTdXBwb3J0IHphcHBpbmcg
+b2YgYmluYXJ5IGF0dHIgbW1hcHMKCk9yIHRoZSBwYXRjaCByaWdodCBiZWZvcmUgdGhpcyBvbmUg
+aW4gdGhpcyBzdWJtaXNzaW9uIGhlcmU6CgpodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2
+ZWwvMjAyMDExMjcxNjQxMzEuMjI0NDEyNC0xMi1kYW5pZWwudmV0dGVyQGZmd2xsLmNoLwoKQ2hl
+ZXJzLCBEYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
+cnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
