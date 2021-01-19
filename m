@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51842FE521
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAA42FE51B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:36:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6846E530;
-	Thu, 21 Jan 2021 08:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 594FC6E516;
+	Thu, 21 Jan 2021 08:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE8889B84
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 19:08:23 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id b64so22951708qkc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 11:08:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=android.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3UvSSj7FihiEFVi0RGPwt1INmt76yzIjTycQHPLRAfM=;
- b=ZMtqNibv8mF11Vx2yC6cc6h8bkhNBMC4+hjLOJX2JbTYFfxgJfZz5nYhVAzGp6A1Xj
- z0+qyRYZW7ROj1Cg5sW+UQVmT+SnIc2USYejRzCJnTjtKYE8J3WQbzqVMZ5FiJFG97UG
- Ebp4OWPoetgrzq3ohwTgViRaiFNN089B4jIzhoYDgDQj9MpaAp4c7SrU+sDFAQ4fIZzM
- nsKREWlUBZ97nW4Lt0wyfKhKsyoqjALt6Fa2UgX9Wpmu1fZWjvoFhswoufeGIco9BJQy
- 0xJq8ByhLV5IkW/MsFOYNTEvK7H52f1a9nFgVeJLPNrGfV5f5bNIW+xQXIsJDVToxzRc
- Gv9w==
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C956E10F
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 22:29:23 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b26so31419542lff.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:29:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gfvPC/OfKQm0WszlW9GmFgoRPlhvY5JQwFhmkr33QEU=;
+ b=unTeKrUukHB5UZKIoMHXWV8M64KMF9whvxZj2rVA6Pc1Xb36Px1QwvNiNbWDtYpP0r
+ kG5kXcmfxyreOzHq7FfaGS29fxNW4ke+ZORKc8Xp9playYKllEabVdYasAkJ9r5pD0KQ
+ 2dw3L4LsuH+OaRp1P6F8cOIvsZ/y89sXc282os/Je7Xhu45ffxYjEJRbsIZpGOF/yCgn
+ 0mGCjXusmPbF0aJsiRjlzx9RIlFRYMqtukLRcei35D5GoN/TsFQ+DvSgTZ1JPc0JYohO
+ BFkvQpdZpFXsnVV4EnwhshJTlTYdviEKeTq7IAFNha4VEKzPTOuALKYuYQ4k9Nq6IETZ
+ fjug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3UvSSj7FihiEFVi0RGPwt1INmt76yzIjTycQHPLRAfM=;
- b=WWJXsLkFPiTPPfcsG2bmBFTgjNGRGlPhepnlWqu8ybkV4uyiu0kTJ2IIN3Ez3C+bzQ
- h9Bpvs1BGNNo8JItBLzw1g9RxSOx/M9zrEYvniWRpWXAXGp8uV7xbzuPMqiftvdtK5/8
- Ebeq3I3iOR+l8ssQTrLYTXDl7bXdBMt14YGFvYcNJdCcS23kXYYghylLUjrtWjQEfQNj
- IGMs2I5CYWAm49ap3riBETtcHbxrEj6T/EM4UEJrPP2TFQjHd67yOptMi4VI7cK4UubI
- tjY63Mb+cfJT2sr8Wy8gWIsnWDDoiA3fnhP2dapJfP728+jDIzCXCCkrALhRLd2VutQ/
- N63w==
-X-Gm-Message-State: AOAM533GhYIfopuLVqqNXLOC6vA3ngMaJfwp+FlUQb2cqI/VRfclxP1E
- h7ADr1E0SP09GxyA+2veHaD0yc73wOqB418MEJ7HXg==
-X-Google-Smtp-Source: ABdhPJzuVOPoCj0aRbqV9LR8ha00BJ3589ff8a3Agw9tVpcuBaHbMvOz/1fsBmo5ODDdaDbnxDLmXvEav/ZmTtLOKsc=
-X-Received: by 2002:a37:afc2:: with SMTP id y185mr5930151qke.499.1611083302926; 
- Tue, 19 Jan 2021 11:08:22 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gfvPC/OfKQm0WszlW9GmFgoRPlhvY5JQwFhmkr33QEU=;
+ b=tWp5Wa7OzuXwAa/Cd77h5RrnNuJ3zsxsfDMJgpi8lqTTnywvzbmF5Qd8TyBWnVrirQ
+ 5ggIUKaVvzb9oEWzRPh8H6N6gzyi1RQ8vidJrWo+KJXsi3YLUXsHra2r2ELV229Vx+iS
+ +XIyDc0VVdBcPTcLBxZxv9Zmzd7wySOBtvQLyS/wFsgTg28OcLaz+malb6m1rL660sPP
+ NgAeWpD3Pv5Hm8kk1VmVY0yzOKsSKPyF+ao+4jNyUrWbD7gyhJ6xffKe6bkz4n2OLcKC
+ 4tyEpupdMMlJtrpJlNxCDaKWyVyJNQ6eudIU+//0epKnZKKxabHJS12tkRJ2uoBnphsR
+ cgLQ==
+X-Gm-Message-State: AOAM5316QjzYjSmSlW143e4hl6ug34+DzbYc1Vn91U4CkLaG2eVNoU3U
+ jTYvFcpLLGH/RVVmQOHvIpM=
+X-Google-Smtp-Source: ABdhPJyx8x7gu4P7oE5KAk6xg8xDr54N8Q3FAZ6Nqz2UM8VtBwHDr478AaY6OY4v8pgus3J7jsMpYQ==
+X-Received: by 2002:ac2:418e:: with SMTP id z14mr2883646lfh.126.1611095362069; 
+ Tue, 19 Jan 2021 14:29:22 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
+ [109.252.192.57])
+ by smtp.googlemail.com with ESMTPSA id r81sm12698lff.215.2021.01.19.14.29.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 14:29:21 -0800 (PST)
+Subject: Re: [PATCH v5 00/21] Host1x/TegraDRM UAPI
+To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210111130019.3515669-1-mperttunen@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <da085c38-4ac1-19dd-7706-caf323c969d2@gmail.com>
+Date: Wed, 20 Jan 2021 01:29:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <CAKB3++adfpdBHFEyGZ3v2V6zyW+ayg86CLDRKx1ty+OytjYFNw@mail.gmail.com>
- <20210118234057.270930-1-zzyiwei@android.com>
- <CAKMK7uE+7S5q8bU0ibyepb8yQL3QYNjZE+Jwf13+bVfAmoSuhw@mail.gmail.com>
-In-Reply-To: <CAKMK7uE+7S5q8bU0ibyepb8yQL3QYNjZE+Jwf13+bVfAmoSuhw@mail.gmail.com>
-From: =?UTF-8?B?WWl3ZWkgWmhhbmfigI4=?= <zzyiwei@android.com>
-Date: Tue, 19 Jan 2021 11:08:12 -0800
-Message-ID: <CAKB3++aNtrjzFoq4icMWSUvXw7bL69FRM+9t69firXHkiuTwDQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/virtio: Track total GPU memory for virtio driver
-To: Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <20210111130019.3515669-1-mperttunen@nvidia.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 21 Jan 2021 08:36:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,149 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET..." <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 18, 2021 at 11:03 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Jan 19, 2021 at 12:41 AM Yiwei Zhang <zzyiwei@android.com> wrote:
-> >
-> > On the success of virtio_gpu_object_create, add size of newly allocated
-> > bo to the tracled total_mem. In drm_gem_object_funcs.free, after the gem
-> > bo lost its last refcount, subtract the bo size from the tracked
-> > total_mem if the original underlying memory allocation is successful.
-> >
-> > Signed-off-by: Yiwei Zhang <zzyiwei@android.com>
->
-> Isn't this something that ideally we'd for everyone? Also tracepoint
-> for showing the total feels like tracepoint abuse, usually we show
-> totals somewhere in debugfs or similar, and tracepoint just for what's
-> happening (i.e. which object got deleted/created).
->
-> What is this for exactly?
-> -Daniel
->
-> > ---
-> >  drivers/gpu/drm/virtio/Kconfig          |  1 +
-> >  drivers/gpu/drm/virtio/virtgpu_drv.h    |  4 ++++
-> >  drivers/gpu/drm/virtio/virtgpu_object.c | 19 +++++++++++++++++++
-> >  3 files changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
-> > index b925b8b1da16..e103b7e883b1 100644
-> > --- a/drivers/gpu/drm/virtio/Kconfig
-> > +++ b/drivers/gpu/drm/virtio/Kconfig
-> > @@ -5,6 +5,7 @@ config DRM_VIRTIO_GPU
-> >         select DRM_KMS_HELPER
-> >         select DRM_GEM_SHMEM_HELPER
-> >         select VIRTIO_DMA_SHARED_BUFFER
-> > +       select TRACE_GPU_MEM
-> >         help
-> >            This is the virtual GPU driver for virtio.  It can be used with
-> >            QEMU based VMMs (like KVM or Xen).
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> > index 6a232553c99b..7c60e7486bc4 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> > @@ -249,6 +249,10 @@ struct virtio_gpu_device {
-> >         spinlock_t resource_export_lock;
-> >         /* protects map state and host_visible_mm */
-> >         spinlock_t host_visible_lock;
-> > +
-> > +#ifdef CONFIG_TRACE_GPU_MEM
-> > +       atomic64_t total_mem;
-> > +#endif
-> >  };
-> >
-> >  struct virtio_gpu_fpriv {
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> > index d69a5b6da553..1e16226cebbe 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> > @@ -25,12 +25,29 @@
-> >
-> >  #include <linux/dma-mapping.h>
-> >  #include <linux/moduleparam.h>
-> > +#ifdef CONFIG_TRACE_GPU_MEM
-> > +#include <trace/events/gpu_mem.h>
-> > +#endif
-> >
-> >  #include "virtgpu_drv.h"
-> >
-> >  static int virtio_gpu_virglrenderer_workaround = 1;
-> >  module_param_named(virglhack, virtio_gpu_virglrenderer_workaround, int, 0400);
-> >
-> > +#ifdef CONFIG_TRACE_GPU_MEM
-> > +static inline void virtio_gpu_trace_total_mem(struct virtio_gpu_device *vgdev,
-> > +                                             s64 delta)
-> > +{
-> > +       u64 total_mem = atomic64_add_return(delta, &vgdev->total_mem);
-> > +
-> > +       trace_gpu_mem_total(0, 0, total_mem);
-> > +}
-> > +#else
-> > +static inline void virtio_gpu_trace_total_mem(struct virtio_gpu_device *, s64)
-> > +{
-> > +}
-> > +#endif
-> > +
-> >  int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev, uint32_t *resid)
-> >  {
-> >         if (virtio_gpu_virglrenderer_workaround) {
-> > @@ -104,6 +121,7 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
-> >         struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
-> >
-> >         if (bo->created) {
-> > +               virtio_gpu_trace_total_mem(vgdev, -(obj->size));
-> >                 virtio_gpu_cmd_unref_resource(vgdev, bo);
-> >                 virtio_gpu_notify(vgdev);
-> >                 /* completion handler calls virtio_gpu_cleanup_object() */
-> > @@ -265,6 +283,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
-> >                 virtio_gpu_object_attach(vgdev, bo, ents, nents);
-> >         }
-> >
-> > +       virtio_gpu_trace_total_mem(vgdev, shmem_obj->base.size);
-> >         *bo_ptr = bo;
-> >         return 0;
-> >
-> > --
-> > 2.30.0.284.gd98b1dd5eaa7-goog
-> >
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
-Thanks for your reply! Android Cuttlefish virtual platform is using
-the virtio-gpu driver, and we currently are carrying this small patch
-at the downstream side. This is essential for us because:
-(1) Android has deprecated debugfs on production devices already
-(2) Android GPU drivers are not DRM based, and this won't change in a
-short term.
-
-Android relies on this tracepoint + eBPF to make the GPU memory totals
-available at runtime on production devices, which has been enforced
-already. Not only game developers can have a reliable kernel total GPU
-memory to look at, but also Android leverages this to take GPU memory
-usage out from the system lost ram.
-
-I'm not sure whether the other DRM drivers would like to integrate
-this tracepoint(maybe upstream drivers will move away from debugfs
-later as well?), but at least we hope virtio-gpu can take this.
-
-Many thanks!
-Yiwei
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTEuMDEuMjAyMSAxNTo1OSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gSGkgYWxsLAo+
+IAo+IGhlcmUncyB0aGUgZmlmdGggcmV2aXNpb24gb2YgdGhlIEhvc3QxeC9UZWdyYURSTSBVQVBJ
+IHByb3Bvc2FsLAo+IGNvbnRhaW5pbmcgcHJpbWFyaWx5IHNtYWxsIGJ1ZyBmaXhlcy4gSXQgaGFz
+IGFsc28gYmVlbgo+IHJlYmFzZWQgb24gdG9wIG9mIHJlY2VudCBsaW51eC1uZXh0Lgo+IAo+IHZh
+YXBpLXRlZ3JhLWRyaXZlciBoYXMgYmVlbiB1cGRhdGVkIHRvIHN1cHBvcnQgdGhlIG5ldyBVQVBJ
+Cj4gYXMgd2VsbCBhcyBUZWdyYTE4NjoKPiAKPiAgIGh0dHBzOi8vZ2l0aHViLmNvbS9jeW5kaXMv
+dmFhcGktdGVncmEtZHJpdmVyCj4gCj4gVGhlIGBwdXRzdXJmYWNlYCBwcm9ncmFtIGhhcyBiZWVu
+IHRlc3RlZCB0byB3b3JrLgo+IAo+IFRoZSB0ZXN0IHN1aXRlIGZvciB0aGUgbmV3IFVBUEkgaXMg
+YXZhaWxhYmxlIGF0Cj4gaHR0cHM6Ly9naXRodWIuY29tL2N5bmRpcy91YXBpLXRlc3QKPiAKPiBU
+aGUgc2VyaWVzIGNhbiBiZSBhbHNvIGZvdW5kIGluCj4gaHR0cHM6Ly9naXRodWIuY29tL2N5bmRp
+cy9saW51eC9jb21taXRzL3dvcmsvaG9zdDF4LXVhcGktdjUuCj4gCj4gT2xkZXIgdmVyc2lvbnM6
+Cj4gdjE6IGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2xpbnV4LXRlZ3JhL21zZzUxMDAw
+Lmh0bWwKPiB2MjogaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMvbGludXgtdGVncmEvbXNn
+NTMwNjEuaHRtbAo+IHYzOiBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9saW51eC10ZWdy
+YS9tc2c1NDM3MC5odG1sCj4gdjQ6IGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2RyaS1k
+ZXZlbC9tc2cyNzk4OTcuaHRtbAo+IAo+IFRoYW5rIHlvdSwKPiBNaWtrbwoKVGhlIGJhc2ljIHN1
+cHBvcnQgZm9yIHRoZSB2NSBVQVBJIGlzIGFkZGVkIG5vdyB0byB0aGUgT3BlbnRlZ3JhIGRyaXZl
+ci4KIEluIG92ZXJhbGwgVUFQSSB3b3JrcywgYnV0IHRoZXJlIGFyZSBjb3VwbGUgdGhpbmdzIHRo
+YXQgd2UgbmVlZCB0bwppbXByb3ZlLCBJJ2xsIGZvY3VzIG9uIHRoZW0gaGVyZS4KClByb2JsZW1z
+Cj09PT09PT09CgoxLiBUaGUgY2hhbm5lbCBtYXAvdW5tYXAgQVBJIG5lZWRzIHNvbWUgbW9yZSB0
+aG91Z2h0LgoKVGhlIG1haW4gcHJvYmxlbSBpcyBhIGRpZmZpY3VsdHkgdG8gdHJhY2sgbGl2ZW5l
+c3Mgb2YgQk9zIGFuZCBtYXBwaW5ncy4KIFRoZSBrZXJuZWwgZHJpdmVyIHJlZnMgQk8gZm9yIGVh
+Y2ggbWFwcGluZyBhbmQgdXNlcnNwYWNlIG5lZWRzIHRvIHRyYWNrCmJvdGggQk8gYW5kIGl0cyBt
+YXBwaW5ncyB0b2dldGhlciwgaXQncyB0b28gZWFzeSB0byBtYWtlIG1pc3Rha2UgYW5kCmxlYWsg
+Qk9zIHdpdGhvdXQgbm90aWNpbmcuCgoyLiBIb3N0MXggc3luYyBwb2ludCBVQVBJIHNob3VsZCBu
+b3QgYmUgdXNlZCBmb3IgdHJhY2tpbmcgRFJNIGpvYnMuICBJCnJlbWVtYmVyIHdlIGRpc2N1c3Nl
+ZCB0aGlzIHByZXZpb3VzbHksIGJ1dCB0aGlzIHBvcHMgdXAgYWdhaW4gYW5kIEkKZG9uJ3QgcmVt
+ZW1iZXIgd2hlcmUgd2UgZW5kZWQgcHJldmlvdXNseS4KClRoaXMgY3JlYXRlcyB1bm5lY2Vzc2Fy
+eSBjb21wbGV4aXR5IGZvciB1c2Vyc3BhY2UuICBVc2Vyc3BhY2UgbmVlZHMgdG8KZ28gdGhyb3Vn
+aCBhIGxvdCBvZiBjaG9yZXMganVzdCB0byBnZXQgYSBzeW5jIHBvaW50IGFuZCB0aGVuIHRvIG1h
+bmFnZQppdCBmb3IgdGhlIGpvYnMuCgpOb3RoaW5nIHN0b3BzIHR3byBkaWZmZXJlbnQgY2hhbm5l
+bHMgdG8gcmV1c2UgYSBzaW5nbGUgc3luYyBwb2ludCBhbmQKdXNlIGl0IGZvciBhIGpvYiwgZml4
+aW5nIHRoaXMgd2lsbCBvbmx5IGFkZCBtb3JlIGNvbXBsZXhpdHkgdG8gdGhlCmtlcm5lbCBkcml2
+ZXIgaW5zdGVhZCBvZiByZW1vdmluZyBpdC4KCjMuIFRoZSBzaWduYWxsaW5nIG9mIERNQSBmZW5j
+ZXMgZG9lc24ndCB3b3JrIHByb3Blcmx5IGluIHY1IGFwcGFyZW50bHkKYmVjYXVzZSBvZiB0aGUg
+aG9zdDF4IHdhaXRlciBidWcuICBJIHNlZSB0aGF0IHN5bmMgcG9pbnQgaW50ZXJydXB0CmhhcHBl
+bnMsIGJ1dCB3YWl0ZXIgY2FsbGJhY2sgaXNuJ3QgaW52b2tlZC4KCjQuIFRoZSBzeW5jX2ZpbGUg
+QVBJIGlzIG5vdCB2ZXJ5IHN1aXRhYmxlIGZvciBEUk0gcHVycG9zZXMgYmVjYXVzZSBvZgotRU1G
+SUxFICJUb28gbWFueSBvcGVuIGZpbGVzIiwgd2hpY2ggSSBzYXcgd2hpbGUgd2FzIHJ1bm5pbmcg
+eDExcGVyZi4KSXQgYWxzbyBhZGRzIGNvbXBsZXhpdHkgdG8gdXNlcnNwYWNlLCBpbnN0ZWFkIG9m
+IHJlbW92aW5nIGl0LiAgVGhpcwphcHByb2FjaCBub3Qgc3VpdGFibGUgZm9yIERSTSBzY2hlZHVs
+ZXIgYXMgd2VsbC4KCjUuIFN5bmMgcG9pbnRzIGhhdmUgYSBkaXJ0eSBoYXJkd2FyZSBzdGF0ZSB3
+aGVuIGFsbG9jYXRlZCAvIHJlcXVlc3RlZC4KVGhlIHNwZWNpYWwgc3luYyBwb2ludCByZXNlcnZh
+dGlvbiBpcyBtZWFuaW5nbGVzcyBpbiB0aGlzIGNhc2UuCgo2LiBJIGZvdW5kIHRoYXQgdGhlIG5l
+ZWQgdG8gY2hvcCBjbWRzdHJlYW0gaW50byBnYXRoZXJzIGlzIGEgYml0CmN1bWJlcnNvbWUgZm9y
+IHVzZXJzcGFjZSBvZiBvbGRlciBTb0NzIHdoaWNoIGRvbid0IGhhdmUgaC93IGZpcmV3YWxsLgpD
+YW4gd2Ugc3VwcG9ydCBvcHRpb24gd2hlcmUgYWxsIGNvbW1hbmRzIGFyZSBjb2xsZWN0ZWQgaW50
+byBhIHNpbmdsZQpkZWRpY2F0ZWQgY21kc3RyZWFtIGZvciBhIGpvYj8KClBvc3NpYmxlIHNvbHV0
+aW9ucyBmb3IgdGhlIGFib3ZlIHByb2JsZW1zCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09CgoxLiBTdG9wIHRvIHVzZSBjb25jZXB0IG9mICJjaGFubmVscyIuIFN3aXRj
+aCB0byBEUk0gY29udGV4dC1vbmx5LgoKRWFjaCBEUk0gY29udGV4dCBzaG91bGQgZ2V0IGFjY2Vz
+cyB0byBhbGwgZW5naW5lcyBvbmNlIERSTSBjb250ZXh0IGlzCmNyZWF0ZWQuICBUaGluayBvZiBp
+dCBsaWtlICJ3aGVuIERSTSBjb250ZXh0IGlzIG9wZW5lZCwgaXQgb3BlbnMgYQpjaGFubmVsIGZv
+ciBlYWNoIGVuZ2luZSIuCgpUaGVuIGVhY2ggRFJNIGNvbnRleHQgd2lsbCBnZXQgb25lIGluc3Rh
+bmNlIG9mIG1hcHBpbmcgcGVyLWVuZ2luZSBmb3IKZWFjaCBCTy4KCmVudW0gdGVncmFfZW5naW5l
+IHsKCVRFR1JBX0dSMkQsCglURUdSQV9HUjNELAoJVEVHUkFfVklDLAoJLi4uCglOVU1fRU5HSU5F
+Uwp9OwoKc3RydWN0IHRlZ3JhX2JvX21hcHBpbmcgewoJZG1hX2FkZHJfdCBpb2FkZHI7CgkuLi4K
+fTsKCnN0cnVjdCB0ZWdyYV9ibyB7CgkuLi4KCXN0cnVjdCB0ZWdyYV9ib19tYXBwaW5nICpod19t
+YXBzW05VTV9FTkdJTkVTXTsKfTsKCkluc3RlYWQgb2YgRFJNX0lPQ1RMX1RFR1JBX0NIQU5ORUxf
+TUFQIHdlIHNob3VsZCBoYXZlCkRSTV9JT0NUTF9URUdSQV9HRU1fTUFQX1RPX0VOR0lORSwgd2hp
+Y2ggd2lsbCBjcmVhdGUgYSBCTyBtYXBwaW5nIGZvciBhCnNwZWNpZmllZCBoL3cgZW5naW5lLgoK
+T25jZSBCTyBpcyBjbG9zZWQsIGFsbCBpdHMgbWFwcGluZ3Mgc2hvdWxkIGJlIGNsb3NlZCB0b28u
+ICBUaGlzIHdheQp1c2Vyc3BhY2UgZG9lc24ndCBuZWVkIHRvIHRyYWNrIGJvdGggQk9zIGFuZCBt
+YXBwaW5ncy4KCkV2ZXJ5dGhpbmcgdGhhdCB1c2Vyc3BhY2UgbmVlZHMgdG8gZG8gaXM6CgoJMSkg
+T3BlbiBEUk0gY29udGV4dAoJMikgQ3JlYXRlIEdFTQoJMykgTWFwIEdFTSB0byByZXF1aXJlZCBo
+YXJkd2FyZSBlbmdpbmVzCgk0KSBTdWJtaXQgam9iIHRoYXQgdXNlcyBHRU0gaGFuZGxlCgk1KSBD
+bG9zZSBHRU0KCklmIEdFTSB3YXNuJ3QgbWFwcGVkIHByaW9yIHRvIHRoZSBqb2IncyBzdWJtaXNz
+aW9uLCB0aGVuIGpvYiB3aWxsIGZhaWwKYmVjYXVzZSBrZXJuZWwgZHJpdmVyIHdvbid0IHJlc29s
+dmUgdGhlIElPIG1hcHBpbmcgb2YgdGhlIEdFTS4KCjIuIFdlIHdpbGwgcHJvYmFibHkgbmVlZCBh
+IGRlZGljYXRlZCBkcm1fdGVncmFfc3VibWl0X2NtZCBmb3Igc3luYyBwb2ludAppbmNyZW1lbnRz
+LiAgVGhlIGpvYidzIHN5bmMgcG9pbnQgd2lsbCBiZSBhbGxvY2F0ZWQgZHluYW1pY2FsbHkgd2hl
+biBqb2IKaXMgc3VibWl0dGVkLiAgV2Ugd2lsbCBuZWVkIGEgZmFnIGZvciB0aGUgc3luY19pbmNy
+IGFuZCB3YWl0X3N5bmNwdApjb21tYW5kcywgc2F5aW5nICJpdCdzIGEgam9iJ3Mgc3luYyBwb2lu
+dCBpbmNyZW1lbnQvd2FpdCIKCjMuIFdlIHNob3VsZCB1c2UgZG1hLWZlbmNlIEFQSSBkaXJlY3Rs
+eSBhbmQgd2FpdGVyLXNoaW0gc2hvdWxkIGJlCnJlbW92ZWQuICBJdCdzIGdyZWF0IHRoYXQgeW91
+J3JlIGFscmVhZHkgd29ya2luZyBvbiB0aGlzLgoKNC4gU3luYyBmaWxlIHNob3VsZG4ndCBiZSBu
+ZWVkZWQgZm9yIHRoZSBwYXJ0IG9mIERSTSBBUEkgd2hpY2ggZG9lc24ndAppbnRlcmFjdCB3aXRo
+IGV4dGVybmFsIG5vbi1EUk0gZGV2aWNlcy4gIFdlIHNob3VsZCB1c2UgRFJNIHN5bmNvYmogZm9y
+CmV2ZXJ5dGhpbmcgcmVsYXRlZCB0byBEUk0sIGl0J3MgYSBzdXBlcmlvciBBUEkgb3ZlciBzeW5j
+IGZpbGUsIGl0J3MKc3VpdGFibGUgZm9yIERSTSBzY2hlZHVsZXIuCgo1LiBUaGUgaGFyZHdhcmUg
+c3RhdGUgb2Ygc3luYyBwb2ludHMgc2hvdWxkIGJlIHJlc2V0IHdoZW4gc3luYyBwb2ludCBpcwpy
+ZXF1ZXN0ZWQsIG5vdCB3aGVuIGhvc3QxeCBkcml2ZXIgaXMgaW5pdGlhbGl6ZWQuCgo2LiBXZSB3
+aWxsIG5lZWQgdG8gYWxsb2NhdGUgYSBob3N0MXggQk8gZm9yIGEgam9iJ3MgY21kc3RyZWFtIGFu
+ZCBhZGQgYQpyZXN0YXJ0IGNvbW1hbmQgdG8gdGhlIGVuZCBvZiB0aGUgam9iJ3Mgc3RyZWFtLiAg
+Q0RNQSB3aWxsIGp1bXAgaW50byB0aGUKam9iJ3Mgc3RyZWFtIGZyb20gcHVzaCBidWZmZXIuCgpX
+ZSBjb3VsZCBhZGQgYSBmbGFnIGZvciB0aGF0IHRvIGRybV90ZWdyYV9zdWJtaXRfY21kX2dhdGhl
+ciwgc2F5aW5nIHRoYXQKZ2F0aGVyIHNob3VsZCBiZSBpbmxpbmVkIGludG8gam9iJ3MgbWFpbiBj
+bWRzdHJlYW0uCgpUaGlzIHdpbGwgcmVtb3ZlIGEgbmVlZCB0byBoYXZlIGEgbGFyZ2UgcHVzaCBi
+dWZmZXIgdGhhdCB3aWxsIGVhc2lseQpvdmVyZmxvdywgaXQncyBhIHJlYWwgcHJvYmxlbSBhbmQg
+dXBzdHJlYW0gZHJpdmVyIGV2ZW4gaGFzIGEgYnVnIHdoZXJlCml0IGxvY2tzIHVwIG9uIG92ZXJm
+bG93LgoKSG93IGl0IHdpbGwgbG9vayBmcm9tIENETUEgcGVyc3BlY3RpdmU6CgpQVVNIQlVGIHwK
+LS0tLS0tLS0tCi4uLiAgICAgfCAgICAgIHwgSk9CICAgfAogICAgICAgIHwgICAgICAtLS0tLS0t
+LS0gICAgICAgfCBKT0IgR0FUSEVSIHwKUkVTVEFSVAktLS0tLS0+IENNRCAgICB8ICAgICAgIC0t
+LS0tLS0tLS0tLS0tCiAgICAgICAgfCAgICAgIHxHQVRIRVIgLS0tLS0tLT4gREFUQSAgICAgICAg
+fAouLi4gPC0tLS0tLS0tLS0gUkVTVEFSVHwgICAgICAgfCAgICAgICAgICAgIHwKICAgICAgICB8
+ICAgICAgfCAgICAgICB8CgoKV2hhdCdzIG1pc3NpbmcKPT09PT09PT09PT09PT0KCjEuIEV4cGxp
+Y2l0IGFuZCBpbXBsaWNpdCBmZW5jaW5nIGlzbid0IHRoZXJlIHlldCwgd2UgbmVlZCB0byBzdXBw
+b3J0IERSTQpzY2hlZHVsZXIgZm9yIHRoYXQuCgoyLiBUaGUgIndhaXQiIGNvbW1hbmQgcHJvYmFi
+bHkgc2hvdWxkIGJlIHRhdWdodCB0byB0YWtlIGEgc3luY29iaiBoYW5kbGUKaW4gb3JkZXIgdG8g
+cG9wdWxhdGUgaXQgd2l0aCBhIGRtYS1mZW5jZSBieSBrZXJuZWwgZHJpdmVyIG9uY2Ugam9iIGlz
+CnN1Ym1pdHRlZC4gIFRoaXMgd2lsbCBnaXZlIHVzIGludGVybWVkaWF0ZSBmZW5jZXMgb2YgYSBq
+b2IgYW5kIGFsbG93CnV0aWxpemUgdGhlIHN5bmNvYmogZmVhdHVyZXMgbGlrZSAid2FpdCB1bnRp
+bCBqb2IgaXMgc3VibWl0dGVkIHRvIGgvdwpiZWZvcmUgc3RhcnRpbmcgdG8gd2FpdCBmb3IgdGlt
+ZW91dCIsIHdoaWNoIHdpbGwgYmUgbmVlZGVkIGJ5IHVzZXJzcGFjZQp3aGVuIERSTSBzY2hlZHVs
+ZXIgd2lsbCBiZSBzdXBwb3J0ZWQuCgpNaXNjZWxsYW5lb3VzCj09PT09PT09PT09PT0KCjEuIFBs
+ZWFzZSBkb24ndCBmb3JnZXQgdG8gYnVtcCBkcml2ZXIgdmVyc2lvbi4gIFRoaXMgaXMgaW1wb3J0
+YW50IGZvcgp1c2Vyc3BhY2UuCgoyLiBQbGVhc2UgdXNlIGEgcHJvcGVyIGtlcm5lbCBjb2Rpbmcg
+c3R5bGUsIHVzZSBjaGVja3BhdGNoLgoKICAgIyBnaXQgZm9ybWF0LXBhdGNoIC12NSAuLi4KICAg
+IyAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLXN0cmljdCB2NSoKCjMuIEtlcm5lbCBkcml2ZXIg
+bmVlZHMgYSByaWNoIGVycm9yIG1lc3NhZ2VzIGZvciBlYWNoIGVycm9yIGNvbmRpdGlvbgphbmQg
+aXQgc2hvdWxkIGR1bXAgc3VibWl0dGVkIGpvYiB3aGVuIGZpcmV3YWxsIGZhaWxzLiAgSXQncyB2
+ZXJ5IHRlZGlvdXMKdG8gcmUtYWRkIGl0IGFsbCBlYWNoIHRpbWUgd2hlbiBzb21ldGhpbmcgZG9l
+c24ndCB3b3JrLgoKNC4gUHJldmlvdXNseSBmaXJld2FsbCB3YXMgdXNpbmcgdGhlIGNsaWVudCdz
+IGNsYXNzIGlmIGlzX3ZhbGlkX2NsYXNzCndhc24ndCBzcGVjaWZpZWQgaW4gdGVncmFfZHJtX2Ns
+aWVudF9vcHMsIHlvdSBjaGFuZ2VkIGl0IGFuZCBub3cKZmlyZXdhbGwgZmFpbHMgZm9yIEdSM0Qg
+YmVjYXVzZSBpdCBkb2Vzbid0IGhhdmUgdGhlIGlzX3ZhbGlkX2NsYXNzKCkgc2V0CmluIHRoZSBk
+cml2ZXIuICBTZWUgWzFdLgoKNS4gVGhlIENETUEgY2xhc3Mgc2hvdWxkIGJlIHJlc3RvcmVkIHRv
+IHRoZSBjbGFzcyBvZiBhIHByZXZpb3VzIGdhdGhlcgphZnRlciB0aGUgd2FpdCBjb21tYW5kIGlu
+IHN1Ym1pdF9nYXRoZXJzKCkgYW5kIG5vdCB0byB0aGUgY2xhc3Mgb2YgdGhlCmNsaWVudC4gIEdS
+MkQgc3VwcG9ydHMgbXVsdGlwbGUgY2xhc3Nlcy4gIFNlZSBbMV0uCgpbMV0KaHR0cHM6Ly9naXRo
+dWIuY29tL2dyYXRlLWRyaXZlci9saW51eC9jb21taXQvMDI0Y2JhMzY5YzljMGUyNzYyZTk4OTAw
+NjhmZjk5NDRjYjEwYzQ0ZgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
