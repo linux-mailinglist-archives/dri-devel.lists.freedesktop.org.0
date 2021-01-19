@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EE42FB494
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:53:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2C22FB49F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189F16E841;
-	Tue, 19 Jan 2021 08:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C6B6E071;
+	Tue, 19 Jan 2021 08:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 547A36E841;
- Tue, 19 Jan 2021 08:53:31 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id g3so7989037ejb.6;
- Tue, 19 Jan 2021 00:53:31 -0800 (PST)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F196E05F;
+ Tue, 19 Jan 2021 08:55:37 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id w1so27341764ejf.11;
+ Tue, 19 Jan 2021 00:55:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=jeEiIfVVXpZ+FYFHrxeqC6ZvObpL8Asd9AOy8xdvpD0=;
- b=ArLYjrk9xqEcw48UbcWgB2rzX4/IfECLWViRfC35ct32H5TRLq5eLoR/OqEzLk8Pf7
- s7nj1DjqLtyrkdlBix1Tkq7AVCKH0m+Z3bzK7CHuJ0l+0Te1loCaZcvks98SHo7x6hUn
- j6iVbqSqdM2ysm+n2xKeku82FKD+t1k3it29wLYo0pudVPq/vFv5o1ooSn/vDOHw0StI
- uKaHTRxvmSO+GGKP/pGYKQHwE+Y4U4m77BBOwvmioKtP4y/pfyvpoC1t2M1B/IsGJCsg
- SArEiEXJQAwVjrcg5BZL+fxmIZM9FskJ8+Jdxmn0tlmkwRV79imafuWDzcsm/2itNZ6j
- 2Zbg==
+ bh=Isfs6+bREtGkcerT8XE8Q10j4KM2FAYsOdVBD5LYLqg=;
+ b=eiuet6itwRxv8dPaEg5edheIuDazxh0I6uDfn+apuZhMyMM138Gcaxk7NpJNAramBK
+ PsP/mzyhKtqCV1Ymhl8g+fuJLPVQZa1d0DU8C+hw7p1HBiJOCSCR5kRyV/FUXapipTci
+ YKnPG1dKFfCu1eHrzqFyB5zLOfbp6X+efeBRrW6FZ6aPu/JcpNInDdTlZ0OTUcTq1e6S
+ 1noBSuLKxueXQPtdAg8GWIGOMrH4kjCpURzOIF3e0NF0v9M2qnxmk0U50R6on8MiJ5Jo
+ BN68wA18XdvLnedXzGFBP3Zf8oUMsmWjtCG2tqp+Rpl6bX7kXBjcdqkPj7fgaQJj9XUi
+ 94hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=jeEiIfVVXpZ+FYFHrxeqC6ZvObpL8Asd9AOy8xdvpD0=;
- b=QdqJ3UozB0IeesxjgXVmnUO3CWbga0jBlF0+MDvYUdcyQ8Kic2/E4lc0gNUel5uOn4
- L1xi9WpKmkZBZ3nhrxKDPFLqjUxf3Cme99wH3tbZjEV/lS47vSB2XoQxPuoIyl9YJAkY
- lGdpBW+MMchv15JjZSh3/0VVKWuOjHxZvLTbZTO7IoZYnoffR8BL8G33vvYeIjbzscPD
- aL75uL21QbEcQpVau6JpGo0S8wQqHDEot7n3L+UHiHQ4400Wjma3lsXcZgZ62KNdANdQ
- ivH/tKsSWUzAjNh+7s33Uactp11hmYhqLcJqOvug+oYvNJD8TsxAg7LovmsYbO09EZDz
- FT1A==
-X-Gm-Message-State: AOAM532ueymt26XSiV5OMOXj7UjfY6DCUmELZgB8Cx0WV2HdOMkA/efi
- t2e+XyMG7bQcoNIaRWsa344=
-X-Google-Smtp-Source: ABdhPJwlYW6+O5/xil2VBPOVFQb+1gJtHyuq5Wpc2Q9cRLMopQyqTkWsp7E+Jc0kf9NKcBVlDSWClQ==
-X-Received: by 2002:a17:906:a283:: with SMTP id
- i3mr2347718ejz.496.1611046410043; 
- Tue, 19 Jan 2021 00:53:30 -0800 (PST)
+ bh=Isfs6+bREtGkcerT8XE8Q10j4KM2FAYsOdVBD5LYLqg=;
+ b=Bhgs58OGnC2GWij7ggB+8ZHz0lJ+/sadt4JnUvwyfDZsuoRqN368KbR8aY5b8P9ZXM
+ aWCrYtOjau8S9GxdcuFzETv1oJAx+HBD3bGUQdu+5dTOAGeUdbs3UL4p/I7mYq/NYTf6
+ uBLG1FcElMp88hiNWBQDONh83lS/hPg2HmtU0GZLA+2Jiu7VgG8C6upleC6MUmfxZfDf
+ J1ZrFNqKUz3YcCAI8eFvCO31Mlvm8DvqO4MAMMksJ3HHfKLV68K67hLB0ksdKmOD67eG
+ fGnzBq6mqrHFQpq+0keDj2bAL/fHqLS0oM1dMyMiVnQH7Wkj7TRDPW++LsQQQPuYtAFe
+ YtjQ==
+X-Gm-Message-State: AOAM532CQuLESS9vrv2xQ7rODfG6yEd4kimMfqUqbz3MPJbiU1qHQVEK
+ cBdl7chE4IeSXA8tPqQ/bRk=
+X-Google-Smtp-Source: ABdhPJwgvD7dg0GrzJTa6Z3YX1ypd4JtUKMyS6tKaD5VS6w0vnD5j1c4vsHnYjW/l48S/phVkLdJ5w==
+X-Received: by 2002:a17:906:7215:: with SMTP id
+ m21mr2289497ejk.248.1611046536043; 
+ Tue, 19 Jan 2021 00:55:36 -0800 (PST)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
  ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id mb15sm10351522ejb.9.2021.01.19.00.53.28
+ by smtp.gmail.com with ESMTPSA id w11sm10516404edj.8.2021.01.19.00.55.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 00:53:29 -0800 (PST)
-Subject: Re: [PATCH v4 10/14] dmr/amdgpu: Move some sysfs attrs creation to
- default_attr
+ Tue, 19 Jan 2021 00:55:35 -0800 (PST)
+Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
+ device removal
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, robh@kernel.org, l.stach@pengutronix.de,
  yuq825@gmail.com, eric@anholt.net
 References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
- <1611003683-3534-11-git-send-email-andrey.grodzovsky@amd.com>
+ <1611003683-3534-12-git-send-email-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <feb4a7d9-d424-5d32-1539-7fd1f03ebbd9@gmail.com>
-Date: Tue, 19 Jan 2021 09:53:26 +0100
+Message-ID: <35ecd67f-620f-df50-3e03-d24dc12452d6@gmail.com>
+Date: Tue, 19 Jan 2021 09:55:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1611003683-3534-11-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1611003683-3534-12-git-send-email-andrey.grodzovsky@amd.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,148 +78,683 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: christian.koenig@amd.com
 Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTguMDEuMjEgdW0gMjI6MDEgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBUaGlzIGFs
-bG93cyB0byByZW1vdmUgZXhwbGljaXQgY3JlYXRpb24gYW5kIGRlc3RydWN0aW9uCj4gb2YgdGhv
-c2UgYXR0cnMgYW5kIGJ5IHRoaXMgYXZvaWRzIHdhcm5pbmdzIG9uIGRldmljZQo+IGZpbmlsaXpp
-bmcgcG9zdCBwaHlzaWNhbCBkZXZpY2UgZXh0cmFjdGlvbi4KPgo+IFNpZ25lZC1vZmYtYnk6IEFu
-ZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgoKQWNrZWQtYnk6IENo
-cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4gLS0tCj4gICBkcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYXRvbWJpb3MuYyB8IDE3ICsrKysrKysrKy0t
-LS0tLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgICAgICB8
-IDEzICsrKysrKysrKysrKysKPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9n
-dHRfbWdyLmMgIHwgMjUgKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMgfCAxNCArKysrKy0tLS0tLS0tLQo+ICAg
-NCBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspLCAzMiBkZWxldGlvbnMoLSkKPgo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYXRvbWJpb3MuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hdG9tYmlvcy5jCj4gaW5kZXggODZh
-ZGQwZi4uMDM0NmUxMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfYXRvbWJpb3MuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9hdG9tYmlvcy5jCj4gQEAgLTE5NTMsNiArMTk1MywxNSBAQCBzdGF0aWMgc3NpemVfdCBhbWRn
-cHVfYXRvbWJpb3NfZ2V0X3ZiaW9zX3ZlcnNpb24oc3RydWN0IGRldmljZSAqZGV2LAo+ICAgc3Rh
-dGljIERFVklDRV9BVFRSKHZiaW9zX3ZlcnNpb24sIDA0NDQsIGFtZGdwdV9hdG9tYmlvc19nZXRf
-dmJpb3NfdmVyc2lvbiwKPiAgIAkJICAgTlVMTCk7Cj4gICAKPiArc3RhdGljIHN0cnVjdCBhdHRy
-aWJ1dGUgKmFtZGdwdV92Ymlvc192ZXJzaW9uX2F0dHJzW10gPSB7Cj4gKwkmZGV2X2F0dHJfdmJp
-b3NfdmVyc2lvbi5hdHRyLAo+ICsJTlVMTAo+ICt9Owo+ICsKPiArY29uc3Qgc3RydWN0IGF0dHJp
-YnV0ZV9ncm91cCBhbWRncHVfdmJpb3NfdmVyc2lvbl9hdHRyX2dyb3VwID0gewo+ICsJLmF0dHJz
-ID0gYW1kZ3B1X3ZiaW9zX3ZlcnNpb25fYXR0cnMKPiArfTsKPiArCj4gICAvKioKPiAgICAqIGFt
-ZGdwdV9hdG9tYmlvc19maW5pIC0gZnJlZSB0aGUgZHJpdmVyIGluZm8gYW5kIGNhbGxiYWNrcyBm
-b3IgYXRvbWJpb3MKPiAgICAqCj4gQEAgLTE5NzIsNyArMTk4MSw2IEBAIHZvaWQgYW1kZ3B1X2F0
-b21iaW9zX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAJYWRldi0+bW9kZV9p
-bmZvLmF0b21fY29udGV4dCA9IE5VTEw7Cj4gICAJa2ZyZWUoYWRldi0+bW9kZV9pbmZvLmF0b21f
-Y2FyZF9pbmZvKTsKPiAgIAlhZGV2LT5tb2RlX2luZm8uYXRvbV9jYXJkX2luZm8gPSBOVUxMOwo+
-IC0JZGV2aWNlX3JlbW92ZV9maWxlKGFkZXYtPmRldiwgJmRldl9hdHRyX3ZiaW9zX3ZlcnNpb24p
-Owo+ICAgfQo+ICAgCj4gICAvKioKPiBAQCAtMTk4OSw3ICsxOTk3LDYgQEAgaW50IGFtZGdwdV9h
-dG9tYmlvc19pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQo+ICAgewo+ICAgCXN0cnVj
-dCBjYXJkX2luZm8gKmF0b21fY2FyZF9pbmZvID0KPiAgIAkgICAga3phbGxvYyhzaXplb2Yoc3Ry
-dWN0IGNhcmRfaW5mbyksIEdGUF9LRVJORUwpOwo+IC0JaW50IHJldDsKPiAgIAo+ICAgCWlmICgh
-YXRvbV9jYXJkX2luZm8pCj4gICAJCXJldHVybiAtRU5PTUVNOwo+IEBAIC0yMDI3LDEyICsyMDM0
-LDYgQEAgaW50IGFtZGdwdV9hdG9tYmlvc19pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2
-KQo+ICAgCQlhbWRncHVfYXRvbWJpb3NfYWxsb2NhdGVfZmJfc2NyYXRjaChhZGV2KTsKPiAgIAl9
-Cj4gICAKPiAtCXJldCA9IGRldmljZV9jcmVhdGVfZmlsZShhZGV2LT5kZXYsICZkZXZfYXR0cl92
-Ymlvc192ZXJzaW9uKTsKPiAtCWlmIChyZXQpIHsKPiAtCQlEUk1fRVJST1IoIkZhaWxlZCB0byBj
-cmVhdGUgZGV2aWNlIGZpbGUgZm9yIFZCSU9TIHZlcnNpb25cbiIpOwo+IC0JCXJldHVybiByZXQ7
-Cj4gLQl9Cj4gLQo+ICAgCXJldHVybiAwOwo+ICAgfQo+ICAgCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9kcnYuYwo+IGluZGV4IDljMGNkMDAuLjhmZGRkNzQgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4gQEAgLTE1ODcsNiArMTU4NywxOCBA
-QCBzdGF0aWMgc3RydWN0IHBjaV9lcnJvcl9oYW5kbGVycyBhbWRncHVfcGNpX2Vycl9oYW5kbGVy
-ID0gewo+ICAgCS5yZXN1bWUJCT0gYW1kZ3B1X3BjaV9yZXN1bWUsCj4gICB9Owo+ICAgCj4gK2V4
-dGVybiBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlX2dyb3VwIGFtZGdwdV92cmFtX21ncl9hdHRyX2dy
-b3VwOwo+ICtleHRlcm4gY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCBhbWRncHVfZ3R0X21n
-cl9hdHRyX2dyb3VwOwo+ICtleHRlcm4gY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCBhbWRn
-cHVfdmJpb3NfdmVyc2lvbl9hdHRyX2dyb3VwOwo+ICsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBh
-dHRyaWJ1dGVfZ3JvdXAgKmFtZGdwdV9zeXNmc19ncm91cHNbXSA9IHsKPiArCSZhbWRncHVfdnJh
-bV9tZ3JfYXR0cl9ncm91cCwKPiArCSZhbWRncHVfZ3R0X21ncl9hdHRyX2dyb3VwLAo+ICsJJmFt
-ZGdwdV92Ymlvc192ZXJzaW9uX2F0dHJfZ3JvdXAsCj4gKwlOVUxMLAo+ICt9Owo+ICsKPiArCj4g
-ICBzdGF0aWMgc3RydWN0IHBjaV9kcml2ZXIgYW1kZ3B1X2ttc19wY2lfZHJpdmVyID0gewo+ICAg
-CS5uYW1lID0gRFJJVkVSX05BTUUsCj4gICAJLmlkX3RhYmxlID0gcGNpaWRsaXN0LAo+IEBAIC0x
-NTk1LDYgKzE2MDcsNyBAQCBzdGF0aWMgc3RydWN0IHBjaV9kcml2ZXIgYW1kZ3B1X2ttc19wY2lf
-ZHJpdmVyID0gewo+ICAgCS5zaHV0ZG93biA9IGFtZGdwdV9wY2lfc2h1dGRvd24sCj4gICAJLmRy
-aXZlci5wbSA9ICZhbWRncHVfcG1fb3BzLAo+ICAgCS5lcnJfaGFuZGxlciA9ICZhbWRncHVfcGNp
-X2Vycl9oYW5kbGVyLAo+ICsJLmRyaXZlci5kZXZfZ3JvdXBzID0gYW1kZ3B1X3N5c2ZzX2dyb3Vw
-cywKPiAgIH07Cj4gICAKPiAgIHN0YXRpYyBpbnQgX19pbml0IGFtZGdwdV9pbml0KHZvaWQpCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jCj4gaW5kZXggODk4
-MDMyOS4uM2I3MTUwZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfZ3R0X21nci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-X2d0dF9tZ3IuYwo+IEBAIC03Nyw2ICs3NywxNiBAQCBzdGF0aWMgREVWSUNFX0FUVFIobWVtX2lu
-Zm9fZ3R0X3RvdGFsLCBTX0lSVUdPLAo+ICAgc3RhdGljIERFVklDRV9BVFRSKG1lbV9pbmZvX2d0
-dF91c2VkLCBTX0lSVUdPLAo+ICAgCSAgICAgICAgICAgYW1kZ3B1X21lbV9pbmZvX2d0dF91c2Vk
-X3Nob3csIE5VTEwpOwo+ICAgCj4gK3N0YXRpYyBzdHJ1Y3QgYXR0cmlidXRlICphbWRncHVfZ3R0
-X21ncl9hdHRyaWJ1dGVzW10gPSB7Cj4gKwkmZGV2X2F0dHJfbWVtX2luZm9fZ3R0X3RvdGFsLmF0
-dHIsCj4gKwkmZGV2X2F0dHJfbWVtX2luZm9fZ3R0X3VzZWQuYXR0ciwKPiArCU5VTEwKPiArfTsK
-PiArCj4gK2NvbnN0IHN0cnVjdCBhdHRyaWJ1dGVfZ3JvdXAgYW1kZ3B1X2d0dF9tZ3JfYXR0cl9n
-cm91cCA9IHsKPiArCS5hdHRycyA9IGFtZGdwdV9ndHRfbWdyX2F0dHJpYnV0ZXMKPiArfTsKPiAr
-Cj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IHR0bV9yZXNvdXJjZV9tYW5hZ2VyX2Z1bmMgYW1kZ3B1
-X2d0dF9tZ3JfZnVuYzsKPiAgIC8qKgo+ICAgICogYW1kZ3B1X2d0dF9tZ3JfaW5pdCAtIGluaXQg
-R1RUIG1hbmFnZXIgYW5kIERSTSBNTQo+IEBAIC05MSw3ICsxMDEsNiBAQCBpbnQgYW1kZ3B1X2d0
-dF9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgdWludDY0X3QgZ3R0X3NpemUp
-Cj4gICAJc3RydWN0IGFtZGdwdV9ndHRfbWdyICptZ3IgPSAmYWRldi0+bW1hbi5ndHRfbWdyOwo+
-ICAgCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFuID0gJm1nci0+bWFuYWdlcjsKPiAg
-IAl1aW50NjRfdCBzdGFydCwgc2l6ZTsKPiAtCWludCByZXQ7Cj4gICAKPiAgIAltYW4tPnVzZV90
-dCA9IHRydWU7Cj4gICAJbWFuLT5mdW5jID0gJmFtZGdwdV9ndHRfbWdyX2Z1bmM7Cj4gQEAgLTEw
-NCwxNyArMTEzLDYgQEAgaW50IGFtZGdwdV9ndHRfbWdyX2luaXQoc3RydWN0IGFtZGdwdV9kZXZp
-Y2UgKmFkZXYsIHVpbnQ2NF90IGd0dF9zaXplKQo+ICAgCXNwaW5fbG9ja19pbml0KCZtZ3ItPmxv
-Y2spOwo+ICAgCWF0b21pYzY0X3NldCgmbWdyLT5hdmFpbGFibGUsIGd0dF9zaXplID4+IFBBR0Vf
-U0hJRlQpOwo+ICAgCj4gLQlyZXQgPSBkZXZpY2VfY3JlYXRlX2ZpbGUoYWRldi0+ZGV2LCAmZGV2
-X2F0dHJfbWVtX2luZm9fZ3R0X3RvdGFsKTsKPiAtCWlmIChyZXQpIHsKPiAtCQlEUk1fRVJST1Io
-IkZhaWxlZCB0byBjcmVhdGUgZGV2aWNlIGZpbGUgbWVtX2luZm9fZ3R0X3RvdGFsXG4iKTsKPiAt
-CQlyZXR1cm4gcmV0Owo+IC0JfQo+IC0JcmV0ID0gZGV2aWNlX2NyZWF0ZV9maWxlKGFkZXYtPmRl
-diwgJmRldl9hdHRyX21lbV9pbmZvX2d0dF91c2VkKTsKPiAtCWlmIChyZXQpIHsKPiAtCQlEUk1f
-RVJST1IoIkZhaWxlZCB0byBjcmVhdGUgZGV2aWNlIGZpbGUgbWVtX2luZm9fZ3R0X3VzZWRcbiIp
-Owo+IC0JCXJldHVybiByZXQ7Cj4gLQl9Cj4gLQo+ICAgCXR0bV9zZXRfZHJpdmVyX21hbmFnZXIo
-JmFkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1RULCAmbWdyLT5tYW5hZ2VyKTsKPiAgIAl0dG1fcmVz
-b3VyY2VfbWFuYWdlcl9zZXRfdXNlZChtYW4sIHRydWUpOwo+ICAgCXJldHVybiAwOwo+IEBAIC0x
-NDQsOSArMTQyLDYgQEAgdm9pZCBhbWRncHVfZ3R0X21ncl9maW5pKHN0cnVjdCBhbWRncHVfZGV2
-aWNlICphZGV2KQo+ICAgCWRybV9tbV90YWtlZG93bigmbWdyLT5tbSk7Cj4gICAJc3Bpbl91bmxv
-Y2soJm1nci0+bG9jayk7Cj4gICAKPiAtCWRldmljZV9yZW1vdmVfZmlsZShhZGV2LT5kZXYsICZk
-ZXZfYXR0cl9tZW1faW5mb19ndHRfdG90YWwpOwo+IC0JZGV2aWNlX3JlbW92ZV9maWxlKGFkZXYt
-PmRldiwgJmRldl9hdHRyX21lbV9pbmZvX2d0dF91c2VkKTsKPiAtCj4gICAJdHRtX3Jlc291cmNl
-X21hbmFnZXJfY2xlYW51cChtYW4pOwo+ICAgCXR0bV9zZXRfZHJpdmVyX21hbmFnZXIoJmFkZXYt
-Pm1tYW4uYmRldiwgVFRNX1BMX1RULCBOVUxMKTsKPiAgIH0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYwo+IGluZGV4IGQyZGUyYTcuLjkxNThkMTEgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYwo+IEBA
-IC0xNTQsNyArMTU0LDcgQEAgc3RhdGljIERFVklDRV9BVFRSKG1lbV9pbmZvX3Zpc192cmFtX3Vz
-ZWQsIFNfSVJVR08sCj4gICBzdGF0aWMgREVWSUNFX0FUVFIobWVtX2luZm9fdnJhbV92ZW5kb3Is
-IFNfSVJVR08sCj4gICAJCSAgIGFtZGdwdV9tZW1faW5mb192cmFtX3ZlbmRvciwgTlVMTCk7Cj4g
-ICAKPiAtc3RhdGljIGNvbnN0IHN0cnVjdCBhdHRyaWJ1dGUgKmFtZGdwdV92cmFtX21ncl9hdHRy
-aWJ1dGVzW10gPSB7Cj4gK3N0YXRpYyBzdHJ1Y3QgYXR0cmlidXRlICphbWRncHVfdnJhbV9tZ3Jf
-YXR0cmlidXRlc1tdID0gewo+ICAgCSZkZXZfYXR0cl9tZW1faW5mb192cmFtX3RvdGFsLmF0dHIs
-Cj4gICAJJmRldl9hdHRyX21lbV9pbmZvX3Zpc192cmFtX3RvdGFsLmF0dHIsCj4gICAJJmRldl9h
-dHRyX21lbV9pbmZvX3ZyYW1fdXNlZC5hdHRyLAo+IEBAIC0xNjMsNiArMTYzLDEwIEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlICphbWRncHVfdnJhbV9tZ3JfYXR0cmlidXRlc1tdID0g
-ewo+ICAgCU5VTEwKPiAgIH07Cj4gICAKPiArY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCBh
-bWRncHVfdnJhbV9tZ3JfYXR0cl9ncm91cCA9IHsKPiArCS5hdHRycyA9IGFtZGdwdV92cmFtX21n
-cl9hdHRyaWJ1dGVzCj4gK307Cj4gKwo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCB0dG1fcmVzb3Vy
-Y2VfbWFuYWdlcl9mdW5jIGFtZGdwdV92cmFtX21ncl9mdW5jOwo+ICAgCj4gICAvKioKPiBAQCAt
-MTc2LDcgKzE4MCw2IEBAIGludCBhbWRncHVfdnJhbV9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2Rl
-dmljZSAqYWRldikKPiAgIHsKPiAgIAlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3IgPSAmYWRl
-di0+bW1hbi52cmFtX21ncjsKPiAgIAlzdHJ1Y3QgdHRtX3Jlc291cmNlX21hbmFnZXIgKm1hbiA9
-ICZtZ3ItPm1hbmFnZXI7Cj4gLQlpbnQgcmV0Owo+ICAgCj4gICAJdHRtX3Jlc291cmNlX21hbmFn
-ZXJfaW5pdChtYW4sIGFkZXYtPmdtYy5yZWFsX3ZyYW1fc2l6ZSA+PiBQQUdFX1NISUZUKTsKPiAg
-IAo+IEBAIC0xODcsMTEgKzE5MCw2IEBAIGludCBhbWRncHVfdnJhbV9tZ3JfaW5pdChzdHJ1Y3Qg
-YW1kZ3B1X2RldmljZSAqYWRldikKPiAgIAlJTklUX0xJU1RfSEVBRCgmbWdyLT5yZXNlcnZhdGlv
-bnNfcGVuZGluZyk7Cj4gICAJSU5JVF9MSVNUX0hFQUQoJm1nci0+cmVzZXJ2ZWRfcGFnZXMpOwo+
-ICAgCj4gLQkvKiBBZGQgdGhlIHR3byBWUkFNLXJlbGF0ZWQgc3lzZnMgZmlsZXMgKi8KPiAtCXJl
-dCA9IHN5c2ZzX2NyZWF0ZV9maWxlcygmYWRldi0+ZGV2LT5rb2JqLCBhbWRncHVfdnJhbV9tZ3Jf
-YXR0cmlidXRlcyk7Cj4gLQlpZiAocmV0KQo+IC0JCURSTV9FUlJPUigiRmFpbGVkIHRvIHJlZ2lz
-dGVyIHN5c2ZzXG4iKTsKPiAtCj4gICAJdHRtX3NldF9kcml2ZXJfbWFuYWdlcigmYWRldi0+bW1h
-bi5iZGV2LCBUVE1fUExfVlJBTSwgJm1nci0+bWFuYWdlcik7Cj4gICAJdHRtX3Jlc291cmNlX21h
-bmFnZXJfc2V0X3VzZWQobWFuLCB0cnVlKTsKPiAgIAlyZXR1cm4gMDsKPiBAQCAtMjI5LDggKzIy
-Nyw2IEBAIHZvaWQgYW1kZ3B1X3ZyYW1fbWdyX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpCj4gICAJZHJtX21tX3Rha2Vkb3duKCZtZ3ItPm1tKTsKPiAgIAlzcGluX3VubG9jaygmbWdy
-LT5sb2NrKTsKPiAgIAo+IC0Jc3lzZnNfcmVtb3ZlX2ZpbGVzKCZhZGV2LT5kZXYtPmtvYmosIGFt
-ZGdwdV92cmFtX21ncl9hdHRyaWJ1dGVzKTsKPiAtCj4gICAJdHRtX3Jlc291cmNlX21hbmFnZXJf
-Y2xlYW51cChtYW4pOwo+ICAgCXR0bV9zZXRfZHJpdmVyX21hbmFnZXIoJmFkZXYtPm1tYW4uYmRl
-diwgVFRNX1BMX1ZSQU0sIE5VTEwpOwo+ICAgfQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Am 18.01.21 um 22:01 schrieb Andrey Grodzovsky:
+> This should prevent writing to memory or IO ranges possibly
+> already allocated for other uses after our device is removed.
+
+Wow, that adds quite some overhead to every register access. I'm not 
+sure we can do this.
+
+Christian.
+
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 57 ++++++++++++++++++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c    |  9 ++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c    | 53 +++++++++++++---------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h    |  3 ++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c   | 70 ++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   | 49 ++-------------------
+>   drivers/gpu/drm/amd/amdgpu/psp_v11_0.c     | 16 ++-----
+>   drivers/gpu/drm/amd/amdgpu/psp_v12_0.c     |  8 +---
+>   drivers/gpu/drm/amd/amdgpu/psp_v3_1.c      |  8 +---
+>   9 files changed, 184 insertions(+), 89 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e99f4f1..0a9d73c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -72,6 +72,8 @@
+>   
+>   #include <linux/iommu.h>
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   MODULE_FIRMWARE("amdgpu/vega10_gpu_info.bin");
+>   MODULE_FIRMWARE("amdgpu/vega12_gpu_info.bin");
+>   MODULE_FIRMWARE("amdgpu/raven_gpu_info.bin");
+> @@ -404,13 +406,21 @@ uint8_t amdgpu_mm_rreg8(struct amdgpu_device *adev, uint32_t offset)
+>    */
+>   void amdgpu_mm_wreg8(struct amdgpu_device *adev, uint32_t offset, uint8_t value)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if (offset < adev->rmmio_size)
+>   		writeb(value, adev->rmmio + offset);
+>   	else
+>   		BUG();
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -427,9 +437,14 @@ void amdgpu_device_wreg(struct amdgpu_device *adev,
+>   			uint32_t reg, uint32_t v,
+>   			uint32_t acc_flags)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if ((reg * 4) < adev->rmmio_size) {
+>   		if (!(acc_flags & AMDGPU_REGS_NO_KIQ) &&
+>   		    amdgpu_sriov_runtime(adev) &&
+> @@ -444,6 +459,8 @@ void amdgpu_device_wreg(struct amdgpu_device *adev,
+>   	}
+>   
+>   	trace_amdgpu_device_wreg(adev->pdev->device, reg, v);
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /*
+> @@ -454,9 +471,14 @@ void amdgpu_device_wreg(struct amdgpu_device *adev,
+>   void amdgpu_mm_wreg_mmio_rlc(struct amdgpu_device *adev,
+>   			     uint32_t reg, uint32_t v)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if (amdgpu_sriov_fullaccess(adev) &&
+>   	    adev->gfx.rlc.funcs &&
+>   	    adev->gfx.rlc.funcs->is_rlcg_access_range) {
+> @@ -465,6 +487,8 @@ void amdgpu_mm_wreg_mmio_rlc(struct amdgpu_device *adev,
+>   	} else {
+>   		writel(v, ((void __iomem *)adev->rmmio) + (reg * 4));
+>   	}
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -499,15 +523,22 @@ u32 amdgpu_io_rreg(struct amdgpu_device *adev, u32 reg)
+>    */
+>   void amdgpu_io_wreg(struct amdgpu_device *adev, u32 reg, u32 v)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if ((reg * 4) < adev->rio_mem_size)
+>   		iowrite32(v, adev->rio_mem + (reg * 4));
+>   	else {
+>   		iowrite32((reg * 4), adev->rio_mem + (mmMM_INDEX * 4));
+>   		iowrite32(v, adev->rio_mem + (mmMM_DATA * 4));
+>   	}
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -544,14 +575,21 @@ u32 amdgpu_mm_rdoorbell(struct amdgpu_device *adev, u32 index)
+>    */
+>   void amdgpu_mm_wdoorbell(struct amdgpu_device *adev, u32 index, u32 v)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if (index < adev->doorbell.num_doorbells) {
+>   		writel(v, adev->doorbell.ptr + index);
+>   	} else {
+>   		DRM_ERROR("writing beyond doorbell aperture: 0x%08x!\n", index);
+>   	}
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -588,14 +626,21 @@ u64 amdgpu_mm_rdoorbell64(struct amdgpu_device *adev, u32 index)
+>    */
+>   void amdgpu_mm_wdoorbell64(struct amdgpu_device *adev, u32 index, u64 v)
+>   {
+> +	int idx;
+> +
+>   	if (adev->in_pci_err_recovery)
+>   		return;
+>   
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+> +
+>   	if (index < adev->doorbell.num_doorbells) {
+>   		atomic64_set((atomic64_t *)(adev->doorbell.ptr + index), v);
+>   	} else {
+>   		DRM_ERROR("writing beyond doorbell aperture: 0x%08x!\n", index);
+>   	}
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -682,6 +727,10 @@ void amdgpu_device_indirect_wreg(struct amdgpu_device *adev,
+>   	unsigned long flags;
+>   	void __iomem *pcie_index_offset;
+>   	void __iomem *pcie_data_offset;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+>   
+>   	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+>   	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+> @@ -692,6 +741,8 @@ void amdgpu_device_indirect_wreg(struct amdgpu_device *adev,
+>   	writel(reg_data, pcie_data_offset);
+>   	readl(pcie_data_offset);
+>   	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> @@ -711,6 +762,10 @@ void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+>   	unsigned long flags;
+>   	void __iomem *pcie_index_offset;
+>   	void __iomem *pcie_data_offset;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return;
+>   
+>   	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+>   	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+> @@ -727,6 +782,8 @@ void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+>   	writel((u32)(reg_data >> 32), pcie_data_offset);
+>   	readl(pcie_data_offset);
+>   	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+> +
+> +	drm_dev_exit(idx);
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> index fe1a39f..1beb4e6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> @@ -31,6 +31,8 @@
+>   #include "amdgpu_ras.h"
+>   #include "amdgpu_xgmi.h"
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   /**
+>    * amdgpu_gmc_get_pde_for_bo - get the PDE for a BO
+>    *
+> @@ -98,6 +100,10 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device *adev, void *cpu_pt_addr,
+>   {
+>   	void __iomem *ptr = (void *)cpu_pt_addr;
+>   	uint64_t value;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&adev->ddev, &idx))
+> +		return 0;
+>   
+>   	/*
+>   	 * The following is for PTE only. GART does not have PDEs.
+> @@ -105,6 +111,9 @@ int amdgpu_gmc_set_pte_pde(struct amdgpu_device *adev, void *cpu_pt_addr,
+>   	value = addr & 0x0000FFFFFFFFF000ULL;
+>   	value |= flags;
+>   	writeq(value, ptr + (gpu_page_idx * 8));
+> +
+> +	drm_dev_exit(idx);
+> +
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> index 523d22d..89e2bfe 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> @@ -37,6 +37,8 @@
+>   
+>   #include "amdgpu_ras.h"
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   static int psp_sysfs_init(struct amdgpu_device *adev);
+>   static void psp_sysfs_fini(struct amdgpu_device *adev);
+>   
+> @@ -248,7 +250,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>   		   struct psp_gfx_cmd_resp *cmd, uint64_t fence_mc_addr)
+>   {
+>   	int ret;
+> -	int index;
+> +	int index, idx;
+>   	int timeout = 2000;
+>   	bool ras_intr = false;
+>   	bool skip_unsupport = false;
+> @@ -256,6 +258,9 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>   	if (psp->adev->in_pci_err_recovery)
+>   		return 0;
+>   
+> +	if (!drm_dev_enter(&psp->adev->ddev, &idx))
+> +		return 0;
+> +
+>   	mutex_lock(&psp->mutex);
+>   
+>   	memset(psp->cmd_buf_mem, 0, PSP_CMD_BUFFER_SIZE);
+> @@ -266,8 +271,7 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>   	ret = psp_ring_cmd_submit(psp, psp->cmd_buf_mc_addr, fence_mc_addr, index);
+>   	if (ret) {
+>   		atomic_dec(&psp->fence_value);
+> -		mutex_unlock(&psp->mutex);
+> -		return ret;
+> +		goto exit;
+>   	}
+>   
+>   	amdgpu_asic_invalidate_hdp(psp->adev, NULL);
+> @@ -307,8 +311,8 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>   			 psp->cmd_buf_mem->cmd_id,
+>   			 psp->cmd_buf_mem->resp.status);
+>   		if (!timeout) {
+> -			mutex_unlock(&psp->mutex);
+> -			return -EINVAL;
+> +			ret = -EINVAL;
+> +			goto exit;
+>   		}
+>   	}
+>   
+> @@ -316,8 +320,10 @@ psp_cmd_submit_buf(struct psp_context *psp,
+>   		ucode->tmr_mc_addr_lo = psp->cmd_buf_mem->resp.fw_addr_lo;
+>   		ucode->tmr_mc_addr_hi = psp->cmd_buf_mem->resp.fw_addr_hi;
+>   	}
+> -	mutex_unlock(&psp->mutex);
+>   
+> +exit:
+> +	mutex_unlock(&psp->mutex);
+> +	drm_dev_exit(idx);
+>   	return ret;
+>   }
+>   
+> @@ -354,8 +360,7 @@ static int psp_load_toc(struct psp_context *psp,
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   	/* Copy toc to psp firmware private buffer */
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->toc_start_addr, psp->toc_bin_size);
+> +	psp_copy_fw(psp, psp->toc_start_addr, psp->toc_bin_size);
+>   
+>   	psp_prep_load_toc_cmd_buf(cmd, psp->fw_pri_mc_addr, psp->toc_bin_size);
+>   
+> @@ -570,8 +575,7 @@ static int psp_asd_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->asd_start_addr, psp->asd_ucode_size);
+> +	psp_copy_fw(psp, psp->asd_start_addr, psp->asd_ucode_size);
+>   
+>   	psp_prep_asd_load_cmd_buf(cmd, psp->fw_pri_mc_addr,
+>   				  psp->asd_ucode_size);
+> @@ -726,8 +730,7 @@ static int psp_xgmi_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->ta_xgmi_start_addr, psp->ta_xgmi_ucode_size);
+> +	psp_copy_fw(psp, psp->ta_xgmi_start_addr, psp->ta_xgmi_ucode_size);
+>   
+>   	psp_prep_ta_load_cmd_buf(cmd,
+>   				 psp->fw_pri_mc_addr,
+> @@ -982,8 +985,7 @@ static int psp_ras_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->ta_ras_start_addr, psp->ta_ras_ucode_size);
+> +	psp_copy_fw(psp, psp->ta_ras_start_addr, psp->ta_ras_ucode_size);
+>   
+>   	psp_prep_ta_load_cmd_buf(cmd,
+>   				 psp->fw_pri_mc_addr,
+> @@ -1219,8 +1221,7 @@ static int psp_hdcp_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->ta_hdcp_start_addr,
+> +	psp_copy_fw(psp, psp->ta_hdcp_start_addr,
+>   	       psp->ta_hdcp_ucode_size);
+>   
+>   	psp_prep_ta_load_cmd_buf(cmd,
+> @@ -1366,8 +1367,7 @@ static int psp_dtm_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->ta_dtm_start_addr, psp->ta_dtm_ucode_size);
+> +	psp_copy_fw(psp, psp->ta_dtm_start_addr, psp->ta_dtm_ucode_size);
+>   
+>   	psp_prep_ta_load_cmd_buf(cmd,
+>   				 psp->fw_pri_mc_addr,
+> @@ -1507,8 +1507,7 @@ static int psp_rap_load(struct psp_context *psp)
+>   	if (!cmd)
+>   		return -ENOMEM;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -	memcpy(psp->fw_pri_buf, psp->ta_rap_start_addr, psp->ta_rap_ucode_size);
+> +	psp_copy_fw(psp, psp->ta_rap_start_addr, psp->ta_rap_ucode_size);
+>   
+>   	psp_prep_ta_load_cmd_buf(cmd,
+>   				 psp->fw_pri_mc_addr,
+> @@ -2778,6 +2777,20 @@ static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
+>   	return count;
+>   }
+>   
+> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size)
+> +{
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&psp->adev->ddev, &idx))
+> +		return;
+> +
+> +	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> +	memcpy(psp->fw_pri_buf, start_addr, bin_size);
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +
+>   static DEVICE_ATTR(usbc_pd_fw, S_IRUGO | S_IWUSR,
+>   		   psp_usbc_pd_fw_sysfs_read,
+>   		   psp_usbc_pd_fw_sysfs_write);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> index da250bc..ac69314 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> @@ -400,4 +400,7 @@ int psp_init_ta_microcode(struct psp_context *psp,
+>   			  const char *chip_name);
+>   int psp_get_fw_attestation_records_addr(struct psp_context *psp,
+>   					uint64_t *output_ptr);
+> +
+> +void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size);
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> index 1a612f5..d656494 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> @@ -35,6 +35,8 @@
+>   #include "amdgpu.h"
+>   #include "atom.h"
+>   
+> +#include <drm/drm_drv.h>
+> +
+>   /*
+>    * Rings
+>    * Most engines on the GPU are fed via ring buffers.  Ring
+> @@ -463,3 +465,71 @@ int amdgpu_ring_test_helper(struct amdgpu_ring *ring)
+>   	ring->sched.ready = !r;
+>   	return r;
+>   }
+> +
+> +void amdgpu_ring_clear_ring(struct amdgpu_ring *ring)
+> +{
+> +	int idx;
+> +	int i = 0;
+> +
+> +	if (!drm_dev_enter(&ring->adev->ddev, &idx))
+> +		return;
+> +
+> +	while (i <= ring->buf_mask)
+> +		ring->ring[i++] = ring->funcs->nop;
+> +
+> +	drm_dev_exit(idx);
+> +
+> +}
+> +
+> +void amdgpu_ring_write(struct amdgpu_ring *ring, uint32_t v)
+> +{
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&ring->adev->ddev, &idx))
+> +		return;
+> +
+> +	if (ring->count_dw <= 0)
+> +		DRM_ERROR("amdgpu: writing more dwords to the ring than expected!\n");
+> +	ring->ring[ring->wptr++ & ring->buf_mask] = v;
+> +	ring->wptr &= ring->ptr_mask;
+> +	ring->count_dw--;
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+> +					      void *src, int count_dw)
+> +{
+> +	unsigned occupied, chunk1, chunk2;
+> +	void *dst;
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(&ring->adev->ddev, &idx))
+> +		return;
+> +
+> +	if (unlikely(ring->count_dw < count_dw))
+> +		DRM_ERROR("amdgpu: writing more dwords to the ring than expected!\n");
+> +
+> +	occupied = ring->wptr & ring->buf_mask;
+> +	dst = (void *)&ring->ring[occupied];
+> +	chunk1 = ring->buf_mask + 1 - occupied;
+> +	chunk1 = (chunk1 >= count_dw) ? count_dw: chunk1;
+> +	chunk2 = count_dw - chunk1;
+> +	chunk1 <<= 2;
+> +	chunk2 <<= 2;
+> +
+> +	if (chunk1)
+> +		memcpy(dst, src, chunk1);
+> +
+> +	if (chunk2) {
+> +		src += chunk1;
+> +		dst = (void *)ring->ring;
+> +		memcpy(dst, src, chunk2);
+> +	}
+> +
+> +	ring->wptr += count_dw;
+> +	ring->wptr &= ring->ptr_mask;
+> +	ring->count_dw -= count_dw;
+> +
+> +	drm_dev_exit(idx);
+> +}
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> index accb243..f90b81f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> @@ -300,53 +300,12 @@ static inline void amdgpu_ring_set_preempt_cond_exec(struct amdgpu_ring *ring,
+>   	*ring->cond_exe_cpu_addr = cond_exec;
+>   }
+>   
+> -static inline void amdgpu_ring_clear_ring(struct amdgpu_ring *ring)
+> -{
+> -	int i = 0;
+> -	while (i <= ring->buf_mask)
+> -		ring->ring[i++] = ring->funcs->nop;
+> -
+> -}
+> -
+> -static inline void amdgpu_ring_write(struct amdgpu_ring *ring, uint32_t v)
+> -{
+> -	if (ring->count_dw <= 0)
+> -		DRM_ERROR("amdgpu: writing more dwords to the ring than expected!\n");
+> -	ring->ring[ring->wptr++ & ring->buf_mask] = v;
+> -	ring->wptr &= ring->ptr_mask;
+> -	ring->count_dw--;
+> -}
+> +void amdgpu_ring_clear_ring(struct amdgpu_ring *ring);
+>   
+> -static inline void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+> -					      void *src, int count_dw)
+> -{
+> -	unsigned occupied, chunk1, chunk2;
+> -	void *dst;
+> -
+> -	if (unlikely(ring->count_dw < count_dw))
+> -		DRM_ERROR("amdgpu: writing more dwords to the ring than expected!\n");
+> -
+> -	occupied = ring->wptr & ring->buf_mask;
+> -	dst = (void *)&ring->ring[occupied];
+> -	chunk1 = ring->buf_mask + 1 - occupied;
+> -	chunk1 = (chunk1 >= count_dw) ? count_dw: chunk1;
+> -	chunk2 = count_dw - chunk1;
+> -	chunk1 <<= 2;
+> -	chunk2 <<= 2;
+> +void amdgpu_ring_write(struct amdgpu_ring *ring, uint32_t v);
+>   
+> -	if (chunk1)
+> -		memcpy(dst, src, chunk1);
+> -
+> -	if (chunk2) {
+> -		src += chunk1;
+> -		dst = (void *)ring->ring;
+> -		memcpy(dst, src, chunk2);
+> -	}
+> -
+> -	ring->wptr += count_dw;
+> -	ring->wptr &= ring->ptr_mask;
+> -	ring->count_dw -= count_dw;
+> -}
+> +void amdgpu_ring_write_multiple(struct amdgpu_ring *ring,
+> +					      void *src, int count_dw);
+>   
+>   int amdgpu_ring_test_helper(struct amdgpu_ring *ring);
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> index bd4248c..b3ce5be 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+> @@ -269,10 +269,8 @@ static int psp_v11_0_bootloader_load_kdb(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy PSP KDB binary to memory */
+> -	memcpy(psp->fw_pri_buf, psp->kdb_start_addr, psp->kdb_bin_size);
+> +	psp_copy_fw(psp, psp->kdb_start_addr, psp->kdb_bin_size);
+>   
+>   	/* Provide the PSP KDB to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -302,10 +300,8 @@ static int psp_v11_0_bootloader_load_spl(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy PSP SPL binary to memory */
+> -	memcpy(psp->fw_pri_buf, psp->spl_start_addr, psp->spl_bin_size);
+> +	psp_copy_fw(psp, psp->spl_start_addr, psp->spl_bin_size);
+>   
+>   	/* Provide the PSP SPL to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -335,10 +331,8 @@ static int psp_v11_0_bootloader_load_sysdrv(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy PSP System Driver binary to memory */
+> -	memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +	psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>   
+>   	/* Provide the sys driver to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -371,10 +365,8 @@ static int psp_v11_0_bootloader_load_sos(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy Secure OS binary to PSP memory */
+> -	memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +	psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>   
+>   	/* Provide the PSP secure OS to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> index c4828bd..618e5b6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
+> @@ -138,10 +138,8 @@ static int psp_v12_0_bootloader_load_sysdrv(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy PSP System Driver binary to memory */
+> -	memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +	psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>   
+>   	/* Provide the sys driver to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -179,10 +177,8 @@ static int psp_v12_0_bootloader_load_sos(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy Secure OS binary to PSP memory */
+> -	memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +	psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>   
+>   	/* Provide the PSP secure OS to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> index f2e725f..d0a6cccd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v3_1.c
+> @@ -102,10 +102,8 @@ static int psp_v3_1_bootloader_load_sysdrv(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy PSP System Driver binary to memory */
+> -	memcpy(psp->fw_pri_buf, psp->sys_start_addr, psp->sys_bin_size);
+> +	psp_copy_fw(psp, psp->sys_start_addr, psp->sys_bin_size);
+>   
+>   	/* Provide the sys driver to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+> @@ -143,10 +141,8 @@ static int psp_v3_1_bootloader_load_sos(struct psp_context *psp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+> -
+>   	/* Copy Secure OS binary to PSP memory */
+> -	memcpy(psp->fw_pri_buf, psp->sos_start_addr, psp->sos_bin_size);
+> +	psp_copy_fw(psp, psp->sos_start_addr, psp->sos_bin_size);
+>   
+>   	/* Provide the PSP secure OS to bootloader */
+>   	WREG32_SOC15(MP0, 0, mmMP0_SMN_C2PMSG_36,
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
