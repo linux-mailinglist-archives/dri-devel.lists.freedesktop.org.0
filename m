@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3A92FC02F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 20:41:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D602FC103
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 21:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13ED86E241;
-	Tue, 19 Jan 2021 19:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B9889B66;
+	Tue, 19 Jan 2021 20:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C90176E884;
- Tue, 19 Jan 2021 19:41:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2375922AAA;
- Tue, 19 Jan 2021 19:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611085303;
- bh=TnO8ugrL48XJWa3g2ivpjW9IGaxfuzLgSivb6haGxSI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fCuoFvqxwF3jwgzRIl992WtFbHrECE5onOMaHYlH20ANmvVHcgV+bnWugwew1P7Ad
- 8nBKq1cdLoiQ5B7/doMTSZltIZaOR2R4NODIbtZS3O7Dx/ObqXRxXzwFL0/NxxLtH5
- RAY03hgFxQBW+CN1VbkvpitvivyWbSDw1l03OoQk=
-Date: Tue, 19 Jan 2021 20:41:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH v4 10/14] dmr/amdgpu: Move some sysfs attrs creation to
- default_attr
-Message-ID: <YAc19FJNeDprTyL6@kroah.com>
-References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
- <1611003683-3534-11-git-send-email-andrey.grodzovsky@amd.com>
- <YAaLmBMlDRr56erH@kroah.com>
- <3650d98a-2d73-06b8-7f06-ca7728b5c4b5@amd.com>
- <YAcbIF8xaMcuSWG3@kroah.com>
- <CADnq5_PNFQ+3tmRXjY2m22Pnx=neqMC_PTtqrObrdeg0LQUo_w@mail.gmail.com>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D63B89B66
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 20:30:46 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id n8so14650311ljg.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 12:30:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nF7UbpB2XeoCjbiO8VMOKYIHRLbtv9cSr4i7RtcGNLw=;
+ b=GiX2j5Kt1ekUGCYLmuPr3Gve1jltlwAlXhP2At39z+/uek4RxUF3MfgJWoXEvat9CE
+ L6E4m1fHeO4flYsscnqsgGIHnK+gphGU8FLCU+F8+5ptsMoEnHwbVDOqoHbxhEMUYIXc
+ mQdC1OVchX+wt4Y8CmlLKX7sHaPTOT/2t3CcSpZJHNbIrujw4QioYSnAf78HbhWWzbDd
+ 0cwR3gAW1DI98X1pJVqFck0oITbPBRGugj1dD1u84cJpjH8UMz8VWPC6gENCXK1y5iaD
+ FlRMGuFfCyo3n0tjB/ohjAQtpURlvnMjOpCHaDjhgZxOsisPsFP8/kLndAPCU9fqH7E7
+ rq9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nF7UbpB2XeoCjbiO8VMOKYIHRLbtv9cSr4i7RtcGNLw=;
+ b=pc5XHL4mZMeyZIu0BBx/SWiHQ5WXx7dQCzBm1zZf2n5wdy1OSXs6lA+R2M/bJbtbkk
+ MiHMTjzMQRwxRB6mEBfyv901cQ5hJyfPyU25k0yxm9zH7iaKJ4LeLh45mxd9oh1pVg/W
+ N+K7RswwHekQAH3LzEj40yBKIxFKrkasW0yOKHzWvQKJot8Qs7kqtjRSY3K50hgl2+NF
+ 1IMrYjspX1mdV6SHKUxRVFZ5gR6fR/1TrKARICKiCKrcgJN8Q/CwsfZRouJI54deuGm5
+ H4QMZqlPASfWGUOgJMaMrnrUcVjFf1BXVYwBhci3wDcOzuWILocIX8MaE5HdrfrdUEz7
+ 3HkA==
+X-Gm-Message-State: AOAM531WcGmtFMbeB3NDbfoLJ/tzkVPld5PLhZxMW5b3iJiHNlVg227x
+ aUokR9x45KpF9QxctsPdhEGE8BG5aY75xDs4vBKEkg==
+X-Google-Smtp-Source: ABdhPJx5YvfQq/BpJkwnrqT77I3705LpbokmXAy1PRaAygaddGOSWbFfD5d4ga04BDUPWi0m67euPyhBFxqc37g4alo=
+X-Received: by 2002:a2e:8090:: with SMTP id i16mr999488ljg.257.1611088244719; 
+ Tue, 19 Jan 2021 12:30:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_PNFQ+3tmRXjY2m22Pnx=neqMC_PTtqrObrdeg0LQUo_w@mail.gmail.com>
+References: <1610757107-11892-1-git-send-email-veeras@codeaurora.org>
+In-Reply-To: <1610757107-11892-1-git-send-email-veeras@codeaurora.org>
+From: John Stultz <john.stultz@linaro.org>
+Date: Tue, 19 Jan 2021 12:30:32 -0800
+Message-ID: <CALAqxLUr09++rtqy56q-KfkKYtPKd8mV-r=Zou7vZVmyNze7Og@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dma-fence: allow signaling drivers to set fence
+ timestamp
+To: Veera Sundaram Sankaran <veeras@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,49 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
+ abhinavk@codeaurora.org, Sean Paul <sean@poorly.run>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 19, 2021 at 02:04:48PM -0500, Alex Deucher wrote:
-> On Tue, Jan 19, 2021 at 1:26 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Jan 19, 2021 at 11:36:01AM -0500, Andrey Grodzovsky wrote:
-> > >
-> > > On 1/19/21 2:34 AM, Greg KH wrote:
-> > > > On Mon, Jan 18, 2021 at 04:01:19PM -0500, Andrey Grodzovsky wrote:
-> > > > >   static struct pci_driver amdgpu_kms_pci_driver = {
-> > > > >           .name = DRIVER_NAME,
-> > > > >           .id_table = pciidlist,
-> > > > > @@ -1595,6 +1607,7 @@ static struct pci_driver amdgpu_kms_pci_driver = {
-> > > > >           .shutdown = amdgpu_pci_shutdown,
-> > > > >           .driver.pm = &amdgpu_pm_ops,
-> > > > >           .err_handler = &amdgpu_pci_err_handler,
-> > > > > + .driver.dev_groups = amdgpu_sysfs_groups,
-> > > > Shouldn't this just be:
-> > > >     groups - amdgpu_sysfs_groups,
-> > > >
-> > > > Why go to the "driver root" here?
-> > >
-> > >
-> > > Because I still didn't get to your suggestion to propose a patch to add groups to
-> > > pci_driver, it's located in 'base' driver struct.
-> >
-> > You are a pci driver, you should never have to mess with the "base"
-> > driver struct.  Look at commit 92d50fc1602e ("PCI/IB: add support for
-> > pci driver attribute groups") which got merged in 4.14, way back in
-> > 2017 :)
-> 
-> Per the previous discussion of this patch set:
-> https://www.mail-archive.com/amd-gfx@lists.freedesktop.org/msg56019.html
+On Fri, Jan 15, 2021 at 4:31 PM Veera Sundaram Sankaran
+<veeras@codeaurora.org> wrote:
+>
+> Some drivers have hardware capability to get the precise HW timestamp
+> of certain events based on which the fences are triggered. The delta
+> between the event HW timestamp & current HW reference timestamp can
+> be used to calculate the timestamp in kernel's CLOCK_MONOTONIC time
+> domain. This allows it to set accurate timestamp factoring out any
+> software and IRQ latencies. Add a timestamp variant of fence signal
+> function, dma_fence_signal_timestamp to allow drivers to update the
+> precise timestamp for fences.
+>
+> Changes in v2:
+> - Add a new fence signal variant instead of modifying fence struct
+>
+> Changes in v3:
+> - Add timestamp domain information to commit-text and
+> dma_fence_signal_timestamp documentation
+>
+> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> ---
+>  drivers/dma-buf/dma-fence.c | 70 ++++++++++++++++++++++++++++++++++++++++-----
+>  include/linux/dma-fence.h   |  3 ++
+>  2 files changed, 66 insertions(+), 7 deletions(-)
 
-Hey, at least I'm consistent :)
+Thanks for respinning this!
+
+Reviewed-by: John Stultz <john.stultz@linaro.org>
+
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
