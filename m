@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7084A2FC4F7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 00:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AC62FC52E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 00:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3D06E040;
-	Tue, 19 Jan 2021 23:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C464D6E046;
+	Tue, 19 Jan 2021 23:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC77C6E040
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 23:42:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DBB02310D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 23:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611099764;
- bh=vfWq8ORmisMymcb7jEgSy/+PLX1UbYJNGh+DIqiVZ3c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=cYz2SiA7iMr/9YcqooJQXawqQMzYzYTU3o97XUGd//h1JT+reDI5GVwdi8mDqCnB9
- 871S2NE8UrbERiInElunFQYPil6LVsNZEatFEYXrLZWRH6OtHMVUpq9r86iX3PIIoG
- Q0Fq7sExupofbMKTPeBCpLwHGhalDrNDVv2iiWMP/IcIgCqalcet3yh5YmX/X1b2Qy
- IeIKEADLH+L5ezQuqMyVlJ/BxVXNTVLTb7XmbVnSxX39Y1xYfN41ThRbZbYUbRnMb6
- 9vdfg4G9kPSGeJbLpfycTgh8ox85Tc2msxKaVD4OLuNxQL+t8rsquKQc309aYB183N
- /6V8hKOsw50qQ==
-Received: by mail-ej1-f47.google.com with SMTP id g12so31005104ejf.8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 15:42:44 -0800 (PST)
-X-Gm-Message-State: AOAM531PYEZL+r+RpfbaVdXFXHS5cVWA7YbQpOFSxZ0i7PKBDZxi+87s
- JgVfiM6prGOVNDdBv3SF8VgP++ac0SM6BFwgWA==
-X-Google-Smtp-Source: ABdhPJy5pH3VJgW9xcAFQp76ROjf3pDBkBxpmVLZMF92SXietZmMe2rKOGmeI13Kif0jfu6KtXkSobYRfIp0pn/TCb8=
-X-Received: by 2002:a17:907:d8b:: with SMTP id
- go11mr4451807ejc.303.1611099762927; 
- Tue, 19 Jan 2021 15:42:42 -0800 (PST)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 075556E042;
+ Tue, 19 Jan 2021 23:57:20 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DL5DY2223z9s2g;
+ Wed, 20 Jan 2021 10:57:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1611100638;
+ bh=aU6XNAzQbH3IDoetYyr1Fi183CHr/Mb4lTKH65/VU0o=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Yj4HKl1AzKXbJ+uKLZfAtSLYrs9hb5aJ2Wqz8S8SEIBshqrwSmJ8j5eaamtwE6bfz
+ jo0df5vZ/iGg8FJIHU/i8s+Z5FuwQJEe6ozl4Heb21YF6zIRAwlp7vLPt+4XBMA+p5
+ XkCEUZmG40OUHVq/3NRCDt+8sK5IXiV+3yCS2/xRzb2LSWMOS42vdmaoWBpCw5KVet
+ SA5uKfg5eQX7sDZ4nijP6GQiSu1Q3Xrn+wFV1lqlIBOF9X1p5f0WNNYBsMgHGkN6Sk
+ bD8qEEzyThymTLpr5n84yTscnF3i2un6Bq6rX1m9R93B4lsOtQrsjVVsczq4bzkugb
+ +9qDyU8eSf+Ag==
+Date: Wed, 20 Jan 2021 10:57:15 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-intel tree
+Message-ID: <20210120105715.4391dd95@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20210106231729.17173-1-chunkuang.hu@kernel.org>
-In-Reply-To: <20210106231729.17173-1-chunkuang.hu@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 20 Jan 2021 07:42:31 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__OmMnXL5gvso4meUfQS-xnKA6EErhM3bL3HE4zh6JMcQ@mail.gmail.com>
-Message-ID: <CAAOTY__OmMnXL5gvso4meUfQS-xnKA6EErhM3bL3HE4zh6JMcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Share mtk mutex driver for both DRM and MDP
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +50,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0913186505=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IOaWvCAyMDIx5bm0MeaciDfm
-l6Ug6YCx5ZubIOS4iuWNiDc6MTflr6vpgZPvvJoKPgo+IG10ayBtdXRleCBpcyBhIGRyaXZlciB1
-c2VkIGJ5IERSTSBhbmQgTURQIFsxXSwgc28gdGhpcyBzZXJpZXMgbW92ZQo+IG10ayBtdXRleCBk
-cml2ZXIgZnJvbSBEUk0gZm9sZGVyIHRvIHNvYyBmb2xkZXIsIHNvIGl0IGNvdWxkIGJlIHVzZWQK
-PiBieSBEUk0gYW5kIE1EUC4KCkFwcGxpZWQgWzEvNV0gfiBbNC81XSB0byBtZWRpYXRlay1kcm0t
-bmV4dCBbMV0uCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVkaWF0ZWstZHJtLW5leHQKClJl
-Z2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gQ2hhbmdlcyBpbiB2MjoKPiAxLiBSZWJhc2Ugb250byBt
-ZWRpYXRlay1kcm0tbmV4dCBbMl0uCj4gMi4gRXhwb3J0IHN5bWJvbCBmb3IgbXRrLW11dGV4IEFQ
-SS4KPgo+IFsxXSBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzExMTQwNzUxLwo+
-IFsyXSBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9jaHVu
-a3VhbmcuaHUvbGludXguZ2l0L2xvZy8/aD1tZWRpYXRlay1kcm0tbmV4dAo+Cj4gQ0sgSHUgKDUp
-Ogo+ICAgZHJtL21lZGlhdGVrOiBSZW1vdmUgcmVkdW5kYW50IGZpbGUgaW5jbHVkaW5nCj4gICBk
-cm0vbWVkaWF0ZWs6IFJlbmFtZSBmaWxlIG10a19kcm1fZGRwIHRvIG10a19tdXRleAo+ICAgZHJt
-L21lZGlhdGVrOiBDaGFuZ2UgZGlzcC9kZHAgdGVybSB0byBtdXRleCBpbiBtdGsgbXV0ZXggZHJp
-dmVyCj4gICBkcm0vbWVkaWF0ZWs6IEF1dG9tYXRpY2FsbHkgc2VhcmNoIHVuY2xhaW1lZCBtdGsg
-bXV0ZXggaW4KPiAgICAgbXRrX211dGV4X2dldCgpCj4gICBzb2MgLyBkcm06IG1lZGlhdGVrOiBN
-b3ZlIG10ayBtdXRleCBkcml2ZXIgdG8gc29jIGZvbGRlcgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9NYWtlZmlsZSAgICAgICAgICAgICB8ICAgMSAtCj4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHJtX2NydGMuYyAgICAgICB8ICAzMiArLQo+ICBkcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RybV9kZHAuaCAgICAgICAgfCAgMjggLS0KPiAgZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICAgIHwgICAzIC0KPiAgZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZHJ2LmggICAgICAgIHwgICAxIC0KPiAgZHJpdmVycy9zb2MvbWVk
-aWF0ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAgIHwgICAxICsKPiAgLi4uL21lZGlhdGVrL210
-ay1tdXRleC5jfSAgICAgICAgICAgICAgICAgICAgIHwgMzI4ICsrKysrKysrKy0tLS0tLS0tLQo+
-ICBpbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbXV0ZXguaCAgICAgICAgfCAgMjYgKysK
-PiAgOCBmaWxlcyBjaGFuZ2VkLCAyMTIgaW5zZXJ0aW9ucygrKSwgMjA4IGRlbGV0aW9ucygtKQo+
-ICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRw
-LmgKPiAgcmVuYW1lIGRyaXZlcnMve2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYyA9PiBz
-b2MvbWVkaWF0ZWsvbXRrLW11dGV4LmN9ICg1MyUpCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNs
-dWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbXV0ZXguaAo+Cj4gLS0KPiAyLjE3LjEKPgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============0913186505==
+Content-Type: multipart/signed; boundary="Sig_/7BT8h2PLWsOJZo2F4=5Rm_T";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/7BT8h2PLWsOJZo2F4=5Rm_T
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+After merging the drm-intel tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
+
+drivers/gpu/drm/msm/dp/dp_ctrl.c: In function 'dp_ctrl_use_fixed_nvid':
+drivers/gpu/drm/msm/dp/dp_ctrl.c:1425:16: error: implicit declaration of fu=
+nction 'drm_dp_get_edid_quirks'; did you mean 'drm_do_get_edid'? [-Werror=
+=3Dimplicit-function-declaration]
+ 1425 |  edid_quirks =3D drm_dp_get_edid_quirks(ctrl->panel->edid);
+      |                ^~~~~~~~~~~~~~~~~~~~~~
+      |                drm_do_get_edid
+drivers/gpu/drm/msm/dp/dp_ctrl.c:1431:11: error: too many arguments to func=
+tion 'drm_dp_has_quirk'
+ 1431 |   return (drm_dp_has_quirk(&ctrl->panel->desc, edid_quirks,
+      |           ^~~~~~~~~~~~~~~~
+In file included from drivers/gpu/drm/msm/dp/dp_ctrl.c:15:
+include/drm/drm_dp_helper.h:2087:1: note: declared here
+ 2087 | drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk =
+quirk)
+      | ^~~~~~~~~~~~~~~~
+
+Caused by commit
+
+  7c553f8b5a7d ("drm/dp: Revert "drm/dp: Introduce EDID-based quirks"")
+
+Since the drm-intel tree still has its other build failure, I used the
+version from next-20210108 again today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/7BT8h2PLWsOJZo2F4=5Rm_T
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAHcdsACgkQAVBC80lX
+0GyL0gf9Gykgwv1C+podlywSGDeNb325PRn53gcy3mTvRd319wLt8Kna1AT/js1V
+lACULa7REx8bsskFFYlqIBuDBtr/ynoSM5Ptti+WRvBVwoPHzXfwlRNwIJnjepIb
+UgCDcuFz6V+FWEQL2VhPL2ZmI+BkaNPTfZiiJGrwT2MKChkiq0dB/3EtxTxn6hP1
+6e2oNmiX/byN+hPWfKBM7L1mI0C8mpglDT60vipysRsvUFT0TGMRgOdSNYYIfa23
+RWbn4icWFGv8XQEhIfbMg4rhYwU0V7qkg7vxw6SrPDZdm/1lZz6l26ep8Aq6Dwr7
+sEXT+ctNIffoWWjfSxpkXMbxmw3l5g==
+=0Jnl
+-----END PGP SIGNATURE-----
+
+--Sig_/7BT8h2PLWsOJZo2F4=5Rm_T--
+
+--===============0913186505==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0913186505==--
