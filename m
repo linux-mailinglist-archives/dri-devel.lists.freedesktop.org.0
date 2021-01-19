@@ -2,58 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7082FB6BB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDA42FB6BE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1E889C54;
-	Tue, 19 Jan 2021 14:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E9589C29;
+	Tue, 19 Jan 2021 14:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEDB089C54
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:07:47 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id 190so16596870wmz.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:07:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=lzrjL4XCAzP8Ll9Y82bJJtjA1mC2dQjzYOfQMeHToZA=;
- b=JOEZY2HgZpLJvKXf2uzU4B56Fby6WVuuR+6cN8kp5t4UgdCmEmEAh5vt87kT+2er/x
- Ru7+PB05osULOpIZWUHGqttqcMGXo7xiGB0F+XDh9AJQq7QHfbbWFGcMI/EeLjGV1j7l
- 3tffikDR6khnPg2rPC5YRplqme9jiAkAf6lh4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lzrjL4XCAzP8Ll9Y82bJJtjA1mC2dQjzYOfQMeHToZA=;
- b=R9O7W6ew2hPGlJe9jlRP6FLhV8b0NZr9ZOVAfrpZ0hNkCgwkTtU9r3CJjwiLiQIdly
- n77IBQFS5t46xJPYBVyZSTF3cP5ldxVsYRwy55CZG06XSyfsx6ZqnC6ZX4AyMl7L1EWk
- BAJHYBz4JyPLCYMVFLah33njNHOEibr+SVmSmO0cYNXebYs7je4O9hq1JjmHZZRBd7Z3
- 7vGSTMR9wYho6j2hLfNCv9Ie41XIRjejMhycWhuoC7ZXsK4lHmFVOk7oCAi2XgNta9EP
- McRrYLs83RM2zU605Ir4pUh/oNeHDzfHniy5eosNqxI2YixvnLOS6qrwXAiT4E5ldN2j
- WPUA==
-X-Gm-Message-State: AOAM532hwTXeLtZTytSFoKW5AlEO4bg0MVCuGtqA0AcIXDm+R8dRdB7J
- 2PtE/4Iz3JAoiUmIqAmEsJPuIg==
-X-Google-Smtp-Source: ABdhPJwLGbbSOeDVWh0eQIZf2Nkh1YhikbYDZaHetmcG7sIie+YubfvBUQUHKqKpJ/tD7AebGy1hWQ==
-X-Received: by 2002:a1c:9c01:: with SMTP id f1mr2932381wme.159.1611065266719; 
- Tue, 19 Jan 2021 06:07:46 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s6sm36521747wro.79.2021.01.19.06.07.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 06:07:45 -0800 (PST)
-Date: Tue, 19 Jan 2021 15:07:44 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 3/4] drm/ttm: add debugfs entry to test pool shrinker v2
-Message-ID: <YAbnsNFlGc/V9EYX@phenom.ffwll.local>
-References: <20210119121821.2320-1-christian.koenig@amd.com>
- <20210119121821.2320-3-christian.koenig@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE7B89C29
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:08:54 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1l1rgj-0003nY-DE; Tue, 19 Jan 2021 15:08:53 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/imx: ipuv3-plane: do not advertise YUV formats on planes
+ without CSC
+Date: Tue, 19 Jan 2021 15:08:30 +0100
+Message-Id: <20210119140830.6654-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210119121821.2320-3-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,145 +43,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ray.huang@amd.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 19, 2021 at 01:18:20PM +0100, Christian K=F6nig wrote:
-> Useful for testing.
-> =
+Only planes that are displayed via the Display Processor (DP) path
+support color space conversion. Limit formats on planes that are
+shown via the direct Display Controller (DC) path to RGB.
 
-> v2: add fs_reclaim_acquire()/_release()
-> =
+Reported-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/gpu/drm/imx/ipuv3-plane.c | 41 ++++++++++++++++++++++++++++---
+ 1 file changed, 37 insertions(+), 4 deletions(-)
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_pool.c | 53 ++++++++++++++++++++++------------
->  1 file changed, 35 insertions(+), 18 deletions(-)
-> =
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index 075508051b5f..c5ff966e2ceb 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -35,7 +35,7 @@ static inline struct ipu_plane *to_ipu_plane(struct drm_plane *p)
+ 	return container_of(p, struct ipu_plane, base);
+ }
+ 
+-static const uint32_t ipu_plane_formats[] = {
++static const uint32_t ipu_plane_all_formats[] = {
+ 	DRM_FORMAT_ARGB1555,
+ 	DRM_FORMAT_XRGB1555,
+ 	DRM_FORMAT_ABGR1555,
+@@ -72,6 +72,31 @@ static const uint32_t ipu_plane_formats[] = {
+ 	DRM_FORMAT_BGRX8888_A8,
+ };
+ 
++static const uint32_t ipu_plane_rgb_formats[] = {
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_ABGR1555,
++	DRM_FORMAT_XBGR1555,
++	DRM_FORMAT_RGBA5551,
++	DRM_FORMAT_BGRA5551,
++	DRM_FORMAT_ARGB4444,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_RGB565_A8,
++	DRM_FORMAT_BGR565_A8,
++	DRM_FORMAT_RGB888_A8,
++	DRM_FORMAT_BGR888_A8,
++	DRM_FORMAT_RGBX8888_A8,
++	DRM_FORMAT_BGRX8888_A8,
++};
++
+ static const uint64_t ipu_format_modifiers[] = {
+ 	DRM_FORMAT_MOD_LINEAR,
+ 	DRM_FORMAT_MOD_INVALID
+@@ -822,16 +847,24 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
+ 	struct ipu_plane *ipu_plane;
+ 	const uint64_t *modifiers = ipu_format_modifiers;
+ 	unsigned int zpos = (type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
++	unsigned int format_count;
++	const uint32_t *formats;
+ 	int ret;
+ 
+ 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
+ 		      dma, dp, possible_crtcs);
+ 
++	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG) {
++		formats = ipu_plane_all_formats;
++		format_count = ARRAY_SIZE(ipu_plane_all_formats);
++	} else {
++		formats = ipu_plane_rgb_formats;
++		format_count = ARRAY_SIZE(ipu_plane_rgb_formats);
++	}
+ 	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
+ 					       possible_crtcs, &ipu_plane_funcs,
+-					       ipu_plane_formats,
+-					       ARRAY_SIZE(ipu_plane_formats),
+-					       modifiers, type, NULL);
++					       formats, format_count, modifiers,
++					       type, NULL);
+ 	if (IS_ERR(ipu_plane)) {
+ 		DRM_ERROR("failed to allocate and initialize %s plane\n",
+ 			  zpos ? "overlay" : "primary");
+-- 
+2.20.1
 
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
-l.c
-> index 1d61e8fc0e81..98ecb9c9842c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -33,6 +33,7 @@
->  =
-
->  #include <linux/module.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/sched/mm.h>
->  =
-
->  #ifdef CONFIG_X86
->  #include <asm/set_memory.h>
-> @@ -529,6 +530,28 @@ void ttm_pool_fini(struct ttm_pool *pool)
->  }
->  EXPORT_SYMBOL(ttm_pool_fini);
->  =
-
-> +/* As long as pages are available make sure to release at least one */
-> +static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
-> +					    struct shrink_control *sc)
-> +{
-> +	unsigned long num_freed =3D 0;
-> +
-> +	do
-> +		num_freed +=3D ttm_pool_shrink();
-> +	while (!num_freed && atomic_long_read(&allocated_pages));
-> +
-> +	return num_freed;
-> +}
-> +
-> +/* Return the number of pages available or SHRINK_EMPTY if we have none =
-*/
-> +static unsigned long ttm_pool_shrinker_count(struct shrinker *shrink,
-> +					     struct shrink_control *sc)
-> +{
-> +	unsigned long num_pages =3D atomic_long_read(&allocated_pages);
-> +
-> +	return num_pages ? num_pages : SHRINK_EMPTY;
-> +}
-> +
->  #ifdef CONFIG_DEBUG_FS
->  /* Count the number of pages available in a pool_type */
->  static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
-> @@ -633,29 +656,21 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct =
-seq_file *m)
->  }
->  EXPORT_SYMBOL(ttm_pool_debugfs);
->  =
-
-> -#endif
-> -
-> -/* As long as pages are available make sure to release at least one */
-> -static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
-> -					    struct shrink_control *sc)
-> +/* Test the shrinker functions and dump the result */
-> +static int ttm_pool_debugfs_shrink_show(struct seq_file *m, void *data)
->  {
-> -	unsigned long num_freed =3D 0;
-> +	struct shrink_control sc =3D { .gfp_mask =3D GFP_NOFS };
->  =
-
-> -	do
-> -		num_freed +=3D ttm_pool_shrink();
-> -	while (!num_freed && atomic_long_read(&allocated_pages));
-> +	fs_reclaim_acquire(GFP_KERNEL);
-> +	seq_printf(m, "%lu/%lu\n", ttm_pool_shrinker_count(&mm_shrinker, &sc),
-> +		   ttm_pool_shrinker_scan(&mm_shrinker, &sc));
-> +	fs_reclaim_release(GFP_KERNEL);
->  =
-
-> -	return num_freed;
-> +	return 0;
->  }
-> +DEFINE_SHOW_ATTRIBUTE(ttm_pool_debugfs_shrink);
-
-Shrinking everything is a bit a hammer, but probably the right size we
-need for testing :-)
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  =
-
-> -/* Return the number of pages available or SHRINK_EMPTY if we have none =
-*/
-> -static unsigned long ttm_pool_shrinker_count(struct shrinker *shrink,
-> -					     struct shrink_control *sc)
-> -{
-> -	unsigned long num_pages =3D atomic_long_read(&allocated_pages);
-> -
-> -	return num_pages ? num_pages : SHRINK_EMPTY;
-> -}
-> +#endif
->  =
-
->  /**
->   * ttm_pool_mgr_init - Initialize globals
-> @@ -688,6 +703,8 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->  #ifdef CONFIG_DEBUG_FS
->  	debugfs_create_file("page_pool", 0444, ttm_debugfs_root, NULL,
->  			    &ttm_pool_debugfs_globals_fops);
-> +	debugfs_create_file("page_pool_shrink", 0400, ttm_debugfs_root, NULL,
-> +			    &ttm_pool_debugfs_shrink_fops);
->  #endif
->  =
-
->  	mm_shrinker.count_objects =3D ttm_pool_shrinker_count;
-> -- =
-
-> 2.25.1
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
