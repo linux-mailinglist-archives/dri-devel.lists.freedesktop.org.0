@@ -1,52 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159142FB438
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:37:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2002FB446
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 09:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7363E6E848;
-	Tue, 19 Jan 2021 08:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1226E856;
+	Tue, 19 Jan 2021 08:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A51196E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 04:16:49 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id q2so35444046iow.13
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 20:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1ZJDrgzZmYXfIo0lGIMXEXiySIw3gPtBzcGCID7s8Rw=;
- b=LcbM3pmru0ucPXbMjeSV2nKL0tNYuwj4P09n7fLfJPRKFXp2iIi7QXy/+oQYIs9uvG
- VHMTvgy0LY64CPN9Ugci67iTo1g4+gw9SR79kPv+XTLTCZFvDAc7wp+iKxqK2y6H6EWf
- Qvmw/MOkOu0xWdJ9HNukA/J8BdAgyhfZSMpMc=
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB5F899F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 04:42:37 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id 36so7080961otp.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Jan 2021 20:42:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lEGHa/fw+pXIBREv347tt5onnQ/KqN9oFmmcQKWLUbk=;
+ b=xPxjbryp22HRmb8+ZYS9I7l0hi8pYHA5ePzpgkS6UYYEpN/jiV88/B+3gx3BuxiYoy
+ GrwapJ3pmku3FfPj1n74s9jhefYdICmKIEZ3zsdWzcLgXSqk2ZHAtlkrBFcBFJSOS9Ti
+ 6IJuuIkPPFYJzVfwdtrCSO47BCyraDTdYEr2EY94v5mSQ2awnssGxkUapkJYTCodHODA
+ 1BrEDMh3sSGoINMl7w8HlZEZxy6FU068TI5p+2ngPpjYdyejQx4vKkP/jMLv8l8nq6Yd
+ lUwb6YilPWhhc+wK3Q4UpRrkmorMcmC47Cs4YO5ILjVLsTckR+6kwmliEMFmaglxpnPt
+ AX7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1ZJDrgzZmYXfIo0lGIMXEXiySIw3gPtBzcGCID7s8Rw=;
- b=ZRW+2jBJeic/hTgS2RC+f5FZAszlFZtdRfoDSxOMJU4OmB2zVKexXD9/GLHOr1kkCL
- Za01ONJmAxiII5iyBbfE6hXq250EFLfWhOdEPbHFPsUlnupG6R6M4Z9kUOMe9cCnE0cB
- MqMw44uw+8ucsX8ZGTONHzx0nyyi86uzim0pliFlSLsDO29URNc/ynO4vZb9sHCjCIT4
- /k6EuDDIL0YYBQyxPq395Qi1cYGyedW2N6wxosLVqNL3wA947gnwhc4HiUilGz9pdnfg
- MXVyv+O2LdPFloDiffYPOhL1DU1jRlMU2yFSwdGFBjJ3LyxA4ZvqMXRaq3yOxG0cSw99
- Kk4A==
-X-Gm-Message-State: AOAM530CXLxbnOOavj6lLm8P9TrDVXhyVNvYud6gNfUBPCUy8TIHqJHe
- JKFqiKuLyaQypk2ioWXYtgrDOlLbsJ08T1qRNpA6mg==
-X-Google-Smtp-Source: ABdhPJx1/ogNcijA0/Z5AfgmfPpBpPyqkRKX8ipSYmZcentmAty4lVh6xCNc6+Ml/YaghCmRKnI08Jm+P91hO3WNZy4=
-X-Received: by 2002:a05:6e02:1a8e:: with SMTP id
- k14mr1905628ilv.308.1611029808923; 
- Mon, 18 Jan 2021 20:16:48 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lEGHa/fw+pXIBREv347tt5onnQ/KqN9oFmmcQKWLUbk=;
+ b=PmVIbMGz02EuGgWBTregZND0Nbf/fbKuP2fLkYu5SBFajH88UyXPIEL0/aqR8Rpe/I
+ 3mRvIzey/Rtyz5JikUTZSI6VzNqbAbpiW+TqddhQtALGTu/4YLd63q472fiOJQAAVh6a
+ fgvQNC8F/juR1JAXkqDvnQDZ2zj462bEO2iQ9k3M0N2P8xlIeQvG5m908qrTni9C89/p
+ TmwQwNspelMG0ftNpCkyPY8VP/Zj2JXvmZaFbDsVvSWmRVVJMlRknDSTyDZjCcLHGwAs
+ HmmH+t0GbgEBwf0mzB2yQpfNFliZQ4MmKZzV3hTm0pmy2U6nbH0zf1rYiMR+2Yi29hXb
+ n1+w==
+X-Gm-Message-State: AOAM531tJCepFisbXP3OWwIaszEtwfLxK717s9oZPSrWNjqorhBNS5J0
+ ogb45yaB23Hr/b5jb9zTVMiJSA==
+X-Google-Smtp-Source: ABdhPJytkVwYJyjW3NPbkDVvL8+Dw0n40mrQBKACtAcutScv90A86ExydUH6m4vm8AS+/cwkWGubyw==
+X-Received: by 2002:a9d:22a6:: with SMTP id y35mr2134126ota.20.1611031356353; 
+ Mon, 18 Jan 2021 20:42:36 -0800 (PST)
+Received: from localhost.localdomain (li519-153.members.linode.com.
+ [66.175.222.153])
+ by smtp.gmail.com with ESMTPSA id r26sm2236901oij.3.2021.01.18.20.42.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 20:42:05 -0800 (PST)
+From: Jun Nie <jun.nie@linaro.org>
+To: a.hajda@samsung.com,
+	john.stultz@linaro.org
+Subject: [PATCH] drm: bridge: adv7511: Add set_jack handler
+Date: Tue, 19 Jan 2021 12:41:57 +0800
+Message-Id: <20210119044157.3801598-1-jun.nie@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1609815993-22744-1-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1609815993-22744-1-git-send-email-yongqiang.niu@mediatek.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 19 Jan 2021 12:16:23 +0800
-Message-ID: <CAJMQK-j_5oWcLSrsVAvjkDKUJOSeZbS6aqZQML9etYJLctRX7Q@mail.gmail.com>
-Subject: Re: [PATCH v4, 00/10] soc: mediatek: mmsys: Use function call for
- setting the routing registers
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,66 +67,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: architt@codeaurora.org, kuninori.morimoto.gx@renesas.com, airlied@linux.ie,
+ broonie@kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ bogdan.togorean@analog.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 5, 2021 at 3:06 AM Yongqiang Niu <yongqiang.niu@mediatek.com> wrote:
->
-> The following series are intended to prepare the mtk-mmsys driver to
-> allow different DDP (Data Display Path) function call per SoC.
->
-> base 5.11-rc1
->
-> change since v3:
-> - move register operation into mmsys path select function
->
-> Yongqiang Niu (10):
->   soc: mediatek: mmsys: create mmsys folder
->   soc: mediatek: mmsys: Create struct mtk_mmsys to store context data
->   soc: mediatek: mmsys: move register operation into mmsys path select
->     function
->   soc: mediatek: mmsys: Use function call for setting the routing
->     registers
->   soc: mediatek: mmsys: add mt8183 function call for setting the routing
->     registers
+With commit 55c5cc63ab, the hdmi_codec_set_jack() will report unsupport
+failure if set_jack handler is missing. Add set_jack handler to resolve
+this failure.
 
-patch 01 ~ 05: I've tested on a mt8183 device, so
+Signed-off-by: Jun Nie <jun.nie@linaro.org>
+---
+ .../gpu/drm/bridge/adv7511/adv7511_audio.c    | 27 ++++++++++++++-----
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index f101dd2819b5..16de1a8ca7a0 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -217,22 +217,35 @@ static int adv7511_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
+ 	return -EINVAL;
+ }
+ 
++static int adv7511_hdmi_i2s_hook_plugged_cb(struct device *dev, void *data,
++					    hdmi_codec_plugged_cb fn,
++					    struct device *codec_dev)
++{
++	struct adv7511 *adv7511 = data;
++	bool plugged = adv7511->connector.status == connector_status_connected;
++
++	fn(codec_dev, plugged);
++	return 0;
++}
++
+ static const struct hdmi_codec_ops adv7511_codec_ops = {
+ 	.hw_params	= adv7511_hdmi_hw_params,
+ 	.audio_shutdown = audio_shutdown,
+ 	.audio_startup	= audio_startup,
+ 	.get_dai_id	= adv7511_hdmi_i2s_get_dai_id,
+-};
+-
+-static const struct hdmi_codec_pdata codec_data = {
+-	.ops = &adv7511_codec_ops,
+-	.max_i2s_channels = 2,
+-	.i2s = 1,
+-	.spdif = 1,
++	.hook_plugged_cb = adv7511_hdmi_i2s_hook_plugged_cb,
+ };
+ 
+ int adv7511_audio_init(struct device *dev, struct adv7511 *adv7511)
+ {
++	struct hdmi_codec_pdata codec_data = {
++		.ops = &adv7511_codec_ops,
++		.max_i2s_channels = 2,
++		.i2s = 1,
++		.spdif = 1,
++		.data = adv7511,
++	};
++
+ 	adv7511->audio_pdev = platform_device_register_data(dev,
+ 					HDMI_CODEC_DRV_NAME,
+ 					PLATFORM_DEVID_AUTO,
+-- 
+2.25.1
 
->   soc: mediatek: mmsys: add component OVL_2L2
->   soc: mediatek: mmsys: add component POSTMASK
->   soc: mediatek: mmsys: add component RDMA4
->   soc: mediatek: mmsys: Use function call for setting mmsys ovl mout
->     register
->   soc: mediatek: mmsys: add mt8192 mmsys support
->
->  drivers/soc/mediatek/Makefile             |   2 +-
->  drivers/soc/mediatek/mmsys/Makefile       |   5 +
->  drivers/soc/mediatek/mmsys/mt2701-mmsys.c | 254 ++++++++++++++++++++
->  drivers/soc/mediatek/mmsys/mt8183-mmsys.c | 110 +++++++++
->  drivers/soc/mediatek/mmsys/mt8192-mmsys.c | 149 ++++++++++++
->  drivers/soc/mediatek/mmsys/mtk-mmsys.c    | 180 ++++++++++++++
->  drivers/soc/mediatek/mtk-mmsys.c          | 373 ------------------------------
->  include/linux/soc/mediatek/mtk-mmsys.h    |  25 ++
->  8 files changed, 724 insertions(+), 374 deletions(-)
->  create mode 100644 drivers/soc/mediatek/mmsys/Makefile
->  create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
->  create mode 100644 drivers/soc/mediatek/mmsys/mt8183-mmsys.c
->  create mode 100644 drivers/soc/mediatek/mmsys/mt8192-mmsys.c
->  create mode 100644 drivers/soc/mediatek/mmsys/mtk-mmsys.c
->  delete mode 100644 drivers/soc/mediatek/mtk-mmsys.c
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
