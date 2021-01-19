@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875542FB641
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 14:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9208C2FB652
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 14:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2D66E2B4;
-	Tue, 19 Jan 2021 13:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2E936E243;
+	Tue, 19 Jan 2021 13:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E4D6E2A3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 13:11:17 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id n42so19654228ota.12
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 05:11:16 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF926E243
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 13:22:53 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id w5so19698267wrm.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 05:22:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LYPjUDqt2SfSMpBdpbaPwL7IHVKz5KxdaD2zz+MNJ2g=;
- b=InfTe8ZMyxqLqoKXpE9cAoKqg6le643oMYCAImSqJ70EWqneavqQyA3QjZL1JA8FgN
- zMSduDXYAPZKfwkSFiIRvdKvYVXPJC/poQ2Cf+7OVOIKGlwVkN04FWU0dJtl5qnKnGLK
- Vm2BGphH7+ejNTYcqFmo43VcKfmYAtEFQDbZo=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=UVWmygEc1Zb/iR4hSejARJ6KXUvjr8ozjb1C3jaiiXg=;
+ b=QhMb2DPP3gpDbE8Zd9mS1w2tWD2KdapPX4mtR4x+tFIG65iW6xZ9JSXaa5gLiAfRVX
+ F5oGh/424wgdHWdBM224JagK1duEYVX0qfQAXJ198WiWUm7E66Fs7JECO2cQdMp+yOR9
+ g8lkcf85ptsbwdgROIagvYzVUSdZbt/raM+pU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LYPjUDqt2SfSMpBdpbaPwL7IHVKz5KxdaD2zz+MNJ2g=;
- b=f+3GLRvBtc9PCJ/DaaxasA8Xc8z7HGJEWpDJqhc2QmjGJx7A/qM2cNGXyj8Q7GdKZg
- QCYuAhPIcQO9er5Bsz3bpkJY+qPeRi3iwJ+W9LKUIcoeDWqhGN0CImwJvuYWoCrHHREO
- QxLEIPihOT09XliMY8zDzAxBO+9MUkY7XSzxIu8jAub4KBON9yU08+Bpd9qiiE1IvMFR
- TM90Sv9ZT+tkiOs6U7C7Mie7ERv8lXg3z9c3HNDrooQTLeMv9UsV/KPJ3Q+k+PmhB5Jn
- 9k2/81nhqyXNxxG+eWC5mqiHUJXVw1tk5TO2Wl7GFQFVkq+1qyRE7ddcfOuYSbc4LyPB
- t7BA==
-X-Gm-Message-State: AOAM533pyKw38jCI/Pw/wvhC+43vzmzUXzP4VUTrnNLMRhvQEOfJPT2N
- AdPFaMHzlSA0O/IKTnY0rWLBIoob917gGbbHBU9kpw==
-X-Google-Smtp-Source: ABdhPJx+OfnEIJgdpMRMCsWLrQYSPcXFnSr3sikKbMXqUy7LmXIvutIsDpf7NGRlO8RzRCDkwFG0lKyLT0pj3UvNoUM=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr3331130otb.303.1611061876352; 
- Tue, 19 Jan 2021 05:11:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20210104210800.789944-1-aurabindo.pillai@amd.com>
- <20210104210800.789944-2-aurabindo.pillai@amd.com>
- <20210114111445.1d2bbf62@eldfell>
- <b38e46b7707ba9a899384baedc7efe4e70c439bf.camel@amd.com>
- <20210119103510.01f55ee4@eldfell>
-In-Reply-To: <20210119103510.01f55ee4@eldfell>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UVWmygEc1Zb/iR4hSejARJ6KXUvjr8ozjb1C3jaiiXg=;
+ b=GG31SEl9GidZV1dH9kGtEudZDeJZIiVdeGJtSoTMEMV6zjor4DVtDGR4Bo9uu3Uxed
+ 57JJZk34kq0Ivage8naVYHoNR5bdWlZLUOyJIulTr3GjVPSh1l4MiXYVlDKHUqZqJdi1
+ mZi+tY5ePbJuqwSfDFkakCm0j57UYRVNKG63A1NJqglJD9qKKf03YF0+EczDYQ5EAi2z
+ At7RhpI9lvASGIuFGVeyWPValeFwYQwXYBMLYT6GKpjlJMJnh7yVdUDWg27BG75maf10
+ hY8XSy2UF6QpzrUV1y+XHikQusMgzNIXavKXkNQAbSSq29/ERtpcuTZ15QFVLGa7HHpv
+ b5ww==
+X-Gm-Message-State: AOAM533f65hZNKUm3+bUKYET0BviMlZKSPkv29hBOqTJwa8n6nQLHDH4
+ WuHHXoWvnTlHeiPZEa74MJ0/zQ==
+X-Google-Smtp-Source: ABdhPJx3BzmbxbTTSR2V36P9XczWySUAl9bPWPjhFcVoxhmLCQBBMJWs7BCIxAwB/Kt+pAM02g90EQ==
+X-Received: by 2002:a5d:504d:: with SMTP id h13mr4484180wrt.246.1611062571903; 
+ Tue, 19 Jan 2021 05:22:51 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l12sm4727828wmj.9.2021.01.19.05.22.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 05:22:50 -0800 (PST)
+Date: Tue, 19 Jan 2021 14:22:49 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 19 Jan 2021 14:11:05 +0100
-Message-ID: <CAKMK7uGKqA7mMorSBtV255pPxA=adPEP0Bcwot8OMmBVCKV_uQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] drm/amd/display: Add module parameter for freesync
- video mode
-To: Pekka Paalanen <ppaalanen@gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 4/4] drm/ttm: optimize ttm pool shrinker a bit
+Message-ID: <YAbdKe6o3V1ksPI6@phenom.ffwll.local>
+References: <20201218175538.1364-1-christian.koenig@amd.com>
+ <20201218175538.1364-4-christian.koenig@amd.com>
+ <X+H5+OuETFR7ePdp@phenom.ffwll.local>
+ <9d9a41f7-20cd-c0e3-6438-e72bce57a5a4@gmail.com>
+ <X/c5HblJMRcHoQ64@phenom.ffwll.local>
+ <8a0c9123-aaf1-fda1-d039-abe23e26d3f5@amd.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <8a0c9123-aaf1-fda1-d039-abe23e26d3f5@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +70,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, thong.thai@amd.com,
- shashank.sharma@amd.com, dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Wayne Lin <wayne.lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ray.huang@amd.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKYW4gMTksIDIwMjEgYXQgOTozNSBBTSBQZWtrYSBQYWFsYW5lbiA8cHBhYWxhbmVu
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBNb24sIDE4IEphbiAyMDIxIDA5OjM2OjQ3IC0wNTAw
-Cj4gQXVyYWJpbmRvIFBpbGxhaSA8YXVyYWJpbmRvLnBpbGxhaUBhbWQuY29tPiB3cm90ZToKPgo+
-ID4gT24gVGh1LCAyMDIxLTAxLTE0IGF0IDExOjE0ICswMjAwLCBQZWtrYSBQYWFsYW5lbiB3cm90
-ZToKPiA+ID4KPiA+ID4gSGksCj4gPiA+Cj4gPiA+IHBsZWFzZSBkb2N1bWVudCBzb21ld2hlcmUg
-dGhhdCBlbmRzIHVwIGluIGdpdCBoaXN0b3J5IChjb21taXQKPiA+ID4gbWVzc2FnZSwKPiA+ID4g
-Y29kZSBjb21tZW50cywgZGVzY3JpcHRpb24gb2YgdGhlIHBhcmFtZXRlciB3b3VsZCBiZSB0aGUg
-YmVzdCBidXQKPiA+ID4gbWF5YmUKPiA+ID4gdGhlcmUgaXNuJ3QgZW5vdWdoIHNwYWNlPykgd2hh
-dCBDaHJpc3RpYW4gS8O2bmlnIGV4cGxhaW5lZCBpbgo+ID4gPgo+ID4gPgo+ID4gPiBodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAyMC1EZWNlbWJlci8y
-OTEyNTQuaHRtbAo+ID4gPgo+ID4gPiB0aGF0IHRoaXMgaXMgYSBzdG9wLWdhcCBmZWF0dXJlIGlu
-dGVuZGVkIHRvIGJlIHJlbW92ZWQgYXMgc29vbiBhcwo+ID4gPiBwb3NzaWJsZSAod2hlbiBhIGJl
-dHRlciBzb2x1dGlvbiBjb21lcyB1cCwgd2hpY2ggY291bGQgYmUgeWVhcnMpLgo+ID4gPgo+ID4g
-PiBTbyBmYXIgSSBoYXZlIG5vdCBzZWVuIGEgc2luZ2xlIG1lbnRpb24gb2YgdGhpcyBpbnRlbnRp
-b24gaW4geW91cgo+ID4gPiBwYXRjaAo+ID4gPiBzdWJtaXNzaW9ucywgYW5kIEkgdGhpbmsgaXQg
-aXMgdmVyeSBpbXBvcnRhbnQgdG8gbWFrZSBrbm93bi4KPiA+Cj4gPiBIaSwKPiA+Cj4gPiBUaGFu
-a3MgZm9yIHRoZSBoZWFkc3VwLCBJIHNoYWxsIGFkZCB0aGUgcmVsZXZhbnQgaW5mbyBpbiB0aGUg
-bmV4dAo+ID4gdmVyaXNvbi4KPiA+Cj4gPiA+Cj4gPiA+IEkgYWxzbyBkaWQgbm90IHNlZSBhbiBl
-eHBsYW5hdGlvbiBvZiB3aHkgdGhpcyBpbnN0ZWFkIG9mCj4gPiA+IG1hbnVmYWN0dXJpbmcKPiA+
-ID4gdGhlc2UgdmlkZW8gbW9kZXMgaW4gdXNlcnNwYWNlIChhbiBpZGVhIG1lbnRpb25lZCBieSBD
-aHJpc3RpYW4gaW4gdGhlCj4gPiA+IHJlZmVyZW5jZWQgZW1haWwpLiBJIHRoaW5rIHRoYXQgdG9v
-IHNob3VsZCBiZSBwYXJ0IG9mIGEgY29tbWl0Cj4gPiA+IG1lc3NhZ2UuCj4gPgo+ID4gVGhpcyBp
-cyBhbiBvcHQtaW4gZmVhdHVyZSwgd2hpY2ggc2hhbGwgYmUgc3VwZXJzZWRlZCBieSBhIGJldHRl
-cgo+ID4gc29sdXRpb24uIFdlIGFsc28gYWRkIGEgc2V0IG9mIGNvbW1vbiBtb2RlcyBmb3Igc2Nh
-bGluZyBzaW1pbGFybHkuCj4gPiBVc2Vyc3BhY2UgY2FuIHN0aWxsIGFkZCB3aGF0ZXZlciBtb2Rl
-IHRoZXkgd2FudC4gU28gSSBkb250IHNlZSBhIHJlYXNvbgo+ID4gd2h5IHRoaXMgY2FudCBiZSBp
-biB0aGUga2VybmVsLgo+Cj4gSGksCj4KPiBzb3JyeSwgSSB0aGluayB0aGF0IGtpbmQgb2YgdGhp
-bmtpbmcgaXMgYmFja3dhcmRzLiBUaGVyZSBuZWVkcyB0byBiZSBhCj4gcmVhc29uIHRvIHB1dCBz
-b21ldGhpbmcgaW4gdGhlIGtlcm5lbCwgYW5kIGlmIHRoZXJlIGlzIG5vIHJlYXNvbiwgdGhlbgo+
-IGl0IHJlbWFpbnMgaW4gdXNlcnNwYWNlLiBTbyB3aGF0J3MgdGhlIHJlYXNvbiB0byBwdXQgdGhp
-cyBpbiB0aGUga2VybmVsPwo+Cj4gT25lIGV4YW1wbGUgcmVhc29uIHdoeSB0aGlzIHNob3VsZCBu
-b3QgYmUgaW4gdGhlIGtlcm5lbCBpcyB0aGF0IHRoZSBzZXQKPiBvZiB2aWRlbyBtb2RlcyB0byBt
-YW51ZmFjdHVyZSBpcyBhIGtpbmQgb2YgcG9saWN5LCB3aGljaCBtb2RlcyB0byBhZGQKPiBhbmQg
-d2hpY2ggbm90LiBVc2Vyc3BhY2Uga25vd3Mgd2hhdCBtb2RlcyBpdCBuZWVkcywgYW5kIGVzdGFi
-bGlzaGluZwo+IHRoZSBtb2RlcyBpbiB0aGUga2VybmVsIGluc3RlYWQgaXMgc2Vjb25kLWd1ZXNz
-aW5nIHdoYXQgdGhlIHVzZXJzcGFjZQo+IHdvdWxkIHdhbnQuIFNvIGlmIHVzZXJzcGFjZSBuZWVk
-cyB0byBtYW51ZmFjdHVyZSBtb2RlcyBpbiB1c2Vyc3BhY2UKPiBhbnl3YXkgYXMgc29tZSBtb2Rl
-cyBtaWdodCBiZSBtaXNzZWQgYnkgdGhlIGtlcm5lbCwgdGhlbiB3aHkgYm90aGVyIGluCj4gdGhl
-IGtlcm5lbCB0byBiZWdpbiB3aXRoPyBXaHkgc2hvdWxkIHRoZSBrZXJuZWwgcGxheSBjYXRjaC11
-cCB3aXRoIHdoYXQKPiBtb2RlcyB1c2Vyc3BhY2Ugd2FudHMgd2hlbiB3ZSBhbHJlYWR5IGhhdmUg
-ZXZlcnl0aGluZyB1c2Vyc3BhY2UgbmVlZHMKPiB0byBtYWtlIGl0cyBvd24gbW9kZXMsIGV2ZW4g
-dG8gYWRkIHRoZW0gdG8gdGhlIGtlcm5lbCBtb2RlIGxpc3Q/Cj4KPiBEb2VzIG1hbnVmYWN0dXJp
-bmcgdGhlc2UgZXh0cmEgdmlkZW8gbW9kZXMgdG8gYWNoaWV2ZSBmYXN0IHRpbWluZwo+IGNoYW5n
-ZXMgcmVxdWlyZSBBTUQgaGFyZHdhcmUtc3BlY2lmaWMga25vd2xlZGdlLCBhcyBvcHBvc2VkIHRv
-IHRoZQo+IGdlbmVyYWwgVlJSIGFwcHJvYWNoIG9mIHNpbXBseSBhZGp1c3RpbmcgdGhlIGZyb250
-IHBvcmNoPwo+Cj4gU29tZXRoaW5nIGxpa2UgdGhpcyBzaG91bGQgYWxzbyBiZSBkb2N1bWVudGVk
-IGluIGEgY29tbWl0IG1lc3NhZ2UuIE9yCj4gaWYgeW91IGluc2lzdCB0aGF0ICJubyByZWFzb24g
-dG8gbm90IHB1dCB0aGlzIGluIHRoZSBrZXJuZWwiIGlzIHJlYXNvbgo+IGVub3VnaCwgdGhlbiB3
-cml0ZSB0aGF0IGRvd24sIGJlY2F1c2UgaXQgZG9lcyBub3Qgc2VlbSBvYnZpb3VzIHRvIG1lIG9y
-Cj4gb3RoZXJzIHRoYXQgdGhpcyBmZWF0dXJlIG5lZWRzIHRvIGJlIGluIHRoZSBrZXJuZWwuCgpP
-bmUgcmVhc29uIG1pZ2h0IGJlIGRlYnVnZ2luZywgaWYgYSBmZWF0dXJlIGlzIGtub3duIHRvIGNh
-dXNlIGlzc3Vlcy4KQnV0IGltbyBpbiB0aGF0IGNhc2UgdGhlIGtub2Igc2hvdWxkIGJlIHVzaW5n
-IHRoZSBfdW5zYWZlIHZhcmlhbnRzIHNvCml0IHRhaW50cyB0aGUga2VybmVsLCBzaW5jZSBvdGhl
-cndpc2Ugd2UgZ2V0IHN0dWNrIGluIHRoaXMgdmVyeSBjb3p5CnBsYWNlIHdoZXJlIGtlcm5lbCBt
-YWludGFpbmVycyBkb24ndCBoYXZlIHRvIGNhcmUgbXVjaCBmb3IgYnVncwoiYmVjYXVzZSBpdCdz
-IG9mZiBieSBkZWZhdWx0IiwgYnV0IGFsc28gbm90IHJlYWxseSBjYXJlIGFib3V0CnBvbGlzaGlu
-ZyB0aGUgZmVhdHVyZSAic2luY2UgdXNlcnMgY2FuIGp1c3QgZW5hYmxlIGl0IGlmIHRoZXkgd2Fu
-dAppdCIuIEp1c3QgYSBzbGlnaHRseSBkaWZmZXJlbnQgZmxhdm91ciBvZiB3aGF0IHlvdSdyZSBl
-eHBsYWluaW5nIGFib3ZlCmFscmVhZHkuCi1EYW5pZWwKCj4gVGhhbmtzLAo+IHBxCgoKCi0tIApE
-YW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8v
-YmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Tue, Jan 19, 2021 at 01:11:36PM +0100, Christian K=F6nig wrote:
+> Am 07.01.21 um 17:38 schrieb Daniel Vetter:
+> > On Thu, Jan 07, 2021 at 01:49:45PM +0100, Christian K=F6nig wrote:
+> > > Am 22.12.20 um 14:51 schrieb Daniel Vetter:
+> > > > On Fri, Dec 18, 2020 at 06:55:38PM +0100, Christian K=F6nig wrote:
+> > > > > Only initialize the DMA coherent pools if they are used.
+> > > > > =
+
+> > > > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> > > > Ah, just realized the answer to my question on patch 2: The pools a=
+re
+> > > > per-device, due to dma_alloc_coherent being per-device (but really =
+mostly
+> > > > it isn't, but that's what we have to deal with fighting the dma-api
+> > > > abstraction).
+> > > > =
+
+> > > > I think this would make a lot more sense if the shrinkers are per-p=
+ool
+> > > > (and also most of the debugfs files), since as-is in a multi-gpu sy=
+stem
+> > > > the first gpu's pool gets preferrentially thrashed. Which isn't a n=
+ice
+> > > > design. Splitting that into per gpu shrinkers means we get equal sh=
+rinking
+> > > > without having to maintain a global lru. This is how xfs seems to s=
+et up
+> > > > their shrinkers, and in general xfs people have a solid understandi=
+ng of
+> > > > this stuff.
+> > > Well fairness and not trashing the first GPUs pool is the reason why I
+> > > implemented just one shrinker plus a global LRU.
+> > That's kinda defeating the point of how the core mm works. At least of =
+how
+> > I'm understanding how it works. Imo we shouldn't try to re-implement th=
+is
+> > kind of balancing across different pools in our callback, since core mm
+> > tries pretty hard to equally shrink already (it only shrinks each shrin=
+ker
+> > a little bit each round, but does a lot of rounds under memory pressure=
+).
+> =
+
+> Correct, see the problem is that we don't want to shrink from each pool on
+> each round.
+> =
+
+> E.g. we have something like 48 global pools and 36 for each device which
+> needs a DMA coherent pool.
+> =
+
+> On each round we want to shrink only one cached item from one pool and not
+> 48.
+
+Hm if the pool is that small, then this feels like we're caching at the
+wrong level, and probably we should cache at the dma-api level. Or well,
+below that even.
+
+Either way that kind of design stuff should be captured in an overview
+DOC: kerneldoc imo.
+
+Also the point of shrinkers is that they really should be all sized
+equally, so if there's very little stuff in them, they shouldn't get
+shrunk on first round.
+
+Otoh if they're huge, they will be shrunk big time. So aside from fringe
+effects of rounding slightly different since it's all integers, did you
+actually measure a benefit here? Or is this more conjecture about how you
+think shrinkers work or don't work?
+
+> > Also maintaining your own global lru means global locking for the usual
+> > case of none-to-little memory contention, unecessarily wasting the fast
+> > path.
+> =
+
+> No, the fast path doesn't need to take the global LRU lock.
+> =
+
+> I've optimized this quite a bit by looking into the pools only once for e=
+ach
+> power of two.
+> =
+
+> > > In other words shrink_slab() just uses list_for_each_entry() on all
+> > > shrinkers.
+> > > =
+
+> > > In the pool shrinker callback shrink one pool and move it to the end =
+of the
+> > > shrinker list.
+> > > =
+
+> > > > Aside: I think it also would make tons of sense to split up your ne=
+w ttm
+> > > > bo shrinker up into a per-device lru, and throw the global system m=
+emory
+> > > > lru out the window completely :-) Assuming we can indeed get rid of=
+ it,
+> > > > and vmwgfx doesn't need it somewhere still.
+> > > Yeah, I already have that as a patch set here, but I have this depend=
+ent on
+> > > a larger rename of the device structures.
+> > Hm maybe include that in the next round, just for the bigger picture?
+> > Don't have to merge it all in one go, just want to make sure we agree on
+> > where we're going.
+> =
+
+> I need to clean this set up quite a bit. Let's push this one here upstream
+> first.
+
+Hm yeah I guess we need to get somewhere first, but this feels a bit
+murky. I'll try and review more details for the next round at least.
+-Daniel
+
+> =
+
+> > > > Aside from this lgtm, but I guess will change a bit with that shuff=
+ling.
+> > > Thanks for the review, going to send out a new version with the
+> > > fs_reclaim_acquire/release added in a minute.
+> > Cool.
+> > =
+
+> > Cheers, Daniel
+> =
+
+> Got distracted by bug fixes in the last two weeks, but really going to se=
+nd
+> that out now :)
+> =
+
+> Christian.
+> =
+
+> > =
+
+> > > Christian.
+> > > =
+
+> > > > -Daniel
+> > > > =
+
+> > > > > ---
+> > > > >    drivers/gpu/drm/ttm/ttm_pool.c | 23 ++++++++++++++++-------
+> > > > >    1 file changed, 16 insertions(+), 7 deletions(-)
+> > > > > =
+
+> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm=
+/ttm_pool.c
+> > > > > index 1cdacd58753a..f09e34614226 100644
+> > > > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > @@ -504,10 +504,12 @@ void ttm_pool_init(struct ttm_pool *pool, s=
+truct device *dev,
+> > > > >    	pool->use_dma_alloc =3D use_dma_alloc;
+> > > > >    	pool->use_dma32 =3D use_dma32;
+> > > > > -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> > > > > -		for (j =3D 0; j < MAX_ORDER; ++j)
+> > > > > -			ttm_pool_type_init(&pool->caching[i].orders[j],
+> > > > > -					   pool, i, j);
+> > > > > +	if (use_dma_alloc) {
+> > > > > +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> > > > > +			for (j =3D 0; j < MAX_ORDER; ++j)
+> > > > > +				ttm_pool_type_init(&pool->caching[i].orders[j],
+> > > > > +						   pool, i, j);
+> > > > > +	}
+> > > > >    }
+> > > > >    EXPORT_SYMBOL(ttm_pool_init);
+> > > > > @@ -523,9 +525,11 @@ void ttm_pool_fini(struct ttm_pool *pool)
+> > > > >    {
+> > > > >    	unsigned int i, j;
+> > > > > -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> > > > > -		for (j =3D 0; j < MAX_ORDER; ++j)
+> > > > > -			ttm_pool_type_fini(&pool->caching[i].orders[j]);
+> > > > > +	if (pool->use_dma_alloc) {
+> > > > > +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> > > > > +			for (j =3D 0; j < MAX_ORDER; ++j)
+> > > > > +				ttm_pool_type_fini(&pool->caching[i].orders[j]);
+> > > > > +	}
+> > > > >    }
+> > > > >    EXPORT_SYMBOL(ttm_pool_fini);
+> > > > > @@ -630,6 +634,11 @@ int ttm_pool_debugfs(struct ttm_pool *pool, =
+struct seq_file *m)
+> > > > >    {
+> > > > >    	unsigned int i;
+> > > > > +	if (!pool->use_dma_alloc) {
+> > > > > +		seq_puts(m, "unused\n");
+> > > > > +		return 0;
+> > > > > +	}
+> > > > > +
+> > > > >    	ttm_pool_debugfs_header(m);
+> > > > >    	spin_lock(&shrinker_lock);
+> > > > > -- =
+
+> > > > > 2.25.1
+> > > > > =
+
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
