@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1BA2FB6C0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A40A2FB6C9
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBB36E332;
-	Tue, 19 Jan 2021 14:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8216E3A0;
+	Tue, 19 Jan 2021 14:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D91716E332
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:10:18 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id e15so10433030wme.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:10:18 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD306E3D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:16:41 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id v184so12634576wma.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JR7UXM+TrD5Ernrsl3A/jvDjjK2P+v1rmVBpaiODoLU=;
- b=i9q7c7px4L5aLVA7fSfCI5tn2UZlU4DnREOL6bWyJc1znzy1igcu7qiukX9eRlrQa+
- AgTm3zLLcF/LtYW/v9x7QYGerKcel9u2tABxmLO6JVWCrI0awWmxA8lkMGgMz1d/vNhh
- Snm2XoPP1IdusJi155dCx/4cghU0MBg7av8gU=
+ :content-disposition:in-reply-to;
+ bh=nFt+YpFVsbMYP8EV/m0Vt/3QX8JhlLGdGkPHttBpPdU=;
+ b=IpHX5vNj31fIGlRfpqJBn+ss8IFqmlrjnlBqouM6PKqcdkXBOxi1MkC3skOv5CmnL5
+ ZCJv1p3RZxy5pVtTlxlWGaFLBJ+3KXpOfzfkxKQwH0R4dEgW3lGs4d6CW9rumrSazspe
+ YN74N0kKRnq8r9VC1dRAzJbXHmQExC0Q3miVA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JR7UXM+TrD5Ernrsl3A/jvDjjK2P+v1rmVBpaiODoLU=;
- b=mRMg37YMhZXvtJupQIhNXYyhCzy0yLLgnV9fmKg2zEFAcaxwXnjB4Fdl9Hr5/MEgbo
- Ajerl7iiyVfKJG3xD4PDYeL7BkxRkqHhfE7i0OnhtesOa2XITLb/4pKvD7ZijzQbbWoS
- Ru9ePgRmlYzykqt2KWJO3jMcl8BqjD+VH0MhYws1zAnwRUFYqYv4mx1j+UOrLT9fSya/
- R5ECDNhgFFfcJQei1EgZsIHhQxSJk3dUGIObJok1jZ6QvdyBXNX6LeIJrqIwHWdCYNZt
- pMam6eCtxj1aZbsZjqnx293QP5flneBCUCHFF5AKORJdoq06U2RNgM7T87Zyv07d56/V
- qRsA==
-X-Gm-Message-State: AOAM533FBv0aTwkcRCHvExW83skYEuZNhlL1Bh5+GnBdqwux7+RDRksb
- iBdxlMmDoelGCgCMEpm10n/p9Q==
-X-Google-Smtp-Source: ABdhPJwOLx1nBHtB9AhxOd3MDoKPrzRxuoQj0LPvCj6eIl9gLthRHW5FzVRNO1xDnswiCs5KK0i6/g==
-X-Received: by 2002:a1c:2e43:: with SMTP id u64mr4317761wmu.105.1611065417618; 
- Tue, 19 Jan 2021 06:10:17 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=nFt+YpFVsbMYP8EV/m0Vt/3QX8JhlLGdGkPHttBpPdU=;
+ b=gN51JHh8v6VcF1YsQ96MGpfnQzJxFD9njtiUf5tZrwgVPppXHiCR6v7gwPcTe+KuwJ
+ QKgR06bB/GOBnBVJFVdYOSoZ1cOXDGcZmzsjQU1QGxKKzpgU4GXZGiMvP/6k7xZ6NvrC
+ nFI2qIzHK6p4zdek3n4/4Km+zmTeE5CBwEQ7fgGUK8+BB8Q6PCQfAkJSN02HpllhLNW+
+ TMFrr8quy9z+ii7mIV9bcalYMx8Uhux7AkVlqiELiA70s8mSpAQd1jvo0BQcyG/Pk5wr
+ v69bUaKvVY+KnL9JiPVBwN3L4fj0GPJRncR30YNep3DVNBtza1HY2E6rPKBGSdEVzhEW
+ F/bw==
+X-Gm-Message-State: AOAM5316+87WDFyufStAiNRy+4EBRQ0rhJ7KbGjb8iEfkSw0rAixaD5d
+ mjV3vUVIUObpJWeeeQ2kiuuItA==
+X-Google-Smtp-Source: ABdhPJwVtNScv/jsZYA/ZP7uPNCplDzK4xVFfxK+pOpNHk8+bos5V6RzwEX/7lKNTwyqRm1rPvr/xQ==
+X-Received: by 2002:a7b:cc83:: with SMTP id p3mr2463988wma.10.1611065800353;
+ Tue, 19 Jan 2021 06:16:40 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e15sm37069365wrx.86.2021.01.19.06.10.16
+ by smtp.gmail.com with ESMTPSA id n10sm34962822wrx.21.2021.01.19.06.16.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 06:10:16 -0800 (PST)
-Date: Tue, 19 Jan 2021 15:10:14 +0100
+ Tue, 19 Jan 2021 06:16:39 -0800 (PST)
+Date: Tue, 19 Jan 2021 15:16:37 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 4/4] drm/ttm: optimize ttm pool shrinker a bit
-Message-ID: <YAboRgKfYWLUSTzc@phenom.ffwll.local>
-References: <20210119121821.2320-1-christian.koenig@amd.com>
- <20210119121821.2320-4-christian.koenig@amd.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: Re: [PATCH v4 00/14] RFC Support hot device unplug in amdgpu
+Message-ID: <YAbpxbTifiupYJML@phenom.ffwll.local>
+References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210119121821.2320-4-christian.koenig@amd.com>
+In-Reply-To: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,90 +64,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ray.huang@amd.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: gregkh@linuxfoundation.org, ckoenig.leichtzumerken@gmail.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, Alexander.Deucher@amd.com, yuq825@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 19, 2021 at 01:18:21PM +0100, Christian K=F6nig wrote:
-> Only initialize the DMA coherent pools if they are used.
-> =
+On Mon, Jan 18, 2021 at 04:01:09PM -0500, Andrey Grodzovsky wrote:
+> Until now extracting a card either by physical extraction (e.g. eGPU with 
+> thunderbolt connection or by emulation through  syfs -> /sys/bus/pci/devices/device_id/remove) 
+> would cause random crashes in user apps. The random crashes in apps were 
+> mostly due to the app having mapped a device backed BO into its address 
+> space was still trying to access the BO while the backing device was gone.
+> To answer this first problem Christian suggested to fix the handling of mapped 
+> memory in the clients when the device goes away by forcibly unmap all buffers the 
+> user processes has by clearing their respective VMAs mapping the device BOs. 
+> Then when the VMAs try to fill in the page tables again we check in the fault 
+> handlerif the device is removed and if so, return an error. This will generate a 
+> SIGBUS to the application which can then cleanly terminate.This indeed was done 
+> but this in turn created a problem of kernel OOPs were the OOPSes were due to the 
+> fact that while the app was terminating because of the SIGBUSit would trigger use 
+> after free in the driver by calling to accesses device structures that were already 
+> released from the pci remove sequence.This was handled by introducing a 'flush' 
+> sequence during device removal were we wait for drm file reference to drop to 0 
+> meaning all user clients directly using this device terminated.
+> 
+> v2:
+> Based on discussions in the mailing list with Daniel and Pekka [1] and based on the document 
+> produced by Pekka from those discussions [2] the whole approach with returning SIGBUS and 
+> waiting for all user clients having CPU mapping of device BOs to die was dropped. 
+> Instead as per the document suggestion the device structures are kept alive until 
+> the last reference to the device is dropped by user client and in the meanwhile all existing and new CPU mappings of the BOs 
+> belonging to the device directly or by dma-buf import are rerouted to per user 
+> process dummy rw page.Also, I skipped the 'Requirements for KMS UAPI' section of [2] 
+> since i am trying to get the minimal set of requirements that still give useful solution 
+> to work and this is the'Requirements for Render and Cross-Device UAPI' section and so my 
+> test case is removing a secondary device, which is render only and is not involved 
+> in KMS.
+> 
+> v3:
+> More updates following comments from v2 such as removing loop to find DRM file when rerouting 
+> page faults to dummy page,getting rid of unnecessary sysfs handling refactoring and moving 
+> prevention of GPU recovery post device unplug from amdgpu to scheduler layer. 
+> On top of that added unplug support for the IOMMU enabled system.
+> 
+> v4:
+> Drop last sysfs hack and use sysfs default attribute.
+> Guard against write accesses after device removal to avoid modifying released memory.
+> Update dummy pages handling to on demand allocation and release through drm managed framework.
+> Add return value to scheduler job TO handler (by Luben Tuikov) and use this in amdgpu for prevention 
+> of GPU recovery post device unplug
+> Also rebase on top of drm-misc-mext instead of amd-staging-drm-next
+> 
+> With these patches I am able to gracefully remove the secondary card using sysfs remove hook while glxgears 
+> is running off of secondary card (DRI_PRIME=1) without kernel oopses or hangs and keep working 
+> with the primary card or soft reset the device without hangs or oopses
+> 
+> TODOs for followup work:
+> Convert AMDGPU code to use devm (for hw stuff) and drmm (for sw stuff and allocations) (Daniel)
+> Support plugging the secondary device back after unplug - currently still experiencing HW error on plugging back.
+> Add support for 'Requirements for KMS UAPI' section of [2] - unplugging primary, display connected card.
+> 
+> [1] - Discussions during v3 of the patchset https://www.spinics.net/lists/amd-gfx/msg55576.html
+> [2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/lists/dri-devel/msg259755.html
+> [3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issues/1081
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+btw have you tried this out with some of the igts we have? core_hotunplug
+is the one I'm thinking of. Might be worth to extend this for amdgpu
+specific stuff (like run some batches on it while hotunplugging).
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Since there's so many corner cases we need to test here (shared dma-buf,
+shared dma_fence) I think it would make sense to have a shared testcase
+across drivers. Only specific thing would be some hooks to keep the gpu
+busy in some fashion while we yank the driver. But just to get it started
+you can throw in entirely amdgpu specific subtests and just share some of
+the test code.
+-Daniel
 
-> ---
->  drivers/gpu/drm/ttm/ttm_pool.c | 23 ++++++++++++++++-------
->  1 file changed, 16 insertions(+), 7 deletions(-)
-> =
+> 
+> Andrey Grodzovsky (13):
+>   drm/ttm: Remap all page faults to per process dummy page.
+>   drm: Unamp the entire device address space on device unplug
+>   drm/ttm: Expose ttm_tt_unpopulate for driver use
+>   drm/sched: Cancel and flush all oustatdning jobs before finish.
+>   drm/amdgpu: Split amdgpu_device_fini into early and late
+>   drm/amdgpu: Add early fini callback
+>   drm/amdgpu: Register IOMMU topology notifier per device.
+>   drm/amdgpu: Fix a bunch of sdma code crash post device unplug
+>   drm/amdgpu: Remap all page faults to per process dummy page.
+>   dmr/amdgpu: Move some sysfs attrs creation to default_attr
+>   drm/amdgpu: Guard against write accesses after device removal
+>   drm/sched: Make timeout timer rearm conditional.
+>   drm/amdgpu: Prevent any job recoveries after device is unplugged.
+> 
+> Luben Tuikov (1):
+>   drm/scheduler: Job timeout handler returns status
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h               |  11 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c      |  17 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 149 ++++++++++++++++++++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           |  20 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c         |  15 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c          |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h          |   1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c           |   9 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c       |  25 ++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c           |  26 ++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h           |   3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c           |  19 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c           |  12 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c        |  10 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h        |   2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c           |  53 +++++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h           |   3 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c           |   1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c          |  70 ++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h          |  52 +-------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c           |  21 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c            |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c      |  14 +-
+>  drivers/gpu/drm/amd/amdgpu/cik_ih.c               |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/cz_ih.c                |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/iceland_ih.c           |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/navi10_ih.c            |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/psp_v11_0.c            |  16 +--
+>  drivers/gpu/drm/amd/amdgpu/psp_v12_0.c            |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/psp_v3_1.c             |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/si_ih.c                |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/tonga_ih.c             |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/vega10_ih.c            |   2 +-
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  12 +-
+>  drivers/gpu/drm/amd/include/amd_shared.h          |   2 +
+>  drivers/gpu/drm/drm_drv.c                         |   3 +
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c           |  10 +-
+>  drivers/gpu/drm/lima/lima_sched.c                 |   4 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.c           |   9 +-
+>  drivers/gpu/drm/scheduler/sched_main.c            |  18 ++-
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c                   |  82 +++++++++++-
+>  drivers/gpu/drm/ttm/ttm_tt.c                      |   1 +
+>  drivers/gpu/drm/v3d/v3d_sched.c                   |  32 ++---
+>  include/drm/gpu_scheduler.h                       |  17 ++-
+>  include/drm/ttm/ttm_bo_api.h                      |   2 +
+>  45 files changed, 583 insertions(+), 198 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
-l.c
-> index 98ecb9c9842c..e0617717113f 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -505,10 +505,12 @@ void ttm_pool_init(struct ttm_pool *pool, struct de=
-vice *dev,
->  	pool->use_dma_alloc =3D use_dma_alloc;
->  	pool->use_dma32 =3D use_dma32;
->  =
-
-> -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -		for (j =3D 0; j < MAX_ORDER; ++j)
-> -			ttm_pool_type_init(&pool->caching[i].orders[j],
-> -					   pool, i, j);
-> +	if (use_dma_alloc) {
-> +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> +			for (j =3D 0; j < MAX_ORDER; ++j)
-> +				ttm_pool_type_init(&pool->caching[i].orders[j],
-> +						   pool, i, j);
-> +	}
->  }
->  EXPORT_SYMBOL(ttm_pool_init);
->  =
-
-> @@ -524,9 +526,11 @@ void ttm_pool_fini(struct ttm_pool *pool)
->  {
->  	unsigned int i, j;
->  =
-
-> -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -		for (j =3D 0; j < MAX_ORDER; ++j)
-> -			ttm_pool_type_fini(&pool->caching[i].orders[j]);
-> +	if (pool->use_dma_alloc) {
-> +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> +			for (j =3D 0; j < MAX_ORDER; ++j)
-> +				ttm_pool_type_fini(&pool->caching[i].orders[j]);
-> +	}
->  }
->  EXPORT_SYMBOL(ttm_pool_fini);
->  =
-
-> @@ -631,6 +635,11 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct s=
-eq_file *m)
->  {
->  	unsigned int i;
->  =
-
-> +	if (!pool->use_dma_alloc) {
-> +		seq_puts(m, "unused\n");
-> +		return 0;
-> +	}
-> +
->  	ttm_pool_debugfs_header(m);
->  =
-
->  	spin_lock(&shrinker_lock);
-> -- =
-
-> 2.25.1
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
