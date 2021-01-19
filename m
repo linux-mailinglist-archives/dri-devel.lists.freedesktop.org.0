@@ -2,31 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECF32FB9CD
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:51:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81722FBAF3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 16:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C5E16E3A0;
-	Tue, 19 Jan 2021 14:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD7156E2D7;
+	Tue, 19 Jan 2021 15:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707C96E3A0;
- Tue, 19 Jan 2021 14:51:25 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CC5FCAB7F;
- Tue, 19 Jan 2021 14:51:23 +0000 (UTC)
-Subject: Re: [PATCH v4 0/6] drm: Move struct drm_device.pdev to legacy
-To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, sroland@vmware.com, zackr@vmware.com
-References: <20210118131420.15874-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <7051ae0f-b86f-344a-e768-71ccadc3cf55@suse.de>
-Date: Tue, 19 Jan 2021 15:51:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E10F56E2D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 15:20:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01D6B23110;
+ Tue, 19 Jan 2021 15:20:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611069643;
+ bh=yf0s5Hnc71ZDmBnzFPUIWJfODcCah0cMw3TOXpxitO8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OPWVYTJT0MTCcxZuwblNq7+3b1gj+nFAHJTjvYu2HvxCc6I0hXTJ1f99Hx6kObw9S
+ 3T2zTE+1KLE5UAjzDJOua6M3j09lPQu2AAaG1L6v07ro43OEJU5gr+mMkZZEm9L8xP
+ K02wA0GlOA5PZ2VRAsLSociEkRhvBkyr0kwkafUk=
+Date: Tue, 19 Jan 2021 16:20:40 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v7 12/17] PCI: Revoke mappings like devmem
+Message-ID: <YAb4yD4IbpQ3qhJG@kroah.com>
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+ <20201127164131.2244124-13-daniel.vetter@ffwll.ch>
+ <CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9vLfm2jjufAZ5YQ@mail.gmail.com>
+ <YAbtZBU5PMr68q9E@kroah.com>
+ <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118131420.15874-1-tzimmermann@suse.de>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGHSgetm7mDso6_vj+aGrR4u+ChwHb3k0QvgG0K6X2fPg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,197 +46,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1907438962=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1907438962==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="kxpotDhPRhv4Y861TKwIwPpQee7lgLLdE"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---kxpotDhPRhv4Y861TKwIwPpQee7lgLLdE
-Content-Type: multipart/mixed; boundary="H9Rm5CapTkeGqzs1YHZWgXV5awAdc7ijX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, sroland@vmware.com, zackr@vmware.com
-Cc: linux-graphics-maintainer@vmware.com, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <7051ae0f-b86f-344a-e768-71ccadc3cf55@suse.de>
-Subject: Re: [PATCH v4 0/6] drm: Move struct drm_device.pdev to legacy
-References: <20210118131420.15874-1-tzimmermann@suse.de>
-In-Reply-To: <20210118131420.15874-1-tzimmermann@suse.de>
-
---H9Rm5CapTkeGqzs1YHZWgXV5awAdc7ijX
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-FYI patches 1 and 5 are now in drm-misc-next.
-
-Am 18.01.21 um 14:14 schrieb Thomas Zimmermann:
-> I merged more patches into drm-misc-next. I'm mostly sending out v4 of
-> this patchset to split the final patch into the core changes and the
-> patch for moving pdev behind CONFIG_DRM_LEGACY. The former are required=
-
-> to fix a reported bug. [1] There's also a fix to vmwgfx.
->=20
-> The pdev field in struct drm_device points to a PCI device structure an=
-d
-> goes back to UMS-only days when all DRM drivers were for PCI devices.
-> Meanwhile we also support USB, SPI and platform devices. Each of those
-> uses the generic device stored in struct drm_device.dev.
->=20
-> To reduce duplication and remove the special case of PCI, this patchset=
-
-> converts all modesetting drivers from pdev to dev and makes pdev a fiel=
-d
-> for legacy UMS drivers.
->=20
-> For PCI devices, the pointer in struct drm_device.dev can be upcasted t=
-o
-> struct pci_device; or tested for PCI with dev_is_pci(). In several plac=
+On Tue, Jan 19, 2021 at 03:34:47PM +0100, Daniel Vetter wrote:
+> On Tue, Jan 19, 2021 at 3:32 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Jan 19, 2021 at 09:17:55AM +0100, Daniel Vetter wrote:
+> > > On Fri, Nov 27, 2020 at 5:42 PM Daniel Vetter <daniel.vetter@ffwll.ch=
+> wrote:
+> > > >
+> > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this =
+is
+> > > > the default for all driver uses.
+> > > >
+> > > > Except there's two more ways to access PCI BARs: sysfs and proc mmap
+> > > > support. Let's plug that hole.
+> > > >
+> > > > For revoke_devmem() to work we need to link our vma into the same
+> > > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > > > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > > > mapping we need to adjust vma->vm_file->f_mapping. The cleanest way=
+ is
+> > > > to adjust this at at ->open time:
+> > > >
+> > > > - for sysfs this is easy, now that binary attributes support this. =
+We
+> > > >   just set bin_attr->mapping when mmap is supported
+> > > > - for procfs it's a bit more tricky, since procfs pci access has on=
+ly
+> > > >   one file per device, and access to a specific resources first nee=
+ds
+> > > >   to be set up with some ioctl calls. But mmap is only supported for
+> > > >   the same resources as sysfs exposes with mmap support, and otherw=
+ise
+> > > >   rejected, so we can set the mapping unconditionally at open time
+> > > >   without harm.
+> > > >
+> > > > A special consideration is for arch_can_pci_mmap_io() - we need to
+> > > > make sure that the ->f_mapping doesn't alias between ioport and iom=
+em
+> > > > space. There's only 2 ways in-tree to support mmap of ioports: gene=
+ric
+> > > > pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the single
+> > > > architecture hand-rolling. Both approach support ioport mmap throug=
+h a
+> > > > special pfn range and not through magic pte attributes. Aliasing is
+> > > > therefore not a problem.
+> > > >
+> > > > The only difference in access checks left is that sysfs PCI mmap do=
 es
-> the code can use the dev field directly.
->=20
-> After converting all drivers and the DRM core, the pdev fields becomes
-> only relevant for legacy drivers. In a later patchset, we may want to
-> convert these as well and remove pdev entirely.
->=20
-> v4:
-> 	* merged several patches
-> 	* moved core changes into separate patch
-> 	* vmwgfx build fix
-> v3:
-> 	* merged several patches
-> 	* fix one pdev reference in nouveau (Jeremy)
-> 	* rebases
-> v2:
-> 	* move whitespace fixes into separate patches (Alex, Sam)
-> 	* move i915 gt/ and gvt/ changes into separate patches (Joonas)
->=20
-> [1] https://lore.kernel.org/dri-devel/7851c78c-8c57-3c84-cd49-a72703095=
-a5d@suse.de/
->=20
-> Thomas Zimmermann (6):
->    drm: Upcast struct drm_device.dev to struct pci_device; replace pdev=
+> > > > not check for CAP_RAWIO. I'm not really sure whether that should be
+> > > > added or not.
+> > > >
+> > > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > > Cc: Kees Cook <keescook@chromium.org>
+> > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > Cc: John Hubbard <jhubbard@nvidia.com>
+> > > > Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
+> > > > Cc: Jan Kara <jack@suse.cz>
+> > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Cc: linux-mm@kvack.org
+> > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > Cc: linux-samsung-soc@vger.kernel.org
+> > > > Cc: linux-media@vger.kernel.org
+> > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > > Cc: linux-pci@vger.kernel.org
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > > --
+> > > > v2:
+> > > > - Totally new approach: Adjust filp->f_mapping at open time. Note t=
+hat
+> > > >   this now works on all architectures, not just those support
+> > > >   ARCH_GENERIC_PCI_MMAP_RESOURCE
+> > > > ---
+> > > >  drivers/pci/pci-sysfs.c | 4 ++++
+> > > >  drivers/pci/proc.c      | 1 +
+> > > >  2 files changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > > > index d15c881e2e7e..3f1c31bc0b7c 100644
+> > > > --- a/drivers/pci/pci-sysfs.c
+> > > > +++ b/drivers/pci/pci-sysfs.c
+> > > > @@ -929,6 +929,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+> > > >         b->legacy_io->read =3D pci_read_legacy_io;
+> > > >         b->legacy_io->write =3D pci_write_legacy_io;
+> > > >         b->legacy_io->mmap =3D pci_mmap_legacy_io;
+> > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> > > >         pci_adjust_legacy_attr(b, pci_mmap_io);
+> > > >         error =3D device_create_bin_file(&b->dev, b->legacy_io);
+> > > >         if (error)
+> > > > @@ -941,6 +942,7 @@ void pci_create_legacy_files(struct pci_bus *b)
+> > > >         b->legacy_mem->size =3D 1024*1024;
+> > > >         b->legacy_mem->attr.mode =3D 0600;
+> > > >         b->legacy_mem->mmap =3D pci_mmap_legacy_mem;
+> > > > +       b->legacy_io->mapping =3D iomem_get_mapping();
+> > >
+> > > Unlike the normal pci stuff below, the legacy files here go boom
+> > > because they're set up much earlier in the boot sequence. This only
+> > > affects HAVE_PCI_LEGACY architectures, which aren't that many. So what
+> > > should we do here now:
+> > > - drop the devmem revoke for these
+> > > - rework the init sequence somehow to set up these files a lot later
+> > > - redo the sysfs patch so that it doesn't take an address_space
+> > > pointer, but instead a callback to get at that (since at open time
+> > > everything is set up). Imo rather ugly
+> > > - ditch this part of the series (since there's not really any takers
+> > > for the latter parts it might just not make sense to push for this)
+> > > - something else?
+> > >
+> > > Bjorn, Greg, thoughts?
+> >
+> > What sysfs patch are you referring to here?
+> =
 
->    drm/i915: Remove references to struct drm_device.pdev
->    drm/i915/gt: Remove references to struct drm_device.pdev
->    drm/i915/gvt: Remove references to struct drm_device.pdev
->    drm/vmwgfx: Remove reference to struct drm_device.pdev
->    drm: Move struct drm_device.pdev to legacy section
->=20
->   drivers/gpu/drm/drm_agpsupport.c              |  9 ++++---
->   drivers/gpu/drm/drm_bufs.c                    |  4 +--
->   drivers/gpu/drm/drm_edid.c                    |  7 ++++-
->   drivers/gpu/drm/drm_irq.c                     | 12 +++++----
->   drivers/gpu/drm/drm_pci.c                     | 26 +++++++++++-------=
--
->   drivers/gpu/drm/drm_vm.c                      |  2 +-
->   drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
->   drivers/gpu/drm/i915/display/intel_cdclk.c    | 14 +++++-----
->   drivers/gpu/drm/i915/display/intel_csr.c      |  2 +-
->   drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  2 +-
->   drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
->   drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
->   .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 ++--
->   drivers/gpu/drm/i915/display/intel_opregion.c |  6 ++---
->   drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
->   drivers/gpu/drm/i915/display/intel_panel.c    |  4 +--
->   drivers/gpu/drm/i915/display/intel_quirks.c   |  2 +-
->   drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
->   drivers/gpu/drm/i915/display/intel_vga.c      |  8 +++---
->   drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 ++---
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  2 +-
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
->   drivers/gpu/drm/i915/gt/intel_ggtt.c          | 10 +++----
->   drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
->   drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 +--
->   drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  8 +++---
->   drivers/gpu/drm/i915/gt/intel_reset.c         |  6 ++---
->   drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 ++--
->   drivers/gpu/drm/i915/gvt/firmware.c           | 10 +++----
->   drivers/gpu/drm/i915/gvt/gtt.c                | 12 ++++-----
->   drivers/gpu/drm/i915/gvt/gvt.c                |  6 ++---
->   drivers/gpu/drm/i915/gvt/kvmgt.c              |  4 +--
->   drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
->   drivers/gpu/drm/i915/i915_drv.c               | 20 +++++++-------
->   drivers/gpu/drm/i915/i915_drv.h               |  2 +-
->   drivers/gpu/drm/i915/i915_gem_gtt.c           |  5 ++--
->   drivers/gpu/drm/i915/i915_getparam.c          |  5 ++--
->   drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
->   drivers/gpu/drm/i915/i915_irq.c               |  6 ++---
->   drivers/gpu/drm/i915/i915_pmu.c               |  2 +-
->   drivers/gpu/drm/i915/i915_suspend.c           |  4 +--
->   drivers/gpu/drm/i915/i915_switcheroo.c        |  4 +--
->   drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
->   drivers/gpu/drm/i915/intel_device_info.c      |  2 +-
->   drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
->   drivers/gpu/drm/i915/intel_uncore.c           |  4 +--
->   .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 -
->   drivers/gpu/drm/i915/selftests/mock_gtt.c     |  2 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  1 -
->   include/drm/drm_device.h                      |  6 ++---
->   50 files changed, 137 insertions(+), 125 deletions(-)
->=20
-> --
-> 2.29.2
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+> Currently in linux-next:
+> =
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> commit 74b30195395c406c787280a77ae55aed82dbbfc7 (HEAD ->
+> topic/iomem-mmap-vs-gup, drm/topic/iomem-mmap-vs-gup)
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Fri Nov 27 17:41:25 2020 +0100
+> =
 
+>    sysfs: Support zapping of binary attr mmaps
+> =
 
---H9Rm5CapTkeGqzs1YHZWgXV5awAdc7ijX--
+> Or the patch right before this one in this submission here:
+> =
 
---kxpotDhPRhv4Y861TKwIwPpQee7lgLLdE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> https://lore.kernel.org/dri-devel/20201127164131.2244124-12-daniel.vetter=
+@ffwll.ch/
 
------BEGIN PGP SIGNATURE-----
+Ah.  Hm, a callback in the sysfs file logic seems really hairy, so I
+would prefer that not happen.  If no one really needs this stuff, why
+not just drop it like you mention?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAG8eoFAwAAAAAACgkQlh/E3EQov+BQ
-oA//ZVy4jjHqk8jvqXmmtUH0MFcUKHRhHrswS5Z17dT71/Pg+BU1NT3TNC4YrSUc7U9J1+V/P326
-MEIDTMXV/0Ftc72rueY0pF9ZgZbPtBPmrsPEbpqssPUyELQarKmlkkfTglnIuVArFvS7lnb02/81
-l2iCrZA01w0M+zw1emYjw6rKahvb8r4v/m+VmXAFOQe7T/SkDkqAzlqRTZ8V5oQN7l6DFamJdbgW
-keIVdF0b0PJBJZoWxyLJIzPTwejgcWImyEv0cv86tXnt6eUUtSbQg7Cv5T13d3bylDIzjcBEt9x4
-j/XaLOoaJg+xuMtwgqJb7gnqceoBcJOdlMIDW2SbNoRfoK05ZCytmpzxQIVvsx/AfnDTZV+4hlrG
-yBcyE7wt9kNZjo6ca1QKpv1tuT4ZIvBmVZgPwIFLH2YN2tIfxl+vrxIKNvl3uIp1mj2zcyueJL84
-4myFK+9hdG2Ws9ZWgkOBW0u4db0rUPH95XmeGtbjJdCB3gmZljQa4rwxlmMiCYVEausKnalzctd3
-SitCFQnkEZAdI0WXsZkjbJnpb7/f5540/PNtcLAsGVIIrQPOsVK4n/rx7Im4cn/KfAXgigUynG93
-sGqeiBA2wM8M3PHZkVyHA+KYJ56QVJ8L5QHOdDfTha4Q+GPACmKP7uFntfRkLBiNKGg+xSM5moJj
-sW8=
-=hkIc
------END PGP SIGNATURE-----
+thanks,
 
---kxpotDhPRhv4Y861TKwIwPpQee7lgLLdE--
-
---===============1907438962==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1907438962==--
