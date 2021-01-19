@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6252FB550
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 11:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305832FB552
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 11:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7116D6E174;
-	Tue, 19 Jan 2021 10:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 683416E147;
+	Tue, 19 Jan 2021 10:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099806E174
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 10:25:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id CDAFD2312B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 10:25:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2655B6E147
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 10:27:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id F31992312D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 10:27:11 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id C9CDF82AAE; Tue, 19 Jan 2021 10:25:58 +0000 (UTC)
+ id EFF1482AAE; Tue, 19 Jan 2021 10:27:11 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
  drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Tue, 19 Jan 2021 10:25:58 +0000
+Date: Tue, 19 Jan 2021 10:27:11 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211277-2300-1KbCixYdVM@https.bugzilla.kernel.org/>
+Message-ID: <bug-211277-2300-QVhEA6rtrw@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
 References: <bug-211277-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -61,10 +61,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211277
 
---- Comment #1 from kolAflash (kolAflash@kolahilft.de) ---
-Created attachment 294747
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294747&action=edit
-kern.log
+--- Comment #2 from kolAflash (kolAflash@kolahilft.de) ---
+Created attachment 294749
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294749&action=edit
+BIOS update history (just in case someone has a clue if something looks
+suspicios and this might not be a Linux problem)
 
 -- 
 You may reply to this email to add a comment.
