@@ -1,36 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDA42FB6BE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:08:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1BA2FB6C0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Jan 2021 15:10:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E9589C29;
-	Tue, 19 Jan 2021 14:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBB36E332;
+	Tue, 19 Jan 2021 14:10:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE7B89C29
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:08:54 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1l1rgj-0003nY-DE; Tue, 19 Jan 2021 15:08:53 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/imx: ipuv3-plane: do not advertise YUV formats on planes
- without CSC
-Date: Tue, 19 Jan 2021 15:08:30 +0100
-Message-Id: <20210119140830.6654-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D91716E332
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 14:10:18 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id e15so10433030wme.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Jan 2021 06:10:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=JR7UXM+TrD5Ernrsl3A/jvDjjK2P+v1rmVBpaiODoLU=;
+ b=i9q7c7px4L5aLVA7fSfCI5tn2UZlU4DnREOL6bWyJc1znzy1igcu7qiukX9eRlrQa+
+ AgTm3zLLcF/LtYW/v9x7QYGerKcel9u2tABxmLO6JVWCrI0awWmxA8lkMGgMz1d/vNhh
+ Snm2XoPP1IdusJi155dCx/4cghU0MBg7av8gU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=JR7UXM+TrD5Ernrsl3A/jvDjjK2P+v1rmVBpaiODoLU=;
+ b=mRMg37YMhZXvtJupQIhNXYyhCzy0yLLgnV9fmKg2zEFAcaxwXnjB4Fdl9Hr5/MEgbo
+ Ajerl7iiyVfKJG3xD4PDYeL7BkxRkqHhfE7i0OnhtesOa2XITLb/4pKvD7ZijzQbbWoS
+ Ru9ePgRmlYzykqt2KWJO3jMcl8BqjD+VH0MhYws1zAnwRUFYqYv4mx1j+UOrLT9fSya/
+ R5ECDNhgFFfcJQei1EgZsIHhQxSJk3dUGIObJok1jZ6QvdyBXNX6LeIJrqIwHWdCYNZt
+ pMam6eCtxj1aZbsZjqnx293QP5flneBCUCHFF5AKORJdoq06U2RNgM7T87Zyv07d56/V
+ qRsA==
+X-Gm-Message-State: AOAM533FBv0aTwkcRCHvExW83skYEuZNhlL1Bh5+GnBdqwux7+RDRksb
+ iBdxlMmDoelGCgCMEpm10n/p9Q==
+X-Google-Smtp-Source: ABdhPJwOLx1nBHtB9AhxOd3MDoKPrzRxuoQj0LPvCj6eIl9gLthRHW5FzVRNO1xDnswiCs5KK0i6/g==
+X-Received: by 2002:a1c:2e43:: with SMTP id u64mr4317761wmu.105.1611065417618; 
+ Tue, 19 Jan 2021 06:10:17 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id e15sm37069365wrx.86.2021.01.19.06.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 06:10:16 -0800 (PST)
+Date: Tue, 19 Jan 2021 15:10:14 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 4/4] drm/ttm: optimize ttm pool shrinker a bit
+Message-ID: <YAboRgKfYWLUSTzc@phenom.ffwll.local>
+References: <20210119121821.2320-1-christian.koenig@amd.com>
+ <20210119121821.2320-4-christian.koenig@amd.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20210119121821.2320-4-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,98 +66,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: ray.huang@amd.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only planes that are displayed via the Display Processor (DP) path
-support color space conversion. Limit formats on planes that are
-shown via the direct Display Controller (DC) path to RGB.
+On Tue, Jan 19, 2021 at 01:18:21PM +0100, Christian K=F6nig wrote:
+> Only initialize the DMA coherent pools if they are used.
+> =
 
-Reported-by: Fabio Estevam <festevam@gmail.com>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/gpu/drm/imx/ipuv3-plane.c | 41 ++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 4 deletions(-)
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 075508051b5f..c5ff966e2ceb 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -35,7 +35,7 @@ static inline struct ipu_plane *to_ipu_plane(struct drm_plane *p)
- 	return container_of(p, struct ipu_plane, base);
- }
- 
--static const uint32_t ipu_plane_formats[] = {
-+static const uint32_t ipu_plane_all_formats[] = {
- 	DRM_FORMAT_ARGB1555,
- 	DRM_FORMAT_XRGB1555,
- 	DRM_FORMAT_ABGR1555,
-@@ -72,6 +72,31 @@ static const uint32_t ipu_plane_formats[] = {
- 	DRM_FORMAT_BGRX8888_A8,
- };
- 
-+static const uint32_t ipu_plane_rgb_formats[] = {
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_RGBA5551,
-+	DRM_FORMAT_BGRA5551,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_RGBA8888,
-+	DRM_FORMAT_RGBX8888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_RGB565_A8,
-+	DRM_FORMAT_BGR565_A8,
-+	DRM_FORMAT_RGB888_A8,
-+	DRM_FORMAT_BGR888_A8,
-+	DRM_FORMAT_RGBX8888_A8,
-+	DRM_FORMAT_BGRX8888_A8,
-+};
-+
- static const uint64_t ipu_format_modifiers[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
-@@ -822,16 +847,24 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	struct ipu_plane *ipu_plane;
- 	const uint64_t *modifiers = ipu_format_modifiers;
- 	unsigned int zpos = (type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
-+	unsigned int format_count;
-+	const uint32_t *formats;
- 	int ret;
- 
- 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
- 		      dma, dp, possible_crtcs);
- 
-+	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG) {
-+		formats = ipu_plane_all_formats;
-+		format_count = ARRAY_SIZE(ipu_plane_all_formats);
-+	} else {
-+		formats = ipu_plane_rgb_formats;
-+		format_count = ARRAY_SIZE(ipu_plane_rgb_formats);
-+	}
- 	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
- 					       possible_crtcs, &ipu_plane_funcs,
--					       ipu_plane_formats,
--					       ARRAY_SIZE(ipu_plane_formats),
--					       modifiers, type, NULL);
-+					       formats, format_count, modifiers,
-+					       type, NULL);
- 	if (IS_ERR(ipu_plane)) {
- 		DRM_ERROR("failed to allocate and initialize %s plane\n",
- 			  zpos ? "overlay" : "primary");
--- 
-2.20.1
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+> ---
+>  drivers/gpu/drm/ttm/ttm_pool.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
+l.c
+> index 98ecb9c9842c..e0617717113f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -505,10 +505,12 @@ void ttm_pool_init(struct ttm_pool *pool, struct de=
+vice *dev,
+>  	pool->use_dma_alloc =3D use_dma_alloc;
+>  	pool->use_dma32 =3D use_dma32;
+>  =
+
+> -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> -		for (j =3D 0; j < MAX_ORDER; ++j)
+> -			ttm_pool_type_init(&pool->caching[i].orders[j],
+> -					   pool, i, j);
+> +	if (use_dma_alloc) {
+> +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> +			for (j =3D 0; j < MAX_ORDER; ++j)
+> +				ttm_pool_type_init(&pool->caching[i].orders[j],
+> +						   pool, i, j);
+> +	}
+>  }
+>  EXPORT_SYMBOL(ttm_pool_init);
+>  =
+
+> @@ -524,9 +526,11 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>  {
+>  	unsigned int i, j;
+>  =
+
+> -	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> -		for (j =3D 0; j < MAX_ORDER; ++j)
+> -			ttm_pool_type_fini(&pool->caching[i].orders[j]);
+> +	if (pool->use_dma_alloc) {
+> +		for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> +			for (j =3D 0; j < MAX_ORDER; ++j)
+> +				ttm_pool_type_fini(&pool->caching[i].orders[j]);
+> +	}
+>  }
+>  EXPORT_SYMBOL(ttm_pool_fini);
+>  =
+
+> @@ -631,6 +635,11 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct s=
+eq_file *m)
+>  {
+>  	unsigned int i;
+>  =
+
+> +	if (!pool->use_dma_alloc) {
+> +		seq_puts(m, "unused\n");
+> +		return 0;
+> +	}
+> +
+>  	ttm_pool_debugfs_header(m);
+>  =
+
+>  	spin_lock(&shrinker_lock);
+> -- =
+
+> 2.25.1
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
