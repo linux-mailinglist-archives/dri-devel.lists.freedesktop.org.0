@@ -1,80 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCD82FCEE6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 12:16:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA922FCF16
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 12:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DADF86E182;
-	Wed, 20 Jan 2021 11:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDF86E16D;
+	Wed, 20 Jan 2021 11:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B8096E17F
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 11:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611141371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0SH3cllGy47s4uG7KKFq5cbuIDOd88jk3S+0uW2/kAA=;
- b=ErPGGirxnEDzfp9ierjDLgwlp+MXCC4XDpDI7oSM4DTb/P4FYiA8xe+vtd8BtJ/r6TPG/t
- UUVMMsVk1vJJ50xstWNMZ3xKN9E8w1QpnVuUWmEb8G2BS43kwChczRzbGta5og8rjgx1Sm
- 0eUT2EXhLf03PVqv6KdYrJlU3gYObBc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-TFhwAjvcP7if3-_T4kr2_Q-1; Wed, 20 Jan 2021 06:16:06 -0500
-X-MC-Unique: TFhwAjvcP7if3-_T4kr2_Q-1
-Received: by mail-ed1-f69.google.com with SMTP id r4so1633350eds.4
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 03:16:06 -0800 (PST)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B4C36E16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 11:22:18 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id m6so14323039pfk.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 03:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/G1XKKzyK0yZAshK+VzVtT1gmvcbma2qBK0WNAjoFJ0=;
+ b=f9QxSmeFNcQFQsw7hS5QGeGaJxyqhXGEzo3QbjXqM2wj4ArTB1aEOtGsbeRw0Cfry7
+ Z/DoOVbz6XFlRGziXkPIHVr5CDG77H52tQekRcbd3EoBJSieaNdq4sOUvO8lrRzd6C3A
+ D3KVS+yS1pwtyYt8XtxYOSAZdhSj7wr23Llrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0SH3cllGy47s4uG7KKFq5cbuIDOd88jk3S+0uW2/kAA=;
- b=lujjL5H+Bj8PVa9FaQoFgb5NkVCjxk5wg04BHoK5qXOeZdsR2k0OuJo6KmlnF+jUao
- XYBag6qON1T9aVmfRB/gweD7yN6RFRrfhqq1fMEKUVTacfmA5o/n0c8chziFbXRHw0PS
- iByLNKqX+I68/QRTiDSoySksEsN5ano5MInCVa7T6xuLQJnE0OkMj4ehWU3Kz156yZPy
- M6FkvhaSCRQIEOgZ1922KyZr+UjwIyzBwQ/UkmrhD5CzIzPlTVfDHXpYFetk9wxUDfb8
- Q71zV8WSc2Z/HlESYuiOOZB3ARcnzho44A0SBrXm6Usna4AIebdBklnjPMy0w2NWX8d/
- Sx7Q==
-X-Gm-Message-State: AOAM5334hUj0shM4/LXFFxueyK0IHjIvMXgTQRW4EIRQkO8tp56w3TSk
- 0oJyCaKbTzgrYYaq5kQT3bA3WJ+3gmauUXlzNjVDYUS4al0vrMHHddvMsan5CEzp34U4friohS2
- SMEHpVp5P4DJocV6WLxNR0EhD+iSK4bj+J7X51R8rdHHh50cjifZYmJ2fpEP5kJqzhPL821VdhR
- gzm+PZ
-X-Received: by 2002:a05:6402:b6f:: with SMTP id
- cb15mr6813590edb.277.1611141365235; 
- Wed, 20 Jan 2021 03:16:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwF2jPpquEnV42x9rBfnay/MufY16FX0dQBH+/yFA2JSgaTGzzyq/yUsEFfmDEcT9RdGF+T3w==
-X-Received: by 2002:a05:6402:b6f:: with SMTP id
- cb15mr6813578edb.277.1611141365064; 
- Wed, 20 Jan 2021 03:16:05 -0800 (PST)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
- by smtp.gmail.com with ESMTPSA id k16sm747754ejd.78.2021.01.20.03.16.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 03:16:03 -0800 (PST)
-Subject: Re: [PATCH] video: fbdev: simplefb: Fix info message during probe
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20201228183934.1117012-1-pbrobinson@gmail.com>
- <b00bd27c-70b5-9ef1-85a1-11e733af78da@redhat.com>
- <X/c/OwqdMtmqzOZq@phenom.ffwll.local>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <1acc822f-b7a5-b0be-5533-32528080850a@redhat.com>
-Date: Wed, 20 Jan 2021 12:16:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=/G1XKKzyK0yZAshK+VzVtT1gmvcbma2qBK0WNAjoFJ0=;
+ b=jJMnkDxwlc2z5X6Ya7aVLpImb8MIfWbI9n5WRvgfSROIg1mZVqOnMmXheyuSKPW6/o
+ 7r/AcsHYocXmBrs/3fmRewahwTnqZsgzA2mZGQjU7sEUwARU6lKPulqZ/38Y+70fcJ6V
+ toXhd19s6uGuMT/NFjPftwIqZXX0wOsQPQKXB89S7mhvkPgqU6bKuxA1GAFJeVNE46ZN
+ D+RNYhVFj6Ni6/4SLfiVb4KlGAfHdsfGEgwKqR/6s1134cCuTZSI4MJqZ3JkSJAFrQdN
+ nn2zQ96/gN1fd3E6wtzWl+XFreIKiXqFOBPtIJ0+5Qmo/TomYwT687eOUVe5BZIkuwxf
+ Vegg==
+X-Gm-Message-State: AOAM532huZcaWYWxSlcO1vfox9llsOonsGWJOZ4TJs5BlSRp0uskvhyd
+ Dfd9qzBfAyARCpnWdQzp8l/Jnql85wvhrijc
+X-Google-Smtp-Source: ABdhPJwEhxynnzNsfdOIosnWD6hJRmKWPIAg2bWTvI3yFlUc2LWW0ORKLS7qvfBc2J2WLYigePeAKg==
+X-Received: by 2002:a65:4083:: with SMTP id t3mr8967439pgp.150.1611141737943; 
+ Wed, 20 Jan 2021 03:22:17 -0800 (PST)
+Received: from ub-XPS-13-9350.domain.name ([103.105.103.154])
+ by smtp.gmail.com with ESMTPSA id gk2sm2248341pjb.6.2021.01.20.03.22.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 03:22:17 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 1/2] dt-bindings: display: bridge: Add documentation for
+ SN65DSI84
+Date: Wed, 20 Jan 2021 16:51:57 +0530
+Message-Id: <20210120112158.62109-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <X/c/OwqdMtmqzOZq@phenom.ffwll.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,81 +67,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-amarula@amarulasolutions.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+SN65DSI84 is a Single Channel DSI to Dual-link LVDS bridge from
+Texas Instruments.
 
-On 1/7/21 6:04 PM, Daniel Vetter wrote:
-> Hi Hans,
-> 
-> On Tue, Dec 29, 2020 at 02:02:30PM +0100, Hans de Goede wrote:
->> Hi,
->>
->> On 12/28/20 7:39 PM, Peter Robinson wrote:
->>> The info message was showing the mapped address for the framebuffer. To avoid
->>> security problems, all virtual addresses are converted to __ptrval__, so
->>> the message has pointless information:
->>>
->>> simple-framebuffer 3ea9b000.framebuffer: framebuffer at 0x3ea9b000, 0x12c000 bytes, mapped to 0x(____ptrval____)
->>>
->>> Drop the extraneous bits to clean up the message:
->>>
->>> simple-framebuffer 3ea9b000.framebuffer: framebuffer at 0x3ea9b000, 0x12c000 bytes
->>>
->>> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
->>
->> Thanks, patch looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Since you have commit rights for drm-misc I'm assuming you're also going
-> to push this one?
+SN65DSI83, SN65DSI85 are variants of the same family of bridge
+controllers.
 
-I knew there was some discussion about using drm-misc for drivers/video/fbdev stuff
-but I missed that it was decided to go ahead with that.
+Right now the bridge driver is supporting a single link, dual-link
+support requires to initiate I2C Channel B registers, so dt-bindings
+documented with single link LVDS.
 
-Good to know that this is handled through drm-misc now.
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+---
+ .../bindings/display/bridge/ti,sn65dsi84.yaml | 127 ++++++++++++++++++
+ 1 file changed, 127 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
 
-I've pushed this patch to drm-misc-next.
-
-Regards,
-
-Hans
-
-
-
->>> ---
->>>  drivers/video/fbdev/simplefb.c | 5 ++---
->>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
->>> index 533a047d07a2..62f0ded70681 100644
->>> --- a/drivers/video/fbdev/simplefb.c
->>> +++ b/drivers/video/fbdev/simplefb.c
->>> @@ -477,9 +477,8 @@ static int simplefb_probe(struct platform_device *pdev)
->>>  	simplefb_clocks_enable(par, pdev);
->>>  	simplefb_regulators_enable(par, pdev);
->>>  
->>> -	dev_info(&pdev->dev, "framebuffer at 0x%lx, 0x%x bytes, mapped to 0x%p\n",
->>> -			     info->fix.smem_start, info->fix.smem_len,
->>> -			     info->screen_base);
->>> +	dev_info(&pdev->dev, "framebuffer at 0x%lx, 0x%x bytes\n",
->>> +			     info->fix.smem_start, info->fix.smem_len);
->>>  	dev_info(&pdev->dev, "format=%s, mode=%dx%dx%d, linelength=%d\n",
->>>  			     params.format->name,
->>>  			     info->var.xres, info->var.yres,
->>>
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+new file mode 100644
+index 000000000000..891382a76c1a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+@@ -0,0 +1,127 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi84.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI SN65DSI84 MIPI DSI to LVDS bridge bindings
++
++maintainers:
++  - Jagan Teki <jagan@amarulasolutions.com>
++
++description: |
++  The SN65DSI84 DSI to FlatLink bridge features a single channel MIPI D-PHY receiver
++  front-end configuration with 4 lanes per channel operating at 1 Gbps per lanes.
++  The bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and converts
++  the formatted video data stream to a FlatLink compatible LVDS output operating
++  at pixel clocks operating from 25 MHx to 154 MHz, offering a Dual-Link LVDS,
++  Single-Link LVDS interface with four data lanes per link.
++
++  https://www.ti.com/product/SN65DSI84
++
++properties:
++  compatible:
++    const: ti,sn65dsi84
++
++  reg:
++    maxItems: 1
++    description: i2c address of the bridge, 0x2c
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for bridge enable pin (active high).
++
++  ports:
++    type: object
++    description:
++      A node containing input and output port nodes with endpoint definitions
++      as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description: |
++          DSI Input. The remote endpoint phandle should be a
++          reference to a valid mipi_dsi_host device node.
++
++      port@1:
++        type: object
++        description: |
++          Video port for LVDS output (panel or connector).
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       ports {
++           #address-cells = <1>;
++           #size-cells = <0>;
++
++           port@0 {
++               reg = <0>;
++               dsi_in: endpoint {
++                   remote-endpoint = <&ltdc_ep0_out>;
++               };
++           };
++
++           port@1 {
++               reg = <1>;
++               dsi_out: endpoint {
++                   remote-endpoint = <&bridge_in>;
++                   data-lanes = <0 1>;
++               };
++           };
++       };
++    };
++
++    i2c6 {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       bridge@2c {
++           compatible = "ti,sn65dsi84";
++           reg = <0x2c>;
++           enable-gpios = <&gpiof 15 GPIO_ACTIVE_HIGH>;
++
++           ports {
++               #address-cells = <1>;
++               #size-cells = <0>;
++
++               port@0 {
++                   reg = <0>;
++                   bridge_in: endpoint {
++                        remote-endpoint = <&dsi_out>;
++                   };
++               };
++
++               port@1 {
++                   reg = <1>;
++                   bridge_out: endpoint {
++                        remote-endpoint = <&panel_in_lvds>;
++                   };
++               };
++           };
++       };
++    };
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
