@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622A62FDC28
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 22:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7365D2FDC2C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 23:00:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382326E461;
-	Wed, 20 Jan 2021 21:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD3B6E45D;
+	Wed, 20 Jan 2021 22:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9052C6E45D;
- Wed, 20 Jan 2021 21:58:41 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id n42so24869439ota.12;
- Wed, 20 Jan 2021 13:58:41 -0800 (PST)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625876E457;
+ Wed, 20 Jan 2021 22:00:28 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id r189so17079570oih.4;
+ Wed, 20 Jan 2021 14:00:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VF5vWwpN0WTTAbK2Z2NttkJ6CJSQ2hghN1uL2Mgnxck=;
- b=EzLEez6jtnf8JtqyqlIg8YpCBuANBTWBSoj8Ej/TC9V2tBYlFwyxmJZuqSPAlc6cbt
- ogPDE2aMr5O+aq0yHHil4RauRfTBUTT6dbvO7YyyOOkZgTqwnOAECFNAMSvMpU98kiqW
- mRm3ACDVn4552fT7haLovkFYrXkvGJxcu+RcdSG3c3jkc8J5awkN8Ic8HPorz4MX+nVz
- A3yGeUy06y2ulZ1hAfHsJxWt0A+6CEmaB4zy6Ph0IrngaSC+wbqtuZzNsRQwPEupKIio
- xo5Cdc7zpO0ZcprKPmITjwAl+qQRNAnCkzsahb1nIHVTOdfqOrTMFQt4VmwG9CtZmCmO
- q6QA==
+ :cc; bh=saDKMA0jB6EqXW9G0YL6Gf41CyarOu27mR26evtWnko=;
+ b=BtvepDc1t5xMKDzkpkJDpstu6FHBOPnYBTqAWWHihI1oDL4ApXjvM6idp3egQajSz7
+ fNwZ772pD1IQa6zfAhQf5X4bDazRxUDWpY73pefPy8zI5cNjEgw0VYZy4DVcwr54TflY
+ OD3+YrUVc4qxJKU6r37mMI/Yd6PE+t67LTPGXrWZb/5EnQBCJhds9PuxxS9jhFagYH2F
+ nipwUsTK/dU9ID4Tz0fC8TzBAE4SloyfNWQVWrJyHkqA1Io3lo5ii+f6MvQOspTg7axR
+ ZHLAUCmZzqGfbGNp8hZSFWEY2zvrR3UKTU1eqvELhPCrBhhXq1zL6tdhO/atNcHyL1GF
+ 8ACA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VF5vWwpN0WTTAbK2Z2NttkJ6CJSQ2hghN1uL2Mgnxck=;
- b=kxtevIT0RSG2b+na9kk2e04wY+MgELpXwm0fDTNMKIYbP6AU7157GOhiPlsf0/hY8a
- WnQwm1bsQTWUnYP3HUrUwtIq3UM2UgLt/skSg+GJgyWK9MkLtijkljPOVnx0+ynE6V7s
- WCyKQvDF44iNVKIvtl0cBT3dYhvTnZOCbKrwkgc57lwgTaA20fi+ZJfhcIsiJ0K0MxuX
- iN8p8ETtWh+HCxf765UCzDBcxxG0GuiHD/xKEWvjX5IZ1+s+uz3tr+gkF4bpUsVVOv5n
- te4FBPP/PIAX7ud30eM25BzMSVTK0TrBn4RtjtQhS+agwh2xoyhKDfGd5lAf8CeZDGX4
- W/rw==
-X-Gm-Message-State: AOAM533oaG5X8RYNYvY/K4ajUMfa7zah/7aGzaCBgQSRBf3TzvpdIyFh
- f8axF55w8DtpUeEFxlN1IClUzlnw91JfREhfRPM=
-X-Google-Smtp-Source: ABdhPJyfupROq9yYCDbZ/3+AmWCN8HnkiGrbhZkCpEOXQTQW6PaR5MBQJrTLWRFVQEhrTRJG6c/wfMxfAJsLqhNe4k4=
-X-Received: by 2002:a9d:2ac2:: with SMTP id e60mr8448651otb.23.1611179920837; 
- Wed, 20 Jan 2021 13:58:40 -0800 (PST)
+ bh=saDKMA0jB6EqXW9G0YL6Gf41CyarOu27mR26evtWnko=;
+ b=Wr0Qrl8LOqBChF+nTG4eaFGS56t9wV9N6b0zRP5ud6xbADT6ehZ32HxWebF+Llj3XA
+ ngTOKTIoWyCDMOLDMfTD/r77KOdW//L/fhf5F+mKKBI5/uPEh2/Spc2p/uk7T9FoX9ut
+ KQ6mCUaJkx0HDXqW9kl5BRlKYnB/lrmsqyFiYObPhLg/57QhuEl2FSmQmEA8GPsGP8BV
+ BuYlHkqRDP3PcQ0k8sYRQcIR3ki+WHaN/1s3OKD0afC/JFA9CpOPKwvVqKZXP0oEL2zX
+ HlEC/5KwwfAKa8+kS2WKcnhWPoYwXucCBFQuSPeptS6Q30Fif5wVvECdU/bzz4dI/ubJ
+ GS0w==
+X-Gm-Message-State: AOAM530pfFkniaDbTOJZcPEHG/z0V/4746om+bGEQW30r7HSE2zvbPOW
+ o8xooXU3XnbknX/s5YVFOAARl8YNHxaxwFzq0Ws=
+X-Google-Smtp-Source: ABdhPJzP2F7SIwkHGhdxKuUWAyKeMMGxwJDgWTGxnefy59uLaMXn/jA5IJF7QAjnU6rYRkJ4JLpq++9GBXSyjAg7zvE=
+X-Received: by 2002:aca:4f97:: with SMTP id d145mr4089486oib.123.1611180027641; 
+ Wed, 20 Jan 2021 14:00:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20210120092624.13061-1-colin.king@canonical.com>
- <a06aeb18-b02d-41cd-f717-6ff30ea48bb4@amd.com>
-In-Reply-To: <a06aeb18-b02d-41cd-f717-6ff30ea48bb4@amd.com>
+References: <1611127007-39308-1-git-send-email-abaci-bugfix@linux.alibaba.com>
+ <3e2d3292-8611-68de-e1ed-7266fd41ce76@amd.com>
+In-Reply-To: <3e2d3292-8611-68de-e1ed-7266fd41ce76@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 20 Jan 2021 16:58:29 -0500
-Message-ID: <CADnq5_Oypeyaq8YSHgPhouJcp7t8aSxT1Z0YxraWQV6aJm9uYQ@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: Fix spelling mistake of function
- name
+Date: Wed, 20 Jan 2021 17:00:16 -0500
+Message-ID: <CADnq5_MXyZ5O8qroFjFhEupaiauXNVu7yT4KY3CGeQnVa0BkOA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Assign boolean values to a bool variable
 To: Harry Wentland <harry.wentland@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,14 +61,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Colin King <colin.king@canonical.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "Tuikov, Luben" <luben.tuikov@amd.com>,
+ "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>, Dave Airlie <airlied@linux.ie>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Eric Bernstein <Eric.Bernstein@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Ye Bin <yebin10@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -79,46 +81,120 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Jan 20, 2021 at 9:46 AM Harry Wentland <harry.wentland@amd.com> wrote:
+On Wed, Jan 20, 2021 at 10:05 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
-> On 2021-01-20 4:26 a.m., Colin King wrote:
-> > From: Colin Ian King <colin.king@canonical.com>
+> On 2021-01-20 2:16 a.m., Jiapeng Zhong wrote:
+> > Fix the following coccicheck warnings:
 > >
+> > ./drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c:
+> > 1009:6-16: WARNING: Assignment of 0/1 to bool variable.
+> >
+> > ./drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c:
+> > 200:2-10: WARNING: Assignment of 0/1 to bool variable.
+> >
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> > Signed-off-by: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
 >
 > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 >
 > Harry
 >
-> > There are two spelling mistakes of the function name, fix this
-> > by using __func__ instead of a hard coded name string.
-> >
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > > ---
-> >   drivers/gpu/drm/amd/display/dc/core/dc_link.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >   .../display/dc/dml/dcn30/display_rq_dlg_calc_30.c  | 32 +++++++++++-----------
+> >   1 file changed, 16 insertions(+), 16 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > index c16af3983fdb..91d4130cd2cb 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> > @@ -1602,7 +1602,7 @@ static bool dc_link_construct(struct dc_link *link,
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> > index 5b5916b..0f14f20 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> > @@ -165,8 +165,8 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+> >       unsigned int swath_bytes_c = 0;
+> >       unsigned int full_swath_bytes_packed_l = 0;
+> >       unsigned int full_swath_bytes_packed_c = 0;
+> > -     bool req128_l = 0;
+> > -     bool req128_c = 0;
+> > +     bool req128_l = false;
+> > +     bool req128_c = false;
+> >       bool surf_linear = (pipe_src_param.sw_mode == dm_sw_linear);
+> >       bool surf_vert = (pipe_src_param.source_scan == dm_vert);
+> >       unsigned int log2_swath_height_l = 0;
+> > @@ -191,37 +191,37 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+> >               total_swath_bytes = 2 * full_swath_bytes_packed_l;
 > >
-> >       link->psr_settings.psr_version = DC_PSR_VERSION_UNSUPPORTED;
+> >       if (total_swath_bytes <= detile_buf_size_in_bytes) { //full 256b request
+> > -             req128_l = 0;
+> > -             req128_c = 0;
+> > +             req128_l = false;
+> > +             req128_c = false;
+> >               swath_bytes_l = full_swath_bytes_packed_l;
+> >               swath_bytes_c = full_swath_bytes_packed_c;
+> >       } else if (!rq_param->yuv420) {
+> > -             req128_l = 1;
+> > -             req128_c = 0;
+> > +             req128_l = true;
+> > +             req128_c = false;
+> >               swath_bytes_c = full_swath_bytes_packed_c;
+> >               swath_bytes_l = full_swath_bytes_packed_l / 2;
+> >       } else if ((double)full_swath_bytes_packed_l / (double)full_swath_bytes_packed_c < 1.5) {
+> > -             req128_l = 0;
+> > -             req128_c = 1;
+> > +             req128_l = false;
+> > +             req128_c = true;
+> >               swath_bytes_l = full_swath_bytes_packed_l;
+> >               swath_bytes_c = full_swath_bytes_packed_c / 2;
 > >
-> > -     DC_LOG_DC("BIOS object table - dc_link_contruct finished successfully.\n");
-> > +     DC_LOG_DC("BIOS object table - %s finished successfully.\n", __func__);
-> >       return true;
-> >   device_tag_fail:
-> >       link->link_enc->funcs->destroy(&link->link_enc);
-> > @@ -1619,7 +1619,7 @@ static bool dc_link_construct(struct dc_link *link,
-> >               link->hpd_gpio = NULL;
+> >               total_swath_bytes = 2 * swath_bytes_l + 2 * swath_bytes_c;
+> >
+> >               if (total_swath_bytes > detile_buf_size_in_bytes) {
+> > -                     req128_l = 1;
+> > +                     req128_l = true;
+> >                       swath_bytes_l = full_swath_bytes_packed_l / 2;
+> >               }
+> >       } else {
+> > -             req128_l = 1;
+> > -             req128_c = 0;
+> > +             req128_l = true;
+> > +             req128_c = false;
+> >               swath_bytes_l = full_swath_bytes_packed_l/2;
+> >               swath_bytes_c = full_swath_bytes_packed_c;
+> >
+> >               total_swath_bytes = 2 * swath_bytes_l + 2 * swath_bytes_c;
+> >
+> >               if (total_swath_bytes > detile_buf_size_in_bytes) {
+> > -                     req128_c = 1;
+> > +                     req128_c = true;
+> >                       swath_bytes_c = full_swath_bytes_packed_c/2;
+> >               }
 > >       }
+> > @@ -1006,8 +1006,8 @@ static void dml_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
 > >
-> > -     DC_LOG_DC("BIOS object table - dc_link_contruct failed.\n");
-> > +     DC_LOG_DC("BIOS object table - %s failed.\n", __func__);
-> >       kfree(info);
+> >       double min_dst_y_ttu_vblank = 0;
+> >       unsigned int dlg_vblank_start = 0;
+> > -     bool dual_plane = 0;
+> > -     bool mode_422 = 0;
+> > +     bool dual_plane = false;
+> > +     bool mode_422 = false;
+> >       unsigned int access_dir = 0;
+> >       unsigned int vp_height_l = 0;
+> >       unsigned int vp_width_l = 0;
+> > @@ -1021,7 +1021,7 @@ static void dml_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
+> >       double hratio_c = 0;
+> >       double vratio_l = 0;
+> >       double vratio_c = 0;
+> > -     bool scl_enable = 0;
+> > +     bool scl_enable = false;
 > >
-> >       return false;
+> >       double line_time_in_us = 0;
+> >       //      double vinit_l;
+> > @@ -1156,7 +1156,7 @@ static void dml_rq_dlg_get_dlg_params(struct display_mode_lib *mode_lib,
+> >       // Source
+> >       //                       dcc_en                   = src.dcc;
+> >       dual_plane = is_dual_plane((enum source_format_class)(src->source_format));
+> > -     mode_422 = 0; // TODO
+> > +     mode_422 = false; // TODO
+> >       access_dir = (src->source_scan == dm_vert); // vp access direction: horizontal or vertical accessed
+> >       vp_height_l = src->viewport_height;
+> >       vp_width_l = src->viewport_width;
 > >
 > _______________________________________________
 > amd-gfx mailing list
