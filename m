@@ -1,38 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85912FCEC6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 12:07:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACA92FCEE0
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 12:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E751E6E048;
-	Wed, 20 Jan 2021 11:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3166E17D;
+	Wed, 20 Jan 2021 11:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5176E048;
- Wed, 20 Jan 2021 11:07:21 +0000 (UTC)
-IronPort-SDR: Hn8lOCGYx4jVr4Vb9d33R/RmXAhBY8+oMwWO4o8R9Jr4BExTYu78BjNMFGliOh/edbzE4fU89B
- vveHWt8+KDMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="166749396"
-X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; d="scan'208";a="166749396"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2021 03:07:20 -0800
-IronPort-SDR: VE4z5akVVYbUUZY1kHUMTxwRqGQcbZkCTHSGQvToKJ7xlbs6fL6oSZMcz4nZgNeAY1L3gF4/IS
- IKCZrS1VdSzg==
-X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; d="scan'208";a="384798622"
-Received: from oreunova-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.45.61])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2021 03:07:17 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dp: fix build after dp quirk helper change
-Date: Wed, 20 Jan 2021 13:07:08 +0200
-Message-Id: <20210120110708.32131-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.20.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6FD6E175
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 11:12:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611141172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2/1bsuu4BhL56fPWDCrgTWmSvF01ZSO8IX7hrGvUcr4=;
+ b=JXGeCwHTFZ0HPanGIJFu5hjKQbwcAElz5WJM0B0GAvmI1Mo6yWblUSFFHBfWIa5dpvErb9
+ P74qC1XMmAQJZ0N1ZJBUfc3zbrz7ZuYkOu1yr+msSiEgDw889GBp0rH4i3y6RDlHWN5Vf8
+ 5npJl1Z3+UM7f5Z7rxZ4UhH7U8qCvIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-u_CdHJr5PKqFCgs_DLr01Q-1; Wed, 20 Jan 2021 06:12:47 -0500
+X-MC-Unique: u_CdHJr5PKqFCgs_DLr01Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18E2A806662
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 11:12:47 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AC4F71CA4;
+ Wed, 20 Jan 2021 11:12:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C95FB18000B3; Wed, 20 Jan 2021 12:12:40 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/4] drm/qxl: fix some driver shutdown issues.
+Date: Wed, 20 Jan 2021 12:12:36 +0100
+Message-Id: <20210120111240.2509679-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, jani.nikula@intel.com,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 7c553f8b5a7d ("drm/dp: Revert "drm/dp: Introduce EDID-based
-quirks"") removed drm_dp_get_edid_quirks() and changed the signature of
-drm_dp_has_quirk() while they were still being used in msm. Fix the
-breakage. Functionally, removing the EDID-based quirks has no impact on
-msm.
+Some progress.  Not complete though, I still
+get an unclean mm warning on shutdown due to
+some release objects not being freed yet.
 
-[The above commit was merged to drm-intel-next; make two wrongs a right
-by merging this fix through drm-intel-next as well.]
+Gerd Hoffmann (4):
+  drm/qxl: use drmm_mode_config_init
+  drm/qxl: unpin release objects
+  drm/qxl: release shadow on shutdown
+  drm/qxl: handle shadow in primary destroy
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-References: http://lore.kernel.org/r/20210120105715.4391dd95@canb.auug.org.au
-Fixes: 7c553f8b5a7d ("drm/dp: Revert "drm/dp: Introduce EDID-based quirks"")
-Cc: Lyude Paul <lyude@redhat.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+ drivers/gpu/drm/qxl/qxl_display.c | 11 +++++++++--
+ drivers/gpu/drm/qxl/qxl_release.c |  1 +
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
----
-
-Note: I admit to not even build testing this one. I'd need a config,
-possibly also a toolchain setup for that.
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index e3462f5d96d7..36b39c381b3f 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1420,16 +1420,14 @@ void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
- static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
- {
- 	u8 *dpcd = ctrl->panel->dpcd;
--	u32 edid_quirks = 0;
- 
--	edid_quirks = drm_dp_get_edid_quirks(ctrl->panel->edid);
- 	/*
- 	 * For better interop experience, used a fixed NVID=0x8000
- 	 * whenever connected to a VGA dongle downstream.
- 	 */
- 	if (drm_dp_is_branch(dpcd))
--		return (drm_dp_has_quirk(&ctrl->panel->desc, edid_quirks,
--				DP_DPCD_QUIRK_CONSTANT_N));
-+		return (drm_dp_has_quirk(&ctrl->panel->desc,
-+					 DP_DPCD_QUIRK_CONSTANT_N));
- 
- 	return false;
- }
 -- 
-2.20.1
+2.29.2
+
 
 _______________________________________________
 dri-devel mailing list
