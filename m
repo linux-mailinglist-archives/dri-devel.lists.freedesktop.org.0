@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D132FD04B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 13:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AC42FD0F6
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 14:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F95C6E090;
-	Wed, 20 Jan 2021 12:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B706E140;
+	Wed, 20 Jan 2021 13:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713D06E090
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:51:19 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id v15so19343192wrx.4
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 04:51:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3RgS1hVIn/K2Y7RwcI+RKj6NyrqDqEjtXwVYHmx/p5o=;
- b=zafINneliVQnZeNIYJgjDBJE4N8QckFZ/IoatozlPl7lx6dkRlznUx3s+HSxkPD/S0
- BoOUtcOpwDJZMP1fbWpLx2Qy30vpoFkKOOwItEUe2KyuZvrwATti0mbSvTm1Lh/TZ2Tb
- JIOXtGqD7Sil7efwHMwjKRydd1FL5NZVFLrAVrH5mOB9ndsbZ9Rpk3jfyo6wSUBZIcKO
- 2SGmrk583YPiLDqWLWBLPKGeuXiJij5s79PAXKefo38QM5WREtoZRZ+wlYgP7tzOkpb2
- xfjYHJ70oaHd/xFTDPck7wQlQtDV4GZwuJz3Qkl6ATHlsKTLc0fqiJTrHhZ5QkfTy8nw
- IIzg==
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF2D6E140
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 13:01:37 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id r189so15263369oih.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 05:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=evwLpKMs/Q04HfoyBMd6+/dktMNHRP3J0svCExuNnHQ=;
+ b=gjoMlQDXxoLKyVqfmWYc+fQsUBlfTlV9o5PJnH+Fw3wT6GK9N8OlzvgssUU0vb0fZH
+ lnyuUY13b3P8wylC1s1XZ51WGymbIFWbcPL/0lXA0Z7SliOOw3K8jFrpKcp+79daAMjG
+ 3G0usdR1gu6MsBvz81d0Wq6+o038KK/qKvaQI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3RgS1hVIn/K2Y7RwcI+RKj6NyrqDqEjtXwVYHmx/p5o=;
- b=eyEk+M5Q5KbRjNaio0w2sy3tVFHbIcx4tqBqRwNKvu0xexhR0pLJzCcS2xBfFO8YhW
- X16Tl/KO4MXRS0zsdMgHHNCLvhDTLjn74G6MCnZa2JKeKghmdp+ZxPNaf34urjRVC+3Z
- i1+6gBsBtw0/l+6aDdU7RHIONzMttl7KrrqeOh7tgkG32xFJMdRVGuu1Mf67dxbB664I
- HcUuzFDLsd2q6Ag+I9ArEZRvu9cJETNj7eHf/RUwdMKAZl0ThPFyQzZx/aVsbNv36CzP
- Se9ft+kr9P1Sh3xCkl+sR0VdhkumFywi/Uq9vLcFbrnLhBJIr7bIgUXQWhS5GnwZMuhS
- u8mw==
-X-Gm-Message-State: AOAM531EBDacYN5Q937jdvY+LAQ8i/84NTOC8+oDR1KEwuREVJ9b8nYg
- aqIqS1iUqs9WLMx87VuwEaiYJw==
-X-Google-Smtp-Source: ABdhPJy82V5OequyxrC6dVDVybzT6ls4DFqZ0hcfzj1nXxHK5thGX2HuxZvC2amcEpcLtCt7IVK7ZA==
-X-Received: by 2002:adf:ef8b:: with SMTP id d11mr9338055wro.156.1611147078169; 
- Wed, 20 Jan 2021 04:51:18 -0800 (PST)
-Received: from dell ([91.110.221.158])
- by smtp.gmail.com with ESMTPSA id g14sm4271743wru.45.2021.01.20.04.51.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 04:51:17 -0800 (PST)
-Date: Wed, 20 Jan 2021 12:51:15 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: [GIT PULL] Immutable branch between Backlight Arm and SPI due for
- the v5.12 merge window
-Message-ID: <20210120125115.GT4903@dell>
-References: <20210118132322.7282-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=evwLpKMs/Q04HfoyBMd6+/dktMNHRP3J0svCExuNnHQ=;
+ b=CFPi6oeaWQgUr2FWFPPwBSJOkBREib3A2hs/DV11U+c6JNPJBopBHGnVvkfBi8hBpE
+ C29RTvD1aXtGR7JBeKsmwuWweoVX5rLJLurFv7heXMvTzJ4ysYqKl7PdaGi1FXo9iv8q
+ Dm+kj5Wqgy1qOZ9utzBz/6jUvUKyhTZeBVwQ//7ID/B3mI3YBOSP148xxGAUbB4osTyk
+ cEK3/S0NEfMTUDfDbp88zZZb9MBZ1+2kWruiVTO7Swt2LjqomIO2YFVmsb+98t8Ru5yK
+ /+khPfi/BZRxODeKJlM9+t4zA0n+35kIiukQfRJN/BLX/QZFsErOxDlc81JuLi7Swq7S
+ F0kA==
+X-Gm-Message-State: AOAM532H7q4VIfNVkZCxa6Etb9KqhU4ZTBaifDrW2fRHtarU7P6GrHUS
+ d3242hPQ9Oz4+Wm73coT9LZHr1N5JFugYwD3z5XyM/IKc9c=
+X-Google-Smtp-Source: ABdhPJysT1Qy1MoMTRm8ql1bbsTkrvfGzeuP7tdOfKNPpJBmNa21UPEZGnfc3jKm9tHnbkwY1t4S/wSfEQIfR+Gs4/k=
+X-Received: by 2002:aca:1906:: with SMTP id l6mr2714101oii.101.1611147697279; 
+ Wed, 20 Jan 2021 05:01:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210118132322.7282-1-linus.walleij@linaro.org>
+References: <20210120123535.40226-1-paul@crapouillou.net>
+ <20210120123535.40226-3-paul@crapouillou.net>
+In-Reply-To: <20210120123535.40226-3-paul@crapouillou.net>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 20 Jan 2021 14:01:26 +0100
+Message-ID: <CAKMK7uFaP7xcw90=KqiGJd7Mt-gD-spvcxvOZr2Txhyv5vcBvw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/ingenic: Register devm action to cleanup
+ encoders
+To: Paul Cercueil <paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,36 +59,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RW5qb3khCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDVjOGZlNTgzY2NlNTQy
-YWEwYjg0YWRjOTM5Y2U4NTI5M2RlMzZlNWU6CgogIExpbnV4IDUuMTEtcmMxICgyMDIwLTEyLTI3
-IDE1OjMwOjIyIC0wODAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6
-CgogIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9sZWUvYmFj
-a2xpZ2h0LmdpdCBpYi1iYWNrbGlnaHQtYXJtLXNwaS12NS4xMgoKZm9yIHlvdSB0byBmZXRjaCBj
-aGFuZ2VzIHVwIHRvIDkzY2MyNmZhOGYzN2ZiZDMyMGYzNjUyNWJmZWRkNGIzZTJiM2UyYmE6Cgog
-IGJhY2tsaWdodDogbG1zMjgzZ2YwNTogQ29udmVydCB0byBHUElPIGRlc2NyaXB0b3JzICgyMDIx
-LTAxLTIwIDEyOjQ3OjExICswMDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpJbW11dGFibGUgYnJhbmNoIGJldHdlZW4g
-QmFja2xpZ2h0IEFybSBhbmQgU1BJIGR1ZSBmb3IgdGhlIHY1LjEyIG1lcmdlIHdpbmRvdwoKLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQpMaW51cyBXYWxsZWlqICgxKToKICAgICAgYmFja2xpZ2h0OiBsbXMyODNnZjA1OiBDb252
-ZXJ0IHRvIEdQSU8gZGVzY3JpcHRvcnMKCiBhcmNoL2FybS9tYWNoLXB4YS96Mi5jICAgICAgICAg
-ICAgICAgfCAxMiArKysrKystLS0tCiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbXMyODNnZjA1
-LmMgfCA0MyArKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUvbGlu
-dXgvc3BpL2xtczI4M2dmMDUuaCAgICAgICB8IDE2IC0tLS0tLS0tLS0tLS0tCiAzIGZpbGVzIGNo
-YW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IGluY2x1ZGUvbGludXgvc3BpL2xtczI4M2dmMDUuaAoKLS0gCkxlZSBKb25lcyBb5p2O55C8
-5pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9y
-ZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZh
-Y2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On Wed, Jan 20, 2021 at 1:36 PM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Since the encoders have been devm-allocated, they will be freed way
+> before drm_mode_config_cleanup() is called. To avoid use-after-free
+> conditions, we then must ensure that drm_encoder_cleanup() is called
+> before the encoders are freed.
+>
+> v2: Use the new __drmm_simple_encoder_alloc() function
+>
+> Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
+> Cc: <stable@vger.kernel.org> # 5.8+
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>
+> Notes:
+>     Use the V1 of this patch to fix v5.11 and older kernels. This V2 only
+>     applies on the current drm-misc-next branch.
+>
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 7bb31fbee29d..158433b4c084 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -1014,20 +1014,18 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+>                         bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+>                                                                  DRM_MODE_CONNECTOR_DPI);
+>
+> -               encoder = devm_kzalloc(dev, sizeof(*encoder), GFP_KERNEL);
+> -               if (!encoder)
+> -                       return -ENOMEM;
+> +               encoder = __drmm_simple_encoder_alloc(drm, sizeof(*encoder), 0,
+
+Please don't use the __ prefixed functions, those are the internal
+ones. The official one comes with type checking and all that included.
+Otherwise lgtm.
+-Daniel
+
+> +                                                     DRM_MODE_ENCODER_DPI);
+> +               if (IS_ERR(encoder)) {
+> +                       ret = PTR_ERR(encoder);
+> +                       dev_err(dev, "Failed to init encoder: %d\n", ret);
+> +                       return ret;
+> +               }
+>
+>                 encoder->possible_crtcs = 1;
+>
+>                 drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+>
+> -               ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DPI);
+> -               if (ret) {
+> -                       dev_err(dev, "Failed to init encoder: %d\n", ret);
+> -                       return ret;
+> -               }
+> -
+>                 ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+>                 if (ret) {
+>                         dev_err(dev, "Unable to attach bridge\n");
+> --
+> 2.29.2
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
