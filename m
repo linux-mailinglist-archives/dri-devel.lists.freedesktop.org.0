@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1801C2FC680
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 02:27:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 221FF2FC68A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 02:27:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164F16E123;
-	Wed, 20 Jan 2021 01:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C676D6E13C;
+	Wed, 20 Jan 2021 01:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75FB66E123;
- Wed, 20 Jan 2021 01:26:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EBEB23355;
- Wed, 20 Jan 2021 01:26:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCFE66E138;
+ Wed, 20 Jan 2021 01:27:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B5935233FA;
+ Wed, 20 Jan 2021 01:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611106015;
- bh=w47xUjtssxFdsLz2ijKucaSRH0GvyKyr248a8MEcdPY=;
+ s=k20201202; t=1611106051;
+ bh=0hrJF+NWXKamCqth1nMxroNM+7XBuor2rAVPNP+TJTY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uWud6lXtzWI+yYUQkHnEoz3UGP1FBHfSSmEmJ51QWRBsjxgtwMuDWa5zRphX8NBEw
- 9jocR57FMrHjHhWOjrdIto19LLLMpsKlg7MF69LXWujBRxJlLsl9TGwknDWpq5Xxvp
- p+/lO974s6e7s/Av+z55LAZx0o2UKxRN0B2DHkib7XoB/EM8LsAkkGg4NqQXHuM9ov
- 3o9+nnao5Z8O75vH6mLTyE++T0facz7cK+3OZvkiv0rEa9fqBosSTKmeNpjV3Zd5DN
- QwYMzMl858bhaHV0mngNfB6ygzKTQiWjV2tarOiBjwQABadTPuhKr4+aErwPFfuC7F
- cH5CPqgGO+ekw==
+ b=TQFXUgQs3WTRHFtzsAqPdUOx6V3HGyssyLNN3yKuKh0urQnG4eazsctp2n+BCJVyt
+ Y69lcjP9P4eKyg1Qlgl78GoHicC03U+LsperyjFKS1uFZvaGHPfIYTgUfQowujjeI/
+ g+EXBcRc/gO+b8wSJb3HwgKf+SJPm7xXwJFYBJ4P0YBH2vpmeQUI8l0dOl8H7g8o63
+ HN1gP/mbOTMZqg57o/1GZjoAwaQrgGATO/w4MA844xBJl2dfbORf25uGvAURwizT0s
+ Y5OLU9VbKtzi5YOLnJ0SrPXIgMbPKWxSofxea4cSaK78Zslc0VEGqeQ2XARdSIDEEW
+ p4sF2/vkZIjGA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 40/45] drm/nouveau/kms/nv50-: fix case where
- notifier buffer is at offset 0
-Date: Tue, 19 Jan 2021 20:25:57 -0500
-Message-Id: <20210120012602.769683-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 20/26] drm/amdgpu/psp: fix psp gfx ctrl cmds
+Date: Tue, 19 Jan 2021 20:26:57 -0500
+Message-Id: <20210120012704.770095-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
-References: <20210120012602.769683-1-sashal@kernel.org>
+In-Reply-To: <20210120012704.770095-1-sashal@kernel.org>
+References: <20210120012704.770095-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,75 +48,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Victor Zhao <Victor.Zhao@amd.com>,
+ dri-devel@lists.freedesktop.org, "Emily . Deng" <Emily.Deng@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@redhat.com>
+From: Victor Zhao <Victor.Zhao@amd.com>
 
-[ Upstream commit caeb6ab899c3d36a74cda6e299c6e1c9c4e2a22e ]
+[ Upstream commit f14a5c34d143f6627f0be70c0de1d962f3a6ff1c ]
 
-VRAM offset 0 is a valid address, triggered on GA102.
+psp GFX_CTRL_CMD_ID_CONSUME_CMD different for windows and linux,
+according to psp, linux cmds are not correct.
 
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+v2: only correct GFX_CTRL_CMD_ID_CONSUME_CMD.
+
+Signed-off-by: Victor Zhao <Victor.Zhao@amd.com>
+Reviewed-by: Emily.Deng <Emily.Deng@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 4 ++--
- drivers/gpu/drm/nouveau/dispnv50/disp.h     | 2 +-
- drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 36d6b6093d16d..5b8cabb099eb1 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -221,7 +221,7 @@ nv50_dmac_wait(struct nvif_push *push, u32 size)
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h b/drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h
+index 74a9fe8e0cfb9..8c54f0be51bab 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h
++++ b/drivers/gpu/drm/amd/amdgpu/psp_gfx_if.h
+@@ -44,7 +44,7 @@ enum psp_gfx_crtl_cmd_id
+     GFX_CTRL_CMD_ID_DISABLE_INT     = 0x00060000,   /* disable PSP-to-Gfx interrupt */
+     GFX_CTRL_CMD_ID_MODE1_RST       = 0x00070000,   /* trigger the Mode 1 reset */
+     GFX_CTRL_CMD_ID_GBR_IH_SET      = 0x00080000,   /* set Gbr IH_RB_CNTL registers */
+-    GFX_CTRL_CMD_ID_CONSUME_CMD     = 0x000A0000,   /* send interrupt to psp for updating write pointer of vf */
++    GFX_CTRL_CMD_ID_CONSUME_CMD     = 0x00090000,   /* send interrupt to psp for updating write pointer of vf */
+     GFX_CTRL_CMD_ID_DESTROY_GPCOM_RING = 0x000C0000, /* destroy GPCOM ring */
  
- int
- nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
--		 const s32 *oclass, u8 head, void *data, u32 size, u64 syncbuf,
-+		 const s32 *oclass, u8 head, void *data, u32 size, s64 syncbuf,
- 		 struct nv50_dmac *dmac)
- {
- 	struct nouveau_cli *cli = (void *)device->object.client;
-@@ -270,7 +270,7 @@ nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 	if (ret)
- 		return ret;
- 
--	if (!syncbuf)
-+	if (syncbuf < 0)
- 		return 0;
- 
- 	ret = nvif_object_ctor(&dmac->base.user, "kmsSyncCtxDma", NV50_DISP_HANDLE_SYNCBUF,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index 92bddc0836171..38dec11e7dda5 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -95,7 +95,7 @@ struct nv50_outp_atom {
- 
- int nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 		     const s32 *oclass, u8 head, void *data, u32 size,
--		     u64 syncbuf, struct nv50_dmac *dmac);
-+		     s64 syncbuf, struct nv50_dmac *dmac);
- void nv50_dmac_destroy(struct nv50_dmac *);
- 
- /*
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c b/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-index 685b708713242..b390029c69ec1 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-@@ -76,7 +76,7 @@ wimmc37b_init_(const struct nv50_wimm_func *func, struct nouveau_drm *drm,
- 	int ret;
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
--			       &oclass, 0, &args, sizeof(args), 0,
-+			       &oclass, 0, &args, sizeof(args), -1,
- 			       &wndw->wimm);
- 	if (ret) {
- 		NV_ERROR(drm, "wimm%04x allocation failed: %d\n", oclass, ret);
+     GFX_CTRL_CMD_ID_MAX             = 0x000F0000,   /* max command ID */
 -- 
 2.27.0
 
