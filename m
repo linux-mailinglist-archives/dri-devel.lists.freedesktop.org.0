@@ -1,25 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0CB2FE567
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:52:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866A52FE592
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FEE6E520;
-	Thu, 21 Jan 2021 08:52:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F84F6E8EF;
+	Thu, 21 Jan 2021 08:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A20DE6E054
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:36:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09806E187
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 13:21:44 +0000 (UTC)
+Date: Wed, 20 Jan 2021 13:21:29 +0000
 From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 3/3] drm/ingenic: Fix non-OSD mode
-Date: Wed, 20 Jan 2021 12:35:35 +0000
-Message-Id: <20210120123535.40226-4-paul@crapouillou.net>
-In-Reply-To: <20210120123535.40226-1-paul@crapouillou.net>
+Subject: Re: [PATCH v2 2/3] drm/ingenic: Register devm action to cleanup
+ encoders
+To: Daniel Vetter <daniel@ffwll.ch>
+Message-Id: <TFI8NQ.468S4PLHPA963@crapouillou.net>
+In-Reply-To: <CAKMK7uFaP7xcw90=KqiGJd7Mt-gD-spvcxvOZr2Txhyv5vcBvw@mail.gmail.com>
 References: <20210120123535.40226-1-paul@crapouillou.net>
+ <20210120123535.40226-3-paul@crapouillou.net>
+ <CAKMK7uFaP7xcw90=KqiGJd7Mt-gD-spvcxvOZr2Txhyv5vcBvw@mail.gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -34,77 +36,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, stable@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even though the JZ4740 did not have the OSD mode, it had (according to
-the documentation) two DMA channels, but there is absolutely no
-information about how to select the second DMA channel.
 
-Make the ingenic-drm driver work in non-OSD mode by using the
-foreground0 plane (which is bound to the DMA0 channel) as the primary
-plane, instead of the foreground1 plane, which is the primary plane
-when in OSD mode.
 
-Fixes: 3c9bea4ef32b ("drm/ingenic: Add support for OSD mode")
-Cc: <stable@vger.kernel.org> # v5.8+
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Le mer. 20 janv. 2021 =E0 14:01, Daniel Vetter <daniel@ffwll.ch> a =
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 158433b4c084..963dcbfeaba2 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -554,7 +554,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 		height = state->src_h >> 16;
- 		cpp = state->fb->format->cpp[0];
- 
--		if (priv->soc_info->has_osd && plane->type == DRM_PLANE_TYPE_OVERLAY)
-+		if (!priv->soc_info->has_osd || plane->type == DRM_PLANE_TYPE_OVERLAY)
- 			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
- 		else
- 			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
-@@ -826,6 +826,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	const struct jz_soc_info *soc_info;
- 	struct ingenic_drm *priv;
- 	struct clk *parent_clk;
-+	struct drm_plane *primary;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
- 	struct drm_encoder *encoder;
-@@ -940,9 +941,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (soc_info->has_osd)
- 		priv->ipu_plane = drm_plane_from_index(drm, 0);
- 
--	drm_plane_helper_add(&priv->f1, &ingenic_drm_plane_helper_funcs);
-+	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
- 
--	ret = drm_universal_plane_init(drm, &priv->f1, 1,
-+	drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
-+
-+	ret = drm_universal_plane_init(drm, primary, 1,
- 				       &ingenic_drm_primary_plane_funcs,
- 				       priv->soc_info->formats_f1,
- 				       priv->soc_info->num_formats_f1,
-@@ -954,7 +957,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 
- 	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
- 
--	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->f1,
-+	ret = drm_crtc_init_with_planes(drm, &priv->crtc, primary,
- 					NULL, &ingenic_drm_crtc_funcs, NULL);
- 	if (ret) {
- 		dev_err(dev, "Failed to init CRTC: %i\n", ret);
--- 
-2.29.2
+=E9crit :
+> On Wed, Jan 20, 2021 at 1:36 PM Paul Cercueil <paul@crapouillou.net> =
+
+> wrote:
+>> =
+
+>>  Since the encoders have been devm-allocated, they will be freed way
+>>  before drm_mode_config_cleanup() is called. To avoid use-after-free
+>>  conditions, we then must ensure that drm_encoder_cleanup() is called
+>>  before the encoders are freed.
+>> =
+
+>>  v2: Use the new __drmm_simple_encoder_alloc() function
+>> =
+
+>>  Fixes: c369cb27c267 ("drm/ingenic: Support multiple panels/bridges")
+>>  Cc: <stable@vger.kernel.org> # 5.8+
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+>> =
+
+>>  Notes:
+>>      Use the V1 of this patch to fix v5.11 and older kernels. This =
+
+>> V2 only
+>>      applies on the current drm-misc-next branch.
+>> =
+
+>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 16 +++++++---------
+>>   1 file changed, 7 insertions(+), 9 deletions(-)
+>> =
+
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
+
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  index 7bb31fbee29d..158433b4c084 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  @@ -1014,20 +1014,18 @@ static int ingenic_drm_bind(struct device =
+
+>> *dev, bool has_components)
+>>                          bridge =3D =
+
+>> devm_drm_panel_bridge_add_typed(dev, panel,
+>>                                                                   =
+
+>> DRM_MODE_CONNECTOR_DPI);
+>> =
+
+>>  -               encoder =3D devm_kzalloc(dev, sizeof(*encoder), =
+
+>> GFP_KERNEL);
+>>  -               if (!encoder)
+>>  -                       return -ENOMEM;
+>>  +               encoder =3D __drmm_simple_encoder_alloc(drm, =
+
+>> sizeof(*encoder), 0,
+> =
+
+> Please don't use the __ prefixed functions, those are the internal
+> ones. The official one comes with type checking and all that included.
+> Otherwise lgtm.
+> -Daniel
+
+The non-prefixed one assumes that I want to allocate a struct that =
+
+contains the encoder, not just the drm_encoder itself.
+
+-Paul
+
+>>  +                                                     =
+
+>> DRM_MODE_ENCODER_DPI);
+>>  +               if (IS_ERR(encoder)) {
+>>  +                       ret =3D PTR_ERR(encoder);
+>>  +                       dev_err(dev, "Failed to init encoder: =
+
+>> %d\n", ret);
+>>  +                       return ret;
+>>  +               }
+>> =
+
+>>                  encoder->possible_crtcs =3D 1;
+>> =
+
+>>                  drm_encoder_helper_add(encoder, =
+
+>> &ingenic_drm_encoder_helper_funcs);
+>> =
+
+>>  -               ret =3D drm_simple_encoder_init(drm, encoder, =
+
+>> DRM_MODE_ENCODER_DPI);
+>>  -               if (ret) {
+>>  -                       dev_err(dev, "Failed to init encoder: =
+
+>> %d\n", ret);
+>>  -                       return ret;
+>>  -               }
+>>  -
+>>                  ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
+>>                  if (ret) {
+>>                          dev_err(dev, "Unable to attach bridge\n");
+>>  --
+>>  2.29.2
+>> =
+
+> =
+
+> =
+
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
 
 _______________________________________________
 dri-devel mailing list
