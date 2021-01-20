@@ -2,30 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418962FE594
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5B72FE596
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59336E8FD;
-	Thu, 21 Jan 2021 08:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20ADE6E909;
+	Thu, 21 Jan 2021 08:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC5E6E090
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 15:55:47 +0000 (UTC)
-Date: Wed, 20 Jan 2021 15:55:33 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 2/3] drm/ingenic: Register devm action to cleanup
- encoders
-To: Daniel Vetter <daniel@ffwll.ch>
-Message-Id: <LKP8NQ.Z9MLLA6J6UUF2@crapouillou.net>
-In-Reply-To: <CAKMK7uEu7vWcJFC6S_hmKB4UMwPocwiOEy1iFnftOs5zfsRNYQ@mail.gmail.com>
-References: <20210120123535.40226-1-paul@crapouillou.net>
- <20210120123535.40226-3-paul@crapouillou.net>
- <CAKMK7uFaP7xcw90=KqiGJd7Mt-gD-spvcxvOZr2Txhyv5vcBvw@mail.gmail.com>
- <TFI8NQ.468S4PLHPA963@crapouillou.net>
- <CAKMK7uEu7vWcJFC6S_hmKB4UMwPocwiOEy1iFnftOs5zfsRNYQ@mail.gmail.com>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49E789EA3;
+ Wed, 20 Jan 2021 16:00:23 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id v67so34788540lfa.0;
+ Wed, 20 Jan 2021 08:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6pR6fg/vKnYn4hcu/THLeviR1hmHEHC9vnXYnmcjF/Q=;
+ b=abtLr1uy/58LoLQJLzYbf0L+o2zJbLuT/uYCyd48HpLF2JAhOx0hrfWwOfIcXeXTgE
+ 9HOfUHGHmtSumGGVFBAuddWJ/pQvwtaaVjlR8LOgYJgvOr0axxti6ZdEumKE2Pdt5BDV
+ FdhlVFIlj6sF2mxWlGuxZfNjGlGpgOG+qnZ8Et4+3QqTh7tvZ5Ct1Xh1dbAdXTf2umqX
+ 8x4F+Ku4eBtZ7uQ6IoiGOouZ5VCOxgk5/J7a8NInuLXOSX16zmC+Z7HYRrj5QDJifKoe
+ cNs1iMgtdoOFx+imchuo2kJ4HyYbPQwyxvWWVEV3zFd+tqiJgOtPAD/z2arSBt5IR3Cd
+ InCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6pR6fg/vKnYn4hcu/THLeviR1hmHEHC9vnXYnmcjF/Q=;
+ b=is+zYp1JfJvc8i5OQ/oKoYQ4pNYclWs7IJKvg9j7PHAkRJKJNmdt/3CCokZuv7tFum
+ SC+O/nBAbFVtIphgvsrb/cuHin+l28+xeea6ldN3uztv7VJiBfkOtq/YNiCbu0JVjg8t
+ 5MABWjRycBVTvgIkx/8Vaqr6lupXy4LyzO06A9twoG8YeTD4yFimw/Y/m4053zk7KAM9
+ yPjxx8FLZdYlfHwUhekPAGMKOs6U0Zjnb8QPkgJpHVJ/91UKPOwtIjyQlP6aD+Wt8LnI
+ FF4Aq/iAcEZ58dH976pSi2pfNMMzl0cpavMijm0q7wOyNQYpzoYiMfk1iehczECmRTlV
+ wfIw==
+X-Gm-Message-State: AOAM530L/PCu2z0YUdc+2Ao2GMY8Jo6dU/29iUcY87FAxZjvCQVUgWpq
+ 07H0fUmBS6YYVoLFQrUuclw=
+X-Google-Smtp-Source: ABdhPJx4ryhDhUccrXGgvid3ZVbrnrbevGoNExSyx1pGmnWuOH6PWddYTRxvkvma6v12P7EIGAI0ZA==
+X-Received: by 2002:ac2:58f2:: with SMTP id v18mr4396795lfo.623.1611158422110; 
+ Wed, 20 Jan 2021 08:00:22 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
+ [109.252.192.57])
+ by smtp.googlemail.com with ESMTPSA id 76sm233715lfh.163.2021.01.20.08.00.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 08:00:21 -0800 (PST)
+Subject: Re: [PATCH 24/31] memory: tegra20: convert to use devm_pm_opp_* API
+To: Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
+ kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ robdclark@gmail.com, sean@poorly.run, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
+ agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+ lukasz.luba@arm.com, adrian.hunter@intel.com, ulf.hansson@linaro.org,
+ vireshk@kernel.org, nm@ti.com, sboyd@kernel.org, broonie@kernel.org,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, rjw@rjwysocki.net,
+ jcrouse@codeaurora.org, hoegsberg@google.com, eric@anholt.net,
+ tzimmermann@suse.de, marijn.suijten@somainline.org, gustavoars@kernel.org,
+ emil.velikov@collabora.com, jonathan@marek.ca, akhilpo@codeaurora.org,
+ smasetty@codeaurora.org, airlied@redhat.com, masneyb@onstation.org,
+ kalyan_t@codeaurora.org, tanmay@codeaurora.org, ddavenport@chromium.org,
+ jsanka@codeaurora.org, rnayak@codeaurora.org, tongtiangen@huawei.com,
+ miaoqinglang@huawei.com, khsieh@codeaurora.org, abhinavk@codeaurora.org,
+ chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
+ mka@chromium.org, harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
+ natechancellor@gmail.com, georgi.djakov@linaro.org, akashast@codeaurora.org,
+ parashar@codeaurora.org, dianders@chromium.org
+References: <20210101165507.19486-1-tiny.windzz@gmail.com>
+ <20210101165507.19486-25-tiny.windzz@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b9f19bb2-c225-b64d-a995-1f84926bd18b@gmail.com>
+Date: Wed, 20 Jan 2021 19:00:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:31 +0000
+In-Reply-To: <20210101165507.19486-25-tiny.windzz@gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,168 +94,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le mer. 20 janv. 2021 =E0 15:04, Daniel Vetter <daniel@ffwll.ch> a =
-
-=E9crit :
-> On Wed, Jan 20, 2021 at 2:21 PM Paul Cercueil <paul@crapouillou.net> =
-
-> wrote:
->> =
-
->> =
-
->> =
-
->>  Le mer. 20 janv. 2021 =E0 14:01, Daniel Vetter <daniel@ffwll.ch> a
->>  =E9crit :
->>  > On Wed, Jan 20, 2021 at 1:36 PM Paul Cercueil =
-
->> <paul@crapouillou.net>
->>  > wrote:
->>  >>
->>  >>  Since the encoders have been devm-allocated, they will be freed =
-
->> way
->>  >>  before drm_mode_config_cleanup() is called. To avoid =
-
->> use-after-free
->>  >>  conditions, we then must ensure that drm_encoder_cleanup() is =
-
->> called
->>  >>  before the encoders are freed.
->>  >>
->>  >>  v2: Use the new __drmm_simple_encoder_alloc() function
->>  >>
->>  >>  Fixes: c369cb27c267 ("drm/ingenic: Support multiple =
-
->> panels/bridges")
->>  >>  Cc: <stable@vger.kernel.org> # 5.8+
->>  >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  >>  ---
->>  >>
->>  >>  Notes:
->>  >>      Use the V1 of this patch to fix v5.11 and older kernels. =
-
->> This
->>  >> V2 only
->>  >>      applies on the current drm-misc-next branch.
->>  >>
->>  >>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 16 +++++++---------
->>  >>   1 file changed, 7 insertions(+), 9 deletions(-)
->>  >>
->>  >>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  >> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  >>  index 7bb31fbee29d..158433b4c084 100644
->>  >>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  >>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  >>  @@ -1014,20 +1014,18 @@ static int ingenic_drm_bind(struct =
-
->> device
->>  >> *dev, bool has_components)
->>  >>                          bridge =3D
->>  >> devm_drm_panel_bridge_add_typed(dev, panel,
->>  >>
->>  >> DRM_MODE_CONNECTOR_DPI);
->>  >>
->>  >>  -               encoder =3D devm_kzalloc(dev, sizeof(*encoder),
->>  >> GFP_KERNEL);
->>  >>  -               if (!encoder)
->>  >>  -                       return -ENOMEM;
->>  >>  +               encoder =3D __drmm_simple_encoder_alloc(drm,
->>  >> sizeof(*encoder), 0,
->>  >
->>  > Please don't use the __ prefixed functions, those are the internal
->>  > ones. The official one comes with type checking and all that =
-
->> included.
->>  > Otherwise lgtm.
->>  > -Daniel
->> =
-
->>  The non-prefixed one assumes that I want to allocate a struct that
->>  contains the encoder, not just the drm_encoder itself.
-> =
-
-> Hm, but using the internal one is also a bit too ugly. A
-> drm_plain_simple_enocder_alloc(drm, type) wrapper would be the right
-> thing here I think? Setting the offsets and struct sizes directly in
-> these in drivers really doesn't feel like a good idea. I think simple
-> encoder is the only case where we really have a need for a
-> non-embeddable struct.
-> -Daniel
-
-Alright, I will add a wrapper.
-
-Cheers,
--Paul
-
->> =
-
->>  >>  +
->>  >> DRM_MODE_ENCODER_DPI);
->>  >>  +               if (IS_ERR(encoder)) {
->>  >>  +                       ret =3D PTR_ERR(encoder);
->>  >>  +                       dev_err(dev, "Failed to init encoder:
->>  >> %d\n", ret);
->>  >>  +                       return ret;
->>  >>  +               }
->>  >>
->>  >>                  encoder->possible_crtcs =3D 1;
->>  >>
->>  >>                  drm_encoder_helper_add(encoder,
->>  >> &ingenic_drm_encoder_helper_funcs);
->>  >>
->>  >>  -               ret =3D drm_simple_encoder_init(drm, encoder,
->>  >> DRM_MODE_ENCODER_DPI);
->>  >>  -               if (ret) {
->>  >>  -                       dev_err(dev, "Failed to init encoder:
->>  >> %d\n", ret);
->>  >>  -                       return ret;
->>  >>  -               }
->>  >>  -
->>  >>                  ret =3D drm_bridge_attach(encoder, bridge, NULL, =
-
->> 0);
->>  >>                  if (ret) {
->>  >>                          dev_err(dev, "Unable to attach =
-
->> bridge\n");
->>  >>  --
->>  >>  2.29.2
->>  >>
->>  >
->>  >
->>  > --
->>  > Daniel Vetter
->>  > Software Engineer, Intel Corporation
->>  > http://blog.ffwll.ch
->> =
-
->> =
-
-> =
-
-> =
-
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDEuMDEuMjAyMSAxOTo1NSwgWWFuZ3RhbyBMaSDQv9C40YjQtdGCOgo+IFVzZSBkZXZtX3BtX29w
+cF8qIEFQSSB0byBzaW1wbGlmeSBjb2RlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFlhbmd0YW8gTGkg
+PHRpbnkud2luZHp6QGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9tZW1vcnkvdGVncmEvdGVn
+cmEyMC1lbWMuYyB8IDI5ICsrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQoKVGhlcmUgYXJlIGFsc28g
+dGVncmEzMC1lbWMuYyBhbmQgdGVncmExMjQtZW1jLmMgd2l0aCBhIHNpbWlsYXIgT1BQIGNvZGUu
+CgpCdXQgY291bGQgd2UgcGxlYXNlIG5vdCB0b3VjaCB0aGVzZSBtZW1vcnkgZHJpdmVycz8gSSBh
+bHJlYWR5IGhhdmUgYQpwcmVwYXJlZCBwYXRjaCB3aGljaCByZXBsYWNlcyBhbGwgdGhlIHRlZ3Jh
+X2VtY19vcHBfdGFibGVfaW5pdCgpIHdpdGggYQpzaW5nbGUgY29tbW9uIGhlbHBlciB0aGF0IHdp
+bGwgdXNlIGRldm1fb3BwXyogaGVscGVycy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
