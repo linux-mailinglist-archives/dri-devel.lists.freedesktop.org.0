@@ -1,52 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A8D2FD57D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 17:26:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C512A2FD689
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 18:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4357B6E3B7;
-	Wed, 20 Jan 2021 16:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8764E6E0C6;
+	Wed, 20 Jan 2021 17:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C673C6E3B7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 16:26:13 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id v21so6131618otj.3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 08:26:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TR4A8q6K02DxTiaXZ3lXiS7PoGiZ905DDYVFaKV6hJs=;
- b=X+6XC27e9NvRxAXSFcJCX7sBLTclDZaFZztT0rBtKNzuYzjxhbDoOceu3gLmc7RRCG
- jJYxKFy0VDUwRGiSiNWileQMSufEJIZvnv2Lm7VGg7bRZF63rBoiyNMPWnVjrdckTwIc
- bBeX+A5PFbrlPkTNtMd6QGzwA2TjoCRzbkA1k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TR4A8q6K02DxTiaXZ3lXiS7PoGiZ905DDYVFaKV6hJs=;
- b=E/iBWd97xLkjfECGVUJ/WjRYFkHftXRa65a40eSCoS14tlgIZcwq79X1z2Vc8bt9og
- BN1M8rtdSu3cgBwGEGNpmW7MLigaj7n1MDrrRKh+P9LE6eheWwJSJloSCkqn/XV/hdy5
- uCSPkD4dWm9tfBQNeOwIqGyyguSTrTTGkogAvmMXbJtsMuCJ8D7yqLdGubfnEJHTr9fc
- gTqUXUA5zlb8TxbXpNjRQ2ttmXIEX8HuknKTufRLY0E1qzJRNgS3tlST9e6CF13fwzrK
- k+orEVHEYQXttTIy7Bpj3a6GNPjxiwOQ2eOJgOjab5AVVVFNSjn8+MMFD3BIzZHbYBd3
- F+LQ==
-X-Gm-Message-State: AOAM532mnm5CUWMmclLr5DzM2okZqq+kRKhALjfAIPVIpcHPbC6xVkbe
- Q9mvAt3APlwbLEcoLAmJdzUlHDVs+qWQg1ejUjDFZQ==
-X-Google-Smtp-Source: ABdhPJyqk40fmfS7gqlnqy6/UClYuooRH8LNmG2/KUb4n6AFXeVUr0ep1ChY8yMP9+rjQYw6gpo15Az+wTN1pS5m+oA=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr7418547otb.303.1611159973120; 
- Wed, 20 Jan 2021 08:26:13 -0800 (PST)
+Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113406E3D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 17:10:52 +0000 (UTC)
+Received: from localhost.localdomain (unknown [81.166.168.211])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: noralf.tronnes@ebnett.no)
+ by asav21.altibox.net (Postfix) with ESMTPSA id 5310580142;
+ Wed, 20 Jan 2021 18:00:52 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/3] Generic USB Display driver
+Date: Wed, 20 Jan 2021 18:00:30 +0100
+Message-Id: <20210120170033.38468-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20210120123535.40226-1-paul@crapouillou.net>
- <20210120123535.40226-4-paul@crapouillou.net>
-In-Reply-To: <20210120123535.40226-4-paul@crapouillou.net>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 20 Jan 2021 17:26:02 +0100
-Message-ID: <CAKMK7uFWUWtsOK-tcnon5p6-8ek3ZD2HeexUE7s7vUKKNXFXkg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/ingenic: Fix non-OSD mode
-To: Paul Cercueil <paul@crapouillou.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=LfoSFAXi c=1 sm=1 tr=0
+ a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+ a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20
+ a=LXfqoFB-L96-znvajxUA:9 a=QEXdDO2ut3YA:10 a=7zwkRhCwzGnCyznlyk9i:22
+ a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,92 +43,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
+ linux-usb@vger.kernel.org, th020394@gmail.com, lkundrak@v3.sk,
+ pontus.fuchs@gmail.com, peter@stuge.se
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 20, 2021 at 1:36 PM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Even though the JZ4740 did not have the OSD mode, it had (according to
-> the documentation) two DMA channels, but there is absolutely no
-> information about how to select the second DMA channel.
->
-> Make the ingenic-drm driver work in non-OSD mode by using the
-> foreground0 plane (which is bound to the DMA0 channel) as the primary
-> plane, instead of the foreground1 plane, which is the primary plane
-> when in OSD mode.
->
-> Fixes: 3c9bea4ef32b ("drm/ingenic: Add support for OSD mode")
-> Cc: <stable@vger.kernel.org> # v5.8+
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-
-Does what it says on the tin^Wcommit message.
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 158433b4c084..963dcbfeaba2 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -554,7 +554,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
->                 height = state->src_h >> 16;
->                 cpp = state->fb->format->cpp[0];
->
-> -               if (priv->soc_info->has_osd && plane->type == DRM_PLANE_TYPE_OVERLAY)
-> +               if (!priv->soc_info->has_osd || plane->type == DRM_PLANE_TYPE_OVERLAY)
->                         hwdesc = &priv->dma_hwdescs->hwdesc_f0;
->                 else
->                         hwdesc = &priv->dma_hwdescs->hwdesc_f1;
-> @@ -826,6 +826,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->         const struct jz_soc_info *soc_info;
->         struct ingenic_drm *priv;
->         struct clk *parent_clk;
-> +       struct drm_plane *primary;
->         struct drm_bridge *bridge;
->         struct drm_panel *panel;
->         struct drm_encoder *encoder;
-> @@ -940,9 +941,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->         if (soc_info->has_osd)
->                 priv->ipu_plane = drm_plane_from_index(drm, 0);
->
-> -       drm_plane_helper_add(&priv->f1, &ingenic_drm_plane_helper_funcs);
-> +       primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
->
-> -       ret = drm_universal_plane_init(drm, &priv->f1, 1,
-> +       drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
-> +
-> +       ret = drm_universal_plane_init(drm, primary, 1,
->                                        &ingenic_drm_primary_plane_funcs,
->                                        priv->soc_info->formats_f1,
->                                        priv->soc_info->num_formats_f1,
-> @@ -954,7 +957,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->
->         drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
->
-> -       ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->f1,
-> +       ret = drm_crtc_init_with_planes(drm, &priv->crtc, primary,
->                                         NULL, &ingenic_drm_crtc_funcs, NULL);
->         if (ret) {
->                 dev_err(dev, "Failed to init CRTC: %i\n", ret);
-> --
-> 2.29.2
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpBIHdoaWxlIGJhY2sgSSBoYWQgdGhlIGlkZWEgdG8gdHVybiBhIFJhc3BiZXJyeSBQaSBa
+ZXJvIGludG8gYSAkNQpVU0IgdG8gSERNSS9TRFRWL0RTSS9EUEkgZGlzcGxheSBhZGFwdGVyLgoK
+VGhlIHJlYXNvbiBmb3IgY2FsbGluZyBpdCAnR2VuZXJpYycgaXMgc28gYW55b25lIGNhbiBtYWtl
+IGEgVVNCCmRpc3BsYXkvYWRhcHRlciBhZ2FpbnN0IHRoaXMgZHJpdmVyLCBhbGwgdGhhdCdzIG5l
+ZWRlZCBpcyB0byBhZGQgYSBVU0IKdmlkOnBpZC4KClVuZm9ydHVuYXRlbHkgSSd2ZSBoYWQgc29t
+ZSBjb21wb3VuZGluZyBoZWFsdGggcHJvYmxlbXMgdGhhdCBoYXZlCnNldmVyYWxseSBsaW1pdGVk
+IHRoZSB0aW1lIEkgY2FuIHNwZW5kIGluIGZyb250IG9mIGEgY29tcHV0ZXIuIEZvciB0aGlzCnJl
+YXNvbiBJJ3ZlIGRlY2lkZWQgdG8ga2VlcCB0aGUgZ2FkZ2V0IGRyaXZlciBvdXQtb2YtdHJlZSBh
+bmQgZm9jdXMgb24KZ2V0dGluZyB0aGUgaG9zdCBkcml2ZXIgbWVyZ2VkIGZpcnN0LgoKU2VlIHRo
+ZSB3aWtpWzFdIGZvciBtb3JlIGluZm9ybWF0aW9uIGFuZCBpbWFnZXMgZm9yIHRoZSBSYXNwYmVy
+cnkgUGkKWmVyby80LgoKT25lIGJpZyBjaGFuZ2UgdGhpcyB0aW1lIGlzIHRoYXQgSSd2ZSBmb2xs
+b3dlZCBQZXRlciBTdHVnZSdzIGFkdmljZSB0bwpub3QgbGV0IERSTSBzdHVmZiBsZWFrIGludG8g
+dGhlIFVTQiBwcm90b2NvbC4gVGhpcyBoYXMgbWFkZSB0aGUgcHJvdG9jb2wKZWFzaWVyIHRvIHVu
+ZGVyc3RhbmQganVzdCBmcm9tIHJlYWRpbmcgdGhlIGhlYWRlciBmaWxlLgoKTm9yYWxmLgoKWzFd
+IGh0dHBzOi8vZ2l0aHViLmNvbS9ub3Ryby9ndWQvd2lraQoKCk5vcmFsZiBUcsO4bm5lcyAoMyk6
+CiAgZHJtL3VhcGk6IEFkZCBVU0IgY29ubmVjdG9yIHR5cGUKICBkcm0vcHJvYmUtaGVscGVyOiBD
+aGVjayBlcG9jaCBjb3VudGVyIGluIG91dHB1dF9wb2xsX2V4ZWN1dGUoKQogIGRybTogQWRkIEdl
+bmVyaWMgVVNCIERpc3BsYXkgZHJpdmVyCgogTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgIDggKwogZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAgICAgICAgICAgfCAgIDIg
+KwogZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9n
+cHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyAgfCAgIDcgKy0KIGRyaXZlcnMvZ3B1L2RybS9ndWQv
+S2NvbmZpZyAgICAgICAgIHwgIDE0ICsKIGRyaXZlcnMvZ3B1L2RybS9ndWQvTWFrZWZpbGUgICAg
+ICAgIHwgICA0ICsKIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Nvbm5lY3Rvci5jIHwgNzIyICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5j
+ICAgICAgIHwgNjIwICsrKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2d1
+ZC9ndWRfaW50ZXJuYWwuaCAgfCAxNDggKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9w
+aXBlLmMgICAgICB8IDQ3MiArKysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL2d1ZC5oICAg
+ICAgICAgICAgICAgICAgIHwgMzU2ICsrKysrKysrKysrKysrCiBpbmNsdWRlL3VhcGkvZHJtL2Ry
+bV9tb2RlLmggICAgICAgICB8ICAgMSArCiAxMiBmaWxlcyBjaGFuZ2VkLCAyMzU0IGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
+Z3VkL0tjb25maWcKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL01ha2Vm
+aWxlCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9y
+LmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYwogY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2ludGVybmFsLmgKIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMKIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBpbmNsdWRlL2RybS9ndWQuaAoKLS0gCjIuMjMuMAoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
