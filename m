@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F302FE58F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E6C2FE56C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86BA96E900;
-	Thu, 21 Jan 2021 08:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67C76E8C1;
+	Thu, 21 Jan 2021 08:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9196E0AC
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 14:23:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77646E3B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 14:22:40 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l2ENH-0001dE-CM; Wed, 20 Jan 2021 15:22:19 +0100
+ id 1l2ENH-0001dF-CT; Wed, 20 Jan 2021 15:22:19 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l2ENG-0007jt-7w; Wed, 20 Jan 2021 15:22:18 +0100
+ id 1l2ENG-0007k2-93; Wed, 20 Jan 2021 15:22:18 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 4/7] ARM: dts: imx6dl-prtvt7: add TSC2046 touchscreen node
-Date: Wed, 20 Jan 2021 15:22:14 +0100
-Message-Id: <20210120142217.29652-5-o.rempel@pengutronix.de>
+Subject: [PATCH v1 5/7] ARM: dts: imx6dl-prtvt7: Remove backlight enable gpio
+Date: Wed, 20 Jan 2021 15:22:15 +0100
+Message-Id: <20210120142217.29652-6-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210120142217.29652-1-o.rempel@pengutronix.de>
 References: <20210120142217.29652-1-o.rempel@pengutronix.de>
@@ -61,46 +61,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add touchscreen support to the Protonic VT7 board.
+The backlight power is controlled through the reg_bl_12v0 regulator.
 
 Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/imx6dl-prtvt7.dts | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ arch/arm/boot/dts/imx6dl-prtvt7.dts | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/arch/arm/boot/dts/imx6dl-prtvt7.dts b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-index d9cb1e41cc10..63ae2065834c 100644
+index 63ae2065834c..fe8df03c8bfb 100644
 --- a/arch/arm/boot/dts/imx6dl-prtvt7.dts
 +++ b/arch/arm/boot/dts/imx6dl-prtvt7.dts
-@@ -266,6 +266,26 @@ &ecspi2 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_ecspi2>;
- 	status = "okay";
-+
-+	touchscreen@0 {
-+		compatible = "ti,tsc2046";
-+		reg = <0>;
-+		pinctrl-0 = <&pinctrl_tsc>;
-+		pinctrl-names ="default";
-+		spi-max-frequency = <100000>;
-+		interrupts-extended = <&gpio3 20 IRQ_TYPE_EDGE_FALLING>;
-+		pendown-gpio = <&gpio3 20 GPIO_ACTIVE_LOW>;
-+
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+		touchscreen-max-pressure = <4095>;
-+
-+		ti,vref-delay-usecs = /bits/ 16 <100>;
-+		ti,x-plate-ohms = /bits/ 16 <800>;
-+		ti,y-plate-ohms = /bits/ 16 <300>;
-+
-+		wakeup-source;
-+	};
- };
+@@ -21,14 +21,11 @@ memory@10000000 {
  
- &i2c1 {
+ 	backlight_lcd: backlight-lcd {
+ 		compatible = "pwm-backlight";
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&pinctrl_backlight>;
+ 		pwms = <&pwm1 0 500000>;
+ 		brightness-levels = <0 20 81 248 1000>;
+ 		default-brightness-level = <20>;
+ 		num-interpolated-steps = <21>;
+ 		power-supply = <&reg_bl_12v0>;
+-		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
+ 	};
+ 
+ 	display {
+@@ -367,12 +364,6 @@ MX6QDL_PAD_CSI0_DAT6__AUD3_TXFS		0x130b0
+ 		>;
+ 	};
+ 
+-	pinctrl_backlight: backlightgrp {
+-		fsl,pins = <
+-			MX6QDL_PAD_DISP0_DAT7__GPIO4_IO28	0x1b0b0
+-		>;
+-	};
+-
+ 	pinctrl_can1phy: can1phy {
+ 		fsl,pins = <
+ 			/* CAN1_SR */
 -- 
 2.30.0
 
