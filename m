@@ -1,88 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60C02FE586
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 418962FE594
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A389C6E8FB;
-	Thu, 21 Jan 2021 08:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E59336E8FD;
+	Thu, 21 Jan 2021 08:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1C3A6E090;
- Wed, 20 Jan 2021 15:54:50 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id m25so34711187lfc.11;
- Wed, 20 Jan 2021 07:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OraQS0v0Xv5zg7vQaDViOmDICo3Sb7euJyZv9aOaJu8=;
- b=VsvXik7hw5Hl3crun670kcR75wLYFasYTGj7q+1s/NO8wZ5r/tDe5fojKQMoNSQWkS
- aMQAYbRM5GPqs2f8j7Y1mhjlCBqiYJtgxsmi6IyMj+53tNfe7VleKdz1mHUyGb853dsE
- njfONOWRODOxWuzePpWXBtsa+p2FJrq/O4T54gWr5NNYovu6KNFNz4WswCMdb+idfG6U
- g5xIGPzuMp9OeebLCuTvjPWV9vhiOS7CdX0IleSzuo3vRC5dwwq+8FCLSDTcDO9/48IF
- EggAYURVgxOMRFCO2fiU+qag7XnLDo0puFyPuc9SahICXYBvHriLpO7KxR7rLSKKAY+U
- vJyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OraQS0v0Xv5zg7vQaDViOmDICo3Sb7euJyZv9aOaJu8=;
- b=riOK07/yhZeOf/6ji7Ps3hAHDu0ag7Qw93BZvYM7/95OF3iADrafMjBNWULXUxjgg4
- ay6zoRRNoi3uC8z6a0AXOBpxlJmkBrmfPtq8jduQJkU74JmlYWy0yrfoAEx+ITb7SRem
- iz1g2HLq48tOpioEQWXed7PE8qqOM/GPIXWwKHuFUE/AMrBZiI597THsAS/tFjT3MKn5
- CYekQI6v3fZsgn3hf8+r0Ltz/XfRQ9EotW/LrwmsXOdOGeGpqY883QegPgtsXMgF2tb5
- x+IxSHRR7UWo4GH23AyHDbrHLzIZajizPy25cNngo+ueskDV+UzAT0rZb8VzfoCCLVpx
- mNeg==
-X-Gm-Message-State: AOAM532Rof+oAJjf/IuHTwcvexJZbIKQw+7ssqK1jpjMy2t01HVPeOuY
- JTlcz7K3Vo7Kz8vONh+6PU8=
-X-Google-Smtp-Source: ABdhPJxixdZxCteA3EdzQ5S+lWMiRpU31hXGhGOFWP/JeX4pGWhmpG53pDtKr8KAUPnR39Mxv9geQQ==
-X-Received: by 2002:a05:6512:3ea:: with SMTP id
- n10mr4495148lfq.535.1611158089273; 
- Wed, 20 Jan 2021 07:54:49 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru.
- [109.252.192.57])
- by smtp.googlemail.com with ESMTPSA id 127sm267842ljf.132.2021.01.20.07.54.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 07:54:48 -0800 (PST)
-Subject: Re: [PATCH 04/31] opp: Add devres wrapper for dev_pm_opp_of_add_table
-To: Yangtao Li <tiny.windzz@gmail.com>, myungjoo.ham@samsung.com,
- kyungmin.park@samsung.com, cw00.choi@samsung.com, krzk@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, thierry.reding@gmail.com,
- jonathanh@nvidia.com, yuq825@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- robdclark@gmail.com, sean@poorly.run, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, stanimir.varbanov@linaro.org,
- agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
- lukasz.luba@arm.com, adrian.hunter@intel.com, ulf.hansson@linaro.org,
- vireshk@kernel.org, nm@ti.com, sboyd@kernel.org, broonie@kernel.org,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, rjw@rjwysocki.net,
- jcrouse@codeaurora.org, hoegsberg@google.com, eric@anholt.net,
- tzimmermann@suse.de, marijn.suijten@somainline.org, gustavoars@kernel.org,
- emil.velikov@collabora.com, jonathan@marek.ca, akhilpo@codeaurora.org,
- smasetty@codeaurora.org, airlied@redhat.com, masneyb@onstation.org,
- kalyan_t@codeaurora.org, tanmay@codeaurora.org, ddavenport@chromium.org,
- jsanka@codeaurora.org, rnayak@codeaurora.org, tongtiangen@huawei.com,
- miaoqinglang@huawei.com, khsieh@codeaurora.org, abhinavk@codeaurora.org,
- chandanu@codeaurora.org, groeck@chromium.org, varar@codeaurora.org,
- mka@chromium.org, harigovi@codeaurora.org, rikard.falkeborn@gmail.com,
- natechancellor@gmail.com, georgi.djakov@linaro.org, akashast@codeaurora.org,
- parashar@codeaurora.org, dianders@chromium.org
-References: <20210101165507.19486-1-tiny.windzz@gmail.com>
- <20210101165507.19486-5-tiny.windzz@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7fde8c7f-8dcc-c085-33e1-35c9db5e1003@gmail.com>
-Date: Wed, 20 Jan 2021 18:54:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EC5E6E090
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 15:55:47 +0000 (UTC)
+Date: Wed, 20 Jan 2021 15:55:33 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 2/3] drm/ingenic: Register devm action to cleanup
+ encoders
+To: Daniel Vetter <daniel@ffwll.ch>
+Message-Id: <LKP8NQ.Z9MLLA6J6UUF2@crapouillou.net>
+In-Reply-To: <CAKMK7uEu7vWcJFC6S_hmKB4UMwPocwiOEy1iFnftOs5zfsRNYQ@mail.gmail.com>
+References: <20210120123535.40226-1-paul@crapouillou.net>
+ <20210120123535.40226-3-paul@crapouillou.net>
+ <CAKMK7uFaP7xcw90=KqiGJd7Mt-gD-spvcxvOZr2Txhyv5vcBvw@mail.gmail.com>
+ <TFI8NQ.468S4PLHPA963@crapouillou.net>
+ <CAKMK7uEu7vWcJFC6S_hmKB4UMwPocwiOEy1iFnftOs5zfsRNYQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210101165507.19486-5-tiny.windzz@gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:32 +0000
+X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,26 +38,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ stable <stable@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDEuMDEuMjAyMSAxOTo1NCwgWWFuZ3RhbyBMaSDQv9C40YjQtdGCOgo+IEFkZCBkZXZyZXMgd3Jh
-cHBlciBmb3IgZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoKSB0byBzaW1wbGlmeSBkcml2ZXIKPiBj
-b2RlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFlhbmd0YW8gTGkgPHRpbnkud2luZHp6QGdtYWlsLmNv
-bT4KPiAtLS0KPiAgZHJpdmVycy9vcHAvb2YuYyAgICAgICB8IDM2ICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKwo+ICBpbmNsdWRlL2xpbnV4L3BtX29wcC5oIHwgIDYgKysrKysr
-Cj4gIDIgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKQoKUmV2aWV3ZWQtYnk6IERtaXRy
-eSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KVGVzdGVkLWJ5OiBEbWl0cnkgT3NpcGVua28g
-PGRpZ2V0eEBnbWFpbC5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+
+
+Le mer. 20 janv. 2021 =E0 15:04, Daniel Vetter <daniel@ffwll.ch> a =
+
+=E9crit :
+> On Wed, Jan 20, 2021 at 2:21 PM Paul Cercueil <paul@crapouillou.net> =
+
+> wrote:
+>> =
+
+>> =
+
+>> =
+
+>>  Le mer. 20 janv. 2021 =E0 14:01, Daniel Vetter <daniel@ffwll.ch> a
+>>  =E9crit :
+>>  > On Wed, Jan 20, 2021 at 1:36 PM Paul Cercueil =
+
+>> <paul@crapouillou.net>
+>>  > wrote:
+>>  >>
+>>  >>  Since the encoders have been devm-allocated, they will be freed =
+
+>> way
+>>  >>  before drm_mode_config_cleanup() is called. To avoid =
+
+>> use-after-free
+>>  >>  conditions, we then must ensure that drm_encoder_cleanup() is =
+
+>> called
+>>  >>  before the encoders are freed.
+>>  >>
+>>  >>  v2: Use the new __drmm_simple_encoder_alloc() function
+>>  >>
+>>  >>  Fixes: c369cb27c267 ("drm/ingenic: Support multiple =
+
+>> panels/bridges")
+>>  >>  Cc: <stable@vger.kernel.org> # 5.8+
+>>  >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  >>  ---
+>>  >>
+>>  >>  Notes:
+>>  >>      Use the V1 of this patch to fix v5.11 and older kernels. =
+
+>> This
+>>  >> V2 only
+>>  >>      applies on the current drm-misc-next branch.
+>>  >>
+>>  >>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 16 +++++++---------
+>>  >>   1 file changed, 7 insertions(+), 9 deletions(-)
+>>  >>
+>>  >>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  >> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  >>  index 7bb31fbee29d..158433b4c084 100644
+>>  >>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  >>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  >>  @@ -1014,20 +1014,18 @@ static int ingenic_drm_bind(struct =
+
+>> device
+>>  >> *dev, bool has_components)
+>>  >>                          bridge =3D
+>>  >> devm_drm_panel_bridge_add_typed(dev, panel,
+>>  >>
+>>  >> DRM_MODE_CONNECTOR_DPI);
+>>  >>
+>>  >>  -               encoder =3D devm_kzalloc(dev, sizeof(*encoder),
+>>  >> GFP_KERNEL);
+>>  >>  -               if (!encoder)
+>>  >>  -                       return -ENOMEM;
+>>  >>  +               encoder =3D __drmm_simple_encoder_alloc(drm,
+>>  >> sizeof(*encoder), 0,
+>>  >
+>>  > Please don't use the __ prefixed functions, those are the internal
+>>  > ones. The official one comes with type checking and all that =
+
+>> included.
+>>  > Otherwise lgtm.
+>>  > -Daniel
+>> =
+
+>>  The non-prefixed one assumes that I want to allocate a struct that
+>>  contains the encoder, not just the drm_encoder itself.
+> =
+
+> Hm, but using the internal one is also a bit too ugly. A
+> drm_plain_simple_enocder_alloc(drm, type) wrapper would be the right
+> thing here I think? Setting the offsets and struct sizes directly in
+> these in drivers really doesn't feel like a good idea. I think simple
+> encoder is the only case where we really have a need for a
+> non-embeddable struct.
+> -Daniel
+
+Alright, I will add a wrapper.
+
+Cheers,
+-Paul
+
+>> =
+
+>>  >>  +
+>>  >> DRM_MODE_ENCODER_DPI);
+>>  >>  +               if (IS_ERR(encoder)) {
+>>  >>  +                       ret =3D PTR_ERR(encoder);
+>>  >>  +                       dev_err(dev, "Failed to init encoder:
+>>  >> %d\n", ret);
+>>  >>  +                       return ret;
+>>  >>  +               }
+>>  >>
+>>  >>                  encoder->possible_crtcs =3D 1;
+>>  >>
+>>  >>                  drm_encoder_helper_add(encoder,
+>>  >> &ingenic_drm_encoder_helper_funcs);
+>>  >>
+>>  >>  -               ret =3D drm_simple_encoder_init(drm, encoder,
+>>  >> DRM_MODE_ENCODER_DPI);
+>>  >>  -               if (ret) {
+>>  >>  -                       dev_err(dev, "Failed to init encoder:
+>>  >> %d\n", ret);
+>>  >>  -                       return ret;
+>>  >>  -               }
+>>  >>  -
+>>  >>                  ret =3D drm_bridge_attach(encoder, bridge, NULL, =
+
+>> 0);
+>>  >>                  if (ret) {
+>>  >>                          dev_err(dev, "Unable to attach =
+
+>> bridge\n");
+>>  >>  --
+>>  >>  2.29.2
+>>  >>
+>>  >
+>>  >
+>>  > --
+>>  > Daniel Vetter
+>>  > Software Engineer, Intel Corporation
+>>  > http://blog.ffwll.ch
+>> =
+
+>> =
+
+> =
+
+> =
+
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
