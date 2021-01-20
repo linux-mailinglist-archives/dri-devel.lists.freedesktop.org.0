@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE562FCF45
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 13:10:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD2E2FCF48
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 13:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1F616E17E;
-	Wed, 20 Jan 2021 12:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13EA6E1BC;
+	Wed, 20 Jan 2021 12:11:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F446E17E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:10:33 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id 7so15620998wrz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 04:10:33 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00C696E1BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:11:13 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id d26so22870712wrb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 04:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4IqbF/aEu6bCJ3tVsDdllrN7Ti4vQxBfSZTNHcPAMBc=;
- b=PZculfYne+Mgx++QiFVN+nCnemr/hxQonC0HBYYxazi8lHdGsP5XZDIgWGkZb104bK
- 8cnBsTCL2kSEV59O+neYUlPlxjTm4rRSVZZxAyLVd473KoLx1/HmPz95I9bYKIzgF3f9
- 7WzpIJmDPjlssDkzG4drvnRl5LjheMEVRSsVg=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=IGA4MFItvPL4OlLmJnN5UZxvVugePRUifOG0Ez72Y18=;
+ b=ksekugHE5q54+q+x+h4cKu6RTnayAKvsRK0uAbQ4zeupre/uimb11VWe+emj6Oa4sI
+ la56cc5FTNj7zbFNKPN16WDEpVqw1jUrpuRMrH4QuqAqsAKQfl+kVzt05n/BHHKfnCdb
+ e3m/apEQl0zYtfsvbZ69CPFxJHcnwG/L7XWKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4IqbF/aEu6bCJ3tVsDdllrN7Ti4vQxBfSZTNHcPAMBc=;
- b=UsDxtuNOAXf6GZ2y2D7BXze2Df3VFQQVQjosG0vqbKFFjgAHQaBSql7MSh8H6rR78Z
- /+57lvpsxvbDvccFg8Cpci9vDfEcNMchbjVPjWuGOy5Js6RMCAj6nzEwUI5K61hNWuTN
- sH9XmirYQt1S54fgGdCw5r244E4BEJBvH6rW8/Qq8KmF79KU4vZJ/l+5oV9dgo29hzUr
- ZLRem72Saa557qBs01itNC/29Urk1clYRzBwN3EoRvdBy2AMfSeEWXI/36+dxToqh3QP
- WtLmnx1An19H77w02rJuRoZp0EikxIqQkZlowSmPJiunUHcS274IXziVGYdWI9mGs4F2
- PJAg==
-X-Gm-Message-State: AOAM533W5HOxnBdlHAmnMw2ZebueIOtgDsF7J4q1CUPCiW7sVZ+krgIV
- v/6ayLauWz1/NXOmXjMexBulLQ==
-X-Google-Smtp-Source: ABdhPJxtwmBX30Y7rM9Iun1rNOBkMbaTixzL0Nwfp/IiIPJD08SYbCZOYfzAkEbUmBz1nC5go9l0fw==
-X-Received: by 2002:a5d:4ad0:: with SMTP id y16mr8936113wrs.424.1611144632072; 
- Wed, 20 Jan 2021 04:10:32 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IGA4MFItvPL4OlLmJnN5UZxvVugePRUifOG0Ez72Y18=;
+ b=VWfH1Lr+V+CzY3iR3t/tqfZguPwv9VuIIhvLqYLCTRwqcfNYADICKB7II5JxqVzWsO
+ v2oBu29BxyHeg7dtKYW5aRmqfacDyZkrTFlWo8B5LsY//ryuBr81rOFsZT3TV9H5kt/T
+ wLY1DEoZCLhTPJqI9LKVnRF5q8Yuo8hLvoDi/MWUjCHAPpCFIW38VPGvqOapN01StOrO
+ zsjvbTy6F+ncsOG9be4HOu1VRn9DHr5K8VJ/hhyL+cOEht/9Y0nW9bpG3dB739s9J+wv
+ tGe4g29OoBwrvK8iGy3r3Ugo2Es65SgPi7ZkxZ4oWPqT1By2vd1C2fE2oQHp6eVICTmf
+ YSLw==
+X-Gm-Message-State: AOAM530mhwf1rrAwVQxhk6C6ZWZxv34RXI/0y8VHWf+hGuKeBv+1xpR6
+ 4yHCWEfhUQQTGcUnbQv05aU7Dw==
+X-Google-Smtp-Source: ABdhPJxvgDgLAidTr25LvbptyHISx8WLMPR4qsfsL5CnNvRRg8fLEl30Ma9dGiL8l37v1Zkyn1Oglw==
+X-Received: by 2002:adf:f60b:: with SMTP id t11mr9176484wrp.401.1611144672510; 
+ Wed, 20 Jan 2021 04:11:12 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h125sm3818031wmh.16.2021.01.20.04.10.30
+ by smtp.gmail.com with ESMTPSA id d18sm3658038wmb.30.2021.01.20.04.11.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 04:10:31 -0800 (PST)
-Date: Wed, 20 Jan 2021 13:10:29 +0100
+ Wed, 20 Jan 2021 04:11:11 -0800 (PST)
+Date: Wed, 20 Jan 2021 13:11:09 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [pull] amdgpu drm-next-5.12
-Message-ID: <YAgdtWQSsCK/vGXG@phenom.ffwll.local>
-References: <20210120060951.22600-1-alexander.deucher@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PULL] drm-misc-next
+Message-ID: <YAgd3VwEVuIB5gF1@phenom.ffwll.local>
+References: <5c3ad775-48ce-33ee-e4c6-a5e1e540f845@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210120060951.22600-1-alexander.deucher@amd.com>
+In-Reply-To: <5c3ad775-48ce-33ee-e4c6-a5e1e540f845@linux.intel.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,432 +65,603 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 20, 2021 at 01:09:51AM -0500, Alex Deucher wrote:
-> Hi Dave, Daniel,
-> 
-> More new stuff for 5.12.  Now with non-x86 fixed.
-> 
-> The following changes since commit 044a48f420b9d3c19a135b821c34de5b2bee4075:
-> 
->   drm/amdgpu: fix DRM_INFO flood if display core is not supported (bug 210921) (2021-01-08 15:18:57 -0500)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.12-2021-01-20
+On Tue, Jan 19, 2021 at 12:39:22PM +0100, Maarten Lankhorst wrote:
+> drm-misc-next-2021-01-19:
+> drm-misc-next for v5.12:
+> =
 
-There was a silly conflict, I picked yours, but maybe double check.
-Details in the merge commit. Also maybe we want to fast-forward.
+> UAPI Changes:
+> - Fix fourcc macro for amlogic video fbc.
+> =
+
+> Cross-subsystem Changes:
+> - Export pci_rebar_bytes_to_size.
+> - Add a PCI quirk to increase bar0 for RX 5600 XT Pulse to max possible s=
+ize.
+> - Convert devicetree bindings to use the OF graph schema.
+> - Update s6e63m0 bindings.
+> - Make omapfb2 DSI_CM incompatible with drm/omap2 DSI-CM because of
+>   module conflicts.
+> - Add Zack Rusin as vmwgfx maintainer.
+> - Add CONFIG_DMABUF_DEBUG for validating dma-buf users don't loo kat stru=
+ct page when importing or detaching.
+> =
+
+> Core Changes:
+> - Remove references to drm_device.pdev
+> - Fix regression in ttm_bo_move_to_lru_tail().
+> - Assorted docbook updates.
+> - Do not send dp-mst hotplug events on error when probing.
+> - Move some agp macros to agpsupport.c, so it's not always compiled.
+> - Move drm_need_swiotlb.h to drm_cache.c
+> - Only build drm_memory.o for legacy drivers, and move CONFIG_DRM_VM to l=
+egacy.
+> - Nuke drm_device.hose
+> - Warn when the ttm resource manager is non-empty when disabling.
+> - Assorted small fixes.
+> =
+
+> Driver Changes:
+> - Small assorted fixes in radeon, v3d, hisilicon, mipi-dbi, panfrost, hib=
+mc, vc4, amdgpu, vkms, vmwgfx.
+> - Move hisilicon to use simple encode.
+> - Add writeback connector to vkms.
+> - Add support for BT2020 to DE3.
+> - Use gem prime mmap helpers in vc4, and move the mmap function upwards.
+> - Use managed drm device, and cleanup error paths and display registers i=
+n vmwgfx.
+> - Use correct bus_format and connector_type for innolux_n116bge.
+> - Fix a lot of warnings with W=3D1 (Lee Jones)
+> The following changes since commit cb3cfbf79aff7decb4e5ee69a7c74864497f61=
+dc:
+> =
+
+>   Merge tag 'drm-misc-next-2021-01-06' of git://anongit.freedesktop.org/d=
+rm/drm-misc into drm-next (2021-01-07 13:40:20 +0100)
+
+Pulled, thanks.
 -Daniel
 
-> 
-> for you to fetch changes up to 4aef0ebc6b65e8583bc3d96e05c7a039912b3ee6:
-> 
->   drm/amdgpu: fix build error without x86 kconfig (v2) (2021-01-19 15:16:10 -0500)
-> 
-> ----------------------------------------------------------------
-> amd-drm-next-5.12-2021-01-20:
-> 
-> amdgpu:
-> - Fix non-x86 build
-> - W=1 fixes from Lee Jones
-> - Enable GPU reset on Navy Flounder
-> - Kernel doc fixes
-> - SMU workload profile fixes for APUs
-> - Display updates
-> - SR-IOV fixes
-> - Vangogh SMU feature enablment and bug fixes
-> - GPU reset support for Vangogh
-> - Misc cleanups
-> 
-> ----------------------------------------------------------------
-> Alex Deucher (5):
->       MAINTAINERS: update radeon/amdgpu/amdkfd git trees
->       drm/amdgpu: add mode2 reset support for vangogh
->       drm/amdgpu/nv: add mode2 reset handling
->       drm/amdgpu: fix mode2 reset sequence for vangogh
->       drm/amdgpu: Enable GPU reset for vangogh
-> 
-> Aric Cyr (2):
->       drm/amd/display: 3.2.117
->       drm/amd/display: 3.2.118
-> 
-> Bhawanpreet Lakha (2):
->       drm/amd/display: enable HUBP blank behaviour
->       drm/amd/display: Fix deadlock during gpu reset v3
-> 
-> Charlene Liu (1):
->       drm/amd/display: change SMU repsonse timeout to 2s
-> 
-> Chiawen Huang (1):
->       drm/amd/display: removed unnecessary check when dpp clock increasing
-> 
-> Colin Ian King (1):
->       drm/amdgpu: Add missing BOOTUP_DEFAULT to profile_name[]
-> 
-> Emily.Deng (1):
->       drm/amdgpu: Decrease compute timeout to 10 s for sriov multiple VF
-> 
-> Guchun Chen (1):
->       drm/amdgpu: toggle on DF Cstate after finishing xgmi injection
-> 
-> Huang Rui (13):
->       drm/amd/pm: remove vcn/jpeg powergating feature checking for vangogh
->       drm/amd/pm: enhance the real response for smu message (v2)
->       drm/amd/pm: clean up get_allowed_feature_mask function
->       drm/amd/pm: initial feature_enabled/feature_support bitmap for vangogh
->       drm/amd/pm: don't mark all apu as true on feature mask
->       drm/amdgpu: revise the mode2 reset for vangogh
->       drm/amd/pm: fix the return value of pm message
->       drm/amd/pm: implement the processor clocks which read by metric
->       drm/amd/pm: implement processor fine grain feature for vangogh (v3)
->       drm/amdgpu: fix vram type and bandwidth error for DDR5 and DDR4
->       drm/amd/display: fix the system memory page fault because of copy overflow
->       drm/amd/display: fix the coding style issue of integrated_info
->       drm/amdgpu: fix build error without x86 kconfig (v2)
-> 
-> Jack Zhang (1):
->       drm/amdgpu/sriov Stop data exchange for wholegpu reset
-> 
-> Jacky Liao (1):
->       drm/amd/display: Fix assert being hit with GAMCOR memory shut down
-> 
-> Jeremy Cline (1):
->       drm/amdkfd: Fix out-of-bounds read in kdf_create_vcrat_image_cpu()
-> 
-> Jiansong Chen (2):
->       drm/amdgpu: enable gpu recovery for navy_flounder
->       drm/amd/pm: update driver if version for navy_flounder
-> 
-> Jinzhou Su (4):
->       drm/amd/pm: Add GFXOFF interface for Vangogh
->       drm/amd/pm: Enable GfxOff for Vangogh
->       drm/amdgpu: Add Secure Display TA header file
->       drm/amdgpu: Add secure display TA interface
-> 
-> John Clements (1):
->       drm/amdgpu: updated fw attestation interface
-> 
-> Jun Lei (1):
->       drm/amd/display: implement T12 compliance
-> 
-> Lee Jones (90):
->       drm/amd/amdgpu/amdgpu_ih: Update 'amdgpu_ih_decode_iv_helper()'s function header
->       drm/amd/amdgpu/vega20_ih: Add missing descriptions for 'ih' and fix spelling error
->       drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0: Provide description of 'call_back_func'
->       drm/amd/pm/powerplay/hwmgr/ppatomctrl: Fix documentation for 'mpll_param'
->       drm/amd/pm/powerplay/hwmgr/vega12_hwmgr: Fix legacy function header formatting
->       drm/amd/pm/powerplay/hwmgr/vega20_hwmgr: Fix legacy function header formatting
->       drm/amd/pm/powerplay/hwmgr/smu7_hwmgr: Fix formatting and spelling issues
->       drm/amd/pm/powerplay/hwmgr/hwmgr: Move prototype into shared header
->       drm/amd/pm/powerplay/hwmgr/vega10_hwmgr: Fix a bunch of kernel-doc formatting issues
->       drm/amd/display/dc/basics/conversion: Demote obvious kernel-doc abuse
->       drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs: Demote non-kernel-doc comment blocks
->       drm/amd/display/dc/bios/command_table_helper: Fix kernel-doc formatting
->       drm/amd/display/dc/bios/command_table_helper2: Fix legacy formatting problems
->       drm/amd/display/dc/bios/bios_parser: Make local functions static
->       drm/amd/display/dc/bios/bios_parser: Fix a whole bunch of legacy doc formatting
->       drm/amd/display/dc/bios/bios_parser2: Fix some formatting issues and missing parameter docs
->       drm/amd/display/dc/dce/dce_audio: Make function invoked by reference static
->       drm/amd/display/dc/dce/dce_stream_encoder: Remove unused variable 'regval'
->       drm/amd/display/dc/dce/dce_link_encoder: Make functions invoked by reference static
->       drm/amd/display/dc/dce/dce_clock_source: Fix formatting/spelling of worthy function headers
->       drm/amd/pm/powerplay/hwmgr/vega10_hwmgr: Fix worthy function headers, demote barely documented one
->       drm/amd/display/dc/dce/dce_transform: Remove 3 unused/legacy variables
->       drm/amd/display/dc/dce/dce_dmcu: Staticify local function call 'dce_dmcu_load_iram'
->       drm/amd/display/dc/dce/dce_dmcu: Move 'abm_gain_stepsize' to only source file it's used in
->       drm/amd/display/dc/dce/dce_opp: Make local functions and ones invoked by reference static
->       drm/amd/display/dc/dce/dce_aux: Remove unused function 'get_engine_type'
->       drm/amd/display/dc/bios/bios_parser: Fix misspelling of function parameter
->       drm/amd/display/dc/dce/dce_i2c_hw: Make functions called by reference static
->       drm/amd/display/dc/dce/dce_i2c_sw: Make a bunch of local functions static
->       drm/amd/display/dc/dce/dce_panel_cntl: Remove unused variables 'bl_pwm_cntl' and 'pwm_period_cntl'
->       drm/amd/display/dc/dce/dmub_psr: Demote non-conformant kernel-doc headers
->       drm/amd/display/dc/gpio/hw_factory: Delete unused function 'dal_hw_factory_destroy'
->       drm/amd/display/dc/dce/dce_aux: Mark 'dce_aux_transfer_raw' as __maybe_unused
->       drm/amd/display/dc/dce/dce_link_encoder: Remove unused variable 'value0'
->       drm/amd/display/dc/gpio/hw_ddc: Remove unused variable 'reg2'
->       drm/amd/display/dc/dce/dce_opp: Demote non-compliant kernel-doc headers
->       drm/amd/display/dc/dce/dce_transform: Demote kernel-doc abuse
->       drm/amd/display/dc/gpio/diagnostics/hw_translate_diag: Include our own header containing prototypes
->       drm/amd/display/dc/irq/irq_service: Make local function static
->       drm/amd/display/dc/gpio/diagnostics/hw_factory_diag: Fix struct declared inside parameter list error
->       drm/amd/display/dc/gpio/diagnostics/hw_factory_diag: Include our own header containing prototypes
->       drm/amd/display/dc/dce120/dce120_hw_sequencer: Encompass defines in same clause as their use
->       drm/amd/display/dc/dce120/dce120_timing_generator:
->       drm/amd/display/dc/dce120/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce120/dce120_resource: Staticify local functions
->       drm/amd/display/dc/dce120/dce120_timing_generator: Demote non-kerneldoc headers
->       drm/amd/display/dc/dce/dce_aux: Remove duplicate line causing 'field overwritten' issue
->       drm/amd/display/dc/dce112/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce/dce_opp: Remove duplicate entries causing 'field overwritten' issues
->       drm/amd/display/dc/dce110/dce110_timing_generator: Remove unused variable 'value_crtc_vtotal'
->       drm/amd/display/dc/dce110/dce110_compressor: Remove unused function 'dce110_get_required_compressed_surfacesize
->       drm/amd/display/dc/dce110/dce110_hw_sequencer: Demote non-conformant kernel-doc header
->       drm/amd/display/dc/dce110/dce110_mem_input_v: Make local functions static
->       drm/amd/display/dc/dce120/dce120_timing_generator: Remove unused function 'dce120_timing_generator_get_position'
->       drm/amd/display/dc/dce110/dce110_timing_generator: Demote kernel-doc abuses to standard function headers
->       drm/amd/display/dc/dce110/dce110_compressor: Strip out unused function 'controller_id_to_index'
->       drm/amd/display/dc/dce112/dce112_resource: Make local functions and ones called by reference static
->       drm/amd/display/dc/dce110/dce110_timing_generator_v: Demote kernel-doc abuse and line up comments
->       drm/amd/display/dc/dce110/dce110_mem_input_v: Include our own header, containing prototypes
->       drm/amd/display/dc/dce110/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce110/dce110_resource: Make local functions invoked by reference static
->       drm/amd/display/dc/dce110/dce110_transform_v: Demote kernel-doc abuse
->       drm/amd/display/dc/dce60/dce60_timing_generator: Make 'dce60_configure_crc' invoked by reference static
->       drm/amd/display/dc/dce100/dce100_resource: Make local functions and ones called by reference static
->       drm/amd/display/dc/dce60/dce60_resource: Make local functions static
->       drm/amd/display/dc/core/dc_surface: Demote kernel-doc abuse
->       drm/amd/display/dc/core/dc_stream: Demote non-conformant kernel-doc headers
->       drm/amd/display/dc/calcs/dce_calcs: Remove unused variables 'v_filter_init_mode' and 'sclk_lvl'
->       drm/amd/display/dc/calcs/dce_calcs: Demote non-conformant kernel-doc function headers
->       drm/amd/display/dc/dc_helper: Include our own header, containing prototypes
->       drm/amd/include/renoir_ip_offset: Mark top-level IP_BASE as __maybe_unused
->       drm/amd/display/dmub/src/dmub_dcn30: Include our own header containing prototypes
->       drm/amd/display/modules/power/power_helpers: Staticify local functions
->       drm/amd/display/modules/info_packet/info_packet: Correct kernel-doc formatting
->       drm/amd/display/dc/core/dc_resource: Staticify local functions
->       drm/amd/display/dc/core/dc_link: Remove unused variable 'status'
->       drm/amd/display/dc/core/dc_link_dp: Staticify local function 'linkRateInKHzToLinkRateMultiplier'
->       drm/amd/display/dc/dce112/dce112_resource: Include our own header file containing prototypes
->       drm/amd/display/dc/core/dc: Staticise local function 'apply_ctx_interdependent_lock'
->       drm/amd/display/dc/dce100/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce100/dce100_resource: Include our own header containing prototypes
->       drm/amd/display/dc/dce60/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce80/Makefile: Ignore -Woverride-init warning
->       drm/amd/display/dc/dce80/dce80_resource: Include our own header containing prototypes
->       drm/amd/display/dc/dce60/dce60_resource: Include our own header containing prototypes
->       drm/amd/display/dc/core/dc_link: Move some local data from the stack to the heap
->       drm/amd/display/dc/core/dc_link_dp: Mark 'result_write_min_hblank' as __maybe_unused
->       drm/amd/display/dc/core/dc: Fix a bunch of documentation misdemeanours
->       drm/amd/display/dc/core/dc_resource: Demote some kernel-doc abuses
->       drm/amd/display/dc/core/dc_link: Fix a couple of function documentation issues
-> 
-> Lewis Huang (1):
->       drm/amd/display: Separate fec debug flag and monitor patch
-> 
-> Li, Roman (1):
->       drm/amd/display: disable dcn10 pipe split by default
-> 
-> Likun Gao (1):
->       drm/amdgpu: set power brake sequence
-> 
-> Lukas Bulwahn (1):
->       drm/amd/display: tweak the kerneldoc for active_vblank_irq_count
-> 
-> Mike Hsieh (1):
->       drm/amd/display: Remove unused P010 debug flag
-> 
-> Nikola Cornij (1):
->       drm/amd/display: Add a missing DCN3.01 API mapping
-> 
-> Prike Liang (1):
->       drm/amdgpu: add green_sardine device id (v2)
-> 
-> Qingqing Zhuo (1):
->       drm/amd/display: NULL pointer hang
-> 
-> Raymond Yang (1):
->       drm/amd/display: fix seamless boot stream adding algorithm
-> 
-> Rodrigo Siqueira (4):
->       Revert "drm/amd/display: Fixed Intermittent blue screen on OLED panel"
->       Revert "drm/amd/display: Fix unused variable warning"
->       Revert "drm/amdgpu/disply: fix documentation warnings in display manager"
->       Revert "drm/amd/display: Expose new CRC window property"
-> 
-> Souptick Joarder (1):
->       drm: amdgpu: pm: Mark vangogh_clk_dpm_is_enabled() as static
-> 
-> Wayne Lin (1):
->       drm/amd/display: Fix to be able to stop crc calculation
-> 
-> Wesley Chalmers (5):
->       drm/amd/display: Initialize stack variable
->       drm/amd/display: HUBP_IN_BLANK for DCN30
->       drm/amd/display: Unblank hubp based on plane visibility
->       drm/amd/display: New path for enabling DPG
->       drm/amd/display: New sequence for HUBP blank
-> 
-> Xiaojian Du (5):
->       drm/amd/pm: support the function to change power profile mode for vangogh
->       drm/amd/pm: fix one superfluous error for renoir
->       drm/amd/pm: add the workload map for vangogh
->       drm/amd/pm: modify the fine grain tuning function for Renoir
->       drm/amd/pm: modify the fine grain tuning function for vangogh
-> 
-> Yang Li (4):
->       drm/amd/display: Simplify bool comparison
->       drm/amd/display: Simplify bool comparison
->       drm/amd/display: Simplify bool comparison
->       drm/amd/display: Simplify bool comparison
-> 
-> Yu-ting Shen (1):
->       drm/amd/display: doesn't reprogram AMD OUI
-> 
-> ZhiJie.Zhang (2):
->       drm/amdgpu: Repeat assignment to max_slave_planes
->       drm/amdgpu/display: these forward declarations are not used
-> 
-> chen gong (1):
->       drm/amdgpu/gfx10: add updated GOLDEN_TSC_COUNT_UPPER/LOWER register offsets for VGH
-> 
-> mengwang (1):
->       drm/amdgpu: add new device id for Renior
-> 
->  MAINTAINERS                                        |   4 +-
->  drivers/gpu/drm/amd/amdgpu/Makefile                |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |  53 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   3 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   7 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.c |   7 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c             |   2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            | 191 ++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  17 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c  | 176 +++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.h  |  36 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h          |   4 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   1 +
->  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  48 ++-
->  drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c              |   1 +
->  drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |   1 +
->  drivers/gpu/drm/amd/amdgpu/nv.c                    |  46 ++-
->  drivers/gpu/drm/amd/amdgpu/psp_v10_0.c             |  12 +-
->  drivers/gpu/drm/amd/amdgpu/soc15.c                 |   3 +-
->  drivers/gpu/drm/amd/amdgpu/ta_secureDisplay_if.h   | 154 ++++++++++
->  drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   5 +-
->  drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  11 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 152 ++--------
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |  47 +--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  54 +---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  |   5 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |   4 +-
->  drivers/gpu/drm/amd/display/dc/basics/conversion.c |   9 +-
->  drivers/gpu/drm/amd/display/dc/basics/dc_common.c  |  20 +-
->  drivers/gpu/drm/amd/display/dc/basics/dc_common.h  |   4 +-
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  | 119 ++++----
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c |  29 +-
->  .../drm/amd/display/dc/bios/command_table_helper.c |  20 +-
->  .../amd/display/dc/bios/command_table_helper2.c    |  20 +-
->  drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c   |  13 +-
->  .../amd/display/dc/clk_mgr/dcn20/dcn20_clk_mgr.c   |   3 +-
->  .../drm/amd/display/dc/clk_mgr/dcn301/dcn301_smu.c |   2 +-
->  drivers/gpu/drm/amd/display/dc/core/dc.c           |  48 +--
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  62 ++--
->  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  53 +++-
->  drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  42 ++-
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   5 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_surface.c   |   2 +-
->  drivers/gpu/drm/amd/display/dc/dc.h                |   3 +-
->  drivers/gpu/drm/amd/display/dc/dc_dp_types.h       |   3 +
->  drivers/gpu/drm/amd/display/dc/dc_helper.c         |   1 +
->  drivers/gpu/drm/amd/display/dc/dc_link.h           |   8 +
->  drivers/gpu/drm/amd/display/dc/dc_stream.h         |  11 +
->  drivers/gpu/drm/amd/display/dc/dce/dce_audio.c     |   2 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |   8 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_aux.h       |   1 -
->  .../gpu/drm/amd/display/dc/dce/dce_clock_source.c  |  57 ++--
->  drivers/gpu/drm/amd/display/dc/dce/dce_dmcu.c      |   6 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_dmcu.h      |   2 -
->  drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c    |   4 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_i2c_sw.c    |   9 +-
->  .../gpu/drm/amd/display/dc/dce/dce_link_encoder.c  |   9 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_opp.c       |  24 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_opp.h       |   2 -
->  .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.c    |   8 +-
->  .../drm/amd/display/dc/dce/dce_stream_encoder.c    |   3 +-
->  drivers/gpu/drm/amd/display/dc/dce/dce_transform.c |  15 +-
->  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |  22 +-
->  drivers/gpu/drm/amd/display/dc/dce100/Makefile     |   2 +
->  .../drm/amd/display/dc/dce100/dce100_resource.c    |  18 +-
->  drivers/gpu/drm/amd/display/dc/dce110/Makefile     |   2 +
->  .../drm/amd/display/dc/dce110/dce110_compressor.c  |  55 ----
->  .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  33 ++-
->  .../drm/amd/display/dc/dce110/dce110_mem_input_v.c |  17 +-
->  .../drm/amd/display/dc/dce110/dce110_resource.c    |  17 +-
->  .../display/dc/dce110/dce110_timing_generator.c    |  76 +++--
->  .../display/dc/dce110/dce110_timing_generator_v.c  |  19 +-
->  .../drm/amd/display/dc/dce110/dce110_transform_v.c |  19 +-
->  drivers/gpu/drm/amd/display/dc/dce112/Makefile     |   2 +
->  .../drm/amd/display/dc/dce112/dce112_resource.c    |  20 +-
->  drivers/gpu/drm/amd/display/dc/dce120/Makefile     |   2 +
->  .../amd/display/dc/dce120/dce120_hw_sequencer.c    |   2 +-
->  .../drm/amd/display/dc/dce120/dce120_resource.c    |   6 +-
->  .../display/dc/dce120/dce120_timing_generator.c    |  99 ++-----
->  drivers/gpu/drm/amd/display/dc/dce60/Makefile      |   2 +
->  .../gpu/drm/amd/display/dc/dce60/dce60_resource.c  |  18 +-
->  .../amd/display/dc/dce60/dce60_timing_generator.c  |   4 +-
->  drivers/gpu/drm/amd/display/dc/dce80/Makefile      |   2 +
->  .../gpu/drm/amd/display/dc/dce80/dce80_resource.c  |   2 +
->  .../gpu/drm/amd/display/dc/dcn10/dcn10_dpp_cm.c    |   2 +-
->  .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |  36 ++-
->  .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.h  |   5 +
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c  |   1 +
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_mpc.c   |   2 +-
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.c  |  11 +
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h  |   1 +
->  .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |   4 +-
->  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  12 +-
->  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c  |   1 +
->  drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c  |   1 +
->  .../gpu/drm/amd/display/dc/dcn30/dcn30_dpp_cm.c    |   7 -
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.h  |   1 +
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |  70 ++++-
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h |   4 +
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c  |   2 +
->  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c  |   1 +
->  .../gpu/drm/amd/display/dc/dcn301/dcn301_init.c    |   1 +
->  .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   1 +
->  .../amd/display/dc/dml/dcn20/display_mode_vba_20.c |   2 +-
->  .../display/dc/dml/dcn20/display_mode_vba_20v2.c   |  11 +-
->  .../amd/display/dc/dml/dcn21/display_mode_vba_21.c |  44 +--
->  .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   6 +-
->  .../display/dc/gpio/diagnostics/hw_factory_diag.c  |   1 +
->  .../display/dc/gpio/diagnostics/hw_factory_diag.h  |   2 +
->  .../dc/gpio/diagnostics/hw_translate_diag.c        |   1 +
->  drivers/gpu/drm/amd/display/dc/gpio/hw_ddc.c       |   7 +-
->  drivers/gpu/drm/amd/display/dc/gpio/hw_factory.c   |  14 -
->  drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   1 +
->  .../drm/amd/display/dc/inc/hw/timing_generator.h   |   1 +
->  drivers/gpu/drm/amd/display/dc/inc/hw_sequencer.h  |   5 +
->  drivers/gpu/drm/amd/display/dc/irq/irq_service.c   |   2 +-
->  drivers/gpu/drm/amd/display/dmub/src/dmub_dcn30.c  |   1 +
->  .../amd/display/modules/info_packet/info_packet.c  |  13 +-
->  .../drm/amd/display/modules/power/power_helpers.c  |   6 +-
->  drivers/gpu/drm/amd/include/kgd_pp_interface.h     |   2 +
->  drivers/gpu/drm/amd/include/renoir_ip_offset.h     |   2 +-
->  drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  30 +-
->  drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h            |  11 +-
->  drivers/gpu/drm/amd/pm/inc/smu_types.h             |   1 +
->  drivers/gpu/drm/amd/pm/inc/smu_v11_0.h             |   2 +-
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/hwmgr.c     |   2 +-
->  .../gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.c    |   4 +-
->  .../amd/pm/powerplay/hwmgr/process_pptables_v1_0.c |   1 +
->  .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |   4 +-
->  .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  | 137 +++++----
->  .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.h  |   1 +
->  .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c  |  11 +-
->  .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c  |  11 +-
->  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  20 +-
->  drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |   1 +
->  drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   | 321 ++++++++++++++++-----
->  drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  24 +-
->  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  58 ++--
->  drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |   2 +
->  141 files changed, 1938 insertions(+), 1103 deletions(-)
->  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.c
->  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.h
->  create mode 100644 drivers/gpu/drm/amd/amdgpu/ta_secureDisplay_if.h
+> =
 
--- 
+> are available in the Git repository at:
+> =
+
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-01-19
+> =
+
+> for you to fetch changes up to c31eb10fd5aee124b78ce72ebf7d0cd13fca6095:
+> =
+
+>   drm/amdgpu: Remove accidentally added small unused hunk. (2021-01-19 11=
+:18:39 +0100)
+> =
+
+> ----------------------------------------------------------------
+> drm-misc-next for v5.12:
+> =
+
+> UAPI Changes:
+> - Fix fourcc macro for amlogic video fbc.
+> =
+
+> Cross-subsystem Changes:
+> - Export pci_rebar_bytes_to_size.
+> - Add a PCI quirk to increase bar0 for RX 5600 XT Pulse to max possible s=
+ize.
+> - Convert devicetree bindings to use the OF graph schema.
+> - Update s6e63m0 bindings.
+> - Make omapfb2 DSI_CM incompatible with drm/omap2 DSI-CM because of
+>   module conflicts.
+> - Add Zack Rusin as vmwgfx maintainer.
+> - Add CONFIG_DMABUF_DEBUG for validating dma-buf users don't loo kat stru=
+ct page when importing or detaching.
+> =
+
+> Core Changes:
+> - Remove references to drm_device.pdev
+> - Fix regression in ttm_bo_move_to_lru_tail().
+> - Assorted docbook updates.
+> - Do not send dp-mst hotplug events on error when probing.
+> - Move some agp macros to agpsupport.c, so it's not always compiled.
+> - Move drm_need_swiotlb.h to drm_cache.c
+> - Only build drm_memory.o for legacy drivers, and move CONFIG_DRM_VM to l=
+egacy.
+> - Nuke drm_device.hose
+> - Warn when the ttm resource manager is non-empty when disabling.
+> - Assorted small fixes.
+> =
+
+> Driver Changes:
+> - Small assorted fixes in radeon, v3d, hisilicon, mipi-dbi, panfrost, hib=
+mc, vc4, amdgpu, vkms, vmwgfx.
+> - Move hisilicon to use simple encode.
+> - Add writeback connector to vkms.
+> - Add support for BT2020 to DE3.
+> - Use gem prime mmap helpers in vc4, and move the mmap function upwards.
+> - Use managed drm device, and cleanup error paths and display registers i=
+n vmwgfx.
+> - Use correct bus_format and connector_type for innolux_n116bge.
+> - Fix a lot of warnings with W=3D1 (Lee Jones)
+> =
+
+> ----------------------------------------------------------------
+> Andrey Grodzovsky (2):
+>       drm: Unamp the entire device address space on device unplug
+>       drm/sched: Cancel and flush all outstanding jobs before finish.
+> =
+
+> Chia-I Wu (2):
+>       drm/virtio: make sure context is created in gem open
+>       drm/virtio: fix prime export for vram objects
+> =
+
+> Colin Ian King (1):
+>       drm/vkms: Fix missing kmalloc allocation failure check
+> =
+
+> Daniel Vetter (4):
+>       drm/vmwgfx: Drop svga_lock
+>       drm/vmwgfx: Always evict vram _before_ disabling it
+>       drm/ttm: WARN_ON non-empty lru when disabling a resource manager
+>       dma-buf: Add debug option
+> =
+
+> Darren Salt (1):
+>       PCI: Export pci_rebar_get_possible_sizes()
+> =
+
+> Giulio Benetti (1):
+>       drm/sun4i: tcon: fix inverted DCLK polarity
+> =
+
+> Heiko Stuebner (1):
+>       drm/panel: panel-simple: add bus-format and connector-type to Innol=
+ux n116bge
+> =
+
+> Jernej Skrabec (3):
+>       drm/sun4i: csc: Rework DE3 CSC macros
+>       drm/sun4i: de2/de3: Remove redundant CSC matrices
+>       drm/sun4i: Add support for BT2020 to DE3
+> =
+
+> Jonathan Neusch=E4fer (1):
+>       drm/mipi-dbi: Switch to new kerneldoc syntax for named variable mac=
+ro argument
+> =
+
+> Lee Jones (33):
+>       drm/r128/r128_ioc32: Document headers do not make good kernel-doc c=
+andidates
+>       drm/mga/mga_ioc32: Document headers do not make good kernel-doc can=
+didates
+>       drm/r128/r128_ioc32: Fix formatting issues in 'r128_compat_ioctl()'=
+s header
+>       drm/mga/mga_ioc32: Fix some formatting issues in 'mga_compat_ioctl'=
+s header
+>       drm/gma500/framebuffer: Fix some possible doc-rot issues
+>       drm/gma500/gem: Add and rename some function parameter descriptions
+>       drm/gma500/intel_bios: Demote non-conformant kernel-doc header
+>       drm/gma500/intel_i2c: Remove superflouous parameter description and=
+ rename another
+>       drm/gma500/mmu: Make local function 'psb_mmu_pt_alloc_map_lock()' s=
+tatic
+>       drm/gma500/power: Fix a bunch of *dev documentation issues
+>       drm/gma500/gma_display: Demote kernel-doc abuses to standard commen=
+t blocks
+>       drm/gma500/gma_device: Include our own header containing prototypes
+>       drm/gma500/psb_intel_display: Demote kernel-doc formatting abuse
+>       drm/gma500/psb_intel_lvds: Supply description for 'mode_dev'
+>       drm/gma500/psb_intel_modes: Provide missing descriptions for functi=
+on param 'adapter'
+>       drm/gma500/gem: Do not rely on consumers to include drm/drm_device.=
+h before gem.h
+>       drm/gma500/gem: Include our own header containing prototypes
+>       drm/gma500/mmu: Remove unused function 'psb_get_default_pd_addr'
+>       drm/gma500/power: Remove excess param description 'state'
+>       drm/gma500/mmu: Actually return an error if one occurs
+>       drm/gma500/psb_intel_sdvo: Demote kernel-doc abuses
+>       drm/gma500/psb_irq: Demote kernel-doc abuse
+>       drm/drm_dp_helper: Fix spelling issue and add missing description f=
+or 'enable_frl_ready_hpd'
+>       drm/gma500/cdv_intel_crt: Demote kernel-doc abuse in 'cdv_intel_crt=
+_detect_hotplug()'s header
+>       drm/gma500/cdv_intel_display: Demote kernel-doc abuse in 'cdv_intel=
+_panel_fitter_pipe()'s header
+>       drm/gma500/cdv_intel_lvds: Demote unworthy headers to standard bloc=
+ks and fix another
+>       drm/gma500/cdv_intel_dp: Demote one unworthy header fix another
+>       drm/gma500/oaktrail_lvds_i2c: Remove unused variables 'tmp'
+>       drm/gma500/oaktrail_lvds: Demote one documentation header fix anoth=
+er
+>       drm/gma500/oaktrail_crtc: Demote unworthy kernel-doc headers
+>       drm/gma500/mdfld_dsi_output: Demote a couple of kernel-doc formatti=
+ng abuses
+>       drm/gma500/mdfld_intel_display: Demote three kernel-doc formatting =
+abuses
+>       drm/drm_agpsupport: Strip out obviously wrong descriptions and demo=
+te to standard headers
+> =
+
+> Linus Walleij (1):
+>       dt-bindings: display: Augment s6e63m0 bindings
+> =
+
+> Lukasz Luba (1):
+>       drm/panfrost: Use delayed timer as default in devfreq profile
+> =
+
+> Lyude Paul (1):
+>       drm/ttm: Remove pinned bos from LRU in ttm_bo_move_to_lru_tail() v2
+> =
+
+> Maarten Lankhorst (2):
+>       Merge drm/drm-next into drm-misc-next
+>       drm/amdgpu: Remove accidentally added small unused hunk.
+> =
+
+> Mauro Carvalho Chehab (1):
+>       drm: drm_crc: fix a kernel-doc markup
+> =
+
+> Nicolas Saenz Julienne (1):
+>       drm/v3d: Use platform_get_irq_optional() to get optional IRQs
+> =
+
+> Nirmoy Das (4):
+>       PCI: Add pci_rebar_bytes_to_size()
+>       PCI: Add a REBAR size quirk for Sapphire RX 5600 XT Pulse
+>       drm/amdgpu: Resize BAR0 to the maximum available size, even if it d=
+oesn't cover VRAM
+>       drm/amdgpu: Remove unused variable
+> =
+
+> Phil Elwell (2):
+>       drm/v3d: Set dma_mask as well as coherent_dma_mask
+>       drm/v3d: Don't clear MMU control bits on exception
+> =
+
+> Rob Herring (1):
+>       dt-bindings: display: Use OF graph schema
+> =
+
+> Roland Scheidegger (1):
+>       drm/vmwgfx: add Zack Rusin as maintainer
+> =
+
+> Sebastian Reichel (1):
+>       video: omapfb2: Make standard and custom DSI command mode panel dri=
+ver mutually exclusive
+> =
+
+> Simon Ser (1):
+>       drm/fourcc: fix Amlogic format modifier masks
+> =
+
+> Sumera Priyadarsini (4):
+>       drm/vkms: Add vkms_config type
+>       drm/vkms: Add support for writeback module
+>       drm/vkms: Add information about module options
+>       drm/vblank: Fix typo in docs
+> =
+
+> Thomas Zimmermann (30):
+>       drm/ast: Remove references to struct drm_device.pdev
+>       drm/bochs: Remove references to struct drm_device.pdev
+>       drm/cirrus: Remove references to struct drm_device.pdev
+>       drm/gma500: Fix trailing whitespaces
+>       drm/gma500: Remove references to struct drm_device.pdev
+>       drm/mgag200: Remove references to struct drm_device.pdev
+>       drm/qxl: Remove references to struct drm_device.pdev
+>       drm/radeon: Fix trailing whitespaces
+>       drm/radeon: Remove references to struct drm_device.pdev
+>       drm/vboxvideo: Remove references to struct drm_device.pdev
+>       drm/virtgpu: Remove references to struct drm_device.pdev
+>       drm/vmwgfx: Remove references to struct drm_device.pdev
+>       drm/amdgpu: Fix trailing whitespaces
+>       drm/amdgpu: Remove references to struct drm_device.pdev
+>       drm/hibmc: Remove references to struct drm_device.pdev
+>       drm/nouveau: Remove references to struct drm_device.pdev
+>       drm/vc4: Use drm_gem_cma_vmap() directly
+>       drm/vc4: Make several BO functions static
+>       drm/vc4: Move mmap implementation into GEM object function
+>       drm: Inline AGP wrappers into their only callers
+>       drm: Implement drm_need_swiotlb() in drm_cache.c
+>       drm: Build drm_memory.o only for legacy drivers
+>       drm: Merge CONFIG_DRM_VM into CONFIG_DRM_LEGACY
+>       drm/radeon: Store PCI controller in struct radeon_device.hose
+>       drm: Move struct drm_device.hose to legacy section
+>       drm: Include <linux/mem_encrypt.h> in drm_cache.c
+>       drm/hisilicon/hibmc: Remove hibmc_ttm.c
+>       drm/vc4: Initialize vc4_drm_driver with CMA helper defaults
+>       drm: Set vm_ops to GEM object's values during mmap
+>       drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
+> =
+
+> Tian Tao (4):
+>       drm/hisilicon: Use simple encoder
+>       drm/hisilicon: Delete the empty function mode_valid
+>       drm/hisilicon: Use drm_crtc_mask()
+>       drm/hisilicon: Fix build error
+> =
+
+> Ville Syrj=E4l=E4 (1):
+>       drm/modes: Switch to 64bit maths to avoid integer overflow
+> =
+
+> Xiaogang Chen (1):
+>       drm: distinguish return value of drm_dp_check_and_send_link_address
+> =
+
+> Yue Zou (1):
+>       vgaarb: Remove unneeded semicolons
+> =
+
+> Zack Rusin (7):
+>       drm/vmwgfx: Remove stealth mode
+>       drm/vmwgfx: Switch to a managed drm device
+>       drm/vmwgfx: Cleanup fifo mmio handling
+>       drm/vmwgfx: Cleanup pci resource allocation
+>       drm/vmwgfx: Remove the throttling code
+>       drm/vmwgfx: Cleanup the cmd/fifo split
+>       drm/vmwgfx: Fix display register usage for some older configs
+> =
+
+> Zhaoge Zhang (2):
+>       drm: Removes invalid function return value comment information
+>       drm: Fix macro name DRM_MODE_PROP_OBJECT in code comment
+> =
+
+>  .../allwinner,sun4i-a10-display-backend.yaml       |  23 +-
+>  .../allwinner,sun4i-a10-display-frontend.yaml      |  19 +-
+>  .../bindings/display/allwinner,sun4i-a10-hdmi.yaml |  19 +-
+>  .../bindings/display/allwinner,sun4i-a10-tcon.yaml |  25 +--
+>  .../display/allwinner,sun4i-a10-tv-encoder.yaml    |   6 +-
+>  .../bindings/display/allwinner,sun6i-a31-drc.yaml  |  19 +-
+>  .../display/allwinner,sun6i-a31-mipi-dsi.yaml      |   6 +-
+>  .../display/allwinner,sun8i-a83t-de2-mixer.yaml    |  19 +-
+>  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml      |  19 +-
+>  .../display/allwinner,sun8i-r40-tcon-top.yaml      | 110 +---------
+>  .../bindings/display/allwinner,sun9i-a80-deu.yaml  |  19 +-
+>  .../bindings/display/amlogic,meson-dw-hdmi.yaml    |   4 +-
+>  .../bindings/display/amlogic,meson-vpu.yaml        |   4 +-
+>  .../bindings/display/brcm,bcm2835-dpi.yaml         |   7 +-
+>  .../bindings/display/bridge/analogix,anx7625.yaml  |   6 +-
+>  .../bindings/display/bridge/analogix,anx7814.yaml  |  19 +-
+>  .../bindings/display/bridge/anx6345.yaml           |  18 +-
+>  .../bindings/display/bridge/cdns,mhdp8546.yaml     |  22 +-
+>  .../bindings/display/bridge/chrontel,ch7033.yaml   |   6 +-
+>  .../bindings/display/bridge/intel,keembay-dsi.yaml |  14 +-
+>  .../bindings/display/bridge/ite,it6505.yaml        |   2 +-
+>  .../bindings/display/bridge/lontium,lt9611.yaml    |  70 +-----
+>  .../bindings/display/bridge/lvds-codec.yaml        |  18 +-
+>  .../bindings/display/bridge/nwl-dsi.yaml           |  41 +---
+>  .../devicetree/bindings/display/bridge/ps8640.yaml |  24 +--
+>  .../bindings/display/bridge/renesas,lvds.yaml      |  18 +-
+>  .../bindings/display/bridge/simple-bridge.yaml     |  18 +-
+>  .../bindings/display/bridge/snps,dw-mipi-dsi.yaml  |   7 +-
+>  .../display/bridge/thine,thc63lvd1024.yaml         |  21 +-
+>  .../bindings/display/bridge/ti,sn65dsi86.yaml      |  45 +---
+>  .../bindings/display/bridge/ti,tfp410.yaml         |  24 +--
+>  .../bindings/display/bridge/toshiba,tc358762.yaml  |  52 +----
+>  .../bindings/display/bridge/toshiba,tc358768.yaml  |  48 +----
+>  .../bindings/display/bridge/toshiba,tc358775.yaml  |  19 +-
+>  .../display/connector/analog-tv-connector.yaml     |   1 +
+>  .../bindings/display/connector/dvi-connector.yaml  |   1 +
+>  .../bindings/display/connector/hdmi-connector.yaml |   1 +
+>  .../bindings/display/connector/vga-connector.yaml  |   1 +
+>  .../bindings/display/imx/nxp,imx8mq-dcss.yaml      |   2 +-
+>  .../devicetree/bindings/display/ingenic,ipu.yaml   |   5 +-
+>  .../devicetree/bindings/display/ingenic,lcd.yaml   |  10 +-
+>  .../bindings/display/intel,keembay-display.yaml    |   2 +-
+>  .../display/panel/advantech,idk-2121wr.yaml        |  21 +-
+>  .../bindings/display/panel/panel-common.yaml       |  11 +-
+>  .../bindings/display/panel/samsung,s6e63m0.yaml    |   4 +-
+>  .../display/rockchip/rockchip,rk3066-hdmi.yaml     |  16 +-
+>  .../bindings/display/rockchip/rockchip-vop.yaml    |   5 +-
+>  .../devicetree/bindings/display/st,stm32-dsi.yaml  |  12 +-
+>  .../devicetree/bindings/display/st,stm32-ltdc.yaml |   8 +-
+>  .../devicetree/bindings/display/ste,mcde.yaml      |   5 +-
+>  .../bindings/display/ti/ti,am65x-dss.yaml          |  19 +-
+>  .../bindings/display/ti/ti,j721e-dss.yaml          |  23 +-
+>  .../devicetree/bindings/display/ti/ti,k2g-dss.yaml |   3 +-
+>  Documentation/gpu/vkms.rst                         |  12 ++
+>  MAINTAINERS                                        |   1 +
+>  drivers/dma-buf/Kconfig                            |   8 +
+>  drivers/dma-buf/dma-buf.c                          |  46 +++-
+>  drivers/gpu/drm/Kconfig                            |   5 -
+>  drivers/gpu/drm/Makefile                           |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  30 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c             |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  10 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c            |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  10 +-
+>  drivers/gpu/drm/ast/ast_drv.c                      |   4 +-
+>  drivers/gpu/drm/ast/ast_main.c                     |  25 +--
+>  drivers/gpu/drm/ast/ast_mm.c                       |  17 +-
+>  drivers/gpu/drm/ast/ast_mode.c                     |   5 +-
+>  drivers/gpu/drm/ast/ast_post.c                     |   8 +-
+>  drivers/gpu/drm/bochs/bochs_drv.c                  |   1 -
+>  drivers/gpu/drm/bochs/bochs_hw.c                   |   4 +-
+>  drivers/gpu/drm/drm_agpsupport.c                   |  67 ++----
+>  drivers/gpu/drm/drm_bufs.c                         |   4 +-
+>  drivers/gpu/drm/drm_cache.c                        |  33 +++
+>  drivers/gpu/drm/drm_dp_helper.c                    |   3 +-
+>  drivers/gpu/drm/drm_dp_mst_topology.c              |   2 +-
+>  drivers/gpu/drm/drm_drv.c                          |   3 +
+>  drivers/gpu/drm/drm_edid.c                         |   7 +-
+>  drivers/gpu/drm/drm_file.c                         |   5 +-
+>  drivers/gpu/drm/drm_gem.c                          |  19 +-
+>  drivers/gpu/drm/drm_irq.c                          |  12 +-
+>  drivers/gpu/drm/drm_legacy.h                       |   2 +-
+>  drivers/gpu/drm/drm_memory.c                       |  51 -----
+>  drivers/gpu/drm/drm_modes.c                        |   4 +-
+>  drivers/gpu/drm/drm_pci.c                          |  26 ++-
+>  drivers/gpu/drm/drm_prime.c                        |   2 +
+>  drivers/gpu/drm/drm_vblank.c                       |   2 +-
+>  drivers/gpu/drm/drm_vm.c                           |   2 +-
+>  drivers/gpu/drm/gma500/cdv_device.c                |  30 ++-
+>  drivers/gpu/drm/gma500/cdv_intel_crt.c             |   5 +-
+>  drivers/gpu/drm/gma500/cdv_intel_display.c         |   2 +-
+>  drivers/gpu/drm/gma500/cdv_intel_dp.c              |   4 +-
+>  drivers/gpu/drm/gma500/cdv_intel_lvds.c            |  11 +-
+>  drivers/gpu/drm/gma500/framebuffer.c               |  15 +-
+>  drivers/gpu/drm/gma500/gem.c                       |   6 +-
+>  drivers/gpu/drm/gma500/gem.h                       |   2 +
+>  drivers/gpu/drm/gma500/gma_device.c                |   4 +-
+>  drivers/gpu/drm/gma500/gma_display.c               |  12 +-
+>  drivers/gpu/drm/gma500/gtt.c                       |  20 +-
+>  drivers/gpu/drm/gma500/intel_bios.c                |   8 +-
+>  drivers/gpu/drm/gma500/intel_gmbus.c               |   4 +-
+>  drivers/gpu/drm/gma500/intel_i2c.c                 |   5 +-
+>  drivers/gpu/drm/gma500/mdfld_device.c              |   4 +-
+>  drivers/gpu/drm/gma500/mdfld_dsi_dpi.c             |   8 +-
+>  drivers/gpu/drm/gma500/mdfld_dsi_output.c          |   4 +-
+>  drivers/gpu/drm/gma500/mdfld_intel_display.c       |   6 +-
+>  drivers/gpu/drm/gma500/mid_bios.c                  |   9 +-
+>  drivers/gpu/drm/gma500/mmu.c                       |  15 +-
+>  drivers/gpu/drm/gma500/oaktrail_crtc.c             |   6 +-
+>  drivers/gpu/drm/gma500/oaktrail_device.c           |   5 +-
+>  drivers/gpu/drm/gma500/oaktrail_lvds.c             |   5 +-
+>  drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c         |  10 +-
+>  drivers/gpu/drm/gma500/opregion.c                  |   3 +-
+>  drivers/gpu/drm/gma500/power.c                     |  21 +-
+>  drivers/gpu/drm/gma500/psb_drv.c                   |  16 +-
+>  drivers/gpu/drm/gma500/psb_drv.h                   |   8 +-
+>  drivers/gpu/drm/gma500/psb_intel_display.c         |   2 +-
+>  drivers/gpu/drm/gma500/psb_intel_lvds.c            |   7 +-
+>  drivers/gpu/drm/gma500/psb_intel_modes.c           |   3 +-
+>  drivers/gpu/drm/gma500/psb_intel_sdvo.c            |   8 +-
+>  drivers/gpu/drm/gma500/psb_irq.c                   |   3 +-
+>  drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c         |  36 ++--
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  13 +-
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c    |   2 +-
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   |  18 +-
+>  drivers/gpu/drm/mga/mga_ioc32.c                    |  14 +-
+>  drivers/gpu/drm/mgag200/mgag200_drv.c              |  20 +-
+>  drivers/gpu/drm/mgag200/mgag200_i2c.c              |   2 +-
+>  drivers/gpu/drm/mgag200/mgag200_mm.c               |  10 +-
+>  drivers/gpu/drm/nouveau/dispnv04/arb.c             |  12 +-
+>  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |   5 +-
+>  drivers/gpu/drm/nouveau/dispnv04/disp.h            |  14 +-
+>  drivers/gpu/drm/nouveau/dispnv04/hw.c              |  10 +-
+>  drivers/gpu/drm/nouveau/nouveau_abi16.c            |   7 +-
+>  drivers/gpu/drm/nouveau/nouveau_acpi.c             |   2 +-
+>  drivers/gpu/drm/nouveau/nouveau_bios.c             |  11 +-
+>  drivers/gpu/drm/nouveau/nouveau_connector.c        |  10 +-
+>  drivers/gpu/drm/nouveau/nouveau_drm.c              |   5 +-
+>  drivers/gpu/drm/nouveau/nouveau_fbcon.c            |   6 +-
+>  drivers/gpu/drm/nouveau/nouveau_vga.c              |  20 +-
+>  drivers/gpu/drm/panel/panel-simple.c               |   2 +
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c        |   1 +
+>  drivers/gpu/drm/qxl/qxl_drv.c                      |   2 +-
+>  drivers/gpu/drm/qxl/qxl_ioctl.c                    |   3 +-
+>  drivers/gpu/drm/qxl/qxl_irq.c                      |   3 +-
+>  drivers/gpu/drm/qxl/qxl_kms.c                      |   1 -
+>  drivers/gpu/drm/r128/r128_ioc32.c                  |  14 +-
+>  drivers/gpu/drm/radeon/atombios_encoders.c         |   6 +-
+>  drivers/gpu/drm/radeon/r100.c                      |  27 ++-
+>  drivers/gpu/drm/radeon/radeon.h                    |  35 +--
+>  drivers/gpu/drm/radeon/radeon_atombios.c           |  89 ++++----
+>  drivers/gpu/drm/radeon/radeon_bios.c               |   6 +-
+>  drivers/gpu/drm/radeon/radeon_combios.c            |  55 ++---
+>  drivers/gpu/drm/radeon/radeon_cs.c                 |   3 +-
+>  drivers/gpu/drm/radeon/radeon_device.c             |  17 +-
+>  drivers/gpu/drm/radeon/radeon_display.c            |   2 +-
+>  drivers/gpu/drm/radeon/radeon_drv.c                |   7 +-
+>  drivers/gpu/drm/radeon/radeon_fb.c                 |   2 +-
+>  drivers/gpu/drm/radeon/radeon_gem.c                |   6 +-
+>  drivers/gpu/drm/radeon/radeon_i2c.c                |   2 +-
+>  drivers/gpu/drm/radeon/radeon_irq_kms.c            |   2 +-
+>  drivers/gpu/drm/radeon/radeon_kms.c                |  24 ++-
+>  drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |   6 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c                |   2 +-
+>  drivers/gpu/drm/radeon/rs780_dpm.c                 |   7 +-
+>  drivers/gpu/drm/scheduler/sched_main.c             |   3 +
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  21 +-
+>  drivers/gpu/drm/sun4i/sun4i_tcon.h                 |   1 +
+>  drivers/gpu/drm/sun4i/sun8i_csc.c                  | 109 ++++------
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h                |   6 +-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c             |   2 +
+>  drivers/gpu/drm/tiny/cirrus.c                      |   1 -
+>  drivers/gpu/drm/ttm/ttm_bo.c                       |   4 +-
+>  drivers/gpu/drm/v3d/v3d_drv.c                      |   4 +-
+>  drivers/gpu/drm/v3d/v3d_irq.c                      |   7 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c               |  11 +-
+>  drivers/gpu/drm/vboxvideo/vbox_irq.c               |   4 +-
+>  drivers/gpu/drm/vboxvideo/vbox_main.c              |   8 +-
+>  drivers/gpu/drm/vboxvideo/vbox_ttm.c               |   7 +-
+>  drivers/gpu/drm/vc4/vc4_bo.c                       | 111 ++--------
+>  drivers/gpu/drm/vc4/vc4_drv.c                      |  19 +-
+>  drivers/gpu/drm/vc4/vc4_drv.h                      |   8 -
+>  drivers/gpu/drm/virtio/virtgpu_drv.c               |   1 -
+>  drivers/gpu/drm/virtio/virtgpu_gem.c               |   8 +-
+>  drivers/gpu/drm/virtio/virtgpu_vram.c              |   1 +
+>  drivers/gpu/drm/vkms/vkms_drv.c                    |  49 ++++-
+>  drivers/gpu/drm/vkms/vkms_drv.h                    |  12 +-
+>  drivers/gpu/drm/vkms/vkms_output.c                 |  13 +-
+>  drivers/gpu/drm/vmwgfx/Makefile                    |   6 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_binding.c            |  52 ++---
+>  .../gpu/drm/vmwgfx/{vmwgfx_fifo.c =3D> vmwgfx_cmd.c} | 126 ++++++-----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c             |  22 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_context.c            |  40 ++--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c            |  12 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                | 235 ++++++++++-----=
+------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  93 +++-----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |  22 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fb.c                 |  12 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              |  28 ++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c                |   8 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c              |  15 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c                |  10 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  74 +++----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |   9 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_marker.c             | 155 --------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_mob.c                |  16 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c            |   8 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |   4 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |  28 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_shader.c             |  24 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_so.c                 |   8 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |  32 +--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c       |   8 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |  40 ++--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |   6 +-
+>  drivers/pci/pci.c                                  |  12 +-
+>  drivers/pci/pci.h                                  |   1 -
+>  drivers/video/fbdev/omap2/omapfb/displays/Kconfig  |   1 +
+>  include/drm/drm_agpsupport.h                       |  18 --
+>  include/drm/drm_crtc.h                             |   2 +-
+>  include/drm/drm_device.h                           |   9 +-
+>  include/drm/drm_mipi_dbi.h                         |   2 +-
+>  include/drm/drm_property.h                         |   2 +-
+>  include/drm/ttm/ttm_resource.h                     |   4 +
+>  include/linux/dma-buf.h                            |   6 +
+>  include/linux/pci.h                                |   9 +
+>  include/linux/vgaarb.h                             |   6 +-
+>  include/uapi/drm/drm_fourcc.h                      |   4 +-
+>  229 files changed, 1500 insertions(+), 2273 deletions(-)
+>  rename drivers/gpu/drm/vmwgfx/{vmwgfx_fifo.c =3D> vmwgfx_cmd.c} (82%)
+>  delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_marker.c
+> _______________________________________________
+> dim-tools mailing list
+> dim-tools@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dim-tools
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
