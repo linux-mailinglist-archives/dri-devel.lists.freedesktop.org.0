@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52342FC695
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 02:27:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E252C2FC69A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 02:28:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A806E887;
-	Wed, 20 Jan 2021 01:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902EC6E43C;
+	Wed, 20 Jan 2021 01:27:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71C96E415;
- Wed, 20 Jan 2021 01:27:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B051223138;
- Wed, 20 Jan 2021 01:27:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 631056E135;
+ Wed, 20 Jan 2021 01:27:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4FE9F2342C;
+ Wed, 20 Jan 2021 01:27:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611106059;
- bh=RccCsQNVx20yPJGFohhUuMJI9emhkI0B9PKi9OPEaC4=;
+ s=k20201202; t=1611106077;
+ bh=Xz+i1Z3mOF9fKx3oJXp8w7X6GXSJakG1pmdkXz0IVGg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nNNufJzSMtF6AyiJVU93I4Yf9MxF7vndHtC2M8Y9WndYSmf1TdV2J/rk8CrQQ+N4q
- 6DHN8fvhdQG8UmrG0SftOfwNjaPRyyEQ6uLNGgga4M4B9RBPPE88zSXxUWhyeff3qd
- H2aRuCY8BQ1YI2AUSUpNb170U0C1u52NF/JRPz9OgnPXzdvfgBDnPrM2DpuoE7Txv5
- D6GthYK8VCD6lOv+Z81G6pXw6kXOb7h/ib8MVcEmmv09H9M0RgOIvu2sYC12go2yuh
- pksS9IPxc4A7FNTh17na80GYgg5spEFq0jL2zRDTvH60KWFopW7qwMY7mK8Q1vo+iK
- ilDBQ/nsF0Rdw==
+ b=hzTHnbxTaFj8b2pNOq1uItzjtj7ri8MAnqO+c1bI+eosrW689I3fQ3vzt6pWy5l8L
+ ycBmQorMIbT/sTAMadQjDwmYkBiBvipG5aQHZPg7+GFuwHZfKZLVJW/sEPC3OcIcQT
+ yxYrbHK/eo1+pr9+Iaqv7W4h1jzpDNxDg7IN+mVJLU3S5gUSqDZqznh7ZQITIa3yr0
+ /+9wwGBZK+LNHbsAYrJXIrC8tkskoyxQjkhiPSotK7H0SK+bVVR7hXXQnB/Iw+qaPL
+ Mpl5n513PSzqcein5ztE0z73Z9+/9cnavNZmx45VfhINlYG0PhVEY8T8irSIklCVPe
+ wdqcCYfR+KyoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 26/26] drm/nouveau/kms/nv50-: fix case where
- notifier buffer is at offset 0
-Date: Tue, 19 Jan 2021 20:27:03 -0500
-Message-Id: <20210120012704.770095-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 11/15] drm/nouveau/bios: fix issue shadowing
+ expansion ROMs
+Date: Tue, 19 Jan 2021 20:27:36 -0500
+Message-Id: <20210120012740.770354-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012704.770095-1-sashal@kernel.org>
-References: <20210120012704.770095-1-sashal@kernel.org>
+In-Reply-To: <20210120012740.770354-1-sashal@kernel.org>
+References: <20210120012740.770354-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,66 +58,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit caeb6ab899c3d36a74cda6e299c6e1c9c4e2a22e ]
+[ Upstream commit 402a89660e9dc880710b12773076a336c9dab3d7 ]
 
-VRAM offset 0 is a valid address, triggered on GA102.
+This issue has generally been covered up by the presence of additional
+expansion ROMs after the ones we're interested in, with header fetches
+of subsequent images loading enough of the ROM to hide the issue.
+
+Noticed on GA102, which lacks a type 0x70 image compared to TU102,.
+
+[  906.364197] nouveau 0000:09:00.0: bios: 00000000: type 00, 65024 bytes
+[  906.381205] nouveau 0000:09:00.0: bios: 0000fe00: type 03, 91648 bytes
+[  906.405213] nouveau 0000:09:00.0: bios: 00026400: type e0, 22016 bytes
+[  906.410984] nouveau 0000:09:00.0: bios: 0002ba00: type e0, 366080 bytes
+
+vs
+
+[   22.961901] nouveau 0000:09:00.0: bios: 00000000: type 00, 60416 bytes
+[   22.984174] nouveau 0000:09:00.0: bios: 0000ec00: type 03, 71168 bytes
+[   23.010446] nouveau 0000:09:00.0: bios: 00020200: type e0, 48128 bytes
+[   23.028220] nouveau 0000:09:00.0: bios: 0002be00: type e0, 140800 bytes
+[   23.080196] nouveau 0000:09:00.0: bios: 0004e400: type 70, 7168 bytes
 
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 4 ++--
- drivers/gpu/drm/nouveau/dispnv50/disp.h     | 2 +-
- drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index ee2b1e1199e09..daa79d39201f9 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -132,7 +132,7 @@ nv50_dmac_destroy(struct nv50_dmac *dmac)
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+index 7deb81b6dbac6..4b571cc6bc70f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+@@ -75,7 +75,7 @@ shadow_image(struct nvkm_bios *bios, int idx, u32 offset, struct shadow *mthd)
+ 	nvkm_debug(subdev, "%08x: type %02x, %d bytes\n",
+ 		   image.base, image.type, image.size);
  
- int
- nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
--		 const s32 *oclass, u8 head, void *data, u32 size, u64 syncbuf,
-+		 const s32 *oclass, u8 head, void *data, u32 size, s64 syncbuf,
- 		 struct nv50_dmac *dmac)
- {
- 	struct nouveau_cli *cli = (void *)device->object.client;
-@@ -167,7 +167,7 @@ nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 	if (ret)
- 		return ret;
- 
--	if (!syncbuf)
-+	if (syncbuf < 0)
+-	if (!shadow_fetch(bios, mthd, image.size)) {
++	if (!shadow_fetch(bios, mthd, image.base + image.size)) {
+ 		nvkm_debug(subdev, "%08x: fetch failed\n", image.base);
  		return 0;
- 
- 	ret = nvif_object_init(&dmac->base.user, 0xf0000000, NV_DMA_IN_MEMORY,
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index 7c41b0599d1ac..284068fa6d007 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -70,7 +70,7 @@ struct nv50_dmac {
- 
- int nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 		     const s32 *oclass, u8 head, void *data, u32 size,
--		     u64 syncbuf, struct nv50_dmac *dmac);
-+		     s64 syncbuf, struct nv50_dmac *dmac);
- void nv50_dmac_destroy(struct nv50_dmac *);
- 
- u32 *evo_wait(struct nv50_dmac *, int nr);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c b/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-index f7dbd965e4e72..b49a212af4d8d 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wimmc37b.c
-@@ -68,7 +68,7 @@ wimmc37b_init_(const struct nv50_wimm_func *func, struct nouveau_drm *drm,
- 	int ret;
- 
- 	ret = nv50_dmac_create(&drm->client.device, &disp->disp->object,
--			       &oclass, 0, &args, sizeof(args), 0,
-+			       &oclass, 0, &args, sizeof(args), -1,
- 			       &wndw->wimm);
- 	if (ret) {
- 		NV_ERROR(drm, "wimm%04x allocation failed: %d\n", oclass, ret);
+ 	}
 -- 
 2.27.0
 
