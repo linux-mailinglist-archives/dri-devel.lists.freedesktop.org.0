@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E022FD03C
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 13:38:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8FF2FD041
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Jan 2021 13:40:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CEF06E054;
-	Wed, 20 Jan 2021 12:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DAD89F08;
+	Wed, 20 Jan 2021 12:40:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 144666E054
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:38:10 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id f132so24811645oib.12
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 04:38:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cUvq+3j2UZsZMpqSR7hZFwIpt01vjr1BcAn5QPI98HI=;
- b=JVRsRUNObTpASX4m1samBC1mklhZy/jQS2Omjrbh3aPUgrmW/63lHzLRHRqFip9OYI
- 1bhPk86QOLo9KEGMI61x5hBjdnmBd1UQ6H1RjTadiLLz1b5aObuyok2rCgLLcas2gI6y
- YRVrgt1aZN9mOeIP+9/M1PYwW1LgWQrKbAsdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cUvq+3j2UZsZMpqSR7hZFwIpt01vjr1BcAn5QPI98HI=;
- b=m9gOrNVCuNin34fHUUfz2QHytZmD2dJvo4nTSwmCOXzRVAIVef2jEgDieMlTS2TCCa
- G2ruYbKZwftzoxKhb2IDeZ06JUG+GkSo4z/vH0hM/OmwUmGHCeQfhsfkm5OwyISnmZyv
- mTVePdKaz3aK+BhJm2lbxLmrC1/N+fYX4JdiBkOM6zqO6imWuCUJ9EcW+jV3unxyZ7Sr
- 98xB5/2lp5prnhuw+0X5p1UBhYSTDwm1ifkV2XmEUX9tbJsadypDDZnmBsv82QgHAPkT
- cgiKOReHZ1nNI8brsTNuTmNiwjkQmDXAqgexO0Bz4jFNXmxq5xoy2e8QqC7n8TYmmsTf
- gOqQ==
-X-Gm-Message-State: AOAM531JrHaWVj/GFVI0L0kG3hskMDtySIuAYgzdAjTHvY9sisQA/1IP
- Qfe3TEnRM94ii0Az83JIJbEB6R/VUUMgdd80g66Oew==
-X-Google-Smtp-Source: ABdhPJyLEhvQVDZvawZb4fB5BWgVVbsvjXs0uZbHyF2fRaWuYnahTZBfwUesFW975l8pjFlccP3Tw3QDeGrbbX911GA=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr2636242oia.14.1611146289366; 
- Wed, 20 Jan 2021 04:38:09 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F013C89F08
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 12:40:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFA738F2;
+ Wed, 20 Jan 2021 13:40:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1611146445;
+ bh=77EaWeT+0cZbNSa8YOcULtlIbHVRWVmnJsuCSWfP3bo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IFrTwLdCcO+NV9ZoGu/aohVsXR+lkQRp9e8n4PEM5vIsM1nU9T1P6F7JJN1K3IjnO
+ yU4Z+7NjPMMhaNJ+FCCt4QdwbuSJTB/QQA+Fe3x9HIn+hXQXluhnxnqYzqSMwf/afC
+ b+/BRkytbcexIuhQEl3eG2QkRbeaEbCJ7kwwnT4Q=
+Date: Wed, 20 Jan 2021 14:40:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Subject: Re: [PATCH 2/2] drm: bridge: Add SN65DSI84 DSI to LVDS bridge
+Message-ID: <YAgkvE4UvLUKbjz0@pendragon.ideasonboard.com>
+References: <20210120112158.62109-1-jagan@amarulasolutions.com>
+ <20210120112158.62109-2-jagan@amarulasolutions.com>
+ <CAOf5uwnn0-89-hBDE3DTXACdTJG6u7jswAP9zfa=UiUeAz2ewA@mail.gmail.com>
+ <CAMty3ZAFUyoSAZXkcjs86_Y_3cLiJz=hR4Y0FM73G9uj=O1Fgg@mail.gmail.com>
+ <CAOf5uw=M7WXRp6errp4MSKEYbk3e01Qwfix1mqqtnaXnkr5xjw@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAKB3++adfpdBHFEyGZ3v2V6zyW+ayg86CLDRKx1ty+OytjYFNw@mail.gmail.com>
- <20210118234057.270930-1-zzyiwei@android.com>
- <CAKMK7uE+7S5q8bU0ibyepb8yQL3QYNjZE+Jwf13+bVfAmoSuhw@mail.gmail.com>
- <CAKB3++aNtrjzFoq4icMWSUvXw7bL69FRM+9t69firXHkiuTwDQ@mail.gmail.com>
- <YAfzxS95Yy86qnBi@phenom.ffwll.local>
- <CAKB3++ZYacAN2ZVSGGm0uEDQtowcS9LDPPYCqt6Pj+-WEFxMSQ@mail.gmail.com>
-In-Reply-To: <CAKB3++ZYacAN2ZVSGGm0uEDQtowcS9LDPPYCqt6Pj+-WEFxMSQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 20 Jan 2021 13:37:57 +0100
-Message-ID: <CAKMK7uE3xF80AsJ1zGfSM-KTry=ikJ-S-Dn6nK8ZAvCSWw2FHQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/virtio: Track total GPU memory for virtio driver
-To: Yiwei Zhang <zzyiwei@android.com>
+Content-Disposition: inline
+In-Reply-To: <CAOf5uw=M7WXRp6errp4MSKEYbk3e01Qwfix1mqqtnaXnkr5xjw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,176 +49,403 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
- NET..." <virtualization@lists.linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKYW4gMjAsIDIwMjEgYXQgMTA6NTEgQU0gWWl3ZWkgWmhhbmfigI4gPHp6eWl3ZWlA
-YW5kcm9pZC5jb20+IHdyb3RlOgo+Cj4gT24gV2VkLCBKYW4gMjAsIDIwMjEgYXQgMToxMSBBTSBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IE9uIFR1ZSwgSmFu
-IDE5LCAyMDIxIGF0IDExOjA4OjEyQU0gLTA4MDAsIFlpd2VpIFpoYW5nIHdyb3RlOgo+ID4gPiBP
-biBNb24sIEphbiAxOCwgMjAyMSBhdCAxMTowMyBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gT24gVHVlLCBKYW4gMTksIDIwMjEgYXQgMTI6
-NDEgQU0gWWl3ZWkgWmhhbmcgPHp6eWl3ZWlAYW5kcm9pZC5jb20+IHdyb3RlOgo+ID4gPiA+ID4K
-PiA+ID4gPiA+IE9uIHRoZSBzdWNjZXNzIG9mIHZpcnRpb19ncHVfb2JqZWN0X2NyZWF0ZSwgYWRk
-IHNpemUgb2YgbmV3bHkgYWxsb2NhdGVkCj4gPiA+ID4gPiBibyB0byB0aGUgdHJhY2xlZCB0b3Rh
-bF9tZW0uIEluIGRybV9nZW1fb2JqZWN0X2Z1bmNzLmZyZWUsIGFmdGVyIHRoZSBnZW0KPiA+ID4g
-PiA+IGJvIGxvc3QgaXRzIGxhc3QgcmVmY291bnQsIHN1YnRyYWN0IHRoZSBibyBzaXplIGZyb20g
-dGhlIHRyYWNrZWQKPiA+ID4gPiA+IHRvdGFsX21lbSBpZiB0aGUgb3JpZ2luYWwgdW5kZXJseWlu
-ZyBtZW1vcnkgYWxsb2NhdGlvbiBpcyBzdWNjZXNzZnVsLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFNp
-Z25lZC1vZmYtYnk6IFlpd2VpIFpoYW5nIDx6enlpd2VpQGFuZHJvaWQuY29tPgo+ID4gPiA+Cj4g
-PiA+ID4gSXNuJ3QgdGhpcyBzb21ldGhpbmcgdGhhdCBpZGVhbGx5IHdlJ2QgZm9yIGV2ZXJ5b25l
-PyBBbHNvIHRyYWNlcG9pbnQKPiA+ID4gPiBmb3Igc2hvd2luZyB0aGUgdG90YWwgZmVlbHMgbGlr
-ZSB0cmFjZXBvaW50IGFidXNlLCB1c3VhbGx5IHdlIHNob3cKPiA+ID4gPiB0b3RhbHMgc29tZXdo
-ZXJlIGluIGRlYnVnZnMgb3Igc2ltaWxhciwgYW5kIHRyYWNlcG9pbnQganVzdCBmb3Igd2hhdCdz
-Cj4gPiA+ID4gaGFwcGVuaW5nIChpLmUuIHdoaWNoIG9iamVjdCBnb3QgZGVsZXRlZC9jcmVhdGVk
-KS4KPiA+ID4gPgo+ID4gPiA+IFdoYXQgaXMgdGhpcyBmb3IgZXhhY3RseT8KPiA+ID4gPiAtRGFu
-aWVsCj4gPiA+ID4KPiA+ID4gPiA+IC0tLQo+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0
-aW8vS2NvbmZpZyAgICAgICAgICB8ICAxICsKPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vdmly
-dGlvL3ZpcnRncHVfZHJ2LmggICAgfCAgNCArKysrCj4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJt
-L3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jIHwgMTkgKysrKysrKysrKysrKysrKysrKwo+ID4gPiA+
-ID4gIDMgZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKQo+ID4gPiA+ID4KPiA+ID4gPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL0tjb25maWcgYi9kcml2ZXJzL2dw
-dS9kcm0vdmlydGlvL0tjb25maWcKPiA+ID4gPiA+IGluZGV4IGI5MjViOGIxZGExNi4uZTEwM2I3
-ZTg4M2IxIDEwMDY0NAo+ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby9LY29u
-ZmlnCj4gPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL0tjb25maWcKPiA+ID4g
-PiA+IEBAIC01LDYgKzUsNyBAQCBjb25maWcgRFJNX1ZJUlRJT19HUFUKPiA+ID4gPiA+ICAgICAg
-ICAgc2VsZWN0IERSTV9LTVNfSEVMUEVSCj4gPiA+ID4gPiAgICAgICAgIHNlbGVjdCBEUk1fR0VN
-X1NITUVNX0hFTFBFUgo+ID4gPiA+ID4gICAgICAgICBzZWxlY3QgVklSVElPX0RNQV9TSEFSRURf
-QlVGRkVSCj4gPiA+ID4gPiArICAgICAgIHNlbGVjdCBUUkFDRV9HUFVfTUVNCj4gPiA+ID4gPiAg
-ICAgICAgIGhlbHAKPiA+ID4gPiA+ICAgICAgICAgICAgVGhpcyBpcyB0aGUgdmlydHVhbCBHUFUg
-ZHJpdmVyIGZvciB2aXJ0aW8uICBJdCBjYW4gYmUgdXNlZCB3aXRoCj4gPiA+ID4gPiAgICAgICAg
-ICAgIFFFTVUgYmFzZWQgVk1NcyAobGlrZSBLVk0gb3IgWGVuKS4KPiA+ID4gPiA+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggYi9kcml2ZXJzL2dwdS9k
-cm0vdmlydGlvL3ZpcnRncHVfZHJ2LmgKPiA+ID4gPiA+IGluZGV4IDZhMjMyNTUzYzk5Yi4uN2M2
-MGU3NDg2YmM0IDEwMDY0NAo+ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92
-aXJ0Z3B1X2Rydi5oCj4gPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
-cHVfZHJ2LmgKPiA+ID4gPiA+IEBAIC0yNDksNiArMjQ5LDEwIEBAIHN0cnVjdCB2aXJ0aW9fZ3B1
-X2RldmljZSB7Cj4gPiA+ID4gPiAgICAgICAgIHNwaW5sb2NrX3QgcmVzb3VyY2VfZXhwb3J0X2xv
-Y2s7Cj4gPiA+ID4gPiAgICAgICAgIC8qIHByb3RlY3RzIG1hcCBzdGF0ZSBhbmQgaG9zdF92aXNp
-YmxlX21tICovCj4gPiA+ID4gPiAgICAgICAgIHNwaW5sb2NrX3QgaG9zdF92aXNpYmxlX2xvY2s7
-Cj4gPiA+ID4gPiArCj4gPiA+ID4gPiArI2lmZGVmIENPTkZJR19UUkFDRV9HUFVfTUVNCj4gPiA+
-ID4gPiArICAgICAgIGF0b21pYzY0X3QgdG90YWxfbWVtOwo+ID4gPiA+ID4gKyNlbmRpZgo+ID4g
-PiA+ID4gIH07Cj4gPiA+ID4gPgo+ID4gPiA+ID4gIHN0cnVjdCB2aXJ0aW9fZ3B1X2Zwcml2IHsK
-PiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfb2Jq
-ZWN0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfb2JqZWN0LmMKPiA+ID4gPiA+
-IGluZGV4IGQ2OWE1YjZkYTU1My4uMWUxNjIyNmNlYmJlIDEwMDY0NAo+ID4gPiA+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X29iamVjdC5jCj4gPiA+ID4gPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfb2JqZWN0LmMKPiA+ID4gPiA+IEBAIC0yNSwx
-MiArMjUsMjkgQEAKPiA+ID4gPiA+Cj4gPiA+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBw
-aW5nLmg+Cj4gPiA+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZXBhcmFtLmg+Cj4gPiA+ID4g
-PiArI2lmZGVmIENPTkZJR19UUkFDRV9HUFVfTUVNCj4gPiA+ID4gPiArI2luY2x1ZGUgPHRyYWNl
-L2V2ZW50cy9ncHVfbWVtLmg+Cj4gPiA+ID4gPiArI2VuZGlmCj4gPiA+ID4gPgo+ID4gPiA+ID4g
-ICNpbmNsdWRlICJ2aXJ0Z3B1X2Rydi5oIgo+ID4gPiA+ID4KPiA+ID4gPiA+ICBzdGF0aWMgaW50
-IHZpcnRpb19ncHVfdmlyZ2xyZW5kZXJlcl93b3JrYXJvdW5kID0gMTsKPiA+ID4gPiA+ICBtb2R1
-bGVfcGFyYW1fbmFtZWQodmlyZ2xoYWNrLCB2aXJ0aW9fZ3B1X3ZpcmdscmVuZGVyZXJfd29ya2Fy
-b3VuZCwgaW50LCAwNDAwKTsKPiA+ID4gPiA+Cj4gPiA+ID4gPiArI2lmZGVmIENPTkZJR19UUkFD
-RV9HUFVfTUVNCj4gPiA+ID4gPiArc3RhdGljIGlubGluZSB2b2lkIHZpcnRpb19ncHVfdHJhY2Vf
-dG90YWxfbWVtKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCj4gPiA+ID4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgczY0IGRlbHRhKQo+ID4g
-PiA+ID4gK3sKPiA+ID4gPiA+ICsgICAgICAgdTY0IHRvdGFsX21lbSA9IGF0b21pYzY0X2FkZF9y
-ZXR1cm4oZGVsdGEsICZ2Z2Rldi0+dG90YWxfbWVtKTsKPiA+ID4gPiA+ICsKPiA+ID4gPiA+ICsg
-ICAgICAgdHJhY2VfZ3B1X21lbV90b3RhbCgwLCAwLCB0b3RhbF9tZW0pOwo+ID4gPiA+ID4gK30K
-PiA+ID4gPiA+ICsjZWxzZQo+ID4gPiA+ID4gK3N0YXRpYyBpbmxpbmUgdm9pZCB2aXJ0aW9fZ3B1
-X3RyYWNlX3RvdGFsX21lbShzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKiwgczY0KQo+ID4gPiA+
-ID4gK3sKPiA+ID4gPiA+ICt9Cj4gPiA+ID4gPiArI2VuZGlmCj4gPiA+ID4gPiArCj4gPiA+ID4g
-PiAgaW50IHZpcnRpb19ncHVfcmVzb3VyY2VfaWRfZ2V0KHN0cnVjdCB2aXJ0aW9fZ3B1X2Rldmlj
-ZSAqdmdkZXYsIHVpbnQzMl90ICpyZXNpZCkKPiA+ID4gPiA+ICB7Cj4gPiA+ID4gPiAgICAgICAg
-IGlmICh2aXJ0aW9fZ3B1X3ZpcmdscmVuZGVyZXJfd29ya2Fyb3VuZCkgewo+ID4gPiA+ID4gQEAg
-LTEwNCw2ICsxMjEsNyBAQCBzdGF0aWMgdm9pZCB2aXJ0aW9fZ3B1X2ZyZWVfb2JqZWN0KHN0cnVj
-dCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+ID4gPiA+ID4gICAgICAgICBzdHJ1Y3QgdmlydGlvX2dw
-dV9kZXZpY2UgKnZnZGV2ID0gYm8tPmJhc2UuYmFzZS5kZXYtPmRldl9wcml2YXRlOwo+ID4gPiA+
-ID4KPiA+ID4gPiA+ICAgICAgICAgaWYgKGJvLT5jcmVhdGVkKSB7Cj4gPiA+ID4gPiArICAgICAg
-ICAgICAgICAgdmlydGlvX2dwdV90cmFjZV90b3RhbF9tZW0odmdkZXYsIC0ob2JqLT5zaXplKSk7
-Cj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgdmlydGlvX2dwdV9jbWRfdW5yZWZfcmVzb3VyY2Uo
-dmdkZXYsIGJvKTsKPiA+ID4gPiA+ICAgICAgICAgICAgICAgICB2aXJ0aW9fZ3B1X25vdGlmeSh2
-Z2Rldik7Cj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgLyogY29tcGxldGlvbiBoYW5kbGVyIGNh
-bGxzIHZpcnRpb19ncHVfY2xlYW51cF9vYmplY3QoKSAqLwo+ID4gPiA+ID4gQEAgLTI2NSw2ICsy
-ODMsNyBAQCBpbnQgdmlydGlvX2dwdV9vYmplY3RfY3JlYXRlKHN0cnVjdCB2aXJ0aW9fZ3B1X2Rl
-dmljZSAqdmdkZXYsCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgdmlydGlvX2dwdV9vYmplY3Rf
-YXR0YWNoKHZnZGV2LCBibywgZW50cywgbmVudHMpOwo+ID4gPiA+ID4gICAgICAgICB9Cj4gPiA+
-ID4gPgo+ID4gPiA+ID4gKyAgICAgICB2aXJ0aW9fZ3B1X3RyYWNlX3RvdGFsX21lbSh2Z2Rldiwg
-c2htZW1fb2JqLT5iYXNlLnNpemUpOwo+ID4gPiA+ID4gICAgICAgICAqYm9fcHRyID0gYm87Cj4g
-PiA+ID4gPiAgICAgICAgIHJldHVybiAwOwo+ID4gPiA+ID4KPiA+ID4gPiA+IC0tCj4gPiA+ID4g
-PiAyLjMwLjAuMjg0LmdkOThiMWRkNWVhYTctZ29vZwo+ID4gPiA+ID4KPiA+ID4gPgo+ID4gPiA+
-Cj4gPiA+ID4gLS0KPiA+ID4gPiBEYW5pZWwgVmV0dGVyCj4gPiA+ID4gU29mdHdhcmUgRW5naW5l
-ZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPiA+ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPiA+ID4K
-PiA+ID4gVGhhbmtzIGZvciB5b3VyIHJlcGx5ISBBbmRyb2lkIEN1dHRsZWZpc2ggdmlydHVhbCBw
-bGF0Zm9ybSBpcyB1c2luZwo+ID4gPiB0aGUgdmlydGlvLWdwdSBkcml2ZXIsIGFuZCB3ZSBjdXJy
-ZW50bHkgYXJlIGNhcnJ5aW5nIHRoaXMgc21hbGwgcGF0Y2gKPiA+ID4gYXQgdGhlIGRvd25zdHJl
-YW0gc2lkZS4gVGhpcyBpcyBlc3NlbnRpYWwgZm9yIHVzIGJlY2F1c2U6Cj4gPiA+ICgxKSBBbmRy
-b2lkIGhhcyBkZXByZWNhdGVkIGRlYnVnZnMgb24gcHJvZHVjdGlvbiBkZXZpY2VzIGFscmVhZHkK
-PiA+ID4gKDIpIEFuZHJvaWQgR1BVIGRyaXZlcnMgYXJlIG5vdCBEUk0gYmFzZWQsIGFuZCB0aGlz
-IHdvbid0IGNoYW5nZSBpbiBhCj4gPiA+IHNob3J0IHRlcm0uCj4gPiA+Cj4gPiA+IEFuZHJvaWQg
-cmVsaWVzIG9uIHRoaXMgdHJhY2Vwb2ludCArIGVCUEYgdG8gbWFrZSB0aGUgR1BVIG1lbW9yeSB0
-b3RhbHMKPiA+ID4gYXZhaWxhYmxlIGF0IHJ1bnRpbWUgb24gcHJvZHVjdGlvbiBkZXZpY2VzLCB3
-aGljaCBoYXMgYmVlbiBlbmZvcmNlZAo+ID4gPiBhbHJlYWR5LiBOb3Qgb25seSBnYW1lIGRldmVs
-b3BlcnMgY2FuIGhhdmUgYSByZWxpYWJsZSBrZXJuZWwgdG90YWwgR1BVCj4gPiA+IG1lbW9yeSB0
-byBsb29rIGF0LCBidXQgYWxzbyBBbmRyb2lkIGxldmVyYWdlcyB0aGlzIHRvIHRha2UgR1BVIG1l
-bW9yeQo+ID4gPiB1c2FnZSBvdXQgZnJvbSB0aGUgc3lzdGVtIGxvc3QgcmFtLgo+ID4gPgo+ID4g
-PiBJJ20gbm90IHN1cmUgd2hldGhlciB0aGUgb3RoZXIgRFJNIGRyaXZlcnMgd291bGQgbGlrZSB0
-byBpbnRlZ3JhdGUKPiA+ID4gdGhpcyB0cmFjZXBvaW50KG1heWJlIHVwc3RyZWFtIGRyaXZlcnMg
-d2lsbCBtb3ZlIGF3YXkgZnJvbSBkZWJ1Z2ZzCj4gPiA+IGxhdGVyIGFzIHdlbGw/KSwgYnV0IGF0
-IGxlYXN0IHdlIGhvcGUgdmlydGlvLWdwdSBjYW4gdGFrZSB0aGlzLgo+ID4KPiA+IFRoZXJlJ3Mg
-YWxyZWFkeSBhbm90aGVyIHByb3Bvc2FsIGZyb20gQW5kcm9pZCBwZW9wbGUgZm9yIHRyYWNraW5n
-IGRtYS1idWYKPiA+IChpbiBkbWEtYnVmIGhlYXBzL2lvbikgdXNhZ2UuIEkgdGhpbmsgd2UgbmVl
-ZCBzb21ldGhpbmcgd2hpY2ggaXMgb3ZlcmFsbAo+ID4gaW50ZWdyYXRlZCwgb3RoZXJ3aXNlIHdl
-IGhhdmUgYSBjb21wbGV0ZSBtZXNzIG9mIHBhcnRpYWwgc29sdXRpb25zLgo+ID4KPiA+IEFsc28g
-dGhlcmUncyB3b3JrIGdvaW5nIG9uIHRvIGFkZCBjZ3JvdXBzIHN1cHBvcnQgdG8gZ3B1IGRyaXZl
-cnMgKHB1c2hlZAo+ID4gYnkgYW1kIGFuZCBpbnRlbCBmb2xrcywgbGF0ZXN0IHJmYyBoYXZlIGJl
-ZW4gcXVpdGUgb2xkKSwgc28gdGhhdCdzIGFub3RoZXIKPiA+IHByb3Bvc2FsIGZvciBncHUgbWVt
-b3J5IHVzYWdlIHRyYWNraW5nLgo+ID4KPiA+IEFsc28gZm9yIHVwc3RyZWFtIHdlIG5lZWQgc29t
-ZXRoaW5nIHdoaWNoIHdvcmtzIHdpdGggdXBzdHJlYW0gZ3B1IGRyaXZlcnMKPiA+IChldmVuIGlm
-IHlvdSBkb24ndCBlbmQgdXAgdXNpbmcgdGhhdCBpbiBzaGlwcGluZyBwcm9kdWN0cykuIFNvIHRo
-YXQncwo+ID4gYW5vdGhlciByZWFzb24gbWF5YmUgd2h5IGEgcXVpY2sgaGFjayBpbiB0aGUgdmly
-dGlvIGdwdSBkcml2ZXIgaXNuJ3QgdGhlCj4gPiBiZXN0IGFwcHJvYWNoIGhlcmUuCj4gPgo+ID4g
-SSBndWVzcyBhIGdvb2QgYXBwcm9hY2ggd291bGQgYmUgaWYgQW5kcm9pZCBhdCBsZWFzdCBjYW4g
-Z2V0IHRvIHNvbWV0aGluZwo+ID4gdW5pZmllZCAoZ3B1IGRyaXZlciwgdmlydGlvLWdwdSwgZG1h
-LWJ1ZiBoZWFwcyksIGFuZCB0aGVuIHdlIG5lZWQgdG8KPiA+IGZpZ3VyZSBvdXQgaG93IHRvIG1l
-c2ggdGhhdCB3aXRoIHRoZSBjZ3JvdXBzIHNpZGUgc29tZWhvdy4KPiA+Cj4gPiBBbHNvIG5vdGUg
-dGhhdCBhdCBsZWFzdCBvbiBkbWEtYnVmIHdlIGFscmVhZHkgaGF2ZSBzb21lIG90aGVyIGRlYnVn
-Cj4gPiBmZWF0dXJlcyAoZm9yIGFuZHJvaWQpLCBzbyBhbiBvdmVyYWxsICJob3cgZG9lcyB0aGlz
-IGFsbCBmaXQgdG9nZXRoZXIiCj4gPiB3b3VsZCBiZSBnb29kLgo+ID4gLURhbmllbAo+ID4KPiA+
-ID4KPiA+ID4gTWFueSB0aGFua3MhCj4gPiA+IFlpd2VpCj4gPgo+ID4gLS0KPiA+IERhbmllbCBW
-ZXR0ZXIKPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4gaHR0cDov
-L2Jsb2cuZmZ3bGwuY2gKPgo+IFRoZSBlbnRpcmUgc3RvcnkgaXMgdG8gYmV0dGVyIGV4cGxhaW4g
-QW5kcm9pZCBzeXN0ZW0gbWVtb3J5IHVzYWdlLgo+IFRoZXkgZml0IHRvZ2V0aGVyIHNvIHRoYXQg
-dGhlIGRtYS1idWZzIG92ZXJsYXAgY2FuIGJlIHJlbW92ZWQuCj4KPiBBbmRyb2lkIEdQVSB2ZW5k
-b3JzIGhhdmUgaW50ZWdyYXRlZCB0aGlzIHRyYWNlcG9pbnQgdG8gdHJhY2sgZ3B1Cj4gbWVtb3J5
-IHVzYWdlIHRvdGFsKG1hcHBlZCBpbnRvIHRoZSBncHUgYWRkcmVzcyBzcGFjZSksIHdoaWNoIGNv
-bnNpc3RzCj4gb2YgYmVsb3c6Cj4gKDEpIGRpcmVjdGx5IGFsbG9jYXRlZCB2aWEgcGh5c2ljYWwg
-cGFnZSBhbGxvY2F0b3IKPiAoMikgaW1wb3J0ZWQgZXh0ZXJuYWwgbWVtb3J5IGJhY2tlZCBieSBk
-bWEtYnVmcwo+ICgzKSBhbGxvY2F0ZWQgZXhwb3J0YWJsZSBtZW1vcnkgYmFja2VkIGJ5IGRtYS1i
-dWZzCj4KPiBPdXIgQW5kcm9pZCBrZXJuZWwgdGVhbSBpcyBsZWFkaW5nIHRoZSBvdGhlciBzaWRl
-IG9mIGVmZm9ydCB0byBoZWxwCj4gcmVtb3ZlIHRoZSBkbWEtYnVmcyBvdmVybGFwKHRob3NlIG1h
-cHBlZCBpbnRvIGEgZ3B1IGRldmljZSkgYXMgYSBqb2ludAo+IGVmZm9ydCwgc28gdGhhdCB3ZSBj
-YW4gYWNjdXJhdGVseSBleHBsYWluIHRoZSBtZW1vcnkgdXNhZ2Ugb2YgdGhlCj4gZW50aXJlIEFu
-ZHJvaWQgc3lzdGVtLgo+Cj4gRm9yIHZpcnRpby1ncHUsIHNpbmNlIHRoYXQncyB1c2VkIGJ5IG91
-ciByZWZlcmVuY2UgcGxhdGZvcm0KPiBDdXR0bGVmaXNoKENsb3VkIEFuZHJvaWQpLCB3ZSBoYXZl
-IHRvIGludGVncmF0ZSB0aGUgc2FtZSB0cmFjZXBvaW50IGFzCj4gd2VsbCB0byBlbmZvcmNlIHRo
-ZSB1c2Ugb2YgdGhpcyB0cmFjZXBvaW50IGFuZCB0aGUgZUJQRiBzdHVmZiBidWlsdCBvbgo+IHRv
-cCB0byBzdXBwb3J0IHJ1bnRpbWUgcXVlcnkgb2YgZ3B1IG1lbW9yeSBvbiBwcm9kdWN0aW9uIGRl
-dmljZXMuIEZvcgo+IHZpcnRpby1ncHUgYXQgdGhpcyBtb21lbnQsIHdlIG9ubHkgd2FudCB0byB0
-cmFjayBHRU0gYWxsb2NhdGlvbnMgc2luY2UKPiBQUklNRSBpbXBvcnQgaXMgY3VycmVudGx5IG5v
-dCBzdXBwb3J0ZWQvdXNlZCBpbiBDdXR0bGVmaXNoLiBUaGF0J3MgYWxsCj4gd2UgYXJlIGRvaW5n
-IGluIHRoaXMgc21hbGwgcGF0Y2guCgpPayBpZiB0aGUgcGxhbiBpcyB0byBoYXZlIHRoYXQgYXMg
-YSBoYXJkIHJlcXVpcmVtZW50IGZvciBhbmRyb2lkCmFjcm9zcyBhbGwgYW5kcm9pZCB1YXBpIGRy
-aXZlcnMsIHRoZW4KLSB0aGlzIG5lZWRzIHRvIGJlIGRvbmUgYWNyb3NzIGFsbCB1cHN0cmVhbSBk
-cml2ZXJzIHRvbyAob3RoZXJ3aXNlIHdlCmRvbid0IGhhdmUgdGhhdCB1YXBpKQotIHVzdWFsIG9w
-ZW4gc291cmNlIHJlcXVpcmVtZW50cyBmb3IgbmV3IHVhcGkgKGJ1dCBJIGRvbid0IHRoaW5rIHRo
-YXQKc2hvdWxkIGJlIGEgcHJvYmxlbSwgdGhlc2UgcGFydHMgb2YgYW5kcm9pZCBhcmUgYWxsIG9w
-ZW4gSSB0aGluaykKLSBmaWd1cmluZyBvdXQgdGhlIG92ZXJsYXAgd2l0aCB0aGUgZG1hLWJ1ZiBh
-Y2NvdW50LCBiZWZvcmUgd2UgbWVyZ2UgZWl0aGVyCgpPdGhlcndpc2UgSSBkb24ndCBzZWUgaG93
-IHRoaXMgY2FuIHdvcmsgYW5kIGJlIGJhY2tlZCB3aXRoIHVwc3RyZWFtcwoibmV2ZXIgYnJlYWsg
-dWFwaSIgZ3VhcmFudGVlLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2lu
-ZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Jan 20, 2021 at 12:55:40PM +0100, Michael Nazzareno Trimarchi wrote:
+> On Wed, Jan 20, 2021 at 12:29 PM Jagan Teki wrote:
+> > On Wed, Jan 20, 2021 at 4:55 PM Michael Nazzareno Trimarchi wrote:
+> > > On Wed, Jan 20, 2021 at 12:22 PM Jagan Teki wrote:
+> > > >
+> > > > SN65DSI84 is a Single Channel DSI to Dual-link LVDS bridge from
+> > > > Texas Instruments.
+> > > >
+> > > > SN65DSI83, SN65DSI85 are variants of the same family of bridge
+> > > > controllers.
+> > > >
+> > > > Right now the bridge driver is supporting a single link, dual-link
+> > > > support requires to initiate I2C Channel B registers.
+> > > >
+> > > > Tested with STM32MP1 MIPI DSI host design configuration.
+> > > >
+> > > > Signed-off-by: Matteo Lisi <matteo.lisi@engicam.com>
+> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > ---
+> > > >  MAINTAINERS                           |   6 +
+> > > >  drivers/gpu/drm/bridge/Kconfig        |  19 +
+> > > >  drivers/gpu/drm/bridge/Makefile       |   1 +
+> > > >  drivers/gpu/drm/bridge/ti-sn65dsi84.c | 488 ++++++++++++++++++++++++++
+> > > >  4 files changed, 514 insertions(+)
+> > > >  create mode 100644 drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> > > >
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 12dd1fff2a39..44750ff7640c 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -5984,6 +5984,12 @@ S:       Maintained
+> > > >  F:     Documentation/devicetree/bindings/display/ti/
+> > > >  F:     drivers/gpu/drm/omapdrm/
+> > > >
+> > > > +DRM DRIVERS FOR TI SN65DSI84 DSI TO LVDS BRIDGE
+> > > > +M:     Jagan Teki <jagan@amarulasolutions.com>
+> > > > +S:     Maintained
+> > > > +F:     Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+> > > > +F:     drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> > > > +
+> > > >  DRM DRIVERS FOR V3D
+> > > >  M:     Eric Anholt <eric@anholt.net>
+> > > >  S:     Supported
+> > > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > > > index e4110d6ca7b3..6494881bffb3 100644
+> > > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > > @@ -232,6 +232,25 @@ config DRM_TI_TFP410
+> > > >         help
+> > > >           Texas Instruments TFP410 DVI/HDMI Transmitter driver
+> > > >
+> > > > +config DRM_TI_SN65DSI84
+> > > > +       tristate "TI SN65DSI84 DSI to LVDS bridge"
+> > > > +       depends on OF
+> > > > +       select DRM_KMS_HELPER
+> > > > +       select REGMAP_I2C
+> > > > +       select DRM_PANEL
+> > > > +       select DRM_MIPI_DSI
+> > > > +       help
+> > > > +         Texas Instruments SN65DSI84 Single Channel DSI to Dual-link LVDS
+> > > > +         bridge driver.
+> > > > +
+> > > > +         Bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and
+> > > > +         converts the formatted video data stream to a FlatLink compatible
+> > > > +         LVDS output operating at pixel clocks operating from 25 MHx to
+> > > > +         154 MHz.
+> > > > +
+> > > > +         SN65DSI84 offers a Dual-Link LVDS, Single-Link LVDS interface with
+> > > > +         four data lanes per link.
+> > > > +
+> > > >  config DRM_TI_SN65DSI86
+> > > >         tristate "TI SN65DSI86 DSI to eDP bridge"
+> > > >         depends on OF
+> > > > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> > > > index 86e7acc76f8d..3906052ef639 100644
+> > > > --- a/drivers/gpu/drm/bridge/Makefile
+> > > > +++ b/drivers/gpu/drm/bridge/Makefile
+> > > > @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
+> > > >  obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
+> > > >  obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
+> > > >  obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
+> > > > +obj-$(CONFIG_DRM_TI_SN65DSI84) += ti-sn65dsi84.o
+> > > >  obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
+> > > >  obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
+> > > >  obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
+> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi84.c b/drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> > > > new file mode 100644
+> > > > index 000000000000..3ed1f9a7d898
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi84.c
+> > > > @@ -0,0 +1,488 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * Copyright (c) 2021 Engicam srl
+> > > > + * Copyright (C) 2021 Amarula Solutions(India)
+> > > > + * Author: Jagan Teki <jagan@amarulasolutions.com>
+> > > > + */
+> > > > +
+> > > > +#include <drm/drm_of.h>
+> > > > +#include <drm/drm_panel.h>
+> > > > +#include <drm/drm_print.h>
+> > > > +#include <drm/drm_mipi_dsi.h>
+> > > > +
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/gpio/consumer.h>
+> > > > +#include <linux/i2c.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/regmap.h>
+> > > > +
+> > > > +/* sn65dsi84 registers */
+> > > > +#define SN65DSI_SOFT_RESET             0x09
+> > > > +#define SN65DSI_LVDS_CLK               0x0a
+> > > > +#define SN65DSI_CLK_DIV                        0x0b
+> > > > +#define SN65DSI_CLK_PLL                        0x0d
+> > > > +#define SN65DSI_DSI_CFG                        0x10
+> > > > +#define SN65DSI_DSI_CLK_EQ             0x11
+> > > > +#define SN65DSI_DSI_CLK_RANGE          0x12
+> > > > +#define SN65DSI_LVDS_MODE              0x18
+> > > > +#define SN65DSI_CHA_LINE_LO            0x20
+> > > > +#define SN65DSI_CHA_LINE_HI            0x21
+> > > > +#define SN65DSI_CHA_VIRT_LO            0x24
+> > > > +#define SN65DSI_CHA_VIRT_HI            0x25
+> > > > +#define SN65DSI_CHA_SYNC_DELAY_LO      0x28
+> > > > +#define SN65DSI_CHA_SYNC_DELAY_HI      0x29
+> > > > +#define SN65DSI_CHA_HSYNC_WIDTH_LO     0x2c
+> > > > +#define SN65DSI_CHA_HSYNC_WIDTH_HI     0x2d
+> > > > +#define SN65DSI_CHA_VSYNC_WIDTH_LO     0x30
+> > > > +#define SN65DSI_CHA_VSYNC_WIDTH_HI     0x31
+> > > > +#define SN65DSI_CHA_HBACK_PORCH                0x34
+> > > > +#define SN65DSI_CHA_VBACK_PORCH                0x36
+> > > > +#define SN65DSI_CHA_HFRONT_PORCH       0x38
+> > > > +#define SN65DSI_CHA_VFRONT_PORCH       0x3a
+> > > > +#define SN65DSI_CHA_ERR                        0xe5
+> > > > +
+> > > > +/* sn65dsi register bits */
+> > > > +#define SN65DSI_RESET_EN               BIT(0)
+> > > > +#define SN65DSI_PLL_EN                 BIT(0)
+> > > > +#define SN65DSI_LVDS_CLK_MASK          GENMASK(3, 1)
+> > > > +#define SN65DSI_LVDS_CLK_SHIFT         1
+> > > > +#define SN65DSI_LVDS_CLK_SRC_DSI       BIT(0)
+> > > > +#define SN65DSI_CLK_DIV_MASK           GENMASK(7, 3)
+> > > > +#define SN65DSI_CLK_DIV_SHIFT          3
+> > > > +#define SN65DSI_DSI_LANE_MASK          GENMASK(4, 3)
+> > > > +#define SN65DSI_DSI_LANE_SHIFT         3
+> > > > +#define SN65DSI_LVDS_LINK_CFG          BIT(4)
+> > > > +#define SN65DSI_LVDS_CHA_24BPP         BIT(3)
+> > > > +#define SN65DSI_CHA_LOW_SYNC_DELAY     0x20
+> > > > +#define SN65DSI_CHA_HIGH_SYNC_DELAY    0x00
+> > > > +
+> > > > +struct sn65dsi {
+> > > > +       struct device                   *dev;
+> > > > +       struct drm_bridge               bridge;
+> > > > +       struct drm_bridge               *panel_bridge;
+> > > > +
+> > > > +       struct device_node              *host_node;
+> > > > +       struct mipi_dsi_device          *dsi;
+> > > > +       u8                              dsi_lanes;
+> > > > +
+> > > > +       struct regmap                   *regmap;
+> > > > +       struct gpio_desc                *enable;
+> > > > +};
+> > > > +
+> > > > +static const struct regmap_config sn65dsi_regmap_config = {
+> > > > +       .reg_bits = 8,
+> > > > +       .val_bits = 8,
+> > > > +       .max_register = SN65DSI_CHA_ERR,
+> > > > +       .name = "sn65dsi",
+> > > > +       .cache_type = REGCACHE_RBTREE,
+> > > > +};
+> > > > +
+> > > > +static inline struct sn65dsi *bridge_to_sn65dsi(struct drm_bridge *bridge)
+> > > > +{
+> > > > +       return container_of(bridge, struct sn65dsi, bridge);
+> > > > +}
+> > > > +
+> > > > +static struct drm_display_mode *bridge_to_mode(struct drm_bridge *bridge)
+> > > > +{
+> > > > +       return &bridge->encoder->crtc->state->mode;
+> > > > +}
+> > > > +
+> > > > +static void sn65dsi_setup_channels(struct sn65dsi *sn,
+> > > > +                                  struct drm_display_mode *mode)
+> > > > +{
+> > > > +       u32 hsync_len, hfront_porch, hback_porch;
+> > > > +       u32 vsync_len, vfront_porch, vback_porch;
+> > > > +
+> > > > +       hfront_porch = mode->hsync_start - mode->hdisplay;
+> > > > +       hsync_len = mode->hsync_end - mode->hsync_start;
+> > > > +       hback_porch = mode->htotal - mode->hsync_end;
+> > > > +
+> > > > +       vfront_porch = mode->vsync_start - mode->vdisplay;
+> > > > +       vsync_len = mode->vsync_end - mode->vsync_start;
+> > > > +       vback_porch = mode->vtotal - mode->vsync_end;
+> > > > +
+> > > > +       /* cha, lower 8-bits of hdisplay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_LINE_LO, mode->hdisplay & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > >
+> > > I don't find any reason for those msleep. I don't have on my setup
+> > > with the same bridge
+> >
+> > As recommended by 8.2.2.1 Example Script from the datasheet.
+> >
+> > https://www.ti.com/product/SN65DSI84
+
+That seems dodgy. A confirmation from TI as to whether those delays are
+needed are not would be useful.
+
+> Jurat wrap in one function and avoid, multiple msleep. Invesitgate
+> even if delay_us in regamp can be
+> used
+> 
+> > > > +       /* cha, upper 4-bits of hdisplay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_LINE_HI, (mode->hdisplay >> 8) & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, lower 8-bits of vdisplay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VIRT_LO, mode->vdisplay & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, upper 4-bits of vdisplay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VIRT_HI, (mode->vdisplay >> 8) & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /*cha, lower sync delay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_SYNC_DELAY_LO, SN65DSI_CHA_LOW_SYNC_DELAY);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /*cha, upper sync delay */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_SYNC_DELAY_HI, SN65DSI_CHA_HIGH_SYNC_DELAY);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, lower 8-bits of hsync_len */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_HSYNC_WIDTH_LO, hsync_len & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, upper 2-bits of hsync_len */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_HSYNC_WIDTH_HI, (hsync_len >> 8) & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, lower 8-bits of vsync_len */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VSYNC_WIDTH_LO, vsync_len & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, upper 2-bits of vsync_len */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VSYNC_WIDTH_HI, (vsync_len >> 8) & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, hback_porch */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_HBACK_PORCH, hback_porch & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, vback_porch */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VBACK_PORCH, vback_porch & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, hfront_porch */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_HFRONT_PORCH, hfront_porch & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* cha, vfront_porch */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CHA_VFRONT_PORCH, vfront_porch & 0xff);
+> > > > +
+> > > > +       msleep(10);
+> > > > +}
+> > > > +
+> > > > +static int sn65dsi_get_clk_range(int min, int max, unsigned long clock,
+> > > > +                                unsigned long start, unsigned long diff)
+> > > > +{
+> > > > +       unsigned long next;
+> > > > +       int i;
+> > > > +
+> > > > +       for (i = min; i <= max; i++) {
+> > > > +               next = start + diff;
+> > > > +               if (start <= clock && clock < next)
+> > > > +                       return i;
+> > > > +
+> > > > +               start += diff;
+> > > > +       }
+> > > > +
+> > > > +       return -EINVAL;
+> > > > +}
+> > > > +
+> > > > +static void sn65dsi_enable(struct drm_bridge *bridge)
+> > > > +{
+> > > > +       struct sn65dsi *sn = bridge_to_sn65dsi(bridge);
+> > > > +       struct drm_display_mode *mode = bridge_to_mode(bridge);
+> > > > +       int bpp = mipi_dsi_pixel_format_to_bpp(sn->dsi->format);
+> > > > +       unsigned int lanes = sn->dsi->lanes;
+> > > > +       unsigned int pixel_clk = mode->clock * 1000;
+> > > > +       unsigned int dsi_clk = pixel_clk * bpp / (lanes * 2);
+> > > > +       unsigned int val;
+> > > > +
+> > > > +       /* set SOFT_RESET bit */
+> > > > +       regmap_write(sn->regmap, SN65DSI_SOFT_RESET, SN65DSI_RESET_EN);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* set PLL_EN bit */
+> > > > +       regmap_write(sn->regmap, SN65DSI_CLK_PLL, 0x0);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* setup lvds clock */
+> > > > +       val = sn65dsi_get_clk_range(0, 5, pixel_clk, 25000000, 25000000);
+> > > > +       if (val < 0) {
+> > > > +               DRM_DEV_ERROR(sn->dev, "invalid LVDS clock range %d\n", val);
+> > > > +               return;
+> > > > +       }
+> > > > +
+> > > > +       regmap_update_bits(sn->regmap, SN65DSI_LVDS_CLK,
+> > > > +                          SN65DSI_LVDS_CLK_MASK,
+> > > > +                          val << SN65DSI_LVDS_CLK_SHIFT);
+> > > > +
+> > > > +       regmap_update_bits(sn->regmap, SN65DSI_LVDS_CLK,
+> > > > +                          SN65DSI_LVDS_CLK_SRC_DSI,
+> > > > +                          SN65DSI_LVDS_CLK_SRC_DSI);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* setup bridge clock divider */
+> > > > +       val = (dsi_clk / pixel_clk) - 1;
+> > > > +       regmap_update_bits(sn->regmap, SN65DSI_CLK_DIV,
+> > > > +                          SN65DSI_CLK_DIV_MASK,
+> > > > +                          val << SN65DSI_CLK_DIV_SHIFT);
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* configure dsi */
+> > > > +       regmap_update_bits(sn->regmap, SN65DSI_DSI_CFG,
+> > > > +                          SN65DSI_DSI_LANE_MASK,
+> > > > +                          lanes << SN65DSI_DSI_LANE_SHIFT);
+> > > > +       msleep(10);
+> > > > +
+> > >
+> > > Most of those, look like. I don't know why it does not work without.
+> > > Where is mention in datasheet?
+> > >
+> > > > +       /* dsi clock range */
+> > > > +       val = sn65dsi_get_clk_range(8, 100, dsi_clk, 40000000, 5000000);
+> > > > +       if (val < 0) {
+> > > > +               DRM_DEV_ERROR(sn->dev, "invalid DSI clock range %d\n", val);
+> > > > +               return;
+> > > > +       }
+> > > > +
+> > > > +       regmap_write(sn->regmap, SN65DSI_DSI_CLK_RANGE, val);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* setup lvds channels */
+> > > > +       regmap_read(sn->regmap, SN65DSI_LVDS_MODE, &val);
+> > > > +       if (bpp == 24)
+> > > > +               val |= SN65DSI_LVDS_CHA_24BPP;
+> > > > +       regmap_write(sn->regmap, SN65DSI_LVDS_MODE, val);
+> > > > +
+> > > > +       msleep(10);
+> > > > +
+> > > > +       /* TODO Channel B required to set up for dual-link LVDS */
+> > > > +       sn65dsi_setup_channels(sn, mode);
+> > > > +
+> > >
+> > > If you are supporting 84 this code can be drop.
+> >
+> > Right now the above function is setting up channel A for single-link
+> > LVDS. 84 support Single and Dual link LVDS.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
