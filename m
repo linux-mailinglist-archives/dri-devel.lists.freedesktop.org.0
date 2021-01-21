@@ -2,66 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC07D2FFE86
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E142FFE94
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52EDA6E9C3;
-	Fri, 22 Jan 2021 08:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF396E9E9;
+	Fri, 22 Jan 2021 08:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 934456E52C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930856E526
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 10:58:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 4D46B5C010E;
- Thu, 21 Jan 2021 05:58:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 21 Jan 2021 05:58:05 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7FB2E5C0129;
+ Thu, 21 Jan 2021 05:58:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 21 Jan 2021 05:58:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=bCttatL+/9UPxzkN/HTHwa5z7a
- 1198krHiS9aMjLURw=; b=fFxdQC5Xlx2PiDSEciS/WrlUjhG7jl/5VOV5WtsYMI
- fiplSLm+MXdRFeJkay0sbHveSqr/SVwsBTyYdhhULLipdRIBGIPjayw47hpA6sOc
- WqGjj/0C1KzRjksEO2OClKWPw/MZNh6HCzWtgNymGPrnakdfpbYpmJ4kaQjUd33A
- NX6Boev9iZ/mMY0RGtCG4angNZ/Vtiere+afx74YdyOCXgXUHkMn0WX1VSmwTx5k
- 1PbKQ/jDzIFe82b/OGLcZAP8OK5llJdrYgguEncw3sejB8Hww84+5kKRmNTsXZUd
- 2/3ZOtzDBEHuPzKA5gHkxa/xkxVQk2cNNmraFQRhDmqw==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=5gTE0EdT+7R4B
+ 5W2OJLiYl6WfdYb/zVrdQzXU3Tbt4o=; b=Dn3erCcLHK+hHPYpAZh61QQwNMibE
+ 2FfjZ0i5Nkqr6P/Eo81f1nOsi4CminlwGt7l2PxsvpnWj40MIE+Dz6paejxzHgfX
+ UaWeLzW2npNMz/uNskM4lNanbm+8x+38FP9VGsdOmRGCa+CvVdg7ZFV0BEn2MZ0X
+ ymxqC8VutyeP8U2w554WLOkZR3INdydKiFTBXk36L/De6NtlCFQYCGA4et62uQvP
+ I5/hmfmw0oWTZAgrt2Kej2yv/3MV/lpCrWYnw8iaxCehkLa6U5yfIG4zOLJwvTUN
+ Suh2NpJzPqEY2EjA1d29/U3vYfJQsehKG+0pclIAxbNrl5HZXQ2ca9kDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=bCttatL+/9UPxzkN/
- HTHwa5z7a1198krHiS9aMjLURw=; b=kRDAa3W2z301DKveDjnYTBqV/tPK/8iko
- 9nEgcBvjfAqtniFoTmgDjVl/Iw258ck5luo/cr0pEbvzutd+N+iTesPVahID6bg6
- MiABT9MTKvS2AxdFEjdEX4IZ9JtpBkBvkbVMzcLPRqbdF6G0EfUUzj3iy3Qu3d3q
- W4rTXNaHJsIenQeu2hm8BNKwLJqfMzosbwhWwivR/jjchoXUEchh9CKy7EEiSkiC
- W2I3RFQ6wT0mBGUtTyEF6ZBCOO1LLmbQhUFhd+tSOKug/xYoqBLu1Bz+3wnkEeTT
- 6plr9yhwESvTpW9dm4SX3TvbXpGW2/5+lvfte785ED7qlwzGMJJqw==
-X-ME-Sender: <xms:PF4JYOJTwJBh1ZC-gYfcbmu-zaDffKeyt5GfS7OznBYsbRSnOMgfNQ>
- <xme:PF4JYGFEDia8MAw-lZzTmvwOMgfSUnAQcAQVovdiDgW0gf24P8u_Nk-n2vBEdceCG
- mwf_ROGcOEXgmbnSCg>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=5gTE0EdT+7R4B5W2OJLiYl6WfdYb/zVrdQzXU3Tbt4o=; b=GTrvGw7A
+ yAG1Ml4s8hLiY81Y8/6bUfI1dIyWpFQq8ucjCigwJx8pA07C/Vx6hMdW57IjchYd
+ j+NxO6Qblyy+Oi/pUGdhIQm0ZMCY0VUszGa3p3meoArsz+IE1FnCkuH9DK+wqGqC
+ YVHRntMZ/z76PPhE+TutgT84qCvMzwRA9Aj9zkErjUJ0D7eJli8l4m6fmTs1v5Ur
+ bwUVzDF5EiwC8C1XN2l8jMJrHbOs6luo29ulwFUEHYkj3nBohZncEqYwrgHJcigS
+ 3USGhTg01/EARJj4KzdJ/jNjQfT6XtQ4K3IquQA0DAviGJvOyK/6J68pB6HmdDMe
+ 6vk4yRZxu6swsg==
+X-ME-Sender: <xms:P14JYJkuA-Ab1azAW-WovxsDvTUhfbqcPR2s2mYSzsU5-ONly9wwwA>
+ <xme:P14JYEzOuUiKn-DdcHJaMYmrXE5Jr3fo6sJT_7zYDYuaRUXBaaG2tlHwsj5kHeuCR
+ NS-ALpEHt4KxUbsauE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggddvfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:PF4JYLk4E872nEFIE8yUOuzyTuFgDdXsM4Wi6NYCP9kSOiklUG-Cyw>
- <xmx:PF4JYLJJXH0DRBdE85C5OsdcUmmnpGoJNZE_1VUp_wN07Gqbz08qNw>
- <xmx:PF4JYEZWmKWyQhHwr0LR7z06F7WIsEn4sUzpAjv6LsMOFnZb39rX_w>
- <xmx:PV4JYMWakpiYaD62ZF3OL5z8QJn0VuLver7tppN6PAsYr0XnxYHUgA>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:P14JYMgTqp1ZGdzgi2S3KDKIPp7K_NCypmqotMdw4fNbp4J1PpOm-A>
+ <xmx:P14JYBUJO109gj41IWDqjrzgU99tWHmGcuRYz5c8g00hQUTBOzWG5A>
+ <xmx:P14JYG3FpmAfxYgwyJPVneRNRAymx5GmlwS6F8nNEmIG1MdWqw8PjQ>
+ <xmx:P14JYMDw3i6LbSP3ntlJKq7QFo53mTse9QEXZAGaxy-03BrXHfDLvw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2C3CD1080064;
- Thu, 21 Jan 2021 05:58:04 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 32D5C240065;
+ Thu, 21 Jan 2021 05:58:07 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/vc4: Correct lbm size and calculation
-Date: Thu, 21 Jan 2021 11:57:58 +0100
-Message-Id: <20210121105759.1262699-1-maxime@cerno.tech>
+Subject: [PATCH 2/2] drm/vc4: Correct POS1_SCL for hvs5
+Date: Thu, 21 Jan 2021 11:57:59 +0100
+Message-Id: <20210121105759.1262699-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210121105759.1262699-1-maxime@cerno.tech>
+References: <20210121105759.1262699-1-maxime@cerno.tech>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,73 +90,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-LBM base address is measured in units of pixels per cycle.
-That is 4 for 2711 (hvs5) and 2 for 2708.
+Fixes failure with 4096x1080 resolutions
 
-We are wasting 75% of lbm by indexing without the scaling.
-But we were also using too high a size for the lbm resulting
-in partial corruption (right hand side) of vertically
-scaled images, usually at 4K or lower resolutions with more layers.
-
-The physical RAM of LBM on 2711 is 8 * 1920 * 16 * 12-bit
-(pixels are stored 12-bits per component regardless of format).
-
-The LBM adress indexes work in units of pixels per clock,
-so for 4 pixels per clock that means we have 32 * 1920 = 60K
+[  284.315379] WARNING: CPU: 1 PID: 901 at drivers/gpu/drm/vc4/vc4_plane.c:981 vc4_plane_mode_set+0x1374/0x13c4
+[  284.315385] Modules linked in: ir_rc5_decoder rpivid_hevc(C) bcm2835_codec(C) bcm2835_isp(C) bcm2835_mmal_vchiq(C) bcm2835_gpiomem v4l2_mem2mem videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc cdc_acm xpad ir_rc6_decoder rc_rc6_mce gpio_ir_recv fuse
+[  284.315509] CPU: 1 PID: 901 Comm: kodi.bin Tainted: G         C        5.10.7 #1
+[  284.315514] Hardware name: BCM2711
+[  284.315518] Backtrace:
+[  284.315533] [<c0cc5ca0>] (dump_backtrace) from [<c0cc6014>] (show_stack+0x20/0x24)
+[  284.315540]  r7:ffffffff r6:00000000 r5:68000013 r4:c18ecf1c
+[  284.315549] [<c0cc5ff4>] (show_stack) from [<c0cca638>] (dump_stack+0xc4/0xf0)
+[  284.315558] [<c0cca574>] (dump_stack) from [<c022314c>] (__warn+0xfc/0x158)
+[  284.315564]  r9:00000000 r8:00000009 r7:000003d5 r6:00000009 r5:c08cc7dc r4:c0fd09b8
+[  284.315572] [<c0223050>] (__warn) from [<c0cc67ec>] (warn_slowpath_fmt+0x74/0xe4)
+[  284.315577]  r7:c08cc7dc r6:000003d5 r5:c0fd09b8 r4:00000000
+[  284.315584] [<c0cc677c>] (warn_slowpath_fmt) from [<c08cc7dc>] (vc4_plane_mode_set+0x1374/0x13c4)
+[  284.315589]  r8:00000000 r7:00000000 r6:00001000 r5:c404c600 r4:c2e34600
+[  284.315596] [<c08cb468>] (vc4_plane_mode_set) from [<c08cc984>] (vc4_plane_atomic_check+0x40/0x1c0)
+[  284.315601]  r10:00000001 r9:c2e34600 r8:c0e67068 r7:c0fc44e0 r6:c2ce3640 r5:c3d636c0
+[  284.315605]  r4:c2e34600
+[  284.315614] [<c08cc944>] (vc4_plane_atomic_check) from [<c0860504>] (drm_atomic_helper_check_planes+0xec/0x1ec)
+[  284.315620]  r9:c2e34600 r8:c0e67068 r7:c0fc44e0 r6:c2ce3640 r5:c3d636c0 r4:00000006
+[  284.315627] [<c0860418>] (drm_atomic_helper_check_planes) from [<c0860658>] (drm_atomic_helper_check+0x54/0x9c)
+[  284.315633]  r9:c2e35400 r8:00000006 r7:00000000 r6:c2ba7800 r5:c3d636c0 r4:00000000
+[  284.315641] [<c0860604>] (drm_atomic_helper_check) from [<c08b7ca8>] (vc4_atomic_check+0x25c/0x454)
+[  284.315645]  r7:00000000 r6:c2ba7800 r5:00000001 r4:c3d636c0
+[  284.315652] [<c08b7a4c>] (vc4_atomic_check) from [<c0881278>] (drm_atomic_check_only+0x5cc/0x7e0)
+[  284.315658]  r10:c404c6c8 r9:ffffffff r8:c472c480 r7:00000003 r6:c3d636c0 r5:00000000
+[  284.315662]  r4:0000003c r3:c08b7a4c
+[  284.315670] [<c0880cac>] (drm_atomic_check_only) from [<c089ba60>] (drm_mode_atomic_ioctl+0x758/0xa7c)
+[  284.315675]  r10:c3d46000 r9:c3d636c0 r8:c2ce8a70 r7:027e3a54 r6:00000043 r5:c1fbb800
+[  284.315679]  r4:0281a858
+[  284.315688] [<c089b308>] (drm_mode_atomic_ioctl) from [<c086e9f8>] (drm_ioctl_kernel+0xc4/0x108)
+[  284.315693]  r10:c03864bc r9:c1fbb800 r8:c3d47e64 r7:c089b308 r6:00000002 r5:c2ba7800
+[  284.315697]  r4:00000000
+[  284.315705] [<c086e934>] (drm_ioctl_kernel) from [<c086ee28>] (drm_ioctl+0x1e8/0x3a0)
+[  284.315711]  r9:c1fbb800 r8:000000bc r7:c3d47e64 r6:00000038 r5:c0e59570 r4:00000038
+[  284.315719] [<c086ec40>] (drm_ioctl) from [<c041f354>] (sys_ioctl+0x35c/0x914)
+[  284.315724]  r10:c2d08200 r9:00000000 r8:c36fa300 r7:befdd870 r6:c03864bc r5:c36fa301
+[  284.315728]  r4:c03864bc
+[  284.315735] [<c041eff8>] (sys_ioctl) from [<c0200040>] (ret_fast_syscall+0x0/0x28)
+[  284.315739] Exception stack(0xc3d47fa8 to 0xc3d47ff0)
+[  284.315745] 7fa0:                   027eb750 befdd870 00000000 c03864bc befdd870 00000000
+[  284.315750] 7fc0: 027eb750 befdd870 c03864bc 00000036 027e3948 0281a640 0281a850 027e3a50
+[  284.315756] 7fe0: b4b64100 befdd844 b4b5ba2c b49c994c
+[  284.315762]  r10:00000036 r9:c3d46000 r8:c0200204 r7:00000036 r6:c03864bc r5:befdd870
+[  284.315765]  r4:027eb750
 
 Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c   | 8 ++++----
- drivers/gpu/drm/vc4/vc4_plane.c | 7 ++++++-
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 2b3a597fa65f..c239045e05d6 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -622,11 +622,11 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
- 	 * for now we just allocate globally.
- 	 */
- 	if (!hvs->hvs5)
--		/* 96kB */
--		drm_mm_init(&hvs->lbm_mm, 0, 96 * 1024);
-+		/* 48k words of 2x12-bit pixels */
-+		drm_mm_init(&hvs->lbm_mm, 0, 48 * 1024);
- 	else
--		/* 70k words */
--		drm_mm_init(&hvs->lbm_mm, 0, 70 * 2 * 1024);
-+		/* 60k words of 4x12-bit pixels */
-+		drm_mm_init(&hvs->lbm_mm, 0, 60 * 1024);
- 
- 	/* Upload filter kernels.  We only have the one for now, so we
- 	 * keep it around for the lifetime of the driver.
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 6bd8260aa9f2..b98eabb52920 100644
+index b98eabb52920..8c55679cbaef 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -437,6 +437,7 @@ static void vc4_write_ppf(struct vc4_plane_state *vc4_state, u32 src, u32 dst)
- static u32 vc4_lbm_size(struct drm_plane_state *state)
- {
- 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
-+	struct vc4_dev *vc4 = to_vc4_dev(state->plane->dev);
- 	u32 pix_per_line;
- 	u32 lbm;
+@@ -917,9 +917,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
+ 		if (!vc4_state->is_unity) {
+ 			vc4_dlist_write(vc4_state,
+ 					VC4_SET_FIELD(vc4_state->crtc_w,
+-						      SCALER_POS1_SCL_WIDTH) |
++						      SCALER5_POS1_SCL_WIDTH) |
+ 					VC4_SET_FIELD(vc4_state->crtc_h,
+-						      SCALER_POS1_SCL_HEIGHT));
++						      SCALER5_POS1_SCL_HEIGHT));
+ 		}
  
-@@ -472,7 +473,11 @@ static u32 vc4_lbm_size(struct drm_plane_state *state)
- 		lbm = pix_per_line * 16;
- 	}
- 
--	lbm = roundup(lbm, 32);
-+	/* Align it to 64 or 128 (hvs5) bytes */
-+	lbm = roundup(lbm, vc4->hvs->hvs5 ? 128 : 64);
-+
-+	/* Each "word" of the LBM memory contains 2 or 4 (hvs5) pixels */
-+	lbm /= vc4->hvs->hvs5 ? 4 : 2;
- 
- 	return lbm;
- }
+ 		/* Position Word 2: Source Image Size */
 -- 
 2.29.2
 
