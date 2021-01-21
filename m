@@ -1,31 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A445E2FFE82
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292BD2FFE77
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:45:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82DFE6E9C0;
-	Fri, 22 Jan 2021 08:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F616E9B3;
+	Fri, 22 Jan 2021 08:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80EB96E904
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 19:34:30 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1990D1FA8B;
- Thu, 21 Jan 2021 20:34:27 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-To: maarten.lankhorst@linux.intel.com
-Subject: [PATCH] drm: drm_modes: Fix signed-integer-overflow UBSAN warning
-Date: Thu, 21 Jan 2021 20:34:14 +0100
-Message-Id: <20210121193414.482139-1-angelogioacchino.delregno@somainline.org>
-X-Mailer: git-send-email 2.30.0
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 729F86E976
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 23:10:27 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id d85so3488601qkg.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 15:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gK3/Hud+kfHdCPfD32yZHAPA6OolX8oBv+RqaU1pC5k=;
+ b=DfBBix+v/2UFWzdBEQGKsqw69ya3cXy8Twgc2ajORPg8LywyUmIT2+nGb7Bm2xsBYo
+ DBse3bbmwRH8O5ouFwLVSiOgGxe4KN2m0hiSXCv9sbJ2EnsIyqT3SLzTsdBvcuUs1Wmf
+ byjyYBqSF7y4+rdtT3XDOKT0/ggblP+hzYkVdGulTVSKzJM0P4h6wP6WTvLCpapGYjd7
+ 8iucQv4G8o3dIPYKjMO73Bsvn90VlVXtnSFjwSd4mksB+lg1dMN8qXGeWyfQnURDRaEW
+ QYI/0waIklBKaeC2ge5L572jefOnWOBY6XTT+Un+YIFXi/Wncb23NH/hPZ/QGFnuwjkg
+ QOzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gK3/Hud+kfHdCPfD32yZHAPA6OolX8oBv+RqaU1pC5k=;
+ b=WcU2fC5/R3T4yv45FUJz+GUkYBXePyTQJxJyZyULwcLT/Id3ruuv83HVIECTfN81FJ
+ +cRiw3YS9I8ZuqKGDQAvX4XTvx0hq5NKNje8Eq/9svsJ/4DpzeWN7cnSKqQFV49kYUBW
+ u62/K+Q8gjvnsdS4WXS8zT/sNUmC5KC8GmztFXkNHRH6oYBBBavcq/85eRuwSPvD22pa
+ MMtbKjYLz6aL4uSmO6F08/M7KczXmcLUs+ngKlAlftZFThXyi1QdZBkTtJ63Ufq40s9s
+ 3sNEh11L/64KWsA1MoZbNXLg+5aBV3Gq2UYPvZDi8TlHCoYoX9sriCANrKAumoCvtUEj
+ /jLQ==
+X-Gm-Message-State: AOAM530Unyd/EwyttyOtl0DkXlbfG76i6WTZW5qkZQOWxKBw7HBqEWBZ
+ 09KuMJniE1M+Qf99YzIS+wl3/Jxm6ocF3zE2xTqTdH/cctBwxQ==
+X-Google-Smtp-Source: ABdhPJwR9M6SQ+Trwr9c+QtXzP32rWsxDL7vphU3k2JZwvvzW/mhZQxVcH+WOUrW7OkdZdzbuH4a6yyflxSix0KCts8=
+X-Received: by 2002:a37:9ed3:: with SMTP id h202mr961475qke.162.1611270626538; 
+ Thu, 21 Jan 2021 15:10:26 -0800 (PST)
 MIME-Version: 1.0
+References: <20210117002355.435860-1-dmitry.baryshkov@linaro.org>
+ <CGME20210118082540eucas1p2d774058f3c0b89819edc5e1fb61b7ce2@eucas1p2.samsung.com>
+ <20210117002355.435860-4-dmitry.baryshkov@linaro.org>
+ <c2015bbd-0f75-69b7-6d7c-f87a68ae1e70@samsung.com>
+In-Reply-To: <c2015bbd-0f75-69b7-6d7c-f87a68ae1e70@samsung.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 22 Jan 2021 02:10:15 +0300
+Message-ID: <CAA8EJpqDm24cSdi1W71YkmB6cvQqcgLqCsQRziPNFX57SKOBUA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge/lontium-lt9611uxc: move HPD
+ notification out of IRQ handler
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,68 +65,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- marijn.suijten@somainline.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During a UBSAN run on ARM64 MSM8998, kernel built with GCC 7.5.0,
-a signed integer overflow was shown.
-To solve this warning split the multiplication by assigning the
-mode clock first to the "num" variable and then multiply: this
-way was chosen because no explicit casting is required.
+Hello,
 
-Solves the following warning:
-[    2.028003] UBSAN: signed-integer-overflow in drivers/gpu/drm/drm_modes.c:765:20
-[    2.028721] 2376000 * 1000 cannot be represented in type 'int'
-[    2.029134] CPU: 6 PID: 62 Comm: kworker/6:1 Tainted: G        W         5.11.0-rc4-00115-g38e7d22724f4-dirty #8
-[    2.029884] Hardware name: F(x)tec Pro1 (QX1000) (DT)
-[    2.030583] Workqueue: events deferred_probe_work_func
-[    2.031043] Call trace:
-[    2.031419]  dump_backtrace+0x0/0x288
-[    2.032144]  show_stack+0x14/0x60
-[    2.032564]  dump_stack+0xd4/0x12c
-[    2.032985]  ubsan_epilogue+0xc/0x50
-[    2.033693]  handle_overflow+0xd0/0xf8
-[    2.034092]  __ubsan_handle_mul_overflow+0x10/0x18
-[    2.034493]  drm_mode_vrefresh+0xd8/0xf8
-[    2.035181]  cea_mode_alternate_clock+0x18/0xb0
-[    2.035592]  drm_match_cea_mode.part.26+0xa8/0x198
-[    2.036004]  drm_match_cea_mode+0x14/0x28
-[    2.036689]  drm_mode_validate_ycbcr420+0x14/0x78
-[    2.037098]  drm_helper_probe_single_connector_modes+0x5fc/0x910
-[    2.037815]  drm_client_modeset_probe+0x26c/0x16f8
-[    2.038225]  __drm_fb_helper_initial_config_and_unlock+0x44/0x7b8
-[    2.038931]  drm_fb_helper_initial_config+0x48/0x68
-[    2.039337]  msm_fbdev_init+0x80/0xe0
-[    2.039735]  msm_drm_bind+0x4d8/0x6d0
+On Thu, 21 Jan 2021 at 14:45, Andrzej Hajda <a.hajda@samsung.com> wrote:
+> W dniu 17.01.2021 o 01:23, Dmitry Baryshkov pisze:
+> > drm hotplug handling code (drm_client_dev_hotplug()) can wait on mutex,
+> > thus delaying further lt9611uxc IRQ events processing.  It was observed
+> > occasionally during bootups, when drm_client_modeset_probe() was waiting
+> > for EDID ready event, which was delayed because IRQ handler was stuck
+> > trying to deliver hotplug event.
+> > Move hotplug notifications from IRQ handler to separate work to be able
+> > to process IRQ events without delays.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Fixes: 0cbbd5b1a012 ("drm: bridge: add support for lontium LT9611UXC bridge")
+> > Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 30 +++++++++++++++++-----
+> >   1 file changed, 24 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> > index b708700e182d..209e39923914 100644
+> > --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> > +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> > @@ -14,6 +14,7 @@
+> >   #include <linux/regmap.h>
+> >   #include <linux/regulator/consumer.h>
+> >   #include <linux/wait.h>
+> > +#include <linux/workqueue.h>
+> >
+> >   #include <sound/hdmi-codec.h>
+> >
+> > @@ -36,6 +37,7 @@ struct lt9611uxc {
+> >       struct mutex ocm_lock;
+> >
+> >       struct wait_queue_head wq;
+> > +     struct work_struct work;
+> >
+> >       struct device_node *dsi0_node;
+> >       struct device_node *dsi1_node;
+> > @@ -52,6 +54,7 @@ struct lt9611uxc {
+> >
+> >       bool hpd_supported;
+> >       bool edid_read;
+> > +     bool hdmi_connected;
+> >       uint8_t fw_version;
+> >   };
+> >
+> > @@ -151,15 +154,26 @@ static irqreturn_t lt9611uxc_irq_thread_handler(int irq, void *dev_id)
+> >       }
+> >
+> >       if (irq_status & BIT(1)) {
+> > -             if (lt9611uxc->connector.dev)
+> > -                     drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
+> > -             else
+> > -                     drm_bridge_hpd_notify(&lt9611uxc->bridge, !!(hpd_status & BIT(1)));
+> > +             lt9611uxc->hdmi_connected = !!(hpd_status & BIT(1));
+>
+> No need for !!, int->bool implicit conversion will do the thing.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
----
- drivers/gpu/drm/drm_modes.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ack.
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 33fb2f05ce66..dd374c628cc5 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -762,7 +762,8 @@ int drm_mode_vrefresh(const struct drm_display_mode *mode)
- 	if (mode->htotal == 0 || mode->vtotal == 0)
- 		return 0;
- 
--	num = mode->clock * 1000;
-+	num = mode->clock;
-+	num *= 1000;
- 	den = mode->htotal * mode->vtotal;
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+>
+> > +             schedule_work(&lt9611uxc->work);
+> >       }
+> >
+> >       return IRQ_HANDLED;
+> >   }
+> >
+> > +static void lt9611uxc_hpd_work(struct work_struct *work)
+> > +{
+> > +     struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
+> > +
+> > +     if (lt9611uxc->connector.dev)
+> > +             drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
+> > +     else
+> > +             drm_bridge_hpd_notify(&lt9611uxc->bridge,
+> > +                                   lt9611uxc->hdmi_connected ?
+> > +                                   connector_status_connected :
+> > +                                   connector_status_disconnected);
+>
+>
+> I am little bit worried about accessing lt9611uxc->hdmi_connected - it
+> is set in different thread, and there is no explicit sync code between
+> them. I guess it is possible to loss proper HPD signal, especially if
+> the HPD line is unstable (is there signal debouncing?).
+
+I'll protect access to the hdmi_connected by the lt9611uxc_lock/ocm_mutex,
+
+> > +}
+> > +
+> >   static void lt9611uxc_reset(struct lt9611uxc *lt9611uxc)
+> >   {
+> >       gpiod_set_value_cansleep(lt9611uxc->reset_gpio, 1);
+> > @@ -447,7 +461,7 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
+> >       struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
+> >       unsigned int reg_val = 0;
+> >       int ret;
+> > -     int connected = 1;
+> > +     bool connected = true;
+> >
+> >       if (lt9611uxc->hpd_supported) {
+> >               lt9611uxc_lock(lt9611uxc);
+> > @@ -457,8 +471,9 @@ static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *brid
+> >               if (ret)
+> >                       dev_err(lt9611uxc->dev, "failed to read hpd status: %d\n", ret);
+> >               else
+> > -                     connected  = reg_val & BIT(1);
+> > +                     connected  = !!(reg_val & BIT(1));
+>
+>
+> Again no no need for !!.
+
+Ack
+
+>
+> I saw in v2 there was R-B tags added by Bjorn to other two patches,
+> please do not forgot them next time.
+
+Ack
+
+> Andrzej
+>
+>
+> >       }
+> > +     lt9611uxc->hdmi_connected = connected;
+> >
+> >       return connected ?  connector_status_connected :
+> >                               connector_status_disconnected;
+> > @@ -931,6 +946,8 @@ static int lt9611uxc_probe(struct i2c_client *client,
+> >       lt9611uxc->fw_version = ret;
+> >
+> >       init_waitqueue_head(&lt9611uxc->wq);
+> > +     INIT_WORK(&lt9611uxc->work, lt9611uxc_hpd_work);
+> > +
+> >       ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> >                                       lt9611uxc_irq_thread_handler,
+> >                                       IRQF_ONESHOT, "lt9611uxc", lt9611uxc);
+> > @@ -967,6 +984,7 @@ static int lt9611uxc_remove(struct i2c_client *client)
+> >       struct lt9611uxc *lt9611uxc = i2c_get_clientdata(client);
+> >
+> >       disable_irq(client->irq);
+> > +     flush_scheduled_work();
+> >       lt9611uxc_audio_exit(lt9611uxc);
+> >       drm_bridge_remove(&lt9611uxc->bridge);
+> >
+
+
+
 -- 
-2.30.0
-
+With best wishes
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
