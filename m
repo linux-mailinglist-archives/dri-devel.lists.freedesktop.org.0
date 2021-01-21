@@ -1,30 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDAC2FFE98
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08C12FFE8B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BAA6E9E8;
-	Fri, 22 Jan 2021 08:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2A26E9CA;
+	Fri, 22 Jan 2021 08:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B79D389D53
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 17:05:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8098911B3;
- Thu, 21 Jan 2021 09:05:15 -0800 (PST)
-Received: from e123648.arm.com (unknown [10.57.7.131])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDA7E3F66E;
- Thu, 21 Jan 2021 09:05:12 -0800 (PST)
-From: Lukasz Luba <lukasz.luba@arm.com>
-To: linux-kernel@vger.kernel.org, steven.price@arm.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/panfrost: Add governor data with pre-defined thresholds
-Date: Thu, 21 Jan 2021 17:04:45 +0000
-Message-Id: <20210121170445.19761-1-lukasz.luba@arm.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF926E91D
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 17:15:11 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id m4so2492596wrx.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 09:15:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0TKhKPuBzsSJvz0KdGxXyIe+kX565AKHFZhYCfR4ox8=;
+ b=JJGQfRgB3uol4wYfhWAdmfh9iKCW4G5pIWkEb5ZWwA5fcf8FPbq2Yl+gx/0p3T0ptT
+ BOou/MlnOpbtUE3dUdLhJ9svl4rsVaTIQblXQd58kzVgELSQ/Nvt6EAmNfhIWYn15ISP
+ 3eZEfM9dSHFR8GpJWFRcSyKsmRRSx7Hn3lPhGDfLr1FF0WGoC/4Fea/cDjHB0HiCiDbj
+ 2sg4QOOfDtru+zWNUXDf1tiQi1YanI3Uv4i95L4LaiZUqeVWOLVrpUUoBk7mMTWxU3yo
+ 2qNkg40odFV2YK0USx4akJQpTLZzVfs5x5j4OyaLafCkWBoCWcmMPdCp4B7d+DnwHpgz
+ 98iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0TKhKPuBzsSJvz0KdGxXyIe+kX565AKHFZhYCfR4ox8=;
+ b=sItYMZ0gXjvJ9iv1nInJHZHdIOnREUQFHkBRp0Z4r9uRw3HfYNrzjkpwJeVYMfH1bz
+ kdK5EJRxm5AbdfEG9IxNOPjbE9iR4XnQ4PXVktd6alafQ8whqc7BmiNXBoZPSytI+wnj
+ 08wkd4QJ6vbT9Bpt3OWdbAmv4T8Y7YDxUdf4pBd/WZvLGbXAHn4Egl6vnBWgkQlAQPOX
+ H6SpyH7DsIIB2dxGXxej1hF0zmgP+nKn3e+1NKlXSY67L0/U78umFZoUGXvPxVfH3m6O
+ H6lhlTyLIgnunEf84AcM0NYKSjvOQ7TOzqIpof6YdQvnitlM+l2khu1v0ohgDkNBpzmp
+ snqw==
+X-Gm-Message-State: AOAM531YwgBlFXRQ3jOGnQBRvO/j/6S0oSVYSX3/G33y53BCo3gDsBuA
+ I+oIz4do5OeT5fN4+kDsAWzlLhP6Kf6Ryw==
+X-Google-Smtp-Source: ABdhPJxYnXDtESnsaNb8tZ4oUAX6YVitugqmT9sOgQbBTWyqi1DwFBO8wmWd1Kb9eNCJt/62ftK96A==
+X-Received: by 2002:a05:6000:1088:: with SMTP id
+ y8mr480057wrw.380.1611249310245; 
+ Thu, 21 Jan 2021 09:15:10 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:1539:1c19:f5a3:71b8?
+ ([2a01:e34:ed2f:f020:1539:1c19:f5a3:71b8])
+ by smtp.googlemail.com with ESMTPSA id s4sm8862226wme.38.2021.01.21.09.15.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 09:15:09 -0800 (PST)
+Subject: Re: [PATCH] drm/panfrost: Add governor data with pre-defined
+ thresholds
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ steven.price@arm.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210121170445.19761-1-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <f1b5c801-71f9-c3b9-2017-d9ee5c6fd3d2@linaro.org>
+Date: Thu, 21 Jan 2021 18:15:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210121170445.19761-1-lukasz.luba@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,100 +74,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, daniel.lezcano@linaro.org,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- lukasz.luba@arm.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ tomeu.vizoso@collabora.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The simple_ondemand devfreq governor uses two thresholds to decide about
-the frequency change: upthreshold, downdifferential. These two tunable
-change the behavior of the governor decision, e.g. how fast to increase
-the frequency or how rapidly limit the frequency. This patch adds needed
-governor data with thresholds values gathered experimentally in different
-workloads.
-
-Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
----
-Hi all,
-
-This patch aims to improve the panfrost performance in various workloads,
-(benchmarks, games). The simple_ondemand devfreq governor supports
-tunables to tweak the behaviour of the internal algorithm. The default
-values for these two thresholds (90 and 5) do not work well with panfrost.
-These new settings should provide good performance, short latency for
-rising the frequency due to rapid workload change and decent freq slow
-down when the load is decaying. Based on frequency change statistics,
-gathered during experiments, all frequencies are used, depending on
-the load. This provides some power savings (statistically). The highest
-frequency is also used when needed.
-
-Example glmark2 results:
-1. freq fixed to max: 153
-2. these new thresholds values (w/ patch): 151
-3. default governor values (w/o patch): 114
-
-In future the devfreq framework would expose via sysfs these two
-tunables, so they can be adjusted by the middleware based on currently
-running workload (game, desktop, web browser, etc). These new values
-should be good enough, though.
-
-Regards,
-Lukasz Luba
-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 10 +++++++++-
- drivers/gpu/drm/panfrost/panfrost_devfreq.h |  2 ++
- 2 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 56b3f5935703..7c5ffc81dce1 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -130,8 +130,16 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
- 	panfrost_devfreq_profile.initial_freq = cur_freq;
- 	dev_pm_opp_put(opp);
- 
-+	/*
-+	 * Setup default thresholds for the simple_ondemand governor.
-+	 * The values are chosen based on experiments.
-+	 */
-+	pfdevfreq->gov_data.upthreshold = 45;
-+	pfdevfreq->gov_data.downdifferential = 5;
-+
- 	devfreq = devm_devfreq_add_device(dev, &panfrost_devfreq_profile,
--					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
-+					  DEVFREQ_GOV_SIMPLE_ONDEMAND,
-+					  &pfdevfreq->gov_data);
- 	if (IS_ERR(devfreq)) {
- 		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
- 		ret = PTR_ERR(devfreq);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
-index db6ea48e21f9..1e2a4de941aa 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
-@@ -4,6 +4,7 @@
- #ifndef __PANFROST_DEVFREQ_H__
- #define __PANFROST_DEVFREQ_H__
- 
-+#include <linux/devfreq.h>
- #include <linux/spinlock.h>
- #include <linux/ktime.h>
- 
-@@ -17,6 +18,7 @@ struct panfrost_devfreq {
- 	struct devfreq *devfreq;
- 	struct opp_table *regulators_opp_table;
- 	struct thermal_cooling_device *cooling;
-+	struct devfreq_simple_ondemand_data gov_data;
- 	bool opp_of_table_added;
- 
- 	ktime_t busy_time;
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjEvMDEvMjAyMSAxODowNCwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gVGhlIHNpbXBsZV9vbmRl
+bWFuZCBkZXZmcmVxIGdvdmVybm9yIHVzZXMgdHdvIHRocmVzaG9sZHMgdG8gZGVjaWRlIGFib3V0
+Cj4gdGhlIGZyZXF1ZW5jeSBjaGFuZ2U6IHVwdGhyZXNob2xkLCBkb3duZGlmZmVyZW50aWFsLiBU
+aGVzZSB0d28gdHVuYWJsZQo+IGNoYW5nZSB0aGUgYmVoYXZpb3Igb2YgdGhlIGdvdmVybm9yIGRl
+Y2lzaW9uLCBlLmcuIGhvdyBmYXN0IHRvIGluY3JlYXNlCj4gdGhlIGZyZXF1ZW5jeSBvciBob3cg
+cmFwaWRseSBsaW1pdCB0aGUgZnJlcXVlbmN5LiBUaGlzIHBhdGNoIGFkZHMgbmVlZGVkCj4gZ292
+ZXJub3IgZGF0YSB3aXRoIHRocmVzaG9sZHMgdmFsdWVzIGdhdGhlcmVkIGV4cGVyaW1lbnRhbGx5
+IGluIGRpZmZlcmVudAo+IHdvcmtsb2Fkcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMdWthc3ogTHVi
+YSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPiAtLS0KPiBIaSBhbGwsCj4gCj4gVGhpcyBwYXRjaCBh
+aW1zIHRvIGltcHJvdmUgdGhlIHBhbmZyb3N0IHBlcmZvcm1hbmNlIGluIHZhcmlvdXMgd29ya2xv
+YWRzLAo+IChiZW5jaG1hcmtzLCBnYW1lcykuIFRoZSBzaW1wbGVfb25kZW1hbmQgZGV2ZnJlcSBn
+b3Zlcm5vciBzdXBwb3J0cwo+IHR1bmFibGVzIHRvIHR3ZWFrIHRoZSBiZWhhdmlvdXIgb2YgdGhl
+IGludGVybmFsIGFsZ29yaXRobS4gVGhlIGRlZmF1bHQKPiB2YWx1ZXMgZm9yIHRoZXNlIHR3byB0
+aHJlc2hvbGRzICg5MCBhbmQgNSkgZG8gbm90IHdvcmsgd2VsbCB3aXRoIHBhbmZyb3N0Lgo+IFRo
+ZXNlIG5ldyBzZXR0aW5ncyBzaG91bGQgcHJvdmlkZSBnb29kIHBlcmZvcm1hbmNlLCBzaG9ydCBs
+YXRlbmN5IGZvcgo+IHJpc2luZyB0aGUgZnJlcXVlbmN5IGR1ZSB0byByYXBpZCB3b3JrbG9hZCBj
+aGFuZ2UgYW5kIGRlY2VudCBmcmVxIHNsb3cKPiBkb3duIHdoZW4gdGhlIGxvYWQgaXMgZGVjYXlp
+bmcuIEJhc2VkIG9uIGZyZXF1ZW5jeSBjaGFuZ2Ugc3RhdGlzdGljcywKPiBnYXRoZXJlZCBkdXJp
+bmcgZXhwZXJpbWVudHMsIGFsbCBmcmVxdWVuY2llcyBhcmUgdXNlZCwgZGVwZW5kaW5nIG9uCj4g
+dGhlIGxvYWQuIFRoaXMgcHJvdmlkZXMgc29tZSBwb3dlciBzYXZpbmdzIChzdGF0aXN0aWNhbGx5
+KS4gVGhlIGhpZ2hlc3QKPiBmcmVxdWVuY3kgaXMgYWxzbyB1c2VkIHdoZW4gbmVlZGVkLgo+IAo+
+IEV4YW1wbGUgZ2xtYXJrMiByZXN1bHRzOgo+IDEuIGZyZXEgZml4ZWQgdG8gbWF4OiAxNTMKPiAy
+LiB0aGVzZSBuZXcgdGhyZXNob2xkcyB2YWx1ZXMgKHcvIHBhdGNoKTogMTUxCj4gMy4gZGVmYXVs
+dCBnb3Zlcm5vciB2YWx1ZXMgKHcvbyBwYXRjaCk6IDExNAo+IAo+IEluIGZ1dHVyZSB0aGUgZGV2
+ZnJlcSBmcmFtZXdvcmsgd291bGQgZXhwb3NlIHZpYSBzeXNmcyB0aGVzZSB0d28KPiB0dW5hYmxl
+cywgc28gdGhleSBjYW4gYmUgYWRqdXN0ZWQgYnkgdGhlIG1pZGRsZXdhcmUgYmFzZWQgb24gY3Vy
+cmVudGx5Cj4gcnVubmluZyB3b3JrbG9hZCAoZ2FtZSwgZGVza3RvcCwgd2ViIGJyb3dzZXIsIGV0
+YykuIFRoZXNlIG5ldyB2YWx1ZXMKPiBzaG91bGQgYmUgZ29vZCBlbm91Z2gsIHRob3VnaC4KPiAK
+PiBSZWdhcmRzLAo+IEx1a2FzeiBMdWJhCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
+YW5mcm9zdF9kZXZmcmVxLmMgfCAxMCArKysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5m
+cm9zdC9wYW5mcm9zdF9kZXZmcmVxLmggfCAgMiArKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDExIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9z
+dC9wYW5mcm9zdF9kZXZmcmVxLmMKPiBpbmRleCA1NmIzZjU5MzU3MDMuLjdjNWZmYzgxZGNlMSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5j
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwo+IEBA
+IC0xMzAsOCArMTMwLDE2IEBAIGludCBwYW5mcm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZy
+b3N0X2RldmljZSAqcGZkZXYpCj4gIAlwYW5mcm9zdF9kZXZmcmVxX3Byb2ZpbGUuaW5pdGlhbF9m
+cmVxID0gY3VyX2ZyZXE7Cj4gIAlkZXZfcG1fb3BwX3B1dChvcHApOwo+ICAKPiArCS8qCj4gKwkg
+KiBTZXR1cCBkZWZhdWx0IHRocmVzaG9sZHMgZm9yIHRoZSBzaW1wbGVfb25kZW1hbmQgZ292ZXJu
+b3IuCj4gKwkgKiBUaGUgdmFsdWVzIGFyZSBjaG9zZW4gYmFzZWQgb24gZXhwZXJpbWVudHMuCj4g
+KwkgKi8KPiArCXBmZGV2ZnJlcS0+Z292X2RhdGEudXB0aHJlc2hvbGQgPSA0NTsKPiArCXBmZGV2
+ZnJlcS0+Z292X2RhdGEuZG93bmRpZmZlcmVudGlhbCA9IDU7Cj4gKwo+ICAJZGV2ZnJlcSA9IGRl
+dm1fZGV2ZnJlcV9hZGRfZGV2aWNlKGRldiwgJnBhbmZyb3N0X2RldmZyZXFfcHJvZmlsZSwKPiAt
+CQkJCQkgIERFVkZSRVFfR09WX1NJTVBMRV9PTkRFTUFORCwgTlVMTCk7Cj4gKwkJCQkJICBERVZG
+UkVRX0dPVl9TSU1QTEVfT05ERU1BTkQsCj4gKwkJCQkJICAmcGZkZXZmcmVxLT5nb3ZfZGF0YSk7
+Cj4gIAlpZiAoSVNfRVJSKGRldmZyZXEpKSB7Cj4gIAkJRFJNX0RFVl9FUlJPUihkZXYsICJDb3Vs
+ZG4ndCBpbml0aWFsaXplIEdQVSBkZXZmcmVxXG4iKTsKPiAgCQlyZXQgPSBQVFJfRVJSKGRldmZy
+ZXEpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2
+ZnJlcS5oIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuaAo+IGlu
+ZGV4IGRiNmVhNDhlMjFmOS4uMWUyYTRkZTk0MWFhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5oCj4gQEAgLTQsNiArNCw3IEBACj4gICNpZm5kZWYg
+X19QQU5GUk9TVF9ERVZGUkVRX0hfXwo+ICAjZGVmaW5lIF9fUEFORlJPU1RfREVWRlJFUV9IX18K
+PiAgCj4gKyNpbmNsdWRlIDxsaW51eC9kZXZmcmVxLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9zcGlu
+bG9jay5oPgo+ICAjaW5jbHVkZSA8bGludXgva3RpbWUuaD4KPiAgCj4gQEAgLTE3LDYgKzE4LDcg
+QEAgc3RydWN0IHBhbmZyb3N0X2RldmZyZXEgewo+ICAJc3RydWN0IGRldmZyZXEgKmRldmZyZXE7
+Cj4gIAlzdHJ1Y3Qgb3BwX3RhYmxlICpyZWd1bGF0b3JzX29wcF90YWJsZTsKPiAgCXN0cnVjdCB0
+aGVybWFsX2Nvb2xpbmdfZGV2aWNlICpjb29saW5nOwo+ICsJc3RydWN0IGRldmZyZXFfc2ltcGxl
+X29uZGVtYW5kX2RhdGEgZ292X2RhdGE7Cj4gIAlib29sIG9wcF9vZl90YWJsZV9hZGRlZDsKPiAg
+Cj4gIAlrdGltZV90IGJ1c3lfdGltZTsKCkkgdGhpbmsgaXQgaXMgc2ltcGxlciB0byBkbzoKCitz
+dGF0aWMgc3RydWN0IGRldmZyZXFfc2ltcGxlX29uZGVtYW5kX2RhdGEgcGFuZnJvc3Rfb25kZW1h
+bmRfZGF0YSA9IHsKKyAgICAgICAudXB0aHJlc2hvbGQgPSA0NSwKKyAgICAgICAuZG93bmRpZmZl
+cmVudGlhbCA9IDUsCit9OwoKWyAuLi4gXQoKICAgICAgIGRldmZyZXEgPSBkZXZtX2RldmZyZXFf
+YWRkX2RldmljZShkZXYsICZwYW5mcm9zdF9kZXZmcmVxX3Byb2ZpbGUsCi0gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIERFVkZSRVFfR09WX1NJTVBMRV9PTkRFTUFORCwK
+TlVMTCk7CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERFVkZSRVFf
+R09WX1NJTVBMRV9PTkRFTUFORCwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgJnBhbmZyb3N0X29uZGVtYW5kX2RhdGEpOwoKCi0tIAo8aHR0cDovL3d3dy5saW5hcm8u
+b3JnLz4gTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCgpG
+b2xsb3cgTGluYXJvOiAgPGh0dHA6Ly93d3cuZmFjZWJvb2suY29tL3BhZ2VzL0xpbmFybz4gRmFj
+ZWJvb2sgfAo8aHR0cDovL3R3aXR0ZXIuY29tLyMhL2xpbmFyb29yZz4gVHdpdHRlciB8CjxodHRw
+Oi8vd3d3LmxpbmFyby5vcmcvbGluYXJvLWJsb2cvPiBCbG9nCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
