@@ -2,33 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7AE2FE442
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 08:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F622FE46F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 08:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C301C89B78;
-	Thu, 21 Jan 2021 07:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60DFB6E4EA;
+	Thu, 21 Jan 2021 07:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1642C89B78
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:45:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4116E055
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:56:00 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 93542AD29;
- Thu, 21 Jan 2021 07:45:22 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20210120170033.38468-1-noralf@tronnes.org>
- <20210120170033.38468-2-noralf@tronnes.org>
- <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+ by mx2.suse.de (Postfix) with ESMTP id 9160AB01F;
+ Thu, 21 Jan 2021 07:55:58 +0000 (UTC)
+Subject: Re: [PATCH] drm/ast: Update the sequence of Clearing Fast-reset
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
-Message-ID: <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
-Date: Thu, 21 Jan 2021 08:45:21 +0100
+Message-ID: <fe524173-058a-1e6b-503a-6c2294e7594a@suse.de>
+Date: Thu, 21 Jan 2021 08:55:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+In-Reply-To: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,95 +39,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc, Sam Ravnborg <sam@ravnborg.org>,
- USB list <linux-usb@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tyler Hardin <th020394@gmail.com>,
- Lubomir Rintel <lkundrak@v3.sk>, pontus.fuchs@gmail.com, peter@stuge.se
-Content-Type: multipart/mixed; boundary="===============0877808683=="
+Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
+ arc_sung@aspeedtech.com, airlied@redhat.com
+Content-Type: multipart/mixed; boundary="===============1619852723=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0877808683==
+--===============1619852723==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk"
+ boundary="jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk
-Content-Type: multipart/mixed; boundary="gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5";
+--jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ
+Content-Type: multipart/mixed; boundary="M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-Cc: hudson@trmm.net, markus@raatikainen.cc, peter@stuge.se,
- USB list <linux-usb@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tyler Hardin <th020394@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- pontus.fuchs@gmail.com, Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
-Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
-References: <20210120170033.38468-1-noralf@tronnes.org>
- <20210120170033.38468-2-noralf@tronnes.org>
- <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
+ airlied@redhat.com, arc_sung@aspeedtech.com
+Message-ID: <fe524173-058a-1e6b-503a-6c2294e7594a@suse.de>
+Subject: Re: [PATCH] drm/ast: Update the sequence of Clearing Fast-reset
+References: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
 
---gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5
+--M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Noralf,
+Hi
 
-glad to hear from you! Welcome back!
+Am 18.01.21 um 09:57 schrieb KuoHsiang Chou:
+> [Bug][AST2500]
+> If SCU00 is not unlocked, just enter its password again.
+> It is unnecessary to clear AHB lock condition and restore WDT default
+> setting again, before Fast-reset clearing.
+>=20
+> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
 
-Am 20.01.21 um 18:42 schrieb Daniel Vetter:
-> On Wed, Jan 20, 2021 at 6:10 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org=
-> wrote:
->>
->> Add a connector type for USB connected display panels.
->>
->> Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
->> ---
->>   include/uapi/drm/drm_mode.h | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h=
-
->> index fed66a03c7ae..33024cc5d26e 100644
->> --- a/include/uapi/drm/drm_mode.h
->> +++ b/include/uapi/drm/drm_mode.h
->> @@ -367,6 +367,7 @@ enum drm_mode_subconnector {
->>   #define DRM_MODE_CONNECTOR_DPI         17
->>   #define DRM_MODE_CONNECTOR_WRITEBACK   18
->>   #define DRM_MODE_CONNECTOR_SPI         19
->> +#define DRM_MODE_CONNECTOR_USB         20
-
-I would not call it USB. I could imagine that at some point a generic=20
-USB protocol could serve simple displays (i.e. in the sense of USB HID=20
-or data or imaging). (Maybe Thunderbold already counts.) Anyway, USB=20
-should be reserved for this case.
+Is this a separate issue? This patch looks like a fix for the previous=20
+patch. [1] Can you add this change to v3 of the other patch?
 
 Best regards
 Thomas
 
+[1]=20
+https://lore.kernel.org/dri-devel/20210112075811.9354-1-kuohsiang_chou@as=
+peedtech.com/
+
+> ---
+>   drivers/gpu/drm/ast/ast_post.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 >=20
-> Beware, new connector types have in the past resulted in userspace
-> burning&crashing. Maybe it's become better ...
+> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_p=
+ost.c
+> index 1f0007daa005..4f194c5fd2c2 100644
+> --- a/drivers/gpu/drm/ast/ast_post.c
+> +++ b/drivers/gpu/drm/ast/ast_post.c
+> @@ -2030,7 +2030,6 @@ void ast_patch_ahb_2500(struct ast_private *ast)
+>   {
+>   	u32	data;
 >=20
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->>   /**
->>    * struct drm_mode_get_connector - Get connector metadata.
->> --
->> 2.23.0
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> -patch_ahb_lock:
+>   	/* Clear bus lock condition */
+>   	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+>   	ast_moutdwm(ast, 0x1e600084, 0x00010000);
+> @@ -2044,11 +2043,9 @@ void ast_patch_ahb_2500(struct ast_private *ast)=
+
+>   		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
+>   		udelay(1000);
+>   	}
+> -	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+>   	do {
+> +		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+>   		data =3D ast_mindwm(ast, 0x1e6e2000);
+> -		if (data =3D=3D 0xffffffff)
+> -			goto patch_ahb_lock;
+>   	}	while (data !=3D 1);
+>   	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
+>   }
+> --
+> 2.18.4
 >=20
->=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
 
 --=20
@@ -141,32 +139,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5--
+--M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ--
 
---9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk
+--jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJMREFAwAAAAAACgkQlh/E3EQov+Ai
-6RAAjAxmkSjaOON+hMbC8MwFq9UXDtyJg7ZbUl6iDRdGWAZKCFSTEi/XKc/j8BsLs5SfVgHZ6P1E
-6G0Bs5sYNiGsqxom37cZKOzDzDRAj/fPlsJ7f/bqn71kIwctZIrbGGJWgY6a2EOX+W8Kabb4WiOj
-lHOPCydgHlE+aJfFAz+MNT2Z/CV8CrCxyWO6fdsmMwxZjoHi3adlY/NPgZCYbkBrPuspYs6LT0Da
-X3u/wMCj48RpXjYhquMmHXSO0XkHqSLv3Nr/VDSlS499Y757Ib+y3kHEqGCt+Bqz4SMrgS52GJxB
-dxmON+V2oDKGmdwW9BT8VQZYmHR+3a5kcD4tmdvALI70oCQHw8gCrnlrgJJDkSBwppJR8wVguagm
-v/VcJXUzKa7W0JhUvwvHoqBCdtChanBF1rqVEa6q3XiYBs4TaCTO6gLJYgj+DEyHFFuWJc7yYsSn
-DDCPk0Ymvj/U1DFuyPWKaWaR/W8fy0bKW9ODObTy1r1v4Fd1iKZ1sN95aprRxui3otAPbjbi1Vqd
-e2E1u8deXgoWBgGhqQmYRUEmD5KInX5MmolY6x2AtB+5Wr/bK3LaXasq60reADuxrl+/KF5T9pLf
-q1IyoH/jLm1mqsfVG1p8mxc+ScLpLTRVgJeDkAZTvSgU0h28926HAiFOpl8QmdlxRdvKwE2Zsat4
-1/8=
-=rS5O
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJM4wFAwAAAAAACgkQlh/E3EQov+D8
+Iw//eqodlyeLvpazsZHTUz0gOm6zdWC0w48m+hINGXQGbMlTaH+B5xC1Mbd4v+YQhbKfkWvfpEt/
+MMhvMZY4eKSzZyCCkj9g3HBXZiqTlOSIwERv09yms2H0SSa/ABw8ks9JjZDe9Og8w6JRvWWPIq6g
+JIB8+E18rfMuydQH8PwtnLsNTYoq30m27SXU+cs5v7tpgw2Fle4JYcUWgPs5SxNWpmFLlmNOlGvz
+DEe3l/CKRz7XhRkrEZC5tJL6ELbzTG6t1EGH5CnHJgYpVSRaSGinnxVq8dp+Fq2qd59sC/86Xv7S
+XKYG3MbG81vB2ABCMQFAwfC7+nZFhL/gv73dTYbJC49APA4YUVZKzTkvVN2Wh0bQIhX4U2St3LGd
+PdKP32e8M1p7j5ZcDzDxPlO5qjBQJUgvyeNIu2b9/QaXvPKxbjpXqQHhmOA25OI5yJ1FE9bMZ64J
+toyWIt0TclR/9RTO0w2+Gvu/8SKdpUTcHeeEe6SPw8xyKki+BElGCaTgiL/nbevFt29XlBUP0Ggr
+uUs8SE3EstjawrOyaGAXbE3E+QNhTTt3DxZ0OMntguJpDUTJKvI+CTlBGV8UfAZ5x79DfLhHIqbE
+1ROryPbBqpxSh5Z5LHCOB/XqF9pTi/I/8flw58fVmQiRvaMgNlIl6OBvRRmw8TdfSfMIF//GVYRr
+OSk=
+=RPCY
 -----END PGP SIGNATURE-----
 
---9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk--
+--jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ--
 
---===============0877808683==
+--===============1619852723==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -177,4 +175,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0877808683==--
+--===============1619852723==--
