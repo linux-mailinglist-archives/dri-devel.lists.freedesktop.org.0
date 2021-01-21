@@ -2,31 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F622FE46F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 08:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813542FE4C8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:19:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60DFB6E4EA;
-	Thu, 21 Jan 2021 07:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACD16E520;
+	Thu, 21 Jan 2021 08:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4116E055
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:56:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9160AB01F;
- Thu, 21 Jan 2021 07:55:58 +0000 (UTC)
-Subject: Re: [PATCH] drm/ast: Update the sequence of Clearing Fast-reset
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <fe524173-058a-1e6b-503a-6c2294e7594a@suse.de>
-Date: Thu, 21 Jan 2021 08:55:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D37D6E516
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 08:19:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 65E1723976;
+ Thu, 21 Jan 2021 08:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611217141;
+ bh=hhhptWrujcElAbSl2ou/FOxBVarF2/4ZICpA78koQKY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mOSdaqmeY7neZr1NBdUhHGAUKUpB/zX8/VLMLHq0RUKZrQm5L/GslnlEd/F0MmgDs
+ KmDJSbUyVPrRRYMjLpHTZFacGkiu2MzPBeB3+ZF/hGQ26lmZlKTazZ/o2LlxuL1E39
+ DA0psnM6msta+GWNePYVYBp/ct2i+jmVrMIK399eteygz67RoZmJC+y4azViV7HWQV
+ vSzPpc1cJT/RDpgUL4SCbxvsQK27k3yNIIoadcN/3PCMYc1QBowK9ToZ3eru3tWvGG
+ oOS/WNXftOI/g647lAalt85eSJoVi4EI92NujfyXHBgXEm3dIzVO55Mbw7q9I2+3rC
+ gwZRcTkLQpEFA==
+Date: Thu, 21 Jan 2021 09:18:55 +0100
+From: Matthias Brugger <matthias.bgg@kernel.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 3/5] drm/mediatek: Change disp/ddp term to mutex in
+ mtk mutex driver
+Message-ID: <YAk4722oCzcegGdx@ziggy.stardust>
+References: <20210106231729.17173-1-chunkuang.hu@kernel.org>
+ <20210106231729.17173-4-chunkuang.hu@kernel.org>
+ <YAh2JGUUpMcgyke0@ziggy.stardust>
+ <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
+Content-Disposition: inline
+In-Reply-To: <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,140 +49,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============1619852723=="
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1619852723==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ
-Content-Type: multipart/mixed; boundary="M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
-Message-ID: <fe524173-058a-1e6b-503a-6c2294e7594a@suse.de>
-Subject: Re: [PATCH] drm/ast: Update the sequence of Clearing Fast-reset
-References: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20210118085755.107804-1-kuohsiang_chou@aspeedtech.com>
-
---M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 18.01.21 um 09:57 schrieb KuoHsiang Chou:
-> [Bug][AST2500]
-> If SCU00 is not unlocked, just enter its password again.
-> It is unnecessary to clear AHB lock condition and restore WDT default
-> setting again, before Fast-reset clearing.
->=20
-> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-
-Is this a separate issue? This patch looks like a fix for the previous=20
-patch. [1] Can you add this change to v3 of the other patch?
-
-Best regards
-Thomas
-
-[1]=20
-https://lore.kernel.org/dri-devel/20210112075811.9354-1-kuohsiang_chou@as=
-peedtech.com/
-
-> ---
->   drivers/gpu/drm/ast/ast_post.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_p=
-ost.c
-> index 1f0007daa005..4f194c5fd2c2 100644
-> --- a/drivers/gpu/drm/ast/ast_post.c
-> +++ b/drivers/gpu/drm/ast/ast_post.c
-> @@ -2030,7 +2030,6 @@ void ast_patch_ahb_2500(struct ast_private *ast)
->   {
->   	u32	data;
->=20
-> -patch_ahb_lock:
->   	/* Clear bus lock condition */
->   	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
->   	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-> @@ -2044,11 +2043,9 @@ void ast_patch_ahb_2500(struct ast_private *ast)=
-
->   		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
->   		udelay(1000);
->   	}
-> -	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
->   	do {
-> +		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
->   		data =3D ast_mindwm(ast, 0x1e6e2000);
-> -		if (data =3D=3D 0xffffffff)
-> -			goto patch_ahb_lock;
->   	}	while (data !=3D 1);
->   	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
->   }
-> --
-> 2.18.4
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---M3FbcYwRAQp89Zilv0UF9VVrvnXMVGqkQ--
-
---jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJM4wFAwAAAAAACgkQlh/E3EQov+D8
-Iw//eqodlyeLvpazsZHTUz0gOm6zdWC0w48m+hINGXQGbMlTaH+B5xC1Mbd4v+YQhbKfkWvfpEt/
-MMhvMZY4eKSzZyCCkj9g3HBXZiqTlOSIwERv09yms2H0SSa/ABw8ks9JjZDe9Og8w6JRvWWPIq6g
-JIB8+E18rfMuydQH8PwtnLsNTYoq30m27SXU+cs5v7tpgw2Fle4JYcUWgPs5SxNWpmFLlmNOlGvz
-DEe3l/CKRz7XhRkrEZC5tJL6ELbzTG6t1EGH5CnHJgYpVSRaSGinnxVq8dp+Fq2qd59sC/86Xv7S
-XKYG3MbG81vB2ABCMQFAwfC7+nZFhL/gv73dTYbJC49APA4YUVZKzTkvVN2Wh0bQIhX4U2St3LGd
-PdKP32e8M1p7j5ZcDzDxPlO5qjBQJUgvyeNIu2b9/QaXvPKxbjpXqQHhmOA25OI5yJ1FE9bMZ64J
-toyWIt0TclR/9RTO0w2+Gvu/8SKdpUTcHeeEe6SPw8xyKki+BElGCaTgiL/nbevFt29XlBUP0Ggr
-uUs8SE3EstjawrOyaGAXbE3E+QNhTTt3DxZ0OMntguJpDUTJKvI+CTlBGV8UfAZ5x79DfLhHIqbE
-1ROryPbBqpxSh5Z5LHCOB/XqF9pTi/I/8flw58fVmQiRvaMgNlIl6OBvRRmw8TdfSfMIF//GVYRr
-OSk=
-=RPCY
------END PGP SIGNATURE-----
-
---jy2BE2ZYsb1zsRwZk39lCNO7PfOwVDQUQ--
-
---===============1619852723==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1619852723==--
+T24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMDc6NDY6NDRBTSArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3
+cm90ZToKPiBIaSwgTWF0dGhpYXM6Cj4gCj4gTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdn
+QGtlcm5lbC5vcmc+IOaWvCAyMDIx5bm0MeaciDIx5pelIOmAseWbmyDkuIrljYgyOjI35a+r6YGT
+77yaCj4gPgo+ID4gT24gVGh1LCBKYW4gMDcsIDIwMjEgYXQgMDc6MTc6MjdBTSArMDgwMCwgQ2h1
+bi1LdWFuZyBIdSB3cm90ZToKPiA+ID4gRnJvbTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4K
+PiA+ID4KPiA+ID4gbXRrIG11dGV4IGlzIHVzZWQgYnkgYm90aCBkcm0gYW5kIG1kcCBkcml2ZXIs
+IHNvIGNoYW5nZSBkaXNwL2RkcCB0ZXJtIHRvCj4gPiA+IG11dGV4IHRvIHNob3cgdGhhdCBpdCdz
+IGEgY29tbW9uIGRyaXZlciBmb3IgZHJtIGFuZCBtZHAuCj4gPiA+Cj4gPiA+IFNpZ25lZC1vZmYt
+Ynk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IENodW4t
+S3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyB8ICAzMCArLS0KPiA+ID4gIGRyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICB8ICAgMiArLQo+ID4gPiAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmggIHwgICAyICstCj4gPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMgICAgfCAzMDUgKysrKysrKysrKysrLS0tLS0t
+LS0tLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmggICAgfCAg
+MjYgKy0KPiA+ID4gIDUgZmlsZXMgY2hhbmdlZCwgMTgyIGluc2VydGlvbnMoKyksIDE4MyBkZWxl
+dGlvbnMoLSkKPiA+ID4KPiA+IFsuLi5dCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX211dGV4LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211
+dGV4LmMKPiA+ID4gaW5kZXggMWM4YTI1M2Y0Nzg4Li45OGEwNjBiZjIyNWQgMTAwNjQ0Cj4gPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXV0ZXguYwo+ID4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMKPiA+IFsuLi5dCj4gPiA+Cj4gPiA+
+IC1zdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBkZHBfZHJpdmVyX2R0X21hdGNoW10g
+PSB7Cj4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdXRleF9kcml2ZXJf
+ZHRfbWF0Y2hbXSA9IHsKPiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3
+MDEtZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQyNzAxX2RkcF9kcml2ZXJf
+ZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAmbXQyNzAxX211dGV4X2RyaXZlcl9kYXRhfSwK
+PiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MTItZGlzcC1tdXRleCIs
+Cj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQyNzEyX2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsg
+ICAgICAgLmRhdGEgPSAmbXQyNzEyX211dGV4X2RyaXZlcl9kYXRhfSwKPiA+ID4gICAgICAgeyAu
+Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNjctZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAg
+LmRhdGEgPSAmbXQ4MTY3X2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAm
+bXQ4MTY3X211dGV4X2RyaXZlcl9kYXRhfSwKPiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJt
+ZWRpYXRlayxtdDgxNzMtZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQ4MTcz
+X2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAmbXQ4MTczX211dGV4X2Ry
+aXZlcl9kYXRhfSwKPiA+ID4gICAgICAge30sCj4gPiA+ICB9Owo+ID4gPiAtTU9EVUxFX0RFVklD
+RV9UQUJMRShvZiwgZGRwX2RyaXZlcl9kdF9tYXRjaCk7Cj4gPiA+ICtNT0RVTEVfREVWSUNFX1RB
+QkxFKG9mLCBtdXRleF9kcml2ZXJfZHRfbWF0Y2gpOwo+ID4KPiA+IEkgdGhpbmsgaXQgd291bGQg
+bWFrZSBzZW5zZSBpbiBhIGZvbGxvdy11cCBwYXRjaCB0byB1cGRhdGUgdGhlIGJpbmRpbmcKPiA+
+IHRvIHVzZSAibWVkaWF0ZWssbXQyNzAxLW11dGV4IiB0byByZWZsZWN0IHRoYXQgbXV0ZXggaXMg
+dXNlZCBmb3IgZHJtIGFuZAo+ID4gbWRwIGRyaXZlci4gTWFrZSBzZW5zZT8KPiAKPiBZZXMsIGl0
+IG1ha2Ugc2Vuc2UuIEkgd291bGQgdHJ5IHRvIHVwZGF0ZSB0aGUgYmluZGluZywgYnV0IEkgd29u
+ZGVyCj4gZGV2aWNlIHRyZWUgc2hvdWxkIGJlIGJhY2t3YXJkIGNvbXBhdGlibGU/IExldCdzIGRp
+c2N1c3MgaW4gdGhhdAo+IGZvbGxvdy11cCBwYXRjaGVzLgo+IAoKRnJvbSBteSB1bmRlcnN0YW5k
+aW5nLCB3ZSB3aWxsIG5lZWQgdG8ga2VlcCB0aGUgb2ZfZGV2aWNlX2lkIGVudHJpZXMgZm9yCnRo
+ZSBvbGQgYmluZGluZyBpbiB0aGUgZHJpdmVyIChzbyB0aGF0IG9sZCBEVHMgc3RpbGwgd29yaykg
+d2hpbGUgd2UKc2hvdWxkIGVuZm9yY2UgdGhlIG5ldyBiaW5kaW5nLiBJJ20gbm90IHN1cmUgaWYg
+dGhlIHlhbWwgaGFzIGEgb3B0aW9uCmZvciBvdXQtb2YtZGF0ZSBjb21wYXRpYmxlcy4KClJlZ2Fy
+ZHMsCk1hdHRoaWFzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
