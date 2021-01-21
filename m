@@ -2,101 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5272FFE88
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0E82FFE7C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F526E9C5;
-	Fri, 22 Jan 2021 08:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A032C6E9B9;
+	Fri, 22 Jan 2021 08:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1851 seconds by postgrey-1.36 at gabe;
- Thu, 21 Jan 2021 09:40:20 UTC
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1733389A62
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 09:40:20 +0000 (UTC)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10L91lQD055285; Thu, 21 Jan 2021 04:09:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=MIROihBdMjJIKhC+tSW35NZfjljBZpxTZ8W3u2vfuks=;
- b=cqRzMTKhA3pIGU3ja/nPBQ6238mE5b0d+97NdxaDtJ0tRYkjJhOzCXL1l8aCxifmwgHZ
- qVqUV9k4C78ZhZ8vhRFP9BV1FUriz1RCcRWz75zyk8r16N0xIB45wuRmXRN0rz2gNGuh
- 9xI9gSwtCZRGiqGZja8/wiPFBGZaWbf8cb77ZnkugirJOus/GoiCHgp0O4Y0vR6eTf6w
- x0UE0OMgnznKtW3mkZm9BSyMHsUrMoZg/X/OkEe0Np5Idkzq1pw87HgoNiS0qvfdtz+q
- Za9YfQC5j3kAQO5AReZU5Kg+Ey1AJSsZiwlpRdP9jg2L+zi7vRuWnAXR5IFlwn6BW8iR sw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3675ych8rm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 04:09:24 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10L92YCS057489;
- Thu, 21 Jan 2021 04:09:23 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3675ych8qs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 04:09:22 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10L97s4S031626;
- Thu, 21 Jan 2021 09:09:20 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3668pasfrk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 09:09:20 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10L99Ilw32506304
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jan 2021 09:09:18 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0EFD5A4066;
- Thu, 21 Jan 2021 09:09:18 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A859FA405F;
- Thu, 21 Jan 2021 09:09:17 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jan 2021 09:09:17 +0000 (GMT)
-Received: from [9.81.210.19] (unknown [9.81.210.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 9A4B160167;
- Thu, 21 Jan 2021 20:09:15 +1100 (AEDT)
-Subject: Re: [PATCH 01/13] powerpc/powernv: remove get_cxl_module
-To: Christoph Hellwig <hch@lst.de>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jessica Yu <jeyu@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
-References: <20210121074959.313333-1-hch@lst.de>
- <20210121074959.313333-2-hch@lst.de>
-From: Andrew Donnellan <ajd@linux.ibm.com>
-Message-ID: <a9e53c05-cfb9-2946-542d-4acda109a49d@linux.ibm.com>
-Date: Thu, 21 Jan 2021 20:09:02 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7B36E057
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 09:50:59 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id t29so1171437pfg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 01:50:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BbxFki6tRqBX44IegEJe/BsZNExFbfRgQ7K/DMqXpe8=;
+ b=A1AJnTLR1KCTSKBNCZ3JyEbtViSOVuzkHWv6idUgfWTfqy+UYL3/XgVlhkw3gUTrZL
+ 3GY386GwUpruFJZD6FaCnygmfq2zZQCl3n7h6l+0WpFIpGT0u3MeCiWcj6fxItmgMgML
+ /Yjc9zlGywzrlno0Tfs9FkGe6jyAWlB9hIVpj9OmgoWYfW1A71uMrMAr06MYroD271li
+ UZ+1bdV1CQ1uMWEKBhF08lHe+LsML/w3wThdojfW76E2uR2WdWav/6V6XEVBFhh9NJ39
+ Ls949nwzS6aD+uhFedHdK6LQe16aYjDCCRKp3R5aksY58DnTNVTMfH5f0UGi7PLRuvsu
+ BVwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BbxFki6tRqBX44IegEJe/BsZNExFbfRgQ7K/DMqXpe8=;
+ b=WAwxkPfjV5L5dMEwPkwU29JBDU7m4k/iXBMKSSjGs+kLjUkgymTG+XQyVAjlWqO0rS
+ EdnbHVIby0ATG/M/bwta5TejuzMBabXBdO3KFiFr263L6NbwVyGgcYTPbU9p/mDgwvR/
+ OORNywtOr/+LA+RgDVDnv2/D/uBelmGgL7wrqU8bkIeLUJNDQEyDuEJJdF8apyxFJVWj
+ IaofUsVdgOpmfeNZ1peHCGqWWy3X92vHvFcFm5evYPdiTVwto/7H0vpQvYBkfeQhnd4G
+ JLh0jOdsGyCkmHWdSviGM8d59gja0YwIYxEPT8sq+Sg4/KoxkrG7E6R3ZWqAArE09Men
+ 0tnw==
+X-Gm-Message-State: AOAM533h34rod36qp+oKgITIqE8xTGPDXt9Mfd5o2NSGzLaFdizxHXI9
+ 3bdDHT98PSYZZIGxswVwxUx9OGK4rlkBjYRHH73qOQ==
+X-Google-Smtp-Source: ABdhPJy4QmxdDGGbdf9i+h1GcKiwufxe5Plh47FVzcuGSR7wU0aFKJI9QhaFtI+6AWpwyCxBgfhH/vaW0W5o0h154jo=
+X-Received: by 2002:aa7:8edd:0:b029:1b7:9f41:c4d8 with SMTP id
+ b29-20020aa78edd0000b02901b79f41c4d8mr13464399pfr.39.1611222658609; Thu, 21
+ Jan 2021 01:50:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210121074959.313333-2-hch@lst.de>
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-21_03:2021-01-20,
- 2021-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 mlxscore=0 malwarescore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101210045
+References: <20201217140933.1133969-1-robert.foss@linaro.org>
+In-Reply-To: <20201217140933.1133969-1-robert.foss@linaro.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 21 Jan 2021 10:50:47 +0100
+Message-ID: <CAG3jFyuzjbPsMBOOgc2DBBT92H7FPBNdJLKWHF8+7K10LujMbw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: lt9611: Fix handling of 4k panels
+To: Neil Armstrong <narmstrong@baylibre.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, jonas@kwiboo.se, 
+ jernej.skrabec@siol.net, dri-devel@lists.freedesktop.org, 
+ linux-kernel <linux-kernel@vger.kernel.org>, a.hajda@samsung.com, 
+ Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,31 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: airlied@linux.ie, Anibal Limon <anibal.limon@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Peter Collingbourne <pcc@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/1/21 6:49 pm, Christoph Hellwig wrote:
-> The static inline get_cxl_module function is entirely unused,
-> remove it.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hi,
 
-The one user of this was removed in 8bf6b91a5125a ("Revert 
-"powerpc/powernv: Add support for the cxl kernel api on the real phb").
++Sam Ravnborg
 
-Thanks for picking this up.
+I think this patch is ready to get pulled into the drm-misc tree.
 
-Reviewed-by: Andrew Donnellan <ajd@linux.ibm.com>
-
--- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
+On Thu, 17 Dec 2020 at 15:09, Robert Foss <robert.foss@linaro.org> wrote:
+>
+> 4k requires two dsi pipes, so don't report MODE_OK when only a
+> single pipe is configured. But rather report MODE_PANEL to
+> signal that requirements of the panel are not being met.
+>
+> Reported-by: Peter Collingbourne <pcc@google.com>
+> Suggested-by: Peter Collingbourne <pcc@google.com>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> Tested-by: John Stultz <john.stultz@linaro.org>
+> Tested-by: Anibal Limon <anibal.limon@linaro.org>
+> Acked-By: Vinod Koul <vkoul@kernel.org>
+> Tested-by: Peter Collingbourne <pcc@google.com>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index d734d9402c35..e8eb8deb444b 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+>                                                      const struct drm_display_mode *mode)
+>  {
+>         struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
+> +       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+>
+> -       return lt9611_mode ? MODE_OK : MODE_BAD;
+> +       if (!lt9611_mode)
+> +               return MODE_BAD;
+> +       else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
+> +               return MODE_PANEL;
+> +       else
+> +               return MODE_OK;
+>  }
+>
+>  static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+> --
+> 2.27.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
