@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DFA2FFE74
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCF72FFE79
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:45:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB3A36E02E;
-	Fri, 22 Jan 2021 08:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165A86E9A9;
+	Fri, 22 Jan 2021 08:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D406E52D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:11:20 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 4AD3B5C00A1;
- Thu, 21 Jan 2021 06:11:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 21 Jan 2021 06:11:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=LPJqqS/caxcStsD9RkS+Vof1Crj
- gUDiCxmC1DhtIhZc=; b=siwr5C8iEwooh7A3MFf+jMp0w85maT+28yyP/wfQS6g
- K2C/Wpxrjihu0LVvx93M2M6z+8LrEKegAt2GSEFTiDqC5YlRO19vQfE+Sn4cvsT9
- uzg6xblKHM6+IVvWuFZWb/IIVfYVoY2nvko26G9+aBSxeR4WOE9aERr3mmsuokTj
- WSsCAu+VIwOZHnq9H5pxiw33TfMOgTKyQZ3OZUYq2wbTMAeNdenofuHo55RXqNcL
- KrXsZJTdBcB7ISHML2Q29SB9DX1Q9tQmPYcimknBqAPh6z+Vav+lnx09eMCQfnnR
- rL0WTyW/IvG+sSMtTbtEdDh1Rnu9GeyS9zTabJoFguw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=LPJqqS
- /caxcStsD9RkS+Vof1CrjgUDiCxmC1DhtIhZc=; b=maOKHwrGRxZWWBatDzm9yU
- 8qFuHbQJ7OCIKxrE8tPmd5+eZbYcTBNbR5dhTQrvzkr/3NUsLUpgrxkZdDocCeP4
- uooGJne2jCpRCeJ7sIsv9hIwGo5P+bsQljHSzGPEfMzrMTyQSWD0RkXWF1YzpyiE
- 0ausTs8Cbe0R6Wx+OJI62Ud5f9GH+5NVi3hohXbpsNA4dnexxWICQxq/EJFTwLKT
- Nmpr4H0bZ+rB7DUfJvp67Np0rHxB5L14xLq5/Vdr/B0IE8z/OA5iosFEv458Ky07
- JWCRL4dfj1NMeCF/OZcZdGMwBUg2moS7wkTtP9RikddEwLWWWcRZBthgDhEYhspQ
- ==
-X-ME-Sender: <xms:VmEJYHjMdBx9G1u4G65dWEbWnFylmkh_Zml66ZJ6gyi9AtHfUdGGzQ>
- <xme:VmEJYLfW4E3DUxVooNy8AlzpGDpVRoO2QUtgTZSEPU0M-Aejn_7hNhGCWNnNisyql
- jd-PLi9B7TMz0QqLcs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggddviecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:VmEJYEfe1QBAYOu5jWaj160hpCc0r0rRs75jStcpNS2xXMloeDLOGw>
- <xmx:VmEJYN_xAeXraJsY6MytfSeC5qJ3xxDT8K_HFqi7-wIbgYf060Z4gQ>
- <xmx:VmEJYInRFwdKnzK4zW5gL2cth-9nyjGNoFGxLe1s9z8em3YQ-bfh_A>
- <xmx:V2EJYEWcLygoB_yQfbfPCmKlXo1Vk3pGM1FFZd8fEqLqP63n9M4bJQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id E18571080057;
- Thu, 21 Jan 2021 06:11:17 -0500 (EST)
-Date: Thu, 21 Jan 2021 12:11:16 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm: Introduce a drm_crtc_commit_wait helper
-Message-ID: <20210121111116.4krmqci6amuksyat@gilmour>
-References: <20210111084401.117152-1-maxime@cerno.tech>
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA88E6E419
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:18:26 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id f63so1286813pfa.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 03:18:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x3SmdleK8UZBluZ+gLv61IXIdA7ChI0uJ8q02WGnkWs=;
+ b=kKul5ID8v5TbX97ww+cpfmgrUv3kSKDwJ5+iClldpCxSEMEvh16BW9c99r9D6TxUF/
+ UJy9U+fbp6GgTXqQAKH2vpfq+OBFaUhJAFtmu2GlHVA0WGpq/UGkkQR9iGMbQoj1Iitv
+ n10xlrNXdq0kiQQIE5ELsxJO+0LGCp2wS9uujRkXF7ZC8F+po6ARY/vc2Wfe1Q2Hl5ea
+ ea/DVLs27iqJz6zMgl0grfTLeQyN5TuTmnmrzme3iilGPe9v/xC35tR/mdM3Bl/HM1qU
+ XZS/WWhF29VdoamNtm9NTJNGg++hLG8LJsFS9ZiaU3Au8PjSKQyPReA9zoIHqr/wIRDf
+ hK1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x3SmdleK8UZBluZ+gLv61IXIdA7ChI0uJ8q02WGnkWs=;
+ b=oXN3Zw29xQf2YQ13PQZOj3fEFZwepcxpIDTOzs+Jwp/FL+hAyXBfr1tK28IvtQ6j84
+ b4k8o7j8hjobxT2iQwQbFzpn4PuHTDCwxCSEcmmujlbSzYJjlMC1x5v0xWavljK/qolE
+ LrsLD0m2GVc5wAFm7d6o2wr6xWKzSjC2N23n0JmR6hS5mrNTY0JfHddjlXQE/CHCnQJY
+ ds6B2px7XZZhtwViyLTtIhLZ895Aiq7ux8GiqMWRAhneVMeoPdDBN5tcR3kk93b92yHC
+ WGUQppYyUuLK5D/KQZekiH+HyXgnT0Ld/wDG53K2q/BKzSY0eM1FOdbD17e1kjYrITHa
+ cqWQ==
+X-Gm-Message-State: AOAM533pQ1sCL4oKe34f5bUgYBwyvZ54z9ynEFsNQ5Dd5RWRo/npS/6X
+ b/XX2vMBCpTL2F44v5TL0ZEcFA==
+X-Google-Smtp-Source: ABdhPJzYjBGnMJtovsRHZ48WHArs33wC1W8Lrm5qvHpSIs5QnnIQMqLBBg9eMiM+WEzPlls9eOjVdQ==
+X-Received: by 2002:aa7:84d5:0:b029:19d:da20:73fe with SMTP id
+ x21-20020aa784d50000b029019dda2073femr13718975pfn.16.1611227895317; 
+ Thu, 21 Jan 2021 03:18:15 -0800 (PST)
+Received: from localhost ([122.172.59.240])
+ by smtp.gmail.com with ESMTPSA id 68sm5691390pfg.90.2021.01.21.03.18.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 21 Jan 2021 03:18:14 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Nishanth Menon <nm@ti.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Stephen Boyd <sboyd@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Viresh Kumar <vireshk@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [PATCH 00/13] opp: Implement dev_pm_opp_set_opp()
+Date: Thu, 21 Jan 2021 16:47:40 +0530
+Message-Id: <cover.1611227342.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
 MIME-Version: 1.0
-In-Reply-To: <20210111084401.117152-1-maxime@cerno.tech>
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,60 +75,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0074061294=="
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sibi Sankar <sibis@codeaurora.org>,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---===============0074061294==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ljfgl224f6kqstgd"
-Content-Disposition: inline
+This patchset implements a new API dev_pm_opp_set_opp(), which
+configures the devices represented by an opp table to a particular opp.
+The opp core supports a wide variety of devices now, some of them can
+change frequency and other properties (like CPUs), while others can just
+change their pstates or regulators (like power domains) and then there
+are others which can change their bandwidth as well (interconnects).
+Instead of having separate implementations for all of them, where all
+will eventually lack something or the other, lets try to implement a
+common solution for everyone. This takes care of setting regulators, bw,
+required opps, etc for all device types.
 
+Dmitry, please go ahead and try this series. This is based of opp tree's
+linux-next branch.
 
---ljfgl224f6kqstgd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sibi, since you added dev_pm_opp_set_bw() earlier, it would be good if
+you can give this a try. In case this breaks anything for you.
 
-On Mon, Jan 11, 2021 at 09:44:01AM +0100, Maxime Ripard wrote:
-> There's currently four users of the same logic to wait for a commit to
-> be flipped: three for the CRTCs, connectors and planes in
-> drm_atomic_helper_wait_for_dependencies, and one in vc4.
->=20
-> Let's consolidate this a bit to avoid any code duplication.
->=20
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+I have already tested this on hikey board for CPU devices.
 
-Applied,
+To get this tested better and as early as possible, I have pushed it
+here:
 
-Maxime
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
 
---ljfgl224f6kqstgd
-Content-Type: application/pgp-signature; name="signature.asc"
+This will be part of linux-next tomorrow.
 
------BEGIN PGP SIGNATURE-----
+Note, all the patches need to go through OPP tree here. Please provide
+your Acks for platform specific bits.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAlhVAAKCRDj7w1vZxhR
-xYdkAQCnKlrFp2sctnHKSh9+8WcZjCXJ6fv3J7JnJTPzi6XDYwD9E11ly/xCI8zj
-6ZaM+yJftRtmlScZ2kcKSgHDrQEd+QY=
-=B2Vv
------END PGP SIGNATURE-----
+--
+Viresh
 
---ljfgl224f6kqstgd--
+Viresh Kumar (13):
+  opp: Rename _opp_set_rate_zero()
+  opp: No need to check clk for errors
+  opp: Keep track of currently programmed OPP
+  opp: Split _set_opp() out of dev_pm_opp_set_rate()
+  opp: Allow _set_opp() to work for non-freq devices
+  opp: Allow _generic_set_opp_regulator() to work for non-freq devices
+  opp: Allow _generic_set_opp_clk_only() to work for non-freq devices
+  opp: Update parameters of  _set_opp_custom()
+  opp: Implement dev_pm_opp_set_opp()
+  cpufreq: qcom: Migrate to dev_pm_opp_set_opp()
+  devfreq: tegra30: Migrate to dev_pm_opp_set_opp()
+  drm: msm: Migrate to dev_pm_opp_set_opp()
+  opp: Remove dev_pm_opp_set_bw()
 
---===============0074061294==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+ drivers/cpufreq/qcom-cpufreq-hw.c     |   2 +-
+ drivers/devfreq/tegra30-devfreq.c     |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c |   8 +-
+ drivers/opp/core.c                    | 314 ++++++++++++++------------
+ drivers/opp/opp.h                     |   2 +
+ include/linux/pm_opp.h                |   6 +-
+ 6 files changed, 184 insertions(+), 150 deletions(-)
+
+-- 
+2.25.0.rc1.19.g042ed3e048af
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0074061294==--
