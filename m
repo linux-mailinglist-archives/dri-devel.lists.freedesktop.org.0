@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4442FE286
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 07:17:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A738F2FE2A4
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 07:22:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49476E8D3;
-	Thu, 21 Jan 2021 06:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9516E8D9;
+	Thu, 21 Jan 2021 06:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57656E8D3;
- Thu, 21 Jan 2021 06:17:29 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id g3so995172ejb.6;
- Wed, 20 Jan 2021 22:17:29 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFA5E6E8D8;
+ Thu, 21 Jan 2021 06:22:36 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id kg20so530546ejc.4;
+ Wed, 20 Jan 2021 22:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sj1fxi0fYGmr5uEUa2kZMEOeKSig/rU6Pc/peHlQO54=;
- b=jdJlW2V4XzzLQDZ1hEqCghWr6rvJ0M1DknoGlCIv9tCzXFwlPVcKTmybhmt3jxVJZJ
- 1jsLpFUTSSOGTMNt5NfCyoIJgr9MLC0vw1vrY6YfvfaOoTErCEmbPzlRQxVi6PCgkqrZ
- cfR4R3de4n6okwH614/aSdbvC5ar79peeP604YvFEOMCs79kxGutveNukoPlNK/rUncz
- zIulvsOVa13/Ji4X0HgLbiqT8Qa/qJw32ytXf0f9h7aepDuvcvS7xaVpb0RVOvn1KnSx
- MklxTKP2djivi5AvIVzSLhBxRw6sGS3OhzwpbHbuR1oooHbEG8wkU5WwKaXg2wPFNst/
- YPHA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GW/oWN3oyD3njowlslhBX+P2nkMm3yPnHl9TOZ+Je2s=;
+ b=vJgQFLlN27pu0HqdfQKoxyc/5F80Fo1UnauZgGw82RIjbaqcnj4fGj/XFUsgJrq9CU
+ 1IOtdX+THR0BWsPmrTiwJxx/brIqgmWH3rQpEgOwCEDLVs7rv51XUuVkqR2HMot1sIHV
+ /9X2SK8Js14THdDobqZjp8evE5F/5YH9O46U0saaaeLWvL1m8DsHOuxbcEhR3lCKYL92
+ d7HxQDVisi7Pvi6DT8nfHvMpbs8hZ+fhheK6vd76/UgNVZ3PeYstZKenscMKyIhaMlwx
+ fv5PtFEHuqDKHSIOi5Jenvkg8Bi79oztPTcZ0usY/NWVeF1VhyFcx/uJPXQN5kCavFHo
+ wGIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sj1fxi0fYGmr5uEUa2kZMEOeKSig/rU6Pc/peHlQO54=;
- b=iktKrn0UZ7aejJcx7Avrgm5XS2WYaPzKQZyPaeVxrVE/4aHQYqdtJbP3FoR0JVgB+D
- zBT7E4qszTmntPFVYn1e3FcsoVDNJNFFzjosSCkqn1sN+P4VX/eVkdVdlonZnaNgiQ90
- lEM/JDKYW1ADc4I+ORuzGK/08UbmJV9GA3/P51UTxfPoKwBrzz4mH75xsdVPkAcMCL9j
- /s1svHAg1GrRzQlmSs3iJa3dHMY8Bg7MKZgAYhtGHV/KjJizZIQSuU+XOSZuTV5Nicjz
- ZI8aisU6DQ1hdohPTn+xRLRcStiGhz22gT3EQA748JX2v+8jKuJTjwnlzwye69VFA0iz
- 3QIw==
-X-Gm-Message-State: AOAM530y5tkBIMD3FbUTfxKEO4wU9C9M7K8W/tD/2rbZKW6ih9CTVgq1
- p+KBgHl2GROWtWj4wmtEF0bmQS+D974=
-X-Google-Smtp-Source: ABdhPJwjWvYRsSb1LKJlB8y26c4r4VDOkR1kK9z9F3T8pe0vXcfFq+a9ZrdisTRBqTCNwA1mjIOtLw==
-X-Received: by 2002:a17:906:3daa:: with SMTP id
- y10mr226965ejh.521.1611209848118; 
- Wed, 20 Jan 2021 22:17:28 -0800 (PST)
-Received: from twisty.localdomain
- (dynamic-2a01-0c22-c84c-8e00-6cbb-50d4-b91e-5b37.c22.pool.telefonica.de.
- [2a01:c22:c84c:8e00:6cbb:50d4:b91e:5b37])
- by smtp.gmail.com with ESMTPSA id w4sm2225551eds.40.2021.01.20.22.17.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 22:17:27 -0800 (PST)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amd/display: Fix HDMI deep color output for DCE 6-11.
-Date: Thu, 21 Jan 2021 07:17:03 +0100
-Message-Id: <20210121061704.21090-3-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20210121061704.21090-1-mario.kleiner.de@gmail.com>
-References: <20210121061704.21090-1-mario.kleiner.de@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GW/oWN3oyD3njowlslhBX+P2nkMm3yPnHl9TOZ+Je2s=;
+ b=ocWLJD2j9iXeBYt3zSyYZq71gtuIptv1SWFxvcxc8YzA3Sw0QqaJSsZ0w9QOsnVg4I
+ cW37s7Sl6Nwa6V+fhqYjuJjqxHJNtzrVLfNby/fsOHzx0/P1nvnBGa07QWJWic/4NoaL
+ xi/UqUwBQQxxiyGf22I9h9jrQ0OA8FjWAX3shQTm1dt4tKILUadsCiQ/PAupENmOSBsk
+ rj+tH/iTb6DP042IIOInsEiTliajlttW+VVkZt4WQ3XHM82XeyPeNtro5NIzsYVkK0dZ
+ IYbugS4aye3jQCqn17gz2iceI2HTI9Skl/AAy+FeAgsSxJs+z2o3BRG1lFwnLhGGZvmZ
+ zn8g==
+X-Gm-Message-State: AOAM530SirErsyp9s3hGAJsLPdBBt7PmWi9qqwZWF6xrX2/hJOQuOX7F
+ mUtfNy8QqA5sRkebiSZJgifIenetOhftC/ad0Ik=
+X-Google-Smtp-Source: ABdhPJy5/0LBceTsjModKTDeluMXbpU1rmpDtJXeV6VP7azlkKLQbc2DmDNuMGCZ1+yd9dpc7GGdhx+RrLj4uZWNOjw=
+X-Received: by 2002:a17:906:5958:: with SMTP id
+ g24mr8032373ejr.377.1611210155701; 
+ Wed, 20 Jan 2021 22:22:35 -0800 (PST)
 MIME-Version: 1.0
+References: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
+ <CADnq5_PwoHyoS=-Nc1EhBMRjwPwOfktgZr7RkeDSP9vBjSNUCQ@mail.gmail.com>
+In-Reply-To: <CADnq5_PwoHyoS=-Nc1EhBMRjwPwOfktgZr7RkeDSP9vBjSNUCQ@mail.gmail.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Thu, 21 Jan 2021 07:22:24 +0100
+Message-ID: <CAEsyxyhHPaOGJJhPrUWPoXni-T0y23=Zqf82qJJVLqm=HaUOdw@mail.gmail.com>
+Subject: Re: Enable fp16 display support for DCE8+, next try.
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,194 +62,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes corrupted display output in HDMI deep color
-10/12 bpc mode at least as observed on AMD Mullins, DCE-8.3.
+On Mon, Jan 4, 2021 at 6:16 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Mon, Dec 28, 2020 at 1:51 PM Mario Kleiner
+> <mario.kleiner.de@gmail.com> wrote:
+> >
+> > Hi and happy post-christmas!
+> >
+> > I wrote a patch 1/1 that now checks plane scaling factors against
+> > the pixel-format specific limits in the asic specific dc_plane_cap
+> > structures during atomic check and other appropriate places.
+> >
+> > This should prevent things like asking for scaling on fp16 framebuffers
+> > if the hw can't do that. Hopefully this will now allow to safely enable
+> > fp16 scanout also on older asic's like DCE-11.0, DCE-10 and DCE-8.
+> > Patch 2/2 enables those DCE's now for fp16.
+> >
+> > I used some quickly hacked up of IGT test kms_plane_scaling, manually
+> > hacking the src fb size to make sure the patch correctly accepts or
+> > rejects atomic commits based on allowable scaling factors for rgbx/a
+> > 8 bit, 10, and fp16.
+> >
+> > This fp16 support has been successfully tested with a Sea Islands /
+> > DCE-8 laptop. I also confirmed that at least basic HDR signalling
+> > over HDMI works for that DCE-8 machine with a HDR monitor. For this
+> > i used the amdvlk driver which exposes fp16 since a while on supported
+> > hw.
+>
+> Patches look good to me, but I'd like to get some feedback from the
+> display folks as well.
+>
+> >
+> > There are other bugs in DC wrt. DCE-8 though, which didn't prevent
+> > my testing, but may be worth looking into. My DCE-8 machine scrambles
+> > the video output picture somewhat under Vulkan (radv and admvlk) if the
+> > output signal precision isn't 8 bpc, ie. on 6 bpc (eDP laptop panel)
+> > and 10 bpc, 12 bpc (HDMI deep color on external HDR monitor).
+> >
+> > Another fun thing is getting a black screen if DC is enabled on at least
+> > Linux 5.10+ (but not if i use the classic kms code in amdgpu-kms). If
+> > i recompile the driver with a Ubuntu kconfig for Linux 5.9, the 5.10
+> > kernel works, and the only obvious DC related difference is that DC's
+> > new SI / DCE-6 asic support is disabled at compile time.
+>
+> Fixed here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6bdeff12a96c9a5da95c8d11fefd145eb165e32a
+> Patch should be in stable for 5.10 as well.
 
-It will hopefully also provide fixes for other DCE's up to
-DCE-11, assuming those will need similar fixes, but i could
-not test that for HDMI due to lack of suitable hw, so viewer
-discretion is advised.
+Yes, in recent 5.10 stable these fix the problem I experienced.
 
-dce110_stream_encoder_hdmi_set_stream_attribute() is used for
-HDMI setup on all DCE's and is missing color_depth assignment.
+Thanks Alex,
+-mario
 
-dce110_program_pix_clk() is used for pixel clock setup on HDMI
-for DCE 6-11, and is missing color_depth assignment.
 
-Additionally some of the underlying Atombios specific encoder
-and pixelclock setup functions are missing code which is in
-the classic amdgpu kms modesetting path and the in the radeon
-kms driver for DCE6/DCE8.
-
-encoder_control_digx_v3() - Was missing setup code wrt. amdgpu
-and radeon kms classic drivers. Added here, but untested due to
-lack of suitable test hw.
-
-encoder_control_digx_v4() - Added missing setup code.
-Successfully tested on AMD mullins / DCE-8.3 with HDMI deep color
-output at 10 bpc and 12 bpc.
-
-Note that encoder_control_digx_v5() has proper setup code in place
-and is used, e.g., by DCE-11.2, but this code wasn't used for deep
-color setup due to the missing cntl.color_depth setup in the calling
-function for HDMI.
-
-set_pixel_clock_v5() - Missing setup code wrt. classic amdgpu/radeon
-kms. Added here, but untested due to lack of hw.
-
-set_pixel_clock_v6() - Missing setup code added. Successfully tested
-on AMD mullins DCE-8.3. This fixes corrupted display output at HDMI
-deep color output with 10 bpc or 12 bpc.
-
-Fixes: 4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
-
-Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
----
- .../drm/amd/display/dc/bios/command_table.c   | 61 +++++++++++++++++++
- .../drm/amd/display/dc/dce/dce_clock_source.c | 14 +++++
- .../amd/display/dc/dce/dce_stream_encoder.c   |  1 +
- 3 files changed, 76 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table.c b/drivers/gpu/drm/amd/display/dc/bios/command_table.c
-index 070459e3e407..afc10b954ffa 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/command_table.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/command_table.c
-@@ -245,6 +245,23 @@ static enum bp_result encoder_control_digx_v3(
- 					cntl->enable_dp_audio);
- 	params.ucLaneNum = (uint8_t)(cntl->lanes_number);
- 
-+	switch (cntl->color_depth) {
-+	case COLOR_DEPTH_888:
-+		params.ucBitPerColor = PANEL_8BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_101010:
-+		params.ucBitPerColor = PANEL_10BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_121212:
-+		params.ucBitPerColor = PANEL_12BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_161616:
-+		params.ucBitPerColor = PANEL_16BIT_PER_COLOR;
-+		break;
-+	default:
-+		break;
-+	}
-+
- 	if (EXEC_BIOS_CMD_TABLE(DIGxEncoderControl, params))
- 		result = BP_RESULT_OK;
- 
-@@ -274,6 +291,23 @@ static enum bp_result encoder_control_digx_v4(
- 					cntl->enable_dp_audio));
- 	params.ucLaneNum = (uint8_t)(cntl->lanes_number);
- 
-+	switch (cntl->color_depth) {
-+	case COLOR_DEPTH_888:
-+		params.ucBitPerColor = PANEL_8BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_101010:
-+		params.ucBitPerColor = PANEL_10BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_121212:
-+		params.ucBitPerColor = PANEL_12BIT_PER_COLOR;
-+		break;
-+	case COLOR_DEPTH_161616:
-+		params.ucBitPerColor = PANEL_16BIT_PER_COLOR;
-+		break;
-+	default:
-+		break;
-+	}
-+
- 	if (EXEC_BIOS_CMD_TABLE(DIGxEncoderControl, params))
- 		result = BP_RESULT_OK;
- 
-@@ -1057,6 +1091,19 @@ static enum bp_result set_pixel_clock_v5(
- 		 * driver choose program it itself, i.e. here we program it
- 		 * to 888 by default.
- 		 */
-+		if (bp_params->signal_type == SIGNAL_TYPE_HDMI_TYPE_A)
-+			switch (bp_params->color_depth) {
-+			case TRANSMITTER_COLOR_DEPTH_30:
-+				/* yes this is correct, the atom define is wrong */
-+				clk.sPCLKInput.ucMiscInfo |= PIXEL_CLOCK_V5_MISC_HDMI_32BPP;
-+				break;
-+			case TRANSMITTER_COLOR_DEPTH_36:
-+				/* yes this is correct, the atom define is wrong */
-+				clk.sPCLKInput.ucMiscInfo |= PIXEL_CLOCK_V5_MISC_HDMI_30BPP;
-+				break;
-+			default:
-+				break;
-+			}
- 
- 		if (EXEC_BIOS_CMD_TABLE(SetPixelClock, clk))
- 			result = BP_RESULT_OK;
-@@ -1135,6 +1182,20 @@ static enum bp_result set_pixel_clock_v6(
- 		 * driver choose program it itself, i.e. here we pass required
- 		 * target rate that includes deep color.
- 		 */
-+		if (bp_params->signal_type == SIGNAL_TYPE_HDMI_TYPE_A)
-+			switch (bp_params->color_depth) {
-+			case TRANSMITTER_COLOR_DEPTH_30:
-+				clk.sPCLKInput.ucMiscInfo |= PIXEL_CLOCK_V6_MISC_HDMI_30BPP_V6;
-+				break;
-+			case TRANSMITTER_COLOR_DEPTH_36:
-+				clk.sPCLKInput.ucMiscInfo |= PIXEL_CLOCK_V6_MISC_HDMI_36BPP_V6;
-+				break;
-+			case TRANSMITTER_COLOR_DEPTH_48:
-+				clk.sPCLKInput.ucMiscInfo |= PIXEL_CLOCK_V6_MISC_HDMI_48BPP;
-+				break;
-+			default:
-+				break;
-+			}
- 
- 		if (EXEC_BIOS_CMD_TABLE(SetPixelClock, clk))
- 			result = BP_RESULT_OK;
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-index fb733f573715..466f8f5803c9 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-@@ -871,6 +871,20 @@ static bool dce110_program_pix_clk(
- 	bp_pc_params.flags.SET_EXTERNAL_REF_DIV_SRC =
- 					pll_settings->use_external_clk;
- 
-+	switch (pix_clk_params->color_depth) {
-+	case COLOR_DEPTH_101010:
-+		bp_pc_params.color_depth = TRANSMITTER_COLOR_DEPTH_30;
-+		break;
-+	case COLOR_DEPTH_121212:
-+		bp_pc_params.color_depth = TRANSMITTER_COLOR_DEPTH_36;
-+		break;
-+	case COLOR_DEPTH_161616:
-+		bp_pc_params.color_depth = TRANSMITTER_COLOR_DEPTH_48;
-+		break;
-+	default:
-+		break;
-+	}
-+
- 	if (clk_src->bios->funcs->set_pixel_clock(
- 			clk_src->bios, &bp_pc_params) != BP_RESULT_OK)
- 		return false;
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c b/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
-index ada57f745fd7..19e380e0a330 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_stream_encoder.c
-@@ -564,6 +564,7 @@ static void dce110_stream_encoder_hdmi_set_stream_attribute(
- 	cntl.enable_dp_audio = enable_audio;
- 	cntl.pixel_clock = actual_pix_clk_khz;
- 	cntl.lanes_number = LANE_COUNT_FOUR;
-+	cntl.color_depth = crtc_timing->display_color_depth;
- 
- 	if (enc110->base.bp->funcs->encoder_control(
- 			enc110->base.bp, &cntl) != BP_RESULT_OK)
--- 
-2.25.1
-
+>
+> Alex
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
