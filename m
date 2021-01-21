@@ -2,39 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8890F2FE8A1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 12:22:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680C72FE8A8
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 12:23:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBC16E419;
-	Thu, 21 Jan 2021 11:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4E506E52D;
+	Thu, 21 Jan 2021 11:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E6D6E1D2;
- Thu, 21 Jan 2021 11:22:34 +0000 (UTC)
-IronPort-SDR: RsRbTTg/CNHOy2qSRdhAghvr1eAvfaVrgy5CzyXKCwy28Cl7UUSZf4eIpRsnKj+pV8miEIAWfj
- KQ3euFaua6qQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9870"; a="240793545"
-X-IronPort-AV: E=Sophos;i="5.79,363,1602572400"; d="scan'208";a="240793545"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2021 03:22:31 -0800
-IronPort-SDR: EI/Nf0J8fuvXfUWeTyEbEkayuiif5i9QL+oZ3ExuNhOFL9fr0htQYfimjeYFcL6Jaau+1J0T3w
- m+DtMu4E/+Ng==
-X-IronPort-AV: E=Sophos;i="5.79,363,1602572400"; d="scan'208";a="385262939"
-Received: from cohrs-mobl.ger.corp.intel.com (HELO localhost) ([10.252.51.23])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 03:22:28 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/msm/dp: fix build after dp quirk helper change
-In-Reply-To: <92f48ffdfa30c3941e0fd22337217f0b10d75ec8.camel@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210120110708.32131-1-jani.nikula@intel.com>
- <92f48ffdfa30c3941e0fd22337217f0b10d75ec8.camel@redhat.com>
-Date: Thu, 21 Jan 2021 13:22:24 +0200
-Message-ID: <875z3qmt5b.fsf@intel.com>
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA216E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:23:18 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id 34so1253550otd.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 03:23:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b2rMzfq0UH/F+eLfm27e8RT4cWjxNkuh3W9X3FO/pmE=;
+ b=BAG2wgYYSoqHd+DzOqnaf2XloG6h8bisgVdttJVNDSeHpO2T60TTr7oftDgacbG++z
+ FWPFJ7hdHVj7asQbzl1FiKoOBR4iGZhMKOoPDtWwob5eImQXBXeKj3EvrZWVEkeJQQKj
+ fuvuKpu9YR6biF7ybZJEkp7YQ/ov/XcCHaV6I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b2rMzfq0UH/F+eLfm27e8RT4cWjxNkuh3W9X3FO/pmE=;
+ b=gTvV3eOkXPhVvGhFMGBRuU7A5ffZyEf9aGvdFoUHSQ5vluohxMOhsD9jJ59PaX+p6O
+ G2Im9brIMKe5pjLHfznGBlJiA86FWe+niSf9aUl9zipv9g6wg67jD+NTLD8KEOfmdpnH
+ TOuYuHUtmsbTN+qQr6eHWWqUpR1saSuBayY1rSlpqiu110LWZMKR/g07HN+MqGfygxi1
+ FECGbqzt/0Z2lAkgdNRyCecLZGPkfffc00bZeF0ZgIQzVFU9uZUGczqKPwGouf/itmvU
+ Q5hboOeuu6YOe5QgMX/tZ48P6+vV11MRWcMcsNYPIkzY+cHnfp0amjPpuj8ZlA5fuSlx
+ 5Fxg==
+X-Gm-Message-State: AOAM530z4zQX3XsK9ju+ttxqDNHva55WeH7itNtvQPBXI1Nb/teokFCH
+ XfJsJq8K42KEol8J0ehtBUrexG+Tra/tyN9jpoRrHQ==
+X-Google-Smtp-Source: ABdhPJwuTGzWQAuFKkuYSb3G3c5sxDjEUQ9z8aWWFLseIzCwQa2p+C86ONLqWh5bBBra+SI82M1uIeUTsaA8ArqC1t0=
+X-Received: by 2002:a05:6830:1bef:: with SMTP id
+ k15mr9879029otb.303.1611228197779; 
+ Thu, 21 Jan 2021 03:23:17 -0800 (PST)
 MIME-Version: 1.0
+References: <20210121030909.1126643-1-zhangzhijie@loongson.cn>
+In-Reply-To: <20210121030909.1126643-1-zhangzhijie@loongson.cn>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 21 Jan 2021 12:23:07 +0100
+Message-ID: <CAKMK7uF=scYJ=gyS=xjYz25mdDzKA0QHSyPndfSBweE7vfDkWQ@mail.gmail.com>
+Subject: Re: [PATCH v4] drm: Improve the output_poll_changed description
+To: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,61 +58,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMCBKYW4gMjAyMSwgTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4gd3JvdGU6
-Cj4gUmV2aWV3ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpUaGFua3MgZm9y
-IHRoZSByZXZpZXcuCgpTZWFuLCBSb2IsIG9yIGFueW9uZSB3aXRoIGFuIGFybSB0b29sY2hhaW4g
-Zm9yIG1zbSBhdmFpbGFibGUsIGNvdWxkIEkKdHJvdWJsZSB5b3UgdG8gYnVpbGQgdGVzdCB0aGlz
-IHBsZWFzZT8KCgpCUiwKSmFuaS4KCgo+Cj4gT24gV2VkLCAyMDIxLTAxLTIwIGF0IDEzOjA3ICsw
-MjAwLCBKYW5pIE5pa3VsYSB3cm90ZToKPj4gQ29tbWl0IDdjNTUzZjhiNWE3ZCAoImRybS9kcDog
-UmV2ZXJ0ICJkcm0vZHA6IEludHJvZHVjZSBFRElELWJhc2VkCj4+IHF1aXJrcyIiKSByZW1vdmVk
-IGRybV9kcF9nZXRfZWRpZF9xdWlya3MoKSBhbmQgY2hhbmdlZCB0aGUgc2lnbmF0dXJlIG9mCj4+
-IGRybV9kcF9oYXNfcXVpcmsoKSB3aGlsZSB0aGV5IHdlcmUgc3RpbGwgYmVpbmcgdXNlZCBpbiBt
-c20uIEZpeCB0aGUKPj4gYnJlYWthZ2UuIEZ1bmN0aW9uYWxseSwgcmVtb3ZpbmcgdGhlIEVESUQt
-YmFzZWQgcXVpcmtzIGhhcyBubyBpbXBhY3Qgb24KPj4gbXNtLgo+PiAKPj4gW1RoZSBhYm92ZSBj
-b21taXQgd2FzIG1lcmdlZCB0byBkcm0taW50ZWwtbmV4dDsgbWFrZSB0d28gd3JvbmdzIGEgcmln
-aHQKPj4gYnkgbWVyZ2luZyB0aGlzIGZpeCB0aHJvdWdoIGRybS1pbnRlbC1uZXh0IGFzIHdlbGwu
-XQo+PiAKPj4gUmVwb3J0ZWQtYnk6IFN0ZXBoZW4gUm90aHdlbGwgPHNmckBjYW5iLmF1dWcub3Jn
-LmF1Pgo+PiBSZWZlcmVuY2VzOgo+PiBodHRwOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMTAxMjAx
-MDU3MTUuNDM5MWRkOTVAY2FuYi5hdXVnLm9yZy5hdQo+PiBGaXhlczogN2M1NTNmOGI1YTdkICgi
-ZHJtL2RwOiBSZXZlcnQgImRybS9kcDogSW50cm9kdWNlIEVESUQtYmFzZWQgcXVpcmtzIiIpCj4+
-IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+PiBBY2tlZC1ieTogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPj4gQ2M6IFJvYiBDbGFyayA8cm9iZGNsYXJr
-QGdtYWlsLmNvbT4KPj4gQ2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+PiBDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBTaWduZWQtb2ZmLWJ5OiBKYW5pIE5pa3Vs
-YSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+PiAKPj4gLS0tCj4+IAo+PiBOb3RlOiBJIGFkbWl0
-IHRvIG5vdCBldmVuIGJ1aWxkIHRlc3RpbmcgdGhpcyBvbmUuIEknZCBuZWVkIGEgY29uZmlnLAo+
-PiBwb3NzaWJseSBhbHNvIGEgdG9vbGNoYWluIHNldHVwIGZvciB0aGF0Lgo+PiAtLS0KPj4gwqBk
-cml2ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2N0cmwuYyB8IDYgKystLS0tCj4+IMKgMSBmaWxlIGNo
-YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPj4gCj4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2N0cmwuYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS9t
-c20vZHAvZHBfY3RybC5jCj4+IGluZGV4IGUzNDYyZjVkOTZkNy4uMzZiMzljMzgxYjNmIDEwMDY0
-NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2N0cmwuYwo+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2N0cmwuYwo+PiBAQCAtMTQyMCwxNiArMTQyMCwxNCBAQCB2
-b2lkIGRwX2N0cmxfaG9zdF9kZWluaXQoc3RydWN0IGRwX2N0cmwgKmRwX2N0cmwpCj4+IMKgc3Rh
-dGljIGJvb2wgZHBfY3RybF91c2VfZml4ZWRfbnZpZChzdHJ1Y3QgZHBfY3RybF9wcml2YXRlICpj
-dHJsKQo+PiDCoHsKPj4gwqDCoMKgwqDCoMKgwqDCoHU4ICpkcGNkID0gY3RybC0+cGFuZWwtPmRw
-Y2Q7Cj4+IC3CoMKgwqDCoMKgwqDCoHUzMiBlZGlkX3F1aXJrcyA9IDA7Cj4+IMKgCj4+IC3CoMKg
-wqDCoMKgwqDCoGVkaWRfcXVpcmtzID0gZHJtX2RwX2dldF9lZGlkX3F1aXJrcyhjdHJsLT5wYW5l
-bC0+ZWRpZCk7Cj4+IMKgwqDCoMKgwqDCoMKgwqAvKgo+PiDCoMKgwqDCoMKgwqDCoMKgICogRm9y
-IGJldHRlciBpbnRlcm9wIGV4cGVyaWVuY2UsIHVzZWQgYSBmaXhlZCBOVklEPTB4ODAwMAo+PiDC
-oMKgwqDCoMKgwqDCoMKgICogd2hlbmV2ZXIgY29ubmVjdGVkIHRvIGEgVkdBIGRvbmdsZSBkb3du
-c3RyZWFtLgo+PiDCoMKgwqDCoMKgwqDCoMKgICovCj4+IMKgwqDCoMKgwqDCoMKgwqBpZiAoZHJt
-X2RwX2lzX2JyYW5jaChkcGNkKSkKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJl
-dHVybiAoZHJtX2RwX2hhc19xdWlyaygmY3RybC0+cGFuZWwtPmRlc2MsIGVkaWRfcXVpcmtzLAo+
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBEUF9EUENEX1FVSVJLX0NPTlNUQU5UX04pKTsKPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoHJldHVybiAoZHJtX2RwX2hhc19xdWlyaygmY3RybC0+cGFuZWwtPmRlc2Ms
-Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRFBfRFBDRF9RVUlSS19DT05TVEFOVF9OKSk7Cj4+
-IMKgCj4+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gZmFsc2U7Cj4+IMKgfQoKLS0gCkphbmkgTmlr
-dWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Jan 21, 2021 at 4:09 AM ZhiJie.Zhang <zhangzhijie@loongson.cn> wrote:
+>
+> From: zhangzhijie <zhangzhijie@loongson.cn>
+>
+> this callback was used by drm_kms_helper_hotplug_event()
+>
+> V2: (Thanks for Daniel's suggestions)
+> - remove the FIXME below.since with the drm_client
+> - infrastructure and the generic fbdev emulation we've
+> - resolved this all very neatly now.
+>
+> V3: Add comments that This hook is deprecated
+> - new implementation methods instead of this hook
+>
+> Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
+> ---
+>  include/drm/drm_mode_config.h | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index ab424ddd7665..fbc0da25d7c5 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -103,14 +103,13 @@ struct drm_mode_config_funcs {
+>          * Callback used by helpers to inform the driver of output configuration
+>          * changes.
+>          *
+> -        * Drivers implementing fbdev emulation with the helpers can call
+> -        * drm_fb_helper_hotplug_changed from this hook to inform the fbdev
+> -        * helper of output changes.
+
+Not sure why this isn't clear, but the above is important information
+that we should keep. Maybe good to fix up the formatting to make it a
+hyperlink, and your addition here is fine too, but the above is the
+important part really.
+-Daniel
+
+> +        * Drivers implementing fbdev emulation use drm_kms_helper_hotplug_event()
+> +        * to call this hook to inform the fbdev helper of output changes.
+>          *
+> -        * FIXME:
+> -        *
+> -        * Except that there's no vtable for device-level helper callbacks
+> -        * there's no reason this is a core function.
+> +        * This hook is deprecated, drivers should instead use
+> +        * drm_fbdev_generic_setup() which takes care of any necessary
+> +        * hotplug event forwarding already without further involvement by
+> +        * the driver.
+>          */
+>         void (*output_poll_changed)(struct drm_device *dev);
+>
+> --
+> 2.29.2
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
