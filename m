@@ -1,40 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5AEC2FF85F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 00:04:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD20A2FF87E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 00:13:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84B56E979;
-	Thu, 21 Jan 2021 23:04:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 643A46E979;
+	Thu, 21 Jan 2021 23:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F222D6E979;
- Thu, 21 Jan 2021 23:04:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2451050E;
- Fri, 22 Jan 2021 00:04:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1611270241;
- bh=T5NVDr46xcwrXL27T8VCCkqqocibkcaVgjkVgGiO8ZY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y8cyClLX8kCaKU5wMc7DQBaagAtpgNWmTZ3+p386BcnpRP0PMgaNeQ9iuSFglc0Sw
- yxD8mSPCVAnyIXOWj5xsNFm7Htaoj3caG3DKUBN0MGRlEjztlQ48iKJbFja/DHFBKL
- ztANltlmDf+im+ixzdUmFqsBKC+TOLRQSVr+juDg=
-Date: Fri, 22 Jan 2021 01:03:42 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 09/11] drm/atomic: Pass the full state to planes
- atomic disable and update
-Message-ID: <YAoITqHbG1UeiAHV@pendragon.ideasonboard.com>
-References: <20210121163537.1466118-1-maxime@cerno.tech>
- <20210121163537.1466118-9-maxime@cerno.tech>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E25A6E97C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 23:13:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CABA523A5E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 23:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611270801;
+ bh=L82o30HXnB+r+O8K3ReoPbDoDul/+56tBIA0cVJ1k7o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HTOCdCskXbs2ygNkKPsG2P/cbDyJwdctxQKe61LEcLxV9yAgYlXmUGknc9aMA733k
+ lFEVo5RGDpfHMyCrPK8I4zIkWz8gqhp1sKdmpaC0oCoT0dSpVk2cZQ6IWum8IpG2O1
+ Nuf8grls9siIib7NylYx48OvFGZjNapsm4txfvJPNmzqwpc0oXR93FmZqr473CHDQT
+ xf+WWTZ3xWTpw9RPiTmsUbc8zOvpLw9KqwE+apkX6ydfRTvzJgoE3aSdxHssYc8A6G
+ eOEgBtgfD86bUveAE0nqHDzF6kE6UyAcK80EnXsuA1an5FihgZ+557zMS+EOuTVmj3
+ WvX5rUauXdLmA==
+Received: by mail-ej1-f52.google.com with SMTP id g12so5023082ejf.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 15:13:20 -0800 (PST)
+X-Gm-Message-State: AOAM530AZLTiEMqqnVgXpiSjQsXZ6GG38YUiyrhVZGmE9xnFHyGpJyAu
+ oGBA1gxLypAtO16d1s6n0Bt9QjsbvojZhkkxUQ==
+X-Google-Smtp-Source: ABdhPJzG4Ks7WM5fSRNcwNtoBMUhfREE7+DUgbVC917IPz+USYGjYtUsbnVlrkK0juN38OIES4PmwqHxTUNKY+mA6hY=
+X-Received: by 2002:a17:906:ada:: with SMTP id
+ z26mr1169169ejf.127.1611270799319; 
+ Thu, 21 Jan 2021 15:13:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210121163537.1466118-9-maxime@cerno.tech>
+References: <20210106231729.17173-1-chunkuang.hu@kernel.org>
+ <20210106231729.17173-4-chunkuang.hu@kernel.org>
+ <YAh2JGUUpMcgyke0@ziggy.stardust>
+ <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
+ <YAk4722oCzcegGdx@ziggy.stardust>
+In-Reply-To: <YAk4722oCzcegGdx@ziggy.stardust>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 22 Jan 2021 07:13:06 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__S2WMO9sUOP4NaObCdvtRNdLNe3VHrE2RbgHBM-gYosw@mail.gmail.com>
+Message-ID: <CAAOTY__S2WMO9sUOP4NaObCdvtRNdLNe3VHrE2RbgHBM-gYosw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] drm/mediatek: Change disp/ddp term to mutex in mtk
+ mutex driver
+To: Matthias Brugger <matthias.bgg@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,249 +58,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- linux-samsung-soc@vger.kernel.org, Vincent Abriou <vincent.abriou@st.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Roland Scheidegger <sroland@vmware.com>,
- Sean Paul <sean@poorly.run>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- freedreno@lists.freedesktop.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
- virtualization@lists.linux-foundation.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Dave Airlie <airlied@redhat.com>, Alexandre Torgue <alexandre.torgue@st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
- linux-tegra@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- Alison Wang <alison.wang@nxp.com>, spice-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomba@kernel.org>, Philippe Cornu <philippe.cornu@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>,
- linux-renesas-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Russell King <linux@armlinux.org.uk>, Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, linux-mips@vger.kernel.org,
- Jyri Sarha <jyri.sarha@iki.fi>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Thank you for the patch.
-
-On Thu, Jan 21, 2021 at 05:35:34PM +0100, Maxime Ripard wrote:
-> The current atomic helpers have either their object state being passed as
-> an argument or the full atomic state.
-> 
-> The former is the pattern that was done at first, before switching to the
-> latter for new hooks or when it was needed.
-> 
-> Let's convert the remaining helpers to provide a consistent interface,
-> this time with the planes atomic_update and atomic_disable.
-> 
-> The conversion was done using the coccinelle script below, built tested on
-> all the drivers.
-> 
-> @@
-> identifier plane, plane_state;
-> symbol state;
-> @@
-> 
->  struct drm_plane_helper_funcs {
->  	...
-> 	void (*atomic_update)(struct drm_plane *plane,
-> -			      struct drm_plane_state *plane_state);
-> +			      struct drm_atomic_state *state);
->  	...
->  }
-> 
-> @@
-> identifier plane, plane_state;
-> symbol state;
-> @@
-> 
->  struct drm_plane_helper_funcs {
-> 	...
-> 	void (*atomic_disable)(struct drm_plane *plane,
-> -			       struct drm_plane_state *plane_state);
-> +			       struct drm_atomic_state *state);
-> 	...
->  }
-> 
-> @ plane_atomic_func @
-> identifier helpers;
-> identifier func;
-> @@
-> 
-> (
->  static const struct drm_plane_helper_funcs helpers = {
->  	...,
->  	.atomic_update = func,
-> 	...,
->  };
-> |
->  static const struct drm_plane_helper_funcs helpers = {
->  	...,
->  	.atomic_disable = func,
-> 	...,
->  };
-> )
-> 
-> @@
-> struct drm_plane_helper_funcs *FUNCS;
-> identifier f;
-> identifier crtc_state;
-> identifier plane, plane_state, state;
-> expression e;
-> @@
-> 
->  f(struct drm_crtc_state *crtc_state)
->  {
->  	...
->  	struct drm_atomic_state *state = e;
->  	<+...
-> (
-> -	FUNCS->atomic_disable(plane, plane_state)
-> +	FUNCS->atomic_disable(plane, state)
-> |
-> -	FUNCS->atomic_update(plane, plane_state)
-> +	FUNCS->atomic_update(plane, state)
-> )
->  	...+>
->  }
-> 
-> @@
-> identifier plane_atomic_func.func;
-> identifier plane;
-> symbol state;
-> @@
-> 
->  func(struct drm_plane *plane,
-> -    struct drm_plane_state *state)
-> +    struct drm_plane_state *old_plane_state)
->  {
-> 	<...
-> -	state
-> +	old_plane_state
-> 	...>
->  }
-> 
-> @ ignores_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane, old_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_plane_state *old_state)
->  {
-> 	... when != old_state
->  }
-> 
-> @ adds_old_state depends on plane_atomic_func && !ignores_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane, plane_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_plane_state *plane_state)
->  {
-> +	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
->  	...
->  }
-> 
-> @ depends on plane_atomic_func @
-> identifier plane_atomic_func.func;
-> identifier plane, plane_state;
-> @@
-> 
->  func(struct drm_plane *plane,
-> -     struct drm_plane_state *plane_state
-> +     struct drm_atomic_state *state
->      )
->  { ... }
-> 
-> @ include depends on adds_old_state @
-> @@
-> 
->  #include <drm/drm_atomic.h>
-> 
-> @ no_include depends on !include && adds_old_state @
-> @@
-> 
-> + #include <drm/drm_atomic.h>
->   #include <drm/...>
-> 
-> @@
-> identifier plane_atomic_func.func;
-> identifier plane, state;
-> identifier plane_state;
-> @@
-> 
->  func(struct drm_plane *plane, struct drm_atomic_state *state) {
->  	...
->  	struct drm_plane_state *plane_state = drm_atomic_get_old_plane_state(state, plane);
->  	<+...
-> -	plane_state->state
-> +	state
->  	...+>
->  }
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> 
-> Changes from v1:
->   - Reintroduce the old_plane_state check in zynqmp_disp_crtc_atomic_disable
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c               |  8 ++++----
->  drivers/gpu/drm/drm_simple_kms_helper.c           |  4 +++-
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c                 |  6 ++++--
->  drivers/gpu/drm/omapdrm/omap_plane.c              |  4 ++--
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c           |  4 +++-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c             |  4 +++-
->  drivers/gpu/drm/tidss/tidss_plane.c               |  4 ++--
->  drivers/gpu/drm/tilcdc/tilcdc_plane.c             |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_disp.c                | 15 ++++++++-------
->  include/drm/drm_modeset_helper_vtables.h          |  4 ++--
-
-For these,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  58 files changed, 211 insertions(+), 123 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdnQGtlcm5lbC5vcmc+IOaWvCAyMDIx5bm0Meac
+iDIx5pelIOmAseWbmyDkuIvljYg0OjE55a+r6YGT77yaCj4KPiBPbiBUaHUsIEphbiAyMSwgMjAy
+MSBhdCAwNzo0Njo0NEFNICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOgo+ID4gSGksIE1hdHRo
+aWFzOgo+ID4KPiA+IE1hdHRoaWFzIEJydWdnZXIgPG1hdHRoaWFzLmJnZ0BrZXJuZWwub3JnPiDm
+lrwgMjAyMeW5tDHmnIgyMeaXpSDpgLHlm5sg5LiK5Y2IMjoyN+Wvq+mBk++8mgo+ID4gPgo+ID4g
+PiBPbiBUaHUsIEphbiAwNywgMjAyMSBhdCAwNzoxNzoyN0FNICswODAwLCBDaHVuLUt1YW5nIEh1
+IHdyb3RlOgo+ID4gPiA+IEZyb206IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+Cj4gPiA+ID4K
+PiA+ID4gPiBtdGsgbXV0ZXggaXMgdXNlZCBieSBib3RoIGRybSBhbmQgbWRwIGRyaXZlciwgc28g
+Y2hhbmdlIGRpc3AvZGRwIHRlcm0gdG8KPiA+ID4gPiBtdXRleCB0byBzaG93IHRoYXQgaXQncyBh
+IGNvbW1vbiBkcml2ZXIgZm9yIGRybSBhbmQgbWRwLgo+ID4gPiA+Cj4gPiA+ID4gU2lnbmVkLW9m
+Zi1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBD
+aHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4KPiA+ID4gPiAtLS0KPiA+ID4g
+PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jIHwgIDMwICstLQo+ID4g
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyAgfCAgIDIgKy0KPiA+
+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmggIHwgICAyICstCj4g
+PiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXV0ZXguYyAgICB8IDMwNSArKysr
+KysrKysrKystLS0tLS0tLS0tLS0KPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19tdXRleC5oICAgIHwgIDI2ICstCj4gPiA+ID4gIDUgZmlsZXMgY2hhbmdlZCwgMTgyIGluc2Vy
+dGlvbnMoKyksIDE4MyBkZWxldGlvbnMoLSkKPiA+ID4gPgo+ID4gPiBbLi4uXQo+ID4gPiA+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMgYi9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMKPiA+ID4gPiBpbmRleCAxYzhhMjUzZjQ3ODgu
+Ljk4YTA2MGJmMjI1ZCAxMDA2NDQKPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX211dGV4LmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X211dGV4LmMKPiA+ID4gWy4uLl0KPiA+ID4gPgo+ID4gPiA+IC1zdGF0aWMgY29uc3Qgc3RydWN0
+IG9mX2RldmljZV9pZCBkZHBfZHJpdmVyX2R0X21hdGNoW10gPSB7Cj4gPiA+ID4gK3N0YXRpYyBj
+b25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG11dGV4X2RyaXZlcl9kdF9tYXRjaFtdID0gewo+ID4g
+PiA+ICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQyNzAxLWRpc3AtbXV0ZXgiLAo+
+ID4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQyNzAxX2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ID4g
+KyAgICAgICAuZGF0YSA9ICZtdDI3MDFfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gPiA+ICAgICAg
+IHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQyNzEyLWRpc3AtbXV0ZXgiLAo+ID4gPiA+IC0g
+ICAgICAgLmRhdGEgPSAmbXQyNzEyX2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ID4gKyAgICAgICAu
+ZGF0YSA9ICZtdDI3MTJfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gPiA+ICAgICAgIHsgLmNvbXBh
+dGlibGUgPSAibWVkaWF0ZWssbXQ4MTY3LWRpc3AtbXV0ZXgiLAo+ID4gPiA+IC0gICAgICAgLmRh
+dGEgPSAmbXQ4MTY3X2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ID4gKyAgICAgICAuZGF0YSA9ICZt
+dDgxNjdfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gPiA+ICAgICAgIHsgLmNvbXBhdGlibGUgPSAi
+bWVkaWF0ZWssbXQ4MTczLWRpc3AtbXV0ZXgiLAo+ID4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQ4
+MTczX2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ID4gKyAgICAgICAuZGF0YSA9ICZtdDgxNzNfbXV0
+ZXhfZHJpdmVyX2RhdGF9LAo+ID4gPiA+ICAgICAgIHt9LAo+ID4gPiA+ICB9Owo+ID4gPiA+IC1N
+T0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkZHBfZHJpdmVyX2R0X21hdGNoKTsKPiA+ID4gPiArTU9E
+VUxFX0RFVklDRV9UQUJMRShvZiwgbXV0ZXhfZHJpdmVyX2R0X21hdGNoKTsKPiA+ID4KPiA+ID4g
+SSB0aGluayBpdCB3b3VsZCBtYWtlIHNlbnNlIGluIGEgZm9sbG93LXVwIHBhdGNoIHRvIHVwZGF0
+ZSB0aGUgYmluZGluZwo+ID4gPiB0byB1c2UgIm1lZGlhdGVrLG10MjcwMS1tdXRleCIgdG8gcmVm
+bGVjdCB0aGF0IG11dGV4IGlzIHVzZWQgZm9yIGRybSBhbmQKPiA+ID4gbWRwIGRyaXZlci4gTWFr
+ZSBzZW5zZT8KPiA+Cj4gPiBZZXMsIGl0IG1ha2Ugc2Vuc2UuIEkgd291bGQgdHJ5IHRvIHVwZGF0
+ZSB0aGUgYmluZGluZywgYnV0IEkgd29uZGVyCj4gPiBkZXZpY2UgdHJlZSBzaG91bGQgYmUgYmFj
+a3dhcmQgY29tcGF0aWJsZT8gTGV0J3MgZGlzY3VzcyBpbiB0aGF0Cj4gPiBmb2xsb3ctdXAgcGF0
+Y2hlcy4KPiA+Cj4KPiBGcm9tIG15IHVuZGVyc3RhbmRpbmcsIHdlIHdpbGwgbmVlZCB0byBrZWVw
+IHRoZSBvZl9kZXZpY2VfaWQgZW50cmllcyBmb3IKPiB0aGUgb2xkIGJpbmRpbmcgaW4gdGhlIGRy
+aXZlciAoc28gdGhhdCBvbGQgRFRzIHN0aWxsIHdvcmspIHdoaWxlIHdlCj4gc2hvdWxkIGVuZm9y
+Y2UgdGhlIG5ldyBiaW5kaW5nLiBJJ20gbm90IHN1cmUgaWYgdGhlIHlhbWwgaGFzIGEgb3B0aW9u
+Cj4gZm9yIG91dC1vZi1kYXRlIGNvbXBhdGlibGVzLgoKT0ssIEkgd291bGQgZG8gaXQgc28gYW5k
+IHJlbW92ZSBvdXQtZi1kYXRlIGNvbXBhdGlibGVzIGluIHlhbWwgYXQKZmlyc3QgdG8gc2VlIGFu
+eSBmZWVkYmFjay4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gUmVnYXJkcywKPiBNYXR0aGlh
+cwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
