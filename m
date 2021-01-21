@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1A52FDFF5
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 04:09:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C55E2FE282
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 07:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FB26E8C1;
-	Thu, 21 Jan 2021 03:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447096E8CF;
+	Thu, 21 Jan 2021 06:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 21F206E8C1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 03:09:17 +0000 (UTC)
-Received: from zhangzhijie.loongson.cn (unknown [10.20.41.29])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxtbxX8AhgxmIIAA--.10521S2; 
- Thu, 21 Jan 2021 11:09:11 +0800 (CST)
-From: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
-To: daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie
-Subject: [PATCH v4] drm: Improve the output_poll_changed description
-Date: Thu, 21 Jan 2021 11:09:09 +0800
-Message-Id: <20210121030909.1126643-1-zhangzhijie@loongson.cn>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3728E6E8CE;
+ Thu, 21 Jan 2021 06:17:22 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id g24so1059470edw.9;
+ Wed, 20 Jan 2021 22:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A97A8d0LgZ2piujaXoT9KMxRZfIwdOn8yICKCCnmsVk=;
+ b=InwiBaNRflX/xXIUomzBs4/MQ3wlbay5XIF1/yGLV+Yoww2rmIQE79QzAPJr4kEQ5h
+ DSKKs6X6ZxAm7dA1OgJnl1kA/dqWRv1FCVDCokt3EozhPKySlyRbmFR/vD529z+wCxh8
+ dqo/DJfFAzxhbAPfEsnVIgPHJxkaRpLx9RiG/LvHFkTuM4WFliYQ64qnSA2uW5mMp5vv
+ TTby8E3mu01T7TS2z1iWQf/GKM6t9eEtKrhFPXxisXmZ+nTLxn0U9QJQgyQwsexA1+pX
+ r8Tnn+xoPzpPI3E+/SAg7lxQPlvghRjuwq4ETJhpB/GfJCTVgVsnzS99Z0qz3Y0zLdS9
+ Bs8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A97A8d0LgZ2piujaXoT9KMxRZfIwdOn8yICKCCnmsVk=;
+ b=kQZZJvf3vVQjkS5djrj6TnqxCv0wBHIFFMkjVOiitFYTIYD3pVj7kYzfCP1guaSWSQ
+ JzdUVWJ2ZFbA7UFBAJOkrsIucu7gHZGyJyHebzfPCMjsl2ggZG01pNh7QzKO9s/MCdQ2
+ DJGbWUisjaxtriI/K0VaB+jhrsFxVrZPyU9DrLWYWo+zUVzTnKILicCX/VEysMtUt6Jm
+ iyTw+ouw6F3st/q6pIPzjJAGBDv1GMfjK5oDIZPrB0XzQK/a6D/3wAy21OPKd1Xwxiib
+ mSea5UQ1dAUCAW7MKPIWBMVRhLwwzGfUvfOcOdl8Twa6fUomDZ19XXbyjxX+9+WIbWZl
+ p9Vw==
+X-Gm-Message-State: AOAM533+IFyJ/eDwcKXU4iIKf94IypsV7W/9cA3nj9uD+ctdYwMTIoTL
+ iyX0n3xVaNm/FCuOQvyrJxi2pw4OY3o=
+X-Google-Smtp-Source: ABdhPJwiIRJ7qK4nzHotIcGbiO9ReJDksKWwIOlfWy3GuLD7TZsjBKTf2ClpdwykG14YuXzN6GlVrA==
+X-Received: by 2002:a50:9f4d:: with SMTP id b71mr9922499edf.310.1611209840425; 
+ Wed, 20 Jan 2021 22:17:20 -0800 (PST)
+Received: from twisty.localdomain
+ (dynamic-2a01-0c22-c84c-8e00-6cbb-50d4-b91e-5b37.c22.pool.telefonica.de.
+ [2a01:c22:c84c:8e00:6cbb:50d4:b91e:5b37])
+ by smtp.gmail.com with ESMTPSA id w4sm2225551eds.40.2021.01.20.22.17.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 22:17:19 -0800 (PST)
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: Some HDMI deep color output fixes for DC on DCE 6-11
+Date: Thu, 21 Jan 2021 07:17:01 +0100
+Message-Id: <20210121061704.21090-1-mario.kleiner.de@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-CM-TRANSID: AQAAf9AxtbxX8AhgxmIIAA--.10521S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr43Jw4kKr18uFWrtr4ruFg_yoW8WF4rpF
- sFkryYkr4ktFWfZF4UG34xW3WkJan3Gr40qFZ7tw4FvrnIyr9FvFyvgr15uryrWrZxJr4Y
- q34S9ryrZr15CrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
- WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svP
- MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
- 0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
- wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
- W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: x2kd0wx2klyx3h6o00pqjv00gofq/1tbiAQAIAF3QvM4CmwABsu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,57 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhangzhijie@loongson.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhangzhijie <zhangzhijie@loongson.cn>
+Hi,
 
-this callback was used by drm_kms_helper_hotplug_event()
+these two patches fix non-working HDMI deep color output on DCE-8.3,
+AMD Mullins when amdgpu-kms is used with Displaycore force-enabled,
+ie. for radeon.cik_support=0 amdgpu.cik_support=1 amdgpu.dc=1:
+I suspect they might fix similar problems on other older asics of
+DCE-11.0 and earlier.
 
-V2: (Thanks for Daniel's suggestions)
-- remove the FIXME below.since with the drm_client
-- infrastructure and the generic fbdev emulation we've
-- resolved this all very neatly now.
+Patch 1/2 is a fix for some oddity i found while hunting for the
+HDMI deep color bug. It fixes what looks like an obvious mistake,
+but the fix did not improve or degrade anything, so maybe the hw
+doesn't care all too much about the wrong clamping/truncation mask?
+Anyway, it makes the code less confusing.
 
-V3: Add comments that This hook is deprecated
-- new implementation methods instead of this hook
+Patch 2/2 fixes HDMI deep color output at 10 bpc or 12 bpc output
+on AMD Mullins, DCE-8.3, where at output_bpc 10 or 12 the display
+would be scrambled. With the patch, the display looks correct, and
+photometer measurements on a HDR-10 monitor suggest we probably get
+the correct output signal. I found the fix by comparing DC against
+the classic amdgpu-kms and radeon-kms modesetting path, readding
+missing stuff.
 
-Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
----
- include/drm/drm_mode_config.h | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+Given other encoder/pixelclock setup functions than the ones used
+on DCE-8.3 showed the same omissions, i added missing code there as
+well, but i couldn't test it due to lack of hw, so i hope that fixes
+instead of breaks things on asic's other than DCE-8.3.
 
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index ab424ddd7665..fbc0da25d7c5 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -103,14 +103,13 @@ struct drm_mode_config_funcs {
- 	 * Callback used by helpers to inform the driver of output configuration
- 	 * changes.
- 	 *
--	 * Drivers implementing fbdev emulation with the helpers can call
--	 * drm_fb_helper_hotplug_changed from this hook to inform the fbdev
--	 * helper of output changes.
-+	 * Drivers implementing fbdev emulation use drm_kms_helper_hotplug_event()
-+	 * to call this hook to inform the fbdev helper of output changes.
- 	 *
--	 * FIXME:
--	 *
--	 * Except that there's no vtable for device-level helper callbacks
--	 * there's no reason this is a core function.
-+	 * This hook is deprecated, drivers should instead use
-+	 * drm_fbdev_generic_setup() which takes care of any necessary
-+	 * hotplug event forwarding already without further involvement by
-+	 * the driver.
- 	 */
- 	void (*output_poll_changed)(struct drm_device *dev);
- 
--- 
-2.29.2
+I also created a similar patch for DCE-11.2 and later, not included
+here, but during testing on a Raven Ridge DCN-1, the patch neither
+helped nor hurt. Output was correct without the patch, and adding the
+patch didn't change or break anything on DCN-1. Looking at disassembled
+AtomBios tables for DCN-1 and a DCE-11.2, i think AtomBios may not do
+much with the info that was missing, which would explain why the
+current upstream code seems to work fine without it? At least as
+verified on DCN-1. I can't test on DCE-11.2 or DCE-12 due to lack
+of hw with actual HDMI output. But it would be interesting for me to
+know what changed wrt. Atombios in later asic versions to make some
+of this setup apparently redundant in DC?
+
+Do you test DC wrt. HDMI deep color starting at a specific DCE
+revision, given that the bug went unnoticed in DCE-8.3, but things
+seem to be fine on at least DCN-1?
+
+Thanks,
+-mario
+
 
 _______________________________________________
 dri-devel mailing list
