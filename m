@@ -1,32 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8664C2FECE5
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 15:31:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 217BD2FED13
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 15:40:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23D766E069;
-	Thu, 21 Jan 2021 14:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEEF06E0A6;
+	Thu, 21 Jan 2021 14:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5866F6E069
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 14:31:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B95DEAB7A;
- Thu, 21 Jan 2021 14:31:48 +0000 (UTC)
-Subject: Re: [PATCH] drm: Update todo.rst
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
-Date: Thu, 21 Jan 2021 15:31:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20EEC6E0A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 14:40:40 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id f6so1765582ots.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 06:40:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MHVgVc8+hL6pDO3Z00L77gFgBoNW62ssw3xEKIOTjAo=;
+ b=KXjvEIlyI9wG3bBNOnoqMuBN45VFgOkikSZrl8OprI2rMC3e0N+XTjV19P5ahxBxPY
+ BSo/feUIY3tI3FD+ejhx2SXbOmfWz1a4cQJyPpxNIbN+Chcxk5C2T/W1QCTQXi9CAX5G
+ sGqSkUywryYDdjBztiq/Kozix6oiiCbHuKUIY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MHVgVc8+hL6pDO3Z00L77gFgBoNW62ssw3xEKIOTjAo=;
+ b=XTPMY6DnSI/K1EI51GOjDZ+BeLlqBQ5bCl4N8FAkPeLV3v4uXCJFXm2l22gxtk/HFI
+ y9miGmdlFT3lezRSA40OgnHoPoO5+3TWEi16ABTGt16CbKRDEAAfFRoBewvYLROJ3AEd
+ 8rpHWjv7PFfaylCtCopXm5UrURnOmhzB15clz2FIs5D7C7lS8ImK7G4J81+VkRwNIfJq
+ Y0PraWVmLLB/8LrRySkljQYMEP0JQ8Q9I59b6zDIp2iaJLZVBZsdBMcfYoLT0yERYpBe
+ BL0bBYUu3mTW45/v9xpwwtjzsTmkVuYwbkS5YvkuA40q9PJv6ytZeonVHNXQ+9/P1h+M
+ Ya4Q==
+X-Gm-Message-State: AOAM533OHMpkwZe4GOJEFfR+oXzfx5Wa6Ndd3lDRDLj+D4S9uieueF1N
+ HE5R0tzETFVe2I0aKDoICoFDzjxTq01E0ZMcrFb93c0Lon0+pg==
+X-Google-Smtp-Source: ABdhPJyZslxN8/3jsPEKi+xKX1PpZUUn7g6lULrnd21JIvA8ofaO/LgIFsKcl0CTq+B/zCAClnlNxABmUfgATko9Mng=
+X-Received: by 2002:a05:6830:1bef:: with SMTP id
+ k15mr10454532otb.303.1611240039132; 
+ Thu, 21 Jan 2021 06:40:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
+References: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
+ <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
+In-Reply-To: <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 21 Jan 2021 15:40:28 +0100
+Message-ID: <CAKMK7uEMEZoq0b5_Ab7vPcFcJdo-th=t2Y9M1ZWGkRA-eJdeAw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Update todo.rst
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,165 +60,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1740207774=="
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1740207774==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QQQIUwtu7VrMJ6zWZajCdf3MmcOaFJRJj"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QQQIUwtu7VrMJ6zWZajCdf3MmcOaFJRJj
-Content-Type: multipart/mixed; boundary="rLeAtUeljJnES4JtMh52QegALqhbK5oEx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
-Subject: Re: [PATCH] drm: Update todo.rst
-References: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
-
---rLeAtUeljJnES4JtMh52QegALqhbK5oEx
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-we talked about making dma_resv the default lock for GEM objects. Could=20
-you add an entry for this? Some interns might feel adventurous. :)
-
-Best regards
-Thomas
-
-Am 21.01.21 um 12:29 schrieb Daniel Vetter:
-> Interrnship season is starting, let's review this. One thing that's
-> pending is Maxime's work to roll out drm_atomic_state pointers to all
-> callbacks, he said he'll remove that entry once it's all done.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->   Documentation/gpu/todo.rst | 28 +++++++++++++++-------------
->   1 file changed, 15 insertions(+), 13 deletions(-)
->=20
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 009d8e6c7e3c..492768dd2fd9 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -577,20 +577,24 @@ Contact: Daniel Vetter
->  =20
->   Level: Intermediate
->  =20
-> -KMS cleanups
-> -------------
-> +Object lifetime fixes
-> +---------------------
-> +
-> +There's two related issues here
-> +
-> +- Cleanup up the various ->destroy callbacks, which often are all the =
-same
-> +  simple code.
->  =20
-> -Some of these date from the very introduction of KMS in 2008 ...
-> +- Lots of drivers erroneously allocate DRM modeset objects using devm_=
-kzalloc,
-> +  which results in use-after free issues on driver unload. This can be=
- serious
-> +  trouble even for drivers for hardwared integrated on the SoC due to
-> +  EPROBE_DEFERRED backoff.
->  =20
-> -- Make ->funcs and ->helper_private vtables optional. There's a bunch =
-of empty
-> -  function tables in drivers, but before we can remove them we need to=
- make sure
-> -  that all the users in helpers and drivers do correctly check for a N=
-ULL
-> -  vtable.
-> +Both these problems can be solved by switching over to drmm_kzalloc(),=
- and the
-> +various convenience wrappers provided, e.g. drmm_crtc_alloc_with_plane=
-s(),
-> +drmm_universal_plane_alloc(), ... and so on.
->  =20
-> -- Cleanup up the various ->destroy callbacks. A lot of them just wrapt=
- the
-> -  drm_*_cleanup implementations and can be removed. Some tack a kfree(=
-) at the
-> -  end, for which we could add drm_*_cleanup_kfree(). And then there's =
-the (for
-> -  historical reasons) misnamed drm_primary_helper_destroy() function.
-> +Contact: Daniel Vetter
->  =20
->   Level: Intermediate
->  =20
-> @@ -626,8 +630,6 @@ See the documentation of :ref:`VKMS <vkms>` for mor=
-e details. This is an ideal
->   internship task, since it only requires a virtual machine and can be =
-sized to
->   fit the available time.
->  =20
-> -Contact: Daniel Vetter
-> -
->   Level: See details
->  =20
->   Backlight Refactoring
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---rLeAtUeljJnES4JtMh52QegALqhbK5oEx--
-
---QQQIUwtu7VrMJ6zWZajCdf3MmcOaFJRJj
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJkFMFAwAAAAAACgkQlh/E3EQov+Ar
-7BAAmRMnZpR+ws0z5ytWVjxpkFBKZOKpi/4n83leSv9R83WBs9uH7cBtquSdRKXfsh39NQGahwwY
-ayNGJawr/j2I+9rieAzThCEX5se4OXhE1OTdgBowG91K9V2j3kSCrGsacBw6Jizf4fDlhliVIKhc
-9mCqwrKo5eNHq/PdX5k2H/5BKo+jcw6kqAcl0EUKMi9A/PDf4Xw2xbbcqph4s2hgvSpHXXbLwO1H
-FplJeJ4mPGyp3oXs6fB5v5hDgCNwBij8FVM54K19zSGOLKG03V4BLRqbjw22O7KIV+gbBnJN58o4
-acZvdWwzUD8LSkKnlIoH+qbvOZpHuSIpRDMXDHknraIAJF2NHIfrcctZWvp3ET8Zb6uKVZADzcm0
-Of7xCMW5OBbGPJjsNRC83JqrisB509MUpu+eTDOwfGAPFGyWHF5cjh4jjZhbRVC2cIEQWwmwgiKK
-Eyhl2GXFthY+eUHs/IcF30fRg/3RkhGEAsJs3zIQ2udNBhsHwNn7A31iqXAiVUmMydbmDxGRER3I
-XglupX89hFZnQdmBrHr9B+YZB7Wg0taKIvBkRguuDlbsvQVEwiUGlQmHHcmR5mxAd9gOOhM2EzfL
-le7o8TaRoOaPAjZwsZbp+eSACVEHmwNbUey0ifQBvXRa9pjD5TNjx2e8MyiPBibKMhFVJp1l+mo6
-Z2A=
-=DoXS
------END PGP SIGNATURE-----
-
---QQQIUwtu7VrMJ6zWZajCdf3MmcOaFJRJj--
-
---===============1740207774==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1740207774==--
+T24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMzozMSBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gd2UgdGFsa2VkIGFib3V0IG1ha2luZyBk
+bWFfcmVzdiB0aGUgZGVmYXVsdCBsb2NrIGZvciBHRU0gb2JqZWN0cy4gQ291bGQKPiB5b3UgYWRk
+IGFuIGVudHJ5IGZvciB0aGlzPyBTb21lIGludGVybnMgbWlnaHQgZmVlbCBhZHZlbnR1cm91cy4g
+OikKCkxldmVsOiBUb28gaGFyZCBmb3IgRGFuaWVsCgpOb3Qgc3VyZSB0aGF0J3MgYSBncmVhdCBp
+bnRlcm5zaGlwIHRhc2tzIDotUAoKQnV0IHllYWggSSdsbCB0cnkgdG8gdHlwZSB1cCBzb21ldGhp
+bmcgYXJvdW5kIHRoaXMgbWF5YmUuCi1EYW5pZWwKCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMK
+Pgo+IEFtIDIxLjAxLjIxIHVtIDEyOjI5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IEludGVy
+cm5zaGlwIHNlYXNvbiBpcyBzdGFydGluZywgbGV0J3MgcmV2aWV3IHRoaXMuIE9uZSB0aGluZyB0
+aGF0J3MKPiA+IHBlbmRpbmcgaXMgTWF4aW1lJ3Mgd29yayB0byByb2xsIG91dCBkcm1fYXRvbWlj
+X3N0YXRlIHBvaW50ZXJzIHRvIGFsbAo+ID4gY2FsbGJhY2tzLCBoZSBzYWlkIGhlJ2xsIHJlbW92
+ZSB0aGF0IGVudHJ5IG9uY2UgaXQncyBhbGwgZG9uZS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiA+IENjOiBNYWFydGVuIExh
+bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+ID4gQ2M6IE1heGlt
+ZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiA+IENjOiBUaG9tYXMgWmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXgu
+aWU+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+ID4gLS0tCj4gPiAg
+IERvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IHwgMjggKysrKysrKysrKysrKysrLS0tLS0tLS0t
+LS0tLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25z
+KC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IGIvRG9j
+dW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiA+IGluZGV4IDAwOWQ4ZTZjN2UzYy4uNDkyNzY4ZGQy
+ZmQ5IDEwMDY0NAo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiA+ICsrKyBi
+L0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4gPiBAQCAtNTc3LDIwICs1NzcsMjQgQEAgQ29u
+dGFjdDogRGFuaWVsIFZldHRlcgo+ID4KPiA+ICAgTGV2ZWw6IEludGVybWVkaWF0ZQo+ID4KPiA+
+IC1LTVMgY2xlYW51cHMKPiA+IC0tLS0tLS0tLS0tLS0KPiA+ICtPYmplY3QgbGlmZXRpbWUgZml4
+ZXMKPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+ICsKPiA+ICtUaGVyZSdzIHR3byByZWxh
+dGVkIGlzc3VlcyBoZXJlCj4gPiArCj4gPiArLSBDbGVhbnVwIHVwIHRoZSB2YXJpb3VzIC0+ZGVz
+dHJveSBjYWxsYmFja3MsIHdoaWNoIG9mdGVuIGFyZSBhbGwgdGhlIHNhbWUKPiA+ICsgIHNpbXBs
+ZSBjb2RlLgo+ID4KPiA+IC1Tb21lIG9mIHRoZXNlIGRhdGUgZnJvbSB0aGUgdmVyeSBpbnRyb2R1
+Y3Rpb24gb2YgS01TIGluIDIwMDggLi4uCj4gPiArLSBMb3RzIG9mIGRyaXZlcnMgZXJyb25lb3Vz
+bHkgYWxsb2NhdGUgRFJNIG1vZGVzZXQgb2JqZWN0cyB1c2luZyBkZXZtX2t6YWxsb2MsCj4gPiAr
+ICB3aGljaCByZXN1bHRzIGluIHVzZS1hZnRlciBmcmVlIGlzc3VlcyBvbiBkcml2ZXIgdW5sb2Fk
+LiBUaGlzIGNhbiBiZSBzZXJpb3VzCj4gPiArICB0cm91YmxlIGV2ZW4gZm9yIGRyaXZlcnMgZm9y
+IGhhcmR3YXJlZCBpbnRlZ3JhdGVkIG9uIHRoZSBTb0MgZHVlIHRvCj4gPiArICBFUFJPQkVfREVG
+RVJSRUQgYmFja29mZi4KPiA+Cj4gPiAtLSBNYWtlIC0+ZnVuY3MgYW5kIC0+aGVscGVyX3ByaXZh
+dGUgdnRhYmxlcyBvcHRpb25hbC4gVGhlcmUncyBhIGJ1bmNoIG9mIGVtcHR5Cj4gPiAtICBmdW5j
+dGlvbiB0YWJsZXMgaW4gZHJpdmVycywgYnV0IGJlZm9yZSB3ZSBjYW4gcmVtb3ZlIHRoZW0gd2Ug
+bmVlZCB0byBtYWtlIHN1cmUKPiA+IC0gIHRoYXQgYWxsIHRoZSB1c2VycyBpbiBoZWxwZXJzIGFu
+ZCBkcml2ZXJzIGRvIGNvcnJlY3RseSBjaGVjayBmb3IgYSBOVUxMCj4gPiAtICB2dGFibGUuCj4g
+PiArQm90aCB0aGVzZSBwcm9ibGVtcyBjYW4gYmUgc29sdmVkIGJ5IHN3aXRjaGluZyBvdmVyIHRv
+IGRybW1fa3phbGxvYygpLCBhbmQgdGhlCj4gPiArdmFyaW91cyBjb252ZW5pZW5jZSB3cmFwcGVy
+cyBwcm92aWRlZCwgZS5nLiBkcm1tX2NydGNfYWxsb2Nfd2l0aF9wbGFuZXMoKSwKPiA+ICtkcm1t
+X3VuaXZlcnNhbF9wbGFuZV9hbGxvYygpLCAuLi4gYW5kIHNvIG9uLgo+ID4KPiA+IC0tIENsZWFu
+dXAgdXAgdGhlIHZhcmlvdXMgLT5kZXN0cm95IGNhbGxiYWNrcy4gQSBsb3Qgb2YgdGhlbSBqdXN0
+IHdyYXB0IHRoZQo+ID4gLSAgZHJtXypfY2xlYW51cCBpbXBsZW1lbnRhdGlvbnMgYW5kIGNhbiBi
+ZSByZW1vdmVkLiBTb21lIHRhY2sgYSBrZnJlZSgpIGF0IHRoZQo+ID4gLSAgZW5kLCBmb3Igd2hp
+Y2ggd2UgY291bGQgYWRkIGRybV8qX2NsZWFudXBfa2ZyZWUoKS4gQW5kIHRoZW4gdGhlcmUncyB0
+aGUgKGZvcgo+ID4gLSAgaGlzdG9yaWNhbCByZWFzb25zKSBtaXNuYW1lZCBkcm1fcHJpbWFyeV9o
+ZWxwZXJfZGVzdHJveSgpIGZ1bmN0aW9uLgo+ID4gK0NvbnRhY3Q6IERhbmllbCBWZXR0ZXIKPiA+
+Cj4gPiAgIExldmVsOiBJbnRlcm1lZGlhdGUKPiA+Cj4gPiBAQCAtNjI2LDggKzYzMCw2IEBAIFNl
+ZSB0aGUgZG9jdW1lbnRhdGlvbiBvZiA6cmVmOmBWS01TIDx2a21zPmAgZm9yIG1vcmUgZGV0YWls
+cy4gVGhpcyBpcyBhbiBpZGVhbAo+ID4gICBpbnRlcm5zaGlwIHRhc2ssIHNpbmNlIGl0IG9ubHkg
+cmVxdWlyZXMgYSB2aXJ0dWFsIG1hY2hpbmUgYW5kIGNhbiBiZSBzaXplZCB0bwo+ID4gICBmaXQg
+dGhlIGF2YWlsYWJsZSB0aW1lLgo+ID4KPiA+IC1Db250YWN0OiBEYW5pZWwgVmV0dGVyCj4gPiAt
+Cj4gPiAgIExldmVsOiBTZWUgZGV0YWlscwo+ID4KPiA+ICAgQmFja2xpZ2h0IFJlZmFjdG9yaW5n
+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1
+LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4g
+R2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0
+ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xs
+LmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
