@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971742FF4CA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 20:41:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996DF2FF785
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 22:45:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454A788065;
-	Thu, 21 Jan 2021 19:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B526E95E;
+	Thu, 21 Jan 2021 21:45:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B978488065
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 19:41:04 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id m187so2478221wme.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:41:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bNL6e0QN+ZR4/EOKF9FDIwkALm5IXytT641Xe0UFkrY=;
- b=P8ric9b+DEzkRUmhpyp5fhDfW46TI86b2poNLqGZYj3qS6U4sSUnJwXO9DgIU1/7ZD
- CKZ09IYRErEY3NX1DdvOp/F2B/sSE5opK29JNAgoq/QvIMRF/IILJk/sK4rN/fvGW4Rt
- XJN9Hiir+rV1rDeOdFpzPu2UqlLf+V1J1aL2M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bNL6e0QN+ZR4/EOKF9FDIwkALm5IXytT641Xe0UFkrY=;
- b=Z8aNYkR/yCPhKACI3oKNdQu1ZgwnQcwBtYM5C5kkZkwp5eSXCgGbigCZUjPtgkaCBg
- USRJuaFAYHuxLr4AEqt9D4QHKw6OHQsgawQhx5pU6ZA4KJcxQ/d+W0Bc6ydzutoBEHdA
- T+Aoe0zqP0MLqhlu9PKUyxoSgATBBNDkiV5TZVBx5c9kT9ns1yBSjeyCRIG9pilHbo5R
- pFlzMvJMG9MHfsDzbdgCOUDzqd+nOphjqhk+C3Zj5A5gsYD2An7r0yrRnvie31gqUG4r
- 4RDe0IwfQ/b+kr87/Qa1zQuhHPoITpRtqmel/rY6ERAqJ0rInnjRkya3Rw9LbXkJIC1O
- aUDw==
-X-Gm-Message-State: AOAM533rYEcZAfOcR+dwBvmGKiEyGn+lhkoQBpeT68aCMMyO3/EbYEXo
- IQWeOx5LLH6mR/LdQef7vg+u6IZJf99BvEpp
-X-Google-Smtp-Source: ABdhPJz6Ns3zXzoWHuN08CkftiUhSBJXsmHiP4wjoMie+1Gc9+2oPhLWgZ/NzGFdQrNkELplFRSVpw==
-X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr854645wme.146.1611258063360; 
- Thu, 21 Jan 2021 11:41:03 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w13sm9605935wrt.52.2021.01.21.11.41.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 11:41:02 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] RFC: dma-fence: Document recoverable page fault implications
-Date: Thu, 21 Jan 2021 20:40:56 +0100
-Message-Id: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336EA6E95E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 21:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611265546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+rDl9+7fXwTudocqpSNQ/uswuuzlXykto241XVMPhJI=;
+ b=LY/Wg0807FU2U+wJ/ReQSo/Gfb8SR/zSXfgI11eSomBILlWaGEbA5daVCYneyAgOq7xGYj
+ XAfXfHI7HQpIxhVmDoFGqWf60lcQPmFNbomz6k9e+JF2cdLvIqXT5aMdumKG2bT4pWS+Tp
+ 14gYkvivhXUjVQHIDdECkx1hHgjvoqo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517-OKLBo_BNP5yCUTW080-5Wg-1; Thu, 21 Jan 2021 16:45:42 -0500
+X-MC-Unique: OKLBo_BNP5yCUTW080-5Wg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E5AC802B40;
+ Thu, 21 Jan 2021 21:45:39 +0000 (UTC)
+Received: from treble (ovpn-116-102.rdu2.redhat.com [10.10.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EF795F9B5;
+ Thu, 21 Jan 2021 21:45:31 +0000 (UTC)
+Date: Thu, 21 Jan 2021 15:45:29 -0600
+From: Josh Poimboeuf <jpoimboe@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 04/13] livepatch: move klp_find_object_module to module.c
+Message-ID: <20210121214529.il2ac3vk6oqogjpr@treble>
+References: <20210121074959.313333-1-hch@lst.de>
+ <20210121074959.313333-5-hch@lst.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210121074959.313333-5-hch@lst.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,111 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Felix Kuehling <felix.kuehling@amd.com>, linaro-mm-sig@lists.linaro.org,
- Jerome Glisse <jglisse@redhat.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
+ live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Yu <jeyu@kernel.org>, Frederic Barrat <fbarrat@linux.ibm.com>,
+ Miroslav Benes <mbenes@suse.cz>, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVjZW50bHkgdGhlcmUgd2FzIGEgZmFpcmx5IGxvbmcgdGhyZWFkIGFib3V0IHJlY29yZWFibGUg
-aGFyZHdhcmUgcGFnZQpmYXVsdHMsIGhvdyB0aGV5IGNhbiBkZWFkbG9jaywgYW5kIHdoYXQgdG8g
-ZG8gYWJvdXQgdGhhdC4KCldoaWxlIHRoZSBkaXNjdXNzaW9uIGlzIHN0aWxsIGZyZXNoIEkgZmln
-dXJlZCBnb29kIHRpbWUgdG8gdHJ5IGFuZApkb2N1bWVudCB0aGUgY29uY2x1c2lvbnMgYSBiaXQu
-CgpSZWZlcmVuY2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMTAxMDcw
-MzAxMjcuMjAzOTMtMS1GZWxpeC5LdWVobGluZ0BhbWQuY29tLwpDYzogTWFhcnRlbiBMYW5raG9y
-c3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IFRob21hcyBIZWxsc3Ry
-w7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGludGVsLmNvbT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogSmVyb21lIEdsaXNzZSA8amdsaXNzZUByZWRo
-YXQuY29tPgpDYzogRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1ZWhsaW5nQGFtZC5jb20+ClNpZ25l
-ZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogU3Vt
-aXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIu
-a2VybmVsLm9yZwpDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnCi0tCkknbGwgYmUg
-YXdheSBuZXh0IHdlZWssIGJ1dCBmaWd1cmVkIEknbGwgdHlwZSB0aGlzIHVwIHF1aWNrbHkgZm9y
-IHNvbWUKY29tbWVudHMgYW5kIHRvIGNoZWNrIHdoZXRoZXIgSSBnb3QgdGhpcyBhbGwgcm91Z2hs
-eSByaWdodC4KCkNyaXRpcXVlIHZlcnkgbXVjaCB3YW50ZWQgb24gdGhpcywgc28gdGhhdCB3ZSBj
-YW4gbWFrZSBzdXJlIGh3IHdoaWNoCmNhbid0IHByZWVtcHQgKHdpdGggcGFnZWZhdWx0cyBwZW5k
-aW5nKSBsaWtlIGdmeDEwIGhhcyBhIGNsZWFyIHBhdGggdG8Kc3VwcG9ydCBwYWdlIGZhdWx0cyBp
-biB1cHN0cmVhbS4gU28gYW55dGhpbmcgSSBtaXNzZWQsIGdvdCB3cm9uZyBvcgpsaWtlIHRoYXQg
-d291bGQgYmUgZ29vZC4KLURhbmllbAotLS0KIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEt
-YnVmLnJzdCB8IDY2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2Vk
-LCA2NiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBp
-L2RtYS1idWYucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0CmluZGV4
-IGEyMTMzZDY5ODcyYy4uZTkyNGMxZTRmN2EzIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2Ry
-aXZlci1hcGkvZG1hLWJ1Zi5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1i
-dWYucnN0CkBAIC0yNTcsMyArMjU3LDY5IEBAIGZlbmNlcyBpbiB0aGUga2VybmVsLiBUaGlzIG1l
-YW5zOgogICB1c2Vyc3BhY2UgaXMgYWxsb3dlZCB0byB1c2UgdXNlcnNwYWNlIGZlbmNpbmcgb3Ig
-bG9uZyBydW5uaW5nIGNvbXB1dGUKICAgd29ya2xvYWRzLiBUaGlzIGFsc28gbWVhbnMgbm8gaW1w
-bGljaXQgZmVuY2luZyBmb3Igc2hhcmVkIGJ1ZmZlcnMgaW4gdGhlc2UKICAgY2FzZXMuCisKK1Jl
-Y292ZXJhYmxlIEhhcmR3YXJlIFBhZ2UgRmF1bHRzIEltcGxpY2F0aW9ucworfn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisKK01vZGVybiBoYXJkd2FyZSBzdXBw
-b3J0cyByZWNvdmVyYWJsZSBwYWdlIGZhdWx0cywgd2hpY2ggaGFzIGEgbG90IG9mCitpbXBsaWNh
-dGlvbnMgZm9yIERNQSBmZW5jZXMuCisKK0ZpcnN0LCBhIHBlbmRpbmcgcGFnZSBmYXVsdCBvYnZp
-b3VzbHkgaG9sZHMgdXAgdGhlIHdvcmsgdGhhdCdzIHJ1bm5pbmcgb24gdGhlCithY2NlbGVyYXRv
-ciBhbmQgYSBtZW1vcnkgYWxsb2NhdGlvbiBpcyB1c3VhbGx5IHJlcXVpcmVkIHRvIHJlc29sdmUg
-dGhlIGZhdWx0LgorQnV0IG1lbW9yeSBhbGxvY2F0aW9ucyBhcmUgbm90IGFsbG93ZWQgdG8gZ2F0
-ZSBjb21wbGV0aW9uIG9mIERNQSBmZW5jZXMsIHdoaWNoCittZWFucyBhbnkgd29ya2xvYWQgdXNp
-bmcgcmVjb3ZlcmFibGUgcGFnZSBmYXVsdHMgY2Fubm90IHVzZSBETUEgZmVuY2VzIGZvcgorc3lu
-Y2hyb25pemF0aW9uLiBTeW5jaHJvbml6YXRpb24gZmVuY2VzIGNvbnRyb2xsZWQgYnkgdXNlcnNw
-YWNlIG11c3QgYmUgdXNlZAoraW5zdGVhZC4KKworT24gR1BVcyB0aGlzIHBvc2VzIGEgcHJvYmxl
-bSwgYmVjYXVzZSBjdXJyZW50IGRlc2t0b3AgY29tcG9zaXRvciBwcm90b2NvbHMgb24KK0xpbnVz
-IHJlbHkgb24gRE1BIGZlbmNlcywgd2hpY2ggbWVhbnMgd2l0aG91dCBhbiBlbnRpcmVseSBuZXcg
-dXNlcnNwYWNlIHN0YWNrCitidWlsdCBvbiB0b3Agb2YgdXNlcnNwYWNlIGZlbmNlcywgdGhleSBj
-YW5ub3QgYmVuZWZpdCBmcm9tIHJlY292ZXJhYmxlIHBhZ2UKK2ZhdWx0cy4gVGhlIGV4Y2VwdGlv
-biBpcyB3aGVuIHBhZ2UgZmF1bHRzIGFyZSBvbmx5IHVzZWQgYXMgbWlncmF0aW9uIGhpbnRzIGFu
-ZAorbmV2ZXIgdG8gb24tZGVtYW5kIGZpbGwgYSBtZW1vcnkgcmVxdWVzdC4gRm9yIG5vdyB0aGlz
-IG1lYW5zIHJlY292ZXJhYmxlIHBhZ2UKK2ZhdWx0cyBvbiBHUFVzIGFyZSBsaW1pdGVkIHRvIHB1
-cmUgY29tcHV0ZSB3b3JrbG9hZHMuCisKK0Z1cnRoZXJtb3JlIEdQVXMgdXN1YWxseSBoYXZlIHNo
-YXJlZCByZXNvdXJjZXMgYmV0d2VlbiB0aGUgM0QgcmVuZGVyaW5nIGFuZAorY29tcHV0ZSBzaWRl
-LCBsaWtlIGNvbXB1dGUgdW5pdHMgb3IgY29tbWFuZCBzdWJtaXNzaW9uIGVuZ2luZXMuIElmIGJv
-dGggYSAzRAoram9iIHdpdGggYSBETUEgZmVuY2UgYW5kIGEgY29tcHV0ZSB3b3JrbG9hZCB1c2lu
-ZyByZWNvdmVyYWJsZSBwYWdlIGZhdWx0cyBhcmUKK3BlbmRpbmcgdGhleSBjb3VsZCBkZWFkbG9j
-azoKKworLSBUaGUgM0Qgd29ya2xvYWQgbWlnaHQgbmVlZCB0byB3YWl0IGZvciB0aGUgY29tcHV0
-ZSBqb2IgdG8gZmluaXNoIGFuZCByZWxlYXNlCisgIGhhcmR3YXJlIHJlc291cmNlcyBmaXJzdC4K
-KworLSBUaGUgY29tcHV0ZSB3b3JrbG9hZCBtaWdodCBiZSBzdHVjayBpbiBhIHBhZ2UgZmF1bHQs
-IGJlY2F1c2UgdGhlIG1lbW9yeQorICBhbGxvY2F0aW9uIGlzIHdhaXRpbmcgZm9yIHRoZSBETUEg
-ZmVuY2Ugb2YgdGhlIDNEIHdvcmtsb2FkIHRvIGNvbXBsZXRlLgorCitUaGVyZSBhcmUgYSBmZXcg
-d2F5cyB0byBwcmV2ZW50IHRoaXMgcHJvYmxlbToKKworLSBDb21wdXRlIHdvcmtsb2FkcyBjYW4g
-YWx3YXlzIGJlIHByZWVtcHRlZCwgZXZlbiB3aGVuIGEgcGFnZSBmYXVsdCBpcyBwZW5kaW5nCisg
-IGFuZCBub3QgeWV0IHJlcGFpcmVkLiBOb3QgYWxsIGhhcmR3YXJlIHN1cHBvcnRzIHRoaXMuCisK
-Ky0gRE1BIGZlbmNlIHdvcmtsb2FkcyBhbmQgd29ya2xvYWRzIHdoaWNoIG5lZWQgcGFnZSBmYXVs
-dCBoYW5kbGluZyBoYXZlCisgIGluZGVwZW5kZW50IGhhcmR3YXJlIHJlc291cmNlcyB0byBndWFy
-YW50ZWUgZm9yd2FyZCBwcm9ncmVzcy4gVGhpcyBjb3VsZCBiZQorICBhY2hpZXZlZCB0aHJvdWdo
-IGUuZy4gdGhyb3VnaCBkZWRpY2F0ZWQgZW5naW5lcyBhbmQgbWluaW1hbCBjb21wdXRlIHVuaXQK
-KyAgcmVzZXJ2YXRpb25zIGZvciBETUEgZmVuY2Ugd29ya2xvYWRzLgorCistIFRoZSByZXNlcnZh
-dGlvbiBhcHByb2FjaCBjb3VsZCBiZSBmdXJ0aGVyIHJlZmluZWQgYnkgb25seSByZXNlcnZpbmcg
-dGhlCisgIGhhcmR3YXJlIHJlc291cmNlcyBmb3IgRE1BIGZlbmNlIHdvcmtsb2FkcyB3aGVuIHRo
-ZXkgYXJlIGluLWZsaWdodC4gVGhpcyBtdXN0CisgIGNvdmVyIHRoZSB0aW1lIGZyb20gd2hlbiB0
-aGUgRE1BIGZlbmNlIGlzIHZpc2libGUgdG8gb3RoZXIgdGhyZWFkcyB1cCB0bworICBtb21lbnQg
-d2hlbiBmZW5jZSBpcyBjb21wbGV0ZWQgdGhyb3VnaCBkbWFfZmVuY2Vfc2lnbmFsKCkuCisKKy0g
-QXMgYSBsYXN0IHJlc29ydCwgaWYgdGhlIGhhcmR3YXJlIHByb3ZpZGVzIG5vIHVzZWZ1bCByZXNl
-cnZhdGlvbiBtZWNoYW5pY3MsCisgIGFsbCB3b3JrbG9hZHMgbXVzdCBiZSBmbHVzaGVkIGZyb20g
-dGhlIEdQVSB3aGVuIHN3aXRjaGluZyBiZXR3ZWVuIGpvYnMKKyAgcmVxdWlyaW5nIERNQSBmZW5j
-ZXMgb3Igam9icyByZXF1aXJpbmcgcGFnZSBmYXVsdCBoYW5kbGluZzogVGhpcyBtZWFucyBhbGwg
-RE1BCisgIGZlbmNlcyBtdXN0IGNvbXBsZXRlIGJlZm9yZSBhIGNvbXB1dGUgam9iIHdpdGggcGFn
-ZSBmYXVsdCBoYW5kbGluZyBjYW4gYmUKKyAgaW5zZXJ0ZWQgaW50byB0aGUgc2NoZWR1bGVyIHF1
-ZXVlLiBBbmQgdmljZSB2ZXJzYSwgYmVmb3JlIGEgRE1BIGZlbmNlIGNhbiBiZQorICBtYWRlIHZp
-c2libGUgYW55d2hlcmUgaW4gdGhlIHN5c3RlbSwgYWxsIGNvbXB1dGUgd29ya2xvYWRzIG11c3Qg
-YmUgcHJlZW1wdGVkCisgIHRvIGd1YXJhbnRlZSBhbGwgcGVuZGluZyBHUFUgcGFnZSBmYXVsdHMg
-YXJlIGZsdXNoZWQuCisKK05vdGUgdGhhdCB3b3JrbG9hZHMgdGhhdCBydW4gb24gaW5kZXBlbmRl
-bnQgaGFyZHdhcmUgbGlrZSBjb3B5IGVuZ2luZXMgb3Igb3RoZXIKK0dQVXMgZG8gbm90IGhhdmUg
-YW55IGltcGFjdC4gVGhpcyBhbGxvd3MgdXMgdG8ga2VlcCB1c2luZyBETUEgZmVuY2VzIGludGVy
-bmFsbHkKK2luIHRoZSBrZXJuZWwgZXZlbiBmb3IgcmVzb2x2aW5nIGhhcmR3YXJlIHBhZ2UgZmF1
-bHRzLCBlLmcuIGJ5IHVzaW5nIGNvcHkKK2VuZ2luZXMgdG8gY2xlYXIgb3IgY29weSBtZW1vcnkg
-bmVlZGVkIHRvIHJlc29sdmUgdGhlIHBhZ2UgZmF1bHQuCisKK0luIHNvbWUgd2F5cyB0aGlzIHBh
-Z2UgZmF1bHQgcHJvYmxlbSBpcyBhIHNwZWNpYWwgY2FzZSBvZiB0aGUgYEluZmluaXRlIERNQQor
-RmVuY2VzYCBkaXNjdXNzaW9uczogSW5maW5pdGUgZmVuY2VzIGZyb20gY29tcHV0ZSB3b3JrbG9h
-ZHMgYXJlIGFsbG93ZWQgdG8KK2RlcGVuZCBvbiBETUEgZmVuY2VzLCBidXQgbm90IHRoZSBvdGhl
-ciB3YXkgYXJvdW5kLiBBbmQgbm90IGV2ZW4gdGhlIHBhZ2UgZmF1bHQKK3Byb2JsZW0gaXMgbmV3
-LCBiZWNhdXNlIHNvbWUgb3RoZXIgQ1BVIHRocmVhZCBpbiB1c2Vyc3BhY2UgbWlnaHQKK2hpdCBh
-IHBhZ2UgZmF1bHQgd2hpY2ggaG9sZHMgdXAgYSB1c2Vyc3BhY2UgZmVuY2UgLSBzdXBwb3J0aW5n
-IHBhZ2UgZmF1bHRzIG9uCitHUFVzIGRvZXNuJ3QgYW55dGhpbmcgZnVuZGFtZW50YWxseSBuZXcu
-Ci0tIAoyLjMwLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Thu, Jan 21, 2021 at 08:49:50AM +0100, Christoph Hellwig wrote:
+> @@ -820,14 +796,25 @@ static int klp_init_object(struct klp_patch *patch, struct klp_object *obj)
+>  	const char *name;
+>  
+>  	obj->patched = false;
+> -	obj->mod = NULL;
+
+Why was this line removed?
+
+>  	if (klp_is_module(obj)) {
+>  		if (strlen(obj->name) >= MODULE_NAME_LEN)
+>  			return -EINVAL;
+>  		name = obj->name;
+>  
+> -		klp_find_object_module(obj);
+> +		/*
+> +		 * We do not want to block removal of patched modules and
+> +		 * therefore we do not take a reference here. The patches are
+> +		 * removed by klp_module_going() instead.
+> +		 * 
+> +		 * Do not mess work of klp_module_coming() and
+> +		 * klp_module_going().  Note that the patch might still be
+> +		 * needed before klp_module_going() is called.  Module functions
+> +		 * can be called even in the GOING state until mod->exit()
+> +		 * finishes.  This is especially important for patches that
+> +		 * modify semantic of the functions.
+> +		 */
+> +		obj->mod = find_klp_module(obj->name);
+
+These comments don't make sense in this context, they should be kept
+with the code in find_klp_module().
+
+-- 
+Josh
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
