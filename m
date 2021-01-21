@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E142FFE94
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 319052FFE81
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF396E9E9;
-	Fri, 22 Jan 2021 08:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E80756E9BC;
+	Fri, 22 Jan 2021 08:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 930856E526
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 10:58:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 788476E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:04:09 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 7FB2E5C0129;
- Thu, 21 Jan 2021 05:58:07 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id E00615C0081;
+ Thu, 21 Jan 2021 06:04:08 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 21 Jan 2021 05:58:07 -0500
+ by compute4.internal (MEProxy); Thu, 21 Jan 2021 06:04:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=5gTE0EdT+7R4B
- 5W2OJLiYl6WfdYb/zVrdQzXU3Tbt4o=; b=Dn3erCcLHK+hHPYpAZh61QQwNMibE
- 2FfjZ0i5Nkqr6P/Eo81f1nOsi4CminlwGt7l2PxsvpnWj40MIE+Dz6paejxzHgfX
- UaWeLzW2npNMz/uNskM4lNanbm+8x+38FP9VGsdOmRGCa+CvVdg7ZFV0BEn2MZ0X
- ymxqC8VutyeP8U2w554WLOkZR3INdydKiFTBXk36L/De6NtlCFQYCGA4et62uQvP
- I5/hmfmw0oWTZAgrt2Kej2yv/3MV/lpCrWYnw8iaxCehkLa6U5yfIG4zOLJwvTUN
- Suh2NpJzPqEY2EjA1d29/U3vYfJQsehKG+0pclIAxbNrl5HZXQ2ca9kDg==
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=BdC6sBpfkqeuRKbr+YS2x3XOUsy
+ 005Dr/ViXrL61NFk=; b=aDs6Dtzv8ag0v/0OXCRHZaCiLqFRU9NR2LJX3no7/5P
+ oiKo0TNRe/TvB/YYUZ/jZZIkQEpJrPzX/EGprWCG3HRoY5tCc/EAe4WN4FHvZZEb
+ EIuWe+y18XKUmNvgOeGnQYxc49ksvNLfutXtdh5jz5D87/OQ62HJrykQXhb58AW8
+ hwSuVdXRRRWOY4U/0/Fe7D+yWT/3j5OJtqXw1wTRiLljsdJncDF3Q32y1mFKPhC8
+ vE4pxZ+nD38Y6DxZJsi9DmxvKEGP02fa0GbFxLLCvVypWV3PfC4oTWd1Cg7riGru
+ lggjx8VnM03uJb31JiTwnEflQFXJgmIqpnCfABJWgiA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=5gTE0EdT+7R4B5W2OJLiYl6WfdYb/zVrdQzXU3Tbt4o=; b=GTrvGw7A
- yAG1Ml4s8hLiY81Y8/6bUfI1dIyWpFQq8ucjCigwJx8pA07C/Vx6hMdW57IjchYd
- j+NxO6Qblyy+Oi/pUGdhIQm0ZMCY0VUszGa3p3meoArsz+IE1FnCkuH9DK+wqGqC
- YVHRntMZ/z76PPhE+TutgT84qCvMzwRA9Aj9zkErjUJ0D7eJli8l4m6fmTs1v5Ur
- bwUVzDF5EiwC8C1XN2l8jMJrHbOs6luo29ulwFUEHYkj3nBohZncEqYwrgHJcigS
- 3USGhTg01/EARJj4KzdJ/jNjQfT6XtQ4K3IquQA0DAviGJvOyK/6J68pB6HmdDMe
- 6vk4yRZxu6swsg==
-X-ME-Sender: <xms:P14JYJkuA-Ab1azAW-WovxsDvTUhfbqcPR2s2mYSzsU5-ONly9wwwA>
- <xme:P14JYEzOuUiKn-DdcHJaMYmrXE5Jr3fo6sJT_7zYDYuaRUXBaaG2tlHwsj5kHeuCR
- NS-ALpEHt4KxUbsauE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggddvfecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BdC6sB
+ pfkqeuRKbr+YS2x3XOUsy005Dr/ViXrL61NFk=; b=euGOwYB9bR45t+dC23Xcgy
+ NtVSS5qyte5VMfvKQsFiogJd6hp3oJmBs6biXHF5UKpmTBFoxKycWpapgUiXzOON
+ 6FxuaxmLGGw8acRRR46JGogBXzR3D3fASXKnVd5jVUl0EkA0nbsVi/4iKuC8N460
+ QHOEQ+MF1O8/gtn2W3gWTubGYRRLzsmn722KmVRqTwD9OcCLDZ0yuTtcjm0B756f
+ 62iaoCy72yrS1gF7o8O/5JLMG64MGudRTWNFOVKSmxyeb8CZYiJHV12PRVlPkVNq
+ xCii5SL345bYKkVn1iZHbc9I+fi+NrsZwyzhQF2NZz5KClzTyKXbCk4672PTDsuw
+ ==
+X-ME-Sender: <xms:qF8JYMI54x23CXANJM0kDWxNFPTtnUDaNX180g6VSDAyog1nkj_nRA>
+ <xme:qF8JYAfPE_h5FYUb2hBoM468LIw193YEGFm7FXjf-D3VzzHvk5K0HdotBpEhskhMY
+ u-TnMwsvmWdNDnMgSw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggddvhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:P14JYMgTqp1ZGdzgi2S3KDKIPp7K_NCypmqotMdw4fNbp4J1PpOm-A>
- <xmx:P14JYBUJO109gj41IWDqjrzgU99tWHmGcuRYz5c8g00hQUTBOzWG5A>
- <xmx:P14JYG3FpmAfxYgwyJPVneRNRAymx5GmlwS6F8nNEmIG1MdWqw8PjQ>
- <xmx:P14JYMDw3i6LbSP3ntlJKq7QFo53mTse9QEXZAGaxy-03BrXHfDLvw>
+X-ME-Proxy: <xmx:qF8JYL0ieDSSseb5tabbtMa8a5LNjqBdtCnPtsxDbB6vs_DPDvfxGA>
+ <xmx:qF8JYBiQauQscyBZas8pVm7Oo0jg6shqoZGePYZ6K3YTz1lSThtoUQ>
+ <xmx:qF8JYJTyctlXriARHJtsI-QDppP1FnJy_AE49UOOBBF_ZjY7z4HvQQ>
+ <xmx:qF8JYHcCOHcbh-tq_rDLwESbXL-PU4CndOMiHxKz8SOxX6ZLlFPS9A>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 32D5C240065;
- Thu, 21 Jan 2021 05:58:07 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0003F240066;
+ Thu, 21 Jan 2021 06:04:07 -0500 (EST)
+Date: Thu, 21 Jan 2021 12:04:06 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/vc4: Correct POS1_SCL for hvs5
-Date: Thu, 21 Jan 2021 11:57:59 +0100
-Message-Id: <20210121105759.1262699-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121105759.1262699-1-maxime@cerno.tech>
+To: Lucas Nussbaum <lucas@debian.org>,
+ Ryutaroh Matsumoto <ryutaroh@ict.e.titech.ac.jp>
+Subject: Re: [PATCH 1/2] drm/vc4: Correct lbm size and calculation
+Message-ID: <20210121110406.yeb4zoqwwgilyrhq@gilmour>
 References: <20210121105759.1262699-1-maxime@cerno.tech>
 MIME-Version: 1.0
+In-Reply-To: <20210121105759.1262699-1-maxime@cerno.tech>
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,91 +79,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <popcornmix@gmail.com>,
- Ryutaroh Matsumoto <ryutaroh@ict.e.titech.ac.jp>,
- Lucas Nussbaum <lucas@debian.org>, Maxime Ripard <maxime@cerno.tech>,
+Cc: Dom Cobley <popcornmix@gmail.com>, dri-devel@lists.freedesktop.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0537990099=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
 
-Fixes failure with 4096x1080 resolutions
+--===============0537990099==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vwouope6l6r7ww7z"
+Content-Disposition: inline
 
-[  284.315379] WARNING: CPU: 1 PID: 901 at drivers/gpu/drm/vc4/vc4_plane.c:981 vc4_plane_mode_set+0x1374/0x13c4
-[  284.315385] Modules linked in: ir_rc5_decoder rpivid_hevc(C) bcm2835_codec(C) bcm2835_isp(C) bcm2835_mmal_vchiq(C) bcm2835_gpiomem v4l2_mem2mem videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc cdc_acm xpad ir_rc6_decoder rc_rc6_mce gpio_ir_recv fuse
-[  284.315509] CPU: 1 PID: 901 Comm: kodi.bin Tainted: G         C        5.10.7 #1
-[  284.315514] Hardware name: BCM2711
-[  284.315518] Backtrace:
-[  284.315533] [<c0cc5ca0>] (dump_backtrace) from [<c0cc6014>] (show_stack+0x20/0x24)
-[  284.315540]  r7:ffffffff r6:00000000 r5:68000013 r4:c18ecf1c
-[  284.315549] [<c0cc5ff4>] (show_stack) from [<c0cca638>] (dump_stack+0xc4/0xf0)
-[  284.315558] [<c0cca574>] (dump_stack) from [<c022314c>] (__warn+0xfc/0x158)
-[  284.315564]  r9:00000000 r8:00000009 r7:000003d5 r6:00000009 r5:c08cc7dc r4:c0fd09b8
-[  284.315572] [<c0223050>] (__warn) from [<c0cc67ec>] (warn_slowpath_fmt+0x74/0xe4)
-[  284.315577]  r7:c08cc7dc r6:000003d5 r5:c0fd09b8 r4:00000000
-[  284.315584] [<c0cc677c>] (warn_slowpath_fmt) from [<c08cc7dc>] (vc4_plane_mode_set+0x1374/0x13c4)
-[  284.315589]  r8:00000000 r7:00000000 r6:00001000 r5:c404c600 r4:c2e34600
-[  284.315596] [<c08cb468>] (vc4_plane_mode_set) from [<c08cc984>] (vc4_plane_atomic_check+0x40/0x1c0)
-[  284.315601]  r10:00000001 r9:c2e34600 r8:c0e67068 r7:c0fc44e0 r6:c2ce3640 r5:c3d636c0
-[  284.315605]  r4:c2e34600
-[  284.315614] [<c08cc944>] (vc4_plane_atomic_check) from [<c0860504>] (drm_atomic_helper_check_planes+0xec/0x1ec)
-[  284.315620]  r9:c2e34600 r8:c0e67068 r7:c0fc44e0 r6:c2ce3640 r5:c3d636c0 r4:00000006
-[  284.315627] [<c0860418>] (drm_atomic_helper_check_planes) from [<c0860658>] (drm_atomic_helper_check+0x54/0x9c)
-[  284.315633]  r9:c2e35400 r8:00000006 r7:00000000 r6:c2ba7800 r5:c3d636c0 r4:00000000
-[  284.315641] [<c0860604>] (drm_atomic_helper_check) from [<c08b7ca8>] (vc4_atomic_check+0x25c/0x454)
-[  284.315645]  r7:00000000 r6:c2ba7800 r5:00000001 r4:c3d636c0
-[  284.315652] [<c08b7a4c>] (vc4_atomic_check) from [<c0881278>] (drm_atomic_check_only+0x5cc/0x7e0)
-[  284.315658]  r10:c404c6c8 r9:ffffffff r8:c472c480 r7:00000003 r6:c3d636c0 r5:00000000
-[  284.315662]  r4:0000003c r3:c08b7a4c
-[  284.315670] [<c0880cac>] (drm_atomic_check_only) from [<c089ba60>] (drm_mode_atomic_ioctl+0x758/0xa7c)
-[  284.315675]  r10:c3d46000 r9:c3d636c0 r8:c2ce8a70 r7:027e3a54 r6:00000043 r5:c1fbb800
-[  284.315679]  r4:0281a858
-[  284.315688] [<c089b308>] (drm_mode_atomic_ioctl) from [<c086e9f8>] (drm_ioctl_kernel+0xc4/0x108)
-[  284.315693]  r10:c03864bc r9:c1fbb800 r8:c3d47e64 r7:c089b308 r6:00000002 r5:c2ba7800
-[  284.315697]  r4:00000000
-[  284.315705] [<c086e934>] (drm_ioctl_kernel) from [<c086ee28>] (drm_ioctl+0x1e8/0x3a0)
-[  284.315711]  r9:c1fbb800 r8:000000bc r7:c3d47e64 r6:00000038 r5:c0e59570 r4:00000038
-[  284.315719] [<c086ec40>] (drm_ioctl) from [<c041f354>] (sys_ioctl+0x35c/0x914)
-[  284.315724]  r10:c2d08200 r9:00000000 r8:c36fa300 r7:befdd870 r6:c03864bc r5:c36fa301
-[  284.315728]  r4:c03864bc
-[  284.315735] [<c041eff8>] (sys_ioctl) from [<c0200040>] (ret_fast_syscall+0x0/0x28)
-[  284.315739] Exception stack(0xc3d47fa8 to 0xc3d47ff0)
-[  284.315745] 7fa0:                   027eb750 befdd870 00000000 c03864bc befdd870 00000000
-[  284.315750] 7fc0: 027eb750 befdd870 c03864bc 00000036 027e3948 0281a640 0281a850 027e3a50
-[  284.315756] 7fe0: b4b64100 befdd844 b4b5ba2c b49c994c
-[  284.315762]  r10:00000036 r9:c3d46000 r8:c0200204 r7:00000036 r6:c03864bc r5:befdd870
-[  284.315765]  r4:027eb750
 
-Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--vwouope6l6r7ww7z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index b98eabb52920..8c55679cbaef 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -917,9 +917,9 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 		if (!vc4_state->is_unity) {
- 			vc4_dlist_write(vc4_state,
- 					VC4_SET_FIELD(vc4_state->crtc_w,
--						      SCALER_POS1_SCL_WIDTH) |
-+						      SCALER5_POS1_SCL_WIDTH) |
- 					VC4_SET_FIELD(vc4_state->crtc_h,
--						      SCALER_POS1_SCL_HEIGHT));
-+						      SCALER5_POS1_SCL_HEIGHT));
- 		}
- 
- 		/* Position Word 2: Source Image Size */
--- 
-2.29.2
+Hi Lucas, Ryutaroh,
+
+On Thu, Jan 21, 2021 at 11:57:58AM +0100, Maxime Ripard wrote:
+> From: Dom Cobley <popcornmix@gmail.com>
+>=20
+> LBM base address is measured in units of pixels per cycle.
+> That is 4 for 2711 (hvs5) and 2 for 2708.
+>=20
+> We are wasting 75% of lbm by indexing without the scaling.
+> But we were also using too high a size for the lbm resulting
+> in partial corruption (right hand side) of vertically
+> scaled images, usually at 4K or lower resolutions with more layers.
+>=20
+> The physical RAM of LBM on 2711 is 8 * 1920 * 16 * 12-bit
+> (pixels are stored 12-bits per component regardless of format).
+>=20
+> The LBM adress indexes work in units of pixels per clock,
+> so for 4 pixels per clock that means we have 32 * 1920 =3D 60K
+>=20
+> Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
+> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+This one should fix your issue
+
+Feel free to test it and let me know if it's not the case
+
+Maxime
+
+--vwouope6l6r7ww7z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAlfpgAKCRDj7w1vZxhR
+xaBXAP0fiKQIxEzL81OKhR7b4IXJ/WrKoh15kNgOJP7kl1hCcQEArSxNfjGY4J1m
+93cw+K/4shynPUohViNPfQ89sbN2CA4=
+=t052
+-----END PGP SIGNATURE-----
+
+--vwouope6l6r7ww7z--
+
+--===============0537990099==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0537990099==--
