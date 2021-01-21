@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6A42FE578
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D51972FE568
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4F26E8E5;
-	Thu, 21 Jan 2021 08:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC896E527;
+	Thu, 21 Jan 2021 08:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2045.outbound.protection.outlook.com [40.107.20.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088D56E8D8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:25:11 +0000 (UTC)
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr30053.outbound.protection.outlook.com [40.107.3.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5298B6E8E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:25:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J+wn3g1uSRYumOim880RGTcx2EvBTpzR53SxaMLv6q7V+JMWH75EA+uOdje9t2UwGgLwAfE7/tG8pI2Tuki2j0txMCDgDpYeMskcayP7o1a0fixWohyR6ToTkeKEcWgL/WT3oTrbSt3W0U5wL44B6eRPpjOWntyronAAy90NBN1TGtTAYqvYM+b5TPE5WgjbVFDb2eqo1hhEhuTkdARxGu+abJUzu//m0ao8JH88yOwIKWWDFdFaMKpQqUqTFExoA3T50vC2pYx1xZQYUpMVnHvR450SZcdEx8LpkmJ8WjKJbenNbmcfchOytyj6GnFH/xlggNy1dsrLut+JUiXySw==
+ b=SXPoaj4fPzkcrbCykingy7661v78sS8xghf+6nN4uSgdExgV8ZXySVXd9W68sTmW3jWz6NN3EbdI7fITwwpQw6Z9AQr4QDp+pQZYOa9p/WZTW309KW5czFPDKBFdi0uqPM8cthhbqSEnugSmRQJxdPeoLTMCb2B6zyZ86EcjniVF75J7GGCRW7KqZ+KMzayVBrRQhJfDjEgLsNc4We26IYJiNByaRxP+Jwccea/I69J6jsmB3/74J2QfBMIciOOPDrUjrb6pK7fhn2Hc9/QlWIt8SnilgF49tw4gJxmbfVAY3YhmVXk9XQ5rh83PZmcXsvn/xaFiAy66tf36StQRdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PALxsBG3sk35L2qbh/oWTlB+G5ZPCEbjgqF5Rr6Cpl0=;
- b=SEJqoiSGjrQP/MJKooMjDucbYPZ6QP4u2yjK5B5U/txCLRCmqhj4eHtextHj40GrFZnmOKcj5s00F9hW+NmM4RoMpuzSS7TJAyAML3H9K8tLntnip9LOaN+d1QpDtG/+HywXI4NZ3abdE4JhEk3uSSHXTNBsfqeX7rb+r6mLFTU9t2od1c3UE2lk2Q+t5OEoEuCPqXmYUS+qO5u9B35nnFP+rWPnnG/E500e8wyxVm+9rcHGwNw9mDg24ubogS74KE3/A/+iYbkbn+augy7Xrfl3qOhdhU06k2xzbIk6HwvovTZcZ+nnNaZG1jnx21SYWhmBDioD6szkFG3ZlSAI3g==
+ bh=nB2yTYog/14lmeZyTxi208nhAl9QvAftNWW/oyQCbJI=;
+ b=lZz4arwA8VRu70mKK0QlPZ3QZ8H5i45zRcKvwDykdX6Xgx1e+OoiudDWI+oESxndjHarH/v2Wt16RgkaQj3EOwdlxp95JqHqhR8YGzb6EvhqqMa7hTJKj+rkx93vFi24WwLJvDDcjHwLK6CTsgREmOo3gWPkJP/12zGgUsFol1ED9FtRiHjUYZWaKYp2bFMLRtgCK//34P/d6Mn/WLFcxXSsvZILzbA0DFzQBYVHQ+SkM78pfz8kv5pB7qx+ilZtGMy+4j7g/twU2QMiCUsR5Fwg9duNQ3fH+9wH4HHo7YZ3o+LdJ7PVcFvUHub5G6WM2LEMbciuU2b6Pk2Mf916fQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PALxsBG3sk35L2qbh/oWTlB+G5ZPCEbjgqF5Rr6Cpl0=;
- b=Wxh3vpsSDPkrujrCjvobP0SLnjqYaaDAkr1lfuAguiPig5pOLU7a9HIK+/++5A6NqvyC773Qvxyb8NMac9ZzGpZM54o2Ekfb+serulcC10+O+dQN9qBIVfJC5ytCjicrLoX8iqyUMXxQmvT/iFdW9IuaamV6OgsdUmspxDERme4=
+ bh=nB2yTYog/14lmeZyTxi208nhAl9QvAftNWW/oyQCbJI=;
+ b=gRirn6/PWQS32yBnaael83lKlxzI8PgSaojdIlwZp2FKZ7f+TTD6KJ1EgGBzVAiu4zMYFZo1hmy9rGJaHlYKILO7jOLmPhP/clZlTMpRjfHxdBa9WhivCIeRnN3sJizdCp146ZZFtZIQFZXKLIevCpK7ZgfNQUwb+xB+Sla3WKg=
 Authentication-Results: lists.infradead.org; dkim=none (message not signed)
  header.d=none;lists.infradead.org; dmarc=none action=none
  header.from=nxp.com;
@@ -34,18 +34,20 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR04MB5711.eurprd04.prod.outlook.com (2603:10a6:803:e7::24)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Thu, 21 Jan
- 2021 07:25:05 +0000
+ 2021 07:25:11 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3784.011; Thu, 21 Jan 2021
- 07:25:05 +0000
+ 07:25:11 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
-Date: Thu, 21 Jan 2021 15:14:17 +0800
-Message-Id: <1611213263-7245-1-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v6 1/6] dt-bindings: display: imx: Add i.MX8qxp/qm DPU binding
+Date: Thu, 21 Jan 2021 15:14:18 +0800
+Message-Id: <1611213263-7245-2-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1611213263-7245-1-git-send-email-victor.liu@nxp.com>
+References: <1611213263-7245-1-git-send-email-victor.liu@nxp.com>
 X-Originating-IP: [119.31.174.66]
 X-ClientProxiedBy: SG2PR06CA0123.apcprd06.prod.outlook.com
  (2603:1096:1:1d::25) To VI1PR04MB3983.eurprd04.prod.outlook.com
@@ -55,49 +57,49 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR06CA0123.apcprd06.prod.outlook.com (2603:1096:1:1d::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3784.12 via Frontend Transport; Thu, 21 Jan 2021 07:25:00 +0000
+ 15.20.3784.12 via Frontend Transport; Thu, 21 Jan 2021 07:25:06 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 414492df-3cbc-4a99-4a81-08d8bdddac83
+X-MS-Office365-Filtering-Correlation-Id: 9c412fb8-a92c-40f0-3c3c-08d8bdddafdf
 X-MS-TrafficTypeDiagnostic: VI1PR04MB5711:
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB57116B936566F0AFBBBC6FD198A10@VI1PR04MB5711.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB571104A73230947E4056B3EB98A10@VI1PR04MB5711.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EeEtDVssHQsYDQTGPXlWEjUxGgEOSXnq+qgYjfgo0uX4GFhb/TkZ+Rj4TSp+0hro16PEMf9bpp0SBugFfdoPPNuT+h7T5iRx9Ff7aaNuLdXRHnA56dwfWb+/lJFmdkYx+o478305hZ15bt15+tmMa/hLpw1TgB6mHyp0J0oMfg4ENTbC6hOufVsQ/vUUuf3iUcMnJDEOEjrVcUqKQff83rCArHehHcIO7dF8WevecSga55nDh/gl0HnoNvrpEX6lxdEZrUaP/3/wr/ezXQUVVI+aXnpSb1NUwwRI0Z75Y9PaF44N6Z6qksXunXAw29pI6jq+4iwaCy5Q4+6Pep5BeWlXERTXzeBFLjfs1zIJGxDwOrvdsSC6Vemlm3jW2Y7XkH+na6jKd1ZoLSWL+qL2+mD/C7biPiWx90nk2zEC2NK2lTaxduN/bLCZffQzyISTHvcg1gBR96AZfsDvGFA7ddXijIGhuicH2yvojaqsZ+BnKXSJPuO3BH2wfePh2flBPgYKZbK1oCcPjlP0vUgL1Q==
+X-Microsoft-Antispam-Message-Info: W3RyNAXnVqCKimTujdzZz/cy28rL27zY9xbXZq/DGoUTg7mr4CfuBcYUrsAxjO52Z6kZJE0Weoa8OJgwKPE7vIXocTpnu6CPhgNmkCEar3HklDaffZ9D1K+4c44yyaWefnOSgJ+5Vy+AZgvoX7FxrJfO7zPlI47l4XLUVuaJc5vhVNmuBbKSzj5GtU7pyH9lsoS+VhJtKH0qDwYusXUl0ECQgZ/Rl603HAtVz+WZXmmwrBbbzzgJMnQsUmIlYEM/fGyzNkuzB4UkuAZqqbujPLtD9AGr1ysJW7kQCBoihBuLIQHi93/viN/hCug0ecRBZ/awFERwPVH6WDQl9gwaWBU3mvuc6YvHES0mR7rLHnIGN1xHHKAyJCGSzOs0UFsO4HEs1ZbpG2IWDaAG5D7jcK3fUb8yNRaVpxL7TNuL+NwaGhfFT5T9hFQDyZn3G46XMzq0CL+u0I9k2LTB/ShHjpgMP1qSIy31NbkW8gnBJ+2TCMVYVhWFGpfG6cMuL03IzFg2d93+GHJXveU3pxycCQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39860400002)(396003)(136003)(376002)(8936002)(2906002)(66556008)(66476007)(478600001)(36756003)(186003)(6666004)(4326008)(16526019)(66946007)(83380400001)(966005)(6512007)(7416002)(8676002)(69590400011)(2616005)(26005)(52116002)(86362001)(6486002)(316002)(5660300002)(956004)(6506007);
+ SFS:(4636009)(346002)(366004)(39860400002)(396003)(136003)(376002)(8936002)(2906002)(66556008)(66476007)(478600001)(36756003)(186003)(6666004)(4326008)(16526019)(66946007)(83380400001)(966005)(6512007)(7416002)(8676002)(69590400011)(2616005)(26005)(52116002)(86362001)(30864003)(6486002)(316002)(5660300002)(956004)(6506007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3IBHcKfJhP146dwOEBtZ+SBefMWJNYcT2EvBhFMR/RfT4UQ4HmXibCqJqiGt?=
- =?us-ascii?Q?/jMX3X8oUycT/dgNd0FPrLPNJ+PjOCdBWp20Hs4+wQjsJZKEVP3keJ3WgMNv?=
- =?us-ascii?Q?b2ffqQ5Dly7LxSqVQTkGQJH9Dud8nZpAFYcyF/2JLhz+P8qGkDMmRSSIS67N?=
- =?us-ascii?Q?9NTK8iHd6pVMleioaTsbrZE+6c8UXaw5y6R4oyXJEYBX/bvdBYDtzuNW8uMj?=
- =?us-ascii?Q?qa7gdH4TEBbAUwTTwUPT77l5N1imWLLG4UKMuvLaaoao85MB0YzKcOYmZxAz?=
- =?us-ascii?Q?19fOakHYUru5N2B1ludx3TVzwRuV1LyI4ZMPyBDKGnnt5OfnrtXp5axCRpFB?=
- =?us-ascii?Q?1bF5deS3+s6fj0QHUcud9gSHjn9KjcSdKNgK3iqy2zeKK8L0runFCdhN9YZ2?=
- =?us-ascii?Q?PUBV0AFEeYXNSu3IiWz4zk15MUY2guUZqMvQv4WSetvZ669vVERzpZUqGKpa?=
- =?us-ascii?Q?9RADAQfx0bJhUNO4RxI7nUaww7xbGNeiQkOyaxnlTirWEA0VnqomITC8LAwm?=
- =?us-ascii?Q?0ZJwW4NDF5wKspnTHNq2W9RH+ck3XreheVlNzYJ5PhDvHbbwCNBBsVWXNfNy?=
- =?us-ascii?Q?UWjEhE5h0Knbfn8V5bhO2C5Vu1OjS34kK2V4uMQPWemqg1EzLe3zp3VoywK3?=
- =?us-ascii?Q?FxaoCp4bsXYoOqVXKc2HyjRvnHs1DQ+1iXVhszCgDwppa9AnhLK+/hGUOJNn?=
- =?us-ascii?Q?0HW7rbMF/cn5fMnAbKUrDbGwr4e95VoVQjltocctm4D45ANjNRcd6PwrOCck?=
- =?us-ascii?Q?QrbJ8u66K6w7JwUQ4wp2gPCjlU836N6OPFnEgkZ2s5S4KNZdMO8+jm3fpHj3?=
- =?us-ascii?Q?jkEL9ACbz9H+FALigzIifIfzUdo77u+ITmcv5D4mgoWwYSNJIq69kbsjxOcP?=
- =?us-ascii?Q?G2C76fsS09dzf4yaZFDxiowVmtOWUBbMRPTgB/F5EuGABwYkLZ90tfKor+iD?=
- =?us-ascii?Q?QpE0RdArmYQiHQf6IoBJNLqHJYE4ujzFYtTmAj30eOswEUarZuKXG0e8VEBp?=
- =?us-ascii?Q?dShb?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?m0H1hUF6DCd1jW6sSZjWJWXm1g3DO/r5ca+449/5p10AgwIvCWVXLp5mzscL?=
+ =?us-ascii?Q?qfEMpx5ibRvO6zBnnZ3hjY0++Sc4R/y9k8gVNEYI1IRv84vDov1n581RoPFX?=
+ =?us-ascii?Q?wawgYpyvK7MMMvH8tYFrBnuO6AEUGxwQW+QfqSZNn/nv6M/AZhKoHkM6dnbY?=
+ =?us-ascii?Q?lT7sINUWAZjvjKYyipi/Gpagk0Cjsv84J6vB6n9iiy0p1m/ojJZxTJr8ZQAS?=
+ =?us-ascii?Q?c3hZUhbY8x2wk44wTSKsvqGtkk09StFT/05KlRSkuhIvxKzWDw5geZjv+HAW?=
+ =?us-ascii?Q?LGrkoTM7ppAZ5ZlM/JKIoA1YjaR86r/VcTXcN04vrz+1QZ5QfJzPfcNdJSuF?=
+ =?us-ascii?Q?UHIWIyiaHh1LHfzV8ilVK2PvoUwdKFZ61/FNngk3B6Iba0vPBSv6q5pJyXK+?=
+ =?us-ascii?Q?HdOPUnzj8F4oblDJ/6dMg1+2yCYg0J2oAwgLA7b4fZ1CKqq0PDewDGoz1usc?=
+ =?us-ascii?Q?VW4TMGutT9eVv9yt9xv+/04mXLtUyj8FSgvf/gWXQuKgd/zlGYzg2pv2br34?=
+ =?us-ascii?Q?Si1sFSsBxxYOCWQX+U4XMJ6udkylO9Z4T5wF4Li3xXndxb6lMfHFcJGZL8ar?=
+ =?us-ascii?Q?3WQWf3jHnWg2poM+iY7WJsaLfsc7gAkaHGA5K8d+rtuxxsV/jSfXeNcARe7t?=
+ =?us-ascii?Q?9nz3024ytp+XO6PG8VjtxAeAVAAY8KllMG6rVZ5t4OM8zqJgQDe3a0IViGSs?=
+ =?us-ascii?Q?60pTe/7ifrixRxwhC/wZhoMSwvOCBPKRdl7+47OCEyKvXpiGgkMlYNcEwjFJ?=
+ =?us-ascii?Q?NJgAUlyHESE9x6CHsLsW8AtJFuA7s5KSu65AC4y33mJoIq6XAyMR+E5v4tKg?=
+ =?us-ascii?Q?EEWm6KyIe5H60lC1CdiZBLx07OWQXRVxKdy0S96sdzxQSnRyQl94NHaWDgci?=
+ =?us-ascii?Q?CtM7RafDtd0tDMYSLmgCoLojd5V435LtZ/Eb5gH5qrRUSj6PWqT8QYIEQnVa?=
+ =?us-ascii?Q?77kqWiYlT0PAA8nXN7toSvdSRj234Frqhc0KmmsuoHbBW+lGW3xm2/b1MGoY?=
+ =?us-ascii?Q?0k1S?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 414492df-3cbc-4a99-4a81-08d8bdddac83
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c412fb8-a92c-40f0-3c3c-08d8bdddafdf
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 07:25:05.7739 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 07:25:11.2827 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ouKGmwXY7/GJPdsaFK4xrUETBHiKjQ7VuRvLmKVXr56Z2LC+z+M7pkeQ2Hw6hSjEVDXWRP9I1sCZgSK+SPoRFg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: i3QSCGrcsDnx64MCfdLc31rRl3OsQnyqd5m2fielMg0dAuB+cZixRm0z4wNk+lqTifUgyFofsuxxmj/bbR1EMA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5711
 X-Mailman-Approved-At: Thu, 21 Jan 2021 08:52:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,179 +122,427 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patch adds bindings for i.MX8qxp/qm Display Processing Unit.
 
-
-This is the v6 series to introduce i.MX8qm/qxp Display Processing Unit(DPU)
-DRM support.
-
-DPU is comprised of a blit engine for 2D graphics, a display controller
-and a command sequencer.  Outside of DPU, optional prefetch engines can
-fetch data from memory prior to some DPU fetchunits of blit engine and
-display controller.  The pre-fetchers support linear formats and Vivante
-GPU tile formats.
-
-Reference manual can be found at:
-https://www.nxp.com/webapp/Download?colCode=IMX8DQXPRM
-
-
-This patch set adds kernel modesetting support for the display controller part.
-It supports two CRTCs per display controller, several planes, prefetch
-engines and some properties of CRTC and plane.  Currently, the registers of
-the controller is accessed without command sequencer involved, instead just by
-using CPU.  DRM connectors would be created from the DPU KMS driver.
-
-
-If people want to try this series with i.MX8qxp, clock patches can be found at
-Shawn's i.MX for-next git branch, and power domain patches have already landed
-in 5.11-rc1.
-
-Version2 dropped the device tree patches because we'll use new dt binding
-way to support i.MX8qm/qxp clocks.  It depends on the below series to do basic
-conversions for the platforms which has not landed yet:
-https://www.spinics.net/lists/linux-mmc/msg61965.html
-
-
-I've sent the below series to add downstream bridges(embedded in i.MX8qm/qxp)
-to support LVDS displays:
-https://www.spinics.net/lists/arm-kernel/msg868239.html
-
-
-Patch 1 ~ 3 add dt-bindings for DPU and prefetch engines.
-Patch 4 is a minor improvement of a macro to suppress warning as the KMS driver
-uses it.
-Patch 5 introduces the DPU DRM support.
-Patch 6 updates MAINTAINERS.
-
-Welcome comments, thanks.
-
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
 v5->v6:
-* Use graph schema in the DPU dt-binding.
-* Do not use macros where possible in the DPU DRM driver. (Laurentiu)
-* Break dpu_plane_atomic_check() into some smaller functions. (Laurentiu)
-* Address some minor comments from Laurentiu on the DPU DRM driver.
-* Add dpu_crtc_err() helper marco in the DPU DRM driver to tell dmesg
-  which CRTC generates error.
-* Drop calling dev_set_drvdata() from dpu_drm_bind/unbind() in the DPU DRM
-  driver as it is done in dpu_drm_probe().
-* Some trivial tweaks.
+* Use graph schema. So, drop Rob's R-b tag as review is needed.
 
 v4->v5:
-* Rebase up onto the latest drm-misc-next branch and remove the hook to
-  drm_atomic_helper_legacy_gamma_set() from patch 5/6, because it was dropped
-  by the newly landed commit 'drm: automatic legacy gamma support'.
-* Remove a redundant blank line from dpu_plane_atomic_update() in patch 5/6.
+* No change.
 
 v3->v4:
-* Improve compatible properties in DPU and prefetch engines' dt bindings
-  by using enum instead of oneOf+const.
-* Add Rob's R-b tags on dt binding patches(patch 1/6, 2/6 and 3/6).
-* Add Daniel's A-b tag on patch 4/6.
+* Improve compatible property by using enum instead of oneOf+const. (Rob)
+* Add Rob's R-b tag.
 
 v2->v3:
-* Fix DPU DRM driver build warnings which are
-  Reported-by: kernel test robot <lkp@intel.com>.
-* Drop DPU DRM driver build dependency on IMX_SCU, as dummy SCU functions have
-  been added in header files by the patch 'firmware: imx: add dummy functions'
-  which has landed in linux-next/master branch.
-* Add a missing blank line in include/drm/drm_atomic.h.
+* No change.
 
 v1->v2:
-* Test this patch set also with i.MX8qm LVDS displays.
-* Drop the device tree patches because we'll use new dt binding way to
-  support i.MX8qm/qxp clocks.  This depends on a not-yet-landed patch set
-  to do basic conversions for the platforms.
-* Fix dt binding yamllint warnings.
-* Require bypass0 and bypass1 clocks for both i.MX8qxp and i.MX8qm in DPU's
-  dt binding documentation.
-* Use new dt binding way to add clocks in the dt binding examples.
-* Address several comments from Laurentiu on the DPU DRM patch.
+* Fix yamllint warnings.
+* Require bypass0 and bypass1 clocks for both i.MX8qxp and i.MX8qm, as the
+  display controller subsystem spec does say that they exist.
+* Use new dt binding way to add clocks in the example.
+* Trivial tweaks for the example.
 
-Liu Ying (6):
-  dt-bindings: display: imx: Add i.MX8qxp/qm DPU binding
-  dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
-  dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel binding
-  drm/atomic: Avoid unused-but-set-variable warning on
-    for_each_old_plane_in_state
-  drm/imx: Introduce i.MX8qm/qxp DPU DRM
-  MAINTAINERS: add maintainer for i.MX8qxp DPU DRM driver
-
- .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     |   87 ++
- .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      |  387 +++++++
- .../bindings/display/imx/fsl,imx8qxp-prg.yaml      |   60 ++
- MAINTAINERS                                        |    9 +
- drivers/gpu/drm/imx/Kconfig                        |    1 +
- drivers/gpu/drm/imx/Makefile                       |    1 +
- drivers/gpu/drm/imx/dpu/Kconfig                    |   10 +
- drivers/gpu/drm/imx/dpu/Makefile                   |   10 +
- drivers/gpu/drm/imx/dpu/dpu-constframe.c           |  171 +++
- drivers/gpu/drm/imx/dpu/dpu-core.c                 | 1094 ++++++++++++++++++++
- drivers/gpu/drm/imx/dpu/dpu-crtc.c                 |  967 +++++++++++++++++
- drivers/gpu/drm/imx/dpu/dpu-crtc.h                 |   66 ++
- drivers/gpu/drm/imx/dpu/dpu-disengcfg.c            |  117 +++
- drivers/gpu/drm/imx/dpu/dpu-dprc.c                 |  718 +++++++++++++
- drivers/gpu/drm/imx/dpu/dpu-dprc.h                 |   40 +
- drivers/gpu/drm/imx/dpu/dpu-drv.c                  |  292 ++++++
- drivers/gpu/drm/imx/dpu/dpu-drv.h                  |   28 +
- drivers/gpu/drm/imx/dpu/dpu-extdst.c               |  299 ++++++
- drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c          |  294 ++++++
- drivers/gpu/drm/imx/dpu/dpu-fetcheco.c             |  224 ++++
- drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c           |  154 +++
- drivers/gpu/drm/imx/dpu/dpu-fetchunit.c            |  609 +++++++++++
- drivers/gpu/drm/imx/dpu/dpu-fetchunit.h            |  191 ++++
- drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c            |  250 +++++
- drivers/gpu/drm/imx/dpu/dpu-framegen.c             |  395 +++++++
- drivers/gpu/drm/imx/dpu/dpu-gammacor.c             |  223 ++++
- drivers/gpu/drm/imx/dpu/dpu-hscaler.c              |  275 +++++
- drivers/gpu/drm/imx/dpu/dpu-kms.c                  |  540 ++++++++++
- drivers/gpu/drm/imx/dpu/dpu-kms.h                  |   23 +
- drivers/gpu/drm/imx/dpu/dpu-layerblend.c           |  348 +++++++
- drivers/gpu/drm/imx/dpu/dpu-plane.c                |  799 ++++++++++++++
- drivers/gpu/drm/imx/dpu/dpu-plane.h                |   56 +
- drivers/gpu/drm/imx/dpu/dpu-prg.c                  |  433 ++++++++
- drivers/gpu/drm/imx/dpu/dpu-prg.h                  |   45 +
- drivers/gpu/drm/imx/dpu/dpu-prv.h                  |  233 +++++
- drivers/gpu/drm/imx/dpu/dpu-tcon.c                 |  250 +++++
- drivers/gpu/drm/imx/dpu/dpu-vscaler.c              |  308 ++++++
- drivers/gpu/drm/imx/dpu/dpu.h                      |  385 +++++++
- include/drm/drm_atomic.h                           |    5 +-
- 39 files changed, 10396 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+ .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      | 387 +++++++++++++++++++++
+ 1 file changed, 387 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
- create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
- create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
- create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
 
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
+new file mode 100644
+index 00000000..9da9560
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
+@@ -0,0 +1,387 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX8qm/qxp Display Processing Unit
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  The Freescale i.MX8qm/qxp Display Processing Unit(DPU) is comprised of two
++  main components that include a blit engine for 2D graphics accelerations
++  and a display controller for display output processing, as well as a command
++  sequencer.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8qxp-dpu
++      - fsl,imx8qm-dpu
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: |
++          store9 shadow load interrupt(blit engine)
++      - description: |
++          store9 frame complete interrupt(blit engine)
++      - description: |
++          store9 sequence complete interrupt(blit engine)
++      - description: |
++          extdst0 shadow load interrupt
++          (display controller, content stream 0)
++      - description: |
++          extdst0 frame complete interrupt
++          (display controller, content stream 0)
++      - description: |
++          extdst0 sequence complete interrupt
++          (display controller, content stream 0)
++      - description: |
++          extdst4 shadow load interrupt
++          (display controller, safety stream 0)
++      - description: |
++          extdst4 frame complete interrupt
++          (display controller, safety stream 0)
++      - description: |
++          extdst4 sequence complete interrupt
++          (display controller, safety stream 0)
++      - description: |
++          extdst1 shadow load interrupt
++          (display controller, content stream 1)
++      - description: |
++          extdst1 frame complete interrupt
++          (display controller, content stream 1)
++      - description: |
++          extdst1 sequence complete interrupt
++          (display controller, content stream 1)
++      - description: |
++          extdst5 shadow load interrupt
++          (display controller, safety stream 1)
++      - description: |
++          extdst5 frame complete interrupt
++          (display controller, safety stream 1)
++      - description: |
++          extdst5 sequence complete interrupt
++          (display controller, safety stream 1)
++      - description: |
++          disengcfg0 shadow load interrupt
++          (display controller, display stream 0)
++      - description: |
++          disengcfg0 frame complete interrupt
++          (display controller, display stream 0)
++      - description: |
++          disengcfg0 sequence complete interrupt
++          (display controller, display stream 0)
++      - description: |
++          framegen0 programmable interrupt0
++          (display controller, display stream 0)
++      - description: |
++          framegen0 programmable interrupt1
++          (display controller, display stream 0)
++      - description: |
++          framegen0 programmable interrupt2
++          (display controller, display stream 0)
++      - description: |
++          framegen0 programmable interrupt3
++          (display controller, display stream 0)
++      - description: |
++          signature0 shadow load interrupt
++          (display controller, display stream 0)
++      - description: |
++          signature0 measurement valid interrupt
++          (display controller, display stream 0)
++      - description: |
++          signature0 error condition interrupt
++          (display controller, display stream 0)
++      - description: |
++          disengcfg1 shadow load interrupt
++          (display controller, display stream 1)
++      - description: |
++          disengcfg1 frame complete interrupt
++          (display controller, display stream 1)
++      - description: |
++          disengcfg1 sequence complete interrupt
++          (display controller, display stream 1)
++      - description: |
++          framegen1 programmable interrupt0
++          (display controller, display stream 1)
++      - description: |
++          framegen1 programmable interrupt1
++          (display controller, display stream 1)
++      - description: |
++          framegen1 programmable interrupt2
++          (display controller, display stream 1)
++      - description: |
++          framegen1 programmable interrupt3
++          (display controller, display stream 1)
++      - description: |
++          signature1 shadow load interrupt
++          (display controller, display stream 1)
++      - description: |
++          signature1 measurement valid interrupt
++          (display controller, display stream 1)
++      - description: |
++          signature1 error condition interrupt
++          (display controller, display stream 1)
++      - description: |
++          command sequencer error condition interrupt(command sequencer)
++      - description: |
++          common control software interrupt0(common control)
++      - description: |
++          common control software interrupt1(common control)
++      - description: |
++          common control software interrupt2(common control)
++      - description: |
++          common control software interrupt3(common control)
++      - description: |
++          framegen0 sychronization status activated interrupt
++          (display controller, safety stream 0)
++      - description: |
++          framegen0 sychronization status deactivated interrupt
++          (display controller, safety stream 0)
++      - description: |
++          framegen0 sychronization status activated interrupt
++          (display controller, content stream 0)
++      - description: |
++          framegen0 sychronization status deactivated interrupt
++          (display controller, content stream 0)
++      - description: |
++          framegen1 sychronization status activated interrupt
++          (display controller, safety stream 1)
++      - description: |
++          framegen1 sychronization status deactivated interrupt
++          (display controller, safety stream 1)
++      - description: |
++          framegen1 sychronization status activated interrupt
++          (display controller, content stream 1)
++      - description: |
++          framegen1 sychronization status deactivated interrupt
++          (display controller, content stream 1)
++
++  interrupt-names:
++    items:
++      - const: store9_shdload
++      - const: store9_framecomplete
++      - const: store9_seqcomplete
++      - const: extdst0_shdload
++      - const: extdst0_framecomplete
++      - const: extdst0_seqcomplete
++      - const: extdst4_shdload
++      - const: extdst4_framecomplete
++      - const: extdst4_seqcomplete
++      - const: extdst1_shdload
++      - const: extdst1_framecomplete
++      - const: extdst1_seqcomplete
++      - const: extdst5_shdload
++      - const: extdst5_framecomplete
++      - const: extdst5_seqcomplete
++      - const: disengcfg_shdload0
++      - const: disengcfg_framecomplete0
++      - const: disengcfg_seqcomplete0
++      - const: framegen0_int0
++      - const: framegen0_int1
++      - const: framegen0_int2
++      - const: framegen0_int3
++      - const: sig0_shdload
++      - const: sig0_valid
++      - const: sig0_error
++      - const: disengcfg_shdload1
++      - const: disengcfg_framecomplete1
++      - const: disengcfg_seqcomplete1
++      - const: framegen1_int0
++      - const: framegen1_int1
++      - const: framegen1_int2
++      - const: framegen1_int3
++      - const: sig1_shdload
++      - const: sig1_valid
++      - const: sig1_error
++      - const: cmdseq_error
++      - const: comctrl_sw0
++      - const: comctrl_sw1
++      - const: comctrl_sw2
++      - const: comctrl_sw3
++      - const: framegen0_primsync_on
++      - const: framegen0_primsync_off
++      - const: framegen0_secsync_on
++      - const: framegen0_secsync_off
++      - const: framegen1_primsync_on
++      - const: framegen1_primsync_off
++      - const: framegen1_secsync_on
++      - const: framegen1_secsync_off
++
++  clocks:
++    maxItems: 8
++
++  clock-names:
++    items:
++      - const: axi
++      - const: cfg
++      - const: pll0
++      - const: pll1
++      - const: bypass0
++      - const: bypass1
++      - const: disp0
++      - const: disp1
++
++  power-domains:
++    items:
++      - description: DC power-domain
++      - description: PLL0 power-domain
++      - description: PLL1 power-domain
++
++  power-domain-names:
++    items:
++      - const: dc
++      - const: pll0
++      - const: pll1
++
++  fsl,dpr-channels:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      List of phandle which points to DPR channels associated with
++      this DPU instance.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: The DPU output port node from display stream0.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: The DPU output port node from display stream1.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - clock-names
++  - power-domains
++  - power-domain-names
++  - fsl,dpr-channels
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8-lpcg.h>
++    #include <dt-bindings/firmware/imx/rsrc.h>
++    dpu@56180000 {
++        compatible = "fsl,imx8qxp-dpu";
++        reg = <0x56180000 0x40000>;
++        interrupt-parent = <&dc0_irqsteer>;
++        interrupts = <448>, <449>, <450>,  <64>,
++                      <65>,  <66>,  <67>,  <68>,
++                      <69>,  <70>, <193>, <194>,
++                     <195>, <196>, <197>,  <72>,
++                      <73>,  <74>,  <75>,  <76>,
++                      <77>,  <78>,  <79>,  <80>,
++                      <81>, <199>, <200>, <201>,
++                     <202>, <203>, <204>, <205>,
++                     <206>, <207>, <208>,   <0>,
++                       <1>,   <2>,   <3>,   <4>,
++                      <82>,  <83>,  <84>,  <85>,
++                     <209>, <210>, <211>, <212>;
++        interrupt-names = "store9_shdload",
++                          "store9_framecomplete",
++                          "store9_seqcomplete",
++                          "extdst0_shdload",
++                          "extdst0_framecomplete",
++                          "extdst0_seqcomplete",
++                          "extdst4_shdload",
++                          "extdst4_framecomplete",
++                          "extdst4_seqcomplete",
++                          "extdst1_shdload",
++                          "extdst1_framecomplete",
++                          "extdst1_seqcomplete",
++                          "extdst5_shdload",
++                          "extdst5_framecomplete",
++                          "extdst5_seqcomplete",
++                          "disengcfg_shdload0",
++                          "disengcfg_framecomplete0",
++                          "disengcfg_seqcomplete0",
++                          "framegen0_int0",
++                          "framegen0_int1",
++                          "framegen0_int2",
++                          "framegen0_int3",
++                          "sig0_shdload",
++                          "sig0_valid",
++                          "sig0_error",
++                          "disengcfg_shdload1",
++                          "disengcfg_framecomplete1",
++                          "disengcfg_seqcomplete1",
++                          "framegen1_int0",
++                          "framegen1_int1",
++                          "framegen1_int2",
++                          "framegen1_int3",
++                          "sig1_shdload",
++                          "sig1_valid",
++                          "sig1_error",
++                          "cmdseq_error",
++                          "comctrl_sw0",
++                          "comctrl_sw1",
++                          "comctrl_sw2",
++                          "comctrl_sw3",
++                          "framegen0_primsync_on",
++                          "framegen0_primsync_off",
++                          "framegen0_secsync_on",
++                          "framegen0_secsync_off",
++                          "framegen1_primsync_on",
++                          "framegen1_primsync_off",
++                          "framegen1_secsync_on",
++                          "framegen1_secsync_off";
++        clocks = <&dc0_dpu_lpcg IMX_LPCG_CLK_5>,
++                 <&dc0_dpu_lpcg IMX_LPCG_CLK_4>,
++                 <&clk IMX_SC_R_DC_0_PLL_0 IMX_SC_PM_CLK_PLL>,
++                 <&clk IMX_SC_R_DC_0_PLL_1 IMX_SC_PM_CLK_PLL>,
++                 <&clk IMX_SC_R_DC_0_VIDEO0 IMX_SC_PM_CLK_BYPASS>,
++                 <&clk IMX_SC_R_DC_0_VIDEO1 IMX_SC_PM_CLK_BYPASS>,
++                 <&dc0_disp_lpcg IMX_LPCG_CLK_0>,
++                 <&dc0_disp_lpcg IMX_LPCG_CLK_1>;
++        clock-names = "axi", "cfg",
++                      "pll0", "pll1", "bypass0", "bypass1",
++                      "disp0", "disp1";
++        power-domains = <&pd IMX_SC_R_DC_0>,
++                        <&pd IMX_SC_R_DC_0_PLL_0>,
++                        <&pd IMX_SC_R_DC_0_PLL_1>;
++        power-domain-names = "dc", "pll0", "pll1";
++        fsl,dpr-channels = <&dc0_dpr1_channel1>,
++                           <&dc0_dpr1_channel2>,
++                           <&dc0_dpr1_channel3>,
++                           <&dc0_dpr2_channel1>,
++                           <&dc0_dpr2_channel2>,
++                           <&dc0_dpr2_channel3>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                dpu0_disp0_pixel_combiner0_ch0: endpoint {
++                    remote-endpoint = <&pixel_combiner0_ch0_dpu0_disp0>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                dpu0_disp1_pixel_combiner0_ch1: endpoint {
++                    remote-endpoint = <&pixel_combiner0_ch1_dpu0_disp1>;
++                };
++            };
++        };
++    };
 -- 
 2.7.4
 
