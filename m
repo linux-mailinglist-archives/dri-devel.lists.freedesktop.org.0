@@ -1,42 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813542FE4C8
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:19:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095082FE4E1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACD16E520;
-	Thu, 21 Jan 2021 08:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E43996E516;
+	Thu, 21 Jan 2021 08:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D37D6E516
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 08:19:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65E1723976;
- Thu, 21 Jan 2021 08:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611217141;
- bh=hhhptWrujcElAbSl2ou/FOxBVarF2/4ZICpA78koQKY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mOSdaqmeY7neZr1NBdUhHGAUKUpB/zX8/VLMLHq0RUKZrQm5L/GslnlEd/F0MmgDs
- KmDJSbUyVPrRRYMjLpHTZFacGkiu2MzPBeB3+ZF/hGQ26lmZlKTazZ/o2LlxuL1E39
- DA0psnM6msta+GWNePYVYBp/ct2i+jmVrMIK399eteygz67RoZmJC+y4azViV7HWQV
- vSzPpc1cJT/RDpgUL4SCbxvsQK27k3yNIIoadcN/3PCMYc1QBowK9ToZ3eru3tWvGG
- oOS/WNXftOI/g647lAalt85eSJoVi4EI92NujfyXHBgXEm3dIzVO55Mbw7q9I2+3rC
- gwZRcTkLQpEFA==
-Date: Thu, 21 Jan 2021 09:18:55 +0100
-From: Matthias Brugger <matthias.bgg@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v2 3/5] drm/mediatek: Change disp/ddp term to mutex in
- mtk mutex driver
-Message-ID: <YAk4722oCzcegGdx@ziggy.stardust>
-References: <20210106231729.17173-1-chunkuang.hu@kernel.org>
- <20210106231729.17173-4-chunkuang.hu@kernel.org>
- <YAh2JGUUpMcgyke0@ziggy.stardust>
- <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C64CC6E516
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 08:25:51 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id q25so1308950oij.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 00:25:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dcZ1FYPsDBKXN3hC2IcAkzYMcxDaDlTQqW6wszGPCkA=;
+ b=YufljbHlHbmx/xR31VlXerp95BT7cxahfNrgURan972flhmsJdRcjQQZPRQWrNUYh4
+ CnnyhIjhUyKVgMeBMcRkWiTtjRH1msLOlPhiWTVc6MPBTrLwIF55Jy/g9n0z5adm/DV4
+ 9g0IgTn9NeBXXyMQuIXUYV37SgwCy062PaU3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dcZ1FYPsDBKXN3hC2IcAkzYMcxDaDlTQqW6wszGPCkA=;
+ b=Mf8AOZprfvCQkQUdh4tW5SGM2sSF/oROX/DfhetEk8e+NBdTaHGH9Pdv4IqCoXNxb5
+ 7TX39UpwUwhSmHSBW7GXVgthd/D+g56AC8T4TSPb5j3T0if8d35PeHWXjcFvEejJ0mhm
+ 8b2Q3VO8/Jg7ljhVbsLI5+0K5M/Kn4bs5dgFnk7Hsy2HP+we3phxE32Ilwhk28XTe+Oa
+ ghbNbJbdhiPwxgYvWy6KwcI0JZHx6wrfYxoiSEcr4riUticR6U+RGSiGtosfuLN5CP1L
+ y8Yvh7h1UVnmlY95ULXzlTXFz7cnW7mCkx3WA/HpRHiElcHm6nzSJwL0D8pEySPcg3/6
+ KGyw==
+X-Gm-Message-State: AOAM530sKQ1DIVFdEBHivhMuIoY7QZPVwnY81W6zxujLL09IR1fKD8mp
+ H9tAPgW+ssYmhgOWVfJTWUH62uBJm5FAjdIISqv8XQ==
+X-Google-Smtp-Source: ABdhPJzz0JkV/k4V0avoNCaP5d/Ro05hcp5CHt9s45BuCIcuqAorp3oRURqBTkqgwJQymAvgou+9FyRGO03Vf0s8NqQ=
+X-Received: by 2002:aca:ad92:: with SMTP id w140mr5398682oie.128.1611217551051; 
+ Thu, 21 Jan 2021 00:25:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
+References: <20210121074959.313333-1-hch@lst.de>
+ <20210121074959.313333-9-hch@lst.de>
+In-Reply-To: <20210121074959.313333-9-hch@lst.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 21 Jan 2021 09:25:40 +0100
+Message-ID: <CAKMK7uFo3epNAUdcp0vvW=VyWMMTZghGyRTPbz_Z37S6nem_2A@mail.gmail.com>
+Subject: Re: [PATCH 08/13] drm: remove drm_fb_helper_modinit
+To: Christoph Hellwig <hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,65 +58,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ linux-kbuild <linux-kbuild@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Masahiro Yamada <masahiroy@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michal Marek <michal.lkml@markovi.net>, Joe Lawrence <joe.lawrence@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, live-patching@vger.kernel.org,
+ Miroslav Benes <mbenes@suse.cz>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMDc6NDY6NDRBTSArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3
-cm90ZToKPiBIaSwgTWF0dGhpYXM6Cj4gCj4gTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdn
-QGtlcm5lbC5vcmc+IOaWvCAyMDIx5bm0MeaciDIx5pelIOmAseWbmyDkuIrljYgyOjI35a+r6YGT
-77yaCj4gPgo+ID4gT24gVGh1LCBKYW4gMDcsIDIwMjEgYXQgMDc6MTc6MjdBTSArMDgwMCwgQ2h1
-bi1LdWFuZyBIdSB3cm90ZToKPiA+ID4gRnJvbTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4K
-PiA+ID4KPiA+ID4gbXRrIG11dGV4IGlzIHVzZWQgYnkgYm90aCBkcm0gYW5kIG1kcCBkcml2ZXIs
-IHNvIGNoYW5nZSBkaXNwL2RkcCB0ZXJtIHRvCj4gPiA+IG11dGV4IHRvIHNob3cgdGhhdCBpdCdz
-IGEgY29tbW9uIGRyaXZlciBmb3IgZHJtIGFuZCBtZHAuCj4gPiA+Cj4gPiA+IFNpZ25lZC1vZmYt
-Ynk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IENodW4t
-S3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyB8ICAzMCArLS0KPiA+ID4gIGRyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICB8ICAgMiArLQo+ID4gPiAgZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmggIHwgICAyICstCj4gPiA+ICBkcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMgICAgfCAzMDUgKysrKysrKysrKysrLS0tLS0t
-LS0tLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmggICAgfCAg
-MjYgKy0KPiA+ID4gIDUgZmlsZXMgY2hhbmdlZCwgMTgyIGluc2VydGlvbnMoKyksIDE4MyBkZWxl
-dGlvbnMoLSkKPiA+ID4KPiA+IFsuLi5dCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX211dGV4LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211
-dGV4LmMKPiA+ID4gaW5kZXggMWM4YTI1M2Y0Nzg4Li45OGEwNjBiZjIyNWQgMTAwNjQ0Cj4gPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXV0ZXguYwo+ID4gPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX211dGV4LmMKPiA+IFsuLi5dCj4gPiA+Cj4gPiA+
-IC1zdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBkZHBfZHJpdmVyX2R0X21hdGNoW10g
-PSB7Cj4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdXRleF9kcml2ZXJf
-ZHRfbWF0Y2hbXSA9IHsKPiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3
-MDEtZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQyNzAxX2RkcF9kcml2ZXJf
-ZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAmbXQyNzAxX211dGV4X2RyaXZlcl9kYXRhfSwK
-PiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MTItZGlzcC1tdXRleCIs
-Cj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQyNzEyX2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsg
-ICAgICAgLmRhdGEgPSAmbXQyNzEyX211dGV4X2RyaXZlcl9kYXRhfSwKPiA+ID4gICAgICAgeyAu
-Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNjctZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAg
-LmRhdGEgPSAmbXQ4MTY3X2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAm
-bXQ4MTY3X211dGV4X2RyaXZlcl9kYXRhfSwKPiA+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJt
-ZWRpYXRlayxtdDgxNzMtZGlzcC1tdXRleCIsCj4gPiA+IC0gICAgICAgLmRhdGEgPSAmbXQ4MTcz
-X2RkcF9kcml2ZXJfZGF0YX0sCj4gPiA+ICsgICAgICAgLmRhdGEgPSAmbXQ4MTczX211dGV4X2Ry
-aXZlcl9kYXRhfSwKPiA+ID4gICAgICAge30sCj4gPiA+ICB9Owo+ID4gPiAtTU9EVUxFX0RFVklD
-RV9UQUJMRShvZiwgZGRwX2RyaXZlcl9kdF9tYXRjaCk7Cj4gPiA+ICtNT0RVTEVfREVWSUNFX1RB
-QkxFKG9mLCBtdXRleF9kcml2ZXJfZHRfbWF0Y2gpOwo+ID4KPiA+IEkgdGhpbmsgaXQgd291bGQg
-bWFrZSBzZW5zZSBpbiBhIGZvbGxvdy11cCBwYXRjaCB0byB1cGRhdGUgdGhlIGJpbmRpbmcKPiA+
-IHRvIHVzZSAibWVkaWF0ZWssbXQyNzAxLW11dGV4IiB0byByZWZsZWN0IHRoYXQgbXV0ZXggaXMg
-dXNlZCBmb3IgZHJtIGFuZAo+ID4gbWRwIGRyaXZlci4gTWFrZSBzZW5zZT8KPiAKPiBZZXMsIGl0
-IG1ha2Ugc2Vuc2UuIEkgd291bGQgdHJ5IHRvIHVwZGF0ZSB0aGUgYmluZGluZywgYnV0IEkgd29u
-ZGVyCj4gZGV2aWNlIHRyZWUgc2hvdWxkIGJlIGJhY2t3YXJkIGNvbXBhdGlibGU/IExldCdzIGRp
-c2N1c3MgaW4gdGhhdAo+IGZvbGxvdy11cCBwYXRjaGVzLgo+IAoKRnJvbSBteSB1bmRlcnN0YW5k
-aW5nLCB3ZSB3aWxsIG5lZWQgdG8ga2VlcCB0aGUgb2ZfZGV2aWNlX2lkIGVudHJpZXMgZm9yCnRo
-ZSBvbGQgYmluZGluZyBpbiB0aGUgZHJpdmVyIChzbyB0aGF0IG9sZCBEVHMgc3RpbGwgd29yaykg
-d2hpbGUgd2UKc2hvdWxkIGVuZm9yY2UgdGhlIG5ldyBiaW5kaW5nLiBJJ20gbm90IHN1cmUgaWYg
-dGhlIHlhbWwgaGFzIGEgb3B0aW9uCmZvciBvdXQtb2YtZGF0ZSBjb21wYXRpYmxlcy4KClJlZ2Fy
-ZHMsCk1hdHRoaWFzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Thu, Jan 21, 2021 at 8:55 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> drm_fb_helper_modinit has a lot of boilerplate for what is not very
+> simple functionality.  Just open code it in the only caller using
+> IS_ENABLED and IS_MODULE.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+I didn't spot any dependencies with your series, should I just merge
+this through drm trees? Or do you want an ack?
+-Daniel
+
+> ---
+>  drivers/gpu/drm/drm_crtc_helper_internal.h | 10 ---------
+>  drivers/gpu/drm/drm_fb_helper.c            | 16 -------------
+>  drivers/gpu/drm/drm_kms_helper_common.c    | 26 +++++++++++-----------
+>  3 files changed, 13 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index 25ce42e799952c..61e09f8a8d0ff0 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -32,16 +32,6 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_modes.h>
+>
+> -/* drm_fb_helper.c */
+> -#ifdef CONFIG_DRM_FBDEV_EMULATION
+> -int drm_fb_helper_modinit(void);
+> -#else
+> -static inline int drm_fb_helper_modinit(void)
+> -{
+> -       return 0;
+> -}
+> -#endif
+> -
+>  /* drm_dp_aux_dev.c */
+>  #ifdef CONFIG_DRM_DP_AUX_CHARDEV
+>  int drm_dp_aux_dev_init(void);
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index ce6d63ca75c32a..0b9f1ae1b7864c 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -2499,19 +2499,3 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+>         drm_client_register(&fb_helper->client);
+>  }
+>  EXPORT_SYMBOL(drm_fbdev_generic_setup);
+> -
+> -/* The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> - * but the module doesn't depend on any fb console symbols.  At least
+> - * attempt to load fbcon to avoid leaving the system without a usable console.
+> - */
+> -int __init drm_fb_helper_modinit(void)
+> -{
+> -#if defined(CONFIG_FRAMEBUFFER_CONSOLE_MODULE) && !defined(CONFIG_EXPERT)
+> -       const char name[] = "fbcon";
+> -
+> -       if (!module_loaded(name))
+> -               request_module_nowait(name);
+> -#endif
+> -       return 0;
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_modinit);
+> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+> index 221a8528c9937a..b694a7da632eae 100644
+> --- a/drivers/gpu/drm/drm_kms_helper_common.c
+> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
+> @@ -64,19 +64,19 @@ MODULE_PARM_DESC(edid_firmware,
+>
+>  static int __init drm_kms_helper_init(void)
+>  {
+> -       int ret;
+> -
+> -       /* Call init functions from specific kms helpers here */
+> -       ret = drm_fb_helper_modinit();
+> -       if (ret < 0)
+> -               goto out;
+> -
+> -       ret = drm_dp_aux_dev_init();
+> -       if (ret < 0)
+> -               goto out;
+> -
+> -out:
+> -       return ret;
+> +       /*
+> +        * The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> +        * but the module doesn't depend on any fb console symbols.  At least
+> +        * attempt to load fbcon to avoid leaving the system without a usable
+> +        * console.
+> +        */
+> +       if (IS_ENABLED(CONFIG_DRM_FBDEV_EMULATION) &&
+> +           IS_MODULE(CONFIG_FRAMEBUFFER_CONSOLE) &&
+> +           !IS_ENABLED(CONFIG_EXPERT) &&
+> +           !module_loaded("fbcon"))
+> +               request_module_nowait("fbcon");
+> +
+> +       return drm_dp_aux_dev_init();
+>  }
+>
+>  static void __exit drm_kms_helper_exit(void)
+> --
+> 2.29.2
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
