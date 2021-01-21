@@ -2,57 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528382FFE84
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC07D2FFE86
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6C526E9BB;
-	Fri, 22 Jan 2021 08:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52EDA6E9C3;
+	Fri, 22 Jan 2021 08:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1195 seconds by postgrey-1.36 at gabe;
- Thu, 21 Jan 2021 10:20:19 UTC
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAC889654
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 10:20:19 +0000 (UTC)
-Received: from localhost (mailhub1-int [192.168.12.234])
- by localhost (Postfix) with ESMTP id 4DLyYw37yGz9v6LH;
- Thu, 21 Jan 2021 11:00:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id gZx8YCs2vO5j; Thu, 21 Jan 2021 11:00:20 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 4DLyYw1bykz9v6L8;
- Thu, 21 Jan 2021 11:00:20 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 644DE8B7FC;
- Thu, 21 Jan 2021 11:00:21 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id GUfPkvtK1UQx; Thu, 21 Jan 2021 11:00:21 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 51AC08B771;
- Thu, 21 Jan 2021 11:00:20 +0100 (CET)
-Subject: Re: [PATCH 02/13] module: add a module_loaded helper
-To: Christoph Hellwig <hch@lst.de>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jessica Yu <jeyu@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>
-References: <20210121074959.313333-1-hch@lst.de>
- <20210121074959.313333-3-hch@lst.de>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <844a7fc3-2cba-46d2-fd4e-e5fe16b08573@csgroup.eu>
-Date: Thu, 21 Jan 2021 11:00:20 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 934456E52C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 10:58:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4D46B5C010E;
+ Thu, 21 Jan 2021 05:58:05 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 21 Jan 2021 05:58:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=bCttatL+/9UPxzkN/HTHwa5z7a
+ 1198krHiS9aMjLURw=; b=fFxdQC5Xlx2PiDSEciS/WrlUjhG7jl/5VOV5WtsYMI
+ fiplSLm+MXdRFeJkay0sbHveSqr/SVwsBTyYdhhULLipdRIBGIPjayw47hpA6sOc
+ WqGjj/0C1KzRjksEO2OClKWPw/MZNh6HCzWtgNymGPrnakdfpbYpmJ4kaQjUd33A
+ NX6Boev9iZ/mMY0RGtCG4angNZ/Vtiere+afx74YdyOCXgXUHkMn0WX1VSmwTx5k
+ 1PbKQ/jDzIFe82b/OGLcZAP8OK5llJdrYgguEncw3sejB8Hww84+5kKRmNTsXZUd
+ 2/3ZOtzDBEHuPzKA5gHkxa/xkxVQk2cNNmraFQRhDmqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=bCttatL+/9UPxzkN/
+ HTHwa5z7a1198krHiS9aMjLURw=; b=kRDAa3W2z301DKveDjnYTBqV/tPK/8iko
+ 9nEgcBvjfAqtniFoTmgDjVl/Iw258ck5luo/cr0pEbvzutd+N+iTesPVahID6bg6
+ MiABT9MTKvS2AxdFEjdEX4IZ9JtpBkBvkbVMzcLPRqbdF6G0EfUUzj3iy3Qu3d3q
+ W4rTXNaHJsIenQeu2hm8BNKwLJqfMzosbwhWwivR/jjchoXUEchh9CKy7EEiSkiC
+ W2I3RFQ6wT0mBGUtTyEF6ZBCOO1LLmbQhUFhd+tSOKug/xYoqBLu1Bz+3wnkEeTT
+ 6plr9yhwESvTpW9dm4SX3TvbXpGW2/5+lvfte785ED7qlwzGMJJqw==
+X-ME-Sender: <xms:PF4JYOJTwJBh1ZC-gYfcbmu-zaDffKeyt5GfS7OznBYsbRSnOMgfNQ>
+ <xme:PF4JYGFEDia8MAw-lZzTmvwOMgfSUnAQcAQVovdiDgW0gf24P8u_Nk-n2vBEdceCG
+ mwf_ROGcOEXgmbnSCg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggddvfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:PF4JYLk4E872nEFIE8yUOuzyTuFgDdXsM4Wi6NYCP9kSOiklUG-Cyw>
+ <xmx:PF4JYLJJXH0DRBdE85C5OsdcUmmnpGoJNZE_1VUp_wN07Gqbz08qNw>
+ <xmx:PF4JYEZWmKWyQhHwr0LR7z06F7WIsEn4sUzpAjv6LsMOFnZb39rX_w>
+ <xmx:PV4JYMWakpiYaD62ZF3OL5z8QJn0VuLver7tppN6PAsYr0XnxYHUgA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2C3CD1080064;
+ Thu, 21 Jan 2021 05:58:04 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/vc4: Correct lbm size and calculation
+Date: Thu, 21 Jan 2021 11:57:58 +0100
+Message-Id: <20210121105759.1262699-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210121074959.313333-3-hch@lst.de>
-Content-Language: fr
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,35 +76,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Dom Cobley <popcornmix@gmail.com>,
+ Ryutaroh Matsumoto <ryutaroh@ict.e.titech.ac.jp>,
+ Lucas Nussbaum <lucas@debian.org>, Maxime Ripard <maxime@cerno.tech>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgoKTGUgMjEvMDEvMjAyMSDDoCAwODo0OSwgQ2hyaXN0b3BoIEhlbGx3aWcgYSDDqWNyaXQgOgog
-PiBBZGQgYSBoZWxwZXIgdGhhdCB0YWtlcyBtb2R1bGVzX211dGV4IGFuZCB1c2VzIGZpbmRfbW9k
-dWxlIHRvIGNoZWNrIGlmIGEKID4gZ2l2ZW4gbW9kdWxlIGlzIGxvYWRlZC4gIFRoaXMgcHJvdmlk
-ZXMgYSBiZXR0ZXIgYWJzdHJhY3Rpb24gZm9yIHRoZSB0d28KID4gY2FsbGVycywgYW5kIGFsbG93
-cyB0byB1bmV4cG9ydCBtb2R1bGVzX211dGV4IGFuZCBmaW5kX21vZHVsZS4KID4KID4gU2lnbmVk
-LW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+CiA+IC0tLQogPiAgIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgfCAgNyArLS0tLS0tCiA+ICAgaW5jbHVkZS9saW51
-eC9tb2R1bGUuaCAgICAgICAgICB8ICAzICsrKwogPiAgIGtlcm5lbC9tb2R1bGUuYyAgICAgICAg
-ICAgICAgICAgfCAxNCArKysrKysrKysrKystLQogPiAgIGtlcm5lbC90cmFjZS90cmFjZV9rcHJv
-YmUuYyAgICAgfCAgNCArLS0tCiA+ICAgNCBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCsp
-LCAxMSBkZWxldGlvbnMoLSkKID4KCiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L21vZHVs
-ZS5oIGIvaW5jbHVkZS9saW51eC9tb2R1bGUuaAogPiBpbmRleCA3YTBiY2I1YjFmZmNjZC4uYjQ2
-NTRmOGE0MDgxMzQgMTAwNjQ0CiA+IC0tLSBhL2luY2x1ZGUvbGludXgvbW9kdWxlLmgKID4gKysr
-IGIvaW5jbHVkZS9saW51eC9tb2R1bGUuaAogPiBAQCAtNTg5LDYgKzU4OSw5IEBAIHN0YXRpYyBp
-bmxpbmUgYm9vbCB3aXRoaW5fbW9kdWxlKHVuc2lnbmVkIGxvbmcgYWRkciwgY29uc3Qgc3RydWN0
-IG1vZHVsZSAqbW9kKQogPiAgIC8qIFNlYXJjaCBmb3IgbW9kdWxlIGJ5IG5hbWU6IG11c3QgaG9s
-ZCBtb2R1bGVfbXV0ZXguICovCiA+ICAgc3RydWN0IG1vZHVsZSAqZmluZF9tb2R1bGUoY29uc3Qg
-Y2hhciAqbmFtZSk7CiA+ICAgKy8qIENoZWNrIGlmIGEgbW9kdWxlIGlzIGxvYWRlZC4gKi8KID4g
-K2Jvb2wgbW9kdWxlX2xvYWRlZChjb25zdCBjaGFyICpuYW1lKTsKCk1heWJlIG1vZHVsZV9pc19s
-b2FkZWQoKSB3b3VsZCBiZSBhIGJldHRlciBuYW1lLgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Dom Cobley <popcornmix@gmail.com>
+
+LBM base address is measured in units of pixels per cycle.
+That is 4 for 2711 (hvs5) and 2 for 2708.
+
+We are wasting 75% of lbm by indexing without the scaling.
+But we were also using too high a size for the lbm resulting
+in partial corruption (right hand side) of vertically
+scaled images, usually at 4K or lower resolutions with more layers.
+
+The physical RAM of LBM on 2711 is 8 * 1920 * 16 * 12-bit
+(pixels are stored 12-bits per component regardless of format).
+
+The LBM adress indexes work in units of pixels per clock,
+so for 4 pixels per clock that means we have 32 * 1920 = 60K
+
+Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hvs.c   | 8 ++++----
+ drivers/gpu/drm/vc4/vc4_plane.c | 7 ++++++-
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 2b3a597fa65f..c239045e05d6 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -622,11 +622,11 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+ 	 * for now we just allocate globally.
+ 	 */
+ 	if (!hvs->hvs5)
+-		/* 96kB */
+-		drm_mm_init(&hvs->lbm_mm, 0, 96 * 1024);
++		/* 48k words of 2x12-bit pixels */
++		drm_mm_init(&hvs->lbm_mm, 0, 48 * 1024);
+ 	else
+-		/* 70k words */
+-		drm_mm_init(&hvs->lbm_mm, 0, 70 * 2 * 1024);
++		/* 60k words of 4x12-bit pixels */
++		drm_mm_init(&hvs->lbm_mm, 0, 60 * 1024);
+ 
+ 	/* Upload filter kernels.  We only have the one for now, so we
+ 	 * keep it around for the lifetime of the driver.
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 6bd8260aa9f2..b98eabb52920 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -437,6 +437,7 @@ static void vc4_write_ppf(struct vc4_plane_state *vc4_state, u32 src, u32 dst)
+ static u32 vc4_lbm_size(struct drm_plane_state *state)
+ {
+ 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
++	struct vc4_dev *vc4 = to_vc4_dev(state->plane->dev);
+ 	u32 pix_per_line;
+ 	u32 lbm;
+ 
+@@ -472,7 +473,11 @@ static u32 vc4_lbm_size(struct drm_plane_state *state)
+ 		lbm = pix_per_line * 16;
+ 	}
+ 
+-	lbm = roundup(lbm, 32);
++	/* Align it to 64 or 128 (hvs5) bytes */
++	lbm = roundup(lbm, vc4->hvs->hvs5 ? 128 : 64);
++
++	/* Each "word" of the LBM memory contains 2 or 4 (hvs5) pixels */
++	lbm /= vc4->hvs->hvs5 ? 4 : 2;
+ 
+ 	return lbm;
+ }
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
