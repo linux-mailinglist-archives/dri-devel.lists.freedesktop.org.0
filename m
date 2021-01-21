@@ -1,83 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57FF2FFE7B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDAC2FFE98
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1A76E9B6;
-	Fri, 22 Jan 2021 08:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5BAA6E9E8;
+	Fri, 22 Jan 2021 08:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
- Thu, 21 Jan 2021 17:04:23 UTC
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C57B6E0B6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 17:04:23 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B6009b2e90001>; Thu, 21 Jan 2021 08:59:21 -0800
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Jan
- 2021 16:59:21 +0000
-Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL103.nvidia.com
- (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Jan
- 2021 16:59:14 +0000
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 21 Jan 2021 16:59:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UhDtqBuzDQvA0i7uixdE9lRLyH8FXSlkzPRTOyevmvzsRFV1gDBSx1UfugCzoUKchMMlXm6afX9IW7+F7wMWXZsdgmNRFdEHUzHm8GMSwiYKU71VeIf8lL20bJwX4tpeTjrGenVL2w2qufqe4CS/MymfzRJ6zewTyWt8xkTH/AZX5f123gBA0Eu5M85JecAffxsLzJMz0REJ3BbJ7m/5V21Nofb+TvDMMO8OIv6W5E4VQ2BOCedkr+Ns8BpXl1foO6JbAIBTcOfhLVzqSYaQ5gn2qpYPoBVMMlljeY+HJmO4dvFbc9ldYaSIABvZfKy/UTSSI2NFRB9y7cphKNOMqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ySgBPBUcnGhRCLdVhLCCc2WbSy0IU7H6SBuWiaOIui4=;
- b=CLqH+6WqAGI+sKKUtMEZSlTe0cU+OdyHDN2xwUTqTxjxFdVqbEitCp4coK4zJ0kP3xjmof0XoMVJsZ+u737HlSFgv3Kk9OoCSrfcSHpbIAltT9cKKoj4DHlZN3T182HfDI/DHFRH0XE9i67yP72/hnYotL618t40gF8vjeK+MfT5yOOzb9glVElO8kQmu5JB3mXUHbYwnu0GACU1BSXYgmJ8+5K15/oV7D/xjFkCBb9DD8M1oXrB2Gi85G5QgcEk2GbEZW5QEaCST3Z69YjwmVUccvWd8zs84Ubx9fPnifoy+7IK7omWIdIKTjrgn5Qx70yi0gcV1c1vbnYIzCumNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1434.namprd12.prod.outlook.com (2603:10b6:3:77::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Thu, 21 Jan
- 2021 16:59:10 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::546d:512c:72fa:4727]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::546d:512c:72fa:4727%7]) with mapi id 15.20.3784.011; Thu, 21 Jan 2021
- 16:59:10 +0000
-Date: Thu, 21 Jan 2021 12:59:08 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-Message-ID: <20210121165908.GA1145246@nvidia.com>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
-Content-Disposition: inline
-In-Reply-To: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
-X-ClientProxiedBy: BL1PR13CA0535.namprd13.prod.outlook.com
- (2603:10b6:208:2c5::30) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by
- BL1PR13CA0535.namprd13.prod.outlook.com (2603:10b6:208:2c5::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.5 via Frontend
- Transport; Thu, 21 Jan 2021 16:59:10 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1l2dIa-0056pd-94; Thu, 21 Jan 2021 12:59:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1611248361; bh=ySgBPBUcnGhRCLdVhLCCc2WbSy0IU7H6SBuWiaOIui4=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=EuIzT32YP7C8ZS0pDPNz/sFmTO4qVhk7JBG2tF5S9H/KQjRfGUsgKRD75nk4QeEvp
- vVW9DrssGx/4nfOiHgVilbocGnJjQIDEmOWhgSx2wTriNCvF6Yy0dVO5XT9D8aFOTe
- LOyJGDKh+tDhvwxD26lh0D6week6VGBiclsYVjU1G/mh90JcSgCAUyKvb6xQ2Gdpt4
- S5udfZQm/ZFaj3go+7IihAug4ZATk4Tk1HpFQmXnNME4a6sFdlxr4ZGjQd8E4AWAry
- gmqXXlIbC3VhAvd6GHW1RY2MaICdbpdIwAFQgQSPGkSR7dnZJNmywvOd2PvOM7PYPt
- PHrmSPSFZ8nkg==
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B79D389D53
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 17:05:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8098911B3;
+ Thu, 21 Jan 2021 09:05:15 -0800 (PST)
+Received: from e123648.arm.com (unknown [10.57.7.131])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDA7E3F66E;
+ Thu, 21 Jan 2021 09:05:12 -0800 (PST)
+From: Lukasz Luba <lukasz.luba@arm.com>
+To: linux-kernel@vger.kernel.org, steven.price@arm.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/panfrost: Add governor data with pre-defined thresholds
+Date: Thu, 21 Jan 2021 17:04:45 +0000
+Message-Id: <20210121170445.19761-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,68 +38,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug
- Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: tomeu.vizoso@collabora.com, daniel.lezcano@linaro.org,
+ dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ lukasz.luba@arm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 15, 2020 at 01:27:12PM -0800, Jianxin Xiong wrote:
-> Jianxin Xiong (4):
->   RDMA/umem: Support importing dma-buf as user memory region
->   RDMA/core: Add device method for registering dma-buf based memory
->     region
->   RDMA/uverbs: Add uverbs command for dma-buf based MR registration
->   RDMA/mlx5: Support dma-buf based userspace memory region
+The simple_ondemand devfreq governor uses two thresholds to decide about
+the frequency change: upthreshold, downdifferential. These two tunable
+change the behavior of the governor decision, e.g. how fast to increase
+the frequency or how rapidly limit the frequency. This patch adds needed
+governor data with thresholds values gathered experimentally in different
+workloads.
 
-I applied the below fix for rereg, but otherwise took this to rdma's
-for-next
+Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+---
+Hi all,
 
-Thanks,
-Jason
+This patch aims to improve the panfrost performance in various workloads,
+(benchmarks, games). The simple_ondemand devfreq governor supports
+tunables to tweak the behaviour of the internal algorithm. The default
+values for these two thresholds (90 and 5) do not work well with panfrost.
+These new settings should provide good performance, short latency for
+rising the frequency due to rapid workload change and decent freq slow
+down when the load is decaying. Based on frequency change statistics,
+gathered during experiments, all frequencies are used, depending on
+the load. This provides some power savings (statistically). The highest
+frequency is also used when needed.
 
-diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
-index f9ca19fa531b45..a63ef7c66e383d 100644
---- a/drivers/infiniband/hw/mlx5/mr.c
-+++ b/drivers/infiniband/hw/mlx5/mr.c
-@@ -1825,9 +1825,6 @@ struct ib_mr *mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
- 	if (flags & ~(IB_MR_REREG_TRANS | IB_MR_REREG_PD | IB_MR_REREG_ACCESS))
- 		return ERR_PTR(-EOPNOTSUPP);
+Example glmark2 results:
+1. freq fixed to max: 153
+2. these new thresholds values (w/ patch): 151
+3. default governor values (w/o patch): 114
+
+In future the devfreq framework would expose via sysfs these two
+tunables, so they can be adjusted by the middleware based on currently
+running workload (game, desktop, web browser, etc). These new values
+should be good enough, though.
+
+Regards,
+Lukasz Luba
+
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 10 +++++++++-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.h |  2 ++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+index 56b3f5935703..7c5ffc81dce1 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+@@ -130,8 +130,16 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+ 	panfrost_devfreq_profile.initial_freq = cur_freq;
+ 	dev_pm_opp_put(opp);
  
--	if (is_dmabuf_mr(mr))
--		return ERR_PTR(-EOPNOTSUPP);
--
- 	if (!(flags & IB_MR_REREG_ACCESS))
- 		new_access_flags = mr->access_flags;
- 	if (!(flags & IB_MR_REREG_PD))
-@@ -1844,8 +1841,8 @@ struct ib_mr *mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
- 				return ERR_PTR(err);
- 			return NULL;
- 		}
--		/* DM or ODP MR's don't have a umem so we can't re-use it */
--		if (!mr->umem || is_odp_mr(mr))
-+		/* DM or ODP MR's don't have a normal umem so we can't re-use it */
-+		if (!mr->umem || is_odp_mr(mr) || is_dmabuf_mr(mr))
- 			goto recreate;
++	/*
++	 * Setup default thresholds for the simple_ondemand governor.
++	 * The values are chosen based on experiments.
++	 */
++	pfdevfreq->gov_data.upthreshold = 45;
++	pfdevfreq->gov_data.downdifferential = 5;
++
+ 	devfreq = devm_devfreq_add_device(dev, &panfrost_devfreq_profile,
+-					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
++					  DEVFREQ_GOV_SIMPLE_ONDEMAND,
++					  &pfdevfreq->gov_data);
+ 	if (IS_ERR(devfreq)) {
+ 		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
+ 		ret = PTR_ERR(devfreq);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+index db6ea48e21f9..1e2a4de941aa 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
++++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+@@ -4,6 +4,7 @@
+ #ifndef __PANFROST_DEVFREQ_H__
+ #define __PANFROST_DEVFREQ_H__
  
- 		/*
-@@ -1864,10 +1861,10 @@ struct ib_mr *mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
- 	}
++#include <linux/devfreq.h>
+ #include <linux/spinlock.h>
+ #include <linux/ktime.h>
  
- 	/*
--	 * DM doesn't have a PAS list so we can't re-use it, odp does but the
--	 * logic around releasing the umem is different
-+	 * DM doesn't have a PAS list so we can't re-use it, odp/dmabuf does
-+	 * but the logic around releasing the umem is different
- 	 */
--	if (!mr->umem || is_odp_mr(mr))
-+	if (!mr->umem || is_odp_mr(mr) || is_dmabuf_mr(mr))
- 		goto recreate;
+@@ -17,6 +18,7 @@ struct panfrost_devfreq {
+ 	struct devfreq *devfreq;
+ 	struct opp_table *regulators_opp_table;
+ 	struct thermal_cooling_device *cooling;
++	struct devfreq_simple_ondemand_data gov_data;
+ 	bool opp_of_table_added;
  
- 	if (!(new_access_flags & IB_ACCESS_ON_DEMAND) &&
+ 	ktime_t busy_time;
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
