@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2BE2FDE2D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 01:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB1A2FDE82
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 02:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACADB6E4B6;
-	Thu, 21 Jan 2021 00:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C41C6E4B6;
+	Thu, 21 Jan 2021 01:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4B86E4B6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 00:53:46 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3C16E4AE;
+ Thu, 21 Jan 2021 01:11:52 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DLkRB2yKrz9sRR;
- Thu, 21 Jan 2021 11:53:42 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DLkr40gmkz9sWX;
+ Thu, 21 Jan 2021 12:11:47 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1611190423;
- bh=yNIC3ySAkmU8uUU/dSr0EAUBxC+3f7iysDW4nBcI5A4=;
+ s=201702; t=1611191508;
+ bh=7c7cvqA9gS0UzEg1pIAqrmG+QQlvyJGWNl+BfzEM8Qg=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=O5/4ic9Tz8kRCe/xHqQ3AbKMDrCiQqGngPDczsVdM95UP9u3hdKdwuk3oe2df+I8+
- 2yF+6yB0NiOjwFZCzfesFIizXxG9fDlhIo5/Fse9rqUh7MaCLOC3lJ2R3XiyEh//z0
- kAnUBJesss08SbyDwJktYAHRQo9VBdfX5oaUbeqfltgeoy6c9WCH4oQg71nU72wWLb
- KHe+apbBaNQtHyXV/9R//HTCDXDKJblTznxpd8PWqBcAoKnf0xxZBdvXi3xAvaDzxO
- l1sT0MTZ9WBqwgvTOIQ+CDHcG0nf5gnfHWB4E4kSFT7WykONFDr6s2FhYcYtdaHUt3
- jL3k3x6iOTBLg==
-Date: Thu, 21 Jan 2021 11:53:41 +1100
+ b=qPzlgw1+mwOM4cL3xrLVdWUk4xYPshoS6DDLmKu5lUDgwni2Rfh2PtaEk/Y0C8UJL
+ I6omYlYGYJrycMJTFRzJjP9mp+Ly5SxJ3XDCoFhNhByr8IErZm1DO6IxAzd4mcLf5z
+ gkQDve2ZAcNNh74Ek9M2m2sFjlpamVwGsR421NrBTGtlNfBNjwShnseLl6n2y2z81h
+ rySJXZ2E77zUOlpMQQWryaJ//ko8EorIgWqxiiOwdeJZ0OVHtZp2kSMgm94ZU/6Ojh
+ Zp/MZTGwebNXoirHDtyDa8FXRNWvhW7PJwNShfzxmNMDIiC681jZhai+ztSI1Xu2xu
+ EnBCc1acg3e9A==
+Date: Thu, 21 Jan 2021 12:11:46 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build warning after merge of the amdgpu tree
-Message-ID: <20210121115341.012c1a55@canb.auug.org.au>
-In-Reply-To: <20210120171501.61aa0786@canb.auug.org.au>
-References: <20210115120014.4211dec6@canb.auug.org.au>
- <20210120171501.61aa0786@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: build failure after merge of the drm-intel tree
+Message-ID: <20210121121146.6133975e@canb.auug.org.au>
+In-Reply-To: <20210120105715.4391dd95@canb.auug.org.au>
+References: <20210120105715.4391dd95@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,70 +52,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0185144627=="
+Content-Type: multipart/mixed; boundary="===============1664374599=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0185144627==
-Content-Type: multipart/signed; boundary="Sig_/DDRRKSW0y.hCdmhLur.FD1r";
+--===============1664374599==
+Content-Type: multipart/signed; boundary="Sig_/TCcYvsvZ=n.2WdGUBVd4Svo";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/DDRRKSW0y.hCdmhLur.FD1r
+--Sig_/TCcYvsvZ=n.2WdGUBVd4Svo
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Wed, 20 Jan 2021 17:15:01 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+On Wed, 20 Jan 2021 10:57:15 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
 wrote:
 >
-> On Fri, 15 Jan 2021 12:00:14 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
-> wrote:
-> >=20
-> > After merging the amdgpu tree, today's linux-next build (x86_64
-> > allmodconfig) failed like this:
-> >=20
-> > drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In functio=
-n 'dm_set_vblank':
-> > drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5380:33: wa=
-rning: unused variable 'dm' [-Wunused-variable]
-> >  5380 |  struct amdgpu_display_manager *dm =3D &adev->dm;
-> >       |                                 ^~
-> >=20
-> > Caused by commit
-> >=20
-> >   98ab5f3513f9 ("drm/amd/display: Fix deadlock during gpu reset v3") =20
+> After merging the drm-intel tree, today's linux-next build (arm
+> multi_v7_defconfig) failed like this:
 >=20
-> I am still getting this warning.
+> drivers/gpu/drm/msm/dp/dp_ctrl.c: In function 'dp_ctrl_use_fixed_nvid':
+> drivers/gpu/drm/msm/dp/dp_ctrl.c:1425:16: error: implicit declaration of =
+function 'drm_dp_get_edid_quirks'; did you mean 'drm_do_get_edid'? [-Werror=
+=3Dimplicit-function-declaration]
+>  1425 |  edid_quirks =3D drm_dp_get_edid_quirks(ctrl->panel->edid);
+>       |                ^~~~~~~~~~~~~~~~~~~~~~
+>       |                drm_do_get_edid
+> drivers/gpu/drm/msm/dp/dp_ctrl.c:1431:11: error: too many arguments to fu=
+nction 'drm_dp_has_quirk'
+>  1431 |   return (drm_dp_has_quirk(&ctrl->panel->desc, edid_quirks,
+>       |           ^~~~~~~~~~~~~~~~
+> In file included from drivers/gpu/drm/msm/dp/dp_ctrl.c:15:
+> include/drm/drm_dp_helper.h:2087:1: note: declared here
+>  2087 | drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quir=
+k quirk)
+>       | ^~~~~~~~~~~~~~~~
+>=20
+> Caused by commit
+>=20
+>   7c553f8b5a7d ("drm/dp: Revert "drm/dp: Introduce EDID-based quirks"")
+>=20
+> Since the drm-intel tree still has its other build failure, I used the
+> version from next-20210108 again today.
 
-I now get this warning from the drm tree merge.
+I still get this failure, but not the one from the drm tree, so I have
+used the drm-intel tree from next-20210119 for today.
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/DDRRKSW0y.hCdmhLur.FD1r
+--Sig_/TCcYvsvZ=n.2WdGUBVd4Svo
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAI0JUACgkQAVBC80lX
-0GweBAf9H9CGW9h/lNEJuiCaeWMYnza/MyzkFy48votPkAd9AJ2/WoSk/Rn/n3M6
-QSUKO/EdJohktVc0hcAXbxsE1mJs5B63ht/jsV8D6U3p7kgASTxJH9grd57sd05E
-5LwfS9f+4VGWMy0Ny5/j3Q5fWfQfFdFYnW97NIjtucsKSHYMcORUJId1n8XGc0j0
-JILzdXyCCACc5/rohmWeCSxST04YZ0g9E2NQI8OTEa7IZ7HVc7INtwjwo1jLZ7CN
-sQiDIFsQ2ZHTCI4up678k+OpzxBHD2rkrg4JPiyNtqMM3PlgnhLTCdLp2IpzL9Nx
-op3kFT5Q55sn3jMVK/uDWg1++dkdGw==
-=SEhV
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAI1NIACgkQAVBC80lX
+0GyzfAgAnyS+ybHffHP2bTfDMvIkkgOUx97yFSBTtMuNvpYhgPzkKPbLOZ9RaAhU
+QWUsHkTs430Ar2XuVlTBULbjVBTD3UdOv3aXYGQPsEnKH2bMl7rQtgoj/xTqk3Os
+G22yM7FpWgAnvjL6AeMujVjnr+GQDsYh+s/mg21XDZo4qqr/nUGHWDSAQkk+knFY
+04aKuUT8nun+b3yMTy2mUrXbh+wvqRbz0qC3rezN85dNZrmbLjSP2AqG3OhqCZzD
+0xD4wf+gyyLt24BnKxH9gB1d/w1JuaPBoMUzYQzWiBxWnBIh3FjVN7nabl0gKge8
+KadGXBjYDZNvpSJ1J5aiVQ2S5xUj3g==
+=tDMC
 -----END PGP SIGNATURE-----
 
---Sig_/DDRRKSW0y.hCdmhLur.FD1r--
+--Sig_/TCcYvsvZ=n.2WdGUBVd4Svo--
 
---===============0185144627==
+--===============1664374599==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -123,4 +135,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0185144627==--
+--===============1664374599==--
