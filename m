@@ -2,54 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A738F2FE2A4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 07:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7AE2FE442
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 08:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9516E8D9;
-	Thu, 21 Jan 2021 06:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C301C89B78;
+	Thu, 21 Jan 2021 07:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFA5E6E8D8;
- Thu, 21 Jan 2021 06:22:36 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id kg20so530546ejc.4;
- Wed, 20 Jan 2021 22:22:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GW/oWN3oyD3njowlslhBX+P2nkMm3yPnHl9TOZ+Je2s=;
- b=vJgQFLlN27pu0HqdfQKoxyc/5F80Fo1UnauZgGw82RIjbaqcnj4fGj/XFUsgJrq9CU
- 1IOtdX+THR0BWsPmrTiwJxx/brIqgmWH3rQpEgOwCEDLVs7rv51XUuVkqR2HMot1sIHV
- /9X2SK8Js14THdDobqZjp8evE5F/5YH9O46U0saaaeLWvL1m8DsHOuxbcEhR3lCKYL92
- d7HxQDVisi7Pvi6DT8nfHvMpbs8hZ+fhheK6vd76/UgNVZ3PeYstZKenscMKyIhaMlwx
- fv5PtFEHuqDKHSIOi5Jenvkg8Bi79oztPTcZ0usY/NWVeF1VhyFcx/uJPXQN5kCavFHo
- wGIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GW/oWN3oyD3njowlslhBX+P2nkMm3yPnHl9TOZ+Je2s=;
- b=ocWLJD2j9iXeBYt3zSyYZq71gtuIptv1SWFxvcxc8YzA3Sw0QqaJSsZ0w9QOsnVg4I
- cW37s7Sl6Nwa6V+fhqYjuJjqxHJNtzrVLfNby/fsOHzx0/P1nvnBGa07QWJWic/4NoaL
- xi/UqUwBQQxxiyGf22I9h9jrQ0OA8FjWAX3shQTm1dt4tKILUadsCiQ/PAupENmOSBsk
- rj+tH/iTb6DP042IIOInsEiTliajlttW+VVkZt4WQ3XHM82XeyPeNtro5NIzsYVkK0dZ
- IYbugS4aye3jQCqn17gz2iceI2HTI9Skl/AAy+FeAgsSxJs+z2o3BRG1lFwnLhGGZvmZ
- zn8g==
-X-Gm-Message-State: AOAM530SirErsyp9s3hGAJsLPdBBt7PmWi9qqwZWF6xrX2/hJOQuOX7F
- mUtfNy8QqA5sRkebiSZJgifIenetOhftC/ad0Ik=
-X-Google-Smtp-Source: ABdhPJy5/0LBceTsjModKTDeluMXbpU1rmpDtJXeV6VP7azlkKLQbc2DmDNuMGCZ1+yd9dpc7GGdhx+RrLj4uZWNOjw=
-X-Received: by 2002:a17:906:5958:: with SMTP id
- g24mr8032373ejr.377.1611210155701; 
- Wed, 20 Jan 2021 22:22:35 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1642C89B78
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 07:45:24 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 93542AD29;
+ Thu, 21 Jan 2021 07:45:22 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20210120170033.38468-1-noralf@tronnes.org>
+ <20210120170033.38468-2-noralf@tronnes.org>
+ <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+Message-ID: <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
+Date: Thu, 21 Jan 2021 08:45:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201228185059.3949-1-mario.kleiner.de@gmail.com>
- <CADnq5_PwoHyoS=-Nc1EhBMRjwPwOfktgZr7RkeDSP9vBjSNUCQ@mail.gmail.com>
-In-Reply-To: <CADnq5_PwoHyoS=-Nc1EhBMRjwPwOfktgZr7RkeDSP9vBjSNUCQ@mail.gmail.com>
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-Date: Thu, 21 Jan 2021 07:22:24 +0100
-Message-ID: <CAEsyxyhHPaOGJJhPrUWPoXni-T0y23=Zqf82qJJVLqm=HaUOdw@mail.gmail.com>
-Subject: Re: Enable fp16 display support for DCE8+, next try.
-To: Alex Deucher <alexdeucher@gmail.com>
+In-Reply-To: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +41,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: hudson@trmm.net, markus@raatikainen.cc, Sam Ravnborg <sam@ravnborg.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tyler Hardin <th020394@gmail.com>,
+ Lubomir Rintel <lkundrak@v3.sk>, pontus.fuchs@gmail.com, peter@stuge.se
+Content-Type: multipart/mixed; boundary="===============0877808683=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 4, 2021 at 6:16 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Mon, Dec 28, 2020 at 1:51 PM Mario Kleiner
-> <mario.kleiner.de@gmail.com> wrote:
-> >
-> > Hi and happy post-christmas!
-> >
-> > I wrote a patch 1/1 that now checks plane scaling factors against
-> > the pixel-format specific limits in the asic specific dc_plane_cap
-> > structures during atomic check and other appropriate places.
-> >
-> > This should prevent things like asking for scaling on fp16 framebuffers
-> > if the hw can't do that. Hopefully this will now allow to safely enable
-> > fp16 scanout also on older asic's like DCE-11.0, DCE-10 and DCE-8.
-> > Patch 2/2 enables those DCE's now for fp16.
-> >
-> > I used some quickly hacked up of IGT test kms_plane_scaling, manually
-> > hacking the src fb size to make sure the patch correctly accepts or
-> > rejects atomic commits based on allowable scaling factors for rgbx/a
-> > 8 bit, 10, and fp16.
-> >
-> > This fp16 support has been successfully tested with a Sea Islands /
-> > DCE-8 laptop. I also confirmed that at least basic HDR signalling
-> > over HDMI works for that DCE-8 machine with a HDR monitor. For this
-> > i used the amdvlk driver which exposes fp16 since a while on supported
-> > hw.
->
-> Patches look good to me, but I'd like to get some feedback from the
-> display folks as well.
->
-> >
-> > There are other bugs in DC wrt. DCE-8 though, which didn't prevent
-> > my testing, but may be worth looking into. My DCE-8 machine scrambles
-> > the video output picture somewhat under Vulkan (radv and admvlk) if the
-> > output signal precision isn't 8 bpc, ie. on 6 bpc (eDP laptop panel)
-> > and 10 bpc, 12 bpc (HDMI deep color on external HDR monitor).
-> >
-> > Another fun thing is getting a black screen if DC is enabled on at least
-> > Linux 5.10+ (but not if i use the classic kms code in amdgpu-kms). If
-> > i recompile the driver with a Ubuntu kconfig for Linux 5.9, the 5.10
-> > kernel works, and the only obvious DC related difference is that DC's
-> > new SI / DCE-6 asic support is disabled at compile time.
->
-> Fixed here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6bdeff12a96c9a5da95c8d11fefd145eb165e32a
-> Patch should be in stable for 5.10 as well.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0877808683==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk"
 
-Yes, in recent 5.10 stable these fix the problem I experienced.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk
+Content-Type: multipart/mixed; boundary="gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+Cc: hudson@trmm.net, markus@raatikainen.cc, peter@stuge.se,
+ USB list <linux-usb@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tyler Hardin <th020394@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ pontus.fuchs@gmail.com, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+References: <20210120170033.38468-1-noralf@tronnes.org>
+ <20210120170033.38468-2-noralf@tronnes.org>
+ <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
 
-Thanks Alex,
--mario
+--gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Noralf,
+
+glad to hear from you! Welcome back!
+
+Am 20.01.21 um 18:42 schrieb Daniel Vetter:
+> On Wed, Jan 20, 2021 at 6:10 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org=
+> wrote:
+>>
+>> Add a connector type for USB connected display panels.
+>>
+>> Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+>> ---
+>>   include/uapi/drm/drm_mode.h | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h=
+
+>> index fed66a03c7ae..33024cc5d26e 100644
+>> --- a/include/uapi/drm/drm_mode.h
+>> +++ b/include/uapi/drm/drm_mode.h
+>> @@ -367,6 +367,7 @@ enum drm_mode_subconnector {
+>>   #define DRM_MODE_CONNECTOR_DPI         17
+>>   #define DRM_MODE_CONNECTOR_WRITEBACK   18
+>>   #define DRM_MODE_CONNECTOR_SPI         19
+>> +#define DRM_MODE_CONNECTOR_USB         20
+
+I would not call it USB. I could imagine that at some point a generic=20
+USB protocol could serve simple displays (i.e. in the sense of USB HID=20
+or data or imaging). (Maybe Thunderbold already counts.) Anyway, USB=20
+should be reserved for this case.
+
+Best regards
+Thomas
+
+>=20
+> Beware, new connector types have in the past resulted in userspace
+> burning&crashing. Maybe it's become better ...
+>=20
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>>   /**
+>>    * struct drm_mode_get_connector - Get connector metadata.
+>> --
+>> 2.23.0
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
->
-> Alex
+--gWfJxreA5R6PCSYL0yNv5ravgbAmv9EO5--
+
+--9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJMREFAwAAAAAACgkQlh/E3EQov+Ai
+6RAAjAxmkSjaOON+hMbC8MwFq9UXDtyJg7ZbUl6iDRdGWAZKCFSTEi/XKc/j8BsLs5SfVgHZ6P1E
+6G0Bs5sYNiGsqxom37cZKOzDzDRAj/fPlsJ7f/bqn71kIwctZIrbGGJWgY6a2EOX+W8Kabb4WiOj
+lHOPCydgHlE+aJfFAz+MNT2Z/CV8CrCxyWO6fdsmMwxZjoHi3adlY/NPgZCYbkBrPuspYs6LT0Da
+X3u/wMCj48RpXjYhquMmHXSO0XkHqSLv3Nr/VDSlS499Y757Ib+y3kHEqGCt+Bqz4SMrgS52GJxB
+dxmON+V2oDKGmdwW9BT8VQZYmHR+3a5kcD4tmdvALI70oCQHw8gCrnlrgJJDkSBwppJR8wVguagm
+v/VcJXUzKa7W0JhUvwvHoqBCdtChanBF1rqVEa6q3XiYBs4TaCTO6gLJYgj+DEyHFFuWJc7yYsSn
+DDCPk0Ymvj/U1DFuyPWKaWaR/W8fy0bKW9ODObTy1r1v4Fd1iKZ1sN95aprRxui3otAPbjbi1Vqd
+e2E1u8deXgoWBgGhqQmYRUEmD5KInX5MmolY6x2AtB+5Wr/bK3LaXasq60reADuxrl+/KF5T9pLf
+q1IyoH/jLm1mqsfVG1p8mxc+ScLpLTRVgJeDkAZTvSgU0h28926HAiFOpl8QmdlxRdvKwE2Zsat4
+1/8=
+=rS5O
+-----END PGP SIGNATURE-----
+
+--9j87slOnp5dXVR7mVMi6q4gWaKLdJY8uk--
+
+--===============0877808683==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0877808683==--
