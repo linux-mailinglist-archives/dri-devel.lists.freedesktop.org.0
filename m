@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05FB32FE590
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847572FE57E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8026E8FC;
-	Thu, 21 Jan 2021 08:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0596E8EE;
+	Thu, 21 Jan 2021 08:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56B376E8CC
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 06:12:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B106E8D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 06:12:04 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l2TC4-0006PH-3s; Thu, 21 Jan 2021 07:11:44 +0100
+ id 1l2TC4-0006PI-3b; Thu, 21 Jan 2021 07:11:44 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l2TC2-00061L-5H; Thu, 21 Jan 2021 07:11:42 +0100
+ id 1l2TC2-00061U-6P; Thu, 21 Jan 2021 07:11:42 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/7] dt-bindings: display: simple: add Innolux G070Y2-T02
- panel
-Date: Thu, 21 Jan 2021 07:11:35 +0100
-Message-Id: <20210121061141.23062-2-o.rempel@pengutronix.de>
+Subject: [PATCH v2 2/7] drm: panel-simple: Add support for the Innolux
+ G070Y2-T02 panel
+Date: Thu, 21 Jan 2021 07:11:36 +0100
+Message-Id: <20210121061141.23062-3-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210121061141.23062-1-o.rempel@pengutronix.de>
 References: <20210121061141.23062-1-o.rempel@pengutronix.de>
@@ -62,27 +62,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding for the Innolux G070Y2-T02 panel. It is 7" WVGA (800x480)
-TFT LCD panel with TTL interface and a backlight unit.
+Add compatible and timings for the Innolux G070Y2-T02 panel. It is 7"
+WVGA (800x480) TFT LCD panel with TTL interface and a backlight unit.
 
+Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
+Signed-off-by: Robin van der Gracht <robin@protonic.nl>
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 3207608d1178..f7a1465313db 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -152,6 +152,8 @@ properties:
-       - innolux,at070tn92
-         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
-       - innolux,g070y2-l01
-+        # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
-+      - innolux,g070y2-t02
-         # Innolux Corporation 10.1" G101ICE-L01 WXGA (1280x800) LVDS panel
-       - innolux,g101ice-l01
-         # Innolux Corporation 12.1" WXGA (1280x800) TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 41bbec72b2da..14996ca264f3 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2149,6 +2149,19 @@ static const struct panel_desc innolux_g070y2_l01 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct panel_desc innolux_g070y2_t02 = {
++	.modes = &innolux_at070tn92_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 152,
++		.height = 92,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
++};
++
+ static const struct display_timing innolux_g101ice_l01_timing = {
+ 	.pixelclock = { 60400000, 71100000, 74700000 },
+ 	.hactive = { 1280, 1280, 1280 },
+@@ -4135,6 +4148,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,g070y2-l01",
+ 		.data = &innolux_g070y2_l01,
++	}, {
++		.compatible = "innolux,g070y2-t02",
++		.data = &innolux_g070y2_t02,
+ 	}, {
+ 		.compatible = "innolux,g101ice-l01",
+ 		.data = &innolux_g101ice_l01
 -- 
 2.30.0
 
