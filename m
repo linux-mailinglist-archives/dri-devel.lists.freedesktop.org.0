@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680C72FE8A8
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 12:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF432FE8C2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 12:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4E506E52D;
-	Thu, 21 Jan 2021 11:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A672C6E530;
+	Thu, 21 Jan 2021 11:29:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA216E52D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:23:18 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id 34so1253550otd.5
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 03:23:18 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 464D46E530
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 11:29:36 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id a12so1365270wrv.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 03:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b2rMzfq0UH/F+eLfm27e8RT4cWjxNkuh3W9X3FO/pmE=;
- b=BAG2wgYYSoqHd+DzOqnaf2XloG6h8bisgVdttJVNDSeHpO2T60TTr7oftDgacbG++z
- FWPFJ7hdHVj7asQbzl1FiKoOBR4iGZhMKOoPDtWwob5eImQXBXeKj3EvrZWVEkeJQQKj
- fuvuKpu9YR6biF7ybZJEkp7YQ/ov/XcCHaV6I=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XgZatkLwj232Fb+mPnGiz2qP1fwibQwK44jrNSXEHT4=;
+ b=SD5bTAG+R8gBfa0+7Xa9WlA5jp8x6jwhSZjuuP7ZVzd/MygYZgMeJ821ErL34aatzs
+ OQFbuIcgUT1C/Nlnwc8pgkln9sbwhD2PmhtfYrwyC1GCFluZTb9bI4vw8qOFORU9rphz
+ 2mHSKuEChFGvAlb4D18+sWo4ANszgWzH3ehKw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b2rMzfq0UH/F+eLfm27e8RT4cWjxNkuh3W9X3FO/pmE=;
- b=gTvV3eOkXPhVvGhFMGBRuU7A5ffZyEf9aGvdFoUHSQ5vluohxMOhsD9jJ59PaX+p6O
- G2Im9brIMKe5pjLHfznGBlJiA86FWe+niSf9aUl9zipv9g6wg67jD+NTLD8KEOfmdpnH
- TOuYuHUtmsbTN+qQr6eHWWqUpR1saSuBayY1rSlpqiu110LWZMKR/g07HN+MqGfygxi1
- FECGbqzt/0Z2lAkgdNRyCecLZGPkfffc00bZeF0ZgIQzVFU9uZUGczqKPwGouf/itmvU
- Q5hboOeuu6YOe5QgMX/tZ48P6+vV11MRWcMcsNYPIkzY+cHnfp0amjPpuj8ZlA5fuSlx
- 5Fxg==
-X-Gm-Message-State: AOAM530z4zQX3XsK9ju+ttxqDNHva55WeH7itNtvQPBXI1Nb/teokFCH
- XfJsJq8K42KEol8J0ehtBUrexG+Tra/tyN9jpoRrHQ==
-X-Google-Smtp-Source: ABdhPJwuTGzWQAuFKkuYSb3G3c5sxDjEUQ9z8aWWFLseIzCwQa2p+C86ONLqWh5bBBra+SI82M1uIeUTsaA8ArqC1t0=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr9879029otb.303.1611228197779; 
- Thu, 21 Jan 2021 03:23:17 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XgZatkLwj232Fb+mPnGiz2qP1fwibQwK44jrNSXEHT4=;
+ b=XTMQvzzdOT76HdHEHqKBHyMXoxNnaDVbFTNibDL/ofwnrPMx9zeIz7y4Ss3/iTacDC
+ /N3GVPKXGsNB8vASjvSN9on/czwUTM+fgJdLWFcz93PHuADLgJcybAZm7FLBWVKmQsMT
+ z/+eM/fS9WXDknj/dHy6xXAZyhEUmtOtVFJPNcqnN3mpvQuI8UdTyUugAngusfFYrP7K
+ aLXYBd1OqiDte94lajzH/Xy02J/bd7BURJ2QMKM1YsBcNfAk2jLKxDozYQ/QNaHCYawW
+ 6thq9LkYlvOtSQW3XgyxZCm8zTLIf2zpTFgH/UxLSOi9t7Qx51pTX918mxe3AIqEAI+E
+ E3Eg==
+X-Gm-Message-State: AOAM532pXCGyQHBkq524arD5e4e4wfOvEUh4IfVIUghPPZolDwBORJGQ
+ pr5edVzTEvksnyrvJ5CXYDnLMj/085OCfL5S
+X-Google-Smtp-Source: ABdhPJz5sg3f0yacF+a8asK12VnCpsuksyGy5pdiL9WOJ8d5gxLQXZfGhON+yUakE6V5wox27UNaQg==
+X-Received: by 2002:adf:decb:: with SMTP id i11mr13908639wrn.26.1611228574964; 
+ Thu, 21 Jan 2021 03:29:34 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q6sm7448446wmj.32.2021.01.21.03.29.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jan 2021 03:29:34 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Update todo.rst
+Date: Thu, 21 Jan 2021 12:29:19 +0100
+Message-Id: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210121030909.1126643-1-zhangzhijie@loongson.cn>
-In-Reply-To: <20210121030909.1126643-1-zhangzhijie@loongson.cn>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 21 Jan 2021 12:23:07 +0100
-Message-ID: <CAKMK7uF=scYJ=gyS=xjYz25mdDzKA0QHSyPndfSBweE7vfDkWQ@mail.gmail.com>
-Subject: Re: [PATCH v4] drm: Improve the output_poll_changed description
-To: "ZhiJie.Zhang" <zhangzhijie@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,75 +61,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 21, 2021 at 4:09 AM ZhiJie.Zhang <zhangzhijie@loongson.cn> wrote:
->
-> From: zhangzhijie <zhangzhijie@loongson.cn>
->
-> this callback was used by drm_kms_helper_hotplug_event()
->
-> V2: (Thanks for Daniel's suggestions)
-> - remove the FIXME below.since with the drm_client
-> - infrastructure and the generic fbdev emulation we've
-> - resolved this all very neatly now.
->
-> V3: Add comments that This hook is deprecated
-> - new implementation methods instead of this hook
->
-> Signed-off-by: ZhiJie.Zhang <zhangzhijie@loongson.cn>
-> ---
->  include/drm/drm_mode_config.h | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index ab424ddd7665..fbc0da25d7c5 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -103,14 +103,13 @@ struct drm_mode_config_funcs {
->          * Callback used by helpers to inform the driver of output configuration
->          * changes.
->          *
-> -        * Drivers implementing fbdev emulation with the helpers can call
-> -        * drm_fb_helper_hotplug_changed from this hook to inform the fbdev
-> -        * helper of output changes.
+Interrnship season is starting, let's review this. One thing that's
+pending is Maxime's work to roll out drm_atomic_state pointers to all
+callbacks, he said he'll remove that entry once it's all done.
 
-Not sure why this isn't clear, but the above is important information
-that we should keep. Maybe good to fix up the formatting to make it a
-hyperlink, and your addition here is fine too, but the above is the
-important part really.
--Daniel
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ Documentation/gpu/todo.rst | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-> +        * Drivers implementing fbdev emulation use drm_kms_helper_hotplug_event()
-> +        * to call this hook to inform the fbdev helper of output changes.
->          *
-> -        * FIXME:
-> -        *
-> -        * Except that there's no vtable for device-level helper callbacks
-> -        * there's no reason this is a core function.
-> +        * This hook is deprecated, drivers should instead use
-> +        * drm_fbdev_generic_setup() which takes care of any necessary
-> +        * hotplug event forwarding already without further involvement by
-> +        * the driver.
->          */
->         void (*output_poll_changed)(struct drm_device *dev);
->
-> --
-> 2.29.2
->
-
-
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 009d8e6c7e3c..492768dd2fd9 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -577,20 +577,24 @@ Contact: Daniel Vetter
+ 
+ Level: Intermediate
+ 
+-KMS cleanups
+-------------
++Object lifetime fixes
++---------------------
++
++There's two related issues here
++
++- Cleanup up the various ->destroy callbacks, which often are all the same
++  simple code.
+ 
+-Some of these date from the very introduction of KMS in 2008 ...
++- Lots of drivers erroneously allocate DRM modeset objects using devm_kzalloc,
++  which results in use-after free issues on driver unload. This can be serious
++  trouble even for drivers for hardwared integrated on the SoC due to
++  EPROBE_DEFERRED backoff.
+ 
+-- Make ->funcs and ->helper_private vtables optional. There's a bunch of empty
+-  function tables in drivers, but before we can remove them we need to make sure
+-  that all the users in helpers and drivers do correctly check for a NULL
+-  vtable.
++Both these problems can be solved by switching over to drmm_kzalloc(), and the
++various convenience wrappers provided, e.g. drmm_crtc_alloc_with_planes(),
++drmm_universal_plane_alloc(), ... and so on.
+ 
+-- Cleanup up the various ->destroy callbacks. A lot of them just wrapt the
+-  drm_*_cleanup implementations and can be removed. Some tack a kfree() at the
+-  end, for which we could add drm_*_cleanup_kfree(). And then there's the (for
+-  historical reasons) misnamed drm_primary_helper_destroy() function.
++Contact: Daniel Vetter
+ 
+ Level: Intermediate
+ 
+@@ -626,8 +630,6 @@ See the documentation of :ref:`VKMS <vkms>` for more details. This is an ideal
+ internship task, since it only requires a virtual machine and can be sized to
+ fit the available time.
+ 
+-Contact: Daniel Vetter
+-
+ Level: See details
+ 
+ Backlight Refactoring
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
