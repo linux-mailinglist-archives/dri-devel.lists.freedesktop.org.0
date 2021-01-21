@@ -2,52 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217BD2FED13
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 15:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70242FED4E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 15:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEEF06E0A6;
-	Thu, 21 Jan 2021 14:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFF66E0B9;
+	Thu, 21 Jan 2021 14:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20EEC6E0A6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 14:40:40 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id f6so1765582ots.9
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 06:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MHVgVc8+hL6pDO3Z00L77gFgBoNW62ssw3xEKIOTjAo=;
- b=KXjvEIlyI9wG3bBNOnoqMuBN45VFgOkikSZrl8OprI2rMC3e0N+XTjV19P5ahxBxPY
- BSo/feUIY3tI3FD+ejhx2SXbOmfWz1a4cQJyPpxNIbN+Chcxk5C2T/W1QCTQXi9CAX5G
- sGqSkUywryYDdjBztiq/Kozix6oiiCbHuKUIY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MHVgVc8+hL6pDO3Z00L77gFgBoNW62ssw3xEKIOTjAo=;
- b=XTPMY6DnSI/K1EI51GOjDZ+BeLlqBQ5bCl4N8FAkPeLV3v4uXCJFXm2l22gxtk/HFI
- y9miGmdlFT3lezRSA40OgnHoPoO5+3TWEi16ABTGt16CbKRDEAAfFRoBewvYLROJ3AEd
- 8rpHWjv7PFfaylCtCopXm5UrURnOmhzB15clz2FIs5D7C7lS8ImK7G4J81+VkRwNIfJq
- Y0PraWVmLLB/8LrRySkljQYMEP0JQ8Q9I59b6zDIp2iaJLZVBZsdBMcfYoLT0yERYpBe
- BL0bBYUu3mTW45/v9xpwwtjzsTmkVuYwbkS5YvkuA40q9PJv6ytZeonVHNXQ+9/P1h+M
- Ya4Q==
-X-Gm-Message-State: AOAM533OHMpkwZe4GOJEFfR+oXzfx5Wa6Ndd3lDRDLj+D4S9uieueF1N
- HE5R0tzETFVe2I0aKDoICoFDzjxTq01E0ZMcrFb93c0Lon0+pg==
-X-Google-Smtp-Source: ABdhPJyZslxN8/3jsPEKi+xKX1PpZUUn7g6lULrnd21JIvA8ofaO/LgIFsKcl0CTq+B/zCAClnlNxABmUfgATko9Mng=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id
- k15mr10454532otb.303.1611240039132; 
- Thu, 21 Jan 2021 06:40:39 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43AD46E8FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 14:48:02 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D52DEABD6;
+ Thu, 21 Jan 2021 14:48:00 +0000 (UTC)
+To: Chuck Lever <chuck.lever@oracle.com>
+References: <632F0FCB-8719-4E8B-B35A-DC0A2DF49369@oracle.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: possible IO map leak in drm/gem
+Message-ID: <86bd5aff-ca8a-517f-1474-1be1d26255ae@suse.de>
+Date: Thu, 21 Jan 2021 15:47:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210121112919.1460322-1-daniel.vetter@ffwll.ch>
- <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
-In-Reply-To: <fae76a2d-90a7-82e0-d2d9-6e295c8c5a9a@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 21 Jan 2021 15:40:28 +0100
-Message-ID: <CAKMK7uEMEZoq0b5_Ab7vPcFcJdo-th=t2Y9M1ZWGkRA-eJdeAw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Update todo.rst
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <632F0FCB-8719-4E8B-B35A-DC0A2DF49369@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,73 +38,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1808306975=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMzozMSBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gd2UgdGFsa2VkIGFib3V0IG1ha2luZyBk
-bWFfcmVzdiB0aGUgZGVmYXVsdCBsb2NrIGZvciBHRU0gb2JqZWN0cy4gQ291bGQKPiB5b3UgYWRk
-IGFuIGVudHJ5IGZvciB0aGlzPyBTb21lIGludGVybnMgbWlnaHQgZmVlbCBhZHZlbnR1cm91cy4g
-OikKCkxldmVsOiBUb28gaGFyZCBmb3IgRGFuaWVsCgpOb3Qgc3VyZSB0aGF0J3MgYSBncmVhdCBp
-bnRlcm5zaGlwIHRhc2tzIDotUAoKQnV0IHllYWggSSdsbCB0cnkgdG8gdHlwZSB1cCBzb21ldGhp
-bmcgYXJvdW5kIHRoaXMgbWF5YmUuCi1EYW5pZWwKCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMK
-Pgo+IEFtIDIxLjAxLjIxIHVtIDEyOjI5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IEludGVy
-cm5zaGlwIHNlYXNvbiBpcyBzdGFydGluZywgbGV0J3MgcmV2aWV3IHRoaXMuIE9uZSB0aGluZyB0
-aGF0J3MKPiA+IHBlbmRpbmcgaXMgTWF4aW1lJ3Mgd29yayB0byByb2xsIG91dCBkcm1fYXRvbWlj
-X3N0YXRlIHBvaW50ZXJzIHRvIGFsbAo+ID4gY2FsbGJhY2tzLCBoZSBzYWlkIGhlJ2xsIHJlbW92
-ZSB0aGF0IGVudHJ5IG9uY2UgaXQncyBhbGwgZG9uZS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiA+IENjOiBNYWFydGVuIExh
-bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+ID4gQ2M6IE1heGlt
-ZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiA+IENjOiBUaG9tYXMgWmltbWVybWFubiA8
-dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXgu
-aWU+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+ID4gLS0tCj4gPiAg
-IERvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IHwgMjggKysrKysrKysrKysrKysrLS0tLS0tLS0t
-LS0tLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25z
-KC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IGIvRG9j
-dW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiA+IGluZGV4IDAwOWQ4ZTZjN2UzYy4uNDkyNzY4ZGQy
-ZmQ5IDEwMDY0NAo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiA+ICsrKyBi
-L0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4gPiBAQCAtNTc3LDIwICs1NzcsMjQgQEAgQ29u
-dGFjdDogRGFuaWVsIFZldHRlcgo+ID4KPiA+ICAgTGV2ZWw6IEludGVybWVkaWF0ZQo+ID4KPiA+
-IC1LTVMgY2xlYW51cHMKPiA+IC0tLS0tLS0tLS0tLS0KPiA+ICtPYmplY3QgbGlmZXRpbWUgZml4
-ZXMKPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+ICsKPiA+ICtUaGVyZSdzIHR3byByZWxh
-dGVkIGlzc3VlcyBoZXJlCj4gPiArCj4gPiArLSBDbGVhbnVwIHVwIHRoZSB2YXJpb3VzIC0+ZGVz
-dHJveSBjYWxsYmFja3MsIHdoaWNoIG9mdGVuIGFyZSBhbGwgdGhlIHNhbWUKPiA+ICsgIHNpbXBs
-ZSBjb2RlLgo+ID4KPiA+IC1Tb21lIG9mIHRoZXNlIGRhdGUgZnJvbSB0aGUgdmVyeSBpbnRyb2R1
-Y3Rpb24gb2YgS01TIGluIDIwMDggLi4uCj4gPiArLSBMb3RzIG9mIGRyaXZlcnMgZXJyb25lb3Vz
-bHkgYWxsb2NhdGUgRFJNIG1vZGVzZXQgb2JqZWN0cyB1c2luZyBkZXZtX2t6YWxsb2MsCj4gPiAr
-ICB3aGljaCByZXN1bHRzIGluIHVzZS1hZnRlciBmcmVlIGlzc3VlcyBvbiBkcml2ZXIgdW5sb2Fk
-LiBUaGlzIGNhbiBiZSBzZXJpb3VzCj4gPiArICB0cm91YmxlIGV2ZW4gZm9yIGRyaXZlcnMgZm9y
-IGhhcmR3YXJlZCBpbnRlZ3JhdGVkIG9uIHRoZSBTb0MgZHVlIHRvCj4gPiArICBFUFJPQkVfREVG
-RVJSRUQgYmFja29mZi4KPiA+Cj4gPiAtLSBNYWtlIC0+ZnVuY3MgYW5kIC0+aGVscGVyX3ByaXZh
-dGUgdnRhYmxlcyBvcHRpb25hbC4gVGhlcmUncyBhIGJ1bmNoIG9mIGVtcHR5Cj4gPiAtICBmdW5j
-dGlvbiB0YWJsZXMgaW4gZHJpdmVycywgYnV0IGJlZm9yZSB3ZSBjYW4gcmVtb3ZlIHRoZW0gd2Ug
-bmVlZCB0byBtYWtlIHN1cmUKPiA+IC0gIHRoYXQgYWxsIHRoZSB1c2VycyBpbiBoZWxwZXJzIGFu
-ZCBkcml2ZXJzIGRvIGNvcnJlY3RseSBjaGVjayBmb3IgYSBOVUxMCj4gPiAtICB2dGFibGUuCj4g
-PiArQm90aCB0aGVzZSBwcm9ibGVtcyBjYW4gYmUgc29sdmVkIGJ5IHN3aXRjaGluZyBvdmVyIHRv
-IGRybW1fa3phbGxvYygpLCBhbmQgdGhlCj4gPiArdmFyaW91cyBjb252ZW5pZW5jZSB3cmFwcGVy
-cyBwcm92aWRlZCwgZS5nLiBkcm1tX2NydGNfYWxsb2Nfd2l0aF9wbGFuZXMoKSwKPiA+ICtkcm1t
-X3VuaXZlcnNhbF9wbGFuZV9hbGxvYygpLCAuLi4gYW5kIHNvIG9uLgo+ID4KPiA+IC0tIENsZWFu
-dXAgdXAgdGhlIHZhcmlvdXMgLT5kZXN0cm95IGNhbGxiYWNrcy4gQSBsb3Qgb2YgdGhlbSBqdXN0
-IHdyYXB0IHRoZQo+ID4gLSAgZHJtXypfY2xlYW51cCBpbXBsZW1lbnRhdGlvbnMgYW5kIGNhbiBi
-ZSByZW1vdmVkLiBTb21lIHRhY2sgYSBrZnJlZSgpIGF0IHRoZQo+ID4gLSAgZW5kLCBmb3Igd2hp
-Y2ggd2UgY291bGQgYWRkIGRybV8qX2NsZWFudXBfa2ZyZWUoKS4gQW5kIHRoZW4gdGhlcmUncyB0
-aGUgKGZvcgo+ID4gLSAgaGlzdG9yaWNhbCByZWFzb25zKSBtaXNuYW1lZCBkcm1fcHJpbWFyeV9o
-ZWxwZXJfZGVzdHJveSgpIGZ1bmN0aW9uLgo+ID4gK0NvbnRhY3Q6IERhbmllbCBWZXR0ZXIKPiA+
-Cj4gPiAgIExldmVsOiBJbnRlcm1lZGlhdGUKPiA+Cj4gPiBAQCAtNjI2LDggKzYzMCw2IEBAIFNl
-ZSB0aGUgZG9jdW1lbnRhdGlvbiBvZiA6cmVmOmBWS01TIDx2a21zPmAgZm9yIG1vcmUgZGV0YWls
-cy4gVGhpcyBpcyBhbiBpZGVhbAo+ID4gICBpbnRlcm5zaGlwIHRhc2ssIHNpbmNlIGl0IG9ubHkg
-cmVxdWlyZXMgYSB2aXJ0dWFsIG1hY2hpbmUgYW5kIGNhbiBiZSBzaXplZCB0bwo+ID4gICBmaXQg
-dGhlIGF2YWlsYWJsZSB0aW1lLgo+ID4KPiA+IC1Db250YWN0OiBEYW5pZWwgVmV0dGVyCj4gPiAt
-Cj4gPiAgIExldmVsOiBTZWUgZGV0YWlscwo+ID4KPiA+ICAgQmFja2xpZ2h0IFJlZmFjdG9yaW5n
-Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9w
-ZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1
-LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4g
-R2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0
-ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xs
-LmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1808306975==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XS019a1nfOAK9mZ3frGlW6J37uOvZg3YY"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XS019a1nfOAK9mZ3frGlW6J37uOvZg3YY
+Content-Type: multipart/mixed; boundary="L7M6HbTIbLUXlWH1YkOVVlscSIR3NxxVf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <86bd5aff-ca8a-517f-1474-1be1d26255ae@suse.de>
+Subject: Re: possible IO map leak in drm/gem
+References: <632F0FCB-8719-4E8B-B35A-DC0A2DF49369@oracle.com>
+In-Reply-To: <632F0FCB-8719-4E8B-B35A-DC0A2DF49369@oracle.com>
+
+--L7M6HbTIbLUXlWH1YkOVVlscSIR3NxxVf
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+(cc'ing dri-devel)
+
+Hi,
+
+thanks for reporting the bug.
+
+Am 21.01.21 um 15:35 schrieb Chuck Lever:
+> Hi Thomas-
+>=20
+> I was not able to find an appropriate mailing list entry in MAINTAINERS=
+,
+
+That would be dri-devel@lists.freedesktop.org
+
+> so I'm mailing you directly as committer of record for:
+>=20
+> 43676605f890 ("drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers")
+>=20
+> I've noticed that since putting v5.11-rc on my test systems, overnight
+> on an otherwise idle system the load average seems to grow as the resul=
+t
+> of a kernel worker thread.
+
+Earlier this week I fixed a couple of leaks in that code. Could you=20
+please apply the patch at [1] and report back if it fixes the issue.
+
+If it's a separate problem, I'll take a closer look.
+
+Best regards
+Thomas
+
+[1]=20
+https://lore.kernel.org/dri-devel/20210118144639.27307-1-tzimmermann@suse=
+=2Ede/
+
+>=20
+> I used "perf top" to see what it had gotten up to, and it appears that
+> it was spending lots of time walking an interval tree on behalf of
+> memtype_reserve().
+>=20
+> The most frequently-observed stack trace seems to be:
+>=20
+>       kworker/3:1-2355  [003] 60950.150928: function:             memty=
+pe_reserve
+>       kworker/3:1-2355  [003] 60950.150942: kernel_stack:         <stac=
+k trace>
+> =3D> ffffffffc0c66083
+> =3D> memtype_reserve (ffffffffa005f9d5)
+> =3D> __ioremap_caller (ffffffffa005aac1)
+> =3D> ttm_bo_vmap (ffffffffc040f266)
+> =3D> drm_gem_vram_vmap (ffffffffc042c5cd)
+> =3D> drm_gem_vmap (ffffffffc0506a7f)
+> =3D> drm_client_buffer_vmap (ffffffffc0523741)
+> =3D> drm_fb_helper_damage_work (ffffffffc049a34a)
+> =3D> process_one_work (ffffffffa00dd92e)
+> =3D> worker_thread (ffffffffa00dde46)
+> =3D> kthread (ffffffffa00e22c4)
+> =3D> ret_from_fork (ffffffffa0004192)
+>=20
+> I see a regular call to memtype_reserve(), but never a matching call to=
+
+> memtype_free(), thus I suspect a leak of I/O maps in this code.
+>=20
+> --
+> Chuck Lever
+>=20
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--L7M6HbTIbLUXlWH1YkOVVlscSIR3NxxVf--
+
+--XS019a1nfOAK9mZ3frGlW6J37uOvZg3YY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAJlB8FAwAAAAAACgkQlh/E3EQov+Ch
+kw/+PUAtFGYfW696HXY7UYmZtUsyL1yRR9mfa1Hc1uCLNIf5lzBJgDKr89RTs5hC+/h2Sgkp7VkY
+EaR8RXK5tvuNxBUYEcqZ3adFiAseTYbXzcEeVnjKZLv3TY1EIURFexSBkZljP4uJFrEWjkmrInob
+jdo8TCMSDHYEXEEEF2cf26E6M3tzBG+8AiyH2QRDWZ0jKEoLDvkzIsq9I49Kzh8NGHySqGCwmZ7W
+JXL4ng0KkjVLJ74hzYt/ljeVwZFryyc0+p7HEQjZx3yLGdN5FQa+2vOaXgkbpw4FwTmE5PQ65YBG
+et6qGWlQ3+c+IvEj+7X1gbtNXUdLVPi38r5ZtpJaBLkF0Vk2WKxG3mLayyuu7gA5sCd95oUlymk4
+F9H7twe+hfct+3oOHM89H09xsoZMR4yQ7OB8/CjonK/11h/8ck61lYLabtk/GXg/e995n6TwWhe2
+RjYRdz/8IT6aTxhON/nb1SNrxxpOD55jg5q6O40cWBHVWRt7J25Mom6/x8KyL4m9b9JQ+2k2DC3Z
+8e0EV2dc6sY2e6c/yLT2TkSWgLj+a90+6m047MTypBqYNqCnPBnks8pag6OUkO/SS3leG5IjSG7y
+oe9AqzlvzGGixMbexF/eoNcE2YSqYKjPoLDBzP2SKJ+XlTaoWfpepfsyVqQxQZCsVXQwVP5Dxmz1
+KKc=
+=UrhZ
+-----END PGP SIGNATURE-----
+
+--XS019a1nfOAK9mZ3frGlW6J37uOvZg3YY--
+
+--===============1808306975==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1808306975==--
