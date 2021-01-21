@@ -1,48 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D47C2FDD54
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 00:47:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77362FDD7D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 00:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6510F89E14;
-	Wed, 20 Jan 2021 23:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D4989690;
+	Wed, 20 Jan 2021 23:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3996C89E14
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 23:47:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7F0C23619
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 23:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611186420;
- bh=0WJekRe162njhz/lN/s1NsUfes3ExpoWd49kVBnEejU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dlb2GafUES632XMG7xdeT6FSzA/aAwE13grNWfpunJA+7lNdexHZA6/QYAs7SFKPO
- L6cbuaCB4dTuFxVBT8hBPP6/2uiOULwpuVH8LKH7KdSVM13adQ78pHDn2xR8t6oaWF
- I5SedOZO7iEhqJ2hQ5nwQjKNsoFfhqEOtwNk5aN/UfPTfO2Kd/UgBcL/xDPZc/wG3T
- xLhWN49VGhxmxtTB4Of+7Yyxny6qEbxw+xwH+JrYoDWlQZcIUwb4EkwcfgpcJy3BpS
- RVzxrWfKXhAZjlLMq+9cd7lZSYKWy9jfgoC5DEmyISRKSXl+d3+RJzbHD4GdwwZ4Lf
- PKbr9yMGlV7CA==
-Received: by mail-wr1-f54.google.com with SMTP id m4so31273wrx.9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 15:46:59 -0800 (PST)
-X-Gm-Message-State: AOAM533cdzgPOKo26kEAoaGlePmTiDXGR+uxkYHXsJt/DsyKCswqkqKi
- Y6skw8lv5coj3hhPl5efKqGxqGW1QElQF+2HIQ==
-X-Google-Smtp-Source: ABdhPJyOeJAtpzLliOtYNxoGXZZfEVvmUMa8zd9WYN928+G7DsPAZ514fbLy1jNVz+KdZq3J5WPxeP/R7tiMsnrbC4c=
-X-Received: by 2002:a5d:58ec:: with SMTP id f12mr2662537wrd.134.1611186418365; 
- Wed, 20 Jan 2021 15:46:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20210106231729.17173-1-chunkuang.hu@kernel.org>
- <20210106231729.17173-4-chunkuang.hu@kernel.org>
- <YAh2JGUUpMcgyke0@ziggy.stardust>
-In-Reply-To: <YAh2JGUUpMcgyke0@ziggy.stardust>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 21 Jan 2021 07:46:44 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
-Message-ID: <CAAOTY_82Z_DQuJWDD5NMeq35o2Tf-zQzmSxJwRYRRpHQJVHNEA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] drm/mediatek: Change disp/ddp term to mutex in mtk
- mutex driver
-To: Matthias Brugger <matthias.bgg@kernel.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CABAF8966C
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Jan 2021 23:59:44 +0000 (UTC)
+IronPort-SDR: XkENkAktTaYRcvYqrCMw0mHHbUVJs2CQbROcI5c6QfImFszzMxs4yXGkAqceMufkVu8L29K1HT
+ 3FyThJZT01Og==
+X-IronPort-AV: E=McAfee;i="6000,8403,9870"; a="176622389"
+X-IronPort-AV: E=Sophos;i="5.79,362,1602572400"; d="scan'208";a="176622389"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2021 15:59:43 -0800
+IronPort-SDR: y9S+GlnPnx3o+8pSvMbNDEiB8jNGxC6+s/vMYiiHHPB5y+uZmVCJTmZWfeNrlmnexK2OXaRoVe
+ b56Z//CBDdug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,362,1602572400"; d="scan'208";a="570551138"
+Received: from cst-dev.jf.intel.com ([10.23.221.69])
+ by orsmga005.jf.intel.com with ESMTP; 20 Jan 2021 15:59:41 -0800
+From: Jianxin Xiong <jianxin.xiong@intel.com>
+To: linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH rdma-core v6 0/6] Add user space dma-buf support
+Date: Wed, 20 Jan 2021 16:14:32 -0800
+Message-Id: <1611188078-119233-1-git-send-email-jianxin.xiong@intel.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +44,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Edward Srouji <edwards@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIE1hdHRoaWFzOgoKTWF0dGhpYXMgQnJ1Z2dlciA8bWF0dGhpYXMuYmdnQGtlcm5lbC5vcmc+
-IOaWvCAyMDIx5bm0MeaciDIx5pelIOmAseWbmyDkuIrljYgyOjI35a+r6YGT77yaCj4KPiBPbiBU
-aHUsIEphbiAwNywgMjAyMSBhdCAwNzoxNzoyN0FNICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3Rl
-Ogo+ID4gRnJvbTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+Cj4gPiBtdGsgbXV0ZXgg
-aXMgdXNlZCBieSBib3RoIGRybSBhbmQgbWRwIGRyaXZlciwgc28gY2hhbmdlIGRpc3AvZGRwIHRl
-cm0gdG8KPiA+IG11dGV4IHRvIHNob3cgdGhhdCBpdCdzIGEgY29tbW9uIGRyaXZlciBmb3IgZHJt
-IGFuZCBtZHAuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNv
-bT4KPiA+IFNpZ25lZC1vZmYtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwu
-b3JnPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5j
-IHwgIDMwICstLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICB8
-ICAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oICB8ICAg
-MiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXV0ZXguYyAgICB8IDMwNSAr
-KysrKysrKysrKystLS0tLS0tLS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X211dGV4LmggICAgfCAgMjYgKy0KPiA+ICA1IGZpbGVzIGNoYW5nZWQsIDE4MiBpbnNlcnRpb25z
-KCspLCAxODMgZGVsZXRpb25zKC0pCj4gPgo+IFsuLi5dCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19tdXRleC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19tdXRleC5jCj4gPiBpbmRleCAxYzhhMjUzZjQ3ODguLjk4YTA2MGJmMjI1ZCAxMDA2NDQK
-PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXV0ZXguYwo+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19tdXRleC5jCj4gWy4uLl0KPiA+Cj4gPiAtc3Rh
-dGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZGRwX2RyaXZlcl9kdF9tYXRjaFtdID0gewo+
-ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG11dGV4X2RyaXZlcl9kdF9tYXRj
-aFtdID0gewo+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1t
-dXRleCIsCj4gPiAtICAgICAgIC5kYXRhID0gJm10MjcwMV9kZHBfZHJpdmVyX2RhdGF9LAo+ID4g
-KyAgICAgICAuZGF0YSA9ICZtdDI3MDFfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gICAgICAgeyAu
-Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MTItZGlzcC1tdXRleCIsCj4gPiAtICAgICAgIC5k
-YXRhID0gJm10MjcxMl9kZHBfZHJpdmVyX2RhdGF9LAo+ID4gKyAgICAgICAuZGF0YSA9ICZtdDI3
-MTJfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRl
-ayxtdDgxNjctZGlzcC1tdXRleCIsCj4gPiAtICAgICAgIC5kYXRhID0gJm10ODE2N19kZHBfZHJp
-dmVyX2RhdGF9LAo+ID4gKyAgICAgICAuZGF0YSA9ICZtdDgxNjdfbXV0ZXhfZHJpdmVyX2RhdGF9
-LAo+ID4gICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZGlzcC1tdXRleCIs
-Cj4gPiAtICAgICAgIC5kYXRhID0gJm10ODE3M19kZHBfZHJpdmVyX2RhdGF9LAo+ID4gKyAgICAg
-ICAuZGF0YSA9ICZtdDgxNzNfbXV0ZXhfZHJpdmVyX2RhdGF9LAo+ID4gICAgICAge30sCj4gPiAg
-fTsKPiA+IC1NT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkZHBfZHJpdmVyX2R0X21hdGNoKTsKPiA+
-ICtNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBtdXRleF9kcml2ZXJfZHRfbWF0Y2gpOwo+Cj4gSSB0
-aGluayBpdCB3b3VsZCBtYWtlIHNlbnNlIGluIGEgZm9sbG93LXVwIHBhdGNoIHRvIHVwZGF0ZSB0
-aGUgYmluZGluZwo+IHRvIHVzZSAibWVkaWF0ZWssbXQyNzAxLW11dGV4IiB0byByZWZsZWN0IHRo
-YXQgbXV0ZXggaXMgdXNlZCBmb3IgZHJtIGFuZAo+IG1kcCBkcml2ZXIuIE1ha2Ugc2Vuc2U/CgpZ
-ZXMsIGl0IG1ha2Ugc2Vuc2UuIEkgd291bGQgdHJ5IHRvIHVwZGF0ZSB0aGUgYmluZGluZywgYnV0
-IEkgd29uZGVyCmRldmljZSB0cmVlIHNob3VsZCBiZSBiYWNrd2FyZCBjb21wYXRpYmxlPyBMZXQn
-cyBkaXNjdXNzIGluIHRoYXQKZm9sbG93LXVwIHBhdGNoZXMuCgpSZWdhcmRzLApDaHVuLUt1YW5n
-LgoKPgo+IFJlZ2FyZHMsCj4gTWF0dGhpYXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+This is the sixth version of the patch series. Change log:
+
+v6:
+* Rebase to the latest rdma-core master (commit 14006f2f841b0c)
+* Update the ABI symbol version to match new package version; also bump
+  the private ABI version because new function has been added to the
+  provider interface
+* Avoid changing 'struct ibv_context_ops' by replacing SET_OP() with
+  SET_PRIV_OP_IC()
+* Replace sprintf() with snprintf()
+* Keep the ops in verbs_set_ops() sorted
+* Fix some styling issues: extra spaces, struct 0-initialization, error
+  checking control flow
+
+v5: https://www.spinics.net/lists/linux-rdma/msg99015.html
+* Use a different mr_type for dmabuf so that ibv_dofork_range() is not
+  called inside ibv_dereg_mr() for dmabuf based mr
+
+v4: https://www.spinics.net/lists/linux-rdma/msg98135.html
+* Rework the cmake funciton rdma_cython_module to support both single
+  source (.pyx) and multiple source (.pyx + [.c]*) scenarios instead
+  of using two separate functions
+* Rename 'dri_*' to 'drm_*' for the dmabuf allocation interface
+* Add option to dmabuf allocation routine to allow allocation from GTT
+  instead of VRAM
+* Add proper CPU access flags when allocating dmabufs
+* Remove 'radeon' driver support from the dmabuf allocation routines
+* Add comand line arguments to the tests for selecting GPU unit and
+  setting the option for allocating from GTT
+
+v3: https://www.spinics.net/lists/linux-rdma/msg98059.html
+* Add parameter 'iova' to the new ibv_reg_dmabuf_mr() API
+* Change the way of allocating dma-buf object - use /dev/dri/renderD*
+  instead of /dev/dri/card* and use GEM object instead of dumb buffer
+* Add cmake function to allow building modules with mixed cython and C
+  source files
+* Add new tests that use dma-buf MRs for send/recv and rdma traffic
+* Skip dma-buf tests on unsupported systems
+* Remove some use of random values in the new tests
+* Add dealloc() and close() methods to the new classes
+* Replace string.format with f-string in python code
+* Fix some coding style issues: spacing, indentation, typo, comments
+
+v2: https://www.spinics.net/lists/linux-rdma/msg97936.html
+* Put the kernel header updates into a separate commit
+* Add comments for the data structure used in python ioctl calls
+* Fix issues related to symbol versioning
+* Fix styling issues: extra spaces, unncecessary variable, typo
+* Fix an inproper error code usage
+* Put the new op into ibv_context_ops instead if verbs_context
+
+v1: https://www.spinics.net/lists/linux-rdma/msg97865.html
+* Add user space API for registering dma-buf based memory regions
+* Update pyverbs with the new API
+* Add new tests
+
+This is the user space counter-part of the kernel patch set to add
+dma-buf support to the RDMA subsystem.
+
+This series consists of six patches. The first patch updates the
+kernel headers for dma-buf support. Patch 2 adds the new API function
+and updates the man pages. Patch 3 implements the new API in the mlx5
+provider. Patch 4 adds new class definitions to pyverbs for the new API.
+Patch 5 adds a set of new tests for the new API. Patch 6 fixes bug in
+the utility code of the tests.
+
+Pull request at github: https://github.com/linux-rdma/rdma-core/pull/895
+
+Jianxin Xiong (6):
+  Update kernel headers
+  verbs: Support dma-buf based memory region
+  mlx5: Support dma-buf based memory region
+  pyverbs: Add dma-buf based MR support
+  tests: Add tests for dma-buf based memory regions
+  tests: Bug fix for get_access_flags()
+
+ CMakeLists.txt                           |   2 +-
+ buildlib/pyverbs_functions.cmake         |  78 ++++++---
+ debian/control                           |   2 +-
+ debian/libibverbs1.symbols               |   4 +-
+ kernel-headers/rdma/ib_user_ioctl_cmds.h |  14 ++
+ libibverbs/CMakeLists.txt                |   2 +-
+ libibverbs/cmd_mr.c                      |  38 +++++
+ libibverbs/driver.h                      |   8 +
+ libibverbs/dummy_ops.c                   |  11 ++
+ libibverbs/libibverbs.map.in             |   6 +
+ libibverbs/man/ibv_reg_mr.3              |  27 ++-
+ libibverbs/verbs.c                       |  19 +++
+ libibverbs/verbs.h                       |   7 +
+ providers/mlx5/mlx5.c                    |   2 +
+ providers/mlx5/mlx5.h                    |   3 +
+ providers/mlx5/verbs.c                   |  22 +++
+ pyverbs/CMakeLists.txt                   |  11 +-
+ pyverbs/dmabuf.pxd                       |  15 ++
+ pyverbs/dmabuf.pyx                       |  73 ++++++++
+ pyverbs/dmabuf_alloc.c                   | 278 +++++++++++++++++++++++++++++++
+ pyverbs/dmabuf_alloc.h                   |  19 +++
+ pyverbs/libibverbs.pxd                   |   2 +
+ pyverbs/mr.pxd                           |   6 +
+ pyverbs/mr.pyx                           | 105 +++++++++++-
+ tests/args_parser.py                     |   4 +
+ tests/test_mr.py                         | 264 ++++++++++++++++++++++++++++-
+ tests/utils.py                           |  30 +++-
+ 27 files changed, 1013 insertions(+), 39 deletions(-)
+ create mode 100644 pyverbs/dmabuf.pxd
+ create mode 100644 pyverbs/dmabuf.pyx
+ create mode 100644 pyverbs/dmabuf_alloc.c
+ create mode 100644 pyverbs/dmabuf_alloc.h
+
+-- 
+1.8.3.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
