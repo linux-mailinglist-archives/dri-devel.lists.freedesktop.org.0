@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD55A2FE50A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3D42FE52C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Jan 2021 09:39:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2FF6E51D;
-	Thu, 21 Jan 2021 08:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6A26E4EA;
+	Thu, 21 Jan 2021 08:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCF96E51D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 08:33:01 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id g69so568977oib.12
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 00:33:01 -0800 (PST)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 628016E4EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 08:39:31 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id 9so1379033oiq.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 00:39:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uX11i9ntHKvjXSr2VUaKfVVivjbrt/oL5DMR5Av1mfQ=;
- b=Waj5/Hh9QiVwxjR4nEz5y7b01uPWEmRMy/6wqmXtXcfpKDHMGBiKtBZRZfHBNYRvsS
- 8G1lfiJ1/4cmnM3eKji6pjpCYGh9STOXBBPHdEQmT3Q3g3wWwmGnWDoYL56mbi1XU2iI
- bpUQccinaAKzE9oQk31XcfFtfv6GDskoDLYNY=
+ :cc; bh=kUfE6SE2n4SlWhNh9yX+hYT59DeJtvAevoxz9O0TUik=;
+ b=TMAYX7QpeIeo0SfI4thWj5+xPv0DebVU+jxpSwtXWWoVQE84U3WmqKHg2Qft1tihQW
+ DB2oOS44TFmyBNUiPyczVFFVRDnnzX7CXxrO4CSZqhf86MPvPEoVPiCfYRdJkxCu76vO
+ imVq/j+2Imm/U2YKA+alPP8NkHUHRvLDmkeRU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uX11i9ntHKvjXSr2VUaKfVVivjbrt/oL5DMR5Av1mfQ=;
- b=EhE99YrcaUbh05cxaQrVmnSX1rEciHNhD57AUPtVXQJBoa5ZaATyTTWXqgnu2Eb6q9
- MZVMJu8oGYfWAZZNT9zAIknr935b50kRsWOB3MouQJcvn3W1ey9fPGZk0PZJTvnLRM5o
- k1DOCYKddQh6X1UcFIiFtKu//PuecRgKQI4X90dJVKFUS9spjAJ1V4+hFY+8Hu9cgfVd
- J+V7GOWSk8lbzJF0bJgD4nSViZ7dLG/iguvIoFYzpTR2t63jfLNh51GtpSnEEC/2GE/p
- Pm5IowSxWRasB/8pqKHfDMS6++4JOIoY5XPXqq0pbn2ahNz2iYojhBxzBf0VNgrP0z/7
- +IRw==
-X-Gm-Message-State: AOAM532MfLkmXmwv/pyOwXSFZPHZ1zS5vm4HjAxRzyzycwQNWsT1QbXZ
- +R3O2XeSwZJUzv9btc9dEOIsTgWGTJwDhab1deiueg==
-X-Google-Smtp-Source: ABdhPJw+4IsAgRHo2MtvXqtNHIi15f7EcB4J/2s7VVzDrmrcmIIQo+1zUjeULyIuUrzgvFuyBO2o90wnLGPb4+F9yEY=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr5164573oia.14.1611217981254; 
- Thu, 21 Jan 2021 00:33:01 -0800 (PST)
+ bh=kUfE6SE2n4SlWhNh9yX+hYT59DeJtvAevoxz9O0TUik=;
+ b=QFAvFVrMLmZ59xWNLRJrGru9RoCk2Z9IFzBNaJ4HAlzLQmQWWSMrx3OxFlhIso36+P
+ Mm7j1TP10Y6eLsNSxAS4XH+XHMv2AOEt7PVh7SC9iNkZx5W++6+2U8lhGz2rtxnFAt9W
+ vgosBbw67QKyiUSXjUUkhyV2qQqYSCSxYyOM3vHvojiwd5wleGmV1hQrPhrXmko5l5G6
+ soD+A8e1GWMLCHJZC57y89OA5ksbtJPY5pdylSC+1dKyabc0xa7vihcn0e1Hf8nlU6uY
+ vuKh3vtqBbqGniI7tC5FAeiJ5rVIrZd/R55Ko/Z4w6pD1iH1mrjrtElMsfALq1Mt1Bbc
+ I1Cw==
+X-Gm-Message-State: AOAM531V+x2EhBbp7kIsHBAKL5USiYgYwx1/ACUHT0ZD64a1a37yRzTw
+ M3neXtJX0BR42ZvJjl4cKJIaz21Kghq6DVuobOU7/w==
+X-Google-Smtp-Source: ABdhPJwdBtD3B1cBobpcMyhJG7mZaplWKuBOFYhagzM+X5GOmA44nSE9377UdftyPqlQOfXqfDOSago3v5JpojgiclM=
+X-Received: by 2002:aca:ad92:: with SMTP id w140mr5422725oie.128.1611218370352; 
+ Thu, 21 Jan 2021 00:39:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20210115120014.4211dec6@canb.auug.org.au>
- <20210120171501.61aa0786@canb.auug.org.au>
- <20210121115341.012c1a55@canb.auug.org.au>
- <CADnq5_PuH6RNpkAKfUD011rDEXCRd5-0_ad0Rv40k_2gqiQaYA@mail.gmail.com>
-In-Reply-To: <CADnq5_PuH6RNpkAKfUD011rDEXCRd5-0_ad0Rv40k_2gqiQaYA@mail.gmail.com>
+References: <20210121074959.313333-1-hch@lst.de>
+ <20210121074959.313333-9-hch@lst.de>
+ <CAKMK7uFo3epNAUdcp0vvW=VyWMMTZghGyRTPbz_Z37S6nem_2A@mail.gmail.com>
+ <20210121082820.GA25719@lst.de>
+In-Reply-To: <20210121082820.GA25719@lst.de>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 21 Jan 2021 09:32:50 +0100
-Message-ID: <CAKMK7uF8U8X54DFjRpovw1UO6B2xv16nzBrX1t2HQ6bZOmskcw@mail.gmail.com>
-Subject: Re: linux-next: build warning after merge of the amdgpu tree
-To: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 21 Jan 2021 09:39:19 +0100
+Message-ID: <CAKMK7uHKwpjTC8DZ=yDtHpEaLXN7D5C+mOGK52jjkdR=6vib3Q@mail.gmail.com>
+Subject: Re: [PATCH 08/13] drm: remove drm_fb_helper_modinit
+To: Christoph Hellwig <hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +60,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
+Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ linux-kbuild <linux-kbuild@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Masahiro Yamada <masahiroy@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+ Michal Marek <michal.lkml@markovi.net>, Joe Lawrence <joe.lawrence@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, live-patching@vger.kernel.org,
+ Miroslav Benes <mbenes@suse.cz>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 21, 2021 at 4:07 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+On Thu, Jan 21, 2021 at 9:28 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On Wed, Jan 20, 2021 at 7:53 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> >
-> > Hi all,
-> >
-> > On Wed, 20 Jan 2021 17:15:01 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> On Thu, Jan 21, 2021 at 09:25:40AM +0100, Daniel Vetter wrote:
+> > On Thu, Jan 21, 2021 at 8:55 AM Christoph Hellwig <hch@lst.de> wrote:
 > > >
-> > > On Fri, 15 Jan 2021 12:00:14 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> > > >
-> > > > After merging the amdgpu tree, today's linux-next build (x86_64
-> > > > allmodconfig) failed like this:
-> > > >
-> > > > drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'dm_set_vblank':
-> > > > drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5380:33: warning: unused variable 'dm' [-Wunused-variable]
-> > > >  5380 |  struct amdgpu_display_manager *dm = &adev->dm;
-> > > >       |                                 ^~
-> > > >
-> > > > Caused by commit
-> > > >
-> > > >   98ab5f3513f9 ("drm/amd/display: Fix deadlock during gpu reset v3")
+> > > drm_fb_helper_modinit has a lot of boilerplate for what is not very
+> > > simple functionality.  Just open code it in the only caller using
+> > > IS_ENABLED and IS_MODULE.
 > > >
-> > > I am still getting this warning.
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > >
-> > I now get this warning from the drm tree merge.
-
-Drat, I missed that when merging.
-
-> Bhawan sent out the fix today:
-> https://patchwork.freedesktop.org/patch/415092/
-
-Applied directly to drm-next, thanks.
--Daniel
-
+> > I didn't spot any dependencies with your series, should I just merge
+> > this through drm trees? Or do you want an ack?
 >
-> Alex
->
-> >
-> > --
-> > Cheers,
-> > Stephen Rothwell
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> I'd prefer an ACK - module_loaded() is only introduced earlier in this
+> series.
 
+I was looking for that but didn't find the hunk touching drm somehow ...
 
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
