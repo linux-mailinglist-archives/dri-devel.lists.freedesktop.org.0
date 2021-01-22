@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02412FFE75
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:45:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D882FFE9A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:46:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E6D6E0ED;
-	Fri, 22 Jan 2021 08:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C56C6E9FE;
+	Fri, 22 Jan 2021 08:46:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACC8689F45
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 05:32:04 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id b8so2608431plx.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 21:32:04 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A3289D5C
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 05:40:19 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id q4so2590400plr.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 21:40:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=android.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BLXgpOXOllZOpAnIxHqD+UYHHzmwKo7AFJN3hA2f4pQ=;
- b=tbFctqzA8MbsuRfWOhF7+/+paIyBF3tGT2Xt2BFWfgMIf/864NJN5Rua+rYjyBMOAI
- iZol7ydj8ULFhwH/EXNswxfwfO4XNCypF5xO9teuC9FW2HOkXna5LhsUJ523EnWqh0B5
- QYzlKFR8seCOHX7neVmJMlFXLCQPolctCREXowxeTVA6GkdLdi3G1vJ+OtssRm/1DgYa
- qbnjJZqjEChBQZGI81Yw+MHuIM1wk6/K70lAKe+4XnoC5o/GweTdKp1qRn+mqLfyqRjf
- X2owyeS6CZD3J2TqEneV/mtHcmt1gd3TDz1pwiUuaVI8ZcoBdZjEJ/GDGcRW+Dmo4tCw
- oHyA==
+ bh=F+VVqD6sXlF+5lVgKKmRD65kHUVFDRo2SqtuDbp5A2g=;
+ b=IaDISI25WrpzeFw5mp3kQjVIz7W1oxuRgpoH5rOeGBn1yavV3XkZtjBAUBoa3jxWdJ
+ 1hoTXT9+r+ygCc/DBsrtvd29QHBLEmgI4xeHSIrMb4er5Gwd0a+K0TqHJOsxI4syLnly
+ fDOpXqp/0Cqc0zerDk/bYbqdiXzvt4o7gnBrxEFvgG3RPW16mQrrE79WRci4TFCcW7MK
+ fGBS22Ay3veF/h2yoDZHu0PNYBNGG0UwGjTinrg9mEuOcsSkzwzwXmC6Rzzl65PXpItW
+ JSPodf/PabWwkk2r1xQlfM2cKiO7YuLNtdJqtTsr3GSOxvmeF56H96vT0A3WfemI9mSi
+ ZqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BLXgpOXOllZOpAnIxHqD+UYHHzmwKo7AFJN3hA2f4pQ=;
- b=q8bNHJY3F0NKe7zJGvs6U4bRZ1ma+fDb47VWnRBXuXz095RQSqoFAT8CmIDL8IWJnB
- +waeerQQFk+6IhUn1F2aV/Ydp7/bl7tjeJ9d19JBKvUjeLmnH54KsE46xumuK2waHWoZ
- jlDrdhc+O3eaBk+a2iP/pNymvP4nLY/EnR3U6l0GlEgPLayKhKkNENz9PLGyEDp7ECKp
- kZFbc1cGysmVC4/RPhjthWB7gUErfkbkUxHMeudTcF3SqbmUHE+Vd106rxuBDIMWyUA4
- gToEXkEbxKHCH6oZ+FZcFq7BPuyTPqx68N93egOIFtL9ut1+TaXIuVl8bvHiRwud7Y4y
- MwsQ==
-X-Gm-Message-State: AOAM532gTY0f3IQvmmqjntbxnFSlxu3VTZ8sVYMj8E+noRjE/+owtOq2
- QcAU6S+LFUvFnup4IN8Bxdot1g==
-X-Google-Smtp-Source: ABdhPJzvNY5BuI42QFjGI0uH6F1mNIZl44NkdqVjmfiVXaOwvVeKlvcj9wg9zceerPKtXqqBJaZ3Tw==
-X-Received: by 2002:a17:90b:4b86:: with SMTP id
- lr6mr3306071pjb.107.1611293524025; 
- Thu, 21 Jan 2021 21:32:04 -0800 (PST)
+ bh=F+VVqD6sXlF+5lVgKKmRD65kHUVFDRo2SqtuDbp5A2g=;
+ b=C6c7c40MehGWpAKoQKUuQuPi98vyXzYuSS+TsULkcbutLbzJYiqcldcGf7Ys5wJdE5
+ cv0dV9Mjfw3wyxr95T+Sv4yk8Abb4XbWGnK/55ivDQxpnx6p289vAkanrJhepVdiEkIR
+ IjmAWpruUwraUAXV5AQpODOE6Yeq0yj0y/zT3ETk0/ll7m287tTIy+LfkQK2eoe+89R4
+ DI4/ih41tGUAUo+s+4mECXdH8cAd3B/Y5lwS3+La5HGTgC0QYUDgfBN0Xx1Gpu+7U/OW
+ Y9U76lQfWU7dxEVaChIXUlxCf0Bj0UXnwG5EADXstBJbhbp2oSGLqWtKOapmF9v7MVfV
+ P7zQ==
+X-Gm-Message-State: AOAM530o+Qpsf3X3QguQJpZ2sVCnVy8EXYDfMaoPIWkek3Sy/g514BbI
+ XbfXZ2PoqHkLel3Y93fnwo50iw==
+X-Google-Smtp-Source: ABdhPJwrUOYouOww1Q9H3FD8MyKJueIXCGnVdG75HCUhilMWt3e1L501NqTTmR87um6lRr1LmhA3zQ==
+X-Received: by 2002:a17:902:d50b:b029:de:675f:5b39 with SMTP id
+ b11-20020a170902d50bb02900de675f5b39mr2888645plg.68.1611294019443; 
+ Thu, 21 Jan 2021 21:40:19 -0800 (PST)
 Received: from zzyiwei.c.googlers.com.com
  (254.80.82.34.bc.googleusercontent.com. [34.82.80.254])
- by smtp.gmail.com with ESMTPSA id x186sm6600392pfd.57.2021.01.21.21.32.03
+ by smtp.gmail.com with ESMTPSA id fy20sm8433683pjb.54.2021.01.21.21.40.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 21:32:03 -0800 (PST)
+ Thu, 21 Jan 2021 21:40:19 -0800 (PST)
 From: Yiwei Zhang <zzyiwei@android.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/virtio: trace total gem bo for virtio
-Date: Fri, 22 Jan 2021 05:31:59 +0000
-Message-Id: <20210122053159.1720274-1-zzyiwei@android.com>
+Subject: [PATCH v4] drm/virtio: Track total GPU memory for virtio driver
+Date: Fri, 22 Jan 2021 05:40:11 +0000
+Message-Id: <20210122054011.1722954-1-zzyiwei@android.com>
 X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-In-Reply-To: <20210121091013.wlqyukat2w7fow33@sirius.home.kraxel.org>
-References: <20210121091013.wlqyukat2w7fow33@sirius.home.kraxel.org>
+In-Reply-To: <20210122053159.1720274-1-zzyiwei@android.com>
+References: <20210122053159.1720274-1-zzyiwei@android.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 22 Jan 2021 08:45:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,19 +71,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Yiwei Zhang <zzyiwei@google.com>, Yiwei Zhang <zzyiwei@android.com>
+Cc: Yiwei Zhang <zzyiwei@android.com>, kernel-team@android.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yiwei Zhang <zzyiwei@google.com>
-
 On the success of virtio_gpu_object_create, add size of newly allocated
 bo to the tracked total_mem. In drm_gem_object_funcs.free, after the gem
-bo lost its last refcount, subtract the bo size from the tracked
+bo loses its last refcount, subtract the bo size from the tracked
 total_mem if the original underlying memory allocation is successful.
 
 It's more accurate to do this in device driver layer to best match when
@@ -109,14 +107,14 @@ index b925b8b1da16..e103b7e883b1 100644
  	   This is the virtual GPU driver for virtio.  It can be used with
  	   QEMU based VMMs (like KVM or Xen).
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 6a232553c99b..7ab63ce9c6a9 100644
+index 6a232553c99b..c5622f9b591f 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
 @@ -249,6 +249,8 @@ struct virtio_gpu_device {
  	spinlock_t resource_export_lock;
  	/* protects map state and host_visible_mm */
  	spinlock_t host_visible_lock;
-+	/* total memory backing gem bos */
++
 +	atomic64_t total_mem;
  };
  
