@@ -2,37 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8342301444
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649F0301438
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2979F6EADB;
-	Sat, 23 Jan 2021 09:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA5B6E12E;
+	Sat, 23 Jan 2021 09:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 37A6C6E19B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 10:54:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8702211D4;
- Fri, 22 Jan 2021 02:54:21 -0800 (PST)
-Received: from [10.57.9.64] (unknown [10.57.9.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F71C3F719;
- Fri, 22 Jan 2021 02:54:19 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: Add governor data with pre-defined
- thresholds
-To: Steven Price <steven.price@arm.com>
-References: <20210121170445.19761-1-lukasz.luba@arm.com>
- <c5ad1148-0494-aaed-581a-c13ed94e42e8@arm.com>
- <38c4dc94-0613-33f9-e4e4-e42d451aed9b@arm.com>
- <cd5a78e8-ba0a-d502-29e7-8d25ddb52659@arm.com>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <aa55a8ca-626e-7072-d12a-f122aadd809e@arm.com>
-Date: Fri, 22 Jan 2021 10:54:18 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0596E19B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 10:54:52 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id AE0B61A82;
+ Fri, 22 Jan 2021 05:54:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 22 Jan 2021 05:54:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=aHbceojI5j+cVCfYPhriXwU8TP4
+ fEYZ/NBPcWe5bQh0=; b=QJ+EZldFuw1YJjPPjCQ3ONj9wGcW7sk1nJl9UN65sBG
+ OlDCzUCPcZYwUbbmfIkbsE7yPk4EwcyFwVMyl8qlliMprCExLqqIYoqqZ6Zu3Jn1
+ aHn3J29pEBWG1GIDzg2KbL61QdLP2G0/6xIEJLWF7JwmmE0Aj9/8QCxiDU16LOsj
+ YdeaStCQhtHkdT2EJ3oy/d1+Y1e17nMnV8UI47vZ/oNhtH/Fn89auQz2G6/aDbBk
+ K7IZa19GLdff5EZEZUFndcEgscLhaoML8nJ1j04eq2KwVo4DgKOwWWM6J6S/D4Rp
+ lLSJ0x9e0FwJeR0Bim7AG/daLLFrCAg/7Pf9eZkWG8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aHbceo
+ jI5j+cVCfYPhriXwU8TP4fEYZ/NBPcWe5bQh0=; b=kVuIR5e85P5zXnURsQLr9r
+ HkoyCGWc3bd+tuEJZcSajE4Q60gceNJcYSnqHQdasuykQDvs87VDfZip6prpaXST
+ wNjlNemPZEs4cT2beupqGNiRYIw9vWJPFXj3ZDiSbPukvW56IfTrV+q55DaVU7c5
+ +QdRikGc0x+T6fxP+CG7FWtdPLeFDTKt/+dcVxKG0o8Vij4p3xMk25CFSeYi6v1t
+ rFi1FoDPg1dF7f1pP4tCLzebMwfuxrwTCPPVa+jzsK7pf5FY7LBH9HIedEKFK8Ae
+ WhCXePBiQmuS653ZGllrGN8Q97bzo3gdx+sdFfPPWvNTJ5sKZaZj5bh9Cr1Iw9Rg
+ ==
+X-ME-Sender: <xms:9q4KYPbuNHV1cz_WM5lqZnu4TsMygGHeQjAbmyEbUMnWzhnAW2IwBg>
+ <xme:9q4KYObe-Fz4XrBxbXYXdhPVd2tiabdjEq-GNfF61-wa76Nx304hRD-9OAtCGGSLb
+ vB3BaRAtY62oqhXckU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeigddvfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:9q4KYB_koRXc0H_qsO-v5GvZ8tB_8sbSIlP8N50LiCeZjkcFnKmSRQ>
+ <xmx:9q4KYFpnWRzPex91ZlSHcH_gkH8zXkyL44_zmnRXP8atrxDeoSaBzQ>
+ <xmx:9q4KYKqhJ_QJBcS8p9ugb_vDhWSZahvB9yM5RqIw9AqasOJBcViDNg>
+ <xmx:-K4KYB164cZYEYE2oM1SdsXpWP4sXXNiLA9MqYUW4RFWNlcbS3mFjg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 351BF24005D;
+ Fri, 22 Jan 2021 05:54:46 -0500 (EST)
+Date: Fri, 22 Jan 2021 11:54:44 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Lucas Nussbaum <lucas@debian.org>
+Subject: Re: [PATCH 1/2] drm/vc4: Correct lbm size and calculation
+Message-ID: <20210122105444.zn4uiruqwp5olyxb@gilmour>
+References: <20210121105759.1262699-1-maxime@cerno.tech>
+ <20210121110406.yeb4zoqwwgilyrhq@gilmour>
+ <20210121162622.GA16797@xanadu.blop.info>
 MIME-Version: 1.0
-In-Reply-To: <cd5a78e8-ba0a-d502-29e7-8d25ddb52659@arm.com>
-Content-Language: en-US
+In-Reply-To: <20210121162622.GA16797@xanadu.blop.info>
 X-Mailman-Approved-At: Sat, 23 Jan 2021 09:38:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,91 +80,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, daniel.lezcano@linaro.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- alyssa.rosenzweig@collabora.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org,
+ Ryutaroh Matsumoto <ryutaroh@ict.e.titech.ac.jp>
+Content-Type: multipart/mixed; boundary="===============1094038199=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--===============1094038199==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="bgvcasrpafhi4gqr"
+Content-Disposition: inline
 
-On 1/22/21 10:24 AM, Steven Price wrote:
-> On 22/01/2021 10:00, Lukasz Luba wrote:
->>
->>
->> On 1/22/21 8:21 AM, Steven Price wrote:
->>> On 21/01/2021 17:04, Lukasz Luba wrote:
->>>> The simple_ondemand devfreq governor uses two thresholds to decide 
->>>> about
->>>> the frequency change: upthreshold, downdifferential. These two tunable
->>>> change the behavior of the governor decision, e.g. how fast to increase
->>>> the frequency or how rapidly limit the frequency. This patch adds 
->>>> needed
->>>> governor data with thresholds values gathered experimentally in 
->>>> different
->>>> workloads.
->>>>
->>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->>>> ---
->>>> Hi all,
->>>>
->>>> This patch aims to improve the panfrost performance in various 
->>>> workloads,
->>>> (benchmarks, games). The simple_ondemand devfreq governor supports
->>>> tunables to tweak the behaviour of the internal algorithm. The default
->>>> values for these two thresholds (90 and 5) do not work well with 
->>>> panfrost.
->>>> These new settings should provide good performance, short latency for
->>>> rising the frequency due to rapid workload change and decent freq slow
->>>> down when the load is decaying. Based on frequency change statistics,
->>>> gathered during experiments, all frequencies are used, depending on
->>>> the load. This provides some power savings (statistically). The highest
->>>> frequency is also used when needed.
->>>>
->>>> Example glmark2 results:
->>>> 1. freq fixed to max: 153
->>>> 2. these new thresholds values (w/ patch): 151
->>>> 3. default governor values (w/o patch): 114
->>>
->>> It would be good to state which platform this is on as this obviously 
->>> can vary depending on the OPPs available.
->>
->> Sorry about that. It was Rock Pi 4B and I have mesa 20.2.4.
->>
->>>
->>> Of course the real fix here would be to improve the utilisation of 
->>> the GPU[1] so we actually hit the 90% threshold more easily (AFAICT 
->>> kbase uses the default 90/5 thresholds), but this seems like a 
->>> reasonable change for now.
->>
->> Agree, improving the scheduler would be the best option. I'll have a
->> look at that patch and why it got this 10% lower performance. Maybe
->> I would find something during testing.
-> 
-> I'm afraid it'll probably need a fair bit of work to rebase - things 
-> have changed around that code. I'm hoping that most of the problem was 
-> really around how Mesa was driving the GPU at that time and things 
-> should be better. The DDK (hacked to talk Panfrost ioctls) saw a 
-> performance improvement.
-> 
-> Let me know if you hit problems and need any help.
 
-OK, I will contact you when I face some problems.
+--bgvcasrpafhi4gqr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->>>
->>> Reviewed-by: Steven Price <steven.price@arm.com>
->>
->> Thank you for the review. I guess this patch would go through drm tree?
-> 
-> Yes, I'll push it to drm-misc-next later.
+Hi Lucas,
 
-Thank you!
+On Thu, Jan 21, 2021 at 05:26:22PM +0100, Lucas Nussbaum wrote:
+> Hi Maxime,
+>=20
+> On 21/01/21 at 12:04 +0100, Maxime Ripard wrote:
+> > Hi Lucas, Ryutaroh,
+> >=20
+> > On Thu, Jan 21, 2021 at 11:57:58AM +0100, Maxime Ripard wrote:
+> > > From: Dom Cobley <popcornmix@gmail.com>
+> > >=20
+> > > LBM base address is measured in units of pixels per cycle.
+> > > That is 4 for 2711 (hvs5) and 2 for 2708.
+> > >=20
+> > > We are wasting 75% of lbm by indexing without the scaling.
+> > > But we were also using too high a size for the lbm resulting
+> > > in partial corruption (right hand side) of vertically
+> > > scaled images, usually at 4K or lower resolutions with more layers.
+> > >=20
+> > > The physical RAM of LBM on 2711 is 8 * 1920 * 16 * 12-bit
+> > > (pixels are stored 12-bits per component regardless of format).
+> > >=20
+> > > The LBM adress indexes work in units of pixels per clock,
+> > > so for 4 pixels per clock that means we have 32 * 1920 =3D 60K
+> > >=20
+> > > Fixes: c54619b0bfb3 ("drm/vc4: Add support for the BCM2711 HVS5")
+> > > Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > This one should fix your issue
+> >=20
+> > Feel free to test it and let me know if it's not the case
+>=20
+> I confirm that the patches fix the issue I was seeing.
 
-Lukasz
+Great. Can I add your Tested-by (and Ryutaroh, can I add yours as well?)
+
+Maxime
+
+--bgvcasrpafhi4gqr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAqu9AAKCRDj7w1vZxhR
+xSdVAQDG5uB6Tg+Z2XJz2bHuE04kBDDzIMtbiTu2UALmMoD68wD9HqtkDXPDypMD
+0rktQ1XV+F+s3a01o/rAn0n9b1DZoQY=
+=dLAB
+-----END PGP SIGNATURE-----
+
+--bgvcasrpafhi4gqr--
+
+--===============1094038199==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1094038199==--
