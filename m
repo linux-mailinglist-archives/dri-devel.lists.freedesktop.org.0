@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B422FF9DD
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 02:18:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E84152FFBE7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 05:42:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C5C6E980;
-	Fri, 22 Jan 2021 01:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6FF6E99A;
+	Fri, 22 Jan 2021 04:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941736E980
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 01:18:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0AD52239D4;
- Fri, 22 Jan 2021 01:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611278312;
- bh=Ab/7UB3+CkjTq/GN0XW1zRbgIy6+ugyLv/KLYCTmRa8=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=T3B3eq6FoE2jghja2wucAXxJJCuA0ESmBsjJ6SudIqTjKN75kDk4AHbFXe2WY3EzK
- ZRLvATADkIHpjrR4gUHn80L158ZE/kv64AcxUA8As2CiuJAa+nIrCz1plkvhowLiis
- qY89Ka3B/Fza6WSdPsc3bv1kwafcWdxrg38bvt8QiRTal0VhfWCtWphYRznpjbQYOx
- 4fevTiA7XZ8IP0/MErJM86BLGzccQfSAjUMJqHXyTqximC4SC8PP0T5mBQayrWsivB
- d5ppvXSz0VPdoR3oyvqmHXTfT9VwTYWgNMKA7xAgtyb79v3bLEHIhU28LQlqItDqyf
- JqOu9o4pUhvLA==
-Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id E430760641;
- Fri, 22 Jan 2021 01:18:31 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.11-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txc42qTPjmjChm3Z9itOp7-O=YivoG0oa8DsRMFriF4bA@mail.gmail.com>
-References: <CAPM=9txc42qTPjmjChm3Z9itOp7-O=YivoG0oa8DsRMFriF4bA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txc42qTPjmjChm3Z9itOp7-O=YivoG0oa8DsRMFriF4bA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-01-22
-X-PR-Tracked-Commit-Id: 06ee38dc2aab3b5a09feb74128cf7326a490b788
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 36ada25026357c855d5839166f78017509824b77
-Message-Id: <161127831186.8007.4452745686230068305.pr-tracker-bot@kernel.org>
-Date: Fri, 22 Jan 2021 01:18:31 +0000
-To: Dave Airlie <airlied@gmail.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE99E6E99A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 04:42:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id B016C238D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 04:42:48 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+ id A069C81649; Fri, 22 Jan 2021 04:42:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Fri, 22 Jan 2021 04:42:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-6A3KDm1tfa@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,28 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 22 Jan 2021 10:00:50 +1000:
+https://bugzilla.kernel.org/show_bug.cgi?id=211277
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-01-22
+--- Comment #3 from kolAflash (kolAflash@kolahilft.de) ---
+I searched through my journalctl log.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/36ada25026357c855d5839166f78017509824b77
+I set up the whole system in May 2020 with Linux-5.6.7.
+(journalctl has everything back to that date)
 
-Thank you!
+
+
+The bug appeared as following since October and Linux-5.8. So Linux-5.8 was
+also affected (contradicting my original post).
+
+I used the system nearly every day and always use s2ram (never shutting down,
+only rebooting when needed for updates).
+So this can be seen statistically.
+
+- 2020-10-21 with Linux-5.8.14 (Debian 5.8.0-3, installed after 2020-09-26)
+- 2020-12-11 with Linux-5.9.11 (Debian 5.9.0-4, installed 2020-12-04)
+- 2020-12-25 with Linux-5.9.11
+- 2021-01-13 with Linux-5.10.4 (Debian 5.10.0-1, installed 2021-01-10)
+- 2021-01-16 with Linux-5.10.4
+- 2021-01-19 with Linux-5.10.4
+
+So the bug didn't appear with Linux <= 5.7.
+And the bugs frequency increased with Linux-5.10.
+
+
+
+In parallel I'm still trying to rule out other factors. (BIOS updates, other
+software changes, ...)
+Something significant might be, that Debian used GCC-9 for Linux-5.7. And
+starting with Linux-5.8 GCC-10 was used.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
