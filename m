@@ -2,111 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B79930143A
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7BD30143B
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 290DC6E162;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F46F6E167;
 	Sat, 23 Jan 2021 09:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2093.outbound.protection.outlook.com [40.107.243.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2328D6E848
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 11:47:31 +0000 (UTC)
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F606E9F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 14:29:24 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10METMJZ093282;
+ Fri, 22 Jan 2021 14:29:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=g0QuitolDljZfbBvlVxSLx1B37DZ0uNAmWAKjYyHWHU=;
+ b=oKMWolquiNGb3Zq/yDzTf9B6b8RerCyrcz8nzG7vUbNcey69V7WTD2xv2dknu8njYxD8
+ m1KwPB8oITy3I3MbDjWyzAmdUgknULeZymBTnIcxso/ChnKG0pYFvZwwXVgfjupABYCY
+ AqPz3LkjoOoIpaCUoyTzzuGY5IDCxBOW3seAFSpY7pQoa4JAjmCEiSoFL/Jb+cRLUxOw
+ cJJeKnGyrLk4qDfpAx3uqyJYJvmXBZ+PyrGTftRQLXV0iDSIMEDsMHZTf1kwJnMwavIZ
+ eo+vS0TxwvlIDStrHoN9YMFbmM+kifPlRboycfQxh3AeUurSoi48tVr4g96q/juSKQ2a ZQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 3668qrmabg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 Jan 2021 14:29:21 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10MEQ7xD061012;
+ Fri, 22 Jan 2021 14:27:21 GMT
+Received: from nam02-cy1-obe.outbound.protection.outlook.com
+ (mail-cys01nam02lp2059.outbound.protection.outlook.com [104.47.37.59])
+ by aserp3020.oracle.com with ESMTP id 3668rhntsu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 Jan 2021 14:27:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BCm5LCLEmP9bL9bNkP+pApndqNfyHpioR5AKZdtY9yvzmEaFJ2z6T6CZiiPoT7lJj3mvnIKtvtQxkj8QPf3KYpV4IouZG2kZZRK9HNy1UImzOmL8zC2eVGNNumomRUscihQhwgLnyGPGnGTl2Ndu+ceYVO40BD1OKhzxh3Pia1XWYhqRbt/Ov1uT4Rng7cgK4Ebnx4ycvZBzLsdX0K56zaUflmho7kn6cWksaeC5flm43BwnsQ0Qplt8XqHDt5bG1Y6HSoR3dsnsiF5plePMTBO6zKtP6FrQsp4dwEDi+66Jve2/oO2nMNa/O5FaqKrz8pC09Qmkth/gcSumiVuqvg==
+ b=ewMhhzWEDxr9zC2+bN69uo+kPJ293hMFEp86t+eMPXKelDG9oekgF+7AwNKjyA+4D7lVcbgy09tXjkou6iPlm+qs8BFRtdoFZobfyb2xJFwQHYyq/n3sEubFYhnuf3LHszfK98eUddCtsdJh8DvuyUslq4LIXxb41mD9oWKhMX1dLHXQGWxC89pT9JmFZOeAUm8KUBp+vnWKZ4TGP3Iqp5BD9kQ3JyLDfpFGgnnIFImn0PCx8YbY3cYWz24i3j6LttLp45GR4lM5t+07Hc4Q2umJtZYkJhBrxF0bbHE+yJhmBrFVS6+mSUiHJO0u1YlnLCUZ0sgLWpyEEHD4T7CheQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eeK6v1Ei5D6Kfkxd6amb+KH4MC+zUNGL2u57PJnnPMA=;
- b=lT27J6UMzrBF21dEMyRhOCfWXWgMA+6MdJJaNRsfrhTtFGKwN151RzRCCuTW5tgR4qAb4YTJdDalNT+TEDeQyXg3J7AIx6lVQvpfZv8FX60AeyEn0RF1lzeySL7f/T1HWiNcfdnHNNO1m4mS94btX9458qeDFEl6/4GP2GAffFsmTNuy6s4mR4knBkvYKZgrhESNjpE9ppoHIOT75LlZt9Lj0R9YtiY7JWunZnn9seQ4lbRh/pVvrY+fWXJZJ/8dRVuC5u7mTJPt8FPbGwnx3kY7uvtxJXPhIqJn1wiFLNT/jZxXjXNS7yOuiRmZdcoP+K665/frQi3IZp/FXcQ0IQ==
+ bh=g0QuitolDljZfbBvlVxSLx1B37DZ0uNAmWAKjYyHWHU=;
+ b=Ym5LlDm3Gh4TtItbC5GanGLnSrnFdhQMtOj13U0JYO8JIpUN5Uwu+H18g4CxZOh+TsV62s7qYtO1r/RLtX0uAaPA/PSo8quyL/1+ff1QBJytg6qTcwQl1+3J4/EyGzvQ9ncbhA5GP4XPX5qe/oJFORPn5iKZPNu5BJsitF2lrVDiOXUk6h9jxBaaxqkMwl2R+JutERsoQ8qAWXxBuTJZsP9qPAbM/VWP3tiFIeUPJqYXJoF8Qg28ueX+j6ho6Bv7E+kg71aspA06Glwl3gitirf1OwsrjHaENtPw15+TTKQekalhrzBH6946w+KfE3piMgG2jh4mLf30DeNpTjzaGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eeK6v1Ei5D6Kfkxd6amb+KH4MC+zUNGL2u57PJnnPMA=;
- b=jsTtGNmqFnqrdfKeoU8DNpFpk2B+s689SVRdg7lNBV08pEN6K61dWMUugDuZTGfGrRWXXUw+xilK4k3VBomYr+RvyeAjIbUA+51tjwHYl6NNED5G1xfzkE2ufvV8XamZTYkf4NiWnyqaWp9X44iczZ3q82E8YvAyq8F+CNHYhDg=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BYAPR04MB5270.namprd04.prod.outlook.com (2603:10b6:a03:c5::22)
+ bh=g0QuitolDljZfbBvlVxSLx1B37DZ0uNAmWAKjYyHWHU=;
+ b=lCu8JqrZiAQ5g8RNK3D5VVtNs+czODrOw7Ltv/GawSvkS9ocJ5uNh/r6Th9V2vxrxcWwbXeaUEqOZ81uh93gPyJ4eWy80JUGf/tv4MdQ87TQqTjFrJuGqp2IPAWTYTt4QTcObrGqZ8/UkMJMEtcJJPCKRU7/YUSgok4aI8bpKqw=
+Received: from SJ0PR10MB4688.namprd10.prod.outlook.com (2603:10b6:a03:2db::24)
+ by BY5PR10MB4049.namprd10.prod.outlook.com (2603:10b6:a03:1b2::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Fri, 22 Jan
- 2021 11:47:28 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5813:96a7:b2d6:132]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5813:96a7:b2d6:132%6]) with mapi id 15.20.3763.015; Fri, 22 Jan 2021
- 11:47:28 +0000
-Date: Fri, 22 Jan 2021 19:47:20 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: drm/bridge: anx7625: add DPI flag
- and swing setting
-Message-ID: <20210122114720.GA29064@pc-user>
-References: <cover.1609380663.git.xji@analogixsemi.com>
- <d13442f84fefccc992d6c5e48ac1e6129882af31.1609380663.git.xji@analogixsemi.com>
- <20210111221435.GA3138373@robh.at.kernel.org>
- <20210112085737.GC5827@pc-user>
- <CANMq1KDRL3xmjvjMUWCr+maLJ2YY4hQr05dMC7sE4+baWOUesw@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CANMq1KDRL3xmjvjMUWCr+maLJ2YY4hQr05dMC7sE4+baWOUesw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [61.148.116.10]
-X-ClientProxiedBy: HK0PR01CA0049.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::13) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Fri, 22 Jan
+ 2021 14:27:19 +0000
+Received: from SJ0PR10MB4688.namprd10.prod.outlook.com
+ ([fe80::6da8:6d28:b83:702b]) by SJ0PR10MB4688.namprd10.prod.outlook.com
+ ([fe80::6da8:6d28:b83:702b%4]) with mapi id 15.20.3784.015; Fri, 22 Jan 2021
+ 14:27:19 +0000
+From: Chuck Lever <chuck.lever@oracle.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: possible IO map leak in drm/gem
+Thread-Topic: possible IO map leak in drm/gem
+Thread-Index: AQHW8AK5GbeC5YWAi0OD1HsTLRIw3qoyKM2AgAAE9QCAAYeXgA==
+Date: Fri, 22 Jan 2021 14:27:18 +0000
+Message-ID: <49ED0F3F-FC66-4751-AC6F-5AD396AD1849@oracle.com>
+References: <632F0FCB-8719-4E8B-B35A-DC0A2DF49369@oracle.com>
+ <86bd5aff-ca8a-517f-1474-1be1d26255ae@suse.de>
+ <357F7DBD-B7E3-4AEF-ABD4-7E7234F7DF1E@oracle.com>
+In-Reply-To: <357F7DBD-B7E3-4AEF-ABD4-7E7234F7DF1E@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=oracle.com;
+x-originating-ip: [68.61.232.219]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 05ebc48e-6447-460c-8c39-08d8bee1d333
+x-ms-traffictypediagnostic: BY5PR10MB4049:
+x-microsoft-antispam-prvs: <BY5PR10MB40497A072D7A4BC406CD924393A09@BY5PR10MB4049.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: GFg1shWd1mBa5QxByW7JyVGDVkMm0u8iFUvXqY0nagu2XyxYFG6qBuAf6+MopeylLtekAiiDxhIBYzFZf3tLf3tsQeu/frk0jaCqG4omDAORKDqkuEL3pbkbg+J6KcVqjPETjFVs8d89ZTcCgkloCet5tdmZLP+5fw8AVxzXRfPrYzpdJ3rLOskFVY/7JmXE6nvq9Cc/tuXPf8/ywRr12bhc8myV8rTbDbxwszimXE7QSqcfZfqcatV4i4TFkK+g1kruqFeZIVM3DMTIklKIyASmbIlCoiiTPT0BN0PF8rOLIzfr5KHqWQ9kZg3UfOcHAKu4Bh7PHn8VdeimJhw/0zKMpXWIHaX1hvt7mIyQniR0z4yNhPeQyX8I935Yk3gek7MENikHtlk/7/twOuTg8dFT+HA/t+r35JyBAv8gpBky4PHNUkWSmCuV6prbkEhTLrq7BF9a9NdFQCh67S3tIIbroASZ7qoKO0sN8Xpq+pwqGqfEscUw5wB0yhMrFmKa+E/7cj0S/OBIgvQ9MVW49Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR10MB4688.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(39860400002)(376002)(346002)(366004)(8676002)(8936002)(6512007)(186003)(86362001)(26005)(44832011)(2616005)(53546011)(6506007)(478600001)(966005)(33656002)(4326008)(316002)(83380400001)(5660300002)(91956017)(66946007)(76116006)(66476007)(36756003)(64756008)(2906002)(66556008)(66446008)(6916009)(6486002)(71200400001)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?UmsydklNNzNmbmFxclhxam5MK21uRkh3Um5Hc3FCaG81Sk1QRFlKNHF2emVB?=
+ =?utf-8?B?ZnU3SzRkTkZaVlArVjdJRlZ2TUdMYnZUNzVDQzlaQXVWck1IWDhjVlpka2ZE?=
+ =?utf-8?B?L0MrM3pPK3ozdmc2cU16WXZrNENZZXdKc20rSElDUlFybDBneGwxelJVQmtz?=
+ =?utf-8?B?QnB2VlE3Y2tWaEVrVWRjc1FoR09aU0cwRDZ3VGZ4MDFjMVpDS1IyMDYxeVNt?=
+ =?utf-8?B?QlJ5dzZyUTFzRlNEVm16RlFZeXpYOW11YlJGT01RWUkxazZUZUgvVUpObmk2?=
+ =?utf-8?B?amwrdU5XK05hVkVMRWYvbDlEdjNQMGNpUDREUHpacTBQZ2VFVGQ4U0pkT2NY?=
+ =?utf-8?B?UzJveVVqNCtDbEFwcm9Uc2NxSWdoN1JLRGVGWWdyNW5mN2NTc3pXb1JlZlND?=
+ =?utf-8?B?L1ZxNUsrcVgzRHlBWEg3aEVTTzhVcEVzNjJpNWg5VHdJbnR4bmpGT1FGeUVk?=
+ =?utf-8?B?TUF4ZWxORU5GZVNoR2s3U29ZTDhjbEh6MHY5ZFhQRFd1K0o2SVVNckp1Q0Nm?=
+ =?utf-8?B?WmwxZjByOTBYdTVEL0toSFJacXBubFlCTzd0WS9iR3drM1FpbE5ZblFKVWVi?=
+ =?utf-8?B?d3NXQkV1UzE4TS82eFR0dE5qVHhtdDMrQy96VnRHT2FRbDh5SkVzSGN0NEsv?=
+ =?utf-8?B?Qlp1UkFmV0JQWTVHOHMyL2pPNWYyT0x3RnU3WUxZRzdhU093Wm5odTRwSWpy?=
+ =?utf-8?B?RnBjbERWSE1FS09wSUF1dmxkRGw2OFh0UGpGRGM0L2FxNnpXQmh0MUZYR1ZS?=
+ =?utf-8?B?ZVRpbTVVZEN3aEZWdmQ0amcrUGlCMlhqSzZxcVVqUWRqQ3doWVY4L1BXdlBJ?=
+ =?utf-8?B?N2xuNVJ6UFRQanNpVjhxeGJvaFlheXJhbWZOR1pKM2FGVE5ZOStiWFFyZkdz?=
+ =?utf-8?B?T3RwVlRmMmRHV1lvQ08relVrQ2syTHJJWjd1S2RyR1Fua0ordFp6bzFiSTJ0?=
+ =?utf-8?B?aHh6YWl3RStYdkw0MWZaOGpCSFlmVlJQVTlWd293ZDZsRmFNUDFEbVdSaVlD?=
+ =?utf-8?B?dTlwNytVQ2dqTzU1azN6NG9wb2sySXpZWUp5enZkUlVrek8zbzNBWGRId2pX?=
+ =?utf-8?B?aU5tMCtMMHVqei9qWkpVdWxSN3BHZ0dzay9rdGt6STE2Z1diTmtySUZrMTc0?=
+ =?utf-8?B?SFBldlBIOXpBY0pkU3NrUXBLMEZvcmh5YWpRWFpwYlFocjc5L3JlaFBTdVZW?=
+ =?utf-8?B?OWJWeWxnaTM5MWVaWlZOcTFqZ3UyblprY25MSlUvS3ExdU1kbHUwQTlTMkVr?=
+ =?utf-8?B?UDVGc2RwSkMwaHE2Ui93NWNyV21EN2xISHBoY1pUZldhVE5zcEJjTnBaVEgz?=
+ =?utf-8?Q?+0+WqPXAI+3/l7c4oH3AKNnrTpg1cIEDRB?=
+x-ms-exchange-transport-forked: True
+Content-ID: <96D3D42F1A63134CB0797EA153CFB12D@namprd10.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pc-user (61.148.116.10) by
- HK0PR01CA0049.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::13) with
- Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.20.3784.12 via Frontend
- Transport; Fri, 22 Jan 2021 11:47:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 02aefbec-6348-4a59-d358-08d8becb7e5b
-X-MS-TrafficTypeDiagnostic: BYAPR04MB5270:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR04MB52700C5D704A454694FAA045C7A09@BYAPR04MB5270.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C0X3QWlex3Q55C7zvEccDUGiA2jKUvoO2c7VVrBiSLoPCtLTxUlq+nLoG3c0CFACpGdDseASY8zrnACWChuUoIe4gqFFAHeTk5BiEqHtmnu1Q3f471KXju0EhSkXZ3WiOyPMC2AvHMaeIYoAyFaV1r/Ml7dNsilA9YAARsvBgKHwuk5lTSQARj89c8yN02fZUowUfkVPKDvSTNmO39bzL16HWSIK28oUWxW25M3DPF2Xq+V1YvIPwKz2tzxhKS/xiMuT3zdVnw0HHLrmDxh0KRPwIfOLa+5meZhwiBwZbENVV1xEg7NTpSkc1cC9AswXFJUqsqJ3SMlPO8JtF/VARYQ3W5ZxTogk75pCXSZ8dlHOjcnn8AJIwoP7Goe91qq+5mfCv/vYpM3F/lSHLUPyJw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(39840400004)(136003)(366004)(376002)(396003)(316002)(6496006)(83380400001)(54906003)(186003)(66946007)(2906002)(52116002)(6916009)(66476007)(7416002)(66556008)(956004)(33716001)(33656002)(478600001)(6666004)(86362001)(8676002)(4326008)(53546011)(9686003)(8936002)(5660300002)(1076003)(26005)(16526019)(55016002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Fl9z3LIu9D2T4IU7jqhIsTGjMnpII9nfjhrrQvnwcGnU30Kg/yll69W8eh0L?=
- =?us-ascii?Q?jh3904/OxroIh9zjmbsLMeSxftzXR89oVY8qmMTHEEr8VkxsHG9YO4qualr3?=
- =?us-ascii?Q?wTPJXipZllHHn2LKwiVL5xjYZoqX1KakU1FRmQc7HYdC1KdvO0cNw7dLj9WH?=
- =?us-ascii?Q?G+mFHDEd0Q/CMLStjoWswmsaZaKIDr9DUgHJI+miqFIZoMWIL0QD42xbFF61?=
- =?us-ascii?Q?AODHMvibxez//YR4bHed7MIWXH5WxShGPBx2OcHQZCbNUoitoFQOEfPNahUw?=
- =?us-ascii?Q?gkhfpQyAxCsmSUlmHLdvfFmLDyvKesMHnpdZLsVukHu1JBPPwuk5TeyrdYiw?=
- =?us-ascii?Q?7QChlgBgtncGRagCC2140y0fNJey+woSQ4SF2X0AoieNtNghNHfE3aCAT7Gx?=
- =?us-ascii?Q?Y5RTirFn+tZGgResejw/p5GOpOwE+yqlWfkMipDLsnOls6Nm+mllS1fbO1MO?=
- =?us-ascii?Q?hjXXx7qMuwkQMDmQjk9U/qPCQw/z/X73yYUtVeQtvCK2vZ6I1XlVTUUNh2iy?=
- =?us-ascii?Q?EJsg76L3iRDznsVZskp0x+e2bb3jIGXtru2wftTAz+MPRK1tCpOLA4oklUGI?=
- =?us-ascii?Q?aVJ1D/z16D6ros5G0iLv12rqvjEal9+8zbOb8K3MPATxWzOMPrnJToYSu/oa?=
- =?us-ascii?Q?ukEVnBxCDl+vtGnQtWGdEvjaXU2mFE+kZU0tuHVztU4KQwoc0ydDfdPUUSj8?=
- =?us-ascii?Q?l2ZOd74j6/6Ohrj59fqQvCZ+Vjh3DgJqiD7MdtQ8IpONahqFMFp43kv49KzY?=
- =?us-ascii?Q?TpaH7bE9e2pCr0MVNt7bKEHeZ8VkL4B07w4kzmlSd60gLI8dploSngAS91b+?=
- =?us-ascii?Q?9j/03P0OeoRRn7wCMq73tF7zOA0VNI+glo6TdHsIoEXIdcvbjT2PRNgvJ1dx?=
- =?us-ascii?Q?jvRQR0O+Gl16T4UmZSLEz79f3dRdxA0rT0pguS23TuFbdk0goJhwtUEUtGUl?=
- =?us-ascii?Q?S3YhAM8JDZXrhtBGH+vVL+i+zEMx4TBHdMrIjGYk3sA3CoyI6Ncr3Wv/o3/I?=
- =?us-ascii?Q?f2NzKHYYbjQM/mVxDQCbEMKYCb317fPC9TnK/9BdMNXSGr++x4hKt4i3fgEY?=
- =?us-ascii?Q?zhMoikCT?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02aefbec-6348-4a59-d358-08d8becb7e5b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2021 11:47:28.6056 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q/UYkBktU2lmqa3XdKRKd4C6UGM6iRlf27Bhysy8DWKog+slfqRbKouFn/IjCnxJ50g0UNmh8RzGy4ed5g2+aA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5270
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4688.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05ebc48e-6447-460c-8c39-08d8bee1d333
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2021 14:27:19.1761 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tHxFepdUS9WFrSG8HVWGKWpaRUf9ngh0uVu5st2xNK43va3Qe0Va8LRG+9DLUaJPxSbh/Avcc+kSBhp7SxcnZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4049
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9871
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101220081
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9871
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101220081
 X-Mailman-Approved-At: Sat, 23 Jan 2021 09:38:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,127 +155,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 20, 2021 at 04:57:56PM +0800, Nicolas Boichat wrote:
-> On Tue, Jan 12, 2021 at 4:59 PM Xin Ji <xji@analogixsemi.com> wrote:
-> >
-> > Hi Rob Herring, thanks for the comments.
-> >
-> > On Mon, Jan 11, 2021 at 04:14:35PM -0600, Rob Herring wrote:
-> > > On Thu, Dec 31, 2020 at 10:21:12AM +0800, Xin Ji wrote:
-> > > > Add DPI flag for distinguish MIPI input signal type, DSI or DPI. Add
-> > > > swing setting for adjusting DP tx PHY swing
-> > > >
-> > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > ---
-> > > >  .../bindings/display/bridge/analogix,anx7625.yaml  | 25 ++++++++++++++++++++--
-> > > >  1 file changed, 23 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > index 60585a4..4eb0ea3 100644
-> > > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > @@ -34,6 +34,16 @@ properties:
-> > > >      description: used for reset chip control, RESET_N pin B7.
-> > > >      maxItems: 1
-> > > >
-> > > > +  analogix,swing-setting:
-> > > > +    type: uint8-array
-> > >
-> > > Humm, this should have be rejected by the meta-schema.
-> > We needs define an array to adjust DP tx PHY swing, the developer hopes these
-> > settings are changeable, so I moved the register data to DT. Can you
-> > give me some suggestion if it is rejected by the meta-schema?
-> > >
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > >
-> > > This is how types are defined other than boolean or nodes (object).
-> > >
-> > > > +    description: an array of swing register setting for DP tx PHY
-> > > > +
-> > > > +  analogix,mipi-dpi-in:
-> > > > +    type: int
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > +    description: indicate the MIPI rx signal type is DPI or DSI
-> > >
-> > > Why does this need to be in DT, you should be able to determine this
-> > > based on what you are connected to.
-> > As the anx7625 can receive MIPI DSI and DPI data (depends on hardware
-> > implement, we have a project which have two anx7625, one is DSI input,
-> > the other is DPI input), we needs to let driver know what kind of MIPI
-> > rx signal input. And there is no other way to tell driver the MIPI rx
-> > signal type, we needs define this flag.
-> > >
-> > > > +
-> > > >    ports:
-> > > >      type: object
-> > > >
-> > > > @@ -49,8 +59,8 @@ properties:
-> > > >            Video port for panel or connector.
-> > > >
-> > > >      required:
-> > > > -        - port@0
-> > > > -        - port@1
-> > > > +      - port@0
-> > > > +      - port@1
-> > > >
-> > > >  required:
-> > > >    - compatible
-> > > > @@ -72,6 +82,17 @@ examples:
-> > > >              reg = <0x58>;
-> > > >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
-> > > >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
-> > > > +            analogix,swing-setting = <0x00 0x14>, <0x01 0x54>,
-> > > > +                <0x02 0x64>, <0x03 0x74>, <0x04 0x29>,
-> > > > +                <0x05 0x7b>, <0x06 0x77>, <0x07 0x5b>,
-> > > > +                <0x08 0x7f>, <0x0c 0x20>, <0x0d 0x60>,
-> > > > +                <0x10 0x60>, <0x12 0x40>, <0x13 0x60>,
-> > > > +                <0x14 0x14>, <0x15 0x54>, <0x16 0x64>,
-> > > > +                <0x17 0x74>, <0x18 0x29>, <0x19 0x7b>,
-> > > > +                <0x1a 0x77>, <0x1b 0x5b>, <0x1c 0x7f>,
-> > > > +                <0x20 0x20>, <0x21 0x60>, <0x24 0x60>,
-> > > > +                <0x26 0x40>, <0x27 0x60>;
-> > >
-> > > This is a matrix, which is different from an array type.
-> > OK, I'll change to array if this vendor define has been accepted.
-> 
-> I also wonder if we want to split the parameters per lane, and simply
-> have a flat array (instead of reg/value pairs like you have now).
-> 
-> Registers 0x00 to 0x13 have to do with Lane 0 (and 0x14 to 0x27 with
-> Lane 1): you can almost tell from the example values, they repeat. I'm
-> not sure if there's any value splitting those further (I don't think
-> anybody will be able to tune those without ANX's help).
-> 
-> So, maybe something like:
-> anx,swing-setting = <<[reg values for lane 0]>, <[reg values for lane 1]>>
-> where <[reg values for lane 0]> would be something like <0x14, 0x54,
-> 0x64, ...> (that is, all the values between 0x00 and 0x13).
-Hi Nicolas, it is a good way, 0x00 to 0x13 for lane0, 0x14 to 0x27 for lane1.
-I'll split the parameters per lane.
-
-Thanks,
-Xin
-> 
-> > >
-> > > > +            analogix,mipi-dpi-in = <0>;
-> > > >
-> > > >              ports {
-> > > >                  #address-cells = <1>;
-> > > > --
-> > > > 2.7.4
-> > > >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQoNCj4gT24gSmFuIDIxLCAyMDIxLCBhdCAxMDowNSBBTSwgQ2h1Y2sgTGV2ZXIgPGNodWNrLmxl
+dmVyQG9yYWNsZS5jb20+IHdyb3RlOg0KPiANCj4gDQo+IA0KPj4gT24gSmFuIDIxLCAyMDIxLCBh
+dCA5OjQ3IEFNLCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6
+DQo+PiANCj4+IChjYydpbmcgZHJpLWRldmVsKQ0KPj4gDQo+PiBIaSwNCj4+IA0KPj4gdGhhbmtz
+IGZvciByZXBvcnRpbmcgdGhlIGJ1Zy4NCj4+IA0KPj4gQW0gMjEuMDEuMjEgdW0gMTU6MzUgc2No
+cmllYiBDaHVjayBMZXZlcjoNCj4+PiBIaSBUaG9tYXMtDQo+Pj4gSSB3YXMgbm90IGFibGUgdG8g
+ZmluZCBhbiBhcHByb3ByaWF0ZSBtYWlsaW5nIGxpc3QgZW50cnkgaW4gTUFJTlRBSU5FUlMsDQo+
+PiANCj4+IFRoYXQgd291bGQgYmUgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4g
+DQo+Pj4gc28gSSdtIG1haWxpbmcgeW91IGRpcmVjdGx5IGFzIGNvbW1pdHRlciBvZiByZWNvcmQg
+Zm9yOg0KPj4+IDQzNjc2NjA1Zjg5MCAoImRybS90dG06IEFkZCB2bWFwL3Z1bm1hcCB0byBUVE0g
+YW5kIFRUTSBHRU0gaGVscGVycyIpDQo+Pj4gSSd2ZSBub3RpY2VkIHRoYXQgc2luY2UgcHV0dGlu
+ZyB2NS4xMS1yYyBvbiBteSB0ZXN0IHN5c3RlbXMsIG92ZXJuaWdodA0KPj4+IG9uIGFuIG90aGVy
+d2lzZSBpZGxlIHN5c3RlbSB0aGUgbG9hZCBhdmVyYWdlIHNlZW1zIHRvIGdyb3cgYXMgdGhlIHJl
+c3VsdA0KPj4+IG9mIGEga2VybmVsIHdvcmtlciB0aHJlYWQuDQo+PiANCj4+IEVhcmxpZXIgdGhp
+cyB3ZWVrIEkgZml4ZWQgYSBjb3VwbGUgb2YgbGVha3MgaW4gdGhhdCBjb2RlLiBDb3VsZCB5b3Ug
+cGxlYXNlIGFwcGx5IHRoZSBwYXRjaCBhdCBbMV0gYW5kIHJlcG9ydCBiYWNrIGlmIGl0IGZpeGVz
+IHRoZSBpc3N1ZS4NCj4+IA0KPj4gSWYgaXQncyBhIHNlcGFyYXRlIHByb2JsZW0sIEknbGwgdGFr
+ZSBhIGNsb3NlciBsb29rLg0KPiANCj4gVGhvbWFzLCB0aGFuayB5b3UgZm9yIHlvdXIgcXVpY2sg
+cmVzcG9uc2UuIEkndmUgaW5zdGFsbGVkIHlvdXIgcGF0Y2gNCj4gb24gb25lIHN5c3RlbSBhbmQg
+aXQgbG9va3MgcHJvbWlzaW5nIGFscmVhZHkuIEknbGwgbGV0IGl0IHNvYWsgb3Zlcm5pZ2h0Lg0K
+DQpBbGwgc3ltcHRvbXMgYXBwZWFyIHRvIGJlIGdvbmUuIEZ3aXcsDQoNClRlc3RlZC1ieTogQ2h1
+Y2sgTGV2ZXIgPGNodWNrLmxldmVyQG9yYWNsZS5jb20+DQoNCg0KPj4gQmVzdCByZWdhcmRzDQo+
+PiBUaG9tYXMNCj4+IA0KPj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8y
+MDIxMDExODE0NDYzOS4yNzMwNy0xLXR6aW1tZXJtYW5uQHN1c2UuZGUvDQo+PiANCj4+PiBJIHVz
+ZWQgInBlcmYgdG9wIiB0byBzZWUgd2hhdCBpdCBoYWQgZ290dGVuIHVwIHRvLCBhbmQgaXQgYXBw
+ZWFycyB0aGF0DQo+Pj4gaXQgd2FzIHNwZW5kaW5nIGxvdHMgb2YgdGltZSB3YWxraW5nIGFuIGlu
+dGVydmFsIHRyZWUgb24gYmVoYWxmIG9mDQo+Pj4gbWVtdHlwZV9yZXNlcnZlKCkuDQo+Pj4gVGhl
+IG1vc3QgZnJlcXVlbnRseS1vYnNlcnZlZCBzdGFjayB0cmFjZSBzZWVtcyB0byBiZToNCj4+PiAg
+ICAga3dvcmtlci8zOjEtMjM1NSAgWzAwM10gNjA5NTAuMTUwOTI4OiBmdW5jdGlvbjogICAgICAg
+ICAgICAgbWVtdHlwZV9yZXNlcnZlDQo+Pj4gICAgIGt3b3JrZXIvMzoxLTIzNTUgIFswMDNdIDYw
+OTUwLjE1MDk0Mjoga2VybmVsX3N0YWNrOiAgICAgICAgIDxzdGFjayB0cmFjZT4NCj4+PiA9PiBm
+ZmZmZmZmZmMwYzY2MDgzDQo+Pj4gPT4gbWVtdHlwZV9yZXNlcnZlIChmZmZmZmZmZmEwMDVmOWQ1
+KQ0KPj4+ID0+IF9faW9yZW1hcF9jYWxsZXIgKGZmZmZmZmZmYTAwNWFhYzEpDQo+Pj4gPT4gdHRt
+X2JvX3ZtYXAgKGZmZmZmZmZmYzA0MGYyNjYpDQo+Pj4gPT4gZHJtX2dlbV92cmFtX3ZtYXAgKGZm
+ZmZmZmZmYzA0MmM1Y2QpDQo+Pj4gPT4gZHJtX2dlbV92bWFwIChmZmZmZmZmZmMwNTA2YTdmKQ0K
+Pj4+ID0+IGRybV9jbGllbnRfYnVmZmVyX3ZtYXAgKGZmZmZmZmZmYzA1MjM3NDEpDQo+Pj4gPT4g
+ZHJtX2ZiX2hlbHBlcl9kYW1hZ2Vfd29yayAoZmZmZmZmZmZjMDQ5YTM0YSkNCj4+PiA9PiBwcm9j
+ZXNzX29uZV93b3JrIChmZmZmZmZmZmEwMGRkOTJlKQ0KPj4+ID0+IHdvcmtlcl90aHJlYWQgKGZm
+ZmZmZmZmYTAwZGRlNDYpDQo+Pj4gPT4ga3RocmVhZCAoZmZmZmZmZmZhMDBlMjJjNCkNCj4+PiA9
+PiByZXRfZnJvbV9mb3JrIChmZmZmZmZmZmEwMDA0MTkyKQ0KPj4+IEkgc2VlIGEgcmVndWxhciBj
+YWxsIHRvIG1lbXR5cGVfcmVzZXJ2ZSgpLCBidXQgbmV2ZXIgYSBtYXRjaGluZyBjYWxsIHRvDQo+
+Pj4gbWVtdHlwZV9mcmVlKCksIHRodXMgSSBzdXNwZWN0IGEgbGVhayBvZiBJL08gbWFwcyBpbiB0
+aGlzIGNvZGUuDQo+Pj4gLS0NCj4+PiBDaHVjayBMZXZlcg0KPj4gDQo+PiAtLSANCj4+IFRob21h
+cyBaaW1tZXJtYW5uDQo+PiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQo+PiBTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KPj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KPj4gR2VzY2jDpGZ0
+c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0KPiANCj4gLS0NCj4gQ2h1Y2sgTGV2ZXINCg0K
+LS0NCkNodWNrIExldmVyDQoNCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
