@@ -1,50 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EA02FFD3F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 08:18:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 340292FFD5C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 08:29:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709C189ECD;
-	Fri, 22 Jan 2021 07:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7496E9A3;
+	Fri, 22 Jan 2021 07:29:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F5489ECD
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 07:18:10 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id p5so5040109oif.7
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Jan 2021 23:18:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PBop7RTwFZUlkXdwz2L/SZMu0KIaBvM9tTFwilxFZIE=;
- b=ESKN50Qx1jWj4eYZ4nVBlkkf25dGN8tnEg/svLx1fdiY7CZHRVwBbTrEyaVoCiVwfM
- /WKGgShTUfOsu2mGe1lpeS2aJFf7u+cKNTOW7DzlKE6RjcUcPc6t+0e0S4/W5e7x9wjL
- MknetX89AQ4UC9FvHZrPNmqgNo8AJoPNwB7lA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PBop7RTwFZUlkXdwz2L/SZMu0KIaBvM9tTFwilxFZIE=;
- b=jj3gsmMHtc5iHSeS8jcjeXk+Hh8gQkfRAuIMeAUfb6TjyadP52/dYI27AD7DempYAi
- OAN7iTeuo/1aWZIEKZWlDBE+1NPkxXJHtp8KOQ/+6xkdQLmlnHXfHobQBmYaPrvpwg/+
- yJ/87jbi2Jxp8+spJm2QmEMYmuFiQGFsLWvr1MYZ5EI9lvR0CNb1Z82LPWqscKO22H20
- qhxdTEmaeif+3JQ1NnP8BlIZrf7s1cWdi7M9LNJIVFOMOsyHwcjOCJz9aL9rGv2ctxSB
- FtkUftw6szmGNYDJdrw6v8ZlJwWGOApiOvxzAeiK43dZ42ybehREgnJKxbFeJ8oe5OUJ
- 5TgA==
-X-Gm-Message-State: AOAM532NAOm0HFbDYlvedr2ZwnVMPNCi0ecc7jnLPMUzFM75KJrMixzv
- QqwIXIYkwBQVqbubp2ns5vxM1g7CtmfrcYcMYLJ6zQ8lEExSLg==
-X-Google-Smtp-Source: ABdhPJxhcoMkh/eQ09cpexkSmm1MY4WiNK1KKSNsTW/U0VYpD8AAYcqLTNNLivy7TLGo86ft5ohCg9Wh1WRf2uAD+fk=
-X-Received: by 2002:aca:ad92:: with SMTP id w140mr2453097oie.128.1611299889390; 
- Thu, 21 Jan 2021 23:18:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20210122115918.63b56fa1@canb.auug.org.au>
-In-Reply-To: <20210122115918.63b56fa1@canb.auug.org.au>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 22 Jan 2021 08:17:58 +0100
-Message-ID: <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 734566E9A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 07:29:52 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4DMW9l4mt0z9s2g;
+ Fri, 22 Jan 2021 18:29:47 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1611300590;
+ bh=+sU56v/j7B/BMjzYJrqFxjhvQY3A0vL+IeSq9RxWC8E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pNFuX/nv9JpIxhg+yzYm/hMCuEevyeivW4N1AbD6+ONqcKZarHSvPgZT/TqOklD6o
+ FZL/8hALb+9b/P09j0FyvB4bIql0U/5eNCFEqMrxFc+/c6nEr6wYZmrh8UVfIuDCJt
+ jsb7Z+p6TQLD4MbWlCvUmb48928Xodps+4R7QlI79Df/FIj2R7CwG1QxfTDrF5OClW
+ /U5s1iDMegGaA1UYInZoPrFnCjtMyPA80gjEBMmgBuOk4OPVwHZgQLpfou/n6oRxlq
+ rhPaJ1+yLjIKjNC5U1kT8cO03QeRKS8N0KHJIHkWIT+GxmA3Zfb0obC5ctkLrLr0YY
+ HwE01RPK+96EQ==
+Date: Fri, 22 Jan 2021 18:29:46 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: linux-next: build warning after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+Message-ID: <20210122182946.6beb10b7@canb.auug.org.au>
+In-Reply-To: <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
+References: <20210122115918.63b56fa1@canb.auug.org.au>
+ <CAKMK7uEuJa1J66mo5dS+QRPy9NOENTx95SZ4rU2MeVRTWj7Kcw@mail.gmail.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +53,75 @@ Cc: Dave Airlie <airlied@linux.ie>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  DRI <dri-devel@lists.freedesktop.org>, Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0107953439=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 22, 2021 at 1:59 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->
-> Hi all,
->
-> After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-> produced this warning:
->
-> WARNING: unmet direct dependencies detected for DRM_I915_WERROR
->   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=y]
->   Selected by [m]:
->   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && EXPERT [=y] && DRM_I915 [=m]
->
-> WARNING: unmet direct dependencies detected for DRM_I915_WERROR
->   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=y]
->   Selected by [m]:
->   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && EXPERT [=y] && DRM_I915 [=m]
->
-> WARNING: unmet direct dependencies detected for DRM_I915_WERROR
->   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=y]
->   Selected by [m]:
->   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && EXPERT [=y] && DRM_I915 [=m]
->
-> Maybe introduced by commit
->
->   4f86975f539d ("drm/i915: Add DEBUG_GEM to the recommended CI config")
+--===============0107953439==
+Content-Type: multipart/signed; boundary="Sig_/Ty/_2YWrLOgQlLIyr8B2db2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Hm that has been in drm-intel-gt-next for a few days, is that tree not
-in linux-next?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--Sig_/Ty/_2YWrLOgQlLIyr8B2db2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+On Fri, 22 Jan 2021 08:17:58 +0100 Daniel Vetter <daniel@ffwll.ch> wrote:
+>=20
+> Hm that has been in drm-intel-gt-next for a few days, is that tree not
+> in linux-next?
+
+It is not.
+
+These are the drm branches currently in linux-next:
+
+drm-fixes	git://git.freedesktop.org/git/drm/drm.git	drm-fixes
+amdgpu-fixes	git://people.freedesktop.org/~agd5f/linux	drm-fixes
+drm-intel-fixes	git://anongit.freedesktop.org/drm-intel		for-linux-next-fix=
+es
+drm-misc-fixes	git://anongit.freedesktop.org/drm/drm-misc	for-linux-next-fi=
+xes
+drm		git://git.freedesktop.org/git/drm/drm.git	drm-next
+amdgpu		https://gitlab.freedesktop.org/agd5f/linux	drm-next
+drm-intel	git://anongit.freedesktop.org/drm-intel		for-linux-next
+drm-tegra	git://anongit.freedesktop.org/tegra/linux.git	drm/tegra/for-next
+drm-misc	git://anongit.freedesktop.org/drm/drm-misc	for-linux-next
+drm-msm		https://gitlab.freedesktop.org/drm/msm.git	msm-next
+imx-drm		https://git.pengutronix.de/git/pza/linux	imx-drm/next
+etnaviv		https://git.pengutronix.de/git/lst/linux	etnaviv/next
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/Ty/_2YWrLOgQlLIyr8B2db2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAKfuoACgkQAVBC80lX
+0GxDIgf/bj7glZsQ4jBfYddzSje7xWzy4RX2JtpP7EHkmQxVoFlr7XsV6HLBt6lV
+1Uo2w7k75Q9EG4cHJ2KIHO1qwxwOlA0ZXLr/a5moxKORSYOC26IHV2ikpjNPzdl4
+aqcK6NS7AX0ymDj+YZEC0MPx/TQAG80Frz1XntuV48MJkFwZaIfpcxj2T3f4h+lK
+J30Don9wFbhcL/z0CX3EopQhXNAPAFQ68B0w09dIunadmBGK9IhbSyZCG40+d5XO
+LnIOJJ1k+odXmVyKQI8jjG7Crk/RRZ4u7vnk10ueSk0gro2oH+A7OWFnVUo0667j
+4wkal1M7G4CgRSZHeUIQMB/jWUqiXQ==
+=1/em
+-----END PGP SIGNATURE-----
+
+--Sig_/Ty/_2YWrLOgQlLIyr8B2db2--
+
+--===============0107953439==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0107953439==--
