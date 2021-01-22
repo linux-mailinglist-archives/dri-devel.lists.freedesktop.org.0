@@ -2,31 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394452FFDF5
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E352FFE09
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 09:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B646E9A3;
-	Fri, 22 Jan 2021 08:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 201D589BAC;
+	Fri, 22 Jan 2021 08:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 252BB6E570;
- Fri, 22 Jan 2021 08:14:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B21B8AB9F;
- Fri, 22 Jan 2021 08:14:47 +0000 (UTC)
-Subject: Re: [PATCH v3 3/4] drm/qxl: release shadow on shutdown
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20210120111240.2509679-1-kraxel@redhat.com>
- <20210120111240.2509679-4-kraxel@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <fbc21376-bb8b-58e8-5ff6-5c644bfeae03@suse.de>
-Date: Fri, 22 Jan 2021 09:14:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D1CBF89BAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 08:21:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEC4411B3;
+ Fri, 22 Jan 2021 00:21:31 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 762483F719;
+ Fri, 22 Jan 2021 00:21:30 -0800 (PST)
+Subject: Re: [PATCH] drm/panfrost: Add governor data with pre-defined
+ thresholds
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20210121170445.19761-1-lukasz.luba@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <c5ad1148-0494-aaed-581a-c13ed94e42e8@arm.com>
+Date: Fri, 22 Jan 2021 08:21:27 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210120111240.2509679-4-kraxel@redhat.com>
+In-Reply-To: <20210121170445.19761-1-lukasz.luba@arm.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,118 +43,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============1988873376=="
+Cc: dri-devel@lists.freedesktop.org, daniel.lezcano@linaro.org,
+ alyssa.rosenzweig@collabora.com, tomeu.vizoso@collabora.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1988873376==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="BHM8OTILCRQMltYlRHrPRsJeGbbtEpZjb"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---BHM8OTILCRQMltYlRHrPRsJeGbbtEpZjb
-Content-Type: multipart/mixed; boundary="cLBy6hjRREc7smgQM8lhwvfJEt4CYYBBI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
-Message-ID: <fbc21376-bb8b-58e8-5ff6-5c644bfeae03@suse.de>
-Subject: Re: [PATCH v3 3/4] drm/qxl: release shadow on shutdown
-References: <20210120111240.2509679-1-kraxel@redhat.com>
- <20210120111240.2509679-4-kraxel@redhat.com>
-In-Reply-To: <20210120111240.2509679-4-kraxel@redhat.com>
-
---cLBy6hjRREc7smgQM8lhwvfJEt4CYYBBI
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 20.01.21 um 12:12 schrieb Gerd Hoffmann:
-> In case we have a shadow surface on shutdown release
-> it so it doesn't leak.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+On 21/01/2021 17:04, Lukasz Luba wrote:
+> The simple_ondemand devfreq governor uses two thresholds to decide about
+> the frequency change: upthreshold, downdifferential. These two tunable
+> change the behavior of the governor decision, e.g. how fast to increase
+> the frequency or how rapidly limit the frequency. This patch adds needed
+> governor data with thresholds values gathered experimentally in different
+> workloads.
+> 
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 > ---
->   drivers/gpu/drm/qxl/qxl_display.c | 4 ++++
->   1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qx=
-l_display.c
-> index 38d6b596094d..60331e31861a 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1229,5 +1229,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
->  =20
->   void qxl_modeset_fini(struct qxl_device *qdev)
->   {
-> +	if (qdev->dumb_shadow_bo) {
+> Hi all,
+> 
+> This patch aims to improve the panfrost performance in various workloads,
+> (benchmarks, games). The simple_ondemand devfreq governor supports
+> tunables to tweak the behaviour of the internal algorithm. The default
+> values for these two thresholds (90 and 5) do not work well with panfrost.
+> These new settings should provide good performance, short latency for
+> rising the frequency due to rapid workload change and decent freq slow
+> down when the load is decaying. Based on frequency change statistics,
+> gathered during experiments, all frequencies are used, depending on
+> the load. This provides some power savings (statistically). The highest
+> frequency is also used when needed.
+> 
+> Example glmark2 results:
+> 1. freq fixed to max: 153
+> 2. these new thresholds values (w/ patch): 151
+> 3. default governor values (w/o patch): 114
 
-Wrt to my comment on patch 2, this might be the place to unpin the BO.
+It would be good to state which platform this is on as this obviously 
+can vary depending on the OPPs available.
 
-> +		drm_gem_object_put(&qdev->dumb_shadow_bo->tbo.base);
-> +		qdev->dumb_shadow_bo =3D NULL;
-> +	}
->   	qxl_destroy_monitors_object(qdev);
->   }
->=20
+Of course the real fix here would be to improve the utilisation of the 
+GPU[1] so we actually hit the 90% threshold more easily (AFAICT kbase 
+uses the default 90/5 thresholds), but this seems like a reasonable 
+change for now.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Reviewed-by: Steven Price <steven.price@arm.com>
 
+Thanks,
 
---cLBy6hjRREc7smgQM8lhwvfJEt4CYYBBI--
+Steve
 
---BHM8OTILCRQMltYlRHrPRsJeGbbtEpZjb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+[1] When I get some time I need to rework the "queue jobs on the 
+hardware"[2] patch I posted ages ago. Last time it actually caused a 
+performance regression though...
 
------BEGIN PGP SIGNATURE-----
+[2] https://lore.kernel.org/r/20190816093107.30518-2-steven.price%40arm.com
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAKiXYFAwAAAAAACgkQlh/E3EQov+CQ
-cw//Z/zn8O5Z7aQqXJbqzjKl8N0/MhAdsp+Tws2mP16RQSTAKFaoGsLEghTXg2H5+9ZiQRxFnvmZ
-XvvfDkvLkg49VZp6kH5C48xd7OqkFSq7wfE32NrGjsG2DtkCT6rbsD8nqmsOqegCEHdjgXW08ln4
-ucmbdn6RBK5N/Qlq8+OojoFGg+J+e/CrbfDG3bOSHtdW1uwXc237oMWaMIEfPKRvOKS84acBw8Mq
-1aAvkIMddAnjw4Dw8b114Uj8USxa2xv69V3gU5bss3IhQAcF6jsRDunZKuSlzPlPmNRSe+IJar7F
-LwR8i+UCT5/XoNvla0pSh8F0nb6sgA2yesGiktmsYC0AgoOiqAF/0JT9b3OWWoL5nxqh83+ez9Z/
-vXHtjizay4whuS5AYp+ULuOmQNzNCMoGNamwt/yDrqhpIpVVnkKTDMiwba7CZUzDgzuJRPstyBIm
-Z7Q+JC06qTduWae6yHNxhodQburqLaxKKKTevXom/F2rbhr4uNZF32cpAFsYX70Fn6EVGL3TOAUq
-vJNlmMw/Yka019C/mNQvtGakfSbWKKMLs9ssMFzVGvLSQsYCDGup4DM7P7paJrAUaAZAd8SOQpO5
-T/oylBM8qFj8u6aDoTWr9deOaHm40Ai2gygwWLA4SbrNlMA6Xk64gTL0JjdB286xnjnIkyY328N1
-o1w=
-=Nuo2
------END PGP SIGNATURE-----
-
---BHM8OTILCRQMltYlRHrPRsJeGbbtEpZjb--
-
---===============1988873376==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> In future the devfreq framework would expose via sysfs these two
+> tunables, so they can be adjusted by the middleware based on currently
+> running workload (game, desktop, web browser, etc). These new values
+> should be good enough, though.
+> 
+> Regards,
+> Lukasz Luba
+> 
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 10 +++++++++-
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.h |  2 ++
+>   2 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 56b3f5935703..7c5ffc81dce1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -130,8 +130,16 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>   	panfrost_devfreq_profile.initial_freq = cur_freq;
+>   	dev_pm_opp_put(opp);
+>   
+> +	/*
+> +	 * Setup default thresholds for the simple_ondemand governor.
+> +	 * The values are chosen based on experiments.
+> +	 */
+> +	pfdevfreq->gov_data.upthreshold = 45;
+> +	pfdevfreq->gov_data.downdifferential = 5;
+> +
+>   	devfreq = devm_devfreq_add_device(dev, &panfrost_devfreq_profile,
+> -					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
+> +					  DEVFREQ_GOV_SIMPLE_ONDEMAND,
+> +					  &pfdevfreq->gov_data);
+>   	if (IS_ERR(devfreq)) {
+>   		DRM_DEV_ERROR(dev, "Couldn't initialize GPU devfreq\n");
+>   		ret = PTR_ERR(devfreq);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.h b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> index db6ea48e21f9..1e2a4de941aa 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.h
+> @@ -4,6 +4,7 @@
+>   #ifndef __PANFROST_DEVFREQ_H__
+>   #define __PANFROST_DEVFREQ_H__
+>   
+> +#include <linux/devfreq.h>
+>   #include <linux/spinlock.h>
+>   #include <linux/ktime.h>
+>   
+> @@ -17,6 +18,7 @@ struct panfrost_devfreq {
+>   	struct devfreq *devfreq;
+>   	struct opp_table *regulators_opp_table;
+>   	struct thermal_cooling_device *cooling;
+> +	struct devfreq_simple_ondemand_data gov_data;
+>   	bool opp_of_table_added;
+>   
+>   	ktime_t busy_time;
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1988873376==--
