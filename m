@@ -1,50 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA7230143E
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D10DA30143D
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F816E933;
-	Sat, 23 Jan 2021 09:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAD616E176;
+	Sat, 23 Jan 2021 09:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B11D6E9B9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 09:42:11 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1l2sxF-0004I2-N8; Fri, 22 Jan 2021 10:42:09 +0100
-Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ore@pengutronix.de>)
- id 1l2sxD-00030e-QC; Fri, 22 Jan 2021 10:42:07 +0100
-Date: Fri, 22 Jan 2021 10:42:07 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH v2 6/7] ARM: dts: imx6dl-prtvt7: fix PWM cell count for
- the backlight node.
-Message-ID: <20210122094207.w2upvl5k5sad7u7p@pengutronix.de>
-References: <20210121061141.23062-1-o.rempel@pengutronix.de>
- <20210121061141.23062-7-o.rempel@pengutronix.de>
- <CAOMZO5C6RM2vEMFJB-+Nen1Et8wn39JJVM1UcOcar0aMebKykQ@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D8DB96E9CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 10:00:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2733311D4;
+ Fri, 22 Jan 2021 02:00:49 -0800 (PST)
+Received: from [10.57.9.64] (unknown [10.57.9.64])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 124DC3F719;
+ Fri, 22 Jan 2021 02:00:46 -0800 (PST)
+Subject: Re: [PATCH] drm/panfrost: Add governor data with pre-defined
+ thresholds
+To: Steven Price <steven.price@arm.com>
+References: <20210121170445.19761-1-lukasz.luba@arm.com>
+ <c5ad1148-0494-aaed-581a-c13ed94e42e8@arm.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <38c4dc94-0613-33f9-e4e4-e42d451aed9b@arm.com>
+Date: Fri, 22 Jan 2021 10:00:44 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAOMZO5C6RM2vEMFJB-+Nen1Et8wn39JJVM1UcOcar0aMebKykQ@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:40:47 up 50 days, 23:47, 29 users,  load average: 0.09, 0.07, 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <c5ad1148-0494-aaed-581a-c13ed94e42e8@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 23 Jan 2021 09:38:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,51 +44,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Robin van der Gracht <robin@protonic.nl>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Jander <david@protonic.nl>, Shawn Guo <shawnguo@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, daniel.lezcano@linaro.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ alyssa.rosenzweig@collabora.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKYW4gMjEsIDIwMjEgYXQgMTE6MTc6NDJBTSAtMDMwMCwgRmFiaW8gRXN0ZXZhbSB3
-cm90ZToKPiBIaSBPbGVrc2lqLAo+IAo+IE9uIFRodSwgSmFuIDIxLCAyMDIxIGF0IDM6MTIgQU0g
-T2xla3NpaiBSZW1wZWwgPG8ucmVtcGVsQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPiA+Cj4gPiBB
-dCBzb21lIHBvaW50IFBXTSBjZWxsIGNvdW50IHdhcyBjaGFuZ2VkLCBidXQgaXQgZGlkbid0IHRy
-aWdnZXJlZCBhbnkKPiAKPiBJdCBjaGFuZ2VkIGluIHRoaXMgY29tbWl0Ogo+IAo+IGNvbW1pdCBm
-YTI4ZDgyMTJlZGU5YzUzM2FlODdhNzM3NTcxYTlkM2IzZWViYjI5Cj4gQXV0aG9yOiBVd2UgS2xl
-aW5lLUvDtm5pZyA8dS5rbGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlPgo+IERhdGU6ICAgRnJp
-IEp1bCAxMCAwNzoxOTozNyAyMDIwICswMjAwCj4gCj4gICAgIEFSTTogZHRzOiBpbXg6IGRlZmF1
-bHQgdG8gI3B3bS1jZWxscyA9IDwzPiBpbiB0aGUgU29DIGR0c2kgZmlsZXMKPiAKPiAgICAgVGhl
-IGlteC1wd20gZHJpdmVyIHN1cHBvcnRzIDMgY2VsbHMgYW5kIHRoaXMgaXMgdGhlIG1vcmUgZmxl
-eGlibGUgc2V0dGluZy4KPiAgICAgU28gdXNlIGl0IGJ5IGRlZmF1bHQgYW5kIG92ZXJ3cml0ZSBp
-dCBiYWNrIHRvIHR3byBmb3IgdGhlIGZpbGVzIHRoYXQKPiAgICAgcmVmZXJlbmNlIHRoZSBQV01z
-IHdpdGgganVzdCAyIGNlbGxzIHRvIG1pbmltaXplIGNoYW5nZXMuCj4gCj4gICAgIFRoaXMgYWxs
-b3dzIHRvIGRyb3AgZXhwbGljaXQgc2V0dGluZyB0byAzIGNlbGxzIGZvciB0aGUgYm9hcmRzIHRo
-YXQgYWxyZWFkeQo+ICAgICBkZXBlbmQgb24gdGhpcy4gVGhlIGJvYXJkcyB0aGF0IGFyZSBub3cg
-dXNpbmcgMiBjZWxscyBleHBsaWNpdGx5IGNhbiBiZQo+ICAgICBjb252ZXJ0ZWQgdG8gMyBpbmRp
-dmlkdWFsbHkuCj4gCj4gICAgIFNpZ25lZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1Lmts
-ZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU+Cj4gICAgIFNpZ25lZC1vZmYtYnk6IFNoYXduIEd1
-byA8c2hhd25ndW9Aa2VybmVsLm9yZz4KCk9LLCBuaWNlLiBUaHghCgpTaG91bGQgSSByZXNlbmQg
-dGhpcyBzZXJpZXMgd2l0aG91dCB0aGlzIHBhdGNoPwoKUmVnYXJkcywKT2xla3NpagotLSAKUGVu
-Z3V0cm9uaXggZS5LLiAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwKU3RldWVyd2FsZGVyIFN0ci4gMjEgICAgICAgICAgICAgICAgICAgICAg
-IHwgaHR0cDovL3d3dy5wZW5ndXRyb25peC5kZS8gIHwKMzExMzcgSGlsZGVzaGVpbSwgR2VybWFu
-eSAgICAgICAgICAgICAgICAgIHwgUGhvbmU6ICs0OS01MTIxLTIwNjkxNy0wICAgIHwKQW10c2dl
-cmljaHQgSGlsZGVzaGVpbSwgSFJBIDI2ODYgICAgICAgICAgIHwgRmF4OiAgICs0OS01MTIxLTIw
-NjkxNy01NTU1IHwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+
+
+On 1/22/21 8:21 AM, Steven Price wrote:
+> On 21/01/2021 17:04, Lukasz Luba wrote:
+>> The simple_ondemand devfreq governor uses two thresholds to decide about
+>> the frequency change: upthreshold, downdifferential. These two tunable
+>> change the behavior of the governor decision, e.g. how fast to increase
+>> the frequency or how rapidly limit the frequency. This patch adds needed
+>> governor data with thresholds values gathered experimentally in different
+>> workloads.
+>>
+>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
+>> Hi all,
+>>
+>> This patch aims to improve the panfrost performance in various workloads,
+>> (benchmarks, games). The simple_ondemand devfreq governor supports
+>> tunables to tweak the behaviour of the internal algorithm. The default
+>> values for these two thresholds (90 and 5) do not work well with 
+>> panfrost.
+>> These new settings should provide good performance, short latency for
+>> rising the frequency due to rapid workload change and decent freq slow
+>> down when the load is decaying. Based on frequency change statistics,
+>> gathered during experiments, all frequencies are used, depending on
+>> the load. This provides some power savings (statistically). The highest
+>> frequency is also used when needed.
+>>
+>> Example glmark2 results:
+>> 1. freq fixed to max: 153
+>> 2. these new thresholds values (w/ patch): 151
+>> 3. default governor values (w/o patch): 114
+> 
+> It would be good to state which platform this is on as this obviously 
+> can vary depending on the OPPs available.
+
+Sorry about that. It was Rock Pi 4B and I have mesa 20.2.4.
+
+> 
+> Of course the real fix here would be to improve the utilisation of the 
+> GPU[1] so we actually hit the 90% threshold more easily (AFAICT kbase 
+> uses the default 90/5 thresholds), but this seems like a reasonable 
+> change for now.
+
+Agree, improving the scheduler would be the best option. I'll have a
+look at that patch and why it got this 10% lower performance. Maybe
+I would find something during testing.
+
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thank you for the review. I guess this patch would go through drm tree?
+
+Regards,
+Lukasz
+
+> 
+> Thanks,
+> 
+> Steve
+> 
+> [1] When I get some time I need to rework the "queue jobs on the 
+> hardware"[2] patch I posted ages ago. Last time it actually caused a 
+> performance regression though...
+> 
+> [2] https://lore.kernel.org/r/20190816093107.30518-2-steven.price%40arm.com
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
