@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3EB3002A0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 13:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DECB30036E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 13:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CADEB89F97;
-	Fri, 22 Jan 2021 12:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB5B96E965;
+	Fri, 22 Jan 2021 12:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8271389F07;
- Fri, 22 Jan 2021 12:15:20 +0000 (UTC)
-IronPort-SDR: i0oqqhbJTUokpYJZ1yVsgm/RaC9AlYRyNhTi1Z54UM0ieHvbXhKy97G8q3q1Q1KQyFONw0fvLf
- C4i9VDNntZuQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179518454"
-X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; d="scan'208";a="179518454"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2021 04:15:19 -0800
-IronPort-SDR: vxhEFHoBM4hXws2Gfq3XVEXWbVHJjZt+mKNZqWwfpNFtZ+x/7C1X0hk8QBjs48BMnxsKHMbW17
- KXS9hV06ZNpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; d="scan'208";a="467909062"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 22 Jan 2021 04:15:08 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 22 Jan 2021 14:15:07 +0200
-Date: Fri, 22 Jan 2021 14:15:07 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 08/11] drm: Rename plane->state variables in atomic
- update and disable
-Message-ID: <YArBy2DKdCct5cYW@intel.com>
-References: <20210121163537.1466118-1-maxime@cerno.tech>
- <20210121163537.1466118-8-maxime@cerno.tech>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D45656E9DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 12:47:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 35EF2B27B;
+ Fri, 22 Jan 2021 12:47:53 +0000 (UTC)
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210120170033.38468-1-noralf@tronnes.org>
+ <20210120170033.38468-2-noralf@tronnes.org>
+ <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+ <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
+ <CAKMK7uHiQ3i-Rz_y_3joR2Zi3fA=1qp8MdGZ9w9PUcGoWT3urw@mail.gmail.com>
+ <1ea4e6e4-0806-dba1-a424-47f178dc882f@suse.de>
+ <7f055c8e-4b60-3da5-058e-3991637db37a@tronnes.org>
+ <a1de51bf-b602-9ac2-1058-b8ced7c6973e@suse.de>
+ <dfd02473-f0b5-e8b2-3399-d87063a2fd1f@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+Message-ID: <9168c91b-f97d-5725-7d6f-8c97fb422d9a@suse.de>
+Date: Fri, 22 Jan 2021 13:47:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210121163537.1466118-8-maxime@cerno.tech>
-X-Patchwork-Hint: comment
+In-Reply-To: <dfd02473-f0b5-e8b2-3399-d87063a2fd1f@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,125 +47,339 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, linux-rockchip@lists.infradead.org,
- Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sandy Huang <hjc@rock-chips.com>,
- NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
- Dave Airlie <airlied@redhat.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, linux-mediatek@lists.infradead.org,
- Vincent Abriou <vincent.abriou@st.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Philippe Cornu <philippe.cornu@st.com>, linux-kernel@vger.kernel.org,
- Yannick Fertre <yannick.fertre@st.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: hudson@trmm.net, markus@raatikainen.cc, peter@stuge.se,
+ USB list <linux-usb@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tyler Hardin <th020394@gmail.com>,
+ Lubomir Rintel <lkundrak@v3.sk>, pontus.fuchs@gmail.com,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============0250875396=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 21, 2021 at 05:35:33PM +0100, Maxime Ripard wrote:
-> Some drivers are storing the plane->state pointer in atomic_update and
-> atomic_disable in a variable simply called state, while the state passed
-> as an argument is called old_state.
-> =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0250875396==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sj246xE2lb1bQXlfoLKzvZDURk6zdWrnk"
 
-> In order to ease subsequent reworks and to avoid confusing or
-> inconsistent names, let's rename those variables to new_state.
-> =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sj246xE2lb1bQXlfoLKzvZDURk6zdWrnk
+Content-Type: multipart/mixed; boundary="DaHSbkc7wG81XN6JUouFFoVL4cOMMGEAW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: hudson@trmm.net, markus@raatikainen.cc, Sam Ravnborg <sam@ravnborg.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tyler Hardin <th020394@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ pontus.fuchs@gmail.com, peter@stuge.se
+Message-ID: <9168c91b-f97d-5725-7d6f-8c97fb422d9a@suse.de>
+Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+References: <20210120170033.38468-1-noralf@tronnes.org>
+ <20210120170033.38468-2-noralf@tronnes.org>
+ <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+ <9660eec0-15b7-ee8b-10ed-c6ceed54a56f@suse.de>
+ <CAKMK7uHiQ3i-Rz_y_3joR2Zi3fA=1qp8MdGZ9w9PUcGoWT3urw@mail.gmail.com>
+ <1ea4e6e4-0806-dba1-a424-47f178dc882f@suse.de>
+ <7f055c8e-4b60-3da5-058e-3991637db37a@tronnes.org>
+ <a1de51bf-b602-9ac2-1058-b8ced7c6973e@suse.de>
+ <dfd02473-f0b5-e8b2-3399-d87063a2fd1f@tronnes.org>
+In-Reply-To: <dfd02473-f0b5-e8b2-3399-d87063a2fd1f@tronnes.org>
 
-> This was done using the following coccinelle script, plus some manual
-> changes for mtk and tegra.
-> =
+--DaHSbkc7wG81XN6JUouFFoVL4cOMMGEAW
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> @ plane_atomic_func @
-> identifier helpers;
-> identifier func;
-> @@
-> =
+Hi
 
-> (
->  static const struct drm_plane_helper_funcs helpers =3D {
->  	...,
->  	.atomic_disable =3D func,
-> 	...,
->  };
-> |
->  static const struct drm_plane_helper_funcs helpers =3D {
->  	...,
->  	.atomic_update =3D func,
-> 	...,
->  };
-> )
-> =
+Am 22.01.21 um 12:44 schrieb Noralf Tr=C3=B8nnes:
+>=20
+> And wrt PCI it wouldn't be a PCI connector if the card has some other
+> connector for the display, but if it was possible to connect a display
+> directly to the PCI connector, then yes I would call that a PCI connect=
+or.
 
-> @ moves_new_state_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane;
-> symbol old_state;
-> symbol state;
-> @@
-> =
+You're not connecting a display to the computer. You're connecting an=20
+RPi and then connect the display to the RPi. The RPi acts like an=20
+external graphics card.
 
->  func(struct drm_plane *plane, struct drm_plane_state *old_state)
->  {
->  	...
-> -	struct drm_plane_state *state =3D plane->state;
-> +	struct drm_plane_state *new_state =3D plane->state;
-> 	...
->  }
-> =
+> This begs the question: Why does the kernel provide info to userspace
+> about the connector type?
+>=20
+> My take is that it is so the user can know which display is connected t=
+o
+> which port on the computer.
 
-> @ depends on moves_new_state_old_state @
-> identifier plane_atomic_func.func;
-> identifier plane;
-> identifier old_state;
-> symbol state;
-> @@
-> =
+This exactly illustrates the problem with the current naming. For a=20
+single output the distinction between bus and connector might be fuzzy.=20
+As soon as a connected SoC contains multiple connectors. The user then=20
+sees names such as card1-USB-0 and card1-USB-1, which makes no sense.
 
->  func(struct drm_plane *plane, struct drm_plane_state *old_state)
->  {
->  	<...
-> -	state
-> +	new_state
-> 	...>
+>=20
+> What's your opinion?
+>=20
+>>>
+>>> Ofc as Daniel mentions it's a downside that userspace doesn't know ab=
+out
+>>> the connector type, and who knows when it will updated (if I don't do=
 
-Was going to say that this migh eat something else, but I guess
-the dependency prevents that?
+>>> it).
+>>> Weston will name it: "UNNAMED-%d"
+>>> Mutter: "Unknown%d-%d"
+>>> X: "Unknown%d-%d"
+>>>
+>>> Sam and Laurent has discussed adding a PANEL connector type instead o=
+f
+>>> adding more connector types for panel connectors. I think that would
+>>> have been a better choice instead of the SPI connector type that I ad=
+ded
+>>> in 2019. But I think PANEL was meant for panels connected to an inter=
+nal
+>>> connector.
+>>>
+>>> Here's my protocol connector types and how it's mapped to DRM:
+>>>
+>>> #define GUD_CONNECTOR_TYPE_PANEL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 0
+>>> #define GUD_CONNECTOR_TYPE_VGA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 1
+>>> #define GUD_CONNECTOR_TYPE_COMPOSITE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 2
+>>> #define GUD_CONNECTOR_TYPE_SVIDEO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 3
+>>> #define GUD_CONNECTOR_TYPE_COMPONENT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 4
+>>> #define GUD_CONNECTOR_TYPE_DVI=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 5
+>>> #define GUD_CONNECTOR_TYPE_DISPLAYPORT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 6
+>>> #define GUD_CONNECTOR_TYPE_HDMI=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 7
+>>>
+>>> static int gud_gadget_ctrl_get_connector(struct gud_gadget *gdg,
+>>> unsigned int index,
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct gud_connector_=
+descriptor_req *desc)
+>>> {
+>>> ...
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0gconn =3D &gdg->connectors[index];
+>>>
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0switch (gconn->connector->connector_type) {
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_VGA:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_VGA;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_DVII:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fallthrough;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_DVID:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fallthrough;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_DVIA:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_DVI;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_Composite:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_COMPOSITE;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_SVIDEO:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_SVIDEO;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_Component:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_COMPONENT;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_DisplayPort:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_DISPLAYPORT;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_HDMIA:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fallthrough;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case DRM_MODE_CONNECTOR_HDMIB:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_HDMI;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0default:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 desc->connector_type =3D =
+GUD_CONNECTOR_TYPE_PANEL;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0};
+>>>
+>>>
+>>> int gud_connector_create(struct gud_device *gdrm, unsigned int index)=
 
-Another way to avoid that I suppose would be to declare 'state'
-as
-symbol moves_new_state_old_state.state;
+>>> {
+>>> ...
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0switch (desc.connector_type) {
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_PANEL:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_USB;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_VGA:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_VGA;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_DVI:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_DVID;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_COMPOSITE:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_Composite;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_SVIDEO:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_SVIDEO;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_COMPONENT:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_Component;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_DISPLAYPORT:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_DisplayPort;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0case GUD_CONNECTOR_TYPE_HDMI:
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_HDMIA;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0default: /* future types */
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector_type =3D DRM_MO=
+DE_CONNECTOR_USB;
+>>
+>> The more I look at it the more I think it should be 'Unknown' here.
+>>
+>=20
+> I don't understand this, how will that be better for the user?
 
-That would probably make the intent a bit more obvious, even with
-the dependency. Or does a dependency somehow automagically imply
-that?
+As I said before, the display is not connected via USB. The RPi (i.e.,=20
+graphics card) is. The naming would be off.
 
--- =
+Best regards
+Thomas
 
-Ville Syrj=E4l=E4
-Intel
+>=20
+>> BTW, can I try this out somehow? I do have an RPi3. Do I need a specia=
+l
+>> disk image?
+>=20
+> The Pi3 doesn'have a USB device/otg connector so I haven't made an imag=
+e
+> for that one. Only the Pi Zero, model A and Pi 4 have that.
+>=20
+> The Pi2 and Pi3 have a USB hub on the soc's single USB port.
+>=20
+> Noralf.
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0};
+>>>
+>>> Noralf.
+>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>> -Daniel
+>>>>>
+>>>>>>
+>>>>>> Best regards
+>>>>>> Thomas
+>>>>>>
+>>>>>>>
+>>>>>>> Beware, new connector types have in the past resulted in userspac=
+e
+>>>>>>> burning&crashing. Maybe it's become better ...
+>>>>>>>
+>>>>>>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>>>>>
+>>>>>>>>  =C2=A0=C2=A0=C2=A0 /**
+>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0 * struct drm_mode_get_connector - Get =
+connector metadata.
+>>>>>>>> --=20
+>>>>>>>> 2.23.0
+>>>>>>>>
+>>>>>>>> _______________________________________________
+>>>>>>>> dri-devel mailing list
+>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>> --=20
+>>>>>> Thomas Zimmermann
+>>>>>> Graphics Driver Developer
+>>>>>> SUSE Software Solutions Germany GmbH
+>>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>>>
+>>>>>
+>>>>>
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> dri-devel mailing list
+>>>> dri-devel@lists.freedesktop.org
+>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>>
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>
+>>
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--DaHSbkc7wG81XN6JUouFFoVL4cOMMGEAW--
+
+--sj246xE2lb1bQXlfoLKzvZDURk6zdWrnk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAKyXcFAwAAAAAACgkQlh/E3EQov+AE
+ew/9GA5nNtG/Gjnr+8boxdSoo/S8kE+LsxUw8Yw2IwoF+YqBSRRWWl0tPrHmvcLAtfSbzD2Ez9OC
+uDyN4jRvNbBgYx0rkI0c2eykUjBcc98fBT2cnjBeaapfGm82BBVesKaLU1AAal40z/1k4haUZgfg
+7nSD70vYmrXjJHJz2Krxlb27iqrWhaXPlBcD9jwmPiZ+hE3WMbbMKO3lnvf8HCdWy9Mo9fhm1h4H
+ylqfEUKnNh1sxgzfNYcVbvGKWFuaG0x9/F9aPhW1HCH+8Q2WsuU5LFhnMhIsiV0lBEJELyxr2PEh
+vt6amZ4i44kzhxGyZuTxDbqwbwE31Y9ZEHRolEPyoekKI1qL1PF3+OkVT/BB56iaTifnOZXI8MWC
+GcLU+Wp1hAZU7j8xxWNfzDpxzNMdpTfQw92QDfcbmC7Sqq4oasTYuHw8yYnGLHbN24udfbau+Qg5
+ukqOyb82qHlZyvQtGgu16sEqric4G+8aI5vKp7D0FcutNgPdB9RZqLcAfnr5TcvBVYBQPBt5LJuu
+saK/iG87HIbj7tgKHU55vMK1/Ius0t7mAc68Zohs82mfaLz32edgdtykA2JsrsJp593Ws6P+5gWA
+w/AHOsIapRITYLcwU7/9wu5q5W+fJIfUkJy5Iq65IX0I3Tv7RKw+GZe2awMu9NiEz2wTjEmr1nBC
+f0k=
+=jgUt
+-----END PGP SIGNATURE-----
+
+--sj246xE2lb1bQXlfoLKzvZDURk6zdWrnk--
+
+--===============0250875396==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0250875396==--
