@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9EB301443
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B20430143C
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Jan 2021 10:38:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F9B6EADA;
-	Sat, 23 Jan 2021 09:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 900566E169;
+	Sat, 23 Jan 2021 09:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 513 seconds by postgrey-1.36 at gabe;
- Fri, 22 Jan 2021 19:35:14 UTC
-Received: from vps.thesusis.net (vps.thesusis.net [34.202.238.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69F686E985
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 19:35:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by vps.thesusis.net (Postfix) with ESMTP id 8D16F29A9E;
- Fri, 22 Jan 2021 14:26:40 -0500 (EST)
-Received: from vps.thesusis.net ([127.0.0.1])
- by localhost (vps.thesusis.net [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8wXz7EfBN6Kj; Fri, 22 Jan 2021 14:26:40 -0500 (EST)
-Received: by vps.thesusis.net (Postfix, from userid 1000)
- id 387A529A9D; Fri, 22 Jan 2021 14:26:40 -0500 (EST)
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 26.3
-From: Phillip Susi <phill@thesusis.net>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Date: Fri, 22 Jan 2021 13:55:04 -0500
-In-reply-to: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-Message-ID: <87k0s4ai33.fsf@vps.thesusis.net>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0186EA68
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 22:11:59 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b26so9627865lff.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 14:11:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=jaCvuXTI5++yWrQ5zll4pAoJp7Kw8ngAgVV//NdLCO0=;
+ b=Vy+MXcEDaveLQygfFzfes0pLrj0Xd5qsBfSLNxMclb3ohJj7BsLaNGLrPBq6Z2uDa0
+ AhQerybNr7LQqyAnD3pMlfF/jeXuo2KjSnIxodI6cHALg4WWlmtnewnZsujZPTSDT3Hm
+ vGhEpTJCHNxzUdDRHLcbUT0nI2nK2V/jY5yBE26g4woVsCLKoHI07XnWlLqLYtOuwqoD
+ utZOxd0YDDAHqjMc2AI7BD3V4KMRgAfyzMxwMp0N9cpUrA9gQiAsuBtBiw3l6Q0bit3U
+ uaRNY0ykMgTk9HOVhVVBbH1Frc4Pc3afpVuTNCoVEwmotJGqDc9C9lnZXmJrudeHZDdl
+ JG4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=jaCvuXTI5++yWrQ5zll4pAoJp7Kw8ngAgVV//NdLCO0=;
+ b=RbJ4TZyWgzPGo7arGGw06pLsSH4YGpbXObsnIsjxWaSjG2IdWY8O54LYJOVndMDHyM
+ 8KSBEWBnQhGLYvx7LlRk4TQT2mvy7PZ7dRtcBrn0bNRE9pPWiHlVwp8sM9HEczKhhfFf
+ OdyvfdVFctsQ1/DajSxDm5x/CtOeCQrMaFxb3cbn8+xE32qrqEPOF7B0S74JqZJlgHrR
+ ev1VMOOR5YMlEEvpKWewlihYK/oVPkl/TWc3xBducVOYwvpEu+kTJ6wdVs5OGZ0oL0Te
+ UKqKliyGQ5hi/GxgigP7xYX4+nwjaoqSjLAcYVdQsGKgqp7R/hJxNiQ/MBKRo9Mc3azh
+ zUqg==
+X-Gm-Message-State: AOAM531ULFBqjwxRekUj2QNFmheASzG4NzmaJFSHh2NbGn5VXG/xIyhi
+ GwhVpE7OP1bBTVd4scw6G/ID5I7RMFfA1a5o
+X-Google-Smtp-Source: ABdhPJy8eQHjcrzbrB3xmSPo6CMl85MirfidhUNAX/4Tpe/wgXdajjP1AaYv8WY5pPb8ly3lJ2yl+Q==
+X-Received: by 2002:a05:6512:b12:: with SMTP id
+ w18mr1019732lfu.323.1611353517820; 
+ Fri, 22 Jan 2021 14:11:57 -0800 (PST)
+Received: from [192.168.1.211] ([188.162.64.145])
+ by smtp.gmail.com with ESMTPSA id 6sm1070137ljq.69.2021.01.22.14.11.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 14:11:57 -0800 (PST)
+To: linux-firmware@kernel.org
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: linux-firmware for Qualcomm SM8250 platforms
+Message-ID: <b6580306-fbfb-e7ac-aa4e-2476a5ee39da@linaro.org>
+Date: Sat, 23 Jan 2021 01:11:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+Content-Language: en-GB
 X-Mailman-Approved-At: Sat, 23 Jan 2021 09:38:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,63 +68,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello linux-firmware maintainers,
 
-Geert Uytterhoeven writes:
+We'd like to submit firmware for Qualcomm SM8250-based platforms. 
+Firmware successfully tested on Qualcomm Robotics RB5 platform.
 
-Judging from some of the comments in the code, it looks like you were
-one of the original authors of fbcon?  I haven't been able to find any
-of these sczbot crash reports, and am not sure how fuzzing syscalls
-would really affect this code ( it's not really handling a buch of
-ioctls or otherwise taking arguments from user space ) , but I am a bit
-confused as to why the softback was implemented the way that it was.
+The following changes since commit d5288624259300c558480c21a860fcf94187d29d:
 
-vgacon simply copies the main buffer to vram in ->set_origin() and then
-changes the pointers to operate out of the much larger vram while that
-virtual terminal is active.  If I understand it correctly, it looks like
-fbcon instead opts to operate out of the main buffer but rescue lines as
-they are scrolled off and relocate them to the softback buffer.  This
-seems to be rather more convoluted.
+   brcm: Add NVRAM for Vamrs 96boards Rock960 (2021-01-09 07:31:33 -0500)
 
-I'm thinking of re-implementing scrollback more like the way vgacon does
-it: allocate a big "vram" buffer and operate out of that.  Obviously
-->scroll() and ->scrolldelta() have to actually repaint the screen rather
-than simply change the pointer register, but that should be about the
-only difference.
+are available in the Git repository at:
 
-I have also noticed that there was some code to use hardware panning of
-the video buffer rather than having to do a block bitblt to scroll the
-contents of the screen, but that it was disabled because virtually no
-video drivers actually implemented it?  That seems like a shame, but if
-it is so, then there's no sense carrying the dead code so I think I'll
-clean that up now.
+   https://github.com/lumag/linux-firmware qcom-rb5
 
-Now that I look at it again, everything is simply always redrawn now
-instead of even doing a simple bitblt.  Daniel, you mentioned that
-almost nobody supports hardware acceleration, but even without any
-specific hardware support, surely even if bitblt() is implemented just
-as a memcpy(), it has to be faster than redrawing all of the characters
-doesn't it?  Getting rid of the panning if it isn't generally supported
-I can see, but I don't understand killing bitblt even if most devices
-don't accelerate it.
+for you to fetch changes up to df822a848cceb185d2d50a39140ba0c9cd9f33e9::
 
-In addition, I noticed that ->screen_pos() was changed to just return
-vc_origin+offset.  fbcon is the only console driver to implement
-->screenpos() and if not implemented, vt defaults to using
-vc_visible_origin+offset, so it looks like this function isn't needed at
-all anymore and ->screen_pos() can be removed from struct consw.
+   qcom: Add venus firmware files for VPU-1.0 (2021-01-23 01:10:05 +0300)
 
-Does this make sense or am I talking crazy?
+----------------------------------------------------------------
+Dmitry Baryshkov (4):
+       qcom: add firmware files for Adreno a650
+       qcom: Add SM8250 Audio DSP firmware
+       qcom: Add SM8250 Compute DSP firmware
+       qcom: Add venus firmware files for VPU-1.0
+
+  WHENCE                   |  26 ++++++++++++++++++++++++++
+  qcom/a650_gmu.bin        | Bin 0 -> 41548 bytes
+  qcom/a650_sqe.fw         | Bin 0 -> 31488 bytes
+  qcom/sm8250/a650_zap.mbn | Bin 0 -> 13964 bytes
+  qcom/sm8250/adsp.mbn     | Bin 0 -> 15515796 bytes
+  qcom/sm8250/adspr.jsn    |  21 +++++++++++++++++++++
+  qcom/sm8250/adspua.jsn   |  27 +++++++++++++++++++++++++++
+  qcom/sm8250/cdsp.mbn     | Bin 0 -> 5822228 bytes
+  qcom/sm8250/cdspr.jsn    |  21 +++++++++++++++++++++
+  qcom/vpu-1.0/venus.b00   | Bin 0 -> 692 bytes
+  qcom/vpu-1.0/venus.b01   | Bin 0 -> 7528 bytes
+  qcom/vpu-1.0/venus.b02   | Bin 0 -> 300 bytes
+  qcom/vpu-1.0/venus.b03   | Bin 0 -> 20 bytes
+  qcom/vpu-1.0/venus.b04   | Bin 0 -> 20 bytes
+  qcom/vpu-1.0/venus.b05   | Bin 0 -> 20 bytes
+  qcom/vpu-1.0/venus.b06   | Bin 0 -> 20 bytes
+  qcom/vpu-1.0/venus.b07   | Bin 0 -> 24 bytes
+  qcom/vpu-1.0/venus.b08   | Bin 0 -> 16 bytes
+  qcom/vpu-1.0/venus.b09   | Bin 0 -> 883152 bytes
+  qcom/vpu-1.0/venus.b10   | Bin 0 -> 41360 bytes
+  qcom/vpu-1.0/venus.b19   |   1 +
+  qcom/vpu-1.0/venus.mbn   | Bin 0 -> 1973540 bytes
+  qcom/vpu-1.0/venus.mdt   | Bin 0 -> 8220 bytes
+  23 files changed, 96 insertions(+)
+  create mode 100644 qcom/a650_gmu.bin
+  create mode 100644 qcom/a650_sqe.fw
+  create mode 100644 qcom/sm8250/a650_zap.mbn
+  create mode 100644 qcom/sm8250/adsp.mbn
+  create mode 100644 qcom/sm8250/adspr.jsn
+  create mode 100644 qcom/sm8250/adspua.jsn
+  create mode 100644 qcom/sm8250/cdsp.mbn
+  create mode 100644 qcom/sm8250/cdspr.jsn
+  create mode 100644 qcom/vpu-1.0/venus.b00
+  create mode 100644 qcom/vpu-1.0/venus.b01
+  create mode 100644 qcom/vpu-1.0/venus.b02
+  create mode 100644 qcom/vpu-1.0/venus.b03
+  create mode 100644 qcom/vpu-1.0/venus.b04
+  create mode 100644 qcom/vpu-1.0/venus.b05
+  create mode 100644 qcom/vpu-1.0/venus.b06
+  create mode 100644 qcom/vpu-1.0/venus.b07
+  create mode 100644 qcom/vpu-1.0/venus.b08
+  create mode 100644 qcom/vpu-1.0/venus.b09
+  create mode 100644 qcom/vpu-1.0/venus.b10
+  create mode 100644 qcom/vpu-1.0/venus.b19
+  create mode 100644 qcom/vpu-1.0/venus.mbn
+  create mode 100644 qcom/vpu-1.0/venus.mdt
+
+
+
+-- 
+With best wishes
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
