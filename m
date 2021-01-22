@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35571300700
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 16:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A9C300869
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 17:16:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA16E6E9FF;
-	Fri, 22 Jan 2021 15:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6C26EA01;
+	Fri, 22 Jan 2021 16:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBD36E9F9;
- Fri, 22 Jan 2021 15:21:11 +0000 (UTC)
-IronPort-SDR: +nddeMGgv/5XXeG/NwfgjmUjtPcB1YxVJ2JR85nNyLPGWRTYWmaFhoEWmbES/Nbyxr4b6xp8bZ
- YwXRy1G+Z9pw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="264277551"
-X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; d="scan'208";a="264277551"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2021 07:21:10 -0800
-IronPort-SDR: houAtDeADSmmcQbQWowfw/7Ijefe89LxGOc9gRjLNXgmOmPoa4inxl58NBuD8nLYiCezx2bJ04
- e2d6BENtCOOw==
-X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; d="scan'208";a="385793960"
-Received: from blaschkj-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.44.247])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2021 07:21:05 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Colin King <colin.king@canonical.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Ramalingam C <ramalingam.c@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH][next] drm/i915/hdcp: Fix return of value in uninitialized
- variable ret
-In-Reply-To: <20210122150957.209779-1-colin.king@canonical.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210122150957.209779-1-colin.king@canonical.com>
-Date: Fri, 22 Jan 2021 17:21:02 +0200
-Message-ID: <87y2glj8v5.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C66B06EA01
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 16:16:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3100923AAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 16:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611332175;
+ bh=1mxjcxDniCvxUAxOKwFFiFDSqjzi1cRxOC70wCic4U8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=RV8swPyrj87Hi1E6siSqigY+H2F5XcJyThGBd6izulfSy9C5yRwimeFbPQM8/i2b9
+ D+bnyOlZyiiXgqg971lLkHQmQC2FfEgSXamgU/8K9TBMRdB4D+9L+1pvd/Bp1wT3LK
+ nrFKDOfKP4uq/DvNNzOKupL6t8EAkQzi7Y17i8OEyQnaeXN5Q9OeabBs7ArbRbWoue
+ COZnO+Ry3YSFvDg0KTOmker1sbC7FNn0xCUA+Y+o+XQ/E7AGWtcwxD/BIqZA4eTG+r
+ KhbM30sR1/Mf1F1NUl8S28vAiTtpErS9LQWYj5s+IZ5c7au/d4f8iQe4JLmA/5t8mF
+ QkbMM/5m2EN4w==
+Received: by mail-ed1-f48.google.com with SMTP id dj23so7144935edb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 08:16:15 -0800 (PST)
+X-Gm-Message-State: AOAM531yTXdKC0LLGhH+PxMyj3cIhi9oXEHPPSY4UmenLUmNPcPcYO+l
+ kIAAIcebbkh7eZUvzKFT8/pX6UZ2bcv7tyDxOg==
+X-Google-Smtp-Source: ABdhPJx6fXlF/B/n7s/fyNDQXIXcJX5/Z04VOxgaGoEnSITfzIvWEnsCH6iJJ3U9OQ4bKHEb1Q5UjuIjgQI6HG3gfuI=
+X-Received: by 2002:a50:e78b:: with SMTP id b11mr3761778edn.165.1611332173622; 
+ Fri, 22 Jan 2021 08:16:13 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1609380663.git.xji@analogixsemi.com>
+ <d13442f84fefccc992d6c5e48ac1e6129882af31.1609380663.git.xji@analogixsemi.com>
+ <20210111221435.GA3138373@robh.at.kernel.org> <20210112085737.GC5827@pc-user>
+In-Reply-To: <20210112085737.GC5827@pc-user>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 22 Jan 2021 10:16:02 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ1B6JzpdgtP=ZNtWasjW5R0rYyUGV3RTDxT1LPa1rz5w@mail.gmail.com>
+Message-ID: <CAL_JsqJ1B6JzpdgtP=ZNtWasjW5R0rYyUGV3RTDxT1LPa1rz5w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: drm/bridge: anx7625: add DPI flag and
+ swing setting
+To: Xin Ji <xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,52 +55,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Nicolas Boichat <drinkcat@google.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Sheng Pan <span@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Jan 2021, Colin King <colin.king@canonical.com> wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Tue, Jan 12, 2021 at 2:57 AM Xin Ji <xji@analogixsemi.com> wrote:
 >
-> Currently when there are other connectors on the port using HDCP the
-> function _intel_hdcp_disable returns a garbage uninitialized value in
-> variable ret.  I believe the intention is to return 0, so return this
-> literal value instead of the value in ret.
+> Hi Rob Herring, thanks for the comments.
 >
-> Addresses-Coverity: ("Uninitialized scalar return")
-> Fixes: 899c8762f981 ("drm/i915/hdcp: Configure HDCP2.2 MST steram encryption status")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> On Mon, Jan 11, 2021 at 04:14:35PM -0600, Rob Herring wrote:
+> > On Thu, Dec 31, 2020 at 10:21:12AM +0800, Xin Ji wrote:
+> > > Add DPI flag for distinguish MIPI input signal type, DSI or DPI. Add
+> > > swing setting for adjusting DP tx PHY swing
+> > >
+> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > ---
+> > >  .../bindings/display/bridge/analogix,anx7625.yaml  | 25 ++++++++++++++++++++--
+> > >  1 file changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > index 60585a4..4eb0ea3 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > @@ -34,6 +34,16 @@ properties:
+> > >      description: used for reset chip control, RESET_N pin B7.
+> > >      maxItems: 1
+> > >
+> > > +  analogix,swing-setting:
+> > > +    type: uint8-array
+> >
+> > Humm, this should have be rejected by the meta-schema.
+> We needs define an array to adjust DP tx PHY swing, the developer hopes these
+> settings are changeable, so I moved the register data to DT. Can you
+> give me some suggestion if it is rejected by the meta-schema?
+> >
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> >
+> > This is how types are defined other than boolean or nodes (object).
+> >
+> > > +    description: an array of swing register setting for DP tx PHY
+> > > +
+> > > +  analogix,mipi-dpi-in:
+> > > +    type: int
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: indicate the MIPI rx signal type is DPI or DSI
+> >
+> > Why does this need to be in DT, you should be able to determine this
+> > based on what you are connected to.
+> As the anx7625 can receive MIPI DSI and DPI data (depends on hardware
+> implement, we have a project which have two anx7625, one is DSI input,
+> the other is DPI input), we needs to let driver know what kind of MIPI
+> rx signal input. And there is no other way to tell driver the MIPI rx
+> signal type, we needs define this flag.
 
-Thanks, but there's already a fix in progress:
+That's only true if what's driving the output is a single h/w block
+that can drive either. But typically you have 2 blocks: an LCD
+controller driving parallel signals and a DSI controller in front of
+it doing parallel to DSI conversion. The anx7625 would be connected to
+the LCD controller or DSI controller via the graph binding depending
+on the h/w connection.
 
-http://lore.kernel.org/r/20210119064655.1605-3-anshuman.gupta@intel.com
+However, if you do need this, then let's extend video-interfaces.yaml
+'bus-type' to include DSI (it already has parallel).
 
-BR,
-Jani.
-
-
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index db8dff2eeb0a..a0e7b0bf892b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -883,7 +883,7 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
->  	 * until it disabled HDCP encryption for all connectors in MST topology.
->  	 */
->  	if (dig_port->num_hdcp_streams > 0)
-> -		return ret;
-> +		return 0;
->  
->  	hdcp->hdcp_encrypted = false;
->  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
