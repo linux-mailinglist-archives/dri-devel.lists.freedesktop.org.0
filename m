@@ -2,115 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB093003CE
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 14:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EDE3003D9
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 14:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A756889C93;
-	Fri, 22 Jan 2021 13:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF836E0B9;
+	Fri, 22 Jan 2021 13:11:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D02C89C93
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 13:10:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DO+zZvxHxOPrYPGD2nIE8a57nywgvxbl3Egul+POVYRlHk4foPmlSYS04R44fGu0ufBriqyYGokN7x9rPdQ31aNBWnzVrC4qM0BUzVPMdAOBE2gFRHROlodyB9/9z3mwNVgdrfMLmeQjJ/7hRsfdZzE6Nmo7V3PuonXZMdfeE5/Y4J74w2nWKMyLikTZeCyAo7KbiyzGd0f6XoLk/ms/IwW4oTNXNVom4X8zjNmgmjDr4/ltgoxuXKYgHd+2U/Cn+bPArjR5bse3Pn9VVZkuT+BkNvcbk7Ergc/4eWbp+ioJ93C2Gzbv8pbltUEQZ6LmTobM76hgAPaRPflHyHoN5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRBv5WB/YXndal3FYn/n/7pmE9Iy8f8torjKDWIf52k=;
- b=AQIRfHnjbI6fIOXquQpqp/dVbyVUxMGsqzY7a8COMhsF8XahzSLp9LsaKB6/EUioiaWqllNME0yMflHw0178QHWZ7rxbemSudGwMYUwr0aEp1KAFcSnInbqFQMphs2cRfDHb9+EfUF1NYapUgRWVlMd+gpsYP+Tne3scs9aJunlfwVxUsCDZKRjBwonIs5f5WV/khWKtyQzXrTJm+EHxOEmnJoYMcT+v/0kFH0LaKzSoQbbRi/KEQkxtx/aGQ4/UxOcKsFMVTKB1xrjc46P3KMqwLAauRYejWg0Z9ncDVq9awjNwx30AsuMUmEVHmoaFDFwqoekIyZkNQouLwrcjoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRBv5WB/YXndal3FYn/n/7pmE9Iy8f8torjKDWIf52k=;
- b=eMFrJnaisaWkp8das8wEh6th7dDUMSxxGGChzvbleKc0L5YT4lBBGtG9Prwmwwa+qrUz2hKgOAHe0gbKwtRo506zTZ9PCvNVQez1ZjYXac9fFsKu3gUMJ41IlguR+dXuwLG6BRj7ensSdQvNmI7w+gJG6LIjU6yGanFQ+OTto8w=
-Authentication-Results: lists.linaro.org; dkim=none (message not signed)
- header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4518.namprd12.prod.outlook.com (2603:10b6:208:266::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Fri, 22 Jan
- 2021 13:10:13 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3784.015; Fri, 22 Jan 2021
- 13:10:13 +0000
-Subject: Re: [PATCH] RFC: dma-fence: Document recoverable page fault
- implications
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <38322325-d6c7-cbf9-9361-e2da2fac0451@amd.com>
-Date: Fri, 22 Jan 2021 14:10:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210121194056.1734409-1-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR03CA0083.eurprd03.prod.outlook.com
- (2603:10a6:208:69::24) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E20C6E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 13:11:05 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id q7so5012257wre.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 05:11:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DlbQDTL9lgcBTkGtGPLxxHcpZqtYZlnjZgESPzNd3dk=;
+ b=cvMBoOPbyHYvHuRZJUbkoYI6wQr+uFNzsP8Byd3bREwnZWQckWn9O3O9z4rbqAAxCG
+ DG3FeAiintfRZo3klDvSndwOAEafZQxbQ6F7WTtmJLwIjp23HpS2osdES8yLkzS7vjV6
+ UFHfZEM1Tl/ujKCCd90L4Fvd8mcPz+6eD9YuVeQeeyy5kKVDD5s9ci+fdJWlKEnj3xZT
+ +DIpvikohimdbEO+qam8p2fIhaYzFI74vUqDLd6LPr+MTmSUopRwDXWhCG9LGLIXMe0h
+ c87V5IsAQiLZ3HVsOMhJD/IRXutd5+uq5eEb87yD52RiAU+XGsa7yCtbSSCADFUNHOg2
+ 7HuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DlbQDTL9lgcBTkGtGPLxxHcpZqtYZlnjZgESPzNd3dk=;
+ b=MaC80YaV2CL8JcggFflwYj7zlQCrkYx/ZccVDVn0d49gQt6bny5/wnZAWLrVeJu6jm
+ w3aYJzBzsnfZx0qgpfNyr+11BV1j5L2mIDvddOgB0dG2LcE7JW13wzd0Jtb3SigqNS8H
+ 0N82oRoF7qtAyDSS8Jt2RTKul4VzQIe3cyMCFZDMwkwK+O9u1pz8WDiJShp6VZSDadse
+ AI54D7CuScPJRCJmQYLZ7+e75QVs8VeFNic+CLE1f76yI/7K/WO/hNe8egJZGnzMQCCH
+ 50cO52ufJXb+DtOWRHsOUN1/fMdpHfnVQpHEzjhLVSxKbf7YyHH6sRq0lc3g00/+abZE
+ RPlA==
+X-Gm-Message-State: AOAM532Z2v4sUXz2eEUFtUX08nL/KZcMeYXy6TZYTtdwZTFlgz/0xGzj
+ 00SR9PoiVoFwEn/RQyqYn3CUS+A7fs5x90hpFhifHw==
+X-Google-Smtp-Source: ABdhPJzM9x7gbuptc/+Kd7a/slbXsAMEIvUb+yNdZCSX3L+dSiV9l/Kk/Q81u61D3jOMDh403qjkCGqTrzJC12ovbLY=
+X-Received: by 2002:a05:6000:1082:: with SMTP id
+ y2mr4331942wrw.27.1611321064346; 
+ Fri, 22 Jan 2021 05:11:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR03CA0083.eurprd03.prod.outlook.com (2603:10a6:208:69::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Fri, 22 Jan 2021 13:10:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 12d9534e-8eb6-4a83-4535-08d8bed70da4
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4518:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB45188364C33EC9D51F51BF7083A09@MN2PR12MB4518.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k8foOGYMH0gCkkNfEAFBOc+2L320T0yQVm/svxrGYoav/g3TtOuksmDwXASNWs5bltGrz/TZZhExun0P5iRsHHeDv4U+T3ov43lXLuikwblilnvREMuUoJ5eWNChtSXyF0UgximXRE1psBTesE2eFNZzf8EV5ZH27RLE3rZkOdhepLAoOd/98QTaZucqcl8/UA0jw4OAzJeSNS3rYvM43BLmPQzTXDuQnkTmdj/21qXC9/qoEgWQB7KeuLFHXTrLnC0XmWarqs7GDT7O7xj9/UEUH0C8RLbBpa+R4H6Ri4Zrm1jDdzPzy8wsBPgbPn99wKlwqjYClsOTvm70R/KnSKSCEaH3VkdjuialfNBThbm7qDQvzjDIhadMsXHE9zsqJ5YcHeLeOKRoFeoLfxxe2d0hXkKcdaLVB3xrUNZH7t/vd65MI/55zWbMVxfDIzHqQdt8NOo8n8NRS26NI50hKc4SWG/+nfeHFLtRlrYxKa4RNxTToCUFbNBU1kwiPudqB7ebe2IbBLKvSlG3416OuzL8pnCgX9lmJVxjf1s0Q3R/S8kY1XTErA92iDkeqe3l
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(8676002)(316002)(6666004)(66556008)(66574015)(66476007)(36756003)(66946007)(186003)(52116002)(5660300002)(31686004)(2616005)(86362001)(16526019)(4326008)(966005)(83380400001)(2906002)(54906003)(6486002)(110136005)(8936002)(45080400002)(478600001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QXVVOU9SVGFzUEJTRkdaaC9GM3N5VlFUQjdFQ2Z5Z0FJcElMRE90VjB3WXl2?=
- =?utf-8?B?dmRlSDBKSjZsVlVxdzA1RVNVank2T0ZvbFhGWUJBNlo1OEhCZmk4RnMxaVBu?=
- =?utf-8?B?OVdMbXJqN1BManJPb09FckdVenBKVHh4MUhkZVZlUmNGRmx3bTdqVFFva0JV?=
- =?utf-8?B?K3ErbVhJZjZqOWxWVlZJeS9pOUhCalM5blpqMGpKUDJSZ0JKcnJybFVzYndX?=
- =?utf-8?B?NGszK3lVVktoZ3NXZ0FwK2FpdGhVM0pRQ1QvbThIMGpNSGNGS1FHblNldlNa?=
- =?utf-8?B?bC9ka2tpNkhueUZ1T2x3S3lodUh2bXVobkpSZnVLWDVVY2Vvc3d2U1A1N0Nz?=
- =?utf-8?B?R0ZEcjlPWCtZaW9tOXhtbkd2N0Q0VHYzRXcvZlhjQ3BTOWU2M1I3c0MrTjNr?=
- =?utf-8?B?R3d6bUdMN3V1YWcvVDhqVGU5THlEcDdGQkVESHBjUmZlRWMwUkx6U3lPZzRT?=
- =?utf-8?B?bXlBTzgxcHZTaW5jb2FSYXQvUUloYmtIdkVWOWhXaUIrWUtkakJwYzN6TWl3?=
- =?utf-8?B?UWdDVVI2K214RlVYdHl2NWI2VUVHSTd5SVplUTBhVHhkaURKYnExemFQamVj?=
- =?utf-8?B?Ymo2OUhuTGxSOHVXOC81M0tpQ25XaGhNNHRvU3dFK29FeUFyd0dndHkxeUtq?=
- =?utf-8?B?OFFsazJGblllT0RLTTd2cVYrSVJsVDFwWVY3bi9OUTUrcXBjcVpkWkdYZHlZ?=
- =?utf-8?B?blRTT3FzQW5BL1gwNFhhSVFpSUdlTXp3eGk3MDJZSmo1OHFxTko3MzF0M1NJ?=
- =?utf-8?B?dHh5UUpqVkI5MG5jL0ZyV001dENXeGFQY3R3dVBBeGFYUFBTU1BRRnp0WXQv?=
- =?utf-8?B?VTNPU1pENU5zRG40OU90ZVNZRkpDWDhWZ3JBNG1ldS85eUdFZWdjL2g2dW1m?=
- =?utf-8?B?ejdvRGdFMVNZUGxwbFd2cmdTVUx2aFJlbEg4ajBOSHYzU29veEZZeHhoZVR0?=
- =?utf-8?B?Nnc4eFR5eGYwaW5KRVMzWU1yUVk1SHBRRVhzOUFHZFdNU3dwblFjVm1CeCtN?=
- =?utf-8?B?V3J0TG9GcURXblFqSFJGMkp0YWlDM20zbkFMREVETDlTMkRZQy8rcFZlRHhN?=
- =?utf-8?B?NEp2THlNSThxSWZReWNlRzlaUVpEOGtNQ0NYeGNVOERWdlZmdTRWRVVlbjVn?=
- =?utf-8?B?czJQL1d3MHNOWlVnZ0pHelZaL1U1SVV6UmVaVjVDS1FreXRmVzRWcHk4QXV5?=
- =?utf-8?B?NlNVVmtEV2c0NSszcHROR0NpT2FEclQzSWNxemE2K0UvU0hFbEpLb1o5VUw1?=
- =?utf-8?B?aVJoRzMwc09WZUlUSTNpQWVralFxRmpRUy9JT2hnSThkS1JWWTQ2ZGl5RzRu?=
- =?utf-8?B?WFM2UXkxdGR0SjhhYUVkcGt6QlFoNVZrNVFtdXp0NjRUSVBjem92NnpNRVVx?=
- =?utf-8?B?MzFZWUQ5R0N3clpJMzV1eFlvaTJ4YzhvS2hadWZUN2tneWFyZEZ5L1Bjd1Fo?=
- =?utf-8?B?dE5KSFlxaldaZENhRVVlTitPdjJROGlYeGM4NEJnSWRndlFPUEpHTmFGWHk4?=
- =?utf-8?Q?ysNe7uwGtHpeVKd9HI/1UUziHYT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12d9534e-8eb6-4a83-4535-08d8bed70da4
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2021 13:10:13.2288 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L1V+b9Ih49I/85fCrESx5WJqDFm2w69+ZrRKPWRm21X9gT6+ZhPZti3nZ9gk4hRg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4518
+References: <20210111142309.193441-1-maxime@cerno.tech>
+ <20210111142309.193441-11-maxime@cerno.tech>
+In-Reply-To: <20210111142309.193441-11-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 22 Jan 2021 13:10:49 +0000
+Message-ID: <CAPY8ntCdxn3=A19VVsxnrPppk0O7eyzxa3bwFWQj1QEXnQ_GWA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] drm/vc4: hdmi: Support BCM2711 CEC interrupt
+ setup
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,122 +64,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix Kuehling <felix.kuehling@amd.com>, linaro-mm-sig@lists.linaro.org,
- Jerome Glisse <jglisse@redhat.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjEuMDEuMjEgdW0gMjA6NDAgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IFJlY2VudGx5IHRo
-ZXJlIHdhcyBhIGZhaXJseSBsb25nIHRocmVhZCBhYm91dCByZWNvcmVhYmxlIGhhcmR3YXJlIHBh
-Z2UKPiBmYXVsdHMsIGhvdyB0aGV5IGNhbiBkZWFkbG9jaywgYW5kIHdoYXQgdG8gZG8gYWJvdXQg
-dGhhdC4KPgo+IFdoaWxlIHRoZSBkaXNjdXNzaW9uIGlzIHN0aWxsIGZyZXNoIEkgZmlndXJlZCBn
-b29kIHRpbWUgdG8gdHJ5IGFuZAo+IGRvY3VtZW50IHRoZSBjb25jbHVzaW9ucyBhIGJpdC4KPgo+
-IFJlZmVyZW5jZXM6IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5j
-b20vP3VybD1odHRwcyUzQSUyRiUyRmxvcmUua2VybmVsLm9yZyUyRmRyaS1kZXZlbCUyRjIwMjEw
-MTA3MDMwMTI3LjIwMzkzLTEtRmVsaXguS3VlaGxpbmclNDBhbWQuY29tJTJGJmFtcDtkYXRhPTA0
-JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3Qzk0NzgyZDk5YWQ3ZDRlMWNjNTdj
-MDhkOGJlNDQ3ZDc0JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3
-QzYzNzQ2ODU0ODY3MjUxNjM5MSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdM
-akF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0Mx
-MDAwJmFtcDtzZGF0YT1BVDhRUDJyMlVjelNxQ0trUFJUSkkxY1EwR09HeXlrZ0xjTWZXOE5iRDh3
-JTNEJmFtcDtyZXNlcnZlZD0wCj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmto
-b3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVs
-bHN0cm9tQGludGVsLmNvbT4KPiBDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29l
-bmlnQGFtZC5jb20+Cj4gQ2M6IEplcm9tZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBD
-YzogRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1ZWhsaW5nQGFtZC5jb20+Cj4gU2lnbmVkLW9mZi1i
-eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IFN1bWl0IFNl
-bXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2Vy
-bmVsLm9yZwo+IENjOiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKPiAtLQo+IEknbGwg
-YmUgYXdheSBuZXh0IHdlZWssIGJ1dCBmaWd1cmVkIEknbGwgdHlwZSB0aGlzIHVwIHF1aWNrbHkg
-Zm9yIHNvbWUKPiBjb21tZW50cyBhbmQgdG8gY2hlY2sgd2hldGhlciBJIGdvdCB0aGlzIGFsbCBy
-b3VnaGx5IHJpZ2h0Lgo+Cj4gQ3JpdGlxdWUgdmVyeSBtdWNoIHdhbnRlZCBvbiB0aGlzLCBzbyB0
-aGF0IHdlIGNhbiBtYWtlIHN1cmUgaHcgd2hpY2gKPiBjYW4ndCBwcmVlbXB0ICh3aXRoIHBhZ2Vm
-YXVsdHMgcGVuZGluZykgbGlrZSBnZngxMCBoYXMgYSBjbGVhciBwYXRoIHRvCj4gc3VwcG9ydCBw
-YWdlIGZhdWx0cyBpbiB1cHN0cmVhbS4gU28gYW55dGhpbmcgSSBtaXNzZWQsIGdvdCB3cm9uZyBv
-cgo+IGxpa2UgdGhhdCB3b3VsZCBiZSBnb29kLgo+IC1EYW5pZWwKPiAtLS0KPiAgIERvY3VtZW50
-YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdCB8IDY2ICsrKysrKysrKysrKysrKysrKysrKysr
-KysrKysKPiAgIDEgZmlsZSBjaGFuZ2VkLCA2NiBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0IGIvRG9jdW1lbnRhdGlvbi9k
-cml2ZXItYXBpL2RtYS1idWYucnN0Cj4gaW5kZXggYTIxMzNkNjk4NzJjLi5lOTI0YzFlNGY3YTMg
-MTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0Cj4gKysr
-IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2RtYS1idWYucnN0Cj4gQEAgLTI1NywzICsyNTcs
-NjkgQEAgZmVuY2VzIGluIHRoZSBrZXJuZWwuIFRoaXMgbWVhbnM6Cj4gICAgIHVzZXJzcGFjZSBp
-cyBhbGxvd2VkIHRvIHVzZSB1c2Vyc3BhY2UgZmVuY2luZyBvciBsb25nIHJ1bm5pbmcgY29tcHV0
-ZQo+ICAgICB3b3JrbG9hZHMuIFRoaXMgYWxzbyBtZWFucyBubyBpbXBsaWNpdCBmZW5jaW5nIGZv
-ciBzaGFyZWQgYnVmZmVycyBpbiB0aGVzZQo+ICAgICBjYXNlcy4KPiArCj4gK1JlY292ZXJhYmxl
-IEhhcmR3YXJlIFBhZ2UgRmF1bHRzIEltcGxpY2F0aW9ucwo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KPiArCj4gK01vZGVybiBoYXJkd2FyZSBzdXBwb3J0
-cyByZWNvdmVyYWJsZSBwYWdlIGZhdWx0cywgd2hpY2ggaGFzIGEgbG90IG9mCj4gK2ltcGxpY2F0
-aW9ucyBmb3IgRE1BIGZlbmNlcy4KPiArCj4gK0ZpcnN0LCBhIHBlbmRpbmcgcGFnZSBmYXVsdCBv
-YnZpb3VzbHkgaG9sZHMgdXAgdGhlIHdvcmsgdGhhdCdzIHJ1bm5pbmcgb24gdGhlCj4gK2FjY2Vs
-ZXJhdG9yIGFuZCBhIG1lbW9yeSBhbGxvY2F0aW9uIGlzIHVzdWFsbHkgcmVxdWlyZWQgdG8gcmVz
-b2x2ZSB0aGUgZmF1bHQuCj4gK0J1dCBtZW1vcnkgYWxsb2NhdGlvbnMgYXJlIG5vdCBhbGxvd2Vk
-IHRvIGdhdGUgY29tcGxldGlvbiBvZiBETUEgZmVuY2VzLCB3aGljaAo+ICttZWFucyBhbnkgd29y
-a2xvYWQgdXNpbmcgcmVjb3ZlcmFibGUgcGFnZSBmYXVsdHMgY2Fubm90IHVzZSBETUEgZmVuY2Vz
-IGZvcgo+ICtzeW5jaHJvbml6YXRpb24uIFN5bmNocm9uaXphdGlvbiBmZW5jZXMgY29udHJvbGxl
-ZCBieSB1c2Vyc3BhY2UgbXVzdCBiZSB1c2VkCj4gK2luc3RlYWQuCj4gKwo+ICtPbiBHUFVzIHRo
-aXMgcG9zZXMgYSBwcm9ibGVtLCBiZWNhdXNlIGN1cnJlbnQgZGVza3RvcCBjb21wb3NpdG9yIHBy
-b3RvY29scyBvbgo+ICtMaW51cyByZWx5IG9uIERNQSBmZW5jZXMsIHdoaWNoIG1lYW5zIHdpdGhv
-dXQgYW4gZW50aXJlbHkgbmV3IHVzZXJzcGFjZSBzdGFjawo+ICtidWlsdCBvbiB0b3Agb2YgdXNl
-cnNwYWNlIGZlbmNlcywgdGhleSBjYW5ub3QgYmVuZWZpdCBmcm9tIHJlY292ZXJhYmxlIHBhZ2UK
-PiArZmF1bHRzLiBUaGUgZXhjZXB0aW9uIGlzIHdoZW4gcGFnZSBmYXVsdHMgYXJlIG9ubHkgdXNl
-ZCBhcyBtaWdyYXRpb24gaGludHMgYW5kCj4gK25ldmVyIHRvIG9uLWRlbWFuZCBmaWxsIGEgbWVt
-b3J5IHJlcXVlc3QuIEZvciBub3cgdGhpcyBtZWFucyByZWNvdmVyYWJsZSBwYWdlCj4gK2ZhdWx0
-cyBvbiBHUFVzIGFyZSBsaW1pdGVkIHRvIHB1cmUgY29tcHV0ZSB3b3JrbG9hZHMuCj4gKwo+ICtG
-dXJ0aGVybW9yZSBHUFVzIHVzdWFsbHkgaGF2ZSBzaGFyZWQgcmVzb3VyY2VzIGJldHdlZW4gdGhl
-IDNEIHJlbmRlcmluZyBhbmQKPiArY29tcHV0ZSBzaWRlLCBsaWtlIGNvbXB1dGUgdW5pdHMgb3Ig
-Y29tbWFuZCBzdWJtaXNzaW9uIGVuZ2luZXMuIElmIGJvdGggYSAzRAo+ICtqb2Igd2l0aCBhIERN
-QSBmZW5jZSBhbmQgYSBjb21wdXRlIHdvcmtsb2FkIHVzaW5nIHJlY292ZXJhYmxlIHBhZ2UgZmF1
-bHRzIGFyZQo+ICtwZW5kaW5nIHRoZXkgY291bGQgZGVhZGxvY2s6Cj4gKwo+ICstIFRoZSAzRCB3
-b3JrbG9hZCBtaWdodCBuZWVkIHRvIHdhaXQgZm9yIHRoZSBjb21wdXRlIGpvYiB0byBmaW5pc2gg
-YW5kIHJlbGVhc2UKPiArICBoYXJkd2FyZSByZXNvdXJjZXMgZmlyc3QuCj4gKwo+ICstIFRoZSBj
-b21wdXRlIHdvcmtsb2FkIG1pZ2h0IGJlIHN0dWNrIGluIGEgcGFnZSBmYXVsdCwgYmVjYXVzZSB0
-aGUgbWVtb3J5Cj4gKyAgYWxsb2NhdGlvbiBpcyB3YWl0aW5nIGZvciB0aGUgRE1BIGZlbmNlIG9m
-IHRoZSAzRCB3b3JrbG9hZCB0byBjb21wbGV0ZS4KPiArCj4gK1RoZXJlIGFyZSBhIGZldyB3YXlz
-IHRvIHByZXZlbnQgdGhpcyBwcm9ibGVtOgo+ICsKPiArLSBDb21wdXRlIHdvcmtsb2FkcyBjYW4g
-YWx3YXlzIGJlIHByZWVtcHRlZCwgZXZlbiB3aGVuIGEgcGFnZSBmYXVsdCBpcyBwZW5kaW5nCj4g
-KyAgYW5kIG5vdCB5ZXQgcmVwYWlyZWQuIE5vdCBhbGwgaGFyZHdhcmUgc3VwcG9ydHMgdGhpcy4K
-PiArCj4gKy0gRE1BIGZlbmNlIHdvcmtsb2FkcyBhbmQgd29ya2xvYWRzIHdoaWNoIG5lZWQgcGFn
-ZSBmYXVsdCBoYW5kbGluZyBoYXZlCj4gKyAgaW5kZXBlbmRlbnQgaGFyZHdhcmUgcmVzb3VyY2Vz
-IHRvIGd1YXJhbnRlZSBmb3J3YXJkIHByb2dyZXNzLiBUaGlzIGNvdWxkIGJlCj4gKyAgYWNoaWV2
-ZWQgdGhyb3VnaCBlLmcuIHRocm91Z2ggZGVkaWNhdGVkIGVuZ2luZXMgYW5kIG1pbmltYWwgY29t
-cHV0ZSB1bml0Cj4gKyAgcmVzZXJ2YXRpb25zIGZvciBETUEgZmVuY2Ugd29ya2xvYWRzLgo+ICsK
-Cj4gKy0gVGhlIHJlc2VydmF0aW9uIGFwcHJvYWNoIGNvdWxkIGJlIGZ1cnRoZXIgcmVmaW5lZCBi
-eSBvbmx5IHJlc2VydmluZyB0aGUKPiArICBoYXJkd2FyZSByZXNvdXJjZXMgZm9yIERNQSBmZW5j
-ZSB3b3JrbG9hZHMgd2hlbiB0aGV5IGFyZSBpbi1mbGlnaHQuIFRoaXMgbXVzdAo+ICsgIGNvdmVy
-IHRoZSB0aW1lIGZyb20gd2hlbiB0aGUgRE1BIGZlbmNlIGlzIHZpc2libGUgdG8gb3RoZXIgdGhy
-ZWFkcyB1cCB0bwo+ICsgIG1vbWVudCB3aGVuIGZlbmNlIGlzIGNvbXBsZXRlZCB0aHJvdWdoIGRt
-YV9mZW5jZV9zaWduYWwoKS4KClVwIHRpbGwgaGVyZSBpdCBtYWtlcyBwZXJmZWN0IHNlbnNlLCBi
-dXQgd2hhdCBzaG91bGQgdGhpcyBwYXJhZ3JhcGggbWVhbiA/Cgo+ICsKPiArLSBBcyBhIGxhc3Qg
-cmVzb3J0LCBpZiB0aGUgaGFyZHdhcmUgcHJvdmlkZXMgbm8gdXNlZnVsIHJlc2VydmF0aW9uIG1l
-Y2hhbmljcywKPiArICBhbGwgd29ya2xvYWRzIG11c3QgYmUgZmx1c2hlZCBmcm9tIHRoZSBHUFUg
-d2hlbiBzd2l0Y2hpbmcgYmV0d2VlbiBqb2JzCj4gKyAgcmVxdWlyaW5nIERNQSBmZW5jZXMgb3Ig
-am9icyByZXF1aXJpbmcgcGFnZSBmYXVsdCBoYW5kbGluZzogVGhpcyBtZWFucyBhbGwgRE1BCj4g
-KyAgZmVuY2VzIG11c3QgY29tcGxldGUgYmVmb3JlIGEgY29tcHV0ZSBqb2Igd2l0aCBwYWdlIGZh
-dWx0IGhhbmRsaW5nIGNhbiBiZQo+ICsgIGluc2VydGVkIGludG8gdGhlIHNjaGVkdWxlciBxdWV1
-ZS4gQW5kIHZpY2UgdmVyc2EsIGJlZm9yZSBhIERNQSBmZW5jZSBjYW4gYmUKPiArICBtYWRlIHZp
-c2libGUgYW55d2hlcmUgaW4gdGhlIHN5c3RlbSwgYWxsIGNvbXB1dGUgd29ya2xvYWRzIG11c3Qg
-YmUgcHJlZW1wdGVkCj4gKyAgdG8gZ3VhcmFudGVlIGFsbCBwZW5kaW5nIEdQVSBwYWdlIGZhdWx0
-cyBhcmUgZmx1c2hlZC4KPiArCj4gK05vdGUgdGhhdCB3b3JrbG9hZHMgdGhhdCBydW4gb24gaW5k
-ZXBlbmRlbnQgaGFyZHdhcmUgbGlrZSBjb3B5IGVuZ2luZXMgb3Igb3RoZXIKPiArR1BVcyBkbyBu
-b3QgaGF2ZSBhbnkgaW1wYWN0LiBUaGlzIGFsbG93cyB1cyB0byBrZWVwIHVzaW5nIERNQSBmZW5j
-ZXMgaW50ZXJuYWxseQo+ICtpbiB0aGUga2VybmVsIGV2ZW4gZm9yIHJlc29sdmluZyBoYXJkd2Fy
-ZSBwYWdlIGZhdWx0cywgZS5nLiBieSB1c2luZyBjb3B5Cj4gK2VuZ2luZXMgdG8gY2xlYXIgb3Ig
-Y29weSBtZW1vcnkgbmVlZGVkIHRvIHJlc29sdmUgdGhlIHBhZ2UgZmF1bHQuCj4gKwo+ICtJbiBz
-b21lIHdheXMgdGhpcyBwYWdlIGZhdWx0IHByb2JsZW0gaXMgYSBzcGVjaWFsIGNhc2Ugb2YgdGhl
-IGBJbmZpbml0ZSBETUEKPiArRmVuY2VzYCBkaXNjdXNzaW9uczogSW5maW5pdGUgZmVuY2VzIGZy
-b20gY29tcHV0ZSB3b3JrbG9hZHMgYXJlIGFsbG93ZWQgdG8KPiArZGVwZW5kIG9uIERNQSBmZW5j
-ZXMsIGJ1dCBub3QgdGhlIG90aGVyIHdheSBhcm91bmQuIEFuZCBub3QgZXZlbiB0aGUgcGFnZSBm
-YXVsdAo+ICtwcm9ibGVtIGlzIG5ldywgYmVjYXVzZSBzb21lIG90aGVyIENQVSB0aHJlYWQgaW4g
-dXNlcnNwYWNlIG1pZ2h0Cj4gK2hpdCBhIHBhZ2UgZmF1bHQgd2hpY2ggaG9sZHMgdXAgYSB1c2Vy
-c3BhY2UgZmVuY2UgLSBzdXBwb3J0aW5nIHBhZ2UgZmF1bHRzIG9uCj4gK0dQVXMgZG9lc24ndCBh
-bnl0aGluZyBmdW5kYW1lbnRhbGx5IG5ldy4KCk1heWJlIHdvcnRoIG5vdGluZyB0aGF0IGl0IGp1
-c3QgZG9lc24ndCB3b3JrIHdpdGggdGhlIGltcGxpY2l0IApzeW5jaHJvbml6YXRpb24gd2UgaGF2
-ZSBmb3IgZXhpc3RpbmcgdXNlcnNwYWNlLgoKUmVnYXJkcywKQ2hyaXN0aWFuLgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Maxime
+
+On Mon, 11 Jan 2021 at 14:23, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The HDMI controller found in the BCM2711 has an external interrupt
+> controller for the CEC and hotplug interrupt shared between the two
+> instances.
+>
+> Let's add a variant flag to register a single interrupt handler and
+> deals with the interrupt handler setup, or two interrupt handlers
+> relying on an external irqchip.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Looks good
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 42 ++++++++++++++++++++++++++--------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  7 ++++++
+>  2 files changed, 39 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 12ca5f3084af..d116ecfd8cf7 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -1605,9 +1605,11 @@ static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
+>                            ((3600 / usecs) << VC4_HDMI_CEC_CNT_TO_3600_US_SHIFT) |
+>                            ((3500 / usecs) << VC4_HDMI_CEC_CNT_TO_3500_US_SHIFT));
+>
+> -               HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
+> +               if (!vc4_hdmi->variant->external_irq_controller)
+> +                       HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
+>         } else {
+> -               HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
+> +               if (!vc4_hdmi->variant->external_irq_controller)
+> +                       HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
+>                 HDMI_WRITE(HDMI_CEC_CNTRL_5, val |
+>                            VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
+>         }
+> @@ -1682,8 +1684,6 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+>         cec_fill_conn_info_from_drm(&conn_info, &vc4_hdmi->connector);
+>         cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
+>
+> -       HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
+> -
+>         value = HDMI_READ(HDMI_CEC_CNTRL_1);
+>         /* Set the logical address to Unregistered */
+>         value |= VC4_HDMI_CEC_ADDR_MASK;
+> @@ -1691,12 +1691,32 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+>
+>         vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+>
+> -       ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
+> -                                       vc4_cec_irq_handler,
+> -                                       vc4_cec_irq_handler_thread, 0,
+> -                                       "vc4 hdmi cec", vc4_hdmi);
+> -       if (ret)
+> -               goto err_delete_cec_adap;
+> +       if (vc4_hdmi->variant->external_irq_controller) {
+> +               ret = devm_request_threaded_irq(&pdev->dev,
+> +                                               platform_get_irq_byname(pdev, "cec-rx"),
+> +                                               vc4_cec_irq_handler_rx_bare,
+> +                                               vc4_cec_irq_handler_rx_thread, 0,
+> +                                               "vc4 hdmi cec rx", vc4_hdmi);
+> +               if (ret)
+> +                       goto err_delete_cec_adap;
+> +
+> +               ret = devm_request_threaded_irq(&pdev->dev,
+> +                                               platform_get_irq_byname(pdev, "cec-tx"),
+> +                                               vc4_cec_irq_handler_tx_bare,
+> +                                               vc4_cec_irq_handler_tx_thread, 0,
+> +                                               "vc4 hdmi cec tx", vc4_hdmi);
+> +               if (ret)
+> +                       goto err_delete_cec_adap;
+> +       } else {
+> +               HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
+> +
+> +               ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
+> +                                               vc4_cec_irq_handler,
+> +                                               vc4_cec_irq_handler_thread, 0,
+> +                                               "vc4 hdmi cec", vc4_hdmi);
+> +               if (ret)
+> +                       goto err_delete_cec_adap;
+> +       }
+>
+>         ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
+>         if (ret < 0)
+> @@ -2095,6 +2115,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+>                 PHY_LANE_CK,
+>         },
+>         .unsupported_odd_h_timings      = true,
+> +       .external_irq_controller        = true,
+>
+>         .init_resources         = vc5_hdmi_init_resources,
+>         .csc_setup              = vc5_hdmi_csc_setup,
+> @@ -2121,6 +2142,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+>                 PHY_LANE_2,
+>         },
+>         .unsupported_odd_h_timings      = true,
+> +       .external_irq_controller        = true,
+>
+>         .init_resources         = vc5_hdmi_init_resources,
+>         .csc_setup              = vc5_hdmi_csc_setup,
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 6966db1a0957..d71f6ed321bf 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -64,6 +64,13 @@ struct vc4_hdmi_variant {
+>         /* The BCM2711 cannot deal with odd horizontal pixel timings */
+>         bool unsupported_odd_h_timings;
+>
+> +       /*
+> +        * The BCM2711 CEC/hotplug IRQ controller is shared between the
+> +        * two HDMI controllers, and we have a proper irqchip driver for
+> +        * it.
+> +        */
+> +       bool external_irq_controller;
+> +
+>         /* Callback to get the resources (memory region, interrupts,
+>          * clocks, etc) for that variant.
+>          */
+> --
+> 2.29.2
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
