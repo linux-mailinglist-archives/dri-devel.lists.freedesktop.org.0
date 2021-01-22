@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6A530000A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 11:20:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF77530001E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Jan 2021 11:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABB2289D64;
-	Fri, 22 Jan 2021 10:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D51D6E9CD;
+	Fri, 22 Jan 2021 10:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 661AA89D64
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 10:20:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 72DA26E9A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Jan 2021 10:24:21 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C155511D4;
- Fri, 22 Jan 2021 02:20:06 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9D3D11D4;
+ Fri, 22 Jan 2021 02:24:20 -0800 (PST)
 Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D34E3F719;
- Fri, 22 Jan 2021 02:20:05 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 889CA3F719;
+ Fri, 22 Jan 2021 02:24:19 -0800 (PST)
 Subject: Re: [PATCH] drm/panfrost: Add governor data with pre-defined
  thresholds
-To: Lukasz Luba <lukasz.luba@arm.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Lukasz Luba <lukasz.luba@arm.com>
 References: <20210121170445.19761-1-lukasz.luba@arm.com>
- <f1b5c801-71f9-c3b9-2017-d9ee5c6fd3d2@linaro.org>
- <ec393a2c-2220-9ea8-db5c-7d651badc6b9@arm.com>
+ <c5ad1148-0494-aaed-581a-c13ed94e42e8@arm.com>
+ <38c4dc94-0613-33f9-e4e4-e42d451aed9b@arm.com>
 From: Steven Price <steven.price@arm.com>
-Message-ID: <66a8f61a-3c4c-5f92-c175-f71c9dcfaf4a@arm.com>
-Date: Fri, 22 Jan 2021 10:20:06 +0000
+Message-ID: <cd5a78e8-ba0a-d502-29e7-8d25ddb52659@arm.com>
+Date: Fri, 22 Jan 2021 10:24:13 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <ec393a2c-2220-9ea8-db5c-7d651badc6b9@arm.com>
+In-Reply-To: <38c4dc94-0613-33f9-e4e4-e42d451aed9b@arm.com>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,111 +44,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, daniel.lezcano@linaro.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ alyssa.rosenzweig@collabora.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjIvMDEvMjAyMSAxMDoxMSwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gCj4gCj4gT24gMS8yMS8y
-MSA1OjE1IFBNLCBEYW5pZWwgTGV6Y2FubyB3cm90ZToKPj4gT24gMjEvMDEvMjAyMSAxODowNCwg
-THVrYXN6IEx1YmEgd3JvdGU6Cj4+PiBUaGUgc2ltcGxlX29uZGVtYW5kIGRldmZyZXEgZ292ZXJu
-b3IgdXNlcyB0d28gdGhyZXNob2xkcyB0byBkZWNpZGUgYWJvdXQKPj4+IHRoZSBmcmVxdWVuY3kg
-Y2hhbmdlOiB1cHRocmVzaG9sZCwgZG93bmRpZmZlcmVudGlhbC4gVGhlc2UgdHdvIHR1bmFibGUK
-Pj4+IGNoYW5nZSB0aGUgYmVoYXZpb3Igb2YgdGhlIGdvdmVybm9yIGRlY2lzaW9uLCBlLmcuIGhv
-dyBmYXN0IHRvIGluY3JlYXNlCj4+PiB0aGUgZnJlcXVlbmN5IG9yIGhvdyByYXBpZGx5IGxpbWl0
-IHRoZSBmcmVxdWVuY3kuIFRoaXMgcGF0Y2ggYWRkcyBuZWVkZWQKPj4+IGdvdmVybm9yIGRhdGEg
-d2l0aCB0aHJlc2hvbGRzIHZhbHVlcyBnYXRoZXJlZCBleHBlcmltZW50YWxseSBpbiAKPj4+IGRp
-ZmZlcmVudAo+Pj4gd29ya2xvYWRzLgo+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IEx1a2FzeiBMdWJh
-IDxsdWthc3oubHViYUBhcm0uY29tPgo+Pj4gLS0tCj4+PiBIaSBhbGwsCj4+Pgo+Pj4gVGhpcyBw
-YXRjaCBhaW1zIHRvIGltcHJvdmUgdGhlIHBhbmZyb3N0IHBlcmZvcm1hbmNlIGluIHZhcmlvdXMg
-Cj4+PiB3b3JrbG9hZHMsCj4+PiAoYmVuY2htYXJrcywgZ2FtZXMpLiBUaGUgc2ltcGxlX29uZGVt
-YW5kIGRldmZyZXEgZ292ZXJub3Igc3VwcG9ydHMKPj4+IHR1bmFibGVzIHRvIHR3ZWFrIHRoZSBi
-ZWhhdmlvdXIgb2YgdGhlIGludGVybmFsIGFsZ29yaXRobS4gVGhlIGRlZmF1bHQKPj4+IHZhbHVl
-cyBmb3IgdGhlc2UgdHdvIHRocmVzaG9sZHMgKDkwIGFuZCA1KSBkbyBub3Qgd29yayB3ZWxsIHdp
-dGggCj4+PiBwYW5mcm9zdC4KPj4+IFRoZXNlIG5ldyBzZXR0aW5ncyBzaG91bGQgcHJvdmlkZSBn
-b29kIHBlcmZvcm1hbmNlLCBzaG9ydCBsYXRlbmN5IGZvcgo+Pj4gcmlzaW5nIHRoZSBmcmVxdWVu
-Y3kgZHVlIHRvIHJhcGlkIHdvcmtsb2FkIGNoYW5nZSBhbmQgZGVjZW50IGZyZXEgc2xvdwo+Pj4g
-ZG93biB3aGVuIHRoZSBsb2FkIGlzIGRlY2F5aW5nLiBCYXNlZCBvbiBmcmVxdWVuY3kgY2hhbmdl
-IHN0YXRpc3RpY3MsCj4+PiBnYXRoZXJlZCBkdXJpbmcgZXhwZXJpbWVudHMsIGFsbCBmcmVxdWVu
-Y2llcyBhcmUgdXNlZCwgZGVwZW5kaW5nIG9uCj4+PiB0aGUgbG9hZC4gVGhpcyBwcm92aWRlcyBz
-b21lIHBvd2VyIHNhdmluZ3MgKHN0YXRpc3RpY2FsbHkpLiBUaGUgaGlnaGVzdAo+Pj4gZnJlcXVl
-bmN5IGlzIGFsc28gdXNlZCB3aGVuIG5lZWRlZC4KPj4+Cj4+PiBFeGFtcGxlIGdsbWFyazIgcmVz
-dWx0czoKPj4+IDEuIGZyZXEgZml4ZWQgdG8gbWF4OiAxNTMKPj4+IDIuIHRoZXNlIG5ldyB0aHJl
-c2hvbGRzIHZhbHVlcyAody8gcGF0Y2gpOiAxNTEKPj4+IDMuIGRlZmF1bHQgZ292ZXJub3IgdmFs
-dWVzICh3L28gcGF0Y2gpOiAxMTQKPj4+Cj4+PiBJbiBmdXR1cmUgdGhlIGRldmZyZXEgZnJhbWV3
-b3JrIHdvdWxkIGV4cG9zZSB2aWEgc3lzZnMgdGhlc2UgdHdvCj4+PiB0dW5hYmxlcywgc28gdGhl
-eSBjYW4gYmUgYWRqdXN0ZWQgYnkgdGhlIG1pZGRsZXdhcmUgYmFzZWQgb24gY3VycmVudGx5Cj4+
-PiBydW5uaW5nIHdvcmtsb2FkIChnYW1lLCBkZXNrdG9wLCB3ZWIgYnJvd3NlciwgZXRjKS4gVGhl
-c2UgbmV3IHZhbHVlcwo+Pj4gc2hvdWxkIGJlIGdvb2QgZW5vdWdoLCB0aG91Z2guCj4+Pgo+Pj4g
-UmVnYXJkcywKPj4+IEx1a2FzeiBMdWJhCj4+Pgo+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL3BhbmZy
-b3N0L3BhbmZyb3N0X2RldmZyZXEuYyB8IDEwICsrKysrKysrKy0KPj4+IMKgIGRyaXZlcnMvZ3B1
-L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmggfMKgIDIgKysKPj4+IMKgIDIgZmlsZXMg
-Y2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Pj4KPj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jIAo+Pj4gYi9k
-cml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jCj4+PiBpbmRleCA1NmIz
-ZjU5MzU3MDMuLjdjNWZmYzgxZGNlMSAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9w
-YW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMKPj4+IEBAIC0xMzAsOCArMTMwLDE2IEBAIGludCBwYW5m
-cm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZyb3N0X2RldmljZSAKPj4+ICpwZmRldikKPj4+
-IMKgwqDCoMKgwqAgcGFuZnJvc3RfZGV2ZnJlcV9wcm9maWxlLmluaXRpYWxfZnJlcSA9IGN1cl9m
-cmVxOwo+Pj4gwqDCoMKgwqDCoCBkZXZfcG1fb3BwX3B1dChvcHApOwo+Pj4gK8KgwqDCoCAvKgo+
-Pj4gK8KgwqDCoMKgICogU2V0dXAgZGVmYXVsdCB0aHJlc2hvbGRzIGZvciB0aGUgc2ltcGxlX29u
-ZGVtYW5kIGdvdmVybm9yLgo+Pj4gK8KgwqDCoMKgICogVGhlIHZhbHVlcyBhcmUgY2hvc2VuIGJh
-c2VkIG9uIGV4cGVyaW1lbnRzLgo+Pj4gK8KgwqDCoMKgICovCj4+PiArwqDCoMKgIHBmZGV2ZnJl
-cS0+Z292X2RhdGEudXB0aHJlc2hvbGQgPSA0NTsKPj4+ICvCoMKgwqAgcGZkZXZmcmVxLT5nb3Zf
-ZGF0YS5kb3duZGlmZmVyZW50aWFsID0gNTsKPj4+ICsKPj4+IMKgwqDCoMKgwqAgZGV2ZnJlcSA9
-IGRldm1fZGV2ZnJlcV9hZGRfZGV2aWNlKGRldiwgJnBhbmZyb3N0X2RldmZyZXFfcHJvZmlsZSwK
-Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgREVWRlJFUV9H
-T1ZfU0lNUExFX09OREVNQU5ELCBOVUxMKTsKPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgREVWRlJFUV9HT1ZfU0lNUExFX09OREVNQU5ELAo+Pj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmcGZkZXZmcmVxLT5nb3ZfZGF0
-YSk7Cj4+PiDCoMKgwqDCoMKgIGlmIChJU19FUlIoZGV2ZnJlcSkpIHsKPj4+IMKgwqDCoMKgwqDC
-oMKgwqDCoCBEUk1fREVWX0VSUk9SKGRldiwgIkNvdWxkbid0IGluaXRpYWxpemUgR1BVIGRldmZy
-ZXFcbiIpOwo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldCA9IFBUUl9FUlIoZGV2ZnJlcSk7Cj4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEu
-aCAKPj4+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuaAo+Pj4g
-aW5kZXggZGI2ZWE0OGUyMWY5Li4xZTJhNGRlOTQxYWEgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5oCj4+PiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5oCj4+PiBAQCAtNCw2ICs0LDcgQEAKPj4+
-IMKgICNpZm5kZWYgX19QQU5GUk9TVF9ERVZGUkVRX0hfXwo+Pj4gwqAgI2RlZmluZSBfX1BBTkZS
-T1NUX0RFVkZSRVFfSF9fCj4+PiArI2luY2x1ZGUgPGxpbnV4L2RldmZyZXEuaD4KPj4+IMKgICNp
-bmNsdWRlIDxsaW51eC9zcGlubG9jay5oPgo+Pj4gwqAgI2luY2x1ZGUgPGxpbnV4L2t0aW1lLmg+
-Cj4+PiBAQCAtMTcsNiArMTgsNyBAQCBzdHJ1Y3QgcGFuZnJvc3RfZGV2ZnJlcSB7Cj4+PiDCoMKg
-wqDCoMKgIHN0cnVjdCBkZXZmcmVxICpkZXZmcmVxOwo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3Qgb3Bw
-X3RhYmxlICpyZWd1bGF0b3JzX29wcF90YWJsZTsKPj4+IMKgwqDCoMKgwqAgc3RydWN0IHRoZXJt
-YWxfY29vbGluZ19kZXZpY2UgKmNvb2xpbmc7Cj4+PiArwqDCoMKgIHN0cnVjdCBkZXZmcmVxX3Np
-bXBsZV9vbmRlbWFuZF9kYXRhIGdvdl9kYXRhOwo+Pj4gwqDCoMKgwqDCoCBib29sIG9wcF9vZl90
-YWJsZV9hZGRlZDsKPj4+IMKgwqDCoMKgwqAga3RpbWVfdCBidXN5X3RpbWU7Cj4+Cj4+IEkgdGhp
-bmsgaXQgaXMgc2ltcGxlciB0byBkbzoKPj4KPj4gK3N0YXRpYyBzdHJ1Y3QgZGV2ZnJlcV9zaW1w
-bGVfb25kZW1hbmRfZGF0YSBwYW5mcm9zdF9vbmRlbWFuZF9kYXRhID0gewo+PiArwqDCoMKgwqDC
-oMKgIC51cHRocmVzaG9sZCA9IDQ1LAo+PiArwqDCoMKgwqDCoMKgIC5kb3duZGlmZmVyZW50aWFs
-ID0gNSwKPj4gK307Cj4+Cj4+IFsgLi4uIF0KPj4KPj4gwqDCoMKgwqDCoMKgwqAgZGV2ZnJlcSA9
-IGRldm1fZGV2ZnJlcV9hZGRfZGV2aWNlKGRldiwgJnBhbmZyb3N0X2RldmZyZXFfcHJvZmlsZSwK
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERFVkZSRVFfR09WX1NJTVBMRV9PTkRFTUFORCwK
-Pj4gTlVMTCk7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBERVZGUkVRX0dPVl9TSU1QTEVf
-T05ERU1BTkQsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmcGFuZnJvc3Rfb25kZW1hbmRf
-ZGF0YSk7Cj4+Cj4+Cj4gCj4gWWVzLCBpdCdzIHNpbXBsZXIuIFRoZSBkcml2ZXIgd291bGQgcHJv
-YmFibHkgbmV2ZXIgaGF2ZSB0byBzZXJ2ZSB0d28KPiBHUFVzLiBJJ3ZlIHRyaWVkIHRvIGtlZXAg
-dGhpcyB0aGluZyBpbnNpZGUgdGhlIHBhbmZyb3N0IHN0cnVjdCwKPiBmb3JnZXR0aW5nIGFib3V0
-IGl0LgoKVGhlIEp1bm8gcGxhdGZvcm0gd2l0aCBhbiBGUEdBIGF0dGFjaGVkIGlzIHRoZSBvbmx5
-IGV4YW1wbGUgSSBrbm93IG9mIAp3aGVyZSBhIHN5c3RlbSBoYXMgbXVsdGlwbGUgTWFsaSBHUFVz
-IC0gc28gaXQgY2FuIGhhcHBlbiwgYnV0IGl0IHJhcmUuCgpBcyBpdCBzdGFuZHMgYSBzdGF0aWMg
-c3RydWN0dXJlIHdvdWxkIHdvcmsgYmVjYXVzZSB0aGUgdmFsdWVzIGFyZSAKY29uc3RhbnQgLSBi
-dXQgTHVrYXN6IG1lbnRpb25lZCB0aGF0IHRoZXkgd291bGQgYmUgZXhwb3J0ZWQgaW4gc3lzZnMg
-aW4gCnRoZSBmdXR1cmUsIGluIHdoaWNoIGNhc2UgdGhleSByZWFsbHkgc2hvdWxkIGJlIHBhcnQg
-b2YgdGhlIHBhbmZyb3N0IHN0cnVjdC4KClVsdGltYXRlbHkgaGF2aW5nIGEgKG5vbi1jb25zdCkg
-c3RhdGljIHN0cnVjdCBsaWtlIGFib3ZlIHdvdWxkIG1lYW4gCndhc3RpbmcgYSBmZXcgYnl0ZXMg
-b24gc3lzdGVtcyB3aXRoIFBhbmZyb3N0IGxvYWRlZCBidXQgbm8gTWFsaSBHUFUuIApIYXZpbmcg
-aXQgaW4gc3RydWN0IHBhbmZyb3N0IG1lYW5zIHRoZSBjb3N0IGlzIG9ubHkgZm9yIE1hbGkuIEFk
-bWl0dGVkbHkgCml0J3Mgb25seSBhIGZldyBieXRlcyBpbiB0aGlzIGNhc2UgYW5kIG9mdGVuIFBh
-bmZyb3N0IHdpbGwgYmUgYSBtb2R1bGUuCgpTdGV2ZQoKPiBTdGV2ZW4gYWxyZWFkeSByZXZpZXdl
-ZCB0aGUgcGF0Y2gsIHNvIGl0IGNhbiBwcm9iYWJseSBzdGF5Lgo+IEkgd2lsbCBrZWVwIGl0IGlu
-IG1pbmQuIFRoYW5rIHlvdSBmb3IgdGhlIGNvbW1lbnRzLgo+IAo+IFJlZ2FyZHMsCj4gTHVrYXN6
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 22/01/2021 10:00, Lukasz Luba wrote:
+> 
+> 
+> On 1/22/21 8:21 AM, Steven Price wrote:
+>> On 21/01/2021 17:04, Lukasz Luba wrote:
+>>> The simple_ondemand devfreq governor uses two thresholds to decide about
+>>> the frequency change: upthreshold, downdifferential. These two tunable
+>>> change the behavior of the governor decision, e.g. how fast to increase
+>>> the frequency or how rapidly limit the frequency. This patch adds needed
+>>> governor data with thresholds values gathered experimentally in 
+>>> different
+>>> workloads.
+>>>
+>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>> ---
+>>> Hi all,
+>>>
+>>> This patch aims to improve the panfrost performance in various 
+>>> workloads,
+>>> (benchmarks, games). The simple_ondemand devfreq governor supports
+>>> tunables to tweak the behaviour of the internal algorithm. The default
+>>> values for these two thresholds (90 and 5) do not work well with 
+>>> panfrost.
+>>> These new settings should provide good performance, short latency for
+>>> rising the frequency due to rapid workload change and decent freq slow
+>>> down when the load is decaying. Based on frequency change statistics,
+>>> gathered during experiments, all frequencies are used, depending on
+>>> the load. This provides some power savings (statistically). The highest
+>>> frequency is also used when needed.
+>>>
+>>> Example glmark2 results:
+>>> 1. freq fixed to max: 153
+>>> 2. these new thresholds values (w/ patch): 151
+>>> 3. default governor values (w/o patch): 114
+>>
+>> It would be good to state which platform this is on as this obviously 
+>> can vary depending on the OPPs available.
+> 
+> Sorry about that. It was Rock Pi 4B and I have mesa 20.2.4.
+> 
+>>
+>> Of course the real fix here would be to improve the utilisation of the 
+>> GPU[1] so we actually hit the 90% threshold more easily (AFAICT kbase 
+>> uses the default 90/5 thresholds), but this seems like a reasonable 
+>> change for now.
+> 
+> Agree, improving the scheduler would be the best option. I'll have a
+> look at that patch and why it got this 10% lower performance. Maybe
+> I would find something during testing.
+
+I'm afraid it'll probably need a fair bit of work to rebase - things 
+have changed around that code. I'm hoping that most of the problem was 
+really around how Mesa was driving the GPU at that time and things 
+should be better. The DDK (hacked to talk Panfrost ioctls) saw a 
+performance improvement.
+
+Let me know if you hit problems and need any help.
+
+>>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> Thank you for the review. I guess this patch would go through drm tree?
+
+Yes, I'll push it to drm-misc-next later.
+
+Thanks,
+
+Steve
+
+> Regards,
+> Lukasz
+> 
+>>
+>> Thanks,
+>>
+>> Steve
+>>
+>> [1] When I get some time I need to rework the "queue jobs on the 
+>> hardware"[2] patch I posted ages ago. Last time it actually caused a 
+>> performance regression though...
+>>
+>> [2] 
+>> https://lore.kernel.org/r/20190816093107.30518-2-steven.price%40arm.com
+>>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
