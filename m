@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8671D3022EA
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:45:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E60113022F2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:45:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96FBD89BBD;
-	Mon, 25 Jan 2021 08:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00B4089FE3;
+	Mon, 25 Jan 2021 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEA089D7B
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 15:08:47 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id y187so8553079wmd.3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 07:08:47 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B10689D7B
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 15:08:48 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id e15so8558236wme.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 07:08:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
  bh=Ag6006OGpj/LnO01jq+OCQKPnWe8b0yCa7D0tLaFvmM=;
- b=TOCbp+BDx6RM11NVVijlGdB35BiNyQxSxKuDKWkhO4WEpH3e+pxel1Z0G43APR36c5
- FXI5cWN/NA2C6IVh7v2ZvfVhmZ61uRMyH/GfACuVvHYezD7CyyDQ+AygdmyFCY97VKHj
- C6obY5CUJ+TcZzpJq1LqpBFr+CdWSj9KdVZ7id2Jp7tiTghHREuuAARBrjIl2S2nJoWn
- GI0OVLsAl2+9mIQoBy2VmJawA/EDIZ3+mZzbYWvVMQAvGKkxglRhJyC85WFtkmI7zqdm
- qu/rx45j3AHNxRBb16aZsTLfQIaET4uwba7iqFTsrT5OUVT+pk2MGkWg6Lx1Z+M/xyos
- 7p1g==
+ b=bPwf4qkir49pVBSitB1Do8De4PPdvI6685ybt24v+l9t1TtNQfcEsur0Je7nsRbi0N
+ ILXUQ3ulIGpUzLhgKy+WPEFxCwLT1b6v4C8+l1/VXFl0IqYsJdIHammgIPqadmYW9NtO
+ HivSY1nzRSUp7N0BcM8VfZ8eg5dmexoVdKQKWJQmQlBpBIcivKzh42OS0QnUxrX/Vegs
+ ey6kH0lP32cZNTosC0JaosIuX7CuaddjOd0C+Cf3cgx4Ve+2WkL9N0GyNMXGq0/Z4o7G
+ Glr3CLkxnMFeexWx9pqZ0REXGXhnqQIPOWvLHzrzu2yFUYA2vnPuiX5MHNENvyXvPGI1
+ ngCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
  bh=Ag6006OGpj/LnO01jq+OCQKPnWe8b0yCa7D0tLaFvmM=;
- b=qYutMTAY1SqJ1ZlFPlOq4bYMbrw4iwAYbYheWGJqsOeBJ92xXGKEVTy1YFEGShBLOm
- MSKS5VbaKR/gFuU1vhyy46KJXtl8tnQfjIH1KEKIHpt/7UHzkpN9OvQzokNtHAfU+2Zl
- r+RNq3HszyUrcZ3jIrc1jEpHd3a/qwBbDkOQzBzNGo8WxmcjJN15j2wv6atdjeBfA5Cj
- tLgf5FVrFLEPtSTR6gfRqW78hGhgZFx5oe03bVmHQxsNmZFLWY4gAPX7W5fA0CS4m/s+
- jpn9x/myjJxdF5tt3BeF8+frdagMeULVvV5ACsObpWurxtb5EL00zrAtxmxGfIniVwS2
- fuOA==
-X-Gm-Message-State: AOAM530atHhEyuvE4OBuGEiYqGxbzmX/UemK+CE2S4/y4BaHFnNLz+93
- HPaCs3IX0ByjRgR7XhYN+9g=
-X-Google-Smtp-Source: ABdhPJzfpNHEnuZxE5BgO0IyKRgf4NPq8SLJLxIo76XFtcaIsh3V8uoLikb9aNFH7f9QrXt1pMxxzQ==
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr478249wmd.71.1611500926117; 
+ b=TDsp835Buunua9XWXZ07DcRCGtQD4UhD7F/1KIwUQWO5+bCvAdoJTy2Aspp1aiKUmT
+ epxpmMJ49BMNazyxUuG+3lb5UZVyw8+XdXuyGscd/WnTp99YbTOH5//rTMgiBHfb7dwE
+ fCJfbD/iOv7RHwOvkSpZHSEUUcEj4PmUfa3w5fiRaEzGw5P9ox53Gw8Z6CRyc3nzfU8x
+ gqq5u8tlPzn+WHrL7IosnkeVw8nlTqVqOKr7Xl5GmJ1vPvYzWKdkbsGcj4F1p9y027i9
+ GSqNwQjTRsh1l8y2RfK+qwRJQQ2/Ni6Cr8cdGcwRM8mUIWRsiRcHOgsWFnNdxt4XyUMa
+ AfCA==
+X-Gm-Message-State: AOAM532QO+O34gME1LZ0GgAkxlcfeQAR8x1UzR3qs3mtVZ6rXU4b09Pb
+ TBX5aPcYCZc7oOIWqBOU3Ek=
+X-Google-Smtp-Source: ABdhPJzayFhOgFZntgiAOE/EY618MX5PY+t/LDNbQv/eVErJ+86mON1JNnZWa3lXxDa4I2nqJiaAeg==
+X-Received: by 2002:a1c:2501:: with SMTP id l1mr12006281wml.41.1611500926916; 
  Sun, 24 Jan 2021 07:08:46 -0800 (PST)
 Received: from adgra-XPS-15-9570.home
  (2a01cb0008bd2700e58e9e649f9020b2.ipv6.abo.wanadoo.fr.
  [2a01:cb00:8bd:2700:e58e:9e64:9f90:20b2])
- by smtp.gmail.com with ESMTPSA id m18sm244608wrx.17.2021.01.24.07.08.45
+ by smtp.gmail.com with ESMTPSA id m18sm244608wrx.17.2021.01.24.07.08.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 07:08:45 -0800 (PST)
+ Sun, 24 Jan 2021 07:08:46 -0800 (PST)
 From: Adrien Grassein <adrien.grassein@gmail.com>
 To: 
 Subject: [PATCH 1/2] dt-bindings: display: bridge: Add documentation for LT8912
-Date: Sun, 24 Jan 2021 16:08:33 +0100
-Message-Id: <20210124150835.1522899-2-adrien.grassein@gmail.com>
+Date: Sun, 24 Jan 2021 16:08:34 +0100
+Message-Id: <20210124150835.1522899-3-adrien.grassein@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210124150835.1522899-1-adrien.grassein@gmail.com>
 References: <20210124150835.1522899-1-adrien.grassein@gmail.com>
