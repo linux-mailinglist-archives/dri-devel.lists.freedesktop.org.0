@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B3B3022B8
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428F33022F5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:45:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6269889F61;
-	Mon, 25 Jan 2021 08:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F406E030;
+	Mon, 25 Jan 2021 08:45:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957F689F55;
- Mon, 25 Jan 2021 08:18:10 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id 6so11273277wri.3;
- Mon, 25 Jan 2021 00:18:10 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A577389D7B
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 15:08:46 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id j18so8404729wmi.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 07:08:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Y7QSAI4exnMwTSIl2D/guBzjw3QSq7D2XfoHWDkim0M=;
- b=kz5X1h6DqSqeV6eliWhiDPYDhC/5Vb+VoxkBn2I420H7P49skPLRYqgfpy4f78qbr/
- c5yj6Fk29J7lf+Fjnowbz8gNGIkVBkt8/Wuery3OFtJI2sfmIr94lMufUrC1aCG999U7
- UOgZNCFrpeMAFMOF6GY93vEi8n7J0GPb+MQ8ADVe6SKgJzhydqAA1WaTIq5UXXR1v0pq
- EZmu2x/+3cCej4t0CYQoyblwOT1n76QH2ggxx8SM6LphJ3e6hObPgfl2pkVo/zBGynon
- kovYuruRtDQ5tEugsYLd1Bo1gxPQId/F2EuJMOCc0m4kt5ZtWPhpjRmbkdfS6JvVvMfq
- 9yAg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+7mf2JB6YFkZrTT9eOh8fpRwRlqBA16q//wOPgh3f9w=;
+ b=LNH33GfYNRs4v32KhZGrq2haAa6pCHeZg293Ea8BzUSeu2hwzylO0rlVHWGCqMZ/j3
+ EPUluEZFI/6Q4dDGV1e0U8E/QhIAPMAdnK6Z/Daj3EVB2ehlkPtaNr5FRPCO2daceX0p
+ lkqMZwQpYcM49zfxfMHsSXEzNi0F7FXuAnefhkBt3ZEs0JaT9jRTX9TN40TV+/r+z704
+ 14wYxuNXoiRSuUkhRNufVbulq7pnCmclSKmNZq5Hi06oilzz4fZq1z/FpdOHbQcCVMG1
+ OwplXYHCQA+OgtjC0r47gZmpYpcAD14rUFMhRBJpE2W4ICz+D9ljxCUtBm7Y/ujvX45y
+ eL5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Y7QSAI4exnMwTSIl2D/guBzjw3QSq7D2XfoHWDkim0M=;
- b=dNAbhwtV/IOMZUrA2hb4rvD5SDu6ZiCDSe3Cq/3mKHlnbw76yZZVi3dq4mSeZ94xcJ
- 2y8wZ2mdeiLN0L8fKFnxhDtgPku1/H8MdHJsGiXhaEOVjyfqPL1BYD/MQ2jla7cXVFaC
- 6jwoehOHJI1BaIEA+C+sqjeTU0ikKzi9QjvcB7slcNBjbK6aO6VpOkrVXnaMu3zJ0M32
- LFCr8E6MRnrm4yadjI8DZBg/WwNusJXgFqXcPDLdxSUwPdUN/EVJgX4PsI4XWSUY16NT
- FBmTsMj54VEBmy2mC8oboRZBA2wG5Ig3MvKoYWLBNiQz9X7vZ2oNgyQPtqC7bbeF+uUq
- JfPg==
-X-Gm-Message-State: AOAM530knfjNQyyFRVy4sIV7ovsj/ZktTv+8wC0w1zePgIDI3qtLWMa9
- auTOFovAvXP5ZEFe3KfMj5k=
-X-Google-Smtp-Source: ABdhPJw+CnX1ojnwI5+Km+6OVd8qHBN/eVrDsmFJRtBQmrYurXcm6CNStkvdgbes0Df3GJB6yjz5zg==
-X-Received: by 2002:a5d:5913:: with SMTP id v19mr10731wrd.207.1611562689269;
- Mon, 25 Jan 2021 00:18:09 -0800 (PST)
-Received: from localhost.localdomain ([87.200.95.144])
- by smtp.gmail.com with ESMTPSA id m12sm20286798wmc.10.2021.01.25.00.18.06
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+7mf2JB6YFkZrTT9eOh8fpRwRlqBA16q//wOPgh3f9w=;
+ b=hf1g3GxKDmGl28YZvn0bgV6V29SaziScG7lqc269TxtLG2otcK2oJVeI6goq+QV13u
+ RwrM9C0WGlWiTxK4vUsMk8chEw8vDluPog/mt34XlRW4GA9Nin48WhpD7V7eeHyQiS+y
+ jtqX8JwDhm6F0bL39isZD9C/AAWXEHDZCjxl5HPAxZV7k6hjDe2rlru5dDBFs3KnJ+pB
+ 1fTy2bBGGX/X9BdC4OBmcf73DLMfCG4NXhB2iB0T8A4N2NkzU5OObO8NnTdR+wjYmLnx
+ 4CBcg3xLcDFYy0Ic8ItXyxpInuEKWRJNCOGfEFfccK7wIwiewHXYry9vM0ki9SrCv0St
+ KMRA==
+X-Gm-Message-State: AOAM5327vifaqUXtROLJpyIk376XQj1Ftzrw9bmPkxUYhGg6NBy4uRsX
+ g8+FmhJAOlUNSj/psqpKxVQ=
+X-Google-Smtp-Source: ABdhPJyAmReBbU3ln/hSsIhpgah/YIgPZ86g83LwMM0taGgJ5gMNjLPV5MPbFmcE8OLbiKpTQw1LeA==
+X-Received: by 2002:a05:600c:4417:: with SMTP id
+ u23mr2999987wmn.100.1611500925353; 
+ Sun, 24 Jan 2021 07:08:45 -0800 (PST)
+Received: from adgra-XPS-15-9570.home
+ (2a01cb0008bd2700e58e9e649f9020b2.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:8bd:2700:e58e:9e64:9f90:20b2])
+ by smtp.gmail.com with ESMTPSA id m18sm244608wrx.17.2021.01.24.07.08.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 00:18:08 -0800 (PST)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/lima: add governor data with pre-defined thresholds
-Date: Mon, 25 Jan 2021 08:18:04 +0000
-Message-Id: <20210125081804.13016-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ Sun, 24 Jan 2021 07:08:44 -0800 (PST)
+From: Adrien Grassein <adrien.grassein@gmail.com>
+To: 
+Subject: [PATCH 0/2] Add support of Lontium lt8912 MIPI to HDMI bridge
+Date: Sun, 24 Jan 2021 16:08:32 +0100
+Message-Id: <20210124150835.1522899-1-adrien.grassein@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 25 Jan 2021 08:45:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,77 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Hewitt <christianshewitt@gmail.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Steven Price <steven.price@arm.com>
-MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ narmstrong@baylibre.com, airlied@linux.ie, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
+ Adrien Grassein <adrien.grassein@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adapts the panfrost pre-defined thresholds change [0] to the
-lima driver to improve real-world performance. The upthreshold value has
-been set to ramp GPU frequency to max freq faster (compared to panfrost)
-to compensate for the lower overall performance of utgard devices.
+Hello,
 
-[0] https://patchwork.kernel.org/project/dri-devel/patch/20210121170445.19761-1-lukasz.luba@arm.com/
+this patch set adds the support of the Lontium lt8912 MIPI to HDMI
+bridge in the kernel.
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
-I have been using Kodi as my test application. If you scroll in library
-views with hundreds of list items and the panfrost values the slow GPU
-ramp up is quite noticeable and the GUI feels sluggish. As everything
-lima runs on is inherently slower than panfrost using devices I believe
-it's better to ramp up to max freq quicker.
+It's only support the video part, not the audio part yet
+since I don't have the datasheet of this component.
+I get the current i2c configuration from Digi and
+Boundary drivers.
+Developed using the DB_DSIHD board from BoundaryDevices.
 
- drivers/gpu/drm/lima/lima_devfreq.c | 10 +++++++++-
- drivers/gpu/drm/lima/lima_devfreq.h |  2 ++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+Thanks,
+Adrien Grassein
 
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-index 5686ad4aaf7c..c9854315a0b5 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.c
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -163,8 +163,16 @@ int lima_devfreq_init(struct lima_device *ldev)
- 	lima_devfreq_profile.initial_freq = cur_freq;
- 	dev_pm_opp_put(opp);
- 
-+	/*
-+	 * Setup default thresholds for the simple_ondemand governor.
-+	 * The values are chosen based on experiments.
-+	 */
-+	ldevfreq->gov_data.upthreshold = 20;
-+	ldevfreq->gov_data.downdifferential = 5;
-+
- 	devfreq = devm_devfreq_add_device(dev, &lima_devfreq_profile,
--					  DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
-+					  DEVFREQ_GOV_SIMPLE_ONDEMAND,
-+					  &ldevfreq->gov_data);
- 	if (IS_ERR(devfreq)) {
- 		dev_err(dev, "Couldn't initialize GPU devfreq\n");
- 		ret = PTR_ERR(devfreq);
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
-index 2d9b3008ce77..b0c7c736e81a 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.h
-+++ b/drivers/gpu/drm/lima/lima_devfreq.h
-@@ -4,6 +4,7 @@
- #ifndef __LIMA_DEVFREQ_H__
- #define __LIMA_DEVFREQ_H__
- 
-+#include <linux/devfreq.h>
- #include <linux/spinlock.h>
- #include <linux/ktime.h>
- 
-@@ -18,6 +19,7 @@ struct lima_devfreq {
- 	struct opp_table *clkname_opp_table;
- 	struct opp_table *regulators_opp_table;
- 	struct thermal_cooling_device *cooling;
-+	struct devfreq_simple_ondemand_data gov_data;
- 
- 	ktime_t busy_time;
- 	ktime_t idle_time;
+Adrien Grassein (2):
+  dt-bindings: display: bridge: Add documentation for LT8912
+  drm/bridge: Introduce LT8912 DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt8912.yaml        |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/bridge/Kconfig                |  14 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/lontium-lt8912.c       | 749 ++++++++++++++++++
+ 5 files changed, 862 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt8912.c
+
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
