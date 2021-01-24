@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F2C301ECF
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Jan 2021 21:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C288301EDB
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Jan 2021 22:05:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC5989CFA;
-	Sun, 24 Jan 2021 20:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F35E89B5F;
+	Sun, 24 Jan 2021 21:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D054D89CFA
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 20:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=rZu2N0bPbN0l5Ml3IhwAB/RSLO7PwqBP9V+cJaEHt6A=; b=EtGLctS+r80RcHPE9ZeG9ZRiV5
- X7kUTYRyLFXlPHf5oaGpkMrWof3qQgnxqiknkb5TYNesrHA1GZWj3rvt80DNrr1nW3MVZw4INLZM5
- j/ZThN0VFWy2EmZpoXiCr2p6tvSyzDosN48aifUppiL6W1AZJ66kzTl0StJxmyAhfT/rW4iIQoQAQ
- ATHdJnhP4rVX/im2AOP1viWmJQ26sjeENxo8H+JI3nVlyY2hUXqLuLYEd8CrCgaw2pNl1GK1rzUnE
- 6pqHQ+JQRt2O219gLaumNxrC88ohZ1ouVlP8WF33X5cxHXFHsrlak0wrV4gnJ6XK/KVxXUeDgYKkG
- 9xHulbJA==;
-Received: from [2a01:799:95f:4600:a14b:28a5:23ac:14a3] (port=59614)
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1l3mLn-0002ur-Bu; Sun, 24 Jan 2021 21:51:11 +0100
-Subject: Re: [PATCH v4 0/3] Generic USB Display driver
-To: Lubomir Rintel <lkundrak@v3.sk>
-References: <20210120170033.38468-1-noralf@tronnes.org>
- <20210124183838.GA1873250@demiurge.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <70a91ae8-15eb-e8d8-1ed9-923b09106bfa@tronnes.org>
-Date: Sun, 24 Jan 2021 21:51:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E62389B5F
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 21:05:07 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id n6so12842454edt.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 13:05:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BnUhBLv1IA982w4SwKSAduxtgTp4wmMfVIvf/7rjiNs=;
+ b=tcypiV60nekP1pKJlnxHuGT4GnLx0FxY00oxhegwFtEFS8CbMLBy4082YtpsDVSxAH
+ RmALXc/J8lUZa561k9x1r2MOBpXHecW7us0wHONfbsEoua/Ffiz/hNn/qh0GLdv203Jr
+ RExhbG/I4ufB8AKBvTGJCA1jtHtPnrRbHik2i7LruU1jMeJ4jAYKdSmUb+zcBWQzJJQi
+ +s9denxDOYEmH2874PEXh3GwRvAncmt6QvtDA9w35sye+lOk+L+/uQvp4jkvbJ5qqgdv
+ CVH2ZAS1j8xyjnd4/V+58fboANgYkm/2VlTQ/bS01eQl7XBttIu/rAuSD9c/N0eQOyg1
+ vL2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BnUhBLv1IA982w4SwKSAduxtgTp4wmMfVIvf/7rjiNs=;
+ b=WrjZszfKxkZ4Z0X3UReFQIjn+xAPTWXWdWZICzZ7vIiwUtXwbjuMaaTGsUNXNHB66q
+ chU0FLjIHPQmoTmefreRiARiKyGU++WlbfbDY6bFXoXy8akVWvC7ggfiGYtZsDPfiO3Y
+ 75dW8NLS1vYcc9OhZWdFbPwkvX7gfWjrecJaJZlucf+0FJpHFtUnCMxXo2guWe+yeMK+
+ 20ut1/JE41qqqM+Kwo5QDu7nw93AnRY2alB0OJkvaa46Iaxb52hTveXmxVrm99oQZfKb
+ ENnsq/lD8slpGGR2FhG9yX6vWLRmsagoK9Fkb/8G72TSLqfNO1zTsD/bc7M7AZmMKKqK
+ Lf/A==
+X-Gm-Message-State: AOAM53200U5i6k1VZelixxovKjZxHE0VSgZ7+EatJb9uYs0zYkzFqmyx
+ +VNZObL5RHxQ22kvw0X0WHsalHlEO2geidYex+Y=
+X-Google-Smtp-Source: ABdhPJwJGT0fwV9E0ArsHCYBLWky94J+d1I4fQnwgtE9F1ZNVYrmbxD1yQN7i+kcs8VNN8K5ReN1+yG4tW2J76a1bnY=
+X-Received: by 2002:a50:fd19:: with SMTP id i25mr1095103eds.386.1611522305769; 
+ Sun, 24 Jan 2021 13:05:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210124183838.GA1873250@demiurge.local>
+References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
+ <86DkveYU9PqmKT4KfDgHvFG_SytoDc4EyfmehALDIJBt7oH3Arn8O97o-pQ3yRU-kfHi-RuwA9zdI-Kz1aZUQBuOSnqmz1GdrRUNPNRsEu4=@emersion.fr>
+ <CAEsyxyj-dHAk0qkkpOsycqfpPi_FW5zh_58hs1gi+6h1M_b8-Q@mail.gmail.com>
+ <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
+In-Reply-To: <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Sun, 24 Jan 2021 22:04:54 +0100
+Message-ID: <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,77 +63,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hudson@trmm.net, markus@raatikainen.cc, sam@ravnborg.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org, th020394@gmail.com,
- pontus.fuchs@gmail.com, peter@stuge.se
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0374914918=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjQuMDEuMjAyMSAxOS4zOCwgc2tyZXYgTHVib21pciBSaW50ZWw6Cj4gT24gV2VkLCBK
-YW4gMjAsIDIwMjEgYXQgMDY6MDA6MzBQTSArMDEwMCwgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+
-PiBIaSwKPj4KPj4gQSB3aGlsZSBiYWNrIEkgaGFkIHRoZSBpZGVhIHRvIHR1cm4gYSBSYXNwYmVy
-cnkgUGkgWmVybyBpbnRvIGEgJDUKPj4gVVNCIHRvIEhETUkvU0RUVi9EU0kvRFBJIGRpc3BsYXkg
-YWRhcHRlci4KPj4KPj4gVGhlIHJlYXNvbiBmb3IgY2FsbGluZyBpdCAnR2VuZXJpYycgaXMgc28g
-YW55b25lIGNhbiBtYWtlIGEgVVNCCj4+IGRpc3BsYXkvYWRhcHRlciBhZ2FpbnN0IHRoaXMgZHJp
-dmVyLCBhbGwgdGhhdCdzIG5lZWRlZCBpcyB0byBhZGQgYSBVU0IKPj4gdmlkOnBpZC4KPj4KPj4g
-VW5mb3J0dW5hdGVseSBJJ3ZlIGhhZCBzb21lIGNvbXBvdW5kaW5nIGhlYWx0aCBwcm9ibGVtcyB0
-aGF0IGhhdmUKPj4gc2V2ZXJhbGx5IGxpbWl0ZWQgdGhlIHRpbWUgSSBjYW4gc3BlbmQgaW4gZnJv
-bnQgb2YgYSBjb21wdXRlci4gRm9yIHRoaXMKPj4gcmVhc29uIEkndmUgZGVjaWRlZCB0byBrZWVw
-IHRoZSBnYWRnZXQgZHJpdmVyIG91dC1vZi10cmVlIGFuZCBmb2N1cyBvbgo+PiBnZXR0aW5nIHRo
-ZSBob3N0IGRyaXZlciBtZXJnZWQgZmlyc3QuCj4+Cj4+IFNlZSB0aGUgd2lraVsxXSBmb3IgbW9y
-ZSBpbmZvcm1hdGlvbiBhbmQgaW1hZ2VzIGZvciB0aGUgUmFzcGJlcnJ5IFBpCj4+IFplcm8vNC4K
-Pj4KPj4gT25lIGJpZyBjaGFuZ2UgdGhpcyB0aW1lIGlzIHRoYXQgSSd2ZSBmb2xsb3dlZCBQZXRl
-ciBTdHVnZSdzIGFkdmljZSB0bwo+PiBub3QgbGV0IERSTSBzdHVmZiBsZWFrIGludG8gdGhlIFVT
-QiBwcm90b2NvbC4gVGhpcyBoYXMgbWFkZSB0aGUgcHJvdG9jb2wKPj4gZWFzaWVyIHRvIHVuZGVy
-c3RhbmQganVzdCBmcm9tIHJlYWRpbmcgdGhlIGhlYWRlciBmaWxlLgo+Pgo+PiBOb3JhbGYuCj4+
-Cj4+IFsxXSBodHRwczovL2dpdGh1Yi5jb20vbm90cm8vZ3VkL3dpa2kKPiAKPiBUaGUgcGF0Y2gg
-c2V0Ogo+IAo+IFRlc3RlZC1ieTogTHVib21pciBSaW50ZWwgPGxrdW5kcmFrQHYzLnNrPgo+IAo+
-IFdvcmtzIGxpa2UgYSBjaGFybSB3aXRoIHRoaXMgYm9hcmQgWzFdLCB0aG91Z2ggaXQgZGlkbid0
-IGltcHJlc3MgdGhlIGdpcmxzCj4gYXMgbXVjaCBhcyBJIGhvcGVkLiBDb2RlIGhlcmUgWzJdLCBw
-aWN0dXJlIGhlcmUgWzNdLgo+IAoKSSBoYXZlIHdvbmRlcmVkIHdoYXQgY29sb3IgZGlzcGxheSBy
-ZXNvbHV0aW9uIGl0IGlzIHBvc3NpYmxlIHRvIGRyaXZlCm92ZXIgVVNCIGZ1bGwgc3BlZWQuIEkg
-Y2FuIHVuZGVyc3RhbmQgdGhhdCB5b3VyIFBvQyB3YXNuJ3QgdGhhdAppbXByZXNzaXZlIHNpbmNl
-IGl0IGRvZXNuJ3QgdXNlIERNQSB0byBkcml2ZSB0aGUgU1BJIGJ1cy4KClRoZSBuZXcgJDQgUmFz
-cGJlcnJ5IFBpIFBpY28gdGhhdCBjYW1lIG91dCB0aGlzIHdlZWsgbG9va3MgaW50ZXJlc3RpbmcK
-YXMgYSBVU0IgaW50ZXJmYWNlIGJvYXJkIGZvciB0aW55IHBhbmVscy4gSXQgY2FuIGRyaXZlIERQ
-SSBwYW5lbHMKZGlyZWN0bHksIGhhcyAyIGNvcmVzIEAxMzNNSHosIDI2NEsgU1JBTSBhbmQgVVNC
-IGZ1bGwgc3BlZWQuIE1heWJlIGx6NApkZWNvbXByZXNzaW9uIGlzIGV2ZW4gcG9zc2libGUuIEFu
-b3RoZXIgZ29vZCB0aGluZyBpcyB0aGF0IHRoZSBib2FyZAp3aWxsIGJlIGFyb3VuZCBmb3IgYSBs
-b25nIHRpbWUuCgpUaGFua3MgZm9yIHRlc3RpbmcsIEkgaGF2ZSBsaW1pdGVkIGJhbmR3aXRoIHRo
-ZXNlIGRheXMgc28gSSBjb3VsZG4ndCBkbwphIHRlc3Qgb24gYW4gTUNVIG15c2VsZi4KCk5vcmFs
-Zi4KCj4gWzFdIGh0dHBzOi8vd3d3LmJhbmdnb29kLmNvbS9MSUxZR08tVFRHTy1ULURpc3BsYXkt
-R0QzMi1SSVNDLVYtMzItYml0LUNvcmUtTWluaW1hbC1EZXZlbG9wbWVudC1Cb2FyZC0xXzE0LUlQ
-Uy1wLTE2NTI4NzAuaHRtbD9ybW1kcz1zZWFyY2gmY3VyX3dhcmVob3VzZT1DTgo+IFsyXSBodHRw
-czovL2dpdGh1Yi5jb20vaGFja2Vyc3BhY2UvbGlib3BlbmNtMy1nZjMydi1leGFtcGxlcy9jb21t
-aXQvN2VmNTFiMzFiOQo+IFszXSBodHRwczovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmxrdW5k
-cmFrL2xpbHlnby5qcGVnCj4gCj4gSGFkIHRvIGFwcGx5IGEgZml4IGZvciB0aGUgZHJtX2Nvbm5l
-Y3Rvcl9lbnVtX2xpc3RbXSBvbW1pc3Npb24gSSBtZW50aW9uZWQKPiBlbHNld2hlcmUsIGFuZCB0
-aGF0IEkndmUgbm93IG5vdGljZWQgeW91J3ZlIG5vdGVkIHByZXZpb3VzbHkuCj4gCj4gVGFrZSBj
-YXJlCj4gTHVibwo+IAo+Pgo+Pgo+PiBOb3JhbGYgVHLDuG5uZXMgKDMpOgo+PiAgIGRybS91YXBp
-OiBBZGQgVVNCIGNvbm5lY3RvciB0eXBlCj4+ICAgZHJtL3Byb2JlLWhlbHBlcjogQ2hlY2sgZXBv
-Y2ggY291bnRlciBpbiBvdXRwdXRfcG9sbF9leGVjdXRlKCkKPj4gICBkcm06IEFkZCBHZW5lcmlj
-IFVTQiBEaXNwbGF5IGRyaXZlcgo+Pgo+PiAgTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAg
-ICAgICAgfCAgIDggKwo+PiAgZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAgICAgICAgICAgfCAg
-IDIgKwo+PiAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAgICAgfCAgIDEgKwo+PiAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyAgfCAgIDcgKy0KPj4gIGRyaXZlcnMv
-Z3B1L2RybS9ndWQvS2NvbmZpZyAgICAgICAgIHwgIDE0ICsKPj4gIGRyaXZlcnMvZ3B1L2RybS9n
-dWQvTWFrZWZpbGUgICAgICAgIHwgICA0ICsKPj4gIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Nv
-bm5lY3Rvci5jIHwgNzIyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gIGRyaXZlcnMv
-Z3B1L2RybS9ndWQvZ3VkX2Rydi5jICAgICAgIHwgNjIwICsrKysrKysrKysrKysrKysrKysrKysr
-Kwo+PiAgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfaW50ZXJuYWwuaCAgfCAxNDggKysrKysrCj4+
-ICBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgICAgICB8IDQ3MiArKysrKysrKysrKysr
-KysrKysKPj4gIGluY2x1ZGUvZHJtL2d1ZC5oICAgICAgICAgICAgICAgICAgIHwgMzU2ICsrKysr
-KysrKysrKysrCj4+ICBpbmNsdWRlL3VhcGkvZHJtL2RybV9tb2RlLmggICAgICAgICB8ICAgMSAr
-Cj4+ICAxMiBmaWxlcyBjaGFuZ2VkLCAyMzU0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkK
-Pj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL0tjb25maWcKPj4gIGNy
-ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL01ha2VmaWxlCj4+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2d1ZC9ndWRfY29ubmVjdG9yLmMKPj4gIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYwo+PiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2ludGVybmFsLmgKPj4gIGNyZWF0ZSBt
-b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMKPj4gIGNyZWF0ZSBtb2Rl
-IDEwMDY0NCBpbmNsdWRlL2RybS9ndWQuaAo+Pgo+PiAtLSAKPj4gMi4yMy4wCj4+Cj4gCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+--===============0374914918==
+Content-Type: multipart/alternative; boundary="00000000000095433305b9abc60d"
+
+--00000000000095433305b9abc60d
+Content-Type: text/plain; charset="UTF-8"
+
+On Sun, Jan 24, 2021 at 9:24 PM Simon Ser <contact@emersion.fr> wrote:
+
+> On Sunday, January 24th, 2021 at 9:10 PM, Mario Kleiner <
+> mario.kleiner.de@gmail.com> wrote:
+>
+> > But it still needs to be fixed if we want working HDR. I thought
+> > libdrm copies the definitions from the kernel periodically, so the
+> > fix should propagate?
+>
+> There will always be user-space that sends 1 instead of 0. This
+> shouldn't fail on more recent kernels or it will be a regression.
+>
+
+Yes, i know, regressing user-space is bad, but in this very specific case a
+"good" one, if ever. At the moment, it wouldn't regress userspace simply
+because the kernel doesn't actually check for the correct value in its HDR
+metadata handling. But the value itself is sent as HDMI HDR metadata to the
+attached HDR display monitor, so if the monitors firmware checks, it will
+classify the wrong value of 1 as invalid and disable HDR mode on the
+display, which is certainly not what a HDR client application wants. And
+future HDR standards which will actually allocate the value 1 to a
+different mode of HDR operation will switch to the wrong mode /
+misinterpret the sent HDR metadata with hillarious results, which is also
+not in the interest of a HDR client application, or a HDR capable
+compositor.
+
+Iow. if clients continue to use the wrong value 1 then HDR display will
+break in various ways on correctly implemented HDR displays, but in a
+mystifying and hard to debug way. The kernel rejecting a wrong setting
+explicitly and forcing a bug fix in the client would be a blessing in this
+case.
+
+I spent weeks last year, going in circles and hunting ghost bugs related to
+HDR because much of the HDR stuff, both drivers and monitor firmware seems
+to be in not a great shape. "Less wrong" would be a big step forward.
+Especially with the cheaper HDR monitors it is difficult to see when things
+go wrong, because we don't have good expectations on how proper HDR should
+look and the lower end HDR displays don't help.
+
+-mario
+
+--00000000000095433305b9abc60d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, Jan 24, 2021 at 9:24 PM Simon Ser=
+ &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr</a>&gt; wro=
+te:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On Sunday, January 24th, 2021 at 9:10 PM, Mario Kleiner &lt;=
+<a href=3D"mailto:mario.kleiner.de@gmail.com" target=3D"_blank">mario.klein=
+er.de@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; But it still needs to be fixed if we want working HDR. I thought<br>
+&gt; libdrm copies the definitions from the kernel periodically, so the<br>
+&gt; fix should propagate?<br>
+<br>
+There will always be user-space that sends 1 instead of 0. This<br>
+shouldn&#39;t fail on more recent kernels or it will be a regression.<br></=
+blockquote><div><br></div><div>Yes, i know, regressing user-space is bad, b=
+ut in this very specific case a &quot;good&quot; one, if ever. At the momen=
+t, it wouldn&#39;t regress userspace simply because the kernel doesn&#39;t =
+actually check for the correct value in its HDR metadata handling. But the =
+value itself is sent as HDMI HDR metadata to the attached HDR display monit=
+or, so if the monitors firmware checks, it will classify the wrong value of=
+ 1 as invalid and disable HDR mode on the display, which is certainly not w=
+hat a HDR client application wants. And future HDR standards which will act=
+ually allocate the value 1 to a different mode of HDR operation will switch=
+ to the wrong mode / misinterpret the sent HDR metadata with hillarious res=
+ults, which is also not in the interest of a HDR client application, or a H=
+DR capable compositor.</div><div><br></div><div>Iow. if clients continue to=
+ use the wrong value 1 then HDR display will break in various ways on corre=
+ctly implemented HDR displays, but in a mystifying and hard to debug way. T=
+he kernel rejecting a wrong setting explicitly and forcing a bug fix in the=
+ client would be a blessing in this case.</div><div><br></div><div>I spent =
+weeks last year, going in circles and hunting ghost bugs related to HDR bec=
+ause much of the HDR stuff, both drivers and monitor firmware seems to be i=
+n not a great shape. &quot;Less wrong&quot; would be a big step forward. Es=
+pecially with the cheaper HDR monitors it is difficult to see when things g=
+o wrong, because we don&#39;t have good expectations on how proper HDR shou=
+ld look and the lower end HDR displays don&#39;t help.</div><div><br></div>=
+<div>-mario</div><div><br></div></div></div>
+
+--00000000000095433305b9abc60d--
+
+--===============0374914918==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0374914918==--
