@@ -2,66 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32D0302393
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 11:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB5630245C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 12:40:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B509989FE3;
-	Mon, 25 Jan 2021 10:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C8189C60;
+	Mon, 25 Jan 2021 11:40:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 927D189F49;
- Mon, 25 Jan 2021 10:20:50 +0000 (UTC)
-IronPort-SDR: MLEcA5xAbiQLlWZZAVnSoIkU13bHzcD8VmZF0zsUkLP1ZzHo11qcttIVU7jfnvqgLRpbLg0/RE
- Z0erV5kFZmLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="177129712"
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="177129712"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2021 02:20:50 -0800
-IronPort-SDR: akytaJWiaBld45QFQLP5/MONALtuGt4SKABR6xA3o42a3g3MrkWEFLfrFSURJG6/jhy4+NcjaP
- UDMwn1QNu5vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="361422328"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga008.fm.intel.com with ESMTP; 25 Jan 2021 02:20:50 -0800
-Received: from bgsmsx605.gar.corp.intel.com (10.67.234.7) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 25 Jan 2021 02:20:49 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX605.gar.corp.intel.com (10.67.234.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 25 Jan 2021 15:50:47 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Mon, 25 Jan 2021 15:50:47 +0530
-From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Colin King
- <colin.king@canonical.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "C,
- Ramalingam" <ramalingam.c@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH][next] drm/i915/hdcp: Fix return of value in uninitialized
- variable ret
-Thread-Topic: [PATCH][next] drm/i915/hdcp: Fix return of value in
- uninitialized variable ret
-Thread-Index: AQHW8NCsVaR1vL8Y9E2VXHHZueOJa6ozZo4AgAS/EtA=
-Date: Mon, 25 Jan 2021 10:20:47 +0000
-Message-ID: <422669df7166485aa5d4acfa3d3bf58e@intel.com>
-References: <20210122150957.209779-1-colin.king@canonical.com>
- <87y2glj8v5.fsf@intel.com>
-In-Reply-To: <87y2glj8v5.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.1]
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2901889C56;
+ Mon, 25 Jan 2021 11:40:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C9B122AEC;
+ Mon, 25 Jan 2021 11:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611574818;
+ bh=imRMguePrRlh4uW9e4XxMGfsGUxkK+bwXiHzZqO3Lfk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ip1QXuQsU9uUE/EF4n+BVfUEq61Zdw8/dP3khpaYi4AUlj1yREcXD4ZVqVlDTu+5T
+ r0DaS5VV6QN5VPKZV2efZHtJbaFEj8lRcEEpZwXV/P5T9SnYXa4kkPCE8NDIVsQFrF
+ 6xCt1WXIY4ODEzX+ji14hKUArR2coftxRwlB7iKH+BnVXwMJu27EynYyb/8pL4anA3
+ h9MzorSjudFf9Me4W82DINBpwapQuffCJ/Kxhgoe2Bjb2wLKk8zpyATWUSq8yPjmMZ
+ H0pVYl2EL0CaHP9Ku4f4+r+UiAy1YvL1CWmIvKCvccTLN8nnCQ/f+DmYyJZlB36PEy
+ OC11OOTu8R7fQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Joshua Aberback <joshua.aberback@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Subject: [PATCH] drm/amd/display: use div_s64() for 64-bit division
+Date: Mon, 25 Jan 2021 12:39:55 +0100
+Message-Id: <20210125114012.2480845-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,73 +49,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Wesley Chalmers <Wesley.Chalmers@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jacky Liao <ziyu.liao@amd.com>, Martin Leung <martin.leung@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is already merged to drm-intel-next 
-https://cgit.freedesktop.org/drm/drm-intel/commit/?h=drm-intel-next&id=40a6cead28f841ac350bd38dd7260ecacd5eab03
+From: Arnd Bergmann <arnd@arndb.de>
 
-> -----Original Message-----
-> From: Jani Nikula <jani.nikula@linux.intel.com>
-> Sent: Friday, January 22, 2021 8:51 PM
-> To: Colin King <colin.king@canonical.com>; Joonas Lahtinen
-> <joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
-> David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; C, Ramalingam
-> <ramalingam.c@intel.com>; Gupta, Anshuman <anshuman.gupta@intel.com>;
-> Shankar, Uma <uma.shankar@intel.com>; intel-gfx@lists.freedesktop.org; dri-
-> devel@lists.freedesktop.org
-> Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH][next] drm/i915/hdcp: Fix return of value in uninitialized
-> variable ret
-> 
-> On Fri, 22 Jan 2021, Colin King <colin.king@canonical.com> wrote:
-> > From: Colin Ian King <colin.king@canonical.com>
-> >
-> > Currently when there are other connectors on the port using HDCP the
-> > function _intel_hdcp_disable returns a garbage uninitialized value in
-> > variable ret.  I believe the intention is to return 0, so return this
-> > literal value instead of the value in ret.
-> >
-> > Addresses-Coverity: ("Uninitialized scalar return")
-> > Fixes: 899c8762f981 ("drm/i915/hdcp: Configure HDCP2.2 MST steram
-> > encryption status")
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> 
-> Thanks, but there's already a fix in progress:
-> 
-> http://lore.kernel.org/r/20210119064655.1605-3-anshuman.gupta@intel.com
-> 
-> BR,
-> Jani.
-> 
-> 
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index db8dff2eeb0a..a0e7b0bf892b 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -883,7 +883,7 @@ static int _intel_hdcp_disable(struct intel_connector
-> *connector)
-> >  	 * until it disabled HDCP encryption for all connectors in MST topology.
-> >  	 */
-> >  	if (dig_port->num_hdcp_streams > 0)
-> > -		return ret;
-> > +		return 0;
-> >
-> >  	hdcp->hdcp_encrypted = false;
-> >  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port),
-> > 0);
-> 
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+The open-coded 64-bit division causes a link error on 32-bit
+machines:
+
+ERROR: modpost: "__udivdi3" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+ERROR: modpost: "__divdi3" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+
+Use the div_s64() to perform the division here. One of them was an
+unsigned division originally, but it looks like signed division was
+intended, so use that to consistently allow a negative delay.
+
+Fixes: ea7154d8d9fb ("drm/amd/display: Update dcn30_apply_idle_power_optimizations() code")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index dff83c6a142a..a133e399e76d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -772,8 +772,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
+ 							cursor_cache_enable ? &cursor_attr : NULL)) {
+ 				unsigned int v_total = stream->adjust.v_total_max ?
+ 						stream->adjust.v_total_max : stream->timing.v_total;
+-				unsigned int refresh_hz = (unsigned long long) stream->timing.pix_clk_100hz *
+-						100LL /	(v_total * stream->timing.h_total);
++				unsigned int refresh_hz = div_s64((unsigned long long) stream->timing.pix_clk_100hz *
++						100LL, v_total * stream->timing.h_total);
+ 
+ 				/*
+ 				 * one frame time in microsec:
+@@ -800,8 +800,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
+ 				unsigned int denom = refresh_hz * 6528;
+ 				unsigned int stutter_period = dc->current_state->perf_params.stutter_period_us;
+ 
+-				tmr_delay = (((1000000LL + 2 * stutter_period * refresh_hz) *
+-						(100LL + dc->debug.mall_additional_timer_percent) + denom - 1) /
++				tmr_delay = div_s64(((1000000LL + 2 * stutter_period * refresh_hz) *
++						(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
+ 						denom) - 64LL;
+ 
+ 				/* scale should be increased until it fits into 6 bits */
+@@ -815,8 +815,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
+ 					}
+ 
+ 					denom *= 2;
+-					tmr_delay = (((1000000LL + 2 * stutter_period * refresh_hz) *
+-							(100LL + dc->debug.mall_additional_timer_percent) + denom - 1) /
++					tmr_delay = div_s64(((1000000LL + 2 * stutter_period * refresh_hz) *
++							(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
+ 							denom) - 64LL;
+ 				}
+ 
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
