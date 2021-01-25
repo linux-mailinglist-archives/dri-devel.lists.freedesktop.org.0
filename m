@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CBE3024CB
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 13:24:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67063024D0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 13:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27286E08C;
-	Mon, 25 Jan 2021 12:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E336E082;
+	Mon, 25 Jan 2021 12:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 976ED6E082;
- Mon, 25 Jan 2021 12:24:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D80B322472;
- Mon, 25 Jan 2021 12:24:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED736E082;
+ Mon, 25 Jan 2021 12:25:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B2F922583;
+ Mon, 25 Jan 2021 12:25:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611577449;
- bh=61aLXnewGYT9pW69xQYb5+pJ+KbuONrN6DKFyYDPFOQ=;
+ s=k20201202; t=1611577547;
+ bh=WEu6xFibX0AWxe6SUVQhMl1iWA9mDOLr68B6RzcwQlg=;
  h=From:To:Cc:Subject:Date:From;
- b=sxpg1Z0P1BDyGQORROsgzEAv87fhNu0NhIOxsa9G9N//mYQ/Z1/9rvYANgnJ/bYGP
- iHZOJzXdK89VJj3DL/38vZAYlSkf02YLEAl9cqX+Acme98VSbl6gEWp9LxyhTECUDF
- K/RMRNPDt+ESva8julDgcZwqUlmB+eNf+Rs/GqfCzGnZN+R2uQpu2RoJs+c3cnKwmP
- lU6ykNqHRJLTIczgSuV5Yrd7ml5vQDsvrKrX8xvq1qGKHWEVC91QfOSjcxBs53moKe
- h+wFuTCoj/7UNN+PK2p1IuW2Y84Ce3PDxXxJyGk4kmRY8YYXdb0XqMF0DBwtWYeh0T
- QoLbwE5pi97sA==
+ b=lZy1xrMCh5by4v6N/nuKNTDygAOQX3S9+fYSQemWPn3VsgS1Cin2TAFqofoIfZjDq
+ uaPL7yLPtzK+CuVrbIDeqwt69OAirmhCw2srJkEBNXvgGB4o8sAjzRK3OYE4lpW6rs
+ innvECZoTC5IGQdWx8KN65bgy8g0a1KbHZ+RJZlIoe5MSBqI1i/92Uw+gUpLdG4evH
+ bj+Yg32P6FdkiZR4bvlSFYKavRhuMEz0qYrGbQlRymixPX/lwEkd+X28tzbjE5VpEQ
+ uASJMbqNQ+lvlvXpv92U4Vwd1KwaLESovdzsfNC/SHT3txhhZtRBNx8sDPHFEoaGPf
+ DpABsfdL/6bEg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Subject: [PATCH] amdgpu: fix clang build warning
-Date: Mon, 25 Jan 2021 13:23:20 +0100
-Message-Id: <20210125122402.4036126-1-arnd@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: [PATCH] drm/i915/gem: fix non-SMP build failure
+Date: Mon, 25 Jan 2021 13:25:34 +0100
+Message-Id: <20210125122542.4144849-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,12 +47,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Aberback <joshua.aberback@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- Roman Li <Roman.Li@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
- Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org,
- Will Deacon <will@kernel.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -62,87 +56,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-clang warns about the -mhard-float command line arguments
-on architectures that do not support this:
+The x86-specific wbinvd_on_all_cpus() function is exported
+through asm/smp.h, causing a build failure in the i915 driver
+when SMP is disabled:
 
-clang: error: argument unused during compilation: '-mhard-float' [-Werror,-Wunused-command-line-argument]
+drivers/gpu/drm/i915/i915_gem.c:1182:2: error: implicit declaration of function 'wbinvd_on_all_cpus' [-Werror,-Wimplicit-function-declaration]
 
-Move this into the gcc-specific arguments.
+Include that header file explicitly.
 
-Fixes: e77165bf7b02 ("drm/amd/display: Add DCN3 blocks to Makefile")
+Fixes: 30d2bfd09383 ("drm/i915/gem: Almagamate clflushes on freeze")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/Makefile  | 6 ++++--
- drivers/gpu/drm/amd/display/dc/dcn301/Makefile | 3 ++-
- drivers/gpu/drm/amd/display/dc/dcn302/Makefile | 3 ++-
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/i915_gem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/Makefile b/drivers/gpu/drm/amd/display/dc/dcn30/Makefile
-index c20331eb62e0..dfd77b3cc84d 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/Makefile
-@@ -32,8 +32,8 @@ DCN30 = dcn30_init.o dcn30_hubbub.o dcn30_hubp.o dcn30_dpp.o dcn30_optc.o \
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 9b04dff5eb32..2a1643514577 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -36,6 +36,7 @@
+ #include <linux/pci.h>
+ #include <linux/dma-buf.h>
+ #include <linux/mman.h>
++#include <asm/smp.h>
  
- 
- ifdef CONFIG_X86
--CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_resource.o := -mhard-float -msse
--CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_optc.o := -mhard-float -msse
-+CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_resource.o := -msse
-+CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_optc.o := -msse
- endif
- 
- ifdef CONFIG_PPC64
-@@ -45,6 +45,8 @@ ifdef CONFIG_CC_IS_GCC
- ifeq ($(call cc-ifversion, -lt, 0701, y), y)
- IS_OLD_GCC = 1
- endif
-+CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_resource.o += -mhard-float
-+CFLAGS_$(AMDDALPATH)/dc/dcn30/dcn30_optc.o += -mhard-float
- endif
- 
- ifdef CONFIG_X86
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/Makefile b/drivers/gpu/drm/amd/display/dc/dcn301/Makefile
-index 3ca7d911d25c..09264716d1dc 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn301/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dcn301/Makefile
-@@ -14,7 +14,7 @@ DCN301 = dcn301_init.o dcn301_resource.o dcn301_dccg.o \
- 		dcn301_dio_link_encoder.o dcn301_hwseq.o dcn301_panel_cntl.o dcn301_hubbub.o
- 
- ifdef CONFIG_X86
--CFLAGS_$(AMDDALPATH)/dc/dcn301/dcn301_resource.o := -mhard-float -msse
-+CFLAGS_$(AMDDALPATH)/dc/dcn301/dcn301_resource.o := -msse
- endif
- 
- ifdef CONFIG_PPC64
-@@ -25,6 +25,7 @@ ifdef CONFIG_CC_IS_GCC
- ifeq ($(call cc-ifversion, -lt, 0701, y), y)
- IS_OLD_GCC = 1
- endif
-+CFLAGS_$(AMDDALPATH)/dc/dcn301/dcn301_resource.o += -mhard-float
- endif
- 
- ifdef CONFIG_X86
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn302/Makefile b/drivers/gpu/drm/amd/display/dc/dcn302/Makefile
-index 8d4924b7dc22..101620a8867a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn302/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dcn302/Makefile
-@@ -13,7 +13,7 @@
- DCN3_02 = dcn302_init.o dcn302_hwseq.o dcn302_resource.o
- 
- ifdef CONFIG_X86
--CFLAGS_$(AMDDALPATH)/dc/dcn302/dcn302_resource.o := -mhard-float -msse
-+CFLAGS_$(AMDDALPATH)/dc/dcn302/dcn302_resource.o := -msse
- endif
- 
- ifdef CONFIG_PPC64
-@@ -24,6 +24,7 @@ ifdef CONFIG_CC_IS_GCC
- ifeq ($(call cc-ifversion, -lt, 0701, y), y)
- IS_OLD_GCC = 1
- endif
-+CFLAGS_$(AMDDALPATH)/dc/dcn302/dcn302_resource.o += -mhard-float
- endif
- 
- ifdef CONFIG_X86
+ #include "display/intel_display.h"
+ #include "display/intel_frontbuffer.h"
 -- 
 2.29.2
 
