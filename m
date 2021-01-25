@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4727A302BB7
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 20:36:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4DC302C03
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 20:53:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516E06E0CA;
-	Mon, 25 Jan 2021 19:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7581489D2E;
+	Mon, 25 Jan 2021 19:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
- [209.85.210.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F3D6E0CA
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 19:36:07 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id n42so13904872ota.12
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 11:36:07 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66DDD89D2E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 19:53:21 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id n6so16974505edt.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 11:53:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j8H6e6keC+ETYFc20bGAxKOJDu4ph1xWcNUzqW83XeQ=;
+ b=AUCJsZWwKCx8tOui6rF8c+LVMbXqVgiIm2FKxdsbzHAHu8lIZf1kKqhB0cAg6KaT1c
+ Kskc6y1+TjnN4eHTNHFnEYfN4TUxKpb8aqOmOxIpwMHyWDfiOgcPLLURcqwVV36DD26+
+ NofK+Vx0jhAEFIJ6x9BQkAaXAGYycYU9TazOA5Bo5O09oLYQ0sCIfByTJTY07SoJuXOl
+ L4SnAys4FFT5NY+buXRneLWlzFeK8SdCWTKpBwtBA+x55fp1AjyxxV8f9pv28QX8pEDf
+ lw2fvI3Gw4UAGyegqc4CotT80PX2t0u3eF/mv1ZHbc4QrwO7x2LNR8+gUmfu8QifLuau
+ dj4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mH2q1AZz5irHrvq/3t1+Obhg0JHH2TFjERBNOT0hM0Q=;
- b=E3L1aODSwSBLkdDvQPGdPw+Lf1Z5AFqa8NkURfAdhHREQ0vOvPC7R4JytUDvoTAaT3
- l5+/YmZa7RZeqU/54dTkTlOdptu0h0vuJz/B+C2z7RmDOFHEgbc831J5XcPkjDmhyxht
- PwsfXokD2B0Kg0qEtHRdx/m05bVYr3qAOx3FAVZd4ddu5/qapaBpxFfA5pPXLoIexxfp
- NOO9OV9/t3ETJSWyWk/Sl8BRXKm9TGjop9Fvo1dNVLxWVMfA3HCTKQGnSeaFzY1NY4Mk
- ItABmElluUw7pwM3kgvedf5QrNDRLQBDT/NSztTXRiy/IaW34iPptUsZxhz/HjzbOZC9
- 09ZA==
-X-Gm-Message-State: AOAM533xkIoJ+/6vzcpeJ3c2+eSzDv0l+vtT7Roy/n9ATb3yqqRQBs4w
- K0W6zSxOpE4Ko/0SO/h6yA==
-X-Google-Smtp-Source: ABdhPJwBqs6kpkcYrx/aXfe/1e/07a9bQgMjrd1YtHP4Jbg6s9G1TE28GLJ8saSbZE8IZ5BXrEU1qg==
-X-Received: by 2002:a05:6830:2f3:: with SMTP id
- r19mr1513671ote.299.1611603366943; 
- Mon, 25 Jan 2021 11:36:06 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id z4sm551224ooz.5.2021.01.25.11.36.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 11:36:06 -0800 (PST)
-Received: (nullmailer pid 830007 invoked by uid 1000);
- Mon, 25 Jan 2021 19:36:04 -0000
-Date: Mon, 25 Jan 2021 13:36:04 -0600
-From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 22/24] dt-bindings: memory: mediatek: update mediatek,
- smi-larb.yaml references
-Message-ID: <20210125193604.GA829546@robh.at.kernel.org>
-References: <cover.1610535349.git.mchehab+huawei@kernel.org>
- <c70bd79b311a65babe7374eaf81974563400a943.1610535350.git.mchehab+huawei@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j8H6e6keC+ETYFc20bGAxKOJDu4ph1xWcNUzqW83XeQ=;
+ b=Sivps/VF1xCsTktz20c6hQohbGZIrrxe/rQh5rqFsfSBmwitp/Bz44vBVO14leXuKm
+ rm/24fYUt3HRfYlkJUwFfTMgJe+Gd9MbOZ/Aj9kCPJ/mniA5uFAnuW5g3UtEW9f8N1Sa
+ zyqSQ+SEOOPnHRvMifEc0S376rpIYbFICcduXMBMSAlkNNPsUlHn/7vX37sV87JQJR3B
+ uHYXll9yZd5uzPagWBbkHMnsPRE/VlFF5IxbwJcZY/BxkK6HzBiZZGkB1+0WkC3kk93/
+ 1v0RCZwxlAsnA+bcdFQosdv6yxClcjga2PmA1ud80/Sdx0q/F+QH0ZSyxaYo1/Z9AC8F
+ 8SqQ==
+X-Gm-Message-State: AOAM531Uc17GrVcI1i+XOD99DJKXT+YlcN2aNOp4F5cp74cbYlbPC7Pi
+ ZZWeuVOqCL6VDI7PTYExxgTjyFCsm+hT0hFHcY8=
+X-Google-Smtp-Source: ABdhPJxfF6uCKMiMx6tLWK85cDSEtmcTV9+Ty8hFLSwli4vfZ9nFkV9fp0GIUx6/1SEP0gLIGMsTKug7Ov+rwMEEHlY=
+X-Received: by 2002:a05:6402:1a57:: with SMTP id
+ bf23mr1834884edb.183.1611604400112; 
+ Mon, 25 Jan 2021 11:53:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c70bd79b311a65babe7374eaf81974563400a943.1610535350.git.mchehab+huawei@kernel.org>
+References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
+ <86DkveYU9PqmKT4KfDgHvFG_SytoDc4EyfmehALDIJBt7oH3Arn8O97o-pQ3yRU-kfHi-RuwA9zdI-Kz1aZUQBuOSnqmz1GdrRUNPNRsEu4=@emersion.fr>
+ <CAEsyxyj-dHAk0qkkpOsycqfpPi_FW5zh_58hs1gi+6h1M_b8-Q@mail.gmail.com>
+ <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
+ <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
+ <YA61Aa07PhDucMyG@intel.com>
+ <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
+ <CAEsyxyiK+bDyLDsk-jG3GGYWBjkGZeFamutmtDiNYvJSm4qegg@mail.gmail.com>
+ <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
+In-Reply-To: <7Zl9uZ-uolN1JkU8Muxro-A5gTSN2SmmxYhs9g2UYfTFCJIoZVMIdkcPBbR6nkTxb3gWSwqTAsCfnlrtNzH133HdIZ9dCYcwZchv0iXZCnA=@emersion.fr>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Mon, 25 Jan 2021 20:53:05 +0100
+Message-ID: <CAEsyxygB-VZHg9a68Qb3XJ+xULwEeCkUFfthN4H+sdoVRXmJ2Q@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bin Liu <bin.liu@mediatek.com>, devicetree@vger.kernel.org,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Rick Chang <rick.chang@mediatek.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Uma Shankar <uma.shankar@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0031682290=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Jan 2021 11:59:23 +0100, Mauro Carvalho Chehab wrote:
-> Changeset 27bb0e42855a ("dt-bindings: memory: mediatek: Convert SMI to DT schema")
-> renamed: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> to: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml.
-> 
-> Update its cross-references accordingly.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
->  .../devicetree/bindings/media/mediatek-jpeg-decoder.txt         | 2 +-
->  .../devicetree/bindings/media/mediatek-jpeg-encoder.txt         | 2 +-
->  Documentation/devicetree/bindings/media/mediatek-mdp.txt        | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
+--===============0031682290==
+Content-Type: multipart/alternative; boundary="000000000000c9854a05b9bee32b"
 
-Applied, thanks!
+--000000000000c9854a05b9bee32b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 25, 2021 at 5:05 PM Simon Ser <contact@emersion.fr> wrote:
+
+> =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original =
+Message =E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90
+>
+> On Monday, January 25th, 2021 at 5:00 PM, Mario Kleiner <
+> mario.kleiner.de@gmail.com> wrote:
+>
+> > On Mon, Jan 25, 2021 at 1:14 PM Simon Ser <contact@emersion.fr> wrote:
+> >
+> > > > This is not an uapi defintion anyway so fixing should be fine.
+> > >
+> > > Oh, my bad, I thought this was in drm_mode.h, but it's not. Then yeah
+> > >
+> > > should be completely fine to fix it.
+> >
+> > Good! The beginning of the end of a sad story ;). So i guess i can
+> > get your r-b's for it?
+>
+> Sorry, I haven't verified that this wouldn't break the world, so I'm
+> not comfortable giving a R-b.
+>
+>
+Breaking the world is pretty unlikely for an unused #define, but I
+understand.
+
+I guess Ville will have access to the relevant spec to verify: It is the
+CTA-861-G spec, table 44 in section 6.9 and also specifically section 6.9.1=
+.
+
+
+> > Will this fix propagate into igt and libdrm? Or are separate fixup
+> patches needed?
+>
+> No, since this is not part of UAPI.
+>
+
+Ok. I'll submit patches once this one landed in the kernel.
+
+
+>
+> > Simon, could you let the Kodi devs know in case you have a line to
+> > them? I didn't know that there is even one more real-world HDR client
+> > for Linux, apart from AMD's amdvlk Vulkan driver, which does things
+> > right and doesn't need fixing.
+>
+> Seems like Kodi hardcodes the bad version:
+>
+>
+> https://github.com/xbmc/xbmc/blob/aa5c2e79c069ba7d0ab1d8ad930e4294bf55468=
+0/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h#L24
+>
+>
+Thanks. I've filed an issue to them under:
+
+https://github.com/xbmc/xbmc/issues/19122
+
+
+> Maybe we should add the good version in UAPI header?
+>
+
+I'm scared that future HDR definitions would be as carefully done and
+reviewed as this one, given how much harder it would be to fix them :/
+But maybe that's just exhausted me who spent too many weeks dealing with
+HDR bugs everywhere.
+
+-mario
+
+--000000000000c9854a05b9bee32b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 25, 2021 at 5:05 PM Simon=
+ Ser &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=E2=80=
+=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90 Original Message =
+=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90=E2=80=90<br>
+<br>
+On Monday, January 25th, 2021 at 5:00 PM, Mario Kleiner &lt;<a href=3D"mail=
+to:mario.kleiner.de@gmail.com" target=3D"_blank">mario.kleiner.de@gmail.com=
+</a>&gt; wrote:<br>
+<br>
+&gt; On Mon, Jan 25, 2021 at 1:14 PM Simon Ser &lt;<a href=3D"mailto:contac=
+t@emersion.fr" target=3D"_blank">contact@emersion.fr</a>&gt; wrote:<br>
+&gt;<br>
+&gt; &gt; &gt; This is not an uapi defintion anyway so fixing should be fin=
+e.<br>
+&gt; &gt;<br>
+&gt; &gt; Oh, my bad, I thought this was in drm_mode.h, but it&#39;s not. T=
+hen yeah<br>
+&gt; &gt;<br>
+&gt; &gt; should be completely fine to fix it.<br>
+&gt;<br>
+&gt; Good! The beginning of the end of a sad story ;). So i guess i can<br>
+&gt; get your r-b&#39;s for it?<br>
+<br>
+Sorry, I haven&#39;t verified that this wouldn&#39;t break the world, so I&=
+#39;m<br>
+not comfortable giving a R-b.<br>
+<br></blockquote><div><br></div><div>Breaking the world is pretty unlikely =
+for an unused #define, but I understand.</div><div><br></div><div>I guess V=
+ille will have access to the relevant spec to verify: It is the CTA-861-G s=
+pec, table 44 in section 6.9 and also specifically section 6.9.1.</div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; Will this fix propagate into igt and libdrm? Or are separate fixup pat=
+ches needed?<br>
+<br>
+No, since this is not part of UAPI.<br></blockquote><div><br></div><div>Ok.=
+ I&#39;ll submit patches once this one landed in the kernel.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Simon, could you let the Kodi devs know in case you have a line to<br>
+&gt; them? I didn&#39;t know that there is even one more real-world HDR cli=
+ent<br>
+&gt; for Linux, apart from AMD&#39;s amdvlk Vulkan driver, which does thing=
+s<br>
+&gt; right and doesn&#39;t need fixing.<br>
+<br>
+Seems like Kodi hardcodes the bad version:<br>
+<br>
+<a href=3D"https://github.com/xbmc/xbmc/blob/aa5c2e79c069ba7d0ab1d8ad930e42=
+94bf554680/xbmc/cores/VideoPlayer/Buffers/VideoBufferDRMPRIME.h#L24" rel=3D=
+"noreferrer" target=3D"_blank">https://github.com/xbmc/xbmc/blob/aa5c2e79c0=
+69ba7d0ab1d8ad930e4294bf554680/xbmc/cores/VideoPlayer/Buffers/VideoBufferDR=
+MPRIME.h#L24</a><br>
+<br></blockquote><div><br></div><div>Thanks. I&#39;ve filed an issue to the=
+m under:</div><div><br></div><div><a href=3D"https://github.com/xbmc/xbmc/i=
+ssues/19122">https://github.com/xbmc/xbmc/issues/19122</a></div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+Maybe we should add the good version in UAPI header?<br></blockquote><div><=
+br></div><div>I&#39;m scared that future HDR definitions would be as carefu=
+lly done and reviewed as this one, given how much harder it would be to fix=
+ them :/<br></div><div>But maybe that&#39;s just exhausted me who spent too=
+ many weeks dealing with HDR bugs everywhere.</div><div><br></div><div>-mar=
+io</div><div><br></div></div></div>
+
+--000000000000c9854a05b9bee32b--
+
+--===============0031682290==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0031682290==--
