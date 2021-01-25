@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B1B302679
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 15:51:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD043026AC
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 16:07:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C206E0AF;
-	Mon, 25 Jan 2021 14:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B7189AAD;
+	Mon, 25 Jan 2021 15:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
- [209.85.167.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915106E0AF
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 14:51:40 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id r189so15001695oih.4
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 06:51:40 -0800 (PST)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D5F89AAD;
+ Mon, 25 Jan 2021 15:07:11 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id h14so12998034otr.4;
+ Mon, 25 Jan 2021 07:07:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o+tF4kaBNHVUeLz+neiR9EKFSH0RfBoOkuSe1R44I6w=;
+ b=Hwq67MQmYVPMYCZWKjORrY407ayyGMAmuweF5bGKJREWfqd/R8Ho/W3mHhkxOLOlGX
+ 1O5S4cg5i+y1RKR41/AMivqX7Z3HDLSHKPOOyjXA25qfSm/GSGnJbe4YAyrky3nLLOrC
+ eNd1d1HRJBKjJqbAXfaYM/8knALrtXO6suGrMIxnJ0XORv6p41Dksgh4wOQ1pFXC3gyR
+ 4TPE9WNGXbowkiHp05fB9CNkTuEiXcnoLwLaQkNFcA5hNSbndfXnmiCMpy9AE5nk1TOI
+ 23FkgL6bSWXk5vvS+HbTxZzShPWFwMwt8cFrZeL20/fiaBcB9Fkj+3qG0+KAH+TS1jSU
+ 5JlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=wNTAmKC0zu5iO9mM7sxm7NcDuEttIlxDD2+2CiOrQPM=;
- b=lub0tRQNtZs5UMkqYa79J6HV28gHInWxYmt+qNNPxVnJaTtwcAj1Ov0wu99XFEb3V9
- FGE274d7CZY+iC01HUJclDOZ7SzGFk0JVLXskaKq/SqAZ/o8HKBjJR1r1nEBszIcutCX
- 4VVK3bZ7twWogZ6Fd+4F8Gz+jKJwbp0FfMbJGoUFUE1fBBfpQIU73g78wVit2BhHrCIB
- 8gvrXdeeYGxmRbY8TA5mL76zBnOOzq/jVk5ApxRaHg0IJEpqPNJTtQ0UJvlpMeMBGIiM
- jCVkeX9J8VW/YiIDtQFfvKdsRK6VBM4Nn+rUOvDZn0YdbLqUT4vrCjBrh2CvqkBYGNs3
- eCJA==
-X-Gm-Message-State: AOAM530uGvvzQryxzPN+j+arfPn2hhwZweBLY/dC/XftimUrSsqyxOir
- 0kMqR4HiJx2zYi0D+OzXxA==
-X-Google-Smtp-Source: ABdhPJy3JbZEiAsAKDW30PEDE5gz4huf/K7EbGR5/y5uPiRGW74tdF3GYJ6R424CRyK9UhjP03yQNQ==
-X-Received: by 2002:aca:d643:: with SMTP id n64mr318001oig.151.1611586299897; 
- Mon, 25 Jan 2021 06:51:39 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id l11sm608502otf.59.2021.01.25.06.51.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 06:51:38 -0800 (PST)
-Received: (nullmailer pid 327908 invoked by uid 1000);
- Mon, 25 Jan 2021 14:51:35 -0000
-From: Rob Herring <robh@kernel.org>
-To: Xin Ji <xji@analogixsemi.com>
-In-Reply-To: <75e29d7386df2ebca4a8e3f0b91c8370a4a8f74f.1611572143.git.xji@analogixsemi.com>
-References: <cover.1611572142.git.xji@analogixsemi.com>
- <75e29d7386df2ebca4a8e3f0b91c8370a4a8f74f.1611572143.git.xji@analogixsemi.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings:drm/bridge:anx7625:add HDCP support
- flag and swing reg
-Date: Mon, 25 Jan 2021 08:51:35 -0600
-Message-Id: <1611586295.672940.327907.nullmailer@robh.at.kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o+tF4kaBNHVUeLz+neiR9EKFSH0RfBoOkuSe1R44I6w=;
+ b=kZwVO9BeW/RM1iAD/AzrfDqIkIOZASzJzIcpP9DxeE0mFmawhkGPEigkXLkZMEGzuL
+ kPL8evB8HvaeGinChoT+jN3BUnFtOkVhHbkXyiq7fEiEfYbGZa7WLRtDf8mQvPEXx5uR
+ Iyq+eNYHt6XohvDIwvigS45wJy0K0QAzA3Z8k1h2+OLdhH83+RU1HfDkXumVGjG/CbtE
+ Ivr75KS3fGv5tPnLsHNQ4yNvEeZO1/YG6RA+Jbk/tL27fM9rNhE0jeME5h0GHQryEr9c
+ 0HTY7ytYooqAD0W4PRwOJgwCVt2B4R7jXsDm+XTIgSWS376BgHm2CVdxjKMEa6qV7Stz
+ 4waQ==
+X-Gm-Message-State: AOAM533x4IJQdlr7joPSlnWj/cSqt+03ssVT4g0HHob651g/PKkL3SWb
+ ccSlgfC+ToQIOOG7i6GmJ7iK0xluT6S3pSibnUg=
+X-Google-Smtp-Source: ABdhPJzLpiv5vCtKZgABLpe2a/nPpQqwY8M2+LbN3ZUR6u0pvsBbsKxXgCt2lRyPmJ3UDvMbTjbKzB9PzckuZRUW6tQ=
+X-Received: by 2002:a9d:784a:: with SMTP id c10mr796878otm.132.1611587230413; 
+ Mon, 25 Jan 2021 07:07:10 -0800 (PST)
+MIME-Version: 1.0
+References: <20210122150022.209454-1-colin.king@canonical.com>
+ <20210125043623.GD610615@hr-amd>
+In-Reply-To: <20210125043623.GD610615@hr-amd>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 25 Jan 2021 10:06:58 -0500
+Message-ID: <CADnq5_PgXRv5LKO=yhx6NnYE4Et_PHa45JArAjorJ6W-GiDG2A@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: Fix masking binary not operator on two
+ mask operations
+To: Huang Rui <ray.huang@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,53 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Nicolas Boichat <drinkcat@google.com>, David Airlie <airlied@linux.ie>,
- =?utf-8?q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Sheng Pan <span@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "Liu,
+ Aaron" <Aaron.Liu@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, Colin King <colin.king@canonical.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Jan 2021 19:12:21 +0800, Xin Ji wrote:
-> Add 'bus-type' and 'data-lanes' define for port0, add HDCP support
-> flag and DP tx lane0 and lane1 swing register array define.
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  .../bindings/display/bridge/analogix,anx7625.yaml  | 57 ++++++++++++++++++++--
->  1 file changed, 54 insertions(+), 3 deletions(-)
-> 
+Applied.  Thanks!
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Alex
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: ports: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: ports:port@1:endpoint: Additional properties are not allowed ('remote-endpoint' was unexpected)
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-
-See https://patchwork.ozlabs.org/patch/1431199
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+On Sun, Jan 24, 2021 at 11:36 PM Huang Rui <ray.huang@amd.com> wrote:
+>
+> On Fri, Jan 22, 2021 at 11:00:22PM +0800, Colin King wrote:
+> > From: Colin Ian King <colin.king@canonical.com>
+> >
+> > Currently the ! operator is incorrectly being used to flip bits on
+> > mask values. Fix this by using the bit-wise ~ operator instead.
+> >
+> > Addresses-Coverity: ("Logical vs. bitwise operator")
+> > Fixes: 3c9a7b7d6e75 ("drm/amdgpu: update mmhub mgcg&ls for mmhub_v2_3")
+> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>
+> Thanks.
+>
+> Reviewed-by: Huang Rui <ray.huang@amd.com>
+>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c
+> > index 1961745e89c7..ab9be5ad5a5f 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c
+> > @@ -531,12 +531,12 @@ mmhub_v2_3_update_medium_grain_light_sleep(struct amdgpu_device *adev,
+> >
+> >       if (enable && (adev->cg_flags & AMD_CG_SUPPORT_MC_LS)) {
+> >               data &= ~MM_ATC_L2_CGTT_CLK_CTRL__MGLS_OVERRIDE_MASK;
+> > -             data1 &= !(DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_MASK |
+> > +             data1 &= ~(DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_MASK |
+> >                       DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_WRITE_MASK |
+> >                       DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_READ_MASK |
+> >                       DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_RETURN_MASK |
+> >                       DAGB0_WR_CGTT_CLK_CTRL__LS_OVERRIDE_REGISTER_MASK);
+> > -             data2 &= !(DAGB0_RD_CGTT_CLK_CTRL__LS_OVERRIDE_MASK |
+> > +             data2 &= ~(DAGB0_RD_CGTT_CLK_CTRL__LS_OVERRIDE_MASK |
+> >                       DAGB0_RD_CGTT_CLK_CTRL__LS_OVERRIDE_WRITE_MASK |
+> >                       DAGB0_RD_CGTT_CLK_CTRL__LS_OVERRIDE_READ_MASK |
+> >                       DAGB0_RD_CGTT_CLK_CTRL__LS_OVERRIDE_RETURN_MASK |
+> > --
+> > 2.29.2
+> >
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
