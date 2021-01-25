@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFC43028F3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 18:33:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D76302902
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 18:36:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0AC289893;
-	Mon, 25 Jan 2021 17:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0260D89A76;
+	Mon, 25 Jan 2021 17:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD87089893
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 17:33:10 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1l45jb-0006rs-G3; Mon, 25 Jan 2021 18:33:03 +0100
-Message-ID: <86de8471155f0d1e46d7048e40d80219da715e0e.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: fix NULL check before some freeing
- functions is not needed
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch, 
- sumit.semwal@linaro.org, christian.koenig@amd.com
-Date: Mon, 25 Jan 2021 18:33:02 +0100
-In-Reply-To: <1611545247-33487-1-git-send-email-tiantao6@hisilicon.com>
-References: <1611545247-33487-1-git-send-email-tiantao6@hisilicon.com>
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A39189A74;
+ Mon, 25 Jan 2021 17:36:41 +0000 (UTC)
+IronPort-SDR: QUSBVoUcBPUo/dvQ2EJKfHLs5xGkkhpy+kKc8ONhwD+RVRvcnkVV9xWgxbALmShfihtJKB2gJX
+ kLDBXMvQ5nVA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="198548760"
+X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; d="scan'208";a="198548760"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2021 09:36:40 -0800
+IronPort-SDR: vgcu1GNmi57TdNrpab78XpsZHoQXiP78L00DoQXG1C45CXV+L2z6cbKQAiOjkujaGF5IKLZDP+
+ X88HhnAZcleg==
+X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; d="scan'208";a="368762489"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2021 09:36:38 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/dp/mst: Export drm_dp_get_vc_payload_bw()
+Date: Mon, 25 Jan 2021 19:36:35 +0200
+Message-Id: <20210125173636.1733812-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,31 +44,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ville Syrjala <ville.syrjala@intel.com>, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gTW9udGFnLCBkZW0gMjUuMDEuMjAyMSB1bSAxMToyNyArMDgwMCBzY2hyaWViIFRpYW4gVGFv
-Ogo+IGZpeGVkIHRoZSBiZWxvdyB3YXJuaW5nOgo+IGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
-bmF2aXZfZ2VtX3ByaW1lLmM6ODQ6Mi04OiBXQVJOSU5HOiBOVUxMIGNoZWNrCj4gYmVmb3JlIHNv
-bWUgZnJlZWluZyBmdW5jdGlvbnMgaXMgbm90IG5lZWRlZC4KClRoYW5rcywgSSd2ZSBhZGRlZCB0
-aGlzIHBhdGNoIHRvIG15IGV0bmF2aXYvbmV4dCBicmFuY2guCgpSZWdhcmRzLApMdWNhcwoKPiBT
-aWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiAtLS0KPiDC
-oGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3ByaW1lLmMgfCAzICstLQo+IMKg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbV9wcmltZS5jIGIvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW1fcHJpbWUuYwo+IGluZGV4IGIzOTBkZDQu
-LmQ3NDFiMWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9n
-ZW1fcHJpbWUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtX3By
-aW1lLmMKPiBAQCAtODAsOCArODAsNyBAQCBzdGF0aWMgdm9pZCBldG5hdml2X2dlbV9wcmltZV9y
-ZWxlYXNlKHN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0bmF2aXZfb2JqKQo+IMKgCS8qIERv
-bid0IGRyb3AgdGhlIHBhZ2VzIGZvciBpbXBvcnRlZCBkbWFidWYsIGFzIHRoZXkgYXJlIG5vdAo+
-IMKgCSAqIG91cnMsIGp1c3QgZnJlZSB0aGUgYXJyYXkgd2UgYWxsb2NhdGVkOgo+IMKgCSAqLwo+
-IC0JaWYgKGV0bmF2aXZfb2JqLT5wYWdlcykKPiAtCQlrdmZyZWUoZXRuYXZpdl9vYmotPnBhZ2Vz
-KTsKPiArCWt2ZnJlZShldG5hdml2X29iai0+cGFnZXMpOwo+IMKgCj4gCj4gCj4gCj4gwqAJZHJt
-X3ByaW1lX2dlbV9kZXN0cm95KCZldG5hdml2X29iai0+YmFzZSwgZXRuYXZpdl9vYmotPnNndCk7
-Cj4gwqB9CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This function will be needed by the next patch where the driver
+calculates the BW based on driver specific parameters, so export it.
+
+At the same time sanitize the function params, passing the more natural
+link rate instead of the encoding of the same rate.
+
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ville Syrjala <ville.syrjala@intel.com>
+Cc: <stable@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 24 ++++++++++++++++++------
+ include/drm/drm_dp_mst_helper.h       |  1 +
+ 2 files changed, 19 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 475939138b21..dc96cbf78cc6 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3629,14 +3629,26 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+ 	return 0;
+ }
+ 
+-static int drm_dp_get_vc_payload_bw(u8 dp_link_bw, u8  dp_link_count)
++/**
++ * drm_dp_get_vc_payload_bw - get the VC payload BW for an MST link
++ * @rate: link rate in 10kbits/s units
++ * @lane_count: lane count
++ *
++ * Calculate the toal bandwidth of a MultiStream Transport link. The returned
++ * value is in units of PBNs/(timeslots/1 MTP). This value can be used to
++ * convert the number of PBNs required for a given stream to the number of
++ * timeslots this stream requires in each MTP.
++ */
++int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count)
+ {
+-	if (dp_link_bw == 0 || dp_link_count == 0)
+-		DRM_DEBUG_KMS("invalid link bandwidth in DPCD: %x (link count: %d)\n",
+-			      dp_link_bw, dp_link_count);
++	if (link_rate == 0 || link_lane_count == 0)
++		DRM_DEBUG_KMS("invalid link rate/lane count: (%d / %d)\n",
++			      link_rate, link_lane_count);
+ 
+-	return dp_link_bw * dp_link_count / 2;
++	/* See DP v2.0 2.6.4.2, VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
++	return link_rate * link_lane_count / 54000;
+ }
++EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
+ 
+ /**
+  * drm_dp_read_mst_cap() - check whether or not a sink supports MST
+@@ -3692,7 +3704,7 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
+ 			goto out_unlock;
+ 		}
+ 
+-		mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr->dpcd[1],
++		mgr->pbn_div = drm_dp_get_vc_payload_bw(drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
+ 							mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
+ 		if (mgr->pbn_div == 0) {
+ 			ret = -EINVAL;
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index f5e92fe9151c..bd1c39907b92 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -783,6 +783,7 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
+ 
+ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
+ 
++int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count);
+ 
+ int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
