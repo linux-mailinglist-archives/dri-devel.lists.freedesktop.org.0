@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03563024BE
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 13:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7D63024DD
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 13:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 986CC89ED3;
-	Mon, 25 Jan 2021 12:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7206E0AF;
+	Mon, 25 Jan 2021 12:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4964589ED3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 12:14:40 +0000 (UTC)
-Date: Mon, 25 Jan 2021 12:14:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1611576877;
- bh=Ki6xwhHqljd58UcbNeiVZITfbbAN3CRjalLTorLAYPc=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=Ihe4aeRZjhqiZTqrWcu9YW0TMFVyCFE1Hswg6XpEKGm4SMreCvCKLtxIWfiUnplNn
- Xn0XEvDJw+Ix+gw+5YK0Ws0O6LK3VJEpocCLrOiGDQ9fQ72CVGwWpaHgrOS/ZFPewK
- ntUsUBNV+3he8jND8vf5atCPfgDCVpnkL4/EKIn/A0NFjLcRhyMlUEv6Vd3xx6OYbg
- nyt2dhU+axcCzbGYzMNRK5EEDT57XzZb581bYy8Bx1XMf6PbX5a1iyQqtvhE5lIgCP
- 7JYTkmLRjynzI7yfIXaY/4KTS+yW9k2zdJdwEKZssLejr4hIVtOWuFHPpVpSqLqEE+
- mSweyIU4QMBSA==
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: Fix HDMI_STATIC_METADATA_TYPE1 constant.
-Message-ID: <-NvMjiGAV79IMWvTOWrb2u_SHe2U36XumXbITMgCCqpMVg-FcvGRJbeTHaiUwkBSxZS5XaXYziZnoTdXJENA-JYQWNi-28F01___0SsWvv0=@emersion.fr>
-In-Reply-To: <YA61Aa07PhDucMyG@intel.com>
-References: <20210124044010.18678-1-mario.kleiner.de@gmail.com>
- <86DkveYU9PqmKT4KfDgHvFG_SytoDc4EyfmehALDIJBt7oH3Arn8O97o-pQ3yRU-kfHi-RuwA9zdI-Kz1aZUQBuOSnqmz1GdrRUNPNRsEu4=@emersion.fr>
- <CAEsyxyj-dHAk0qkkpOsycqfpPi_FW5zh_58hs1gi+6h1M_b8-Q@mail.gmail.com>
- <yEq1_Ipkzm_vP4BD6cKlonRVfMbfGXrlvxOG4XDkk_wg1UkPCdLj95I8pknonGjf2Bs1zYeErr1WXerrQjprE3k1vswj3E2Nzq-imF58ytM=@emersion.fr>
- <CAEsyxyhXhJohDYuDDLoQeg-QqhnWQ953GRO0Kf6Puj=f_NkU4w@mail.gmail.com>
- <YA61Aa07PhDucMyG@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E94326E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 12:16:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611576985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OcdVLRRdgBx5PAA8S6DFEnpuC3aQxaux8RhxdrxChZA=;
+ b=d0AfgLg4RG5XB15JcslpoIar5n1wnyfm/IUqNfYOdDUoW8ME+47cZrePaNGMAIFHy2QMC6
+ dGa7Dz0S6DjeghgqY/zkIfQpYRIammDICymQWFYSnBHd+6D4Br0uqAAvtT4Q4yzDaLwOjU
+ Of50KVB2nuqudnNhW9XI63F7qWXr/3E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-8YSlVxJtP4G0aOtk8Y-r5w-1; Mon, 25 Jan 2021 07:16:23 -0500
+X-MC-Unique: 8YSlVxJtP4G0aOtk8Y-r5w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 263341934101;
+ Mon, 25 Jan 2021 12:16:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
+ [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D51210013BD;
+ Mon, 25 Jan 2021 12:16:21 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 84FB31800393; Mon, 25 Jan 2021 13:16:19 +0100 (CET)
+Date: Mon, 25 Jan 2021 13:16:19 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/4] drm/qxl: unpin release objects
+Message-ID: <20210125121619.7w3flilhe5juiuyf@sirius.home.kraxel.org>
+References: <20210120111240.2509679-1-kraxel@redhat.com>
+ <20210120111240.2509679-3-kraxel@redhat.com>
+ <a4187459-1dbd-e799-fba4-bf7021de831b@suse.de>
+ <20210122133545.acloe4ytgp6r4iql@sirius.home.kraxel.org>
+ <CAKMK7uHeQt6VPkm0ufuVVxdGQkmq3+1vrDERzZS54rtcVhJRAw@mail.gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHeQt6VPkm0ufuVVxdGQkmq3+1vrDERzZS54rtcVhJRAw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,18 +64,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Uma Shankar <uma.shankar@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> This is not an uapi defintion anyway so fixing should be fine.
+> > Just calling ttm_bo_unpin() here makes lockdep unhappy.
+> 
+> How does that one splat? But yeah if that's a problem should be
+> explained in the comment. I'd then also only do a pin_count--; to make
+> sure you can still catch other pin leaks if you have them. Setting it
+> to 0 kinda defeats the warning.
 
-Oh, my bad, I thought this was in drm_mode.h, but it's not. Then yeah
-should be completely fine to fix it.
+Figured the unpin is at the completely wrong place while trying to
+reproduce the lockdep splat ...
+
+take care,
+  Gerd
+
+From 43befab4a935114e8620af62781666fa81288255 Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Mon, 25 Jan 2021 13:10:50 +0100
+Subject: [PATCH] drm/qxl: unpin release objects
+
+Balances the qxl_create_bo(..., pinned=true, ...);
+call in qxl_release_bo_alloc().
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ drivers/gpu/drm/qxl/qxl_release.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+index c52412724c26..28013fd1f8ea 100644
+--- a/drivers/gpu/drm/qxl/qxl_release.c
++++ b/drivers/gpu/drm/qxl/qxl_release.c
+@@ -347,6 +347,7 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
+ 
+ 	mutex_lock(&qdev->release_mutex);
+ 	if (qdev->current_release_bo_offset[cur_idx] + 1 >= releases_per_bo[cur_idx]) {
++		qxl_bo_unpin(qdev->current_release_bo[cur_idx]);
+ 		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
+ 		qdev->current_release_bo_offset[cur_idx] = 0;
+ 		qdev->current_release_bo[cur_idx] = NULL;
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
