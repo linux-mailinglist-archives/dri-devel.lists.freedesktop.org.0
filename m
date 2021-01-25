@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C85302B90
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 20:27:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9816302BAF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 20:34:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09F489ED3;
-	Mon, 25 Jan 2021 19:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC496E0CA;
+	Mon, 25 Jan 2021 19:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
- [209.85.167.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8239989ED3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 19:27:11 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id k25so1852505oik.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 11:27:11 -0800 (PST)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0BD6E0CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 19:34:37 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id f6so13899552ots.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 11:34:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=4pMzj4F5sGyiw0Npjv+oCcMmAv4Qz6Br4C1Wz04rzwo=;
- b=b/HBz1cFKWsj0J/F9/2DsBvwHbuIA5PZevAIwcTnnsWvvDIl3R8jhdwBxpHzlHHtcn
- EcU9BgYgd/ASMzfB5b+BSkR/v+44XaeTZxxmnYuk60HGO1ChvD1hzMSRvDuOBCi/MrgG
- yfgqvSi+Yn0z7nCkYjTZQtxUPZAx6iM/KydwJmrTZ9UQCK+Kzm7sMv0Usnv3IgmLbXaX
- 057OH60YYzyQ5BpIHg7MxUbPZVO6hzGTEYBbV5hxfJ+oUC0dp0xR/rW5y2eMYlVAO75w
- SmTrvg4wO/1EEnET4BGmhfQv/KnleJ6JtcJVivTF4QNYogu8L1sSFUGMzO0SBzI2jjZA
- ieyw==
-X-Gm-Message-State: AOAM533qZiQ2ESEZWsiviT+h7H4OBPGEigvlBAOPHNI2SY01rTD31k5M
- MqGLO8P9vPsV9ZJ/FYcMQQ==
-X-Google-Smtp-Source: ABdhPJxAzJx2x6+i0A4uT7fsLRy+H8EdaY+p15TtbYRd+1pf2Vnetwij66uSg6hpWaWh7MJzjj8eTw==
-X-Received: by 2002:a05:6808:213:: with SMTP id
- l19mr1038857oie.83.1611602830875; 
- Mon, 25 Jan 2021 11:27:10 -0800 (PST)
+ bh=nrzIYcJaC27vd9nGfsmTdb5Bn759r1uAoAX6/LzWCPs=;
+ b=XljDvRn/0khSf4yLdKFgUPdaAOf2kIIj3JVV4/zhY0PIWmV56M63et1uNLPFe5nFgd
+ fH5KWzAjRcaOdCaoC+6r1pIrKxUne6koOfSHgG+e/4ZFmoNirfslPNCvb+ahHnGNCmeW
+ /vE20qqNUzyXBNunGYXKXXurDAoEKHrYHes6jnnq5fPWUQfl+3T8MrRVhB6ElncuJXPN
+ PAYhTGzdMn0afkooeKSt9S8VIvxAY7aYaxZnMh2IwPb6fZtMjOKzy03/+DJVQ0hXh2kS
+ OttM3FvCB1hfT2Goq4/sUrOb8uEzHFPQ7R97RTFYcNyJ4Vd8HhTEOKZ1SbERd3nf9RGA
+ YOOg==
+X-Gm-Message-State: AOAM533KAlZqQ+OYdWLpm6AEeeh/IX11ACGjg/knzWjYuW4okS/nMhVv
+ uvdHJ0qhAfmoTR+N0xIaOw==
+X-Google-Smtp-Source: ABdhPJyijhW8AYwSxyVmK4BOFt9iIwV1Dz1LEgyrj0WDTVlSe0I/nBQEXyJDkHgjsrV7xcz12Mtd7w==
+X-Received: by 2002:a9d:7344:: with SMTP id l4mr1523845otk.181.1611603277224; 
+ Mon, 25 Jan 2021 11:34:37 -0800 (PST)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t12sm1177551ooi.45.2021.01.25.11.27.08
+ by smtp.gmail.com with ESMTPSA id e17sm3674840otf.32.2021.01.25.11.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 11:27:09 -0800 (PST)
-Received: (nullmailer pid 813043 invoked by uid 1000);
- Mon, 25 Jan 2021 19:27:07 -0000
-Date: Mon, 25 Jan 2021 13:27:07 -0600
+ Mon, 25 Jan 2021 11:34:36 -0800 (PST)
+Received: (nullmailer pid 826799 invoked by uid 1000);
+ Mon, 25 Jan 2021 19:34:35 -0000
+Date: Mon, 25 Jan 2021 13:34:35 -0600
 From: Rob Herring <robh@kernel.org>
-To: Nicolas Boichat <drinkcat@chromium.org>
-Subject: Re: [PATCH v10 1/4] dt-bindings: gpu: mali-bifrost: Add Mediatek
- MT8183
-Message-ID: <20210125192707.GA813009@robh.at.kernel.org>
-References: <20210113060703.3122661-1-drinkcat@chromium.org>
- <20210113140546.v10.1.Ie74d3355761aab202d4825ac6f66d990bba0130e@changeid>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 20/24] ASoC: audio-graph-card: update
+ audio-graph-card.yaml reference
+Message-ID: <20210125193435.GA826683@robh.at.kernel.org>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
+ <8a779e6b9644d19c5d77b382059f6ccf9781434d.1610535350.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210113140546.v10.1.Ie74d3355761aab202d4825ac6f66d990bba0130e@changeid>
+In-Reply-To: <8a779e6b9644d19c5d77b382059f6ccf9781434d.1610535350.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,48 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- fshao@chromium.org, David Airlie <airlied@linux.ie>, hsinyi@chromium.org,
+Cc: devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- boris.brezillon@collabora.com, Matthias Brugger <matthias.bgg@gmail.com>,
- hoegsberg@chromium.org, linux-arm-kernel@lists.infradead.org
+ Rob Herring <robh+dt@kernel.org>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Jan 2021 14:07:00 +0800, Nicolas Boichat wrote:
-> Define a compatible string for the Mali Bifrost GPU found in
-> Mediatek's MT8183 SoCs.
+On Wed, 13 Jan 2021 11:59:21 +0100, Mauro Carvalho Chehab wrote:
+> Changeset 97198614f6c3 ("ASoC: audio-graph-card: switch to yaml base Documentation")
+> renamed: Documentation/devicetree/bindings/sound/audio-graph-card.txt
+> to: Documentation/devicetree/bindings/sound/audio-graph-card.yaml.
 > 
-> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> Update its cross-reference accordingly.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> 
-> Changes in v10:
->  - Fix the binding to make sure sram-supply property can be provided.
-> 
-> Changes in v6:
->  - Rebased, actually tested with recent mesa driver.
->  - No change
-> 
-> Changes in v5:
->  - Rename "2d" power domain to "core2"
-> 
-> Changes in v4:
->  - Add power-domain-names description
->    (kept Alyssa's reviewed-by as the change is minor)
-> 
-> Changes in v3:
->  - No change
-> 
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 28 +++++++++++++++++++
->  1 file changed, 28 insertions(+)
+>  Documentation/devicetree/bindings/display/bridge/sii902x.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied, thanks!
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
