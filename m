@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7D63024DD
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5083024DF
 	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 13:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7206E0AF;
-	Mon, 25 Jan 2021 12:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9943898AA;
+	Mon, 25 Jan 2021 12:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E94326E0A1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 12:16:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611576985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OcdVLRRdgBx5PAA8S6DFEnpuC3aQxaux8RhxdrxChZA=;
- b=d0AfgLg4RG5XB15JcslpoIar5n1wnyfm/IUqNfYOdDUoW8ME+47cZrePaNGMAIFHy2QMC6
- dGa7Dz0S6DjeghgqY/zkIfQpYRIammDICymQWFYSnBHd+6D4Br0uqAAvtT4Q4yzDaLwOjU
- Of50KVB2nuqudnNhW9XI63F7qWXr/3E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-8YSlVxJtP4G0aOtk8Y-r5w-1; Mon, 25 Jan 2021 07:16:23 -0500
-X-MC-Unique: 8YSlVxJtP4G0aOtk8Y-r5w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 263341934101;
- Mon, 25 Jan 2021 12:16:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D51210013BD;
- Mon, 25 Jan 2021 12:16:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 84FB31800393; Mon, 25 Jan 2021 13:16:19 +0100 (CET)
-Date: Mon, 25 Jan 2021 13:16:19 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 2/4] drm/qxl: unpin release objects
-Message-ID: <20210125121619.7w3flilhe5juiuyf@sirius.home.kraxel.org>
-References: <20210120111240.2509679-1-kraxel@redhat.com>
- <20210120111240.2509679-3-kraxel@redhat.com>
- <a4187459-1dbd-e799-fba4-bf7021de831b@suse.de>
- <20210122133545.acloe4ytgp6r4iql@sirius.home.kraxel.org>
- <CAKMK7uHeQt6VPkm0ufuVVxdGQkmq3+1vrDERzZS54rtcVhJRAw@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01BBD898AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 12:18:25 +0000 (UTC)
+IronPort-SDR: BTXFNBBjV/vfTyzPlxrESTlD3cknv1SO4ff90DkpZQpr6L9v9o9urJ8Dhpcg74Y8iJdi5AlAN6
+ LE8qt/Zxs9qQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="166815904"
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="166815904"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2021 04:18:24 -0800
+IronPort-SDR: oxSq+bW0tCqWU7I2UIGAZLet7pukoh2GDoYW+hDR7viC1W6Qv3oq8Ajr6Sxkxtvbu6MNER9gNl
+ KhfYLaN582aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="361471544"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 25 Jan 2021 04:18:20 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 25 Jan 2021 14:18:20 +0200
+Date: Mon, 25 Jan 2021 14:18:20 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/dp_mst: Align mst link rate with soure rate
+Message-ID: <YA63DOXXObWp6AF6@intel.com>
+References: <20210113014105.28110-1-koba.ko@canonical.com>
+ <20210113014105.28110-2-koba.ko@canonical.com>
+ <8735z5t5qz.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHeQt6VPkm0ufuVVxdGQkmq3+1vrDERzZS54rtcVhJRAw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <8735z5t5qz.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +51,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Koba Ko <koba.ko@canonical.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > Just calling ttm_bo_unpin() here makes lockdep unhappy.
-> 
-> How does that one splat? But yeah if that's a problem should be
-> explained in the comment. I'd then also only do a pin_count--; to make
-> sure you can still catch other pin leaks if you have them. Setting it
-> to 0 kinda defeats the warning.
+On Wed, Jan 13, 2021 at 01:51:00PM +0200, Jani Nikula wrote:
+> On Wed, 13 Jan 2021, Koba Ko <koba.ko@canonical.com> wrote:
+> > After read the link rate from MST hub, align with
+> > maximum source rate.
+> >
+> > Signed-off-by: Koba Ko <koba.ko@canonical.com>
+> > ---
+> >  drivers/gpu/drm/drm_dp_mst_topology.c   | 8 ++++++++
+> >  drivers/gpu/drm/i915/display/intel_dp.c | 7 +++++++
+> >  include/drm/drm_dp_helper.h             | 8 ++++++++
+> >  include/drm/drm_dp_mst_helper.h         | 4 ++++
+> >  4 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/dr=
+m_dp_mst_topology.c
+> > index 6982ecbf30b5..e7ceae97be85 100644
+> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > @@ -3672,6 +3672,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_d=
+p_mst_topology_mgr *mgr, bool ms
+> >  {
+> >  	int ret =3D 0;
+> >  	struct drm_dp_mst_branch *mstb =3D NULL;
+> > +	unsigned int max_link_rate_tbl[MAX_DRM_DP_MAX_RATE + 1] =3D {
+> > +		DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW_5_4,
+> > +		DP_LINK_BW_8_1, DP_LINK_RATE_TABLE
+> > +	};
+> =
 
-Figured the unpin is at the completely wrong place while trying to
-reproduce the lockdep splat ...
+> Please no. Read on for why.
+> =
 
-take care,
-  Gerd
+> >  =
 
-From 43befab4a935114e8620af62781666fa81288255 Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Mon, 25 Jan 2021 13:10:50 +0100
-Subject: [PATCH] drm/qxl: unpin release objects
+> >  	mutex_lock(&mgr->payload_lock);
+> >  	mutex_lock(&mgr->lock);
+> > @@ -3693,6 +3697,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp=
+_mst_topology_mgr *mgr, bool ms
+> >  			goto out_unlock;
+> >  		}
+> >  =
 
-Balances the qxl_create_bo(..., pinned=true, ...);
-call in qxl_release_bo_alloc().
+> > +		if (mgr->max_source_rate < MAX_DRM_DP_MAX_RATE)
+> > +			mgr->dpcd[1] =3D max_link_rate_tbl[mgr->max_source_rate];
+> =
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_release.c | 1 +
- 1 file changed, 1 insertion(+)
+> Make ->max_source_rate the actual physical rate in kHz, and use
+> drm_dp_link_rate_to_bw_code() here.
+> =
 
-diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-index c52412724c26..28013fd1f8ea 100644
---- a/drivers/gpu/drm/qxl/qxl_release.c
-+++ b/drivers/gpu/drm/qxl/qxl_release.c
-@@ -347,6 +347,7 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
- 
- 	mutex_lock(&qdev->release_mutex);
- 	if (qdev->current_release_bo_offset[cur_idx] + 1 >= releases_per_bo[cur_idx]) {
-+		qxl_bo_unpin(qdev->current_release_bo[cur_idx]);
- 		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
- 		qdev->current_release_bo_offset[cur_idx] = 0;
- 		qdev->current_release_bo[cur_idx] = NULL;
--- 
-2.29.2
+> > +
+> >  		mgr->pbn_div =3D drm_dp_get_vc_payload_bw(mgr->dpcd[1],
+> >  							mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
+> >  		if (mgr->pbn_div =3D=3D 0) {
+> > @@ -5422,6 +5429,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_ms=
+t_topology_mgr *mgr,
+> >  	mgr->aux =3D aux;
+> >  	mgr->max_dpcd_transaction_bytes =3D max_dpcd_transaction_bytes;
+> >  	mgr->max_payloads =3D max_payloads;
+> > +	mgr->max_source_rate =3D MAX_DRM_DP_MAX_RATE;
+> >  	mgr->conn_base_id =3D conn_base_id;
+> >  	if (max_payloads + 1 > sizeof(mgr->payload_mask) * 8 ||
+> >  	    max_payloads + 1 > sizeof(mgr->vcpi_mask) * 8)
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/=
+i915/display/intel_dp.c
+> > index 469e765a1b7b..a89b4c823123 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -5392,6 +5392,13 @@ intel_dp_configure_mst(struct intel_dp *intel_dp)
+> >  	intel_dp->is_mst =3D sink_can_mst &&
+> >  		i915->params.enable_dp_mst;
+> >  =
 
+> > +	if (intel_dp_source_supports_hbr3(intel_dp))
+> > +		intel_dp->mst_mgr.max_source_rate =3D DRM_DP_MAX_RATE_HBR3;
+> > +	else if (intel_dp_source_supports_hbr2(intel_dp))
+> > +		intel_dp->mst_mgr.max_source_rate =3D DRM_DP_MAX_RATE_HBR2;
+> > +	else
+> > +		intel_dp->mst_mgr.max_source_rate =3D DRM_DP_MAX_RATE_HBR;
+> =
+
+> Whenever this file references a "rate", it's the rate in kHz. This is
+> confusing. Use the rate in kHz.
+> =
+
+> Also, please look at how intel_dp_source_supports_hbr* are implemented;
+> we already have all the supported source rates cached in intel_dp.
+> =
+
+> The max source rate is:
+> =
+
+> 	intel_dp->source_rates[intel_dp->num_source_rates - 1].
+> =
+
+> No need to do the if ladder here at all. If you like, you can add a
+> helper:
+> =
+
+> int intel_dp_max_source_rate(struct intel_dp *intel_dp)
+> {
+>         return intel_dp->source_rates[intel_dp->num_source_rates - 1];
+> }
+
+Using the max source rate isn't super great either. A bit better
+than the current mess though.
+
+The correct fix would be to let the driver provide the actually
+used link_rate+lane_count to the MST code during atomic_check(),
+instead of trying to guess what the driver is going to use.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
