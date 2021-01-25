@@ -1,49 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AB53026F1
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 16:39:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 944073026F3
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 16:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40AE56E1F5;
-	Mon, 25 Jan 2021 15:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54E86E203;
+	Mon, 25 Jan 2021 15:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8786E1F5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 15:39:21 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id k25so1050876oik.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 07:39:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xv2F8uEJDzNOELHmwTwNLPLNs8lRPkq+SnWZqNcKmSE=;
- b=T6dyk8R9y6Emp2ZYXdqTluInMRHbaZfPBzGFk0z2hRrHyv2Fze3yktjfdc/Em+3e/8
- hqpKgkc/Xu65szi4RX/wp/3nT81zOhO7/JSJ7O39FBw/yU18G8NkZfvaEHufrxpM3siD
- 8YgVA2QT4CBdHs+8RdXGBR7bWe3byDllDOqbAdNad6ILLk/MsCV9FrvzWtl0PrR0CQvO
- AvATErtK5F6Ix2uBLmB6tYXLjEjbpXsH2n68bjNlOXGglMQ9CZxt2xD/GgbCbtX0VTT3
- +GR8pQyS68QjLJgjCTfKo8FnQpSRZ1atQb6boF7ePi9sekbuvQ3ozBkv09ow0Vf9q1Q8
- rCrQ==
-X-Gm-Message-State: AOAM53297u0LrmhE0SoPCePwydq+1hDThXtrIdkwE1aSL1dXiCMtJIrm
- Rr3wQJsaveR4D4ldc1AHefmH/yZv07L1BAj5R8E=
-X-Google-Smtp-Source: ABdhPJwZj9WDxzrkp5B5fBpFQxEJMl3itE2IsPYlaaZPJaGCbLO05CDNwOR5DGdC23BcrNbXL/hWQx20i4ztPmfvMHc=
-X-Received: by 2002:aca:1219:: with SMTP id 25mr489984ois.54.1611589161153;
- Mon, 25 Jan 2021 07:39:21 -0800 (PST)
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690064.outbound.protection.outlook.com [40.107.69.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21556E203;
+ Mon, 25 Jan 2021 15:39:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QOZvMjBkWs1ttbbRpjlIgld91hmGoXumGOCPSP+T7lM0vsdUN54QuAk1Vyna2xfVGLiH+OfOveI7DrieoRGEvTpVPbk2kR+ieList5ZueMsz7NUNEizW9YrkdDUpH3mHoYpXm/72p2hlR8uIgdfho7BCYAK8kO2n0MYoiE418Ob2m8sT40XOZHTP4fviFXK3dekwTkONbr4sJ+JGGF+3wo29Dax9idD4wSDJnLZDeIwOzvC/tBW6Ct2dyfLX4GT642qRLG2MsAhS9kKM80q3UGLC88de/MLLxkRqosAGzXkhuYn2xYF46xrSA6qxx3FwKdFEMfI/03M04VMogwcTkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oc5lqEFq0neG+1G5WKmaP4pJAYKdtfc8B1gud6e5Bv4=;
+ b=anRRhMd9gM2dEKp6nIkWa5TARmqu3s/s8EY8bvBFKeJSmwNqNVEEPgK1ufOIM+f51nvi5iIQ5m8CmTr9/4Xmb8EwZxi/vZcI2/8Rk0zPYCTrvS2TfGPpqfOxhp/NBGsRRXfgFh4N+Z6OICsKYmJ2rATrfJwiZ5kNajWkvrGLCn2vB/fEeseNAWtr8Kqbx+vOcXeeZCHoHItVCGH8OYQ4CqDR95Pkb7JsR4LxuZKNObOaWgXcIIBpB9MeKeq5iZDnFPqMETGnxlaK2H4tz7ye6mD2kHlgJCczcChLAjHm6agd7KKnyP4y2pVWVyjlALBF4XAOUDXbMSZau/M2S21Rpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oc5lqEFq0neG+1G5WKmaP4pJAYKdtfc8B1gud6e5Bv4=;
+ b=I9WqTOGQr1rKLKhxLdg1n7GwQ0NIq7z2c2Q0eAJIAHJsJFhsswAJETYsrTvSIsu2A7gMZGwIMRB5CGCkbPxfu9iMyTuYQ9QAn3/yAJs6BxAouNhfNv2aG80IFamMsay/zR5vDd3P+vFQg+R6Hz3oV8I7cncu9xyCtrZp08sh0uc=
+Authentication-Results: basnieuwenhuizen.nl; dkim=none (message not signed)
+ header.d=none;basnieuwenhuizen.nl; dmarc=none action=none
+ header.from=amd.com;
+Received: from MW3PR12MB4379.namprd12.prod.outlook.com (2603:10b6:303:5e::11)
+ by MWHPR12MB1230.namprd12.prod.outlook.com (2603:10b6:300:f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.15; Mon, 25 Jan
+ 2021 15:39:39 +0000
+Received: from MW3PR12MB4379.namprd12.prod.outlook.com
+ ([fe80::172:235e:14a4:bdc6]) by MW3PR12MB4379.namprd12.prod.outlook.com
+ ([fe80::172:235e:14a4:bdc6%7]) with mapi id 15.20.3763.019; Mon, 25 Jan 2021
+ 15:39:39 +0000
+Subject: Re: [PATCH] drm/amd/display: fix unused variable warning
+To: Arnd Bergmann <arnd@kernel.org>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+References: <20210125124849.102037-1-arnd@kernel.org>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <39e1fcca-c2f4-2342-3f8c-76996024ebda@amd.com>
+Date: Mon, 25 Jan 2021 10:39:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210125124849.102037-1-arnd@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [198.200.67.155]
+X-ClientProxiedBy: YT1PR01CA0047.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::16) To MW3PR12MB4379.namprd12.prod.outlook.com
+ (2603:10b6:303:5e::11)
 MIME-Version: 1.0
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <87k0s4ai33.fsf@vps.thesusis.net>
-In-Reply-To: <87k0s4ai33.fsf@vps.thesusis.net>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 25 Jan 2021 16:39:09 +0100
-Message-ID: <CAMuHMdVe-pS4wT++RDzF+EYd-_SC9naGJj8dzWbN6mt0yAnVxg@mail.gmail.com>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To: Phillip Susi <phill@thesusis.net>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.193] (198.200.67.155) by
+ YT1PR01CA0047.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.11 via Frontend Transport; Mon, 25 Jan 2021 15:39:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c3d47360-c85f-4e8f-12a9-08d8c1476d1e
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1230:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR12MB12305665B42FBFDED42EDBA58CBD9@MWHPR12MB1230.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fM5dQqtQ8Cj7hJGuHIjR6+uhMkp7aasasNZPG6QNptdf3HYbOV0P8AcS56cEG7E8cmWMp3qKSAxDxONwf+Sdc/xanuRQMgNgsghxs4RqGfpA4jtfck1Rh5ycFTpqqsgqT+xJQk//1AvmJQ13rDIsGkepqzyMZ5aGQGlQlSYJTDMrB9cvLBslAoV9k+OsBHKbeHMicnx8efMEghYA2LSa00KPSVRShAFmwihhUJ8dqbnJ2QwwGjV01Ie58za4ODKQWvLEKsCvNVHmE1TYcjMSvGon2k1UiWp3KhQEoA35jMAVCl8mA8MvplDiVGThlwlQl62bTODkpqsHHkeiU0zSibmVJmd0zTPVP55TCfNf6Yfpt/Am03ucBqWYqa/x1WWIWTT5i8dWb3NpIDsrKDsojOiimCy2GIQA5Fi6d1Vy4TY/IuhSStdBqrpz0ZCBwtXe8R7TH8ztA+AfnQqCf7vf1mmqc4oMgpmgotYZZognCYc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4379.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(8936002)(86362001)(31686004)(83380400001)(31696002)(66476007)(66556008)(66946007)(8676002)(52116002)(5660300002)(53546011)(4326008)(110136005)(44832011)(478600001)(316002)(956004)(16576012)(2616005)(6636002)(26005)(2906002)(16526019)(186003)(6486002)(36756003)(54906003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WldnRUNNUkJiODkybEFUeFZ1OUZjbmxKODlZRU9FQnFhZFBhNFJ3QXBqRE5E?=
+ =?utf-8?B?TENWdWhpYzBWb0J0Y1JHN2hGcGZhMDNWU3dFa3lHVkhHeFQzWHl0NmdWK082?=
+ =?utf-8?B?bFpQVzN0R3U0SENhWFo2WnptSVgva1cwTmprQWVoYVBoMEgwd2NnelExVUk1?=
+ =?utf-8?B?eFpzeGtEWVlkS0Q4QmNlQUk1NmJEZ2diUXF2dG5nVFpXcU5XMzlwd0xDM01G?=
+ =?utf-8?B?cnVQZmU4bnBoaEJlU2MvbjlCb1Y3cENvVzAxc2lVK0psQnZoWDl0V1JCaVQ4?=
+ =?utf-8?B?dXA2eVpqVW5MdS9wcjB2V0RIdGlHVm0zaVRhNGlPYUtCNm93U1B2YmhZQ0lS?=
+ =?utf-8?B?NS8rOUdSSU4vbTFrZlJGSXp2OTU2QjZ5bWdTRXJ2dTJBTHkvUmJaT2RkNzFi?=
+ =?utf-8?B?YUV6WER6VzRJMk9kRlJQeHFJbDJsSTFpZjZCeHVVRVZhdlBxUUlEYmZBank1?=
+ =?utf-8?B?eWN4R1hPR2dyVG11YXZGaTVIeXpYRW1sT0xSR3FMUjRmRWpiVE5vVDdsOFVG?=
+ =?utf-8?B?d0x5TFhaRFJqcWtPVmVvR2I1TlJlZWdRRURwYysvNndjNjBFcnNYV0EybWR2?=
+ =?utf-8?B?OWRwTHE4emhxSGJsb1Nya29JdS9WbWh2dkJGbG9ZejVibkFJQVRxMUxSdzFC?=
+ =?utf-8?B?YXAxTlNZY3F4Wmw4NmFPZlFlR0wzcldHZmt0aXZ1djdCOUY5akZYMzZVb1Y1?=
+ =?utf-8?B?S0JYS2NBdnlKeVVZUkJZdHI4Q3E3dnQxbWUzbjhxUC8xdk1mTzVkcmFVVUxs?=
+ =?utf-8?B?MTh4NVZWUFVLRERPV2N5ZjdacnZTbHFGa0hteDJCNFdyTnNSSnZXNWRVUFE2?=
+ =?utf-8?B?UGorL1piYVZWQ0JFWTZ5NjdiMHNUZ1J0UDlvRXBlZnNIVnhzMU1jWC9KREFq?=
+ =?utf-8?B?MkZEMVVKMHJwRXRtbnFhakM3VmJFTE54RG1hMk5xczZKejdYY2RRK1RDTTFI?=
+ =?utf-8?B?MEIxRmpOTU1VbFRlU2tqS3lOWHIxUnp1Q296R3I2QitOQ2JSQWxtdG5SLytm?=
+ =?utf-8?B?VFRpeGVRSFlEOHR4N1pYaEd0VnhqbUtxdG0zSFppYzVBWE4zTDVvTkNxOEo4?=
+ =?utf-8?B?eUVmVDU1Yng1N3ZEcGJTcmRNVyszczM0UFkyVkRyNzZSQXhEdURjWDlsdXg2?=
+ =?utf-8?B?SllFRFA0UVI0N0xIN0JBNGtPaGdLZmlmbngvVWhPbGxwbWQyTGFZUWFJRVNt?=
+ =?utf-8?B?ZENPZ1BnYjBpVlBxbVFveGVKcy9jSU90aG1IUFFud2JZOTNmNW53Y3VRL2tQ?=
+ =?utf-8?B?OVluNisrMEtiUVd5TVAwUGkxeG9hZUlFRjNSV1ZyWUhraTJSSWNTS0VJVDN1?=
+ =?utf-8?B?ZEtKWUVuUUhZNG0reXF6L0lTWG5USE9jOXNNNmQ5VDBqUFVwVjg3ZVAvZWpm?=
+ =?utf-8?B?dGtDU1NPWURpREpiQ2ZxNDBlb1ExRllPOTJxdndmTUFyMUpnQ1BhZmVTcW1J?=
+ =?utf-8?Q?6V3b+XI2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3d47360-c85f-4e8f-12a9-08d8c1476d1e
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4379.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 15:39:39.2840 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JFsbOw4OB/kO7o90+5nRxgzVZtxklKIbTY4Qa9Lzit+6tVzrB/GyQaMTMw9gIjtp59Sicum33LqWHWdYC9zFtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1230
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,115 +125,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Stylon Wang <stylon.wang@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Phillip,
+On 2021-01-25 7:48 a.m., Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> After all users of the 'dm' warnings got hidden in an #ifdef,
+> the compiler started warning about it being unused:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5380:33: error: unused variable 'dm' [-Werror,-Wunused-variable]
+> 
+> Add another such #ifdef.
+> 
+> Fixes: 98ab5f3513f9 ("drm/amd/display: Fix deadlock during gpu reset v3")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-On Fri, Jan 22, 2021 at 8:26 PM Phillip Susi <phill@thesusis.net> wrote:
-> Geert Uytterhoeven writes:
-> Judging from some of the comments in the code, it looks like you were
-> one of the original authors of fbcon?  I haven't been able to find any
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-Indeed, a looooong time ago... Before DRM existed.
+Harry
 
-> of these sczbot crash reports, and am not sure how fuzzing syscalls
-> would really affect this code ( it's not really handling a buch of
-> ioctls or otherwise taking arguments from user space ) , but I am a bit
-
-AFAIU, most of these are triggered by VT ioctls.
-There is an intimate relation between the VT and fbev subsystems: VT
-changes impact fbdev, and vice versa.
-
-Perhaps these should be decoupled, at the expense of worse user
-experience (i.e. the user needing to change both screen resolution and
-number of columns/rows of the text console)?
-
-> confused as to why the softback was implemented the way that it was.
->
-> vgacon simply copies the main buffer to vram in ->set_origin() and then
-> changes the pointers to operate out of the much larger vram while that
-> virtual terminal is active.  If I understand it correctly, it looks like
-> fbcon instead opts to operate out of the main buffer but rescue lines as
-> they are scrolled off and relocate them to the softback buffer.  This
-> seems to be rather more convoluted.
->
-> I'm thinking of re-implementing scrollback more like the way vgacon does
-> it: allocate a big "vram" buffer and operate out of that.  Obviously
-> ->scroll() and ->scrolldelta() have to actually repaint the screen rather
-> than simply change the pointer register, but that should be about the
-> only difference.
-
-I'm not that intimate familiar anymore with the current state of the
-code, but it used to be like this:
-  - vgacon used a VRAM buffer for the current VC, and multiple shadow
-    buffers to implement virtual consoles,
-  - fbcon always used the shadow buffers, with each update triggering
-    an update of the frame buffer (see below).
-
-As the text console buffer handling should be the same for vgacon and
-fbcon, I expect most scrollback bugs (if any) to be present in both.
-
-> I have also noticed that there was some code to use hardware panning of
-> the video buffer rather than having to do a block bitblt to scroll the
-> contents of the screen, but that it was disabled because virtually no
-> video drivers actually implemented it?  That seems like a shame, but if
-> it is so, then there's no sense carrying the dead code so I think I'll
-> clean that up now.
->
-> Now that I look at it again, everything is simply always redrawn now
-> instead of even doing a simple bitblt.  Daniel, you mentioned that
-> almost nobody supports hardware acceleration, but even without any
-> specific hardware support, surely even if bitblt() is implemented just
-> as a memcpy(), it has to be faster than redrawing all of the characters
-> doesn't it?  Getting rid of the panning if it isn't generally supported
-> I can see, but I don't understand killing bitblt even if most devices
-> don't accelerate it.
-
-There are multiple ways to implement scrolling:
-  1. If the hardware supports a larger virtual screen and panning, and
-     the virtual screen is enabled, most scrolling can be implemented by
-     panning, with a casual copy when reaching the bottom (or top) of
-     the virtual screen.
-     This mode is (was) available on most graphics hardware with
-     dedicated graphics memory.
-  2. If a 2D acceleration engine is available, copying (and
-     clearing/filling) can be implemented by rectangle copy/fill
-     operations.
-  3. Rectangle copy/fill by the CPU is always available.
-  4. Redrawing characters by the CPU is always available.
-
-Which option was used depended on the hardware: not all options are
-available everywhere, and some perform better than others.
-E.g. on PCI graphics cards, reading graphics memory by the CPU is
-usually very slow, so option 3 is much slower than option 4 (given a
-sufficiently fast CPU).
-AFAIU, option 2 is not suitable for modern systems with 3D acceleration.
-On the older (slower) systems (lacking VGA text mode) for which fbcon
-was originally written, option 4 is usually the slowest.
-
-Support for 1-3 were removed in commit 39aead8373b3c20b ("fbcon: Disable
-accelerated scrolling"), which claimed only 3 (DRM) drivers made use of
-this, ignoring the other 32 (fbdev) drivers making use of it.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index a90dc4d31c32..37bf2dd87e1e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5377,7 +5377,9 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+>   	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+>   	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
+>   	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(crtc->state);
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>   	struct amdgpu_display_manager *dm = &adev->dm;
+> +#endif
+>   	int rc = 0;
+>   
+>   	if (enable) {
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
