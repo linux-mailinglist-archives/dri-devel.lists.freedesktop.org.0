@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F3E302D5C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 22:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C08302D6F
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 22:19:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7ED56E284;
-	Mon, 25 Jan 2021 21:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0ED56E284;
+	Mon, 25 Jan 2021 21:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57AC76E284
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 21:13:21 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id w8so16332523oie.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 13:13:21 -0800 (PST)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBA86E314
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 21:19:16 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id x71so16293951oia.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 13:19:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cX7e5IAmASc14zGSnphUn29Siqdn8Wr9I+VbJxTaObg=;
- b=rQEp3xs2brj98xb1e3NQAORdqQPxjvRADp4Om7Uf8HIXJ/LypxA/ZT6xipjSHZ8hwm
- 2KWgGsxwpAyPAqPCPpcFs3d7W7o7w3eOQyLzfCQfCFnlOKlzC0qRA6PrTg+ZxBy477mL
- A/G4iSlrE4YJlGfMUSCMRfS8mBA5s+gK+XPecMYlP6Rya702dsoKtT9vIYhfkekbOB1y
- Lc7osNciYKB6GOA4Pos1RuyinE1bA35+h7JpT78uu8CPlwG1Hji+6nZeo6V6SOAztSB8
- +kYhtkyP7waGx8+S76G6seUEoWVFcy0SkahsJYdznm3VsWOPw39Q7j/A0kFGadGl84ab
- RURg==
-X-Gm-Message-State: AOAM533IicNlGs4YLGZHgX4NMHfUT2tlN0bxIYdgo87SSz1C3uWykAvU
- hsJEYO3rAg/Sd4dbmMRupg==
-X-Google-Smtp-Source: ABdhPJxyHpYE0jveACHdHGN4IUgt1JxJunblNFJL71YJPq5wqcX95oVfuHOeO2+rUY8for0DukPa1Q==
-X-Received: by 2002:aca:5d09:: with SMTP id r9mr1282546oib.25.1611609200585;
- Mon, 25 Jan 2021 13:13:20 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=NibYT71W+B8TDWyLV12/C5+2M+J43v+ssl9R4tm+o1Q=;
+ b=cU2I/Q9Hq/qD7OsaViGdVI9+mjD+Ww7d6tulgKc3/cWXNUszzVW2lDj+aNCca5GqtF
+ owR5sL3q31oMA8iroJeSTc5vjqB6AGkusv1pm3H+rqjmVA+RYhslBTOIGKcckJYapfp4
+ 7/Djt5+SCTpq5vr1cUI+/yqPTdWTiL/d3PBGh3Z0jPoPfieBjGonIPyjyUaqmyWyNl9L
+ 400ivT2ipvmtcNsvabAWU0cUTiKDdjxevhk/e7saSV+3DxXVMxnVRb6qY649C6r01OCi
+ 7tBz1PzpACbXTANdyhIeJhdINLrPps1kFfbgHGX0zTzeoB/skrcjZerjrsQAwIu9WuCe
+ TsOA==
+X-Gm-Message-State: AOAM531FFQON7OrNNTjwz75tqgWKJfRnDzUcwGV68F8StUZGGnr4b9lf
+ 977oaZynB0r4tBrEvkP3d8k4qvwWGg==
+X-Google-Smtp-Source: ABdhPJzawJ1RMizxJND21fu6qb4j513EzjDeH7HKS+tLfPZacMXvR7CRmkgQOrWYyoYiX7+j1r9tOg==
+X-Received: by 2002:aca:f255:: with SMTP id q82mr1293905oih.138.1611609555404; 
+ Mon, 25 Jan 2021 13:19:15 -0800 (PST)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id m10sm616132oim.42.2021.01.25.13.13.18
+ by smtp.gmail.com with ESMTPSA id z20sm2732315oth.55.2021.01.25.13.19.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 13:13:19 -0800 (PST)
-Received: (nullmailer pid 1004036 invoked by uid 1000);
- Mon, 25 Jan 2021 21:13:16 -0000
-Date: Mon, 25 Jan 2021 15:13:16 -0600
+ Mon, 25 Jan 2021 13:19:12 -0800 (PST)
+Received: (nullmailer pid 1014454 invoked by uid 1000);
+ Mon, 25 Jan 2021 21:19:10 -0000
+Date: Mon, 25 Jan 2021 15:19:10 -0600
 From: Rob Herring <robh@kernel.org>
 To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v2 08/14] dt-bindings: display: bridge: Add i.MX8qxp
- pixel link to DPI binding
-Message-ID: <20210125211316.GA1000096@robh.at.kernel.org>
+Subject: Re: [PATCH v2 11/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
+ LVDS display bridge binding
+Message-ID: <20210125211910.GA1004310@robh.at.kernel.org>
 References: <1610616132-8220-1-git-send-email-victor.liu@nxp.com>
- <1610616132-8220-9-git-send-email-victor.liu@nxp.com>
+ <1610616132-8220-12-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1610616132-8220-9-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1610616132-8220-12-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,85 +68,213 @@ Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
  kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org, linux-imx@nxp.com,
  mchehab@kernel.org, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKYW4gMTQsIDIwMjEgYXQgMDU6MjI6MDZQTSArMDgwMCwgTGl1IFlpbmcgd3JvdGU6
-Cj4gVGhpcyBwYXRjaCBhZGRzIGJpbmRpbmdzIGZvciBpLk1YOHF4cCBwaXhlbCBsaW5rIHRvIERQ
-SShQWEwyRFBJKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMaXUgWWluZyA8dmljdG9yLmxpdUBueHAu
-Y29tPgo+IC0tLQo+IHYxLT52MjoKPiAqIFVzZSBncmFwaCBzY2hlbWEuIChMYXVyZW50KQo+IAo+
-ICAuLi4vZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1sICAgICAgICB8IDEw
-NSArKysrKysrKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDEwNSBpbnNlcnRpb25z
-KCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1sCj4gCj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9mc2ws
-aW14OHF4cC1weGwyZHBpLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-ZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1sCj4gbmV3IGZpbGUgbW9kZSAx
-MDA2NDQKPiBpbmRleCAwMDAwMDAwMC4uMTg3ODI0ZQo+IC0tLSAvZGV2L251bGwKPiArKysgYi9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhx
-eHAtcHhsMmRwaS55YW1sCj4gQEAgLTAsMCArMSwxMDUgQEAKPiArIyBTUERYLUxpY2Vuc2UtSWRl
-bnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpCj4gKyVZQU1MIDEuMgo+ICst
-LS0KPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9kaXNwbGF5L2JyaWRnZS9m
-c2wsaW14OHF4cC1weGwyZHBpLnlhbWwjCj4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9y
-Zy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIwo+ICsKPiArdGl0bGU6IEZyZWVzY2FsZSBpLk1YOHF4
-cCBQaXhlbCBMaW5rIHRvIERpc3BsYXkgUGl4ZWwgSW50ZXJmYWNlCj4gKwo+ICttYWludGFpbmVy
-czoKPiArICAtIExpdSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+Cj4gKwo+ICtkZXNjcmlwdGlv
-bjogfAo+ICsgIFRoZSBGcmVlc2NhbGUgaS5NWDhxeHAgUGl4ZWwgTGluayB0byBEaXNwbGF5IFBp
-eGVsIEludGVyZmFjZShQWEwyRFBJKQo+ICsgIGludGVyZmFjZXMgdGhlIHBpeGVsIGxpbmsgMzYt
-Yml0IGRhdGEgb3V0cHV0IGFuZCB0aGUgRFNJIGNvbnRyb2xsZXLigJlzCj4gKyAgTUlQSS1EUEkg
-MjQtYml0IGRhdGEgaW5wdXQsIGFuZCBpbnB1dHMgb2YgTFZEUyBEaXNwbGF5IEJyaWRnZShMREIp
-IG1vZHVsZQo+ICsgIHVzZWQgaW4gTFZEUyBtb2RlLCB0byByZW1hcCB0aGUgcGl4ZWwgY29sb3Ig
-Y29kaW5ncyBiZXR3ZWVuIHRob3NlIG1vZHVsZXMuCj4gKyAgVGhpcyBtb2R1bGUgaXMgcHVyZWx5
-IGNvbWJpbmF0b3JpYWwuCj4gKwo+ICtwcm9wZXJ0aWVzOgo+ICsgIGNvbXBhdGlibGU6Cj4gKyAg
-ICBjb25zdDogZnNsLGlteDhxeHAtcHhsMmRwaQo+ICsKPiArICBwb3dlci1kb21haW5zOgo+ICsg
-ICAgbWF4SXRlbXM6IDEKPiArCj4gKyAgZnNsLHN5c2NvbjoKPiArICAgICRyZWY6IC9zY2hlbWFz
-L3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3BoYW5kbGUKPiArICAgIGRlc2NyaXB0aW9uOiB8Cj4g
-KyAgICAgIEEgcGhhbmRsZSB3aGljaCBwb2ludHMgdG8gQ29udHJvbCBhbmQgU3RhdHVzIFJlZ2lz
-dGVycyhDU1IpIG1vZHVsZS4KCklmIHRoaXMgaXMgdGhlIG9ubHkgY29udHJvbCBpbnRlcmZhY2Us
-IHRoZW4gbWFrZSBpdCBhIGNoaWxkIG5vZGUgb2YgdGhlIApwaGFuZGxlLgoKPiArCj4gKyAgZnNs
-LGNvbXBhbmlvbi1weGwyZHBpOgo+ICsgICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVm
-aW5pdGlvbnMvcGhhbmRsZQo+ICsgICAgZGVzY3JpcHRpb246IHwKPiArICAgICAgQSBwaGFuZGxl
-IHdoaWNoIHBvaW50cyB0byBjb21wYW5pb24gUFhMMkRQSSB3aGljaCBpcyB1c2VkIGJ5IGRvd25z
-dHJlYW0KPiArICAgICAgTFZEUyBEaXNwbGF5IEJyaWRnZShMREIpIGluIHNwbGl0IG1vZGUuCj4g
-Kwo+ICsgIHBvcnRzOgo+ICsgICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGll
-cy9wb3J0cwo+ICsKPiArICAgIHByb3BlcnRpZXM6Cj4gKyAgICAgIHBvcnRAMDoKPiArICAgICAg
-ICAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1sIy9wcm9wZXJ0aWVzL3BvcnQKPiArICAgICAgICBk
-ZXNjcmlwdGlvbjogVGhlIFBYTDJEUEkgaW5wdXQgcG9ydCBub2RlIGZyb20gcGl4ZWwgbGluay4K
-PiArCj4gKyAgICAgIHBvcnRAMToKPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy9ncmFwaC55YW1s
-Iy9wcm9wZXJ0aWVzL3BvcnQKPiArICAgICAgICBkZXNjcmlwdGlvbjogVGhlIFBYTDJEUEkgb3V0
-cHV0IHBvcnQgbm9kZSB0byBkb3duc3RyZWFtIGJyaWRnZS4KPiArCj4gKyAgICByZXF1aXJlZDoK
-PiArICAgICAgLSBwb3J0QDAKPiArICAgICAgLSBwb3J0QDEKPiArCj4gK3JlcXVpcmVkOgo+ICsg
-IC0gY29tcGF0aWJsZQo+ICsgIC0gcG93ZXItZG9tYWlucwo+ICsgIC0gZnNsLHN5c2Nvbgo+ICsg
-IC0gcG9ydHMKPiArCj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQo+ICsKPiArZXhhbXBs
-ZXM6Cj4gKyAgLSB8Cj4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZmlybXdhcmUvaW14L3Jz
-cmMuaD4KPiArICAgIHB4bDJkcGkgewo+ICsgICAgICAgIGNvbXBhdGlibGUgPSAiZnNsLGlteDhx
-eHAtcHhsMmRwaSI7Cj4gKyAgICAgICAgcG93ZXItZG9tYWlucyA9IDwmcGQgSU1YX1NDX1JfTUlQ
-SV8wPjsKPiArICAgICAgICBmc2wsc3lzY29uID0gPCZtaXBpX2x2ZHNfMF9jc3I+Owo+ICsKPiAr
-ICAgICAgICBwb3J0cyB7Cj4gKyAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ICsg
-ICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKPiArCj4gKyAgICAgICAgICAgIHBvcnRAMCB7
-Cj4gKyAgICAgICAgICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiArICAgICAgICAgICAg
-ICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+ICsK
-PiArICAgICAgICAgICAgICAgIG1pcGlfbHZkc18wX3B4bDJkcGlfZGNfcGl4ZWxfbGluazA6IGVu
-ZHBvaW50QDAgewo+ICsgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwwPjsKPiArICAgICAgICAg
-ICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmRjX3BpeGVsX2xpbmswX21pcGlfbHZkc18w
-X3B4bDJkcGk+Owo+ICsgICAgICAgICAgICAgICAgfTsKPiArCj4gKyAgICAgICAgICAgICAgICBt
-aXBpX2x2ZHNfMF9weGwyZHBpX2RjX3BpeGVsX2xpbmsxOiBlbmRwb2ludEAxIHsKPiArICAgICAg
-ICAgICAgICAgICAgICAgcmVnID0gPDE+Owo+ICsgICAgICAgICAgICAgICAgICAgICByZW1vdGUt
-ZW5kcG9pbnQgPSA8JmRjX3BpeGVsX2xpbmsxX21pcGlfbHZkc18wX3B4bDJkcGk+Owo+ICsgICAg
-ICAgICAgICAgICAgfTsKPiArICAgICAgICAgICAgfTsKPiArCj4gKyAgICAgICAgICAgIHBvcnRA
-MSB7Cj4gKyAgICAgICAgICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKPiArICAgICAgICAg
-ICAgICAgICNzaXplLWNlbGxzID0gPDA+Owo+ICsgICAgICAgICAgICAgICAgcmVnID0gPDE+Owo+
-ICsKPiArICAgICAgICAgICAgICAgIG1pcGlfbHZkc18wX3B4bDJkcGlfbWlwaV9sdmRzXzBfbGRi
-X2NoMDogZW5kcG9pbnRAMCB7Cj4gKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+ICsg
-ICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmbWlwaV9sdmRzXzBfbGRiX2No
-MF9taXBpX2x2ZHNfMF9weGwyZHBpPjsKPiArICAgICAgICAgICAgICAgIH07Cj4gKwo+ICsgICAg
-ICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9taXBpX2x2ZHNfMF9sZGJfY2gxOiBlbmRw
-b2ludEAxIHsKPiArICAgICAgICAgICAgICAgICAgICByZWcgPSA8MT47Cj4gKyAgICAgICAgICAg
-ICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZtaXBpX2x2ZHNfMF9sZGJfY2gxX21pcGlfbHZk
-c18wX3B4bDJkcGk+Owo+ICsgICAgICAgICAgICAgICAgfTsKPiArICAgICAgICAgICAgfTsKPiAr
-ICAgICAgICB9Owo+ICsgICAgfTsKPiAtLSAKPiAyLjcuNAo+IApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Jan 14, 2021 at 05:22:09PM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qm/qxp LVDS display bridge(LDB).
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v1->v2:
+> * Use graph schema. (Laurent)
+> * Side note i.MX8qxp LDB official name 'pixel mapper'. (Laurent)
+> 
+>  .../bindings/display/bridge/fsl,imx8qxp-ldb.yaml   | 176 +++++++++++++++++++++
+>  1 file changed, 176 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> new file mode 100644
+> index 00000000..514ac90
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+> @@ -0,0 +1,176 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-ldb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qm/qxp LVDS Display Bridge
+> +
+> +maintainers:
+> +  - Liu Ying <victor.liu@nxp.com>
+> +
+> +description: |
+> +  The Freescale i.MX8qm/qxp LVDS Display Bridge(LDB) has two channels.
+> +
+> +  For i.MX8qxp LDB, each channel supports up to 24bpp parallel input color
+> +  format and can map the input to VESA or JEIDA standards.  The two channels
+> +  cannot be used simultaneously, that is to say, the user should pick one of
+> +  them to use.  Two LDB channels from two LDB instances can work together in
+> +  LDB split mode to support a dual link LVDS display.  The channel indexes
+> +  have to be different.  Channel0 outputs odd pixels and channel1 outputs
+> +  even pixels.
+> +
+> +  For i.MX8qm LDB, each channel additionally supports up to 30bpp parallel
+> +  input color format.  The two channels can be used simultaneously, either
+> +  in dual mode or split mode.  In dual mode, the two channels output identical
+> +  data.  In split mode, channel0 outputs odd pixels and channel1 outputs even
+> +  pixels.
+> +
+> +  A side note is that i.MX8qm/qxp LDB is officially called pixel mapper in
+> +  the SoC reference manuals.  The pixel mapper uses logic of LDBs embedded in
+> +  i.MX6qdl/sx SoCs, i.e., it is essentially based on them.  To keep the naming
+> +  consistency, this binding calls it LDB.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8qm-ldb
+> +      - fsl,imx8qxp-ldb
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    items:
+> +      - description: pixel clock
+> +      - description: bypass clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pixel
+> +      - const: bypass
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  fsl,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle which points to Control and Status Registers(CSR) module.
+
+Again, seems like this binding should be a child of the syscon.
+
+> +
+> +  fsl,companion-ldb:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      A phandle which points to companion LDB which is used in LDB split mode.
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: Represents a channel of LDB.
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      reg:
+> +        description: The channel index.
+> +        enum: [ 0, 1 ]
+> +
+> +      phys:
+> +        description: A phandle to the phy module representing the LVDS PHY.
+> +        maxItems: 1
+> +
+> +      phy-names:
+> +        const: lvds_phy
+> +
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input port of the channel.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output port of the channel.
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - reg
+> +      - phys
+> +      - phy-names
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - fsl,syscon
+> +  - channel@0
+> +  - channel@1
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx8qm-ldb
+> +    then:
+> +      properties:
+> +        fsl,companion-ldb: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/firmware/imx/rsrc.h>
+> +    ldb {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        compatible = "fsl,imx8qxp-ldb";
+> +        clocks = <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_MISC2>,
+> +                 <&clk IMX_SC_R_LVDS_0 IMX_SC_PM_CLK_BYPASS>;
+> +        clock-names = "pixel", "bypass";
+> +        power-domains = <&pd IMX_SC_R_LVDS_0>;
+> +        fsl,syscon = <&mipi_lvds_0_csr>;
+> +
+> +        channel@0 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <0>;
+> +            phys = <&mipi_lvds_0_phy>;
+> +            phy-names = "lvds_phy";
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                mipi_lvds_0_ldb_ch0_mipi_lvds_0_pxl2dpi: endpoint {
+> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch0>;
+> +                };
+> +            };
+> +        };
+> +
+> +        channel@1 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <1>;
+> +            phys = <&mipi_lvds_0_phy>;
+> +            phy-names = "lvds_phy";
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                mipi_lvds_0_ldb_ch1_mipi_lvds_0_pxl2dpi: endpoint {
+> +                    remote-endpoint = <&mipi_lvds_0_pxl2dpi_mipi_lvds_0_ldb_ch1>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
