@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB5630245C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 12:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8FB30247C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 12:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C8189C60;
-	Mon, 25 Jan 2021 11:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2421889C9B;
+	Mon, 25 Jan 2021 11:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2901889C56;
- Mon, 25 Jan 2021 11:40:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C9B122AEC;
- Mon, 25 Jan 2021 11:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611574818;
- bh=imRMguePrRlh4uW9e4XxMGfsGUxkK+bwXiHzZqO3Lfk=;
- h=From:To:Cc:Subject:Date:From;
- b=Ip1QXuQsU9uUE/EF4n+BVfUEq61Zdw8/dP3khpaYi4AUlj1yREcXD4ZVqVlDTu+5T
- r0DaS5VV6QN5VPKZV2efZHtJbaFEj8lRcEEpZwXV/P5T9SnYXa4kkPCE8NDIVsQFrF
- 6xCt1WXIY4ODEzX+ji14hKUArR2coftxRwlB7iKH+BnVXwMJu27EynYyb/8pL4anA3
- h9MzorSjudFf9Me4W82DINBpwapQuffCJ/Kxhgoe2Bjb2wLKk8zpyATWUSq8yPjmMZ
- H0pVYl2EL0CaHP9Ku4f4+r+UiAy1YvL1CWmIvKCvccTLN8nnCQ/f+DmYyJZlB36PEy
- OC11OOTu8R7fQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Joshua Aberback <joshua.aberback@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: [PATCH] drm/amd/display: use div_s64() for 64-bit division
-Date: Mon, 25 Jan 2021 12:39:55 +0100
-Message-Id: <20210125114012.2480845-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3B289C9B;
+ Mon, 25 Jan 2021 11:52:51 +0000 (UTC)
+IronPort-SDR: 7UKOBn+32+mZxlffqn0PkSGEHWl+ahxlxBHCF4dYem4R7ZfQRr89ENA0pAeEHXL6q8yveVZCqO
+ hReFdjPk1OZg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="198488809"
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="198488809"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2021 03:52:51 -0800
+IronPort-SDR: 48DaYsnvHv+gYU3iB0lIM7aytVWrCoDavD2mjf0kyTM07tuyUD4vfRcB0epq/cCvtOYMGfxoLJ
+ ZQzg2k7suibA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; d="scan'208";a="472167193"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga001.fm.intel.com with SMTP; 25 Jan 2021 03:52:39 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 25 Jan 2021 13:52:38 +0200
+Date: Mon, 25 Jan 2021 13:52:38 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 08/11] drm: Rename plane->state variables in atomic
+ update and disable
+Message-ID: <YA6xBuECFjzjY7gG@intel.com>
+References: <20210121163537.1466118-1-maxime@cerno.tech>
+ <20210121163537.1466118-8-maxime@cerno.tech>
+ <YArBy2DKdCct5cYW@intel.com>
+ <20210125105218.kv63vjbxz5b35hdo@gilmour>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210125105218.kv63vjbxz5b35hdo@gilmour>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,74 +53,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Wesley Chalmers <Wesley.Chalmers@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jacky Liao <ziyu.liao@amd.com>, Martin Leung <martin.leung@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, linux-rockchip@lists.infradead.org,
+ Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sandy Huang <hjc@rock-chips.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Dave Airlie <airlied@redhat.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, linux-mediatek@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Philippe Cornu <philippe.cornu@st.com>, linux-kernel@vger.kernel.org,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Jan 25, 2021 at 11:52:18AM +0100, Maxime Ripard wrote:
+> Hi Ville,
+> =
 
-The open-coded 64-bit division causes a link error on 32-bit
-machines:
+> On Fri, Jan 22, 2021 at 02:15:07PM +0200, Ville Syrj=E4l=E4 wrote:
+> > On Thu, Jan 21, 2021 at 05:35:33PM +0100, Maxime Ripard wrote:
+> > > Some drivers are storing the plane->state pointer in atomic_update and
+> > > atomic_disable in a variable simply called state, while the state pas=
+sed
+> > > as an argument is called old_state.
+> > > =
 
-ERROR: modpost: "__udivdi3" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-ERROR: modpost: "__divdi3" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> > > In order to ease subsequent reworks and to avoid confusing or
+> > > inconsistent names, let's rename those variables to new_state.
+> > > =
 
-Use the div_s64() to perform the division here. One of them was an
-unsigned division originally, but it looks like signed division was
-intended, so use that to consistently allow a negative delay.
+> > > This was done using the following coccinelle script, plus some manual
+> > > changes for mtk and tegra.
+> > > =
 
-Fixes: ea7154d8d9fb ("drm/amd/display: Update dcn30_apply_idle_power_optimizations() code")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> > > @ plane_atomic_func @
+> > > identifier helpers;
+> > > identifier func;
+> > > @@
+> > > =
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index dff83c6a142a..a133e399e76d 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -772,8 +772,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
- 							cursor_cache_enable ? &cursor_attr : NULL)) {
- 				unsigned int v_total = stream->adjust.v_total_max ?
- 						stream->adjust.v_total_max : stream->timing.v_total;
--				unsigned int refresh_hz = (unsigned long long) stream->timing.pix_clk_100hz *
--						100LL /	(v_total * stream->timing.h_total);
-+				unsigned int refresh_hz = div_s64((unsigned long long) stream->timing.pix_clk_100hz *
-+						100LL, v_total * stream->timing.h_total);
- 
- 				/*
- 				 * one frame time in microsec:
-@@ -800,8 +800,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
- 				unsigned int denom = refresh_hz * 6528;
- 				unsigned int stutter_period = dc->current_state->perf_params.stutter_period_us;
- 
--				tmr_delay = (((1000000LL + 2 * stutter_period * refresh_hz) *
--						(100LL + dc->debug.mall_additional_timer_percent) + denom - 1) /
-+				tmr_delay = div_s64(((1000000LL + 2 * stutter_period * refresh_hz) *
-+						(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
- 						denom) - 64LL;
- 
- 				/* scale should be increased until it fits into 6 bits */
-@@ -815,8 +815,8 @@ bool dcn30_apply_idle_power_optimizations(struct dc *dc, bool enable)
- 					}
- 
- 					denom *= 2;
--					tmr_delay = (((1000000LL + 2 * stutter_period * refresh_hz) *
--							(100LL + dc->debug.mall_additional_timer_percent) + denom - 1) /
-+					tmr_delay = div_s64(((1000000LL + 2 * stutter_period * refresh_hz) *
-+							(100LL + dc->debug.mall_additional_timer_percent) + denom - 1),
- 							denom) - 64LL;
- 				}
- 
--- 
-2.29.2
+> > > (
+> > >  static const struct drm_plane_helper_funcs helpers =3D {
+> > >  	...,
+> > >  	.atomic_disable =3D func,
+> > > 	...,
+> > >  };
+> > > |
+> > >  static const struct drm_plane_helper_funcs helpers =3D {
+> > >  	...,
+> > >  	.atomic_update =3D func,
+> > > 	...,
+> > >  };
+> > > )
+> > > =
 
+> > > @ moves_new_state_old_state @
+> > > identifier plane_atomic_func.func;
+> > > identifier plane;
+> > > symbol old_state;
+> > > symbol state;
+> > > @@
+> > > =
+
+> > >  func(struct drm_plane *plane, struct drm_plane_state *old_state)
+> > >  {
+> > >  	...
+> > > -	struct drm_plane_state *state =3D plane->state;
+> > > +	struct drm_plane_state *new_state =3D plane->state;
+> > > 	...
+> > >  }
+> > > =
+
+> > > @ depends on moves_new_state_old_state @
+> > > identifier plane_atomic_func.func;
+> > > identifier plane;
+> > > identifier old_state;
+> > > symbol state;
+> > > @@
+> > > =
+
+> > >  func(struct drm_plane *plane, struct drm_plane_state *old_state)
+> > >  {
+> > >  	<...
+> > > -	state
+> > > +	new_state
+> > > 	...>
+> > =
+
+> > Was going to say that this migh eat something else, but I guess
+> > the dependency prevents that?
+> =
+
+> Yeah, the dependency takes care of this
+> =
+
+> > Another way to avoid that I suppose would be to declare 'state'
+> > as
+> > symbol moves_new_state_old_state.state;
+> > =
+
+> > That would probably make the intent a bit more obvious, even with
+> > the dependency. Or does a dependency somehow automagically imply
+> > that?
+> =
+
+> I'm not sure if it does, but it's a symbol here not an identifier or an
+> expression, so here moves_new_state_old_state.state would always resolve
+> to state (and only state) anyway
+
+Hm. Right. OK, cocci bits look good to me. Variable naming
+bikeshed I'll leave to others :)
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
