@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC913022F3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA993022EB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Jan 2021 09:45:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715B689FC9;
-	Mon, 25 Jan 2021 08:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56AC89BC2;
+	Mon, 25 Jan 2021 08:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CF789A4E
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 07:24:32 +0000 (UTC)
-Received: from mail-oi1-f200.google.com ([209.85.167.200])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <koba.ko@canonical.com>) id 1l3wEg-0001TC-SV
- for dri-devel@lists.freedesktop.org; Mon, 25 Jan 2021 07:24:31 +0000
-Received: by mail-oi1-f200.google.com with SMTP id i9so5028108oih.1
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Jan 2021 23:24:30 -0800 (PST)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7625789BC2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 08:44:11 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id q20so7985342pfu.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 00:44:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=kql6/H7XE4iGCcMOEzKNPSUD4IIdZnFwuOgOy/87akg=;
+ b=BZw5Rn+MdGlWCL+t7+pLH/7drROvvcmFubGAs87DVdRv+OxYf6B1mMv++cK/pjW/4v
+ fm/K6XZHZTev3BBNa4QcPMmF12GtAwGDSahGRnoOWZtF9iMN2J00naXvOGhySynpEpl7
+ 00cl72haOnL2RztGq3aVriAUiipIIIHHgVTYv2JQMmRmMO/CjQG4JPkJPQ4i841X/tqY
+ tA5rPkEY5nn/jJuc589vusw6sxipiu4hqTB7c6BHb+NgRhg8PxQvooDq3NvAlKD75C7i
+ bS6r6G0/JC3z6ERS1WDDTVWnkVTYurzxvM26Lat8dqC8mfP3au/sgClPBvyc/8IjENmM
+ yBUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2EQjAOKxa2dQV3aiCdkBak75YIOEWOzVFXlrxlER1bc=;
- b=JQw8DAVV8FN83sZRxVwTDrI1ySBqYvGNeil60/dfuoOHD3w+UADHnbYy4ZsV+7RaEV
- 0nMovr0pVH3duW6v/gF4i1VkcC3FbuSmkGqr3FRarjOWhukFDHwDMmHeaKXEL4OTlhd0
- tAC9Bv658FUuuGhGp0GAO345id+A1G3iPj5mY35+goutAyM3NQYJerY/Fn9/38ypWv2J
- plWi4UMq4ZP+5APzU1iFudwo2p6drwrPs2M2Mxic8Ch6aRi+gfRAHL8QVoaXgdw8uhWn
- 8wqXKvkgXcGVJdi4v6uVyEivpIkcNBZmHb3hgNwf1slHR+jMUYc892e/8ZxFqM7h87PN
- Pi0A==
-X-Gm-Message-State: AOAM530RvKekfBeNK9IEO2sQCkz2uHBui33nUYVChouFCzkUnlSTmF5g
- x/5dSfOOJIFPB1k2m7+19l5RWT9gCHuNhFPu2wuiWO4ivHVuDNDGyq48cdZ51uqZi10DZQTW2aJ
- 53VsV3hIKDp2j5pEsWcCvaFD0tCerPNKPTB13glm8sDEmZMfY/se1weHe/ANF9Q==
-X-Received: by 2002:aca:da46:: with SMTP id r67mr2124870oig.17.1611559469857; 
- Sun, 24 Jan 2021 23:24:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylzCDHLvXlHxg0/AhglA4IWH8c/YMLRiQVjtU4QU7TF2qrrnoC1DvfrC6YdMkDxsuKO1MMmLTnTNtBU5PAIfA=
-X-Received: by 2002:aca:da46:: with SMTP id r67mr2124857oig.17.1611559469507; 
- Sun, 24 Jan 2021 23:24:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20210113014105.28110-1-koba.ko@canonical.com>
- <20210113014105.28110-2-koba.ko@canonical.com>
- <8735z5t5qz.fsf@intel.com>
-In-Reply-To: <8735z5t5qz.fsf@intel.com>
-From: Koba Ko <koba.ko@canonical.com>
-Date: Mon, 25 Jan 2021 15:24:18 +0800
-Message-ID: <CAJB-X+Xon6ouDFvr2LgDub=mEYR1=geffsMZYmQZFfNkKUxf4A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/dp_mst: Align mst link rate with soure rate
-To: Jani Nikula <jani.nikula@linux.intel.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=kql6/H7XE4iGCcMOEzKNPSUD4IIdZnFwuOgOy/87akg=;
+ b=aM4mvdOGNPXVzzpqBOHRgHW8jZSeqMPGX7QMXMSji2QBI/vHOEkl7LW74x5lIyNWG6
+ p45jUf0J5nAf1PBVqNqvf3rags1YCiHbrCBBVM1VnKbCzZjllgHMBDc6umP11Q/Ce3S8
+ LK6qLwVmGccK7y5o0ylpCCLZ8fXhqTeZwkh+DRwA0XF9S4qPGE53wBLTvnkN8nQ5hNTp
+ fbU0+bbIKWUQdVuBigJmrXLVEqwE75xSnTd4hht/mGNe6gj2r/cLbeGwcSuPiKQoHydK
+ 9ApYZNfQd88YoQmHXfg2MOhVS8t7yJK/Mc1U0hHjIdajFyU4JosIQY+0M0u3LSc3Jqiu
+ i6BQ==
+X-Gm-Message-State: AOAM530Ijz6qnMguehEzsRDoAmlSb2ojU62cfOhcq5dJDxRBqSfGV7D9
+ PTJwopgH62vhprXlkkS/RmY=
+X-Google-Smtp-Source: ABdhPJx0Jqei25/t9AkDDGOL0Y8Uik/RfREQCpOF1yCy/AilZuI1RTNjilmyI+ENKpeIqoaAQT0mRw==
+X-Received: by 2002:a05:6a00:2385:b029:1b6:1603:4ea3 with SMTP id
+ f5-20020a056a002385b02901b616034ea3mr9950604pfc.40.1611564251051; 
+ Mon, 25 Jan 2021 00:44:11 -0800 (PST)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id 145sm15521010pfu.8.2021.01.25.00.44.08
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 25 Jan 2021 00:44:10 -0800 (PST)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v2] fbtft: add tearing signal detect
+Date: Mon, 25 Jan 2021 16:44:12 +0800
+Message-Id: <1611564252-84205-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Mon, 25 Jan 2021 08:45:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,321 +63,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1529834623=="
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1529834623==
-Content-Type: multipart/alternative; boundary="000000000000b8306b05b9b46d02"
+From: "carlis.zhang_cp" <zhangxuezhi1@yulong.com>
 
---000000000000b8306b05b9b46d02
-Content-Type: text/plain; charset="UTF-8"
+For st7789v ic,add tearing signal detect to avoid screen tearing
 
-On Wed, Jan 13, 2021 at 7:51 PM Jani Nikula <jani.nikula@linux.intel.com>
-wrote:
->
-> On Wed, 13 Jan 2021, Koba Ko <koba.ko@canonical.com> wrote:
-> > After read the link rate from MST hub, align with
-> > maximum source rate.
-> >
-> > Signed-off-by: Koba Ko <koba.ko@canonical.com>
-> > ---
-> >  drivers/gpu/drm/drm_dp_mst_topology.c   | 8 ++++++++
-> >  drivers/gpu/drm/i915/display/intel_dp.c | 7 +++++++
-> >  include/drm/drm_dp_helper.h             | 8 ++++++++
-> >  include/drm/drm_dp_mst_helper.h         | 4 ++++
-> >  4 files changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > index 6982ecbf30b5..e7ceae97be85 100644
-> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > @@ -3672,6 +3672,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct
-drm_dp_mst_topology_mgr *mgr, bool ms
-> >  {
-> >       int ret = 0;
-> >       struct drm_dp_mst_branch *mstb = NULL;
-> > +     unsigned int max_link_rate_tbl[MAX_DRM_DP_MAX_RATE + 1] = {
-> > +             DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW_5_4,
-> > +             DP_LINK_BW_8_1, DP_LINK_RATE_TABLE
-> > +     };
->
-> Please no. Read on for why.
->
-> >
-> >       mutex_lock(&mgr->payload_lock);
-> >       mutex_lock(&mgr->lock);
-> > @@ -3693,6 +3697,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct
-drm_dp_mst_topology_mgr *mgr, bool ms
-> >                       goto out_unlock;
-> >               }
-> >
-> > +             if (mgr->max_source_rate < MAX_DRM_DP_MAX_RATE)
-> > +                     mgr->dpcd[1] =
-max_link_rate_tbl[mgr->max_source_rate];
->
-> Make ->max_source_rate the actual physical rate in kHz, and use
-> drm_dp_link_rate_to_bw_code() here.
->
-> > +
-> >               mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr->dpcd[1],
-> >                                                       mgr->dpcd[2] &
-DP_MAX_LANE_COUNT_MASK);
-> >               if (mgr->pbn_div == 0) {
-> > @@ -5422,6 +5429,7 @@ int drm_dp_mst_topology_mgr_init(struct
-drm_dp_mst_topology_mgr *mgr,
-> >       mgr->aux = aux;
-> >       mgr->max_dpcd_transaction_bytes = max_dpcd_transaction_bytes;
-> >       mgr->max_payloads = max_payloads;
-> > +     mgr->max_source_rate = MAX_DRM_DP_MAX_RATE;
-> >       mgr->conn_base_id = conn_base_id;
-> >       if (max_payloads + 1 > sizeof(mgr->payload_mask) * 8 ||
-> >           max_payloads + 1 > sizeof(mgr->vcpi_mask) * 8)
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index 469e765a1b7b..a89b4c823123 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -5392,6 +5392,13 @@ intel_dp_configure_mst(struct intel_dp *intel_dp)
-> >       intel_dp->is_mst = sink_can_mst &&
-> >               i915->params.enable_dp_mst;
-> >
-> > +     if (intel_dp_source_supports_hbr3(intel_dp))
-> > +             intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR3;
-> > +     else if (intel_dp_source_supports_hbr2(intel_dp))
-> > +             intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR2;
-> > +     else
-> > +             intel_dp->mst_mgr.max_source_rate = DRM_DP_MAX_RATE_HBR;
->
-> Whenever this file references a "rate", it's the rate in kHz. This is
-> confusing. Use the rate in kHz.
->
-> Also, please look at how intel_dp_source_supports_hbr* are implemented;
-> we already have all the supported source rates cached in intel_dp.
->
-> The max source rate is:
->
->         intel_dp->source_rates[intel_dp->num_source_rates - 1].
->
-> No need to do the if ladder here at all. If you like, you can add a
-> helper:
->
-> int intel_dp_max_source_rate(struct intel_dp *intel_dp)
-> {
->         return intel_dp->source_rates[intel_dp->num_source_rates - 1];
-> }
->
-> and reuse that in the supports_hbr* functions:
->
-> bool intel_dp_source_supports_hbr2(struct intel_dp *intel_dp)
-> {
->         return intel_dp_max_source_rate(intel_dp) >= 540000;
-> }
->
-> > +
-> >       drm_dp_mst_topology_mgr_set_mst(&intel_dp->mst_mgr,
-> >                                       intel_dp->is_mst);
-> >  }
-> > diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> > index 6236f212da61..ef2b328469cd 100644
-> > --- a/include/drm/drm_dp_helper.h
-> > +++ b/include/drm/drm_dp_helper.h
-> > @@ -183,6 +183,14 @@ struct drm_device;
-> >  #define DP_SUPPORTED_LINK_RATES                  0x010 /* eDP 1.4 */
-> >  # define DP_MAX_SUPPORTED_RATES                   8      /* 16-bit
-little-endian */
-> >
-> > +enum drm_dp_max_link_rate {
-> > +     DRM_DP_MAX_RATE_RBR = 0,
-> > +     DRM_DP_MAX_RATE_HBR,
-> > +     DRM_DP_MAX_RATE_HBR2,
-> > +     DRM_DP_MAX_RATE_HBR3,
-> > +     MAX_DRM_DP_MAX_RATE
-> > +};
->
-> We already have 1) actual physical rates, in kHz, and 2) the DPCD rate
-> codes, such as DP_LINK_BW_1_62.
->
-> Do *not* add a third representation. Prefer kHz throughout, and convert
-> to/from the DPCD codes near where they are needed.
->
-> > +
-> >  /* Multiple stream transport */
-> >  #define DP_FAUX_CAP                      0x020   /* 1.2 */
-> >  # define DP_FAUX_CAP_1                           (1 << 0)
-> > diff --git a/include/drm/drm_dp_mst_helper.h
-b/include/drm/drm_dp_mst_helper.h
-> > index f5e92fe9151c..e7d8c899fea0 100644
-> > --- a/include/drm/drm_dp_mst_helper.h
-> > +++ b/include/drm/drm_dp_mst_helper.h
-> > @@ -593,6 +593,10 @@ struct drm_dp_mst_topology_mgr {
-> >        * @max_payloads: maximum number of payloads the GPU can generate.
-> >        */
-> >       int max_payloads;
-> > +     /**
-> > +      * @max_source_rate: maximum link rate of source.
-> > +      */
-> > +     int max_source_rate;
->
-> Again, make this the actual rate in kHz. That's what I'd think it is by
-> reading the comment above anyway.
->
-> >       /**
-> >        * @conn_base_id: DRM connector ID this mgr is connected to. Only
-used
-> >        * to build the MST connector path value.
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
-Hi Jani,
-thanks and will send the v2 according to the suggestions.
+Signed-off-by: carlis.zhang_cp <zhangxuezhi1@yulong.com>
+---
+v2:add release te gpio after irq request fail
+---
+ drivers/staging/fbtft/fb_st7789v.c | 134 ++++++++++++++++++++++++++++++++++++-
+ drivers/staging/fbtft/fbtft.h      |   1 +
+ 2 files changed, 134 insertions(+), 1 deletion(-)
 
-Thanks
-*Koba Ko*
-
---000000000000b8306b05b9b46d02
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On Wed, Jan 13, 2021 at 7:51 PM Jani Nikula &lt;<a href=3D=
-"mailto:jani.nikula@linux.intel.com">jani.nikula@linux.intel.com</a>&gt; wr=
-ote:<br>&gt;<br>&gt; On Wed, 13 Jan 2021, Koba Ko &lt;<a href=3D"mailto:kob=
-a.ko@canonical.com">koba.ko@canonical.com</a>&gt; wrote:<br>&gt; &gt; After=
- read the link rate from MST hub, align with<br>&gt; &gt; maximum source ra=
-te.<br>&gt; &gt;<br>&gt; &gt; Signed-off-by: Koba Ko &lt;<a href=3D"mailto:=
-koba.ko@canonical.com">koba.ko@canonical.com</a>&gt;<br>&gt; &gt; ---<br>&g=
-t; &gt; =C2=A0drivers/gpu/drm/drm_dp_mst_topology.c =C2=A0 | 8 ++++++++<br>=
-&gt; &gt; =C2=A0drivers/gpu/drm/i915/display/intel_dp.c | 7 +++++++<br>&gt;=
- &gt; =C2=A0include/drm/drm_dp_helper.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 8 ++++++++<br>&gt; &gt; =C2=A0include/drm/drm_dp_mst_helper.h =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++++<br>&gt; &gt; =C2=A04 files changed, 27 in=
-sertions(+)<br>&gt; &gt;<br>&gt; &gt; diff --git a/drivers/gpu/drm/drm_dp_m=
-st_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c<br>&gt; &gt; index 69=
-82ecbf30b5..e7ceae97be85 100644<br>&gt; &gt; --- a/drivers/gpu/drm/drm_dp_m=
-st_topology.c<br>&gt; &gt; +++ b/drivers/gpu/drm/drm_dp_mst_topology.c<br>&=
-gt; &gt; @@ -3672,6 +3672,10 @@ int drm_dp_mst_topology_mgr_set_mst(struct =
-drm_dp_mst_topology_mgr *mgr, bool ms<br>&gt; &gt; =C2=A0{<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 int ret =3D 0;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 struct d=
-rm_dp_mst_branch *mstb =3D NULL;<br>&gt; &gt; + =C2=A0 =C2=A0 unsigned int =
-max_link_rate_tbl[MAX_DRM_DP_MAX_RATE + 1] =3D {<br>&gt; &gt; + =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW=
-_5_4,<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DP_LINK_BW_8=
-_1, DP_LINK_RATE_TABLE<br>&gt; &gt; + =C2=A0 =C2=A0 };<br>&gt;<br>&gt; Plea=
-se no. Read on for why.<br>&gt;<br>&gt; &gt; <br>&gt; &gt; =C2=A0 =C2=A0 =
-=C2=A0 mutex_lock(&amp;mgr-&gt;payload_lock);<br>&gt; &gt; =C2=A0 =C2=A0 =
-=C2=A0 mutex_lock(&amp;mgr-&gt;lock);<br>&gt; &gt; @@ -3693,6 +3697,9 @@ in=
-t drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool=
- ms<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 goto out_unlock;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 }<br>&gt; &gt; <br>&gt; &gt; + =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 if (mgr-&gt;max_source_rate &lt; MAX_DRM_DP_MAX_RA=
-TE)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 mgr-&gt;dpcd[1] =3D max_link_rate_tbl[mgr-&gt;max_source_rate=
-];<br>&gt;<br>&gt; Make -&gt;max_source_rate the actual physical rate in kH=
-z, and use<br>&gt; drm_dp_link_rate_to_bw_code() here.<br>&gt;<br>&gt; &gt;=
- +<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mgr-&gt;pb=
-n_div =3D drm_dp_get_vc_payload_bw(mgr-&gt;dpcd[1],<br>&gt; &gt; =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mgr-&gt;dpcd[2] &amp; DP_MAX_LANE_COUNT_MAS=
-K);<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mgr-&=
-gt;pbn_div =3D=3D 0) {<br>&gt; &gt; @@ -5422,6 +5429,7 @@ int drm_dp_mst_to=
-pology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,<br>&gt; &gt; =C2=A0 =
-=C2=A0 =C2=A0 mgr-&gt;aux =3D aux;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 mgr-&g=
-t;max_dpcd_transaction_bytes =3D max_dpcd_transaction_bytes;<br>&gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0 mgr-&gt;max_payloads =3D max_payloads;<br>&gt; &gt; + =
-=C2=A0 =C2=A0 mgr-&gt;max_source_rate =3D MAX_DRM_DP_MAX_RATE;<br>&gt; &gt;=
- =C2=A0 =C2=A0 =C2=A0 mgr-&gt;conn_base_id =3D conn_base_id;<br>&gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0 if (max_payloads + 1 &gt; sizeof(mgr-&gt;payload_mask)=
- * 8 ||<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 max_payloads + 1 &g=
-t; sizeof(mgr-&gt;vcpi_mask) * 8)<br>&gt; &gt; diff --git a/drivers/gpu/drm=
-/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c<br>&gt; =
-&gt; index 469e765a1b7b..a89b4c823123 100644<br>&gt; &gt; --- a/drivers/gpu=
-/drm/i915/display/intel_dp.c<br>&gt; &gt; +++ b/drivers/gpu/drm/i915/displa=
-y/intel_dp.c<br>&gt; &gt; @@ -5392,6 +5392,13 @@ intel_dp_configure_mst(str=
-uct intel_dp *intel_dp)<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 intel_dp-&gt;is_m=
-st =3D sink_can_mst &amp;&amp;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 i915-&gt;params.enable_dp_mst;<br>&gt; &gt; <br>&gt; &gt;=
- + =C2=A0 =C2=A0 if (intel_dp_source_supports_hbr3(intel_dp))<br>&gt; &gt; =
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 intel_dp-&gt;mst_mgr.max_source=
-_rate =3D DRM_DP_MAX_RATE_HBR3;<br>&gt; &gt; + =C2=A0 =C2=A0 else if (intel=
-_dp_source_supports_hbr2(intel_dp))<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 intel_dp-&gt;mst_mgr.max_source_rate =3D DRM_DP_MAX_RATE_=
-HBR2;<br>&gt; &gt; + =C2=A0 =C2=A0 else<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 intel_dp-&gt;mst_mgr.max_source_rate =3D DRM_DP_MAX_R=
-ATE_HBR;<br>&gt;<br>&gt; Whenever this file references a &quot;rate&quot;, =
-it&#39;s the rate in kHz. This is<br>&gt; confusing. Use the rate in kHz.<b=
-r>&gt;<br>&gt; Also, please look at how intel_dp_source_supports_hbr* are i=
-mplemented;<br>&gt; we already have all the supported source rates cached i=
-n intel_dp.<br>&gt;<br>&gt; The max source rate is:<br>&gt;<br>&gt; =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 intel_dp-&gt;source_rates[intel_dp-&gt;num_source_rate=
-s - 1].<br>&gt;<br>&gt; No need to do the if ladder here at all. If you lik=
-e, you can add a<br>&gt; helper:<br>&gt;<br>&gt; int intel_dp_max_source_ra=
-te(struct intel_dp *intel_dp)<br>&gt; {<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- return intel_dp-&gt;source_rates[intel_dp-&gt;num_source_rates - 1];<br>&g=
-t; }<br>&gt;<br>&gt; and reuse that in the supports_hbr* functions:<br>&gt;=
-<br>&gt; bool intel_dp_source_supports_hbr2(struct intel_dp *intel_dp)<br>&=
-gt; {<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 return intel_dp_max_source_rate(i=
-ntel_dp) &gt;=3D 540000;<br>&gt; }<br>&gt;<br>&gt; &gt; +<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 drm_dp_mst_topology_mgr_set_mst(&amp;intel_dp-&gt;mst_mgr=
-,<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-ntel_dp-&gt;is_mst);<br>&gt; &gt; =C2=A0}<br>&gt; &gt; diff --git a/include=
-/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h<br>&gt; &gt; index 6236f=
-212da61..ef2b328469cd 100644<br>&gt; &gt; --- a/include/drm/drm_dp_helper.h=
-<br>&gt; &gt; +++ b/include/drm/drm_dp_helper.h<br>&gt; &gt; @@ -183,6 +183=
-,14 @@ struct drm_device;<br>&gt; &gt; =C2=A0#define DP_SUPPORTED_LINK_RATE=
-S =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x010 /* eD=
-P 1.4 */<br>&gt; &gt; =C2=A0# define DP_MAX_SUPPORTED_RATES =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 8 =C2=A0 =C2=A0 =C2=A0/* 1=
-6-bit little-endian */<br>&gt; &gt; <br>&gt; &gt; +enum drm_dp_max_link_rat=
-e {<br>&gt; &gt; + =C2=A0 =C2=A0 DRM_DP_MAX_RATE_RBR =3D 0,<br>&gt; &gt; + =
-=C2=A0 =C2=A0 DRM_DP_MAX_RATE_HBR,<br>&gt; &gt; + =C2=A0 =C2=A0 DRM_DP_MAX_=
-RATE_HBR2,<br>&gt; &gt; + =C2=A0 =C2=A0 DRM_DP_MAX_RATE_HBR3,<br>&gt; &gt; =
-+ =C2=A0 =C2=A0 MAX_DRM_DP_MAX_RATE<br>&gt; &gt; +};<br>&gt;<br>&gt; We alr=
-eady have 1) actual physical rates, in kHz, and 2) the DPCD rate<br>&gt; co=
-des, such as DP_LINK_BW_1_62.<br>&gt;<br>&gt; Do *not* add a third represen=
-tation. Prefer kHz throughout, and convert<br>&gt; to/from the DPCD codes n=
-ear where they are needed.<br>&gt;<br>&gt; &gt; +<br>&gt; &gt; =C2=A0/* Mul=
-tiple stream transport */<br>&gt; &gt; =C2=A0#define DP_FAUX_CAP =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x020 =C2=
-=A0 /* 1.2 */<br>&gt; &gt; =C2=A0# define DP_FAUX_CAP_1 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (=
-1 &lt;&lt; 0)<br>&gt; &gt; diff --git a/include/drm/drm_dp_mst_helper.h b/i=
-nclude/drm/drm_dp_mst_helper.h<br>&gt; &gt; index f5e92fe9151c..e7d8c899fea=
-0 100644<br>&gt; &gt; --- a/include/drm/drm_dp_mst_helper.h<br>&gt; &gt; ++=
-+ b/include/drm/drm_dp_mst_helper.h<br>&gt; &gt; @@ -593,6 +593,10 @@ struc=
-t drm_dp_mst_topology_mgr {<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0* @max_=
-payloads: maximum number of payloads the GPU can generate.<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0*/<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 int max_payloa=
-ds;<br>&gt; &gt; + =C2=A0 =C2=A0 /**<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0* @=
-max_source_rate: maximum link rate of source.<br>&gt; &gt; + =C2=A0 =C2=A0 =
-=C2=A0*/<br>&gt; &gt; + =C2=A0 =C2=A0 int max_source_rate;<br>&gt;<br>&gt; =
-Again, make this the actual rate in kHz. That&#39;s what I&#39;d think it i=
-s by<br>&gt; reading the comment above anyway.<br>&gt;<br>&gt; &gt; =C2=A0 =
-=C2=A0 =C2=A0 /**<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0* @conn_base_id: =
-DRM connector ID this mgr is connected to. Only used<br>&gt; &gt; =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0* to build the MST connector path value.<br>&gt;<br>&gt=
-; --<br><div>&gt; Jani Nikula, Intel Open Source Graphics Center</div><div>=
-Hi Jani, <br></div><div>thanks and will send the v2 according to the sugges=
-tions.</div><div><br></div><div>Thanks</div><div><i><b>Koba Ko</b></i><br><=
-/div></div>
-
---000000000000b8306b05b9b46d02--
-
---===============1529834623==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 3a280cc..5426276 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -9,9 +9,12 @@
+ #include <linux/delay.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/interrupt.h>
++#include <linux/completion.h>
+ #include <linux/module.h>
+ #include <video/mipi_display.h>
+-
++#include <linux/gpio/consumer.h>
+ #include "fbtft.h"
+ 
+ #define DRVNAME "fb_st7789v"
+@@ -66,6 +69,38 @@ enum st7789v_command {
+ #define MADCTL_MX BIT(6) /* bitmask for column address order */
+ #define MADCTL_MY BIT(7) /* bitmask for page address order */
+ 
++#define SPI_PANEL_TE_TIMEOUT	400
++static struct mutex te_mutex;/*mutex for tearing line*/
++static struct completion spi_panel_te;
++
++static irqreturn_t spi_panel_te_handler(int irq, void *data)
++{
++	complete(&spi_panel_te);
++	return IRQ_HANDLED;
++}
++
++static void enable_spi_panel_te_irq(struct fbtft_par *par, bool enable)
++{
++	static int te_irq_count;
++
++	if (!par->gpio.te) {
++		pr_err("%s:%d,SPI panel TE GPIO not configured\n",
++		       __func__, __LINE__);
++		return;
++	}
++
++	mutex_lock(&te_mutex);
++
++	if (enable) {
++		if (++te_irq_count == 1)
++			enable_irq(gpiod_to_irq(par->gpio.te));
++	} else {
++		if (--te_irq_count == 0)
++			disable_irq(gpiod_to_irq(par->gpio.te));
++	}
++	mutex_unlock(&te_mutex);
++}
++
+ /**
+  * init_display() - initialize the display controller
+  *
+@@ -82,6 +117,29 @@ enum st7789v_command {
+  */
+ static int init_display(struct fbtft_par *par)
+ {
++	int rc;
++	struct device *dev = par->info->device;
++
++	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
++	if (par->gpio.te) {
++		init_completion(&spi_panel_te);
++		mutex_init(&te_mutex);
++		rc = devm_request_irq(dev,
++				      gpiod_to_irq(par->gpio.te),
++				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
++				     "TE_GPIO", par);
++		if (rc) {
++			pr_err("TE request_irq failed.\n");
++			devm_gpiod_put(dev, par->gpio.te);
++			par->gpio.te = NULL;
++		} else {
++			disable_irq_nosync(gpiod_to_irq(par->gpio.te));
++			pr_info("TE request_irq completion.\n");
++		}
++	} else {
++		pr_err("%s:%d, TE gpio not specified\n",
++		       __func__, __LINE__);
++	}
+ 	/* turn off sleep mode */
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	mdelay(120);
+@@ -137,6 +195,9 @@ static int init_display(struct fbtft_par *par)
+ 	 */
+ 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+ 
++    /*Tearing Effect Line On*/
++	if (par->gpio.te)
++		write_reg(par, 0x35, 0x00);
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+ 
+ 	if (HSD20_IPS)
+@@ -145,6 +206,76 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
++/*****************************************************************************
++ *
++ *   int (*write_vmem)(struct fbtft_par *par);
++ *
++ *****************************************************************************/
++
++/* 16 bit pixel over 8-bit databus */
++int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
++{
++	u16 *vmem16;
++	__be16 *txbuf16 = par->txbuf.buf;
++	size_t remain;
++	size_t to_copy;
++	size_t tx_array_size;
++	int i;
++	int rc, ret = 0;
++	size_t startbyte_size = 0;
++
++	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
++		      __func__, offset, len);
++
++	remain = len / 2;
++	vmem16 = (u16 *)(par->info->screen_buffer + offset);
++
++	if (par->gpio.dc)
++		gpiod_set_value(par->gpio.dc, 1);
++
++	/* non buffered write */
++	if (!par->txbuf.buf)
++		return par->fbtftops.write(par, vmem16, len);
++
++	/* buffered write */
++	tx_array_size = par->txbuf.len / 2;
++
++	if (par->startbyte) {
++		txbuf16 = par->txbuf.buf + 1;
++		tx_array_size -= 2;
++		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
++		startbyte_size = 1;
++	}
++
++	while (remain) {
++		to_copy = min(tx_array_size, remain);
++		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
++			to_copy, remain - to_copy);
++
++		for (i = 0; i < to_copy; i++)
++			txbuf16[i] = cpu_to_be16(vmem16[i]);
++
++		vmem16 = vmem16 + to_copy;
++		if (par->gpio.te) {
++			enable_spi_panel_te_irq(par, true);
++			reinit_completion(&spi_panel_te);
++			rc = wait_for_completion_timeout(&spi_panel_te,
++							 msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
++			if (rc == 0)
++				pr_err("wait panel TE time out\n");
++		}
++		ret = par->fbtftops.write(par, par->txbuf.buf,
++								startbyte_size + to_copy * 2);
++		if (par->gpio.te)
++			enable_spi_panel_te_irq(par, false);
++		if (ret < 0)
++			return ret;
++		remain -= to_copy;
++	}
++
++	return ret;
++}
++
+ /**
+  * set_var() - apply LCD properties like rotation and BGR mode
+  *
+@@ -259,6 +390,7 @@ static int blank(struct fbtft_par *par, bool on)
+ 	.gamma = HSD20_IPS_GAMMA,
+ 	.fbtftops = {
+ 		.init_display = init_display,
++		.write_vmem = st7789v_write_vmem16_bus8,
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 76f8c09..93bac05 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -212,6 +212,7 @@ struct fbtft_par {
+ 		struct gpio_desc *wr;
+ 		struct gpio_desc *latch;
+ 		struct gpio_desc *cs;
++		struct gpio_desc *te;
+ 		struct gpio_desc *db[16];
+ 		struct gpio_desc *led[16];
+ 		struct gpio_desc *aux[16];
+-- 
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1529834623==--
