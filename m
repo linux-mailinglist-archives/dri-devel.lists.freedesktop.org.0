@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8088B303D8A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 13:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707C7303D91
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 13:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 360AD89C2C;
-	Tue, 26 Jan 2021 12:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88F176E424;
+	Tue, 26 Jan 2021 12:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C195F89C2C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:46:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A2F072311D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:46:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7357B89F99
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:48:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5B5B82310E
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:48:12 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 8F1F186731; Tue, 26 Jan 2021 12:46:32 +0000 (UTC)
+ id 5241B86731; Tue, 26 Jan 2021 12:48:12 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211349] IB test failed on sdma0 ! AMDGPU driver for Raven APU
  (ryzen 2400G) hangs!
-Date: Tue, 26 Jan 2021 12:46:32 +0000
+Date: Tue, 26 Jan 2021 12:48:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -36,7 +36,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211349-2300-YbGUVOSmOq@https.bugzilla.kernel.org/>
+Message-ID: <bug-211349-2300-3O7woL5EyY@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211349-2300@https.bugzilla.kernel.org/>
 References: <bug-211349-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -61,10 +61,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211349
 
---- Comment #1 from bolando@163.com ---
-Created attachment 294855
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294855&action=edit
-Main Error
+--- Comment #2 from bolando@163.com ---
+Created attachment 294857
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294857&action=edit
+Kernel log without kfd fd kfd: added device 1002:15dd   and amdgpu: Topology:
+Add APU node [0x0:0x0]
 
 -- 
 You may reply to this email to add a comment.
