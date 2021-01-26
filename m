@@ -2,112 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62435303822
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 09:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375D230380E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 09:38:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42766E453;
-	Tue, 26 Jan 2021 08:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02B16E42F;
+	Tue, 26 Jan 2021 08:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2072.outbound.protection.outlook.com [40.107.20.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42B286E3CE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 05:22:15 +0000 (UTC)
+ (mail-db8eur05on2066.outbound.protection.outlook.com [40.107.20.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C5D89BB3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 06:25:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gr7r32zE7vudvy6nnvT3/x4zuEns4MXyASx44/SqNthJmvFqY8CGou/672HaqWyBnIX49MSJtMY13z15+D+GSwKr4A1ndEDxYKwbONdaFE6TIWlJNR1lq3nMlj0xxsAJ8VBTEBzruuxjUnesdzfYhbfQF1q0ScTFLICuBqmievvZKjlNzg8VtmNxh07IirqVP9yapNZGs9QKOi9vyGzS2XA+g1bvXburruQmu71hnTPVJ3r6ES0KkRdD2Y6XQJcCJaEcFCC1sqDauptXnlW9ZH/LWOUKfhEug+6INAwlPMubtJygXmCNln0stRID9IJOccPMzW2B4OI2LZyT/udAyg==
+ b=EQHXeAhqYzLERRgXnm1GQprnMlz0ca1GLK3KZmrj6/dEHgy3zeRLUQhbL6UVgXqouSzQeeQQXESdWz6WSYu4g1ywcyqDWD3N2BFOEXzcr8IyyPg19DusGJbuJkYE0OE3J4zuH1fScTatg7t0+nwOSEArklJYgY3g3J9n50FJVUTsAVcM+Cp+x0OjWpAKKogpH2CezzfI07z331YQUAhPkfAz9KtItz6LJ6plqEC3DuxgnWOYHbV6gZPyCKZqsHLYa8aQcf6MSIGp9XgCvkhnNat24PUN0EBos+3ms9fAsK0nkUe5k+G0y39t7ZuHJUgo9f5IiO+JoOJtjXdAs7HtIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U/Vh3lWp5AtBt98yhtXCON8fB7T7LlsT7vwen9eQO2M=;
- b=fFNlwGJiUnjlvDJSa3aV0cThCUa8822W50yrBbNfW3zyLN2FuB56w4hM/wn0U1gmjjebHnbJxo6Gq2HNuVHOHT1bFyoJLMTgeo3CQdLVJOgou2crfuwrTWxhdLfRtiWC0LAK2dRKP8t4hyaT014pK0PKuveU84Gm5JcvpuvH003plWGsgk19gg7qPrUdY5ETj3VNxCrNsh/MqDWMOCI1F78wTOpQpoql3xhnbJu/QGYhtuyt4t90mIPhPW6zMydPknvhzzj7YxbwZNLPBK/Lb7Yr5PuM1nQyeIRuZYVYoXUq3d6SDksK3r7SLQEKm9wXPXsfppfDRGvOQX3bNStvrg==
+ bh=tTybiWpUDidfdS1wuNmXGgcttRiPtZOF5C7YeQ6Srqs=;
+ b=m5fJvGPxvjvV8WwXO7lyCoipQM0fD025GOMs/6/Iju/7lLFqLf7VB8WPCGledTLutmsPv7PJLaWBMNpshW6WsRAaLnyunzao7Dov/MRWDfiMcBfbAAIBmU6RSiWR3DNt93ub5WED4DrEYu16X46gYwm1fjnvbgMa6Vqq687H4QgSUMhW0qYKpQT38e+OF619zW5pjZgPMTYJ4MdNeHZJR+XTJQYBr5m3pRIMHi/DwMl6PfoAiMwi/dnBcoLJRr7AZ5hI+DEZKRY6caOFvPo60gPtZKB/HXg6JZSyFurMMGLZhP6ZeL8uPUNbnCovSnDnbDJx1zSzXeeGZBVieiQIdg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U/Vh3lWp5AtBt98yhtXCON8fB7T7LlsT7vwen9eQO2M=;
- b=B8N5Kc3vrruDK9LNEIh00jVc7EkLsNVDCUedT0BMjv7rb3imvgJ7x/v/f7AYIrZnX+A9nIjx2xWfXmW0J0splDE8KyV0qgMlk6Efc2MOTzwb393VjgcSzWyvsm7cOrVFprdwdikwNINt9CL4NoJxUA3Pi347mX9Qv/KoOA07h7A=
-Authentication-Results: oss.nxp.com; dkim=none (message not signed)
- header.d=none;oss.nxp.com; dmarc=none action=none header.from=nxp.com;
+ bh=tTybiWpUDidfdS1wuNmXGgcttRiPtZOF5C7YeQ6Srqs=;
+ b=H9c4W83+mOxPXwpiVuDkGOLvLQxbsGhgU09sXri+TCiygrvvVga9TcPxOX7x9xAaiKnL7QcG6+z+vFckcB46JyT/0n9zExIdmYYphEsQ6FdEvY0+7eQhfnkXmnrEParWKhqjDfA6t7fjIRx+MXOD443dJVZh2I4htGVnR/ZAs6I=
+Authentication-Results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB6990.eurprd04.prod.outlook.com (2603:10a6:803:138::16)
+ by VI1PR04MB2973.eurprd04.prod.outlook.com (2603:10a6:802:10::31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Tue, 26 Jan
- 2021 05:22:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Tue, 26 Jan
+ 2021 06:25:34 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3784.017; Tue, 26 Jan 2021
- 05:22:13 +0000
-Message-ID: <9233b33c789a2b207a437df9abcff1dd7fd89b16.camel@nxp.com>
-Subject: Re: [PATCH v6 5/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
+ 06:25:34 +0000
 From: Liu Ying <victor.liu@nxp.com>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Date: Tue, 26 Jan 2021 13:20:32 +0800
-In-Reply-To: <20210125134806.w77bdrx2wbb4kirz@fsr-ub1864-141>
-References: <1611213263-7245-1-git-send-email-victor.liu@nxp.com>
- <1611213263-7245-6-git-send-email-victor.liu@nxp.com>
- <20210125134806.w77bdrx2wbb4kirz@fsr-ub1864-141>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+To: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
+Date: Tue, 26 Jan 2021 14:14:45 +0800
+Message-Id: <1611641691-17554-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
 X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR03CA0122.apcprd03.prod.outlook.com
- (2603:1096:4:91::26) To VI1PR04MB3983.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR03CA0108.apcprd03.prod.outlook.com
+ (2603:1096:4:7c::36) To VI1PR04MB3983.eurprd04.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from blueberry.ap.freescale.net (119.31.174.66) by
- SG2PR03CA0122.apcprd03.prod.outlook.com (2603:1096:4:91::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.7 via Frontend Transport; Tue, 26 Jan 2021 05:22:07 +0000
+Received: from localhost.localdomain (119.31.174.66) by
+ SG2PR03CA0108.apcprd03.prod.outlook.com (2603:1096:4:7c::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.3805.6 via Frontend Transport; Tue, 26 Jan 2021 06:25:29 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b9ca8570-6b5b-443e-827a-08d8c1ba5609
-X-MS-TrafficTypeDiagnostic: VI1PR04MB6990:
+X-MS-Office365-Filtering-Correlation-Id: ebe4e434-1dd1-46ac-c8b0-08d8c1c33002
+X-MS-TrafficTypeDiagnostic: VI1PR04MB2973:
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB699014674158B9C467F1B4E298BC0@VI1PR04MB6990.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB2973ABD1593D47FF1751466C98BC0@VI1PR04MB2973.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lFFs2EDhqikDwZCjVzz8GFBO1APSiQCh0poSSqy37Ao2FlQ6xPg4+wnE3JNZT6k4ZTIf4bz5ss+DvLVwWe0zKkrKnwcMAE2yI0wvVkco8O9OdcKBniAk4eaJBdEC3zjV6yGPMROjmXSw9NVx3qrRcMtzheGzGgyMIALJyUSo82v6ifE5lusqVhEjSGKgi7YsKtLpLccB5L3yA2w/fX5oDCPO50C0ZmcgaXV0Lr5eVDC+xrpDiyiv2kqI9HfmZkvUmkok/bvD8YagdzzHCt+W65aAUCrR6hjZ24bM9M5wIK9AyHLgE+zGjNtsIpoFyXq5OALI5YYxweVaNUlMrEHHdTu2BymEaigZH7Gh7pJ09749c3kq37nRwywLQFcVdKeyU0UWu12/x1dN/463pvFtYLNiD9SmVFT7ByX7dUCc12oCCAO4yjcibzDoyA7niyKIn+x5CmFWFk5usSzyaDaRVB/faDs+lUQBHF7sX8lEpPlFx8FvfWpBhiFp6Zja5PnjfuCN7TCO26bqW5gGpfKxLlT+5eDMv8hjIirqF5xmGz7zuyW45RffoGySUjIoVeWxdYrKYrpxClK3TljXO81yHTQlUFICD0U4qg25yX+tr8A=
+X-Microsoft-Antispam-Message-Info: 6IqD47xe33brjAx+ycie2JjgQ6d2lyB/pgMeneVABJQTQCY3geVc82MmeR6fB3ePkF3iaW6PUEGvAmPMsIX1yw8WDbYbABHh7DoslWpPYd/tqqSJhqcyWU8MZJXO4a72J36G947PcvrN6YKQI4m4w2d9iSaxlt5vhKHKzSfgGLEFqBxFLY8RuYVBnAcIPqWZIr28eZovciXhrhEf6EnplB/t1u9t/IDQMu9sm2fz5f6/DdIhFbybZ6CleePpdRW9EfZyRRSJcyp8lwzhTYSEyKSrkZVmZEnQXAza/J/zb0A3rOw09xbdXizSbDUb9tFj1ZCkl1TBK9n+hKuS8pReEI3iJvpnShJhhWvzpH+4oMpBLNc8HdrtPq2raD3IRrHmm53EY/NNaxaGlppfl49SiVvz+CK3vQHiuPkox1tbh4NfVoo13hkrMd9jJOFKfemZ/Wwk6AOGbGcDD3UaUTXfBgNi74APCXxm3geGaYFpjbx26cl5MXQ1e+rKKDVJp3pACe4jRjoHNTk91o9WFFulTw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(5660300002)(26005)(6486002)(66556008)(66946007)(36756003)(52116002)(66476007)(7416002)(83380400001)(2906002)(6506007)(30864003)(2616005)(186003)(8676002)(86362001)(8936002)(6666004)(956004)(478600001)(4326008)(316002)(6862004)(16526019)(6512007)(966005);
+ SFS:(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(6506007)(83380400001)(4326008)(6512007)(86362001)(2906002)(52116002)(478600001)(956004)(2616005)(26005)(186003)(966005)(16526019)(5660300002)(8676002)(69590400011)(316002)(7416002)(36756003)(66946007)(6666004)(66476007)(6486002)(66556008)(8936002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WUFRcjc4anZlT1NHams3dXJHMGE4aXJmTmlrR1oyL3d6U3RYT1BGdG5qdnZy?=
- =?utf-8?B?eFgyTkZnOEdIdFdCL3VLK2c3Q25HMlZwdXNxcUg1T3g5a0NiOS9nV1RtZVpn?=
- =?utf-8?B?NVY3VkEyVmsyWnZ6YU16cHVidGIxdWlPUXFLUVI2WlpzbWtFanlabTRyUnM2?=
- =?utf-8?B?cUc3Z0djdkpZVytPN2dMR2tJaFY4aTBFSzI1U3NxVWEyNU94d1pmcXJJUkNo?=
- =?utf-8?B?dW80ZExBQStDK0dzdjBwVzh1OGFSS1pHMjdmd3AvRGs0TlRWT3FRM0NOeUZ4?=
- =?utf-8?B?WnE2dEJmKzRsS1ZCWnJGOWFlckJnS2w3RHBPL0Y1a0dDbU1neUFpemlQT1ZV?=
- =?utf-8?B?RXZ3QkdqeVBDQVdyZkw1cG54MnRCWVR5QXR0NTBBTkdqUzl3ek9XaDZ1TmFI?=
- =?utf-8?B?dzgvS3h1TWpxNm5ZakluQVBwQTRCY0ZubDQvZkNvUWtSQzFCTFNwajVzR2Fk?=
- =?utf-8?B?SVI0eTRocUJxSVBBMWQzTkR0UGltL0IvdmI1UDE2MjBPbCtDcElKemZHR2hU?=
- =?utf-8?B?cEcyL29QRTArYlhYbzhLUlBkdk8yNWFnU2IzRTNaZ3VvRU5TRnlBNi9EaTVX?=
- =?utf-8?B?Vytjd2swTmk4UkEzeXZnNXF4Y1VGU2k4cUQ2T2NYdUhybnBudTloTmFuazFz?=
- =?utf-8?B?RDMyMEtDd0hGaW1ZYUpYNUNVTTE3cUJhM3Eza1d1b0JEckl0YmZKOWhrdktv?=
- =?utf-8?B?MnRuZ1ZhM0gzWVJ0MVlrQ0NxYlpTbzJMRVB2dmY1Y3lsZG8valNxNWJJYzNC?=
- =?utf-8?B?Ynhkalp0ZlZYV3dwRDI3dTlIbXhSU0lqTThyMFN5QjdBL3ZMT3NzcTMxWUJx?=
- =?utf-8?B?SC9ndjRIdzRYMjU4MW5LYjV3cE9DR2t2aVl2enVYVE5JY0E1Z2hoM1l2YUJZ?=
- =?utf-8?B?WUJMYlRSbjhKR2w0TDJMZExlNDNkdldnRkMxcjRwMUpVUno1SHlWeTVTQ3dU?=
- =?utf-8?B?REhlcEF0VjhUNmpIdzBPd3UwL1pWUGVlSDJkSUZwTXJVbDBSYzYrc2ZqaEkv?=
- =?utf-8?B?OGtqYWp5SzhXemNRa3kraXZUdUNWcHlHRWQ2MHNoeXlPZWFtbU9tSi94dFV0?=
- =?utf-8?B?MU1tcmtlNkptUFRnNENpRFRxcUpKRllyYnE4d0ZhWWN2dkI3S21tWTZMemZ1?=
- =?utf-8?B?TUg5cG9WRFUvYU1zSFUzbEZ0K3ZXZitYaHJXQUw4emZCRFlDNzM0OE5rY09L?=
- =?utf-8?B?RWFuN2IzZkc1OUtJYzFLQml0RHQwbEtjYitnT1RhS2Y5dTByNW1KTlZjRC95?=
- =?utf-8?B?Ry8xcXBmTXErWjZ4YU9vdjUxcmh2akdsbk55T0gwa3d5d3BVTS81ZHBDaDFV?=
- =?utf-8?B?cXFtLzJsWDdEMm0rYS9KbWRBUS8rNVREUU1JK2FvU2ZVVkxZdEZOWi82bG1R?=
- =?utf-8?B?UERRdlMxNU5qZE55SGJIOHdqSzV3R0o1QVUyRFpxSlRmTjk5Rk1ZVTVTZlBW?=
- =?utf-8?Q?9uxK8cG7?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?c43rFhKh6UZY2Yy59GNLGKwe9bYldntp5QSICES7FEprOlb+e0FSsrUsxhZ+?=
+ =?us-ascii?Q?jtkw42OfK2xvAj8od+56TTlnUu27DYJglzpfy9OWb/oTWXwmv9h8kJo6V1nk?=
+ =?us-ascii?Q?u6CWOwdRGVGC3VVMgYqti3vGCfmCjGC7FjuEjEvLrstto76Z6R4FQ0YZ4qVG?=
+ =?us-ascii?Q?l5X1w0xCxr5Xi+9kE+xSbl1SEnrxfmClOtp8V/PhkjnF8b2qxNhZhnSTDafX?=
+ =?us-ascii?Q?L5jzqoVDloSvyUc44fJzJOHK6EQZpykAUdA1G12ZBe36F+po4vMfJT73NR32?=
+ =?us-ascii?Q?Y8kwUf7yFGCqIfmd3c9b3QPl3Igr2dpMuGuiafyvYLIQxJ9Qk122XYljHJ0k?=
+ =?us-ascii?Q?1HBGFmr/XL3GNF4p65F8SXizBxWf4xLMkmGRgDpy41Z/ppWy7IzCQVMeRvQh?=
+ =?us-ascii?Q?KycGS3CbDIMNG404ECRfMocfZd1FMkLgWInl8jbF2+uZd4mvkNlOwAkwKidV?=
+ =?us-ascii?Q?S/GTxI52LptTc0BgQRJCRXNbWLKmqTcWX4kEM6BeHOYrpi1f4UKtOhsfqOWT?=
+ =?us-ascii?Q?8V/TezVQoXBc/dV/n1d1H/lUxvljj7tAzlXEJvzZMQUtw4GCSMj0ptNZqaUg?=
+ =?us-ascii?Q?RHtzg2fXC6q/VQ9y7eNO6QztMSXgG35Gl2JkyRgMW726V2u99DdrQMawxFAK?=
+ =?us-ascii?Q?KVXcOv86J0V1b+l9DyjO7xGtWcy7Cn7FdFHMZnkV58wARMqr89p7SbN5HNsJ?=
+ =?us-ascii?Q?Ur4Lpe9p7l4F5IMudxzrdYacVnsBOU6xFTY/rTk7MLSh6lUp1K20KNYcIavL?=
+ =?us-ascii?Q?+vG7W7kmZWc6+l5wKbHAQ5ucCkJh2oJGe5j0jnTWyXvAAncCQ1TvoHWowTmD?=
+ =?us-ascii?Q?2BcieFCZqVLCA8ixe17ri9nC3IpLwB/8IVxCojVsAy7XWJMxZ0ZuxYLFil1D?=
+ =?us-ascii?Q?3zKwiSTL/rhdPHMpK2AzU6Ljl2n/6O3oAG8nucOsj/z/+RLLmYIf2CbRu7Vq?=
+ =?us-ascii?Q?jgYym5AQNulSD1ID0P9ijoyPvyPxrCicKESngi2/R8iSCpzuN7Jk23f8bGtp?=
+ =?us-ascii?Q?oLQ9dYVQNUFbRg3hOy+LiC7hMqrku8y090o4+OKJAWx4ETTK/EebXOmT/SQG?=
+ =?us-ascii?Q?huYR4DC8?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9ca8570-6b5b-443e-827a-08d8c1ba5609
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebe4e434-1dd1-46ac-c8b0-08d8c1c33002
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 05:22:13.1222 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 06:25:34.4225 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iefcsRAjy9acTL7JY9a+WNNiP4kHViyoAmM1GjTS6Wca8yFDOVetOUKhsaps2JExURJzW3Q7ByLgF5guXu28ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6990
+X-MS-Exchange-CrossTenant-UserPrincipalName: pr7uh/VhX7iKiAoSMzE/pGAfUlnGo+st0vw6/mZlpflio2Sjyzsy8ctBkcxRIagkIBgQVFmdn9vnZP45bqqM0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2973
 X-Mailman-Approved-At: Tue, 26 Jan 2021 08:37:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,315 +113,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tzimmermann@suse.de, airlied@linux.ie,
- s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, linux-imx@nxp.com,
- guido.gunther@puri.sm, shawnguo@kernel.org, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: tzimmermann@suse.de, airlied@linux.ie, s.hauer@pengutronix.de,
+ robh+dt@kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
+ laurentiu.palcu@oss.nxp.com, guido.gunther@puri.sm, shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-01-25 at 15:48 +0200, Laurentiu Palcu wrote:
-> Hi Liu Ying,
-> 
-> Just some minor comments below.
-> 
-> On Thu, Jan 21, 2021 at 03:14:22PM +0800, Liu Ying wrote:
-> > This patch introduces i.MX8qm/qxp Display Processing Unit(DPU) DRM support.
-> > 
-> > DPU is comprised of two main components that include a blit engine for
-> > 2D graphics accelerations(with composition support) and a display controller
-> > for display output processing, as well as a command sequencer.  Outside of
-> > DPU, optional prefetch engines, a.k.a, Prefetch Resolve Gasket(PRG) and
-> > Display Prefetch Resolve(DPR), can fetch data from memory prior to some DPU
-> > fetchunits of blit engine and display controller.  The prefetch engines
-> > support reading linear formats and resolving Vivante GPU tile formats.
-> > 
-> > This patch adds kernel modesetting support for the display controller part.
-> > The driver supports two CRTCs per display controller, planes backed by
-> > four fetchunits(decode0/1, fetchlayer, fetchwarp), fetchunit allocation
-> > logic for the two CRTCs, prefetch engines(with tile resolving supported),
-> > plane upscaling/deinterlacing/yuv2rgb CSC/alpha blending and CRTC gamma
-> > correction.  The registers of the controller is accessed without command
-> > sequencer involved, instead just by using CPU.
-> > 
-> > Reference manual can be found at:
-> > https://www.nxp.com/webapp/Download?colCode=IMX8DQXPRM
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v5->v6:
-> > * Do not use macros where possible. (Laurentiu)
-> > * Break dpu_plane_atomic_check() into some smaller functions. (Laurentiu)
-> > * Address some minor comments from Laurentiu.
-> > * Add dpu_crtc_err() helper marco to tell dmesg which CRTC generates error.
-> > * Drop calling dev_set_drvdata() from dpu_drm_bind/unbind() as it is done
-> >   in dpu_drm_probe().
-> > * Some trivial tweaks.
-> > 
-> > v4->v5:
-> > * Rebase up onto the latest drm-misc-next branch and remove the hook to
-> >   drm_atomic_helper_legacy_gamma_set(), because it was dropped by the newly
-> >   landed commit 'drm: automatic legacy gamma support'.
-> > * Remove a redundant blank line from dpu_plane_atomic_update().
-> > 
-> > v3->v4:
-> > * No change.
-> > 
-> > v2->v3:
-> > * Fix build warnings Reported-by: kernel test robot <lkp@intel.com>.
-> > * Drop build dependency on IMX_SCU, as dummy SCU functions have been added in
-> >   header files by the patch 'firmware: imx: add dummy functions' which has
-> >   landed in linux-next/master branch.
-> > 
-> > v1->v2:
-> > * Add compatible for i.MX8qm DPU, as this is tested with i.MX8qm LVDS displays.
-> >   (Laurentiu)
-> > * Fix PRG burst size and stride. (Laurentiu)
-> > * Put 'ports' OF node to fix the bail-out logic in dpu_drm_probe(). (Laurentiu)
-> > 
-> >  drivers/gpu/drm/imx/Kconfig               |    1 +
-> >  drivers/gpu/drm/imx/Makefile              |    1 +
-> >  drivers/gpu/drm/imx/dpu/Kconfig           |   10 +
-> >  drivers/gpu/drm/imx/dpu/Makefile          |   10 +
-> >  drivers/gpu/drm/imx/dpu/dpu-constframe.c  |  171 +++++
-> >  drivers/gpu/drm/imx/dpu/dpu-core.c        | 1094 +++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-crtc.c        |  967 +++++++++++++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-crtc.h        |   66 ++
-> >  drivers/gpu/drm/imx/dpu/dpu-disengcfg.c   |  117 +++
-> >  drivers/gpu/drm/imx/dpu/dpu-dprc.c        |  718 +++++++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-dprc.h        |   40 ++
-> >  drivers/gpu/drm/imx/dpu/dpu-drv.c         |  292 ++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-drv.h         |   28 +
-> >  drivers/gpu/drm/imx/dpu/dpu-extdst.c      |  299 ++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c |  294 ++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetcheco.c    |  224 ++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c  |  154 ++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.c   |  609 ++++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.h   |  191 +++++
-> >  drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c   |  250 +++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-framegen.c    |  395 +++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-gammacor.c    |  223 ++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-hscaler.c     |  275 ++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-kms.c         |  540 ++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-kms.h         |   23 +
-> >  drivers/gpu/drm/imx/dpu/dpu-layerblend.c  |  348 +++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-plane.c       |  799 +++++++++++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-plane.h       |   56 ++
-> >  drivers/gpu/drm/imx/dpu/dpu-prg.c         |  433 ++++++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-prg.h         |   45 ++
-> >  drivers/gpu/drm/imx/dpu/dpu-prv.h         |  233 ++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-tcon.c        |  250 +++++++
-> >  drivers/gpu/drm/imx/dpu/dpu-vscaler.c     |  308 ++++++++
-> >  drivers/gpu/drm/imx/dpu/dpu.h             |  385 ++++++++++
-> >  34 files changed, 9849 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
-> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
-> > 
-> 
-> [...]
-> 
-> > diff --git a/drivers/gpu/drm/imx/dpu/dpu-core.c b/drivers/gpu/drm/imx/dpu/dpu-core.c
-> > new file mode 100644
-> > index 00000000..7dab6cc
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/imx/dpu/dpu-core.c
-> 
-> [...]
-> 
-> > +static int dpu_get_irqs(struct platform_device *pdev, struct dpu_soc *dpu)
-> > +{
-> > +	unsigned int i, j;
-> > +
-> > +	/* do not get the reserved irq */
-> > +	for (i = 0, j = 0; i < DPU_IRQ_COUNT - 1; i++, j++) {
-> > +		if (i == DPU_IRQ_RESERVED)
-> > +			j++;
-> > +
-> > +		dpu->irq[j] = platform_get_irq(pdev, i);
-> > +		if (dpu->irq[j] < 0) {
-> > +			dev_err_probe(dpu->dev, dpu->irq[j],
-> > +				      "failed to get irq\n");
-> > +			return dpu->irq[i];
-> 
-> I think you want 'return dpu->irq[j]'.
+Hi,
 
-Good catch.
 
-> 
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> [...]
-> 
-> > +static const struct dpu_irq_handler_map {
-> > +	void (*handler)(struct irq_desc *desc);
-> > +} dpu_irq_handler_maps[DPU_IRQ_COUNT] = {
-> > +	{},						/* 0 */
-> > +	{},						/* 1 */
-> > +	{},						/* 2 */
-> > +	{dpu_extdst0_shdload_irq_handler},		/* 3 */
-> > +	{},						/* 4 */
-> > +	{},						/* 5 */
-> > +	{dpu_extdst4_shdload_irq_handler},		/* 6 */
-> > +	{},						/* 7 */
-> > +	{},						/* 8 */
-> > +	{dpu_extdst1_shdload_irq_handler},		/* 9 */
-> > +	{},						/* 10 */
-> > +	{},						/* 11 */
-> > +	{dpu_extdst5_shdload_irq_handler},		/* 12 */
-> > +	{},						/* 13 */
-> > +	{},						/* 14 */
-> > +	{dpu_disengcfg_shdload0_irq_handler},		/* 15 */
-> > +	{dpu_disengcfg_framecomplete0_irq_handler},	/* 16 */
-> > +	{dpu_disengcfg_seqcomplete0_irq_handler},	/* 17 */
-> > +	{},						/* 18 */
-> > +	{},						/* 19 */
-> > +	{},						/* 20 */
-> > +	{},						/* 21 */
-> > +	{},						/* 22 */
-> > +	{},						/* 23 */
-> > +	{},						/* 24 */
-> > +	{dpu_disengcfg_shdload1_irq_handler},		/* 25 */
-> > +	{dpu_disengcfg_framecomplete1_irq_handler},	/* 26 */
-> > +	{dpu_disengcfg_seqcomplete1_irq_handler},	/* 27 */
-> > +	{},						/* 28 */
-> > +	{},						/* 29 */
-> > +	{},						/* 30 */
-> > +	{},						/* 31 */
-> > +	{},						/* 32 */
-> > +	{},						/* 33 */
-> > +	{},						/* 34 */
-> > +	{/* reserved */},				/* 35 */
-> > +	{},						/* 36 */
-> > +	{},						/* 37 */
-> > +	{},						/* 38 */
-> > +	{},						/* 39 */
-> > +	{},						/* 40 */
-> > +	{},						/* 41 */
-> > +	{},						/* 42 */
-> > +	{},						/* 43 */
-> > +	{},						/* 44 */
-> > +	{},						/* 45 */
-> > +	{},						/* 46 */
-> > +	{},						/* 47 */
-> > +	{},						/* 48 */
-> > +};
-> 
-> Why not make this an array of pointers to functions. Do we need a struct?
-> Something like:
-> 
-> static void (* const dpu_irq_handler[DPU_IRQ_COUNT])(struct irq_desc *) = {
-> 	[3] = dpu_extdst0_shdload_irq_handler,
-> 	[6] = dpu_extdst4_shdload_irq_handler,
-> 	...
-> };
+This is the v7 series to introduce i.MX8qm/qxp Display Processing Unit(DPU)
+DRM support.
 
-Alright, will use the function array.
+DPU is comprised of a blit engine for 2D graphics, a display controller
+and a command sequencer.  Outside of DPU, optional prefetch engines can
+fetch data from memory prior to some DPU fetchunits of blit engine and
+display controller.  The pre-fetchers support linear formats and Vivante
+GPU tile formats.
 
-> 
-> [...]
-> 
-> > +static int
-> > +dpu_get_fetchunits_for_plane_grp(struct dpu_soc *dpu,
-> > +				 const struct dpu_units *us,
-> > +				 struct dpu_fetchunit ***fu,
-> > +				 unsigned int *cnt,
-> > +				 struct dpu_fetchunit *
-> > +						(*get)(struct dpu_soc *dpu,
-> > +						       unsigned int id))
-> > +{
-> > +	unsigned int fu_cnt = 0;
-> > +	int i, j, ret;
-> > +
-> > +	for (i = 0; i < us->cnt; i++) {
-> > +		if (us->types[i] == DPU_DISP)
-> > +			fu_cnt++;
-> > +	}
-> > +
-> > +	*cnt = fu_cnt;
-> > +
-> > +	*fu = devm_kcalloc(dpu->dev, fu_cnt, sizeof(**fu), GFP_KERNEL);
-> > +	if (!(*fu))
-> > +		return -ENOMEM;
-> > +
-> > +	for (i = 0, j = 0; i < us->cnt; i++) {
-> > +		if (us->types[i] != DPU_DISP)
-> > +			continue;
-> > +
-> > +		(*fu)[j] = (*get)(dpu, us->ids[i]);
-> 
-> You can also call get() directly. No need to dereference function
-> pointers.
+Reference manual can be found at:
+https://www.nxp.com/webapp/Download?colCode=IMX8DQXPRM
 
-Will do.
 
-> 
-> > +		if (IS_ERR((*fu)[j])) {
-> > +			ret = PTR_ERR((*fu)[j]);
-> > +			dev_err(dpu->dev, "failed to get %s%d: %d\n",
-> > +						us->name, us->ids[i], ret);
-> > +			return ret;
-> > +		}
-> > +		j++;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> [...]
-> 
-> > +static void
-> > +dpu_put_fetchunits_for_plane_grp(struct dpu_fetchunit ***fu,
-> > +				 unsigned int *cnt,
-> > +				 void (*put)(struct dpu_fetchunit *fu))
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < *cnt; i++)
-> > +		(*put)((*fu)[i]);
-> 
-> Same here, you can call put() directly.
+This patch set adds kernel modesetting support for the display controller part.
+It supports two CRTCs per display controller, several planes, prefetch
+engines and some properties of CRTC and plane.  Currently, the registers of
+the controller is accessed without command sequencer involved, instead just by
+using CPU.  DRM connectors would be created from the DPU KMS driver.
 
-Will do.
 
-Thanks,
-Liu Ying
+If people want to try this series with i.MX8qxp, clock patches can be found at
+Shawn's i.MX for-next git branch, and power domain patches have already landed
+in 5.11-rc1.
+
+Version2 dropped the device tree patches because we'll use new dt binding
+way to support i.MX8qm/qxp clocks.  It depends on the below series to do basic
+conversions for the platforms which has not landed yet:
+https://www.spinics.net/lists/linux-mmc/msg61965.html
+
+
+I've sent the below series to add downstream bridges(embedded in i.MX8qm/qxp)
+to support LVDS displays:
+https://www.spinics.net/lists/arm-kernel/msg868239.html
+
+
+Patch 1 ~ 3 add dt-bindings for DPU and prefetch engines.
+Patch 4 is a minor improvement of a macro to suppress warning as the KMS driver
+uses it.
+Patch 5 introduces the DPU DRM support.
+Patch 6 updates MAINTAINERS.
+
+Welcome comments, thanks.
+
+v6->v7:
+* Fix return value of dpu_get_irqs() if platform_get_irq() fails. (Laurentiu)
+* Use the function array dpu_irq_handler[] to store individual DPU irq handlers.
+  (Laurentiu)
+* Call get/put() hooks directly to get/put DPU fetchunits for DPU plane groups.
+  (Laurentiu)
+* Shorten the names of individual DPU irq handlers by using DPU unit abbrev
+  names to make writing dpu_irq_handler[] easier.
+* Add Rob's R-b tag back on DPU dt-binding patch as change in v6 was reviewed.
+
+v5->v6:
+* Use graph schema in the DPU dt-binding.
+* Do not use macros where possible in the DPU DRM driver. (Laurentiu)
+* Break dpu_plane_atomic_check() into some smaller functions. (Laurentiu)
+* Address some minor comments from Laurentiu on the DPU DRM driver.
+* Add dpu_crtc_err() helper marco in the DPU DRM driver to tell dmesg
+  which CRTC generates error.
+* Drop calling dev_set_drvdata() from dpu_drm_bind/unbind() in the DPU DRM
+  driver as it is done in dpu_drm_probe().
+* Some trivial tweaks.
+
+v4->v5:
+* Rebase up onto the latest drm-misc-next branch and remove the hook to
+  drm_atomic_helper_legacy_gamma_set() from patch 5/6, because it was dropped
+  by the newly landed commit 'drm: automatic legacy gamma support'.
+* Remove a redundant blank line from dpu_plane_atomic_update() in patch 5/6.
+
+v3->v4:
+* Improve compatible properties in DPU and prefetch engines' dt bindings
+  by using enum instead of oneOf+const.
+* Add Rob's R-b tags on dt binding patches(patch 1/6, 2/6 and 3/6).
+* Add Daniel's A-b tag on patch 4/6.
+
+v2->v3:
+* Fix DPU DRM driver build warnings which are
+  Reported-by: kernel test robot <lkp@intel.com>.
+* Drop DPU DRM driver build dependency on IMX_SCU, as dummy SCU functions have
+  been added in header files by the patch 'firmware: imx: add dummy functions'
+  which has landed in linux-next/master branch.
+* Add a missing blank line in include/drm/drm_atomic.h.
+
+v1->v2:
+* Test this patch set also with i.MX8qm LVDS displays.
+* Drop the device tree patches because we'll use new dt binding way to
+  support i.MX8qm/qxp clocks.  This depends on a not-yet-landed patch set
+  to do basic conversions for the platforms.
+* Fix dt binding yamllint warnings.
+* Require bypass0 and bypass1 clocks for both i.MX8qxp and i.MX8qm in DPU's
+  dt binding documentation.
+* Use new dt binding way to add clocks in the dt binding examples.
+* Address several comments from Laurentiu on the DPU DRM patch.
+
+Liu Ying (6):
+  dt-bindings: display: imx: Add i.MX8qxp/qm DPU binding
+  dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
+  dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel binding
+  drm/atomic: Avoid unused-but-set-variable warning on
+    for_each_old_plane_in_state
+  drm/imx: Introduce i.MX8qm/qxp DPU DRM
+  MAINTAINERS: add maintainer for i.MX8qxp DPU DRM driver
+
+ .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     |   87 ++
+ .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      |  387 +++++++
+ .../bindings/display/imx/fsl,imx8qxp-prg.yaml      |   60 ++
+ MAINTAINERS                                        |    9 +
+ drivers/gpu/drm/imx/Kconfig                        |    1 +
+ drivers/gpu/drm/imx/Makefile                       |    1 +
+ drivers/gpu/drm/imx/dpu/Kconfig                    |   10 +
+ drivers/gpu/drm/imx/dpu/Makefile                   |   10 +
+ drivers/gpu/drm/imx/dpu/dpu-constframe.c           |  171 ++++
+ drivers/gpu/drm/imx/dpu/dpu-core.c                 | 1054 ++++++++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-crtc.c                 |  967 ++++++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-crtc.h                 |   66 ++
+ drivers/gpu/drm/imx/dpu/dpu-disengcfg.c            |  117 +++
+ drivers/gpu/drm/imx/dpu/dpu-dprc.c                 |  718 +++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-dprc.h                 |   40 +
+ drivers/gpu/drm/imx/dpu/dpu-drv.c                  |  292 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-drv.h                  |   28 +
+ drivers/gpu/drm/imx/dpu/dpu-extdst.c               |  299 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c          |  294 ++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetcheco.c             |  224 +++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c           |  154 +++
+ drivers/gpu/drm/imx/dpu/dpu-fetchunit.c            |  609 +++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchunit.h            |  191 ++++
+ drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c            |  250 +++++
+ drivers/gpu/drm/imx/dpu/dpu-framegen.c             |  395 ++++++++
+ drivers/gpu/drm/imx/dpu/dpu-gammacor.c             |  223 +++++
+ drivers/gpu/drm/imx/dpu/dpu-hscaler.c              |  275 +++++
+ drivers/gpu/drm/imx/dpu/dpu-kms.c                  |  540 ++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-kms.h                  |   23 +
+ drivers/gpu/drm/imx/dpu/dpu-layerblend.c           |  348 +++++++
+ drivers/gpu/drm/imx/dpu/dpu-plane.c                |  799 +++++++++++++++
+ drivers/gpu/drm/imx/dpu/dpu-plane.h                |   56 ++
+ drivers/gpu/drm/imx/dpu/dpu-prg.c                  |  433 ++++++++
+ drivers/gpu/drm/imx/dpu/dpu-prg.h                  |   45 +
+ drivers/gpu/drm/imx/dpu/dpu-prv.h                  |  233 +++++
+ drivers/gpu/drm/imx/dpu/dpu-tcon.c                 |  250 +++++
+ drivers/gpu/drm/imx/dpu/dpu-vscaler.c              |  308 ++++++
+ drivers/gpu/drm/imx/dpu/dpu.h                      |  385 +++++++
+ include/drm/drm_atomic.h                           |    5 +-
+ 39 files changed, 10356 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+ create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
+ create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+ create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
+
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
