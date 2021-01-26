@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11835304419
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 17:58:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00815304416
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 17:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7328C6E4AD;
-	Tue, 26 Jan 2021 16:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C256E49C;
+	Tue, 26 Jan 2021 16:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AA96E49C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 16:58:23 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8215F6E49F
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 16:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611680302;
+ s=mimecast20190719; t=1611680303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MZEflyF1dwhYzK+trMWmGhMpiUlZ0r/+H0hd8wKKx1w=;
- b=aPrwt8BIwZ7SlpvfCPhrVk8+4GTmIH9ml1lRcXsDQ2RqwUNkENkFqDzAf+9sbdtHJAPXMr
- 3elxJHa6G+8ZJ6SiQLdgV23ri1n9usfNA0+JbfcwaTALCvaPr++S2j5D/FiEfTr8uBDpyw
- DgB1SirRloNFvcSk8YRsrMCr9wb7AYU=
+ bh=21kTSpbci/GKul+97WxXMOEIvXz0qLwA8h+cgydNMqY=;
+ b=OMkUlqlVbgsww5uBJOJiLVvTeTYxHTtmYtPmol/ykuwos2Vb30DqqMWWxHB/CM1YnsUpYB
+ n6hFvE/450bWxRdyanUwbUiDAQBIAAPVfCRFS065g5WcT2/RN+XSLEsOvA4cuxpijwweoG
+ 2y9+JH9j8bKhQiJWRCwodNch7xQtvFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-YJgdJSw_PMaw0iQ-Fb1CJQ-1; Tue, 26 Jan 2021 11:58:20 -0500
-X-MC-Unique: YJgdJSw_PMaw0iQ-Fb1CJQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-564-eHPYmR8SMkOoCfoeUJHorQ-1; Tue, 26 Jan 2021 11:58:19 -0500
+X-MC-Unique: eHPYmR8SMkOoCfoeUJHorQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3104A1005504;
- Tue, 26 Jan 2021 16:58:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B222801817;
+ Tue, 26 Jan 2021 16:58:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
  [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA4DC19D61;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3270A60C62;
  Tue, 26 Jan 2021 16:58:15 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 294FE180038A; Tue, 26 Jan 2021 17:58:13 +0100 (CET)
+ id 46E1D18003A1; Tue, 26 Jan 2021 17:58:13 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/5] drm/qxl: unpin release objects
-Date: Tue, 26 Jan 2021 17:58:09 +0100
-Message-Id: <20210126165812.1661512-3-kraxel@redhat.com>
+Subject: [PATCH v4 3/5] drm/qxl: release shadow on shutdown
+Date: Tue, 26 Jan 2021 17:58:10 +0100
+Message-Id: <20210126165812.1661512-4-kraxel@redhat.com>
 In-Reply-To: <20210126165812.1661512-1-kraxel@redhat.com>
 References: <20210126165812.1661512-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,26 +70,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Balances the qxl_create_bo(..., pinned=true, ...);
-call in qxl_release_bo_alloc().
+In case we have a shadow surface on shutdown release
+it so it doesn't leak.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/qxl/qxl_release.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/qxl/qxl_display.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-index c52412724c26..28013fd1f8ea 100644
---- a/drivers/gpu/drm/qxl/qxl_release.c
-+++ b/drivers/gpu/drm/qxl/qxl_release.c
-@@ -347,6 +347,7 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 38d6b596094d..60331e31861a 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1229,5 +1229,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
  
- 	mutex_lock(&qdev->release_mutex);
- 	if (qdev->current_release_bo_offset[cur_idx] + 1 >= releases_per_bo[cur_idx]) {
-+		qxl_bo_unpin(qdev->current_release_bo[cur_idx]);
- 		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
- 		qdev->current_release_bo_offset[cur_idx] = 0;
- 		qdev->current_release_bo[cur_idx] = NULL;
+ void qxl_modeset_fini(struct qxl_device *qdev)
+ {
++	if (qdev->dumb_shadow_bo) {
++		drm_gem_object_put(&qdev->dumb_shadow_bo->tbo.base);
++		qdev->dumb_shadow_bo = NULL;
++	}
+ 	qxl_destroy_monitors_object(qdev);
+ }
 -- 
 2.29.2
 
