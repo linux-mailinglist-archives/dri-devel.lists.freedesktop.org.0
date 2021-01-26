@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6AD304AA9
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 21:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D563B304B16
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 22:15:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434D56E441;
-	Tue, 26 Jan 2021 20:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D29689DFC;
+	Tue, 26 Jan 2021 21:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0D36E441
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 20:53:25 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id g3so10464455plp.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rbiGPK10hMkVPDroKMLJ5oV5M7XFgnNXGS2BK8hWuOo=;
- b=rn/iGPtlK1tCt3ZcyGP0CCdw67MmANd7aV9K8V8aeKMW0OCHolf5rM2iIe3r4DjsNZ
- F2fnJ6AdLLZDovpjn78dQoAwggG434OjHr5DX8MOMH7+Vl/IPf5JiUKCtosaapLQlE5Y
- woQ/JsbLBBtAD/Q5HH6Xv3+NbWnByvdyZYrTsvi3vOD9YvZpTS7ffThCt9h0I79+HV+r
- b/uEZSTH2DnvGIsEOObtjToqzcJZUUYNqmjR4Yt0w2cR9OdaBdi4O9fNBq7dohr/2tLW
- zM6jUprpc/hFKn6hHnZiyRKWcD6SprVWgRYGxGKRTAmGJxOlkCdfcAsr1j89x+5wiViQ
- Khcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rbiGPK10hMkVPDroKMLJ5oV5M7XFgnNXGS2BK8hWuOo=;
- b=qyDWbezC/hV2UDFEDLoEUfKYZ3CnWFfUxcVnZlBBTJjFLfjK3oh8uu/MB9a36KgOtz
- o046k9IOWARdJOxAUM4inUjnLj6CpU+QEpeOI0/NDmYIO47Y0ccTAZRUd5PyU3RosVDv
- s9+EcwumiKzJ/AEKXoY4TPeKpV9WI5IshWXOK4Q26qg/wl1wk9FIbuw0+HJUx/cWlX2L
- clNBiX8imKmYeOAJNLAr2x6/qBhi6QWxKlhXKrUTir/1oPXW+vmUqPFGLOb4rs3u6yTe
- 4UduO0RcqeYNST4FWJhmfk6LZbDDhilHIKkxZMRySSDN28MCjcL4DH6rJXK+xLXGogwk
- kAfw==
-X-Gm-Message-State: AOAM533OTnFNyDLfhtWe5UHU3eEGfM3jc1nLbQ65wgv9l9KLeBywZI7m
- XSHMtov2Mgb5I8MFJybwidB9dbd9PrU3P0HS73k=
-X-Google-Smtp-Source: ABdhPJwJydNn/+NYM8T4H1FZKTUZv+sFSaTn9sxHcmr1VIRqWPJz3yxipJEpIX89bzwIqva5/GylV4FLSr9ScI9Y40k=
-X-Received: by 2002:a17:90a:ca98:: with SMTP id
- y24mr1713563pjt.181.1611694405124; 
- Tue, 26 Jan 2021 12:53:25 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF3E89DFC
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 21:15:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3979322B3B;
+ Tue, 26 Jan 2021 21:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611695745;
+ bh=ReYcTUHdjIZlSg1evEWL96VccN8+t7kQN0XQHxu8Sjs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ep9OJDuqv8a4bgQFCDjlq2iI5RB4LPmJdk2+zbmvpftZZs5D695AbwewbaJCc3JMj
+ dL9ah6VjErZKjDWlPhiRROOXCjhWGwv8ee0E3jMcU9D+bsKo9dRbTCh7E1/I/ksJ+W
+ D5aMANUUHtAJMmOZzJoqkhUOETJyli7sbbolWUXjjn7SLWcwp35YDD5Sc4X6bQwB4t
+ KNQ28ubpeT02sMgKKZi1yOW3qIW1xs9s1G3rp0O9U1ZgnA8uDs3zzXCVe2CYAcWZRI
+ xSf48pCAjs7pYetBMI6YImpNnBC/EtiREGdnd+/KP+X+cGPrcbUeJIoiK7y8oHFA4s
+ 39OCOtyKSKR/A==
+Received: by earth.universe (Postfix, from userid 1000)
+ id 4CEF53C0C97; Tue, 26 Jan 2021 22:15:43 +0100 (CET)
+Date: Tue, 26 Jan 2021 22:15:43 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: menglong8.dong@gmail.com
+Subject: Re: [PATCH] drm/omap: dsi: fix unreachable code in dsi_vc_send_short()
+Message-ID: <20210126211543.jb6lmcg6jedzruc3@earth.universe>
+References: <20210126135511.10989-1-dong.menglong@zte.com.cn>
 MIME-Version: 1.0
-References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
- <CAMeQTsbGBrTvfkz6BStwL240Kz-dbrQVKtXbYkRtbD3OoUKCcg@mail.gmail.com>
- <CAHp75Vc9RAHvTDAw1ryHq_CPRMtjqkzg9081nw0+RPY_yWPJgA@mail.gmail.com>
- <CAMeQTsY6k64LUg3DYbi67W6-Gx6znOeJbDfKUhzGt-BxF2BgKA@mail.gmail.com>
- <CAHp75VdKxARQAyyTd=ZcaoER1iF6Mk4AS1Dn6U9VCjt_D_+q8A@mail.gmail.com>
- <3b4c2f63-14e6-5041-3c15-c2d65b229269@redhat.com>
-In-Reply-To: <3b4c2f63-14e6-5041-3c15-c2d65b229269@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 26 Jan 2021 22:54:14 +0200
-Message-ID: <CAHp75VcEq4thOub+k5rDR61KZX4jCZj2zJr2OqsdedmpSB64KA@mail.gmail.com>
-Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-To: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20210126135511.10989-1-dong.menglong@zte.com.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,76 +46,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Mark Gross <mgross@linux.intel.com>,
- linux-watchdog@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Menglong Dong <dong.menglong@zte.com.cn>, tomba@kernel.org,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com
+Content-Type: multipart/mixed; boundary="===============1941180357=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 26, 2021 at 8:33 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 1/26/21 6:14 PM, Andy Shevchenko wrote:
-> > On Tue, Jan 26, 2021 at 6:55 PM Patrik Jakobsson
-> > <patrik.r.jakobsson@gmail.com> wrote:
-> >> On Tue, Jan 26, 2021 at 4:51 PM Andy Shevchenko
-> >> <andy.shevchenko@gmail.com> wrote:
-> >>> On Tue, Jan 26, 2021 at 5:25 PM Patrik Jakobsson
-> >>> <patrik.r.jakobsson@gmail.com> wrote:
-> >>>> On Tue, Jan 26, 2021 at 1:37 PM Andy Shevchenko
-> >>>> <andriy.shevchenko@linux.intel.com> wrote:
-> >>>>>
-> >>>>> Hi guys,
-> >>>>>
-> >>>>> This is first part of Intel MID outdated platforms removal. It's collected into
-> >>>>> immutable branch with a given tag, please pull to yours subsystems.
-> >>>>
-> >>>> Hi Andy,
-> >>>> Do you plan on eventually removing X86_INTEL_MID completely? If so,
-> >>>> then I should probably start looking at removing the corresponding
-> >>>> parts in GMA500.
-> >>>
-> >>> Nope. It is related to only Medfield / Clovertrail platforms.
-> >>>
-> >>> There are other (MID) platforms that may / might utilize this driver
-> >>> in the future.
-> >>
-> >> Right, there's still Oaktrail / Moorestown with hardware in the wild.
-> >
-> > Actually Moorestown had to be removed a few years ago (kernel won't
-> > boot on them anyway from that date when Alan removed support under
-> > arch/x86 for it).
-> >
-> > I'm talking about Merrifield and Moorefield that can utilize it and
-> > also some other platforms that are not SFI based (Cedar something...
-> > IIRC).
->
-> Yes at least there are some 64 bit capable SoCs with GMA500 which were
-> used in NAS like devices. These NAS-es actually have a VGA output
-> (and maybe also DVI?) which is attached to the GMA500.
 
-Since you are talking about 64-bit, definitely they are *not*
-Moorestown, Medfield, Clovertrail since the mentioned never were
-64-bit. But it would be nice to see the CPU model number to be sure.
+--===============1941180357==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tditrmhsvf34pfox"
+Content-Disposition: inline
 
-> I know people are running Fedora on these, so we should at least keep
-> these supported.
 
-Is it possible to gather the CPU model number from them? (Or at least
-the exact device/box name)
+--tditrmhsvf34pfox
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hi,
+
+On Tue, Jan 26, 2021 at 05:55:11AM -0800, menglong8.dong@gmail.com wrote:
+> From: Menglong Dong <dong.menglong@zte.com.cn>
+>=20
+> The 'r' in dsi_vc_send_short() is of type 'unsigned int', so the
+> 'r < 0' can't be true.
+>=20
+> Fix this by introducing a 'err' insteaded.
+>=20
+> Fixes: 1ed6253856cb
+> ("drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg")
+
+Documentation/process/submitting-patches.rst:
+
+If your patch fixes a bug in a specific commit, e.g. you found an
+issue using ``git bisect``, please use the 'Fixes:' tag with the
+first 12 characters of the SHA-1 ID, and the one line summary. Do
+not split the tag across multiple lines, tags are exempt from the
+"wrap at 75 columns" rule in order to simplify parsing scripts.
+
+Otherwise:
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+> Signed-off-by: Menglong Dong <dong.menglong@zte.com.cn>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/=
+dss/dsi.c
+> index 8e11612f5fe1..febcc87ddfe1 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -2149,11 +2149,12 @@ static int dsi_vc_send_short(struct dsi_data *dsi=
+, int vc,
+>  			     const struct mipi_dsi_msg *msg)
+>  {
+>  	struct mipi_dsi_packet pkt;
+> +	int err;
+>  	u32 r;
+> =20
+> -	r =3D mipi_dsi_create_packet(&pkt, msg);
+> -	if (r < 0)
+> -		return r;
+> +	err =3D mipi_dsi_create_packet(&pkt, msg);
+> +	if (err)
+> +		return err;
+> =20
+>  	WARN_ON(!dsi_bus_is_locked(dsi));
+> =20
+> --=20
+> 2.25.1
+>=20
+
+--tditrmhsvf34pfox
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmAQhnkACgkQ2O7X88g7
++pqFEg//QN2GZc4dUy1QEuJCGbtpasVmQnWCnWQvqIhKChdfhmCxNBYdA1nstbCa
+7S7PghJwgvff0Qc3xEIA/L3ZxkV7GEEMxh5fk9KR5v1gDQlaEblMSQUOmHv5Kkp5
+QOEcP/i9n9uKv+6SiQguByZiVWwKA9TP1tDe0NYUnUkrMMPAH0alhoq9sQ9pmHNe
+qEezOHvi0mLGWO9I/S6B9+x0J5r9MT1oEPKYvPDpieqAbMYazIRvS8BlI76Q0FI6
+y57RudghYriuSIKy72dVTk71cs6uDHk+vsLbkJgEqsQmPO5fpFv4jwMTCfIobW8v
+507kiKbmO7Ew4ORfgir6gu4tC/0Vxn6ek+0KRjvXjqbM/udKSU1fscC1LBoMpkg3
+8ZogXhvESITOB6a3Bb7tYu3CLC0upx1C+5/fkHKDkVxusBwiDiPU5To7mFiSsz80
+u+13ATAkpwapp91VvIb7Qdej5XsXgcUF7i3zSLqa2MNoqsJAM/Im/5IVGp0iA054
+ObF7/oLbHDMY36wjjxsdUxHGs/dwL2v2ClE53FilqrdkXeTUgGLtpJXmO9nnK/MS
+x2GaogGqAxk/lfqTsIgciUCMvqrKQ1bBzv7tu9ZtEGIfPsWUSKK+BbgzbezIUEaK
++RjNOQUOvPbdH8lUDErMKsA0k3IT64lGlewLW1Qe336MiKooA+k=
+=z59Q
+-----END PGP SIGNATURE-----
+
+--tditrmhsvf34pfox--
+
+--===============1941180357==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1941180357==--
