@@ -2,50 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2322F304635
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 19:21:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1FA30464C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 19:33:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE1C6E0A6;
-	Tue, 26 Jan 2021 18:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 209D2893A3;
+	Tue, 26 Jan 2021 18:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 063046E0A6
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 18:21:34 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121F789A72
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 18:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611685294;
+ s=mimecast20190719; t=1611686012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WPRqqg/hKvvV7tM4ellUlpmK/euLKyEJZWsNuDFTzlw=;
- b=NTN+dcy78OIt6FZyZxIb3YYcQOKv6ZtJ5d2R7joio1mjd2tX7+ZCFiLUfOt8hGVKAEER6I
- 7BsoQOTncsxUKpqFJesDDef4n/fY1QWAO6ZmhyObszDFJu1Uw6pLperSnq9PHJozyLVVrD
- 5wJXIiiD6VPzxkuf8QowJ0ITiTSfk0A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-b7rwBjQNMmS8CtGWbXF7Vg-1; Tue, 26 Jan 2021 13:21:30 -0500
-X-MC-Unique: b7rwBjQNMmS8CtGWbXF7Vg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 037E5107ACE8;
- Tue, 26 Jan 2021 18:21:28 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-192.ams2.redhat.com [10.36.114.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B85D6F80A;
- Tue, 26 Jan 2021 18:21:24 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] mm: simplify free_highmem_page() and
- free_reserved_page()
-Date: Tue, 26 Jan 2021 19:21:13 +0100
-Message-Id: <20210126182113.19892-3-david@redhat.com>
-In-Reply-To: <20210126182113.19892-1-david@redhat.com>
-References: <20210126182113.19892-1-david@redhat.com>
+ bh=WqMbFBiR5bxTo9dvjO6KoLK8PoaeAMT7uahfFjAtB40=;
+ b=Zz2gV7HAD1g+eXpeNZ21icdGX00Q8q68R21qc6pLcti9HwucvGJukOmEL0YoWZOx6MCHqF
+ LVayIFVhPi/XeyDlSdYbW71Iiptv4y649/OFYTRAbYIAwWXhx/7ncMnSRiq3Y+MbQoqjck
+ ayUvjEchmcWO/sKrph6C+TpPy3OdKog=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-HWTtZlX9NQWFrP0ao7G4MA-1; Tue, 26 Jan 2021 13:33:28 -0500
+X-MC-Unique: HWTtZlX9NQWFrP0ao7G4MA-1
+Received: by mail-ed1-f72.google.com with SMTP id j12so9775065edq.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 10:33:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WqMbFBiR5bxTo9dvjO6KoLK8PoaeAMT7uahfFjAtB40=;
+ b=ktEMgtWYQ6/KcmciGkjwLX+7/w/TWrsZYtxv60mAeOKoj2Piyc0c77UJzY1wuPII6a
+ 0KgOcsH1YA0dO7XfAIGIWzFrEvvqSwLYLIXhbXzWkdR8uzGR7oFzk2z2uq75QZHHu+2t
+ ytQQHmwxZBwRV7LvZLuEoY5Tcum/pLZexW0fpdGWPoO8040hHWRp2/OnTTZYwvtdQj+N
+ xsKaRGB0wx0vy6j9/aYi2OfJ7F9aUbXZldSY7yF75tzK7OdPAqUpJGC8XDNxwrmyZto2
+ sWw4cyiyv66XxQAgL2483ivXy01ir5KTxmiuJrWkqEQZodBJbt3RrLOl9n4MKTlnXHKu
+ IbVg==
+X-Gm-Message-State: AOAM533TjR1vVTfqKNkVvZFSmoMz45NMOJ2aRzSe/vKqI4IUSCJI7fdl
+ o3zOOplHd/MDuFeM9NiMxu31P8cKn4hygF3TZD77RZKga4daMKAhlg2PMh3hadJxW4QahJEItjO
+ RwYmOcw1kGNDmT1k1QAEr/jYuse1T
+X-Received: by 2002:a17:906:1c13:: with SMTP id
+ k19mr4334526ejg.338.1611686007767; 
+ Tue, 26 Jan 2021 10:33:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyN194XtVlCKAdXK5VKIvZ0VfeTCUimiW4/dTBZnu6yHH6IeYtTZlE3OE5MXYja0RwyxasFow==
+X-Received: by 2002:a17:906:1c13:: with SMTP id
+ k19mr4334512ejg.338.1611686007623; 
+ Tue, 26 Jan 2021 10:33:27 -0800 (PST)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+ by smtp.gmail.com with ESMTPSA id k22sm13162485edv.33.2021.01.26.10.33.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jan 2021 10:33:27 -0800 (PST)
+Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
+ <CAMeQTsbGBrTvfkz6BStwL240Kz-dbrQVKtXbYkRtbD3OoUKCcg@mail.gmail.com>
+ <CAHp75Vc9RAHvTDAw1ryHq_CPRMtjqkzg9081nw0+RPY_yWPJgA@mail.gmail.com>
+ <CAMeQTsY6k64LUg3DYbi67W6-Gx6znOeJbDfKUhzGt-BxF2BgKA@mail.gmail.com>
+ <CAHp75VdKxARQAyyTd=ZcaoER1iF6Mk4AS1Dn6U9VCjt_D_+q8A@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <3b4c2f63-14e6-5041-3c15-c2d65b229269@redhat.com>
+Date: Tue, 26 Jan 2021 19:33:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAHp75VdKxARQAyyTd=ZcaoER1iF6Mk4AS1Dn6U9VCjt_D_+q8A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,118 +89,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Wei Yang <richard.weiyang@linux.alibaba.com>,
- David Hildenbrand <david@redhat.com>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Oscar Salvador <osalvador@suse.de>
+Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Mark Gross <mgross@linux.intel.com>,
+ linux-watchdog@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Platform Driver <platform-driver-x86@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-adjust_managed_page_count() as called by free_reserved_page() properly
-handles pages in a highmem zone, so we can reuse it for
-free_highmem_page().
+Hi,
 
-We can now get rid of totalhigh_pages_inc() and simplify
-free_reserved_page().
+On 1/26/21 6:14 PM, Andy Shevchenko wrote:
+> On Tue, Jan 26, 2021 at 6:55 PM Patrik Jakobsson
+> <patrik.r.jakobsson@gmail.com> wrote:
+>> On Tue, Jan 26, 2021 at 4:51 PM Andy Shevchenko
+>> <andy.shevchenko@gmail.com> wrote:
+>>>
+>>> On Tue, Jan 26, 2021 at 5:25 PM Patrik Jakobsson
+>>> <patrik.r.jakobsson@gmail.com> wrote:
+>>>> On Tue, Jan 26, 2021 at 1:37 PM Andy Shevchenko
+>>>> <andriy.shevchenko@linux.intel.com> wrote:
+>>>>>
+>>>>> Hi guys,
+>>>>>
+>>>>> This is first part of Intel MID outdated platforms removal. It's collected into
+>>>>> immutable branch with a given tag, please pull to yours subsystems.
+>>>>
+>>>> Hi Andy,
+>>>> Do you plan on eventually removing X86_INTEL_MID completely? If so,
+>>>> then I should probably start looking at removing the corresponding
+>>>> parts in GMA500.
+>>>
+>>> Nope. It is related to only Medfield / Clovertrail platforms.
+>>>
+>>> There are other (MID) platforms that may / might utilize this driver
+>>> in the future.
+>>
+>> Right, there's still Oaktrail / Moorestown with hardware in the wild.
+> 
+> Actually Moorestown had to be removed a few years ago (kernel won't
+> boot on them anyway from that date when Alan removed support under
+> arch/x86 for it).
+> 
+> I'm talking about Merrifield and Moorefield that can utilize it and
+> also some other platforms that are not SFI based (Cedar something...
+> IIRC).
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/highmem-internal.h |  5 -----
- include/linux/mm.h               | 16 ++--------------
- mm/page_alloc.c                  | 11 -----------
- 3 files changed, 2 insertions(+), 30 deletions(-)
+Yes at least there are some 64 bit capable SoCs with GMA500 which were
+used in NAS like devices. These NAS-es actually have a VGA output
+(and maybe also DVI?) which is attached to the GMA500.
 
-diff --git a/include/linux/highmem-internal.h b/include/linux/highmem-internal.h
-index 1bbe96dc8be6..7902c7d8b55f 100644
---- a/include/linux/highmem-internal.h
-+++ b/include/linux/highmem-internal.h
-@@ -127,11 +127,6 @@ static inline unsigned long totalhigh_pages(void)
- 	return (unsigned long)atomic_long_read(&_totalhigh_pages);
- }
- 
--static inline void totalhigh_pages_inc(void)
--{
--	atomic_long_inc(&_totalhigh_pages);
--}
--
- static inline void totalhigh_pages_add(long count)
- {
- 	atomic_long_add(count, &_totalhigh_pages);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a5d618d08506..494c69433a34 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2303,32 +2303,20 @@ extern void free_initmem(void);
- extern unsigned long free_reserved_area(void *start, void *end,
- 					int poison, const char *s);
- 
--#ifdef	CONFIG_HIGHMEM
--/*
-- * Free a highmem page into the buddy system, adjusting totalhigh_pages
-- * and totalram_pages.
-- */
--extern void free_highmem_page(struct page *page);
--#endif
--
- extern void adjust_managed_page_count(struct page *page, long count);
- extern void mem_init_print_info(const char *str);
- 
- extern void reserve_bootmem_region(phys_addr_t start, phys_addr_t end);
- 
- /* Free the reserved page into the buddy system, so it gets managed. */
--static inline void __free_reserved_page(struct page *page)
-+static inline void free_reserved_page(struct page *page)
- {
- 	ClearPageReserved(page);
- 	init_page_count(page);
- 	__free_page(page);
--}
--
--static inline void free_reserved_page(struct page *page)
--{
--	__free_reserved_page(page);
- 	adjust_managed_page_count(page, 1);
- }
-+#define free_highmem_page(page) free_reserved_page(page)
- 
- static inline void mark_page_reserved(struct page *page)
- {
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index b031a5ae0bd5..b2e42f10d4d4 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -7711,17 +7711,6 @@ unsigned long free_reserved_area(void *start, void *end, int poison, const char
- 	return pages;
- }
- 
--#ifdef	CONFIG_HIGHMEM
--void free_highmem_page(struct page *page)
--{
--	__free_reserved_page(page);
--	totalram_pages_inc();
--	atomic_long_inc(&page_zone(page)->managed_pages);
--	totalhigh_pages_inc();
--}
--#endif
--
--
- void __init mem_init_print_info(const char *str)
- {
- 	unsigned long physpages, codesize, datasize, rosize, bss_size;
--- 
-2.29.2
+I know people are running Fedora on these, so we should at least keep
+these supported.
+
+Regards,
+
+Hans
 
 _______________________________________________
 dri-devel mailing list
