@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D583030E0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 01:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97ECE3030DF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 01:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBCC16E3D8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 958626E3D3;
 	Tue, 26 Jan 2021 00:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D17676E3D0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 347286E3D3
  for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 00:10:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1611619844;
@@ -19,30 +19,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oKm0Ja8X4Ojgn+JREDsvj+rdNkNRQb5M2c2kSDsJ3+k=;
- b=efTEHY40aLmHIyPVhATOKyLL86zby9mOju3NQZy/dtj7uVHxO3ls+nVoR8DHETVVfvD5XF
- OEyGoB1tdY6jJyk6QCD/f0F1ib4/Hj/tmQlnLI/8OhPg5KpZu2FSCNcWpDsS7VK62hEOwI
- niqCXIbtWI4yQHZjInICdE7Qn/0M2aM=
+ bh=kkyBCaxpi8H1R0DNiKM+lg2FeT0gkdHb7L2bg0FqRCc=;
+ b=KqRHhFIH25PDF41IS6oNxtSyHJrKzhOCah41tJINty5pB8m8ZW4rQBzR39GtcYO4zofgWS
+ 9dJWOHRyw3KB2MOrNsgOo/Fg+9gNAyTI+Z/0X5GH1Z7fvjNQRJbn914vPqZk/aElLdymZb
+ MQE1zZ1xpbtQYhJotKblJo29oLOa998=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-wNEaR2FzN823zaodbI2_Gw-1; Mon, 25 Jan 2021 19:10:41 -0500
-X-MC-Unique: wNEaR2FzN823zaodbI2_Gw-1
+ us-mta-523-70sqUjxxN8GDLAei5qoH7A-1; Mon, 25 Jan 2021 19:10:42 -0500
+X-MC-Unique: 70sqUjxxN8GDLAei5qoH7A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD50D180A096;
- Tue, 26 Jan 2021 00:10:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE912806674;
+ Tue, 26 Jan 2021 00:10:40 +0000 (UTC)
 Received: from Whitewolf.lyude.net (ovpn-118-245.rdu2.redhat.com
  [10.10.118.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9548360938;
- Tue, 26 Jan 2021 00:10:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F29F6A050;
+ Tue, 26 Jan 2021 00:10:39 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [RFC v2 1/5] drm/nouveau/kms/nv40-/backlight: Assign prop type once
-Date: Mon, 25 Jan 2021 19:10:27 -0500
-Message-Id: <20210126001031.881048-2-lyude@redhat.com>
+Subject: [RFC v2 2/5] drm/nouveau/kms: Don't probe eDP connectors more then
+ once
+Date: Mon, 25 Jan 2021 19:10:28 -0500
+Message-Id: <20210126001031.881048-3-lyude@redhat.com>
 In-Reply-To: <20210126001031.881048-1-lyude@redhat.com>
 References: <20210126001031.881048-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -67,43 +68,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+eDP doesn't do hotplugging, so there's no reason for us to reprobe it (unless a
+connection status change is being forced, of course).
+
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Dave Airlie <airlied@gmail.com>
 Cc: greg.depoire@gmail.com
 ---
- drivers/gpu/drm/nouveau/nouveau_backlight.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index 72f35a2babcb..42b498e7e2bf 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -106,7 +106,6 @@ nv40_backlight_init(struct nouveau_encoder *encoder,
- 	if (!(nvif_rd32(device, NV40_PMC_BACKLIGHT) & NV40_PMC_BACKLIGHT_MASK))
- 		return -ENODEV;
- 
--	props->type = BACKLIGHT_RAW;
- 	props->max_brightness = 31;
- 	*ops = &nv40_bl_ops;
- 	return 0;
-@@ -212,7 +211,6 @@ nv50_backlight_init(struct nouveau_encoder *nv_encoder,
- 	else
- 		*ops = &nva3_bl_ops;
- 
--	props->type = BACKLIGHT_RAW;
- 	props->max_brightness = 100;
- 
- 	return 0;
-@@ -226,7 +224,7 @@ nouveau_backlight_init(struct drm_connector *connector)
- 	struct nouveau_encoder *nv_encoder = NULL;
- 	struct nvif_device *device = &drm->client.device;
- 	char backlight_name[BL_NAME_SIZE];
--	struct backlight_properties props = {0};
-+	struct backlight_properties props = { .type = BACKLIGHT_RAW, 0 };
- 	const struct backlight_ops *ops;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 14c29e68db8f..f4d16576a7da 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -556,6 +556,12 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
  	int ret;
+ 	enum drm_connector_status conn_status = connector_status_disconnected;
  
++	/* eDP doesn't do hotplugging, never probe more then once */
++	if (nv_connector->type == DCB_CONNECTOR_eDP &&
++	    connector->force == DRM_FORCE_UNSPECIFIED &&
++	    connector->status != connector_status_unknown)
++		return connector->status;
++
+ 	/* Outputs are only polled while runtime active, so resuming the
+ 	 * device here is unnecessary (and would deadlock upon runtime suspend
+ 	 * because it waits for polling to finish). We do however, want to
 -- 
 2.29.2
 
