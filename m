@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D743055AD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C691D3055B4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C63B6E5C3;
-	Wed, 27 Jan 2021 08:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E72666E5C1;
+	Wed, 27 Jan 2021 08:29:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA49989C2A
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:37:17 +0000 (UTC)
-IronPort-SDR: TD1j3bKnqQt+JsZZgmEJOT/olQmV4Di37wJ/e5Z3k7iV7GCgm5+P0z+ewzB5G1cQ9rowC9wJw7
- Rttc3JWHl1hQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="159070336"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; d="scan'208";a="159070336"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2021 04:37:14 -0800
-IronPort-SDR: xtjAOkynaLHfXe5zpBV18SvsRxeKacFBYCOy6xM8lMumXM5JOU1r74QRBgpcyA2Zh5et8mJjjw
- QBmmY7umAlQw==
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; d="scan'208";a="406691221"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2021 04:37:10 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1l4Nbo-00EOdg-F6; Tue, 26 Jan 2021 14:38:12 +0200
-Date: Tue, 26 Jan 2021 14:38:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: platform-driver-x86@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- Mark Gross <mgross@linux.intel.com>
-Subject: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-Message-ID: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A650489C37
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:40:36 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id h15so7217935pli.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 04:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=HqB8ShkPpKgbh75SDLmBozCvKjDXfCshAB9pnex5YAo=;
+ b=YkC3a2VqMxRZZEAHB/LFJ8jMLKJ0RQ84lldRRwm0DU4oV3geCKNpczFFy04WEh3rzJ
+ hbjBpFzDslzkqfsBTnn8U2oLJfBRfRBx0C9ozt6BQYRtgQGeA2SA+WortjTUKSimsaOt
+ IbQggQ2JLQ/jcHzFWyJ6mvB1qcxXlGmijvOqULkMxiieAjWgsiZh4Ouw208IFWf7wIPp
+ TXSlDSKLcqEZaGkguWIz4aIS1hRsoBPW6Z6X1nN7ni+4BrGynWQl7PhAP/tBspkPKkQE
+ 4iQEoXhuo45rioNtt0iScbWzw8+hIwAPcJqaYZAV6MODtDxpPTbPTaHIaWsBi2y9qkpP
+ QqzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=HqB8ShkPpKgbh75SDLmBozCvKjDXfCshAB9pnex5YAo=;
+ b=XOcaiLuhMVltrfmiCLY2TQaePHjhHQJBkmeEKTwqUBRbRlOnfomuCPd8Unr8whJPfy
+ 0mSRkjHzAf8jvR/LYdNUfmsNwyBtOsziqj2O33jZ9RDNAVeeRMCPjT638quc/P0ixk+9
+ sXp3Jb2EXehOzKMzsIl9VYwS2OzrIuAQglqtjYtTCftSv18HFBJP7zDkdxCSRXziepOz
+ 6n3dagl5EWGPWQiXZzfkAfb/tJ/qVjyacigo+OUXHwZAdHxwRAuVAoLyOrJVuCrWXcGP
+ q6tG8wp/MwNkrCQ5noW+yyrGpPF7uw5617qxdmOLGkzn6le9TEGJ6STnP9GRUtga+5fv
+ eXmg==
+X-Gm-Message-State: AOAM531pSc5Sr0nW6jflYrm35PhIYhZ1tmfT9skuIb/vAw+zuZTS98Vg
+ c/L88bRZpGsKJczshXaKc1I=
+X-Google-Smtp-Source: ABdhPJxNn0PzimxAkurriDPiQqgEE1O9MMOJxN32hirkqygEYr56tU4+ndfSpn/mmwNfYX4NiydL9w==
+X-Received: by 2002:a17:902:ed11:b029:de:2f19:4db1 with SMTP id
+ b17-20020a170902ed11b02900de2f194db1mr5891927pld.20.1611664836233; 
+ Tue, 26 Jan 2021 04:40:36 -0800 (PST)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id c185sm4987427pfb.178.2021.01.26.04.40.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 26 Jan 2021 04:40:35 -0800 (PST)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v4] fbtft: add tearing signal detect
+Date: Tue, 26 Jan 2021 20:40:35 +0800
+Message-Id: <1611664835-150687-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,130 +63,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-watchdog@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi guys,
+From: zhangxuezhi <zhangxuezhi1@yulong.com>
 
-This is first part of Intel MID outdated platforms removal. It's collected into
-immutable branch with a given tag, please pull to yours subsystems.
+For st7789v ic,add tearing signal detect to avoid screen tearing
 
-(All changes are tagged by the respective maintainers)
+Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
+---
+v4:modify some code style and change te irq set function name
+---
+ drivers/staging/fbtft/fb_st7789v.c | 128 ++++++++++++++++++++++++++++++++++++-
+ drivers/staging/fbtft/fbtft.h      |   1 +
+ 2 files changed, 128 insertions(+), 1 deletion(-)
 
-Thanks,
-
-With Best Regards,
-Andy Shevchenko
-
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
-
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/linux-platform-drivers-x86.git tags/ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-
-for you to fetch changes up to a507e5d90f3d6846a02d9c2c79e6f6395982db92:
-
-  platform/x86: intel_scu_wdt: Get rid of custom x86 model comparison (2021-01-25 20:05:32 +0200)
-
-----------------------------------------------------------------
-ib-drm-gpio-pdx86-rtc-wdt for v5.12-1
-
-First part of Intel MID outdated platforms removal.
-
-The following is an automated git shortlog grouped by driver:
-
-drm/gma500:
- -  Get rid of duplicate NULL checks
- -  Convert to use new SCU IPC API
-
-gpio:
- -  msic: Remove driver for deprecated platform
- -  intel-mid: Remove driver for deprecated platform
-
-intel_mid_powerbtn:
- -  Remove driver for deprecated platform
-
-intel_mid_thermal:
- -  Remove driver for deprecated platform
-
-intel_scu_wdt:
- -  Get rid of custom x86 model comparison
- -  Drop SCU notification
- -  Move driver from arch/x86
-
-rtc:
- -  mrst: Remove driver for deprecated platform
-
-watchdog:
- -  intel-mid_wdt: Postpone IRQ handler registration till SCU is ready
- -  intel_scu_watchdog: Remove driver for deprecated platform
-
-----------------------------------------------------------------
-Andy Shevchenko (12):
-      drm/gma500: Convert to use new SCU IPC API
-      drm/gma500: Get rid of duplicate NULL checks
-      gpio: intel-mid: Remove driver for deprecated platform
-      gpio: msic: Remove driver for deprecated platform
-      platform/x86: intel_mid_thermal: Remove driver for deprecated platform
-      platform/x86: intel_mid_powerbtn: Remove driver for deprecated platform
-      rtc: mrst: Remove driver for deprecated platform
-      watchdog: intel_scu_watchdog: Remove driver for deprecated platform
-      watchdog: intel-mid_wdt: Postpone IRQ handler registration till SCU is ready
-      platform/x86: intel_scu_wdt: Move driver from arch/x86
-      platform/x86: intel_scu_wdt: Drop SCU notification
-      platform/x86: intel_scu_wdt: Get rid of custom x86 model comparison
-
- MAINTAINERS                                        |   2 -
- arch/x86/platform/intel-mid/device_libs/Makefile   |   1 -
- drivers/gpio/Kconfig                               |  14 -
- drivers/gpio/Makefile                              |   1 -
- drivers/gpio/TODO                                  |   2 +-
- drivers/gpio/gpio-intel-mid.c                      | 414 ---------------
- drivers/gpio/gpio-msic.c                           | 314 ------------
- drivers/gpu/drm/gma500/Kconfig                     |   1 +
- drivers/gpu/drm/gma500/mdfld_device.c              |   2 -
- drivers/gpu/drm/gma500/mdfld_dsi_output.c          |   2 -
- drivers/gpu/drm/gma500/mdfld_output.c              |   8 +-
- drivers/gpu/drm/gma500/oaktrail_device.c           |   3 -
- drivers/gpu/drm/gma500/psb_drv.h                   |   3 +
- drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c         |  30 +-
- drivers/platform/x86/Kconfig                       |  23 +-
- drivers/platform/x86/Makefile                      |   3 +-
- drivers/platform/x86/intel_mid_powerbtn.c          | 233 ---------
- drivers/platform/x86/intel_mid_thermal.c           | 560 ---------------------
- .../platform/x86/intel_scu_wdt.c                   |  41 +-
- drivers/rtc/Kconfig                                |  12 -
- drivers/rtc/Makefile                               |   1 -
- drivers/rtc/rtc-mrst.c                             | 521 -------------------
- drivers/watchdog/Kconfig                           |   9 -
- drivers/watchdog/Makefile                          |   1 -
- drivers/watchdog/intel-mid_wdt.c                   |   8 +-
- drivers/watchdog/intel_scu_watchdog.c              | 533 --------------------
- drivers/watchdog/intel_scu_watchdog.h              |  50 --
- 27 files changed, 54 insertions(+), 2738 deletions(-)
- delete mode 100644 drivers/gpio/gpio-intel-mid.c
- delete mode 100644 drivers/gpio/gpio-msic.c
- delete mode 100644 drivers/platform/x86/intel_mid_powerbtn.c
- delete mode 100644 drivers/platform/x86/intel_mid_thermal.c
- rename arch/x86/platform/intel-mid/device_libs/platform_mrfld_wdt.c => drivers/platform/x86/intel_scu_wdt.c (69%)
- delete mode 100644 drivers/rtc/rtc-mrst.c
- delete mode 100644 drivers/watchdog/intel_scu_watchdog.c
- delete mode 100644 drivers/watchdog/intel_scu_watchdog.h
-
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 3a280cc..11a490de 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -9,9 +9,12 @@
+ #include <linux/delay.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/mutex.h>
++#include <linux/interrupt.h>
++#include <linux/completion.h>
+ #include <linux/module.h>
+ #include <video/mipi_display.h>
+-
++#include <linux/gpio/consumer.h>
+ #include "fbtft.h"
+ 
+ #define DRVNAME "fb_st7789v"
+@@ -66,6 +69,32 @@ enum st7789v_command {
+ #define MADCTL_MX BIT(6) /* bitmask for column address order */
+ #define MADCTL_MY BIT(7) /* bitmask for page address order */
+ 
++#define SPI_PANEL_TE_TIMEOUT	400
++static struct mutex te_mutex;/*mutex for tearing line*/
++static struct completion spi_panel_te;
++
++static irqreturn_t spi_panel_te_handler(int irq, void *data)
++{
++	complete(&spi_panel_te);
++	return IRQ_HANDLED;
++}
++
++static void set_spi_panel_te_irq_status(struct fbtft_par *par, bool enable)
++{
++	static int te_irq_count;
++
++	mutex_lock(&te_mutex);
++
++	if (enable) {
++		if (++te_irq_count == 1)
++			enable_irq(gpiod_to_irq(par->gpio.te));
++	} else {
++		if (--te_irq_count == 0)
++			disable_irq(gpiod_to_irq(par->gpio.te));
++	}
++	mutex_unlock(&te_mutex);
++}
++
+ /**
+  * init_display() - initialize the display controller
+  *
+@@ -82,6 +111,29 @@ enum st7789v_command {
+  */
+ static int init_display(struct fbtft_par *par)
+ {
++	int rc;
++	struct device *dev = par->info->device;
++
++	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
++	if (par->gpio.te) {
++		init_completion(&spi_panel_te);
++		mutex_init(&te_mutex);
++		rc = devm_request_irq(dev,
++				      gpiod_to_irq(par->gpio.te),
++				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
++				     "TE_GPIO", par);
++		if (rc) {
++			pr_err("TE request_irq failed.\n");
++			devm_gpiod_put(dev, par->gpio.te);
++			par->gpio.te = NULL;
++		} else {
++			disable_irq_nosync(gpiod_to_irq(par->gpio.te));
++			pr_info("TE request_irq completion.\n");
++		}
++	} else {
++		pr_err("%s:%d, TE gpio not specified\n",
++		       __func__, __LINE__);
++	}
+ 	/* turn off sleep mode */
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	mdelay(120);
+@@ -137,6 +189,9 @@ static int init_display(struct fbtft_par *par)
+ 	 */
+ 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+ 
++    /*Tearing Effect Line On*/
++	if (par->gpio.te)
++		write_reg(par, 0x35, 0x00);
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+ 
+ 	if (HSD20_IPS)
+@@ -145,6 +200,76 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
++/*****************************************************************************
++ *
++ *   int (*write_vmem)(struct fbtft_par *par);
++ *
++ *****************************************************************************/
++
++/* 16 bit pixel over 8-bit databus */
++int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
++{
++	u16 *vmem16;
++	__be16 *txbuf16 = par->txbuf.buf;
++	size_t remain;
++	size_t to_copy;
++	size_t tx_array_size;
++	int i;
++	int ret = 0;
++	size_t startbyte_size = 0;
++
++	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
++		      __func__, offset, len);
++
++	remain = len / 2;
++	vmem16 = (u16 *)(par->info->screen_buffer + offset);
++
++	if (par->gpio.dc)
++		gpiod_set_value(par->gpio.dc, 1);
++
++	/* non buffered write */
++	if (!par->txbuf.buf)
++		return par->fbtftops.write(par, vmem16, len);
++
++	/* buffered write */
++	tx_array_size = par->txbuf.len / 2;
++
++	if (par->startbyte) {
++		txbuf16 = par->txbuf.buf + 1;
++		tx_array_size -= 2;
++		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
++		startbyte_size = 1;
++	}
++
++	while (remain) {
++		to_copy = min(tx_array_size, remain);
++		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
++			to_copy, remain - to_copy);
++
++		for (i = 0; i < to_copy; i++)
++			txbuf16[i] = cpu_to_be16(vmem16[i]);
++
++		vmem16 = vmem16 + to_copy;
++		if (par->gpio.te) {
++			set_spi_panel_te_irq_status(par, true);
++			reinit_completion(&spi_panel_te);
++			ret = wait_for_completion_timeout(&spi_panel_te,
++							  msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
++			if (ret == 0)
++				pr_err("wait panel TE time out\n");
++		}
++		ret = par->fbtftops.write(par, par->txbuf.buf,
++					 startbyte_size + to_copy * 2);
++		if (par->gpio.te)
++			set_spi_panel_te_irq_status(par, false);
++		if (ret < 0)
++			return ret;
++		remain -= to_copy;
++	}
++
++	return ret;
++}
++
+ /**
+  * set_var() - apply LCD properties like rotation and BGR mode
+  *
+@@ -259,6 +384,7 @@ static int blank(struct fbtft_par *par, bool on)
+ 	.gamma = HSD20_IPS_GAMMA,
+ 	.fbtftops = {
+ 		.init_display = init_display,
++		.write_vmem = st7789v_write_vmem16_bus8,
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 76f8c09..93bac05 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -212,6 +212,7 @@ struct fbtft_par {
+ 		struct gpio_desc *wr;
+ 		struct gpio_desc *latch;
+ 		struct gpio_desc *cs;
++		struct gpio_desc *te;
+ 		struct gpio_desc *db[16];
+ 		struct gpio_desc *led[16];
+ 		struct gpio_desc *aux[16];
 -- 
-With Best Regards,
-Andy Shevchenko
-
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
