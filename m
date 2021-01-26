@@ -2,108 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35C13055BD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039F03055BA
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60F646E5D2;
-	Wed, 27 Jan 2021 08:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F366E5C8;
+	Wed, 27 Jan 2021 08:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2104.outbound.protection.outlook.com [40.107.92.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32B4189CAA
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 10:19:08 +0000 (UTC)
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760121.outbound.protection.outlook.com [40.107.76.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F8289F41
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 10:23:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PeFLs7vwLAVhIylNkMRL3W4Uajyj0N2FwUMkXQVMhHydgcKH0fFxzyk0YoE++2S+juBZ9EZcZMwNMsjicNvbh6Ml6tMkiIwNiwMij9eWzIyAduMpNZRGWCNRKCEXKKJOiaS28/rDHbpCbcjTTMDU4ON1l+ImB9/Ca6kObJplVI049tyPTPL3kr+ISUWh/fEkk0JkFbFXXyIA+S/G/E3csnr29n3YBVq5z77iVX7ftkYTXCuU1jLD2USTXvfFLC+g2+zUstuG6JV9lLGo7eT9CFiiWotJWDr8M4V5EuFxKClPX4z81tZT3OiNRix946EGuM8mVWUSELz5SbwFqBMmIA==
+ b=OsnOPcDNo4wl5JaZG+m0TS+sv6rTLQ70jVebnuYdWBVRd36I9FXl1OeSCHaCEbPpq7WyoHOW27eRQ+KOTxnR4ydT2QpgBpqM0PxB47O85++KNWjOZmUct/eQpXy1bCKcebt6bvcj3b1in8eKIRqLhBGR4Pbrzo/3aWu7J/Wf4bfiXB+eoC65922Z6862zxxJNRG74mkwq5ifk2w0Z9z0EaghtMKyoLTLevGwTw/1mpct0qfvbxLntkBaNxDMZ/JR4F0bfuhc/k11i95KTJSyPGt46RXnAJfMNN9dZGPIw08Z9GyWwMGi/DG/g2ehfn5GTvuu3i459R1Iyr+RPHuPwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E+Z7Elnhm3BhrgNeRyrqBv5JwYYEJY57zgz/EOQdRlg=;
- b=Rt/xGsYs8Q0krRJF7rqXnGZAmN5pevRDryaLUEBDw/HVGFuIbm9qfxv4CxKkMj0u/5BFb1eynUd+svmzkjW56cNn3dGFA90MGUuLIQBPXKBsUIvvVO1nffGikWCDN96htwUhseOs4mLx3u+c1E7Hds/NXGy3hwnq4PqOVEg72c7fjhEUm0q10gJ4NrywyIcum+MK3bx7K5/38fHt+NA11bZV0daWbUoUp1I0kqARXV982UErjdzwybV3e4QkMuuv8hSdKdSQ00SVaywKTM8MrGEwe/tc8lws744jLYVhKw0vw4Vz/FxMOqWbujWcEjgkLiBiVWvOAPdjWY8lWmSOpA==
+ bh=dxaxSv7khV0h79q7HjXhhbYDA8bi69GJiDvHV8aA3AM=;
+ b=LGQ7tbQEo+p64PoQ+iVIT86MPX9P7f+Abqf+c9F0erS+YWS1ThEiOPr992AUioFUxxFzY1KobGUQ+pnyqzaIqNGhhAXKL7jlQNxs1Ebg5YPfO7NKVLxFMQWdjYatewIO7kHRx7reRdqf0nItp8ySUUW8cdBcRaD4g1Vk80bme0wvCoYu297zgRYSNZbihT6jgmoyPz3uGsTywFoWTlQkEoZvcZY35vbunWZIisJnOcSisRL6l+gQ1s42SoFB7c+xYL41MCb1V8t+gpGlfdaVmuZoBeFGFWi5AK6hpJzEflNU+deZBC5ygNNpsOPHOftO2f0uhnyv4DTwxP+oPG/P1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
  header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E+Z7Elnhm3BhrgNeRyrqBv5JwYYEJY57zgz/EOQdRlg=;
- b=euDil4XuXMZkJoPfqVc5+ciA3EeOfz0M/yjrda5SEw+IAsZmR7Gm4NNMfENuuzlklWJ/fw8IqBsqehDEU3s+SV3qysH83PoRtszNXmRxQf77GVzM7WXe9OJJUfL83HkRuCx4XSalMshWHKDfuIUZjjVo4OaPNrRWQGBpXWQo79Q=
+ bh=dxaxSv7khV0h79q7HjXhhbYDA8bi69GJiDvHV8aA3AM=;
+ b=Jc6Yf8sIwC0E2lNbjtbxxYDhRkSzs1WzrzHtR8oGAEmZtLuX5DBDR5VEZpQXZ/WTrcJuEVUJJIGMxrg5yTqdoCNSIIWDDLUeD6s7NpdqWuyviWiOKxO9F9UPNZKBENkd58nSxNBH8LkZbG5DvId+5G5eoIwKgbDEzLYqG4IAj/o=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none
  header.from=analogixsemi.com;
 Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by SJ0PR04MB7359.namprd04.prod.outlook.com (2603:10b6:a03:2a0::17)
+ by BYAPR04MB5077.namprd04.prod.outlook.com (2603:10b6:a03:41::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Tue, 26 Jan
- 2021 10:19:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Tue, 26 Jan
+ 2021 10:23:00 +0000
 Received: from BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::5813:96a7:b2d6:132]) by BY5PR04MB6739.namprd04.prod.outlook.com
  ([fe80::5813:96a7:b2d6:132%6]) with mapi id 15.20.3763.019; Tue, 26 Jan 2021
- 10:19:04 +0000
-Date: Tue, 26 Jan 2021 18:18:30 +0800
+ 10:23:00 +0000
+Date: Tue, 26 Jan 2021 18:22:28 +0800
 From: Xin Ji <xji@analogixsemi.com>
 To: Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH v3 1/3] dt-bindings:drm/bridge:anx7625:add HDCP support
  flag and swing reg
-Message-ID: <20210126101830.GA32321@zhaomy-pc>
+Message-ID: <20210126102228.GB32321@zhaomy-pc>
 References: <cover.1611572142.git.xji@analogixsemi.com>
  <75e29d7386df2ebca4a8e3f0b91c8370a4a8f74f.1611572143.git.xji@analogixsemi.com>
- <1611586295.672940.327907.nullmailer@robh.at.kernel.org>
+ <20210125154143.GA390777@robh.at.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <1611586295.672940.327907.nullmailer@robh.at.kernel.org>
+In-Reply-To: <20210125154143.GA390777@robh.at.kernel.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [61.148.116.10]
-X-ClientProxiedBy: HKAPR04CA0018.apcprd04.prod.outlook.com
- (2603:1096:203:d0::28) To BY5PR04MB6739.namprd04.prod.outlook.com
+X-ClientProxiedBy: HK2P15301CA0005.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::15) To BY5PR04MB6739.namprd04.prod.outlook.com
  (2603:10b6:a03:229::8)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from zhaomy-pc (61.148.116.10) by
- HKAPR04CA0018.apcprd04.prod.outlook.com (2603:1096:203:d0::28) with Microsoft
+ HK2P15301CA0005.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::15) with Microsoft
  SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
- 15.20.3784.11 via Frontend Transport; Tue, 26 Jan 2021 10:19:03 +0000
+ 15.20.3825.2 via Frontend Transport; Tue, 26 Jan 2021 10:22:59 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e26b7eb2-498b-4fb0-9c30-08d8c1e3cec3
-X-MS-TrafficTypeDiagnostic: SJ0PR04MB7359:
+X-MS-Office365-Filtering-Correlation-Id: 2db8a370-1fab-4e8a-cb09-08d8c1e45b1e
+X-MS-TrafficTypeDiagnostic: BYAPR04MB5077:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR04MB73590A0BAC31D3E4C148DA62C7BC9@SJ0PR04MB7359.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <BYAPR04MB5077FE45873820FFB9FC1119C7BC9@BYAPR04MB5077.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iy2A/mwol1B6HCLgx//k4msxzh/2LEdVr0AWGn9sd28ANU9fuwGhhg5nKDDVHEXj4ZcEowTAM6auG1KBTD26PkSea3y/KmqO5rWTkzNqeLtHe62e9noi2jJdF9nEznPIj0Wk9PIMVTx2JTw1AEy98SZlaFQ1zb4T8lenUDAttID3Eoh2Wunv13UqNEp30ZxxklyofqpK+iAeaNN4YeSCsp3twAwbiXGFUh3eEbGzK8Yg0oRigxLOR6UFElAd+E1InE/g7iclDyp1fFsA0uo/MGteT9JJCsgCRDI7CoE7jm2omtgihJa5qRzow0aKXl4xOG7enOL6wtQF3ztnwu4irOqmvCcJoJC1GiCBWERLZziXvYFh+VYKwcGKcC3B7ITYnF65i0N0nkE7crKU8Ar5ml4cEmSuUgvQeR1RezB6P3vQj5JJ4NZT4uiIJ+0BTDpSaBnoRiXu/KnPu2FpoDyYhG6Q9sUFFsni9v9CGqe6EAOkfes5N/ck1/W5yOZO0qcA6Z5OHuCkL266RISaR2MqCsgC8etUaIuWV+9nP1vvwak5Js9CetR8YH1r/hKmD2BwvWecwy9Sm59G5/Slxpq1u/6TY+zK3/LlhIhfxKA8jKt6hv4aOLp6kbdjjTJPoujvM1eVqR5JxuCyPugbs6HaWg==
+X-Microsoft-Antispam-Message-Info: 7EQXkotNRBTrRZY3DeYLSKihrybkDA3iuRbI6lAwhLUE5VQJuiX+28mdHkxHruBpmrNUJGtI8jn6nAtyapn2V0+UJHNL501x6MLYz+8H/QAcR0tZY0fjnb5ltVp/yDGNh1rOTrKvWp1XKFeA4eOhu0hIyOzzONng9qEBzQX68Sr3x7r3NjEk/HLgwFAaBHQ/i7H/L64aqvOYHP62NO8/CGVRjjcHT8b9ckoPO6duWb5tuPq9C2IYG/ZM+OrC5sjILk7CDp5TmKS6Oi1bXcBpU2Zl6CHkrb4ni2qOX1ssrKkt52krw8/jgT+mmKdU5jhw1XMMrm/RO8qnomABgieziZNZXmJd2j4sYJk5xVVwzp5OyARdPoQzGq+jbFztSXjvmsrc1IXHa8YSmTRkXXG5c+7IsvKoJNpaFHzjrnK5DYa/engUwnzizFZcp7Aox9ilwRef3WwohbFud9cNSZPST36/TeBQF+W83C8aZpUeNeYEnewxCXitnPxK+OPNTNyHfZTbEv1AGtlmy2nAt6Iui1pTT2NUIq9K30FijDOTOn30gNTc2tp3fDDfB1ldA4JQ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39850400004)(396003)(136003)(346002)(376002)(366004)(9686003)(1076003)(83380400001)(8676002)(52116002)(2906002)(33716001)(6916009)(16526019)(6666004)(26005)(5660300002)(66556008)(6496006)(33656002)(55016002)(966005)(66476007)(54906003)(956004)(4326008)(8936002)(478600001)(66946007)(7416002)(86362001)(316002)(186003)(16060500001);
+ SFS:(39850400004)(366004)(376002)(396003)(136003)(346002)(478600001)(16526019)(66946007)(7416002)(316002)(66556008)(186003)(5660300002)(26005)(6496006)(8936002)(4326008)(54906003)(9686003)(1076003)(33716001)(6666004)(8676002)(55016002)(66476007)(52116002)(33656002)(83380400001)(2906002)(86362001)(6916009)(956004)(16060500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Nf7YoK9A0FmNDPAumgnGIShN/pAAFaH2MtUdNmatHw8tCVPRO7zRdknjM692?=
- =?us-ascii?Q?nx0UJCG4K1CVfNiolENiWsHGA0Zp1s8A/IcHUFSRTOBX/n+zAMGpyLkoIDoa?=
- =?us-ascii?Q?6hiMAEBxL0SFuxEcShLu+MHkWbYTgdFblXSBlQRgMVjfapPMexmZgaVfF1qY?=
- =?us-ascii?Q?TJekb56CLNgfbAHKRhBsKZkXj25iDTIWFBMjX3A9XnMnYX/W/DKXwFFXNI1I?=
- =?us-ascii?Q?5TDrWR+hqoX4p5031ruWmE9OBYxZei/mpoaiPNyAfOs/4KSs9gfjNe5oPfYi?=
- =?us-ascii?Q?G5LGTKb71SZzOrVb4yuAleIfyD+KX0+HXbyu4tJtARSAA/jzjlYidRgF+5Pj?=
- =?us-ascii?Q?YLHhyXhuGoKhiqqwwqlhDzlC3o4VNLDiBv2ee+dJqT82M2IrKhUbov2vTIAC?=
- =?us-ascii?Q?8idho1jhJlferi48vIljUXqAdGaeXAkt5l0wWrHxNxtpfd1jKgGhQ0aq9Zxy?=
- =?us-ascii?Q?o+Y9pHr2KE4pPQfqxuAm3yFZUmjofxKwGJU+tlzD01fzYJLtGnmsDy3gs/ot?=
- =?us-ascii?Q?PJtorzzNQ3K6IeZlFU3EFLNxPHRJptwcabwyxiUtMmnJmeu46EOecoqKy5p8?=
- =?us-ascii?Q?a9a0fCVogyOw54PV+65aiGZpxmAAksuhmragO83TcFCrrjPXx+S4DgF5kPjO?=
- =?us-ascii?Q?M69788nd2XmmqtS1zFB3WKoTFQB75FSGuFnFZhfGerRr+zKjOPLFDNy8Jxuf?=
- =?us-ascii?Q?+des9P7Vybzy8Cn8NqnIde2d2cSKIWX8Dd57AELeSLGVmkLVg4WwH6Q5MjLV?=
- =?us-ascii?Q?GvQY8O7MtJGsm1z7M0S39WS+PONxJl18M5HwrHlOGnwDM/l5nXrNQr420W6F?=
- =?us-ascii?Q?X5cDPsRYr5OKryZ52FuWUL+eIbwbV1soEweuB1wk6nY9XbqkQRs7xOmKRlRA?=
- =?us-ascii?Q?jBADp+1sWjbgx1ejUkN189QpmpZVkozHHmWKV859LLT5RGU9VnjEM7l4e9sy?=
- =?us-ascii?Q?ETFK/Gozt095gFuOQf5CUzTWGdn4e4W/2DxJbLikw81Jt5thUQThXrHZpvgg?=
- =?us-ascii?Q?hZR5OukP/SAvHNfKCFyp68SUAS+p4xGWzxr5Y1BMZYahmhwx71kXcO9v+kAi?=
- =?us-ascii?Q?M/8yKOPf?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ROZ7lYXaDf85sS2kh0sX4pHi4SFd77OnqnKB8K6jy8KrIrqXeh78vgwbGn2S?=
+ =?us-ascii?Q?mQtv/RE/UuzSzmYcc3Sv7yFHmk+dFRAIbIkCXtUrWypnSfHQGjFUgUOVUuce?=
+ =?us-ascii?Q?cwe3frWkjMW+4Suu610ynjnwlFUFYIfZ86bwtmjLbpA9nE2HSH4JdWfuLXv+?=
+ =?us-ascii?Q?LTzyA3ed8Q28UcwFsOkPFGdKVyL7bxXCTx8eSMJGAp440LMsrXhkyA3/af2+?=
+ =?us-ascii?Q?cX+LaXYvFyoUOKEHarXpsh2Q5OtKjcaNGVoQG02pcPcVJw+NyKMUh49stzjQ?=
+ =?us-ascii?Q?aiolqjDO9vJQpS24g9vE/GOjiuH1fAViM6rmcbb8zpfA5SZryRhkqFViIlJQ?=
+ =?us-ascii?Q?PX2OTlAT1uSM6zls+TFIxM6Ne5fpKtfnpAg4FNf48l5XvyIseyyT0AXBPTaA?=
+ =?us-ascii?Q?8jp/ejB0BB3P81SseDgKybg9Ze4hOznNgoFHwcwsuAIVrIUzWu6VynhCTCKd?=
+ =?us-ascii?Q?EjKLkqQ+gc+R+LffSKGnQku9Rqby8riHiVw6QXA+6bwKHKrFDyIJKznooNub?=
+ =?us-ascii?Q?jnbLkS5xjoA9li04wPtuHp1xgWu8oP1waf8YTfE0jyWeeZsTq3HkaP6XYYyT?=
+ =?us-ascii?Q?ecnChGkgNKzoVjnCLD43AI3x4qQ9/ibNnWNDmsXvFRo902i3NJsume2cdcFs?=
+ =?us-ascii?Q?CBCd153nuPvB0w30qHSETeZ5pIz/6PnIbDq1jVQY8k6auKGwhBrc/4A1lQtT?=
+ =?us-ascii?Q?1fpbOhjIqYltXeLttxvWYL8Olh+NOQQ7o+FAIZM0oaQJHiSp6DEt7u7oBAw/?=
+ =?us-ascii?Q?TDw24jh3BqnnxJ+A/pEr46WpDigq7c1xXMpgeT4GkeBsz7H8TuGTjMAq6v39?=
+ =?us-ascii?Q?dSz7/LCPVpfH9rV98Z8HZ8hQWc8KasPnwOPTuysN+zU5tDW3wXGAXaW9+rFt?=
+ =?us-ascii?Q?3uFB8SEdMz5HXrJhmenVy8IljkVArehpriDZK5XgbZmFgjkX8iFa+VZL8BAv?=
+ =?us-ascii?Q?NTlErOKqzQbWL9tAv4Dng26YOWOtiqKywVYOWwfIgtbRF+jp5a9vPf72FEfX?=
+ =?us-ascii?Q?+TKRdEwbpdVk5szdelv4Iro4JWouz5WfmNUfyi82/11vVuQNCavp1lCgn5OF?=
+ =?us-ascii?Q?eyrUHtdB?=
 X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e26b7eb2-498b-4fb0-9c30-08d8c1e3cec3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2db8a370-1fab-4e8a-cb09-08d8c1e45b1e
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 10:19:04.6694 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 10:23:00.0445 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bDG5m1TzXiFLGzuYP2njiEn3PauXMCShi1Nmf4vcRoJ2MCx1QXdRoo7iKs7sMrC7S4PRdUgZgXzTNWtSg93p8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7359
+X-MS-Exchange-CrossTenant-UserPrincipalName: tr/DhkwEcQFDaQjdDECb+ZOqZo27tXkMmvVqAcFPTHWVYHKzneDoVKf2r29dSA8QRZtTm3PUn3Vk+ZOJ5yWShA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5077
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,8 +129,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 25, 2021 at 08:51:35AM -0600, Rob Herring wrote:
-> On Mon, 25 Jan 2021 19:12:21 +0800, Xin Ji wrote:
+Hi Rob, thanks for the comments, I'll fix the issue on the next serial.
+Thanks,
+Xin
+
+On Mon, Jan 25, 2021 at 09:41:43AM -0600, Rob Herring wrote:
+> On Mon, Jan 25, 2021 at 07:12:21PM +0800, Xin Ji wrote:
 > > Add 'bus-type' and 'data-lanes' define for port0, add HDCP support
 > > flag and DP tx lane0 and lane1 swing register array define.
 > > 
@@ -139,32 +143,114 @@ On Mon, Jan 25, 2021 at 08:51:35AM -0600, Rob Herring wrote:
 > >  .../bindings/display/bridge/analogix,anx7625.yaml  | 57 ++++++++++++++++++++--
 > >  1 file changed, 54 insertions(+), 3 deletions(-)
 > > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > index 60585a4..3b1cbe0 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > @@ -34,23 +34,69 @@ properties:
+> >      description: used for reset chip control, RESET_N pin B7.
+> >      maxItems: 1
+> >  
+> > +  analogix,lane0-swing:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    description:
+> > +      an array of swing register setting for DP tx lane0 PHY, please don't
+> > +      add this property, or contact vendor.
+> > +
+> > +  analogix,lane1-swing:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    description:
+> > +      an array of swing register setting for DP tx lane1 PHY, please don't
+> > +      add this property, or contact vendor.
+> > +
+> > +  analogix,hdcp-support:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: indicate the DP tx HDCP support or not.
 > 
-> My bot found errors running 'make dt_binding_check' on your patch:
-Hi Rob, OK, I'll fix it in the next serial.
-Thanks,
-Xin
+> Sounds like a boolean.
+OK, I'll change it to boolean.
 > 
-> yamllint warnings/errors:
+> > +
+> >    ports:
+> >      type: object
+> > +    additionalProperties: false
+> >  
+> >      properties:
+> >        port@0:
+> >          type: object
+> >          description:
+> > -          Video port for MIPI DSI input.
+> > +          Video port for MIPI input.
 > 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: ports: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.example.dt.yaml: encoder@58: ports:port@1:endpoint: Additional properties are not allowed ('remote-endpoint' was unexpected)
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> You're going to need to rebase this one drm-misc-next which uses the 
+> graph schema now.
+OK, I'll rebase it.
 > 
-> See https://patchwork.ozlabs.org/patch/1431199
-> 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            type: object
+> > +            additionalProperties: false
+> > +
+> > +            # Properties described in
+> > +            # Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +            properties:
+> > +              remote-endpoint: true
+> > +              bus-type: true
+> > +              data-lanes: true
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +        required:
+> > +          - endpoint
+> >  
+> >        port@1:
+> >          type: object
+> >          description:
+> >            Video port for panel or connector.
+> >  
+> > +        properties:
+> > +          endpoint:
+> > +            type: object
+> > +            additionalProperties: false
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +        required:
+> > +          - endpoint
+> > +
+> >      required:
+> > -        - port@0
+> > -        - port@1
+> > +      - port@0
+> > +      - port@1
+> >  
+> >  required:
+> >    - compatible
+> > @@ -73,6 +119,10 @@ examples:
+> >              enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+> >              reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
+> >  
+> > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+> > +            analogix,hdcp-support = <0>;
+> > +
+> >              ports {
+> >                  #address-cells = <1>;
+> >                  #size-cells = <0>;
+> > @@ -81,6 +131,7 @@ examples:
+> >                      reg = <0>;
+> >                      anx7625_in: endpoint {
+> >                          remote-endpoint = <&mipi_dsi>;
+> > +                        bus-type = <5>;
+> >                      };
+> >                  };
+> >  
+> > -- 
+> > 2.7.4
+> > 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
