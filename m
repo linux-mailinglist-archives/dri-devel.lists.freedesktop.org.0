@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CB5304BAE
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 22:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB4E304BAB
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 22:45:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC626E4AE;
-	Tue, 26 Jan 2021 21:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1F16E48D;
+	Tue, 26 Jan 2021 21:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA036E441;
- Tue, 26 Jan 2021 21:44:38 +0000 (UTC)
-IronPort-SDR: 276D3R91aoDuLzhUyiJfRUdmY6V5DERd5YgwREUr52dyvOTF3Of4jZ4FUHXHl6LsynZH78bc7S
- j48Chhexu1tw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="198770825"
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; d="scan'208";a="198770825"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3FFB6E171;
+ Tue, 26 Jan 2021 21:44:37 +0000 (UTC)
+IronPort-SDR: czDphdFDFSSebhkpN1AfIxsFWFVeVVre7XpD+ZiomSwypPelfgYXXEbLx2y5GMn87JQ+B+cjFT
+ BpCUb8ws9GMA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="198770827"
+X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; d="scan'208";a="198770827"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2021 13:44:36 -0800
-IronPort-SDR: pxx/maiC2y8TN8v4a9MNIpLQaukuEIO7m6+F+beuK12x15k/ghwB9/i8eJB1vT2jFY5rzFHq4M
- l0e928oDl2bA==
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; d="scan'208";a="362139880"
+ 26 Jan 2021 13:44:37 -0800
+IronPort-SDR: jB94TEEMFBkJrl7atXpKz+il2NJU9Q8ef60DYeuRMlLjJ1PRfvZy1XoNdkK7mqYeAUktlL3zX+
+ GDY761QES78A==
+X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; d="scan'208";a="362139884"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  26 Jan 2021 13:44:36 -0800
@@ -36,10 +36,12 @@ To: Brian Welty <brian.welty@intel.com>, cgroups@vger.kernel.org,
  intel-gfx@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Eero Tamminen <eero.t.tamminen@intel.com>
-Subject: [RFC PATCH 0/9] cgroup support for GPU devices 
-Date: Tue, 26 Jan 2021 13:46:17 -0800
-Message-Id: <20210126214626.16260-1-brian.welty@intel.com>
+Subject: [RFC PATCH 1/9] cgroup: Introduce cgroup for drm subsystem
+Date: Tue, 26 Jan 2021 13:46:18 -0800
+Message-Id: <20210126214626.16260-2-brian.welty@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210126214626.16260-1-brian.welty@intel.com>
+References: <20210126214626.16260-1-brian.welty@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,80 +60,263 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'd like to revisit the proposal of a GPU cgroup controller for managing
-GPU devices but with just a basic set of controls.  This series is based on 
-the prior patch series from Kenny Ho [1].  We take Kenny's base patches
-which implement the basic framework for the controller, but we propose an
-alternate set of control files.  Here we've taken a subset of the controls
-proposed in earlier discussion on ML here [2]. 
+From: Kenny Ho <Kenny.Ho@amd.com>
 
-This series proposes a set of device memory controls (gpu.memory.current,
-gpu.memory.max, and gpu.memory.total) and accounting of GPU time usage
-(gpu.sched.runtime).  GPU time sharing controls are left as future work.
-These are implemented within the GPU controller along with integration/usage
-of the device memory controls by the i915 device driver.
+With the increased importance of machine learning, data science and
+other cloud-based applications, GPUs are already in production use in
+data centers today.  Existing GPU resource management is very coarse
+grain, however, as sysadmins are only able to distribute workload on a
+per-GPU basis.  An alternative is to use GPU virtualization (with or
+without SRIOV) but it generally acts on the entire GPU instead of the
+specific resources in a GPU.  With a drm cgroup controller, we can
+enable alternate, fine-grain, sub-GPU resource management (in addition
+to what may be available via GPU virtualization.)
 
-As an accelerator or GPU device is similar in many respects to a CPU with
-(or without) attached system memory, the basic principle here is try to
-copy the semantics of existing controls from other controllers when possible
-and where these controls serve the same underlying purpose.
-For example, the memory.max and memory.current controls are based on
-same controls from MEMCG controller.
-
-Following with the implementation used by the existing RDMA controller,
-here we introduce a general purpose drm_cgroup_try_charge and uncharge
-pair of exported functions. These functions are to be used for
-charging and uncharging all current and future DRM resource controls.
-
-Patches 1 - 4 are part original work and part refactoring of the prior
-work from Kenny Ho from his series for GPU / DRM controller v2 [1].
-
-Patches 5 - 7 introduce new controls to the GPU / DRM controller for device
-memory accounting and GPU time tracking.
-
-Patch 8 introduces DRM support for associating GEM objects with a cgroup.
-
-Patch 9 implements i915 changes to use cgroups for device memory charging
-and enforcing device memory allocation limit.
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2020-February/257052.html
-[2] https://lists.freedesktop.org/archives/dri-devel/2019-November/242599.html
-
-Brian Welty (6):
-  drmcg: Add skeleton seq_show and write for drmcg files
-  drmcg: Add support for device memory accounting via page counter
-  drmcg: Add memory.total file
-  drmcg: Add initial support for tracking gpu time usage
-  drm/gem: Associate GEM objects with drm cgroup
-  drm/i915: Use memory cgroup for enforcing device memory limit
-
-Kenny Ho (3):
-  cgroup: Introduce cgroup for drm subsystem
-  drm, cgroup: Bind drm and cgroup subsystem
-  drm, cgroup: Initialize drmcg properties
-
- Documentation/admin-guide/cgroup-v2.rst    |  58 ++-
- Documentation/cgroup-v1/drm.rst            |   1 +
- drivers/gpu/drm/drm_drv.c                  |  11 +
- drivers/gpu/drm/drm_gem.c                  |  89 ++++
- drivers/gpu/drm/i915/gem/i915_gem_mman.c   |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_region.c |  23 +-
- drivers/gpu/drm/i915/intel_memory_region.c |  13 +-
- drivers/gpu/drm/i915/intel_memory_region.h |   2 +-
- include/drm/drm_cgroup.h                   |  85 ++++
- include/drm/drm_device.h                   |   7 +
- include/drm/drm_gem.h                      |  17 +
- include/linux/cgroup_drm.h                 | 113 +++++
- include/linux/cgroup_subsys.h              |   4 +
- init/Kconfig                               |   5 +
- kernel/cgroup/Makefile                     |   1 +
- kernel/cgroup/drm.c                        | 533 +++++++++++++++++++++
- 16 files changed, 954 insertions(+), 9 deletions(-)
+Signed-off-by: Kenny Ho <Kenny.Ho@amd.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 18 ++++-
+ Documentation/cgroup-v1/drm.rst         |  1 +
+ include/linux/cgroup_drm.h              | 92 +++++++++++++++++++++++++
+ include/linux/cgroup_subsys.h           |  4 ++
+ init/Kconfig                            |  5 ++
+ kernel/cgroup/Makefile                  |  1 +
+ kernel/cgroup/drm.c                     | 42 +++++++++++
+ 7 files changed, 161 insertions(+), 2 deletions(-)
  create mode 100644 Documentation/cgroup-v1/drm.rst
- create mode 100644 include/drm/drm_cgroup.h
  create mode 100644 include/linux/cgroup_drm.h
  create mode 100644 kernel/cgroup/drm.c
 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 63521cd36ce5..b099e1d71098 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -63,8 +63,10 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+        5-7-1. RDMA Interface Files
+      5-8. HugeTLB
+        5.8-1. HugeTLB Interface Files
+-     5-8. Misc
+-       5-8-1. perf_event
++     5-9. GPU
++       5-9-1. GPU Interface Files
++     5-10. Misc
++       5-10-1. perf_event
+      5-N. Non-normative information
+        5-N-1. CPU controller root cgroup process behaviour
+        5-N-2. IO controller root cgroup process behaviour
+@@ -2160,6 +2162,18 @@ HugeTLB Interface Files
+ 	are local to the cgroup i.e. not hierarchical. The file modified event
+ 	generated on this file reflects only the local events.
+ 
++GPU
++---
++
++The "gpu" controller regulates the distribution and accounting of
++of GPU-related resources.
++
++GPU Interface Files
++~~~~~~~~~~~~~~~~~~~~
++
++TODO
++
++
+ Misc
+ ----
+ 
+diff --git a/Documentation/cgroup-v1/drm.rst b/Documentation/cgroup-v1/drm.rst
+new file mode 100644
+index 000000000000..5f5658e1f5ed
+--- /dev/null
++++ b/Documentation/cgroup-v1/drm.rst
+@@ -0,0 +1 @@
++Please see ../cgroup-v2.rst for details
+diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
+new file mode 100644
+index 000000000000..345af54a5d41
+--- /dev/null
++++ b/include/linux/cgroup_drm.h
+@@ -0,0 +1,92 @@
++/* SPDX-License-Identifier: MIT
++ * Copyright 2019 Advanced Micro Devices, Inc.
++ */
++#ifndef _CGROUP_DRM_H
++#define _CGROUP_DRM_H
++
++#include <linux/cgroup.h>
++
++#ifdef CONFIG_CGROUP_DRM
++
++/**
++ * The DRM cgroup controller data structure.
++ */
++struct drmcg {
++	struct cgroup_subsys_state	css;
++};
++
++/**
++ * css_to_drmcg - get the corresponding drmcg ref from a cgroup_subsys_state
++ * @css: the target cgroup_subsys_state
++ *
++ * Return: DRM cgroup that contains the @css
++ */
++static inline struct drmcg *css_to_drmcg(struct cgroup_subsys_state *css)
++{
++	return css ? container_of(css, struct drmcg, css) : NULL;
++}
++
++/**
++ * drmcg_get - get the drmcg reference that a task belongs to
++ * @task: the target task
++ *
++ * This increase the reference count of the css that the @task belongs to
++ *
++ * Return: reference to the DRM cgroup the task belongs to
++ */
++static inline struct drmcg *drmcg_get(struct task_struct *task)
++{
++	return css_to_drmcg(task_get_css(task, gpu_cgrp_id));
++}
++
++/**
++ * drmcg_put - put a drmcg reference
++ * @drmcg: the target drmcg
++ *
++ * Put a reference obtained via drmcg_get
++ */
++static inline void drmcg_put(struct drmcg *drmcg)
++{
++	if (drmcg)
++		css_put(&drmcg->css);
++}
++
++/**
++ * drmcg_parent - find the parent of a drm cgroup
++ * @cg: the target drmcg
++ *
++ * This does not increase the reference count of the parent cgroup
++ *
++ * Return: parent DRM cgroup of @cg
++ */
++static inline struct drmcg *drmcg_parent(struct drmcg *cg)
++{
++	return css_to_drmcg(cg->css.parent);
++}
++
++#else /* CONFIG_CGROUP_DRM */
++
++struct drmcg {
++};
++
++static inline struct drmcg *css_to_drmcg(struct cgroup_subsys_state *css)
++{
++	return NULL;
++}
++
++static inline struct drmcg *drmcg_get(struct task_struct *task)
++{
++	return NULL;
++}
++
++static inline void drmcg_put(struct drmcg *drmcg)
++{
++}
++
++static inline struct drmcg *drmcg_parent(struct drmcg *cg)
++{
++	return NULL;
++}
++
++#endif	/* CONFIG_CGROUP_DRM */
++#endif	/* _CGROUP_DRM_H */
+diff --git a/include/linux/cgroup_subsys.h b/include/linux/cgroup_subsys.h
+index acb77dcff3b4..f4e627942115 100644
+--- a/include/linux/cgroup_subsys.h
++++ b/include/linux/cgroup_subsys.h
+@@ -61,6 +61,10 @@ SUBSYS(pids)
+ SUBSYS(rdma)
+ #endif
+ 
++#if IS_ENABLED(CONFIG_CGROUP_DRM)
++SUBSYS(gpu)
++#endif
++
+ /*
+  * The following subsystems are not supported on the default hierarchy.
+  */
+diff --git a/init/Kconfig b/init/Kconfig
+index b77c60f8b963..bee29f51e380 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1027,6 +1027,11 @@ config CGROUP_RDMA
+ 	  Attaching processes with active RDMA resources to the cgroup
+ 	  hierarchy is allowed even if can cross the hierarchy's limit.
+ 
++config CGROUP_DRM
++	bool "DRM controller (EXPERIMENTAL)"
++	help
++	  Provides accounting and enforcement of resources in the DRM subsystem.
++
+ config CGROUP_FREEZER
+ 	bool "Freezer controller"
+ 	help
+diff --git a/kernel/cgroup/Makefile b/kernel/cgroup/Makefile
+index 5d7a76bfbbb7..31f186f58121 100644
+--- a/kernel/cgroup/Makefile
++++ b/kernel/cgroup/Makefile
+@@ -4,5 +4,6 @@ obj-y := cgroup.o rstat.o namespace.o cgroup-v1.o freezer.o
+ obj-$(CONFIG_CGROUP_FREEZER) += legacy_freezer.o
+ obj-$(CONFIG_CGROUP_PIDS) += pids.o
+ obj-$(CONFIG_CGROUP_RDMA) += rdma.o
++obj-$(CONFIG_CGROUP_DRM) += drm.o
+ obj-$(CONFIG_CPUSETS) += cpuset.o
+ obj-$(CONFIG_CGROUP_DEBUG) += debug.o
+diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
+new file mode 100644
+index 000000000000..5e38a8230922
+--- /dev/null
++++ b/kernel/cgroup/drm.c
+@@ -0,0 +1,42 @@
++// SPDX-License-Identifier: MIT
++// Copyright 2019 Advanced Micro Devices, Inc.
++#include <linux/slab.h>
++#include <linux/cgroup.h>
++#include <linux/cgroup_drm.h>
++
++static struct drmcg *root_drmcg __read_mostly;
++
++static void drmcg_css_free(struct cgroup_subsys_state *css)
++{
++	struct drmcg *drmcg = css_to_drmcg(css);
++
++	kfree(drmcg);
++}
++
++static struct cgroup_subsys_state *
++drmcg_css_alloc(struct cgroup_subsys_state *parent_css)
++{
++	struct drmcg *parent = css_to_drmcg(parent_css);
++	struct drmcg *drmcg;
++
++	drmcg = kzalloc(sizeof(struct drmcg), GFP_KERNEL);
++	if (!drmcg)
++		return ERR_PTR(-ENOMEM);
++
++	if (!parent)
++		root_drmcg = drmcg;
++
++	return &drmcg->css;
++}
++
++struct cftype files[] = {
++	{ }	/* terminate */
++};
++
++struct cgroup_subsys gpu_cgrp_subsys = {
++	.css_alloc	= drmcg_css_alloc,
++	.css_free	= drmcg_css_free,
++	.early_init	= false,
++	.legacy_cftypes	= files,
++	.dfl_cftypes	= files,
++};
 -- 
 2.20.1
 
