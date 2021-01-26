@@ -1,53 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B1130381D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 09:38:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7FC303913
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 10:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981216E44C;
-	Tue, 26 Jan 2021 08:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1BE589CD9;
+	Tue, 26 Jan 2021 09:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E764189D79
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 07:41:55 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id 16so1331242ioz.5
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Jan 2021 23:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yTEzEls579DZ3BH7hVcyPhp2fOCUcEmP44D/dLy0dWM=;
- b=lhkvH0huBJvc9H+HHJT5oD2JJfLRkNYrzMGtQpHmHbrcyuVVO75mflEeMeVGM5SLeV
- Nvz2LpNpnG4NLXQS3PzviLTmcoJ28ZzcjvSuunpWVNA8XdJ5QA/GD6hAbJMtxdnbxWmo
- TblN5TW94Rysnh9stZJyH71Ylpu5BK5dkAgLs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yTEzEls579DZ3BH7hVcyPhp2fOCUcEmP44D/dLy0dWM=;
- b=a5AclQqaWa2QE9C6rJqBJ+brYLsbapvNB3b5qnktxloqFeiKEnmXBlIwAXBEZvK3dR
- j8pfG14f99DDs/2Zbfrd6vYQScx4nCeg72N8443hxwTdxvrfOM+pSG0lmy7JqqpspSIN
- 9yWY4dA/vPKZJy4d+tCqIVFGDJtWQP5Vywce0vnvT9mraoPrC8LVOMS6XZScVlElMkVb
- Gdj6ShEUmXgXjgH9pjNWdJS3XEG18jcgh/rW3EUmlvZ6PCgUsQkZUXJexiyS1rnpgk/T
- 9kJQ1nrrKzIzn0S43RyLxr0PxZKJlDwfaBPIgJnR5pQNHLMoDcX0Z91A5Du4e+wN/OLZ
- Vg8w==
-X-Gm-Message-State: AOAM531496IfMXv77+kLhprS/UE2RSsMqQQu1QGvW49RfonTH1950Zq3
- 3j/Ringct0LZA9W8lQ56ZPVzEq/hxSCbpG8lokQ6/A==
-X-Google-Smtp-Source: ABdhPJwlpBCKAL7fXLH9DDApVCKASF37ZecJUvGno+yw0iUERuo8IehQdIP5bitm9orrlTzk/WX0NRpPQ8lzpIqZxIQ=
-X-Received: by 2002:a05:6638:b12:: with SMTP id
- a18mr3834357jab.114.1611646915306; 
- Mon, 25 Jan 2021 23:41:55 -0800 (PST)
+Received: from sonic308-19.consmr.mail.sg3.yahoo.com
+ (sonic308-19.consmr.mail.sg3.yahoo.com [106.10.241.209])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC0189CD9
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 09:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1611653708; bh=NhACbXd8g/kavX/tSEdky7yg0HWNvtEBLu4KDuhCMcE=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject:Reply-To;
+ b=CrRRoWngS/ZAW0JmxER3dOY4cWvvTEDlxkuad+Z0EFG7/0a9ypGlP9OkIsYE9x/aOGLwXFRAa0pyyiqPyAKr1OAMJ9qavmBjmjbvTD+HpkBvx/s7A2IQjqngX9YEMMYf+mez3wsx798EcSYbOBBo0/owf9FQXlD/ra1hmzct39E0FCCNxTynvz6p+HWFOYlZSTLobU3AARBuMPnzDL4hvLlpOSeIDyNGN8MVvFpRJ6eSNjUX/9vk0ZspmRqM5UMvTftE1+VZ7NzkmnBN2qgvQLJo7d+IbHsrD5OhDlasJS3LRXmDQa4kewHCsOPRCM61rjc0AwmvXlhuJ7T0LsZb5w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1611653708; bh=2quZR7cpE1N0RYbzTFjwxyJRMC0vnwr2+yo91mL785j=;
+ h=Subject:To:From:Date:From:Subject:Reply-To;
+ b=QzHSHoICp/7YS/CqltOd2skAUjPWtMcG3Xp//NNnQ8TpdM7/YVCDhx8+e98H6tohwgOoSc2QjqGUacA+mxEH509JdiYZYjCpqm9PAZGnagN/ZCGeQfdQnp+38ynAUxKaKnpysDrEJuWdzuQTHgsPf/xxPzgVIbkmquMceZ58LyrjQYxya4jcll2edzVBktdReRDIQLbwypT+nkvjht+KAijKGp9tcSWRnIUC1LmmbzrT4ij7090dGajipe15vQ6QEDcmA70zJu/ZNpQ+GsPZqmauQhVoH43qBBuRTVl9gBVBgkcRq/COQZWz87fe45Qgn5UkyOeQCDC4twCWfhJHig==
+X-YMail-OSG: ZrY9XyQVM1lkz2.KgDaYrpNgxUa46RsBx2Ra66Zgy2EjZYKSLrLeSLURPikhwEK
+ sB8Yo80owqtMwsKAAOvCSiX8Xw8edVy3ySnaLHovJEhFkAEvPHm18Y3VCEKgc9H5rlCzZ814bvMY
+ p3M7obtsvMkEMSFpq6yuL6VB0VBgDG1cHa6MXDgWL2mRLDvfgxgu8BDn8JK9e_daP55b5zN6NanB
+ mGaDgQEAPOHKd97tbodmNFfjitthXEY2HLPfTCCYFGAVYtuohPCJBHeTNs6lTLOnbUzcBqqcizz1
+ 44DflKG71PGAs9QPnvDIbGTgG7kYC7we1l5pu65AYRy2hCrkkugjbnNYZ.jfAQ3lC9W_88kmx1Nm
+ 8UPcr_XJmhD0miKtd0ISrRGkPVeWITHjEa6pg9RPBISfH7611rVi4KeSU7ZONLr_7xEVoqqrMHvt
+ 4yGhyKrYizDMjJDgld52OlcbT5LSQ5VhT2yOLz9Xxi0qyneY3E5Yud4n8ZTjDgphO9Lnt_r_Tvib
+ SkhHhTWYjszyq9kUhXxS81eBeHms4Q9JFOa.dGX3N5rHaxcS9EgVUWfFtKEOL3T_gzqXDEkZ.XhC
+ sevLMjsXO4G3y3y8viDbqlHDgw4ITtIcP4mtAztY.H3GyvDtJSrF813CHShwK7GZSbJrdmYQ6sQN
+ .Ah4l2Ye.A9gCaVnhiepWqu5Dq6BOj_gRg9fpK4pcr7mrlDbbcBRgnQ3bvS_HcpDM6ed7FxToei9
+ NFiG8nWRm.bqDX1mbF54s.FPoSGNVJiEcMT6Sj.S891bxRWq_gvacqjt7nOjI.JwQQp37BIl1AmN
+ 6UrR9sbn7P8srJlCkfaTLZVQcL2hpkyDOVuFPRKYzOQsOe_qr1bJr6GuJSQtirkpPhpqzp_cit0y
+ lzvc5EkgHCKOP2TA67SvjsdKuhoQH6nVbqrQmb2ZzA6H7ahp.uhmDevQ3vagtNd0pUv2x2R0nIDz
+ OuuNRSEpKyubNMa35N90sautq2K7DUdZwRbOaRs.7tFTMCg3l42CkXNKx42Usp16UEMWNyLH8PlP
+ 9m5ypAWoEzR.PK53Xkq6g.MAZAW.trdQs_A_dSzJoWbuI921fd8qes0MxzLxJtQPwzmDovsSkgJf
+ yRceKN38TO4JIlxkA4245PH1Fq5RO0okf_B5x1vpmmUejC_mbgfpOO9.TlXAdrB2c_.OHipXSfL.
+ zzs6FLt6gP83wmgmB22oItUhVzCGZbJU4veLd8qIrlP0f9AisOoDoGlQbN7xziiGIKr0yrMuI9we
+ Q_nSK8o9EfwPYkCXagDW.DDdOvdauEhKqDT6qaU0aRgdst7gr5APLHqrN1oBl33mELDV9gfA9bZ5
+ N9cinphGm4NRL38sPenhjlir6ktoEz2ryh1lUSP1PC2WScVFrI_vIcYg5pTr5yavEW2VDh6MsVCu
+ _Avrt206XM_GxIUQJwMokAty8TMBhmEezXhZ3ShXPsUficT7rLksXQOY.xnzmW5RyqG1OlsUjQMU
+ .A5RZ9o1z3alz1ekdp_9QhSY0gyVztSTtBq1MtuzDHeiQFkEqArkSMOgePQpWwD_DuMa3AA5ewjW
+ jQ2Z9BYtBXcLpzT6Mg_zoD11rC9xzNnCVRFIzsrby1SXIivQu9PP7zH6wWk.1ke2R_JaxDyFZuch
+ L2UC8C0LsTJZn6EqUB.xymMIy9xlno_sh5QJEaC2lLvcmL_PDjBrhT2dT4OrrWx8UhwjWppX_d.j
+ r657qaJwivJ9388ObK_WWc2C3aHpeICMVfcZLW9qRWr0vEpHzZ7iW0Z1mSx8BDtsKlO.gGoyyz_l
+ Lt4KjHUi2V_qUn8Kwgj.I67N6UDtSlpWewMG5JR_qB5V9uSToQ3SwebX06VBJtbz3XqX85GfMngV
+ BhMfrzSec3Xj2jRVR6Togjm7yDsMydjiwnqKBq1VLjcX.9l7Hfw0CITIFU1J0Y1_nJtt8YmAbz_O
+ DecFiyvxwVDBAskkrM9tZzYbharSkU5txkImt6OqSc7HGZUhDISdIIrEzdcfOI1bQ4uqSVb_Bzml
+ G4cwT93Z2b5Hlp9mKPAfqnHaeRwdzfWiWrB_GJz6k9a5MThp7vxNXSDeNslPMVTfdMHu.ar1sJC_
+ Bp3NnZgoAAea_AL9cHS3m_rtl7ljyCqMDn1FKZNxmbkOR_NcF.l4T1zffTVbT.TzsMVUXN.Jwi0v
+ Eyezru4qsZQePgzrqcYikqoFbMCPgmkVTUJUmSuzFZlzas9UyeUowlPz4plm3ImcjaNo5l5WL8Wn
+ J3ujm4CXUUlbLw1cEqBRCbNBmLO460lZIo3YGZffyW4y01THxV0EpIRnMvJyU1v6CcehZYf9UfEk
+ UPeuYWltuWIa5zSl5FhigQwBsHpbyDJDwbUHHmsp3G62Fvp8SjtbNGtXoR.pwPFEoO.hqbWyJrMA
+ K2lOb64TSvI82GUAMz10ZmESSoMQ.5LSiyZ.tpT0WLAeZDhueXb2VEYc6qfSEk09LHzGm.08hKFL
+ pGA2EF75gBxSFk3mmMNzNds0O35NOkKTOpaCg8YLe7AqbWKffq.9vgLeZ4VFSyIiNtl.Hdplr24V
+ X8ToBq6Bkhe3ObJHwR34L7mRrtaPcIzQCX3kOTsb3ilu_xniznYWL5nQrzE_0kzVJVRmhbPKiy.l
+ U6UzKpV23eHNYnjbHWUAL4ze4TatgQmC1r4oh3L1TdxPNyzdcp.HbdEr8a.vWnf7mKRqwehAkiRl
+ NY55v9p9XKV1pT9s8gh6ZKpWGIIXns7CjBtMJT1Lqtp6_IrEGmfyBKx.wWlbNr0FXotw1u7eyGBG
+ yFIxtrKFU1LEGriI-
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.sg3.yahoo.com with HTTP; Tue, 26 Jan 2021 09:35:08 +0000
+Received: by smtp412.mail.sg3.yahoo.com (VZM Hermes SMTP Server) with ESMTPA
+ ID c23b948810675446d5eb4479210ddfe4; 
+ Tue, 26 Jan 2021 09:35:04 +0000 (UTC)
+Subject: Re: [PATCH 3/4] drm: Extend color correction to support 3D-CLU
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201221015730.28333-4-laurent.pinchart+renesas@ideasonboard.com>
+From: Sandy Huang <sandy.huang01@yahoo.com>
+Message-ID: <383d234f-985f-92f1-4530-2512461cf287@yahoo.com>
+Date: Tue, 26 Jan 2021 17:34:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <1610351031-21133-1-git-send-email-yongqiang.niu@mediatek.com>
- <1610351031-21133-6-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1610351031-21133-6-git-send-email-yongqiang.niu@mediatek.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 26 Jan 2021 15:41:29 +0800
-Message-ID: <CAJMQK-g_+7h0vo7758aoY6304pqULJpHgSWE3HhvF8FWjkze_w@mail.gmail.com>
-Subject: Re: [PATCH v3, 05/15] drm/mediatek: add component POSTMASK
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-X-Mailman-Approved-At: Tue, 26 Jan 2021 08:37:37 +0000
+In-Reply-To: <20201221015730.28333-4-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: WebService/1.1.17642
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+ Apache-HttpAsyncClient/4.1.4 (Java/11.0.8)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,297 +91,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 3:44 PM Yongqiang Niu
-<yongqiang.niu@mediatek.com> wrote:
->
-> This patch add component POSTMASK,
->
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/Makefile            |   1 +
->  drivers/gpu/drm/mediatek/mtk_disp_postmask.c | 160 +++++++++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c  |   2 +
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h  |   1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c       |   4 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h       |   1 +
->  6 files changed, 168 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_postmask.c
->
-> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
-> index 17a08e2..ce5ad59 100644
-> --- a/drivers/gpu/drm/mediatek/Makefile
-> +++ b/drivers/gpu/drm/mediatek/Makefile
-> @@ -3,6 +3,7 @@
->  mediatek-drm-y := mtk_disp_color.o \
->                   mtk_disp_gamma.o \
->                   mtk_disp_ovl.o \
-> +                 mtk_disp_postmask.o \
->                   mtk_disp_rdma.o \
->                   mtk_drm_crtc.o \
->                   mtk_drm_ddp.o \
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_postmask.c b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> new file mode 100644
-> index 0000000..736224c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
-> @@ -0,0 +1,160 @@
-> +/*
-> + * SPDX-License-Identifier:
-> + *
-> + * Copyright (c) 2020 MediaTek Inc.
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/soc/mediatek/mtk-cmdq.h>
-> +
-> +#include "mtk_drm_crtc.h"
-> +#include "mtk_drm_ddp_comp.h"
-> +
-> +#define DISP_POSTMASK_EN                       0x0000
-> +#define POSTMASK_EN                                    BIT(0)
-> +#define DISP_POSTMASK_CFG                      0x0020
-> +#define POSTMASK_RELAY_MODE                            BIT(0)
-> +#define DISP_POSTMASK_SIZE                     0x0030
-> +
-> +struct mtk_disp_postmask_data {
-> +       u32 reserved;
-> +};
-> +
-
-Will there be more data and config for different soc in the future? If
-not, it can be put in mtk_drm_ddp_comp.c and use struct
-mtk_ddp_comp_dev, like ddp_dither or ddp_aal.
-
-
-> +/**
-> + * struct mtk_disp_postmask - DISP_postmask driver structure
-> + * @ddp_comp - structure containing type enum and hardware resources
-> + * @crtc - associated crtc to report irq events to
-> + */
-> +struct mtk_disp_postmask {
-> +       struct mtk_ddp_comp                     ddp_comp;
-> +       const struct mtk_disp_postmask_data     *data;
-> +};
-> +
-> +static inline struct mtk_disp_postmask *comp_to_postmask(struct mtk_ddp_comp *comp)
-> +{
-> +       return container_of(comp, struct mtk_disp_postmask, ddp_comp);
-> +}
-> +
-> +static void mtk_postmask_config(struct mtk_ddp_comp *comp, unsigned int w,
-> +                             unsigned int h, unsigned int vrefresh,
-> +                             unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> +{
-> +       mtk_ddp_write(cmdq_pkt, w << 16 | h, comp, DISP_POSTMASK_SIZE);
-> +       mtk_ddp_write(cmdq_pkt, POSTMASK_RELAY_MODE, comp, DISP_POSTMASK_CFG);
-> +}
-> +
-> +static void mtk_postmask_start(struct mtk_ddp_comp *comp)
-> +{
-> +       writel(POSTMASK_EN, comp->regs + DISP_POSTMASK_EN);
-> +}
-> +
-> +static void mtk_postmask_stop(struct mtk_ddp_comp *comp)
-> +{
-> +       writel_relaxed(0x0, comp->regs + DISP_POSTMASK_EN);
-> +}
-> +
-> +static const struct mtk_ddp_comp_funcs mtk_disp_postmask_funcs = {
-> +       .config = mtk_postmask_config,
-> +       .start = mtk_postmask_start,
-> +       .stop = mtk_postmask_stop,
-> +};
-> +
-> +static int mtk_disp_postmask_bind(struct device *dev, struct device *master, void *data)
-> +{
-> +       struct mtk_disp_postmask *priv = dev_get_drvdata(dev);
-> +       struct drm_device *drm_dev = data;
-> +       int ret;
-> +
-> +       ret = mtk_ddp_comp_register(drm_dev, &priv->ddp_comp);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to register component %pOF: %d\n",
-> +                       dev->of_node, ret);
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static void mtk_disp_postmask_unbind(struct device *dev, struct device *master,
-> +                                 void *data)
-> +{
-> +       struct mtk_disp_postmask *priv = dev_get_drvdata(dev);
-> +       struct drm_device *drm_dev = data;
-> +
-> +       mtk_ddp_comp_unregister(drm_dev, &priv->ddp_comp);
-> +}
-> +
-> +static const struct component_ops mtk_disp_postmask_component_ops = {
-> +       .bind   = mtk_disp_postmask_bind,
-> +       .unbind = mtk_disp_postmask_unbind,
-> +};
-> +
-> +static int mtk_disp_postmask_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct mtk_disp_postmask *priv;
-> +       int comp_id;
-> +       int ret;
-> +
-> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +       if (!priv)
-> +               return -ENOMEM;
-> +
-> +       comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DISP_POSTMASK);
-> +       if (comp_id < 0) {
-> +               dev_err(dev, "Failed to identify by alias: %d\n", comp_id);
-> +               return comp_id;
-> +       }
-> +
-> +       ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
-> +                               &mtk_disp_postmask_funcs);
-> +       if (ret) {
-> +               if (ret != -EPROBE_DEFER)
-> +                       dev_err(dev, "Failed to initialize component: %d\n",
-> +                               ret);
-> +
-> +               return ret;
-> +       }
-> +
-> +       priv->data = of_device_get_match_data(dev);
-> +
-> +       platform_set_drvdata(pdev, priv);
-> +
-> +       pm_runtime_enable(dev);
-> +
-> +       ret = component_add(dev, &mtk_disp_postmask_component_ops);
-> +       if (ret)
-> +               dev_err(dev, "Failed to add component: %d\n", ret);
-> +
-> +       return ret;
-> +}
-> +
-> +static int mtk_disp_postmask_remove(struct platform_device *pdev)
-> +{
-> +       pm_runtime_disable(&pdev->dev);
-> +
-> +       component_del(&pdev->dev, &mtk_disp_postmask_component_ops);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct of_device_id mtk_disp_postmask_driver_dt_match[] = {
-> +       {},
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_disp_postmask_driver_dt_match);
-> +
-> +struct platform_driver mtk_disp_postmask_driver = {
-> +       .probe          = mtk_disp_postmask_probe,
-> +       .remove         = mtk_disp_postmask_remove,
-> +       .driver         = {
-> +               .name   = "mediatek-disp-postmask",
-> +               .owner  = THIS_MODULE,
-> +               .of_match_table = mtk_disp_postmask_driver_dt_match,
-> +       },
-> +};
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index a715127..bc6b10a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -354,6 +354,7 @@ static void mtk_dither_stop(struct mtk_ddp_comp *comp)
->         [MTK_DISP_MUTEX] = "mutex",
->         [MTK_DISP_OD] = "od",
->         [MTK_DISP_BLS] = "bls",
-> +       [MTK_DISP_POSTMASK] = "postmask",
->  };
->
->  struct mtk_ddp_comp_match {
-> @@ -384,6 +385,7 @@ struct mtk_ddp_comp_match {
->         [DDP_COMPONENT_OVL_2L0] = { MTK_DISP_OVL_2L,    0, NULL },
->         [DDP_COMPONENT_OVL_2L1] = { MTK_DISP_OVL_2L,    1, NULL },
->         [DDP_COMPONENT_OVL_2L2] = { MTK_DISP_OVL_2L,    2, NULL },
-> +       [DDP_COMPONENT_POSTMASK0]       = { MTK_DISP_POSTMASK,  0, NULL },
->         [DDP_COMPONENT_PWM0]    = { MTK_DISP_PWM,       0, NULL },
->         [DDP_COMPONENT_PWM1]    = { MTK_DISP_PWM,       1, NULL },
->         [DDP_COMPONENT_PWM2]    = { MTK_DISP_PWM,       2, NULL },
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> index 178fae9..0b23b5c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -29,6 +29,7 @@ enum mtk_ddp_comp_type {
->         MTK_DISP_UFOE,
->         MTK_DSI,
->         MTK_DPI,
-> +       MTK_DISP_POSTMASK,
->         MTK_DISP_PWM,
->         MTK_DISP_MUTEX,
->         MTK_DISP_OD,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index b6e963e..bc205e9 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -533,7 +533,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
->                 private->comp_node[comp_id] = of_node_get(node);
->
->                 /*
-> -                * Currently only the COLOR, GAMMA, OVL, RDMA, DSI, and DPI blocks have
-> +                * Currently only the COLOR, GAMMA, OVL, POSTMASK, RDMA, DSI, and DPI blocks have
->                  * separate component platform drivers and initialize their own
->                  * DDP component structure. The others are initialized here.
->                  */
-> @@ -541,6 +541,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
->                     comp_type == MTK_DISP_GAMMA ||
->                     comp_type == MTK_DISP_OVL ||
->                     comp_type == MTK_DISP_OVL_2L ||
-> +                   comp_type == MTK_DISP_POSTMASK ||
->                     comp_type == MTK_DISP_RDMA ||
->                     comp_type == MTK_DSI ||
->                     comp_type == MTK_DPI) {
-> @@ -654,6 +655,7 @@ static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
->         &mtk_disp_color_driver,
->         &mtk_disp_gamma_driver,
->         &mtk_disp_ovl_driver,
-> +       &mtk_disp_postmask_driver,
->         &mtk_disp_rdma_driver,
->         &mtk_dpi_driver,
->         &mtk_drm_platform_driver,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> index bbd362b..8a9544b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> @@ -50,6 +50,7 @@ struct mtk_drm_private {
->  extern struct platform_driver mtk_disp_color_driver;
->  extern struct platform_driver mtk_disp_gamma_driver;
->  extern struct platform_driver mtk_disp_ovl_driver;
-> +extern struct platform_driver mtk_disp_postmask_driver;
->  extern struct platform_driver mtk_disp_rdma_driver;
->  extern struct platform_driver mtk_dpi_driver;
->  extern struct platform_driver mtk_dsi_driver;
-> --
-> 1.8.1.1.dirty
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGF1cmVudCBhbmQgS2llcmFuLAoKRG8geW91IGZvcmdldCB0byBhdHRhY2ggY3ViaWNfbHV0
+X3Byb3BlcnR5IHdpdGggY3J0Yz8KCmRybV9vYmplY3RfYXR0YWNoX3Byb3BlcnR5KCZjcnRjLT5i
+YXNlLCBjb25maWctPmN1YmljX2x1dF9wcm9wZXJ0eSwgY3ViaWNfbHV0X3NpemUpOwoK5ZyoIDIw
+MjAvMTIvMjEgOTo1NywgTGF1cmVudCBQaW5jaGFydCDlhpnpgZM6Cj4gRnJvbTogS2llcmFuIEJp
+bmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPgo+IEV4dGVu
+ZCB0aGUgZXhpc3RpbmcgY29sb3IgbWFuYWdlbWVudCBwcm9wZXJ0aWVzIHRvIHN1cHBvcnQgcHJv
+dmlzaW9uCj4gb2YgYSAzRCBjdWJpYyBsb29rIHVwIHRhYmxlLCBhbGxvd2luZyBmb3IgY29sb3Ig
+c3BlY2lmaWMgYWRqdXN0bWVudHMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBLaWVyYW4gQmluZ2hhbSA8
+a2llcmFuLmJpbmdoYW0rcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgo+IENvLWRldmVsb3BlZC1i
+eTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydCtyZW5lc2FzQGlkZWFzb25ib2Fy
+ZC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
+dCtyZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2F0b21pY19oZWxwZXIuYyAgICAgICB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRv
+bWljX3N0YXRlX2hlbHBlci5jIHwgIDMgKysKPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWlj
+X3VhcGkuYyAgICAgICAgIHwgMTAgKysrKysrCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9y
+X21nbXQuYyAgICAgICAgICB8IDQxICsrKysrKysrKysrKysrKysrKystLS0tCj4gICBkcml2ZXJz
+L2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMgICAgICAgICB8IDE0ICsrKysrKysrCj4gICBpbmNs
+dWRlL2RybS9kcm1fY3J0Yy5oICAgICAgICAgICAgICAgICAgICB8ICA5ICsrKysrCj4gICBpbmNs
+dWRlL2RybS9kcm1fbW9kZV9jb25maWcuaCAgICAgICAgICAgICB8IDExICsrKysrKwo+ICAgNyBm
+aWxlcyBjaGFuZ2VkLCA4MiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPiBpbmRleCBiYTE1MDcwMzZmMjYuLjBmNTQ4OTdkM2M4
+ZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4gQEAgLTM1NTgsNiArMzU1
+OCw3IEBAIGludCBkcm1fYXRvbWljX2hlbHBlcl9sZWdhY3lfZ2FtbWFfc2V0KHN0cnVjdCBkcm1f
+Y3J0YyAqY3J0YywKPiAgIAlyZXBsYWNlZCAgPSBkcm1fcHJvcGVydHlfcmVwbGFjZV9ibG9iKCZj
+cnRjX3N0YXRlLT5kZWdhbW1hX2x1dCwgTlVMTCk7Cj4gICAJcmVwbGFjZWQgfD0gZHJtX3Byb3Bl
+cnR5X3JlcGxhY2VfYmxvYigmY3J0Y19zdGF0ZS0+Y3RtLCBOVUxMKTsKPiAgIAlyZXBsYWNlZCB8
+PSBkcm1fcHJvcGVydHlfcmVwbGFjZV9ibG9iKCZjcnRjX3N0YXRlLT5nYW1tYV9sdXQsIGJsb2Ip
+Owo+ICsJcmVwbGFjZWQgfD0gZHJtX3Byb3BlcnR5X3JlcGxhY2VfYmxvYigmY3J0Y19zdGF0ZS0+
+Y3ViaWNfbHV0LCBOVUxMKTsKPiAgIAljcnRjX3N0YXRlLT5jb2xvcl9tZ210X2NoYW5nZWQgfD0g
+cmVwbGFjZWQ7Cj4gICAKPiAgIAlyZXQgPSBkcm1fYXRvbWljX2NvbW1pdChzdGF0ZSk7Cj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3N0YXRlX2hlbHBlci5jIGIvZHJp
+dmVycy9ncHUvZHJtL2RybV9hdG9taWNfc3RhdGVfaGVscGVyLmMKPiBpbmRleCBkZGNmNWMyYzhl
+NmEuLjYxYzY4NWI1MDY3NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21p
+Y19zdGF0ZV9oZWxwZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3N0YXRl
+X2hlbHBlci5jCj4gQEAgLTE0MSw2ICsxNDEsOCBAQCB2b2lkIF9fZHJtX2F0b21pY19oZWxwZXJf
+Y3J0Y19kdXBsaWNhdGVfc3RhdGUoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICAgCQlkcm1fcHJv
+cGVydHlfYmxvYl9nZXQoc3RhdGUtPmN0bSk7Cj4gICAJaWYgKHN0YXRlLT5nYW1tYV9sdXQpCj4g
+ICAJCWRybV9wcm9wZXJ0eV9ibG9iX2dldChzdGF0ZS0+Z2FtbWFfbHV0KTsKPiArCWlmIChzdGF0
+ZS0+Y3ViaWNfbHV0KQo+ICsJCWRybV9wcm9wZXJ0eV9ibG9iX2dldChzdGF0ZS0+Y3ViaWNfbHV0
+KTsKPiAgIAlzdGF0ZS0+bW9kZV9jaGFuZ2VkID0gZmFsc2U7Cj4gICAJc3RhdGUtPmFjdGl2ZV9j
+aGFuZ2VkID0gZmFsc2U7Cj4gICAJc3RhdGUtPnBsYW5lc19jaGFuZ2VkID0gZmFsc2U7Cj4gQEAg
+LTIxMyw2ICsyMTUsNyBAQCB2b2lkIF9fZHJtX2F0b21pY19oZWxwZXJfY3J0Y19kZXN0cm95X3N0
+YXRlKHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqc3RhdGUpCj4gICAJZHJtX3Byb3BlcnR5X2Jsb2Jf
+cHV0KHN0YXRlLT5kZWdhbW1hX2x1dCk7Cj4gICAJZHJtX3Byb3BlcnR5X2Jsb2JfcHV0KHN0YXRl
+LT5jdG0pOwo+ICAgCWRybV9wcm9wZXJ0eV9ibG9iX3B1dChzdGF0ZS0+Z2FtbWFfbHV0KTsKPiAr
+CWRybV9wcm9wZXJ0eV9ibG9iX3B1dChzdGF0ZS0+Y3ViaWNfbHV0KTsKPiAgIH0KPiAgIEVYUE9S
+VF9TWU1CT0woX19kcm1fYXRvbWljX2hlbHBlcl9jcnRjX2Rlc3Ryb3lfc3RhdGUpOwo+ICAgCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3VhcGkuYyBiL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fYXRvbWljX3VhcGkuYwo+IGluZGV4IDI2OGJiNjljMmUyZi4uMDcyMjlhY2Fi
+NzFjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3VhcGkuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3VhcGkuYwo+IEBAIC00NzEsNiArNDcxLDE0
+IEBAIHN0YXRpYyBpbnQgZHJtX2F0b21pY19jcnRjX3NldF9wcm9wZXJ0eShzdHJ1Y3QgZHJtX2Ny
+dGMgKmNydGMsCj4gICAJCQkJCSZyZXBsYWNlZCk7Cj4gICAJCXN0YXRlLT5jb2xvcl9tZ210X2No
+YW5nZWQgfD0gcmVwbGFjZWQ7Cj4gICAJCXJldHVybiByZXQ7Cj4gKwl9IGVsc2UgaWYgKHByb3Bl
+cnR5ID09IGNvbmZpZy0+Y3ViaWNfbHV0X3Byb3BlcnR5KSB7Cj4gKwkJcmV0ID0gZHJtX2F0b21p
+Y19yZXBsYWNlX3Byb3BlcnR5X2Jsb2JfZnJvbV9pZChkZXYsCj4gKwkJCQkJJnN0YXRlLT5jdWJp
+Y19sdXQsCj4gKwkJCQkJdmFsLAo+ICsJCQkJCS0xLCBzaXplb2Yoc3RydWN0IGRybV9jb2xvcl9s
+dXQpLAo+ICsJCQkJCSZyZXBsYWNlZCk7Cj4gKwkJc3RhdGUtPmNvbG9yX21nbXRfY2hhbmdlZCB8
+PSByZXBsYWNlZDsKPiArCQlyZXR1cm4gcmV0Owo+ICAgCX0gZWxzZSBpZiAocHJvcGVydHkgPT0g
+Y29uZmlnLT5wcm9wX291dF9mZW5jZV9wdHIpIHsKPiAgIAkJczMyIF9fdXNlciAqZmVuY2VfcHRy
+ID0gdTY0X3RvX3VzZXJfcHRyKHZhbCk7Cj4gICAKPiBAQCAtNTE2LDYgKzUyNCw4IEBAIGRybV9h
+dG9taWNfY3J0Y19nZXRfcHJvcGVydHkoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICAgCQkqdmFs
+ID0gKHN0YXRlLT5jdG0pID8gc3RhdGUtPmN0bS0+YmFzZS5pZCA6IDA7Cj4gICAJZWxzZSBpZiAo
+cHJvcGVydHkgPT0gY29uZmlnLT5nYW1tYV9sdXRfcHJvcGVydHkpCj4gICAJCSp2YWwgPSAoc3Rh
+dGUtPmdhbW1hX2x1dCkgPyBzdGF0ZS0+Z2FtbWFfbHV0LT5iYXNlLmlkIDogMDsKPiArCWVsc2Ug
+aWYgKHByb3BlcnR5ID09IGNvbmZpZy0+Y3ViaWNfbHV0X3Byb3BlcnR5KQo+ICsJCSp2YWwgPSAo
+c3RhdGUtPmN1YmljX2x1dCkgPyBzdGF0ZS0+Y3ViaWNfbHV0LT5iYXNlLmlkIDogMDsKPiAgIAll
+bHNlIGlmIChwcm9wZXJ0eSA9PSBjb25maWctPnByb3Bfb3V0X2ZlbmNlX3B0cikKPiAgIAkJKnZh
+bCA9IDA7Cj4gICAJZWxzZSBpZiAocHJvcGVydHkgPT0gY3J0Yy0+c2NhbGluZ19maWx0ZXJfcHJv
+cGVydHkpCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9jb2xvcl9tZ210LmMKPiBpbmRleCAzYmNhYmMyZjZlMGUuLjg1
+YmJiYzhjZThlNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NvbG9yX21nbXQu
+Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JfbWdtdC5jCj4gQEAgLTMzLDcgKzMz
+LDcgQEAKPiAgIC8qKgo+ICAgICogRE9DOiBvdmVydmlldwo+ICAgICoKPiAtICogQ29sb3IgbWFu
+YWdlbWVudCBvciBjb2xvciBzcGFjZSBhZGp1c3RtZW50cyBpcyBzdXBwb3J0ZWQgdGhyb3VnaCBh
+IHNldCBvZiA1Cj4gKyAqIENvbG9yIG1hbmFnZW1lbnQgb3IgY29sb3Igc3BhY2UgYWRqdXN0bWVu
+dHMgaXMgc3VwcG9ydGVkIHRocm91Z2ggYSBzZXQgb2YgNwo+ICAgICogcHJvcGVydGllcyBvbiB0
+aGUgJmRybV9jcnRjIG9iamVjdC4gVGhleSBhcmUgc2V0IHVwIGJ5IGNhbGxpbmcKPiAgICAqIGRy
+bV9jcnRjX2VuYWJsZV9jb2xvcl9tZ210KCkuCj4gICAgKgo+IEBAIC02MCw3ICs2MCw3IEBACj4g
+ICAgKiDigJxDVE3igJ06Cj4gICAgKglCbG9iIHByb3BlcnR5IHRvIHNldCB0aGUgY3VycmVudCB0
+cmFuc2Zvcm1hdGlvbiBtYXRyaXggKENUTSkgYXBwbHkgdG8KPiAgICAqCXBpeGVsIGRhdGEgYWZ0
+ZXIgdGhlIGxvb2t1cCB0aHJvdWdoIHRoZSBkZWdhbW1hIExVVCBhbmQgYmVmb3JlIHRoZQo+IC0g
+Kglsb29rdXAgdGhyb3VnaCB0aGUgZ2FtbWEgTFVULiBUaGUgZGF0YSBpcyBpbnRlcnByZXRlZCBh
+cyBhIHN0cnVjdAo+ICsgKglsb29rdXAgdGhyb3VnaCB0aGUgY3ViaWMgTFVULiBUaGUgZGF0YSBp
+cyBpbnRlcnByZXRlZCBhcyBhIHN0cnVjdAo+ICAgICoJJmRybV9jb2xvcl9jdG0uCj4gICAgKgo+
+ICAgICoJU2V0dGluZyB0aGlzIHRvIE5VTEwgKGJsb2IgcHJvcGVydHkgdmFsdWUgc2V0IHRvIDAp
+IG1lYW5zIGEKPiBAQCAtNjgsMTMgKzY4LDQwIEBACj4gICAgKglib290LXVwIHN0YXRlIHRvby4g
+RHJpdmVycyBjYW4gYWNjZXNzIHRoZSBibG9iIGZvciB0aGUgY29sb3IgY29udmVyc2lvbgo+ICAg
+ICoJbWF0cml4IHRocm91Z2ggJmRybV9jcnRjX3N0YXRlLmN0bS4KPiAgICAqCj4gKyAqIOKAnUNV
+QklDX0xVVOKAnToKPiArICoJQmxvYiBwcm9wZXJ0eSB0byBzZXQgdGhlIGN1YmljICgzRCkgbG9v
+a3VwIHRhYmxlIHBlcmZvcm1pbmcgY29sb3IKPiArICoJbWFwcGluZyBhZnRlciB0aGUgdHJhbnNm
+b3JtYXRpb24gbWF0cml4IGFuZCBiZWZvcmUgdGhlIGxvb2t1cCB0aHJvdWdoCj4gKyAqCXRoZSBn
+YW1tYSBMVVQuIFVubGlrZSB0aGUgZGVnYW1tYSBhbmQgZ2FtbWEgTFVUcyB0aGF0IG1hcCBjb2xv
+cgo+ICsgKgljb21wb25lbnRzIGluZGVwZW5kZW50bHksIHRoZSAzRCBMVVQgY29udmVydHMgYW4g
+aW5wdXQgY29sb3IgdG8gYW4KPiArICoJb3V0cHV0IGNvbG9yIGJ5IGluZGV4aW5nIGludG8gdGhl
+IDNEIHRhYmxlIHVzaW5nIHRoZSBjb2xvciBjb21wb25lbnRzCj4gKyAqCWFzIGEgM0QgY29vcmRp
+bmF0ZS4gVGhlIExVVCBpcyBzdWJzYW1wbGVkIGFzIDgtYml0IChvciBtb3JlKSBwcmVjaXNpb24K
+PiArICoJd291bGQgcmVxdWlyZSB0b28gbXVjaCBzdG9yYWdlIHNwYWNlIGluIHRoZSBoYXJkd2Fy
+ZSwgc28gdGhlIHByZWNpc2lvbgo+ICsgKglvZiB0aGUgY29sb3IgY29tcG9uZW50cyBpcyByZWR1
+Y2VkIGJlZm9yZSB0aGUgbG9vayB1cCwgYW5kIHRoZSBsb3cKPiArICoJb3JkZXIgYml0cyBtYXkg
+YmUgdXNlZCB0byBpbnRlcnBvbGF0ZSBiZXR3ZWVuIHRoZSBuZWFyZXN0IHBvaW50cyBpbiAzRAo+
+ICsgKglzcGFjZS4KPiArICoKPiArICoJVGhlIGRhdGEgaXMgaW50ZXJwcmV0ZWQgYXMgYW4gYXJy
+YXkgb2YgJnN0cnVjdCBkcm1fY29sb3JfbHV0IGVsZW1lbnRzLgo+ICsgKglIYXJkd2FyZSBtaWdo
+dCBjaG9vc2Ugbm90IHRvIHVzZSB0aGUgZnVsbCBwcmVjaXNpb24gb2YgdGhlIExVVAo+ICsgKgll
+bGVtZW50cy4KPiArICoKPiArICoJU2V0dGluZyB0aGlzIHRvIE5VTEwgKGJsb2IgcHJvcGVydHkg
+dmFsdWUgc2V0IHRvIDApIG1lYW5zIHRoZSBvdXRwdXQKPiArICoJY29sb3IgaXMgaWRlbnRpY2Fs
+IHRvIHRoZSBpbnB1dCBjb2xvci4gVGhpcyBpcyBnZW5lcmFsbHkgdGhlIGRyaXZlcgo+ICsgKgli
+b290LXVwIHN0YXRlIHRvby4gRHJpdmVycyBjYW4gYWNjZXNzIHRoaXMgYmxvYiB0aHJvdWdoCj4g
+KyAqCSZkcm1fY3J0Y19zdGF0ZS5jdWJpY19sdXQuCj4gKyAqCj4gKyAqIOKAnUNVQklDX0xVVF9T
+SVpF4oCdOgo+ICsgKglVbnNpZ25lZCByYW5nZSBwcm9wZXJ0eSB0byBnaXZlIHRoZSBzaXplIG9m
+IHRoZSBsb29rdXAgdGFibGUgdG8gYmUgc2V0Cj4gKyAqCW9uIHRoZSBDVUJJQ19MVVQgcHJvcGVy
+dHkgKHRoZSBzaXplIGRlcGVuZHMgb24gdGhlIHVuZGVybHlpbmcgaGFyZHdhcmUpLgo+ICsgKglJ
+ZiBkcml2ZXJzIHN1cHBvcnQgbXVsdGlwbGUgTFVUIHNpemVzIHRoZW4gdGhleSBzaG91bGQgcHVi
+bGlzaCB0aGUKPiArICoJbGFyZ2VzdCBzaXplLCBhbmQgc3ViLXNhbXBsZSBzbWFsbGVyIHNpemVk
+IExVVHMgYXBwcm9wcmlhdGVseS4KPiArICoKPiAgICAqIOKAnEdBTU1BX0xVVOKAnToKPiAgICAq
+CUJsb2IgcHJvcGVydHkgdG8gc2V0IHRoZSBnYW1tYSBsb29rdXAgdGFibGUgKExVVCkgbWFwcGlu
+ZyBwaXhlbCBkYXRhCj4gLSAqCWFmdGVyIHRoZSB0cmFuc2Zvcm1hdGlvbiBtYXRyaXggdG8gZGF0
+YSBzZW50IHRvIHRoZSBjb25uZWN0b3IuIFRoZQo+IC0gKglkYXRhIGlzIGludGVycHJldGVkIGFz
+IGFuIGFycmF5IG9mICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dCBlbGVtZW50cy4KPiAtICoJSGFyZHdh
+cmUgbWlnaHQgY2hvb3NlIG5vdCB0byB1c2UgdGhlIGZ1bGwgcHJlY2lzaW9uIG9mIHRoZSBMVVQg
+ZWxlbWVudHMKPiAtICoJbm9yIHVzZSBhbGwgdGhlIGVsZW1lbnRzIG9mIHRoZSBMVVQgKGZvciBl
+eGFtcGxlIHRoZSBoYXJkd2FyZSBtaWdodAo+IC0gKgljaG9vc2UgdG8gaW50ZXJwb2xhdGUgYmV0
+d2VlbiBMVVRbMF0gYW5kIExVVFs0XSkuCj4gKyAqCWFmdGVyIHRoZSBjdWJpYyBMVVQgdG8gZGF0
+YSBzZW50IHRvIHRoZSBjb25uZWN0b3IuIFRoZSBkYXRhIGlzCj4gKyAqCWludGVycHJldGVkIGFz
+IGFuIGFycmF5IG9mICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dCBlbGVtZW50cy4gSGFyZHdhcmUKPiAr
+ICoJbWlnaHQgY2hvb3NlIG5vdCB0byB1c2UgdGhlIGZ1bGwgcHJlY2lzaW9uIG9mIHRoZSBMVVQg
+ZWxlbWVudHMgbm9yIHVzZQo+ICsgKglhbGwgdGhlIGVsZW1lbnRzIG9mIHRoZSBMVVQgKGZvciBl
+eGFtcGxlIHRoZSBoYXJkd2FyZSBtaWdodCBjaG9vc2UgdG8KPiArICoJaW50ZXJwb2xhdGUgYmV0
+d2VlbiBMVVRbMF0gYW5kIExVVFs0XSkuCj4gICAgKgo+ICAgICoJU2V0dGluZyB0aGlzIHRvIE5V
+TEwgKGJsb2IgcHJvcGVydHkgdmFsdWUgc2V0IHRvIDApIG1lYW5zIGEKPiAgICAqCWxpbmVhci9w
+YXNzLXRocnUgZ2FtbWEgdGFibGUgc2hvdWxkIGJlIHVzZWQuIFRoaXMgaXMgZ2VuZXJhbGx5IHRo
+ZQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMKPiBpbmRleCBmMWFmZmMxYmI2NzkuLjZjMzMy
+NGY2MGU3ZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfY29uZmlnLmMKPiBAQCAtMzY0LDYgKzM2
+NCwyMCBAQCBzdGF0aWMgaW50IGRybV9tb2RlX2NyZWF0ZV9zdGFuZGFyZF9wcm9wZXJ0aWVzKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gICAJCXJldHVybiAtRU5PTUVNOwo+ICAgCWRldi0+bW9k
+ZV9jb25maWcuZ2FtbWFfbHV0X3NpemVfcHJvcGVydHkgPSBwcm9wOwo+ICAgCj4gKwlwcm9wID0g
+ZHJtX3Byb3BlcnR5X2NyZWF0ZShkZXYsCj4gKwkJCURSTV9NT0RFX1BST1BfQkxPQiwKPiArCQkJ
+IkNVQklDX0xVVCIsIDApOwo+ICsJaWYgKCFwcm9wKQo+ICsJCXJldHVybiAtRU5PTUVNOwo+ICsJ
+ZGV2LT5tb2RlX2NvbmZpZy5jdWJpY19sdXRfcHJvcGVydHkgPSBwcm9wOwo+ICsKPiArCXByb3Ag
+PSBkcm1fcHJvcGVydHlfY3JlYXRlX3JhbmdlKGRldiwKPiArCQkJRFJNX01PREVfUFJPUF9JTU1V
+VEFCTEUsCj4gKwkJCSJDVUJJQ19MVVRfU0laRSIsIDAsIFVJTlRfTUFYKTsKPiArCWlmICghcHJv
+cCkKPiArCQlyZXR1cm4gLUVOT01FTTsKPiArCWRldi0+bW9kZV9jb25maWcuY3ViaWNfbHV0X3Np
+emVfcHJvcGVydHkgPSBwcm9wOwo+ICsKPiAgIAlwcm9wID0gZHJtX3Byb3BlcnR5X2NyZWF0ZShk
+ZXYsCj4gICAJCQkJICAgRFJNX01PREVfUFJPUF9JTU1VVEFCTEUgfCBEUk1fTU9ERV9QUk9QX0JM
+T0IsCj4gICAJCQkJICAgIklOX0ZPUk1BVFMiLCAwKTsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
+cm0vZHJtX2NydGMuaCBiL2luY2x1ZGUvZHJtL2RybV9jcnRjLmgKPiBpbmRleCA1ZjQzZDY0ZDJh
+MDcuLmRmNWNjMjIzOWFkYiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fY3J0Yy5oCj4g
+KysrIGIvaW5jbHVkZS9kcm0vZHJtX2NydGMuaAo+IEBAIC0yODgsNiArMjg4LDE1IEBAIHN0cnVj
+dCBkcm1fY3J0Y19zdGF0ZSB7Cj4gICAJICovCj4gICAJc3RydWN0IGRybV9wcm9wZXJ0eV9ibG9i
+ICpnYW1tYV9sdXQ7Cj4gICAKPiArCS8qKgo+ICsJICogQGN1YmljX2x1dDoKPiArCSAqCj4gKwkg
+KiBDdWJpYyBMb29rdXAgdGFibGUgZm9yIGNvbnZlcnRpbmcgcGl4ZWwgZGF0YS4gU2VlCj4gKwkg
+KiBkcm1fY3J0Y19lbmFibGVfY29sb3JfbWdtdCgpLiBUaGUgYmxvYiAoaWYgbm90IE5VTEwpIGlz
+IGEgM0QgYXJyYXkKPiArCSAqIG9mICZzdHJ1Y3QgZHJtX2NvbG9yX2x1dC4KPiArCSAqLwo+ICsJ
+c3RydWN0IGRybV9wcm9wZXJ0eV9ibG9iICpjdWJpY19sdXQ7Cj4gKwo+ICAgCS8qKgo+ICAgCSAq
+IEB0YXJnZXRfdmJsYW5rOgo+ICAgCSAqCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9t
+b2RlX2NvbmZpZy5oIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiBpbmRleCBhYjQy
+NGRkZDc2NjUuLjhlZGIwMDk0ZTVhNyAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fbW9k
+ZV9jb25maWcuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oCj4gQEAgLTgw
+MCw2ICs4MDAsMTcgQEAgc3RydWN0IGRybV9tb2RlX2NvbmZpZyB7Cj4gICAJICovCj4gICAJc3Ry
+dWN0IGRybV9wcm9wZXJ0eSAqZ2FtbWFfbHV0X3NpemVfcHJvcGVydHk7Cj4gICAKPiArCS8qKgo+
+ICsJICogQGN1YmljX2x1dF9wcm9wZXJ0eTogT3B0aW9uYWwgQ1JUQyBwcm9wZXJ0eSB0byBzZXQg
+dGhlIDNEIExVVCB1c2VkIHRvCj4gKwkgKiBjb252ZXJ0IGNvbG9yIHNwYWNlcy4KPiArCSAqLwo+
+ICsJc3RydWN0IGRybV9wcm9wZXJ0eSAqY3ViaWNfbHV0X3Byb3BlcnR5Owo+ICsJLyoqCj4gKwkg
+KiBAY3ViaWNfbHV0X3NpemVfcHJvcGVydHk6IE9wdGlvbmFsIENSVEMgcHJvcGVydHkgZm9yIHRo
+ZSBzaXplIG9mIHRoZQo+ICsJICogM0QgTFVUIGFzIHN1cHBvcnRlZCBieSB0aGUgZHJpdmVyIChy
+ZWFkLW9ubHkpLgo+ICsJICovCj4gKwlzdHJ1Y3QgZHJtX3Byb3BlcnR5ICpjdWJpY19sdXRfc2l6
+ZV9wcm9wZXJ0eTsKPiArCj4gICAJLyoqCj4gICAJICogQHN1Z2dlc3RlZF94X3Byb3BlcnR5OiBP
+cHRpb25hbCBjb25uZWN0b3IgcHJvcGVydHkgd2l0aCBhIGhpbnQgZm9yCj4gICAJICogdGhlIHBv
+c2l0aW9uIG9mIHRoZSBvdXRwdXQgb24gdGhlIGhvc3QncyBzY3JlZW4uCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
