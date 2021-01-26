@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C753055B9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D8C3055BE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A566E5C6;
-	Wed, 27 Jan 2021 08:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D803B6E7E6;
+	Wed, 27 Jan 2021 08:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEDCF8925C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 19:24:47 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id f6so17335578ots.9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 11:24:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=D1ltTrh6GrF621pynXjIu633fPh/vCcW4NA4RWi0JI8=;
- b=BQcvX/vQcepwH9xkYrXWBsXyP8EzoUQrPHntu3FzocQDFkWdoHdRmOqDmBMUzF6Vt6
- +4I/ggUiEP0uSbmhNSv9l689w0NEYu9+/U4Ku6pddmk+FFimlLFKLEyx8kBde2EzWFpN
- mKDZydMe8+bvT308qklZD6bLxSIVhjvVPOjsC+4yyMjzYCO43amUZCqiWhsjYXTk2Z16
- 9TGuNPUaLBDga0oZC8QANu2kLQ2IOqpUwCVhZlDpYV0zc9+8fspZjfp/8jqfJK1F8Ulm
- zAVdGK42Q4bBXtvVNcAlWHedmlHtXl9GEqV+cfMqJcm4E7yFkd39JqQJ0lUqFaiY1RtY
- SeWQ==
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com
+ [IPv6:2607:f8b0:4864:20::849])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846976E1B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 20:42:46 +0000 (UTC)
+Received: by mail-qt1-x849.google.com with SMTP id r18so6316171qta.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:42:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=umYZWS6Z3IFyoIqy8XevcEiFUNU/mgfont74aC5M2Jc=;
+ b=AWgEG6Ah8p3uAxFd6JEWWNre1+V5M/uGxqKboxz6qcAU+fOOJ7+YJAydnzKtguqFbV
+ 01wfe5GD1w+KTe7xPJECSCDQ56Yj7Y6wYi9UB5T1gaZjcDyv72dWWxesOj/W2Xfo9BM9
+ srq0wAzZkiSYauKcdHkpZIbNYn+kUd1xIt31idgtKrw0T9X41owDPQFIfb4OZ3TU9msf
+ TXCQJKcO4d03EDFfhfmza4ahkxIQFYjoddqWYSzaJdY7L7WGhpX6f83nlfxtYTQFB2yk
+ wX69wd/8+bkZZW+SLcwuHMojL6vtuvi3a7/dWfGtOlMyWiyP8S/Q4nYLpaF5IfFr47Of
+ Dy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=D1ltTrh6GrF621pynXjIu633fPh/vCcW4NA4RWi0JI8=;
- b=GmYZdu63d8lRDsOOSdKVCGf1Uz1Djz/zDwqNCAEyBS24ilHr6qp5BzvPWjGdCOuXGQ
- F/uz10fSC1OIawK2ozHYgc+QbG5CmeTfWfspFF6XmvYDzNZIBAUSWozgNlCZvSA6KFkP
- hXVxGNzfVFub6qEhva0YAIbvq+BfmDwFyXOu639xTlhYGzNnPkjc0WFXcF21g1x/s4ZF
- emOAKRKtmsT687zHboF2LvmK0UaUiLjX9zOqQg4N7G/p3Mz0STtA+GBDf85QDc0+XICY
- W6URED+/2uDBj3tys1Rk0r4qVk/8Di+Ka65ERrb+meQtmga7yrYssYZg8SU2+pjGtAAI
- P2Wg==
-X-Gm-Message-State: AOAM531xOKBU+9hrf9Tmn0v50U6l3CScKN4rCBI8EgLlHcI5d4CfLB9S
- 3y0zF+AI6VwG1KDFTXTd9NA=
-X-Google-Smtp-Source: ABdhPJztb/3InwKiBBmxTEbYz5EWr2nHE2g3SB5DNkH/uYrp0J/4XMeexHk4NVLAcP5G/37TRay4lQ==
-X-Received: by 2002:a9d:1d04:: with SMTP id m4mr4855021otm.142.1611689086737; 
- Tue, 26 Jan 2021 11:24:46 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id d17sm4307875otk.3.2021.01.26.11.24.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 26 Jan 2021 11:24:45 -0800 (PST)
-Date: Tue, 26 Jan 2021 11:24:43 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
-Message-ID: <20210126192443.GA31936@roeck-us.net>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc:content-transfer-encoding;
+ bh=umYZWS6Z3IFyoIqy8XevcEiFUNU/mgfont74aC5M2Jc=;
+ b=j1yaR04+5oWQoybzLN2nmlnd1ph3xyrCrZgsf6JaLl8DW1QZxNvmM5pvHUvoCyJ0PE
+ 7kdtCcMNiJjwtCAPdrrMOMQnBSKFxmJGjkwygJAN6xfuEzbgJgnOui1XJN30/zdbf4C1
+ oeWAssykuFzaxGxYfCvM1INPcU8UWD/aCQsVJ/td18fATBqToC7pIcWPtSicvZYpzldY
+ rYD4VLpeSmsitcSAeeq1A90TYVMdv8/xnmWpQcSXyvuQuovjySgrymkpEHclI89dNRJR
+ Lf4y+Q524LDBNqhkNUbtBpWq1+A/plXMJttGnpJSitn95D9BfSp3bjWAjxznkiYhl3X9
+ 2v4Q==
+X-Gm-Message-State: AOAM533MrtBXcOzq/4SZh7/4dTy2YSYpwazcK63hbk7R94ZNpdCvBs4b
+ nP1c7UC2nkKCf2VAUTzYffdQCHIMxPc=
+X-Google-Smtp-Source: ABdhPJzAOsjnC7BvX6mcgN85oLU15vxw1W7G6I3DBxunGl56ldwJ+Q5XqJMqXfq3nrG6/YoYxGvG++ZtGug=
+X-Received: from hridya.mtv.corp.google.com
+ ([2620:15c:211:200:7220:84ff:fe09:5ea6])
+ (user=hridya job=sendgmr) by 2002:ad4:5b82:: with SMTP id
+ 2mr7324332qvp.53.1611693765254; 
+ Tue, 26 Jan 2021 12:42:45 -0800 (PST)
+Date: Tue, 26 Jan 2021 12:42:36 -0800
+Message-Id: <20210126204240.418297-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
+Subject: [PATCH v3] dmabuf: Add the capability to expose DMA-BUF stats in sysfs
+From: Hridya Valsaraju <hridya@google.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ Hridya Valsaraju <hridya@google.com>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,857 +68,414 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Mike Leach <mike.leach@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, coresight@lists.linaro.org,
- Vladimir Zapolskiy <vz@mleia.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
- dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+ surenb@google.com, hyesoo.yu@samsung.com, kernel-team@android.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 26, 2021 at 05:58:34PM +0100, Uwe Kleine-K=F6nig wrote:
-> All amba drivers return 0 in their remove callback. Together with the
-> driver core ignoring the return value anyhow, it doesn't make sense to
-> return a value here.
-> =
-
-> Change the remove prototype to return void, which makes it explicit that
-> returning an error value doesn't work as expected. This simplifies changi=
-ng
-> the core remove callback to return void, too.
-> =
-
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-For watchdog:
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
-
-> ---
->  drivers/amba/bus.c                                 | 5 ++---
->  drivers/char/hw_random/nomadik-rng.c               | 3 +--
->  drivers/dma/pl330.c                                | 3 +--
->  drivers/gpu/drm/pl111/pl111_drv.c                  | 4 +---
->  drivers/hwtracing/coresight/coresight-catu.c       | 3 +--
->  drivers/hwtracing/coresight/coresight-cpu-debug.c  | 4 +---
->  drivers/hwtracing/coresight/coresight-cti-core.c   | 4 +---
->  drivers/hwtracing/coresight/coresight-etb10.c      | 4 +---
->  drivers/hwtracing/coresight/coresight-etm3x-core.c | 4 +---
->  drivers/hwtracing/coresight/coresight-etm4x-core.c | 4 +---
->  drivers/hwtracing/coresight/coresight-funnel.c     | 4 ++--
->  drivers/hwtracing/coresight/coresight-replicator.c | 4 ++--
->  drivers/hwtracing/coresight/coresight-stm.c        | 4 +---
->  drivers/hwtracing/coresight/coresight-tmc-core.c   | 4 +---
->  drivers/hwtracing/coresight/coresight-tpiu.c       | 4 +---
->  drivers/i2c/busses/i2c-nomadik.c                   | 4 +---
->  drivers/input/serio/ambakmi.c                      | 3 +--
->  drivers/memory/pl172.c                             | 4 +---
->  drivers/memory/pl353-smc.c                         | 4 +---
->  drivers/mmc/host/mmci.c                            | 4 +---
->  drivers/rtc/rtc-pl030.c                            | 4 +---
->  drivers/rtc/rtc-pl031.c                            | 4 +---
->  drivers/spi/spi-pl022.c                            | 5 ++---
->  drivers/tty/serial/amba-pl010.c                    | 4 +---
->  drivers/tty/serial/amba-pl011.c                    | 3 +--
->  drivers/vfio/platform/vfio_amba.c                  | 3 +--
->  drivers/video/fbdev/amba-clcd.c                    | 4 +---
->  drivers/watchdog/sp805_wdt.c                       | 4 +---
->  include/linux/amba/bus.h                           | 2 +-
->  sound/arm/aaci.c                                   | 4 +---
->  30 files changed, 34 insertions(+), 80 deletions(-)
-> =
-
-> diff --git a/drivers/amba/bus.c b/drivers/amba/bus.c
-> index 8c4a42df47c6..48b5d4b4e889 100644
-> --- a/drivers/amba/bus.c
-> +++ b/drivers/amba/bus.c
-> @@ -300,11 +300,10 @@ static int amba_remove(struct device *dev)
->  {
->  	struct amba_device *pcdev =3D to_amba_device(dev);
->  	struct amba_driver *drv =3D to_amba_driver(dev->driver);
-> -	int ret =3D 0;
->  =
-
->  	pm_runtime_get_sync(dev);
->  	if (drv->remove)
-> -		ret =3D drv->remove(pcdev);
-> +		drv->remove(pcdev);
->  	pm_runtime_put_noidle(dev);
->  =
-
->  	/* Undo the runtime PM settings in amba_probe() */
-> @@ -315,7 +314,7 @@ static int amba_remove(struct device *dev)
->  	amba_put_disable_pclk(pcdev);
->  	dev_pm_domain_detach(dev, true);
->  =
-
-> -	return ret;
-> +	return 0;
->  }
->  =
-
->  static void amba_shutdown(struct device *dev)
-> diff --git a/drivers/char/hw_random/nomadik-rng.c b/drivers/char/hw_rando=
-m/nomadik-rng.c
-> index b0ded41eb865..67947a19aa22 100644
-> --- a/drivers/char/hw_random/nomadik-rng.c
-> +++ b/drivers/char/hw_random/nomadik-rng.c
-> @@ -69,11 +69,10 @@ static int nmk_rng_probe(struct amba_device *dev, con=
-st struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int nmk_rng_remove(struct amba_device *dev)
-> +static void nmk_rng_remove(struct amba_device *dev)
->  {
->  	amba_release_regions(dev);
->  	clk_disable(rng_clk);
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id nmk_rng_ids[] =3D {
-> diff --git a/drivers/dma/pl330.c b/drivers/dma/pl330.c
-> index bc0f66af0f11..fd8d2bc3be9f 100644
-> --- a/drivers/dma/pl330.c
-> +++ b/drivers/dma/pl330.c
-> @@ -3195,7 +3195,7 @@ pl330_probe(struct amba_device *adev, const struct =
-amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int pl330_remove(struct amba_device *adev)
-> +static void pl330_remove(struct amba_device *adev)
->  {
->  	struct pl330_dmac *pl330 =3D amba_get_drvdata(adev);
->  	struct dma_pl330_chan *pch, *_p;
-> @@ -3235,7 +3235,6 @@ static int pl330_remove(struct amba_device *adev)
->  =
-
->  	if (pl330->rstc)
->  		reset_control_assert(pl330->rstc);
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id pl330_ids[] =3D {
-> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl=
-111_drv.c
-> index 40e6708fbbe2..1fb5eacefd2d 100644
-> --- a/drivers/gpu/drm/pl111/pl111_drv.c
-> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
-> @@ -320,7 +320,7 @@ static int pl111_amba_probe(struct amba_device *amba_=
-dev,
->  	return ret;
->  }
->  =
-
-> -static int pl111_amba_remove(struct amba_device *amba_dev)
-> +static void pl111_amba_remove(struct amba_device *amba_dev)
->  {
->  	struct device *dev =3D &amba_dev->dev;
->  	struct drm_device *drm =3D amba_get_drvdata(amba_dev);
-> @@ -331,8 +331,6 @@ static int pl111_amba_remove(struct amba_device *amba=
-_dev)
->  		drm_panel_bridge_remove(priv->bridge);
->  	drm_dev_put(drm);
->  	of_reserved_mem_device_release(dev);
-> -
-> -	return 0;
->  }
->  =
-
->  /*
-> diff --git a/drivers/hwtracing/coresight/coresight-catu.c b/drivers/hwtra=
-cing/coresight/coresight-catu.c
-> index a61313f320bd..8e19e8cdcce5 100644
-> --- a/drivers/hwtracing/coresight/coresight-catu.c
-> +++ b/drivers/hwtracing/coresight/coresight-catu.c
-> @@ -567,12 +567,11 @@ static int catu_probe(struct amba_device *adev, con=
-st struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int catu_remove(struct amba_device *adev)
-> +static void catu_remove(struct amba_device *adev)
->  {
->  	struct catu_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
->  	coresight_unregister(drvdata->csdev);
-> -	return 0;
->  }
->  =
-
->  static struct amba_id catu_ids[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-cpu-debug.c b/drivers/=
-hwtracing/coresight/coresight-cpu-debug.c
-> index e1d232411d8d..2dcf13de751f 100644
-> --- a/drivers/hwtracing/coresight/coresight-cpu-debug.c
-> +++ b/drivers/hwtracing/coresight/coresight-cpu-debug.c
-> @@ -627,7 +627,7 @@ static int debug_probe(struct amba_device *adev, cons=
-t struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int debug_remove(struct amba_device *adev)
-> +static void debug_remove(struct amba_device *adev)
->  {
->  	struct device *dev =3D &adev->dev;
->  	struct debug_drvdata *drvdata =3D amba_get_drvdata(adev);
-> @@ -642,8 +642,6 @@ static int debug_remove(struct amba_device *adev)
->  =
-
->  	if (!--debug_count)
->  		debug_func_exit();
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_cs_uci_id uci_id_debug[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-cti-core.c b/drivers/h=
-wtracing/coresight/coresight-cti-core.c
-> index 61dbc1afd8da..30e48809ba00 100644
-> --- a/drivers/hwtracing/coresight/coresight-cti-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-cti-core.c
-> @@ -836,7 +836,7 @@ static void cti_device_release(struct device *dev)
->  	if (drvdata->csdev_release)
->  		drvdata->csdev_release(dev);
->  }
-> -static int cti_remove(struct amba_device *adev)
-> +static void cti_remove(struct amba_device *adev)
->  {
->  	struct cti_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -845,8 +845,6 @@ static int cti_remove(struct amba_device *adev)
->  	mutex_unlock(&ect_mutex);
->  =
-
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  static int cti_probe(struct amba_device *adev, const struct amba_id *id)
-> diff --git a/drivers/hwtracing/coresight/coresight-etb10.c b/drivers/hwtr=
-acing/coresight/coresight-etb10.c
-> index 0cf6f0b947b6..51c801c05e5c 100644
-> --- a/drivers/hwtracing/coresight/coresight-etb10.c
-> +++ b/drivers/hwtracing/coresight/coresight-etb10.c
-> @@ -803,7 +803,7 @@ static int etb_probe(struct amba_device *adev, const =
-struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int etb_remove(struct amba_device *adev)
-> +static void etb_remove(struct amba_device *adev)
->  {
->  	struct etb_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -814,8 +814,6 @@ static int etb_remove(struct amba_device *adev)
->  	 */
->  	misc_deregister(&drvdata->miscdev);
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM
-> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers=
-/hwtracing/coresight/coresight-etm3x-core.c
-> index 5bf5a5a4ce6d..683a69e88efd 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-> @@ -909,7 +909,7 @@ static void clear_etmdrvdata(void *info)
->  	etmdrvdata[cpu] =3D NULL;
->  }
->  =
-
-> -static int etm_remove(struct amba_device *adev)
-> +static void etm_remove(struct amba_device *adev)
->  {
->  	struct etm_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -932,8 +932,6 @@ static int etm_remove(struct amba_device *adev)
->  	cpus_read_unlock();
->  =
-
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers=
-/hwtracing/coresight/coresight-etm4x-core.c
-> index b20b6ff17cf6..82787cba537d 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -1680,7 +1680,7 @@ static void clear_etmdrvdata(void *info)
->  	etmdrvdata[cpu] =3D NULL;
->  }
->  =
-
-> -static int etm4_remove(struct amba_device *adev)
-> +static void etm4_remove(struct amba_device *adev)
->  {
->  	struct etmv4_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -1703,8 +1703,6 @@ static int etm4_remove(struct amba_device *adev)
->  	cpus_read_unlock();
->  =
-
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id etm4_ids[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-funnel.c b/drivers/hwt=
-racing/coresight/coresight-funnel.c
-> index 071c723227db..01f8f9285168 100644
-> --- a/drivers/hwtracing/coresight/coresight-funnel.c
-> +++ b/drivers/hwtracing/coresight/coresight-funnel.c
-> @@ -370,9 +370,9 @@ static int dynamic_funnel_probe(struct amba_device *a=
-dev,
->  	return funnel_probe(&adev->dev, &adev->res);
->  }
->  =
-
-> -static int dynamic_funnel_remove(struct amba_device *adev)
-> +static void dynamic_funnel_remove(struct amba_device *adev)
->  {
-> -	return funnel_remove(&adev->dev);
-> +	funnel_remove(&adev->dev);
->  }
->  =
-
->  static const struct amba_id dynamic_funnel_ids[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-replicator.c b/drivers=
-/hwtracing/coresight/coresight-replicator.c
-> index 7e2a2b7f503f..34fc2f6f3ea9 100644
-> --- a/drivers/hwtracing/coresight/coresight-replicator.c
-> +++ b/drivers/hwtracing/coresight/coresight-replicator.c
-> @@ -388,9 +388,9 @@ static int dynamic_replicator_probe(struct amba_devic=
-e *adev,
->  	return replicator_probe(&adev->dev, &adev->res);
->  }
->  =
-
-> -static int dynamic_replicator_remove(struct amba_device *adev)
-> +static void dynamic_replicator_remove(struct amba_device *adev)
->  {
-> -	return replicator_remove(&adev->dev);
-> +	replicator_remove(&adev->dev);
->  }
->  =
-
->  static const struct amba_id dynamic_replicator_ids[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-stm.c b/drivers/hwtrac=
-ing/coresight/coresight-stm.c
-> index 99791773f682..423df0d30d9c 100644
-> --- a/drivers/hwtracing/coresight/coresight-stm.c
-> +++ b/drivers/hwtracing/coresight/coresight-stm.c
-> @@ -951,15 +951,13 @@ static int stm_probe(struct amba_device *adev, cons=
-t struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int stm_remove(struct amba_device *adev)
-> +static void stm_remove(struct amba_device *adev)
->  {
->  	struct stm_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
->  	coresight_unregister(drvdata->csdev);
->  =
-
->  	stm_unregister_device(&drvdata->stm);
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM
-> diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/h=
-wtracing/coresight/coresight-tmc-core.c
-> index 8169dff5a9f6..e29b3914fc0f 100644
-> --- a/drivers/hwtracing/coresight/coresight-tmc-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
-> @@ -559,7 +559,7 @@ static void tmc_shutdown(struct amba_device *adev)
->  	spin_unlock_irqrestore(&drvdata->spinlock, flags);
->  }
->  =
-
-> -static int tmc_remove(struct amba_device *adev)
-> +static void tmc_remove(struct amba_device *adev)
->  {
->  	struct tmc_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -570,8 +570,6 @@ static int tmc_remove(struct amba_device *adev)
->  	 */
->  	misc_deregister(&drvdata->miscdev);
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id tmc_ids[] =3D {
-> diff --git a/drivers/hwtracing/coresight/coresight-tpiu.c b/drivers/hwtra=
-cing/coresight/coresight-tpiu.c
-> index d5dfee9ee556..f77c4b0ea4aa 100644
-> --- a/drivers/hwtracing/coresight/coresight-tpiu.c
-> +++ b/drivers/hwtracing/coresight/coresight-tpiu.c
-> @@ -173,13 +173,11 @@ static int tpiu_probe(struct amba_device *adev, con=
-st struct amba_id *id)
->  	return PTR_ERR(drvdata->csdev);
->  }
->  =
-
-> -static int tpiu_remove(struct amba_device *adev)
-> +static void tpiu_remove(struct amba_device *adev)
->  {
->  	struct tpiu_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
->  =
-
->  	coresight_unregister(drvdata->csdev);
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM
-> diff --git a/drivers/i2c/busses/i2c-nomadik.c b/drivers/i2c/busses/i2c-no=
-madik.c
-> index d4b1b0865f67..a3363b20f168 100644
-> --- a/drivers/i2c/busses/i2c-nomadik.c
-> +++ b/drivers/i2c/busses/i2c-nomadik.c
-> @@ -1055,7 +1055,7 @@ static int nmk_i2c_probe(struct amba_device *adev, =
-const struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int nmk_i2c_remove(struct amba_device *adev)
-> +static void nmk_i2c_remove(struct amba_device *adev)
->  {
->  	struct resource *res =3D &adev->res;
->  	struct nmk_i2c_dev *dev =3D amba_get_drvdata(adev);
-> @@ -1068,8 +1068,6 @@ static int nmk_i2c_remove(struct amba_device *adev)
->  	i2c_clr_bit(dev->virtbase + I2C_CR, I2C_CR_PE);
->  	clk_disable_unprepare(dev->clk);
->  	release_mem_region(res->start, resource_size(res));
-> -
-> -	return 0;
->  }
->  =
-
->  static struct i2c_vendor_data vendor_stn8815 =3D {
-> diff --git a/drivers/input/serio/ambakmi.c b/drivers/input/serio/ambakmi.c
-> index ecdeca147ed7..4408245b61d2 100644
-> --- a/drivers/input/serio/ambakmi.c
-> +++ b/drivers/input/serio/ambakmi.c
-> @@ -159,7 +159,7 @@ static int amba_kmi_probe(struct amba_device *dev,
->  	return ret;
->  }
->  =
-
-> -static int amba_kmi_remove(struct amba_device *dev)
-> +static void amba_kmi_remove(struct amba_device *dev)
->  {
->  	struct amba_kmi_port *kmi =3D amba_get_drvdata(dev);
->  =
-
-> @@ -168,7 +168,6 @@ static int amba_kmi_remove(struct amba_device *dev)
->  	iounmap(kmi->base);
->  	kfree(kmi);
->  	amba_release_regions(dev);
-> -	return 0;
->  }
->  =
-
->  static int __maybe_unused amba_kmi_resume(struct device *dev)
-> diff --git a/drivers/memory/pl172.c b/drivers/memory/pl172.c
-> index 575fadbffa30..9eb8cc7de494 100644
-> --- a/drivers/memory/pl172.c
-> +++ b/drivers/memory/pl172.c
-> @@ -273,14 +273,12 @@ static int pl172_probe(struct amba_device *adev, co=
-nst struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int pl172_remove(struct amba_device *adev)
-> +static void pl172_remove(struct amba_device *adev)
->  {
->  	struct pl172_data *pl172 =3D amba_get_drvdata(adev);
->  =
-
->  	clk_disable_unprepare(pl172->clk);
->  	amba_release_regions(adev);
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id pl172_ids[] =3D {
-> diff --git a/drivers/memory/pl353-smc.c b/drivers/memory/pl353-smc.c
-> index 73bd3023202f..3b5b1045edd9 100644
-> --- a/drivers/memory/pl353-smc.c
-> +++ b/drivers/memory/pl353-smc.c
-> @@ -426,14 +426,12 @@ static int pl353_smc_probe(struct amba_device *adev=
-, const struct amba_id *id)
->  	return err;
->  }
->  =
-
-> -static int pl353_smc_remove(struct amba_device *adev)
-> +static void pl353_smc_remove(struct amba_device *adev)
->  {
->  	struct pl353_smc_data *pl353_smc =3D amba_get_drvdata(adev);
->  =
-
->  	clk_disable_unprepare(pl353_smc->memclk);
->  	clk_disable_unprepare(pl353_smc->aclk);
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id pl353_ids[] =3D {
-> diff --git a/drivers/mmc/host/mmci.c b/drivers/mmc/host/mmci.c
-> index b5a41a7ce165..32f52d070bbd 100644
-> --- a/drivers/mmc/host/mmci.c
-> +++ b/drivers/mmc/host/mmci.c
-> @@ -2195,7 +2195,7 @@ static int mmci_probe(struct amba_device *dev,
->  	return ret;
->  }
->  =
-
-> -static int mmci_remove(struct amba_device *dev)
-> +static void mmci_remove(struct amba_device *dev)
->  {
->  	struct mmc_host *mmc =3D amba_get_drvdata(dev);
->  =
-
-> @@ -2223,8 +2223,6 @@ static int mmci_remove(struct amba_device *dev)
->  		clk_disable_unprepare(host->clk);
->  		mmc_free_host(mmc);
->  	}
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM
-> diff --git a/drivers/rtc/rtc-pl030.c b/drivers/rtc/rtc-pl030.c
-> index 5a880516f3e8..39038c0754ee 100644
-> --- a/drivers/rtc/rtc-pl030.c
-> +++ b/drivers/rtc/rtc-pl030.c
-> @@ -137,7 +137,7 @@ static int pl030_probe(struct amba_device *dev, const=
- struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int pl030_remove(struct amba_device *dev)
-> +static void pl030_remove(struct amba_device *dev)
->  {
->  	struct pl030_rtc *rtc =3D amba_get_drvdata(dev);
->  =
-
-> @@ -146,8 +146,6 @@ static int pl030_remove(struct amba_device *dev)
->  	free_irq(dev->irq[0], rtc);
->  	iounmap(rtc->base);
->  	amba_release_regions(dev);
-> -
-> -	return 0;
->  }
->  =
-
->  static struct amba_id pl030_ids[] =3D {
-> diff --git a/drivers/rtc/rtc-pl031.c b/drivers/rtc/rtc-pl031.c
-> index 224bbf096262..620c8dc33647 100644
-> --- a/drivers/rtc/rtc-pl031.c
-> +++ b/drivers/rtc/rtc-pl031.c
-> @@ -280,7 +280,7 @@ static int pl031_set_alarm(struct device *dev, struct=
- rtc_wkalrm *alarm)
->  	return 0;
->  }
->  =
-
-> -static int pl031_remove(struct amba_device *adev)
-> +static void pl031_remove(struct amba_device *adev)
->  {
->  	struct pl031_local *ldata =3D dev_get_drvdata(&adev->dev);
->  =
-
-> @@ -289,8 +289,6 @@ static int pl031_remove(struct amba_device *adev)
->  	if (adev->irq[0])
->  		free_irq(adev->irq[0], ldata);
->  	amba_release_regions(adev);
-> -
-> -	return 0;
->  }
->  =
-
->  static int pl031_probe(struct amba_device *adev, const struct amba_id *i=
-d)
-> diff --git a/drivers/spi/spi-pl022.c b/drivers/spi/spi-pl022.c
-> index d1776fea287e..fd74ddfbb686 100644
-> --- a/drivers/spi/spi-pl022.c
-> +++ b/drivers/spi/spi-pl022.c
-> @@ -2314,13 +2314,13 @@ static int pl022_probe(struct amba_device *adev, =
-const struct amba_id *id)
->  	return status;
->  }
->  =
-
-> -static int
-> +static void
->  pl022_remove(struct amba_device *adev)
->  {
->  	struct pl022 *pl022 =3D amba_get_drvdata(adev);
->  =
-
->  	if (!pl022)
-> -		return 0;
-> +		return;
->  =
-
->  	/*
->  	 * undo pm_runtime_put() in probe.  I assume that we're not
-> @@ -2335,7 +2335,6 @@ pl022_remove(struct amba_device *adev)
->  	clk_disable_unprepare(pl022->clk);
->  	amba_release_regions(adev);
->  	tasklet_disable(&pl022->pump_transfers);
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM_SLEEP
-> diff --git a/drivers/tty/serial/amba-pl010.c b/drivers/tty/serial/amba-pl=
-010.c
-> index 3284f34e9dfe..3f96edfe569c 100644
-> --- a/drivers/tty/serial/amba-pl010.c
-> +++ b/drivers/tty/serial/amba-pl010.c
-> @@ -754,7 +754,7 @@ static int pl010_probe(struct amba_device *dev, const=
- struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int pl010_remove(struct amba_device *dev)
-> +static void pl010_remove(struct amba_device *dev)
->  {
->  	struct uart_amba_port *uap =3D amba_get_drvdata(dev);
->  	int i;
-> @@ -770,8 +770,6 @@ static int pl010_remove(struct amba_device *dev)
->  =
-
->  	if (!busy)
->  		uart_unregister_driver(&amba_reg);
-> -
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM_SLEEP
-> diff --git a/drivers/tty/serial/amba-pl011.c b/drivers/tty/serial/amba-pl=
-011.c
-> index c255476cce28..4ead0c9048a8 100644
-> --- a/drivers/tty/serial/amba-pl011.c
-> +++ b/drivers/tty/serial/amba-pl011.c
-> @@ -2679,13 +2679,12 @@ static int pl011_probe(struct amba_device *dev, c=
-onst struct amba_id *id)
->  	return pl011_register_port(uap);
->  }
->  =
-
-> -static int pl011_remove(struct amba_device *dev)
-> +static void pl011_remove(struct amba_device *dev)
->  {
->  	struct uart_amba_port *uap =3D amba_get_drvdata(dev);
->  =
-
->  	uart_remove_one_port(&amba_reg, &uap->port);
->  	pl011_unregister_port(uap);
-> -	return 0;
->  }
->  =
-
->  #ifdef CONFIG_PM_SLEEP
-> diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vf=
-io_amba.c
-> index 7b3ebf1558e1..3626c2150101 100644
-> --- a/drivers/vfio/platform/vfio_amba.c
-> +++ b/drivers/vfio/platform/vfio_amba.c
-> @@ -71,14 +71,13 @@ static int vfio_amba_probe(struct amba_device *adev, =
-const struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int vfio_amba_remove(struct amba_device *adev)
-> +static void vfio_amba_remove(struct amba_device *adev)
->  {
->  	struct vfio_platform_device *vdev =3D
->  		vfio_platform_remove_common(&adev->dev);
->  =
-
->  	kfree(vdev->name);
->  	kfree(vdev);
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id pl330_ids[] =3D {
-> diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-c=
-lcd.c
-> index b7682de412d8..33595cc4778e 100644
-> --- a/drivers/video/fbdev/amba-clcd.c
-> +++ b/drivers/video/fbdev/amba-clcd.c
-> @@ -925,7 +925,7 @@ static int clcdfb_probe(struct amba_device *dev, cons=
-t struct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int clcdfb_remove(struct amba_device *dev)
-> +static void clcdfb_remove(struct amba_device *dev)
->  {
->  	struct clcd_fb *fb =3D amba_get_drvdata(dev);
->  =
-
-> @@ -942,8 +942,6 @@ static int clcdfb_remove(struct amba_device *dev)
->  	kfree(fb);
->  =
-
->  	amba_release_regions(dev);
-> -
-> -	return 0;
->  }
->  =
-
->  static const struct amba_id clcdfb_id_table[] =3D {
-> diff --git a/drivers/watchdog/sp805_wdt.c b/drivers/watchdog/sp805_wdt.c
-> index 958dc32a708f..58a00e1ab23b 100644
-> --- a/drivers/watchdog/sp805_wdt.c
-> +++ b/drivers/watchdog/sp805_wdt.c
-> @@ -305,14 +305,12 @@ sp805_wdt_probe(struct amba_device *adev, const str=
-uct amba_id *id)
->  	return ret;
->  }
->  =
-
-> -static int sp805_wdt_remove(struct amba_device *adev)
-> +static void sp805_wdt_remove(struct amba_device *adev)
->  {
->  	struct sp805_wdt *wdt =3D amba_get_drvdata(adev);
->  =
-
->  	watchdog_unregister_device(&wdt->wdd);
->  	watchdog_set_drvdata(&wdt->wdd, NULL);
-> -
-> -	return 0;
->  }
->  =
-
->  static int __maybe_unused sp805_wdt_suspend(struct device *dev)
-> diff --git a/include/linux/amba/bus.h b/include/linux/amba/bus.h
-> index 0bbfd647f5c6..6cc93ab5b809 100644
-> --- a/include/linux/amba/bus.h
-> +++ b/include/linux/amba/bus.h
-> @@ -76,7 +76,7 @@ struct amba_device {
->  struct amba_driver {
->  	struct device_driver	drv;
->  	int			(*probe)(struct amba_device *, const struct amba_id *);
-> -	int			(*remove)(struct amba_device *);
-> +	void			(*remove)(struct amba_device *);
->  	void			(*shutdown)(struct amba_device *);
->  	const struct amba_id	*id_table;
->  };
-> diff --git a/sound/arm/aaci.c b/sound/arm/aaci.c
-> index a0996c47e58f..b326a5f5f0d5 100644
-> --- a/sound/arm/aaci.c
-> +++ b/sound/arm/aaci.c
-> @@ -1055,7 +1055,7 @@ static int aaci_probe(struct amba_device *dev,
->  	return ret;
->  }
->  =
-
-> -static int aaci_remove(struct amba_device *dev)
-> +static void aaci_remove(struct amba_device *dev)
->  {
->  	struct snd_card *card =3D amba_get_drvdata(dev);
->  =
-
-> @@ -1066,8 +1066,6 @@ static int aaci_remove(struct amba_device *dev)
->  		snd_card_free(card);
->  		amba_release_regions(dev);
->  	}
-> -
-> -	return 0;
->  }
->  =
-
->  static struct amba_id aaci_ids[] =3D {
-> -- =
-
-> 2.29.2
-> =
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBwYXRjaCBhbGxvd3Mgc3RhdGlzdGljcyB0byBiZSBlbmFibGVkIGZvciBlYWNoIERNQS1C
+VUYgaW4Kc3lzZnMgYnkgZW5hYmxpbmcgdGhlIGNvbmZpZyBDT05GSUdfRE1BQlVGX1NZU0ZTX1NU
+QVRTLgoKVGhlIGZvbGxvd2luZyBzdGF0cyB3aWxsIGJlIGV4cG9zZWQgYnkgdGhlIGludGVyZmFj
+ZToKCi9zeXMva2VybmVsL2RtYWJ1Zi9idWZmZXJzLzxpbm9kZV9udW1iZXI+L2V4cG9ydGVyX25h
+bWUKL3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2RlX251bWJlcj4vc2l6ZQovc3lzL2tl
+cm5lbC9kbWFidWYvYnVmZmVycy88aW5vZGVfbnVtYmVyPi9hdHRhY2htZW50cy88YXR0YWNoX3Vp
+ZD4vZGV2aWNlCi9zeXMva2VybmVsL2RtYWJ1Zi9idWZmZXJzLzxpbm9kZV9udW1iZXI+L2F0dGFj
+aG1lbnRzLzxhdHRhY2hfdWlkPi9tYXBfY291bnRlcgoKVGhlIGlub2RlX251bWJlciBpcyB1bmlx
+dWUgZm9yIGVhY2ggRE1BLUJVRiBhbmQgd2FzIGFkZGVkIGVhcmxpZXIgWzFdCmluIG9yZGVyIHRv
+IGFsbG93IHVzZXJzcGFjZSB0byB0cmFjayBETUEtQlVGIHVzYWdlIGFjcm9zcyBkaWZmZXJlbnQK
+cHJvY2Vzc2VzLgoKQ3VycmVudGx5LCB0aGlzIGluZm9ybWF0aW9uIGlzIGV4cG9zZWQgaW4KL3N5
+cy9rZXJuZWwvZGVidWcvZG1hX2J1Zi9idWZpbmZvLgpIb3dldmVyLCBzaW5jZSBkZWJ1Z2ZzIGlz
+IGNvbnNpZGVyZWQgdW5zYWZlIHRvIGJlIG1vdW50ZWQgaW4gcHJvZHVjdGlvbiwKaXQgaXMgYmVp
+bmcgZHVwbGljYXRlZCBpbiBzeXNmcy4KClRoaXMgaW5mb3JtYXRpb24gd2lsbCBiZSB1c2VkIHRv
+IGRlcml2ZSBETUEtQlVGCnBlci1leHBvcnRlciBzdGF0cyBhbmQgcGVyLWRldmljZSB1c2FnZSBz
+dGF0cyBmb3IgQW5kcm9pZCBCdWcgcmVwb3J0cy4KVGhlIGNvcnJlc3BvbmRpbmcgdXNlcnNwYWNl
+IGNoYW5nZXMgY2FuIGJlIGZvdW5kIGF0IFsyXS4KVGVsZW1ldHJ5IHRvb2xzIHdpbGwgYWxzbyBj
+YXB0dXJlIHRoaXMgaW5mb3JtYXRpb24oYWxvbmcgd2l0aCBvdGhlcgptZW1vcnkgbWV0cmljcykg
+cGVyaW9kaWNhbGx5IGFzIHdlbGwgYXMgb24gaW1wb3J0YW50IGV2ZW50cyBsaWtlIGEKZm9yZWdy
+b3VuZCBhcHAga2lsbCAod2hpY2ggbWlnaHQgaGF2ZSBiZWVuIHRyaWdnZXJlZCBieSBMb3cgTWVt
+b3J5CktpbGxlcikuIEl0IHdpbGwgYWxzbyBjb250cmlidXRlIHRvIHByb3ZpZGUgYSBzbmFwc2hv
+dCBvZiB0aGUgc3lzdGVtCm1lbW9yeSB1c2FnZSBvbiBvdGhlciBldmVudHMgc3VjaCBhcyBPT00g
+a2lsbHMgYW5kIEFwcGxpY2F0aW9uIE5vdApSZXNwb25kaW5nIGV2ZW50cy4KCkEgc2hlbGwgc2Ny
+aXB0IHRoYXQgY2FuIGJlIHJ1biBvbiBhIGNsYXNzaWMgTGludXggZW52aXJvbm1lbnQgdG8gcmVh
+ZApvdXQgdGhlIERNQS1CVUYgc3RhdGlzdGljcyBjYW4gYmUgZm91bmQgYXQgWzNdKHN1Z2dlc3Rl
+ZCBieSBKb2huClN0dWx0eikuCgpUaGUgcGF0Y2ggY29udGFpbnMgdGhlIGZvbGxvd2luZyBpbXBy
+b3ZlbWVudHMgb3ZlciB0aGUgcHJldmlvdXMgdmVyc2lvbjoKMSkgRWFjaCBhdHRhY2htZW50IGlz
+IHJlcHJlc2VudGVkIGJ5IGl0cyBvd24gZGlyZWN0b3J5IHRvIGFsbG93IGNyZWF0aW5nCmEgc3lt
+bGluayB0byB0aGUgaW1wb3J0aW5nIGRldmljZSBhbmQgdG8gYWxzbyBwcm92aWRlIHJvb20gZm9y
+IGZ1dHVyZQpleHBhbnNpb24uCjIpIFRoZSBudW1iZXIgb2YgZGlzdGluY3QgbWFwcGluZ3Mgb2Yg
+ZWFjaCBhdHRhY2htZW50IGlzIGV4cG9zZWQgaW4gYQpzZXBhcmF0ZSBmaWxlLgozKSBUaGUgcGVy
+LWJ1ZmZlciBzdGF0aXN0aWNzIGFyZSBub3cgaW4gL3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMK
+aW5vcmRlciB0byBtYWtlIHRoZSBpbnRlcmZhY2UgZXhwYW5kYWJsZSBpbiBmdXR1cmUuCgpBbGwg
+b2YgdGhlIGltcHJvdmVtZW50cyBhYm92ZSBhcmUgYmFzZWQgb24gc3VnZ2VzdGlvbnMvZmVlZGJh
+Y2sgZnJvbQpEYW5pZWwgVmV0dGVyIGFuZCBDaHJpc3RpYW4gS8O2bmlnLgoKWzFdOiBodHRwczov
+L2xvcmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTA4ODc5MS8KWzJdOiBodHRwczovL2Fu
+ZHJvaWQtcmV2aWV3Lmdvb2dsZXNvdXJjZS5jb20vcS90b3BpYzolMjJkbWFidWYtc3lzZnMlMjIr
+KHN0YXR1czpvcGVuJTIwT1IlMjBzdGF0dXM6bWVyZ2VkKQpbM106IGh0dHBzOi8vYW5kcm9pZC1y
+ZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL3BsYXRmb3JtL3N5c3RlbS9tZW1vcnkvbGlibWVtaW5m
+by8rLzE1NDk3MzQKClNpZ25lZC1vZmYtYnk6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29n
+bGUuY29tPgpSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Ci0t
+LQpDaGFuZ2VzIGluIHYzOgpGaXggYSB3YXJuaW5nIHJlcG9ydGVkIGJ5IHRoZSBrZXJuZWwgdGVz
+dCByb2JvdC4KCkNoYW5nZXMgaW4gdjI6Ci1Nb3ZlIHN0YXRpc3RpY3MgdG8gL3N5cy9rZXJuZWwv
+ZG1hYnVmL2J1ZmZlcnMgaW4gb2RlciB0byBhbGxvdyBhZGRpdGlvbgpvZiBvdGhlciBETUEtQlVG
+LXJlbGF0ZWQgc3lzZnMgc3RhdHMgaW4gZnV0dXJlLiBCYXNlZCBvbiBmZWVkYmFjayBmcm9tCkRh
+bmllbCBWZXR0ZXIuCi1FYWNoIGF0dGFjaG1lbnQgaGFzIGl0cyBvd24gZGlyZWN0b3J5IHRvIHJl
+cHJlc2VudCBhdHRhY2hpbmcgZGV2aWNlcyBhcwpzeW1saW5rcyBhbmQgdG8gaW50cm9kdWNlIG1h
+cF9jb3VudCBhcyBhIHNlcGFyYXRlIGZpbGUuIEJhc2VkIG9uCmZlZWRiYWNrIGZyb20gRGFuaWVs
+IFZldHRlciBhbmQgQ2hyaXN0aWFuIEvDtm5pZy4gVGhhbmsgeW91IGJvdGghCi1Db21taXQgbWVz
+c2FnZXMgdXBkYXRlZCB0byBwb2ludCB0byB1c2Vyc3BhY2UgY29kZSBpbiBBT1NQIHRoYXQgd2ls
+bApyZWFkIHRoZSBETUEtQlVGIHN5c2ZzIHN0YXRzLgoKCiAuLi4vQUJJL3Rlc3Rpbmcvc3lzZnMt
+a2VybmVsLWRtYWJ1Zi1idWZmZXJzICAgfCAgNTIgKysrKwogZHJpdmVycy9kbWEtYnVmL0tjb25m
+aWcgICAgICAgICAgICAgICAgICAgICAgIHwgIDExICsKIGRyaXZlcnMvZG1hLWJ1Zi9NYWtlZmls
+ZSAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi1z
+eXNmcy1zdGF0cy5jICAgICAgICAgfCAyODUgKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2Rt
+YS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5oICAgICAgICAgfCAgNjIgKysrKwogZHJpdmVycy9k
+bWEtYnVmL2RtYS1idWYuYyAgICAgICAgICAgICAgICAgICAgIHwgIDM3ICsrKwogaW5jbHVkZS9s
+aW51eC9kbWEtYnVmLmggICAgICAgICAgICAgICAgICAgICAgIHwgIDIwICsrCiA3IGZpbGVzIGNo
+YW5nZWQsIDQ2OCBpbnNlcnRpb25zKCspCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlv
+bi9BQkkvdGVzdGluZy9zeXNmcy1rZXJuZWwtZG1hYnVmLWJ1ZmZlcnMKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5jCiBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYtc3lzZnMtc3RhdHMuaAoKZGlmZiAtLWdpdCBh
+L0RvY3VtZW50YXRpb24vQUJJL3Rlc3Rpbmcvc3lzZnMta2VybmVsLWRtYWJ1Zi1idWZmZXJzIGIv
+RG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1rZXJuZWwtZG1hYnVmLWJ1ZmZlcnMKbmV3
+IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi42ZjdjNjUyMDlmMDcKLS0tIC9k
+ZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWtlcm5lbC1kbWFi
+dWYtYnVmZmVycwpAQCAtMCwwICsxLDUyIEBACitXaGF0OgkJL3N5cy9rZXJuZWwvZG1hYnVmL2J1
+ZmZlcnMKK0RhdGU6CQlKYW51YXJ5IDIwMjEKK0tlcm5lbFZlcnNpb246CXY1LjEyCitDb250YWN0
+OglIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNvbT4KK0Rlc2NyaXB0aW9uOglUaGUg
+L3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMgZGlyZWN0b3J5IGNvbnRhaW5zIGEKKwkJc25hcHNo
+b3Qgb2YgdGhlIGludGVybmFsIHN0YXRlIG9mIGV2ZXJ5IERNQS1CVUYuCisJCS9zeXMva2VybmVs
+L2RtYWJ1Zi9idWZmZXJzLzxpbm9kZV9udW1iZXI+IHdpbGwgY29udGFpbiB0aGUKKwkJc3RhdGlz
+dGljcyBmb3IgdGhlIERNQS1CVUYgd2l0aCB0aGUgdW5pcXVlIGlub2RlIG51bWJlcgorCQk8aW5v
+ZGVfbnVtYmVyPgorVXNlcnM6CQlrZXJuZWwgbWVtb3J5IHR1bmluZy9kZWJ1Z2dpbmcgdG9vbHMK
+KworV2hhdDoJCS9zeXMva2VybmVsL2RtYWJ1Zi9idWZmZXJzLzxpbm9kZV9udW1iZXI+L2V4cG9y
+dGVyX25hbWUKK0RhdGU6CQlKYW51YXJ5IDIwMjEKK0tlcm5lbFZlcnNpb246CXY1LjEyCitDb250
+YWN0OglIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNvbT4KK0Rlc2NyaXB0aW9uOglU
+aGlzIGZpbGUgaXMgcmVhZC1vbmx5IGFuZCBjb250YWlucyB0aGUgbmFtZSBvZiB0aGUgZXhwb3J0
+ZXIgb2YKKwkJdGhlIERNQS1CVUYuCisKK1doYXQ6CQkvc3lzL2tlcm5lbC9kbWFidWYvYnVmZmVy
+cy88aW5vZGVfbnVtYmVyPi9zaXplCitEYXRlOgkJSmFudWFyeSAyMDIxCitLZXJuZWxWZXJzaW9u
+Ogl2NS4xMgorQ29udGFjdDoJSHJpZHlhIFZhbHNhcmFqdSA8aHJpZHlhQGdvb2dsZS5jb20+CitE
+ZXNjcmlwdGlvbjoJVGhpcyBmaWxlIGlzIHJlYWQtb25seSBhbmQgc3BlY2lmaWVzIHRoZSBzaXpl
+IG9mIHRoZSBETUEtQlVGIGluCisJCWJ5dGVzLgorCitXaGF0OgkJL3N5cy9rZXJuZWwvZG1hYnVm
+L2J1ZmZlcnMvPGlub2RlX251bWJlcj4vYXR0YWNobWVudHMKK0RhdGU6CQlKYW51YXJ5IDIwMjEK
+K0tlcm5lbFZlcnNpb246CXY1LjEyCitDb250YWN0OglIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFA
+Z29vZ2xlLmNvbT4KK0Rlc2NyaXB0aW9uOglUaGlzIGRpcmVjdG9yeSB3aWxsIGNvbnRhaW4gc3Vi
+ZGlyZWN0b3JpZXMgcmVwcmVzZW50aW5nIGV2ZXJ5CisJCWF0dGFjaG1lbnQgb2YgdGhlIERNQS1C
+VUYuCisKK1doYXQ6CQkvc3lzL2tlcm5lbC9kbWFidWYvYnVmZmVycy88aW5vZGVfbnVtYmVyPi9h
+dHRhY2htZW50cy88YXR0YWNobWVudF91aWQ+CitEYXRlOgkJSmFudWFyeSAyMDIxCitLZXJuZWxW
+ZXJzaW9uOgl2NS4xMgorQ29udGFjdDoJSHJpZHlhIFZhbHNhcmFqdSA8aHJpZHlhQGdvb2dsZS5j
+b20+CitEZXNjcmlwdGlvbjoJVGhpcyBkaXJlY3Rvcnkgd2lsbCBjb250YWluIGluZm9ybWF0aW9u
+IG9uIHRoZSBhdHRhY2hpbmcgZGV2aWNlCisJCWFuZCB0aGUgbnVtYmVyIG9mIGN1cnJlbnQgZGlz
+dGluY3QgZGV2aWNlIG1hcHBpbmdzLgorCitXaGF0OgkJL3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZl
+cnMvPGlub2RlX251bWJlcj4vYXR0YWNobWVudHMvPGF0dGFjaG1lbnRfdWlkPi9kZXZpY2UKK0Rh
+dGU6CQlKYW51YXJ5IDIwMjEKK0tlcm5lbFZlcnNpb246CXY1LjEyCitDb250YWN0OglIcmlkeWEg
+VmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNvbT4KK0Rlc2NyaXB0aW9uOglUaGlzIGZpbGUgaXMg
+cmVhZC1vbmx5IGFuZCBpcyBhIHN5bWxpbmsgdG8gdGhlIGF0dGFjaGluZyBkZXZpY2VzJ3MKKwkJ
+c3lzZnMgZW50cnkuCisKK1doYXQ6CQkvc3lzL2tlcm5lbC9kbWFidWYvYnVmZmVycy88aW5vZGVf
+bnVtYmVyPi9hdHRhY2htZW50cy88YXR0YWNobWVudF91aWQ+L21hcF9jb3VudGVyCitEYXRlOgkJ
+SmFudWFyeSAyMDIxCitLZXJuZWxWZXJzaW9uOgl2NS4xMgorQ29udGFjdDoJSHJpZHlhIFZhbHNh
+cmFqdSA8aHJpZHlhQGdvb2dsZS5jb20+CitEZXNjcmlwdGlvbjoJVGhpcyBmaWxlIGlzIHJlYWQt
+b25seSBhbmQgY29udGFpbnMgYSBtYXBfY291bnRlciBpbmRpY2F0aW5nIHRoZQorCQludW1iZXIg
+b2YgZGlzdGluY3QgZGV2aWNlIG1hcHBpbmdzIG9mIHRoZSBhdHRhY2htZW50LgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9kbWEtYnVmL0tjb25maWcgYi9kcml2ZXJzL2RtYS1idWYvS2NvbmZpZwppbmRl
+eCA0ZjgyMjRhNmFjOTUuLjI3ZTZhMmRhZmVhYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVm
+L0tjb25maWcKKysrIGIvZHJpdmVycy9kbWEtYnVmL0tjb25maWcKQEAgLTY0LDYgKzY0LDE3IEBA
+IG1lbnVjb25maWcgRE1BQlVGX0hFQVBTCiAJICBhbGxvd3MgdXNlcnNwYWNlIHRvIGFsbG9jYXRl
+IGRtYS1idWZzIHRoYXQgY2FuIGJlIHNoYXJlZAogCSAgYmV0d2VlbiBkcml2ZXJzLgogCittZW51
+Y29uZmlnIERNQUJVRl9TWVNGU19TVEFUUworCWJvb2wgIkRNQS1CVUYgc3lzZnMgc3RhdGlzdGlj
+cyIKKwlzZWxlY3QgRE1BX1NIQVJFRF9CVUZGRVIKKwloZWxwCisJICAgQ2hvb3NlIHRoaXMgb3B0
+aW9uIHRvIGVuYWJsZSBETUEtQlVGIHN5c2ZzIHN0YXRpc3RpY3MKKwkgICBpbiBsb2NhdGlvbiAv
+c3lzL2tlcm5lbC9kbWFidWYvYnVmZmVycy4KKworCSAgIC9zeXMva2VybmVsL2RtYWJ1Zi9idWZm
+ZXJzLzxpbm9kZV9udW1iZXI+IHdpbGwgY29udGFpbgorCSAgIHN0YXRpc3RpY3MgZm9yIHRoZSBE
+TUEtQlVGIHdpdGggdGhlIHVuaXF1ZSBpbm9kZSBudW1iZXIKKwkgICA8aW5vZGVfbnVtYmVyPi4K
+Kwogc291cmNlICJkcml2ZXJzL2RtYS1idWYvaGVhcHMvS2NvbmZpZyIKIAogZW5kbWVudQpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL01ha2VmaWxlIGIvZHJpdmVycy9kbWEtYnVmL01ha2Vm
+aWxlCmluZGV4IDk5NWUwNWY2MDlmZi4uNDBkODFmMjNjYWNmIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2RtYS1idWYvTWFrZWZpbGUKKysrIGIvZHJpdmVycy9kbWEtYnVmL01ha2VmaWxlCkBAIC02LDYg
+KzYsNyBAQCBvYmotJChDT05GSUdfRE1BQlVGX0hFQVBTKQkrPSBoZWFwcy8KIG9iai0kKENPTkZJ
+R19TWU5DX0ZJTEUpCQkrPSBzeW5jX2ZpbGUubwogb2JqLSQoQ09ORklHX1NXX1NZTkMpCQkrPSBz
+d19zeW5jLm8gc3luY19kZWJ1Zy5vCiBvYmotJChDT05GSUdfVURNQUJVRikJCSs9IHVkbWFidWYu
+bworb2JqLSQoQ09ORklHX0RNQUJVRl9TWVNGU19TVEFUUykgKz0gZG1hLWJ1Zi1zeXNmcy1zdGF0
+cy5vCiAKIGRtYWJ1Zl9zZWxmdGVzdHMteSA6PSBcCiAJc2VsZnRlc3QubyBcCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5jIGIvZHJpdmVycy9kbWEtYnVm
+L2RtYS1idWYtc3lzZnMtc3RhdHMuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAw
+MDAwMDAuLjVkYzJlMTdmMzA1NAotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9k
+bWEtYnVmLXN5c2ZzLXN0YXRzLmMKQEAgLTAsMCArMSwyODUgQEAKKy8vIFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkKKy8qCisgKiBETUEtQlVGIHN5c2ZzIHN0YXRpc3RpY3Mu
+CisgKgorICogQ29weXJpZ2h0IChDKSAyMDIxIEdvb2dsZSBMTEMuCisgKi8KKworI2luY2x1ZGUg
+PGxpbnV4L2RtYS1idWYuaD4KKyNpbmNsdWRlIDxsaW51eC9kbWEtcmVzdi5oPgorI2luY2x1ZGUg
+PGxpbnV4L2tvYmplY3QuaD4KKyNpbmNsdWRlIDxsaW51eC9wcmludGsuaD4KKyNpbmNsdWRlIDxs
+aW51eC9zbGFiLmg+CisjaW5jbHVkZSA8bGludXgvc3lzZnMuaD4KKworI2luY2x1ZGUgImRtYS1i
+dWYtc3lzZnMtc3RhdHMuaCIKKworI2RlZmluZSB0b19kbWFfYnVmX2VudHJ5X2Zyb21fa29iaih4
+KSBjb250YWluZXJfb2YoeCwgc3RydWN0IGRtYV9idWZfc3lzZnNfZW50cnksIGtvYmopCisKK3N0
+cnVjdCBkbWFfYnVmX3N0YXRzX2F0dHJpYnV0ZSB7CisJc3RydWN0IGF0dHJpYnV0ZSBhdHRyOwor
+CXNzaXplX3QgKCpzaG93KShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAorCQkJc3RydWN0IGRtYV9i
+dWZfc3RhdHNfYXR0cmlidXRlICphdHRyLCBjaGFyICpidWYpOworfTsKKyNkZWZpbmUgdG9fZG1h
+X2J1Zl9zdGF0c19hdHRyKHgpIGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3QgZG1hX2J1Zl9zdGF0c19h
+dHRyaWJ1dGUsIGF0dHIpCisKK3N0YXRpYyBzc2l6ZV90IGRtYV9idWZfc3RhdHNfYXR0cmlidXRl
+X3Nob3coc3RydWN0IGtvYmplY3QgKmtvYmosCisJCQkJCSAgICBzdHJ1Y3QgYXR0cmlidXRlICph
+dHRyLAorCQkJCQkgICAgY2hhciAqYnVmKQoreworCXN0cnVjdCBkbWFfYnVmX3N0YXRzX2F0dHJp
+YnV0ZSAqYXR0cmlidXRlOworCXN0cnVjdCBkbWFfYnVmX3N5c2ZzX2VudHJ5ICpzeXNmc19lbnRy
+eTsKKwlzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmOworCisJYXR0cmlidXRlID0gdG9fZG1hX2J1Zl9z
+dGF0c19hdHRyKGF0dHIpOworCXN5c2ZzX2VudHJ5ID0gdG9fZG1hX2J1Zl9lbnRyeV9mcm9tX2tv
+Ymooa29iaik7CisJZG1hYnVmID0gc3lzZnNfZW50cnktPmRtYWJ1ZjsKKworCWlmICghZG1hYnVm
+IHx8ICFhdHRyaWJ1dGUtPnNob3cpCisJCXJldHVybiAtRUlPOworCisJcmV0dXJuIGF0dHJpYnV0
+ZS0+c2hvdyhkbWFidWYsIGF0dHJpYnV0ZSwgYnVmKTsKK30KKworc3RhdGljIGNvbnN0IHN0cnVj
+dCBzeXNmc19vcHMgZG1hX2J1Zl9zdGF0c19zeXNmc19vcHMgPSB7CisJLnNob3cgPSBkbWFfYnVm
+X3N0YXRzX2F0dHJpYnV0ZV9zaG93LAorfTsKKworc3RhdGljIHNzaXplX3QgZXhwb3J0ZXJfbmFt
+ZV9zaG93KHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCisJCQkJICBzdHJ1Y3QgZG1hX2J1Zl9zdGF0
+c19hdHRyaWJ1dGUgKmF0dHIsCisJCQkJICBjaGFyICpidWYpCit7CisJcmV0dXJuIHN5c2ZzX2Vt
+aXQoYnVmLCAiJXNcbiIsIGRtYWJ1Zi0+ZXhwX25hbWUpOworfQorCitzdGF0aWMgc3NpemVfdCBz
+aXplX3Nob3coc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKKwkJCSBzdHJ1Y3QgZG1hX2J1Zl9zdGF0
+c19hdHRyaWJ1dGUgKmF0dHIsCisJCQkgY2hhciAqYnVmKQoreworCXJldHVybiBzeXNmc19lbWl0
+KGJ1ZiwgIiV6dVxuIiwgZG1hYnVmLT5zaXplKTsKK30KKworc3RhdGljIHN0cnVjdCBkbWFfYnVm
+X3N0YXRzX2F0dHJpYnV0ZSBleHBvcnRlcl9uYW1lX2F0dHJpYnV0ZSA9CisJX19BVFRSX1JPKGV4
+cG9ydGVyX25hbWUpOworc3RhdGljIHN0cnVjdCBkbWFfYnVmX3N0YXRzX2F0dHJpYnV0ZSBzaXpl
+X2F0dHJpYnV0ZSA9IF9fQVRUUl9STyhzaXplKTsKKworc3RhdGljIHN0cnVjdCBhdHRyaWJ1dGUg
+KmRtYV9idWZfc3RhdHNfZGVmYXVsdF9hdHRyc1tdID0geworCSZleHBvcnRlcl9uYW1lX2F0dHJp
+YnV0ZS5hdHRyLAorCSZzaXplX2F0dHJpYnV0ZS5hdHRyLAorCU5VTEwsCit9OworQVRUUklCVVRF
+X0dST1VQUyhkbWFfYnVmX3N0YXRzX2RlZmF1bHQpOworCitzdGF0aWMgdm9pZCBkbWFfYnVmX3N5
+c2ZzX3JlbGVhc2Uoc3RydWN0IGtvYmplY3QgKmtvYmopCit7CisJc3RydWN0IGRtYV9idWZfc3lz
+ZnNfZW50cnkgKnN5c2ZzX2VudHJ5OworCisJc3lzZnNfZW50cnkgPSB0b19kbWFfYnVmX2VudHJ5
+X2Zyb21fa29iaihrb2JqKTsKKwlrZnJlZShzeXNmc19lbnRyeSk7Cit9CisKK3N0YXRpYyBzdHJ1
+Y3Qga29ial90eXBlIGRtYV9idWZfa3R5cGUgPSB7CisJLnN5c2ZzX29wcyA9ICZkbWFfYnVmX3N0
+YXRzX3N5c2ZzX29wcywKKwkucmVsZWFzZSA9IGRtYV9idWZfc3lzZnNfcmVsZWFzZSwKKwkuZGVm
+YXVsdF9ncm91cHMgPSBkbWFfYnVmX3N0YXRzX2RlZmF1bHRfZ3JvdXBzLAorfTsKKworI2RlZmlu
+ZSB0b19kbWFfYnVmX2F0dGFjaF9lbnRyeV9mcm9tX2tvYmooeCkgY29udGFpbmVyX29mKHgsIHN0
+cnVjdCBkbWFfYnVmX2F0dGFjaF9zeXNmc19lbnRyeSwga29iaikKKworc3RydWN0IGRtYV9idWZf
+YXR0YWNoX3N0YXRzX2F0dHJpYnV0ZSB7CisJc3RydWN0IGF0dHJpYnV0ZSBhdHRyOworCXNzaXpl
+X3QgKCpzaG93KShzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lzZnNfZW50cnkgKnN5c2ZzX2VudHJ5
+LAorCQkJc3RydWN0IGRtYV9idWZfYXR0YWNoX3N0YXRzX2F0dHJpYnV0ZSAqYXR0ciwgY2hhciAq
+YnVmKTsKK307CisjZGVmaW5lIHRvX2RtYV9idWZfYXR0YWNoX3N0YXRzX2F0dHIoeCkgY29udGFp
+bmVyX29mKHgsIHN0cnVjdCBkbWFfYnVmX2F0dGFjaF9zdGF0c19hdHRyaWJ1dGUsIGF0dHIpCisK
+K3N0YXRpYyBzc2l6ZV90IGRtYV9idWZfYXR0YWNoX3N0YXRzX2F0dHJpYnV0ZV9zaG93KHN0cnVj
+dCBrb2JqZWN0ICprb2JqLAorCQkJCQkJICAgc3RydWN0IGF0dHJpYnV0ZSAqYXR0ciwKKwkJCQkJ
+CSAgIGNoYXIgKmJ1ZikKK3sKKwlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3RhdHNfYXR0cmlidXRl
+ICphdHRyaWJ1dGU7CisJc3RydWN0IGRtYV9idWZfYXR0YWNoX3N5c2ZzX2VudHJ5ICpzeXNmc19l
+bnRyeTsKKworCWF0dHJpYnV0ZSA9IHRvX2RtYV9idWZfYXR0YWNoX3N0YXRzX2F0dHIoYXR0cik7
+CisJc3lzZnNfZW50cnkgPSB0b19kbWFfYnVmX2F0dGFjaF9lbnRyeV9mcm9tX2tvYmooa29iaik7
+CisKKwlpZiAoIWF0dHJpYnV0ZS0+c2hvdykKKwkJcmV0dXJuIC1FSU87CisKKwlyZXR1cm4gYXR0
+cmlidXRlLT5zaG93KHN5c2ZzX2VudHJ5LCBhdHRyaWJ1dGUsIGJ1Zik7Cit9CisKK3N0YXRpYyBj
+b25zdCBzdHJ1Y3Qgc3lzZnNfb3BzIGRtYV9idWZfYXR0YWNoX3N0YXRzX3N5c2ZzX29wcyA9IHsK
+Kwkuc2hvdyA9IGRtYV9idWZfYXR0YWNoX3N0YXRzX2F0dHJpYnV0ZV9zaG93LAorfTsKKworc3Rh
+dGljIHNzaXplX3QgbWFwX2NvdW50ZXJfc2hvdyhzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lzZnNf
+ZW50cnkgKnN5c2ZzX2VudHJ5LAorCQkJCXN0cnVjdCBkbWFfYnVmX2F0dGFjaF9zdGF0c19hdHRy
+aWJ1dGUgKmF0dHIsCisJCQkJY2hhciAqYnVmKQoreworCXJldHVybiBzeXNmc19lbWl0KGJ1Ziwg
+IiV1XG4iLCBzeXNmc19lbnRyeS0+bWFwX2NvdW50ZXIpOworfQorCitzdGF0aWMgc3RydWN0IGRt
+YV9idWZfYXR0YWNoX3N0YXRzX2F0dHJpYnV0ZSBtYXBfY291bnRlcl9hdHRyaWJ1dGUgPQorCV9f
+QVRUUl9STyhtYXBfY291bnRlcik7CisKK3N0YXRpYyBzdHJ1Y3QgYXR0cmlidXRlICpkbWFfYnVm
+X2F0dGFjaF9zdGF0c19kZWZhdWx0X2F0dHJzW10gPSB7CisJJm1hcF9jb3VudGVyX2F0dHJpYnV0
+ZS5hdHRyLAorCU5VTEwsCit9OworQVRUUklCVVRFX0dST1VQUyhkbWFfYnVmX2F0dGFjaF9zdGF0
+c19kZWZhdWx0KTsKKworc3RhdGljIHZvaWQgZG1hX2J1Zl9hdHRhY2hfc3lzZnNfcmVsZWFzZShz
+dHJ1Y3Qga29iamVjdCAqa29iaikKK3sKKwlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lzZnNfZW50
+cnkgKnN5c2ZzX2VudHJ5OworCisJc3lzZnNfZW50cnkgPSB0b19kbWFfYnVmX2F0dGFjaF9lbnRy
+eV9mcm9tX2tvYmooa29iaik7CisJa2ZyZWUoc3lzZnNfZW50cnkpOworfQorCitzdGF0aWMgc3Ry
+dWN0IGtvYmpfdHlwZSBkbWFfYnVmX2F0dGFjaF9rdHlwZSA9IHsKKwkuc3lzZnNfb3BzID0gJmRt
+YV9idWZfYXR0YWNoX3N0YXRzX3N5c2ZzX29wcywKKwkucmVsZWFzZSA9IGRtYV9idWZfYXR0YWNo
+X3N5c2ZzX3JlbGVhc2UsCisJLmRlZmF1bHRfZ3JvdXBzID0gZG1hX2J1Zl9hdHRhY2hfc3RhdHNf
+ZGVmYXVsdF9ncm91cHMsCit9OworCit2b2lkIGRtYV9idWZfYXR0YWNoX3N0YXRzX3RlYXJkb3du
+KHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCkKK3sKKwlzdHJ1Y3QgZG1hX2J1Zl9h
+dHRhY2hfc3lzZnNfZW50cnkgKnN5c2ZzX2VudHJ5OworCisJc3lzZnNfZW50cnkgPSBhdHRhY2gt
+PnN5c2ZzX2VudHJ5OworCWlmICghc3lzZnNfZW50cnkpCisJCXJldHVybjsKKworCXN5c2ZzX2Rl
+bGV0ZV9saW5rKCZzeXNmc19lbnRyeS0+a29iaiwgJmF0dGFjaC0+ZGV2LT5rb2JqLCAiZGV2aWNl
+Iik7CisKKwlrb2JqZWN0X2RlbCgmc3lzZnNfZW50cnktPmtvYmopOworCWtvYmplY3RfcHV0KCZz
+eXNmc19lbnRyeS0+a29iaik7Cit9CisKK2ludCBkbWFfYnVmX2F0dGFjaF9zdGF0c19zZXR1cChz
+dHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsCisJCQkgICAgICAgdW5zaWduZWQgaW50
+IHVpZCkKK3sKKwlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lzZnNfZW50cnkgKnN5c2ZzX2VudHJ5
+OworCWludCByZXQ7CisJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsKKworCWlmICghYXR0YWNoKQor
+CQlyZXR1cm4gLUVJTlZBTDsKKworCWRtYWJ1ZiA9IGF0dGFjaC0+ZG1hYnVmOworCisJc3lzZnNf
+ZW50cnkgPSBremFsbG9jKHNpemVvZihzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lzZnNfZW50cnkp
+LAorCQkJICAgICAgR0ZQX0tFUk5FTCk7CisJaWYgKCFzeXNmc19lbnRyeSkKKwkJcmV0dXJuIC1F
+Tk9NRU07CisKKwlzeXNmc19lbnRyeS0+a29iai5rc2V0ID0gZG1hYnVmLT5zeXNmc19lbnRyeS0+
+YXR0YWNoX3N0YXRzX2tzZXQ7CisKKwlhdHRhY2gtPnN5c2ZzX2VudHJ5ID0gc3lzZnNfZW50cnk7
+CisKKwlyZXQgPSBrb2JqZWN0X2luaXRfYW5kX2FkZCgmc3lzZnNfZW50cnktPmtvYmosICZkbWFf
+YnVmX2F0dGFjaF9rdHlwZSwKKwkJCQkgICBOVUxMLCAiJXUiLCB1aWQpOworCWlmIChyZXQpCisJ
+CWdvdG8ga29ial9lcnI7CisKKwlyZXQgPSBzeXNmc19jcmVhdGVfbGluaygmc3lzZnNfZW50cnkt
+PmtvYmosICZhdHRhY2gtPmRldi0+a29iaiwKKwkJCQkiZGV2aWNlIik7CisJaWYgKHJldCkKKwkJ
+Z290byBsaW5rX2VycjsKKworCXJldHVybiAwOworCitsaW5rX2VycjoKKwlrb2JqZWN0X2RlbCgm
+c3lzZnNfZW50cnktPmtvYmopOwora29ial9lcnI6CisJa29iamVjdF9wdXQoJnN5c2ZzX2VudHJ5
+LT5rb2JqKTsKKwlhdHRhY2gtPnN5c2ZzX2VudHJ5ID0gTlVMTDsKKworCXJldHVybiByZXQ7Cit9
+Cit2b2lkIGRtYV9idWZfc3RhdHNfdGVhcmRvd24oc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKK3sK
+KwlzdHJ1Y3QgZG1hX2J1Zl9zeXNmc19lbnRyeSAqc3lzZnNfZW50cnk7CisKKwlzeXNmc19lbnRy
+eSA9IGRtYWJ1Zi0+c3lzZnNfZW50cnk7CisJaWYgKCFzeXNmc19lbnRyeSkKKwkJcmV0dXJuOwor
+CisJa3NldF91bnJlZ2lzdGVyKHN5c2ZzX2VudHJ5LT5hdHRhY2hfc3RhdHNfa3NldCk7CisJa29i
+amVjdF9kZWwoJnN5c2ZzX2VudHJ5LT5rb2JqKTsKKwlrb2JqZWN0X3B1dCgmc3lzZnNfZW50cnkt
+PmtvYmopOworfQorCitzdGF0aWMgc3RydWN0IGtzZXQgKmRtYV9idWZfc3RhdHNfa3NldDsKK3N0
+YXRpYyBzdHJ1Y3Qga3NldCAqZG1hX2J1Zl9wZXJfYnVmZmVyX3N0YXRzX2tzZXQ7CitpbnQgZG1h
+X2J1Zl9pbml0X3N5c2ZzX3N0YXRpc3RpY3Modm9pZCkKK3sKKwlkbWFfYnVmX3N0YXRzX2tzZXQg
+PSBrc2V0X2NyZWF0ZV9hbmRfYWRkKCJkbWFidWYiLCBOVUxMLCBrZXJuZWxfa29iaik7CisJaWYg
+KCFkbWFfYnVmX3N0YXRzX2tzZXQpCisJCXJldHVybiAtRU5PTUVNOworCisJZG1hX2J1Zl9wZXJf
+YnVmZmVyX3N0YXRzX2tzZXQgPSBrc2V0X2NyZWF0ZV9hbmRfYWRkKCJidWZmZXJzIiwgTlVMTCwK
+KwkJCQkJCQkgICAgJmRtYV9idWZfc3RhdHNfa3NldC0+a29iaik7CisJaWYgKCFkbWFfYnVmX3Bl
+cl9idWZmZXJfc3RhdHNfa3NldCkgeworCQlrc2V0X3VucmVnaXN0ZXIoZG1hX2J1Zl9zdGF0c19r
+c2V0KTsKKwkJcmV0dXJuIC1FTk9NRU07CisJfQorCisJcmV0dXJuIDA7Cit9CisKK3ZvaWQgZG1h
+X2J1Zl91bmluaXRfc3lzZnNfc3RhdGlzdGljcyh2b2lkKQoreworCWtzZXRfdW5yZWdpc3Rlcihk
+bWFfYnVmX3Blcl9idWZmZXJfc3RhdHNfa3NldCk7CisJa3NldF91bnJlZ2lzdGVyKGRtYV9idWZf
+c3RhdHNfa3NldCk7Cit9CisKK2ludCBkbWFfYnVmX3N0YXRzX3NldHVwKHN0cnVjdCBkbWFfYnVm
+ICpkbWFidWYpCit7CisJc3RydWN0IGRtYV9idWZfc3lzZnNfZW50cnkgKnN5c2ZzX2VudHJ5Owor
+CWludCByZXQ7CisJc3RydWN0IGtzZXQgKmF0dGFjaF9zdGF0c19rc2V0OworCisJaWYgKCFkbWFi
+dWYgfHwgIWRtYWJ1Zi0+ZmlsZSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwlpZiAoIWRtYWJ1Zi0+
+ZXhwX25hbWUpIHsKKwkJcHJfZXJyKCJleHBvcnRlciBuYW1lIG11c3Qgbm90IGJlIGVtcHR5IGlm
+IHN0YXRzIG5lZWRlZFxuIik7CisJCXJldHVybiAtRUlOVkFMOworCX0KKworCXN5c2ZzX2VudHJ5
+ID0ga3phbGxvYyhzaXplb2Yoc3RydWN0IGRtYV9idWZfc3lzZnNfZW50cnkpLCBHRlBfS0VSTkVM
+KTsKKwlpZiAoIXN5c2ZzX2VudHJ5KQorCQlyZXR1cm4gLUVOT01FTTsKKworCXN5c2ZzX2VudHJ5
+LT5rb2JqLmtzZXQgPSBkbWFfYnVmX3Blcl9idWZmZXJfc3RhdHNfa3NldDsKKwlzeXNmc19lbnRy
+eS0+ZG1hYnVmID0gZG1hYnVmOworCisJZG1hYnVmLT5zeXNmc19lbnRyeSA9IHN5c2ZzX2VudHJ5
+OworCisJLyogY3JlYXRlIHRoZSBkaXJlY3RvcnkgZm9yIGJ1ZmZlciBzdGF0cyAqLworCXJldCA9
+IGtvYmplY3RfaW5pdF9hbmRfYWRkKCZzeXNmc19lbnRyeS0+a29iaiwgJmRtYV9idWZfa3R5cGUs
+IE5VTEwsCisJCQkJICAgIiVsdSIsIGZpbGVfaW5vZGUoZG1hYnVmLT5maWxlKS0+aV9pbm8pOwor
+CWlmIChyZXQpCisJCWdvdG8gZXJyX3N5c2ZzX2RtYWJ1ZjsKKworCS8qIGNyZWF0ZSB0aGUgZGly
+ZWN0b3J5IGZvciBhdHRhY2htZW50IHN0YXRzICovCisJYXR0YWNoX3N0YXRzX2tzZXQgPSBrc2V0
+X2NyZWF0ZV9hbmRfYWRkKCJhdHRhY2htZW50cyIsIE5VTEwsCisJCQkJCQkmc3lzZnNfZW50cnkt
+PmtvYmopOworCWlmICghYXR0YWNoX3N0YXRzX2tzZXQpIHsKKwkJcmV0ID0gLUVOT01FTTsKKwkJ
+Z290byBlcnJfc3lzZnNfYXR0YWNoOworCX0KKworCXN5c2ZzX2VudHJ5LT5hdHRhY2hfc3RhdHNf
+a3NldCA9IGF0dGFjaF9zdGF0c19rc2V0OworCisJcmV0dXJuIDA7CisKK2Vycl9zeXNmc19hdHRh
+Y2g6CisJa29iamVjdF9kZWwoJnN5c2ZzX2VudHJ5LT5rb2JqKTsKK2Vycl9zeXNmc19kbWFidWY6
+CisJa29iamVjdF9wdXQoJnN5c2ZzX2VudHJ5LT5rb2JqKTsKKwlkbWFidWYtPnN5c2ZzX2VudHJ5
+ID0gTlVMTDsKKwlyZXR1cm4gcmV0OworfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2Rt
+YS1idWYtc3lzZnMtc3RhdHMuaCBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLXN5c2ZzLXN0YXRz
+LmgKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi41ZjQ3MDMyNDkxMTcK
+LS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5o
+CkBAIC0wLDAgKzEsNjIgQEAKKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9u
+bHkgKi8KKy8qCisgKiBETUEtQlVGIHN5c2ZzIHN0YXRpc3RpY3MuCisgKgorICogQ29weXJpZ2h0
+IChDKSAyMDIxIEdvb2dsZSBMTEMuCisgKi8KKworI2lmbmRlZiBfRE1BX0JVRl9TWVNGU19TVEFU
+U19ICisjZGVmaW5lIF9ETUFfQlVGX1NZU0ZTX1NUQVRTX0gKKworI2lmZGVmIENPTkZJR19ETUFC
+VUZfU1lTRlNfU1RBVFMKKworaW50IGRtYV9idWZfaW5pdF9zeXNmc19zdGF0aXN0aWNzKHZvaWQp
+Owordm9pZCBkbWFfYnVmX3VuaW5pdF9zeXNmc19zdGF0aXN0aWNzKHZvaWQpOworCitpbnQgZG1h
+X2J1Zl9zdGF0c19zZXR1cChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKTsKK2ludCBkbWFfYnVmX2F0
+dGFjaF9zdGF0c19zZXR1cChzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsCisJCQkg
+ICAgICAgdW5zaWduZWQgaW50IHVpZCk7CitzdGF0aWMgaW5saW5lIHZvaWQgZG1hX2J1Zl91cGRh
+dGVfYXR0YWNobWVudF9tYXBfY291bnQoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNo
+LAorCQkJCQkJICAgICAgIGludCBkZWx0YSkKK3sKKwlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfc3lz
+ZnNfZW50cnkgKmVudHJ5ID0gYXR0YWNoLT5zeXNmc19lbnRyeTsKKworCWVudHJ5LT5tYXBfY291
+bnRlciArPSBkZWx0YTsKK30KK3ZvaWQgZG1hX2J1Zl9zdGF0c190ZWFyZG93bihzdHJ1Y3QgZG1h
+X2J1ZiAqZG1hYnVmKTsKK3ZvaWQgZG1hX2J1Zl9hdHRhY2hfc3RhdHNfdGVhcmRvd24oc3RydWN0
+IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKTsKK3N0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50
+IGRtYV9idWZfdXBkYXRlX2F0dGFjaF91aWQoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKK3sKKwlz
+dHJ1Y3QgZG1hX2J1Zl9zeXNmc19lbnRyeSAqZW50cnkgPSBkbWFidWYtPnN5c2ZzX2VudHJ5Owor
+CisJcmV0dXJuIGVudHJ5LT5hdHRhY2htZW50X3VpZCsrOworfQorI2Vsc2UKKworc3RhdGljIGlu
+bGluZSBpbnQgZG1hX2J1Zl9pbml0X3N5c2ZzX3N0YXRpc3RpY3Modm9pZCkKK3sKKwlyZXR1cm4g
+MDsKK30KKworc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfdW5pbml0X3N5c2ZzX3N0YXRpc3Rp
+Y3Modm9pZCkge30KKworc3RhdGljIGlubGluZSBpbnQgZG1hX2J1Zl9zdGF0c19zZXR1cChzdHJ1
+Y3QgZG1hX2J1ZiAqZG1hYnVmKQoreworCXJldHVybiAwOworfQorc3RhdGljIGlubGluZSBpbnQg
+ZG1hX2J1Zl9hdHRhY2hfc3RhdHNfc2V0dXAoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0
+YWNoLAorCQkJCQkgICAgIHVuc2lnbmVkIGludCB1aWQpCit7CisJcmV0dXJuIDA7Cit9CisKK3N0
+YXRpYyBpbmxpbmUgdm9pZCBkbWFfYnVmX3N0YXRzX3RlYXJkb3duKHN0cnVjdCBkbWFfYnVmICpk
+bWFidWYpIHt9CitzdGF0aWMgaW5saW5lIHZvaWQgZG1hX2J1Zl9hdHRhY2hfc3RhdHNfdGVhcmRv
+d24oc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKSB7fQorc3RhdGljIGlubGluZSB2
+b2lkIGRtYV9idWZfdXBkYXRlX2F0dGFjaG1lbnRfbWFwX2NvdW50KHN0cnVjdCBkbWFfYnVmX2F0
+dGFjaG1lbnQgKmF0dGFjaCwKKwkJCQkJCSAgICAgICBpbnQgZGVsdGEpIHt9CitzdGF0aWMgaW5s
+aW5lIHVuc2lnbmVkIGludCBkbWFfYnVmX3VwZGF0ZV9hdHRhY2hfdWlkKHN0cnVjdCBkbWFfYnVm
+ICpkbWFidWYpCit7CisJcmV0dXJuIDA7Cit9CisjZW5kaWYKKyNlbmRpZiAvLyBfRE1BX0JVRl9T
+WVNGU19TVEFUU19ICmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJp
+dmVycy9kbWEtYnVmL2RtYS1idWYuYwppbmRleCA5YWQ2Mzk3YWFhOTcuLjI5ZjllYTE4ZWI0NyAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYworKysgYi9kcml2ZXJzL2RtYS1i
+dWYvZG1hLWJ1Zi5jCkBAIC0yOSw2ICsyOSw4IEBACiAjaW5jbHVkZSA8dWFwaS9saW51eC9kbWEt
+YnVmLmg+CiAjaW5jbHVkZSA8dWFwaS9saW51eC9tYWdpYy5oPgogCisjaW5jbHVkZSAiZG1hLWJ1
+Zi1zeXNmcy1zdGF0cy5oIgorCiBzdGF0aWMgaW5saW5lIGludCBpc19kbWFfYnVmX2ZpbGUoc3Ry
+dWN0IGZpbGUgKik7CiAKIHN0cnVjdCBkbWFfYnVmX2xpc3QgewpAQCAtNzksNiArODEsNyBAQCBz
+dGF0aWMgdm9pZCBkbWFfYnVmX3JlbGVhc2Uoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQogCWlmIChk
+bWFidWYtPnJlc3YgPT0gKHN0cnVjdCBkbWFfcmVzdiAqKSZkbWFidWZbMV0pCiAJCWRtYV9yZXN2
+X2ZpbmkoZG1hYnVmLT5yZXN2KTsKIAorCWRtYV9idWZfc3RhdHNfdGVhcmRvd24oZG1hYnVmKTsK
+IAltb2R1bGVfcHV0KGRtYWJ1Zi0+b3duZXIpOwogCWtmcmVlKGRtYWJ1Zi0+bmFtZSk7CiAJa2Zy
+ZWUoZG1hYnVmKTsKQEAgLTU3OSw2ICs1ODIsMTAgQEAgc3RydWN0IGRtYV9idWYgKmRtYV9idWZf
+ZXhwb3J0KGNvbnN0IHN0cnVjdCBkbWFfYnVmX2V4cG9ydF9pbmZvICpleHBfaW5mbykKIAlmaWxl
+LT5mX21vZGUgfD0gRk1PREVfTFNFRUs7CiAJZG1hYnVmLT5maWxlID0gZmlsZTsKIAorCXJldCA9
+IGRtYV9idWZfc3RhdHNfc2V0dXAoZG1hYnVmKTsKKwlpZiAocmV0KQorCQlnb3RvIGVycl9zeXNm
+czsKKwogCW11dGV4X2luaXQoJmRtYWJ1Zi0+bG9jayk7CiAJSU5JVF9MSVNUX0hFQUQoJmRtYWJ1
+Zi0+YXR0YWNobWVudHMpOwogCkBAIC01ODgsNiArNTk1LDE0IEBAIHN0cnVjdCBkbWFfYnVmICpk
+bWFfYnVmX2V4cG9ydChjb25zdCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRfaW5mbyAqZXhwX2luZm8p
+CiAKIAlyZXR1cm4gZG1hYnVmOwogCitlcnJfc3lzZnM6CisJLyoKKwkgKiBTZXQgZmlsZS0+Zl9w
+YXRoLmRlbnRyeS0+ZF9mc2RhdGEgdG8gTlVMTCBzbyB0aGF0IHdoZW4KKwkgKiBkbWFfYnVmX3Jl
+bGVhc2UoKSBnZXRzIGludm9rZWQgYnkgZGVudHJ5X29wcywgaXQgZXhpdHMKKwkgKiBlYXJseSBi
+ZWZvcmUgY2FsbGluZyB0aGUgcmVsZWFzZSgpIGRtYV9idWYgb3AuCisJICovCisJZmlsZS0+Zl9w
+YXRoLmRlbnRyeS0+ZF9mc2RhdGEgPSBOVUxMOworCWZwdXQoZmlsZSk7CiBlcnJfZG1hYnVmOgog
+CWtmcmVlKGRtYWJ1Zik7CiBlcnJfbW9kdWxlOgpAQCAtNjkyLDYgKzcwNyw3IEBAIGRtYV9idWZf
+ZHluYW1pY19hdHRhY2goc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRldmljZSAqZGV2
+LAogewogCXN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaDsKIAlpbnQgcmV0OworCXVu
+c2lnbmVkIGludCBhdHRhY2hfdWlkOwogCiAJaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhZGV2KSkK
+IAkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7CkBAIC03MTcsOCArNzMzLDEzIEBAIGRtYV9idWZf
+ZHluYW1pY19hdHRhY2goc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRldmljZSAqZGV2
+LAogCX0KIAlkbWFfcmVzdl9sb2NrKGRtYWJ1Zi0+cmVzdiwgTlVMTCk7CiAJbGlzdF9hZGQoJmF0
+dGFjaC0+bm9kZSwgJmRtYWJ1Zi0+YXR0YWNobWVudHMpOworCWF0dGFjaF91aWQgPSBkbWFfYnVm
+X3VwZGF0ZV9hdHRhY2hfdWlkKGRtYWJ1Zik7CiAJZG1hX3Jlc3ZfdW5sb2NrKGRtYWJ1Zi0+cmVz
+dik7CiAKKwlyZXQgPSBkbWFfYnVmX2F0dGFjaF9zdGF0c19zZXR1cChhdHRhY2gsIGF0dGFjaF91
+aWQpOworCWlmIChyZXQpCisJCWdvdG8gZXJyX3N5c2ZzOworCiAJLyogV2hlbiBlaXRoZXIgdGhl
+IGltcG9ydGVyIG9yIHRoZSBleHBvcnRlciBjYW4ndCBoYW5kbGUgZHluYW1pYwogCSAqIG1hcHBp
+bmdzIHdlIGNhY2hlIHRoZSBtYXBwaW5nIGhlcmUgdG8gYXZvaWQgaXNzdWVzIHdpdGggdGhlCiAJ
+ICogcmVzZXJ2YXRpb24gb2JqZWN0IGxvY2suCkBAIC03NDUsNiArNzY2LDcgQEAgZG1hX2J1Zl9k
+eW5hbWljX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZGV2aWNlICpkZXYs
+CiAJCQlkbWFfcmVzdl91bmxvY2soYXR0YWNoLT5kbWFidWYtPnJlc3YpOwogCQlhdHRhY2gtPnNn
+dCA9IHNndDsKIAkJYXR0YWNoLT5kaXIgPSBETUFfQklESVJFQ1RJT05BTDsKKwkJZG1hX2J1Zl91
+cGRhdGVfYXR0YWNobWVudF9tYXBfY291bnQoYXR0YWNoLCAxIC8qIGRlbHRhICovKTsKIAl9CiAK
+IAlyZXR1cm4gYXR0YWNoOwpAQCAtNzYxLDYgKzc4Myw3IEBAIGRtYV9idWZfZHluYW1pY19hdHRh
+Y2goc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRldmljZSAqZGV2LAogCWlmIChkbWFf
+YnVmX2lzX2R5bmFtaWMoYXR0YWNoLT5kbWFidWYpKQogCQlkbWFfcmVzdl91bmxvY2soYXR0YWNo
+LT5kbWFidWYtPnJlc3YpOwogCitlcnJfc3lzZnM6CiAJZG1hX2J1Zl9kZXRhY2goZG1hYnVmLCBh
+dHRhY2gpOwogCXJldHVybiBFUlJfUFRSKHJldCk7CiB9CkBAIC03OTksNiArODIyLDcgQEAgdm9p
+ZCBkbWFfYnVmX2RldGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZG1hX2J1Zl9h
+dHRhY2htZW50ICphdHRhY2gpCiAJCQlkbWFfcmVzdl9sb2NrKGF0dGFjaC0+ZG1hYnVmLT5yZXN2
+LCBOVUxMKTsKIAogCQlkbWFidWYtPm9wcy0+dW5tYXBfZG1hX2J1ZihhdHRhY2gsIGF0dGFjaC0+
+c2d0LCBhdHRhY2gtPmRpcik7CisJCWRtYV9idWZfdXBkYXRlX2F0dGFjaG1lbnRfbWFwX2NvdW50
+KGF0dGFjaCwgLTEgLyogZGVsdGEgKi8pOwogCiAJCWlmIChkbWFfYnVmX2lzX2R5bmFtaWMoYXR0
+YWNoLT5kbWFidWYpKSB7CiAJCQlkbWFfYnVmX3VucGluKGF0dGFjaCk7CkBAIC04MTIsNiArODM2
+LDcgQEAgdm9pZCBkbWFfYnVmX2RldGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qg
+ZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gpCiAJaWYgKGRtYWJ1Zi0+b3BzLT5kZXRhY2gpCiAJ
+CWRtYWJ1Zi0+b3BzLT5kZXRhY2goZG1hYnVmLCBhdHRhY2gpOwogCisJZG1hX2J1Zl9hdHRhY2hf
+c3RhdHNfdGVhcmRvd24oYXR0YWNoKTsKIAlrZnJlZShhdHRhY2gpOwogfQogRVhQT1JUX1NZTUJP
+TF9HUEwoZG1hX2J1Zl9kZXRhY2gpOwpAQCAtOTM4LDYgKzk2Myw5IEBAIHN0cnVjdCBzZ190YWJs
+ZSAqZG1hX2J1Zl9tYXBfYXR0YWNobWVudChzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRh
+Y2gsCiAJfQogI2VuZGlmIC8qIENPTkZJR19ETUFfQVBJX0RFQlVHICovCiAKKwlpZiAoIUlTX0VS
+UihzZ190YWJsZSkpCisJCWRtYV9idWZfdXBkYXRlX2F0dGFjaG1lbnRfbWFwX2NvdW50KGF0dGFj
+aCwgMSAvKiBkZWx0YSAqLyk7CisKIAlyZXR1cm4gc2dfdGFibGU7CiB9CiBFWFBPUlRfU1lNQk9M
+X0dQTChkbWFfYnVmX21hcF9hdHRhY2htZW50KTsKQEAgLTk3NSw2ICsxMDAzLDggQEAgdm9pZCBk
+bWFfYnVmX3VubWFwX2F0dGFjaG1lbnQoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNo
+LAogCWlmIChkbWFfYnVmX2lzX2R5bmFtaWMoYXR0YWNoLT5kbWFidWYpICYmCiAJICAgICFJU19F
+TkFCTEVEKENPTkZJR19ETUFCVUZfTU9WRV9OT1RJRlkpKQogCQlkbWFfYnVmX3VucGluKGF0dGFj
+aCk7CisKKwlkbWFfYnVmX3VwZGF0ZV9hdHRhY2htZW50X21hcF9jb3VudChhdHRhY2gsIC0xIC8q
+IGRlbHRhICovKTsKIH0KIEVYUE9SVF9TWU1CT0xfR1BMKGRtYV9idWZfdW5tYXBfYXR0YWNobWVu
+dCk7CiAKQEAgLTE0MTIsNiArMTQ0MiwxMiBAQCBzdGF0aWMgaW5saW5lIHZvaWQgZG1hX2J1Zl91
+bmluaXRfZGVidWdmcyh2b2lkKQogCiBzdGF0aWMgaW50IF9faW5pdCBkbWFfYnVmX2luaXQodm9p
+ZCkKIHsKKwlpbnQgcmV0OworCisJcmV0ID0gZG1hX2J1Zl9pbml0X3N5c2ZzX3N0YXRpc3RpY3Mo
+KTsKKwlpZiAocmV0KQorCQlyZXR1cm4gcmV0OworCiAJZG1hX2J1Zl9tbnQgPSBrZXJuX21vdW50
+KCZkbWFfYnVmX2ZzX3R5cGUpOwogCWlmIChJU19FUlIoZG1hX2J1Zl9tbnQpKQogCQlyZXR1cm4g
+UFRSX0VSUihkbWFfYnVmX21udCk7CkBAIC0xNDI3LDUgKzE0NjMsNiBAQCBzdGF0aWMgdm9pZCBf
+X2V4aXQgZG1hX2J1Zl9kZWluaXQodm9pZCkKIHsKIAlkbWFfYnVmX3VuaW5pdF9kZWJ1Z2ZzKCk7
+CiAJa2Vybl91bm1vdW50KGRtYV9idWZfbW50KTsKKwlkbWFfYnVmX3VuaW5pdF9zeXNmc19zdGF0
+aXN0aWNzKCk7CiB9CiBfX2V4aXRjYWxsKGRtYV9idWZfZGVpbml0KTsKZGlmZiAtLWdpdCBhL2lu
+Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKaW5kZXggY2Y3
+MjY5OWNiMmJjLi40YWU1Y2MzOGE0YTcgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWJ1
+Zi5oCisrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCkBAIC0yOTQsNiArMjk0LDkgQEAgc3Ry
+dWN0IGRtYV9idWZfb3BzIHsKICAqIEBwb2xsOiBmb3IgdXNlcnNwYWNlIHBvbGwgc3VwcG9ydAog
+ICogQGNiX2V4Y2w6IGZvciB1c2Vyc3BhY2UgcG9sbCBzdXBwb3J0CiAgKiBAY2Jfc2hhcmVkOiBm
+b3IgdXNlcnNwYWNlIHBvbGwgc3VwcG9ydAorICogQHN5c2ZzX2VudHJ5OiBmb3IgZXhwb3Npbmcg
+aW5mb3JtYXRpb24gYWJvdXQgdGhpcyBidWZmZXIgaW4gc3lzZnMuCisgKiBUaGUgYXR0YWNobWVu
+dF91aWQgbWVtYmVyIG9mIEBzeXNmc19lbnRyeSBpcyBwcm90ZWN0ZWQgYnkgZG1hX3Jlc3YgbG9j
+aworICogYW5kIGlzIGluY3JlbWVudGVkIG9uIGVhY2ggYXR0YWNoLgogICoKICAqIFRoaXMgcmVw
+cmVzZW50cyBhIHNoYXJlZCBidWZmZXIsIGNyZWF0ZWQgYnkgY2FsbGluZyBkbWFfYnVmX2V4cG9y
+dCgpLiBUaGUKICAqIHVzZXJzcGFjZSByZXByZXNlbnRhdGlvbiBpcyBhIG5vcm1hbCBmaWxlIGRl
+c2NyaXB0b3IsIHdoaWNoIGNhbiBiZSBjcmVhdGVkIGJ5CkBAIC0zMjksNiArMzMyLDE1IEBAIHN0
+cnVjdCBkbWFfYnVmIHsKIAogCQlfX3BvbGxfdCBhY3RpdmU7CiAJfSBjYl9leGNsLCBjYl9zaGFy
+ZWQ7CisjaWZkZWYgQ09ORklHX0RNQUJVRl9TWVNGU19TVEFUUworCS8qIGZvciBzeXNmcyBzdGF0
+cyAqLworCXN0cnVjdCBkbWFfYnVmX3N5c2ZzX2VudHJ5IHsKKwkJc3RydWN0IGtvYmplY3Qga29i
+ajsKKwkJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsKKwkJdW5zaWduZWQgaW50IGF0dGFjaG1lbnRf
+dWlkOworCQlzdHJ1Y3Qga3NldCAqYXR0YWNoX3N0YXRzX2tzZXQ7CisJfSAqc3lzZnNfZW50cnk7
+CisjZW5kaWYKIH07CiAKIC8qKgpAQCAtMzc4LDYgKzM5MCw3IEBAIHN0cnVjdCBkbWFfYnVmX2F0
+dGFjaF9vcHMgewogICogQGltcG9ydGVyX29wczogaW1wb3J0ZXIgb3BlcmF0aW9ucyBmb3IgdGhp
+cyBhdHRhY2htZW50LCBpZiBwcm92aWRlZAogICogZG1hX2J1Zl9tYXAvdW5tYXBfYXR0YWNobWVu
+dCgpIG11c3QgYmUgY2FsbGVkIHdpdGggdGhlIGRtYV9yZXN2IGxvY2sgaGVsZC4KICAqIEBpbXBv
+cnRlcl9wcml2OiBpbXBvcnRlciBzcGVjaWZpYyBhdHRhY2htZW50IGRhdGEuCisgKiBAc3lzZnNf
+ZW50cnk6IEZvciBleHBvc2luZyBpbmZvcm1hdGlvbiBhYm91dCB0aGlzIGF0dGFjaG1lbnQgaW4g
+c3lzZnMuCiAgKgogICogVGhpcyBzdHJ1Y3R1cmUgaG9sZHMgdGhlIGF0dGFjaG1lbnQgaW5mb3Jt
+YXRpb24gYmV0d2VlbiB0aGUgZG1hX2J1ZiBidWZmZXIKICAqIGFuZCBpdHMgdXNlciBkZXZpY2Uo
+cykuIFRoZSBsaXN0IGNvbnRhaW5zIG9uZSBhdHRhY2htZW50IHN0cnVjdCBwZXIgZGV2aWNlCkBA
+IC0zOTgsNiArNDExLDEzIEBAIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgewogCWNvbnN0IHN0
+cnVjdCBkbWFfYnVmX2F0dGFjaF9vcHMgKmltcG9ydGVyX29wczsKIAl2b2lkICppbXBvcnRlcl9w
+cml2OwogCXZvaWQgKnByaXY7CisjaWZkZWYgQ09ORklHX0RNQUJVRl9TWVNGU19TVEFUUworCS8q
+IGZvciBzeXNmcyBzdGF0cyAqLworCXN0cnVjdCBkbWFfYnVmX2F0dGFjaF9zeXNmc19lbnRyeSB7
+CisJCXN0cnVjdCBrb2JqZWN0IGtvYmo7CisJCXVuc2lnbmVkIGludCBtYXBfY291bnRlcjsKKwl9
+ICpzeXNmc19lbnRyeTsKKyNlbmRpZgogfTsKIAogLyoqCi0tIAoyLjMwLjAuMjgwLmdhM2NlMjc5
+MTJmLWdvb2cKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
