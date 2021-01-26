@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293DE303DCD
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 13:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4334C303E90
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 14:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D276E42C;
-	Tue, 26 Jan 2021 12:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE576E441;
+	Tue, 26 Jan 2021 13:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC616E42C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:54:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5743823109
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 12:54:55 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
- id 47393809B0; Tue, 26 Jan 2021 12:54:55 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211349] IB test failed on sdma0 ! AMDGPU driver for Raven APU
- (ryzen 2400G) hangs!
-Date: Tue, 26 Jan 2021 12:54:55 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bolando@163.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211349-2300-CMyI6pbtv9@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211349-2300@https.bugzilla.kernel.org/>
-References: <bug-211349-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1FA46E42C;
+ Tue, 26 Jan 2021 13:24:55 +0000 (UTC)
+IronPort-SDR: 3jggMRwRq58De0zrwRXO2+p1J/gxR3HUv8ddGx7J9uK/TaapUeUqTkTVwMLHlfrvzn21orOzYi
+ dSSXMw8PRgHw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="243979561"
+X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; d="scan'208";a="243979561"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2021 05:24:53 -0800
+IronPort-SDR: g4Zswe3qz4zMid/EyEG5xz4WWhFPriWd/t2t5KrG0ShP0j9WNEEJayXNCJQTEkRkM2/IHRNzgx
+ zk+bb8SSGplQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; d="scan'208";a="369103591"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 26 Jan 2021 05:24:36 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 26 Jan 2021 15:24:35 +0200
+Date: Tue, 26 Jan 2021 15:24:35 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 10/11] drm: Use state helper instead of the plane
+ state pointer
+Message-ID: <YBAYE4YH4bgURmuf@intel.com>
+References: <20210121163537.1466118-1-maxime@cerno.tech>
+ <20210121163537.1466118-10-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210121163537.1466118-10-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,127 +51,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Russell King <linux@armlinux.org.uk>, Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, linux-rockchip@lists.infradead.org,
+ Alexey Brodkin <abrodkin@synopsys.com>, Michal Simek <michal.simek@xilinx.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Dave Airlie <airlied@redhat.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, linux-mips@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-mediatek@lists.infradead,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Philippe Cornu <philippe.cornu@st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Yannick Fertre <yannick.fertre@st.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211349
+On Thu, Jan 21, 2021 at 05:35:35PM +0100, Maxime Ripard wrote:
+> Many drivers reference the plane->state pointer in order to get the
+> current plane state in their atomic_update or atomic_disable hooks,
+> which would be the new plane state in the global atomic state since
+> _swap_state happened when those hooks are run.
+> =
 
---- Comment #5 from bolando@163.com ---
-    I have tested with many kernels  and firmwares but failed ! To compare with
-Ubuntu 20.4 LTS kern log,my kern log lack of "kfd: added device" and  "amdgpu
-0000:06:00.0: amdgpu: Topology: Add APU node [0x0:0x0]". It seems sdma0 and vcn
-bug,with some memoery faults. This is mail error log.
+> Use the drm_atomic_get_new_plane_state helper to get that state to make it
+> more obvious.
+> =
 
+> This was made using the coccinelle script below:
+> =
 
-Jan 26 09:58:07 Pink kernel: [   69.141903] [drm:amdgpu_ib_ring_tests [amdgpu]]
-*ERROR* IB test failed on sdma0 (-110).
-Jan 26 09:58:07 Pink kernel: [   69.145985] amdgpu 0000:06:00.0: amdgpu:
-[gfxhub0] no-retry page fault (src_id:0 ring:157 vmid:10 pasid:0, for process 
-pid 0 thread  pid 0)
-Jan 26 09:58:07 Pink kernel: [   69.146002] amdgpu 0000:06:00.0: amdgpu:   in
-page starting at address 0x000000f40021b000 from client 27
-Jan 26 09:58:07 Pink kernel: [   69.146012] amdgpu 0000:06:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00A00B3A
-Jan 26 09:58:07 Pink kernel: [   69.146020] amdgpu 0000:06:00.0: amdgpu: ^I
-Faulty UTCL2 client ID: CPC (0x5)
-Jan 26 09:58:07 Pink kernel: [   69.146027] amdgpu 0000:06:00.0: amdgpu: ^I
-MORE_FAULTS: 0x0
-Jan 26 09:58:07 Pink kernel: [   69.146033] amdgpu 0000:06:00.0: amdgpu: ^I
-WALKER_ERROR: 0x5
-Jan 26 09:58:07 Pink kernel: [   69.146040] amdgpu 0000:06:00.0: amdgpu: ^I
-PERMISSION_FAULTS: 0x3
-Jan 26 09:58:07 Pink kernel: [   69.146046] amdgpu 0000:06:00.0: amdgpu: ^I
-MAPPING_ERROR: 0x1
-Jan 26 09:58:07 Pink kernel: [   69.146052] amdgpu 0000:06:00.0: amdgpu: ^I RW:
-0x0
-Jan 26 09:58:07 Pink kernel: [   69.146067] amdgpu 0000:06:00.0: amdgpu:
-[gfxhub0] no-retry page fault (src_id:0 ring:157 vmid:10 pasid:0, for process 
-pid 0 thread  pid 0)
-Jan 26 09:58:07 Pink kernel: [   69.146077] amdgpu 0000:06:00.0: amdgpu:   in
-page starting at address 0x000000f40021b000 from client 27
-Jan 26 09:58:07 Pink kernel: [   69.146086] amdgpu 0000:06:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00A00B3A
-Jan 26 09:58:07 Pink kernel: [   69.146094] amdgpu 0000:06:00.0: amdgpu: ^I
-Faulty UTCL2 client ID: CPC (0x5)
-Jan 26 09:58:07 Pink kernel: [   69.146100] amdgpu 0000:06:00.0: amdgpu: ^I
-MORE_FAULTS: 0x0
-Jan 26 09:58:07 Pink kernel: [   69.146106] amdgpu 0000:06:00.0: amdgpu: ^I
-WALKER_ERROR: 0x5
-Jan 26 09:58:07 Pink kernel: [   69.146112] amdgpu 0000:06:00.0: amdgpu: ^I
-PERMISSION_FAULTS: 0x3
-Jan 26 09:58:07 Pink kernel: [   69.146118] amdgpu 0000:06:00.0: amdgpu: ^I
-MAPPING_ERROR: 0x1
-Jan 26 09:58:07 Pink kernel: [   69.146124] amdgpu 0000:06:00.0: amdgpu: ^I RW:
-0x0
-Jan 26 09:58:07 Pink kernel: [   69.146514] mce: [Hardware Error]: Machine
-check events logged
-Jan 26 09:58:07 Pink kernel: [   69.146526] mce: [Hardware Error]: CPU 0:
-Machine Check: 0 Bank 20: dc2030000001085b
-Jan 26 09:58:07 Pink kernel: [   69.146533] mce: [Hardware Error]: TSC
-52c0cc15a4 ADDR 7ffcffffff40 SYND 5b240204 IPID 2e00000000 
-Jan 26 09:58:07 Pink kernel: [   69.146545] mce: [Hardware Error]: PROCESSOR
-2:810f10 TIME 1611655087 SOCKET 0 APIC 0 microcode 8101016
-Jan 26 09:58:08 Pink kernel: [   70.150550] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:10 Pink kernel: [   71.172270] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:11 Pink kernel: [   72.193987] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:12 Pink kernel: [   73.215700] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:13 Pink kernel: [   74.237417] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:14 Pink kernel: [   75.259129] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:15 Pink kernel: [   76.280848] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:16 Pink kernel: [   77.302559] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:17 Pink kernel: [   78.324274] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:18 Pink kernel: [   79.345988] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, trying to reset the VCPU!!!
-Jan 26 09:58:18 Pink kernel: [   79.366046] [drm:vcn_v1_0_set_powergating_state
-[amdgpu]] *ERROR* VCN decode not responding, giving up!!!
-Jan 26 09:58:18 Pink kernel: [   79.366067]
-[drm:amdgpu_device_ip_set_powergating_state [amdgpu]] *ERROR*
-set_powergating_state of IP block <vcn_v1_0> failed -1
-Jan 26 09:58:18 Pink kernel: [   79.366137] amdgpu 0000:06:00.0: amdgpu:
-[mmhub0] no-retry page fault (src_id:0 ring:16 vmid:0 pasid:0, for process  pid
-0 thread  pid 0)
-Jan 26 09:58:18 Pink kernel: [   79.366150] amdgpu 0000:06:00.0: amdgpu:   in
-page starting at address 0x0000000000000000 from client 18
-Jan 26 09:58:18 Pink kernel: [   79.366159] amdgpu 0000:06:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00000420
-Jan 26 09:58:18 Pink kernel: [   79.366166] amdgpu 0000:06:00.0: amdgpu: ^I
-Faulty UTCL2 client ID: VCN (0x2)
-Jan 26 09:58:18 Pink kernel: [   79.366172] amdgpu 0000:06:00.0: amdgpu: ^I
-MORE_FAULTS: 0x0
-Jan 26 09:58:18 Pink kernel: [   79.366177] amdgpu 0000:06:00.0: amdgpu: ^I
-WALKER_ERROR: 0x0
-Jan 26 09:58:18 Pink kernel: [   79.366182] amdgpu 0000:06:00.0: amdgpu: ^I
-PERMISSION_FAULTS: 0x2
-Jan 26 09:58:18 Pink kernel: [   79.366187] amdgpu 0000:06:00.0: amdgpu: ^I
-MAPPING_ERROR: 0x0
-Jan 26 09:58:18 Pink kernel: [   79.366192] amdgpu 0000:06:00.0: amdgpu: ^I RW:
-0x0
-Jan 26 09:58:19 Pink kernel: [   80.405920] amdgpu 0000:06:00.0:
-[drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test failed on vcn_dec (-110).
-Jan 26 09:58:20 Pink kernel: [   81.429922] amdgpu 0000:06:00.0:
-[drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test failed on vcn_enc0 (-110).
-Jan 26 09:58:21 Pink kernel: [   82.453922] amdgpu 0000:06:00.0:
-[drm:amdgpu_ib_ring_tests [amdgpu]] *ERROR* IB test failed on vcn_enc1 (-110).
-Jan 26 09:59:18 Pink kernel: Kernel logging (proc) stopped.
-Jan 26 09:59:18 Pink kernel: Kernel log daemon terminating.
-Jan 26 10:00:07 Pink kernel: klogd 1.5.1, log source = /proc/kmsg started.
+> @ plane_atomic_func @
+> identifier helpers;
+> identifier func;
+> @@
+> =
 
--- 
-You may reply to this email to add a comment.
+> (
+>  static const struct drm_plane_helper_funcs helpers =3D {
+>  	...,
+>  	.atomic_disable =3D func,
+> 	...,
+>  };
+> |
+>  static const struct drm_plane_helper_funcs helpers =3D {
+>  	...,
+>  	.atomic_update =3D func,
+> 	...,
+>  };
+> )
+> =
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> @ adds_new_state @
+> identifier plane_atomic_func.func;
+> identifier plane, state;
+> identifier new_state;
+> @@
+> =
+
+>  func(struct drm_plane *plane, struct drm_atomic_state *state)
+>  {
+>  	...
+> -	struct drm_plane_state *new_state =3D plane->state;
+> +	struct drm_plane_state *new_state =3D drm_atomic_get_new_plane_state(st=
+ate, plane);
+> 	...
+>  }
+> =
+
+> @ include depends on adds_new_state @
+> @@
+> =
+
+>  #include <drm/drm_atomic.h>
+> =
+
+> @ no_include depends on !include && adds_new_state @
+> @@
+> =
+
+> + #include <drm/drm_atomic.h>
+>   #include <drm/...>
+> =
+
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Looks great.
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
