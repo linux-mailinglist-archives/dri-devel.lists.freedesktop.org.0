@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93881304633
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 19:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B88304634
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Jan 2021 19:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242C1893A3;
-	Tue, 26 Jan 2021 18:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13DC36E0D7;
+	Tue, 26 Jan 2021 18:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F91893A3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 18:21:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEE9893A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 18:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611685287;
+ s=mimecast20190719; t=1611685288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=iEgpuJzqa3JbPGol8wUz7D5/XSGXIIng43V/18schz8=;
- b=cUtYnJIjh053rse1VOUxjYUCb12P06WYP37uGyI0lfWWkNxqDWBQD0eVbcYT5SVqrUgiCw
- 9ExhGywEXKj0Ddg0mNraqgP+qxjNCX+PpswkCvNAu6N6NVH86w71Pp0ZEJQv1waXDoLojh
- /Cn/kPI+G8cFejTPiTIb3CnKc0bNXWg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fJzmx/FDrJMCCLLcPZO2xno8mAW17V5sI1Mz8ht2blY=;
+ b=I+EpKpG8iGnVhd7z3gyGW8tpSsUQtm+QAegZ2x/njCGxl8uC4lkC7IB0PTJ1BRs7/d9P1A
+ S/Tev6POPJDR0dHw/y+r7/TQ8UYshV/CPRjoaZBgcTzd7uAD6FiiGldegPApXExD8ew6EI
+ bG0tPnQLh5h26JlwuOLx1h4gYlubWDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-SzPm_gAKOoa_muj_u5Rr-w-1; Tue, 26 Jan 2021 13:21:23 -0500
-X-MC-Unique: SzPm_gAKOoa_muj_u5Rr-w-1
+ us-mta-505-HIxeCZ2DNiWixeoS2pS0Ug-1; Tue, 26 Jan 2021 13:21:26 -0500
+X-MC-Unique: HIxeCZ2DNiWixeoS2pS0Ug-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30283107ACE3;
- Tue, 26 Jan 2021 18:21:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7B9801817;
+ Tue, 26 Jan 2021 18:21:24 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-192.ams2.redhat.com [10.36.114.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7DC318A77;
- Tue, 26 Jan 2021 18:21:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA946F80A;
+ Tue, 26 Jan 2021 18:21:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] mm: simplify free_highmem_page() and
- free_reserved_page()
-Date: Tue, 26 Jan 2021 19:21:11 +0100
-Message-Id: <20210126182113.19892-1-david@redhat.com>
+Subject: [PATCH v1 1/2] video: fbdev: acornfb: remove free_unused_pages()
+Date: Tue, 26 Jan 2021 19:21:12 +0100
+Message-Id: <20210126182113.19892-2-david@redhat.com>
+In-Reply-To: <20210126182113.19892-1-david@redhat.com>
+References: <20210126182113.19892-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,28 +62,76 @@ Cc: linux-fbdev@vger.kernel.org, Wei Yang <richard.weiyang@linux.alibaba.com>,
  "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
  Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Gleixner <tglx@linutronix.de>, Mike Rapoport <rppt@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Oscar Salvador <osalvador@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's simplify and unify free_highmem_page() and free_reserved_page().
+This function is never used and it is one of the last remaining user of
+__free_reserved_page(). Let's just drop it.
 
-Gave it a quick test in i386 QEMU with 4G of RAM - seems to work just fine.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Michal Hocko <mhocko@kernel.org>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ drivers/video/fbdev/acornfb.c | 34 ----------------------------------
+ 1 file changed, 34 deletions(-)
 
-David Hildenbrand (2):
-  video: fbdev: acornfb: remove free_unused_pages()
-  mm: simplify free_highmem_page() and free_reserved_page()
-
- drivers/video/fbdev/acornfb.c    | 34 --------------------------------
- include/linux/highmem-internal.h |  5 -----
- include/linux/mm.h               | 16 ++-------------
- mm/page_alloc.c                  | 11 -----------
- 4 files changed, 2 insertions(+), 64 deletions(-)
-
+diff --git a/drivers/video/fbdev/acornfb.c b/drivers/video/fbdev/acornfb.c
+index bcc92aecf666..1b72edc01cfb 100644
+--- a/drivers/video/fbdev/acornfb.c
++++ b/drivers/video/fbdev/acornfb.c
+@@ -921,40 +921,6 @@ static int acornfb_detect_monitortype(void)
+ 	return 4;
+ }
+ 
+-/*
+- * This enables the unused memory to be freed on older Acorn machines.
+- * We are freeing memory on behalf of the architecture initialisation
+- * code here.
+- */
+-static inline void
+-free_unused_pages(unsigned int virtual_start, unsigned int virtual_end)
+-{
+-	int mb_freed = 0;
+-
+-	/*
+-	 * Align addresses
+-	 */
+-	virtual_start = PAGE_ALIGN(virtual_start);
+-	virtual_end = PAGE_ALIGN(virtual_end);
+-
+-	while (virtual_start < virtual_end) {
+-		struct page *page;
+-
+-		/*
+-		 * Clear page reserved bit,
+-		 * set count to 1, and free
+-		 * the page.
+-		 */
+-		page = virt_to_page(virtual_start);
+-		__free_reserved_page(page);
+-
+-		virtual_start += PAGE_SIZE;
+-		mb_freed += PAGE_SIZE / 1024;
+-	}
+-
+-	printk("acornfb: freed %dK memory\n", mb_freed);
+-}
+-
+ static int acornfb_probe(struct platform_device *dev)
+ {
+ 	unsigned long size;
 -- 
 2.29.2
 
