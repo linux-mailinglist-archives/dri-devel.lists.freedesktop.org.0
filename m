@@ -1,59 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD553055A8
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 930003055C1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7476E5BB;
-	Wed, 27 Jan 2021 08:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEDB6E7EA;
+	Wed, 27 Jan 2021 08:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03A16E44E;
- Tue, 26 Jan 2021 20:59:09 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id r12so24980939ejb.9;
- Tue, 26 Jan 2021 12:59:09 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB8189C84
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 21:17:36 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id j13so21512378edp.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 13:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LkWc8jdaLg/m0l0bUIXMZoNlWUmtThzXolrQWgPDX9A=;
- b=SFgx+1jwDHwJl5/pYtVEUsFV+wBy/bBhSy0FXJgKgD+ttppOw8/W/4THhlOgTHHSjW
- 5LV23rvCou1k0Vl3fhFTbbFDO6sPwRbDQOu73Yfdvo8i4hzlBH2dU8kyAJzcnnyryHDC
- CxKjBL+GGf/k33tub7BYkHJzDr9CSoVSkePsFaT/rjhT++hqA33QE2CwyKgfHjk2G9Nd
- cWGLm7Jh/Qs3kbVDKsurij+3rxco0k9O67c7e0f0v3sOf63I452GqmLfROKpbkUn7keW
- ZntnhN/MSqUTcje+Z2rZ2pGKDovVxUpzFu590X9P06W9Ef/YBFm34vMp0/bN/TBwd9C3
- 72wg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=nELwzlUlP6axkorz2djr4guRUf+IWYEa8K0PWf9nTOU=;
+ b=MI5Yn4GQix/Onk1AXDBpkLu8gGJ0+ZJPmdZJTwQ+kS11QNftnWwldp71R0ffDbjgXX
+ voO4MnYL/dzs58rhk5fBEN6adzDnXRGW837juTSJNruW7OZEYjPc56ZtRTEke1r4PyjX
+ WSWvv66Vf2X++L3OgVDMtnMQ9x2VWL0J3B7pXqo4VRcb7bgBa7fZmEwWHNAKY6B4AEgU
+ QHdEwNehuqYfA7crHzh5zAR6PtxMSWxg3tobFX8qm9djD6gaLWSrs0LPCjNfKgqmpGvT
+ TcaLkqPqk3lwS7Nn4qEcNmoK8NpuXEjQUfMSwdwjQE0mHddJYwAyd+u9JbpZVuydv6WZ
+ pWKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=LkWc8jdaLg/m0l0bUIXMZoNlWUmtThzXolrQWgPDX9A=;
- b=Aaa+pmnZgCRNIqogsYXbNb93eiWGzg2OxaViFFRXaOgRH6xP1DvWch7gNk1a6BNZPZ
- tNnBctQR7utg7X/aM8ascIaQoWQqd0CJIRYvvi4V/qsdqh1qlHoPhwv0gIzOnlYrHTwd
- uteLK8Ci+28M00BesOZIhxnyntSW8YWklaI9BbsBUWUekMI97b9k1Vxvf/O5CcjcxC6J
- QG0VpUjAuRU5uSW4UCOXprziiMKhwMaQryeyaaEUzGuzIyPran+aC3ge0E6zt3FWXhHh
- 4ahVLvZMOueqYVXZY+R2r5gtxXcfu/lsGZ+48EcHvHI2HLVz9b3dPBI+IVCvFxfQqfiR
- DnNw==
-X-Gm-Message-State: AOAM531VVwA3aQTPleGnaBqCsxg1s4j3ReBeRklwdUKQabriPqQPp4Qc
- VUo7Z8aBXAnUDmNymnhviZTvU6OstsiM/g==
-X-Google-Smtp-Source: ABdhPJxFRsDnpx0/61JI/BZ8ao9iHInjvmWiWg+yTrONOjF/ZpTZgSOaez4fYwoHjCfeEeLRCb967Q==
-X-Received: by 2002:a17:906:4451:: with SMTP id
- i17mr3044930ejp.436.1611694748684; 
- Tue, 26 Jan 2021 12:59:08 -0800 (PST)
-Received: from stitch.. ([2a01:4262:1ab:c:9ff1:8caf:ad1a:a1f7])
- by smtp.gmail.com with ESMTPSA id bd5sm12660434edb.86.2021.01.26.12.59.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 12:59:08 -0800 (PST)
-From: Emil Renner Berthing <kernel@esmil.dk>
-To: Chris Wilson <chris@chris-wilson.co.uk>,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gt: use new tasklet API in execlist selftest
-Date: Tue, 26 Jan 2021 21:59:02 +0100
-Message-Id: <20210126205902.5584-1-kernel@esmil.dk>
-X-Mailer: git-send-email 2.30.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=nELwzlUlP6axkorz2djr4guRUf+IWYEa8K0PWf9nTOU=;
+ b=G5zC9UAmwvRE2oskeyS7RprWl1lleCzd8kgRyeN5Evl5p0SuowuIVw95Kv5TIQodMA
+ 474Z6mt/90ReTqeZyww4QeYdZL/heXtT/nnpFdUsfN3L8cCTOaT0ZCBDTQh204iCjbfw
+ KrzWKQa1pIue2gUf3HvPoSlSkC4HaTURQ5/Ap9NH5ibV1YiJcMK75u+vv34apunn/Mn/
+ Mw3rhm1tcvU/7/u9nzKxIU3tG5cP4R/NlOD2P2XCMo19ihI0KaOCBC9ZwSceiwfmUosZ
+ UpDkizQetFYDMTWTnPRkBIJfcyPxKsmflUQR4D/839C/haeGeqRSgTYMSX6iVvLHHXCk
+ 7jnA==
+X-Gm-Message-State: AOAM530QHINX/YS43x5NOUKafJjBv4nnqN1xOp0BnIJhYmdF1wwp6OuL
+ NVFJyvwUOg5DENKRlomVuaU=
+X-Google-Smtp-Source: ABdhPJy4wQRLKh/Cy7gtx3UaZtRIBsQTsVIk5N8CGxrOkT2rebKaO5+ZA7CUxEbx0O9LEX4QoSSfSg==
+X-Received: by 2002:a50:fe85:: with SMTP id d5mr6304033edt.140.1611695855329; 
+ Tue, 26 Jan 2021 13:17:35 -0800 (PST)
+Received: from localhost
+ (ipv6-64fbc1442191a03a.ost.clients.hamburg.freifunk.net.
+ [2a03:2267:4:0:64fb:c144:2191:a03a])
+ by smtp.gmail.com with ESMTPSA id p3sm13208836edh.50.2021.01.26.13.17.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 26 Jan 2021 13:17:34 -0800 (PST)
+Date: Tue, 26 Jan 2021 22:17:23 +0100
+From: Oliver Graute <oliver.graute@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH v1] drm/panel: simple: add SGD GKTW70SDAD1SD
+Message-ID: <20210126211723.GA17512@portage>
+References: <20210110153532.GA7264@ripley>
+ <CAOMZO5C_hDWeVrCh7k+3OiA0jhQfawhGWE6hxnnFn=wA+dkTGQ@mail.gmail.com>
+ <20210110200606.GD7264@ripley>
+ <CAOMZO5DJUm4zutTB1oi5M0zj4_PFZEAbGzX6_LUAkX_dvEz=Qg@mail.gmail.com>
+ <20210116124856.GA3406@portage>
+ <CAOMZO5DKann0ojZrhjyXOqrRq9owtgrrZTGwttD_bU0-KO=aBg@mail.gmail.com>
+ <20210125212917.GA4177@portage>
+ <CAOMZO5DiTDQneYMtNBDpyqtYUYJ3AZ_fqWNSyfxWB5AfaNfULg@mail.gmail.com>
+ <20210125221701.GA20107@ripley>
+ <CAOMZO5A99AJ9NVUmbFr3pE2jxXnQnGNZ+00LHtBTtG3f2mye8w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5A99AJ9NVUmbFr3pE2jxXnQnGNZ+00LHtBTtG3f2mye8w@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,57 +79,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: David Airlie <airlied@linux.ie>, Marco Felsch <m.felsch@pengutronix.de>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts the execlist selftest to use the new tasklet API in
-commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
+On 26/01/21, Fabio Estevam wrote:
+> Hi Oliver,
+> 
+> On Mon, Jan 25, 2021 at 7:17 PM Oliver Graute <oliver.graute@gmail.com> wrote:
+> 
+> > I would prefer mine, because I got a wrong colored penguin on bootup
+> > with yours :-)
 
-Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
----
-Hi Chris,
+The wrong colored Tux is caused by the bus_format:
 
-I seem to have missed some tasklist manipulation in the execlist
-selftest.  Feel free to squash this into my previous patch
-("drm/i915/gt: use new tasklet API for execution list")
-or leave it like this. Whatever is fine by me.
+.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
 
-/Emil
----
- drivers/gpu/drm/i915/gt/selftest_execlists.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So I assume I need another bus_format here.  
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-index 264b5ebdb021..ba55cd018f5b 100644
---- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-@@ -609,7 +609,7 @@ static int live_hold_reset(void *arg)
- 		}
- 		tasklet_disable(&engine->execlists.tasklet);
- 
--		engine->execlists.tasklet.func(engine->execlists.tasklet.data);
-+		engine->execlists.tasklet.callback(&engine->execlists.tasklet);
- 		GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
- 
- 		i915_request_get(rq);
-@@ -4610,7 +4610,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
- 	}
- 	tasklet_disable(&engine->execlists.tasklet);
- 
--	engine->execlists.tasklet.func(engine->execlists.tasklet.data);
-+	engine->execlists.tasklet.callback(&engine->execlists.tasklet);
- 	GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
- 
- 	/* Fake a preemption event; failed of course */
--- 
-2.30.0
+> 
+> I have originally passed .bpc = 8, but looking at the panel datasheet,
+> this should be:
+> .bpc = 6 instead.
 
+ yes this is right. I found it too in the datasheet. I'll fix it in next
+ version of the patch.
+> 
+> In your patch, you pass the timing parameters three times, but they
+> are all the same.
+> 
+> Usually, it is meant to be: minimal, typical, maximum values.
+
+yes because on a lot of entries there is just the typical value and no min
+and max. But not on all of them.
+
+Best regards,
+
+Oliver
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
