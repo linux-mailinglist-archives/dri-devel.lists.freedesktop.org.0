@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D45E3070FC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD2C3070F6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8626E918;
-	Thu, 28 Jan 2021 08:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6036D897C5;
+	Thu, 28 Jan 2021 08:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2046.outbound.protection.outlook.com [40.107.22.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 786906E02E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 09:03:11 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2050.outbound.protection.outlook.com [40.107.21.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B28BC6E02E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 09:03:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GcMuZGqI9v6Vf9aH2JyEVSHpM7jL3yTnMUBeCFLkDSYu28StYcftDsfBQs3oSDevlGfF8W3KwedHb2CGU9+bKfWcjpiFrYGPDExNuTeDNgHehcOU0yV4rEb7bkqHcv26712VJfVxi5aExzVp0lzyssmHmhxwupIrw8A/RZPK01HsGQy7B6cNBtZvO8lfVpaGIalXWeM0Vp050lCHIcJe0vBen4fxjvCYovDGMqFcbVay6CXVTRfh1zLokHNG1cfLf4hmNl+cj9gBS5I7D227PgFnPgmzu3fNZlAoNUrFea83qAWzZwIZbR90B4W61u5kp8CvvU9wF9QjotZwUan8Gg==
+ b=ZsA5SxkuE+VkKhQTVJVHYYLIH0W9QPTn3Tbx+mK9gs9s+I8SZ6fyIlXsbYA/YiDjg++L5I5n6dbegTVZAvQMfJkDGU3pquVXHEaBEEu4Ih6onQmuysfnFGU5he/yBtfrEyO5JAnLf79HALDwdGv5ZdTo5Fniyxg7LGsqSnrNx9R3KuCu6eKVUsRnf+bMqrKnN+TRCWNRB9HoXarnARHvxilmZ/p4yRD4G+yZ15SLAdN/xyiV0DL4t1ehPpuD5QdB54UHhpsKClv3wGrYvZf5PmyKS/2jIXTY/BEgKcPJ7vNR9CQeU6uWfNpQ7LJtv6uHx/pZxFsYm/9HodY8Q0JEjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w14kBXAbL9dRwUYVAMoDID1jT9ZFuYudHOZ8whUxKdY=;
- b=ENP1BxFyEXWCbBkTo1XDcwaXqK06FIyTU+jRH6sWvhZkpnaqTHDihqcFpwYS2zrMg801gTM7+aIm13IlUp4e7/fGO3EoRU5vXVTdIx+5t7DuOgzuo2MSRfMHFxHZYavA9uOvkDX+CSN3DJ3QLzyplub4jvnP4lDhpoFEFOIUTns5yw6X0JIOEU7LOkWHJMJx08xyI+20GbePRrVoXSHcYtmUAaiOa9SyvMbV50Tio7VtZThX2w93aGfqiygrY7jCUKqAadYYnT2SzD67W040jGwCHsYD5JIC+tTDLcpntiPcIpsVEWGsSpbOBIWkZKK377TlXMcS1aFQ5mfhqATjBw==
+ bh=Hct4ijw9X88b6E0jStJEhqwk4xp8hiy+XmdL7nSEPUk=;
+ b=FcudkcGNhR3SDWtyFHbb04T4DTVCjdAU+h33ydV5L2cVEEJ7j3HDKlKEZjvBe+rTU5bCFKEs1nvGQi23h+NL7qNAgBUu+nCusqAkd8cvhKYzs/UXEa2gZ0UxRcjse4C2nPJZLlUL0EOQ/aPf8it+QpcjNkVqicC6gQu+8H1VPKLrmdeSydzFfsfAcB510uOuO1BgJY8/Hd95/eOLD54BdEddcOwJ0OB7OJZgpflvhQdjgVFRmb0/IudQKOMMDggs3PZNPrhHXy1c/pywOzUjdXGyyw9eKDSKQeO7jZfxPWMYyeQMJ3t8GoOv2err0rOEjxTLJM+lBlOvSiJehTa8Rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w14kBXAbL9dRwUYVAMoDID1jT9ZFuYudHOZ8whUxKdY=;
- b=aDPkBKtxD/crtlcRiXkvC4GZawx6OGMrZ8W0jBle5oYbYNi2Hj3ekcUbRLZbQLr4qjzRDtybCJ51zO2DgEKh0c7DiRAn27MDFQxZV8qLb2lHW2x3/FAYqLW+IV+FNg2YREbxdjbjRSh6FQDPgGvs73VXvN1iDCkFGCcLbJslubg=
+ bh=Hct4ijw9X88b6E0jStJEhqwk4xp8hiy+XmdL7nSEPUk=;
+ b=YxHY0NLIKYZDEdhnodaxdwHssm9Rwyz9ZJNAKi8mFSWX26NXMpGkIonMV9p4eiQpW+MDVqoONw000pZ14mY0XIPatOck/zWZDUxEIjzRyZuW2+1WMeQBdBY+IZTE3khk84hxbu1V61zR4HcBDYSQWnf3jjN1UjWp42sC8f5BHpA=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=nxp.com;
@@ -34,19 +34,19 @@ Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
  by VI1PR04MB2975.eurprd04.prod.outlook.com (2603:10a6:802:9::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Wed, 27 Jan
- 2021 09:03:02 +0000
+ 2021 09:03:09 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3805.016; Wed, 27 Jan 2021
- 09:03:02 +0000
+ 09:03:09 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v3 07/14] drm/bridge: imx: Add i.MX8qm/qxp display pixel link
- support
-Date: Wed, 27 Jan 2021 16:51:21 +0800
-Message-Id: <1611737488-2791-8-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v3 08/14] dt-bindings: display: bridge: Add i.MX8qxp pixel
+ link to DPI binding
+Date: Wed, 27 Jan 2021 16:51:22 +0800
+Message-Id: <1611737488-2791-9-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
 References: <1611737488-2791-1-git-send-email-victor.liu@nxp.com>
@@ -59,49 +59,55 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR02CA0049.apcprd02.prod.outlook.com (2603:1096:4:54::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:02:55 +0000
+ 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:03:03 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6102f4e7-8e49-48d7-625e-08d8c2a25967
+X-MS-Office365-Filtering-Correlation-Id: e4601a30-c0e9-4966-5021-08d8c2a25dc2
 X-MS-TrafficTypeDiagnostic: VI1PR04MB2975:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB2975C567749A6DA7D88E0B3198BB0@VI1PR04MB2975.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB297543142274D45D6B191C6A98BB0@VI1PR04MB2975.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gqUA1Dp7lSJb7UmGxYJtNhO+obbbB870DEptHWZaItDmtVHZ2q00yqpk7ZcQ5MWIUENr+UtmS+ue724k/zRhcvdnIyto2SriUzo4pFWspb51lCWZXIxVYgMTP+iiO9ob5ALGvOJhTbjKYloeiFaTi3XQkII1DUH1mmxclPNE45Dy9BMCmM736A300PwLILM4IHDTc1hCV+kWXcob2cE2v+chSOXyrfhBDJsofauNlcGAEsu/W9wS6L7Qms2fdh5pvJu2d7jsHS7ewtCNPL9/1KzAwwNS9NeZDPKFeq/dSyxZuklhhre764+Tag0qHO4BY8oDiG689Tt0Mf9wgsTnAJkdLWfoEbvmqWifBHOIpUfFx80mlu+6r1JryVaH4liraT9koN8FS5b5Ueb6Qs+RPgf/6+tdLj4Q+8kt3sK4ab3vkGOqyqvhXVnaSREssHdy34k/6QgKS9vcdtCb3uPj5b/kdQ5vRRsHHtsBwCcICkynyqmos70a/8O/1Qn5u2xbfv61eLBY/JhXCRCRGFohvZ9XrrL8EvOWsaADJFVm2avOYsANkh3IdMCl6pYV7ts3DoOwSSkLljjK7q+h9Ekdrg==
+X-Microsoft-Antispam-Message-Info: JaN351EA1uIDhLKGNZVYSS4BoB3nU19IwIhLBK7f3mf46bj/ugGXI6pERQcD6LZDIR/bNmHOdkct6Dbb28iuWRyBqkvXC/HSXMxwAC7WKLUwmc0+sQAVFnJfmvjFr0Xn0psVh7D2729shlb9NRKZY8c751Djs8BmG0UTjSZ+HJ6zN56NDqtH78gN7aJ/8/tBptFdyKGfogRX1bOl3NMb9wB/1J1dXKmZjOk7TpAnYLXuo/cKxRvKSfkRv3rm/1SkFAKryvarCYo/be53OKQy7Aa0i1ieYsdHA0kgzgtD6BKO2DEDBcpKP9moBvrytcSVxcJWtJWB8A2Ya4Bj/2ikJjwRMPgZxUWDjeIEoxD36WPB62pbcwMCN8vJVAeweYWz1adOEHFTF9QdvxniUHDVods6NAXXCoG4jSBBn9qLcLYp6QsN5eHd6RFmSv7+eNi51rkhYKSNBbQDGQEqLMnF0ZaJXhLp4V/1I5L6MMBczmYzd/8Oazs/bt15SUiqn4i+LlMoSlKGZICP8aT876Pcs03wSfhOSm6PgjTgUEdVEZGGy5HDtP9x483+cioOmLlYfHiBXQUDicJ0TsswSe+y8Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(346002)(39860400002)(136003)(396003)(8936002)(2616005)(6486002)(66946007)(186003)(6666004)(956004)(7416002)(4326008)(36756003)(69590400011)(6506007)(8676002)(316002)(5660300002)(16526019)(86362001)(478600001)(30864003)(6512007)(2906002)(52116002)(66556008)(26005)(66476007);
+ SFS:(4636009)(376002)(366004)(346002)(39860400002)(136003)(396003)(8936002)(2616005)(6486002)(66946007)(186003)(6666004)(956004)(7416002)(4326008)(36756003)(6506007)(8676002)(316002)(5660300002)(16526019)(86362001)(478600001)(6512007)(2906002)(52116002)(66556008)(966005)(26005)(66476007);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?bmKj/d90b4dDlKMqY+l+4aaak+2/ALFw4AEosyyNylkcy/QvR4/d+HZSd5Ai?=
- =?us-ascii?Q?j4YhDl5ONmw3zgzBp1jz68ge7YMzdA/0iHTqI16LB5vFIWiw5KRDVIzrLj7L?=
- =?us-ascii?Q?jkpXPgDozZd2QmHrlQDdSRM8JpY3zK7NC6p6GKVJ8cpuDvLJyFWlyuOZM3vS?=
- =?us-ascii?Q?SOE0vjS1rT18NYeQilUNk+wha2WQFwjvkZyGIRL3ueetT1FFJUspNtV0kRkm?=
- =?us-ascii?Q?4dAQSAbIq24SLQV6BLD+CJHhPl3H3nd1iFD3fQhH1ZdZsatkFMntcBtC93ZJ?=
- =?us-ascii?Q?t8/RCbpzfzZQX8ORCLwqoIRcG1Fu+jxXaHTkISX9+86RnKds/CmKXdX3SWGy?=
- =?us-ascii?Q?wE4DF5LD+47txgdQo77aB1Zxeg7xtTAO/qWOyVClX2PrR43nhAZ7qg2ozKir?=
- =?us-ascii?Q?3Zwm4+F4p8gwnTUY2j8mgWATsCRVC/pF92/iOafAxbPHj+MM9RAw6f7DIpr0?=
- =?us-ascii?Q?wc6b6/L67MGVjvtg9+YPz2kquyNDC0/saVl75MK22pJWQ70TSgDxkZVjS35s?=
- =?us-ascii?Q?a9XE6vd+DmbDjgvwJDnrP07vR8nxcawjiqFNHyneUz0PuJXYc3ZAo3EIeys1?=
- =?us-ascii?Q?kF1oI1Yx9wKo9gga4ktyTYaqImKOvBOa83y9Hbksn3UzEFVJkRHyuN/GfIs3?=
- =?us-ascii?Q?0Yu7KPRj+lZF0B2yZkge+JUINXhtUJuLk2DQpN0zB+BLOmkoBSoWKochD28a?=
- =?us-ascii?Q?hHL1WSM++cwaAX7qMC14Y9r+JWYZ8sC16U2Vzl1hAI01ZEIYyl/dySp15JJo?=
- =?us-ascii?Q?1jH8txqz6GY3SJT52ZEIhe6hLAQRMSGNVgMw9jxqyf3xGMHYFi4f8a+tDw/W?=
- =?us-ascii?Q?xCqn1Y/MMwziahz0H/zd+2LnA7Ta+pvmu0rTXLQltbliPLlSP4AKwLBLcQWV?=
- =?us-ascii?Q?y6C2ub8q35iXFq1qchV+ZKLAQP//HmtwVf5qSuXvbMrRk+FViR8ciQRQGPgU?=
- =?us-ascii?Q?oCDyB/b35crC3U87VR0xy+7uCEut0rKkFepHCArM4nB8E6rrgmbNndA2oU77?=
- =?us-ascii?Q?JkSv84ljJoX/YShkwTiY8J4wyEprUcG6g+eHSWf1K7+MG/GcmCYqmr8KzGo3?=
- =?us-ascii?Q?3kUJLrbF?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RUJMRisrVUxFR1p2cmk3MDVCd1UrbENOdVBpU0RZTEFhU2ozcmpJSUpnN0Fa?=
+ =?utf-8?B?Qmx3OXN5THVjdjlNR1VLbDB5Y2FMUWtkU0lmSFRRMDFKSlJrMGFIcDFORHJS?=
+ =?utf-8?B?ZWt4c3JkL3dnM0VnWkRPNVpaSFhiRll3eTQ1MHRyNFFNbkNWcE1WMzM4Tk1Z?=
+ =?utf-8?B?QjN6aHBpZlF6K0tWRXRhOE1oQ3U1MGxJUk5LNFBOb3RjZ1htVVFzVUpJVzJn?=
+ =?utf-8?B?ZVh2Wjl0aFBHUXl3c3JpUlE1dmJMK291UHdMVzRUekJMbTRiTEI3aWdZQjBR?=
+ =?utf-8?B?SGJqMjlkRGU5ZEpoRXJqdUUyNW5KZHVRcHFBSVkzRUFWOEtzQUtNK3F5TFRi?=
+ =?utf-8?B?Z21yM25QVXB0US9rRnBQK2l3ZVdqOGUwMUx4c0RVT1FYTlRVRFFOMEl4NnJP?=
+ =?utf-8?B?aDdQVDhnbUZvbVNweU5ROXU5Yk5WZk4zdEt1SUVYSDFNZVdzQkN6NG1vWlhO?=
+ =?utf-8?B?SlFBRXptZVZDOVQxTlIvUVV3WldjajhUcUU3aDI3aXl5blFTTnU0UDBnaC9W?=
+ =?utf-8?B?SXRxSEdNTzF6RTBRU2pvQjlwTm5xVHNSWEhicU5ibklSbnM0L1RXOFdQQXhD?=
+ =?utf-8?B?Zmp6QWlRYjU5bWtIek82YWJDWjFiVTJYd2VIdTFMMjgwdFprRXdVR1p6blVE?=
+ =?utf-8?B?bTcrdDB0MUxGSUdZQllxVHFlZ1YyZ21paEdDaHBzT04xZ25QNFF3MktFYjgz?=
+ =?utf-8?B?THphWlpreGtOVG1sVlYxYVp2RUt3aDZOOU1LTUVndldBa2lKMnBaZnBTM2xx?=
+ =?utf-8?B?dm1ibWhxZVFtK1Z3VDM3dXpzN0RJK3U5dVNyZmNRQmJTWitaZldFNVFQYjFF?=
+ =?utf-8?B?Z0dnMWNLZDA5YmtsMVpSSzlEbzFLY2tKT2JtU2FlRFZQT0NaZjZFdnc1Qkgv?=
+ =?utf-8?B?WXpzN2VuejI2L1BMVWw1Zlc1SGRCWUJMWWwyZ3Z5eWNqcW9CSVhUcVhlcC8z?=
+ =?utf-8?B?YkpnY054TWJUeDkwQUlHaVlQZmpTb1VMQnRPd09KUys5aWlDTXBybURhTExh?=
+ =?utf-8?B?UEgveUsvWHEzMUsybm5yZ2FvYUhhWnU0ektxZTdtcHA2OEo2Y1BsUSsxeHh3?=
+ =?utf-8?B?amVxN3ZoN1o4RkR6c0tJdzV1YThOajJiNTRianJUMVUxYVBCZExDWnBNU3pn?=
+ =?utf-8?B?SVRnc1gyQWkxbHkzbU1wSmpWT0tlc1QzMVEySFoxL2NlaVYxUG82d2VKLzhw?=
+ =?utf-8?B?SkllSEtHREo1QWdidys2V0dnUWVvaXc3RWdncDJoeW8wY0ZtRjNUbCtWZTdx?=
+ =?utf-8?B?LzZqbkw5bWFOaXkreUgyYzFQdUZ3YVNKL0hMMUxlY1JjSDVBTUh2ektLclJt?=
+ =?utf-8?B?NGlSdlBmY2daTXdwcDhwMjdUMG9MeEtQbzZtdEVkM0E4Nmx4aVdJakFwdEpq?=
+ =?utf-8?B?MkM4eHYycm5GRXJic1d4NksvcHRxd2Z3RTJNVnZid255YnNsWHpFQnp4Ujlu?=
+ =?utf-8?Q?Zk8bX6Zv?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6102f4e7-8e49-48d7-625e-08d8c2a25967
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4601a30-c0e9-4966-5021-08d8c2a25dc2
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:03:02.6315 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:03:09.5605 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rrNkHo7Q4OwaFmJ2Wo0o8GsaVlPVkU5K9EuRxrLEE2SIpDZWe1bse/JzFYO2YPdUFRBvsTRnTPiB+O8lUaKVpw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: qYr5X6dObeUtS7+y0BHXLB6+3evJYQaD4ybs6FiekQf18qhu9QfG9y5ZrHgqTEJ6pxcJT2Z6rgjSBnQsS2iPNA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2975
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,494 +126,79 @@ Cc: jernej.skrabec@siol.net, narmstrong@baylibre.com, airlied@linux.ie,
  s.hauer@pengutronix.de, jonas@kwiboo.se, kishon@ti.com, a.hajda@samsung.com,
  vkoul@kernel.org, robh+dt@kernel.org, linux-imx@nxp.com, kernel@pengutronix.de,
  mchehab@kernel.org, shawnguo@kernel.org, Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a drm bridge driver for i.MX8qm/qxp display pixel link.
-The pixel link forms a standard asynchronous linkage between
-pixel sources(display controller or camera module) and pixel
-consumers(imaging or displays).  It consists of two distinct
-functions, a pixel transfer function and a control interface.
-
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v2->v3:
-* Drop two macros which help define functions and define them directly.
-* Properly disable all pixel link controls to POR value by calling
-  imx8qxp_pixel_link_disable_all_controls() from
-  imx8qxp_pixel_link_bridge_probe().
-
-v1->v2:
-* Rewrite the function to find the next bridge by properly using OF APIs
-  and dropping unnecessary DT validation. (Rob)
-
- drivers/gpu/drm/bridge/imx/Kconfig              |   8 +
- drivers/gpu/drm/bridge/imx/Makefile             |   1 +
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 426 ++++++++++++++++++++++++
- 3 files changed, 435 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index f1c91b6..4d1f027 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -6,3 +6,11 @@ config DRM_IMX8QXP_PIXEL_COMBINER
- 	help
- 	  Choose this to enable pixel combiner found in
- 	  Freescale i.MX8qm/qxp processors.
-+
-+config DRM_IMX8QXP_PIXEL_LINK
-+	tristate "Freescale i.MX8QM/QXP display pixel link"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  Choose this to enable display pixel link found in
-+	  Freescale i.MX8qm/qxp processors.
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index 7d7c8d6..c15469f 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -1 +1,2 @@
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-+obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-new file mode 100644
-index 00000000..2e5ba4a
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -0,0 +1,426 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+/*
-+ * Copyright 2020 NXP
-+ */
-+
-+#include <linux/firmware/imx/svc/misc.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_print.h>
-+
-+#include <dt-bindings/firmware/imx/rsrc.h>
-+
-+#define DRIVER_NAME		"imx8qxp-display-pixel-link"
-+#define PL_MAX_MST_ADDR		3
-+#define PL_MAX_NEXT_BRIDGES	2
-+
-+struct imx8qxp_pixel_link {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+	struct imx_sc_ipc *ipc_handle;
-+	int id;
-+	int stream_id;
-+	int dc_id;
-+	u32 sink_rsc;
-+	u32 mst_addr;
-+	u8 mst_addr_ctrl;
-+	u8 mst_en_ctrl;
-+	u8 mst_vld_ctrl;
-+	u8 sync_ctrl;
-+};
-+
-+static void imx8qxp_pixel_link_enable_mst_en(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_en_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to enable DC%d stream%d pixel link mst_en: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static void imx8qxp_pixel_link_enable_mst_vld(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_vld_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to enable DC%d stream%d pixel link mst_vld: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static void imx8qxp_pixel_link_enable_sync(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->sync_ctrl, true);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to enable DC%d stream%d pixel link sync: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+}
-+
-+static int imx8qxp_pixel_link_disable_mst_en(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_en_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to disable DC%d stream%d pixel link mst_en: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_disable_mst_vld(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->mst_vld_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		"failed to disable DC%d stream%d pixel link mst_vld: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_disable_sync(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle, pl->sink_rsc,
-+				      pl->sync_ctrl, false);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+			"failed to disable DC%d stream%d pixel link sync: %d\n",
-+						pl->dc_id, pl->stream_id, ret);
-+
-+	return ret;
-+}
-+
-+static void imx8qxp_pixel_link_set_mst_addr(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx_sc_misc_set_control(pl->ipc_handle,
-+				      pl->sink_rsc, pl->mst_addr_ctrl,
-+				      pl->mst_addr);
-+	if (ret)
-+		DRM_DEV_ERROR(pl->dev,
-+		    "failed to set DC%d stream%d pixel link mst addr(%u): %d\n",
-+		    pl->dc_id, pl->stream_id, pl->mst_addr, ret);
-+}
-+
-+static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
-+					    enum drm_bridge_attach_flags flags)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		DRM_DEV_ERROR(pl->dev,
-+			      "do not support creating a drm_connector\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!bridge->encoder) {
-+		DRM_DEV_ERROR(pl->dev, "missing encoder\n");
-+		return -ENODEV;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder,
-+				 pl->next_bridge, bridge,
-+				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+
-+static void
-+imx8qxp_pixel_link_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adjusted_mode)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_set_mst_addr(pl);
-+}
-+
-+static void imx8qxp_pixel_link_bridge_atomic_enable(struct drm_bridge *bridge,
-+			      struct drm_bridge_state *old_bridge_state)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_enable_mst_en(pl);
-+	imx8qxp_pixel_link_enable_mst_vld(pl);
-+	imx8qxp_pixel_link_enable_sync(pl);
-+}
-+
-+static void imx8qxp_pixel_link_bridge_atomic_disable(struct drm_bridge *bridge,
-+				struct drm_bridge_state *old_bridge_state)
-+{
-+	struct imx8qxp_pixel_link *pl = bridge->driver_private;
-+
-+	imx8qxp_pixel_link_disable_mst_en(pl);
-+	imx8qxp_pixel_link_disable_mst_vld(pl);
-+	imx8qxp_pixel_link_disable_sync(pl);
-+}
-+
-+static const u32 imx8qxp_pixel_link_bus_output_fmts[] = {
-+	MEDIA_BUS_FMT_RGB888_1X36_CPADLO,
-+	MEDIA_BUS_FMT_RGB666_1X36_CPADLO,
-+};
-+
-+static bool imx8qxp_pixel_link_bus_output_fmt_supported(u32 fmt)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts); i++) {
-+		if (imx8qxp_pixel_link_bus_output_fmts[i] == fmt)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 *
-+imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					u32 output_fmt,
-+					unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	if (!imx8qxp_pixel_link_bus_output_fmt_supported(output_fmt))
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = output_fmt;
-+
-+	return input_fmts;
-+}
-+
-+static u32 *
-+imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
-+					struct drm_bridge_state *bridge_state,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state,
-+					unsigned int *num_output_fmts)
-+{
-+	*num_output_fmts = ARRAY_SIZE(imx8qxp_pixel_link_bus_output_fmts);
-+	return kmemdup(imx8qxp_pixel_link_bus_output_fmts,
-+			sizeof(imx8qxp_pixel_link_bus_output_fmts), GFP_KERNEL);
-+}
-+
-+static const struct drm_bridge_funcs imx8qxp_pixel_link_bridge_funcs = {
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.attach			= imx8qxp_pixel_link_bridge_attach,
-+	.mode_set		= imx8qxp_pixel_link_bridge_mode_set,
-+	.atomic_enable		= imx8qxp_pixel_link_bridge_atomic_enable,
-+	.atomic_disable		= imx8qxp_pixel_link_bridge_atomic_disable,
-+	.atomic_get_input_bus_fmts =
-+			imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts,
-+	.atomic_get_output_bus_fmts =
-+			imx8qxp_pixel_link_bridge_atomic_get_output_bus_fmts,
-+};
-+
-+static int imx8qxp_pixel_link_disable_all_controls(struct imx8qxp_pixel_link *pl)
-+{
-+	int ret;
-+
-+	ret = imx8qxp_pixel_link_disable_mst_en(pl);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx8qxp_pixel_link_disable_mst_vld(pl);
-+	if (ret)
-+		return ret;
-+
-+	return imx8qxp_pixel_link_disable_sync(pl);
-+}
-+
-+static struct drm_bridge *
-+imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
-+{
-+	struct device_node *np = pl->dev->of_node;
-+	struct device_node *port, *remote;
-+	struct drm_bridge *next_bridge[PL_MAX_NEXT_BRIDGES];
-+	u32 port_id;
-+	bool found_port = false;
-+	int reg, ep_cnt = 0;
-+	int bridge_sel = 0;	/* select the first next bridge by default */
-+
-+	for (port_id = 1; port_id <= PL_MAX_MST_ADDR + 1; port_id++) {
-+		port = of_graph_get_port_by_id(np, port_id);
-+		if (!port)
-+			continue;
-+
-+		if (of_device_is_available(port)) {
-+			found_port = true;
-+			of_node_put(port);
-+			break;
-+		}
-+
-+		of_node_put(port);
-+	}
-+
-+	if (!found_port) {
-+		DRM_DEV_ERROR(pl->dev, "no available output port\n");
-+		return ERR_PTR(-ENODEV);
-+	}
-+
-+	for (reg = 0; reg < PL_MAX_NEXT_BRIDGES; reg++) {
-+		remote = of_graph_get_remote_node(np, port_id, reg);
-+		if (!remote)
-+			continue;
-+
-+		if (!of_device_is_available(remote->parent)) {
-+			DRM_DEV_DEBUG(pl->dev,
-+			   "port%u endpoint%u remote parent is not available\n",
-+								port_id, reg);
-+			of_node_put(remote);
-+			continue;
-+		}
-+
-+		next_bridge[ep_cnt] = of_drm_find_bridge(remote);
-+		if (!next_bridge[ep_cnt]) {
-+			of_node_put(remote);
-+			return ERR_PTR(-EPROBE_DEFER);
-+		}
-+
-+		/* specially select the next bridge with companion PXL2DPI */
-+		if (of_find_property(remote, "fsl,companion-pxl2dpi", NULL))
-+			bridge_sel = ep_cnt;
-+
-+		ep_cnt++;
-+
-+		of_node_put(remote);
-+	}
-+
-+	pl->mst_addr = port_id - 1;
-+
-+	return next_bridge[bridge_sel];
-+}
-+
-+static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
-+{
-+	struct imx8qxp_pixel_link *pl;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	pl = devm_kzalloc(dev, sizeof(*pl), GFP_KERNEL);
-+	if (!pl)
-+		return -ENOMEM;
-+
-+	ret = imx_scu_get_handle(&pl->ipc_handle);
-+	if (ret) {
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
-+									ret);
-+		return ret;
-+	}
-+
-+	pl->id = of_alias_get_id(np, "dc_pl");
-+	if (pl->id < 0) {
-+		DRM_DEV_ERROR(dev,
-+			      "failed to get pixel link node alias id: %d\n",
-+								pl->id);
-+		return pl->id;
-+	}
-+
-+	pl->dev = dev;
-+
-+	pl->dc_id = pl->id / 2;
-+	pl->stream_id = pl->id % 2;
-+
-+	pl->sink_rsc = pl->dc_id ? IMX_SC_R_DC_1 : IMX_SC_R_DC_0;
-+
-+	if (pl->stream_id == 0) {
-+		pl->mst_addr_ctrl = IMX_SC_C_PXL_LINK_MST1_ADDR;
-+		pl->mst_en_ctrl   = IMX_SC_C_PXL_LINK_MST1_ENB;
-+		pl->mst_vld_ctrl  = IMX_SC_C_PXL_LINK_MST1_VLD;
-+		pl->sync_ctrl     = IMX_SC_C_SYNC_CTRL0;
-+	} else {
-+		pl->mst_addr_ctrl = IMX_SC_C_PXL_LINK_MST2_ADDR;
-+		pl->mst_en_ctrl   = IMX_SC_C_PXL_LINK_MST2_ENB;
-+		pl->mst_vld_ctrl  = IMX_SC_C_PXL_LINK_MST2_VLD;
-+		pl->sync_ctrl     = IMX_SC_C_SYNC_CTRL1;
-+	}
-+
-+	/* disable all controls to POR default */
-+	ret = imx8qxp_pixel_link_disable_all_controls(pl);
-+	if (ret)
-+		return ret;
-+
-+	pl->next_bridge = imx8qxp_pixel_link_find_next_bridge(pl);
-+	if (IS_ERR(pl->next_bridge)) {
-+		ret = PTR_ERR(pl->next_bridge);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_DEV_ERROR(dev, "failed to find next bridge: %d\n",
-+									ret);
-+		return ret;
-+	}
-+
-+	platform_set_drvdata(pdev, pl);
-+
-+	pl->bridge.driver_private = pl;
-+	pl->bridge.funcs = &imx8qxp_pixel_link_bridge_funcs;
-+	pl->bridge.of_node = np;
-+
-+	drm_bridge_add(&pl->bridge);
-+
-+	return ret;
-+}
-+
-+static int imx8qxp_pixel_link_bridge_remove(struct platform_device *pdev)
-+{
-+	struct imx8qxp_pixel_link *pl = platform_get_drvdata(pdev);
-+
-+	drm_bridge_remove(&pl->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id imx8qxp_pixel_link_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qm-dc-pixel-link", },
-+	{ .compatible = "fsl,imx8qxp-dc-pixel-link", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx8qxp_pixel_link_dt_ids);
-+
-+static struct platform_driver imx8qxp_pixel_link_bridge_driver = {
-+	.probe	= imx8qxp_pixel_link_bridge_probe,
-+	.remove = imx8qxp_pixel_link_bridge_remove,
-+	.driver	= {
-+		.of_match_table = imx8qxp_pixel_link_dt_ids,
-+		.name = DRIVER_NAME,
-+	},
-+};
-+module_platform_driver(imx8qxp_pixel_link_bridge_driver);
-+
-+MODULE_DESCRIPTION("i.MX8QXP/QM display pixel link bridge driver");
-+MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:" DRIVER_NAME);
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBwYXRjaCBhZGRzIGJpbmRpbmdzIGZvciBpLk1YOHF4cCBwaXhlbCBsaW5rIHRvIERQSShQ
+WEwyRFBJKS4KClNpZ25lZC1vZmYtYnk6IExpdSBZaW5nIDx2aWN0b3IubGl1QG54cC5jb20+Ci0t
+LQp2Mi0+djM6CiogRHJvcCAnZnNsLHN5c2NvbicgcHJvcGVydHkuIChSb2IpCiogTWVudGlvbiB0
+aGUgQ1NSIG1vZHVsZSBjb250cm9scyBQWEwyRFBJLgoKdjEtPnYyOgoqIFVzZSBncmFwaCBzY2hl
+bWEuIChMYXVyZW50KQoKIC4uLi9kaXNwbGF5L2JyaWRnZS9mc2wsaW14OHF4cC1weGwyZHBpLnlh
+bWwgICAgICAgIHwgMTAyICsrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEw
+MiBpbnNlcnRpb25zKCspCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxpbXg4cXhwLXB4bDJkcGkueWFtbAoKZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRn
+ZS9mc2wsaW14OHF4cC1weGwyZHBpLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvZGlzcGxheS9icmlkZ2UvZnNsLGlteDhxeHAtcHhsMmRwaS55YW1sCm5ldyBmaWxlIG1v
+ZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwLi42MTEyMDk1Ci0tLSAvZGV2L251bGwKKysrIGIvRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2ZzbCxpbXg4cXhw
+LXB4bDJkcGkueWFtbApAQCAtMCwwICsxLDEwMiBAQAorIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
+cjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpCislWUFNTCAxLjIKKy0tLQorJGlkOiBo
+dHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9kaXNwbGF5L2JyaWRnZS9mc2wsaW14OHF4cC1w
+eGwyZHBpLnlhbWwjCiskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFz
+L2NvcmUueWFtbCMKKwordGl0bGU6IEZyZWVzY2FsZSBpLk1YOHF4cCBQaXhlbCBMaW5rIHRvIERp
+c3BsYXkgUGl4ZWwgSW50ZXJmYWNlCisKK21haW50YWluZXJzOgorICAtIExpdSBZaW5nIDx2aWN0
+b3IubGl1QG54cC5jb20+CisKK2Rlc2NyaXB0aW9uOiB8CisgIFRoZSBGcmVlc2NhbGUgaS5NWDhx
+eHAgUGl4ZWwgTGluayB0byBEaXNwbGF5IFBpeGVsIEludGVyZmFjZShQWEwyRFBJKQorICBpbnRl
+cmZhY2VzIHRoZSBwaXhlbCBsaW5rIDM2LWJpdCBkYXRhIG91dHB1dCBhbmQgdGhlIERTSSBjb250
+cm9sbGVy4oCZcworICBNSVBJLURQSSAyNC1iaXQgZGF0YSBpbnB1dCwgYW5kIGlucHV0cyBvZiBM
+VkRTIERpc3BsYXkgQnJpZGdlKExEQikgbW9kdWxlCisgIHVzZWQgaW4gTFZEUyBtb2RlLCB0byBy
+ZW1hcCB0aGUgcGl4ZWwgY29sb3IgY29kaW5ncyBiZXR3ZWVuIHRob3NlIG1vZHVsZXMuCisgIFRo
+aXMgbW9kdWxlIGlzIHB1cmVseSBjb21iaW5hdG9yaWFsLgorCisgIFRoZSBpLk1YOHF4cCBQWEwy
+RFBJIGlzIGNvbnRyb2xsZWQgYnkgQ29udHJvbCBhbmQgU3RhdHVzIFJlZ2lzdGVycyhDU1IpIG1v
+ZHVsZS4KKyAgVGhlIENTUiBtb2R1bGUsIGFzIGEgc3lzdGVtIGNvbnRyb2xsZXIsIGNvbnRhaW5z
+IHRoZSBQWEwyRFBJJ3MgY29uZmlndXJhdGlvbgorICByZWdpc3Rlci4KKworcHJvcGVydGllczoK
+KyAgY29tcGF0aWJsZToKKyAgICBjb25zdDogZnNsLGlteDhxeHAtcHhsMmRwaQorCisgIHBvd2Vy
+LWRvbWFpbnM6CisgICAgbWF4SXRlbXM6IDEKKworICBmc2wsY29tcGFuaW9uLXB4bDJkcGk6Cisg
+ICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZQorICAgIGRl
+c2NyaXB0aW9uOiB8CisgICAgICBBIHBoYW5kbGUgd2hpY2ggcG9pbnRzIHRvIGNvbXBhbmlvbiBQ
+WEwyRFBJIHdoaWNoIGlzIHVzZWQgYnkgZG93bnN0cmVhbQorICAgICAgTFZEUyBEaXNwbGF5IEJy
+aWRnZShMREIpIGluIHNwbGl0IG1vZGUuCisKKyAgcG9ydHM6CisgICAgJHJlZjogL3NjaGVtYXMv
+Z3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0cworCisgICAgcHJvcGVydGllczoKKyAgICAgIHBv
+cnRAMDoKKyAgICAgICAgJHJlZjogL3NjaGVtYXMvZ3JhcGgueWFtbCMvcHJvcGVydGllcy9wb3J0
+CisgICAgICAgIGRlc2NyaXB0aW9uOiBUaGUgUFhMMkRQSSBpbnB1dCBwb3J0IG5vZGUgZnJvbSBw
+aXhlbCBsaW5rLgorCisgICAgICBwb3J0QDE6CisgICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBo
+LnlhbWwjL3Byb3BlcnRpZXMvcG9ydAorICAgICAgICBkZXNjcmlwdGlvbjogVGhlIFBYTDJEUEkg
+b3V0cHV0IHBvcnQgbm9kZSB0byBkb3duc3RyZWFtIGJyaWRnZS4KKworICAgIHJlcXVpcmVkOgor
+ICAgICAgLSBwb3J0QDAKKyAgICAgIC0gcG9ydEAxCisKK3JlcXVpcmVkOgorICAtIGNvbXBhdGli
+bGUKKyAgLSBwb3dlci1kb21haW5zCisgIC0gcG9ydHMKKworYWRkaXRpb25hbFByb3BlcnRpZXM6
+IGZhbHNlCisKK2V4YW1wbGVzOgorICAtIHwKKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZmly
+bXdhcmUvaW14L3JzcmMuaD4KKyAgICBweGwyZHBpIHsKKyAgICAgICAgY29tcGF0aWJsZSA9ICJm
+c2wsaW14OHF4cC1weGwyZHBpIjsKKyAgICAgICAgcG93ZXItZG9tYWlucyA9IDwmcGQgSU1YX1ND
+X1JfTUlQSV8wPjsKKworICAgICAgICBwb3J0cyB7CisgICAgICAgICAgICAjYWRkcmVzcy1jZWxs
+cyA9IDwxPjsKKyAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+OworCisgICAgICAgICAgICBw
+b3J0QDAgeworICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+OworICAgICAgICAg
+ICAgICAgICNzaXplLWNlbGxzID0gPDA+OworICAgICAgICAgICAgICAgIHJlZyA9IDwwPjsKKwor
+ICAgICAgICAgICAgICAgIG1pcGlfbHZkc18wX3B4bDJkcGlfZGNfcGl4ZWxfbGluazA6IGVuZHBv
+aW50QDAgeworICAgICAgICAgICAgICAgICAgICByZWcgPSA8MD47CisgICAgICAgICAgICAgICAg
+ICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZGNfcGl4ZWxfbGluazBfbWlwaV9sdmRzXzBfcHhsMmRw
+aT47CisgICAgICAgICAgICAgICAgfTsKKworICAgICAgICAgICAgICAgIG1pcGlfbHZkc18wX3B4
+bDJkcGlfZGNfcGl4ZWxfbGluazE6IGVuZHBvaW50QDEgeworICAgICAgICAgICAgICAgICAgICAg
+cmVnID0gPDE+OworICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZkY19w
+aXhlbF9saW5rMV9taXBpX2x2ZHNfMF9weGwyZHBpPjsKKyAgICAgICAgICAgICAgICB9OworICAg
+ICAgICAgICAgfTsKKworICAgICAgICAgICAgcG9ydEAxIHsKKyAgICAgICAgICAgICAgICAjYWRk
+cmVzcy1jZWxscyA9IDwxPjsKKyAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKKyAg
+ICAgICAgICAgICAgICByZWcgPSA8MT47CisKKyAgICAgICAgICAgICAgICBtaXBpX2x2ZHNfMF9w
+eGwyZHBpX21pcGlfbHZkc18wX2xkYl9jaDA6IGVuZHBvaW50QDAgeworICAgICAgICAgICAgICAg
+ICAgICByZWcgPSA8MD47CisgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwm
+bWlwaV9sdmRzXzBfbGRiX2NoMF9taXBpX2x2ZHNfMF9weGwyZHBpPjsKKyAgICAgICAgICAgICAg
+ICB9OworCisgICAgICAgICAgICAgICAgbWlwaV9sdmRzXzBfcHhsMmRwaV9taXBpX2x2ZHNfMF9s
+ZGJfY2gxOiBlbmRwb2ludEAxIHsKKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+OworICAg
+ICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8Jm1pcGlfbHZkc18wX2xkYl9jaDFf
+bWlwaV9sdmRzXzBfcHhsMmRwaT47CisgICAgICAgICAgICAgICAgfTsKKyAgICAgICAgICAgIH07
+CisgICAgICAgIH07CisgICAgfTsKLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
