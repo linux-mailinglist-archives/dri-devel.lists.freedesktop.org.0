@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDD5305AAC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A12305AC5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7736E5C8;
-	Wed, 27 Jan 2021 12:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2D1D6E5B4;
+	Wed, 27 Jan 2021 12:06:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7C06E1B1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1227220773;
- Wed, 27 Jan 2021 12:03:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F746E5B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:06:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 95D7920784;
+ Wed, 27 Jan 2021 12:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611748991;
- bh=s9FyWRqQBYLlzUUdBkv3FZQxudbP70KKsuwRkeHWHEI=;
+ s=korg; t=1611749184;
+ bh=dVANB09LwALkp+sTk1/RHGXfqYtVo6LFn5maSabxK30=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M8giB4ORvL3mx55LaDcj1/tIi+BhFJb4mO4m9pyBQqvZIwgP2vqkgkDOQ4I1vn8HH
- U8aP648RT1pUgCmU92gSCKiLyN0XGWtBCyfjACVz8RiJzgpFsPQ6OWW77wlJfo28NM
- bwp9LYhhA6QMhnElnHGF3hN0OdPBasyFUrm9T7kg=
-Date: Wed, 27 Jan 2021 13:03:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
-Message-ID: <YBFWfOmndoPckN1A@kroah.com>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+ b=qDieFINuIfQ5HlI+Q7d4qhudf9ZCuiTBRaas2DMe7dboSfmIU5iWI+Qev11I7Xil8
+ 1ek08I89gKNZBTTj7gDXhuYErxetiuAhTydHkj1+ei+GCJl5hqUiIKCIsE3ht+Muml
+ CLfsbz52X/gHRe7p5poUYUB6LM4yJOnB4UwjDXdA=
+Date: Wed, 27 Jan 2021 13:06:21 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Hridya Valsaraju <hridya@google.com>
+Subject: Re: [PATCH v3] dmabuf: Add the capability to expose DMA-BUF stats in
+ sysfs
+Message-ID: <YBFXPbePURupbe+y@kroah.com>
+References: <20210126204240.418297-1-hridya@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20210126204240.418297-1-hridya@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,60 +43,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
- dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: kernel test robot <lkp@intel.com>, surenb@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, hyesoo.yu@samsung.com, kernel-team@android.com,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 26, 2021 at 05:58:34PM +0100, Uwe Kleine-K=F6nig wrote:
-> All amba drivers return 0 in their remove callback. Together with the
-> driver core ignoring the return value anyhow, it doesn't make sense to
-> return a value here.
+On Tue, Jan 26, 2021 at 12:42:36PM -0800, Hridya Valsaraju wrote:
+> This patch allows statistics to be enabled for each DMA-BUF in
+> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
 > =
 
-> Change the remove prototype to return void, which makes it explicit that
-> returning an error value doesn't work as expected. This simplifies changi=
-ng
-> the core remove callback to return void, too.
+> The following stats will be exposed by the interface:
 > =
 
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> /sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+> /sys/kernel/dmabuf/buffers/<inode_number>/size
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/device
+> /sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_uid>/map_co=
+unter
+> =
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> The inode_number is unique for each DMA-BUF and was added earlier [1]
+> in order to allow userspace to track DMA-BUF usage across different
+> processes.
+> =
+
+> Currently, this information is exposed in
+> /sys/kernel/debug/dma_buf/bufinfo.
+> However, since debugfs is considered unsafe to be mounted in production,
+> it is being duplicated in sysfs.
+> =
+
+> This information will be used to derive DMA-BUF
+> per-exporter stats and per-device usage stats for Android Bug reports.
+> The corresponding userspace changes can be found at [2].
+> Telemetry tools will also capture this information(along with other
+> memory metrics) periodically as well as on important events like a
+> foreground app kill (which might have been triggered by Low Memory
+> Killer). It will also contribute to provide a snapshot of the system
+> memory usage on other events such as OOM kills and Application Not
+> Responding events.
+> =
+
+> A shell script that can be run on a classic Linux environment to read
+> out the DMA-BUF statistics can be found at [3](suggested by John
+> Stultz).
+> =
+
+> The patch contains the following improvements over the previous version:
+> 1) Each attachment is represented by its own directory to allow creating
+> a symlink to the importing device and to also provide room for future
+> expansion.
+> 2) The number of distinct mappings of each attachment is exposed in a
+> separate file.
+> 3) The per-buffer statistics are now in /sys/kernel/dmabuf/buffers
+> inorder to make the interface expandable in future.
+> =
+
+> All of the improvements above are based on suggestions/feedback from
+> Daniel Vetter and Christian K=F6nig.
+> =
+
+> [1]: https://lore.kernel.org/patchwork/patch/1088791/
+> [2]: https://android-review.googlesource.com/q/topic:%22dmabuf-sysfs%22+(=
+status:open%20OR%20status:merged)
+> [3]: https://android-review.googlesource.com/c/platform/system/memory/lib=
+meminfo/+/1549734
+> =
+
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+> Changes in v3:
+> Fix a warning reported by the kernel test robot.
+> =
+
+> Changes in v2:
+> -Move statistics to /sys/kernel/dmabuf/buffers in oder to allow addition
+> of other DMA-BUF-related sysfs stats in future. Based on feedback from
+> Daniel Vetter.
+> -Each attachment has its own directory to represent attaching devices as
+> symlinks and to introduce map_count as a separate file. Based on
+> feedback from Daniel Vetter and Christian K=F6nig. Thank you both!
+> -Commit messages updated to point to userspace code in AOSP that will
+> read the DMA-BUF sysfs stats.
+> =
+
+> =
+
+>  .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  52 ++++
+>  drivers/dma-buf/Kconfig                       |  11 +
+>  drivers/dma-buf/Makefile                      |   1 +
+>  drivers/dma-buf/dma-buf-sysfs-stats.c         | 285 ++++++++++++++++++
+>  drivers/dma-buf/dma-buf-sysfs-stats.h         |  62 ++++
+>  drivers/dma-buf/dma-buf.c                     |  37 +++
+>  include/linux/dma-buf.h                       |  20 ++
+>  7 files changed, 468 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+>  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+>  create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+
+I don't know the dma-buf code at all, but from a sysfs/kobject point of
+view, this patch looks good to me:
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
