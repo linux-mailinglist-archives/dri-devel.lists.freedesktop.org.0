@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F163070E3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:16:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 173333070F7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2336B6E90C;
-	Thu, 28 Jan 2021 08:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE9C6E91C;
+	Thu, 28 Jan 2021 08:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1128C6E560
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 11:02:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1611745336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ju2N1jG53lMFxxVc2NAYc72E2pl8QR5olvZUsyDkBak=;
- b=AA9bvWk5QA70wiw6O1ZPSDKUoqyu0AVXkgupz7DWubfXYLwjZdranJNQOeXK67PiHXNqrP
- Ps2F1OxikIKZssE6h1Vs7SpZUjh9ufNGMSdPAtlyTn6XVfb1YJ4Z/8o58VS3Q7PIRxtVnv
- O6qDC/79DfVs86Id/zmCKilWMrRYH9M=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 82B07AD2B;
- Wed, 27 Jan 2021 11:02:16 +0000 (UTC)
-Date: Wed, 27 Jan 2021 12:02:08 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <YBFIMIR2FXoYDd+0@dhcp22.suse.cz>
-References: <20210126225138.1823266-1-kaleshsingh@google.com>
- <20210127090526.GB827@dhcp22.suse.cz>
- <6b314cf2-99f0-8e63-acc7-edebe2ca97d7@amd.com>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDE689D7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 11:08:08 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4DQgnL2DHgz1qtdj;
+ Wed, 27 Jan 2021 12:08:06 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4DQgnL1DMrz1sP6y;
+ Wed, 27 Jan 2021 12:08:06 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id MrvBiLH5angV; Wed, 27 Jan 2021 12:08:04 +0100 (CET)
+X-Auth-Info: ASg3AbgfvVmCTd1LHu+dH0yIP9R9iJMm7DSFWB+vhDc=
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Wed, 27 Jan 2021 12:08:04 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V4] drm/stm: Fix bus_flags handling
+Date: Wed, 27 Jan 2021 12:07:56 +0100
+Message-Id: <20210127110756.125570-1-marex@denx.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6b314cf2-99f0-8e63-acc7-edebe2ca97d7@amd.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,57 +49,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Szabolcs Nagy <szabolcs.nagy@arm.com>,
- dri-devel@lists.freedesktop.org, Yafang Shao <laoar.shao@gmail.com>,
- Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
- Michel Lespinasse <walken@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, kernel-team@android.com,
- Alexey Dobriyan <adobriyan@gmail.com>, linux-media@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, jannh@google.com,
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
- Bernd Edlinger <bernd.edlinger@hotmail.de>, surenb@google.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, minchan@kernel.org,
- Andrei Vagin <avagin@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Alexey Gladkov <gladkov.alexey@gmail.com>, hridya@google.com,
- Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Marek Vasut <marex@denx.de>, Benjamin Gaignard <benjamin.gaignard@st.com>,
+ Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Alexandre Torgue <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 27-01-21 11:53:55, Christian K=F6nig wrote:
-[...]
-> In general processes are currently not held accountable for memory they
-> reference through their file descriptors. DMA-buf is just one special cas=
-e.
+The drm_display_mode_to_videomode() does not populate DISPLAY_FLAGS_DE_LOW
+or DISPLAY_FLAGS_PIXDATA_NEGEDGE flags in struct videomode. Therefore, no
+matter what polarity the next bridge or display might require, these flags
+are never set, and thus the LTDC GCR_DEPOL and GCR_PCPOL bits are never set,
+and the LTDC behaves as if both DISPLAY_FLAGS_PIXDATA_POSEDGE and
+DISPLAY_FLAGS_DE_HIGH were always set.
 
-True
+The fix for this problem is taken almost verbatim from MXSFB driver. In
+case there is a bridge attached to the LTDC, the bridge might have extra
+polarity requirements, so extract bus_flags from the bridge and use them
+for LTDC configuration. Otherwise, extract bus_flags from the connector,
+which is the display.
 
-> In other words you can currently do something like this
-> =
+Fixes: b759012c5fa7 ("drm/stm: Add STM32 LTDC driver")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+Cc: Alexandre Torgue <alexandre.torgue@st.com>
+Cc: Antonio Borneo <antonio.borneo@st.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Philippe Cornu <philippe.cornu@st.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Vincent Abriou <vincent.abriou@st.com>
+Cc: Yannick Fertre <yannick.fertre@st.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+To: dri-devel@lists.freedesktop.org
+---
+V2: Check if ldev->bridge->timings is non-NULL before accessing it
+V3: get bus_flags from connector (from Yannick)
+    - Display controller could support several connectors (not connected at
+      the same time). ie: stm32mp15c-DK2 board have 2 connectors (HDMI + DSI).
+      Driver check which connector is connected to get the bus flag.
+V4: get bridge from encoder (from Yannick)
+---
+ drivers/gpu/drm/stm/ltdc.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-> fd =3D memfd_create("test", 0);
-> while (1)
-> =A0=A0=A0 write(fd, buf, 1024);
-> =
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 6e28e6b60e72..acc9f6694eb6 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -544,13 +544,42 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+ 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+ 	struct drm_device *ddev = crtc->dev;
++	struct drm_connector_list_iter iter;
++	struct drm_connector *connector = NULL;
++	struct drm_encoder *encoder = NULL;
++	struct drm_bridge *bridge = NULL;
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	struct videomode vm;
+ 	u32 hsync, vsync, accum_hbp, accum_vbp, accum_act_w, accum_act_h;
+ 	u32 total_width, total_height;
++	u32 bus_flags = 0;
+ 	u32 val;
+ 	int ret;
+ 
++	/* get encoder from crtc */
++	drm_for_each_encoder(encoder, ddev)
++		if (encoder->crtc == crtc)
++			break;
++
++	if (encoder) {
++		/* get bridge from encoder */
++		list_for_each_entry(bridge, &encoder->bridge_chain, chain_node)
++			if (bridge->encoder == encoder)
++				break;
++
++		/* Get the connector from encoder */
++		drm_connector_list_iter_begin(ddev, &iter);
++		drm_for_each_connector_iter(connector, &iter)
++			if (connector->encoder == encoder)
++				break;
++		drm_connector_list_iter_end(&iter);
++	}
++
++	if (bridge && bridge->timings)
++		bus_flags = bridge->timings->input_bus_flags;
++	else if (connector)
++		bus_flags = connector->display_info.bus_flags;
++
+ 	if (!pm_runtime_active(ddev->dev)) {
+ 		ret = pm_runtime_get_sync(ddev->dev);
+ 		if (ret) {
+@@ -586,10 +615,10 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	if (vm.flags & DISPLAY_FLAGS_VSYNC_HIGH)
+ 		val |= GCR_VSPOL;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_DE_LOW)
++	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
+ 		val |= GCR_DEPOL;
+ 
+-	if (vm.flags & DISPLAY_FLAGS_PIXDATA_NEGEDGE)
++	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+ 		val |= GCR_PCPOL;
+ 
+ 	reg_update_bits(ldev->regs, LTDC_GCR,
+-- 
+2.29.2
 
-> and the OOM killer will terminate random processes, but never the one
-> holding the memfd reference.
-
-memfd is just shmem under cover, no? And that means that the memory gets
-accounted to MM_SHMEMPAGES. But you are right that this in its own
-doesn't help much if the fd is shared and the memory stays behind a
-killed victim.
-
-But I do agree with you that there are resources which are bound to a
-process life time but the oom killer has no idea about those as they are
-not accounted on a per process level and/or oom_badness doesn't take
-them into consideration.
--- =
-
-Michal Hocko
-SUSE Labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
