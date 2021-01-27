@@ -1,54 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126FA30711F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA68E307135
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:19:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE2516E923;
-	Thu, 28 Jan 2021 08:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAAF26E934;
+	Thu, 28 Jan 2021 08:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BC689F89
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 09:50:37 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id r38so1188538pgk.13
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 01:50:37 -0800 (PST)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8BB96E560
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 10:24:02 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id gx1so1076727pjb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 02:24:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Txcca0CBROxdpprP2+fM7gvVPGcqJswWjrDZDs4MDFI=;
- b=WlxEdUNdHgoxL+EoCDoqQFmgJoVhaIepwJNzIoomehi9tsUmEaeLg9cy/XS//x/gDp
- ZyckCQH8fnB2RLoc0o5Eh6RBi2ByZl0AgPS/V0N0Hw4+59ogubHt6MR2a9KoEp8rd2W2
- rXCSsihAKbo3ydh9TyZ4Vs9jFRBT7pZZKsqFeOOq/f5YnaopWAXiQcApY/A0YvSGuZ49
- ZBhefhbkxF7X/GjgVuIG8PfmtbaUHXn+HDd6ta3WSb3bDCOFlwU+qzlvHNaerM3xNMOf
- UYQhedL2+gSGtL6QqqeM37LRFpRrcPZ7OHPo1mfUgcXlycJQ4EZ6Zqysv1FIi3LqImGq
- /W9Q==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :organization:mime-version:content-transfer-encoding;
+ bh=xRcgTb91tK28anYqrlC++wtp+Am92iHcjy/4eSWbMUs=;
+ b=ZVd0VPHkqckjxZmYv4/v2cboiZSDr8qUPwHMzMlYHsy0Hu3sK1Sh2jfHizwSenYTig
+ AhejQOWtpeZ6dqXMdwqVaZLcgU4eRtnJIhzFAUjdHqTxQdJOLRaJM3nA+QMX5DBrFf0l
+ FEjo16QriDvnD/40PuuhCJfhDE37wGRKgRZgqGdh1w7ZQLl9zmuB+/UpKLSRkCkeKgbs
+ Qtk5QufgvK8Hdz7om32gkQZ8rOPszKZnTwGaPCHTaZEIe4VlQxkTHRQOdObfncNdfbww
+ lF8aItGo2wKUlFFRS9qH3RqjWY4t4aWl5oWjSJIMHSSUnpgu4Nyk5kTyPImZSSTwvPIk
+ 129g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Txcca0CBROxdpprP2+fM7gvVPGcqJswWjrDZDs4MDFI=;
- b=pGGeHSaegSYR4ykpEaDzujcNyIxqC+2EwXk6qiSOUeSTvboWbIG0BBjnTmiz/dWf2H
- /2ZBzmpm57TwNnySJ7D61XJ/zISN7qNxbSS14qH5hhraLcMX7PT2FDpBeSWEUM/C3dvx
- HNmjVSEmQytU0oC9qLhYS8jE8QYoKZprNNjDwCgYUd2cAKqQp7K02Za1fUdBFhHfdfez
- 8meL8oz1aLpAnscwVC4Ds8djvqnxjBqjFMsa5ue6ps5xpBGEQPQMchXlYx8F0jYWu26U
- QWDWgzYMW0ktv6rZV/gVHBfOXnbPRLr7Uyiekv15Nwytu5cHF4arybvWp4ZjTQAiHoPU
- egnA==
-X-Gm-Message-State: AOAM533OE2dU48cfulr6FhTU57BoWN4m+YkmGu8sOdvI6U7CZVx1T4oA
- 34EpPHYA0r6huaA5OKJmx00=
-X-Google-Smtp-Source: ABdhPJwvV3UHqKIsoIkhN435Qa9rupOPArBxkVSdcgU/c3EWuUID7awwI4thGruS3M0ZytOczji3Tw==
-X-Received: by 2002:a65:4781:: with SMTP id e1mr10214663pgs.30.1611741036923; 
- Wed, 27 Jan 2021 01:50:36 -0800 (PST)
-Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id np7sm1491509pjb.10.2021.01.27.01.50.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Jan 2021 01:50:36 -0800 (PST)
-From: Carlis <zhangxuezhi3@gmail.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v7] fbtft: add tearing signal detect
-Date: Wed, 27 Jan 2021 17:50:40 +0800
-Message-Id: <1611741040-135878-1-git-send-email-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 1.9.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=xRcgTb91tK28anYqrlC++wtp+Am92iHcjy/4eSWbMUs=;
+ b=ZhiwmJr476G8wA/tEwJDNjYbQu4qYpno6Z5TMw5nCEm5pO+/nr1bHckMTDrKcsh4uP
+ 5iZdn0i4YtLbooJ+MIzaAxDE7f7yiRBjVKIHMVnISE8yND10/KCfwnfs5fWgRWHn0hDO
+ /QMEw9pNvzEat+IkRKOgHI6CCUrVkJlu+MCtXih/0j9KYrMvfDflKm4yfF4u6u+IlY4S
+ OUQY4M3SuhUoookXVNJVWKfZvKK+DHWlj+ihGGnWWxpCeJcFUPGACE10bN0ueaDAG1SY
+ Hcka/F2qi96kzJF6sF2uqJhAbl2lWD3NFkb0QbJEbeBfpd7ns6YW6v/mviLClEjAiekM
+ jzlw==
+X-Gm-Message-State: AOAM532H/sQqypqACEHwAaQFXxcIA05Kplb7jEFwEhOeRmoX+na24CZd
+ +J5obYiR+8bAhCIGQ3RLxv0=
+X-Google-Smtp-Source: ABdhPJzTgP2xJ9TiEus/lM8X6G6P4az0ohaUTLuqRAbnoOTXq0i9h7FnZEwNwwYqWfTlv5yT/U1Epg==
+X-Received: by 2002:a17:90a:3f82:: with SMTP id
+ m2mr4895955pjc.235.1611743042596; 
+ Wed, 27 Jan 2021 02:24:02 -0800 (PST)
+Received: from localhost ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id d128sm2152572pga.87.2021.01.27.02.23.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 02:24:01 -0800 (PST)
+Date: Wed, 27 Jan 2021 18:23:55 +0800
+From: carlis <zhangxuezhi3@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v6] fbtft: add tearing signal detect
+Message-ID: <20210127182355.00007300@gmail.com>
+In-Reply-To: <20210127085951.GE2696@kadam>
+References: <1611732502-99639-1-git-send-email-zhangxuezhi3@gmail.com>
+ <20210127085951.GE2696@kadam>
+Organization: Tyzmig-ryrjum-8kedto
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,223 +71,62 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
-MIME-Version: 1.0
+ mh12gx2825@gmail.com, gregkh@linuxfoundation.org,
+ oliver.graute@kococonnector.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sbrivio@redhat.com, colin.king@canonical.com,
+ zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhangxuezhi <zhangxuezhi1@yulong.com>
+On Wed, 27 Jan 2021 11:59:51 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-For st7789v ic,add tearing signal detect to avoid screen tearing
-
-Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
----
-v7: request fail to return error value
----
- drivers/staging/fbtft/fb_st7789v.c | 133 ++++++++++++++++++++++++++++++++++++-
- drivers/staging/fbtft/fbtft.h      |   1 +
- 2 files changed, 133 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 3a280cc..c964cc1 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -9,9 +9,12 @@
- #include <linux/delay.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/mutex.h>
-+#include <linux/interrupt.h>
-+#include <linux/completion.h>
- #include <linux/module.h>
- #include <video/mipi_display.h>
--
-+#include <linux/gpio/consumer.h>
- #include "fbtft.h"
- 
- #define DRVNAME "fb_st7789v"
-@@ -66,6 +69,32 @@ enum st7789v_command {
- #define MADCTL_MX BIT(6) /* bitmask for column address order */
- #define MADCTL_MY BIT(7) /* bitmask for page address order */
- 
-+#define SPI_PANEL_TE_TIMEOUT	400
-+static struct mutex te_mutex;/*mutex for tearing line*/
-+static struct completion spi_panel_te;
-+
-+static irqreturn_t spi_panel_te_handler(int irq, void *data)
-+{
-+	complete(&spi_panel_te);
-+	return IRQ_HANDLED;
-+}
-+
-+static void set_spi_panel_te_irq_status(struct fbtft_par *par, bool enable)
-+{
-+	static int te_irq_count;
-+
-+	mutex_lock(&te_mutex);
-+
-+	if (enable) {
-+		if (++te_irq_count == 1)
-+			enable_irq(gpiod_to_irq(par->gpio.te));
-+	} else {
-+		if (--te_irq_count == 0)
-+			disable_irq(gpiod_to_irq(par->gpio.te));
-+	}
-+	mutex_unlock(&te_mutex);
-+}
-+
- /**
-  * init_display() - initialize the display controller
-  *
-@@ -82,6 +111,34 @@ enum st7789v_command {
-  */
- static int init_display(struct fbtft_par *par)
- {
-+	int rc;
-+	struct device *dev = par->info->device;
-+
-+	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
-+	if (IS_ERR(par->gpio.te)) {
-+		rc = PTR_ERR(par->gpio.te);
-+		pr_err("Failed to request te gpio: %d\n", rc);
-+		return rc;
-+	}
-+	if (par->gpio.te) {
-+		init_completion(&spi_panel_te);
-+		mutex_init(&te_mutex);
-+		rc = devm_request_irq(dev,
-+				      gpiod_to_irq(par->gpio.te),
-+				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
-+				     "TE_GPIO", par);
-+		if (rc) {
-+			pr_err("TE request_irq failed.\n");
-+			devm_gpiod_put(dev, par->gpio.te);
-+			return rc;
-+		}
-+
-+		disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-+		pr_info("TE request_irq completion.\n");
-+	} else {
-+		pr_info("%s:%d, TE gpio not specified\n",
-+			__func__, __LINE__);
-+	}
- 	/* turn off sleep mode */
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	mdelay(120);
-@@ -137,6 +194,9 @@ static int init_display(struct fbtft_par *par)
- 	 */
- 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
- 
-+    /*Tearing Effect Line On*/
-+	if (par->gpio.te)
-+		write_reg(par, 0x35, 0x00);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	if (HSD20_IPS)
-@@ -145,6 +205,76 @@ static int init_display(struct fbtft_par *par)
- 	return 0;
- }
- 
-+/*****************************************************************************
-+ *
-+ *   int (*write_vmem)(struct fbtft_par *par);
-+ *
-+ *****************************************************************************/
-+
-+/* 16 bit pixel over 8-bit databus */
-+static int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-+{
-+	u16 *vmem16;
-+	__be16 *txbuf16 = par->txbuf.buf;
-+	size_t remain;
-+	size_t to_copy;
-+	size_t tx_array_size;
-+	int i;
-+	int ret = 0;
-+	size_t startbyte_size = 0;
-+
-+	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
-+		      __func__, offset, len);
-+
-+	remain = len / 2;
-+	vmem16 = (u16 *)(par->info->screen_buffer + offset);
-+
-+	if (par->gpio.dc)
-+		gpiod_set_value(par->gpio.dc, 1);
-+
-+	/* non buffered write */
-+	if (!par->txbuf.buf)
-+		return par->fbtftops.write(par, vmem16, len);
-+
-+	/* buffered write */
-+	tx_array_size = par->txbuf.len / 2;
-+
-+	if (par->startbyte) {
-+		txbuf16 = par->txbuf.buf + 1;
-+		tx_array_size -= 2;
-+		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
-+		startbyte_size = 1;
-+	}
-+
-+	while (remain) {
-+		to_copy = min(tx_array_size, remain);
-+		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
-+			to_copy, remain - to_copy);
-+
-+		for (i = 0; i < to_copy; i++)
-+			txbuf16[i] = cpu_to_be16(vmem16[i]);
-+
-+		vmem16 = vmem16 + to_copy;
-+		if (par->gpio.te) {
-+			set_spi_panel_te_irq_status(par, true);
-+			reinit_completion(&spi_panel_te);
-+			ret = wait_for_completion_timeout(&spi_panel_te,
-+							  msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
-+			if (ret == 0)
-+				pr_err("wait panel TE time out\n");
-+		}
-+		ret = par->fbtftops.write(par, par->txbuf.buf,
-+					 startbyte_size + to_copy * 2);
-+		if (par->gpio.te)
-+			set_spi_panel_te_irq_status(par, false);
-+		if (ret < 0)
-+			return ret;
-+		remain -= to_copy;
-+	}
-+
-+	return ret;
-+}
-+
- /**
-  * set_var() - apply LCD properties like rotation and BGR mode
-  *
-@@ -259,6 +389,7 @@ static int blank(struct fbtft_par *par, bool on)
- 	.gamma = HSD20_IPS_GAMMA,
- 	.fbtftops = {
- 		.init_display = init_display,
-+		.write_vmem = st7789v_write_vmem16_bus8,
- 		.set_var = set_var,
- 		.set_gamma = set_gamma,
- 		.blank = blank,
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 76f8c09..93bac05 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -212,6 +212,7 @@ struct fbtft_par {
- 		struct gpio_desc *wr;
- 		struct gpio_desc *latch;
- 		struct gpio_desc *cs;
-+		struct gpio_desc *te;
- 		struct gpio_desc *db[16];
- 		struct gpio_desc *led[16];
- 		struct gpio_desc *aux[16];
--- 
-1.9.1
-
+> On Wed, Jan 27, 2021 at 03:28:22PM +0800, Carlis wrote:
+> >  static int init_display(struct fbtft_par *par)
+> >  {
+> > +	int rc;
+> > +	struct device *dev = par->info->device;
+> > +
+> > +	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
+> > GPIOD_IN);
+> > +	if (IS_ERR(par->gpio.te)) {
+> > +		rc = PTR_ERR(par->gpio.te);
+> > +		pr_err("Failed to request te gpio: %d\n", rc);
+> > +		par->gpio.te = NULL;
+> > +	}
+> > +	if (par->gpio.te) {
+> > +		init_completion(&spi_panel_te);
+> > +		mutex_init(&te_mutex);
+> > +		rc = devm_request_irq(dev,
+> > +				      gpiod_to_irq(par->gpio.te),
+> > +				     spi_panel_te_handler,
+> > IRQF_TRIGGER_RISING,
+> > +				     "TE_GPIO", par);
+> > +		if (rc) {
+> > +			pr_err("TE request_irq failed.\n");
+> > +			devm_gpiod_put(dev, par->gpio.te);
+> > +			par->gpio.te = NULL;
+> > +		} else {
+> > +
+> > disable_irq_nosync(gpiod_to_irq(par->gpio.te));
+> > +			pr_info("TE request_irq completion.\n");  
+> 
+> #SadFaceEmoji
+> 
+> > +		}
+> > +	} else {
+> > +		pr_info("%s:%d, TE gpio not specified\n",
+> > +			__func__, __LINE__);
+> > +	}  
+> 
+> regards,
+> dan carpenter
+> 
+Sorry,i will delete this log in patch v8
+regards
+zhangxuezhi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
