@@ -1,30 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CD73070FF
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 872283070DE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5725689100;
-	Thu, 28 Jan 2021 08:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E92D96E903;
+	Thu, 28 Jan 2021 08:15:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 665C66E3D0;
- Wed, 27 Jan 2021 10:51:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DD491042;
- Wed, 27 Jan 2021 02:51:32 -0800 (PST)
-Received: from e123648.arm.com (unknown [10.57.4.29])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 78B783F66B;
- Wed, 27 Jan 2021 02:51:28 -0800 (PST)
-From: Lukasz Luba <lukasz.luba@arm.com>
-To: linux-kernel@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/lima: Use delayed timer as default in devfreq profile
-Date: Wed, 27 Jan 2021 10:51:21 +0000
-Message-Id: <20210127105121.20345-1-lukasz.luba@arm.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2CCF89CB5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 10:57:07 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1611745026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KNfOaCzUHOdUdJ/TqcQ2MmdjRFgh4Um7ViH2fY+0P1o=;
+ b=Osv0B8NTTHLSjRsWyItdGALjB1hmRVEfoeriP2Empr4NuhKsZOwIKcW8ZLdySJ34JX62OV
+ vXFExcsQ4aRL2zV3o9PZVl4kF7AaidDuXnH/tHCl/MDFBVtiB1QGxtaSDGyjtvGyamPMQg
+ gEyFuLN0R70gEluj9kfRaQCanEcC+uU=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EE9ABAD57;
+ Wed, 27 Jan 2021 10:57:05 +0000 (UTC)
+Date: Wed, 27 Jan 2021 11:57:03 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+ <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,48 +47,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christianshewitt@gmail.com, yuq825@gmail.com, lukasz.luba@arm.com
-MIME-Version: 1.0
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Szabolcs Nagy <szabolcs.nagy@arm.com>, dri-devel@lists.freedesktop.org,
+ Andrei Vagin <avagin@gmail.com>, Kalesh Singh <kaleshsingh@google.com>,
+ Hui Su <sh_def@163.com>, Michel Lespinasse <walken@google.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jeffrey Vander Stoep <jeffv@google.com>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ kernel-team <kernel-team@android.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, linaro-mm-sig@lists.linaro.org,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Bernd Edlinger <bernd.edlinger@hotmail.de>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Alexey Gladkov <gladkov.alexey@gmail.com>,
+ kernel list <linux-kernel@vger.kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Yafang Shao <laoar.shao@gmail.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux API <linux-api@vger.kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Devfreq framework supports 2 modes for monitoring devices.
-Use delayed timer as default instead of deferrable timer
-in order to monitor the GPU status regardless of CPU idle.
+On Wed 27-01-21 11:47:29, Jann Horn wrote:
+> +jeffv from Android
+> 
+> On Tue, Jan 26, 2021 at 11:51 PM Kalesh Singh <kaleshsingh@google.com> wrote:
+> > In order to measure how much memory a process actually consumes, it is
+> > necessary to include the DMA buffer sizes for that process in the memory
+> > accounting. Since the handle to DMA buffers are raw FDs, it is important
+> > to be able to identify which processes have FD references to a DMA buffer.
+> 
+> Or you could try to let the DMA buffer take a reference on the
+> mm_struct and account its size into the mm_struct? That would probably
+> be nicer to work with than having to poke around in procfs separately
+> for DMA buffers.
 
-Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
----
-Hi all,
+Yes that would make some sense to me as well but how do you know that
+the process actually uses a buffer? If it mmaps it then you already have
+that information via /proc/<pid>/maps. My understanding of dma-buf is
+really coarse but my impression is that you can consume the memory via
+standard read syscall as well. How would you account for that.
 
-I've missed the Lima driver while working on Panfrost patch for fixing
-the issue with default devfreq framework polling mode. More about this
-and the patch, can be found here [1].
+[...]
+Skipping over a large part of your response but I do agree that the
+interface is really elaborate to drill down to the information.
 
-Regards,
-Lukasz Luba
+> I'm not convinced that introducing a new procfs file for this is the
+> right way to go. And the idea of having to poke into multiple
+> different files in procfs and in sysfs just to be able to compute a
+> proper memory usage score for a process seems weird to me. "How much
+> memory is this process using" seems like the kind of question the
+> kernel ought to be able to answer (and the kernel needs to be able to
+> answer somewhat accurately so that its own OOM killer can do its job
+> properly)?
 
-[1] https://lore.kernel.org/lkml/20210105164111.30122-1-lukasz.luba@arm.com/
-
- drivers/gpu/drm/lima/lima_devfreq.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-index 5686ad4aaf7c..f1c9eb3e71bd 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.c
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -81,6 +81,7 @@ static int lima_devfreq_get_dev_status(struct device *dev,
- }
- 
- static struct devfreq_dev_profile lima_devfreq_profile = {
-+	.timer = DEVFREQ_TIMER_DELAYED,
- 	.polling_ms = 50, /* ~3 frames */
- 	.target = lima_devfreq_target,
- 	.get_dev_status = lima_devfreq_get_dev_status,
+Well, shared buffers are tricky but it is true that we already consider
+shmem in badness so this wouldn't go out of line. Kernel oom killer
+could be more clever with these special fds though and query for buffer
+size directly.
 -- 
-2.17.1
-
+Michal Hocko
+SUSE Labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
