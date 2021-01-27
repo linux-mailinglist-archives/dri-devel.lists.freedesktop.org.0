@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046CA305AA6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE22305AAA
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B346E5AE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96B6A6E039;
 	Wed, 27 Jan 2021 12:03:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD986E19B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4A6E1B1
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 362E5AE1F;
+ by mx2.suse.de (Postfix) with ESMTP id 8B9A4AE61;
  Wed, 27 Jan 2021 12:03:08 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	daniel@ffwll.ch
-Subject: [PATCH 04/12] drm/ast: Allocate HW cursor BOs during cursor-plane
- initialization
-Date: Wed, 27 Jan 2021 13:02:54 +0100
-Message-Id: <20210127120302.13532-5-tzimmermann@suse.de>
+Subject: [PATCH 05/12] drm/ast: Inline ast cursor-update functions into
+ modesetting code
+Date: Wed, 27 Jan 2021 13:02:55 +0100
+Message-Id: <20210127120302.13532-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210127120302.13532-1-tzimmermann@suse.de>
 References: <20210127120302.13532-1-tzimmermann@suse.de>
@@ -45,198 +45,530 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BOs are eventually released by the cursor plane's destroy callback.
+The logic for cursor updates is now located in the cursor plane's
+modesetting code. A number of helper functions remain to modify the
+rsp registers and image.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_cursor.c | 58 ------------------------------
- drivers/gpu/drm/ast/ast_drv.h    |  1 -
- drivers/gpu/drm/ast/ast_mode.c   | 62 ++++++++++++++++++++++++++++----
- 3 files changed, 55 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/ast/Makefile     |   3 +-
+ drivers/gpu/drm/ast/ast_cursor.c | 237 -------------------------------
+ drivers/gpu/drm/ast/ast_drv.h    |   7 -
+ drivers/gpu/drm/ast/ast_mode.c   | 191 +++++++++++++++++++++++--
+ 4 files changed, 181 insertions(+), 257 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ast/ast_cursor.c
 
+diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
+index 2265a8a624dd..438a2d05b115 100644
+--- a/drivers/gpu/drm/ast/Makefile
++++ b/drivers/gpu/drm/ast/Makefile
+@@ -3,7 +3,6 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+-ast-y := ast_cursor.o ast_drv.o ast_main.o ast_mm.o ast_mode.o ast_post.o \
+-	 ast_dp501.o
++ast-y := ast_drv.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o
+ 
+ obj-$(CONFIG_DRM_AST) := ast.o
 diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 024858371f64..31c35296a107 100644
+deleted file mode 100644
+index 31c35296a107..000000000000
 --- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -32,64 +32,6 @@
- 
- #include "ast_drv.h"
- 
--static void ast_cursor_fini(struct ast_private *ast)
--{
--	size_t i;
--	struct drm_gem_vram_object *gbo;
--
--	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
--		gbo = ast->cursor.gbo[i];
--		drm_gem_vram_unpin(gbo);
--		drm_gem_vram_put(gbo);
--	}
--}
--
--static void ast_cursor_release(struct drm_device *dev, void *ptr)
--{
--	struct ast_private *ast = to_ast_private(dev);
--
--	ast_cursor_fini(ast);
--}
--
++++ /dev/null
+@@ -1,237 +0,0 @@
 -/*
-- * Allocate cursor BOs and pin them at the end of VRAM.
+- * Copyright 2012 Red Hat Inc.
+- * Parts based on xf86-video-ast
+- * Copyright (c) 2005 ASPEED Technology Inc.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
 - */
--int ast_cursor_init(struct ast_private *ast)
+-/*
+- * Authors: Dave Airlie <airlied@redhat.com>
+- */
+-
+-#include <drm/drm_gem_vram_helper.h>
+-#include <drm/drm_managed.h>
+-
+-#include "ast_drv.h"
+-
+-static void update_cursor_image(u8 __iomem *dst, const u8 *src, int width, int height)
+-{
+-	union {
+-		u32 ul;
+-		u8 b[4];
+-	} srcdata32[2], data32;
+-	union {
+-		u16 us;
+-		u8 b[2];
+-	} data16;
+-	u32 csum = 0;
+-	s32 alpha_dst_delta, last_alpha_dst_delta;
+-	u8 __iomem *dstxor;
+-	const u8 *srcxor;
+-	int i, j;
+-	u32 per_pixel_copy, two_pixel_copy;
+-
+-	alpha_dst_delta = AST_MAX_HWC_WIDTH << 1;
+-	last_alpha_dst_delta = alpha_dst_delta - (width << 1);
+-
+-	srcxor = src;
+-	dstxor = (u8 *)dst + last_alpha_dst_delta + (AST_MAX_HWC_HEIGHT - height) * alpha_dst_delta;
+-	per_pixel_copy = width & 1;
+-	two_pixel_copy = width >> 1;
+-
+-	for (j = 0; j < height; j++) {
+-		for (i = 0; i < two_pixel_copy; i++) {
+-			srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
+-			srcdata32[1].ul = *((u32 *)(srcxor + 4)) & 0xf0f0f0f0;
+-			data32.b[0] = srcdata32[0].b[1] | (srcdata32[0].b[0] >> 4);
+-			data32.b[1] = srcdata32[0].b[3] | (srcdata32[0].b[2] >> 4);
+-			data32.b[2] = srcdata32[1].b[1] | (srcdata32[1].b[0] >> 4);
+-			data32.b[3] = srcdata32[1].b[3] | (srcdata32[1].b[2] >> 4);
+-
+-			writel(data32.ul, dstxor);
+-			csum += data32.ul;
+-
+-			dstxor += 4;
+-			srcxor += 8;
+-
+-		}
+-
+-		for (i = 0; i < per_pixel_copy; i++) {
+-			srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
+-			data16.b[0] = srcdata32[0].b[1] | (srcdata32[0].b[0] >> 4);
+-			data16.b[1] = srcdata32[0].b[3] | (srcdata32[0].b[2] >> 4);
+-			writew(data16.us, dstxor);
+-			csum += (u32)data16.us;
+-
+-			dstxor += 2;
+-			srcxor += 4;
+-		}
+-		dstxor += last_alpha_dst_delta;
+-	}
+-
+-	/* write checksum + signature */
+-	dst += AST_HWC_SIZE;
+-	writel(csum, dst);
+-	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
+-	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
+-	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
+-	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
+-}
+-
+-int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
 -{
 -	struct drm_device *dev = &ast->base;
--	size_t size, i;
--	struct drm_gem_vram_object *gbo;
+-	struct drm_gem_vram_object *dst_gbo = ast->cursor.gbo[ast->cursor.next_index];
+-	struct drm_gem_vram_object *src_gbo = drm_gem_vram_of_gem(fb->obj[0]);
+-	struct dma_buf_map src_map, dst_map;
+-	void __iomem *dst;
+-	void *src;
 -	int ret;
 -
--	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+-	if (drm_WARN_ON_ONCE(dev, fb->width > AST_MAX_HWC_WIDTH) ||
+-	    drm_WARN_ON_ONCE(dev, fb->height > AST_MAX_HWC_HEIGHT))
+-		return -EINVAL;
 -
--	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
--		gbo = drm_gem_vram_create(dev, size, 0);
--		if (IS_ERR(gbo)) {
--			ret = PTR_ERR(gbo);
--			goto err_drm_gem_vram_put;
--		}
--		ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
--					    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
--		if (ret) {
--			drm_gem_vram_put(gbo);
--			goto err_drm_gem_vram_put;
--		}
--		ast->cursor.gbo[i] = gbo;
--	}
+-	ret = drm_gem_vram_vmap(src_gbo, &src_map);
+-	if (ret)
+-		return ret;
+-	src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
 -
--	return drmm_add_action_or_reset(dev, ast_cursor_release, NULL);
+-	ret = drm_gem_vram_vmap(dst_gbo, &dst_map);
+-	if (ret)
+-		goto err_drm_gem_vram_vunmap;
+-	dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
 -
--err_drm_gem_vram_put:
--	while (i) {
--		--i;
--		gbo = ast->cursor.gbo[i];
--		drm_gem_vram_unpin(gbo);
--		drm_gem_vram_put(gbo);
--	}
+-	/* do data transfer to cursor BO */
+-	update_cursor_image(dst, src, fb->width, fb->height);
+-
+-	drm_gem_vram_vunmap(dst_gbo, &dst_map);
+-	drm_gem_vram_vunmap(src_gbo, &src_map);
+-
+-	return 0;
+-
+-err_drm_gem_vram_vunmap:
+-	drm_gem_vram_vunmap(src_gbo, &src_map);
 -	return ret;
 -}
 -
- static void update_cursor_image(u8 __iomem *dst, const u8 *src, int width, int height)
- {
- 	union {
+-static void ast_cursor_set_base(struct ast_private *ast, u64 address)
+-{
+-	u8 addr0 = (address >> 3) & 0xff;
+-	u8 addr1 = (address >> 11) & 0xff;
+-	u8 addr2 = (address >> 19) & 0xff;
+-
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc8, addr0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc9, addr1);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xca, addr2);
+-}
+-
+-void ast_cursor_page_flip(struct ast_private *ast)
+-{
+-	struct drm_device *dev = &ast->base;
+-	struct drm_gem_vram_object *gbo;
+-	s64 off;
+-
+-	gbo = ast->cursor.gbo[ast->cursor.next_index];
+-
+-	off = drm_gem_vram_offset(gbo);
+-	if (drm_WARN_ON_ONCE(dev, off < 0))
+-		return; /* Bug: we didn't pin the cursor HW BO to VRAM. */
+-
+-	ast_cursor_set_base(ast, off);
+-
+-	++ast->cursor.next_index;
+-	ast->cursor.next_index %= ARRAY_SIZE(ast->cursor.gbo);
+-}
+-
+-static void ast_cursor_set_location(struct ast_private *ast, u16 x, u16 y,
+-				    u8 x_offset, u8 y_offset)
+-{
+-	u8 x0 = (x & 0x00ff);
+-	u8 x1 = (x & 0x0f00) >> 8;
+-	u8 y0 = (y & 0x00ff);
+-	u8 y1 = (y & 0x0700) >> 8;
+-
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc2, x_offset);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc3, y_offset);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc4, x0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc5, x1);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc6, y0);
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
+-}
+-
+-static void ast_set_cursor_enabled(struct ast_private *ast, bool enabled)
+-{
+-	static const u8 mask = (u8)~(AST_IO_VGACRCB_HWC_16BPP |
+-				     AST_IO_VGACRCB_HWC_ENABLED);
+-
+-	u8 vgacrcb = AST_IO_VGACRCB_HWC_16BPP;
+-
+-	if (enabled)
+-		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
+-
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, mask, vgacrcb);
+-}
+-
+-void ast_cursor_show(struct ast_private *ast, int x, int y,
+-		     unsigned int offset_x, unsigned int offset_y)
+-{
+-	struct drm_device *dev = &ast->base;
+-	struct drm_gem_vram_object *gbo = ast->cursor.gbo[ast->cursor.next_index];
+-	struct dma_buf_map map;
+-	u8 x_offset, y_offset;
+-	u8 __iomem *dst;
+-	u8 __iomem *sig;
+-	int ret;
+-
+-	ret = drm_gem_vram_vmap(gbo, &map);
+-	if (drm_WARN_ONCE(dev, ret, "drm_gem_vram_vmap() failed, ret=%d\n", ret))
+-		return;
+-	dst = map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
+-
+-	sig = dst + AST_HWC_SIZE;
+-	writel(x, sig + AST_HWC_SIGNATURE_X);
+-	writel(y, sig + AST_HWC_SIGNATURE_Y);
+-
+-	drm_gem_vram_vunmap(gbo, &map);
+-
+-	if (x < 0) {
+-		x_offset = (-x) + offset_x;
+-		x = 0;
+-	} else {
+-		x_offset = offset_x;
+-	}
+-	if (y < 0) {
+-		y_offset = (-y) + offset_y;
+-		y = 0;
+-	} else {
+-		y_offset = offset_y;
+-	}
+-
+-	ast_cursor_set_location(ast, x, y, x_offset, y_offset);
+-
+-	ast_set_cursor_enabled(ast, true); /* dummy write to fire HWC */
+-}
+-
+-void ast_cursor_hide(struct ast_private *ast)
+-{
+-	ast_set_cursor_enabled(ast, false);
+-}
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 1575e8e636d7..c9c3950449b5 100644
+index c9c3950449b5..2761fa547c35 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -318,7 +318,6 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev);
+@@ -317,11 +317,4 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
+ u8 ast_get_dp501_max_clk(struct drm_device *dev);
  void ast_init_3rdtx(struct drm_device *dev);
  
- /* ast_cursor.c */
--int ast_cursor_init(struct ast_private *ast);
- int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb);
- void ast_cursor_page_flip(struct ast_private *ast);
- void ast_cursor_show(struct ast_private *ast, int x, int y,
+-/* ast_cursor.c */
+-int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb);
+-void ast_cursor_page_flip(struct ast_private *ast);
+-void ast_cursor_show(struct ast_private *ast, int x, int y,
+-		     unsigned int offset_x, unsigned int offset_y);
+-void ast_cursor_hide(struct ast_private *ast);
+-
+ #endif
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index f86773a869f0..99b6f7c5cb2f 100644
+index 99b6f7c5cb2f..968ee0c69ec3 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -736,10 +736,25 @@ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
- 	.atomic_disable = ast_cursor_plane_helper_atomic_disable,
- };
+@@ -645,6 +645,110 @@ static int ast_primary_plane_init(struct ast_private *ast)
+  * Cursor plane
+  */
  
-+static void ast_cursor_plane_destroy(struct drm_plane *plane)
++static void ast_update_cursor_image(u8 __iomem *dst, const u8 *src, int width, int height)
 +{
-+	struct ast_private *ast = to_ast_private(plane->dev);
-+	size_t i;
-+	struct drm_gem_vram_object *gbo;
++	union {
++		u32 ul;
++		u8 b[4];
++	} srcdata32[2], data32;
++	union {
++		u16 us;
++		u8 b[2];
++	} data16;
++	u32 csum = 0;
++	s32 alpha_dst_delta, last_alpha_dst_delta;
++	u8 __iomem *dstxor;
++	const u8 *srcxor;
++	int i, j;
++	u32 per_pixel_copy, two_pixel_copy;
 +
-+	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
-+		gbo = ast->cursor.gbo[i];
-+		drm_gem_vram_unpin(gbo);
-+		drm_gem_vram_put(gbo);
++	alpha_dst_delta = AST_MAX_HWC_WIDTH << 1;
++	last_alpha_dst_delta = alpha_dst_delta - (width << 1);
++
++	srcxor = src;
++	dstxor = (u8 *)dst + last_alpha_dst_delta + (AST_MAX_HWC_HEIGHT - height) * alpha_dst_delta;
++	per_pixel_copy = width & 1;
++	two_pixel_copy = width >> 1;
++
++	for (j = 0; j < height; j++) {
++		for (i = 0; i < two_pixel_copy; i++) {
++			srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
++			srcdata32[1].ul = *((u32 *)(srcxor + 4)) & 0xf0f0f0f0;
++			data32.b[0] = srcdata32[0].b[1] | (srcdata32[0].b[0] >> 4);
++			data32.b[1] = srcdata32[0].b[3] | (srcdata32[0].b[2] >> 4);
++			data32.b[2] = srcdata32[1].b[1] | (srcdata32[1].b[0] >> 4);
++			data32.b[3] = srcdata32[1].b[3] | (srcdata32[1].b[2] >> 4);
++
++			writel(data32.ul, dstxor);
++			csum += data32.ul;
++
++			dstxor += 4;
++			srcxor += 8;
++
++		}
++
++		for (i = 0; i < per_pixel_copy; i++) {
++			srcdata32[0].ul = *((u32 *)srcxor) & 0xf0f0f0f0;
++			data16.b[0] = srcdata32[0].b[1] | (srcdata32[0].b[0] >> 4);
++			data16.b[1] = srcdata32[0].b[3] | (srcdata32[0].b[2] >> 4);
++			writew(data16.us, dstxor);
++			csum += (u32)data16.us;
++
++			dstxor += 2;
++			srcxor += 4;
++		}
++		dstxor += last_alpha_dst_delta;
 +	}
 +
-+	drm_plane_cleanup(plane);
++	/* write checksum + signature */
++	dst += AST_HWC_SIZE;
++	writel(csum, dst);
++	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
++	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
++	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
++	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
 +}
 +
- static const struct drm_plane_funcs ast_cursor_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = drm_plane_cleanup,
-+	.destroy = ast_cursor_plane_destroy,
- 	.reset = drm_atomic_helper_plane_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-@@ -749,20 +764,57 @@ static int ast_cursor_plane_init(struct ast_private *ast)
++static void ast_set_cursor_base(struct ast_private *ast, u64 address)
++{
++	u8 addr0 = (address >> 3) & 0xff;
++	u8 addr1 = (address >> 11) & 0xff;
++	u8 addr2 = (address >> 19) & 0xff;
++
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc8, addr0);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc9, addr1);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xca, addr2);
++}
++
++static void ast_set_cursor_location(struct ast_private *ast, u16 x, u16 y,
++				    u8 x_offset, u8 y_offset)
++{
++	u8 x0 = (x & 0x00ff);
++	u8 x1 = (x & 0x0f00) >> 8;
++	u8 y0 = (y & 0x00ff);
++	u8 y1 = (y & 0x0700) >> 8;
++
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc2, x_offset);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc3, y_offset);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc4, x0);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc5, x1);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc6, y0);
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
++}
++
++static void ast_set_cursor_enabled(struct ast_private *ast, bool enabled)
++{
++	static const u8 mask = (u8)~(AST_IO_VGACRCB_HWC_16BPP |
++				     AST_IO_VGACRCB_HWC_ENABLED);
++
++	u8 vgacrcb = AST_IO_VGACRCB_HWC_16BPP;
++
++	if (enabled)
++		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
++
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, mask, vgacrcb);
++}
++
+ static const uint32_t ast_cursor_plane_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ };
+@@ -654,20 +758,40 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
+ 				   struct drm_plane_state *new_state)
  {
- 	struct drm_device *dev = &ast->base;
- 	struct drm_plane *cursor_plane = &ast->cursor_plane;
-+	size_t size, i;
-+	struct drm_gem_vram_object *gbo;
+ 	struct drm_framebuffer *fb = new_state->fb;
+-	struct drm_crtc *crtc = new_state->crtc;
+-	struct ast_private *ast;
++	struct ast_private *ast = to_ast_private(plane->dev);
++	struct drm_gem_vram_object *dst_gbo = ast->cursor.gbo[ast->cursor.next_index];
++	struct drm_gem_vram_object *src_gbo;
++	struct dma_buf_map src_map, dst_map;
++	void __iomem *dst;
++	void *src;
  	int ret;
  
-+	/*
-+	 * Allocate backing storage for cursors. The BOs are permanently
-+	 * pinned to the top end of the VRAM.
-+	 */
+-	if (!crtc || !fb)
++	if (!fb)
+ 		return 0;
+ 
+-	ast = to_ast_private(plane->dev);
++	src_gbo = drm_gem_vram_of_gem(fb->obj[0]);
+ 
+-	ret = ast_cursor_blit(ast, fb);
++	ret = drm_gem_vram_vmap(src_gbo, &src_map);
+ 	if (ret)
+ 		return ret;
++	src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
 +
-+	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
++	ret = drm_gem_vram_vmap(dst_gbo, &dst_map);
++	if (ret)
++		goto err_drm_gem_vram_vunmap;
++	dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
 +
-+	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
-+		gbo = drm_gem_vram_create(dev, size, 0);
-+		if (IS_ERR(gbo)) {
-+			ret = PTR_ERR(gbo);
-+			goto err_hwc;
-+		}
-+		ret = drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM |
-+					    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
-+		if (ret)
-+			goto err_drm_gem_vram_put;
-+		ast->cursor.gbo[i] = gbo;
-+	}
++	/* do data transfer to cursor BO */
++	ast_update_cursor_image(dst, src, fb->width, fb->height);
 +
-+	/*
-+	 * Create the cursor plane. The plane's destroy callback will release
-+	 * the backing storages' BO memory.
-+	 */
-+
- 	ret = drm_universal_plane_init(dev, cursor_plane, 0x01,
- 				       &ast_cursor_plane_funcs,
- 				       ast_cursor_plane_formats,
- 				       ARRAY_SIZE(ast_cursor_plane_formats),
- 				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
- 	if (ret) {
--		drm_err(dev, "drm_universal_plane_failed(): %d\n", ret);
--		return ret;
-+		drm_err(dev, "drm_universal_plane failed(): %d\n", ret);
-+		goto err_hwc;
- 	}
- 	drm_plane_helper_add(cursor_plane, &ast_cursor_plane_helper_funcs);
++	drm_gem_vram_vunmap(dst_gbo, &dst_map);
++	drm_gem_vram_vunmap(src_gbo, &src_map);
  
  	return 0;
 +
-+err_hwc:
-+	while (i) {
-+		--i;
-+		gbo = ast->cursor.gbo[i];
-+		drm_gem_vram_unpin(gbo);
-+err_drm_gem_vram_put:
-+		drm_gem_vram_put(gbo);
-+	}
++err_drm_gem_vram_vunmap:
++	drm_gem_vram_vunmap(src_gbo, &src_map);
 +	return ret;
  }
  
- /*
-@@ -1149,10 +1201,6 @@ int ast_mode_config_init(struct ast_private *ast)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int ret;
+ static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
+@@ -705,18 +829,63 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *state = plane->state;
+ 	struct drm_framebuffer *fb = state->fb;
+ 	struct ast_private *ast = to_ast_private(plane->dev);
++	struct drm_device *dev = &ast->base;
++	struct drm_gem_vram_object *gbo = ast->cursor.gbo[ast->cursor.next_index];
+ 	unsigned int offset_x, offset_y;
++	s64 off;
++	struct dma_buf_map map;
++	u16 x, y;
++	u8 x_offset, y_offset;
++	u8 __iomem *dst;
++	u8 __iomem *sig;
++	int ret;
  
--	ret = ast_cursor_init(ast);
--	if (ret)
--		return ret;
--
- 	ret = drmm_mode_config_init(dev);
- 	if (ret)
- 		return ret;
+-	offset_x = AST_MAX_HWC_WIDTH - fb->width;
+-	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
++	gbo = ast->cursor.gbo[ast->cursor.next_index];
+ 
+ 	if (state->fb != old_state->fb) {
+ 		/* A new cursor image was installed. */
+-		ast_cursor_page_flip(ast);
++		off = drm_gem_vram_offset(gbo);
++		if (drm_WARN_ON_ONCE(dev, off < 0))
++			return; /* Bug: we didn't pin the cursor HW BO to VRAM. */
++		ast_set_cursor_base(ast, off);
++
++		++ast->cursor.next_index;
++		ast->cursor.next_index %= ARRAY_SIZE(ast->cursor.gbo);
++	}
++
++	ret = drm_gem_vram_vmap(gbo, &map);
++	if (drm_WARN_ONCE(dev, ret, "drm_gem_vram_vmap() failed, ret=%d\n", ret))
++		return;
++	dst = map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
++
++	sig = dst + AST_HWC_SIZE;
++	writel(state->crtc_x, sig + AST_HWC_SIGNATURE_X);
++	writel(state->crtc_y, sig + AST_HWC_SIGNATURE_Y);
++
++	drm_gem_vram_vunmap(gbo, &map);
++
++	offset_x = AST_MAX_HWC_WIDTH - fb->width;
++	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
++
++	if (state->crtc_x < 0) {
++		x_offset = (-state->crtc_x) + offset_x;
++		x = 0;
++	} else {
++		x_offset = offset_x;
++		x = state->crtc_x;
+ 	}
++	if (state->crtc_y < 0) {
++		y_offset = (-state->crtc_y) + offset_y;
++		y = 0;
++	} else {
++		y_offset = offset_y;
++		y = state->crtc_y;
++	}
++
++	ast_set_cursor_location(ast, x, y, x_offset, y_offset);
+ 
+-	ast_cursor_show(ast, state->crtc_x, state->crtc_y,
+-			offset_x, offset_y);
++	/* dummy write to fire HWC */
++	ast_set_cursor_enabled(ast, true);
+ }
+ 
+ static void
+@@ -725,7 +894,7 @@ ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
+ {
+ 	struct ast_private *ast = to_ast_private(plane->dev);
+ 
+-	ast_cursor_hide(ast);
++	ast_set_cursor_enabled(ast, false);
+ }
+ 
+ static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
 -- 
 2.30.0
 
