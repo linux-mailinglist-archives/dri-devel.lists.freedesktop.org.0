@@ -1,48 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1083330555A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:15:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA7F30558B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:23:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDA26E5A5;
-	Wed, 27 Jan 2021 08:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73EF6E5AE;
+	Wed, 27 Jan 2021 08:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Wed, 27 Jan 2021 08:15:32 UTC
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id D6FAE6E5A5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 08:15:32 +0000 (UTC)
-X-UUID: 52a4e70d5748430381fedbca85d729d3-20210127
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=1rHN6XFoiNjbEZ4gE5YNnM87NBquj4VfEM0/8Mtk/+Q=; 
- b=kg3G0nWN2pDgYhhIpcwKEcQRSaBxO44pO3zvRIOa+Dm2g4NOt1mVXqiblCdF81+f56YCovos8uXJJivkYhDpaTUyQ9TJdKXQNfS0WlyS4n/zT2mZ+qe0orCX8mrEanSDfwCQv1qso7qvPx3dZKkbCX5pgui5qqHQyJwuwdZDpL8=;
-X-UUID: 52a4e70d5748430381fedbca85d729d3-20210127
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1457988215; Wed, 27 Jan 2021 15:59:29 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 27 Jan 2021 15:59:27 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Jan 2021 15:59:27 +0800
-Message-ID: <1611734366.29432.1.camel@mtksdaap41>
-Subject: Re: [PATCH v10 3/9] drm/mediatek: add RDMA fifo size error handle
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Wed, 27 Jan 2021 15:59:26 +0800
-In-Reply-To: <20210127045422.2418917-4-hsinyi@chromium.org>
-References: <20210127045422.2418917-1-hsinyi@chromium.org>
- <20210127045422.2418917-4-hsinyi@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+X-Greylist: delayed 614 seconds by postgrey-1.36 at gabe;
+ Wed, 27 Jan 2021 08:23:14 UTC
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB826E5B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 08:23:14 +0000 (UTC)
+Received: from mail.mleia.com (localhost [127.0.0.1])
+ by mail.mleia.com (Postfix) with ESMTP id 9227042EB56;
+ Wed, 27 Jan 2021 08:12:58 +0000 (UTC)
+Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+From: Vladimir Zapolskiy <vz@mleia.com>
+Message-ID: <b9bfa80b-ed5f-50f9-de50-76090007556c@mleia.com>
+Date: Wed, 27 Jan 2021 10:12:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B5DCDF8D63F7A26FDFCD987D2C12B5798BBF49DA80FC41CA24B08212AB3D6CBA2000:8
-X-MTK: N
+In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+Content-Language: en-US
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20210127_081258_639999_D23EB9E2 
+X-CRM114-Status: GOOD (  14.44  )
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +44,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ coresight@lists.linaro.org, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
+ linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
+ dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-Yi:
-
-On Wed, 2021-01-27 at 12:54 +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> 
-> This patch add RDMA fifo size error handle
-> rdma fifo size will not always bigger than the calculated threshold
-> if that case happened, we need set fifo size as the threshold
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> index b84004394970f..04b9542010b00 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> @@ -168,6 +168,10 @@ void mtk_rdma_config(struct device *dev, unsigned int width,
->  	 * account for blanking, and with a pixel depth of 4 bytes:
->  	 */
->  	threshold = width * height * vrefresh * 4 * 7 / 1000000;
-> +
-> +	if (threshold > rdma_fifo_size)
-> +		threshold = rdma_fifo_size;
-
-Please see the discussion in [1].
-
-[1]
-https://patchwork.kernel.org/project/linux-mediatek/patch/1607591262-21736-6-git-send-email-yongqiang.niu@mediatek.com/
-
-Regards,
-CK
-
-> +
->  	reg = RDMA_FIFO_UNDERFLOW_EN |
->  	      RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
->  	      RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMS8yNi8yMSA2OjU4IFBNLCBVd2UgS2xlaW5lLUvDtm5pZyB3cm90ZToKPiBBbGwgYW1iYSBk
+cml2ZXJzIHJldHVybiAwIGluIHRoZWlyIHJlbW92ZSBjYWxsYmFjay4gVG9nZXRoZXIgd2l0aCB0
+aGUKPiBkcml2ZXIgY29yZSBpZ25vcmluZyB0aGUgcmV0dXJuIHZhbHVlIGFueWhvdywgaXQgZG9l
+c24ndCBtYWtlIHNlbnNlIHRvCj4gcmV0dXJuIGEgdmFsdWUgaGVyZS4KPiAKPiBDaGFuZ2UgdGhl
+IHJlbW92ZSBwcm90b3R5cGUgdG8gcmV0dXJuIHZvaWQsIHdoaWNoIG1ha2VzIGl0IGV4cGxpY2l0
+IHRoYXQKPiByZXR1cm5pbmcgYW4gZXJyb3IgdmFsdWUgZG9lc24ndCB3b3JrIGFzIGV4cGVjdGVk
+LiBUaGlzIHNpbXBsaWZpZXMgY2hhbmdpbmcKPiB0aGUgY29yZSByZW1vdmUgY2FsbGJhY2sgdG8g
+cmV0dXJuIHZvaWQsIHRvby4KPiAKPiBSZXZpZXdlZC1ieTogVWxmIEhhbnNzb24gPHVsZi5oYW5z
+c29uQGxpbmFyby5vcmc+Cj4gUmV2aWV3ZWQtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIu
+ZGU+Cj4gQWNrZWQtYnk6IEFsZXhhbmRyZSBCZWxsb25pIDxhbGV4YW5kcmUuYmVsbG9uaUBib290
+bGluLmNvbT4KPiBBY2tlZC1ieTogRG1pdHJ5IFRvcm9raG92IDxkbWl0cnkudG9yb2tob3ZAZ21h
+aWwuY29tPgo+IEFja2VkLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+
+ICMgZm9yIGRyaXZlcnMvbWVtb3J5Cj4gQWNrZWQtYnk6IE1hcmsgQnJvd24gPGJyb29uaWVAa2Vy
+bmVsLm9yZz4KPiBBY2tlZC1ieTogRG1pdHJ5IFRvcm9raG92IDxkbWl0cnkudG9yb2tob3ZAZ21h
+aWwuY29tPgo+IEFja2VkLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5v
+cmc+Cj4gU2lnbmVkLW9mZi1ieTogVXdlIEtsZWluZS1Lw7ZuaWcgPHUua2xlaW5lLWtvZW5pZ0Bw
+ZW5ndXRyb25peC5kZT4KCkZvciBkcml2ZXJzL21lbW9yeS9wbDE3Mi5jOgoKQWNrZWQtYnk6IFZs
+YWRpbWlyIFphcG9sc2tpeSA8dnpAbWxlaWEuY29tPgoKLS0KQmVzdCB3aXNoZXMsClZsYWRpbWly
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
