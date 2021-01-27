@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58431305C2B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65715305C97
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 14:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252B8888D9;
-	Wed, 27 Jan 2021 12:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C6D6E7EA;
+	Wed, 27 Jan 2021 13:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A018D888D9;
- Wed, 27 Jan 2021 12:55:07 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23714196-1500050 for multiple; Wed, 27 Jan 2021 12:54:56 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0746E2D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 13:11:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 113DE207A9;
+ Wed, 27 Jan 2021 13:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611753094;
+ bh=I4r0yZ8jap4E3EH0ZHseFzeM7MtZzKaH9l7xqzv59bQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MNpK4IHRXaQOtZQCN+SVmVPuvONxqxbedb9G528D2M42gjQjlh6qtaJX88ER4zDYu
+ mro5u6r7etWNHbnk+eYxbKMS62eiR0DLUwBN72TktzslBxxiNpbtL0c4VyW90XY3Gk
+ EIpTgEjl31XAWdi3AoABxtbWjMulbNQfE2QpcvKk=
+Date: Wed, 27 Jan 2021 14:11:31 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Carlis <zhangxuezhi3@gmail.com>
+Subject: Re: [PATCH v9] staging: fbtft: add tearing signal detect
+Message-ID: <YBFmg3yHlORg1mhf@kroah.com>
+References: <1611752257-150851-1-git-send-email-zhangxuezhi3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210127124135.11750-5-tzimmermann@suse.de>
-References: <20210127124135.11750-1-tzimmermann@suse.de>
- <20210127124135.11750-5-tzimmermann@suse.de>
-Subject: Re: [Intel-gfx] [PATCH v5 4/5] drm/i915: Don't assign to struct
- drm_device.pdev
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com
-Date: Wed, 27 Jan 2021 12:54:58 +0000
-Message-ID: <161175209876.2943.13596593111578124710@build.alporthouse.com>
-User-Agent: alot/0.9
+Content-Disposition: inline
+In-Reply-To: <1611752257-150851-1-git-send-email-zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,45 +42,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Thomas Zimmermann (2021-01-27 12:41:34)
-> Using struct drm_device.pdev is deprecated. Don't assign it. Users
-> should upcast from struct drm_device.dev.
+On Wed, Jan 27, 2021 at 08:57:37PM +0800, Carlis wrote:
+> From: zhangxuezhi <zhangxuezhi1@yulong.com>
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> For st7789v ic,add tearing signal detect to avoid screen tearing
+
+I need a much better changelog description here please.
+
+> 
+> Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
 > ---
->  drivers/gpu/drm/i915/i915_drv.c | 1 -
->  1 file changed, 1 deletion(-)
+> v9: change pr_* to dev_*
+> ---
+
+What changed in all of your previous versions?  All of them should be
+listed here, right?
+
+
+
+>  drivers/staging/fbtft/fb_st7789v.c | 132 ++++++++++++++++++++++++++++++++++++-
+>  drivers/staging/fbtft/fbtft.h      |   1 +
+>  2 files changed, 132 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 700aeb923fcd..954ad590089c 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -787,7 +787,6 @@ i915_driver_create(struct pci_dev *pdev, const struct pci_device_id *ent)
->         if (IS_ERR(i915))
->                 return i915;
+> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+> index 3a280cc..9aa2f36 100644
+> --- a/drivers/staging/fbtft/fb_st7789v.c
+> +++ b/drivers/staging/fbtft/fb_st7789v.c
+> @@ -9,9 +9,12 @@
+>  #include <linux/delay.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mutex.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/completion.h>
+>  #include <linux/module.h>
+>  #include <video/mipi_display.h>
+> -
+> +#include <linux/gpio/consumer.h>
+>  #include "fbtft.h"
 >  
-> -       i915->drm.pdev = pdev;
->         pci_set_drvdata(pdev, i915);
+>  #define DRVNAME "fb_st7789v"
+> @@ -66,6 +69,32 @@ enum st7789v_command {
+>  #define MADCTL_MX BIT(6) /* bitmask for column address order */
+>  #define MADCTL_MY BIT(7) /* bitmask for page address order */
 >  
->         /* Device parameters start as a copy of module parameters. */
+> +#define SPI_PANEL_TE_TIMEOUT	400
 
-Stick the mock
--       i915->drm.pdev = pdev;
-in this patch, and I'm happy.
+What is the units here?  Where did this value come from?
 
-With that, the series is
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
--Chris
+> +static struct mutex te_mutex;/*mutex for tearing line*/
+
+Does that look correct???
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
