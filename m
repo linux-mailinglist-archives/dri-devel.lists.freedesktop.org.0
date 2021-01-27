@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE9D3070FD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51CC3070F3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A8F8902B;
-	Thu, 28 Jan 2021 08:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4E26E917;
+	Thu, 28 Jan 2021 08:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E78B6E3D0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 10:26:42 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id md11so998002pjb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 02:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=w9LuJNkG7zPJO9mZjCx84PLG1KhVhIg79RQ/3qsvzls=;
- b=SgatvX03bpqjeH7enSluDxUFDfag6mEZ/mWUGr6TTFFq+J9N/61FggMzOoAsbIBXaZ
- SATsw9TgZDXY+o/sZzz5UVtBiKpGcYGebDJ6LLxXmwzYBgCcXnoaujjFX6CinHBnnEc2
- 1oMwcsSuv/FvcEsPet5hUuwSluN7sELy9sYjwsaFi3hJg6WxYHyyB5MghngIR7EP5xin
- zVXdf6zotG8+W2wogWHqCQiMOsTwUHxDGi1DcJ5c2jY3TTKTwp4QILg2cO4V+2U3ptLc
- 8m1W4IQMo8KsU0EeFJFmFHHGvZBpRxiv2wdbtCTAIklWmn+/Av+z7gVVYapsXHRHXgnE
- uRww==
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B50B6E3D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 10:47:58 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id a25so1546010ljn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 02:47:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nt9pdiLty5VAzHiVzQ9Z0VE2Bkzi2Zy4BkFRJGQTy+s=;
+ b=RkI69ax2YOOuKLnURhraOk6rkuVkZAdIrcLC8ROzb78X3XKcsHv7ZkY1MlD4SJgGMv
+ mvSeWdPu6cvDFRvCbp1iTBbLA1Zl8F7eXpM479ayN+NeCBRjUZ9u4HUy3EzFV1sYTJcy
+ PYB/fNUbJlr64E477+47TxBf7b4ryCO7tAewLY6czi6NhEMjHxiI15j/4hIaqSUmrqvt
+ hnkovTZkaCRWB504JvBAbJB02VSyoiNAOfs8HPotmXVpd8A4rbeS6mMZhro1+rQDyfcn
+ ljPWQoMwPkLz6Wc1OU0ppRL02EqrNXZCGQXG1ygbkLlN+Jif1Tk4RsoVvqn8fhhDYg0j
+ bsvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=w9LuJNkG7zPJO9mZjCx84PLG1KhVhIg79RQ/3qsvzls=;
- b=rpyGEuuKGhMgQcaDqQxhqzG361usOsanuEKPgKg+ph65gdIu2WLgwVBz2vsDtwWh2A
- XS4nAyoCe00E5t9b3x5HPDaj+PfhUsO98E7RX0EfgpKpfHMF83kcEDi1PW9yjKkiRkLb
- dipjuMyMhCr30r6rhHzd82fm3pzd/5InpMutbsUDioB7TCsEEgEsa5ajtZ/yP2xdl0ff
- YPuneHHOtcPT/cUs5razK7m0i/nANg3m73GbroSIv2t3PA9MjoyuTgf45YTkuDktBt9T
- EZ1/C04Vo/3omOCw4Q8ac6CWOgxUy27242Wvdqo+Zp/MVIuc44gXiwPhT1HixND57v8Z
- Ktog==
-X-Gm-Message-State: AOAM533LqFAufmktXi8eXMnIh9ORaClp6i1WQAag7NIRBX32l/Hzdi3u
- +IbMwKzWaw9WBoCFPYubH9A=
-X-Google-Smtp-Source: ABdhPJzD7wd+0V/xOmD/6UG24+xvbxpEx5XyFuutoF0z3/ZLbujhFaEUb+adlZQx2/8VhZkDTq6qsw==
-X-Received: by 2002:a17:90b:358d:: with SMTP id
- mm13mr5039590pjb.146.1611743201948; 
- Wed, 27 Jan 2021 02:26:41 -0800 (PST)
-Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id t129sm2039860pfc.16.2021.01.27.02.26.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 27 Jan 2021 02:26:41 -0800 (PST)
-From: Carlis <zhangxuezhi3@gmail.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v8] fbtft: add tearing signal detect
-Date: Wed, 27 Jan 2021 18:26:46 +0800
-Message-Id: <1611743206-136112-1-git-send-email-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 1.9.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nt9pdiLty5VAzHiVzQ9Z0VE2Bkzi2Zy4BkFRJGQTy+s=;
+ b=mlBfBN4sIvXbljXq8kFMeGzIbYandttvi9jCJov1milFKsJWBvJkaCPZOsum1Qglaf
+ hH8eDPaIbVsL+vbPCv2lP6OVikGY7bslNS5i84IvPlZhkuvTJIo4fzssLlnxLZEyqgKu
+ LYjj5GWXaZUfWQDBia78RS9cEmfrR8aKtTBrAg61YMsWYBIoLtUQqiXUjTS7/AXHCG9K
+ lWli+e/kAI42tsZ7eNZaRcTgiTvv3B/VmPOtfs3zIPmr3f/I7RIH6IorrnuN5rjl8pjh
+ 0TZimDxxSXOPIAjcJ3vobFZjQk/lAoSF/CCyyk17JMc31HuKybr9pt2cWITYxhhPdN9e
+ wcHg==
+X-Gm-Message-State: AOAM532YqD8DhpXGGXDVSuN4BBb2mb1RpQkUI7bp9g+nm+mCCOBlojD9
+ Sk0OxgKi4TAUlQdk1xiLrxk7f+XTcW1r0jncPs+PEA==
+X-Google-Smtp-Source: ABdhPJwad4Dbjby0b67biXG1UmzBFT032qoQOR80f/hQK6P7qLf8Q2hmv4TTfsdOlkWpWnRX5IIbsSeyI8gxECdjNcI=
+X-Received: by 2002:a2e:908e:: with SMTP id l14mr5465324ljg.226.1611744476438; 
+ Wed, 27 Jan 2021 02:47:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+In-Reply-To: <20210126225138.1823266-1-kaleshsingh@google.com>
+From: Jann Horn <jannh@google.com>
+Date: Wed, 27 Jan 2021 11:47:29 +0100
+Message-ID: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+To: Kalesh Singh <kaleshsingh@google.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,224 +62,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Michal Hocko <mhocko@suse.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Szabolcs Nagy <szabolcs.nagy@arm.com>, dri-devel@lists.freedesktop.org,
+ Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+ Michel Lespinasse <walken@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jeffrey Vander Stoep <jeffv@google.com>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ kernel-team <kernel-team@android.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, linaro-mm-sig@lists.linaro.org,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Bernd Edlinger <bernd.edlinger@hotmail.de>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Alexey Gladkov <gladkov.alexey@gmail.com>,
+ kernel list <linux-kernel@vger.kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Andrei Vagin <avagin@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux API <linux-api@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhangxuezhi <zhangxuezhi1@yulong.com>
-
-For st7789v ic,add tearing signal detect to avoid screen tearing
-
-Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
----
-v8: delete a log line
----
- drivers/staging/fbtft/fb_st7789v.c | 132 ++++++++++++++++++++++++++++++++++++-
- drivers/staging/fbtft/fbtft.h      |   1 +
- 2 files changed, 132 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 3a280cc..de7460c 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -9,9 +9,12 @@
- #include <linux/delay.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/mutex.h>
-+#include <linux/interrupt.h>
-+#include <linux/completion.h>
- #include <linux/module.h>
- #include <video/mipi_display.h>
--
-+#include <linux/gpio/consumer.h>
- #include "fbtft.h"
- 
- #define DRVNAME "fb_st7789v"
-@@ -66,6 +69,32 @@ enum st7789v_command {
- #define MADCTL_MX BIT(6) /* bitmask for column address order */
- #define MADCTL_MY BIT(7) /* bitmask for page address order */
- 
-+#define SPI_PANEL_TE_TIMEOUT	400
-+static struct mutex te_mutex;/*mutex for tearing line*/
-+static struct completion spi_panel_te;
-+
-+static irqreturn_t spi_panel_te_handler(int irq, void *data)
-+{
-+	complete(&spi_panel_te);
-+	return IRQ_HANDLED;
-+}
-+
-+static void set_spi_panel_te_irq_status(struct fbtft_par *par, bool enable)
-+{
-+	static int te_irq_count;
-+
-+	mutex_lock(&te_mutex);
-+
-+	if (enable) {
-+		if (++te_irq_count == 1)
-+			enable_irq(gpiod_to_irq(par->gpio.te));
-+	} else {
-+		if (--te_irq_count == 0)
-+			disable_irq(gpiod_to_irq(par->gpio.te));
-+	}
-+	mutex_unlock(&te_mutex);
-+}
-+
- /**
-  * init_display() - initialize the display controller
-  *
-@@ -82,6 +111,33 @@ enum st7789v_command {
-  */
- static int init_display(struct fbtft_par *par)
- {
-+	int rc;
-+	struct device *dev = par->info->device;
-+
-+	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
-+	if (IS_ERR(par->gpio.te)) {
-+		rc = PTR_ERR(par->gpio.te);
-+		pr_err("Failed to request te gpio: %d\n", rc);
-+		return rc;
-+	}
-+	if (par->gpio.te) {
-+		init_completion(&spi_panel_te);
-+		mutex_init(&te_mutex);
-+		rc = devm_request_irq(dev,
-+				      gpiod_to_irq(par->gpio.te),
-+				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
-+				     "TE_GPIO", par);
-+		if (rc) {
-+			pr_err("TE request_irq failed.\n");
-+			devm_gpiod_put(dev, par->gpio.te);
-+			return rc;
-+		}
-+
-+		disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-+	} else {
-+		pr_info("%s:%d, TE gpio not specified\n",
-+			__func__, __LINE__);
-+	}
- 	/* turn off sleep mode */
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	mdelay(120);
-@@ -137,6 +193,9 @@ static int init_display(struct fbtft_par *par)
- 	 */
- 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
- 
-+    /*Tearing Effect Line On*/
-+	if (par->gpio.te)
-+		write_reg(par, 0x35, 0x00);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	if (HSD20_IPS)
-@@ -145,6 +204,76 @@ static int init_display(struct fbtft_par *par)
- 	return 0;
- }
- 
-+/*****************************************************************************
-+ *
-+ *   int (*write_vmem)(struct fbtft_par *par);
-+ *
-+ *****************************************************************************/
-+
-+/* 16 bit pixel over 8-bit databus */
-+static int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-+{
-+	u16 *vmem16;
-+	__be16 *txbuf16 = par->txbuf.buf;
-+	size_t remain;
-+	size_t to_copy;
-+	size_t tx_array_size;
-+	int i;
-+	int ret = 0;
-+	size_t startbyte_size = 0;
-+
-+	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
-+		      __func__, offset, len);
-+
-+	remain = len / 2;
-+	vmem16 = (u16 *)(par->info->screen_buffer + offset);
-+
-+	if (par->gpio.dc)
-+		gpiod_set_value(par->gpio.dc, 1);
-+
-+	/* non buffered write */
-+	if (!par->txbuf.buf)
-+		return par->fbtftops.write(par, vmem16, len);
-+
-+	/* buffered write */
-+	tx_array_size = par->txbuf.len / 2;
-+
-+	if (par->startbyte) {
-+		txbuf16 = par->txbuf.buf + 1;
-+		tx_array_size -= 2;
-+		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
-+		startbyte_size = 1;
-+	}
-+
-+	while (remain) {
-+		to_copy = min(tx_array_size, remain);
-+		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
-+			to_copy, remain - to_copy);
-+
-+		for (i = 0; i < to_copy; i++)
-+			txbuf16[i] = cpu_to_be16(vmem16[i]);
-+
-+		vmem16 = vmem16 + to_copy;
-+		if (par->gpio.te) {
-+			set_spi_panel_te_irq_status(par, true);
-+			reinit_completion(&spi_panel_te);
-+			ret = wait_for_completion_timeout(&spi_panel_te,
-+							  msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
-+			if (ret == 0)
-+				pr_err("wait panel TE time out\n");
-+		}
-+		ret = par->fbtftops.write(par, par->txbuf.buf,
-+					 startbyte_size + to_copy * 2);
-+		if (par->gpio.te)
-+			set_spi_panel_te_irq_status(par, false);
-+		if (ret < 0)
-+			return ret;
-+		remain -= to_copy;
-+	}
-+
-+	return ret;
-+}
-+
- /**
-  * set_var() - apply LCD properties like rotation and BGR mode
-  *
-@@ -259,6 +388,7 @@ static int blank(struct fbtft_par *par, bool on)
- 	.gamma = HSD20_IPS_GAMMA,
- 	.fbtftops = {
- 		.init_display = init_display,
-+		.write_vmem = st7789v_write_vmem16_bus8,
- 		.set_var = set_var,
- 		.set_gamma = set_gamma,
- 		.blank = blank,
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 76f8c09..93bac05 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -212,6 +212,7 @@ struct fbtft_par {
- 		struct gpio_desc *wr;
- 		struct gpio_desc *latch;
- 		struct gpio_desc *cs;
-+		struct gpio_desc *te;
- 		struct gpio_desc *db[16];
- 		struct gpio_desc *led[16];
- 		struct gpio_desc *aux[16];
--- 
-1.9.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+K2plZmZ2IGZyb20gQW5kcm9pZAoKT24gVHVlLCBKYW4gMjYsIDIwMjEgYXQgMTE6NTEgUE0gS2Fs
+ZXNoIFNpbmdoIDxrYWxlc2hzaW5naEBnb29nbGUuY29tPiB3cm90ZToKPiBJbiBvcmRlciB0byBt
+ZWFzdXJlIGhvdyBtdWNoIG1lbW9yeSBhIHByb2Nlc3MgYWN0dWFsbHkgY29uc3VtZXMsIGl0IGlz
+Cj4gbmVjZXNzYXJ5IHRvIGluY2x1ZGUgdGhlIERNQSBidWZmZXIgc2l6ZXMgZm9yIHRoYXQgcHJv
+Y2VzcyBpbiB0aGUgbWVtb3J5Cj4gYWNjb3VudGluZy4gU2luY2UgdGhlIGhhbmRsZSB0byBETUEg
+YnVmZmVycyBhcmUgcmF3IEZEcywgaXQgaXMgaW1wb3J0YW50Cj4gdG8gYmUgYWJsZSB0byBpZGVu
+dGlmeSB3aGljaCBwcm9jZXNzZXMgaGF2ZSBGRCByZWZlcmVuY2VzIHRvIGEgRE1BIGJ1ZmZlci4K
+Ck9yIHlvdSBjb3VsZCB0cnkgdG8gbGV0IHRoZSBETUEgYnVmZmVyIHRha2UgYSByZWZlcmVuY2Ug
+b24gdGhlCm1tX3N0cnVjdCBhbmQgYWNjb3VudCBpdHMgc2l6ZSBpbnRvIHRoZSBtbV9zdHJ1Y3Q/
+IFRoYXQgd291bGQgcHJvYmFibHkKYmUgbmljZXIgdG8gd29yayB3aXRoIHRoYW4gaGF2aW5nIHRv
+IHBva2UgYXJvdW5kIGluIHByb2NmcyBzZXBhcmF0ZWx5CmZvciBETUEgYnVmZmVycy4KCj4gQ3Vy
+cmVudGx5LCBETUEgYnVmZmVyIEZEcyBjYW4gYmUgYWNjb3VudGVkIHVzaW5nIC9wcm9jLzxwaWQ+
+L2ZkLyogYW5kCj4gL3Byb2MvPHBpZD4vZmRpbmZvIC0tIGJvdGggb2Ygd2hpY2ggYXJlIG9ubHkg
+cm9vdCByZWFkYWJsZSwgYXMgZm9sbG93czoKClRoYXQncyBub3QgcXVpdGUgcmlnaHQuIFRoZXkg
+Y2FuIGJvdGggYWxzbyBiZSBhY2Nlc3NlZCBieSB0aGUgdXNlcgpvd25pbmcgdGhlIHByb2Nlc3Mu
+IEFsc28sIGZkaW5mbyBpcyBhIHN0YW5kYXJkIGludGVyZmFjZSBmb3IKaW5zcGVjdGluZyBwcm9j
+ZXNzIHN0YXRlIHRoYXQgZG9lc24ndCBwZXJtaXQgcmVhZGluZyBwcm9jZXNzIG1lbW9yeSBvcgpt
+YW5pcHVsYXRpbmcgcHJvY2VzcyBzdGF0ZSAtIHNvIEkgdGhpbmsgaXQgd291bGQgYmUgZmluZSB0
+byBwZXJtaXQKYWNjZXNzIHRvIGZkaW5mbyB1bmRlciBhIFBUUkFDRV9NT0RFX1JFQURfRlNDUkVE
+IGNoZWNrLCBqdXN0IGxpa2UgdGhlCmludGVyZmFjZSB5b3UncmUgc3VnZ2VzdGluZy4KCj4gICAx
+LiBEbyBhIHJlYWRsaW5rIG9uIGVhY2ggRkQuCj4gICAyLiBJZiB0aGUgdGFyZ2V0IHBhdGggYmVn
+aW5zIHdpdGggIi9kbWFidWYiLCB0aGVuIHRoZSBGRCBpcyBhIGRtYWJ1ZiBGRC4KPiAgIDMuIHN0
+YXQgdGhlIGZpbGUgdG8gZ2V0IHRoZSBkbWFidWYgaW5vZGUgbnVtYmVyLgo+ICAgNC4gUmVhZC8g
+cHJvYy88cGlkPi9mZGluZm8vPGZkPiwgdG8gZ2V0IHRoZSBETUEgYnVmZmVyIHNpemUuCj4KPiBB
+bmRyb2lkIGNhcHR1cmVzIHBlci1wcm9jZXNzIHN5c3RlbSBtZW1vcnkgc3RhdGUgd2hlbiBjZXJ0
+YWluIGxvdyBtZW1vcnkKPiBldmVudHMgKGUuZyBhIGZvcmVncm91bmQgYXBwIGtpbGwpIG9jY3Vy
+LCB0byBpZGVudGlmeSBwb3RlbnRpYWwgbWVtb3J5Cj4gaG9nZ2Vycy4gVG8gaW5jbHVkZSBhIHBy
+b2Nlc3PigJlzIGRtYWJ1ZiB1c2FnZSBhcyBwYXJ0IG9mIGl0cyBtZW1vcnkgc3RhdGUsCj4gdGhl
+IGRhdGEgY29sbGVjdGlvbiBuZWVkcyB0byBiZSBmYXN0IGVub3VnaCB0byByZWZsZWN0IHRoZSBt
+ZW1vcnkgc3RhdGUgYXQKPiB0aGUgdGltZSBvZiBzdWNoIGV2ZW50cy4KPgo+IFNpbmNlIHJlYWRp
+bmcgL3Byb2MvPHBpZD4vZmQvIGFuZCAvcHJvYy88cGlkPi9mZGluZm8vIHJlcXVpcmVzIHJvb3QK
+PiBwcml2aWxlZ2VzLCB0aGlzIGFwcHJvYWNoIGlzIG5vdCBzdWl0YWJsZSBmb3IgcHJvZHVjdGlv
+biBidWlsZHMuCgpJdCBzaG91bGQgYmUgZWFzeSB0byBhZGQgZW5vdWdoIGluZm9ybWF0aW9uIHRv
+IC9wcm9jLzxwaWQ+L2ZkaW5mby8gc28KdGhhdCB5b3UgZG9uJ3QgbmVlZCB0byBsb29rIGF0IC9w
+cm9jLzxwaWQ+L2ZkLyBhbnltb3JlLgoKPiBHcmFudGluZwo+IHJvb3QgcHJpdmlsZWdlcyBldmVu
+IHRvIGEgc3lzdGVtIHByb2Nlc3MgaW5jcmVhc2VzIHRoZSBhdHRhY2sgc3VyZmFjZSBhbmQKPiBp
+cyBoaWdobHkgdW5kZXNpcmFibGUuIEFkZGl0aW9uYWxseSB0aGlzIGlzIHNsb3cgYXMgaXQgcmVx
+dWlyZXMgbWFueQo+IGNvbnRleHQgc3dpdGNoZXMgZm9yIHNlYXJjaGluZyBhbmQgZ2V0dGluZyB0
+aGUgZG1hLWJ1ZiBpbmZvLgoKV2hhdCBkbyB5b3UgbWVhbiBieSAiY29udGV4dCBzd2l0Y2hlcyI/
+IFRhc2sgc3dpdGNoZXMgb3Iga2VybmVsL3VzZXIKdHJhbnNpdGlvbnMgKGUuZy4gdmlhIHN5c2Nh
+bGwpPwoKPiBXaXRoIHRoZSBhZGRpdGlvbiBvZiBwZXItYnVmZmVyIGRtYWJ1ZiBzdGF0cyBpbiBz
+eXNmcyBbMV0sIHRoZSBETUEgYnVmZmVyCj4gZGV0YWlscyBjYW4gYmUgcXVlcmllZCB1c2luZyB0
+aGVpciB1bmlxdWUgaW5vZGUgbnVtYmVycy4KPgo+IFRoaXMgcGF0Y2ggcHJvcG9zZXMgYWRkaW5n
+IGEgL3Byb2MvPHBpZD4vdGFzay88dGlkPi9kbWFidWZfZmRzIGludGVyZmFjZS4KPgo+IC9wcm9j
+LzxwaWQ+L3Rhc2svPHRpZD4vZG1hYnVmX2ZkcyBjb250YWlucyBhIGxpc3Qgb2YgaW5vZGUgbnVt
+YmVycyBmb3IKPiBldmVyeSBETUEgYnVmZmVyIEZEIHRoYXQgdGhlIHRhc2sgaGFzLiBFbnRyaWVz
+IHdpdGggdGhlIHNhbWUgaW5vZGUKPiBudW1iZXIgY2FuIGFwcGVhciBtb3JlIHRoYW4gb25jZSwg
+aW5kaWNhdGluZyB0aGUgdG90YWwgRkQgcmVmZXJlbmNlcwo+IGZvciB0aGUgYXNzb2NpYXRlZCBE
+TUEgYnVmZmVyLgo+Cj4gSWYgYSB0aHJlYWQgc2hhcmVzIHRoZSBzYW1lIGZpbGVzIGFzIHRoZSBn
+cm91cCBsZWFkZXIgdGhlbiBpdHMKPiBkbWFidWZfZmRzIGZpbGUgd2lsbCBiZSBlbXB0eSwgYXMg
+dGhlc2UgZG1hYnVmcyBhcmUgcmVwb3J0ZWQgYnkgdGhlCj4gZ3JvdXAgbGVhZGVyLgo+Cj4gVGhl
+IGludGVyZmFjZSByZXF1aXJlcyBQVFJBQ0VfTU9ERV9SRUFEX0ZTQ1JFRCAoc2FtZSBhcyAvcHJv
+Yy88cGlkPi9tYXBzKQo+IGFuZCBhbGxvd3MgdGhlIGVmZmljaWVudCBhY2NvdW50aW5nIG9mIHBl
+ci1wcm9jZXNzIERNQSBidWZmZXIgdXNhZ2Ugd2l0aG91dAo+IHJlcXVpcmluZyByb290IHByaXZp
+bGVnZXMuIChTZWUgZGF0YSBiZWxvdykKCkknbSBub3QgY29udmluY2VkIHRoYXQgaW50cm9kdWNp
+bmcgYSBuZXcgcHJvY2ZzIGZpbGUgZm9yIHRoaXMgaXMgdGhlCnJpZ2h0IHdheSB0byBnby4gQW5k
+IHRoZSBpZGVhIG9mIGhhdmluZyB0byBwb2tlIGludG8gbXVsdGlwbGUKZGlmZmVyZW50IGZpbGVz
+IGluIHByb2NmcyBhbmQgaW4gc3lzZnMganVzdCB0byBiZSBhYmxlIHRvIGNvbXB1dGUgYQpwcm9w
+ZXIgbWVtb3J5IHVzYWdlIHNjb3JlIGZvciBhIHByb2Nlc3Mgc2VlbXMgd2VpcmQgdG8gbWUuICJI
+b3cgbXVjaAptZW1vcnkgaXMgdGhpcyBwcm9jZXNzIHVzaW5nIiBzZWVtcyBsaWtlIHRoZSBraW5k
+IG9mIHF1ZXN0aW9uIHRoZQprZXJuZWwgb3VnaHQgdG8gYmUgYWJsZSB0byBhbnN3ZXIgKGFuZCB0
+aGUga2VybmVsIG5lZWRzIHRvIGJlIGFibGUgdG8KYW5zd2VyIHNvbWV3aGF0IGFjY3VyYXRlbHkg
+c28gdGhhdCBpdHMgb3duIE9PTSBraWxsZXIgY2FuIGRvIGl0cyBqb2IKcHJvcGVybHkpPwpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
