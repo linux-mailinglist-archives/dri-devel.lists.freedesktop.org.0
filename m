@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8383055C9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5AD3055C6
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CB76E7E2;
-	Wed, 27 Jan 2021 08:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA116E7F1;
+	Wed, 27 Jan 2021 08:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66C896E4CD
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 01:32:17 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id g15so458593pgu.9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 17:32:17 -0800 (PST)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B036E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 01:51:30 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id d4so162543plh.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 17:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=qFtzDSWvJUPXFHJ3H250txB0Kdj+O3qQzrpjfab8dQQ=;
- b=NYdHlLb+8UuAggg/5rsCJiI01uR7VaeLvuuTmE/hirtA4jT12LxyJ+n0VnSTwDGqsh
- tmriKUITkg/6uAGDnXl54C8dn/MdhEzu7qchEPJYtLCEl7DtTYXGoGzLmVXilf8TTpja
- golGdohVb7ALkKxXqg+9+VKyS/l/z3YYpaCqEGx//omokmnLndGvz0I7lAXL/kg2zNHf
- sND94ZckxsMLXpHOKRCxdD+85G9VEZRPe32ik5oP2htog1Y3VovSIkpSAPjGjYGRLWie
- KkGfyPtoXbgy1X2EHDcxcZj1M+S8Hxt0BEAMLgh7hRbxF6IN29HoyZfureNIkASAaDQM
- 2asw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3yvptWfKORCEVwYy1ACTtiGifr+3cTipupRyRjthl2g=;
+ b=W3oELcA9iI1ZLJQf2lRy3K5z1tVR/fGJ6GASMr9lo87icBB8J8WcIyHnigXabQnMTh
+ DNe9drkZ9T1P6DYkqvsF5kMQiNMmtRRfhKvjBuWfLJA7AgdoohRPZNW4zzJy47IUOiyc
+ SJqXZ2bQeybF2XHiEGZuFC7+WP1PrEJpRLPCJNIRgBQQqxLD9QVJAfbKGDuD5h1f7G8r
+ Q1XSQg2XbwMUauHVq+K2soVh6soXod/I3NTwh6OObO0KO6TxqpsZeywgmV4nNiFrtKPH
+ 5UC+VdH00MsFTGst9EwWAroDJX41Sxmb9S6fm/0wweL0gdLoIyANlEsuA8iGHawAbDoK
+ Hf9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=qFtzDSWvJUPXFHJ3H250txB0Kdj+O3qQzrpjfab8dQQ=;
- b=IB4/6mM0TIUrQYDDIpuQexWyqoECVBej+lzcwv1bkDCdJL2tuxynGtBkiJkNMXLJVK
- y1tHGYcvGl/1NvHIqfgOlLY0RoODsY2xe3dODezM9rZwm/XC/OYQfb+7lmjdUSF06J1n
- 5uyNPymvSgTq1u1HPCslLLo3856UczOA5OgkEA2QaiAWzOawimZmIAIcHok8Pvw07cIo
- 1BDoL6/Q+NPEeZBf/znRtsS2zQuvfY3flw7Wu1n0zpA6ErTyY0Ur4j0HO53pvot56cRl
- Hw1prKKy0TlFPSEIFzsbS8T5/xa6/aEOiI9s5fxkHJD42beSWWxD21kXEa9+peLAGUQu
- qqLg==
-X-Gm-Message-State: AOAM530UfCtC6R5DyEI0XNfmpM/RXtDYT5YUwnML3JZQc6iFFUTCPxAy
- LHlOvrBRSlyMaFWbTrRSIyU=
-X-Google-Smtp-Source: ABdhPJyoFnteGdrpbzbC+EnHJ7VVx842nzKKp+Gz+PIE9/Y0/+d1B7OnNaluuEeAQhzLfGECzgd6Yg==
-X-Received: by 2002:a63:fc0f:: with SMTP id j15mr8572538pgi.435.1611711136993; 
- Tue, 26 Jan 2021 17:32:16 -0800 (PST)
-Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id cu5sm163105pjb.7.2021.01.26.17.32.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 26 Jan 2021 17:32:16 -0800 (PST)
-From: Carlis <zhangxuezhi3@gmail.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v5] fbtft: add tearing signal detect
-Date: Wed, 27 Jan 2021 09:32:20 +0800
-Message-Id: <1611711140-68260-1-git-send-email-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 1.9.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3yvptWfKORCEVwYy1ACTtiGifr+3cTipupRyRjthl2g=;
+ b=XekVIGJdvo3w1XzuqV7ipyRkdL7EnbTzUr+TaL/dznVZyN6zab6NoBY+WNG0OyCvhE
+ n4830HpnpwM2E8jgR8J2tj+ScJMAQHn81aSmPZhnb5bVEWvaiJoHJgI4TKJLEVYttiOl
+ fl9Focl/5m+QdHKCWPxI2hYfpTOfTwk/N9asQZHN6VVVFGsVRXfgcYeQzgXGwx8qxQG4
+ dz4MImpDnkZ0HPFPyqmJYiRpyvQKV1LtVwB2+w3HRXLnGeP91Mz/QqEnlVqUnnqcJ6vJ
+ QZCCziRldn463MUQmU0Fo6s1Cijd1rOYhRA6sYG8Cl5RePSlK6B8jXZuXJZw1iIBewOe
+ mwGA==
+X-Gm-Message-State: AOAM5306UriReLGJJTGdmlHZQDlxW3i5n0Urpy+b7hwSTHvcpzlBIfo4
+ uwfEmEYrGOs7XZAMevQTnkI=
+X-Google-Smtp-Source: ABdhPJytgnP3XVHxsTdmA0Cu8bWPloY+2QADc/bc0RiANnTwjheceTjWakSGLieRfhC/iuWuQkgHEA==
+X-Received: by 2002:a17:902:8ec7:b029:e0:a02:3d26 with SMTP id
+ x7-20020a1709028ec7b02900e00a023d26mr8724235plo.24.1611712290234; 
+ Tue, 26 Jan 2021 17:51:30 -0800 (PST)
+Received: from localhost ([178.236.46.205])
+ by smtp.gmail.com with ESMTPSA id p7sm325105pfn.52.2021.01.26.17.51.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 17:51:29 -0800 (PST)
+From: menglong8.dong@gmail.com
+X-Google-Original-From: dong.menglong@zte.com.cn
+To: tomba@kernel.org,
+	sebastian.reichel@collabora.com
+Subject: [PATCH v2] drm/omap: dsi: fix unreachable code in dsi_vc_send_short()
+Date: Tue, 26 Jan 2021 17:51:17 -0800
+Message-Id: <20210127015117.23267-1-dong.menglong@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,218 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+Cc: Menglong Dong <dong.menglong@zte.com.cn>, airlied@linux.ie,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
-MIME-Version: 1.0
+ laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: zhangxuezhi <zhangxuezhi1@yulong.com>
+From: Menglong Dong <dong.menglong@zte.com.cn>
 
-For st7789v ic,add tearing signal detect to avoid screen tearing
+The 'r' in dsi_vc_send_short() is of type 'unsigned int', so the
+'r < 0' can't be true.
 
-Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
+Fix this by introducing a 'err' of type 'int' insteaded.
+
+Fixes: 1ed6253856cb ("drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg")
+
+Signed-off-by: Menglong Dong <dong.menglong@zte.com.cn>
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
-v5:fix log print
+v2:
+- remove word wrap in 'Fixes' tag
 ---
- drivers/staging/fbtft/fb_st7789v.c | 128 ++++++++++++++++++++++++++++++++++++-
- drivers/staging/fbtft/fbtft.h      |   1 +
- 2 files changed, 128 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 3a280cc..ab10235 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -9,9 +9,12 @@
- #include <linux/delay.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/mutex.h>
-+#include <linux/interrupt.h>
-+#include <linux/completion.h>
- #include <linux/module.h>
- #include <video/mipi_display.h>
--
-+#include <linux/gpio/consumer.h>
- #include "fbtft.h"
- 
- #define DRVNAME "fb_st7789v"
-@@ -66,6 +69,32 @@ enum st7789v_command {
- #define MADCTL_MX BIT(6) /* bitmask for column address order */
- #define MADCTL_MY BIT(7) /* bitmask for page address order */
- 
-+#define SPI_PANEL_TE_TIMEOUT	400
-+static struct mutex te_mutex;/*mutex for tearing line*/
-+static struct completion spi_panel_te;
-+
-+static irqreturn_t spi_panel_te_handler(int irq, void *data)
-+{
-+	complete(&spi_panel_te);
-+	return IRQ_HANDLED;
-+}
-+
-+static void set_spi_panel_te_irq_status(struct fbtft_par *par, bool enable)
-+{
-+	static int te_irq_count;
-+
-+	mutex_lock(&te_mutex);
-+
-+	if (enable) {
-+		if (++te_irq_count == 1)
-+			enable_irq(gpiod_to_irq(par->gpio.te));
-+	} else {
-+		if (--te_irq_count == 0)
-+			disable_irq(gpiod_to_irq(par->gpio.te));
-+	}
-+	mutex_unlock(&te_mutex);
-+}
-+
- /**
-  * init_display() - initialize the display controller
-  *
-@@ -82,6 +111,29 @@ enum st7789v_command {
-  */
- static int init_display(struct fbtft_par *par)
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 8e11612f5fe1..febcc87ddfe1 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -2149,11 +2149,12 @@ static int dsi_vc_send_short(struct dsi_data *dsi, int vc,
+ 			     const struct mipi_dsi_msg *msg)
  {
-+	int rc;
-+	struct device *dev = par->info->device;
-+
-+	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
-+	if (par->gpio.te) {
-+		init_completion(&spi_panel_te);
-+		mutex_init(&te_mutex);
-+		rc = devm_request_irq(dev,
-+				      gpiod_to_irq(par->gpio.te),
-+				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
-+				     "TE_GPIO", par);
-+		if (rc) {
-+			pr_err("TE request_irq failed.\n");
-+			devm_gpiod_put(dev, par->gpio.te);
-+			par->gpio.te = NULL;
-+		} else {
-+			disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-+			pr_info("TE request_irq completion.\n");
-+		}
-+	} else {
-+		pr_info("%s:%d, TE gpio not specified\n",
-+			__func__, __LINE__);
-+	}
- 	/* turn off sleep mode */
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	mdelay(120);
-@@ -137,6 +189,9 @@ static int init_display(struct fbtft_par *par)
- 	 */
- 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+ 	struct mipi_dsi_packet pkt;
++	int err;
+ 	u32 r;
  
-+    /*Tearing Effect Line On*/
-+	if (par->gpio.te)
-+		write_reg(par, 0x35, 0x00);
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+-	r = mipi_dsi_create_packet(&pkt, msg);
+-	if (r < 0)
+-		return r;
++	err = mipi_dsi_create_packet(&pkt, msg);
++	if (err)
++		return err;
  
- 	if (HSD20_IPS)
-@@ -145,6 +200,76 @@ static int init_display(struct fbtft_par *par)
- 	return 0;
- }
+ 	WARN_ON(!dsi_bus_is_locked(dsi));
  
-+/*****************************************************************************
-+ *
-+ *   int (*write_vmem)(struct fbtft_par *par);
-+ *
-+ *****************************************************************************/
-+
-+/* 16 bit pixel over 8-bit databus */
-+static int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-+{
-+	u16 *vmem16;
-+	__be16 *txbuf16 = par->txbuf.buf;
-+	size_t remain;
-+	size_t to_copy;
-+	size_t tx_array_size;
-+	int i;
-+	int ret = 0;
-+	size_t startbyte_size = 0;
-+
-+	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
-+		      __func__, offset, len);
-+
-+	remain = len / 2;
-+	vmem16 = (u16 *)(par->info->screen_buffer + offset);
-+
-+	if (par->gpio.dc)
-+		gpiod_set_value(par->gpio.dc, 1);
-+
-+	/* non buffered write */
-+	if (!par->txbuf.buf)
-+		return par->fbtftops.write(par, vmem16, len);
-+
-+	/* buffered write */
-+	tx_array_size = par->txbuf.len / 2;
-+
-+	if (par->startbyte) {
-+		txbuf16 = par->txbuf.buf + 1;
-+		tx_array_size -= 2;
-+		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
-+		startbyte_size = 1;
-+	}
-+
-+	while (remain) {
-+		to_copy = min(tx_array_size, remain);
-+		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
-+			to_copy, remain - to_copy);
-+
-+		for (i = 0; i < to_copy; i++)
-+			txbuf16[i] = cpu_to_be16(vmem16[i]);
-+
-+		vmem16 = vmem16 + to_copy;
-+		if (par->gpio.te) {
-+			set_spi_panel_te_irq_status(par, true);
-+			reinit_completion(&spi_panel_te);
-+			ret = wait_for_completion_timeout(&spi_panel_te,
-+							  msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
-+			if (ret == 0)
-+				pr_err("wait panel TE time out\n");
-+		}
-+		ret = par->fbtftops.write(par, par->txbuf.buf,
-+					 startbyte_size + to_copy * 2);
-+		if (par->gpio.te)
-+			set_spi_panel_te_irq_status(par, false);
-+		if (ret < 0)
-+			return ret;
-+		remain -= to_copy;
-+	}
-+
-+	return ret;
-+}
-+
- /**
-  * set_var() - apply LCD properties like rotation and BGR mode
-  *
-@@ -259,6 +384,7 @@ static int blank(struct fbtft_par *par, bool on)
- 	.gamma = HSD20_IPS_GAMMA,
- 	.fbtftops = {
- 		.init_display = init_display,
-+		.write_vmem = st7789v_write_vmem16_bus8,
- 		.set_var = set_var,
- 		.set_gamma = set_gamma,
- 		.blank = blank,
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 76f8c09..93bac05 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -212,6 +212,7 @@ struct fbtft_par {
- 		struct gpio_desc *wr;
- 		struct gpio_desc *latch;
- 		struct gpio_desc *cs;
-+		struct gpio_desc *te;
- 		struct gpio_desc *db[16];
- 		struct gpio_desc *led[16];
- 		struct gpio_desc *aux[16];
 -- 
-1.9.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
