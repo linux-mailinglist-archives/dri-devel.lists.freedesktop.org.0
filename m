@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429C13070DD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CB93070E0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92E66E8FC;
-	Thu, 28 Jan 2021 08:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFF76E90E;
+	Thu, 28 Jan 2021 08:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7046E87D;
- Wed, 27 Jan 2021 19:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
- Reply-To:Cc:Content-ID:Content-Description;
- bh=e8MHSFAxiS7UdxXBZlqFbrVKBNkvXqogAmgOIMEikQ8=; b=yvGMjwoP/+k3rHesHCE2f9nLbG
- gUEDn2qyX4KQfjBPkeO/5HRFsYk5/WO5eAMK4s/c32DNGpbsxZNole9VkwCxML/ZvMfMDhprCutw2
- 37RcmBVLFLVxuNwVxxfmu006aE0vToyIicusfdagBwrPaPeGhKyDFxOzvE6uw9dNAhXHq9xoB/ib9
- KlPCwdV9ots8gUxsOBp0qbIE3Y88d9FheNRK9C8AlkcbMJuwRQ0lggO22QAdzRyYdB5BcwNuF+dTn
- sNRM1+A4fzKWkwLOl1fRyvInSpaIiWIBp5BzrqM+fupHzHAoLEBVQjghRQeXSGGtd90WaAd1n4cBX
- HfO6NuFg==;
-Received: from [2601:1c0:6280:3f0::7650]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l4qbp-0002hL-Ag; Wed, 27 Jan 2021 19:36:09 +0000
-Subject: Re: mmotm 2021-01-25-21-18 uploaded (drm/i915/Kconfig.debug)
-To: akpm@linux-foundation.org, broonie@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-next@vger.kernel.org, mhocko@suse.cz,
- mm-commits@vger.kernel.org, sfr@canb.auug.org.au,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-References: <20210126051917.rcgrHGfQS%akpm@linux-foundation.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0f9e7192-622d-c016-561f-7b5d5ee9ecd1@infradead.org>
-Date: Wed, 27 Jan 2021 11:36:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
+ [IPv6:2607:f8b0:4864:20::936])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B2889CDB
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 20:21:27 +0000 (UTC)
+Received: by mail-ua1-x936.google.com with SMTP id g5so1192485uak.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JkWQEhwAUNLuJiPKeTazkmms8jXTo1ixUZEQclL+Lbo=;
+ b=r9q6TDXOq/oTKZfsDu88FKmFK1jFkobThy3I5RX5yDOWeZCqbXkAPofOZhwyzoX0S4
+ lmw2aOQ11GEmGdt9SOTMz11LnKqrdTCNN4gnubxwe3dHZMhv+VsV8YZVjYxDcM5GYvec
+ yEt+m/lAgrwWi3TGc166UztCAqnGYfmm3+WjObS9ymcp0mxV2NdAFelIasNCR9kP04OH
+ EwBxAVdECFQaUOAnYMyIv8j85clAcXLfBlFscijmq8Zod7kAQCoW/+/203JvholLWk+4
+ l4wJqVoFVxOmT+KnOdgd6PKD/9pTOcZiIb4GqWwjjWcspeNyAIXi9wFcN6CZ161qe0cV
+ R4iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JkWQEhwAUNLuJiPKeTazkmms8jXTo1ixUZEQclL+Lbo=;
+ b=OQ8fiIjle0SI6mrnZ3YtrKYpoXeNs1PW0zzLV/j879EmRBQIO5soFVWBUrkvwilQ11
+ JEhhCrvfjPpWbQy2IMRTX4jezc5swC20NK9JJkmkWYsMjvPfW/kOm571HkPxwEWDMAlW
+ WXPSeB3sk5iO69AetF4PNwSta0z6d7/M3yH2cv/XMkk91+eAXZaV9TkJ5NmlSfF5jglI
+ uEl8Rl75pORLLjwpIR01dych/W5yceAKysZno9F+rnVXcKt0BKbSxkNnQzVA9tLUuwNf
+ dAL42QXA0SBwwJAztMT8cBHWYoNVNuTD1b0FkkrfTsiblvMwRSEy2x+GlsGji1iVk+t5
+ K/1w==
+X-Gm-Message-State: AOAM530Oal5aZikxzVEqEF1woUxwY8+xlqR7lW0JEGJ095rtZCG2XZlK
+ FzjAEafLqQTqWg/m49g4v1NQs7x8ZV/6D+HkyOc3mg==
+X-Google-Smtp-Source: ABdhPJwGX8VLBXNChAV3Mpumim5+i60b+XOkzruAqORvpUqhkGg7ml8LK+TG1dC8IipynSj3q3fq1jXMWQAsSKX643o=
+X-Received: by 2002:ab0:7584:: with SMTP id q4mr9773201uap.35.1611778886742;
+ Wed, 27 Jan 2021 12:21:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210126051917.rcgrHGfQS%akpm@linux-foundation.org>
-Content-Language: en-US
+References: <20210123034655.102813-1-john.stultz@linaro.org>
+ <20210123034655.102813-2-john.stultz@linaro.org>
+In-Reply-To: <20210123034655.102813-2-john.stultz@linaro.org>
+From: Daniel Mentz <danielmentz@google.com>
+Date: Wed, 27 Jan 2021 12:21:15 -0800
+Message-ID: <CAE2F3rA3a-MWBHPZhGP9dMhEUqMkkvm6wXYYh6LDZ1zF9CAyUg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dma-buf: system_heap: Add pagepool support to
+ system heap
+To: John Stultz <john.stultz@linaro.org>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,48 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/25/21 9:19 PM, akpm@linux-foundation.org wrote:
-> The mm-of-the-moment snapshot 2021-01-25-21-18 has been uploaded to
-> 
->    https://www.ozlabs.org/~akpm/mmotm/
-> 
-> mmotm-readme.txt says
-> 
-> README for mm-of-the-moment:
-> 
-> https://www.ozlabs.org/~akpm/mmotm/
-> 
-> This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
-> more than once a week.
-> 
-> You will need quilt to apply these patches to the latest Linus release (5.x
-> or 5.x-rcY).  The series file is in broken-out.tar.gz and is duplicated in
-> https://ozlabs.org/~akpm/mmotm/series
-> 
-> The file broken-out.tar.gz contains two datestamp files: .DATE and
-> .DATE-yyyy-mm-dd-hh-mm-ss.  Both contain the string yyyy-mm-dd-hh-mm-ss,
-> followed by the base kernel version against which this patch series is to
-> be applied.
+On Fri, Jan 22, 2021 at 7:47 PM John Stultz <john.stultz@linaro.org> wrote:
+> +static int system_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
+> +{
+> +       void *addr = vmap(pages, num, VM_MAP, pgprot);
+> +
+> +       if (!addr)
+> +               return -ENOMEM;
+> +       memset(addr, 0, PAGE_SIZE * num);
+> +       vunmap(addr);
+> +       return 0;
+> +}
 
-on x86_64:
+I thought that vmap/vunmap are expensive, and I am wondering if
+there's a faster way that avoids vmap.
 
-when CONFIG_COMPILE_TEST=y:
+How about lifting this code from lib/iov_iter.c
+static void memzero_page(struct page *page, size_t offset, size_t len)
+{
+        char *addr = kmap_atomic(page);
+        memset(addr + offset, 0, len);
+        kunmap_atomic(addr);
+}
 
-WARNING: unmet direct dependencies detected for DRM_I915_WERROR
-  Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=y]
-  Selected by [m]:
-  - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && EXPERT [=y] && DRM_I915 [=m]
+Or what about lifting that code from the old ion_cma_heap.c
 
+if (PageHighMem(pages)) {
+        unsigned long nr_clear_pages = nr_pages;
+        struct page *page = pages;
 
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+        while (nr_clear_pages > 0) {
+                void *vaddr = kmap_atomic(page);
 
+                memset(vaddr, 0, PAGE_SIZE);
+                kunmap_atomic(vaddr);
+                page++;
+                nr_clear_pages--;
+        }
+} else {
+        memset(page_address(pages), 0, size);
+}
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
