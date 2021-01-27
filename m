@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649C1305AA9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D888305AA3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E036E2D8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5028D6E19B;
 	Wed, 27 Jan 2021 12:03:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C516E039
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F8B6E19B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:11 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 798D2AE14;
+ by mx2.suse.de (Postfix) with ESMTP id C6778AD2B;
  Wed, 27 Jan 2021 12:03:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	daniel@ffwll.ch
-Subject: [PATCH 08/12] drm/ast: Map HW cursor BOs permanently
-Date: Wed, 27 Jan 2021 13:02:58 +0100
-Message-Id: <20210127120302.13532-9-tzimmermann@suse.de>
+Subject: [PATCH 09/12] drm/ast: Introduce dedicated cursor-plane state
+Date: Wed, 27 Jan 2021 13:02:59 +0100
+Message-Id: <20210127120302.13532-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210127120302.13532-1-tzimmermann@suse.de>
 References: <20210127120302.13532-1-tzimmermann@suse.de>
@@ -44,146 +44,77 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BOs of the hardware cursor are now mapped permanently while the
-cursor plane is being used. This reduces the CPU overhead of the cursor
-plane's atomic_update function.
-
-The change also resolves a problem with the vmap call in the commit tail.
-The vmap implementation could acquire the DMA reservation lock on the
-BO, which is not allowed that late in the atomic update. Removing the
-vmap call from atomic_update fixes the issue.
+The cursor-plane state struct ast_cursor_plane_state will store the
+involved cursor source BO's mapping into kernel address space.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_drv.h  |  1 +
- drivers/gpu/drm/ast/ast_mode.c | 32 +++++++++++++++-----------------
- 2 files changed, 16 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 40 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 4117c49096d4..22193cfde255 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -107,6 +107,7 @@ struct ast_cursor_plane {
- 
- 	struct {
- 		struct drm_gem_vram_object *gbo;
-+		struct dma_buf_map map;
- 	} hwc[AST_DEFAULT_HWC_NUM];
- 
- 	unsigned int next_hwc_index;
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index dfff30e3d411..b9b9badcee00 100644
+index b9b9badcee00..199ad9f9c932 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -759,10 +759,10 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
- {
- 	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
- 	struct drm_framebuffer *fb = new_state->fb;
--	struct drm_gem_vram_object *dst_gbo =
--		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].gbo;
-+	struct dma_buf_map dst_map =
-+		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].map;
- 	struct drm_gem_vram_object *src_gbo;
--	struct dma_buf_map src_map, dst_map;
-+	struct dma_buf_map src_map;
- 	void __iomem *dst;
- 	void *src;
- 	int ret;
-@@ -777,22 +777,14 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plane *plane,
- 		return ret;
- 	src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
- 
--	ret = drm_gem_vram_vmap(dst_gbo, &dst_map);
--	if (ret)
--		goto err_drm_gem_vram_vunmap;
- 	dst = dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
- 
- 	/* do data transfer to cursor BO */
- 	ast_update_cursor_image(dst, src, fb->width, fb->height);
- 
--	drm_gem_vram_vunmap(dst_gbo, &dst_map);
- 	drm_gem_vram_vunmap(src_gbo, &src_map);
- 
- 	return 0;
--
--err_drm_gem_vram_vunmap:
--	drm_gem_vram_vunmap(src_gbo, &src_map);
--	return ret;
+@@ -749,6 +749,16 @@ static void ast_set_cursor_enabled(struct ast_private *ast, bool enabled)
+ 	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, mask, vgacrcb);
  }
  
- static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
-@@ -841,9 +833,9 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 	u8 x_offset, y_offset;
- 	u8 __iomem *dst;
- 	u8 __iomem *sig;
--	int ret;
++struct ast_cursor_plane_state {
++	struct drm_plane_state base;
++};
++
++static inline struct ast_cursor_plane_state *
++to_ast_cursor_plane_state(struct drm_plane_state *state)
++{
++	return container_of(state, struct ast_cursor_plane_state, base);
++}
++
+ static const uint32_t ast_cursor_plane_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ };
+@@ -913,13 +923,39 @@ static void ast_cursor_plane_destroy(struct drm_plane *plane)
+ 	drm_plane_cleanup(plane);
+ }
  
- 	gbo = ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].gbo;
-+	map = ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].map;
++static struct drm_plane_state *
++ast_cursor_plane_atomic_duplicate_state(struct drm_plane *plane)
++{
++	struct ast_cursor_plane_state *new_ast_state;
++	struct drm_device *dev = plane->dev;
++
++	if (drm_WARN_ON(dev, !plane->state))
++		return NULL;
++
++	new_ast_state = kmalloc(sizeof(*new_ast_state), GFP_KERNEL);
++	if (!new_ast_state)
++		return NULL;
++	__drm_atomic_helper_plane_duplicate_state(plane, &new_ast_state->base);
++
++	return &new_ast_state->base;
++}
++
++static void ast_cursor_plane_atomic_destroy_state(struct drm_plane *plane,
++						  struct drm_plane_state *state)
++{
++	struct ast_cursor_plane_state *ast_state = to_ast_cursor_plane_state(state);
++
++	__drm_atomic_helper_plane_destroy_state(&ast_state->base);
++	kfree(ast_state);
++}
++
+ static const struct drm_plane_funcs ast_cursor_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = ast_cursor_plane_destroy,
+ 	.reset = drm_atomic_helper_plane_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
++	.atomic_duplicate_state = ast_cursor_plane_atomic_duplicate_state,
++	.atomic_destroy_state = ast_cursor_plane_atomic_destroy_state,
+ };
  
- 	if (state->fb != old_state->fb) {
- 		/* A new cursor image was installed. */
-@@ -856,17 +848,12 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 		ast_cursor_plane->next_hwc_index %= ARRAY_SIZE(ast_cursor_plane->hwc);
- 	}
- 
--	ret = drm_gem_vram_vmap(gbo, &map);
--	if (drm_WARN_ONCE(dev, ret, "drm_gem_vram_vmap() failed, ret=%d\n", ret))
--		return;
- 	dst = map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
- 
- 	sig = dst + AST_HWC_SIZE;
- 	writel(state->crtc_x, sig + AST_HWC_SIGNATURE_X);
- 	writel(state->crtc_y, sig + AST_HWC_SIGNATURE_Y);
- 
--	drm_gem_vram_vunmap(gbo, &map);
--
- 	offset_x = AST_MAX_HWC_WIDTH - fb->width;
- 	offset_y = AST_MAX_HWC_HEIGHT - fb->height;
- 
-@@ -913,9 +900,12 @@ static void ast_cursor_plane_destroy(struct drm_plane *plane)
- 	struct ast_cursor_plane *ast_cursor_plane = to_ast_cursor_plane(plane);
- 	size_t i;
- 	struct drm_gem_vram_object *gbo;
-+	struct dma_buf_map map;
- 
- 	for (i = 0; i < ARRAY_SIZE(ast_cursor_plane->hwc); ++i) {
- 		gbo = ast_cursor_plane->hwc[i].gbo;
-+		map = ast_cursor_plane->hwc[i].map;
-+		drm_gem_vram_vunmap(gbo, &map);
- 		drm_gem_vram_unpin(gbo);
- 		drm_gem_vram_put(gbo);
- 	}
-@@ -939,6 +929,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 	struct drm_plane *cursor_plane = &ast_cursor_plane->base;
- 	size_t size, i;
- 	struct drm_gem_vram_object *gbo;
-+	struct dma_buf_map map;
- 	int ret;
- 
- 	/*
-@@ -958,7 +949,11 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 					    DRM_GEM_VRAM_PL_FLAG_TOPDOWN);
- 		if (ret)
- 			goto err_drm_gem_vram_put;
-+		ret = drm_gem_vram_vmap(gbo, &map);
-+		if (ret)
-+			goto err_drm_gem_vram_unpin;
- 		ast_cursor_plane->hwc[i].gbo = gbo;
-+		ast_cursor_plane->hwc[i].map = map;
- 	}
- 
- 	/*
-@@ -983,6 +978,9 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 	while (i) {
- 		--i;
- 		gbo = ast_cursor_plane->hwc[i].gbo;
-+		map = ast_cursor_plane->hwc[i].map;
-+		drm_gem_vram_vunmap(gbo, &map);
-+err_drm_gem_vram_unpin:
- 		drm_gem_vram_unpin(gbo);
- err_drm_gem_vram_put:
- 		drm_gem_vram_put(gbo);
+ static int ast_cursor_plane_init(struct ast_private *ast)
 -- 
 2.30.0
 
