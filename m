@@ -1,35 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F20930610D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 17:31:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AD7306295
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 18:51:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6364D6E848;
-	Wed, 27 Jan 2021 16:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC3D06E85F;
+	Wed, 27 Jan 2021 17:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 73BCB6E848
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 16:31:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A58931B;
- Wed, 27 Jan 2021 08:30:59 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FB343F66E;
- Wed, 27 Jan 2021 08:30:58 -0800 (PST)
-Subject: Re: [PATCH] drm/komeda: Fix bit check to import to value of proper
- type
-To: carsten.haitzler@foss.arm.com, dri-devel@lists.freedesktop.org
-References: <20210127123430.301752-1-carsten.haitzler@foss.arm.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <87570e8a-45f3-e2a7-ce17-fe521aa9d2f6@arm.com>
-Date: Wed, 27 Jan 2021 16:31:04 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+X-Greylist: delayed 477 seconds by postgrey-1.36 at gabe;
+ Wed, 27 Jan 2021 17:50:59 UTC
+Received: from smtprelay.hostedemail.com (smtprelay0009.hostedemail.com
+ [216.40.44.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4AFE6E875
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 17:50:59 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 0675918020B02
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 17:43:03 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay07.hostedemail.com (Postfix) with ESMTP id 5D03B181D3026;
+ Wed, 27 Jan 2021 17:43:00 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:967:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2525:2553:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4823:5007:6742:7514:7652:9025:10004:10400:10848:11232:11658:11783:11914:12043:12297:12555:12663:12740:12895:12986:13069:13311:13357:13439:13846:13894:14181:14659:14721:14777:21080:21433:21627:21819:30054:30083:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: crowd66_500673e27598
+X-Filterd-Recvd-Size: 2238
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf15.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 27 Jan 2021 17:42:57 +0000 (UTC)
+Message-ID: <3f7b25d21c10a4dc7da5d507d6d6a6a5bc93447b.camel@perches.com>
+Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
+From: Joe Perches <joe@perches.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Greg KH
+ <gregkh@linuxfoundation.org>
+Date: Wed, 27 Jan 2021 09:42:56 -0800
+In-Reply-To: <20210127144946.GF2696@kadam>
+References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
+ <YBFv+12xfsoxacDb@kroah.com> <20210127220809.000026fb@gmail.com>
+ <YBF08Xf7qaZx3YZ1@kroah.com> <20210127221708.00002568@gmail.com>
+ <YBF30EEUkhEMY5ti@kroah.com> <20210127144946.GF2696@kadam>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <20210127123430.301752-1-carsten.haitzler@foss.arm.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,188 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, carlis <zhangxuezhi3@gmail.com>,
+ Andy Whitcroft <apw@canonical.com>, colin.king@canonical.com,
+ zhangxuezhi1@yulong.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-NIT: This is the second version of this patch so should have "[PATCH 
-v2]" in the subject.
+On Wed, 2021-01-27 at 17:49 +0300, Dan Carpenter wrote:
+> On Wed, Jan 27, 2021 at 03:25:20PM +0100, Greg KH wrote:
 
-On 27/01/2021 12:34, carsten.haitzler@foss.arm.com wrote:
-> From: Carsten Haitzler <carsten.haitzler@arm.com>
-> 
-> Another issue found by KASAN. The bit finding is buried inside the
-> dp_for_each_set_bit() macro (that passes on to for_each_set_bit() that
-> calls the bit stuff. These bit functions want an unsigned long pointer
-> as input and just dumbly casting leads to out-of-bounds accesses.
-> This fixes that.
-> 
-> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
-> ---
->   .../gpu/drm/arm/display/include/malidp_utils.h   | 10 ++++++++--
->   .../gpu/drm/arm/display/komeda/komeda_pipeline.c | 16 +++++++++++-----
->   .../arm/display/komeda/komeda_pipeline_state.c   | 13 ++++++++-----
->   3 files changed, 27 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/include/malidp_utils.h b/drivers/gpu/drm/arm/display/include/malidp_utils.h
-> index 3bc383d5bf73..8d289cd0b5b8 100644
-> --- a/drivers/gpu/drm/arm/display/include/malidp_utils.h
-> +++ b/drivers/gpu/drm/arm/display/include/malidp_utils.h
-> @@ -12,9 +12,15 @@
->   
->   #define has_bit(nr, mask)	(BIT(nr) & (mask))
->   #define has_bits(bits, mask)	(((bits) & (mask)) == (bits))
-> -
-> +/*
-> +#define dp_for_each_set_bit(bit, mask) \
-> +	for_each_set_bit((bit), (&((unsigned long)(mask))), sizeof(mask) * 8)
-> +#define dp_for_each_set_bit(bit, mask) \
-> +	unsigned long __local_mask = mask; \
-> +	for_each_set_bit((bit), (&__local_mask), sizeof(mask) * 8)
-> +*/
+> > Andy and Joe, there's something wrong here that is missing the fact that
+> > a line is being indented with spaces and not tabs in the patch
+> > at https://lore.kernel.org/r/1611754972-151016-1-git-send-email-zhangxu=
+ezhi3@gmail.com
+> > =
 
-Commented out code left in - please remove it.
+> > Any ideas what broke?
+> =
 
->   #define dp_for_each_set_bit(bit, mask) \
-> -	for_each_set_bit((bit), ((unsigned long *)&(mask)), sizeof(mask) * 8)
-> +	for_each_set_bit((bit), &(mask), sizeof(mask) * 8)
+> =A0=A0=A0=A0/*Tearing Effect Line On*/
+> =
 
-I'm not really sure if there's much point in this macro now. In practice 
-the uses below are now getting the wrong length (because sizeof(mask) == 
-sizeof(unsigned long) ) but we actually know the size is smaller in most 
-cases, so we could pass a more appropriate value in.
+> Comments are the exception to the "no spaces at the start of a line"
+> rule.  I was expecting that the kbuild-bot would send a Smatch warning
+> for inconsistent indenting, but comments are not counted there either.
+> =
 
-Other than that the changes below look correct to me.
+> I'm sort of surprised that we don't have checkpatch rule about the
+> missing space characters.  It should be: "/* Tearing Effect Line On */".
 
-Steve
+You could always write your own rule...
 
->   
->   #define dp_wait_cond(__cond, __tries, __min_range, __max_range)	\
->   ({							\
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> index 719a79728e24..a85c8a806334 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> @@ -46,8 +46,9 @@ void komeda_pipeline_destroy(struct komeda_dev *mdev,
->   {
->   	struct komeda_component *c;
->   	int i;
-> +	unsigned long avail_comps = pipe->avail_comps;
->   
-> -	dp_for_each_set_bit(i, pipe->avail_comps) {
-> +	dp_for_each_set_bit(i, avail_comps) {
->   		c = komeda_pipeline_get_component(pipe, i);
->   		komeda_component_destroy(mdev, c);
->   	}
-> @@ -247,6 +248,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
->   {
->   	struct komeda_component *c;
->   	int id;
-> +	unsigned long avail_comps = pipe->avail_comps;
->   
->   	DRM_INFO("Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
->   		 pipe->id, pipe->n_layers, pipe->n_scalers,
-> @@ -258,7 +260,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
->   		 pipe->of_output_links[1] ?
->   		 pipe->of_output_links[1]->full_name : "none");
->   
-> -	dp_for_each_set_bit(id, pipe->avail_comps) {
-> +	dp_for_each_set_bit(id, avail_comps) {
->   		c = komeda_pipeline_get_component(pipe, id);
->   
->   		komeda_component_dump(c);
-> @@ -270,8 +272,9 @@ static void komeda_component_verify_inputs(struct komeda_component *c)
->   	struct komeda_pipeline *pipe = c->pipeline;
->   	struct komeda_component *input;
->   	int id;
-> +	unsigned long supported_inputs = c->supported_inputs;
->   
-> -	dp_for_each_set_bit(id, c->supported_inputs) {
-> +	dp_for_each_set_bit(id, supported_inputs) {
->   		input = komeda_pipeline_get_component(pipe, id);
->   		if (!input) {
->   			c->supported_inputs &= ~(BIT(id));
-> @@ -302,8 +305,9 @@ static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
->   	struct komeda_component *c;
->   	struct komeda_layer *layer;
->   	int i, id;
-> +	unsigned long avail_comps = pipe->avail_comps;
->   
-> -	dp_for_each_set_bit(id, pipe->avail_comps) {
-> +	dp_for_each_set_bit(id, avail_comps) {
->   		c = komeda_pipeline_get_component(pipe, id);
->   		komeda_component_verify_inputs(c);
->   	}
-> @@ -355,13 +359,15 @@ void komeda_pipeline_dump_register(struct komeda_pipeline *pipe,
->   {
->   	struct komeda_component *c;
->   	u32 id;
-> +	unsigned long avail_comps;
->   
->   	seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
->   
->   	if (pipe->funcs && pipe->funcs->dump_register)
->   		pipe->funcs->dump_register(pipe, sf);
->   
-> -	dp_for_each_set_bit(id, pipe->avail_comps) {
-> +	avail_comps = pipe->avail_comps;
-> +	dp_for_each_set_bit(id, avail_comps) {
->   		c = komeda_pipeline_get_component(pipe, id);
->   
->   		seq_printf(sf, "\n------%s------\n", c->name);
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> index e8b1e15312d8..7640dae7f4bf 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-> @@ -1232,7 +1232,8 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
->   	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
->   	struct komeda_component_state *c_st;
->   	struct komeda_component *c;
-> -	u32 disabling_comps, id;
-> +	u32 id;
-> +	unsigned long disabling_comps;
->   
->   	WARN_ON(!old);
->   
-> @@ -1287,7 +1288,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
->   	struct komeda_pipeline_state *old;
->   	struct komeda_component *c;
->   	struct komeda_component_state *c_st;
-> -	u32 id, disabling_comps = 0;
-> +	u32 id;
-> +	unsigned long disabling_comps;
->   
->   	old = komeda_pipeline_get_old_state(pipe, old_state);
->   
-> @@ -1297,7 +1299,7 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
->   		disabling_comps = old->active_comps &
->   				  pipe->standalone_disabled_comps;
->   
-> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
-> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
->   			 pipe->id, old->active_comps, disabling_comps);
->   
->   	dp_for_each_set_bit(id, disabling_comps) {
-> @@ -1331,13 +1333,14 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
->   	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
->   	struct komeda_pipeline_state *old;
->   	struct komeda_component *c;
-> -	u32 id, changed_comps = 0;
-> +	u32 id;
-> +	unsigned long changed_comps;
->   
->   	old = komeda_pipeline_get_old_state(pipe, old_state);
->   
->   	changed_comps = new->active_comps | old->active_comps;
->   
-> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
-> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
->   			 pipe->id, new->active_comps, changed_comps);
->   
->   	dp_for_each_set_bit(id, changed_comps) {
-> 
+checkpatch doesn't care if a comment looks like
+
+    /********************/
+or
+    /*foobarfoobarfoobar*/
+
 
 _______________________________________________
 dri-devel mailing list
