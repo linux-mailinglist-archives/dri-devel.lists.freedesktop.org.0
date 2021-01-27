@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5AD3055C6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2CB3055B8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA116E7F1;
-	Wed, 27 Jan 2021 08:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A196E5D5;
+	Wed, 27 Jan 2021 08:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85B036E4C9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 01:51:30 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id d4so162543plh.5
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 17:51:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E76E6E513
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 04:54:31 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id jx18so575523pjb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 20:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=3yvptWfKORCEVwYy1ACTtiGifr+3cTipupRyRjthl2g=;
- b=W3oELcA9iI1ZLJQf2lRy3K5z1tVR/fGJ6GASMr9lo87icBB8J8WcIyHnigXabQnMTh
- DNe9drkZ9T1P6DYkqvsF5kMQiNMmtRRfhKvjBuWfLJA7AgdoohRPZNW4zzJy47IUOiyc
- SJqXZ2bQeybF2XHiEGZuFC7+WP1PrEJpRLPCJNIRgBQQqxLD9QVJAfbKGDuD5h1f7G8r
- Q1XSQg2XbwMUauHVq+K2soVh6soXod/I3NTwh6OObO0KO6TxqpsZeywgmV4nNiFrtKPH
- 5UC+VdH00MsFTGst9EwWAroDJX41Sxmb9S6fm/0wweL0gdLoIyANlEsuA8iGHawAbDoK
- Hf9Q==
+ bh=r9/iygGEsbCXV7twHQtjrSpr12PzDM9c+Fh0z8xYuMw=;
+ b=OztU7czy87n2d9gUaGyLG6kNOv+55ojXybNmqvW09YTEfhNZFSwkBidqBAcnqUBEHx
+ 5ik+VJOtGheuqOho7F768S0CkhayUtcioUenKzwaeN8rwgq3aeWd7Kf56sL2UOH3sVaU
+ qjyMe9vw+Y/3V9tZF3dYSy1+IJQbfvfbZaR0o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=3yvptWfKORCEVwYy1ACTtiGifr+3cTipupRyRjthl2g=;
- b=XekVIGJdvo3w1XzuqV7ipyRkdL7EnbTzUr+TaL/dznVZyN6zab6NoBY+WNG0OyCvhE
- n4830HpnpwM2E8jgR8J2tj+ScJMAQHn81aSmPZhnb5bVEWvaiJoHJgI4TKJLEVYttiOl
- fl9Focl/5m+QdHKCWPxI2hYfpTOfTwk/N9asQZHN6VVVFGsVRXfgcYeQzgXGwx8qxQG4
- dz4MImpDnkZ0HPFPyqmJYiRpyvQKV1LtVwB2+w3HRXLnGeP91Mz/QqEnlVqUnnqcJ6vJ
- QZCCziRldn463MUQmU0Fo6s1Cijd1rOYhRA6sYG8Cl5RePSlK6B8jXZuXJZw1iIBewOe
- mwGA==
-X-Gm-Message-State: AOAM5306UriReLGJJTGdmlHZQDlxW3i5n0Urpy+b7hwSTHvcpzlBIfo4
- uwfEmEYrGOs7XZAMevQTnkI=
-X-Google-Smtp-Source: ABdhPJytgnP3XVHxsTdmA0Cu8bWPloY+2QADc/bc0RiANnTwjheceTjWakSGLieRfhC/iuWuQkgHEA==
-X-Received: by 2002:a17:902:8ec7:b029:e0:a02:3d26 with SMTP id
- x7-20020a1709028ec7b02900e00a023d26mr8724235plo.24.1611712290234; 
- Tue, 26 Jan 2021 17:51:30 -0800 (PST)
-Received: from localhost ([178.236.46.205])
- by smtp.gmail.com with ESMTPSA id p7sm325105pfn.52.2021.01.26.17.51.29
+ bh=r9/iygGEsbCXV7twHQtjrSpr12PzDM9c+Fh0z8xYuMw=;
+ b=WxR3ouMiWe7PSO+7qv+E2R0/MSUVriInlbRqoYw6ZxaX9Jh5ZaiburA59GlX+U3Nqq
+ mhFRcnJpTyZXAtpm/SKBCvuHW5NrIZRjXwq/lFTHmsycxnaFcbi/Ps+m7Y3CZbyFGVlY
+ PCsKYdg/HTgfMPJltbycVgjOdLc0DmA2dNZ2kU+0q6xrQ8/rnhvYi8t4DgeeoNheQYsA
+ Eso7ZQTx8KnJ1HQv9TrdEHFsCPQEiVHklKCT//0XpndyHeiWTJf9SavK4/xojz97eGye
+ u9wMDxJih80lxGEyfQe+3bpvEgPTcF+veBQHDAuP4FiZCGtDMQ4q1QfakpRm5UOFrazi
+ EuRQ==
+X-Gm-Message-State: AOAM530ELEVP9XSmKn0sX2OZ3Mt5+DgdUxTFJlcZKwvnwpT5C80wsYEZ
+ pLrgZDeIU3/Bqf/fFHVfyyIVgA==
+X-Google-Smtp-Source: ABdhPJw1C1zpxPU5435J6VcpDvDLiXPINRvaNkHHQYv/g9eHyTnv61bvxwVHrMY7s3JauV7WzUR0Bw==
+X-Received: by 2002:a17:902:d4c3:b029:de:84a5:aaf2 with SMTP id
+ o3-20020a170902d4c3b02900de84a5aaf2mr9326915plg.80.1611723270673; 
+ Tue, 26 Jan 2021 20:54:30 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:e0a5:d2fc:aaad:1e4a])
+ by smtp.gmail.com with ESMTPSA id a141sm684484pfa.189.2021.01.26.20.54.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 17:51:29 -0800 (PST)
-From: menglong8.dong@gmail.com
-X-Google-Original-From: dong.menglong@zte.com.cn
-To: tomba@kernel.org,
-	sebastian.reichel@collabora.com
-Subject: [PATCH v2] drm/omap: dsi: fix unreachable code in dsi_vc_send_short()
-Date: Tue, 26 Jan 2021 17:51:17 -0800
-Message-Id: <20210127015117.23267-1-dong.menglong@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Tue, 26 Jan 2021 20:54:29 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v10 0/9] drm/mediatek: add support for mediatek SOC MT8183
+Date: Wed, 27 Jan 2021 12:54:13 +0800
+Message-Id: <20210127045422.2418917-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 27 Jan 2021 08:29:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,54 +65,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Menglong Dong <dong.menglong@zte.com.cn>, airlied@linux.ie,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Menglong Dong <dong.menglong@zte.com.cn>
+This series is based on kernel/git/chunkuang.hu/linux.git mediatek-drm-next
+The series is tested on a mt8183 krane device.
 
-The 'r' in dsi_vc_send_short() is of type 'unsigned int', so the
-'r < 0' can't be true.
+Change since v9
+- change several function to rebase to mediatek-drm-next
 
-Fix this by introducing a 'err' of type 'int' insteaded.
+Change since v8
+- fix some review comment in v8
+- separate gamma module for mt8183 has no dither function in gamma
+- enable dither function for 5 or 6 bpc panel display
+- separate ddp mutex patch from the whole Soc patch
 
-Fixes: 1ed6253856cb ("drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg")
+Change since v7
+- add dt-binding for mt8183 display
+- base mmsys patch
+https://patchwork.kernel.org/project/linux-mediatek/cover/1607506379-10998-1-git-send-email-yongqiang.niu@mediatek.com/
+- base dts patch
+https://patchwork.kernel.org/project/linux-mediatek/cover/20201127104930.1981497-1-enric.balletbo@collabora.com/
+- add mt8183 function call for setting the routing registers
+- add RDMA fifo size error handle
 
-Signed-off-by: Menglong Dong <dong.menglong@zte.com.cn>
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
-v2:
-- remove word wrap in 'Fixes' tag
----
- drivers/gpu/drm/omapdrm/dss/dsi.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Change since v6
+- move ddp component define into mtk_mmsys.h
+- add mmsys private data to support different ic path connection
+- add mt8183-mmsys.c to support 8183 path connection
+- fix reviewed issue in v6
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 8e11612f5fe1..febcc87ddfe1 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -2149,11 +2149,12 @@ static int dsi_vc_send_short(struct dsi_data *dsi, int vc,
- 			     const struct mipi_dsi_msg *msg)
- {
- 	struct mipi_dsi_packet pkt;
-+	int err;
- 	u32 r;
- 
--	r = mipi_dsi_create_packet(&pkt, msg);
--	if (r < 0)
--		return r;
-+	err = mipi_dsi_create_packet(&pkt, msg);
-+	if (err)
-+		return err;
- 
- 	WARN_ON(!dsi_bus_is_locked(dsi));
- 
+Change since v5
+- fix reviewed issue in v5
+base https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+
+Change since v4
+- fix reviewed issue in v4
+
+Change since v3
+- fix reviewed issue in v3
+- fix type error in v3
+- fix conflict with iommu patch
+
+Change since v2
+- fix reviewed issue in v2
+- add mutex node into dts file
+
+Changes since v1:
+- fix reviewed issue in v1
+- add dts for mt8183 display nodes
+- adjust display clock control flow in patch 22
+- add vmap support for mediatek drm in patch 23
+- fix page offset issue for mmap function in patch 24
+- enable allow_fb_modifiers for mediatek drm in patch 25
+
+
+Hsin-Yi Wang (1):
+  drm/mediatek: generalize mtk_dither_set() function
+
+Yongqiang Niu (8):
+  arm64: dts: mt8183: rename rdma fifo size
+  arm64: dts: mt8183: refine gamma compatible name
+  drm/mediatek: add RDMA fifo size error handle
+  drm/mediatek: separate gamma module
+  drm/mediatek: add has_dither private data for gamma
+  drm/mediatek: enable dither function
+  drm/mediatek: add DDP support for MT8183
+  drm/mediatek: add support for mediatek SOC MT8183
+
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi    |   7 +-
+ drivers/gpu/drm/mediatek/Makefile           |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  14 ++
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 195 ++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  18 ++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |  10 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 131 +++++++------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  49 ++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c            |  50 +++++
+ 10 files changed, 402 insertions(+), 74 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+
 -- 
-2.25.1
+2.30.0.280.ga3ce27912f-goog
 
 _______________________________________________
 dri-devel mailing list
