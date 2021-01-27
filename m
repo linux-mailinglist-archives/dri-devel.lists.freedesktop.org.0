@@ -2,31 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14886305AAF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDD5305AAC
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76A5A6E5CF;
-	Wed, 27 Jan 2021 12:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7736E5C8;
+	Wed, 27 Jan 2021 12:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AEC96E039
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:12 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B270CAE1F;
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB7C06E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:03:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1227220773;
  Wed, 27 Jan 2021 12:03:10 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com,
-	daniel@ffwll.ch
-Subject: [PATCH 12/12] drm/ast: Store each HW cursor offset after pinning the
- rsp BO
-Date: Wed, 27 Jan 2021 13:03:02 +0100
-Message-Id: <20210127120302.13532-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210127120302.13532-1-tzimmermann@suse.de>
-References: <20210127120302.13532-1-tzimmermann@suse.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611748991;
+ bh=s9FyWRqQBYLlzUUdBkv3FZQxudbP70KKsuwRkeHWHEI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M8giB4ORvL3mx55LaDcj1/tIi+BhFJb4mO4m9pyBQqvZIwgP2vqkgkDOQ4I1vn8HH
+ U8aP648RT1pUgCmU92gSCKiLyN0XGWtBCyfjACVz8RiJzgpFsPQ6OWW77wlJfo28NM
+ bwp9LYhhA6QMhnElnHGF3hN0OdPBasyFUrm9T7kg=
+Date: Wed, 27 Jan 2021 13:03:08 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
+Message-ID: <YBFWfOmndoPckN1A@kroah.com>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,101 +43,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
+ linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
+ dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As HW cursor BOs never move, we can store the offset in VRAM in the
-cursor-plane's HWC state. This removes the last possible source of
-runtime errors from atomic_update.
+On Tue, Jan 26, 2021 at 05:58:34PM +0100, Uwe Kleine-K=F6nig wrote:
+> All amba drivers return 0 in their remove callback. Together with the
+> driver core ignoring the return value anyhow, it doesn't make sense to
+> return a value here.
+> =
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_drv.h  |  1 +
- drivers/gpu/drm/ast/ast_mode.c | 19 +++++++++++--------
- 2 files changed, 12 insertions(+), 8 deletions(-)
+> Change the remove prototype to return void, which makes it explicit that
+> returning an error value doesn't work as expected. This simplifies changi=
+ng
+> the core remove callback to return void, too.
+> =
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 22193cfde255..e82ab8628770 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -108,6 +108,7 @@ struct ast_cursor_plane {
- 	struct {
- 		struct drm_gem_vram_object *gbo;
- 		struct dma_buf_map map;
-+		u64 off;
- 	} hwc[AST_DEFAULT_HWC_NUM];
- 
- 	unsigned int next_hwc_index;
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 716ed7025b41..6388e6364e8e 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -853,14 +853,12 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct ast_cursor_plane_state *ast_state = to_ast_cursor_plane_state(state);
- 	struct drm_framebuffer *fb = state->fb;
- 	struct ast_private *ast = to_ast_private(plane->dev);
--	struct drm_device *dev = &ast->base;
--	struct drm_gem_vram_object *dst_gbo =
--		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].gbo;
- 	struct dma_buf_map dst_map =
- 		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].map;
-+	u64 dst_off =
-+		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].off;
- 	struct dma_buf_map src_map = ast_state->map;
- 	unsigned int offset_x, offset_y;
--	s64 off;
- 	u16 x, y;
- 	u8 x_offset, y_offset;
- 	u8 __iomem *dst;
-@@ -879,10 +877,7 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 	ast_update_cursor_image(dst, src, fb->width, fb->height);
- 
- 	if (state->fb != old_state->fb) {
--		off = drm_gem_vram_offset(dst_gbo);
--		if (drm_WARN_ON_ONCE(dev, off < 0))
--			return; /* Bug: we didn't pin the cursor HW BO to VRAM. */
--		ast_set_cursor_base(ast, off);
-+		ast_set_cursor_base(ast, dst_off);
- 
- 		++ast_cursor_plane->next_hwc_index;
- 		ast_cursor_plane->next_hwc_index %= ARRAY_SIZE(ast_cursor_plane->hwc);
-@@ -998,6 +993,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 	struct drm_gem_vram_object *gbo;
- 	struct dma_buf_map map;
- 	int ret;
-+	s64 off;
- 
- 	/*
- 	 * Allocate backing storage for cursors. The BOs are permanently
-@@ -1019,8 +1015,14 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 		ret = drm_gem_vram_vmap(gbo, &map);
- 		if (ret)
- 			goto err_drm_gem_vram_unpin;
-+		off = drm_gem_vram_offset(gbo);
-+		if (off < 0) {
-+			ret = off;
-+			goto err_drm_gem_vram_vunmap;
-+		}
- 		ast_cursor_plane->hwc[i].gbo = gbo;
- 		ast_cursor_plane->hwc[i].map = map;
-+		ast_cursor_plane->hwc[i].off = off;
- 	}
- 
- 	/*
-@@ -1046,6 +1048,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 		--i;
- 		gbo = ast_cursor_plane->hwc[i].gbo;
- 		map = ast_cursor_plane->hwc[i].map;
-+err_drm_gem_vram_vunmap:
- 		drm_gem_vram_vunmap(gbo, &map);
- err_drm_gem_vram_unpin:
- 		drm_gem_vram_unpin(gbo);
--- 
-2.30.0
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
