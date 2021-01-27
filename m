@@ -2,55 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860FE305B34
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69AC305B35
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:25:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579BD6E19B;
-	Wed, 27 Jan 2021 12:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A786F6E101;
+	Wed, 27 Jan 2021 12:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A19166E19B
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611750264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ESk4erADjhVygeBOZ67K4CNLftTWe14rVACW2LGonko=;
- b=bMTZXhTTCfoIRCgd/jdHAbKvEusNn7IuZqxdC9v4CL+Qa4JFHbH4y8J6b/yg113Caly5QO
- IUlKqNDZHUmhYZa1NHIZgcBcuRg4Tfe8/miVHDd/sNSpuaeRHutZ5DFg3ICdzhA6mjWhb3
- 5HlMfgSazYWrhrHNXDQL/5eQ0DfelfM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-qzwcez55O3y-wZw4QM2TmA-1; Wed, 27 Jan 2021 07:24:20 -0500
-X-MC-Unique: qzwcez55O3y-wZw4QM2TmA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754479CDA2;
- Wed, 27 Jan 2021 12:24:18 +0000 (UTC)
-Received: from [10.36.114.237] (ovpn-114-237.ams2.redhat.com [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4AC0A60854;
- Wed, 27 Jan 2021 12:24:15 +0000 (UTC)
-Subject: Re: [PATCH v1 2/2] mm: simplify free_highmem_page() and
- free_reserved_page()
-To: Oscar Salvador <osalvador@suse.de>
-References: <20210126182113.19892-1-david@redhat.com>
- <20210126182113.19892-3-david@redhat.com> <20210127115122.GA28728@linux>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <4cbbb828-016b-db98-485b-60239041cc07@redhat.com>
-Date: Wed, 27 Jan 2021 13:24:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEC46E101
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:25:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 336752070E;
+ Wed, 27 Jan 2021 12:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611750310;
+ bh=imd80gPIHbJE8uuSvdkKYNt06yTy9wGgnng4tuLO1bE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PSrfJ2+mqCpTL9w5GZtWEYar7eDEJWbgyU+G6jO/ZATY7Bj4zQm+RDJ6hyn1gdwz2
+ EavnWQI6fK3FMdK1im06stlhsW35tDv3fwGIkQIytV7NsowOc1L1cvot9jKmfa71F8
+ OU8jF+mvh41FerQOm7gCQaG/22YnGRMRuQyKPPoI=
+Date: Wed, 27 Jan 2021 13:25:07 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Carlis <zhangxuezhi3@gmail.com>
+Subject: Re: [PATCH v8] fbtft: add tearing signal detect
+Message-ID: <YBFbo3QEHF9eQBxy@kroah.com>
+References: <1611743206-136112-1-git-send-email-zhangxuezhi3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210127115122.GA28728@linux>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Disposition: inline
+In-Reply-To: <1611743206-136112-1-git-send-email-zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +42,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, Mike Rapoport <rppt@kernel.org>
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27.01.21 12:51, Oscar Salvador wrote:
-> On Tue, Jan 26, 2021 at 07:21:13PM +0100, David Hildenbrand wrote:
->> adjust_managed_page_count() as called by free_reserved_page() properly
->> handles pages in a highmem zone, so we can reuse it for
->> free_highmem_page().
->>
->> We can now get rid of totalhigh_pages_inc() and simplify
->> free_reserved_page().
->>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
->> Cc: Mike Rapoport <rppt@kernel.org>
->> Cc: Oscar Salvador <osalvador@suse.de>
->> Cc: Michal Hocko <mhocko@kernel.org>
->> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Wed, Jan 27, 2021 at 06:26:46PM +0800, Carlis wrote:
+> From: zhangxuezhi <zhangxuezhi1@yulong.com>
 > 
-> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> For st7789v ic,add tearing signal detect to avoid screen tearing
 > 
->> +#define free_highmem_page(page) free_reserved_page(page)
+> Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
+> ---
+> v8: delete a log line
+> ---
+>  drivers/staging/fbtft/fb_st7789v.c | 132 ++++++++++++++++++++++++++++++++++++-
+>  drivers/staging/fbtft/fbtft.h      |   1 +
+>  2 files changed, 132 insertions(+), 1 deletion(-)
 > 
-> Should we place that under #ifdef CONFIG_HIGHMEM to make clear
-> that it is only used on that config?
-> Maybe the #ifdefery ugliness does not pay off.
+> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+> index 3a280cc..de7460c 100644
+> --- a/drivers/staging/fbtft/fb_st7789v.c
+> +++ b/drivers/staging/fbtft/fb_st7789v.c
+> @@ -9,9 +9,12 @@
+>  #include <linux/delay.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mutex.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/completion.h>
+>  #include <linux/module.h>
+>  #include <video/mipi_display.h>
+> -
+> +#include <linux/gpio/consumer.h>
+>  #include "fbtft.h"
+>  
+>  #define DRVNAME "fb_st7789v"
+> @@ -66,6 +69,32 @@ enum st7789v_command {
+>  #define MADCTL_MX BIT(6) /* bitmask for column address order */
+>  #define MADCTL_MY BIT(7) /* bitmask for page address order */
+>  
+> +#define SPI_PANEL_TE_TIMEOUT	400
+> +static struct mutex te_mutex;/*mutex for tearing line*/
+> +static struct completion spi_panel_te;
+> +
+> +static irqreturn_t spi_panel_te_handler(int irq, void *data)
+> +{
+> +	complete(&spi_panel_te);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void set_spi_panel_te_irq_status(struct fbtft_par *par, bool enable)
+> +{
+> +	static int te_irq_count;
+> +
+> +	mutex_lock(&te_mutex);
+> +
+> +	if (enable) {
+> +		if (++te_irq_count == 1)
+> +			enable_irq(gpiod_to_irq(par->gpio.te));
+> +	} else {
+> +		if (--te_irq_count == 0)
+> +			disable_irq(gpiod_to_irq(par->gpio.te));
+> +	}
+> +	mutex_unlock(&te_mutex);
+> +}
+> +
+>  /**
+>   * init_display() - initialize the display controller
+>   *
+> @@ -82,6 +111,33 @@ enum st7789v_command {
+>   */
+>  static int init_display(struct fbtft_par *par)
+>  {
+> +	int rc;
+> +	struct device *dev = par->info->device;
+> +
+> +	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
+> +	if (IS_ERR(par->gpio.te)) {
+> +		rc = PTR_ERR(par->gpio.te);
+> +		pr_err("Failed to request te gpio: %d\n", rc);
 
-Yeah, most probably not worth it.
+You are a driver, always use dev_* calls, not pr_*.
 
--- 
-Thanks,
+This should be dev_err().
 
-David / dhildenb
+same for other pr_ functions you add in this patch.
 
+Also, look at other commits for this file and make your subject: line
+match them (i.e. you forgot "staging: ")
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
