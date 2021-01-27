@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2DB304F22
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 03:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFD530524C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 06:46:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208086E4DE;
-	Wed, 27 Jan 2021 02:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0576E519;
+	Wed, 27 Jan 2021 05:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35DC26E4DE
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 02:11:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 05E0364D95
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 02:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611713491;
- bh=8q6zRds6XtZGZ/3m2bkHJ5197vMZpL0qcrw+AjD5wjs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dn+vQL19OaEnwdTWv1DVIM/5BbI9JGGNgn58upjaUC/bngve97zLAY2J8JceOH7f9
- YSWBSkpnhV02IFOIJMLzP5dbTMmwS7yaPML7d92+TgYchx+Tj/6EEET7OV2lf8Otnl
- yYBXwOXj2Uu3sh0NrxMH+TesFHQbiWvWtzAbsKKnaVCur93vHp9/9pb09SKAfY2bdc
- uKOENgkHbeHfLX6e79DW97O1pj+3O8Lfpr8udQtnJbypQLOEq8p7NClrO0uJdfS3AD
- HECGPKrnr0p+Jtn0iif3FU357BEWD8iYkJWdGeIOPC1nxqISnWDtBrdBhDiQEammS2
- HxmBjc9byVgGg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id F255B652D1; Wed, 27 Jan 2021 02:11:30 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Wed, 27 Jan 2021 02:11:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jeromec.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211277-2300-fqdBDSbJKm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC7E16E519
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 05:45:54 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10R5Yuwf195850;
+ Wed, 27 Jan 2021 05:45:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=Lxj8bEelE23lP5Yarr1kv02daEJS+HwhDWx2YUgzflE=;
+ b=AZ6KZX/zZLPFJpqpb5Sz+JZt1Ekr8g8fcokY5ZpNf0+DkMlJ1Zd+vuQ3+ZglzKn5risD
+ qXc2YbDEUY56YlbyHL+i8U2W8bdgT/db+uClZqCVSx1qStUvmaE46SqCOmWUsv3Zu9OK
+ MfU3G7b4SR5dVF38O6ngZ7hmfoDFaGQhFbkcAkRKYpBHBHE5D4UOkX4tFTjOs8Q37CPf
+ 4mqbVUGdgXpN0IqLHsWPTEJc3jUrfENacWiMFq5h4+4JA9G6dYy6ndETp06a56YD+Npb
+ oaW2d2A4yMYdsiydDYLNOz7R95tSPM0one7JFDWLIBVHKMQIQGIc+XOG6AH2kScAdXut mw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 368b7qw9rh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Jan 2021 05:45:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10R5UaNg018456;
+ Wed, 27 Jan 2021 05:45:42 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 368wpytx1x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Jan 2021 05:45:42 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10R5jV6J004430;
+ Wed, 27 Jan 2021 05:45:32 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 26 Jan 2021 21:45:31 -0800
+Date: Wed, 27 Jan 2021 08:45:23 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Carlis <zhangxuezhi3@gmail.com>
+Subject: Re: [PATCH v5] fbtft: add tearing signal detect
+Message-ID: <20210127054523.GA2696@kadam>
+References: <1611711140-68260-1-git-send-email-zhangxuezhi3@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1611711140-68260-1-git-send-email-zhangxuezhi3@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 spamscore=0
+ adultscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101270032
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 phishscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101270032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,28 +78,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, gregkh@linuxfoundation.org,
+ oliver.graute@kococonnector.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sbrivio@redhat.com, colin.king@canonical.com,
+ zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211277
+On Wed, Jan 27, 2021 at 09:32:20AM +0800, Carlis wrote:
+> @@ -82,6 +111,29 @@ enum st7789v_command {
+>   */
+>  static int init_display(struct fbtft_par *par)
+>  {
+> +	int rc;
+> +	struct device *dev = par->info->device;
+> +
+> +	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
+> +	if (par->gpio.te) {
+> +		init_completion(&spi_panel_te);
+> +		mutex_init(&te_mutex);
+> +		rc = devm_request_irq(dev,
+> +				      gpiod_to_irq(par->gpio.te),
+> +				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
+> +				     "TE_GPIO", par);
+> +		if (rc) {
+> +			pr_err("TE request_irq failed.\n");
+> +			devm_gpiod_put(dev, par->gpio.te);
+> +			par->gpio.te = NULL;
+> +		} else {
+> +			disable_irq_nosync(gpiod_to_irq(par->gpio.te));
+> +			pr_info("TE request_irq completion.\n");
+> +		}
+> +	} else {
+> +		pr_info("%s:%d, TE gpio not specified\n",
+> +			__func__, __LINE__);
+> +	}
 
---- Comment #5 from Jerome C (me@jeromec.com) ---
-Created attachment 294879
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294879&action=edit
-Kernel log
+I'm sorry that I was not clear before.  This code will crash if
+devm_gpiod_get_index_optional() returns an error.  You *NEED* to check
+for error pointers and return the error code.  Write it exactly like
+this:
 
-Unfortunately it crashed again although I've noticed it's been crashing a lot
-less (4-5 days) since I set kernel parameter "init_on_free=0".
+	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
+	if (IS_ERR(par->gpio.te))
+		return PTR_ERR(par->gpio.te);
 
-I've attached a kernel log for 5.10.10
+	if (par->gpio.te) {
+		init_completion(&spi_panel_te);
 
--- 
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+regards,
+dan carpenter
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
