@@ -2,71 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90074305371
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 07:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06596305376
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 07:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DED076E40F;
-	Wed, 27 Jan 2021 06:49:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8576E56A;
+	Wed, 27 Jan 2021 06:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF776E40F
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 06:49:45 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10R6YkXW057541;
- Wed, 27 Jan 2021 06:49:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=CqKgGiA31ji91JUfrA7K3WTvBvHQ8ukOtwEdhs1EEDw=;
- b=FRJllVEcgIeqK8IzvXV0Zyx1WAscgHQdYzfmIxOi7hF8n2wHMiWU7m0itnt2bfVtwED8
- c1KE/NPGCgCyMtXTmAdlKwSmyJa6QbJDS3xfNBxk1DM46Rg50PZErobGDj3MDqjs/N+3
- L5c4FK18i13s28KUwKi56p9+VJmzfTiSFV0UX8DeAaAEv5+bKzrE61BLDYNV8LvzDUeH
- T+bq6ymxU2X9z3s7vJjeWFFxfRf3SDP+OPpgpgtQt1gWz/JSw62xuvzFz7Wf0IUrn42Q
- zr/L1FD0K8m77AZ2NWQOcqzjqMu+l5qWTnO7r2TjENzBZtyrBYzssSndJiP8TUUgp3Hk 0Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 368brkndkq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Jan 2021 06:49:37 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10R6Z6EP099786;
- Wed, 27 Jan 2021 06:49:35 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 368wcnvup1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Jan 2021 06:49:35 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10R6nP7f003592;
- Wed, 27 Jan 2021 06:49:25 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 26 Jan 2021 22:49:24 -0800
-Date: Wed, 27 Jan 2021 09:49:16 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: carlis <zhangxuezhi3@gmail.com>
-Subject: Re: [PATCH v5] fbtft: add tearing signal detect
-Message-ID: <20210127064916.GD2696@kadam>
-References: <1611711140-68260-1-git-send-email-zhangxuezhi3@gmail.com>
- <20210127054523.GA2696@kadam> <20210127141927.00004472@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210127141927.00004472@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 suspectscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101270037
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- impostorscore=0
- phishscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101270037
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4854F6E56A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 06:50:27 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 75157ACAC;
+ Wed, 27 Jan 2021 06:50:25 +0000 (UTC)
+Date: Wed, 27 Jan 2021 07:50:23 +0100
+Message-ID: <s5hlfcezxe8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
+In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +40,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- mh12gx2825@gmail.com, gregkh@linuxfoundation.org,
- oliver.graute@kococonnector.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, sbrivio@redhat.com, colin.king@canonical.com,
- zhangxuezhi1@yulong.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
+ Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
+ linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
+ dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 27, 2021 at 02:19:27PM +0800, carlis wrote:
-> hi,i will fix it like below:
-> 	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-> GPIOD_IN); if (IS_ERR(par->gpio.te)) {
-> 		rc = PTR_ERR(par->gpio.te);
-> 		pr_err("Failed to request  te gpio: %d\n", rc);
-> 		par->gpio.te = NULL;
-> 	}
-
-I wish you would just copy and paste the code that I sent you instead,
-but this also fixes the crash...
-
-regards,
-dan carpenter
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyNiBKYW4gMjAyMSAxNzo1ODozNCArMDEwMCwKVXdlIEtsZWluZS1Lw7ZuaWcgd3Jv
+dGU6Cj4gCj4gQWxsIGFtYmEgZHJpdmVycyByZXR1cm4gMCBpbiB0aGVpciByZW1vdmUgY2FsbGJh
+Y2suIFRvZ2V0aGVyIHdpdGggdGhlCj4gZHJpdmVyIGNvcmUgaWdub3JpbmcgdGhlIHJldHVybiB2
+YWx1ZSBhbnlob3csIGl0IGRvZXNuJ3QgbWFrZSBzZW5zZSB0bwo+IHJldHVybiBhIHZhbHVlIGhl
+cmUuCj4gCj4gQ2hhbmdlIHRoZSByZW1vdmUgcHJvdG90eXBlIHRvIHJldHVybiB2b2lkLCB3aGlj
+aCBtYWtlcyBpdCBleHBsaWNpdCB0aGF0Cj4gcmV0dXJuaW5nIGFuIGVycm9yIHZhbHVlIGRvZXNu
+J3Qgd29yayBhcyBleHBlY3RlZC4gVGhpcyBzaW1wbGlmaWVzIGNoYW5naW5nCj4gdGhlIGNvcmUg
+cmVtb3ZlIGNhbGxiYWNrIHRvIHJldHVybiB2b2lkLCB0b28uCj4gCj4gUmV2aWV3ZWQtYnk6IFVs
+ZiBIYW5zc29uIDx1bGYuaGFuc3NvbkBsaW5hcm8ub3JnPgo+IFJldmlld2VkLWJ5OiBBcm5kIEJl
+cmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IEFja2VkLWJ5OiBBbGV4YW5kcmUgQmVsbG9uaSA8YWxl
+eGFuZHJlLmJlbGxvbmlAYm9vdGxpbi5jb20+Cj4gQWNrZWQtYnk6IERtaXRyeSBUb3Jva2hvdiA8
+ZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbT4KPiBBY2tlZC1ieTogS3J6eXN6dG9mIEtvemxvd3Nr
+aSA8a3J6a0BrZXJuZWwub3JnPiAjIGZvciBkcml2ZXJzL21lbW9yeQo+IEFja2VkLWJ5OiBNYXJr
+IEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+Cj4gQWNrZWQtYnk6IERtaXRyeSBUb3Jva2hvdiA8
+ZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbT4KPiBBY2tlZC1ieTogTGludXMgV2FsbGVpaiA8bGlu
+dXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IFNpZ25lZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmln
+IDx1LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU+Cj4gLS0tCj4gIGRyaXZlcnMvYW1iYS9i
+dXMuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNSArKy0tLQo+ICBkcml2ZXJz
+L2NoYXIvaHdfcmFuZG9tL25vbWFkaWstcm5nLmMgICAgICAgICAgICAgICB8IDMgKy0tCj4gIGRy
+aXZlcnMvZG1hL3BsMzMwLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMyArLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jICAgICAgICAgICAgICAgICAgfCA0
+ICstLS0KPiAgZHJpdmVycy9od3RyYWNpbmcvY29yZXNpZ2h0L2NvcmVzaWdodC1jYXR1LmMgICAg
+ICAgfCAzICstLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LWNwdS1k
+ZWJ1Zy5jICB8IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0
+LWN0aS1jb3JlLmMgICB8IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29y
+ZXNpZ2h0LWV0YjEwLmMgICAgICB8IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2ln
+aHQvY29yZXNpZ2h0LWV0bTN4LWNvcmUuYyB8IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9j
+b3Jlc2lnaHQvY29yZXNpZ2h0LWV0bTR4LWNvcmUuYyB8IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJh
+Y2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LWZ1bm5lbC5jICAgICB8IDQgKystLQo+ICBkcml2ZXJz
+L2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LXJlcGxpY2F0b3IuYyB8IDQgKystLQo+ICBk
+cml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LXN0bS5jICAgICAgICB8IDQgKy0t
+LQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LXRtYy1jb3JlLmMgICB8
+IDQgKy0tLQo+ICBkcml2ZXJzL2h3dHJhY2luZy9jb3Jlc2lnaHQvY29yZXNpZ2h0LXRwaXUuYyAg
+ICAgICB8IDQgKy0tLQo+ICBkcml2ZXJzL2kyYy9idXNzZXMvaTJjLW5vbWFkaWsuYyAgICAgICAg
+ICAgICAgICAgICB8IDQgKy0tLQo+ICBkcml2ZXJzL2lucHV0L3NlcmlvL2FtYmFrbWkuYyAgICAg
+ICAgICAgICAgICAgICAgICB8IDMgKy0tCj4gIGRyaXZlcnMvbWVtb3J5L3BsMTcyLmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCj4gIGRyaXZlcnMvbWVtb3J5L3BsMzUzLXNt
+Yy5jICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCj4gIGRyaXZlcnMvbW1jL2hvc3Qv
+bW1jaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCj4gIGRyaXZlcnMvcnRj
+L3J0Yy1wbDAzMC5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCj4gIGRyaXZl
+cnMvcnRjL3J0Yy1wbDAzMS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCj4g
+IGRyaXZlcnMvc3BpL3NwaS1wbDAyMi5jICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNSAr
+Ky0tLQo+ICBkcml2ZXJzL3R0eS9zZXJpYWwvYW1iYS1wbDAxMC5jICAgICAgICAgICAgICAgICAg
+ICB8IDQgKy0tLQo+ICBkcml2ZXJzL3R0eS9zZXJpYWwvYW1iYS1wbDAxMS5jICAgICAgICAgICAg
+ICAgICAgICB8IDMgKy0tCj4gIGRyaXZlcnMvdmZpby9wbGF0Zm9ybS92ZmlvX2FtYmEuYyAgICAg
+ICAgICAgICAgICAgIHwgMyArLS0KPiAgZHJpdmVycy92aWRlby9mYmRldi9hbWJhLWNsY2QuYyAg
+ICAgICAgICAgICAgICAgICAgfCA0ICstLS0KPiAgZHJpdmVycy93YXRjaGRvZy9zcDgwNV93ZHQu
+YyAgICAgICAgICAgICAgICAgICAgICAgfCA0ICstLS0KPiAgaW5jbHVkZS9saW51eC9hbWJhL2J1
+cy5oICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gIHNvdW5kL2FybS9hYWNpLmMg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArLS0tCgpGb3IgdGhlIHNvdW5k
+Lyo6CkFja2VkLWJ5OiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+CgoKdGhhbmtzLAoKVGFr
+YXNoaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
