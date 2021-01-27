@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D0F30711C
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D90230712A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:18:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D96D6E932;
-	Thu, 28 Jan 2021 08:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD0946E921;
+	Thu, 28 Jan 2021 08:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb3-smtp-cloud8.xs4all.net (lb3-smtp-cloud8.xs4all.net
- [194.109.24.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0CA6E843
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 15:28:56 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud8.xs4all.net with ESMTPA
- id 4mkMlGHncvfIs4mkPlw20B; Wed, 27 Jan 2021 16:28:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1611761334; bh=ZAtN72BZA7Pf8Etxi3h2l4UcGQo1GFp5caZTulKRKI8=;
- h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=weef3i1tNasQLhGQshp8TLBDiyEsiAUIzgkSlFYVMM35Amv+0HXTHXaGpGjGD/LDA
- zfUlCoWRxyoWMSKh5vppd+OWY9PlZfD+rI4TIkSqsQBbHwREl+KXl5uri4V6Fc/KAG
- fxp2WdjDl3Ixr0w3JQcxs0ThaO2735wKBoVO46DpOROwWTWIacq2rKj15gQ1NaqaUk
- FuJlUV/UrlOiqAU882wNdeBiIxnyyBFVGAnnX5752CMA80grwFOE7Vl2Kph2M/Agfy
- mutFWxXeBxo/HqhLzU7UEcrlnyr8Sf0asj3kU4moA4ve0sB+pEJGNhYFiLpjOQuYqF
- YM44S2NA5HXWQ==
-Subject: Re: [PATCH v2 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20210111142309.193441-1-maxime@cerno.tech>
- <5dda3c71-5faf-683b-c25a-37aa1849fb62@xs4all.nl>
- <c3cf85b8-7645-73ff-322a-dd95a1f02030@xs4all.nl>
-Message-ID: <e5af848c-6fb8-0423-5499-a8d33329209f@xs4all.nl>
-Date: Wed, 27 Jan 2021 16:28:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588C16E865
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 17:16:35 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id u67so1616023pfb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 09:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+ b=dimGUWBu88dX8OdBPtqV1K4RlZBNMOe3qLaj2DFeriW0zXGvfLXQdvpDQW90G+pq8w
+ p6xdN0AtXLBzz2oPtDzXqxZIr8psZaQU+lB+nDni6Zl/WIpcblkhLxycbxPAvV8te05i
+ KsVIp+ePdyQmOMOK1htw20UOkkjeFnjUvviVoIEY2ofKY9lhBjfLrheC8MM/6mQmKGDo
+ lgZrbx94cvm3t6pqu1kCexYTDa1cFG519/QRDEJtzXaZ7GklAYFE3S3JdLgmQXJO7Olf
+ 5tbc9e9YBFuaJlg9N990aaa1pAzjhautowBMkQc84YuILgD85YeIKeYhHvbjucdynQoo
+ 2yeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+ b=OT6ds0bz33HODgYhxu05sfNHKjBOIVZxKDN/QAcDfn93T6WWtJvdXjjT99870L3koc
+ svZ3+b8/bG8RV12ZTjWqpt5/NzR3+C+f6agMK3RNjHRHf4Hht9HyYH+TPtoYNa0eOF73
+ msy9uzPD3KHyYSA7clzDm1yPocPOcr8Om0buSv2jq56NcLENDLjvFbanP3knWdvw8pZX
+ qmC20KXOmdpWmo/I0H+3jjmQ5fXyyQIP+KznLCq3mg+yAYnNP/SaTEJRpNMIJsFvf+rF
+ vrr+SY6lLCzRCBt0mTszoNz4Nlh/m/Fmk6AEN+BUlnzNBB9VJKOK6hChfIS8RCnEbrKb
+ ZfLA==
+X-Gm-Message-State: AOAM5320qlC8zmHsL++O6ag2jtNCjiYjk+1G3Iqn4yODWuPRAAcbNCRz
+ OYtmpbaGMY2e+OaYnAHHgMtZd3GclkBRVLNCBhdDAg==
+X-Google-Smtp-Source: ABdhPJxKQ8+LIsyyI6CfO9fy/6S4KtVkebVD7Kd1qkb+yv7kQN6fPglxpJCY+HhjUK+MV4uOLoP/VTT9u1mKmJvI5fg=
+X-Received: by 2002:a63:724a:: with SMTP id c10mr10790208pgn.124.1611767794770; 
+ Wed, 27 Jan 2021 09:16:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c3cf85b8-7645-73ff-322a-dd95a1f02030@xs4all.nl>
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfP/LrTvKWGX4dKlbU6z4crOyfPuIrbGEym3+jTFh8XfQPH1rC4WiMaaOII3HkWxfaTq4w3bVefbXRY0iK1wSWLfUsRAic/r7zpw4vaiU1cL2dfpI2HEF
- 33+QD1YJYhgWxkQ6V6/r5f0ktkhr48NhBp0kZ0K0pA337yc0ty3fGWqQX3CeJrVkXlsH2FKPjIcHsspRFJMkXGRle2Ov/4kl0WcPyvGHCVQ4aocekGnuVYsE
- kaKDfmD3PpYkPde2NCIRB7N1Ung4OKRNnzs2McvFhIliXBYJfTMGgiGCSFOXWRUPEjvSE1M+OZQTN9wrGZuqqexPVuOJo7qUJo50gku5R3nLux8V0OgOPjSX
- aH7LVFycSkYKzXANZ2KD0d3cdyjY+8DrEIpabV8PeP8yA96a2j4VlniMKpgSZrDXEHfgw0Sx7FyFQ74ZDKLmAfflCCimkwpgUeTyB2zoCVcQUgNEnO2mvZoA
- jG0Eb3Gt7rRagZOh3pFhvz7KXus/GtRPoSHWRKCT4cKvSX6XKudnr4m5WfaA8wVqqNHApAqsusWP9R6wcaaclztql139UQUFJO7UmKLL9sFoqiO7pK+oMCZl
- 74rHHc/SYgmik3pku51HxMLWxp90jDbo5dBzg+uLYpcGUBIBPyGDWOs650NoL7/G9u8C79g9q0H+/FpTfqDO/OqmVV9fYQa/I+f7H/I3EV5mXIlUX0g2Mfc0
- twJDrRCOqyI=
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+ <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+In-Reply-To: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 27 Jan 2021 12:16:23 -0500
+Message-ID: <CAC_TJvfuFiDSWD+ud_rJJ6zFQjYhcK1Rfqyrne4OBB4ZfJ0oMQ@mail.gmail.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+To: Jann Horn <jannh@google.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,411 +63,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Michal Hocko <mhocko@suse.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Szabolcs Nagy <szabolcs.nagy@arm.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+ Michel Lespinasse <walken@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jeffrey Vander Stoep <jeffv@google.com>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ kernel-team <kernel-team@android.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, linaro-mm-sig@lists.linaro.org,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Bernd Edlinger <bernd.edlinger@hotmail.de>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Alexey Gladkov <gladkov.alexey@gmail.com>,
+ kernel list <linux-kernel@vger.kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Andrei Vagin <avagin@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux API <linux-api@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/01/2021 14:55, Hans Verkuil wrote:
-> On 12/01/2021 16:24, Hans Verkuil wrote:
->> Hi Maxime,
->>
->> On 11/01/2021 15:22, Maxime Ripard wrote:
->>> Hi,
->>>
->>> Here's a series introducing the CEC support for the BCM2711 found on the
->>> RaspberryPi4.
->>>
->>> The BCM2711 HDMI controller uses a similar layout for the CEC registers, the
->>> main difference being that the interrupt handling part is now shared between
->>> both HDMI controllers.
->>>
->>> This series is mainly about fixing a couple of bugs, reworking the driver to
->>> support having two different interrupts, one for each direction, provided by an
->>> external irqchip, and enables the irqchip driver for the controller we have.
->>>
->>> This has been tested on an RPi3 and RPi4, but requires the latest firmware.
->>> It's is based on the 10 and 12 bpc series.
->>
->> Thank you for this series, I plan to test this later this week.
-> 
-> Testing is delayed: my microHDMI to HDMI adapter has problems with the CEC pin
-> (possibly not connected at all). I've ordered adapter cables (hopefully of better
-> quality), but those haven't arrived yet. I expect them later this week.
-
-After testing this you can add my:
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-for the patches in this series.
-
-Thank you for working on this!
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Here is the cec-compliance output:
->>>
->>> pi@raspberrypi:~$ cec-ctl --tuner -p 1.0.0.0
->>> The CEC adapter doesn't allow setting the physical address manually, ignore this option.
->>>
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : 1.0.0.0
->>> 	Logical Address Mask       : 0x0008
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Tuner
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : 3 (Tuner 1)
->>> 	    Primary Device Type    : Tuner
->>> 	    Logical Address Type   : Tuner
->>> 	    All Device Types       : Tuner
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> pi@raspberrypi:~$ cec-compliance
->>> cec-compliance SHA                 : not available
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : 1.0.0.0
->>> 	Logical Address Mask       : 0x0008
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Tuner
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : 3 (Tuner 1)
->>> 	    Primary Device Type    : Tuner
->>> 	    Logical Address Type   : Tuner
->>> 	    All Device Types       : Tuner
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> Compliance test for device /dev/cec0:
->>>
->>>     The test results mean the following:
->>>         OK                  Supported correctly by the device.
->>>         OK (Not Supported)  Not supported and not mandatory for the device.
->>>         OK (Presumed)       Presumably supported.  Manually check to confirm.
->>>         OK (Unexpected)     Supported correctly but is not expected to be supported for this device.
->>>         OK (Refused)        Supported by the device, but was refused.
->>>         FAIL                Failed and was expected to be supported by this device.
->>>
->>> Find remote devices:
->>> 	Polling: OK
->>>
->>> Network topology:
->>> 	System Information for device 0 (TV) from device 3 (Tuner 1):
->>> 		CEC Version                : 2.0
->>> 		Physical Address           : 0.0.0.0
->>> 		Primary Device Type        : TV
->>> 		Vendor ID                  : 0x000c03
->>> 		OSD Name                   : 'TV  '
->>> 		Power Status               : Tx, OK, Rx, OK, Feature Abort
->>>
->>> Total: 1, Succeeded: 1, Failed: 0, Warnings: 0
->>>
->>> pi@raspberrypi:~$ cec-ctl -d1 --tuner -p 1.0.0.0
->>> The CEC adapter doesn't allow setting the physical address manually, ignore this option.
->>>
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : 1.0.0.0
->>> 	Logical Address Mask       : 0x0008
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Tuner
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : 3 (Tuner 1)
->>> 	    Primary Device Type    : Tuner
->>> 	    Logical Address Type   : Tuner
->>> 	    All Device Types       : Tuner
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> pi@raspberrypi:~$ cec-compliance -d1
->>> cec-compliance SHA                 : not available
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : 1.0.0.0
->>> 	Logical Address Mask       : 0x0008
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Tuner
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : 3 (Tuner 1)
->>> 	    Primary Device Type    : Tuner
->>> 	    Logical Address Type   : Tuner
->>> 	    All Device Types       : Tuner
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> Compliance test for device /dev/cec1:
->>>
->>>     The test results mean the following:
->>>         OK                  Supported correctly by the device.
->>>         OK (Not Supported)  Not supported and not mandatory for the device.
->>>         OK (Presumed)       Presumably supported.  Manually check to confirm.
->>>         OK (Unexpected)     Supported correctly but is not expected to be supported for this device.
->>>         OK (Refused)        Supported by the device, but was refused.
->>>         FAIL                Failed and was expected to be supported by this device.
->>>
->>> Find remote devices:
->>> 	Polling: OK
->>>
->>> Network topology:
->>> 	System Information for device 0 (TV) from device 3 (Tuner 1):
->>> 		CEC Version                : 2.0
->>> 		Physical Address           : 0.0.0.0
->>> 		Primary Device Type        : TV
->>> 		Vendor ID                  : 0x000c03
->>> 		OSD Name                   : 'TV  '
->>> 		Power Status               : Tx, OK, Rx, OK, Feature Abort
->>>
->>> Total: 1, Succeeded: 1, Failed: 0, Warnings: 0
->>>
->>> And for the hotplug detect test:
->>>
->>> pi@raspberrypi:~$ cec-ctl --playback
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : f.f.f.f
->>> 	Logical Address Mask       : 0x0000
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Playback
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : Not Allocated
->>> 	    Primary Device Type    : Playback
->>> 	    Logical Address Type   : Playback
->>> 	    All Device Types       : Playback
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> pi@raspberrypi:~$ cec-ctl -t0 --image-view-on
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : f.f.f.f
->>> 	Logical Address Mask       : 0x0000
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Playback
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : Not Allocated
->>> 	    Primary Device Type    : Playback
->>> 	    Logical Address Type   : Playback
->>> 	    All Device Types       : Playback
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> Transmit from Unregistered to TV (15 to 0):
->>> CEC_MSG_IMAGE_VIEW_ON (0x04)
->>> 	Sequence: 1 Tx Timestamp: 9182.611s
->>> pi@raspberrypi:~$ cec-ctl -d1 --playback
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : f.f.f.f
->>> 	Logical Address Mask       : 0x0000
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Playback
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : Not Allocated
->>> 	    Primary Device Type    : Playback
->>> 	    Logical Address Type   : Playback
->>> 	    All Device Types       : Playback
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> pi@raspberrypi:~$ cec-ctl -d1 -t0 --image-view-on
->>> Driver Info:
->>> 	Driver Name                : vc4_hdmi
->>> 	Adapter Name               : vc4
->>> 	Capabilities               : 0x0000010e
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 	Driver version             : 5.10.0
->>> 	Available Logical Addresses: 1
->>> 	Physical Address           : f.f.f.f
->>> 	Logical Address Mask       : 0x0000
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : Playback
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : Not Allocated
->>> 	    Primary Device Type    : Playback
->>> 	    Logical Address Type   : Playback
->>> 	    All Device Types       : Playback
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> Transmit from Unregistered to TV (15 to 0):
->>> CEC_MSG_IMAGE_VIEW_ON (0x04)
->>> 	Sequence: 1 Tx Timestamp: 9207.191s
->>>
->>> With the pulse-eight side reporting:
->>>
->>> $ sudo cec-ctl -M
->>> Driver Info:
->>> 	Driver Name                : pulse8-cec
->>> 	Adapter Name               : serio0
->>> 	Capabilities               : 0x0000003f
->>> 		Physical Address
->>> 		Logical Addresses
->>> 		Transmit
->>> 		Passthrough
->>> 		Remote Control Support
->>> 		Monitor All
->>> 	Driver version             : 5.9.16
->>> 	Available Logical Addresses: 1
->>> 	Connector Info             : None
->>> 	Physical Address           : 0.0.0.0
->>> 	Logical Address Mask       : 0x0001
->>> 	CEC Version                : 2.0
->>> 	Vendor ID                  : 0x000c03 (HDMI)
->>> 	OSD Name                   : 'TV  '
->>> 	Logical Addresses          : 1 (Allow RC Passthrough)
->>>
->>> 	  Logical Address          : 0 (TV)
->>> 	    Primary Device Type    : TV
->>> 	    Logical Address Type   : TV
->>> 	    All Device Types       : TV
->>> 	    RC TV Profile          : None
->>> 	    Device Features        :
->>> 		None
->>>
->>> Initial Event: State Change: PA: 0.0.0.0, LA mask: 0x0001, Conn Info: no
->>>
->>> Received from Unregistered to TV (15 to 0): IMAGE_VIEW_ON (0x04)
->>> Received from Unregistered to TV (15 to 0): IMAGE_VIEW_ON (0x04)
->>>
->>> Let me know what you think,
->>> Maxime
->>>
->>> Changes from v1:
->>>   - Removed the irqchip patch in favor of a select in mach-bcm
->>>   - Fixed HDMI1 interrupt numbers
->>>   - Removed redundant call to drm_connector_update_edid_property
->>>   - Fixed the condition in vc4_hdmi_connector_detect
->>>   - Added the tags
->>>   - Rebased on top of drm-misc-next-2021-01-06
->>>
->>> Dom Cobley (5):
->>>   drm/vc4: hdmi: Move hdmi reset to bind
->>>   drm/vc4: hdmi: Fix register offset with longer CEC messages
->>>   drm/vc4: hdmi: Fix up CEC registers
->>>   drm/vc4: hdmi: Restore cec physical address on reconnect
->>>   drm/vc4: hdmi: Remove cec_available flag
->>>
->>> Maxime Ripard (10):
->>>   ARM: bcm: Select BRCMSTB_L2_IRQ for bcm2835
->>>   drm/vc4: hdmi: Compute the CEC clock divider from the clock rate
->>>   drm/vc4: hdmi: Update the CEC clock divider on HSM rate change
->>>   drm/vc4: hdmi: Introduce a CEC clock
->>>   drm/vc4: hdmi: Split the interrupt handlers
->>>   drm/vc4: hdmi: Support BCM2711 CEC interrupt setup
->>>   drm/vc4: hdmi: Don't register the CEC adapter if there's no interrupts
->>>   dt-binding: display: bcm2711-hdmi: Add CEC and hotplug interrupts
->>>   ARM: dts: bcm2711: Add the BSC interrupt controller
->>>   ARM: dts: bcm2711: Add the CEC interrupt controller
->>>
->>>  .../bindings/display/brcm,bcm2711-hdmi.yaml   |  20 +-
->>>  arch/arm/boot/dts/bcm2711.dtsi                |  30 +++
->>>  arch/arm/mach-bcm/Kconfig                     |   1 +
->>>  arch/arm64/Kconfig.platforms                  |   1 +
->>>  drivers/gpu/drm/vc4/vc4_hdmi.c                | 223 ++++++++++++++----
->>>  drivers/gpu/drm/vc4/vc4_hdmi.h                |  11 +-
->>>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h           |   4 +-
->>>  7 files changed, 234 insertions(+), 56 deletions(-)
->>>
->>
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBKYW4gMjcsIDIwMjEgYXQgNTo0NyBBTSBKYW5uIEhvcm4gPGphbm5oQGdvb2dsZS5j
+b20+IHdyb3RlOgo+Cj4gK2plZmZ2IGZyb20gQW5kcm9pZAo+Cj4gT24gVHVlLCBKYW4gMjYsIDIw
+MjEgYXQgMTE6NTEgUE0gS2FsZXNoIFNpbmdoIDxrYWxlc2hzaW5naEBnb29nbGUuY29tPiB3cm90
+ZToKPiA+IEluIG9yZGVyIHRvIG1lYXN1cmUgaG93IG11Y2ggbWVtb3J5IGEgcHJvY2VzcyBhY3R1
+YWxseSBjb25zdW1lcywgaXQgaXMKPiA+IG5lY2Vzc2FyeSB0byBpbmNsdWRlIHRoZSBETUEgYnVm
+ZmVyIHNpemVzIGZvciB0aGF0IHByb2Nlc3MgaW4gdGhlIG1lbW9yeQo+ID4gYWNjb3VudGluZy4g
+U2luY2UgdGhlIGhhbmRsZSB0byBETUEgYnVmZmVycyBhcmUgcmF3IEZEcywgaXQgaXMgaW1wb3J0
+YW50Cj4gPiB0byBiZSBhYmxlIHRvIGlkZW50aWZ5IHdoaWNoIHByb2Nlc3NlcyBoYXZlIEZEIHJl
+ZmVyZW5jZXMgdG8gYSBETUEgYnVmZmVyLgo+Cj4gT3IgeW91IGNvdWxkIHRyeSB0byBsZXQgdGhl
+IERNQSBidWZmZXIgdGFrZSBhIHJlZmVyZW5jZSBvbiB0aGUKPiBtbV9zdHJ1Y3QgYW5kIGFjY291
+bnQgaXRzIHNpemUgaW50byB0aGUgbW1fc3RydWN0PyBUaGF0IHdvdWxkIHByb2JhYmx5Cj4gYmUg
+bmljZXIgdG8gd29yayB3aXRoIHRoYW4gaGF2aW5nIHRvIHBva2UgYXJvdW5kIGluIHByb2NmcyBz
+ZXBhcmF0ZWx5Cj4gZm9yIERNQSBidWZmZXJzLgo+Cj4gPiBDdXJyZW50bHksIERNQSBidWZmZXIg
+RkRzIGNhbiBiZSBhY2NvdW50ZWQgdXNpbmcgL3Byb2MvPHBpZD4vZmQvKiBhbmQKPiA+IC9wcm9j
+LzxwaWQ+L2ZkaW5mbyAtLSBib3RoIG9mIHdoaWNoIGFyZSBvbmx5IHJvb3QgcmVhZGFibGUsIGFz
+IGZvbGxvd3M6Cj4KPiBUaGF0J3Mgbm90IHF1aXRlIHJpZ2h0LiBUaGV5IGNhbiBib3RoIGFsc28g
+YmUgYWNjZXNzZWQgYnkgdGhlIHVzZXIKPiBvd25pbmcgdGhlIHByb2Nlc3MuIEFsc28sIGZkaW5m
+byBpcyBhIHN0YW5kYXJkIGludGVyZmFjZSBmb3IKPiBpbnNwZWN0aW5nIHByb2Nlc3Mgc3RhdGUg
+dGhhdCBkb2Vzbid0IHBlcm1pdCByZWFkaW5nIHByb2Nlc3MgbWVtb3J5IG9yCj4gbWFuaXB1bGF0
+aW5nIHByb2Nlc3Mgc3RhdGUgLSBzbyBJIHRoaW5rIGl0IHdvdWxkIGJlIGZpbmUgdG8gcGVybWl0
+Cj4gYWNjZXNzIHRvIGZkaW5mbyB1bmRlciBhIFBUUkFDRV9NT0RFX1JFQURfRlNDUkVEIGNoZWNr
+LCBqdXN0IGxpa2UgdGhlCj4gaW50ZXJmYWNlIHlvdSdyZSBzdWdnZXN0aW5nLgoKCkhpIGV2ZXJ5
+b25lLiBUaGFuayB5b3UgZm9yIHRoZSBmZWVkYmFjay4KCkkgdW5kZXJzdGFuZCB0aGVyZSBpcyBh
+IGRlZXBlciBwcm9ibGVtIG9mIGFjY291bnRpbmcgc2hhcmVkIG1lbW9yeSBpbgp0aGUga2VybmVs
+LCB0aGF04oCZcyBub3Qgb25seSBzcGVjaWZpYyB0byB0aGUgRE1BIGJ1ZmZlcnMuIEluIHRoaXMg
+Y2FzZQpETUEgYnVmZmVycywgSSB0aGluayBKYW5u4oCZcyBwcm9wb3NhbCBpcyB0aGUgY2xlYW5l
+c3Qgd2F5IHRvIGF0dHJpYnV0ZQp0aGUgc2hhcmVkIGJ1ZmZlcnMgdG8gcHJvY2Vzc2VzLiBJIGNh
+biByZXNwaW4gYSBwYXRjaCBtb2RpZnlpbmcgZmRpbmZvCmFzIHN1Z2dlc3RlZCwgaWYgdGhpcyBp
+cyBub3QgYW4gaXNzdWUgZnJvbSBhIHNlY3VyaXR5IHBlcnNwZWN0aXZlLgoKVGhhbmtzLApLYWxl
+c2gKCj4KPgo+ID4gICAxLiBEbyBhIHJlYWRsaW5rIG9uIGVhY2ggRkQuCj4gPiAgIDIuIElmIHRo
+ZSB0YXJnZXQgcGF0aCBiZWdpbnMgd2l0aCAiL2RtYWJ1ZiIsIHRoZW4gdGhlIEZEIGlzIGEgZG1h
+YnVmIEZELgo+ID4gICAzLiBzdGF0IHRoZSBmaWxlIHRvIGdldCB0aGUgZG1hYnVmIGlub2RlIG51
+bWJlci4KPiA+ICAgNC4gUmVhZC8gcHJvYy88cGlkPi9mZGluZm8vPGZkPiwgdG8gZ2V0IHRoZSBE
+TUEgYnVmZmVyIHNpemUuCj4gPgo+ID4gQW5kcm9pZCBjYXB0dXJlcyBwZXItcHJvY2VzcyBzeXN0
+ZW0gbWVtb3J5IHN0YXRlIHdoZW4gY2VydGFpbiBsb3cgbWVtb3J5Cj4gPiBldmVudHMgKGUuZyBh
+IGZvcmVncm91bmQgYXBwIGtpbGwpIG9jY3VyLCB0byBpZGVudGlmeSBwb3RlbnRpYWwgbWVtb3J5
+Cj4gPiBob2dnZXJzLiBUbyBpbmNsdWRlIGEgcHJvY2Vzc+KAmXMgZG1hYnVmIHVzYWdlIGFzIHBh
+cnQgb2YgaXRzIG1lbW9yeSBzdGF0ZSwKPiA+IHRoZSBkYXRhIGNvbGxlY3Rpb24gbmVlZHMgdG8g
+YmUgZmFzdCBlbm91Z2ggdG8gcmVmbGVjdCB0aGUgbWVtb3J5IHN0YXRlIGF0Cj4gPiB0aGUgdGlt
+ZSBvZiBzdWNoIGV2ZW50cy4KPiA+Cj4gPiBTaW5jZSByZWFkaW5nIC9wcm9jLzxwaWQ+L2ZkLyBh
+bmQgL3Byb2MvPHBpZD4vZmRpbmZvLyByZXF1aXJlcyByb290Cj4gPiBwcml2aWxlZ2VzLCB0aGlz
+IGFwcHJvYWNoIGlzIG5vdCBzdWl0YWJsZSBmb3IgcHJvZHVjdGlvbiBidWlsZHMuCj4KPiBJdCBz
+aG91bGQgYmUgZWFzeSB0byBhZGQgZW5vdWdoIGluZm9ybWF0aW9uIHRvIC9wcm9jLzxwaWQ+L2Zk
+aW5mby8gc28KPiB0aGF0IHlvdSBkb24ndCBuZWVkIHRvIGxvb2sgYXQgL3Byb2MvPHBpZD4vZmQv
+IGFueW1vcmUuCj4KPiA+IEdyYW50aW5nCj4gPiByb290IHByaXZpbGVnZXMgZXZlbiB0byBhIHN5
+c3RlbSBwcm9jZXNzIGluY3JlYXNlcyB0aGUgYXR0YWNrIHN1cmZhY2UgYW5kCj4gPiBpcyBoaWdo
+bHkgdW5kZXNpcmFibGUuIEFkZGl0aW9uYWxseSB0aGlzIGlzIHNsb3cgYXMgaXQgcmVxdWlyZXMg
+bWFueQo+ID4gY29udGV4dCBzd2l0Y2hlcyBmb3Igc2VhcmNoaW5nIGFuZCBnZXR0aW5nIHRoZSBk
+bWEtYnVmIGluZm8uCj4KPiBXaGF0IGRvIHlvdSBtZWFuIGJ5ICJjb250ZXh0IHN3aXRjaGVzIj8g
+VGFzayBzd2l0Y2hlcyBvciBrZXJuZWwvdXNlcgo+IHRyYW5zaXRpb25zIChlLmcuIHZpYSBzeXNj
+YWxsKT8KPgo+ID4gV2l0aCB0aGUgYWRkaXRpb24gb2YgcGVyLWJ1ZmZlciBkbWFidWYgc3RhdHMg
+aW4gc3lzZnMgWzFdLCB0aGUgRE1BIGJ1ZmZlcgo+ID4gZGV0YWlscyBjYW4gYmUgcXVlcmllZCB1
+c2luZyB0aGVpciB1bmlxdWUgaW5vZGUgbnVtYmVycy4KPiA+Cj4gPiBUaGlzIHBhdGNoIHByb3Bv
+c2VzIGFkZGluZyBhIC9wcm9jLzxwaWQ+L3Rhc2svPHRpZD4vZG1hYnVmX2ZkcyBpbnRlcmZhY2Uu
+Cj4gPgo+ID4gL3Byb2MvPHBpZD4vdGFzay88dGlkPi9kbWFidWZfZmRzIGNvbnRhaW5zIGEgbGlz
+dCBvZiBpbm9kZSBudW1iZXJzIGZvcgo+ID4gZXZlcnkgRE1BIGJ1ZmZlciBGRCB0aGF0IHRoZSB0
+YXNrIGhhcy4gRW50cmllcyB3aXRoIHRoZSBzYW1lIGlub2RlCj4gPiBudW1iZXIgY2FuIGFwcGVh
+ciBtb3JlIHRoYW4gb25jZSwgaW5kaWNhdGluZyB0aGUgdG90YWwgRkQgcmVmZXJlbmNlcwo+ID4g
+Zm9yIHRoZSBhc3NvY2lhdGVkIERNQSBidWZmZXIuCj4gPgo+ID4gSWYgYSB0aHJlYWQgc2hhcmVz
+IHRoZSBzYW1lIGZpbGVzIGFzIHRoZSBncm91cCBsZWFkZXIgdGhlbiBpdHMKPiA+IGRtYWJ1Zl9m
+ZHMgZmlsZSB3aWxsIGJlIGVtcHR5LCBhcyB0aGVzZSBkbWFidWZzIGFyZSByZXBvcnRlZCBieSB0
+aGUKPiA+IGdyb3VwIGxlYWRlci4KPiA+Cj4gPiBUaGUgaW50ZXJmYWNlIHJlcXVpcmVzIFBUUkFD
+RV9NT0RFX1JFQURfRlNDUkVEIChzYW1lIGFzIC9wcm9jLzxwaWQ+L21hcHMpCj4gPiBhbmQgYWxs
+b3dzIHRoZSBlZmZpY2llbnQgYWNjb3VudGluZyBvZiBwZXItcHJvY2VzcyBETUEgYnVmZmVyIHVz
+YWdlIHdpdGhvdXQKPiA+IHJlcXVpcmluZyByb290IHByaXZpbGVnZXMuIChTZWUgZGF0YSBiZWxv
+dykKPgo+IEknbSBub3QgY29udmluY2VkIHRoYXQgaW50cm9kdWNpbmcgYSBuZXcgcHJvY2ZzIGZp
+bGUgZm9yIHRoaXMgaXMgdGhlCj4gcmlnaHQgd2F5IHRvIGdvLiBBbmQgdGhlIGlkZWEgb2YgaGF2
+aW5nIHRvIHBva2UgaW50byBtdWx0aXBsZQo+IGRpZmZlcmVudCBmaWxlcyBpbiBwcm9jZnMgYW5k
+IGluIHN5c2ZzIGp1c3QgdG8gYmUgYWJsZSB0byBjb21wdXRlIGEKPiBwcm9wZXIgbWVtb3J5IHVz
+YWdlIHNjb3JlIGZvciBhIHByb2Nlc3Mgc2VlbXMgd2VpcmQgdG8gbWUuICJIb3cgbXVjaAo+IG1l
+bW9yeSBpcyB0aGlzIHByb2Nlc3MgdXNpbmciIHNlZW1zIGxpa2UgdGhlIGtpbmQgb2YgcXVlc3Rp
+b24gdGhlCj4ga2VybmVsIG91Z2h0IHRvIGJlIGFibGUgdG8gYW5zd2VyIChhbmQgdGhlIGtlcm5l
+bCBuZWVkcyB0byBiZSBhYmxlIHRvCj4gYW5zd2VyIHNvbWV3aGF0IGFjY3VyYXRlbHkgc28gdGhh
+dCBpdHMgb3duIE9PTSBraWxsZXIgY2FuIGRvIGl0cyBqb2IKPiBwcm9wZXJseSk/Cl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
