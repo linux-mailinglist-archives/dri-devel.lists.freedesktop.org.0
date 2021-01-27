@@ -1,30 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32964305B75
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:35:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66C9305B80
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 13:35:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3148D89B96;
-	Wed, 27 Jan 2021 12:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77B76E2D8;
+	Wed, 27 Jan 2021 12:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 48F2289B96
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF4246E2D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 12:35:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A8CF1FB;
- Wed, 27 Jan 2021 04:34:54 -0800 (PST)
-Received: from cubie.arm.com (unknown [10.37.8.28])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E35103F68F;
- Wed, 27 Jan 2021 04:34:53 -0800 (PST)
-From: carsten.haitzler@foss.arm.com
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/komeda: Fix bit check to import to value of proper type
-Date: Wed, 27 Jan 2021 12:34:30 +0000
-Message-Id: <20210127123430.301752-1-carsten.haitzler@foss.arm.com>
-X-Mailer: git-send-email 2.29.2
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 392F91FB;
+ Wed, 27 Jan 2021 04:35:49 -0800 (PST)
+Received: from [10.37.8.28] (unknown [10.37.8.28])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85B483F68F;
+ Wed, 27 Jan 2021 04:35:48 -0800 (PST)
+Subject: Re: [PATCH] drm/komeda: Fix bit check to import to value of proper
+ type
+To: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org
+References: <20210118142013.277404-1-carsten.haitzler@foss.arm.com>
+ <400e2a79-aae6-33d7-4587-21e3c96ccf04@arm.com>
+From: Carsten Haitzler <carsten.haitzler@foss.arm.com>
+Organization: Arm Ltd.
+Message-ID: <8511796e-0526-7fa9-9058-f2fddc825f27@foss.arm.com>
+Date: Wed, 27 Jan 2021 12:35:47 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
+In-Reply-To: <400e2a79-aae6-33d7-4587-21e3c96ccf04@arm.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,173 +45,99 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carsten Haitzler <carsten.haitzler@arm.com>
-
-Another issue found by KASAN. The bit finding is buried inside the
-dp_for_each_set_bit() macro (that passes on to for_each_set_bit() that
-calls the bit stuff. These bit functions want an unsigned long pointer
-as input and just dumbly casting leads to out-of-bounds accesses.
-This fixes that.
-
-Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
----
- .../gpu/drm/arm/display/include/malidp_utils.h   | 10 ++++++++--
- .../gpu/drm/arm/display/komeda/komeda_pipeline.c | 16 +++++++++++-----
- .../arm/display/komeda/komeda_pipeline_state.c   | 13 ++++++++-----
- 3 files changed, 27 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/arm/display/include/malidp_utils.h b/drivers/gpu/drm/arm/display/include/malidp_utils.h
-index 3bc383d5bf73..8d289cd0b5b8 100644
---- a/drivers/gpu/drm/arm/display/include/malidp_utils.h
-+++ b/drivers/gpu/drm/arm/display/include/malidp_utils.h
-@@ -12,9 +12,15 @@
- 
- #define has_bit(nr, mask)	(BIT(nr) & (mask))
- #define has_bits(bits, mask)	(((bits) & (mask)) == (bits))
--
-+/*
-+#define dp_for_each_set_bit(bit, mask) \
-+	for_each_set_bit((bit), (&((unsigned long)(mask))), sizeof(mask) * 8)
-+#define dp_for_each_set_bit(bit, mask) \
-+	unsigned long __local_mask = mask; \
-+	for_each_set_bit((bit), (&__local_mask), sizeof(mask) * 8)
-+*/
- #define dp_for_each_set_bit(bit, mask) \
--	for_each_set_bit((bit), ((unsigned long *)&(mask)), sizeof(mask) * 8)
-+	for_each_set_bit((bit), &(mask), sizeof(mask) * 8)
- 
- #define dp_wait_cond(__cond, __tries, __min_range, __max_range)	\
- ({							\
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-index 719a79728e24..a85c8a806334 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-@@ -46,8 +46,9 @@ void komeda_pipeline_destroy(struct komeda_dev *mdev,
- {
- 	struct komeda_component *c;
- 	int i;
-+	unsigned long avail_comps = pipe->avail_comps;
- 
--	dp_for_each_set_bit(i, pipe->avail_comps) {
-+	dp_for_each_set_bit(i, avail_comps) {
- 		c = komeda_pipeline_get_component(pipe, i);
- 		komeda_component_destroy(mdev, c);
- 	}
-@@ -247,6 +248,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
- {
- 	struct komeda_component *c;
- 	int id;
-+	unsigned long avail_comps = pipe->avail_comps;
- 
- 	DRM_INFO("Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
- 		 pipe->id, pipe->n_layers, pipe->n_scalers,
-@@ -258,7 +260,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
- 		 pipe->of_output_links[1] ?
- 		 pipe->of_output_links[1]->full_name : "none");
- 
--	dp_for_each_set_bit(id, pipe->avail_comps) {
-+	dp_for_each_set_bit(id, avail_comps) {
- 		c = komeda_pipeline_get_component(pipe, id);
- 
- 		komeda_component_dump(c);
-@@ -270,8 +272,9 @@ static void komeda_component_verify_inputs(struct komeda_component *c)
- 	struct komeda_pipeline *pipe = c->pipeline;
- 	struct komeda_component *input;
- 	int id;
-+	unsigned long supported_inputs = c->supported_inputs;
- 
--	dp_for_each_set_bit(id, c->supported_inputs) {
-+	dp_for_each_set_bit(id, supported_inputs) {
- 		input = komeda_pipeline_get_component(pipe, id);
- 		if (!input) {
- 			c->supported_inputs &= ~(BIT(id));
-@@ -302,8 +305,9 @@ static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
- 	struct komeda_component *c;
- 	struct komeda_layer *layer;
- 	int i, id;
-+	unsigned long avail_comps = pipe->avail_comps;
- 
--	dp_for_each_set_bit(id, pipe->avail_comps) {
-+	dp_for_each_set_bit(id, avail_comps) {
- 		c = komeda_pipeline_get_component(pipe, id);
- 		komeda_component_verify_inputs(c);
- 	}
-@@ -355,13 +359,15 @@ void komeda_pipeline_dump_register(struct komeda_pipeline *pipe,
- {
- 	struct komeda_component *c;
- 	u32 id;
-+	unsigned long avail_comps;
- 
- 	seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
- 
- 	if (pipe->funcs && pipe->funcs->dump_register)
- 		pipe->funcs->dump_register(pipe, sf);
- 
--	dp_for_each_set_bit(id, pipe->avail_comps) {
-+	avail_comps = pipe->avail_comps;
-+	dp_for_each_set_bit(id, avail_comps) {
- 		c = komeda_pipeline_get_component(pipe, id);
- 
- 		seq_printf(sf, "\n------%s------\n", c->name);
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-index e8b1e15312d8..7640dae7f4bf 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-@@ -1232,7 +1232,8 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
- 	struct komeda_component_state *c_st;
- 	struct komeda_component *c;
--	u32 disabling_comps, id;
-+	u32 id;
-+	unsigned long disabling_comps;
- 
- 	WARN_ON(!old);
- 
-@@ -1287,7 +1288,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *old;
- 	struct komeda_component *c;
- 	struct komeda_component_state *c_st;
--	u32 id, disabling_comps = 0;
-+	u32 id;
-+	unsigned long disabling_comps;
- 
- 	old = komeda_pipeline_get_old_state(pipe, old_state);
- 
-@@ -1297,7 +1299,7 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
- 		disabling_comps = old->active_comps &
- 				  pipe->standalone_disabled_comps;
- 
--	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
-+	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
- 			 pipe->id, old->active_comps, disabling_comps);
- 
- 	dp_for_each_set_bit(id, disabling_comps) {
-@@ -1331,13 +1333,14 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
- 	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
- 	struct komeda_pipeline_state *old;
- 	struct komeda_component *c;
--	u32 id, changed_comps = 0;
-+	u32 id;
-+	unsigned long changed_comps;
- 
- 	old = komeda_pipeline_get_old_state(pipe, old_state);
- 
- 	changed_comps = new->active_comps | old->active_comps;
- 
--	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
-+	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
- 			 pipe->id, new->active_comps, changed_comps);
- 
- 	dp_for_each_set_bit(id, changed_comps) {
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMS8yMC8yMSAzOjQ0IFBNLCBTdGV2ZW4gUHJpY2Ugd3JvdGU6CgpTZW50IGEgbmV3IHBhdGNo
+IHRvIGxpc3Qgd2l0aCB1cGRhdGVzIGFzIGRpc2N1c3NlZC4KCj4gT24gMTgvMDEvMjAyMSAxNDoy
+MCwgY2Fyc3Rlbi5oYWl0emxlckBmb3NzLmFybS5jb20gd3JvdGU6Cj4+IEZyb206IENhcnN0ZW4g
+SGFpdHpsZXIgPGNhcnN0ZW4uaGFpdHpsZXJAYXJtLmNvbT4KPj4KPj4gQW5vdGhlciBpc3N1ZSBm
+b3VuZCBieSBLQVNBTi4gVGhlIGJpdCBmaW5kaW5nIGlzIGJ1ZXJpZWQgaW5zaWRlIHRoZQo+IAo+
+IE5JVDogcy9idWVyaWVkL2J1cmllZC8KPiAKPj4gZHBfZm9yX2VhY2hfc2V0X2JpdCgpIG1hY3Jv
+ICh0aGF0IHBhc3NlcyBvbiB0byBmb3JfZWFjaF9zZXRfYml0KCkgdGhhdAo+PiBjYWxscyB0aGUg
+Yml0IHN0dWZmLiBUaGVzZSBiaXQgZnVuY3Rpb25zIHdhbnQgYW4gdW5zaWduZWQgbG9uZyBwb2lu
+dGVyCj4+IGFzIGlucHV0IGFuZCBqdXN0IGR1bWJseSBjYXN0aW5nIGxlYWRzIHRvIG91dC1vZi1i
+b3VuZHMgYWNjZXNzZXMuCj4+IFRoaXMgZml4ZXMgdGhhdC4KPiAKPiBUaGlzIHNlZW1zIGxpa2Ug
+YW4gdW5kZXJseWluZyBidWcvbGFjayBvZiBjbGVhciBkb2N1bWVudGF0aW9uIGZvciB0aGUKPiB1
+bmRlcmx5aW5nIGZpbmRfKl9iaXQoKSBmdW5jdGlvbnMuIGRwX2Zvcl9lYWNoX3NldF9iaXQoKSB0
+cmllcyB0byBkbyB0aGUKPiByaWdodCB0aGluZzoKPiAKPiAgwqAgI2RlZmluZSBkcF9mb3JfZWFj
+aF9zZXRfYml0KGJpdCwgbWFzaykgXAo+ICDCoMKgwqDCoMKgIGZvcl9lYWNoX3NldF9iaXQoKGJp
+dCksICgodW5zaWduZWQgbG9uZyAqKSYobWFzaykpLCBzaXplb2YobWFzaykgCj4gKiA4KQo+IAo+
+IGkuZS4gcGFzc2luZyB0aGUgYWN0dWFsIHNpemUgb2YgdHlwZS4gSG93ZXZlciBiZWNhdXNlIG9m
+IHRoZSBjYXNlIHRvCj4gdW5zaWduZWQgbG9uZyAoYW5kIHN1YnNlcXVlbnQgYWNjZXNzZXMgdXNp
+bmcgdGhhdCB0eXBlKSB0aGUgY29tcGlsZXIgaXMKPiBmcmVlIHRvIG1ha2UgYWNjZXNzZXMgYmV5
+b25kIHRoZSBzaXplIG9mIHRoZSB2YXJpYWJsZSAoYW5kIGluZGVlZCB0aGlzCj4gaXMgY29tcGxl
+dGVseSBicm9rZW4gb24gYmlnLWVuZGlhbikuIFRoZSBpbXBsZW1lbnRhdGlvbiBhY3R1YWxseQo+
+IHJlcXVpcmVzIHRoYXQgdGhlIGJpdG1hcCBpcyByZWFsbHkgYW4gYXJyYXkgb2YgdW5zaWduZWQg
+bG9uZyAtIG5vIG90aGVyCj4gdHlwZSB3aWxsIHdvcmsuCj4gCj4gU28gSSB0aGluayB0aGUgZml4
+IHNob3VsZCBhbHNvIGluY2x1ZGUgZml4aW5nIHRoZSBkcF9mb3JfZWFjaF9zZXRfYml0KCkKPiBt
+YWNybyAtIHRoZSBjYXN0IGlzIGJvZ3VzIGFzIGl0IHN0YW5kcy4KPiAKPiBEb2luZyB0aGF0IEkg
+YWxzbyBnZXQgd2FybmluZ3Mgb24ga29tZWRhX3BpcGVsaW5lOjphdmFpbF9jb21wcyBhbmQKPiBr
+b21lZGFfcGlwZWxpbmU6OnN1cHBvcnRlZF9pbnB1dHMgLSBhbHRob3VnaCBJIG5vdGUgdGhlcmUg
+YXJlIG90aGVyCj4gYml0bWFza3MgbWVudGlvbmVkLgo+IAo+IFRoZSBvdGhlciBvcHRpb24gaXMg
+dG8gZml4IGRwX2Zvcl9lYWNoX3NldF9iaXQoKSBpdHNlbGYgdXNpbmcgYSBsaXR0bGUgCj4gaGFj
+azoKPiAKPiAtwqDCoMKgwqDCoMKgIGZvcl9lYWNoX3NldF9iaXQoKGJpdCksICgodW5zaWduZWQg
+bG9uZyAqKSYobWFzaykpLCBzaXplb2YobWFzaykgCj4gKiA4KQo+ICvCoMKgwqDCoMKgwqAgZm9y
+X2VhY2hfc2V0X2JpdCgoYml0KSwgKCYoKHVuc2lnbmVkIGxvbmcpe21hc2t9KSksIHNpemVvZiht
+YXNrKSAKPiAqIDgpCj4gCj4gV2l0aCB0aGF0IEkgZG9uJ3QgdGhpbmsgeW91IG5lZWQgYW55IG90
+aGVyIGNoYW5nZSBhcyB0aGUgbWFzayBpcyBhY3R1YWxseQo+IGluIGEgbmV3IHVuc2lnbmVkIGxv
+bmcgb24gdGhlIHN0YWNrLgo+IAo+IFN0ZXZlCj4gCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENhcnN0
+ZW4gSGFpdHpsZXIgPGNhcnN0ZW4uaGFpdHpsZXJAYXJtLmNvbT4KPj4gLS0tCj4+IMKgIC4uLi9k
+cm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9waXBlbGluZV9zdGF0ZS5jIHwgMTQgKysrKysr
+KystLS0tLS0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlv
+bnMoLSkKPj4KPj4gZGlmZiAtLWdpdCAKPj4gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkv
+a29tZWRhL2tvbWVkYV9waXBlbGluZV9zdGF0ZS5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hcm0v
+ZGlzcGxheS9rb21lZGEva29tZWRhX3BpcGVsaW5lX3N0YXRlLmMKPj4gaW5kZXggZThiMWUxNTMx
+MmQ4Li5mN2RkZGI5ZjAxNWQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlz
+cGxheS9rb21lZGEva29tZWRhX3BpcGVsaW5lX3N0YXRlLmMKPj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxpbmVfc3RhdGUuYwo+PiBAQCAtMTIz
+Miw3ICsxMjMyLDggQEAga29tZWRhX3BpcGVsaW5lX3VuYm91bmRfY29tcG9uZW50cyhzdHJ1Y3Qg
+Cj4+IGtvbWVkYV9waXBlbGluZSAqcGlwZSwKPj4gwqDCoMKgwqDCoCBzdHJ1Y3Qga29tZWRhX3Bp
+cGVsaW5lX3N0YXRlICpvbGQgPSAKPj4gcHJpdl90b19waXBlX3N0KHBpcGUtPm9iai5zdGF0ZSk7
+Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGtvbWVkYV9jb21wb25lbnRfc3RhdGUgKmNfc3Q7Cj4+IMKg
+wqDCoMKgwqAgc3RydWN0IGtvbWVkYV9jb21wb25lbnQgKmM7Cj4+IC3CoMKgwqAgdTMyIGRpc2Fi
+bGluZ19jb21wcywgaWQ7Cj4+ICvCoMKgwqAgdTMyIGlkOwo+PiArwqDCoMKgIHVuc2lnbmVkIGxv
+bmcgZGlzYWJsaW5nX2NvbXBzOwo+PiDCoMKgwqDCoMKgIFdBUk5fT04oIW9sZCk7Cj4+IEBAIC0x
+MjYyLDcgKzEyNjMsNiBAQCBpbnQga29tZWRhX3JlbGVhc2VfdW5jbGFpbWVkX3Jlc291cmNlcyhz
+dHJ1Y3QgCj4+IGtvbWVkYV9waXBlbGluZSAqcGlwZSwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHN0
+ID0ga29tZWRhX3BpcGVsaW5lX2dldF9uZXdfc3RhdGUocGlwZSwgZHJtX3N0KTsKPj4gwqDCoMKg
+wqDCoCBlbHNlCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBzdCA9IGtvbWVkYV9waXBlbGluZV9nZXRf
+c3RhdGVfYW5kX3NldF9jcnRjKHBpcGUsIGRybV9zdCwgCj4+IE5VTEwpOwo+PiAtCj4gCj4gTklU
+OiBSYW5kb20gd2hpdGUgc3BhY2UgY2hhbmdlCj4gCj4+IMKgwqDCoMKgwqAgaWYgKFdBUk5fT04o
+SVNfRVJSX09SX05VTEwoc3QpKSkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFM
+Owo+PiBAQCAtMTI4Nyw3ICsxMjg3LDggQEAgYm9vbCBrb21lZGFfcGlwZWxpbmVfZGlzYWJsZShz
+dHJ1Y3QgCj4+IGtvbWVkYV9waXBlbGluZSAqcGlwZSwKPj4gwqDCoMKgwqDCoCBzdHJ1Y3Qga29t
+ZWRhX3BpcGVsaW5lX3N0YXRlICpvbGQ7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGtvbWVkYV9jb21w
+b25lbnQgKmM7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGtvbWVkYV9jb21wb25lbnRfc3RhdGUgKmNf
+c3Q7Cj4+IC3CoMKgwqAgdTMyIGlkLCBkaXNhYmxpbmdfY29tcHMgPSAwOwo+PiArwqDCoMKgIHUz
+MiBpZDsKPj4gK8KgwqDCoCB1bnNpZ25lZCBsb25nIGRpc2FibGluZ19jb21wczsKPj4gwqDCoMKg
+wqDCoCBvbGQgPSBrb21lZGFfcGlwZWxpbmVfZ2V0X29sZF9zdGF0ZShwaXBlLCBvbGRfc3RhdGUp
+Owo+PiBAQCAtMTI5Nyw3ICsxMjk4LDcgQEAgYm9vbCBrb21lZGFfcGlwZWxpbmVfZGlzYWJsZShz
+dHJ1Y3QgCj4+IGtvbWVkYV9waXBlbGluZSAqcGlwZSwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRp
+c2FibGluZ19jb21wcyA9IG9sZC0+YWN0aXZlX2NvbXBzICYKPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgcGlwZS0+c3RhbmRhbG9uZV9kaXNhYmxlZF9jb21wczsKPj4g
+LcKgwqDCoCBEUk1fREVCVUdfQVRPTUlDKCJQSVBFJWQ6IGFjdGl2ZV9jb21wczogMHgleCwgZGlz
+YWJsaW5nX2NvbXBzOiAKPj4gMHgleC5cbiIsCj4+ICvCoMKgwqAgRFJNX0RFQlVHX0FUT01JQygi
+UElQRSVkOiBhY3RpdmVfY29tcHM6IDB4JXgsIGRpc2FibGluZ19jb21wczogCj4+IDB4JWx4Llxu
+IiwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwaXBlLT5pZCwgb2xkLT5hY3RpdmVf
+Y29tcHMsIGRpc2FibGluZ19jb21wcyk7Cj4+IMKgwqDCoMKgwqAgZHBfZm9yX2VhY2hfc2V0X2Jp
+dChpZCwgZGlzYWJsaW5nX2NvbXBzKSB7Cj4+IEBAIC0xMzMxLDEzICsxMzMyLDE0IEBAIHZvaWQg
+a29tZWRhX3BpcGVsaW5lX3VwZGF0ZShzdHJ1Y3QgCj4+IGtvbWVkYV9waXBlbGluZSAqcGlwZSwK
+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3Qga29tZWRhX3BpcGVsaW5lX3N0YXRlICpuZXcgPSAKPj4gcHJp
+dl90b19waXBlX3N0KHBpcGUtPm9iai5zdGF0ZSk7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGtvbWVk
+YV9waXBlbGluZV9zdGF0ZSAqb2xkOwo+PiDCoMKgwqDCoMKgIHN0cnVjdCBrb21lZGFfY29tcG9u
+ZW50ICpjOwo+PiAtwqDCoMKgIHUzMiBpZCwgY2hhbmdlZF9jb21wcyA9IDA7Cj4+ICvCoMKgwqAg
+dTMyIGlkOwo+PiArwqDCoMKgIHVuc2lnbmVkIGxvbmcgY2hhbmdlZF9jb21wczsKPj4gwqDCoMKg
+wqDCoCBvbGQgPSBrb21lZGFfcGlwZWxpbmVfZ2V0X29sZF9zdGF0ZShwaXBlLCBvbGRfc3RhdGUp
+Owo+PiDCoMKgwqDCoMKgIGNoYW5nZWRfY29tcHMgPSBuZXctPmFjdGl2ZV9jb21wcyB8IG9sZC0+
+YWN0aXZlX2NvbXBzOwo+PiAtwqDCoMKgIERSTV9ERUJVR19BVE9NSUMoIlBJUEUlZDogYWN0aXZl
+X2NvbXBzOiAweCV4LCBjaGFuZ2VkOiAweCV4LlxuIiwKPj4gK8KgwqDCoCBEUk1fREVCVUdfQVRP
+TUlDKCJQSVBFJWQ6IGFjdGl2ZV9jb21wczogMHgleCwgY2hhbmdlZDogMHglbHguXG4iLAo+PiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBpcGUtPmlkLCBuZXctPmFjdGl2ZV9jb21wcywg
+Y2hhbmdlZF9jb21wcyk7Cj4+IMKgwqDCoMKgwqAgZHBfZm9yX2VhY2hfc2V0X2JpdChpZCwgY2hh
+bmdlZF9jb21wcykgewo+Pgo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
