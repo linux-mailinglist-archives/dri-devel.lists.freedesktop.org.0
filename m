@@ -1,44 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA35F305FFA
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 16:45:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F20930610D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 17:31:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22C56E848;
-	Wed, 27 Jan 2021 15:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6364D6E848;
+	Wed, 27 Jan 2021 16:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 76D706E848
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 15:45:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 9ECEC2A6045;
- Wed, 27 Jan 2021 16:45:29 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id HntMSI7mAJsm; Wed, 27 Jan 2021 16:45:29 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 120322A6016;
- Wed, 27 Jan 2021 16:45:29 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1l4n0Z-000reN-Uo; Wed, 27 Jan 2021 16:45:27 +0100
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- ray.huang@amd.com, daniel@ffwll.ch
-References: <20210113131325.223511-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] drm/ttm: stop using GFP_TRANSHUGE_LIGHT
-Message-ID: <480d0a20-d64b-0837-6571-5af08080aa2a@daenzer.net>
-Date: Wed, 27 Jan 2021 16:45:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 73BCB6E848
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 16:31:00 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A58931B;
+ Wed, 27 Jan 2021 08:30:59 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FB343F66E;
+ Wed, 27 Jan 2021 08:30:58 -0800 (PST)
+Subject: Re: [PATCH] drm/komeda: Fix bit check to import to value of proper
+ type
+To: carsten.haitzler@foss.arm.com, dri-devel@lists.freedesktop.org
+References: <20210127123430.301752-1-carsten.haitzler@foss.arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <87570e8a-45f3-e2a7-ce17-fe521aa9d2f6@arm.com>
+Date: Wed, 27 Jan 2021 16:31:04 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210113131325.223511-1-christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="------------C1146B14D200CC12F17F2E47"
-Content-Language: en-CA
+In-Reply-To: <20210127123430.301752-1-carsten.haitzler@foss.arm.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,190 +42,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: liviu.dudau@arm.com, Carsten Haitzler <carsten.haitzler@arm.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------C1146B14D200CC12F17F2E47
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+NIT: This is the second version of this patch so should have "[PATCH 
+v2]" in the subject.
 
-On 2021-01-13 2:13 p.m., Christian König wrote:
-> The only flag we really need is __GFP_NOMEMALLOC, highmem depends on
-> dma32 and moveable/compound should never be set in the first place.
+On 27/01/2021 12:34, carsten.haitzler@foss.arm.com wrote:
+> From: Carsten Haitzler <carsten.haitzler@arm.com>
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Another issue found by KASAN. The bit finding is buried inside the
+> dp_for_each_set_bit() macro (that passes on to for_each_set_bit() that
+> calls the bit stuff. These bit functions want an unsigned long pointer
+> as input and just dumbly casting leads to out-of-bounds accesses.
+> This fixes that.
+> 
+> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
 > ---
->   drivers/gpu/drm/ttm/ttm_pool.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
+>   .../gpu/drm/arm/display/include/malidp_utils.h   | 10 ++++++++--
+>   .../gpu/drm/arm/display/komeda/komeda_pipeline.c | 16 +++++++++++-----
+>   .../arm/display/komeda/komeda_pipeline_state.c   | 13 ++++++++-----
+>   3 files changed, 27 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 8cd776adc592..11e0313db0ea 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -79,12 +79,13 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
->   	struct page *p;
->   	void *vaddr;
+> diff --git a/drivers/gpu/drm/arm/display/include/malidp_utils.h b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> index 3bc383d5bf73..8d289cd0b5b8 100644
+> --- a/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> +++ b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> @@ -12,9 +12,15 @@
 >   
-> -	if (order) {
-> -		gfp_flags |= GFP_TRANSHUGE_LIGHT | __GFP_NORETRY |
-> +	/* Don't set the __GFP_COMP flag for higher order allocations.
-> +	 * Mapping pages directly into an userspace process and calling
-> +	 * put_page() on a TTM allocated page is illegal.
-> +	 */
-> +	if (order)
-> +		gfp_flags |= __GFP_NOMEMALLOC | __GFP_NORETRY |
->   			__GFP_KSWAPD_RECLAIM;
-> -		gfp_flags &= ~__GFP_MOVABLE;
-> -		gfp_flags &= ~__GFP_COMP;
-> -	}
+>   #define has_bit(nr, mask)	(BIT(nr) & (mask))
+>   #define has_bits(bits, mask)	(((bits) & (mask)) == (bits))
+> -
+> +/*
+> +#define dp_for_each_set_bit(bit, mask) \
+> +	for_each_set_bit((bit), (&((unsigned long)(mask))), sizeof(mask) * 8)
+> +#define dp_for_each_set_bit(bit, mask) \
+> +	unsigned long __local_mask = mask; \
+> +	for_each_set_bit((bit), (&__local_mask), sizeof(mask) * 8)
+> +*/
+
+Commented out code left in - please remove it.
+
+>   #define dp_for_each_set_bit(bit, mask) \
+> -	for_each_set_bit((bit), ((unsigned long *)&(mask)), sizeof(mask) * 8)
+> +	for_each_set_bit((bit), &(mask), sizeof(mask) * 8)
+
+I'm not really sure if there's much point in this macro now. In practice 
+the uses below are now getting the wrong length (because sizeof(mask) == 
+sizeof(unsigned long) ) but we actually know the size is smaller in most 
+cases, so we could pass a more appropriate value in.
+
+Other than that the changes below look correct to me.
+
+Steve
+
 >   
->   	if (!pool->use_dma_alloc) {
->   		p = alloc_pages(gfp_flags, order);
+>   #define dp_wait_cond(__cond, __tries, __min_range, __max_range)	\
+>   ({							\
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> index 719a79728e24..a85c8a806334 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> @@ -46,8 +46,9 @@ void komeda_pipeline_destroy(struct komeda_dev *mdev,
+>   {
+>   	struct komeda_component *c;
+>   	int i;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+> -	dp_for_each_set_bit(i, pipe->avail_comps) {
+> +	dp_for_each_set_bit(i, avail_comps) {
+>   		c = komeda_pipeline_get_component(pipe, i);
+>   		komeda_component_destroy(mdev, c);
+>   	}
+> @@ -247,6 +248,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
+>   {
+>   	struct komeda_component *c;
+>   	int id;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+>   	DRM_INFO("Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
+>   		 pipe->id, pipe->n_layers, pipe->n_scalers,
+> @@ -258,7 +260,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
+>   		 pipe->of_output_links[1] ?
+>   		 pipe->of_output_links[1]->full_name : "none");
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	dp_for_each_set_bit(id, avail_comps) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   
+>   		komeda_component_dump(c);
+> @@ -270,8 +272,9 @@ static void komeda_component_verify_inputs(struct komeda_component *c)
+>   	struct komeda_pipeline *pipe = c->pipeline;
+>   	struct komeda_component *input;
+>   	int id;
+> +	unsigned long supported_inputs = c->supported_inputs;
+>   
+> -	dp_for_each_set_bit(id, c->supported_inputs) {
+> +	dp_for_each_set_bit(id, supported_inputs) {
+>   		input = komeda_pipeline_get_component(pipe, id);
+>   		if (!input) {
+>   			c->supported_inputs &= ~(BIT(id));
+> @@ -302,8 +305,9 @@ static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
+>   	struct komeda_component *c;
+>   	struct komeda_layer *layer;
+>   	int i, id;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	dp_for_each_set_bit(id, avail_comps) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   		komeda_component_verify_inputs(c);
+>   	}
+> @@ -355,13 +359,15 @@ void komeda_pipeline_dump_register(struct komeda_pipeline *pipe,
+>   {
+>   	struct komeda_component *c;
+>   	u32 id;
+> +	unsigned long avail_comps;
+>   
+>   	seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
+>   
+>   	if (pipe->funcs && pipe->funcs->dump_register)
+>   		pipe->funcs->dump_register(pipe, sf);
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	avail_comps = pipe->avail_comps;
+> +	dp_for_each_set_bit(id, avail_comps) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   
+>   		seq_printf(sf, "\n------%s------\n", c->name);
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> index e8b1e15312d8..7640dae7f4bf 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> @@ -1232,7 +1232,8 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
+>   	struct komeda_component_state *c_st;
+>   	struct komeda_component *c;
+> -	u32 disabling_comps, id;
+> +	u32 id;
+> +	unsigned long disabling_comps;
+>   
+>   	WARN_ON(!old);
+>   
+> @@ -1287,7 +1288,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *old;
+>   	struct komeda_component *c;
+>   	struct komeda_component_state *c_st;
+> -	u32 id, disabling_comps = 0;
+> +	u32 id;
+> +	unsigned long disabling_comps;
+>   
+>   	old = komeda_pipeline_get_old_state(pipe, old_state);
+>   
+> @@ -1297,7 +1299,7 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
+>   		disabling_comps = old->active_comps &
+>   				  pipe->standalone_disabled_comps;
+>   
+> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
+> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
+>   			 pipe->id, old->active_comps, disabling_comps);
+>   
+>   	dp_for_each_set_bit(id, disabling_comps) {
+> @@ -1331,13 +1333,14 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
+>   	struct komeda_pipeline_state *old;
+>   	struct komeda_component *c;
+> -	u32 id, changed_comps = 0;
+> +	u32 id;
+> +	unsigned long changed_comps;
+>   
+>   	old = komeda_pipeline_get_old_state(pipe, old_state);
+>   
+>   	changed_comps = new->active_comps | old->active_comps;
+>   
+> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
+> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
+>   			 pipe->id, new->active_comps, changed_comps);
+>   
+>   	dp_for_each_set_bit(id, changed_comps) {
 > 
-
-I picked up this change today, and got the attached splat while running 
-piglit.
-
-scripts/faddr2line drivers/gpu/drm/ttm/ttm.ko ttm_pool_alloc+0x2e4/0x5e0
-
-gives:
-
-ttm_pool_alloc+0x2e4/0x5e0:
-  alloc_pages at /home/daenzer/src/linux-git/linux/./include/linux/gfp.h:547
-
-(inlined by) ttm_pool_alloc_page at 
-/home/daenzer/src/linux-git/linux/drivers/gpu/drm//ttm/ttm_pool.c:91
-
-(inlined by) ttm_pool_alloc at 
-/home/daenzer/src/linux-git/linux/drivers/gpu/drm//ttm/ttm_pool.c:398
-
-
-
-I suspect we need __GFP_NOWARN as well to avoid these splats.
-
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
-
---------------C1146B14D200CC12F17F2E47
-Content-Type: text/plain; charset=UTF-8;
- name="splat.txt"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="splat.txt"
-
-WyA5NTU2LjcxMDI0MV0gY2xpbmZvOiBwYWdlIGFsbG9jYXRpb24gZmFpbHVyZTogb3JkZXI6
-OSwgbW9kZToweDE5NGRjMihHRlBfSElHSFVTRVJ8X19HRlBfUkVUUllfTUFZRkFJTHxfX0dG
-UF9OT1JFVFJZfF9fR0ZQX1pFUk98X19HRlBfTk9NRU1BTExPQyksIG5vZGVtYXNrPShudWxs
-KSxjcHVzZXQ9dXNlci5zbGljZSxtZW1zX2FsbG93ZWQ9MApbIDk1NTYuNzEwMjU5XSBDUFU6
-IDEgUElEOiA0NzA4MjEgQ29tbTogY2xpbmZvIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAg
-ICA1LjEwLjEwKyAjNApbIDk1NTYuNzEwMjY0XSBIYXJkd2FyZSBuYW1lOiBNaWNyby1TdGFy
-IEludGVybmF0aW9uYWwgQ28uLCBMdGQuIE1TLTdBMzQvQjM1MCBUT01BSEFXSyAoTVMtN0Ez
-NCksIEJJT1MgMS5PUiAxMS8yOS8yMDE5ClsgOTU1Ni43MTAyNjhdIENhbGwgVHJhY2U6Clsg
-OTU1Ni43MTAyODFdICBkdW1wX3N0YWNrKzB4NmIvMHg4MwpbIDk1NTYuNzEwMjg4XSAgd2Fy
-bl9hbGxvYy5jb2xkKzB4N2IvMHhkZgpbIDk1NTYuNzEwMjk3XSAgPyBfX2FsbG9jX3BhZ2Vz
-X2RpcmVjdF9jb21wYWN0KzB4MTM3LzB4MTUwClsgOTU1Ni43MTAzMDNdICBfX2FsbG9jX3Bh
-Z2VzX3Nsb3dwYXRoLmNvbnN0cHJvcC4wKzB4YzFiLzB4YzUwClsgOTU1Ni43MTAzMTJdICBf
-X2FsbG9jX3BhZ2VzX25vZGVtYXNrKzB4MmVjLzB4MzIwClsgOTU1Ni43MTAzMjVdICB0dG1f
-cG9vbF9hbGxvYysweDJlNC8weDVlMCBbdHRtXQpbIDk1NTYuNzEwMzMyXSAgPyBrdm1hbGxv
-Y19ub2RlKzB4NDYvMHg4MApbIDk1NTYuNzEwMzQxXSAgdHRtX3R0X3BvcHVsYXRlKzB4Mzcv
-MHhlMCBbdHRtXQpbIDk1NTYuNzEwMzUwXSAgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbSsweDE0
-Mi8weDE4MCBbdHRtXQpbIDk1NTYuNzEwMzU5XSAgdHRtX2JvX3ZhbGlkYXRlKzB4MTFkLzB4
-MTkwIFt0dG1dClsgOTU1Ni43MTAzOTFdICA/IGRybV92bWFfb2Zmc2V0X2FkZCsweDJmLzB4
-NjAgW2RybV0KWyA5NTU2LjcxMDM5OV0gIHR0bV9ib19pbml0X3Jlc2VydmVkKzB4MmE3LzB4
-MzIwIFt0dG1dClsgOTU1Ni43MTA1MjldICBhbWRncHVfYm9fZG9fY3JlYXRlKzB4MWI4LzB4
-NTAwIFthbWRncHVdClsgOTU1Ni43MTA2NTddICA/IGFtZGdwdV9ib19zdWJ0cmFjdF9waW5f
-c2l6ZSsweDYwLzB4NjAgW2FtZGdwdV0KWyA5NTU2LjcxMDY2M10gID8gZ2V0X3BhZ2VfZnJv
-bV9mcmVlbGlzdCsweDExZjkvMHgxNDUwClsgOTU1Ni43MTA3ODldICBhbWRncHVfYm9fY3Jl
-YXRlKzB4NDAvMHgyNzAgW2FtZGdwdV0KWyA5NTU2LjcxMDc5N10gID8gX3Jhd19zcGluX3Vu
-bG9jaysweDE2LzB4MzAKWyA5NTU2LjcxMDkyN10gIGFtZGdwdV9nZW1fY3JlYXRlX2lvY3Rs
-KzB4MTIzLzB4MzEwIFthbWRncHVdClsgOTU1Ni43MTEwNjJdICA/IGFtZGdwdV9nZW1fZm9y
-Y2VfcmVsZWFzZSsweDE1MC8weDE1MCBbYW1kZ3B1XQpbIDk1NTYuNzExMDk4XSAgZHJtX2lv
-Y3RsX2tlcm5lbCsweGFhLzB4ZjAgW2RybV0KWyA5NTU2LjcxMTEzM10gIGRybV9pb2N0bCsw
-eDIwZi8weDNhMCBbZHJtXQpbIDk1NTYuNzExMjY3XSAgPyBhbWRncHVfZ2VtX2ZvcmNlX3Jl
-bGVhc2UrMHgxNTAvMHgxNTAgW2FtZGdwdV0KWyA5NTU2LjcxMTI3Nl0gID8gcHJlZW1wdF9j
-b3VudF9zdWIrMHg5Yi8weGQwClsgOTU1Ni43MTE0MDRdICBhbWRncHVfZHJtX2lvY3RsKzB4
-NDkvMHg4MCBbYW1kZ3B1XQpbIDk1NTYuNzExNDExXSAgX194NjRfc3lzX2lvY3RsKzB4ODMv
-MHhiMApbIDk1NTYuNzExNDE3XSAgZG9fc3lzY2FsbF82NCsweDMzLzB4ODAKWyA5NTU2Ljcx
-MTQyMV0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKWyA5NTU2
-LjcxMTQyNl0gUklQOiAwMDMzOjB4N2YxNDIxN2JkY2M3ClsgOTU1Ni43MTE0MzFdIENvZGU6
-IDAwIDAwIDAwIDQ4IDhiIDA1IGM5IDkxIDBjIDAwIDY0IGM3IDAwIDI2IDAwIDAwIDAwIDQ4
-IGM3IGMwIGZmIGZmIGZmIGZmIGMzIDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIGI4
-IDEwIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIg
-MGQgOTkgOTEgMGMgMDAgZjcgZDggNjQgODkgMDEgNDgKWyA5NTU2LjcxMTQzNF0gUlNQOiAw
-MDJiOjAwMDA3ZmZkOTdiZmRjNjggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDogMDAwMDAw
-MDAwMDAwMDAxMApbIDk1NTYuNzExNDM5XSBSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAw
-MDAwN2ZmZDk3YmZkY2MwIFJDWDogMDAwMDdmMTQyMTdiZGNjNwpbIDk1NTYuNzExNDQyXSBS
-RFg6IDAwMDA3ZmZkOTdiZmRjYzAgUlNJOiAwMDAwMDAwMGMwMjA2NDQwIFJESTogMDAwMDAw
-MDAwMDAwMDAwNgpbIDk1NTYuNzExNDQ1XSBSQlA6IDAwMDAwMDAwYzAyMDY0NDAgUjA4OiAw
-MDAwMDAwMDAwMDAwMDA4IFIwOTogMDAwMDdmMTQyMTg4N2JlMApbIDk1NTYuNzExNDQ4XSBS
-MTA6IDAwMDA3ZmZkOTdjOWUwODAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDU2
-NGRhYjc2MmQyMApbIDk1NTYuNzExNDUwXSBSMTM6IDAwMDAwMDAwMDAwMDAwMDYgUjE0OiAw
-MDAwMDAwMDAwMjAwMDAwIFIxNTogMDAwMDAwMDAwMDIwMDAwMApbIDk1NTYuNzExNDg5XSBN
-ZW0tSW5mbzoKWyA5NTU2LjcxMTQ5OV0gYWN0aXZlX2Fub246MzI1MyBpbmFjdGl2ZV9hbm9u
-OjE0MTQ5NCBpc29sYXRlZF9hbm9uOjAKICAgICAgICAgICAgICAgIGFjdGl2ZV9maWxlOjE4
-Nzg3ODAgaW5hY3RpdmVfZmlsZToxNTU4MDY0IGlzb2xhdGVkX2ZpbGU6MzIKICAgICAgICAg
-ICAgICAgIHVuZXZpY3RhYmxlOjAgZGlydHk6NjU3MSB3cml0ZWJhY2s6MAogICAgICAgICAg
-ICAgICAgc2xhYl9yZWNsYWltYWJsZToxMjM0MDcgc2xhYl91bnJlY2xhaW1hYmxlOjQwOTky
-CiAgICAgICAgICAgICAgICBtYXBwZWQ6NjIwOTEgc2htZW06MzgyMSBwYWdldGFibGVzOjM4
-MzcgYm91bmNlOjAKICAgICAgICAgICAgICAgIGZyZWU6MjkzNTk2IGZyZWVfcGNwOjY4NCBm
-cmVlX2NtYTowClsgOTU1Ni43MTE1MTBdIE5vZGUgMCBhY3RpdmVfYW5vbjoxMzAxMmtCIGlu
-YWN0aXZlX2Fub246NTY1OTc2a0IgYWN0aXZlX2ZpbGU6NzUxNTEyMGtCIGluYWN0aXZlX2Zp
-bGU6NjIzMjI1NmtCIHVuZXZpY3RhYmxlOjBrQiBpc29sYXRlZChhbm9uKTowa0IgaXNvbGF0
-ZWQoZmlsZSk6MTI4a0IgbWFwcGVkOjI0ODM2NGtCIGRpcnR5OjI2Mjg0a0Igd3JpdGViYWNr
-OjBrQiBzaG1lbToxNTI4NGtCIHNobWVtX3RocDogMGtCIHNobWVtX3BtZG1hcHBlZDogMGtC
-IGFub25fdGhwOiAxNzYxMjhrQiB3cml0ZWJhY2tfdG1wOjBrQiBrZXJuZWxfc3RhY2s6MTE0
-NzJrQiBhbGxfdW5yZWNsYWltYWJsZT8gbm8KWyA5NTU2LjcxMTUxOF0gTm9kZSAwIERNQSBm
-cmVlOjEzODM2a0IgbWluOjY0a0IgbG93Ojgwa0IgaGlnaDo5NmtCIHJlc2VydmVkX2hpZ2hh
-dG9taWM6MEtCIGFjdGl2ZV9hbm9uOjBrQiBpbmFjdGl2ZV9hbm9uOjBrQiBhY3RpdmVfZmls
-ZTowa0IgaW5hY3RpdmVfZmlsZTowa0IgdW5ldmljdGFibGU6MGtCIHdyaXRlcGVuZGluZzow
-a0IgcHJlc2VudDoxNTk5NmtCIG1hbmFnZWQ6MTU4ODRrQiBtbG9ja2VkOjBrQiBwYWdldGFi
-bGVzOjBrQiBib3VuY2U6MGtCIGZyZWVfcGNwOjBrQiBsb2NhbF9wY3A6MGtCIGZyZWVfY21h
-OjBrQgpbIDk1NTYuNzExNTMwXSBsb3dtZW1fcmVzZXJ2ZVtdOiAwIDM0NTUgMTU5MTYgMTU5
-MTYgMTU5MTYKWyA5NTU2LjcxMTU2MV0gTm9kZSAwIERNQTMyIGZyZWU6OTYwOTEya0IgbWlu
-OjE0NjU2a0IgbG93OjE4MzIwa0IgaGlnaDoyMTk4NGtCIHJlc2VydmVkX2hpZ2hhdG9taWM6
-MEtCIGFjdGl2ZV9hbm9uOjBrQiBpbmFjdGl2ZV9hbm9uOjQxMjhrQiBhY3RpdmVfZmlsZTox
-NDc2OTg0a0IgaW5hY3RpdmVfZmlsZTo4ODU4ODRrQiB1bmV2aWN0YWJsZTowa0Igd3JpdGVw
-ZW5kaW5nOjEwNzQ0a0IgcHJlc2VudDozNjE2NjEya0IgbWFuYWdlZDozNjE0Mjk2a0IgbWxv
-Y2tlZDowa0IgcGFnZXRhYmxlczo5NjhrQiBib3VuY2U6MGtCIGZyZWVfcGNwOjM3MmtCIGxv
-Y2FsX3BjcDo0a0IgZnJlZV9jbWE6MGtCClsgOTU1Ni43MTE1NzZdIGxvd21lbV9yZXNlcnZl
-W106IDAgMCAxMjQ2MCAxMjQ2MCAxMjQ2MApbIDk1NTYuNzExNTg1XSBOb2RlIDAgTm9ybWFs
-IGZyZWU6MTk5Mzg0a0IgbWluOjUyODU2a0IgbG93OjY2MDY4a0IgaGlnaDo3OTI4MGtCIHJl
-c2VydmVkX2hpZ2hhdG9taWM6MEtCIGFjdGl2ZV9hbm9uOjEzMDEya0IgaW5hY3RpdmVfYW5v
-bjo1NjE4NjhrQiBhY3RpdmVfZmlsZTo2MDM4MzQwa0IgaW5hY3RpdmVfZmlsZTo1MzQ2NTc2
-a0IgdW5ldmljdGFibGU6MGtCIHdyaXRlcGVuZGluZzoxNTg0NGtCIHByZXNlbnQ6MTMwOTQ0
-MDBrQiBtYW5hZ2VkOjEyNzY4NTU2a0IgbWxvY2tlZDowa0IgcGFnZXRhYmxlczoxNDM4MGtC
-IGJvdW5jZTowa0IgZnJlZV9wY3A6MjY0MGtCIGxvY2FsX3BjcDoxMDQ0a0IgZnJlZV9jbWE6
-MGtCClsgOTU1Ni43MTE1OTJdIGxvd21lbV9yZXNlcnZlW106IDAgMCAwIDAgMApbIDk1NTYu
-NzExNjAwXSBOb2RlIDAgRE1BOiAzKjRrQiAoVSkgNCo4a0IgKFUpIDAqMTZrQiAxKjMya0Ig
-KFUpIDMqNjRrQiAoVSkgMCoxMjhrQiAxKjI1NmtCIChVKSAwKjUxMmtCIDEqMTAyNGtCIChV
-KSAyKjIwNDhrQiAoVU0pIDIqNDA5NmtCIChNKSA9IDEzODM2a0IKWyA5NTU2LjcxMTYzNl0g
-Tm9kZSAwIERNQTMyOiA3MDgxKjRrQiAoVU1FKSAzOTI2KjhrQiAoVU1FKSAxOTMxKjE2a0Ig
-KFVNRSkgMTExNTgqMzJrQiAoVU1FKSA1MTk4KjY0a0IgKFVNKSA2MjAqMTI4a0IgKFVNRSkg
-MTE1KjI1NmtCIChNRSkgNjIqNTEya0IgKE0pIDQwKjEwMjRrQiAoTSkgMCoyMDQ4a0IgMCo0
-MDk2a0IgPSA5NjE4NjBrQgpbIDk1NTYuNzExNjgwXSBOb2RlIDAgTm9ybWFsOiAzODEyKjRr
-QiAoVU1FKSA4ODI3KjhrQiAoVU1FKSAyMTMxKjE2a0IgKFVNKSA0ODIqMzJrQiAoVU1FKSAy
-MjIqNjRrQiAoVU1FKSAyNDIqMTI4a0IgKFVNKSAzMCoyNTZrQiAoVU0pIDE0KjUxMmtCIChN
-KSA2KjEwMjRrQiAoVU0pIDAqMjA0OGtCIDAqNDA5NmtCID0gMjAxNTYwa0IKWyA5NTU2Ljcx
-MTcyOV0gMzQ0MTE2MCB0b3RhbCBwYWdlY2FjaGUgcGFnZXMKWyA5NTU2LjcxMTczNF0gNTgy
-IHBhZ2VzIGluIHN3YXAgY2FjaGUKWyA5NTU2LjcxMTczOF0gU3dhcCBjYWNoZSBzdGF0czog
-YWRkIDkyNTQsIGRlbGV0ZSA4Njc0LCBmaW5kIDQxNS82NTYKWyA5NTU2LjcxMTc0Ml0gRnJl
-ZSBzd2FwICA9IDc5ODEzMDhrQgpbIDk1NTYuNzExNzQ1XSBUb3RhbCBzd2FwID0gNzk5OTQ4
-NGtCClsgOTU1Ni43MTE3NDhdIDQxODE3NTIgcGFnZXMgUkFNClsgOTU1Ni43MTE3NTJdIDAg
-cGFnZXMgSGlnaE1lbS9Nb3ZhYmxlT25seQpbIDk1NTYuNzExNzU1XSA4MjA2OCBwYWdlcyBy
-ZXNlcnZlZApbIDk1NTYuNzExNzU3XSAwIHBhZ2VzIGh3cG9pc29uZWQK
---------------C1146B14D200CC12F17F2E47
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---------------C1146B14D200CC12F17F2E47--
