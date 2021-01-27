@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359203055B5
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1A03055B7
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Jan 2021 09:30:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8274B6E5B9;
-	Wed, 27 Jan 2021 08:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C73426E5CC;
+	Wed, 27 Jan 2021 08:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00646E517
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 04:54:40 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id kx7so543658pjb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 20:54:40 -0800 (PST)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 327836E519
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 04:54:44 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id q131so398621pfq.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Jan 2021 20:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HSBHxC6BVq05Sqe74BC637dMAggq9obPvY1bN+IbxX8=;
- b=QLrYujKWg6brD9Dn4569hiEZyanZ/c1eZlO9Y8Xkr3ZSqZ1GIkkMBWnx2iweqHKFzN
- 98LgtgS7J1HKyPBfvqi3D+M21Balppe5d6zFiEFpyw+/iVnP8zFYOM+lB8LdHlVKjcOr
- XiAKpeDyKeqCp9VkmeyO3GpLbsopCwWYpXvAE=
+ bh=Kku5mUfG6ArzofT8Gp0G6Y6k/YXISfCSiI9xyZoXKqQ=;
+ b=X5vP6xGTjUSeHE8naRaj4k/+Ch2Dg3rD0xr7wvpLCEmw8icxmNbTF2b7LI5A1AweXw
+ ZHL+sT/Tkg10+Vjdq54CuPhsH5KAk/W501skMzJRDYOb6vTO9j1Z1vGhXzbScVf9qVBU
+ yeKZQQ/4sM/E3YSVqJFHrTa4gyKCxqkRM2SdQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HSBHxC6BVq05Sqe74BC637dMAggq9obPvY1bN+IbxX8=;
- b=mCujI5pDzChdSbSRQid3V1Qd+XPrCzLCJWQocmIMxGZSaTFMovXMwqqQyKCNne40zf
- IUyPV5WJXhDyKv3FbqedkUbJSlQzeCpV0I54kp8+auTE21+KOHQ53/925CXxYF2UI+90
- Rk2tUIfwG9XECz+JK10uJDwNwX1J5eDh1rx+yF+0GhUE+rjszXla0ab+gOnFQaXPXwFl
- GMl+v7Rc5mjeZOZJymagSak3afdDdzMarj+IuvN4BmIws2mIiPE0aJhCpF4ORi7972Ni
- cvGBioj102fhuUDQyg51BTqtJPTkG1z09/Od4libv3jilERCLBIXemyOXsBqUuddxePs
- 4K2w==
-X-Gm-Message-State: AOAM530sGdGb74fHNU2/g6dChXPBozgnus2Wxz9huPYt692kA4d5+Qv+
- 4ggyVaW58Giuf5xKH6pY1twRnA==
-X-Google-Smtp-Source: ABdhPJy/lxAmlDmjnchY5j6fyQaiGPSUiu+V7cni9mncc8A/hA+9bzzULC0varJkx+Ggb//BqKRJVQ==
-X-Received: by 2002:a17:902:70c6:b029:df:d62a:8c69 with SMTP id
- l6-20020a17090270c6b02900dfd62a8c69mr9586813plt.20.1611723280370; 
- Tue, 26 Jan 2021 20:54:40 -0800 (PST)
+ bh=Kku5mUfG6ArzofT8Gp0G6Y6k/YXISfCSiI9xyZoXKqQ=;
+ b=nUKwobxBpRqZEwC6nWcRfYYBwer5MJnPDqoyXwC5llapqYR8u4aBgnsQKHzLZ+NMHw
+ 8fZUgBPQLq9GPJukPq+6O2c7vK4qt0qpCpi6i+AhLzRZv1I2h4IU+LK5bJ2QL4sKhgNF
+ wQr9sqoKJeJedQj9jdOJaRqBa8vrBD7WMzpuko4BpHpsXK74Flowa7fWNlPe8eagpbkO
+ V2R595WFdOBgFs1aXQnc9bDbClw2dZD9OhUg6bE88groav878Xp7n9BVv3qHb1Qsmq08
+ 1SfHGFvf2oFW3rFOhxRiTwzIh1OzEpa8PGxs2slLLAnCaS71n0aTRPmtkinDcAtC4eGK
+ Eg3A==
+X-Gm-Message-State: AOAM531g7SC2V2yOguh5SHBhcYWydVnjo3ry4dFJVk15YtBDb5T3gFkt
+ W/mTF/G7efadc+OYcW1uzK7MPQ==
+X-Google-Smtp-Source: ABdhPJw2cxb7tmc6QqJmdJ2QhCqQtOU+GGW+9Ce5oeS5V3z8NOuwcxgrUep+Xy1tAJkmYlz44icQgA==
+X-Received: by 2002:a63:2009:: with SMTP id g9mr9225513pgg.219.1611723283660; 
+ Tue, 26 Jan 2021 20:54:43 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:e0a5:d2fc:aaad:1e4a])
- by smtp.gmail.com with ESMTPSA id a141sm684484pfa.189.2021.01.26.20.54.37
+ by smtp.gmail.com with ESMTPSA id a141sm684484pfa.189.2021.01.26.20.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 20:54:39 -0800 (PST)
+ Tue, 26 Jan 2021 20:54:43 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v10 3/9] drm/mediatek: add RDMA fifo size error handle
-Date: Wed, 27 Jan 2021 12:54:16 +0800
-Message-Id: <20210127045422.2418917-4-hsinyi@chromium.org>
+Subject: [PATCH v10 4/9] drm/mediatek: generalize mtk_dither_set() function
+Date: Wed, 27 Jan 2021 12:54:17 +0800
+Message-Id: <20210127045422.2418917-5-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
 In-Reply-To: <20210127045422.2418917-1-hsinyi@chromium.org>
 References: <20210127045422.2418917-1-hsinyi@chromium.org>
@@ -77,33 +76,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+There may be data structure other than mtk_ddp_comp_dev that would call
+mtk_dither_set(), so use regs as parameter instead of device.
 
-This patch add RDMA fifo size error handle
-rdma fifo size will not always bigger than the calculated threshold
-if that case happened, we need set fifo size as the threshold
-
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  4 ++++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 25 +++++++++++++--------
+ 2 files changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index b84004394970f..04b9542010b00 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -168,6 +168,10 @@ void mtk_rdma_config(struct device *dev, unsigned int width,
- 	 * account for blanking, and with a pixel depth of 4 bytes:
- 	 */
- 	threshold = width * height * vrefresh * 4 * 7 / 1000000;
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+index 46d199b7b4a29..c50d5fc9fd349 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+@@ -17,6 +17,10 @@ void mtk_color_config(struct device *dev, unsigned int w,
+ 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+ void mtk_color_start(struct device *dev);
+ 
++void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
++			   unsigned int bpc, unsigned int CFG,
++			   struct cmdq_pkt *cmdq_pkt);
 +
-+	if (threshold > rdma_fifo_size)
-+		threshold = rdma_fifo_size;
+ void mtk_dpi_start(struct device *dev);
+ void mtk_dpi_stop(struct device *dev);
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 7b5293429426d..53d25823a37cc 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -151,33 +151,40 @@ static void mtk_ddp_clk_disable(struct device *dev)
+ 	clk_disable_unprepare(priv->clk);
+ }
+ 
+-static void mtk_dither_set(struct device *dev, unsigned int bpc,
+-		    unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
+-{
+-	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
++void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
++			   unsigned int bpc, unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
++{
+ 	/* If bpc equal to 0, the dithering function didn't be enabled */
+ 	if (bpc == 0)
+ 		return;
+ 
+ 	if (bpc >= MTK_MIN_BPC) {
+-		mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, DISP_DITHER_5);
+-		mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, DISP_DITHER_7);
++		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_5);
++		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_7);
+ 		mtk_ddp_write(cmdq_pkt,
+ 			      DITHER_LSB_ERR_SHIFT_R(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_R(MTK_MAX_BPC - bpc) |
+ 			      DITHER_NEW_BIT_MODE,
+-			      &priv->cmdq_reg, priv->regs, DISP_DITHER_15);
++			      cmdq_reg, regs, DISP_DITHER_15);
+ 		mtk_ddp_write(cmdq_pkt,
+ 			      DITHER_LSB_ERR_SHIFT_B(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_B(MTK_MAX_BPC - bpc) |
+ 			      DITHER_LSB_ERR_SHIFT_G(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_G(MTK_MAX_BPC - bpc),
+-			      &priv->cmdq_reg, priv->regs, DISP_DITHER_16);
+-		mtk_ddp_write(cmdq_pkt, DISP_DITHERING, &priv->cmdq_reg, priv->regs, CFG);
++			      cmdq_reg, regs, DISP_DITHER_16);
++		mtk_ddp_write(cmdq_pkt, DISP_DITHERING, cmdq_reg, regs, CFG);
+ 	}
+ }
+ 
++static void mtk_dither_set(struct device *dev, unsigned int bpc,
++		    unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
++{
++	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
 +
- 	reg = RDMA_FIFO_UNDERFLOW_EN |
- 	      RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
- 	      RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
++	mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, CFG, cmdq_pkt);
++}
++
+ static void mtk_od_config(struct device *dev, unsigned int w,
+ 			  unsigned int h, unsigned int vrefresh,
+ 			  unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
 -- 
 2.30.0.280.ga3ce27912f-goog
 
