@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B46307EE3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF3A307EE8
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2294B6EA0F;
-	Thu, 28 Jan 2021 19:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 933316EA0D;
+	Thu, 28 Jan 2021 19:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71ABF6E48E;
- Thu, 28 Jan 2021 12:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=uGytE7I0mp3c6lgSL+
- ib2vk1NbSDygdXthHzFLoUVvw=; b=SJ6gkniHmwz/08M9zPGkVWQgMv/SZt7dX+
- GrvxiqPxo2vwpK2EmdcEE1qwKFnm7Ftwn1O33WtEf/1+0x4MPMmSFb+8Ye0y7a6Z
- TQCbbJCOrDKt8ZEOhtJiMBkC0ekH/9Ik0g6iiC5vVVMlVaS/+w5iRv9ms80ssvzU
- ffo3BMqRg=
-Received: from localhost.localdomain.localdomain (unknown [182.150.46.145])
- by smtp1 (Coremail) with SMTP id C8mowAC3vj6iqhJguUeDOA--.19095S2;
- Thu, 28 Jan 2021 20:14:27 +0800 (CST)
-From: Qu Huang <jinsdb@126.com>
-To: Felix.Kuehling@amd.com
-Subject: [PATCH v2] drm/amdkfd: dqm fence memory corruption
-Date: Thu, 28 Jan 2021 20:14:25 +0800
-Message-Id: <1611836065-30884-1-git-send-email-jinsdb@126.com>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: C8mowAC3vj6iqhJguUeDOA--.19095S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3WF48JF1rWFWUArykGw47XFb_yoWxAF45pF
- Z3Jr17Wry8tF4av348Za48AFy3C3WxJFyfKry7G3sI93Z8Xa4rKrZ8Aay5K3y0gF9Fyay7
- JrsrGrW8W3Zrtr7anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Uev3nUUUUU=
-X-Originating-IP: [182.150.46.145]
-X-CM-SenderInfo: pmlq2vbe6rjloofrz/1tbirwMoDlpD-hp4ZQAAsq
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3896E193
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 12:53:52 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id md11so3811153pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 04:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=xKZV/Um0FhIRJnZma6AnCUuyhST6hlEZWfXA5uHsQWE=;
+ b=RsVUrWnGd5k9TLDian2DQ05N268wiPWUgerEcXZhzdAKH+9zPCu7/ScFRrGiZCWlsK
+ mM83O/xDIDeNYUagTprjteO+ERDCmrAhAbcQfoJRKt+Q+pF+i80s7aEgIo7Q7viniVXn
+ MDmGR+jFMWiH+N4dGoh1g/VIRrp9owYBxr318oNo/aK3RyjDD2Cf064hY9Fon3iWj5xn
+ HHGesDUBujYRMpB7bg0Q2YJGOTmHDPx2oOcuGysKGirA+Kx2PekmSRXRbwqMh+KrNhUZ
+ 0OrP4R/Qk6xvCXyKEJVhoEhLzGBfhlDOz2G6pq3xuA9UTM5RXVtcsF9ghvfLDhJX7pXV
+ +u3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=xKZV/Um0FhIRJnZma6AnCUuyhST6hlEZWfXA5uHsQWE=;
+ b=DxlXVnILyfc7kG3jlAWE5ntkQ/hKgoEWIKHlFP/EMO1RGR4RBNNk+cmute7xfczqL9
+ uuXsZHDxeirwnK3NmZ6tb6JC87hN+0JvY6LhQOxtYUTvy6ZbyKMOM+m55ULJ2kVdmOo3
+ xidie6TLRR9fbVcTl/8uvK6Ms6oqj3feOlOxvTDxd/dchT3433ww2fO8iaypKs0QPSZm
+ MZ2c35pia6x7uXwQ2xWE1EicG/d2uhTQQjNdFoVKaJAQXBdvTMt0y36LS1J9X9adGxgT
+ hxzpLzAOP7jAbDE9TvpMwp/E0fvyVTPDiDqm4FFKC4FSvoODEjbTBZGp2HR6DZwAb3tk
+ uFeQ==
+X-Gm-Message-State: AOAM533be72Z8NK7bp4OxhVarR8hg+2NkqcrolJdKwGh0pFugC3lB5ah
+ JNnPoJHIm+oM4U4ig0AduxE=
+X-Google-Smtp-Source: ABdhPJz5GI/BBV+WOge6Ok/da+CApxkX/YnH/s4kvZM1atA4tL07ZH/qrSyjF6NlpzDY2iIv01Zsxg==
+X-Received: by 2002:a17:902:ab90:b029:e0:17b:ae98 with SMTP id
+ f16-20020a170902ab90b02900e0017bae98mr16119255plr.6.1611838432507; 
+ Thu, 28 Jan 2021 04:53:52 -0800 (PST)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id y1sm5821520pfn.125.2021.01.28.04.53.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 28 Jan 2021 04:53:51 -0800 (PST)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v12] staging: fbtft: add tearing signal detect
+Date: Thu, 28 Jan 2021 20:53:55 +0800
+Message-Id: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,163 +63,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jinsdb@126.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Amdgpu driver uses 4-byte data type as DQM fence memory,
-and transmits GPU address of fence memory to microcode
-through query status PM4 message. However, query status
-PM4 message definition and microcode processing are all
-processed according to 8 bytes. Fence memory only allocates
-4 bytes of memory, but microcode does write 8 bytes of memory,
-so there is a memory corruption.
+From: zhangxuezhi <zhangxuezhi1@yulong.com>
 
-Changes since v1:
-  * Change dqm->fence_addr as a u64 pointer to fix this issue,
-also fix up query_status and amdkfd_fence_wait_timeout function
-uses 64 bit fence value to make them consistent.
+For st7789v ic,when we need continuous full screen refresh, it is best to
+wait for the TE signal arrive to avoid screen tearing
 
-Signed-off-by: Qu Huang <jinsdb@126.com>
+Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c               | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 6 +++---
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c       | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c    | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c    | 2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h                 | 8 ++++----
- 7 files changed, 12 insertions(+), 12 deletions(-)
+v12: change dev_err to dev_err_probe and add space in comments start, and
+     delete te_mutex, change te wait logic
+v11: remove devm_gpio_put and change a dev_err to dev_info
+v10: additional notes
+v9: change pr_* to dev_*
+v8: delete a log line
+v7: return error value when request fail
+v6: add te gpio request fail deal logic
+v5: fix log print
+v4: modify some code style and change te irq set function name
+v3: modify author and signed-off-by name
+v2: add release te gpio after irq request fail
+---
+ drivers/staging/fbtft/fb_st7789v.c | 116 +++++++++++++++++++++++++++++++++++++
+ drivers/staging/fbtft/fbtft.h      |   1 +
+ 2 files changed, 117 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
-index b258a3d..159add0f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
-@@ -155,7 +155,7 @@ static int dbgdev_diq_submit_ib(struct kfd_dbgdev *dbgdev,
-
- 	/* Wait till CP writes sync code: */
- 	status = amdkfd_fence_wait_timeout(
--			(unsigned int *) rm_state,
-+			rm_state,
- 			QUEUESTATE__ACTIVE, 1500);
-
- 	kfd_gtt_sa_free(dbgdev->dev, mem_obj);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index e686ce2..4598a9a 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -1167,7 +1167,7 @@ static int start_cpsch(struct device_queue_manager *dqm)
- 	if (retval)
- 		goto fail_allocate_vidmem;
-
--	dqm->fence_addr = dqm->fence_mem->cpu_ptr;
-+	dqm->fence_addr = (uint64_t *)dqm->fence_mem->cpu_ptr;
- 	dqm->fence_gpu_addr = dqm->fence_mem->gpu_addr;
-
- 	init_interrupts(dqm);
-@@ -1340,8 +1340,8 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
- 	return retval;
- }
-
--int amdkfd_fence_wait_timeout(unsigned int *fence_addr,
--				unsigned int fence_value,
-+int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
-+				uint64_t fence_value,
- 				unsigned int timeout_ms)
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 3a280cc..f08e9da 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -9,7 +9,11 @@
+ #include <linux/delay.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/interrupt.h>
++#include <linux/completion.h>
+ #include <linux/module.h>
++#include <linux/gpio/consumer.h>
++
+ #include <video/mipi_display.h>
+ 
+ #include "fbtft.h"
+@@ -66,6 +70,15 @@ enum st7789v_command {
+ #define MADCTL_MX BIT(6) /* bitmask for column address order */
+ #define MADCTL_MY BIT(7) /* bitmask for page address order */
+ 
++#define SPI_PANEL_TE_TIMEOUT	400 /* msecs */
++static struct completion spi_panel_te;
++
++static irqreturn_t spi_panel_te_handler(int irq, void *data)
++{
++	complete(&spi_panel_te);
++	return IRQ_HANDLED;
++}
++
+ /**
+  * init_display() - initialize the display controller
+  *
+@@ -82,6 +95,29 @@ enum st7789v_command {
+  */
+ static int init_display(struct fbtft_par *par)
  {
- 	unsigned long end_jiffies = msecs_to_jiffies(timeout_ms) + jiffies;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
-index 16262e5..16b23dd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
-@@ -192,7 +192,7 @@ struct device_queue_manager {
- 	uint16_t		vmid_pasid[VMID_NUM];
- 	uint64_t		pipelines_addr;
- 	uint64_t		fence_gpu_addr;
--	unsigned int		*fence_addr;
-+	uint64_t		*fence_addr;
- 	struct kfd_mem_obj	*fence_mem;
- 	bool			active_runlist;
- 	int			sched_policy;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
-index 5d541e0..f71a7fa 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
-@@ -347,7 +347,7 @@ int pm_send_runlist(struct packet_manager *pm, struct list_head *dqm_queues)
++	int rc;
++	struct device *dev = par->info->device;
++
++	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
++	if (IS_ERR(par->gpio.te))
++		return dev_err_probe(par->info->device, PTR_ERR(par->gpio.te),
++				     "Failed to request te gpio\n");
++
++	if (par->gpio.te) {
++		init_completion(&spi_panel_te);
++		rc = devm_request_irq(dev,
++				      gpiod_to_irq(par->gpio.te),
++				     spi_panel_te_handler, IRQF_TRIGGER_RISING,
++				     "TE_GPIO", par);
++		if (IS_ERR(rc))
++			return dev_err_probe(par->info->device, PTR_ERR(rc),
++					     "TE request_irq failed.\n");
++
++		disable_irq_nosync(gpiod_to_irq(par->gpio.te));
++	} else {
++		dev_info(par->info->device, "%s:%d, TE gpio not specified\n",
++			 __func__, __LINE__);
++	}
+ 	/* turn off sleep mode */
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	mdelay(120);
+@@ -137,6 +173,10 @@ static int init_display(struct fbtft_par *par)
+ 	 */
+ 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+ 
++	/* tearing effect line on */
++	if (par->gpio.te)
++		write_reg(par, 0x35, 0x00);
++
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+ 
+ 	if (HSD20_IPS)
+@@ -146,6 +186,81 @@ static int init_display(struct fbtft_par *par)
  }
-
- int pm_send_query_status(struct packet_manager *pm, uint64_t fence_address,
--			uint32_t fence_value)
-+			uint64_t fence_value)
- {
- 	uint32_t *buffer, size;
- 	int retval = 0;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-index dfaf771..e3ba0cd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
-@@ -283,7 +283,7 @@ static int pm_unmap_queues_v9(struct packet_manager *pm, uint32_t *buffer,
- }
-
- static int pm_query_status_v9(struct packet_manager *pm, uint32_t *buffer,
--			uint64_t fence_address,	uint32_t fence_value)
-+			uint64_t fence_address,	uint64_t fence_value)
- {
- 	struct pm4_mes_query_status *packet;
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
-index a852e0d..08442e7 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
-@@ -263,7 +263,7 @@ static int pm_unmap_queues_vi(struct packet_manager *pm, uint32_t *buffer,
- }
-
- static int pm_query_status_vi(struct packet_manager *pm, uint32_t *buffer,
--			uint64_t fence_address,	uint32_t fence_value)
-+			uint64_t fence_address,	uint64_t fence_value)
- {
- 	struct pm4_mes_query_status *packet;
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index 09599ef..f304d1f 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -1003,8 +1003,8 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
- 		       u32 *ctl_stack_used_size,
- 		       u32 *save_area_used_size);
-
--int amdkfd_fence_wait_timeout(unsigned int *fence_addr,
--			      unsigned int fence_value,
-+int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
-+			      uint64_t fence_value,
- 			      unsigned int timeout_ms);
-
- /* Packet Manager */
-@@ -1040,7 +1040,7 @@ struct packet_manager_funcs {
- 			uint32_t filter_param, bool reset,
- 			unsigned int sdma_engine);
- 	int (*query_status)(struct packet_manager *pm, uint32_t *buffer,
--			uint64_t fence_address,	uint32_t fence_value);
-+			uint64_t fence_address,	uint64_t fence_value);
- 	int (*release_mem)(uint64_t gpu_addr, uint32_t *buffer);
-
- 	/* Packet sizes */
-@@ -1062,7 +1062,7 @@ int pm_send_set_resources(struct packet_manager *pm,
- 				struct scheduling_resources *res);
- int pm_send_runlist(struct packet_manager *pm, struct list_head *dqm_queues);
- int pm_send_query_status(struct packet_manager *pm, uint64_t fence_address,
--				uint32_t fence_value);
-+				uint64_t fence_value);
-
- int pm_send_unmap_queue(struct packet_manager *pm, enum kfd_queue_type type,
- 			enum kfd_unmap_queues_filter mode,
---
-1.8.3.1
+ 
+ /**
++ * st7789v_write_vmem16_bus8() -  write data to display
++ *
++ * @par: FBTFT parameter object
++ * @offset: offset from screen_buffer
++ * @len: the length of data to be written
++ *
++ * 16 bit pixel over 8-bit databus
++ *
++ * Return: 0 on success, < 0 if error occurred.
++ */
++
++static int st7789v_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
++{
++	u16 *vmem16;
++	__be16 *txbuf16 = par->txbuf.buf;
++	size_t remain;
++	size_t to_copy;
++	size_t tx_array_size;
++	int i;
++	int ret = 0;
++	size_t startbyte_size = 0;
++
++	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "st7789v ---%s(offset=%zu, len=%zu)\n",
++		      __func__, offset, len);
++
++	remain = len / 2;
++	vmem16 = (u16 *)(par->info->screen_buffer + offset);
++
++	if (par->gpio.dc)
++		gpiod_set_value(par->gpio.dc, 1);
++
++	if (par->gpio.te) {
++		enable_irq(gpiod_to_irq(par->gpio.te));
++		reinit_completion(&spi_panel_te);
++		ret = wait_for_completion_timeout(&spi_panel_te,
++						  msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
++		if (ret == 0)
++			dev_err(par->info->device, "wait panel TE time out\n");
++
++		disable_irq(gpiod_to_irq(par->gpio.te));
++	}
++	/* non buffered write */
++	if (!par->txbuf.buf)
++		return par->fbtftops.write(par, vmem16, len);
++
++	/* buffered write */
++	tx_array_size = par->txbuf.len / 2;
++
++	if (par->startbyte) {
++		txbuf16 = par->txbuf.buf + 1;
++		tx_array_size -= 2;
++		*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
++		startbyte_size = 1;
++	}
++
++	while (remain) {
++		to_copy = min(tx_array_size, remain);
++		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
++			to_copy, remain - to_copy);
++
++		for (i = 0; i < to_copy; i++)
++			txbuf16[i] = cpu_to_be16(vmem16[i]);
++
++		vmem16 = vmem16 + to_copy;
++		ret = par->fbtftops.write(par, par->txbuf.buf,
++					 startbyte_size + to_copy * 2);
++		if (ret < 0)
++			return ret;
++		remain -= to_copy;
++	}
++
++	return ret;
++}
++
++/**
+  * set_var() - apply LCD properties like rotation and BGR mode
+  *
+  * @par: FBTFT parameter object
+@@ -259,6 +374,7 @@ static int blank(struct fbtft_par *par, bool on)
+ 	.gamma = HSD20_IPS_GAMMA,
+ 	.fbtftops = {
+ 		.init_display = init_display,
++		.write_vmem = st7789v_write_vmem16_bus8,
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 76f8c09..93bac05 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -212,6 +212,7 @@ struct fbtft_par {
+ 		struct gpio_desc *wr;
+ 		struct gpio_desc *latch;
+ 		struct gpio_desc *cs;
++		struct gpio_desc *te;
+ 		struct gpio_desc *db[16];
+ 		struct gpio_desc *led[16];
+ 		struct gpio_desc *aux[16];
+-- 
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
