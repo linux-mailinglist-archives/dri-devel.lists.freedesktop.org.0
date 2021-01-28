@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F83A3072F9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 10:43:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56083307334
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 10:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A41F66E0DC;
-	Thu, 28 Jan 2021 09:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19CFA6E0EE;
+	Thu, 28 Jan 2021 09:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19EFD6E0DC
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:43:07 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id h192so5402742oib.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 01:43:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0UQD5rzLUItAad2Pj4MS3WUwxXLDc49HJgM9YhC9w4E=;
- b=XSOTuHKDFSxCnX694Ro7XpRYEhH9/jcMarxNSK6sMH8G9oPI0EKt9TWWmZHqUvkJrb
- IwnYX4EHnmyOb+vdExZCS1GSgbIsFnWvj925Ya+y/E95vdc8nm4lFOsZ4LbbRfwO3JxN
- R5Rqa4emVcZnJ0cgbrpXPdoNlgcIo5TIL6Ycr3iJ7ZIKfsZlA2nRQ0TrD1Yef/EyXysn
- m9TYSmzrmE/6qEROw6cOcdmPyHOXV0VaUr//XGYMZunur6Avcr0OwjNrLKdh2rs+KZ4n
- /JdovSrpDb+Pqfb88SB8rTfESA+gVPmuUX7z6dov1Ecaw5dGhKWTWmac5MXX2cwTRVqp
- 0wOA==
-X-Gm-Message-State: AOAM530FnNJn1eZA+hoZXyAOm8wz4LEFly6Db/VtSsx9x2vsFwsJALmr
- bUDXAWehAJ57kD+Saue6Q3NHgl+O6Ug5ZUQWP2s=
-X-Google-Smtp-Source: ABdhPJxoZOzI4xZTWdYHcsO/prgFXGQqxvTaD/BSBKbTP3NgRRBKa973/1xtxNzdsgrR5mdE52PMmLLYLmNTUlRGhEM=
-X-Received: by 2002:aca:1219:: with SMTP id 25mr6108127ois.54.1611826986355;
- Thu, 28 Jan 2021 01:43:06 -0800 (PST)
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 676EA6E0EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:53:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 2BE462A6042;
+ Thu, 28 Jan 2021 10:53:47 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id KohtHMM_GZh1; Thu, 28 Jan 2021 10:53:46 +0100 (CET)
+Received: from kaveri (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id D85C02A6016;
+ Thu, 28 Jan 2021 10:53:46 +0100 (CET)
+Received: from daenzer by kaveri with local (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1l53zm-0000dq-A5; Thu, 28 Jan 2021 10:53:46 +0100
+From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
+To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
+Subject: [PATCH] drm/ttm: Use __GFP_NOWARN for huge pages in
+ ttm_pool_alloc_page
+Date: Thu, 28 Jan 2021 10:53:46 +0100
+Message-Id: <20210128095346.2421-1-michel@daenzer.net>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
- <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
- <20210128094258.000012c3@gmail.com>
- <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
-In-Reply-To: <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 28 Jan 2021 10:42:54 +0100
-Message-ID: <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
-Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
-To: Kari Argillander <kari.argillander@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,101 +46,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: driverdevel <devel@driverdev.osuosl.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- mh12gx2825@gmail.com, Greg KH <gregkh@linuxfoundation.org>,
- oliver.graute@kococonnector.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Stefano Brivio <sbrivio@redhat.com>, carlis <zhangxuezhi3@gmail.com>,
- Colin King <colin.king@canonical.com>, zhangxuezhi1@yulong.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kari,
-
-On Thu, Jan 28, 2021 at 7:53 AM Kari Argillander
-<kari.argillander@gmail.com> wrote:
-> On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:
-> > On Thu, 28 Jan 2021 00:32:22 +0200
-> > Kari Argillander <kari.argillander@gmail.com> wrote:
-> > > >  #include "fbtft.h"
-> > > >
-> > > >  #define DRVNAME "fb_st7789v"
-> > > > @@ -66,6 +69,32 @@ enum st7789v_command {
-> > > >  #define MADCTL_MX BIT(6) /* bitmask for column address order */
-> > > >  #define MADCTL_MY BIT(7) /* bitmask for page address order */
-> > > >
-> > > > +#define SPI_PANEL_TE_TIMEOUT     400 /* msecs */
-> > > > +static struct mutex te_mutex;/* mutex for set te gpio irq status
-> > > > */
-> > >
-> > > Space after ;
-> > hi, i have fix it in the patch v11
-> > >
->
-> Yeah sorry. I accidentally review wrong patch. But mostly stuff are
-> still relevant.
->
-> > > > @@ -82,6 +111,33 @@ enum st7789v_command {
-> > > >   */
-> > > >  static int init_display(struct fbtft_par *par)
-> > > >  {
-> > > > + int rc;
-> > > > + struct device *dev = par->info->device;
-> > > > +
-> > > > + par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-> > > > GPIOD_IN);
-> > > > + if (IS_ERR(par->gpio.te)) {
-> > > > +         rc = PTR_ERR(par->gpio.te);
-> > > > +         dev_err(par->info->device, "Failed to request te
-> > > > gpio: %d\n", rc);
-> > > > +         return rc;
-> > > > + }
-> > >
-> > > You request with optinal and you still want to error out? We could
-> > > just continue and not care about that error. User will be happier if
-> > > device still works somehow.
-
-devm_gpiod_get_index_optional() returns NULL, not an error, if the
-GPIO is not found.  So if IS_ERR() is the right check.
-
-And checks for -EPROBE_DEFER can be handled automatically
-by using dev_err_probe() instead of dev_err().
-
-> > You mean i just delete this dev_err print ?!
-> > like this:
-> >       par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
-> > 0,GPIOD_IN);
-> >         if (IS_ERR(par->gpio.te))
-> >               return PTR_ERR(par->gpio.te);
->
-> Not exactly. I'm suggesting something like this.
->
-> if (IS_ERR(par->gpio.te) == -EPROBE_DEFER) {
->         return -EPROBE_DEFER;
->
-> if (IS_ERR(par->gpio.te))
->         par-gpio.te = NULL;
->
-> This like beginning of your patch series but the difference is that if
-> EPROBE_DEFER then we will try again later. Any other error and we will
-> just ignore TE gpio. But this is up to you what you want to do. To me
-> this just seems place where this kind of logic can work.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+CgpXaXRob3V0IF9fR0ZQ
+X05PV0FSTiwgYXR0ZW1wdHMgYXQgYWxsb2NhdGluZyBodWdlIHBhZ2VzIGNhbiB0cmlnZ2VyCmRt
+ZXNnIHNwbGF0cyBsaWtlIGJlbG93ICh3aGljaCBhcmUgZXNzZW50aWFsbHkgbm9pc2UsIHNpbmNl
+IFRUTSBmYWxscwpiYWNrIHRvIG5vcm1hbCBwYWdlcyBpZiBpdCBjYW4ndCBnZXQgYSBodWdlIG9u
+ZSkuCgpbIDk1NTYuNzEwMjQxXSBjbGluZm86IHBhZ2UgYWxsb2NhdGlvbiBmYWlsdXJlOiBvcmRl
+cjo5LCBtb2RlOjB4MTk0ZGMyKEdGUF9ISUdIVVNFUnxfX0dGUF9SRVRSWV9NQVlGQUlMfF9fR0ZQ
+X05PUkVUUll8X19HRlBfWkVST3xfX0dGUF9OT01FTUFMTE9DKSwgbm9kZW1hc2s9KG51bGwpLGNw
+dXNldD11c2VyLnNsaWNlLG1lbXNfYWxsb3dlZD0wClsgOTU1Ni43MTAyNTldIENQVTogMSBQSUQ6
+IDQ3MDgyMSBDb21tOiBjbGluZm8gVGFpbnRlZDogRyAgICAgICAgICAgIEUgICAgIDUuMTAuMTAr
+ICM0ClsgOTU1Ni43MTAyNjRdIEhhcmR3YXJlIG5hbWU6IE1pY3JvLVN0YXIgSW50ZXJuYXRpb25h
+bCBDby4sIEx0ZC4gTVMtN0EzNC9CMzUwIFRPTUFIQVdLIChNUy03QTM0KSwgQklPUyAxLk9SIDEx
+LzI5LzIwMTkKWyA5NTU2LjcxMDI2OF0gQ2FsbCBUcmFjZToKWyA5NTU2LjcxMDI4MV0gIGR1bXBf
+c3RhY2srMHg2Yi8weDgzClsgOTU1Ni43MTAyODhdICB3YXJuX2FsbG9jLmNvbGQrMHg3Yi8weGRm
+ClsgOTU1Ni43MTAyOTddICA/IF9fYWxsb2NfcGFnZXNfZGlyZWN0X2NvbXBhY3QrMHgxMzcvMHgx
+NTAKWyA5NTU2LjcxMDMwM10gIF9fYWxsb2NfcGFnZXNfc2xvd3BhdGguY29uc3Rwcm9wLjArMHhj
+MWIvMHhjNTAKWyA5NTU2LjcxMDMxMl0gIF9fYWxsb2NfcGFnZXNfbm9kZW1hc2srMHgyZWMvMHgz
+MjAKWyA5NTU2LjcxMDMyNV0gIHR0bV9wb29sX2FsbG9jKzB4MmU0LzB4NWUwIFt0dG1dClsgOTU1
+Ni43MTAzMzJdICA/IGt2bWFsbG9jX25vZGUrMHg0Ni8weDgwClsgOTU1Ni43MTAzNDFdICB0dG1f
+dHRfcG9wdWxhdGUrMHgzNy8weGUwIFt0dG1dClsgOTU1Ni43MTAzNTBdICB0dG1fYm9faGFuZGxl
+X21vdmVfbWVtKzB4MTQyLzB4MTgwIFt0dG1dClsgOTU1Ni43MTAzNTldICB0dG1fYm9fdmFsaWRh
+dGUrMHgxMWQvMHgxOTAgW3R0bV0KWyA5NTU2LjcxMDM5MV0gID8gZHJtX3ZtYV9vZmZzZXRfYWRk
+KzB4MmYvMHg2MCBbZHJtXQpbIDk1NTYuNzEwMzk5XSAgdHRtX2JvX2luaXRfcmVzZXJ2ZWQrMHgy
+YTcvMHgzMjAgW3R0bV0KWyA5NTU2LjcxMDUyOV0gIGFtZGdwdV9ib19kb19jcmVhdGUrMHgxYjgv
+MHg1MDAgW2FtZGdwdV0KWyA5NTU2LjcxMDY1N10gID8gYW1kZ3B1X2JvX3N1YnRyYWN0X3Bpbl9z
+aXplKzB4NjAvMHg2MCBbYW1kZ3B1XQpbIDk1NTYuNzEwNjYzXSAgPyBnZXRfcGFnZV9mcm9tX2Zy
+ZWVsaXN0KzB4MTFmOS8weDE0NTAKWyA5NTU2LjcxMDc4OV0gIGFtZGdwdV9ib19jcmVhdGUrMHg0
+MC8weDI3MCBbYW1kZ3B1XQpbIDk1NTYuNzEwNzk3XSAgPyBfcmF3X3NwaW5fdW5sb2NrKzB4MTYv
+MHgzMApbIDk1NTYuNzEwOTI3XSAgYW1kZ3B1X2dlbV9jcmVhdGVfaW9jdGwrMHgxMjMvMHgzMTAg
+W2FtZGdwdV0KWyA5NTU2LjcxMTA2Ml0gID8gYW1kZ3B1X2dlbV9mb3JjZV9yZWxlYXNlKzB4MTUw
+LzB4MTUwIFthbWRncHVdClsgOTU1Ni43MTEwOThdICBkcm1faW9jdGxfa2VybmVsKzB4YWEvMHhm
+MCBbZHJtXQpbIDk1NTYuNzExMTMzXSAgZHJtX2lvY3RsKzB4MjBmLzB4M2EwIFtkcm1dClsgOTU1
+Ni43MTEyNjddICA/IGFtZGdwdV9nZW1fZm9yY2VfcmVsZWFzZSsweDE1MC8weDE1MCBbYW1kZ3B1
+XQpbIDk1NTYuNzExMjc2XSAgPyBwcmVlbXB0X2NvdW50X3N1YisweDliLzB4ZDAKWyA5NTU2Ljcx
+MTQwNF0gIGFtZGdwdV9kcm1faW9jdGwrMHg0OS8weDgwIFthbWRncHVdClsgOTU1Ni43MTE0MTFd
+ICBfX3g2NF9zeXNfaW9jdGwrMHg4My8weGIwClsgOTU1Ni43MTE0MTddICBkb19zeXNjYWxsXzY0
+KzB4MzMvMHg4MApbIDk1NTYuNzExNDIxXSAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1l
+KzB4NDQvMHhhOQoKRml4ZXM6IGJmOWVlZTI0OWFjMiAoImRybS90dG06IHN0b3AgdXNpbmcgR0ZQ
+X1RSQU5TSFVHRV9MSUdIVCIpClNpZ25lZC1vZmYtYnk6IE1pY2hlbCBEw6RuemVyIDxtZGFlbnpl
+ckByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYyB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX3Bvb2wuYwppbmRleCA4Yzc2MmEwM2FkOGEuLmEyNjQ3NjBjYjJjZCAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX3Bvb2wuYwpAQCAtODQsNyArODQsNyBAQCBzdGF0aWMgc3RydWN0IHBhZ2UgKnR0bV9wb29s
+X2FsbG9jX3BhZ2Uoc3RydWN0IHR0bV9wb29sICpwb29sLCBnZnBfdCBnZnBfZmxhZ3MsCiAJICog
+cHV0X3BhZ2UoKSBvbiBhIFRUTSBhbGxvY2F0ZWQgcGFnZSBpcyBpbGxlZ2FsLgogCSAqLwogCWlm
+IChvcmRlcikKLQkJZ2ZwX2ZsYWdzIHw9IF9fR0ZQX05PTUVNQUxMT0MgfCBfX0dGUF9OT1JFVFJZ
+IHwKKwkJZ2ZwX2ZsYWdzIHw9IF9fR0ZQX05PTUVNQUxMT0MgfCBfX0dGUF9OT1JFVFJZIHwgX19H
+RlBfTk9XQVJOIHwKIAkJCV9fR0ZQX0tTV0FQRF9SRUNMQUlNOwogCiAJaWYgKCFwb29sLT51c2Vf
+ZG1hX2FsbG9jKSB7Ci0tIAoyLjMwLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
