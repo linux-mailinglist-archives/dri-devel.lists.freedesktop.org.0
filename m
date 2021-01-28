@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F73307EEE
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5254E307ECE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10BFA6EA1D;
-	Thu, 28 Jan 2021 19:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D97D26EA1C;
+	Thu, 28 Jan 2021 19:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3266E105
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 11:03:09 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id u15so3135916plf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 03:03:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :organization:mime-version:content-transfer-encoding;
- bh=sBkTD1ZtjeS8jkP5hzFFT8Mun2/mkX9YEzpaHUFxKDc=;
- b=oWU+dINW3A0WDBPghq7TwOLXYGxn8ZkRNOSVDRg1ZoLaH3tdPLGkRb+/TjL3IYxi/t
- yL01IxDEFsbuWL4/FWKNeq1HG3nMJdFjnT2B+aCjX71phI82H9u7q+C3c6FPZBQmQ5Xm
- TpjmQbpkFZzMPm029X2JLq2jCljq1OAfy3e177WBsYDvmrP+uingSJpcWoKlqG18IpS9
- PUxzurfgaUSLguu4Hw5ChRSCchxcXAUIY7YqXj129oIJ+GGqABf2Jp9ctWIVMxJrFmMj
- qERYj5C96cgwnz//AGUDzeow2Ps8or8pBU4WPRZZcO0P8+S3B7XWK2ABKcw0nlHrM8YP
- J4RA==
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C866E115
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 11:12:46 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id q5so4835535ilc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 03:12:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/WJw1aJ983EEKpRj5gZ4zFlUrwFHoMadbviHbndDVT8=;
+ b=dfDCHTrz8XskJkazSFR/d269ImWmkT6WKjpQ1j4AVPkVQ0H4j5zdogEiMZAuBs2Nuq
+ PLm6Pn+zV760awkBSwTDMSe/TivqPc3s/134zz9sRbBQABFJfAnM4SjROF9bDhhkPFXx
+ dFFpptCksPnvkPoUioIRniNKaaMkEX+xcGyNg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=sBkTD1ZtjeS8jkP5hzFFT8Mun2/mkX9YEzpaHUFxKDc=;
- b=OcvZ/Ig2mTGh7SEjSovFV7YY2midvE1jumddog6DOeUy+ueAG/qMsMDFvOIzD3LKJK
- f3CsuaA5o012rYh/58Mtw9RFhArZbdI5dvFfHtrRdBYnyTmb5kKoFnv+4vYo4DZX51Re
- ZMgghwI/CnkSS5ll91baAtVTS8CJ0y37x73hQETzqjj7M2jS4AJ5s7mCRgOHtkiy13N9
- 7Vh34j6+e71Y5unm1UqsrybzWRKBzbElpCjkXY0j+qiBbD/K8F6i3ZyGZ5nKsCn7F3IP
- RLwouhlq2404dxFvyX+AEoc4DqsmIFqlHqB88YcOxzP81X43/T9vNkn5QrxaKczHPGAc
- Bgfw==
-X-Gm-Message-State: AOAM5326jBFLP4Ynpq8W7Sq0ki9y60viUK8tboRHp7tbk+yUAHtGjchh
- cIO5Is3PcghAK8rRIK4gPiM=
-X-Google-Smtp-Source: ABdhPJxuKefhxuATg5SzADrFU6X/JMwte19Bjrcs0K6eys/yFrX6MPMndXfWktd7S71LXqppupaCdg==
-X-Received: by 2002:a17:90a:db50:: with SMTP id
- u16mr10793125pjx.39.1611831789172; 
- Thu, 28 Jan 2021 03:03:09 -0800 (PST)
-Received: from localhost ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id h6sm5685953pfr.47.2021.01.28.03.03.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:03:08 -0800 (PST)
-Date: Thu, 28 Jan 2021 19:03:01 +0800
-From: carlis <zhangxuezhi3@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
-Message-ID: <20210128190301.00007ebe@gmail.com>
-In-Reply-To: <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
-References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
- <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
- <20210128094258.000012c3@gmail.com>
- <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
- <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
-Organization: Tyzmig-ryrjum-8kedto
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/WJw1aJ983EEKpRj5gZ4zFlUrwFHoMadbviHbndDVT8=;
+ b=S0wH+oHcUcm2F4+2VcCpYBX50GH8A5QMBV7I/n6FdmjFwUy431GWyPUEagME+cuLkL
+ QeWJKAVnCykB+LlHWYicyZpA8iqWTR8eXtKrXM6BjwkivNwB2NnFULjqsFo+Unqy7JY4
+ ixIfecu3sS3GQPss8wLwBR/Zpd/9G8vO/wQj4IqReaTDdAdxoRFgdn53xg3tz/CTTJyy
+ dd+/SsqFTs+JAOAisHzRFq0mRWnfIzl4ix9N51Jv/thg9V0oxt3iWn6x3Xph4dauW21q
+ s8wgUK7eHHE8HG4BGCCM4pxzDSqjKfDR6U93I0R9vzQqlLYMMTLLAWvwB8++YB1/Z9jQ
+ b+GA==
+X-Gm-Message-State: AOAM5328r1p+OYMCLw4J66MWk2h7oQL+3VZrdW4NmJonVHAm5db/zVsI
+ 5i6TEnH8zjzowzkSh82IqhSfHmbgua6JXuwB3bkNYQ==
+X-Google-Smtp-Source: ABdhPJxpvtqvyRoNVw2J32fCidzTHWv4s/97L1l2P7XY3BFLhw9LEXqsuGOgsssZ07Bdcb7TGzMR023+FxP+UJYso4w=
+X-Received: by 2002:a05:6e02:509:: with SMTP id
+ d9mr12671592ils.150.1611832366253; 
+ Thu, 28 Jan 2021 03:12:46 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:34 +0000
+References: <20210128072802.830971-1-hsinyi@chromium.org>
+ <20210128072802.830971-4-hsinyi@chromium.org>
+ <1611820251.16091.7.camel@mtksdaap41>
+In-Reply-To: <1611820251.16091.7.camel@mtksdaap41>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 28 Jan 2021 19:12:20 +0800
+Message-ID: <CAJMQK-igcZXrnTb6pA3S6X_uTF6aGhKFLAHtdet62od9vVx4rg@mail.gmail.com>
+Subject: Re: [PATCH v11 3/9] drm/mediatek: add RDMA fifo size error handle
+To: CK Hu <ck.hu@mediatek.com>
+X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,126 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: driverdevel <devel@driverdev.osuosl.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- mh12gx2825@gmail.com, Stefano Brivio <sbrivio@redhat.com>,
- Greg KH <gregkh@linuxfoundation.org>, oliver.graute@kococonnector.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kari Argillander <kari.argillander@gmail.com>,
- Colin King <colin.king@canonical.com>, zhangxuezhi1@yulong.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Jan 2021 10:42:54 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-
-> Hi Kari,
-> 
-> On Thu, Jan 28, 2021 at 7:53 AM Kari Argillander
-> <kari.argillander@gmail.com> wrote:
-> > On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:  
-> > > On Thu, 28 Jan 2021 00:32:22 +0200
-> > > Kari Argillander <kari.argillander@gmail.com> wrote:  
-> > > > >  #include "fbtft.h"
-> > > > >
-> > > > >  #define DRVNAME "fb_st7789v"
-> > > > > @@ -66,6 +69,32 @@ enum st7789v_command {
-> > > > >  #define MADCTL_MX BIT(6) /* bitmask for column address order
-> > > > > */ #define MADCTL_MY BIT(7) /* bitmask for page address order
-> > > > > */
-> > > > >
-> > > > > +#define SPI_PANEL_TE_TIMEOUT     400 /* msecs */
-> > > > > +static struct mutex te_mutex;/* mutex for set te gpio irq
-> > > > > status */  
-> > > >
-> > > > Space after ;  
-> > > hi, i have fix it in the patch v11  
-> > > >  
+On Thu, Jan 28, 2021 at 3:52 PM CK Hu <ck.hu@mediatek.com> wrote:
+>
+> Hi, Hsin-Yi:
+>
+> On Thu, 2021-01-28 at 15:27 +0800, Hsin-Yi Wang wrote:
+> > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > >
-> > Yeah sorry. I accidentally review wrong patch. But mostly stuff are
-> > still relevant.
-> >  
-> > > > > @@ -82,6 +111,33 @@ enum st7789v_command {
-> > > > >   */
-> > > > >  static int init_display(struct fbtft_par *par)
-> > > > >  {
-> > > > > + int rc;
-> > > > > + struct device *dev = par->info->device;
-> > > > > +
-> > > > > + par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-> > > > > GPIOD_IN);
-> > > > > + if (IS_ERR(par->gpio.te)) {
-> > > > > +         rc = PTR_ERR(par->gpio.te);
-> > > > > +         dev_err(par->info->device, "Failed to request te
-> > > > > gpio: %d\n", rc);
-> > > > > +         return rc;
-> > > > > + }  
-> > > >
-> > > > You request with optinal and you still want to error out? We
-> > > > could just continue and not care about that error. User will be
-> > > > happier if device still works somehow.  
-> 
-> devm_gpiod_get_index_optional() returns NULL, not an error, if the
-> GPIO is not found.  So if IS_ERR() is the right check.
-> 
-> And checks for -EPROBE_DEFER can be handled automatically
-> by using dev_err_probe() instead of dev_err().
-> 
-hi, i fix it like below!?
-	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-	GPIOD_IN); if (IS_ERR(par->gpio.te)) {
-		rc = PTR_ERR(par->gpio.te);
-		dev_err_probe(par->info->device, rc, "Failed to request
-	te gpio\n"); return rc;
-	}
-	if (par->gpio.te) {
-		init_completion(&spi_panel_te);
-		rc = devm_request_irq(dev,
-				      gpiod_to_irq(par->gpio.te),
-				     spi_panel_te_handler,
-	IRQF_TRIGGER_RISING, "TE_GPIO", par);
-		if (rc) {
-			dev_err(par->info->device, "TE request_irq
-	failed.\n"); return rc;
-		}
+> > This patch add RDMA fifo size error handle
+> > rdma fifo size will not always bigger than the calculated threshold
+> > if that case happened, we need set fifo size as the threshold
+> >
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> > index b84004394970f..04b9542010b00 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> > @@ -168,6 +168,10 @@ void mtk_rdma_config(struct device *dev, unsigned int width,
+> >        * account for blanking, and with a pixel depth of 4 bytes:
+> >        */
+> >       threshold = width * height * vrefresh * 4 * 7 / 1000000;
+> > +
+> > +     if (threshold > rdma_fifo_size)
+> > +             threshold = rdma_fifo_size;
+> > +
+>
+> Please see the discussion in [1].
+>
+> [1]
+> https://patchwork.kernel.org/project/linux-mediatek/patch/1607591262-21736-6-git-send-email-yongqiang.niu@mediatek.com/
+>
+> Regards,
+> CK
+>
 
-		disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-	} else {
-		dev_info(par->info->device, "%s:%d, TE gpio not
-		specified\n", __func__, __LINE__);
-	}
+Hi CK,
+
+Even if we set threshold to
+threshold = RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) * width * height *
+vrefresh / 2 / MAX_WIDTH / MAX_HEIGHT / MAX_VREFRESH;
+
+I'm not sure what value MAX_WIDTH, MAX_HEIGHT, and MAX_VREFRESH should
+set to for each SoC.
+Since there's no conclusion yet, I'll drop this patch in the series,
+as this seems not an mt8183 specific fix.
 
 
-> > > You mean i just delete this dev_err print ?!
-> > > like this:
-> > >       par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
-> > > 0,GPIOD_IN);
-> > >         if (IS_ERR(par->gpio.te))
-> > >               return PTR_ERR(par->gpio.te);  
-> >
-> > Not exactly. I'm suggesting something like this.
-> >
-> > if (IS_ERR(par->gpio.te) == -EPROBE_DEFER) {
-> >         return -EPROBE_DEFER;
-> >
-> > if (IS_ERR(par->gpio.te))
-> >         par-gpio.te = NULL;
-> >
-> > This like beginning of your patch series but the difference is that
-> > if EPROBE_DEFER then we will try again later. Any other error and
-> > we will just ignore TE gpio. But this is up to you what you want to
-> > do. To me this just seems place where this kind of logic can work.  
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-
-regards,
-zhangxuezhi
+> >       reg = RDMA_FIFO_UNDERFLOW_EN |
+> >             RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
+> >             RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
