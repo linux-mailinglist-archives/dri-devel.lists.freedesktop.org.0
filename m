@@ -1,67 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08653307EEC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:46:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B46307EE3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94556EA16;
-	Thu, 28 Jan 2021 19:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2294B6EA0F;
+	Thu, 28 Jan 2021 19:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B8E6E162
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 11:42:28 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id u15so3188101plf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 03:42:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :organization:mime-version:content-transfer-encoding;
- bh=KO0WExq/gHwR9DEe69o/s4rzo4GEwimZkxdlRgtkdt8=;
- b=VorbS2Tww05G2RqblM7MjH3U2m09eiWPvsMMzTgplJBDvbzex346FvkybynsGJxywL
- d/tTzS9AXbxEBBsRt3VBvVgOdiRb6Bg7EEO9MkK8OIAWNcKnAbl6GvcDUKGkXDKDVn1r
- UtFO0srYd92w9V1xeiiHEWp647E7S5z2ykDVb6TeRuoEYKGTP2CBfWwAvF/WrkCZFGiO
- a0UEfWtIXrq1z+ATFCuaOK5JiFZiEVAzYga0jeL3odQZuZ6aiMcDfYqhJefv1gbL+sUt
- vpJvYmwCao30fSrvvDxqmALvWKSaUPuNXbGoo9pNOXWB6rA+CdxQaZV96Y/KliwNM4ix
- pEEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=KO0WExq/gHwR9DEe69o/s4rzo4GEwimZkxdlRgtkdt8=;
- b=NkQIZkw45NC6YXdECGV2KQQ9yA97/y0hN2DIXM1vGefv90f0GolywkFp7eTQeYhj9z
- KnDcNFiVIwnFpuTvkLI3rm2OQkzt66FLhpczOfeFyeCUUhQkTUElEGl48NJHcIxU5hR+
- SHslnjQ0016EMpBIy5Gd6mSbI6ulO7XmZDrBLQt5CmxkGx8dLKIO3I0EyUA4wAAv5eBN
- zJe6nvrMgAMDmQESzhHm4G5V9yfbRMwCfk0eYEkL58EOkqSNRR4mkh8Vfp7H2fwV65jk
- MPL0v02Yor2CBQC2b7FsP5chJB/IQXK2G4QThPwiQ6FKVzCRv6cBDey+VjzoKB+VOCCq
- Y2Kg==
-X-Gm-Message-State: AOAM532GqMDm6XH9ZnQgAYDcXdKJv1/ExNUj7bNbHjgFcYGx8jz8lpnF
- ix8E3CnFqH5SsnxX4lnf6hQ=
-X-Google-Smtp-Source: ABdhPJwhUxpcLrJ3VbBzjIIFavVwOeiK8Zh32aX7HjZx9zUI906jfdBNLiTExTZ8v0icX5Dqz5kJUw==
-X-Received: by 2002:a17:90a:eacf:: with SMTP id
- ev15mr10877278pjb.209.1611834147786; 
- Thu, 28 Jan 2021 03:42:27 -0800 (PST)
-Received: from localhost ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id w16sm2497434pfj.103.2021.01.28.03.42.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:42:27 -0800 (PST)
-Date: Thu, 28 Jan 2021 19:42:21 +0800
-From: carlis <zhangxuezhi3@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
-Message-ID: <20210128194221.0000364e@gmail.com>
-In-Reply-To: <CAMuHMdX50YJ6_=maJveDk=dh+suFeCEtarWrqoP_gNMP9k922Q@mail.gmail.com>
-References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
- <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
- <20210128094258.000012c3@gmail.com>
- <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
- <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
- <20210128190301.00007ebe@gmail.com>
- <CAMuHMdX50YJ6_=maJveDk=dh+suFeCEtarWrqoP_gNMP9k922Q@mail.gmail.com>
-Organization: Tyzmig-ryrjum-8kedto
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
-MIME-Version: 1.0
+Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71ABF6E48E;
+ Thu, 28 Jan 2021 12:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=uGytE7I0mp3c6lgSL+
+ ib2vk1NbSDygdXthHzFLoUVvw=; b=SJ6gkniHmwz/08M9zPGkVWQgMv/SZt7dX+
+ GrvxiqPxo2vwpK2EmdcEE1qwKFnm7Ftwn1O33WtEf/1+0x4MPMmSFb+8Ye0y7a6Z
+ TQCbbJCOrDKt8ZEOhtJiMBkC0ekH/9Ik0g6iiC5vVVMlVaS/+w5iRv9ms80ssvzU
+ ffo3BMqRg=
+Received: from localhost.localdomain.localdomain (unknown [182.150.46.145])
+ by smtp1 (Coremail) with SMTP id C8mowAC3vj6iqhJguUeDOA--.19095S2;
+ Thu, 28 Jan 2021 20:14:27 +0800 (CST)
+From: Qu Huang <jinsdb@126.com>
+To: Felix.Kuehling@amd.com
+Subject: [PATCH v2] drm/amdkfd: dqm fence memory corruption
+Date: Thu, 28 Jan 2021 20:14:25 +0800
+Message-Id: <1611836065-30884-1-git-send-email-jinsdb@126.com>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: C8mowAC3vj6iqhJguUeDOA--.19095S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3WF48JF1rWFWUArykGw47XFb_yoWxAF45pF
+ Z3Jr17Wry8tF4av348Za48AFy3C3WxJFyfKry7G3sI93Z8Xa4rKrZ8Aay5K3y0gF9Fyay7
+ JrsrGrW8W3Zrtr7anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Uev3nUUUUU=
+X-Originating-IP: [182.150.46.145]
+X-CM-SenderInfo: pmlq2vbe6rjloofrz/1tbirwMoDlpD-hp4ZQAAsq
 X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,137 +47,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: driverdevel <devel@driverdev.osuosl.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- mh12gx2825@gmail.com, Stefano Brivio <sbrivio@redhat.com>,
- Greg KH <gregkh@linuxfoundation.org>, oliver.graute@kococonnector.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kari Argillander <kari.argillander@gmail.com>,
- Colin King <colin.king@canonical.com>, zhangxuezhi1@yulong.com
+Cc: airlied@linux.ie, jinsdb@126.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Jan 2021 12:15:28 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Amdgpu driver uses 4-byte data type as DQM fence memory,
+and transmits GPU address of fence memory to microcode
+through query status PM4 message. However, query status
+PM4 message definition and microcode processing are all
+processed according to 8 bytes. Fence memory only allocates
+4 bytes of memory, but microcode does write 8 bytes of memory,
+so there is a memory corruption.
 
-> Hi Carlis,
-> 
-> On Thu, Jan 28, 2021 at 12:03 PM carlis <zhangxuezhi3@gmail.com>
-> wrote:
-> > On Thu, 28 Jan 2021 10:42:54 +0100
-> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:  
-> > > On Thu, Jan 28, 2021 at 7:53 AM Kari Argillander
-> > > <kari.argillander@gmail.com> wrote:  
-> > > > On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:  
-> > > > > On Thu, 28 Jan 2021 00:32:22 +0200
-> > > > > Kari Argillander <kari.argillander@gmail.com> wrote:  
-> > > > > > >  #include "fbtft.h"
-> > > > > > >
-> > > > > > >  #define DRVNAME "fb_st7789v"
-> > > > > > > @@ -66,6 +69,32 @@ enum st7789v_command {
-> > > > > > >  #define MADCTL_MX BIT(6) /* bitmask for column address
-> > > > > > > order */ #define MADCTL_MY BIT(7) /* bitmask for page
-> > > > > > > address order */
-> > > > > > >
-> > > > > > > +#define SPI_PANEL_TE_TIMEOUT     400 /* msecs */
-> > > > > > > +static struct mutex te_mutex;/* mutex for set te gpio irq
-> > > > > > > status */  
-> > > > > >
-> > > > > > Space after ;  
-> > > > > hi, i have fix it in the patch v11  
-> > > > > >  
-> > > >
-> > > > Yeah sorry. I accidentally review wrong patch. But mostly stuff
-> > > > are still relevant.
-> > > >  
-> > > > > > > @@ -82,6 +111,33 @@ enum st7789v_command {
-> > > > > > >   */
-> > > > > > >  static int init_display(struct fbtft_par *par)
-> > > > > > >  {
-> > > > > > > + int rc;
-> > > > > > > + struct device *dev = par->info->device;
-> > > > > > > +
-> > > > > > > + par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
-> > > > > > > 0, GPIOD_IN);
-> > > > > > > + if (IS_ERR(par->gpio.te)) {
-> > > > > > > +         rc = PTR_ERR(par->gpio.te);
-> > > > > > > +         dev_err(par->info->device, "Failed to request te
-> > > > > > > gpio: %d\n", rc);
-> > > > > > > +         return rc;
-> > > > > > > + }  
-> > > > > >
-> > > > > > You request with optinal and you still want to error out? We
-> > > > > > could just continue and not care about that error. User
-> > > > > > will be happier if device still works somehow.  
-> > >
-> > > devm_gpiod_get_index_optional() returns NULL, not an error, if the
-> > > GPIO is not found.  So if IS_ERR() is the right check.
-> > >
-> > > And checks for -EPROBE_DEFER can be handled automatically
-> > > by using dev_err_probe() instead of dev_err().
-> > >  
-> > hi, i fix it like below!?
-> >         par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-> >         GPIOD_IN); if (IS_ERR(par->gpio.te)) {
-> >                 rc = PTR_ERR(par->gpio.te);
-> >                 dev_err_probe(par->info->device, rc, "Failed to
-> > request te gpio\n"); return rc;
-> >         }
-> >         if (par->gpio.te) {
-> >                 init_completion(&spi_panel_te);
-> >                 rc = devm_request_irq(dev,
-> >                                       gpiod_to_irq(par->gpio.te),
-> >                                      spi_panel_te_handler,
-> >         IRQF_TRIGGER_RISING, "TE_GPIO", par);
-> >                 if (rc) {
-> >                         dev_err(par->info->device, "TE request_irq
-> >         failed.\n"); return rc;  
-> 
-> dev_err_probe()
-> 
-> >                 }
-> >
-> >                 disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-> >         } else {
-> >                 dev_info(par->info->device, "%s:%d, TE gpio not
-> >                 specified\n", __func__, __LINE__);
-> >         }  
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Changes since v1:
+  * Change dqm->fence_addr as a u64 pointer to fix this issue,
+also fix up query_status and amdkfd_fence_wait_timeout function
+uses 64 bit fence value to make them consistent.
 
-hi,i will fix it like below:
+Signed-off-by: Qu Huang <jinsdb@126.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c               | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 6 +++---
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c       | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c    | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c    | 2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h                 | 8 ++++----
+ 7 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
+index b258a3d..159add0f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
+@@ -155,7 +155,7 @@ static int dbgdev_diq_submit_ib(struct kfd_dbgdev *dbgdev,
 
-	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
-	GPIOD_IN); if (IS_ERR(par->gpio.te))
-		return dev_err_probe(par->info->device,
-	PTR_ERR(par->gpio.te), "Failed to request te gpio\n");
+ 	/* Wait till CP writes sync code: */
+ 	status = amdkfd_fence_wait_timeout(
+-			(unsigned int *) rm_state,
++			rm_state,
+ 			QUEUESTATE__ACTIVE, 1500);
 
-	if (par->gpio.te) {
-		init_completion(&spi_panel_te);
-		rc = devm_request_irq(dev,
-				      gpiod_to_irq(par->gpio.te),
-				     spi_panel_te_handler,
-	IRQF_TRIGGER_RISING, "TE_GPIO", par);
-		if (IS_ERR(rc))
-			return dev_err_probe(par->info->device,
-	PTR_ERR(rc), "TE request_irq failed.\n");
+ 	kfd_gtt_sa_free(dbgdev->dev, mem_obj);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index e686ce2..4598a9a 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1167,7 +1167,7 @@ static int start_cpsch(struct device_queue_manager *dqm)
+ 	if (retval)
+ 		goto fail_allocate_vidmem;
 
-		disable_irq_nosync(gpiod_to_irq(par->gpio.te));
-	} else {
-		dev_info(par->info->device, "%s:%d, TE gpio not
-		specified\n", __func__, __LINE__);
-	}
+-	dqm->fence_addr = dqm->fence_mem->cpu_ptr;
++	dqm->fence_addr = (uint64_t *)dqm->fence_mem->cpu_ptr;
+ 	dqm->fence_gpu_addr = dqm->fence_mem->gpu_addr;
 
+ 	init_interrupts(dqm);
+@@ -1340,8 +1340,8 @@ static int create_queue_cpsch(struct device_queue_manager *dqm, struct queue *q,
+ 	return retval;
+ }
 
-regards,
-zhangxuezhi
+-int amdkfd_fence_wait_timeout(unsigned int *fence_addr,
+-				unsigned int fence_value,
++int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
++				uint64_t fence_value,
+ 				unsigned int timeout_ms)
+ {
+ 	unsigned long end_jiffies = msecs_to_jiffies(timeout_ms) + jiffies;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+index 16262e5..16b23dd 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+@@ -192,7 +192,7 @@ struct device_queue_manager {
+ 	uint16_t		vmid_pasid[VMID_NUM];
+ 	uint64_t		pipelines_addr;
+ 	uint64_t		fence_gpu_addr;
+-	unsigned int		*fence_addr;
++	uint64_t		*fence_addr;
+ 	struct kfd_mem_obj	*fence_mem;
+ 	bool			active_runlist;
+ 	int			sched_policy;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
+index 5d541e0..f71a7fa 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager.c
+@@ -347,7 +347,7 @@ int pm_send_runlist(struct packet_manager *pm, struct list_head *dqm_queues)
+ }
+
+ int pm_send_query_status(struct packet_manager *pm, uint64_t fence_address,
+-			uint32_t fence_value)
++			uint64_t fence_value)
+ {
+ 	uint32_t *buffer, size;
+ 	int retval = 0;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
+index dfaf771..e3ba0cd 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_v9.c
+@@ -283,7 +283,7 @@ static int pm_unmap_queues_v9(struct packet_manager *pm, uint32_t *buffer,
+ }
+
+ static int pm_query_status_v9(struct packet_manager *pm, uint32_t *buffer,
+-			uint64_t fence_address,	uint32_t fence_value)
++			uint64_t fence_address,	uint64_t fence_value)
+ {
+ 	struct pm4_mes_query_status *packet;
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
+index a852e0d..08442e7 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_packet_manager_vi.c
+@@ -263,7 +263,7 @@ static int pm_unmap_queues_vi(struct packet_manager *pm, uint32_t *buffer,
+ }
+
+ static int pm_query_status_vi(struct packet_manager *pm, uint32_t *buffer,
+-			uint64_t fence_address,	uint32_t fence_value)
++			uint64_t fence_address,	uint64_t fence_value)
+ {
+ 	struct pm4_mes_query_status *packet;
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 09599ef..f304d1f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1003,8 +1003,8 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
+ 		       u32 *ctl_stack_used_size,
+ 		       u32 *save_area_used_size);
+
+-int amdkfd_fence_wait_timeout(unsigned int *fence_addr,
+-			      unsigned int fence_value,
++int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
++			      uint64_t fence_value,
+ 			      unsigned int timeout_ms);
+
+ /* Packet Manager */
+@@ -1040,7 +1040,7 @@ struct packet_manager_funcs {
+ 			uint32_t filter_param, bool reset,
+ 			unsigned int sdma_engine);
+ 	int (*query_status)(struct packet_manager *pm, uint32_t *buffer,
+-			uint64_t fence_address,	uint32_t fence_value);
++			uint64_t fence_address,	uint64_t fence_value);
+ 	int (*release_mem)(uint64_t gpu_addr, uint32_t *buffer);
+
+ 	/* Packet sizes */
+@@ -1062,7 +1062,7 @@ int pm_send_set_resources(struct packet_manager *pm,
+ 				struct scheduling_resources *res);
+ int pm_send_runlist(struct packet_manager *pm, struct list_head *dqm_queues);
+ int pm_send_query_status(struct packet_manager *pm, uint64_t fence_address,
+-				uint32_t fence_value);
++				uint64_t fence_value);
+
+ int pm_send_unmap_queue(struct packet_manager *pm, enum kfd_queue_type type,
+ 			enum kfd_unmap_queues_filter mode,
+--
+1.8.3.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
