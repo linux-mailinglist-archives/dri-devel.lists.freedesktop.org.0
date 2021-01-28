@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAED307ED7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F58307EE7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B518C6EA0E;
-	Thu, 28 Jan 2021 19:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B566EA13;
+	Thu, 28 Jan 2021 19:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4E66E9BB
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 17:53:11 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id v15so6325156wrx.4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:53:11 -0800 (PST)
+Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com
+ [IPv6:2607:f8b0:4864:20::a49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6BBA6E9CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 18:24:47 +0000 (UTC)
+Received: by mail-vk1-xa49.google.com with SMTP id d124so275909vkf.22
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 10:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1yrHTpCxJbPqJxPosBUCqHjQNeMsmt6Vm7ugtgzEReE=;
- b=ez3mBXPhoqFz1D3IFmXN3JtwjoO2rNSDfgvnHC2YcXG14lhpNPd5zYmbbD8+pcGVq6
- AI2c8Urh2Bb+okX+xWbE5YxfBXEvjwaAH4ag9VriOmGaE8MLOma8D2W56hCwqfIun6A9
- P133f7nV5kCBXDTJ0v3Fh7ufr+igEpbVcs2OxxVnfhcFOTm2VQ+2KOvcJxxtpe0eXIjO
- oNI6bg5v2vfU/OymKzVBb8jV6UyEZSlca/u9CCqCQh5CUMP8ej4gYQUhqkCY50a3Y75G
- aQyhYowhGe/6O6ZDgEv+PVFoYmQIdibb8orbwSm6/XmEH2wzsaKDo6c0p/HNCBl2BWKL
- eMig==
+ h=sender:date:message-id:mime-version:subject:from:cc
+ :content-transfer-encoding;
+ bh=cHIvwUXm0lHuy8rQzrOgn2oz2Aq5uQKCMOMrBcKZwBg=;
+ b=Zc99w0hKc7U8hNCoPJDy9cvpaEfnjCHz+dH+XBgm5zAmXTTLaglY0QZ+xewQSHkXDB
+ xOzLPxKUqfoX69HUflAkk5SVsvrLU9yedbGZVCA98fwvlaSAIS3S/zp8mVGd6ywKiKpi
+ IcBrcmJAv1ow6QN5MLJiF0/UJ29JNPDTX5vrbFDH7zIXudgNkb7biFgC+6QMR6IwUOvN
+ 3lVpfjg+fzannImonM+QVX0zCX7wz61NABL/Y4xSO28FZUEZWM0w+poVt809HPQoCW82
+ cl2RCr3NCpxwOA7gySz+fi86VicU7XbIKlWOv6+46w7gEH7vPDZP2tLy+TyHNI8EF8T4
+ FcVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1yrHTpCxJbPqJxPosBUCqHjQNeMsmt6Vm7ugtgzEReE=;
- b=SV/mxgkl/41mW12aVKtxP7LhiM6/lNy3woCGOA/lJYpZaeuxh1mPN10qruSkV2nW51
- bRSzuGHz9vqYF9Fez1oHfh0o9Du8IdY1C7k5e/icDBq81S4iKQ1chFU55hHitwwC5Iy+
- /qzv2r1k1aZox4Oh+XWH4o2OROR5ZwPORs/jXyKbyDhubOKtDLk22bniBnXYY8am+Q3e
- yUurMGPkKYHJLb737deRF2bLGjVUNEf4qsgWi40Sp3W3CmIbgqME0QnTixY0EKIhEeCY
- VAMoHTUVjCzW+7lty8SjDf5HA+1PytDRCaxHyz+19LBcm2qv6MlHdSz8VlxV0CfnR0cr
- WBrA==
-X-Gm-Message-State: AOAM532Gl/XW29MgECMWrt9sAJScRvs0M825s3zDsFRnsemnv0/ci27o
- hCg8w1hSxxK5KH40iA4Mv7u3csIUI30kigLNT67LDA==
-X-Google-Smtp-Source: ABdhPJxwJqmSpiOHWxbkktFlqp4IMoBe4w7eVr8q1PfPy4kMSqkddDUEO7do+MQxEcJmtNOrfxqEeXfGoH86SezSyCg=
-X-Received: by 2002:adf:ed45:: with SMTP id u5mr267262wro.358.1611856390338;
- Thu, 28 Jan 2021 09:53:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20210128083817.314315-1-surenb@google.com>
- <20210128091348.GA1962975@infradead.org>
-In-Reply-To: <20210128091348.GA1962975@infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 28 Jan 2021 09:52:59 -0800
-Message-ID: <CAJuCfpFUhJozS98WJpH0KQKBzyGXvqS1fitu-mgSyhaJ1xL8SQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] dma-buf: heaps: Map system heap pages as managed by
- linux vm
-To: Christoph Hellwig <hch@infradead.org>
-X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:35 +0000
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :cc:content-transfer-encoding;
+ bh=cHIvwUXm0lHuy8rQzrOgn2oz2Aq5uQKCMOMrBcKZwBg=;
+ b=dq/U27W+/Vg79o8u0EO9nFlpSXkVbBRgQp9yscIYwG/JSnq6Qznip0oVr1oy7D0bVT
+ 57g+GwMWu8JD9DiZjal3/+KSvrza+Pz/qIoDXJc+qPaZjzFmLcJpL+UWZ3RbrnYHRM93
+ 2w9nCXrOPAqnUC3tKfSXyExZJetdoL3sXXoYfxT1ugTt796q5u3uaHaO8qr3xwAFGS2M
+ BcXpWb/hUj7d92Nzjz0bHaihAYeOf1g4ZbGT7nbKw9qDAcGqgpoNr4Y9ASFgJsHp/6tt
+ l871Ermi8WeaPVlL0GsGKHercComkdLljAMTG92Y+W2J4YM8U2AsCN33kMU7kE5cQ0g1
+ MW8g==
+X-Gm-Message-State: AOAM532F1xOpb2ZYeIhf4i1IbVFwU5eYFKBZTvK0t5QU+wYiu/eKVywm
+ iFb5aaeMIQBdtd7y8Bdl70u+MQ1T3v5q25Wafw==
+X-Google-Smtp-Source: ABdhPJxjOgT+zASwb9ZYuq0uI6fVz8Lr4Lk+05wuK0BleAbT7nbROSuQIr3xjDt42c7GZUo8Tn1YW1FsSYhCEyIssw==
+X-Received: from kaleshsingh.c.googlers.com
+ ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a67:eac2:: with SMTP id
+ s2mr963597vso.22.1611858286409; Thu, 28 Jan 2021 10:24:46 -0800 (PST)
+Date: Thu, 28 Jan 2021 18:24:29 +0000
+Message-Id: <20210128182432.2216573-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
+Subject: [PATCH 0/2] Allow reading process DMA buf stats from fdinfo
+From: Kalesh Singh <kaleshsingh@google.com>
+X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,80 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>, christian.koenig@amd.com,
- kernel-team <kernel-team@android.com>, James Jones <jajones@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Minchan Kim <minchan@kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>, labbott@redhat.com,
- Robin Murphy <robin.murphy@arm.com>, linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+ Kalesh Singh <kaleshsingh@google.com>,
+ Christian Brauner <christian.brauner@ubuntu.com>,
+ Michel Lespinasse <walken@google.com>, jeffv@google.com,
+ Daniel Jordan <daniel.m.jordan@oracle.com>, kernel-team@android.com,
+ Alexey Dobriyan <adobriyan@gmail.com>, linux-media@vger.kernel.org,
+ keescook@chromium.org, jannh@google.com, linaro-mm-sig@lists.linaro.org,
+ linux-fsdevel@vger.kernel.org, Bernd Edlinger <bernd.edlinger@hotmail.de>,
+ surenb@google.com, Alexey Gladkov <gladkov.alexey@gmail.com>,
+ linux-kernel@vger.kernel.org, minchan@kernel.org,
+ Yafang Shao <laoar.shao@gmail.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, hridya@google.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 1:13 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Thu, Jan 28, 2021 at 12:38:17AM -0800, Suren Baghdasaryan wrote:
-> > Currently system heap maps its buffers with VM_PFNMAP flag using
-> > remap_pfn_range. This results in such buffers not being accounted
-> > for in PSS calculations because vm treats this memory as having no
-> > page structs. Without page structs there are no counters representing
-> > how many processes are mapping a page and therefore PSS calculation
-> > is impossible.
-> > Historically, ION driver used to map its buffers as VM_PFNMAP areas
-> > due to memory carveouts that did not have page structs [1]. That
-> > is not the case anymore and it seems there was desire to move away
-> > from remap_pfn_range [2].
-> > Dmabuf system heap design inherits this ION behavior and maps its
-> > pages using remap_pfn_range even though allocated pages are backed
-> > by page structs.
-> > Clear VM_IO and VM_PFNMAP flags when mapping memory allocated by the
-> > system heap and replace remap_pfn_range with vm_insert_page, following
-> > Laura's suggestion in [1]. This would allow correct PSS calculation
-> > for dmabufs.
-> >
-> > [1] https://driverdev-devel.linuxdriverproject.narkive.com/v0fJGpaD/using-ion-memory-for-direct-io
-> > [2] http://driverdev.linuxdriverproject.org/pipermail/driverdev-devel/2018-October/127519.html
-> > (sorry, could not find lore links for these discussions)
-> >
-> > Suggested-by: Laura Abbott <labbott@kernel.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> > index 17e0e9a68baf..0e92e42b2251 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -200,11 +200,13 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-> >       struct sg_page_iter piter;
-> >       int ret;
-> >
-> > +     /* All pages are backed by a "struct page" */
-> > +     vma->vm_flags &= ~VM_PFNMAP;
->
-> Why do we clear this flag?  It shouldn't even be set here as far as I
-> can tell.
-
-Thanks for the question, Christoph.
-I tracked down that flag being set by drm_gem_mmap_obj() which DRM
-drivers use to "Set up the VMA to prepare mapping of the GEM object"
-(according to drm_gem_mmap_obj comments). I also see a pattern in
-several DMR drivers to call drm_gem_mmap_obj()/drm_gem_mmap(), then
-clear VM_PFNMAP and then map the VMA (for example here:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/rockchip/rockchip_drm_gem.c#L246).
-I thought that dmabuf allocator (in this case the system heap) would
-be the right place to set these flags because it controls how memory
-is allocated before mapping. However it's quite possible that I'm
-missing the real reason for VM_PFNMAP being set in drm_gem_mmap_obj()
-before dma_buf_mmap() is called. I could not find the answer to that,
-so I hope someone here can clarify that.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW5kcm9pZCBjYXB0dXJlcyBwZXItcHJvY2VzcyBzeXN0ZW0gbWVtb3J5IHN0YXRlIHdoZW4gY2Vy
+dGFpbiBsb3cgbWVtb3J5CmV2ZW50cyAoZS5nIGEgZm9yZWdyb3VuZCBhcHAga2lsbCkgb2NjdXIs
+IHRvIGlkZW50aWZ5IHBvdGVudGlhbCBtZW1vcnkKaG9nZ2Vycy4gSW4gb3JkZXIgdG8gbWVhc3Vy
+ZSBob3cgbXVjaCBtZW1vcnkgYSBwcm9jZXNzIGFjdHVhbGx5IGNvbnN1bWVzLAppdCBpcyBuZWNl
+c3NhcnkgdG8gaW5jbHVkZSB0aGUgRE1BIGJ1ZmZlciBzaXplcyBmb3IgdGhhdCBwcm9jZXNzIGlu
+IHRoZQptZW1vcnkgYWNjb3VudGluZy4gU2luY2UgdGhlIGhhbmRsZSB0byBETUEgYnVmZmVycyBh
+cmUgcmF3IEZEcywgaXQgaXMKaW1wb3J0YW50IHRvIGJlIGFibGUgdG8gaWRlbnRpZnkgd2hpY2gg
+cHJvY2Vzc2VzIGhhdmUgRkQgcmVmZXJlbmNlcyB0bwphIERNQSBidWZmZXIuCgpDdXJyZW50bHks
+IERNQSBidWZmZXIgRkRzIGNhbiBiZSBhY2NvdW50ZWQgdXNpbmcgL3Byb2MvPHBpZD4vZmQvKiBh
+bmQKL3Byb2MvPHBpZD4vZmRpbmZvIC0tIGJvdGggYXJlIG9ubHkgcmVhZGFibGUgYnkgdGhlIHBy
+b2Nlc3Mgb3duZXIsCmFzIGZvbGxvd3M6CiAgMS4gRG8gYSByZWFkbGluayBvbiBlYWNoIEZELgog
+IDIuIElmIHRoZSB0YXJnZXQgcGF0aCBiZWdpbnMgd2l0aCAiL2RtYWJ1ZiIsIHRoZW4gdGhlIEZE
+IGlzIGEgZG1hYnVmIEZELgogIDMuIHN0YXQgdGhlIGZpbGUgdG8gZ2V0IHRoZSBkbWFidWYgaW5v
+ZGUgbnVtYmVyLgogIDQuIFJlYWQvIHByb2MvPHBpZD4vZmRpbmZvLzxmZD4sIHRvIGdldCB0aGUg
+RE1BIGJ1ZmZlciBzaXplLgoKQWNjZXNzaW5nIG90aGVyIHByb2Nlc3Nlc+KAmSBmZGluZm8gcmVx
+dWlyZXMgcm9vdCBwcml2aWxlZ2VzLiBUaGlzIGxpbWl0cwp0aGUgdXNlIG9mIHRoZSBpbnRlcmZh
+Y2UgdG8gZGVidWdnaW5nIGVudmlyb25tZW50cyBhbmQgaXMgbm90IHN1aXRhYmxlCmZvciBwcm9k
+dWN0aW9uIGJ1aWxkcy4gIEdyYW50aW5nIHJvb3QgcHJpdmlsZWdlcyBldmVuIHRvIGEgc3lzdGVt
+IHByb2Nlc3MKaW5jcmVhc2VzIHRoZSBhdHRhY2sgc3VyZmFjZSBhbmQgaXMgaGlnaGx5IHVuZGVz
+aXJhYmxlLgoKVGhpcyBzZXJpZXMgcHJvcG9zZXMgbWFraW5nIHRoZSByZXF1aXJlbWVudCB0byBy
+ZWFkIGZkaW5mbyBsZXNzIHN0cmljdAp3aXRoIFBUUkFDRV9NT0RFX1JFQUQuCgoKS2FsZXNoIFNp
+bmdoICgyKToKICBwcm9jZnM6IEFsbG93IHJlYWRpbmcgZmRpbmZvIHdpdGggUFRSQUNFX01PREVf
+UkVBRAogIGRtYWJ1ZjogQWRkIGRtYWJ1ZiBpbm9kZSBubyB0byBmZGluZm8KCiBkcml2ZXJzL2Rt
+YS1idWYvZG1hLWJ1Zi5jIHwgIDEgKwogZnMvcHJvYy9iYXNlLmMgICAgICAgICAgICB8ICA0ICsr
+LS0KIGZzL3Byb2MvZmQuYyAgICAgICAgICAgICAgfCAxNSArKysrKysrKysrKysrKy0KIDMgZmls
+ZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCi0tIAoyLjMwLjAu
+MzY1LmcwMmJjNjkzNzg5LWdvb2cKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
