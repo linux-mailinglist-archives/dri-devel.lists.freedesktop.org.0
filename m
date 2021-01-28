@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA21307E6F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 19:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027F8307E71
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 19:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2776E210;
-	Thu, 28 Jan 2021 18:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B1C6E216;
+	Thu, 28 Jan 2021 18:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m42-8.mailgun.net (m42-8.mailgun.net [69.72.42.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1326E210
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 18:53:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1057A6E216
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 18:54:00 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1611859986; h=In-Reply-To: Content-Type: MIME-Version:
+ s=smtp; t=1611860041; h=In-Reply-To: Content-Type: MIME-Version:
  References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=A3uJbsbReqIC2xWBCaCbZ26cdt1NNPaHfgT5Jx4zBlU=;
- b=fhA/2Gl0+afyxmf8Shw+1BTB/VfeQP75tObDKl18iYjBnxDtHPL93rp8mHY7GdOJVPuNpdDd
- +SYaenWMSNcR0MJSMc8Sgl0Ct0+PuwN5L3V+dErGGqS47gvkp+LVTf7UW9PstXs9tqBUhnKp
- KFpubbIWK3z3hwNd5dogdYYLCsU=
+ bh=FaK/JjFQ0RyB36pwXra+jhWTB7hpipF52d8CsHGV79I=;
+ b=X1g8z/AIVkeZ8MrC/HHqpA8m0RmYOFi+Oxe6/N5cN83/ysC2Fi6aPeUo92p55DR8GJksskS2
+ uJSv9+f6ez34boyWL/f6jXUd1RfDHQiVEBWQVkriMb47nepuSmSP/mifSfwDtMRlO11tx+fh
+ hOQjEwSrBE8Wsm5qp8TLNgppDk4=
 X-Mailgun-Sending-Ip: 69.72.42.8
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 601306d8e325600642a515a5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 28 Jan 2021 18:47:52
+ 60130714e325600642a6321b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 28 Jan 2021 18:48:52
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 31646C43461; Thu, 28 Jan 2021 18:47:52 +0000 (UTC)
+ id 2391DC43465; Thu, 28 Jan 2021 18:48:52 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -40,29 +40,27 @@ Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 0DF80C433CA;
- Thu, 28 Jan 2021 18:47:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0DF80C433CA
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 48C56C433C6;
+ Thu, 28 Jan 2021 18:48:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 48C56C433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 28 Jan 2021 11:47:48 -0700
+Date: Thu, 28 Jan 2021 11:48:47 -0700
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH 2/3] drm/msm: Fix races managing the OOB state for
- timestamp vs timestamps.
-Message-ID: <20210128184748.GC29306@jcrouse1-lnx.qualcomm.com>
+Subject: Re: [PATCH 3/3] drm/msm: Clean up GMU OOB set/clear handling.
+Message-ID: <20210128184847.GD29306@jcrouse1-lnx.qualcomm.com>
 Mail-Followup-To: Eric Anholt <eric@anholt.net>,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 References: <20210127233946.1286386-1-eric@anholt.net>
- <20210127233946.1286386-2-eric@anholt.net>
+ <20210127233946.1286386-3-eric@anholt.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210127233946.1286386-2-eric@anholt.net>
+In-Reply-To: <20210127233946.1286386-3-eric@anholt.net>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,54 +76,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Sean Paul <sean@poorly.run>
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 27, 2021 at 03:39:45PM -0800, Eric Anholt wrote:
-> Now that we're not racing with GPU setup, also fix races of timestamps
-> against other timestamps.  In CI, we were seeing this path trigger
-> timeouts on setting the GMU bit, especially on the first set of tests
-> right after boot (it's probably easier to lose the race than one might
-> think, given that we start many tests in parallel, and waiting for NFS
-> to page in code probably means that lots of tests hit the same point
-> of screen init at the same time).
+On Wed, Jan 27, 2021 at 03:39:46PM -0800, Eric Anholt wrote:
+> Now that the bug is fixed in the minimal way for stable, go make the
+> code table-driven.
 > 
 > Signed-off-by: Eric Anholt <eric@anholt.net>
-> Cc: stable@vger.kernel.org # v5.9
 
-The joys of not having a global mutex locking everything.
+There shouldn't be too many more OOB bits, but this is a good cleanup
+regardless.
 
 Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 124 +++++++++++++-------------
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  55 ++++--------
+>  2 files changed, 77 insertions(+), 102 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 7424a70b9d35..e8f0b5325a7f 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1175,6 +1175,9 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->  {
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> +	static DEFINE_MUTEX(perfcounter_oob);
-> +
-> +	mutex_lock(&perfcounter_oob);
->  
->  	/* Force the GPU power on so we can read this register */
->  	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
-> @@ -1183,6 +1186,7 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->  		REG_A6XX_RBBM_PERFCTR_CP_0_HI);
->  
->  	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
-> +	mutex_unlock(&perfcounter_oob);
->  	return 0;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 378dc7f190c3..c497e0942141 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -245,47 +245,66 @@ static int a6xx_gmu_hfi_start(struct a6xx_gmu *gmu)
+>  	return ret;
 >  }
 >  
+> +struct a6xx_gmu_oob_bits {
+> +	int set, ack, set_new, ack_new;
+> +	const char *name;
+> +};
+> +
+> +/* These are the interrupt / ack bits for each OOB request that are set
+> + * in a6xx_gmu_set_oob and a6xx_clear_oob
+> + */
+> +static const struct a6xx_gmu_oob_bits a6xx_gmu_oob_bits[] = {
+> +	[GMU_OOB_GPU_SET] = {
+> +		.name = "GPU_SET",
+> +		.set = 16,
+> +		.ack = 24,
+> +		.set_new = 30,
+> +		.ack_new = 31,
+> +	},
+> +
+> +	[GMU_OOB_PERFCOUNTER_SET] = {
+> +		.name = "PERFCOUNTER",
+> +		.set = 17,
+> +		.ack = 25,
+> +		.set_new = 28,
+> +		.ack_new = 30,
+> +	},
+> +
+> +	[GMU_OOB_BOOT_SLUMBER] = {
+> +		.name = "BOOT_SLUMBER",
+> +		.set = 22,
+> +		.ack = 30,
+> +	},
+> +
+> +	[GMU_OOB_DCVS_SET] = {
+> +		.name = "GPU_DCVS",
+> +		.set = 23,
+> +		.ack = 31,
+> +	},
+> +};
+> +
+>  /* Trigger a OOB (out of band) request to the GMU */
+>  int _a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state, char *file, int line)
+>  {
+>  	int ret;
+>  	u32 val;
+>  	int request, ack;
+> -	const char *name;
+>  
+> -	switch (state) {
+> -	case GMU_OOB_GPU_SET:
+> -		if (gmu->legacy) {
+> -			request = GMU_OOB_GPU_SET_REQUEST;
+> -			ack = GMU_OOB_GPU_SET_ACK;
+> -		} else {
+> -			request = GMU_OOB_GPU_SET_REQUEST_NEW;
+> -			ack = GMU_OOB_GPU_SET_ACK_NEW;
+> -		}
+> -		name = "GPU_SET";
+> -		break;
+> -	case GMU_OOB_PERFCOUNTER_SET:
+> -		if (gmu->legacy) {
+> -			request = GMU_OOB_PERFCOUNTER_REQUEST;
+> -			ack = GMU_OOB_PERFCOUNTER_ACK;
+> -		} else {
+> -			request = GMU_OOB_PERFCOUNTER_REQUEST_NEW;
+> -			ack = GMU_OOB_PERFCOUNTER_ACK_NEW;
+> -		}
+> -		name = "PERFCOUNTER";
+> -		break;
+> -	case GMU_OOB_BOOT_SLUMBER:
+> -		request = GMU_OOB_BOOT_SLUMBER_REQUEST;
+> -		ack = GMU_OOB_BOOT_SLUMBER_ACK;
+> -		name = "BOOT_SLUMBER";
+> -		break;
+> -	case GMU_OOB_DCVS_SET:
+> -		request = GMU_OOB_DCVS_REQUEST;
+> -		ack = GMU_OOB_DCVS_ACK;
+> -		name = "GPU_DCVS";
+> -		break;
+> -	default:
+> +	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+>  		return -EINVAL;
+> +
+> +	if (gmu->legacy) {
+> +		request = a6xx_gmu_oob_bits[state].set;
+> +		ack = a6xx_gmu_oob_bits[state].ack;
+> +	} else {
+> +		request = a6xx_gmu_oob_bits[state].set_new;
+> +		ack = a6xx_gmu_oob_bits[state].ack_new;
+> +		if (!request || !ack) {
+> +			DRM_DEV_ERROR(gmu->dev,
+> +				      "Invalid non-legacy GMU request %s\n",
+> +				      a6xx_gmu_oob_bits[state].name);
+> +			return -EINVAL;
+> +		}
+>  	}
+>  
+>  	/* Trigger the equested OOB operation */
+> @@ -299,7 +318,7 @@ int _a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state, char
+>  		DRM_DEV_ERROR(gmu->dev,
+>  			"%s:%d Timeout waiting for GMU OOB set %s: 0x%x\n",
+>  			file, line,
+> -				name,
+> +				a6xx_gmu_oob_bits[state].name,
+>  				gmu_read(gmu, REG_A6XX_GMU_GMU2HOST_INTR_INFO));
+>  
+>  	/* Clear the acknowledge interrupt */
+> @@ -311,36 +330,17 @@ int _a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state, char
+>  /* Clear a pending OOB state in the GMU */
+>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+>  {
+> -	if (!gmu->legacy) {
+> -		if (state == GMU_OOB_GPU_SET) {
+> -			gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -				1 << GMU_OOB_GPU_SET_CLEAR_NEW);
+> -		} else {
+> -			WARN_ON(state != GMU_OOB_PERFCOUNTER_SET);
+> -			gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -				1 << GMU_OOB_PERFCOUNTER_CLEAR_NEW);
+> -		}
+> +	int bit;
+> +
+> +	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+>  		return;
+> -	}
+>  
+> -	switch (state) {
+> -	case GMU_OOB_GPU_SET:
+> -		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -			1 << GMU_OOB_GPU_SET_CLEAR);
+> -		break;
+> -	case GMU_OOB_PERFCOUNTER_SET:
+> -		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -			1 << GMU_OOB_PERFCOUNTER_CLEAR);
+> -		break;
+> -	case GMU_OOB_BOOT_SLUMBER:
+> -		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -			1 << GMU_OOB_BOOT_SLUMBER_CLEAR);
+> -		break;
+> -	case GMU_OOB_DCVS_SET:
+> -		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET,
+> -			1 << GMU_OOB_DCVS_CLEAR);
+> -		break;
+> -	}
+> +	if (gmu->legacy)
+> +		bit = a6xx_gmu_oob_bits[state].ack;
+> +	else
+> +		bit = a6xx_gmu_oob_bits[state].ack_new;
+> +
+> +	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, bit);
+>  }
+>  
+>  /* Enable CPU control of SPTP power power collapse */
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> index 9fa278de2106..71dfa60070cc 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> @@ -153,52 +153,27 @@ static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+>   */
+>  
+>  enum a6xx_gmu_oob_state {
+> +	/*
+> +	 * Let the GMU know that a boot or slumber operation has started. The value in
+> +	 * REG_A6XX_GMU_BOOT_SLUMBER_OPTION lets the GMU know which operation we are
+> +	 * doing
+> +	 */
+>  	GMU_OOB_BOOT_SLUMBER = 0,
+> +	/*
+> +	 * Let the GMU know to not turn off any GPU registers while the CPU is in a
+> +	 * critical section
+> +	 */
+>  	GMU_OOB_GPU_SET,
+> +	/*
+> +	 * Set a new power level for the GPU when the CPU is doing frequency scaling
+> +	 */
+>  	GMU_OOB_DCVS_SET,
+> +	/*
+> +	 * Used to keep the GPU on for CPU-side reads of performance counters.
+> +	 */
+>  	GMU_OOB_PERFCOUNTER_SET,
+>  };
+>  
+> -/* These are the interrupt / ack bits for each OOB request that are set
+> - * in a6xx_gmu_set_oob and a6xx_clear_oob
+> - */
+> -
+> -/*
+> - * Let the GMU know that a boot or slumber operation has started. The value in
+> - * REG_A6XX_GMU_BOOT_SLUMBER_OPTION lets the GMU know which operation we are
+> - * doing
+> - */
+> -#define GMU_OOB_BOOT_SLUMBER_REQUEST	22
+> -#define GMU_OOB_BOOT_SLUMBER_ACK	30
+> -#define GMU_OOB_BOOT_SLUMBER_CLEAR	30
+> -
+> -/*
+> - * Set a new power level for the GPU when the CPU is doing frequency scaling
+> - */
+> -#define GMU_OOB_DCVS_REQUEST	23
+> -#define GMU_OOB_DCVS_ACK	31
+> -#define GMU_OOB_DCVS_CLEAR	31
+> -
+> -/*
+> - * Let the GMU know to not turn off any GPU registers while the CPU is in a
+> - * critical section
+> - */
+> -#define GMU_OOB_GPU_SET_REQUEST	16
+> -#define GMU_OOB_GPU_SET_ACK	24
+> -#define GMU_OOB_GPU_SET_CLEAR	24
+> -
+> -#define GMU_OOB_GPU_SET_REQUEST_NEW	30
+> -#define GMU_OOB_GPU_SET_ACK_NEW		31
+> -#define GMU_OOB_GPU_SET_CLEAR_NEW	31
+> -
+> -#define GMU_OOB_PERFCOUNTER_REQUEST	17
+> -#define GMU_OOB_PERFCOUNTER_ACK		25
+> -#define GMU_OOB_PERFCOUNTER_CLEAR	25
+> -
+> -#define GMU_OOB_PERFCOUNTER_REQUEST_NEW	28
+> -#define GMU_OOB_PERFCOUNTER_ACK_NEW	30
+> -#define GMU_OOB_PERFCOUNTER_CLEAR_NEW	30
+> -
+>  void a6xx_hfi_init(struct a6xx_gmu *gmu);
+>  int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state);
+>  void a6xx_hfi_stop(struct a6xx_gmu *gmu);
 > -- 
 > 2.30.0
 > 
