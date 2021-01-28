@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53C9306E4D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:14:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42105306E51
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:14:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566226E8E9;
-	Thu, 28 Jan 2021 07:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859AD6E0E1;
+	Thu, 28 Jan 2021 07:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 012D06E0D6;
- Thu, 28 Jan 2021 07:13:52 +0000 (UTC)
+ (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B50DA6E0E1;
+ Thu, 28 Jan 2021 07:13:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OsJFLOlgpcaPTtlC2gbBFKFSSDAqrdiA4WaZhYKwndIghMphtzNIUSDWppdSo8fduziqH4Jc7hwSzreLVLfi2Y8E7vdxHSoqXZzr/Vcvyak8dLn2fIi5vfOl+ln5tMhSPikNml2hBGjho4UueFTueHu11SXNH1vK6KC0TX5BRuJBAOJ1WqBJjY1kBsJhGHDNFk6H/X5C4U9WN4sg5c8xkwlFP1PCC+zOpFpb4FtLbO/NnHheLS70KNqdxzXH9nXWj/DPLSKcqbR/8/y7jSJW60fmmMwTSRTZyPRVyNmfo/2ML0iV75ypiqysR4+nb24XNSmgQm9f3Das9gp64j/Z+A==
+ b=hu4H2hTZbI9Xm9luqtRAR7PezpAtfnL8lcZ+hj62tO++KX1j3jidANMwnQv7IGwqOu72sggP98JEwavkKwCZjZuCJ8mhC0Gt/NOVUAs8u0WzNnXT5Tl3p8LupRZNDhkR4szRvWJ1Gi3REl2P84WeSy7dGj34dELUr3W9vE1SN0FfcnMuxDc62QVdYEekWyaG8mNi0EfxzFDCPOZZAoyMBnfmrfDPqrZwSAOLurI4OPjIm2r9F6xYq/Pzlyg7gSa7BUk9EBXV78Mi1Bn01YD3tanB5fEtQUkIi15C5Yta5sYd2aEQdBCbbpeaL9CNwGCLg6sWmr7pVfgfUVMbQs8iwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVJwrrsVqNs5J+D+L953s05SuHhnmBsC3KYlWzAZhvk=;
- b=i/VKUUFdIN6Y2KuTyXp6BPtylCih3kzRlLIIhju+FIpO+dwnNGqGs2B78NciwnKJ9e9TpB56/5WJW8Wl3YWxnnvQrDsOZM0Dz0bs3xgZlZbtPlFFkmgRXot99uiYye2sM9y3IdEhUuPSwjJlfR2ab0N1RNkD7lJ51asvz8vQpvdAse5FQuILcCrNsCGPy2BN7r4jnWwdZJhcy7ymfEzsR4OM6y4YE7Ow0ZaAoUdjHoMMwGZ4A5cwP4kksLnh7wqhZUZuUmvPbQ2Vv/iSAgbUIPSndNkIwBkO8vt1AWz96aWsFkMuPPzDJTSsoyH7fLVxNJohf4Ro/ai/Pv+HaheCvA==
+ bh=DwpnTFg1v4e74KuO9gjvbUPmsqazLRKFsxCLv/r0wRY=;
+ b=Pep1m4jSkbXhD+qciLx2d7b+actcyChKqJNTZHV4VeCGMkW2KwfbhGGOJpmIoFdZC05lJPhofGtwuiLa+Ec7gSlaekjk35o0ppTkoYncoph2Dq5qE1dLiy3H7jehnPXS+2U8OB7ZaT84r1Ref+R0EiUcspN9tyFpJc01H9Kov10Uzl+WIgGhyypnFNrw4dUjYRIvqt9DE+UEmaVeZ+h9HV6hz5aSaazxOOY2IpzDn1W3C2vVZOA9ST0jB5EyG2RnBbY9Cb+4BqJDgbtbrwULMzzeSnL6OQmHT4UTJOEKtH9Pgu99xtgNps847Cn0F8IZvYuPZ5JQR4+34EeCtGpUnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVJwrrsVqNs5J+D+L953s05SuHhnmBsC3KYlWzAZhvk=;
- b=qNkSbCWX1i14OW3hTjGfoKmphfAV2w4NeU1Jw0VIuKr4RBe3Cah/rkpAaXry+RJwzNaP1VicrsnAxCRmyFX5OecWigLJ6Gtth6KZh2VpW5iHaJ+L8pwoR2h33bEaEm4/3ykmXxJbZhllPUn5ODsPNSi9Yzg+qshv99KQtvmqqC0=
+ bh=DwpnTFg1v4e74KuO9gjvbUPmsqazLRKFsxCLv/r0wRY=;
+ b=0x7YtFIf6PKSNcTFMaUE9KVnS9Luyg/Y4VwymdjFnPpvLOTCvMjS6a7Pzl24OTM5lA3eqAPCyZdJKzrfRCApbtxCUGsCbaXzNlqJ5CjwhXV8sbRzT02SOtpcynHsZUrLLSlCYvG+QX2SXlHzVKRJWsf3VRhURVSXWADJA9nhuiY=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from MN2PR12MB3022.namprd12.prod.outlook.com (2603:10b6:208:ce::32)
  by MN2PR12MB3280.namprd12.prod.outlook.com (2603:10b6:208:ad::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Thu, 28 Jan
- 2021 07:13:51 +0000
+ 2021 07:13:53 +0000
 Received: from MN2PR12MB3022.namprd12.prod.outlook.com
  ([fe80::709e:b0ae:fbde:fcc6]) by MN2PR12MB3022.namprd12.prod.outlook.com
  ([fe80::709e:b0ae:fbde:fcc6%7]) with mapi id 15.20.3784.019; Thu, 28 Jan 2021
- 07:13:51 +0000
+ 07:13:53 +0000
 From: Kevin Wang <kevin1.wang@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 1/3] drm/ttm: add ttm bo trace event support
-Date: Thu, 28 Jan 2021 15:13:20 +0800
-Message-Id: <20210128071322.24313-2-kevin1.wang@amd.com>
+Subject: [RFC PATCH 2/3] drm/ttm: add ttm vm bo trace event support
+Date: Thu, 28 Jan 2021 15:13:21 +0800
+Message-Id: <20210128071322.24313-3-kevin1.wang@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210128071322.24313-1-kevin1.wang@amd.com>
 References: <20210128071322.24313-1-kevin1.wang@amd.com>
@@ -57,49 +57,49 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from MZ01-CE0.amd.com (58.247.170.245) by
  HKAPR04CA0010.apcprd04.prod.outlook.com (2603:1096:203:d0::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 07:13:48 +0000
+ 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 07:13:51 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9d7dfdbb-9b37-4878-5b57-08d8c35c433c
+X-MS-Office365-Filtering-Correlation-Id: dc0fbd10-3b97-4457-f91b-08d8c35c44b3
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3280:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3280A4D3A826677BC629C358A2BA9@MN2PR12MB3280.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3280DCF5B949E070A02EE941A2BA9@MN2PR12MB3280.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:78;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qqKfLvzFuuDtvvH6B3O63co/kCwvTcG0KwrO/CVIQhX3bNVaRQFz+md9nY9SzYcLnRQzKTa1w+Kr6GN9Fqp5f/st0nDf6WHK9v5zrI42wSaEhI3pYxA7RWWXX6Jjf7YKr3bMZC66I52N+GGnJ3xkkgdQxrDIqcWfFZs2ViwcV1tDg4qJ4nlguzDyphkTDUm0Cs26lWqFG4NhWrFwwEDRiI1Hy2sQ4y+tB0f9VxlmF5Ol+TYJOIwEPiEDYAEQXZnD603zuZRtvEskD6tD5+4uXGyF2v8lqf8QJHdYfgkuvFNNsQ5uFUEulQoLOmyL8mnpS9xgNd/7eNHw0wkjs/mtM+TPlPR0BVCQW/OtHddNEI5EDJeWNjDPvV4u+wgzR4rrm2PxPVQPM6DnxmMCCaP/5uvOQ5Zo0ZOCLzxukURIHr+z/ywGyUZW+Yn3luiomy746e3T23MgN45EVMnjkC7ijcnrC3/kHFO4De4vGsxtrAxkD3LXC0c2trfBxwIVvltvtJ5JzSHwzD69wzAg6ltTSw==
+X-Microsoft-Antispam-Message-Info: GirmfxFEtqlDPpcStA29u+4PbM+qdB1KgRHPHGl0gUXjsu9SXKPcIGZF84GXrdVAYhCO/vSxOJPaa2gK9XyyCuaqrbfPpEalW2rraBH0RCbyP/6vuMPw+yR4wv+ZaAJXqEg0OaKdfoT8QAFamCuYQLPgwjj406Enifd0qLC/J66ge9DW1y7O0DlvC2QhF5TM9sOzK9sWBbjtSNuNjh7ExjRrsU6kEYgkt07HoMnFiDArCLFqPCCR0agngDH62rd5keAYOVQaSAKhuICrCF9YvKFK7bnqjjs0lUMvl1oI9MgVd9Uq3uh8xe8bTzEaeakXzw4ADUOuZ/q6MOA4W3Tfe90uS1ihqyOw5wn7YIFsGrbwQnZ9fCiqTV04RO76kkvEBmZFBZLQM2M+oSqJNzljI1g9Uxz121z2f7rQCju9ByYw8/y2aQyvPkWsQ2kJvYQiQa92+ENCHb8TvU1Wy/60nz51fsicjHRsUUuuDkaJR/HcrmofTRvyxX4i7hXIoQCzL3Rxqw0pkHoHyaqghFl6e1G/j+Vvxj14DJawiEfvbQJA8Vq1Z+8Wm3hLytXZaBuL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3022.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(186003)(450100002)(66946007)(2616005)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(5660300002)(36756003)(8936002)(83380400001)(1076003)(16526019)(2906002)(86362001)(478600001)(7696005)(6666004)(956004)(52116002)(30864003)(4326008);
+ SFS:(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(186003)(450100002)(66946007)(2616005)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(5660300002)(36756003)(8936002)(83380400001)(1076003)(16526019)(2906002)(86362001)(478600001)(7696005)(6666004)(956004)(52116002)(4326008)(309714004);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9dNfhjqkNo05H5f0IFnKs8alms+a0QzoupJDUQX3fZRn7xarIqA5NN6/5aO6?=
- =?us-ascii?Q?lrrB4soaDcSfAeiVoqc45lH3N66b+MOwaWG3KeiV3cL7jTB2KuO+mrBDSv7j?=
- =?us-ascii?Q?G7P+05B4arZE/ayMm1TI+6K1d59vQMFRToB5Yn3+q1X7tuwHYje3qENmXsrS?=
- =?us-ascii?Q?QzP3l//9xtO5STR4dO8N37qI/AOR/KC25vGiflQQdchI2PZR+WVFcqTMrOmK?=
- =?us-ascii?Q?lmG7f489it4iNyJFJn8eFEsBFwxT6FePu6NuPborDx0uZ2Ur86wH2afkOKAU?=
- =?us-ascii?Q?Wb1wLKG9IA0wPkd8IgcwsNF6UfkBb+Nd/n22d7eiEqd9yZ+/e4DQO6gB5U6N?=
- =?us-ascii?Q?JI6IrVWTu419A2uJ2RhC2TEnKynBnajkUKlsJreazsrl64QQMKip1BClvISQ?=
- =?us-ascii?Q?tzhmxRi8giJgtZhcqpEFQevKCPHmr0lRhkYFbosdc7K6xWEB+4T8bmjSrGAE?=
- =?us-ascii?Q?IeJeOUAuP0ZVBo9ZWVTtdTKgrloTLcr0zaugpc63c6MH9QlKvM2jWfBr8Jhs?=
- =?us-ascii?Q?SONkk0YLqF2i+HaFp4Es5DrSfyZndWBYi6LGecpSQLrg8bOubgV6H5ZHHMGT?=
- =?us-ascii?Q?WkCSX7bgZcMbrWiHGpwJMXdiOFqAZ8A6YrtxRWrUGVrYkN8Dcgk8e1/DJGAJ?=
- =?us-ascii?Q?/cOqtgMHZGKD4HYuiZkU96O85I9WH0u/Scf+tx/WtcyNhnfHTbH72QZfLTmQ?=
- =?us-ascii?Q?ihBMBOIXhYZQuKTTaHynATPIjq0Sv6/e4YJ/NT0iCfXEP2oeSdNCtTibznfQ?=
- =?us-ascii?Q?qVlcR8rpkLUDObTEXd83XSHyUKGirJkxfqiPhkXKCqM5yP2aFqSURJkfF67F?=
- =?us-ascii?Q?ijjkpRUS/b/R8IcPl8jd8OnWuscCGMpo5p/5lP2EJEUYROhOCo0cWhrl0YoO?=
- =?us-ascii?Q?uRUEvjqpPrIHg82/RZtyemcJtnAdYIvZwKiNHsctuxZtP0HFgR6g5avLilDE?=
- =?us-ascii?Q?Vpeoh7BRiRbusVIGTUhnnEOko3cNaXDfGHk5qoolDjDqLYIOMADom4MClN6k?=
- =?us-ascii?Q?5zjQXuKyLqSEopkOh+0NsYAQ2BJeRlu4hhQJn2lFo6oMVWckivazcyRqrPb9?=
- =?us-ascii?Q?IExqeg/b?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?DFZMwpiE7ao/nBmDytoN/xvP1IbKpCF4DkEQANXJs6T79Ql69k4LTFZi3GxV?=
+ =?us-ascii?Q?xEr1fBpPBPLdaRT8NIbFNICDbYzQcM6qKrpgT9GZAipMqCm5n9a9XNch7YRP?=
+ =?us-ascii?Q?AzsSPzLa1YyD4EjmGz5mLIpUKkcAFlY59fRbjYDhQZ8U4AcOdeZeEAsT0K4P?=
+ =?us-ascii?Q?rFByDR0O9AIqI9WNaiVH2koR+fn0dZzsGPgtKBTi5E9jXamz0/jCfTbTM+Sh?=
+ =?us-ascii?Q?NnFDwzn8UBzaTLjqV3mN+fdIijradWE5r7wS1AA974ekhuFdGz7WI9TvV0vB?=
+ =?us-ascii?Q?10EvKYqaizSyeFV+MS6ZjBhqUPm2EZ5xQy5orFAIUF+/4Zq2k8CQheVDjSub?=
+ =?us-ascii?Q?XMH/nVs7kS2IID3oRYg5eHycqiD38ofmfBtny24I70NpumnvlMV8e51zx3UV?=
+ =?us-ascii?Q?80blopsGKjMkTU/z9euZFXZir3TvLknD2+QOnauZ9QHkhvGBkFx4akhdFF7f?=
+ =?us-ascii?Q?83HES+aE7p/bmjoIaxJaaZ4e/rGvV0deZkx9kycZa9zA+DxUdh/XhYmkvNmc?=
+ =?us-ascii?Q?pEpa7gbqmTly1S6IHCvA9ZnH4kxzv/TbG/PlXBW8FfR4VqPWGFmqnxPQCKFK?=
+ =?us-ascii?Q?Em1pJ8SHMf6URqybQdTj2Dy/3TUzAJbarotVrFRWyzHN4mRxTm4+naQuAZoS?=
+ =?us-ascii?Q?J4gfpa8cRv/mVsFk/XPPUTOR/G9laHQHdfeWnnRuhBRFyu6Q7Zyp6u3CjJbZ?=
+ =?us-ascii?Q?ohSMQVRZ7Qjiz8ALxDE8QtXJSUYQErJ/XmQohI3pOroiieRjj/oPhIFygxHq?=
+ =?us-ascii?Q?U5ZhG8ZpaWl1KEbPobp1d+/Bf0HJ5jdvpgzYuMoSO79IAbTyNwT4rdDeWg7z?=
+ =?us-ascii?Q?ntxovmlZidanV9o5PeNSVMnZY6DYS7EyzF42KWd/CTA6p0Q5uIL32K3yUtCU?=
+ =?us-ascii?Q?C1Yj+QryejU83DDa8ihwg9McZX+8TRJugqVjvHg9YuO26XH7wRd8zIcNjepN?=
+ =?us-ascii?Q?se8rNUAHZWWn3P7HM5bYmjCrCgPpvAubwkevx+t8OCn7q28q7d0FVqsLP5nL?=
+ =?us-ascii?Q?tJv5e7L0oAtP1rRO6Rk7C8zLSPs3eIwDDeCddibz1juMZQHVnthdqS+JTfh+?=
+ =?us-ascii?Q?vbN4sC9i?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d7dfdbb-9b37-4878-5b57-08d8c35c433c
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc0fbd10-3b97-4457-f91b-08d8c35c44b3
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3022.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 07:13:50.8989 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 07:13:53.3486 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7NnVmd4tsnfqagbYdV6nGUdx6fwQNzO5T+g+WxYoQIIDq9ChbfiFIOi+hKNbkKtR
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ezul4EBW27NPwla0AD7Naj6FVL4sqEsPXHzskJfGfyYEcWr2Yb+PU7iMFNbvw8ek
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3280
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,481 +120,173 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add ttm bo related trace event support
+add ttm bo VM related trace event support
 
 trace events:
-ttm:ttm_bo_add_mem_to_lru
-ttm:ttm_bo_del_from_lru
-ttm:ttm_bo_move_mem
-ttm:ttm_bo_wait
-ttm:ttm_bo_evict
-ttm:ttm_bo_swapout
-ttm:ttm_bo_device_init
-ttm:ttm_bo_device_release
-ttm:ttm_bo_init_reserved
-ttm:ttm_bo_validate
-ttm:ttm_bo_release
+ttm:ttm_bo_mmap
+ttm:ttm_bo_vm_fault
+ttm:ttm_bo_vm_access
 
 Signed-off-by: Kevin Wang <kevin1.wang@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c     |  23 +++
- drivers/gpu/drm/ttm/ttm_module.c |   3 +
- drivers/gpu/drm/ttm/ttm_trace.h  | 321 +++++++++++++++++++++++++++++++
- 3 files changed, 347 insertions(+)
- create mode 100644 drivers/gpu/drm/ttm/ttm_trace.h
+ drivers/gpu/drm/ttm/ttm_bo_vm.c | 12 ++++-
+ drivers/gpu/drm/ttm/ttm_trace.h | 78 +++++++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index e3931e515906..074afd05aaa8 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -43,6 +43,8 @@
- #include <linux/atomic.h>
- #include <linux/dma-resv.h>
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index 01693e8f24b7..aece2024c1fd 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -42,6 +42,8 @@
+ #include <linux/uaccess.h>
+ #include <linux/mem_encrypt.h>
  
 +#include "ttm_trace.h"
 +
- static void ttm_bo_global_kobj_release(struct kobject *kobj);
+ static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
+ 				struct vm_fault *vmf)
+ {
+@@ -429,15 +431,17 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
  
- /**
-@@ -143,6 +145,8 @@ static void ttm_bo_add_mem_to_lru(struct ttm_buffer_object *bo,
- 	if (mem->placement & TTM_PL_FLAG_NO_EVICT)
- 		return;
+ 	ret = ttm_bo_vm_reserve(bo, vmf);
+ 	if (ret)
+-		return ret;
++		goto out;
  
-+	trace_ttm_bo_add_mem_to_lru(bo, mem);
-+
- 	man = ttm_manager_type(bdev, mem->mem_type);
- 	list_add_tail(&bo->lru, &man->lru[bo->priority]);
+ 	prot = vma->vm_page_prot;
+ 	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
+ 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+-		return ret;
++		goto out;
  
-@@ -167,6 +171,8 @@ static void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
- 		notify = true;
- 	}
+ 	dma_resv_unlock(bo->base.resv);
  
-+	trace_ttm_bo_del_from_lru(bo, notify);
-+
- 	if (notify && bdev->driver->del_from_lru_notify)
- 		bdev->driver->del_from_lru_notify(bo);
- }
-@@ -299,6 +305,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 		}
- 	}
- 
-+	trace_ttm_bo_move_mem(bo, mem, evict);
-+
- 	if (bdev->driver->move_notify)
- 		bdev->driver->move_notify(bo, evict, mem);
- 
-@@ -542,6 +550,8 @@ static void ttm_bo_release(struct kref *kref)
- 	size_t acc_size = bo->acc_size;
- 	int ret;
- 
-+	trace_ttm_bo_release(bo);
-+
- 	if (!bo->deleted) {
- 		ret = ttm_bo_individualize_resv(bo);
- 		if (ret) {
-@@ -668,6 +678,8 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
- 		ttm_resource_free(bo, &evict_mem);
- 		goto out;
- 	}
-+
-+	trace_ttm_bo_evict(bo, &evict_mem);
- 	bo->evicted = true;
- out:
- 	return ret;
-@@ -1151,6 +1163,8 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
- 
- 	dma_resv_assert_held(bo->base.resv);
- 
-+	trace_ttm_bo_validate(bo);
-+
- 	/*
- 	 * Remove the backing store if no placement is given.
- 	 */
-@@ -1263,6 +1277,8 @@ int ttm_bo_init_reserved(struct ttm_bo_device *bdev,
- 	}
- 	atomic_inc(&ttm_bo_glob.bo_count);
- 
-+	trace_ttm_bo_init_reserved(bo, size);
-+
- 	/*
- 	 * For ttm_bo_type_device buffers, allocate
- 	 * address space from the device.
-@@ -1487,6 +1503,8 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
- 	if (!ret)
- 		ttm_bo_global_release();
- 
-+	trace_ttm_bo_device_release(bdev);
-+
++out:
++	trace_ttm_bo_vm_fault(bo, vmf, ret);
  	return ret;
  }
- EXPORT_SYMBOL(ttm_bo_device_release);
-@@ -1537,6 +1555,8 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
- 	list_add_tail(&bdev->device_list, &glob->device_list);
- 	mutex_unlock(&ttm_global_mutex);
+ EXPORT_SYMBOL(ttm_bo_vm_fault);
+@@ -516,6 +520,8 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+ 	if (ret)
+ 		return ret;
  
-+	trace_ttm_bo_device_init(bdev);
++	trace_ttm_bo_vm_access(bo, !!write, offset, len);
 +
+ 	switch (bo->mem.mem_type) {
+ 	case TTM_PL_SYSTEM:
+ 		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+@@ -618,6 +624,7 @@ int ttm_bo_mmap(struct file *filp, struct vm_area_struct *vma,
+ 		goto out_unref;
+ 
+ 	ttm_bo_mmap_vma_setup(bo, vma);
++	trace_ttm_bo_mmap(bo, vma);
+ 	return 0;
+ out_unref:
+ 	ttm_bo_put(bo);
+@@ -629,6 +636,7 @@ int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
+ {
+ 	ttm_bo_get(bo);
+ 	ttm_bo_mmap_vma_setup(bo, vma);
++	trace_ttm_bo_mmap(bo, vma);
  	return 0;
  }
- EXPORT_SYMBOL(ttm_bo_device_init);
-@@ -1580,6 +1600,8 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
- 
- 	timeout = dma_resv_wait_timeout_rcu(bo->base.resv, true,
- 						      interruptible, timeout);
-+
-+	trace_ttm_bo_wait(bo, interruptible, timeout);
- 	if (timeout < 0)
- 		return timeout;
- 
-@@ -1670,6 +1692,7 @@ int ttm_bo_swapout(struct ttm_bo_global *glob, struct ttm_operation_ctx *ctx)
- 	 * anyone tries to access a ttm page.
- 	 */
- 
-+	trace_ttm_bo_swapout(bo, i);
- 	if (bo->bdev->driver->swap_notify)
- 		bo->bdev->driver->swap_notify(bo);
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/ttm_module.c
-index 6ff40c041d79..8b70e8aebecb 100644
---- a/drivers/gpu/drm/ttm/ttm_module.c
-+++ b/drivers/gpu/drm/ttm/ttm_module.c
-@@ -35,6 +35,9 @@
- #include <drm/ttm/ttm_module.h>
- #include <drm/drm_sysfs.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include "ttm_trace.h"
-+
- static DECLARE_WAIT_QUEUE_HEAD(exit_q);
- static atomic_t device_released;
- 
+ EXPORT_SYMBOL(ttm_bo_mmap_obj);
 diff --git a/drivers/gpu/drm/ttm/ttm_trace.h b/drivers/gpu/drm/ttm/ttm_trace.h
-new file mode 100644
-index 000000000000..7c5e55725e8e
---- /dev/null
+index 7c5e55725e8e..9f7cc34b243b 100644
+--- a/drivers/gpu/drm/ttm/ttm_trace.h
 +++ b/drivers/gpu/drm/ttm/ttm_trace.h
-@@ -0,0 +1,321 @@
-+/*
-+ * Copyright 2021 Advanced Micro Devices, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * Authors: Kevin Wang
-+ */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM ttm
-+
-+#if !defined(_TRACE_TTM_H_) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_TTM_H_
-+
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+#include <drm/ttm/ttm_placement.h>
-+#include <drm/ttm/ttm_module.h>
-+#include <drm/ttm/ttm_page_alloc.h>
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+
-+#define TTM_PLACEMENT_FLAGS_TRACE \
-+	{ TTM_PL_FLAG_SYSTEM,		"SYSTEM"	},\
-+	{ TTM_PL_FLAG_TT,		"TT"		},\
-+	{ TTM_PL_FLAG_VRAM,		"VRAM"		},\
-+	{ TTM_PL_FLAG_PRIV,		"PRIV"		},\
-+	{ TTM_PL_FLAG_CACHED,		"CACHED"	},\
-+	{ TTM_PL_FLAG_UNCACHED,		"UNCACHED"	},\
-+	{ TTM_PL_FLAG_WC,		"WC"		},\
-+	{ TTM_PL_FLAG_CONTIGUOUS,	"CONTIGUOUS"	},\
-+	{ TTM_PL_FLAG_NO_EVICT,		"NO_EVICT"	},\
-+	{ TTM_PL_FLAG_TOPDOWN,		"TOPDOWN"	}
-+
-+#define __show_ttm_pl_flags(flags, mask)		\
-+	(flags & mask) ? __print_flags(flags, "|",	\
-+	TTM_PLACEMENT_FLAGS_TRACE			\
-+	) : "none"
-+
-+#define show_ttm_pl_flags(flags)		\
-+	__show_ttm_pl_flags(flags, ~0UL)
-+
-+#define show_ttm_pl_mem_flags(flags)		\
-+	__show_ttm_pl_flags(flags, TTM_PL_MASK_MEM)
-+
-+
-+TRACE_EVENT(ttm_bo_add_mem_to_lru,
-+	    TP_PROTO(struct ttm_buffer_object *bo, struct ttm_resource *res),
-+	    TP_ARGS(bo, res),
+@@ -34,6 +34,7 @@
+ #include <drm/ttm/ttm_page_alloc.h>
+ #include <linux/types.h>
+ #include <linux/tracepoint.h>
++#include <trace/events/mmflags.h>
+ 
+ #define TTM_PLACEMENT_FLAGS_TRACE \
+ 	{ TTM_PL_FLAG_SYSTEM,		"SYSTEM"	},\
+@@ -310,6 +311,83 @@ TRACE_EVENT(ttm_bo_release,
+ 	    TP_printk("bo:%p", __entry->bo)
+ );
+ 
++TRACE_EVENT(ttm_bo_mmap,
++	    TP_PROTO(struct ttm_buffer_object *bo, struct vm_area_struct *vma),
++	    TP_ARGS(bo, vma),
 +	    TP_STRUCT__entry(
 +			     __field(struct ttm_buffer_object *, bo)
-+			     __field(unsigned long, size)
-+			     __field(uint32_t, placement)
-+			     __field(enum ttm_bo_type, bo_type)
++			     __field(unsigned long, vm_start)
++			     __field(unsigned long, vm_end)
++			     __field(unsigned long, vm_pgoff)
++			     __field(unsigned long, vm_flags)
++			     ),
++
++	    TP_fast_assign(
++			   __entry->bo = bo;
++			   __entry->vm_start = vma->vm_start;
++			   __entry->vm_end = vma->vm_end;
++			   __entry->vm_pgoff = vma->vm_pgoff;
++			   __entry->vm_flags = vma->vm_flags;
++			   ),
++
++	    TP_printk("bo:%p, vm_start=%lx, vm_end=%lx, vm_pgoff=%lx, vm_flags=%s",
++		      __entry->bo,
++		      __entry->vm_start, __entry->vm_end, __entry->vm_pgoff,
++		      show_vma_flags(__entry->vm_flags))
++);
++
++TRACE_EVENT(ttm_bo_vm_fault,
++	    TP_PROTO(struct ttm_buffer_object *bo, struct vm_fault *vmf, int result),
++	    TP_ARGS(bo, vmf, result),
++	    TP_STRUCT__entry(
++			     __field(struct ttm_buffer_object *, bo)
++			     __field(struct vm_area_struct *, vma)
++			     __field(unsigned long, fault_address)
++			     __field(unsigned long, fault_pgoff)
++			     __field(int, result)
++			     __field(unsigned int, flags)
++			     ),
++
++	    TP_fast_assign(
++			   __entry->bo = bo;
++			   __entry->vma = vmf->vma;
++			   __entry->fault_address = vmf->address;
++			   __entry->fault_pgoff = vmf->pgoff;
++			   __entry->flags = vmf->flags;
++			   __entry->result = result;
++			   ),
++
++	    TP_printk("bo:%p, vma=%p, fault_address=%lx, fault_pgoff=%lx, fault_flags=%s %s",
++		      __entry->bo, __entry->vma,
++		      __entry->fault_address, __entry->fault_pgoff,
++		      __entry->flags ? __print_flags(__entry->flags, "|", FAULT_FLAG_TRACE) : "none",
++		      __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE))
++);
++
++TRACE_EVENT(ttm_bo_vm_access,
++	    TP_PROTO(struct ttm_buffer_object *bo, bool write, unsigned long offset, unsigned long len),
++	    TP_ARGS(bo, write, offset, len),
++	    TP_STRUCT__entry(
++			     __field(struct ttm_buffer_object *, bo)
++			     __field(bool, write)
++			     __field(unsigned long, offset)
++			     __field(unsigned long, len)
 +			     __field(uint32_t, mem_type)
 +			     ),
 +
 +	    TP_fast_assign(
 +			   __entry->bo = bo;
-+			   __entry->bo_type = bo->type;
-+			   __entry->size = bo->mem.size;
-+			   __entry->placement = res->placement;
-+			   __entry->mem_type = res->mem_type;
-+			   ),
-+
-+	    TP_printk("bo:%p, size=%lx, bo_type=%d, mtype=%d, placement=%s(%x)",
-+		      __entry->bo, __entry->size, __entry->bo_type, __entry->mem_type,
-+		      show_ttm_pl_flags(__entry->placement), __entry->placement)
-+);
-+
-+TRACE_EVENT(ttm_bo_del_from_lru,
-+	    TP_PROTO(struct ttm_buffer_object *bo, bool notify),
-+	    TP_ARGS(bo, notify),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(unsigned long, size)
-+			     __field(uint32_t, placement)
-+			     __field(enum ttm_bo_type, bo_type)
-+			     __field(uint32_t, mem_type)
-+			     __field(bool, notify)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->bo_type = bo->type;
-+			   __entry->size = bo->mem.size;
-+			   __entry->placement = bo->mem.placement;
-+			   __entry->mem_type = bo->mem.mem_type;
-+			   __entry->notify = notify;
-+			   ),
-+
-+	    TP_printk("bo:%p, size=%lx, bo_type=%d, mtype=%d, placement=%s(%x), notify=%s",
-+		      __entry->bo, __entry->size, __entry->bo_type, __entry->mem_type,
-+		      show_ttm_pl_flags(__entry->placement), __entry->placement,
-+		      __entry->notify ? "true" : "false")
-+);
-+
-+TRACE_EVENT(ttm_bo_move_mem,
-+	    TP_PROTO(struct ttm_buffer_object *bo, struct ttm_resource *res, bool evict),
-+	    TP_ARGS(bo, res, evict),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(unsigned long, start)
-+			     __field(unsigned long, size)
-+			     __field(uint32_t, old_placement)
-+			     __field(uint32_t, new_placement)
-+			     __field(uint32_t, old_mem_type)
-+			     __field(uint32_t, new_mem_type)
-+			     __field(bool, evict)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->start = res->start;
-+			   __entry->size = res->size;
-+			   __entry->old_placement = bo->mem.placement;
-+			   __entry->new_placement = res->placement;
-+			   __entry->old_mem_type = bo->mem.mem_type;
-+			   __entry->new_mem_type = res->mem_type;
-+			   __entry->evict = evict;
-+			   ),
-+
-+	    TP_printk("bo:%p, start=%lx, size=%lx, mtype: %d -> %d, placement: %s(%x) -> %s(%x), evict=%s",
-+		      __entry->bo, __entry->start, __entry->size,
-+		      __entry->old_mem_type, __entry->new_mem_type,
-+		      show_ttm_pl_flags(__entry->old_placement), __entry->old_placement,
-+		      show_ttm_pl_flags(__entry->new_placement), __entry->new_placement,
-+		      __entry->evict ? "true" : "false")
-+);
-+
-+TRACE_EVENT(ttm_bo_wait,
-+	    TP_PROTO(struct ttm_buffer_object *bo, bool interruptible, long timeout),
-+	    TP_ARGS(bo, interruptible, timeout),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(bool, interruptible)
-+			     __field(long, timeout)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->interruptible = interruptible;
-+			   __entry->timeout = timeout;
-+			   ),
-+
-+	    TP_printk("bo:%p, interruptible=%s, timeout=%ld", __entry->bo,
-+		      __entry->interruptible ? "true" : "false", __entry->timeout)
-+);
-+
-+TRACE_EVENT(ttm_bo_evict,
-+	    TP_PROTO(struct ttm_buffer_object *bo, struct ttm_resource *res),
-+	    TP_ARGS(bo, res),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(enum ttm_bo_type, bo_type)
-+			     __field(unsigned long, size)
-+			     __field(uint32_t, old_placement)
-+			     __field(uint32_t, new_placement)
-+			     __field(uint32_t, old_mem_type)
-+			     __field(uint32_t, new_mem_type)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->bo_type = bo->type;
-+			   __entry->size = res->size;
-+			   __entry->old_placement = bo->mem.placement;
-+			   __entry->new_placement = res->placement;
-+			   __entry->old_mem_type = bo->mem.mem_type;
-+			   __entry->new_mem_type = res->mem_type;
-+			   ),
-+
-+	    TP_printk("bo:%p, size=%lx, bo_type=%d, mtype: %d -> %d, placement: %s(%x) -> %s(%x)",
-+		      __entry->bo, __entry->size, __entry->bo_type,
-+		      __entry->old_mem_type, __entry->new_mem_type,
-+		      show_ttm_pl_flags(__entry->old_placement), __entry->old_placement,
-+		      show_ttm_pl_flags(__entry->new_placement), __entry->new_placement)
-+
-+);
-+
-+TRACE_EVENT(ttm_bo_swapout,
-+	    TP_PROTO(struct ttm_buffer_object *bo, int priority),
-+	    TP_ARGS(bo, priority),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(enum ttm_bo_type, bo_type)
-+			     __field(unsigned long, size)
-+			     __field(uint32_t, placement)
-+			     __field(uint32_t, mem_type)
-+			     __field(int, priority)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->priority = priority;
-+			   __entry->bo_type = bo->type;
-+			   __entry->size = bo->mem.size;
-+			   __entry->placement = bo->mem.placement;
++			   __entry->write = write;
++			   __entry->offset = offset;
++			   __entry->len = len;
 +			   __entry->mem_type = bo->mem.mem_type;
 +			   ),
 +
-+	    TP_printk("bo:%p, size=%lx, bo_type=%d, mtype=%d, placement=%s(%x), prio=%d",
-+		      __entry->bo, __entry->size, __entry->bo_type, __entry->mem_type,
-+		      show_ttm_pl_flags(__entry->placement), __entry->placement,
-+		      __entry->priority)
++	    TP_printk("bo:%p, %s offset=%lx, len=%lx, mtype=%d",
++		      __entry->bo, __entry->write ? "write" : "read",
++		      __entry->offset, __entry->len, __entry->mem_type)
 +);
 +
-+TRACE_EVENT(ttm_bo_device_init,
-+	    TP_PROTO(struct ttm_bo_device *bdev),
-+	    TP_ARGS(bdev),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_bo_device *, bdev)
-+			     __field(struct ttm_bo_driver *, driver)
-+			     __field(bool, need_dma32)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bdev = bdev;
-+			   __entry->driver = bdev->driver;
-+			   __entry->need_dma32 = bdev->need_dma32;
-+			   ),
-+
-+	    TP_printk("bdev:%p, driver=%p, need_dma32=%s", __entry->bdev, __entry->driver,
-+		      __entry->need_dma32 ? "true" : "false")
-+);
-+
-+TRACE_EVENT(ttm_bo_device_release,
-+	    TP_PROTO(struct ttm_bo_device *bdev),
-+	    TP_ARGS(bdev),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_bo_device *, bdev)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bdev = bdev;
-+			   ),
-+
-+	    TP_printk("bdev:%p", __entry->bdev)
-+);
-+
-+TRACE_EVENT(ttm_bo_init_reserved,
-+	    TP_PROTO(struct ttm_buffer_object *bo, unsigned long size),
-+	    TP_ARGS(bo, size),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_bo_device *, bdev)
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(enum ttm_bo_type, bo_type)
-+			     __field(uint32_t, page_alignment)
-+			     __field(uint32_t, placement)
-+			     __field(unsigned long, size)
-+			     __field(size_t, acc_size)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->bdev = bo->bdev;
-+			   __entry->bo_type = bo->type;
-+			   __entry->placement = bo->mem.placement;
-+			   __entry->page_alignment = bo->mem.page_alignment;
-+			   __entry->size = size;
-+			   __entry->acc_size = bo->acc_size;
-+			   ),
-+
-+	    TP_printk("bo:%p, bdev=%p, bo_type=%d, %s(%x) size=%lx, accsize=%lx, alignment=%d",
-+		      __entry->bo, __entry->bdev, __entry->bo_type,
-+		      show_ttm_pl_flags(__entry->placement), __entry->placement,
-+		      __entry->size, __entry->acc_size, __entry->page_alignment)
-+);
-+
-+TRACE_EVENT(ttm_bo_validate,
-+	    TP_PROTO(struct ttm_buffer_object *bo),
-+	    TP_ARGS(bo),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   ),
-+
-+	    TP_printk("bo:%p", __entry->bo)
-+);
-+
-+TRACE_EVENT(ttm_bo_release,
-+	    TP_PROTO(struct ttm_buffer_object *bo),
-+	    TP_ARGS(bo),
-+	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   ),
-+
-+	    TP_printk("bo:%p", __entry->bo)
-+);
-+
-+#endif
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm/ttm
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE ttm_trace
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+ #endif
+ 
+ #undef TRACE_INCLUDE_PATH
 -- 
 2.17.1
 
