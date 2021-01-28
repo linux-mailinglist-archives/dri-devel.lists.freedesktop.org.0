@@ -2,47 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966E5306DFD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A03306E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2C76E8C5;
-	Thu, 28 Jan 2021 07:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5216E056;
+	Thu, 28 Jan 2021 07:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2DF636E8C5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 07:00:16 +0000 (UTC)
-X-UUID: 53c6337884164a9c8e76455b57b23b75-20210128
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=iLD0cfC7OI5fd6re8bU20Diab017K7ENUU4aiw1sTXE=; 
- b=Cf/lO6wX9eBaBUz9PiqMHChc/toAHxwkQh4DE5aS7NNfYoK4F/lmvQnJN3sFWSTyuNK+YVQ33Tlj5sKhneO+CIIKKyCCsKK+2uVMIGMRorh+iuLpFTv/YAW3qk3hfdAqmZXol22+bz1QqbQ0ECPmpkK8VJ2OhpyfjfPQVGdf2Xw=;
-X-UUID: 53c6337884164a9c8e76455b57b23b75-20210128
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1797207214; Thu, 28 Jan 2021 15:00:14 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 28 Jan 2021 15:00:11 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 28 Jan 2021 15:00:11 +0800
-Message-ID: <1611817211.8417.0.camel@mtksdaap41>
-Subject: Re: [PATCH v10 8/9] drm/mediatek: add DDP support for MT8183
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 28 Jan 2021 15:00:11 +0800
-In-Reply-To: <CAJMQK-gHjmm-BaG83EXMOkT6KeCyJJN4ZqRDdT75BcED53bREw@mail.gmail.com>
-References: <20210127045422.2418917-1-hsinyi@chromium.org>
- <20210127045422.2418917-9-hsinyi@chromium.org>
- <1611814421.28312.9.camel@mtksdaap41>
- <CAJMQK-gHjmm-BaG83EXMOkT6KeCyJJN4ZqRDdT75BcED53bREw@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750085.outbound.protection.outlook.com [40.107.75.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623006E056;
+ Thu, 28 Jan 2021 07:13:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hm7h99mbuwq5Bna9IOlKxgHzLwMSoJy7bYR/hLNCRbjSgQdTrMqXMPV6j5br61KaUHyF8GgFiEcNyMAGaLQMpjuQ9hbilFhxjmdlf34z6DvK/VFFm/owzf73DQkJewi612N0b8H/tJyDO3/0LLl7zwb0ZLicSIkmMMNgS0zQQdGKi4SlAF6PxmLCwq4kRi9EUdOFonSlJIcAVAsLmo1p6KDx+lMA8EvUKZH7oPJ+vsoJyD0sEMl2T7dc4qbvEUVq1GCjU6A0yUDEKRpiOHuHaVGnX0/wH2uxyloGB5tJ8VN1hLVCy39DwAZt9Izg/E+efVGPPGSr5PLIjXkjkekTqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=opEqL04Lz7S2KaPyadY2SRKffhLvRbExcfDJvZchvTM=;
+ b=kwgsQhRITdHcMMceNdyMC02mwe93/mdKGSe8B3vkYGJiMifpj4/lqoTZl9FxgNEmMPBiAYjdIMO9sXwjGFpgB+ZLOLJcMJOaXuNCrUacvikAcI5enYg0D8bTRnv5Ro7apSlwj1c5Oec2cRKvxaoXo2Js3RusX1bA714wIsFPmbPlx7LxPPpwwsKjoPLasoy+ynWwEPKzma6mxzo48KFkpFBi8wpjWaWawXV75vX1NQgEQ2kowk9QC6UxfhRjYQFOO4lH6WHlTUfKZe65FW5dZPyMviw6kHcQ4DIsSOk2By+a7Po1bgVKWPIRBq4vjtrx+gPaoO7HJbVmw1nhiEgimA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=opEqL04Lz7S2KaPyadY2SRKffhLvRbExcfDJvZchvTM=;
+ b=1kN+x+LZ2fcVr27YRGRhiC6ctNWRagdzzoIEKmOapCqw1cKIOgW/2aHu0X8d93Fu7PZ0YsO7pD+ZcabX+42Usk9PoQ9gCeg/Phx+yx0lqdXYukeVqkiKhR73gpC1ojvyY/tkoRuDgZiKd7th9UdeLl7X3/lqk6P3GLhK9ZAZ5pc=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3022.namprd12.prod.outlook.com (2603:10b6:208:ce::32)
+ by MN2PR12MB3280.namprd12.prod.outlook.com (2603:10b6:208:ad::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Thu, 28 Jan
+ 2021 07:13:48 +0000
+Received: from MN2PR12MB3022.namprd12.prod.outlook.com
+ ([fe80::709e:b0ae:fbde:fcc6]) by MN2PR12MB3022.namprd12.prod.outlook.com
+ ([fe80::709e:b0ae:fbde:fcc6%7]) with mapi id 15.20.3784.019; Thu, 28 Jan 2021
+ 07:13:48 +0000
+From: Kevin Wang <kevin1.wang@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [RFC PATCH 0/3] add ttm trace event support
+Date: Thu, 28 Jan 2021 15:13:19 +0800
+Message-Id: <20210128071322.24313-1-kevin1.wang@amd.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [58.247.170.245]
+X-ClientProxiedBy: HKAPR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::20) To MN2PR12MB3022.namprd12.prod.outlook.com
+ (2603:10b6:208:ce::32)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1028BAB7B3EECBBFEEF43CD5A0BE256A2A8A797E056769F2B56E920121122C782000:8
-X-MTK: N
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from MZ01-CE0.amd.com (58.247.170.245) by
+ HKAPR04CA0010.apcprd04.prod.outlook.com (2603:1096:203:d0::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 07:13:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f2a51fb6-e582-428c-0354-08d8c35c41c0
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3280:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB328029C00B40F1CDCEC928C9A2BA9@MN2PR12MB3280.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tBC9kq1ZS39ckliD/mTPKuVTWWenL2ew5mO9PGsFK7o7mvLTChhjvR1LfoB4NkPgQJL6b7yE/doF67hRQ6i45NcZWApNOJvVwIP4EgrMHVwtRhYbnyqsLxmKUuTxV+8IsJnzO6N/3Pm07aks1c3yXhOloVeEgWEk+t7Trpm/jT4v+vjmPDA5pC/eUw0om78MH7FI/1Wf0zMGStu62fqPNRP5T/ORPHcjntuptRmYbLtwUg18ql3vO45J6bja7EIM9Lz2p9Nlj6EHNsicN81RZ3kHxvg/G1stqfwQvcSU4+/Zw69Z8GyBP2VOPh6a5lGY95/NsZ8QuURCeZ9tddtAeRiV9YG20/sLRMF2EY5B5wKHPgQi/QhvIakZHROzpDtdlaUdtJGvEOBfNYHYnUiJJuvFxbh1JGKGA5hp49WipBE1TyAsJeBep3Tx5nwj+ws1VEqh2T/jPG3yjcwIUDUmE8nKsnUaMjiUgn4N8K0/qnfA5v+o+YHebVg7fN3XrgiVCizWnXtcFwDeXGU+9yGQzA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3022.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(186003)(450100002)(66946007)(2616005)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(5660300002)(36756003)(8936002)(83380400001)(4744005)(1076003)(16526019)(2906002)(86362001)(478600001)(7696005)(6666004)(956004)(52116002)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?q9epjhqtjryFMFtfBWVVau13w+Lkzocrb9GoGhoWJNWihpGQYxqXTu8374vG?=
+ =?us-ascii?Q?lAQSXc8RXJDnj44I5PuFIVVYSG1oSs0cXx7JiyLYbPmjL5LpL/kme7sPoUw8?=
+ =?us-ascii?Q?TqDzfVEshYTbdO9lzLT33KjyYlXXnBZtWT7sMpsCWkgFdaRJS561meBWLYV+?=
+ =?us-ascii?Q?yXFIQVuBAqZKHYXTXbE4MtRpU6VeCfgrXEZjGfVgQC1ypGgfEQh7ZHfoDum3?=
+ =?us-ascii?Q?suq4aqNs+FH7T9nvP7Ux/26QQIfnAY5IdTOCpe7NTjGiI3TDrC9mOCsvmFcB?=
+ =?us-ascii?Q?lDEiUWa4wQO5Nj7EOGXLoXu6fZL9AJIdtUSkijj9ir0s/SHTml4RDvPtNz9r?=
+ =?us-ascii?Q?ICnlOjn4Tl/X4ucrwtOEyMq2jlgV74K1FKPspmbPxx3kigkKUPAIesK8oPGM?=
+ =?us-ascii?Q?8DSIr72S5YQ7GgV347iBEfFQt2QU9zhOiTB5GD9aUs2orNY2njzB2vzcmXcj?=
+ =?us-ascii?Q?A46P0sJyE/DPoj9X0VGCcU9XIacKgY2x9un8rhFsrFjtSgryNr2M98PyUUd8?=
+ =?us-ascii?Q?kFLvjZIaqzZuDatgf5i35Yg32tPKvjvnncSDYmdKqcanTFIq2Kl5Xin2kwI1?=
+ =?us-ascii?Q?t/eKOb+OaxPhWnIj3aKJGVHnAiI1Gt4fDIauwH+/yXHGzfx7oyZQVivZaYcd?=
+ =?us-ascii?Q?3uXys7TlZA2ysM0BwO+LHGZHHPVd+bdOzAN86eL8UCjizDl5GM7wBlZMNEyg?=
+ =?us-ascii?Q?7NR35JIH/AKxr1oRQoXjCTCX2lfJhkMQIymeVWfs94/BF9RPuOsKUQdzLzTL?=
+ =?us-ascii?Q?jbwMxE6wOX4NMhAF0SDTFVmn+bmbsXLaZlfsN5QgoZMGSn04QkSMf4FTgpbl?=
+ =?us-ascii?Q?J1A7eGLx/Jk9jGzfiR9xAOy8BsFKeIBDiAEFEX97TeIemhhP3/075TV9jwkK?=
+ =?us-ascii?Q?sx+OnG4e9HevmCSUKodkvpJtHWqW1kgBPlLKQeCKX3IkwPcBQaPgNZ83hzjK?=
+ =?us-ascii?Q?BtL/HH0/fOC6ZJFE//BBU5+gpOPjLaxPwhPyvsBK1/iOCarK57C4GIxXGF6K?=
+ =?us-ascii?Q?c9IJVg/KIHz5VBos3oJBqYKflJN/CVSCXHwWOkicK2yML5vSc4EChThL/xWa?=
+ =?us-ascii?Q?lqJPzuud?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2a51fb6-e582-428c-0354-08d8c35c41c0
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3022.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 07:13:48.4283 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sIGPhUokbuPX98DN8mRiiyO0wcFguE/MmQS+WnsREL6b4ORv7eFJYlPkH0bW2/ub
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3280
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,163 +111,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, "moderated
- list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: ray.huang@amd.com, christian.koenig@amd.com,
+ Kevin Wang <kevin1.wang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2021-01-28 at 14:15 +0800, Hsin-Yi Wang wrote:
-> On Thu, Jan 28, 2021 at 2:13 PM CK Hu <ck.hu@mediatek.com> wrote:
-> >
-> > Hi, Hsin-Yi:
-> >
-> > Modify the title's prefix to 'soc: mediatek:'
-> >
-> > On Wed, 2021-01-27 at 12:54 +0800, Hsin-Yi Wang wrote:
-> > > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > >
-> > > Add DDP support for MT8183 SoC.
-> > >
-> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > ---
-> > >  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 50 insertions(+)
-> > >
-> > > diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> > > index f531b119da7a9..f64e9c33e85ad 100644
-> > > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > > @@ -14,6 +14,8 @@
-> > >
-> > >  #define MT2701_MUTEX0_MOD0                   0x2c
-> > >  #define MT2701_MUTEX0_SOF0                   0x30
-> > > +#define MT8183_DISP_MUTEX0_MOD0                      0x30
-> > > +#define MT8183_DISP_MUTEX0_SOF0                      0x2c
-> >
-> > Modify 'DISP_MUTEX' to 'MUTEX'
-> >
-> > >
-> > >  #define DISP_REG_MUTEX_EN(n)                 (0x20 + 0x20 * (n))
-> > >  #define DISP_REG_MUTEX(n)                    (0x24 + 0x20 * (n))
-> > > @@ -37,6 +39,18 @@
-> > >  #define MT8167_MUTEX_MOD_DISP_DITHER         15
-> > >  #define MT8167_MUTEX_MOD_DISP_UFOE           16
-> > >
-> > > +#define MT8183_MUTEX_MOD_DISP_RDMA0          0
-> > > +#define MT8183_MUTEX_MOD_DISP_RDMA1          1
-> > > +#define MT8183_MUTEX_MOD_DISP_OVL0           9
-> > > +#define MT8183_MUTEX_MOD_DISP_OVL0_2L                10
-> > > +#define MT8183_MUTEX_MOD_DISP_OVL1_2L                11
-> > > +#define MT8183_MUTEX_MOD_DISP_WDMA0          12
-> > > +#define MT8183_MUTEX_MOD_DISP_COLOR0         13
-> > > +#define MT8183_MUTEX_MOD_DISP_CCORR0         14
-> > > +#define MT8183_MUTEX_MOD_DISP_AAL0           15
-> > > +#define MT8183_MUTEX_MOD_DISP_GAMMA0         16
-> > > +#define MT8183_MUTEX_MOD_DISP_DITHER0                17
-> > > +
-> > >  #define MT8173_MUTEX_MOD_DISP_OVL0           11
-> > >  #define MT8173_MUTEX_MOD_DISP_OVL1           12
-> > >  #define MT8173_MUTEX_MOD_DISP_RDMA0          13
-> > > @@ -87,6 +101,12 @@
-> > >  #define MT2712_MUTEX_SOF_DSI3                        6
-> > >  #define MT8167_MUTEX_SOF_DPI0                        2
-> > >  #define MT8167_MUTEX_SOF_DPI1                        3
-> > > +#define MT8183_MUTEX_SOF_DSI0                        1
-> > > +#define MT8183_MUTEX_SOF_DPI0                        2
-> > > +
-> > > +/* Add EOF setting so overlay hardware can receive frame done irq */
-> > > +#define MT8183_MUTEX_EOF_DSI0                        (MT8183_MUTEX_SOF_DSI0 << 6)
-> > > +#define MT8183_MUTEX_EOF_DPI0                        (MT8183_MUTEX_SOF_DPI0 << 6)
-> > >
-> 
-> Hi CK, comment is added here. I can move to mt8183_mutex_sof if preferred.
+the kernel ftrace can better help analyze the kernel running status.
+add some trace events to support TTM.
 
-I prefer to move comment to mt8183_mutex_sof.
+add trace events list:
 
-> 
-> > >  struct mtk_mutex {
-> > >       int id;
-> > > @@ -181,6 +201,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> > >       [DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
-> > >  };
-> > >
-> > > +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> > > +     [DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
-> > > +     [DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
-> > > +     [DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
-> > > +     [DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
-> > > +     [DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
-> > > +     [DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
-> > > +     [DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
-> > > +     [DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
-> > > +     [DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
-> > > +     [DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
-> > > +     [DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
-> > > +};
-> > > +
-> > >  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> > >       [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> > >       [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-> > > @@ -198,6 +232,12 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> > >       [MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
-> > >  };
-> > >
-> > > +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> > > +     [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> > > +     [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
-> > > +     [MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
-> >
-> > According to discussion in [1], add comment for the odd EOF setting.
-> >
-> > [1]
-> > https://patchwork.kernel.org/project/linux-mediatek/patch/1595469798-3824-8-git-send-email-yongqiang.niu@mediatek.com/
-> >
-> > Regards,
-> > CK.
-> >
-> >
-> > > +};
-> > > +
-> > >  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
-> > >       .mutex_mod = mt2701_mutex_mod,
-> > >       .mutex_sof = mt2712_mutex_sof,
-> > > @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
-> > >       .mutex_sof_reg = MT2701_MUTEX0_SOF0,
-> > >  };
-> > >
-> > > +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
-> > > +     .mutex_mod = mt8183_mutex_mod,
-> > > +     .mutex_sof = mt8183_mutex_sof,
-> > > +     .mutex_mod_reg = MT8183_DISP_MUTEX0_MOD0,
-> > > +     .mutex_sof_reg = MT8183_DISP_MUTEX0_SOF0,
-> > > +     .no_clk = true,
-> > > +};
-> > > +
-> > >  struct mtk_mutex *mtk_mutex_get(struct device *dev)
-> > >  {
-> > >       struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> > > @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
-> > >         .data = &mt8167_mutex_driver_data},
-> > >       { .compatible = "mediatek,mt8173-disp-mutex",
-> > >         .data = &mt8173_mutex_driver_data},
-> > > +     { .compatible = "mediatek,mt8183-disp-mutex",
-> > > +       .data = &mt8183_mutex_driver_data},
-> > >       {},
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
-> >
+ttm:ttm_bo_add_mem_to_lru
+ttm:ttm_bo_del_from_lru
+ttm:ttm_bo_move_mem
+ttm:ttm_bo_wait
+ttm:ttm_bo_evict
+ttm:ttm_bo_swapout
+ttm:ttm_bo_device_init
+ttm:ttm_bo_device_release
+ttm:ttm_bo_init_reserved
+ttm:ttm_bo_validate
+ttm:ttm_bo_release
+ttm:ttm_bo_mmap
+ttm:ttm_bo_vm_fault
+ttm:ttm_bo_vm_access
+ttm:ttm_shrink
+ttm:ttm_mem_global_reserve
+ttm:ttm_mem_global_free
+
+Kevin Wang (3):
+  drm/ttm: add ttm bo trace event support
+  drm/ttm: add ttm vm bo trace event support
+  drm/ttm: add ttm mem trace event support
+
+ drivers/gpu/drm/ttm/ttm_bo.c     |  23 ++
+ drivers/gpu/drm/ttm/ttm_bo_vm.c  |  12 +-
+ drivers/gpu/drm/ttm/ttm_memory.c |   7 +
+ drivers/gpu/drm/ttm/ttm_module.c |   3 +
+ drivers/gpu/drm/ttm/ttm_trace.h  | 469 +++++++++++++++++++++++++++++++
+ 5 files changed, 512 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/ttm/ttm_trace.h
+
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
