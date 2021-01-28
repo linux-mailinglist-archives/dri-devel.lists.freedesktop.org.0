@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63E530755F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 13:03:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2658B30767D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 13:58:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83BF6E169;
-	Thu, 28 Jan 2021 12:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1926C6E192;
+	Thu, 28 Jan 2021 12:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1AD16E169
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 12:03:32 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id s18so5993507ljg.7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 04:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zf1ySPanLvetljOt9qgQxmsEilLBns8xPwybgR85ftI=;
- b=aVSS9NeRyairw1rT+cVF7qopMxVBmNdPXma/Zlt8iNnlAJctcN76hRUHSEGD0idQb2
- zYw8DehMHX0EuyLu3bi69YJSpvfjwtAm9MYShHhu9mEbJPEJuzGe49qwnoXKOF2jcVZe
- ln5X07khbAhAXNwJU+flYEz9iAguyMcwrfcHy9mjRZESZY644mUUW/P7d74egjjzcMPc
- 71uQKIMZFDoBbbnrLwST/ULL7r00XKa7oJFBx/y/TRGIGhR5vQUfPgTQyXJF9JzJvfJX
- jxAhvGcTMV06Uw6ENiuHuTf/tAOorwgScKj/MkMXOm4CEc8Q3L9oabBOXi2pfwEk4ga1
- MB3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zf1ySPanLvetljOt9qgQxmsEilLBns8xPwybgR85ftI=;
- b=kfNRVvvXwQRfZqPyL2SoPzJMLoztMTGdRuwRP/KRrXHeXcuIBurWGFsOJ6LHx6q05K
- 9SNmE6FR2xruUJc8/1kIugDUDV2DmSYna+9wmiHmP4pkMkS1j6uDP9lNbKOgecLCi4Fj
- l6M0SbMPaPQ/UQLtoLsqbbcSIFz4qSWb5ZugRSLzW1yvgVNmXIz8CARUUv1S2B7lmDnD
- AM0F8VGWQQePcEViMU7XHw4rPvZXooUAdHZaeMdfHb1cmXnTkI+mG6Y6YxZDU2rkCi3C
- Ok6TeUbXUNcTZCqqI6tVSX5PD0Zdb5T//ATnUdnC2R5U8Tx3IfeD1jZvHNE8GPdB+zYq
- tgxA==
-X-Gm-Message-State: AOAM5301HLaU5JGoKtc1pdF/DwBbQkrOha9vIR2+kRcB9rLFx8sKr5uj
- P3UNJC/FdqKnW4NCZ4IG8z5H0upU+kzKPkTo0NjNbQ==
-X-Google-Smtp-Source: ABdhPJxZNcQdkhhgFkJaqKcGjApXZD/eUnD40mn2WynsvZNNkDCNK3O+xqLpZOdoSj9eIRiYhKFhkCUSmPZUim3reVs=
-X-Received: by 2002:a2e:3507:: with SMTP id z7mr7792289ljz.32.1611835411071;
- Thu, 28 Jan 2021 04:03:31 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3BA86E192
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 12:58:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0770564D9D;
+ Thu, 28 Jan 2021 12:58:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1611838700;
+ bh=C4qSykV9Ua8Po/5N13FLIU468aGWyLm2jJyx3ABSln4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Xz8HtbVrbtSfTv+ggNZOODBQQWdtWmHrkQ4XFzInDN4B6llxh8K2hJ5RG5O7rTw6I
+ PQmQV0gSCm9jRUfrvDw0yUH+t+j/LJFJ4mHNbdTfUn26ZZqDLArhJHbv8+sV3z0Dg4
+ NuKkWCYeOYZ4iKAlECxevvtTsd/XvYX4T74MV4qc=
+Date: Thu, 28 Jan 2021 13:58:17 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Carlis <zhangxuezhi3@gmail.com>
+Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
+Message-ID: <YBK06WnVg7xQ1H8a@kroah.com>
+References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
 MIME-Version: 1.0
-References: <20210126204240.418297-1-hridya@google.com>
- <YBFXPbePURupbe+y@kroah.com>
- <CAO_48GHrpi9XxPhP2evwH_ZJmbVSWqxCvsYg6S2Syh-mrWBHzA@mail.gmail.com>
- <c0684400-c1e2-0ebd-ad09-cb7b24db5764@gmail.com>
-In-Reply-To: <c0684400-c1e2-0ebd-ad09-cb7b24db5764@gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 28 Jan 2021 17:33:19 +0530
-Message-ID: <CAO_48GGsOTLdqAQMO9vrLtWAKG6spByMC-GXwDv_f3ENvpemfA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3] dmabuf: Add the capability to expose
- DMA-BUF stats in sysfs
-To: Christian Koenig <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,118 +42,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Android Kernel Team <kernel-team@android.com>,
- kernel test robot <lkp@intel.com>, Greg KH <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, hyesoo.yu@samsung.com,
- Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyOCBKYW4gMjAyMSBhdCAxNzoyMywgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMjguMDEuMjEgdW0gMTI6MDAg
-c2NocmllYiBTdW1pdCBTZW13YWw6Cj4gPiBIaSBIcmlkeWEsCj4gPgo+ID4gT24gV2VkLCAyNyBK
-YW4gMjAyMSBhdCAxNzozNiwgR3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdy
-b3RlOgo+ID4+IE9uIFR1ZSwgSmFuIDI2LCAyMDIxIGF0IDEyOjQyOjM2UE0gLTA4MDAsIEhyaWR5
-YSBWYWxzYXJhanUgd3JvdGU6Cj4gPj4+IFRoaXMgcGF0Y2ggYWxsb3dzIHN0YXRpc3RpY3MgdG8g
-YmUgZW5hYmxlZCBmb3IgZWFjaCBETUEtQlVGIGluCj4gPj4+IHN5c2ZzIGJ5IGVuYWJsaW5nIHRo
-ZSBjb25maWcgQ09ORklHX0RNQUJVRl9TWVNGU19TVEFUUy4KPiA+Pj4KPiA+Pj4gVGhlIGZvbGxv
-d2luZyBzdGF0cyB3aWxsIGJlIGV4cG9zZWQgYnkgdGhlIGludGVyZmFjZToKPiA+Pj4KPiA+Pj4g
-L3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2RlX251bWJlcj4vZXhwb3J0ZXJfbmFtZQo+
-ID4+PiAvc3lzL2tlcm5lbC9kbWFidWYvYnVmZmVycy88aW5vZGVfbnVtYmVyPi9zaXplCj4gPj4+
-IC9zeXMva2VybmVsL2RtYWJ1Zi9idWZmZXJzLzxpbm9kZV9udW1iZXI+L2F0dGFjaG1lbnRzLzxh
-dHRhY2hfdWlkPi9kZXZpY2UKPiA+Pj4gL3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2Rl
-X251bWJlcj4vYXR0YWNobWVudHMvPGF0dGFjaF91aWQ+L21hcF9jb3VudGVyCj4gPj4+Cj4gPj4+
-IFRoZSBpbm9kZV9udW1iZXIgaXMgdW5pcXVlIGZvciBlYWNoIERNQS1CVUYgYW5kIHdhcyBhZGRl
-ZCBlYXJsaWVyIFsxXQo+ID4+PiBpbiBvcmRlciB0byBhbGxvdyB1c2Vyc3BhY2UgdG8gdHJhY2sg
-RE1BLUJVRiB1c2FnZSBhY3Jvc3MgZGlmZmVyZW50Cj4gPj4+IHByb2Nlc3Nlcy4KPiA+Pj4KPiA+
-Pj4gQ3VycmVudGx5LCB0aGlzIGluZm9ybWF0aW9uIGlzIGV4cG9zZWQgaW4KPiA+Pj4gL3N5cy9r
-ZXJuZWwvZGVidWcvZG1hX2J1Zi9idWZpbmZvLgo+ID4+PiBIb3dldmVyLCBzaW5jZSBkZWJ1Z2Zz
-IGlzIGNvbnNpZGVyZWQgdW5zYWZlIHRvIGJlIG1vdW50ZWQgaW4gcHJvZHVjdGlvbiwKPiA+Pj4g
-aXQgaXMgYmVpbmcgZHVwbGljYXRlZCBpbiBzeXNmcy4KPiA+Pj4KPiA+Pj4gVGhpcyBpbmZvcm1h
-dGlvbiB3aWxsIGJlIHVzZWQgdG8gZGVyaXZlIERNQS1CVUYKPiA+Pj4gcGVyLWV4cG9ydGVyIHN0
-YXRzIGFuZCBwZXItZGV2aWNlIHVzYWdlIHN0YXRzIGZvciBBbmRyb2lkIEJ1ZyByZXBvcnRzLgo+
-ID4+PiBUaGUgY29ycmVzcG9uZGluZyB1c2Vyc3BhY2UgY2hhbmdlcyBjYW4gYmUgZm91bmQgYXQg
-WzJdLgo+ID4+PiBUZWxlbWV0cnkgdG9vbHMgd2lsbCBhbHNvIGNhcHR1cmUgdGhpcyBpbmZvcm1h
-dGlvbihhbG9uZyB3aXRoIG90aGVyCj4gPj4+IG1lbW9yeSBtZXRyaWNzKSBwZXJpb2RpY2FsbHkg
-YXMgd2VsbCBhcyBvbiBpbXBvcnRhbnQgZXZlbnRzIGxpa2UgYQo+ID4+PiBmb3JlZ3JvdW5kIGFw
-cCBraWxsICh3aGljaCBtaWdodCBoYXZlIGJlZW4gdHJpZ2dlcmVkIGJ5IExvdyBNZW1vcnkKPiA+
-Pj4gS2lsbGVyKS4gSXQgd2lsbCBhbHNvIGNvbnRyaWJ1dGUgdG8gcHJvdmlkZSBhIHNuYXBzaG90
-IG9mIHRoZSBzeXN0ZW0KPiA+Pj4gbWVtb3J5IHVzYWdlIG9uIG90aGVyIGV2ZW50cyBzdWNoIGFz
-IE9PTSBraWxscyBhbmQgQXBwbGljYXRpb24gTm90Cj4gPj4+IFJlc3BvbmRpbmcgZXZlbnRzLgo+
-ID4+Pgo+ID4+PiBBIHNoZWxsIHNjcmlwdCB0aGF0IGNhbiBiZSBydW4gb24gYSBjbGFzc2ljIExp
-bnV4IGVudmlyb25tZW50IHRvIHJlYWQKPiA+Pj4gb3V0IHRoZSBETUEtQlVGIHN0YXRpc3RpY3Mg
-Y2FuIGJlIGZvdW5kIGF0IFszXShzdWdnZXN0ZWQgYnkgSm9obgo+ID4+PiBTdHVsdHopLgo+ID4+
-Pgo+ID4+PiBUaGUgcGF0Y2ggY29udGFpbnMgdGhlIGZvbGxvd2luZyBpbXByb3ZlbWVudHMgb3Zl
-ciB0aGUgcHJldmlvdXMgdmVyc2lvbjoKPiA+Pj4gMSkgRWFjaCBhdHRhY2htZW50IGlzIHJlcHJl
-c2VudGVkIGJ5IGl0cyBvd24gZGlyZWN0b3J5IHRvIGFsbG93IGNyZWF0aW5nCj4gPj4+IGEgc3lt
-bGluayB0byB0aGUgaW1wb3J0aW5nIGRldmljZSBhbmQgdG8gYWxzbyBwcm92aWRlIHJvb20gZm9y
-IGZ1dHVyZQo+ID4+PiBleHBhbnNpb24uCj4gPj4+IDIpIFRoZSBudW1iZXIgb2YgZGlzdGluY3Qg
-bWFwcGluZ3Mgb2YgZWFjaCBhdHRhY2htZW50IGlzIGV4cG9zZWQgaW4gYQo+ID4+PiBzZXBhcmF0
-ZSBmaWxlLgo+ID4+PiAzKSBUaGUgcGVyLWJ1ZmZlciBzdGF0aXN0aWNzIGFyZSBub3cgaW4gL3N5
-cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMKPiA+Pj4gaW5vcmRlciB0byBtYWtlIHRoZSBpbnRlcmZh
-Y2UgZXhwYW5kYWJsZSBpbiBmdXR1cmUuCj4gPj4+Cj4gPj4+IEFsbCBvZiB0aGUgaW1wcm92ZW1l
-bnRzIGFib3ZlIGFyZSBiYXNlZCBvbiBzdWdnZXN0aW9ucy9mZWVkYmFjayBmcm9tCj4gPj4+IERh
-bmllbCBWZXR0ZXIgYW5kIENocmlzdGlhbiBLw7ZuaWcuCj4gPj4+Cj4gPj4+IFsxXTogaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzEwODg3OTEvCj4gPj4+IFsyXTogaHR0
-cHM6Ly9hbmRyb2lkLXJldmlldy5nb29nbGVzb3VyY2UuY29tL3EvdG9waWM6JTIyZG1hYnVmLXN5
-c2ZzJTIyKyhzdGF0dXM6b3BlbiUyME9SJTIwc3RhdHVzOm1lcmdlZCkKPiA+Pj4gWzNdOiBodHRw
-czovL2FuZHJvaWQtcmV2aWV3Lmdvb2dsZXNvdXJjZS5jb20vYy9wbGF0Zm9ybS9zeXN0ZW0vbWVt
-b3J5L2xpYm1lbWluZm8vKy8xNTQ5NzM0Cj4gPj4+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IEhyaWR5
-YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgo+ID4+PiBSZXBvcnRlZC1ieToga2VybmVs
-IHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPiBUaGFua3MgZm9yIHRoZSBwYXRjaCEKPiA+
-Cj4gPiBDaHJpc3RpYW46IElmIHlvdSdyZSBzYXRpc2ZpZWQgd2l0aCB0aGUgZXhwbGFuYXRpb24g
-YXJvdW5kIG5vdAo+ID4gZGlyZWN0bHkgZW1iZWRkaW5nIGtvYmplY3RzIGludG8gdGhlIGRtYV9i
-dWYgYW5kIGRtYV9idWZfYXR0YWNobWVudAo+ID4gc3RydWN0cywgdGhlbiB3aXRoIEdyZWcncyBy
-LWIgZnJvbSBzeXNmcyBQb1YsIEkgdGhpbmsgd2UgY2FuIG1lcmdlIGl0Lgo+ID4gUGxlYXNlIGxl
-dCBtZSBrbm93IGlmIHlvdSBmZWVsIG90aGVyd2lzZSEKPgo+ICBGcm9tIHRoZSB0ZWNobmljYWwg
-c2lkZSBpdCBsb29rcyBjbGVhbiB0byBtZSwgZmVlbCBmcmVlIHRvIGFkZCBteQo+IGFja2VkLWJ5
-IHdoaWxlIHB1c2hpbmcuCj4KPiBCdXQgSSB3b3VsZCBhdCBsZWFzdCB0cnkgdG8gY29udmluY2Ug
-RGFuaWVsIG9uIHRoZSBkZXNpZ24uIEF0IGxlYXN0IHNvbWUKPiBvZiBoaXMgY29uY2VybnMgc2Vl
-bXMgdG8gYmUgdmFsaWQgYW5kIGtlZXAgaW4gbWluZCB0aGF0IHdlIG5lZWQgdG8KPiBzdXBwb3J0
-IHRoaXMgaW50ZXJmYWNlIGZvcmV2ZXIuCgpOYXR1cmFsbHkuCgpTaW5jZSBoZSBkaWRuJ3QgY29t
-bWVudCBvdmVyIEhyaWR5YSdzIGxhc3QgY2xhcmlmaWNhdGlvbiBhYm91dCB0aGUKdHJhY2Vwb2lu
-dHMgdG8gdHJhY2sgdG90YWwgR1BVIG1lbW9yeSBhbGxvY2F0aW9ucyBiZWluZyBvcnRob2dvbmFs
-IHRvCnRoaXMgc2VyaWVzLCBJIGFzc3VtZWQgaGUgYWdyZWVkIHdpdGggaXQuCgpEYW5pZWwsIGRv
-IHlvdSBzdGlsbCBoYXZlIG9iamVjdGlvbnMgYXJvdW5kIGFkZGluZyB0aGlzIHBhdGNoIGluPwoK
-Pgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgoKQmVzdCwKU3VtaXQuCj4KPiA+Cj4gPj4+IC0tLQo+
-ID4+PiBDaGFuZ2VzIGluIHYzOgo+ID4+PiBGaXggYSB3YXJuaW5nIHJlcG9ydGVkIGJ5IHRoZSBr
-ZXJuZWwgdGVzdCByb2JvdC4KPiA+Pj4KPiA+Pj4gQ2hhbmdlcyBpbiB2MjoKPiA+Pj4gLU1vdmUg
-c3RhdGlzdGljcyB0byAvc3lzL2tlcm5lbC9kbWFidWYvYnVmZmVycyBpbiBvZGVyIHRvIGFsbG93
-IGFkZGl0aW9uCj4gPj4+IG9mIG90aGVyIERNQS1CVUYtcmVsYXRlZCBzeXNmcyBzdGF0cyBpbiBm
-dXR1cmUuIEJhc2VkIG9uIGZlZWRiYWNrIGZyb20KPiA+Pj4gRGFuaWVsIFZldHRlci4KPiA+Pj4g
-LUVhY2ggYXR0YWNobWVudCBoYXMgaXRzIG93biBkaXJlY3RvcnkgdG8gcmVwcmVzZW50IGF0dGFj
-aGluZyBkZXZpY2VzIGFzCj4gPj4+IHN5bWxpbmtzIGFuZCB0byBpbnRyb2R1Y2UgbWFwX2NvdW50
-IGFzIGEgc2VwYXJhdGUgZmlsZS4gQmFzZWQgb24KPiA+Pj4gZmVlZGJhY2sgZnJvbSBEYW5pZWwg
-VmV0dGVyIGFuZCBDaHJpc3RpYW4gS8O2bmlnLiBUaGFuayB5b3UgYm90aCEKPiA+Pj4gLUNvbW1p
-dCBtZXNzYWdlcyB1cGRhdGVkIHRvIHBvaW50IHRvIHVzZXJzcGFjZSBjb2RlIGluIEFPU1AgdGhh
-dCB3aWxsCj4gPj4+IHJlYWQgdGhlIERNQS1CVUYgc3lzZnMgc3RhdHMuCj4gPj4+Cj4gPj4+Cj4g
-Pj4+ICAgLi4uL0FCSS90ZXN0aW5nL3N5c2ZzLWtlcm5lbC1kbWFidWYtYnVmZmVycyAgIHwgIDUy
-ICsrKysKPiA+Pj4gICBkcml2ZXJzL2RtYS1idWYvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAg
-ICAgfCAgMTEgKwo+ID4+PiAgIGRyaXZlcnMvZG1hLWJ1Zi9NYWtlZmlsZSAgICAgICAgICAgICAg
-ICAgICAgICB8ICAgMSArCj4gPj4+ICAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYtc3lzZnMtc3Rh
-dHMuYyAgICAgICAgIHwgMjg1ICsrKysrKysrKysrKysrKysrKwo+ID4+PiAgIGRyaXZlcnMvZG1h
-LWJ1Zi9kbWEtYnVmLXN5c2ZzLXN0YXRzLmggICAgICAgICB8ICA2MiArKysrCj4gPj4+ICAgZHJp
-dmVycy9kbWEtYnVmL2RtYS1idWYuYyAgICAgICAgICAgICAgICAgICAgIHwgIDM3ICsrKwo+ID4+
-PiAgIGluY2x1ZGUvbGludXgvZG1hLWJ1Zi5oICAgICAgICAgICAgICAgICAgICAgICB8ICAyMCAr
-Kwo+ID4+PiAgIDcgZmlsZXMgY2hhbmdlZCwgNDY4IGluc2VydGlvbnMoKykKPiA+Pj4gICBjcmVh
-dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1rZXJuZWwtZG1h
-YnVmLWJ1ZmZlcnMKPiA+Pj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9kbWEtYnVmL2Rt
-YS1idWYtc3lzZnMtc3RhdHMuYwo+ID4+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2Rt
-YS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5oCj4gPj4gSSBkb24ndCBrbm93IHRoZSBkbWEtYnVm
-IGNvZGUgYXQgYWxsLCBidXQgZnJvbSBhIHN5c2ZzL2tvYmplY3QgcG9pbnQgb2YKPiA+PiB2aWV3
-LCB0aGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWU6Cj4gPj4KPiA+PiBSZXZpZXdlZC1ieTogR3Jl
-ZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiA+IEJlc3QsCj4g
-PiBTdW1pdC4KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4gPiBMaW5hcm8tbW0tc2lnIG1haWxpbmcgbGlzdAo+ID4gTGluYXJvLW1tLXNpZ0BsaXN0
-cy5saW5hcm8ub3JnCj4gPiBodHRwczovL2xpc3RzLmxpbmFyby5vcmcvbWFpbG1hbi9saXN0aW5m
-by9saW5hcm8tbW0tc2lnCj4KCgotLQpUaGFua3MgYW5kIHJlZ2FyZHMsCgpTdW1pdCBTZW13YWwK
-TGluYXJvIENvbnN1bWVyIEdyb3VwIC0gVGVjaCBMZWFkCkxpbmFyby5vcmcg4pSCIE9wZW4gc291
-cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Thu, Jan 28, 2021 at 08:53:55PM +0800, Carlis wrote:
+> From: zhangxuezhi <zhangxuezhi1@yulong.com>
+> 
+> For st7789v ic,when we need continuous full screen refresh, it is best to
+> wait for the TE signal arrive to avoid screen tearing
+> 
+> Signed-off-by: zhangxuezhi <zhangxuezhi1@yulong.com>
+> ---
+> v12: change dev_err to dev_err_probe and add space in comments start, and
+>      delete te_mutex, change te wait logic
+> v11: remove devm_gpio_put and change a dev_err to dev_info
+> v10: additional notes
+> v9: change pr_* to dev_*
+> v8: delete a log line
+> v7: return error value when request fail
+> v6: add te gpio request fail deal logic
+> v5: fix log print
+> v4: modify some code style and change te irq set function name
+> v3: modify author and signed-off-by name
+> v2: add release te gpio after irq request fail
+> ---
+>  drivers/staging/fbtft/fb_st7789v.c | 116 +++++++++++++++++++++++++++++++++++++
+>  drivers/staging/fbtft/fbtft.h      |   1 +
+>  2 files changed, 117 insertions(+)
+> 
+> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+> index 3a280cc..f08e9da 100644
+> --- a/drivers/staging/fbtft/fb_st7789v.c
+> +++ b/drivers/staging/fbtft/fb_st7789v.c
+> @@ -9,7 +9,11 @@
+>  #include <linux/delay.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/completion.h>
+>  #include <linux/module.h>
+> +#include <linux/gpio/consumer.h>
+> +
+>  #include <video/mipi_display.h>
+>  
+>  #include "fbtft.h"
+> @@ -66,6 +70,15 @@ enum st7789v_command {
+>  #define MADCTL_MX BIT(6) /* bitmask for column address order */
+>  #define MADCTL_MY BIT(7) /* bitmask for page address order */
+>  
+> +#define SPI_PANEL_TE_TIMEOUT	400 /* msecs */
+> +static struct completion spi_panel_te;
+
+Doesn't this structure have to be per-device?  How can it be global for
+all devices in the system controlled by this driver?
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
