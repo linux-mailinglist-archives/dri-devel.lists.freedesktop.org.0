@@ -1,71 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2668E307ED5
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 699AC307ED6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 20:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 930636E9FB;
-	Thu, 28 Jan 2021 19:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2E986EA24;
+	Thu, 28 Jan 2021 19:44:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416A06E0EC
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:48:57 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id CC34B580777;
- Thu, 28 Jan 2021 04:48:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 28 Jan 2021 04:48:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=TV859JvWohvleWj2mlFpPgmtkri
- A19iCS+DM5VX5zO4=; b=fA7G8+msT4KYcqnHIgLxQP+PqklcjUp1JZ+v1tH8kqI
- bfcRaN8oQIGt8feTaYgoQ797EGT4peyAf0gzWMd1ognhfVbmYQgBmhgw60DKKwyF
- OkCr7MzW/hkSHxjIGOjhi3L4+CQIUvZJMCv1ClRvZk1ejkP+0D978Y1mC77LWaDR
- 2Qv8RqW46xThBokYMhl4Yl41IQKtMc3cBQDW+qUa7K+knCKcRhd25b4DxnyEE5t8
- AIKB0H3hBJmhaO4BCdg+bMMJyym8WZO3ys5RNKNbU9VU93sxoN3eGAliw8DcVBVx
- JH4ElzvJB47Sm3xtSSMHKG/jLO4fGowAXci8hEdVKyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TV859J
- vWohvleWj2mlFpPgmtkriA19iCS+DM5VX5zO4=; b=GhODBhboPsDZZcXYC4C7Fd
- GFtz/Nerkl/LyDWteUwO2WVRURMcZxsQI0bjETRzoTCgrm98a5xmbZ5rz4aWcPAb
- 37/I6AevS2omsNi94Dg9Iuv3BkbAgDdthef/2hVImSL/KMUjm8bCZouiSKutu2Z8
- OkfFwvjnnFGQXr89HTfrIE/jdbfudB6aqaiw2H2JkmkzmwwgZhopwXLeFfHgJvSj
- hR6t43g22N9fMI2DVNp46biqC8hYjHbDXioBnwU0HSokS/RIg2HsquQKUErjHAf6
- rZxT0HDTScO+FLCBgAu9u8fYNTa2r+fdU64CTm+8MljxCKaWRXFJsz6f+2/8pPHg
- ==
-X-ME-Sender: <xms:g4gSYIpPEYZg8W6QasCiNpwsxO1K-SEnjT7vF-e1MbYr55R98toN8A>
- <xme:g4gSYOr1AupiGrRkxJrRal_nRoEO_AbaZBNnJ3kipsX0Tw33xWhOdNeYYaXbpePIQ
- G_5rlnsk7RPVvvhKMI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hIgSYNNIS-Nmwee4hfp0b5Qp-_i8qySVH2DpNB95c9EPMkKTxfk8Og>
- <xmx:hIgSYP7_4ssmloHnIfI11jndKRxEOFAwppQu-ik5BnIFnz91qSUxqA>
- <xmx:hIgSYH73EECJsEFmHEaqT4sNbcaS0WmWjG9WYdw9QTnZaRDLjO9daA>
- <xmx:hYgSYPw-gWN3drIkmH5-4V--xcluONBqCQoJdFkYBzfFU06BT9yMfw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B2A7D24005A;
- Thu, 28 Jan 2021 04:48:51 -0500 (EST)
-Date: Thu, 28 Jan 2021 10:48:49 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v2 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
-Message-ID: <20210128094849.5hxx6ui3tgkmu5p5@gilmour>
-References: <20210111142309.193441-1-maxime@cerno.tech>
- <acd2ba9f35732ba3fb7c31ba05132434ec99fd66.camel@suse.de>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECC8D6E0F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:59:12 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id c18so5574598ljd.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 01:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7pfzxki9lheHgOLLzQUHgmk1QHH49lwL5Xi6bGveKqI=;
+ b=C5iQTW3T8+J3IZWK6A5QNut7MFv+TbeI1f0Zb7Qjo0SxH2FThG4KpFizCyByRiNb7s
+ viTeDmowChDcQ8aNRy0KxaHpOKiDumWRod4N7OszB2XwnahAhLDBiP1p4Eh34nW9ck4X
+ c6iMTE2SUHtlRzSq+GVvJrsQ8z4Nq40YZxt+Kp2UpvrTqwnXiR166LxKfl+FW9AUTrt+
+ JInyKlot+NlBlvaaK5w6QO1+VeOP2O9MDEz8rYLSbCf8hQH4g+z4p9ZJxPMG0wj+EB+V
+ AeR5Qn+WmIUDJ0NS/fYzIauFxJ0PXLlubrIEPMNzFhJiJlCugY/kiim2oHuYgpnnxZAv
+ V2yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7pfzxki9lheHgOLLzQUHgmk1QHH49lwL5Xi6bGveKqI=;
+ b=gjdtABwBNNvfd9QYjzTzmp/gIIiEgiIY5scM1wq6HrlIs5uKsBph3w3EVzhPBc8rNk
+ znA09S9t8I0w0xa7XJ0wAvyVlGUA0ImY+Krk9wnt7mu1ndYb8PtSl9I8Zbi2ez7Ep07E
+ m3R5ZZNe3Kc7SztTBTY3jzeB2ikHV8YeoSmQwxJepu0QqjB+Z5XjGJivGL8M3B+BnTSb
+ ICqNAzS18n8thwmU6n43xF1FIHV7qZlumnR3qLpRNy5GnAZ5AEyZc8+rEd8WLA0OSvzH
+ 6r7Et8j2F+oQrWYNKhlOdyzpuWgUyfWNz2+0Hesam7vEbKX9v7sj1v4/teo7DVAqbdQg
+ B+qg==
+X-Gm-Message-State: AOAM531J3Iv8HF98RNVrrZGFF+F4Fx/KPpDU1WHEEyoX9tlB4JgHiVI3
+ d9Ts3Wb6OD+Kb3zMdXTwk0c=
+X-Google-Smtp-Source: ABdhPJyQahjeVdQ9RR/Pj8A7PCSfRelscgLOEjJP1Tv1tX+t766D1pvJb3mrXoIpOblsSeRBhdN7Rg==
+X-Received: by 2002:a2e:b8c7:: with SMTP id s7mr7574137ljp.397.1611827951312; 
+ Thu, 28 Jan 2021 01:59:11 -0800 (PST)
+Received: from kari-VirtualBox ([31.132.12.44])
+ by smtp.gmail.com with ESMTPSA id k20sm1814663ljb.73.2021.01.28.01.59.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 01:59:10 -0800 (PST)
+Date: Thu, 28 Jan 2021 11:59:08 +0200
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
+Message-ID: <20210128095908.nm5kh4yspza2v27q@kari-VirtualBox>
+References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
+ <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
+ <20210128094258.000012c3@gmail.com>
+ <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
+ <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <acd2ba9f35732ba3fb7c31ba05132434ec99fd66.camel@suse.de>
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 19:44:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,87 +71,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1221871735=="
+Cc: driverdevel <devel@driverdev.osuosl.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ mh12gx2825@gmail.com, Greg KH <gregkh@linuxfoundation.org>,
+ oliver.graute@kococonnector.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stefano Brivio <sbrivio@redhat.com>, carlis <zhangxuezhi3@gmail.com>,
+ Colin King <colin.king@canonical.com>, zhangxuezhi1@yulong.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 28, 2021 at 10:42:54AM +0100, Geert Uytterhoeven wrote:
+> Hi Kari,
+> 
+> On Thu, Jan 28, 2021 at 7:53 AM Kari Argillander
+> <kari.argillander@gmail.com> wrote:
+> > On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:
+> > > On Thu, 28 Jan 2021 00:32:22 +0200
+> > > Kari Argillander <kari.argillander@gmail.com> wrote:
+> > > > > @@ -82,6 +111,33 @@ enum st7789v_command {
+> > > > >   */
+> > > > >  static int init_display(struct fbtft_par *par)
+> > > > >  {
+> > > > > + int rc;
+> > > > > + struct device *dev = par->info->device;
+> > > > > +
+> > > > > + par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
+> > > > > GPIOD_IN);
+> > > > > + if (IS_ERR(par->gpio.te)) {
+> > > > > +         rc = PTR_ERR(par->gpio.te);
+> > > > > +         dev_err(par->info->device, "Failed to request te
+> > > > > gpio: %d\n", rc);
+> > > > > +         return rc;
+> > > > > + }
+> > > >
+> > > > You request with optinal and you still want to error out? We could
+> > > > just continue and not care about that error. User will be happier if
+> > > > device still works somehow.
+> 
+> devm_gpiod_get_index_optional() returns NULL, not an error, if the
+> GPIO is not found.  So if IS_ERR() is the right check.
+> 
+> And checks for -EPROBE_DEFER can be handled automatically
+> by using dev_err_probe() instead of dev_err().
 
---===============1221871735==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="puhomd6fgdwr2xp5"
-Content-Disposition: inline
+Yeah. Thanks for pointing that clearly.
 
-
---puhomd6fgdwr2xp5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-On Mon, Jan 25, 2021 at 10:03:44PM +0100, Nicolas Saenz Julienne wrote:
-> Hi,
->=20
-> On Mon, 2021-01-11 at 15:22 +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Here's a series introducing the CEC support for the BCM2711 found on the
-> > RaspberryPi4.
-> >=20
-> > The BCM2711 HDMI controller uses a similar layout for the CEC registers=
-, the
-> > main difference being that the interrupt handling part is now shared be=
-tween
-> > both HDMI controllers.
-> >=20
-> > This series is mainly about fixing a couple of bugs, reworking the driv=
-er to
-> > support having two different interrupts, one for each direction, provid=
-ed by an
-> > external irqchip, and enables the irqchip driver for the controller we =
-have.
-> >=20
-> > This has been tested on an RPi3 and RPi4, but requires the latest firmw=
-are.
-> > It's is based on the 10 and 12 bpc series.
->=20
-> I applied patches #1 and #14 for-next. I'm waiting on Hans' testing for #=
-15.
-
-I've applied to drm-misc-next the patches 2 to 13
-
-Maxime
-
---puhomd6fgdwr2xp5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYBKIgQAKCRDj7w1vZxhR
-xcFjAQDyhilWiZOnBtF/6Ds6w1BfcUQewBo/s/AMDRirS7HODgD/RWnajJxfaPQ/
-BJAVsfoxNFRZbgY7Cl/919hBHx8nfA8=
-=F65t
------END PGP SIGNATURE-----
-
---puhomd6fgdwr2xp5--
-
---===============1221871735==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > > You mean i just delete this dev_err print ?!
+> > > like this:
+> > >       par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
+> > > 0,GPIOD_IN);
+> > >         if (IS_ERR(par->gpio.te))
+> > >               return PTR_ERR(par->gpio.te);
+> >
+> > Not exactly. I'm suggesting something like this.
+> >
+> > if (IS_ERR(par->gpio.te) == -EPROBE_DEFER) {
+> >         return -EPROBE_DEFER;
+> >
+> > if (IS_ERR(par->gpio.te))
+> >         par-gpio.te = NULL;
+> >
+> > This like beginning of your patch series but the difference is that if
+> > EPROBE_DEFER then we will try again later. Any other error and we will
+> > just ignore TE gpio. But this is up to you what you want to do. To me
+> > this just seems place where this kind of logic can work.
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1221871735==--
