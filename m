@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F79E307114
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374B13070F4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 561756E957;
-	Thu, 28 Jan 2021 08:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FE66E920;
+	Thu, 28 Jan 2021 08:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
- [IPv6:2607:f8b0:4864:20::e2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 618006E8E4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 07:04:28 +0000 (UTC)
-Received: by mail-vs1-xe2a.google.com with SMTP id b5so2515910vsh.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 23:04:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8+5dcejhRaQpDCwiyEVn753oCGrTihEzoxoKOU9kwWA=;
- b=ZRaEUkWxALHTVzsipCFQj35joZ7/P6/xdlQtefyyRmxLlAGo8gHta0a7fC8kj3x5r+
- GxclBFXoUJx51nRjfo+V34nIRM63VqC/CQshNpy3h2dCgg8646a+2U4jrEa/dypNRyfO
- ZzJFbe98NYDv4NAT5C9qLzoTHoB78A3YTmV/7UZbnOQjoHOPMZ63eCQc9UurepxD2ksp
- Qhi0d9fpObvKbsfnqNPTho1MZsOnUbK5865rJz/INF/EsZplNtp0r68tFpIzxJ3TRz1a
- IsJZaR/mrnNzbZgwxEb+QCC6k/kAWhsb4OndU91f+iluj6lJFf8tpaglkzhUZHz7qT7g
- GD+A==
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E08A36E8F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 07:28:07 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id j2so2059679pgl.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 23:28:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RZz3ceioh1U58Fbl8S/hu4ZpgE/t+XyWasxorJvZsE0=;
+ b=fSa3rYF+HYRmksYTnNnBF7iGLrcWblljS8mseahPbcqq8DhIvFNoh7Ydw+gpq01OC2
+ 9LKee+XfbDxx9WMW625TsChm2sa7K9XmD4uM8jZBWkKuIDqg20+LvB1GlV5pHIYN9cf7
+ RkIJUUwjHD4uvVywJSaBE0Y0f3uzGWechNtQw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8+5dcejhRaQpDCwiyEVn753oCGrTihEzoxoKOU9kwWA=;
- b=HYFAgRQGA58W0nSAPLZltVq+yiRfGWeq4WBTDxg3q3nVzIxN8AcXjSZGVXFIBCdGFQ
- TpwjvhEQ5TRnxiw+mPPPx5Ltv7cmV0DRmrG1D2v0oWPHty6BgG6fTElOKWK2zxClQdML
- G6RE7FqS17AJGRapn8imrbgcJrhxLkILtwwCqxK9eE1GRnkJkHAxTEeFXlRHpgAKaxug
- tpc0ZaYYzhoDFlhXjUUAetZn8xmdOoZ8MgRVmibT9A1dTxwHQsjzyCzeanNwIg7XPKoh
- OZ9oduQKj+atJcfe6oOjMgT+6NCD382YpCaCpBoaxwlINLKMhaDq6Snpn4TTTGCxeXE5
- VNig==
-X-Gm-Message-State: AOAM530JacG2pzXowKzCC2aER0GjU3GNP1cp8P4SvF6zVFUiuSM6ozsr
- xbxN5ccBM03kTbXNIs846KCDhGPp7pTZFWnAkralCw==
-X-Google-Smtp-Source: ABdhPJwSIFhyRLM20J+i0UEgD++xaYJdmbeJOtujr1vKiolKVw9/Eda+jgrZU0PTyDT5E6na4d2MivXZJp3MV5R/2I0=
-X-Received: by 2002:a05:6102:199:: with SMTP id
- r25mr10592240vsq.56.1611817467057; 
- Wed, 27 Jan 2021 23:04:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RZz3ceioh1U58Fbl8S/hu4ZpgE/t+XyWasxorJvZsE0=;
+ b=GGBCjjH27hHaEOUM9b7iVSGWOynB0DO2qXeWa05BheDLqHl1GTKPwfIKoUumH8mGvB
+ MAirgmGRO0n8V11QF4gvx2rJOo5aoIXY+XYHRXemDuq6LJZuoUmi4umKlliqVarIdLVe
+ lYwC61I/C6Rdk5BYabNfkwenHRTB1nIlYkkI+/dfNul2q7ki2MuB8lZzIhwloEK3Xj9D
+ QQKjfiunrTs4OzoNjtTgZM+okbcnYRFHWrdHMVPIs60e69SBwKXxq1nSr+1JfwutKOPy
+ iTU60AvVmSHFdShn/fLObOy7U0ZBCRYL2tF6onDdHhSAL6ojpNZQoFvDqnuUf2dRpojg
+ OGEQ==
+X-Gm-Message-State: AOAM533Vezk6+DXrNkIHwy4PkbuKg/m2GmSxp/dyCa8k8RNyowaXqhdO
+ ZKOhrX1Xn6Yfs0vZtaoCUshN6g==
+X-Google-Smtp-Source: ABdhPJxuD2BvG0tK7AzWVRdSCRGTeJ9On+LJVVlKCLl4Uvo8BSo7+t7v+Wgh1kMaETX/DUQ3YbM6yQ==
+X-Received: by 2002:a63:5c61:: with SMTP id n33mr15533253pgm.153.1611818887431; 
+ Wed, 27 Jan 2021 23:28:07 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:e0a5:d2fc:aaad:1e4a])
+ by smtp.gmail.com with ESMTPSA id h2sm4800304pfk.4.2021.01.27.23.28.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 23:28:06 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v11 0/9] drm/mediatek: add support for mediatek SOC MT8183
+Date: Thu, 28 Jan 2021 15:27:53 +0800
+Message-Id: <20210128072802.830971-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
 MIME-Version: 1.0
-References: <20210123034655.102813-1-john.stultz@linaro.org>
- <20210123034655.102813-2-john.stultz@linaro.org>
- <CAE2F3rA3a-MWBHPZhGP9dMhEUqMkkvm6wXYYh6LDZ1zF9CAyUg@mail.gmail.com>
- <CALAqxLWkTQwQ8Xqnc+PAMWUO_C84jaGzOLqKFqkuk3=AFNHD6g@mail.gmail.com>
-In-Reply-To: <CALAqxLWkTQwQ8Xqnc+PAMWUO_C84jaGzOLqKFqkuk3=AFNHD6g@mail.gmail.com>
-From: Daniel Mentz <danielmentz@google.com>
-Date: Wed, 27 Jan 2021 23:04:15 -0800
-Message-ID: <CAE2F3rAvg1-jtpsJdgzmBkZ5CDnGG4S0-oVxw74LY3O+N=0JZA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dma-buf: system_heap: Add pagepool support to
- system heap
-To: John Stultz <john.stultz@linaro.org>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,78 +64,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- Suren Baghdasaryan <surenb@google.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 27, 2021 at 9:10 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Wed, Jan 27, 2021 at 12:21 PM Daniel Mentz <danielmentz@google.com> wrote:
-> >
-> > On Fri, Jan 22, 2021 at 7:47 PM John Stultz <john.stultz@linaro.org> wrote:
-> > > +static int system_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
-> > > +{
-> > > +       void *addr = vmap(pages, num, VM_MAP, pgprot);
-> > > +
-> > > +       if (!addr)
-> > > +               return -ENOMEM;
-> > > +       memset(addr, 0, PAGE_SIZE * num);
-> > > +       vunmap(addr);
-> > > +       return 0;
-> > > +}
-> >
-> > I thought that vmap/vunmap are expensive, and I am wondering if
-> > there's a faster way that avoids vmap.
-> >
-> > How about lifting this code from lib/iov_iter.c
-> > static void memzero_page(struct page *page, size_t offset, size_t len)
-> > {
-> >         char *addr = kmap_atomic(page);
-> >         memset(addr + offset, 0, len);
-> >         kunmap_atomic(addr);
-> > }
-> >
-> > Or what about lifting that code from the old ion_cma_heap.c
-> >
-> > if (PageHighMem(pages)) {
-> >         unsigned long nr_clear_pages = nr_pages;
-> >         struct page *page = pages;
-> >
-> >         while (nr_clear_pages > 0) {
-> >                 void *vaddr = kmap_atomic(page);
-> >
-> >                 memset(vaddr, 0, PAGE_SIZE);
-> >                 kunmap_atomic(vaddr);
-> >                 page++;
-> >                 nr_clear_pages--;
-> >         }
-> > } else {
-> >         memset(page_address(pages), 0, size);
-> > }
->
-> Though, this last memset only works since CMA is contiguous, so it
-> probably needs to always do the kmap_atomic for each page, right?
+This series is based on kernel/git/chunkuang.hu/linux.git mediatek-drm-next
+The series is tested on a mt8183 krane device.
 
-Yeah, but with the system heap page pool, some of these pages might be
-64KB or 1MB large. kmap_atomic(page) just maps to page_address(page)
-in most cases. I think iterating over all pages individually in this
-manner might still be faster than using vmap.
+Change since v10
+- fix review comments in v9
 
->
-> I'm still a little worried if this is right, as the current
-> implementation with the vmap comes from the old ion_heap_sglist_zero
-> logic, which similarly tries to batch the vmaps  32 pages at at time,
-> but I'll give it a try.
+Change since v9
+- change several function to rebase to mediatek-drm-next
+
+Change since v8
+- fix some review comment in v8
+- separate gamma module for mt8183 has no dither function in gamma
+- enable dither function for 5 or 6 bpc panel display
+- separate ddp mutex patch from the whole Soc patch
+
+Change since v7
+- add dt-binding for mt8183 display
+- base mmsys patch
+https://patchwork.kernel.org/project/linux-mediatek/cover/1607506379-10998-1-git-send-email-yongqiang.niu@mediatek.com/
+- base dts patch
+https://patchwork.kernel.org/project/linux-mediatek/cover/20201127104930.1981497-1-enric.balletbo@collabora.com/
+- add mt8183 function call for setting the routing registers
+- add RDMA fifo size error handle
+
+Change since v6
+- move ddp component define into mtk_mmsys.h
+- add mmsys private data to support different ic path connection
+- add mt8183-mmsys.c to support 8183 path connection
+- fix reviewed issue in v6
+
+Change since v5
+- fix reviewed issue in v5
+base https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+
+Change since v4
+- fix reviewed issue in v4
+
+Change since v3
+- fix reviewed issue in v3
+- fix type error in v3
+- fix conflict with iommu patch
+
+Change since v2
+- fix reviewed issue in v2
+- add mutex node into dts file
+
+Changes since v1:
+- fix reviewed issue in v1
+- add dts for mt8183 display nodes
+- adjust display clock control flow in patch 22
+- add vmap support for mediatek drm in patch 23
+- fix page offset issue for mmap function in patch 24
+- enable allow_fb_modifiers for mediatek drm in patch 25
+
+
+Hsin-Yi Wang (1):
+  drm/mediatek: add mtk_dither_set_common() function
+
+Yongqiang Niu (8):
+  arm64: dts: mt8183: rename rdma fifo size
+  arm64: dts: mt8183: refine gamma compatible name
+  drm/mediatek: add RDMA fifo size error handle
+  drm/mediatek: separate gamma module
+  drm/mediatek: add has_dither private data for gamma
+  drm/mediatek: enable dither function
+  soc: mediatek: add mtk mutex support for MT8183
+  drm/mediatek: add support for mediatek SOC MT8183
+
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi    |   7 +-
+ drivers/gpu/drm/mediatek/Makefile           |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  14 ++
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 196 ++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  18 ++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |  10 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 138 +++++++-------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  49 ++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c            |  50 +++++
+ 10 files changed, 410 insertions(+), 74 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+
+-- 
+2.30.0.280.ga3ce27912f-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
