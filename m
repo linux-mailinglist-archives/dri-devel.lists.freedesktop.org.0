@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42105306E51
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:14:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83B7306E4F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:14:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859AD6E0E1;
-	Thu, 28 Jan 2021 07:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7C46E8EC;
+	Thu, 28 Jan 2021 07:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B50DA6E0E1;
- Thu, 28 Jan 2021 07:13:54 +0000 (UTC)
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750054.outbound.protection.outlook.com [40.107.75.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8FB6E8EC;
+ Thu, 28 Jan 2021 07:13:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hu4H2hTZbI9Xm9luqtRAR7PezpAtfnL8lcZ+hj62tO++KX1j3jidANMwnQv7IGwqOu72sggP98JEwavkKwCZjZuCJ8mhC0Gt/NOVUAs8u0WzNnXT5Tl3p8LupRZNDhkR4szRvWJ1Gi3REl2P84WeSy7dGj34dELUr3W9vE1SN0FfcnMuxDc62QVdYEekWyaG8mNi0EfxzFDCPOZZAoyMBnfmrfDPqrZwSAOLurI4OPjIm2r9F6xYq/Pzlyg7gSa7BUk9EBXV78Mi1Bn01YD3tanB5fEtQUkIi15C5Yta5sYd2aEQdBCbbpeaL9CNwGCLg6sWmr7pVfgfUVMbQs8iwA==
+ b=DRGtLiM1UBxBOSMJVIN8Kz787FV+nuQ4lAk/SwoaIrMDoP419gTRQyoGcFEUqN9Xvfjb/ZftITED0DyOj3DcrPeX/CBF92h5yBUPc/JZB2FoMzK2GVAhO93kEmUgAg+aGzLpxFLWLjkzrXwaKxJK+CPIQVVT0LNW76KY9o01oCfyGVP2gRtx1sMZDghpVSb+FnFB9sXLnCTnEHWyDQ5Ri71s2XQBpgv4OuctZr1Gu9ry7PwIPlqgvyUkSS9KhVH3K2+Zm9uJwt5FS4yk3rLuX+dbpEZcXLyVoaXZREpS8DtW2pjEgeqmRKgtMmX0Gvu2R0G2VAbnhfUtumsi0ALjiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DwpnTFg1v4e74KuO9gjvbUPmsqazLRKFsxCLv/r0wRY=;
- b=Pep1m4jSkbXhD+qciLx2d7b+actcyChKqJNTZHV4VeCGMkW2KwfbhGGOJpmIoFdZC05lJPhofGtwuiLa+Ec7gSlaekjk35o0ppTkoYncoph2Dq5qE1dLiy3H7jehnPXS+2U8OB7ZaT84r1Ref+R0EiUcspN9tyFpJc01H9Kov10Uzl+WIgGhyypnFNrw4dUjYRIvqt9DE+UEmaVeZ+h9HV6hz5aSaazxOOY2IpzDn1W3C2vVZOA9ST0jB5EyG2RnBbY9Cb+4BqJDgbtbrwULMzzeSnL6OQmHT4UTJOEKtH9Pgu99xtgNps847Cn0F8IZvYuPZ5JQR4+34EeCtGpUnA==
+ bh=K9/I1puIorNi8RY54XsNMOz/PlxSnp6AyjYtDNjnqto=;
+ b=js2HCYkhLBhomodqI65Md1hKQr+nQ7uH7RRApu+kXOu5d0SOBHwPBDVDhrjsFNR3OaTRv00Q8YE4rMCPm2S9VUPzzVH0IK+5AFlqA/htUiDFRkqjidp+WeobpA0JlOJkAn/G55rHt8ET5AM8QyoWSRbgMZ3SQyOYl5or7XYwAVU4Yu84l4qmlQEqYUsml2iHq1kpSOhQr4hPmpnvJVo2eWUb8d5oJ9/I3E58jLPF3MXYQmRjHwInh9gFem7GCfo7/NslSOltFIZmQtsbgvasDqBHgNWvYAOdPOJbj4G/XBENMSCa5X+q/kd4ANBVl7v2sDJLKRPt2TcgFjnkWVVtvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DwpnTFg1v4e74KuO9gjvbUPmsqazLRKFsxCLv/r0wRY=;
- b=0x7YtFIf6PKSNcTFMaUE9KVnS9Luyg/Y4VwymdjFnPpvLOTCvMjS6a7Pzl24OTM5lA3eqAPCyZdJKzrfRCApbtxCUGsCbaXzNlqJ5CjwhXV8sbRzT02SOtpcynHsZUrLLSlCYvG+QX2SXlHzVKRJWsf3VRhURVSXWADJA9nhuiY=
+ bh=K9/I1puIorNi8RY54XsNMOz/PlxSnp6AyjYtDNjnqto=;
+ b=TupMh8F93IPzANYKqdEGfX5z3orYgA1AQ8KTZ+P3Q/E0JJrbLkSZfFrL5L2kqkOjtt75blUcCoe2G0Er2g0+n9PDDG9+QkR6g2k8z+QJIjpz7uF0ki+iqWTkjcMTEpYUh9l7R0dfmfMWATvhU+F/Z0Wr0fGvUuTb/P9+DWsOA5U=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from MN2PR12MB3022.namprd12.prod.outlook.com (2603:10b6:208:ce::32)
  by MN2PR12MB3280.namprd12.prod.outlook.com (2603:10b6:208:ad::29)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Thu, 28 Jan
- 2021 07:13:53 +0000
+ 2021 07:13:55 +0000
 Received: from MN2PR12MB3022.namprd12.prod.outlook.com
  ([fe80::709e:b0ae:fbde:fcc6]) by MN2PR12MB3022.namprd12.prod.outlook.com
  ([fe80::709e:b0ae:fbde:fcc6%7]) with mapi id 15.20.3784.019; Thu, 28 Jan 2021
- 07:13:53 +0000
+ 07:13:55 +0000
 From: Kevin Wang <kevin1.wang@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 2/3] drm/ttm: add ttm vm bo trace event support
-Date: Thu, 28 Jan 2021 15:13:21 +0800
-Message-Id: <20210128071322.24313-3-kevin1.wang@amd.com>
+Subject: [RFC PATCH 3/3] drm/ttm: add ttm mem trace event support
+Date: Thu, 28 Jan 2021 15:13:22 +0800
+Message-Id: <20210128071322.24313-4-kevin1.wang@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210128071322.24313-1-kevin1.wang@amd.com>
 References: <20210128071322.24313-1-kevin1.wang@amd.com>
@@ -57,49 +57,49 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from MZ01-CE0.amd.com (58.247.170.245) by
  HKAPR04CA0010.apcprd04.prod.outlook.com (2603:1096:203:d0::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 07:13:51 +0000
+ 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 07:13:53 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: dc0fbd10-3b97-4457-f91b-08d8c35c44b3
+X-MS-Office365-Filtering-Correlation-Id: 670bde82-359f-4668-2e8a-08d8c35c462e
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3280:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3280DCF5B949E070A02EE941A2BA9@MN2PR12MB3280.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:78;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3280571E7A7020065ECBEFE1A2BA9@MN2PR12MB3280.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:76;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GirmfxFEtqlDPpcStA29u+4PbM+qdB1KgRHPHGl0gUXjsu9SXKPcIGZF84GXrdVAYhCO/vSxOJPaa2gK9XyyCuaqrbfPpEalW2rraBH0RCbyP/6vuMPw+yR4wv+ZaAJXqEg0OaKdfoT8QAFamCuYQLPgwjj406Enifd0qLC/J66ge9DW1y7O0DlvC2QhF5TM9sOzK9sWBbjtSNuNjh7ExjRrsU6kEYgkt07HoMnFiDArCLFqPCCR0agngDH62rd5keAYOVQaSAKhuICrCF9YvKFK7bnqjjs0lUMvl1oI9MgVd9Uq3uh8xe8bTzEaeakXzw4ADUOuZ/q6MOA4W3Tfe90uS1ihqyOw5wn7YIFsGrbwQnZ9fCiqTV04RO76kkvEBmZFBZLQM2M+oSqJNzljI1g9Uxz121z2f7rQCju9ByYw8/y2aQyvPkWsQ2kJvYQiQa92+ENCHb8TvU1Wy/60nz51fsicjHRsUUuuDkaJR/HcrmofTRvyxX4i7hXIoQCzL3Rxqw0pkHoHyaqghFl6e1G/j+Vvxj14DJawiEfvbQJA8Vq1Z+8Wm3hLytXZaBuL
+X-Microsoft-Antispam-Message-Info: 7VNlfMpjYxhTXuXjh7ixir7hU16XVmDAdP6H7tpLIHvcXcySBbx43GgTAnon8DaPAYw+uCA23dmx+E2XcPJ30P/OPULewS/UVcfDgph8zPk8JDA53ZR+5rLKl9SyA6imHjdoNs4G7Q6KMoNfajItXFvq9agcDKkQJIByy6K+ps550T/8tgnXkVEhLoCheWzkTb/2CgzR2pimYszcvoI7TuRxM5rKbppr6M66mPF+XqkKUcGWPYzITjCRAUo9/2Moo2kx6Dqb7qC1GyEvMGJ7nWez8cVuJiOkDs8B4+3d14SXV0YtQ2sE0QicSoMS+u/So/AX2S+XkX47m1TELu0gk5uELqJXxgSKi4i6RCcuN1pAYvURSxYt5e9rUUduHuuTdFbEFilVhm/cYLz11ycTjIUju9juj41uRiBsyb8iw63lpBtyvUkHO4OQ2GRlU3ooo8qLcTBaBZoy7EqlnaCcdqAiTx7FHb2T9sLN7jAyCPD8MhRRlpDbKfs9BH0b6WL+jA+xnd9srxEs+lrhwVJiKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3022.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(186003)(450100002)(66946007)(2616005)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(5660300002)(36756003)(8936002)(83380400001)(1076003)(16526019)(2906002)(86362001)(478600001)(7696005)(6666004)(956004)(52116002)(4326008)(309714004);
+ SFS:(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(186003)(450100002)(66946007)(2616005)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(5660300002)(36756003)(8936002)(83380400001)(1076003)(16526019)(2906002)(86362001)(478600001)(7696005)(6666004)(956004)(52116002)(4326008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?DFZMwpiE7ao/nBmDytoN/xvP1IbKpCF4DkEQANXJs6T79Ql69k4LTFZi3GxV?=
- =?us-ascii?Q?xEr1fBpPBPLdaRT8NIbFNICDbYzQcM6qKrpgT9GZAipMqCm5n9a9XNch7YRP?=
- =?us-ascii?Q?AzsSPzLa1YyD4EjmGz5mLIpUKkcAFlY59fRbjYDhQZ8U4AcOdeZeEAsT0K4P?=
- =?us-ascii?Q?rFByDR0O9AIqI9WNaiVH2koR+fn0dZzsGPgtKBTi5E9jXamz0/jCfTbTM+Sh?=
- =?us-ascii?Q?NnFDwzn8UBzaTLjqV3mN+fdIijradWE5r7wS1AA974ekhuFdGz7WI9TvV0vB?=
- =?us-ascii?Q?10EvKYqaizSyeFV+MS6ZjBhqUPm2EZ5xQy5orFAIUF+/4Zq2k8CQheVDjSub?=
- =?us-ascii?Q?XMH/nVs7kS2IID3oRYg5eHycqiD38ofmfBtny24I70NpumnvlMV8e51zx3UV?=
- =?us-ascii?Q?80blopsGKjMkTU/z9euZFXZir3TvLknD2+QOnauZ9QHkhvGBkFx4akhdFF7f?=
- =?us-ascii?Q?83HES+aE7p/bmjoIaxJaaZ4e/rGvV0deZkx9kycZa9zA+DxUdh/XhYmkvNmc?=
- =?us-ascii?Q?pEpa7gbqmTly1S6IHCvA9ZnH4kxzv/TbG/PlXBW8FfR4VqPWGFmqnxPQCKFK?=
- =?us-ascii?Q?Em1pJ8SHMf6URqybQdTj2Dy/3TUzAJbarotVrFRWyzHN4mRxTm4+naQuAZoS?=
- =?us-ascii?Q?J4gfpa8cRv/mVsFk/XPPUTOR/G9laHQHdfeWnnRuhBRFyu6Q7Zyp6u3CjJbZ?=
- =?us-ascii?Q?ohSMQVRZ7Qjiz8ALxDE8QtXJSUYQErJ/XmQohI3pOroiieRjj/oPhIFygxHq?=
- =?us-ascii?Q?U5ZhG8ZpaWl1KEbPobp1d+/Bf0HJ5jdvpgzYuMoSO79IAbTyNwT4rdDeWg7z?=
- =?us-ascii?Q?ntxovmlZidanV9o5PeNSVMnZY6DYS7EyzF42KWd/CTA6p0Q5uIL32K3yUtCU?=
- =?us-ascii?Q?C1Yj+QryejU83DDa8ihwg9McZX+8TRJugqVjvHg9YuO26XH7wRd8zIcNjepN?=
- =?us-ascii?Q?se8rNUAHZWWn3P7HM5bYmjCrCgPpvAubwkevx+t8OCn7q28q7d0FVqsLP5nL?=
- =?us-ascii?Q?tJv5e7L0oAtP1rRO6Rk7C8zLSPs3eIwDDeCddibz1juMZQHVnthdqS+JTfh+?=
- =?us-ascii?Q?vbN4sC9i?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?bxyiRPDW4l7RJfGiPC/OmjV23vvour1nmyzw+RnSKrY+0+YCWPxqu9ZMshbQ?=
+ =?us-ascii?Q?wzTilU0pBGBiIXNSejWjSNmjymzgzNsSh7rdOys5OTbpKLTJNnePIYVK0VtE?=
+ =?us-ascii?Q?WQrGEHgMHEwraSKBKq0MzdtY2QNbfqeCRvR+DYhGn6RZoS1knOvmyrLGBCp4?=
+ =?us-ascii?Q?821la7OaRlOARCNvBCxlOTTEbtuPpLcuQ220HcI7G9ET2NMeqMfoL3CueYad?=
+ =?us-ascii?Q?R1h8ETfRqJAGM50ITnyAj/vcU2lBl4P/TRXY/p7MYSGC8DSm4HLOgAFbWFEJ?=
+ =?us-ascii?Q?xfbTAT05HFcIQjHnQej/hoEA6+Mc7C7CXIu/KJBsLM3NcP6iYeI11Yeajd9s?=
+ =?us-ascii?Q?sdP9gy2m2aadGJLOvCEdUFab7MZBAz7LokIcoHn/sLks6IJFwLftTmdd+7UJ?=
+ =?us-ascii?Q?4gyL5JwwzgdAVm3MOzvjoBt2EOFuuyJ1NUkCVMUn4VFByqlzvMb7EAB0F91I?=
+ =?us-ascii?Q?n5eCwPt046svS6FUWs0ps9LkQmfEp5n7cEl5YcNaOTeoxoMjwYJe2i2Ty1k+?=
+ =?us-ascii?Q?m4Q11W+4i99cl+s6AjX7JLxTBzz5Smd9isxEYSVxQn2PuiXnH3oBv2SHECiQ?=
+ =?us-ascii?Q?KVOc6MYVu90WgISTNwGYiIZbvOPxgJSsRKIQVjoaVllMBzhPyXM3WC7ceWiM?=
+ =?us-ascii?Q?82HLNu1oGaav8I5kChZ3nUPZHIqTAybpts000k/a3DjEXKQG6IC86WFOwtLt?=
+ =?us-ascii?Q?yJqiP8JcQUUbjuMhtp41PM37ZMfSyb2nLSQKzMTUe97HzFvyzYiCJYhG0UFD?=
+ =?us-ascii?Q?0DfddTGhaMMfOk+ztjEZNBH5+049I5RwviEjxE/s/BXkgp3tot26IuzNTfDG?=
+ =?us-ascii?Q?GMy2LJEEhNbQp2r0t8Bjo5b97KQqmS82XXibY3eBzgRbEkwROXI3xCKrv7OQ?=
+ =?us-ascii?Q?kIm17rgC0ooddtqZtar2fcJMkerXRo8TXY7xxtGEnq5rLNYcTUfuFKtcaa9U?=
+ =?us-ascii?Q?4RMCkUoOap8IeUGhWn7mFVdkBQsr+U5B+D7hdgPL3y/t58M2oIH6/M48DrFs?=
+ =?us-ascii?Q?C8+PJHJkPdqEBn1uviMscV9ItZZwuXkjWZJej/DH81zGzmbFYSARVe1A71Rg?=
+ =?us-ascii?Q?MX/5OE/l?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc0fbd10-3b97-4457-f91b-08d8c35c44b3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 670bde82-359f-4668-2e8a-08d8c35c462e
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3022.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 07:13:53.3486 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 07:13:55.6393 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ezul4EBW27NPwla0AD7Naj6FVL4sqEsPXHzskJfGfyYEcWr2Yb+PU7iMFNbvw8ek
+X-MS-Exchange-CrossTenant-UserPrincipalName: NfE1aqbspIILYwYMRlct2x8MW2F2aYDAv01tJGQcf3QGT28vEezG1MibArPYEeHn
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3280
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,168 +120,134 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add ttm bo VM related trace event support
+add ttm memory related trace event support
 
 trace events:
-ttm:ttm_bo_mmap
-ttm:ttm_bo_vm_fault
-ttm:ttm_bo_vm_access
+ttm:ttm_shrink
+ttm:ttm_mem_global_reserve
+ttm:ttm_mem_global_free
 
 Signed-off-by: Kevin Wang <kevin1.wang@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 12 ++++-
- drivers/gpu/drm/ttm/ttm_trace.h | 78 +++++++++++++++++++++++++++++++++
- 2 files changed, 88 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ttm/ttm_memory.c |  7 ++++
+ drivers/gpu/drm/ttm/ttm_trace.h  | 70 ++++++++++++++++++++++++++++++++
+ 2 files changed, 77 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 01693e8f24b7..aece2024c1fd 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -42,6 +42,8 @@
- #include <linux/uaccess.h>
- #include <linux/mem_encrypt.h>
+diff --git a/drivers/gpu/drm/ttm/ttm_memory.c b/drivers/gpu/drm/ttm/ttm_memory.c
+index acd63b70d814..27470b1f1f13 100644
+--- a/drivers/gpu/drm/ttm/ttm_memory.c
++++ b/drivers/gpu/drm/ttm/ttm_memory.c
+@@ -39,6 +39,8 @@
+ #include <linux/slab.h>
+ #include <linux/swap.h>
  
 +#include "ttm_trace.h"
 +
- static vm_fault_t ttm_bo_vm_fault_idle(struct ttm_buffer_object *bo,
- 				struct vm_fault *vmf)
- {
-@@ -429,15 +431,17 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
+ #define TTM_MEMORY_ALLOC_RETRIES 4
  
- 	ret = ttm_bo_vm_reserve(bo, vmf);
- 	if (ret)
--		return ret;
-+		goto out;
+ struct ttm_mem_global ttm_mem_glob;
+@@ -272,6 +274,7 @@ static void ttm_shrink(struct ttm_mem_global *glob, bool from_wq,
+ 	int ret;
  
- 	prot = vma->vm_page_prot;
- 	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT, 1);
- 	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
--		return ret;
-+		goto out;
+ 	spin_lock(&glob->lock);
++	trace_ttm_shrink(from_wq, extra, ctx);
  
- 	dma_resv_unlock(bo->base.resv);
+ 	while (ttm_zones_above_swap_target(glob, from_wq, extra)) {
+ 		spin_unlock(&glob->lock);
+@@ -518,6 +521,8 @@ static void ttm_mem_global_free_zone(struct ttm_mem_global *glob,
+ 		zone->used_mem -= amount;
+ 	}
+ 	spin_unlock(&glob->lock);
++	trace_ttm_mem_global_free(single_zone->name, amount,
++				  single_zone->used_mem, single_zone->max_mem);
+ }
  
-+out:
-+	trace_ttm_bo_vm_fault(bo, vmf, ret);
+ void ttm_mem_global_free(struct ttm_mem_global *glob,
+@@ -590,6 +595,8 @@ static int ttm_mem_global_reserve(struct ttm_mem_global *glob,
+ 	ret = 0;
+ out_unlock:
+ 	spin_unlock(&glob->lock);
++	trace_ttm_mem_global_reserve(single_zone->name, amount,
++			      single_zone->used_mem, single_zone->max_mem);
+ 	ttm_check_swapping(glob);
+ 
  	return ret;
- }
- EXPORT_SYMBOL(ttm_bo_vm_fault);
-@@ -516,6 +520,8 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 	if (ret)
- 		return ret;
- 
-+	trace_ttm_bo_vm_access(bo, !!write, offset, len);
-+
- 	switch (bo->mem.mem_type) {
- 	case TTM_PL_SYSTEM:
- 		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
-@@ -618,6 +624,7 @@ int ttm_bo_mmap(struct file *filp, struct vm_area_struct *vma,
- 		goto out_unref;
- 
- 	ttm_bo_mmap_vma_setup(bo, vma);
-+	trace_ttm_bo_mmap(bo, vma);
- 	return 0;
- out_unref:
- 	ttm_bo_put(bo);
-@@ -629,6 +636,7 @@ int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
- {
- 	ttm_bo_get(bo);
- 	ttm_bo_mmap_vma_setup(bo, vma);
-+	trace_ttm_bo_mmap(bo, vma);
- 	return 0;
- }
- EXPORT_SYMBOL(ttm_bo_mmap_obj);
 diff --git a/drivers/gpu/drm/ttm/ttm_trace.h b/drivers/gpu/drm/ttm/ttm_trace.h
-index 7c5e55725e8e..9f7cc34b243b 100644
+index 9f7cc34b243b..e25b8a2c423c 100644
 --- a/drivers/gpu/drm/ttm/ttm_trace.h
 +++ b/drivers/gpu/drm/ttm/ttm_trace.h
-@@ -34,6 +34,7 @@
- #include <drm/ttm/ttm_page_alloc.h>
- #include <linux/types.h>
- #include <linux/tracepoint.h>
-+#include <trace/events/mmflags.h>
- 
- #define TTM_PLACEMENT_FLAGS_TRACE \
- 	{ TTM_PL_FLAG_SYSTEM,		"SYSTEM"	},\
-@@ -310,6 +311,83 @@ TRACE_EVENT(ttm_bo_release,
- 	    TP_printk("bo:%p", __entry->bo)
+@@ -388,6 +388,76 @@ TRACE_EVENT(ttm_bo_vm_access,
+ 		      __entry->offset, __entry->len, __entry->mem_type)
  );
  
-+TRACE_EVENT(ttm_bo_mmap,
-+	    TP_PROTO(struct ttm_buffer_object *bo, struct vm_area_struct *vma),
-+	    TP_ARGS(bo, vma),
++TRACE_EVENT(ttm_shrink,
++	    TP_PROTO(bool from_wq, uint64_t extra, struct ttm_operation_ctx *ctx),
++	    TP_ARGS(from_wq, extra, ctx),
 +	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(unsigned long, vm_start)
-+			     __field(unsigned long, vm_end)
-+			     __field(unsigned long, vm_pgoff)
-+			     __field(unsigned long, vm_flags)
++			     __field(bool, from_wq)
++			     __field(bool, interruptible)
++			     __field(bool, wait_gpu)
++			     __field(uint64_t, extra)
 +			     ),
 +
 +	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->vm_start = vma->vm_start;
-+			   __entry->vm_end = vma->vm_end;
-+			   __entry->vm_pgoff = vma->vm_pgoff;
-+			   __entry->vm_flags = vma->vm_flags;
++			   __entry->from_wq = from_wq;
++			   __entry->extra = extra;
++			   __entry->interruptible= ctx->interruptible;
++			   __entry->wait_gpu = !ctx->no_wait_gpu;
 +			   ),
 +
-+	    TP_printk("bo:%p, vm_start=%lx, vm_end=%lx, vm_pgoff=%lx, vm_flags=%s",
-+		      __entry->bo,
-+		      __entry->vm_start, __entry->vm_end, __entry->vm_pgoff,
-+		      show_vma_flags(__entry->vm_flags))
++	    TP_printk("ttm_shrink: from_wq=%s, interruptible=%s, wait_gpu=%s, extra=0x%llx(%lld)",
++		      __entry->from_wq ? "true" : "false",
++		      __entry->interruptible ? "true" : "false",
++		      __entry->wait_gpu? "true" : "false",
++		      __entry->extra, __entry->extra)
 +);
 +
-+TRACE_EVENT(ttm_bo_vm_fault,
-+	    TP_PROTO(struct ttm_buffer_object *bo, struct vm_fault *vmf, int result),
-+	    TP_ARGS(bo, vmf, result),
++TRACE_EVENT(ttm_mem_global_reserve,
++	    TP_PROTO(const char *zone_name, uint64_t amount,
++		     uint64_t used_mem, uint64_t max_mem),
++	    TP_ARGS(zone_name, amount, used_mem, max_mem),
 +	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(struct vm_area_struct *, vma)
-+			     __field(unsigned long, fault_address)
-+			     __field(unsigned long, fault_pgoff)
-+			     __field(int, result)
-+			     __field(unsigned int, flags)
++			     __string(zone, zone_name)
++			     __field(uint64_t, amount)
++			     __field(uint64_t, used_mem)
++			     __field(uint64_t, max_mem)
 +			     ),
 +
 +	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->vma = vmf->vma;
-+			   __entry->fault_address = vmf->address;
-+			   __entry->fault_pgoff = vmf->pgoff;
-+			   __entry->flags = vmf->flags;
-+			   __entry->result = result;
++			   __assign_str(zone, zone_name);
++			   __entry->amount = amount;
++			   __entry->used_mem = used_mem;
++			   __entry->max_mem = max_mem;
 +			   ),
 +
-+	    TP_printk("bo:%p, vma=%p, fault_address=%lx, fault_pgoff=%lx, fault_flags=%s %s",
-+		      __entry->bo, __entry->vma,
-+		      __entry->fault_address, __entry->fault_pgoff,
-+		      __entry->flags ? __print_flags(__entry->flags, "|", FAULT_FLAG_TRACE) : "none",
-+		      __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE))
++	    TP_printk("zone:%s, amount=%lld, used=%lld/%lld",
++		      __get_str(zone), __entry->amount,
++		      __entry->used_mem, __entry->max_mem)
 +);
 +
-+TRACE_EVENT(ttm_bo_vm_access,
-+	    TP_PROTO(struct ttm_buffer_object *bo, bool write, unsigned long offset, unsigned long len),
-+	    TP_ARGS(bo, write, offset, len),
++TRACE_EVENT(ttm_mem_global_free,
++	    TP_PROTO(const char *zone_name, uint64_t amount,
++		     uint64_t used_mem, uint64_t max_mem),
++	    TP_ARGS(zone_name, amount, used_mem, max_mem),
 +	    TP_STRUCT__entry(
-+			     __field(struct ttm_buffer_object *, bo)
-+			     __field(bool, write)
-+			     __field(unsigned long, offset)
-+			     __field(unsigned long, len)
-+			     __field(uint32_t, mem_type)
++			     __string(zone, zone_name)
++			     __field(uint64_t, amount)
++			     __field(uint64_t, used_mem)
++			     __field(uint64_t, max_mem)
 +			     ),
 +
 +	    TP_fast_assign(
-+			   __entry->bo = bo;
-+			   __entry->write = write;
-+			   __entry->offset = offset;
-+			   __entry->len = len;
-+			   __entry->mem_type = bo->mem.mem_type;
++			   __assign_str(zone, zone_name);
++			   __entry->amount = amount;
++			   __entry->used_mem = used_mem;
++			   __entry->max_mem = max_mem;
 +			   ),
 +
-+	    TP_printk("bo:%p, %s offset=%lx, len=%lx, mtype=%d",
-+		      __entry->bo, __entry->write ? "write" : "read",
-+		      __entry->offset, __entry->len, __entry->mem_type)
++	    TP_printk("zone:%s, amount=%lld, used=%lld/%lld",
++		      __get_str(zone), __entry->amount,
++		      __entry->used_mem, __entry->max_mem)
 +);
 +
  #endif
