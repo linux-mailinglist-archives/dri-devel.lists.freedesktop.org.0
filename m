@@ -1,55 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB44307869
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 15:44:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC23307948
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 16:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D046E980;
-	Thu, 28 Jan 2021 14:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 675CD6E978;
+	Thu, 28 Jan 2021 15:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9966E980
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 14:44:19 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id s24so3965689pjp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 06:44:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=avzsR9HHm+QL99Sb8COQafM2D/UB+zvy2SDex57jg+0=;
- b=eXPiZkGMap/Z5070F49FN5G/JWvZTAyrzydO7aluQ4YdPKVTMjqoQAhTijEoidHgT2
- gnL3A6lvV0vgnmsdRENwEFqU8LUBpyg2T8tQHJy2qGiFpfIl7jLZcutY6shsYVDK1iO3
- +i9wott36RmTUX7SUEKypiTDIHvZ55/OB6SeO9y3vV4hHz9r5SjGS/9aU8qzp6Y6FTMZ
- 4tuvoUXs5SA5d0C42SQWInTx1fbKvT+Qf6gNOPXoT8J0QVmqhB7kzXifklcnxn8PO8fB
- VZeVpLHbKWU2xliR4ivEVyUe+jkg2zFjJpRdFzq9LlNzj9m57aj/pB07yjhPr1qg3Yio
- xLnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=avzsR9HHm+QL99Sb8COQafM2D/UB+zvy2SDex57jg+0=;
- b=QKl2gjU2YGLZlYn99UYpquwGJzCB9fytOUXYqNNKL1SmNQT8hjl2fFgXhadvdNtF7q
- Ohs2IJkqWoMAL7ZrA7aLLQROuYQFioxIi4q5DO54BMqByn82S4mbyKqEjMet0Ff3YLB1
- DkYOkNijW/f7ZvEaKfpBoVuKaY2Z+3HWbRJx5lXTAi3uP/ouPwR449tLcfFm3r0kVu5o
- YFaw1HoPlzJTp75X2nj8Hf2UUwzFTvh5BEskxqa/BFGLOAK7S6rP/eH0ecDUbqSch91z
- GF3OQCWQZW3HTQTHladzvxhjPfYiiO8W9yetqor6Z12vD3Q9irkxr6a2Fk2o5AUMMS8f
- i9EQ==
-X-Gm-Message-State: AOAM532K74j20lIMJ8By51m9lwWET3lyD8E95auBcqeS1BfQ9zRvBh8D
- nY6y2r4zOABAf4FXDT1ik2qzq7l3x5W4S62DJD4hMbxQ5u5CDnaM
-X-Google-Smtp-Source: ABdhPJxdWZlfKzAXL6EI4mZXjZ6Qyag0y/Kfcll/RaipN/m7rOKpPNtVy7DUEFkxq10YSC0k4n+LayvZfsvZxen34VA=
-X-Received: by 2002:a17:902:758b:b029:df:d1f6:9af9 with SMTP id
- j11-20020a170902758bb02900dfd1f69af9mr16603032pll.21.1611845058615; Thu, 28
- Jan 2021 06:44:18 -0800 (PST)
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542C96E978
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 15:15:45 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SFDxIW112824;
+ Thu, 28 Jan 2021 15:15:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=MsQ7ftbtbqZUBrl4lNec+ukn/EWP/aTSC+PR3mkKyBU=;
+ b=ufETMjRyMAtLep4DOPQp1rceJOeUf+MwUriOaPq+DuR8tsjCnIaziXDpxZmd7e99N+s6
+ kHBxm2ahxr01rrQIVbNWsu3Xepz/RL0m5x2SPUfnVqCd33JXba0ctusYdwOmxXVWgBj8
+ 4IZlgDUI09A2GNCGau00nsUsIkaDdHQCPxUCKPl512ZF8F9upS+vXF5tCex49TGmK5vj
+ 4jCEwqzH6zWideO69MbAzOf7UxDyqgFYMeML1sDbhnPC6VN9yVXd/r22EScLOCSEUaVR
+ Nw1K/gZVyc7BFuSGrxyJYj5w5R1PFm3Pz59HeHhMiq0jcKWp38vY0CyKpCX4rKmcArbF HQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 368b7r4mn8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Jan 2021 15:15:34 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SFAESf071867;
+ Thu, 28 Jan 2021 15:13:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 368wr0ey6m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Jan 2021 15:13:31 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10SFDGvg024584;
+ Thu, 28 Jan 2021 15:13:17 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 28 Jan 2021 07:13:15 -0800
+Date: Thu, 28 Jan 2021 18:13:07 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Kari Argillander <kari.argillander@gmail.com>
+Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
+Message-ID: <20210128151306.GG2696@kadam>
+References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
+ <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
 MIME-Version: 1.0
-References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
- <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
-In-Reply-To: <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 28 Jan 2021 16:44:02 +0200
-Message-ID: <CAHp75VcRxPVs0KHwaY8QZima489D2_hntuW0eUqdfK8HJ-gnKA@mail.gmail.com>
-Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
-To: Carlis <zhangxuezhi3@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280078
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 phishscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280078
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +80,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Deepak R Varma <mh12gx2825@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- oliver.graute@kococonnector.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stefano Brivio <sbrivio@redhat.com>, Colin King <colin.king@canonical.com>,
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, gregkh@linuxfoundation.org,
+ oliver.graute@kococonnector.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sbrivio@redhat.com,
+ Carlis <zhangxuezhi3@gmail.com>, colin.king@canonical.com,
  zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 4:33 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Thu, Jan 28, 2021 at 2:58 PM Carlis <zhangxuezhi3@gmail.com> wrote:
+On Thu, Jan 28, 2021 at 12:32:22AM +0200, Kari Argillander wrote:
+> On Wed, Jan 27, 2021 at 09:42:52PM +0800, Carlis wrote:
+> > @@ -82,6 +111,33 @@ enum st7789v_command {
+> >   */
+> >  static int init_display(struct fbtft_par *par)
+> >  {
+> > +	int rc;
+> > +	struct device *dev = par->info->device;
+> > +
+> > +	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0, GPIOD_IN);
+> > +	if (IS_ERR(par->gpio.te)) {
+> > +		rc = PTR_ERR(par->gpio.te);
+> > +		dev_err(par->info->device, "Failed to request te gpio: %d\n", rc);
+> > +		return rc;
+> > +	}
+> 
+> You request with optinal and you still want to error out? We could just
+> continue and not care about that error. User will be happier if device
+> still works somehow.
+> 
 
-...
+Carlis tried that approach in previous versions.  See the discussion
+about -EPROBEi_DEFER.
 
-> Taking all together you probably need to create a helper and use it
-> inside init_display(), like
->
-> static int init_tearing_effect_line(struct fbtft_par *par)
-> {
->   struct device *dev = par->info->device;
->   struct gpio_desc *te;
->   int irq, rc;
->
->   te = gpiod_get_optional(dev, "te", GPIOD_IN);
->   if (IS_ERR(te))
->            return dev_err_probe(dev, PTR_ERR(te), "Failed to request
-> te GPIO\n");
+That's not the right way to think about it anyway.  It's optional but
+the user *chose* to enable it so if an error occurs then it's still an
+error and should be treated like an error.  The user should fix the
+error or disable the feature if they want to continue.
 
-Sorry, here I missed the following:
+There are lots of places in the kernel where the error handling could
+be written to try continue but in a crippled state.  It's not the right
+approach.  Over engineering like that just leads to bugs.
 
-  /* Absence of TE IRQ is not critical */
-  if (!te)
-    return 0;
+regards,
+dan carpenter
 
->   irq = gpiod_to_irq(te); // this value you have to save in the
-> driver's (per device) data structure.
->
->   /* GPIO is locked as an IRQ, we may drop the reference */
->   gpiod_put(te);
-
-...and here:
-
-  if (irq < 0)
-    return irq;
-
->   init_completion(&spi_panel_te); // should be in the (per device)
-> data structure
->   rc = devm_request_irq(dev, irq,  spi_panel_te_handler,
-> IRQF_TRIGGER_RISING, "TE_GPIO", par);
->   if (rc)
->                 return dev_err_probe(dev, rc, "TE IRQ request failed.\n");
->   disable_irq_nosync(irq);
->   return irq;
-> }
-
--- 
-With Best Regards,
-Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
