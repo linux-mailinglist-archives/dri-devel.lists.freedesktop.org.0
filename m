@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BD1307254
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 10:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F83A3072F9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 10:43:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6B989E63;
-	Thu, 28 Jan 2021 09:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41F66E0DC;
+	Thu, 28 Jan 2021 09:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F8389E63
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:11:22 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id v1so4507616ott.10
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 01:11:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BpH8ufxoi7Wf0OvvYg4DlAzvPrwoTT0dl+FXt2N9bdw=;
- b=ZG3D9l1mrE8u11+4t1oKrakZ8yoNRc3iqYfBA5JFX711kPox/GdilHmoQd34vIz5q7
- nW/1iTSXzQzCf4rWRapemQKLf4bA3RswLUmLKCWQg40dRNG7ozxOCgYdIn33SS2SnqOF
- 1lTlgz9Hf5oOYTlzqYoItp+GObYybgOWDw27u8orGRbM5SmX1+IbZt0sny2HDGxYlvgr
- R6Nk+sFAWjyoL0YTv4yfbn1Wsm/JG2gDMahzUjPX40k1CcUuZpKK8nkFAn+X74fJnyiN
- nPmElhgFBvCCLEy1E6S3C23NUM4xZxeh3NcnHdRxUWoI1/tg0FaY95iiYGIXAeCXND+H
- 5mxA==
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EFD6E0DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 09:43:07 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id h192so5402742oib.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 01:43:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BpH8ufxoi7Wf0OvvYg4DlAzvPrwoTT0dl+FXt2N9bdw=;
- b=g8lbA0zb+7YpybSm8ndX06CqCp9+G/UdsY7xaQLv7QeOm6zRQbXwa7S32ShbTLCcsz
- cLSSoBI1zJ7Vje/4W687m2F9lACW76lt7MGRVbhK7aOmdrrpH3rPd/EBNLVnpD3+AXYF
- HgXQsT8IV+0QVetrugBVgBQSW/u3LLZJx699mblNo5iSA/50b7flSeDEEcu5CgaQlzIl
- FqtO+d946d3HEeMx7c0CJ53YSPBkSxfhLRCiuAYnxc8W1I8MoCYl343RHN5CQi4qATEu
- 3ZyUQRN8Cwm8KUcEGywvRjiquRv25F0c3Sgt5FNJkkQrO9GpODeDaAgTr/PvTX/U+PLL
- Z5GQ==
-X-Gm-Message-State: AOAM530LCzZUXiYbNWJKQoger+smjKQpARgYLHf3+APuwkQxVqSoWG6K
- GewEZSeSR4fse2RrWWKyQj48LcBayYYMmkLDbIs=
-X-Google-Smtp-Source: ABdhPJwmVwbpJuVCu7aP1ss+R20SLHhCSoSintnWm2cqEvOWeAq3xFHQVy5TXM8vV1E/vhrdcmfiXUh2L7R41WY/m08=
-X-Received: by 2002:a05:6830:230b:: with SMTP id
- u11mr10952979ote.184.1611825081403; 
- Thu, 28 Jan 2021 01:11:21 -0800 (PST)
+ bh=0UQD5rzLUItAad2Pj4MS3WUwxXLDc49HJgM9YhC9w4E=;
+ b=XSOTuHKDFSxCnX694Ro7XpRYEhH9/jcMarxNSK6sMH8G9oPI0EKt9TWWmZHqUvkJrb
+ IwnYX4EHnmyOb+vdExZCS1GSgbIsFnWvj925Ya+y/E95vdc8nm4lFOsZ4LbbRfwO3JxN
+ R5Rqa4emVcZnJ0cgbrpXPdoNlgcIo5TIL6Ycr3iJ7ZIKfsZlA2nRQ0TrD1Yef/EyXysn
+ m9TYSmzrmE/6qEROw6cOcdmPyHOXV0VaUr//XGYMZunur6Avcr0OwjNrLKdh2rs+KZ4n
+ /JdovSrpDb+Pqfb88SB8rTfESA+gVPmuUX7z6dov1Ecaw5dGhKWTWmac5MXX2cwTRVqp
+ 0wOA==
+X-Gm-Message-State: AOAM530FnNJn1eZA+hoZXyAOm8wz4LEFly6Db/VtSsx9x2vsFwsJALmr
+ bUDXAWehAJ57kD+Saue6Q3NHgl+O6Ug5ZUQWP2s=
+X-Google-Smtp-Source: ABdhPJxoZOzI4xZTWdYHcsO/prgFXGQqxvTaD/BSBKbTP3NgRRBKa973/1xtxNzdsgrR5mdE52PMmLLYLmNTUlRGhEM=
+X-Received: by 2002:aca:1219:: with SMTP id 25mr6108127ois.54.1611826986355;
+ Thu, 28 Jan 2021 01:43:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210128072802.830971-1-hsinyi@chromium.org>
- <20210128072802.830971-3-hsinyi@chromium.org>
-In-Reply-To: <20210128072802.830971-3-hsinyi@chromium.org>
-From: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Thu, 28 Jan 2021 10:11:09 +0100
-Message-ID: <CAFqH_53kVHh2Phyd=xoM7A3g0qz2HACAJHYcgX24eRTo_YE5Cg@mail.gmail.com>
-Subject: Re: [PATCH v11 2/9] arm64: dts: mt8183: refine gamma compatible name
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
+ <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
+ <20210128094258.000012c3@gmail.com>
+ <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
+In-Reply-To: <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 28 Jan 2021 10:42:54 +0100
+Message-ID: <CAMuHMdWK0wbMVJNwSW=pafsyjDVg14h2AX=haJeAkyivehP=JQ@mail.gmail.com>
+Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
+To: Kari Argillander <kari.argillander@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,67 +54,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: driverdevel <devel@driverdev.osuosl.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ mh12gx2825@gmail.com, Greg KH <gregkh@linuxfoundation.org>,
+ oliver.graute@kococonnector.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Stefano Brivio <sbrivio@redhat.com>, carlis <zhangxuezhi3@gmail.com>,
+ Colin King <colin.king@canonical.com>, zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi,
+Hi Kari,
 
-Thank you for your patch.
+On Thu, Jan 28, 2021 at 7:53 AM Kari Argillander
+<kari.argillander@gmail.com> wrote:
+> On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:
+> > On Thu, 28 Jan 2021 00:32:22 +0200
+> > Kari Argillander <kari.argillander@gmail.com> wrote:
+> > > >  #include "fbtft.h"
+> > > >
+> > > >  #define DRVNAME "fb_st7789v"
+> > > > @@ -66,6 +69,32 @@ enum st7789v_command {
+> > > >  #define MADCTL_MX BIT(6) /* bitmask for column address order */
+> > > >  #define MADCTL_MY BIT(7) /* bitmask for page address order */
+> > > >
+> > > > +#define SPI_PANEL_TE_TIMEOUT     400 /* msecs */
+> > > > +static struct mutex te_mutex;/* mutex for set te gpio irq status
+> > > > */
+> > >
+> > > Space after ;
+> > hi, i have fix it in the patch v11
+> > >
+>
+> Yeah sorry. I accidentally review wrong patch. But mostly stuff are
+> still relevant.
+>
+> > > > @@ -82,6 +111,33 @@ enum st7789v_command {
+> > > >   */
+> > > >  static int init_display(struct fbtft_par *par)
+> > > >  {
+> > > > + int rc;
+> > > > + struct device *dev = par->info->device;
+> > > > +
+> > > > + par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
+> > > > GPIOD_IN);
+> > > > + if (IS_ERR(par->gpio.te)) {
+> > > > +         rc = PTR_ERR(par->gpio.te);
+> > > > +         dev_err(par->info->device, "Failed to request te
+> > > > gpio: %d\n", rc);
+> > > > +         return rc;
+> > > > + }
+> > >
+> > > You request with optinal and you still want to error out? We could
+> > > just continue and not care about that error. User will be happier if
+> > > device still works somehow.
 
-Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dj., 28 de gen.
-2021 a les 8:28:
->
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
->
-> mt8183 gamma is different with mt8173
-> remove mt8173 compatible name for mt8183 gamma
->
+devm_gpiod_get_index_optional() returns NULL, not an error, if the
+GPIO is not found.  So if IS_ERR() is the right check.
 
-Should this patch contain?
+And checks for -EPROBE_DEFER can be handled automatically
+by using dev_err_probe() instead of dev_err().
 
-Fixes: 91f9c963ce79 ("arm64: dts: mt8183: Add display nodes for MT8183")
+> > You mean i just delete this dev_err print ?!
+> > like this:
+> >       par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
+> > 0,GPIOD_IN);
+> >         if (IS_ERR(par->gpio.te))
+> >               return PTR_ERR(par->gpio.te);
+>
+> Not exactly. I'm suggesting something like this.
+>
+> if (IS_ERR(par->gpio.te) == -EPROBE_DEFER) {
+>         return -EPROBE_DEFER;
+>
+> if (IS_ERR(par->gpio.te))
+>         par-gpio.te = NULL;
+>
+> This like beginning of your patch series but the difference is that if
+> EPROBE_DEFER then we will try again later. Any other error and we will
+> just ignore TE gpio. But this is up to you what you want to do. To me
+> this just seems place where this kind of logic can work.
 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Gr{oetje,eeting}s,
 
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+                        Geert
 
-> ---
->  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> index 6c84ccb709af6..9c0073cfad452 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> @@ -1055,8 +1055,7 @@ aal0: aal@14010000 {
->                 };
->
->                 gamma0: gamma@14011000 {
-> -                       compatible = "mediatek,mt8183-disp-gamma",
-> -                                    "mediatek,mt8173-disp-gamma";
-> +                       compatible = "mediatek,mt8183-disp-gamma";
->                         reg = <0 0x14011000 0 0x1000>;
->                         interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_LOW>;
->                         power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> --
-> 2.30.0.280.ga3ce27912f-goog
->
->
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
