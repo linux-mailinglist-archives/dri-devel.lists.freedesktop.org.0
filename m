@@ -1,52 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04816307139
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:19:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8C13070E7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:16:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E726E92B;
-	Thu, 28 Jan 2021 08:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01B5F6E90A;
+	Thu, 28 Jan 2021 08:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
- [IPv6:2607:f8b0:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73386E8DA
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 06:16:13 +0000 (UTC)
-Received: by mail-il1-x12d.google.com with SMTP id z18so3998124ile.9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 22:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/KzLZrIlj2KEusKb+DCyZQltguwX4cquIABSWZ+YWu8=;
- b=HqmGgkXeKHV92s/9MhA3TQIkVUpzUw0v86uHHPVMKwq0rTqQWTi/SuEW9e5RKbe+RZ
- wyr+Y5vvEj436caCaAH80No/ZuRzT1uCqHhnL2It/OvCuK2BrPQ+fgZRdObo7Z4n7wXZ
- 9p/I9NGSQLTfabyk/sU+R+5u6KivXtcIsIREg=
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668DB6E8C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 06:52:37 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id f11so5027828ljm.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 22:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0f8ZmrzuRXVxsk0SyBLitP6T9N64hUKSEphOtPuOnnU=;
+ b=s+g+9RsgEvfyHBAfUcVSsvVK/MPPAhyVtK61GUGybbJo3USYD2l22Xsq5KyeCpb0f/
+ l1xM12+qQnzcDbEEwE5NLLvrD1GkzD3o6ODrZXwCpwUiuHBGvcW4/gcxN7/QesOCbvRw
+ qZzz213l28pva/a4EMbmsfli5alFUpJDcK/5ctFYL7S4mKgjcuLe+HBeNwfv31f6o592
+ eefP7qqqkvXrSvxcezl8+8YrbiZi7tbRSVFNpUxApCFR8x48GWr/a6UXw8+gm5GA7cXU
+ PldFlVfnAt6ruHdg4Fzwg0D6SryNeBQPFysHDqBV57Tk611P+KNV7o5H2hSK6tRoFJHJ
+ a9Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/KzLZrIlj2KEusKb+DCyZQltguwX4cquIABSWZ+YWu8=;
- b=YMku6qP+1ZUCLU0xHb4m2GMQbIUEK4SFeCOj3UE2ILIXpZhL5fER/+jgow9BdW7Gio
- FhMfFkds08oz8ouE6StNfjbuf5PSXrYTFf2UvRARcfuBRV6f9Z6JLiiYN1H8QcmstcGM
- uneQR4PTikY6qzwo47lXnF/+rb4zQWHd1iK+omJs9rM6JerUS3xoolCoG+OBko22lL2z
- ZZ5SSTypZsxUihFkOeu/x69YJZwZhtLRcM416Exz2Yc3I640jyKIGfTJY4+n6C+RpINe
- o7V2vYdjuEWjtNZiM2jIPuJD5qdy4Whb4Lgylr4HATiylrOlH7xnV8LiyiyzpN5Q66aS
- g7XA==
-X-Gm-Message-State: AOAM53250KTARihoaHQd6rZ0vmeuwZ/HhGcygyrTc32k2MM4+S8heqM7
- rAiS5U6VdBavSqBbnabqxoT+rSmmL5guqSQOpTsHQg==
-X-Google-Smtp-Source: ABdhPJzBqhKTHMlI5tApnzJW0pJjO1n8CMr+sbfm3OGH0z5XL/nYsEZM5Ecpax4npwyGOI9nkuewCcEWRxOv827+6J4=
-X-Received: by 2002:a92:15c6:: with SMTP id 67mr11242319ilv.283.1611814573141; 
- Wed, 27 Jan 2021 22:16:13 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0f8ZmrzuRXVxsk0SyBLitP6T9N64hUKSEphOtPuOnnU=;
+ b=tvYjczFd8v7ZB9QQMSVHoVq49ZUWa/MDzYnGe5ZgLeiHDxSuSTUtND/NL6kiydlQk/
+ HW5/wIBAd80C51HVT0YeaElAMIy6CqAB3Of0mVedK3/maZI9AhLe+Kq0Pv6iYUjVKzrz
+ xwL7HZzC29UBQOaKa5bXVYoc+lC3QRXbOhDGcu58CVqsqxMoMZy+zME2S9OqG0QYl2+n
+ B43G1/umVM4tIjpFnmhJrwWtThr+Ga40acrhYieohRO5ot1PzwC5MxJowLk64Qbz7urz
+ jcaCcTHbrkQJ032awSnGieaIy2UCkFwPAavupKLWGInamEfheNdU5zASE8xBz3vG2wyC
+ HONQ==
+X-Gm-Message-State: AOAM533UvpJ3r0WvxIDjqnKRhjQ39zX6dA5MYfespmXLZHcvQzG5hZ1g
+ WAkVYiRJKVgBzrvUeTpXzvI=
+X-Google-Smtp-Source: ABdhPJzrGUlABaISZ4hc6GbDuExEK/6vRiKAKwuM77hmE1jRQLaxmTiugZ80sCFhjv+vgSxmjuzXCw==
+X-Received: by 2002:a2e:8106:: with SMTP id d6mr7678908ljg.217.1611816755777; 
+ Wed, 27 Jan 2021 22:52:35 -0800 (PST)
+Received: from kari-VirtualBox (87-95-193-210.bb.dnainternet.fi.
+ [87.95.193.210])
+ by smtp.gmail.com with ESMTPSA id o4sm1313687lfo.231.2021.01.27.22.52.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 22:52:35 -0800 (PST)
+Date: Thu, 28 Jan 2021 08:52:33 +0200
+From: Kari Argillander <kari.argillander@gmail.com>
+To: carlis <zhangxuezhi3@gmail.com>
+Subject: Re: [PATCH v10] staging: fbtft: add tearing signal detect
+Message-ID: <20210128065233.ji4b7ea54ihyu2l5@kari-VirtualBox>
+References: <1611754972-151016-1-git-send-email-zhangxuezhi3@gmail.com>
+ <20210127223222.3lavtl3roc4cabso@kari-VirtualBox>
+ <20210128094258.000012c3@gmail.com>
 MIME-Version: 1.0
-References: <20210127045422.2418917-1-hsinyi@chromium.org>
- <20210127045422.2418917-9-hsinyi@chromium.org>
- <1611814421.28312.9.camel@mtksdaap41>
-In-Reply-To: <1611814421.28312.9.camel@mtksdaap41>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 28 Jan 2021 14:15:47 +0800
-Message-ID: <CAJMQK-gHjmm-BaG83EXMOkT6KeCyJJN4ZqRDdT75BcED53bREw@mail.gmail.com>
-Subject: Re: [PATCH v10 8/9] drm/mediatek: add DDP support for MT8183
-To: CK Hu <ck.hu@mediatek.com>
+Content-Disposition: inline
+In-Reply-To: <20210128094258.000012c3@gmail.com>
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,158 +70,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, gregkh@linuxfoundation.org,
+ oliver.graute@kococonnector.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sbrivio@redhat.com, colin.king@canonical.com,
+ zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 2:13 PM CK Hu <ck.hu@mediatek.com> wrote:
->
-> Hi, Hsin-Yi:
->
-> Modify the title's prefix to 'soc: mediatek:'
->
-> On Wed, 2021-01-27 at 12:54 +0800, Hsin-Yi Wang wrote:
-> > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> >
-> > Add DDP support for MT8183 SoC.
-> >
-> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > ---
-> >  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
-> >
-> > diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> > index f531b119da7a9..f64e9c33e85ad 100644
-> > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > @@ -14,6 +14,8 @@
-> >
-> >  #define MT2701_MUTEX0_MOD0                   0x2c
-> >  #define MT2701_MUTEX0_SOF0                   0x30
-> > +#define MT8183_DISP_MUTEX0_MOD0                      0x30
-> > +#define MT8183_DISP_MUTEX0_SOF0                      0x2c
->
-> Modify 'DISP_MUTEX' to 'MUTEX'
->
-> >
-> >  #define DISP_REG_MUTEX_EN(n)                 (0x20 + 0x20 * (n))
-> >  #define DISP_REG_MUTEX(n)                    (0x24 + 0x20 * (n))
-> > @@ -37,6 +39,18 @@
-> >  #define MT8167_MUTEX_MOD_DISP_DITHER         15
-> >  #define MT8167_MUTEX_MOD_DISP_UFOE           16
-> >
-> > +#define MT8183_MUTEX_MOD_DISP_RDMA0          0
-> > +#define MT8183_MUTEX_MOD_DISP_RDMA1          1
-> > +#define MT8183_MUTEX_MOD_DISP_OVL0           9
-> > +#define MT8183_MUTEX_MOD_DISP_OVL0_2L                10
-> > +#define MT8183_MUTEX_MOD_DISP_OVL1_2L                11
-> > +#define MT8183_MUTEX_MOD_DISP_WDMA0          12
-> > +#define MT8183_MUTEX_MOD_DISP_COLOR0         13
-> > +#define MT8183_MUTEX_MOD_DISP_CCORR0         14
-> > +#define MT8183_MUTEX_MOD_DISP_AAL0           15
-> > +#define MT8183_MUTEX_MOD_DISP_GAMMA0         16
-> > +#define MT8183_MUTEX_MOD_DISP_DITHER0                17
-> > +
-> >  #define MT8173_MUTEX_MOD_DISP_OVL0           11
-> >  #define MT8173_MUTEX_MOD_DISP_OVL1           12
-> >  #define MT8173_MUTEX_MOD_DISP_RDMA0          13
-> > @@ -87,6 +101,12 @@
-> >  #define MT2712_MUTEX_SOF_DSI3                        6
-> >  #define MT8167_MUTEX_SOF_DPI0                        2
-> >  #define MT8167_MUTEX_SOF_DPI1                        3
-> > +#define MT8183_MUTEX_SOF_DSI0                        1
-> > +#define MT8183_MUTEX_SOF_DPI0                        2
-> > +
-> > +/* Add EOF setting so overlay hardware can receive frame done irq */
-> > +#define MT8183_MUTEX_EOF_DSI0                        (MT8183_MUTEX_SOF_DSI0 << 6)
-> > +#define MT8183_MUTEX_EOF_DPI0                        (MT8183_MUTEX_SOF_DPI0 << 6)
-> >
+On Thu, Jan 28, 2021 at 09:42:58AM +0800, carlis wrote:
+> On Thu, 28 Jan 2021 00:32:22 +0200
+> Kari Argillander <kari.argillander@gmail.com> wrote:
+> > >  #include "fbtft.h"
+> > >  
+> > >  #define DRVNAME "fb_st7789v"
+> > > @@ -66,6 +69,32 @@ enum st7789v_command {
+> > >  #define MADCTL_MX BIT(6) /* bitmask for column address order */
+> > >  #define MADCTL_MY BIT(7) /* bitmask for page address order */
+> > >  
+> > > +#define SPI_PANEL_TE_TIMEOUT	400 /* msecs */
+> > > +static struct mutex te_mutex;/* mutex for set te gpio irq status
+> > > */  
+> > 
+> > Space after ;
+> hi, i have fix it in the patch v11
+> > 
 
-Hi CK, comment is added here. I can move to mt8183_mutex_sof if preferred.
+Yeah sorry. I accidentally review wrong patch. But mostly stuff are
+still relevant.
 
-> >  struct mtk_mutex {
-> >       int id;
-> > @@ -181,6 +201,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> >       [DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
-> >  };
-> >
-> > +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> > +     [DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
-> > +     [DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
-> > +     [DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
-> > +     [DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
-> > +     [DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
-> > +     [DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
-> > +     [DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
-> > +     [DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
-> > +     [DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
-> > +     [DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
-> > +     [DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
-> > +};
-> > +
-> >  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> >       [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> >       [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-> > @@ -198,6 +232,12 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> >       [MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
-> >  };
-> >
-> > +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> > +     [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> > +     [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
-> > +     [MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
->
-> According to discussion in [1], add comment for the odd EOF setting.
->
-> [1]
-> https://patchwork.kernel.org/project/linux-mediatek/patch/1595469798-3824-8-git-send-email-yongqiang.niu@mediatek.com/
->
-> Regards,
-> CK.
->
->
-> > +};
-> > +
-> >  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
-> >       .mutex_mod = mt2701_mutex_mod,
-> >       .mutex_sof = mt2712_mutex_sof,
-> > @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
-> >       .mutex_sof_reg = MT2701_MUTEX0_SOF0,
-> >  };
-> >
-> > +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
-> > +     .mutex_mod = mt8183_mutex_mod,
-> > +     .mutex_sof = mt8183_mutex_sof,
-> > +     .mutex_mod_reg = MT8183_DISP_MUTEX0_MOD0,
-> > +     .mutex_sof_reg = MT8183_DISP_MUTEX0_SOF0,
-> > +     .no_clk = true,
-> > +};
-> > +
-> >  struct mtk_mutex *mtk_mutex_get(struct device *dev)
-> >  {
-> >       struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> > @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
-> >         .data = &mt8167_mutex_driver_data},
-> >       { .compatible = "mediatek,mt8173-disp-mutex",
-> >         .data = &mt8173_mutex_driver_data},
-> > +     { .compatible = "mediatek,mt8183-disp-mutex",
-> > +       .data = &mt8183_mutex_driver_data},
-> >       {},
-> >  };
-> >  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
->
+> > > @@ -82,6 +111,33 @@ enum st7789v_command {
+> > >   */
+> > >  static int init_display(struct fbtft_par *par)
+> > >  {
+> > > +	int rc;
+> > > +	struct device *dev = par->info->device;
+> > > +
+> > > +	par->gpio.te = devm_gpiod_get_index_optional(dev, "te", 0,
+> > > GPIOD_IN);
+> > > +	if (IS_ERR(par->gpio.te)) {
+> > > +		rc = PTR_ERR(par->gpio.te);
+> > > +		dev_err(par->info->device, "Failed to request te
+> > > gpio: %d\n", rc);
+> > > +		return rc;
+> > > +	}  
+> > 
+> > You request with optinal and you still want to error out? We could
+> > just continue and not care about that error. User will be happier if
+> > device still works somehow.
+> You mean i just delete this dev_err print ?!
+> like this:
+> 	par->gpio.te = devm_gpiod_get_index_optional(dev, "te",
+> 0,GPIOD_IN); 
+>         if (IS_ERR(par->gpio.te))
+> 		return PTR_ERR(par->gpio.te);
+
+Not exactly. I'm suggesting something like this.
+
+if (IS_ERR(par->gpio.te) == -EPROBE_DEFER) {
+	return -EPROBE_DEFER;
+
+if (IS_ERR(par->gpio.te))
+	par-gpio.te = NULL;
+
+This like beginning of your patch series but the difference is that if
+EPROBE_DEFER then we will try again later. Any other error and we will
+just ignore TE gpio. But this is up to you what you want to do. To me
+this just seems place where this kind of logic can work.
+
+> > > +		if (par->gpio.te) {
+> > > +			set_spi_panel_te_irq_status(par, true);
+> > > +			reinit_completion(&spi_panel_te);
+> > > +			ret =
+> > > wait_for_completion_timeout(&spi_panel_te,
+> > > +
+> > > msecs_to_jiffies(SPI_PANEL_TE_TIMEOUT));
+> > > +			if (ret == 0)  
+> > 
+> > !ret
+> > 
+> > > +				dev_err(par->info->device, "wait
+> > > panel TE time out\n");
+> > > +		}
+> > > +		ret = par->fbtftops.write(par, par->txbuf.buf,
+> > > +					 startbyte_size + to_copy
+> > > * 2);
+> > > +		if (par->gpio.te)
+> > > +			set_spi_panel_te_irq_status(par, false);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +		remain -= to_copy;
+> > > +	}
+> > > +
+> > > +	return ret;  
+> > 
+> > Do we want to return something over 0? If not then this can be return
+> > 0. And then you do not need to even init ret value at the beginning.
+> > 
+> > Also wait little bit like Greg sayd before sending new version.
+> > Someone might nack about what I say or say something more.
+> > 
+> hi, i copy fbtft_write_vmem16_bus8 from file fbtft_bus.c and modify it
+> ,just add te wait logic, i will take more time to check this original
+> function.
+
+It might be ok or not. You should still check.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
