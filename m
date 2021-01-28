@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B99307124
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:18:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F9B307133
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7C16E96B;
-	Thu, 28 Jan 2021 08:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9956E92C;
+	Thu, 28 Jan 2021 08:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0A07789467
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 04:12:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A9F81042;
- Wed, 27 Jan 2021 20:12:33 -0800 (PST)
-Received: from [192.168.0.130] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 754453F66B;
- Wed, 27 Jan 2021 20:12:29 -0800 (PST)
-Subject: Re: [PATCH v1 2/2] mm: simplify free_highmem_page() and
- free_reserved_page()
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-References: <20210126182113.19892-1-david@redhat.com>
- <20210126182113.19892-3-david@redhat.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <6e3b29cd-fbf8-2b58-e61e-9d378b095263@arm.com>
-Date: Thu, 28 Jan 2021 09:42:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC486E8C8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 05:09:53 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id u7so4332018iol.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 21:09:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wm/YQVXUMhIB/BMDJogyUbmGWPEi6vcYSKKfpvve88M=;
+ b=XfARxNdjxfvwbLx87S4vCHGZ+hfoFXMjUJwaPdnI3B5svpibAJe2bxnEiivIvlareH
+ nLMmddqGzyG0sSKdPR6iM7yvKfFBSzPSZ/UdDvm6ZTbORRtrQ52843Z4tTH4K/cmZhBr
+ HouPPShhc/heV0RPWVfOFxAJ3hTmLn0UViKMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wm/YQVXUMhIB/BMDJogyUbmGWPEi6vcYSKKfpvve88M=;
+ b=S8W5Rj/rmeSc4AsI7kAK15XCPtCP/pqofn8t9ft68rxQrwAVHgKvlEbunDOwdeyxGF
+ ohnGwxA4bis1NL72WeJCKkVYfeEUg7lDOE3I8r1/EiMXb42cubjftgJu8iOEs/Ob+Yr+
+ IV4W/LN/UoMsL/bAy/qOGL3ntWmVAQfNTR5O21bc7kulsrMnF6G8TlHYELH4raDTzEoT
+ 6VKacmeU+AxGki5hlvNXQoC7If8UNwWaY2qLOsaov4/3V4tFuti+9bCReUz7BunEfH5c
+ 8s5ZfkZFGed4XVvVXiYFbNNMUTjFXphygbkDcFSK4yWCsP1TsON+VPsc9F33B0Y9e+Ge
+ DEww==
+X-Gm-Message-State: AOAM530L40yQ3phby+kehucTpgfaE24s0pkKUFlXiDL19+xtqHFwmq+q
+ 9YHcATKTphRRbtPn3jdlIVi5EeNVrmxTXkmAlVB5RA==
+X-Google-Smtp-Source: ABdhPJw9RDW4YOgrrY0K/Zhny0x/8TzsFk5NQqU8SfevdJcvgReB/EkAPUFQ4VOQjiKOfFg40N4g+dqfJBA6RuMZM68=
+X-Received: by 2002:a05:6638:138e:: with SMTP id
+ w14mr11568954jad.98.1611810592540; 
+ Wed, 27 Jan 2021 21:09:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210126182113.19892-3-david@redhat.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
+References: <20210127045422.2418917-1-hsinyi@chromium.org>
+ <20210127045422.2418917-5-hsinyi@chromium.org>
+ <1611808753.19104.2.camel@mtksdaap41>
+In-Reply-To: <1611808753.19104.2.camel@mtksdaap41>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 28 Jan 2021 13:09:26 +0800
+Message-ID: <CAJMQK-jeBBsxZ1RnFJfT5ouNJsBwEkLbZ_+6T+VUFZ_xDQ7rpQ@mail.gmail.com>
+Subject: Re: [PATCH v10 4/9] drm/mediatek: generalize mtk_dither_set() function
+To: CK Hu <ck.hu@mediatek.com>
+X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,122 +61,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Oscar Salvador <osalvador@suse.de>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 28, 2021 at 12:39 PM CK Hu <ck.hu@mediatek.com> wrote:
+>
+> Hi, Hsin-Yi:
+>
+> On Wed, 2021-01-27 at 12:54 +0800, Hsin-Yi Wang wrote:
+> > There may be data structure other than mtk_ddp_comp_dev that would call
+> > mtk_dither_set(), so use regs as parameter instead of device.
+>
+> You does not change the interface of mtk_dither_set(). You move the
+> common part in mtk_dither_set() to a new function which could be called
+> by another caller.
+>
+> Regards,
+> CK.
+>
+Current mtk_dither_set() cast dev data to struct mtk_ddp_comp_dev. But
+mtk_disp_gamma in next patch would also call this function. But it's
+dev data is struct mtk_disp_gamma, which is different, so we can't
+cast to mtk_ddp_comp_dev. I separate the necessary parameters (regs,
+cmdq_reg) out, so both component dither and gamma can both call this
+separated function.
 
+This is similar to the mtk_gamma_set_common() in the next patch, which
+gamma and aal both used.
 
-On 1/26/21 11:51 PM, David Hildenbrand wrote:
-> adjust_managed_page_count() as called by free_reserved_page() properly
-> handles pages in a highmem zone, so we can reuse it for
-> free_highmem_page().
-> 
-> We can now get rid of totalhigh_pages_inc() and simplify
-> free_reserved_page().
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-
-> ---
->  include/linux/highmem-internal.h |  5 -----
->  include/linux/mm.h               | 16 ++--------------
->  mm/page_alloc.c                  | 11 -----------
->  3 files changed, 2 insertions(+), 30 deletions(-)
-> 
-> diff --git a/include/linux/highmem-internal.h b/include/linux/highmem-internal.h
-> index 1bbe96dc8be6..7902c7d8b55f 100644
-> --- a/include/linux/highmem-internal.h
-> +++ b/include/linux/highmem-internal.h
-> @@ -127,11 +127,6 @@ static inline unsigned long totalhigh_pages(void)
->  	return (unsigned long)atomic_long_read(&_totalhigh_pages);
->  }
->  
-> -static inline void totalhigh_pages_inc(void)
-> -{
-> -	atomic_long_inc(&_totalhigh_pages);
-> -}
-> -
->  static inline void totalhigh_pages_add(long count)
->  {
->  	atomic_long_add(count, &_totalhigh_pages);
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index a5d618d08506..494c69433a34 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2303,32 +2303,20 @@ extern void free_initmem(void);
->  extern unsigned long free_reserved_area(void *start, void *end,
->  					int poison, const char *s);
->  
-> -#ifdef	CONFIG_HIGHMEM
-> -/*
-> - * Free a highmem page into the buddy system, adjusting totalhigh_pages
-> - * and totalram_pages.
-> - */
-> -extern void free_highmem_page(struct page *page);
-> -#endif
-> -
->  extern void adjust_managed_page_count(struct page *page, long count);
->  extern void mem_init_print_info(const char *str);
->  
->  extern void reserve_bootmem_region(phys_addr_t start, phys_addr_t end);
->  
->  /* Free the reserved page into the buddy system, so it gets managed. */
-> -static inline void __free_reserved_page(struct page *page)
-> +static inline void free_reserved_page(struct page *page)
->  {
->  	ClearPageReserved(page);
->  	init_page_count(page);
->  	__free_page(page);
-> -}
-> -
-> -static inline void free_reserved_page(struct page *page)
-> -{
-> -	__free_reserved_page(page);
->  	adjust_managed_page_count(page, 1);
->  }
-> +#define free_highmem_page(page) free_reserved_page(page)
->  
->  static inline void mark_page_reserved(struct page *page)
->  {
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b031a5ae0bd5..b2e42f10d4d4 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -7711,17 +7711,6 @@ unsigned long free_reserved_area(void *start, void *end, int poison, const char
->  	return pages;
->  }
->  
-> -#ifdef	CONFIG_HIGHMEM
-> -void free_highmem_page(struct page *page)
-> -{
-> -	__free_reserved_page(page);
-> -	totalram_pages_inc();
-> -	atomic_long_inc(&page_zone(page)->managed_pages);
-> -	totalhigh_pages_inc();
-> -}
-> -#endif
-> -
-> -
->  void __init mem_init_print_info(const char *str)
->  {
->  	unsigned long physpages, codesize, datasize, rosize, bss_size;
-> 
+> >
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  4 ++++
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 25 +++++++++++++--------
+> >  2 files changed, 20 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > index 46d199b7b4a29..c50d5fc9fd349 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > @@ -17,6 +17,10 @@ void mtk_color_config(struct device *dev, unsigned int w,
+> >                     unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> >  void mtk_color_start(struct device *dev);
+> >
+> > +void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
+> > +                        unsigned int bpc, unsigned int CFG,
+> > +                        struct cmdq_pkt *cmdq_pkt);
+> > +
+> >  void mtk_dpi_start(struct device *dev);
+> >  void mtk_dpi_stop(struct device *dev);
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > index 7b5293429426d..53d25823a37cc 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > @@ -151,33 +151,40 @@ static void mtk_ddp_clk_disable(struct device *dev)
+> >       clk_disable_unprepare(priv->clk);
+> >  }
+> >
+> > -static void mtk_dither_set(struct device *dev, unsigned int bpc,
+> > -                 unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
+> > -{
+> > -     struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> >
+> > +void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
+> > +                        unsigned int bpc, unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
+> > +{
+> >       /* If bpc equal to 0, the dithering function didn't be enabled */
+> >       if (bpc == 0)
+> >               return;
+> >
+> >       if (bpc >= MTK_MIN_BPC) {
+> > -             mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, DISP_DITHER_5);
+> > -             mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs, DISP_DITHER_7);
+> > +             mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_5);
+> > +             mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_7);
+> >               mtk_ddp_write(cmdq_pkt,
+> >                             DITHER_LSB_ERR_SHIFT_R(MTK_MAX_BPC - bpc) |
+> >                             DITHER_ADD_LSHIFT_R(MTK_MAX_BPC - bpc) |
+> >                             DITHER_NEW_BIT_MODE,
+> > -                           &priv->cmdq_reg, priv->regs, DISP_DITHER_15);
+> > +                           cmdq_reg, regs, DISP_DITHER_15);
+> >               mtk_ddp_write(cmdq_pkt,
+> >                             DITHER_LSB_ERR_SHIFT_B(MTK_MAX_BPC - bpc) |
+> >                             DITHER_ADD_LSHIFT_B(MTK_MAX_BPC - bpc) |
+> >                             DITHER_LSB_ERR_SHIFT_G(MTK_MAX_BPC - bpc) |
+> >                             DITHER_ADD_LSHIFT_G(MTK_MAX_BPC - bpc),
+> > -                           &priv->cmdq_reg, priv->regs, DISP_DITHER_16);
+> > -             mtk_ddp_write(cmdq_pkt, DISP_DITHERING, &priv->cmdq_reg, priv->regs, CFG);
+> > +                           cmdq_reg, regs, DISP_DITHER_16);
+> > +             mtk_ddp_write(cmdq_pkt, DISP_DITHERING, cmdq_reg, regs, CFG);
+> >       }
+> >  }
+> >
+> > +static void mtk_dither_set(struct device *dev, unsigned int bpc,
+> > +                 unsigned int CFG, struct cmdq_pkt *cmdq_pkt)
+> > +{
+> > +     struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> > +
+> > +     mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, CFG, cmdq_pkt);
+> > +}
+> > +
+> >  static void mtk_od_config(struct device *dev, unsigned int w,
+> >                         unsigned int h, unsigned int vrefresh,
+> >                         unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
