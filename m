@@ -1,38 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9823070D2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:15:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C409A307129
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 09:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18ABD6E8F7;
-	Thu, 28 Jan 2021 08:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984526E95A;
+	Thu, 28 Jan 2021 08:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 84EFA6E32F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 02:24:01 +0000 (UTC)
-X-UUID: e63f9cbf18a9473392148c8ae8312bf9-20210128
-X-UUID: e63f9cbf18a9473392148c8ae8312bf9-20210128
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C43E66E32F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 02:44:21 +0000 (UTC)
+X-UUID: 35c448ea7c614bcba3317a4cc8782bb6-20210128
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=Hrx/nCYJR5WH3Pl6k+3Q+wORPFTkAO5RTq4P99NgrxA=; 
+ b=lbvhmfrrFtQKFmlept3aAnauUE4S4gw7dCapQBDBkvUU6dl95Ki/2T2oUvCC+YA2q8TrTRkjSEV3qSHLO1EtK8jQq8qJ3w6kiYiTW1iBQlxv0DWYpZ/P5d5Iwv0hRD+Lh9JeJOWXuQeq3LZiHF/+2jgXoFeE4IBbdULCsAO2w/I=;
+X-UUID: 35c448ea7c614bcba3317a4cc8782bb6-20210128
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <nick.fan@mediatek.com>)
+ mailgw01.mediatek.com (envelope-from <nick.fan@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1638558616; Thu, 28 Jan 2021 10:23:58 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 28 Jan 2021 10:23:56 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 28 Jan 2021 10:23:56 +0800
-From: Nick Fan <Nick.Fan@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v5 2/2] arm64: dts: mt8192: Add node for the Mali GPU
-Date: Thu, 28 Jan 2021 10:23:42 +0800
-Message-ID: <20210128022342.6445-2-Nick.Fan@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210128022342.6445-1-Nick.Fan@mediatek.com>
-References: <20210128022342.6445-1-Nick.Fan@mediatek.com>
+ with ESMTP id 1148803710; Thu, 28 Jan 2021 10:44:16 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 28 Jan 2021 10:44:15 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 28 Jan 2021 10:44:15 +0800
+Message-ID: <1611801855.30880.2.camel@mtksdaap41>
+Subject: Re: [PATCH v4 1/2] dt-bindings: Add DT schema for Arm Mali Valhall GPU
+From: Nick Fan <nick.fan@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 28 Jan 2021 10:44:15 +0800
+In-Reply-To: <20210114201441.GA3509434@robh.at.kernel.org>
+References: <20210112064933.12951-1-Nick.Fan@mediatek.com>
+ <20210114201441.GA3509434@robh.at.kernel.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
 X-Mailman-Approved-At: Thu, 28 Jan 2021 08:15:36 +0000
@@ -52,212 +58,301 @@ Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Nick Fan <Nick.Fan@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic GPU node for mt8192.
+Thanks for your review.
+These are fixed in v5 as following link.
+https://lore.kernel.org/patchwork/patch/1372271/
 
-Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
----
-This patch depends on Mediatek power and regulator support.
+Nick Fan
 
-Listed as following.
-
-[1]https://lore.kernel.org/patchwork/patch/1336293/
-[2]https://patchwork.kernel.org/project/linux-mediatek/list/?series=374013
-[3]https://lore.kernel.org/patchwork/patch/1356037/
-[4]https://patchwork.kernel.org/project/linux-mediatek/list/?series=405777
-[5]https://lore.kernel.org/patchwork/patch/1356175/
-[6]https://patchwork.kernel.org/project/linux-mediatek/patch/1605700894-32699-6-git-send-email-hsin-hsiung.wang@mediatek.com/
-[7]https://patchwork.kernel.org/project/linux-mediatek/patch/1608104827-7937-10-git-send-email-hsin-hsiung.wang@mediatek.com/
----
----
- arch/arm64/boot/dts/mediatek/mt8192-evb.dts |   7 +
- arch/arm64/boot/dts/mediatek/mt8192.dtsi    | 140 ++++++++++++++++++++
- 2 files changed, 147 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-index 6c1e2b3e8a60..48c0e240dd92 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-evb.dts
-@@ -5,6 +5,7 @@
-  */
- /dts-v1/;
- #include "mt8192.dtsi"
-+#include "mt6359.dtsi"
- 
- / {
- 	model = "MediaTek MT8192 evaluation board";
-@@ -70,6 +71,12 @@
- 	};
- };
- 
-+&gpu {
-+	supply-names = "mali","sram";
-+	mali-supply = <&mt6315_7_vbuck1>;
-+	sram-supply = <&mt6359_vsram_others_ldo_reg>;
-+};
-+
- &uart0 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index d6a4ad242a33..d0e812791185 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -822,6 +822,146 @@
- 			#clock-cells = <1>;
- 		};
- 
-+		gpu: mali@13000000 {
-+			compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
-+			reg = <0 0x13000000 0 0x4000>;
-+			interrupts =
-+				<GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
-+				<GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
-+				<GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
-+			interrupt-names =
-+				"gpu",
-+				"mmu",
-+				"job";
-+
-+			clocks =
-+				<&apmixedsys CLK_APMIXED_MFGPLL>,
-+				<&topckgen CLK_TOP_MFG_PLL_SEL>,
-+				<&topckgen CLK_TOP_MFG_REF_SEL>,
-+				<&mfgcfg CLK_MFG_BG3D>;
-+			clock-names =
-+				"clk_main_parent",
-+				"clk_mux",
-+				"clk_sub_parent",
-+				"subsys_mfg_cg";
-+
-+			power-domains =
-+				<&spm MT8192_POWER_DOMAIN_MFG2>,
-+				<&spm MT8192_POWER_DOMAIN_MFG3>,
-+				<&spm MT8192_POWER_DOMAIN_MFG4>,
-+				<&spm MT8192_POWER_DOMAIN_MFG5>,
-+				<&spm MT8192_POWER_DOMAIN_MFG6>;
-+			power-domain-names = "core0",
-+					     "core1",
-+					     "core2",
-+					     "core3",
-+					     "core4";
-+
-+			operating-points-v2 = <&gpu_opp_table>;
-+			#cooling-cells = <2>;
-+
-+			gpu_opp_table: opp_table0 {
-+				compatible = "operating-points-v2";
-+				opp-shared;
-+
-+				opp-358000000 {
-+					opp-hz = /bits/ 64 <358000000>;
-+					opp-microvolt = <606250>,
-+							<750000>;
-+				};
-+
-+				opp-399000000 {
-+					opp-hz = /bits/ 64 <399000000>;
-+					opp-microvolt = <618750>,
-+							<750000>;
-+				};
-+
-+				opp-440000000 {
-+					opp-hz = /bits/ 64 <440000000>;
-+					opp-microvolt = <631250>,
-+							<750000>;
-+				};
-+
-+				opp-482000000 {
-+					opp-hz = /bits/ 64 <482000000>;
-+					opp-microvolt = <643750>,
-+							<750000>;
-+				};
-+
-+				opp-523000000 {
-+					opp-hz = /bits/ 64 <523000000>;
-+					opp-microvolt = <656250>,
-+							<750000>;
-+				};
-+
-+				opp-564000000 {
-+					opp-hz = /bits/ 64 <564000000>;
-+					opp-microvolt = <668750>,
-+							<750000>;
-+				};
-+
-+				opp-605000000 {
-+					opp-hz = /bits/ 64 <605000000>;
-+					opp-microvolt = <681250>,
-+							<750000>;
-+				};
-+
-+				opp-647000000 {
-+					opp-hz = /bits/ 64 <647000000>;
-+					opp-microvolt = <693750>,
-+							<750000>;
-+				};
-+
-+				opp-688000000 {
-+					opp-hz = /bits/ 64 <688000000>;
-+					opp-microvolt = <706250>,
-+							<750000>;
-+				};
-+
-+				opp-724000000 {
-+					opp-hz = /bits/ 64 <724000000>;
-+					opp-microvolt = <725000>,
-+							<750000>;
-+				};
-+
-+				opp-760000000 {
-+					opp-hz = /bits/ 64 <760000000>;
-+					opp-microvolt = <743750>,
-+							<750000>;
-+				};
-+
-+				opp-795000000 {
-+					opp-hz = /bits/ 64 <795000000>;
-+					opp-microvolt = <762500>,
-+							<762500>;
-+				};
-+
-+				opp-831000000 {
-+					opp-hz = /bits/ 64 <831000000>;
-+					opp-microvolt = <781250>,
-+							<781250>;
-+				};
-+
-+				opp-855000000 {
-+					opp-hz = /bits/ 64 <855000000>;
-+					opp-microvolt = <793750>,
-+							<793750>;
-+				};
-+
-+				opp-902000000 {
-+					opp-hz = /bits/ 64 <902000000>;
-+					opp-microvolt = <818750>,
-+							<818750>;
-+				};
-+
-+				opp-950000000 {
-+					opp-hz = /bits/ 64 <950000000>;
-+					opp-microvolt = <843750>,
-+							<843750>;
-+				};
-+			};
-+		};
-+
- 		mfgcfg: syscon@13fbf000 {
- 			compatible = "mediatek,mt8192-mfgcfg", "syscon";
- 			reg = <0 0x13fbf000 0 0x1000>;
--- 
-2.18.0
+On Thu, 2021-01-14 at 14:14 -0600, Rob Herring wrote:
+> On Tue, Jan 12, 2021 at 02:49:32PM +0800, Nick Fan wrote:
+> > Add devicetree schema for Arm Mali Valhall GPU
+> > 
+> > Define a compatible string for the Mali Valhall GPU
+> > for Mediatek's SoC platform.
+> > 
+> > Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
+> > ---
+> >  .../bindings/gpu/arm,mali-valhall.yaml        | 252 ++++++++++++++++++
+> >  1 file changed, 252 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> > new file mode 100644
+> > index 000000000000..ecf249a58435
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> > @@ -0,0 +1,252 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright (c) 2020 MediaTek Inc.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/gpu/arm,mali-valhall.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ARM Mali Valhall GPU
+> > +
+> > +maintainers:
+> > +  - Rob Herring <robh@kernel.org>
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    pattern: '^gpu@[a-f0-9]+$'
+> > +
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - mediatek,mt8192-mali
+> > +      - const: arm,mali-valhall
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    items:
+> > +      - description: GPU interrupt
+> > +      - description: MMU interrupt
+> > +      - description: Job interrupt
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: gpu
+> > +      - const: mmu
+> > +      - const: job
+> > +
+> > +  clocks:
+> > +    minItems: 1
+> > +
+> > +  power-domains:
+> > +    minItems: 1
+> > +    maxItems: 5
+> > +
+> > +  mali-supply: true
+> > +  sram-supply: true
+> > +
+> > +  operating-points-v2: true
+> > +
+> > +  "#cooling-cells":
+> > +    const: 2
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - clocks
+> > +
+> > +additionalProperties: false
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: mediatek,mt8192-mali
+> > +    then:
+> > +      properties:
+> > +        sram-supply: true
+> > +        power-domains:
+> > +          description:
+> > +            List of phandle and PM domain specifier as documented in
+> > +            Documentation/devicetree/bindings/power/power_domain.txt
+> > +          minItems: 5
+> > +          maxItems: 5
+> > +        power-domain-names:
+> > +          items:
+> > +            - const: core0
+> > +            - const: core1
+> > +            - const: core2
+> > +            - const: core3
+> > +            - const: core4
+> > +
+> > +      required:
+> > +        - sram-supply
+> > +        - power-domains
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    gpu@13000000 {
+> > +           compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
+> > +           reg = <0x13000000 0x4000>;
+> > +           interrupts =
+> > +                   <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
+> > +                   <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
+> > +                   <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +           interrupt-names =
+> > +                   "gpu",
+> > +                   "mmu",
+> > +                   "job";
+> > +
+> > +           clocks = <&mfgcfg 0>;
+> > +
+> > +           power-domains =
+> > +                   <&spm 4>,
+> > +                   <&spm 5>,
+> > +                   <&spm 6>,
+> > +                   <&spm 7>,
+> > +                   <&spm 8>;
+> > +
+> > +           operating-points-v2 = <&gpu_opp_table>;
+> > +           mali-supply = <&mt6315_7_vbuck1>;
+> > +           sram-supply = <&mt6359_vsram_others_ldo_reg>;
+> > +    };
+> > +
+> > +    gpu_opp_table: opp_table0 {
+> 
+> Make this a child node of the gpu node.
+> 
+> > +      compatible = "operating-points-v2";
+> > +      opp-shared;
+> > +
+> > +      opp-358000000 {
+> > +              opp-hz = /bits/ 64 <358000000>;
+> > +              opp-hz-real = /bits/ 64 <358000000>,
+> > +                            /bits/ 64 <358000000>;
+> 
+> This is not part of the OPP binding. It's not clear what it's purpose 
+> would be given the values are always the same as opp-hz.
+> 
+> 
+> > +              opp-microvolt = <606250>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-399000000 {
+> > +              opp-hz = /bits/ 64 <399000000>;
+> > +              opp-hz-real = /bits/ 64 <399000000>,
+> > +                            /bits/ 64 <399000000>;
+> > +              opp-microvolt = <618750>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-440000000 {
+> > +              opp-hz = /bits/ 64 <440000000>;
+> > +              opp-hz-real = /bits/ 64 <440000000>,
+> > +                            /bits/ 64 <440000000>;
+> > +              opp-microvolt = <631250>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-482000000 {
+> > +              opp-hz = /bits/ 64 <482000000>;
+> > +              opp-hz-real = /bits/ 64 <482000000>,
+> > +                            /bits/ 64 <482000000>;
+> > +              opp-microvolt = <643750>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-523000000 {
+> > +              opp-hz = /bits/ 64 <523000000>;
+> > +              opp-hz-real = /bits/ 64 <523000000>,
+> > +                            /bits/ 64 <523000000>;
+> > +              opp-microvolt = <656250>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-564000000 {
+> > +              opp-hz = /bits/ 64 <564000000>;
+> > +              opp-hz-real = /bits/ 64 <564000000>,
+> > +                            /bits/ 64 <564000000>;
+> > +              opp-microvolt = <668750>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-605000000 {
+> > +              opp-hz = /bits/ 64 <605000000>;
+> > +              opp-hz-real = /bits/ 64 <605000000>,
+> > +                            /bits/ 64 <605000000>;
+> > +              opp-microvolt = <681250>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-647000000 {
+> > +              opp-hz = /bits/ 64 <647000000>;
+> > +              opp-hz-real = /bits/ 64 <647000000>,
+> > +                            /bits/ 64 <647000000>;
+> > +              opp-microvolt = <693750>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-688000000 {
+> > +              opp-hz = /bits/ 64 <688000000>;
+> > +              opp-hz-real = /bits/ 64 <688000000>,
+> > +                            /bits/ 64 <688000000>;
+> > +              opp-microvolt = <706250>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-724000000 {
+> > +              opp-hz = /bits/ 64 <724000000>;
+> > +              opp-hz-real = /bits/ 64 <724000000>,
+> > +                            /bits/ 64 <724000000>;
+> > +              opp-microvolt = <725000>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-760000000 {
+> > +              opp-hz = /bits/ 64 <760000000>;
+> > +              opp-hz-real = /bits/ 64 <760000000>,
+> > +                            /bits/ 64 <760000000>;
+> > +              opp-microvolt = <743750>,
+> > +                              <750000>;
+> > +      };
+> > +
+> > +      opp-795000000 {
+> > +              opp-hz = /bits/ 64 <795000000>;
+> > +              opp-hz-real = /bits/ 64 <795000000>,
+> > +                            /bits/ 64 <795000000>;
+> > +              opp-microvolt = <762500>,
+> > +                              <762500>;
+> > +      };
+> > +
+> > +      opp-831000000 {
+> > +              opp-hz = /bits/ 64 <831000000>;
+> > +              opp-hz-real = /bits/ 64 <831000000>,
+> > +                            /bits/ 64 <831000000>;
+> > +              opp-microvolt = <781250>,
+> > +                              <781250>;
+> > +      };
+> > +
+> > +      opp-855000000 {
+> > +              opp-hz = /bits/ 64 <855000000>;
+> > +              opp-hz-real = /bits/ 64 <855000000>,
+> > +                            /bits/ 64 <855000000>;
+> > +              opp-microvolt = <793750>,
+> > +                              <793750>;
+> > +      };
+> > +
+> > +      opp-902000000 {
+> > +              opp-hz = /bits/ 64 <902000000>;
+> > +              opp-hz-real = /bits/ 64 <902000000>,
+> > +                            /bits/ 64 <902000000>;
+> > +              opp-microvolt = <818750>,
+> > +                              <818750>;
+> > +      };
+> > +
+> > +      opp-950000000 {
+> > +              opp-hz = /bits/ 64 <950000000>;
+> > +              opp-hz-real = /bits/ 64 <950000000>,
+> > +                            /bits/ 64 <950000000>;
+> > +              opp-microvolt = <843750>,
+> > +                              <843750>;
+> > +      };
+> > +    };
+> > +...
+> > -- 
+> > 2.18.0
+> > 
 
 _______________________________________________
 dri-devel mailing list
