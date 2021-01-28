@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284F2306D91
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 07:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966E5306DFD
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Jan 2021 08:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BABD36E8DF;
-	Thu, 28 Jan 2021 06:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2C76E8C5;
+	Thu, 28 Jan 2021 07:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA2466E8DD
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 06:21:56 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id v19so3601478pgj.12
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Jan 2021 22:21:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yF9oYLwsZ1KojzzdMIJNFHTIF6r0NLzbmizzA10msek=;
- b=hsKEFCeDBPBnnkjBCVVbIShSoY9OmkyTebKHBfnRXysY8Aciy3zWs6gv4DGrah5AUR
- Kgk8GtE3VPMyZIfJC9GLOdFwr3cweevE95L8zAHI7w4jMh4XLM4INu6IyB+g+HJLBlmF
- 2VWmU9oDGSV48vRWYea9wgobgBN6PblZwrnvU08P8TWMIYyx2gE9KhZdeMIyUI6XERvf
- j4dM1keHxZSwBKHwQUvhgDpo6Knar8Q2d9DayeTfN08fkaezIs8XMJVj3etyG/QRb8sf
- DgbmVmJeCKRP5RLfjnoXiQHvZ6grT/ji6IS60unxI8Gt4+3+IQANaXu07ZV5fCkrWKq1
- bLTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yF9oYLwsZ1KojzzdMIJNFHTIF6r0NLzbmizzA10msek=;
- b=i/kFlBDs64TKGIyb/tioNE1G5cc/D8TmGKF6Ms9UFPbsEyAhQtbb6t2Qx3jfscezUw
- F6jQ7J+tBMT5K0WLVx7Q/0WW7dMxDyqk1bVfibUUnuMfmghaIKJuxFtKpEsVd8xoT7G/
- NGzbOBaH2Oi0CeeUAOxbWuqEc3P28SOlbF5ajBc5rRlo0E1e3TrTB2wQ6xHswUtvVXTl
- k+9spdHHv5DNaCaF1DCk/boKfULVJ0yuun1X43qTeDt+O/hfHLffQxFUOQGQar+D7oBm
- 2wucJ8vKe8xSAo2VAiCLe8EualK5j3q30Fdr5bCP7VofGfvjyeJtkPDWVRsSnGNrv8RP
- CC8Q==
-X-Gm-Message-State: AOAM533t3da7AWGTsFk2ihGKFCITeFlhI+5iwVIlo/1ADNdjt7LdIIne
- 7DPTB5N4X25YD6S8kmNZ+JVaHQ==
-X-Google-Smtp-Source: ABdhPJwxi586eEw48AejdKr0BVFHkCaeosEKpbkmcBQcanrMo5ek4fcHdf/tem0eB/as7f/hJ5B26g==
-X-Received: by 2002:a63:1220:: with SMTP id h32mr15123978pgl.309.1611814916310; 
- Wed, 27 Jan 2021 22:21:56 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- s9sm4477765pfd.38.2021.01.27.22.21.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 22:21:55 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 3/3] dma-buf: system_heap: Add deferred freeing to the
- system heap
-Date: Thu, 28 Jan 2021 06:21:47 +0000
-Message-Id: <20210128062147.438413-3-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210128062147.438413-1-john.stultz@linaro.org>
-References: <20210128062147.438413-1-john.stultz@linaro.org>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2DF636E8C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 07:00:16 +0000 (UTC)
+X-UUID: 53c6337884164a9c8e76455b57b23b75-20210128
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=iLD0cfC7OI5fd6re8bU20Diab017K7ENUU4aiw1sTXE=; 
+ b=Cf/lO6wX9eBaBUz9PiqMHChc/toAHxwkQh4DE5aS7NNfYoK4F/lmvQnJN3sFWSTyuNK+YVQ33Tlj5sKhneO+CIIKKyCCsKK+2uVMIGMRorh+iuLpFTv/YAW3qk3hfdAqmZXol22+bz1QqbQ0ECPmpkK8VJ2OhpyfjfPQVGdf2Xw=;
+X-UUID: 53c6337884164a9c8e76455b57b23b75-20210128
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1797207214; Thu, 28 Jan 2021 15:00:14 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 28 Jan 2021 15:00:11 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 28 Jan 2021 15:00:11 +0800
+Message-ID: <1611817211.8417.0.camel@mtksdaap41>
+Subject: Re: [PATCH v10 8/9] drm/mediatek: add DDP support for MT8183
+From: CK Hu <ck.hu@mediatek.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 28 Jan 2021 15:00:11 +0800
+In-Reply-To: <CAJMQK-gHjmm-BaG83EXMOkT6KeCyJJN4ZqRDdT75BcED53bREw@mail.gmail.com>
+References: <20210127045422.2418917-1-hsinyi@chromium.org>
+ <20210127045422.2418917-9-hsinyi@chromium.org>
+ <1611814421.28312.9.camel@mtksdaap41>
+ <CAJMQK-gHjmm-BaG83EXMOkT6KeCyJJN4ZqRDdT75BcED53bREw@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 1028BAB7B3EECBBFEEF43CD5A0BE256A2A8A797E056769F2B56E920121122C782000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +55,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, "moderated
+ list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXRpbGl6ZSB0aGUgZGVmZXJyZWQgZnJlZSBoZWxwZXIgbGlicmFyeSBpbiB0aGUgc3lzdGVtIGhl
-YXAuCgpUaGlzIHByb3ZpZGVzIGEgbmljZSBwZXJmb3JtYW5jZSBidW1wIGFuZCBwdXRzIHRoZQpz
-eXN0ZW0gaGVhcCBwZXJmb3JtYW5jZSBvbiBwYXIgd2l0aCBJT04uCgpDYzogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJv
-Lm9yZz4KQ2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+CkNjOiBDaHJpcyBHb2xk
-c3dvcnRoeSA8Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+CkNjOiBMYXVyYSBBYmJvdHQgPGxhYmJv
-dHRAa2VybmVsLm9yZz4KQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJrZXlAYXJtLmNvbT4K
-Q2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgpDYzogU3VyZW4gQmFnaGRh
-c2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT4KQ2M6IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29v
-Z2xlLmNvbT4KQ2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xlLmNvbT4KQ2M6IMOY
-cmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5jb20+CkNjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11
-cnBoeUBhcm0uY29tPgpDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29t
-PgpDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzogSmFtZXMgSm9uZXMgPGph
-am9uZXNAbnZpZGlhLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0eiA8
-am9obi5zdHVsdHpAbGluYXJvLm9yZz4KLS0tCnYyOgoqIFJld29yayBkZWZlcnJlZC1mcmVlIGFw
-aSB0byB1c2UgcmVhc29uIGVudW0gYXMgc3VnZ2VzdGVkIGJ5CiAgU3VyZW4gQmFnaGRhc2FyeWFu
-Ci0tLQogZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgICAgICAgfCAgMSArCiBkcml2ZXJz
-L2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyB8IDMyICsrKysrKysrKysrKysrKysrKysrKyst
-LS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgYi9kcml2ZXJzL2Rt
-YS1idWYvaGVhcHMvS2NvbmZpZwppbmRleCA0NWM3ZDI3NzQ0OGIuLjIyNzY0MjBhZTkwNSAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKKysrIGIvZHJpdmVycy9kbWEt
-YnVmL2hlYXBzL0tjb25maWcKQEAgLTYsNiArNiw3IEBAIGNvbmZpZyBETUFCVUZfSEVBUFNfU1lT
-VEVNCiAJZGVwZW5kcyBvbiBETUFCVUZfSEVBUFMKIAlzZWxlY3QgTkVUCiAJc2VsZWN0IFBBR0Vf
-UE9PTAorCXNlbGVjdCBETUFCVUZfSEVBUFNfREVGRVJSRURfRlJFRQogCWhlbHAKIAkgIENob29z
-ZSB0aGlzIG9wdGlvbiB0byBlbmFibGUgdGhlIHN5c3RlbSBkbWFidWYgaGVhcC4gVGhlIHN5c3Rl
-bSBoZWFwCiAJICBpcyBiYWNrZWQgYnkgcGFnZXMgZnJvbSB0aGUgYnVkZHkgYWxsb2NhdG9yLiBJ
-ZiBpbiBkb3VidCwgc2F5IFkuCmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lz
-dGVtX2hlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCmluZGV4IDJh
-ZGRiNmQ4MzJlMC4uZmUxMjJiNWVmZjEwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvaGVh
-cHMvc3lzdGVtX2hlYXAuYworKysgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAu
-YwpAQCAtMjIsNiArMjIsOCBAQAogI2luY2x1ZGUgPGxpbnV4L3ZtYWxsb2MuaD4KICNpbmNsdWRl
-IDxuZXQvcGFnZV9wb29sLmg+CiAKKyNpbmNsdWRlICJkZWZlcnJlZC1mcmVlLWhlbHBlci5oIgor
-CiBzdGF0aWMgc3RydWN0IGRtYV9oZWFwICpzeXNfaGVhcDsKIAogc3RydWN0IHN5c3RlbV9oZWFw
-X2J1ZmZlciB7CkBAIC0zMiw2ICszNCw3IEBAIHN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIgewog
-CXN0cnVjdCBzZ190YWJsZSBzZ190YWJsZTsKIAlpbnQgdm1hcF9jbnQ7CiAJdm9pZCAqdmFkZHI7
-CisJc3RydWN0IGRlZmVycmVkX2ZyZWVsaXN0X2l0ZW0gZGVmZXJyZWRfZnJlZTsKIH07CiAKIHN0
-cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKQEAgLTMwMSwzMCArMzA0LDQ1IEBAIHN0YXRpYyBp
-bnQgc3lzdGVtX2hlYXBfemVyb19idWZmZXIoc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAqYnVm
-ZmVyKQogCXJldHVybiByZXQ7CiB9CiAKLXN0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9idWZf
-cmVsZWFzZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQorc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBf
-YnVmX2ZyZWUoc3RydWN0IGRlZmVycmVkX2ZyZWVsaXN0X2l0ZW0gKml0ZW0sCisJCQkJIGVudW0g
-ZGZfcmVhc29uIHJlYXNvbikKIHsKLQlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyICpidWZmZXIg
-PSBkbWFidWYtPnByaXY7CisJc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAqYnVmZmVyOwogCXN0
-cnVjdCBzZ190YWJsZSAqdGFibGU7CiAJc3RydWN0IHNjYXR0ZXJsaXN0ICpzZzsKIAlpbnQgaSwg
-ajsKIAorCWJ1ZmZlciA9IGNvbnRhaW5lcl9vZihpdGVtLCBzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVm
-ZmVyLCBkZWZlcnJlZF9mcmVlKTsKIAkvKiBaZXJvIHRoZSBidWZmZXIgcGFnZXMgYmVmb3JlIGFk
-ZGluZyBiYWNrIHRvIHRoZSBwb29sICovCi0Jc3lzdGVtX2hlYXBfemVyb19idWZmZXIoYnVmZmVy
-KTsKKwlpZiAocmVhc29uID09IERGX05PUk1BTCkKKwkJaWYgKHN5c3RlbV9oZWFwX3plcm9fYnVm
-ZmVyKGJ1ZmZlcikpCisJCQlyZWFzb24gPSBERl9VTkRFUl9QUkVTU1VSRTsgLy8gT24gZmFpbHVy
-ZSwganVzdCBmcmVlCiAKIAl0YWJsZSA9ICZidWZmZXItPnNnX3RhYmxlOwogCWZvcl9lYWNoX3Nn
-KHRhYmxlLT5zZ2wsIHNnLCB0YWJsZS0+bmVudHMsIGkpIHsKIAkJc3RydWN0IHBhZ2UgKnBhZ2Ug
-PSBzZ19wYWdlKHNnKTsKIAotCQlmb3IgKGogPSAwOyBqIDwgTlVNX09SREVSUzsgaisrKSB7Ci0J
-CQlpZiAoY29tcG91bmRfb3JkZXIocGFnZSkgPT0gb3JkZXJzW2pdKQotCQkJCWJyZWFrOworCQlp
-ZiAocmVhc29uID09IERGX1VOREVSX1BSRVNTVVJFKSB7CisJCQlfX2ZyZWVfcGFnZXMocGFnZSwg
-Y29tcG91bmRfb3JkZXIocGFnZSkpOworCQl9IGVsc2UgeworCQkJZm9yIChqID0gMDsgaiA8IE5V
-TV9PUkRFUlM7IGorKykgeworCQkJCWlmIChjb21wb3VuZF9vcmRlcihwYWdlKSA9PSBvcmRlcnNb
-al0pCisJCQkJCWJyZWFrOworCQkJfQorCQkJcGFnZV9wb29sX3B1dF9mdWxsX3BhZ2UocG9vbHNb
-al0sIHBhZ2UsIGZhbHNlKTsKIAkJfQotCQlwYWdlX3Bvb2xfcHV0X2Z1bGxfcGFnZShwb29sc1tq
-XSwgcGFnZSwgZmFsc2UpOwogCX0KIAlzZ19mcmVlX3RhYmxlKHRhYmxlKTsKIAlrZnJlZShidWZm
-ZXIpOwogfQogCitzdGF0aWMgdm9pZCBzeXN0ZW1faGVhcF9kbWFfYnVmX3JlbGVhc2Uoc3RydWN0
-IGRtYV9idWYgKmRtYWJ1ZikKK3sKKwlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyICpidWZmZXIg
-PSBkbWFidWYtPnByaXY7CisKKwlkZWZlcnJlZF9mcmVlKCZidWZmZXItPmRlZmVycmVkX2ZyZWUs
-IHN5c3RlbV9oZWFwX2J1Zl9mcmVlLCBidWZmZXItPmxlbik7Cit9CisKIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgZG1hX2J1Zl9vcHMgc3lzdGVtX2hlYXBfYnVmX29wcyA9IHsKIAkuYXR0YWNoID0gc3lz
-dGVtX2hlYXBfYXR0YWNoLAogCS5kZXRhY2ggPSBzeXN0ZW1faGVhcF9kZXRhY2gsCi0tIAoyLjI1
-LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, 2021-01-28 at 14:15 +0800, Hsin-Yi Wang wrote:
+> On Thu, Jan 28, 2021 at 2:13 PM CK Hu <ck.hu@mediatek.com> wrote:
+> >
+> > Hi, Hsin-Yi:
+> >
+> > Modify the title's prefix to 'soc: mediatek:'
+> >
+> > On Wed, 2021-01-27 at 12:54 +0800, Hsin-Yi Wang wrote:
+> > > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > >
+> > > Add DDP support for MT8183 SoC.
+> > >
+> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > > ---
+> > >  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > >
+> > > diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+> > > index f531b119da7a9..f64e9c33e85ad 100644
+> > > --- a/drivers/soc/mediatek/mtk-mutex.c
+> > > +++ b/drivers/soc/mediatek/mtk-mutex.c
+> > > @@ -14,6 +14,8 @@
+> > >
+> > >  #define MT2701_MUTEX0_MOD0                   0x2c
+> > >  #define MT2701_MUTEX0_SOF0                   0x30
+> > > +#define MT8183_DISP_MUTEX0_MOD0                      0x30
+> > > +#define MT8183_DISP_MUTEX0_SOF0                      0x2c
+> >
+> > Modify 'DISP_MUTEX' to 'MUTEX'
+> >
+> > >
+> > >  #define DISP_REG_MUTEX_EN(n)                 (0x20 + 0x20 * (n))
+> > >  #define DISP_REG_MUTEX(n)                    (0x24 + 0x20 * (n))
+> > > @@ -37,6 +39,18 @@
+> > >  #define MT8167_MUTEX_MOD_DISP_DITHER         15
+> > >  #define MT8167_MUTEX_MOD_DISP_UFOE           16
+> > >
+> > > +#define MT8183_MUTEX_MOD_DISP_RDMA0          0
+> > > +#define MT8183_MUTEX_MOD_DISP_RDMA1          1
+> > > +#define MT8183_MUTEX_MOD_DISP_OVL0           9
+> > > +#define MT8183_MUTEX_MOD_DISP_OVL0_2L                10
+> > > +#define MT8183_MUTEX_MOD_DISP_OVL1_2L                11
+> > > +#define MT8183_MUTEX_MOD_DISP_WDMA0          12
+> > > +#define MT8183_MUTEX_MOD_DISP_COLOR0         13
+> > > +#define MT8183_MUTEX_MOD_DISP_CCORR0         14
+> > > +#define MT8183_MUTEX_MOD_DISP_AAL0           15
+> > > +#define MT8183_MUTEX_MOD_DISP_GAMMA0         16
+> > > +#define MT8183_MUTEX_MOD_DISP_DITHER0                17
+> > > +
+> > >  #define MT8173_MUTEX_MOD_DISP_OVL0           11
+> > >  #define MT8173_MUTEX_MOD_DISP_OVL1           12
+> > >  #define MT8173_MUTEX_MOD_DISP_RDMA0          13
+> > > @@ -87,6 +101,12 @@
+> > >  #define MT2712_MUTEX_SOF_DSI3                        6
+> > >  #define MT8167_MUTEX_SOF_DPI0                        2
+> > >  #define MT8167_MUTEX_SOF_DPI1                        3
+> > > +#define MT8183_MUTEX_SOF_DSI0                        1
+> > > +#define MT8183_MUTEX_SOF_DPI0                        2
+> > > +
+> > > +/* Add EOF setting so overlay hardware can receive frame done irq */
+> > > +#define MT8183_MUTEX_EOF_DSI0                        (MT8183_MUTEX_SOF_DSI0 << 6)
+> > > +#define MT8183_MUTEX_EOF_DPI0                        (MT8183_MUTEX_SOF_DPI0 << 6)
+> > >
+> 
+> Hi CK, comment is added here. I can move to mt8183_mutex_sof if preferred.
+
+I prefer to move comment to mt8183_mutex_sof.
+
+> 
+> > >  struct mtk_mutex {
+> > >       int id;
+> > > @@ -181,6 +201,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> > >       [DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
+> > >  };
+> > >
+> > > +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> > > +     [DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
+> > > +     [DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
+> > > +     [DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
+> > > +     [DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
+> > > +     [DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
+> > > +     [DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
+> > > +     [DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
+> > > +     [DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
+> > > +     [DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
+> > > +     [DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
+> > > +     [DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
+> > > +};
+> > > +
+> > >  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+> > >       [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+> > >       [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
+> > > @@ -198,6 +232,12 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+> > >       [MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
+> > >  };
+> > >
+> > > +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+> > > +     [MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+> > > +     [MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
+> > > +     [MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
+> >
+> > According to discussion in [1], add comment for the odd EOF setting.
+> >
+> > [1]
+> > https://patchwork.kernel.org/project/linux-mediatek/patch/1595469798-3824-8-git-send-email-yongqiang.niu@mediatek.com/
+> >
+> > Regards,
+> > CK.
+> >
+> >
+> > > +};
+> > > +
+> > >  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
+> > >       .mutex_mod = mt2701_mutex_mod,
+> > >       .mutex_sof = mt2712_mutex_sof,
+> > > @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
+> > >       .mutex_sof_reg = MT2701_MUTEX0_SOF0,
+> > >  };
+> > >
+> > > +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
+> > > +     .mutex_mod = mt8183_mutex_mod,
+> > > +     .mutex_sof = mt8183_mutex_sof,
+> > > +     .mutex_mod_reg = MT8183_DISP_MUTEX0_MOD0,
+> > > +     .mutex_sof_reg = MT8183_DISP_MUTEX0_SOF0,
+> > > +     .no_clk = true,
+> > > +};
+> > > +
+> > >  struct mtk_mutex *mtk_mutex_get(struct device *dev)
+> > >  {
+> > >       struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+> > > @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
+> > >         .data = &mt8167_mutex_driver_data},
+> > >       { .compatible = "mediatek,mt8173-disp-mutex",
+> > >         .data = &mt8173_mutex_driver_data},
+> > > +     { .compatible = "mediatek,mt8183-disp-mutex",
+> > > +       .data = &mt8183_mutex_driver_data},
+> > >       {},
+> > >  };
+> > >  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
+> >
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
