@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A52830871C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:43:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA91308733
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 10:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B97E6EAA2;
-	Fri, 29 Jan 2021 08:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAADD6E442;
+	Fri, 29 Jan 2021 09:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id B2A986EAA2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 08:42:59 +0000 (UTC)
-X-UUID: fc38f4baa7624c2d80587c5736dbe2f3-20210129
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=/3q0mlOu7gJgzrpK4SZhxTaGZhiKC2GOEb6iu7kvGeI=; 
- b=niCTxVpwcBk5LmbVz8HTpPina/b7P6pyf3Vc0XqxqyChdGDfwtFFLBFVEPrZNtXaSNCSa5yXfNiDChngpFWoGsWITcBw+OdUc8Otlvy3b1WmqEFsMCeh+udaJFD2LfrPwUUmOWrJp5FkX2vJNgT/Qo4jBSBpjCzfdA6ZyUJ7CwI=;
-X-UUID: fc38f4baa7624c2d80587c5736dbe2f3-20210129
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1702934999; Fri, 29 Jan 2021 16:42:54 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Jan 2021 16:42:51 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Jan 2021 16:42:51 +0800
-Message-ID: <1611909770.31184.12.camel@mtksdaap41>
-Subject: Re: [PATCH v4 7/8] soc: mediatek: add mtk mutex support for MT8192
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 29 Jan 2021 16:42:50 +0800
-In-Reply-To: <20210129073436.2429834-8-hsinyi@chromium.org>
-References: <20210129073436.2429834-1-hsinyi@chromium.org>
- <20210129073436.2429834-8-hsinyi@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9911F6E3F2;
+ Fri, 29 Jan 2021 09:05:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04F8464E02;
+ Fri, 29 Jan 2021 09:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611911122;
+ bh=/HEREiD9FXEQ02w0iDsYdpZV46bpzXWuTWwUnZCuy+g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T2Y4mkH4w077yIZlxHUVZE0D4RLQbzNe5OiDenFlQlsPGBt8ss4Zj5rDF9fgoTP6k
+ xu/Bzo1XE71GsYZvBptwDuXs+wrULWcJy59bKBfcuSW6zcG3ZRJG1gBozI/YJrugAl
+ MMUMZtS57yD2ctcrz9XePHff3N9cgreQyEruAzA8ACCzWDRviQd8aygMSvYmgMRvSG
+ 44NQVC9cG3gE5XfiE0NYf8UuiODbFhBNGAYIMViLeyZGqQOYDg+cJCQNDfEsJDe6dK
+ TV+HEKx68IBMweLIWECiO0hHiD7/CetE8nlx5WYoMeZIT1q53s9cIc6Eou5QJxr8Hl
+ dY2QCJu/TSm3Q==
+Date: Fri, 29 Jan 2021 09:05:16 +0000
+From: Will Deacon <will@kernel.org>
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+Message-ID: <20210129090516.GB3998@willie-the-truck>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B39B3CC9B666C24300CC1958077EE6675F149E906B4AEB7FCECA4F46F3A9BF782000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,100 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+Cc: isaacm@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Kristian H Kristensen <hoegsberg@google.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-Yi:
-
-On Fri, 2021-01-29 at 15:34 +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+> Add a new page protection flag IOMMU_LLC which can be used
+> by non-coherent masters to set cacheable memory attributes
+> for an outer level of cache called as last-level cache or
+> system cache. Initial user of this page protection flag is
+> the adreno gpu and then can later be used by other clients
+> such as video where this can be used for per-buffer based
+> mapping.
 > 
-> Add mtk mutex support for MT8192 SoC.
-
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 > ---
->  drivers/soc/mediatek/mtk-mutex.c | 35 ++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  drivers/iommu/io-pgtable-arm.c | 3 +++
+>  include/linux/iommu.h          | 6 ++++++
+>  2 files changed, 9 insertions(+)
 > 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index 718a41beb6afb..dfd9806d5a001 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -39,6 +39,18 @@
->  #define MT8167_MUTEX_MOD_DISP_DITHER		15
->  #define MT8167_MUTEX_MOD_DISP_UFOE		16
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 7439ee7fdcdb..ebe653ef601b 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+>  		else if (prot & IOMMU_CACHE)
+>  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
+>  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+> +		else if (prot & IOMMU_LLC)
+> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
+> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>  	}
 >  
-> +#define MT8192_MUTEX_MOD_DISP_OVL0		0
-> +#define MT8192_MUTEX_MOD_DISP_OVL0_2L		1
-> +#define MT8192_MUTEX_MOD_DISP_RDMA0		2
-> +#define MT8192_MUTEX_MOD_DISP_COLOR0		4
-> +#define MT8192_MUTEX_MOD_DISP_CCORR0		5
-> +#define MT8192_MUTEX_MOD_DISP_AAL0		6
-> +#define MT8192_MUTEX_MOD_DISP_GAMMA0		7
-> +#define MT8192_MUTEX_MOD_DISP_POSTMASK0		8
-> +#define MT8192_MUTEX_MOD_DISP_DITHER0		9
-> +#define MT8192_MUTEX_MOD_DISP_OVL2_2L		16
-> +#define MT8192_MUTEX_MOD_DISP_RDMA4		17
-> +
->  #define MT8183_MUTEX_MOD_DISP_RDMA0		0
->  #define MT8183_MUTEX_MOD_DISP_RDMA1		1
->  #define MT8183_MUTEX_MOD_DISP_OVL0		9
-> @@ -214,6 +226,20 @@ static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->  	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
->  };
->  
-> +static const unsigned int mt8192_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> +	[DDP_COMPONENT_AAL0] = MT8192_MUTEX_MOD_DISP_AAL0,
-> +	[DDP_COMPONENT_CCORR] = MT8192_MUTEX_MOD_DISP_CCORR0,
-> +	[DDP_COMPONENT_COLOR0] = MT8192_MUTEX_MOD_DISP_COLOR0,
-> +	[DDP_COMPONENT_DITHER] = MT8192_MUTEX_MOD_DISP_DITHER0,
-> +	[DDP_COMPONENT_GAMMA] = MT8192_MUTEX_MOD_DISP_GAMMA0,
-> +	[DDP_COMPONENT_POSTMASK0] = MT8192_MUTEX_MOD_DISP_POSTMASK0,
-> +	[DDP_COMPONENT_OVL0] = MT8192_MUTEX_MOD_DISP_OVL0,
-> +	[DDP_COMPONENT_OVL_2L0] = MT8192_MUTEX_MOD_DISP_OVL0_2L,
-> +	[DDP_COMPONENT_OVL_2L2] = MT8192_MUTEX_MOD_DISP_OVL2_2L,
-> +	[DDP_COMPONENT_RDMA0] = MT8192_MUTEX_MOD_DISP_RDMA0,
-> +	[DDP_COMPONENT_RDMA4] = MT8192_MUTEX_MOD_DISP_RDMA4,
-> +};
-> +
->  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
->  	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
->  	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-> @@ -275,6 +301,13 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
->  	.no_clk = true,
->  };
->  
-> +static const struct mtk_mutex_data mt8192_mutex_driver_data = {
-> +	.mutex_mod = mt8192_mutex_mod,
-> +	.mutex_sof = mt8183_mutex_sof,
-> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
-> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
-> +};
-> +
->  struct mtk_mutex *mtk_mutex_get(struct device *dev)
->  {
->  	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> @@ -507,6 +540,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
->  	  .data = &mt8173_mutex_driver_data},
->  	{ .compatible = "mediatek,mt8183-disp-mutex",
->  	  .data = &mt8183_mutex_driver_data},
-> +	{ .compatible = "mediatek,mt8192-disp-mutex",
-> +	  .data = &mt8192_mutex_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
+>  	if (prot & IOMMU_CACHE)
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index ffaa389ea128..1f82057df531 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -31,6 +31,12 @@
+>   * if the IOMMU page table format is equivalent.
+>   */
+>  #define IOMMU_PRIV	(1 << 5)
+> +/*
+> + * Non-coherent masters can use this page protection flag to set cacheable
+> + * memory attributes for only a transparent outer level of cache, also known as
+> + * the last-level or system cache.
+> + */
+> +#define IOMMU_LLC	(1 << 6)
 
+On reflection, I'm a bit worried about exposing this because I think it will
+introduce a mismatched virtual alias with the CPU (we don't even have a MAIR
+set up for this memory type). Now, we also have that issue for the PTW, but
+since we always use cache maintenance (i.e. the streaming API) for
+publishing the page-tables to a non-coheren walker, it works out. However,
+if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+allocation, then they're potentially in for a nasty surprise due to the
+mismatched outer-cacheability attributes.
+
+So I can take patch (1) as a trivial rename, but unfortunately I think this
+needs more thought before exposing it beyond the PTW.
+
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
