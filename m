@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350AA308719
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:40:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A52830871C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D7D6EA97;
-	Fri, 29 Jan 2021 08:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B97E6EAA2;
+	Fri, 29 Jan 2021 08:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5C4106EA97
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 08:40:50 +0000 (UTC)
-X-UUID: 060e5fa33d21459dbf534108548b2a12-20210129
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2A986EAA2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 08:42:59 +0000 (UTC)
+X-UUID: fc38f4baa7624c2d80587c5736dbe2f3-20210129
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=8LYed4Zwn/R7cvhFdVGZBG69vf/8TYNuvrg1e6/NGJE=; 
- b=H0w+TWDOLlnmcXQSWA/mRNVYrDNSlHttXLmT1oql1kljcW1+p+nn1GE355XvEyhaqdOZ4KxhGQ4znCpQQkD/wRVXWTI5G12T8exLLyY8Uge8h35Tuuy/KO8TL8jvkgKze9l+L3UpyMQ+y0U7XXvxg087y4a5p5jzwOLYQULxfiE=;
-X-UUID: 060e5fa33d21459dbf534108548b2a12-20210129
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ bh=/3q0mlOu7gJgzrpK4SZhxTaGZhiKC2GOEb6iu7kvGeI=; 
+ b=niCTxVpwcBk5LmbVz8HTpPina/b7P6pyf3Vc0XqxqyChdGDfwtFFLBFVEPrZNtXaSNCSa5yXfNiDChngpFWoGsWITcBw+OdUc8Otlvy3b1WmqEFsMCeh+udaJFD2LfrPwUUmOWrJp5FkX2vJNgT/Qo4jBSBpjCzfdA6ZyUJ7CwI=;
+X-UUID: fc38f4baa7624c2d80587c5736dbe2f3-20210129
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 336206262; Fri, 29 Jan 2021 16:40:45 +0800
+ with ESMTP id 1702934999; Fri, 29 Jan 2021 16:42:54 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Jan 2021 16:40:42 +0800
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 29 Jan 2021 16:42:51 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Jan 2021 16:40:42 +0800
-Message-ID: <1611909641.31184.11.camel@mtksdaap41>
-Subject: Re: [PATCH v4 6/8] drm/mediatek: add matrix bits private data for
- ccorr
+ Transport; Fri, 29 Jan 2021 16:42:51 +0800
+Message-ID: <1611909770.31184.12.camel@mtksdaap41>
+Subject: Re: [PATCH v4 7/8] soc: mediatek: add mtk mutex support for MT8192
 From: CK Hu <ck.hu@mediatek.com>
 To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 29 Jan 2021 16:40:41 +0800
-In-Reply-To: <20210129073436.2429834-7-hsinyi@chromium.org>
+Date: Fri, 29 Jan 2021 16:42:50 +0800
+In-Reply-To: <20210129073436.2429834-8-hsinyi@chromium.org>
 References: <20210129073436.2429834-1-hsinyi@chromium.org>
- <20210129073436.2429834-7-hsinyi@chromium.org>
+ <20210129073436.2429834-8-hsinyi@chromium.org>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 07838E2DF8FE698C3E994C67D0C67BE09B3C9FAC28E56910A68D922798B518752000:8
+X-TM-SNTS-SMTP: B39B3CC9B666C24300CC1958077EE6675F149E906B4AEB7FCECA4F46F3A9BF782000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,80 +68,84 @@ Hi, Hsin-Yi:
 On Fri, 2021-01-29 at 15:34 +0800, Hsin-Yi Wang wrote:
 > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > 
-> matrix bits of mt8183 is 12
-> matrix bits of mt8192 is 13
+> Add mtk mutex support for MT8192 SoC.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
 > 
 > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
+>  drivers/soc/mediatek/mtk-mutex.c | 35 ++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> index 0c68090eb1e92..1c7163a12f3b1 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> @@ -31,8 +31,10 @@
->  #define DISP_CCORR_COEF_3			0x008C
->  #define DISP_CCORR_COEF_4			0x0090
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+> index 718a41beb6afb..dfd9806d5a001 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -39,6 +39,18 @@
+>  #define MT8167_MUTEX_MOD_DISP_DITHER		15
+>  #define MT8167_MUTEX_MOD_DISP_UFOE		16
 >  
-> +#define CCORR_MATRIX_BITS			12
+> +#define MT8192_MUTEX_MOD_DISP_OVL0		0
+> +#define MT8192_MUTEX_MOD_DISP_OVL0_2L		1
+> +#define MT8192_MUTEX_MOD_DISP_RDMA0		2
+> +#define MT8192_MUTEX_MOD_DISP_COLOR0		4
+> +#define MT8192_MUTEX_MOD_DISP_CCORR0		5
+> +#define MT8192_MUTEX_MOD_DISP_AAL0		6
+> +#define MT8192_MUTEX_MOD_DISP_GAMMA0		7
+> +#define MT8192_MUTEX_MOD_DISP_POSTMASK0		8
+> +#define MT8192_MUTEX_MOD_DISP_DITHER0		9
+> +#define MT8192_MUTEX_MOD_DISP_OVL2_2L		16
+> +#define MT8192_MUTEX_MOD_DISP_RDMA4		17
 > +
->  struct mtk_disp_ccorr_data {
-> -	u32 reserved;
-> +	u32 matrix_bits;
+>  #define MT8183_MUTEX_MOD_DISP_RDMA0		0
+>  #define MT8183_MUTEX_MOD_DISP_RDMA1		1
+>  #define MT8183_MUTEX_MOD_DISP_OVL0		9
+> @@ -214,6 +226,20 @@ static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>  	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
 >  };
 >  
->  /**
-> @@ -116,6 +118,7 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
->  	uint16_t coeffs[9] = { 0 };
->  	int i;
->  	struct cmdq_pkt *cmdq_pkt = NULL;
-> +	u32 matrix_bits;
->  
->  	if (!blob)
->  		return;
-> @@ -123,8 +126,16 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
->  	ctm = (struct drm_color_ctm *)blob->data;
->  	input = ctm->matrix;
->  
-> -	for (i = 0; i < ARRAY_SIZE(coeffs); i++)
-> +	if (ccorr->data)
-> +		matrix_bits = ccorr->data->matrix_bits;
-> +	else
-> +		matrix_bits = CCORR_MATRIX_BITS;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(coeffs); i++) {
->  		coeffs[i] = mtk_ctm_s31_32_to_s1_10(input[i]);
-> +		if (matrix_bits > CCORR_MATRIX_BITS)
-> +			coeffs[i] <<= (matrix_bits - CCORR_MATRIX_BITS);
-
-I think format of MT8192 ccorr coeffs is s1.11, after
-mtk_ctm_s31_32_to_s1_10(), you lose one bit precision. So modify
-mtk_ctm_s31_32_to_s1_10() to get maximum precision.
-
-Regards,
-CK
-
-> +	}
->  
->  	mtk_ddp_write(cmdq_pkt, coeffs[0] << 16 | coeffs[1],
->  		      &ccorr->cmdq_reg, ccorr->regs, DISP_CCORR_COEF_0);
-> @@ -205,8 +216,13 @@ static int mtk_disp_ccorr_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data = {
-> +	.matrix_bits = CCORR_MATRIX_BITS,
+> +static const unsigned int mt8192_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+> +	[DDP_COMPONENT_AAL0] = MT8192_MUTEX_MOD_DISP_AAL0,
+> +	[DDP_COMPONENT_CCORR] = MT8192_MUTEX_MOD_DISP_CCORR0,
+> +	[DDP_COMPONENT_COLOR0] = MT8192_MUTEX_MOD_DISP_COLOR0,
+> +	[DDP_COMPONENT_DITHER] = MT8192_MUTEX_MOD_DISP_DITHER0,
+> +	[DDP_COMPONENT_GAMMA] = MT8192_MUTEX_MOD_DISP_GAMMA0,
+> +	[DDP_COMPONENT_POSTMASK0] = MT8192_MUTEX_MOD_DISP_POSTMASK0,
+> +	[DDP_COMPONENT_OVL0] = MT8192_MUTEX_MOD_DISP_OVL0,
+> +	[DDP_COMPONENT_OVL_2L0] = MT8192_MUTEX_MOD_DISP_OVL0_2L,
+> +	[DDP_COMPONENT_OVL_2L2] = MT8192_MUTEX_MOD_DISP_OVL2_2L,
+> +	[DDP_COMPONENT_RDMA0] = MT8192_MUTEX_MOD_DISP_RDMA0,
+> +	[DDP_COMPONENT_RDMA4] = MT8192_MUTEX_MOD_DISP_RDMA4,
 > +};
 > +
->  static const struct of_device_id mtk_disp_ccorr_driver_dt_match[] = {
-> -	{ .compatible = "mediatek,mt8183-disp-ccorr"},
-> +	{ .compatible = "mediatek,mt8183-disp-ccorr",
-> +	  .data = &mt8183_ccorr_driver_data},
+>  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+>  	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+>  	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
+> @@ -275,6 +301,13 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
+>  	.no_clk = true,
+>  };
+>  
+> +static const struct mtk_mutex_data mt8192_mutex_driver_data = {
+> +	.mutex_mod = mt8192_mutex_mod,
+> +	.mutex_sof = mt8183_mutex_sof,
+> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
+> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+> +};
+> +
+>  struct mtk_mutex *mtk_mutex_get(struct device *dev)
+>  {
+>  	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+> @@ -507,6 +540,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
+>  	  .data = &mt8173_mutex_driver_data},
+>  	{ .compatible = "mediatek,mt8183-disp-mutex",
+>  	  .data = &mt8183_mutex_driver_data},
+> +	{ .compatible = "mediatek,mt8192-disp-mutex",
+> +	  .data = &mt8192_mutex_driver_data},
 >  	{},
 >  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_ccorr_driver_dt_match);
+>  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
 
 _______________________________________________
 dri-devel mailing list
