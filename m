@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEE1308794
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 10:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43CB308797
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 10:56:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7A16EAB2;
-	Fri, 29 Jan 2021 09:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FCDD6EAB5;
+	Fri, 29 Jan 2021 09:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541556EAB2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7C486EAB2
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:56:10 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DF1BDAF6F;
- Fri, 29 Jan 2021 09:56:08 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3BBB0AF7B;
+ Fri, 29 Jan 2021 09:56:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH 4/5] drm/gma500: Remove CONFIG_X86 conditionals from source
- files
-Date: Fri, 29 Jan 2021 10:56:03 +0100
-Message-Id: <20210129095604.32423-5-tzimmermann@suse.de>
+Subject: [PATCH 5/5] drm/gma500: Remove dependency on TTM
+Date: Fri, 29 Jan 2021 10:56:04 +0100
+Message-Id: <20210129095604.32423-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210129095604.32423-1-tzimmermann@suse.de>
 References: <20210129095604.32423-1-tzimmermann@suse.de>
@@ -46,97 +45,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the CONFIG_X86 conditionals from the source code. The driver
-already depends on X86 in the Kconfig file. Also, no one has been
-trying to build it on a non-x86 platform recently, or they would have
-noticed that drm_ttm_cache_flush() doesn't exist.
+The gma500 driver does not use TTM.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/mmu.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ drivers/gpu/drm/gma500/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/gma500/mmu.c b/drivers/gpu/drm/gma500/mmu.c
-index 13aff19aae9b..d856580b8111 100644
---- a/drivers/gpu/drm/gma500/mmu.c
-+++ b/drivers/gpu/drm/gma500/mmu.c
-@@ -48,7 +48,6 @@ static inline uint32_t psb_mmu_pd_index(uint32_t offset)
- 	return offset >> PSB_PDE_SHIFT;
- }
- 
--#if defined(CONFIG_X86)
- static inline void psb_clflush(void *addr)
- {
- 	__asm__ __volatile__("clflush (%0)\n" : : "r"(addr) : "memory");
-@@ -63,13 +62,6 @@ static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
- 	psb_clflush(addr);
- 	mb();
- }
--#else
--
--static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
--{;
--}
--
--#endif
- 
- static void psb_mmu_flush_pd_locked(struct psb_mmu_driver *driver, int force)
- {
-@@ -293,7 +285,6 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
- 	for (i = 0; i < (PAGE_SIZE / sizeof(uint32_t)); ++i)
- 		*ptes++ = pd->invalid_pte;
- 
--#if defined(CONFIG_X86)
- 	if (pd->driver->has_clflush && pd->hw_context != -1) {
- 		mb();
- 		for (i = 0; i < clflush_count; ++i) {
-@@ -302,7 +293,6 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
- 		}
- 		mb();
- 	}
--#endif
- 	kunmap_atomic(v);
- 	spin_unlock(lock);
- 
-@@ -459,7 +449,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
- 
- 	driver->has_clflush = 0;
- 
--#if defined(CONFIG_X86)
- 	if (boot_cpu_has(X86_FEATURE_CLFLUSH)) {
- 		uint32_t tfms, misc, cap0, cap4, clflush_size;
- 
-@@ -476,7 +465,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
- 		driver->clflush_mask = driver->clflush_add - 1;
- 		driver->clflush_mask = ~driver->clflush_mask;
- 	}
--#endif
- 
- 	up_write(&driver->sem);
- 	return driver;
-@@ -486,7 +474,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
- 	return NULL;
- }
- 
--#if defined(CONFIG_X86)
- static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
- 			       uint32_t num_pages, uint32_t desired_tile_stride,
- 			       uint32_t hw_tile_stride)
-@@ -534,14 +521,6 @@ static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
- 	}
- 	mb();
- }
--#else
--static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
--			       uint32_t num_pages, uint32_t desired_tile_stride,
--			       uint32_t hw_tile_stride)
--{
--	drm_ttm_cache_flush();
--}
--#endif
- 
- void psb_mmu_remove_pfn_sequence(struct psb_mmu_pd *pd,
- 				 unsigned long address, uint32_t num_pages)
+diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
+index 02de5970d490..405f718b884c 100644
+--- a/drivers/gpu/drm/gma500/Kconfig
++++ b/drivers/gpu/drm/gma500/Kconfig
+@@ -3,7 +3,6 @@ config DRM_GMA500
+ 	tristate "Intel GMA500/3600/3650 KMS Framebuffer"
+ 	depends on DRM && PCI && X86 && MMU
+ 	select DRM_KMS_HELPER
+-	select DRM_TTM
+ 	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
+ 	select ACPI_VIDEO if ACPI
+ 	select BACKLIGHT_CLASS_DEVICE if ACPI
 -- 
 2.30.0
 
