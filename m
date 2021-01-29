@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C0130840B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3584830840D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D956EA3B;
-	Fri, 29 Jan 2021 03:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B01276EA6E;
+	Fri, 29 Jan 2021 03:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA176EA3B
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:05:20 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id m6so5335861pfk.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:05:20 -0800 (PST)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 753156EA6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:05:22 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id l18so5577061pji.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zTNb1lTIEVQ6SY+1PM+jItpjx6YB2483ibK9X9oBYPQ=;
- b=z1kwyFNg5hSYRi20ZvZ8wuUsM10FJZoI8McYKRlownqrb/9vwSuD19hHoANIKl9o7S
- NM3r0rFYtS7BoYRIxUKv2hJYefP+6PduFPKe6sNVWE7NJvVoSFSo+oGB5ds50UhCUA9V
- SyK9daFDnwbPsOxmmmogF/izeRWdoG3OgCQ6k0DmEgOaW1qa9ZwCI/06RZVukTBn91KD
- jWkK57VznZPmUOrJGfJnxT8iH5+1O3xSd8qHCSqHOszD3n07tm6upXSk82uB3LtU1IAy
- N+1l7G24LEncO+U+I1O4bg5Gt8C/bhkcHAaGe6YPBKuBSfvXS+AFhnzu9hoyFu2QqGYg
- S+4g==
+ bh=OKBQYxsiF/Yxl/0bRH0OqXnXLh71Bs92MecR17vq6CE=;
+ b=YyD6yWoGpCJBFSxr5KRkbyz5bfteCsw39788klP5cnw03qARl97eSoGDQg8ShaHYMB
+ +9hHYQc9rgyU5dFnO0S/zoWBhNvMGrHZszlgbWsYa8/r5YlVRp0wOe8+HZ+UwUSMS2lY
+ yZPXNzOj1dM0/CwLm0fOF5X9rnt6C0xec6nqE4t7OMnCEqxW+vteZ0eq3EaekznrH4/Y
+ c0th+OgCWrgUpZXQtP7vfZiFqOZP3fiO2Q+eWnlD9H/a4yIsK5oJK66xr8s3E28ZcDFP
+ rh1/IQ9t+f4HhBcbqODmoetiQSjoK5X4ERzDst+KHYWNvCwCDiyCUuK/pvBvCQt751Hg
+ F9BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zTNb1lTIEVQ6SY+1PM+jItpjx6YB2483ibK9X9oBYPQ=;
- b=SRuHVFcCyrVJ0yZ5NbgPM+ypdYjZkNLGui967DbhI0JQ+IoHcenr4PSzyJga/K1wZn
- 2GpzSGQayMVuOmSk4XY409JTrO0JKDyairmG5v+Do8DKfs3hFsEw/P3psQwoOAK/Hylc
- w7mafkal1kGd8YhkUknTYPIcunZXXWWBd8UEfTyXnnbfd6L5clTiQ6oGlcbGJ9igOMu6
- taXZkme3w8sYBS5lFx4eG79n/NFrQhCAL6V4tfv2RAaF3iMUYjdfTXWgkDvlNwnOmkgC
- 7MTehqlG69qooCr60aSYSWILKCyIJqdofbnoD0U3W+xDCvc9JOqcS3QlyQvYMYnlDb9e
- +IBA==
-X-Gm-Message-State: AOAM531VH1pUXV/TrPejvRG6a29+EPOl65pyvq/dr2+73cvUSpHJO28M
- gghR4ohv4Mx/61icqXsdVqqyUQ==
-X-Google-Smtp-Source: ABdhPJxgU85/WQXQ6xIZh5kol/FeQ53pYxb2sLTuRnfE+yO6MQ1sib5AHGRb02vCaC8rjeUx7mU2rw==
-X-Received: by 2002:a63:f404:: with SMTP id g4mr2518687pgi.114.1611889520497; 
- Thu, 28 Jan 2021 19:05:20 -0800 (PST)
+ bh=OKBQYxsiF/Yxl/0bRH0OqXnXLh71Bs92MecR17vq6CE=;
+ b=L7c1HvULzpH8VWFWI2f7oGVQ2poA4ja5Qst3cLAPhaz4uXjxJxLQH9ihT5doNyRVQ/
+ tf9beC1igdjnVVtvka+tF66EZzjQxg5X0T3DHh11TmqIpbk0HGEgKPROlBp3IQFbHNzM
+ Zzez/bT7YfgJCL546XDImqq6/Q28Gx7F4Y58Aj3rtkZ7hvsnpfvTCd9aGUIrzB97vnS/
+ ObXVOrjdwMrA7Dm3SCjs269AwwPWfOBqVHPbuKPddFp2dpT92BWSdEPFn8Uzu/rlYbKg
+ E3/RoIh0FQx1EMVSLf0jmNFDLsUVE5KGo6Xg8bAFjX0IkKgkdkUDmNEmWlnvqftCjwQt
+ yIVw==
+X-Gm-Message-State: AOAM531JZLhXTfilzPdgQL94pW06ZgLBxum6LmJb+2VeV+z3ks1PxmTz
+ mVDX0NtUXc8i1MOTvdefyZbyxA==
+X-Google-Smtp-Source: ABdhPJwFkKoGEbsS48QlG2raIqaa9osIVu/ssWmT+77IVRcpOInpa7ki/IP6MdqqkEeLDOObv8Sjsw==
+X-Received: by 2002:a17:902:d2c1:b029:de:7c38:f86a with SMTP id
+ n1-20020a170902d2c1b02900de7c38f86amr2336534plc.83.1611889522041; 
+ Thu, 28 Jan 2021 19:05:22 -0800 (PST)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- y75sm6854496pfg.119.2021.01.28.19.05.19
+ y75sm6854496pfg.119.2021.01.28.19.05.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 19:05:19 -0800 (PST)
+ Thu, 28 Jan 2021 19:05:21 -0800 (PST)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/5] kselftests: dmabuf-heaps: Softly fail if don't find a
- vgem device
-Date: Fri, 29 Jan 2021 03:05:12 +0000
-Message-Id: <20210129030514.1231773-3-john.stultz@linaro.org>
+Subject: [PATCH 4/5] kselftests: dmabuf-heaps: Cleanup test output
+Date: Fri, 29 Jan 2021 03:05:13 +0000
+Message-Id: <20210129030514.1231773-4-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210129030514.1231773-1-john.stultz@linaro.org>
 References: <20210129030514.1231773-1-john.stultz@linaro.org>
@@ -78,8 +78,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While testing against a vgem device is helpful for testing importing
-they aren't always configured in, so don't make it a fatal failure.
+Cleanup the test output so it is a bit easier to read
 
 Cc: Shuah Khan <shuah@kernel.org>
 Cc: Brian Starkey <brian.starkey@arm.com>
@@ -94,36 +93,159 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-kselftest@vger.kernel.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- .../testing/selftests/dmabuf-heaps/dmabuf-heap.c  | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ .../selftests/dmabuf-heaps/dmabuf-heap.c      | 44 +++++++++----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
 diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index 46f6759a8acc..8cedd539c7fb 100644
+index 8cedd539c7fb..d179d81e2355 100644
 --- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
 +++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -184,15 +184,14 @@ static int test_alloc_and_import(char *heap_name)
+@@ -148,16 +148,14 @@ static int test_alloc_and_import(char *heap_name)
+ 	void *p = NULL;
+ 	int ret;
+ 
+-	printf("Testing heap: %s\n", heap_name);
+-
+ 	heap_fd = dmabuf_heap_open(heap_name);
+ 	if (heap_fd < 0)
+ 		return -1;
+ 
+-	printf("Allocating 1 MEG\n");
++	printf("  Testing allocation and importing:  ");
+ 	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0, &dmabuf_fd);
+ 	if (ret) {
+-		printf("Allocation Failed!\n");
++		printf("FAIL (Allocation Failed!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+@@ -169,11 +167,10 @@ static int test_alloc_and_import(char *heap_name)
+ 		 dmabuf_fd,
+ 		 0);
+ 	if (p == MAP_FAILED) {
+-		printf("mmap() failed: %m\n");
++		printf("FAIL (mmap() failed)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+-	printf("mmap passed\n");
+ 
+ 	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
+ 	memset(p, 1, ONE_MEG / 2);
+@@ -183,33 +180,31 @@ static int test_alloc_and_import(char *heap_name)
+ 	importer_fd = open_vgem();
  	if (importer_fd < 0) {
  		ret = importer_fd;
- 		printf("Failed to open vgem\n");
--		goto out;
--	}
--
--	ret = import_vgem_fd(importer_fd, dmabuf_fd, &handle);
--	if (ret < 0) {
--		printf("Failed to import buffer\n");
--		goto out;
-+	} else {
-+		ret = import_vgem_fd(importer_fd, dmabuf_fd, &handle);
-+		if (ret < 0) {
-+			printf("Failed to import buffer\n");
-+			goto out;
-+		}
-+		printf("import passed\n");
+-		printf("Failed to open vgem\n");
++		printf("(Could not open vgem - skipping):  ");
+ 	} else {
+ 		ret = import_vgem_fd(importer_fd, dmabuf_fd, &handle);
+ 		if (ret < 0) {
+-			printf("Failed to import buffer\n");
++			printf("FAIL (Failed to import buffer)\n");
+ 			goto out;
+ 		}
+-		printf("import passed\n");
  	}
--	printf("import passed\n");
  
  	ret = dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
  	if (ret < 0) {
+-		printf("Sync start failed!\n");
++		printf("FAIL (DMA_BUF_SYNC_START failed!)\n");
+ 		goto out;
+ 	}
+ 
+ 	memset(p, 0xff, ONE_MEG);
+ 	ret = dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_END);
+ 	if (ret < 0) {
+-		printf("Sync end failed!\n");
++		printf("FAIL (DMA_BUF_SYNC_END failed!)\n");
+ 		goto out;
+ 	}
+-	printf("syncs passed\n");
+ 
+ 	close_handle(importer_fd, handle);
+ 	ret = 0;
+-
++	printf(" OK\n");
+ out:
+ 	if (p)
+ 		munmap(p, ONE_MEG);
+@@ -297,23 +292,24 @@ static int test_alloc_compat(char *heap_name)
+ 	if (heap_fd < 0)
+ 		return -1;
+ 
+-	printf("Testing (theoretical)older alloc compat\n");
++	printf("  Testing (theoretical)older alloc compat:  ");
+ 	ret = dmabuf_heap_alloc_older(heap_fd, ONE_MEG, 0, &dmabuf_fd);
+ 	if (ret) {
+-		printf("Older compat allocation failed!\n");
++		printf("FAIL (Older compat allocation failed!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+ 	close(dmabuf_fd);
++	printf("OK\n");
+ 
+-	printf("Testing (theoretical)newer alloc compat\n");
++	printf("  Testing (theoretical)newer alloc compat:  ");
+ 	ret = dmabuf_heap_alloc_newer(heap_fd, ONE_MEG, 0, &dmabuf_fd);
+ 	if (ret) {
+-		printf("Newer compat allocation failed!\n");
++		printf("FAIL (Newer compat allocation failed!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+-	printf("Ioctl compatibility tests passed\n");
++	printf("OK\n");
+ out:
+ 	if (dmabuf_fd >= 0)
+ 		close(dmabuf_fd);
+@@ -332,17 +328,17 @@ static int test_alloc_errors(char *heap_name)
+ 	if (heap_fd < 0)
+ 		return -1;
+ 
+-	printf("Testing expected error cases\n");
++	printf("  Testing expected error cases:  ");
+ 	ret = dmabuf_heap_alloc(0, ONE_MEG, 0x111111, &dmabuf_fd);
+ 	if (!ret) {
+-		printf("Did not see expected error (invalid fd)!\n");
++		printf("FAIL (Did not see expected error (invalid fd)!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+ 
+ 	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0x111111, &dmabuf_fd);
+ 	if (!ret) {
+-		printf("Did not see expected error (invalid heap flags)!\n");
++		printf("FAIL (Did not see expected error (invalid heap flags)!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+@@ -350,12 +346,12 @@ static int test_alloc_errors(char *heap_name)
+ 	ret = dmabuf_heap_alloc_fdflags(heap_fd, ONE_MEG,
+ 					~(O_RDWR | O_CLOEXEC), 0, &dmabuf_fd);
+ 	if (!ret) {
+-		printf("Did not see expected error (invalid fd flags)!\n");
++		printf("FAIL (Did not see expected error (invalid fd flags)!)\n");
+ 		ret = -1;
+ 		goto out;
+ 	}
+ 
+-	printf("Expected error checking passed\n");
++	printf("OK\n");
+ 	ret = 0;
+ out:
+ 	if (dmabuf_fd >= 0)
+@@ -384,6 +380,8 @@ int main(void)
+ 		if (!strncmp(dir->d_name, "..", 3))
+ 			continue;
+ 
++		printf("Testing heap: %s\n", dir->d_name);
++		printf("=======================================\n");
+ 		ret = test_alloc_and_import(dir->d_name);
+ 		if (ret)
+ 			break;
 -- 
 2.25.1
 
