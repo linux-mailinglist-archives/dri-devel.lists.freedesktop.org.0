@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310E4308990
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:36:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9468308999
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:49:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94BF6EB4B;
-	Fri, 29 Jan 2021 14:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5576EB39;
+	Fri, 29 Jan 2021 14:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 779776EB4B
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:35:55 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id u4so9166703ljh.6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:35:55 -0800 (PST)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77BA6EB39
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:49:45 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id u25so12824690lfc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3NndlnaqBVSc/WIY+Wsn4yEeBCdXKrA9bnfrpnwxgao=;
- b=M/cHkKMpzoeCIjf+sfaMp83GKyvRnSwG/JXxnRRdVE6C8eoeK97ehy0WvvyTkeKcSB
- RQddgR+jRVkrsaJ/AwZEopa/IE2fXilupfCgDNnuTf0C/vVCpOobHfHbUcF27rDxrGjg
- zWoCD6AvkAmCxNaWU7tbIOIGzuPuz7O7g2jOEcL1r+xkKPmvjFZdr5CMCnnDZq+9bEUN
- J5ODGlCNf7GSMTm5Bh/GlUyu0W5MP4stdeZ1MXCWTjGlGojMvBj5M5z1lUU3KUqXAC70
- SZKkSqu6jmIoqe+IfnxXTbHG/DxQWW+CZPEkmRbYFfE9/JlB0R8v7BgUCxLmR/oEaphi
- q8yw==
+ :cc; bh=e2eiAhiRPcn2mLR2Gduv03h2Y9+s1CAyYJA8iuAVHXk=;
+ b=gW6AXvd8sDI2BRgkYeulvkMAZYg/SUP+xu5ZJwKIB5fh7p1tHPmgOLQ5fdTJgDpN8g
+ VI0gELRNtI3JFo3phIMpStqhSlfh9wJ6rgkEBH0FwyXu1lmFKnSk3GF8+MO8P/IDZnwy
+ 5YNB8T7Ehgns6KoniiSYAC/LvvwHNdYbFwx6vbKwU4N2VG+e1YSWq5LDOByBe/cvRGIV
+ v5D1QhTFN2yTBi5p8qVvaUWShxbtoNxr0+BueDI9twspNNEEThGSX8ZqEVVujoxe+vhb
+ UTS3osAnzIfiYpPC5aiSEiG/LkTSj52b1rEXXl79DC9P5YiLCsmFe9mK+oGGYCKJp4De
+ MIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3NndlnaqBVSc/WIY+Wsn4yEeBCdXKrA9bnfrpnwxgao=;
- b=gENHJ1fCexlaE0s6QTzHras25UGooi1g4aX6e34tXc4qvcyW3BgSiwk5rcp+a/dQqz
- /fGnFGcCdkenTLWjUc43s9gW9WTUZFrqFkmjaW1KUVbDvgNhFxZUDWWCOU9fOA2A8L2q
- jcALIlxZtfx1O6oJcyexpCAQdj/G1jEinIZq4R3yNTUI3NBd7Q7WZwt5OmWe1hvU8mid
- quo4jOyDODxv5MDYlUbngxsUslUQO/hdSjXLvi3Le2gVTVHW9huqOKFQJ/ejN/pD5mhK
- dbBeSqyFgBRUwaeC3wG9I980fAuVhahHywmABhNClXI20/IsQZ7qtOvDVVMB9dCVZviw
- 9L6A==
-X-Gm-Message-State: AOAM5335Wa7bQnHQ+ApkFZBId2I0Hxb0jsZhA6QD//SoXHMz5/s3iGPM
- Dnysz1vE26k3xh+3pQZtxJkrF9G0e7Yu2qqJlYo=
-X-Google-Smtp-Source: ABdhPJzSK2c4aF5AKlmtDBqH6gdQQvVurq6eIIBJm26vhiqFg5wpONSLgTXDn+3EhThDfgml5aP60W4SUeojKeMGFd4=
-X-Received: by 2002:a2e:3612:: with SMTP id d18mr2563111lja.211.1611930953854; 
- Fri, 29 Jan 2021 06:35:53 -0800 (PST)
+ bh=e2eiAhiRPcn2mLR2Gduv03h2Y9+s1CAyYJA8iuAVHXk=;
+ b=PpSFgcSsgnpRfvgLcfdfvWs5qUqr64a229lgkcU2KoJlDqbrdwG9fHTvOXM+SKf2U4
+ tJETPVKwy5tuiyF6O5htUNOT8kSFYqHtDZF0Lo6kwDVnE22j9xYNWQcDs76FqcPpkyPZ
+ irKW55kWCkkeXkb6osVfEk7jS0xLYskbnf8bE9/klqfFJPtg1MN4XOYnSi0wE1A++4PC
+ thVKYIZZZd5zV4E0zBTGEEzwV9AVcaN4A59lMnym+Vg8ZbX4wrOyuPjtQcxKXuo253pX
+ H/ep41o2TwYVzpcoRh8xXGUgnUxusWD7O2A46dAeSeJh8y/gCeJnOmWXwsgKYoq0CMRE
+ ofgg==
+X-Gm-Message-State: AOAM533rNhae8fQCYkNKG0xGimyM88CEQv/EbdXCTkxYhSIxhmuNxFKC
+ 7Yf67vr5I7btOvAktWJqQGPlhDjTixl0JHG+N0jYO6SV
+X-Google-Smtp-Source: ABdhPJx9muIkVigqIOkH9CuSHLwpH/kopo4eun/OyoWwtlVCvCt5G4FaGTB2971MkQ5GnJkpQ9a5eef3kLq9+OLY4k4=
+X-Received: by 2002:ac2:515b:: with SMTP id q27mr2355949lfd.516.1611931784241; 
+ Fri, 29 Jan 2021 06:49:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20210129095604.32423-1-tzimmermann@suse.de>
- <20210129095604.32423-6-tzimmermann@suse.de>
-In-Reply-To: <20210129095604.32423-6-tzimmermann@suse.de>
+ <20210129095604.32423-5-tzimmermann@suse.de>
+In-Reply-To: <20210129095604.32423-5-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 29 Jan 2021 15:35:42 +0100
-Message-ID: <CAMeQTsa+csULd+eZ7uY398Z5avcxPHh==tWm_DtbkLY5EyL7Zg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/gma500: Remove dependency on TTM
+Date: Fri, 29 Jan 2021 15:49:33 +0100
+Message-ID: <CAMeQTsb+EsbEr0s5CNzzxtWvOrOo=NnceHEaieh1f0E+rnw8iA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] drm/gma500: Remove CONFIG_X86 conditionals from
+ source files
 To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,33 +71,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jan 29, 2021 at 10:56 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> The gma500 driver does not use TTM.
+> Remove the CONFIG_X86 conditionals from the source code. The driver
+> already depends on X86 in the Kconfig file. Also, no one has been
+> trying to build it on a non-x86 platform recently, or they would have
+> noticed that drm_ttm_cache_flush() doesn't exist.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Thanks!
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-
-> ---
->  drivers/gpu/drm/gma500/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-> index 02de5970d490..405f718b884c 100644
-> --- a/drivers/gpu/drm/gma500/Kconfig
-> +++ b/drivers/gpu/drm/gma500/Kconfig
-> @@ -3,7 +3,6 @@ config DRM_GMA500
->         tristate "Intel GMA500/3600/3650 KMS Framebuffer"
->         depends on DRM && PCI && X86 && MMU
->         select DRM_KMS_HELPER
-> -       select DRM_TTM
->         # GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
->         select ACPI_VIDEO if ACPI
->         select BACKLIGHT_CLASS_DEVICE if ACPI
-> --
-> 2.30.0
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
