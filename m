@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7724B3094D1
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD663094DB
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D786ECAC;
-	Sat, 30 Jan 2021 11:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BF06ECC2;
+	Sat, 30 Jan 2021 11:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940DC6EB18
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 12:47:41 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id md11so5756842pjb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 04:47:41 -0800 (PST)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269B26EB16
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 12:54:54 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id r38so6586568pgk.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 04:54:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
  :organization:mime-version:content-transfer-encoding;
- bh=gey6ZY0toHv6VOmxg4G7/z9gStOYikqSFh5g6TpL77g=;
- b=vXuqtJc1idgNU9yQCo/fp7Ab+usyyyfz1rSAqGtMgWtscmTnt8AT0BdLItHL2GlrXk
- gkQmfIP6Z4ygt7lY4rgpNd/7dGSgSR7JEiYxoOkcy5wpVlMS0eYu0/UgLLUPxNt1kMLS
- b2E/+9KjqTf9Q9BOZMpWXbC+Hdn1uGfY0NqP4oA7G2kArYNox63IVCU3KqqkVF9TdIWY
- 6ukXjx71x12HkKZTJJ2sapPY+W13ItMFJmVurVOiPIuqBc18o4LXBawyUsaNk/SKg8qc
- 9+pZHOFFQ7TifaeYRrP4QKIDZU5g4SrAkESSsWNbFKMZ1o2boq4S3tpqHNQVh3nriy8Y
- KgKw==
+ bh=hEFtshIJPKNSQZ+CC0supJzNPIjoTkOgp8j1yQcbZhI=;
+ b=B49bAVMmMWCyao1WgFn6Dw5fLu30hjmYlejPf1p/6p4S1Nf0Ct6eVyiAcixZ+lC1no
+ Nj9NY5K6yxO9eb6xJZyE14yGoVyFHfdahcfSqAS/vovupBiI3QATrR4KJ5w+53btcpqv
+ 1LFcc7TqeREXy3kYtiPHnpN8ABEp6ACgYRJOmXCW8GJMa/2qBeig9oeFHkpojK03wZUN
+ mxdMj0LLyT6U6o6lhgYjFM/hZJZVYipUHvi4WE2i3SPkh/zqs6vuq0rhYY614g073r3r
+ T9cGQTS3RKenOAJESbPA3JShLeq3vDs0B4/ZBWCQNadDSRG5nP72sR1HCS9sCx0gp/Bq
+ hS5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:organization:mime-version:content-transfer-encoding;
- bh=gey6ZY0toHv6VOmxg4G7/z9gStOYikqSFh5g6TpL77g=;
- b=AE8lLB9J5jhgYioYvKGPJTk1ipibiuF6HRsCdi9erAutGNXG9tjQMZPtHwa9pmq/Fe
- TIpHefd3JYQZPOFDGrQy6Q7X+ntID3Q1erEHEvA+7FDv+Ykt3HWonpTPNncR9dYxQ4zl
- JAEVzAIfzsmA9C2tfwrAoCEea9kuxJn8p0Ufrp2AJK4d0VfQW83kpqWO3fLPuMCj/hFK
- 2BgIOKOKO2rkgw9bD9bM7TkFUuTZpzznAXhbITaaZsC+9hBwFhg1Ov+W//LDmLIAywxz
- O3b+h5e88PrTxvMtVN27zHYsIPlphceV4//ryzOd4HBsszZYxXeqAD3KMOFlJA3elsTF
- AFlA==
-X-Gm-Message-State: AOAM530L4wQDpnhWKooRz9uHOwncLxIlAkVgyh1tj/XuA8tV9VXOABcy
- bnaaEYSggVB0FscMmnNjfHQ=
-X-Google-Smtp-Source: ABdhPJzrUKpZVmxy7aREzbzLAECwsJsp1TVGwWCQ4IACdk/D7pTSz/Vr2FguW3H0pi0FGnZzWRgFdw==
-X-Received: by 2002:a17:902:ab93:b029:df:f681:cdf3 with SMTP id
- f19-20020a170902ab93b02900dff681cdf3mr4248655plr.28.1611924461212; 
- Fri, 29 Jan 2021 04:47:41 -0800 (PST)
+ bh=hEFtshIJPKNSQZ+CC0supJzNPIjoTkOgp8j1yQcbZhI=;
+ b=gbqZXogHV8HeF4Jqg5bpOoUpiJj3x4wtmZHBMVel2marFimQZX2UvKqgC0/KrDZQ8O
+ G3lWVlBPVBvy+GpZq6VM8Fyj4ZenjBgsH4GDZ1bZNKk1nOMc0xU5NQ4Fi6Xb1/AdpqRM
+ 9PtVYs7I93woStiFoZxnpOu3yxaTCVSeSsvyHV/RfODHWJEmVj6SQtyKHfdORHjk5lhX
+ s8x7fSbPRQlD25b8XBOoF/DhEVL6Ia2we8AhFA54vA6by3w1Ey7FQu4h14TQ2BMVHkyC
+ bKwh1Q8xfjkVcXYat8qcJULZacf399xIoirXXrLKwnpNOkeUpvX0jlvryJm8DJOqqyMf
+ qRZg==
+X-Gm-Message-State: AOAM53394A/xbwrfDVGQ4lmlzQRkwH3xAhJnaW7hTQ0A4gyomdobxXwv
+ Im4MxRBnSIvsQ57LQvh38/g=
+X-Google-Smtp-Source: ABdhPJyXCt2fIv2Ld4WrkceGfcg/wM0H8EGE5oOM/aWMgQeVI+RaaeUKcdVGuowoyh8ppXslv9Y6BA==
+X-Received: by 2002:a63:5014:: with SMTP id e20mr4647413pgb.152.1611924893831; 
+ Fri, 29 Jan 2021 04:54:53 -0800 (PST)
 Received: from localhost ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id 21sm8415028pfh.56.2021.01.29.04.47.37
+ by smtp.gmail.com with ESMTPSA id a2sm8861568pgq.94.2021.01.29.04.54.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 04:47:40 -0800 (PST)
-Date: Fri, 29 Jan 2021 20:47:33 +0800
+ Fri, 29 Jan 2021 04:54:53 -0800 (PST)
+Date: Fri, 29 Jan 2021 20:54:47 +0800
 From: carlis <zhangxuezhi3@gmail.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
-Message-ID: <20210129204733.00003954@gmail.com>
+Message-ID: <20210129205447.0000464f@gmail.com>
 In-Reply-To: <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
 References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
  <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
@@ -126,7 +125,6 @@ Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 > 
 > For example, above was commented on and hasn't been addressed here.
 > 
-hi,here i can not get you.....
 > >  * @par: FBTFT parameter object
 > >  *
 > >  * Return: 0 on success, < 0 if error occurred.
@@ -146,8 +144,8 @@ hi,here i can not get you.....
 > >         if (te) {  
 > 
 > This one is not like I suggested.
-Why? My thinking is that if the TE is not configured and NULL is
-returned, the initialization can still proceed.....
+I don't think I have a problem here, if te GPIO is not configured, it
+should return NULL, if it is configured, it should be greater than 0 
 > 
 > >                 par->irq_te = gpiod_to_irq(te);
 > >                 gpiod_put(te);
@@ -156,11 +154,6 @@ returned, the initialization can still proceed.....
 > >                 if (par->irq_te) {  
 > 
 > This is wrong.
-
-Why? i have read gpiod_to_irq code, if an error occurs, a negative
-value is returned, and zero is not possible,so I need this value to
-determine if TE IRQ is configured
-
 > 
 > >                         rc = devm_request_irq(dev,
 > >                                               par->irq_te,
@@ -169,6 +162,8 @@ determine if TE IRQ is configured
 > >                 "TE_GPIO", par);  
 > 
 > Try to use less LOCs.
+
+LOCs???? i can not get you 
 > 
 > >                         if (rc)
 > >                                 return dev_err_probe(dev, rc, "TE
