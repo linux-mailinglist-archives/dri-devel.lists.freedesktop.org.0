@@ -1,51 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C7630863A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 08:11:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99AB3086C4
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 08:58:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A14AE6E1BB;
-	Fri, 29 Jan 2021 07:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 944A26EA7C;
+	Fri, 29 Jan 2021 07:58:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83F96E1BB
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 07:11:25 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id b11so7990773ybj.9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 23:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=Wj/zvEKQrkYXql1ULcCkwPMaUIMudgcDBFNHwFEttqQ=;
- b=vRAUrVbIgOAYjzatve7WB2jhjmtQ3hq30LsQMdjJbeJafxnP+vt8GxH8lEujQ69vPE
- scXY9QPepLXusRGjGGF3b1KGSMu578PjcvhvFxMwDoGLsSfswLr06mbrdn3Cgl0Yol1W
- JDVFMOReVDwuExP46mGB4Wq8HF4LWz0I+ocQLUJVZXoTskdaq3P7NUQxtISNPmFpyJ3Z
- hrQcLv57Tewmkd5mC5YyjnGN72HUEfK0lgGw+VrlXkox9WsFrZTcJWw1Q6bI+Fw+ttUe
- fX/vIPTjY9jQF1vLEAKI7BLPZIc+7yF3dVVO0WkN/sP+s8e3zZhOEcqr+rhWaItF4m9W
- +LEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Wj/zvEKQrkYXql1ULcCkwPMaUIMudgcDBFNHwFEttqQ=;
- b=jQ1DSRGSZVZ/BpqrhjCV4AOpaI4+pjCzX30gIbvN2/tG62g12L8x22pmDRrceceD3c
- vvO7P+8nCTegZgZB5TmmscyVGchKWePRYaFrNef109MjJ31/LyS5GwNevud35Gp2oOms
- w3GZA+jRWYpEtSw5FbJCbzg5+mjoFdEO2LYvcGmvLvUOrIanlK/kcm5O7dxrsD3MrTo4
- xm58uVz/WB1gw+szX1hUfjv2le/vVDWKTD5oGZDKxZC1I5kh5YDjTvCxYgUE74tUaEY4
- jqMPziEl9cXzkzl71vLZY/Crgb/bLcTgGKm6Ac0B7iyFwyj7TXS2W7KmlMxG4SjpkyWf
- 0CiQ==
-X-Gm-Message-State: AOAM530d00IYAYtHn5B/3vZierbBP2GNFx+SNdobf0w7CidHYR5IQOfJ
- e4EkvqV3wrQHoNqPjxms8jeZghrog0lzLRPd9R4=
-X-Google-Smtp-Source: ABdhPJwSYJhOe18Ds/AQUBvF6Exak+zZD7FdSlSGwwqaWzC3ZvJE7IsUC83Oi5ZSNB5r7ELa6KtezsF7VrwddsdyWlc=
-X-Received: by 2002:a25:3104:: with SMTP id x4mr4402585ybx.141.1611904284872; 
- Thu, 28 Jan 2021 23:11:24 -0800 (PST)
+X-Greylist: delayed 149709 seconds by postgrey-1.36 at gabe;
+ Fri, 29 Jan 2021 07:58:37 UTC
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD7A46EA7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 07:58:37 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi
+ [91.157.208.71])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C7652E0;
+ Fri, 29 Jan 2021 08:58:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1611907114;
+ bh=Zkhc5qwxtLG9p6iYagBBIoG30YEBIJWm3QpQrx/2aks=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=IcDB7V+sLQYg6eBn5kGdj2rBhDmdEn6osnVv9z0oDsK7noiA7De8mohJLkzpAGVeW
+ 6cbsi2noA3tVBsMMktTd67xR5D9Zw2910mtPmR0sD411m0WlTxQTubZYZPANkdnkJM
+ ImScSScTkJf3j6Rzyyav7cKBWKU1y4SCFnYo8eGY=
+Subject: Re: [PATCH] drm/tilcdc: send vblank event when disabling crtc
+To: quanyang.wang@windriver.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jyri Sarha <jyri.sarha@iki.fi>
+References: <20210129055831.1702862-1-quanyang.wang@windriver.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+Message-ID: <1c6bd553-ee27-c93b-59e6-8d3c8368213a@ideasonboard.com>
+Date: Fri, 29 Jan 2021 09:58:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Fri, 29 Jan 2021 17:11:13 +1000
-Message-ID: <CACAvsv7yLfhuVbYa-4g0vxVt93OaC7Sodiz2R-TDHu-MoofEdw@mail.gmail.com>
-Subject: nouveau-next 5.12
-To: Dave Airlie <airlied@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+In-Reply-To: <20210129055831.1702862-1-quanyang.wang@windriver.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,91 +93,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dave,
+Dropped the @ti.com addresses and added the new ones.
 
-Nothing too major here, I actually thought I'd sent most of these
-right before the new year, but that apparently got lost in the bustle:
-- Turing MMU fault recovery fixes
-- Fix mDP connectors being reported as eDP to userspace
-- Fixes for audio locking, and other bit-rot from DRM changes since
-atomic support was written
-- Misc other minor fixes.
+ Tomi
 
-Ben.
-
-The following changes since commit bc96ad6722f86a377ed2872c9a4854c90caf78ca:
-
-  Merge tag 'v5.11-rc5' of
-git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux into
-drm-next (2021-01-25 14:35:44 +1000)
-
-are available in the Git repository at:
-
-  git://github.com/skeggsb/linux linux-5.12
-
-for you to fetch changes up to d1f5a3fc85566e9ddce9361ef180f070367e6eab:
-
-  drm/nouveau/kms: handle mDP connectors (2021-01-29 16:49:15 +1000)
-
-----------------------------------------------------------------
-Alistair Popple (5):
-      drm/nouveau/mc/tu102: Fix MMU fault interrupts on Turing
-      drm/nouveau/mc/tu102: Remove Turing interrupt hack
-      drm/nouveau/fifo/tu102: Move Turing specific FIFO functions
-      drm/nouveau/fifo/tu102: FIFO interrupt fixes for Turing
-      drm/nouveau/fifo/tu102: Turing channel preemption fix
-
-Ben Skeggs (3):
-      drm/nouveau/kms/nv50-gp1xx: wait for less EVO pushbuf space for
-core updates without notify
-      drm/nouveau/kms/gv100-: wait for less NVD pushbuf space for core
-updates without notify
-      drm/nouveau/kms/nv50-: add module option to select EVO/NVD push
-buffer location
-
-Frantisek Hrbata (1):
-      drm/nouveau: bail out of nouveau_channel_new if channel init fails
-
-Karol Herbst (1):
-      drm/nouveau/kms: handle mDP connectors
-
-Lyude Paul (9):
-      drm/nouveau/kms/nv50-: Don't call HEAD_SET_CRC_CONTROL in head907d_mode()
-      drm/nouveau/kms/nv50-: Log SOR/PIOR caps
-      drm/nouveau/kms/nv50-: Remove (nv_encoder->crtc) checks in
-->disable callbacks
-      drm/nouveau/kms/nv50-: Rename encoder->atomic_(enable|disable) callbacks
-      drm/nouveau/kms/nv50-: s/armh/asyh/ in nv50_msto_atomic_enable()
-      drm/nouveau/kms/nv50-: Reverse args for
-nv50_outp_get_(old|new)_connector()
-      drm/nouveau/kms/nv50-: Lookup current encoder/crtc from atomic state
-      drm/nouveau/kms/nv50-: Use nouveau_encoder->crtc in get_eld callback
-      drm/nouveau/kms/nv50-: Fix locking for audio callbacks
-
- drivers/gpu/drm/nouveau/dispnv50/core507d.c             |   2 +-
- drivers/gpu/drm/nouveau/dispnv50/corec37d.c             |   2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c                 | 230
-+++++++++++++----------
- drivers/gpu/drm/nouveau/dispnv50/head907d.c             |  11 +-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/conn.h |   1 +
- drivers/gpu/drm/nouveau/nouveau_chan.c                  |   1 +
- drivers/gpu/drm/nouveau/nouveau_connector.c             |   1 +
- drivers/gpu/drm/nouveau/nouveau_drv.h                   |   1 +
- drivers/gpu/drm/nouveau/nouveau_encoder.h               |  13 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c        |  46 ++---
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.h        |  32 ++++
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/tu102.c        | 364
-+++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/tu102.c       |  21 ++-
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/base.c           |   3 -
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/priv.h           |   1 -
- drivers/gpu/drm/nouveau/nvkm/subdev/mc/tu102.c          | 113 +++++++++--
- 16 files changed, 675 insertions(+), 167 deletions(-)
+On 29/01/2021 07:58, quanyang.wang@windriver.com wrote:
+> From: Quanyang Wang <quanyang.wang@windriver.com>
+> 
+> When run xrandr to change resolution on Beaglebone Black board, it will
+> print the error information:
+> 
+> root@beaglebone:~# xrandr -display :0 --output HDMI-1 --mode 720x400
+> [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:32:tilcdc crtc] commit wait timed out
+> [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:34:HDMI-A-1] commit wait timed out
+> [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] commit wait timed out
+> tilcdc 4830e000.lcdc: already pending page flip!
+> 
+> This is because there is operation sequence as below:
+> 
+> drm_atomic_connector_commit_dpms(mode is DRM_MODE_DPMS_OFF):
+>     ...
+>     drm_atomic_helper_setup_commit <- init_completion(commit_A->flip_done)
+>     drm_atomic_helper_commit_tail
+>         tilcdc_crtc_atomic_disable
+>         tilcdc_plane_atomic_update <- drm_crtc_send_vblank_event in tilcdc_crtc_irq
+>                                       is skipped since tilcdc_crtc->enabled is 0
+>         tilcdc_crtc_atomic_flush   <- drm_crtc_send_vblank_event is skipped since
+>                                       crtc->state->event is set to be NULL in
+>                                       tilcdc_plane_atomic_update
+> drm_mode_setcrtc:
+>     ...
+>     drm_atomic_helper_setup_commit <- init_completion(commit_B->flip_done)
+>     drm_atomic_helper_wait_for_dependencies
+>         drm_crtc_commit_wait   <- wait for commit_A->flip_done completing
+> 
+> Just as shown above, the steps which could complete commit_A->flip_done
+> are all skipped and commit_A->flip_done will never be completed. This will
+> result a time-out ERROR when drm_crtc_commit_wait check the commit_A->flip_done.
+> So add drm_crtc_send_vblank_event in tilcdc_crtc_atomic_disable to
+> complete commit_A->flip_done.
+> 
+> Fixes: cb345decb4d2 ("drm/tilcdc: Use standard drm_atomic_helper_commit")
+> Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
+> ---
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> index 30213708fc99..d99afd19ca08 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+> @@ -515,6 +515,15 @@ static void tilcdc_crtc_off(struct drm_crtc *crtc, bool shutdown)
+>  
+>  	drm_crtc_vblank_off(crtc);
+>  
+> +	spin_lock_irq(&crtc->dev->event_lock);
+> +
+> +	if (crtc->state->event) {
+> +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +		crtc->state->event = NULL;
+> +	}
+> +
+> +	spin_unlock_irq(&crtc->dev->event_lock);
+> +
+>  	tilcdc_crtc_disable_irqs(dev);
+>  
+>  	pm_runtime_put_sync(dev->dev);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
