@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B38230840A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:05:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B1D30840C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0475F6EA30;
-	Fri, 29 Jan 2021 03:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E4616EA6A;
+	Fri, 29 Jan 2021 03:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC766EA30
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:05:17 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id kx7so5035595pjb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:05:17 -0800 (PST)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 547AC6EA3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:05:19 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id e9so4487383plh.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6FtqZbVLoNhYzW/5zxBFGSTg2OJ2tv0Ub0qNAJ13xHs=;
- b=j5yLzHZt+6y1rTjQAaHsDOTxGgaIO1Q9C9yvGJP/x3SkVLLnhJSUKnESb/H0Z9JJM3
- X3o9CasXX6DZTksNat7StXwigWk+Orm9ia/zA32HYjwgB7fSoTv26tV1S3bs6YrGsFEp
- z4HPk5S+5CgJFgVQdxw+V7SZtaTKny8EBvZ3oJTURUzJ+ccHaYle+g1y092cga4L8huN
- RJggFGQ7Nhlb7TYWCH0Ubq1AsPnmdAUnLmHsDZinfH7eAFf/GnRcL4Dm4SijBHNx+FHZ
- Bw43r3f9o5DaCRZX9xsjG0o3Lr7MVysYUjjKamy51VBjfsyrADAgEtsWNzZdhWgazp4N
- PuAg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=++jZtzOYyQ1+vtEeMaOUIstaO3RLvVGMYd5LElrs3tk=;
+ b=uhyod5IVvkWiHsST5/O68YcC4Axe3RKRQzvKBXYml1+ezIoSduIUXyT3McvxxfQb6X
+ MdGdB6a0QGYeKJPc6EOPv4LDPZzHfkLWnQhCaEjmTW+3EDXkZRQFpri3M7TDZpXFwknB
+ nzDT/YpZaeczzI5+TCeNblHK1riCKukRLYsO4ZNEgO2aC4WhQT2Ut1dctUoeYX4W6t9T
+ ZW828X9T4wU/86xrUnE1rqIASwioP5MyUUMrrPaQuKKUYlALfUnddC1lV5fGS3MkmN8L
+ pujzNObUmAqlaJN71GQQzc71PDhg+rwgYMgYwG4kvOBSZEYKrvspyB0LF4dA10Zcxcfq
+ DqSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6FtqZbVLoNhYzW/5zxBFGSTg2OJ2tv0Ub0qNAJ13xHs=;
- b=S74r1b3gqeCHeuiV1sMKQt35S9Laq4Nf9nrGTt7h8c6dzEOfZtKmSZsrT8Wc3Qtoko
- flvFPkOdmaiDFn0gKm1lXo5qoZRRxA3PJ7i2MlsvVtvA3o5xDDdqluZSxI9KSM4fjOni
- fGw0bsqU1/qXlzw9dd0Aooy6euXXTGqdxUVWwHfRCxPFmJ76W7Kt/htsnf3Jc2qQ6S1w
- Na3izzueqmjHJOjUwyM5ceoSBo6QaMQgLk43bh9b26dZpTnubEIRUxzxOsoA6+rdRZo9
- Z4F33b1+xTsTkIPSxRegbXTvXrt2RkkxIADRYJs+KebWnZzYbF94ExtvzVv9x1F/5YKi
- /hUw==
-X-Gm-Message-State: AOAM533osD2RVL8+0d/u38EGKMZJ5WVnjztD8mBZzI9S5MgR05leq68n
- xDCx+SPpLk7fX1irUGRM8NVg0A==
-X-Google-Smtp-Source: ABdhPJxNcoBMcdOeDQYd3FdgzjZ86Cf272Rz2la9I9NvjeaL4IhlWxZTBvB3/43QEa/+/6QJlLWKNA==
-X-Received: by 2002:a17:90a:d913:: with SMTP id
- c19mr2416772pjv.19.1611889517371; 
- Thu, 28 Jan 2021 19:05:17 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=++jZtzOYyQ1+vtEeMaOUIstaO3RLvVGMYd5LElrs3tk=;
+ b=JRGbh+7XNxiJxiWD1PrePK6vmKMurEnKUnbq1JB7lrkADhXcep9qk2qQoq0kwMVORQ
+ DbYH/896/Lt8Qa90YqripcHI0W76B7wke0xV3WSI3h+DmCc/7thOoMQNDKd0RJpVJpGY
+ x51c9crsg4NL5f5lvkJSRMY9GfMKv6v6Jx1KG1QQW1Gc0RIGd4Y7W1MLxr31fuiyyi7o
+ Wcl6OKq5dte/rebojw3K1vcjcB2BdHqmyrYRWm2EsOpVZ//jM4v50gVFTsOnVPG8FswT
+ jNy0pxtVBQQ7v6Z4GPDNEWdfvrKkzA+BKRp2SkEYLyjLlK/9GIApO3V/yCMBLGWLu+8r
+ lfeQ==
+X-Gm-Message-State: AOAM533n+LuWWu6uy+As+bS7qqCR7iD+1rzho3LlU9/oB127k4+xceW2
+ C2yQxXIXsuJoFbeuXYJ0lK64kefGFrpuLw==
+X-Google-Smtp-Source: ABdhPJyGn3wdGoYadza5iNZE6bj/nXq6MrRCQBVxL3lyhFqvG5bHcjloTEwy1RXyVtmPLRFrsk59eQ==
+X-Received: by 2002:a17:902:a710:b029:dc:3817:e7c2 with SMTP id
+ w16-20020a170902a710b02900dc3817e7c2mr2361020plq.0.1611889518950; 
+ Thu, 28 Jan 2021 19:05:18 -0800 (PST)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- y75sm6854496pfg.119.2021.01.28.19.05.15
+ y75sm6854496pfg.119.2021.01.28.19.05.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 19:05:16 -0800 (PST)
+ Thu, 28 Jan 2021 19:05:18 -0800 (PST)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/5] kselftests: dmabuf-heaps: Fix Makefile's inclusion of the
- kernel's usr/include dir
-Date: Fri, 29 Jan 2021 03:05:10 +0000
-Message-Id: <20210129030514.1231773-1-john.stultz@linaro.org>
+Subject: [PATCH 2/5] kselftests: dmabuf-heaps: Add clearer checks on
+ DMABUF_BEGIN/END_SYNC
+Date: Fri, 29 Jan 2021 03:05:11 +0000
+Message-Id: <20210129030514.1231773-2-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210129030514.1231773-1-john.stultz@linaro.org>
+References: <20210129030514.1231773-1-john.stultz@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,16 +79,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Copied in from somewhere else, the makefile was including
-the kerne's usr/include dir, which caused the asm/ioctl.h file
-to be used.
-
-Unfortunately, that file has different values for _IOC_SIZEBITS
-and _IOC_WRITE than include/uapi/asm-generic/ioctl.h which then
-causes the _IOCW macros to give the wrong ioctl numbers,
-specifically for DMA_BUF_IOCTL_SYNC.
-
-This patch simply removes the extra include from the Makefile
+Add logic to check the dmabuf sync calls succeed.
 
 Cc: Shuah Khan <shuah@kernel.org>
 Cc: Brian Starkey <brian.starkey@arm.com>
@@ -99,23 +92,55 @@ Cc: Daniel Mentz <danielmentz@google.com>
 Cc: linux-media@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-kselftest@vger.kernel.org
-Fixes: a8779927fd86c ("kselftests: Add dma-heap test")
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- tools/testing/selftests/dmabuf-heaps/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../selftests/dmabuf-heaps/dmabuf-heap.c      | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/tools/testing/selftests/dmabuf-heaps/Makefile b/tools/testing/selftests/dmabuf-heaps/Makefile
-index 607c2acd2082..604b43ece15f 100644
---- a/tools/testing/selftests/dmabuf-heaps/Makefile
-+++ b/tools/testing/selftests/dmabuf-heaps/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--CFLAGS += -static -O3 -Wl,-no-as-needed -Wall -I../../../../usr/include
-+CFLAGS += -static -O3 -Wl,-no-as-needed -Wall
+diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+index 909da9cdda97..46f6759a8acc 100644
+--- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
++++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
+@@ -130,16 +130,13 @@ static int dmabuf_heap_alloc(int fd, size_t len, unsigned int flags,
+ 					 dmabuf_fd);
+ }
  
- TEST_GEN_PROGS = dmabuf-heap
+-static void dmabuf_sync(int fd, int start_stop)
++static int dmabuf_sync(int fd, int start_stop)
+ {
+ 	struct dma_buf_sync sync = {
+ 		.flags = start_stop | DMA_BUF_SYNC_RW,
+ 	};
+-	int ret;
  
+-	ret = ioctl(fd, DMA_BUF_IOCTL_SYNC, &sync);
+-	if (ret)
+-		printf("sync failed %d\n", errno);
++	return ioctl(fd, DMA_BUF_IOCTL_SYNC, &sync);
+ }
+ 
+ #define ONE_MEG (1024 * 1024)
+@@ -197,9 +194,18 @@ static int test_alloc_and_import(char *heap_name)
+ 	}
+ 	printf("import passed\n");
+ 
+-	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
++	ret = dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
++	if (ret < 0) {
++		printf("Sync start failed!\n");
++		goto out;
++	}
++
+ 	memset(p, 0xff, ONE_MEG);
+-	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_END);
++	ret = dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_END);
++	if (ret < 0) {
++		printf("Sync end failed!\n");
++		goto out;
++	}
+ 	printf("syncs passed\n");
+ 
+ 	close_handle(importer_fd, handle);
 -- 
 2.25.1
 
