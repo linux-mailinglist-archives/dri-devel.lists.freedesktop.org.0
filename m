@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7E23094D8
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4716E3094D7
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449346ECBD;
-	Sat, 30 Jan 2021 11:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 236356ECB5;
+	Sat, 30 Jan 2021 11:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866EA6EAAE
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:22:30 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id w14so5872022pfi.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:22:30 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5AD6EAAF
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:22:33 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id e9so4927543plh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GAxvV7R4/vTpyFlTAS6Pj5shqaEt+L+HnuJKV7F1rVo=;
- b=Ror+4QerXQjaE2vsEtt/+J6Osk5wHvps9k7IL561MxxrR0M8AlpNXUTXL7GSZcEmIa
- sGXI1Pk8qyQWP2g3mUunqAmPL2czr29hlfaAkss9eMjS2WmmhBLBicT3gcjqEfOH7qFD
- P37bkpKSfyXEaMLWmGCnk/e0dElc79D15tfe8=
+ bh=6GHwq2/8MY4LW2vNmjmhn2xN2h2q1JNvDEuRvZyP8uU=;
+ b=iMYM83dHutbfQsbvF+noN1n8Zvrr9eZjci59jsjUM01o8V4XmSWDFMyACMFN7t9FXn
+ gZsTxJpvgKpZEIF3QekTg8Vpj5knmFO5ys5ZNg5Bpuh9s6cEn/CTO/0Q4RgxzVlNbMmi
+ AXs8tW7qqH4r/Qdsagh+WoiW3WaXJBG/ftV7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GAxvV7R4/vTpyFlTAS6Pj5shqaEt+L+HnuJKV7F1rVo=;
- b=B0ZV+uYvwngaF+VsWcrBo/EtfmSrmItuhrAHaAYcLs6Gd76DWLkY6IUETwfVboV4Lj
- PnE0VjfUVVqHmoT7xfUOWIap69OQJWgPLRJTWf89pdZyAABCLTGD35AzX+pYqZFDQy3D
- 69UjVleBPmYKh11yYuiqCP0F/O08ktQk0VXokY+6LpNX0A3oYTegnCCbKBJ/NPpfMtxg
- hSUpVNb5/Tv+1j/S5LY85pzMVtNYJCZNTcHpL//pQ/zRV2mLwAZwID67z+logMUSf4i0
- NQUsrA9agfpAwbL80xNjFB/GZ8Nc9b2rgid8gsHqv4CMa15jZTW8hHuZ0O8pjQcOW+a0
- 3F0w==
-X-Gm-Message-State: AOAM532FmRJTRsBuEMtpoyxXeZfEaJ6GGudUhaySpYrYtoGY16GiGVVh
- QEJoUzOxorjmilRf+PP5UkA/jw==
-X-Google-Smtp-Source: ABdhPJy4+2S1A2x1ndwikJR7JIysE1W0izSM4nTbR8FztfNfzjanB9rfmcVpcKhsDDrm7mJ2NRd+CA==
-X-Received: by 2002:a63:1c09:: with SMTP id c9mr3869976pgc.185.1611912150169; 
- Fri, 29 Jan 2021 01:22:30 -0800 (PST)
+ bh=6GHwq2/8MY4LW2vNmjmhn2xN2h2q1JNvDEuRvZyP8uU=;
+ b=OLcuXinK9Xu8Go8wRpgD9VT2hi58d0D2djAr9XyFNthK6anw0sRO5SPpLv6g6+6NnO
+ y4ytaE6QisLiWe7TG5ewje4eSaPQl8LW/yCFyUJLU4OC3mBBylCJqHCJxkQdIWxcpVlc
+ sfoNoz0sp5bqfNQ50Yo8SqeGoFqqdrRKPXhMUCw7hI5BGOYKY+ZieYMO3/qOeD/GBqsx
+ FGZAfTLDdVSk0Ku2fqZinZUodlrU2WOI0SFayRU6dHz7xt+8sG8VGlrw6QEh4KFH4Z1a
+ vSJPWV+5Yz/Cu1y+vTsitJf2MEA6Z7rljsYziZ+HWtuVvz0ZOLnvJtKGxs5uLUjVA4fM
+ a3oA==
+X-Gm-Message-State: AOAM533gIrH4IFPfsavMIW6DkfGDHbImO5S6i1Rq/nRpV4kEZqJdj4se
+ 8zcKIFTbFWd859WwSF+LxRCddA==
+X-Google-Smtp-Source: ABdhPJymfsvnhXWYitaIe/2BN9jpEu117y1fDLbxKEWQu2gVqrUKtOqfwNbgI2rCLrF7iuvi1B7VwQ==
+X-Received: by 2002:a17:90b:4acd:: with SMTP id
+ mh13mr3688958pjb.229.1611912152666; 
+ Fri, 29 Jan 2021 01:22:32 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:51f1:c468:a70b:7c09])
- by smtp.gmail.com with ESMTPSA id p7sm8032776pfn.52.2021.01.29.01.22.27
+ by smtp.gmail.com with ESMTPSA id p7sm8032776pfn.52.2021.01.29.01.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 01:22:29 -0800 (PST)
+ Fri, 29 Jan 2021 01:22:32 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v13 6/8] drm/mediatek: enable dither function
-Date: Fri, 29 Jan 2021 17:22:07 +0800
-Message-Id: <20210129092209.2584718-7-hsinyi@chromium.org>
+Subject: [PATCH v13 7/8] soc: mediatek: add mtk mutex support for MT8183
+Date: Fri, 29 Jan 2021 17:22:08 +0800
+Message-Id: <20210129092209.2584718-8-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210129092209.2584718-1-hsinyi@chromium.org>
 References: <20210129092209.2584718-1-hsinyi@chromium.org>
@@ -77,48 +78,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Enable dither function to improve the display quality for dither
-supported bpc 4, 6, 8. For not supported bpc, use relay mode.
+Add mtk mutex support for MT8183 SoC.
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index ac2cb25620357..5761dd15eedf2 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -53,6 +53,7 @@
- #define DITHER_EN				BIT(0)
- #define DISP_DITHER_CFG				0x0020
- #define DITHER_RELAY_MODE			BIT(0)
-+#define DITHER_ENGINE_EN			BIT(1)
- #define DISP_DITHER_SIZE			0x0030
+diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+index f531b119da7a9..718a41beb6afb 100644
+--- a/drivers/soc/mediatek/mtk-mutex.c
++++ b/drivers/soc/mediatek/mtk-mutex.c
+@@ -14,6 +14,8 @@
  
- #define LUT_10BIT_MASK				0x03ff
-@@ -314,9 +315,17 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
- 			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
- {
- 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
--
--	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
--	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
-+	bool valid_bpc = (bpc == 4 || bpc == 6 || bpc == 8);
+ #define MT2701_MUTEX0_MOD0			0x2c
+ #define MT2701_MUTEX0_SOF0			0x30
++#define MT8183_MUTEX0_MOD0			0x30
++#define MT8183_MUTEX0_SOF0			0x2c
+ 
+ #define DISP_REG_MUTEX_EN(n)			(0x20 + 0x20 * (n))
+ #define DISP_REG_MUTEX(n)			(0x24 + 0x20 * (n))
+@@ -37,6 +39,18 @@
+ #define MT8167_MUTEX_MOD_DISP_DITHER		15
+ #define MT8167_MUTEX_MOD_DISP_UFOE		16
+ 
++#define MT8183_MUTEX_MOD_DISP_RDMA0		0
++#define MT8183_MUTEX_MOD_DISP_RDMA1		1
++#define MT8183_MUTEX_MOD_DISP_OVL0		9
++#define MT8183_MUTEX_MOD_DISP_OVL0_2L		10
++#define MT8183_MUTEX_MOD_DISP_OVL1_2L		11
++#define MT8183_MUTEX_MOD_DISP_WDMA0		12
++#define MT8183_MUTEX_MOD_DISP_COLOR0		13
++#define MT8183_MUTEX_MOD_DISP_CCORR0		14
++#define MT8183_MUTEX_MOD_DISP_AAL0		15
++#define MT8183_MUTEX_MOD_DISP_GAMMA0		16
++#define MT8183_MUTEX_MOD_DISP_DITHER0		17
 +
-+	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
-+		      DISP_DITHER_SIZE);
-+	if (valid_bpc)
-+		mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc,
-+				      DISP_DITHER_CFG, DITHER_ENGINE_EN,
-+				      cmdq_pkt);
-+	else
-+		mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
-+			      priv->regs, DISP_DITHER_CFG);
- }
+ #define MT8173_MUTEX_MOD_DISP_OVL0		11
+ #define MT8173_MUTEX_MOD_DISP_OVL1		12
+ #define MT8173_MUTEX_MOD_DISP_RDMA0		13
+@@ -87,6 +101,11 @@
+ #define MT2712_MUTEX_SOF_DSI3			6
+ #define MT8167_MUTEX_SOF_DPI0			2
+ #define MT8167_MUTEX_SOF_DPI1			3
++#define MT8183_MUTEX_SOF_DSI0			1
++#define MT8183_MUTEX_SOF_DPI0			2
++
++#define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
++#define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
  
- static void mtk_dither_start(struct device *dev)
+ struct mtk_mutex {
+ 	int id;
+@@ -181,6 +200,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+ 	[DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
+ };
+ 
++static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
++	[DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
++	[DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
++	[DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
++	[DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
++	[DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
++	[DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
++	[DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
++	[DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
++	[DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
++	[DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
++	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
++};
++
+ static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+ 	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+ 	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
+@@ -198,6 +231,13 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
+ 	[MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
+ };
+ 
++/* Add EOF setting so overlay hardware can receive frame done irq */
++static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
++	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
++	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
++	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
++};
++
+ static const struct mtk_mutex_data mt2701_mutex_driver_data = {
+ 	.mutex_mod = mt2701_mutex_mod,
+ 	.mutex_sof = mt2712_mutex_sof,
+@@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
+ 	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
+ };
+ 
++static const struct mtk_mutex_data mt8183_mutex_driver_data = {
++	.mutex_mod = mt8183_mutex_mod,
++	.mutex_sof = mt8183_mutex_sof,
++	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
++	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
++	.no_clk = true,
++};
++
+ struct mtk_mutex *mtk_mutex_get(struct device *dev)
+ {
+ 	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+@@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
+ 	  .data = &mt8167_mutex_driver_data},
+ 	{ .compatible = "mediatek,mt8173-disp-mutex",
+ 	  .data = &mt8173_mutex_driver_data},
++	{ .compatible = "mediatek,mt8183-disp-mutex",
++	  .data = &mt8183_mutex_driver_data},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
 -- 
 2.30.0.365.g02bc693789-goog
 
