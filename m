@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C34308984
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:25:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 333C8308985
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:26:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C496EB45;
-	Fri, 29 Jan 2021 14:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5433C6EB48;
+	Fri, 29 Jan 2021 14:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81A196EB45
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:25:13 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id f2so10640502ljp.11
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:25:13 -0800 (PST)
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84EC76EB48
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:26:29 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id t25so6798718pga.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aHijws8Bzm93QZ1lZKc1h+l2tDz3eXhWAU92a1AA64M=;
- b=rJeKUDXo66TwimCR5SNm9L+YJRm7nyAG0MJyG7A5mLcLHg3sD9/+pQoBvvMMRATURn
- peJScdRi4+5m4l2CVObVp4hHKphjDYH5+3CXI+Rths2W/KGJg1zjfVXrWro8xeCdIdv7
- etAc7yZQ35lXUFfXnMEfFz17XSFpRnQq7Y02oWlkbdX8oxAbJSQwFPqAHpwOxCDMbGiq
- qdpNWA70J2kJrU53sep0kvn4GaNOCa71vAq4IwiGCRqSPyMXDkBfcKMo+lxJn58puOAe
- f6/tY9DwxhLdRaLPNqAO9cWRBPq6hyFG82hkpPR6Mx0eBPV1bz/uzTkAwjkhm3zUb1W+
- J+BQ==
+ :cc; bh=gKot+C+cg9+Ev01rXvdXGRqtLzrKZ52Ei9azuadVGM0=;
+ b=cb3sJYS3AAfqMFJCaxm189bXwU9JelSPPPfrbabQVUOnvVfVbq+aWPrpaIlSUT3bxK
+ yfUqS8ONtfTLFnxvbcGCWjrWUHtg9wv+g1iKXsf7mO64p5EzBch2dGEBja01VaXwXusl
+ SoW0JCnbWWt2YQXSusEFVa4BSE+KHjMVHcdjKB2LZyKeMdUtH3N0Ue126NqKuZ596Dpk
+ idogO8YhA1EUer1ZdXv8ItElSGFgdBqZznkVi7aFp2510rSr8n8GG05UYd1Awm493NVe
+ OSI+VnTnqgOAsdfxABHcrE+tqrxtVuGD/xbRO8kwD9ce4ZM84HaggsyJjDFj9MvXyGbD
+ tttQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aHijws8Bzm93QZ1lZKc1h+l2tDz3eXhWAU92a1AA64M=;
- b=AQNX9TWyF9klFlk6zrAbdeZTjd43iysDWA+zblxwuA+MuvKqR4rx+exPxQCNKDrWyx
- EfW030QzKq6Sw9bSjaogikhHFrxP+FiXru3a5DT4L5bpuk64GfAHZNTV4Mpn5ErA9J5l
- IC+KieTTry4bQhmCl+Ak0c336e2tXKFXN2WDndjHxTaJmxOGkEJ6cSuJViA//kPcw3Bg
- U2Z7B+kCLluVwH16u5GWAuLtXyYoRdg43bJJx2WHON6HxPABfHA5Oy9lkfM1yb/LeQId
- EFz2kxTby3rTAJDxtroq8VIIO1sF2vI7WgVYn2F7w/Dnc6pGiqFWhtGznLxULDez6xc1
- wEsA==
-X-Gm-Message-State: AOAM531zsDd5lqHRhSuEaoY6Y6zCjwy57zPizHPgql9v2CZ4PReYElgm
- RTc78jB7qCTagxo35weAaTXaZpCtXQGnkbNdewc=
-X-Google-Smtp-Source: ABdhPJzstBG3IpXX4M8GSGpHaPNsU12yYkSY8zWqN/sB5RwTuPMazjh7ZuVIr6m8LY+HwUBze5HoyqGbQMPLeJUznVA=
-X-Received: by 2002:a2e:993:: with SMTP id 141mr1861299ljj.372.1611930311909; 
- Fri, 29 Jan 2021 06:25:11 -0800 (PST)
+ bh=gKot+C+cg9+Ev01rXvdXGRqtLzrKZ52Ei9azuadVGM0=;
+ b=GdSwwpNiIfI9bz+9i2mG2WnNebfCc+EB6cYuelWtwFBlsIKbZBgS1+HnVpQEHXpxvz
+ 4QUDJd3R+hLhE2bhyVlYGMQ8fZrRWaiV2vT9ERu45yrNbdCKSDzeAKbJ/fEoxFDtuwRx
+ GQHlekB8NYxfIRjbfrC1+7Sv7EU2S1mpeX8e0jjElehdWgl+omyBoxFcVN4ZkPKOvT6U
+ jaNiKKQQyTDXS96WQ8u6ailn/pQPuOuVHjSE7weVWpkU8Y9KqazOnjh7h2TBWziTVg9W
+ bbrQ3HE3UPVP4OxIDWik+Xzg0uA02NlTQettf0lqloXjYCesWlQME1EcBDm8+lLPIVDZ
+ VvQw==
+X-Gm-Message-State: AOAM531KjrBfTkvabvBspy27DtjBjvL0OOVtCz30wu1wEIjHJ4CTKHK7
+ Sy+G10RgIoYiXs5HP0OXRm7lJHjnLd1/iHi8Q2U=
+X-Google-Smtp-Source: ABdhPJzJzWgnRosOtmIuUA7/LBUAIjwTZ2XBI5qt5CZfUrKcAqfeRuHPYgCyKUYhqEAxYFypiWQyKKnQjTKwybA/ios=
+X-Received: by 2002:a63:e50:: with SMTP id 16mr5000762pgo.74.1611930389189;
+ Fri, 29 Jan 2021 06:26:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20210129095604.32423-1-tzimmermann@suse.de>
- <20210129095604.32423-2-tzimmermann@suse.de>
-In-Reply-To: <20210129095604.32423-2-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 29 Jan 2021 15:25:00 +0100
-Message-ID: <CAMeQTsYb5wF4Ev_XniX-72eWw5pjbmEy_dPJB_oKc0V59Lk+Fw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/gma500: Remove Medfield support
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
+ <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
+ <20210129130110.00003bb1@gmail.com>
+ <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
+ <20210129215638.000047b0@gmail.com>
+In-Reply-To: <20210129215638.000047b0@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 29 Jan 2021 16:26:12 +0200
+Message-ID: <CAHp75VcdOibSRuSBZYhFtEcVxuammYMfcnrUQGvS6ttArFxj6g@mail.gmail.com>
+Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
+To: carlis <zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,23 +64,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Deepak R Varma <mh12gx2825@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ oliver.graute@kococonnector.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stefano Brivio <sbrivio@redhat.com>, Colin King <colin.king@canonical.com>,
+ zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 29, 2021 at 10:56 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Medfield is an outdated mobile platform with apparently no users left.
-> Remove it from gma500.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Fri, Jan 29, 2021 at 3:56 PM carlis <zhangxuezhi3@gmail.com> wrote:
+> On Fri, 29 Jan 2021 12:23:08 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-Great, finally we get rid of that DSI code :)
+We are almost there, I have no idea what Noralf or others are going to
+say though.
 
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+...
+
+> Hi, I apologize for what I said in the previous two emails. I missed
+> one email you sent before, and now I probably understand what you
+> meant. Here is a version I modified according to your suggestion:
+>
+> From 399e7fb91d1dcba4924cd38cc8283393c80b97e4 Mon Sep 17 00:00:00 2001
+> From: Carlis <zhangxuezhi1@yulong.com>
+> Date: Sun, 24 Jan 2021 22:43:21 +0800
+> Subject: [PATCH v13] staging: fbtft: add tearing signal detect
+>
+> For st7789v IC,when we need continuous full screen refresh, it is best
+
+Missed space after comma.
+
+> to wait for the tearing effect line signal arrive to avoid screen
+
+to arrive
+
+> tearing.
+
+...
+
+> +#define PANEL_TE_TIMEOUT_MS  34 /* 60Hz for 16.6ms, configured as
+> 2*16.6ms */ +
+
+Move comment before the definition
+/* comment */
+#define DEFINITION
+
+Also consider to use 33 ms as closest to what you mentioned in the comment.
+Or leave it with mention that you are using ceil() value.
+
+...
+
+> +/**
+> + * init_tearing_effect_line() - init tearing effect line
+
+> + *
+
+As per a few previous reviews.
+Okay, I have noticed that the existing kernel-doc is written like
+this, but it doesn't prevent you from avoiding this little mistake.
+
+> + * @par: FBTFT parameter object
+> + *
+> + * Return: 0 on success, or a negative error code otherwise.
+> + */
+> +static int init_tearing_effect_line(struct fbtft_par *par)
+> +{
+> +       struct device *dev = par->info->device;
+> +       struct gpio_desc *te;
+> +       int rc;
+> +
+> +       te = gpiod_get_optional(dev, "te", GPIOD_IN);
+> +       if (IS_ERR(te))
+> +               return dev_err_probe(dev, PTR_ERR(te), "Failed to
+> request te GPIO\n"); +
+
+Below is okay, but needs a comment explaining why we return a success.
+
+> +       if (!te)
+> +               return 0;
+> +
+> +       par->irq_te = gpiod_to_irq(te);
+> +
+> +       /* GPIO is locked as an IRQ, we may drop the reference */
+> +       gpiod_put(te);
+> +
+> +       if (par->irq_te < 0)
+> +               return par->irq_te;
+
+I recommend using a temporary variable. In such a case you won't need
+to specifically check for negative error code. So, something like
+
+int irq;
+
+irq = ...
+
+if (irq < 0)
+  return irq;
+
+->irq_te = irq;
+
+> +       init_completion(&par->panel_te);
+> +       rc = devm_request_irq(dev, par->irq_te, panel_te_handler,
+> +                             IRQF_TRIGGER_RISING, "TE_GPIO", par);
+
+Right. Now it needs a comment explaining the choice of rising edge type of IRQ.
+
+> +       if (rc)
+> +               return dev_err_probe(dev, rc, "TE IRQ request
+> failed.\n"); +
+> +       disable_irq_nosync(par->irq_te);
+> +
+> +       return 0;
+> +}
+
+...
+
+> +       rc = init_tearing_effect_line(par);
+
+> +       if (rc < 0)
+
+Here is no need to specifically check against less than 0,
+  if (ret)
+will work nicely.
+
+> +               return rc;
+
+...
+
+> +       if (par->irq_te)
+> +               write_reg(par, MIPI_DCS_SET_TEAR_ON, 0x00);
+
+Do you need to call MIPI_DCS_SET_TEAR_SCANLINE in this case?
+
+Alos, when there is no IRQ, shouldn't we explicitly call
+               write_reg(par, MIPI_DCS_SET_TEAR_OFF);
+?
+
+...
+
+>  /**
+> + * st7789v_write_vmem16_bus8() - write data to display
+
+> + *
+
+Redundant.
+
+> + * @par: FBTFT parameter object
+> + * @offset: offset from screen_buffer
+> + * @len: the length of data to be written
+> + *
+
+> + * 16 bit pixel over 8-bit databus
+
+Write 16-bit pixels over 8-bit data bus.
+
+> + * Return: 0 on success, or a negative error code otherwise.
+> + */
+
+...
+
+> +       if (par->irq_te) {
+> +               enable_irq(par->irq_te);
+> +               reinit_completion(&par->panel_te);
+> +               ret = wait_for_completion_timeout(&par->panel_te,
+> +
+> msecs_to_jiffies(PANEL_TE_TIMEOUT_MS));
+> +               if (ret == 0)
+> +                       dev_err(dev, "wait panel TE time out\n");
+
+timeout
+
+> +
+> +               disable_irq(par->irq_te);
+> +       }
+
+...
+
+> + * @panel_te: completion for panel te line
+
+TE line
+
+> + * @irq_te: LCD Chip tearing effect line
+
+"Linux IRQ for LCD..."
+
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
