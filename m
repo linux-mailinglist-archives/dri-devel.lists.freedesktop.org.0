@@ -1,104 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221013086DD
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:12:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE553086E2
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B19E6EA99;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE03B6EA9D;
 	Fri, 29 Jan 2021 08:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2046.outbound.protection.outlook.com [40.107.220.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAC96E3F2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 05:59:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZqWx2KZiOnl1l3IpCyx0pABm5pIMXc+qeIIfNBA2Nn8DTaRgRYNrLiy+vzpu4T3oY3cElsA7J8IdIfXdDvPuAwk3+iZgAxn8wjg+ufM9R3ZHRFSsruel5YyaBT2V5Z5kvO4KoALLrmNjL2glPcV00kI9X+TJeW9mx5PbX4E6q0Wmo0DJ0Pj5wgl9ipaUbv25s7nzJXDwUOhEb36C5kLMZvzA8LcIx9KHPgOAQmzi+eboViM6gugtsBoDPSC5nLHzWZHEXY8yiyq7hjY18FwoKyEeZ3ZX0mpBynTWvobx6xZoeO9UQwzjucZhstzHT3ZXvFH3xNIUzddOwcYb+zoe4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PgAwdFPlQcgy+hFUXRHYAY2i6Ns7EUHizDk/+otmgZE=;
- b=hvc1iApIt7iUaqOKT2vhBuJcVvaTrz9DAY5vDCmTeUukwyYKvLObNKK5aNXLD29pIIxDxw45gohd4gDNWuhU8ffPSt+yCzZ6+hC+wxqoUB2YcUDeYK2U9JdthJUYxHnbsm3AicFM7xTucgFT9OBW0ce4298Sk9lJjz9WWsOdNrCR9b7CVSrYokOyBJn1G4+kcxyJW+pdQVQT1m7M69G7TIaPoP6WT8B0FacV+m9y1UAIiV9Lw+WMWDXi4tVS7NGiy6TzBuR4H0lje69LOgmYak3bHh+WkW6opl4vHurrM4yfbArwPNYZ/1qauKQUYuO9EcurOd5TpK6esimxle5jBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PgAwdFPlQcgy+hFUXRHYAY2i6Ns7EUHizDk/+otmgZE=;
- b=RkJySc2XEo/JgML9c74fN/x/aIuNDTH1qHDWUWBiRlQrY59VGVvHo5HhvMRJB9rBP5vMhd9mLk85CV6jldCsTkXWC/BWylwtjgiUfm9yMkBbkJctNlh5BIuYrHe5LvRyGsQiQVekHS+M2OXPgIrZ8vsepuLQY5v7VVWs4FfJtDo=
-Authentication-Results: ti.com; dkim=none (message not signed)
- header.d=none;ti.com; dmarc=none action=none header.from=windriver.com;
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com (2603:10b6:910:7a::30)
- by CY4PR11MB1768.namprd11.prod.outlook.com (2603:10b6:903:11b::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Fri, 29 Jan
- 2021 05:59:17 +0000
-Received: from CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::5003:3066:e469:80a0]) by CY4PR11MB0071.namprd11.prod.outlook.com
- ([fe80::5003:3066:e469:80a0%7]) with mapi id 15.20.3784.019; Fri, 29 Jan 2021
- 05:59:17 +0000
-From: quanyang.wang@windriver.com
-To: Jyri Sarha <jsarha@ti.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH] drm/tilcdc: send vblank event when disabling crtc
-Date: Fri, 29 Jan 2021 13:58:31 +0800
-Message-Id: <20210129055831.1702862-1-quanyang.wang@windriver.com>
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0081.apcprd04.prod.outlook.com
- (2603:1096:202:15::25) To CY4PR11MB0071.namprd11.prod.outlook.com
- (2603:10b6:910:7a::30)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77E36E1A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:24:44 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id n2so8200713iom.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 22:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fdJkTsg9QlUnIAnLN/MgMsR/0bzFNS4OEDx2HjTICTI=;
+ b=DaP4BLsk6QESLETMI5yzpXlFJIxIWjfFE4SRMjXiEpS2L7GdeCmnAdlqfA/wLOKRwI
+ 2qU9SMKV6ITmkh3HEyOucBHFaRpRUXMFgWuo5suPTo53aa5sXbP1PnQ55SG+wQnNFU6i
+ 8Ek/SLF8oUWlPmdKNcZfkB/neWZV2GCVAOswU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fdJkTsg9QlUnIAnLN/MgMsR/0bzFNS4OEDx2HjTICTI=;
+ b=dZz1bM4TOdVmqPFyQi6CYFyy+WvH3vTT3YOhDW+yYu961d1Pry5cFI00Uuhgt18Ot0
+ LQfNSpWSq1Sly0n5FYKYNTxU3vlPmYSAJhQtQ9WWfVkHrCKFZkFMoiuU1KaY4smn3V20
+ 0i+k2Bo/d0QurdMHaX6tPM1+2F1taO32kOSEgf7gkQVruKc6tN+drv64k49AUtDCsjxx
+ eueH6Qc8VuSjSKAGTeyGkOKLjTTs+oueOniKOLnsKUPJ0DOGYJrKpXy5R5sM71P55YQK
+ egF9xXHZ3QSvF8fIdQr7LGKoN1qgNHGqklKLCWF1kAqX53VH0SmfGzSa/576V9r3JST8
+ tjNw==
+X-Gm-Message-State: AOAM5336sOdiCVsmKc4vE4KSl8Ns5yK+JgFVsnvmF5yT5pQVGOZiq78y
+ vC9xu5BUnnY8WxohS5vEALDs8lfLkGvo8HiWiBuRzg==
+X-Google-Smtp-Source: ABdhPJxJTAHva2F8AyL7R2uGD36xAwZUghomDXF9P40uBpjLR1/Nmwi1027a4w9d+jbPTbW5McMmNCG0d+h9avKjSqs=
+X-Received: by 2002:a05:6638:138e:: with SMTP id
+ w14mr2329658jad.98.1611901483908; 
+ Thu, 28 Jan 2021 22:24:43 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-qwang2-d1.wrs.com (60.247.85.82) by
- HK2PR04CA0081.apcprd04.prod.outlook.com (2603:1096:202:15::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16 via Frontend Transport; Fri, 29 Jan 2021 05:59:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 96e6c747-9e9f-46fa-67bc-08d8c41b02eb
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1768:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR11MB17689345E27B8313303CEA9EF0B99@CY4PR11MB1768.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:411;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /OWcYSgJM9Av30YmqQlpCVL2fRuLcxBZIgr9z+tUkzLrIH9KVgC/yAqPNHl0p/Iw6D56r9N9ArCb2noWlxjRHftZgu8NarHATcksWB/ejxttJ/CZNN+auLRS61NgUAihsNlqHg9rWdKD0mQmNO3rdGtC3o6FstZrcIz2PoPCdT1jPNL+GbsSvScAwfC9stxlflv+03cLuFzIvTRh7inoTBSASs8DM/mJD6dFNMn8IQwahqM+2bartoiCJHz8HjIzDSpZbmNqWGcIW0Re6Ql+UY6vNxuVYJb3r3KQpY06JB2zlnJMrUBeeN1D+UsPqtP3PPpfGq0y+6hbG94Bz6U5ofG6EKjsCLbNfEjUNoAOrI3ZeC2evOtHHjn7pUTGDjRec7cO040iTciluwTdO1IdYiKI2iC0xWQIFQ2HH9KhFhTcE23VMcAWUzvYtU8L3/jRmbWRqcYTq8ZNM1W5czcbUJH5F1u6wwrhreLpDs858bLRmwxMUpbrB5tx6qKorinjvYR3JB7Fp9c3Fq1hE9n4bw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR11MB0071.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(39850400004)(346002)(396003)(366004)(83380400001)(26005)(6636002)(86362001)(316002)(107886003)(8676002)(52116002)(9686003)(6512007)(6486002)(8936002)(110136005)(36756003)(478600001)(5660300002)(66476007)(1076003)(66556008)(4326008)(66946007)(2616005)(6666004)(2906002)(16526019)(956004)(6506007)(186003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PowIyUwtD4A6JRwAOLYHcCLufJgv6MvUYhsT7gVT8NduXE7G9iCFT6xW0DhU?=
- =?us-ascii?Q?n6MUliU13x/2NcXr6ef5xizTJf05rnVuZZ9Z9IVYan/XIbH8viyHHNC0DmPX?=
- =?us-ascii?Q?i+tAieh9NBQ4lUOs2n72Zml1E2Fx4pxf5mUGzDOPq8lAE8TJ8daYAI5PdnpC?=
- =?us-ascii?Q?QtZwMXzBH6sFUEz/0L4gcbGqZpCPdpRBjKQLe8ckn5VM8YUEGKii88P7CLv3?=
- =?us-ascii?Q?OEo9JjB1NzEQ0xWZG1GSgRDuvdts9Fbqv8ArHgyxjABFGwxwAHKxPT/oWFBP?=
- =?us-ascii?Q?zAa5ch1jdv0wCd/DDPOhrC1IxYnTz/G9oON3MsQtkH7fmP5jnOdg9I/3r60Q?=
- =?us-ascii?Q?hmfxS2ayaLZ9vV+gosvMdPzOh0pcWs4epWU1ubrGI3HnVVqYiH61UB+h+PQ5?=
- =?us-ascii?Q?+vUKzuHVBCjdA9NvjEB2lsmuKXWl/5lkntxTw+spWPfQNViFne8xz4Xgdq/n?=
- =?us-ascii?Q?pT9wYGW4DKab7FgyM/IImaSYinPe3WEi9Q35odmTFr7WgXwUT80Q1YUdFwM2?=
- =?us-ascii?Q?HnCELNpe+uSTG5qHo9JEF885Oy8IX8K5ec72ulA7LqyK3eqQKSqc1z5026QH?=
- =?us-ascii?Q?Ef8ojusa52CoZEYvq3VXUXzd12HgoXHAXckiF0JPH1oGZ3xQvt1QaHUdYANX?=
- =?us-ascii?Q?LAcu6X5202wtimpaahkc2EK5Hk2mDAd2jazjYYfsxKDMTwfHDVbxqxKigxdu?=
- =?us-ascii?Q?qFqqMB0n1jl20syjGL3eEgDQiYbHhCPLGwg6OAKoWJxqzODixUBsJBJIYDXb?=
- =?us-ascii?Q?D0CFWtCd8xVXj/CAKhSZ78aSpWFC8ARurVKXf4xMV2x3/BG2hvWgmyKm9yGb?=
- =?us-ascii?Q?XjS0KMd50G/uHjOF4hQgUbJ+dAugnwy4USLA4OBodsx41dZ1vF2VF+w3RgEx?=
- =?us-ascii?Q?0gru/AimthDmuAdkSR0RHYBzXso9Mi4DNtTqq1PueySoZL0HWgzmfTkoXrk3?=
- =?us-ascii?Q?eEdKg5ewBxwp2RrIEjl5CwGGmCe97wRkGATa0xXA8aojSFL5M9yuqrUrej+D?=
- =?us-ascii?Q?Z0dK43owogZzS75LpSUmGqLYZvyszriAx8mvYGxMu5FNVzfInDKL2ary0Lmy?=
- =?us-ascii?Q?3MrvByje?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96e6c747-9e9f-46fa-67bc-08d8c41b02eb
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB0071.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 05:59:16.9775 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mV81YCFEEsvN/P67gU8rOmShQD3rAnoWQvYAAXockGXq43oTywXAQFOLJYPIVoA0oOoeoaGVm7Lbj8k9394QHQ69aVeQ3+yUAC6NKJDQnsI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1768
+References: <20210128112314.1304160-1-hsinyi@chromium.org>
+ <20210128112314.1304160-7-hsinyi@chromium.org>
+ <1611883982.5226.12.camel@mtksdaap41>
+In-Reply-To: <1611883982.5226.12.camel@mtksdaap41>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Fri, 29 Jan 2021 14:24:18 +0800
+Message-ID: <CAJMQK-gKKjLJ5xOAKOx5BM5dL2MxgFq72FVCfGTfzK4ZXzRJfA@mail.gmail.com>
+Subject: Re: [PATCH v12 6/8] drm/mediatek: enable dither function
+To: CK Hu <ck.hu@mediatek.com>
 X-Mailman-Approved-At: Fri, 29 Jan 2021 08:11:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,80 +61,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quanyang.wang@windriver.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+On Fri, Jan 29, 2021 at 9:33 AM CK Hu <ck.hu@mediatek.com> wrote:
+>
+> Hi, Hsin-Yi:
+>
+> On Thu, 2021-01-28 at 19:23 +0800, Hsin-Yi Wang wrote:
+> > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> >
+> > for 5 or 6 bpc panel, we need enable dither function
+> > to improve the display quality
+> >
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 +++++++++++++--
+> >  1 file changed, 13 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > index ac2cb25620357..6c8f246380a74 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > @@ -53,6 +53,7 @@
+> >  #define DITHER_EN                            BIT(0)
+> >  #define DISP_DITHER_CFG                              0x0020
+> >  #define DITHER_RELAY_MODE                    BIT(0)
+> > +#define DITHER_ENGINE_EN                     BIT(1)
+> >  #define DISP_DITHER_SIZE                     0x0030
+> >
+> >  #define LUT_10BIT_MASK                               0x03ff
+> > @@ -314,9 +315,19 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
+> >                             unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> >  {
+> >       struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> > +     bool enable = (bpc == 5 || bpc == 6);
+>
+> I strongly believe that dither function in dither is identical to the
+> one in gamma and od, and in mtk_dither_set_common(), 'bpc >=
+> MTK_MIN_BPC' is valid, so I believe we need not to limit bpc to 5 or 6.
+> But we should consider the case that bpc is invalid in
+> mtk_dither_set_common(). Invalid case in gamma and od use different way
+> to process. For gamma, dither is default relay mode, so invalid bpc
+> would do nothing in mtk_dither_set_common() and result in relay mode.
+> For od, it set to relay mode first, them invalid bpc would do nothing in
+> mtk_dither_set_common() and result in relay mode. I would like dither,
+> gamma and od to process invalid bpc in the same way. One solution is to
+> set relay mode in mtk_dither_set_common() for invalid bpc.
+>
+> Regards,
+> CK
+>
 
-When run xrandr to change resolution on Beaglebone Black board, it will
-print the error information:
+I modify the mtk_dither_config() to follow:
 
-root@beaglebone:~# xrandr -display :0 --output HDMI-1 --mode 720x400
-[drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-[drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:32:tilcdc crtc] commit wait timed out
-[drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-[drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:34:HDMI-A-1] commit wait timed out
-[drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-[drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:31:plane-0] commit wait timed out
-tilcdc 4830e000.lcdc: already pending page flip!
 
-This is because there is operation sequence as below:
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index ac2cb25620357..5b7fcedb9f9a8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -53,6 +53,7 @@
+ #define DITHER_EN                              BIT(0)
+ #define DISP_DITHER_CFG                                0x0020
+ #define DITHER_RELAY_MODE                      BIT(0)
++#define DITHER_ENGINE_EN                       BIT(1)
+ #define DISP_DITHER_SIZE                       0x0030
 
-drm_atomic_connector_commit_dpms(mode is DRM_MODE_DPMS_OFF):
-    ...
-    drm_atomic_helper_setup_commit <- init_completion(commit_A->flip_done)
-    drm_atomic_helper_commit_tail
-        tilcdc_crtc_atomic_disable
-        tilcdc_plane_atomic_update <- drm_crtc_send_vblank_event in tilcdc_crtc_irq
-                                      is skipped since tilcdc_crtc->enabled is 0
-        tilcdc_crtc_atomic_flush   <- drm_crtc_send_vblank_event is skipped since
-                                      crtc->state->event is set to be NULL in
-                                      tilcdc_plane_atomic_update
-drm_mode_setcrtc:
-    ...
-    drm_atomic_helper_setup_commit <- init_completion(commit_B->flip_done)
-    drm_atomic_helper_wait_for_dependencies
-        drm_crtc_commit_wait   <- wait for commit_A->flip_done completing
+ #define LUT_10BIT_MASK                         0x03ff
+@@ -166,6 +167,8 @@ void mtk_dither_set_common(void __iomem *regs,
+struct cmdq_client_reg *cmdq_reg,
+                              DITHER_ADD_LSHIFT_G(MTK_MAX_BPC - bpc),
+                              cmdq_reg, regs, DISP_DITHER_16);
+                mtk_ddp_write(cmdq_pkt, dither_en, cmdq_reg, regs, cfg);
++       } else {
++               mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, cmdq_reg, regs, cfg);
+        }
+ }
 
-Just as shown above, the steps which could complete commit_A->flip_done
-are all skipped and commit_A->flip_done will never be completed. This will
-result a time-out ERROR when drm_crtc_commit_wait check the commit_A->flip_done.
-So add drm_crtc_send_vblank_event in tilcdc_crtc_atomic_disable to
-complete commit_A->flip_done.
+@@ -315,8 +318,12 @@ static void mtk_dither_config(struct device *dev,
+unsigned int w,
+ {
+        struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
 
-Fixes: cb345decb4d2 ("drm/tilcdc: Use standard drm_atomic_helper_commit")
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+-       mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg,
+priv->regs, DISP_DITHER_SIZE);
+-       mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
+priv->regs, DISP_DITHER_CFG);
++       mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
++                     DISP_DITHER_SIZE);
++       mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs,
++                     DISP_DITHER_CFG);
++       mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, DISP_DITHER_CFG,
++                              DITHER_ENGINE_EN, cmdq_pkt);
+ }
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 30213708fc99..d99afd19ca08 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -515,6 +515,15 @@ static void tilcdc_crtc_off(struct drm_crtc *crtc, bool shutdown)
- 
- 	drm_crtc_vblank_off(crtc);
- 
-+	spin_lock_irq(&crtc->dev->event_lock);
-+
-+	if (crtc->state->event) {
-+		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-+		crtc->state->event = NULL;
-+	}
-+
-+	spin_unlock_irq(&crtc->dev->event_lock);
-+
- 	tilcdc_crtc_disable_irqs(dev);
- 
- 	pm_runtime_put_sync(dev->dev);
--- 
-2.25.1
+So now, not only bpc==5 or 6, but all valid bpc, dither config will
+call mtk_dither_set_common() with the flag DITHER_ENGINE_EN(BIT(1)).
+od config will call mtk_dither_set_common() with the flag
+DISP_DITHERING(BIT(2)).
+Additionally for 8173, gamma config will call mtk_dither_set_common()
+with the flag DISP_DITHERING (BIT(2))
 
+For invalid mode all of them will be DITHER_RELAY_MODE.
+
+Just to make sure that this follows the spec? thanks
+
+> >
+> > -     mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
+> > -     mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
+> > +     if (enable) {
+> > +             mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc,
+> > +                                   DISP_DITHER_CFG, DITHER_ENGINE_EN,
+> > +                                   cmdq_pkt);
+> > +     } else {
+> > +             mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
+> > +                           priv->regs, DISP_DITHER_CFG);
+> > +     }
+> > +
+> > +     mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
+> > +                   DISP_DITHER_SIZE);
+> >  }
+> >
+> >  static void mtk_dither_start(struct device *dev)
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
