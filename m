@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F463086D7
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26D83086D6
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 09:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA176EA8A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E969E6EA8F;
 	Fri, 29 Jan 2021 08:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83F26EA7C
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 07:34:49 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id e9so4786038plh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 23:34:49 -0800 (PST)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20DEF6EA80
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 07:34:52 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id s23so4818903pgh.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 23:34:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9ZWXOVsKIxcx+tGQm76xdUBCxirqlUu+mbOtPxuu9AE=;
- b=leoqf+1hTP4H2PyDaC2xZP2m2uUPHXR5pGWVrCK34boQBgu2ADdiKOqVdRJgQEo9TR
- 9p5kv+xcuqa2WJcl5zK1Yna/BxYoBX7gGOnDfNGW5F/bl6VGwU01ceEpKkCgBgW9t8Ij
- cw0EJ04W3ir5FmuYOVsxM491joxVdzFf9M60s=
+ bh=jv+2JS9/1bK95pcHO0im9CAvoGtup1mDnivR04MejrA=;
+ b=Wy5bJ3qFy8UxMKk04MxCVxkLzslgVcgIeUbeQqPPmUzi9N0uI/soGqP0zn1SWneXZp
+ +FxeEOPdJgn6o8wRppIJC1X/QPu7VCWr2uMkRcm6IVX8GGQcJSEuuYI2nHYoSc25b5wu
+ ARK5VW6qltB3qy1xNer6u33+8erAECyJOl40E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9ZWXOVsKIxcx+tGQm76xdUBCxirqlUu+mbOtPxuu9AE=;
- b=Bjd+/NHxUwJSxuf3kKDsOF11+eKVMV969dalB0IgUlD6qmIFWYXz8o56OauYLBukGD
- +CZtjPtub0TZQp1NVMh3JFG3lG4RjLlN/icQuDPX2U6NIWTaH1vgdrE5wAXg/64X8Nmp
- rdcvRCA8Fx2llgzO/QPS86oalnA5/W/Jol+XATpaEXMvY62LNPjPMU0IWG/qEWMu+bsv
- FLRyzbMCcwChlrLdpfZrw6tS+DyGMVUSsDNed8xb1T6F9ZPPRHmXOU+UkJ6qGnhJiK69
- i0gM2Otf3HW462bOVZthJd16gLKZgATwTmJVw6hUyXLAPx9CFvuYt3h/v78FUtVZ8J7a
- SJaw==
-X-Gm-Message-State: AOAM530tBwZko7a7M5WmtKC5mWw+QSRoayv9LwDmO97Mz0SxfjXT9eHf
- lLSNTQI6ftWNwmz0dS0yy/oIXg==
-X-Google-Smtp-Source: ABdhPJzFhYJSIIxoG5CMdSpK9JhxCqNvNkZfWnMW28x1fFvVi+kdtvyTLL/rylCjR4CSvx9Vq84J5A==
-X-Received: by 2002:a17:90a:cb0f:: with SMTP id
- z15mr3446744pjt.88.1611905689225; 
- Thu, 28 Jan 2021 23:34:49 -0800 (PST)
+ bh=jv+2JS9/1bK95pcHO0im9CAvoGtup1mDnivR04MejrA=;
+ b=Wg7Kq9a/nVNXIUrpUhy77xGXRo9Be+aaXPn00GMvGshGXR3MmYLXx3pW2qTqEs5O1z
+ crBboDOK7sWqMojd41N7S5Wqn0Hxyb73uOLwHVwa6AGdbzNNljKWeRFFCHDFAEmT+3Lx
+ Rn/e5Xpa9Q5+lOTLPBjlQrmj1OAbDe7aUJkoq0OwuDW+ryONp/kLZ9bSaDJmavZMvUAO
+ h2T6VGgRafzwWnbVs8414NneDNWBFinQLKJiGKfmMYS/IFMjwnVDQ1cG6/F2GU0lF60l
+ xzPqtqaki4TYkjkdeLCwNihX4/F+MWeUJ0igExBr63/CyaI6EqoWSOjmg1x01Wr5rllZ
+ Et8w==
+X-Gm-Message-State: AOAM532Eilk9yJCB/RU38dSD4AYls73Bg4DFD8s4glIFXJTvFkXgIiZs
+ WM2StxlAIpn/NBb+m0PQJuQNQg==
+X-Google-Smtp-Source: ABdhPJwf69hCMciq2Y+DX8eJKfTvpms85Hit7oril+FLzlt6OiRN8iWLPAuxIiAP5jzf6DYCWVnVGA==
+X-Received: by 2002:a65:498e:: with SMTP id r14mr3481282pgs.235.1611905691669; 
+ Thu, 28 Jan 2021 23:34:51 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:51f1:c468:a70b:7c09])
- by smtp.gmail.com with ESMTPSA id p1sm7689980pfn.21.2021.01.28.23.34.46
+ by smtp.gmail.com with ESMTPSA id p1sm7689980pfn.21.2021.01.28.23.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 23:34:48 -0800 (PST)
+ Thu, 28 Jan 2021 23:34:51 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v4 3/8] drm/mediatek: add component RDMA4
-Date: Fri, 29 Jan 2021 15:34:31 +0800
-Message-Id: <20210129073436.2429834-4-hsinyi@chromium.org>
+Subject: [PATCH v4 4/8] drm/mediatek: enable OVL_LAYER_SMI_ID_EN for
+ multi-layer usecase
+Date: Fri, 29 Jan 2021 15:34:32 +0800
+Message-Id: <20210129073436.2429834-5-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210129073436.2429834-1-hsinyi@chromium.org>
 References: <20210129073436.2429834-1-hsinyi@chromium.org>
@@ -78,27 +78,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-This patch add component RDMA4
+enable OVL_LAYER_SMI_ID_EN for multi-layer usecase, without this patch,
+ovl will hang up when more than 1 layer enabled.
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 6c539783118dd..543cbfc9c5d85 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -496,6 +496,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_RDMA0]	= { MTK_DISP_RDMA,	0, &ddp_rdma },
- 	[DDP_COMPONENT_RDMA1]	= { MTK_DISP_RDMA,	1, &ddp_rdma },
- 	[DDP_COMPONENT_RDMA2]	= { MTK_DISP_RDMA,	2, &ddp_rdma },
-+	[DDP_COMPONENT_RDMA4]   = { MTK_DISP_RDMA,      4, &ddp_rdma },
- 	[DDP_COMPONENT_UFOE]	= { MTK_DISP_UFOE,	0, &ddp_ufoe },
- 	[DDP_COMPONENT_WDMA0]	= { MTK_DISP_WDMA,	0, NULL },
- 	[DDP_COMPONENT_WDMA1]	= { MTK_DISP_WDMA,	1, NULL },
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index da7e38a28759b..961f87f8d4d15 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -24,6 +24,7 @@
+ #define DISP_REG_OVL_RST			0x0014
+ #define DISP_REG_OVL_ROI_SIZE			0x0020
+ #define DISP_REG_OVL_DATAPATH_CON		0x0024
++#define OVL_LAYER_SMI_ID_EN				BIT(0)
+ #define OVL_BGCLR_SEL_IN				BIT(2)
+ #define DISP_REG_OVL_ROI_BGCLR			0x0028
+ #define DISP_REG_OVL_SRC_CON			0x002c
+@@ -62,6 +63,7 @@ struct mtk_disp_ovl_data {
+ 	unsigned int gmc_bits;
+ 	unsigned int layer_nr;
+ 	bool fmt_rgb565_is_0;
++	bool smi_id_en;
+ };
+ 
+ /**
+@@ -134,6 +136,13 @@ void mtk_ovl_start(struct device *dev)
+ {
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
+ 
++	if (ovl->data->smi_id_en) {
++		unsigned int reg;
++
++		reg = readl(ovl->regs + DISP_REG_OVL_DATAPATH_CON);
++		reg = reg | OVL_LAYER_SMI_ID_EN;
++		writel_relaxed(reg, ovl->regs + DISP_REG_OVL_DATAPATH_CON);
++	}
+ 	writel_relaxed(0x1, ovl->regs + DISP_REG_OVL_EN);
+ }
+ 
+@@ -142,6 +151,14 @@ void mtk_ovl_stop(struct device *dev)
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
+ 
+ 	writel_relaxed(0x0, ovl->regs + DISP_REG_OVL_EN);
++	if (ovl->data->smi_id_en) {
++		unsigned int reg;
++
++		reg = readl(ovl->regs + DISP_REG_OVL_DATAPATH_CON);
++		reg = reg & ~OVL_LAYER_SMI_ID_EN;
++		writel_relaxed(reg, ovl->regs + DISP_REG_OVL_DATAPATH_CON);
++	}
++
+ }
+ 
+ void mtk_ovl_config(struct device *dev, unsigned int w,
 -- 
 2.30.0.365.g02bc693789-goog
 
