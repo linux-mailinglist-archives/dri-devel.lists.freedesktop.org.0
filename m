@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3F83089EC
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 16:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237153089EF
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 16:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CC76EB62;
-	Fri, 29 Jan 2021 15:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA4C6EB68;
+	Fri, 29 Jan 2021 15:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518C26EB62;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB8E06EB65;
+ Fri, 29 Jan 2021 15:37:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7682D64E23;
  Fri, 29 Jan 2021 15:37:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ECDC864E21;
- Fri, 29 Jan 2021 15:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611934670;
- bh=oN+BjilV+IP08eYlsu3JkzNWAmIGUjZmGP4JJFAvjSs=;
+ s=k20201202; t=1611934671;
+ bh=hvCJgtiskHqwsFaSnJ8nJEeTGp3QERMQ4m5jFCX8rKw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gJP6y4+fK4+o4fyMIg+nns3NNthDLR7eVk44MR0l3fUP4JdClsfWlX5Wkgp3HN5Xm
- R5cnMOdmuUBp1TcFMu0OGDxfe/RS79AciVbuJyeKGRTuXT+DXNECFKbEzcBtO/iv4X
- 1XeaZjTuRd5DQ8ukRF3zpgzPjQCUjQqAoVZShhWFYC4wq6QI4tkmphpcomohuny29D
- snYP+roeGB58dULW1ZFgO+nyq9GUGXiXKFFAAG/U2vGIniCBbTtDPdb9QMDGMSod+1
- q1fEAPMDhvtkD3rH5DMbh28hfQkH4vR2S/rW623flajeuXQ79Xz6VcHLXjmOju9ouz
- V8V3zyX/T6DNg==
+ b=Vek+YYzj1DcHDsD5pMWXVZ7jDD+BLYzDyhlva7bVEdbc/MfkSgLxJFHFji7di2AVW
+ /vLqUXlTImuAuAUDGOllfQHYOc4r8blPX869PhSMaFKOwsh/L1pE5Zf48IuVQaC9tX
+ nuvd+eJD/wzcqjh2YoavIyt5uKIvbZiA9kQV/iu3l5YqTENMfXd+A44T+3gAX9Xu/J
+ p3WTbg2zm4Wkj6VcFnyRcSZN9kGa/H+/YcyLVQBwWi4Y7+RoU+Ipk9u290n6DBB3E8
+ IWWXE9PugVy+j61V12eYX6eTuLY3SDVs3GmAjuwX8V5dQbqPM0l24zXf9oADMLvpf/
+ E9+FUMEp2AkFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 29/41] drm/amd/display: Update
- dram_clock_change_latency for DCN2.1
-Date: Fri, 29 Jan 2021 10:37:00 -0500
-Message-Id: <20210129153713.1592185-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 30/41] drm/amd/display: Allow PSTATE chnage when
+ no displays are enabled
+Date: Fri, 29 Jan 2021 10:37:01 -0500
+Message-Id: <20210129153713.1592185-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210129153713.1592185-1-sashal@kernel.org>
 References: <20210129153713.1592185-1-sashal@kernel.org>
@@ -49,52 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
- Jake Wang <haonan.wang2@amd.com>, amd-gfx@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Anson Jacob <anson.jacob@amd.com>,
+ amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jake Wang <haonan.wang2@amd.com>
+From: Aric Cyr <aric.cyr@amd.com>
 
-[ Upstream commit 901c1ec05ef277ce9d43cb806a225b28b3efe89a ]
+[ Upstream commit 8bc3d461d0a95bbcc2a0a908bbadc87e198a86a8 ]
 
-[WHY]
-dram clock change latencies get updated using ddr4 latency table, but
-does that update does not happen before validation. This value
-should not be the default and should be number received from
-df for better mode support.
-This may cause a PState hang on high refresh panels with short vblanks
-such as on 1080p 360hz or 300hz panels.
+[Why]
+When no displays are currently enabled, display driver should not
+disallow PSTATE switching.
 
-[HOW]
-Update latency from 23.84 to 11.72.
+[How]
+Allow PSTATE switching if either the active configuration supports it,
+or there are no active displays.
 
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Aric Cyr <aric.cyr@amd.com>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Anson Jacob <anson.jacob@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c    | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index e73785e74cba8..20441127783ba 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -295,7 +295,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_1_soc = {
- 	.num_banks = 8,
- 	.num_chans = 4,
- 	.vmm_page_size_bytes = 4096,
--	.dram_clock_change_latency_us = 23.84,
-+	.dram_clock_change_latency_us = 11.72,
- 	.return_bus_width_bytes = 64,
- 	.dispclk_dppclk_vco_speed_mhz = 3600,
- 	.xfc_bus_transport_time_us = 4,
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c
+index b0e9b0509568c..95d883482227e 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn30/dcn30_clk_mgr.c
+@@ -239,6 +239,7 @@ static void dcn3_update_clocks(struct clk_mgr *clk_mgr_base,
+ 	struct dmcu *dmcu = clk_mgr_base->ctx->dc->res_pool->dmcu;
+ 	bool force_reset = false;
+ 	bool update_uclk = false;
++	bool p_state_change_support;
+ 
+ 	if (dc->work_arounds.skip_clock_update || !clk_mgr->smu_present)
+ 		return;
+@@ -279,8 +280,9 @@ static void dcn3_update_clocks(struct clk_mgr *clk_mgr_base,
+ 		clk_mgr_base->clks.socclk_khz = new_clocks->socclk_khz;
+ 
+ 	clk_mgr_base->clks.prev_p_state_change_support = clk_mgr_base->clks.p_state_change_support;
+-	if (should_update_pstate_support(safe_to_lower, new_clocks->p_state_change_support, clk_mgr_base->clks.p_state_change_support)) {
+-		clk_mgr_base->clks.p_state_change_support = new_clocks->p_state_change_support;
++	p_state_change_support = new_clocks->p_state_change_support || (display_count == 0);
++	if (should_update_pstate_support(safe_to_lower, p_state_change_support, clk_mgr_base->clks.p_state_change_support)) {
++		clk_mgr_base->clks.p_state_change_support = p_state_change_support;
+ 
+ 		/* to disable P-State switching, set UCLK min = max */
+ 		if (!clk_mgr_base->clks.p_state_change_support)
 -- 
 2.27.0
 
