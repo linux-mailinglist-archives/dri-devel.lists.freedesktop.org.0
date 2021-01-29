@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9612C308342
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 02:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8F83083EF
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 03:52:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E156E2E3;
-	Fri, 29 Jan 2021 01:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B129A6E3AC;
+	Fri, 29 Jan 2021 02:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8C5F06E2E3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:33:09 +0000 (UTC)
-X-UUID: 0ae9d5946d4046ae93f30ae54c3f474b-20210129
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=osPAg0K5Yd7X9cjShUvPGC/GtiMhGLI3vpW3QQq8WXs=; 
- b=SVbp7fctsNo7VFTjJqTqn78oe51H5KAUusyw1m52NIs+N/2N9YjYM/NQqd0jfwnBv67qgdLa1Blkzbt70bLt8z8HRpZjfndb0/kSaIdqHBYRwTFEAk3z/boc52W5XqumjhhYghTm+4Ysx3djUOVCzYS9rEm/N9GT9loVjV+HEH4=;
-X-UUID: 0ae9d5946d4046ae93f30ae54c3f474b-20210129
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 639592366; Fri, 29 Jan 2021 09:33:07 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Jan 2021 09:33:02 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Jan 2021 09:33:02 +0800
-Message-ID: <1611883982.5226.12.camel@mtksdaap41>
-Subject: Re: [PATCH v12 6/8] drm/mediatek: enable dither function
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 29 Jan 2021 09:33:02 +0800
-In-Reply-To: <20210128112314.1304160-7-hsinyi@chromium.org>
-References: <20210128112314.1304160-1-hsinyi@chromium.org>
- <20210128112314.1304160-7-hsinyi@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+X-Greylist: delayed 411 seconds by postgrey-1.36 at gabe;
+ Fri, 29 Jan 2021 02:52:50 UTC
+Received: from rockwork.org (unknown [45.32.92.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9306E3AC;
+ Fri, 29 Jan 2021 02:52:50 +0000 (UTC)
+Received: from [192.168.43.200] (unknown [36.19.57.1])
+ by rockwork.org (Postfix) with ESMTPSA id 30EF5FBC2E;
+ Fri, 29 Jan 2021 02:45:52 +0000 (UTC)
+From: Xingyou Chen <rockrush@rockwork.org>
+Subject: Re: [RFC PATCH 0/9] cgroup support for GPU devices
+To: Brian Welty <brian.welty@intel.com>, cgroups@vger.kernel.org,
+ Tejun Heo <tj@kernel.org>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Kenny Ho <Kenny.Ho@amd.com>, amd-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>
+References: <20210126214626.16260-1-brian.welty@intel.com>
+Message-ID: <293ecfcc-50f7-1c43-bc1b-f96dc04d976a@rockwork.org>
+Date: Fri, 29 Jan 2021 10:45:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 61173972B03CFC5DDB5831DC8F9D30A79FD4418A4F9F31FD79A0881E77BA28132000:8
-X-MTK: N
+In-Reply-To: <20210126214626.16260-1-brian.welty@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,82 +49,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-Yi:
-
-On Thu, 2021-01-28 at 19:23 +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> 
-> for 5 or 6 bpc panel, we need enable dither function
-> to improve the display quality
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index ac2cb25620357..6c8f246380a74 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -53,6 +53,7 @@
->  #define DITHER_EN				BIT(0)
->  #define DISP_DITHER_CFG				0x0020
->  #define DITHER_RELAY_MODE			BIT(0)
-> +#define DITHER_ENGINE_EN			BIT(1)
->  #define DISP_DITHER_SIZE			0x0030
->  
->  #define LUT_10BIT_MASK				0x03ff
-> @@ -314,9 +315,19 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
->  			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
->  {
->  	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +	bool enable = (bpc == 5 || bpc == 6);
-
-I strongly believe that dither function in dither is identical to the
-one in gamma and od, and in mtk_dither_set_common(), 'bpc >=
-MTK_MIN_BPC' is valid, so I believe we need not to limit bpc to 5 or 6.
-But we should consider the case that bpc is invalid in
-mtk_dither_set_common(). Invalid case in gamma and od use different way
-to process. For gamma, dither is default relay mode, so invalid bpc
-would do nothing in mtk_dither_set_common() and result in relay mode.
-For od, it set to relay mode first, them invalid bpc would do nothing in
-mtk_dither_set_common() and result in relay mode. I would like dither,
-gamma and od to process invalid bpc in the same way. One solution is to
-set relay mode in mtk_dither_set_common() for invalid bpc.
-
-Regards,
-CK
-
->  
-> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
-> -	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
-> +	if (enable) {
-> +		mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc,
-> +				      DISP_DITHER_CFG, DITHER_ENGINE_EN,
-> +				      cmdq_pkt);
-> +	} else {
-> +		mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
-> +			      priv->regs, DISP_DITHER_CFG);
-> +	}
-> +
-> +	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
-> +		      DISP_DITHER_SIZE);
->  }
->  
->  static void mtk_dither_start(struct device *dev)
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDIwMjEvMS8yNyDkuIrljYg1OjQ2LCBCcmlhbiBXZWx0eSB3cm90ZToKPiBXZSdkIGxpa2Ug
+dG8gcmV2aXNpdCB0aGUgcHJvcG9zYWwgb2YgYSBHUFUgY2dyb3VwIGNvbnRyb2xsZXIgZm9yIG1h
+bmFnaW5nCj4gR1BVIGRldmljZXMgYnV0IHdpdGgganVzdCBhIGJhc2ljIHNldCBvZiBjb250cm9s
+cy4gIFRoaXMgc2VyaWVzIGlzIGJhc2VkIG9uIAo+IHRoZSBwcmlvciBwYXRjaCBzZXJpZXMgZnJv
+bSBLZW5ueSBIbyBbMV0uICBXZSB0YWtlIEtlbm55J3MgYmFzZSBwYXRjaGVzCj4gd2hpY2ggaW1w
+bGVtZW50IHRoZSBiYXNpYyBmcmFtZXdvcmsgZm9yIHRoZSBjb250cm9sbGVyLCBidXQgd2UgcHJv
+cG9zZSBhbgo+IGFsdGVybmF0ZSBzZXQgb2YgY29udHJvbCBmaWxlcy4gIEhlcmUgd2UndmUgdGFr
+ZW4gYSBzdWJzZXQgb2YgdGhlIGNvbnRyb2xzCj4gcHJvcG9zZWQgaW4gZWFybGllciBkaXNjdXNz
+aW9uIG9uIE1MIGhlcmUgWzJdLiAKPgo+IFRoaXMgc2VyaWVzIHByb3Bvc2VzIGEgc2V0IG9mIGRl
+dmljZSBtZW1vcnkgY29udHJvbHMgKGdwdS5tZW1vcnkuY3VycmVudCwKPiBncHUubWVtb3J5Lm1h
+eCwgYW5kIGdwdS5tZW1vcnkudG90YWwpIGFuZCBhY2NvdW50aW5nIG9mIEdQVSB0aW1lIHVzYWdl
+Cj4gKGdwdS5zY2hlZC5ydW50aW1lKS4gIEdQVSB0aW1lIHNoYXJpbmcgY29udHJvbHMgYXJlIGxl
+ZnQgYXMgZnV0dXJlIHdvcmsuCj4gVGhlc2UgYXJlIGltcGxlbWVudGVkIHdpdGhpbiB0aGUgR1BV
+IGNvbnRyb2xsZXIgYWxvbmcgd2l0aCBpbnRlZ3JhdGlvbi91c2FnZQo+IG9mIHRoZSBkZXZpY2Ug
+bWVtb3J5IGNvbnRyb2xzIGJ5IHRoZSBpOTE1IGRldmljZSBkcml2ZXIuCj4KPiBBcyBhbiBhY2Nl
+bGVyYXRvciBvciBHUFUgZGV2aWNlIGlzIHNpbWlsYXIgaW4gbWFueSByZXNwZWN0cyB0byBhIENQ
+VSB3aXRoCj4gKG9yIHdpdGhvdXQpIGF0dGFjaGVkIHN5c3RlbSBtZW1vcnksIHRoZSBiYXNpYyBw
+cmluY2lwbGUgaGVyZSBpcyB0cnkgdG8KPiBjb3B5IHRoZSBzZW1hbnRpY3Mgb2YgZXhpc3Rpbmcg
+Y29udHJvbHMgZnJvbSBvdGhlciBjb250cm9sbGVycyB3aGVuIHBvc3NpYmxlCj4gYW5kIHdoZXJl
+IHRoZXNlIGNvbnRyb2xzIHNlcnZlIHRoZSBzYW1lIHVuZGVybHlpbmcgcHVycG9zZS4KPiBGb3Ig
+ZXhhbXBsZSwgdGhlIG1lbW9yeS5tYXggYW5kIG1lbW9yeS5jdXJyZW50IGNvbnRyb2xzIGFyZSBi
+YXNlZCBvbgo+IHNhbWUgY29udHJvbHMgZnJvbSBNRU1DRyBjb250cm9sbGVyLgoKSXQgc2VlbXMg
+bm90IHRvIGJlIERSTSBzcGVjaWZpYywgb3IgZXZlbiBHUFUgc3BlY2lmaWMuIFdvdWxkIHdlIGhh
+dmUgYW4gdW5pdmVyc2FsIGNvbnRyb2wgZ3JvdXAgZm9yCgphbnkgYWNjZWxlcmF0b3IsIEdQR1BV
+IGRldmljZSBldGMsIHRoYXQgaG9sZCBzaGFyYWJsZSByZXNvdXJjZXMgbGlrZSBkZXZpY2UgbWVt
+b3J5LCBjb21wdXRlIHV0aWxpdHksCgpiYW5kd2lkdGgsIHdpdGggZXh0cmEgY29udHJvbCBmaWxl
+IHRvIHNlbGVjdCBiZXR3ZWVuIGRldmljZXMob3IgdmVuZG9ycyk/CgplLmcuIC9jZ25hbWUuZGV2
+aWNlIHRoYXQgc3RvcmVzIFBDSSBCREbvvIwgb3IgZW51bShpbnRlbCwgYW1kZ3B1LCBudmlkaWEs
+IC4uLiksIGRlZmF1bHRzIHRvIG5vbmUsCgptZWFucyBub3QgZW5hYmxlZC4KCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
