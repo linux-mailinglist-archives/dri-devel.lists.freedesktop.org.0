@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D9030896D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:01:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B604D308970
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4AEA6EB26;
-	Fri, 29 Jan 2021 14:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCAFF6EB40;
+	Fri, 29 Jan 2021 14:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 236C66EB26
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:01:55 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id 11so6288705pfu.4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:01:55 -0800 (PST)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E036EB36
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:04:39 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id i7so6728016pgc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:04:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6CGKCVe1NqLUtuXRObbYbXGJnP4ybcUgmDDnBwwNgIM=;
- b=blGmnnDezyOzpsWm0ThENsJBDCqkVQH4JRiWS7gRqztEiEuHqGyHTAa4qFox6yiT50
- OLUXznPgAYum2JXERWL51NTxqKj2L95Hk/fUzZBWVc0mLcoo5ncLwtOOkC4Hhd3+pM8I
- hdI8sZuGmuoAUq/JpKZysAJX4oMk9SnhX7e1PMBXMeOzzGI6KeSUVsT6r5D7oHC1BxHH
- CzqVCW+6rrl4xjq2tmfBLoZWr192nUaS+dtdul0pAG7Bu/XDjNseNilpwKJhqQs9f77X
- 8YsG+7mpzO289v9euCK3kDcRSXwwBVmhboOYsh9Tp/dMxm4QoiEhNxsVp3edFygTIiUl
- fvDA==
+ :cc; bh=2HvMuSQuok3SxIwyh3VLvvIEGSa363+ZDsGak3OB2UY=;
+ b=ALiKoCrdDwt8AS06d21H4u1TK0pIPrseT+wzfjYy166kpAnVAeShq36PpQ10AFYB8p
+ kJzZC0yUvsmD7jc+ymLlGeL8H0kqm2D3sxtA2buaKAbxV0tDm16pIM+FEZbQnkXx7bCs
+ U1LRB8Efwokpm0XKdPPW1QLxJkalaJtvp20zv3jtxm19QX1PsC91geRNG65fsLTAsUaB
+ FtqaaywyPJuQ3slXtuJlCA7JiQoANy6Artj0XtsXjWZgvG7ly/oEnltVMgv/QQ9zHdG+
+ IpUBByf0VNxc9rUwrDRoNKYTxZYz3vncH600Txee/iCCrt7vsB8jsVW7ZWNelFTxq5Th
+ DEZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6CGKCVe1NqLUtuXRObbYbXGJnP4ybcUgmDDnBwwNgIM=;
- b=cFiSTtTfq1QPw96x5xWoqC2P8bLizZ5MsQAphPNfSeQiQn25NRfhSgcYdzQ9up7Yn/
- JavTdgYjNhHWtD6DSCMBO35mNmRBlcY8eZTIr8E6g8iSJzMhIVIYcaas2w8xdpJA+RiT
- Upz2rWe5XkrnZAPjbzfF9qIPL7ecH/9OqJ5fS1Flct3LBwTjX4eTd6S5mMOWmETCTgK9
- Js/lLnkXDBjgPRwwYRQfyGywK/clL7U/bKqE4DqHpDT9VpeDPp1GvEFyrUrK9cbyeHTU
- 5rX/1NHrquJLCvWzvrtQpP/nayfy6GjT8tIQQmwIE018lqe6kBj5Af+9s4+fyAYoQ3VF
- pSjA==
-X-Gm-Message-State: AOAM530pTuehsBoLBGOk2OTeTBjNGOLXJtw/8vJtrRDzEVPndv2eGj/t
- rsxFjG10Ei7h70tltU27WKNrZAtteNQ6DZw/Ja8=
-X-Google-Smtp-Source: ABdhPJxS0C7ztH8NhIE2909dnQDnGaHlzTxdJSqSHb+jsgnnWDci5TPa7sLCnSfGoprUlgIGdrP5ltzJ/Lo3Tj2eeJ8=
-X-Received: by 2002:a63:e50:: with SMTP id 16mr4885373pgo.74.1611928914673;
- Fri, 29 Jan 2021 06:01:54 -0800 (PST)
+ bh=2HvMuSQuok3SxIwyh3VLvvIEGSa363+ZDsGak3OB2UY=;
+ b=bSelcw+zSoDKUC0zvxiG09nE+h2fZfMr75WGQl7kWTwfVUnY2+ce1nEKwx+lCmrp8N
+ /qm09v4gJQsqDrPsc7gIP6kwNEIneGdx76Tf7NEMTxHhtgRUw4EmGRitL1YEpGwj1pzf
+ vllyteNbh091chXL78rg6l6ZoddINP5SiZhdNTk0JCeweMXSYZnrijKYZdbgQe0XxSRJ
+ bykEDXEWzlf1xwK1vGKW+kHZUyQNOYQWKNbOQ9y5qgM0RKLKhvMtGGTxEp6j6wcwWSgR
+ UMf3f63h/AGu2hMsEC7Hf6Dz4nanw6SB5NE5RCIZs6KAwh7i1jEdjJEfnFpm5e6QrRUH
+ V4wQ==
+X-Gm-Message-State: AOAM530tv/ZLzrOj55SR84u4UkIBJZxThPFV42mCsAAEREH7oW8uDX0u
+ c2Z9Gw6PU9FkTpPpHoGbqoqpcLWa2jdIOEnwEXk=
+X-Google-Smtp-Source: ABdhPJxw061PU6908QgfoAUJstvhxaahvZZ6H9ZS4oW2+gLfQwwyqDKviRNcnNYL9evlmb6KqWQFI39LTyTWSDr1s/I=
+X-Received: by 2002:a63:fc56:: with SMTP id r22mr4893662pgk.203.1611929079216; 
+ Fri, 29 Jan 2021 06:04:39 -0800 (PST)
 MIME-Version: 1.0
 References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
  <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
  <20210129130110.00003bb1@gmail.com>
  <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
- <20210129204733.00003954@gmail.com>
-In-Reply-To: <20210129204733.00003954@gmail.com>
+ <20210129205447.0000464f@gmail.com>
+In-Reply-To: <20210129205447.0000464f@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 29 Jan 2021 16:01:38 +0200
-Message-ID: <CAHp75VdOKH4QU6_HMeUrbhbpsBx0wRxjbxFZh=+1W+7hnxchkQ@mail.gmail.com>
+Date: Fri, 29 Jan 2021 16:04:23 +0200
+Message-ID: <CAHp75Vc5G1jOjGe8AzLgNtYrPi8zbO4niQ58CLU0iPhJfiw0Ag@mail.gmail.com>
 Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
 To: carlis <zhangxuezhi3@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,78 +78,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 29, 2021 at 2:47 PM carlis <zhangxuezhi3@gmail.com> wrote:
+On Fri, Jan 29, 2021 at 2:54 PM carlis <zhangxuezhi3@gmail.com> wrote:
 > On Fri, 29 Jan 2021 12:23:08 +0200
 > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 > > On Fri, Jan 29, 2021 at 7:01 AM carlis <zhangxuezhi3@gmail.com> wrote:
 > > > On Thu, 28 Jan 2021 16:33:02 +0200
 > > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > > > On Thu, Jan 28, 2021 at 2:58 PM Carlis <zhangxuezhi3@gmail.com>
-> > > > wrote:
 
 ...
 
-> > Please, go again thru my comments and comments from others and
-> > carefully address all of them everywhere in your contribution. If you
-> > have questions, ask them in reply in the corresponding context.
-
-...
-
-> > > /**
-> > >  * init_tearing_effect_line() - init tearing effect line
-> >
-> > >  *
-> >
-> > For example, above was commented on and hasn't been addressed here.
-> >
-> hi,here i can not get you.....
-
-The above is a blank line which is redundant. It also applied to the
-other function in the code.
-
-> > >  * @par: FBTFT parameter object
-> > >  *
-> > >  * Return: 0 on success, < 0 if error occurred.
-> > >  */
-> > > static int init_tearing_effect_line(struct fbtft_par *par)
-> > > {
-> > >         struct device *dev = par->info->device;
-> > >         struct gpio_desc *te;
-> > >         int rc;
-> > >
-> > >         te = gpiod_get_optional(dev, "te", GPIOD_IN);
-> > >         if (IS_ERR(te))
-> > >                 return dev_err_probe(dev, PTR_ERR(te), "Failed to
-> > >         request te GPIO\n");
-> > >
-> >
-> > >         if (te) {
-> >
 > > This one is not like I suggested.
-> Why? My thinking is that if the TE is not configured and NULL is
-> returned, the initialization can still proceed.....
+> I don't think I have a problem here, if te GPIO is not configured, it
+> should return NULL, if it is configured, it should be greater than 0
 
-I have suggested to bail out immediately. It will reduce an
-indentation level on the below code.
+Pointers are always greater than 0 or a special NULL case. The
+rationale I explained in the previous mail.
 
-> > >                 par->irq_te = gpiod_to_irq(te);
-> > >                 gpiod_put(te);
-> > >
-> >
-> > >                 if (par->irq_te) {
-> >
-> > This is wrong.
->
-> Why? i have read gpiod_to_irq code, if an error occurs, a negative
-> value is returned, and zero is not possible,so I need this value to
-> determine if TE IRQ is configured
-
-It returns two possible cases:
- - error code (when negative)
- - Linux IRQ number otherwise
-
-You check makes a no-op since in either variant it will proceed to the
-request of IRQ, which is wrong in an error case.
+...
 
 > > >                         rc = devm_request_irq(dev,
 > > >                                               par->irq_te,
@@ -158,22 +103,10 @@ request of IRQ, which is wrong in an error case.
 > > >                 "TE_GPIO", par);
 > >
 > > Try to use less LOCs.
-> >
-> > >                         if (rc)
-> > >                                 return dev_err_probe(dev, rc, "TE
-> > > IRQ request failed.\n");
-> > >
-> > >                         disable_irq_nosync(par->irq_te);
-> > >                         init_completion(&par->panel_te);
-> >
-> > >                 } else {
-> > >                         return dev_err_probe(dev, par->irq_te,
-> > > "gpiod to TE IRQ failed.\n");
-> > >                 }
-> >
-> > Again, it is not what had been suggested.
-> >
-> > >         }
+>
+> LOCs???? i can not get you
+
+Lines Of Code. Above can occupy less LOCs.
 
 -- 
 With Best Regards,
