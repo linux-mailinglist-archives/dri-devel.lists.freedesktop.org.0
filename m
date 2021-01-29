@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE533094C1
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7E23094D8
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C62CE6EC9D;
-	Sat, 30 Jan 2021 11:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449346ECBD;
+	Sat, 30 Jan 2021 11:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088266EAAE
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:22:28 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id o16so6256529pgg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:22:28 -0800 (PST)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 866EA6EAAE
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:22:30 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id w14so5872022pfi.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:22:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VYKPllHMWXaaXlZ0ycUuc3ILhWc2RI4QmKMXgurARyo=;
- b=jTpgJguT5rc+REw7O6/K0qTwwZVrCE3PjR2qrmceptZeRXHQf1ptuB+EwicOkJQ4jK
- FgMyX0Mjyls5nNcEB64aVPGaHcrKlpd9WFrkafvUu+5fW5f22C2/DRbf/VLQUhZj5LEy
- FxwZD7f+FDj1tRkN+JcM5nGYAtrOxAwiNRm1I=
+ bh=GAxvV7R4/vTpyFlTAS6Pj5shqaEt+L+HnuJKV7F1rVo=;
+ b=Ror+4QerXQjaE2vsEtt/+J6Osk5wHvps9k7IL561MxxrR0M8AlpNXUTXL7GSZcEmIa
+ sGXI1Pk8qyQWP2g3mUunqAmPL2czr29hlfaAkss9eMjS2WmmhBLBicT3gcjqEfOH7qFD
+ P37bkpKSfyXEaMLWmGCnk/e0dElc79D15tfe8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VYKPllHMWXaaXlZ0ycUuc3ILhWc2RI4QmKMXgurARyo=;
- b=QOi7I4MIDuu8nZdMz9hqIdFcZgPp49Su4iYTHEBOg+TgM9j+f2q+I4igJwyBUyxShn
- d6jDjnvKLT9QHzYxdRKC9jMzEEQ39S69SLI8pD9aErzM0f+8UL0GKe5T6WsXZsdDrqd9
- g3G5/wZ4mv9CMy3zxFjtI1fY04mtAxMJFU8YHP+Zg/SlEtv4HpMw3NtYCIwDwF5X8Rwx
- xcmMXC33qP4JZKLAll9NlORdjYRNilzREtKZFJSgbDZb0Lb+3ks1JhP84ljNJE8vzYDz
- eep16GIgPZ5FgTEBXxlbh5lR0p3up1sy1f9reFztBm4ZOf9YBNBxvjj/mJPHpp8KAShp
- /36w==
-X-Gm-Message-State: AOAM531yqZhLHjOANz9wfoijdWeK6UufJQ2WnDFto2ZVna96UoAacK6f
- d07Jxhtr6U6LJBBD/q4FtVM7kg==
-X-Google-Smtp-Source: ABdhPJxXiQyYhzjtAjJjlkwydXVP8/KnjoC5ZcXO4RzEoPq3EErvu/qghbd9CDZ++s6D3E3HYFTf+A==
-X-Received: by 2002:a62:1a06:0:b029:1bc:21e:ed47 with SMTP id
- a6-20020a621a060000b02901bc021eed47mr3628536pfa.40.1611912147633; 
- Fri, 29 Jan 2021 01:22:27 -0800 (PST)
+ bh=GAxvV7R4/vTpyFlTAS6Pj5shqaEt+L+HnuJKV7F1rVo=;
+ b=B0ZV+uYvwngaF+VsWcrBo/EtfmSrmItuhrAHaAYcLs6Gd76DWLkY6IUETwfVboV4Lj
+ PnE0VjfUVVqHmoT7xfUOWIap69OQJWgPLRJTWf89pdZyAABCLTGD35AzX+pYqZFDQy3D
+ 69UjVleBPmYKh11yYuiqCP0F/O08ktQk0VXokY+6LpNX0A3oYTegnCCbKBJ/NPpfMtxg
+ hSUpVNb5/Tv+1j/S5LY85pzMVtNYJCZNTcHpL//pQ/zRV2mLwAZwID67z+logMUSf4i0
+ NQUsrA9agfpAwbL80xNjFB/GZ8Nc9b2rgid8gsHqv4CMa15jZTW8hHuZ0O8pjQcOW+a0
+ 3F0w==
+X-Gm-Message-State: AOAM532FmRJTRsBuEMtpoyxXeZfEaJ6GGudUhaySpYrYtoGY16GiGVVh
+ QEJoUzOxorjmilRf+PP5UkA/jw==
+X-Google-Smtp-Source: ABdhPJy4+2S1A2x1ndwikJR7JIysE1W0izSM4nTbR8FztfNfzjanB9rfmcVpcKhsDDrm7mJ2NRd+CA==
+X-Received: by 2002:a63:1c09:: with SMTP id c9mr3869976pgc.185.1611912150169; 
+ Fri, 29 Jan 2021 01:22:30 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:51f1:c468:a70b:7c09])
- by smtp.gmail.com with ESMTPSA id p7sm8032776pfn.52.2021.01.29.01.22.25
+ by smtp.gmail.com with ESMTPSA id p7sm8032776pfn.52.2021.01.29.01.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 01:22:27 -0800 (PST)
+ Fri, 29 Jan 2021 01:22:29 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v13 5/8] drm/mediatek: add has_dither private data for gamma
-Date: Fri, 29 Jan 2021 17:22:06 +0800
-Message-Id: <20210129092209.2584718-6-hsinyi@chromium.org>
+Subject: [PATCH v13 6/8] drm/mediatek: enable dither function
+Date: Fri, 29 Jan 2021 17:22:07 +0800
+Message-Id: <20210129092209.2584718-7-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210129092209.2584718-1-hsinyi@chromium.org>
 References: <20210129092209.2584718-1-hsinyi@chromium.org>
@@ -78,56 +77,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Not all SoC has dither function in gamma module.
-Add private data to control this function setting.
+Enable dither function to improve the display quality for dither
+supported bpc 4, 6, 8. For not supported bpc, use relay mode.
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 6b520807921e3..5092a27ccc28b 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -27,7 +27,7 @@
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index ac2cb25620357..5761dd15eedf2 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -53,6 +53,7 @@
+ #define DITHER_EN				BIT(0)
+ #define DISP_DITHER_CFG				0x0020
+ #define DITHER_RELAY_MODE			BIT(0)
++#define DITHER_ENGINE_EN			BIT(1)
+ #define DISP_DITHER_SIZE			0x0030
+ 
  #define LUT_10BIT_MASK				0x03ff
- 
- struct mtk_disp_gamma_data {
--	u32 reserved;
-+	bool has_dither;
- };
- 
- /**
-@@ -93,8 +93,9 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
- 
- 	mtk_ddp_write(cmdq_pkt, h << 16 | w, &gamma->cmdq_reg, gamma->regs,
- 		      DISP_GAMMA_SIZE);
--	mtk_dither_set_common(gamma->regs, &gamma->cmdq_reg, bpc, DISP_GAMMA_CFG,
--			      GAMMA_DITHERING, cmdq_pkt);
-+	if (gamma->data && gamma->data->has_dither)
-+		mtk_dither_set_common(gamma->regs, &gamma->cmdq_reg, bpc,
-+				      DISP_GAMMA_CFG, GAMMA_DITHERING, cmdq_pkt);
- }
- 
- void mtk_gamma_start(struct device *dev)
-@@ -174,8 +175,13 @@ static int mtk_disp_gamma_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
-+	.has_dither = true,
-+};
+@@ -314,9 +315,17 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
+ 			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+-
+-	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
+-	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
++	bool valid_bpc = (bpc == 4 || bpc == 6 || bpc == 8);
 +
- static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
--	{ .compatible = "mediatek,mt8173-disp-gamma"},
-+	{ .compatible = "mediatek,mt8173-disp-gamma",
-+	  .data = &mt8173_gamma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
++	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
++		      DISP_DITHER_SIZE);
++	if (valid_bpc)
++		mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc,
++				      DISP_DITHER_CFG, DITHER_ENGINE_EN,
++				      cmdq_pkt);
++	else
++		mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
++			      priv->regs, DISP_DITHER_CFG);
+ }
+ 
+ static void mtk_dither_start(struct device *dev)
 -- 
 2.30.0.365.g02bc693789-goog
 
