@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110DD30898B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AD230898E
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 15:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F266EB4A;
-	Fri, 29 Jan 2021 14:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4E26EB27;
+	Fri, 29 Jan 2021 14:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA51A6EB4A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:31:03 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id f1so12779505lfu.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:31:03 -0800 (PST)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 100026EB27
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 14:33:38 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id e18so10677087lja.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 06:33:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gM7CgX3Tibv6s90WtRBubg5Cgm+MjZt313JD63t04o0=;
- b=JZcfyBoaKRFWZDR4VGZBui+lEQrnZIVzIRgd7fHVM955vbzOyyoD6ZxlBqoZnrYcER
- qKlh13mPRS7cKNjl6UiijQK7l3nq1dmQQ+MnsZFfeS3HOeSXrGawFQdFEcN55liu3eC8
- BsbsZKGrM1hmF3taIbNOyTNRk4cLA8IMn6/0651nLpwhKBleea9yRdeGvA3g7P3zLkf6
- XAul8FP4mlozeD/8Rvhhi+YzqNAK9wpDe+tHfEfR0EpDZNVikCy1JVW23NL+8H6YqeJJ
- Sqbkocqlb+h7YnLgnKqv97BJ5Tp6MVqZuMAvJXIFKYv/ylBgVw4l9dQ8EBeocpAqErmE
- F/Vw==
+ :cc; bh=y6dF4WUedvz6pLrMDwh3hMnPfHhN0I4PTPGpJHkOaks=;
+ b=oOjQhnLFoKrNClkqmplgFGVq5kRtcI5bANFduZVx4PIqIObdjR4kYvLjodUddtSYgl
+ 9YKaxqklVy3+BdGgUhS9Rh7n+i9pe47nWURchNRlQXc2Zd1ZsJ9sbTDw7oy0aBW8w0To
+ sWoQClvcBfVtt5DOR/grRX4NCeFpcZyKFnlHgYgdCqc61+uzMCr3G79rvZtRmdrgNllM
+ 1NiGp5GKHIAqopP/arGEhvSEnLmVfdpltGEF7la1D0dViKM6cY+PuL0bE+mdFrnoQt+8
+ Lv5a9EXN9+gcf+ji/XlxtICYI7g4yQvl5H417jRVdWbk/m2Tvi2dW0z7UK39FLnzLc0V
+ 5ynA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gM7CgX3Tibv6s90WtRBubg5Cgm+MjZt313JD63t04o0=;
- b=FBwYK6fXei7G86aTCsUIidFH7EuLNtr2Fk1N/T2oi3XDoMaGzgkrcEI4J6H8WvZ7hf
- WJxOUSzuiRFo94uoCjQTYxXXV55mRsAXQPHALnrVrNARphPNo0W89E/N3jrc8zqqJ2Wg
- Fp3k1SVzx52hqvJe3+kknHrSnzsGh3Icx5216qDs7HdxK8X6qWtyAze+3U/Yx6NNYRpr
- jbDwWVnjzS061IW1aLOz4j7ZuATa7w1NwrSNfeW1bHUDxQ8LIvxpLkQuU/yk1te+Y03d
- eIF+a/+to+6wB+3JED3DbNGPa+4+P3y/INGmTCG3Z1mJqYq3dmsYMKj0L6oN9TFzpE0g
- X9Yg==
-X-Gm-Message-State: AOAM5329Yef4EljOy6vGmkmJ9OY9xF5ewCD0cjddD737xBD8Cb3w7E9R
- 0SExIwlhkLCFTLhkD3yq8jerUxeW+3yS5qJrZeQ=
-X-Google-Smtp-Source: ABdhPJxrsmZMSkGelGm4dZmpjQf7/ptajLKQhuROJRCK4Co0IHtW5dGYAupzocfkBKiATp/b971Xc5XoaSkcAfhckIY=
-X-Received: by 2002:a05:6512:77:: with SMTP id
- i23mr1856157lfo.247.1611930662355; 
- Fri, 29 Jan 2021 06:31:02 -0800 (PST)
+ bh=y6dF4WUedvz6pLrMDwh3hMnPfHhN0I4PTPGpJHkOaks=;
+ b=WTmAUlvR9wm7gb0GBeZJAcola319H77N7KGpBsfvV8De486tzvYB4ahZl2a2Z8F6U1
+ sVeD8deYvzlR+EubiM4f/ZIcUAIw66T0DRmTazcN5op7fPP1Oceai4boJyoa6qdpAIVm
+ Nw4XRlKMABySHgu1Q63+wJuK1cp+sEx+7jyml0R/shzD72Hg1v6GTr7JROgVRFNI/3BF
+ XmsNtjbtbBGu/7RpBj8FZDA6wWnt91EAx9ikPnoPHlu5JIAa0Efz5bSmou3cS9UCHk+W
+ 7plhARgVTl97Dt4innvEKPaU8c7YNJkfPuWh/NckXjPnCQpbWuvN6ajm1HDjX93adkD8
+ 0txw==
+X-Gm-Message-State: AOAM533AdwrDWdrp4qbxBygszfcVpgK2yfdeaIFFGDSmN8EjEohKhRF/
+ Ld4lFxkc75j4m++lMR9gx7D+SFgovYZikycUrls=
+X-Google-Smtp-Source: ABdhPJxlzm+T34Xnet4D8RQ5/eG9HJfcQYVKzCuUOlyKyR5CObQerWcBhS4iEvI96uJgRUaPuKdKdL0Fe0dzaAQnZWI=
+X-Received: by 2002:a2e:993:: with SMTP id 141mr1878927ljj.372.1611930816482; 
+ Fri, 29 Jan 2021 06:33:36 -0800 (PST)
 MIME-Version: 1.0
 References: <20210129095604.32423-1-tzimmermann@suse.de>
- <20210129095604.32423-3-tzimmermann@suse.de>
-In-Reply-To: <20210129095604.32423-3-tzimmermann@suse.de>
+ <20210129095604.32423-4-tzimmermann@suse.de>
+In-Reply-To: <20210129095604.32423-4-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 29 Jan 2021 15:30:51 +0100
-Message-ID: <CAMeQTsZngDDdDe+r2EsuQ5b02_=VMggD8CXsvebXZFCi4neB-w@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/gma500: Remove Moorestown support
+Date: Fri, 29 Jan 2021 15:33:25 +0100
+Message-ID: <CAMeQTsb7sdKGXhB+sFCZQHJ3g3bcZKTyMoz=8_V70jTNUa_A3w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/gma500: Drop DRM_GMA3600 config option
 To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,14 +70,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jan 29, 2021 at 10:56 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Moorestown is an outdated mobile platform with apparently no users
-> left. Remove it from gma500. The MID chip-setup code in mid_bios.c
-> is now unused, so remove it as well.
+> With support for the MID-related chips removed, only support for
+> desktop chips is left in the driver. So just build the complete
+> driver if DRM_GMA500 has been selected. Anyone who wants to enable
+> the Poulsbo code would probably also want the Cedarview code.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-As stated earlier. This code must stay since Oaktrail is still supported.
-Perhaps there are still MRST specifics that can be removed. Let's have a look.
+As GMA600 is staying, can you please also merge that config?
 
 -Patrik
 _______________________________________________
