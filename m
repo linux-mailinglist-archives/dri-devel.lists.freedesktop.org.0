@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C40308306
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 02:12:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9612C308342
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 02:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037786E237;
-	Fri, 29 Jan 2021 01:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E156E2E3;
+	Fri, 29 Jan 2021 01:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id A40D96E237
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:12:14 +0000 (UTC)
-X-UUID: 31e978336b934c32993cd79d89b40cbf-20210129
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8C5F06E2E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 01:33:09 +0000 (UTC)
+X-UUID: 0ae9d5946d4046ae93f30ae54c3f474b-20210129
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=jRgri1olxfB7XGX5U4de0POAbLQIhc8HLcK6Dh0pynE=; 
- b=UGB4xBlbP0zTNuGfxBjJulnwTZ/0tBqVr0ZMwsso+dbW5xs/MWSxMeFqcR1nM8QHQbszGhdPl+SpDcPs106Pl4xrgh2b2cBbJbQbMPmbhh/rQcXsLFkFVac/fy4U+rQweEfJaWoJwbdqKixXLBT9cCWMqkOyXSKJBIh2pQsfwxE=;
-X-UUID: 31e978336b934c32993cd79d89b40cbf-20210129
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=osPAg0K5Yd7X9cjShUvPGC/GtiMhGLI3vpW3QQq8WXs=; 
+ b=SVbp7fctsNo7VFTjJqTqn78oe51H5KAUusyw1m52NIs+N/2N9YjYM/NQqd0jfwnBv67qgdLa1Blkzbt70bLt8z8HRpZjfndb0/kSaIdqHBYRwTFEAk3z/boc52W5XqumjhhYghTm+4Ysx3djUOVCzYS9rEm/N9GT9loVjV+HEH4=;
+X-UUID: 0ae9d5946d4046ae93f30ae54c3f474b-20210129
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 609630813; Fri, 29 Jan 2021 09:12:01 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ with ESMTP id 639592366; Fri, 29 Jan 2021 09:33:07 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Jan 2021 09:11:56 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas10.mediatek.inc
+ 15.0.1497.2; Fri, 29 Jan 2021 09:33:02 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Jan 2021 09:11:56 +0800
-Message-ID: <1611882716.5226.0.camel@mtksdaap41>
-Subject: Re: [PATCH v12 7/8] soc: mediatek: add mtk mutex support for MT8183
+ Transport; Fri, 29 Jan 2021 09:33:02 +0800
+Message-ID: <1611883982.5226.12.camel@mtksdaap41>
+Subject: Re: [PATCH v12 6/8] drm/mediatek: enable dither function
 From: CK Hu <ck.hu@mediatek.com>
 To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 29 Jan 2021 09:11:56 +0800
-In-Reply-To: <20210128112314.1304160-8-hsinyi@chromium.org>
+Date: Fri, 29 Jan 2021 09:33:02 +0800
+In-Reply-To: <20210128112314.1304160-7-hsinyi@chromium.org>
 References: <20210128112314.1304160-1-hsinyi@chromium.org>
- <20210128112314.1304160-8-hsinyi@chromium.org>
+ <20210128112314.1304160-7-hsinyi@chromium.org>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 8C09D00ED0E8B0A7F8D62831686DC8DB03401B6946659AA0087AF73F8551023F2000:8
+X-TM-SNTS-SMTP: 61173972B03CFC5DDB5831DC8F9D30A79FD4418A4F9F31FD79A0881E77BA28132000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,120 +68,65 @@ Hi, Hsin-Yi:
 On Thu, 2021-01-28 at 19:23 +0800, Hsin-Yi Wang wrote:
 > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > 
-> Add mtk mutex support for MT8183 SoC.
-
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
+> for 5 or 6 bpc panel, we need enable dither function
+> to improve the display quality
 > 
 > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->  drivers/soc/mediatek/mtk-mutex.c | 50 ++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index f531b119da7a9..718a41beb6afb 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -14,6 +14,8 @@
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index ac2cb25620357..6c8f246380a74 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -53,6 +53,7 @@
+>  #define DITHER_EN				BIT(0)
+>  #define DISP_DITHER_CFG				0x0020
+>  #define DITHER_RELAY_MODE			BIT(0)
+> +#define DITHER_ENGINE_EN			BIT(1)
+>  #define DISP_DITHER_SIZE			0x0030
 >  
->  #define MT2701_MUTEX0_MOD0			0x2c
->  #define MT2701_MUTEX0_SOF0			0x30
-> +#define MT8183_MUTEX0_MOD0			0x30
-> +#define MT8183_MUTEX0_SOF0			0x2c
->  
->  #define DISP_REG_MUTEX_EN(n)			(0x20 + 0x20 * (n))
->  #define DISP_REG_MUTEX(n)			(0x24 + 0x20 * (n))
-> @@ -37,6 +39,18 @@
->  #define MT8167_MUTEX_MOD_DISP_DITHER		15
->  #define MT8167_MUTEX_MOD_DISP_UFOE		16
->  
-> +#define MT8183_MUTEX_MOD_DISP_RDMA0		0
-> +#define MT8183_MUTEX_MOD_DISP_RDMA1		1
-> +#define MT8183_MUTEX_MOD_DISP_OVL0		9
-> +#define MT8183_MUTEX_MOD_DISP_OVL0_2L		10
-> +#define MT8183_MUTEX_MOD_DISP_OVL1_2L		11
-> +#define MT8183_MUTEX_MOD_DISP_WDMA0		12
-> +#define MT8183_MUTEX_MOD_DISP_COLOR0		13
-> +#define MT8183_MUTEX_MOD_DISP_CCORR0		14
-> +#define MT8183_MUTEX_MOD_DISP_AAL0		15
-> +#define MT8183_MUTEX_MOD_DISP_GAMMA0		16
-> +#define MT8183_MUTEX_MOD_DISP_DITHER0		17
-> +
->  #define MT8173_MUTEX_MOD_DISP_OVL0		11
->  #define MT8173_MUTEX_MOD_DISP_OVL1		12
->  #define MT8173_MUTEX_MOD_DISP_RDMA0		13
-> @@ -87,6 +101,11 @@
->  #define MT2712_MUTEX_SOF_DSI3			6
->  #define MT8167_MUTEX_SOF_DPI0			2
->  #define MT8167_MUTEX_SOF_DPI1			3
-> +#define MT8183_MUTEX_SOF_DSI0			1
-> +#define MT8183_MUTEX_SOF_DPI0			2
-> +
-> +#define MT8183_MUTEX_EOF_DSI0			(MT8183_MUTEX_SOF_DSI0 << 6)
-> +#define MT8183_MUTEX_EOF_DPI0			(MT8183_MUTEX_SOF_DPI0 << 6)
->  
->  struct mtk_mutex {
->  	int id;
-> @@ -181,6 +200,20 @@ static const unsigned int mt8173_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->  	[DDP_COMPONENT_WDMA1] = MT8173_MUTEX_MOD_DISP_WDMA1,
->  };
->  
-> +static const unsigned int mt8183_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> +	[DDP_COMPONENT_AAL0] = MT8183_MUTEX_MOD_DISP_AAL0,
-> +	[DDP_COMPONENT_CCORR] = MT8183_MUTEX_MOD_DISP_CCORR0,
-> +	[DDP_COMPONENT_COLOR0] = MT8183_MUTEX_MOD_DISP_COLOR0,
-> +	[DDP_COMPONENT_DITHER] = MT8183_MUTEX_MOD_DISP_DITHER0,
-> +	[DDP_COMPONENT_GAMMA] = MT8183_MUTEX_MOD_DISP_GAMMA0,
-> +	[DDP_COMPONENT_OVL0] = MT8183_MUTEX_MOD_DISP_OVL0,
-> +	[DDP_COMPONENT_OVL_2L0] = MT8183_MUTEX_MOD_DISP_OVL0_2L,
-> +	[DDP_COMPONENT_OVL_2L1] = MT8183_MUTEX_MOD_DISP_OVL1_2L,
-> +	[DDP_COMPONENT_RDMA0] = MT8183_MUTEX_MOD_DISP_RDMA0,
-> +	[DDP_COMPONENT_RDMA1] = MT8183_MUTEX_MOD_DISP_RDMA1,
-> +	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
-> +};
-> +
->  static const unsigned int mt2712_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
->  	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
->  	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-> @@ -198,6 +231,13 @@ static const unsigned int mt8167_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
->  	[MUTEX_SOF_DPI1] = MT8167_MUTEX_SOF_DPI1,
->  };
->  
-> +/* Add EOF setting so overlay hardware can receive frame done irq */
-> +static const unsigned int mt8183_mutex_sof[MUTEX_SOF_DSI3 + 1] = {
-> +	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
-> +	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0 | MT8183_MUTEX_EOF_DSI0,
-> +	[MUTEX_SOF_DPI0] = MT8183_MUTEX_SOF_DPI0 | MT8183_MUTEX_EOF_DPI0,
-> +};
-> +
->  static const struct mtk_mutex_data mt2701_mutex_driver_data = {
->  	.mutex_mod = mt2701_mutex_mod,
->  	.mutex_sof = mt2712_mutex_sof,
-> @@ -227,6 +267,14 @@ static const struct mtk_mutex_data mt8173_mutex_driver_data = {
->  	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
->  };
->  
-> +static const struct mtk_mutex_data mt8183_mutex_driver_data = {
-> +	.mutex_mod = mt8183_mutex_mod,
-> +	.mutex_sof = mt8183_mutex_sof,
-> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
-> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
-> +	.no_clk = true,
-> +};
-> +
->  struct mtk_mutex *mtk_mutex_get(struct device *dev)
+>  #define LUT_10BIT_MASK				0x03ff
+> @@ -314,9 +315,19 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
+>  			      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
 >  {
->  	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
-> @@ -457,6 +505,8 @@ static const struct of_device_id mutex_driver_dt_match[] = {
->  	  .data = &mt8167_mutex_driver_data},
->  	{ .compatible = "mediatek,mt8173-disp-mutex",
->  	  .data = &mt8173_mutex_driver_data},
-> +	{ .compatible = "mediatek,mt8183-disp-mutex",
-> +	  .data = &mt8183_mutex_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
+>  	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> +	bool enable = (bpc == 5 || bpc == 6);
+
+I strongly believe that dither function in dither is identical to the
+one in gamma and od, and in mtk_dither_set_common(), 'bpc >=
+MTK_MIN_BPC' is valid, so I believe we need not to limit bpc to 5 or 6.
+But we should consider the case that bpc is invalid in
+mtk_dither_set_common(). Invalid case in gamma and od use different way
+to process. For gamma, dither is default relay mode, so invalid bpc
+would do nothing in mtk_dither_set_common() and result in relay mode.
+For od, it set to relay mode first, them invalid bpc would do nothing in
+mtk_dither_set_common() and result in relay mode. I would like dither,
+gamma and od to process invalid bpc in the same way. One solution is to
+set relay mode in mtk_dither_set_common() for invalid bpc.
+
+Regards,
+CK
+
+>  
+> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
+> -	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
+> +	if (enable) {
+> +		mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc,
+> +				      DISP_DITHER_CFG, DITHER_ENGINE_EN,
+> +				      cmdq_pkt);
+> +	} else {
+> +		mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg,
+> +			      priv->regs, DISP_DITHER_CFG);
+> +	}
+> +
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
+> +		      DISP_DITHER_SIZE);
+>  }
+>  
+>  static void mtk_dither_start(struct device *dev)
 
 _______________________________________________
 dri-devel mailing list
