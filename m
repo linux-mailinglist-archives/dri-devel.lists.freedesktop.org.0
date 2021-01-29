@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B6A30948E
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 11:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74C23094D6
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B606E046;
-	Sat, 30 Jan 2021 10:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CAEC6ECBC;
+	Sat, 30 Jan 2021 11:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E176E046
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:47:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 699E064E0B
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612003665;
- bh=5FNwFKFJKhpf5dz+xOSrw5lKqBCBFGGdfkLS/GvS4U4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Y/UCH+4q6v/Azl8lKOGRrY5WTdA40/UnzQZOeZzfQmujQuxAMxvm3G2BWudR+b+xh
- y30St+5YJ42fKO0dTS3FKKC3xX8bK7tWWXJeSoCZh4OByPdAGm6KUCfvNWhemd57Rd
- q2mLKYytQfNntKaSoyYe+FjxMRuuDN8EgL6WEw9JeK9mLFsmkW3M7TOD3OgyiKYxMS
- MwhINYfeBtd9fPUTd8DtEkCUB6Hmg6k1rzrKhdhjOtOmh1LN0miLsDuY0BYrAqVjeb
- Z2+b0YKGxmvd3LvBq9rtStDzrO4jQrLA7zdWgfXMv7LbEWBfaJu5sGwMHDoJwPs+ny
- V4cxEPPNMFzKg==
-Received: by mail-ed1-f53.google.com with SMTP id z22so13451950edb.9
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 02:47:45 -0800 (PST)
-X-Gm-Message-State: AOAM531MHHLZ2tjDaIvdopYB++k5CD4F4rW7C//WnXXjhuE8Je5VKo7p
- xONWJvNPD5bwZI6amf4aNBC7HDDdlZjbku+fLg==
-X-Google-Smtp-Source: ABdhPJya6vlJOcHpM9aDxP3BY3pALpxvEEvOK7qY8e2QMrITpzOL3pT09Iph2zKDy0YH88989Zt+MAeN/h2YhQ9FyHU=
-X-Received: by 2002:aa7:c604:: with SMTP id h4mr9618476edq.166.1612003663906; 
- Sat, 30 Jan 2021 02:47:43 -0800 (PST)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4005B6E3F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 08:32:53 +0000 (UTC)
+X-UUID: aaf422e7dae14faab55d62bb7d18b35b-20210129
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=+3hTXoJGdmRpeVzZ6RU8oM412Ca0wDnktJAqiwy3Z+M=; 
+ b=rKRt2BKFdGNslPdIOC3B8s2EEunPCIZtt3OVrfxv5eKO9aZ0CYp7wFovAVGsxEk3M9GxiNLXtE3s4Ir6e26gmUGKLJ+DkBtS3lyrGrnMFmSk2TKLpOynI6lxKEhZpUZXa4mTD+pO5e0qZYbosNaosXTdUqouEMZMbL9JKLJeEvo=;
+X-UUID: aaf422e7dae14faab55d62bb7d18b35b-20210129
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1688375287; Fri, 29 Jan 2021 16:32:44 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 29 Jan 2021 16:32:42 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 29 Jan 2021 16:32:41 +0800
+Message-ID: <1611909161.24406.1.camel@mhfsdcap03>
+Subject: Re: [PATCH v4 2/8] drm/mediatek: add component POSTMASK
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Date: Fri, 29 Jan 2021 16:32:41 +0800
+In-Reply-To: <1611908296.31184.5.camel@mtksdaap41>
+References: <20210129073436.2429834-1-hsinyi@chromium.org>
+ <20210129073436.2429834-3-hsinyi@chromium.org>
+ <1611908296.31184.5.camel@mtksdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-References: <20210129092209.2584718-1-hsinyi@chromium.org>
- <20210129092209.2584718-9-hsinyi@chromium.org>
-In-Reply-To: <20210129092209.2584718-9-hsinyi@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 30 Jan 2021 18:47:31 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8eGVK_fqPh7CH=3KhPXQK_Yi_QMoSp9URV5rVU34e9Cw@mail.gmail.com>
-Message-ID: <CAAOTY_8eGVK_fqPh7CH=3KhPXQK_Yi_QMoSp9URV5rVU34e9Cw@mail.gmail.com>
-Subject: Re: [PATCH v13 8/8] drm/mediatek: add support for mediatek SOC MT8183
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+X-MTK: N
+X-Mailman-Approved-At: Sat, 30 Jan 2021 11:28:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,171 +55,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org, David
+ Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIx
-5bm0MeaciDI55pelIOmAseS6lCDkuIvljYg1OjIz5a+r6YGT77yaCj4KPiBGcm9tOiBZb25ncWlh
-bmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPgo+IDEuIGFkZCBvdmwgcHJpdmF0
-ZSBkYXRhCj4gMi4gYWRkIHJkbWEgcHJpdmF0ZSBkYXRhCj4gMy4gYWRkIGdhbW1hIHByaXZ0ZSBk
-YXRhCj4gNC4gYWRkIG1haW4gYW5kIGV4dGVybmFsIHBhdGggbW9kdWxlIGZvciBjcnRjIGNyZWF0
-ZQoKQXBwbGllZCB0byBtZWRpYXRlay1kcm0tbmV4dCBbMV0sIHRoYW5rcy4KClsxXSBodHRwczov
-L2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9jaHVua3VhbmcuaHUvbGlu
-dXguZ2l0L2xvZy8/aD1tZWRpYXRlay1kcm0tbmV4dAoKUmVnYXJkcywKQ2h1bi1LdWFuZy4KCj4K
-PiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNv
-bT4KPiBTaWduZWQtb2ZmLWJ5OiBIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+Cj4g
-UmV2aWV3ZWQtYnk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9nYW1tYS5jIHwgIDEgKwo+ICBkcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMgICB8IDE4ICsrKysrKysrKwo+ICBkcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5jICB8ICA2ICsrKwo+ICBkcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyAgICB8IDQ1ICsrKysrKysrKysrKysrKysrKysrKysr
-Cj4gIDQgZmlsZXMgY2hhbmdlZCwgNzAgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9nYW1tYS5jIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMKPiBpbmRleCA1MDkyYTI3Y2NjMjhiLi43MTIxZDc1
-YTA2YmRjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9n
-YW1tYS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMK
-PiBAQCAtMTgyLDYgKzE4Miw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbXRrX2Rpc3BfZ2FtbWFf
-ZGF0YSBtdDgxNzNfZ2FtbWFfZHJpdmVyX2RhdGEgPSB7Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-b2ZfZGV2aWNlX2lkIG10a19kaXNwX2dhbW1hX2RyaXZlcl9kdF9tYXRjaFtdID0gewo+ICAgICAg
-ICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZGlzcC1nYW1tYSIsCj4gICAgICAg
-ICAgIC5kYXRhID0gJm10ODE3M19nYW1tYV9kcml2ZXJfZGF0YX0sCj4gKyAgICAgICB7IC5jb21w
-YXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kaXNwLWdhbW1hIn0sCj4gICAgICAgICB7fSwKPiAg
-fTsKPiAgTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgbXRrX2Rpc3BfZ2FtbWFfZHJpdmVyX2R0X21h
-dGNoKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292
-bC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jCj4gaW5kZXggMWMy
-OTVjNThhNWU4Mi4uZGE3ZTM4YTI4NzU5YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2Rpc3Bfb3ZsLmMKPiBAQCAtNDI0LDExICs0MjQsMjkgQEAgc3RhdGljIGNvbnN0IHN0cnVj
-dCBtdGtfZGlzcF9vdmxfZGF0YSBtdDgxNzNfb3ZsX2RyaXZlcl9kYXRhID0gewo+ICAgICAgICAg
-LmZtdF9yZ2I1NjVfaXNfMCA9IHRydWUsCj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBt
-dGtfZGlzcF9vdmxfZGF0YSBtdDgxODNfb3ZsX2RyaXZlcl9kYXRhID0gewo+ICsgICAgICAgLmFk
-ZHIgPSBESVNQX1JFR19PVkxfQUREUl9NVDgxNzMsCj4gKyAgICAgICAuZ21jX2JpdHMgPSAxMCwK
-PiArICAgICAgIC5sYXllcl9uciA9IDQsCj4gKyAgICAgICAuZm10X3JnYjU2NV9pc18wID0gdHJ1
-ZSwKPiArfTsKPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbXRrX2Rpc3Bfb3ZsX2RhdGEgbXQ4
-MTgzX292bF8ybF9kcml2ZXJfZGF0YSA9IHsKPiArICAgICAgIC5hZGRyID0gRElTUF9SRUdfT1ZM
-X0FERFJfTVQ4MTczLAo+ICsgICAgICAgLmdtY19iaXRzID0gMTAsCj4gKyAgICAgICAubGF5ZXJf
-bnIgPSAyLAo+ICsgICAgICAgLmZtdF9yZ2I1NjVfaXNfMCA9IHRydWUsCj4gK307Cj4gKwo+ICBz
-dGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdGtfZGlzcF9vdmxfZHJpdmVyX2R0X21h
-dGNoW10gPSB7Cj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcwMS1kaXNw
-LW92bCIsCj4gICAgICAgICAgIC5kYXRhID0gJm10MjcwMV9vdmxfZHJpdmVyX2RhdGF9LAo+ICAg
-ICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZGlzcC1vdmwiLAo+ICAgICAg
-ICAgICAuZGF0YSA9ICZtdDgxNzNfb3ZsX2RyaXZlcl9kYXRhfSwKPiArICAgICAgIHsgLmNvbXBh
-dGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLWRpc3Atb3ZsIiwKPiArICAgICAgICAgLmRhdGEgPSAm
-bXQ4MTgzX292bF9kcml2ZXJfZGF0YX0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlh
-dGVrLG10ODE4My1kaXNwLW92bC0ybCIsCj4gKyAgICAgICAgIC5kYXRhID0gJm10ODE4M19vdmxf
-MmxfZHJpdmVyX2RhdGF9LAo+ICAgICAgICAge30sCj4gIH07Cj4gIE1PRFVMRV9ERVZJQ0VfVEFC
-TEUob2YsIG10a19kaXNwX292bF9kcml2ZXJfZHRfbWF0Y2gpOwo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5jIGIvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kaXNwX3JkbWEuYwo+IGluZGV4IGI4NDAwNDM5NDk3MGYuLjcyOGFhYWRmZWE4
-Y2YgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEu
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMKPiBAQCAt
-MzUxLDExICszNTEsMTcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGlzcF9yZG1hX2RhdGEg
-bXQ4MTczX3JkbWFfZHJpdmVyX2RhdGEgPSB7Cj4gICAgICAgICAuZmlmb19zaXplID0gU1pfOEss
-Cj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGlzcF9yZG1hX2RhdGEgbXQ4MTgz
-X3JkbWFfZHJpdmVyX2RhdGEgPSB7Cj4gKyAgICAgICAuZmlmb19zaXplID0gNSAqIFNaXzFLLAo+
-ICt9Owo+ICsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgbXRrX2Rpc3BfcmRt
-YV9kcml2ZXJfZHRfbWF0Y2hbXSA9IHsKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0
-ZWssbXQyNzAxLWRpc3AtcmRtYSIsCj4gICAgICAgICAgIC5kYXRhID0gJm10MjcwMV9yZG1hX2Ry
-aXZlcl9kYXRhfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLWRp
-c3AtcmRtYSIsCj4gICAgICAgICAgIC5kYXRhID0gJm10ODE3M19yZG1hX2RyaXZlcl9kYXRhfSwK
-PiArICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLWRpc3AtcmRtYSIsCj4g
-KyAgICAgICAgIC5kYXRhID0gJm10ODE4M19yZG1hX2RyaXZlcl9kYXRhfSwKPiAgICAgICAgIHt9
-LAo+ICB9Owo+ICBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBtdGtfZGlzcF9yZG1hX2RyaXZlcl9k
-dF9tYXRjaCk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
-X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBpbmRleCAy
-NzlkM2U2ZjExNTYzLi40ODZlNzNlNjc1YWQ1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcm1fZHJ2LmMKPiBAQCAtMTI5LDYgKzEyOSwyNCBAQCBzdGF0aWMgY29uc3QgZW51bSBt
-dGtfZGRwX2NvbXBfaWQgbXQ4MTczX210a19kZHBfZXh0W10gPSB7Cj4gICAgICAgICBERFBfQ09N
-UE9ORU5UX0RQSTAsCj4gIH07Cj4KPiArc3RhdGljIGNvbnN0IGVudW0gbXRrX2RkcF9jb21wX2lk
-IG10ODE4M19tdGtfZGRwX21haW5bXSA9IHsKPiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMMCwK
-PiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMXzJMMCwKPiArICAgICAgIEREUF9DT01QT05FTlRf
-UkRNQTAsCj4gKyAgICAgICBERFBfQ09NUE9ORU5UX0NPTE9SMCwKPiArICAgICAgIEREUF9DT01Q
-T05FTlRfQ0NPUlIsCj4gKyAgICAgICBERFBfQ09NUE9ORU5UX0FBTDAsCj4gKyAgICAgICBERFBf
-Q09NUE9ORU5UX0dBTU1BLAo+ICsgICAgICAgRERQX0NPTVBPTkVOVF9ESVRIRVIsCj4gKyAgICAg
-ICBERFBfQ09NUE9ORU5UX0RTSTAsCj4gK307Cj4gKwo+ICtzdGF0aWMgY29uc3QgZW51bSBtdGtf
-ZGRwX2NvbXBfaWQgbXQ4MTgzX210a19kZHBfZXh0W10gPSB7Cj4gKyAgICAgICBERFBfQ09NUE9O
-RU5UX09WTF8yTDEsCj4gKyAgICAgICBERFBfQ09NUE9ORU5UX1JETUExLAo+ICsgICAgICAgRERQ
-X0NPTVBPTkVOVF9EUEkwLAo+ICt9Owo+ICsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1z
-eXNfZHJpdmVyX2RhdGEgbXQyNzAxX21tc3lzX2RyaXZlcl9kYXRhID0gewo+ICAgICAgICAgLm1h
-aW5fcGF0aCA9IG10MjcwMV9tdGtfZGRwX21haW4sCj4gICAgICAgICAubWFpbl9sZW4gPSBBUlJB
-WV9TSVpFKG10MjcwMV9tdGtfZGRwX21haW4pLAo+IEBAIC0xNjEsNiArMTc5LDEzIEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgbXRrX21tc3lzX2RyaXZlcl9kYXRhIG10ODE3M19tbXN5c19kcml2ZXJf
-ZGF0YSA9IHsKPiAgICAgICAgIC5leHRfbGVuID0gQVJSQVlfU0laRShtdDgxNzNfbXRrX2RkcF9l
-eHQpLAo+ICB9Owo+Cj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbXRrX21tc3lzX2RyaXZlcl9kYXRh
-IG10ODE4M19tbXN5c19kcml2ZXJfZGF0YSA9IHsKPiArICAgICAgIC5tYWluX3BhdGggPSBtdDgx
-ODNfbXRrX2RkcF9tYWluLAo+ICsgICAgICAgLm1haW5fbGVuID0gQVJSQVlfU0laRShtdDgxODNf
-bXRrX2RkcF9tYWluKSwKPiArICAgICAgIC5leHRfcGF0aCA9IG10ODE4M19tdGtfZGRwX2V4dCwK
-PiArICAgICAgIC5leHRfbGVuID0gQVJSQVlfU0laRShtdDgxODNfbXRrX2RkcF9leHQpLAo+ICt9
-Owo+ICsKPiAgc3RhdGljIGludCBtdGtfZHJtX2ttc19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpk
-cm0pCj4gIHsKPiAgICAgICAgIHN0cnVjdCBtdGtfZHJtX3ByaXZhdGUgKnByaXZhdGUgPSBkcm0t
-PmRldl9wcml2YXRlOwo+IEBAIC0zNzUsMTIgKzQwMCwyMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IG9mX2RldmljZV9pZCBtdGtfZGRwX2NvbXBfZHRfaWRzW10gPSB7Cj4gICAgICAgICAgIC5kYXRh
-ID0gKHZvaWQgKilNVEtfRElTUF9PVkwgfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVk
-aWF0ZWssbXQ4MTczLWRpc3Atb3ZsIiwKPiAgICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19E
-SVNQX09WTCB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMtZGlz
-cC1vdmwiLAo+ICsgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfT1ZMIH0sCj4gKyAg
-ICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kaXNwLW92bC0ybCIsCj4gKyAg
-ICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9PVkxfMkwgfSwKPiAgICAgICAgIHsgLmNv
-bXBhdGlibGUgPSAibWVkaWF0ZWssbXQyNzAxLWRpc3AtcmRtYSIsCj4gICAgICAgICAgIC5kYXRh
-ID0gKHZvaWQgKilNVEtfRElTUF9SRE1BIH0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1l
-ZGlhdGVrLG10ODE3My1kaXNwLXJkbWEiLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRL
-X0RJU1BfUkRNQSB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMt
-ZGlzcC1yZG1hIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX1JETUEgfSwK
-PiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLWRpc3Atd2RtYSIsCj4g
-ICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9XRE1BIH0sCj4gKyAgICAgICB7IC5j
-b21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kaXNwLWNjb3JyIiwKPiArICAgICAgICAgLmRh
-dGEgPSAodm9pZCAqKU1US19ESVNQX0NDT1JSIH0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0g
-Im1lZGlhdGVrLG10MjcwMS1kaXNwLWNvbG9yIiwKPiAgICAgICAgICAgLmRhdGEgPSAodm9pZCAq
-KU1US19ESVNQX0NPTE9SIH0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10
-ODE3My1kaXNwLWNvbG9yIiwKPiBAQCAtMzg5LDIyICs0MjIsMzIgQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBvZl9kZXZpY2VfaWQgbXRrX2RkcF9jb21wX2R0X2lkc1tdID0gewo+ICAgICAgICAgICAu
-ZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfQUFMfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAi
-bWVkaWF0ZWssbXQ4MTczLWRpc3AtZ2FtbWEiLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICop
-TVRLX0RJU1BfR0FNTUEsIH0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10
-ODE4My1kaXNwLWdhbW1hIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX0dB
-TU1BLCB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMtZGlzcC1k
-aXRoZXIiLAo+ICsgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfRElUSEVSIH0sCj4g
-ICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kaXNwLXVmb2UiLAo+ICAg
-ICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfVUZPRSB9LAo+ICAgICAgICAgeyAuY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZHNpIiwKPiAgICAgICAgICAgLmRhdGEgPSAodm9p
-ZCAqKU1US19EU0kgfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTcz
-LWRzaSIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRFNJIH0sCj4gKyAgICAgICB7
-IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4My1kc2kiLAo+ICsgICAgICAgICAuZGF0YSA9
-ICh2b2lkICopTVRLX0RTSSB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxt
-dDI3MDEtZHBpIiwKPiAgICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19EUEkgfSwKPiAgICAg
-ICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLWRwaSIsCj4gICAgICAgICAgIC5k
-YXRhID0gKHZvaWQgKilNVEtfRFBJIH0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlh
-dGVrLG10ODE4My1kcGkiLAo+ICsgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RQSSB9LAo+
-ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1tdXRleCIsCj4g
-ICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9NVVRFWCB9LAo+ICAgICAgICAgeyAu
-Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MTItZGlzcC1tdXRleCIsCj4gICAgICAgICAgIC5k
-YXRhID0gKHZvaWQgKilNVEtfRElTUF9NVVRFWCB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9
-ICJtZWRpYXRlayxtdDgxNzMtZGlzcC1tdXRleCIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQg
-KilNVEtfRElTUF9NVVRFWCB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxt
-dDgxODMtZGlzcC1tdXRleCIsCj4gKyAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9N
-VVRFWCB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1w
-d20iLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfQkxTIH0sCj4gICAgICAg
-ICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kaXNwLXB3bSIsCj4gQEAgLTQyMyw2
-ICs0NjYsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdGtfZHJtX29mX2lk
-c1tdID0gewo+ICAgICAgICAgICAuZGF0YSA9ICZtdDI3MTJfbW1zeXNfZHJpdmVyX2RhdGF9LAo+
-ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtbW1zeXMiLAo+ICAgICAg
-ICAgICAuZGF0YSA9ICZtdDgxNzNfbW1zeXNfZHJpdmVyX2RhdGF9LAo+ICsgICAgICAgeyAuY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMtbW1zeXMiLAo+ICsgICAgICAgICAuZGF0YSA9ICZt
-dDgxODNfbW1zeXNfZHJpdmVyX2RhdGF9LAo+ICAgICAgICAgeyB9Cj4gIH07Cj4KPiAtLQo+IDIu
-MzAuMC4zNjUuZzAyYmM2OTM3ODktZ29vZwo+Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+IExpbnV4LW1lZGlhdGVrIG1haWxpbmcgbGlzdAo+IExp
-bnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, 2021-01-29 at 16:18 +0800, CK Hu wrote:
+> Hi, Hsin-Yi:
+> 
+> On Fri, 2021-01-29 at 15:34 +0800, Hsin-Yi Wang wrote:
+> > From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > 
+> > This patch add component POSTMASK,
+> > 
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/Makefile            |   1 +
+> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h      |   8 +
+> >  drivers/gpu/drm/mediatek/mtk_disp_postmask.c | 161 +++++++++++++++++++
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c  |  11 ++
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h  |   1 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c       |   4 +-
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h       |   1 +
+> >  7 files changed, 186 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_postmask.c
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
+> > index b64674b944860..13a0eafabf9c0 100644
+> > --- a/drivers/gpu/drm/mediatek/Makefile
+> > +++ b/drivers/gpu/drm/mediatek/Makefile
+> > @@ -3,6 +3,7 @@
+> >  mediatek-drm-y := mtk_disp_color.o \
+> >  		  mtk_disp_gamma.o \
+> >  		  mtk_disp_ovl.o \
+> > +		  mtk_disp_postmask.o \
+> >  		  mtk_disp_rdma.o \
+> >  		  mtk_drm_crtc.o \
+> >  		  mtk_drm_ddp_comp.o \
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > index 02191010699f8..d74e85db3fcdf 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > @@ -37,6 +37,14 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state);
+> >  void mtk_gamma_start(struct device *dev);
+> >  void mtk_gamma_stop(struct device *dev);
+> >  
+> > +int mtk_postmask_clk_enable(struct device *dev);
+> > +void mtk_postmask_clk_disable(struct device *dev);
+> > +void mtk_postmask_config(struct device *dev, unsigned int w,
+> > +                      unsigned int h, unsigned int vrefresh,
+> > +                      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> > +void mtk_postmask_start(struct device *dev);
+> > +void mtk_postmask_stop(struct device *dev);
+> > +
+> >  void mtk_ovl_bgclr_in_on(struct device *dev);
+> >  void mtk_ovl_bgclr_in_off(struct device *dev);
+> >  void mtk_ovl_bypass_shadow(struct device *dev);
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_postmask.c b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
+> > new file mode 100644
+> > index 0000000000000..d640cef9c15a4
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_postmask.c
+> > @@ -0,0 +1,161 @@
+> > +/*
+> > + * SPDX-License-Identifier:
+> > + *
+> > + * Copyright (c) 2020 MediaTek Inc.
+> 
+> 2021
+> 
+> > + */
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/component.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <linux/of_irq.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/soc/mediatek/mtk-cmdq.h>
+> > +
+> > +#include "mtk_disp_drv.h"
+> > +#include "mtk_drm_crtc.h"
+> > +#include "mtk_drm_ddp_comp.h"
+> > +
+> > +#define DISP_POSTMASK_EN			0x0000
+> > +#define POSTMASK_EN				BIT(0)
+> > +#define DISP_POSTMASK_CFG			0x0020
+> > +#define POSTMASK_RELAY_MODE			BIT(0)
+> > +#define DISP_POSTMASK_SIZE			0x0030
+> > +
+> > +struct mtk_disp_postmask_data {
+> > +	u32 reserved;
+> > +};
+> 
+> Useless, so remove.
+> 
+> > +
+> > +/**
+> > + * struct mtk_disp_postmask - DISP_postmask driver structure
+> > + * @ddp_comp - structure containing type enum and hardware resources
+> > + * @crtc - associated crtc to report irq events to
+> > + */
+> > +struct mtk_disp_postmask {
+> > +	struct clk *clk;
+> > +	void __iomem *regs;
+> > +	struct cmdq_client_reg cmdq_reg;
+> > +	const struct mtk_disp_postmask_data *data;
+> > +};
+> > +
+> > +int mtk_postmask_clk_enable(struct device *dev)
+> > +{
+> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
+> > +
+> > +	return clk_prepare_enable(postmask->clk);
+> > +}
+> > +
+> > +void mtk_postmask_clk_disable(struct device *dev)
+> > +{
+> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
+> > +
+> > +	clk_disable_unprepare(postmask->clk);
+> > +}
+> > +
+> > +void mtk_postmask_config(struct device *dev, unsigned int w,
+> > +			 unsigned int h, unsigned int vrefresh,
+> > +			 unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> > +{
+> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
+> > +
+> > +	mtk_ddp_write(cmdq_pkt, w << 16 | h, &postmask->cmdq_reg, postmask->regs,
+> > +		      DISP_POSTMASK_SIZE);
+> > +	mtk_ddp_write(cmdq_pkt, POSTMASK_RELAY_MODE, &postmask->cmdq_reg,
+> > +		      postmask->regs, DISP_POSTMASK_CFG);
+> > +}
+> > +
+> > +void mtk_postmask_start(struct device *dev)
+> > +{
+> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
+> > +
+> > +	writel(POSTMASK_EN, postmask->regs + DISP_POSTMASK_EN);
+> > +}
+> > +
+> > +void mtk_postmask_stop(struct device *dev)
+> > +{
+> > +	struct mtk_disp_postmask *postmask = dev_get_drvdata(dev);
+> > +
+> > +	writel_relaxed(0x0, postmask->regs + DISP_POSTMASK_EN);
+> > +}
+> > +
+> > +static int mtk_disp_postmask_bind(struct device *dev, struct device *master, void *data)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static void mtk_disp_postmask_unbind(struct device *dev, struct device *master,
+> > +				  void *data)
+> > +{
+> > +}
+> > +
+> > +static const struct component_ops mtk_disp_postmask_component_ops = {
+> > +	.bind	= mtk_disp_postmask_bind,
+> > +	.unbind = mtk_disp_postmask_unbind,
+> > +};
+> > +
+> > +static int mtk_disp_postmask_probe(struct platform_device *pdev)
+> > +{
+> > +	struct device *dev = &pdev->dev;
+> > +	struct mtk_disp_postmask *priv;
+> > +	struct resource *res;
+> > +	int ret;
+> > +
+> > +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +	if (!priv)
+> > +		return -ENOMEM;
+> > +
+> > +	priv->clk = devm_clk_get(dev, NULL);
+> > +	if (IS_ERR(priv->clk)) {
+> > +		dev_err(dev, "failed to get postmask clk\n");
+> > +		return PTR_ERR(priv->clk);
+> > +	}
+> > +
+> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +	priv->regs = devm_ioremap_resource(dev, res);
+> > +	if (IS_ERR(priv->regs)) {
+> > +		dev_err(dev, "failed to ioremap postmask\n");
+> > +		return PTR_ERR(priv->regs);
+> > +	}
+> > +
+> > +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > +	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+> > +	if (ret)
+> > +		dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+> > +#endif
+> > +
+> > +	priv->data = of_device_get_match_data(dev);
+> > +	platform_set_drvdata(pdev, priv);
+> > +
+> > +	pm_runtime_enable(dev);
+> 
+> Why this?
+
+if add power domain information in dts, we need this to make sure
+display power domain will be off after module clock off.
+
+> 
+> > +
+> > +	ret = component_add(dev, &mtk_disp_postmask_component_ops);
+> > +	if (ret)
+> > +		dev_err(dev, "Failed to add component: %d\n", ret);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int mtk_disp_postmask_remove(struct platform_device *pdev)
+> > +{
+> > +	component_del(&pdev->dev, &mtk_disp_postmask_component_ops);
+> > +
+> > +	pm_runtime_disable(&pdev->dev);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct of_device_id mtk_disp_postmask_driver_dt_match[] = {
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, mtk_disp_postmask_driver_dt_match);
+> > +
+> > +struct platform_driver mtk_disp_postmask_driver = {
+> > +	.probe		= mtk_disp_postmask_probe,
+> > +	.remove		= mtk_disp_postmask_remove,
+> > +	.driver		= {
+> > +		.name	= "mediatek-disp-postmask",
+> > +		.owner	= THIS_MODULE,
+> > +		.of_match_table = mtk_disp_postmask_driver_dt_match,
+> > +	},
+> > +};
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > index ccfaada998cf5..6c539783118dd 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> > @@ -415,6 +415,14 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
+> >  	.bgclr_in_off = mtk_ovl_bgclr_in_off,
+> >  };
+> >  
+> > +static const struct mtk_ddp_comp_funcs ddp_postmask = {
+> > +	.clk_enable = mtk_postmask_clk_enable,
+> > +        .clk_disable = mtk_postmask_clk_disable,
+> 
+> tab.
+> 
+> > +	.config = mtk_postmask_config,
+> > +	.start = mtk_postmask_start,
+> > +	.stop = mtk_postmask_stop,
+> > +};
+> > +
+> >  static const struct mtk_ddp_comp_funcs ddp_rdma = {
+> >  	.clk_enable = mtk_rdma_clk_enable,
+> >  	.clk_disable = mtk_rdma_clk_disable,
+> > @@ -450,6 +458,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
+> >  	[MTK_DISP_MUTEX] = "mutex",
+> >  	[MTK_DISP_OD] = "od",
+> >  	[MTK_DISP_BLS] = "bls",
+> > +	[MTK_DISP_POSTMASK] = "postmask",
+> >  };
+> >  
+> >  struct mtk_ddp_comp_match {
+> > @@ -480,6 +489,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
+> >  	[DDP_COMPONENT_OVL_2L0]	= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
+> >  	[DDP_COMPONENT_OVL_2L1]	= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
+> >  	[DDP_COMPONENT_OVL_2L2] = { MTK_DISP_OVL_2L,    2, &ddp_ovl },
+> > +	[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,	0, &ddp_postmask },
+> 
+> Make other row the same indent.
+> 
+> >  	[DDP_COMPONENT_PWM0]	= { MTK_DISP_PWM,	0, NULL },
+> >  	[DDP_COMPONENT_PWM1]	= { MTK_DISP_PWM,	1, NULL },
+> >  	[DDP_COMPONENT_PWM2]	= { MTK_DISP_PWM,	2, NULL },
+> > @@ -603,6 +613,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+> >  	if (type == MTK_DISP_BLS ||
+> >  	    type == MTK_DISP_COLOR ||
+> >  	    type == MTK_DISP_GAMMA ||
+> > +	    type == MTK_DISP_POSTMASK ||
+> >  	    type == MTK_DPI ||
+> >  	    type == MTK_DSI ||
+> >  	    type == MTK_DISP_OVL ||
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > index bb914d976cf5d..cd1dec6b4cdf2 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > @@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
+> >  	MTK_DISP_UFOE,
+> >  	MTK_DSI,
+> >  	MTK_DPI,
+> > +	MTK_DISP_POSTMASK,
+> >  	MTK_DISP_PWM,
+> >  	MTK_DISP_MUTEX,
+> >  	MTK_DISP_OD,
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > index 486e73e675ad5..d99afc8528684 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> > @@ -531,7 +531,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
+> >  		private->comp_node[comp_id] = of_node_get(node);
+> >  
+> >  		/*
+> > -		 * Currently only the COLOR, GAMMA, OVL, RDMA, DSI, and DPI blocks have
+> > +		 * Currently only the COLOR, GAMMA, OVL, POSTMASK, RDMA, DSI, and DPI blocks have
+> >  		 * separate component platform drivers and initialize their own
+> >  		 * DDP component structure. The others are initialized here.
+> >  		 */
+> > @@ -539,6 +539,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
+> >  		    comp_type == MTK_DISP_GAMMA ||
+> >  		    comp_type == MTK_DISP_OVL ||
+> >  		    comp_type == MTK_DISP_OVL_2L ||
+> > +		    comp_type == MTK_DISP_POSTMASK ||
+> >  		    comp_type == MTK_DISP_RDMA ||
+> >  		    comp_type == MTK_DSI ||
+> >  		    comp_type == MTK_DPI) {
+> > @@ -637,6 +638,7 @@ static struct platform_driver * const mtk_drm_drivers[] = {
+> >  	&mtk_disp_color_driver,
+> >  	&mtk_disp_gamma_driver,
+> >  	&mtk_disp_ovl_driver,
+> > +	&mtk_disp_postmask_driver,
+> >  	&mtk_disp_rdma_driver,
+> >  	&mtk_dpi_driver,
+> >  	&mtk_drm_platform_driver,
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > index 0e54e3d51014a..7e7b28e32aa2f 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> > @@ -49,6 +49,7 @@ struct mtk_drm_private {
+> >  extern struct platform_driver mtk_disp_color_driver;
+> >  extern struct platform_driver mtk_disp_gamma_driver;
+> >  extern struct platform_driver mtk_disp_ovl_driver;
+> > +extern struct platform_driver mtk_disp_postmask_driver;
+> >  extern struct platform_driver mtk_disp_rdma_driver;
+> >  extern struct platform_driver mtk_dpi_driver;
+> >  extern struct platform_driver mtk_dsi_driver;
+> 
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
