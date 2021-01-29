@@ -1,49 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA633094D5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7724B3094D1
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78F06ECB2;
-	Sat, 30 Jan 2021 11:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D786ECAC;
+	Sat, 30 Jan 2021 11:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pv50p00im-ztdg10011901.me.com (pv50p00im-ztdg10011901.me.com
- [17.58.6.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482336EAC8
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 10:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1611915650;
- bh=6WtmYVCcfrbTlTPhTQ2nx796HDdBPwVIbYsnvIoYpA8=;
- h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=oIvkp4ExOwqAcpz3Ku5MNKF0chJb3ODB9nVIU7gpTyHVKgZ6I9dvy6zTQHB9t4UrV
- +P8RQPWts6hVtCuj57u4N9a/QNGGwd3yV7kBEm4xLw0P2p73Gg7iJ3BoQf9aouhB6d
- krr4ZWgwi8Rt3CXW/ZDQXyoaVF9N72v7beS0QpOPRBjOA7MDXt/kfyklybu8wAEcBx
- ZibVhpKlT0fhWpNbVs8v7NfXyyrtW2FRUiVxiFL/vdCXKzSqIfuQCHg0kM7+MzSYuh
- tgqm8KHEd8YXYII1TEUFFPbPpwmsfx6cl1G1/Egr+GP+YVmFNsJz980PgcfVT8mn5L
- 52nBC0hB2JjPw==
-Received: from localhost.localdomain (unknown [119.3.119.19])
- by pv50p00im-ztdg10011901.me.com (Postfix) with ESMTPSA id EF14980079F;
- Fri, 29 Jan 2021 10:20:47 +0000 (UTC)
-From: Abel Wu <abel.w@icloud.com>
-To: gustavo@padovan.org, maarten.lankhorst@linux.intel.com, sean@poorly.run,
- airlied@linux.ie
-Subject: [PATCH 2/2] vgaarb: Make initcall always return success
-Date: Fri, 29 Jan 2021 05:19:44 -0500
-Message-Id: <20210129101944.2083-3-abel.w@icloud.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210129101944.2083-1-abel.w@icloud.com>
-References: <20210129101944.2083-1-abel.w@icloud.com>
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 940DC6EB18
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 12:47:41 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id md11so5756842pjb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 04:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :organization:mime-version:content-transfer-encoding;
+ bh=gey6ZY0toHv6VOmxg4G7/z9gStOYikqSFh5g6TpL77g=;
+ b=vXuqtJc1idgNU9yQCo/fp7Ab+usyyyfz1rSAqGtMgWtscmTnt8AT0BdLItHL2GlrXk
+ gkQmfIP6Z4ygt7lY4rgpNd/7dGSgSR7JEiYxoOkcy5wpVlMS0eYu0/UgLLUPxNt1kMLS
+ b2E/+9KjqTf9Q9BOZMpWXbC+Hdn1uGfY0NqP4oA7G2kArYNox63IVCU3KqqkVF9TdIWY
+ 6ukXjx71x12HkKZTJJ2sapPY+W13ItMFJmVurVOiPIuqBc18o4LXBawyUsaNk/SKg8qc
+ 9+pZHOFFQ7TifaeYRrP4QKIDZU5g4SrAkESSsWNbFKMZ1o2boq4S3tpqHNQVh3nriy8Y
+ KgKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=gey6ZY0toHv6VOmxg4G7/z9gStOYikqSFh5g6TpL77g=;
+ b=AE8lLB9J5jhgYioYvKGPJTk1ipibiuF6HRsCdi9erAutGNXG9tjQMZPtHwa9pmq/Fe
+ TIpHefd3JYQZPOFDGrQy6Q7X+ntID3Q1erEHEvA+7FDv+Ykt3HWonpTPNncR9dYxQ4zl
+ JAEVzAIfzsmA9C2tfwrAoCEea9kuxJn8p0Ufrp2AJK4d0VfQW83kpqWO3fLPuMCj/hFK
+ 2BgIOKOKO2rkgw9bD9bM7TkFUuTZpzznAXhbITaaZsC+9hBwFhg1Ov+W//LDmLIAywxz
+ O3b+h5e88PrTxvMtVN27zHYsIPlphceV4//ryzOd4HBsszZYxXeqAD3KMOFlJA3elsTF
+ AFlA==
+X-Gm-Message-State: AOAM530L4wQDpnhWKooRz9uHOwncLxIlAkVgyh1tj/XuA8tV9VXOABcy
+ bnaaEYSggVB0FscMmnNjfHQ=
+X-Google-Smtp-Source: ABdhPJzrUKpZVmxy7aREzbzLAECwsJsp1TVGwWCQ4IACdk/D7pTSz/Vr2FguW3H0pi0FGnZzWRgFdw==
+X-Received: by 2002:a17:902:ab93:b029:df:f681:cdf3 with SMTP id
+ f19-20020a170902ab93b02900dff681cdf3mr4248655plr.28.1611924461212; 
+ Fri, 29 Jan 2021 04:47:41 -0800 (PST)
+Received: from localhost ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id 21sm8415028pfh.56.2021.01.29.04.47.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 04:47:40 -0800 (PST)
+Date: Fri, 29 Jan 2021 20:47:33 +0800
+From: carlis <zhangxuezhi3@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v12] staging: fbtft: add tearing signal detect
+Message-ID: <20210129204733.00003954@gmail.com>
+In-Reply-To: <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
+References: <1611838435-151774-1-git-send-email-zhangxuezhi3@gmail.com>
+ <CAHp75Vd=ijxnamuSYuxNLeyhGMCod=HaXWrQ0W0+3QCsQAychg@mail.gmail.com>
+ <20210129130110.00003bb1@gmail.com>
+ <CAHp75Vdi4H_zY3+QPSq_wmdf20B9xPeqsOT10JHfMLJESX77gA@mail.gmail.com>
+Organization: Tyzmig-ryrjum-8kedto
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
- definitions=2021-01-29_04:2021-01-28,
- 2021-01-29 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2006250000 definitions=main-2101290052
 X-Mailman-Approved-At: Sat, 30 Jan 2021 11:28:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,53 +72,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hewenliang4@huawei.com, wuyun.wu@huawei.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abel Wu <abel.w@icloud.com>
+Cc: "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Deepak R Varma <mh12gx2825@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ oliver.graute@kococonnector.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stefano Brivio <sbrivio@redhat.com>, Colin King <colin.king@canonical.com>,
+ zhangxuezhi1@yulong.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Returning error usually implies failure, in which case anything
-that has done should be properly reverted. Thus if failed in
-registering /dev/vga_arbiter, it is better to just throw out a
-warning than returning error without unregistering pci_notifier.
+On Fri, 29 Jan 2021 12:23:08 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-Signed-off-by: Abel Wu <abel.w@icloud.com>
----
- drivers/gpu/vga/vgaarb.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+> On Fri, Jan 29, 2021 at 7:01 AM carlis <zhangxuezhi3@gmail.com> wrote:
+> > On Thu, 28 Jan 2021 16:33:02 +0200
+> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:  
+> > > On Thu, Jan 28, 2021 at 2:58 PM Carlis <zhangxuezhi3@gmail.com>
+> > > wrote:
+> > >
+> > > Thanks for your contribution, my comments below.
+> > >  
+> > > > From: zhangxuezhi <zhangxuezhi1@yulong.com>  
+> > >
+> > > You probably have to configure your Git to use the same account
+> > > for author and committer.  
+> >
+> > hi,you mean like below:
+> >         Carlis <zhangxuezhi1@yulong.com>
+> > ?  
+> 
+> I meant that you shouldn't probably have a From: line in the commit
+> message.
+> 
+> ...
+> 
+> > hi, i have modified it according to your suggestion like below:  
+> 
+> Please, go again thru my comments and comments from others and
+> carefully address all of them everywhere in your contribution. If you
+> have questions, ask them in reply in the corresponding context.
+> 
+> ...
+> 
+> > /**
+> >  * init_tearing_effect_line() - init tearing effect line  
+> 
+> >  *  
+> 
+> For example, above was commented on and hasn't been addressed here.
+> 
+hi,here i can not get you.....
+> >  * @par: FBTFT parameter object
+> >  *
+> >  * Return: 0 on success, < 0 if error occurred.
+> >  */
+> > static int init_tearing_effect_line(struct fbtft_par *par)
+> > {
+> >         struct device *dev = par->info->device;
+> >         struct gpio_desc *te;
+> >         int rc;
+> >
+> >         te = gpiod_get_optional(dev, "te", GPIOD_IN);
+> >         if (IS_ERR(te))
+> >                 return dev_err_probe(dev, PTR_ERR(te), "Failed to
+> >         request te GPIO\n");
+> >  
+> 
+> >         if (te) {  
+> 
+> This one is not like I suggested.
+Why? My thinking is that if the TE is not configured and NULL is
+returned, the initialization can still proceed.....
+> 
+> >                 par->irq_te = gpiod_to_irq(te);
+> >                 gpiod_put(te);
+> >  
+> 
+> >                 if (par->irq_te) {  
+> 
+> This is wrong.
 
-diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-index 2879d4223bf1..eff6b78e3372 100644
---- a/drivers/gpu/vga/vgaarb.c
-+++ b/drivers/gpu/vga/vgaarb.c
-@@ -1537,13 +1537,11 @@ static void __init vga_arb_select_default_device(void)
- 
- static int __init vga_arb_device_init(void)
- {
--	int rc;
- 	struct pci_dev *pdev = NULL;
- 	struct vga_device *vgadev;
- 
--	rc = misc_register(&vga_arb_device);
--	if (rc < 0)
--		pr_err("error %d registering device\n", rc);
-+	if (misc_register(&vga_arb_device))
-+		pr_warn("failed registering /dev/vga_arbiter\n");
- 
- 	bus_register_notifier(&pci_bus_type, &pci_notifier);
- 
-@@ -1571,6 +1569,6 @@ static int __init vga_arb_device_init(void)
- 	vga_arb_select_default_device();
- 
- 	pr_info("loaded\n");
--	return rc;
-+	return 0;
- }
- subsys_initcall(vga_arb_device_init);
--- 
-2.27.0
+Why? i have read gpiod_to_irq code, if an error occurs, a negative
+value is returned, and zero is not possible,so I need this value to
+determine if TE IRQ is configured
+
+> 
+> >                         rc = devm_request_irq(dev,
+> >                                               par->irq_te,
+> >                 panel_te_handler,
+> >                                               IRQF_TRIGGER_RISING,
+> >                 "TE_GPIO", par);  
+> 
+> Try to use less LOCs.
+> 
+> >                         if (rc)
+> >                                 return dev_err_probe(dev, rc, "TE
+> > IRQ request failed.\n");
+> >
+> >                         disable_irq_nosync(par->irq_te);
+> >                         init_completion(&par->panel_te);  
+> 
+> >                 } else {
+> >                         return dev_err_probe(dev, par->irq_te,
+> > "gpiod to TE IRQ failed.\n");
+> >                 }  
+> 
+> Again, it is not what had been suggested.
+> 
+> >         }
+> >
+> >         return 0;
+> > }  
+> 
+> The rest is better, but we will see later on when you submit a new
+> version (And I feel it won't be last).
+> 
 
 _______________________________________________
 dri-devel mailing list
