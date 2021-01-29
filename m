@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE2E308D58
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 20:27:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAE6308D5A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 20:28:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0B776EC0A;
-	Fri, 29 Jan 2021 19:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE9E76EC15;
+	Fri, 29 Jan 2021 19:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921436EC09;
- Fri, 29 Jan 2021 19:27:05 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id i30so9688258ota.6;
- Fri, 29 Jan 2021 11:27:05 -0800 (PST)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D0F6EC0C;
+ Fri, 29 Jan 2021 19:28:54 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id n42so9667449ota.12;
+ Fri, 29 Jan 2021 11:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=soh8pOn1T1DcxTY1XPnZj9TZgDqYse0vYVofp5N1pk0=;
- b=k2PxTxJsoShBobn+g2aJQ756Qotit4VnYGyN5pleotb/YOxh6ue5M3R2RxWIqBL5qO
- LuhxvL5iGqHXxLMvrt6dQgj+xiecomucEYhdfNLx1z/YpdWev1b/cgKZpYTFX1Bke9xg
- ULIlIIWGfJFs7dLWlQ0YdkKEKueZzaeBsU4uwFAM2mcXVMgE2wNwX9ZuYxxZantEBZf1
- hL8QYe9RMl1Hg0RfS0dvLLLQNn/o1X12VxSZ5J1KmfGot6ZT1Ga4K0Msq7pXcr2yrJ3t
- MnnES2BRldX+ECDbyEwxOnSvX2Nae1FDDFqmn2UtXOhJsqE500/T2psWnqr4k0H60WRP
- pqAA==
+ :cc; bh=TTlFa+FhQ9E3hhXfUpHEFEwCBTVYyl2tyI+bhrzBYYc=;
+ b=HFD5J2YGALukCCHDNdUuWUGonkc1xmVsI1d3GEijBb8667YTNlXUdOAG88IFOwVKwM
+ O6Yu1YojShf0ToL3HOpg7BzIaSuQT93GgaiAcmwXUD/xt6IDxmVTp65+9h7dvzaFAktN
+ cfiOlUNf8jKAM4t+v1grcMJGGAYiN3lmYLNhcXZ2Z6Py40ujQHWr2wdjSW6TX3VBqvI1
+ 6i1OHd9husSAeIWsJxQ2jBQLTeVnDJ5T3/8hZSOLDH5amJHUpTEBUba9CZRBboNEPQjk
+ FPmSB6iyiKFPlBo9Q5uFm3JMrOr57NnEGYVekWikGXwddj783DGt/Tv/qs4Qc0R7+CT0
+ 0sVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=soh8pOn1T1DcxTY1XPnZj9TZgDqYse0vYVofp5N1pk0=;
- b=UL5eJDHrTfWBSumW6aOQm04YAPGn2CnBd9xiXF40umF+U1qU7O8dovZj6BIXyHb81q
- b/ynpgOGdS5yA9dSNWe6BxPfyzPDKJhsYGsGEd6xyar/haQwYie/zXF+aT/uZkuv3nvb
- cOI11T+CIxIWQsmKfPccV8J7NjN9WKC+XZGorwCT/rfrLu3CBu3TUsY5MOIn2lSHQ/SS
- Hd1OVyM+WasxJb9n89CDtGkSXJx4NaM5TY52oK8GwZoaoJ5d4AcwxUBT0LIik8eFfojX
- RvxvdLAwjbN7o5LusId0xv9jKlA+6Iqs1CYucOLeGKys0ICDC8o0iRM8DbWeL7IdLwKI
- B1Sw==
-X-Gm-Message-State: AOAM532JQX9R4TvBNOJFoyVwKElpS2HfYHS2vLnPyNVWgjYpXOCjARb3
- l3EJreD4UZK1UbEWHf+G2n9cVNtuQ2gzL5xTnt8=
-X-Google-Smtp-Source: ABdhPJxlTOWVyx5I+HBNBTVKPsK8MScCcBl7MtldcLXaXJhx7OQ6Ilrry7lRtrPDpA3Jl8x2fC8hKfH8JztSg/b3AiM=
-X-Received: by 2002:a9d:1293:: with SMTP id g19mr3821708otg.311.1611948424891; 
- Fri, 29 Jan 2021 11:27:04 -0800 (PST)
+ bh=TTlFa+FhQ9E3hhXfUpHEFEwCBTVYyl2tyI+bhrzBYYc=;
+ b=qHiJdGcbJ/5F0H5ezj92V2LUKg7mCR6/zI3+ukOSKJCXML62NPP0aZ5UgK/DPPadHw
+ p7D3169RHjC9a5PuQNxoF7aqCvzUZTd/LZ4wzVimzgfFPO1dVGcDSdwXBDfCOrE0Z6fP
+ Yo6w6SbLBd/mCNIKEIjWru/AzuIWm7hctoGVTqTh8F38JEwKOl7Cat4GhnHAz74LXcFX
+ 8yCCvUa52RvEM22xBDZy2V4sV44qIlMS2B6v8hIjjBAnGxvQCyLqtwiUzHjhYDHjUXIK
+ OBjNm0z0i0WkeXNUpZ+lOwyt/O7ztGTciqbkPO0rm8preBcO5ue/RKFgs40D0915lGtJ
+ n0rQ==
+X-Gm-Message-State: AOAM532hx2GpnMpYjXjiVNMEr0qjbgyuePwcahMtj4wNWsLix7vbULI2
+ z4hEnTZT3SIjCRyh4M/EXObXENH1Tf3mp8F164E=
+X-Google-Smtp-Source: ABdhPJxeJccHQSNbhg5zM7E4+pnL0FyDxpIvUiHsVHtDscx7vBeclhvpXx/FSZrPFKM7KT0j6hQkBi0B1zyn07NtQ3Y=
+X-Received: by 2002:a9d:784a:: with SMTP id c10mr4094218otm.132.1611948533511; 
+ Fri, 29 Jan 2021 11:28:53 -0800 (PST)
 MIME-Version: 1.0
-References: <1611823774-20749-1-git-send-email-abaci-bugfix@linux.alibaba.com>
-In-Reply-To: <1611823774-20749-1-git-send-email-abaci-bugfix@linux.alibaba.com>
+References: <20210129120759.375725-1-colin.king@canonical.com>
+In-Reply-To: <20210129120759.375725-1-colin.king@canonical.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 29 Jan 2021 14:26:53 -0500
-Message-ID: <CADnq5_NhUzGDff0xE4nH2mvvE8BwcbGXAUgqu7B4trbdwj1eng@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Simplify bool conversion
-To: Abaci Team <abaci-bugfix@linux.alibaba.com>
+Date: Fri, 29 Jan 2021 14:28:42 -0500
+Message-ID: <CADnq5_O2MKy7jPc2o7u8H-VsDxweumxGHc7oBprg7ZyP_BMu2w@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: Fix memory leak of object caps on error
+ return paths
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>, Leo Liu <leo.liu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 2:45 PM Abaci Team
-<abaci-bugfix@linux.alibaba.com> wrote:
+On Fri, Jan 29, 2021 at 7:08 AM Colin King <colin.king@canonical.com> wrote:
 >
-> Fix the following coccicheck warning:
-> ./drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c:3137:35-40:
-> WARNING: conversion to bool not needed here
+> From: Colin Ian King <colin.king@canonical.com>
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Suggested-by: Yang Li <oswb@linux.alibaba.com>
-> Signed-off-by: Abaci Team <abaci-bugfix@linux.alibaba.com>
+> Currently there are three error return paths that don't kfree object
+> caps.  Fix this by performing the allocation of caps after the checks
+> and error return paths to avoid the premature allocation and memory
+> leaking.
+>
+> Addresses-Coverity: ("Resource leak")
+> Fixes: 555fc7fbb2a2 ("drm/amdgpu: add INFO ioctl support for querying video caps")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
 Applied.  Thanks!
 
 Alex
 
+
 > ---
->  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> index 017b67b8..fc03d91 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> @@ -3134,7 +3134,7 @@ void dcn10_setup_stereo(struct pipe_ctx *pipe_ctx, struct dc *dc)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 84b666fcfaf6..730f4ac7487b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -988,10 +988,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>                 struct drm_amdgpu_info_video_caps *caps;
+>                 int r;
 >
->         pipe_ctx->stream_res.opp->funcs->opp_program_stereo(
->                 pipe_ctx->stream_res.opp,
-> -               flags.PROGRAM_STEREO == 1 ? true:false,
-> +               flags.PROGRAM_STEREO == 1,
->                 &stream->timing);
+> -               caps = kzalloc(sizeof(*caps), GFP_KERNEL);
+> -               if (!caps)
+> -                       return -ENOMEM;
+> -
+>                 switch (info->video_cap.type) {
+>                 case AMDGPU_INFO_VIDEO_CAPS_DECODE:
+>                         r = amdgpu_asic_query_video_codecs(adev, false, &codecs);
+> @@ -1009,6 +1005,11 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>                                       info->video_cap.type);
+>                         return -EINVAL;
+>                 }
+> +
+> +               caps = kzalloc(sizeof(*caps), GFP_KERNEL);
+> +               if (!caps)
+> +                       return -ENOMEM;
+> +
+>                 for (i = 0; i < codecs->codec_count; i++) {
+>                         int idx = codecs->codec_array[i].codec_type;
 >
->         pipe_ctx->stream_res.tg->funcs->program_stereo(
 > --
-> 1.8.3.1
+> 2.29.2
 >
 > _______________________________________________
 > dri-devel mailing list
