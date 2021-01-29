@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454E030840E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7804308455
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 04:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A796EA6F;
-	Fri, 29 Jan 2021 03:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C54895D7;
+	Fri, 29 Jan 2021 03:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074E56EA6A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:05:24 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id l18so5577089pji.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:05:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wpJLS1/K6quxDCtF6ZEY+ZhZmpb559yflYmJJ80BQbw=;
- b=cZnqhzUWTkKR+GwYZalkxCsk9v9+2TUHpqGdSzHbuzov/fz1EkYstH68r/3oEpBW4B
- j9HutROkJfo28jDndi/gV5EZvIxT/IvLYHbyAhy042zJll0UXIyFaTtdkdfm1pWRZToD
- qJNtH2kDgXuipk6oJauJVzId5wPVjtS8ROisYKCY1doPKQ9nTPjmC/4IvcnlCRc1KC1n
- DRsJbcQ++faIJpPy/nlSw9IvR5qTxi4nXUkmJxV83pOPbfv1Elfk36n3a5eGRn6K7uKN
- hS8uxtEET+0pZuiSShr41z6L8+dxqy/ZVQzp55rFqyS8L8K8IXZDJV1eEsX2o3LQGuP7
- ENuA==
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E106B892AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 03:46:46 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id a10so10954636ejg.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Jan 2021 19:46:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=hp4LmEBw8ZJdLLiSuVq/l9Tumx/V32XIRi5N9lrM6Zw=;
+ b=ZzYrZZcRCXiZLYaSmVHMU869ecK+wri+U2b4udYil5XZnTisGIglouELzgdv5U6NvV
+ VWIGQkXVbmTiOWdn4R09dOte1MOV9nXkgxS0GsfUNvNRqzIHi3XZFAZ887ab5j7EBAEs
+ TPcGvpp+ZWqzp4/FOw5ndvxklQ1JoB8IZWpiC+weW+QiUhjuD/8KCLJZCox3fnkeGsRQ
+ qt/nU3Md2AoNfmTU04Y4CXbHndGWPEzFnMu8NqXdGxmapqsejWyIbUoe6NzEXZ3/Br42
+ iT7Nfeghp6Zabkn2nzzmNpuzBhv3gFOD3SbqG6cD3W4v52UYQVkJzbULFd2P2gV7stqC
+ vEOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wpJLS1/K6quxDCtF6ZEY+ZhZmpb559yflYmJJ80BQbw=;
- b=PEsQkTzXZjrjUEoc4yFPkkpb0ADy4rTg1EYPpLwQJfG+Tprk8Lhx5tMWWVqbQoDhzn
- MI0KWm5zH7S184B95Rg3Y2yM0jXNDaPS37+pYqMZwH+IsUn8u7K1YFsab1n4CCfDesqu
- AxD0+4mstDrivTzApLmjQuBHy3nigzw5CZaxE/MEYiSvOcagMV6BPh3aB62GH46zzU6d
- mV0mGWkSDhdSf19Ku5WKG8+qWRl+ef8mVikYORjPUrwB6r2fJnhVb3BcKlLyVcYXqhOl
- 8nG4uTBAuCsp9uvv2nwD51z3u4hTBeO6CE86XhJHY2zbs/Sa3/cTV62sMpRqrUVKIQ9e
- CI0Q==
-X-Gm-Message-State: AOAM532jqa/o7ZFpg48dpd+R9/8YgoYgq/GWWl6nzTcVb8FwVwzGwAFU
- qzdrJyr8CWw3CIM5VHAg6NHQuw==
-X-Google-Smtp-Source: ABdhPJy2aymxhZ7yZWwAmLLNyftYCwd61PtfrChhA2K/S/ZWzs+EOTzqXZihvePJ3BjBNSZPTK19KA==
-X-Received: by 2002:a17:90a:8e82:: with SMTP id
- f2mr2405873pjo.234.1611889523668; 
- Thu, 28 Jan 2021 19:05:23 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- y75sm6854496pfg.119.2021.01.28.19.05.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 19:05:22 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH 5/5] kselftests: dmabuf-heaps: Add extra checking that
- allocated buffers are zeroed
-Date: Fri, 29 Jan 2021 03:05:14 +0000
-Message-Id: <20210129030514.1231773-5-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210129030514.1231773-1-john.stultz@linaro.org>
-References: <20210129030514.1231773-1-john.stultz@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=hp4LmEBw8ZJdLLiSuVq/l9Tumx/V32XIRi5N9lrM6Zw=;
+ b=F6hvbCQddc/KTBeEQ+uEFx6P8dqJrryqyr5d996DcGPafwJpHxA58lrpXZpFBuCIIF
+ I3DI6RuNU789FGLtjnMUcCH+AMkw+765N4h6H6EHYtjsmprAoRdK473ZDMzyp9CFLXPG
+ 70ATD/AIf6OZUhfNJSGp2thFvAPCU0gnwDBxRWVljuJh5Elx60q2wNw1ZGrQm7R4MYSs
+ P3Co9GnflCVeo38mLWPgO0qZW/L9y8LIEWoKW3KhW5WSmzr50wXWAOkQ4PdJt1+9qGU2
+ hEa6dVWdordRyahHXZrtTFyleI9UhmFJ2itCx3Qh9qY7B5egiy0xwX9gW6DJREt8EF4T
+ YJRg==
+X-Gm-Message-State: AOAM531ZsZTpQm2je0g7WiWRl8ov4B4kY1/RnMiP8+RkTu19c1xOpgkK
+ R2ScSjabE09uDPonqpXagDyy5f1tXMbgAh4G4tc=
+X-Google-Smtp-Source: ABdhPJzOXxH5mmtFFDqqzbP6D3+5w5D5FY38X/VaRYwkZe3Mc02WbaZXyqVHPcJTpL+QNSDos6pXsQT5HiyNEFkV3kQ=
+X-Received: by 2002:a17:906:5608:: with SMTP id
+ f8mr2627357ejq.101.1611892005510; 
+ Thu, 28 Jan 2021 19:46:45 -0800 (PST)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 29 Jan 2021 13:46:34 +1000
+Message-ID: <CAPM=9tyS8E3cL0s0jQ7fgV+uRrxPOxsG6n_4MpZEOa6AzXSZnQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.11-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,150 +63,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, Suren Baghdasaryan <surenb@google.com>,
- dri-devel@lists.freedesktop.org, Laura Abbott <labbott@kernel.org>,
- linux-kselftest@vger.kernel.org, Hridya Valsaraju <hridya@google.com>,
- linux-media@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a check to validate that buffers allocated from the heaps
-are properly zeroed before being given to userland.
-
-It is done by allocating a number of buffers, and filling them
-with a nonzero pattern, then closing and reallocating more
-buffers and checking that they are all properly zeroed.
-
-This is helpful to validate any cached buffers are zeroed
-before being given back out.
-
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Brian Starkey <brian.starkey@arm.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kselftest@vger.kernel.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- .../selftests/dmabuf-heaps/dmabuf-heap.c      | 86 +++++++++++++++++++
- 1 file changed, 86 insertions(+)
-
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index d179d81e2355..29af27acd40e 100644
---- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -218,6 +218,84 @@ static int test_alloc_and_import(char *heap_name)
- 	return ret;
- }
- 
-+static int test_alloc_zeroed(char *heap_name, size_t size)
-+{
-+	int heap_fd = -1, dmabuf_fd[32];
-+	int i, j, ret;
-+	void *p = NULL;
-+	char *c;
-+
-+	printf("  Testing alloced %ldk buffers are zeroed:  ", size / 1024);
-+	heap_fd = dmabuf_heap_open(heap_name);
-+	if (heap_fd < 0)
-+		return -1;
-+
-+	/* Allocate and fill a bunch of buffers */
-+	for (i = 0; i < 32; i++) {
-+		ret = dmabuf_heap_alloc(heap_fd, size, 0, &dmabuf_fd[i]);
-+		if (ret < 0) {
-+			printf("FAIL (Allocation (%i) failed)\n", i);
-+			goto out;
-+		}
-+		/* mmap and fill with simple pattern */
-+		p = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, dmabuf_fd[i], 0);
-+		if (p == MAP_FAILED) {
-+			printf("FAIL (mmap() failed!)\n");
-+			ret = -1;
-+			goto out;
-+		}
-+		dmabuf_sync(dmabuf_fd[i], DMA_BUF_SYNC_START);
-+		memset(p, 0xff, size);
-+		dmabuf_sync(dmabuf_fd[i], DMA_BUF_SYNC_END);
-+		munmap(p, size);
-+	}
-+	/* close them all */
-+	for (i = 0; i < 32; i++)
-+		close(dmabuf_fd[i]);
-+
-+	/* Allocate and validate all buffers are zeroed */
-+	for (i = 0; i < 32; i++) {
-+		ret = dmabuf_heap_alloc(heap_fd, size, 0, &dmabuf_fd[i]);
-+		if (ret < 0) {
-+			printf("FAIL (Allocation (%i) failed)\n", i);
-+			goto out;
-+		}
-+
-+		/* mmap and validate everything is zero */
-+		p = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, dmabuf_fd[i], 0);
-+		if (p == MAP_FAILED) {
-+			printf("FAIL (mmap() failed!)\n");
-+			ret = -1;
-+			goto out;
-+		}
-+		dmabuf_sync(dmabuf_fd[i], DMA_BUF_SYNC_START);
-+		c = (char *)p;
-+		for (j = 0; j < size; j++) {
-+			if (c[j] != 0) {
-+				printf("FAIL (Allocated buffer not zeroed @ %i)\n", j);
-+				break;
-+			}
-+		}
-+		dmabuf_sync(dmabuf_fd[i], DMA_BUF_SYNC_END);
-+		munmap(p, size);
-+	}
-+	/* close them all */
-+	for (i = 0; i < 32; i++)
-+		close(dmabuf_fd[i]);
-+
-+	close(heap_fd);
-+	printf("OK\n");
-+	return 0;
-+
-+out:
-+	while (i > 0) {
-+		close(dmabuf_fd[i]);
-+		i--;
-+	}
-+	close(heap_fd);
-+	return ret;
-+}
-+
- /* Test the ioctl version compatibility w/ a smaller structure then expected */
- static int dmabuf_heap_alloc_older(int fd, size_t len, unsigned int flags,
- 				   int *dmabuf_fd)
-@@ -386,6 +464,14 @@ int main(void)
- 		if (ret)
- 			break;
- 
-+		ret = test_alloc_zeroed(dir->d_name, 4 * 1024);
-+		if (ret)
-+			break;
-+
-+		ret = test_alloc_zeroed(dir->d_name, ONE_MEG);
-+		if (ret)
-+			break;
-+
- 		ret = test_alloc_compat(dir->d_name);
- 		if (ret)
- 			break;
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGV5IExpbnVzLAoKV2Vla2x5IGZpeGVzIGZvciBncmFwaGljcywgbm90aGluZyB0b28gbWFqb3Is
+IG5vdXZlYXUgaGFzIGEgZmV3CnJlZ3Jlc3Npb24gZml4ZXMgZm9yIHZhcmlvdXMgZmFsbG91dCBm
+cm9tIGhlYWRlciBjaGFuZ2VzIHByZXZpb3VzbHksCnZjNCBoYXMgdHdvIGZpeGVzLCB0d28gYW1k
+Z3B1LCBhbmQgYSBzbWF0dGVyaW5nIG9mIGk5MTUgZml4ZXMuCgpBbGwgc2VlbXMgb24gY291cnNl
+IGZvciBhIHF1aWV0ZXIgcmM3LCBmaW5nZXJzIGNyb3NzZWQuCgpEYXZlLgoKZHJtLWZpeGVzLTIw
+MjEtMDEtMjk6CmRybSBmaXhlcyBmb3IgNS4xMS1yYzYKCm5vdXZlYXU6Ci0gZml4IHN2bSBpbml0
+IGNvbmRpdGlvbnMKLSBmaXggbnY1MCBtb2Rlc2V0dGluZyByZWdyZXNzaW9uCi0gZml4IGN1cnNv
+ciBwbGFuZSBtb2RpZmllcnMKLSBmaXggPiA2NHg2NCBjdXJzb3IgcmVncmVzc2lvbgoKdmM0Ogot
+IEZpeCBMQk0gc2l6ZSBjYWxjdWxhdGlvbgotIEZpeCBoaWdoIHJlc29sdXRpb25zIGZvciBodnM1
+CgppOTE1OgotIEZpeCBJQ0wgTUcgUEhZIHZzd2luZwotIEZpeCBzdWJwbGF0Zm9ybSBoYW5kbGlu
+ZwotIEZpeCBzZWxmdGVzdCBtZW1sZWFrCi0gQ2xlYXIgQ0FDSEVfTU9ERSBwcmlvciB0byBjbGVh
+cmluZyByZXNpZHVhbHMKLSBBbHdheXMgZmx1c2ggdGhlIGFjdGl2ZSB3b3JrZXIgYmVmb3JlIHJl
+dHVybmluZyBmcm9tIHRoZSB3YWl0Ci0gQWx3YXlzIHRyeSB0byByZXNlcnZlIEdHVFQgYWRkcmVz
+cyAweDAKCmFtZGdwdToKLSBGaXggYSBmYW4gY29udHJvbCByZWdyZXNzaW9uIG9uIHNvbWUgYm9h
+cmRzCi0gRml4IGNsYW5nIHdhcm5pbmcKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1p
+dCA2ZWUxZDc0NWI3YzlmZDU3M2ZiYTE0MmEyZWZkYWQ3NmE5ZjFjYjA0OgoKICBMaW51eCA1LjEx
+LXJjNSAoMjAyMS0wMS0yNCAxNjo0NzoxNCAtMDgwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdp
+dCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJt
+IHRhZ3MvZHJtLWZpeGVzLTIwMjEtMDEtMjkKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
+byBlMGVjYWZlZGU4N2ViMWEzZDFlNzA4ZjAzNjVmYWQwZDU5NDg5Mjg1OgoKICBNZXJnZSB0YWcg
+J2FtZC1kcm0tZml4ZXMtNS4xMS0yMDIxLTAxLTI4JyBvZgpodHRwczovL2dpdGxhYi5mcmVlZGVz
+a3RvcC5vcmcvYWdkNWYvbGludXggaW50byBkcm0tZml4ZXMgKDIwMjEtMDEtMjkKMTE6MzY6Mzgg
+KzEwMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS4xMS1yYzYKCm5vdXZlYXU6Ci0gZml4IHN2
+bSBpbml0IGNvbmRpdGlvbnMKLSBmaXggbnY1MCBtb2Rlc2V0dGluZyByZWdyZXNzaW9uCi0gZml4
+IGN1cnNvciBwbGFuZSBtb2RpZmllcnMKLSBmaXggPiA2NHg2NCBjdXJzb3IgcmVncmVzc2lvbgoK
+dmM0OgotIEZpeCBMQk0gc2l6ZSBjYWxjdWxhdGlvbgotIEZpeCBoaWdoIHJlc29sdXRpb25zIGZv
+ciBodnM1CgppOTE1OgotIEZpeCBJQ0wgTUcgUEhZIHZzd2luZwotIEZpeCBzdWJwbGF0Zm9ybSBo
+YW5kbGluZwotIEZpeCBzZWxmdGVzdCBtZW1sZWFrCi0gQ2xlYXIgQ0FDSEVfTU9ERSBwcmlvciB0
+byBjbGVhcmluZyByZXNpZHVhbHMKLSBBbHdheXMgZmx1c2ggdGhlIGFjdGl2ZSB3b3JrZXIgYmVm
+b3JlIHJldHVybmluZyBmcm9tIHRoZSB3YWl0Ci0gQWx3YXlzIHRyeSB0byByZXNlcnZlIEdHVFQg
+YWRkcmVzcyAweDAKCmFtZGdwdToKLSBGaXggYSBmYW4gY29udHJvbCByZWdyZXNzaW9uIG9uIHNv
+bWUgYm9hcmRzCi0gRml4IGNsYW5nIHdhcm5pbmcKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQWxleCBEZXVjaGVyICgxKToK
+ICAgICAgUmV2ZXJ0ICJkcm0vYW1kZ3B1L3N3c211OiBkcm9wIHNldF9mYW5fc3BlZWRfcGVyY2Vu
+dCAodjIpIgoKQXJuZCBCZXJnbWFubiAoMSk6CiAgICAgIGFtZGdwdTogZml4IGNsYW5nIGJ1aWxk
+IHdhcm5pbmcKCkJhc3RpYW4gQmVyYW5layAoMSk6CiAgICAgIGRybS9ub3V2ZWF1L2Rpc3BudjUw
+OiBSZXN0b3JlIHB1c2hpbmcgb2YgYWxsIGRhdGEuCgpCZW4gU2tlZ2dzICgxKToKICAgICAgZHJt
+L25vdXZlYXUvbnZpZjogZml4IG1ldGhvZCBjb3VudCB3aGVuIHB1c2hpbmcgYW4gYXJyYXkKCkNo
+cmlzIFdpbHNvbiAoMyk6CiAgICAgIGRybS9pOTE1L2d0OiBDbGVhciBDQUNIRV9NT0RFIHByaW9y
+IHRvIGNsZWFyaW5nIHJlc2lkdWFscwogICAgICBkcm0vaTkxNTogQWx3YXlzIGZsdXNoIHRoZSBh
+Y3RpdmUgd29ya2VyIGJlZm9yZSByZXR1cm5pbmcgZnJvbSB0aGUgd2FpdAogICAgICBkcm0vaTkx
+NS9ndDogQWx3YXlzIHRyeSB0byByZXNlcnZlIEdHVFQgYWRkcmVzcyAweDAKCkRhdmUgQWlybGll
+ICg0KToKICAgICAgTWVyZ2UgYnJhbmNoICcwNC4wMS1hbXBlcmUtbGl0ZScgb2YKZ2l0Oi8vZ2l0
+aHViLmNvbS9za2VnZ3NiL2xpbnV4IGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnZHJt
+LW1pc2MtZml4ZXMtMjAyMS0wMS0yNycgb2YKZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcv
+ZHJtL2RybS1taXNjIGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnZHJtLWludGVsLWZp
+eGVzLTIwMjEtMDEtMjgnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0t
+aW50ZWwgaW50byBkcm0tZml4ZXMKICAgICAgTWVyZ2UgdGFnICdhbWQtZHJtLWZpeGVzLTUuMTEt
+MjAyMS0wMS0yOCcgb2YKaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2FnZDVmL2xpbnV4
+IGludG8gZHJtLWZpeGVzCgpEb20gQ29ibGV5ICgyKToKICAgICAgZHJtL3ZjNDogQ29ycmVjdCBs
+Ym0gc2l6ZSBhbmQgY2FsY3VsYXRpb24KICAgICAgZHJtL3ZjNDogQ29ycmVjdCBQT1MxX1NDTCBm
+b3IgaHZzNQoKS2Fyb2wgSGVyYnN0ICgxKToKICAgICAgZHJtL25vdXZlYXUvc3ZtOiBmYWlsIE5P
+VVZFQVVfU1ZNX0lOSVQgaW9jdGwgb24gdW5zdXBwb3J0ZWQgZGV2aWNlcwoKTHl1ZGUgUGF1bCAo
+Myk6CiAgICAgIGRyaXZlcnMvbm91dmVhdS9rbXMvbnY1MC06IFJlamVjdCBmb3JtYXQgbW9kaWZp
+ZXJzIGZvciBjdXJzb3IgcGxhbmVzCiAgICAgIGRybS9ub3V2ZWF1L2ttcy9udjUwLTogUmVwb3J0
+IG1heCBjdXJzb3Igc2l6ZSB0byB1c2Vyc3BhY2UKICAgICAgZHJtL25vdXZlYXUva21zL2drMTA0
+LWdwMXh4OiBGaXggPiA2NHg2NCBjdXJzb3JzCgpQYW4gQmlhbiAoMSk6CiAgICAgIGRybS9pOTE1
+L3NlbGZ0ZXN0OiBGaXggcG90ZW50aWFsIG1lbW9yeSBsZWFrCgpVbWVzaCBOZXJsaWdlIFJhbWFw
+cGEgKDEpOgogICAgICBkcm0vaTkxNTogQ2hlY2sgZm9yIGFsbCBzdWJwbGF0Zm9ybSBiaXRzCgpW
+aWxsZSBTeXJqw6Rsw6QgKDEpOgogICAgICBkcm0vaTkxNTogRml4IElDTCBNRyBQSFkgdnN3aW5n
+IGhhbmRsaW5nCgogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjMwL01ha2VmaWxl
+ICAgICAgfCAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24zMDEvTWFr
+ZWZpbGUgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMzAy
+L01ha2VmaWxlICAgICB8ICAgMyArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvYW1kZ3B1
+X3NtdS5oICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9pbmMvc211
+X3YxMV8wLmggICAgICAgICAgICAgfCAgIDMgKwogZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3Nt
+dS9hbWRncHVfc211LmMgICAgICAgICAgfCAgIDkgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0v
+c3dzbXUvc211MTEvYXJjdHVydXNfcHB0LmMgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+cG0vc3dzbXUvc211MTEvbmF2aTEwX3BwdC5jICAgIHwgICAxICsKIC4uLi9kcm0vYW1kL3BtL3N3
+c211L3NtdTExL3NpZW5uYV9jaWNobGlkX3BwdC5jICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvcG0vc3dzbXUvc211MTEvc211X3YxMV8wLmMgICAgIHwgIDMxICsrLQogZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYyAgICAgICAgICAgfCAgIDcgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2d0L2dlbjdfcmVuZGVyY2xlYXIuYyAgICAgICAgIHwgIDEyICsrCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9nZ3R0LmMgICAgICAgICAgICAgICB8ICA0NyAr
+KystLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9hY3RpdmUuYyAgICAgICAgICAgICAgICAg
+fCAgMjggKy0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oICAgICAgICAgICAgICAg
+ICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVfZ2VtX2d0
+dC5jICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Jhc2U1
+MDdjLmMgICAgICAgIHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9i
+YXNlODI3Yy5jICAgICAgICB8ICAgNiArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52
+NTAvZGlzcC5jICAgICAgICAgICAgfCAgIDggKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlz
+cG52NTAvaGVhZDkxN2QuYyAgICAgICAgfCAgMjggKystCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9kaXNwbnY1MC93bmR3LmMgICAgICAgICAgICB8ICAxNyArLQogLi4uL2dwdS9kcm0vbm91dmVh
+dS9pbmNsdWRlL252aHcvY2xhc3MvY2w5MTdkLmggICAgfCAgIDQgKwogZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvaW5jbHVkZS9udmlmL3B1c2guaCAgICAgICAgfCAyMTYgKysrKysrKysrKy0tLS0t
+LS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3N2bS5jICAgICAgICAgICAg
+ICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9odnMuYyAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfcGxhbmUuYyAgICAgICAgICAg
+ICAgICAgICAgfCAgMTEgKy0KIDI2IGZpbGVzIGNoYW5nZWQsIDMwMCBpbnNlcnRpb25zKCspLCAx
+NjUgZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
