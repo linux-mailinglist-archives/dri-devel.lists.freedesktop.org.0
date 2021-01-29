@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB1F3089F8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 16:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135F53089FA
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 16:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798BB6EB73;
-	Fri, 29 Jan 2021 15:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B106EB74;
+	Fri, 29 Jan 2021 15:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1A2C6EB71;
- Fri, 29 Jan 2021 15:38:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A881664E37;
- Fri, 29 Jan 2021 15:38:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606036EB72;
+ Fri, 29 Jan 2021 15:38:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 390FF64E05;
+ Fri, 29 Jan 2021 15:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611934705;
- bh=3eSuLmnkEQxyn1kIi6VU+yURhO7h3WPw6ZW8154zkAM=;
+ s=k20201202; t=1611934707;
+ bh=uwFvfc6L4wpnKmbVy14n1pGZETZp9bDsqif3aF84e58=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eNpqz07KVvIiBEAE0VLjn1KzG02Evsw6flX259gfJeDWFChg+2RncAxB2QErvRucj
- DKDWzKwonOPL/nInBSqlZpX3LCetsguXBZ1uyWvKchBh0MsTpWCYcT8WDYTHs69NJG
- t4k8XW3N10LARWAxkqQ6qph14DvrKZZ0QtZqILdGHcOiBOLkyklx+M3C/JF9AVvNA0
- W8Y7ZPM7RzHrrqwzTg/8DF50h5ypyfPm/1w/t6/g6kTcjp4NOLRwepTe7FywL1EWq0
- NmnakiFA/kpskZe3LIPHtYy8Eu/cjUjAlsnNqFY9rh6Vc2I5ft87BdQ1GVRNBvXOM+
- 8K3covm0tnWAA==
+ b=WoAPSb46CTOKpFpPpNDcRzCIv6/pQAmSGIIm+U8fvZ2rn4AamLUftESHG2den2iXF
+ /PnqLg4HQFz3l2rGO8RxwHT60/dp9LyOd65Uthmt6xhH5VYLvULVoYNmxFEBpBTe/s
+ wzTpMAyhLui27mnmtRKxUD3H2SQMpYgdMwDw6AuL4rl5mr+hBaHI0EdmytXlhmedZ6
+ WhSZugZqz6efM9oioRjvC1k4sa2OiqHqt5+NCC/Lo/YvAndeVkjjQZXmj+QHskPS9K
+ fq45sxOIgv6/5xK0gJIISQzDfawFumbm7QwPcBt+5aLjSYck1786GQmbF4D/LBHR7+
+ kpHhmbEIo0+Tg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 15/19] drm/amd/display: Update
- dram_clock_change_latency for DCN2.1
-Date: Fri, 29 Jan 2021 10:38:02 -0500
-Message-Id: <20210129153806.1592565-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 16/19] drm/amd/display: Change function
+ decide_dp_link_settings to avoid infinite looping
+Date: Fri, 29 Jan 2021 10:38:03 -0500
+Message-Id: <20210129153806.1592565-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210129153806.1592565-1-sashal@kernel.org>
 References: <20210129153806.1592565-1-sashal@kernel.org>
@@ -49,52 +49,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
- Jake Wang <haonan.wang2@amd.com>, amd-gfx@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Anson Jacob <anson.jacob@amd.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Bing Guo <bing.guo@amd.com>, Jun Lei <Jun.Lei@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jake Wang <haonan.wang2@amd.com>
+From: Bing Guo <bing.guo@amd.com>
 
-[ Upstream commit 901c1ec05ef277ce9d43cb806a225b28b3efe89a ]
+[ Upstream commit 4716a7c50c5c66d6ddc42401e1e0ba13b492e105 ]
 
-[WHY]
-dram clock change latencies get updated using ddr4 latency table, but
-does that update does not happen before validation. This value
-should not be the default and should be number received from
-df for better mode support.
-This may cause a PState hang on high refresh panels with short vblanks
-such as on 1080p 360hz or 300hz panels.
+Why:
+Function decide_dp_link_settings() loops infinitely when required bandwidth
+can't be supported.
 
-[HOW]
-Update latency from 23.84 to 11.72.
+How:
+Check the required bandwidth against verified_link_cap before trying to
+find a link setting for it.
 
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Bing Guo <bing.guo@amd.com>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Anson Jacob <anson.jacob@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index bb7add5ea2273..a6d5beada6634 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -257,7 +257,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_1_soc = {
- 	.num_banks = 8,
- 	.num_chans = 4,
- 	.vmm_page_size_bytes = 4096,
--	.dram_clock_change_latency_us = 23.84,
-+	.dram_clock_change_latency_us = 11.72,
- 	.return_bus_width_bytes = 64,
- 	.dispclk_dppclk_vco_speed_mhz = 3600,
- 	.xfc_bus_transport_time_us = 4,
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 959eb075d11ed..c18f39271b034 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -1914,6 +1914,9 @@ static bool decide_dp_link_settings(struct dc_link *link, struct dc_link_setting
+ 			initial_link_setting;
+ 	uint32_t link_bw;
+ 
++	if (req_bw > dc_link_bandwidth_kbps(link, &link->verified_link_cap))
++		return false;
++
+ 	/* search for the minimum link setting that:
+ 	 * 1. is supported according to the link training result
+ 	 * 2. could support the b/w requested by the timing
 -- 
 2.27.0
 
