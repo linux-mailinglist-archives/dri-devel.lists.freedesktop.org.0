@@ -1,41 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA91308733
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 10:05:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B65F308793
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Jan 2021 10:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAADD6E442;
-	Fri, 29 Jan 2021 09:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874D26EAB3;
+	Fri, 29 Jan 2021 09:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9911F6E3F2;
- Fri, 29 Jan 2021 09:05:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 04F8464E02;
- Fri, 29 Jan 2021 09:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611911122;
- bh=/HEREiD9FXEQ02w0iDsYdpZV46bpzXWuTWwUnZCuy+g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T2Y4mkH4w077yIZlxHUVZE0D4RLQbzNe5OiDenFlQlsPGBt8ss4Zj5rDF9fgoTP6k
- xu/Bzo1XE71GsYZvBptwDuXs+wrULWcJy59bKBfcuSW6zcG3ZRJG1gBozI/YJrugAl
- MMUMZtS57yD2ctcrz9XePHff3N9cgreQyEruAzA8ACCzWDRviQd8aygMSvYmgMRvSG
- 44NQVC9cG3gE5XfiE0NYf8UuiODbFhBNGAYIMViLeyZGqQOYDg+cJCQNDfEsJDe6dK
- TV+HEKx68IBMweLIWECiO0hHiD7/CetE8nlx5WYoMeZIT1q53s9cIc6Eou5QJxr8Hl
- dY2QCJu/TSm3Q==
-Date: Fri, 29 Jan 2021 09:05:16 +0000
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-Message-ID: <20210129090516.GB3998@willie-the-truck>
-References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BFC46EAB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:56:08 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 207E2AE61;
+ Fri, 29 Jan 2021 09:56:07 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: patrik.r.jakobsson@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH 0/5] drm/gma500: Remove Moorestown/Medfield
+Date: Fri, 29 Jan 2021 10:55:59 +0100
+Message-Id: <20210129095604.32423-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,75 +37,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: isaacm@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
- Kristian H Kristensen <hoegsberg@google.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
-> Add a new page protection flag IOMMU_LLC which can be used
-> by non-coherent masters to set cacheable memory attributes
-> for an outer level of cache called as last-level cache or
-> system cache. Initial user of this page protection flag is
-> the adreno gpu and then can later be used by other clients
-> such as video where this can be used for per-buffer based
-> mapping.
-> 
-> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 3 +++
->  include/linux/iommu.h          | 6 ++++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index 7439ee7fdcdb..ebe653ef601b 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->  		else if (prot & IOMMU_CACHE)
->  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
->  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
-> +		else if (prot & IOMMU_LLC)
-> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
-> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->  	}
->  
->  	if (prot & IOMMU_CACHE)
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index ffaa389ea128..1f82057df531 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -31,6 +31,12 @@
->   * if the IOMMU page table format is equivalent.
->   */
->  #define IOMMU_PRIV	(1 << 5)
-> +/*
-> + * Non-coherent masters can use this page protection flag to set cacheable
-> + * memory attributes for only a transparent outer level of cache, also known as
-> + * the last-level or system cache.
-> + */
-> +#define IOMMU_LLC	(1 << 6)
+Support for Moorestown and Medfield platforms is being removed from
+the kernel. So here's a patch to remove the related code from the
+gma500 driver. On top of that I also cleaned up the configuration
+a bit.
 
-On reflection, I'm a bit worried about exposing this because I think it will
-introduce a mismatched virtual alias with the CPU (we don't even have a MAIR
-set up for this memory type). Now, we also have that issue for the PTW, but
-since we always use cache maintenance (i.e. the streaming API) for
-publishing the page-tables to a non-coheren walker, it works out. However,
-if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
-allocation, then they're potentially in for a nasty surprise due to the
-mismatched outer-cacheability attributes.
+Note that Poulsbo and Cedartrail is still there and will remain. With
+the MID platforms gone, there's actually a chance of cleaning up the
+code for the desktop chips.
 
-So I can take patch (1) as a trivial rename, but unfortunately I think this
-needs more thought before exposing it beyond the PTW.
+I smoke tested the patchset by running Xorg and Weston on a Cedartrail
+system.
 
-Will
+Thomas Zimmermann (5):
+  drm/gma500: Remove Medfield support
+  drm/gma500: Remove Moorestown support
+  drm/gma500: Drop DRM_GMA3600 config option
+  drm/gma500: Remove CONFIG_X86 conditionals from source files
+  drm/gma500: Remove dependency on TTM
+
+ drivers/gpu/drm/gma500/Kconfig                |   28 +-
+ drivers/gpu/drm/gma500/Makefile               |   43 +-
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c       |    4 -
+ drivers/gpu/drm/gma500/framebuffer.c          |    2 +-
+ drivers/gpu/drm/gma500/intel_gmbus.c          |    5 +-
+ drivers/gpu/drm/gma500/mdfld_device.c         |  564 ---------
+ drivers/gpu/drm/gma500/mdfld_dsi_dpi.c        | 1017 -----------------
+ drivers/gpu/drm/gma500/mdfld_dsi_dpi.h        |   79 --
+ drivers/gpu/drm/gma500/mdfld_dsi_output.c     |  603 ----------
+ drivers/gpu/drm/gma500/mdfld_dsi_output.h     |  377 ------
+ drivers/gpu/drm/gma500/mdfld_dsi_pkg_sender.c |  679 -----------
+ drivers/gpu/drm/gma500/mdfld_dsi_pkg_sender.h |   80 --
+ drivers/gpu/drm/gma500/mdfld_intel_display.c  |  966 ----------------
+ drivers/gpu/drm/gma500/mdfld_output.c         |   74 --
+ drivers/gpu/drm/gma500/mdfld_output.h         |   76 --
+ drivers/gpu/drm/gma500/mdfld_tmd_vid.c        |  197 ----
+ drivers/gpu/drm/gma500/mdfld_tpo_vid.c        |   83 --
+ drivers/gpu/drm/gma500/mid_bios.c             |  333 ------
+ drivers/gpu/drm/gma500/mid_bios.h             |   10 -
+ drivers/gpu/drm/gma500/mmu.c                  |   21 -
+ drivers/gpu/drm/gma500/oaktrail.h             |  247 ----
+ drivers/gpu/drm/gma500/oaktrail_crtc.c        |  663 -----------
+ drivers/gpu/drm/gma500/oaktrail_device.c      |  567 ---------
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c        |  840 --------------
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c    |  331 ------
+ drivers/gpu/drm/gma500/oaktrail_lvds.c        |  423 -------
+ drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c    |  169 ---
+ drivers/gpu/drm/gma500/psb_drv.c              |   82 +-
+ drivers/gpu/drm/gma500/psb_drv.h              |  108 --
+ drivers/gpu/drm/gma500/psb_intel_drv.h        |    6 -
+ drivers/gpu/drm/gma500/psb_intel_lvds.c       |   14 +-
+ drivers/gpu/drm/gma500/psb_intel_reg.h        |   28 +-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c       |   20 +-
+ drivers/gpu/drm/gma500/psb_irq.c              |   72 +-
+ drivers/gpu/drm/gma500/psb_irq.h              |    2 -
+ drivers/gpu/drm/gma500/psb_reg.h              |   14 -
+ drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c    |  805 -------------
+ drivers/gpu/drm/gma500/tc35876x-dsi-lvds.h    |   38 -
+ 38 files changed, 31 insertions(+), 9639 deletions(-)
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_device.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_dpi.h
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_output.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_output.h
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_pkg_sender.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_dsi_pkg_sender.h
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_intel_display.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_output.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_output.h
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_tmd_vid.c
+ delete mode 100644 drivers/gpu/drm/gma500/mdfld_tpo_vid.c
+ delete mode 100644 drivers/gpu/drm/gma500/mid_bios.c
+ delete mode 100644 drivers/gpu/drm/gma500/mid_bios.h
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail.h
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_crtc.c
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_device.c
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_hdmi.c
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_lvds.c
+ delete mode 100644 drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
+ delete mode 100644 drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c
+ delete mode 100644 drivers/gpu/drm/gma500/tc35876x-dsi-lvds.h
+
+--
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
