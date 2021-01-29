@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6AF3094D4
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:29:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEBC3094C5
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 12:28:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8D496ECB7;
-	Sat, 30 Jan 2021 11:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43FC16ECA3;
+	Sat, 30 Jan 2021 11:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTP id B29776EAAF
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 09:50:40 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.141.241])
- by APP-01 (Coremail) with SMTP id qwCowAB3f5dq2hNgS+dXAA--.46225S2;
- Fri, 29 Jan 2021 17:50:36 +0800 (CST)
-From: Xu Wang <vulab@iscas.ac.cn>
-To: anitha.chrisanthus@intel.com, edmund.j.dea@intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/kmb: Remove unneeded semicolon
-Date: Fri, 29 Jan 2021 09:50:32 +0000
-Message-Id: <20210129095032.53810-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowAB3f5dq2hNgS+dXAA--.46225S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kAw47ArWrZw4kuFyxuFg_yoW8Zw4fpF
- WUG3yvvry2qrs7tF1jya1fA3WYka4UtFWxGFWqgaySgF4Y9F93Aw15u397A34Fya1xZ3s7
- C39FgFy3ZasayrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkIb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26F4UJVW0ow
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
- cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
- IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
- 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
- IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
- z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU84a0PUUUUU==
-X-Originating-IP: [124.16.141.241]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCggQA1z4jVWsigAAsL
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08AB66EABB
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 10:16:23 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id u67so5953590pfb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 02:16:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0EVHMn1baZvQLJLGxCuW7aI/+62Jj0sfPfF7kM8sXVg=;
+ b=eLMJBLcdnSpeb2uDEumlUhtkgf83mSKXsbhjUF3e8gZWgl2Ja3kYicWY7e72x0+CAg
+ WW1LQ7qQjlnNSW9MJxgyYB+lu6qvg3jTshj2R37lqCMgBJr2Z/BAnqQOc6KGhm/RX4be
+ GE5GJUEYc8P0/EubtAb6difG07L6NAxPAp+Ig=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0EVHMn1baZvQLJLGxCuW7aI/+62Jj0sfPfF7kM8sXVg=;
+ b=hhSpVJbE+3wQlxtxQqzRV0loVJjbbo6nGdSLkKZFf27m9iLeh+ajT+kXD0P1p4mqCM
+ 1fQ+jiBNs0WvsmwsFeuphn60niqH5/flourWNfQTgwF9jouYfQT0UDvYBG3b4EUeyt/d
+ xjeZh2i8wMEv07GrO42hS5uZi/V75iZsfwsCaCVl7skTYSgV00RymfowofiFvql+l80q
+ tMO44pHMibp7wIjUQehjbdRoQwVh30o/pN9CmO8LkqznGqVfYcL/fux5rQ9RJ2Xcfoac
+ 3Yl+43yEt6lmCc07A/2I23XnX0yeD58JPCvecyZYKQUSQooeTW+YVTfB7xmd6vu1zAtQ
+ ZWjw==
+X-Gm-Message-State: AOAM5318bC0kZa5eDZODRxZjtTfrsHEnl2ZZ5um6T6AtReypGXU8IZZt
+ bpc+3Cy6Yx8LlUraouPa+7q+pA==
+X-Google-Smtp-Source: ABdhPJwKOYUPsux7DRsNvdfjJEJ/mslvZ47fOQUY0EgVE9lTzc/KmhVJmZHLLd+cEdrXaIOjUv9CJQ==
+X-Received: by 2002:a63:1047:: with SMTP id 7mr4043761pgq.292.1611915383690;
+ Fri, 29 Jan 2021 02:16:23 -0800 (PST)
+Received: from judyhsiao-p920.tpe.corp.google.com
+ ([2401:fa00:1:10:2991:e2d5:3583:ab3f])
+ by smtp.gmail.com with ESMTPSA id r194sm8486165pfr.168.2021.01.29.02.16.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 02:16:22 -0800 (PST)
+From: Judy Hsiao <judyhsiao@chromium.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v2] drm/msm/dp: trigger unplug event in msm_dp_display_disable
+Date: Fri, 29 Jan 2021 18:16:03 +0800
+Message-Id: <20210129101603.3151367-1-judyhsiao@chromium.org>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 30 Jan 2021 11:28:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,76 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: freedreno@lists.freedesktop.org, Judy Hsiao <judyhsiao@google.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tanmay Shah <tanmay@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Sean Paul <sean@poorly.run>, Judy Hsiao <judyhsiao@chromium.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fix semicolon.cocci warnings:
-drivers/gpu/drm/kmb/kmb_dsi.c:284:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:304:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:321:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:340:3-4: Unneeded semicolon
-drivers/gpu/drm/kmb/kmb_dsi.c:364:2-3: Unneeded semicolon
+From: Judy Hsiao <judyhsiao@google.com>
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+1. Trigger the unplug event in msm_dp_display_disable() to shutdown audio
+   properly.
+2. Reset the completion before signal the disconnect event.
+
+Fixes: 158b9aa74479 ("drm/msm/dp: wait for audio notification before disabling clocks")
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Judy Hsiao <judyhsiao@chromium.org>
 ---
- drivers/gpu/drm/kmb/kmb_dsi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ v2:
+ - --to the correct maintainers.
 
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 4b5d82af84b3..231041b269f5 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -281,7 +281,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_YCBCR422_16B:
- 		data_type_param.size_constraint_pixels = 2;
-@@ -301,7 +301,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_LPPS_YCBCR422_20B:
- 	case DSI_LP_DT_PPS_YCBCR422_24B:
-@@ -318,7 +318,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_RGB565_16B:
- 		data_type_param.size_constraint_pixels = 1;
-@@ -337,7 +337,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 		default:
- 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
- 			return -EINVAL;
--		};
-+		}
- 		break;
- 	case DSI_LP_DT_PPS_RGB666_18B:
- 		data_type_param.size_constraint_pixels = 4;
-@@ -361,7 +361,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
- 	default:
- 		DRM_ERROR("DSI: Invalid data_type %d\n", data_type);
- 		return -EINVAL;
--	};
-+	}
+ drivers/gpu/drm/msm/dp/dp_display.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 3bc7ed21de286..81f6794a25100 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -651,8 +651,8 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
  
- 	*params = data_type_param;
- 	return 0;
+ 	/* signal the disconnect event early to ensure proper teardown */
+-	dp_display_handle_plugged_change(g_dp_display, false);
+ 	reinit_completion(&dp->audio_comp);
++	dp_display_handle_plugged_change(g_dp_display, false);
+ 
+ 	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK |
+ 					DP_DP_IRQ_HPD_INT_MASK, true);
+@@ -890,6 +890,9 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+ 
+ 	/* wait only if audio was enabled */
+ 	if (dp_display->audio_enabled) {
++		/* signal the disconnect event */
++		reinit_completion(&dp->audio_comp);
++		dp_display_handle_plugged_change(dp_display, false);
+ 		if (!wait_for_completion_timeout(&dp->audio_comp,
+ 				HZ * 5))
+ 			DRM_ERROR("audio comp timeout\n");
 -- 
-2.17.1
+2.30.0.365.g02bc693789-goog
 
 _______________________________________________
 dri-devel mailing list
