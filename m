@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE86F3090BB
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 00:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87F4309273
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 07:32:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E806EC53;
-	Fri, 29 Jan 2021 23:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFA196EC88;
+	Sat, 30 Jan 2021 06:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95BEB6EC53
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Jan 2021 23:48:23 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1611964105; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=HUNiHIQmr/npCagMU/t/LtTySsZ+JNwCBw3sxHTxVDE=;
- b=wFCH4TfAk6xw1CTD9U6tVJmYCEa1KirRLEkbIzTpHXp2tjEyAez8w5RhGrjoa3MEBYl9udmd
- VMKiSFTOIZT3K1EIwSnpF7/5QM/D6C1bhfaSHJyClsbCwX/flvrutVqdncGALq3lH99L7mXl
- 4bOHF2j/mp+rJVK/GMmT4NrH2ek=
-X-Mailgun-Sending-Ip: 198.61.254.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 60149ec08f2d32c2c57125d9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 29 Jan 2021 23:48:16
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 006F7C433CA; Fri, 29 Jan 2021 23:48:15 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 53D46C433C6;
- Fri, 29 Jan 2021 23:48:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 53D46C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Fri, 29 Jan 2021 16:48:11 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH 1/3] drm/msm: Fix race of GPU init vs timestamp power
- management.
-Message-ID: <20210129234811.GA1612@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Eric Anholt <eric@anholt.net>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
-References: <20210127233946.1286386-1-eric@anholt.net>
- <20210128184702.GB29306@jcrouse1-lnx.qualcomm.com>
- <CADaigPVF=Ti4tLYTUsK+0Gi6GbK9ADOuFf4tCYftmVZ96gJLxg@mail.gmail.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 419066EC87;
+ Sat, 30 Jan 2021 06:32:03 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id p15so10928421wrq.8;
+ Fri, 29 Jan 2021 22:32:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2Nm9IfnYPTwx6O0U9BdKLhxgG7rzF4f0DS/IBep8xNQ=;
+ b=dAtNPsQdYjophNuTU8NT6epZcaDeSrQs/c8eei4DT1CWQBEjlxVGw5Goax1seBiwBQ
+ jEnwGrlEFssBsfg7D4luNcaUa5QRab0GFZJrpVVACtHEneFndwwVlPeXQA0rEsIIGZfW
+ Dz069gikwHnLrdL4SMMRsvl8air957bwcy5YWCPNcX9KC+PlI728BtkiW2Cz+8Zp7yDQ
+ qLfwrjQDcZK9aD8sh6ZnTLa6NMb+6KW3I7eAmMz9X5NcdzPh74wtay+WBTZQBfd3eDmY
+ qpsHgLNYAbq3Sx3lDXQWCVA5JYDNmVrB9SBbbOcVmzKl4LxbIDepT2dnMAlaMbZF/QgO
+ YmrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2Nm9IfnYPTwx6O0U9BdKLhxgG7rzF4f0DS/IBep8xNQ=;
+ b=JFnfwLH4Paqbyg64rqdgBLRUuOZ1PcA0fE+PtcRvo5eL2Yc7iq93B1WQKHZ4Q6fRQj
+ sjGZ2GXVe1FWm2yGC0/4Creqj2qFzyozWCo9k8qMVfHZKx2hz7+2eFFqQ5pK3Co8iQMA
+ gr9LQzsBhwQyyBBvagtg47P4ZFbtNrcT8oJvNLvFIanKOEYcSn1uew9IrKjraBzIEKlA
+ mNfz62aK5a1hxXQonN6LqXwnjDJRYreozw90LDeQrtHGTa0meeBMXqXIJdVbXFfBJisD
+ z27VleX49PEf212GigiJGfBbHuy0qN4bRjyCzbd7YhDqYdi9YcM1uAjCx5a9MWLmIWsT
+ UXBg==
+X-Gm-Message-State: AOAM531o8zAcSDXyDO3BQwi23pWAZijqb7MA9ow8JINUUTRzTy2mWa0E
+ LTURoxTRenAaSDNzrVKuFD8EErY0AvXDFxctnSE=
+X-Google-Smtp-Source: ABdhPJy5ra0GCZkItSzcz2upUZ3HQLq88/bhFgC5ykVBf87d+3YorQ3DFUHffmOzAOPNWuCENk9vsJ0QNM03cQUuawo=
+X-Received: by 2002:a5d:52c5:: with SMTP id r5mr7992929wrv.208.1611988321918; 
+ Fri, 29 Jan 2021 22:32:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADaigPVF=Ti4tLYTUsK+0Gi6GbK9ADOuFf4tCYftmVZ96gJLxg@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20201127094438.121003-1-miaoqinglang@huawei.com>
+In-Reply-To: <20201127094438.121003-1-miaoqinglang@huawei.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Sat, 30 Jan 2021 14:31:50 +0800
+Message-ID: <CAKGbVbs=jUMJxvTbi1Pd3-fCb7R2dsqu_eNbhkAQMm2GZDjWCA@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: fix reference leak in lima_pm_busy
+To: Qinglang Miao <miaoqinglang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +60,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, stable@vger.kernel.org,
- Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, lima@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 11:17:16AM -0800, Eric Anholt wrote:
-> On Thu, Jan 28, 2021 at 10:52 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
-> >
-> > On Wed, Jan 27, 2021 at 03:39:44PM -0800, Eric Anholt wrote:
-> > > We were using the same force-poweron bit in the two codepaths, so they
-> > > could race to have one of them lose GPU power early.
-> > >
-> > > Signed-off-by: Eric Anholt <eric@anholt.net>
-> > > Cc: stable@vger.kernel.org # v5.9
-> >
-> > You can add:
-> > Fixes: 4b565ca5a2cb ("drm/msm: Add A6XX device support")
-> >
-> > Because that was my ugly.
-> >
-> > Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
-> 
-> I only pointed it at 5.9 because it looked like it would probably
-> conflict against older branches.  I can add the fixes tag if you'd
-> like, though.
+Thanks, applied to drm-misc-next.
 
-Fair enough. It is a good bug to fix but not if there are a lot of conflicts to
-deal with.
+Regards,
+Qiang
 
-Jordan
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+On Fri, Nov 27, 2020 at 5:42 PM Qinglang Miao <miaoqinglang@huawei.com> wrote:
+>
+> pm_runtime_get_sync will increment pm usage counter even it
+> failed. Forgetting to putting operation will result in a
+> reference leak here.
+>
+> A new function pm_runtime_resume_and_get is introduced in
+> [0] to keep usage counter balanced. So We fix the reference
+> leak by replacing it with new funtion.
+>
+> [0] dd8088d5a896 ("PM: runtime: Add  pm_runtime_resume_and_get to deal with usage counter")
+>
+> Fixes: 50de2e9ebbc0 ("drm/lima: enable runtime pm")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+> ---
+>  drivers/gpu/drm/lima/lima_sched.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> index dc6df9e9a..f6e7a88a5 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -200,7 +200,7 @@ static int lima_pm_busy(struct lima_device *ldev)
+>         int ret;
+>
+>         /* resume GPU if it has been suspended by runtime PM */
+> -       ret = pm_runtime_get_sync(ldev->dev);
+> +       ret = pm_runtime_resume_and_get(ldev->dev);
+>         if (ret < 0)
+>                 return ret;
+>
+> --
+> 2.23.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
