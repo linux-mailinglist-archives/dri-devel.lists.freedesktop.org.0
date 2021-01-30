@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA71B3095A1
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 14:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949BD30979C
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 19:47:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E9A6E0CE;
-	Sat, 30 Jan 2021 13:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C1F6E0CB;
+	Sat, 30 Jan 2021 18:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D2856E0CC;
- Sat, 30 Jan 2021 13:58:02 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id 190so8937593wmz.0;
- Sat, 30 Jan 2021 05:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zBKUG7e5aqeOZGFoYP7ajq6QVA6ioUHiy3uBhfAtdJI=;
- b=qX3AdBndzdu1u93uXZHXtrPIfIN38cJ+h8iH3Ect4Br9Oav1roudJMSFJxpEin65gr
- 2Pnpl+IkFFWxL+Z0FLYe9cYB73qoe7OkQ0YTvoJKlCpSt34J0cy4kxO+fWXoGLzf5Izp
- uxkNv8tlpqGAN+PIBDgt6GwGnnQyHgit9SksDxvLq0FJ2R6cop2SpO9JSyEKXcNa6NPf
- 9IceVOjaoSMp6kBGTgQFsnuppn2YBuoyLClQVtA8uCLOosrcFXIJvguPBU6Kz+LMxGM+
- NDRVq+lEgO1MWWfpkeQ1WO6Ibt7flfDzHEoVJ1AXFm5+eDZ0p3tqytxXqG/ppt284hmt
- wp8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zBKUG7e5aqeOZGFoYP7ajq6QVA6ioUHiy3uBhfAtdJI=;
- b=khOkhsza0O/v/53bbdAt7Zy5U1yxIfMhTuT9Jke/wc/PLqHs0TBvWWfkt8XMGnZeSc
- RUZOEIlOvf4IMM5zMy0MeptvLHa30MZ6bWD5p8GYqZCVuLZLXjPveHOw+Il0drAXbXer
- cIt0NhTkv8MkG8YC91bxH8Wt6NEwdSsp64qIL7qvsG/79iTwP959hHW9UeH76jM+xB46
- xcXiYNu/lWPtHtlOK8r6IHtVJ8GSYPrcNGyTK9+sx3clCG8SHF8/2eLNP8GDX7+UtSIw
- KrjtjNhMdsWVJGKv7a2Yv3eafROnmtBchbEnFdcgoWeO+tSCimbbsNZ81PTw2Sj+s39p
- 4wFw==
-X-Gm-Message-State: AOAM5320Qtp1TWtPhaD4ZYoded+XHBNShtANvXHqqPoZAI/ozvCLzFsH
- ZKVSGExp1ZPIiL1tPEDir+FpEmyMogSzRhEFWJwFMYGAMQc=
-X-Google-Smtp-Source: ABdhPJyML1M/wSU4weQkHbgAQC9ptneKF82KsSJzpVsQQWhfvqo2M3tiSMcT7VAudVuKVQbcufB5LABLkNqdYYtNCRg=
-X-Received: by 2002:a1c:f001:: with SMTP id a1mr7961185wmb.21.1612015081209;
- Sat, 30 Jan 2021 05:58:01 -0800 (PST)
+Received: from smtprelay.hostedemail.com (smtprelay0058.hostedemail.com
+ [216.40.44.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC8E689F55
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 18:47:15 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay07.hostedemail.com (Postfix) with ESMTP id EBCFD181D341E;
+ Sat, 30 Jan 2021 18:47:12 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3868:4321:5007:7652:10004:10400:10848:11026:11232:11658:11914:12043:12297:12438:12555:12740:12895:12986:13069:13311:13357:13439:13894:14181:14659:14721:21080:21627:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: cork01_33057cb275b3
+X-Filterd-Recvd-Size: 1933
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf19.hostedemail.com (Postfix) with ESMTPA;
+ Sat, 30 Jan 2021 18:47:11 +0000 (UTC)
+Message-ID: <a87b95d11c22d997ebc423bba71cabef15ca0bac.camel@perches.com>
+Subject: Re: [PATCH 08/29] dma-buf: Avoid comma separated statements
+From: Joe Perches <joe@perches.com>
+To: Jiri Kosina <trivial@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Date: Sat, 30 Jan 2021 10:47:10 -0800
+In-Reply-To: <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
+References: <cover.1598331148.git.joe@perches.com>
+ <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210127194047.21462-1-christianshewitt@gmail.com>
-In-Reply-To: <20210127194047.21462-1-christianshewitt@gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sat, 30 Jan 2021 21:57:50 +0800
-Message-ID: <CAKGbVbtaDHmukvfF=sfSmWHVdAYoF6-i4RTzsPQ6zfsjHcGNCw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/lima: add governor data with pre-defined thresholds
-To: Christian Hewitt <christianshewitt@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,89 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Lukasz Luba <lukasz.luba@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch gets minor improvement on glmark2 (160->162).
+On Mon, 2020-08-24 at 21:56 -0700, Joe Perches wrote:
+> Use semicolons and braces.
 
-Seems there's no way for user to change this value, do we?
-Or there's work pending to expose it to sysfs?
+Ping?
+ =
 
-Regards,
-Qiang
-
-On Thu, Jan 28, 2021 at 3:40 AM Christian Hewitt
-<christianshewitt@gmail.com> wrote:
->
-> This patch adapts the panfrost pre-defined thresholds change [0] to the
-> lima driver to improve real-world performance. The upthreshold value has
-> been set to ramp GPU frequency to max freq faster (compared to panfrost)
-> to compensate for the lower overall performance of utgard devices.
->
-> [0] https://patchwork.kernel.org/project/dri-devel/patch/20210121170445.19761-1-lukasz.luba@arm.com/
->
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> Signed-off-by: Joe Perches <joe@perches.com>
 > ---
-> Change since v1: increased upthreshold from 20 to 30, with a soft
-> dependency on Lukasz delayed timer patch [0]
->
-> [0] https://lore.kernel.org/lkml/20210127105121.20345-1-lukasz.luba@arm.com/
->
->  drivers/gpu/drm/lima/lima_devfreq.c | 10 +++++++++-
->  drivers/gpu/drm/lima/lima_devfreq.h |  2 ++
->  2 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-> index 5686ad4aaf7c..c9854315a0b5 100644
-> --- a/drivers/gpu/drm/lima/lima_devfreq.c
-> +++ b/drivers/gpu/drm/lima/lima_devfreq.c
-> @@ -163,8 +163,16 @@ int lima_devfreq_init(struct lima_device *ldev)
->         lima_devfreq_profile.initial_freq = cur_freq;
->         dev_pm_opp_put(opp);
->
-> +       /*
-> +        * Setup default thresholds for the simple_ondemand governor.
-> +        * The values are chosen based on experiments.
-> +        */
-> +       ldevfreq->gov_data.upthreshold = 30;
-> +       ldevfreq->gov_data.downdifferential = 5;
-> +
->         devfreq = devm_devfreq_add_device(dev, &lima_devfreq_profile,
-> -                                         DEVFREQ_GOV_SIMPLE_ONDEMAND, NULL);
-> +                                         DEVFREQ_GOV_SIMPLE_ONDEMAND,
-> +                                         &ldevfreq->gov_data);
->         if (IS_ERR(devfreq)) {
->                 dev_err(dev, "Couldn't initialize GPU devfreq\n");
->                 ret = PTR_ERR(devfreq);
-> diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
-> index 2d9b3008ce77..b0c7c736e81a 100644
-> --- a/drivers/gpu/drm/lima/lima_devfreq.h
-> +++ b/drivers/gpu/drm/lima/lima_devfreq.h
-> @@ -4,6 +4,7 @@
->  #ifndef __LIMA_DEVFREQ_H__
->  #define __LIMA_DEVFREQ_H__
->
-> +#include <linux/devfreq.h>
->  #include <linux/spinlock.h>
->  #include <linux/ktime.h>
->
-> @@ -18,6 +19,7 @@ struct lima_devfreq {
->         struct opp_table *clkname_opp_table;
->         struct opp_table *regulators_opp_table;
->         struct thermal_cooling_device *cooling;
-> +       struct devfreq_simple_ondemand_data gov_data;
->
->         ktime_t busy_time;
->         ktime_t idle_time;
-> --
-> 2.17.1
->
+> =A0drivers/dma-buf/st-dma-fence.c | 7 +++++--
+> =A01 file changed, 5 insertions(+), 2 deletions(-)
+> =
+
+> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fenc=
+e.c
+> index e593064341c8..c8a12d7ad71a 100644
+> --- a/drivers/dma-buf/st-dma-fence.c
+> +++ b/drivers/dma-buf/st-dma-fence.c
+> @@ -471,8 +471,11 @@ static int thread_signal_callback(void *arg)
+> =A0			dma_fence_signal(f1);
+> =A0
+> =
+
+> =A0		smp_store_mb(cb.seen, false);
+> -		if (!f2 || dma_fence_add_callback(f2, &cb.cb, simple_callback))
+> -			miss++, cb.seen =3D true;
+> +		if (!f2 ||
+> +		    dma_fence_add_callback(f2, &cb.cb, simple_callback)) {
+> +			miss++;
+> +			cb.seen =3D true;
+> +		}
+> =A0
+> =
+
+> =A0		if (!t->before)
+> =A0			dma_fence_signal(f1);
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
