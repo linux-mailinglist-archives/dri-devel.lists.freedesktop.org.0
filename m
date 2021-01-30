@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FE83097A1
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 19:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EB330982B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 21:08:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE12D6E131;
-	Sat, 30 Jan 2021 18:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40B946E102;
+	Sat, 30 Jan 2021 20:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0135.hostedemail.com
- [216.40.44.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DEF86E131
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 18:47:53 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay07.hostedemail.com (Postfix) with ESMTP id AB223181D303C;
- Sat, 30 Jan 2021 18:47:52 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:800:960:966:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1461:1515:1516:1518:1534:1543:1593:1594:1711:1730:1747:1777:1792:2196:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3867:3868:4321:4385:4605:5007:6119:7652:7903:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12048:12296:12297:12438:12555:12740:12895:12986:13439:13894:13972:14181:14659:14721:21080:21433:21451:21627:21740:30029:30054:30056:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: paint73_001571e275b3
-X-Filterd-Recvd-Size: 4233
-Received: from [192.168.1.159] (unknown [47.151.137.21])
- (Authenticated sender: joe@perches.com)
- by omf11.hostedemail.com (Postfix) with ESMTPA;
- Sat, 30 Jan 2021 18:47:51 +0000 (UTC)
-Message-ID: <719e0f14852d132a6649dbd5791fca17f251cb8e.camel@perches.com>
-Subject: Re: [PATCH 10/29] drm/i915: Avoid comma separated statements
-From: Joe Perches <joe@perches.com>
-To: Jiri Kosina <trivial@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Date: Sat, 30 Jan 2021 10:47:50 -0800
-In-Reply-To: <d687691df8f9978c7b2362c18d77a16b49be76b0.1598331148.git.joe@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
- <d687691df8f9978c7b2362c18d77a16b49be76b0.1598331148.git.joe@perches.com>
-User-Agent: Evolution 3.38.1-1 
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADFC76E102
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 20:08:03 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id b20so6772663ljo.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 12:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=DwgcfeyNbeeYVnPrppUqIKbObotchGFU53qsUYRK8ps=;
+ b=gDlN/bAMHIQyeDcLknGsdc4HyCOkg7CbJkIwIZTnUuOiMsflBb9a6DmF82L8ASj7th
+ VM4YeqE/RDDbWzA4GEsNVQtWbwDCOGJ1yCMwjYZTaqUP9/Z9YIlH3Sd3PK+UoXWxBEQy
+ A6hGkuczeC+Nb3rRO0UfeAfKxd0D7OP/su6Iu4cYVRvodpu3MfTh1ZbzARRf3+etif4k
+ x1Lcdy3pEmPGuQ563Ow80L07fJgBNV2RW/lMRq8n4qtbg2ETwWgHm207RY4KIYDCao2K
+ Pw6HoSOSb/USMQaYz6HXkYpcmVd7aohhUe/+7BpVPPay/GLnWqXst9fFQ4FnXY1nZ93O
+ qfNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=DwgcfeyNbeeYVnPrppUqIKbObotchGFU53qsUYRK8ps=;
+ b=e/1WWJaICfUYNq2dvU3/tcW/uLCk2mtaHK+gA1Zu3Ao01APMW9WPANDErYjzcrQnzG
+ 3/+Yh3u5HsBQeCi9pEe+N5bRvniwPVvDACJUhOFPXO/qUtPyzgGi5dwipKeqBHSlGPGU
+ SN17Fb/rxZmXiAlTDPgM5QbAs4TKsB1AgE3PcdLH5HhVtNGyvLgvjzYtWfWXlwzg/c8x
+ Z73iSs1eiG2qc57xeiJ4bR47onTNy2MH5aeH3VxxlZzXni1Un37cLYOae3EB3TQqNFjU
+ XL0+wJc8X9ib+Hg065A7QWaYEfmzmEjMPP6E6N0++RAazVPGMlM7sVQh+T6FOiSYn3uj
+ es8w==
+X-Gm-Message-State: AOAM531gVBPt+KDGuvzomINfOrfgcxezCwrSkp/lQ2IZ/emVfKvXr5fW
+ eTQm4IfBp7KGTinmRF85g07d9C3oe9Fe5CBoJEDORzaaVG3JHlRd
+X-Google-Smtp-Source: ABdhPJxOI0qp7FpKYV/p9jqL1kp4H4V3ayJ+PzeBGMUuzf16BCp0KBrLRJJgmIM8vGUijqwXjULPgeE0bQu4ikm34uc=
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr5681898ljg.462.1612037281723; 
+ Sat, 30 Jan 2021 12:08:01 -0800 (PST)
 MIME-Version: 1.0
+From: Muhamad Moghadam <msm1365@gmail.com>
+Date: Sat, 30 Jan 2021 23:37:50 +0330
+Message-ID: <CAHw=+OQ9ZnMdX3H6o2nLqiZX_P+DnvB7eRtVjSguDCQgmqO5Tw@mail.gmail.com>
+Subject: intel gpu hang solved in fedora
+To: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,123 +57,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="===============1925025160=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-08-24 at 21:56 -0700, Joe Perches wrote:
-> Use semicolons and braces.
+--===============1925025160==
+Content-Type: multipart/alternative; boundary="0000000000008ab8de05ba23adc4"
 
-Ping?
+--0000000000008ab8de05ba23adc4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
-> =A0drivers/gpu/drm/i915/gt/gen8_ppgtt.c           | 8 +++++---
-> =A0drivers/gpu/drm/i915/gt/intel_gt_requests.c    | 6 ++++--
-> =A0drivers/gpu/drm/i915/gt/selftest_workarounds.c | 6 ++++--
-> =A0drivers/gpu/drm/i915/intel_runtime_pm.c        | 6 ++++--
-> =A04 files changed, 17 insertions(+), 9 deletions(-)
-> =
+Hello everybody,
 
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/=
-gt/gen8_ppgtt.c
-> index 699125928272..114c13285ff1 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -323,10 +323,12 @@ static int __gen8_ppgtt_alloc(struct i915_address_s=
-pace * const vm,
-> =A0			}
-> =A0
-> =
+After 6 month Intel gpu hang on fedora (drm), with the introduction of 5.11
+kernel this problem was solved. Now you can update to 5.11 kernel
+for Liberation.
 
-> =A0			spin_lock(&pd->lock);
-> -			if (likely(!pd->entry[idx]))
-> +			if (likely(!pd->entry[idx])) {
-> =A0				set_pd_entry(pd, idx, pt);
-> -			else
-> -				alloc =3D pt, pt =3D pd->entry[idx];
-> +			} else {
-> +				alloc =3D pt;
-> +				pt =3D pd->entry[idx];
-> +			}
-> =A0		}
-> =A0
-> =
+--=20
+=D9=85=D8=AC=D9=84=D9=87 =DA=A9=D8=A7=D9=85=DB=8C=D9=88=D9=86 <http://www.t=
+ruckdriver.ir/> =D8=B3=D9=84=D8=B7=D8=A7=D9=86 =D8=AC=D8=A7=D8=AF=D9=87
+Persian Trucking <http://www.truckdriver.ir/> Mag
 
-> =A0		if (lvl) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.c b/drivers/gpu/dr=
-m/i915/gt/intel_gt_requests.c
-> index 66fcbf9d0fdd..54408d0b5e6e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.c
-> @@ -139,8 +139,10 @@ long intel_gt_retire_requests_timeout(struct intel_g=
-t *gt, long timeout)
-> =A0	LIST_HEAD(free);
-> =A0
-> =
+--0000000000008ab8de05ba23adc4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> =A0	interruptible =3D true;
-> -	if (unlikely(timeout < 0))
-> -		timeout =3D -timeout, interruptible =3D false;
-> +	if (unlikely(timeout < 0)) {
-> +		timeout =3D -timeout;
-> +		interruptible =3D false;
-> +	}
-> =A0
-> =
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:tahoma,s=
+ans-serif;font-size:large">Hello everybody,<br><br>After 6 month Intel gpu =
+hang on fedora (drm), with the introduction of 5.11 kernel this problem was=
+ solved. Now you can update to 5.11 kernel for=C2=A0Liberation.</div><div><=
+br></div>-- <br><div dir=3D"rtl" class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"rtl">=D9=85=D8=AC=D9=84=
+=D9=87 <a href=3D"http://www.truckdriver.ir/" target=3D"_blank">=DA=A9=D8=
+=A7=D9=85=DB=8C=D9=88=D9=86</a> =D8=B3=D9=84=D8=B7=D8=A7=D9=86 =D8=AC=D8=A7=
+=D8=AF=D9=87<br>Persian <a href=3D"http://www.truckdriver.ir/" target=3D"_b=
+lank">Trucking</a> Mag<br></div></div></div></div>
 
-> =A0	flush_submission(gt, timeout); /* kick the ksoftirqd tasklets */
-> =A0	spin_lock(&timelines->lock);
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu=
-/drm/i915/gt/selftest_workarounds.c
-> index febc9e6692ba..3e4cbeed20bd 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-> @@ -521,8 +521,10 @@ static int check_dirty_whitelist(struct intel_contex=
-t *ce)
-> =A0
-> =
+--0000000000008ab8de05ba23adc4--
 
-> =A0		srm =3D MI_STORE_REGISTER_MEM;
-> =A0		lrm =3D MI_LOAD_REGISTER_MEM;
-> -		if (INTEL_GEN(engine->i915) >=3D 8)
-> -			lrm++, srm++;
-> +		if (INTEL_GEN(engine->i915) >=3D 8) {
-> +			lrm++;
-> +			srm++;
-> +		}
-> =A0
-> =
-
-> =A0		pr_debug("%s: Writing garbage to %x\n",
-> =A0			 engine->name, reg);
-> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i9=
-15/intel_runtime_pm.c
-> index 153ca9e65382..f498f1c80755 100644
-> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> @@ -201,8 +201,10 @@ __print_intel_runtime_pm_wakeref(struct drm_printer =
-*p,
-> =A0		unsigned long rep;
-> =A0
-> =
-
-> =A0		rep =3D 1;
-> -		while (i + 1 < dbg->count && dbg->owners[i + 1] =3D=3D stack)
-> -			rep++, i++;
-> +		while (i + 1 < dbg->count && dbg->owners[i + 1] =3D=3D stack) {
-> +			rep++;
-> +			i++;
-> +		}
-> =A0		__print_depot_stack(stack, buf, PAGE_SIZE, 2);
-> =A0		drm_printf(p, "Wakeref x%lu taken at:\n%s", rep, buf);
-> =A0	}
-
+--===============1925025160==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1925025160==--
