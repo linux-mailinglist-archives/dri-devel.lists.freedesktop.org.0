@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AC4309476
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 11:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACCE30948D
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 11:42:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D916E044;
-	Sat, 30 Jan 2021 10:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1244D6E03D;
+	Sat, 30 Jan 2021 10:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC966E044
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:25:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7AEBF64E08
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:25:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C184C6E03D
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:41:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9B52764E08
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 10:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612002323;
- bh=GZ4ANMyD25G5p/oPYnpRYt+0DVOnCMFUGP5lmzy2Qkc=;
+ s=k20201202; t=1612003319;
+ bh=Rt0vHYiTr9GtregFnv8jDvHTXooOSF8OnZScDSKILec=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MKXKOimqOcak0mcSCNwrVsFdxu7ruBoORiYS7keHTkv9renQ5UgTICZg/d0Zuu2au
- 8gLT+5daQR2sRvdvTi+Yft3MvyTF8zUZ9Y52AMIg8pV6ppdAsvJP7epu7wHFrfKldi
- EQcNx3kvSxgp1lUPdImPaI8nK1QZWZsz32iS1OMNoMoiK0yLKdtvr4mL1c+cFTnOmm
- 54A0flV5pXyB32SOWcoESnNo11Z3e/m2E//twcNou7a8DsNZIdUO5D14XI8kMp3WHI
- ex9ELD1sdm+HlGkk+9U7WnQzjFyAlhmPsOHAeKZMvC3F43ziwYhFVrtFmC7GWUWuxg
- R1yjyYLyoh9Kg==
+ b=gEbOPpXsJQ3yTiakeNr05w63k9dCOKmAj5rIFATrUzRHTRvCC4Ocf9xdpuX0IAedW
+ Tlfmo2Qu5rPLBU1BeG09YreXoZuhC1TGaQrovCngpG+ORF6E96PEV9x9ivTOXzW29+
+ tHh9mkkdc1GcLFfjTi9Ssd9QHsObjewk7X0+iXa7eY36Ilp0oDliaovwhsLCftm8HQ
+ 2kYlZozwLXnls4tZuFktOZvftUlPeM6jqArjt9grgDMjX2vHWhEq4aCOnSWvp3xF3I
+ c74eX4s+p0t10JMCoDygAjtw3bebIq0/kK3Lb2EPwne6WFPM2N0116w3kfSzVmFui5
+ Y8/PR5wK5Txbw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6B7E86530E; Sat, 30 Jan 2021 10:25:23 +0000 (UTC)
+ id 7F94D6530D; Sat, 30 Jan 2021 10:41:59 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
  drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Sat, 30 Jan 2021 10:25:23 +0000
+Date: Sat, 30 Jan 2021 10:41:59 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Who: me@jeromec.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-ovGkQPaOsf@https.bugzilla.kernel.org/>
+Message-ID: <bug-211277-2300-j9UsLQM2yl@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
 References: <bug-211277-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,16 +71,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211277
 
---- Comment #6 from kolAflash (kolAflash@kolahilft.de) ---
-(In reply to Jerome C from comment #4)
-> [...]
-> Do you have kernel parameter set "init_on_free=1" or in your kernel config
-> "CONFIG_INIT_ON_FREE_DEFAULT_ON=y", [...]
+--- Comment #7 from Jerome C (me@jeromec.com) ---
+ok, you have it turned off already
 
-I'm using the Debian-11 (Testing / Bullseye) standard kernel.
+Weird thing happened this morning... I woke my laptop up and it was slow screen
+updates... I just closed my laptop lid, frustrated... I noticed it suspended
+again... I open my laptop again and it resumed
 
-$ grep -i init_on_free /boot/config-5.10.0-2-amd64 
-# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
+I looked in my kernel logs and saw the error messages from the first resume
+
+
+NOTE: only copied the error messages
+> [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+> [CRTC:62:crtc-0] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+> [CRTC:62:crtc-0] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+> [CONNECTOR:73:eDP-1] flip_done timed out
+> [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR*
+> [PLANE:52:plane-3] flip_done timed out
+
+
+but on the second resume... no warnings or errors
+
+I think it's a bug somewhere between suspension and resuming
 
 -- 
 You may reply to this email to add a comment.
