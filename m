@@ -1,49 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD82309BAF
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:43:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0F6309B9A
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:32:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D686E29D;
-	Sun, 31 Jan 2021 11:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 460AE6E067;
+	Sun, 31 Jan 2021 11:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F08C6E049
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 10:54:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1612090474;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=W0NnNAnTTRHvU5q/pSan3yLVtC/jTxPWsuyVvRo5msA=;
- b=eGoSp412enk96x4WGFc9Nbfgi9xcskemUVMh3khFS842vr7sxflp29bFLeJKhhNyhm
- oSw19zbJ3Gkc8/MPFOY67QrNGOw3SiP0VX4C9gR10T+FoyRTa5VKZhf6mZE1agGQd6xb
- hNI+/YUBoUjga1o6dOOy5SiRe8l0ZYdBLX9rYMqFD5oJjV1DYRCfJQiGoHZuL56S+wHC
- HDfKjbuw1jRdgrM9jhd+oYx79yrYyB+Vi1PwUJK7IeFEN93ahmqWyy3HWqEc68bW3rCl
- xVFhatawAt9cKy2ajoojLIEIgpsPW/4IHKpHtUmeM2nAUXEDQeShoraoziJd/9P8Io8l
- fG6Q==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmMkw43k+w=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.16.0 DYNA|AUTH)
- with ESMTPSA id R01a2bx0VAsICod
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Sun, 31 Jan 2021 11:54:18 +0100 (CET)
-Subject: Re: [Letux-kernel] What ist the standard way to define connector type
- and bus format with device tree?
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <CD0942AC-045E-41A2-A24F-F368C9438899@goldelico.com>
-Date: Sun, 31 Jan 2021 11:54:18 +0100
-Message-Id: <F038EBE2-132E-4390-85E3-74AE9FB512A2@goldelico.com>
-References: <CD0942AC-045E-41A2-A24F-F368C9438899@goldelico.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Sun, 31 Jan 2021 11:43:06 +0000
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C125D6E067
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:32:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 90A9F64E2E
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612092750;
+ bh=vioJd0Qe+Esc0RLsY6HIvf/LsH5WCzKqYtkHislRHyI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=SlhmYmw1f42E9pn5pzHwt2K3nMzt+26DGH32wrkG7BF3QLo0HZFais3fwzruCnMx/
+ AZQ9ab1ZK/qvB4UsXi2+DbTAJqgdO5JFy5gwcIDXG8TqxAS/9a/7sewolsi3q+6sH+
+ CV+wKkELwukJ9w5YKUF8gPuZYdclMkF4tQb7rHnc/b/fy8VE1HWfHnyaSIQxWvsCwR
+ e5B5ReBIPLGaThwAONzhqQh5cEA72pkIg8EYme+18brDcTlH18p4N+6eZToZrky9hh
+ tpAlIxGdFCFFaRHVYfFB7E+EzsvR/ka3wBRR11R/WN8YyJCJQvBMXzj1OCMikDu9ij
+ LeaH5OacNlHmg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 837B065321; Sun, 31 Jan 2021 11:32:30 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
+ =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
+ =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
+ =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
+Date: Sun, 31 Jan 2021 11:32:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209713-2300-Gsf8nlKsF5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
+References: <bug-209713-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,41 +66,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Paul Boddie <paul@boddie.org.uk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping?
-
-> Am 12.01.2021 um 12:41 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
-> 
-> Hi,
-> according to bindings/display/panel/panel-common.yaml
-> and by using "panel-simple" as compatible string we
-> can define almost all properties of a DSI panel by a
-> device tree entry.
-> 
-> Except the connector type and bus format which can only be
-> set by adding the information to the panel-simple tables.
-> 
-> This leads to big problems because DRM can't match the
-> display with any lcd controller. A smaller issue is a
-> warning:
-> 
-> [    0.313431] panel-simple claa070vc01: Specify missing connector_type
-> 
-> Are we missing some documentation or code that reads
-> some "connector-type" and "bus-format" property?
-> 
-> BR and thanks,
-> Nikolaus
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDk3MTMKCi0tLSBD
+b21tZW50ICMxNCBmcm9tIE1pY2hlbCBEw6RuemVyIChtaWNoZWxAZGFlbnplci5uZXQpIC0tLQoo
+SW4gcmVwbHkgdG8gRnJhbmsgS3J1Z2VyIGZyb20gY29tbWVudCAjMTIpCj4gSSBhbSBzZWVpbmcg
+dGhlIGFmb3JlbWVudGlvbmVkIHdhcm5pbmcgYXQgYm9vdCBmb3Iga2VybmVsID49IDUuMTAuMTAs
+IHdpdGgKPiBrZXJuZWwtZmlybXdhcmUtYW1kZ3B1LTIwMjEwMTE5IChBTUQgUnl6ZW4gNyBQUk8g
+NDc1MFUpLiBLZXJuZWwgNS4xMC45IGRvZXMKPiBub3QgaGF2ZSBpdC4KClRoaXMgd2FzIG9yaWdp
+bmFsbHkgcmVwb3J0ZWQgZm9yIG9sZGVyIGtlcm5lbHMsIGFuZCBwZXIgY29tbWVudCAyLCBJIHdh
+cwpoaXR0aW5nIGl0IHdpdGggdGhlIERSTSBjb2RlIG1lcmdlZCBmb3IgNS4xMCBiZWZvcmUgNS4x
+MC1yYzEuIFlvdSBwcm9iYWJseSBqdXN0CmRpZG4ndCBoaXQgaXQgd2l0aCA1LjEwLjkgYnkgbHVj
+ay4KCi0tIApZb3UgbWF5IHJlcGx5IHRvIHRoaXMgZW1haWwgdG8gYWRkIGEgY29tbWVudC4KCllv
+dSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBh
+c3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
