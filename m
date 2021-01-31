@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE8B309B55
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 11:37:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E6A309B82
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D9B6E235;
-	Sun, 31 Jan 2021 10:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89BEB6E049;
+	Sun, 31 Jan 2021 11:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5820E6E235
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 10:37:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1041D64E22
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 10:37:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED426E049
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id BB44064E13
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612089451;
- bh=3q5KdOT0IiKOLowYVwB6MFhtoHLwWLkleGX8vZYP47M=;
+ s=k20201202; t=1612091501;
+ bh=qLL+9C1N1egJ6XMDtfS7Gjptgho1tbnQnvZNwG8IM3Q=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nknUgc0H4LCAAf3usZk3sRhL/9LAhX0caGFRa/+6aON43oRVLVtzJWe12q8G0QKN8
- sZPb9J3f1DCJnvIe3KBOFnsh/gt/V9n6S85EX3GInFuJz4eCsExuPRgBFFoFDYE11F
- mjvIBo6j3/H8trvNACShBEJNeKnMBWL/l+Ne1NrU+QseeDUnOPBCpprR08GZZLuWbi
- B5nh7Dqp9YrwO/qxrbz/f10R0IG/SFqWgVGXvULIJ9Y7VN/JsxZ7WtZKTGnPiokjBl
- 6R0Ige2zqDdAdeDMuxkeKMW7zYLXnofUr42Rey+QdOh46ZXe9so6quHk3GGvVvVU0P
- dMM62imaBDljg==
+ b=doR9BaR/CEyyp+6UDlqZR1T8yg0io2xutse7aDTYrLZkSt/WThYzFjqfkFAeKOubq
+ ncnbzxRwkQ+FB1x0rjGTTqvrcP5mWlQNGx3s0/j5bm5ZEXZ9/Z3bQ9m+Zpf/YkA+RB
+ UUqDmkojgTgLdse4ekhPw5mApK5Vn3BA7RK+L++BG7UUNABmbJMakhU0kl4oGIuvee
+ D5LZGsKj9FaEgxSPgTA81Tx0i+T7sT5cMv/gb7EAXEJYHINJk9riE/jJXjUFofFUvS
+ ZZf08IJreUj6n2uLHrBoWpGUxuBhzdvpRasnj+NBCCZSzBHbFh9L++enjzw7U1IDzr
+ ybz+4pWtS9Twg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 020D66531F; Sun, 31 Jan 2021 10:37:31 +0000 (UTC)
+ id AD1DF6531F; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
  =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
  =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
  =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
-Date: Sun, 31 Jan 2021 10:37:30 +0000
+Date: Sun, 31 Jan 2021 11:11:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -47,8 +47,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-209713-2300-0bmheIwx9S@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209713-2300-IbX6TdWbC0@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
 References: <bug-209713-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -73,16 +73,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209713
 
-Frank Kruger (fkrueger@mailbox.org) changed:
+--- Comment #13 from Frank Kruger (fkrueger@mailbox.org) ---
+The only change regarding "DCN" from 5.10.9 to 5.10.10 is
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |fkrueger@mailbox.org
+commit 99ea120383b19feb1737c787dc1c8b35ce630fc5
+Author: Alex Deucher <alexander.deucher@amd.com>
+Date:   Mon Jan 4 11:24:20 2021 -0500
 
---- Comment #12 from Frank Kruger (fkrueger@mailbox.org) ---
-I am seeing the aforementioned warning at boot for kernel >= 5.10.10, with
-kernel-firmware-amdgpu-20210119 (AMD Ryzen 7 PRO 4750U). Kernel 5.10.9 does not
-have it.
+    drm/amdgpu/display: drop DCN support for aarch64
+
+    commit c241ed2f0ea549c18cff62a3708b43846b84dae3 upstream.
+
+    From Ard:
+
+    "Simply disabling -mgeneral-regs-only left and right is risky, given that
+    the standard AArch64 ABI permits the use of FP/SIMD registers anywhere,
+    and GCC is known to use SIMD registers for spilling, and may invent
+    other uses of the FP/SIMD register file that have nothing to do with the
+    floating point code in question. Note that putting kernel_neon_begin()
+    and kernel_neon_end() around the code that does use FP is not sufficient
+    here, the problem is in all the other code that may be emitted with
+    references to SIMD registers in it.
+
+    So the only way to do this properly is to put all floating point code in
+    a separate compilation unit, and only compile that unit with
+    -mgeneral-regs-only."
+
+    Disable support until the code can be properly refactored to support this
+    properly on aarch64.
+
+    Acked-by: Will Deacon <will@kernel.org>
+    Reported-by: Ard Biesheuvel <ardb@kernel.org>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+    [ardb: backport to v5.10 by reverting c38d444e44badc55 instead]
+    Acked-by: Alex Deucher <alexander.deucher@amd.com> # v5.10 backport
+    Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Any idea?
 
 -- 
 You may reply to this email to add a comment.
