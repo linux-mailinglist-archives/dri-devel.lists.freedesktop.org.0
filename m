@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E6A309B82
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:11:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0EC309B98
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:29:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89BEB6E049;
-	Sun, 31 Jan 2021 11:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3C66E1A4;
+	Sun, 31 Jan 2021 11:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED426E049
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BB44064E13
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612091501;
- bh=qLL+9C1N1egJ6XMDtfS7Gjptgho1tbnQnvZNwG8IM3Q=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=doR9BaR/CEyyp+6UDlqZR1T8yg0io2xutse7aDTYrLZkSt/WThYzFjqfkFAeKOubq
- ncnbzxRwkQ+FB1x0rjGTTqvrcP5mWlQNGx3s0/j5bm5ZEXZ9/Z3bQ9m+Zpf/YkA+RB
- UUqDmkojgTgLdse4ekhPw5mApK5Vn3BA7RK+L++BG7UUNABmbJMakhU0kl4oGIuvee
- D5LZGsKj9FaEgxSPgTA81Tx0i+T7sT5cMv/gb7EAXEJYHINJk9riE/jJXjUFofFUvS
- ZZf08IJreUj6n2uLHrBoWpGUxuBhzdvpRasnj+NBCCZSzBHbFh9L++enjzw7U1IDzr
- ybz+4pWtS9Twg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id AD1DF6531F; Sun, 31 Jan 2021 11:11:41 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?B?W0J1ZyAyMDk3MTNdIGFtZGdwdSBkcml2ZXJzL2dwdS9kcm0vYW1k?=
- =?UTF-8?B?L2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2xpbmtfZW5jb2Rl?=
- =?UTF-8?B?ci5jOjQ4MyBkY24xMF9nZXRfZGlnX2Zyb250ZW5kKzB4OWUvMHhjMCBbYW1k?=
- =?UTF-8?B?Z3B1XSB3aGVuIHJlc3VtaW5nIGZyb20gUzMgc3RhdGU=?=
-Date: Sun, 31 Jan 2021 11:11:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: fkrueger@mailbox.org
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209713-2300-IbX6TdWbC0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209713-2300@https.bugzilla.kernel.org/>
-References: <bug-209713-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93B986E0C2
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 11:29:43 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id j18so10217074wmi.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 03:29:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XHb9cnox9HkjfJVutQn1daYnX6lfpuc7jeu45/QEfeI=;
+ b=EQeHdvxEhoyJe9zcUUy/4MUJFr7xk942ZePSW3M+m4/sZqotS29RG3HdBcEcP1JOnz
+ wQ4Ya6LxkaogoTRIFPlBQ3EuyVVEuvnfD2d2pNE3LB8kuITs9n5zz4i/qbxTI47/MC3J
+ O5ZwA3QvAGZzaPJ3UmgGVagq/DwjwPMQjz+whLq7tTbDcOHT2JxvrBcNmsCw1ZMXag3h
+ xdvh9Nlslmy1Iu6NpKqdj8r17O1lMsb5PoeaylQ7VMLm+dXzQi8nsd7GeHoQ1zDIeqpa
+ IQQ4kySEJZLafR7+bzuz6rDegIID4bF9hyEegbodxfMtUeC9SnDbMWomOmFOdiOaF40C
+ Fkrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XHb9cnox9HkjfJVutQn1daYnX6lfpuc7jeu45/QEfeI=;
+ b=MU6NVx/5NbzfkbHYVQwyIjqDYDOJ6yo2Shkf2dufJ2ook0qXuN+ZSmABTmQZtYFx6F
+ 1uvwA9bM0vgQdgM6SJyWpZeii6SgORK7T1QhunMJ836xHnswEUzsc9h+UXp5HBzvo+B2
+ 6jbPmdkK4phRWW4wJUHpJkUGZlqeEWv8kMVm3EANl92Z6537PWvEbYJMDE/UVgNiPPNy
+ DbAOHCjnPGjyiqANHtcTMqKKSlcZ8Hffj3+rDMQwo0BkGXby8oGIsGy9xRKK+OK7qOFe
+ KL/exUTgYnPdJtAZfgAOxVx5sljjnZxyl73KFmnNxe1bLP5dTKnSO0wKiL+qh+zxPGvX
+ F9lw==
+X-Gm-Message-State: AOAM530xIR8xNX4k/5wM/XjF/57f57GJXjAO8jh657g3WuQ8unsapWZC
+ RSbuzcYyjonErLpwD8gGTw4=
+X-Google-Smtp-Source: ABdhPJxldbS+DBTdSmlDy0S9DQbm5EfFn+7dzBMcUpRAq1/jcgUEDxeOgVOPME7rz9Liocj4zeWn8g==
+X-Received: by 2002:a05:600c:3510:: with SMTP id
+ h16mr10719171wmq.156.1612092582086; 
+ Sun, 31 Jan 2021 03:29:42 -0800 (PST)
+Received: from ziggy.stardust ([213.195.126.134])
+ by smtp.gmail.com with ESMTPSA id z18sm22061538wro.91.2021.01.31.03.29.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 Jan 2021 03:29:41 -0800 (PST)
+Subject: Re: [PATCH v13 1/8] arm64: dts: mt8183: rename rdma fifo size
+To: Hsin-Yi Wang <hsinyi@chromium.org>, CK Hu <ck.hu@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20210129092209.2584718-1-hsinyi@chromium.org>
+ <20210129092209.2584718-2-hsinyi@chromium.org>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <72ebe1a7-a54b-fafc-c58b-05b06d63e210@gmail.com>
+Date: Sun, 31 Jan 2021 12:29:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <20210129092209.2584718-2-hsinyi@chromium.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,57 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209713
+Hi Hsin-Yi,
 
---- Comment #13 from Frank Kruger (fkrueger@mailbox.org) ---
-The only change regarding "DCN" from 5.10.9 to 5.10.10 is
+On 29/01/2021 10:22, Hsin-Yi Wang wrote:
+> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> 
+> property name must include only lowercase and '-'
+> 
+> Fixes: 91f9c963ce79 ("arm64: dts: mt8183: Add display nodes for MT8183")
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
 
-commit 99ea120383b19feb1737c787dc1c8b35ce630fc5
-Author: Alex Deucher <alexander.deucher@amd.com>
-Date:   Mon Jan 4 11:24:20 2021 -0500
+I applied 1/8 and 2/8 already, so please drop them for v14.
 
-    drm/amdgpu/display: drop DCN support for aarch64
+Thanks,
+Matthias
 
-    commit c241ed2f0ea549c18cff62a3708b43846b84dae3 upstream.
-
-    From Ard:
-
-    "Simply disabling -mgeneral-regs-only left and right is risky, given that
-    the standard AArch64 ABI permits the use of FP/SIMD registers anywhere,
-    and GCC is known to use SIMD registers for spilling, and may invent
-    other uses of the FP/SIMD register file that have nothing to do with the
-    floating point code in question. Note that putting kernel_neon_begin()
-    and kernel_neon_end() around the code that does use FP is not sufficient
-    here, the problem is in all the other code that may be emitted with
-    references to SIMD registers in it.
-
-    So the only way to do this properly is to put all floating point code in
-    a separate compilation unit, and only compile that unit with
-    -mgeneral-regs-only."
-
-    Disable support until the code can be properly refactored to support this
-    properly on aarch64.
-
-    Acked-by: Will Deacon <will@kernel.org>
-    Reported-by: Ard Biesheuvel <ardb@kernel.org>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-    [ardb: backport to v5.10 by reverting c38d444e44badc55 instead]
-    Acked-by: Alex Deucher <alexander.deucher@amd.com> # v5.10 backport
-    Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-Any idea?
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> index 5b782a4769e7e..6c84ccb709af6 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> @@ -1011,7 +1011,7 @@ rdma0: rdma@1400b000 {
+>  			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
+>  			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
+>  			mediatek,larb = <&larb0>;
+> -			mediatek,rdma_fifo_size = <5120>;
+> +			mediatek,rdma-fifo-size = <5120>;
+>  			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
+>  		};
+>  
+> @@ -1023,7 +1023,7 @@ rdma1: rdma@1400c000 {
+>  			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
+>  			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
+>  			mediatek,larb = <&larb0>;
+> -			mediatek,rdma_fifo_size = <2048>;
+> +			mediatek,rdma-fifo-size = <2048>;
+>  			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
+>  		};
+>  
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
