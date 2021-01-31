@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4158830998E
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 02:05:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4AC309A1D
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 04:40:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3DF6E114;
-	Sun, 31 Jan 2021 01:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B9F6E073;
+	Sun, 31 Jan 2021 03:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93336E114
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 01:05:52 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id l18so8837735pji.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 17:05:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:in-reply-to:message-id:references
- :mime-version:content-id;
- bh=r8k9jK620IYLNsggdgUbg3BsPfEDM6m/yiiU1YLrWAw=;
- b=AbDWEoxLtWC5rFFEoGevGOfkYyOi6vlTsPxqsOxnSxXr56Q7HL5QB1wiG5dcMXr6NT
- jlK8BEg3U6mUS4WaQ626sPx4i4w7uCvkE/VGFSgWXCTZ1hlXgOfndeUc3Cev6dZrPTAF
- 2ykugCAEpBSPo50S1Gh7THLM3hMkWdQhaJK9sX4HbKrMRQOEYxcD3sBOfAQ8Jfm1TRXw
- WUTWbC7uJ+ECqhblysqZcD+2L7qSJSBRAZISn1RI7ND8zQJ2+uB+HlVuXEwkKZyObnT5
- a8wYdLUZUOn4+vgxla6BkV+I1X+405HBfufkBCe2cMinsAuYMfY5RBIDP9+ON4LPGOYm
- KOGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
- :references:mime-version:content-id;
- bh=r8k9jK620IYLNsggdgUbg3BsPfEDM6m/yiiU1YLrWAw=;
- b=WOVydaU6yxOWIRP8yrjFN+J31WUmYNdxZegzYNG4MBqAWLgBKAYBieyT4gq2ZdRFX7
- z4HisjrNjux+oh1cEZiUblhesY58OIxiyqrAvFi9AhyJc7VuFeVH7iT4KzZq9JIyoF4v
- LQYsO0xhR8MOqXDDLjcKqWmSImj4NlrC4AzPrU75lHkmb56ErDLyqG+ZeWdNWN2afd2n
- LE9hmgZbcvOeLxGq3HZ3SLl5JBRS+C/mR1kmNBklqEfQ726c6VLluWk7DfSM0roTwjL7
- C5TggZ7lmf/MDbLOD85JmXuTOvzwGinY0yoiVKB9br1iUfTSjbIj/S4zaQ9H6cCtMzxy
- m6DA==
-X-Gm-Message-State: AOAM533j6QjxhOAIslbKM7qHMoJlTyJ6OIrEjTmCbg5OHOCR6sV9FNLw
- FxVPHWesAFg7YQZv8jyOL36LnA==
-X-Google-Smtp-Source: ABdhPJzyml+kLniFVZmom/yqKS7q4D3rThIp4ffJprGSR2hJefLMlZRkDWBuQ0KTXt6duzjZsobn9w==
-X-Received: by 2002:a17:90b:68c:: with SMTP id
- m12mr10855571pjz.212.1612055152161; 
- Sat, 30 Jan 2021 17:05:52 -0800 (PST)
-Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667]
- ([2620:15c:17:3:4a0f:cfff:fe51:6667])
- by smtp.gmail.com with ESMTPSA id j14sm10965795pjl.35.2021.01.30.17.05.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Jan 2021 17:05:51 -0800 (PST)
-Date: Sat, 30 Jan 2021 17:05:50 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: Re: [PATCH] drm/ttm: Use __GFP_NOWARN for huge pages in
- ttm_pool_alloc_page
-In-Reply-To: <20210128095346.2421-1-michel@daenzer.net>
-Message-ID: <3939e41f-50ea-98c9-6e14-763970e4cbf0@google.com>
-References: <20210128095346.2421-1-michel@daenzer.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E81DA6E073
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 03:39:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B9EC64E21
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 03:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612064399;
+ bh=RNiZ5TCNkSv22cSv6EJs8IrM1JowIcGzF+Sj2oYNTVA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=G/zhaf7333eKKO8CNnVmYAmmBD8cKv1vWAuXkYVpz7S13Er+f9hv52Jdt9AjQmMM2
+ dSfCkb+XmaA3hKpuP48Xgz/cfje3ON4af/SI85nVCDip7Q+T5yTGEx/7wBf/ydmZhU
+ rxAN+RyCUXPRFbR6nmv+Xy/EhWWE8HWYIDz8FvyJp5wuOIROm9NjRBfK38lnwbj8nh
+ cZDAVDrPP2sx6lbVnxkOaiymSn8z6Vbsh5XYw67e5ePFTAlQZysBcv4/Vedvn3tZlI
+ 60atmGSgVe9Gir19dYd00Fa21qNQOzBdfmnI1YZB/Slu/KMVaVEllQQEcAxGTe77sx
+ W5ruG1Lx7Rnjw==
+Received: by mail-ej1-f48.google.com with SMTP id a9so562823ejr.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 19:39:59 -0800 (PST)
+X-Gm-Message-State: AOAM531iwhRZWXyOkase6bQadkwn0eAyVT7+YgZt4DawUniv8xj/JQcF
+ FvPhjx7jZqa0D4pGC9b3oSHf/k0WKzRZsGAbVA==
+X-Google-Smtp-Source: ABdhPJzYuzld2+PJhQ77huEimQis5+AK40LnLsdUu5MXFQj1YUc24jKH4JV04Fx95lTBI8IU35UcMjMy/jMWXoOmQq0=
+X-Received: by 2002:a17:907:9687:: with SMTP id
+ hd7mr11529326ejc.303.1612064397966; 
+ Sat, 30 Jan 2021 19:39:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="1482994552-668564148-1612055102=:606041"
-Content-ID: <af4a7b4a-ceb4-84b2-d3d4-9c6b9db7f13@google.com>
+References: <20210129092209.2584718-1-hsinyi@chromium.org>
+ <20210129092209.2584718-7-hsinyi@chromium.org>
+In-Reply-To: <20210129092209.2584718-7-hsinyi@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 31 Jan 2021 11:39:46 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8rAAiiwtUJ_8nkp3WZKZ05Mo4oGxWnncywabGNHu3Ffg@mail.gmail.com>
+Message-ID: <CAAOTY_8rAAiiwtUJ_8nkp3WZKZ05Mo4oGxWnncywabGNHu3Ffg@mail.gmail.com>
+Subject: Re: [PATCH v13 6/8] drm/mediatek: enable dither function
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,74 +54,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---1482994552-668564148-1612055102=:606041
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <44f0f8f-e050-7c3e-558-921c81485830@google.com>
-
-On Thu, 28 Jan 2021, Michel Dänzer wrote:
-
-> From: Michel Dänzer <mdaenzer@redhat.com>
-> 
-> Without __GFP_NOWARN, attempts at allocating huge pages can trigger
-> dmesg splats like below (which are essentially noise, since TTM falls
-> back to normal pages if it can't get a huge one).
-> 
-> [ 9556.710241] clinfo: page allocation failure: order:9, mode:0x194dc2(GFP_HIGHUSER|__GFP_RETRY_MAYFAIL|__GFP_NORETRY|__GFP_ZERO|__GFP_NOMEMALLOC), nodemask=(null),cpuset=user.slice,mems_allowed=0
-> [ 9556.710259] CPU: 1 PID: 470821 Comm: clinfo Tainted: G            E     5.10.10+ #4
-> [ 9556.710264] Hardware name: Micro-Star International Co., Ltd. MS-7A34/B350 TOMAHAWK (MS-7A34), BIOS 1.OR 11/29/2019
-> [ 9556.710268] Call Trace:
-> [ 9556.710281]  dump_stack+0x6b/0x83
-> [ 9556.710288]  warn_alloc.cold+0x7b/0xdf
-> [ 9556.710297]  ? __alloc_pages_direct_compact+0x137/0x150
-> [ 9556.710303]  __alloc_pages_slowpath.constprop.0+0xc1b/0xc50
-> [ 9556.710312]  __alloc_pages_nodemask+0x2ec/0x320
-> [ 9556.710325]  ttm_pool_alloc+0x2e4/0x5e0 [ttm]
-> [ 9556.710332]  ? kvmalloc_node+0x46/0x80
-> [ 9556.710341]  ttm_tt_populate+0x37/0xe0 [ttm]
-> [ 9556.710350]  ttm_bo_handle_move_mem+0x142/0x180 [ttm]
-> [ 9556.710359]  ttm_bo_validate+0x11d/0x190 [ttm]
-> [ 9556.710391]  ? drm_vma_offset_add+0x2f/0x60 [drm]
-> [ 9556.710399]  ttm_bo_init_reserved+0x2a7/0x320 [ttm]
-> [ 9556.710529]  amdgpu_bo_do_create+0x1b8/0x500 [amdgpu]
-> [ 9556.710657]  ? amdgpu_bo_subtract_pin_size+0x60/0x60 [amdgpu]
-> [ 9556.710663]  ? get_page_from_freelist+0x11f9/0x1450
-> [ 9556.710789]  amdgpu_bo_create+0x40/0x270 [amdgpu]
-> [ 9556.710797]  ? _raw_spin_unlock+0x16/0x30
-> [ 9556.710927]  amdgpu_gem_create_ioctl+0x123/0x310 [amdgpu]
-> [ 9556.711062]  ? amdgpu_gem_force_release+0x150/0x150 [amdgpu]
-> [ 9556.711098]  drm_ioctl_kernel+0xaa/0xf0 [drm]
-> [ 9556.711133]  drm_ioctl+0x20f/0x3a0 [drm]
-> [ 9556.711267]  ? amdgpu_gem_force_release+0x150/0x150 [amdgpu]
-> [ 9556.711276]  ? preempt_count_sub+0x9b/0xd0
-> [ 9556.711404]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-> [ 9556.711411]  __x64_sys_ioctl+0x83/0xb0
-> [ 9556.711417]  do_syscall_64+0x33/0x80
-> [ 9556.711421]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> Fixes: bf9eee249ac2 ("drm/ttm: stop using GFP_TRANSHUGE_LIGHT")
-> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
-
-Acked-by: David Rientjes <rientjes@google.com>
-
-Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com> reported the same issue.
---1482994552-668564148-1612055102=:606041
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---1482994552-668564148-1612055102=:606041--
+SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIx
+5bm0MeaciDI55pelIOmAseS6lCDkuIvljYg1OjIz5a+r6YGT77yaCj4KPiBGcm9tOiBZb25ncWlh
+bmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPgo+IEVuYWJsZSBkaXRoZXIgZnVu
+Y3Rpb24gdG8gaW1wcm92ZSB0aGUgZGlzcGxheSBxdWFsaXR5IGZvciBkaXRoZXIKPiBzdXBwb3J0
+ZWQgYnBjIDQsIDYsIDguIEZvciBub3Qgc3VwcG9ydGVkIGJwYywgdXNlIHJlbGF5IG1vZGUuCj4K
+PiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNv
+bT4KPiBTaWduZWQtb2ZmLWJ5OiBIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+Cj4g
+LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgfCAxNSAr
+KysrKysrKysrKystLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDMgZGVs
+ZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+cm1fZGRwX2NvbXAuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21w
+LmMKPiBpbmRleCBhYzJjYjI1NjIwMzU3Li41NzYxZGQxNWVlZGYyIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jCj4gQEAgLTUzLDYgKzUzLDcgQEAK
+PiAgI2RlZmluZSBESVRIRVJfRU4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBCSVQoMCkK
+PiAgI2RlZmluZSBESVNQX0RJVEhFUl9DRkcgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IDB4MDAyMAo+ICAjZGVmaW5lIERJVEhFUl9SRUxBWV9NT0RFICAgICAgICAgICAgICAgICAgICAg
+IEJJVCgwKQo+ICsjZGVmaW5lIERJVEhFUl9FTkdJTkVfRU4gICAgICAgICAgICAgICAgICAgICAg
+IEJJVCgxKQo+ICAjZGVmaW5lIERJU1BfRElUSEVSX1NJWkUgICAgICAgICAgICAgICAgICAgICAg
+IDB4MDAzMAo+Cj4gICNkZWZpbmUgTFVUXzEwQklUX01BU0sgICAgICAgICAgICAgICAgICAgICAg
+ICAgMHgwM2ZmCj4gQEAgLTMxNCw5ICszMTUsMTcgQEAgc3RhdGljIHZvaWQgbXRrX2RpdGhlcl9j
+b25maWcoc3RydWN0IGRldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgdywKPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgYnBjLCBzdHJ1Y3QgY21kcV9wa3QgKmNtZHFf
+cGt0KQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgbXRrX2RkcF9jb21wX2RldiAqcHJpdiA9IGRldl9n
+ZXRfZHJ2ZGF0YShkZXYpOwo+IC0KPiAtICAgICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIGgg
+PDwgMTYgfCB3LCAmcHJpdi0+Y21kcV9yZWcsIHByaXYtPnJlZ3MsIERJU1BfRElUSEVSX1NJWkUp
+Owo+IC0gICAgICAgbXRrX2RkcF93cml0ZShjbWRxX3BrdCwgRElUSEVSX1JFTEFZX01PREUsICZw
+cml2LT5jbWRxX3JlZywgcHJpdi0+cmVncywgRElTUF9ESVRIRVJfQ0ZHKTsKPiArICAgICAgIGJv
+b2wgdmFsaWRfYnBjID0gKGJwYyA9PSA0IHx8IGJwYyA9PSA2IHx8IGJwYyA9PSA4KTsKPiArCj4g
+KyAgICAgICBtdGtfZGRwX3dyaXRlKGNtZHFfcGt0LCBoIDw8IDE2IHwgdywgJnByaXYtPmNtZHFf
+cmVnLCBwcml2LT5yZWdzLAo+ICsgICAgICAgICAgICAgICAgICAgICBESVNQX0RJVEhFUl9TSVpF
+KTsKPiArICAgICAgIGlmICh2YWxpZF9icGMpCj4gKyAgICAgICAgICAgICAgIG10a19kaXRoZXJf
+c2V0X2NvbW1vbihwcml2LT5yZWdzLCAmcHJpdi0+Y21kcV9yZWcsIGJwYywKPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIERJU1BfRElUSEVSX0NGRywgRElUSEVSX0VOR0lO
+RV9FTiwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNtZHFfcGt0KTsK
+PiArICAgICAgIGVsc2UKPiArICAgICAgICAgICAgICAgbXRrX2RkcF93cml0ZShjbWRxX3BrdCwg
+RElUSEVSX1JFTEFZX01PREUsICZwcml2LT5jbWRxX3JlZywKPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBwcml2LT5yZWdzLCBESVNQX0RJVEhFUl9DRkcpOwoKb2QgaGFzIHJlbGF5IG1v
+ZGUsCgpzdGF0aWMgdm9pZCBtdGtfb2RfY29uZmlnKHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXAs
+IHVuc2lnbmVkIGludCB3LAogIHVuc2lnbmVkIGludCBoLCB1bnNpZ25lZCBpbnQgdnJlZnJlc2gs
+CiAgdW5zaWduZWQgaW50IGJwYywgc3RydWN0IGNtZHFfcGt0ICpjbWRxX3BrdCkKewptdGtfZGRw
+X3dyaXRlKGNtZHFfcGt0LCB3IDw8IDE2IHwgaCwgY29tcCwgRElTUF9PRF9TSVpFKTsKbXRrX2Rk
+cF93cml0ZShjbWRxX3BrdCwgT0RfUkVMQVlNT0RFLCBjb21wLCBESVNQX09EX0NGRyk7Cm10a19k
+aXRoZXJfc2V0KGNvbXAsIGJwYywgRElTUF9PRF9DRkcsIGNtZHFfcGt0KTsKfQoKYW5kIGl0IGRv
+ZXMgbm90IGNoZWNrIHZhbGlkIGJwYyAoSSB0aGluayBkcm0gY29yZSBhbHJlYWR5IHNldCBicGMg
+dG8KNCwgNiwgOCBvciAwKSwgc28gYWxpZ24gaW1wbGVtZW50YXRpb24gb2YgbXRrX2RpdGhlcl9j
+b25maWcoKSB3aXRoCm10a19vZF9jb25maWcoKS4KZ2FtbWEgYWxzbyBoYXMgcmVsYXkgbW9kZSAo
+cmVmZXIgdG8gWzFdIHBhZ2UgNjg5KSwgYnV0IHdlIG5lZWQgdG8KZW5hYmxlIGdhbW1hJ3MgZ2Ft
+bWEgZnVuY3Rpb24sIHNvIHdlIGRvIG5vdCBzZXQgZ2FtbWEgdG8gcmVsYXkgbW9kZS4KU28gSSB0
+aGluayBtYXliZSB3ZSBjb3VsZCBpbXBsZW1lbnQgbXRrX2RpdGhlcl9jb25maWcoKSBhczoKCm10
+a19kaXRoZXJfY29uZmlnKCkKewogICAgICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIGggPDwg
+MTYgfCB3LCAmcHJpdi0+Y21kcV9yZWcsCnByaXYtPnJlZ3MsIERJU1BfRElUSEVSX1NJWkUpOwog
+ICAgICAgIG10a19kZHBfd3JpdGUoY21kcV9wa3QsIERJVEhFUl9SRUxBWV9NT0RFLCAmcHJpdi0+
+Y21kcV9yZWcsCnByaXYtPnJlZ3MsIERJU1BfRElUSEVSX0NGRyk7CiAgICAgICAgbXRrX2RpdGhl
+cl9zZXRfY29tbW9uKHByaXYtPnJlZ3MsICZwcml2LT5jbWRxX3JlZywgYnBjLApESVNQX0RJVEhF
+Ul9DRkcsIERJVEhFUl9FTkdJTkVfRU4sIGNtZHFfcGt0KTsKfQoKWzFdIGh0dHBzOi8vd3d3Ljk2
+Ym9hcmRzLm9yZy9kb2N1bWVudGF0aW9uL2NvbnN1bWVyL21lZGlhdGVreDIwL2FkZGl0aW9uYWwt
+ZG9jcy9kb2NzL01UNjc5N19SZWdpc3Rlcl9UYWJsZV9QYXJ0XzIucGRmCgpSZWdhcmRzLApDaHVu
+LUt1YW5nLgoKPiAgfQo+Cj4gIHN0YXRpYyB2b2lkIG10a19kaXRoZXJfc3RhcnQoc3RydWN0IGRl
+dmljZSAqZGV2KQo+IC0tCj4gMi4zMC4wLjM2NS5nMDJiYzY5Mzc4OS1nb29nCj4KPgo+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gTGludXgtbWVkaWF0
+ZWsgbWFpbGluZyBsaXN0Cj4gTGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IGh0
+dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbWVkaWF0ZWsK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
