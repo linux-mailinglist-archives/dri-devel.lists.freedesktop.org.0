@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5949B30986B
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Jan 2021 22:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4158830998E
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 02:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94A86E0CA;
-	Sat, 30 Jan 2021 21:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3DF6E114;
+	Sun, 31 Jan 2021 01:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482226E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 21:21:41 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id m22so7338699ljj.4
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 13:21:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4OLWHP5uIeHtH/PXlg2tlgcv8JFrhZJ4lrJ+/6QlsXg=;
- b=TkwE6cDIlq3Ulq8HgLNEIM6EYrtozp42Sm0p/p4zDaSl5J0I8sZ4KmQlXefAdYicY+
- GyABmIneBgRIbZRP699lCQa+5zUti3bUF0tlnzaZ/iB5FP8xI65c+cEObASDkktuXEvP
- zqb/w602mz1S4euF85t2YVTDSoo8aJDoQ6pJVN5XjVEsMPPq7hQpijTUBa3cahpSu+/4
- zG/VvNdm5n0/IbgkrADrBsguCxbtCKcaq14+zE9mawYjnSqZhCptTK1CwlFgzXlWU7Ma
- Wwj6NkFIPkZVV9dmCdXyhIaJc7MisffmdM5ViSM9nh894lOtqPOR0AWs8vDKuysuD1RP
- lovQ==
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C93336E114
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 01:05:52 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id l18so8837735pji.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 17:05:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :mime-version:content-id;
+ bh=r8k9jK620IYLNsggdgUbg3BsPfEDM6m/yiiU1YLrWAw=;
+ b=AbDWEoxLtWC5rFFEoGevGOfkYyOi6vlTsPxqsOxnSxXr56Q7HL5QB1wiG5dcMXr6NT
+ jlK8BEg3U6mUS4WaQ626sPx4i4w7uCvkE/VGFSgWXCTZ1hlXgOfndeUc3Cev6dZrPTAF
+ 2ykugCAEpBSPo50S1Gh7THLM3hMkWdQhaJK9sX4HbKrMRQOEYxcD3sBOfAQ8Jfm1TRXw
+ WUTWbC7uJ+ECqhblysqZcD+2L7qSJSBRAZISn1RI7ND8zQJ2+uB+HlVuXEwkKZyObnT5
+ a8wYdLUZUOn4+vgxla6BkV+I1X+405HBfufkBCe2cMinsAuYMfY5RBIDP9+ON4LPGOYm
+ KOGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4OLWHP5uIeHtH/PXlg2tlgcv8JFrhZJ4lrJ+/6QlsXg=;
- b=WWhA+UlJwubF7efs89Zh9BCV8Lnhz/+FMmT94tYkKmdsI2Qz3bi+g8FnprfLGFWtss
- ozUY1KpLJf6o5i72VYaN9P1/KKyN3YogXXMiUedQruy0r7/OmZdDNDlLVRfwc/Q6epgg
- 8yyi1mz0oWR04ML1jjMPdJfmiL5QtGi70WSeJ/MSVG9+Dtbx7lNiTzuyKVXE4b78XrHn
- GleoKZZBZUDCPw/rOaBvk7MA2RWL12paAz1zm9UnOIdfRnFWhfztJBcKX/O64tZxA/su
- t8xOG2g2D4tB55ZcHZmuTYIUidGiG7ADAtnkihCkg5RE+P6XHp8trqnS+LOeEPDRM5oL
- pSjA==
-X-Gm-Message-State: AOAM5323Nt9r65oiabQXmbpS1mPFYqBSl6ziYcVipwCqrzBtGZZZK04H
- 1qnGj0AtMgsMKTmJz9oFnuMG6IYn9C/T3N6fEWEFUhYG
-X-Google-Smtp-Source: ABdhPJxMctLHhEr5QovTAK8vnfklN4wZPyhd9VVDt5AXngNpDGuuasMi5rBdEgIW290rZ3IgrRYdvzJKPTwLXWBWhBs=
-X-Received: by 2002:a2e:993:: with SMTP id 141mr5224764ljj.372.1612041699687; 
- Sat, 30 Jan 2021 13:21:39 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:mime-version:content-id;
+ bh=r8k9jK620IYLNsggdgUbg3BsPfEDM6m/yiiU1YLrWAw=;
+ b=WOVydaU6yxOWIRP8yrjFN+J31WUmYNdxZegzYNG4MBqAWLgBKAYBieyT4gq2ZdRFX7
+ z4HisjrNjux+oh1cEZiUblhesY58OIxiyqrAvFi9AhyJc7VuFeVH7iT4KzZq9JIyoF4v
+ LQYsO0xhR8MOqXDDLjcKqWmSImj4NlrC4AzPrU75lHkmb56ErDLyqG+ZeWdNWN2afd2n
+ LE9hmgZbcvOeLxGq3HZ3SLl5JBRS+C/mR1kmNBklqEfQ726c6VLluWk7DfSM0roTwjL7
+ C5TggZ7lmf/MDbLOD85JmXuTOvzwGinY0yoiVKB9br1iUfTSjbIj/S4zaQ9H6cCtMzxy
+ m6DA==
+X-Gm-Message-State: AOAM533j6QjxhOAIslbKM7qHMoJlTyJ6OIrEjTmCbg5OHOCR6sV9FNLw
+ FxVPHWesAFg7YQZv8jyOL36LnA==
+X-Google-Smtp-Source: ABdhPJzyml+kLniFVZmom/yqKS7q4D3rThIp4ffJprGSR2hJefLMlZRkDWBuQ0KTXt6duzjZsobn9w==
+X-Received: by 2002:a17:90b:68c:: with SMTP id
+ m12mr10855571pjz.212.1612055152161; 
+ Sat, 30 Jan 2021 17:05:52 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667]
+ ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+ by smtp.gmail.com with ESMTPSA id j14sm10965795pjl.35.2021.01.30.17.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Jan 2021 17:05:51 -0800 (PST)
+Date: Sat, 30 Jan 2021 17:05:50 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: Re: [PATCH] drm/ttm: Use __GFP_NOWARN for huge pages in
+ ttm_pool_alloc_page
+In-Reply-To: <20210128095346.2421-1-michel@daenzer.net>
+Message-ID: <3939e41f-50ea-98c9-6e14-763970e4cbf0@google.com>
+References: <20210128095346.2421-1-michel@daenzer.net>
 MIME-Version: 1.0
-References: <cover.1598331148.git.joe@perches.com>
- <e96626cd1301ff44e5101e0e5913d8439b425c9f.1598331148.git.joe@perches.com>
- <49b8e2550e661d5f8a5d0b353ec23819cdcae3d2.camel@perches.com>
-In-Reply-To: <49b8e2550e661d5f8a5d0b353ec23819cdcae3d2.camel@perches.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Sat, 30 Jan 2021 22:21:28 +0100
-Message-ID: <CAMeQTsaaL7bGxp+hYyAzD2e8ibrszcSkUcYmMToOaxYu1iEmdA@mail.gmail.com>
-Subject: Re: [PATCH 09/29] drm/gma500: Avoid comma separated statements
-To: Joe Perches <joe@perches.com>
+Content-Type: multipart/mixed;
+ BOUNDARY="1482994552-668564148-1612055102=:606041"
+Content-ID: <af4a7b4a-ceb4-84b2-d3d4-9c6b9db7f13@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,105 +72,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jiri Kosina <trivial@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 30, 2021 at 7:47 PM Joe Perches <joe@perches.com> wrote:
->
-> On Mon, 2020-08-24 at 21:56 -0700, Joe Perches wrote:
-> > Use semicolons and braces.
->
-> Ping?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This entire file is going away so perhaps just drop the patch to avoid
-a conflict.
+--1482994552-668564148-1612055102=:606041
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: 8BIT
+Content-ID: <44f0f8f-e050-7c3e-558-921c81485830@google.com>
 
--Patrik
+On Thu, 28 Jan 2021, Michel Dänzer wrote:
 
->
-> > Signed-off-by: Joe Perches <joe@perches.com>
-> > ---
-> >  drivers/gpu/drm/gma500/mdfld_intel_display.c | 44 +++++++++++++-------
-> >  1 file changed, 28 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/gma500/mdfld_intel_display.c b/drivers/gpu/drm/gma500/mdfld_intel_display.c
-> > index aae2d358364c..bfa330df9443 100644
-> > --- a/drivers/gpu/drm/gma500/mdfld_intel_display.c
-> > +++ b/drivers/gpu/drm/gma500/mdfld_intel_display.c
-> > @@ -824,33 +824,45 @@ static int mdfld_crtc_mode_set(struct drm_crtc *crtc,
-> >               if ((ksel == KSEL_CRYSTAL_19) || (ksel == KSEL_BYPASS_19)) {
-> >                       refclk = 19200;
-> >
-> >
-> > -                     if (is_mipi || is_mipi2)
-> > -                             clk_n = 1, clk_p2 = 8;
-> > -                     else if (is_hdmi)
-> > -                             clk_n = 1, clk_p2 = 10;
-> > +                     if (is_mipi || is_mipi2) {
-> > +                             clk_n = 1;
-> > +                             clk_p2 = 8;
-> > +                     } else if (is_hdmi) {
-> > +                             clk_n = 1;
-> > +                             clk_p2 = 10;
-> > +                     }
-> >               } else if (ksel == KSEL_BYPASS_25) {
-> >                       refclk = 25000;
-> >
-> >
-> > -                     if (is_mipi || is_mipi2)
-> > -                             clk_n = 1, clk_p2 = 8;
-> > -                     else if (is_hdmi)
-> > -                             clk_n = 1, clk_p2 = 10;
-> > +                     if (is_mipi || is_mipi2) {
-> > +                             clk_n = 1;
-> > +                             clk_p2 = 8;
-> > +                     } else if (is_hdmi) {
-> > +                             clk_n = 1;
-> > +                             clk_p2 = 10;
-> > +                     }
-> >               } else if ((ksel == KSEL_BYPASS_83_100) &&
-> >                                       dev_priv->core_freq == 166) {
-> >                       refclk = 83000;
-> >
-> >
-> > -                     if (is_mipi || is_mipi2)
-> > -                             clk_n = 4, clk_p2 = 8;
-> > -                     else if (is_hdmi)
-> > -                             clk_n = 4, clk_p2 = 10;
-> > +                     if (is_mipi || is_mipi2) {
-> > +                             clk_n = 4;
-> > +                             clk_p2 = 8;
-> > +                     } else if (is_hdmi) {
-> > +                             clk_n = 4;
-> > +                             clk_p2 = 10;
-> > +                     }
-> >               } else if ((ksel == KSEL_BYPASS_83_100) &&
-> >                                       (dev_priv->core_freq == 100 ||
-> >                                       dev_priv->core_freq == 200)) {
-> >                       refclk = 100000;
-> > -                     if (is_mipi || is_mipi2)
-> > -                             clk_n = 4, clk_p2 = 8;
-> > -                     else if (is_hdmi)
-> > -                             clk_n = 4, clk_p2 = 10;
-> > +                     if (is_mipi || is_mipi2) {
-> > +                             clk_n = 4;
-> > +                             clk_p2 = 8;
-> > +                     } else if (is_hdmi) {
-> > +                             clk_n = 4;
-> > +                             clk_p2 = 10;
-> > +                     }
-> >               }
-> >
-> >
-> >               if (is_mipi)
->
->
+> From: Michel Dänzer <mdaenzer@redhat.com>
+> 
+> Without __GFP_NOWARN, attempts at allocating huge pages can trigger
+> dmesg splats like below (which are essentially noise, since TTM falls
+> back to normal pages if it can't get a huge one).
+> 
+> [ 9556.710241] clinfo: page allocation failure: order:9, mode:0x194dc2(GFP_HIGHUSER|__GFP_RETRY_MAYFAIL|__GFP_NORETRY|__GFP_ZERO|__GFP_NOMEMALLOC), nodemask=(null),cpuset=user.slice,mems_allowed=0
+> [ 9556.710259] CPU: 1 PID: 470821 Comm: clinfo Tainted: G            E     5.10.10+ #4
+> [ 9556.710264] Hardware name: Micro-Star International Co., Ltd. MS-7A34/B350 TOMAHAWK (MS-7A34), BIOS 1.OR 11/29/2019
+> [ 9556.710268] Call Trace:
+> [ 9556.710281]  dump_stack+0x6b/0x83
+> [ 9556.710288]  warn_alloc.cold+0x7b/0xdf
+> [ 9556.710297]  ? __alloc_pages_direct_compact+0x137/0x150
+> [ 9556.710303]  __alloc_pages_slowpath.constprop.0+0xc1b/0xc50
+> [ 9556.710312]  __alloc_pages_nodemask+0x2ec/0x320
+> [ 9556.710325]  ttm_pool_alloc+0x2e4/0x5e0 [ttm]
+> [ 9556.710332]  ? kvmalloc_node+0x46/0x80
+> [ 9556.710341]  ttm_tt_populate+0x37/0xe0 [ttm]
+> [ 9556.710350]  ttm_bo_handle_move_mem+0x142/0x180 [ttm]
+> [ 9556.710359]  ttm_bo_validate+0x11d/0x190 [ttm]
+> [ 9556.710391]  ? drm_vma_offset_add+0x2f/0x60 [drm]
+> [ 9556.710399]  ttm_bo_init_reserved+0x2a7/0x320 [ttm]
+> [ 9556.710529]  amdgpu_bo_do_create+0x1b8/0x500 [amdgpu]
+> [ 9556.710657]  ? amdgpu_bo_subtract_pin_size+0x60/0x60 [amdgpu]
+> [ 9556.710663]  ? get_page_from_freelist+0x11f9/0x1450
+> [ 9556.710789]  amdgpu_bo_create+0x40/0x270 [amdgpu]
+> [ 9556.710797]  ? _raw_spin_unlock+0x16/0x30
+> [ 9556.710927]  amdgpu_gem_create_ioctl+0x123/0x310 [amdgpu]
+> [ 9556.711062]  ? amdgpu_gem_force_release+0x150/0x150 [amdgpu]
+> [ 9556.711098]  drm_ioctl_kernel+0xaa/0xf0 [drm]
+> [ 9556.711133]  drm_ioctl+0x20f/0x3a0 [drm]
+> [ 9556.711267]  ? amdgpu_gem_force_release+0x150/0x150 [amdgpu]
+> [ 9556.711276]  ? preempt_count_sub+0x9b/0xd0
+> [ 9556.711404]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
+> [ 9556.711411]  __x64_sys_ioctl+0x83/0xb0
+> [ 9556.711417]  do_syscall_64+0x33/0x80
+> [ 9556.711421]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> 
+> Fixes: bf9eee249ac2 ("drm/ttm: stop using GFP_TRANSHUGE_LIGHT")
+> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+
+Acked-by: David Rientjes <rientjes@google.com>
+
+Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com> reported the same issue.
+--1482994552-668564148-1612055102=:606041
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--1482994552-668564148-1612055102=:606041--
