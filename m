@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532DE309BA5
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:43:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3C1309BA7
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 12:43:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE116E161;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A8A6E18F;
 	Sun, 31 Jan 2021 11:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7816E09A
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 18:11:27 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4DSj2P69GRz1qs38;
- Sat, 30 Jan 2021 19:11:25 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4DSj2P5w3Tz1tYTW;
- Sat, 30 Jan 2021 19:11:25 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id QbQfprgeWiUm; Sat, 30 Jan 2021 19:11:24 +0100 (CET)
-X-Auth-Info: 75/lHBaT8xbCLaC9OrnnjV35XGPS4ICpUqxE9NR3rdM=
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Sat, 30 Jan 2021 19:11:24 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/panel: simple: Add Displaytech DT050TFT-PTS panel
-Date: Sat, 30 Jan 2021 19:11:14 +0100
-Message-Id: <20210130181114.161515-3-marex@denx.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210130181114.161515-1-marex@denx.de>
-References: <20210130181114.161515-1-marex@denx.de>
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFA676E17D
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 05:11:05 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id a20so8386120pjs.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Jan 2021 21:11:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j678qJx/JPZkac4bEG/8rI07bilrUpTVTBhhwHGCLyE=;
+ b=HVch7Qv7dq+iRZl0F7OTOFc01KRsOkitFn7szOaZ9AduniQxvk4XBoFLuthP8Kv6+0
+ Plhwxk/rCbQwhF4rXRcgnKJqGrjCIonm0eYQsveQ2gVikK3JsdbZbzJnH6djhj1w6gIn
+ +KOVbeHocLUgCb2ZDLZ7kmf5WqLdirwI4T2OY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j678qJx/JPZkac4bEG/8rI07bilrUpTVTBhhwHGCLyE=;
+ b=ERkxAL/W4LNVbtsGi5sgOEDR3mnKzCkwfLZD46wAXncQCXlDit/ygIFMowZIMUOzH4
+ U1ls+NJvAwTxbxvEushAuVcmJ+Sk9Gm45BZm9rTX1c4oU84NE0UthmtFLKjt8LSkeRIf
+ RU2hHUv+TbcgktIvVxELqA04mfVRxNKlExYtyiGvQ92MzMev5xLZsLykCpxNaYsDC4hv
+ Jbi+AiCwo2QhCeXwhe4cAT/ZFt2r7FoJsNMWSfb96ZjAgNsaE+7meAziJ5dejUBO7o9A
+ dnCn9c818EiGKfHKHWNR1iz03mW+z2YE5O2aKkDyfFo37Wnhr0ZUiAkhMJCkUXHl+7xN
+ 1ZOg==
+X-Gm-Message-State: AOAM533I451XIVpUJJJ0txQboC3R1NxC8zKpSRCFTBnPg0v1Mvf6gHs0
+ J7wx/oikhJkz1xlHCfPIEcuZLA==
+X-Google-Smtp-Source: ABdhPJw5rGGPEQ8dqERgZpeHNpM1Tn38J69RC4BmBr0NM6uPyiS94+8Vq5WTIlas3qzw4/OIei1tzw==
+X-Received: by 2002:a17:90b:60c:: with SMTP id
+ gb12mr11373176pjb.125.1612069865252; 
+ Sat, 30 Jan 2021 21:11:05 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:35ef:a870:bb74:2590])
+ by smtp.gmail.com with ESMTPSA id d22sm11470680pjv.11.2021.01.30.21.11.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Jan 2021 21:11:04 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH] drm/mediatek: enable dither function
+Date: Sun, 31 Jan 2021 13:10:58 +0800
+Message-Id: <20210131051058.3407985-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 31 Jan 2021 11:43:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,80 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Displaytech DT050TFT-PTS 5.0" (800x480)
-color TFT LCD panel, connected over DPI.
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Timings are taken from the datasheet Rev 0.0.
+Enable dither function to improve the display quality.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Previous version:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210129092209.2584718-7-hsinyi@chromium.org/
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 204674fccd64..4e31fe04fe49 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1625,6 +1625,36 @@ static const struct panel_desc dataimage_scf0700c48ggu18 = {
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index c730029ac8fc7..0444b429daf00 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -53,6 +53,7 @@
+ #define DITHER_EN				BIT(0)
+ #define DISP_DITHER_CFG				0x0020
+ #define DITHER_RELAY_MODE			BIT(0)
++#define DITHER_ENGINE_EN			BIT(1)
+ #define DISP_DITHER_SIZE			0x0030
  
-+static const struct display_timing displaytech_dt050tft_pts_timing = {
-+	.pixelclock = { 30000000, 40000000, 50000000 },
-+	.hactive = { 800, 800, 800 },
-+	.hfront_porch = { 1, 40, 255 },
-+	.hback_porch = { 88, 88, 88 },
-+	.hsync_len = { 1, 48, 255 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 1, 13, 255 },
-+	.vback_porch = { 32, 32, 32 },
-+	.vsync_len = { 3, 3, 255 },
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-+		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
-+		 DISPLAY_FLAGS_SYNC_POSEDGE,
-+};
-+
-+static const struct panel_desc displaytech_dt050tft_pts = {
-+	.timings = &displaytech_dt050tft_pts_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 121,
-+		.height = 76,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-+		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-+		     DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct display_timing dlc_dlc0700yzg_1_timing = {
- 	.pixelclock = { 45000000, 51200000, 57000000 },
- 	.hactive = { 1024, 1024, 1024 },
-@@ -4015,6 +4045,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "dataimage,scf0700c48ggu18",
- 		.data = &dataimage_scf0700c48ggu18,
-+	}, {
-+		.compatible = "displaytech,dt050tft-pts",
-+		.data = &displaytech_dt050tft_pts,
- 	}, {
- 		.compatible = "dlc,dlc0700yzg-1",
- 		.data = &dlc_dlc0700yzg_1,
+ #define LUT_10BIT_MASK				0x03ff
+@@ -315,8 +316,12 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
+-	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
++	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs,
++		      DISP_DITHER_SIZE);
++	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs,
++		      DISP_DITHER_CFG);
++	mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, DISP_DITHER_CFG,
++			      DITHER_ENGINE_EN, cmdq_pkt);
+ }
+ 
+ static void mtk_dither_start(struct device *dev)
 -- 
-2.29.2
+2.30.0.365.g02bc693789-goog
 
 _______________________________________________
 dri-devel mailing list
