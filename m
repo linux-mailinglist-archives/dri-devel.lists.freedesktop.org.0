@@ -2,118 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50858309E28
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 18:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24D9309E45
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Jan 2021 20:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3C696E093;
-	Sun, 31 Jan 2021 17:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC28C6E092;
+	Sun, 31 Jan 2021 19:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2054.outbound.protection.outlook.com [40.107.100.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9496D6E093
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Jan 2021 17:54:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aFNifsgP+djBlMV5ai2FepfWXdDFNHbZKJHSq+DWj3r98cZl3rz5uY/romVJMq7BKTqiHnF9HR5B/qUtavXgyUJ7yGgEzRe2dHOgBJ/Rms0fJaDEzF2NH39kQpF+VK5MTopQQVNDWgSkfyNJowipx/NAroL9OziEAWo83G3SNBZzESN/xyQvVbaRfp2Wd7hUFZj4O4xrhcJceuYUZogf+NM/ebmxBKRAWlbOben5TEZQNMtx4ogXIHZTAoLNxe+zJrVROzdTNTv0QRmphxnGXhYd+nQIqzyQjRSNqDRK5oPdIxLUSmrC/Hzgx6GFWg/nPz/7OOYY/H4w9LcQTyLzbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sNQVbBYv/+xW1ahOMYeSDDnRf20eEm8aexPlXXMNbLo=;
- b=RFh2eTTcQ71KbfFG72tGBrSy08FacrFypRMSY6iLK8VCdHuoYx76IL9OncLqHmqT0W2sf0Zoyp8ZS+6i5rWQ2KIK4idyryro6brYyBnIGkcDtQ9qFi257XGpJQtPE21BM4Fbdkio6HSsuZW/MFFhxcgbTft6/NCiRFFI/mEcfyMt0+1poMXfpaFtiTCKS+MhJw6zRKhVvKrA/6kjr6VyohhRyetTc7oD7Z6966FMvjMPC0mSGJvi9tvwczQHWReWrmM8EtYEUZbwZ+2PJf8uwGoSp4tdvrzAROfSDDHlnyNEdXaXFqaRPFunkI3dd4C+NrHKwigmf5puG6MdA525iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sNQVbBYv/+xW1ahOMYeSDDnRf20eEm8aexPlXXMNbLo=;
- b=a+21mEGmPirs9SNRZdvEYzqdd+cXGmFYggFbOZh5stnGyi7wDh60x8qx2+rqzcK+/Gfq9Q3DOc4fc134ZTuC8qzRzGqnCSDQPcMx5ApWfaNmXGeW4Kbgx+zKNlcgVDc8d85AsacK46nyfcslaNeTqP+iErf1haw3OqLA4WbnTFM=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3678.namprd12.prod.outlook.com (2603:10b6:208:158::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.23; Sun, 31 Jan
- 2021 17:54:03 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3805.024; Sun, 31 Jan 2021
- 17:54:03 +0000
-Subject: Re: [PATCH 08/29] dma-buf: Avoid comma separated statements
-To: Joe Perches <joe@perches.com>, Jiri Kosina <trivial@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <cover.1598331148.git.joe@perches.com>
- <990bf6f33ccaf73ad56eb4bea8bd2c0db5e90a31.1598331148.git.joe@perches.com>
- <a87b95d11c22d997ebc423bba71cabef15ca0bac.camel@perches.com>
- <4d5891b7-ea87-974e-d260-f78c3af326bc@amd.com>
- <004fa2c0c74bb26d6144198552c8bae33a57be2e.camel@perches.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <cc136d2e-687f-3b82-ae67-8206bd3a860f@amd.com>
-Date: Sun, 31 Jan 2021 18:53:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <004fa2c0c74bb26d6144198552c8bae33a57be2e.camel@perches.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR0902CA0021.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::31) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64FF76E069;
+ Sun, 31 Jan 2021 19:14:15 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id a1so14320116wrq.6;
+ Sun, 31 Jan 2021 11:14:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U8nxXe5xQj88timd/Lo9joFBv5MwWgjwhtJrqP+H1LA=;
+ b=PpZG9Um3B5zQzzVBP4tZXzoaRyIDdUka0v1dnX5DpkSQFrDs6d0FOyIp63qoKhEAVi
+ wDUhd6XzZYPXASFCzgigMWar3dMPFW+3n3KoewTD9OB2Twu/vnjlt0y73KpgITh5gAmd
+ rDW3BotZae1IbyhjdkqL7whfRnJlcNPOuITFAV0Yhz++toJyabMQLTG03vhIaYOhrCY8
+ 1gLZFnWo4HINzKRRT9Lxo+3T+5RVip8t86ghb+sNf+dq6QCrW7a3joLNGVc1v9yzJXN7
+ gKvxRoB2t6tjHJosmpXFqkzhm845f6ey6+2MAWXyDBQT5CpqpMiqNR86jm/b+8X1N+tB
+ N80w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U8nxXe5xQj88timd/Lo9joFBv5MwWgjwhtJrqP+H1LA=;
+ b=OJvreMfcGMLvcGSCZe4G0ksi3+JpoVzFUboNBKxz0bnRjNuPlPihVOH7NmbUhmd1n5
+ muZ2I7G/MkGY6GKN0z4ZKMNluLModOs87YLMOuHo1W51aVq3YO2hY4uE0h0oXJyTiVpz
+ lCgfImhAyVcTgI/uFtrvqeuh4dc19eVSfB9+4nXb67EssQoKo0ybX8uebOYLm3jWm5cD
+ 7tPzulsNObnSJ2mY6r5naFWqpSNqe+FCxu//imj0PFHQb07yJVA7YbcYuJwwsZmHcFkb
+ VmQ52/t6P56UfXS7b3si50OoiKWgd61G1w7KpDBCNhsFcgVnGeN1iFVhxWoTm+QJ52XQ
+ K78A==
+X-Gm-Message-State: AOAM530hR1nTDHvwS6fh3kkXaGm7IxnrKcJm1IsE7qTUV8JXYFJnzTw/
+ TUv5TemwXlGjo3WlYgvU1Tjtc3keEYKeW6S7IL4=
+X-Google-Smtp-Source: ABdhPJx7aikstHF7jYM5WihovsVBq8rhOwGcSN53yHKapUYVbJGwnm8IdsCa8NPnjjJW8tiTbHYX3O0vEIMmNF27qfw=
+X-Received: by 2002:adf:9148:: with SMTP id j66mr15325996wrj.28.1612120453708; 
+ Sun, 31 Jan 2021 11:14:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0902CA0021.eurprd09.prod.outlook.com (2603:10a6:200:9b::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend
- Transport; Sun, 31 Jan 2021 17:54:01 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2627e0b2-306d-4538-c157-08d8c61131f4
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3678:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB367851EE41F6CC5DDAA3770783B79@MN2PR12MB3678.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:390;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d3C5IW+/Xn6ciC7tTebSRlBnBQgV5JnmR3ANw7NPx9MZTCBL/GqUtNFN4+XEUk78Cw9zqmzdcCLK7abMZ24DkoM5ml+KvehFg9cIAm8hxoBZ5PnWCpI+k/HcNGVKH6yzx/bu/BRg4XOPYRQV8KrKgy54n6o9mWikLvA7BJu/8HJJbSbVbEa5CKmYlWFPPgGoBuwcpgI5nAg87g5wXwZ9nmpC3pd8s209zsE8mCXJgJs/phjROX0xO21Ia05uBDjRNTJEJAaGoWzQycoglHp+4h3r/NaHxpbEFDeoteTdue11as/m8o8yPP4u9FWI6Z5qtVhrPFgHN8vPZ/Xg9AOdbSERkaLiN2vb+Nbw1nERBqAhcys9ZMG97w+NFnpWlYYkza/eeNz4BfTatfqEisR1gPkKtSDW3rkQVKd+/+hCRvfewsWUEndEzjeQOeeOQYOlttFlIo7xuO7aJt/deq4Lk3K9sVIquBKPcpo3KXKinAibBxm4lhpXhFRlfQRS6sD4U8ES4TqYfSsSyThb8J0m9FjKgJjMifEefWZ62bhGfrI7F5XYCIdaVnyDXW4RSGlZrA+KtBAkXhHuvgfzfr4H+nrOHmJD9vAyGjbQqaiZ8pE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(39850400004)(376002)(366004)(346002)(5660300002)(6666004)(66946007)(66476007)(66556008)(16526019)(316002)(110136005)(83380400001)(186003)(2616005)(52116002)(86362001)(31696002)(4326008)(478600001)(8936002)(8676002)(31686004)(36756003)(6486002)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QVVva1ZoekJmUkdldmhVUEROQ3I2VFJpQjhYaVp6T0tXTS9mbVVzYlhuaU5n?=
- =?utf-8?B?dFhwUGxKYVNoVWtMdm1oaXBHNERLRi8vdlg3ZTA3ZS9WaTBGQzB0R1R2M0lt?=
- =?utf-8?B?WEc2TzZxbnBnaTBadlhpM2hZOTFNSWt0ZkQwY3RlbTQwdENlWDNjVmF5aVJI?=
- =?utf-8?B?SXRSWFBzaWdYN3hiQXFhaG1RSThneVlUSzR5eWFVNUY4N1VCZUpPTTU3UWZn?=
- =?utf-8?B?STBUNXZ4SUhlbkc0TzVYK3kyVVhST202YStwaG4vQW1TSTNyMUdlaVJYR1Ez?=
- =?utf-8?B?S1ozNjlGVmYwbERVOE9oMEJDRlFEcGxseVd1S0tXOEU5dTBYYVVDVlBrUGh6?=
- =?utf-8?B?SWgxSmxTNFNTRzBCcENxM3BLVEF6QmtmemlEZ2o0TDFGR1JBZ2MwdWpyb2pr?=
- =?utf-8?B?Q2UrRXYreFFMR3IrTzNGTFpkRnpmZ0F0NkYrNE9CR1VRK1VvUDBjdWxIbTJ2?=
- =?utf-8?B?ODBRZDUxeG5zaEo3Sk1LT1JvZmhsaHFEQXdqSGMrRFVNVStMSE1WTmt0MW1y?=
- =?utf-8?B?V2dyTTl2YWZzT3BPdnhLd0dRNUk4K3lnK2luaFZjb1VtanE5SkZuQ1VTNGtt?=
- =?utf-8?B?UGhyRmNNM0xNR2RpREN6alJKV1g3RUNiWlg3N0FxcG5sRldlMHNDTllGSnpn?=
- =?utf-8?B?bFp4ZWpjTjhkd3pOWGVqQi91RjMyNnJIZHptRk9CbUsrckIyT0hxdDhWSHht?=
- =?utf-8?B?dGZmTWkzQlB3MGtVMk50bVBIdjZyMFpvSUZteWI1NlpLMUliOG1pQ0JoVmRF?=
- =?utf-8?B?SVZpK1dFYlhLRXpvckRaNGlQUkEzQmhUakIyMjdRRG9veEFwS09XTFczcnFT?=
- =?utf-8?B?ZllCNkx6V0NoVjloem5SSUFqbGphQ1dKRk15ak13WHo5UHRldmkzZVF6V1p4?=
- =?utf-8?B?ZG05QWpGRkZCWkhJVFVDaHZXc3JXNjg2SUJPQ2xxZ1g2VjdiTDUzUXh0Sisv?=
- =?utf-8?B?Q3RqS3c4dUxNN1JUSjBpQTFDVFRpNzAwdEZoMW5LY0RUVDlJTjNqVFlUZG4x?=
- =?utf-8?B?TGZhclorNVJONUlKNHdZbnR1NXRDMldWTDRnZEgzMGZwdWtFYzlQZnlIWERS?=
- =?utf-8?B?THRoQUhSS2RWdEN0djlQa3AvdGJuZ092WllZVVNHb1VFcnVkU2V5NVB1KzE0?=
- =?utf-8?B?T0lNVVhPZS8rdkFSY2trNlp6K3FrelZvYTVWL1pSNWFQYWlXd205dEpLQ011?=
- =?utf-8?B?aUV0Kzh2dURpQVpUN0tGeXpWclB6S3R5WDRXdDNiTWxMWHZ4NHdzS09yV041?=
- =?utf-8?B?WUU0SkFabE1SK1JCUEVqYXdvVVdGSEQ0UnB1SUNOT0V6UktTMU1rL3crejl0?=
- =?utf-8?B?elJ6d1U2Szk4bnpDdGlKOXpuNUdpeDdjNVFNcDFmYWQ4UXhTb0dxOFFSdlZP?=
- =?utf-8?B?RlZGeUF2MnozWmxrTDU2bktHRGM1V0dPOUhlY1NyQXpDQU0ySlc3WFVxSm44?=
- =?utf-8?B?eU1zdkpyMlh1ZGRSYXlMdUVpT2JVZndlSjh1L0dQbFNjWU5CTFRGWFd3WG0z?=
- =?utf-8?Q?BnvDsZTf5JozZ6qHk7y1SYa0Hjo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2627e0b2-306d-4538-c157-08d8c61131f4
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2021 17:54:02.9501 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P4pmBHcin/s9CK/O6Y9IXSOk6K6ydcRju6L/5PvDevM2lABZqlx4mxhmo+JEEI8O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3678
+References: <1608287227-17685-1-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <1608287227-17685-1-git-send-email-kalyan_t@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sun, 31 Jan 2021 11:16:48 -0800
+Message-ID: <CAF6AEGvvtDq7FK4NcKCc2FG2sbArBU-YboEA4u73oPR9o3coag@mail.gmail.com>
+Subject: Re: [v2] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
+ driver
+To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,35 +61,369 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Drew Davenport <ddavenport@chromium.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMzEuMDEuMjEgdW0gMTg6Mzkgc2NocmllYiBKb2UgUGVyY2hlczoKPiBPbiBXZWQsIDIwMjEt
-MDItMDMgYXQgMTQ6MjYgKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEFtIDMwLjAx
-LjIxIHVtIDE5OjQ3IHNjaHJpZWIgSm9lIFBlcmNoZXM6Cj4+PiBPbiBNb24sIDIwMjAtMDgtMjQg
-YXQgMjE6NTYgLTA3MDAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+Pj4+IFVzZSBzZW1pY29sb25zIGFu
-ZCBicmFjZXMuCj4+PiBQaW5nPwo+Pj4+IFNpZ25lZC1vZmYtYnk6IEpvZSBQZXJjaGVzIDxqb2VA
-cGVyY2hlcy5jb20+Cj4+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4u
-a29lbmlnQGFtZC5jb20+Cj4+Cj4+IERvIHlvdSBoYXZlIGNvbW1pdCByaWdodHMgdG8gZHJtLW1p
-c2MtbmV4dD8KPiBOby4KClB1c2hlZC4KClRoYW5rcyBmb3IgdGhlIGhlbHAsCkNocmlzdGlhbi4K
-Cj4KPj4+PiAtLS0KPj4+PiAgwqDCoGRyaXZlcnMvZG1hLWJ1Zi9zdC1kbWEtZmVuY2UuYyB8IDcg
-KysrKystLQo+Pj4+ICDCoMKgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZl
-bmNlLmMgYi9kcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMKPj4+PiBpbmRleCBlNTkzMDY0
-MzQxYzguLmM4YTEyZDdhZDcxYSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvc3Qt
-ZG1hLWZlbmNlLmMKPj4+PiArKysgYi9kcml2ZXJzL2RtYS1idWYvc3QtZG1hLWZlbmNlLmMKPj4+
-PiBAQCAtNDcxLDggKzQ3MSwxMSBAQCBzdGF0aWMgaW50IHRocmVhZF9zaWduYWxfY2FsbGJhY2so
-dm9pZCAqYXJnKQo+Pj4+ICDCoMKgCQkJZG1hX2ZlbmNlX3NpZ25hbChmMSk7Cj4+Pj4KPj4+PiAg
-wqDCoAkJc21wX3N0b3JlX21iKGNiLnNlZW4sIGZhbHNlKTsKPj4+PiAtCQlpZiAoIWYyIHx8IGRt
-YV9mZW5jZV9hZGRfY2FsbGJhY2soZjIsICZjYi5jYiwgc2ltcGxlX2NhbGxiYWNrKSkKPj4+PiAt
-CQkJbWlzcysrLCBjYi5zZWVuID0gdHJ1ZTsKPj4+PiArCQlpZiAoIWYyIHx8Cj4+Pj4gKwkJICAg
-IGRtYV9mZW5jZV9hZGRfY2FsbGJhY2soZjIsICZjYi5jYiwgc2ltcGxlX2NhbGxiYWNrKSkgewo+
-Pj4+ICsJCQltaXNzKys7Cj4+Pj4gKwkJCWNiLnNlZW4gPSB0cnVlOwo+Pj4+ICsJCX0KPj4+Pgo+
-Pj4+ICDCoMKgCQlpZiAoIXQtPmJlZm9yZSkKPj4+PiAgwqDCoAkJCWRtYV9mZW5jZV9zaWduYWwo
-ZjEpOwo+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Dec 18, 2020 at 2:27 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
+>
+> Set the flag vblank_disable_immediate = true to turn off vblank irqs
+> immediately as soon as drm_vblank_put is requested so that there are
+> no irqs triggered during idle state. This will reduce cpu wakeups
+> and help in power saving.
+>
+> To enable vblank_disable_immediate flag the underlying KMS driver
+> needs to support high precision vblank timestamping and also a
+> reliable way of providing vblank counter which is incrementing
+> at the leading edge of vblank.
+>
+> This patch also brings in changes to support vblank_disable_immediate
+> requirement in dpu driver.
+>
+> Changes in v1:
+>  - Specify reason to add vblank timestamp support. (Rob)
+>  - Add changes to provide vblank counter from dpu driver.
+>
+> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+
+This seems to be triggering:
+
+[  +0.032668] ------------[ cut here ]------------
+[  +0.004759] msm ae00000.mdss: drm_WARN_ON_ONCE(cur_vblank != vblank->last)
+[  +0.000024] WARNING: CPU: 0 PID: 362 at
+drivers/gpu/drm/drm_vblank.c:354 drm_update_vblank_count+0x1e4/0x258
+[  +0.017154] Modules linked in: joydev
+[  +0.003784] CPU: 0 PID: 362 Comm: frecon Not tainted
+5.11.0-rc5-00037-g33d3504871dd #2
+[  +0.008135] Hardware name: Google Lazor (rev1 - 2) with LTE (DT)
+[  +0.006167] pstate: 60400089 (nZCv daIf +PAN -UAO -TCO BTYPE=--)
+[  +0.006169] pc : drm_update_vblank_count+0x1e4/0x258
+[  +0.005105] lr : drm_update_vblank_count+0x1e4/0x258
+[  +0.005106] sp : ffffffc010003b70
+[  +0.003409] x29: ffffffc010003b70 x28: ffffff80855d9d98
+[  +0.005466] x27: 0000000000000000 x26: 0000000000fe502a
+[  +0.005458] x25: 0000000000000001 x24: 0000000000000001
+[  +0.005466] x23: 0000000000000001 x22: ffffff808561ce80
+[  +0.005465] x21: 0000000000000000 x20: 0000000000000000
+[  +0.005468] x19: ffffff80850d6800 x18: 0000000000000000
+[  +0.005466] x17: 0000000000000000 x16: 0000000000000000
+[  +0.005465] x15: 000000000000000a x14: 000000000000263b
+[  +0.005466] x13: 0000000000000006 x12: ffffffffffffffff
+[  +0.005465] x11: 0000000000000010 x10: ffffffc090003797
+[  +0.005466] x9 : ffffffed200e2a8c x8 : 0000000000000000
+[  +0.005466] x7 : 00000000ffffffff x6 : ffffffed213b2b51
+[  +0.005465] x5 : c0000000ffffdfff x4 : ffffffed21218048
+[  +0.005465] x3 : 0000000000000000 x2 : 0000000000000000
+[  +0.005465] x1 : 0000000000000000 x0 : 0000000000000000
+[  +0.005466] Call trace:
+[  +0.002520]  drm_update_vblank_count+0x1e4/0x258
+[  +0.004748]  drm_handle_vblank+0xd0/0x35c
+[  +0.004130]  drm_crtc_handle_vblank+0x24/0x30
+[  +0.004487]  dpu_crtc_vblank_callback+0x3c/0xc4
+[  +0.004662]  dpu_encoder_vblank_callback+0x70/0xc4
+[  +0.004931]  dpu_encoder_phys_vid_vblank_irq+0x50/0x12c
+[  +0.005378]  dpu_core_irq_callback_handler+0xf4/0xfc
+[  +0.005107]  dpu_hw_intr_dispatch_irq+0x100/0x120
+[  +0.004834]  dpu_core_irq+0x44/0x5c
+[  +0.003597]  dpu_irq+0x1c/0x28
+[  +0.003141]  msm_irq+0x34/0x40
+[  +0.003153]  __handle_irq_event_percpu+0xfc/0x254
+[  +0.004838]  handle_irq_event_percpu+0x3c/0x94
+[  +0.004574]  handle_irq_event+0x54/0x98
+[  +0.003944]  handle_level_irq+0xa0/0xd0
+[  +0.003943]  generic_handle_irq+0x30/0x48
+[  +0.004131]  dpu_mdss_irq+0xe4/0x118
+[  +0.003684]  generic_handle_irq+0x30/0x48
+[  +0.004127]  __handle_domain_irq+0xa8/0xac
+[  +0.004215]  gic_handle_irq+0xdc/0x150
+[  +0.003856]  el1_irq+0xb4/0x180
+[  +0.003237]  dpu_encoder_vsync_time+0x78/0x230
+[  +0.004574]  dpu_encoder_kickoff+0x190/0x354
+[  +0.004386]  dpu_crtc_commit_kickoff+0x194/0x1a0
+[  +0.004748]  dpu_kms_flush_commit+0xf4/0x108
+[  +0.004390]  msm_atomic_commit_tail+0x2e8/0x384
+[  +0.004661]  commit_tail+0x80/0x108
+[  +0.003588]  drm_atomic_helper_commit+0x118/0x11c
+[  +0.004834]  drm_atomic_commit+0x58/0x68
+[  +0.004033]  drm_atomic_helper_set_config+0x70/0x9c
+[  +0.005018]  drm_mode_setcrtc+0x390/0x584
+[  +0.004131]  drm_ioctl_kernel+0xc8/0x11c
+[  +0.004035]  drm_ioctl+0x2f8/0x34c
+[  +0.003500]  drm_compat_ioctl+0x48/0xe8
+[  +0.003945]  __arm64_compat_sys_ioctl+0xe8/0x104
+[  +0.004750]  el0_svc_common.constprop.0+0x114/0x188
+[  +0.005019]  do_el0_svc_compat+0x28/0x38
+[  +0.004031]  el0_svc_compat+0x20/0x30
+[  +0.003772]  el0_sync_compat_handler+0x104/0x18c
+[  +0.004749]  el0_sync_compat+0x178/0x180
+[  +0.004034] ---[ end trace 2959d178e74f2555 ]---
+
+
+BR,
+-R
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 80 ++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 30 ++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        | 11 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  1 +
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   | 17 +++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  5 ++
+>  6 files changed, 144 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index d4662e8..9a80981 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -65,6 +65,83 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
+>         kfree(dpu_crtc);
+>  }
+>
+> +static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
+> +{
+> +       struct drm_device *dev = crtc->dev;
+> +       struct drm_encoder *encoder;
+> +
+> +       drm_for_each_encoder(encoder, dev)
+> +               if (encoder->crtc == crtc)
+> +                       return encoder;
+> +
+> +       return NULL;
+> +}
+> +
+> +static u32 dpu_crtc_get_vblank_counter(struct drm_crtc *crtc)
+> +{
+> +       struct drm_encoder *encoder;
+> +
+> +       encoder = get_encoder_from_crtc(crtc);
+> +       if (!encoder) {
+> +               DRM_ERROR("no encoder found for crtc %d\n", crtc->index);
+> +               return false;
+> +       }
+> +
+> +       return dpu_encoder_get_frame_count(encoder);
+> +}
+> +
+> +static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+> +                                          bool in_vblank_irq,
+> +                                          int *vpos, int *hpos,
+> +                                          ktime_t *stime, ktime_t *etime,
+> +                                          const struct drm_display_mode *mode)
+> +{
+> +       unsigned int pipe = crtc->index;
+> +       struct drm_encoder *encoder;
+> +       int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
+> +
+> +       encoder = get_encoder_from_crtc(crtc);
+> +       if (!encoder) {
+> +               DRM_ERROR("no encoder found for crtc %d\n", pipe);
+> +               return false;
+> +       }
+> +
+> +       vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
+> +       vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
+> +
+> +       /*
+> +        * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
+> +        * the end of VFP. Translate the porch values relative to the line
+> +        * counter positions.
+> +        */
+> +
+> +       vactive_start = vsw + vbp + 1;
+> +       vactive_end = vactive_start + mode->crtc_vdisplay;
+> +
+> +       /* last scan line before VSYNC */
+> +       vfp_end = mode->crtc_vtotal;
+> +
+> +       if (stime)
+> +               *stime = ktime_get();
+> +
+> +       line = dpu_encoder_get_linecount(encoder);
+> +
+> +       if (line < vactive_start)
+> +               line -= vactive_start;
+> +       else if (line > vactive_end)
+> +               line = line - vfp_end - vactive_start;
+> +       else
+> +               line -= vactive_start;
+> +
+> +       *vpos = line;
+> +       *hpos = 0;
+> +
+> +       if (etime)
+> +               *etime = ktime_get();
+> +
+> +       return true;
+> +}
+> +
+>  static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+>                 struct dpu_plane_state *pstate, struct dpu_format *format)
+>  {
+> @@ -1243,6 +1320,8 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
+>         .early_unregister = dpu_crtc_early_unregister,
+>         .enable_vblank  = msm_crtc_enable_vblank,
+>         .disable_vblank = msm_crtc_disable_vblank,
+> +       .get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+> +       .get_vblank_counter = dpu_crtc_get_vblank_counter,
+>  };
+>
+>  static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+> @@ -1251,6 +1330,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+>         .atomic_check = dpu_crtc_atomic_check,
+>         .atomic_begin = dpu_crtc_atomic_begin,
+>         .atomic_flush = dpu_crtc_atomic_flush,
+> +       .get_scanout_position = dpu_crtc_get_scanout_position,
+>  };
+>
+>  /* initialize crtc */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index f7f5c25..5cd3f31 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -425,6 +425,36 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
+>         return 0;
+>  }
+>
+> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc)
+> +{
+> +       struct dpu_encoder_virt *dpu_enc;
+> +       struct dpu_encoder_phys *phys;
+> +       int framecount = 0;
+> +
+> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
+> +
+> +       if (phys && phys->ops.get_frame_count)
+> +               framecount = phys->ops.get_frame_count(phys);
+> +
+> +       return framecount;
+> +}
+> +
+> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
+> +{
+> +       struct dpu_encoder_virt *dpu_enc;
+> +       struct dpu_encoder_phys *phys;
+> +       int linecount = 0;
+> +
+> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +       phys = dpu_enc ? dpu_enc->cur_master : NULL;
+> +
+> +       if (phys && phys->ops.get_line_count)
+> +               linecount = phys->ops.get_line_count(phys);
+> +
+> +       return linecount;
+> +}
+> +
+>  void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
+>                                   struct dpu_encoder_hw_resources *hw_res)
+>  {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index b491346..99a5d73 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -156,5 +156,16 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
+>   */
+>  void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
+>                                                         u32 idle_timeout);
+> +/**
+> + * dpu_encoder_get_linecount - get interface line count for the encoder.
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + */
+> +int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+> +
+> +/**
+> + * dpu_encoder_get_frame_count - get interface frame count for the encoder.
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + */
+> +int dpu_encoder_get_frame_count(struct drm_encoder *drm_enc);
+>
+>  #endif /* __DPU_ENCODER_H__ */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index f8f2515..ecbc4be 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -143,6 +143,7 @@ struct dpu_encoder_phys_ops {
+>         void (*prepare_idle_pc)(struct dpu_encoder_phys *phys_enc);
+>         void (*restore)(struct dpu_encoder_phys *phys);
+>         int (*get_line_count)(struct dpu_encoder_phys *phys);
+> +       int (*get_frame_count)(struct dpu_encoder_phys *phys);
+>  };
+>
+>  /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index 9a69fad..f983595 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -658,6 +658,22 @@ static int dpu_encoder_phys_vid_get_line_count(
+>         return phys_enc->hw_intf->ops.get_line_count(phys_enc->hw_intf);
+>  }
+>
+> +static int dpu_encoder_phys_vid_get_frame_count(
+> +               struct dpu_encoder_phys *phys_enc)
+> +{
+> +       struct intf_status s = {0};
+> +
+> +       if (!dpu_encoder_phys_vid_is_master(phys_enc))
+> +               return -EINVAL;
+> +
+> +       if (!phys_enc->hw_intf || !phys_enc->hw_intf->ops.get_status)
+> +               return -EINVAL;
+> +
+> +       phys_enc->hw_intf->ops.get_status(phys_enc->hw_intf, &s);
+> +
+> +       return s.frame_count;
+> +}
+> +
+>  static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
+>  {
+>         ops->is_master = dpu_encoder_phys_vid_is_master;
+> @@ -676,6 +692,7 @@ static void dpu_encoder_phys_vid_init_ops(struct dpu_encoder_phys_ops *ops)
+>         ops->handle_post_kickoff = dpu_encoder_phys_vid_handle_post_kickoff;
+>         ops->needs_single_flush = dpu_encoder_phys_vid_needs_single_flush;
+>         ops->get_line_count = dpu_encoder_phys_vid_get_line_count;
+> +       ops->get_frame_count = dpu_encoder_phys_vid_get_frame_count;
+>  }
+>
+>  struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 374b0e8..764a773 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -14,6 +14,7 @@
+>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_vblank.h>
+>
+>  #include "msm_drv.h"
+>  #include "msm_mmu.h"
+> @@ -1020,6 +1021,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>          */
+>         dev->mode_config.allow_fb_modifiers = true;
+>
+> +       dev->max_vblank_count = 0;
+> +       /* Disable vblank irqs aggressively for power-saving */
+> +       dev->vblank_disable_immediate = true;
+> +
+>         /*
+>          * _dpu_kms_drm_obj_init should create the DRM related objects
+>          * i.e. CRTCs, planes, encoders, connectors and so forth
+> --
+> 2.7.4
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
