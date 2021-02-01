@@ -1,65 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8488230B9B4
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D771E30B1A4
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 21:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1366E932;
-	Tue,  2 Feb 2021 08:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1656E877;
+	Mon,  1 Feb 2021 20:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36676E9E6
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 19:10:13 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id f14so1837298ejc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 11:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=kq3V0zk7/NxAJfrOZfZ2Vz2Yq/qtwdkfS7jsVoNMjUY=;
- b=kzPzL5Hv2XEwxEoE2DGFHOqbXj08SBsj5rwtKZEuYuGtWhprWrNxdhroyVOAuCtve4
- PrTSzFwXzkYMF3AULP03fAoDJHS+WKjMjJnpq1IONBbcypF1q1U0ojLIOGpkUcfGvY2V
- VUVWJOXexBQOKypBZkS6yN0tRG+X+stJr2cOW26osOK/ImpnekCzKsJ6QAiSPEyVUTnq
- hgRvIl6lzDTGH1ngF5OKwD50G+kfMITLvC5tuVPkjIwkOQbcD+TVB9iB3gSY4Fc62YPy
- bmmvGNxtKlUQSMAHDA3yNFHkStxmMjEKMyoIOck5A7FrVRRzbBH7ptasjhaXCA7bhUZN
- YLyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=kq3V0zk7/NxAJfrOZfZ2Vz2Yq/qtwdkfS7jsVoNMjUY=;
- b=t2UMKrxjpxejrGotq0YA5jzn7UCFGMmwH7H96TOVWUSy591X53kxme6p3omrDsZGxC
- vXDhb8wGwwDpbXQ8z+JStIOlRUsdcxY3I3TWUXmsHj2ldxbD9arJ6I4uASYydAq4Sa7w
- v72eUBf+bDd6/jqptM0/wdeXenKBlvzHPtvVLWLcvpg7p6YI7R5mhZtLhOjJpmwD2zHk
- 2mYszB+59y5SMIAQdYeGoilh1tzLyjYFeIFgi9bW8Ci/Gjoce5jiz4Xbf30S+6ZJirNo
- A+PxN3u/kqzUR/LNbzU1LGoLUD5pJbg0li6ZFdPnhIxjZGtbshldmKla5G0uF78k3TSa
- HYtw==
-X-Gm-Message-State: AOAM530Q0HimE/wFMUXdrtjs/A9k9JJA9e+pbEiJR7hzmQU9jANjOcjN
- Rb9J4YIXAON693uIK1SauMI=
-X-Google-Smtp-Source: ABdhPJyQOsm7R+5kJJsGidkuXPRG0pnv4N8x5w5RIIwYx77so+HoKA9dy2dTcZNs8XqBDMCCyM9mlg==
-X-Received: by 2002:a17:906:1f8b:: with SMTP id
- t11mr19272726ejr.224.1612206612283; 
- Mon, 01 Feb 2021 11:10:12 -0800 (PST)
-Received: from localhost
- (ipv6-4edfac2144800d4b.ost.clients.hamburg.freifunk.net.
- [2a03:2267:4:0:4edf:ac21:4480:d4b])
- by smtp.gmail.com with ESMTPSA id w17sm8416280ejk.124.2021.02.01.11.10.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Feb 2021 11:10:11 -0800 (PST)
-Date: Mon, 1 Feb 2021 20:10:01 +0100
-From: Oliver Graute <oliver.graute@gmail.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2] drm/panel: simple: add SGD GKTW70SDAD1SD
-Message-ID: <20210201191001.GA22816@portage>
-References: <1611947364-30688-1-git-send-email-oliver.graute@gmail.com>
- <20210201132736.dbqnyzn7dbu7dsmq@pengutronix.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0172F6E877;
+ Mon,  1 Feb 2021 20:38:24 +0000 (UTC)
+IronPort-SDR: x7KvVZ888hgY5JW2mOcRTgAGmxDQyWDVDKArVIv+LDASOpQeRrjDzE0b2Fp18em0CVOuEFXqN/
+ IklU2pg+x4NQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="265581888"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="265581888"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2021 12:38:23 -0800
+IronPort-SDR: xnMSdeB+pnWgyAqAmJK6PqPQ+buWkqvkSZA3zBmOf8XQlBAcnDo3HBTpnYVt8Uc3eduSYDqRX9
+ UKka4KWDwmnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="479243912"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga001.fm.intel.com with SMTP; 01 Feb 2021 12:38:19 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 01 Feb 2021 22:38:18 +0200
+Date: Mon, 1 Feb 2021 22:38:18 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH v7 09/15] drm/i915: Add support for starting FRL training
+ for HDMI2.1 via PCON
+Message-ID: <YBhmuiFZ4ZsQ7Y+Z@intel.com>
+References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
+ <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210201132736.dbqnyzn7dbu7dsmq@pengutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
+In-Reply-To: <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,98 +51,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: swati2.sharma@intel.com, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/02/21, Marco Felsch wrote:
-> Hi Oliver,
-> 
-> thanks for the patch :)
-> 
-> On 21-01-29 20:09, Oliver Graute wrote:
-> > Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
-> > to panel-simple.
-> > 
-> > The panel spec from Variscite can be found at:
-> > https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
-> > 
-> > Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
-> > Cc: Marco Felsch <m.felsch@pengutronix.de>
-> > Cc: Fabio Estevam <festevam@gmail.com>
-> > ---
-> > 
-> > v2:
-> > 
-> > - changed bpc to 6
-> > - set max value of pixelclock
-> > - increased hfront_porch and hback_porch
-> > - dropped connector-type
-> > 
-> > adding of bus_format = MEDIA_BUS_FMT_RGB666_1X18 results in wrong colors.
-> > omitting bus_format and using some default is good (Tux Pinguin is colored
-> > fine)
-> > 
-> >  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 2be358f..c129a8c 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -3336,6 +3336,28 @@ static const struct panel_desc satoz_sat050at40h12r2 = {
-> >  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> > +static const struct display_timing sgd_gktw70sdad1sd_timing = {
-> > +	.pixelclock = {30000000, 30000000, 40000000},
-> > +	.hactive = { 800, 800, 800},
-> > +	.hfront_porch = {40, 40, 40},
-> > +	.hback_porch = {40, 40, 40},
-> > +	.hsync_len = {48, 48, 48},
-> > +	.vactive = {480, 480, 480},
-> > +	.vfront_porch = {13, 13, 13},
-> > +	.vback_porch = {29, 29, 29},
-> > +	.vsync_len = {3, 3, 3},
-> 
-> Please add also:
-> 
-> 	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> 		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
-ok will do
+On Fri, Dec 18, 2020 at 04:07:17PM +0530, Ankit Nautiyal wrote:
+> This patch adds functions to start FRL training for an HDMI2.1 sink,
+> connected via a PCON as a DP branch device.
+> This patch also adds a new structure for storing frl training related
+> data, when FRL training is completed.
+> =
 
-> 
-> > +};
-> > +
-> > +static const struct panel_desc sgd_gktw70sdad1sd = {
-> > +	.timings = &sgd_gktw70sdad1sd_timing,
-> > +	.num_timings = 1,
-> > +	.bpc = 6,
-> > +	.size = {
-> > +		.width = 153,
-> > +		.height = 86,
-> > +	},
-> 
-> and:
-> 
-> 	.delay = {
-> 		.prepare = 20 + 20 + 10 + 10, /* T0 + T2 + T3 + T4 */
-> 		.enable = 50, /* T5 */
-> 		.disable = 50, /* T5 */
-> 		.unprepare =  10 + 10 + 20 + 20, /* T4 + T3 + T2 + T0 */
-> 	};
+> v2: As suggested by Uma Shankar:
+> -renamed couple of variables for better clarity
+> -tweaked the macros used for correct semantics for true/false
+> -fixed other styling issues.
+> =
 
-ok will do
+> v3: Completed the TODO for condition for going to FRL mode.
+> Modified the condition to determine the required FRL b/w
+> based only on the Pcon and Sink's max FRL values.
+> Moved the frl structure initialization to intel_dp_init_connector().
+> =
 
-thx for your review.
+> v4: Fixed typo in initialization of frl structure.
+> =
 
-Best regards,
+> v5: Always use FRL if its possible, instead of enabling only for
+> higher modes as done in v3.
+> =
 
-Oliver
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com> (v2)
+> ---
+>  .../drm/i915/display/intel_display_types.h    |   7 +
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 151 ++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.h       |   2 +
+>  3 files changed, 160 insertions(+)
+<snip>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 0596d6c24e73..43027a6d5e5e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -3891,6 +3891,8 @@ static void intel_disable_dp(struct intel_atomic_st=
+ate *state,
+>  	intel_edp_backlight_off(old_conn_state);
+>  	intel_dp_set_power(intel_dp, DP_SET_POWER_D3);
+>  	intel_edp_panel_off(intel_dp);
+> +	intel_dp->frl.is_trained =3D false;
+> +	intel_dp->frl.trained_rate_gbps =3D 0;
+
+This stuff looks rather misplaced (or missing from elsewhere). This code
+doesn't even get executed on modern platforms.
+
+<snip>
+> +static int intel_dp_pcon_start_frl_training(struct intel_dp *intel_dp)
+> +{
+> +#define PCON_EXTENDED_TRAIN_MODE (1 > 0)
+> +#define PCON_CONCURRENT_MODE (1 > 0)
+> +#define PCON_SEQUENTIAL_MODE !PCON_CONCURRENT_MODE
+> +#define PCON_NORMAL_TRAIN_MODE !PCON_EXTENDED_TRAIN_MODE
+
+All of that looks like nonsense. What is it supposed to do?
+
+> +#define TIMEOUT_FRL_READY_MS 500
+> +#define TIMEOUT_HDMI_LINK_ACTIVE_MS 1000
+> +
+> +	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+> +	int max_frl_bw, max_pcon_frl_bw, max_edid_frl_bw, ret;
+> +	u8 max_frl_bw_mask =3D 0, frl_trained_mask;
+> +	bool is_active;
+> +
+> +	ret =3D drm_dp_pcon_reset_frl_config(&intel_dp->aux);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	max_pcon_frl_bw =3D intel_dp->dfp.pcon_max_frl_bw;
+> +	drm_dbg(&i915->drm, "PCON max rate =3D %d Gbps\n", max_pcon_frl_bw);
+> +
+> +	max_edid_frl_bw =3D intel_dp_hdmi_sink_max_frl(intel_dp);
+> +	drm_dbg(&i915->drm, "Sink max rate from EDID =3D %d Gbps\n", max_edid_f=
+rl_bw);
+> +
+> +	max_frl_bw =3D min(max_edid_frl_bw, max_pcon_frl_bw);
+> +
+> +	if (max_frl_bw <=3D 0)
+> +		return -EINVAL;
+> +
+> +	ret =3D drm_dp_pcon_frl_prepare(&intel_dp->aux, false);
+> +	if (ret < 0)
+> +		return ret;
+> +	/* Wait for PCON to be FRL Ready */
+> +	wait_for(is_active =3D drm_dp_pcon_is_frl_ready(&intel_dp->aux) =3D=3D =
+true, TIMEOUT_FRL_READY_MS);
+> +
+> +	if (!is_active)
+> +		return -ETIMEDOUT;
+> +
+> +	max_frl_bw_mask =3D intel_dp_pcon_set_frl_mask(max_frl_bw);
+> +	ret =3D drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw, PCON_SE=
+QUENTIAL_MODE);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret =3D drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask, PC=
+ON_NORMAL_TRAIN_MODE);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret =3D drm_dp_pcon_frl_enable(&intel_dp->aux);
+> +	if (ret < 0)
+> +		return ret;
+> +	/*
+> +	 * Wait for FRL to be completed
+> +	 * Check if the HDMI Link is up and active.
+> +	 */
+> +	wait_for(is_active =3D drm_dp_pcon_hdmi_link_active(&intel_dp->aux) =3D=
+=3D true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
+> +
+> +	if (!is_active)
+> +		return -ETIMEDOUT;
+> +
+> +	/* Verify HDMI Link configuration shows FRL Mode */
+> +	if (DP_PCON_HDMI_MODE_FRL !=3D drm_dp_pcon_hdmi_link_mode(&intel_dp->au=
+x, &frl_trained_mask)) {
+> +		drm_dbg(&i915->drm, "HDMI couldn't be trained in FRL Mode\n");
+> +		return -EINVAL;
+> +	}
+> +	drm_dbg(&i915->drm, "MAX_FRL_MASK =3D %u, FRL_TRAINED_MASK =3D %u\n", m=
+ax_frl_bw_mask, frl_trained_mask);
+> +
+> +	intel_dp->frl.trained_rate_gbps =3D intel_dp_pcon_get_frl_mask(frl_trai=
+ned_mask);
+> +	intel_dp->frl.is_trained =3D true;
+> +	drm_dbg(&i915->drm, "FRL trained with : %d Gbps\n", intel_dp->frl.train=
+ed_rate_gbps);
+> +
+> +	return 0;
+> +}
+> +
+> +static bool intel_dp_is_hdmi_2_1_sink(struct intel_dp *intel_dp)
+> +{
+> +	if (drm_dp_is_branch(intel_dp->dpcd) &&
+> +	    intel_dp->has_hdmi_sink &&
+> +	    intel_dp_hdmi_sink_max_frl(intel_dp) > 0)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +void intel_dp_check_frl_training(struct intel_dp *intel_dp)
+> +{
+> +	struct drm_i915_private *dev_priv =3D dp_to_i915(intel_dp);
+> +
+> +	/* Always go for FRL training if supported */
+> +	if (!intel_dp_is_hdmi_2_1_sink(intel_dp) ||
+> +	    intel_dp->frl.is_trained)
+> +		return;
+> +
+> +	if (intel_dp_pcon_start_frl_training(intel_dp) < 0) {
+> +		int ret, mode;
+> +
+> +		drm_dbg(&dev_priv->drm, "Couldnt set FRL mode, continuing with TMDS mo=
+de\n");
+> +		ret =3D drm_dp_pcon_reset_frl_config(&intel_dp->aux);
+> +		mode =3D drm_dp_pcon_hdmi_link_mode(&intel_dp->aux, NULL);
+> +
+> +		if (ret < 0 || mode !=3D DP_PCON_HDMI_MODE_TMDS)
+> +			drm_dbg(&dev_priv->drm, "Issue with PCON, cannot set TMDS mode\n");
+> +	} else {
+> +		drm_dbg(&dev_priv->drm, "FRL training Completed\n");
+> +	}
+> +}
+> +
+>  static void
+>  g4x_set_link_train(struct intel_dp *intel_dp,
+>  		   const struct intel_crtc_state *crtc_state,
+> @@ -8210,6 +8358,9 @@ intel_dp_init_connector(struct intel_digital_port *=
+dig_port,
+>  			       (temp & ~0xf) | 0xd);
+>  	}
+>  =
+
+> +	intel_dp->frl.is_trained =3D false;
+> +	intel_dp->frl.trained_rate_gbps =3D 0;
+> +
+>  	return true;
+>  =
+
+>  fail:
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i9=
+15/display/intel_dp.h
+> index b871a09b6901..58b76a20459c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> @@ -144,4 +144,6 @@ bool intel_dp_initial_fastset_check(struct intel_enco=
+der *encoder,
+>  void intel_dp_sync_state(struct intel_encoder *encoder,
+>  			 const struct intel_crtc_state *crtc_state);
+>  =
+
+> +void intel_dp_check_frl_training(struct intel_dp *intel_dp);
+> +
+>  #endif /* __INTEL_DP_H__ */
+> -- =
+
+> 2.17.1
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
