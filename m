@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C8E30A4A9
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 10:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F9430A4C0
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 10:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014866E12B;
-	Mon,  1 Feb 2021 09:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67C1E6E16F;
+	Mon,  1 Feb 2021 09:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1ADE6E12B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 09:53:55 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id a77so18186239oii.4
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 01:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BrZXKfbjstxOcrlNaiNl80AXrkVjIpfkHPEMEISrv+o=;
- b=beZSsJP2hnqpZStyyz3UHDllMvpfc29if9M85bGORSoJwFPvJPsZBmDDFALSikQEus
- jl6NPI10gEAYFDzVG/EzlS3dPpW/Zyn+kvEgrPAJ/s3weN3cGNUYWpGnCUn6CQGC7xMH
- bZImgZeZqEscxpjWUOIsH1NCx0i5hHLeeR+H4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BrZXKfbjstxOcrlNaiNl80AXrkVjIpfkHPEMEISrv+o=;
- b=uL94gHmxYlZLqgE/iV7DR+I7iLvStZkDN7ezJ6Q0gC65m20NxIPUcS4fHteAsro6Pc
- P1RsOMGhiAg8maBRb+BAxWsANYSeelAw+SgrZ3y510hCL7cK2DAyqEKJuqZmBw9zHxfz
- nRdDwMrKsa5mpZpz0glyXwISWrTzERFwmmYc7QWeIcnB2aCnfB9+RH6xzNCbEAG5Ee04
- 0gJ/3xsJqzZN4ToZcwwwrCtvKAfRCWpa/S/oMXjygb4MKNvV3ekyFQw2rzZSLb9L06+f
- 6qD3T6v6qGp0BIHJ/yMwBEqjsGDc21zGGz/LrCOPRUtvQz3fVkaIpzY04usUQmEDi4rb
- VPZg==
-X-Gm-Message-State: AOAM531wapqKaWc/vWl3G+mJR54+L7Kvp3r+9pVBzPG90eEABBzRC+t0
- 6S/D5HZaWTybop/S0BD1+T292fVj+V2aQmAdX7+2+Q==
-X-Google-Smtp-Source: ABdhPJzUVffym1tm5Dx5k0lNb7UuglCx1tOzxgpR1VYtEMm9UIjQ/fKu2xoczOpvl4/4mwZlRaXyBM3pGD2wqQsAJrE=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr9685258oia.14.1612173234956; 
- Mon, 01 Feb 2021 01:53:54 -0800 (PST)
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net
+ [194.109.24.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C52D6E16F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 09:57:45 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud7.xs4all.net with ESMTPA
+ id 6Vxgluj1Xefbk6Vxklg06Q; Mon, 01 Feb 2021 10:57:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1612173463; bh=5L0KAYINbMVLYN+e0G2cePDwOg1VIYpVmSB2dTWAzME=;
+ h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=qSK1hWb/oqziIFFXFuJWhVKqj65m7kOj1ae9COJH8emZvesJrJiQe+yu42JRqsRR7
+ dqBoWZQyrVO2beEXOhqUSd+5MSd2kHksxil5ksFPy48LO6FO8ENLtM8pGMP/IADVgC
+ k25KuoCUXfzlNWlwmmBSXWxzkA1VZVe4+pptWT3nGoW2+aE+/jz/C6X8PbLbxi44EL
+ CAkFZtlnamX2kj2YOaUPPEs0xeuzBbPYt1nJbRSaexsdZEYd+scl9VR99iVQZ8M4g8
+ 2k0kUs6W8XOrf2DsPNFbCkRDpXIL/dLGC2/bS+PpH6iduKgf7GsVpbvHmuXeJMy2//
+ 2Y/vKyUA+fZ8A==
+Subject: Re: [PATCH v3 1/4] dp/dp_mst: Add support for sink event notify
+ messages
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Sam McNally <sammc@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
+ Lyude Paul <lyude@redhat.com>
+References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+ <62e32c43-29b0-9818-a4dc-ba4fb3fd1a89@xs4all.nl>
+Message-ID: <8bea06b5-0cbd-a135-e09e-075318bdf054@xs4all.nl>
+Date: Mon, 1 Feb 2021 10:57:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210201091159.177853-1-christian.koenig@amd.com>
-In-Reply-To: <20210201091159.177853-1-christian.koenig@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 1 Feb 2021 10:53:43 +0100
-Message-ID: <CAKMK7uG71ErttouViDp-GxH83VvqcAzG7P643P1Ed3N46hQj6Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/v3d/v3d_sched: fix scheduler callbacks return status
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <62e32c43-29b0-9818-a4dc-ba4fb3fd1a89@xs4all.nl>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfIEqwsQAWZhnwLxqO0Qd65U2+xKP9iljo7e0POX3+htoyyjDuSTtIZ46us8nKb7SsW8DlhK0OoJx6ohT3uV9Abg7XHijMVKAHe4KnfMx0l5y+FUgHrx8
+ fYGcsffKvS98VoVGLRoTuB+3S4slSv0wF0Fy2eb15nhDDxAGyZuqqv4vf0w7/MrOFqHgHYMuKnZ3V6z9G4o+r3y4MWIYBWBFTCdwWv28MJWlQUtynaP5SXY1
+ Iem414xhK3lxZ8rOYQRFZLU9aMI4SBCa6Y43zYpi0gn91mqrc/cX1yKnGVR6bkrd4R8orjAAXo32ZBbLq7MjGcqCkvZUO7CTJIRealRifRpJHpsEbwpbso7U
+ bebInyq3+HoFXGwFiJTTd1yGyQEIHjAOUlDzlry7/hxhG2wRjJ+XemmBuHAvdBCBnPGH/hiQ3RcyizUQaVZQHdQX0rFSCwfWXojzq3C2qcEgCnhIBsY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +56,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Luben Tuikov <luben.tuikov@amd.com>, linux-next <linux-next@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBGZWIgMSwgMjAyMSBhdCAxMDoxMiBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBMb29rcyBsaWtlIHRoaXMgd2Fz
-IG5vdCBjb3JyZWN0bHkgYWRqdXN0ZWQuCgpzaG91bGRhIGNvbXBpbGUgdGVzdCBiZWZvcmUgcHVz
-aGluZyA6LSkKCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgo+IEZpeGVzOiBhNmExZjAzNmM3NGUgKCJkcm0vc2NoZWR1bGVyOiBKb2Ig
-dGltZW91dCBoYW5kbGVyIHJldHVybnMgc3RhdHVzICh2MykiKQoKQWNrZWQtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
-djNkL3YzZF9zY2hlZC5jIHwgMTIgKysrKysrLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGlu
-c2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3YzZC92M2Rfc2NoZWQuYyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMKPiBp
-bmRleCBlZjIzMzhhMjk0Y2EuLmNlYjMzZjhlNDM3OSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdjNkL3YzZF9zY2hlZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc2No
-ZWQuYwo+IEBAIC0yNTksNyArMjU5LDcgQEAgdjNkX2NhY2hlX2NsZWFuX2pvYl9ydW4oc3RydWN0
-IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYikKPiAgICAgICAgIHJldHVybiBOVUxMOwo+ICB9Cj4K
-PiAtc3RhdGljIGVudW0gZHJtX2dwdV9zY2hlZF9zdGF0dXMKPiArc3RhdGljIGVudW0gZHJtX2dw
-dV9zY2hlZF9zdGF0Cj4gIHYzZF9ncHVfcmVzZXRfZm9yX3RpbWVvdXQoc3RydWN0IHYzZF9kZXYg
-KnYzZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYikKPiAgewo+ICAgICAgICAgZW51
-bSB2M2RfcXVldWUgcTsKPiBAQCAtMjk0LDcgKzI5NCw3IEBAIHYzZF9ncHVfcmVzZXRfZm9yX3Rp
-bWVvdXQoc3RydWN0IHYzZF9kZXYgKnYzZCwgc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pv
-YikKPiAgICogY291bGQgZmFpbCBpZiB0aGUgR1BVIGdvdCBpbiBhbiBpbmZpbml0ZSBsb29wIGlu
-IHRoZSBDTCwgYnV0IHRoYXQKPiAgICogaXMgcHJldHR5IHVubGlrZWx5IG91dHNpZGUgb2YgYW4g
-aS1nLXQgdGVzdGNhc2UuCj4gICAqLwo+IC1zdGF0aWMgZW51bSBkcm1fdGFza19zdGF0dXMKPiAr
-c3RhdGljIGVudW0gZHJtX2dwdV9zY2hlZF9zdGF0Cj4gIHYzZF9jbF9qb2JfdGltZWRvdXQoc3Ry
-dWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYiwgZW51bSB2M2RfcXVldWUgcSwKPiAgICAgICAg
-ICAgICAgICAgICAgIHUzMiAqdGltZWRvdXRfY3RjYSwgdTMyICp0aW1lZG91dF9jdHJhKQo+ICB7
-Cj4gQEAgLTMxMiw3ICszMTIsNyBAQCB2M2RfY2xfam9iX3RpbWVkb3V0KHN0cnVjdCBkcm1fc2No
-ZWRfam9iICpzY2hlZF9qb2IsIGVudW0gdjNkX3F1ZXVlIHEsCj4gICAgICAgICByZXR1cm4gdjNk
-X2dwdV9yZXNldF9mb3JfdGltZW91dCh2M2QsIHNjaGVkX2pvYik7Cj4gIH0KPgo+IC1zdGF0aWMg
-ZW51bSBkcm1fdGFza19zdGF0dXMKPiArc3RhdGljIGVudW0gZHJtX2dwdV9zY2hlZF9zdGF0Cj4g
-IHYzZF9iaW5fam9iX3RpbWVkb3V0KHN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpCj4g
-IHsKPiAgICAgICAgIHN0cnVjdCB2M2RfYmluX2pvYiAqam9iID0gdG9fYmluX2pvYihzY2hlZF9q
-b2IpOwo+IEBAIC0zMjEsNyArMzIxLDcgQEAgdjNkX2Jpbl9qb2JfdGltZWRvdXQoc3RydWN0IGRy
-bV9zY2hlZF9qb2IgKnNjaGVkX2pvYikKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICZqb2ItPnRpbWVkb3V0X2N0Y2EsICZqb2ItPnRpbWVkb3V0X2N0cmEpOwo+ICB9Cj4KPiAt
-c3RhdGljIGVudW0gZHJtX3Rhc2tfc3RhdHVzCj4gK3N0YXRpYyBlbnVtIGRybV9ncHVfc2NoZWRf
-c3RhdAo+ICB2M2RfcmVuZGVyX2pvYl90aW1lZG91dChzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc2No
-ZWRfam9iKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgdjNkX3JlbmRlcl9qb2IgKmpvYiA9IHRvX3Jl
-bmRlcl9qb2Ioc2NoZWRfam9iKTsKPiBAQCAtMzMwLDcgKzMzMCw3IEBAIHYzZF9yZW5kZXJfam9i
-X3RpbWVkb3V0KHN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpCj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAmam9iLT50aW1lZG91dF9jdGNhLCAmam9iLT50aW1lZG91
-dF9jdHJhKTsKPiAgfQo+Cj4gLXN0YXRpYyBlbnVtIGRybV90YXNrX3N0YXR1cwo+ICtzdGF0aWMg
-ZW51bSBkcm1fZ3B1X3NjaGVkX3N0YXQKPiAgdjNkX2dlbmVyaWNfam9iX3RpbWVkb3V0KHN0cnVj
-dCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpCj4gIHsKPiAgICAgICAgIHN0cnVjdCB2M2Rfam9i
-ICpqb2IgPSB0b192M2Rfam9iKHNjaGVkX2pvYik7Cj4gQEAgLTMzOCw3ICszMzgsNyBAQCB2M2Rf
-Z2VuZXJpY19qb2JfdGltZWRvdXQoc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYikKPiAg
-ICAgICAgIHJldHVybiB2M2RfZ3B1X3Jlc2V0X2Zvcl90aW1lb3V0KGpvYi0+djNkLCBzY2hlZF9q
-b2IpOwo+ICB9Cj4KPiAtc3RhdGljIGVudW0gZHJtX3Rhc2tfc3RhdHVzCj4gK3N0YXRpYyBlbnVt
-IGRybV9ncHVfc2NoZWRfc3RhdAo+ICB2M2RfY3NkX2pvYl90aW1lZG91dChzdHJ1Y3QgZHJtX3Nj
-aGVkX2pvYiAqc2NoZWRfam9iKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgdjNkX2NzZF9qb2IgKmpv
-YiA9IHRvX2NzZF9qb2Ioc2NoZWRfam9iKTsKPiAtLQo+IDIuMjUuMQo+Cj4gX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwgVmV0
-dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZnds
-bC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Lyude,
+
+Daniel referred me to you as the best person to review the MST parts of this
+series.
+
+I can commit this, but then I prefer to have a Reviewed-by or Acked-by from
+someone for the first 3 DP MST patches. Alternatively, you can take the whole
+series (I've reviewed the 4th CEC patch).
+
+Regards,
+
+	Hans
+
+On 12/01/2021 10:24, Hans Verkuil wrote:
+> Hi Sam,
+> 
+> This series still hasn't been merged. It still applies cleanly to v5.11-rc1.
+> 
+> Daniel, can you merge this series for 5.12? Or Ack this series so I can merge it?
+> 
+> The first three patches deal with DP MST support, and this needs review from
+> you or David.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> On 23/09/2020 04:13, Sam McNally wrote:
+>> Sink event notify messages are used for MST CEC IRQs. Add parsing
+>> support for sink event notify messages in preparation for handling MST
+>> CEC IRQs.
+>>
+>> Signed-off-by: Sam McNally <sammc@chromium.org>
+>> ---
+>>
+>> (no changes since v1)
+>>
+>>  drivers/gpu/drm/drm_dp_mst_topology.c | 37 ++++++++++++++++++++++++++-
+>>  include/drm/drm_dp_mst_helper.h       | 14 ++++++++++
+>>  2 files changed, 50 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> index 17dbed0a9800..15b6cc39a754 100644
+>> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+>> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> @@ -1027,6 +1027,30 @@ static bool drm_dp_sideband_parse_resource_status_notify(struct drm_dp_sideband_
+>>  	return false;
+>>  }
+>>  
+>> +static bool drm_dp_sideband_parse_sink_event_notify(
+>> +	struct drm_dp_sideband_msg_rx *raw,
+>> +	struct drm_dp_sideband_msg_req_body *msg)
+>> +{
+>> +	int idx = 1;
+>> +
+>> +	msg->u.sink_event.port_number = (raw->msg[idx] & 0xf0) >> 4;
+>> +	idx++;
+>> +	if (idx > raw->curlen)
+>> +		goto fail_len;
+>> +
+>> +	memcpy(msg->u.sink_event.guid, &raw->msg[idx], 16);
+>> +	idx += 16;
+>> +	if (idx > raw->curlen)
+>> +		goto fail_len;
+>> +
+>> +	msg->u.sink_event.event_id = (raw->msg[idx] << 8) | (raw->msg[idx + 1]);
+>> +	idx++;
+>> +	return true;
+>> +fail_len:
+>> +	DRM_DEBUG_KMS("sink event notify parse length fail %d %d\n", idx, raw->curlen);
+>> +	return false;
+>> +}
+>> +
+>>  static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
+>>  				      struct drm_dp_sideband_msg_req_body *msg)
+>>  {
+>> @@ -1038,6 +1062,8 @@ static bool drm_dp_sideband_parse_req(struct drm_dp_sideband_msg_rx *raw,
+>>  		return drm_dp_sideband_parse_connection_status_notify(raw, msg);
+>>  	case DP_RESOURCE_STATUS_NOTIFY:
+>>  		return drm_dp_sideband_parse_resource_status_notify(raw, msg);
+>> +	case DP_SINK_EVENT_NOTIFY:
+>> +		return drm_dp_sideband_parse_sink_event_notify(raw, msg);
+>>  	default:
+>>  		DRM_ERROR("Got unknown request 0x%02x (%s)\n", msg->req_type,
+>>  			  drm_dp_mst_req_type_str(msg->req_type));
+>> @@ -3875,6 +3901,8 @@ drm_dp_mst_process_up_req(struct drm_dp_mst_topology_mgr *mgr,
+>>  			guid = msg->u.conn_stat.guid;
+>>  		else if (msg->req_type == DP_RESOURCE_STATUS_NOTIFY)
+>>  			guid = msg->u.resource_stat.guid;
+>> +		else if (msg->req_type == DP_SINK_EVENT_NOTIFY)
+>> +			guid = msg->u.sink_event.guid;
+>>  
+>>  		if (guid)
+>>  			mstb = drm_dp_get_mst_branch_device_by_guid(mgr, guid);
+>> @@ -3948,7 +3976,8 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+>>  	drm_dp_sideband_parse_req(&mgr->up_req_recv, &up_req->msg);
+>>  
+>>  	if (up_req->msg.req_type != DP_CONNECTION_STATUS_NOTIFY &&
+>> -	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY) {
+>> +	    up_req->msg.req_type != DP_RESOURCE_STATUS_NOTIFY &&
+>> +	    up_req->msg.req_type != DP_SINK_EVENT_NOTIFY) {
+>>  		DRM_DEBUG_KMS("Received unknown up req type, ignoring: %x\n",
+>>  			      up_req->msg.req_type);
+>>  		kfree(up_req);
+>> @@ -3976,6 +4005,12 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
+>>  		DRM_DEBUG_KMS("Got RSN: pn: %d avail_pbn %d\n",
+>>  			      res_stat->port_number,
+>>  			      res_stat->available_pbn);
+>> +	} else if (up_req->msg.req_type == DP_SINK_EVENT_NOTIFY) {
+>> +		const struct drm_dp_sink_event_notify *sink_event =
+>> +			&up_req->msg.u.sink_event;
+>> +
+>> +		DRM_DEBUG_KMS("Got SEN: pn: %d event_id %d\n",
+>> +			      sink_event->port_number, sink_event->event_id);
+>>  	}
+>>  
+>>  	up_req->hdr = mgr->up_req_recv.initial_hdr;
+>> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+>> index 6ae5860d8644..c7c79e0ced18 100644
+>> --- a/include/drm/drm_dp_mst_helper.h
+>> +++ b/include/drm/drm_dp_mst_helper.h
+>> @@ -402,6 +402,19 @@ struct drm_dp_resource_status_notify {
+>>  	u16 available_pbn;
+>>  };
+>>  
+>> +#define DP_SINK_EVENT_PANEL_REPLAY_ACTIVE_FRAME_CRC_ERROR	BIT(0)
+>> +#define DP_SINK_EVENT_PANEL_REPLAY_RFB_STORAGE_ERROR		BIT(1)
+>> +#define DP_SINK_EVENT_DSC_RC_BUFFER_UNDER_RUN			BIT(2)
+>> +#define DP_SINK_EVENT_DSC_RC_BUFFER_OVERFLOW			BIT(3)
+>> +#define DP_SINK_EVENT_DSC_CHUNK_LENGTH_ERROR			BIT(4)
+>> +#define DP_SINK_EVENT_CEC_IRQ_EVENT				BIT(5)
+>> +
+>> +struct drm_dp_sink_event_notify {
+>> +	u8 port_number;
+>> +	u8 guid[16];
+>> +	u16 event_id;
+>> +};
+>> +
+>>  struct drm_dp_query_payload_ack_reply {
+>>  	u8 port_number;
+>>  	u16 allocated_pbn;
+>> @@ -413,6 +426,7 @@ struct drm_dp_sideband_msg_req_body {
+>>  		struct drm_dp_connection_status_notify conn_stat;
+>>  		struct drm_dp_port_number_req port_num;
+>>  		struct drm_dp_resource_status_notify resource_stat;
+>> +		struct drm_dp_sink_event_notify sink_event;
+>>  
+>>  		struct drm_dp_query_payload query_payload;
+>>  		struct drm_dp_allocate_payload allocate_payload;
+>>
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
