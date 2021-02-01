@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EF030A9AB
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 15:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2439030A9AE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 15:25:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428F66E5BE;
-	Mon,  1 Feb 2021 14:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440A36E5D1;
+	Mon,  1 Feb 2021 14:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528C86E4A1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9146E5BE
  for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 14:25:39 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DB72AAD2E;
- Mon,  1 Feb 2021 14:25:37 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 33B66AE03;
+ Mon,  1 Feb 2021 14:25:38 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH v2 2/4] drm/gma500: Drop DRM_GMA600 and DRM_GMA3600 config
- options
-Date: Mon,  1 Feb 2021 15:25:32 +0100
-Message-Id: <20210201142534.20364-3-tzimmermann@suse.de>
+Subject: [PATCH v2 3/4] drm/gma500: Remove CONFIG_X86 conditionals from source
+ files
+Date: Mon,  1 Feb 2021 15:25:33 +0100
+Message-Id: <20210201142534.20364-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210201142534.20364-1-tzimmermann@suse.de>
 References: <20210201142534.20364-1-tzimmermann@suse.de>
@@ -46,153 +46,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With support for the MID-only Medfield chips removed, simply build
-the complete driver if DRM_GMA500 has been selected. Anyone who wants
-to enable one of the chips would probably also want the rest.
-
-v2:
-	* also drop CONFIG_DRM_GMA600
+Remove the CONFIG_X86 conditionals from the source code. The driver
+already depends on X86 in the Kconfig file. Also, no one has been
+trying to build it on a non-x86 platform recently, or they would have
+noticed that drm_ttm_cache_flush() doesn't exist.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/Kconfig   | 20 +++-------------
- drivers/gpu/drm/gma500/Makefile  | 40 +++++++++++++++-----------------
- drivers/gpu/drm/gma500/psb_drv.c |  7 +++---
- 3 files changed, 25 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/gma500/mmu.c | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-index b05116f15d97..c1f6e12cd3ea 100644
---- a/drivers/gpu/drm/gma500/Kconfig
-+++ b/drivers/gpu/drm/gma500/Kconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_GMA500
--	tristate "Intel GMA5/600 KMS Framebuffer"
-+	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
- 	depends on DRM && PCI && X86 && MMU
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
-@@ -10,19 +10,5 @@ config DRM_GMA500
- 	select INPUT if ACPI
- 	help
- 	  Say yes for an experimental 2D KMS framebuffer driver for the
--	  Intel GMA500 ('Poulsbo') and other Intel IMG based graphics
--	  devices.
--
--config DRM_GMA600
--	bool "Intel GMA600 support (Experimental)"
--	depends on DRM_GMA500
--	help
--	  Say yes to include support for GMA600 (Intel Moorestown/Oaktrail)
--	  platforms with LVDS ports. MIPI is not currently supported.
--
--config DRM_GMA3600
--	bool "Intel GMA3600/3650 support (Experimental)"
--	depends on DRM_GMA500
--	help
--	  Say yes to include basic support for Intel GMA3600/3650 (Intel
--	  Cedar Trail) platforms.
-+	  Intel GMA500 ('Poulsbo'), Intel GMA600 (Moorestown/Oak Trail) and
-+	  Intel GMA3600/3650 (Intel Cedar Trail).
-diff --git a/drivers/gpu/drm/gma500/Makefile b/drivers/gpu/drm/gma500/Makefile
-index f7dded3784fb..0518cff60740 100644
---- a/drivers/gpu/drm/gma500/Makefile
-+++ b/drivers/gpu/drm/gma500/Makefile
-@@ -6,41 +6,39 @@
- gma500_gfx-y += \
- 	  accel_2d.o \
- 	  backlight.o \
-+	  blitter.o \
-+	  cdv_device.o \
-+	  cdv_intel_crt.o \
-+	  cdv_intel_display.o \
-+	  cdv_intel_dp.o \
-+	  cdv_intel_hdmi.o \
-+	  cdv_intel_lvds.o \
- 	  framebuffer.o \
- 	  gem.o \
-+	  gma_device.o \
-+	  gma_display.o \
- 	  gtt.o \
- 	  intel_bios.o \
--	  intel_i2c.o \
- 	  intel_gmbus.o \
-+	  intel_i2c.o \
-+	  mid_bios.o \
- 	  mmu.o \
--	  blitter.o \
-+	  oaktrail_crtc.o \
-+	  oaktrail_device.o \
-+	  oaktrail_hdmi.o \
-+	  oaktrail_hdmi_i2c.o \
-+	  oaktrail_lvds.o \
-+	  oaktrail_lvds_i2c.o \
- 	  power.o \
-+	  psb_device.o \
- 	  psb_drv.o \
--	  gma_display.o \
--	  gma_device.o \
- 	  psb_intel_display.o \
- 	  psb_intel_lvds.o \
- 	  psb_intel_modes.o \
- 	  psb_intel_sdvo.o \
--	  psb_lid.o \
- 	  psb_irq.o \
--	  psb_device.o \
--	  mid_bios.o
-+	  psb_lid.o
+diff --git a/drivers/gpu/drm/gma500/mmu.c b/drivers/gpu/drm/gma500/mmu.c
+index 13aff19aae9b..d856580b8111 100644
+--- a/drivers/gpu/drm/gma500/mmu.c
++++ b/drivers/gpu/drm/gma500/mmu.c
+@@ -48,7 +48,6 @@ static inline uint32_t psb_mmu_pd_index(uint32_t offset)
+ 	return offset >> PSB_PDE_SHIFT;
+ }
  
- gma500_gfx-$(CONFIG_ACPI) +=  opregion.o \
+-#if defined(CONFIG_X86)
+ static inline void psb_clflush(void *addr)
+ {
+ 	__asm__ __volatile__("clflush (%0)\n" : : "r"(addr) : "memory");
+@@ -63,13 +62,6 @@ static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
+ 	psb_clflush(addr);
+ 	mb();
+ }
+-#else
+-
+-static inline void psb_mmu_clflush(struct psb_mmu_driver *driver, void *addr)
+-{;
+-}
+-
+-#endif
  
--gma500_gfx-$(CONFIG_DRM_GMA3600) +=  cdv_device.o \
--	  cdv_intel_crt.o \
--	  cdv_intel_display.o \
--	  cdv_intel_hdmi.o \
--	  cdv_intel_lvds.o \
--	  cdv_intel_dp.o
--
--gma500_gfx-$(CONFIG_DRM_GMA600) += oaktrail_device.o \
--	  oaktrail_crtc.o \
--	  oaktrail_lvds.o \
--	  oaktrail_lvds_i2c.o \
--	  oaktrail_hdmi.o \
--	  oaktrail_hdmi_i2c.o
--
- obj-$(CONFIG_DRM_GMA500) += gma500_gfx.o
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index b083b3f815b9..538974c37adb 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -51,9 +51,10 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent);
-  *                                  N2800
-  */
- static const struct pci_device_id pciidlist[] = {
-+	/* Poulsbo */
- 	{ 0x8086, 0x8108, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &psb_chip_ops },
- 	{ 0x8086, 0x8109, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &psb_chip_ops },
--#if defined(CONFIG_DRM_GMA600)
-+	/* Oak Trail */
- 	{ 0x8086, 0x4100, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
- 	{ 0x8086, 0x4101, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
- 	{ 0x8086, 0x4102, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
-@@ -63,8 +64,7 @@ static const struct pci_device_id pciidlist[] = {
- 	{ 0x8086, 0x4106, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
- 	{ 0x8086, 0x4107, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
- 	{ 0x8086, 0x4108, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &oaktrail_chip_ops },
+ static void psb_mmu_flush_pd_locked(struct psb_mmu_driver *driver, int force)
+ {
+@@ -293,7 +285,6 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
+ 	for (i = 0; i < (PAGE_SIZE / sizeof(uint32_t)); ++i)
+ 		*ptes++ = pd->invalid_pte;
+ 
+-#if defined(CONFIG_X86)
+ 	if (pd->driver->has_clflush && pd->hw_context != -1) {
+ 		mb();
+ 		for (i = 0; i < clflush_count; ++i) {
+@@ -302,7 +293,6 @@ static struct psb_mmu_pt *psb_mmu_alloc_pt(struct psb_mmu_pd *pd)
+ 		}
+ 		mb();
+ 	}
 -#endif
--#if defined(CONFIG_DRM_GMA3600)
-+	/* Cedar Trail */
- 	{ 0x8086, 0x0be0, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
- 	{ 0x8086, 0x0be1, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
- 	{ 0x8086, 0x0be2, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
-@@ -81,7 +81,6 @@ static const struct pci_device_id pciidlist[] = {
- 	{ 0x8086, 0x0bed, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
- 	{ 0x8086, 0x0bee, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
- 	{ 0x8086, 0x0bef, PCI_ANY_ID, PCI_ANY_ID, 0, 0, (long) &cdv_chip_ops },
+ 	kunmap_atomic(v);
+ 	spin_unlock(lock);
+ 
+@@ -459,7 +449,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
+ 
+ 	driver->has_clflush = 0;
+ 
+-#if defined(CONFIG_X86)
+ 	if (boot_cpu_has(X86_FEATURE_CLFLUSH)) {
+ 		uint32_t tfms, misc, cap0, cap4, clflush_size;
+ 
+@@ -476,7 +465,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
+ 		driver->clflush_mask = driver->clflush_add - 1;
+ 		driver->clflush_mask = ~driver->clflush_mask;
+ 	}
 -#endif
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, pciidlist);
+ 
+ 	up_write(&driver->sem);
+ 	return driver;
+@@ -486,7 +474,6 @@ struct psb_mmu_driver *psb_mmu_driver_init(struct drm_device *dev,
+ 	return NULL;
+ }
+ 
+-#if defined(CONFIG_X86)
+ static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
+ 			       uint32_t num_pages, uint32_t desired_tile_stride,
+ 			       uint32_t hw_tile_stride)
+@@ -534,14 +521,6 @@ static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
+ 	}
+ 	mb();
+ }
+-#else
+-static void psb_mmu_flush_ptes(struct psb_mmu_pd *pd, unsigned long address,
+-			       uint32_t num_pages, uint32_t desired_tile_stride,
+-			       uint32_t hw_tile_stride)
+-{
+-	drm_ttm_cache_flush();
+-}
+-#endif
+ 
+ void psb_mmu_remove_pfn_sequence(struct psb_mmu_pd *pd,
+ 				 unsigned long address, uint32_t num_pages)
 -- 
 2.30.0
 
