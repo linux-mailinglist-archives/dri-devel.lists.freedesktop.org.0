@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B44030B9AC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1080030B9AF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E736E8E5;
-	Tue,  2 Feb 2021 08:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F7C6E8F5;
+	Tue,  2 Feb 2021 08:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E9A6E452
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 10:37:45 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id 8so4398961plc.10
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 02:37:45 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFE66E49C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 10:37:48 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id p21so1546pld.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 02:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f1Znj6OivgMAdlpTmZtNwTUdHVfyjxsrVrIZX5cgCQQ=;
- b=IqbgFDU6SacFk6Q8JhPBEmJAFEhQ/ymT7/a8vm5CwjxqaAZiCdjM+NOcurbcxqQ5Em
- k6XTuW9LT9nueisEfNgpM6C5CLLJNjFSxsR/83UNv9pxyCjJO6Bo9FQHaFO7RQrV2XbU
- mt8sp5rv8iPsrJXjVhBU01g7iGOjHB7qlDEsU=
+ bh=bmlVZxRAeFFue/kiN8+5f974mHTD70ZbhDvKpUk4Gzs=;
+ b=f0pALAO8VmIYrpoeT3/Gzaw9jnKwBfItRcJVJK6bGkcbC0gNJCuZe/oCZGrynzA46w
+ M52kvJWVt6V0JS2KrKMpVReScojO0m/mC2n8N5v2nmb8Ny3sKr8CfCAJrFIeD43Ko3sn
+ /mJar9R/i/bJ/VnUpjS89f9Kkbsn4ST/FdFPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f1Znj6OivgMAdlpTmZtNwTUdHVfyjxsrVrIZX5cgCQQ=;
- b=moPZboxb48Ko/Np17SA5ZDL5s31dtc0geREQw0QNDCphQBaEpPQ/4KCOky9lD3aYx1
- 5zUoGiZtIA8c6yiUKQbfz+LQ+67kHs3OxrEODzU1S5DRVQ2Y2O5D5A7T+17n8iwYJZ74
- UOKaclO1euFYU+lKxGO5ngIcBpH16KJe2W54EB+/ZchN0bbBuYfWONxRUqdkzQfi36Uf
- G0LEv63r9DrB8LavHxWS5WOSyPx9SazCZg1k6qajex8lW0aFNYtFmt85iWpBAfaRyd36
- xRymKgwnsg7N3iIQ038/gdgo6I4eAGSn67vmtI3HFZO29a4+kQa2GT9O3WrsXWLbZjgu
- Bthg==
-X-Gm-Message-State: AOAM530W/vhDyHdjYaX0rFf4BxqYrb/fJkmT8huvbPcU0fS5NchjHxd8
- GSvFXPITNeAO5FDT3fu+AImKImnSp6v6UQ==
-X-Google-Smtp-Source: ABdhPJxGUkkAe7tJYEX6+fmpVDu6k+JrucNgsMp+k/qXCq7PXx13UGJgUbgz79Nopoo1YkUnJH/rfg==
-X-Received: by 2002:a17:902:b206:b029:dc:1f41:962d with SMTP id
- t6-20020a170902b206b02900dc1f41962dmr17350708plr.28.1612175865282; 
- Mon, 01 Feb 2021 02:37:45 -0800 (PST)
+ bh=bmlVZxRAeFFue/kiN8+5f974mHTD70ZbhDvKpUk4Gzs=;
+ b=WU6f/beU8yFLvrpzat1B+sDrAlGirfrOVsa+gXMK34q2vDyFDsDSX+D1aGknHtP8Ou
+ psHdtRyEGnB9WDIu6dGjspxNKQtGHS8othF2G4iXpFYjUgcxduW5D82ExMAxATfIiJa9
+ alMVqdPYC7R1GmNUXqRm/BRXrAtZPA16YnfwbDHMQVUM6lSQ/rmja2gUvSh4aQonrP6h
+ 0Rs6WA3lt7hF4cVG8Hn8wbFPSuBkBtgtQkk+c+OKAF03VscORvEQusG+uo5rCS5OFlmn
+ n4JrGa9SApIonTPi0iqduNg5c3w0i2dxMBm6LcT0Qnrgu6SFNADZDa88Vwl9Ms74QOjT
+ kMBw==
+X-Gm-Message-State: AOAM5310WmskqgsQ37xgi2wyZ4rTkHRny59N/NjGGHgA+uiygZdOKrGU
+ 4c+fIHYRpwIF6B5zecc0wQkbpg==
+X-Google-Smtp-Source: ABdhPJyevrQLko0WXEGY9fNaysu7Q70Imh1x0kXORk9gQmwkyhIgPr5rgBQQ3Et8G8Cx6xxCiLsfBg==
+X-Received: by 2002:a17:90b:4004:: with SMTP id
+ ie4mr3233169pjb.114.1612175867800; 
+ Mon, 01 Feb 2021 02:37:47 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:a0cd:1b84:6d56:68e1])
- by smtp.gmail.com with ESMTPSA id 76sm17610356pfz.174.2021.02.01.02.37.43
+ by smtp.gmail.com with ESMTPSA id 76sm17610356pfz.174.2021.02.01.02.37.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 02:37:44 -0800 (PST)
+ Mon, 01 Feb 2021 02:37:47 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v5 5/8] drm/mediatek: Fix ccorr size config
-Date: Mon,  1 Feb 2021 18:37:24 +0800
-Message-Id: <20210201103727.376721-6-hsinyi@chromium.org>
+Subject: [PATCH v5 6/8] drm/mediatek: add matrix_bits private data for ccorr
+Date: Mon,  1 Feb 2021 18:37:25 +0800
+Message-Id: <20210201103727.376721-7-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210201103727.376721-1-hsinyi@chromium.org>
 References: <20210201103727.376721-1-hsinyi@chromium.org>
@@ -78,28 +78,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Fix setting to follow hardware datasheet. The original error setting
-affects mt8192 display.
+Add matrix_bits and coeffs_precision to ccorr private data:
+- matrix bits of mt8183 is 10
+- matrix bits of mt8192 is 11
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 34 ++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-index 6ee2431e6b843..6c86673a835c3 100644
+index 6c86673a835c3..fb86f3a8b3a18 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-@@ -65,7 +65,7 @@ void mtk_ccorr_config(struct device *dev, unsigned int w,
- {
- 	struct mtk_disp_ccorr *ccorr = dev_get_drvdata(dev);
+@@ -29,8 +29,10 @@
+ #define DISP_CCORR_COEF_3			0x008C
+ #define DISP_CCORR_COEF_4			0x0090
  
--	mtk_ddp_write(cmdq_pkt, h << 16 | w, &ccorr->cmdq_reg, ccorr->regs,
-+	mtk_ddp_write(cmdq_pkt, w << 16 | h, &ccorr->cmdq_reg, ccorr->regs,
- 		      DISP_CCORR_SIZE);
- 	mtk_ddp_write(cmdq_pkt, CCORR_ENGINE_EN, &ccorr->cmdq_reg, ccorr->regs,
- 		      DISP_CCORR_CFG);
++#define CCORR_MATRIX_BITS			10
++
+ struct mtk_disp_ccorr_data {
+-	u32 reserved;
++	u32 matrix_bits;
+ };
+ 
+ /**
+@@ -85,21 +87,22 @@ void mtk_ccorr_stop(struct device *dev)
+ 	writel_relaxed(0x0, ccorr->regs + DISP_CCORR_EN);
+ }
+ 
+-/* Converts a DRM S31.32 value to the HW S1.10 format. */
+-static u16 mtk_ctm_s31_32_to_s1_10(u64 in)
++/* Converts a DRM S31.32 value to the HW S1.n format. */
++static u16 mtk_ctm_s31_32_to_s1_n(u64 in, u32 n)
+ {
+ 	u16 r;
+ 
+ 	/* Sign bit. */
+-	r = in & BIT_ULL(63) ? BIT(11) : 0;
++	r = in & BIT_ULL(63) ? BIT(n + 1) : 0;
+ 
+ 	if ((in & GENMASK_ULL(62, 33)) > 0) {
+-		/* identity value 0x100000000 -> 0x400, */
++		/* identity value 0x100000000 -> 0x400(mt8183), */
++		/* identity value 0x100000000 -> 0x800(mt8192), */
+ 		/* if bigger this, set it to max 0x7ff. */
+-		r |= GENMASK(10, 0);
++		r |= GENMASK(n, 0);
+ 	} else {
+-		/* take the 11 most important bits. */
+-		r |= (in >> 22) & GENMASK(10, 0);
++		/* take the n+1 most important bits. */
++		r |= (in >> (32 - n)) & GENMASK(n, 0);
+ 	}
+ 
+ 	return r;
+@@ -114,6 +117,7 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
+ 	uint16_t coeffs[9] = { 0 };
+ 	int i;
+ 	struct cmdq_pkt *cmdq_pkt = NULL;
++	u32 matrix_bits;
+ 
+ 	if (!blob)
+ 		return;
+@@ -121,8 +125,13 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
+ 	ctm = (struct drm_color_ctm *)blob->data;
+ 	input = ctm->matrix;
+ 
++	if (ccorr->data)
++		matrix_bits = ccorr->data->matrix_bits;
++	else
++		matrix_bits = CCORR_MATRIX_BITS;
++
+ 	for (i = 0; i < ARRAY_SIZE(coeffs); i++)
+-		coeffs[i] = mtk_ctm_s31_32_to_s1_10(input[i]);
++		coeffs[i] = mtk_ctm_s31_32_to_s1_n(input[i], matrix_bits);
+ 
+ 	mtk_ddp_write(cmdq_pkt, coeffs[0] << 16 | coeffs[1],
+ 		      &ccorr->cmdq_reg, ccorr->regs, DISP_CCORR_COEF_0);
+@@ -199,8 +208,13 @@ static int mtk_disp_ccorr_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data = {
++	.matrix_bits = CCORR_MATRIX_BITS,
++};
++
+ static const struct of_device_id mtk_disp_ccorr_driver_dt_match[] = {
+-	{ .compatible = "mediatek,mt8183-disp-ccorr"},
++	{ .compatible = "mediatek,mt8183-disp-ccorr",
++	  .data = &mt8183_ccorr_driver_data},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, mtk_disp_ccorr_driver_dt_match);
 -- 
 2.30.0.365.g02bc693789-goog
 
