@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D771E30B1A4
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 21:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DAB30B9B6
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA1656E877;
-	Mon,  1 Feb 2021 20:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274AA6E90B;
+	Tue,  2 Feb 2021 08:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0172F6E877;
- Mon,  1 Feb 2021 20:38:24 +0000 (UTC)
-IronPort-SDR: x7KvVZ888hgY5JW2mOcRTgAGmxDQyWDVDKArVIv+LDASOpQeRrjDzE0b2Fp18em0CVOuEFXqN/
- IklU2pg+x4NQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="265581888"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="265581888"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 12:38:23 -0800
-IronPort-SDR: xnMSdeB+pnWgyAqAmJK6PqPQ+buWkqvkSZA3zBmOf8XQlBAcnDo3HBTpnYVt8Uc3eduSYDqRX9
- UKka4KWDwmnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="479243912"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 01 Feb 2021 12:38:19 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 01 Feb 2021 22:38:18 +0200
-Date: Mon, 1 Feb 2021 22:38:18 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH v7 09/15] drm/i915: Add support for starting FRL training
- for HDMI2.1 via PCON
-Message-ID: <YBhmuiFZ4ZsQ7Y+Z@intel.com>
-References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
- <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F7D6E87F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 21:03:08 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id l23so13354970qtq.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 13:03:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8k+54hdZU4bIMIuE/qB/uIoqqs2NrOQg3MOYc8JAwIA=;
+ b=VmKk8nJ8618Xbxb/H896bZfhXIhO+dDFeUnBicg0JgMCZ2SFsaM6lJiSTgdnLMu79D
+ fgKtrmUK5R3fe7Yl0eGTceLLC1GTeGVawyYLpw6NwDpWply35TF6br9QZ6olQ8kVvGpy
+ wO6bCOtQ+xDPXWW6eFg27XfF7zy563tAIUsT781IJQD2I41Yr7aHKUPQzkf7COO8FXIc
+ xvu2Ew+57rxCD3DCWw+JgekQy8f+aEcLR4rkRqxbH8g84l1W4x6REWxjjezelEiJt5kP
+ ktSgklhXzDh78n5AWCjez+Se6nMTNaHgXldwBmPqqHOMSGaVZF6kOfVim4cFAH6JBh1u
+ Tgmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8k+54hdZU4bIMIuE/qB/uIoqqs2NrOQg3MOYc8JAwIA=;
+ b=rCh1dnPoUSwJNIlf8wamHDYw9jcyVJPy5jRpHEBmMjNxAret4ZQrALh+SIaBayauoz
+ 1brvLWmWnCYpmZ/iZCgmjWRem805MnGPRZmbcxrl0nnyUUSKpkm2lxFpHCoo0o0vaa3m
+ OMtikWlG/vH+u8DUEsxYMYoGbQuiEUlI7sXu8lTQXSwCXkht0jOcbDjss44Uza5V7qBj
+ U44kB/Vof24IUTJWaW8XWncD4pxthpn3PvJ2a+qJ8630Uqf/cV2bUTuGfroNHh9+X6MR
+ W4dJm2PCIVmtdp6Q9eOhrkfeA/H7elxhO3uyyfppUEIiBU+8SQHr8pO4sDa3/ygavJAR
+ 0NBA==
+X-Gm-Message-State: AOAM533/4EGKnvkiMB0XZU+LhL+NRCEt9b0WCCgfJecahTRvWjjdTUJz
+ NROBQ8yFEwOsJT/cG2h7Djua0wY/xB0u0WuBjRj85w==
+X-Google-Smtp-Source: ABdhPJwcbm4gK4H7fyyIpRz0Xl6GxfAIdJhHRhQfSbWaVCyeQXVfpohXRpRnF7hSKYvQ5FYmbHVO0UY5sH4BSFkJ1OE=
+X-Received: by 2002:ac8:6f0f:: with SMTP id g15mr3296448qtv.322.1612213387657; 
+ Mon, 01 Feb 2021 13:03:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
-X-Patchwork-Hint: comment
+References: <20210126204240.418297-1-hridya@google.com>
+ <YBFXPbePURupbe+y@kroah.com>
+ <CAO_48GHrpi9XxPhP2evwH_ZJmbVSWqxCvsYg6S2Syh-mrWBHzA@mail.gmail.com>
+ <c0684400-c1e2-0ebd-ad09-cb7b24db5764@gmail.com>
+ <CAO_48GGsOTLdqAQMO9vrLtWAKG6spByMC-GXwDv_f3ENvpemfA@mail.gmail.com>
+ <CAKMK7uEwm5tLT3fo_+QtzUthht3JLkhCpZ+6yJ2XSB6U4Qp5wg@mail.gmail.com>
+In-Reply-To: <CAKMK7uEwm5tLT3fo_+QtzUthht3JLkhCpZ+6yJ2XSB6U4Qp5wg@mail.gmail.com>
+From: Hridya Valsaraju <hridya@google.com>
+Date: Mon, 1 Feb 2021 13:02:30 -0800
+Message-ID: <CA+wgaPPmTQ2x37rMVsEW=D-adHHyp12sTAh-Gfq3Fn0rOBBHQA@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3] dmabuf: Add the capability to expose
+ DMA-BUF stats in sysfs
+To: Daniel Vetter <daniel@ffwll.ch>
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,221 +68,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swati2.sharma@intel.com, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- vandita.kulkarni@intel.com, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel test robot <lkp@intel.com>, Greg KH <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ Hyesoo Yu <hyesoo.yu@samsung.com>, Suren Baghdasaryan <surenb@google.com>,
+ Android Kernel Team <kernel-team@android.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 18, 2020 at 04:07:17PM +0530, Ankit Nautiyal wrote:
-> This patch adds functions to start FRL training for an HDMI2.1 sink,
-> connected via a PCON as a DP branch device.
-> This patch also adds a new structure for storing frl training related
-> data, when FRL training is completed.
-> =
-
-> v2: As suggested by Uma Shankar:
-> -renamed couple of variables for better clarity
-> -tweaked the macros used for correct semantics for true/false
-> -fixed other styling issues.
-> =
-
-> v3: Completed the TODO for condition for going to FRL mode.
-> Modified the condition to determine the required FRL b/w
-> based only on the Pcon and Sink's max FRL values.
-> Moved the frl structure initialization to intel_dp_init_connector().
-> =
-
-> v4: Fixed typo in initialization of frl structure.
-> =
-
-> v5: Always use FRL if its possible, instead of enabling only for
-> higher modes as done in v3.
-> =
-
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com> (v2)
-> ---
->  .../drm/i915/display/intel_display_types.h    |   7 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 151 ++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.h       |   2 +
->  3 files changed, 160 insertions(+)
-<snip>
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index 0596d6c24e73..43027a6d5e5e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -3891,6 +3891,8 @@ static void intel_disable_dp(struct intel_atomic_st=
-ate *state,
->  	intel_edp_backlight_off(old_conn_state);
->  	intel_dp_set_power(intel_dp, DP_SET_POWER_D3);
->  	intel_edp_panel_off(intel_dp);
-> +	intel_dp->frl.is_trained =3D false;
-> +	intel_dp->frl.trained_rate_gbps =3D 0;
-
-This stuff looks rather misplaced (or missing from elsewhere). This code
-doesn't even get executed on modern platforms.
-
-<snip>
-> +static int intel_dp_pcon_start_frl_training(struct intel_dp *intel_dp)
-> +{
-> +#define PCON_EXTENDED_TRAIN_MODE (1 > 0)
-> +#define PCON_CONCURRENT_MODE (1 > 0)
-> +#define PCON_SEQUENTIAL_MODE !PCON_CONCURRENT_MODE
-> +#define PCON_NORMAL_TRAIN_MODE !PCON_EXTENDED_TRAIN_MODE
-
-All of that looks like nonsense. What is it supposed to do?
-
-> +#define TIMEOUT_FRL_READY_MS 500
-> +#define TIMEOUT_HDMI_LINK_ACTIVE_MS 1000
-> +
-> +	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
-> +	int max_frl_bw, max_pcon_frl_bw, max_edid_frl_bw, ret;
-> +	u8 max_frl_bw_mask =3D 0, frl_trained_mask;
-> +	bool is_active;
-> +
-> +	ret =3D drm_dp_pcon_reset_frl_config(&intel_dp->aux);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	max_pcon_frl_bw =3D intel_dp->dfp.pcon_max_frl_bw;
-> +	drm_dbg(&i915->drm, "PCON max rate =3D %d Gbps\n", max_pcon_frl_bw);
-> +
-> +	max_edid_frl_bw =3D intel_dp_hdmi_sink_max_frl(intel_dp);
-> +	drm_dbg(&i915->drm, "Sink max rate from EDID =3D %d Gbps\n", max_edid_f=
-rl_bw);
-> +
-> +	max_frl_bw =3D min(max_edid_frl_bw, max_pcon_frl_bw);
-> +
-> +	if (max_frl_bw <=3D 0)
-> +		return -EINVAL;
-> +
-> +	ret =3D drm_dp_pcon_frl_prepare(&intel_dp->aux, false);
-> +	if (ret < 0)
-> +		return ret;
-> +	/* Wait for PCON to be FRL Ready */
-> +	wait_for(is_active =3D drm_dp_pcon_is_frl_ready(&intel_dp->aux) =3D=3D =
-true, TIMEOUT_FRL_READY_MS);
-> +
-> +	if (!is_active)
-> +		return -ETIMEDOUT;
-> +
-> +	max_frl_bw_mask =3D intel_dp_pcon_set_frl_mask(max_frl_bw);
-> +	ret =3D drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw, PCON_SE=
-QUENTIAL_MODE);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask, PC=
-ON_NORMAL_TRAIN_MODE);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D drm_dp_pcon_frl_enable(&intel_dp->aux);
-> +	if (ret < 0)
-> +		return ret;
-> +	/*
-> +	 * Wait for FRL to be completed
-> +	 * Check if the HDMI Link is up and active.
-> +	 */
-> +	wait_for(is_active =3D drm_dp_pcon_hdmi_link_active(&intel_dp->aux) =3D=
-=3D true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
-> +
-> +	if (!is_active)
-> +		return -ETIMEDOUT;
-> +
-> +	/* Verify HDMI Link configuration shows FRL Mode */
-> +	if (DP_PCON_HDMI_MODE_FRL !=3D drm_dp_pcon_hdmi_link_mode(&intel_dp->au=
-x, &frl_trained_mask)) {
-> +		drm_dbg(&i915->drm, "HDMI couldn't be trained in FRL Mode\n");
-> +		return -EINVAL;
-> +	}
-> +	drm_dbg(&i915->drm, "MAX_FRL_MASK =3D %u, FRL_TRAINED_MASK =3D %u\n", m=
-ax_frl_bw_mask, frl_trained_mask);
-> +
-> +	intel_dp->frl.trained_rate_gbps =3D intel_dp_pcon_get_frl_mask(frl_trai=
-ned_mask);
-> +	intel_dp->frl.is_trained =3D true;
-> +	drm_dbg(&i915->drm, "FRL trained with : %d Gbps\n", intel_dp->frl.train=
-ed_rate_gbps);
-> +
-> +	return 0;
-> +}
-> +
-> +static bool intel_dp_is_hdmi_2_1_sink(struct intel_dp *intel_dp)
-> +{
-> +	if (drm_dp_is_branch(intel_dp->dpcd) &&
-> +	    intel_dp->has_hdmi_sink &&
-> +	    intel_dp_hdmi_sink_max_frl(intel_dp) > 0)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +void intel_dp_check_frl_training(struct intel_dp *intel_dp)
-> +{
-> +	struct drm_i915_private *dev_priv =3D dp_to_i915(intel_dp);
-> +
-> +	/* Always go for FRL training if supported */
-> +	if (!intel_dp_is_hdmi_2_1_sink(intel_dp) ||
-> +	    intel_dp->frl.is_trained)
-> +		return;
-> +
-> +	if (intel_dp_pcon_start_frl_training(intel_dp) < 0) {
-> +		int ret, mode;
-> +
-> +		drm_dbg(&dev_priv->drm, "Couldnt set FRL mode, continuing with TMDS mo=
-de\n");
-> +		ret =3D drm_dp_pcon_reset_frl_config(&intel_dp->aux);
-> +		mode =3D drm_dp_pcon_hdmi_link_mode(&intel_dp->aux, NULL);
-> +
-> +		if (ret < 0 || mode !=3D DP_PCON_HDMI_MODE_TMDS)
-> +			drm_dbg(&dev_priv->drm, "Issue with PCON, cannot set TMDS mode\n");
-> +	} else {
-> +		drm_dbg(&dev_priv->drm, "FRL training Completed\n");
-> +	}
-> +}
-> +
->  static void
->  g4x_set_link_train(struct intel_dp *intel_dp,
->  		   const struct intel_crtc_state *crtc_state,
-> @@ -8210,6 +8358,9 @@ intel_dp_init_connector(struct intel_digital_port *=
-dig_port,
->  			       (temp & ~0xf) | 0xd);
->  	}
->  =
-
-> +	intel_dp->frl.is_trained =3D false;
-> +	intel_dp->frl.trained_rate_gbps =3D 0;
-> +
->  	return true;
->  =
-
->  fail:
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i9=
-15/display/intel_dp.h
-> index b871a09b6901..58b76a20459c 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-> @@ -144,4 +144,6 @@ bool intel_dp_initial_fastset_check(struct intel_enco=
-der *encoder,
->  void intel_dp_sync_state(struct intel_encoder *encoder,
->  			 const struct intel_crtc_state *crtc_state);
->  =
-
-> +void intel_dp_check_frl_training(struct intel_dp *intel_dp);
-> +
->  #endif /* __INTEL_DP_H__ */
-> -- =
-
-> 2.17.1
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBGZWIgMSwgMjAyMSBhdCAxMDozNyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+IHdyb3RlOgo+Cj4gT24gVGh1LCBKYW4gMjgsIDIwMjEgYXQgMTowMyBQTSBTdW1pdCBT
+ZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPiB3cm90ZToKPiA+Cj4gPiBPbiBUaHUsIDI4
+IEphbiAyMDIxIGF0IDE3OjIzLCBDaHJpc3RpYW4gS8O2bmlnCj4gPiA8Y2tvZW5pZy5sZWljaHR6
+dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+ID4gPgo+ID4gPiBBbSAyOC4wMS4yMSB1bSAxMjow
+MCBzY2hyaWViIFN1bWl0IFNlbXdhbDoKPiA+ID4gPiBIaSBIcmlkeWEsCj4gPiA+ID4KPiA+ID4g
+PiBPbiBXZWQsIDI3IEphbiAyMDIxIGF0IDE3OjM2LCBHcmVnIEtIIDxncmVna2hAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4gd3JvdGU6Cj4gPiA+ID4+IE9uIFR1ZSwgSmFuIDI2LCAyMDIxIGF0IDEyOjQy
+OjM2UE0gLTA4MDAsIEhyaWR5YSBWYWxzYXJhanUgd3JvdGU6Cj4gPiA+ID4+PiBUaGlzIHBhdGNo
+IGFsbG93cyBzdGF0aXN0aWNzIHRvIGJlIGVuYWJsZWQgZm9yIGVhY2ggRE1BLUJVRiBpbgo+ID4g
+PiA+Pj4gc3lzZnMgYnkgZW5hYmxpbmcgdGhlIGNvbmZpZyBDT05GSUdfRE1BQlVGX1NZU0ZTX1NU
+QVRTLgo+ID4gPiA+Pj4KPiA+ID4gPj4+IFRoZSBmb2xsb3dpbmcgc3RhdHMgd2lsbCBiZSBleHBv
+c2VkIGJ5IHRoZSBpbnRlcmZhY2U6Cj4gPiA+ID4+Pgo+ID4gPiA+Pj4gL3N5cy9rZXJuZWwvZG1h
+YnVmL2J1ZmZlcnMvPGlub2RlX251bWJlcj4vZXhwb3J0ZXJfbmFtZQo+ID4gPiA+Pj4gL3N5cy9r
+ZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2RlX251bWJlcj4vc2l6ZQo+ID4gPiA+Pj4gL3N5cy9r
+ZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2RlX251bWJlcj4vYXR0YWNobWVudHMvPGF0dGFjaF91
+aWQ+L2RldmljZQo+ID4gPiA+Pj4gL3N5cy9rZXJuZWwvZG1hYnVmL2J1ZmZlcnMvPGlub2RlX251
+bWJlcj4vYXR0YWNobWVudHMvPGF0dGFjaF91aWQ+L21hcF9jb3VudGVyCj4gPiA+ID4+Pgo+ID4g
+PiA+Pj4gVGhlIGlub2RlX251bWJlciBpcyB1bmlxdWUgZm9yIGVhY2ggRE1BLUJVRiBhbmQgd2Fz
+IGFkZGVkIGVhcmxpZXIgWzFdCj4gPiA+ID4+PiBpbiBvcmRlciB0byBhbGxvdyB1c2Vyc3BhY2Ug
+dG8gdHJhY2sgRE1BLUJVRiB1c2FnZSBhY3Jvc3MgZGlmZmVyZW50Cj4gPiA+ID4+PiBwcm9jZXNz
+ZXMuCj4gPiA+ID4+Pgo+ID4gPiA+Pj4gQ3VycmVudGx5LCB0aGlzIGluZm9ybWF0aW9uIGlzIGV4
+cG9zZWQgaW4KPiA+ID4gPj4+IC9zeXMva2VybmVsL2RlYnVnL2RtYV9idWYvYnVmaW5mby4KPiA+
+ID4gPj4+IEhvd2V2ZXIsIHNpbmNlIGRlYnVnZnMgaXMgY29uc2lkZXJlZCB1bnNhZmUgdG8gYmUg
+bW91bnRlZCBpbiBwcm9kdWN0aW9uLAo+ID4gPiA+Pj4gaXQgaXMgYmVpbmcgZHVwbGljYXRlZCBp
+biBzeXNmcy4KPiA+ID4gPj4+Cj4gPiA+ID4+PiBUaGlzIGluZm9ybWF0aW9uIHdpbGwgYmUgdXNl
+ZCB0byBkZXJpdmUgRE1BLUJVRgo+ID4gPiA+Pj4gcGVyLWV4cG9ydGVyIHN0YXRzIGFuZCBwZXIt
+ZGV2aWNlIHVzYWdlIHN0YXRzIGZvciBBbmRyb2lkIEJ1ZyByZXBvcnRzLgo+ID4gPiA+Pj4gVGhl
+IGNvcnJlc3BvbmRpbmcgdXNlcnNwYWNlIGNoYW5nZXMgY2FuIGJlIGZvdW5kIGF0IFsyXS4KPiA+
+ID4gPj4+IFRlbGVtZXRyeSB0b29scyB3aWxsIGFsc28gY2FwdHVyZSB0aGlzIGluZm9ybWF0aW9u
+KGFsb25nIHdpdGggb3RoZXIKPiA+ID4gPj4+IG1lbW9yeSBtZXRyaWNzKSBwZXJpb2RpY2FsbHkg
+YXMgd2VsbCBhcyBvbiBpbXBvcnRhbnQgZXZlbnRzIGxpa2UgYQo+ID4gPiA+Pj4gZm9yZWdyb3Vu
+ZCBhcHAga2lsbCAod2hpY2ggbWlnaHQgaGF2ZSBiZWVuIHRyaWdnZXJlZCBieSBMb3cgTWVtb3J5
+Cj4gPiA+ID4+PiBLaWxsZXIpLiBJdCB3aWxsIGFsc28gY29udHJpYnV0ZSB0byBwcm92aWRlIGEg
+c25hcHNob3Qgb2YgdGhlIHN5c3RlbQo+ID4gPiA+Pj4gbWVtb3J5IHVzYWdlIG9uIG90aGVyIGV2
+ZW50cyBzdWNoIGFzIE9PTSBraWxscyBhbmQgQXBwbGljYXRpb24gTm90Cj4gPiA+ID4+PiBSZXNw
+b25kaW5nIGV2ZW50cy4KPiA+ID4gPj4+Cj4gPiA+ID4+PiBBIHNoZWxsIHNjcmlwdCB0aGF0IGNh
+biBiZSBydW4gb24gYSBjbGFzc2ljIExpbnV4IGVudmlyb25tZW50IHRvIHJlYWQKPiA+ID4gPj4+
+IG91dCB0aGUgRE1BLUJVRiBzdGF0aXN0aWNzIGNhbiBiZSBmb3VuZCBhdCBbM10oc3VnZ2VzdGVk
+IGJ5IEpvaG4KPiA+ID4gPj4+IFN0dWx0eikuCj4gPiA+ID4+Pgo+ID4gPiA+Pj4gVGhlIHBhdGNo
+IGNvbnRhaW5zIHRoZSBmb2xsb3dpbmcgaW1wcm92ZW1lbnRzIG92ZXIgdGhlIHByZXZpb3VzIHZl
+cnNpb246Cj4gPiA+ID4+PiAxKSBFYWNoIGF0dGFjaG1lbnQgaXMgcmVwcmVzZW50ZWQgYnkgaXRz
+IG93biBkaXJlY3RvcnkgdG8gYWxsb3cgY3JlYXRpbmcKPiA+ID4gPj4+IGEgc3ltbGluayB0byB0
+aGUgaW1wb3J0aW5nIGRldmljZSBhbmQgdG8gYWxzbyBwcm92aWRlIHJvb20gZm9yIGZ1dHVyZQo+
+ID4gPiA+Pj4gZXhwYW5zaW9uLgo+ID4gPiA+Pj4gMikgVGhlIG51bWJlciBvZiBkaXN0aW5jdCBt
+YXBwaW5ncyBvZiBlYWNoIGF0dGFjaG1lbnQgaXMgZXhwb3NlZCBpbiBhCj4gPiA+ID4+PiBzZXBh
+cmF0ZSBmaWxlLgo+ID4gPiA+Pj4gMykgVGhlIHBlci1idWZmZXIgc3RhdGlzdGljcyBhcmUgbm93
+IGluIC9zeXMva2VybmVsL2RtYWJ1Zi9idWZmZXJzCj4gPiA+ID4+PiBpbm9yZGVyIHRvIG1ha2Ug
+dGhlIGludGVyZmFjZSBleHBhbmRhYmxlIGluIGZ1dHVyZS4KPiA+ID4gPj4+Cj4gPiA+ID4+PiBB
+bGwgb2YgdGhlIGltcHJvdmVtZW50cyBhYm92ZSBhcmUgYmFzZWQgb24gc3VnZ2VzdGlvbnMvZmVl
+ZGJhY2sgZnJvbQo+ID4gPiA+Pj4gRGFuaWVsIFZldHRlciBhbmQgQ2hyaXN0aWFuIEvDtm5pZy4K
+PiA+ID4gPj4+Cj4gPiA+ID4+PiBbMV06IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29y
+ay9wYXRjaC8xMDg4NzkxLwo+ID4gPiA+Pj4gWzJdOiBodHRwczovL2FuZHJvaWQtcmV2aWV3Lmdv
+b2dsZXNvdXJjZS5jb20vcS90b3BpYzolMjJkbWFidWYtc3lzZnMlMjIrKHN0YXR1czpvcGVuJTIw
+T1IlMjBzdGF0dXM6bWVyZ2VkKQo+ID4gPiA+Pj4gWzNdOiBodHRwczovL2FuZHJvaWQtcmV2aWV3
+Lmdvb2dsZXNvdXJjZS5jb20vYy9wbGF0Zm9ybS9zeXN0ZW0vbWVtb3J5L2xpYm1lbWluZm8vKy8x
+NTQ5NzM0Cj4gPiA+ID4+Pgo+ID4gPiA+Pj4gU2lnbmVkLW9mZi1ieTogSHJpZHlhIFZhbHNhcmFq
+dSA8aHJpZHlhQGdvb2dsZS5jb20+Cj4gPiA+ID4+PiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qg
+cm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPiA+ID4gVGhhbmtzIGZvciB0aGUgcGF0Y2ghCj4gPiA+
+ID4KPiA+ID4gPiBDaHJpc3RpYW46IElmIHlvdSdyZSBzYXRpc2ZpZWQgd2l0aCB0aGUgZXhwbGFu
+YXRpb24gYXJvdW5kIG5vdAo+ID4gPiA+IGRpcmVjdGx5IGVtYmVkZGluZyBrb2JqZWN0cyBpbnRv
+IHRoZSBkbWFfYnVmIGFuZCBkbWFfYnVmX2F0dGFjaG1lbnQKPiA+ID4gPiBzdHJ1Y3RzLCB0aGVu
+IHdpdGggR3JlZydzIHItYiBmcm9tIHN5c2ZzIFBvViwgSSB0aGluayB3ZSBjYW4gbWVyZ2UgaXQu
+Cj4gPiA+ID4gUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSBmZWVsIG90aGVyd2lzZSEKPiA+ID4K
+PiA+ID4gIEZyb20gdGhlIHRlY2huaWNhbCBzaWRlIGl0IGxvb2tzIGNsZWFuIHRvIG1lLCBmZWVs
+IGZyZWUgdG8gYWRkIG15Cj4gPiA+IGFja2VkLWJ5IHdoaWxlIHB1c2hpbmcuCj4gPiA+Cj4gPiA+
+IEJ1dCBJIHdvdWxkIGF0IGxlYXN0IHRyeSB0byBjb252aW5jZSBEYW5pZWwgb24gdGhlIGRlc2ln
+bi4gQXQgbGVhc3Qgc29tZQo+ID4gPiBvZiBoaXMgY29uY2VybnMgc2VlbXMgdG8gYmUgdmFsaWQg
+YW5kIGtlZXAgaW4gbWluZCB0aGF0IHdlIG5lZWQgdG8KPiA+ID4gc3VwcG9ydCB0aGlzIGludGVy
+ZmFjZSBmb3JldmVyLgo+ID4KPiA+IE5hdHVyYWxseS4KPiA+Cj4gPiBTaW5jZSBoZSBkaWRuJ3Qg
+Y29tbWVudCBvdmVyIEhyaWR5YSdzIGxhc3QgY2xhcmlmaWNhdGlvbiBhYm91dCB0aGUKPiA+IHRy
+YWNlcG9pbnRzIHRvIHRyYWNrIHRvdGFsIEdQVSBtZW1vcnkgYWxsb2NhdGlvbnMgYmVpbmcgb3J0
+aG9nb25hbCB0bwo+ID4gdGhpcyBzZXJpZXMsIEkgYXNzdW1lZCBoZSBhZ3JlZWQgd2l0aCBpdC4K
+Pgo+IFRoZSB0cmFjZXBvaW50IGJlaW5nIG9ydGhvZ29uYWwgZGlkbid0IHJlYWxseSBsb29rIGNv
+bnZpbmNpbmcgdG8gbWUsCj4gc2luY2UgSSBkbyBleHBlY3Qgd2UnbGwgbmVlZCB0aGF0IGF0IGEg
+bXVjaCBtb3JlIGdlbmVyaWMgbGV2ZWwsIGF0Cj4gYWxsb2NhdG9ycy4gV2hldGhlciB0aGF0J3Mg
+ZG1hLWJ1ZiBoZWFwcyBvciBpbiBkcm0gb3Igd2hlcmV2ZXIuIEFuZCB3ZQo+IHByb2JhYmx5IGFs
+c28gbmVlZCB0aGF0IHRvIHNvbWVob3cgYWxpZ24gd2l0aCBjZ3JvdXBzIGFjY291bnRpbmcuCj4K
+PiBCdXQgSSBndWVzcyBmb3IgdGhpcyBpdCBzaG91bGQgYmUgZWFzeSB0byBleHRlbmQgaG93ZXZl
+ciB3ZSBzZWUgZml0LAo+IHNvIHJldHJvZml0dGluZyBhbGxvY2F0b3Igc291cmNlcyBhbmQgYW55
+dGhpbmcgZWxzZSB3ZSB3YW50L25lZWQgZm9yCj4gdGhlIG92ZXJhbGwgZ3B1IG1lbW9yeSBhY2Nv
+dW50IHNob3VsZG4ndCBiZSBhIHByb2JsZW0uIEFsc28sIGl0J3MKPiBmaXJzdCwgc28gdGhlIHBy
+b29mIGZvciBzaG93aW5nIGl0IGFsbCB3b3JrcyB0b2dldGhlciBpcyBtb3JlIG9uIHRoZQo+IHRy
+YWNlcG9pbnRzIDotKQo+Cj4gPiBEYW5pZWwsIGRvIHlvdSBzdGlsbCBoYXZlIG9iamVjdGlvbnMg
+YXJvdW5kIGFkZGluZyB0aGlzIHBhdGNoIGluPwo+Cj4gTmVlZHMgZG9jcyAoZXNwZWNpYWxseSB0
+aGUgdWFwaSBJIHRoaW5rIHdvdWxkIGJlIHVzZWZ1bCB0byBkb2N1bWVudCksCj4gaWd0IHRlc3Rz
+LCB0aGF0IGtpbmQgb2Ygc3R1ZmYgc3RpbGwgSSB0aGluaz8gSXQncyBtZWFudCB0byBiZSBnZW5l
+cmljCj4gdWFwaSBhY3Jvc3MgZHJpdmVycywgZ2VuZXJhbGx5IHdlJ3JlIGEgcGlsZSBzdHJpY3Rl
+ciBmb3IgdGhhdCAoYW5kIHllcwo+IGRtYS1idWYgaGVhcHMgSSB0aGluayBkaWRuJ3QgZG8gYWxs
+IHRoYXQsIHNvIG1heWJlIHRoZXJlJ3MgYW4gYXJndW1lbnQKPiBmb3IgZG9pbmcgdGhpcyBhIGJp
+dCBtb3JlIHNsb3BweSBvciBhdCBsZWFzdCAidGhlIHRlc3RzdWl0ZSBpcwo+IHNvbWV3aGVyZSBl
+bHNlIikuCgpUaGFuayB5b3UgZm9yIHRha2luZyBhbm90aGVyIGxvb2sgRGFuaWVsIQoKSSB3aWxs
+IHRyeSBhZGRpbmcgYW4gSUdUIHRlc3QgZm9yIHRoZSBzeXNmcyBmaWxlcy4gT3RoZXIgdGhhbiB0
+aGUKZG9jdW1lbnRhdGlvbiBpbgpEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWtlcm5l
+bC1kbWFidWYtYnVmZmVycyhpbmNsdWRlZCBpbiB0aGUKcGF0Y2gpLCBpcyB0aGVyZSBhbm90aGVy
+IHBsYWNlIHlvdSB3b3VsZCBsaWtlIHRvIHNlZSB0aGUgZG9jdW1lbnRhdGlvbgpjb3BpZWQgdG8/
+CgpSZWdhcmRzLApIcmlkeWEKCj4KPiBCdXQgSSB0aGluayBpdCB3b3VsZCBiZSBnb29kIHRvIGhh
+dmUgdGhpcyBhbGwgZG9uZS4KPiAtRGFuaWVsCj4KPiA+Cj4gPiA+Cj4gPiA+IFJlZ2FyZHMsCj4g
+PiA+IENocmlzdGlhbi4KPiA+Cj4gPiBCZXN0LAo+ID4gU3VtaXQuCj4gPiA+Cj4gPiA+ID4KPiA+
+ID4gPj4+IC0tLQo+ID4gPiA+Pj4gQ2hhbmdlcyBpbiB2MzoKPiA+ID4gPj4+IEZpeCBhIHdhcm5p
+bmcgcmVwb3J0ZWQgYnkgdGhlIGtlcm5lbCB0ZXN0IHJvYm90Lgo+ID4gPiA+Pj4KPiA+ID4gPj4+
+IENoYW5nZXMgaW4gdjI6Cj4gPiA+ID4+PiAtTW92ZSBzdGF0aXN0aWNzIHRvIC9zeXMva2VybmVs
+L2RtYWJ1Zi9idWZmZXJzIGluIG9kZXIgdG8gYWxsb3cgYWRkaXRpb24KPiA+ID4gPj4+IG9mIG90
+aGVyIERNQS1CVUYtcmVsYXRlZCBzeXNmcyBzdGF0cyBpbiBmdXR1cmUuIEJhc2VkIG9uIGZlZWRi
+YWNrIGZyb20KPiA+ID4gPj4+IERhbmllbCBWZXR0ZXIuCj4gPiA+ID4+PiAtRWFjaCBhdHRhY2ht
+ZW50IGhhcyBpdHMgb3duIGRpcmVjdG9yeSB0byByZXByZXNlbnQgYXR0YWNoaW5nIGRldmljZXMg
+YXMKPiA+ID4gPj4+IHN5bWxpbmtzIGFuZCB0byBpbnRyb2R1Y2UgbWFwX2NvdW50IGFzIGEgc2Vw
+YXJhdGUgZmlsZS4gQmFzZWQgb24KPiA+ID4gPj4+IGZlZWRiYWNrIGZyb20gRGFuaWVsIFZldHRl
+ciBhbmQgQ2hyaXN0aWFuIEvDtm5pZy4gVGhhbmsgeW91IGJvdGghCj4gPiA+ID4+PiAtQ29tbWl0
+IG1lc3NhZ2VzIHVwZGF0ZWQgdG8gcG9pbnQgdG8gdXNlcnNwYWNlIGNvZGUgaW4gQU9TUCB0aGF0
+IHdpbGwKPiA+ID4gPj4+IHJlYWQgdGhlIERNQS1CVUYgc3lzZnMgc3RhdHMuCj4gPiA+ID4+Pgo+
+ID4gPiA+Pj4KPiA+ID4gPj4+ICAgLi4uL0FCSS90ZXN0aW5nL3N5c2ZzLWtlcm5lbC1kbWFidWYt
+YnVmZmVycyAgIHwgIDUyICsrKysKPiA+ID4gPj4+ICAgZHJpdmVycy9kbWEtYnVmL0tjb25maWcg
+ICAgICAgICAgICAgICAgICAgICAgIHwgIDExICsKPiA+ID4gPj4+ICAgZHJpdmVycy9kbWEtYnVm
+L01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsKPiA+ID4gPj4+ICAgZHJpdmVy
+cy9kbWEtYnVmL2RtYS1idWYtc3lzZnMtc3RhdHMuYyAgICAgICAgIHwgMjg1ICsrKysrKysrKysr
+KysrKysrKwo+ID4gPiA+Pj4gICBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi1zeXNmcy1zdGF0cy5o
+ICAgICAgICAgfCAgNjIgKysrKwo+ID4gPiA+Pj4gICBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5j
+ICAgICAgICAgICAgICAgICAgICAgfCAgMzcgKysrCj4gPiA+ID4+PiAgIGluY2x1ZGUvbGludXgv
+ZG1hLWJ1Zi5oICAgICAgICAgICAgICAgICAgICAgICB8ICAyMCArKwo+ID4gPiA+Pj4gICA3IGZp
+bGVzIGNoYW5nZWQsIDQ2OCBpbnNlcnRpb25zKCspCj4gPiA+ID4+PiAgIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWtlcm5lbC1kbWFidWYtYnVmZmVy
+cwo+ID4gPiA+Pj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYt
+c3lzZnMtc3RhdHMuYwo+ID4gPiA+Pj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9kbWEt
+YnVmL2RtYS1idWYtc3lzZnMtc3RhdHMuaAo+ID4gPiA+PiBJIGRvbid0IGtub3cgdGhlIGRtYS1i
+dWYgY29kZSBhdCBhbGwsIGJ1dCBmcm9tIGEgc3lzZnMva29iamVjdCBwb2ludCBvZgo+ID4gPiA+
+PiB2aWV3LCB0aGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWU6Cj4gPiA+ID4+Cj4gPiA+ID4+IFJl
+dmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3Jn
+Pgo+ID4gPiA+IEJlc3QsCj4gPiA+ID4gU3VtaXQuCj4gPiA+ID4gX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+ID4gPiBMaW5hcm8tbW0tc2lnIG1haWxp
+bmcgbGlzdAo+ID4gPiA+IExpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+ID4gPiA+IGh0
+dHBzOi8vbGlzdHMubGluYXJvLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbmFyby1tbS1zaWcKPiA+
+ID4KPiA+Cj4gPgo+ID4gLS0KPiA+IFRoYW5rcyBhbmQgcmVnYXJkcywKPiA+Cj4gPiBTdW1pdCBT
+ZW13YWwKPiA+IExpbmFybyBDb25zdW1lciBHcm91cCAtIFRlY2ggTGVhZAo+ID4gTGluYXJvLm9y
+ZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCj4gPiBfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcg
+bGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPgo+Cj4KPiAtLQo+
+IERhbmllbCBWZXR0ZXIKPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiBo
+dHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
