@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C262F30A1DF
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 07:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8875930B9A4
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451A46E416;
-	Mon,  1 Feb 2021 06:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7606E8D9;
+	Tue,  2 Feb 2021 08:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC1D6E416
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 06:16:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2201F64E06;
- Mon,  1 Feb 2021 06:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612160166;
- bh=U6U/9YgJ8fjKDahPOgJRNrUzRWZyTJ3dnSycpYl+m8s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lCEjCtuQjvQSAdqrMKoxNJ/rIPGOaCEa3aBt3+9g1eDIcmsIE3bxXhxe5MUDBNDSs
- 8gJ55aaI9Jpk+buJa+Gk3mEyEuWFIqKAHLVLoHpfduQnS2pShCZ5WJEFg0hcs0CrtO
- sD4hjJj0wvU097HpuVY72DJMJn9WgP1FdB8I9jzVzFMWo0oEv49e0fkQ8KVm3c8qbq
- m4T4v9bbj1ZDSGrmGj+LXIgzFEObC/e/UfbJrrD1+Dt/4bwWeOi7dvfud3QPwSLRqF
- GCRKMwYJM4BmasjtmFdBm8Sia1KN4lQUR6K4Xz/VC59SfHByQaZv0FE++zetExDby6
- HAPGaP1igdsTA==
-Date: Mon, 1 Feb 2021 08:16:03 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Gal Pressman <galpress@amazon.com>, Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-Message-ID: <20210201061603.GC4593@unreal>
-References: <1611604622-86968-1-git-send-email-jianxin.xiong@intel.com>
- <1611604622-86968-5-git-send-email-jianxin.xiong@intel.com>
- <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
+X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
+ Mon, 01 Feb 2021 08:11:22 UTC
+Received: from out30-42.freemail.mail.aliyun.com
+ (out30-42.freemail.mail.aliyun.com [115.124.30.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FD636E452;
+ Mon,  1 Feb 2021 08:11:21 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R301e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=11; SR=0;
+ TI=SMTPD_---0UNW.pLl_1612166765; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0UNW.pLl_1612166765) by smtp.aliyun-inc.com(127.0.0.1);
+ Mon, 01 Feb 2021 16:06:12 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/amdgpu/amdgpu_debugfs: Replace
+ DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE
+Date: Mon,  1 Feb 2021 16:06:03 +0800
+Message-Id: <1612166763-126885-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,71 +43,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, linux-rdma@vger.kernel.org,
- Edward Srouji <edwards@nvidia.com>, dri-devel@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 31, 2021 at 05:31:16PM +0200, Gal Pressman wrote:
-> On 25/01/2021 21:57, Jianxin Xiong wrote:
-> > Define a new sub-class of 'MR' that uses dma-buf object for the memory
-> > region. Define a new class 'DmaBuf' as a wrapper for dma-buf allocation
-> > mechanism implemented in C.
-> >
-> > Update the cmake function for cython modules to allow building modules
-> > with mixed cython and c source files.
-> >
-> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> > ---
-> >  buildlib/pyverbs_functions.cmake |  78 +++++++----
-> >  pyverbs/CMakeLists.txt           |  11 +-
-> >  pyverbs/dmabuf.pxd               |  15 +++
-> >  pyverbs/dmabuf.pyx               |  73 ++++++++++
-> >  pyverbs/dmabuf_alloc.c           | 278 +++++++++++++++++++++++++++++++++++++++
-> >  pyverbs/dmabuf_alloc.h           |  19 +++
-> >  pyverbs/libibverbs.pxd           |   2 +
-> >  pyverbs/mr.pxd                   |   6 +
-> >  pyverbs/mr.pyx                   | 105 ++++++++++++++-
-> >  9 files changed, 557 insertions(+), 30 deletions(-)
-> >  create mode 100644 pyverbs/dmabuf.pxd
-> >  create mode 100644 pyverbs/dmabuf.pyx
-> >  create mode 100644 pyverbs/dmabuf_alloc.c
-> >  create mode 100644 pyverbs/dmabuf_alloc.h
+Fix the following coccicheck warning:
 
-<...>
+./drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1591:0-23: WARNING:
+fops_sclk_set should be defined with DEFINE_DEBUGFS_ATTRIBUTE.
 
-> > index 0000000..05eae75
-> > --- /dev/null
-> > +++ b/pyverbs/dmabuf_alloc.c
-> > @@ -0,0 +1,278 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-> > +/*
-> > + * Copyright 2020 Intel Corporation. All rights reserved. See COPYING file
-> > + */
-> > +
-> > +#include <stdio.h>
-> > +#include <stdlib.h>
-> > +#include <stdint.h>
-> > +#include <unistd.h>
-> > +#include <string.h>
-> > +#include <errno.h>
-> > +#include <drm/drm.h>
-> > +#include <drm/i915_drm.h>
-> > +#include <drm/amdgpu_drm.h>
-> > +#include <drm/radeon_drm.h>
->
-> I assume these should come from the kernel headers package, right?
+./drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1588:0-23: WARNING:
+fops_ib_preempt should be defined with DEFINE_DEBUGFS_ATTRIBUTE.
 
-This is gross, all kernel headers should be placed in kernel-headers/*
-and "update" script needs to be extended to take drm/* files too :(.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Jianxin, are you fixing it?
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+index a6667a2..54f3f68 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+@@ -1585,11 +1585,8 @@ static int amdgpu_debugfs_sclk_set(void *data, u64 val)
+ 	return 0;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
+-			amdgpu_debugfs_ib_preempt, "%llu\n");
+-
+-DEFINE_SIMPLE_ATTRIBUTE(fops_sclk_set, NULL,
+-			amdgpu_debugfs_sclk_set, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(fops_ib_preempt, NULL, amdgpu_debugfs_ib_preempt, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(fops_sclk_set, NULL, amdgpu_debugfs_sclk_set, "%llu\n");
+ 
+ int amdgpu_debugfs_init(struct amdgpu_device *adev)
+ {
+-- 
+1.8.3.1
 
-Thanks
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
