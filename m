@@ -2,132 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B7130AD54
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 18:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4436130AD53
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 18:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F5F6E845;
-	Mon,  1 Feb 2021 17:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00E896E5C0;
+	Mon,  1 Feb 2021 17:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0D16E845
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 17:03:48 +0000 (UTC)
-IronPort-SDR: cGukbNFfnFIjBchXQIJiSILoUMWy+e9LLYRJKa6FJmmpmPNN2SEGiyC/9macPDRdgSVKNjGMh2
- 3zhG89y15eAQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="159885344"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="159885344"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 09:03:47 -0800
-IronPort-SDR: dCBlwsPbw63I3OvqRadzZ0gjoxk9VaLLbzyyItW0rOEOADx8MbJkln2dWUIbU3T7Dm3FCP0Fb3
- 514y4u9pkXrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581643591"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2021 09:03:47 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 1 Feb 2021 09:03:47 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Mon, 1 Feb 2021 09:03:47 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Mon, 1 Feb 2021 09:03:46 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YpzQTvOZV97xv3A4U9JukhMF1lc9awL92kAHUILzz4fVGn9zht7uTD/M3Vyu0z7KFJQ8ET/hDnXeNARYkkMl02h9q6PSEYwkcrR2cF7521ACIFmo5g93fi7o84C6tlacKGup/7oJ5qWgfZyo/CSx0W0eH873xL0K25DkAzCFilkQDo011o3nZ19p0pQoKZC7PjFpWjtlRNMiIpo1GYyWsDaP84ACjBuWtY1MFH9vACKeDzlQmdzMgRv7hxtg3mH645Nm2UJ1oo53xGeYLLmUe7lfQmzjNVv4oeeQG+3R8OYEoxNGX5W43d9AdBZt1gC0ifhSLxRe/zyco+CBK/gF/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oSoBL9KsPk087VNs29ba6/Z4Vq7dCiKchuuv4JZl/jQ=;
- b=IVIbDFx+5JRkme2lzVah3wqA8bb9/fyxuXewFTi6C9sb0plwG0wlgHCMwFdwATH7+bUfdcnYBtV9aNjFYbifrouCjZW0/lZuTRMVRq9vyPy6md7F71K9FeNI/QjVHNVYpuVSaEW6G+eiPaGcIWFlBGrCzApOU7WCkxnW4A6P68HnbqXEfRQCph/I4U5iQI3bhDRR4D19Z1mUNqexZyZ4s2heHhJDqCQCSn2pHVj7Lvh1ZKhPWYULae7IVnZapDfazrNCkJ87vdwA7F6SpgmzjZ6UPzw6EWrpRkI9U70f3YGXwDINNhYQR2g46xWIlE72iIXd0jsfTs3Y+FKlIT1sSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oSoBL9KsPk087VNs29ba6/Z4Vq7dCiKchuuv4JZl/jQ=;
- b=p1Cjau+DicweIr1rzVPOEUPG7StKn+0RZcMn9qjXYV1RgbQ41h/Aniw4VFjKH8/LkMlWx170o989ez1hU/okHuU+hjyQ4ZUiNV56Y9WdI3p4qEFgJJEOwuKoGcFN4spAXTXVMOJbM12Ai+QRUnf7wmEMqXTKR5XOoUeUx50+M6Y=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by MWHPR11MB1680.namprd11.prod.outlook.com (2603:10b6:301:d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Mon, 1 Feb
- 2021 17:03:44 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::4476:930f:5109:9c28]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::4476:930f:5109:9c28%6]) with mapi id 15.20.3805.026; Mon, 1 Feb 2021
- 17:03:44 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-Thread-Topic: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-Thread-Index: AQHW81IsBXvBf9ch/Ui3XtDALqd1H6pB5ZYAgAD3NICAAIRsAIAAFi0AgAAZeIA=
-Date: Mon, 1 Feb 2021 17:03:44 +0000
-Message-ID: <MW3PR11MB455569DF7B795272687669BFE5B69@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <1611604622-86968-1-git-send-email-jianxin.xiong@intel.com>
- <1611604622-86968-5-git-send-email-jianxin.xiong@intel.com>
- <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
- <20210201061603.GC4593@unreal>
- <CAKMK7uE0kSC1si0E9D1Spkn9aW2jFJw_SH3hYC6sZL7mG6pzyg@mail.gmail.com>
- <20210201152922.GC4718@ziepe.ca>
-In-Reply-To: <20210201152922.GC4718@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: ziepe.ca; dkim=none (message not signed)
- header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.53.14.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 61166afb-493d-4f50-3227-08d8c6d35527
-x-ms-traffictypediagnostic: MWHPR11MB1680:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR11MB16805F9A2793B55D5B4B1767E5B69@MWHPR11MB1680.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2043;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: N2baizOOY8uJIf+frpzP9i7aCZx8MAIXQeZCTRn6FcCamvhsx0y+t18xZFMWO39GNO1zsaqa6FO4gi2/VSGc/Yeg4eenYDkY5B6L9Kpyv6Oei+XsIbihoLpRxiyrEl1XgQmgpP4/HXV0XRYKdIHRdR7m/PMH9UqpfK22Y0x9XpyNCtL/aP45EAaw3tctnIqRQLwE4ZYD2+DX4AW8hp3ww/XAQ+i7Es/o424WIPfw2/3y0RnhY5iZJbc6ShZYIH5ImtaXKdPymmqTM1we49UybLOK4pIPoKur/8FZKHxenQdLq9y7HYnUEFST33uSiCWwioHdgvejk80SYIMQIVXQqhMtpebCwXGrm6Xgma5DAIEioQkq9FJDFNvc7UspqsDsk8aCSOAWVNWlbEQomeUzSertnWVLUE/GmRmbULlDvt0VTUwIXO61QxBK70NrgF4+rUom0kWfaLpaLXYy2Pf3nBA1uC/cdcmWZQc9rTCUd/14wOo9qN1H83yse+BuNyDUOYE/+wG21Ja1V96qW7oUqw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(136003)(396003)(366004)(346002)(478600001)(55016002)(33656002)(4326008)(107886003)(5660300002)(66556008)(64756008)(2906002)(76116006)(9686003)(66476007)(66446008)(8676002)(8936002)(7416002)(52536014)(7696005)(66946007)(110136005)(316002)(71200400001)(54906003)(83380400001)(86362001)(6506007)(53546011)(186003)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?zXtYWv+oxaIe0rXJn68aDzkNjwdYqgcAH/D88vnE3lvDjNIki0lha0R6lvq4?=
- =?us-ascii?Q?cjeg1n8afmb8TT7vsgftH/6YNouRqefTA22DeojWRnsRFxlPn9kjEsTtVLgr?=
- =?us-ascii?Q?PI/GoceLb0oCYfiVsJI+aLSXajQ6Ik1v2CHdeWHY5f7kyz2yTGmER2XMzb6b?=
- =?us-ascii?Q?v5Nnnk65wQTjQLuKMW66UBY7ecrjdqOEAjTUaOOAnDXkC9BfNSKraYRGVt4g?=
- =?us-ascii?Q?fkW6WgM3yB7yRSwx+go5Ux9UNoNObzC/R5ccyzh6E31Yuu2szeVX4BNOo29V?=
- =?us-ascii?Q?yTLXlIX0SIf9MfITGbibnfhAJNQoUkT50R03O5znyGJnyYQVqsWc7DHSZniJ?=
- =?us-ascii?Q?2YhKQ03VsqJizwyLY3cV9JQpdnjictyiZhS/Ugoth3ZqosIb/qdPRNPndE5e?=
- =?us-ascii?Q?kJl4WZSJtqQ2S0KynB/VafBWpugb9E7RFRzCjaYCu9Qv58czeDOSKQhO4lpD?=
- =?us-ascii?Q?8Ika0dDuk5EcoHaNXqAkDX72ycJYEObSvCl07nVpnYbcPqeeUmq0tTQXvpkK?=
- =?us-ascii?Q?Ltf8S6W0d4Po1k1VcMB/u5Jg+ZoicOfcZVpS+3L/kt6P9R/PKujpHlW/wN3I?=
- =?us-ascii?Q?ntkCSs8lw/2ax3uhOom3OruNT43S9TRqzqYAzw9qEumY22n1nMLEwaE65Xbs?=
- =?us-ascii?Q?Wv4SLrhnonJGrX8e71AeEXsVbHoxbeUKw9LzTrtGNWDpskcRFda9noY89GNT?=
- =?us-ascii?Q?QWb90/+c4Z29MaSrrP98IlGbCkJgfMNkWuTsEWLR97vvpZLWi0JYEDQ4KPY3?=
- =?us-ascii?Q?pP1MrNyUwJiPGKyWHwP2fqDVI2SQL1Q2gNe4gTTaSKc5FbEkVrwVc4CgjynV?=
- =?us-ascii?Q?tn/lI0yaz28xPx5W3PkRMXOffHnIZydKjyMgmNZcrD/fBfYQtOwg2ZRVjPKs?=
- =?us-ascii?Q?pUyvdCd1PJTe2FXVbW1ZEiClnGexdpgPKFhqwQQSGJCadU108gq5QlS8s4r4?=
- =?us-ascii?Q?5zJ8LVL2T4vvkm6sCmuiuSP+znAszzJ3uN2lFyD4p678Di5WLpNzrKwY8H4m?=
- =?us-ascii?Q?/tAv7JXx6FPEAYsnSCKpA5cm6s3UKyADw4jJEs3ssugY4PU=3D?=
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5838C6E5C0;
+ Mon,  1 Feb 2021 17:03:14 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id d16so17358953wro.11;
+ Mon, 01 Feb 2021 09:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4XpIqMTxiPl1u/vZSNC4Lfvq35vHO2o8tdpi31fPPS4=;
+ b=NQENQ3sKSfnCCWZNZads57GT/TPjyGI8+M73fUH7lR1Ot/kInwJ2Avm+Di51ZV6w9l
+ X1OFgQazGwEfQJ/zmSWuoz5nh2lsvU5zFcLkumBQ2Iya9E/vT8KxnFuBm0MYboBYIV8g
+ vSCr+dmaqPTlLyfAkYZOFvyPGqkZg1b0vW1UEIUvZXDULuxWnBNdjYpWXuZnwvFIv6JQ
+ a5e/HdshQ5wUGzs/dZ3sGIxxntXFNIcX0kIs3RHGs5uKkXgzg112VVk8vm8gM2aGFzO+
+ ManIClm+0NTERQfypLyNFfvTrai8exXRVhtUcYBgCOPLIjmanXnHVijkeG+NSFMt0re8
+ VD9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4XpIqMTxiPl1u/vZSNC4Lfvq35vHO2o8tdpi31fPPS4=;
+ b=E5WI7XPWRqeoR1k55ikAEhkLPrTRUAHCvRkGKam7EhKHlnxdrPt29t99dpZESClHTR
+ sB8X7y0L8IkeWqu8lwur1cLzJzxhYx1GuwloeVQxDaI1Hl1BjOB8jCZW/bkIJfMdqvnj
+ fdtTV1RTicMXnXJl+W9SUNmikGvBPesMsSnI7E9Nb57qZo4IjdEQlLgDTkkl2Fwq6OMA
+ JD6vgUB5iGSAZwcYJllunpNQ25ekibtVqv1GrHYgd1bfDri04qLMH+1qVSVJr/LvUFfq
+ 2w8OMAYBKwCRwSsNlwk/HmYP4+/Q26zHTJw5O5aBV3sRfBkxCtFEHsQf6aD2mo4p0Mb2
+ IefQ==
+X-Gm-Message-State: AOAM532qi993g8aIrzckPAl0CUeAclYjVU9oQM8OGnzqVJ15DE/smdQu
+ wp//k0vRfakGCLsy6JAy7gE2uz5Lfc5nYvc9sxs=
+X-Google-Smtp-Source: ABdhPJyh9DlgUiUfElTEXzXXdzq0tFW7ZJGEVYqpzz9oWLuIAJjdLuqueejEYKVQV3W8DWNCKZvelMKWo09CPxJKjwo=
+X-Received: by 2002:adf:f8c8:: with SMTP id f8mr19452006wrq.132.1612198992884; 
+ Mon, 01 Feb 2021 09:03:12 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61166afb-493d-4f50-3227-08d8c6d35527
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2021 17:03:44.0751 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yzHVQuU+YaNE39/DMPXL0A8BFnsklY08XSQ6wweOrutxPsBzR3oEPOUcQScE7oDta5hmoiLROiE4U2ctiEqsTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1680
-X-OriginatorOrg: intel.com
+References: <20210109135112.147759-1-angelogioacchino.delregno@somainline.org>
+ <20210109135112.147759-4-angelogioacchino.delregno@somainline.org>
+ <CAF6AEGvDzdgDy7Znw6dQCV7Z=YxnF2_XsqkV+7BT+oY777TqHA@mail.gmail.com>
+ <8f8c7c37-f7b2-f763-19e1-d89e5c454ab4@somainline.org>
+ <CAF6AEGsQp4xHpH2brUdHmAX1ic2k88EFJRVVWDRxWXUqF9njfw@mail.gmail.com>
+In-Reply-To: <CAF6AEGsQp4xHpH2brUdHmAX1ic2k88EFJRVVWDRxWXUqF9njfw@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 1 Feb 2021 09:05:46 -0800
+Message-ID: <CAF6AEGueo71HVBcLW2Mtu5GQ=9HgwL43WczUGLuTk2JWLoH=ew@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/msm/dsi_pll_10nm: Fix bad VCO rate calculation
+ and prescaler
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,97 +65,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, Edward Srouji <edwards@nvidia.com>,
- Gal Pressman <galpress@amazon.com>,
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, "Vetter, 
- Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
+ Douglas Anderson <dianders@chromium.org>, martin.botka@somainline.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, marijn.suijten@somainline.org,
+ phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> Sent: Monday, February 01, 2021 7:29 AM
-> To: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Leon Romanovsky <leon@kernel.org>; Gal Pressman <galpress@amazon.com>; Xiong, Jianxin <jianxin.xiong@intel.com>; Yishai Hadas
-> <yishaih@nvidia.com>; linux-rdma <linux-rdma@vger.kernel.org>; Edward Srouji <edwards@nvidia.com>; dri-devel <dri-
-> devel@lists.freedesktop.org>; Christian Koenig <christian.koenig@amd.com>; Doug Ledford <dledford@redhat.com>; Vetter, Daniel
-> <daniel.vetter@intel.com>
-> Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-> 
-> On Mon, Feb 01, 2021 at 03:10:00PM +0100, Daniel Vetter wrote:
-> > On Mon, Feb 1, 2021 at 7:16 AM Leon Romanovsky <leon@kernel.org> wrote:
-> > >
-> > > On Sun, Jan 31, 2021 at 05:31:16PM +0200, Gal Pressman wrote:
-> > > > On 25/01/2021 21:57, Jianxin Xiong wrote:
-> > > > > Define a new sub-class of 'MR' that uses dma-buf object for the
-> > > > > memory region. Define a new class 'DmaBuf' as a wrapper for
-> > > > > dma-buf allocation mechanism implemented in C.
-> > > > >
-> > > > > Update the cmake function for cython modules to allow building
-> > > > > modules with mixed cython and c source files.
-> > > > >
-> > > > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> > > > > buildlib/pyverbs_functions.cmake |  78 +++++++----
-> > > > >  pyverbs/CMakeLists.txt           |  11 +-
-> > > > >  pyverbs/dmabuf.pxd               |  15 +++
-> > > > >  pyverbs/dmabuf.pyx               |  73 ++++++++++
-> > > > >  pyverbs/dmabuf_alloc.c           | 278 +++++++++++++++++++++++++++++++++++++++
-> > > > >  pyverbs/dmabuf_alloc.h           |  19 +++
-> > > > >  pyverbs/libibverbs.pxd           |   2 +
-> > > > >  pyverbs/mr.pxd                   |   6 +
-> > > > >  pyverbs/mr.pyx                   | 105 ++++++++++++++-
-> > > > >  9 files changed, 557 insertions(+), 30 deletions(-)  create
-> > > > > mode 100644 pyverbs/dmabuf.pxd  create mode 100644
-> > > > > pyverbs/dmabuf.pyx  create mode 100644 pyverbs/dmabuf_alloc.c
-> > > > > create mode 100644 pyverbs/dmabuf_alloc.h
-> > >
-> > > <...>
-> > >
-> > > > > index 0000000..05eae75
-> > > > > +++ b/pyverbs/dmabuf_alloc.c
-> > > > > @@ -0,0 +1,278 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-> > > > > +/*
-> > > > > + * Copyright 2020 Intel Corporation. All rights reserved. See
-> > > > > +COPYING file  */
-> > > > > +
-> > > > > +#include <stdio.h>
-> > > > > +#include <stdlib.h>
-> > > > > +#include <stdint.h>
-> > > > > +#include <unistd.h>
-> > > > > +#include <string.h>
-> > > > > +#include <errno.h>
-> > > > > +#include <drm/drm.h>
-> > > > > +#include <drm/i915_drm.h>
-> > > > > +#include <drm/amdgpu_drm.h>
-> > > > > +#include <drm/radeon_drm.h>
-> > > >
-> > > > I assume these should come from the kernel headers package, right?
-> > >
-> > > This is gross, all kernel headers should be placed in
-> > > kernel-headers/* and "update" script needs to be extended to take drm/* files too :(.
+On Mon, Feb 1, 2021 at 7:47 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Mon, Feb 1, 2021 at 2:11 AM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@somainline.org> wrote:
 > >
-> > drm kernel headers are in the libdrm package. You need that anyway for
-> > doing the ioctls (if you don't hand-roll the restarting yourself).
+> > Il 31/01/21 20:50, Rob Clark ha scritto:
+> > > On Sat, Jan 9, 2021 at 5:51 AM AngeloGioacchino Del Regno
+> > > <angelogioacchino.delregno@somainline.org> wrote:
+> > >>
+> > >> The VCO rate was being miscalculated due to a big overlook during
+> > >> the process of porting this driver from downstream to upstream:
+> > >> here we are really recalculating the rate of the VCO by reading
+> > >> the appropriate registers and returning a real frequency, while
+> > >> downstream the driver was doing something entirely different.
+> > >>
+> > >> In our case here, the recalculated rate was wrong, as it was then
+> > >> given back to the set_rate function, which was erroneously doing
+> > >> a division on the fractional value, based on the prescaler being
+> > >> either enabled or disabled: this was actually producing a bug for
+> > >> which the final VCO rate was being doubled, causing very obvious
+> > >> issues when trying to drive a DSI panel because the actual divider
+> > >> value was multiplied by two!
+> > >>
+> > >> To make things work properly, remove the multiplication of the
+> > >> reference clock by two from function dsi_pll_calc_dec_frac and
+> > >> account for the prescaler enablement in the vco_recalc_rate (if
+> > >> the prescaler is enabled, then the hardware will divide the rate
+> > >> by two).
+> > >>
+> > >> This will make the vco_recalc_rate function to pass the right
+> > >> frequency to the (clock framework) set_rate function when called,
+> > >> which will - in turn - program the right values in both the
+> > >> DECIMAL_DIV_START_1 and the FRAC_DIV_START_{LOW/MID/HIGH}_1
+> > >> registers, finally making the PLL to output the right clock.
+> > >>
+> > >> Also, while at it, remove the prescaler TODO by also adding the
+> > >> possibility of disabling the prescaler on the PLL (it is in the
+> > >> PLL_ANALOG_CONTROLS_ONE register).
+> > >> Of course, both prescaler-ON and OFF cases were tested.
+> > >
+> > > This somehow breaks things on sc7180 (display gets stuck at first
+> > > frame of splash screen).  (This is a setup w/ an ti-sn65dsi86 dsi->eDP
+> > > bridge)
+> > >
 > >
-> > Also our userspace has gone over to just outright copying the driver
-> > headers. Not the generic headers, but for the rendering side of gpus,
-> > which is the topic here, there's really not much generic stuff.
+> > First frame of the splash means that something is "a bit" wrong...
+> > ...like the DSI clock is a little off.
 > >
-> > > Jianxin, are you fixing it?
-> >
-> > So fix is either to depend upon libdrm for building, or have copies of
-> > the headers included in the package for the i915/amdgpu/radeon headers
-> > (drm/drm.h probably not so good idea).
-> 
-> We should have a cmake test to not build the drm parts if it can't be built, and pyverbs should skip the tests.
-> 
+> > I don't have such hardware, otherwise I would've tried... but what you
+> > describe is a bit strange.
+> > Is there any other older qcom platform using this chip? Any other
+> > non-qcom platform? Is the driver for the SN65DSI86 surely fine?
+> > Anyway, as you know, I would never propose untested patches nor
+> > partially working ones for any reason: I'm sorry that this happened.
+>
+> I don't think there is anything publicly avail w/ sc7180 (yet.. but very soon)
+>
+> The ti-sn65dsi86 bridge is used on a bunch of 845/850 devices (like
+> the snapdragon windows laptops).. and I think also the older 835
+> laptops.. ofc that doesn't mean that there isn't some bug, but I'd
+> guess maybe more likely that there is some small difference in DSI vs
+> older devices, or some cmd vs video mode difference.
+>
+> Anyways, seems like the screen did eventually recover so that gives me
+> a bit of confidence to bisect this series, which I'll do a bit later
+> today.
 
-Yes, I will add a test for that. Also, on SLES, the headers could be under /usr/include/libdrm instead of /usr/include/drm. The make test should check that and use proper path. 
+fwiw, this series minus this patch, and everything looks ok.. let me
+take a closer look at what changes with this patch
+
+BR,
+-R
+
+> > In any case, just to be perfectly transparent, while being here waiting
+> > for review, this patch series got tested on more smartphones, even ones
+> > that I don't personally own, with different displays.
+> >
+> > For your reference, here's a list (all MSM8998..):
+> > - OnePlus 5               (1920x1080)
+> > - F(x)Tec Pro 1           (2160x1080)
+> > - Sony Xperia XZ1 Compact (1280x720)
+> > - Sony Xperia XZ1         (1920x1080)
+> > - Sony Xperia XZ Premium  (3840x2160)
+> >
+>
+> Yeah, no worries, I wasn't trying to imply that the patch was untested.
+>
+> Out of curiosity, are any of those video mode panels?
+>
+> >
+> > > Also, something (I assume DSI related) that I was testing on
+> > > msm-next-staging seems to have effected the colors on the panel (ie.
+> > > they are more muted).. which seems to persist across reboots (ie. when
+> >
+> > So much "fun". This makes me think something about the PCC block doing
+> > the wrong thing (getting misconfigured).
+> >
+> > > switching back to a good kernel), and interestingly if I reboot from a
+> > > good kernel I see part of the login prompt (or whatever was previously
+> > > on-screen) in the firmware ui screen !?!  (so maybe somehow triggered
+> > > the display to think it is in PSR mode??)
+> > >
+> >
+> >  From a fast read, the SN65DSI86 is on I2C.. giving it a wrong dsi clock
+> > cannot produce (logically, at least) this, so I say that it is very
+> > unlikely for this to be a consequence of the 10nm pll fixes...
+> >
+>
+> Note that the bridge can also be programmed via dsi cmd mode packets,
+> which I believe is the case on the 835 laptops (or at least one of
+> them).. but all the things I have are using i2c as the control path.
+>
+> > ...unless the bootloader is not configuring the DSI rates, but that's
+> > also veeeeery unlikely (it always does, or it always does not).
+>
+> I haven't looked at the bootloader display code, but booting back to
+> an old/good kernel didn't change anything..  even powering off didn't.
+> But the ghost image seemed to fade after some time, and by the next
+> morning it was fine.  Which is strange. (But tbf, I'm more a gpu guy
+> who works on display only when necessary.. ie. a gpu without a display
+> isn't so much fun ;-))
+>
+> > > Not sure if that is caused by these patches, but if I can figure out
+> > > how to get the panel back to normal I can bisect.  I think for now
+> > > I'll drop this series.  Possibly it could be a
+> > > two-wrongs-makes-a-right situation that had things working before, but
+> > > I think someone from qcom who knows the DSI IP should take a look.
+> > >
+> >
+> > I would be happy if someone from Qualcomm takes a look: after all, there
+> > is no documentation and they're the only ones that can verify this kind
+> > of stuff. Please, Qualcomm.
+>
+> Hopefully someone can take a look.
+>
+> > Besides that, if there's anything I can help with to solve this riddle,
+> > I'm here for you.
+>
+> Thanks, like I said I'll try applying the patches one by one and see
+> if I can narrow down what made the panel go funny, and we can go from
+> there
+>
+> BR,
+> -R
+>
+> > Yours,
+> > -- Angelo
+> >
+> > > BR,
+> > > -R
+> > >
+> > >
+> > >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > >> ---
+> > >>   drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c | 22 +++++++++-------------
+> > >>   1 file changed, 9 insertions(+), 13 deletions(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+> > >> index 8b66e852eb36..5be562dfbf06 100644
+> > >> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+> > >> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
+> > >> @@ -165,11 +165,7 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_10nm *pll)
+> > >>
+> > >>          pll_freq = pll->vco_current_rate;
+> > >>
+> > >> -       if (config->disable_prescaler)
+> > >> -               divider = fref;
+> > >> -       else
+> > >> -               divider = fref * 2;
+> > >> -
+> > >> +       divider = fref;
+> > >>          multiplier = 1 << config->frac_bits;
+> > >>          dec_multiple = div_u64(pll_freq * multiplier, divider);
+> > >>          dec = div_u64_rem(dec_multiple, multiplier, &frac);
+> > >> @@ -266,9 +262,11 @@ static void dsi_pll_ssc_commit(struct dsi_pll_10nm *pll)
+> > >>
+> > >>   static void dsi_pll_config_hzindep_reg(struct dsi_pll_10nm *pll)
+> > >>   {
+> > >> +       struct dsi_pll_config *config = &pll->pll_configuration;
+> > >>          void __iomem *base = pll->mmio;
+> > >> +       u32 val = config->disable_prescaler ? 0x0 : 0x80;
+> > >>
+> > >> -       pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_ONE, 0x80);
+> > >> +       pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_ONE, val);
+> > >>          pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_TWO, 0x03);
+> > >>          pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_THREE, 0x00);
+> > >>          pll_write(base + REG_DSI_10nm_PHY_PLL_DSM_DIVIDER, 0x00);
+> > >> @@ -499,17 +497,15 @@ static unsigned long dsi_pll_10nm_vco_recalc_rate(struct clk_hw *hw,
+> > >>          frac |= ((pll_read(base + REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_HIGH_1) &
+> > >>                    0x3) << 16);
+> > >>
+> > >> -       /*
+> > >> -        * TODO:
+> > >> -        *      1. Assumes prescaler is disabled
+> > >> -        */
+> > >>          multiplier = 1 << config->frac_bits;
+> > >> -       pll_freq = dec * (ref_clk * 2);
+> > >> -       tmp64 = (ref_clk * 2 * frac);
+> > >> +       pll_freq = dec * ref_clk;
+> > >> +       tmp64 = ref_clk * frac;
+> > >>          pll_freq += div_u64(tmp64, multiplier);
+> > >> -
+> > >>          vco_rate = pll_freq;
+> > >>
+> > >> +       if (config->disable_prescaler)
+> > >> +               vco_rate = div_u64(vco_rate, 2);
+> > >> +
+> > >>          DBG("DSI PLL%d returning vco rate = %lu, dec = %x, frac = %x",
+> > >>              pll_10nm->id, (unsigned long)vco_rate, dec, frac);
+> > >>
+> > >> --
+> > >> 2.29.2
+> > >>
+> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
