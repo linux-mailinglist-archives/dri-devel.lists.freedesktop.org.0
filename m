@@ -2,43 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6BC30B9B0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2459530B9A1
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7616E8DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374976E8CE;
 	Tue,  2 Feb 2021 08:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5228C6E402
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 09:33:51 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [124.64.18.147])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3_PxyhdgZS0BAA--.1258S2;
- Mon, 01 Feb 2021 17:33:44 +0800 (CST)
-From: Zhaoge Zhang <zhangzhaoge@loongson.cn>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm: Fix drm_atomic_get_new_crtc_state call error
-Date: Mon,  1 Feb 2021 17:33:44 +0800
-Message-Id: <1612172024-3556-1-git-send-email-zhangzhaoge@loongson.cn>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: AQAAf9Dx3_PxyhdgZS0BAA--.1258S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKFW8XFWrAr1DtrW3Jr47Jwb_yoWfAFc_W3
- W7Xw4xK39xCryvy3Wjyrs8ta4IkasFvF48W3WjqayrAryvgry5Aw43WFnYgr15XF1UX39F
- qanrX34qyrn7KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb28YjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
- 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
- cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
- IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
- 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
- IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
- 87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jY89tUUUUU=
-X-CM-SenderInfo: x2kd0w52kd0w3h6o00pqjv00gofq/
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 338406E0ED;
+ Mon,  1 Feb 2021 09:53:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5300A101E;
+ Mon,  1 Feb 2021 01:53:17 -0800 (PST)
+Received: from [10.57.8.191] (unknown [10.57.8.191])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD2FE3F718;
+ Mon,  1 Feb 2021 01:53:15 -0800 (PST)
+Subject: Re: [PATCH] drm/lima: Use delayed timer as default in devfreq profile
+To: Qiang Yu <yuq825@gmail.com>
+References: <20210127105121.20345-1-lukasz.luba@arm.com>
+ <CAKGbVbsn=xVEa0=c3rywRShVZD18LkmLZ1qDUuDsrT5KnTjr6g@mail.gmail.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <3d1b4696-0172-f88a-f41f-c66ac3baa429@arm.com>
+Date: Mon, 1 Feb 2021 09:53:13 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAKGbVbsn=xVEa0=c3rywRShVZD18LkmLZ1qDUuDsrT5KnTjr6g@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,39 +43,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ christianshewitt@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This position is to clear the previous mask flags,
-so drm_atomic_get_crtc_state should be used.
+Hi Qiang,
 
-Signed-off-by: Zhaoge Zhang <zhangzhaoge@loongson.cn>
----
- drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 1/30/21 1:51 PM, Qiang Yu wrote:
+> Thanks for the patch. But I can't observe any difference on glmark2
+> with or without this patch.
+> Maybe you can provide other test which can benefit from it.
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 268bb69..07fe01b 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -313,8 +313,8 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
- 		return 0;
- 
- 	if (conn_state->crtc) {
--		crtc_state = drm_atomic_get_new_crtc_state(conn_state->state,
--							   conn_state->crtc);
-+		crtc_state = drm_atomic_get_crtc_state(conn_state->state,
-+							conn_state->crtc);
- 
- 		crtc_state->connector_mask &=
- 			~drm_connector_mask(conn_state->connector);
--- 
-2.7.4
+This is a design problem and has impact on the whole system.
+There is a few issues. When the device is not checked and there are
+long delays between last check and current, the history is broken.
+It confuses the devfreq governor and thermal governor (Intelligent Power
+Allocation (IPA)). Thermal governor works on stale stats data and makes
+stupid decisions, because there is no new stats (device not checked).
+Similar applies to devfreq simple_ondemand governor, where it 'tires' to
+work on a loooong period even 3sec and make prediction for the next
+frequency based on it (which is broken).
 
+How it should be done: constant reliable check is needed, then:
+- period is guaranteed and has fixed size, e.g 50ms or 100ms.
+- device status is quite recent so thermal devfreq cooling provides
+   'fresh' data into thermal governor
+
+This would prevent odd behavior and solve the broken cases.
+
+> 
+> Considering it will wake up CPU more frequently, and user may choose
+> to change this by sysfs,
+> I'd like to not apply it.
+
+The deferred timer for GPU is wrong option, for UFS or eMMC makes more
+sense. It's also not recommended for NoC busses. I've discovered that
+some time ago and proposed to have option to switch into delayed timer.
+Trust me, it wasn't obvious to find out that this missing check has
+those impacts. So the other engineers or users might not know that some
+problems they faces (especially when the device load is changing) is due
+to this delayed vs deffered timer and they will change it in the sysfs.
+
+Regards,
+Lukasz
+
+> 
+> Regards,
+> Qiang
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
