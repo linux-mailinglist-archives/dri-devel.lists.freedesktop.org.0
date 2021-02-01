@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817FD30A048
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 03:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC5C30A08F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 04:36:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9503E6E3D6;
-	Mon,  1 Feb 2021 02:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113D56E3E3;
+	Mon,  1 Feb 2021 03:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BE66E3D6;
- Mon,  1 Feb 2021 02:10:54 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DTWd85N7zz9srY;
- Mon,  1 Feb 2021 13:10:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1612145452;
- bh=RQMWa2ShLO0GqlUDQFlorzJ5Ee+a7zwuQBEVXVbMpbU=;
- h=Date:From:To:Cc:Subject:From;
- b=B/IUWZF1L+NrqoKf4xmPzapI2QMpOV2DmxWWAX1yEgydndyCf9ygtOvWxrWtMd9r7
- fcoiTBDw8Ze8UIRL/AABX6Yxq1Y/kbC+SBptIvzd6epY28noY2eIt7k07P8vvxp2D0
- x1VxvSOVLWful678yBsG5XK2S98cb2FRYyrf6m3qD37ngtmEmukm53TnreGwQiLGTV
- cMh4+7Dk8brvf06RpzylB49uLM9sWPXaenw5xjNEVTjl5TF0bCjaD0SC7Pia1NVLz0
- OLMP0mfDENyhr0IkDHctbwf3Qjv3NSIx3fwoGtB79MMz+ElRPrGxvqR/373wDK6zor
- g6Ng3Ugp2YAGA==
-Date: Mon, 1 Feb 2021 13:10:50 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20210201131050.6ac8ea63@canb.auug.org.au>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 61A026E3E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 03:36:14 +0000 (UTC)
+X-UUID: e206aecf62d047ebb74b72eeed204d99-20210201
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=X9UJf+Dfvvey3eOlYKu/5iaho5HJZbcdIR3EG1y2gAM=; 
+ b=b2wkwloe7K7YdrqgvCSes+mw5t1vQ+ZQsigdHfB0JFHljKp3UGDBtNHubOPRRdXg/p8barA0SO1ss9Ry+tPQnF3tTQ4JzS3eozTXr1Pch3tB+IWRiipolBF4LntWBUcMs0fshllFkWIOS0obB081xe9/k6sWJ5Wdw3kbQyhf2nI=;
+X-UUID: e206aecf62d047ebb74b72eeed204d99-20210201
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <jitao.shi@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2066249804; Mon, 01 Feb 2021 11:36:08 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 1 Feb 2021 11:36:06 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 1 Feb 2021 11:36:05 +0800
+From: Jitao Shi <jitao.shi@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/2] Fix EoTp flag
+Date: Mon, 1 Feb 2021 11:36:01 +0800
+Message-ID: <20210201033603.12616-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 9A769A91630558C31E795C4AC43FDD8B316D8CB066EF2D651DAB3736ADEA3FFD2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,155 +53,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============2139541919=="
+Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
+ cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
+ yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2139541919==
-Content-Type: multipart/signed; boundary="Sig_/NK9oM7n=8nY/gN.b/KbjIo/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Changes since v1:
+ - Seperate the line time as single patch.
 
---Sig_/NK9oM7n=8nY/gN.b/KbjIo/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Jitao Shi (2):
+  drm/mediatek: dsi: Fix EoTp flag
+  drm/mediatek: dsi: fine tune the line time cause by EOTp
 
-Hi all,
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
-
-drivers/gpu/drm/v3d/v3d_sched.c:263:1: error: return type is an incomplete =
-type
-  263 | v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job=
- *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_gpu_reset_for_timeout':
-drivers/gpu/drm/v3d/v3d_sched.c:289:9: error: 'return' with a value, in fun=
-ction returning void [-Werror=3Dreturn-type]
-  289 |  return DRM_GPU_SCHED_STAT_NOMINAL;
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:263:1: note: declared here
-  263 | v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job=
- *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: At top level:
-drivers/gpu/drm/v3d/v3d_sched.c:298:1: error: return type is an incomplete =
-type
-  298 | v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue=
- q,
-      | ^~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_cl_job_timedout':
-drivers/gpu/drm/v3d/v3d_sched.c:309:10: error: 'return' with a value, in fu=
-nction returning void [-Werror=3Dreturn-type]
-  309 |   return DRM_GPU_SCHED_STAT_NOMINAL;
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:298:1: note: declared here
-  298 | v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue=
- q,
-      | ^~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: At top level:
-drivers/gpu/drm/v3d/v3d_sched.c:316:1: error: return type is an incomplete =
-type
-  316 | v3d_bin_job_timedout(struct drm_sched_job *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:325:1: error: return type is an incomplete =
-type
-  325 | v3d_render_job_timedout(struct drm_sched_job *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:334:1: error: return type is an incomplete =
-type
-  334 | v3d_generic_job_timedout(struct drm_sched_job *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:342:1: error: return type is an incomplete =
-type
-  342 | v3d_csd_job_timedout(struct drm_sched_job *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_csd_job_timedout':
-drivers/gpu/drm/v3d/v3d_sched.c:353:10: error: 'return' with a value, in fu=
-nction returning void [-Werror=3Dreturn-type]
-  353 |   return DRM_GPU_SCHED_STAT_NOMINAL;
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:342:1: note: declared here
-  342 | v3d_csd_job_timedout(struct drm_sched_job *sched_job)
-      | ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c: At top level:
-drivers/gpu/drm/v3d/v3d_sched.c:362:18: error: initialization of 'enum drm_=
-gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
-'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
-  362 |  .timedout_job =3D v3d_bin_job_timedout,
-      |                  ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:362:18: note: (near initialization for 'v3d=
-_bin_sched_ops.timedout_job')
-drivers/gpu/drm/v3d/v3d_sched.c:369:18: error: initialization of 'enum drm_=
-gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
-'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
-  369 |  .timedout_job =3D v3d_render_job_timedout,
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:369:18: note: (near initialization for 'v3d=
-_render_sched_ops.timedout_job')
-drivers/gpu/drm/v3d/v3d_sched.c:376:18: error: initialization of 'enum drm_=
-gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
-'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
-  376 |  .timedout_job =3D v3d_generic_job_timedout,
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:376:18: note: (near initialization for 'v3d=
-_tfu_sched_ops.timedout_job')
-drivers/gpu/drm/v3d/v3d_sched.c:383:18: error: initialization of 'enum drm_=
-gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
-'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
-  383 |  .timedout_job =3D v3d_csd_job_timedout,
-      |                  ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:383:18: note: (near initialization for 'v3d=
-_csd_sched_ops.timedout_job')
-drivers/gpu/drm/v3d/v3d_sched.c:390:18: error: initialization of 'enum drm_=
-gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
-'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
-  390 |  .timedout_job =3D v3d_generic_job_timedout,
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/v3d/v3d_sched.c:390:18: note: (near initialization for 'v3d=
-_cache_clean_sched_ops.timedout_job')
-
-Caused by commit
-
-  a6a1f036c74e ("drm/scheduler: Job timeout handler returns status (v3)")
-
-I have used the drm-misc tree from next-20210129 for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/NK9oM7n=8nY/gN.b/KbjIo/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAXYyoACgkQAVBC80lX
-0GweCQf+LRzJrP4D4Ztpbsb41AJEP7tfUQiMq/HvEqijwOY7wknNHd383hNhM4uB
-MN/y8IL4wx+2rd4vPjmPJLkUKF0nhmSrvFK4jRE2CrLfLigqIwPzZfx4LShSlcQO
-VBZZLtegJjFuOMDsbWvMAe3Ackr9h9Hv5Yk4Z2Kxmcwvl4xU7B2pQt3zBi1FDs+K
-v/ix8xF5A5ap2niEp+3npz3Np2JMVCSaETeHTcEYl8jrqcFybCig4GIf0k9C6F31
-pX1WcEL8Atg1vE1wV/dqbAEnQIyhVpwfxrPnr4o1I+Gtp8LjtBtmWzTxdNBK2fAo
-2TcdWTo9Eh9WFDF4JP/COAFATUvlsQ==
-=GaHe
------END PGP SIGNATURE-----
-
---Sig_/NK9oM7n=8nY/gN.b/KbjIo/--
-
---===============2139541919==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+2.12.5
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2139541919==--
