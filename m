@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BC30A8A3
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 14:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DC530B9B8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB6F6E59F;
-	Mon,  1 Feb 2021 13:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7497F6E910;
+	Tue,  2 Feb 2021 08:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF1A6E59F
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 13:27:43 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1l6ZEx-0008V4-Vr; Mon, 01 Feb 2021 14:27:39 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <mfe@pengutronix.de>)
- id 1l6ZEu-00077M-Bs; Mon, 01 Feb 2021 14:27:36 +0100
-Date: Mon, 1 Feb 2021 14:27:36 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Oliver Graute <oliver.graute@gmail.com>
-Subject: Re: [PATCH v2] drm/panel: simple: add SGD GKTW70SDAD1SD
-Message-ID: <20210201132736.dbqnyzn7dbu7dsmq@pengutronix.de>
-References: <1611947364-30688-1-git-send-email-oliver.graute@gmail.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED4189F27
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 13:32:16 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id p20so5019936ejb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 05:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SUydFo1Yzotx0dJ4Xcz97tLTNFlDu1WGwY4qJbgVXXs=;
+ b=wyZ43vex9y/L7OURr8uGRzyf57+Hup9CBw9Buo9eC58gaE+WeIPEb8PIF+gCg4cBUg
+ r78c01pYMF0J7ZOMvwczmTMXNZnrOvPD0e0SV8BiV0Dg7uhQfcGZGTAHgVU6+sskAZO/
+ ikQcHNpiGu6VBuLaF7yq5FJ4EoZv15y1u8NUviPrB/y1fFA/NYF0uNhyCwL899lwXaMo
+ VgpNBoYI89Vu1tSmFKjjleUukqquoe0NwbzMKpaAir7v4g4FmvZBuvqnC2SwWbtgWnvs
+ DCw8A8vlAGs1yzOtfKV/bR1p3YyW84iZKBCqrxtImm1S8lWJxgFaIq6zKsA9qncl/4QN
+ aO5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SUydFo1Yzotx0dJ4Xcz97tLTNFlDu1WGwY4qJbgVXXs=;
+ b=f10Q6B87wflBF19j/UG4JMByyVOuRt5U7GSkjXs6mHh10aDWnwpBZq63saUn7WJ45+
+ umiY/NFJZrKJgLh0+u5QdtwLQ+kiGEzBk/FtNmFdwwjHcSa9XVX9qLG2v+apcOMMT34/
+ POoRhcK6U3QcKvr9PHfEGJhWAdtBCuQVMjy3+4ChJKCt3KI0P/hyiupv0/h4LzxDw6a4
+ iyGooUvrsxdTCC/t7kQBqybdn0KRD6/AHgOEa5hVJMjuLs1xzWJiozkwOWeLhCFttBOc
+ oHxqbzjer6QSHA2yQ6io2wFBscUSF8sVzsGBqkm4Nvw3UX+wcemcGdnCG7oeGDIxe1X4
+ FOVw==
+X-Gm-Message-State: AOAM531k9J1fNiE/+ud3RWcz+7Msdc5TgPFghV72Myb+ufqU+8BekiUK
+ lJjYEMW0T98U2TV+ZHj8ed3gBepTCcEsBKEgjaEJ8Q==
+X-Google-Smtp-Source: ABdhPJzYtumr5qMj0oJ66hU20VJCP1zC7FFpU6A9O7Lh32/0bXXjdYDXapxt84S31R/HCRbQM+NowZkWGOah6C3gA8k=
+X-Received: by 2002:a17:906:86cf:: with SMTP id
+ j15mr17990890ejy.216.1612186334684; 
+ Mon, 01 Feb 2021 05:32:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1611947364-30688-1-git-send-email-oliver.graute@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:11:55 up 61 days,  3:18, 32 users,  load average: 0.28, 0.17, 0.09
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210119044157.3801598-1-jun.nie@linaro.org>
+In-Reply-To: <20210119044157.3801598-1-jun.nie@linaro.org>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Mon, 1 Feb 2021 21:32:03 +0800
+Message-ID: <CABymUCMX1=w7xWu1NBdtTMzT=2prNEFuVeUn2zONjsC3-ZOAsw@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: adv7511: Add set_jack handler
+To: a.hajda@samsung.com, John Stultz <john.stultz@linaro.org>
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,119 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: alsa-devel@alsa-project.org, kuninori.morimoto.gx@renesas.com,
+ airlied@linux.ie, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ bogdan.togorean@analog.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Oliver,
-
-thanks for the patch :)
-
-On 21-01-29 20:09, Oliver Graute wrote:
-> Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
-> to panel-simple.
-> 
-> The panel spec from Variscite can be found at:
-> https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
-> 
-> Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
-> Cc: Marco Felsch <m.felsch@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> ---
-> 
-> v2:
-> 
-> - changed bpc to 6
-> - set max value of pixelclock
-> - increased hfront_porch and hback_porch
-> - dropped connector-type
-> 
-> adding of bus_format = MEDIA_BUS_FMT_RGB666_1X18 results in wrong colors.
-> omitting bus_format and using some default is good (Tux Pinguin is colored
-> fine)
-> 
->  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 2be358f..c129a8c 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3336,6 +3336,28 @@ static const struct panel_desc satoz_sat050at40h12r2 = {
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> +static const struct display_timing sgd_gktw70sdad1sd_timing = {
-> +	.pixelclock = {30000000, 30000000, 40000000},
-> +	.hactive = { 800, 800, 800},
-> +	.hfront_porch = {40, 40, 40},
-> +	.hback_porch = {40, 40, 40},
-> +	.hsync_len = {48, 48, 48},
-> +	.vactive = {480, 480, 480},
-> +	.vfront_porch = {13, 13, 13},
-> +	.vback_porch = {29, 29, 29},
-> +	.vsync_len = {3, 3, 3},
-
-Please add also:
-
-	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
-
-> +};
-> +
-> +static const struct panel_desc sgd_gktw70sdad1sd = {
-> +	.timings = &sgd_gktw70sdad1sd_timing,
-> +	.num_timings = 1,
-> +	.bpc = 6,
-> +	.size = {
-> +		.width = 153,
-> +		.height = 86,
-> +	},
-
-and:
-
-	.delay = {
-		.prepare = 20 + 20 + 10 + 10, /* T0 + T2 + T3 + T4 */
-		.enable = 50, /* T5 */
-		.disable = 50, /* T5 */
-		.unprepare =  10 + 10 + 20 + 20, /* T4 + T3 + T2 + T0 */
-	};
-
-Regards,
-  Marco
-
-
-> +};
-
-> +
->  static const struct drm_display_mode sharp_ld_d5116z01b_mode = {
->  	.clock = 168480,
->  	.hdisplay = 1920,
-> @@ -4222,6 +4244,9 @@ static const struct of_device_id platform_of_match[] = {
->  		.compatible = "satoz,sat050at40h12r2",
->  		.data = &satoz_sat050at40h12r2,
->  	}, {
-> +		.compatible = "sgd,gktw70sdad1sd",
-> +		.data = &sgd_gktw70sdad1sd,
-> +	}, {
->  		.compatible = "sharp,ld-d5116z01b",
->  		.data = &sharp_ld_d5116z01b,
->  	}, {
-> -- 
-> 2.7.4
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SnVuIE5pZSA8anVuLm5pZUBsaW5hcm8ub3JnPiDkuo4yMDIx5bm0MeaciDE55pel5ZGo5LqMIOS4
+i+WNiDEyOjQy5YaZ6YGT77yaCj4KPiBXaXRoIGNvbW1pdCA1NWM1Y2M2M2FiLCB0aGUgaGRtaV9j
+b2RlY19zZXRfamFjaygpIHdpbGwgcmVwb3J0IHVuc3VwcG9ydAo+IGZhaWx1cmUgaWYgc2V0X2ph
+Y2sgaGFuZGxlciBpcyBtaXNzaW5nLiBBZGQgc2V0X2phY2sgaGFuZGxlciB0byByZXNvbHZlCj4g
+dGhpcyBmYWlsdXJlLgo+Cj4gU2lnbmVkLW9mZi1ieTogSnVuIE5pZSA8anVuLm5pZUBsaW5hcm8u
+b3JnPgo+IC0tLQo+ICAuLi4vZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2F1ZGlvLmMg
+ICAgfCAyNyArKysrKysrKysrKysrKy0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRp
+b25zKCspLCA3IGRlbGV0aW9ucygtKQo+CgpEb2VzIGFueW9uZSBoYXZlIGNvbW1lbnRzIG9uIHRo
+aXMgcGF0Y2g/CgpUaGFua3MhCkp1bgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
