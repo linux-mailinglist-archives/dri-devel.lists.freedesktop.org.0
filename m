@@ -1,77 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F8E30B27B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 23:04:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A836E30B29F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 23:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECF36E88B;
-	Mon,  1 Feb 2021 22:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5406E88C;
+	Mon,  1 Feb 2021 22:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C686E88B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 22:04:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612217065;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qfsnAlAu/McYcGw2KOXJYqmGsyF1QR4l7YGKSVjsOzo=;
- b=PFvLQPrsdWlblVE7i6/UTZpC7ZRX5q8JauFIkg6OtNfl8PDTVSWP2Z//8nQDQTI3aT8kli
- oeYBjKVlCQM7hcdXoiw4P387UmQtx9SHirjlGPtWFXFaxU0ltVdujwV3McRrWyyk7/z1+e
- kgviNRz8fHloXNs3JcnKxxlyqocqauc=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-qDwC1JyhNFSFb5a0-A48nA-1; Mon, 01 Feb 2021 17:04:21 -0500
-X-MC-Unique: qDwC1JyhNFSFb5a0-A48nA-1
-Received: by mail-qt1-f197.google.com with SMTP id o20so11627064qtx.22
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 14:04:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=qfsnAlAu/McYcGw2KOXJYqmGsyF1QR4l7YGKSVjsOzo=;
- b=hK0r0qcGr18SFd4zEoateAEg21I3mc+CH9bPiZ9cupNgM2FMbFXElOdKx5V2f6hIgE
- 1O5/75691c6UquCellhqQtqA20a8054p7oh0voAkwZW21xhBoSpM6BbUz090Y8z1DUiU
- /hGwgRTq3MsZomCpkgb12B/qdfdEtdcuf09FZdBa1L7TuSNqd4Oruy8XeWrz+A75Qo/D
- CjLkZiDNcuPVk0Zl8sUvyPUBcifTboNtpvvuFceJCJLmF+I/ZY2iSBycyGs3rVKxJ9Tx
- NAmGr/mK6ZfQ3c30J+hUmQgHHGgCe0w//sjQxyJgyZ3z5pCMaUYQEpjOAzd5WR43dRD2
- NeVw==
-X-Gm-Message-State: AOAM531hF74SjwXVZUytVQnnP5pkO7/EQ/Scj9DGuDORuroKFhmZd+Oj
- oHl8SlHMDlBhj42dGmzYcACrukyVM/+1/N6KJn6UTgZaR3SvWJ/nAs9IS4TG6W6++gRelcEHdgm
- O83AlpH04BfNB6QhY9luW7QWl7WtW
-X-Received: by 2002:a05:620a:9cc:: with SMTP id
- y12mr18096794qky.484.1612217061534; 
- Mon, 01 Feb 2021 14:04:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxx/YAAPANhE5btY2ANJn+PQ9MAKqUA1ToMGepGc4545upibD3KSYzj+Fvtch0454gUx+De0w==
-X-Received: by 2002:a05:620a:9cc:: with SMTP id
- y12mr18096783qky.484.1612217061352; 
- Mon, 01 Feb 2021 14:04:21 -0800 (PST)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id b17sm1613323qkh.57.2021.02.01.14.04.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 14:04:20 -0800 (PST)
-Message-ID: <6d9dfeddd11ebe548b70898457452167af75e1ad.camel@redhat.com>
-Subject: Re: [PATCH 1/4] drm/dp_mst: Don't report ports connected if nothing
- is attached to them
-From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
-Date: Mon, 01 Feb 2021 17:04:19 -0500
-In-Reply-To: <20210201120145.350258-1-imre.deak@intel.com>
-References: <20210201120145.350258-1-imre.deak@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.3 (3.38.3-1.fc33)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9AB56E88C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 22:13:55 +0000 (UTC)
+IronPort-SDR: QUUTXe797n6m5u/rotVsxjvkgOX59kscCj6SBGhM4axVCSpcLCOJ+aYjgYOdAfFtZpcnxRNqph
+ 5qvwZDb6jrLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168441606"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168441606"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2021 14:13:55 -0800
+IronPort-SDR: k+DSzuSbx/nUyBmHFSNswXkbIERwisUZHZgb+djSOhQQ0beal1nSEl0Aqn7J1V/qDXZoa+lntX
+ auRjh2B+D2GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="370133505"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 01 Feb 2021 14:13:51 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 02 Feb 2021 00:13:50 +0200
+Date: Tue, 2 Feb 2021 00:13:50 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sam McNally <sammc@chromium.org>
+Subject: Re: [PATCH v3 2/4] drm_dp_mst_topology: use correct AUX channel
+Message-ID: <YBh9HvbIRF4zd+AK@intel.com>
+References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+ <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +50,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- Wayne Lin <Wayne.Lin@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ Hans Verkuil <hans.verkuil@cisco.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rm9yIHRoZSB3aG9sZSBzZXJpZXM6CgpSZXZpZXdlZC1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVk
-aGF0LmNvbT4KCk9uIE1vbiwgMjAyMS0wMi0wMSBhdCAxNDowMSArMDIwMCwgSW1yZSBEZWFrIHdy
-b3RlOgo+IFJlcG9ydGluZyBhIHBvcnQgYXMgY29ubmVjdGVkIGlmIG5vdGhpbmcgaXMgYXR0YWNo
-ZWQgdG8gdGhlbSBsZWFkcyB0bwo+IGFueSBpMmMgdHJhbnNhY3Rpb25zIG9uIHRoaXMgcG9ydCB0
-cnlpbmcgdG8gdXNlIGFuIHVuaW5pdGlhbGl6ZWQgaTJjCj4gYWRhcHRlciwgZml4IHRoaXMuCj4g
-Cj4gTGV0J3MgYWNjb3VudCBmb3IgdGhpcyBjYXNlIGV2ZW4gaWYgYnJhbmNoIGRldmljZXMgaGF2
-ZSBubyBnb29kIHJlYXNvbgo+IHRvIHJlcG9ydCBhIHBvcnQgYXMgdW5wbHVnZ2VkIHdpdGggdGhl
-aXIgcGVlciBkZXZpY2UgdHlwZSBzZXQgdG8gJ25vbmUnLgo+IAo+IEZpeGVzOiBkYjFhMDc5NTY5
-NjggKCJkcm0vZHBfbXN0OiBIYW5kbGUgU1NULW9ubHkgYnJhbmNoIGRldmljZSBjYXNlIikKPiBS
-ZWZlcmVuY2VzOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZHJtL2ludGVsLy0vaXNz
-dWVzLzI5ODcKPiBSZWZlcmVuY2VzOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZHJt
-L2ludGVsLy0vaXNzdWVzLzE5NjMKPiBDYzogV2F5bmUgTGluIDxXYXluZS5MaW5AYW1kLmNvbT4K
-PiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBDYzogPHN0YWJsZUB2Z2VyLmtl
-cm5lbC5vcmc+ICMgdjUuNSsKPiBDYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IFNpZ25lZC1vZmYtYnk6IEltcmUgRGVhayA8aW1yZS5kZWFrQGludGVsLmNvbT4KPiAtLS0KPiDC
-oGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCAxICsKPiDCoDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2RwX21zdF90b3BvbG9neS5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3Bv
-bG9neS5jCj4gaW5kZXggZTgyYjU5NmQ2NDZjLi5kZWI3OTk1ZjQyZmEgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiBAQCAtNDIyNCw2ICs0MjI0LDcgQEAgZHJtX2Rw
-X21zdF9kZXRlY3RfcG9ydChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+IMKgCj4g
-wqDCoMKgwqDCoMKgwqDCoHN3aXRjaCAocG9ydC0+cGR0KSB7Cj4gwqDCoMKgwqDCoMKgwqDCoGNh
-c2UgRFBfUEVFUl9ERVZJQ0VfTk9ORToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-YnJlYWs7Cj4gwqDCoMKgwqDCoMKgwqDCoGNhc2UgRFBfUEVFUl9ERVZJQ0VfTVNUX0JSQU5DSElO
-RzoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmICghcG9ydC0+bWNzKQo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IGNvbm5l
-Y3Rvcl9zdGF0dXNfY29ubmVjdGVkOwoKLS0gClNpbmNlcmVseSwKICAgTHl1ZGUgUGF1bCAoc2hl
-L2hlcikKICAgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAogICAKTm90ZTogSSBkZWFsIHdp
-dGggYSBsb3Qgb2YgZW1haWxzIGFuZCBoYXZlIGEgbG90IG9mIGJ1Z3Mgb24gbXkgcGxhdGUuIElm
-IHlvdSd2ZQphc2tlZCBtZSBhIHF1ZXN0aW9uLCBhcmUgd2FpdGluZyBmb3IgYSByZXZpZXcvbWVy
-Z2Ugb24gYSBwYXRjaCwgZXRjLiBhbmQgSQpoYXZlbid0IHJlc3BvbmRlZCBpbiBhIHdoaWxlLCBw
-bGVhc2UgZmVlbCBmcmVlIHRvIHNlbmQgbWUgYW5vdGhlciBlbWFpbCB0byBjaGVjawpvbiBteSBz
-dGF0dXMuIEkgZG9uJ3QgYml0ZSEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On Wed, Sep 23, 2020 at 12:13:53PM +1000, Sam McNally wrote:
+> From: Hans Verkuil <hans.verkuil@cisco.com>
+> =
+
+> For adapters behind an MST hub use the correct AUX channel.
+> =
+
+> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> [sammc@chromium.org: rebased, removing redundant changes]
+> Signed-off-by: Sam McNally <sammc@chromium.org>
+> ---
+> =
+
+> (no changes since v1)
+> =
+
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 36 +++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index 15b6cc39a754..0d753201adbd 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -2255,6 +2255,9 @@ drm_dp_mst_topology_unlink_port(struct drm_dp_mst_t=
+opology_mgr *mgr,
+>  	drm_dp_mst_topology_put_port(port);
+>  }
+>  =
+
+> +static ssize_t
+> +drm_dp_mst_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m=
+sg);
+> +
+>  static struct drm_dp_mst_port *
+>  drm_dp_mst_add_port(struct drm_device *dev,
+>  		    struct drm_dp_mst_topology_mgr *mgr,
+> @@ -2271,9 +2274,13 @@ drm_dp_mst_add_port(struct drm_device *dev,
+>  	port->port_num =3D port_number;
+>  	port->mgr =3D mgr;
+>  	port->aux.name =3D "DPMST";
+> +	mutex_init(&port->aux.hw_mutex);
+> +	mutex_init(&port->aux.cec.lock);
+>  	port->aux.dev =3D dev->dev;
+>  	port->aux.is_remote =3D true;
+>  =
+
+> +	port->aux.transfer =3D drm_dp_mst_aux_transfer;
+> +
+
+This was supposed to be handled via higher levels checking for
+is_remote=3D=3Dtrue.
+
+>  	/* initialize the MST downstream port's AUX crc work queue */
+>  	drm_dp_remote_aux_init(&port->aux);
+>  =
+
+> @@ -3503,6 +3510,35 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_=
+mst_topology_mgr *mgr,
+>  	return 0;
+>  }
+>  =
+
+> +static ssize_t
+> +drm_dp_mst_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *m=
+sg)
+> +{
+> +	struct drm_dp_mst_port *port =3D
+> +		container_of(aux, struct drm_dp_mst_port, aux);
+> +	int ret;
+> +
+> +	switch (msg->request & ~DP_AUX_I2C_MOT) {
+> +	case DP_AUX_NATIVE_WRITE:
+> +	case DP_AUX_I2C_WRITE:
+> +	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
+> +		ret =3D drm_dp_send_dpcd_write(port->mgr, port, msg->address,
+> +					     msg->size, msg->buffer);
+
+That doesn't make sense to me. I2c writes and DPCD writes
+are definitely not the same thing.
+
+aux->transfer is a very low level thing. I don't think it's the
+correct level of abstraction for sideband.
+
+> +		break;
+> +
+> +	case DP_AUX_NATIVE_READ:
+> +	case DP_AUX_I2C_READ:
+> +		ret =3D drm_dp_send_dpcd_read(port->mgr, port, msg->address,
+> +					    msg->size, msg->buffer);
+> +		break;
+> +
+> +	default:
+> +		ret =3D -EINVAL;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int drm_dp_get_vc_payload_bw(u8 dp_link_bw, u8  dp_link_count)
+>  {
+>  	if (dp_link_bw =3D=3D 0 || dp_link_count =3D=3D 0)
+> -- =
+
+> 2.28.0.681.g6f77f65b4e-goog
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
