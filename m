@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFA030B9C7
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38B030B9C3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F06B6E90C;
-	Tue,  2 Feb 2021 08:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5FF6E959;
+	Tue,  2 Feb 2021 08:27:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25CCA6E99B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 16:53:35 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id f16so13217444wmq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 08:53:35 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426036E84B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 16:53:38 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id s7so14366276wru.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 08:53:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CkmdVzgNbNrIaaF20+A1gXu1TaJvHR1vrtcVh0MWaj8=;
- b=Sa0x2A5sCoxsagip1yKOtVtJUhS6O2APA0VMshlVpCWK3yA6a8PQK0PKSiztYswM0Q
- /6vKdJ+nnspAa3ZwthiKiZ4tMqTzCWJL4iHdauHyYNig8CbO9hb3QnE4KgSeufSltK3j
- r1Nh3qgJkEoDT8czHd83aImvm8GjE0NBLdCmtFh1C2TR0+FlyKAD/vzfHxEW8V5Y/+PM
- b+nNXY/aW3PWCIKsLGzkrqwZ3A3//gYodrlHeOs9tMNgZzC/29AHEi3V/8gtX81Sp19d
- e0wd6f8T2j1lfNrf4n8u506htnju1pNP1TitxF18PSASxUS7CHss3TaOVPiauf6xfWuG
- d6zw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dBHdALdEus3O4u73yaAo51PuLorYWKAPerj4FWe40+s=;
+ b=TVsiha+XNfdW0LDdez60wodKt/zg1ZEnoFTFM8aNL2Wg0oLQ/RfrZXMHMwFE+HLMi+
+ 1f3/awSvrym2gDoS67TW1iX0iC8ty6sQz1+Q7x0u6hKv3jtcXVRPaF8M4mVcEYnRVniK
+ eBHsCpkGuGkMX//wXBTTm1+Vquo+hjJHXfTBTrPhKYWQB1IKlvho8MsI2FDwIeqSCjYu
+ j2e5IfWSWTdOvoyTFqOgNMUlLSHVTUOB4vwUjjugppI8XbcEQ7PhwPhD8sGIun345nE4
+ IHWu0UdSYfKG68HisqhCVDBbEJaSmdUfk1C8b5bd5fsDj/kD4xt+oky+KmfdffDz0zJV
+ wb4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CkmdVzgNbNrIaaF20+A1gXu1TaJvHR1vrtcVh0MWaj8=;
- b=JplimfTUkBgNCmeAdiLviXgdjbbpCnwdKlmOolKkIxHMuLbxyZPyeGEbooTJe8bzid
- 17856nRSrO3swTatYOAWQuGA2rvpZMOIwzR5U3hd5LmFwpsODCN3Y433t794H5hEgmwu
- dYY7zFVH+zmoKDyXupjnpCvg4KEIJ64j16YJkE0u7iPl9v9d/OcB+T6jwf2qqy9ld9UE
- 9ATBNIcw8/HHUqn5L3+El2GZMXGpeq1HtPbpkGw+1P8OTrUvKUaUC9wRzYaHxDkvVKmC
- E1xKWb3aYhiC27wcSp8VjrDjBeQRQ4q6FYTz25ecEoPTk79NqZmDJAjc93vm9z1V0irH
- OrNw==
-X-Gm-Message-State: AOAM530JKp6c4ajonx5N0Fw41Pgz0FZ+0zk26jjRFxPVwxWjl/2KzT0M
- oGPjoc5ep9/SORnYJreaIbs=
-X-Google-Smtp-Source: ABdhPJwL/oyWhS2IOVT3OkuLeII6y6CxfbUrkxFI5N3fZy8o1bHz5oUwfDqgwG6r7Sc1bGBwmCN/8g==
-X-Received: by 2002:a7b:c09a:: with SMTP id r26mr16118185wmh.64.1612198413859; 
- Mon, 01 Feb 2021 08:53:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dBHdALdEus3O4u73yaAo51PuLorYWKAPerj4FWe40+s=;
+ b=S3MoSPCQewfrQgvfPXqrJjrfXYy0CzTp20kwSDr0u+pU5MawtYmhl1QY6VvUH3FPPd
+ L8qkgoLk7mG1LDbCDBJTchvPzrE8WHEsTwmUftMGhD70uEBxfvXJaks635/hyBFKWp+s
+ Nd097EIBLwKDB4tec9bz67WbBmaPI9mDRzgUpajklCk3rXp/P/Xvs2sUsWKPf4iQCFl3
+ CLwtnAeGzXM2Ob29yqzL8y3IBNpc3XVdKrxRcWGodEjpw/ZGNHaibe3XNddGc4AOhsOo
+ cgIPZ2j4yuPES5U39fMXt6BFrVVZlc0tmL6SNftB7NLf/BnIe2s+nXpXj2Bx5oMsK9qe
+ xQ2Q==
+X-Gm-Message-State: AOAM530OuPDcS4hgXsAJ8za26P+BJKCDPo8uFQcwZ2i1yTuslJ0wNbV5
+ IBAkqpxYOV3wJRBWociV9j4=
+X-Google-Smtp-Source: ABdhPJzUXIa09h6pTBqLSNvpje1ZAig60yeOMCH75zlEujWHi5874WGLfn4bzWAD7rx5CoC4OCcxpw==
+X-Received: by 2002:a5d:4d08:: with SMTP id z8mr19282280wrt.240.1612198416954; 
+ Mon, 01 Feb 2021 08:53:36 -0800 (PST)
 Received: from localhost (178-169-161-196.razgrad.ddns.bulsat.com.
  [178.169.161.196])
- by smtp.gmail.com with ESMTPSA id r12sm27749156wrp.13.2021.02.01.08.53.32
+ by smtp.gmail.com with ESMTPSA id l18sm21171015wme.37.2021.02.01.08.53.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 08:53:33 -0800 (PST)
+ Mon, 01 Feb 2021 08:53:36 -0800 (PST)
 From: Iskren Chernev <iskren.chernev@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v3 1/2] dt-bindings: panel: Add Samsung S6E3FA2 panel
-Date: Mon,  1 Feb 2021 18:53:05 +0200
-Message-Id: <20210201165307.51443-1-iskren.chernev@gmail.com>
+Subject: [PATCH v3 2/2] drm/panel: Add panel for Samsung Galaxy S5
+Date: Mon,  1 Feb 2021 18:53:06 +0200
+Message-Id: <20210201165307.51443-2-iskren.chernev@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210201165307.51443-1-iskren.chernev@gmail.com>
+References: <20210201165307.51443-1-iskren.chernev@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,102 +78,356 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Samsung S6E3FA2 AMOLED cmd LCD panel is used on the Samsung Galaxy
-S5 (klte).
+The Samsung Galaxy S5 uses the samsung s6e3fa2 AMOLED cmd LCD panel.
+
+This driver was generated with [1], with the addition of
+mipi_dsi_dcs_set_display_on at the end of the on method.
+
+[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
 
 Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
 ---
-Add a simple generated panel driver that supports on/off and the corresponding
-binding documentation.
+ drivers/gpu/drm/panel/Kconfig                 |   6 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c | 299 ++++++++++++++++++
+ 3 files changed, 306 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
 
-Changes in v3:
-- fix dt_binding_check issue with missing include
-- fix panel type (cmd) in kconfig description
-
-Changes in v2:
-- move bindings to separate file, add 2 regulators
-- add standalone panel driver
-
-v1: https://lkml.org/lkml/2020/12/30/293
-v2: https://lkml.org/lkml/2021/2/1/313
-
- .../display/panel/samsung,s6e3fa2.yaml        | 64 +++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 4894913936e9..82dff2afd5f1 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -348,6 +348,12 @@ config DRM_PANEL_SAMSUNG_S6D16D0
+ 	depends on DRM_MIPI_DSI
+ 	select VIDEOMODE_HELPERS
+ 
++config DRM_PANEL_SAMSUNG_S6E3FA2
++	tristate "Samsung S6E3FA2 DSI cmd mode panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	select VIDEOMODE_HELPERS
++
+ config DRM_PANEL_SAMSUNG_S6E3HA2
+ 	tristate "Samsung S6E3HA2 DSI video mode panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index cae4d976c069..87d3f76f050e 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -35,6 +35,7 @@ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
+ obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
++obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3FA2) += panel-samsung-s6e3fa2.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
 new file mode 100644
-index 000000000000..c751ad589480
+index 000000000000..8985fccf9792
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
-@@ -0,0 +1,64 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/samsung,s6e3fa2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
+@@ -0,0 +1,299 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2021 Iskren Chernev <iskren.chernev@gmail.com>
++// Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
++// Copyright (c) 2021, The Linux Foundation. All rights reserved.
 +
-+title: Samsung s6e3fa2 AMOLED CMD LCD panel
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Iskren Chernev <iskren.chernev@gmail.com>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++struct samsung_s6e3fa2 {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct regulator_bulk_data supplies[2];
++	struct gpio_desc *reset_gpio;
++	bool prepared;
++};
 +
-+properties:
-+  compatible:
-+    const: samsung,s6e3fa2
++static inline
++struct samsung_s6e3fa2 *to_samsung_s6e3fa2(struct drm_panel *panel)
++{
++	return container_of(panel, struct samsung_s6e3fa2, panel);
++}
 +
-+  reg: true
-+  reset-gpios: true
-+  port: true
++#define dsi_generic_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
 +
-+  iovdd-supply:
-+    description: IOVDD regulator
++#define dsi_dcs_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
 +
-+  vddr-supply:
-+    description: VDDR regulator
++static void samsung_s6e3fa2_reset(struct samsung_s6e3fa2 *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(5000, 6000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(5000, 6000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(7000, 8000);
++}
 +
-+required:
-+  - compatible
-+  - reset-gpios
-+  - iovdd-supply
-+  - vddr-supply
-+  - port
++static int samsung_s6e3fa2_on(struct samsung_s6e3fa2 *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
 +
-+unevaluatedProperties: false
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
 +
-+examples:
-+  - |
-+    /* from Samsung Galaxy S5 klte */
-+    #include <dt-bindings/gpio/gpio.h>
++	dsi_generic_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	dsi_generic_write_seq(dsi, 0xfc, 0x5a, 0x5a);
++	dsi_dcs_write_seq(dsi, 0xf2);
++	dsi_dcs_write_seq(dsi, 0xf9);
++	usleep_range(5000, 6000);
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(20);
 +
-+        panel@0 {
-+            compatible = "samsung,s6e3fa2";
-+            reg = <0>;
++	dsi_generic_write_seq(dsi, 0xca,
++			      0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x80, 0x80,
++			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
++			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
++			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00,
++			      0x00);
++	dsi_generic_write_seq(dsi, 0xb2, 0x00, 0x0e, 0x00, 0x0e);
++	dsi_generic_write_seq(dsi, 0xb6,
++			      0x98, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03,
++			      0x55, 0x54, 0x20, 0x00, 0x0a, 0xaa, 0xaf, 0x0f,
++			      0x02, 0x22, 0x22, 0x10);
++	dsi_generic_write_seq(dsi, 0xb5, 0x41);
++	dsi_generic_write_seq(dsi, 0xf7, 0x03);
++	dsi_generic_write_seq(dsi, 0xf7, 0x00);
++	dsi_generic_write_seq(dsi, 0xb0, 0x02);
++	dsi_generic_write_seq(dsi, 0xfd, 0x0a);
++	dsi_generic_write_seq(dsi, 0xfe, 0x80);
++	dsi_generic_write_seq(dsi, 0xfe, 0x00);
++	dsi_generic_write_seq(dsi, 0x35, 0x00);
++	dsi_generic_write_seq(dsi, 0xbd, 0x05, 0x02, 0x02);
++	dsi_generic_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_generic_write_seq(dsi, 0xfc, 0xa5, 0xa5);
 +
-+            reset-gpios = <&pma8084_gpios 17 GPIO_ACTIVE_LOW>;
++	ret = mipi_dsi_dcs_set_display_on(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display on: %d\n", ret);
++		return ret;
++	}
 +
-+            iovdd-supply = <&pma8084_lvs4>;
-+            vddr-supply = <&vreg_panel>;
++	return 0;
++}
 +
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&dsi0_out>;
-+                };
-+            };
-+        };
-+    };
++static int samsung_s6e3fa2_off(struct samsung_s6e3fa2 *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
 +
-+...
-
-base-commit: fd821bf0ed9a7db09d2e007df697f4d9ecfda99a
---
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display off: %d\n", ret);
++		return ret;
++	}
++	usleep_range(10000, 11000);
++
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(120);
++
++	return 0;
++}
++
++static int samsung_s6e3fa2_prepare(struct drm_panel *panel)
++{
++	struct samsung_s6e3fa2 *ctx = to_samsung_s6e3fa2(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (ctx->prepared)
++		return 0;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulators: %d\n", ret);
++		return ret;
++	}
++
++	samsung_s6e3fa2_reset(ctx);
++
++	ret = samsung_s6e3fa2_on(ctx);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++		return ret;
++	}
++
++	ctx->prepared = true;
++	return 0;
++}
++
++static int samsung_s6e3fa2_unprepare(struct drm_panel *panel)
++{
++	struct samsung_s6e3fa2 *ctx = to_samsung_s6e3fa2(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (!ctx->prepared)
++		return 0;
++
++	ret = samsung_s6e3fa2_off(ctx);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++
++	ctx->prepared = false;
++	return 0;
++}
++
++static const struct drm_display_mode samsung_s6e3fa2_mode = {
++	.clock = (1080 + 162 + 10 + 36) * (1920 + 13 + 2 + 3) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 162,
++	.hsync_end = 1080 + 162 + 10,
++	.htotal = 1080 + 162 + 10 + 36,
++	.vdisplay = 1920,
++	.vsync_start = 1920 + 13,
++	.vsync_end = 1920 + 13 + 2,
++	.vtotal = 1920 + 13 + 2 + 3,
++	.width_mm = 65,
++	.height_mm = 115,
++};
++
++static int samsung_s6e3fa2_get_modes(struct drm_panel *panel,
++				     struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(connector->dev, &samsung_s6e3fa2_mode);
++	if (!mode)
++		return -ENOMEM;
++
++	drm_mode_set_name(mode);
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	connector->display_info.width_mm = mode->width_mm;
++	connector->display_info.height_mm = mode->height_mm;
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs samsung_s6e3fa2_panel_funcs = {
++	.prepare = samsung_s6e3fa2_prepare,
++	.unprepare = samsung_s6e3fa2_unprepare,
++	.get_modes = samsung_s6e3fa2_get_modes,
++};
++
++static int samsung_s6e3fa2_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct samsung_s6e3fa2 *ctx;
++	int ret;
++
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->supplies[0].supply = "iovdd";
++	ctx->supplies[1].supply = "vddr";
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
++				      ctx->supplies);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to get regulators\n");
++
++	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ctx->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
++				     "Failed to get reset-gpios\n");
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
++
++	drm_panel_init(&ctx->panel, dev, &samsung_s6e3fa2_panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++
++	drm_panel_add(&ctx->panel);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		drm_panel_remove(&ctx->panel);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int samsung_s6e3fa2_remove(struct mipi_dsi_device *dsi)
++{
++	struct samsung_s6e3fa2 *ctx = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ctx->panel);
++
++	return 0;
++}
++
++static const struct of_device_id samsung_s6e3fa2_of_match[] = {
++	{ .compatible = "samsung,s6e3fa2" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, samsung_s6e3fa2_of_match);
++
++static struct mipi_dsi_driver samsung_s6e3fa2_driver = {
++	.probe = samsung_s6e3fa2_probe,
++	.remove = samsung_s6e3fa2_remove,
++	.driver = {
++		.name = "panel-samsung-s6e3fa2",
++		.of_match_table = samsung_s6e3fa2_of_match,
++	},
++};
++module_mipi_dsi_driver(samsung_s6e3fa2_driver);
++
++MODULE_AUTHOR("Iskren Chernev <iskren.chernev@gmail.com>");
++MODULE_DESCRIPTION("DRM driver for samsung,s6e3fa2 panel");
++MODULE_LICENSE("GPL v2");
+-- 
 2.30.0
 
 _______________________________________________
