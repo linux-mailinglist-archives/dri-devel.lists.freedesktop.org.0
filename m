@@ -1,62 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38B030B9C3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:28:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B7130AD54
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 18:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5FF6E959;
-	Tue,  2 Feb 2021 08:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F5F6E845;
+	Mon,  1 Feb 2021 17:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426036E84B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 16:53:38 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id s7so14366276wru.5
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 08:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dBHdALdEus3O4u73yaAo51PuLorYWKAPerj4FWe40+s=;
- b=TVsiha+XNfdW0LDdez60wodKt/zg1ZEnoFTFM8aNL2Wg0oLQ/RfrZXMHMwFE+HLMi+
- 1f3/awSvrym2gDoS67TW1iX0iC8ty6sQz1+Q7x0u6hKv3jtcXVRPaF8M4mVcEYnRVniK
- eBHsCpkGuGkMX//wXBTTm1+Vquo+hjJHXfTBTrPhKYWQB1IKlvho8MsI2FDwIeqSCjYu
- j2e5IfWSWTdOvoyTFqOgNMUlLSHVTUOB4vwUjjugppI8XbcEQ7PhwPhD8sGIun345nE4
- IHWu0UdSYfKG68HisqhCVDBbEJaSmdUfk1C8b5bd5fsDj/kD4xt+oky+KmfdffDz0zJV
- wb4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dBHdALdEus3O4u73yaAo51PuLorYWKAPerj4FWe40+s=;
- b=S3MoSPCQewfrQgvfPXqrJjrfXYy0CzTp20kwSDr0u+pU5MawtYmhl1QY6VvUH3FPPd
- L8qkgoLk7mG1LDbCDBJTchvPzrE8WHEsTwmUftMGhD70uEBxfvXJaks635/hyBFKWp+s
- Nd097EIBLwKDB4tec9bz67WbBmaPI9mDRzgUpajklCk3rXp/P/Xvs2sUsWKPf4iQCFl3
- CLwtnAeGzXM2Ob29yqzL8y3IBNpc3XVdKrxRcWGodEjpw/ZGNHaibe3XNddGc4AOhsOo
- cgIPZ2j4yuPES5U39fMXt6BFrVVZlc0tmL6SNftB7NLf/BnIe2s+nXpXj2Bx5oMsK9qe
- xQ2Q==
-X-Gm-Message-State: AOAM530OuPDcS4hgXsAJ8za26P+BJKCDPo8uFQcwZ2i1yTuslJ0wNbV5
- IBAkqpxYOV3wJRBWociV9j4=
-X-Google-Smtp-Source: ABdhPJzUXIa09h6pTBqLSNvpje1ZAig60yeOMCH75zlEujWHi5874WGLfn4bzWAD7rx5CoC4OCcxpw==
-X-Received: by 2002:a5d:4d08:: with SMTP id z8mr19282280wrt.240.1612198416954; 
- Mon, 01 Feb 2021 08:53:36 -0800 (PST)
-Received: from localhost (178-169-161-196.razgrad.ddns.bulsat.com.
- [178.169.161.196])
- by smtp.gmail.com with ESMTPSA id l18sm21171015wme.37.2021.02.01.08.53.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 08:53:36 -0800 (PST)
-From: Iskren Chernev <iskren.chernev@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v3 2/2] drm/panel: Add panel for Samsung Galaxy S5
-Date: Mon,  1 Feb 2021 18:53:06 +0200
-Message-Id: <20210201165307.51443-2-iskren.chernev@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210201165307.51443-1-iskren.chernev@gmail.com>
-References: <20210201165307.51443-1-iskren.chernev@gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0D16E845
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 17:03:48 +0000 (UTC)
+IronPort-SDR: cGukbNFfnFIjBchXQIJiSILoUMWy+e9LLYRJKa6FJmmpmPNN2SEGiyC/9macPDRdgSVKNjGMh2
+ 3zhG89y15eAQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="159885344"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="159885344"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2021 09:03:47 -0800
+IronPort-SDR: dCBlwsPbw63I3OvqRadzZ0gjoxk9VaLLbzyyItW0rOEOADx8MbJkln2dWUIbU3T7Dm3FCP0Fb3
+ 514y4u9pkXrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581643591"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2021 09:03:47 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 1 Feb 2021 09:03:47 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Mon, 1 Feb 2021 09:03:47 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Mon, 1 Feb 2021 09:03:46 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YpzQTvOZV97xv3A4U9JukhMF1lc9awL92kAHUILzz4fVGn9zht7uTD/M3Vyu0z7KFJQ8ET/hDnXeNARYkkMl02h9q6PSEYwkcrR2cF7521ACIFmo5g93fi7o84C6tlacKGup/7oJ5qWgfZyo/CSx0W0eH873xL0K25DkAzCFilkQDo011o3nZ19p0pQoKZC7PjFpWjtlRNMiIpo1GYyWsDaP84ACjBuWtY1MFH9vACKeDzlQmdzMgRv7hxtg3mH645Nm2UJ1oo53xGeYLLmUe7lfQmzjNVv4oeeQG+3R8OYEoxNGX5W43d9AdBZt1gC0ifhSLxRe/zyco+CBK/gF/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oSoBL9KsPk087VNs29ba6/Z4Vq7dCiKchuuv4JZl/jQ=;
+ b=IVIbDFx+5JRkme2lzVah3wqA8bb9/fyxuXewFTi6C9sb0plwG0wlgHCMwFdwATH7+bUfdcnYBtV9aNjFYbifrouCjZW0/lZuTRMVRq9vyPy6md7F71K9FeNI/QjVHNVYpuVSaEW6G+eiPaGcIWFlBGrCzApOU7WCkxnW4A6P68HnbqXEfRQCph/I4U5iQI3bhDRR4D19Z1mUNqexZyZ4s2heHhJDqCQCSn2pHVj7Lvh1ZKhPWYULae7IVnZapDfazrNCkJ87vdwA7F6SpgmzjZ6UPzw6EWrpRkI9U70f3YGXwDINNhYQR2g46xWIlE72iIXd0jsfTs3Y+FKlIT1sSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oSoBL9KsPk087VNs29ba6/Z4Vq7dCiKchuuv4JZl/jQ=;
+ b=p1Cjau+DicweIr1rzVPOEUPG7StKn+0RZcMn9qjXYV1RgbQ41h/Aniw4VFjKH8/LkMlWx170o989ez1hU/okHuU+hjyQ4ZUiNV56Y9WdI3p4qEFgJJEOwuKoGcFN4spAXTXVMOJbM12Ai+QRUnf7wmEMqXTKR5XOoUeUx50+M6Y=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by MWHPR11MB1680.namprd11.prod.outlook.com (2603:10b6:301:d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Mon, 1 Feb
+ 2021 17:03:44 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::4476:930f:5109:9c28]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::4476:930f:5109:9c28%6]) with mapi id 15.20.3805.026; Mon, 1 Feb 2021
+ 17:03:44 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
+Thread-Topic: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
+Thread-Index: AQHW81IsBXvBf9ch/Ui3XtDALqd1H6pB5ZYAgAD3NICAAIRsAIAAFi0AgAAZeIA=
+Date: Mon, 1 Feb 2021 17:03:44 +0000
+Message-ID: <MW3PR11MB455569DF7B795272687669BFE5B69@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1611604622-86968-1-git-send-email-jianxin.xiong@intel.com>
+ <1611604622-86968-5-git-send-email-jianxin.xiong@intel.com>
+ <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
+ <20210201061603.GC4593@unreal>
+ <CAKMK7uE0kSC1si0E9D1Spkn9aW2jFJw_SH3hYC6sZL7mG6pzyg@mail.gmail.com>
+ <20210201152922.GC4718@ziepe.ca>
+In-Reply-To: <20210201152922.GC4718@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ziepe.ca; dkim=none (message not signed)
+ header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.53.14.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 61166afb-493d-4f50-3227-08d8c6d35527
+x-ms-traffictypediagnostic: MWHPR11MB1680:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB16805F9A2793B55D5B4B1767E5B69@MWHPR11MB1680.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2043;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: N2baizOOY8uJIf+frpzP9i7aCZx8MAIXQeZCTRn6FcCamvhsx0y+t18xZFMWO39GNO1zsaqa6FO4gi2/VSGc/Yeg4eenYDkY5B6L9Kpyv6Oei+XsIbihoLpRxiyrEl1XgQmgpP4/HXV0XRYKdIHRdR7m/PMH9UqpfK22Y0x9XpyNCtL/aP45EAaw3tctnIqRQLwE4ZYD2+DX4AW8hp3ww/XAQ+i7Es/o424WIPfw2/3y0RnhY5iZJbc6ShZYIH5ImtaXKdPymmqTM1we49UybLOK4pIPoKur/8FZKHxenQdLq9y7HYnUEFST33uSiCWwioHdgvejk80SYIMQIVXQqhMtpebCwXGrm6Xgma5DAIEioQkq9FJDFNvc7UspqsDsk8aCSOAWVNWlbEQomeUzSertnWVLUE/GmRmbULlDvt0VTUwIXO61QxBK70NrgF4+rUom0kWfaLpaLXYy2Pf3nBA1uC/cdcmWZQc9rTCUd/14wOo9qN1H83yse+BuNyDUOYE/+wG21Ja1V96qW7oUqw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(136003)(396003)(366004)(346002)(478600001)(55016002)(33656002)(4326008)(107886003)(5660300002)(66556008)(64756008)(2906002)(76116006)(9686003)(66476007)(66446008)(8676002)(8936002)(7416002)(52536014)(7696005)(66946007)(110136005)(316002)(71200400001)(54906003)(83380400001)(86362001)(6506007)(53546011)(186003)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?zXtYWv+oxaIe0rXJn68aDzkNjwdYqgcAH/D88vnE3lvDjNIki0lha0R6lvq4?=
+ =?us-ascii?Q?cjeg1n8afmb8TT7vsgftH/6YNouRqefTA22DeojWRnsRFxlPn9kjEsTtVLgr?=
+ =?us-ascii?Q?PI/GoceLb0oCYfiVsJI+aLSXajQ6Ik1v2CHdeWHY5f7kyz2yTGmER2XMzb6b?=
+ =?us-ascii?Q?v5Nnnk65wQTjQLuKMW66UBY7ecrjdqOEAjTUaOOAnDXkC9BfNSKraYRGVt4g?=
+ =?us-ascii?Q?fkW6WgM3yB7yRSwx+go5Ux9UNoNObzC/R5ccyzh6E31Yuu2szeVX4BNOo29V?=
+ =?us-ascii?Q?yTLXlIX0SIf9MfITGbibnfhAJNQoUkT50R03O5znyGJnyYQVqsWc7DHSZniJ?=
+ =?us-ascii?Q?2YhKQ03VsqJizwyLY3cV9JQpdnjictyiZhS/Ugoth3ZqosIb/qdPRNPndE5e?=
+ =?us-ascii?Q?kJl4WZSJtqQ2S0KynB/VafBWpugb9E7RFRzCjaYCu9Qv58czeDOSKQhO4lpD?=
+ =?us-ascii?Q?8Ika0dDuk5EcoHaNXqAkDX72ycJYEObSvCl07nVpnYbcPqeeUmq0tTQXvpkK?=
+ =?us-ascii?Q?Ltf8S6W0d4Po1k1VcMB/u5Jg+ZoicOfcZVpS+3L/kt6P9R/PKujpHlW/wN3I?=
+ =?us-ascii?Q?ntkCSs8lw/2ax3uhOom3OruNT43S9TRqzqYAzw9qEumY22n1nMLEwaE65Xbs?=
+ =?us-ascii?Q?Wv4SLrhnonJGrX8e71AeEXsVbHoxbeUKw9LzTrtGNWDpskcRFda9noY89GNT?=
+ =?us-ascii?Q?QWb90/+c4Z29MaSrrP98IlGbCkJgfMNkWuTsEWLR97vvpZLWi0JYEDQ4KPY3?=
+ =?us-ascii?Q?pP1MrNyUwJiPGKyWHwP2fqDVI2SQL1Q2gNe4gTTaSKc5FbEkVrwVc4CgjynV?=
+ =?us-ascii?Q?tn/lI0yaz28xPx5W3PkRMXOffHnIZydKjyMgmNZcrD/fBfYQtOwg2ZRVjPKs?=
+ =?us-ascii?Q?pUyvdCd1PJTe2FXVbW1ZEiClnGexdpgPKFhqwQQSGJCadU108gq5QlS8s4r4?=
+ =?us-ascii?Q?5zJ8LVL2T4vvkm6sCmuiuSP+znAszzJ3uN2lFyD4p678Di5WLpNzrKwY8H4m?=
+ =?us-ascii?Q?/tAv7JXx6FPEAYsnSCKpA5cm6s3UKyADw4jJEs3ssugY4PU=3D?=
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61166afb-493d-4f50-3227-08d8c6d35527
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2021 17:03:44.0751 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yzHVQuU+YaNE39/DMPXL0A8BFnsklY08XSQ6wweOrutxPsBzR3oEPOUcQScE7oDta5hmoiLROiE4U2ctiEqsTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1680
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,367 +140,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Iskren Chernev <iskren.chernev@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
+Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, Edward Srouji <edwards@nvidia.com>,
+ Gal Pressman <galpress@amazon.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, 
+ Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Samsung Galaxy S5 uses the samsung s6e3fa2 AMOLED cmd LCD panel.
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Monday, February 01, 2021 7:29 AM
+> To: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Leon Romanovsky <leon@kernel.org>; Gal Pressman <galpress@amazon.com>; Xiong, Jianxin <jianxin.xiong@intel.com>; Yishai Hadas
+> <yishaih@nvidia.com>; linux-rdma <linux-rdma@vger.kernel.org>; Edward Srouji <edwards@nvidia.com>; dri-devel <dri-
+> devel@lists.freedesktop.org>; Christian Koenig <christian.koenig@amd.com>; Doug Ledford <dledford@redhat.com>; Vetter, Daniel
+> <daniel.vetter@intel.com>
+> Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
+> 
+> On Mon, Feb 01, 2021 at 03:10:00PM +0100, Daniel Vetter wrote:
+> > On Mon, Feb 1, 2021 at 7:16 AM Leon Romanovsky <leon@kernel.org> wrote:
+> > >
+> > > On Sun, Jan 31, 2021 at 05:31:16PM +0200, Gal Pressman wrote:
+> > > > On 25/01/2021 21:57, Jianxin Xiong wrote:
+> > > > > Define a new sub-class of 'MR' that uses dma-buf object for the
+> > > > > memory region. Define a new class 'DmaBuf' as a wrapper for
+> > > > > dma-buf allocation mechanism implemented in C.
+> > > > >
+> > > > > Update the cmake function for cython modules to allow building
+> > > > > modules with mixed cython and c source files.
+> > > > >
+> > > > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> > > > > buildlib/pyverbs_functions.cmake |  78 +++++++----
+> > > > >  pyverbs/CMakeLists.txt           |  11 +-
+> > > > >  pyverbs/dmabuf.pxd               |  15 +++
+> > > > >  pyverbs/dmabuf.pyx               |  73 ++++++++++
+> > > > >  pyverbs/dmabuf_alloc.c           | 278 +++++++++++++++++++++++++++++++++++++++
+> > > > >  pyverbs/dmabuf_alloc.h           |  19 +++
+> > > > >  pyverbs/libibverbs.pxd           |   2 +
+> > > > >  pyverbs/mr.pxd                   |   6 +
+> > > > >  pyverbs/mr.pyx                   | 105 ++++++++++++++-
+> > > > >  9 files changed, 557 insertions(+), 30 deletions(-)  create
+> > > > > mode 100644 pyverbs/dmabuf.pxd  create mode 100644
+> > > > > pyverbs/dmabuf.pyx  create mode 100644 pyverbs/dmabuf_alloc.c
+> > > > > create mode 100644 pyverbs/dmabuf_alloc.h
+> > >
+> > > <...>
+> > >
+> > > > > index 0000000..05eae75
+> > > > > +++ b/pyverbs/dmabuf_alloc.c
+> > > > > @@ -0,0 +1,278 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+> > > > > +/*
+> > > > > + * Copyright 2020 Intel Corporation. All rights reserved. See
+> > > > > +COPYING file  */
+> > > > > +
+> > > > > +#include <stdio.h>
+> > > > > +#include <stdlib.h>
+> > > > > +#include <stdint.h>
+> > > > > +#include <unistd.h>
+> > > > > +#include <string.h>
+> > > > > +#include <errno.h>
+> > > > > +#include <drm/drm.h>
+> > > > > +#include <drm/i915_drm.h>
+> > > > > +#include <drm/amdgpu_drm.h>
+> > > > > +#include <drm/radeon_drm.h>
+> > > >
+> > > > I assume these should come from the kernel headers package, right?
+> > >
+> > > This is gross, all kernel headers should be placed in
+> > > kernel-headers/* and "update" script needs to be extended to take drm/* files too :(.
+> >
+> > drm kernel headers are in the libdrm package. You need that anyway for
+> > doing the ioctls (if you don't hand-roll the restarting yourself).
+> >
+> > Also our userspace has gone over to just outright copying the driver
+> > headers. Not the generic headers, but for the rendering side of gpus,
+> > which is the topic here, there's really not much generic stuff.
+> >
+> > > Jianxin, are you fixing it?
+> >
+> > So fix is either to depend upon libdrm for building, or have copies of
+> > the headers included in the package for the i915/amdgpu/radeon headers
+> > (drm/drm.h probably not so good idea).
+> 
+> We should have a cmake test to not build the drm parts if it can't be built, and pyverbs should skip the tests.
+> 
 
-This driver was generated with [1], with the addition of
-mipi_dsi_dcs_set_display_on at the end of the on method.
-
-[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-
-Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
----
- drivers/gpu/drm/panel/Kconfig                 |   6 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c | 299 ++++++++++++++++++
- 3 files changed, 306 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 4894913936e9..82dff2afd5f1 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -348,6 +348,12 @@ config DRM_PANEL_SAMSUNG_S6D16D0
- 	depends on DRM_MIPI_DSI
- 	select VIDEOMODE_HELPERS
- 
-+config DRM_PANEL_SAMSUNG_S6E3FA2
-+	tristate "Samsung S6E3FA2 DSI cmd mode panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	select VIDEOMODE_HELPERS
-+
- config DRM_PANEL_SAMSUNG_S6E3HA2
- 	tristate "Samsung S6E3HA2 DSI video mode panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index cae4d976c069..87d3f76f050e 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -35,6 +35,7 @@ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
- obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
-+obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3FA2) += panel-samsung-s6e3fa2.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2) += panel-samsung-s6e3ha2.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03) += panel-samsung-s6e63j0x03.o
- obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0) += panel-samsung-s6e63m0.o
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
-new file mode 100644
-index 000000000000..8985fccf9792
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e3fa2.c
-@@ -0,0 +1,299 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2021 Iskren Chernev <iskren.chernev@gmail.com>
-+// Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
-+// Copyright (c) 2021, The Linux Foundation. All rights reserved.
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct samsung_s6e3fa2 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct regulator_bulk_data supplies[2];
-+	struct gpio_desc *reset_gpio;
-+	bool prepared;
-+};
-+
-+static inline
-+struct samsung_s6e3fa2 *to_samsung_s6e3fa2(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct samsung_s6e3fa2, panel);
-+}
-+
-+#define dsi_generic_write_seq(dsi, seq...) do {				\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+#define dsi_dcs_write_seq(dsi, seq...) do {				\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+static void samsung_s6e3fa2_reset(struct samsung_s6e3fa2 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(5000, 6000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(7000, 8000);
-+}
-+
-+static int samsung_s6e3fa2_on(struct samsung_s6e3fa2 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	dsi_generic_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-+	dsi_generic_write_seq(dsi, 0xfc, 0x5a, 0x5a);
-+	dsi_dcs_write_seq(dsi, 0xf2);
-+	dsi_dcs_write_seq(dsi, 0xf9);
-+	usleep_range(5000, 6000);
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	dsi_generic_write_seq(dsi, 0xca,
-+			      0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x80, 0x80,
-+			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+			      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00,
-+			      0x00);
-+	dsi_generic_write_seq(dsi, 0xb2, 0x00, 0x0e, 0x00, 0x0e);
-+	dsi_generic_write_seq(dsi, 0xb6,
-+			      0x98, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03,
-+			      0x55, 0x54, 0x20, 0x00, 0x0a, 0xaa, 0xaf, 0x0f,
-+			      0x02, 0x22, 0x22, 0x10);
-+	dsi_generic_write_seq(dsi, 0xb5, 0x41);
-+	dsi_generic_write_seq(dsi, 0xf7, 0x03);
-+	dsi_generic_write_seq(dsi, 0xf7, 0x00);
-+	dsi_generic_write_seq(dsi, 0xb0, 0x02);
-+	dsi_generic_write_seq(dsi, 0xfd, 0x0a);
-+	dsi_generic_write_seq(dsi, 0xfe, 0x80);
-+	dsi_generic_write_seq(dsi, 0xfe, 0x00);
-+	dsi_generic_write_seq(dsi, 0x35, 0x00);
-+	dsi_generic_write_seq(dsi, 0xbd, 0x05, 0x02, 0x02);
-+	dsi_generic_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-+	dsi_generic_write_seq(dsi, 0xfc, 0xa5, 0xa5);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display on: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int samsung_s6e3fa2_off(struct samsung_s6e3fa2 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	usleep_range(10000, 11000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(120);
-+
-+	return 0;
-+}
-+
-+static int samsung_s6e3fa2_prepare(struct drm_panel *panel)
-+{
-+	struct samsung_s6e3fa2 *ctx = to_samsung_s6e3fa2(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	samsung_s6e3fa2_reset(ctx);
-+
-+	ret = samsung_s6e3fa2_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+		return ret;
-+	}
-+
-+	ctx->prepared = true;
-+	return 0;
-+}
-+
-+static int samsung_s6e3fa2_unprepare(struct drm_panel *panel)
-+{
-+	struct samsung_s6e3fa2 *ctx = to_samsung_s6e3fa2(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = samsung_s6e3fa2_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+
-+	ctx->prepared = false;
-+	return 0;
-+}
-+
-+static const struct drm_display_mode samsung_s6e3fa2_mode = {
-+	.clock = (1080 + 162 + 10 + 36) * (1920 + 13 + 2 + 3) * 60 / 1000,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 162,
-+	.hsync_end = 1080 + 162 + 10,
-+	.htotal = 1080 + 162 + 10 + 36,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 13,
-+	.vsync_end = 1920 + 13 + 2,
-+	.vtotal = 1920 + 13 + 2 + 3,
-+	.width_mm = 65,
-+	.height_mm = 115,
-+};
-+
-+static int samsung_s6e3fa2_get_modes(struct drm_panel *panel,
-+				     struct drm_connector *connector)
-+{
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &samsung_s6e3fa2_mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs samsung_s6e3fa2_panel_funcs = {
-+	.prepare = samsung_s6e3fa2_prepare,
-+	.unprepare = samsung_s6e3fa2_unprepare,
-+	.get_modes = samsung_s6e3fa2_get_modes,
-+};
-+
-+static int samsung_s6e3fa2_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct samsung_s6e3fa2 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->supplies[0].supply = "iovdd";
-+	ctx->supplies[1].supply = "vddr";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-+				      ctx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+	drm_panel_init(&ctx->panel, dev, &samsung_s6e3fa2_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int samsung_s6e3fa2_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct samsung_s6e3fa2 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id samsung_s6e3fa2_of_match[] = {
-+	{ .compatible = "samsung,s6e3fa2" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, samsung_s6e3fa2_of_match);
-+
-+static struct mipi_dsi_driver samsung_s6e3fa2_driver = {
-+	.probe = samsung_s6e3fa2_probe,
-+	.remove = samsung_s6e3fa2_remove,
-+	.driver = {
-+		.name = "panel-samsung-s6e3fa2",
-+		.of_match_table = samsung_s6e3fa2_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(samsung_s6e3fa2_driver);
-+
-+MODULE_AUTHOR("Iskren Chernev <iskren.chernev@gmail.com>");
-+MODULE_DESCRIPTION("DRM driver for samsung,s6e3fa2 panel");
-+MODULE_LICENSE("GPL v2");
--- 
-2.30.0
-
+Yes, I will add a test for that. Also, on SLES, the headers could be under /usr/include/libdrm instead of /usr/include/drm. The make test should check that and use proper path. 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
