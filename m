@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D09D30A711
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 13:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B949D30A745
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 13:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0D289FE6;
-	Mon,  1 Feb 2021 12:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C1E6E523;
+	Mon,  1 Feb 2021 12:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3310A89FE6
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 12:02:06 +0000 (UTC)
-IronPort-SDR: CEX86Y9dOgoBLt+CN2ppkz4BcVLP86DmbtMUA8bIdaNOj8AnkKkUsoxbzSq9j7mEch3jPu2ove
- lSMq9JbdOOxQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="178108193"
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; d="scan'208";a="178108193"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 04:02:06 -0800
-IronPort-SDR: OnnGcMac/+IUnQuljWEghNpBhwSPHtOwwOo+E13V1C0DTdqSS+ThUK/Y/lW3MUPjpiSv2pJfEe
- n0CiPn2jhLYg==
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; d="scan'208";a="390880874"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 04:02:03 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/dp_mst: Use DP_MST_LOGICAL_PORT_0 instead of magic
- number
-Date: Mon,  1 Feb 2021 14:01:45 +0200
-Message-Id: <20210201120145.350258-4-imre.deak@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210201120145.350258-1-imre.deak@intel.com>
-References: <20210201120145.350258-1-imre.deak@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3CC6E523
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 12:10:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7928C64E2C;
+ Mon,  1 Feb 2021 12:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612181448;
+ bh=VpXCDfyNDkFB6N2oS+yv9UYv1FFtVEhcO5B6o8eybU0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HaH7mujAr3wAdUU7Wbx8NZL1I+ehA6nkr8Ywa4kIYDvUwHUoZx2E28Pxr7ifUj0mt
+ 7ljJAQsR2C8cmJAhCEfFz7WlBbFbcYk6h1CXB2Y9PzQv9yo4WszIpL5OHIbr+huud/
+ DTJ+YupZxs4692+MeXtltnemY6HxUucQSaELW53wykG+dmhx/UvhvmlITS+Idy3evG
+ 6qzrY4zJuBmI9bQgKtqj9S8Vxz3ss0nQSNYmw9hIaMuF6P5GYtPl/DuUcSxMjQJcLy
+ tT307SwHtzy9d8kG545Zqjsb+38DqN6yFxfRVMnwI9dVoBzO/0f1HxxpxD93Q+NZid
+ 37O97iC4kLFKA==
+Date: Mon, 1 Feb 2021 13:10:37 +0100
+From: Jessica Yu <jeyu@kernel.org>
+To: Miroslav Benes <mbenes@suse.cz>
+Subject: Re: [PATCH 04/13] module: use RCU to synchronize find_module
+Message-ID: <YBfvvdna9pSeu+1g@gunter>
+References: <20210128181421.2279-1-hch@lst.de>
+ <20210128181421.2279-5-hch@lst.de>
+ <alpine.LSU.2.21.2101291626080.22237@pobox.suse.cz>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.21.2101291626080.22237@pobox.suse.cz>
+X-OS: Linux gunter 5.10.9-1-default x86_64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,37 +48,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
+ live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the macro defined for the first logical port instead of the
-corresponding magic number.
++++ Miroslav Benes [29/01/21 16:29 +0100]:
+>On Thu, 28 Jan 2021, Christoph Hellwig wrote:
+>
+>> Allow for a RCU-sched critical section around find_module, following
+>> the lower level find_module_all helper, and switch the two callers
+>> outside of module.c to use such a RCU-sched critical section instead
+>> of module_mutex.
+>
+>That's a nice idea.
+>
+>> @@ -57,7 +58,7 @@ static void klp_find_object_module(struct klp_object *obj)
+>>  	if (!klp_is_module(obj))
+>>  		return;
+>>
+>> -	mutex_lock(&module_mutex);
+>> +	rcu_read_lock_sched();
+>>  	/*
+>>  	 * We do not want to block removal of patched modules and therefore
+>>  	 * we do not take a reference here. The patches are removed by
+>> @@ -74,7 +75,7 @@ static void klp_find_object_module(struct klp_object *obj)
+>>  	if (mod && mod->klp_alive)
+>
+>RCU always baffles me a bit, so I'll ask. Don't we need
+>rcu_dereference_sched() here? "mod" comes from a RCU-protected list, so I
+>wonder.
 
-Cc: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Same here :-) I had to double check the RCU documentation. For our
+modules list case I believe the rcu list API should take care of that
+for us. Worth noting is this snippet from Documentation/RCU/whatisRCU.txt:
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 43a40660136c..0a54506c2773 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -4232,9 +4232,8 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
- 	case DP_PEER_DEVICE_SST_SINK:
- 		ret = connector_status_connected;
- 		/* for logical ports - cache the EDID */
--		if (port->port_num >= 8 && !port->cached_edid) {
-+		if (port->port_num >= DP_MST_LOGICAL_PORT_0 && !port->cached_edid)
- 			port->cached_edid = drm_get_edid(connector, &port->aux.ddc);
--		}
- 		break;
- 	case DP_PEER_DEVICE_DP_LEGACY_CONV:
- 		if (port->ldps)
--- 
-2.25.1
+    rcu_dereference() is typically used indirectly, via the _rcu
+    list-manipulation primitives, such as list_for_each_entry_rcu()
+
 
 _______________________________________________
 dri-devel mailing list
