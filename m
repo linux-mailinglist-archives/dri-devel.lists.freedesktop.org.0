@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F4030A30F
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 09:11:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1E130A310
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 09:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1D56E43D;
-	Mon,  1 Feb 2021 08:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C4C6E44C;
+	Mon,  1 Feb 2021 08:11:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 534 seconds by postgrey-1.36 at gabe;
- Sun, 31 Jan 2021 23:15:04 UTC
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 467E86E134;
- Sun, 31 Jan 2021 23:15:04 +0000 (UTC)
-Received: by mail.z3ntu.xyz (Postfix, from userid 182)
- id 6E05EC1BE5; Sun, 31 Jan 2021 23:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
- t=1612134368; bh=ZcNE+YqUbFE7ilb2fMS+PExd3K0uSxm8CKC9+sqOxqI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=nqigVK+ACcfP6sHau6sKVzu/t3JOyrt4Mt6eSSF478B6kaM4hbdGj0cO6fjIEvoCt
- dwVDvVxwJYxnu4sE59NQeUdFCNmhtqw/Psw/Yi6CDpLjUJX0GGZiIsSbKfM0wWO29R
- dosaZpjq+JyC2QbEJHjJPOLSa2hZdN78rGBkfArw=
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
-X-Spam-Level: 
-X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
- PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.4
-Received: from g550jk.localnet (80-110-106-213.cgn.dynamic.surfer.at
- [80.110.106.213])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id 29673C1BDD;
- Sun, 31 Jan 2021 23:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
- t=1612134362; bh=ZcNE+YqUbFE7ilb2fMS+PExd3K0uSxm8CKC9+sqOxqI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=P+jxQO2i9OTmHF2los3Da52AJ1CD+bg6SSnGdH4SsZ7unxE0cYr9VPx01GTKErHab
- aByOXK/nI9vwnyZ+Hqquf6uc3rFWN9KRL1aAdve6ef7FfzchB+GsRuZX0QT6yVTTGS
- YmiozrIwJnxsZ/30GSXRkXNPAajuYnuJqEATRi6o=
-From: Luca Weiss <luca@z3ntu.xyz>
-To: Rob Clark <robdclark@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH] drm/msm/mdp5: Fix wait-for-commit for cmd panels
-Date: Mon, 01 Feb 2021 00:06:01 +0100
-Message-ID: <2117852.HdQyuLfLX8@g550jk>
-In-Reply-To: <20210127152442.533468-1-iskren.chernev@gmail.com>
-References: <20210127152442.533468-1-iskren.chernev@gmail.com>
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
+ [IPv6:2607:f8b0:4864:20::d2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAC26E1B6;
+ Mon,  1 Feb 2021 00:23:56 +0000 (UTC)
+Received: by mail-io1-xd2b.google.com with SMTP id h11so15556639ioh.11;
+ Sun, 31 Jan 2021 16:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=j+6+ulDyi6U2H4iOXB1YcmGEFxqpm4cmiSLEvcnumSM=;
+ b=s1g6LEQIF+dRC17p5+kv6440BGJWxhEMy5hCfpxzKTZM8FDxRyxZjUCyPgyDbOrLDW
+ U5IUIU6xdJNPdQZRxUMCW1F6bGEAXaIUDUG3ShOpg0/JgZ4/T0lNkGZp86Tj9XNVNb72
+ Rsod/lgNXYeNgeX45zAROu1OswZu1yn2DDKxmCpnBnKgffFDoMrXgxrhLnQPR3pN3FXY
+ RW+8zoIEwNnmj47+3cmHMKcVGFUBWPH3IOPJorf18yhDEmE8wzQJTcZ+k1Xp3To+T+Pm
+ 8rd+/Dre/88BjUu2Nifgn4nj2lowDigMcgsSQTXdjgpxF15X1jSucUAe4KYFamWCRnZj
+ wpjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=j+6+ulDyi6U2H4iOXB1YcmGEFxqpm4cmiSLEvcnumSM=;
+ b=TaBbzTVrOfJgbXNYdF4dT5E7w+d6/DeW3vtLZYYUTEYYPiukyIm/mzbvOMEky2dixY
+ jsZOXdgoy2f/at+bFkFp+phi/OszcC8whUoi5yDLKxrgQE33oYufudy/sCI/O3dOVdhW
+ p8ECA7XE9hvSsQ7Vnw2gXRBIGylXTH4ZSgVeqVxFX+wzqA3eIc5l1BZCLqULyOlJys2h
+ jRpJbyGoquqVDB/PTWP6ITYOc4texMlT029VNklueKyPh5k74r8RoQHPlp/EsqiT7Coe
+ DAk45QAbBPCbsTv4pZV1nPAfA+z+H5YckiYWCfPHcJcAKtt+KAPGohvG5diqs8xx9ypa
+ FSkg==
+X-Gm-Message-State: AOAM530uxIoDhe5LmLEGpShAkodFmygsVRg2wtHvg6HQWJFScJ1M4wrU
+ G6dgukS6juZEj02jbO9uzXg=
+X-Google-Smtp-Source: ABdhPJzgviUON/XVeRLneYaAH+MkQxXranKXNIXDdgdgEmilNO5S0tjJHKrvgcRM3w2tULg85ADxfQ==
+X-Received: by 2002:a5d:9710:: with SMTP id h16mr4362661iol.192.1612139035501; 
+ Sun, 31 Jan 2021 16:23:55 -0800 (PST)
+Received: from llvm-development.us-central1-a.c.llvm-285123.internal
+ (131.28.69.34.bc.googleusercontent.com. [34.69.28.131])
+ by smtp.gmail.com with ESMTPSA id r1sm7874186iot.8.2021.01.31.16.23.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 31 Jan 2021 16:23:54 -0800 (PST)
+Date: Mon, 1 Feb 2021 00:23:53 +0000
+From: Vinicius Tinti <viniciustinti@gmail.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] drm/i915: Remove unreachable code
+Message-ID: <CALD9WKyonuPTPBzLHyLGd0V+w9SQavPdv0c_nBgLOyr6_5QnjQ@mail.gmail.com>
+References: <20210129181519.69963-1-viniciustinti@gmail.com>
+ <161195375417.17568.2762721732398065240@build.alporthouse.com>
+ <20210130123411.GB1822@llvm-development.us-central1-a.c.llvm-285123.internal>
+ <161201071009.32035.9188382145053741268@build.alporthouse.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 01 Feb 2021 08:11:06 +0000
+Content-Disposition: inline
+In-Reply-To: <161201071009.32035.9188382145053741268@build.alporthouse.com>
+X-Mailman-Approved-At: Mon, 01 Feb 2021 08:11:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,48 +71,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
- dri-devel@lists.freedesktop.org, Brian Masney <masneyb@onstation.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, linux-kernel@vger.kernel.org,
- Iskren Chernev <iskren.chernev@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Emil Velikov <emil.velikov@collabora.com>, Sean Paul <sean@poorly.run>,
- Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: intel-gfx@lists.freedesktop.org, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Iskren,
+On Sat, Jan 30, 2021 at 9:45 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+>
+> Quoting Vinicius Tinti (2021-01-30 12:34:11)
+> > On Fri, Jan 29, 2021 at 08:55:54PM +0000, Chris Wilson wrote:
+> > > Quoting Vinicius Tinti (2021-01-29 18:15:19)
+> > > > By enabling -Wunreachable-code-aggressive on Clang the following code
+> > > > paths are unreachable.
+> > >
+> > > That code exists as commentary and, especially for sdvo, library
+> > > functions that we may need in future.
+> >
+> > I would argue that this code could be removed since it is in git history.
+> > It can be restored when needed.
+> >
+> > This will make the code cleaner.
+>
+> It doesn't change the control flow, so no complexity argument. It
+> removes documentation from the code, so I have the opposite opinion.
 
-On Mittwoch, 27. J=E4nner 2021 16:24:40 CET Iskren Chernev wrote:
-> Before the offending commit in msm_atomic_commit_tail wait_flush was
-> called once per frame, after the commit was submitted. After it
-> wait_flush is also called at the beginning to ensure previous
-> potentially async commits are done.
-> =
+The last change in sdvo related to this function is from commit
+ce22c320b8ca ("drm/i915/sdvo: convert to encoder disable/enable"), which
+dates from 2012.
 
-> For cmd panels the source of wait_flush is a ping-pong irq notifying
-> a completion. The completion needs to be notified with complete_all so
-> multiple waiting parties (new async committers) can proceed.
-> =
+It has not been used or changed for a long time. I think it could be
+converted to a block comment. This will preserve the documentation
+purpose. What do you think?
 
-> Signed-off-by: Iskren Chernev <iskren.chernev@gmail.com>
-> Suggested-by: Rob Clark <robdclark@gmail.com>
-> Fixes: 2d99ced787e3d ("drm/msm: async commit support")
-> ---
+All this will avoid having "if (0)".
 
-I've tested this now on fairphone-fp2 and lge-nexus5-hammerhead, works grea=
-t!
+> > > The ivb-gt1 case => as we now set the gt level for ivb, should we not
+> > > enable the optimisation for ivb unaffected by the w/a? Just no one has
+> > > taken the time to see if it causes a regression.
+> >
+> > I don't know. I just found out that the code is unreachable.
+> >
+> > > For error state, the question remains whether we should revert to
+> > > uncompressed data if the compressed stream is larger than the original.
+> >
+> > I don't know too.
+> >
+> > In this last two cases the code could be commented and the decisions
+> > and problems explained in the comment section.
+>
+> They already are, that is the point.
 
-Tested-by: Luca Weiss <luca@z3ntu.xyz>
+I meant making them a block comment. For example:
 
-Regards
-Luca
+/*
+ * Enabling HiZ Raw Stall Optimization, at this point, causes corruption.
+ *
+ * Calling wa_masked_dis with the arguments wal, CACHE_MODE_0_GEN7,
+ * HIZ_RAW_STALL_OPT_DISABLE will cause an HiZ corruption on ivb:g1.
+ */
 
+/*
+ * Should fallback to uncompressed if we increase size
+ * (zstream->total_out > zstream->total_in) by returning -E2BIG?
+ */
 
+> -Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
