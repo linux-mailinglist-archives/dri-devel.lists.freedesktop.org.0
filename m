@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2197730ABD9
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Feb 2021 16:47:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB0730B9BB
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF7D89FF7;
-	Mon,  1 Feb 2021 15:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6F96E90A;
+	Tue,  2 Feb 2021 08:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 131F689FF7;
- Mon,  1 Feb 2021 15:47:22 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id g10so17108017wrx.1;
- Mon, 01 Feb 2021 07:47:21 -0800 (PST)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0606E7FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Feb 2021 15:55:09 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id q7so3931767iob.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 07:55:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qhNjzzlTL/WMF/Awbgykfs5fMnKhEterzOUsRC4P6Lo=;
- b=JCtAzlQ8VLvGgXcm1j4WzkEieHX1in33tpKI5XnjgSad9985vx9xduDayc9ah5SVRZ
- 6Iu2r9yA/0Rz66iE0tvy3VmYZBf0qiNnOKXKtaZuXlPAzjnmbh3lzbx8FjHcIPfVgYf/
- j7vnRGj18cQmTvQ2zkkFney/m5pKOgtsmj/3UQ8Wbr0jT2JlO2ggwrSTUnFmgfw5zkW0
- puSvpnRaflWOW3S+fNuKuJFeQgpkYN0P9UeI18e8Q1ch+xnIr7vPHuICD1ZKXO6kNo/s
- gTBPP9XYFRO861K/ku8w/CMSHsMkhSdUWGxrOT9RVG8ri4uO+oCiAJ3J+Xl2iM89Flwn
- 3qjA==
+ h=from:to:cc:subject:date:message-id;
+ bh=nELeOgIxrJtAKHJAjCMFea7kU54jCDRyGoM/8l+Px0E=;
+ b=PbufQ9iQC4YKJpi6oMy3xT+FRJfFwu6npdZBUwldcGxzxnaU4aIyZKWgTPkctHDdLu
+ yY/sRDRuL9mV9E5azwcmc6MBxYxNkeotLtObuOTVrQfdJqGBaZWlag2sLEzyMqoJMKKX
+ yu//gFkqqJS03UT7eEagAH13ZirmLeSBgz2LrAMpzzlorxlWwNrWMHmpmVQ3wqNTKnkF
+ yOkqFhAuY4WJqwmpNcXGR3wZeEG4dar6d/H4v3DH/YXmC3uM/tBqwdThE2/+c0KBuqB8
+ zoVo+3RAaiLEOK+oXE/MzIqrWyJyjR+6rpT8J2A919nhfaFz/FQggfszs40ckbriEkFL
+ XrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qhNjzzlTL/WMF/Awbgykfs5fMnKhEterzOUsRC4P6Lo=;
- b=DBO0Za1KOP7rVgXymAEWNLZa6WBVCITXEsCJjhH6x4nsT5qlaf/5/2pBcGcLnWCAcn
- OScZLpZHATxbfDz56Jm5cgUlR4fhqNJal1/OCRVxE5ww46jC9A696shC732EB8gTvaIl
- 0xWisjTe5MTqc1xBeHOQEyLG165hNOWCCfD/Tglfuenzk0AA0tnHfQf7yS8fRqjJhmbw
- qA7YrQQEWwk7QsWtexh4gXkjhuBFCQ+tLqmwQ5kw6Sf7c0oovONITcw7evcNoY5gfnR/
- TtuualhwMjtIDL0k0WxHDdrbnkiZlnpz0DNGScP9TIhgWjcrOmkUc4HSiJnjccSY7T17
- LDuw==
-X-Gm-Message-State: AOAM532fIDHhDCALOv/yxCOXTdn2BvNSRxoSFCrkgZPMfOSIUPp+l/3C
- QYQQViXcvyLqgUIBwH8MUl64PymaO32WRLTBT2c=
-X-Google-Smtp-Source: ABdhPJzLRliODEOTcSyLXiBjzOBTS/F3f9BiD2CohKi/gCiAPLdhzyUUGq9LNTLbWVv01kT6k3CgnHt62pL1k6Sumoc=
-X-Received: by 2002:adf:902a:: with SMTP id h39mr18790983wrh.147.1612194440569; 
- Mon, 01 Feb 2021 07:47:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20210109135112.147759-1-angelogioacchino.delregno@somainline.org>
- <20210109135112.147759-4-angelogioacchino.delregno@somainline.org>
- <CAF6AEGvDzdgDy7Znw6dQCV7Z=YxnF2_XsqkV+7BT+oY777TqHA@mail.gmail.com>
- <8f8c7c37-f7b2-f763-19e1-d89e5c454ab4@somainline.org>
-In-Reply-To: <8f8c7c37-f7b2-f763-19e1-d89e5c454ab4@somainline.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 1 Feb 2021 07:47:08 -0800
-Message-ID: <CAF6AEGsQp4xHpH2brUdHmAX1ic2k88EFJRVVWDRxWXUqF9njfw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] drm/msm/dsi_pll_10nm: Fix bad VCO rate calculation
- and prescaler
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=nELeOgIxrJtAKHJAjCMFea7kU54jCDRyGoM/8l+Px0E=;
+ b=Kh+EMF2BgJDxRXmS0HPp9ZXQCAAEEhoPEqJ4wS8/WT49LNRcTt/RXih7yub+X7vtQD
+ ibL23jEYK3kLIrdDfDKzTX71xFCKK1JbQCryr8ouYaFEVi0xHtaxAJJNNZZ6lJOi9Xwe
+ v2oLRfmYXch8ifbchJAnbbVrnV84pffLHLdFhYICd1ZIa4Fw2V20/4IxrrDumg942em4
+ kTey+SEzt6HQLbBf0Eh2Tp2ub5W5snD/5zrojqClTJRyQELK/eEu1TpX9o/uVAVSWLAU
+ 5huPKJiVQzEOy6GK/1xlmN/+TlOGhXCdFhK1fvAF+3paL4+V+Zy9UHkAmOz54D/xuCr2
+ VJlw==
+X-Gm-Message-State: AOAM533jG4GDiYncSBKdZgXIRm8x4pernc8rDJQK4z2oO+BT18VrwwXF
+ Z6D+Ci6meM74EDuKy2RhULM=
+X-Google-Smtp-Source: ABdhPJw1VnhYH2T8wY5WxQ9OmdQpouFofYvk8eNksW5NkaAlvXq13G9aPbst9Dg3Uw3gPt+Bcpqujw==
+X-Received: by 2002:a05:6602:2f93:: with SMTP id
+ u19mr13038281iow.110.1612194908883; 
+ Mon, 01 Feb 2021 07:55:08 -0800 (PST)
+Received: from spring-Precision-5820-Tower.cs.umn.edu
+ ([2607:ea00:101:3c74:b4b0:f34c:770:f33f])
+ by smtp.gmail.com with ESMTPSA id m19sm9508020ila.81.2021.02.01.07.55.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Feb 2021 07:55:08 -0800 (PST)
+From: Wenjia Zhao <driverfuzzing@gmail.com>
+To: 
+Subject: [PATCH 2/3] fix the out-of-bounds access of dramsr13
+Date: Mon,  1 Feb 2021 09:54:58 -0600
+Message-Id: <1612194898-44732-1-git-send-email-driverfuzzing@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,225 +64,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>, martin.botka@somainline.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, marijn.suijten@somainline.org,
- phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, driverfuzzing@gmail.com,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 1, 2021 at 2:11 AM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@somainline.org> wrote:
->
-> Il 31/01/21 20:50, Rob Clark ha scritto:
-> > On Sat, Jan 9, 2021 at 5:51 AM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@somainline.org> wrote:
-> >>
-> >> The VCO rate was being miscalculated due to a big overlook during
-> >> the process of porting this driver from downstream to upstream:
-> >> here we are really recalculating the rate of the VCO by reading
-> >> the appropriate registers and returning a real frequency, while
-> >> downstream the driver was doing something entirely different.
-> >>
-> >> In our case here, the recalculated rate was wrong, as it was then
-> >> given back to the set_rate function, which was erroneously doing
-> >> a division on the fractional value, based on the prescaler being
-> >> either enabled or disabled: this was actually producing a bug for
-> >> which the final VCO rate was being doubled, causing very obvious
-> >> issues when trying to drive a DSI panel because the actual divider
-> >> value was multiplied by two!
-> >>
-> >> To make things work properly, remove the multiplication of the
-> >> reference clock by two from function dsi_pll_calc_dec_frac and
-> >> account for the prescaler enablement in the vco_recalc_rate (if
-> >> the prescaler is enabled, then the hardware will divide the rate
-> >> by two).
-> >>
-> >> This will make the vco_recalc_rate function to pass the right
-> >> frequency to the (clock framework) set_rate function when called,
-> >> which will - in turn - program the right values in both the
-> >> DECIMAL_DIV_START_1 and the FRAC_DIV_START_{LOW/MID/HIGH}_1
-> >> registers, finally making the PLL to output the right clock.
-> >>
-> >> Also, while at it, remove the prescaler TODO by also adding the
-> >> possibility of disabling the prescaler on the PLL (it is in the
-> >> PLL_ANALOG_CONTROLS_ONE register).
-> >> Of course, both prescaler-ON and OFF cases were tested.
-> >
-> > This somehow breaks things on sc7180 (display gets stuck at first
-> > frame of splash screen).  (This is a setup w/ an ti-sn65dsi86 dsi->eDP
-> > bridge)
-> >
->
-> First frame of the splash means that something is "a bit" wrong...
-> ...like the DSI clock is a little off.
->
-> I don't have such hardware, otherwise I would've tried... but what you
-> describe is a bit strange.
-> Is there any other older qcom platform using this chip? Any other
-> non-qcom platform? Is the driver for the SN65DSI86 surely fine?
-> Anyway, as you know, I would never propose untested patches nor
-> partially working ones for any reason: I'm sorry that this happened.
+Signed-off-by: Wenjia Zhao <driverfuzzing@gmail.com>
+---
+ drivers/video/fbdev/sis/sis_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I don't think there is anything publicly avail w/ sc7180 (yet.. but very soon)
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index 03c736f..6774252 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -4834,7 +4834,7 @@ static int sisfb_post_xgi_ramsize(struct sis_video_info *ivideo)
+ 	sisfb_post_xgi_delay(ivideo, 1);
+ 
+ 	j = (ivideo->chip == XGI_20) ? 5 : 9;
+-	k = (ivideo->chip == XGI_20) ? 12 : 4;
++	k = (ivideo->chip == XGI_20) ? 11 : 3;
+ 	status = -EIO;
+ 
+ 	for(i = 0; i < k; i++) {
+-- 
+2.7.4
 
-The ti-sn65dsi86 bridge is used on a bunch of 845/850 devices (like
-the snapdragon windows laptops).. and I think also the older 835
-laptops.. ofc that doesn't mean that there isn't some bug, but I'd
-guess maybe more likely that there is some small difference in DSI vs
-older devices, or some cmd vs video mode difference.
-
-Anyways, seems like the screen did eventually recover so that gives me
-a bit of confidence to bisect this series, which I'll do a bit later
-today.
-
-> In any case, just to be perfectly transparent, while being here waiting
-> for review, this patch series got tested on more smartphones, even ones
-> that I don't personally own, with different displays.
->
-> For your reference, here's a list (all MSM8998..):
-> - OnePlus 5               (1920x1080)
-> - F(x)Tec Pro 1           (2160x1080)
-> - Sony Xperia XZ1 Compact (1280x720)
-> - Sony Xperia XZ1         (1920x1080)
-> - Sony Xperia XZ Premium  (3840x2160)
->
-
-Yeah, no worries, I wasn't trying to imply that the patch was untested.
-
-Out of curiosity, are any of those video mode panels?
-
->
-> > Also, something (I assume DSI related) that I was testing on
-> > msm-next-staging seems to have effected the colors on the panel (ie.
-> > they are more muted).. which seems to persist across reboots (ie. when
->
-> So much "fun". This makes me think something about the PCC block doing
-> the wrong thing (getting misconfigured).
->
-> > switching back to a good kernel), and interestingly if I reboot from a
-> > good kernel I see part of the login prompt (or whatever was previously
-> > on-screen) in the firmware ui screen !?!  (so maybe somehow triggered
-> > the display to think it is in PSR mode??)
-> >
->
->  From a fast read, the SN65DSI86 is on I2C.. giving it a wrong dsi clock
-> cannot produce (logically, at least) this, so I say that it is very
-> unlikely for this to be a consequence of the 10nm pll fixes...
->
-
-Note that the bridge can also be programmed via dsi cmd mode packets,
-which I believe is the case on the 835 laptops (or at least one of
-them).. but all the things I have are using i2c as the control path.
-
-> ...unless the bootloader is not configuring the DSI rates, but that's
-> also veeeeery unlikely (it always does, or it always does not).
-
-I haven't looked at the bootloader display code, but booting back to
-an old/good kernel didn't change anything..  even powering off didn't.
-But the ghost image seemed to fade after some time, and by the next
-morning it was fine.  Which is strange. (But tbf, I'm more a gpu guy
-who works on display only when necessary.. ie. a gpu without a display
-isn't so much fun ;-))
-
-> > Not sure if that is caused by these patches, but if I can figure out
-> > how to get the panel back to normal I can bisect.  I think for now
-> > I'll drop this series.  Possibly it could be a
-> > two-wrongs-makes-a-right situation that had things working before, but
-> > I think someone from qcom who knows the DSI IP should take a look.
-> >
->
-> I would be happy if someone from Qualcomm takes a look: after all, there
-> is no documentation and they're the only ones that can verify this kind
-> of stuff. Please, Qualcomm.
-
-Hopefully someone can take a look.
-
-> Besides that, if there's anything I can help with to solve this riddle,
-> I'm here for you.
-
-Thanks, like I said I'll try applying the patches one by one and see
-if I can narrow down what made the panel go funny, and we can go from
-there
-
-BR,
--R
-
-> Yours,
-> -- Angelo
->
-> > BR,
-> > -R
-> >
-> >
-> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> >> ---
-> >>   drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c | 22 +++++++++-------------
-> >>   1 file changed, 9 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
-> >> index 8b66e852eb36..5be562dfbf06 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
-> >> +++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c
-> >> @@ -165,11 +165,7 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_10nm *pll)
-> >>
-> >>          pll_freq = pll->vco_current_rate;
-> >>
-> >> -       if (config->disable_prescaler)
-> >> -               divider = fref;
-> >> -       else
-> >> -               divider = fref * 2;
-> >> -
-> >> +       divider = fref;
-> >>          multiplier = 1 << config->frac_bits;
-> >>          dec_multiple = div_u64(pll_freq * multiplier, divider);
-> >>          dec = div_u64_rem(dec_multiple, multiplier, &frac);
-> >> @@ -266,9 +262,11 @@ static void dsi_pll_ssc_commit(struct dsi_pll_10nm *pll)
-> >>
-> >>   static void dsi_pll_config_hzindep_reg(struct dsi_pll_10nm *pll)
-> >>   {
-> >> +       struct dsi_pll_config *config = &pll->pll_configuration;
-> >>          void __iomem *base = pll->mmio;
-> >> +       u32 val = config->disable_prescaler ? 0x0 : 0x80;
-> >>
-> >> -       pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_ONE, 0x80);
-> >> +       pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_ONE, val);
-> >>          pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_TWO, 0x03);
-> >>          pll_write(base + REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_THREE, 0x00);
-> >>          pll_write(base + REG_DSI_10nm_PHY_PLL_DSM_DIVIDER, 0x00);
-> >> @@ -499,17 +497,15 @@ static unsigned long dsi_pll_10nm_vco_recalc_rate(struct clk_hw *hw,
-> >>          frac |= ((pll_read(base + REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_HIGH_1) &
-> >>                    0x3) << 16);
-> >>
-> >> -       /*
-> >> -        * TODO:
-> >> -        *      1. Assumes prescaler is disabled
-> >> -        */
-> >>          multiplier = 1 << config->frac_bits;
-> >> -       pll_freq = dec * (ref_clk * 2);
-> >> -       tmp64 = (ref_clk * 2 * frac);
-> >> +       pll_freq = dec * ref_clk;
-> >> +       tmp64 = ref_clk * frac;
-> >>          pll_freq += div_u64(tmp64, multiplier);
-> >> -
-> >>          vco_rate = pll_freq;
-> >>
-> >> +       if (config->disable_prescaler)
-> >> +               vco_rate = div_u64(vco_rate, 2);
-> >> +
-> >>          DBG("DSI PLL%d returning vco rate = %lu, dec = %x, frac = %x",
-> >>              pll_10nm->id, (unsigned long)vco_rate, dec, frac);
-> >>
-> >> --
-> >> 2.29.2
-> >>
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
