@@ -1,39 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801E430C1DE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:37:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E3E30C2A3
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D8E89E5A;
-	Tue,  2 Feb 2021 14:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791DF89DE3;
+	Tue,  2 Feb 2021 14:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC1D89E5A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:37:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7EA0E64DD8;
- Tue,  2 Feb 2021 14:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612276631;
- bh=59H/RX/aCpZDci3/j2ROapoK3LntvgnOkKqeLSBExoU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BY/9D9WwHzXHV3rnrsxuU0DcQz++ZS4+zEjOPjc9/OVHJHNkD9pRrAGxWG86yct89
- spsDRQsLsmBukU8bUtWzDGqSf1UHtMXlOsyar1BYxqiKJGZUHOsFdPkf11uSIFH9Qr
- IUNDnpAXy7GDi69hndOCbrrQE4yQIfVKdma3R4CjrfITUh+D+4avYXaNLvWGTR4wDn
- 3SaOQkpanaLTh8gQv97wPm9/HzQpzKi/b2O8G8duzYuArEHa4Td8c/jklXhu2NcE9e
- B8E7acIz+20H5HXDUSnWEx2f5jizrmOSJ11Exuk00iCVeOGUDBySpAYWwd2oTQKxuj
- AITUddLLhFuPw==
-Date: Tue, 2 Feb 2021 15:37:04 +0100
-From: Jessica Yu <jeyu@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: module loader dead code removal and cleanups v3
-Message-ID: <YBljkDgMFcqKcH8H@gunter>
-References: <20210202121334.1361503-1-hch@lst.de>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93F789C85
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:56:52 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1l6x6l-00020V-KD; Tue, 02 Feb 2021 15:56:47 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Date: Tue,  2 Feb 2021 15:56:26 +0100
+Message-Id: <20210202145632.1263136-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210202121334.1361503-1-hch@lst.de>
-X-OS: Linux gunter 5.10.9-1-default x86_64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,56 +36,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
- live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Josh Poimboeuf <jpoimboe@redhat.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- Miroslav Benes <mbenes@suse.cz>, linuxppc-dev@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, dafna.hirschfeld@collabora.com,
+ cmuellner@linux.com, hjc@rock-chips.com, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, helen.koike@collabora.com,
+ robh+dt@kernel.org, sebastian.fricke@posteo.net, ezequiel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+++ Christoph Hellwig [02/02/21 13:13 +0100]:
->Hi all,
->
->this series removes support for long term unused export types and
->cleans up various loose ends in the module loader.
->
->Changes since v2:
-> - clean up klp_find_object_symbol a bit
-> - remove the now unused module_assert_mutex helper
->
->Changes since v1:
-> - move struct symsearch to module.c
-> - rework drm to not call find_module at all
-> - allow RCU-sched locking for find_module
-> - keep find_module as a public API instead of module_loaded
-> - update a few comments and commit logs
+The rk3399 has two ISPs and right now only the first one is usable.
+The second ISP is connected to the TXRX dphy on the soc.
 
-Thanks Christoph for cleaning up all that aged cruft, and thanks everyone
-for the reviews.
+The phy of ISP1 is only accessible through the DSI controller's
+io-memory, so this series adds support for simply using the dsi
+controller is a phy if needed.
 
-I was curious about EXPORT_SYMBOL_GPL_FUTURE and EXPORT_UNUSED_SYMBOL
-variants, and found that most of that stuff was introduced between
-2006 - 2008. All the of the unused symbols were removed and gpl future
-symbols were converted to gpl quite a long time ago, and I don't
-believe these export types have been used ever since. So I
-think it's safe to retire those export types now.
+That solution is needed at least on rk3399 and rk3288 but no-one
+has looked at camera support on rk3288 at all, so right now
+only implement the rk3399 specifics.
 
-The patchset looks good so far. After Miroslav's comments are
-addressed, I'll wait an extra day or two in case there are more
-comments before queueing them onto modules-next. I can take the first
-two patches as well provided the acks are there (I think patch 2 is
-missing Daniel Vetter's ack from v1 of the series, but I'll add that
-back in).
 
-Thanks,
+Heiko Stuebner (6):
+  drm/rockchip: dsi: add own additional pclk handling
+  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+  arm64: dts: rockchip: add isp1 node on rk3399
 
-Jessica
+ .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+ drivers/gpu/drm/rockchip/Kconfig              |   2 +
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
+ 4 files changed, 384 insertions(+)
+
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
