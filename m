@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702A830B756
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 06:47:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 985C130B9AA
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CF989C48;
-	Tue,  2 Feb 2021 05:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7486E8F9;
+	Tue,  2 Feb 2021 08:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 24E7F89C48
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 05:47:13 +0000 (UTC)
-X-UUID: e483f0c25a2346c6a957f7cfa9873242-20210202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=+z6sGY3stDidbHZO1wGRqes+rRr8z1LIfXjlelWJf6Y=; 
- b=ZhOCXOzZFhotfhcD4nDZ3HA/7Guij8RUK0ZVOQwO5r+PvZVz6P7FkxKQHmbH/EdmuwRmhsjhqyKEdbNFLW8K3xU1hcSKnRBeGt9g08rNFP+ld7UhrKVsdcC6ixVRtgLLEgTkhLh5MkXMunSVPbgZO6obr628IEVsvmUVetd+mMU=;
-X-UUID: e483f0c25a2346c6a957f7cfa9873242-20210202
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1545056741; Tue, 02 Feb 2021 13:47:11 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 2 Feb 2021 13:47:09 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 2 Feb 2021 13:47:09 +0800
-Message-ID: <1612244829.5495.5.camel@mtksdaap41>
-Subject: Re: [PATCH v5 6/8] drm/mediatek: add matrix_bits private data for
- ccorr
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 2 Feb 2021 13:47:09 +0800
-In-Reply-To: <20210201103727.376721-7-hsinyi@chromium.org>
-References: <20210201103727.376721-1-hsinyi@chromium.org>
- <20210201103727.376721-7-hsinyi@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5256E8C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 06:26:30 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1612247190; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=z7Jt7mLpbCjEtcnUQ9bOehTzH3Sk9XSsW7oxWAsa7AE=;
+ b=l2vHYpfgEv9Q/BCS9E8KamcVTQjNJQWn2VpHM/lonuXuPoVcQjlIKJxZUCyZf+EFljGmRz3U
+ xjrZiWV9YlFVUMbqzLLJQs24IaiQNxiDQwzocJ53U55EWZMME4KBSuL6XBC6HJVhzMV/zeNj
+ s0uiWinUCiSAv04FW1B/EUVY6e4=
+X-Mailgun-Sending-Ip: 198.61.254.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 6018f095f71e8b9934df4186 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 02 Feb 2021 06:26:29
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1A749C43464; Tue,  2 Feb 2021 06:26:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9D118C433C6;
+ Tue,  2 Feb 2021 06:26:27 +0000 (UTC)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 2B1541456084131A4B3C3B272388F1487FBE970D39AE745FD1A1D5124297493C2000:8
-X-MTK: N
+Date: Tue, 02 Feb 2021 11:56:27 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+In-Reply-To: <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+Message-ID: <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,122 +71,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, "list@263.net:IOMMU DRIVERS , 
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Kristian H Kristensen <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-Yi:
-
-On Mon, 2021-02-01 at 18:37 +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+On 2021-02-01 23:50, Jordan Crouse wrote:
+> On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
+>> On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
+>> >
+>> > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
+>> > > On 2021-01-29 14:35, Will Deacon wrote:
+>> > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+>> > > > > Add a new page protection flag IOMMU_LLC which can be used
+>> > > > > by non-coherent masters to set cacheable memory attributes
+>> > > > > for an outer level of cache called as last-level cache or
+>> > > > > system cache. Initial user of this page protection flag is
+>> > > > > the adreno gpu and then can later be used by other clients
+>> > > > > such as video where this can be used for per-buffer based
+>> > > > > mapping.
+>> > > > >
+>> > > > > Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> > > > > ---
+>> > > > >  drivers/iommu/io-pgtable-arm.c | 3 +++
+>> > > > >  include/linux/iommu.h          | 6 ++++++
+>> > > > >  2 files changed, 9 insertions(+)
+>> > > > >
+>> > > > > diff --git a/drivers/iommu/io-pgtable-arm.c
+>> > > > > b/drivers/iommu/io-pgtable-arm.c
+>> > > > > index 7439ee7fdcdb..ebe653ef601b 100644
+>> > > > > --- a/drivers/iommu/io-pgtable-arm.c
+>> > > > > +++ b/drivers/iommu/io-pgtable-arm.c
+>> > > > > @@ -415,6 +415,9 @@ static arm_lpae_iopte
+>> > > > > arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+>> > > > >           else if (prot & IOMMU_CACHE)
+>> > > > >                   pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
+>> > > > >                           << ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>> > > > > +         else if (prot & IOMMU_LLC)
+>> > > > > +                 pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
+>> > > > > +                         << ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>> > > > >   }
+>> > > > >
+>> > > > >   if (prot & IOMMU_CACHE)
+>> > > > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+>> > > > > index ffaa389ea128..1f82057df531 100644
+>> > > > > --- a/include/linux/iommu.h
+>> > > > > +++ b/include/linux/iommu.h
+>> > > > > @@ -31,6 +31,12 @@
+>> > > > >   * if the IOMMU page table format is equivalent.
+>> > > > >   */
+>> > > > >  #define IOMMU_PRIV       (1 << 5)
+>> > > > > +/*
+>> > > > > + * Non-coherent masters can use this page protection flag to set
+>> > > > > cacheable
+>> > > > > + * memory attributes for only a transparent outer level of cache,
+>> > > > > also known as
+>> > > > > + * the last-level or system cache.
+>> > > > > + */
+>> > > > > +#define IOMMU_LLC        (1 << 6)
+>> > > >
+>> > > > On reflection, I'm a bit worried about exposing this because I think it
+>> > > > will
+>> > > > introduce a mismatched virtual alias with the CPU (we don't even have a
+>> > > > MAIR
+>> > > > set up for this memory type). Now, we also have that issue for the PTW,
+>> > > > but
+>> > > > since we always use cache maintenance (i.e. the streaming API) for
+>> > > > publishing the page-tables to a non-coheren walker, it works out.
+>> > > > However,
+>> > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+>> > > > allocation, then they're potentially in for a nasty surprise due to the
+>> > > > mismatched outer-cacheability attributes.
+>> > > >
+>> > >
+>> > > Can't we add the syscached memory type similar to what is done on android?
+>> >
+>> > Maybe. How does the GPU driver map these things on the CPU side?
+>> 
+>> Currently we use writecombine mappings for everything, although there
+>> are some cases that we'd like to use cached (but have not merged
+>> patches that would give userspace a way to flush/invalidate)
+>> 
+>> BR,
+>> -R
 > 
-> Add matrix_bits and coeffs_precision to ccorr private data:
-> - matrix bits of mt8183 is 10
-> - matrix bits of mt8192 is 11
+> LLC/system cache doesn't have a relationship with the CPU cache.  Its 
+> just a
+> little accelerator that sits on the connection from the GPU to DDR and 
+> caches
+> accesses. The hint that Sai is suggesting is used to mark the buffers 
+> as
+> 'no-write-allocate' to prevent GPU write operations from being cached 
+> in the LLC
+> which a) isn't interesting and b) takes up cache space for read 
+> operations.
 > 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 34 ++++++++++++++++-------
->  1 file changed, 24 insertions(+), 10 deletions(-)
+> Its easiest to think of the LLC as a bonus accelerator that has no cost 
+> for
+> us to use outside of the unfortunate per buffer hint.
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> index 6c86673a835c3..fb86f3a8b3a18 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> @@ -29,8 +29,10 @@
->  #define DISP_CCORR_COEF_3			0x008C
->  #define DISP_CCORR_COEF_4			0x0090
->  
-> +#define CCORR_MATRIX_BITS			10
-> +
->  struct mtk_disp_ccorr_data {
-> -	u32 reserved;
-> +	u32 matrix_bits;
->  };
->  
->  /**
-> @@ -85,21 +87,22 @@ void mtk_ccorr_stop(struct device *dev)
->  	writel_relaxed(0x0, ccorr->regs + DISP_CCORR_EN);
->  }
->  
-> -/* Converts a DRM S31.32 value to the HW S1.10 format. */
-> -static u16 mtk_ctm_s31_32_to_s1_10(u64 in)
-> +/* Converts a DRM S31.32 value to the HW S1.n format. */
-> +static u16 mtk_ctm_s31_32_to_s1_n(u64 in, u32 n)
->  {
->  	u16 r;
->  
->  	/* Sign bit. */
-> -	r = in & BIT_ULL(63) ? BIT(11) : 0;
-> +	r = in & BIT_ULL(63) ? BIT(n + 1) : 0;
->  
->  	if ((in & GENMASK_ULL(62, 33)) > 0) {
-> -		/* identity value 0x100000000 -> 0x400, */
-> +		/* identity value 0x100000000 -> 0x400(mt8183), */
-> +		/* identity value 0x100000000 -> 0x800(mt8192), */
->  		/* if bigger this, set it to max 0x7ff. */
-> -		r |= GENMASK(10, 0);
-> +		r |= GENMASK(n, 0);
->  	} else {
-> -		/* take the 11 most important bits. */
-> -		r |= (in >> 22) & GENMASK(10, 0);
-> +		/* take the n+1 most important bits. */
-> +		r |= (in >> (32 - n)) & GENMASK(n, 0);
->  	}
->  
->  	return r;
-> @@ -114,6 +117,7 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
->  	uint16_t coeffs[9] = { 0 };
->  	int i;
->  	struct cmdq_pkt *cmdq_pkt = NULL;
-> +	u32 matrix_bits;
->  
->  	if (!blob)
->  		return;
-> @@ -121,8 +125,13 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
->  	ctm = (struct drm_color_ctm *)blob->data;
->  	input = ctm->matrix;
->  
-> +	if (ccorr->data)
+> We do have to worry about the CPU cache w.r.t I/O coherency (which is a
+> different hint) and in that case we have all of concerns that Will 
+> identified.
+> 
 
-ccorr->data is always true, isn't it?
+For mismatched outer cacheability attributes which Will mentioned, I was
+referring to [1] in android kernel.
 
-> +		matrix_bits = ccorr->data->matrix_bits;
-> +	else
-> +		matrix_bits = CCORR_MATRIX_BITS;
-> +
->  	for (i = 0; i < ARRAY_SIZE(coeffs); i++)
-> -		coeffs[i] = mtk_ctm_s31_32_to_s1_10(input[i]);
-> +		coeffs[i] = mtk_ctm_s31_32_to_s1_n(input[i], matrix_bits);
->  
->  	mtk_ddp_write(cmdq_pkt, coeffs[0] << 16 | coeffs[1],
->  		      &ccorr->cmdq_reg, ccorr->regs, DISP_CCORR_COEF_0);
-> @@ -199,8 +208,13 @@ static int mtk_disp_ccorr_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data = {
-> +	.matrix_bits = CCORR_MATRIX_BITS,
+[1] https://android-review.googlesource.com/c/kernel/common/+/1549097/3
 
-Drop CCORR_MATRIX_BITS and use 10 here.
+Thanks,
+Sai
 
-> +};
-> +
->  static const struct of_device_id mtk_disp_ccorr_driver_dt_match[] = {
-> -	{ .compatible = "mediatek,mt8183-disp-ccorr"},
-> +	{ .compatible = "mediatek,mt8183-disp-ccorr",
-> +	  .data = &mt8183_ccorr_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_ccorr_driver_dt_match);
-
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
