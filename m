@@ -2,48 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94D430BC5D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 11:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B3B30BCD2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 12:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD1AC6E0E7;
-	Tue,  2 Feb 2021 10:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23AC89C07;
+	Tue,  2 Feb 2021 11:22:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67B766E0E7
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 10:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QUFoL1M4pevTeMyLwnDogHEMlQrHMZssskb6wG1LFcA=; b=wg2o6QP/gHbhqBuIhn1RZoUGj
- 2iHotGU7ufXkLAWPw4UwYFPNHzUu8ddsLF6ZH7DAZK9ibPxZPao37pY3QUiSj2kNvPg18QoU3RIbp
- SB9YdTsgzRp09KPTWE899TVtBN6b7+9uCVpM084z3RB+393ttTKlzy9IbXmuACxRaE7AQP1axErmx
- 9bdLyqL5Tzp+2AR1s8H8Ra8HKPn+VaEgvK7MKLCh/WvBYIcLxWRrMqhYn6+wAR7lOhqYiExSBYnla
- 2ZSGKUuSlOCD0mvUg9A5mz9A1bzzWPt0jeQ/XhpyrV3IGp6JHZ9fsbmIMsvJ8Mev9a6w8QLTZD9/a
- CRpSMItzA==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38176)
- by pandora.armlinux.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <linux@armlinux.org.uk>)
- id 1l6tFN-0004FH-LS; Tue, 02 Feb 2021 10:49:25 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1l6tFE-0002yZ-0J; Tue, 02 Feb 2021 10:49:16 +0000
-Date: Tue, 2 Feb 2021 10:49:15 +0000
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 0/5] amba: minor fix and various cleanups
-Message-ID: <20210202104915.GK1463@shell.armlinux.org.uk>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A8F89C07
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 11:22:13 +0000 (UTC)
+IronPort-SDR: 3iv0ZSiDVqSbX2lnyJk2VUaigAusqoGuJN73Ry+uArj0zKHplaTbQBxBe3QtWvsHtHozLlihjA
+ NVZTxXfH1YGA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168515483"
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="168515483"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 03:22:12 -0800
+IronPort-SDR: /1V5fzeEwGzRZz4DCX7n893+GxToAy3bSuaOseczwa4d1XoTuChdIUXvXCZuMVHPp447V7f4Vr
+ lmmTTuKYPbrw==
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="578673540"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 03:22:10 -0800
+Date: Tue, 2 Feb 2021 13:22:07 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 2/4] drm/dp_mst: Don't cache EDIDs for physical ports
+Message-ID: <20210202112207.GA494606@ideak-desk.fi.intel.com>
+References: <20210201120145.350258-1-imre.deak@intel.com>
+ <20210201120145.350258-2-imre.deak@intel.com>
+ <BN8PR12MB4770A088BA001258FCDE973AFCB59@BN8PR12MB4770.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <BN8PR12MB4770A088BA001258FCDE973AFCB59@BN8PR12MB4770.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,82 +48,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig.org@pengutronix.de>,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- linux-watchdog@vger.kernel.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Leo Yan <leo.yan@linaro.org>,
- dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: imre.deak@intel.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 26, 2021 at 05:58:30PM +0100, Uwe Kleine-K=F6nig wrote:
-> From: Uwe Kleine-K=F6nig <u.kleine-koenig.org@pengutronix.de
-> =
+On Tue, Feb 02, 2021 at 03:38:16AM +0000, Lin, Wayne wrote:
+> [AMD Public Use]
+> 
+> > -----Original Message-----
+> > From: Imre Deak <imre.deak@intel.com>
+> > Sent: Monday, February 1, 2021 8:02 PM
+> > To: dri-devel@lists.freedesktop.org
+> > Cc: Lin, Wayne <Wayne.Lin@amd.com>; Lyude Paul <lyude@redhat.com>
+> > Subject: [PATCH 2/4] drm/dp_mst: Don't cache EDIDs for physical ports
+> >
+> > Caching EDIDs for physical ports prevents updating the EDID if a port gets reconnected via a Connection Status Notification message,
+> > fix this.
+> >
+> > Fixes: db1a07956968 ("drm/dp_mst: Handle SST-only branch device case")
+> > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > index deb7995f42fa..309afe61afdd 100644
+> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > @@ -2302,7 +2302,8 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
+> >  }
+> >
+> >  if (port->pdt != DP_PEER_DEVICE_NONE &&
+> > -    drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+> > +    drm_dp_mst_is_end_device(port->pdt, port->mcs) &&
+> > +    port->port_num >= DP_MST_LOGICAL_PORT_0) {
+> Hi Imre Deak,
+> 
+> Thanks for the patch!
+> Just curious that you mean we don't want to fetch the EDID of the sst
+> monitor like below case?
+>
+>     Src->MST device ->SST monitor
 
-> Hello,
-> =
+The intention of the mst cached_edid logic is to cache the EDID for
+logical ports where the EDID cannot change anyway. The EDID on physical
+ports is fetched during connector probing just as for any other
+connector.
 
-> Changes since v2 sent with Message-Id:
-> 20201124133139.3072124-1-uwe@kleine-koenig.org:
-> =
+> I thought we still need to get the EDID even the monitor is connected
+> to the physical output port of mst device.
 
->  - Rebase to v5.11-rc1 (which resulted in a few conflicts in
->    drivers/hwtracing).
->  - Add various Acks.
->  - Send to more maintainers directly (which I think is one of the
->    reasons why there are so few Acks).
-> =
+For sinks attached to phyisical ports we get the EDID whenever probing
+the corresponding connector.
 
-> For my taste patch 4 needs some more acks (drivers/char/hw_random,
-> drivers/dma, drivers/gpu/drm/pl111, drivers/i2c, drivers/mmc,
-> drivers/vfio, drivers/watchdog and sound/arm have no maintainer feedback
-> yet).
-> =
+> Maybe what we should fix here is why the EDID is not get updated once
+> reconnected via CSN message?
 
-> My suggestion is to let this series go in via Russell King (who cares
-> for amba). Once enough Acks are there I can also provide a tag for
-> merging into different trees. Just tell me if you prefer this solution.
-> =
+This patch fixes the problem that we stopped updating the EDID for
+physical connectors. After this change it will get updated when probing
+such connectors.
 
-> Would be great if this could make it for v5.12, but I'm aware it's
-> already late in the v5.11 cycle so it might have to wait for v5.13.
-
-I think you need to have a 6th patch which moves the
-probe/remove/shutdown methods into the bus_type - if you're setting
-them for every struct device_driver, then there's no point doing that
-and they may as well be in the bus_type.
-
-Apart from that, it looks good.
-
--- =
-
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> Thanks!
+> >  port->cached_edid = drm_get_edid(port->connector,
+> >   &port->aux.ddc);
+> >  drm_connector_set_tile_property(port->connector);
+> > --
+> > 2.25.1
+> Regards,
+> Wayne Lin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
