@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC4530D4DF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:14:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F7B30D4CC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:13:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FA56EA09;
-	Wed,  3 Feb 2021 08:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36446E9E5;
+	Wed,  3 Feb 2021 08:13:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 433 seconds by postgrey-1.36 at gabe;
- Tue, 02 Feb 2021 08:45:41 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6826E8F0
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 08:45:41 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1612255104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XSvnQS472UFc97/OveAYELQREPOxJl2PjuSTa4E+Q7A=;
- b=fOwUz6oMsJL1OT+8YKgVu8YLiGerlC6aoRGuk2gj3WQtUgU8QXSFpJ09U58JpJZXEehe+m
- Qvm+Z3XThUOMXKRyBZB7+bDjUhB+oW1k9PjhHBvhXxRvpDI/pEj0dFjalO7cXIZ6/LmAmw
- AkIet2SuXwlUKmVKo6LYhbu3DnbqfcXWFnkeq13yZS8SZs/yNjBFd+tbOJ43wrJQMUIO4V
- V5ZdDZeEV1oaO/ZC+FkkcD5CvM9I9f9RZUMxvlOWWq7jLpmML8ghyP0xcXUniwX4RVQVj4
- j9+Q4MQbZrSxNHrqAt2SHlSB53aNx+8ux1oL3D+TPkMNegsaWy31lKKV3ki2GA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1612255104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XSvnQS472UFc97/OveAYELQREPOxJl2PjuSTa4E+Q7A=;
- b=OPu2XNNKWOUcpfxtFJWAMYFL7d6qcjsZokIJEMUiNGj0vWq2dCutTDGvIHWGet1UOF9hx3
- 9T+b4TtHpCZ3cXDw==
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
- Petr Mladek <pmladek@suse.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 1/3] printk: use CONFIG_CONSOLE_LOGLEVEL_* directly
-In-Reply-To: <20210202070218.856847-1-masahiroy@kernel.org>
-References: <20210202070218.856847-1-masahiroy@kernel.org>
-Date: Tue, 02 Feb 2021 09:44:22 +0106
-Message-ID: <87eehy27b5.fsf@jogness.linutronix.de>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B3196E8F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 08:44:57 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id c12so19502394wrc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 00:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xF8qedlJolmxjBdAS9Sywdm5NC/I3fz6Ssj86vPbp9Q=;
+ b=nmh/0ol5uk8pnSQmOGqt5K+oG9m/FjeGJIk0NTKlL8ZgvuGa8p1neScVJUkY7ukkQG
+ AqsofN2KljvUHs5ZtCuSyeIYsxvqXegjpdJiq0Xfn+6czRRXlz8jU/EWBRoiTv0Hk47N
+ hu04jb44kmVuStIgWubzXJXisr55AgYzM++/mqxGDul53FkOWZ6XxIZCYEXd0o/cU33Y
+ 4yrrbiFICwviSZL4z/hVtMmNW+9tgbjoST/WEhTcVa0GyEtWVkYg5IUMYNZwwYs1l4f+
+ 9QaKNKErlpGfCcVia2qHuffZFIj5v0lmyXBo7SgUdSelOi8phh7UQCjCNKL3Gf2tcOCe
+ W5kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xF8qedlJolmxjBdAS9Sywdm5NC/I3fz6Ssj86vPbp9Q=;
+ b=qtpzsbLv576RPxVPAKlEd6+Y3WJVz1MzOpj81/OSaUtew9SbYyGwsvD56B0Dd+/lxb
+ 4Qx1DVQA3WcW6nR2fzRxStSc3/Jh+2jS0hk5RwO2XY+YHC5zFWIrbAr7NjiWfkGTyNkg
+ 1Xpf4/5lulaq9edl54pFnnC/lHG5p3XTEtr97n5nTzboIGg7tq/TA6uPLNYTNXpFo9cu
+ KokR/Di6VK9F8cBujeHIzFIDpApexI9Frf5furUt3eO7jFurZo04JCZlJqXDUU/eZx5j
+ o5glSeZgK2SLGvYSydkx0/azIWQHVOminjNPI9XFyijAejwB6liaD/2ZjXo2vlLGHtb3
+ 80mQ==
+X-Gm-Message-State: AOAM532VmMj8mLtcBqfYTsjclNKGYRcTnLENYLw9htWM44QIRoD2q6xO
+ u7ILV4gcwxF4mI9Kg3xqX2WaEGw1/4SOLA73N9SW1g==
+X-Google-Smtp-Source: ABdhPJyIcGuuSym0awOVNMXB2Bhi1rD0SlTVRtk+EYonkDPzcHjZReKVITS7PVf3SKTHsvL5JyeM/K20x3otaInPs6I=
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr22294772wro.358.1612255495607; 
+ Tue, 02 Feb 2021 00:44:55 -0800 (PST)
 MIME-Version: 1.0
+References: <20210128083817.314315-1-surenb@google.com>
+ <20210128091348.GA1962975@infradead.org>
+ <CAJuCfpFUhJozS98WJpH0KQKBzyGXvqS1fitu-mgSyhaJ1xL8SQ@mail.gmail.com>
+ <YBMAGRIwcbPF17cU@google.com>
+ <CAJuCfpF78RYedBoAgkDdgMdfSmNwC2AQk-zZxAqkhCdtBB9gtQ@mail.gmail.com>
+ <CAJuCfpH5nwvtMR+32G0-xa_hY-b_Hnw=Figqq9xcsTGgJhOiww@mail.gmail.com>
+ <20210202070336.GA3535861@infradead.org>
+In-Reply-To: <20210202070336.GA3535861@infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 2 Feb 2021 00:44:44 -0800
+Message-ID: <CAJuCfpHWVcL1Cw=nm4THf0EzEan0jyVgLRNOdKr2ZbXex3DUcg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] dma-buf: heaps: Map system heap pages as managed by
+ linux vm
+To: Christoph Hellwig <hch@infradead.org>
 X-Mailman-Approved-At: Wed, 03 Feb 2021 08:13:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,63 +68,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>, linux-fbdev@vger.kernel.org,
- linux-efi@vger.kernel.org, Russ Anderson <russ.anderson@hpe.com>,
- Steve Wahl <steve.wahl@hpe.com>, Mike Travis <mike.travis@hpe.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Peter Jones <pjones@redhat.com>,
- x86@kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Darren Hart <dvhart@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Andy Shevchenko <andy@infradead.org>
+Cc: Sandeep Patil <sspatil@google.com>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Christian K??nig <christian.koenig@amd.com>,
+ kernel-team <kernel-team@android.com>, James Jones <jajones@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Minchan Kim <minchan@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Hridya Valsaraju <hridya@google.com>, ??rjan Eide <orjan.eide@arm.com>,
+ labbott@redhat.com, Robin Murphy <robin.murphy@arm.com>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-02, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> CONSOLE_LOGLEVEL_DEFAULT is nothing more than a shorthand of
-> CONFIG_CONSOLE_LOGLEVEL_DEFAULT.
+On Mon, Feb 1, 2021 at 11:03 PM Christoph Hellwig <hch@infradead.org> wrote:
 >
-> When you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from Kconfig, almost
-> all objects are rebuilt because CONFIG_CONSOLE_LOGLEVEL_DEFAULT is
-> used in <linux/printk.h>, which is included from most of source files.
+> IMHO the
 >
-> In fact, there are only 4 users of CONSOLE_LOGLEVEL_DEFAULT:
+>         BUG_ON(vma->vm_flags & VM_PFNMAP);
 >
->   arch/x86/platform/uv/uv_nmi.c
->   drivers/firmware/efi/libstub/efi-stub-helper.c
->   drivers/tty/sysrq.c
->   kernel/printk/printk.c
->
-> So, when you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT and rebuild the
-> kernel, it is enough to recompile those 4 files.
->
-> Remove the CONSOLE_LOGLEVEL_DEFAULT definition from <linux/printk.h>,
-> and use CONFIG_CONSOLE_LOGLEVEL_DEFAULT directly.
+> in vm_insert_page should just become a WARN_ON_ONCE with an error
+> return, and then we just need to gradually fix up the callers that
+> trigger it instead of coming up with workarounds like this.
 
-With commit a8fe19ebfbfd ("kernel/printk: use symbolic defines for
-console loglevels") it can be seen that various drivers used to
-hard-code their own values. The introduction of the macros in an
-intuitive location (include/linux/printk.h) made it easier for authors
-to find/use the various available printk settings and thresholds.
-
-Technically there is no problem using Kconfig macros directly. But will
-authors bother to hunt down available Kconfig settings? Or will they
-only look in printk.h to see what is available?
-
-IMHO if code wants to use settings from a foreign subsystem, it should
-be taking those from headers of that subsystem, rather than using some
-Kconfig settings from that subsystem. Headers exist to make information
-available to external code. Kconfig (particularly for a subsystem) exist
-to configure that subsystem.
-
-But my feeling on this may be misguided. Is it generally accepted in the
-kernel that any code can use Kconfig settings of any other code?
-
-John Ogness
+For the existing vm_insert_page users this should be fine since
+BUG_ON() guarantees that none of them sets VM_PFNMAP. However, for the
+system_heap_mmap I have one concern. When vm_insert_page returns an
+error due to VM_PFNMAP flag, the whole mmap operation should fail
+(system_heap_mmap returning an error leading to dma_buf_mmap failure).
+Could there be cases when a heap user (DRM driver for example) would
+be expected to work with a heap which requires VM_PFNMAP and at the
+same time with another heap which requires !VM_PFNMAP? IOW, this
+introduces a dependency between the heap and its
+user. The user would have to know expectations of the heap it uses and
+can't work with another heap that has the opposite expectation. This
+usecase is purely theoretical and maybe I should not worry about it
+for now?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
