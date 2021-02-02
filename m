@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAB130B35A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 00:21:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA7330B459
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 02:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206346E8A9;
-	Mon,  1 Feb 2021 23:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF26A89E2B;
+	Tue,  2 Feb 2021 01:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C1C6E8A9;
- Mon,  1 Feb 2021 23:21:40 +0000 (UTC)
-IronPort-SDR: JJ+3MWpjMWBUJwy6DchnoCVTkeGzQjdQyLn9HUrbIdLFqGlXx5ee00o9U6hejH9Nhuvn/WkFeT
- er0sb0VvVXyg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="242285542"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="242285542"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 15:21:37 -0800
-IronPort-SDR: rkwNIz2b0CynlLQSBraKJF/Zx+NCJg2sKZ1YwCbqyPmXEy0SZF+z0NWvk+YdmCtiAxUf6qcXpi
- oS++1PY/AHdg==
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="412942564"
-Received: from brianwel-mobl1.amr.corp.intel.com (HELO [10.209.88.198])
- ([10.209.88.198])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 15:21:36 -0800
-Subject: Re: [RFC PATCH 0/9] cgroup support for GPU devices
-To: Xingyou Chen <rockrush@rockwork.org>, cgroups@vger.kernel.org,
- Tejun Heo <tj@kernel.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Kenny Ho <Kenny.Ho@amd.com>,
- amd-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Eero Tamminen <eero.t.tamminen@intel.com>
-References: <20210126214626.16260-1-brian.welty@intel.com>
- <84b79978-84c9-52aa-b761-3f4be929064e@rockwork.org>
-From: Brian Welty <brian.welty@intel.com>
-Message-ID: <5307d21b-7494-858c-30f0-cb5fe1d86004@intel.com>
-Date: Mon, 1 Feb 2021 15:21:35 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F00489DD5;
+ Tue,  2 Feb 2021 01:02:04 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id p15so18570668wrq.8;
+ Mon, 01 Feb 2021 17:02:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jQ1WfUQt71q9l47M9pw0jo5iRtif7JjLaJa1M/+QKNA=;
+ b=sfxw6+zLWDJRfH56sqKa94m7XlcE20QqtuZWiUdSqnAbENFGMkOTIrsrFcV+gfwjph
+ mATOGJxGfnmlFvSnAxTObjuQIqbZpUeNzcSlthCa3peNPkbDy8VwwHZswGFsxRveHsFa
+ OlzLAMaQKawooUlRGX0XYqL6M+RRBuWMi8Pz/TF2uSMSglFHIc8zbQz3MLspMr+93EEk
+ hvMf7XUMSLKe3bWRt6/HPX6BKTAJh0DyO8K3pSAEgw6jpmziL/0iJyvw6DuGwl9p+QQO
+ hOSQkQpkinfRhRSQmWsfTR7IScQcvkPSmck6Iax0Cs1avxUqNeGTaXhIWaEx3mLmd+w2
+ gD+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jQ1WfUQt71q9l47M9pw0jo5iRtif7JjLaJa1M/+QKNA=;
+ b=sfmQGBdrHVYchYSfKuar9jLXpy/9g6wR20EkQ/tGDYxj5I7ZyEyL/bPlCt8XNm4/YQ
+ dgHoqF42r5D9+lDrbje0yUuNNXtHBMhptTZNgWdqpsLOZyIDVZchYzE/PYCpilxTpqnB
+ FNcO1w7AGBmLbb74ueTCP8ibUG5ady2OpzIg3AuaMcS7flwIrdPHCQm/NP4tzBnqt9KZ
+ fCNseReuerUS/KlmJ38EQrUX15MWaa1kK6ynA3g87dvvZMZx0NrDLvoyOcTFm7nvDuPr
+ nSm+wxrdsp5EAo8+ugnL0up/kgfKGSQBDzuLjSpeE0Z+KMg+NU7WcLTPWWF6N9tTx3Es
+ d3eg==
+X-Gm-Message-State: AOAM531CJEv5oCx7s7Ko9N6IBQx2fRcBbF/0EGXrL8Z/dIyRk2Zv499j
+ TXFkor56Mh5tFZF4nQk0gJOn+R7gA3ttmlXkXiY=
+X-Google-Smtp-Source: ABdhPJyN9lDOFpf6i67VfzNyhPIg+MgZptmc6lM8lXHJwQb7WZhKmtjZOl8MQcPqYywrkpcTepEhBr4RoZMPZwLMUnU=
+X-Received: by 2002:a5d:69ce:: with SMTP id s14mr20175051wrw.206.1612227723132; 
+ Mon, 01 Feb 2021 17:02:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <84b79978-84c9-52aa-b761-3f4be929064e@rockwork.org>
-Content-Language: en-US
+References: <20210127105121.20345-1-lukasz.luba@arm.com>
+ <CAKGbVbsn=xVEa0=c3rywRShVZD18LkmLZ1qDUuDsrT5KnTjr6g@mail.gmail.com>
+ <3d1b4696-0172-f88a-f41f-c66ac3baa429@arm.com>
+In-Reply-To: <3d1b4696-0172-f88a-f41f-c66ac3baa429@arm.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Tue, 2 Feb 2021 09:01:51 +0800
+Message-ID: <CAKGbVbsuqsGYRqUyWRiC+h9o7kNMvB16-Y6378KG_rv0SG4VDQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Use delayed timer as default in devfreq profile
+To: Lukasz Luba <lukasz.luba@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,52 +62,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDEvMjgvMjAyMSA3OjAwIFBNLCBYaW5neW91IENoZW4gd3JvdGU6Cj4gT24gMjAyMS8xLzI3
-IOS4iuWNiDU6NDYsIEJyaWFuIFdlbHR5IHdyb3RlOgo+IAo+PiBXZSdkIGxpa2UgdG8gcmV2aXNp
-dCB0aGUgcHJvcG9zYWwgb2YgYSBHUFUgY2dyb3VwIGNvbnRyb2xsZXIgZm9yIG1hbmFnaW5nCj4+
-IEdQVSBkZXZpY2VzIGJ1dCB3aXRoIGp1c3QgYSBiYXNpYyBzZXQgb2YgY29udHJvbHMuICBUaGlz
-IHNlcmllcyBpcyBiYXNlZCBvbiAKPj4gdGhlIHByaW9yIHBhdGNoIHNlcmllcyBmcm9tIEtlbm55
-IEhvIFsxXS4gIFdlIHRha2UgS2VubnkncyBiYXNlIHBhdGNoZXMKPj4gd2hpY2ggaW1wbGVtZW50
-IHRoZSBiYXNpYyBmcmFtZXdvcmsgZm9yIHRoZSBjb250cm9sbGVyLCBidXQgd2UgcHJvcG9zZSBh
-bgo+PiBhbHRlcm5hdGUgc2V0IG9mIGNvbnRyb2wgZmlsZXMuICBIZXJlIHdlJ3ZlIHRha2VuIGEg
-c3Vic2V0IG9mIHRoZSBjb250cm9scwo+PiBwcm9wb3NlZCBpbiBlYXJsaWVyIGRpc2N1c3Npb24g
-b24gTUwgaGVyZSBbMl0uIAo+Pgo+PiBUaGlzIHNlcmllcyBwcm9wb3NlcyBhIHNldCBvZiBkZXZp
-Y2UgbWVtb3J5IGNvbnRyb2xzIChncHUubWVtb3J5LmN1cnJlbnQsCj4+IGdwdS5tZW1vcnkubWF4
-LCBhbmQgZ3B1Lm1lbW9yeS50b3RhbCkgYW5kIGFjY291bnRpbmcgb2YgR1BVIHRpbWUgdXNhZ2UK
-Pj4gKGdwdS5zY2hlZC5ydW50aW1lKS4gIEdQVSB0aW1lIHNoYXJpbmcgY29udHJvbHMgYXJlIGxl
-ZnQgYXMgZnV0dXJlIHdvcmsuCj4+IFRoZXNlIGFyZSBpbXBsZW1lbnRlZCB3aXRoaW4gdGhlIEdQ
-VSBjb250cm9sbGVyIGFsb25nIHdpdGggaW50ZWdyYXRpb24vdXNhZ2UKPj4gb2YgdGhlIGRldmlj
-ZSBtZW1vcnkgY29udHJvbHMgYnkgdGhlIGk5MTUgZGV2aWNlIGRyaXZlci4KPj4KPj4gQXMgYW4g
-YWNjZWxlcmF0b3Igb3IgR1BVIGRldmljZSBpcyBzaW1pbGFyIGluIG1hbnkgcmVzcGVjdHMgdG8g
-YSBDUFUgd2l0aAo+PiAob3Igd2l0aG91dCkgYXR0YWNoZWQgc3lzdGVtIG1lbW9yeSwgdGhlIGJh
-c2ljIHByaW5jaXBsZSBoZXJlIGlzIHRyeSB0bwo+PiBjb3B5IHRoZSBzZW1hbnRpY3Mgb2YgZXhp
-c3RpbmcgY29udHJvbHMgZnJvbSBvdGhlciBjb250cm9sbGVycyB3aGVuIHBvc3NpYmxlCj4+IGFu
-ZCB3aGVyZSB0aGVzZSBjb250cm9scyBzZXJ2ZSB0aGUgc2FtZSB1bmRlcmx5aW5nIHB1cnBvc2Uu
-Cj4+IEZvciBleGFtcGxlLCB0aGUgbWVtb3J5Lm1heCBhbmQgbWVtb3J5LmN1cnJlbnQgY29udHJv
-bHMgYXJlIGJhc2VkIG9uCj4+IHNhbWUgY29udHJvbHMgZnJvbSBNRU1DRyBjb250cm9sbGVyLgo+
-IAo+IEl0IHNlZW1zIG5vdCB0byBiZSBEUk0gc3BlY2lmaWMsIG9yIGV2ZW4gR1BVIHNwZWNpZmlj
-LiBXb3VsZCB3ZSBoYXZlIGFuIHVuaXZlcnNhbAo+IGNvbnRyb2wgZ3JvdXAgZm9yIGFueSBhY2Nl
-bGVyYXRvciwgR1BHUFUgZGV2aWNlIGV0YywgdGhhdCBob2xkIHNoYXJhYmxlIHJlc291cmNlcwo+
-IGxpa2UgZGV2aWNlIG1lbW9yeSwgY29tcHV0ZSB1dGlsaXR5LCBiYW5kd2lkdGgsIHdpdGggZXh0
-cmEgY29udHJvbCBmaWxlIHRvIHNlbGVjdAo+IGJldHdlZW4gZGV2aWNlcyhvciB2ZW5kb3JzKT8K
-PiAKPiBlLmcuIC9jZ25hbWUuZGV2aWNlIHRoYXQgc3RvcmVzIFBDSSBCREbvvIwgb3IgZW51bShp
-bnRlbCwgYW1kZ3B1LCBudmlkaWEsIC4uLiksCj4gZGVmYXVsdHMgdG8gbm9uZSwgbWVhbnMgbm90
-IGVuYWJsZWQuCj4gCgpIaSwgdGhhbmtzIGZvciB0aGUgZmVlZGJhY2suICBZZXMsIEkgdGVuZCB0
-byBhZ3JlZS4gIEkndmUgYXNrZWQgYWJvdXQgdGhpcyBpbgplYXJsaWVyIHdvcms7IG15IHN1Z2dl
-c3Rpb24gaXMgdG8gbmFtZSB0aGUgY29udHJvbGxlciBzb21ldGhpbmcgbGlrZSAnWFBVJyB0bwpi
-ZSBjbGVhciB0aGF0IHRoZXNlIGNvbnRyb2xzIGNvdWxkIGFwcGx5IHRvIG1vcmUgdGhhbiBHUFUu
-CgpCdXQgYXQgbGVhc3QgZm9yIG5vdywgYmFzZWQgb24gVGVqdW4ncyByZXBseSBbMV0sIHRoZSBm
-ZWVkYmFjayBpcyB0byB0cnkgYW5kIGtlZXAKdGhpcyBjb250cm9sbGVyIGFzIHNtYWxsIGFuZCBm
-b2N1c2VkIGFzIHBvc3NpYmxlIG9uIGp1c3QgR1BVLiAgQXQgbGVhc3QgdW50aWwKd2UgZ2V0IHNv
-bWUgY29uc2Vuc3VzIG9uIHNldCBvZiBjb250cm9scyBmb3IgR1BVLi4uLi4gIGJ1dCBmb3IgdGhp
-cyB3ZSBuZWVkIG1vcmUKYWN0aXZlIGlucHV0IGZyb20gY29tbXVuaXR5Li4uLi4uCgotQnJpYW4K
-ClsxXSBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAx
-OS1Ob3ZlbWJlci8yNDMxNjcuaHRtbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Hi Lukasz,
+
+Thanks for the explanation. So the deferred timer option makes a mistake that
+when GPU goes from idle to busy for only one poll periodic, in this
+case 50ms, right?
+But delayed timer will wakeup CPU every 50ms even when system is idle, will this
+cause more power consumption for the case like phone suspend?
+
+Regards,
+Qiang
+
+
+On Mon, Feb 1, 2021 at 5:53 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>
+> Hi Qiang,
+>
+> On 1/30/21 1:51 PM, Qiang Yu wrote:
+> > Thanks for the patch. But I can't observe any difference on glmark2
+> > with or without this patch.
+> > Maybe you can provide other test which can benefit from it.
+>
+> This is a design problem and has impact on the whole system.
+> There is a few issues. When the device is not checked and there are
+> long delays between last check and current, the history is broken.
+> It confuses the devfreq governor and thermal governor (Intelligent Power
+> Allocation (IPA)). Thermal governor works on stale stats data and makes
+> stupid decisions, because there is no new stats (device not checked).
+> Similar applies to devfreq simple_ondemand governor, where it 'tires' to
+> work on a loooong period even 3sec and make prediction for the next
+> frequency based on it (which is broken).
+>
+> How it should be done: constant reliable check is needed, then:
+> - period is guaranteed and has fixed size, e.g 50ms or 100ms.
+> - device status is quite recent so thermal devfreq cooling provides
+>    'fresh' data into thermal governor
+>
+> This would prevent odd behavior and solve the broken cases.
+>
+> >
+> > Considering it will wake up CPU more frequently, and user may choose
+> > to change this by sysfs,
+> > I'd like to not apply it.
+>
+> The deferred timer for GPU is wrong option, for UFS or eMMC makes more
+> sense. It's also not recommended for NoC busses. I've discovered that
+> some time ago and proposed to have option to switch into delayed timer.
+> Trust me, it wasn't obvious to find out that this missing check has
+> those impacts. So the other engineers or users might not know that some
+> problems they faces (especially when the device load is changing) is due
+> to this delayed vs deffered timer and they will change it in the sysfs.
+>
+> Regards,
+> Lukasz
+>
+> >
+> > Regards,
+> > Qiang
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
