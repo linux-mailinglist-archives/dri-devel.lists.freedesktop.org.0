@@ -1,56 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A02830BBC5
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 11:09:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF60B30BBD0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 11:12:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFD36E928;
-	Tue,  2 Feb 2021 10:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2FD86E064;
+	Tue,  2 Feb 2021 10:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47DC6E0EB
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 10:09:25 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id u11so12167576plg.13
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 02:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FYeJLFgukpjjaiX0ohZ3jkdwwwc8rHopLauzuSIyIdw=;
- b=tV+v78ppPBh5j1qozvGytXqYRH3YTJdedkA+I8BKPM/+ZtmYvrTzBWbeVfXbArKUSM
- iN4DyO4rLEKMayZ/QM19bmkFz6e2qX/7WaBp+PIDYEig7nWtknkexxzua6XvFhgpHqne
- lMEJZfTOQk7alc33ttk1hifGy5+zTtIrFKaHTSf6mg9Tfz5AO0tqYi4erZkvNM02mM7F
- 34qhUEHyyimt6uvazTjZyHv98SSh3Jyu5L4GyjX35aHc1AQuPb7R2MgE/5cvZaUS1c2/
- oW/pTvabA1T2TAr4fqG1xQ9yyF5eenOs5p6igNbRJQAuRb/uXxQJoOvzreh2AVCzW5ld
- 4Zkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FYeJLFgukpjjaiX0ohZ3jkdwwwc8rHopLauzuSIyIdw=;
- b=nWChNDl6HySaPCJ1Cv9PhGeWAq4jovxpJpy7wgE/egf7qwTomo0e2HAI2wdLt7jfoz
- aYjURTMpRFzreUdjPNhSiS1BasApVHYCf/1rr+uiDMv6neFNvRkCGGS3vLXUc40qFrnj
- y+HVnLyEt2BGWB0xIo3KgZXUBdg7iSkuYGMUqWQi/4yVZDZ/z4PBj7YO1D6XTdG/t/yP
- Na0aDXHcmjBskG/v8sNPwDtu38xxtsDpBQukJOAqUj3KRzY8NtdEaRBVirM49w5O/3mb
- cggDaHdN9zWzhoet9BiAgHFJ0NHkNMK0Dd44IcKySVjY4h0U78GOpIKyOcMTlkOeDiId
- YqOQ==
-X-Gm-Message-State: AOAM532fykO/6N3A6t3hxcd/mSFJMOkZo///s1LarsVW4BZC/J0AnOSz
- A9vvwuyRaTXth7mgeFPlUsA=
-X-Google-Smtp-Source: ABdhPJzOiwWh5mPPYa1i19XPG4Fp5MvPpEcfOWz0ooMRC2HOki3phGTorM9UmMcRGoRVm4K5OTM51w==
-X-Received: by 2002:a17:90a:d02:: with SMTP id
- t2mr3397288pja.130.1612260565335; 
- Tue, 02 Feb 2021 02:09:25 -0800 (PST)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
- by smtp.gmail.com with ESMTPSA id l2sm21403893pga.65.2021.02.02.02.09.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 02:09:24 -0800 (PST)
-Date: Tue, 2 Feb 2021 19:09:21 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3980B6E064
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 10:12:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D1AC64EE2;
+ Tue,  2 Feb 2021 10:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612260775;
+ bh=a9JpeLTPXuDOqgu+ithu1Vjt2uPFzg7y0tFXGXpxM34=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=2G7Sa2W2ilSNpuWlzi5xy2tjO1cPC84KVISQKCBmXkdFncJ0agNWmtpKRNGXthS7M
+ rd2RAlsEu/8qmLpx/S4Q9Tb4/zkCloMzc6hNLmvZhgw4B4eBq90pJ8K/CHAPqsTO5q
+ /uTrJLoBQx5z3FubOBQqvQ5cnYa4wvWYyC/ml7P8=
+Date: Tue, 2 Feb 2021 11:12:53 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Subject: Re: [PATCH 1/3] printk: use CONFIG_CONSOLE_LOGLEVEL_* directly
-Message-ID: <YBkk0cZXdwYdXIcD@jagdpanzerIV.localdomain>
+Message-ID: <YBklpQ1PrVc5iEQl@kroah.com>
 References: <20210202070218.856847-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -77,8 +52,7 @@ Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
  John Ogness <john.ogness@linutronix.de>, Mike Travis <mike.travis@hpe.com>,
  Steven Rostedt <rostedt@goodmis.org>, Borislav Petkov <bp@alien8.de>,
  Thomas Gleixner <tglx@linutronix.de>,
- Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>, linux-kernel@vger.kernel.org,
  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
  Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="us-ascii"
@@ -86,8 +60,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On (21/02/02 16:02), Masahiro Yamada wrote:
-> 
+On Tue, Feb 02, 2021 at 04:02:16PM +0900, Masahiro Yamada wrote:
 > CONSOLE_LOGLEVEL_DEFAULT is nothing more than a shorthand of
 > CONFIG_CONSOLE_LOGLEVEL_DEFAULT.
 > 
@@ -104,11 +77,58 @@ On (21/02/02 16:02), Masahiro Yamada wrote:
 > 
 > So, when you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT and rebuild the
 > kernel, it is enough to recompile those 4 files.
+> 
+> Remove the CONSOLE_LOGLEVEL_DEFAULT definition from <linux/printk.h>,
+> and use CONFIG_CONSOLE_LOGLEVEL_DEFAULT directly.
+> 
+> With this, the build system will rebuild the minimal number of objects.
+> 
+> Steps to confirm it:
+> 
+>   [1] Do the full build
+>   [2] Change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from 'make menuconfig' etc.
+>   [3] Rebuild
+> 
+>   $ make
+>     SYNC    include/config/auto.conf
+>     CALL    scripts/checksyscalls.sh
+>     CALL    scripts/atomic/check-atomics.sh
+>     DESCEND  objtool
+>     CHK     include/generated/compile.h
+>     CC      kernel/printk/printk.o
+>     AR      kernel/printk/built-in.a
+>     AR      kernel/built-in.a
+>     CC      drivers/tty/sysrq.o
+>     AR      drivers/tty/built-in.a
+>     CC      drivers/firmware/efi/libstub/efi-stub-helper.o
+>     STUBCPY drivers/firmware/efi/libstub/efi-stub-helper.stub.o
+>     AR      drivers/firmware/efi/libstub/lib.a
+>     AR      drivers/built-in.a
+>     GEN     .version
+>     CHK     include/generated/compile.h
+>     UPD     include/generated/compile.h
+>     CC      init/version.o
+>     AR      init/built-in.a
+>     LD      vmlinux.o
+>     ...
+> 
+> For the same reason, do likewise for CONSOLE_LOGLEVEL_QUIET and
+> MESSAGE_LOGLEVEL_DEFAULT.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  arch/x86/platform/uv/uv_nmi.c                  |  2 +-
+>  drivers/firmware/efi/libstub/efi-stub-helper.c |  6 +++---
+>  drivers/tty/sysrq.c                            |  4 ++--
+>  drivers/video/fbdev/core/fbcon.c               |  2 +-
+>  drivers/video/fbdev/efifb.c                    |  2 +-
+>  include/linux/printk.h                         | 10 ----------
+>  init/main.c                                    |  2 +-
+>  kernel/printk/printk.c                         |  6 +++---
+>  8 files changed, 12 insertions(+), 22 deletions(-)
 
-Do you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT so often that it becomes a
-problem?
-
-	-ss
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
