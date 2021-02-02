@@ -1,33 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DE230D4B6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:13:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FAA30D4E9
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:14:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CA96E1BB;
-	Wed,  3 Feb 2021 08:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B5D6E9FD;
+	Wed,  3 Feb 2021 08:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6DD6E15F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 12:14:50 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DVNxz6TbXz7YvC;
- Tue,  2 Feb 2021 20:13:27 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 2 Feb 2021 20:14:39 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/msm/adreno: fix debugfs_simple_attr.cocci warnings
-Date: Tue, 2 Feb 2021 20:14:19 +0800
-Message-ID: <1612268059-10507-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-m17640.qiye.163.com (mail-m17640.qiye.163.com
+ [59.111.176.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2031F6E115
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 12:19:36 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.124])
+ by mail-m17640.qiye.163.com (Hmail) with ESMTPA id 7EA72540468;
+ Tue,  2 Feb 2021 20:19:32 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, Martin Tsai <martin.tsai@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>,
+ Vladimir Stempen <vladimir.stempen@amd.com>,
+ jinlong zhang <jinlong.zhang@amd.com>,
+ Joshua Aberback <joshua.aberback@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] amd/display: remove unneeded variable: "pattern"
+Date: Tue,  2 Feb 2021 04:19:24 -0800
+Message-Id: <20210202121927.15153-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZSk1MShhCQh1KShpOVkpNSklJTUNITElDQkNVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hNSlVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PCI6TBw5DT8NEzY9MigBKQg1
+ VhBPCz5VSlVKTUpJSU1DSExISEpDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU9ZV1kIAVlBSUNDTDcG
+X-HM-Tid: 0a7762af0364d995kuws7ea72540468
 X-Mailman-Approved-At: Wed, 03 Feb 2021 08:13:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,36 +54,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fixed the below warning:
-./drivers/gpu/drm/msm/adreno/a5xx_debugfs.c:141:0-23: WARNING: reset_fops
-should be defined with DEFINE_DEBUGFS_ATTRIBUTE.
+Remove unneeded variable: "pattern".
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-index fc2c905..8db3e9d 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-@@ -138,7 +138,7 @@ reset_set(void *data, u64 val)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index f95bade59624..d77ae58210f6 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -126,9 +126,7 @@ static void dpcd_set_training_pattern(
+ static enum dc_dp_training_pattern decide_cr_training_pattern(
+ 		const struct dc_link_settings *link_settings)
+ {
+-	enum dc_dp_training_pattern pattern = DP_TRAINING_PATTERN_SEQUENCE_1;
+-
+-	return pattern;
++	return DP_TRAINING_PATTERN_SEQUENCE_1;
  }
  
--DEFINE_SIMPLE_ATTRIBUTE(reset_fops, NULL, reset_set, "%llx\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(reset_fops, NULL, reset_set, "%llx\n");
- 
- 
- void a5xx_debugfs_init(struct msm_gpu *gpu, struct drm_minor *minor)
+ static enum dc_dp_training_pattern decide_eq_training_pattern(struct dc_link *link,
 -- 
-2.7.4
+2.29.0
 
 _______________________________________________
 dri-devel mailing list
