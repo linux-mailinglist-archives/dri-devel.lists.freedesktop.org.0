@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6030F30C370
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 16:18:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B7230C38D
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 16:23:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D04C6E1D5;
-	Tue,  2 Feb 2021 15:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DB36E105;
+	Tue,  2 Feb 2021 15:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6686E1D5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 15:18:45 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id 190so2832848wmz.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 07:18:45 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA4E96E923
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 15:23:54 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id l12so1774548wmq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 07:23:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jcuU2XZ6+7nveeSZSHeH7qCej2d9koj9+XGVqebq3sQ=;
- b=MOFW1WFIEsMjyCZJ826+TTfov76++6PlkYwLeyMgd4rlHf+WYMA4M0mTGQdg3tyokK
- muk2ihO3Jy/JTefspB65o3HNF16VxBbYf75daImvndc77mUFwmdKGsaKF3csHxJyEQZx
- uzTOP9hoQSwx5kCg4HTXrmU78LTPH+qcjirpY=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PBOv4oa0xyBSu7Av2IkfR/vnH44GMIHIBZqxC79Sm/Y=;
+ b=DS825I+YcxBaWeWEl+ZNWlwgUUIR8iQmQPkY4QFjW+uga7eCjkKj/KLKeVvYlbT342
+ XZW5+2Ar3ZP7nqC+R9oJZP8ayAuB43dHLEmwnU4GvZ9vZ1Wr26KIXGNKp38uQSy6K9Tt
+ lMA+CYFhvJPF2cC1gm5jEgIe+iEoWYF68Djqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jcuU2XZ6+7nveeSZSHeH7qCej2d9koj9+XGVqebq3sQ=;
- b=ZFO7fySGpHNNtdfi8hesDWd7+KaBq0HOD8R376XipK4buqRP+2x3MQXXsdUXGRorsF
- Cz9eIAnuMs5hrmjVqj2py2JG+vsxkz63C9nhThMsXC5pMBt0EJYt0Oy7/XJJXOggjlks
- GFhxAhdkRRdz+O/ii8vfs+TQ5nhCfLo7c9GtGyvwZjhlFxxgDeSxoHVj3uSq/eR1gxhf
- twcLWBTHM2ogwdpsLxByJsLn5v4ozRGgYgb7oTsm5t7ok+Bred0CQQLQn8ZxDrZfg4Kl
- 1ebx21lyofO7kJLSSpqIDmb7dn3idrDRfP2h4dhUr/5A8hBdv2XaW2+dXC/rnEmwlWs2
- MLvg==
-X-Gm-Message-State: AOAM533s+J9D55NqhycV5B7qPMn3TNhE/2jKgM5un7a34mJgh5VYGnJL
- 0MfsrfYZJUrs39iCHhoXaVQh9w==
-X-Google-Smtp-Source: ABdhPJyXahoGh7cSbhQqSYSGnM1E/3edNSghwoms0O2OVWmAJbFSu24irZl99GK4rl2AYOIehAGy0g==
-X-Received: by 2002:a1c:f70c:: with SMTP id v12mr4028567wmh.77.1612279124286; 
- Tue, 02 Feb 2021 07:18:44 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=PBOv4oa0xyBSu7Av2IkfR/vnH44GMIHIBZqxC79Sm/Y=;
+ b=dbcmTAO7b+aE8A8G6Kn5LEMojJ5Kt4S69Ux2NMhV+Ioqofm6NAMzCnTDdWauverm6q
+ OqTGsCcXu9uj96a9Pfw70QvosP1XkHCKeK6HynBiJ29px8LmuqjmnNAtXjjFeBvyHqps
+ xGE68AAbs9ZWxLmv6dWgZCpNEjHcUn8lzbY3g54LPTzf+/tpfYZYsVK71AaNVNZ+EDgM
+ vj3vRDY7TpZcEAkDfpVVncNl+AZ289K83xb+GBayHa/iuMom7swQWGIPR2qL9rUoqOus
+ ys4xLo02QtR5cJfgDmhEYBdFgT39X6kVa5VhLK/t03ZZox6I33RdNnN6zFoAVrJq+5jh
+ nSig==
+X-Gm-Message-State: AOAM5323RjiMuJf1jblq5k+hxWw3OzwJN572yhpKnncPslVWJl690z2B
+ LcXdh6E4Dk8hxo4aI+I1khuBpQ==
+X-Google-Smtp-Source: ABdhPJwc4Iu2brOpfruPVn+eCfb6X4r3qeK2Ze160BwejVhNYW1tKRv6W4xHtSFBHQEAxujvrMfubQ==
+X-Received: by 2002:a1c:f417:: with SMTP id z23mr4176491wma.29.1612279433428; 
+ Tue, 02 Feb 2021 07:23:53 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm31745266wrv.44.2021.02.02.07.18.43
+ by smtp.gmail.com with ESMTPSA id f6sm3373520wmq.33.2021.02.02.07.23.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 07:18:43 -0800 (PST)
-Date: Tue, 2 Feb 2021 16:18:41 +0100
+ Tue, 02 Feb 2021 07:23:52 -0800 (PST)
+Date: Tue, 2 Feb 2021 16:23:50 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Joseph Schulte <joeschulte.js@gmail.com>
-Subject: Re: [PATCH] drm: replace drm_modeset_lock_all() in
- drm_client_modeset_dpms_legacy()
-Message-ID: <YBltUVYGd+3Y2o5L@phenom.ffwll.local>
-References: <20210125144815.8389-1-joeschulte.js@gmail.com>
+To: Phillip Susi <phill@thesusis.net>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+Message-ID: <YBluhm2WV2rmWfja@phenom.ffwll.local>
+Mail-Followup-To: Phillip Susi <phill@thesusis.net>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+References: <20200916205434.GA10389@duo.ucw.cz>
+ <87czyf5jjp.fsf@vps.thesusis.net>
+ <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
+ <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
+ <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+ <87k0s4ai33.fsf@vps.thesusis.net>
+ <YBlfKgQ1laQLFqpW@phenom.ffwll.local>
+ <87wnvqts9g.fsf@vps.thesusis.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210125144815.8389-1-joeschulte.js@gmail.com>
+In-Reply-To: <87wnvqts9g.fsf@vps.thesusis.net>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,67 +81,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, dri-devel@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Pavel Machek <pavel@ucw.cz>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 25, 2021 at 08:48:15AM -0600, Joseph Schulte wrote:
-> This patch helps complete Use  DRM_MODESET_LOCK_ALL* helpers instead of
-> boilerplate todo in Documentation/gpu/todo.rst
+On Tue, Feb 02, 2021 at 10:13:14AM -0500, Phillip Susi wrote:
 > 
-> Signed-off-by: Joseph Schulte <joeschulte.js@gmail.com>
+> Daniel Vetter writes:
+> 
+> > Just a quick comment on this: Since most framebuffers are write-combining,
+> > and reads from that tend to be ~3 orders of magnitude slower than writes
+> > (at least on the pile of machines I looked at here, there's big
+> > differences, and some special streaming cpu instructions to make the
+> > reading side not so slow).
+> >
+> > So scrolling by copying tends to be significantly slower than just
+> > redrawing everything.
+> 
+> I know this was the case years ago with AGP as iirc, it doubled ( 4x, 8x
+> ) the PCI clock rate but only for writes wasn't it?  I thought this was
+> no longer an issue with PCIe, but if it is, then I guess I'll go ahead
+> with cleaning up the dead code and having it re-render with the larger
+> text buffer.
 
-Applied to drm-misc-next, thanks for your patch.
+Still the same with PCIe, probably gotten worse since uncached reads are
+still as slow, but write-combined writes have gotten much faster even.
+There's work going on to have a coherent link to gpus which would allow
+fully cached reads and writes, early with nvlink and now as a standard
+with CXL (https://en.wikipedia.org/wiki/Compute_Express_Link)
+
+But that's aimed at big compute jobs for servers, not really for display.
+
+Also some on-die gpus have become fully coherent, but again only for
+render/compute buffers, not for the display framebuffer.
+
+So all together 0 signs this is changing going forward, reading from
+framebuffers is slow.
+
+Ok there's some exceptions: For manual update buffers (defio for fbdev
+drivers, drm also supports this with an entire set of helpers) the
+framebuffer used by the cpu is sometimes (but very often still not)
+cached. Imo not worth optimizing for, since for the drivers where it is
+cached they either have no blitter, or it's really tiny panels behind spi
+links and similar, so not going to be fast anyway.
 -Daniel
-
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index b7e9e1c2564c..ced09c7c06f9 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -7,6 +7,7 @@
->   * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
->   */
->  
-> +#include "drm/drm_modeset_lock.h"
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> @@ -1181,9 +1182,11 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
->  	struct drm_device *dev = client->dev;
->  	struct drm_connector *connector;
->  	struct drm_mode_set *modeset;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int j;
-> +	int ret;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	drm_client_for_each_modeset(modeset, client) {
->  		if (!modeset->crtc->enabled)
->  			continue;
-> @@ -1195,7 +1198,7 @@ static void drm_client_modeset_dpms_legacy(struct drm_client_dev *client, int dp
->  				dev->mode_config.dpms_property, dpms_mode);
->  		}
->  	}
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
->  }
->  
->  /**
-> -- 
-> 2.30.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
