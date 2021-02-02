@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FAA30D4E9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C9C30D4D7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1B5D6E9FD;
-	Wed,  3 Feb 2021 08:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3F36E9D4;
+	Wed,  3 Feb 2021 08:13:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-m17640.qiye.163.com (mail-m17640.qiye.163.com
  [59.111.176.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2031F6E115
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 12:19:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBFE6E115
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 12:23:48 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by mail-m17640.qiye.163.com (Hmail) with ESMTPA id 7EA72540468;
- Tue,  2 Feb 2021 20:19:32 +0800 (CST)
+ by mail-m17640.qiye.163.com (Hmail) with ESMTPA id F27EC5404D7;
+ Tue,  2 Feb 2021 20:23:45 +0800 (CST)
 From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+To: Eric Anholt <eric@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Aric Cyr <aric.cyr@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Martin Tsai <martin.tsai@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>,
- Vladimir Stempen <vladimir.stempen@amd.com>,
- jinlong zhang <jinlong.zhang@amd.com>,
- Joshua Aberback <joshua.aberback@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] amd/display: remove unneeded variable: "pattern"
-Date: Tue,  2 Feb 2021 04:19:24 -0800
-Message-Id: <20210202121927.15153-1-bernard@vivo.com>
+Subject: [PATCH] drm/vc4: remove unneeded variable: "ret"
+Date: Tue,  2 Feb 2021 04:23:38 -0800
+Message-Id: <20210202122338.15351-1-bernard@vivo.com>
 X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSk1MShhCQh1KShpOVkpNSklJTUNITElDQkNVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ oVCBIfWUFZThoaT04aS0hDHR1MVkpNSklJTUNNSU1KQ0NVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
  FZT0tIVUpKS0hNSlVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PCI6TBw5DT8NEzY9MigBKQg1
- VhBPCz5VSlVKTUpJSU1DSExISEpDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSUNDTDcG
-X-HM-Tid: 0a7762af0364d995kuws7ea72540468
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6P006Kjo*Tj8QTDYSFCkrLywU
+ TBAaCQpVSlVKTUpJSU1DTUlNTkpJVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU9ZV1kIAVlBSkNPSDcG
+X-HM-Tid: 0a7762b2e0ccd995kuwsf27ec5404d7
 X-Mailman-Approved-At: Wed, 03 Feb 2021 08:13:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,28 +51,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unneeded variable: "pattern".
+remove unneeded variable: "ret".
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_gem.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index f95bade59624..d77ae58210f6 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -126,9 +126,7 @@ static void dpcd_set_training_pattern(
- static enum dc_dp_training_pattern decide_cr_training_pattern(
- 		const struct dc_link_settings *link_settings)
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index b641252939d8..445d3bab89e0 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -1026,7 +1026,6 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
+ 		       void (*func)(struct vc4_seqno_cb *cb))
  {
--	enum dc_dp_training_pattern pattern = DP_TRAINING_PATTERN_SEQUENCE_1;
--
--	return pattern;
-+	return DP_TRAINING_PATTERN_SEQUENCE_1;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+-	int ret = 0;
+ 	unsigned long irqflags;
+ 
+ 	cb->func = func;
+@@ -1041,7 +1040,7 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
+ 	}
+ 	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
+ 
+-	return ret;
++	return 0;
  }
  
- static enum dc_dp_training_pattern decide_eq_training_pattern(struct dc_link *link,
+ /* Scheduled when any job has been completed, this walks the list of
 -- 
 2.29.0
 
