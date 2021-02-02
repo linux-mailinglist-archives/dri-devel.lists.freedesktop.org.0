@@ -1,31 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F4530C2A0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:57:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E5430C2EE
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 16:06:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78AC4890D5;
-	Tue,  2 Feb 2021 14:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B886A6E925;
+	Tue,  2 Feb 2021 15:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC8A89C46
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:56:52 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1l6x6o-00020V-MV; Tue, 02 Feb 2021 15:56:50 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] arm64: dts: rockchip: add isp1 node on rk3399
-Date: Tue,  2 Feb 2021 15:56:32 +0100
-Message-Id: <20210202145632.1263136-7-heiko@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210202145632.1263136-1-heiko@sntech.de>
-References: <20210202145632.1263136-1-heiko@sntech.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 802E36E8C4;
+ Tue,  2 Feb 2021 15:06:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07DF164E58;
+ Tue,  2 Feb 2021 15:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612278381;
+ bh=ZFcLfTMHJpVmW+Qgh8W6WNIdzkO2s/1s5+MiBxyEikc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dvKfsmm72DevtxpZbTlvzpRhq+rhv532NOAND4zSxcID1J4tpsK8Ahd0GryJ+i9dn
+ 5ROSsUpLWkNKSGw3RJbpVEdEOZIgcvGwl9f34T6FZQX60biiNLusxAkUwzvJtOJXFF
+ VDMy66BBnIY8LogggaQS6lsij4omJkXLM3YaJxj9w3cXQ1dEAQ5SItM15SZBJTiqU4
+ cYA4F5s+2ClZFYKtqUFouFCi2bk4rWV3M+vBBystNLXpG87WhYHg7q+2XrNNW4CDVM
+ o/usxuJiw7JTj494atvdTLbhmhxSTmi5FfrSwxM4Y/2yI86ZAXsqIoMRfGcuhvhhIk
+ GoUO30pGPZZTA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 04/25] drm/nouveau/nvif: fix method count when
+ pushing an array
+Date: Tue,  2 Feb 2021 10:05:54 -0500
+Message-Id: <20210202150615.1864175-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210202150615.1864175-1-sashal@kernel.org>
+References: <20210202150615.1864175-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,67 +49,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dafna.hirschfeld@collabora.com,
- cmuellner@linux.com, hjc@rock-chips.com, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, helen.koike@collabora.com,
- robh+dt@kernel.org, sebastian.fricke@posteo.net,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>, ezequiel@collabora.com,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-ISP1 is supplied by the tx1rx1 dphy, that is controlled from
-inside the dsi1 controller, so include the necessary phy-link
-for it.
+[ Upstream commit d502297008142645edf5c791af424ed321e5da84 ]
 
-Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Reported-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/boot/dts/rockchip/rk3399.dtsi | 26 ++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/gpu/drm/nouveau/include/nvif/push.h | 216 ++++++++++----------
+ 1 file changed, 108 insertions(+), 108 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-index 7c661d84df25..98cec9387300 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -1756,6 +1756,32 @@ isp0_mmu: iommu@ff914000 {
- 		rockchip,disable-mmu-reset;
- 	};
+diff --git a/drivers/gpu/drm/nouveau/include/nvif/push.h b/drivers/gpu/drm/nouveau/include/nvif/push.h
+index 168d7694ede5c..6d3a8a3d2087b 100644
+--- a/drivers/gpu/drm/nouveau/include/nvif/push.h
++++ b/drivers/gpu/drm/nouveau/include/nvif/push.h
+@@ -123,131 +123,131 @@ PUSH_KICK(struct nvif_push *push)
+ } while(0)
+ #endif
  
-+	isp1: isp1@ff920000 {
-+		compatible = "rockchip,rk3399-cif-isp";
-+		reg = <0x0 0xff920000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru SCLK_ISP1>,
-+			 <&cru ACLK_ISP1_WRAPPER>,
-+			 <&cru HCLK_ISP1_WRAPPER>;
-+		clock-names = "isp", "aclk", "hclk";
-+		iommus = <&isp1_mmu>;
-+		phys = <&mipi_dsi1>;
-+		phy-names = "dphy";
-+		power-domains = <&power RK3399_PD_ISP1>;
-+		status = "disabled";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+		};
-+	};
-+
- 	isp1_mmu: iommu@ff924000 {
- 		compatible = "rockchip,iommu";
- 		reg = <0x0 0xff924000 0x0 0x100>, <0x0 0xff925000 0x0 0x100>;
+-#define PUSH_1(X,f,ds,n,c,o,p,s,mA,dA) do {                            \
+-	PUSH_##o##_HDR((p), s, mA, (c)+(n));                           \
+-	PUSH_##f(X, (p), X##mA, 1, o, (dA), ds, "");                   \
++#define PUSH_1(X,f,ds,n,o,p,s,mA,dA) do {                             \
++	PUSH_##o##_HDR((p), s, mA, (ds)+(n));                         \
++	PUSH_##f(X, (p), X##mA, 1, o, (dA), ds, "");                  \
+ } while(0)
+-#define PUSH_2(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (1?PUSH_##o##_INC), "mthd1");       \
+-	PUSH_1(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_2(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (1?PUSH_##o##_INC), "mthd1");      \
++	PUSH_1(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_3(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd2");       \
+-	PUSH_2(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_3(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd2");      \
++	PUSH_2(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_4(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd3");       \
+-	PUSH_3(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_4(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd3");      \
++	PUSH_3(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_5(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd4");       \
+-	PUSH_4(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_5(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd4");      \
++	PUSH_4(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_6(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd5");       \
+-	PUSH_5(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_6(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd5");      \
++	PUSH_5(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_7(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd6");       \
+-	PUSH_6(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_7(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd6");      \
++	PUSH_6(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_8(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd7");       \
+-	PUSH_7(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_8(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd7");      \
++	PUSH_7(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_9(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                 \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd8");       \
+-	PUSH_8(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_9(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                  \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd8");      \
++	PUSH_8(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+-#define PUSH_10(X,f,ds,n,c,o,p,s,mB,dB,mA,dA,a...) do {                \
+-	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd9");       \
+-	PUSH_9(X, DATA_, 1, ds, (c)+(n), o, (p), s, X##mA, (dA), ##a); \
+-	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                   \
++#define PUSH_10(X,f,ds,n,o,p,s,mB,dB,mA,dA,a...) do {                 \
++	PUSH_ASSERT((mB) - (mA) == (0?PUSH_##o##_INC), "mthd9");      \
++	PUSH_9(X, DATA_, 1, (ds) + (n), o, (p), s, X##mA, (dA), ##a); \
++	PUSH_##f(X, (p), X##mB, 0, o, (dB), ds, "");                  \
+ } while(0)
+ 
+-#define PUSH_1D(X,o,p,s,mA,dA)                            \
+-	PUSH_1(X, DATA_, 1, 1, 0, o, (p), s, X##mA, (dA))
+-#define PUSH_2D(X,o,p,s,mA,dA,mB,dB)                      \
+-	PUSH_2(X, DATA_, 1, 1, 0, o, (p), s, X##mB, (dB), \
+-					     X##mA, (dA))
+-#define PUSH_3D(X,o,p,s,mA,dA,mB,dB,mC,dC)                \
+-	PUSH_3(X, DATA_, 1, 1, 0, o, (p), s, X##mC, (dC), \
+-					     X##mB, (dB), \
+-					     X##mA, (dA))
+-#define PUSH_4D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD)          \
+-	PUSH_4(X, DATA_, 1, 1, 0, o, (p), s, X##mD, (dD), \
+-					     X##mC, (dC), \
+-					     X##mB, (dB), \
+-					     X##mA, (dA))
+-#define PUSH_5D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE)    \
+-	PUSH_5(X, DATA_, 1, 1, 0, o, (p), s, X##mE, (dE), \
+-					     X##mD, (dD), \
+-					     X##mC, (dC), \
+-					     X##mB, (dB), \
+-					     X##mA, (dA))
++#define PUSH_1D(X,o,p,s,mA,dA)                         \
++	PUSH_1(X, DATA_, 1, 0, o, (p), s, X##mA, (dA))
++#define PUSH_2D(X,o,p,s,mA,dA,mB,dB)                   \
++	PUSH_2(X, DATA_, 1, 0, o, (p), s, X##mB, (dB), \
++					  X##mA, (dA))
++#define PUSH_3D(X,o,p,s,mA,dA,mB,dB,mC,dC)             \
++	PUSH_3(X, DATA_, 1, 0, o, (p), s, X##mC, (dC), \
++					  X##mB, (dB), \
++					  X##mA, (dA))
++#define PUSH_4D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD)       \
++	PUSH_4(X, DATA_, 1, 0, o, (p), s, X##mD, (dD), \
++					  X##mC, (dC), \
++					  X##mB, (dB), \
++					  X##mA, (dA))
++#define PUSH_5D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE) \
++	PUSH_5(X, DATA_, 1, 0, o, (p), s, X##mE, (dE), \
++					  X##mD, (dD), \
++					  X##mC, (dC), \
++					  X##mB, (dB), \
++					  X##mA, (dA))
+ #define PUSH_6D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE,mF,dF) \
+-	PUSH_6(X, DATA_, 1, 1, 0, o, (p), s, X##mF, (dF),    \
+-					     X##mE, (dE),    \
+-					     X##mD, (dD),    \
+-					     X##mC, (dC),    \
+-					     X##mB, (dB),    \
+-					     X##mA, (dA))
++	PUSH_6(X, DATA_, 1, 0, o, (p), s, X##mF, (dF),       \
++					  X##mE, (dE),       \
++					  X##mD, (dD),       \
++					  X##mC, (dC),       \
++					  X##mB, (dB),       \
++					  X##mA, (dA))
+ #define PUSH_7D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE,mF,dF,mG,dG) \
+-	PUSH_7(X, DATA_, 1, 1, 0, o, (p), s, X##mG, (dG),          \
+-					     X##mF, (dF),          \
+-					     X##mE, (dE),          \
+-					     X##mD, (dD),          \
+-					     X##mC, (dC),          \
+-					     X##mB, (dB),          \
+-					     X##mA, (dA))
++	PUSH_7(X, DATA_, 1, 0, o, (p), s, X##mG, (dG),             \
++					  X##mF, (dF),             \
++					  X##mE, (dE),             \
++					  X##mD, (dD),             \
++					  X##mC, (dC),             \
++					  X##mB, (dB),             \
++					  X##mA, (dA))
+ #define PUSH_8D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE,mF,dF,mG,dG,mH,dH) \
+-	PUSH_8(X, DATA_, 1, 1, 0, o, (p), s, X##mH, (dH),                \
+-					     X##mG, (dG),                \
+-					     X##mF, (dF),                \
+-					     X##mE, (dE),                \
+-					     X##mD, (dD),                \
+-					     X##mC, (dC),                \
+-					     X##mB, (dB),                \
+-					     X##mA, (dA))
++	PUSH_8(X, DATA_, 1, 0, o, (p), s, X##mH, (dH),                   \
++					  X##mG, (dG),                   \
++					  X##mF, (dF),                   \
++					  X##mE, (dE),                   \
++					  X##mD, (dD),                   \
++					  X##mC, (dC),                   \
++					  X##mB, (dB),                   \
++					  X##mA, (dA))
+ #define PUSH_9D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE,mF,dF,mG,dG,mH,dH,mI,dI) \
+-	PUSH_9(X, DATA_, 1, 1, 0, o, (p), s, X##mI, (dI),                      \
+-					     X##mH, (dH),                      \
+-					     X##mG, (dG),                      \
+-					     X##mF, (dF),                      \
+-					     X##mE, (dE),                      \
+-					     X##mD, (dD),                      \
+-					     X##mC, (dC),                      \
+-					     X##mB, (dB),                      \
+-					     X##mA, (dA))
++	PUSH_9(X, DATA_, 1, 0, o, (p), s, X##mI, (dI),                         \
++					  X##mH, (dH),                         \
++					  X##mG, (dG),                         \
++					  X##mF, (dF),                         \
++					  X##mE, (dE),                         \
++					  X##mD, (dD),                         \
++					  X##mC, (dC),                         \
++					  X##mB, (dB),                         \
++					  X##mA, (dA))
+ #define PUSH_10D(X,o,p,s,mA,dA,mB,dB,mC,dC,mD,dD,mE,dE,mF,dF,mG,dG,mH,dH,mI,dI,mJ,dJ) \
+-	PUSH_10(X, DATA_, 1, 1, 0, o, (p), s, X##mJ, (dJ),                            \
+-					      X##mI, (dI),                            \
+-					      X##mH, (dH),                            \
+-					      X##mG, (dG),                            \
+-					      X##mF, (dF),                            \
+-					      X##mE, (dE),                            \
+-					      X##mD, (dD),                            \
+-					      X##mC, (dC),                            \
+-					      X##mB, (dB),                            \
+-					      X##mA, (dA))
++	PUSH_10(X, DATA_, 1, 0, o, (p), s, X##mJ, (dJ),                               \
++					   X##mI, (dI),                               \
++					   X##mH, (dH),                               \
++					   X##mG, (dG),                               \
++					   X##mF, (dF),                               \
++					   X##mE, (dE),                               \
++					   X##mD, (dD),                               \
++					   X##mC, (dC),                               \
++					   X##mB, (dB),                               \
++					   X##mA, (dA))
+ 
+-#define PUSH_1P(X,o,p,s,mA,dp,ds)                           \
+-	PUSH_1(X, DATAp, ds, ds, 0, o, (p), s, X##mA, (dp))
+-#define PUSH_2P(X,o,p,s,mA,dA,mB,dp,ds)                     \
+-	PUSH_2(X, DATAp, ds, ds, 0, o, (p), s, X##mB, (dp), \
+-					       X##mA, (dA))
+-#define PUSH_3P(X,o,p,s,mA,dA,mB,dB,mC,dp,ds)               \
+-	PUSH_3(X, DATAp, ds, ds, 0, o, (p), s, X##mC, (dp), \
+-					       X##mB, (dB), \
+-					       X##mA, (dA))
++#define PUSH_1P(X,o,p,s,mA,dp,ds)                       \
++	PUSH_1(X, DATAp, ds, 0, o, (p), s, X##mA, (dp))
++#define PUSH_2P(X,o,p,s,mA,dA,mB,dp,ds)                 \
++	PUSH_2(X, DATAp, ds, 0, o, (p), s, X##mB, (dp), \
++					   X##mA, (dA))
++#define PUSH_3P(X,o,p,s,mA,dA,mB,dB,mC,dp,ds)           \
++	PUSH_3(X, DATAp, ds, 0, o, (p), s, X##mC, (dp), \
++					   X##mB, (dB), \
++					   X##mA, (dA))
+ 
+ #define PUSH_(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,IMPL,...) IMPL
+ #define PUSH(A...) PUSH_(A, PUSH_10P, PUSH_10D,          \
 -- 
-2.29.2
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
