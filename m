@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1799A30CDF6
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 22:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8374D30CDF8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 22:36:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8435A6E0F7;
-	Tue,  2 Feb 2021 21:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44AF26E9A9;
+	Tue,  2 Feb 2021 21:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18016E0F7
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 21:35:26 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1l73KK-0005G0-0Y; Tue, 02 Feb 2021 22:35:12 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1l73KD-000359-6W; Tue, 02 Feb 2021 22:35:05 +0100
-Date: Tue, 2 Feb 2021 22:35:02 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Russell King <linux+pull@armlinux.org.uk>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
-Message-ID: <20210202213502.ya4luwvklbte72sz@pengutronix.de>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C6E6E9A6;
+ Tue,  2 Feb 2021 21:36:12 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id a16so2743362wmm.0;
+ Tue, 02 Feb 2021 13:36:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u7YwChCFCmx7GzSkTHX1KsXA0x16yyNQloyNQVAkEuk=;
+ b=m51K8ii4QQ+qoG6JIDj9R/YWGGg0l/iOAczNPitgSnBtMvc0VJbLR0XFGgIto1KLBo
+ QsqOvAc6HapUTknKd4kv9dTtjyncuSvxWv0MkyLWDhaH5FHcWQSvYDaZOp9pczNXI5Sg
+ OJlnwWF1tXHF5L94250z+zOltpUHoMd8IJStl9JYyV7V69lSH+yh6aMIAdG5X2joWPRl
+ eK+AzBvwDoYzJwD/wZR/gA/8Vf45yyrrirTptkvxYY0o+G/yyvw5EHqtOAbiIgYNsoJe
+ M0IWdqY27ZxbkWiyioDRN0LAw5QQMa/8fPicD0K13Llnjw/gHkPMJkPnb9RwO8wuPtj7
+ 7USQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u7YwChCFCmx7GzSkTHX1KsXA0x16yyNQloyNQVAkEuk=;
+ b=tTuHF+pewqKkAOXw7VkUQV5/3Oas/RKi0wCkG723oO6UOO5B0tm4Wlt8jNTd9qDuIt
+ YEqNfZERvqywUfZwqJohI8caKcaOcszIcePcp1fDUfunAvltGB7/QAG6oN57Xgqioa8P
+ aoENXRCdLI9d1E//933tyYXPlbYENt7N8dhSqpRhS7/HF13nicz0TDuM8nNdID1mQLqG
+ 14Qj6GMfKIorIdhfDSuo+IjIKrURiQfzmYrEIwqziFK82NAOU2ypIOvBVNR4TmW3KopQ
+ +wXYgB/eNSfZEanvMdwOacW85LiYOa6X8Mz8puXe0mMS+iU73FpBisvOHeSUMoAkrkv1
+ ivRQ==
+X-Gm-Message-State: AOAM532mN3R+Jwc5F3WGtUIW/VDAJh3mbKsdFR2rSTyhjo4oBRe7IUW4
+ SPe+pgq3UYPxwwI2VXQxEmyL5HHwA2wlbbUZxOg=
+X-Google-Smtp-Source: ABdhPJwu9RoFvMLEGWbawWPiJHdzW2KJ/fX+VI3SCRJ52NzHm0MZ6fYdakbPQzNUTStq9FMVe3H/QGgS9RDYaksVwEI=
+X-Received: by 2002:a7b:c45a:: with SMTP id l26mr9356wmi.164.1612301770881;
+ Tue, 02 Feb 2021 13:36:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210109135112.147759-1-angelogioacchino.delregno@somainline.org>
+ <20210109135112.147759-4-angelogioacchino.delregno@somainline.org>
+ <CAF6AEGvDzdgDy7Znw6dQCV7Z=YxnF2_XsqkV+7BT+oY777TqHA@mail.gmail.com>
+ <8f8c7c37-f7b2-f763-19e1-d89e5c454ab4@somainline.org>
+ <CAF6AEGsQp4xHpH2brUdHmAX1ic2k88EFJRVVWDRxWXUqF9njfw@mail.gmail.com>
+ <CAF6AEGueo71HVBcLW2Mtu5GQ=9HgwL43WczUGLuTk2JWLoH=ew@mail.gmail.com>
+ <CAF6AEGspvnwRrXurmRvvRhr8dsFRc6fNnLsSo52Te0rHXtj4jA@mail.gmail.com>
+ <CAF6AEGsDL-qRyXWftTgzHGn=UTvz=rcyEUcJv+oGtVXCkYibug@mail.gmail.com>
+ <e338e4bd-0e8c-9199-caa1-93945ed2b94b@somainline.org>
+ <CAF6AEGsm4nzU4rJsKFSShb4s6GCi93=+kzcETngQkoC3KD1sqw@mail.gmail.com>
+ <3e3e5555-ddeb-c706-0566-7427e71ad761@somainline.org>
+ <CAF6AEGtg2_CNTMMY4adSxiA8Z0=VSYFy7HaK3w_a2rhokmY2Zg@mail.gmail.com>
+In-Reply-To: <CAF6AEGtg2_CNTMMY4adSxiA8Z0=VSYFy7HaK3w_a2rhokmY2Zg@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 2 Feb 2021 13:35:59 -0800
+Message-ID: <CAF6AEGurHVQUhNBzkb8iVxHKrFf1sThyUC0mCDHBoEDnVOTk=w@mail.gmail.com>
+Subject: Re: [PATCH 3/5] drm/msm/dsi_pll_10nm: Fix bad VCO rate calculation
+ and prescaler
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,160 +72,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- linux-watchdog@vger.kernel.org, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, Mike Leach <mike.leach@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>, Arnd Bergmann <arnd@arndb.de>,
- coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- linux-fbdev@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
- Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0653525548=="
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>, martin.botka@somainline.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, marijn.suijten@somainline.org,
+ phone-devel@vger.kernel.org, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Feb 2, 2021 at 11:08 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Tue, Feb 2, 2021 at 10:46 AM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@somainline.org> wrote:
+> >
+> > Il 02/02/21 19:45, Rob Clark ha scritto:
+> > > On Tue, Feb 2, 2021 at 6:32 AM AngeloGioacchino Del Regno
+> > > <angelogioacchino.delregno@somainline.org> wrote:
+> > >>
+> > >> Il 01/02/21 18:31, Rob Clark ha scritto:
+> > >>> fwiw, this is the clk_summary diff with and without this patch:
+> > >>>
+> > >>> ------------------
+> > >>> 270,282c270,282
+> > >>> <     dsi0_pll_out_div_clk              1        1        0
+> > >>> 887039941          0     0  50000         Y
+> > >>> <        dsi0_pll_post_out_div_clk       0        0        0
+> > >>> 221759985          0     0  50000         Y
+> > >>> <        dsi0_pll_bit_clk               2        2        0
+> > >>> 887039941          0     0  50000         Y
+> > >>> <           dsi0_pclk_mux               1        1        0
+> > >>> 887039941          0     0  50000         Y
+> > >>> <              dsi0_phy_pll_out_dsiclk       1        1        0
+> > >>> 147839991          0     0  50000         Y
+> > >>> <                 disp_cc_mdss_pclk0_clk_src       1        1        0
+> > >>>     147839991          0     0  50000         Y
+> > >>> <                    disp_cc_mdss_pclk0_clk       1        1        0
+> > >>>    147839991          0     0  50000         Y
+> > >>> <           dsi0_pll_by_2_bit_clk       0        0        0
+> > >>> 443519970          0     0  50000         Y
+> > >>> <           dsi0_phy_pll_out_byteclk       1        1        0
+> > >>> 110879992          0     0  50000         Y
+> > >>> <              disp_cc_mdss_byte0_clk_src       2        2        0
+> > >>> 110879992          0     0  50000         Y
+> > >>> <                 disp_cc_mdss_byte0_div_clk_src       1        1
+> > >>>     0    55439996          0     0  50000         Y
+> > >>> <                    disp_cc_mdss_byte0_intf_clk       1        1
+> > >>>     0    55439996          0     0  50000         Y
+> > >>> <                 disp_cc_mdss_byte0_clk       1        1        0
+> > >>> 110879992          0     0  50000         Y
+> > >>> ---
+> > >>>>       dsi0_pll_out_div_clk              1        1        0   887039978          0     0  50000         Y
+> > >>>>          dsi0_pll_post_out_div_clk       0        0        0   221759994          0     0  50000         Y
+> > >>>>          dsi0_pll_bit_clk               2        2        0   887039978          0     0  50000         Y
+> > >>>>             dsi0_pclk_mux               1        1        0   887039978          0     0  50000         Y
+> > >>>>                dsi0_phy_pll_out_dsiclk       1        1        0   147839997          0     0  50000         Y
+> > >>>>                   disp_cc_mdss_pclk0_clk_src       1        1        0   147839997          0     0  50000         Y
+> > >>>>                      disp_cc_mdss_pclk0_clk       1        1        0   147839997          0     0  50000         Y
+> > >>>>             dsi0_pll_by_2_bit_clk       0        0        0   443519989          0     0  50000         Y
+> > >>>>             dsi0_phy_pll_out_byteclk       1        1        0   110879997          0     0  50000         Y
+> > >>>>                disp_cc_mdss_byte0_clk_src       2        2        0   110879997          0     0  50000         Y
+> > >>>>                   disp_cc_mdss_byte0_div_clk_src       1        1        0    55439999          0     0  50000         Y
+> > >>>>                      disp_cc_mdss_byte0_intf_clk       1        1        0    55439999          0     0  50000         Y
+> > >>>>                   disp_cc_mdss_byte0_clk       1        1        0   110879997          0     0  50000         Y
+> > >>> ------------------
+> > >>>
+> > >>>
+> > >>
+> > >> This is almost exactly what I saw on my devices as well, you get a
+> > >> difference of "just some Hz" (which can be totally ignored), because
+> > >> of how the calculation is done now.
+> > >>
+> > >> Thing is, what you see as PIXEL and BYTE clocks *before* the change is
+> > >> Linux thinking that your DSI is at that frequency, while the PLL will
+> > >> output *half* the rate, which is exactly what the patch fixes.
+> > >>
+> > >> "Fun" story is: the Xperia XZ1 (8998) and XZ (8996) have got the same
+> > >> display... by lowering the DSI rate on the MSM8996 phone by half, I
+> > >> get the same *identical* issues as the 8998 one without this patch.
+> > >> The clocks all match between one and another, because.. it's.. the same
+> > >> display, after all.
+> > >>
+> > >> It is because of the aforementioned test that I have raised doubts about
+> > >> the TI chip driver (or anything else really).. but then, anything is
+> > >> possible.
+> > >
+> > > It does look like, *so far* the TI bridge chip is only used on qc
+> > > platforms (according to grep'ing dts), so I suppose I can't rule out
+> > > bugs which cancel each other out.  Although there are various other
+> > > bridges used (for ex, the sdm845 rb3 board has some dsi->hdmi bridge)
+> > >
+> >
+> > Argh...
+> >
+> > > I guess it would be useful if we could measure the clk somehow to
+> > > confirm that it is running at the rate we think it is..
+> > >
+> >
+> > I totally agree with you on this, I actually wanted to do it the proper
+> > way, but then these clocks are really too high for my cheap oscilloscope
+> > and I couldn't... :(
+>
+> Ok, there might actually be a way to do this.. there is a testclock
+> utility (added sboyd who wrote it in CC):
+>
+> https://chromium.googlesource.com/chromiumos/overlays/board-overlays/+/refs/heads/main/chipset-qc845/dev-util/testclock/files/testclock.py
+>
+> there is a similar thing for sc7180.. for other devices, I guess it
+> would require some porting..
+>
+> Looking at disp_cc_mdss_byte0_clk and disp_cc_mdss_pclk0_clk on
+> sc7180, the rates returned by testclock roughly match what is in
+> clk_summary, ie. within rounding error
+>
 
---===============0653525548==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iy6nspqtdtxt6xyd"
-Content-Disposition: inline
+So Doug Anderson pointed out that we can actually read the DSI clock
+from the bridge, if we put it in "automatic" mode, from him:
 
+1. Boot up.
+2. i2cget -f -y 2 0x2d 0x12 # reads calculated rate that we programmed
+3. i2cset -f -y 2 0x2d 0x12 0 # switch to automatic mode
+4. i2cget -f -y 2 0x2d 0x12 # reads measured rate; repeat this a bunch
+and it should go up/down by 1 since measurement isn't perfect.
 
---iy6nspqtdtxt6xyd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What I see without this patch:
 
-Hello,
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ # i2cset -f -y 2 0x2d 0x12 0
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x59
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ #
 
-On Tue, Feb 02, 2021 at 02:53:50PM +0100, Uwe Kleine-K=F6nig wrote:
-> the following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e=
-5e:
->=20
->   Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
->=20
-> are available in the Git repository at:
->=20
->   https://git.pengutronix.de/git/ukl/linux tags/amba-make-remove-return-v=
-oid
->=20
-> for you to fetch changes up to f170b59fedd733b92f58c4d7c8357fbf7601d623:
->=20
->   amba: Make use of bus_type functions (2021-02-02 14:26:02 +0100)
->=20
-> I expect this tag to be merged by Russell King as amba maintainer and by
-> Mathieu Poirier (or Greg Kroah-Hartman?) for coresight as there are some
-> pending conflicting changes. These are not hard to resolve but also
-> non-trivial. Tell me if you need assistance for resolving, also if it's o=
-nly a
-> second pair of eyes to judge your resolution.
+And with this patch:
 
-Alternatively to my additional patch sent earlier today I prepared a v2
-tag at
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0x58
+localhost ~ # i2cset -f -y 2 0x2d 0x12 0
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0xb1
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0xb2
+localhost ~ # i2cget -f -y 2 0x2d 0x12
+0xb2
+localhost ~ #
 
-  https://git.pengutronix.de/git/ukl/linux tags/amba-make-remove-return-voi=
-d-v2
+So this patch is doubling the rate
 
-with the build fix squashed in. Iff you prefer and both Russell and Greg
-agree to pull this one instead of the (implicit) v1 we can maybe prevent
-introducing this build regression in mainline. Please coordinate among
-you two. And sorry again for breaking the build.
-
-Best regards
-Uwe
-
-PS: The range-diff between the original
-tags/amba-make-remove-return-void and
-tags/amba-make-remove-return-void-v2 is:
-
-1:  3fd269e74f2f ! 1:  481963c91284 amba: Make the remove callback return v=
-oid
-    @@ Commit message
-         Acked-by: Vladimir Zapolskiy <vz@mleia.com> # for memory/pl172
-         Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-         Link: https://lore.kernel.org/r/20210126165835.687514-5-u.kleine-k=
-oenig@pengutronix.de
-    +    [ukleinek: squashed in a build fix for drivers/mailbox/arm_mhuv2.c]
-         Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-    =20
-      ## drivers/amba/bus.c ##
-    @@ drivers/input/serio/ambakmi.c: static int amba_kmi_remove(struct amb=
-a_device *de
-     =20
-      static int __maybe_unused amba_kmi_resume(struct device *dev)
-    =20
-    + ## drivers/mailbox/arm_mhuv2.c ##
-    +@@ drivers/mailbox/arm_mhuv2.c: static int mhuv2_probe(struct amba_dev=
-ice *adev, const struct amba_id *id)
-    +   return ret;
-    + }
-    +=20
-    +-static int mhuv2_remove(struct amba_device *adev)
-    ++static void mhuv2_remove(struct amba_device *adev)
-    + {
-    +   struct mhuv2 *mhu =3D amba_get_drvdata(adev);
-    +=20
-    +   if (mhu->frame =3D=3D SENDER_FRAME)
-    +           writel_relaxed(0x0, &mhu->send->access_request);
-    +-
-    +-  return 0;
-    + }
-    +=20
-    + static struct amba_id mhuv2_ids[] =3D {
-    +
-      ## drivers/memory/pl172.c ##
-     @@ drivers/memory/pl172.c: static int pl172_probe(struct amba_device *=
-adev, const struct amba_id *id)
-        return ret;
-2:  f170b59fedd7 =3D 2:  f30d22a7bfab amba: Make use of bus_type functions
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---iy6nspqtdtxt6xyd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAZxYMACgkQwfwUeK3K
-7AnuCggAjiQbE+eiwx7Lq2dUAxw0U6bgjFY/EXIcLCMbTPjdEffSVExAzMT3cTCy
-zISJDI3QF315/RleMFcnEXrXJl7Ft8SkoEvZfheNfz5JmPu8jPIEUp5giooDmpBi
-TV/LqBdE+wmy+J7byBdoH8Chvg9RR52u6aJFyj8nzwAoqj/+YiSYcB2nsMtr962B
-GLNq7i0h7Lj0cZxGVTsh75QuVSyK7yedx7gS4F5wUURJpSa5LzeeWAboWgARpg+M
-/BIWHX1CAs2JGZQqzJF2hffd/HZhQCWJlgTa1x92sg2Ic62K+ufwdsHlo87Wuo42
-N6jvYIoY/t/LHHL+3zxpfxM1yFao+A==
-=lf3x
------END PGP SIGNATURE-----
-
---iy6nspqtdtxt6xyd--
-
---===============0653525548==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0653525548==--
