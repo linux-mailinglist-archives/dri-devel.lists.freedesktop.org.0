@@ -1,72 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC7C30C122
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:18:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D587D30C149
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:21:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7456E177;
-	Tue,  2 Feb 2021 14:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9F2C6E1B5;
+	Tue,  2 Feb 2021 14:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DC16E177
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:18:22 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id c12so20642740wrc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 06:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=9FZzU82hRsBiBhCvFEyc1JNn9WVYxWSX0ROwEjKj8Rg=;
- b=GwVbMM/GT+m8K5UcUXdmExA/pYjXDof3+EnMb7+8Cl6aIJlm1uCCHPw+tlPv1hohpT
- 1zTGdVrF2VGLmCwNxrlxlPiK78iFKTflXrGTi66wCosaQUGX5O0OStfWw78RHa9PiLJC
- osn8fiaBb3p8cxCoJS8Ws2hlTRkIsSbxHMUU0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=9FZzU82hRsBiBhCvFEyc1JNn9WVYxWSX0ROwEjKj8Rg=;
- b=KbCe4zCbr6pS23O4KwOkktk3wA8mY7mortQX/sufxSh5NobBGJioa0PekvyFWPSAbG
- ynlIiC3uLNgH/ifgm5/jjlDhlfXVrOYNzT5wvbo/m+4jvkLnHvFTfXdKdjSpsg3rfuQo
- MabcPL6C3Ws7Uw35I1wG7REqj0qvrRAX8ur0tjr7wWYvY1vt6P/Slj9uBdZg4mMwICeA
- f1hbyfHIYaxOW8pLVJCVafNv0WNkXDVX+AWfJdRnWo50Mef1ag19VPiff750YAKwL5zV
- 1ihsA6uwIwvSGF4B1lkLsyIC71sUX9FS6hOxHenBKyDChYDHSLuAiyK69S2LxfZGT1HD
- z7Iw==
-X-Gm-Message-State: AOAM5323Sz22E+L9Lr1P74kSzOtFCVnb0gK+aYjeXPw4jMJt/5MKqo6m
- C4PrdGOA/srFOv+OyuM7Akz+0w==
-X-Google-Smtp-Source: ABdhPJxWbAhjU2qfGmhuJhrSt3iNYt3WMYnXjgmiSCegUaxOoOCW83wp3SgyIYrGtzxriJ9bTMvKTg==
-X-Received: by 2002:adf:b64f:: with SMTP id i15mr23222482wre.279.1612275501681; 
- Tue, 02 Feb 2021 06:18:21 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t205sm3373846wmt.28.2021.02.02.06.18.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 06:18:20 -0800 (PST)
-Date: Tue, 2 Feb 2021 15:18:18 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Phillip Susi <phill@thesusis.net>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <YBlfKgQ1laQLFqpW@phenom.ffwll.local>
-Mail-Followup-To: Phillip Susi <phill@thesusis.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <87k0s4ai33.fsf@vps.thesusis.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEF626E1B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:21:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C135464EAC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612275673;
+ bh=xenPjxZPO5OYzXsOOS+CdIlinLyJbQvEIbyYPkXpqdU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=t8vUSoud5eOg1L3yiYHZu+3xkVvTmaHHL+4RfVe57h76UpkFXKOOZ4/bSgZ0I53nx
+ 51bmG52KYzJv6ziZJ8lMpaXzfn3mVydPPhnF+6ub1ecxdp/5zKW77qJfsI9sdTyTKZ
+ 5RN9d5lM1YjTYqJe0bdBzZoVnW3DGs+w/oHXA+LWeWtxL4CoVP9fw873lL+IJrRfsp
+ 2N1Rnn02jiJQgefrqCsbCvnOvNtBNlFBocJ1ikGlUzkyMdKBK9WG2bG/x4qAUXFGiL
+ 6T3cSPTjYhvC3eK3faNgn53xBsFVCkB3Lxl2RrzuCDwsnspMYlb8vaUrI8Cu9oP6aX
+ hVVEPuM19d2oA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id B1BCA6532E; Tue,  2 Feb 2021 14:21:13 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207833] Brightness control not working on ASUS TUF FA506IU (AMD
+ Ryzen 7 4800H / Nvidia GTX 1660 Ti)
+Date: Tue, 02 Feb 2021 14:21:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: antonyjr000@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-207833-2300-MuWqegqVCF@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207833-2300@https.bugzilla.kernel.org/>
+References: <bug-207833-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87k0s4ai33.fsf@vps.thesusis.net>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,89 +64,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 22, 2021 at 01:55:04PM -0500, Phillip Susi wrote:
-> 
-> Geert Uytterhoeven writes:
-> 
-> Judging from some of the comments in the code, it looks like you were
-> one of the original authors of fbcon?  I haven't been able to find any
-> of these sczbot crash reports, and am not sure how fuzzing syscalls
-> would really affect this code ( it's not really handling a buch of
-> ioctls or otherwise taking arguments from user space ) , but I am a bit
-> confused as to why the softback was implemented the way that it was.
-> 
-> vgacon simply copies the main buffer to vram in ->set_origin() and then
-> changes the pointers to operate out of the much larger vram while that
-> virtual terminal is active.  If I understand it correctly, it looks like
-> fbcon instead opts to operate out of the main buffer but rescue lines as
-> they are scrolled off and relocate them to the softback buffer.  This
-> seems to be rather more convoluted.
-> 
-> I'm thinking of re-implementing scrollback more like the way vgacon does
-> it: allocate a big "vram" buffer and operate out of that.  Obviously
-> ->scroll() and ->scrolldelta() have to actually repaint the screen rather
-> than simply change the pointer register, but that should be about the
-> only difference.
-> 
-> I have also noticed that there was some code to use hardware panning of
-> the video buffer rather than having to do a block bitblt to scroll the
-> contents of the screen, but that it was disabled because virtually no
-> video drivers actually implemented it?  That seems like a shame, but if
-> it is so, then there's no sense carrying the dead code so I think I'll
-> clean that up now.
-> 
-> Now that I look at it again, everything is simply always redrawn now
-> instead of even doing a simple bitblt.  Daniel, you mentioned that
-> almost nobody supports hardware acceleration, but even without any
-> specific hardware support, surely even if bitblt() is implemented just
-> as a memcpy(), it has to be faster than redrawing all of the characters
-> doesn't it?  Getting rid of the panning if it isn't generally supported
-> I can see, but I don't understand killing bitblt even if most devices
-> don't accelerate it.
+https://bugzilla.kernel.org/show_bug.cgi?id=207833
 
-Just a quick comment on this: Since most framebuffers are write-combining,
-and reads from that tend to be ~3 orders of magnitude slower than writes
-(at least on the pile of machines I looked at here, there's big
-differences, and some special streaming cpu instructions to make the
-reading side not so slow).
+Antony J.R (antonyjr000@gmail.com) changed:
 
-So scrolling by copying tends to be significantly slower than just
-redrawing everything.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |antonyjr000@gmail.com
 
-And once you're at that point it's really hard to write a 2d acceleration
-which is consistently faster than just cpu rendering.
+--- Comment #4 from Antony J.R (antonyjr000@gmail.com) ---
+(In reply to Alex Deucher from comment #3)
+> Fixed with this patch:
+> https://patchwork.freedesktop.org/patch/367486/
 
-If you're interested in why 2d acceleration is rather hard as a general
-problem, not just specific to fbcon, I wrote a blog on that a while ago:
+Does not work now in Linux kernel version 5.11-rc6(which is the latest mainline
+kernel at the time of writing).
 
-https://blog.ffwll.ch/2018/08/no-2d-in-drm.html
+I got similar spec laptop(Lenovo Legion 5) with AMD Ryzen 7 4800H with Radeon
+Grpahics and NVIDIA GTX 1650 Ti dGPU.
 
-Cheers, Daniel
+When using amdgpu kernel driver, the backlight is registered at
+/sys/class/backlight/amdgpu_bl0
 
-> In addition, I noticed that ->screen_pos() was changed to just return
-> vc_origin+offset.  fbcon is the only console driver to implement
-> ->screenpos() and if not implemented, vt defaults to using
-> vc_visible_origin+offset, so it looks like this function isn't needed at
-> all anymore and ->screen_pos() can be removed from struct consw.
-> 
-> Does this make sense or am I talking crazy?
+Now the problem is /sys/class/backlight/amdgpu_bl0/actual_brightness is stuck
+at 311 and brightness control does not work at all.
+
+I've tried a lot of workaround and even booted with the mainline kernel but
+brightness control does not work. 
+
+Only Fedora Workstation 32 with Linux kernel 5.6.6 has brightness control
+working for AMD Ryzen 7 4800H APU which has the Renoir Graphics.
+
+I have no idea why amd guys would break a already fixed issue in kernel 5.6.6,
+I've tried all versions of the kernel but none works other than Fedora
+Workstation 32 with Linux Kernel 5.6.6
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
