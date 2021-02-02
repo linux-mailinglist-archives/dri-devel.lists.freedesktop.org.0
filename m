@@ -1,61 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28EB30BADF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 10:25:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197D530BBAE
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 11:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 936126E944;
-	Tue,  2 Feb 2021 09:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06326E0E3;
+	Tue,  2 Feb 2021 10:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF9326E944
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 09:25:45 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id m13so19639889wro.12
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 01:25:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=a1OCFu7h0TcIowMDv7zHkZMNSiLVb4YwniBrbKA3xlU=;
- b=uF0X2tH0q3rC8OeRvULloT49lCKeBEQIIw6QI9tlhujC4RF3Y6JwL4phRurV64uvih
- vIy/Bkwwwa+OwUknuhm87RzJbo3TmKLf4F4bTWnWohj0xvbesjcgJf0vvzfBB/IuDpr2
- T5sGY0IN4mRqFiNIkf4AjHGbM1BMcLte31RgDWX4v3q3MchbIgY1ke2jBZT8K57WRNa5
- pIM1hekoQS2WUKBuoyDGNSrnzcifBgBLcCwgYgsxQpKhEok5Eamv5Ksvda7NJQk69CUw
- d2ITCAYRN0sV3AErdVtbrN7+deweE3u94fcS9QmF00PXgEkmZJ1YQlK7NALcXBFTO2LM
- R6bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=a1OCFu7h0TcIowMDv7zHkZMNSiLVb4YwniBrbKA3xlU=;
- b=nNcW/z1v/2rCxM3f2COSh1Zjeb04WjbWRblwGLzdeE4il7vBsLKpoTrOx2W4He9Jpu
- 7C8BhMRFu0AbC/4rQXlMvdL010Iz4wlsjRGriFD82fUAlEUX95kslwHmmJ9q4p0HT3wO
- vfWu8LgfNtgO9XN4MHFwRp/wZBUOK+1RUYaFZk2f4AquUAhi3kXTy1cgMnvE6XzLejxO
- ZJjPkqoLUyEB0unARbacQqAnAc6h1mi8bPbPtp3WxMIOhk6E9skvEkIesjIIv7wM9jJz
- RRjHbxMeMsfGpljGvFzilEOlUNrOu4Kp4TekeLqRHT77ovFLBBFpHsV4q3Y8aUCoxmDS
- yiiA==
-X-Gm-Message-State: AOAM5317rK4Qi74esStMYmAPVSsTYq0AfCGaNEf0po7q6lXzqWfFpDON
- IAgGDV0IArArsQPYAK1jfCtoKg==
-X-Google-Smtp-Source: ABdhPJy7kfZ4o7WstsegOSMCSFJFOfW1Ibzofjf5AFjyCjsHJFeZ5+FIwpQN0elV9b07P6x7DgPmdw==
-X-Received: by 2002:adf:fc8a:: with SMTP id g10mr23343632wrr.189.1612257944619; 
- Tue, 02 Feb 2021 01:25:44 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id q24sm2040048wmq.24.2021.02.02.01.25.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 01:25:43 -0800 (PST)
-Date: Tue, 2 Feb 2021 09:25:41 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Wenjia Zhao <driverfuzzing@gmail.com>
-Subject: Re: [PATCH] backlight: pcf50633: pdata may be a null pointer, null
- pointer dereference cause crash
-Message-ID: <20210202092541.2wvzpe53mavrd47x@maple.lan>
-References: <1612190499-73818-1-git-send-email-driverfuzzing@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E34346E0E3
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 10:02:37 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6DD93AD37;
+ Tue,  2 Feb 2021 10:02:36 +0000 (UTC)
+Subject: Re: [PATCH] drm/vc4: hvs: Fix buffer overflow with the dlist handling
+To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
+References: <20210129160647.128373-1-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <ce9614e2-b9f8-c303-7272-b292189ce662@suse.de>
+Date: Tue, 2 Feb 2021 11:02:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1612190499-73818-1-git-send-email-driverfuzzing@gmail.com>
+In-Reply-To: <20210129160647.128373-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +38,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============0407401850=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 01, 2021 at 08:41:38AM -0600, Wenjia Zhao wrote:
-> Signed-off-by: Wenjia Zhao <driverfuzzing@gmail.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0407401850==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FRQEcoD6NeG80U3o8KSA1GRHOIN34AK1Z"
 
-There should be a patch description here explaining why the patch
-is needed and how it works.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FRQEcoD6NeG80U3o8KSA1GRHOIN34AK1Z
+Content-Type: multipart/mixed; boundary="rOXb3NFlMXEJNBDOL70afMYEvOyIPprto";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Message-ID: <ce9614e2-b9f8-c303-7272-b292189ce662@suse.de>
+Subject: Re: [PATCH] drm/vc4: hvs: Fix buffer overflow with the dlist handling
+References: <20210129160647.128373-1-maxime@cerno.tech>
+In-Reply-To: <20210129160647.128373-1-maxime@cerno.tech>
 
+--rOXb3NFlMXEJNBDOL70afMYEvOyIPprto
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 29.01.21 um 17:06 schrieb Maxime Ripard:
+> Commit 0a038c1c29a7 ("drm/vc4: Move LBM creation out of
+> vc4_plane_mode_set()") changed the LBM allocation logic from first
+> allocating the LBM memory for the plane to running mode_set,
+> adding a gap in the LBM, and then running the dlist allocation filling
+> that gap.
+>=20
+> The gap was introduced by incrementing the dlist array index, but was
+> never checking whether or not we were over the array length, leading
+> eventually to memory corruptions if we ever crossed this limit.
+>=20
+> vc4_dlist_write had that logic though, and was reallocating a larger
+> dlist array when reaching the end of the buffer. Let's share the logic
+> between both functions.
+>=20
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Eric Anholt <eric@anholt.net>
+> Fixes: 0a038c1c29a7 ("drm/vc4: Move LBM creation out of vc4_plane_mode_=
+set()")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->  drivers/video/backlight/pcf50633-backlight.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/backlight/pcf50633-backlight.c b/drivers/video/backlight/pcf50633-backlight.c
-> index 540dd338..43267af 100644
-> --- a/drivers/video/backlight/pcf50633-backlight.c
-> +++ b/drivers/video/backlight/pcf50633-backlight.c
-> @@ -127,7 +127,8 @@ static int pcf50633_bl_probe(struct platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, pcf_bl);
->  
-> -	pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
-> +  if (pdata)
-> +    pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
+>   drivers/gpu/drm/vc4/vc4_plane.c | 18 ++++++++++++++----
+>   1 file changed, 14 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_=
+plane.c
+> index b5586c92bfe5..3d33fe3dacea 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -227,7 +227,7 @@ static void vc4_plane_reset(struct drm_plane *plane=
+)
+>   	__drm_atomic_helper_plane_reset(plane, &vc4_state->base);
+>   }
+>  =20
+> -static void vc4_dlist_write(struct vc4_plane_state *vc4_state, u32 val=
+)
+> +static void vc4_dlist_counter_increment(struct vc4_plane_state *vc4_st=
+ate)
+>   {
+>   	if (vc4_state->dlist_count =3D=3D vc4_state->dlist_size) {
+>   		u32 new_size =3D max(4u, vc4_state->dlist_count * 2);
+> @@ -242,7 +242,15 @@ static void vc4_dlist_write(struct vc4_plane_state=
+ *vc4_state, u32 val)
+>   		vc4_state->dlist_size =3D new_size;
+>   	}
+>  =20
+> -	vc4_state->dlist[vc4_state->dlist_count++] =3D val;
+> +	vc4_state->dlist_count++;
+> +}
+> +
+> +static void vc4_dlist_write(struct vc4_plane_state *vc4_state, u32 val=
+)
+> +{
+> +	unsigned int idx =3D vc4_state->dlist_count;
+> +
+> +	vc4_dlist_counter_increment(vc4_state);
+> +	vc4_state->dlist[idx] =3D val;
+>   }
+>  =20
+>   /* Returns the scl0/scl1 field based on whether the dimensions need t=
+o
+> @@ -1057,8 +1065,10 @@ static int vc4_plane_mode_set(struct drm_plane *=
+plane,
+>   		 * be set when calling vc4_plane_allocate_lbm().
+>   		 */
+>   		if (vc4_state->y_scaling[0] !=3D VC4_SCALING_NONE ||
+> -		    vc4_state->y_scaling[1] !=3D VC4_SCALING_NONE)
+> -			vc4_state->lbm_offset =3D vc4_state->dlist_count++;
+> +		    vc4_state->y_scaling[1] !=3D VC4_SCALING_NONE) {
+> +			vc4_state->lbm_offset =3D vc4_state->dlist_count;
+> +			vc4_dlist_counter_increment(vc4_state);
+> +		}
+>  =20
+>   		if (num_planes > 1) {
+>   			/* Emit Cb/Cr as channel 0 and Y as channel
+>=20
 
-Assuming you found this issue using a static analyzer then I think it
-might be better to if an "if (!pdata) return -EINVAL" further up the
-file instead.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-In other words it is better to "document" (via the return code) that the
-code does not support pdata == NULL than to add another untested code
-path.
 
+--rOXb3NFlMXEJNBDOL70afMYEvOyIPprto--
 
-Daniel.
+--FRQEcoD6NeG80U3o8KSA1GRHOIN34AK1Z
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAZIzsFAwAAAAAACgkQlh/E3EQov+Cr
+mg//b/6oC5hY3le0Oof7fBAJZTSPWFQAeTS1OYTQAQ8/9DAjJ0hXkqVMeohm84/c3XBWhqETUCMQ
+tu0xZdTjzPs6tSLx3/t8Tqxlwnoi1mv0JbjHn7UmnB5BGELNmCj+8N9mxYIWAgPjxLqOzIBFqkkD
+zQNYgiIBHwAqWOomPZ71WoDuNqSa+M3g6YN6ZI5e8BO19XNCZxDnta404+mI60F/UqEeyEdlTgwj
+ahD4APKZljwAKkqkj+Oik6DkXI2xOTugrGKt9YB/MOAUdecM2I1kQqV1n8uC+aJ8BCIXsan8IOz+
+AiAa5Odf1esejfNTSijl86/8uWK5q+ggay5jiavqg72VJIl/7FKbuYx7SKDkls8PGDew+AQu2if9
+iIB/r72RMQu3udgaAhJD2tMGeMnR5bjZ4SjwD21cDdH9HQny1Z1hX+geO9W+LytJl1MRKrx/fIV2
+gHklOoqKFCuJmPwuNwH4uAKKt6OoqZnz8Gah4Qev3+NVf0U53ovXfqrUpZjVUWPXlk/Ah8mBOtnY
+LjGhL59NcJAmlKiH2u6phiKAVFtLxTXNG6iGA5DqjufemN+4iRHlRRKZ+Ap7v28AbxCxESeIpyEc
+ck4vBVionDGEgolR6DUqxkWoUeQHeVsJOYdH0PFWNcZTandMimXIktMv+m96y7hAGbKHBOou+vrv
+/4w=
+=Zw10
+-----END PGP SIGNATURE-----
+
+--FRQEcoD6NeG80U3o8KSA1GRHOIN34AK1Z--
+
+--===============0407401850==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0407401850==--
