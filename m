@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B7230C38D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 16:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870FC30C38E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 16:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DB36E105;
-	Tue,  2 Feb 2021 15:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF4646E8E1;
+	Tue,  2 Feb 2021 15:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4E96E923
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 15:23:54 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id l12so1774548wmq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 07:23:54 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6DC6E8E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 15:24:49 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id c4so18180126wru.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 07:24:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=PBOv4oa0xyBSu7Av2IkfR/vnH44GMIHIBZqxC79Sm/Y=;
- b=DS825I+YcxBaWeWEl+ZNWlwgUUIR8iQmQPkY4QFjW+uga7eCjkKj/KLKeVvYlbT342
- XZW5+2Ar3ZP7nqC+R9oJZP8ayAuB43dHLEmwnU4GvZ9vZ1Wr26KIXGNKp38uQSy6K9Tt
- lMA+CYFhvJPF2cC1gm5jEgIe+iEoWYF68Djqs=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TwF/FQN0ANtWNheBXZd1Sn+c5kPviTuWw/RIN59Nwfs=;
+ b=lJBTkJdB/OLoTTId2yYfjrdTeDwxFPSQBNAzhziVAbfI9FPuFPC1178rWHaPemTlM6
+ tv8VkCwzTP5pBJanRoRte5MpvBkzRaAMHblweJLVh3RzWLU7xuHKE7PlOwE7XNuD47ST
+ i+8aJVUWGpYBWTXe9T26NSO4HErv60/gfdiR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=PBOv4oa0xyBSu7Av2IkfR/vnH44GMIHIBZqxC79Sm/Y=;
- b=dbcmTAO7b+aE8A8G6Kn5LEMojJ5Kt4S69Ux2NMhV+Ioqofm6NAMzCnTDdWauverm6q
- OqTGsCcXu9uj96a9Pfw70QvosP1XkHCKeK6HynBiJ29px8LmuqjmnNAtXjjFeBvyHqps
- xGE68AAbs9ZWxLmv6dWgZCpNEjHcUn8lzbY3g54LPTzf+/tpfYZYsVK71AaNVNZ+EDgM
- vj3vRDY7TpZcEAkDfpVVncNl+AZ289K83xb+GBayHa/iuMom7swQWGIPR2qL9rUoqOus
- ys4xLo02QtR5cJfgDmhEYBdFgT39X6kVa5VhLK/t03ZZox6I33RdNnN6zFoAVrJq+5jh
- nSig==
-X-Gm-Message-State: AOAM5323RjiMuJf1jblq5k+hxWw3OzwJN572yhpKnncPslVWJl690z2B
- LcXdh6E4Dk8hxo4aI+I1khuBpQ==
-X-Google-Smtp-Source: ABdhPJwc4Iu2brOpfruPVn+eCfb6X4r3qeK2Ze160BwejVhNYW1tKRv6W4xHtSFBHQEAxujvrMfubQ==
-X-Received: by 2002:a1c:f417:: with SMTP id z23mr4176491wma.29.1612279433428; 
- Tue, 02 Feb 2021 07:23:53 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TwF/FQN0ANtWNheBXZd1Sn+c5kPviTuWw/RIN59Nwfs=;
+ b=cH+NMmZNo9bINWAtOAzl7B0UWKgZO1i99R6E8RydMrJCruNe9F1rZPAqSbW0W1bvEN
+ /he4nqNmGSiJI6u1Syd0795oGoR3GlIo8AO8tm6T7ggkw/dxt9tFNPQu7wMjTiaR60mn
+ gC6MXXiprwq+FQinTv+2ffxxkRqeEN/ncqZMwkhEyirBfNF+eVhRhpQINC/ENZHxldHx
+ P9ptwJ+c+Baz53uT6mdmbKBDS4Jba0xny9WabBR0lXPzawvbOwPUpoVK2ieuVjiGWetr
+ XFE8BLvz1528XRcij6MBLoKtbqNMGOwASshTT5GTWwXSj8dFm4bVhrVOtU3SU+hY/r5h
+ FY9Q==
+X-Gm-Message-State: AOAM531OvUf089YTXc0MR8AbUy6UNq2SnJZC/Ala/+D39Bebe8FFUmHW
+ svfXCHB/s5mNFDvlbqmTZbYfmQ==
+X-Google-Smtp-Source: ABdhPJwBF5AMzAudV1juYLGxdLGduE9kr/xSnz8exq5VsaT6rVF/Uv2wR3lLDVdkrXcVwEAiCPeyNg==
+X-Received: by 2002:adf:a2ca:: with SMTP id t10mr24029895wra.370.1612279487922; 
+ Tue, 02 Feb 2021 07:24:47 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f6sm3373520wmq.33.2021.02.02.07.23.51
+ by smtp.gmail.com with ESMTPSA id j17sm3535169wmc.28.2021.02.02.07.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 07:23:52 -0800 (PST)
-Date: Tue, 2 Feb 2021 16:23:50 +0100
+ Tue, 02 Feb 2021 07:24:47 -0800 (PST)
+Date: Tue, 2 Feb 2021 16:24:45 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Phillip Susi <phill@thesusis.net>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <YBluhm2WV2rmWfja@phenom.ffwll.local>
-Mail-Followup-To: Phillip Susi <phill@thesusis.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <87k0s4ai33.fsf@vps.thesusis.net>
- <YBlfKgQ1laQLFqpW@phenom.ffwll.local>
- <87wnvqts9g.fsf@vps.thesusis.net>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
+Message-ID: <YBluvZn1orYl7L9/@phenom.ffwll.local>
+References: <1611604622-86968-1-git-send-email-jianxin.xiong@intel.com>
+ <1611604622-86968-5-git-send-email-jianxin.xiong@intel.com>
+ <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
+ <20210201061603.GC4593@unreal>
+ <CAKMK7uE0kSC1si0E9D1Spkn9aW2jFJw_SH3hYC6sZL7mG6pzyg@mail.gmail.com>
+ <20210201152922.GC4718@ziepe.ca>
+ <MW3PR11MB455569DF7B795272687669BFE5B69@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <87wnvqts9g.fsf@vps.thesusis.net>
+In-Reply-To: <MW3PR11MB455569DF7B795272687669BFE5B69@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,57 +70,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Pavel Machek <pavel@ucw.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, Edward Srouji <edwards@nvidia.com>,
+ Gal Pressman <galpress@amazon.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 02, 2021 at 10:13:14AM -0500, Phillip Susi wrote:
+On Mon, Feb 01, 2021 at 05:03:44PM +0000, Xiong, Jianxin wrote:
+> > -----Original Message-----
+> > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > Sent: Monday, February 01, 2021 7:29 AM
+> > To: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Leon Romanovsky <leon@kernel.org>; Gal Pressman <galpress@amazon.com>; Xiong, Jianxin <jianxin.xiong@intel.com>; Yishai Hadas
+> > <yishaih@nvidia.com>; linux-rdma <linux-rdma@vger.kernel.org>; Edward Srouji <edwards@nvidia.com>; dri-devel <dri-
+> > devel@lists.freedesktop.org>; Christian Koenig <christian.koenig@amd.com>; Doug Ledford <dledford@redhat.com>; Vetter, Daniel
+> > <daniel.vetter@intel.com>
+> > Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
+> > 
+> > On Mon, Feb 01, 2021 at 03:10:00PM +0100, Daniel Vetter wrote:
+> > > On Mon, Feb 1, 2021 at 7:16 AM Leon Romanovsky <leon@kernel.org> wrote:
+> > > >
+> > > > On Sun, Jan 31, 2021 at 05:31:16PM +0200, Gal Pressman wrote:
+> > > > > On 25/01/2021 21:57, Jianxin Xiong wrote:
+> > > > > > Define a new sub-class of 'MR' that uses dma-buf object for the
+> > > > > > memory region. Define a new class 'DmaBuf' as a wrapper for
+> > > > > > dma-buf allocation mechanism implemented in C.
+> > > > > >
+> > > > > > Update the cmake function for cython modules to allow building
+> > > > > > modules with mixed cython and c source files.
+> > > > > >
+> > > > > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> > > > > > buildlib/pyverbs_functions.cmake |  78 +++++++----
+> > > > > >  pyverbs/CMakeLists.txt           |  11 +-
+> > > > > >  pyverbs/dmabuf.pxd               |  15 +++
+> > > > > >  pyverbs/dmabuf.pyx               |  73 ++++++++++
+> > > > > >  pyverbs/dmabuf_alloc.c           | 278 +++++++++++++++++++++++++++++++++++++++
+> > > > > >  pyverbs/dmabuf_alloc.h           |  19 +++
+> > > > > >  pyverbs/libibverbs.pxd           |   2 +
+> > > > > >  pyverbs/mr.pxd                   |   6 +
+> > > > > >  pyverbs/mr.pyx                   | 105 ++++++++++++++-
+> > > > > >  9 files changed, 557 insertions(+), 30 deletions(-)  create
+> > > > > > mode 100644 pyverbs/dmabuf.pxd  create mode 100644
+> > > > > > pyverbs/dmabuf.pyx  create mode 100644 pyverbs/dmabuf_alloc.c
+> > > > > > create mode 100644 pyverbs/dmabuf_alloc.h
+> > > >
+> > > > <...>
+> > > >
+> > > > > > index 0000000..05eae75
+> > > > > > +++ b/pyverbs/dmabuf_alloc.c
+> > > > > > @@ -0,0 +1,278 @@
+> > > > > > +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+> > > > > > +/*
+> > > > > > + * Copyright 2020 Intel Corporation. All rights reserved. See
+> > > > > > +COPYING file  */
+> > > > > > +
+> > > > > > +#include <stdio.h>
+> > > > > > +#include <stdlib.h>
+> > > > > > +#include <stdint.h>
+> > > > > > +#include <unistd.h>
+> > > > > > +#include <string.h>
+> > > > > > +#include <errno.h>
+> > > > > > +#include <drm/drm.h>
+> > > > > > +#include <drm/i915_drm.h>
+> > > > > > +#include <drm/amdgpu_drm.h>
+> > > > > > +#include <drm/radeon_drm.h>
+> > > > >
+> > > > > I assume these should come from the kernel headers package, right?
+> > > >
+> > > > This is gross, all kernel headers should be placed in
+> > > > kernel-headers/* and "update" script needs to be extended to take drm/* files too :(.
+> > >
+> > > drm kernel headers are in the libdrm package. You need that anyway for
+> > > doing the ioctls (if you don't hand-roll the restarting yourself).
+> > >
+> > > Also our userspace has gone over to just outright copying the driver
+> > > headers. Not the generic headers, but for the rendering side of gpus,
+> > > which is the topic here, there's really not much generic stuff.
+> > >
+> > > > Jianxin, are you fixing it?
+> > >
+> > > So fix is either to depend upon libdrm for building, or have copies of
+> > > the headers included in the package for the i915/amdgpu/radeon headers
+> > > (drm/drm.h probably not so good idea).
+> > 
+> > We should have a cmake test to not build the drm parts if it can't be built, and pyverbs should skip the tests.
+> > 
 > 
-> Daniel Vetter writes:
-> 
-> > Just a quick comment on this: Since most framebuffers are write-combining,
-> > and reads from that tend to be ~3 orders of magnitude slower than writes
-> > (at least on the pile of machines I looked at here, there's big
-> > differences, and some special streaming cpu instructions to make the
-> > reading side not so slow).
-> >
-> > So scrolling by copying tends to be significantly slower than just
-> > redrawing everything.
-> 
-> I know this was the case years ago with AGP as iirc, it doubled ( 4x, 8x
-> ) the PCI clock rate but only for writes wasn't it?  I thought this was
-> no longer an issue with PCIe, but if it is, then I guess I'll go ahead
-> with cleaning up the dead code and having it re-render with the larger
-> text buffer.
+> Yes, I will add a test for that. Also, on SLES, the headers could be under /usr/include/libdrm instead of /usr/include/drm. The make test should check that and use proper path. 
 
-Still the same with PCIe, probably gotten worse since uncached reads are
-still as slow, but write-combined writes have gotten much faster even.
-There's work going on to have a coherent link to gpus which would allow
-fully cached reads and writes, early with nvlink and now as a standard
-with CXL (https://en.wikipedia.org/wiki/Compute_Express_Link)
-
-But that's aimed at big compute jobs for servers, not really for display.
-
-Also some on-die gpus have become fully coherent, but again only for
-render/compute buffers, not for the display framebuffer.
-
-So all together 0 signs this is changing going forward, reading from
-framebuffers is slow.
-
-Ok there's some exceptions: For manual update buffers (defio for fbdev
-drivers, drm also supports this with an entire set of helpers) the
-framebuffer used by the cpu is sometimes (but very often still not)
-cached. Imo not worth optimizing for, since for the drivers where it is
-cached they either have no blitter, or it's really tiny panels behind spi
-links and similar, so not going to be fast anyway.
+Please use pkgconfig for this, libdrm installs a .pc file to make sure you
+can find the right headers.
 -Daniel
 -- 
 Daniel Vetter
