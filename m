@@ -1,56 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F3F30C0BA
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 15:06:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FC430D4D6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:13:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D808918E;
-	Tue,  2 Feb 2021 14:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE5F66E9D8;
+	Wed,  3 Feb 2021 08:13:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC45C8918E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:06:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BAB3D64F68
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612274810;
- bh=7qwuG9p966psCAwZOpvENMSGy16iKH40SQ4l+eNoLCE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=L7hrHI+6H4q+k94mqMC/SKRDDJj2v9Z1RcONTKu31ronjZEdMCDvl/QOy1ClnmSxS
- IW4LZ5L6f/SEAYJt9vhuNsDjKEVG3xxrEaWV9OIX7nU0TXjyey3hvrBavX0N8MgLl9
- XS+bm+Uk1it3AxnD9WG/TTOO8DcYR2wIfBiHXr84wi4GX92UwK4Xmt20qRgDOgbp2f
- iCLU5QGsRGi5r6nCa+fFEXBhdAmGu4w5EbAYyK36JQZVVypt/0zlCQfYzl/J4MTUhS
- SdUvcp3AHWHA8jt91lqPmNBqX8dm+XiBQqxl2dBnyAO3VimOQEVzRGRm7zijyE8JIx
- gjLMHY1P9vK9A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B76B865304; Tue,  2 Feb 2021 14:06:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Tue, 02 Feb 2021 14:06:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: antonyjr000@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203905-2300-sDCECEbX9x@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
-References: <bug-203905-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0736E1B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 14:07:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 50039B0C6;
+ Tue,  2 Feb 2021 14:07:52 +0000 (UTC)
+Date: Tue, 2 Feb 2021 15:07:51 +0100 (CET)
+From: Miroslav Benes <mbenes@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 10/13] module: pass struct find_symbol_args to find_symbol
+In-Reply-To: <20210202121334.1361503-11-hch@lst.de>
+Message-ID: <alpine.LSU.2.21.2102021504550.570@pobox.suse.cz>
+References: <20210202121334.1361503-1-hch@lst.de>
+ <20210202121334.1361503-11-hch@lst.de>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
+X-Mailman-Approved-At: Wed, 03 Feb 2021 08:13:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,35 +39,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
+ live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+ Joe Lawrence <joe.lawrence@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=203905
+>  void *__symbol_get(const char *symbol)
+>  {
+> -	struct module *owner;
+> -	const struct kernel_symbol *sym;
+> +	struct find_symbol_arg fsa = {
+> +		.name	= symbol,
+> +		.gplok	= true,
+> +		.warn	= true,
+> +	};
+>  
+>  	preempt_disable();
+> -	sym = find_symbol(symbol, &owner, NULL, NULL, true, true);
+> -	if (sym && strong_try_module_get(owner))
+> -		sym = NULL;
+> +	if (!find_symbol(&fsa) || !strong_try_module_get(fsa.owner)) {
 
-Antony J.R (antonyjr000@gmail.com) changed:
+I think this should be in fact
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |antonyjr000@gmail.com
+  if (!find_symbol(&fsa) || strong_try_module_get(fsa.owner)) {
 
---- Comment #20 from Antony J.R (antonyjr000@gmail.com) ---
-I can confirm that the bug is still not fixed even in 5.11-rc6 (the latest
-kernel at the time of writing).
+to get the logic right (note the missing !). We want to return NULL if 
+strong_try_module_get() does not succeed for a found symbol.
 
-I can't control brightness also.
+> +		preempt_enable();
+> +		return NULL;
+> +	}
+>  	preempt_enable();
+> -
+> -	return sym ? (void *)kernel_symbol_value(sym) : NULL;
+> +	return (void *)kernel_symbol_value(fsa.sym);
+>  }
+>  EXPORT_SYMBOL_GPL(__symbol_get);
 
-I have a AMD Ryzen 7 4800H APU which has Renoir Graphics.
-
-The brightness control only works with Fedora Workstation 32 with Linux Kernel
-5.6.6 but with 5.11-rc6 brightness control does not work at all.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Miroslav
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
