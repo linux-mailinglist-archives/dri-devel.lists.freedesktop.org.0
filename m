@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E0830B9C8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:28:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969F430B7E9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 07:40:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B769A6E906;
-	Tue,  2 Feb 2021 08:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B17336E85B;
+	Tue,  2 Feb 2021 06:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358BD6E8C8
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 06:28:55 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1612247337; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=z7Jt7mLpbCjEtcnUQ9bOehTzH3Sk9XSsW7oxWAsa7AE=;
- b=OZSyKs4yMt3+5KJNZruuP4u+w93MpCb52Kf1hnb/4ILZsB7wiw74Lx+M1AOfWZdGc++m9YDr
- +lwvsQidUqZG7dufjC9MRsZPeP8/iBq8UHzC3BTRW+ve94gSaZ2SDO8c73iw1shxTevRmFHZ
- Iu17+nEjq9xhWb9R02WZwDW2rK8=
-X-Mailgun-Sending-Ip: 198.61.254.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 6018f11e8f2d32c2c5f91578 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 02 Feb 2021 06:28:46
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 120A6C43465; Tue,  2 Feb 2021 06:28:46 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DB9DC433C6;
- Tue,  2 Feb 2021 06:28:44 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638ED6E85B;
+ Tue,  2 Feb 2021 06:39:57 +0000 (UTC)
+IronPort-SDR: ZEWa5P9LJYRQup60sUMI3EmTvsglcKok2RZRGzdlDOc5OgV2y3fF94PVRjGZw7ij4l6EGqJ6wa
+ PqIxLFXB1oBQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180030381"
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="180030381"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2021 22:39:55 -0800
+IronPort-SDR: pp4bATS3TEPbt7CuE86OjNdvJegdqZkxMSEIq7JA+ttup1May4ZyEe8bGf/V1SowhWW1wD6wG+
+ FoNyGcV14D6A==
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="391312420"
+Received: from aknautiy-mobl.gar.corp.intel.com (HELO [10.215.121.82])
+ ([10.215.121.82])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2021 22:39:51 -0800
+Subject: Re: [PATCH v7 09/15] drm/i915: Add support for starting FRL training
+ for HDMI2.1 via PCON
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
+ <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
+ <YBhmuiFZ4ZsQ7Y+Z@intel.com>
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Message-ID: <9bd995b9-2020-3a1c-0e82-a823cfd06806@intel.com>
+Date: Tue, 2 Feb 2021 12:09:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Date: Tue, 02 Feb 2021 11:58:44 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>, Jordan Crouse <jcrouse@codeaurora.org>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-In-Reply-To: <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
-References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210129090516.GB3998@willie-the-truck>
- <5d23fce629323bcda71594010824aad0@codeaurora.org>
- <20210201111556.GA7172@willie-the-truck>
- <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
- <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
-Message-ID: <dc95c4d32691a588a7f660e3b20dd33e@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
+In-Reply-To: <YBhmuiFZ4ZsQ7Y+Z@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,135 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, "list@263.net:IOMMU DRIVERS , Joerg Roedel
- <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Kristian H Kristensen <hoegsberg@google.com>,
- Robin Murphy <robin.murphy@arm.com>, "moderated
- list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: swati2.sharma@intel.com, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ vandita.kulkarni@intel.com, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-01 23:50, Jordan Crouse wrote:
-> On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
->> On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
->> >
->> > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
->> > > On 2021-01-29 14:35, Will Deacon wrote:
->> > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
->> > > > > Add a new page protection flag IOMMU_LLC which can be used
->> > > > > by non-coherent masters to set cacheable memory attributes
->> > > > > for an outer level of cache called as last-level cache or
->> > > > > system cache. Initial user of this page protection flag is
->> > > > > the adreno gpu and then can later be used by other clients
->> > > > > such as video where this can be used for per-buffer based
->> > > > > mapping.
->> > > > >
->> > > > > Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
->> > > > > ---
->> > > > >  drivers/iommu/io-pgtable-arm.c | 3 +++
->> > > > >  include/linux/iommu.h          | 6 ++++++
->> > > > >  2 files changed, 9 insertions(+)
->> > > > >
->> > > > > diff --git a/drivers/iommu/io-pgtable-arm.c
->> > > > > b/drivers/iommu/io-pgtable-arm.c
->> > > > > index 7439ee7fdcdb..ebe653ef601b 100644
->> > > > > --- a/drivers/iommu/io-pgtable-arm.c
->> > > > > +++ b/drivers/iommu/io-pgtable-arm.c
->> > > > > @@ -415,6 +415,9 @@ static arm_lpae_iopte
->> > > > > arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->> > > > >           else if (prot & IOMMU_CACHE)
->> > > > >                   pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
->> > > > >                           << ARM_LPAE_PTE_ATTRINDX_SHIFT);
->> > > > > +         else if (prot & IOMMU_LLC)
->> > > > > +                 pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
->> > > > > +                         << ARM_LPAE_PTE_ATTRINDX_SHIFT);
->> > > > >   }
->> > > > >
->> > > > >   if (prot & IOMMU_CACHE)
->> > > > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
->> > > > > index ffaa389ea128..1f82057df531 100644
->> > > > > --- a/include/linux/iommu.h
->> > > > > +++ b/include/linux/iommu.h
->> > > > > @@ -31,6 +31,12 @@
->> > > > >   * if the IOMMU page table format is equivalent.
->> > > > >   */
->> > > > >  #define IOMMU_PRIV       (1 << 5)
->> > > > > +/*
->> > > > > + * Non-coherent masters can use this page protection flag to set
->> > > > > cacheable
->> > > > > + * memory attributes for only a transparent outer level of cache,
->> > > > > also known as
->> > > > > + * the last-level or system cache.
->> > > > > + */
->> > > > > +#define IOMMU_LLC        (1 << 6)
->> > > >
->> > > > On reflection, I'm a bit worried about exposing this because I think it
->> > > > will
->> > > > introduce a mismatched virtual alias with the CPU (we don't even have a
->> > > > MAIR
->> > > > set up for this memory type). Now, we also have that issue for the PTW,
->> > > > but
->> > > > since we always use cache maintenance (i.e. the streaming API) for
->> > > > publishing the page-tables to a non-coheren walker, it works out.
->> > > > However,
->> > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
->> > > > allocation, then they're potentially in for a nasty surprise due to the
->> > > > mismatched outer-cacheability attributes.
->> > > >
->> > >
->> > > Can't we add the syscached memory type similar to what is done on android?
->> >
->> > Maybe. How does the GPU driver map these things on the CPU side?
->> 
->> Currently we use writecombine mappings for everything, although there
->> are some cases that we'd like to use cached (but have not merged
->> patches that would give userspace a way to flush/invalidate)
->> 
->> BR,
->> -R
-> 
-> LLC/system cache doesn't have a relationship with the CPU cache.  Its 
-> just a
-> little accelerator that sits on the connection from the GPU to DDR and 
-> caches
-> accesses. The hint that Sai is suggesting is used to mark the buffers 
-> as
-> 'no-write-allocate' to prevent GPU write operations from being cached 
-> in the LLC
-> which a) isn't interesting and b) takes up cache space for read 
-> operations.
-> 
-> Its easiest to think of the LLC as a bonus accelerator that has no cost 
-> for
-> us to use outside of the unfortunate per buffer hint.
-> 
-> We do have to worry about the CPU cache w.r.t I/O coherency (which is a
-> different hint) and in that case we have all of concerns that Will 
-> identified.
-> 
-
-For mismatched outer cacheability attributes which Will mentioned, I was
-referring to [1] in android kernel.
-
-[1] https://android-review.googlesource.com/c/kernel/common/+/1549097/3
-
-Thanks,
-Sai
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgVmlsbGUsCgpQbGVhc2UgZmluZCBteSByZXNwb25zZXMgaW5saW5lLgoKT24gMi8yLzIwMjEg
+MjowOCBBTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIEZyaSwgRGVjIDE4LCAyMDIwIGF0
+IDA0OjA3OjE3UE0gKzA1MzAsIEFua2l0IE5hdXRpeWFsIHdyb3RlOgo+PiBUaGlzIHBhdGNoIGFk
+ZHMgZnVuY3Rpb25zIHRvIHN0YXJ0IEZSTCB0cmFpbmluZyBmb3IgYW4gSERNSTIuMSBzaW5rLAo+
+PiBjb25uZWN0ZWQgdmlhIGEgUENPTiBhcyBhIERQIGJyYW5jaCBkZXZpY2UuCj4+IFRoaXMgcGF0
+Y2ggYWxzbyBhZGRzIGEgbmV3IHN0cnVjdHVyZSBmb3Igc3RvcmluZyBmcmwgdHJhaW5pbmcgcmVs
+YXRlZAo+PiBkYXRhLCB3aGVuIEZSTCB0cmFpbmluZyBpcyBjb21wbGV0ZWQuCj4+Cj4+IHYyOiBB
+cyBzdWdnZXN0ZWQgYnkgVW1hIFNoYW5rYXI6Cj4+IC1yZW5hbWVkIGNvdXBsZSBvZiB2YXJpYWJs
+ZXMgZm9yIGJldHRlciBjbGFyaXR5Cj4+IC10d2Vha2VkIHRoZSBtYWNyb3MgdXNlZCBmb3IgY29y
+cmVjdCBzZW1hbnRpY3MgZm9yIHRydWUvZmFsc2UKPj4gLWZpeGVkIG90aGVyIHN0eWxpbmcgaXNz
+dWVzLgo+Pgo+PiB2MzogQ29tcGxldGVkIHRoZSBUT0RPIGZvciBjb25kaXRpb24gZm9yIGdvaW5n
+IHRvIEZSTCBtb2RlLgo+PiBNb2RpZmllZCB0aGUgY29uZGl0aW9uIHRvIGRldGVybWluZSB0aGUg
+cmVxdWlyZWQgRlJMIGIvdwo+PiBiYXNlZCBvbmx5IG9uIHRoZSBQY29uIGFuZCBTaW5rJ3MgbWF4
+IEZSTCB2YWx1ZXMuCj4+IE1vdmVkIHRoZSBmcmwgc3RydWN0dXJlIGluaXRpYWxpemF0aW9uIHRv
+IGludGVsX2RwX2luaXRfY29ubmVjdG9yKCkuCj4+Cj4+IHY0OiBGaXhlZCB0eXBvIGluIGluaXRp
+YWxpemF0aW9uIG9mIGZybCBzdHJ1Y3R1cmUuCj4+Cj4+IHY1OiBBbHdheXMgdXNlIEZSTCBpZiBp
+dHMgcG9zc2libGUsIGluc3RlYWQgb2YgZW5hYmxpbmcgb25seSBmb3IKPj4gaGlnaGVyIG1vZGVz
+IGFzIGRvbmUgaW4gdjMuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEFua2l0IE5hdXRpeWFsIDxhbmtp
+dC5rLm5hdXRpeWFsQGludGVsLmNvbT4KPj4gUmV2aWV3ZWQtYnk6IFVtYSBTaGFua2FyIDx1bWEu
+c2hhbmthckBpbnRlbC5jb20+ICh2MikKPj4gLS0tCj4+ICAgLi4uL2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZGlzcGxheV90eXBlcy5oICAgIHwgICA3ICsKPj4gICBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAxNTEgKysrKysrKysrKysrKysrKysrCj4+ICAg
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oICAgICAgIHwgICAyICsKPj4g
+ICAzIGZpbGVzIGNoYW5nZWQsIDE2MCBpbnNlcnRpb25zKCspCj4gPHNuaXA+Cj4+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4gaW5kZXggMDU5NmQ2YzI0ZTczLi40MzAy
+N2E2ZDVlNWUgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfZHAuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMK
+Pj4gQEAgLTM4OTEsNiArMzg5MSw4IEBAIHN0YXRpYyB2b2lkIGludGVsX2Rpc2FibGVfZHAoc3Ry
+dWN0IGludGVsX2F0b21pY19zdGF0ZSAqc3RhdGUsCj4+ICAgCWludGVsX2VkcF9iYWNrbGlnaHRf
+b2ZmKG9sZF9jb25uX3N0YXRlKTsKPj4gICAJaW50ZWxfZHBfc2V0X3Bvd2VyKGludGVsX2RwLCBE
+UF9TRVRfUE9XRVJfRDMpOwo+PiAgIAlpbnRlbF9lZHBfcGFuZWxfb2ZmKGludGVsX2RwKTsKPj4g
+KwlpbnRlbF9kcC0+ZnJsLmlzX3RyYWluZWQgPSBmYWxzZTsKPj4gKwlpbnRlbF9kcC0+ZnJsLnRy
+YWluZWRfcmF0ZV9nYnBzID0gMDsKPiBUaGlzIHN0dWZmIGxvb2tzIHJhdGhlciBtaXNwbGFjZWQg
+KG9yIG1pc3NpbmcgZnJvbSBlbHNld2hlcmUpLiBUaGlzIGNvZGUKPiBkb2Vzbid0IGV2ZW4gZ2V0
+IGV4ZWN1dGVkIG9uIG1vZGVybiBwbGF0Zm9ybXMuCgpJIHRoaW5rIHRoZXNlIHR3byBsaW5lcyBz
+aG91bGQgaGF2ZSBiZWVuIGFkZGVkIHRvIAppbnRlbF9kZGlfcG9zdF9kaXNhYmxlX2RwKCkgZm9y
+IFRHTCsKCk15IGludGVudGlvbiB3YXMgdG8gcmVzZXQgdGhlc2UgYmVmb3JlIGRpc2FibGluZyBE
+UC4gSW4gaGluZHNpZ2h0LCBzaW5jZSAKd2UgYXJlIGluaXRpYWxpemluZyAocmVzZXR0aW5nKSB0
+aGVzZSBpbiBkcF9pbml0X2Nvbm5lY3RvciwgdGhpcyBkb2VzbnQgCnNlZW0gdG8gYmUgcmVxdWly
+ZWQuCgpJIHdpbGwgc2VuZCBhIHBhdGNoIHRvIHJlbW92ZSB0aGVzZSB0d28gbGluZXMgZnJvbSBo
+ZXJlLgoKCj4KPiA8c25pcD4KPj4gK3N0YXRpYyBpbnQgaW50ZWxfZHBfcGNvbl9zdGFydF9mcmxf
+dHJhaW5pbmcoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKPj4gK3sKPj4gKyNkZWZpbmUgUENP
+Tl9FWFRFTkRFRF9UUkFJTl9NT0RFICgxID4gMCkKPj4gKyNkZWZpbmUgUENPTl9DT05DVVJSRU5U
+X01PREUgKDEgPiAwKQo+PiArI2RlZmluZSBQQ09OX1NFUVVFTlRJQUxfTU9ERSAhUENPTl9DT05D
+VVJSRU5UX01PREUKPj4gKyNkZWZpbmUgUENPTl9OT1JNQUxfVFJBSU5fTU9ERSAhUENPTl9FWFRF
+TkRFRF9UUkFJTl9NT0RFCj4gQWxsIG9mIHRoYXQgbG9va3MgbGlrZSBub25zZW5zZS4gV2hhdCBp
+cyBpdCBzdXBwb3NlZCB0byBkbz8KCldoZW4gYXNraW5nIGFuIEhETUkyLjEgUENPTiB0byBpbml0
+aWF0ZSBGUkwgdHJhaW5pbmcgdGhlcmUgYXJlIDIgb3B0aW9uczoKClNlcXVlbnRpYWwvQ29uY3Vy
+cmVudCBtb2RlOiBTZXF1ZW50aWFsIG1vZGUgYXR0ZW1wdHMgdGhlIEZSTCB0cmFpbmluZyAKYWZ0
+ZXIgRFAgTGluayB0cmFpbmluZyBpcyBjb21wbGV0ZWQuIENvbmN1cnJlbnQgbW9kZSB0cmllcyB0
+byBkbyB0aGUgRlJMIAp0cmFpbmluZywgZHVyaW5nIERQIGxpbmsgdHJhaW5pbmcuCgpOb3JtYWwg
+dHJhaW4gTW9kZS8gRXh0ZW5kZWQgbW9kZTogTm9ybWFsIHRyYWluIG1vZGUsIFBDT04gRlcgdHJh
+aW5zIEZSTCAKZnJvbSBNYXggdG8gbWluIEJXLCBzZXQgYnkgc291cmNlIGluIEJXIE1hc2suIEl0
+IGFib3J0cyBvbiBmaXJzdCAKc3VjY2Vzc2Z1bCB0cmFpbmluZy4gSW4gRXh0ZW5kZWQgbW9kZSwg
+UENPTiBGVyB0cmFpbnMgZm9yIGFsbCBCVyBzZXQgYnkgCnNvdXJjZSBpbiBCVyBtYXNrLgoKRm9y
+IENvbmN1cnJlbnQgYW5kIEV4dGVuZGVkIG1vZGUgd2UgbmVlZCB0byBzZXQgc29tZSBleHRyYSBi
+aXRzIGluIFBDT04gCkZSTCBjb25maWcgRFBDRHMKClRoZSBpbnRlbnRpb24gd2FzIHRvIGdvIHdp
+dGggc2VxdWVudGlhbCBhbmQgTm9ybWFsIHRyYWluaW5nIG1vZGUsIHNvIG5vIApuZWVkIHRvIHNl
+dCBhYm92ZSBiaXRzLgoKRG8geW91IHRoaW5rLCBzb21lIGRvY3VtZW50YXRpb24gd2lsbCBtYWtl
+IHRoaXMgY2xlYXI/CgpUaGFua3MgJiBSZWdhcmRzLAoKQW5raXQKCj4KPj4gKyNkZWZpbmUgVElN
+RU9VVF9GUkxfUkVBRFlfTVMgNTAwCj4+ICsjZGVmaW5lIFRJTUVPVVRfSERNSV9MSU5LX0FDVElW
+RV9NUyAxMDAwCj4+ICsKPj4gKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGRwX3Rv
+X2k5MTUoaW50ZWxfZHApOwo+PiArCWludCBtYXhfZnJsX2J3LCBtYXhfcGNvbl9mcmxfYncsIG1h
+eF9lZGlkX2ZybF9idywgcmV0Owo+PiArCXU4IG1heF9mcmxfYndfbWFzayA9IDAsIGZybF90cmFp
+bmVkX21hc2s7Cj4+ICsJYm9vbCBpc19hY3RpdmU7Cj4+ICsKPj4gKwlyZXQgPSBkcm1fZHBfcGNv
+bl9yZXNldF9mcmxfY29uZmlnKCZpbnRlbF9kcC0+YXV4KTsKPj4gKwlpZiAocmV0IDwgMCkKPj4g
+KwkJcmV0dXJuIHJldDsKPj4gKwo+PiArCW1heF9wY29uX2ZybF9idyA9IGludGVsX2RwLT5kZnAu
+cGNvbl9tYXhfZnJsX2J3Owo+PiArCWRybV9kYmcoJmk5MTUtPmRybSwgIlBDT04gbWF4IHJhdGUg
+PSAlZCBHYnBzXG4iLCBtYXhfcGNvbl9mcmxfYncpOwo+PiArCj4+ICsJbWF4X2VkaWRfZnJsX2J3
+ID0gaW50ZWxfZHBfaGRtaV9zaW5rX21heF9mcmwoaW50ZWxfZHApOwo+PiArCWRybV9kYmcoJmk5
+MTUtPmRybSwgIlNpbmsgbWF4IHJhdGUgZnJvbSBFRElEID0gJWQgR2Jwc1xuIiwgbWF4X2VkaWRf
+ZnJsX2J3KTsKPj4gKwo+PiArCW1heF9mcmxfYncgPSBtaW4obWF4X2VkaWRfZnJsX2J3LCBtYXhf
+cGNvbl9mcmxfYncpOwo+PiArCj4+ICsJaWYgKG1heF9mcmxfYncgPD0gMCkKPj4gKwkJcmV0dXJu
+IC1FSU5WQUw7Cj4+ICsKPj4gKwlyZXQgPSBkcm1fZHBfcGNvbl9mcmxfcHJlcGFyZSgmaW50ZWxf
+ZHAtPmF1eCwgZmFsc2UpOwo+PiArCWlmIChyZXQgPCAwKQo+PiArCQlyZXR1cm4gcmV0Owo+PiAr
+CS8qIFdhaXQgZm9yIFBDT04gdG8gYmUgRlJMIFJlYWR5ICovCj4+ICsJd2FpdF9mb3IoaXNfYWN0
+aXZlID0gZHJtX2RwX3Bjb25faXNfZnJsX3JlYWR5KCZpbnRlbF9kcC0+YXV4KSA9PSB0cnVlLCBU
+SU1FT1VUX0ZSTF9SRUFEWV9NUyk7Cj4+ICsKPj4gKwlpZiAoIWlzX2FjdGl2ZSkKPj4gKwkJcmV0
+dXJuIC1FVElNRURPVVQ7Cj4+ICsKPj4gKwltYXhfZnJsX2J3X21hc2sgPSBpbnRlbF9kcF9wY29u
+X3NldF9mcmxfbWFzayhtYXhfZnJsX2J3KTsKPj4gKwlyZXQgPSBkcm1fZHBfcGNvbl9mcmxfY29u
+ZmlndXJlXzEoJmludGVsX2RwLT5hdXgsIG1heF9mcmxfYncsIFBDT05fU0VRVUVOVElBTF9NT0RF
+KTsKPj4gKwlpZiAocmV0IDwgMCkKPj4gKwkJcmV0dXJuIHJldDsKPj4gKwlyZXQgPSBkcm1fZHBf
+cGNvbl9mcmxfY29uZmlndXJlXzIoJmludGVsX2RwLT5hdXgsIG1heF9mcmxfYndfbWFzaywgUENP
+Tl9OT1JNQUxfVFJBSU5fTU9ERSk7Cj4+ICsJaWYgKHJldCA8IDApCj4+ICsJCXJldHVybiByZXQ7
+Cj4+ICsJcmV0ID0gZHJtX2RwX3Bjb25fZnJsX2VuYWJsZSgmaW50ZWxfZHAtPmF1eCk7Cj4+ICsJ
+aWYgKHJldCA8IDApCj4+ICsJCXJldHVybiByZXQ7Cj4+ICsJLyoKPj4gKwkgKiBXYWl0IGZvciBG
+UkwgdG8gYmUgY29tcGxldGVkCj4+ICsJICogQ2hlY2sgaWYgdGhlIEhETUkgTGluayBpcyB1cCBh
+bmQgYWN0aXZlLgo+PiArCSAqLwo+PiArCXdhaXRfZm9yKGlzX2FjdGl2ZSA9IGRybV9kcF9wY29u
+X2hkbWlfbGlua19hY3RpdmUoJmludGVsX2RwLT5hdXgpID09IHRydWUsIFRJTUVPVVRfSERNSV9M
+SU5LX0FDVElWRV9NUyk7Cj4+ICsKPj4gKwlpZiAoIWlzX2FjdGl2ZSkKPj4gKwkJcmV0dXJuIC1F
+VElNRURPVVQ7Cj4+ICsKPj4gKwkvKiBWZXJpZnkgSERNSSBMaW5rIGNvbmZpZ3VyYXRpb24gc2hv
+d3MgRlJMIE1vZGUgKi8KPj4gKwlpZiAoRFBfUENPTl9IRE1JX01PREVfRlJMICE9IGRybV9kcF9w
+Y29uX2hkbWlfbGlua19tb2RlKCZpbnRlbF9kcC0+YXV4LCAmZnJsX3RyYWluZWRfbWFzaykpIHsK
+Pj4gKwkJZHJtX2RiZygmaTkxNS0+ZHJtLCAiSERNSSBjb3VsZG4ndCBiZSB0cmFpbmVkIGluIEZS
+TCBNb2RlXG4iKTsKPj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4+ICsJfQo+PiArCWRybV9kYmcoJmk5
+MTUtPmRybSwgIk1BWF9GUkxfTUFTSyA9ICV1LCBGUkxfVFJBSU5FRF9NQVNLID0gJXVcbiIsIG1h
+eF9mcmxfYndfbWFzaywgZnJsX3RyYWluZWRfbWFzayk7Cj4+ICsKPj4gKwlpbnRlbF9kcC0+ZnJs
+LnRyYWluZWRfcmF0ZV9nYnBzID0gaW50ZWxfZHBfcGNvbl9nZXRfZnJsX21hc2soZnJsX3RyYWlu
+ZWRfbWFzayk7Cj4+ICsJaW50ZWxfZHAtPmZybC5pc190cmFpbmVkID0gdHJ1ZTsKPj4gKwlkcm1f
+ZGJnKCZpOTE1LT5kcm0sICJGUkwgdHJhaW5lZCB3aXRoIDogJWQgR2Jwc1xuIiwgaW50ZWxfZHAt
+PmZybC50cmFpbmVkX3JhdGVfZ2Jwcyk7Cj4+ICsKPj4gKwlyZXR1cm4gMDsKPj4gK30KPj4gKwo+
+PiArc3RhdGljIGJvb2wgaW50ZWxfZHBfaXNfaGRtaV8yXzFfc2luayhzdHJ1Y3QgaW50ZWxfZHAg
+KmludGVsX2RwKQo+PiArewo+PiArCWlmIChkcm1fZHBfaXNfYnJhbmNoKGludGVsX2RwLT5kcGNk
+KSAmJgo+PiArCSAgICBpbnRlbF9kcC0+aGFzX2hkbWlfc2luayAmJgo+PiArCSAgICBpbnRlbF9k
+cF9oZG1pX3NpbmtfbWF4X2ZybChpbnRlbF9kcCkgPiAwKQo+PiArCQlyZXR1cm4gdHJ1ZTsKPj4g
+Kwo+PiArCXJldHVybiBmYWxzZTsKPj4gK30KPj4gKwo+PiArdm9pZCBpbnRlbF9kcF9jaGVja19m
+cmxfdHJhaW5pbmcoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKPj4gK3sKPj4gKwlzdHJ1Y3Qg
+ZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSBkcF90b19pOTE1KGludGVsX2RwKTsKPj4gKwo+
+PiArCS8qIEFsd2F5cyBnbyBmb3IgRlJMIHRyYWluaW5nIGlmIHN1cHBvcnRlZCAqLwo+PiArCWlm
+ICghaW50ZWxfZHBfaXNfaGRtaV8yXzFfc2luayhpbnRlbF9kcCkgfHwKPj4gKwkgICAgaW50ZWxf
+ZHAtPmZybC5pc190cmFpbmVkKQo+PiArCQlyZXR1cm47Cj4+ICsKPj4gKwlpZiAoaW50ZWxfZHBf
+cGNvbl9zdGFydF9mcmxfdHJhaW5pbmcoaW50ZWxfZHApIDwgMCkgewo+PiArCQlpbnQgcmV0LCBt
+b2RlOwo+PiArCj4+ICsJCWRybV9kYmcoJmRldl9wcml2LT5kcm0sICJDb3VsZG50IHNldCBGUkwg
+bW9kZSwgY29udGludWluZyB3aXRoIFRNRFMgbW9kZVxuIik7Cj4+ICsJCXJldCA9IGRybV9kcF9w
+Y29uX3Jlc2V0X2ZybF9jb25maWcoJmludGVsX2RwLT5hdXgpOwo+PiArCQltb2RlID0gZHJtX2Rw
+X3Bjb25faGRtaV9saW5rX21vZGUoJmludGVsX2RwLT5hdXgsIE5VTEwpOwo+PiArCj4+ICsJCWlm
+IChyZXQgPCAwIHx8IG1vZGUgIT0gRFBfUENPTl9IRE1JX01PREVfVE1EUykKPj4gKwkJCWRybV9k
+YmcoJmRldl9wcml2LT5kcm0sICJJc3N1ZSB3aXRoIFBDT04sIGNhbm5vdCBzZXQgVE1EUyBtb2Rl
+XG4iKTsKPj4gKwl9IGVsc2Ugewo+PiArCQlkcm1fZGJnKCZkZXZfcHJpdi0+ZHJtLCAiRlJMIHRy
+YWluaW5nIENvbXBsZXRlZFxuIik7Cj4+ICsJfQo+PiArfQo+PiArCj4+ICAgc3RhdGljIHZvaWQK
+Pj4gICBnNHhfc2V0X2xpbmtfdHJhaW4oc3RydWN0IGludGVsX2RwICppbnRlbF9kcCwKPj4gICAJ
+CSAgIGNvbnN0IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLAo+PiBAQCAtODIx
+MCw2ICs4MzU4LDkgQEAgaW50ZWxfZHBfaW5pdF9jb25uZWN0b3Ioc3RydWN0IGludGVsX2RpZ2l0
+YWxfcG9ydCAqZGlnX3BvcnQsCj4+ICAgCQkJICAgICAgICh0ZW1wICYgfjB4ZikgfCAweGQpOwo+
+PiAgIAl9Cj4+ICAgCj4+ICsJaW50ZWxfZHAtPmZybC5pc190cmFpbmVkID0gZmFsc2U7Cj4+ICsJ
+aW50ZWxfZHAtPmZybC50cmFpbmVkX3JhdGVfZ2JwcyA9IDA7Cj4+ICsKPj4gICAJcmV0dXJuIHRy
+dWU7Cj4+ICAgCj4+ICAgZmFpbDoKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfZHAuaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
+ZHAuaAo+PiBpbmRleCBiODcxYTA5YjY5MDEuLjU4Yjc2YTIwNDU5YyAxMDA2NDQKPj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5oCj4+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuaAo+PiBAQCAtMTQ0LDQgKzE0NCw2IEBAIGJv
+b2wgaW50ZWxfZHBfaW5pdGlhbF9mYXN0c2V0X2NoZWNrKHN0cnVjdCBpbnRlbF9lbmNvZGVyICpl
+bmNvZGVyLAo+PiAgIHZvaWQgaW50ZWxfZHBfc3luY19zdGF0ZShzdHJ1Y3QgaW50ZWxfZW5jb2Rl
+ciAqZW5jb2RlciwKPj4gICAJCQkgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNf
+c3RhdGUpOwo+PiAgIAo+PiArdm9pZCBpbnRlbF9kcF9jaGVja19mcmxfdHJhaW5pbmcoc3RydWN0
+IGludGVsX2RwICppbnRlbF9kcCk7Cj4+ICsKPj4gICAjZW5kaWYgLyogX19JTlRFTF9EUF9IX18g
+Ki8KPj4gLS0gCj4+IDIuMTcuMQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
