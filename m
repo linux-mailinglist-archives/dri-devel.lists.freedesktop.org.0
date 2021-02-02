@@ -1,46 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD830BAA8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 10:12:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28EB30BADF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 10:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746E26E8EF;
-	Tue,  2 Feb 2021 09:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 936126E944;
+	Tue,  2 Feb 2021 09:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA52C6E8EF
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 09:12:54 +0000 (UTC)
-X-UUID: b7c13609295b487189aa6c17456b9c0b-20210202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=jCOnxeZG3GpW2X1ImEEkRJN+ncbxOPNLGX8aovBzoJA=; 
- b=HHDCAdX5Tr0Gc9JKCRVAmbzxfhop+LiR0CdIqJnwhdpSCtt+CBOzIBVlWKSLiMknclwPOLA3uSMbSAsVTTPXCUWID0wTB4RI+79uOAuoolsyqVeUIi6rrWcL+ULPnaoTOK7gpuxltwR2hFdfA+AgGEGy9dM/it5njBjGk43pMBM=;
-X-UUID: b7c13609295b487189aa6c17456b9c0b-20210202
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1535380999; Tue, 02 Feb 2021 17:12:52 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 2 Feb 2021 17:12:49 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 2 Feb 2021 17:12:49 +0800
-Message-ID: <1612257169.30872.2.camel@mtksdaap41>
-Subject: Re: [PATCH v6 8/8] drm/mediatek: add support for mediatek SOC MT8192
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 2 Feb 2021 17:12:49 +0800
-In-Reply-To: <20210202081237.774442-9-hsinyi@chromium.org>
-References: <20210202081237.774442-1-hsinyi@chromium.org>
- <20210202081237.774442-9-hsinyi@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9326E944
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 09:25:45 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id m13so19639889wro.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 01:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=a1OCFu7h0TcIowMDv7zHkZMNSiLVb4YwniBrbKA3xlU=;
+ b=uF0X2tH0q3rC8OeRvULloT49lCKeBEQIIw6QI9tlhujC4RF3Y6JwL4phRurV64uvih
+ vIy/Bkwwwa+OwUknuhm87RzJbo3TmKLf4F4bTWnWohj0xvbesjcgJf0vvzfBB/IuDpr2
+ T5sGY0IN4mRqFiNIkf4AjHGbM1BMcLte31RgDWX4v3q3MchbIgY1ke2jBZT8K57WRNa5
+ pIM1hekoQS2WUKBuoyDGNSrnzcifBgBLcCwgYgsxQpKhEok5Eamv5Ksvda7NJQk69CUw
+ d2ITCAYRN0sV3AErdVtbrN7+deweE3u94fcS9QmF00PXgEkmZJ1YQlK7NALcXBFTO2LM
+ R6bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=a1OCFu7h0TcIowMDv7zHkZMNSiLVb4YwniBrbKA3xlU=;
+ b=nNcW/z1v/2rCxM3f2COSh1Zjeb04WjbWRblwGLzdeE4il7vBsLKpoTrOx2W4He9Jpu
+ 7C8BhMRFu0AbC/4rQXlMvdL010Iz4wlsjRGriFD82fUAlEUX95kslwHmmJ9q4p0HT3wO
+ vfWu8LgfNtgO9XN4MHFwRp/wZBUOK+1RUYaFZk2f4AquUAhi3kXTy1cgMnvE6XzLejxO
+ ZJjPkqoLUyEB0unARbacQqAnAc6h1mi8bPbPtp3WxMIOhk6E9skvEkIesjIIv7wM9jJz
+ RRjHbxMeMsfGpljGvFzilEOlUNrOu4Kp4TekeLqRHT77ovFLBBFpHsV4q3Y8aUCoxmDS
+ yiiA==
+X-Gm-Message-State: AOAM5317rK4Qi74esStMYmAPVSsTYq0AfCGaNEf0po7q6lXzqWfFpDON
+ IAgGDV0IArArsQPYAK1jfCtoKg==
+X-Google-Smtp-Source: ABdhPJy7kfZ4o7WstsegOSMCSFJFOfW1Ibzofjf5AFjyCjsHJFeZ5+FIwpQN0elV9b07P6x7DgPmdw==
+X-Received: by 2002:adf:fc8a:: with SMTP id g10mr23343632wrr.189.1612257944619; 
+ Tue, 02 Feb 2021 01:25:44 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id q24sm2040048wmq.24.2021.02.02.01.25.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 01:25:43 -0800 (PST)
+Date: Tue, 2 Feb 2021 09:25:41 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Wenjia Zhao <driverfuzzing@gmail.com>
+Subject: Re: [PATCH] backlight: pcf50633: pdata may be a null pointer, null
+ pointer dereference cause crash
+Message-ID: <20210202092541.2wvzpe53mavrd47x@maple.lan>
+References: <1612190499-73818-1-git-send-email-driverfuzzing@gmail.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: A363715C433DB74E8E57BFD8443DE9B7FDDC4DE180E54AEF2684BDDC0E54DA912000:8
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <1612190499-73818-1-git-send-email-driverfuzzing@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,221 +68,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-Yi:
+On Mon, Feb 01, 2021 at 08:41:38AM -0600, Wenjia Zhao wrote:
+> Signed-off-by: Wenjia Zhao <driverfuzzing@gmail.com>
 
-On Tue, 2021-02-02 at 16:12 +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> 
-> add support for mediatek SOC MT8192
+There should be a patch description here explaining why the patch
+is needed and how it works.
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c |  6 ++++
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 20 +++++++++++
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  6 ++++
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c    | 42 +++++++++++++++++++++++
->  4 files changed, 74 insertions(+)
+>  drivers/video/backlight/pcf50633-backlight.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> index 141cb36b9c07b..3a53ebc4e1724 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-> @@ -205,9 +205,15 @@ static const struct mtk_disp_ccorr_data mt8183_ccorr_driver_data = {
->  	.matrix_bits = 10,
->  };
+> diff --git a/drivers/video/backlight/pcf50633-backlight.c b/drivers/video/backlight/pcf50633-backlight.c
+> index 540dd338..43267af 100644
+> --- a/drivers/video/backlight/pcf50633-backlight.c
+> +++ b/drivers/video/backlight/pcf50633-backlight.c
+> @@ -127,7 +127,8 @@ static int pcf50633_bl_probe(struct platform_device *pdev)
 >  
-> +static const struct mtk_disp_ccorr_data mt8192_ccorr_driver_data = {
-> +	.matrix_bits = 11,
-> +};
-> +
->  static const struct of_device_id mtk_disp_ccorr_driver_dt_match[] = {
->  	{ .compatible = "mediatek,mt8183-disp-ccorr",
->  	  .data = &mt8183_ccorr_driver_data},
-> +	{ .compatible = "mediatek,mt8192-disp-ccorr",
-> +	  .data = &mt8192_ccorr_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_ccorr_driver_dt_match);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> index 961f87f8d4d15..e266baae586c4 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -455,6 +455,22 @@ static const struct mtk_disp_ovl_data mt8183_ovl_2l_driver_data = {
->  	.fmt_rgb565_is_0 = true,
->  };
+>  	platform_set_drvdata(pdev, pcf_bl);
 >  
-> +static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
-> +	.addr = DISP_REG_OVL_ADDR_MT8173,
-> +	.gmc_bits = 10,
-> +	.layer_nr = 4,
-> +	.fmt_rgb565_is_0 = true,
-> +	.smi_id_en = true,
-> +};
-> +
-> +static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
-> +	.addr = DISP_REG_OVL_ADDR_MT8173,
-> +	.gmc_bits = 10,
-> +	.layer_nr = 2,
-> +	.fmt_rgb565_is_0 = true,
-> +	.smi_id_en = true,
-> +};
-> +
->  static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
->  	{ .compatible = "mediatek,mt2701-disp-ovl",
->  	  .data = &mt2701_ovl_driver_data},
-> @@ -464,6 +480,10 @@ static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
->  	  .data = &mt8183_ovl_driver_data},
->  	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
->  	  .data = &mt8183_ovl_2l_driver_data},
-> +	{ .compatible = "mediatek,mt8192-disp-ovl",
-> +	  .data = &mt8192_ovl_driver_data},
-> +	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-> +	  .data = &mt8192_ovl_2l_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_ovl_driver_dt_match);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> index 728aaadfea8cf..f123fc00a3935 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> @@ -355,6 +355,10 @@ static const struct mtk_disp_rdma_data mt8183_rdma_driver_data = {
->  	.fifo_size = 5 * SZ_1K,
->  };
->  
-> +static const struct mtk_disp_rdma_data mt8192_rdma_driver_data = {
-> +	.fifo_size = 5 * SZ_1K,
-> +};
-> +
->  static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
->  	{ .compatible = "mediatek,mt2701-disp-rdma",
->  	  .data = &mt2701_rdma_driver_data},
-> @@ -362,6 +366,8 @@ static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
->  	  .data = &mt8173_rdma_driver_data},
->  	{ .compatible = "mediatek,mt8183-disp-rdma",
->  	  .data = &mt8183_rdma_driver_data},
-> +	{ .compatible = "mediatek,mt8192-disp-rdma",
-> +	  .data = &mt8192_rdma_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index b013d56d27773..6df551055630c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -147,6 +147,25 @@ static const enum mtk_ddp_comp_id mt8183_mtk_ddp_ext[] = {
->  	DDP_COMPONENT_DPI0,
->  };
->  
-> +static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
-> +	DDP_COMPONENT_OVL0,
-> +	DDP_COMPONENT_OVL_2L0,
-> +	DDP_COMPONENT_RDMA0,
-> +	DDP_COMPONENT_COLOR0,
-> +	DDP_COMPONENT_CCORR,
-> +	DDP_COMPONENT_AAL0,
-> +	DDP_COMPONENT_GAMMA,
-> +	DDP_COMPONENT_POSTMASK0,
-> +	DDP_COMPONENT_DITHER,
-> +	DDP_COMPONENT_DSI0,
-> +};
-> +
-> +static const enum mtk_ddp_comp_id mt8192_mtk_ddp_ext[] = {
-> +	DDP_COMPONENT_OVL_2L2,
-> +	DDP_COMPONENT_RDMA4,
-> +	DDP_COMPONENT_DPI0,
-> +};
-> +
->  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
->  	.main_path = mt2701_mtk_ddp_main,
->  	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-> @@ -186,6 +205,13 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
->  	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
->  };
->  
-> +static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-> +	.main_path = mt8192_mtk_ddp_main,
-> +	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-> +	.ext_path = mt8192_mtk_ddp_ext,
-> +	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
-> +};
-> +
->  static int mtk_drm_kms_init(struct drm_device *drm)
->  {
->  	struct mtk_drm_private *private = drm->dev_private;
-> @@ -404,22 +430,32 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->  	  .data = (void *)MTK_DISP_OVL },
->  	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
->  	  .data = (void *)MTK_DISP_OVL_2L },
-> +	{ .compatible = "mediatek,mt8192-disp-ovl",
-> +	  .data = (void *)MTK_DISP_OVL },
-> +	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-> +	  .data = (void *)MTK_DISP_OVL_2L },
->  	{ .compatible = "mediatek,mt2701-disp-rdma",
->  	  .data = (void *)MTK_DISP_RDMA },
->  	{ .compatible = "mediatek,mt8173-disp-rdma",
->  	  .data = (void *)MTK_DISP_RDMA },
->  	{ .compatible = "mediatek,mt8183-disp-rdma",
->  	  .data = (void *)MTK_DISP_RDMA },
-> +	{ .compatible = "mediatek,mt8192-disp-rdma",
-> +	  .data = (void *)MTK_DISP_RDMA },
->  	{ .compatible = "mediatek,mt8173-disp-wdma",
->  	  .data = (void *)MTK_DISP_WDMA },
->  	{ .compatible = "mediatek,mt8183-disp-ccorr",
->  	  .data = (void *)MTK_DISP_CCORR },
-> +	{ .compatible = "mediatek,mt8192-disp-ccorr",
-> +	  .data = (void *)MTK_DISP_CCORR },
->  	{ .compatible = "mediatek,mt2701-disp-color",
->  	  .data = (void *)MTK_DISP_COLOR },
->  	{ .compatible = "mediatek,mt8173-disp-color",
->  	  .data = (void *)MTK_DISP_COLOR },
->  	{ .compatible = "mediatek,mt8173-disp-aal",
->  	  .data = (void *)MTK_DISP_AAL},
-> +	{ .compatible = "mediatek,mt8192-disp-aal",
-> +	  .data = (void *)MTK_DISP_AAL},
->  	{ .compatible = "mediatek,mt8173-disp-gamma",
->  	  .data = (void *)MTK_DISP_GAMMA, },
->  	{ .compatible = "mediatek,mt8183-disp-gamma",
-> @@ -448,12 +484,16 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
->  	  .data = (void *)MTK_DISP_MUTEX },
->  	{ .compatible = "mediatek,mt8183-disp-mutex",
->  	  .data = (void *)MTK_DISP_MUTEX },
-> +	{ .compatible = "mediatek,mt8192-disp-mutex",
-> +	  .data = (void *)MTK_DISP_MUTEX },
->  	{ .compatible = "mediatek,mt2701-disp-pwm",
->  	  .data = (void *)MTK_DISP_BLS },
->  	{ .compatible = "mediatek,mt8173-disp-pwm",
->  	  .data = (void *)MTK_DISP_PWM },
->  	{ .compatible = "mediatek,mt8173-disp-od",
->  	  .data = (void *)MTK_DISP_OD },
-> +	{ .compatible = "mediatek,mt8192-disp-postmask",
-> +	  .data = (void *)MTK_DISP_POSTMASK },
->  	{ }
->  };
->  
-> @@ -468,6 +508,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
->  	  .data = &mt8173_mmsys_driver_data},
->  	{ .compatible = "mediatek,mt8183-mmsys",
->  	  .data = &mt8183_mmsys_driver_data},
-> +	{ .compatible = "mediatek,mt8192-mmsys",
-> +	 .data = &mt8192_mmsys_driver_data},
->  	{ }
->  };
->  
+> -	pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
+> +  if (pdata)
+> +    pcf50633_reg_write(pcf_bl->pcf, PCF50633_REG_LEDDIM, pdata->ramp_time);
 
+Assuming you found this issue using a static analyzer then I think it
+might be better to if an "if (!pdata) return -EINVAL" further up the
+file instead.
+
+In other words it is better to "document" (via the return code) that the
+code does not support pdata == NULL than to add another untested code
+path.
+
+
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
