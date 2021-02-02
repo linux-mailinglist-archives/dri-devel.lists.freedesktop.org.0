@@ -1,46 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2C230B859
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 08:09:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4524A30B9B2
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87626E8C6;
-	Tue,  2 Feb 2021 07:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202C46E8E3;
+	Tue,  2 Feb 2021 08:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from condef-06.nifty.com (condef-06.nifty.com [202.248.20.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0260F6E8C6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 07:09:20 +0000 (UTC)
-Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-06.nifty.com
- with ESMTP id 11275K4L012796
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Feb 2021 16:05:20 +0900
-Received: from oscar.flets-west.jp (softbank126026094251.bbtec.net
- [126.26.94.251]) (authenticated)
- by conuserg-10.nifty.com with ESMTP id 11274eAp003392;
- Tue, 2 Feb 2021 16:04:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 11274eAp003392
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1612249482;
- bh=b2jPOlkmNQEQwNHcvOIubOJ6oDXT0fTKYaGEmlHljAI=;
- h=From:To:Cc:Subject:Date:From;
- b=ueStfIRG5Kl3BNbhbUI+1XErXYBed+C5Jh8MnATHP9lkxK1OPYAlfvj/RtamHV8zj
- 9Q/n6GroGELc152fNd91JuIgemZpOSKoDrYe2lBHtgZoEVoBFA9mXcgX10QqawDv1W
- Xkvrdpy911mi+dNTLCX7d9TGTkt+1gchbISTycZ6/o0LLSxp3l6qG0JFb/Qu9WAZ2U
- q63DivUoTZYnQmRFXgehWgq7ugRH/r05woY9m3GcizA4e3HmJO1Nq/+GjpvvJvx928
- rmgl8QfD3vEHFz0gyu483qLBzG++IuO5AuKr/mRPbysfs5S2yZnraS+0pcbZvmzYqR
- I5t+s0cWbt1fA==
-X-Nifty-SrcIP: [126.26.94.251]
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>
-Subject: [PATCH 1/3] printk: use CONFIG_CONSOLE_LOGLEVEL_* directly
-Date: Tue,  2 Feb 2021 16:02:16 +0900
-Message-Id: <20210202070218.856847-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Tue, 02 Feb 2021 07:12:33 UTC
+Received: from out30-56.freemail.mail.aliyun.com
+ (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BBC6E8D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 07:12:33 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=alimailimapcm10staff010182156082;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0UNexAtl_1612249647; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0UNexAtl_1612249647) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 02 Feb 2021 15:07:28 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: anitha.chrisanthus@intel.com
+Subject: [PATCH] drm/kmb: remove unneeded semicolon
+Date: Tue,  2 Feb 2021 15:07:26 +0800
+Message-Id: <1612249646-68040-1-git-send-email-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,241 +42,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>, linux-fbdev@vger.kernel.org,
- linux-efi@vger.kernel.org, Russ Anderson <russ.anderson@hpe.com>,
- Steve Wahl <steve.wahl@hpe.com>, Mike Travis <mike.travis@hpe.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Peter Jones <pjones@redhat.com>,
- x86@kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- Darren Hart <dvhart@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- Jiri Slaby <jirislaby@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Andy Shevchenko <andy@infradead.org>
+Cc: airlied@linux.ie, edmund.j.dea@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CONSOLE_LOGLEVEL_DEFAULT is nothing more than a shorthand of
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT.
+Eliminate the following coccicheck warning:
+./drivers/gpu/drm/kmb/kmb_dsi.c:281:3-4: Unneeded semicolon
+./drivers/gpu/drm/kmb/kmb_dsi.c:301:3-4: Unneeded semicolon
+./drivers/gpu/drm/kmb/kmb_dsi.c:318:3-4: Unneeded semicolon
+./drivers/gpu/drm/kmb/kmb_dsi.c:337:3-4: Unneeded semicolon
+./drivers/gpu/drm/kmb/kmb_dsi.c:361:2-3: Unneeded semicolon
 
-When you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from Kconfig, almost
-all objects are rebuilt because CONFIG_CONSOLE_LOGLEVEL_DEFAULT is
-used in <linux/printk.h>, which is included from most of source files.
-
-In fact, there are only 4 users of CONSOLE_LOGLEVEL_DEFAULT:
-
-  arch/x86/platform/uv/uv_nmi.c
-  drivers/firmware/efi/libstub/efi-stub-helper.c
-  drivers/tty/sysrq.c
-  kernel/printk/printk.c
-
-So, when you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT and rebuild the
-kernel, it is enough to recompile those 4 files.
-
-Remove the CONSOLE_LOGLEVEL_DEFAULT definition from <linux/printk.h>,
-and use CONFIG_CONSOLE_LOGLEVEL_DEFAULT directly.
-
-With this, the build system will rebuild the minimal number of objects.
-
-Steps to confirm it:
-
-  [1] Do the full build
-  [2] Change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from 'make menuconfig' etc.
-  [3] Rebuild
-
-  $ make
-    SYNC    include/config/auto.conf
-    CALL    scripts/checksyscalls.sh
-    CALL    scripts/atomic/check-atomics.sh
-    DESCEND  objtool
-    CHK     include/generated/compile.h
-    CC      kernel/printk/printk.o
-    AR      kernel/printk/built-in.a
-    AR      kernel/built-in.a
-    CC      drivers/tty/sysrq.o
-    AR      drivers/tty/built-in.a
-    CC      drivers/firmware/efi/libstub/efi-stub-helper.o
-    STUBCPY drivers/firmware/efi/libstub/efi-stub-helper.stub.o
-    AR      drivers/firmware/efi/libstub/lib.a
-    AR      drivers/built-in.a
-    GEN     .version
-    CHK     include/generated/compile.h
-    UPD     include/generated/compile.h
-    CC      init/version.o
-    AR      init/built-in.a
-    LD      vmlinux.o
-    ...
-
-For the same reason, do likewise for CONSOLE_LOGLEVEL_QUIET and
-MESSAGE_LOGLEVEL_DEFAULT.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
+ drivers/gpu/drm/kmb/kmb_dsi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- arch/x86/platform/uv/uv_nmi.c                  |  2 +-
- drivers/firmware/efi/libstub/efi-stub-helper.c |  6 +++---
- drivers/tty/sysrq.c                            |  4 ++--
- drivers/video/fbdev/core/fbcon.c               |  2 +-
- drivers/video/fbdev/efifb.c                    |  2 +-
- include/linux/printk.h                         | 10 ----------
- init/main.c                                    |  2 +-
- kernel/printk/printk.c                         |  6 +++---
- 8 files changed, 12 insertions(+), 22 deletions(-)
-
-diff --git a/arch/x86/platform/uv/uv_nmi.c b/arch/x86/platform/uv/uv_nmi.c
-index eafc530c8767..4751299c7416 100644
---- a/arch/x86/platform/uv/uv_nmi.c
-+++ b/arch/x86/platform/uv/uv_nmi.c
-@@ -100,7 +100,7 @@ static cpumask_var_t uv_nmi_cpu_mask;
-  * Default is all stack dumps go to the console and buffer.
-  * Lower level to send to log buffer only.
-  */
--static int uv_nmi_loglevel = CONSOLE_LOGLEVEL_DEFAULT;
-+static int uv_nmi_loglevel = CONFIG_CONSOLE_LOGLEVEL_DEFAULT;
- module_param_named(dump_loglevel, uv_nmi_loglevel, int, 0644);
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 4b5d82a..231041b 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -281,7 +281,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+ 		default:
+ 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
+ 			return -EINVAL;
+-		};
++		}
+ 		break;
+ 	case DSI_LP_DT_PPS_YCBCR422_16B:
+ 		data_type_param.size_constraint_pixels = 2;
+@@ -301,7 +301,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+ 		default:
+ 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
+ 			return -EINVAL;
+-		};
++		}
+ 		break;
+ 	case DSI_LP_DT_LPPS_YCBCR422_20B:
+ 	case DSI_LP_DT_PPS_YCBCR422_24B:
+@@ -318,7 +318,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+ 		default:
+ 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
+ 			return -EINVAL;
+-		};
++		}
+ 		break;
+ 	case DSI_LP_DT_PPS_RGB565_16B:
+ 		data_type_param.size_constraint_pixels = 1;
+@@ -337,7 +337,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+ 		default:
+ 			DRM_ERROR("DSI: Invalid data_mode %d\n", data_mode);
+ 			return -EINVAL;
+-		};
++		}
+ 		break;
+ 	case DSI_LP_DT_PPS_RGB666_18B:
+ 		data_type_param.size_constraint_pixels = 4;
+@@ -361,7 +361,7 @@ static u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+ 	default:
+ 		DRM_ERROR("DSI: Invalid data_type %d\n", data_type);
+ 		return -EINVAL;
+-	};
++	}
  
- /*
-diff --git a/drivers/firmware/efi/libstub/efi-stub-helper.c b/drivers/firmware/efi/libstub/efi-stub-helper.c
-index aa8da0a49829..3e8d8f706589 100644
---- a/drivers/firmware/efi/libstub/efi-stub-helper.c
-+++ b/drivers/firmware/efi/libstub/efi-stub-helper.c
-@@ -12,7 +12,7 @@
- #include <linux/ctype.h>
- #include <linux/efi.h>
- #include <linux/kernel.h>
--#include <linux/printk.h> /* For CONSOLE_LOGLEVEL_* */
-+#include <linux/printk.h> /* For CONSOLE_LOGLEVEL_DEBUG */
- #include <asm/efi.h>
- #include <asm/setup.h>
- 
-@@ -21,7 +21,7 @@
- bool efi_nochunk;
- bool efi_nokaslr = !IS_ENABLED(CONFIG_RANDOMIZE_BASE);
- bool efi_noinitrd;
--int efi_loglevel = CONSOLE_LOGLEVEL_DEFAULT;
-+int efi_loglevel = CONFIG_CONSOLE_LOGLEVEL_DEFAULT;
- bool efi_novamap;
- 
- static bool efi_nosoftreserve;
-@@ -213,7 +213,7 @@ efi_status_t efi_parse_options(char const *cmdline)
- 		if (!strcmp(param, "nokaslr")) {
- 			efi_nokaslr = true;
- 		} else if (!strcmp(param, "quiet")) {
--			efi_loglevel = CONSOLE_LOGLEVEL_QUIET;
-+			efi_loglevel = CONFIG_CONSOLE_LOGLEVEL_QUIET;
- 		} else if (!strcmp(param, "noinitrd")) {
- 			efi_noinitrd = true;
- 		} else if (!strcmp(param, "efi") && val) {
-diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index 959f9e121cc6..e0ae7793155e 100644
---- a/drivers/tty/sysrq.c
-+++ b/drivers/tty/sysrq.c
-@@ -103,7 +103,7 @@ static void sysrq_handle_loglevel(int key)
- 	int i;
- 
- 	i = key - '0';
--	console_loglevel = CONSOLE_LOGLEVEL_DEFAULT;
-+	console_loglevel = CONFIG_CONSOLE_LOGLEVEL_DEFAULT;
- 	pr_info("Loglevel set to %d\n", i);
- 	console_loglevel = i;
- }
-@@ -584,7 +584,7 @@ void __handle_sysrq(int key, bool check_mask)
- 	 * routing in the consumers of /proc/kmsg.
- 	 */
- 	orig_log_level = console_loglevel;
--	console_loglevel = CONSOLE_LOGLEVEL_DEFAULT;
-+	console_loglevel = CONFIG_CONSOLE_LOGLEVEL_DEFAULT;
- 
-         op_p = __sysrq_get_key_op(key);
-         if (op_p) {
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index bf61598bf1c3..75b97268663f 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1043,7 +1043,7 @@ static void fbcon_init(struct vc_data *vc, int init)
- 
- 	info = registered_fb[con2fb_map[vc->vc_num]];
- 
--	if (logo_shown < 0 && console_loglevel <= CONSOLE_LOGLEVEL_QUIET)
-+	if (logo_shown < 0 && console_loglevel <= CONFIG_CONSOLE_LOGLEVEL_QUIET)
- 		logo_shown = FBCON_LOGO_DONTSHOW;
- 
- 	if (vc != svc || logo_shown == FBCON_LOGO_DONTSHOW ||
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index e57c00824965..dfb234a0a59d 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -160,7 +160,7 @@ static void efifb_show_boot_graphics(struct fb_info *info)
- 	}
- 
- 	/* Avoid flashing the logo if we're going to print std probe messages */
--	if (console_loglevel > CONSOLE_LOGLEVEL_QUIET)
-+	if (console_loglevel > CONFIG_CONSOLE_LOGLEVEL_QUIET)
- 		return;
- 
- 	/* bgrt_tab.status is unreliable, so we don't check it */
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index fe7eb2351610..fd34b3aa2f90 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -46,22 +46,12 @@ static inline const char *printk_skip_headers(const char *buffer)
- 
- #define CONSOLE_EXT_LOG_MAX	8192
- 
--/* printk's without a loglevel use this.. */
--#define MESSAGE_LOGLEVEL_DEFAULT CONFIG_MESSAGE_LOGLEVEL_DEFAULT
--
- /* We show everything that is MORE important than this.. */
- #define CONSOLE_LOGLEVEL_SILENT  0 /* Mum's the word */
- #define CONSOLE_LOGLEVEL_MIN	 1 /* Minimum loglevel we let people use */
- #define CONSOLE_LOGLEVEL_DEBUG	10 /* issue debug messages */
- #define CONSOLE_LOGLEVEL_MOTORMOUTH 15	/* You can't shut this one up */
- 
--/*
-- * Default used to be hard-coded at 7, quiet used to be hardcoded at 4,
-- * we're now allowing both to be set from kernel config.
-- */
--#define CONSOLE_LOGLEVEL_DEFAULT CONFIG_CONSOLE_LOGLEVEL_DEFAULT
--#define CONSOLE_LOGLEVEL_QUIET	 CONFIG_CONSOLE_LOGLEVEL_QUIET
--
- extern int console_printk[];
- 
- #define console_loglevel (console_printk[0])
-diff --git a/init/main.c b/init/main.c
-index c68d784376ca..4dfcbf7f24c6 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -236,7 +236,7 @@ static int __init debug_kernel(char *str)
- 
- static int __init quiet_kernel(char *str)
- {
--	console_loglevel = CONSOLE_LOGLEVEL_QUIET;
-+	console_loglevel = CONFIG_CONSOLE_LOGLEVEL_QUIET;
+ 	*params = data_type_param;
  	return 0;
- }
- 
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 5a95c688621f..92b93340905c 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -61,10 +61,10 @@
- #include "internal.h"
- 
- int console_printk[4] = {
--	CONSOLE_LOGLEVEL_DEFAULT,	/* console_loglevel */
--	MESSAGE_LOGLEVEL_DEFAULT,	/* default_message_loglevel */
-+	CONFIG_CONSOLE_LOGLEVEL_DEFAULT,	/* console_loglevel */
-+	CONFIG_MESSAGE_LOGLEVEL_DEFAULT,	/* default_message_loglevel */
- 	CONSOLE_LOGLEVEL_MIN,		/* minimum_console_loglevel */
--	CONSOLE_LOGLEVEL_DEFAULT,	/* default_console_loglevel */
-+	CONFIG_CONSOLE_LOGLEVEL_DEFAULT,	/* default_console_loglevel */
- };
- EXPORT_SYMBOL_GPL(console_printk);
- 
 -- 
-2.27.0
+1.8.3.1
 
 _______________________________________________
 dri-devel mailing list
