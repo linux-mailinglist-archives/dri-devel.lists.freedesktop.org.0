@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D5F30B945
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:11:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729D030B9CE
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 09:28:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5437D89862;
-	Tue,  2 Feb 2021 08:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18CC96E91D;
+	Tue,  2 Feb 2021 08:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E728934B;
- Tue,  2 Feb 2021 08:11:49 +0000 (UTC)
-IronPort-SDR: jbxFDB5VZhyYZdl2fNLtozybNm2m6yqa2dD62cMu7eApzVRRQh0PnXjg6zKHdmrBP6/DeTsXB0
- 80+OcJSxd0dg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168495064"
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="168495064"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2021 00:11:48 -0800
-IronPort-SDR: HmeTJ7CLOuFAWijuWbHyfHgOjquLzC2C5bCy2/CW7eVlSzw7x822FROMpRgwLi+ZJ0HX741EMd
- pXftHpMhtE7A==
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="391342569"
-Received: from aknautiy-mobl.gar.corp.intel.com (HELO [10.215.121.82])
- ([10.215.121.82])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2021 00:11:44 -0800
-Subject: Re: [PATCH v7 09/15] drm/i915: Add support for starting FRL training
- for HDMI2.1 via PCON
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20201218103723.30844-1-ankit.k.nautiyal@intel.com>
- <20201218103723.30844-10-ankit.k.nautiyal@intel.com>
- <YBhmuiFZ4ZsQ7Y+Z@intel.com> <9bd995b9-2020-3a1c-0e82-a823cfd06806@intel.com>
- <YBj1ld2KYjiZ/WAJ@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Message-ID: <0982d6cb-6368-9a0e-b9e2-b67c737e7d63@intel.com>
-Date: Tue, 2 Feb 2021 13:41:37 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6D76E8C5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 08:12:43 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id q20so13814978pfu.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 00:12:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y+cMOXMiJhmN+BhMWGOCZ1mGQnNvZ1HLYwA10LUk+qs=;
+ b=BE7+LLk41j5m1eELGRoOKzZpOyZhdKiTFcK4TJIWMv79mn6AOaVvhj5IrKMgLIoNO2
+ Yo/GV8+n5rFxI6xgYlyjq1XC3z5pn/8bj3GSO8hFplB6ElygbiKiT5A0Efb6BbLVfHgQ
+ XNxFBpDG5Xpv/852PpyOFg8QXk4fymYm7pA0o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y+cMOXMiJhmN+BhMWGOCZ1mGQnNvZ1HLYwA10LUk+qs=;
+ b=MgIDITv4W/WHyzN53jZH3wWEMF/sM9skiFukCH+g3a93VptF16/rncb/fRQkoDTQ4F
+ 41ff9umgR7VFCR+g0o0VSLbR8qU95UJS7jGgNmoabTb6R2+M3OB6fZTYbUrMYa1CNCaW
+ 9/B1H8xLNhc5MnCacc+/bGVpYsnECvLDAWFar8otNsU/8ryCZcDgc6eKJawXrrdOl+tf
+ NlXNI4eXMlsWOFWKkQL+tUImC2uWtAoi5ja7fAYv0BxAZe5UCPx5nWrzH6wbYf3BT4rU
+ +qCK0RdZZQvHoD8cvGUeMCz9yT5pAyoz7GiXaxPnoPvGaGTHwCue+wDx0O5muyXx83K5
+ fL7w==
+X-Gm-Message-State: AOAM530gOngI5aPEsQYu/2mtCh6o17LGeYkYwYZjao3B97VAgNpi73So
+ NquEdwLX9PcD6tYCSv0SmdCvgw==
+X-Google-Smtp-Source: ABdhPJw76yjiccRfuMor3XXLd3rnpk4IlwGPyv9gDv0sKW+2j5Rjt4voUr1UMcCID3auXrXGcyIIpg==
+X-Received: by 2002:a63:c743:: with SMTP id v3mr20558822pgg.316.1612253562732; 
+ Tue, 02 Feb 2021 00:12:42 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:743e:7944:50c8:ff72])
+ by smtp.gmail.com with ESMTPSA id c8sm21343325pfo.148.2021.02.02.00.12.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 00:12:42 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v6 0/8] drm/mediatek: add support for mediatek SOC MT8192
+Date: Tue,  2 Feb 2021 16:12:29 +0800
+Message-Id: <20210202081237.774442-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 MIME-Version: 1.0
-In-Reply-To: <YBj1ld2KYjiZ/WAJ@intel.com>
-Content-Language: en-US
+X-Mailman-Approved-At: Tue, 02 Feb 2021 08:27:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,87 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swati2.sharma@intel.com, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- vandita.kulkarni@intel.com, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDIvMi8yMDIxIDEyOjE3IFBNLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4gT24gVHVlLCBG
-ZWIgMDIsIDIwMjEgYXQgMTI6MDk6NDdQTSArMDUzMCwgTmF1dGl5YWwsIEFua2l0IEsgd3JvdGU6
-Cj4+IEhpIFZpbGxlLAo+Pgo+PiBQbGVhc2UgZmluZCBteSByZXNwb25zZXMgaW5saW5lLgo+Pgo+
-PiBPbiAyLzIvMjAyMSAyOjA4IEFNLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4+PiBPbiBGcmks
-IERlYyAxOCwgMjAyMCBhdCAwNDowNzoxN1BNICswNTMwLCBBbmtpdCBOYXV0aXlhbCB3cm90ZToK
-Pj4+PiBUaGlzIHBhdGNoIGFkZHMgZnVuY3Rpb25zIHRvIHN0YXJ0IEZSTCB0cmFpbmluZyBmb3Ig
-YW4gSERNSTIuMSBzaW5rLAo+Pj4+IGNvbm5lY3RlZCB2aWEgYSBQQ09OIGFzIGEgRFAgYnJhbmNo
-IGRldmljZS4KPj4+PiBUaGlzIHBhdGNoIGFsc28gYWRkcyBhIG5ldyBzdHJ1Y3R1cmUgZm9yIHN0
-b3JpbmcgZnJsIHRyYWluaW5nIHJlbGF0ZWQKPj4+PiBkYXRhLCB3aGVuIEZSTCB0cmFpbmluZyBp
-cyBjb21wbGV0ZWQuCj4+Pj4KPj4+PiB2MjogQXMgc3VnZ2VzdGVkIGJ5IFVtYSBTaGFua2FyOgo+
-Pj4+IC1yZW5hbWVkIGNvdXBsZSBvZiB2YXJpYWJsZXMgZm9yIGJldHRlciBjbGFyaXR5Cj4+Pj4g
-LXR3ZWFrZWQgdGhlIG1hY3JvcyB1c2VkIGZvciBjb3JyZWN0IHNlbWFudGljcyBmb3IgdHJ1ZS9m
-YWxzZQo+Pj4+IC1maXhlZCBvdGhlciBzdHlsaW5nIGlzc3Vlcy4KPj4+Pgo+Pj4+IHYzOiBDb21w
-bGV0ZWQgdGhlIFRPRE8gZm9yIGNvbmRpdGlvbiBmb3IgZ29pbmcgdG8gRlJMIG1vZGUuCj4+Pj4g
-TW9kaWZpZWQgdGhlIGNvbmRpdGlvbiB0byBkZXRlcm1pbmUgdGhlIHJlcXVpcmVkIEZSTCBiL3cK
-Pj4+PiBiYXNlZCBvbmx5IG9uIHRoZSBQY29uIGFuZCBTaW5rJ3MgbWF4IEZSTCB2YWx1ZXMuCj4+
-Pj4gTW92ZWQgdGhlIGZybCBzdHJ1Y3R1cmUgaW5pdGlhbGl6YXRpb24gdG8gaW50ZWxfZHBfaW5p
-dF9jb25uZWN0b3IoKS4KPj4+Pgo+Pj4+IHY0OiBGaXhlZCB0eXBvIGluIGluaXRpYWxpemF0aW9u
-IG9mIGZybCBzdHJ1Y3R1cmUuCj4+Pj4KPj4+PiB2NTogQWx3YXlzIHVzZSBGUkwgaWYgaXRzIHBv
-c3NpYmxlLCBpbnN0ZWFkIG9mIGVuYWJsaW5nIG9ubHkgZm9yCj4+Pj4gaGlnaGVyIG1vZGVzIGFz
-IGRvbmUgaW4gdjMuCj4+Pj4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmtpdCBOYXV0aXlhbCA8YW5r
-aXQuay5uYXV0aXlhbEBpbnRlbC5jb20+Cj4+Pj4gUmV2aWV3ZWQtYnk6IFVtYSBTaGFua2FyIDx1
-bWEuc2hhbmthckBpbnRlbC5jb20+ICh2MikKPj4+PiAtLS0KPj4+PiAgICAuLi4vZHJtL2k5MTUv
-ZGlzcGxheS9pbnRlbF9kaXNwbGF5X3R5cGVzLmggICAgfCAgIDcgKwo+Pj4+ICAgIGRyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyAgICAgICB8IDE1MSArKysrKysrKysrKysr
-KysrKysKPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggICAg
-ICAgfCAgIDIgKwo+Pj4+ICAgIDMgZmlsZXMgY2hhbmdlZCwgMTYwIGluc2VydGlvbnMoKykKPj4+
-IDxzbmlwPgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4+PiBp
-bmRleCAwNTk2ZDZjMjRlNzMuLjQzMDI3YTZkNWU1ZSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4+PiBAQCAtMzg5MSw2ICszODkxLDggQEAgc3Rh
-dGljIHZvaWQgaW50ZWxfZGlzYWJsZV9kcChzdHJ1Y3QgaW50ZWxfYXRvbWljX3N0YXRlICpzdGF0
-ZSwKPj4+PiAgICAJaW50ZWxfZWRwX2JhY2tsaWdodF9vZmYob2xkX2Nvbm5fc3RhdGUpOwo+Pj4+
-ICAgIAlpbnRlbF9kcF9zZXRfcG93ZXIoaW50ZWxfZHAsIERQX1NFVF9QT1dFUl9EMyk7Cj4+Pj4g
-ICAgCWludGVsX2VkcF9wYW5lbF9vZmYoaW50ZWxfZHApOwo+Pj4+ICsJaW50ZWxfZHAtPmZybC5p
-c190cmFpbmVkID0gZmFsc2U7Cj4+Pj4gKwlpbnRlbF9kcC0+ZnJsLnRyYWluZWRfcmF0ZV9nYnBz
-ID0gMDsKPj4+IFRoaXMgc3R1ZmYgbG9va3MgcmF0aGVyIG1pc3BsYWNlZCAob3IgbWlzc2luZyBm
-cm9tIGVsc2V3aGVyZSkuIFRoaXMgY29kZQo+Pj4gZG9lc24ndCBldmVuIGdldCBleGVjdXRlZCBv
-biBtb2Rlcm4gcGxhdGZvcm1zLgo+PiBJIHRoaW5rIHRoZXNlIHR3byBsaW5lcyBzaG91bGQgaGF2
-ZSBiZWVuIGFkZGVkIHRvCj4+IGludGVsX2RkaV9wb3N0X2Rpc2FibGVfZHAoKSBmb3IgVEdMKwo+
-Pgo+PiBNeSBpbnRlbnRpb24gd2FzIHRvIHJlc2V0IHRoZXNlIGJlZm9yZSBkaXNhYmxpbmcgRFAu
-IEluIGhpbmRzaWdodCwgc2luY2UKPj4gd2UgYXJlIGluaXRpYWxpemluZyAocmVzZXR0aW5nKSB0
-aGVzZSBpbiBkcF9pbml0X2Nvbm5lY3RvciwgdGhpcyBkb2VzbnQKPj4gc2VlbSB0byBiZSByZXF1
-aXJlZC4KPj4KPj4gSSB3aWxsIHNlbmQgYSBwYXRjaCB0byByZW1vdmUgdGhlc2UgdHdvIGxpbmVz
-IGZyb20gaGVyZS4KPj4KPj4KPj4+IDxzbmlwPgo+Pj4+ICtzdGF0aWMgaW50IGludGVsX2RwX3Bj
-b25fc3RhcnRfZnJsX3RyYWluaW5nKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCj4+Pj4gK3sK
-Pj4+PiArI2RlZmluZSBQQ09OX0VYVEVOREVEX1RSQUlOX01PREUgKDEgPiAwKQo+Pj4+ICsjZGVm
-aW5lIFBDT05fQ09OQ1VSUkVOVF9NT0RFICgxID4gMCkKPj4+PiArI2RlZmluZSBQQ09OX1NFUVVF
-TlRJQUxfTU9ERSAhUENPTl9DT05DVVJSRU5UX01PREUKPj4+PiArI2RlZmluZSBQQ09OX05PUk1B
-TF9UUkFJTl9NT0RFICFQQ09OX0VYVEVOREVEX1RSQUlOX01PREUKPj4+IEFsbCBvZiB0aGF0IGxv
-b2tzIGxpa2Ugbm9uc2Vuc2UuIFdoYXQgaXMgaXQgc3VwcG9zZWQgdG8gZG8/Cj4+IFdoZW4gYXNr
-aW5nIGFuIEhETUkyLjEgUENPTiB0byBpbml0aWF0ZSBGUkwgdHJhaW5pbmcgdGhlcmUgYXJlIDIg
-b3B0aW9uczoKPj4KPj4gU2VxdWVudGlhbC9Db25jdXJyZW50IG1vZGU6IFNlcXVlbnRpYWwgbW9k
-ZSBhdHRlbXB0cyB0aGUgRlJMIHRyYWluaW5nCj4+IGFmdGVyIERQIExpbmsgdHJhaW5pbmcgaXMg
-Y29tcGxldGVkLiBDb25jdXJyZW50IG1vZGUgdHJpZXMgdG8gZG8gdGhlIEZSTAo+PiB0cmFpbmlu
-ZywgZHVyaW5nIERQIGxpbmsgdHJhaW5pbmcuCj4+Cj4+IE5vcm1hbCB0cmFpbiBNb2RlLyBFeHRl
-bmRlZCBtb2RlOiBOb3JtYWwgdHJhaW4gbW9kZSwgUENPTiBGVyB0cmFpbnMgRlJMCj4+IGZyb20g
-TWF4IHRvIG1pbiBCVywgc2V0IGJ5IHNvdXJjZSBpbiBCVyBNYXNrLiBJdCBhYm9ydHMgb24gZmly
-c3QKPj4gc3VjY2Vzc2Z1bCB0cmFpbmluZy4gSW4gRXh0ZW5kZWQgbW9kZSwgUENPTiBGVyB0cmFp
-bnMgZm9yIGFsbCBCVyBzZXQgYnkKPj4gc291cmNlIGluIEJXIG1hc2suCj4+Cj4+IEZvciBDb25j
-dXJyZW50IGFuZCBFeHRlbmRlZCBtb2RlIHdlIG5lZWQgdG8gc2V0IHNvbWUgZXh0cmEgYml0cyBp
-biBQQ09OCj4+IEZSTCBjb25maWcgRFBDRHMKPj4KPj4gVGhlIGludGVudGlvbiB3YXMgdG8gZ28g
-d2l0aCBzZXF1ZW50aWFsIGFuZCBOb3JtYWwgdHJhaW5pbmcgbW9kZSwgc28gbm8KPj4gbmVlZCB0
-byBzZXQgYWJvdmUgYml0cy4KPj4KPj4gRG8geW91IHRoaW5rLCBzb21lIGRvY3VtZW50YXRpb24g
-d2lsbCBtYWtlIHRoaXMgY2xlYXI/Cj4gSSdtIGFza2luZyB3aHkgZG9lcyB0aGUgY29kZSBkbwo+
-Cj4gI2RlZmluZSBQQ09OX0VYVEVOREVEX1RSQUlOX01PREUgdHJ1ZQo+ICNkZWZpbmUgUENPTl9D
-T05DVVJSRU5UX01PREUgdHJ1ZQo+ICNkZWZpbmUgUENPTl9TRVFVRU5USUFMX01PREUgZmFsc2UK
-PiAjZGVmaW5lIFBDT05fTk9STUFMX1RSQUlOX01PREUgZmFsc2UKPgo+IGJ1dCBpbiBhIHZlcnkg
-Y29udm9sdXRlZCB3YXk/CgpZZXMgdGhpcyBkb2VzbnQgc2VlbSB0byBiZSB2ZXJ5IGludHVpdGl2
-ZSwgSSBoYWQgZWFybGllciB1c2VkIHNpbXBsZXIgaW4gCmluaXRpYWwgdmVyc2lvbnMuCgpBcyBk
-aXNjdXNzZWQgb2ZmbGluZSwgSSB3aWxsIGF2b2lkIGFsbCB0aGlzIGFuZCBwZXJoYXBzIGFkZCBl
-bnVtcyBmb3IgCnRoaXMgaW4gZHJtX2RwX2hlbHBlci4KClRoYW5rcyAmIFJlZ2FyZHMsCgpBbmtp
-dAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This series are based on kernel/git/chunkuang.hu/linux.git mediatek-drm-next
+and following patch:
+("soc: mediatek: add mtk mutex support for MT8183")
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210129092209.2584718-8-hsinyi@chromium.org/
+
+This series also depends on component support in mmsys[1]:
+- [v4,06/10] soc: mediatek: mmsys: add component OVL_2L2
+- [v4,07/10] soc: mediatek: mmsys: add component POSTMASK
+- [v4,08/10] soc: mediatek: mmsys: add component RDMA4
+
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/1609815993-22744-7-git-send-email-yongqiang.niu@mediatek.com/
+
+Change since v5:
+- move postmask driver into mtk_drm_ddp_comp
+- fix review comments
+
+Change since v4:
+- fix review comments
+
+Change since v3:
+- change several function to rebase to mediatek-drm-next
+- drop pm runtime patches due to it's not related to mt8192 support
+- fix review comments in v3
+
+Changes since v2:
+- fix review comment in v2
+- add pm runtime for gamma and color
+- move ddp path select patch to mmsys series
+- remove some useless patch
+
+Yongqiang Niu (8):
+  drm/mediatek: add component OVL_2L2
+  drm/mediatek: add component POSTMASK
+  drm/mediatek: add component RDMA4
+  drm/mediatek: separate ccorr module
+  drm/mediatek: Fix ccorr size config
+  drm/mediatek: add matrix_bits private data for ccorr
+  soc: mediatek: add mtk mutex support for MT8192
+  drm/mediatek: add support for mediatek SOC MT8192
+
+ drivers/gpu/drm/mediatek/Makefile           |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c   | 229 ++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   9 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  20 ++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 187 ++++++----------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  50 ++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c            |  35 +++
+ 10 files changed, 421 insertions(+), 120 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+
+-- 
+2.30.0.365.g02bc693789-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
