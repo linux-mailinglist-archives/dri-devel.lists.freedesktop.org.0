@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A81A30CF49
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 23:47:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C385E30CF52
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 23:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 919DA6E9AF;
-	Tue,  2 Feb 2021 22:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA106E9B4;
+	Tue,  2 Feb 2021 22:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64DC6E9AF
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 22:47:13 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id 7so22168122wrz.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 14:47:13 -0800 (PST)
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
+ [IPv6:2607:f8b0:4864:20::92b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0A66E9B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 22:49:00 +0000 (UTC)
+Received: by mail-ua1-x92b.google.com with SMTP id a31so7657120uae.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 14:49:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+v0vg2fnbDBrh+mB3K50iAoAzes8ndW6HwyKew3BGCg=;
- b=qFM074ULg++C1bk1xnYqVZ6A0lgB7GUcNI7LFwYfbt/ktatPHhiZPtusZbpufYp+fu
- lO4IehOKSXIdTrNcGy53ycLqWV7KZBxxojonW1a7nZuPsYI90QrBh8dZXf9Y+HTHis/E
- HGRnbmVyCzlc6Qnta2NImsalxnl8AgSoM1xhyucZi8Raig6NMHXwTT0ayZPH6uuY4BeG
- Z6EaoQGteLCWX14ULpbhI2fxIBdNOgUMeIprrOsPajIPv+liJ7jMe9sytzru9PdaAgpj
- lAW660vNcpqEURB/jm84P2nbYDuoCMERzYXz3wPAPaH4ymDD1nywBW1P+c+0thQVcg+t
- Ghkg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=I0wefJGrPjsFXChEmUYOdBAFKdEXy2ySL5g44yz/32A=;
+ b=Hepmxg6omyBiqQo78d8DTl0PY21kJIvLn8JyaRLwonCRwy3kduENUjFCBJ3Tlo1mkh
+ uZj2CMHu3Pd7WFhOAXn/EV7Yn121nVoGVVJhTZG7MLFrfXE4tIiKuxKaogMw7zDuQj5C
+ Elmm37W9vb8bwRC+A+UEG9m07FmzUe1hUi5sKrxiZRjC4xXIgIf4g0QSgk4rKlFW3E7g
+ sddSojULoIoGLmXgmZGRd4Hvj7I45HwfnfhIZRCVTCF0/X8q1Ll7mry+bpBntdQXBprz
+ FpmmE9RwLhMW9mjm0cHYAHg8q/Z+llyslpTQ043l9JoRATbPvuDENrvSwRwJEJVr3FPL
+ vVNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+v0vg2fnbDBrh+mB3K50iAoAzes8ndW6HwyKew3BGCg=;
- b=eJeyns0St1HnuDGlL++VUafl+Rn2bVO9ToZfJVMM9L3qW8F8QIep5XjYKtHIKx4HcE
- sfdSg4a/0zuDKLV1RF9WqL42xw3/a315k2nfYKC0SbFLInAkvyfvvSHAEp8sFwngpBC6
- 2ebKNKm3XOS017S8n0v25S8tNHLz3SGzySdte+hlXuQDNIun0Cc1jZid1sO2B2tiJ2uC
- pu33iF+FvhGZZj7kShO8YB5SLpPwc625TwlATgoKmukjs/GRKnBgeila/RYpqpAVkhgU
- ymwXJ2fIW3KcJ5wMwY8cSj4P8/TTXkYfZUvheJSv19vNc4XMON/3Bd11YwuZTLrG82TI
- 0r6Q==
-X-Gm-Message-State: AOAM530H+2Eo9uOn6NBt+aWBGNkChPqkcw4XIrNVPHt+6EO2G46BWrbV
- xUSmsgCHBspq3jne8AgHWOkgLBYx7y6I3A==
-X-Google-Smtp-Source: ABdhPJwWkG/znEncK5P51+vciEQR+F526QJtnP686+CkfwYAPQ6CJaiK8o+JKxb1HEuYEnJ/mC8ZjQ==
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr301641wrx.230.1612306032284; 
- Tue, 02 Feb 2021 14:47:12 -0800 (PST)
-Received: from arch-x1c3.. (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net.
- [82.24.248.100])
- by smtp.gmail.com with ESMTPSA id y83sm69915wmc.12.2021.02.02.14.47.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 14:47:11 -0800 (PST)
-From: Emil Velikov <emil.l.velikov@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
-Date: Tue,  2 Feb 2021 22:47:04 +0000
-Message-Id: <20210202224704.2794318-1-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.30.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I0wefJGrPjsFXChEmUYOdBAFKdEXy2ySL5g44yz/32A=;
+ b=hO9hwwIgkMLpRGbSQQkZOoX1Q0u57wOUS2EvAeRCZeBvNWoXlyHTxsEM6HTg2HHI4s
+ g8DXau6s63zz2qyzaop8EichSRk2ZKshCxV+VdqtOuL0gBZvXay828Eu8QUqqtwuEUE2
+ hkoRBdIbFMH5rB69D79eqSRYTHzFISnhHC1Ki7GcDegVxkULXfl6Hre6XBmJNsy5vaz6
+ DcPUZtqUs9zIM/Ecj2WJ7tWVgk2fcqyz4fV/6YwwtN4k7ymw//FP7ZZQLyGYqDuDRRwM
+ vuBQRxOahELn9gugov3Mji4wyTcNL1o2aRk7E0VSc49/EeJbCLwSJfzVUS3yXFVd6K3k
+ c+Mw==
+X-Gm-Message-State: AOAM530qclAeGWUdGALijVivxiJCRl/gbziDg4KI0GVUb96s+tngUhQZ
+ KXQbyeYflgcOrdbJmc/JKjprUpKZgNQgI9R4jqQ6uZ+fEVd9+Q==
+X-Google-Smtp-Source: ABdhPJxjy+n0BbCb6LqrxGGuNNwWtOoOluHrjxN7TpBuMufwt2OTyAt51FiuOI/aoOVWajkwTx1VLH/gn3BT9ZFFxSY=
+X-Received: by 2002:ab0:3048:: with SMTP id x8mr307221ual.46.1612306139338;
+ Tue, 02 Feb 2021 14:48:59 -0800 (PST)
 MIME-Version: 1.0
+References: <20201210103553.1ae238d2@eldfell>
+ <1607591574-949-1-git-send-email-jpark37@lagfreegames.com>
+ <1607591574-949-2-git-send-email-jpark37@lagfreegames.com>
+ <CABjik9eM1JGy42WgSpqVjxakjHMSr_sxpAPAHT5rrMSZ0Kwakg@mail.gmail.com>
+ <CACvgo52y219pp=oD3FPT46YmVYhSwa3BfaQEoq6rj7KwqZE1NA@mail.gmail.com>
+ <CABjik9fQkkfmVZKLoVi8VAHYNOkUMaoFSYHxEGP6qKZvMh9VJA@mail.gmail.com>
+In-Reply-To: <CABjik9fQkkfmVZKLoVi8VAHYNOkUMaoFSYHxEGP6qKZvMh9VJA@mail.gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 2 Feb 2021 22:48:48 +0000
+Message-ID: <CACvgo51OWzPmuQyKxKr5EnFpS9FV74-6QZw-fYjFyihpWKF2DQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
+To: James Park <james.park@lagfreegames.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>, emil.l.velikov@gmail.com,
- James Park <james.park@lagfreegames.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the drm_fourcc.h header depends on drm.h for __u32 and __u64.
-At the same time drm.h pulls a lot of unneeded symbols.
+Hi james,
 
-Add new guard DRM_FOURCC_STANDALONE, which when set will use local
-declaration of said symbols.
+On Tue, 2 Feb 2021 at 18:15, James Park <james.park@lagfreegames.com> wrote:
+>
+> I'm not sure what your suggestion is. Move which #ifdef block where?
+>
+Fair enough. Just sent out a patch which demonstrates what I have in mind.
 
-When used on linux - this is a trivial but only when building in strict c99
-mode. One is welcome to ignore the warning, silence it or use c11. If neither
-of the three is an option, then do _not_  set the new guard.
+Thanks
+Emil
 
-Cc: James Park <james.park@lagfreegames.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
----
-As mentioned before - there's little point in having yet another header
-since keeping those in sync has been a PITA in the past.
----
- include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 6f0628eb13a6..c1522902f6c9 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -24,7 +24,26 @@
- #ifndef DRM_FOURCC_H
- #define DRM_FOURCC_H
- 
-+/*
-+ * Define DRM_FOURCC_STANDALONE you're interested only FOURCC and do not want
-+ * to pull drm.h into your application.
-+ */
-+#ifdef DRM_FOURCC_STANDALONE
-+#if defined(__linux__)
-+
-+#include <linux/types.h>
-+
-+#else /* One of the BSDs */
-+
-+#include <stdint.h>
-+typedef uint32_t __u32;
-+typedef uint64_t __u64;
-+
-+#endif /* __linux __ */
-+
-+#else
- #include "drm.h"
-+#endif /* DRM_FOURCC_STANDALONE */
- 
- #if defined(__cplusplus)
- extern "C" {
--- 
-2.30.0
-
+P.S. Please try to avoid top-posting and HTML emails in public discussions.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
