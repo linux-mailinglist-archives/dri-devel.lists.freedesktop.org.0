@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F90C30B750
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 06:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0E830B751
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Feb 2021 06:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A33A6E8BC;
-	Tue,  2 Feb 2021 05:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12D86E8BF;
+	Tue,  2 Feb 2021 05:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2586E8BC
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 05:46:09 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id m12so1563938pjs.4
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 21:46:09 -0800 (PST)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D13916E8C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Feb 2021 05:46:13 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id u15so11852897plf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Feb 2021 21:46:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GfAQJJOiqfJpwqSbeAm0bLmc69acbey6JfZBmykjrNo=;
- b=Q64G8Q1Xtgrmck8NQm4jnn56juX7QbIPeeQX3Uhihe9bvMekEKhbUJFmv4Q6XbzYUg
- FfP/aUk4Xh5U9tODV8Z7V6TP+UmImXOm2F5yrt8ki4N6T9f86m1AuWgHSL79X5E+cyar
- mZ4th07kAOuM7jt7sx+A19aC7NGSdnWwx5aFgk9qoDD5XJg1wMhsSogdU6J8JSZv4xi9
- kq2SR9IrC6ftLn1RERsx+g74w7ibM/SKjN7yWOXAkeKXBWsppKZNb52H9tC2TCru3i1s
- d1gEydGMZFwvVvnU2LwP6hwr8Sc149+RkfIytKcQ0tqng8m5gmZ5+2WC6vuv/Lt+w6og
- 24Fw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=HEWcLvUvYkWYLO51rzp4RR+x1aKBWP/abPyEZI4rYFM=;
+ b=HpuuWareLWeEAeZr0X/SrjJLr0wnhOLwG79M8rRveb8GLZtjklgyYM5/AViq8HXOPV
+ r93GdrYThzkoxsupajVRFYMXjF7miGvNdwJk0cbw0V6KJOl9cdm/IKavMiYT/2L1TKhE
+ kKQO8V7Orn3mDF43Uv0qmSRcxfrSGGdzeRZf/d8U2aGxP6m8QgqHACDIQ0QtyYr92S/x
+ pm2VyY1D+E4Rc+UPJX9HsvIvG1/bDLPxA2Wm2fiRO93ix6mS6Gm8evIniBFlWVk1CHUD
+ Wsog2C71CyWnq6cr2IpeJ5JJ319LpKm/6EqO8ZeFM4lVXp1p3qpTFOOK4361R3LB3Ywj
+ /vDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=GfAQJJOiqfJpwqSbeAm0bLmc69acbey6JfZBmykjrNo=;
- b=CbwTetYmq2DxQ5COijFdVEoN2NYh5juXnQIEotYm/psjswrpnBJe4zDs6pXAhiNY+J
- 199K5XcSmat8mih4ocj6qQO4g2hJ/dnHghwNXPcXX+d9Dh1enAc/EdI9tyYTf2VvnBh0
- i06K+gfm7zbdRP0d1MqiNvfONzzdFQQ+G9ZmLcNE+j3w89KfuFwa4/kcnIc9sq1IQfq4
- 1K0qttERPFH71rL0IxpA1ZGBadDwzRAdnGVK3Ru1/+1uGoXkp3upqtKmMqjg9oxN+ID+
- b2tYe5E/KAM1JaHI/FO4iDYl1xzVavfwpl13Fl3RCjtCC/xGgBCAtbyYyStjaZ3nz33M
- ySzA==
-X-Gm-Message-State: AOAM530ZADwLbIs46WrKbX5pmWbNEj2Xu5EXsGN0Qm3jPc+QzYVCsWlT
- lgYjRWJrGFX64zJtWaL+Cmw=
-X-Google-Smtp-Source: ABdhPJw77F0Ms1Mav8c2DJzdO+6VRXbL7FJ6kwtRH1DUYObjNeA6QmQeOpCqPdp+WQge0UltBYzmBA==
-X-Received: by 2002:a17:902:ea91:b029:e1:8695:c199 with SMTP id
- x17-20020a170902ea91b02900e18695c199mr2004237plb.6.1612244768757; 
- Mon, 01 Feb 2021 21:46:08 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=HEWcLvUvYkWYLO51rzp4RR+x1aKBWP/abPyEZI4rYFM=;
+ b=CWYIkBXxdILo5Hmls7EPxOgYKJJqt0XhSfpcAeAmfsexrS57kxunLBYd60pZgdjR3C
+ PgBEdJ82mF/9MamtDpxKg1+SSHLRTGtiipbf0kRciZLEeyYo9LP2t5/TFuFGeV6DQZCu
+ wUvUMFK4f/fnRy5Q4dEX8OUKd3LQMiyPjOLWDk2AuPJAOxeZIKHhCq9/iE2uwEBzCAqX
+ GTnXQ6/lKvQGOqravL6M2E3JpEnZEnsbnpaLI24DBAP6cvsio2I/Rt2Iw3S13y5hZchI
+ Yc1jdibdOKCdVdyx907xw6a/y6fhs1cS8x/WZkiTkZB6k1qJaZrci1whBXIF1nRYxo72
+ 7m5w==
+X-Gm-Message-State: AOAM532MOXCU8Bz5QJbgULh8e/8kE7hnoPLNqjjTNaru9Pv0YK9JmWk7
+ y2uwwXYOExgDwzSHsUg1J+k=
+X-Google-Smtp-Source: ABdhPJxPeeH4oyjGqsX3X7lT6vCX3Rb+QCe2L6JRHf+w/TIboBW6dcl4JXfKpl+jeR3ISoJ1Pgb3sg==
+X-Received: by 2002:a17:90a:6342:: with SMTP id
+ v2mr2497324pjs.150.1612244773488; 
+ Mon, 01 Feb 2021 21:46:13 -0800 (PST)
 Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id h23sm20707603pgh.64.2021.02.01.21.46.04
+ by smtp.gmail.com with ESMTPSA id h23sm20707603pgh.64.2021.02.01.21.46.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 21:46:07 -0800 (PST)
+ Mon, 01 Feb 2021 21:46:12 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Andrew Jeffery <andrew@aj.id.au>, Jeremy Kerr <jk@ozlabs.org>
-Subject: [PATCH v2 0/2] drm: aspeed: Support more chip families
-Date: Tue,  2 Feb 2021 16:15:56 +1030
-Message-Id: <20210202054558.344451-1-joel@jms.id.au>
+Subject: [PATCH v2 1/2] drm/aspeed: Look up syscon by phandle
+Date: Tue,  2 Feb 2021 16:15:57 +1030
+Message-Id: <20210202054558.344451-2-joel@jms.id.au>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210202054558.344451-1-joel@jms.id.au>
+References: <20210202054558.344451-1-joel@jms.id.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,26 +75,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The out of tree vendor driver was recently updated to support the
-ast2400 and ast2600. These patches begin to add that support to the
-mainline driver.
+This scales better to multiple families of SoC. The lookup by compatible
+can be removed in a future change.
 
-With these two cleanups it should be easier to support different
-families of BMC system on chip with this driver.
+The fallback path is for the ast2500 platform only. Other platforms will
+be added with the new style, so they won't need fallback paths.
 
-I will merge them through drm-misc once they have been reviewed.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+v2: Fix fallback path to still find ast2500-scu. Thanks jk for the
+review
+---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-v2 fixes review from Jeremy. Thanks!
-
-Joel Stanley (2):
-  drm/aspeed: Look up syscon by phandle
-  drm/aspeed: Use dt matching for default register values
-
- drivers/gpu/drm/aspeed/aspeed_gfx.h      |  8 +--
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 11 ++--
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 67 ++++++++++++++++++------
- 3 files changed, 62 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index 457ec04950f7..54a6bda03c0e 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -103,6 +103,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ {
+ 	struct platform_device *pdev = to_platform_device(drm->dev);
+ 	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
++	struct device_node *np = pdev->dev.of_node;
+ 	struct resource *res;
+ 	int ret;
+ 
+@@ -111,10 +112,13 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
+-	priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
++	priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
+ 	if (IS_ERR(priv->scu)) {
+-		dev_err(&pdev->dev, "failed to find SCU regmap\n");
+-		return PTR_ERR(priv->scu);
++		priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
++		if (IS_ERR(priv->scu)) {
++			dev_err(&pdev->dev, "failed to find SCU regmap\n");
++			return PTR_ERR(priv->scu);
++		}
+ 	}
+ 
+ 	ret = of_reserved_mem_device_init(drm->dev);
 -- 
 2.30.0
 
