@@ -1,65 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17CC30EE78
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:33:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05BB30EE6B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:33:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967196ED0F;
-	Thu,  4 Feb 2021 08:32:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A348A6ED03;
+	Thu,  4 Feb 2021 08:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E21266EC05
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 21:58:31 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id y205so718889pfc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 13:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:to:date:message-id:user-agent;
- bh=NZyBJaM1wJYJrM3N9nWdphIUZzNaZF7K0cw+Alsw60s=;
- b=YuOUTknzG6QCCWY+6/9xwyK6R03ljdXy/eo0oFI/N+6GwosnDa5CyqQSfRHomVRq5Y
- /QU7kuuwvyKHdo8lw5/0kfKeynARxii+bcfHMWHLjs9pAUBAC1hEJdjvZFQ4lTU08YcK
- JPPSVfydjzgAxHpwSzs/Slc3zbOWlaxSXZv/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:to:date:message-id:user-agent;
- bh=NZyBJaM1wJYJrM3N9nWdphIUZzNaZF7K0cw+Alsw60s=;
- b=thGkqWOTCmk3LWoDt47HbJm4FXUqZSkkxK/ggiwanNzrEMCkxy0GY6MkCwzcPQvUP2
- pR+3Lh54DsFaPLsS/+XSdPIg37FeBQ1WJmbt2/KbwWaP1TsOKZEhJNSgUjRPuv1Cu4d8
- koBIdb9YgFUIRfq3/zgTq58oBzQ3HCm3yw1PoReJqK/AIwNUPRWjC+Qn/RtnE0dY/vah
- RCUggamw2Wb2ELL0iFdpLP/18hBtrQw2Gx7Lk3ejG+b9EEmzVK6Acmb5SOUdiz4uIA1w
- LvTkSxDSXfanItLIjn27pimsJdEoMbMgR1XbPUyA4jaDROzXIS5t7JmD3IinYltebg/3
- 4z6g==
-X-Gm-Message-State: AOAM533vblWTQ0zXHSxNH3e75PKzuBGqrbtp+BXhNNOZhkD/klajVCzQ
- Ge8IL2iUeZa6wFpk/ZeKruypRg==
-X-Google-Smtp-Source: ABdhPJzk7PmvKQQrV2P9s6wrj8xy2r8VnWspZmZ4jUzlRnhKwjl19rpVf2Q70wAcSJtijokb8iTr1w==
-X-Received: by 2002:a65:6207:: with SMTP id d7mr6025724pgv.92.1612389511562;
- Wed, 03 Feb 2021 13:58:31 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3571:bd6e:ee19:b59f])
- by smtp.gmail.com with ESMTPSA id o20sm3953813pgn.6.2021.02.03.13.58.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 13:58:30 -0800 (PST)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BBB6EC4A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 23:15:47 +0000 (UTC)
+Received: from localhost.localdomain (abaf219.neoplus.adsl.tpnet.pl
+ [83.6.169.219])
+ by m-r2.th.seeweb.it (Postfix) with ESMTPA id 01ED43F419;
+ Thu,  4 Feb 2021 00:15:41 +0100 (CET)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: phone-devel@vger.kernel.org
+Subject: [PATCH] drm/msm/disp/mdp5: mdp5_cfg: Fix msm8974v2 max_clk
+Date: Thu,  4 Feb 2021 00:15:36 +0100
+Message-Id: <20210203231537.77851-1-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGvTrfYYTfReGbAm9zcBNhjZvX0tko4kZUeQcyNZv4cM6w@mail.gmail.com>
-References: <20210125234901.2730699-1-swboyd@chromium.org>
- <YBlz8Go2DseRWuOa@phenom.ffwll.local>
- <CAF6AEGuWhGuzxsBquj-WLSwa83r+zO7jAQ9ten2m+2KtoGpYSw@mail.gmail.com>
- <YBp2h2cVXrF6lBno@phenom.ffwll.local>
- <CAF6AEGvTrfYYTfReGbAm9zcBNhjZvX0tko4kZUeQcyNZv4cM6w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/kms: Make a lock_class_key for each crtc mutex
-From: Stephen Boyd <swboyd@chromium.org>
-To: Krishna Manikandan <mkrishn@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Date: Wed, 03 Feb 2021 13:58:28 -0800
-Message-ID: <161238950899.76967.16385691346035591773@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
-X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:37 +0000
+X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +37,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Clark (2021-02-03 09:29:09)
-> On Wed, Feb 3, 2021 at 2:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, Feb 02, 2021 at 08:51:25AM -0800, Rob Clark wrote:
-> > > On Tue, Feb 2, 2021 at 7:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Mon, Jan 25, 2021 at 03:49:01PM -0800, Stephen Boyd wrote:
-> > > > > This is because lockdep thinks all the locks taken in lock_crtcs() are
-> > > > > the same lock, when they actually aren't. That's because we call
-> > > > > mutex_init() in msm_kms_init() and that assigns on static key for every
-> > > > > lock initialized in this loop. Let's allocate a dynamic number of
-> > > > > lock_class_keys and assign them to each lock so that lockdep can figure
-> > > > > out an AA deadlock isn't possible here.
-> > > > >
-> > > > > Fixes: b3d91800d9ac ("drm/msm: Fix race condition in msm driver with async layer updates")
-> > > > > Cc: Krishna Manikandan <mkrishn@codeaurora.org>
-> > > > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > > >
-> > > > This smells like throwing more bad after initial bad code ...
-> > > >
-> > > > First a rant: https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
-> >
-> > Some technical on the patch itself: I think you want
-> > mutex_lock_nested(crtc->lock, drm_crtc_index(crtc)), not your own locking
-> > classes hand-rolled. It's defacto the same, but much more obviously
-> > correct since self-documenting.
-> 
-> hmm, yeah, that is a bit cleaner.. but this patch is already on
-> msm-next, maybe I'll add a patch on top to change it
+The maximum mdp clock rate on msm8974v2 is 320MHz. Fix it.
 
-How many CRTCs are there? The subclass number tops out at 8, per
-MAX_LOCKDEP_SUBCLASSES so if we have more than that many bits possible
-then it will fail.
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index dfffd9cf0613..bd07d2e1ad90 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -177,7 +177,7 @@ static const struct mdp5_cfg_hw msm8x74v2_config = {
+ 			[3] = INTF_HDMI,
+ 		},
+ 	},
+-	.max_clk = 200000000,
++	.max_clk = 320000000,
+ };
+ 
+ static const struct mdp5_cfg_hw apq8084_config = {
+-- 
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
