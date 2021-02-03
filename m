@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B966730E529
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 22:52:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3495D30E5B2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 23:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A50596E57E;
-	Wed,  3 Feb 2021 21:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F796EC05;
+	Wed,  3 Feb 2021 22:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com
- [210.131.2.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE0116E57E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 21:52:13 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179]) (authenticated)
- by conssluserg-05.nifty.com with ESMTP id 113LpkfL015373
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Feb 2021 06:51:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 113LpkfL015373
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1612389107;
- bh=gxgjcR0VEeZAZf1rRpSkG8b/Bi8s2o6fMLa0IvUA9lw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=m8YX4O0ILm07ceuK5fotq4uY3K1hAC5ptJnoW/XxUW9j/FOFfRWgmXqWK2pF4kSRY
- 4L+fB30NvHjrsFwew2rRy7cFbU3phsYIDhTUChcaf6G3eSioxTg0vL6rH4L65ZYLmT
- lz94outN2VEfVM9wget8Gd7fyhP75NCUuuRRltnOaYTm33ePYZq6JljjVBZK6k3iZl
- 3ap3wl9kfMRsGrDugDGg9SYkc5ORYZDxbd775RD15YXafXAVy4IK760wiJDiB0jNk6
- ehrI5u1as17AjgQbBmj8OtK9khhGP8T+iYvA42Yow+UzzxKzQu5AGheonRWWDzVWiT
- +HiLyq5jRddPQ==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id e19so701822pfh.6
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 13:51:47 -0800 (PST)
-X-Gm-Message-State: AOAM532tvxGU7/axekAGk6l3hhACqttEKhmMN9uyiTSbJ55yK15V+/MO
- ViqApq1ieq2P2hYDN3YC16/n6uuEoxS6f4YPmLA=
-X-Google-Smtp-Source: ABdhPJx/LaBTQoB963qFg1P+igJksCCKE8Z041HxDmq3/pC0hBJHBlx2ThcrSaLxlu5UdkfwoNWPTs8TPJ6pU3GFLI0=
-X-Received: by 2002:a63:575e:: with SMTP id h30mr5652383pgm.7.1612389106322;
- Wed, 03 Feb 2021 13:51:46 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B0A6EC05;
+ Wed,  3 Feb 2021 22:08:36 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id p15so1059358wrq.8;
+ Wed, 03 Feb 2021 14:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZJlDPDMrWIWcvU77LN9zrfIUHEDl26zI6D0g0M5VBNs=;
+ b=KKOWlEja+/AN4ZDOQfMlGTaDqB/3f4EgGuQYgDHFonB391/crY8+r3unb4wW/tD3TT
+ oHEnUmRHPmgfjU3GCIo7iH9fF/EGfw9ZHRGdTKmMsm8eFDvI5ynmtSVUs+mXqfW+EjRb
+ AOzJC43ibtL00Gu7F1cyuRuUkh/tH/SNRjql146pFtizqpeIv5nPTa4PPj1SjaOZibyu
+ t7VFDmkMEJ2GUOxm2PcgsHnlWCPHMjLxuhb3C28/VYbWXMOz8NTeRGILcfO6yc1oUOSC
+ wv3pgZ+AXppO+vtMEztRDR2ZUdTSFtwujf2krr6GjgnflNR5jTE82rsMmBAXWJD0umND
+ qZIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZJlDPDMrWIWcvU77LN9zrfIUHEDl26zI6D0g0M5VBNs=;
+ b=QFRh5Q3C6Pk/+3b/gokbff6B0FihUnKDZlQmEJP4og6yjznErt0ZG4bvmZn4VNmOkj
+ EcKdwa/Qcap5Ic9smZhVUlXy/A2/rXemxZzl7Ga9/7Xja/1ZdlraGYM7xbrSJkIHSnQD
+ cJi67ZF0aU2pjVKD//xSJptpfvANA3802PNVMo9hVFtlrlbaq3zTtLM7tiiwc6FmOqPy
+ M9rp5lYXihqAI2xlItVBZETqL7pE3iF67Kyoqb/FDMGed4Xx5q7oCVvzreh8mMvLx0eC
+ Oc3NsHD3X9th4x+2Gw48FYMN2TpliHfoLRht6pLXRngR9JSCMrS3TCB+2b9vK5e19pQS
+ JPXw==
+X-Gm-Message-State: AOAM533xACZ11krIMfud6DZOgoCBt3Tn2HaA0GzYQxSIt6cBuU7pagcf
+ 634jJzIg9i6QdaFWtEAMggXhFZzxWGoxNj4hpnQ=
+X-Google-Smtp-Source: ABdhPJzPuTDC2UxOsfIOLS/x+mXyaWz64C5FDMl4EEVGmPuEJH3/QBYrpUjTZy1XmvRfFdOQ3sgCQ9/RIPzy4POu7w0=
+X-Received: by 2002:adf:f8c8:: with SMTP id f8mr5884454wrq.132.1612390115324; 
+ Wed, 03 Feb 2021 14:08:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20210202070218.856847-1-masahiroy@kernel.org>
- <87eehy27b5.fsf@jogness.linutronix.de> <YBq/2ojccc4ZZp9y@alley>
-In-Reply-To: <YBq/2ojccc4ZZp9y@alley>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 4 Feb 2021 06:51:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQyV-asWNY6CK6MWze9sFZS3CgXxtH2LEht5e=kjrLu7w@mail.gmail.com>
-Message-ID: <CAK7LNAQyV-asWNY6CK6MWze9sFZS3CgXxtH2LEht5e=kjrLu7w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] printk: use CONFIG_CONSOLE_LOGLEVEL_* directly
-To: Petr Mladek <pmladek@suse.com>
+References: <20210125234901.2730699-1-swboyd@chromium.org>
+ <YBlz8Go2DseRWuOa@phenom.ffwll.local>
+ <CAF6AEGuWhGuzxsBquj-WLSwa83r+zO7jAQ9ten2m+2KtoGpYSw@mail.gmail.com>
+ <YBp2h2cVXrF6lBno@phenom.ffwll.local>
+ <CAF6AEGvTrfYYTfReGbAm9zcBNhjZvX0tko4kZUeQcyNZv4cM6w@mail.gmail.com>
+ <161238950899.76967.16385691346035591773@swboyd.mtv.corp.google.com>
+In-Reply-To: <161238950899.76967.16385691346035591773@swboyd.mtv.corp.google.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 3 Feb 2021 14:11:09 -0800
+Message-ID: <CAF6AEGtFpjpYoY_iu8F2z-RMJ=0+tBYo-akKJ1JbgKagBuQWtA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/kms: Make a lock_class_key for each crtc mutex
+To: Stephen Boyd <swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,102 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-efi <linux-efi@vger.kernel.org>, Russ Anderson <russ.anderson@hpe.com>,
- Steve Wahl <steve.wahl@hpe.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, Peter Jones <pjones@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Jiri Slaby <jirislaby@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, X86 ML <x86@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Darren Hart <dvhart@infradead.org>,
- John Ogness <john.ogness@linutronix.de>, Mike Travis <mike.travis@hpe.com>,
- Steven Rostedt <rostedt@goodmis.org>, Borislav Petkov <bp@alien8.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Andy Shevchenko <andy@infradead.org>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 4, 2021 at 12:23 AM Petr Mladek <pmladek@suse.com> wrote:
+On Wed, Feb 3, 2021 at 1:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> On Tue 2021-02-02 09:44:22, John Ogness wrote:
-> > On 2021-02-02, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > CONSOLE_LOGLEVEL_DEFAULT is nothing more than a shorthand of
-> > > CONFIG_CONSOLE_LOGLEVEL_DEFAULT.
+> Quoting Rob Clark (2021-02-03 09:29:09)
+> > On Wed, Feb 3, 2021 at 2:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 > > >
-> > > When you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from Kconfig, almost
-> > > all objects are rebuilt because CONFIG_CONSOLE_LOGLEVEL_DEFAULT is
-> > > used in <linux/printk.h>, which is included from most of source files.
+> > > On Tue, Feb 02, 2021 at 08:51:25AM -0800, Rob Clark wrote:
+> > > > On Tue, Feb 2, 2021 at 7:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > >
+> > > > > On Mon, Jan 25, 2021 at 03:49:01PM -0800, Stephen Boyd wrote:
+> > > > > > This is because lockdep thinks all the locks taken in lock_crtcs() are
+> > > > > > the same lock, when they actually aren't. That's because we call
+> > > > > > mutex_init() in msm_kms_init() and that assigns on static key for every
+> > > > > > lock initialized in this loop. Let's allocate a dynamic number of
+> > > > > > lock_class_keys and assign them to each lock so that lockdep can figure
+> > > > > > out an AA deadlock isn't possible here.
+> > > > > >
+> > > > > > Fixes: b3d91800d9ac ("drm/msm: Fix race condition in msm driver with async layer updates")
+> > > > > > Cc: Krishna Manikandan <mkrishn@codeaurora.org>
+> > > > > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > > > >
+> > > > > This smells like throwing more bad after initial bad code ...
+> > > > >
+> > > > > First a rant: https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
 > > >
-> > > In fact, there are only 4 users of CONSOLE_LOGLEVEL_DEFAULT:
-> > >
-> > >   arch/x86/platform/uv/uv_nmi.c
-> > >   drivers/firmware/efi/libstub/efi-stub-helper.c
-> > >   drivers/tty/sysrq.c
-> > >   kernel/printk/printk.c
-> > >
-> > > So, when you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT and rebuild the
-> > > kernel, it is enough to recompile those 4 files.
-> > >
-> > > Remove the CONSOLE_LOGLEVEL_DEFAULT definition from <linux/printk.h>,
-> > > and use CONFIG_CONSOLE_LOGLEVEL_DEFAULT directly.
+> > > Some technical on the patch itself: I think you want
+> > > mutex_lock_nested(crtc->lock, drm_crtc_index(crtc)), not your own locking
+> > > classes hand-rolled. It's defacto the same, but much more obviously
+> > > correct since self-documenting.
 > >
-> > With commit a8fe19ebfbfd ("kernel/printk: use symbolic defines for
-> > console loglevels") it can be seen that various drivers used to
-> > hard-code their own values. The introduction of the macros in an
-> > intuitive location (include/linux/printk.h) made it easier for authors
-> > to find/use the various available printk settings and thresholds.
-> >
-> > Technically there is no problem using Kconfig macros directly. But will
-> > authors bother to hunt down available Kconfig settings? Or will they
-> > only look in printk.h to see what is available?
-> >
-> > IMHO if code wants to use settings from a foreign subsystem, it should
-> > be taking those from headers of that subsystem, rather than using some
-> > Kconfig settings from that subsystem. Headers exist to make information
-> > available to external code. Kconfig (particularly for a subsystem) exist
-> > to configure that subsystem.
+> > hmm, yeah, that is a bit cleaner.. but this patch is already on
+> > msm-next, maybe I'll add a patch on top to change it
 >
-> I agree with this this view.
+> How many CRTCs are there? The subclass number tops out at 8, per
+> MAX_LOCKDEP_SUBCLASSES so if we have more than that many bits possible
+> then it will fail.
 
+conveniently MAX_CRTCS is 8.. realistically I don't *think* you'd ever
+see more than 2 or 3
 
-I have never seen a policy to restrict
-the use of CONFIG options in relevant
-subsystem headers.
-
-
-
-> What about using default_console_loglevel() in the external code?
-> It reads the value from an array. This value is initialized to
-> CONSOLE_LOGLEVEL_DEFAULT and never modified later.
-
-I do not think default_console_loglevel()
-is a perfect constant
-because it can be modified via
-/proc/sys/kernel/printk
-
-
-I am not sure if it works either.
-
-Some code may not be linked to vmlinux.
-drivers/firmware/efi/libstub/efi-stub-helper.c
-
-
-
-
-> Best Regards,
-> Petr
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
