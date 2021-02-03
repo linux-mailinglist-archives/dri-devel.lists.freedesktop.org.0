@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D7A30DECA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 16:55:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1626D30DED6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 16:56:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB4B6EB2D;
-	Wed,  3 Feb 2021 15:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B666EB2A;
+	Wed,  3 Feb 2021 15:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D15BF6EB2A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 15:55:21 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id h192so366791oib.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 07:55:21 -0800 (PST)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391316EB2A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 15:56:32 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id m22so21424524ljj.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 07:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SmS8fJSXOKcRKzc31PRNebqokGkdRnQjzOzCbfZJjqs=;
+ b=EoAM/5DuaPANjhWeDOjW7ozX8F+qJ8OevRH9BDBesj7ZcWsTjZjFbF5b2hyG/SoArH
+ sqMggyzUHtCYslW8/BsPwb9f1wm5nYjQGDPRXg1VnM1iBpAl8mEcbm9pIBVUjC/l/yp+
+ NALIvMQpHfBQAYE45rp3HR4R05LMnwbfGm8gkaZ91jwsMDlf8kZaoGTtKDGhysa5s+xz
+ FGWucEXdjL6lDNZhZ0z9ZOkmOPR8ZpON+keO+56w/GzlbkHsnVTTukn5w5/Io1oe9P6K
+ ZxLSL20rAG48lhiFqdYlMGROR9LTA77N/BOE2CyeJVzIXFzS3Tx9OERWxpmPwjd4GpF/
+ wuWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qT9vhKEcJnv2UxHfk3LsH4oahpbnsqDoYZLdzv8tkwQ=;
- b=E+POGdeEfy4cxYsdfXjI2ckwzY0QeyuJkn2I1P/HG8m7VgVu3o6HpF6W4UOcHC68sR
- 2rIjQDFi6FTbBDeZC0NXbHVrnjMDnRzacZlHZVhrzhkkOwya2j/c1UUk9LGY7r/LIFUT
- K/AXfAgSK2e9bGGNmj+dZZa903rmSz2EHxg7lzWCptyC5PoFx1xaoTLp5e0G1klDMKpu
- Sweu8fGTTL3lL/lVIm/CaKSZatN4u8RU4KUSLai7PjtmhvgMiGKolv34XEgSn8TvVZvw
- C/0OdMqBY+BVAoME3lOAZ5Ra5WBOkp8a27y87ykM7zvTvlNjPz/QPSGj84sKadKJFvaG
- EnOw==
-X-Gm-Message-State: AOAM532fXXcLArHx5pojH8gqUlAKcyD+f7h/uM/oRV9QNBDtGTF+yz4n
- sDE3ACTe0MiaE5Ia6MDSb9w6VVr36w==
-X-Google-Smtp-Source: ABdhPJxmOBQcH5R+lFiUlGBqVbuj5kwZxcJFcUI25C3II5lOgKlwz+nfG7ePzMnfdKQ5jcv5RyiyOg==
-X-Received: by 2002:aca:4e13:: with SMTP id c19mr2424431oib.66.1612367721055; 
- Wed, 03 Feb 2021 07:55:21 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id o14sm481868oof.38.2021.02.03.07.55.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 07:55:19 -0800 (PST)
-Received: (nullmailer pid 1895243 invoked by uid 1000);
- Wed, 03 Feb 2021 15:55:17 -0000
-Date: Wed, 3 Feb 2021 09:55:17 -0600
-From: Rob Herring <robh@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 3/3] dt-bindings: Fix errors in 'if' schemas
-Message-ID: <20210203155517.GC3706951@robh.at.kernel.org>
-References: <20210202205544.24812-1-robh@kernel.org>
- <20210202205544.24812-3-robh@kernel.org>
- <CAMuHMdVvtUvrQh3-3kxaqqWvHnF_UOQmt-6jq_GkX8g=cszUug@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SmS8fJSXOKcRKzc31PRNebqokGkdRnQjzOzCbfZJjqs=;
+ b=lmt73bdk7xKp4uwafkmrs1kUK+4K5P0g6EsuQdxu185NUYMRLEPYxsB8I7q84cYbUX
+ St+6MF2lEg41CO/9ScgUqx31H/qfppwnW4KotLJdm/tXUG50yyXWfM6bDUOVEGdhRQ+n
+ dS4BdaYwOOekzpRoK1ZeZ7eTOgekYEqekAW3jSB1fS0Y/+C67VmCNbV/YbOL1uTWcGG6
+ QvALTLp8WFER/b4QxyqRvEMcq1XnDiO2TDeiGzlsSiAQWmEi5d3K1LOkUuwrtnIJ7Kcr
+ lysqHm3IW/K41FBMgsnucsx5Ni+eM0/KlNyj5Qqdoi6ZqRYnR4W+TyVCCKVwZ960f6z1
+ URdQ==
+X-Gm-Message-State: AOAM530k1cbqqmGcSIs8wV1nJI7oLjJXbU28jujUxyNL/BkEsdgqbNgr
+ 9UUki6tIaQ7WDu8w/oRnL+6nI3X/zZq+gDSennk=
+X-Google-Smtp-Source: ABdhPJzXQ9dchlysCHnfju7OGV6yKCBg3NxfyFOq2hV7WOko5E5rdRoHSDcmTTqO0BbHKZrcz2JzM4oqhQ1MnEIHCNo=
+X-Received: by 2002:a2e:9004:: with SMTP id h4mr2218121ljg.276.1612367790592; 
+ Wed, 03 Feb 2021 07:56:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVvtUvrQh3-3kxaqqWvHnF_UOQmt-6jq_GkX8g=cszUug@mail.gmail.com>
+References: <20210129155439.10128-1-patrik.r.jakobsson@gmail.com>
+ <YBp8yGQuP4spzWNJ@phenom.ffwll.local>
+ <5f9bc29a-b035-3ebf-47eb-9d7c6452889d@amd.com>
+ <6e9ae600-e13e-04a2-cc48-cce776e91b6b@amd.com>
+In-Reply-To: <6e9ae600-e13e-04a2-cc48-cce776e91b6b@amd.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 3 Feb 2021 16:56:19 +0100
+Message-ID: <CAMeQTsYxYWXw4U+0d5nwXmQopY2Y+zo07PJJNP1C9Y9+DicMgw@mail.gmail.com>
+Subject: Re: [PATCH] drm/v3d: Fix incorrect return type to timedout_job
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,105 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tomer Maimon <tmaimon77@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Vincent Cheng <vincent.cheng.xh@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tali Perry <tali.perry1@gmail.com>, Daniel Palmer <daniel@thingy.jp>,
- Linux I2C <linux-i2c@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Will Deacon <will@kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds <linux-leds@vger.kernel.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Joerg Roedel <joro@8bytes.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
- Ray Jui <rjui@broadcom.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Avi Fishman <avifishman70@gmail.com>, Scott Branden <sbranden@broadcom.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Luben Tuikov <luben.tuikov@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 03, 2021 at 09:01:23AM +0100, Geert Uytterhoeven wrote:
-> Hi Rob,
-> 
-> On Tue, Feb 2, 2021 at 9:55 PM Rob Herring <robh@kernel.org> wrote:
-> > Properties in if/then schemas weren't getting checked by the meta-schemas.
-> > Enabling meta-schema checks finds several errors.
-> >
-> > The use of an 'items' schema (as opposed to the list form) is wrong in
-> > some cases as it applies to all entries. 'contains' is the correct schema
-> > to use in the case of multiple entries.
-> 
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> 
-> Thanks for your patch!
-> 
-> > --- a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> > @@ -81,9 +81,8 @@ properties:
-> >  if:
-> >    properties:
-> >      compatible:
-> > -      items:
-> > -        enum:
-> > -          - renesas,usb2-phy-r7s9210
-> > +      contains:
-> > +        const: renesas,usb2-phy-r7s9210
-> 
-> Single entry, so "contains" not needed?
-
-No, you are misunderstanding how these work. 'contains' means at least 
-one entry in an array passes with the subschema. In this case, 
-'renesas,usb2-phy-r7s9210' must appear somewhere in the 'compatible' 
-values. (Before, it said *every* entry must be 
-'renesas,usb2-phy-r7s9210'.) As there is a fallback compatible, we need 
-'contains'.
-
-> > --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > @@ -76,11 +76,10 @@ required:
-> >  if:
-> >    properties:
-> >      compatible:
-> > -      items:
-> > -        enum:
-> > -          - renesas,pfc-r8a73a4
-> > -          - renesas,pfc-r8a7740
-> > -          - renesas,pfc-sh73a0
-> > +      enum:
-> > +        - renesas,pfc-r8a73a4
-> > +        - renesas,pfc-r8a7740
-> > +        - renesas,pfc-sh73a0
-> 
-> Missing "contains"?
-
-No. In this case, 'compatible' is always a single entry, so no 
-'contains' needed (but would work). If compatible is one of these 3 
-strings, then the 'if' is true.
-
-The original way would actually work in this case (i.e. is valid 
-json-schema), but we require 'items' to have a size (maxItems/minItems) 
-in our meta-schema.
-
-Rob
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMywgMjAyMSBhdCA0OjU0IFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBBbSAwMy4wMi4yMSB1bSAxNjo1MSBzY2hyaWVi
+IEx1YmVuIFR1aWtvdjoKPiA+IE9uIDIwMjEtMDItMDMgNTozNiBhLm0uLCBEYW5pZWwgVmV0dGVy
+IHdyb3RlOgo+ID4+IE9uIEZyaSwgSmFuIDI5LCAyMDIxIGF0IDA0OjU0OjM5UE0gKzAxMDAsIFBh
+dHJpayBKYWtvYnNzb24gd3JvdGU6Cj4gPj4+IFRoZSBjb21taXQgYTZhMWYwMzZjNzRlICgiZHJt
+L3NjaGVkdWxlcjogSm9iIHRpbWVvdXQgaGFuZGxlciByZXR1cm5zCj4gPj4+IHN0YXR1cyAodjMp
+IikgaW5jb3JyZWN0bHkgdXNlcyAiZW51bSBkcm1fdGFza19zdGF0dXMiIGZvciB2M2QgYW5kIGNh
+dXNlcwo+ID4+PiBhIGJ1aWxkIGZhaWx1cmUuICJlbnVtIGRybV90YXNrX3N0YXR1cyIgZ290IGNo
+YW5nZWQgaW50byAiZW51bQo+ID4+PiBkcm1fZ3B1X3NjaGVkX3N0YXR1cyIgaW4gdjMgb2YgdGhl
+IHBhdGNoIGJ1dCB0aGUgY2hhbmdlIGZvciB2M2QgZ290Cj4gPj4+IGxvc3QuCj4gPj4+Cj4gPj4+
+IEZpeGVzOiAoImRybS9zY2hlZHVsZXI6IEpvYiB0aW1lb3V0IGhhbmRsZXIgcmV0dXJucyBzdGF0
+dXMgKHYzKSIpCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFBhdHJpayBKYWtvYnNzb24gPHBhdHJpay5y
+Lmpha29ic3NvbkBnbWFpbC5jb20+Cj4gPj4gSSB0aGluayBJIHItYidlZCBzdWNoIGEgcGF0Y2gg
+YWxyZWFkeSwgYnV0IG1heWJlIG5vdCB5ZXQgbWVyZ2VkLgo+ID4gSSB0aGluayBDaHJpc3RpYW4g
+ZGlkIHRoYXQgcGF0Y2ggYWxyZWFkeSBvbiBNb25kYXkuCj4KPiBZZXMsIHRoaXMgaXMgYWxyZWFk
+eSBpbnNpZGUgZHJtLW1pc2MtbmV4dC4gSnVzdCBuZWVkcyB0byBidWJibGUgdXAgaW50bwo+IGxp
+bnV4LW5leHQgZXRjLi4uCgpHcmVhdCwgdGhhbmtzIQoKLVBhdHJpawpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
