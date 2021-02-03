@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5617030D860
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 12:19:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396DD30D86F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 12:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C4EC6EA67;
-	Wed,  3 Feb 2021 11:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A276EA77;
+	Wed,  3 Feb 2021 11:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E276EA67
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 11:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Gl7sCApRFJtBXnfga0Dh5hI1R8/2+lI2ntQWVhdy+mk=; b=E27X9izTmzcQzga6jy2dEuNoJO
- 9MC7V9W+sA/8ivSdgpSXPWzoAhHveywclwtujxBF+BwIxQL3OO2RLE1ZOLGN4uZj+6PrvmKY41Cbf
- w7plO+Jp/n71PlrKVTOgF/vTzID9hU+8Zt5lFby27hAuF41U06A8ugWWusc+D5iI4PDI3pyN8CGUc
- 1wMWJ591IOM436tTXIc8rxg0zkK0iASMgcy85K5m0C91mN8diIBINrYrL7ZJQ6oim44JAaFyObAtj
- VTc8SLc4YvXdOBw39mQNMuGl+M1jCTRXrL/SYEhITBTXTRw8gS2ZX8plZchRcTAg1qsUtWfYgyN6z
- mkDdil6g==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1l7GBU-0008Nz-CH; Wed, 03 Feb 2021 13:18:56 +0200
-Subject: Re: [PATCH v5 00/21] Host1x sync point UAPI should not be used for
- tracking DRM jobs
-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <20210111130019.3515669-1-mperttunen@nvidia.com>
- <da085c38-4ac1-19dd-7706-caf323c969d2@gmail.com>
- <2f999b6d-d781-503a-78f4-d444bce72c58@kapsi.fi>
- <2ee12338-bd5a-4b99-f86d-13da0d2a899b@gmail.com>
- <8504c239-d5df-3033-934c-7b3fab52e387@kapsi.fi> <YBLtPv/1mGXwtibX@ulmo>
- <1ff922b2-161d-c8b9-7b08-4454ff7329f8@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <25248139-5487-a15b-8965-1a29a71eacd7@kapsi.fi>
-Date: Wed, 3 Feb 2021 13:18:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E6F6EA77
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 11:22:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B73E164DE8;
+ Wed,  3 Feb 2021 11:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612351346;
+ bh=wGQw7gT3qnKCIXEO+rxqRvVbPbNtV92xRV2Pv+Ej3+o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MrJAtf5mnK1C4Q4ZyKjla2kAdXf633/lnbrk7VmF4rTw8ELv9cY7AI3lYFHz5IvTs
+ gW1JO8UMu0KWxpiE11pDElcoFi2aScKR/6EtEhTveStAUFXYmhZ/2VkMZcgd1/0YfE
+ ni15CbrfkH0uB9TmCzEv5FfL+g5ymnw5CEbyZXJD4ppEFij+lOdgpYmtLPj5YnxQt2
+ S89UXBGzveoZJe7weH0eyO7487Q9x29lPyzQEfs7eq9AcnO8mCcpuFXjNyVKHYr8yx
+ p+BAk8A9gP2L8aa7Eyu5laiQUOjkYC5JRKTNmmv8FsKcsF1NgygkcixHo6F7gFSZQG
+ dH3CVM+A3lgnQ==
+Date: Wed, 3 Feb 2021 16:52:22 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 3/3] dt-bindings: Fix errors in 'if' schemas
+Message-ID: <20210203112222.GO2771@vkoul-mobl>
+References: <20210202205544.24812-1-robh@kernel.org>
+ <20210202205544.24812-3-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1ff922b2-161d-c8b9-7b08-4454ff7329f8@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Disposition: inline
+In-Reply-To: <20210202205544.24812-3-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,91 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- talho@nvidia.com, bhuntsman@nvidia.com, linux-tegra@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tomer Maimon <tmaimon77@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Vincent Cheng <vincent.cheng.xh@renesas.com>, dri-devel@lists.freedesktop.org,
+ Tali Perry <tali.perry1@gmail.com>, Daniel Palmer <daniel@thingy.jp>,
+ linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Will Deacon <will@kernel.org>, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Joerg Roedel <joro@8bytes.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
+ Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Ray Jui <rjui@broadcom.com>, linux-gpio@vger.kernel.org,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Avi Fishman <avifishman70@gmail.com>, Scott Branden <sbranden@broadcom.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Jeffery <andrew@aj.id.au>, iommu@lists.linux-foundation.org,
+ linux-crypto@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMS8yOS8yMSA3OjMwIFBNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjguMDEuMjAyMSAx
-OTo1OCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4gT24gVGh1LCBKYW4gMjgsIDIwMjEg
-YXQgMDE6MDg6NTRQTSArMDIwMCwgTWlra28gUGVydHR1bmVuIHdyb3RlOgo+Pj4gT24gMS8yNy8y
-MSAxMToyMCBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4+IDI2LjAxLjIwMjEgMDU6NDUs
-IE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4+Pj4gMi4gV2Ugd2lsbCBwcm9iYWJseSBu
-ZWVkIGEgZGVkaWNhdGVkIGRybV90ZWdyYV9zdWJtaXRfY21kIGZvciBzeW5jIHBvaW50Cj4+Pj4+
-PiBpbmNyZW1lbnRzLsKgIFRoZSBqb2IncyBzeW5jIHBvaW50IHdpbGwgYmUgYWxsb2NhdGVkIGR5
-bmFtaWNhbGx5IHdoZW4gam9iCj4+Pj4+PiBpcyBzdWJtaXR0ZWQuwqAgV2Ugd2lsbCBuZWVkIGEg
-ZmFnIGZvciB0aGUgc3luY19pbmNyIGFuZCB3YWl0X3N5bmNwdAo+Pj4+Pj4gY29tbWFuZHMsIHNh
-eWluZyAiaXQncyBhIGpvYidzIHN5bmMgcG9pbnQgaW5jcmVtZW50L3dhaXQiCj4+Pj4+Cj4+Pj4+
-IE5lZ2F0aXZlLiBMaWtlIEkgaGF2ZSBleHBsYWluZWQgaW4gcHJldmlvdXMgZGlzY3Vzc2lvbnMs
-IHdpdGggdGhlCj4+Pj4+IGN1cnJlbnQgd2F5IHRoZSB1c2FnZSBvZiBoYXJkd2FyZSByZXNvdXJj
-ZXMgaXMgbXVjaCBtb3JlIGRldGVybWluaXN0aWMKPj4+Pj4gYW5kIG9idmlvdXMuIEkgZGlzYWdy
-ZWUgb24gdGhlIHBvaW50IHRoYXQgdGhpcyBpcyBtdWNoIG1vcmUgY29tcGxpY2F0ZWQKPj4+Pj4g
-Zm9yIHRoZSB1c2Vyc3BhY2UuIFNlcGFyYXRpbmcgc3luY3BvaW50IGFuZCBjaGFubmVsIGFsbG9j
-YXRpb24gaXMgb25lIG9mCj4+Pj4+IHRoZSBwcmltYXJ5IG1vdGl2YXRpb25zIG9mIHRoaXMgc2Vy
-aWVzIGZvciBtZS4KPj4+Pgo+Pj4+IFN5bmMgcG9pbnRzIGFyZSBhIGxpbWl0ZWQgcmVzb3VyY2Uu
-IFRoZSBtb3N0IHNlbnNpYmxlIHdheSB0byB3b3JrIGFyb3VuZAo+Pj4+IGl0IGlzIHRvIGtlZXAg
-c3luYyBwb2ludHMgd2l0aGluIGtlcm5lbCBhcyBtdWNoIGFzIHBvc3NpYmxlLiBUaGlzIGlzIG5v
-dAo+Pj4+IG9ubHkgbXVjaCBzaW1wbGVyIGZvciB1c2VyIHNwYWNlLCBidXQgYWxzbyBhbGxvd3Mg
-dG8gdXRpbGl6ZSBEUk0gQVBJCj4+Pj4gcHJvcGVybHkgd2l0aG91dCByZS1pbnZlbnRpbmcgd2hh
-dCBhbHJlYWR5IGV4aXN0cyBhbmQgaXQncyBlYXNpZXIgdG8KPj4+PiBtYWludGFpbiBoYXJkd2Fy
-ZSBpbiBhIGdvb2Qgc3RhdGUuCj4+Pgo+Pj4gSSd2ZSBzcGVudCB0aGUgbGFzdCBmZXcgeWVhcnMg
-ZGVzaWduaW5nIGZvciBhdXRvbW90aXZlIGFuZCBpbmR1c3RyaWFsCj4+PiBwcm9kdWN0cywgd2hl
-cmUgd2UgZG9uJ3Qgd2FudCB0byBhdCBydW50aW1lIG5vdGljZSB0aGF0IHRoZSBzeXN0ZW0gaXMg
-b3V0IG9mCj4+PiBmcmVlIHN5bmNwb2ludHMgYW5kIGJlY2F1c2Ugb2YgdGhhdCB3ZSBjYW4gb25s
-eSBwcm9jZXNzIHRoZSBuZXh0IGNhbWVyYQo+Pj4gZnJhbWUgaW4gYSBzZWNvbmQgb3IgdHdvIGlu
-c3RlYWQgb2YgMTYgbWlsbGlzZWNvbmRzLiBXZSBuZWVkIHRvIGtub3cgdGhhdAo+Pj4gb25jZSB3
-ZSBoYXZlIGFsbG9jYXRlZCB0aGUgcmVzb3VyY2UsIGl0IGlzIHRoZXJlLiBUaGUgbmV3ZXIgY2hp
-cHMgYXJlIGFsc28KPj4+IGRlc2lnbmVkIHRvIHN1cHBvcnQgdGhpcy4KPj4+Cj4+PiBDb25zaWRl
-cmluZyBMaW51eCBpcyBpbmNyZWFzaW5nbHkgYmVpbmcgdXNlZCBmb3Igc3VjaCBhcHBsaWNhdGlv
-bnMsIGFuZCB0aGV5Cj4+PiBhcmUgaW1wb3J0YW50IHRhcmdldCBtYXJrZXRzIGZvciBOVklESUEs
-IHRoZXNlIG5lZWQgdG8gYmUgc3VwcG9ydGVkLgo+Pj4KPj4+IEJlY2F1c2Ugb2YgdGhlIGFib3Zl
-IGRlc2lnbiBjb25zdHJhaW50IHRoZSB1c2Vyc3BhY2Ugc29mdHdhcmUgdGhhdCBydW5zIGluCj4+
-PiB0aGVzZSBlbnZpcm9ubWVudHMgYWxzbyBleHBlY3RzIHJlc291cmNlcyB0byBiZSBhbGxvY2F0
-ZWQgdXAgZnJvbnQuIFRoaXMKPj4+IGlzbid0IGEgbWF0dGVyIG9mIGhhdmluZyB0byBkZXNpZ24g
-dGhhdCBzb2Z0d2FyZSBhY2NvcmRpbmcgdG8gd2hhdCBraW5kIG9mCj4+PiBhbGxvY2F0aW9uIEFQ
-SSB3ZSBkZWNpZGUgZG8gYXQgTGludXggbGV2ZWwgLS0gaXQncyBubyB1c2UgZGVzaWduaW5nIGZv
-cgo+Pj4gZHluYW1pYyBhbGxvY2F0aW9uIGlmIGl0IGxlYWRzIHRvIHlvdSBub3QgbWVldGluZyB0
-aGUgc2FmZXR5IHJlcXVpcmVtZW50IG9mCj4+PiBuZWVkaW5nIHRvIGVuc3VyZSB5b3UgaGF2ZSBh
-bGwgcmVzb3VyY2VzIGFsbG9jYXRlZCB1cCBmcm9udC4KPj4+Cj4+PiBUaGlzIGlzbid0IGEgZ29v
-ZCBkZXNpZ24gZmVhdHVyZSBqdXN0IGluIGEgY2FyLCBidXQgaW4gYW55dGhpbmcgdGhhdCBuZWVk
-cwo+Pj4gdG8gYmUgcmVsaWFibGUuIEhvd2V2ZXIsIGl0IGRvZXMgcG9zZSBzb21lIHRyYWRlb2Zm
-cywgYW5kIGlmIHlvdSB0aGluayB0aGF0Cj4+PiBydW5uaW5nIG91dCBvZiBzeW5jcG9pbnRzIG9u
-IFQyMC1UMTE0IGJlY2F1c2Ugb2YgdXBmcm9udCBhbGxvY2F0aW9uIGlzIGFuCj4+PiBhY3R1YWwg
-cHJvYmxlbSwgSSdtIG5vdCBvcHBvc2VkIHRvIGhhdmluZyBib3RoIG9wdGlvbnMgYXZhaWxhYmxl
-Lgo+IAo+IFRoZSB3b3JkICJyZWxpYWJsZSIgY29udHJhZGljdHMgdG8gdGhlIGVycm9yLXByb25l
-IGFwcHJvYWNoLiBPbiB0aGUKPiBvdGhlciBoYW5kLCBpdCBzaG91bGQgYmUgdmVyeSBkaWZmaWN1
-bHQgdG8gY2hhbmdlIHRoZSBzdHViYm9ybgo+IGRvd25zdHJlYW0gZmlybXdhcmUgYW5kIHdlIHdh
-bnQgZHJpdmVyIHRvIGJlIHVzYWJsZSBhcyBtdWNoIGFzIHBvc3NpYmxlLAo+IHNvIGluIHJlYWxp
-dHkgbm90IG11Y2ggY2FuIGJlIGRvbmUgYWJvdXQgaXQuCgpEZXBlbmRzIG9uIHRoZSBwZXJzcGVj
-dGl2ZS4KCj4gCj4+IEkgdGhpbmsgdGhhdCdzIGEgZmFpciBwb2ludC4gSSBkb24ndCBzZWUgd2h5
-IHdlIGNhbid0IHN1cHBvcnQgYm90aAo+PiBpbXBsaWNpdCBhbmQgZXhwbGljaXQgc3luY3BvaW50
-IHJlcXVlc3RzLiBJZiBtb3N0IG9mIHRoZSB1c2UtY2FzZXMgY2FuCj4+IHdvcmsgd2l0aCBpbXBs
-aWNpdCBzeW5jcG9pbnRzIGFuZCBsZXQgdGhlIGtlcm5lbCBoYW5kbGUgYWxsIGFzcGVjdHMgb2YK
-Pj4gaXQsIHRoYXQncyBncmVhdC4gQnV0IHRoZXJlJ3Mgbm8gcmVhc29uIHdlIGNhbid0IHByb3Zp
-ZGUgbW9yZSBleHBsaWNpdAo+PiBjb250cm9scyBmb3IgY2FzZXMgd2hlcmUgaXQncyByZWFsbHkg
-aW1wb3J0YW50IHRoYXQgYWxsIHRoZSByZXNvdXJjZXMKPj4gYXJlIGFsbG9jYXRlZCB1cGZyb250
-Lgo+Pgo+PiBVbHRpbWF0ZWx5IHRoaXMgaXMgdmVyeSBzcGVjaWZpYyB0byBlYWNoIHVzZS1jYXNl
-LCBzbyBJIHRoaW5rIGhhdmluZwo+PiBib3RoIG9wdGlvbnMgd2lsbCBwcm92aWRlIHVzIHdpdGgg
-dGhlIG1vc3QgZmxleGliaWxpdHkuCj4gSXQgc2hvdWxkIGJlIGZpbmUgdG8gc3VwcG9ydCBib3Ro
-LiBUaGlzIHdpbGwgYWRkIGNvbXBsZXhpdHkgdG8gdGhlCj4gZHJpdmVyLCB0aHVzIGl0IG5lZWRz
-IHRvIGJlIGRvbmUgd2lzZWx5Lgo+IAo+IEknbGwgbmVlZCBtb3JlIHRpbWUgdG8gdGhpbmsgYWJv
-dXQgaXQuCj4gCgpIb3cgYWJvdXQgc29tZXRoaW5nIGxpa2UgdGhpczoKClR1cm4gdGhlIHN5bmNw
-dF9pbmNyIGZpZWxkIGJhY2sgaW50byBhbiBhcnJheSBvZiBzdHJ1Y3RzIGxpa2UKCiNkZWZpbmUg
-RFJNX1RFR1JBX1NVQk1JVF9TWU5DUFRfSU5DUl9SRVBMQUNFX1NZTkNPQkoJCSgxPDwwKQojZGVm
-aW5lIERSTV9URUdSQV9TVUJNSVRfU1lOQ1BUX0lOQ1JfUEFUQ0hfRFlOQU1JQ19TWU5DUFQJKDE8
-PDEpCgpzdHJ1Y3QgZHJtX3RlZ3JhX3N1Ym1pdF9zeW5jcHRfaW5jciB7CgkvKiBjYW4gYmUgbGVm
-dCBhcyB6ZXJvIGlmIHVzaW5nIGR5bmFtaWMgc3luY3B0ICovCglfX3UzMiBzeW5jcHRfaWQ7Cglf
-X3UzMiBmbGFnczsKCglzdHJ1Y3QgewoJCV9fdTMyIHN5bmNvYmo7CgkJX191MzIgdmFsdWU7Cgl9
-IGZlbmNlOwoKCS8qIHBhdGNoIHdvcmQgYXMgc3VjaDoKICAgICAgICAgICogKndvcmQgPSAqd29y
-ZCB8IChzeW5jcHRfaWQgPDwgc2hpZnQpCiAgICAgICAgICAqLwoJc3RydWN0IHsKCQlfX3UzMiBn
-YXRoZXJfb2Zmc2V0X3dvcmRzOwoJCV9fdTMyIHNoaWZ0OwoJfSBwYXRjaDsKfTsKClNvIHRoaXMg
-d2lsbCB3b3JrIHNpbWlsYXJseSB0byB0aGUgYnVmZmVyIHJlbG9jIHN5c3RlbTsgdGhlIGtlcm5l
-bCAKZHJpdmVyIHdpbGwgYWxsb2NhdGUgYSBqb2Igc3luY3BvaW50IGFuZCBwYXRjaCBpbiB0aGUg
-c3luY3BvaW50IElEIGlmIApyZXF1ZXN0ZWQsIGFuZCBhbGxvd3Mgb3V0cHV0dGluZyBzeW5jb2Jq
-cyBmb3IgZWFjaCBpbmNyZW1lbnQuCgpNaWtrbwpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On 02-02-21, 14:55, Rob Herring wrote:
+> Properties in if/then schemas weren't getting checked by the meta-schemas.
+> Enabling meta-schema checks finds several errors.
+> 
+> The use of an 'items' schema (as opposed to the list form) is wrong in
+> some cases as it applies to all entries. 'contains' is the correct schema
+> to use in the case of multiple entries.
+> 
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/crypto/allwinner,sun8i-ce.yaml   | 3 +--
+>  .../devicetree/bindings/display/brcm,bcm2835-hvs.yaml    | 2 +-
+>  Documentation/devicetree/bindings/leds/ti,tca6507.yaml   | 1 +
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml  | 2 +-
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml | 3 +--
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml        | 5 ++---
+
+For phy:
+
+Acked-By: Vinod Koul <vkoul@kernel.org>
+
+-- 
+~Vinod
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
