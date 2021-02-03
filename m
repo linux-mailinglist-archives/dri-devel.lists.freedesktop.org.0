@@ -2,32 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E6630D79B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E779830D79C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451C26E1A3;
-	Wed,  3 Feb 2021 10:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A486E239;
+	Wed,  3 Feb 2021 10:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5306E1A3
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:34:23 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 32E48AD26;
- Wed,  3 Feb 2021 10:34:22 +0000 (UTC)
-Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
- cleanup_fb
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210127140503.31772-1-tzimmermann@suse.de>
- <YBp7CzzBjECx5lAu@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
-Date: Wed, 3 Feb 2021 11:34:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5696E239
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:34:55 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id 190so4958168wmz.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 02:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
+ b=M75pCStwd1CD5X+AE8fVhstTS+X4mKfTg66UmMyLV/4dbGEYA6QHxZzUVBaPMOz7xx
+ F9+edfLoc2Vlmx1emXKW6xZgu7oWNOjz1WTgd2M5J2gnXE54FmGLbHHBb8oKBNcpCTS4
+ 6/gH/3v5zILbDOnuxcfqarN4OjvcB8d9ja9AA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
+ b=rpL69/lGXkWPVB3sDygDvf7/SbDzV2lke7cNriqX3QVxXYi8VSOedsT5t0IEUma4D5
+ kwnW2ptp05ffUYnJbVM8u7xQ2gncmQLN88Kpt3kiRKBmMmfAR1/VDU09Zi8JPUQB5BFs
+ kz4VS5ovOexA6oxgLOWuwY+rgAbCrOybnpF7DC3yTjhdXnB7lJYQn4fu/cCg9UK03WnL
+ jPYuyt2sUaF2fPU9mBOLTxE2SrmymkjAmHOp5GxLfHA5kjkMoZnKNlgF9SG6zRaKMz4w
+ Z3CLMOKXhNy51x7gS7vR1ZMQNLm0N79XRR1WnZB/8F1em1iWutO8cQZ2xxSDfXY8glHU
+ x4tw==
+X-Gm-Message-State: AOAM5304XnZE4jvnXVq55OPlViT3TEQdAo2yi2ymRaRXhtH5CURnORT9
+ 1tBlybMOj0YazTS4akasEg3RTw==
+X-Google-Smtp-Source: ABdhPJz4SARPNc66CChB2hShzHi2iGX8D1M1gjyOuRd3fn77dLJW2FXa5gHf0Q6IrbHt0pXvjzsdvQ==
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr2203893wme.154.1612348493733; 
+ Wed, 03 Feb 2021 02:34:53 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b11sm2957419wrp.60.2021.02.03.02.34.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Feb 2021 02:34:53 -0800 (PST)
+Date: Wed, 3 Feb 2021 11:34:50 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 02/13] drm: remove drm_fb_helper_modinit
+Message-ID: <YBp8ShiKbQSPCcRx@phenom.ffwll.local>
+Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Jessica Yu <jeyu@kernel.org>,
+ Josh Poimboeuf <jpoimboe@redhat.com>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>,
+ Joe Lawrence <joe.lawrence@redhat.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Michal Marek <michal.lkml@markovi.net>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20210128181421.2279-1-hch@lst.de>
+ <20210128181421.2279-3-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <YBp7CzzBjECx5lAu@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20210128181421.2279-3-hch@lst.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,304 +82,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, hdegoede@redhat.com, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1270414377=="
+Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
+ Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
+ live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+ Joe Lawrence <joe.lawrence@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Miroslav Benes <mbenes@suse.cz>,
+ linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1270414377==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="aZ3aVAXGJyF3CCtVAgE8wUWh4X5561YNf"
+On Thu, Jan 28, 2021 at 07:14:10PM +0100, Christoph Hellwig wrote:
+> drm_fb_helper_modinit has a lot of boilerplate for what is not very
+> simple functionality.  Just open code it in the only caller using
+> IS_ENABLED and IS_MODULE, and skip the find_module check as a
+> request_module is harmless if the module is already loaded (and not
+> other caller has this find_module check either).
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aZ3aVAXGJyF3CCtVAgE8wUWh4X5561YNf
-Content-Type: multipart/mixed; boundary="yWE0usKwrRWm5iO0SKRLjZ1UoZXVGwVEm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, hdegoede@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
-Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
- cleanup_fb
-References: <20210127140503.31772-1-tzimmermann@suse.de>
- <YBp7CzzBjECx5lAu@phenom.ffwll.local>
-In-Reply-To: <YBp7CzzBjECx5lAu@phenom.ffwll.local>
+Hm I thought I've acked this one already somewhere for merging through
+your tree.
 
---yWE0usKwrRWm5iO0SKRLjZ1UoZXVGwVEm
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Hi
+> ---
+>  drivers/gpu/drm/drm_crtc_helper_internal.h | 10 ---------
+>  drivers/gpu/drm/drm_fb_helper.c            | 21 ------------------
+>  drivers/gpu/drm/drm_kms_helper_common.c    | 25 +++++++++++-----------
+>  3 files changed, 12 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index 25ce42e799952c..61e09f8a8d0ff0 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -32,16 +32,6 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_modes.h>
+>  
+> -/* drm_fb_helper.c */
+> -#ifdef CONFIG_DRM_FBDEV_EMULATION
+> -int drm_fb_helper_modinit(void);
+> -#else
+> -static inline int drm_fb_helper_modinit(void)
+> -{
+> -	return 0;
+> -}
+> -#endif
+> -
+>  /* drm_dp_aux_dev.c */
+>  #ifdef CONFIG_DRM_DP_AUX_CHARDEV
+>  int drm_dp_aux_dev_init(void);
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 4b81195106875d..0b9f1ae1b7864c 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -2499,24 +2499,3 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+>  	drm_client_register(&fb_helper->client);
+>  }
+>  EXPORT_SYMBOL(drm_fbdev_generic_setup);
+> -
+> -/* The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> - * but the module doesn't depend on any fb console symbols.  At least
+> - * attempt to load fbcon to avoid leaving the system without a usable console.
+> - */
+> -int __init drm_fb_helper_modinit(void)
+> -{
+> -#if defined(CONFIG_FRAMEBUFFER_CONSOLE_MODULE) && !defined(CONFIG_EXPERT)
+> -	const char name[] = "fbcon";
+> -	struct module *fbcon;
+> -
+> -	mutex_lock(&module_mutex);
+> -	fbcon = find_module(name);
+> -	mutex_unlock(&module_mutex);
+> -
+> -	if (!fbcon)
+> -		request_module_nowait(name);
+> -#endif
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_modinit);
+> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+> index 221a8528c9937a..f933da1656eb52 100644
+> --- a/drivers/gpu/drm/drm_kms_helper_common.c
+> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
+> @@ -64,19 +64,18 @@ MODULE_PARM_DESC(edid_firmware,
+>  
+>  static int __init drm_kms_helper_init(void)
+>  {
+> -	int ret;
+> -
+> -	/* Call init functions from specific kms helpers here */
+> -	ret = drm_fb_helper_modinit();
+> -	if (ret < 0)
+> -		goto out;
+> -
+> -	ret = drm_dp_aux_dev_init();
+> -	if (ret < 0)
+> -		goto out;
+> -
+> -out:
+> -	return ret;
+> +	/*
+> +	 * The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> +	 * but the module doesn't depend on any fb console symbols.  At least
+> +	 * attempt to load fbcon to avoid leaving the system without a usable
+> +	 * console.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_DRM_FBDEV_EMULATION) &&
+> +	    IS_MODULE(CONFIG_FRAMEBUFFER_CONSOLE) &&
+> +	    !IS_ENABLED(CONFIG_EXPERT))
+> +		request_module_nowait("fbcon");
+> +
+> +	return drm_dp_aux_dev_init();
+>  }
+>  
+>  static void __exit drm_kms_helper_exit(void)
+> -- 
+> 2.29.2
+> 
 
-Am 03.02.21 um 11:29 schrieb Daniel Vetter:
-> On Wed, Jan 27, 2021 at 03:05:03PM +0100, Thomas Zimmermann wrote:
->> Functions in the atomic commit tail are not allowed to acquire the
->> dmabuf's reservation lock. So we cannot legally call the GEM object's
->> vmap functionality in atomic_update.
->>
->> Instead vmap the cursor BO in prepare_fb and vunmap it in cleanup_fb.
->> The cursor plane state stores the mapping's address. The pinning of th=
-e
->> BO is implicitly done by vmap.
->>
->> As an extra benefit, there's no source of runtime errors left in
->> atomic_update.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Did you test this with my dma_fence_signalling annotations patches?
-
-Not with vbox. I did test similar code in my recent ast patchset. But I=20
-think there's still a bug here, as there's no custom plane-reset function=
-=2E
-
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I'll certainly send out an updated patch.
-
-Best regards
-Thomas
-
->=20
->> ---
->>   drivers/gpu/drm/vboxvideo/vbox_mode.c | 102 +++++++++++++++++++++---=
---
->>   1 file changed, 82 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/v=
-boxvideo/vbox_mode.c
->> index dbc0dd53c69e..b5625a7d6cef 100644
->> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
->> @@ -324,6 +324,19 @@ static void vbox_primary_atomic_disable(struct dr=
-m_plane *plane,
->>   				    old_state->src_y >> 16);
->>   }
->>  =20
->> +struct vbox_cursor_plane_state {
->> +	struct drm_plane_state base;
->> +
->> +	/* Transitional state - do not export or duplicate */
->> +
->> +	struct dma_buf_map map;
->> +};
->> +
->> +static struct vbox_cursor_plane_state *to_vbox_cursor_plane_state(str=
-uct drm_plane_state *state)
->> +{
->> +	return container_of(state, struct vbox_cursor_plane_state, base);
->> +}
->> +
->>   static int vbox_cursor_atomic_check(struct drm_plane *plane,
->>   				    struct drm_plane_state *new_state)
->>   {
->> @@ -381,14 +394,13 @@ static void vbox_cursor_atomic_update(struct drm=
-_plane *plane,
->>   		container_of(plane->dev, struct vbox_private, ddev);
->>   	struct vbox_crtc *vbox_crtc =3D to_vbox_crtc(plane->state->crtc);
->>   	struct drm_framebuffer *fb =3D plane->state->fb;
->> -	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(fb->obj[0]);=
-
->>   	u32 width =3D plane->state->crtc_w;
->>   	u32 height =3D plane->state->crtc_h;
->> +	struct vbox_cursor_plane_state *vbox_state =3D to_vbox_cursor_plane_=
-state(plane->state);
->> +	struct dma_buf_map map =3D vbox_state->map;
->> +	u8 *src =3D map.vaddr; /* TODO: Use mapping abstraction properly */
->>   	size_t data_size, mask_size;
->>   	u32 flags;
->> -	struct dma_buf_map map;
->> -	int ret;
->> -	u8 *src;
->>  =20
->>   	/*
->>   	 * VirtualBox uses the host windowing system to draw the cursor so
->> @@ -401,17 +413,6 @@ static void vbox_cursor_atomic_update(struct drm_=
-plane *plane,
->>  =20
->>   	vbox_crtc->cursor_enabled =3D true;
->>  =20
->> -	ret =3D drm_gem_vram_vmap(gbo, &map);
->> -	if (ret) {
->> -		/*
->> -		 * BUG: we should have pinned the BO in prepare_fb().
->> -		 */
->> -		mutex_unlock(&vbox->hw_mutex);
->> -		DRM_WARN("Could not map cursor bo, skipping update\n");
->> -		return;
->> -	}
->> -	src =3D map.vaddr; /* TODO: Use mapping abstraction properly */
->> -
->>   	/*
->>   	 * The mask must be calculated based on the alpha
->>   	 * channel, one bit per ARGB word, and must be 32-bit
->> @@ -421,7 +422,6 @@ static void vbox_cursor_atomic_update(struct drm_p=
-lane *plane,
->>   	data_size =3D width * height * 4 + mask_size;
->>  =20
->>   	copy_cursor_image(src, vbox->cursor_data, width, height, mask_size)=
-;
->> -	drm_gem_vram_vunmap(gbo, &map);
->>  =20
->>   	flags =3D VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
->>   		VBOX_MOUSE_POINTER_ALPHA;
->> @@ -458,6 +458,43 @@ static void vbox_cursor_atomic_disable(struct drm=
-_plane *plane,
->>   	mutex_unlock(&vbox->hw_mutex);
->>   }
->>  =20
->> +static int vbox_cursor_prepare_fb(struct drm_plane *plane, struct drm=
-_plane_state *new_state)
->> +{
->> +	struct vbox_cursor_plane_state *new_vbox_state =3D to_vbox_cursor_pl=
-ane_state(new_state);
->> +	struct drm_framebuffer *fb =3D new_state->fb;
->> +	struct drm_gem_vram_object *gbo;
->> +	struct dma_buf_map map;
->> +	int ret;
->> +
->> +	if (!fb)
->> +		return 0;
->> +
->> +	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->> +
->> +	ret =3D drm_gem_vram_vmap(gbo, &map);
->> +	if (ret)
->> +		return ret;
->> +
->> +	new_vbox_state->map =3D map;
->> +
->> +	return 0;
->> +}
->> +
->> +static void vbox_cursor_cleanup_fb(struct drm_plane *plane, struct dr=
-m_plane_state *old_state)
->> +{
->> +	struct vbox_cursor_plane_state *old_vbox_state =3D to_vbox_cursor_pl=
-ane_state(old_state);
->> +	struct drm_framebuffer *fb =3D old_state->fb;
->> +	struct dma_buf_map map =3D old_vbox_state->map;
->> +	struct drm_gem_vram_object *gbo;
->> +
->> +	if (!fb)
->> +		return;
->> +
->> +	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->> +
->> +	drm_gem_vram_vunmap(gbo, &map);
->> +}
->> +
->>   static const u32 vbox_cursor_plane_formats[] =3D {
->>   	DRM_FORMAT_ARGB8888,
->>   };
->> @@ -466,17 +503,42 @@ static const struct drm_plane_helper_funcs vbox_=
-cursor_helper_funcs =3D {
->>   	.atomic_check	=3D vbox_cursor_atomic_check,
->>   	.atomic_update	=3D vbox_cursor_atomic_update,
->>   	.atomic_disable	=3D vbox_cursor_atomic_disable,
->> -	.prepare_fb	=3D drm_gem_vram_plane_helper_prepare_fb,
->> -	.cleanup_fb	=3D drm_gem_vram_plane_helper_cleanup_fb,
->> +	.prepare_fb	=3D vbox_cursor_prepare_fb,
->> +	.cleanup_fb	=3D vbox_cursor_cleanup_fb,
->>   };
->>  =20
->> +static struct drm_plane_state *vbox_cursor_atomic_duplicate_state(str=
-uct drm_plane *plane)
->> +{
->> +	struct vbox_cursor_plane_state *new_vbox_state;
->> +	struct drm_device *dev =3D plane->dev;
->> +
->> +	if (drm_WARN_ON(dev, !plane->state))
->> +		return NULL;
->> +
->> +	new_vbox_state =3D kzalloc(sizeof(*new_vbox_state), GFP_KERNEL);
->> +	if (!new_vbox_state)
->> +		return NULL;
->> +	__drm_atomic_helper_plane_duplicate_state(plane, &new_vbox_state->ba=
-se);
->> +
->> +	return &new_vbox_state->base;
->> +}
->> +
->> +static void vbox_cursor_atomic_destroy_state(struct drm_plane *plane,=
-
->> +					     struct drm_plane_state *state)
->> +{
->> +	struct vbox_cursor_plane_state *vbox_state =3D to_vbox_cursor_plane_=
-state(state);
->> +
->> +	__drm_atomic_helper_plane_destroy_state(&vbox_state->base);
->> +	kfree(vbox_state);
->> +}
->> +
->>   static const struct drm_plane_funcs vbox_cursor_plane_funcs =3D {
->>   	.update_plane	=3D drm_atomic_helper_update_plane,
->>   	.disable_plane	=3D drm_atomic_helper_disable_plane,
->>   	.destroy	=3D drm_primary_helper_destroy,
->>   	.reset		=3D drm_atomic_helper_plane_reset,
->> -	.atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_state,=
-
->> -	.atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
->> +	.atomic_duplicate_state =3D vbox_cursor_atomic_duplicate_state,
->> +	.atomic_destroy_state =3D vbox_cursor_atomic_destroy_state,
->>   };
->>  =20
->>   static const u32 vbox_primary_plane_formats[] =3D {
->>
->> base-commit: 3836b7fdfad40e2bac5dc882332f42bed6942cf4
->> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
->> --=20
->> 2.30.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---yWE0usKwrRWm5iO0SKRLjZ1UoZXVGwVEm--
-
---aZ3aVAXGJyF3CCtVAgE8wUWh4X5561YNf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAafC0FAwAAAAAACgkQlh/E3EQov+BJ
-YhAApPj1p+qvsxlpYTNAClmcKRFQ/CXceYEQ9jFATl3jxHm3xKY7lCqo0cJRs9tXyVq7IawS9bam
-Yc50IFvOwUe4vTqoH6NiOC7oT41gRjz0+ukyQy95fKzvnks/vcrQmmO9N7CIonQc6+pXaWjRESkm
-d7EszoKzoKxGrXjoCCEXIdXKd8lv5Tw1+n2qdnck/30UogebsP/EmddOGAYYIHJsv51qUnsQgMLr
-rB7gB/LRHNTr463101UiYZhDqVKD7bK91HiC8QTyzvPLl5987D8/xDdbFvLIhriCiz5RAfj8N4Xm
-hlEiNKO54vGZCk4I7nWGz6+SI4l6gQpnMAXBk5JbTI5KoWeLtCWu23mdfsrFvvCGM/6glnAaIlWl
-1caPRonXRd6nGMl4YEuskLVCPZHGy6sJoW1EFipoZEABGkwDSVDKM72mnoegzeowpKqRIohbgQz9
-45w2GU5Uuns0DvKAlhztinwtDL7jOLyXT3BWJ3nGtu4y3xKhTQKAJFO6he80Z1l5edkr2hjQBqb/
-VqFcZxs6H3mXaHQRracqdiOK2WflpVyp17IT1qasOdkomB2fU5T/3ZHQ3Onc+5FVOVqZWD7d/O2U
-oTzqGdcT4RCYwuuldNA3ezJH/dLJVewXdtYh236AFNg5piOmR8qFUuCB67RepkA1vNSiTWxtw04x
-mkU=
-=f4fH
------END PGP SIGNATURE-----
-
---aZ3aVAXGJyF3CCtVAgE8wUWh4X5561YNf--
-
---===============1270414377==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1270414377==--
