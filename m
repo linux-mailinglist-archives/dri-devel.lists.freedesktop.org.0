@@ -2,32 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5457C30DCAB
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 15:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4659A30DCB0
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 15:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31CD86EB29;
-	Wed,  3 Feb 2021 14:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 506F689F1B;
+	Wed,  3 Feb 2021 14:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D91A76EAE1
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 14:26:19 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 678C4ACBA;
- Wed,  3 Feb 2021 14:26:18 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210203131046.22371-1-tzimmermann@suse.de>
- <20210203131046.22371-3-tzimmermann@suse.de>
- <YBqsvhIROEVLnC2L@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/6] drm/shmem-helper: Add additional KMS helpers
-Message-ID: <03fd24e8-2133-9b78-ae3b-d297ab9472b4@suse.de>
-Date: Wed, 3 Feb 2021 15:26:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01AE089ED6
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 14:27:06 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id z6so24480188wrq.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 06:27:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=5dWoeYhsK7onz3kVESI3mbfiNswWbGGVQnOqq3keG0k=;
+ b=ZDgR0P0zOK0VCZKMQZpzy01bHRWi9mCdo/YigSxXt1SMX0FOXVJBeam0MEK+J+zJSS
+ d8QlbuH3FtFwIeOa9UFIA14V4mbLl6XasTFsKgBjgiZ6dypseAtUwJvalSeZ5z8uHiNa
+ mOAacXvKRSkeHUrLaeZm7zE/9S3gjUINr/ZQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=5dWoeYhsK7onz3kVESI3mbfiNswWbGGVQnOqq3keG0k=;
+ b=m/Pa8Kwn+eg7uU0Pyiydz7GuGbgJwfUdv9dkrPhxyCMAEmx3A7R52PNhBGelHFrb1q
+ fPTbKVxKP0lP5PKymFD0fuvq7bqBaBhzioO5Q0yAGx1oPJZrKqGHZqcCI0A9RiP4x6UE
+ +VT7nLeX3LD9FeAej7hEQhrEtF6ErITCCnEZFKzslurnRLP0RGzbKaz6wcUIZOGFrfxd
+ +nvkfjhj52RVnO30ODNSdiJbpsDw/uud4ioto1ayFpcgS1KIYRGXiDS/S3QF7hjrYS7q
+ tgg8bJ47u18WgRH37ExYGpNAMXTK29Aj1zDcVAQoQHwypxtCtzbtLeUlGISjfgSMUMEq
+ snnQ==
+X-Gm-Message-State: AOAM531mMfpySOhdpk3rtWUU1VLKHZbioDvxA0YyQ+6EX9WIadbJu4VW
+ VUyOFqNpBTEpEbc6pCztJAk91Q==
+X-Google-Smtp-Source: ABdhPJzDl99nXVUchLkMKLDYndNQUA1k2Rmn6F43km93FudlRF+qh2gvLEpwV4TjYvnNtDxc6pI/Sg==
+X-Received: by 2002:adf:ffce:: with SMTP id x14mr3960981wrs.390.1612362425598; 
+ Wed, 03 Feb 2021 06:27:05 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o17sm3915538wrm.52.2021.02.03.06.27.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Feb 2021 06:27:04 -0800 (PST)
+Date: Wed, 3 Feb 2021 15:27:02 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [amdgpu] deadlock
+Message-ID: <YBqytmXrUNL6BQIa@phenom.ffwll.local>
+Mail-Followup-To: Alex Deucher <alexdeucher@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Gomez <daniel@qtec.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <58e41b62-b8e0-b036-c87d-a84d53f5a26e@amd.com>
+ <CAKMK7uGTFYWnBG+JtbAK=zQVT1dT=nKor_SHP-t958oebgn8_A@mail.gmail.com>
+ <fa170c5c-2f46-58ef-6847-e0bc9907fc8b@amd.com>
+ <CAKMK7uE8qNUSNpX3TS6Fgif-6rCc7uZth_-F-kYPrOUSz5K3_A@mail.gmail.com>
+ <CAH1Ww+QhiKYOJTWAigDhC761EhqeCUuh_bdZn=r4DAcEcb5Yyw@mail.gmail.com>
+ <CAH1Ww+Q=9TnxB2QW1=wb-NAoYmt0_+DueFj8vowqPjPFe_Cw8w@mail.gmail.com>
+ <538682ee-3e12-a345-2205-2c0f16b496ff@gmail.com>
+ <YBqWCgTPTLomYvAt@phenom.ffwll.local>
+ <e34c8d2a-aded-a3be-334a-2adc4d552373@amd.com>
+ <CADnq5_NA2oGMyP8b0qNH9kmuYD4+A70pkw41uGErRDOvzF0RxA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YBqsvhIROEVLnC2L@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <CADnq5_NA2oGMyP8b0qNH9kmuYD4+A70pkw41uGErRDOvzF0RxA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,480 +81,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sean@poorly.run, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1367892307=="
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Daniel Gomez <daniel@qtec.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1367892307==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rfCIL0LEPkrv2ry9xh5YPyUE3DYoCRfxs"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rfCIL0LEPkrv2ry9xh5YPyUE3DYoCRfxs
-Content-Type: multipart/mixed; boundary="FfII8onD1bqmMFBdC9Pqh0A2MvBpdlF9i";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- kraxel@redhat.com, sean@poorly.run
-Message-ID: <03fd24e8-2133-9b78-ae3b-d297ab9472b4@suse.de>
-Subject: Re: [PATCH 2/6] drm/shmem-helper: Add additional KMS helpers
-References: <20210203131046.22371-1-tzimmermann@suse.de>
- <20210203131046.22371-3-tzimmermann@suse.de>
- <YBqsvhIROEVLnC2L@phenom.ffwll.local>
-In-Reply-To: <YBqsvhIROEVLnC2L@phenom.ffwll.local>
-
---FfII8onD1bqmMFBdC9Pqh0A2MvBpdlF9i
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 03.02.21 um 15:01 schrieb Daniel Vetter:
-> On Wed, Feb 03, 2021 at 02:10:42PM +0100, Thomas Zimmermann wrote:
->> Several drivers use GEM SHMEM buffer objects as shadow buffers for
->> the actual framebuffer memory. Right now, drivers do these vmap
->> operations in their commit tail, which is actually not allowed by the
->> locking rules for the dma-buf reservation lock. The involved SHMEM
->> BO has to be vmapped in the plane's prepare_fb callback and vunmapped
->> in cleanup_fb.
->>
->> This patch introduces a DRM library that implements KMS helpers for
->> GEM SHMEM buffer objects. The first set of helpers is the plane state
->> for shadow planes. The provided implementations for prepare_fb and
->> cleanup_fb vmap and vunmap all BOs of struct drm_plane_state.fb. The
->> mappings are afterwards available in the plane's commit-tail functions=
-=2E
->>
->> All rsp drivers use the simple KMS helpers, so we add the plane callba=
-cks
->> and wrappers for simple KMS.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/Kconfig                    |   7 +
->>   drivers/gpu/drm/Makefile                   |   1 +
->>   drivers/gpu/drm/drm_gem_shmem_kms_helper.c | 159 +++++++++++++++++++=
-++
->>   include/drm/drm_gem_shmem_kms_helper.h     |  56 ++++++++
->>   4 files changed, 223 insertions(+)
->>   create mode 100644 drivers/gpu/drm/drm_gem_shmem_kms_helper.c
->>   create mode 100644 include/drm/drm_gem_shmem_kms_helper.h
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 8bf103de1594..b8d8b00ab5d4 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -214,6 +214,13 @@ config DRM_GEM_SHMEM_HELPER
->>   	help
->>   	  Choose this if you need the GEM shmem helper functions
->>  =20
->> +config DRM_GEM_SHMEM_KMS_HELPER
->> +	bool
->> +	depends on DRM_GEM_SHMEM_HELPER
->> +	help
->> +	help
->> +	  Choose this if you need the GEM SHMEM helper functions for KMS
->=20
-> I think we should just stuff this into simple pipe helpers directly. Al=
-so
-> needs some kerneldoc and ideally intro section of some sorts, but I gue=
-ss
-> that was just missing for RFC.
-
-The missing docs is why it's an RFC. i was concerned about the=20
-additional simple-pipe callbacks, but I'm glad you're OK with them. I=20
-thought about simple_pipe state (as you mentioned below) or=20
-drm_private_state, but found it all too complex for this simple problem.
-
->=20
-> Thinking a bit bigger and looking at the first patch, I wonder whether =
-we
-> shouldn't outright integrate this simple pipe helpers. Adding all the
-> hooks for plane_state (instead of a simple_pipe_state or something like=
-
-> that) feels a bit icky to me. But on the driver side the integration wi=
-th
-> just the single macro line is very neat, so that's redeeming feature.
-
-I do disagree with integrating the shadow-plane code into simple-pipe.=20
-Right now it's SHMEM-depended and CMA-based simple-pipe drivers would=20
-probably not want to depend on this. The other reason is that I can=20
-certainly generalize the shadow planes away from SHMEM helpers; and use=20
-them for these vbox and ast patchsets as well. These drivers use VRAM=20
-helpers and full KMS helpers. I guess shadow planes could then be moved=20
-into drm_gem_framebuffer.c. There's other plane-helper code there already=
-=2E
-
-Unfortunately, I only realized this after sending out the patch set. :)
-
-Best regards
-Thomas
-
->=20
-> Note doing a drm_simple_display_pipe_state would be a bit tricky to do,=
-
-> since we'd need custome duplicate_state functions to make sure there's
-> only ever exactly one:
->=20
-> struct drm_simple_display_pipe_state {
-> 	struct drm_crtc_state crtc_state;
-> 	struct drm_plane_state plane_state;
->=20
-> 	struct dma_buf_map map[4];
-> };
->=20
-> But that's a bit a bigger step, maybe when we also need to subclass crt=
-c
-> stuff we can look into this. Or maybe that's then too much feature cree=
-p,
-> dunno. Implemenation shouldn't be too tricky:
-> - crtc state just duplicates itself (including plane_state duplication)=
-=2E
->    In release it also cleans up the plane state.
-> - plane state grabs the crtc state instead, and then does a cast. destr=
-oy
->    hook does nothing (to avoid touching freed memory, since we always d=
-upe
->    the crtc state when the plane state exists we know the crtc destroy =
-hook
->    will clean things up).
->=20
-> That means drm_atomic_state has 2 pointers pointing into the same
-> allocation, but that should be all fine.
->=20
-> Aside from this bikeshed here pondering a bit how this best first into =
-our
-> simple pipe helpers I think this all looks very clean.
-> -Daniel
->=20
->> +
->>   config DRM_SCHED
->>   	tristate
->>   	depends on DRM
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 926adef289db..37a73dee5baf 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -53,6 +53,7 @@ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) +=3D dr=
-m_fb_helper.o
->>   drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) +=3D drm_fb_cma_helper.o=
-
->>   drm_kms_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) +=3D drm_dp_aux_dev.o
->>   drm_kms_helper-$(CONFIG_DRM_DP_CEC) +=3D drm_dp_cec.o
->> +drm_kms_helper-$(CONFIG_DRM_GEM_SHMEM_KMS_HELPER) +=3D drm_gem_shmem_=
-kms_helper.o
->>  =20
->>   obj-$(CONFIG_DRM_KMS_HELPER) +=3D drm_kms_helper.o
->>   obj-$(CONFIG_DRM_DEBUG_SELFTEST) +=3D selftests/
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_kms_helper.c b/drivers/gpu/=
-drm/drm_gem_shmem_kms_helper.c
->> new file mode 100644
->> index 000000000000..8843c5837f98
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_gem_shmem_kms_helper.c
->> @@ -0,0 +1,159 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include <drm/drm_atomic_state_helper.h>
->> +#include <drm/drm_gem_framebuffer_helper.h>
->> +#include <drm/drm_gem_shmem_helper.h>
->> +#include <drm/drm_gem_shmem_kms_helper.h>
->> +#include <drm/drm_simple_kms_helper.h>
->> +
->> +/*
->> + * Helpers for struct drm_plane_funcs
->> + *
->> + */
->> +
->> +static struct drm_plane_state *
->> +drm_gem_shmem_duplicate_shadow_plane_state(struct drm_plane *plane,
->> +					   struct drm_plane_state *plane_state)
->> +{
->> +	struct drm_gem_shmem_shadow_plane_state *new_shadow_plane_state;
->> +
->> +	if (!plane_state)
->> +		return NULL;
->> +
->> +	new_shadow_plane_state =3D kzalloc(sizeof(*new_shadow_plane_state), =
-GFP_KERNEL);
->> +	if (!new_shadow_plane_state)
->> +		return NULL;
->> +	__drm_atomic_helper_plane_duplicate_state(plane, &new_shadow_plane_s=
-tate->base);
->> +
->> +	return &new_shadow_plane_state->base;
->> +}
->> +
->> +static void drm_gem_shmem_destroy_shadow_plane_state(struct drm_plane=
- *plane,
->> +						     struct drm_plane_state *plane_state)
->> +{
->> +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =3D
->> +		to_drm_gem_shmem_shadow_plane_state(plane_state);
->> +
->> +	__drm_atomic_helper_plane_destroy_state(&shadow_plane_state->base);
->> +	kfree(shadow_plane_state);
->> +}
->> +
->> +static void drm_gem_shmem_reset_shadow_plane(struct drm_plane *plane)=
-
->> +{
->> +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state;
->> +
->> +	if (plane->state) {
->> +		drm_gem_shmem_destroy_shadow_plane_state(plane, plane->state);
->> +		plane->state =3D NULL; /* must be set to NULL here */
->> +	}
->> +
->> +	shadow_plane_state =3D kzalloc(sizeof(*shadow_plane_state), GFP_KERN=
-EL);
->> +	if (!shadow_plane_state)
->> +		return;
->> +	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
->> +}
->> +
->> +/*
->> + * Helpers for struct drm_plane_helper_funcs
->> + */
->> +
->> +static int drm_gem_shmem_prepare_shadow_fb(struct drm_plane *plane,
->> +					   struct drm_plane_state *plane_state)
->> +{
->> +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =3D
->> +		to_drm_gem_shmem_shadow_plane_state(plane_state);
->> +	struct drm_framebuffer *fb =3D plane_state->fb;
->> +	struct drm_gem_object *obj;
->> +	struct dma_buf_map map;
->> +	int ret;
->> +	size_t i;
->> +
->> +	if (!fb)
->> +		return 0;
->> +
->> +	ret =3D drm_gem_fb_prepare_fb(plane, plane_state);
->> +	if (ret)
->> +		return ret;
->> +
->> +	for (i =3D 0; i < ARRAY_SIZE(shadow_plane_state->map); ++i) {
->> +		obj =3D drm_gem_fb_get_obj(fb, i);
->> +		if (!obj)
->> +			continue;
->> +		ret =3D drm_gem_shmem_vmap(obj, &map);
->> +		if (ret)
->> +			goto err_drm_gem_shmem_vunmap;
->> +		shadow_plane_state->map[i] =3D map;
->> +	}
->> +
->> +	return 0;
->> +
->> +err_drm_gem_shmem_vunmap:
->> +	while (i) {
->> +		--i;
->> +		obj =3D drm_gem_fb_get_obj(fb, i);
->> +		if (!obj)
->> +			continue;
->> +		drm_gem_shmem_vunmap(obj, &shadow_plane_state->map[i]);
->> +	}
->> +	return ret;
->> +}
->> +
->> +static void drm_gem_shmem_cleanup_shadow_fb(struct drm_plane *plane,
->> +					    struct drm_plane_state *plane_state)
->> +{
->> +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =3D
->> +		to_drm_gem_shmem_shadow_plane_state(plane_state);
->> +	struct drm_framebuffer *fb =3D plane_state->fb;
->> +	size_t i =3D ARRAY_SIZE(shadow_plane_state->map);
->> +	struct drm_gem_object *obj;
->> +
->> +	if (!fb)
->> +		return;
->> +
->> +	while (i) {
->> +		--i;
->> +		obj =3D drm_gem_fb_get_obj(fb, i);
->> +		if (!obj)
->> +			continue;
->> +		drm_gem_shmem_vunmap(obj, &shadow_plane_state->map[i]);
->> +	}
->> +}
->> +
->> +/*
->> + * Simple KMS helpers
->> + */
->> +
->> +int drm_gem_shmem_simple_kms_prepare_shadow_fb(struct drm_simple_disp=
-lay_pipe *pipe,
->> +					       struct drm_plane_state *plane_state)
->> +{
->> +	return drm_gem_shmem_prepare_shadow_fb(&pipe->plane, plane_state);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_simple_kms_prepare_shadow_fb);
->> +
->> +void drm_gem_shmem_simple_kms_cleanup_shadow_fb(struct drm_simple_dis=
-play_pipe *pipe,
->> +						struct drm_plane_state *plane_state)
->> +{
->> +	drm_gem_shmem_cleanup_shadow_fb(&pipe->plane, plane_state);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_simple_kms_cleanup_shadow_fb);
->> +
->> +void drm_gem_shmem_simple_kms_reset_shadow_plane(struct drm_simple_di=
-splay_pipe *pipe)
->> +{
->> +	drm_gem_shmem_reset_shadow_plane(&pipe->plane);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_simple_kms_reset_shadow_plane);
->> +
->> +struct drm_plane_state *
->> +drm_gem_shmem_simple_kms_duplicate_shadow_plane_state(struct drm_simp=
-le_display_pipe *pipe,
->> +						      struct drm_plane_state *plane_state)
->> +{
->> +	return drm_gem_shmem_duplicate_shadow_plane_state(&pipe->plane, plan=
-e_state);
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_simple_kms_duplicate_shadow_plane_state);=
-
->> +
->> +void drm_gem_shmem_simple_kms_destroy_shadow_plane_state(struct drm_s=
-imple_display_pipe *pipe,
->> +							 struct drm_plane_state *plane_state)
->> +{
->> +	drm_gem_shmem_destroy_shadow_plane_state(&pipe->plane, plane_state);=
-
->> +}
->> +EXPORT_SYMBOL(drm_gem_shmem_simple_kms_destroy_shadow_plane_state);
->> diff --git a/include/drm/drm_gem_shmem_kms_helper.h b/include/drm/drm_=
-gem_shmem_kms_helper.h
->> new file mode 100644
->> index 000000000000..bd42c9c0a39e
->> --- /dev/null
->> +++ b/include/drm/drm_gem_shmem_kms_helper.h
->> @@ -0,0 +1,56 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +
->> +#ifndef __DRM_GEM_SHMEM_KMS_HELPER_H__
->> +#define __DRM_GEM_SHMEM_KMS_HELPER_H__
->> +
->> +#include <linux/dma-buf-map.h>
->> +
->> +#include <drm/drm_plane.h>
->> +
->> +struct drm_simple_display_pipe;
->> +
->> +struct drm_gem_shmem_shadow_plane_state {
->> +	struct drm_plane_state base;
->> +
->> +	/* Transitional state - do not export or duplicate */
->> +
->> +	struct dma_buf_map map[4];
->> +};
->> +
->> +static inline struct drm_gem_shmem_shadow_plane_state *
->> +to_drm_gem_shmem_shadow_plane_state(struct drm_plane_state *state)
->> +{
->> +	return container_of(state, struct drm_gem_shmem_shadow_plane_state, =
-base);
->> +}
->> +
->> +/*
->> + * Simple KMS helpers
->> + */
->> +
->> +int drm_gem_shmem_simple_kms_prepare_shadow_fb(struct drm_simple_disp=
-lay_pipe *pipe,
->> +					       struct drm_plane_state *plane_state);
->> +void drm_gem_shmem_simple_kms_cleanup_shadow_fb(struct drm_simple_dis=
-play_pipe *pipe,
->> +						struct drm_plane_state *plane_state);
->> +void drm_gem_shmem_simple_kms_reset_shadow_plane(struct drm_simple_di=
-splay_pipe *pipe);
->> +struct drm_plane_state *
->> +drm_gem_shmem_simple_kms_duplicate_shadow_plane_state(struct drm_simp=
-le_display_pipe *pipe,
->> +						      struct drm_plane_state *plane_state);
->> +void
->> +drm_gem_shmem_simple_kms_destroy_shadow_plane_state(struct drm_simple=
-_display_pipe *pipe,
->> +						    struct drm_plane_state *plane_state);
->> +
->> +/**
->> + * DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS -
->> + *	Initializes struct drm_simple_display_pipe_funcs for SHMEM shadow =
-planes
->> + *
->> + * Drivers may use GEM SHMEM BOs as shadow buffers over the framebuff=
-er memory. This
->> + * macro initializes struct drm_simple_display_pipe_funcs to use the =
-rsp helper functions.
->> + */
->> +#define DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS \
->> +	.prepare_fb =3D drm_gem_shmem_simple_kms_prepare_shadow_fb, \
->> +	.cleanup_fb =3D drm_gem_shmem_simple_kms_cleanup_shadow_fb, \
->> +	.reset_plane =3D drm_gem_shmem_simple_kms_reset_shadow_plane, \
->> +	.duplicate_plane_state =3D drm_gem_shmem_simple_kms_duplicate_shadow=
-_plane_state, \
->> +	.destroy_plane_state   =3D drm_gem_shmem_simple_kms_destroy_shadow_p=
-lane_state
->> +
->> +#endif /* __DRM_GEM_SHMEM_KMS_HELPER_H__ */
->> --=20
->> 2.30.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---FfII8onD1bqmMFBdC9Pqh0A2MvBpdlF9i--
-
---rfCIL0LEPkrv2ry9xh5YPyUE3DYoCRfxs
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAasokFAwAAAAAACgkQlh/E3EQov+Ay
-8g/6AmekIoHVlSYLMn0s262whLelwjolYm/G7sREuCACj6OcWVG4s/7TI4oE0wf2R1T9o5dIjXP2
-O5hPqTVyq8CUB27mRfgz7iWiM6FLRso3fjf/PW9PRArkMZ1Zc/oeKOwC7wU3vv86e/T1FGUSPrMx
-n9rWWjpWaQPBWehgWstBiY+lHhYpRiaMKFS27wz4LfKdRo5b6DtSdwMHcHJw+UPdpmLeT/EfN8oe
-S5MKridcn0QqyKiAJ8khYkwR4sXAdqSPACTE95+GTvt4HILMVgl3yGSkaDDVhUxnmiaouj97f43m
-fU9rcf4YvYcR8myw5Uj+9nl+DP+9EUqBoKAGciYgg6Sx24gJLjMxMCLbbweEq4Gj/U7JpI49up3y
-iKyDZW6awUjbDOOTjjtrJRJibgeeTxqm4Rkj1LT7BFaFSN6eWbTxlhWhsQeG6sdBk/EIyIFNZKOl
-6KSKrRqL+vNkK9mgigtcCnY2RdlfPhfrpv/7g8STqyizehIbXox3ufvs7FeFZ4jiI4M0Z8YmIcTX
-dLP2TSw+zmH/kB9Pq+jpvAUHNDJzGLKVrgLHDe0jwp9LDzCXi/EnO8arSIcusNGT/HoMAzCwsSdb
-P2JqinrfcRB0WHV3IGMhK1InGzyqiELR8zXIyO0AQeVcHi+BsQuyI9hGyOkPOTV0jg9GwNymF3QO
-+1c=
-=lw96
------END PGP SIGNATURE-----
-
---rfCIL0LEPkrv2ry9xh5YPyUE3DYoCRfxs--
-
---===============1367892307==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1367892307==--
+T24gV2VkLCBGZWIgMDMsIDIwMjEgYXQgMDg6NTY6MTdBTSAtMDUwMCwgQWxleCBEZXVjaGVyIHdy
+b3RlOgo+IE9uIFdlZCwgRmViIDMsIDIwMjEgYXQgNzozMCBBTSBDaHJpc3RpYW4gS8O2bmlnIDxj
+aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4KPiA+IEFtIDAzLjAyLjIxIHVtIDEz
+OjI0IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+ID4gT24gV2VkLCBGZWIgMDMsIDIwMjEgYXQg
+MDE6MjE6MjBQTSArMDEwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+ID4+IEFtIDAzLjAy
+LjIxIHVtIDEyOjQ1IHNjaHJpZWIgRGFuaWVsIEdvbWV6Ogo+ID4gPj4+IE9uIFdlZCwgMyBGZWIg
+MjAyMSBhdCAxMDo0NywgRGFuaWVsIEdvbWV6IDxkYW5pZWxAcXRlYy5jb20+IHdyb3RlOgo+ID4g
+Pj4+PiBPbiBXZWQsIDMgRmViIDIwMjEgYXQgMTA6MTcsIERhbmllbCBWZXR0ZXIgPGRhbmllbEBm
+ZndsbC5jaD4gd3JvdGU6Cj4gPiA+Pj4+PiBPbiBXZWQsIEZlYiAzLCAyMDIxIGF0IDk6NTEgQU0g
+Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiA+ID4+
+Pj4+PiBBbSAwMy4wMi4yMSB1bSAwOTo0OCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+Pj4+
+Pj4+IE9uIFdlZCwgRmViIDMsIDIwMjEgYXQgOTozNiBBTSBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4gPj4+Pj4+Pj4gSGkgRGFuaWVsLAo+ID4g
+Pj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+IHRoaXMgaXMgbm90IGEgZGVhZGxvY2ssIGJ1dCByYXRoZXIg
+YSBoYXJkd2FyZSBsb2NrdXAuCj4gPiA+Pj4+Pj4+IEFyZSB5b3Ugc3VyZT8gSW1lIGdldHRpbmcg
+c3R1Y2sgaW4gZG1hX2ZlbmNlX3dhaXQgaGFzIGdlbmVyYWxseSBnb29kCj4gPiA+Pj4+Pj4+IGNo
+YW5jZSBvZiBiZWluZyBhIGRtYV9mZW5jZSBkZWFkbG9jay4gR1BVIGhhbmcgc2hvdWxkIG5ldmVy
+IHJlc3VsdCBpbgo+ID4gPj4+Pj4+PiBhIGZvcmV2ZXIgc3R1Y2sgZG1hX2ZlbmNlLgo+ID4gPj4+
+Pj4+IFllcywgSSdtIHByZXR0eSBzdXJlLiBPdGhlcndpc2UgdGhlIGhhcmR3YXJlIGNsb2NrcyB3
+b3VsZG4ndCBnbyB1cCBsaWtlCj4gPiA+Pj4+Pj4gdGhpcy4KPiA+ID4+Pj4+IE1heWJlIGNsYXJp
+ZnlpbmcsIGNvdWxkIGJlIGJvdGguIFREUiBzaG91bGQgbm90aWNlIGFuZCBnZXQgdXMgb3V0IG9m
+Cj4gPiA+Pj4+PiB0aGlzLCBidXQgaWYgdGhlcmUncyBhIGRtYV9mZW5jZSBkZWFkbG9jayBhbmQg
+d2UgY2FuJ3QgcmUtZW1pdCBvcgo+ID4gPj4+Pj4gZm9yY2UgY29tcGxldGUgdGhlIHBlbmRpbmcg
+dGhpbmdzLCB0aGVuIHdlJ3JlIHN0dWNrIGZvciBnb29kLgo+ID4gPj4+Pj4gLURhbmllbAo+ID4g
+Pj4+Pj4KPiA+ID4+Pj4+PiBRdWVzdGlvbiBpcyByYXRoZXIgd2h5IHdlIGVuZCB1cCBpbiB0aGUg
+dXNlcnB0ciBoYW5kbGluZyBmb3IgR0ZYPyBPdXIKPiA+ID4+Pj4+PiBST0NtIE9wZW5DTCBzdGFj
+ayBzaG91bGRuJ3QgdXNlIHRoaXMuCj4gPiA+Pj4+Pj4KPiA+ID4+Pj4+Pj4gRGFuaWVsLCBjYW4g
+eW91IHBscyByZS1oYW5nIHlvdXIgbWFjaGluZSBhbmQgdGhlbiBkdW1wIGJhY2t0cmFjZXMgb2YK
+PiA+ID4+Pj4+Pj4gYWxsIHRhc2tzIGludG8gZG1lc2cgd2l0aCBzeXNycS10LCBhbmQgdGhlbiBh
+dHRhY2ggdGhhdD8gV2l0aG91dCBhbGwKPiA+ID4+Pj4+Pj4gdGhlIGJhY2t0cmFjZXMgaXQncyB0
+cmlja3kgdG8gY29uc3RydWN0IHRoZSBmdWxsIGRlcGVuZGVuY3kgY2hhaW4gb2YKPiA+ID4+Pj4+
+Pj4gd2hhdCdzIGdvaW5nIG9uLiBBbHNvIGlzIHRoaXMgcGxhaW4gLXJjNiwgbm90IHNvbWUgbW9y
+ZSBwYXRjaGVzIG9uCj4gPiA+Pj4+Pj4+IHRvcD8KPiA+ID4+Pj4+PiBZZWFoLCB0aGF0J3Mgc3Rp
+bGwgYSBnb29kIGlkZWEgdG8gaGF2ZS4KPiA+ID4+Pj4gSGVyZSB0aGUgZnVsbCBiYWNrdHJhY2Ug
+ZG1lc2cgbG9ncyBhZnRlciB0aGUgaGFuZzoKPiA+ID4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlu
+a3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGcGFzdGViaW4uY29t
+JTJGcmF3JTJGa3ppdm0yTDMmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBh
+bWQuY29tJTdDMDQwNjU5NTZlNzRkNGVhNzNiMjQwOGQ4YzgzZWIxNWElN0MzZGQ4OTYxZmU0ODg0
+ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDc5NTE4ODg1OTcxMDE5JTdDVW5rbm93
+biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJU
+aUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMwMDAmYW1wO3NkYXRhPWEzOTM0U09PU0Z0UlUz
+UnJhVWUlMkJXRGdBRURlZkVOeFFaY2QwcHJtU1pYcyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4gPj4+
+Pgo+ID4gPj4+PiBUaGlzIGlzIGFub3RoZXIgZG1lc2cgbG9nIHdpdGggdGhlIGJhY2t0cmFjZXMg
+YWZ0ZXIgU0lHS0lMTCB0aGUgbWF0cml4IHByb2Nlc3M6Cj4gPiA+Pj4+IChJIGRpZG4ndCBoYXZl
+IHRoZSBzeXNycSBlbmFibGUgYXQgdGhlIHRpbWUpOgo+ID4gPj4+PiBodHRwczovL25hbTExLnNh
+ZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZwYXN0ZWJp
+bi5jb20lMkZyYXclMkZwUkJ3R2NqMSZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtvZW5p
+ZyU0MGFtZC5jb20lN0MwNDA2NTk1NmU3NGQ0ZWE3M2IyNDA4ZDhjODNlYjE1YSU3QzNkZDg5NjFm
+ZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0Nzk1MTg4ODU5ODEwMTglN0NV
+bmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklp
+TENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCZhbXA7c2RhdGE9blBvbTlWd0ly
+RVpGMDJoU0VuQzVFZjhsSGRRVVJNRUxDYXBJaHdLazJKRSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4g
+Pj4+IEkndmUgbm93IHJlbW92ZWQgYWxsIG91ciB2NGwyIHBhdGNoZXMgYW5kIGRpZCB0aGUgc2Ft
+ZSB0ZXN0IHdpdGggdGhlICdwbGFpbicKPiA+ID4+PiBtYWlubGluZSB2ZXJzaW9uICgtcmM2KS4K
+PiA+ID4+Pgo+ID4gPj4+IFJlZmVyZW5jZTogM2FhZjBhMjdmZmMyOWIxOWE2MjMxNGVkZDY4NGI5
+YmM2MzQ2ZjlhOAo+ID4gPj4+Cj4gPiA+Pj4gU2FtZSBlcnJvciwgc2FtZSBiZWhhdmlvdXIuIEZ1
+bGwgZG1lc2cgbG9nIGF0dGFjaGVkOgo+ID4gPj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnBy
+b3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnBhc3RlYmluLmNvbSUyRnJh
+dyUyRktnYUVmN1kxJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNv
+bSU3QzA0MDY1OTU2ZTc0ZDRlYTczYjI0MDhkOGM4M2ViMTVhJTdDM2RkODk2MWZlNDg4NGU2MDhl
+MTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQ3OTUxODg4NTk4MTAxOCU3Q1Vua25vd24lN0NU
+V0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklr
+MWhhV3dpTENKWFZDSTZNbjAlM0QlN0MzMDAwJmFtcDtzZGF0YT1XUXc2ZzlvQTM4YVQxVnV1Wjgl
+MkYxWTQzcEclMkJQbFYlMkY5JTJGUkhqS2RHdlpMSzQlM0QmYW1wO3Jlc2VydmVkPTAKPiA+ID4+
+PiBOb3RlOgo+ID4gPj4+ICAgICBkbWVzZyB3aXRoIHN5c3JxLXQgYmVmb3JlIHJ1bm5pbmcgdGhl
+IHRlc3Qgc3RhcnRzIGluIFsgIDEyMi4wMTY1MDJdCj4gPiA+Pj4gc3lzcnE6IFNob3cgU3RhdGUK
+PiA+ID4+PiAgICAgZG1lc2cgd2l0aCBzeXNycS10IGFmdGVyIHRoZSB0ZXN0IHN0YXJ0cyBpbjog
+WyAgNDk1LjU4NzY3MV0gc3lzcnE6IFNob3cgU3RhdGUKPiA+ID4+IFRoZXJlIGlzIG5vdGhpbmcg
+YW1kZ3B1IHJlbGF0ZWQgaW4gdGhlcmUgZXhjZXB0IGZvciB3YWl0aW5nIGZvciB0aGUKPiA+ID4+
+IGhhcmR3YXJlLgo+ID4gPiBZZWFoLCBidXQgdGhlcmUncyBhbHNvIG5vIG90aGVyIGRyaXZlciB0
+aGF0IGNvdWxkIGNhdXNlIGEgc3R1Y2sgZG1hX2ZlbmNlLAo+ID4gPiBzbyB3aHkgaXMgcmVzZXQg
+bm90IGNsZWFuaW5nIHVwIHRoZSBtZXNzIGhlcmU/IElycmVzcGVjdGl2ZSBvZiB3aHkgdGhlIGdw
+dQo+ID4gPiBpcyBzdHVjaywgdGhlIGtlcm5lbCBzaG91bGQgYXQgbGVhc3QgY29tcGxldGUgYWxs
+IHRoZSBkbWFfZmVuY2VzIGV2ZW4gaWYKPiA+ID4gdGhlIGdwdSBmb3Igc29tZSByZWFzb24gaXMg
+dGVybWluYWxseSBpbGwgLi4uCj4gPgo+ID4gVGhhdCdzIGEgZ29vZCBxdWVzdGlvbiBhcyB3ZWxs
+LiBJJ20gZGlnZ2luZyBpbnRvIHRoaXMuCj4gPgo+ID4gTXkgYmVzdCB0aGVvcnkgaXMgdGhhdCB0
+aGUgYW1kZ3B1IHBhY2thZ2VzIGRpc2FibGVkIEdQVSByZXNldCBmb3Igc29tZQo+ID4gcmVhc29u
+Lgo+IAo+IFRoZSB0aW1lb3V0IGZvciBjb21wdXRlIHF1ZXVlcyBpcyBpbmZpbml0ZSBiZWNhdXNl
+IG9mIGxvbmcgcnVubmluZwo+IGNvbXB1dGUga2VybmVscy4gIFlvdSBjYW4gb3ZlcnJpZGUgd2l0
+aCB0aGUgYW1kZ3B1LmxvY2t1cF90aW1lb3V0Cj4gcGFyYW1ldGVyLgoKVWgsIHRoYXQgZG9lc24n
+dCB3b3JrLiBJZiB5b3Ugd2FudCBpbmZpbml0ZSBjb21wdXRlIHF1ZXVlcyB5b3UgbmVlZCB0aGUK
+YW1ka2ZkIG1vZGVsIHdpdGggcHJlZW1wdC1jdHggZG1hX2ZlbmNlLiBJZiB5b3UgYWxsb3cgbm9y
+bWFsIGNzIGlvY3RsIHRvCnJ1biBmb3JldmVyLCB5b3UganVzdCBoYW5nIHRoZSBrZXJuZWwgd2hl
+bmV2ZXIgdXNlcnNwYWNlIGZlZWxzIGxpa2UuIE5vdApqdXN0IHRoZSBncHUsIHRoZSBrZXJuZWwg
+KGFueXRoaW5nIHRoYXQgYWxsb2NhdGVzIG1lbW9yeSwgaXJyZXNwZWN0aXZlIG9mCnByb2Nlc3Mg
+Y2FuIGhhbmcpLiBUaGF0J3Mgbm8gZ29vZC4KLURhbmllbAoKPiAKPiBBbGV4Cj4gCj4gPgo+ID4g
+QnV0IHRoZSBtdWNoIG1vcmUgaW50ZXJlc3RpbmcgcXVlc3Rpb24gaXMgd2h5IHdlIGVuZCB1cCBp
+biB0aGlzIGNhbGwKPiA+IHBhdGguIEkndmUgcGluZ2VkIGludGVybmFsbHksIGJ1dCBlYXN0IGNv
+YXN0IGlzIG5vdCBhd2FrZSB5ZXQgOikKPiA+Cj4gPiBDaHJpc3RpYW4uCj4gPgo+ID4gPiAtRGFu
+aWVsCj4gPiA+Cj4gPiA+PiBUaGlzIGlzIGEgcHJldHR5IHN0YW5kYXJkIGhhcmR3YXJlIGxvY2t1
+cCwgYnV0IEknbSBzdGlsbCB3YWl0aW5nIGZvciBhbgo+ID4gPj4gZXhwbGFuYXRpb24gd2h5IHdl
+IGVuZCB1cCBpbiB0aGlzIGNhbGwgcGF0aCBpbiB0aGUgZmlyc3QgcGxhY2UuCj4gPiA+Pgo+ID4g
+Pj4gQ2hyaXN0aWFuLgo+ID4gPj4KPiA+ID4+Pgo+ID4gPj4+Pj4+IENocmlzdGlhbi4KPiA+ID4+
+Pj4+Pgo+ID4gPj4+Pj4+PiAtRGFuaWVsCj4gPiA+Pj4+Pj4+Cj4gPiA+Pj4+Pj4+PiBXaGljaCBP
+cGVuQ2wgc3RhY2sgYXJlIHlvdSB1c2luZz8KPiA+ID4+Pj4+Pj4+Cj4gPiA+Pj4+Pj4+PiBSZWdh
+cmRzLAo+ID4gPj4+Pj4+Pj4gQ2hyaXN0aWFuLgo+ID4gPj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+IEFt
+IDAzLjAyLjIxIHVtIDA5OjMzIHNjaHJpZWIgRGFuaWVsIEdvbWV6Ogo+ID4gPj4+Pj4+Pj4+IEhp
+IGFsbCwKPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IEkgaGF2ZSBhIGRlYWRsb2NrIHdpdGgg
+dGhlIGFtZGdwdSBtYWlubGluZSBkcml2ZXIgd2hlbiBydW5uaW5nIGluIHBhcmFsbGVsIHR3bwo+
+ID4gPj4+Pj4+Pj4+IE9wZW5DTCBhcHBsaWNhdGlvbnMuIFNvIGZhciwgd2UndmUgYmVlbiBhYmxl
+IHRvIHJlcGxpY2F0ZSBpdCBlYXNpbHkgYnkgZXhlY3V0aW5nCj4gPiA+Pj4+Pj4+Pj4gY2xpbmZv
+IGFuZCBNYXRyaXhNdWx0aXBsaWNhdGlvbiAoZnJvbSBBTUQgb3BlbmNsLXNhbXBsZXMpLiBJdCdz
+IHF1aXRlIG9sZCB0aGUKPiA+ID4+Pj4+Pj4+PiBvcGVuY2wtc2FtcGxlcyBzbywgaWYgeW91IGhh
+dmUgYW55IG90aGVyIHN1Z2dlc3Rpb24gZm9yIHRlc3RpbmcgSSdkIGJlIHZlcnkKPiA+ID4+Pj4+
+Pj4+PiBoYXBweSB0byB0ZXN0IGl0IGFzIHdlbGwuCj4gPiA+Pj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+
+PiBIb3cgdG8gcmVwbGljYXRlIHRoZSBpc3N1ZToKPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+
+ICMgd2hpbGUgdHJ1ZTsgZG8gL3Vzci9iaW4vTWF0cml4TXVsdGlwbGljYXRpb24gLS1kZXZpY2Ug
+Z3B1IFwKPiA+ID4+Pj4+Pj4+PiAgICAgICAgIC0tZGV2aWNlSWQgMCAteCAxMDAwIC15IDEwMDAg
+LXogMTAwMCAtcSAtdCAtaSA1MDsgZG9uZQo+ID4gPj4+Pj4+Pj4+ICMgd2hpbGUgdHJ1ZTsgZG8g
+Y2xpbmZvOyBkb25lCj4gPiA+Pj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+PiBPdXRwdXQ6Cj4gPiA+Pj4+
+Pj4+Pj4KPiA+ID4+Pj4+Pj4+PiBBZnRlciBhIG1pbnV0ZSBvciBsZXNzIChzb21ldGltZXMgY291
+bGQgYmUgbW9yZSkgSSBjYW4gc2VlIHRoYXQKPiA+ID4+Pj4+Pj4+PiBNYXRyaXhNdWx0aXBsaWNh
+dGlvbiBhbmQgY2xpbmZvIGhhbmcuIEluIGFkZGl0aW9uLCB3aXRoIHJhZGVvbnRvcCB5b3UgY2Fu
+IHNlZQo+ID4gPj4+Pj4+Pj4+IGhvdyB0aGUgR3JhcGhpY3MgcGlwZSBnb2VzIGZyb20gfjUwJSB0
+byAxMDAlLiBBbHNvIHRoZSBzaGFkZXIgY2xvY2tzCj4gPiA+Pj4+Pj4+Pj4gZ29lcyB1cCBmcm9t
+IH4zNSUgdG8gfjk2JS4KPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IGNsaW5mbyBrZWVwcyBw
+cmludGluZzoKPiA+ID4+Pj4+Pj4+PiBpb2N0bCg3LCBEUk1fSU9DVExfU1lOQ09CSl9XQUlULCAw
+eDdmZmU0NmU1Zjk1MCkgPSAtMSBFVElNRSAoVGltZXIgZXhwaXJlZCkKPiA+ID4+Pj4+Pj4+Pgo+
+ID4gPj4+Pj4+Pj4+IEFuZCBNYXRyaXhNdWx0aXBsaWNhdGlvbiBwcmludHMgdGhlIGZvbGxvd2lu
+ZyAoc3RyYWNlKSBpZiB5b3UgdHJ5IHRvCj4gPiA+Pj4+Pj4+Pj4ga2lsbCB0aGUgcHJvY2VzczoK
+PiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IHNjaGVkX3lpZWxkKCkgICAgICAgICAgICAgICAg
+ICAgICAgICAgICA9IDAKPiA+ID4+Pj4+Pj4+PiBmdXRleCgweDU1N2U5NDUzNDNiOCwgRlVURVhf
+V0FJVF9CSVRTRVRfUFJJVkFURXxGVVRFWF9DTE9DS19SRUFMVElNRSwgMCwKPiA+ID4+Pj4+Pj4+
+PiBOVUxMLCBGVVRFWF9CSVRTRVRfTUFUQ0hfQU5Zc3RyYWNlOiBQcm9jZXNzIDY1MSBkZXRhY2hl
+ZAo+ID4gPj4+Pj4+Pj4+ICAgICAgPGRldGFjaGVkIC4uLj4KPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+
+Pj4+Pj4+IEFmdGVyIHRoaXMsIHRoZSBncHUgaXMgbm90IGZ1bmN0aW9uYWwgYXQgYWxsIGFuZCB5
+b3UnZCBuZWVkIGEgcG93ZXIgY3ljbGUgcmVzZXQKPiA+ID4+Pj4+Pj4+PiB0byByZXN0b3JlIHRo
+ZSBzeXN0ZW0uCj4gPiA+Pj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+PiBIYXJkd2FyZSBpbmZvOgo+ID4g
+Pj4+Pj4+Pj4+IENQVTogQU1EIFJ5emVuIEVtYmVkZGVkIFYxNjA1QiB3aXRoIFJhZGVvbiBWZWdh
+IEdmeCAoOCkgQCAyLjAwMEdIego+ID4gPj4+Pj4+Pj4+IEdQVTogQU1EIEFUSSBSYWRlb24gVmVn
+YSBTZXJpZXMgLyBSYWRlb24gVmVnYSBNb2JpbGUgU2VyaWVzCj4gPiA+Pj4+Pj4+Pj4KPiA+ID4+
+Pj4+Pj4+PiAwMzowMC4wIFZHQSBjb21wYXRpYmxlIGNvbnRyb2xsZXI6IEFkdmFuY2VkIE1pY3Jv
+IERldmljZXMsIEluYy4KPiA+ID4+Pj4+Pj4+PiBbQU1EL0FUSV0gUmF2ZW4gUmlkZ2UgW1JhZGVv
+biBWZWdhIFNlcmllcyAvIFJhZGVvbiBWZWdhIE1vYmlsZSBTZXJpZXNdCj4gPiA+Pj4+Pj4+Pj4g
+KHJldiA4MykKPiA+ID4+Pj4+Pj4+PiAgICAgICAgIERldmljZU5hbWU6IEJyb2FkY29tIDU3NjIK
+PiA+ID4+Pj4+Pj4+PiAgICAgICAgIFN1YnN5c3RlbTogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywg
+SW5jLiBbQU1EL0FUSV0gUmF2ZW4gUmlkZ2UKPiA+ID4+Pj4+Pj4+PiBbUmFkZW9uIFZlZ2EgU2Vy
+aWVzIC8gUmFkZW9uIFZlZ2EgTW9iaWxlIFNlcmllc10KPiA+ID4+Pj4+Pj4+PiAgICAgICAgIEtl
+cm5lbCBkcml2ZXIgaW4gdXNlOiBhbWRncHUKPiA+ID4+Pj4+Pj4+PiAgICAgICAgIEtlcm5lbCBt
+b2R1bGVzOiBhbWRncHUKPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IExpbnV4IGtlcm5lbCBp
+bmZvOgo+ID4gPj4+Pj4+Pj4+Cj4gPiA+Pj4+Pj4+Pj4gcm9vdEBxdDUyMjI6fiMgdW5hbWUgLWEK
+PiA+ID4+Pj4+Pj4+PiBMaW51eCBxdDUyMjIgNS4xMS4wLXJjNi1xdGVjLXN0YW5kYXJkICMyIFNN
+UCBUdWUgRmViIDIgMDk6NDE6NDYgVVRDCj4gPiA+Pj4+Pj4+Pj4gMjAyMSB4ODZfNjQgeDg2XzY0
+IHg4Nl82NCBHTlUvTGludXgKPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IEJ5IGVuYWJsaW5n
+IHRoZSBrZXJuZWwgbG9ja3Mgc3RhdHMgSSBjb3VsZCBzZWUgdGhlIE1hdHJpeE11bHRpcGxpY2F0
+aW9uIGlzCj4gPiA+Pj4+Pj4+Pj4gaGFuZ2VkIGluIHRoZSBhbWRncHVfbW5faW52YWxpZGF0ZV9n
+ZnggZnVuY3Rpb246Cj4gPiA+Pj4+Pj4+Pj4KPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU5MjAyXSAx
+IGxvY2sgaGVsZCBieSBNYXRyaXhNdWx0aXBsaWMvNjUzOgo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4z
+NTkyMDZdICAjMDogZmZmZjg4ODEwZTM2NGZlMAo+ID4gPj4+Pj4+Pj4+ICgmYWRldi0+bm90aWZp
+ZXJfbG9jayl7Ky4rLn0tezM6M30sIGF0Ogo+ID4gPj4+Pj4+Pj4+IGFtZGdwdV9tbl9pbnZhbGlk
+YXRlX2dmeCsweDM0LzB4YTAgW2FtZGdwdV0KPiA+ID4+Pj4+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IEkg
+Y2FuIHNlZSBpbiB0aGUgdGhlIGFtZGdwdV9tbl9pbnZhbGlkYXRlX2dmeCBmdW5jdGlvbjogdGhl
+Cj4gPiA+Pj4+Pj4+Pj4gZG1hX3Jlc3Zfd2FpdF90aW1lb3V0X3JjdSB1c2VzIHdhaXRfYWxsIChm
+ZW5jZXMpIGFuZCBNQVhfU0NIRURVTEVfVElNRU9VVCBzbywgSQo+ID4gPj4+Pj4+Pj4+IGd1ZXNz
+IHRoZSBjb2RlIGdldHMgc3R1Y2sgdGhlcmUgd2FpdGluZyBmb3JldmVyLiBBY2NvcmRpbmcgdG8g
+dGhlCj4gPiA+Pj4+Pj4+Pj4gZG9jdW1lbnRhdGlvbjogIldoZW4gc29tZWJvZHkgdHJpZXMgdG8g
+aW52YWxpZGF0ZSB0aGUgcGFnZSB0YWJsZXMgd2UgYmxvY2sgdGhlCj4gPiA+Pj4+Pj4+Pj4gdXBk
+YXRlIHVudGlsIGFsbCBvcGVyYXRpb25zIG9uIHRoZSBwYWdlcyBpbiBxdWVzdGlvbiBhcmUgY29t
+cGxldGVkLCB0aGVuIHRob3NlCj4gPiA+Pj4+Pj4+Pj4gcGFnZXMgYXJlIG1hcmtlZCAgYXMgYWNj
+ZXNzZWQgYW5kIGFsc28gZGlydHkgaWYgaXQgd2FzbuKAmXQgYSByZWFkIG9ubHkgYWNjZXNzLiIK
+PiA+ID4+Pj4+Pj4+PiBMb29rcyBsaWtlIHRoZSBmZW5jZXMgYXJlIGRlYWRsb2NrZWQgYW5kIHRo
+ZXJlZm9yZSwgaXQgbmV2ZXIgcmV0dXJucy4gQ291bGQgaXQKPiA+ID4+Pj4+Pj4+PiBiZSBwb3Nz
+aWJsZT8gYW55IGhpbnQgdG8gd2hlcmUgY2FuIEkgbG9vayB0byBmaXggdGhpcz8KPiA+ID4+Pj4+
+Pj4+Pgo+ID4gPj4+Pj4+Pj4+IFRoYW5rIHlvdSAgaW4gYWR2YW5jZS4KPiA+ID4+Pj4+Pj4+Pgo+
+ID4gPj4+Pj4+Pj4+IEhlcmUgdGhlIGZ1bGwgZG1lc2cgb3V0cHV0Ogo+ID4gPj4+Pj4+Pj4+Cj4g
+PiA+Pj4+Pj4+Pj4gWyAgNzM4LjMzNzcyNl0gSU5GTzogdGFzayBNYXRyaXhNdWx0aXBsaWM6NjUz
+IGJsb2NrZWQgZm9yIG1vcmUgdGhhbiAxMjIgc2Vjb25kcy4KPiA+ID4+Pj4+Pj4+PiBbICA3Mzgu
+MzQ0OTM3XSAgICAgICBOb3QgdGFpbnRlZCA1LjExLjAtcmM2LXF0ZWMtc3RhbmRhcmQgIzIKPiA+
+ID4+Pj4+Pj4+PiBbICA3MzguMzUwMzg0XSAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5n
+X3Rhc2tfdGltZW91dF9zZWNzIgo+ID4gPj4+Pj4+Pj4+IGRpc2FibGVzIHRoaXMgbWVzc2FnZS4K
+PiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4MjQwXSB0YXNrOk1hdHJpeE11bHRpcGxpYyBzdGF0ZTpE
+IHN0YWNrOiAgICAwIHBpZDogIDY1Mwo+ID4gPj4+Pj4+Pj4+IHBwaWQ6ICAgICAxIGZsYWdzOjB4
+MDAwMDQwMDAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4MjU0XSBDYWxsIFRyYWNlOgo+ID4gPj4+
+Pj4+Pj4+IFsgIDczOC4zNTgyNjFdICA/IGRtYV9mZW5jZV9kZWZhdWx0X3dhaXQrMHgxZWIvMHgy
+MzAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4Mjc2XSAgX19zY2hlZHVsZSsweDM3MC8weDk2MAo+
+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTgyOTFdICA/IGRtYV9mZW5jZV9kZWZhdWx0X3dhaXQrMHgx
+MTcvMHgyMzAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4Mjk3XSAgPyBkbWFfZmVuY2VfZGVmYXVs
+dF93YWl0KzB4MWViLzB4MjMwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1ODMwNV0gIHNjaGVkdWxl
+KzB4NTEvMHhjMAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTgzMTJdICBzY2hlZHVsZV90aW1lb3V0
+KzB4Mjc1LzB4MzgwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1ODMyNF0gID8gZG1hX2ZlbmNlX2Rl
+ZmF1bHRfd2FpdCsweDFlYi8weDIzMAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTgzMzJdICA/IG1h
+cmtfaGVsZF9sb2NrcysweDRmLzB4NzAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4MzQxXSAgPyBk
+bWFfZmVuY2VfZGVmYXVsdF93YWl0KzB4MTE3LzB4MjMwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1
+ODM0N10gID8gbG9ja2RlcF9oYXJkaXJxc19vbl9wcmVwYXJlKzB4ZDQvMHgxODAKPiA+ID4+Pj4+
+Pj4+PiBbICA3MzguMzU4MzUzXSAgPyBfcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUrMHgzOS8w
+eDQwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1ODM2Ml0gID8gZG1hX2ZlbmNlX2RlZmF1bHRfd2Fp
+dCsweDExNy8weDIzMAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTgzNzBdICA/IGRtYV9mZW5jZV9k
+ZWZhdWx0X3dhaXQrMHgxZWIvMHgyMzAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4Mzc1XSAgZG1h
+X2ZlbmNlX2RlZmF1bHRfd2FpdCsweDIxNC8weDIzMAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTgz
+ODRdICA/IGRtYV9mZW5jZV9yZWxlYXNlKzB4MWEwLzB4MWEwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4
+LjM1ODM5Nl0gIGRtYV9mZW5jZV93YWl0X3RpbWVvdXQrMHgxMDUvMHgyMDAKPiA+ID4+Pj4+Pj4+
+PiBbICA3MzguMzU4NDA1XSAgZG1hX3Jlc3Zfd2FpdF90aW1lb3V0X3JjdSsweDFhYS8weDVlMAo+
+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTg0MjFdICBhbWRncHVfbW5faW52YWxpZGF0ZV9nZngrMHg1
+NS8weGEwIFthbWRncHVdCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1ODY4OF0gIF9fbW11X25vdGlm
+aWVyX3JlbGVhc2UrMHgxYmIvMHgyMTAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzEwXSAgZXhp
+dF9tbWFwKzB4MmYvMHgxZTAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzIzXSAgPyBmaW5kX2hl
+bGRfbG9jaysweDM0LzB4YTAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzQ2XSAgbW1wdXQrMHgz
+OS8weGUwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1ODc1Nl0gIGRvX2V4aXQrMHg1YzMvMHhjMDAK
+PiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzYzXSAgPyBmaW5kX2hlbGRfbG9jaysweDM0LzB4YTAK
+PiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzgwXSAgZG9fZ3JvdXBfZXhpdCsweDQ3LzB4YjAKPiA+
+ID4+Pj4+Pj4+PiBbICA3MzguMzU4NzkxXSAgZ2V0X3NpZ25hbCsweDE1Yi8weGM1MAo+ID4gPj4+
+Pj4+Pj4+IFsgIDczOC4zNTg4MDddICBhcmNoX2RvX3NpZ25hbF9vcl9yZXN0YXJ0KzB4YWYvMHg3
+MTAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4ODE2XSAgPyBsb2NrZGVwX2hhcmRpcnFzX29uX3By
+ZXBhcmUrMHhkNC8weDE4MAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTg4MjJdICA/IF9yYXdfc3Bp
+bl91bmxvY2tfaXJxcmVzdG9yZSsweDM5LzB4NDAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU4ODMx
+XSAgPyBrdGltZV9nZXRfbW9ub19mYXN0X25zKzB4NTAvMHhhMAo+ID4gPj4+Pj4+Pj4+IFsgIDcz
+OC4zNTg4NDRdICA/IGFtZGdwdV9kcm1faW9jdGwrMHg2Yi8weDgwIFthbWRncHVdCj4gPiA+Pj4+
+Pj4+Pj4gWyAgNzM4LjM1OTA0NF0gIGV4aXRfdG9fdXNlcl9tb2RlX3ByZXBhcmUrMHhmMi8weDFi
+MAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTkwNTRdICBzeXNjYWxsX2V4aXRfdG9fdXNlcl9tb2Rl
+KzB4MTkvMHg2MAo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTkwNjJdICBlbnRyeV9TWVNDQUxMXzY0
+X2FmdGVyX2h3ZnJhbWUrMHg0NC8weGE5Cj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1OTA2OV0gUklQ
+OiAwMDMzOjB4N2Y2Yjg5YTUxODg3Cj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1OTA3Nl0gUlNQOiAw
+MDJiOjAwMDA3ZjZiODJiNTRiMTggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDoKPiA+ID4+Pj4+
+Pj4+PiAwMDAwMDAwMDAwMDAwMDEwCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1OTA4Nl0gUkFYOiBm
+ZmZmZmZmZmZmZmZmZTAwIFJCWDogMDAwMDdmNmI4MmI1NGI1MCBSQ1g6IDAwMDA3ZjZiODlhNTE4
+ODcKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU5MDkxXSBSRFg6IDAwMDA3ZjZiODJiNTRiNTAgUlNJ
+OiAwMDAwMDAwMGMwMjA2NGMzIFJESTogMDAwMDAwMDAwMDAwMDAwNwo+ID4gPj4+Pj4+Pj4+IFsg
+IDczOC4zNTkwOTZdIFJCUDogMDAwMDAwMDBjMDIwNjRjMyBSMDg6IDAwMDAwMDAwMDAwMDAwMDMg
+UjA5OiAwMDAwN2Y2YjgyYjU0YmJjCj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1OTEwMV0gUjEwOiAw
+MDAwMDAwMDAwMDAwMDAxIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDAwMDAxNjVhMGJj
+MDAKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU5MTA2XSBSMTM6IDAwMDAwMDAwMDAwMDAwMDcgUjE0
+OiAwMDAwMDAwMDAwMDAwMDAxIFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+ID4gPj4+Pj4+Pj4+IFsg
+IDczOC4zNTkxMjldCj4gPiA+Pj4+Pj4+Pj4gICAgICAgICAgICAgICAgICAgIFNob3dpbmcgYWxs
+IGxvY2tzIGhlbGQgaW4gdGhlIHN5c3RlbToKPiA+ID4+Pj4+Pj4+PiBbICA3MzguMzU5MTQxXSAx
+IGxvY2sgaGVsZCBieSBraHVuZ3Rhc2tkLzU0Ogo+ID4gPj4+Pj4+Pj4+IFsgIDczOC4zNTkxNDhd
+ICAjMDogZmZmZmZmZmY4MjlmNjg0MCAocmN1X3JlYWRfbG9jayl7Li4uLn0tezE6Mn0sIGF0Ogo+
+ID4gPj4+Pj4+Pj4+IGRlYnVnX3Nob3dfYWxsX2xvY2tzKzB4MTUvMHgxODMKPiA+ID4+Pj4+Pj4+
+PiBbICA3MzguMzU5MTg3XSAxIGxvY2sgaGVsZCBieSBzeXN0ZW1kLWpvdXJuYWwvMTc0Ogo+ID4g
+Pj4+Pj4+Pj4+IFsgIDczOC4zNTkyMDJdIDEgbG9jayBoZWxkIGJ5IE1hdHJpeE11bHRpcGxpYy82
+NTM6Cj4gPiA+Pj4+Pj4+Pj4gWyAgNzM4LjM1OTIwNl0gICMwOiBmZmZmODg4MTBlMzY0ZmUwCj4g
+PiA+Pj4+Pj4+Pj4gKCZhZGV2LT5ub3RpZmllcl9sb2NrKXsrLisufS17MzozfSwgYXQ6Cj4gPiA+
+Pj4+Pj4+Pj4gYW1kZ3B1X21uX2ludmFsaWRhdGVfZ2Z4KzB4MzQvMHhhMCBbYW1kZ3B1XQo+ID4g
+Pj4+Pj4+Pj4+Cj4gPiA+Pj4+Pj4+Pj4gRGFuaWVsCj4gPiA+Pj4+Pj4+PiBfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gPj4+Pj4+Pj4gZHJpLWRldmVs
+IG1haWxpbmcgbGlzdAo+ID4gPj4+Pj4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+ID4gPj4+Pj4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29r
+LmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJlZWRlc2t0b3Aub3JnJTJGbWFpbG1hbiUy
+Rmxpc3RpbmZvJTJGZHJpLWRldmVsJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmln
+JTQwYW1kLmNvbSU3QzA0MDY1OTU2ZTc0ZDRlYTczYjI0MDhkOGM4M2ViMTVhJTdDM2RkODk2MWZl
+NDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQ3OTUxODg4NTk4MTAxOCU3Q1Vu
+a25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlM
+Q0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MzMDAwJmFtcDtzZGF0YT1Pa0Z2OGppZWhO
+b2E0NlElMkI1eU9YVWcyOWNSYnpsOHZvVjJHcUM4ajFWOVElM0QmYW1wO3Jlc2VydmVkPTAKPiA+
+ID4+Pj4+IC0tCj4gPiA+Pj4+PiBEYW5pZWwgVmV0dGVyCj4gPiA+Pj4+PiBTb2Z0d2FyZSBFbmdp
+bmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+ID4+Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtz
+LnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwJTNBJTJGJTJGYmxvZy5mZndsbC5jaCUy
+RiZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0MwNDA2NTk1
+NmU3NGQ0ZWE3M2IyNDA4ZDhjODNlYjE1YSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUx
+ODNkJTdDMCU3QzAlN0M2Mzc0Nzk1MTg4ODU5ODEwMTglN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4
+ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhW
+Q0k2TW4wJTNEJTdDMzAwMCZhbXA7c2RhdGE9bTBlOURycW51WVFvSll3d1pBeW9uS2xTZmtwOWhG
+VFJOb1Q1M09ZM0liVSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4gPj4+IF9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiA+Pj4gYW1kLWdmeCBtYWlsaW5nIGxp
+c3QKPiA+ID4+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gPj4+IGh0dHBzOi8v
+bmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUy
+Rmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmFtZC1nZngmYW1w
+O2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDMDQwNjU5NTZlNzRk
+NGVhNzNiMjQwOGQ4YzgzZWIxNWElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3
+QzAlN0MwJTdDNjM3NDc5NTE4ODg1OTgxMDE4JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJ
+am9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1u
+MCUzRCU3QzMwMDAmYW1wO3NkYXRhPUJ1VUNubkdzS2hTUWMwbGRnQlBWQklReFlVbnZJUHdxcUxN
+ZTgxeW5yZ1klM0QmYW1wO3Jlc2VydmVkPTAKPiA+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4g
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
+YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
