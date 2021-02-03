@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501E930DAB1
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3B030DAD3
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75AFA6EAA4;
-	Wed,  3 Feb 2021 13:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 213856EAAE;
+	Wed,  3 Feb 2021 13:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F696EAAA
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:11:10 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id u14so5164733wmq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 05:11:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=98vsBgcuoDvTfqJfjl4OuTtzO0K+8P+ZFHH2fOEBr9I=;
- b=jd1iAvIHF4AVVO6VuPQIh6f2ZResVSPpdGyQEO02get32t/v8d0ribVW+kvX/HsT21
- DhdHrt+OWOr3qaph7KbNXw7lh9rHHU7QuWm2X2yQMV91B8yQB9BpuCWNEFY+SIqJRYHH
- 52nh8KRyM9ERegbfqOlbaISBRc7atx8+aCDfs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=98vsBgcuoDvTfqJfjl4OuTtzO0K+8P+ZFHH2fOEBr9I=;
- b=e2pwA0kAufFtvk1Q9gbdu4RxVmJqWImGFKIJWwltdJ/3wNB0MBDXJtYgVtwqM8OdES
- Nl7RkWUWThFXL8HZOWuA95ZdG+AlRV/7l5Uz6dwMjcVLIBTDVbNaNNiWurbpr5Sb8BXC
- jeZK8iuOMIZxvOs1fx1gGgGm5e9kAbUTXAUPL8UwrYZ+IqTz8oxlAAhYG3LJg2eZDfZh
- mnE+/2ppC195otnnv7WBml43UBlaht1a966Lpyq0P0Hyu1Nmr1YM0O/IOSGop4mn0IYQ
- NiHeKtJIc/dKNxhzRejUDrnB4Fij0xv4R0JpXYJgc9UmCxokCLPOI3I1m8jZC8Au3yCa
- FUiQ==
-X-Gm-Message-State: AOAM531xRlLxGOaNzJUObUsG0ZvwVpDCprXei7kUk++Lm/6yVGYi+ytW
- 03OR71QxEnItyQnpUvM5G8IXkQ==
-X-Google-Smtp-Source: ABdhPJw5NP169kixDu9IIGlSVUkDflz1tcmHpKTjH9q2Q6cRcxxbMfh5YnqTQYWO0Bv47jyYbkn/Cg==
-X-Received: by 2002:a05:600c:2305:: with SMTP id
- 5mr846961wmo.183.1612357869563; 
- Wed, 03 Feb 2021 05:11:09 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h1sm3691810wrr.73.2021.02.03.05.11.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 05:11:08 -0800 (PST)
-Date: Wed, 3 Feb 2021 14:11:07 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/todo: Add entry for moving to dma_resv_lock
-Message-ID: <YBqg6x8jWIAe2IpH@phenom.ffwll.local>
-References: <20210122133624.1751802-1-daniel.vetter@ffwll.ch>
- <97c93ad7-9aa1-dcf7-42a9-4f8076eeb135@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 123A76EAA3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612358182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mrnWp6FsNMXZybD9jwbY3teUk1aNaQlBDQZPwpykcz0=;
+ b=PAQTgIgSntaf0LmU6nWzkqJdIIGU+pBJ+86VwzqX802yLzXVKTDiYsmWx/Ctt4hsggpWGN
+ tV1pb9trHSCk+0JlPEpRnhTuV4j0Uug7fRwYxkb2ovoIH+JmaAwlvtZvtCdMW1c//IEJ/J
+ DfS1lNaUrJKHAN6UY2mdPFo/Uz979yM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-4ruaK6OLOcCF6YQLSvfYGg-1; Wed, 03 Feb 2021 08:16:20 -0500
+X-MC-Unique: 4ruaK6OLOcCF6YQLSvfYGg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182F1107ACFC
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:16:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
+ [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D29585C6B8;
+ Wed,  3 Feb 2021 13:16:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 28FAB180063E; Wed,  3 Feb 2021 14:16:15 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/6] drm/qxl: fix driver shutdown issues.
+Date: Wed,  3 Feb 2021 14:16:09 +0100
+Message-Id: <20210203131615.1714021-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <97c93ad7-9aa1-dcf7-42a9-4f8076eeb135@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,118 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 22, 2021 at 03:06:44PM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
+Almost there.  Still getting this on driver unbind:
 
-> Am 22.01.21 um 14:36 schrieb Daniel Vetter:
-> > Requested by Thomas. I think it justifies a new level, since I tried
-> > to make some forward progress on this last summer, and gave up (for
-> > now). This is very tricky.
-> =
+   kobject: '(null)' ((____ptrval____)): is not initialized, yet kobject_put(=
+) is being called
+   [ ... ]
+   Call Trace:
+    ttm_device_fini+0x133/0x1b0 [ttm]
+    qxl_ttm_fini+0x2f/0x40 [qxl]
+    qxl_device_fini+0x88/0x120 [qxl]
+    drm_minor_release+0x3d/0x60
 
-> Adding it to the TODO list is a first step. :)
-> =
+but I don't think this is the qxl driver's fault.
 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+v5:
+ - add release_event wait queue.
+ - also cleanup qxl_fence_wait().
 
-Applied.
--Daniel
+Gerd Hoffmann (6):
+  drm/qxl: use drmm_mode_config_init
+  drm/qxl: unpin release objects
+  drm/qxl: release shadow on shutdown
+  drm/qxl: handle shadow in primary destroy
+  drm/qxl: properly free qxl releases
+  drm/qxl: simplify qxl_fence_wait
 
-> =
+ drivers/gpu/drm/qxl/qxl_drv.h     |  2 ++
+ drivers/gpu/drm/qxl/qxl_cmd.c     |  1 +
+ drivers/gpu/drm/qxl/qxl_display.c | 11 ++++++--
+ drivers/gpu/drm/qxl/qxl_irq.c     |  1 +
+ drivers/gpu/drm/qxl/qxl_kms.c     | 22 +++++++++++++--
+ drivers/gpu/drm/qxl/qxl_release.c | 45 +++++--------------------------
+ 6 files changed, 40 insertions(+), 42 deletions(-)
 
-> > =
-
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > ---
-> >   Documentation/gpu/todo.rst | 19 +++++++++++++++++++
-> >   1 file changed, 19 insertions(+)
-> > =
-
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index dea9082c0e5f..f872d3d33218 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -23,6 +23,9 @@ Advanced: Tricky tasks that need fairly good understa=
-nding of the DRM subsystem
-> >   and graphics topics. Generally need the relevant hardware for develop=
-ment and
-> >   testing.
-> > +Expert: Only attempt these if you've successfully completed some tricky
-> > +refactorings already and are an expert in the specific area
-> > +
-> >   Subsystem-wide refactorings
-> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > @@ -168,6 +171,22 @@ Contact: Daniel Vetter, respective driver maintain=
-ers
-> >   Level: Advanced
-> > +Move Buffer Object Locking to dma_resv_lock()
-> > +---------------------------------------------
-> > +
-> > +Many drivers have their own per-object locking scheme, usually using
-> > +mutex_lock(). This causes all kinds of trouble for buffer sharing, sin=
-ce
-> > +depending which driver is the exporter and importer, the locking hiera=
-rchy is
-> > +reversed.
-> > +
-> > +To solve this we need one standard per-object locking mechanism, which=
- is
-> > +dma_resv_lock(). This lock needs to be called as the outermost lock, w=
-ith all
-> > +other driver specific per-object locks removed. The problem is tha rol=
-ling out
-> > +the actual change to the locking contract is a flag day, due to struct=
- dma_buf
-> > +buffer sharing.
-> > +
-> > +Level: Expert
-> > +
-> >   Convert logging to drm_* functions with drm_device paramater
-> >   ------------------------------------------------------------
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
+--=20
+2.29.2
 
 
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
