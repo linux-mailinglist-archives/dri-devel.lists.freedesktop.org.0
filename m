@@ -1,83 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C5330D92B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 12:50:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D37A30D946
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 12:57:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B7C6E1F9;
-	Wed,  3 Feb 2021 11:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C49DA6EA78;
+	Wed,  3 Feb 2021 11:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 150906E1F9
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 11:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612353051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=up4xOQ1hOuH9Cj5aVRxWNqyrTSvzNiPuu166h6yRP1o=;
- b=ckT5uydzggddHJTwkun24soL+apLDqdVGp4wtE2oTyc8kXTkTYpDtgU8cQFfkxRTbRz3cv
- vfi4ATlOI7rvYeefwXZvmB8lSM4BTeASt2AVFhEDYWkMCTTQ0T4bm5x1h8rsUsGoFN18xC
- U6SgbuN3I39oDX+Zi/HKxGyR3RSPY4I=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-rfE-PTvaM5mIZ9hWxBLIgA-1; Wed, 03 Feb 2021 06:50:49 -0500
-X-MC-Unique: rfE-PTvaM5mIZ9hWxBLIgA-1
-Received: by mail-ej1-f69.google.com with SMTP id m4so11813415ejc.14
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 03:50:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=up4xOQ1hOuH9Cj5aVRxWNqyrTSvzNiPuu166h6yRP1o=;
- b=GRKnv88unFUk/k2zSX/ehShw2JbIin1//ixP9LhUiykknkur82DcPdCwkqc3p5v71B
- iaAlDu44wiCKjIlNaDrROneN2UcbX23Zf8VbnzRtREWGU2wCduxvUYp1aJLlLjuGSrrM
- lGfnBPYkOTzrpG0MNejEOok4FJu/RjH+1AWR5wD1opkzCs9GNTxBTfOguz9G/lcG04On
- eE/kDmiX2xnx1zotOx5FAcL0y7x9rZ3tcIbsVzlVT152W1P3jAa0v0rmVcejKTA8oj7O
- Fxm5J6TgV+ZmXY/I3bpEo5XdGrR5NWjUWd7dc5MAHeUiCOS4hOz2Kb6NBMtWjcQnFqCW
- +5yg==
-X-Gm-Message-State: AOAM532FVHkj8XjEtCQfDRKdXRXG9Vxeo0dXW+9xZH7e0el96KfTdPNd
- fKZ1tEETIL0AqkFHNmyM2ftssty+cYkwL6iG2qcSRvv9XWfCGh4xkRztGZ2ILH3X9k2fuGHrjO9
- EP4NMeGXtAg4u9plNL2/xTrb165PD7ZzKMJoa7XabAeQhTheniKRaQ6W5fzuU9VGilrPyJZ5HiZ
- l5aqDF
-X-Received: by 2002:a17:906:5ac8:: with SMTP id
- x8mr2785434ejs.347.1612353048090; 
- Wed, 03 Feb 2021 03:50:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyljCWpG+bM7NrW/Mi2K7VrsGPlLCtttDSvWAtgVg+QeShvOczephu/MVP7wKa4OkzoDllJNg==
-X-Received: by 2002:a17:906:5ac8:: with SMTP id
- x8mr2785415ejs.347.1612353047814; 
- Wed, 03 Feb 2021 03:50:47 -0800 (PST)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
- by smtp.gmail.com with ESMTPSA id r1sm743966eds.70.2021.02.03.03.50.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 03:50:47 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357AA6EA58
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 11:57:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BE52FAD78;
+ Wed,  3 Feb 2021 11:56:58 +0000 (UTC)
 Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
  cleanup_fb
-To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
+To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20210127140503.31772-1-tzimmermann@suse.de>
  <YBp7CzzBjECx5lAu@phenom.ffwll.local>
  <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
  <YBp+jxbjkdcpN1eo@phenom.ffwll.local>
  <74307294-2220-29d6-9d59-a73c2b8f43c6@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
-Date: Wed, 3 Feb 2021 12:50:46 +0100
+ <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <182ed3ea-6e5b-69bd-921c-d5ba7362f3de@suse.de>
+Date: Wed, 3 Feb 2021 12:56:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <74307294-2220-29d6-9d59-a73c2b8f43c6@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+In-Reply-To: <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,182 +45,408 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1413407125=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAyLzMvMjEgMTI6MTQgUE0sIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+IEhpCj4g
-Cj4gQW0gMDMuMDIuMjEgdW0gMTE6NDQgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+PiBPbiBXZWQs
-IEZlYiAwMywgMjAyMSBhdCAxMTozNDoyMUFNICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90
-ZToKPj4+IEhpCj4+Pgo+Pj4gQW0gMDMuMDIuMjEgdW0gMTE6Mjkgc2NocmllYiBEYW5pZWwgVmV0
-dGVyOgo+Pj4+IE9uIFdlZCwgSmFuIDI3LCAyMDIxIGF0IDAzOjA1OjAzUE0gKzAxMDAsIFRob21h
-cyBaaW1tZXJtYW5uIHdyb3RlOgo+Pj4+PiBGdW5jdGlvbnMgaW4gdGhlIGF0b21pYyBjb21taXQg
-dGFpbCBhcmUgbm90IGFsbG93ZWQgdG8gYWNxdWlyZSB0aGUKPj4+Pj4gZG1hYnVmJ3MgcmVzZXJ2
-YXRpb24gbG9jay4gU28gd2UgY2Fubm90IGxlZ2FsbHkgY2FsbCB0aGUgR0VNIG9iamVjdCdzCj4+
-Pj4+IHZtYXAgZnVuY3Rpb25hbGl0eSBpbiBhdG9taWNfdXBkYXRlLgo+Pj4+Pgo+Pj4+PiBJbnN0
-ZWFkIHZtYXAgdGhlIGN1cnNvciBCTyBpbiBwcmVwYXJlX2ZiIGFuZCB2dW5tYXAgaXQgaW4gY2xl
-YW51cF9mYi4KPj4+Pj4gVGhlIGN1cnNvciBwbGFuZSBzdGF0ZSBzdG9yZXMgdGhlIG1hcHBpbmcn
-cyBhZGRyZXNzLiBUaGUgcGlubmluZyBvZiB0aGUKPj4+Pj4gQk8gaXMgaW1wbGljaXRseSBkb25l
-IGJ5IHZtYXAuCj4+Pj4+Cj4+Pj4+IEFzIGFuIGV4dHJhIGJlbmVmaXQsIHRoZXJlJ3Mgbm8gc291
-cmNlIG9mIHJ1bnRpbWUgZXJyb3JzIGxlZnQgaW4KPj4+Pj4gYXRvbWljX3VwZGF0ZS4KPj4+Pj4K
-Pj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+Cj4+Pj4KPj4+PiBEaWQgeW91IHRlc3QgdGhpcyB3aXRoIG15IGRtYV9mZW5jZV9zaWduYWxs
-aW5nIGFubm90YXRpb25zIHBhdGNoZXM/Cj4+Pgo+Pj4gTm90IHdpdGggdmJveC4gSSBkaWQgdGVz
-dCBzaW1pbGFyIGNvZGUgaW4gbXkgcmVjZW50IGFzdCBwYXRjaHNldC4gQnV0IEkKPj4+IHRoaW5r
-IHRoZXJlJ3Mgc3RpbGwgYSBidWcgaGVyZSwgYXMgdGhlcmUncyBubyBjdXN0b20gcGxhbmUtcmVz
-ZXQgZnVuY3Rpb24uCj4+Cj4+IERvIHJpZ2h0LCBLQVNBTiBzaG91bGQgY29tcGxhaW4gd2hlbiB5
-b3UgbG9hZCB0aGUgZHJpdmVyIGJlY2F1c2UgdGhlIGZpcnN0Cj4+IHN0YXRlIGlzIGEgYml0IHRv
-byBzbWFsbC4gQnV0IHByb2JhYmx5IHN0aWxsIHdpdGhpbiB0aGUga21hbGxvYydlZCBibG9jawo+
-PiBieSBzaGVlciBsdWNrLiBXb3J0aCBjb25maXJtaW5nIHRoYXQgS0FTQU4gY2FuIGNhdGNoIHRo
-aXMuCj4gCj4gSSBoYXZlIEtBU0FOIGVuYWJsZWQgYW5kIEkgbWlnaHQganVzdCBoYXZlIG1pc3Nl
-ZCB0aGUgZXJyb3IgbWVzc2FnZS4gSSBsYXRlciBzYXcgdGhlIGVycm9yIHdpdGggYW5vdGhlciBk
-cml2ZXIgYWZ0ZXIgSSBhbHJlYWR5IHBvc3RlZCB0aGUgdmJveCBhbmQgYXN0IHBhdGNoZXMuCj4g
-Cj4gSWYgeW91IGhhdmUgdGhlIHRpbWUsIGEgbG9vayBhdCB0aGUgZmlyc3QgaGFsZiBvZiB0aGUg
-YXN0IHBhdGNoc2V0IG1pZ2h0IHN0aWxsIGJlIHdvcnRoIGl0LiBJdCByZW1vdmVzIHRoZSBjdXJz
-b3ItY29kZSBhYnN0cmFjdGlvbiBhbmQgc2hvdWxkbid0IGJlIGFmZmVjdGVkIGJ5IHRoZSBpc3N1
-ZS4KCkkgbXVzdCBzYXkgSSdtIG5vdCBlbnRpcmVseSBmb2xsb3dpbmcgdGhpcyB0aHJlYWQuCgpJ
-ZiBJIHVuZGVyc3RhbmQgdGhpbmdzIGNvcnJlY3RseSwgdGhlcmUgaXMgc29tZSBtZW1vcnkgY29y
-cnVwdGlvbgppbnRyb2R1Y2VkIGJ5IHRoaXMgcGF0Y2gsIHNvIHRoZXJlIHdpbGwgYmUgYSB2MiBm
-aXhpbmcgdGhpcyA/CgpUaGUgcmVhc29uIHdoeSBJJ20gYXNraW5nIGlzIGJlY2F1c2UgSSBhbHdh
-eXMgdHJ5IHRvIHRlc3QgdmJveHZpZGVvIHBhdGNoZXMKaW5zaWRlIGEgdmJveCB2bSwgYnV0IGlm
-IGEgdjIgaXMgY29taW5nLCB0aGVyZSBpcyBub3QgbXVjaCB1c2UgaW4gbWUgdGVzdGluZwp0aGlz
-IHZlcnNpb24sIGNvcnJlY3QgPwoKUmVnYXJkcywKCkhhbnMKCgoKPj4+Pj4gLS0tCj4+Pj4+IMKg
-wqAgZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X21vZGUuYyB8IDEwMiArKysrKysrKysr
-KysrKysrKysrKystLS0tLQo+Pj4+PiDCoMKgIDEgZmlsZSBjaGFuZ2VkLCA4MiBpbnNlcnRpb25z
-KCspLCAyMCBkZWxldGlvbnMoLSkKPj4+Pj4KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zi
-b3hfbW9kZS5jCj4+Pj4+IGluZGV4IGRiYzBkZDUzYzY5ZS4uYjU2MjVhN2Q2Y2VmIDEwMDY0NAo+
-Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmJveHZpZGVvL3Zib3hfbW9kZS5jCj4+Pj4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9tb2RlLmMKPj4+Pj4gQEAgLTMyNCw2
-ICszMjQsMTkgQEAgc3RhdGljIHZvaWQgdmJveF9wcmltYXJ5X2F0b21pY19kaXNhYmxlKHN0cnVj
-dCBkcm1fcGxhbmUgKnBsYW5lLAo+Pj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBvbGRfc3RhdGUtPnNyY195ID4+IDE2KTsKPj4+Pj4gwqDCoCB9Cj4+Pj4+
-ICtzdHJ1Y3QgdmJveF9jdXJzb3JfcGxhbmVfc3RhdGUgewo+Pj4+PiArwqDCoMKgIHN0cnVjdCBk
-cm1fcGxhbmVfc3RhdGUgYmFzZTsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKgIC8qIFRyYW5zaXRpb25h
-bCBzdGF0ZSAtIGRvIG5vdCBleHBvcnQgb3IgZHVwbGljYXRlICovCj4+Pj4+ICsKPj4+Pj4gK8Kg
-wqDCoCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgbWFwOwo+Pj4+PiArfTsKPj4+Pj4gKwo+Pj4+PiArc3Rh
-dGljIHN0cnVjdCB2Ym94X2N1cnNvcl9wbGFuZV9zdGF0ZSAqdG9fdmJveF9jdXJzb3JfcGxhbmVf
-c3RhdGUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpCj4+Pj4+ICt7Cj4+Pj4+ICvCoMKg
-wqAgcmV0dXJuIGNvbnRhaW5lcl9vZihzdGF0ZSwgc3RydWN0IHZib3hfY3Vyc29yX3BsYW5lX3N0
-YXRlLCBiYXNlKTsKPj4+Pj4gK30KPj4+Pj4gKwo+Pj4+PiDCoMKgIHN0YXRpYyBpbnQgdmJveF9j
-dXJzb3JfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAo+Pj4+PiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX3BsYW5lX3N0
-YXRlICpuZXdfc3RhdGUpCj4+Pj4+IMKgwqAgewo+Pj4+PiBAQCAtMzgxLDE0ICszOTQsMTMgQEAg
-c3RhdGljIHZvaWQgdmJveF9jdXJzb3JfYXRvbWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpw
-bGFuZSwKPj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29udGFpbmVyX29mKHBsYW5lLT5kZXYs
-IHN0cnVjdCB2Ym94X3ByaXZhdGUsIGRkZXYpOwo+Pj4+PiDCoMKgwqDCoMKgwqAgc3RydWN0IHZi
-b3hfY3J0YyAqdmJveF9jcnRjID0gdG9fdmJveF9jcnRjKHBsYW5lLT5zdGF0ZS0+Y3J0Yyk7Cj4+
-Pj4+IMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9IHBsYW5lLT5zdGF0
-ZS0+ZmI7Cj4+Pj4+IC3CoMKgwqAgc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibyA9IGRy
-bV9nZW1fdnJhbV9vZl9nZW0oZmItPm9ialswXSk7Cj4+Pj4+IMKgwqDCoMKgwqDCoCB1MzIgd2lk
-dGggPSBwbGFuZS0+c3RhdGUtPmNydGNfdzsKPj4+Pj4gwqDCoMKgwqDCoMKgIHUzMiBoZWlnaHQg
-PSBwbGFuZS0+c3RhdGUtPmNydGNfaDsKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgdmJveF9jdXJzb3Jf
-cGxhbmVfc3RhdGUgKnZib3hfc3RhdGUgPSB0b192Ym94X2N1cnNvcl9wbGFuZV9zdGF0ZShwbGFu
-ZS0+c3RhdGUpOwo+Pj4+PiArwqDCoMKgIHN0cnVjdCBkbWFfYnVmX21hcCBtYXAgPSB2Ym94X3N0
-YXRlLT5tYXA7Cj4+Pj4+ICvCoMKgwqAgdTggKnNyYyA9IG1hcC52YWRkcjsgLyogVE9ETzogVXNl
-IG1hcHBpbmcgYWJzdHJhY3Rpb24gcHJvcGVybHkgKi8KPj4+Pj4gwqDCoMKgwqDCoMKgIHNpemVf
-dCBkYXRhX3NpemUsIG1hc2tfc2l6ZTsKPj4+Pj4gwqDCoMKgwqDCoMKgIHUzMiBmbGFnczsKPj4+
-Pj4gLcKgwqDCoCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgbWFwOwo+Pj4+PiAtwqDCoMKgIGludCByZXQ7
-Cj4+Pj4+IC3CoMKgwqAgdTggKnNyYzsKPj4+Pj4gwqDCoMKgwqDCoMKgIC8qCj4+Pj4+IMKgwqDC
-oMKgwqDCoMKgICogVmlydHVhbEJveCB1c2VzIHRoZSBob3N0IHdpbmRvd2luZyBzeXN0ZW0gdG8g
-ZHJhdyB0aGUgY3Vyc29yIHNvCj4+Pj4+IEBAIC00MDEsMTcgKzQxMyw2IEBAIHN0YXRpYyB2b2lk
-IHZib3hfY3Vyc29yX2F0b21pY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4+Pj4+
-IMKgwqDCoMKgwqDCoCB2Ym94X2NydGMtPmN1cnNvcl9lbmFibGVkID0gdHJ1ZTsKPj4+Pj4gLcKg
-wqDCoCByZXQgPSBkcm1fZ2VtX3ZyYW1fdm1hcChnYm8sICZtYXApOwo+Pj4+PiAtwqDCoMKgIGlm
-IChyZXQpIHsKPj4+Pj4gLcKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+IC3CoMKgwqDCoMKgwqDCoMKg
-ICogQlVHOiB3ZSBzaG91bGQgaGF2ZSBwaW5uZWQgdGhlIEJPIGluIHByZXBhcmVfZmIoKS4KPj4+
-Pj4gLcKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+Pj4gLcKgwqDCoMKgwqDCoMKgIG11dGV4X3VubG9j
-aygmdmJveC0+aHdfbXV0ZXgpOwo+Pj4+PiAtwqDCoMKgwqDCoMKgwqAgRFJNX1dBUk4oIkNvdWxk
-IG5vdCBtYXAgY3Vyc29yIGJvLCBza2lwcGluZyB1cGRhdGVcbiIpOwo+Pj4+PiAtwqDCoMKgwqDC
-oMKgwqAgcmV0dXJuOwo+Pj4+PiAtwqDCoMKgIH0KPj4+Pj4gLcKgwqDCoCBzcmMgPSBtYXAudmFk
-ZHI7IC8qIFRPRE86IFVzZSBtYXBwaW5nIGFic3RyYWN0aW9uIHByb3Blcmx5ICovCj4+Pj4+IC0K
-Pj4+Pj4gwqDCoMKgwqDCoMKgIC8qCj4+Pj4+IMKgwqDCoMKgwqDCoMKgICogVGhlIG1hc2sgbXVz
-dCBiZSBjYWxjdWxhdGVkIGJhc2VkIG9uIHRoZSBhbHBoYQo+Pj4+PiDCoMKgwqDCoMKgwqDCoCAq
-IGNoYW5uZWwsIG9uZSBiaXQgcGVyIEFSR0Igd29yZCwgYW5kIG11c3QgYmUgMzItYml0Cj4+Pj4+
-IEBAIC00MjEsNyArNDIyLDYgQEAgc3RhdGljIHZvaWQgdmJveF9jdXJzb3JfYXRvbWljX3VwZGF0
-ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4+Pj4gwqDCoMKgwqDCoMKgIGRhdGFfc2l6ZSA9
-IHdpZHRoICogaGVpZ2h0ICogNCArIG1hc2tfc2l6ZTsKPj4+Pj4gwqDCoMKgwqDCoMKgIGNvcHlf
-Y3Vyc29yX2ltYWdlKHNyYywgdmJveC0+Y3Vyc29yX2RhdGEsIHdpZHRoLCBoZWlnaHQsIG1hc2tf
-c2l6ZSk7Cj4+Pj4+IC3CoMKgwqAgZHJtX2dlbV92cmFtX3Z1bm1hcChnYm8sICZtYXApOwo+Pj4+
-PiDCoMKgwqDCoMKgwqAgZmxhZ3MgPSBWQk9YX01PVVNFX1BPSU5URVJfVklTSUJMRSB8IFZCT1hf
-TU9VU0VfUE9JTlRFUl9TSEFQRSB8Cj4+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIFZCT1hfTU9V
-U0VfUE9JTlRFUl9BTFBIQTsKPj4+Pj4gQEAgLTQ1OCw2ICs0NTgsNDMgQEAgc3RhdGljIHZvaWQg
-dmJveF9jdXJzb3JfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCj4+Pj4+
-IMKgwqDCoMKgwqDCoCBtdXRleF91bmxvY2soJnZib3gtPmh3X211dGV4KTsKPj4+Pj4gwqDCoCB9
-Cj4+Pj4+ICtzdGF0aWMgaW50IHZib3hfY3Vyc29yX3ByZXBhcmVfZmIoc3RydWN0IGRybV9wbGFu
-ZSAqcGxhbmUsIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSkKPj4+Pj4gK3sKPj4+
-Pj4gK8KgwqDCoCBzdHJ1Y3QgdmJveF9jdXJzb3JfcGxhbmVfc3RhdGUgKm5ld192Ym94X3N0YXRl
-ID0gdG9fdmJveF9jdXJzb3JfcGxhbmVfc3RhdGUobmV3X3N0YXRlKTsKPj4+Pj4gK8KgwqDCoCBz
-dHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiA9IG5ld19zdGF0ZS0+ZmI7Cj4+Pj4+ICvCoMKgwqAg
-c3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibzsKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgZG1h
-X2J1Zl9tYXAgbWFwOwo+Pj4+PiArwqDCoMKgIGludCByZXQ7Cj4+Pj4+ICsKPj4+Pj4gK8KgwqDC
-oCBpZiAoIWZiKQo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+Pj4+ICsKPj4+Pj4g
-K8KgwqDCoCBnYm8gPSBkcm1fZ2VtX3ZyYW1fb2ZfZ2VtKGZiLT5vYmpbMF0pOwo+Pj4+PiArCj4+
-Pj4+ICvCoMKgwqAgcmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoZ2JvLCAmbWFwKTsKPj4+Pj4gK8Kg
-wqDCoCBpZiAocmV0KQo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPj4+Pj4gKwo+
-Pj4+PiArwqDCoMKgIG5ld192Ym94X3N0YXRlLT5tYXAgPSBtYXA7Cj4+Pj4+ICsKPj4+Pj4gK8Kg
-wqDCoCByZXR1cm4gMDsKPj4+Pj4gK30KPj4+Pj4gKwo+Pj4+PiArc3RhdGljIHZvaWQgdmJveF9j
-dXJzb3JfY2xlYW51cF9mYihzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwgc3RydWN0IGRybV9wbGFu
-ZV9zdGF0ZSAqb2xkX3N0YXRlKQo+Pj4+PiArewo+Pj4+PiArwqDCoMKgIHN0cnVjdCB2Ym94X2N1
-cnNvcl9wbGFuZV9zdGF0ZSAqb2xkX3Zib3hfc3RhdGUgPSB0b192Ym94X2N1cnNvcl9wbGFuZV9z
-dGF0ZShvbGRfc3RhdGUpOwo+Pj4+PiArwqDCoMKgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
-ID0gb2xkX3N0YXRlLT5mYjsKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgbWFwID0g
-b2xkX3Zib3hfc3RhdGUtPm1hcDsKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX2dlbV92cmFtX29i
-amVjdCAqZ2JvOwo+Pj4+PiArCj4+Pj4+ICvCoMKgwqAgaWYgKCFmYikKPj4+Pj4gK8KgwqDCoMKg
-wqDCoMKgIHJldHVybjsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKgIGdibyA9IGRybV9nZW1fdnJhbV9v
-Zl9nZW0oZmItPm9ialswXSk7Cj4+Pj4+ICsKPj4+Pj4gK8KgwqDCoCBkcm1fZ2VtX3ZyYW1fdnVu
-bWFwKGdibywgJm1hcCk7Cj4+Pj4+ICt9Cj4+Pj4+ICsKPj4+Pj4gwqDCoCBzdGF0aWMgY29uc3Qg
-dTMyIHZib3hfY3Vyc29yX3BsYW5lX2Zvcm1hdHNbXSA9IHsKPj4+Pj4gwqDCoMKgwqDCoMKgIERS
-TV9GT1JNQVRfQVJHQjg4ODgsCj4+Pj4+IMKgwqAgfTsKPj4+Pj4gQEAgLTQ2NiwxNyArNTAzLDQy
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcyB2Ym94X2N1cnNv
-cl9oZWxwZXJfZnVuY3MgPSB7Cj4+Pj4+IMKgwqDCoMKgwqDCoCAuYXRvbWljX2NoZWNrwqDCoMKg
-ID0gdmJveF9jdXJzb3JfYXRvbWljX2NoZWNrLAo+Pj4+PiDCoMKgwqDCoMKgwqAgLmF0b21pY191
-cGRhdGXCoMKgwqAgPSB2Ym94X2N1cnNvcl9hdG9taWNfdXBkYXRlLAo+Pj4+PiDCoMKgwqDCoMKg
-wqAgLmF0b21pY19kaXNhYmxlwqDCoMKgID0gdmJveF9jdXJzb3JfYXRvbWljX2Rpc2FibGUsCj4+
-Pj4+IC3CoMKgwqAgLnByZXBhcmVfZmLCoMKgwqAgPSBkcm1fZ2VtX3ZyYW1fcGxhbmVfaGVscGVy
-X3ByZXBhcmVfZmIsCj4+Pj4+IC3CoMKgwqAgLmNsZWFudXBfZmLCoMKgwqAgPSBkcm1fZ2VtX3Zy
-YW1fcGxhbmVfaGVscGVyX2NsZWFudXBfZmIsCj4+Pj4+ICvCoMKgwqAgLnByZXBhcmVfZmLCoMKg
-wqAgPSB2Ym94X2N1cnNvcl9wcmVwYXJlX2ZiLAo+Pj4+PiArwqDCoMKgIC5jbGVhbnVwX2ZiwqDC
-oMKgID0gdmJveF9jdXJzb3JfY2xlYW51cF9mYiwKPj4+Pj4gwqDCoCB9Owo+Pj4+PiArc3RhdGlj
-IHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnZib3hfY3Vyc29yX2F0b21pY19kdXBsaWNhdGVfc3Rh
-dGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUpCj4+Pj4+ICt7Cj4+Pj4+ICvCoMKgwqAgc3RydWN0
-IHZib3hfY3Vyc29yX3BsYW5lX3N0YXRlICpuZXdfdmJveF9zdGF0ZTsKPj4+Pj4gK8KgwqDCoCBz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gcGxhbmUtPmRldjsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKg
-IGlmIChkcm1fV0FSTl9PTihkZXYsICFwbGFuZS0+c3RhdGUpKQo+Pj4+PiArwqDCoMKgwqDCoMKg
-wqAgcmV0dXJuIE5VTEw7Cj4+Pj4+ICsKPj4+Pj4gK8KgwqDCoCBuZXdfdmJveF9zdGF0ZSA9IGt6
-YWxsb2Moc2l6ZW9mKCpuZXdfdmJveF9zdGF0ZSksIEdGUF9LRVJORUwpOwo+Pj4+PiArwqDCoMKg
-IGlmICghbmV3X3Zib3hfc3RhdGUpCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gTlVMTDsK
-Pj4+Pj4gK8KgwqDCoCBfX2RybV9hdG9taWNfaGVscGVyX3BsYW5lX2R1cGxpY2F0ZV9zdGF0ZShw
-bGFuZSwgJm5ld192Ym94X3N0YXRlLT5iYXNlKTsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKgIHJldHVy
-biAmbmV3X3Zib3hfc3RhdGUtPmJhc2U7Cj4+Pj4+ICt9Cj4+Pj4+ICsKPj4+Pj4gK3N0YXRpYyB2
-b2lkIHZib3hfY3Vyc29yX2F0b21pY19kZXN0cm95X3N0YXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBs
-YW5lLAo+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0YXRlKQo+Pj4+PiArewo+Pj4+PiArwqDCoMKg
-IHN0cnVjdCB2Ym94X2N1cnNvcl9wbGFuZV9zdGF0ZSAqdmJveF9zdGF0ZSA9IHRvX3Zib3hfY3Vy
-c29yX3BsYW5lX3N0YXRlKHN0YXRlKTsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKgIF9fZHJtX2F0b21p
-Y19oZWxwZXJfcGxhbmVfZGVzdHJveV9zdGF0ZSgmdmJveF9zdGF0ZS0+YmFzZSk7Cj4+Pj4+ICvC
-oMKgwqAga2ZyZWUodmJveF9zdGF0ZSk7Cj4+Pj4+ICt9Cj4+Pj4+ICsKPj4+Pj4gwqDCoCBzdGF0
-aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcyB2Ym94X2N1cnNvcl9wbGFuZV9mdW5jcyA9
-IHsKPj4+Pj4gwqDCoMKgwqDCoMKgIC51cGRhdGVfcGxhbmXCoMKgwqAgPSBkcm1fYXRvbWljX2hl
-bHBlcl91cGRhdGVfcGxhbmUsCj4+Pj4+IMKgwqDCoMKgwqDCoCAuZGlzYWJsZV9wbGFuZcKgwqDC
-oCA9IGRybV9hdG9taWNfaGVscGVyX2Rpc2FibGVfcGxhbmUsCj4+Pj4+IMKgwqDCoMKgwqDCoCAu
-ZGVzdHJvecKgwqDCoCA9IGRybV9wcmltYXJ5X2hlbHBlcl9kZXN0cm95LAo+Pj4+PiDCoMKgwqDC
-oMKgwqAgLnJlc2V0wqDCoMKgwqDCoMKgwqAgPSBkcm1fYXRvbWljX2hlbHBlcl9wbGFuZV9yZXNl
-dCwKPj4+Pj4gLcKgwqDCoCAuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9IGRybV9hdG9taWNfaGVs
-cGVyX3BsYW5lX2R1cGxpY2F0ZV9zdGF0ZSwKPj4+Pj4gLcKgwqDCoCAuYXRvbWljX2Rlc3Ryb3lf
-c3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9wbGFuZV9kZXN0cm95X3N0YXRlLAo+Pj4+PiArwqDC
-oMKgIC5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gdmJveF9jdXJzb3JfYXRvbWljX2R1cGxpY2F0
-ZV9zdGF0ZSwKPj4+Pj4gK8KgwqDCoCAuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSB2Ym94X2N1cnNv
-cl9hdG9taWNfZGVzdHJveV9zdGF0ZSwKPj4+Pj4gwqDCoCB9Owo+Pj4+PiDCoMKgIHN0YXRpYyBj
-b25zdCB1MzIgdmJveF9wcmltYXJ5X3BsYW5lX2Zvcm1hdHNbXSA9IHsKPj4+Pj4KPj4+Pj4gYmFz
-ZS1jb21taXQ6IDM4MzZiN2ZkZmFkNDBlMmJhYzVkYzg4MjMzMmY0MmJlZDY5NDJjZjQKPj4+Pj4g
-cHJlcmVxdWlzaXRlLXBhdGNoLWlkOiBjMmIyZjA4ZjBlY2NjOWY1ZGYwYzBkYTQ5ZmExZDM2MjY3
-ZGViMTFkCj4+Pj4+IC0twqAKPj4+Pj4gMi4zMC4wCj4+Pj4+Cj4+Pj4KPj4+Cj4+PiAtLcKgCj4+
-PiBUaG9tYXMgWmltbWVybWFubgo+Pj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+Pj4gU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4+PiBNYXhmZWxkc3RyLiA1LCA5MDQw
-OSBOw7xybmJlcmcsIEdlcm1hbnkKPj4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPj4+IEdl
-c2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPj4+Cj4+Cj4+Cj4+Cj4+Cj4gCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1413407125==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="g7kqwNgDlCjMQ17ypEMMr8mHwfkAVirrr"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--g7kqwNgDlCjMQ17ypEMMr8mHwfkAVirrr
+Content-Type: multipart/mixed; boundary="rRIZyKao8GF4ylTdIStQjHU1qsXythK4j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Message-ID: <182ed3ea-6e5b-69bd-921c-d5ba7362f3de@suse.de>
+Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
+ cleanup_fb
+References: <20210127140503.31772-1-tzimmermann@suse.de>
+ <YBp7CzzBjECx5lAu@phenom.ffwll.local>
+ <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
+ <YBp+jxbjkdcpN1eo@phenom.ffwll.local>
+ <74307294-2220-29d6-9d59-a73c2b8f43c6@suse.de>
+ <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
+In-Reply-To: <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
+
+--rRIZyKao8GF4ylTdIStQjHU1qsXythK4j
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 03.02.21 um 12:50 schrieb Hans de Goede:
+> Hi,
+>=20
+> On 2/3/21 12:14 PM, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 03.02.21 um 11:44 schrieb Daniel Vetter:
+>>> On Wed, Feb 03, 2021 at 11:34:21AM +0100, Thomas Zimmermann wrote:
+>>>> Hi
+>>>>
+>>>> Am 03.02.21 um 11:29 schrieb Daniel Vetter:
+>>>>> On Wed, Jan 27, 2021 at 03:05:03PM +0100, Thomas Zimmermann wrote:
+>>>>>> Functions in the atomic commit tail are not allowed to acquire the=
+
+>>>>>> dmabuf's reservation lock. So we cannot legally call the GEM objec=
+t's
+>>>>>> vmap functionality in atomic_update.
+>>>>>>
+>>>>>> Instead vmap the cursor BO in prepare_fb and vunmap it in cleanup_=
+fb.
+>>>>>> The cursor plane state stores the mapping's address. The pinning o=
+f the
+>>>>>> BO is implicitly done by vmap.
+>>>>>>
+>>>>>> As an extra benefit, there's no source of runtime errors left in
+>>>>>> atomic_update.
+>>>>>>
+>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>
+>>>>> Did you test this with my dma_fence_signalling annotations patches?=
+
+>>>>
+>>>> Not with vbox. I did test similar code in my recent ast patchset. Bu=
+t I
+>>>> think there's still a bug here, as there's no custom plane-reset fun=
+ction.
+>>>
+>>> Do right, KASAN should complain when you load the driver because the =
+first
+>>> state is a bit too small. But probably still within the kmalloc'ed bl=
+ock
+>>> by sheer luck. Worth confirming that KASAN can catch this.
+>>
+>> I have KASAN enabled and I might just have missed the error message. I=
+ later saw the error with another driver after I already posted the vbox =
+and ast patches.
+>>
+>> If you have the time, a look at the first half of the ast patchset mig=
+ht still be worth it. It removes the cursor-code abstraction and shouldn'=
+t be affected by the issue.
+>=20
+> I must say I'm not entirely following this thread.
+>=20
+> If I understand things correctly, there is some memory corruption
+> introduced by this patch, so there will be a v2 fixing this ?
+>=20
+> The reason why I'm asking is because I always try to test vboxvideo pat=
+ches
+> inside a vbox vm, but if a v2 is coming, there is not much use in me te=
+sting
+> this version, correct ?
+
+Yes, no point in testing ATM. There'll be a v2.
+
+Best regards
+Thomas
+
+>=20
+> Regards,
+>=20
+> Hans
+>=20
+>=20
+>=20
+>>>>>> ---
+>>>>>>  =C2=A0=C2=A0 drivers/gpu/drm/vboxvideo/vbox_mode.c | 102 ++++++++=
++++++++++++++-----
+>>>>>>  =C2=A0=C2=A0 1 file changed, 82 insertions(+), 20 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/d=
+rm/vboxvideo/vbox_mode.c
+>>>>>> index dbc0dd53c69e..b5625a7d6cef 100644
+>>>>>> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
+>>>>>> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+>>>>>> @@ -324,6 +324,19 @@ static void vbox_primary_atomic_disable(struc=
+t drm_plane *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 old_st=
+ate->src_y >> 16);
+>>>>>>  =C2=A0=C2=A0 }
+>>>>>> +struct vbox_cursor_plane_state {
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_plane_state base;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 /* Transitional state - do not export or dupli=
+cate */
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
+>>>>>> +};
+>>>>>> +
+>>>>>> +static struct vbox_cursor_plane_state *to_vbox_cursor_plane_state=
+(struct drm_plane_state *state)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0 return container_of(state, struct vbox_cursor_=
+plane_state, base);
+>>>>>> +}
+>>>>>> +
+>>>>>>  =C2=A0=C2=A0 static int vbox_cursor_atomic_check(struct drm_plane=
+ *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct=
+ drm_plane_state *new_state)
+>>>>>>  =C2=A0=C2=A0 {
+>>>>>> @@ -381,14 +394,13 @@ static void vbox_cursor_atomic_update(struct=
+ drm_plane *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
+ainer_of(plane->dev, struct vbox_private, ddev);
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vbox_crtc *vbox_crtc =
+=3D to_vbox_crtc(plane->state->crtc);
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D=
+ plane->state->fb;
+>>>>>> -=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo =3D drm_gem_vr=
+am_of_gem(fb->obj[0]);
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 width =3D plane->state->=
+crtc_w;
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 height =3D plane->state-=
+>crtc_h;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *vbox_state =3D=
+ to_vbox_cursor_plane_state(plane->state);
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map =3D vbox_state->map;
+>>>>>> +=C2=A0=C2=A0=C2=A0 u8 *src =3D map.vaddr; /* TODO: Use mapping ab=
+straction properly */
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t data_size, mask_size;=
+
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 flags;
+>>>>>> -=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
+>>>>>> -=C2=A0=C2=A0=C2=A0 int ret;
+>>>>>> -=C2=A0=C2=A0=C2=A0 u8 *src;
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * VirtualBox uses the =
+host windowing system to draw the cursor so
+>>>>>> @@ -401,17 +413,6 @@ static void vbox_cursor_atomic_update(struct =
+drm_plane *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbox_crtc->cursor_enabled =3D=
+ true;
+>>>>>> -=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_vram_vmap(gbo, &map);
+>>>>>> -=C2=A0=C2=A0=C2=A0 if (ret) {
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * BUG: we should=
+ have pinned the BO in prepare_fb().
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vbox->hw=
+_mutex);
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_WARN("Could not ma=
+p cursor bo, skipping update\n");
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>>>> -=C2=A0=C2=A0=C2=A0 }
+>>>>>> -=C2=A0=C2=A0=C2=A0 src =3D map.vaddr; /* TODO: Use mapping abstra=
+ction properly */
+>>>>>> -
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The mask must be cal=
+culated based on the alpha
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * channel, one bit per=
+ ARGB word, and must be 32-bit
+>>>>>> @@ -421,7 +422,6 @@ static void vbox_cursor_atomic_update(struct d=
+rm_plane *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data_size =3D width * height=
+ * 4 + mask_size;
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 copy_cursor_image(src, vbox-=
+>cursor_data, width, height, mask_size);
+>>>>>> -=C2=A0=C2=A0=C2=A0 drm_gem_vram_vunmap(gbo, &map);
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags =3D VBOX_MOUSE_POINTER=
+_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VBOX=
+_MOUSE_POINTER_ALPHA;
+>>>>>> @@ -458,6 +458,43 @@ static void vbox_cursor_atomic_disable(struct=
+ drm_plane *plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vbox->hw_mutex=
+);
+>>>>>>  =C2=A0=C2=A0 }
+>>>>>> +static int vbox_cursor_prepare_fb(struct drm_plane *plane, struct=
+ drm_plane_state *new_state)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *new_vbox_state=
+ =3D to_vbox_cursor_plane_state(new_state);
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D new_state->fb;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
+>>>>>> +=C2=A0=C2=A0=C2=A0 int ret;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (!fb)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_vram_vmap(gbo, &map);
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (ret)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 new_vbox_state->map =3D map;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void vbox_cursor_cleanup_fb(struct drm_plane *plane, struc=
+t drm_plane_state *old_state)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *old_vbox_state=
+ =3D to_vbox_cursor_plane_state(old_state);
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D old_state->fb;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map =3D old_vbox_state->map=
+;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (!fb)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 drm_gem_vram_vunmap(gbo, &map);
+>>>>>> +}
+>>>>>> +
+>>>>>>  =C2=A0=C2=A0 static const u32 vbox_cursor_plane_formats[] =3D {
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_FORMAT_ARGB8888,
+>>>>>>  =C2=A0=C2=A0 };
+>>>>>> @@ -466,17 +503,42 @@ static const struct drm_plane_helper_funcs v=
+box_cursor_helper_funcs =3D {
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_check=C2=A0=C2=A0=C2=
+=A0 =3D vbox_cursor_atomic_check,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_update=C2=A0=C2=A0=C2=
+=A0 =3D vbox_cursor_atomic_update,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_disable=C2=A0=C2=A0=C2=
+=A0 =3D vbox_cursor_atomic_disable,
+>>>>>> -=C2=A0=C2=A0=C2=A0 .prepare_fb=C2=A0=C2=A0=C2=A0 =3D drm_gem_vram=
+_plane_helper_prepare_fb,
+>>>>>> -=C2=A0=C2=A0=C2=A0 .cleanup_fb=C2=A0=C2=A0=C2=A0 =3D drm_gem_vram=
+_plane_helper_cleanup_fb,
+>>>>>> +=C2=A0=C2=A0=C2=A0 .prepare_fb=C2=A0=C2=A0=C2=A0 =3D vbox_cursor_=
+prepare_fb,
+>>>>>> +=C2=A0=C2=A0=C2=A0 .cleanup_fb=C2=A0=C2=A0=C2=A0 =3D vbox_cursor_=
+cleanup_fb,
+>>>>>>  =C2=A0=C2=A0 };
+>>>>>> +static struct drm_plane_state *vbox_cursor_atomic_duplicate_state=
+(struct drm_plane *plane)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *new_vbox_state=
+;
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D plane->dev;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (drm_WARN_ON(dev, !plane->state))
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 new_vbox_state =3D kzalloc(sizeof(*new_vbox_st=
+ate), GFP_KERNEL);
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (!new_vbox_state)
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+>>>>>> +=C2=A0=C2=A0=C2=A0 __drm_atomic_helper_plane_duplicate_state(plan=
+e, &new_vbox_state->base);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 return &new_vbox_state->base;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void vbox_cursor_atomic_destroy_state(struct drm_plane *pl=
+ane,
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 struct drm_plane_state *state)
+>>>>>> +{
+>>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *vbox_state =3D=
+ to_vbox_cursor_plane_state(state);
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 __drm_atomic_helper_plane_destroy_state(&vbox_=
+state->base);
+>>>>>> +=C2=A0=C2=A0=C2=A0 kfree(vbox_state);
+>>>>>> +}
+>>>>>> +
+>>>>>>  =C2=A0=C2=A0 static const struct drm_plane_funcs vbox_cursor_plan=
+e_funcs =3D {
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .update_plane=C2=A0=C2=A0=C2=
+=A0 =3D drm_atomic_helper_update_plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .disable_plane=C2=A0=C2=A0=C2=
+=A0 =3D drm_atomic_helper_disable_plane,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .destroy=C2=A0=C2=A0=C2=A0 =3D=
+ drm_primary_helper_destroy,
+>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .reset=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 =3D drm_atomic_helper_plane_reset,
+>>>>>> -=C2=A0=C2=A0=C2=A0 .atomic_duplicate_state =3D drm_atomic_helper_=
+plane_duplicate_state,
+>>>>>> -=C2=A0=C2=A0=C2=A0 .atomic_destroy_state =3D drm_atomic_helper_pl=
+ane_destroy_state,
+>>>>>> +=C2=A0=C2=A0=C2=A0 .atomic_duplicate_state =3D vbox_cursor_atomic=
+_duplicate_state,
+>>>>>> +=C2=A0=C2=A0=C2=A0 .atomic_destroy_state =3D vbox_cursor_atomic_d=
+estroy_state,
+>>>>>>  =C2=A0=C2=A0 };
+>>>>>>  =C2=A0=C2=A0 static const u32 vbox_primary_plane_formats[] =3D {
+>>>>>>
+>>>>>> base-commit: 3836b7fdfad40e2bac5dc882332f42bed6942cf4
+>>>>>> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+>>>>>> --=20
+>>>>>> 2.30.0
+>>>>>>
+>>>>>
+>>>>
+>>>> --=20
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>
+>>>
+>>>
+>>>
+>>>
+>>
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--rRIZyKao8GF4ylTdIStQjHU1qsXythK4j--
+
+--g7kqwNgDlCjMQ17ypEMMr8mHwfkAVirrr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAaj4kFAwAAAAAACgkQlh/E3EQov+D8
+VA/+PqtM6kwpqF/6z+do059gqSV43umi5Hg383omSWviQ/aJlIzSVsq42Zt+tc1AjgAqq9DzbBwf
+wtO3UMwyl3xdfNkad5OKc3U/UjHSPWlesDrXs0vfEx0eyF7FFLJEyUSQ3CvrXAmrxr2OeOUAtzfZ
+KiTipdsKyu17x1QUTOP8TJFJsz2dg7zTEuGk4/ixX3uPioRWywxpBPkKLPckmB08d6SOfWzdSedm
+WfrwvF4RjuiR9mH8NlZNx4R/+cWK6mGrAGPup4UVfVQDgSdn6UOQ6sSnxkhVB5N6U4KtUFuChgks
+FX9ppqQin5sNsCH+jkPwh2Pzh6szOWgY0M4xft4U3NPkzVn35BTvM0k3T4ZIUqHNiuaQtr0/LUVC
+yCglXQa08b97QtqCnFir4H3RMeAd3QuEg7+bSC/3e0Ecbj/2beKG0H+2xz8eswqA6VIZfhLEt9nw
+zt0PLjfSlKGLUGJGnNVVHS6gP3Mpn+DfqoXiZZgnI4wDBP83O0VcUt0ZZKNzv5M+kavGQjNGDXml
+/eNj99CnTUtPdNTA0eXtdLNlgNLwBvFCTRyXWtDzdTE0HJ0zNpa/t7RybZgsR+cTVkpCmotprkLK
+bBh2+FRsl4UZ7mAPe57GHozAQmBBhWHfXLlfHEEv6MsNQ1DyMtSehktOLm0jyR5tsZwBguZTanSi
+LPA=
+=gvsE
+-----END PGP SIGNATURE-----
+
+--g7kqwNgDlCjMQ17ypEMMr8mHwfkAVirrr--
+
+--===============1413407125==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1413407125==--
