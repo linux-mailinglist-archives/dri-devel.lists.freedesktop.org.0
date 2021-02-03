@@ -2,40 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B10630EE77
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF0F30EE67
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:33:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDE06ED0E;
-	Thu,  4 Feb 2021 08:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A1B6ECF9;
+	Thu,  4 Feb 2021 08:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3676C6EB71
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 18:14:39 +0000 (UTC)
-Received: from submission (posteo.de [89.146.220.130]) 
- by mout02.posteo.de (Postfix) with ESMTPS id 15ABB240100
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 19:14:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
- t=1612376077; bh=95Jo6jadPYtj6MXt69Zot2RehnRdPqf90i4ijMVzY88=;
- h=Date:From:To:Cc:Subject:From;
- b=WPu3irPOSwnqaUPdGdKgFDOQTFH8jTR/M+vXhZEah1KnwWOX+ByCZxblNf5fouKBf
- dYp1NPyJaaNMe92UcxHvQpBF4chmMwPFfGG1th3gaTKouO5ogikfx0fBmCu9jA9pMw
- OR8rE5eguSq2e/vQjJ5bwgD8x5/7Q6UE2QJT17WSQaw4HIOZM18DciNOSJLycpUQNH
- XDt+J0EqxXs+pSwrjJC+OHB355lcWk3nfCEnHkab+O6loJLW4tNjhCeRDuBwoSl+xY
- 8jEAR/ozoDsgsy8eJ9jAXt1mMxgaJZ424QvDwTLZFkTpLuZRZV/bzqxOootsfoasnR
- YEbQv9KnCNv6g==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 4DW8w34mLRz6tmS;
- Wed,  3 Feb 2021 19:14:27 +0100 (CET)
-Date: Wed, 3 Feb 2021 19:14:22 +0100
-From: Sebastian Fricke <sebastian.fricke@posteo.net>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
-Message-ID: <20210203181422.txbd6kvujlmz4nju@basti-TUXEDO-Book-XA1510>
-References: <20210202145632.1263136-1-heiko@sntech.de>
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F1B6EBA2
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 19:53:51 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id m2so934971wmm.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 11:53:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yeYVRDirmQQ5wl5j/KtVwzs1oXNB1UpSXJMPqylroD8=;
+ b=PrG7fsvod/NdW0x6EITygzcKs0maUOZab7byusEFWwMulxeL9s4s45eFmyLgbahgZK
+ L8MQvn//WnpvVobRbcm1gY5btgOSiWMwe+YvJBv/jkZMmI7NmoJKXj1Svk9y8N082iX9
+ qmAAE/VJmbAkgGci5vuK3MazRNomaM2AwQgFjf38G+kIvYVksJ5TLCQDxhwY40obK+5c
+ AN+mVmCvgBV5oaV7ql4n8iMPiKphRmRpt9VDn1EEpw74FRxmLNZ8ecxEiyTvJsPSvrkR
+ jGVPqUPY+39WNA7bC4kzm3fo65JAgxZPJqi8Q6g9BniWJtMWBTdOTcZoDibsW94F5ySd
+ HJ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yeYVRDirmQQ5wl5j/KtVwzs1oXNB1UpSXJMPqylroD8=;
+ b=G2V6d/pcYCek8tlvGcYw0l1RTP35tSTiYUD2m2oiW2cITNBfsCsmGYnxS2ajEs482S
+ JUC4NBCu0sy3+P6+O7TfN5JECd/vJLTDMoeRMRVSWTt/rCGLBiKjvww9LtJJweROiJi/
+ WrTQw/DVzrgUQbb6/TyQWKXsH/Muz3BxN+dUpXcyGDjh4aB4zjGUi2MWRMeR6NlCaH4x
+ XMWDRZBHyR3oqGZTkwFtUNv9SGEKX59VcFejij5RLfLiWOoXC13DSAew8hhRaTF3enif
+ iH0a2piWogn+Fe4F94FVIuaWhec1obPV0B8BOSF16C/FECsVrmX7g1UhWaXqcy6maLqu
+ MuIQ==
+X-Gm-Message-State: AOAM533tb3HVhe15/U4KwXmHUd1K706711l/InH6Dkm/sShIoZiz55Iv
+ v0kVexi2IEqunRc0TBee5Viz08taGwzAvn6PEdQLxA==
+X-Google-Smtp-Source: ABdhPJwHAkjE7WwvDKsGEeDVaItvRVpZmXyiUkxEOFNWYdPypIMM2i5ivMMV3z16KeF/g3UAP5Kq9CLgXvL+gCzihgQ=
+X-Received: by 2002:a05:600c:4f93:: with SMTP id
+ n19mr4218419wmq.163.1612382029968; 
+ Wed, 03 Feb 2021 11:53:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210202145632.1263136-1-heiko@sntech.de>
+References: <20210203003134.2422308-1-surenb@google.com>
+ <20210203003134.2422308-2-surenb@google.com>
+ <YBn+yWIE9eXbgQ2K@google.com>
+ <CAJuCfpHCCD6ruxQAZP8pTZxz44F7pDKY59QznxFv0nQ+-9VaQA@mail.gmail.com>
+ <1ea3d79a-2413-bba5-147e-e24df3f91ce0@amd.com>
+In-Reply-To: <1ea3d79a-2413-bba5-147e-e24df3f91ce0@amd.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 3 Feb 2021 11:53:38 -0800
+Message-ID: <CAJuCfpFxZPgBefgKdToiBPzeNtW9_pwZi=7JKUq01PK9xnW_zg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Map system heap pages as managed
+ by linux vm
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,72 +68,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dafna.hirschfeld@collabora.com,
- cmuellner@linux.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- helen.koike@collabora.com, robh+dt@kernel.org, ezequiel@collabora.com,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ Sandeep Patil <sspatil@google.com>, linux-mm <linux-mm@kvack.org>,
+ kernel-team <kernel-team@android.com>, James Jones <jajones@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Christoph Hellwig <hch@infradead.org>, Minchan Kim <minchan@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Heiko,
-
-I have tested your patch set on my nanoPC-T4, here is a complete log
-with:
-- relevant kernel log entries
-- system information
-- media ctl output
-- sysfs entry information
-
-https://paste.debian.net/1183874/
-
-Additionally, to your patchset I have applied the following patches:
-https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual_cam_setup
-
-And just to not cause confusion the `media_dev` entries come from this
-unmerged series:
-https://patchwork.kernel.org/project/linux-media/list/?series=426269
-
-I have actually been able to stream with both of my cameras at the same
-time using the libcamera cam command.
-I would like to thank you a lot for making this possible.
-
-If you like to you can add:
-Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
-
-On 02.02.2021 15:56, Heiko Stuebner wrote:
->The rk3399 has two ISPs and right now only the first one is usable.
->The second ISP is connected to the TXRX dphy on the soc.
->
->The phy of ISP1 is only accessible through the DSI controller's
->io-memory, so this series adds support for simply using the dsi
->controller is a phy if needed.
->
->That solution is needed at least on rk3399 and rk3288 but no-one
->has looked at camera support on rk3288 at all, so right now
->only implement the rk3399 specifics.
->
->
->Heiko Stuebner (6):
->  drm/rockchip: dsi: add own additional pclk handling
->  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
->  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
->  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
->  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
->  arm64: dts: rockchip: add isp1 node on rk3399
->
-> .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
-> arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
-> drivers/gpu/drm/rockchip/Kconfig              |   2 +
-> .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++++
-> 4 files changed, 384 insertions(+)
->
->-- 
->2.29.2
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBGZWIgMywgMjAyMSBhdCAxMjowNiBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMDMuMDIuMjEgdW0gMDM6MDIgc2Nocmll
+YiBTdXJlbiBCYWdoZGFzYXJ5YW46Cj4gPiBPbiBUdWUsIEZlYiAyLCAyMDIxIGF0IDU6MzkgUE0g
+TWluY2hhbiBLaW0gPG1pbmNoYW5Aa2VybmVsLm9yZz4gd3JvdGU6Cj4gPj4gT24gVHVlLCBGZWIg
+MDIsIDIwMjEgYXQgMDQ6MzE6MzRQTSAtMDgwMCwgU3VyZW4gQmFnaGRhc2FyeWFuIHdyb3RlOgo+
+ID4+PiBDdXJyZW50bHkgc3lzdGVtIGhlYXAgbWFwcyBpdHMgYnVmZmVycyB3aXRoIFZNX1BGTk1B
+UCBmbGFnIHVzaW5nCj4gPj4+IHJlbWFwX3Bmbl9yYW5nZS4gVGhpcyByZXN1bHRzIGluIHN1Y2gg
+YnVmZmVycyBub3QgYmVpbmcgYWNjb3VudGVkCj4gPj4+IGZvciBpbiBQU1MgY2FsY3VsYXRpb25z
+IGJlY2F1c2Ugdm0gdHJlYXRzIHRoaXMgbWVtb3J5IGFzIGhhdmluZyBubwo+ID4+PiBwYWdlIHN0
+cnVjdHMuIFdpdGhvdXQgcGFnZSBzdHJ1Y3RzIHRoZXJlIGFyZSBubyBjb3VudGVycyByZXByZXNl
+bnRpbmcKPiA+Pj4gaG93IG1hbnkgcHJvY2Vzc2VzIGFyZSBtYXBwaW5nIGEgcGFnZSBhbmQgdGhl
+cmVmb3JlIFBTUyBjYWxjdWxhdGlvbgo+ID4+PiBpcyBpbXBvc3NpYmxlLgo+ID4+PiBIaXN0b3Jp
+Y2FsbHksIElPTiBkcml2ZXIgdXNlZCB0byBtYXAgaXRzIGJ1ZmZlcnMgYXMgVk1fUEZOTUFQIGFy
+ZWFzCj4gPj4+IGR1ZSB0byBtZW1vcnkgY2FydmVvdXRzIHRoYXQgZGlkIG5vdCBoYXZlIHBhZ2Ug
+c3RydWN0cyBbMV0uIFRoYXQKPiA+Pj4gaXMgbm90IHRoZSBjYXNlIGFueW1vcmUgYW5kIGl0IHNl
+ZW1zIHRoZXJlIHdhcyBkZXNpcmUgdG8gbW92ZSBhd2F5Cj4gPj4+IGZyb20gcmVtYXBfcGZuX3Jh
+bmdlIFsyXS4KPiA+Pj4gRG1hYnVmIHN5c3RlbSBoZWFwIGRlc2lnbiBpbmhlcml0cyB0aGlzIElP
+TiBiZWhhdmlvciBhbmQgbWFwcyBpdHMKPiA+Pj4gcGFnZXMgdXNpbmcgcmVtYXBfcGZuX3Jhbmdl
+IGV2ZW4gdGhvdWdoIGFsbG9jYXRlZCBwYWdlcyBhcmUgYmFja2VkCj4gPj4+IGJ5IHBhZ2Ugc3Ry
+dWN0cy4KPiA+Pj4gUmVwbGFjZSByZW1hcF9wZm5fcmFuZ2Ugd2l0aCB2bV9pbnNlcnRfcGFnZSwg
+Zm9sbG93aW5nIExhdXJhJ3Mgc3VnZ2VzdGlvbgo+ID4+PiBpbiBbMV0uIFRoaXMgd291bGQgYWxs
+b3cgY29ycmVjdCBQU1MgY2FsY3VsYXRpb24gZm9yIGRtYWJ1ZnMuCj4gPj4+Cj4gPj4+IFsxXSBo
+dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
+M0ElMkYlMkZkcml2ZXJkZXYtZGV2ZWwubGludXhkcml2ZXJwcm9qZWN0Lm5hcmtpdmUuY29tJTJG
+djBmSkdwYUQlMkZ1c2luZy1pb24tbWVtb3J5LWZvci1kaXJlY3QtaW8mYW1wO2RhdGE9MDQlN0Mw
+MSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDYjRjMTQ1Yjg2ZGQwNDcyYzk0M2MwOGQ4
+YzdlN2JhNGIlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3
+NDc5MTQ1Mzg5MTYwMzUzJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdN
+REFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAm
+YW1wO3NkYXRhPVcxTiUyQiUyQmxjRkRhUlN2WGRTUGU1aFBOTVJCeUhmR2tVN1VjM2NtTTNGQ1RV
+JTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4+IFsyXSBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90
+ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cCUzQSUyRiUyRmRyaXZlcmRldi5saW51eGRyaXZl
+cnByb2plY3Qub3JnJTJGcGlwZXJtYWlsJTJGZHJpdmVyZGV2LWRldmVsJTJGMjAxOC1PY3RvYmVy
+JTJGMTI3NTE5Lmh0bWwmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQu
+Y29tJTdDYjRjMTQ1Yjg2ZGQwNDcyYzk0M2MwOGQ4YzdlN2JhNGIlN0MzZGQ4OTYxZmU0ODg0ZTYw
+OGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDc5MTQ1Mzg5MTYwMzUzJTdDVW5rbm93biU3
+Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2
+SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWpReFN6S0VyNTJsVWNBSXgl
+MkZ1QkhNSjd5T2dvZiUyRlZNbFc5JTJCQjJmJTJGb1MlMkZFJTNEJmFtcDtyZXNlcnZlZD0wCj4g
+Pj4+IChzb3JyeSwgY291bGQgbm90IGZpbmQgbG9yZSBsaW5rcyBmb3IgdGhlc2UgZGlzY3Vzc2lv
+bnMpCj4gPj4+Cj4gPj4+IFN1Z2dlc3RlZC1ieTogTGF1cmEgQWJib3R0IDxsYWJib3R0QGtlcm5l
+bC5vcmc+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdv
+b2dsZS5jb20+Cj4gPj4gUmV2aWV3ZWQtYnk6IE1pbmNoYW4gS2ltIDxtaW5jaGFuQGtlcm5lbC5v
+cmc+Cj4gPj4KPiA+PiBBIG5vdGU6IFRoaXMgcGF0Y2ggbWFrZXMgZG1hYnVmIHN5c3RlbSBoZWFw
+IGFjY291bnRlZCBhcyBQU1Mgc28KPiA+PiBpZiBzb21lb25lIGhhcyByZWxpZXMgb24gdGhlIHNp
+emUsIHRoZXkgd2lsbCBzZWUgdGhlIGJsb2F0Lgo+ID4+IElJUkMsIHRoZXJlIHdhcyBzb21lIGRl
+YmF0ZSB3aGV0aGVyIFBTUyBhY2NvdW50aW5nIGZvciB0aGVpcgo+ID4+IGJ1ZmZlciBpcyBjb3Jy
+ZWN0IG9yIG5vdC4gSWYgaXQnZCBiZSBhIHByb2JsZW0sIHdlIG5lZWQgdG8KPiA+PiBkaXNjdXNz
+IGhvdyB0byBzb2x2ZSBpdChtYXliZSwgdm1hLT52bV9mbGFncyBhbmQgcmVpbnRyb2R1Y2UKPiA+
+PiByZW1hcF9wZm5fcmFuZ2UgZm9yIHRoZW0gdG8gYmUgcmVzcGVjdGVkKS4KPiA+IEkgZGlkIG5v
+dCBzZWUgZGViYXRlcyBhYm91dCBub3QgaW5jbHVkaW5nICptYXBwZWQqIGRtYWJ1ZnMgaW50byBQ
+U1MKPiA+IGNhbGN1bGF0aW9uLiBJIHJlbWVtYmVyIHBlb3BsZSB3ZXJlIGRpc2N1c3NpbmcgaG93
+IHRvIGFjY291bnQgZG1hYnVmcwo+ID4gcmVmZXJyZWQgb25seSBieSB0aGUgRkQgYnV0IHRoYXQg
+aXMgYSBkaWZmZXJlbnQgZGlzY3Vzc2lvbi4gSWYgdGhlCj4gPiBidWZmZXIgaXMgbWFwcGVkIGlu
+dG8gdGhlIGFkZHJlc3Mgc3BhY2Ugb2YgYSBwcm9jZXNzIHRoZW4gSU1ITwo+ID4gaW5jbHVkaW5n
+IGl0IGludG8gUFNTIG9mIHRoYXQgcHJvY2VzcyBpcyBub3QgY29udHJvdmVyc2lhbC4KPgo+IFdl
+bGwsIEkgdGhpbmsgaXQgaXMuIEFuZCB0byBiZSBob25lc3QgdGhpcyBkb2Vzbid0IGxvb2tzIGxp
+a2UgYSBnb29kCj4gaWRlYSB0byBtZSBzaW5jZSBpdCB3aWxsIGV2ZW50dWFsbHkgbGVhZCB0byBk
+b3VibGUgYWNjb3VudGluZyBvZiBzeXN0ZW0KPiBoZWFwIERNQS1idWZzLgoKVGhhbmtzIGZvciB0
+aGUgY29tbWVudCEgQ291bGQgeW91IHBsZWFzZSBleHBhbmQgb24gdGhpcyBkb3VibGUKYWNjb3Vu
+dGluZyBpc3N1ZT8gRG8geW91IG1lYW4gdXNlcnNwYWNlIGNvdWxkIGRvdWJsZSBhY2NvdW50IGRt
+YWJ1ZnMKYmVjYXVzZSBpdCBleHBlY3RzIGRtYWJ1ZnMgbm90IHRvIGJlIHBhcnQgb2YgUFNTIG9y
+IGlzIHRoZXJlIHNvbWUKaW4ta2VybmVsIGFjY291bnRpbmcgbWVjaGFuaXNtIHRoYXQgd291bGQg
+YmUgYnJva2VuIGJ5IHRoaXM/Cgo+Cj4gQXMgZGlzY3Vzc2VkIG11bHRpcGxlIHRpbWVzIGl0IGlz
+IGlsbGVnYWwgdG8gdXNlIHRoZSBzdHJ1Y3QgcGFnZSBvZiBhCj4gRE1BLWJ1Zi4gVGhpcyBjYXNl
+IGhlcmUgaXMgYSBiaXQgc3BlY2lhbCBzaW5jZSBpdCBpcyB0aGUgb3duZXIgb2YgdGhlCj4gcGFn
+ZXMgd2hpY2ggZG9lcyB0aGF0LCBidXQgSSdtIG5vdCBzdXJlIGlmIHRoaXMgd29uJ3QgY2F1c2Ug
+cHJvYmxlbXMKPiBlbHNld2hlcmUgYXMgd2VsbC4KCkkgd291bGQgYmUgaGFwcHkgdG8ga2VlcCB0
+aGluZ3MgYXMgdGhleSBhcmUgYnV0IGNhbGN1bGF0aW5nIGRtYWJ1Zgpjb250cmlidXRpb24gdG8g
+UFNTIHdpdGhvdXQgc3RydWN0IHBhZ2VzIGlzIGV4dHJlbWVseSBpbmVmZmljaWVudCBhbmQKYmVj
+b21lcyBhIHJlYWwgcGFpbiB3aGVuIHdlIGNvbnNpZGVyIHRoZSBwb3NzaWJpbGl0aWVzIG9mIHBh
+cnRpYWwKbWFwcGluZ3MsIHdoZW4gbm90IHRoZSBlbnRpcmUgZG1hYnVmIGlzIGJlaW5nIG1hcHBl
+ZC4KQ2FsY3VsYXRpbmcgdGhpcyB3b3VsZCByZXF1aXJlIHBhcnNpbmcgL3Byb2MvcGlkL21hcHMg
+Zm9yIHRoZSBwcm9jZXNzLApmaW5kaW5nIGRtYWJ1ZiBtYXBwaW5ncyBhbmQgdGhlIHNpemUgZm9y
+IGVhY2ggb25lLCB0aGVuIHBhcnNpbmcKL3Byb2MvcGlkL21hcHMgZm9yIEFMTCBwcm9jZXNzZXMg
+aW4gdGhlIHN5c3RlbSB0byBzZWUgaWYgdGhlIHNhbWUKZG1hYnVmcyBhcmUgdXNlZCBieSBvdGhl
+ciBwcm9jZXNzZXMgYW5kIG9ubHkgdGhlbiBjYWxjdWxhdGluZyB0aGUgUFNTLgpJIGhvcGUgdGhh
+dCBleHBsYWlucyB0aGUgZGVzaXJlIHRvIHVzZSBhbHJlYWR5IGV4aXN0aW5nIHN0cnVjdCBwYWdl
+cwp0byBvYnRhaW4gUFNTIGluIGEgbXVjaCBtb3JlIGVmZmljaWVudCB3YXkuCgo+Cj4gQSBtb3Jl
+IGFwcHJvcHJpYXRlIHNvbHV0aW9uIHdvdWxkIGJlIHRvIGhlbGQgcHJvY2Vzc2VzIGFjY291bnRh
+YmxlIGZvcgo+IHJlc291cmNlcyB0aGV5IGhhdmUgYWxsb2NhdGVkIHRocm91Z2ggZGV2aWNlIGRy
+aXZlcnMuCgpBcmUgeW91IHN1Z2dlc3Rpbmcgc29tZSBuZXcga2VybmVsIG1lY2hhbmlzbSB0byBh
+Y2NvdW50IHJlc291cmNlcwphbGxvY2F0ZWQgYnkgYSBwcm9jZXNzIHZpYSBhIGRyaXZlcj8gSWYg
+c28sIGFueSBkZXRhaWxzPwoKPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gLS0KPiBUbyB1
+bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9t
+IGl0LCBzZW5kIGFuIGVtYWlsIHRvIGtlcm5lbC10ZWFtK3Vuc3Vic2NyaWJlQGFuZHJvaWQuY29t
+Lgo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
