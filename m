@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA04D30DAAF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7875430DAB0
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B85B36EAB2;
-	Wed,  3 Feb 2021 13:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F516EAB7;
+	Wed,  3 Feb 2021 13:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813396EAA5
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:10:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 193E26EAAE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:10:53 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 12487B12F;
+ by mx2.suse.de (Postfix) with ESMTP id A8B8CB131;
  Wed,  3 Feb 2021 13:10:51 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
  sean@poorly.run, sam@ravnborg.org, noralf@tronnes.org
-Subject: [PATCH 4/6] drm/cirrus: Move vmap out of commit tail
-Date: Wed,  3 Feb 2021 14:10:44 +0100
-Message-Id: <20210203131046.22371-5-tzimmermann@suse.de>
+Subject: [PATCH 5/6] drm/gm12u320: Move vmap out of commit tail
+Date: Wed,  3 Feb 2021 14:10:45 +0100
+Message-Id: <20210203131046.22371-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210203131046.22371-1-tzimmermann@suse.de>
 References: <20210203131046.22371-1-tzimmermann@suse.de>
@@ -55,30 +55,30 @@ callbacks use the established mapping for damage handling.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/Kconfig  |  3 ++-
- drivers/gpu/drm/tiny/cirrus.c | 45 +++++++++++++++--------------------
- 2 files changed, 21 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/tiny/Kconfig    |  3 ++-
+ drivers/gpu/drm/tiny/gm12u320.c | 30 +++++++++++++++---------------
+ 2 files changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 2b6414f0fa75..e0aef6cf8e26 100644
+index e0aef6cf8e26..faf3926fd4fa 100644
 --- a/drivers/gpu/drm/tiny/Kconfig
 +++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -3,8 +3,9 @@
- config DRM_CIRRUS_QEMU
- 	tristate "Cirrus driver for QEMU emulated device"
- 	depends on DRM && PCI && MMU
+@@ -23,8 +23,9 @@ config DRM_CIRRUS_QEMU
+ config DRM_GM12U320
+ 	tristate "GM12U320 driver for USB projectors"
+ 	depends on DRM && USB
 -	select DRM_KMS_HELPER
  	select DRM_GEM_SHMEM_HELPER
 +	select DRM_GEM_SHMEM_KMS_HELPER
 +	select DRM_KMS_HELPER
  	help
- 	 This is a KMS driver for emulated cirrus device in qemu.
- 	 It is *NOT* intended for real cirrus devices. This requires
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index a043e602199e..aac627615b2d 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -33,8 +33,9 @@
+ 	 This is a KMS driver for projectors which use the GM12U320 chipset
+ 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index 33f65f4626e5..1d20949f429a 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -16,8 +16,9 @@
  #include <drm/drm_file.h>
  #include <drm/drm_format_helper.h>
  #include <drm/drm_fourcc.h>
@@ -89,105 +89,113 @@ index a043e602199e..aac627615b2d 100644
  #include <drm/drm_ioctl.h>
  #include <drm/drm_managed.h>
  #include <drm/drm_modeset_helper_vtables.h>
-@@ -311,22 +312,15 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
- 	return 0;
- }
+@@ -94,6 +95,7 @@ struct gm12u320_device {
+ 		struct drm_rect          rect;
+ 		int frame;
+ 		int draw_status_timeout;
++		struct dma_buf_map src_map;
+ 	} fb_update;
+ };
  
--static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
-+static int cirrus_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_map *map,
- 			       struct drm_rect *rect)
+@@ -250,7 +252,6 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
  {
- 	struct cirrus_device *cirrus = to_cirrus(fb->dev);
+ 	int block, dst_offset, len, remain, ret, x1, x2, y1, y2;
+ 	struct drm_framebuffer *fb;
 -	struct dma_buf_map map;
--	void *vmap;
--	int idx, ret;
-+	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
-+	int idx;
+ 	void *vaddr;
+ 	u8 *src;
  
--	ret = -ENODEV;
- 	if (!drm_dev_enter(&cirrus->dev, &idx))
--		goto out;
+@@ -264,20 +265,14 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+ 	x2 = gm12u320->fb_update.rect.x2;
+ 	y1 = gm12u320->fb_update.rect.y1;
+ 	y2 = gm12u320->fb_update.rect.y2;
 -
 -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
--	if (ret)
--		goto out_dev_exit;
--	vmap = map.vaddr; /* TODO: Use mapping abstraction properly */
-+		return -ENODEV;
+-	if (ret) {
+-		GM12U320_ERR("failed to vmap fb: %d\n", ret);
+-		goto put_fb;
+-	}
+-	vaddr = map.vaddr; /* TODO: Use mapping abstraction properly */
++	vaddr = gm12u320->fb_update.src_map.vaddr; /* TODO: Use mapping abstraction properly */
  
- 	if (cirrus->cpp == fb->format->cpp[0])
- 		drm_fb_memcpy_dstclip(cirrus->vram,
-@@ -345,16 +339,12 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
- 	else
- 		WARN_ON_ONCE("cpp mismatch");
+ 	if (fb->obj[0]->import_attach) {
+ 		ret = dma_buf_begin_cpu_access(
+ 			fb->obj[0]->import_attach->dmabuf, DMA_FROM_DEVICE);
+ 		if (ret) {
+ 			GM12U320_ERR("dma_buf_begin_cpu_access err: %d\n", ret);
+-			goto vunmap;
++			goto put_fb;
+ 		}
+ 	}
  
+@@ -321,8 +316,6 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+ 		if (ret)
+ 			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
+ 	}
+-vunmap:
 -	drm_gem_shmem_vunmap(fb->obj[0], &map);
--	ret = 0;
--
--out_dev_exit:
- 	drm_dev_exit(idx);
--out:
--	return ret;
-+
-+	return 0;
+ put_fb:
+ 	drm_framebuffer_put(fb);
+ 	gm12u320->fb_update.fb = NULL;
+@@ -410,7 +403,7 @@ static void gm12u320_fb_update_work(struct work_struct *work)
+ 		GM12U320_ERR("Frame update error: %d\n", ret);
  }
  
--static int cirrus_fb_blit_fullscreen(struct drm_framebuffer *fb)
-+static int cirrus_fb_blit_fullscreen(struct drm_framebuffer *fb, const struct dma_buf_map *map)
+-static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb,
++static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb, const struct dma_buf_map *map,
+ 				   struct drm_rect *dirty)
  {
- 	struct drm_rect fullscreen = {
- 		.x1 = 0,
-@@ -362,7 +352,7 @@ static int cirrus_fb_blit_fullscreen(struct drm_framebuffer *fb)
- 		.y1 = 0,
- 		.y2 = fb->height,
- 	};
--	return cirrus_fb_blit_rect(fb, &fullscreen);
-+	return cirrus_fb_blit_rect(fb, map, &fullscreen);
- }
+ 	struct gm12u320_device *gm12u320 = to_gm12u320(fb->dev);
+@@ -424,6 +417,7 @@ static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb,
+ 		drm_framebuffer_get(fb);
+ 		gm12u320->fb_update.fb = fb;
+ 		gm12u320->fb_update.rect = *dirty;
++		gm12u320->fb_update.src_map = *map;
+ 		wakeup = true;
+ 	} else {
+ 		struct drm_rect *rect = &gm12u320->fb_update.rect;
+@@ -452,6 +446,7 @@ static void gm12u320_stop_fb_update(struct gm12u320_device *gm12u320)
+ 	mutex_lock(&gm12u320->fb_update.lock);
+ 	old_fb = gm12u320->fb_update.fb;
+ 	gm12u320->fb_update.fb = NULL;
++	dma_buf_map_clear(&gm12u320->fb_update.src_map);
+ 	mutex_unlock(&gm12u320->fb_update.lock);
  
- static int cirrus_check_size(int width, int height,
-@@ -441,9 +431,11 @@ static void cirrus_pipe_enable(struct drm_simple_display_pipe *pipe,
- 			       struct drm_plane_state *plane_state)
+ 	drm_framebuffer_put(old_fb);
+@@ -564,9 +559,11 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
  {
- 	struct cirrus_device *cirrus = to_cirrus(pipe->crtc.dev);
+ 	struct drm_rect rect = { 0, 0, GM12U320_USER_WIDTH, GM12U320_HEIGHT };
+ 	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
 +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
 +		to_drm_gem_shmem_shadow_plane_state(plane_state);
  
- 	cirrus_mode_set(cirrus, &crtc_state->mode, plane_state->fb);
--	cirrus_fb_blit_fullscreen(plane_state->fb);
-+	cirrus_fb_blit_fullscreen(plane_state->fb, &shadow_plane_state->map[0]);
+ 	gm12u320->fb_update.draw_status_timeout = FIRST_FRAME_TIMEOUT;
+-	gm12u320_fb_mark_dirty(plane_state->fb, &rect);
++	gm12u320_fb_mark_dirty(plane_state->fb, &shadow_plane_state->map[0], &rect);
  }
  
- static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
-@@ -451,16 +443,16 @@ static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
+ static void gm12u320_pipe_disable(struct drm_simple_display_pipe *pipe)
+@@ -580,16 +577,19 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *old_state)
  {
- 	struct cirrus_device *cirrus = to_cirrus(pipe->crtc.dev);
  	struct drm_plane_state *state = pipe->plane.state;
 +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
 +		to_drm_gem_shmem_shadow_plane_state(state);
- 	struct drm_crtc *crtc = &pipe->crtc;
  	struct drm_rect rect;
  
--	if (pipe->plane.state->fb &&
--	    cirrus->cpp != cirrus_cpp(pipe->plane.state->fb))
--		cirrus_mode_set(cirrus, &crtc->mode,
--				pipe->plane.state->fb);
-+	if (state->fb && cirrus->cpp != cirrus_cpp(state->fb))
-+		cirrus_mode_set(cirrus, &crtc->mode, state->fb);
- 
  	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		cirrus_fb_blit_rect(pipe->plane.state->fb, &rect);
-+		cirrus_fb_blit_rect(state->fb, &shadow_plane_state->map[0], &rect);
+-		gm12u320_fb_mark_dirty(pipe->plane.state->fb, &rect);
++		gm12u320_fb_mark_dirty(state->fb, &shadow_plane_state->map[0], &rect);
  }
  
- static const struct drm_simple_display_pipe_funcs cirrus_pipe_funcs = {
-@@ -468,6 +460,7 @@ static const struct drm_simple_display_pipe_funcs cirrus_pipe_funcs = {
- 	.check	    = cirrus_pipe_check,
- 	.enable	    = cirrus_pipe_enable,
- 	.update	    = cirrus_pipe_update,
+ static const struct drm_simple_display_pipe_funcs gm12u320_pipe_funcs = {
+ 	.enable	    = gm12u320_pipe_enable,
+ 	.disable    = gm12u320_pipe_disable,
+ 	.update	    = gm12u320_pipe_update,
 +	DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
  };
  
- static const uint32_t cirrus_formats[] = {
+ static const uint32_t gm12u320_pipe_formats[] = {
 -- 
 2.30.0
 
