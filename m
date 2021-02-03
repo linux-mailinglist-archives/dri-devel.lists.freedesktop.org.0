@@ -1,80 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FDB30D68E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 10:46:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8755730D695
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 10:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0DF6EA30;
-	Wed,  3 Feb 2021 09:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52CB46EA3C;
+	Wed,  3 Feb 2021 09:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE14E6EA30
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 09:46:06 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id m13so23402127wro.12
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 01:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=xfySz6q5xvZ340AxKDdAPrtOFlaeWrpfnl+56VVFlr0=;
- b=COuA4AC0TiD0CHMovXHYlePBhgEQ5eIWkLbf8gytuEoHVEI1iD61XxsAQArsZgIZBE
- V6o0c1lKqae/21cA1iArP2W9pvvxGY6f+VbVAE3z+2SS7A7D7u8lzUOv4jXeJZJ5FCDi
- 7PYOWV6eRysgFgRXJQ5gzmqVVwliUyyM6RTNQ=
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEF26EA3C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 09:47:40 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id v24so32388131lfr.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 01:47:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtec.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0AMrs3JS9ABopxu53Fe4YXqP4fCjBRvXi5TQqbzp9W0=;
+ b=QPYIsTwnlspW+bG26mWcUpY2ycTyNoNCP1QCgGl0vpV/l0fykHWsWaY/LEIRQ23iSp
+ cpyrUPPC51Ayf2WZxSElAx/gPyQTWc8col2KKEWhH1wZUTMrkherZKV4ZjpPWHsqSgBS
+ yHMdw3/N2L6zsv1NgEAZLw6eKqAbyccVRkWWQvvzeFsftiqGB609HbmbBZ8q9yv2esOu
+ yQgi9WMGAA2CV5pQSS6++HnW7EDByF7ysh0B8bOeCfdb6hMRpjKOdHZ7Kmco6tf8EZ7C
+ L3UPT2AGavTMB5sYGOyDTCF0LVM34xaSFgNvuPuE71QrCXHCpSyiB4xbhk4PSU1KNyv+
+ 6n4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=xfySz6q5xvZ340AxKDdAPrtOFlaeWrpfnl+56VVFlr0=;
- b=ON3zg1RDb3vdZCN81gHfewTo0upuVUjx+ZzwI7nP1imX7uJzMTdKXyE3np2VaUJ0Tl
- coSj1D0dvbcaK4foZo0/nM6UFGcUBoc8BTP5la+ihDXI03xWzqWgFQfcoMLluRavo2+U
- sH/WJSfD+XVqH/g1BPQDvQs7b802YlBweVHw7JGCF/1bxQdinI4fKbf9WWe+KRhzG4Lp
- Jds5SveiF8hWAMBvRbJeS2598A7Z0TSc6sKrwkiwDdPTbgn1Xb5t710y2As/0ivSThUE
- Vna6ZUrAB79ugnUGOTONecK6095Gj0kVViisUecY99N0afLQ52jR0uXaGc6j352KWFRF
- xCNg==
-X-Gm-Message-State: AOAM5314gJlMLKIBFoG1NzCTAVO9bvzlErSrVCdN6NS5P2lKcmKO08/r
- gZNOgOlnVH6j8bFjbS2v6ZTCgg==
-X-Google-Smtp-Source: ABdhPJyNduSh6pFDFP+YRUM+TGXjqQL1z8wP3E+j4R0MMc87oWqYnLo9N3IfHJKfVR0yRnDBtqbt8g==
-X-Received: by 2002:adf:fc8a:: with SMTP id g10mr2573206wrr.189.1612345565423; 
- Wed, 03 Feb 2021 01:46:05 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r13sm2224352wmh.9.2021.02.03.01.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 01:46:04 -0800 (PST)
-Date: Wed, 3 Feb 2021 10:46:02 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [RFC][PATCH 2/3] dma-buf: system_heap: Add pagepool support to
- system heap
-Message-ID: <YBpw2l9aGKmNuG8C@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
- lkml <linux-kernel@vger.kernel.org>,
- Sandeep Patil <sspatil@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-References: <20201217230612.32397-1-john.stultz@linaro.org>
- <20201217230612.32397-2-john.stultz@linaro.org>
- <X9y+YZujWBTHMuH3@phenom.ffwll.local>
- <CALAqxLVtYVGSSYtFmMK6oM9JSEmY4RAXra89sECL2Z4YGPic0Q@mail.gmail.com>
- <X+Ec+xVhyIUa7IsJ@phenom.ffwll.local>
- <CALAqxLWdq9pKpFLzXmV60LQHpu8BgckDuX1HX5hY4jspHvLK5Q@mail.gmail.com>
- <YBlb1V62cFP9Fz1/@phenom.ffwll.local>
- <CALAqxLVNBGLeCnZ1SMj+bPWTTOMADUw7ioz7zaGRZPC79PpBqg@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0AMrs3JS9ABopxu53Fe4YXqP4fCjBRvXi5TQqbzp9W0=;
+ b=WePbG90G6iWFLlq7spIHEM61WUIN0pZFlAY3I61PHa5Xzcwx9c+KHG5R5lv970YCGy
+ esEAbasnQKYOg+FJGp0JI+o9sXXsucKUjOmPp+nUX1qJ6BTCZJXBNQHTmaqbUUqz04kX
+ EJuUETjE2Qpa8IHxI59sLYH0/D/kT0In3IElBN3p1E2mH9G3f1v9CFFlPDnYcqPQXD9W
+ dsFMMXvF2kU4yLAwI+M/lS67LVfjYEMuK+9k6knQVLmYJKU/09Hv5Ou7QzLm7Hhc311z
+ lW7uXN9UrtKQbXfByHqMBC2B7rm1rF+23L0Di71g+oCMLjha797avBzw09WDcwuc4AXq
+ C7pg==
+X-Gm-Message-State: AOAM532qh/6G/tmVo/Z83uQXMzpz/lqAM9WO+hcY3yyS/+llT7YdX9bY
+ KrYHlq1jxGD2xsxKZi9LvW6D4mTEK1tQnxhwy/mWIQ==
+X-Google-Smtp-Source: ABdhPJztv0I+QYsdikve3SGTojMXwgToTquGUc4v0DBtcSNNsxTQmHk0jy7ycRIoZeFDI80sw+cXwY6ETR0GQKlogv0=
+X-Received: by 2002:a05:6512:2356:: with SMTP id
+ p22mr1230693lfu.3.1612345658708; 
+ Wed, 03 Feb 2021 01:47:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CALAqxLVNBGLeCnZ1SMj+bPWTTOMADUw7ioz7zaGRZPC79PpBqg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <CAH1Ww+TPCSyiaC3oeoWPtsi-vDfDY=K4ByoLD37-onMvsAB5Rg@mail.gmail.com>
+ <58e41b62-b8e0-b036-c87d-a84d53f5a26e@amd.com>
+ <CAKMK7uGTFYWnBG+JtbAK=zQVT1dT=nKor_SHP-t958oebgn8_A@mail.gmail.com>
+ <fa170c5c-2f46-58ef-6847-e0bc9907fc8b@amd.com>
+ <CAKMK7uE8qNUSNpX3TS6Fgif-6rCc7uZth_-F-kYPrOUSz5K3_A@mail.gmail.com>
+In-Reply-To: <CAKMK7uE8qNUSNpX3TS6Fgif-6rCc7uZth_-F-kYPrOUSz5K3_A@mail.gmail.com>
+From: Daniel Gomez <daniel@qtec.com>
+Date: Wed, 3 Feb 2021 10:47:27 +0100
+Message-ID: <CAH1Ww+QhiKYOJTWAigDhC761EhqeCUuh_bdZn=r4DAcEcb5Yyw@mail.gmail.com>
+Subject: Re: [amdgpu] deadlock
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,139 +66,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Daniel Mentz <danielmentz@google.com>,
- lkml <linux-kernel@vger.kernel.org>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Suren Baghdasaryan <surenb@google.com>, Liam Mark <lmark@codeaurora.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Laura Abbott <labbott@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 02, 2021 at 09:56:14PM -0800, John Stultz wrote:
-> On Tue, Feb 2, 2021 at 6:04 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Jan 22, 2021 at 05:28:32PM -0800, John Stultz wrote:
-> > > On Mon, Dec 21, 2020 at 2:09 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Fri, Dec 18, 2020 at 05:16:56PM -0800, John Stultz wrote:
-> > > > > On Fri, Dec 18, 2020 at 6:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > > On Thu, Dec 17, 2020 at 11:06:11PM +0000, John Stultz wrote:
-> > > > > > > Reuse/abuse the pagepool code from the network code to speed
-> > > > > > > up allocation performance.
-> > > > > > >
-> > > > > > > This is similar to the ION pagepool usage, but tries to
-> > > > > > > utilize generic code instead of a custom implementation.
-> > > > > >
-> > > > > > We also have one of these in ttm. I think we should have at most one of
-> > > > > > these for the gpu ecosystem overall, maybe as a helper that can be plugged
-> > > > > > into all the places.
-> > > > > >
-> > > > > > Or I'm kinda missing something, which could be since I only glanced at
-> > > > > > yours for a bit. But it's also called page pool for buffer allocations,
-> > > > > > and I don't think there's that many ways to implement that really :-)
-> > > > >
-> > > > > Yea, when I was looking around the ttm one didn't seem quite as
-> > > > > generic as the networking one, which more easily fit in here.
-> > > >
-> > > > Oops, I didn't look that closely and didn't realize you're reusing the one
-> > > > from net/core/.
-> > > >
-> > > > > The main benefit for the system heap is not so much the pool itself
-> > > > > (the normal page allocator is pretty good), as it being able to defer
-> > > > > the free and zero the pages in a background thread, so the pool is
-> > > > > effectively filled with pre-zeroed pages.
-> > > > >
-> > > > > But I'll take another look at the ttm implementation and see if it can
-> > > > > be re-used or the shared code refactored and pulled out somehow.
-> > > >
-> > > > I think moving the page_pool from net into lib and using it in ttm might
-> > > > also be an option. Lack of shrinker in the networking one might be a bit a
-> > > > problem.
-> > >
-> > > Yea. I've been looking at this, to see how to abstract out a generic
-> > > pool implementation, but each pool implementation has been tweaked for
-> > > the specific use cases, so a general abstraction is a bit tough right
-> > > off.
-> > >
-> > > For example the ttm pool's handling allocations both from alloc_pages
-> > > and dma_alloc in a pool, where the net page pool only uses alloc_pages
-> > > (but can pre map via dma_map_attr).
-> > >
-> > > And as you mentioned, the networking page pool is statically sized
-> > > where the ttm pool is dynamic and shrinker controlled.
-> > >
-> > > Further, as the ttm pool is utilized for keeping pools of pages set
-> > > for specific cache types, it makes it difficult to abstract that out
-> > > as we have to be able to reset the caching (set_pages_wb()) when
-> > > shrinking, so that would also have to be pushed down into the pool
-> > > attributes as well.
-> > >
-> > > So far, in my attempts to share an abstraction for both the net
-> > > page_pool and the ttm page pool, it seems to make the code complexity
-> > > worse on both sides -  so while I'm interested in continuing to try to
-> > > find a way to share code here, I'm not sure it makes sense to hold up
-> > > this series (which is already re-using an existing implementation and
-> > > provide a performance bump in microbenchmarks) for the
-> > > grand-unified-page-pool. Efforts to refactor the ttm pool and net page
-> > > pool can continue on indepently, and I'd be happy to move the system
-> > > heap to whatever that ends up being.
-> >
-> > The thing is, I'm not sure sharing code with net/core is a really good
-> > idea, at least it seems like we have some impendence mismatch with the ttm
-> > pool. And going forward I expect sooner or later we need alignment between
-> > the pools/caches under drm with dma-buf heap pools a lot more than between
-> > dma-buf and net/core.
-> 
-> I mean...  I don't think you're wrong here, but it was your suggestion.
-> 
-> > So this feels like a bit code sharing for code sharing's sake and not
-> > where it makes sense. Expecting net/core and gpu stacks to have the exact
-> > same needs for a page pool allocator has good chances to bite us in the
-> > long run.
-> 
-> Again, I agree with you at the high level here (dmabuf system heap and
-> ttm page pooling are conceptually more likely to align, and
-> duplication of buffer pools is non-optimal), but there's still the
-> practical aspect of the ttm pool being pretty tied to the ttm code
-> (utilizing ttm contexts, fixed MAX_ORDER*TTM_NUM_CACHING_TYPES
-> subpools per pool + 4 global sub-pools for only x86).
-> 
-> So... I guess I'll go for another pass at trying to pull something
-> generic out of the ttm_pool, but the cynic in me suspects folks will
-> just object to any inefficiencies added in order to do so (the
-> code-sharing for its own sake argument above) and I'll be back to
-> where I am now. But we'll see.
-
-Yeah realistically we're not there yet most likely. It's also a bigger
-problem, with shrinkers all over various drivers and buffer locking scheme
-mostly of the yolo kind.
-
-With Android I'm just more worried than with the other parts since in
-reality the actual production gpu stacks on android are all out of tree.
-And so there's substantial more inertia against refactoring (in practice
-at least, because the only people who care are not super willing to create
-tons of work in their out-of-tree stacks). And given past progress waiting
-for Android to arrive on upstream is also not a great option really -
-outside of some nice tech demos that in practice don't ship anywhere
-
-And without the full stack a lot of this just looks like tech debt
-offloading without a hole lot of benefits to upstream.
-
-But also, this isn't a new topic :-)
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAzIEZlYiAyMDIxIGF0IDEwOjE3LCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwu
+Y2g+IHdyb3RlOgo+Cj4gT24gV2VkLCBGZWIgMywgMjAyMSBhdCA5OjUxIEFNIENocmlzdGlhbiBL
+w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4gPgo+ID4gQW0gMDMuMDIu
+MjEgdW0gMDk6NDggc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gPiBPbiBXZWQsIEZlYiAzLCAy
+MDIxIGF0IDk6MzYgQU0gQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
+PiB3cm90ZToKPiA+ID4+IEhpIERhbmllbCwKPiA+ID4+Cj4gPiA+PiB0aGlzIGlzIG5vdCBhIGRl
+YWRsb2NrLCBidXQgcmF0aGVyIGEgaGFyZHdhcmUgbG9ja3VwLgo+ID4gPiBBcmUgeW91IHN1cmU/
+IEltZSBnZXR0aW5nIHN0dWNrIGluIGRtYV9mZW5jZV93YWl0IGhhcyBnZW5lcmFsbHkgZ29vZAo+
+ID4gPiBjaGFuY2Ugb2YgYmVpbmcgYSBkbWFfZmVuY2UgZGVhZGxvY2suIEdQVSBoYW5nIHNob3Vs
+ZCBuZXZlciByZXN1bHQgaW4KPiA+ID4gYSBmb3JldmVyIHN0dWNrIGRtYV9mZW5jZS4KPiA+Cj4g
+PiBZZXMsIEknbSBwcmV0dHkgc3VyZS4gT3RoZXJ3aXNlIHRoZSBoYXJkd2FyZSBjbG9ja3Mgd291
+bGRuJ3QgZ28gdXAgbGlrZQo+ID4gdGhpcy4KPgo+IE1heWJlIGNsYXJpZnlpbmcsIGNvdWxkIGJl
+IGJvdGguIFREUiBzaG91bGQgbm90aWNlIGFuZCBnZXQgdXMgb3V0IG9mCj4gdGhpcywgYnV0IGlm
+IHRoZXJlJ3MgYSBkbWFfZmVuY2UgZGVhZGxvY2sgYW5kIHdlIGNhbid0IHJlLWVtaXQgb3IKPiBm
+b3JjZSBjb21wbGV0ZSB0aGUgcGVuZGluZyB0aGluZ3MsIHRoZW4gd2UncmUgc3R1Y2sgZm9yIGdv
+b2QuCj4gLURhbmllbAo+Cj4gPiBRdWVzdGlvbiBpcyByYXRoZXIgd2h5IHdlIGVuZCB1cCBpbiB0
+aGUgdXNlcnB0ciBoYW5kbGluZyBmb3IgR0ZYPyBPdXIKPiA+IFJPQ20gT3BlbkNMIHN0YWNrIHNo
+b3VsZG4ndCB1c2UgdGhpcy4KPiA+Cj4gPiA+IERhbmllbCwgY2FuIHlvdSBwbHMgcmUtaGFuZyB5
+b3VyIG1hY2hpbmUgYW5kIHRoZW4gZHVtcCBiYWNrdHJhY2VzIG9mCj4gPiA+IGFsbCB0YXNrcyBp
+bnRvIGRtZXNnIHdpdGggc3lzcnEtdCwgYW5kIHRoZW4gYXR0YWNoIHRoYXQ/IFdpdGhvdXQgYWxs
+Cj4gPiA+IHRoZSBiYWNrdHJhY2VzIGl0J3MgdHJpY2t5IHRvIGNvbnN0cnVjdCB0aGUgZnVsbCBk
+ZXBlbmRlbmN5IGNoYWluIG9mCj4gPiA+IHdoYXQncyBnb2luZyBvbi4gQWxzbyBpcyB0aGlzIHBs
+YWluIC1yYzYsIG5vdCBzb21lIG1vcmUgcGF0Y2hlcyBvbgo+ID4gPiB0b3A/Cj4gPgo+ID4gWWVh
+aCwgdGhhdCdzIHN0aWxsIGEgZ29vZCBpZGVhIHRvIGhhdmUuCgpIZXJlIHRoZSBmdWxsIGJhY2t0
+cmFjZSBkbWVzZyBsb2dzIGFmdGVyIHRoZSBoYW5nOgpodHRwczovL3Bhc3RlYmluLmNvbS9yYXcv
+a3ppdm0yTDMKClRoaXMgaXMgYW5vdGhlciBkbWVzZyBsb2cgd2l0aCB0aGUgYmFja3RyYWNlcyBh
+ZnRlciBTSUdLSUxMIHRoZSBtYXRyaXggcHJvY2VzczoKKEkgZGlkbid0IGhhdmUgdGhlIHN5c3Jx
+IGVuYWJsZSBhdCB0aGUgdGltZSk6Cmh0dHBzOi8vcGFzdGViaW4uY29tL3Jhdy9wUkJ3R2NqMQoK
+PiA+Cj4gPiBDaHJpc3RpYW4uCj4gPgo+ID4gPiAtRGFuaWVsCj4gPiA+Cj4gPiA+PiBXaGljaCBP
+cGVuQ2wgc3RhY2sgYXJlIHlvdSB1c2luZz8KPiA+ID4+Cj4gPiA+PiBSZWdhcmRzLAo+ID4gPj4g
+Q2hyaXN0aWFuLgo+ID4gPj4KPiA+ID4+IEFtIDAzLjAyLjIxIHVtIDA5OjMzIHNjaHJpZWIgRGFu
+aWVsIEdvbWV6Ogo+ID4gPj4+IEhpIGFsbCwKPiA+ID4+Pgo+ID4gPj4+IEkgaGF2ZSBhIGRlYWRs
+b2NrIHdpdGggdGhlIGFtZGdwdSBtYWlubGluZSBkcml2ZXIgd2hlbiBydW5uaW5nIGluIHBhcmFs
+bGVsIHR3bwo+ID4gPj4+IE9wZW5DTCBhcHBsaWNhdGlvbnMuIFNvIGZhciwgd2UndmUgYmVlbiBh
+YmxlIHRvIHJlcGxpY2F0ZSBpdCBlYXNpbHkgYnkgZXhlY3V0aW5nCj4gPiA+Pj4gY2xpbmZvIGFu
+ZCBNYXRyaXhNdWx0aXBsaWNhdGlvbiAoZnJvbSBBTUQgb3BlbmNsLXNhbXBsZXMpLiBJdCdzIHF1
+aXRlIG9sZCB0aGUKPiA+ID4+PiBvcGVuY2wtc2FtcGxlcyBzbywgaWYgeW91IGhhdmUgYW55IG90
+aGVyIHN1Z2dlc3Rpb24gZm9yIHRlc3RpbmcgSSdkIGJlIHZlcnkKPiA+ID4+PiBoYXBweSB0byB0
+ZXN0IGl0IGFzIHdlbGwuCj4gPiA+Pj4KPiA+ID4+PiBIb3cgdG8gcmVwbGljYXRlIHRoZSBpc3N1
+ZToKPiA+ID4+Pgo+ID4gPj4+ICMgd2hpbGUgdHJ1ZTsgZG8gL3Vzci9iaW4vTWF0cml4TXVsdGlw
+bGljYXRpb24gLS1kZXZpY2UgZ3B1IFwKPiA+ID4+PiAgICAgICAtLWRldmljZUlkIDAgLXggMTAw
+MCAteSAxMDAwIC16IDEwMDAgLXEgLXQgLWkgNTA7IGRvbmUKPiA+ID4+PiAjIHdoaWxlIHRydWU7
+IGRvIGNsaW5mbzsgZG9uZQo+ID4gPj4+Cj4gPiA+Pj4gT3V0cHV0Ogo+ID4gPj4+Cj4gPiA+Pj4g
+QWZ0ZXIgYSBtaW51dGUgb3IgbGVzcyAoc29tZXRpbWVzIGNvdWxkIGJlIG1vcmUpIEkgY2FuIHNl
+ZSB0aGF0Cj4gPiA+Pj4gTWF0cml4TXVsdGlwbGljYXRpb24gYW5kIGNsaW5mbyBoYW5nLiBJbiBh
+ZGRpdGlvbiwgd2l0aCByYWRlb250b3AgeW91IGNhbiBzZWUKPiA+ID4+PiBob3cgdGhlIEdyYXBo
+aWNzIHBpcGUgZ29lcyBmcm9tIH41MCUgdG8gMTAwJS4gQWxzbyB0aGUgc2hhZGVyIGNsb2Nrcwo+
+ID4gPj4+IGdvZXMgdXAgZnJvbSB+MzUlIHRvIH45NiUuCj4gPiA+Pj4KPiA+ID4+PiBjbGluZm8g
+a2VlcHMgcHJpbnRpbmc6Cj4gPiA+Pj4gaW9jdGwoNywgRFJNX0lPQ1RMX1NZTkNPQkpfV0FJVCwg
+MHg3ZmZlNDZlNWY5NTApID0gLTEgRVRJTUUgKFRpbWVyIGV4cGlyZWQpCj4gPiA+Pj4KPiA+ID4+
+PiBBbmQgTWF0cml4TXVsdGlwbGljYXRpb24gcHJpbnRzIHRoZSBmb2xsb3dpbmcgKHN0cmFjZSkg
+aWYgeW91IHRyeSB0bwo+ID4gPj4+IGtpbGwgdGhlIHByb2Nlc3M6Cj4gPiA+Pj4KPiA+ID4+PiBz
+Y2hlZF95aWVsZCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgPSAwCj4gPiA+Pj4gZnV0ZXgo
+MHg1NTdlOTQ1MzQzYjgsIEZVVEVYX1dBSVRfQklUU0VUX1BSSVZBVEV8RlVURVhfQ0xPQ0tfUkVB
+TFRJTUUsIDAsCj4gPiA+Pj4gTlVMTCwgRlVURVhfQklUU0VUX01BVENIX0FOWXN0cmFjZTogUHJv
+Y2VzcyA2NTEgZGV0YWNoZWQKPiA+ID4+PiAgICA8ZGV0YWNoZWQgLi4uPgo+ID4gPj4+Cj4gPiA+
+Pj4gQWZ0ZXIgdGhpcywgdGhlIGdwdSBpcyBub3QgZnVuY3Rpb25hbCBhdCBhbGwgYW5kIHlvdSdk
+IG5lZWQgYSBwb3dlciBjeWNsZSByZXNldAo+ID4gPj4+IHRvIHJlc3RvcmUgdGhlIHN5c3RlbS4K
+PiA+ID4+Pgo+ID4gPj4+IEhhcmR3YXJlIGluZm86Cj4gPiA+Pj4gQ1BVOiBBTUQgUnl6ZW4gRW1i
+ZWRkZWQgVjE2MDVCIHdpdGggUmFkZW9uIFZlZ2EgR2Z4ICg4KSBAIDIuMDAwR0h6Cj4gPiA+Pj4g
+R1BVOiBBTUQgQVRJIFJhZGVvbiBWZWdhIFNlcmllcyAvIFJhZGVvbiBWZWdhIE1vYmlsZSBTZXJp
+ZXMKPiA+ID4+Pgo+ID4gPj4+IDAzOjAwLjAgVkdBIGNvbXBhdGlibGUgY29udHJvbGxlcjogQWR2
+YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLgo+ID4gPj4+IFtBTUQvQVRJXSBSYXZlbiBSaWRnZSBb
+UmFkZW9uIFZlZ2EgU2VyaWVzIC8gUmFkZW9uIFZlZ2EgTW9iaWxlIFNlcmllc10KPiA+ID4+PiAo
+cmV2IDgzKQo+ID4gPj4+ICAgICAgIERldmljZU5hbWU6IEJyb2FkY29tIDU3NjIKPiA+ID4+PiAg
+ICAgICBTdWJzeXN0ZW06IEFkdmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRC9BVEldIFJh
+dmVuIFJpZGdlCj4gPiA+Pj4gW1JhZGVvbiBWZWdhIFNlcmllcyAvIFJhZGVvbiBWZWdhIE1vYmls
+ZSBTZXJpZXNdCj4gPiA+Pj4gICAgICAgS2VybmVsIGRyaXZlciBpbiB1c2U6IGFtZGdwdQo+ID4g
+Pj4+ICAgICAgIEtlcm5lbCBtb2R1bGVzOiBhbWRncHUKPiA+ID4+Pgo+ID4gPj4+IExpbnV4IGtl
+cm5lbCBpbmZvOgo+ID4gPj4+Cj4gPiA+Pj4gcm9vdEBxdDUyMjI6fiMgdW5hbWUgLWEKPiA+ID4+
+PiBMaW51eCBxdDUyMjIgNS4xMS4wLXJjNi1xdGVjLXN0YW5kYXJkICMyIFNNUCBUdWUgRmViIDIg
+MDk6NDE6NDYgVVRDCj4gPiA+Pj4gMjAyMSB4ODZfNjQgeDg2XzY0IHg4Nl82NCBHTlUvTGludXgK
+PiA+ID4+Pgo+ID4gPj4+IEJ5IGVuYWJsaW5nIHRoZSBrZXJuZWwgbG9ja3Mgc3RhdHMgSSBjb3Vs
+ZCBzZWUgdGhlIE1hdHJpeE11bHRpcGxpY2F0aW9uIGlzCj4gPiA+Pj4gaGFuZ2VkIGluIHRoZSBh
+bWRncHVfbW5faW52YWxpZGF0ZV9nZnggZnVuY3Rpb246Cj4gPiA+Pj4KPiA+ID4+PiBbICA3Mzgu
+MzU5MjAyXSAxIGxvY2sgaGVsZCBieSBNYXRyaXhNdWx0aXBsaWMvNjUzOgo+ID4gPj4+IFsgIDcz
+OC4zNTkyMDZdICAjMDogZmZmZjg4ODEwZTM2NGZlMAo+ID4gPj4+ICgmYWRldi0+bm90aWZpZXJf
+bG9jayl7Ky4rLn0tezM6M30sIGF0Ogo+ID4gPj4+IGFtZGdwdV9tbl9pbnZhbGlkYXRlX2dmeCsw
+eDM0LzB4YTAgW2FtZGdwdV0KPiA+ID4+Pgo+ID4gPj4+IEkgY2FuIHNlZSBpbiB0aGUgdGhlIGFt
+ZGdwdV9tbl9pbnZhbGlkYXRlX2dmeCBmdW5jdGlvbjogdGhlCj4gPiA+Pj4gZG1hX3Jlc3Zfd2Fp
+dF90aW1lb3V0X3JjdSB1c2VzIHdhaXRfYWxsIChmZW5jZXMpIGFuZCBNQVhfU0NIRURVTEVfVElN
+RU9VVCBzbywgSQo+ID4gPj4+IGd1ZXNzIHRoZSBjb2RlIGdldHMgc3R1Y2sgdGhlcmUgd2FpdGlu
+ZyBmb3JldmVyLiBBY2NvcmRpbmcgdG8gdGhlCj4gPiA+Pj4gZG9jdW1lbnRhdGlvbjogIldoZW4g
+c29tZWJvZHkgdHJpZXMgdG8gaW52YWxpZGF0ZSB0aGUgcGFnZSB0YWJsZXMgd2UgYmxvY2sgdGhl
+Cj4gPiA+Pj4gdXBkYXRlIHVudGlsIGFsbCBvcGVyYXRpb25zIG9uIHRoZSBwYWdlcyBpbiBxdWVz
+dGlvbiBhcmUgY29tcGxldGVkLCB0aGVuIHRob3NlCj4gPiA+Pj4gcGFnZXMgYXJlIG1hcmtlZCAg
+YXMgYWNjZXNzZWQgYW5kIGFsc28gZGlydHkgaWYgaXQgd2FzbuKAmXQgYSByZWFkIG9ubHkgYWNj
+ZXNzLiIKPiA+ID4+PiBMb29rcyBsaWtlIHRoZSBmZW5jZXMgYXJlIGRlYWRsb2NrZWQgYW5kIHRo
+ZXJlZm9yZSwgaXQgbmV2ZXIgcmV0dXJucy4gQ291bGQgaXQKPiA+ID4+PiBiZSBwb3NzaWJsZT8g
+YW55IGhpbnQgdG8gd2hlcmUgY2FuIEkgbG9vayB0byBmaXggdGhpcz8KPiA+ID4+Pgo+ID4gPj4+
+IFRoYW5rIHlvdSAgaW4gYWR2YW5jZS4KPiA+ID4+Pgo+ID4gPj4+IEhlcmUgdGhlIGZ1bGwgZG1l
+c2cgb3V0cHV0Ogo+ID4gPj4+Cj4gPiA+Pj4gWyAgNzM4LjMzNzcyNl0gSU5GTzogdGFzayBNYXRy
+aXhNdWx0aXBsaWM6NjUzIGJsb2NrZWQgZm9yIG1vcmUgdGhhbiAxMjIgc2Vjb25kcy4KPiA+ID4+
+PiBbICA3MzguMzQ0OTM3XSAgICAgICBOb3QgdGFpbnRlZCA1LjExLjAtcmM2LXF0ZWMtc3RhbmRh
+cmQgIzIKPiA+ID4+PiBbICA3MzguMzUwMzg0XSAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9o
+dW5nX3Rhc2tfdGltZW91dF9zZWNzIgo+ID4gPj4+IGRpc2FibGVzIHRoaXMgbWVzc2FnZS4KPiA+
+ID4+PiBbICA3MzguMzU4MjQwXSB0YXNrOk1hdHJpeE11bHRpcGxpYyBzdGF0ZTpEIHN0YWNrOiAg
+ICAwIHBpZDogIDY1Mwo+ID4gPj4+IHBwaWQ6ICAgICAxIGZsYWdzOjB4MDAwMDQwMDAKPiA+ID4+
+PiBbICA3MzguMzU4MjU0XSBDYWxsIFRyYWNlOgo+ID4gPj4+IFsgIDczOC4zNTgyNjFdICA/IGRt
+YV9mZW5jZV9kZWZhdWx0X3dhaXQrMHgxZWIvMHgyMzAKPiA+ID4+PiBbICA3MzguMzU4Mjc2XSAg
+X19zY2hlZHVsZSsweDM3MC8weDk2MAo+ID4gPj4+IFsgIDczOC4zNTgyOTFdICA/IGRtYV9mZW5j
+ZV9kZWZhdWx0X3dhaXQrMHgxMTcvMHgyMzAKPiA+ID4+PiBbICA3MzguMzU4Mjk3XSAgPyBkbWFf
+ZmVuY2VfZGVmYXVsdF93YWl0KzB4MWViLzB4MjMwCj4gPiA+Pj4gWyAgNzM4LjM1ODMwNV0gIHNj
+aGVkdWxlKzB4NTEvMHhjMAo+ID4gPj4+IFsgIDczOC4zNTgzMTJdICBzY2hlZHVsZV90aW1lb3V0
+KzB4Mjc1LzB4MzgwCj4gPiA+Pj4gWyAgNzM4LjM1ODMyNF0gID8gZG1hX2ZlbmNlX2RlZmF1bHRf
+d2FpdCsweDFlYi8weDIzMAo+ID4gPj4+IFsgIDczOC4zNTgzMzJdICA/IG1hcmtfaGVsZF9sb2Nr
+cysweDRmLzB4NzAKPiA+ID4+PiBbICA3MzguMzU4MzQxXSAgPyBkbWFfZmVuY2VfZGVmYXVsdF93
+YWl0KzB4MTE3LzB4MjMwCj4gPiA+Pj4gWyAgNzM4LjM1ODM0N10gID8gbG9ja2RlcF9oYXJkaXJx
+c19vbl9wcmVwYXJlKzB4ZDQvMHgxODAKPiA+ID4+PiBbICA3MzguMzU4MzUzXSAgPyBfcmF3X3Nw
+aW5fdW5sb2NrX2lycXJlc3RvcmUrMHgzOS8weDQwCj4gPiA+Pj4gWyAgNzM4LjM1ODM2Ml0gID8g
+ZG1hX2ZlbmNlX2RlZmF1bHRfd2FpdCsweDExNy8weDIzMAo+ID4gPj4+IFsgIDczOC4zNTgzNzBd
+ICA/IGRtYV9mZW5jZV9kZWZhdWx0X3dhaXQrMHgxZWIvMHgyMzAKPiA+ID4+PiBbICA3MzguMzU4
+Mzc1XSAgZG1hX2ZlbmNlX2RlZmF1bHRfd2FpdCsweDIxNC8weDIzMAo+ID4gPj4+IFsgIDczOC4z
+NTgzODRdICA/IGRtYV9mZW5jZV9yZWxlYXNlKzB4MWEwLzB4MWEwCj4gPiA+Pj4gWyAgNzM4LjM1
+ODM5Nl0gIGRtYV9mZW5jZV93YWl0X3RpbWVvdXQrMHgxMDUvMHgyMDAKPiA+ID4+PiBbICA3Mzgu
+MzU4NDA1XSAgZG1hX3Jlc3Zfd2FpdF90aW1lb3V0X3JjdSsweDFhYS8weDVlMAo+ID4gPj4+IFsg
+IDczOC4zNTg0MjFdICBhbWRncHVfbW5faW52YWxpZGF0ZV9nZngrMHg1NS8weGEwIFthbWRncHVd
+Cj4gPiA+Pj4gWyAgNzM4LjM1ODY4OF0gIF9fbW11X25vdGlmaWVyX3JlbGVhc2UrMHgxYmIvMHgy
+MTAKPiA+ID4+PiBbICA3MzguMzU4NzEwXSAgZXhpdF9tbWFwKzB4MmYvMHgxZTAKPiA+ID4+PiBb
+ICA3MzguMzU4NzIzXSAgPyBmaW5kX2hlbGRfbG9jaysweDM0LzB4YTAKPiA+ID4+PiBbICA3Mzgu
+MzU4NzQ2XSAgbW1wdXQrMHgzOS8weGUwCj4gPiA+Pj4gWyAgNzM4LjM1ODc1Nl0gIGRvX2V4aXQr
+MHg1YzMvMHhjMDAKPiA+ID4+PiBbICA3MzguMzU4NzYzXSAgPyBmaW5kX2hlbGRfbG9jaysweDM0
+LzB4YTAKPiA+ID4+PiBbICA3MzguMzU4NzgwXSAgZG9fZ3JvdXBfZXhpdCsweDQ3LzB4YjAKPiA+
+ID4+PiBbICA3MzguMzU4NzkxXSAgZ2V0X3NpZ25hbCsweDE1Yi8weGM1MAo+ID4gPj4+IFsgIDcz
+OC4zNTg4MDddICBhcmNoX2RvX3NpZ25hbF9vcl9yZXN0YXJ0KzB4YWYvMHg3MTAKPiA+ID4+PiBb
+ICA3MzguMzU4ODE2XSAgPyBsb2NrZGVwX2hhcmRpcnFzX29uX3ByZXBhcmUrMHhkNC8weDE4MAo+
+ID4gPj4+IFsgIDczOC4zNTg4MjJdICA/IF9yYXdfc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSsweDM5
+LzB4NDAKPiA+ID4+PiBbICA3MzguMzU4ODMxXSAgPyBrdGltZV9nZXRfbW9ub19mYXN0X25zKzB4
+NTAvMHhhMAo+ID4gPj4+IFsgIDczOC4zNTg4NDRdICA/IGFtZGdwdV9kcm1faW9jdGwrMHg2Yi8w
+eDgwIFthbWRncHVdCj4gPiA+Pj4gWyAgNzM4LjM1OTA0NF0gIGV4aXRfdG9fdXNlcl9tb2RlX3By
+ZXBhcmUrMHhmMi8weDFiMAo+ID4gPj4+IFsgIDczOC4zNTkwNTRdICBzeXNjYWxsX2V4aXRfdG9f
+dXNlcl9tb2RlKzB4MTkvMHg2MAo+ID4gPj4+IFsgIDczOC4zNTkwNjJdICBlbnRyeV9TWVNDQUxM
+XzY0X2FmdGVyX2h3ZnJhbWUrMHg0NC8weGE5Cj4gPiA+Pj4gWyAgNzM4LjM1OTA2OV0gUklQOiAw
+MDMzOjB4N2Y2Yjg5YTUxODg3Cj4gPiA+Pj4gWyAgNzM4LjM1OTA3Nl0gUlNQOiAwMDJiOjAwMDA3
+ZjZiODJiNTRiMTggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDoKPiA+ID4+PiAwMDAwMDAwMDAw
+MDAwMDEwCj4gPiA+Pj4gWyAgNzM4LjM1OTA4Nl0gUkFYOiBmZmZmZmZmZmZmZmZmZTAwIFJCWDog
+MDAwMDdmNmI4MmI1NGI1MCBSQ1g6IDAwMDA3ZjZiODlhNTE4ODcKPiA+ID4+PiBbICA3MzguMzU5
+MDkxXSBSRFg6IDAwMDA3ZjZiODJiNTRiNTAgUlNJOiAwMDAwMDAwMGMwMjA2NGMzIFJESTogMDAw
+MDAwMDAwMDAwMDAwNwo+ID4gPj4+IFsgIDczOC4zNTkwOTZdIFJCUDogMDAwMDAwMDBjMDIwNjRj
+MyBSMDg6IDAwMDAwMDAwMDAwMDAwMDMgUjA5OiAwMDAwN2Y2YjgyYjU0YmJjCj4gPiA+Pj4gWyAg
+NzM4LjM1OTEwMV0gUjEwOiAwMDAwMDAwMDAwMDAwMDAxIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBS
+MTI6IDAwMDAwMDAxNjVhMGJjMDAKPiA+ID4+PiBbICA3MzguMzU5MTA2XSBSMTM6IDAwMDAwMDAw
+MDAwMDAwMDcgUjE0OiAwMDAwMDAwMDAwMDAwMDAxIFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+ID4g
+Pj4+IFsgIDczOC4zNTkxMjldCj4gPiA+Pj4gICAgICAgICAgICAgICAgICBTaG93aW5nIGFsbCBs
+b2NrcyBoZWxkIGluIHRoZSBzeXN0ZW06Cj4gPiA+Pj4gWyAgNzM4LjM1OTE0MV0gMSBsb2NrIGhl
+bGQgYnkga2h1bmd0YXNrZC81NDoKPiA+ID4+PiBbICA3MzguMzU5MTQ4XSAgIzA6IGZmZmZmZmZm
+ODI5ZjY4NDAgKHJjdV9yZWFkX2xvY2spey4uLi59LXsxOjJ9LCBhdDoKPiA+ID4+PiBkZWJ1Z19z
+aG93X2FsbF9sb2NrcysweDE1LzB4MTgzCj4gPiA+Pj4gWyAgNzM4LjM1OTE4N10gMSBsb2NrIGhl
+bGQgYnkgc3lzdGVtZC1qb3VybmFsLzE3NDoKPiA+ID4+PiBbICA3MzguMzU5MjAyXSAxIGxvY2sg
+aGVsZCBieSBNYXRyaXhNdWx0aXBsaWMvNjUzOgo+ID4gPj4+IFsgIDczOC4zNTkyMDZdICAjMDog
+ZmZmZjg4ODEwZTM2NGZlMAo+ID4gPj4+ICgmYWRldi0+bm90aWZpZXJfbG9jayl7Ky4rLn0tezM6
+M30sIGF0Ogo+ID4gPj4+IGFtZGdwdV9tbl9pbnZhbGlkYXRlX2dmeCsweDM0LzB4YTAgW2FtZGdw
+dV0KPiA+ID4+Pgo+ID4gPj4+IERhbmllbAo+ID4gPj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KPiA+ID4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+
+ID4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4+IGh0dHBzOi8vbmFtMTEu
+c2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbCZhbXA7ZGF0
+YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M4MTIwM2U1YmFjNTg0MWI4
+ZTVhMTA4ZDhjODIwODdhOSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3
+QzAlN0M2Mzc0NzkzODkzMzkyOTU2MjIlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lN
+QzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNE
+JTdDMTAwMCZhbXA7c2RhdGE9UkRTeEQ2T3FEOEhhT0EyVm5OZmJKd0xuS3poQ0xnT3I1U1ZMakxG
+OTFiQSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4gPgo+ID4gPgo+ID4KPgo+Cj4gLS0KPiBEYW5pZWwg
+VmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Js
+b2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
