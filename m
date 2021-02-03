@@ -2,64 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D086430DC40
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 15:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D883130DC4E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 15:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52D166EACE;
-	Wed,  3 Feb 2021 14:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9776EAD1;
+	Wed,  3 Feb 2021 14:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3486EACE
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 14:09:14 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id c4so21747091wru.9
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 06:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=D+i0SDAVd/8+w4aaqzRc+qGBF/nnD/XV6wSALWGl1lA=;
- b=Ewts+TIMfIiI1CJjP5REUP+Iv3rKL7F1fzJqmTjPLczWwFg0eNAuYOeDyiA0gnndUS
- bN0nEtwJod7Vqn/nqM3lvRFdsDdrgJjFjgwa45+KrL1T6R1ZlGaI39mHjc7WT82oJqUk
- IryWboywuqfw3s9eO6hSu49CNjNQWfHnfUsro=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=D+i0SDAVd/8+w4aaqzRc+qGBF/nnD/XV6wSALWGl1lA=;
- b=YkcQy4ucRXKMbzzVwKAhkfZAIkqlac5hnX93JV4hu8rankkvDkn80hyBd8C013p0oX
- MSatIE0XVIicnadx3AilY+JOiXj8gYeJRM/jNJEeJJc0m/A9xgcTkUSYQinZC9+8hG3l
- xCliOlTGWwiMny4h9m7TasXXhMM14rGNp03dWDxOtTGI23cZB97hrPdqbzjfwC3rsRwX
- o+8A04y5kj9cUMphm+yr4eHLeMCvmtCKnzhGtibnWP5lAjqvtTiM4bVLVNBuBJkVvzxu
- KfjWcCadYJ90nRQ97n+quS+tLuKyOIdgtG+JTzsXOT1rUFyRibrjNREz9v8GceYLp0KI
- 3AzQ==
-X-Gm-Message-State: AOAM533Fx4cRZotWeNRWrYm9PBDVS1IiqWQLDhobGWPi1aC/6Tr/h+4Z
- sZpFtwG4JGA/XL2W00qJUErVyA==
-X-Google-Smtp-Source: ABdhPJxqi7h90kNhIlknONbzVdu63IVr7R3811A74ldHkFMVz1rlXtYBICJDh3iwys2Aeh7wznf2zA==
-X-Received: by 2002:adf:f7cf:: with SMTP id a15mr3762509wrq.351.1612361353644; 
- Wed, 03 Feb 2021 06:09:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o124sm3030721wmb.5.2021.02.03.06.09.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 06:09:12 -0800 (PST)
-Date: Wed, 3 Feb 2021 15:09:10 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH v3 2/6] drm/sprd: add Unisoc's drm kms master
-Message-ID: <YBquhqTEouoTUbNA@phenom.ffwll.local>
-Mail-Followup-To: Kevin Tang <kevin3.tang@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- sean@poorly.run, airlied@linux.ie, robh+dt@kernel.org,
- mark.rutland@arm.com, orsonzhai@gmail.com, zhang.lyra@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1609854367-2720-1-git-send-email-kevin3.tang@gmail.com>
- <1609854367-2720-3-git-send-email-kevin3.tang@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E537A6EACF;
+ Wed,  3 Feb 2021 14:12:03 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 737A8ACBA;
+ Wed,  3 Feb 2021 14:12:02 +0000 (UTC)
+Subject: Re: [PATCH v5 5/6] drm/qxl: properly free qxl releases
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20210203131615.1714021-1-kraxel@redhat.com>
+ <20210203131615.1714021-6-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <cbcd0aff-0794-69d8-f51a-bb85e3346400@suse.de>
+Date: Wed, 3 Feb 2021 15:12:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1609854367-2720-3-git-send-email-kevin3.tang@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210203131615.1714021-6-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,360 +39,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- zhang.lyra@gmail.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, orsonzhai@gmail.com, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>
+Content-Type: multipart/mixed; boundary="===============1563435662=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 05, 2021 at 09:46:03PM +0800, Kevin Tang wrote:
-> Adds drm support for the Unisoc's display subsystem.
-> 
-> This is drm kms driver, this driver provides support for the
-> application framework in Android, Yocto and more.
-> 
-> Application framework can access Unisoc's display internel
-> peripherals through libdrm or libkms, it's test ok by modetest
-> (DRM/KMS test tool) and Android HWComposer.
-> 
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1563435662==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="P1ROlwt3XnL7xKCOS5cdaNUu1OyHVTH4S"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--P1ROlwt3XnL7xKCOS5cdaNUu1OyHVTH4S
+Content-Type: multipart/mixed; boundary="cVIa0Dj3W935BV3F1gR9wv6Y5HbbiySzJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, open list
+ <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
+Message-ID: <cbcd0aff-0794-69d8-f51a-bb85e3346400@suse.de>
+Subject: Re: [PATCH v5 5/6] drm/qxl: properly free qxl releases
+References: <20210203131615.1714021-1-kraxel@redhat.com>
+ <20210203131615.1714021-6-kraxel@redhat.com>
+In-Reply-To: <20210203131615.1714021-6-kraxel@redhat.com>
+
+--cVIa0Dj3W935BV3F1gR9wv6Y5HbbiySzJ
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 03.02.21 um 14:16 schrieb Gerd Hoffmann:
+> Reorganize qxl_device_fini() a bit.
+> Add missing unpin() calls.
+>=20
+> Count releases.  Add wait queue for releases.  That way
+> qxl_device_fini() can easily wait until everything is
+> ready for proper shutdown.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->  drivers/gpu/drm/Kconfig         |   2 +
->  drivers/gpu/drm/Makefile        |   1 +
->  drivers/gpu/drm/sprd/Kconfig    |  12 +++
->  drivers/gpu/drm/sprd/Makefile   |   5 +
->  drivers/gpu/drm/sprd/sprd_drm.c | 222 ++++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_drm.h |  16 +++
->  6 files changed, 258 insertions(+)
->  create mode 100644 drivers/gpu/drm/sprd/Kconfig
->  create mode 100644 drivers/gpu/drm/sprd/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 147d61b..15b4e13 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -388,6 +388,8 @@ source "drivers/gpu/drm/tidss/Kconfig"
->  
->  source "drivers/gpu/drm/xlnx/Kconfig"
->  
-> +source "drivers/gpu/drm/sprd/Kconfig"
+>   drivers/gpu/drm/qxl/qxl_drv.h     |  2 ++
+>   drivers/gpu/drm/qxl/qxl_cmd.c     |  1 +
+>   drivers/gpu/drm/qxl/qxl_irq.c     |  1 +
+>   drivers/gpu/drm/qxl/qxl_kms.c     | 22 ++++++++++++++++++++--
+>   drivers/gpu/drm/qxl/qxl_release.c |  2 ++
+>   5 files changed, 26 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_dr=
+v.h
+> index 01354b43c413..6dd57cfb2e7c 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+> @@ -214,6 +214,8 @@ struct qxl_device {
+>   	spinlock_t	release_lock;
+>   	struct idr	release_idr;
+>   	uint32_t	release_seqno;
+> +	atomic_t	release_count;
+> +	wait_queue_head_t release_event;
+>   	spinlock_t release_idr_lock;
+>   	struct mutex	async_io_mutex;
+>   	unsigned int last_sent_io_cmd;
+> diff --git a/drivers/gpu/drm/qxl/qxl_cmd.c b/drivers/gpu/drm/qxl/qxl_cm=
+d.c
+> index 54e3c3a97440..7e22a81bfb36 100644
+> --- a/drivers/gpu/drm/qxl/qxl_cmd.c
+> +++ b/drivers/gpu/drm/qxl/qxl_cmd.c
+> @@ -254,6 +254,7 @@ int qxl_garbage_collect(struct qxl_device *qdev)
+>   		}
+>   	}
+>  =20
+> +	wake_up_all(&qdev->release_event);
+>   	DRM_DEBUG_DRIVER("%d\n", i);
+>  =20
+>   	return i;
+> diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_ir=
+q.c
+> index ddf6588a2a38..d312322cacd1 100644
+> --- a/drivers/gpu/drm/qxl/qxl_irq.c
+> +++ b/drivers/gpu/drm/qxl/qxl_irq.c
+> @@ -87,6 +87,7 @@ int qxl_irq_init(struct qxl_device *qdev)
+>   	init_waitqueue_head(&qdev->display_event);
+>   	init_waitqueue_head(&qdev->cursor_event);
+>   	init_waitqueue_head(&qdev->io_cmd_event);
+> +	init_waitqueue_head(&qdev->release_event);
+>   	INIT_WORK(&qdev->client_monitors_config_work,
+>   		  qxl_client_monitors_config_work_func);
+>   	atomic_set(&qdev->irq_received, 0);
+> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_km=
+s.c
+> index 4a60a52ab62e..616aea948863 100644
+> --- a/drivers/gpu/drm/qxl/qxl_kms.c
+> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
+> @@ -286,8 +286,26 @@ int qxl_device_init(struct qxl_device *qdev,
+>  =20
+>   void qxl_device_fini(struct qxl_device *qdev)
+>   {
+> -	qxl_bo_unref(&qdev->current_release_bo[0]);
+> -	qxl_bo_unref(&qdev->current_release_bo[1]);
+> +	int cur_idx;
 > +
->  # Keep legacy drivers last
->  
->  menuconfig DRM_LEGACY
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 8156900..d3001e7 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -124,3 +124,4 @@ obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
->  obj-$(CONFIG_DRM_MCDE) += mcde/
->  obj-$(CONFIG_DRM_TIDSS) += tidss/
->  obj-y			+= xlnx/
-> +obj-$(CONFIG_DRM_SPRD) += sprd/
-> diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-> new file mode 100644
-> index 0000000..6e80cc9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Kconfig
-> @@ -0,0 +1,12 @@
-> +config DRM_SPRD
-> +	tristate "DRM Support for Unisoc SoCs Platform"
-> +	depends on ARCH_SPRD || COMPILE_TEST
-> +	depends on DRM && OF
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_CMA_HELPER
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_MIPI_DSI
-> +	help
-> +	  Choose this option if you have a Unisoc chipset.
-> +	  If M is selected the module will be called sprd_drm.
-> +
-> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
-> new file mode 100644
-> index 0000000..86d95d9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +subdir-ccflags-y += -I$(srctree)/$(src)
-> +
-> +obj-y := sprd_drm.o
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
-> new file mode 100644
-> index 0000000..ec101de
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.c
-> @@ -0,0 +1,222 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2020 Unisoc Inc.
-> + */
-> +
-> +#include <linux/component.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_crtc_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "sprd_drm.h"
-> +
-> +#define DRIVER_NAME	"sprd"
-> +#define DRIVER_DESC	"Spreadtrum SoCs' DRM Driver"
-> +#define DRIVER_DATE	"20200201"
-> +#define DRIVER_MAJOR	1
-> +#define DRIVER_MINOR	0
-> +
-> +static const struct drm_mode_config_helper_funcs sprd_drm_mode_config_helper = {
-> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> +};
-> +
-> +static const struct drm_mode_config_funcs sprd_drm_mode_config_funcs = {
-> +	.fb_create = drm_gem_fb_create,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +};
-> +
-> +static void sprd_drm_mode_config_init(struct drm_device *drm)
-> +{
-> +	drm->mode_config.min_width = 0;
-> +	drm->mode_config.min_height = 0;
-> +	drm->mode_config.max_width = 8192;
-> +	drm->mode_config.max_height = 8192;
-> +	drm->mode_config.allow_fb_modifiers = true;
-> +
-> +	drm->mode_config.funcs = &sprd_drm_mode_config_funcs;
-> +	drm->mode_config.helper_private = &sprd_drm_mode_config_helper;
-> +}
-> +
-> +DEFINE_DRM_GEM_CMA_FOPS(sprd_drm_fops);
-> +
-> +static struct drm_driver sprd_drm_drv = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> +	.fops			= &sprd_drm_fops,
-> +
-> +	/* GEM Operations */
-> +	DRM_GEM_CMA_DRIVER_OPS,
-> +
-> +	.name			= DRIVER_NAME,
-> +	.desc			= DRIVER_DESC,
-> +	.date			= DRIVER_DATE,
-> +	.major			= DRIVER_MAJOR,
-> +	.minor			= DRIVER_MINOR,
-> +};
-> +
-> +static int sprd_drm_bind(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = drmm_mode_config_init(drm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sprd_drm_mode_config_init(drm);
-> +
-> +	/* bind and init sub drivers */
-> +	ret = component_bind_all(drm->dev, drm);
-> +	if (ret) {
-> +		drm_err(drm, "failed to bind all component.\n");
-> +		goto err_dc_cleanup;
+> +	for (cur_idx =3D 0; cur_idx < 3; cur_idx++) {
+> +		if (!qdev->current_release_bo[cur_idx])
+> +			continue;
+> +		qxl_bo_unpin(qdev->current_release_bo[cur_idx]);
+> +		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
+> +		qdev->current_release_bo_offset[cur_idx] =3D 0;
+> +		qdev->current_release_bo[cur_idx] =3D NULL;
 > +	}
 > +
-> +	/* vblank init */
-> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> +	if (ret) {
-> +		drm_err(drm, "failed to initialize vblank.\n");
-> +		goto err_unbind_all;
-> +	}
-> +	/* with irq_enabled = true, we can use the vblank feature. */
-> +	drm->irq_enabled = true;
+> +	/*
+> +	 * Ask host to release resources (+fill release ring),
+> +	 * then wait for the release actually happening.
+> +	 */
+> +	qxl_io_notify_oom(qdev);
+> +	wait_event_timeout(qdev->release_event,
+> +			   atomic_read(&qdev->release_count) =3D=3D 0,
+> +			   HZ);
 > +
-> +	/* reset all the states of crtc/plane/encoder/connector */
-> +	drm_mode_config_reset(drm);
-> +
-> +	/* init kms poll for handling hpd */
-> +	drm_kms_helper_poll_init(drm);
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret < 0)
-> +		goto err_kms_helper_poll_fini;
-> +
-> +	return 0;
-> +
-> +err_kms_helper_poll_fini:
-> +	drm_kms_helper_poll_fini(drm);
-> +err_unbind_all:
-> +	component_unbind_all(drm->dev, drm);
-> +err_dc_cleanup:
-> +	drm_mode_config_cleanup(drm);
+>   	qxl_gem_fini(qdev);
+>   	qxl_bo_fini(qdev);
+>   	flush_work(&qdev->gc_work);
+> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qx=
+l_release.c
+> index 28013fd1f8ea..43a5436853b7 100644
+> --- a/drivers/gpu/drm/qxl/qxl_release.c
+> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+> @@ -196,6 +196,7 @@ qxl_release_free(struct qxl_device *qdev,
+>   		qxl_release_free_list(release);
+>   		kfree(release);
+>   	}
+> +	atomic_dec(&qdev->release_count);
+>   }
+>  =20
+>   static int qxl_release_bo_alloc(struct qxl_device *qdev,
+> @@ -344,6 +345,7 @@ int qxl_alloc_release_reserved(struct qxl_device *q=
+dev, unsigned long size,
+>   			*rbo =3D NULL;
+>   		return idr_ret;
+>   	}
+> +	atomic_inc(&qdev->release_count);
+>  =20
+>   	mutex_lock(&qdev->release_mutex);
+>   	if (qdev->current_release_bo_offset[cur_idx] + 1 >=3D releases_per_b=
+o[cur_idx]) {
+>=20
 
-This shouldn't be needed with drmm_mode_config_cleanup. I think the
-trouble is that you have the drm_device setup split up between your probe
-and your bind function, you need to move the call to drmm_mode_config_init
-into you probe, or you move the devm_drm_dev_alloc and the entire setup
-into your master_ops->bind function. I think the latter is the more usual
-approach.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-With that addressed Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> +	return ret;
-> +}
-> +
-> +static void sprd_drm_unbind(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +
-> +	drm_dev_unregister(drm);
-> +
-> +	drm_kms_helper_poll_fini(drm);
-> +
-> +	drm_mode_config_cleanup(drm);
-> +
-> +	component_unbind_all(drm->dev, drm);
-> +}
-> +
-> +static const struct component_master_ops drm_component_ops = {
-> +	.bind = sprd_drm_bind,
-> +	.unbind = sprd_drm_unbind,
-> +};
-> +
-> +static int compare_of(struct device *dev, void *data)
-> +{
-> +	return dev->of_node == data;
-> +}
-> +
-> +static int sprd_drm_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct drm_device *drm;
-> +	struct sprd_drm *sprd;
-> +	int ret;
-> +
-> +	sprd = devm_drm_dev_alloc(dev, &sprd_drm_drv, struct sprd_drm, drm);
-> +	if (IS_ERR(sprd))
-> +		return PTR_ERR(sprd);
-> +
-> +	drm = &sprd->drm;
-> +
-> +	ret = dma_set_mask_and_coherent(dev, ~0UL);
-> +	if (ret) {
-> +		drm_err(drm, "dma_set_mask_and_coherent failed (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, drm);
-> +
-> +	return drm_of_component_probe(dev, compare_of, &drm_component_ops);
-> +}
-> +
-> +static int sprd_drm_remove(struct platform_device *pdev)
-> +{
-> +	component_master_del(&pdev->dev, &drm_component_ops);
-> +	return 0;
-> +}
-> +
-> +static void sprd_drm_shutdown(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm = platform_get_drvdata(pdev);
-> +
-> +	if (!drm) {
-> +		drm_warn(drm, "drm device is not available, no shutdown\n");
-> +		return;
-> +	}
-> +
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> +
-> +static const struct of_device_id drm_match_table[] = {
-> +	{ .compatible = "sprd,display-subsystem", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, drm_match_table);
-> +
-> +static struct platform_driver sprd_drm_driver = {
-> +	.probe = sprd_drm_probe,
-> +	.remove = sprd_drm_remove,
-> +	.shutdown = sprd_drm_shutdown,
-> +	.driver = {
-> +		.name = "sprd-drm-drv",
-> +		.of_match_table = drm_match_table,
-> +	},
-> +};
-> +
-> +static struct platform_driver *sprd_drm_drivers[]  = {
-> +	&sprd_drm_driver,
-> +};
-> +
-> +static int __init sprd_drm_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = platform_register_drivers(sprd_drm_drivers,
-> +					ARRAY_SIZE(sprd_drm_drivers));
-> +	return ret;
-> +}
-> +
-> +static void __exit sprd_drm_exit(void)
-> +{
-> +	platform_unregister_drivers(sprd_drm_drivers,
-> +				    ARRAY_SIZE(sprd_drm_drivers));
-> +}
-> +
-> +module_init(sprd_drm_init);
-> +module_exit(sprd_drm_exit);
-> +
-> +MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
-> +MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
-> +MODULE_DESCRIPTION("Unisoc DRM KMS Master Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sprd_drm.h
-> new file mode 100644
-> index 0000000..9781fd5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/sprd_drm.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 Unisoc Inc.
-> + */
-> +
-> +#ifndef _SPRD_DRM_H_
-> +#define _SPRD_DRM_H_
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_print.h>
-> +
-> +struct sprd_drm {
-> +	struct drm_device drm;
-> +};
-> +
-> +#endif /* _SPRD_DRM_H_ */
-> -- 
-> 2.7.4
-> 
+--cVIa0Dj3W935BV3F1gR9wv6Y5HbbiySzJ--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--P1ROlwt3XnL7xKCOS5cdaNUu1OyHVTH4S
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAarzEFAwAAAAAACgkQlh/E3EQov+Ca
+8A/+Kt/gdssrZcE0FhwfqHXDkIHMDFZwgofwKLvcfXuuddrlNc/iu3wm5FOXv+fEkf1JlhxUYA8s
+7jUHy8Nx8f8+IauLGfE7kv84pMvNNdTSL66c/JxHQVTj6QQl1mJi3S5jtCB3hGNAQo3YcpFGvJ8b
++3WmUSaQDc+hfpBf1pkhnCRJyFGe7H7OR1TEYExMckE7Ex38RMzKdvFPXIalowFnd21DVe3jPb2x
+Sb5OBsfZNgOEb4XSzttgA7paS9YXfaKYhkaba/Y6GpPfi6dDlaB7vTsGZSFtdXqpW4ohk6huU9AK
+XJb5VI3MSRWY3ek85Wna0R+Kwet31Gzb0YDfnPmzbrIdj6gLc3jeHW03In1k2WHmLmR/u7RlYz2R
+f6ux8oLbZDV+SrechzMp2qD531uIhvRUGbnrp2nX7qjQld1Z0isKjSJJ8q0wIQF3JdMf/lBKQQHA
+gX/9SqXnWPm8dO8d1ko5IVqeum59phpUVzq8NuZKVcFMyDcq2I0dINtfB1c+lSLI0TElygUE0yMY
+wqwOYDB3N16/ZUCrkbjqYXzZ2N88jQ+qUus5Gie1LVub7XnUo+ITfjnWTBuxQ4w6lwzcP7W86kRB
+/LB0AiyxscdMTQcX79N2OGp1Mscg9exXSrYVJLJIc0lVtdcqY2R1qj6lpsCuMjeXXmY+Xr1e68sZ
+oFo=
+=4dIi
+-----END PGP SIGNATURE-----
+
+--P1ROlwt3XnL7xKCOS5cdaNUu1OyHVTH4S--
+
+--===============1563435662==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1563435662==--
