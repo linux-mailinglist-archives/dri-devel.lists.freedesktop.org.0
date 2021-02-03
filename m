@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D829C30D6D8
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 10:58:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA6030D6DF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 10:59:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFDEA6EA3D;
-	Wed,  3 Feb 2021 09:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016356EA3F;
+	Wed,  3 Feb 2021 09:59:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651E66EA3D
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 09:58:05 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id o63so16952121pgo.6
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 01:58:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l85f2Tlq2B/Iy2lfM9r3CyfdQrQrcedoJnaBPXo1e1w=;
- b=E2bD/+ZDle0PQTNoiFpVV6f+OFfr0P9L9Th5H54NE9g/GLE8HvdZlM/hfY5g6dMhAM
- zKH0jsMSn8Ajl/BdThXcjmRBt0HyUHstJF0LjfHD8NPnjDN7VolH7Fr2l83Zi2UMWA1Y
- zMjQ2eOvHJnYSt6Q/nkYK3D5dzPrUJBDXjWKz8zj9EIlKAZnGcQn5d/rV2wtmUybw5tH
- l6wsaOIsAGh/tKvhLrF8GOttlDO7TL7EHfAHtEfze2FM0V6e7HfXrpyHLN0ZJBkL+NOm
- 5mpEwEstUzBY9aof7hPajJ7sJgroPIdTZCWgUfQAPy177uT21KflTmGAWvLjwa1eF4b1
- qKCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l85f2Tlq2B/Iy2lfM9r3CyfdQrQrcedoJnaBPXo1e1w=;
- b=t1MMiij0uF+DrH+6Qic/7DIGLFbAMkSoNJJfte1XAI2FVTjnTSdkmk6q0qPwmDLkrU
- VIWfGXKLB9E+A8AZVqWdPcoZPfFpYTCnFtmbQKL4gf9jIgrs6UJRTNbaYkGkIJJDtBIY
- bUQbFuoj63brcBNR0Q7qd+vxVVXQbaIBgRm8nkNUzuO2u1jK68NT6/4FXXSC2ft5bPAA
- t6UKqHEVZ0ncWX9jE3prHyIDnWUkd2BhpNKSZaLozXI0ShWO+i0aUos4NWG8rDhLHD8u
- +TpMrKkRojCDkLUmQJGaOEnEimV3Ni7uQoZMXDoFxqr2LaMAB6I25sr8nfYdNywvm1su
- KKBA==
-X-Gm-Message-State: AOAM532M96pTCbRF+6ecgmQlOdxjcjCiCnLisFg+Gg/hYmB0Oyuim+KA
- bMW4HcVCgKDSQ4RlQkg/boekZP+yKIdTzQeDQGE=
-X-Google-Smtp-Source: ABdhPJz8yEMUE2yG9b6/wKdjHnk/Qb62s0Dv2BhCXf9OUrlR2B+OV175zl9NDQj43DHJJBhcrX1VZOeuwQYPucNqtug=
-X-Received: by 2002:a63:e50:: with SMTP id 16mr2776546pgo.74.1612346285136;
- Wed, 03 Feb 2021 01:58:05 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C846EA3F;
+ Wed,  3 Feb 2021 09:59:21 +0000 (UTC)
+IronPort-SDR: NK6+KBbGi1l+Ez6lOIzaMPtTvut7NklTEHoXk0wemLVI0IEV0unO97jiWccBfiovlKLvNLBkcr
+ /1bkHlJP7kDA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="242527545"
+X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; d="scan'208";a="242527545"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2021 01:59:20 -0800
+IronPort-SDR: NG5291++Cy2sMhSE2A0mYKI6OjVjRQ5A4gDkciiNYzDqWzZK0bV3BH4IDj8W535b+z8uS/K21f
+ 3hj0Ex324kQw==
+X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; d="scan'208";a="392362970"
+Received: from mkrygin-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.54.163])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2021 01:59:17 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: Signed-off-by missing for commit in the
+ drm-intel-fixes tree
+In-Reply-To: <20210203070241.657dfd46@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210203070241.657dfd46@canb.auug.org.au>
+Date: Wed, 03 Feb 2021 11:59:14 +0200
+Message-ID: <87lfc5fp59.fsf@intel.com>
 MIME-Version: 1.0
-References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
-In-Reply-To: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 3 Feb 2021 11:57:49 +0200
-Message-ID: <CAHp75VeK1spj4=Zo0xKa4JyhnDkd6aAVPTEPucM6878yoj3ZVQ@mail.gmail.com>
-Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +53,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Mark Gross <mgross@linux.intel.com>, linux-watchdog@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 26, 2021 at 2:41 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Wed, 03 Feb 2021, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> Hi all,
 >
-> Hi guys,
+> Commit
 >
-> This is first part of Intel MID outdated platforms removal. It's collected into
-> immutable branch with a given tag, please pull to yours subsystems.
+>   44c5bd08518c ("*** HAX FOR CI *** Revert "rtc: mc146818: Detect and handle broken RTCs"")
 >
-> (All changes are tagged by the respective maintainers)
+> is missing a Signed-off-by from its author and committer.
+>
+> Reverts are commits as well.
 
-Bart, can you pull this into GPIO for-next, please? I would like to
-base my PR on top of your for-next with this one included.
+It's a hack on top of the tree to unblock CI results, and will be
+dropped before sending the pull request.
+
+BR,
+Jani.
+
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
