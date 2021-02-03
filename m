@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358C330E4D3
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 22:20:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6933F30E4E7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 22:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFED16EB72;
-	Wed,  3 Feb 2021 21:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD546EBFD;
+	Wed,  3 Feb 2021 21:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5A9A6EBFB
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 21:19:59 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id 190so1167398wmz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 13:19:59 -0800 (PST)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC876EBFD
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 21:25:24 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id i20so1299883otl.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 13:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0KFkS15Rzk/OuayxNy0U6nwvFrwjvOdNgW3QDiU+4sc=;
- b=B7EMeYtWrV2AdNBT7y1PBSR9YxDl9aaGbp4q9BWq9AqSEZX9pd79s3t/xli9kTbRB6
- Xo/S/aN4oPc7Fu9md3ZQkcmMZ2qEZi9lZ8KtRMICl828jKRyISGJ6gnYUBenEUVvWGHs
- j5AjwWMz62ODeMu25iCr6b7IgeKTDPmOXwGoQ=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iZMC9aBcPlgaxRBYNOkc0uhviDBibZJkuU/B+Oy0jvs=;
+ b=UfW064ti1wei0HSqGSWiNnLG6DFOWhizy1OMtq7YsgHPJUjNLJgQ3sD4Vfdo5jzZo6
+ ys04/M39ejGkJ1cVhVSxCIcJ1u6TVVTWmaejIGK/MXCRCkzyKQOpSte/rAMoBCaEAFVM
+ 6FioN/ovomgPGZLBTDyHkuS4snoyUmUkC8rOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0KFkS15Rzk/OuayxNy0U6nwvFrwjvOdNgW3QDiU+4sc=;
- b=AgaoTokwirOhYL+5t/hR3grz8lEh5Q7iXN0wONpbGK1bQ62H1B8l9Unprafq3BdPOV
- gtRHHPDWZiuCYlctDLjvGZ+UjyEU+0jKs7GiyrzLZL7qflW3Ry1y1c7y08KbCTyGGO5v
- D/muKj+DY7fWCC0/xxQpmryL98mN8oqoaavNsVCUNL1LPdDxHQLXr5d0csWiZcA38y2p
- ACk8GyC364GcSMRPwkFHreordEdgs12ZsvEHN1cAiF+xYn1qvVJGSZojAI3bQhdTuB68
- 7+yK85SC275MHuV0jfQkwUGMLbA1M8zx8bb63ke16FntJhy5Cwh7xNdAQiObI0utrPNc
- sLTw==
-X-Gm-Message-State: AOAM533+xZgr3jfxaBTzrT1fJn5WCM6KpluoPRcJUKpc9KdhwcpSzWod
- z+yFbAn9cFXYCLk1FhYL2VqF0vBhCmtTMvBt
-X-Google-Smtp-Source: ABdhPJzmU+Or9jzYUxXpAPVaDeRxSWgaJEx85VA2rMsPqlZffUGrONNNs7GEJYIhtZkMGnZTZpPI4g==
-X-Received: by 2002:a7b:c854:: with SMTP id c20mr4449864wml.127.1612387198566; 
- Wed, 03 Feb 2021 13:19:58 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j185sm4217399wma.1.2021.02.03.13.19.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 13:19:57 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] RFC: dma-buf: Require VM_SPECIAL vma for mmap
-Date: Wed,  3 Feb 2021 22:19:48 +0100
-Message-Id: <20210203211948.2529297-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iZMC9aBcPlgaxRBYNOkc0uhviDBibZJkuU/B+Oy0jvs=;
+ b=R39+vozJxwD7LiISjyjtkBn4XJx/ID/C9PN1nV7BzL9jaG61gmwk9833MvTVBbozpD
+ 0E2Ig6xAkXGoHz0OZRB3rNgG2k8g/PYBBvqifdNosoCRG4jX9WhKCNSljdsx+8nPwDCq
+ Mlr1w6ONUy81vrW40cfTbzEhj13+YAeQ8nKRJlNrqLjY7nBibhKCWR9H9B4ccHFcENGB
+ AH3a5XK4xWiTnjW8xnu3SIHVsdkpQeSo91zvR77sh1mftPBUZQxOoQ3Ml71PmgWrogre
+ c7YCiLs65Yi3wICLAqalMSOLMIRrVE0SOGI3XsS2WQBhpjvUCA7+M2lnmL2NWcDS11Os
+ Kwpw==
+X-Gm-Message-State: AOAM533sP4wImcPNbrDU3LB1BRAQq68L72NgXeQtvM76hmXbbZHsX0ED
+ 8FUGGHmchMBunCjtJUg+4lOdv/Q+VTLVgk686WJlyg==
+X-Google-Smtp-Source: ABdhPJyeyn1ayHYYRh5/JJcIY/+l0YzWXziRkV8RSQ+9BR+8vImNPQYSnTETeFgdBKs6kdQJIsa6PUWdvh/NnD62vdI=
+X-Received: by 2002:a9d:b85:: with SMTP id 5mr3433355oth.281.1612387523565;
+ Wed, 03 Feb 2021 13:25:23 -0800 (PST)
 MIME-Version: 1.0
+References: <20210203003134.2422308-1-surenb@google.com>
+ <20210203015553.GX308988@casper.infradead.org>
+ <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com>
+ <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
+ <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com>
+In-Reply-To: <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 3 Feb 2021 22:25:11 +0100
+Message-ID: <CAKMK7uETu_m+=MHyPmqBbEP__qjMF_wmr4c2BiVTPcwE8c+5Mg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
+ with a return of an error
+To: Suren Baghdasaryan <surenb@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +62,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+Cc: Christoph Hellwig <hch@infradead.org>, Sandeep Patil <sspatil@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
+ Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Matthew Wilcox <willy@infradead.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Minchan Kim <minchan@kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Android Kernel Team <kernel-team@android.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dGxkcjsgRE1BIGJ1ZmZlcnMgYXJlbid0IG5vcm1hbCBtZW1vcnksIGV4cGVjdGluZyB0aGF0IHlv
-dSBjYW4gdXNlCnRoZW0gbGlrZSB0aGF0IChsaWtlIGNhbGxpbmcgZ2V0X3VzZXJfcGFnZXMgd29y
-a3MsIG9yIHRoYXQgdGhleSdyZQphY2NvdW50aW5nIGxpa2UgYW55IG90aGVyIG5vcm1hbCBtZW1v
-cnkpIGNhbm5vdCBiZSBndWFyYW50ZWVkLgoKU2luY2Ugc29tZSB1c2Vyc3BhY2Ugb25seSBydW5z
-IG9uIGludGVncmF0ZWQgZGV2aWNlcywgd2hlcmUgYWxsCmJ1ZmZlcnMgYXJlIGFjdHVhbGx5IGFs
-bCByZXNpZGVudCBzeXN0ZW0gbWVtb3J5LCB0aGVyZSdzIGEgaHVnZQp0ZW1wdGF0aW9uIHRvIGFz
-c3VtZSB0aGF0IGEgc3RydWN0IHBhZ2UgaXMgYWx3YXlzIHByZXNlbnQgYW5kIHVzZWFibGUKbGlr
-ZSBmb3IgYW55IG1vcmUgcGFnZWNhY2hlIGJhY2tlZCBtbWFwLiBUaGlzIGhhcyB0aGUgcG90ZW50
-aWFsIHRvCnJlc3VsdCBpbiBhIHVhcGkgbmlnaHRtYXJlLgoKVG8gc3RvcCB0aGlzIGdhcCByZXF1
-aXJlIHRoYXQgRE1BIGJ1ZmZlciBtbWFwcyBhcmUgVk1fU1BFQ0lBTCwgd2hpY2gKYmxvY2tzIGdl
-dF91c2VyX3BhZ2VzIGFuZCBhbGwgdGhlIG90aGVyIHN0cnVjdCBwYWdlIGJhc2VkCmluZnJhc3Ry
-dWN0dXJlIGZvciBldmVyeW9uZS4gSW4gc3Bpcml0IHRoaXMgaXMgdGhlIHVhcGkgY291bnRlcnBh
-cnQgdG8KdGhlIGtlcm5lbC1pbnRlcm5hbCBDT05GSUdfRE1BQlVGX0RFQlVHLgoKTW90aXZhdGVk
-IGJ5IGEgcmVjZW50IHBhdGNoIHdoaWNoIHdhbnRlZCB0byBzd2ljaCB0aGUgc3lzdGVtIGRtYS1i
-dWYKaGVhcCB0byB2bV9pbnNlcnRfcGFnZSBpbnN0ZWFkIG9mIHZtX2luc2VydF9wZm4uCgpSZWZl
-cmVuY2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sL0NBS01LN3VIaSttRzB6MEhVbU50
-MTNRQ0N2dXR1UlZqcGNSME5qUkwxMmstV2JXemtSZ0BtYWlsLmdtYWlsLmNvbS8KQ2M6IEphc29u
-IEd1bnRob3JwZSA8amdnQHppZXBlLmNhPgpDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJA
-Z29vZ2xlLmNvbT4KQ2M6IE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRlYWQub3JnPgpDYzog
-Sm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+ClNpZ25lZC1vZmYtYnk6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1p
-dC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBsaW5hcm8t
-bW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKLS0tCiBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwg
-MTUgKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJp
-dmVycy9kbWEtYnVmL2RtYS1idWYuYwppbmRleCBmMjY0YjcwYzM4M2UuLmQzMDgxZmMwNzA1NiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYworKysgYi9kcml2ZXJzL2RtYS1i
-dWYvZG1hLWJ1Zi5jCkBAIC0xMjcsNiArMTI3LDcgQEAgc3RhdGljIHN0cnVjdCBmaWxlX3N5c3Rl
-bV90eXBlIGRtYV9idWZfZnNfdHlwZSA9IHsKIHN0YXRpYyBpbnQgZG1hX2J1Zl9tbWFwX2ludGVy
-bmFsKHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKIHsKIAlz
-dHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmOworCWludCByZXQ7CiAKIAlpZiAoIWlzX2RtYV9idWZfZmls
-ZShmaWxlKSkKIAkJcmV0dXJuIC1FSU5WQUw7CkBAIC0xNDIsNyArMTQzLDExIEBAIHN0YXRpYyBp
-bnQgZG1hX2J1Zl9tbWFwX2ludGVybmFsKHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qgdm1fYXJl
-YV9zdHJ1Y3QgKnZtYSkKIAkgICAgZG1hYnVmLT5zaXplID4+IFBBR0VfU0hJRlQpCiAJCXJldHVy
-biAtRUlOVkFMOwogCi0JcmV0dXJuIGRtYWJ1Zi0+b3BzLT5tbWFwKGRtYWJ1Ziwgdm1hKTsKKwly
-ZXQgPSBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZtYSk7CisKKwlXQVJOX09OKCEodm1hLT52
-bV9mbGFncyAmIFZNX1NQRUNJQUwpKTsKKworCXJldHVybiByZXQ7CiB9CiAKIHN0YXRpYyBsb2Zm
-X3QgZG1hX2J1Zl9sbHNlZWsoc3RydWN0IGZpbGUgKmZpbGUsIGxvZmZfdCBvZmZzZXQsIGludCB3
-aGVuY2UpCkBAIC0xMjQ0LDYgKzEyNDksOCBAQCBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX2Vu
-ZF9jcHVfYWNjZXNzKTsKIGludCBkbWFfYnVmX21tYXAoc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwg
-c3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAJCSB1bnNpZ25lZCBsb25nIHBnb2ZmKQogewor
-CWludCByZXQ7CisKIAlpZiAoV0FSTl9PTighZG1hYnVmIHx8ICF2bWEpKQogCQlyZXR1cm4gLUVJ
-TlZBTDsKIApAQCAtMTI2NCw3ICsxMjcxLDExIEBAIGludCBkbWFfYnVmX21tYXAoc3RydWN0IGRt
-YV9idWYgKmRtYWJ1Ziwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAJdm1hX3NldF9maWxl
-KHZtYSwgZG1hYnVmLT5maWxlKTsKIAl2bWEtPnZtX3Bnb2ZmID0gcGdvZmY7CiAKLQlyZXR1cm4g
-ZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVmLCB2bWEpOworCXJldCA9IGRtYWJ1Zi0+b3BzLT5tbWFw
-KGRtYWJ1Ziwgdm1hKTsKKworCVdBUk5fT04oISh2bWEtPnZtX2ZsYWdzICYgVk1fU1BFQ0lBTCkp
-OworCisJcmV0dXJuIHJldDsKIH0KIEVYUE9SVF9TWU1CT0xfR1BMKGRtYV9idWZfbW1hcCk7CiAK
-LS0gCjIuMzAuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+On Wed, Feb 3, 2021 at 9:29 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Wed, Feb 3, 2021 at 9:20 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> >
+> > On Wed, Feb 3, 2021 at 12:52 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >
+> > > On Wed, Feb 3, 2021 at 2:57 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > > >
+> > > > On Tue, Feb 02, 2021 at 04:31:33PM -0800, Suren Baghdasaryan wrote:
+> > > > > Replace BUG_ON(vma->vm_flags & VM_PFNMAP) in vm_insert_page with
+> > > > > WARN_ON_ONCE and returning an error. This is to ensure users of the
+> > > > > vm_insert_page that set VM_PFNMAP are notified of the wrong flag usage
+> > > > > and get an indication of an error without panicing the kernel.
+> > > > > This will help identifying drivers that need to clear VM_PFNMAP before
+> > > > > using dmabuf system heap which is moving to use vm_insert_page.
+> > > >
+> > > > NACK.
+> > > >
+> > > > The system may not _panic_, but it is clearly now _broken_.  The device
+> > > > doesn't work, and so the system is useless.  You haven't really improved
+> > > > anything here.  Just bloated the kernel with yet another _ONCE variable
+> > > > that in a normal system will never ever ever be triggered.
+> > >
+> > > Also, what the heck are you doing with your drivers? dma-buf mmap must
+> > > call dma_buf_mmap(), even for forwarded/redirected mmaps from driver
+> > > char nodes. If that doesn't work we have some issues with the calling
+> > > contract for that function, not in vm_insert_page.
+> >
+> > The particular issue I observed (details were posted in
+> > https://lore.kernel.org/patchwork/patch/1372409) is that DRM drivers
+> > set VM_PFNMAP flag (via a call to drm_gem_mmap_obj) before calling
+> > dma_buf_mmap. Some drivers clear that flag but some don't. I could not
+> > find the answer to why VM_PFNMAP is required for dmabuf mappings and
+> > maybe someone can explain that here?
+> > If there is a reason to set this flag other than historical use of
+> > carveout memory then we wanted to catch such cases and fix the drivers
+> > that moved to using dmabuf heaps. However maybe there are other
+> > reasons and if so I would be very grateful if someone could explain
+> > them. That would help me to come up with a better solution.
+> >
+> > > Finally why exactly do we need to make this switch for system heap?
+> > > I've recently looked at gup usage by random drivers, and found a lot
+> > > of worrying things there. gup on dma-buf is really bad idea in
+> > > general.
+> >
+> > The reason for the switch is to be able to account dmabufs allocated
+> > using dmabuf heaps to the processes that map them. The next patch in
+> > this series https://lore.kernel.org/patchwork/patch/1374851
+> > implementing the switch contains more details and there is an active
+> > discussion there. Would you mind joining that discussion to keep it in
+> > one place?
+>
+> How many semi-unrelated buffer accounting schemes does google come up with?
+>
+> We're at three with this one.
+>
+> And also we _cannot_ required that all dma-bufs are backed by struct
+> page, so requiring struct page to make this work is a no-go.
+>
+> Second, we do not want to all get_user_pages and friends to work on
+> dma-buf, it causes all kinds of pain. Yes on SoC where dma-buf are
+> exclusively in system memory you can maybe get away with this, but
+> dma-buf is supposed to work in more places than just Android SoCs.
+
+I just realized that vm_inser_page doesn't even work for CMA, it would
+upset get_user_pages pretty badly - you're trying to pin a page in
+ZONE_MOVEABLE but you can't move it because it's rather special.
+VM_SPECIAL is exactly meant to catch this stuff.
+-Daniel
+
+> If you want to account dma-bufs, and gpu memory in general, I'd say
+> the solid solution is cgroups. There's patches floating around. And
+> given that Google Android can't even agree internally on what exactly
+> you want I'd say we just need to cut over to that and make it happen.
+>
+> Cheers, Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
