@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34F430D72A
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ACC30D72D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9436EA47;
-	Wed,  3 Feb 2021 10:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9CE6EA49;
+	Wed,  3 Feb 2021 10:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6888A6EA47
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:15:21 +0000 (UTC)
-Date: Wed, 03 Feb 2021 10:15:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1612347318;
- bh=OcypwBC0JNKDbx1oN2N6fH8WJTtH+nQt0jXTr3U1tYg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=UNEJjfm585zn+fUgtLB6O6sgaPNDT2u2V0Avj9SyPDhZ7mFUpL2Dpl/JOOqJiAurX
- +fSdW5ccKy0JWpuklyf/UOJW4y9o/5bHZcvA7dRT40fGTbaa1yfpL6oafMQexuJ1I+
- pkDT4Rue3pcBWI87Mb2dtGVaYnC+zdWqrThuQMaFORgRKSUOmhU08qNBH9eOYZHkbV
- XwcZfafdWo5HDP6zgfsw0Z8ZsqstULXAKSRxFjFjgQ8lWW+8TS0hrrGt6Il78uDyjW
- 0vg/Oc8UKgs+xMDuxuMxQZFuruPeIITHPrz438/Y0lNS6UG2JHcV227TV6Bxz7UKdn
- Lx2I1w9ncaY5w==
-To: Emil Velikov <emil.l.velikov@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
-Message-ID: <_L67Dl3bTZirFqSulhWUeN215npWnjsPyUzg7Rb-2iffHxMbZ1-H6ex7R14gdkDqZfpRw9xLoiol8m5WtPKuJxiBN_FcnailoQHvW02qNI0=@emersion.fr>
-In-Reply-To: <CACvgo53_f83NFhCkzDx5ydE+H0KdEYKx6Mgdk+-z1hZE8piM7Q@mail.gmail.com>
-References: <20210202224704.2794318-1-emil.l.velikov@gmail.com>
- <CABjik9dde-HCWBsfwxjD+jTKaoy-YxDeSObmH7X5rSzNHoA_qA@mail.gmail.com>
- <CACvgo53wJ2XrLRBy4ysOBfU5TFo7nBwDS_CyrPkB1rotJXW5Nw@mail.gmail.com>
- <KZZVYm0Qza351oOJ53ZX0pUcEa6NRh2sJJiq5OR2IjRlmJsdCZXRusR3ZuiiL5dqUgpR_STva8ySdYIJAUnSHVkU5HnNLzC68pNSEcuYdcA=@emersion.fr>
- <1eXnpBNSePW1qsq6q5BR3IEa6Q4DGeWBmJ23QArM9eGt12sN9W2Mhpk2OkUwZj-fhRjAtf9XNne5vxJ-7_JjPl549Ml3wxwMo0hhKsojL_4=@emersion.fr>
- <CACvgo53_f83NFhCkzDx5ydE+H0KdEYKx6Mgdk+-z1hZE8piM7Q@mail.gmail.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6609C6EA49
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:15:45 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id c12so23500401wrc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 02:15:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=a321zpi9EYFPKrHa/w5wiDf7FzXZmd2yWZ5PnRvh2oY=;
+ b=RCZYqjo8I8AawXH9nn6NQo2bQR2kzFkM3XePpRANJJFh+lczMkaDb319tOYYIL1zXa
+ yxn6aF18WkJpG3iAp/H1LKgx52iDyHPIS7MGdZknlRvHXfaNZJXshs8+A0/iv6kNsVrB
+ JXrIIwgJ+TTIv7ID15/NbNfrIDf5JA+9CfuIY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=a321zpi9EYFPKrHa/w5wiDf7FzXZmd2yWZ5PnRvh2oY=;
+ b=Y66xIqF97qMklbkpYoRY2btc1NpyvoEETnMlD/vbGd3C8D7C/Sx7bJH5lT4vIy5HL9
+ WdxlZn0ckDKk1IrjuS8cE7PQS+24BbcIL3YDwSlyLrmQzHP9TYtsqkC8+aezaK/rTBze
+ s06GGh6tEoIob9ZntI5IE/dIovZRk/g7/SEXUh0QTjxNL0eT0omV5Xh1TQmUMZFIfGdM
+ GVIzdhZ4bVS8o0uWy3AwR7azizZ12lel61Nxo31HeU5Q3GA+8vcXqdBVWA/LOaa/BRbK
+ YxebGMsX9ZpZlW/sI7RrZ9YKqNskSy+5bxWTW/2kQuqVoswxzydXkBWCeuIoAEdwm+JZ
+ BvFA==
+X-Gm-Message-State: AOAM532OX6H/YnqqHHXYDjcSkAhHpzVrxogJIRfzc7W4+rCUeD6Hl6b5
+ EWa/j804RvFxNDtNvf5cL02V5A==
+X-Google-Smtp-Source: ABdhPJzHB+ffvr9s3UM8FPaGZKcUXhORlDn7t4V0qu+UbQAlINgveENCa31EtHjKs1ycCeGI9sFg6g==
+X-Received: by 2002:adf:f743:: with SMTP id z3mr2655431wrp.165.1612347344092; 
+ Wed, 03 Feb 2021 02:15:44 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f4sm2825617wrs.34.2021.02.03.02.15.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Feb 2021 02:15:43 -0800 (PST)
+Date: Wed, 3 Feb 2021 11:15:41 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 5/5] drm/qxl: properly free qxl releases
+Message-ID: <YBp3zQqomQziZbPT@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, 
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210126165812.1661512-1-kraxel@redhat.com>
+ <20210126165812.1661512-6-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20210126165812.1661512-6-kraxel@redhat.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,44 +73,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- James Park <james.park@lagfreegames.com>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, February 3rd, 2021 at 11:08 AM, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+On Tue, Jan 26, 2021 at 05:58:12PM +0100, Gerd Hoffmann wrote:
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/qxl/qxl_drv.h     |  1 +
+>  drivers/gpu/drm/qxl/qxl_kms.c     | 22 ++++++++++++++++++++--
+>  drivers/gpu/drm/qxl/qxl_release.c |  2 ++
+>  3 files changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+> index 01354b43c413..1c57b587b6a7 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+> @@ -214,6 +214,7 @@ struct qxl_device {
+>  	spinlock_t	release_lock;
+>  	struct idr	release_idr;
+>  	uint32_t	release_seqno;
+> +	atomic_t	release_count;
+>  	spinlock_t release_idr_lock;
+>  	struct mutex	async_io_mutex;
+>  	unsigned int last_sent_io_cmd;
+> diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+> index 4a60a52ab62e..f177f72bfc12 100644
+> --- a/drivers/gpu/drm/qxl/qxl_kms.c
+> +++ b/drivers/gpu/drm/qxl/qxl_kms.c
+> @@ -25,6 +25,7 @@
+>  
+>  #include <linux/io-mapping.h>
+>  #include <linux/pci.h>
+> +#include <linux/delay.h>
+>  
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_managed.h>
+> @@ -286,8 +287,25 @@ int qxl_device_init(struct qxl_device *qdev,
+>  
+>  void qxl_device_fini(struct qxl_device *qdev)
+>  {
+> -	qxl_bo_unref(&qdev->current_release_bo[0]);
+> -	qxl_bo_unref(&qdev->current_release_bo[1]);
+> +	int cur_idx, try;
+> +
+> +	for (cur_idx = 0; cur_idx < 3; cur_idx++) {
+> +		if (!qdev->current_release_bo[cur_idx])
+> +			continue;
+> +		qxl_bo_unpin(qdev->current_release_bo[cur_idx]);
+> +		qxl_bo_unref(&qdev->current_release_bo[cur_idx]);
+> +		qdev->current_release_bo_offset[cur_idx] = 0;
+> +		qdev->current_release_bo[cur_idx] = NULL;
+> +	}
+> +
+> +	/*
+> +	 * Ask host to release resources (+fill release ring),
+> +	 * then wait for the release actually happening.
+> +	 */
+> +	qxl_io_notify_oom(qdev);
+> +	for (try = 0; try < 20 && atomic_read(&qdev->release_count) > 0; try++)
+> +		msleep(20);
 
-> On Wed, 3 Feb 2021 at 09:27, Simon Ser <contact@emersion.fr> wrote:
-> >
-> > On Wednesday, February 3rd, 2021 at 1:56 AM, Emil Velikov emil.l.velikov@gmail.com wrote:
-> >
-> > > As summed in the commit message the burden is only applicable when all
-> > > of the following are set:
-> > >  - non-linux
-> > >  - force DRM_FOURCC_STANDALONE
-> > >  - c99 -pedantic
-> >
-> > Oh, and FWIW, this is not a theoretical situation at all. All of these
-> > conditions happen to be true on my compositor. It has FreeBSD CI,
-> > -Werror, and will use DRM_FOURCC_STANDALONE when available.
->
-> There are ways to disable [1] or silence [2] this - are you
-> intentionally ignoring them?
+A bit icky, why not use a wait queue or something like that instead of
+hand-rolling this? Not for perf reasons, just so it's a bit clear who
+waits for whom and why.
+-Daniel
 
-We have a policy against pragma. However we already use -std=c11, so in fact
-wouldn't be affected by this change.
+> +
+>  	qxl_gem_fini(qdev);
+>  	qxl_bo_fini(qdev);
+>  	flush_work(&qdev->gc_work);
+> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+> index 28013fd1f8ea..43a5436853b7 100644
+> --- a/drivers/gpu/drm/qxl/qxl_release.c
+> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+> @@ -196,6 +196,7 @@ qxl_release_free(struct qxl_device *qdev,
+>  		qxl_release_free_list(release);
+>  		kfree(release);
+>  	}
+> +	atomic_dec(&qdev->release_count);
+>  }
+>  
+>  static int qxl_release_bo_alloc(struct qxl_device *qdev,
+> @@ -344,6 +345,7 @@ int qxl_alloc_release_reserved(struct qxl_device *qdev, unsigned long size,
+>  			*rbo = NULL;
+>  		return idr_ret;
+>  	}
+> +	atomic_inc(&qdev->release_count);
+>  
+>  	mutex_lock(&qdev->release_mutex);
+>  	if (qdev->current_release_bo_offset[cur_idx] + 1 >= releases_per_bo[cur_idx]) {
+> -- 
+> 2.29.2
+> 
 
-> Or the goal here is to 'fix' the kernel for a very uncommon non-linux use-case?
-
-If the kernel doesn't care about non-Linux, why is there an #ifdef __linux__
-in the first place?
-
-> [1] pragma GCC diagnostic warning "-Wpedantic"
-> [2] pragma GCC diagnostic ignored or -std=c11
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
