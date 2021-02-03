@@ -2,61 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A5030E5CB
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 23:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F2F30E732
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 00:22:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5015D8931F;
-	Wed,  3 Feb 2021 22:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1316EC3E;
+	Wed,  3 Feb 2021 23:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B50078926F;
- Wed,  3 Feb 2021 22:11:49 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id q7so1027315wre.13;
- Wed, 03 Feb 2021 14:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DGHGJpRMiCcjJwzqK5MM6WMiK3EoPUFXs3r66DkReec=;
- b=S3MB8seuCtDvh24s/3erzEhs7gRNbrofohoVTt8xqTqq2yk5aD7eO5BlMRIGi0y4TG
- Ibrp3gdxwIu+yD/9g7ANHGFfPJYvXG0G6nVM3eygUBaxY+rDmjuWMeiJxN7ZworTUb6c
- GboKqbA4u0KibkkxLrDRr1tlPgKxxqgtR3EloTsUtqBWNVG+Q8i3yoLaESwf59DphnSw
- hKj2OflM1Vyf+VcSg5ZX1Q7HFsb5dMf17SJB+WUZpg1gXfAgf8fPU7g1RcVSbg8lEi7H
- Cnoe3fsqi0LKGjH5e58RhRvFMHVFkYow1Chm6tRBqehXGbYKcDyfXIXz/PTb67hI4Vfk
- bLCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DGHGJpRMiCcjJwzqK5MM6WMiK3EoPUFXs3r66DkReec=;
- b=WchGCXlN4hsQ5EY236+ptuvXW36BRfVIyC7ZFNI2LCYBcM3y20eCEn4A8Htb6ntjPU
- VQCbokk7FBH9v+T1/eNB0NtIjgMjSFv0SHoswutv07uX7Cf1Ln1wlR6TfwAegNCLy8El
- TewNr4T1LfUEOPAoHYwSK0qI8fW/owOpoLIRLVp4IPqiT/v4qmUSUzOZ9bwfmNnlY0Cj
- p8B5aqoK1frtuxodT5sM0cz/tljHxxEnRKytZKDSNkLEmdlQQjAPK2YowtbJLR1G9ELj
- DrVYDiAOPAb4VkKjqfsr/6y2G7i/PzRqVzEDZ9/oHG6dwrqKcU8UqX0Mgj33QccYhZE6
- DmfQ==
-X-Gm-Message-State: AOAM530sgloNlsF0mzzEl+jqCnaMSexE2sSeBySxLuv2FsCBbivnsJxi
- Valgqblm9JPR7cBb6v/GtVB/zbK07puzaUGoLSQ=
-X-Google-Smtp-Source: ABdhPJz2U3p64iobJT1hGITPWHLOB9zIo2IWTmX37FNqu4La4A9zuhiYu7lZ2mICc2qR9GiL9CQlmYBY/RpaXLj7x1s=
-X-Received: by 2002:adf:f8c8:: with SMTP id f8mr5894743wrq.132.1612390308448; 
- Wed, 03 Feb 2021 14:11:48 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210129090516.GB3998@willie-the-truck>
- <5d23fce629323bcda71594010824aad0@codeaurora.org>
- <20210201111556.GA7172@willie-the-truck>
- <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
- <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
- <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
- <20210203214612.GB19847@willie-the-truck>
-In-Reply-To: <20210203214612.GB19847@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 3 Feb 2021 14:14:22 -0800
-Message-ID: <CAF6AEGvjzkRqr8-z56tJdMs-LsoLMr1m5cVAq_++xCdHjTPKrQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-To: Will Deacon <will@kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A20D76EC3E
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 23:22:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E296F64F43;
+ Wed,  3 Feb 2021 23:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612394571;
+ bh=sdoU4o/jrWCqj5M7F6adRorLtNSuMIzkqhUyKON7ydM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GW7I1MRfHATifZCy4VzzMhELkaROQOy3lvoyNiJxv0r2V2Ezp4cCz2nTQ/vA5cAUK
+ SwPtAV3iyMn0jX/bmzGI4QfIrWB43NASnF80WjrN4Q7isS6qpuIHcDjO7hFpZ7IIZj
+ hu9fGvvxC8Mm/Id2UNtg/v80YhGJsquoFlxqEHMGfSEchVRQoKVkh19QZd8tDccSuN
+ lnjbY+YQNv1HNMf5al2qOYCxaDx7rbBP6MsaLK6M10Ko9swgbgY0/z69y9DrOM9TQG
+ HzEHl/Tdy7UMNn6FDZzzDxoULgHWxGA6RQ+YQyEnMWteYhAnDOAF/52NzuVEcL4YXq
+ e9O5IPXS8HC5Q==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Subject: [GIT PULL] mediatek drm next for 5.12
+Date: Thu,  4 Feb 2021 07:22:47 +0800
+Message-Id: <20210203232247.30902-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,106 +43,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, "list@263.net:IOMMU DRIVERS ,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Kristian H Kristensen <hoegsberg@google.com>,
- Robin Murphy <robin.murphy@arm.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 3, 2021 at 1:46 PM Will Deacon <will@kernel.org> wrote:
->
-> On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
-> > On 2021-02-01 23:50, Jordan Crouse wrote:
-> > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
-> > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
-> > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
-> > > > > > On 2021-01-29 14:35, Will Deacon wrote:
-> > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
-> > > > > > > > +#define IOMMU_LLC        (1 << 6)
-> > > > > > >
-> > > > > > > On reflection, I'm a bit worried about exposing this because I think it
-> > > > > > > will
-> > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
-> > > > > > > MAIR
-> > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
-> > > > > > > but
-> > > > > > > since we always use cache maintenance (i.e. the streaming API) for
-> > > > > > > publishing the page-tables to a non-coheren walker, it works out.
-> > > > > > > However,
-> > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
-> > > > > > > allocation, then they're potentially in for a nasty surprise due to the
-> > > > > > > mismatched outer-cacheability attributes.
-> > > > > > >
-> > > > > >
-> > > > > > Can't we add the syscached memory type similar to what is done on android?
-> > > > >
-> > > > > Maybe. How does the GPU driver map these things on the CPU side?
-> > > >
-> > > > Currently we use writecombine mappings for everything, although there
-> > > > are some cases that we'd like to use cached (but have not merged
-> > > > patches that would give userspace a way to flush/invalidate)
-> > > >
-> > >
-> > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
-> > > just a
-> > > little accelerator that sits on the connection from the GPU to DDR and
-> > > caches
-> > > accesses. The hint that Sai is suggesting is used to mark the buffers as
-> > > 'no-write-allocate' to prevent GPU write operations from being cached in
-> > > the LLC
-> > > which a) isn't interesting and b) takes up cache space for read
-> > > operations.
-> > >
-> > > Its easiest to think of the LLC as a bonus accelerator that has no cost
-> > > for
-> > > us to use outside of the unfortunate per buffer hint.
-> > >
-> > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
-> > > different hint) and in that case we have all of concerns that Will
-> > > identified.
-> > >
-> >
-> > For mismatched outer cacheability attributes which Will mentioned, I was
-> > referring to [1] in android kernel.
->
-> I've lost track of the conversation here :/
->
-> When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also mapped
-> into the CPU and with what attributes? Rob said "writecombine for
-> everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+Hi, Dave & Daniel:
 
-Currently userspace asks for everything WC, so pgprot_writecombine()
+This includes:
 
-The kernel doesn't enforce this, but so far provides no UAPI to do
-anything useful with non-coherent cached mappings (although there is
-interest to support this)
+1. Decouple Mediatek DRM sub driver
+2. Share mtk mutex driver for both DRM and MDP
+3. Add support for SoC MT8183
 
-BR,
--R
+Regards,
+Chun-Kuang.
 
-> Finally, we need to be careful when we use the word "hint" as "allocation
-> hint" has a specific meaning in the architecture, and if we only mismatch on
-> those then we're actually ok. But I think IOMMU_LLC is more than just a
-> hint, since it actually drives eviction policy (i.e. it enables writeback).
->
-> Sorry for the pedantry, but I just want to make sure we're all talking
-> about the same things!
->
-> Cheers,
->
-> Will
+The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
+
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-5.12
+
+for you to fetch changes up to f289eb1db7d7e6132c3ecf5049435ace2967b0fc:
+
+  drm/mediatek: Add matrix_bits private data for ccorr (2021-02-03 23:54:07 +0800)
+
+----------------------------------------------------------------
+Mediatek DRM Next for Linux 5.12
+
+1. Decouple Mediatek DRM sub driver
+2. Share mtk mutex driver for both DRM and MDP
+3. Add support for SoC MT8183
+
+----------------------------------------------------------------
+CK Hu (15):
+      drm/mediatek: Separate getting larb device to a function
+      drm/mediatek: Move clk info from struct mtk_ddp_comp to sub driver private data
+      drm/mediatek: Move regs info from struct mtk_ddp_comp to sub driver private data
+      drm/mediatek: Remove irq in struct mtk_ddp_comp
+      drm/mediatek: Use struct cmdq_client_reg to gather cmdq variable
+      drm/mediatek: Move cmdq_reg info from struct mtk_ddp_comp to sub driver private data
+      drm/mediatek: Change sub driver interface from mtk_ddp_comp to device
+      drm/mediatek: Register vblank callback function
+      drm/mediatek: DRM driver directly refer to sub driver's function
+      drm/mediatek: Move mtk_ddp_comp_init() from sub driver to DRM driver
+      drm/mediatek: Remove redundant file including
+      drm/mediatek: Rename file mtk_drm_ddp to mtk_mutex
+      drm/mediatek: Change disp/ddp term to mutex in mtk mutex driver
+      drm/mediatek: Automatically search unclaimed mtk mutex in mtk_mutex_get()
+      soc / drm: mediatek: Move mtk mutex driver to soc folder
+
+Chun-Kuang Hu (2):
+      drm/mediatek: Get CMDQ client register for all ddp component
+      drm/mediatek: Use correct device pointer to get CMDQ client register
+
+Hsin-Yi Wang (2):
+      drm/mediatek: mtk_dpi: Create connector for bridges
+      drm/mediatek: Add mtk_dither_set_common() function
+
+Jitao Shi (1):
+      drm/mediatek: dsi: Use IRQF_TRIGGER_NONE for dsi irq trigger type
+
+Yongqiang Niu (15):
+      dt-bindings: mediatek: add description for mt8183 display
+      dt-bindings: mediatek: add description for mt8192 display
+      drm/mediatek: Check if fb is null
+      dt-bindings: mediatek: add rdma-fifo-size description for mt8183 display
+      dt-bindings: mediatek: add description for postmask
+      drm/mediatek: Fix aal size config
+      drm/mediatek: Add fifo_size into rdma private data
+      drm/mediatek: Separate gamma module
+      drm/mediatek: Add has_dither private data for gamma
+      drm/mediatek: Add support for SoC MT8183
+      drm/mediatek: Enable OVL_LAYER_SMI_ID_EN for multi-layer usecase
+      drm/mediatek: Enable dither function
+      drm/mediatek: Separate ccorr module
+      drm/mediatek: Fix ccorr size config
+      drm/mediatek: Add matrix_bits private data for ccorr
+
+ .../bindings/display/mediatek/mediatek,disp.txt    |  12 +-
+ drivers/gpu/drm/mediatek/Makefile                  |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          | 223 +++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_color.c          |  89 ++--
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  92 ++++
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c          | 197 ++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            | 254 ++++++-----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           | 194 ++++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |  57 +--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c            | 107 ++---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp.h             |  28 --
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        | 503 ++++++++++-----------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        | 100 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  88 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |  50 +-
+ drivers/soc/mediatek/Makefile                      |   1 +
+ .../mtk_drm_ddp.c => soc/mediatek/mtk-mutex.c}     | 328 +++++++-------
+ include/linux/soc/mediatek/mtk-mutex.h             |  26 ++
+ 20 files changed, 1446 insertions(+), 914 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_drv.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+ delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+ rename drivers/{gpu/drm/mediatek/mtk_drm_ddp.c => soc/mediatek/mtk-mutex.c} (53%)
+ create mode 100644 include/linux/soc/mediatek/mtk-mutex.h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
