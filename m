@@ -2,31 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECF230EE75
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6ED30EE5F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBE36ED0A;
-	Thu,  4 Feb 2021 08:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF0E6ECF0;
+	Thu,  4 Feb 2021 08:32:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41CA6EA33
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 09:31:38 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 56585AD24;
- Wed,  3 Feb 2021 09:31:37 +0000 (UTC)
-Date: Wed, 3 Feb 2021 10:31:36 +0100 (CET)
-From: Miroslav Benes <mbenes@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 10/13] module: pass struct find_symbol_args to find_symbol
-In-Reply-To: <20210203090418.GA7833@lst.de>
-Message-ID: <alpine.LSU.2.21.2102031031120.24713@pobox.suse.cz>
-References: <20210202121334.1361503-1-hch@lst.de>
- <20210202121334.1361503-11-hch@lst.de>
- <alpine.LSU.2.21.2102021504550.570@pobox.suse.cz>
- <20210203090418.GA7833@lst.de>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1A589834
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 11:06:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id DEF791F454BD
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] phy: mediatek: Add missing MODULE_DEVICE_TABLE()
+Date: Wed,  3 Feb 2021 12:06:30 +0100
+Message-Id: <20210203110631.686003-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,37 +34,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
- Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
- Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
- live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
- Joe Lawrence <joe.lawrence@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
- Frederic Barrat <fbarrat@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 3 Feb 2021, Christoph Hellwig wrote:
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-> FYI, this is the updated version:
-> 
-> ---
-> >From 664ca3378deac7530fe8fc15fe73d583d3333df2 Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch@lst.de>
-> Date: Wed, 20 Jan 2021 14:58:27 +0100
-> Subject: module: pass struct find_symbol_args to find_symbol
-> 
-> Simplify the calling convention by passing the find_symbol_args structure
-> to find_symbol instead of initializing it inside the function.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+This patch adds the missing MODULE_DEVICE_TABLE definitions on different
+Mediatek phy drivers which generates correct modalias for automatic loading
+when these drivers are compiled as an external module.
 
-Reviewed-by: Miroslav Benes <mbenes@suse.cz>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
 
-M
+ drivers/phy/mediatek/phy-mtk-hdmi.c     | 1 +
+ drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/phy/mediatek/phy-mtk-hdmi.c b/drivers/phy/mediatek/phy-mtk-hdmi.c
+index 45be8aa724f3..8313bd517e4c 100644
+--- a/drivers/phy/mediatek/phy-mtk-hdmi.c
++++ b/drivers/phy/mediatek/phy-mtk-hdmi.c
+@@ -201,6 +201,7 @@ static const struct of_device_id mtk_hdmi_phy_match[] = {
+ 	},
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, mtk_hdmi_phy_match);
+ 
+ static struct platform_driver mtk_hdmi_phy_driver = {
+ 	.probe = mtk_hdmi_phy_probe,
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+index 18c481251f04..9c7815bb9000 100644
+--- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
++++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+@@ -233,6 +233,7 @@ static const struct of_device_id mtk_mipi_tx_match[] = {
+ 	  .data = &mt8183_mipitx_data },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, mtk_mipi_tx_match);
+ 
+ struct platform_driver mtk_mipi_tx_driver = {
+ 	.probe = mtk_mipi_tx_probe,
+-- 
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
