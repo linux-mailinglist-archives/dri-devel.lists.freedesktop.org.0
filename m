@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E779830D79C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D7F30D7A1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 11:36:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A486E239;
-	Wed,  3 Feb 2021 10:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE8296E2E1;
+	Wed,  3 Feb 2021 10:36:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5696E239
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:34:55 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id 190so4958168wmz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 02:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
- b=M75pCStwd1CD5X+AE8fVhstTS+X4mKfTg66UmMyLV/4dbGEYA6QHxZzUVBaPMOz7xx
- F9+edfLoc2Vlmx1emXKW6xZgu7oWNOjz1WTgd2M5J2gnXE54FmGLbHHBb8oKBNcpCTS4
- 6/gH/3v5zILbDOnuxcfqarN4OjvcB8d9ja9AA=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A816E2E1
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 10:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612348564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fEB7xBqwhyPOWn31cidRiNIM5Aa2KdyDpLu2IJ8+dfE=;
+ b=QLHgPVoPnxW3uKN0Qlp8nBFKUQsMsAfPw2FjYtq3X1MEs9KtXYnPGIFOAS3PtXB9cQxJjB
+ ipmSLHQ5KKKEEKJSsWEcg1GytUX6aUS9ij3YjY5VpC5J1lWjj/MU9xgdbrdyHeSRF9es0f
+ HTiANNvFUnSlc7k0IeXGd9qAc+xkjCY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-47fZVstnPXG-zAiw3sJpRQ-1; Wed, 03 Feb 2021 05:36:02 -0500
+X-MC-Unique: 47fZVstnPXG-zAiw3sJpRQ-1
+Received: by mail-ej1-f70.google.com with SMTP id d15so11670200ejc.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 02:36:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
- b=rpL69/lGXkWPVB3sDygDvf7/SbDzV2lke7cNriqX3QVxXYi8VSOedsT5t0IEUma4D5
- kwnW2ptp05ffUYnJbVM8u7xQ2gncmQLN88Kpt3kiRKBmMmfAR1/VDU09Zi8JPUQB5BFs
- kz4VS5ovOexA6oxgLOWuwY+rgAbCrOybnpF7DC3yTjhdXnB7lJYQn4fu/cCg9UK03WnL
- jPYuyt2sUaF2fPU9mBOLTxE2SrmymkjAmHOp5GxLfHA5kjkMoZnKNlgF9SG6zRaKMz4w
- Z3CLMOKXhNy51x7gS7vR1ZMQNLm0N79XRR1WnZB/8F1em1iWutO8cQZ2xxSDfXY8glHU
- x4tw==
-X-Gm-Message-State: AOAM5304XnZE4jvnXVq55OPlViT3TEQdAo2yi2ymRaRXhtH5CURnORT9
- 1tBlybMOj0YazTS4akasEg3RTw==
-X-Google-Smtp-Source: ABdhPJz4SARPNc66CChB2hShzHi2iGX8D1M1gjyOuRd3fn77dLJW2FXa5gHf0Q6IrbHt0pXvjzsdvQ==
-X-Received: by 2002:a1c:a90f:: with SMTP id s15mr2203893wme.154.1612348493733; 
- Wed, 03 Feb 2021 02:34:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b11sm2957419wrp.60.2021.02.03.02.34.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 02:34:53 -0800 (PST)
-Date: Wed, 3 Feb 2021 11:34:50 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 02/13] drm: remove drm_fb_helper_modinit
-Message-ID: <YBp8ShiKbQSPCcRx@phenom.ffwll.local>
-Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
- Frederic Barrat <fbarrat@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Jessica Yu <jeyu@kernel.org>,
- Josh Poimboeuf <jpoimboe@redhat.com>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>,
- Joe Lawrence <joe.lawrence@redhat.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Michal Marek <michal.lkml@markovi.net>,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20210128181421.2279-1-hch@lst.de>
- <20210128181421.2279-3-hch@lst.de>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fEB7xBqwhyPOWn31cidRiNIM5Aa2KdyDpLu2IJ8+dfE=;
+ b=aCZTqmyoy3caLih34xr9/sJ4MWFxRVitHSSZK4MZsOPVbM9Ay2nVY5Sc4gAcxKdIYt
+ y4d4v/UekA50pvYdvsRx2xxVLpnIayM9Ntryunwb12kg4s+EFqxqPbULxDvVwxNhUWrz
+ GWM72tRs4cKYz4S6MwS6VQyepEnZ9Lkf2lu6wdlzYnPzWHYyVs4S0wQXVtX+TDrq6MjE
+ ZOFNSDsy/uzozo2zF8omcTwt2jbncodo6mN8/cwspAMQH+elfbewA9AHMfu9q6bRQwP5
+ gERltDzrwdxPVMTRQBaDewrpNAD4uNDUz1pRKTNnvtH3EaNGPKoEXkXLXC8lLHiuSErt
+ 2REg==
+X-Gm-Message-State: AOAM532WW7H8ebfJNGkCL9V2NjYkBkW12dXsx6riquOjmqaLh8ysO9A1
+ 2xmNc+wgpRh6gb0ZfqFyOFkGh0k4hroYX6+33QZ0OJDRGrVfwnIqof6KVdOX7gz2RzOnshyokII
+ Iwf//UoKUdMs01xBvBkVZ+KiYSFuV
+X-Received: by 2002:a17:907:10c1:: with SMTP id
+ rv1mr2694248ejb.74.1612348561147; 
+ Wed, 03 Feb 2021 02:36:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxqwfeuaQQcjcQ8kmMpA9bMjScyF6z1WqjDALhpwWfWpqmNI4F1sKUnQiqj4uSlF2824+0Cdg==
+X-Received: by 2002:a17:907:10c1:: with SMTP id
+ rv1mr2694227ejb.74.1612348561015; 
+ Wed, 03 Feb 2021 02:36:01 -0800 (PST)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+ by smtp.gmail.com with ESMTPSA id e9sm655746edk.66.2021.02.03.02.36.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 02:36:00 -0800 (PST)
+Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
+ <886bbdc0-3391-2140-a2d4-1688b262966f@redhat.com>
+ <CAHp75VeFvwE64zX8Wu8XvMMJ6vgxAaoYpvH2rJ_FD3CCnFZNHA@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <8d350b8c-5f1d-256d-cdc5-8501af0c0cad@redhat.com>
+Date: Wed, 3 Feb 2021 11:35:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210128181421.2279-3-hch@lst.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAHp75VeFvwE64zX8Wu8XvMMJ6vgxAaoYpvH2rJ_FD3CCnFZNHA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,134 +86,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, Jiri Kosina <jikos@kernel.org>,
- Andrew Donnellan <ajd@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
- Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
- live-patching@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
- Joe Lawrence <joe.lawrence@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Jessica Yu <jeyu@kernel.org>,
- Frederic Barrat <fbarrat@linux.ibm.com>, Miroslav Benes <mbenes@suse.cz>,
- linuxppc-dev@lists.ozlabs.org
+Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Mark Gross <mgross@linux.intel.com>,
+ linux-watchdog@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Platform Driver <platform-driver-x86@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 28, 2021 at 07:14:10PM +0100, Christoph Hellwig wrote:
-> drm_fb_helper_modinit has a lot of boilerplate for what is not very
-> simple functionality.  Just open code it in the only caller using
-> IS_ENABLED and IS_MODULE, and skip the find_module check as a
-> request_module is harmless if the module is already loaded (and not
-> other caller has this find_module check either).
+Hi,
+
+On 2/3/21 10:54 AM, Andy Shevchenko wrote:
+> On Tue, Jan 26, 2021 at 4:23 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>> On 1/26/21 1:38 PM, Andy Shevchenko wrote:
+>>> Hi guys,
+>>>
+>>> This is first part of Intel MID outdated platforms removal. It's collected into
+>>> immutable branch with a given tag, please pull to yours subsystems.
+>>>
+>>> (All changes are tagged by the respective maintainers)
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Hm I thought I've acked this one already somewhere for merging through
-your tree.
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/drm_crtc_helper_internal.h | 10 ---------
->  drivers/gpu/drm/drm_fb_helper.c            | 21 ------------------
->  drivers/gpu/drm/drm_kms_helper_common.c    | 25 +++++++++++-----------
->  3 files changed, 12 insertions(+), 44 deletions(-)
+>> Erm, I already have this 2 in platform-drivers-x86/for-next since you said that
+>> these 2 could be merged independently.
+>>
+>> Anyways I just did a test-merge and there is no conflict, so everything is ok.
+>>
+>> From my pov this looks good and I plan to merge this into platform-drivers-x86/for-next
+>> before the merge-window.
+>>
+>> I'm going to hold off on doing that for a bit for now in case one of the other
+>> subsys maintainers has any objections.
 > 
-> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> index 25ce42e799952c..61e09f8a8d0ff0 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> @@ -32,16 +32,6 @@
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_modes.h>
->  
-> -/* drm_fb_helper.c */
-> -#ifdef CONFIG_DRM_FBDEV_EMULATION
-> -int drm_fb_helper_modinit(void);
-> -#else
-> -static inline int drm_fb_helper_modinit(void)
-> -{
-> -	return 0;
-> -}
-> -#endif
-> -
->  /* drm_dp_aux_dev.c */
->  #ifdef CONFIG_DRM_DP_AUX_CHARDEV
->  int drm_dp_aux_dev_init(void);
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 4b81195106875d..0b9f1ae1b7864c 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -2499,24 +2499,3 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
->  	drm_client_register(&fb_helper->client);
->  }
->  EXPORT_SYMBOL(drm_fbdev_generic_setup);
-> -
-> -/* The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
-> - * but the module doesn't depend on any fb console symbols.  At least
-> - * attempt to load fbcon to avoid leaving the system without a usable console.
-> - */
-> -int __init drm_fb_helper_modinit(void)
-> -{
-> -#if defined(CONFIG_FRAMEBUFFER_CONSOLE_MODULE) && !defined(CONFIG_EXPERT)
-> -	const char name[] = "fbcon";
-> -	struct module *fbcon;
-> -
-> -	mutex_lock(&module_mutex);
-> -	fbcon = find_module(name);
-> -	mutex_unlock(&module_mutex);
-> -
-> -	if (!fbcon)
-> -		request_module_nowait(name);
-> -#endif
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_modinit);
-> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
-> index 221a8528c9937a..f933da1656eb52 100644
-> --- a/drivers/gpu/drm/drm_kms_helper_common.c
-> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
-> @@ -64,19 +64,18 @@ MODULE_PARM_DESC(edid_firmware,
->  
->  static int __init drm_kms_helper_init(void)
->  {
-> -	int ret;
-> -
-> -	/* Call init functions from specific kms helpers here */
-> -	ret = drm_fb_helper_modinit();
-> -	if (ret < 0)
-> -		goto out;
-> -
-> -	ret = drm_dp_aux_dev_init();
-> -	if (ret < 0)
-> -		goto out;
-> -
-> -out:
-> -	return ret;
-> +	/*
-> +	 * The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
-> +	 * but the module doesn't depend on any fb console symbols.  At least
-> +	 * attempt to load fbcon to avoid leaving the system without a usable
-> +	 * console.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_DRM_FBDEV_EMULATION) &&
-> +	    IS_MODULE(CONFIG_FRAMEBUFFER_CONSOLE) &&
-> +	    !IS_ENABLED(CONFIG_EXPERT))
-> +		request_module_nowait("fbcon");
-> +
-> +	return drm_dp_aux_dev_init();
->  }
->  
->  static void __exit drm_kms_helper_exit(void)
-> -- 
-> 2.29.2
-> 
+> Any news on this? Have you pulled it somewhere (I don't see it in Linux next)?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I was going through all pending pdx86 stuff yesterday to prep for the upcoming
+merge-window. I was doing so in FIFO order and I ran out of steam just as I got
+to this pull-req.
+
+So today is a new day and after sending out a fixes pull-req for 5.11 this is
+(was) the first thing on my list.
+
+I've merged this into my review-hans now (and I will push it to for-next soon).
+
+I did one last check of all the commits after merging, and I found one small
+issue.
+
+The "gpio: msic: Remove driver for deprecated platform" commit forgets to
+drop the Makefile line for the msic driver:
+
+obj-$(CONFIG_GPIO_MSIC)                 += gpio-msic.o
+
+This is not a reason to redo the entire branch, but it would be good if you
+can do a follow up patch to fix this.
+
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
