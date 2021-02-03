@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7875430DAB0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBA130DAAE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F516EAB7;
-	Wed,  3 Feb 2021 13:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B110E6EAAF;
+	Wed,  3 Feb 2021 13:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 193E26EAAE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B080D6EAB2
  for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:10:53 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A8B8CB131;
- Wed,  3 Feb 2021 13:10:51 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 492E5B133;
+ Wed,  3 Feb 2021 13:10:52 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
  sean@poorly.run, sam@ravnborg.org, noralf@tronnes.org
-Subject: [PATCH 5/6] drm/gm12u320: Move vmap out of commit tail
-Date: Wed,  3 Feb 2021 14:10:45 +0100
-Message-Id: <20210203131046.22371-6-tzimmermann@suse.de>
+Subject: [PATCH 6/6] drm/udl: Move vmap out of commit tail
+Date: Wed,  3 Feb 2021 14:10:46 +0100
+Message-Id: <20210203131046.22371-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210203131046.22371-1-tzimmermann@suse.de>
 References: <20210203131046.22371-1-tzimmermann@suse.de>
@@ -55,147 +55,142 @@ callbacks use the established mapping for damage handling.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/Kconfig    |  3 ++-
- drivers/gpu/drm/tiny/gm12u320.c | 30 +++++++++++++++---------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/udl/Kconfig       |  1 +
+ drivers/gpu/drm/udl/udl_modeset.c | 36 +++++++++++++------------------
+ 2 files changed, 16 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index e0aef6cf8e26..faf3926fd4fa 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -23,8 +23,9 @@ config DRM_CIRRUS_QEMU
- config DRM_GM12U320
- 	tristate "GM12U320 driver for USB projectors"
- 	depends on DRM && USB
--	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/udl/Kconfig b/drivers/gpu/drm/udl/Kconfig
+index 1f497d8f1ae5..1b46d93ca61c 100644
+--- a/drivers/gpu/drm/udl/Kconfig
++++ b/drivers/gpu/drm/udl/Kconfig
+@@ -5,6 +5,7 @@ config DRM_UDL
+ 	depends on USB
+ 	depends on USB_ARCH_HAS_HCD
  	select DRM_GEM_SHMEM_HELPER
 +	select DRM_GEM_SHMEM_KMS_HELPER
-+	select DRM_KMS_HELPER
+ 	select DRM_KMS_HELPER
  	help
- 	 This is a KMS driver for projectors which use the GM12U320 chipset
- 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
-diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
-index 33f65f4626e5..1d20949f429a 100644
---- a/drivers/gpu/drm/tiny/gm12u320.c
-+++ b/drivers/gpu/drm/tiny/gm12u320.c
-@@ -16,8 +16,9 @@
- #include <drm/drm_file.h>
- #include <drm/drm_format_helper.h>
+ 	  This is a KMS driver for the USB displaylink video adapters.
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 9d34ec9d03f6..974dffe86a44 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -17,6 +17,7 @@
  #include <drm/drm_fourcc.h>
--#include <drm/drm_gem_shmem_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_gem_shmem_helper.h>
 +#include <drm/drm_gem_shmem_kms_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
  #include <drm/drm_modeset_helper_vtables.h>
-@@ -94,6 +95,7 @@ struct gm12u320_device {
- 		struct drm_rect          rect;
- 		int frame;
- 		int draw_status_timeout;
-+		struct dma_buf_map src_map;
- 	} fb_update;
- };
+ #include <drm/drm_vblank.h>
  
-@@ -250,7 +252,6 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+@@ -266,18 +267,17 @@ static int udl_aligned_damage_clip(struct drm_rect *clip, int x, int y,
+ 	return 0;
+ }
+ 
+-static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+-			     int width, int height)
++static int udl_handle_damage(struct drm_framebuffer *fb, const struct dma_buf_map *map,
++			     int x, int y, int width, int height)
  {
- 	int block, dst_offset, len, remain, ret, x1, x2, y1, y2;
- 	struct drm_framebuffer *fb;
+ 	struct drm_device *dev = fb->dev;
+ 	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
++	void *vaddr = map->vaddr; /* TODO: Use mapping abstraction properly */
+ 	int i, ret, tmp_ret;
+ 	char *cmd;
+ 	struct urb *urb;
+ 	struct drm_rect clip;
+ 	int log_bpp;
 -	struct dma_buf_map map;
- 	void *vaddr;
- 	u8 *src;
+-	void *vaddr;
  
-@@ -264,20 +265,14 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
- 	x2 = gm12u320->fb_update.rect.x2;
- 	y1 = gm12u320->fb_update.rect.y1;
- 	y2 = gm12u320->fb_update.rect.y2;
--
+ 	ret = udl_log_cpp(fb->format->cpp[0]);
+ 	if (ret < 0)
+@@ -297,17 +297,10 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 			return ret;
+ 	}
+ 
 -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
 -	if (ret) {
--		GM12U320_ERR("failed to vmap fb: %d\n", ret);
--		goto put_fb;
+-		DRM_ERROR("failed to vmap fb\n");
+-		goto out_dma_buf_end_cpu_access;
 -	}
 -	vaddr = map.vaddr; /* TODO: Use mapping abstraction properly */
-+	vaddr = gm12u320->fb_update.src_map.vaddr; /* TODO: Use mapping abstraction properly */
- 
- 	if (fb->obj[0]->import_attach) {
- 		ret = dma_buf_begin_cpu_access(
- 			fb->obj[0]->import_attach->dmabuf, DMA_FROM_DEVICE);
- 		if (ret) {
- 			GM12U320_ERR("dma_buf_begin_cpu_access err: %d\n", ret);
--			goto vunmap;
-+			goto put_fb;
- 		}
+-
+ 	urb = udl_get_urb(dev);
+ 	if (!urb) {
+ 		ret = -ENOMEM;
+-		goto out_drm_gem_shmem_vunmap;
++		goto out_dma_buf_end_cpu_access;
  	}
+ 	cmd = urb->transfer_buffer;
  
-@@ -321,8 +316,6 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+@@ -320,7 +313,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 				       &cmd, byte_offset, dev_byte_offset,
+ 				       byte_width);
  		if (ret)
- 			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
+-			goto out_drm_gem_shmem_vunmap;
++			goto out_dma_buf_end_cpu_access;
  	}
--vunmap:
+ 
+ 	if (cmd > (char *)urb->transfer_buffer) {
+@@ -336,8 +329,6 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+ 
+ 	ret = 0;
+ 
+-out_drm_gem_shmem_vunmap:
 -	drm_gem_shmem_vunmap(fb->obj[0], &map);
- put_fb:
- 	drm_framebuffer_put(fb);
- 	gm12u320->fb_update.fb = NULL;
-@@ -410,7 +403,7 @@ static void gm12u320_fb_update_work(struct work_struct *work)
- 		GM12U320_ERR("Frame update error: %d\n", ret);
- }
- 
--static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb,
-+static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb, const struct dma_buf_map *map,
- 				   struct drm_rect *dirty)
- {
- 	struct gm12u320_device *gm12u320 = to_gm12u320(fb->dev);
-@@ -424,6 +417,7 @@ static void gm12u320_fb_mark_dirty(struct drm_framebuffer *fb,
- 		drm_framebuffer_get(fb);
- 		gm12u320->fb_update.fb = fb;
- 		gm12u320->fb_update.rect = *dirty;
-+		gm12u320->fb_update.src_map = *map;
- 		wakeup = true;
- 	} else {
- 		struct drm_rect *rect = &gm12u320->fb_update.rect;
-@@ -452,6 +446,7 @@ static void gm12u320_stop_fb_update(struct gm12u320_device *gm12u320)
- 	mutex_lock(&gm12u320->fb_update.lock);
- 	old_fb = gm12u320->fb_update.fb;
- 	gm12u320->fb_update.fb = NULL;
-+	dma_buf_map_clear(&gm12u320->fb_update.src_map);
- 	mutex_unlock(&gm12u320->fb_update.lock);
- 
- 	drm_framebuffer_put(old_fb);
-@@ -564,9 +559,11 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
- {
- 	struct drm_rect rect = { 0, 0, GM12U320_USER_WIDTH, GM12U320_HEIGHT };
- 	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
+ out_dma_buf_end_cpu_access:
+ 	if (import_attach) {
+ 		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
+@@ -375,6 +366,8 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct udl_device *udl = to_udl(dev);
+ 	struct drm_display_mode *mode = &crtc_state->mode;
 +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
 +		to_drm_gem_shmem_shadow_plane_state(plane_state);
+ 	char *buf;
+ 	char *wrptr;
+ 	int color_depth = UDL_COLOR_DEPTH_16BPP;
+@@ -400,7 +393,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
  
- 	gm12u320->fb_update.draw_status_timeout = FIRST_FRAME_TIMEOUT;
--	gm12u320_fb_mark_dirty(plane_state->fb, &rect);
-+	gm12u320_fb_mark_dirty(plane_state->fb, &shadow_plane_state->map[0], &rect);
- }
+ 	udl->mode_buf_len = wrptr - buf;
  
- static void gm12u320_pipe_disable(struct drm_simple_display_pipe *pipe)
-@@ -580,16 +577,19 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
- 				 struct drm_plane_state *old_state)
+-	udl_handle_damage(fb, 0, 0, fb->width, fb->height);
++	udl_handle_damage(fb, &shadow_plane_state->map[0], 0, 0, fb->width, fb->height);
+ 
+ 	if (!crtc_state->mode_changed)
+ 		return;
+@@ -435,6 +428,8 @@ udl_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_plane_state *old_plane_state)
  {
  	struct drm_plane_state *state = pipe->plane.state;
 +	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
 +		to_drm_gem_shmem_shadow_plane_state(state);
+ 	struct drm_framebuffer *fb = state->fb;
  	struct drm_rect rect;
  
- 	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
--		gm12u320_fb_mark_dirty(pipe->plane.state->fb, &rect);
-+		gm12u320_fb_mark_dirty(state->fb, &shadow_plane_state->map[0], &rect);
+@@ -442,17 +437,16 @@ udl_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 		return;
+ 
+ 	if (drm_atomic_helper_damage_merged(old_plane_state, state, &rect))
+-		udl_handle_damage(fb, rect.x1, rect.y1, rect.x2 - rect.x1,
+-				  rect.y2 - rect.y1);
++		udl_handle_damage(fb, &shadow_plane_state->map[0], rect.x1, rect.y1,
++				  rect.x2 - rect.x1, rect.y2 - rect.y1);
  }
  
- static const struct drm_simple_display_pipe_funcs gm12u320_pipe_funcs = {
- 	.enable	    = gm12u320_pipe_enable,
- 	.disable    = gm12u320_pipe_disable,
- 	.update	    = gm12u320_pipe_update,
+-static const
+-struct drm_simple_display_pipe_funcs udl_simple_display_pipe_funcs = {
++static const struct drm_simple_display_pipe_funcs udl_simple_display_pipe_funcs = {
+ 	.mode_valid = udl_simple_display_pipe_mode_valid,
+ 	.enable = udl_simple_display_pipe_enable,
+ 	.disable = udl_simple_display_pipe_disable,
+ 	.update = udl_simple_display_pipe_update,
+-	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
 +	DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
  };
  
- static const uint32_t gm12u320_pipe_formats[] = {
+ /*
 -- 
 2.30.0
 
