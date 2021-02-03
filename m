@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7945E30D345
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 07:03:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E3F30D3F2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 08:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 862376E435;
-	Wed,  3 Feb 2021 06:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93376E985;
+	Wed,  3 Feb 2021 07:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708106E433
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 06:03:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 46C3464F5F;
- Wed,  3 Feb 2021 06:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612332204;
- bh=TamFsy+dl4YKadlK6KUmKSWE8+JRnBdDbFZmUJ9evl4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KndeHYtdEEwNxKe27RLvOZB++RzvTRcR5yBYQKy+ZDYs7mcRdDtw/FKLBVAGLOyAT
- Xd69sTTDSNxKnTmtbeplQ2aaxT3TS+GarfhpRHpO/O+tMyZU7mF1TBKE/fzm7jz7TD
- Xnj5BfFHtRurDNrZB4SRvihgfz/1FbIUsKPoDQLA6EFIGD1KsksKUYvJpAu9yJEsXW
- Yz+Ouj3WpC919UuZcRoFSchUd2200T3hMs2c2ejijD0AIjO8VmeIqmi1bKnTJhxDRm
- TlGkV++KHs1YJdy9XLinKRdquUpRCHI2q3p0okjI3an5AYkG/EOTqxaUOpP3bLTxG0
- 8jxTGc/GfQ30A==
-Date: Wed, 3 Feb 2021 08:03:20 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-Message-ID: <20210203060320.GK3264866@unreal>
-References: <1611604622-86968-1-git-send-email-jianxin.xiong@intel.com>
- <1611604622-86968-5-git-send-email-jianxin.xiong@intel.com>
- <137f406b-d3e0-fdeb-18e7-194a2aed927c@amazon.com>
- <20210201061603.GC4593@unreal>
- <CAKMK7uE0kSC1si0E9D1Spkn9aW2jFJw_SH3hYC6sZL7mG6pzyg@mail.gmail.com>
- <20210201152922.GC4718@ziepe.ca>
- <MW3PR11MB455569DF7B795272687669BFE5B69@MW3PR11MB4555.namprd11.prod.outlook.com>
- <YBluvZn1orYl7L9/@phenom.ffwll.local>
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67C66E985
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 07:13:15 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id i63so16047313pfg.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 23:13:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pPNBJfle3Xurh2yorg+OKGACnBT1+DmSPrBjPjKSHHs=;
+ b=cV0gh2AOAaP7lDN2Mk79C8+DGnq+j39uYoObpW2dr7VN4nRzXFN+6x9SUB8U5z9pGN
+ grJK/V8SmM7joZAcz2a3ZE9ZCxKeo8OPSYDR+l/qJZ8EI/AVMqtmrF6N2zbQ/7HEvoDx
+ KQsZIZc56L6oxce83DQxr9Xdcq7LmX5jMIGQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pPNBJfle3Xurh2yorg+OKGACnBT1+DmSPrBjPjKSHHs=;
+ b=tjCMCBIuxb85hwbA1/wJWtdKi8aFAKus7jV9PbZMXR45HLAz1w943ruTD9fXL8DQ82
+ l3S7l+1kucZh/ckxAfnkLKPSNZ9pOphyz0lPK3F+q8ZZaMjtvNB0wLhFuM1cloh/DOUJ
+ Fgsw6UtDZ+gnmAT9yiYQl4GKe7ZbiFd7ls7ArKi9bJLFEsvqmgizu8PkPX5bqbTUONOa
+ yD6TOdT8VNhE2ZgPz20Z2AuKK0omPL7fhUNOlmIqJnSJkK/QEHYkqwhsT3Fy4W71feCd
+ qK6noChrQrhQrnpwvjS0wIrB/AGvxSasH6C3QA5DWzEpIezDyHA1gfrYSQcBfxSNdE3q
+ xcng==
+X-Gm-Message-State: AOAM531WAVgJZRSwGK9Q7LaS79e00ieOK28x42jX4k745I/duJ3v0YA6
+ zVxwXm0cif1vHqg0lyRjj7lDIbdgVTW7upYc
+X-Google-Smtp-Source: ABdhPJzQds6f03maiq8U5pfTS4lCHPI5e1ATkEErS6oAKDMSvm64fuBER4Mq1HWlBQtvEuqJPPhQ0A==
+X-Received: by 2002:a62:bd05:0:b029:1ab:6d2:5edf with SMTP id
+ a5-20020a62bd050000b02901ab06d25edfmr1920622pff.32.1612336394754; 
+ Tue, 02 Feb 2021 23:13:14 -0800 (PST)
+Received: from ub-XPS-13-9350.domain.name ([45.249.78.214])
+ by smtp.gmail.com with ESMTPSA id c19sm1105823pfc.122.2021.02.02.23.13.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 23:13:14 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: Add documentation for
+ SN65DSI84
+Date: Wed,  3 Feb 2021 12:42:55 +0530
+Message-Id: <20210203071256.42050-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YBluvZn1orYl7L9/@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,113 +68,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, linux-rdma <linux-rdma@vger.kernel.org>,
- Edward Srouji <edwards@nvidia.com>, Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>, "Xiong,
- Jianxin" <jianxin.xiong@intel.com>
+Cc: devicetree@vger.kernel.org, linux-amarula@amarulasolutions.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 02, 2021 at 04:24:45PM +0100, Daniel Vetter wrote:
-> On Mon, Feb 01, 2021 at 05:03:44PM +0000, Xiong, Jianxin wrote:
-> > > -----Original Message-----
-> > > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > > Sent: Monday, February 01, 2021 7:29 AM
-> > > To: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: Leon Romanovsky <leon@kernel.org>; Gal Pressman <galpress@amazon.com>; Xiong, Jianxin <jianxin.xiong@intel.com>; Yishai Hadas
-> > > <yishaih@nvidia.com>; linux-rdma <linux-rdma@vger.kernel.org>; Edward Srouji <edwards@nvidia.com>; dri-devel <dri-
-> > > devel@lists.freedesktop.org>; Christian Koenig <christian.koenig@amd.com>; Doug Ledford <dledford@redhat.com>; Vetter, Daniel
-> > > <daniel.vetter@intel.com>
-> > > Subject: Re: [PATCH rdma-core v7 4/6] pyverbs: Add dma-buf based MR support
-> > >
-> > > On Mon, Feb 01, 2021 at 03:10:00PM +0100, Daniel Vetter wrote:
-> > > > On Mon, Feb 1, 2021 at 7:16 AM Leon Romanovsky <leon@kernel.org> wrote:
-> > > > >
-> > > > > On Sun, Jan 31, 2021 at 05:31:16PM +0200, Gal Pressman wrote:
-> > > > > > On 25/01/2021 21:57, Jianxin Xiong wrote:
-> > > > > > > Define a new sub-class of 'MR' that uses dma-buf object for the
-> > > > > > > memory region. Define a new class 'DmaBuf' as a wrapper for
-> > > > > > > dma-buf allocation mechanism implemented in C.
-> > > > > > >
-> > > > > > > Update the cmake function for cython modules to allow building
-> > > > > > > modules with mixed cython and c source files.
-> > > > > > >
-> > > > > > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> > > > > > > buildlib/pyverbs_functions.cmake |  78 +++++++----
-> > > > > > >  pyverbs/CMakeLists.txt           |  11 +-
-> > > > > > >  pyverbs/dmabuf.pxd               |  15 +++
-> > > > > > >  pyverbs/dmabuf.pyx               |  73 ++++++++++
-> > > > > > >  pyverbs/dmabuf_alloc.c           | 278 +++++++++++++++++++++++++++++++++++++++
-> > > > > > >  pyverbs/dmabuf_alloc.h           |  19 +++
-> > > > > > >  pyverbs/libibverbs.pxd           |   2 +
-> > > > > > >  pyverbs/mr.pxd                   |   6 +
-> > > > > > >  pyverbs/mr.pyx                   | 105 ++++++++++++++-
-> > > > > > >  9 files changed, 557 insertions(+), 30 deletions(-)  create
-> > > > > > > mode 100644 pyverbs/dmabuf.pxd  create mode 100644
-> > > > > > > pyverbs/dmabuf.pyx  create mode 100644 pyverbs/dmabuf_alloc.c
-> > > > > > > create mode 100644 pyverbs/dmabuf_alloc.h
-> > > > >
-> > > > > <...>
-> > > > >
-> > > > > > > index 0000000..05eae75
-> > > > > > > +++ b/pyverbs/dmabuf_alloc.c
-> > > > > > > @@ -0,0 +1,278 @@
-> > > > > > > +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-> > > > > > > +/*
-> > > > > > > + * Copyright 2020 Intel Corporation. All rights reserved. See
-> > > > > > > +COPYING file  */
-> > > > > > > +
-> > > > > > > +#include <stdio.h>
-> > > > > > > +#include <stdlib.h>
-> > > > > > > +#include <stdint.h>
-> > > > > > > +#include <unistd.h>
-> > > > > > > +#include <string.h>
-> > > > > > > +#include <errno.h>
-> > > > > > > +#include <drm/drm.h>
-> > > > > > > +#include <drm/i915_drm.h>
-> > > > > > > +#include <drm/amdgpu_drm.h>
-> > > > > > > +#include <drm/radeon_drm.h>
-> > > > > >
-> > > > > > I assume these should come from the kernel headers package, right?
-> > > > >
-> > > > > This is gross, all kernel headers should be placed in
-> > > > > kernel-headers/* and "update" script needs to be extended to take drm/* files too :(.
-> > > >
-> > > > drm kernel headers are in the libdrm package. You need that anyway for
-> > > > doing the ioctls (if you don't hand-roll the restarting yourself).
-> > > >
-> > > > Also our userspace has gone over to just outright copying the driver
-> > > > headers. Not the generic headers, but for the rendering side of gpus,
-> > > > which is the topic here, there's really not much generic stuff.
-> > > >
-> > > > > Jianxin, are you fixing it?
-> > > >
-> > > > So fix is either to depend upon libdrm for building, or have copies of
-> > > > the headers included in the package for the i915/amdgpu/radeon headers
-> > > > (drm/drm.h probably not so good idea).
-> > >
-> > > We should have a cmake test to not build the drm parts if it can't be built, and pyverbs should skip the tests.
-> > >
-> >
-> > Yes, I will add a test for that. Also, on SLES, the headers could be under /usr/include/libdrm instead of /usr/include/drm. The make test should check that and use proper path.
->
-> Please use pkgconfig for this, libdrm installs a .pc file to make sure you
-> can find the right headers.
+SN65DSI84 is a Single Channel DSI to Dual-link LVDS bridge from
+Texas Instruments.
 
-rdma-core uses cmake build system and in our case cmake find_library()
-is preferable over pkgconfig.
+SN65DSI83, SN65DSI85 are variants of the same family of bridge
+controllers.
 
-Thanks
+Right now the bridge driver is supporting a single link, dual-link
+support requires to initiate I2C Channel B registers, so dt-bindings
+documented with single link LVDS.
 
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+---
+Changes for v2:
+- none
+
+ .../bindings/display/bridge/ti,sn65dsi84.yaml | 127 ++++++++++++++++++
+ 1 file changed, 127 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+new file mode 100644
+index 000000000000..891382a76c1a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi84.yaml
+@@ -0,0 +1,127 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi84.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI SN65DSI84 MIPI DSI to LVDS bridge bindings
++
++maintainers:
++  - Jagan Teki <jagan@amarulasolutions.com>
++
++description: |
++  The SN65DSI84 DSI to FlatLink bridge features a single channel MIPI D-PHY receiver
++  front-end configuration with 4 lanes per channel operating at 1 Gbps per lanes.
++  The bridge decodes MIPI DSI 18bpp RGB666 and 240bpp RG888 packets and converts
++  the formatted video data stream to a FlatLink compatible LVDS output operating
++  at pixel clocks operating from 25 MHx to 154 MHz, offering a Dual-Link LVDS,
++  Single-Link LVDS interface with four data lanes per link.
++
++  https://www.ti.com/product/SN65DSI84
++
++properties:
++  compatible:
++    const: ti,sn65dsi84
++
++  reg:
++    maxItems: 1
++    description: i2c address of the bridge, 0x2c
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO specifier for bridge enable pin (active high).
++
++  ports:
++    type: object
++    description:
++      A node containing input and output port nodes with endpoint definitions
++      as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description: |
++          DSI Input. The remote endpoint phandle should be a
++          reference to a valid mipi_dsi_host device node.
++
++      port@1:
++        type: object
++        description: |
++          Video port for LVDS output (panel or connector).
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - enable-gpios
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       ports {
++           #address-cells = <1>;
++           #size-cells = <0>;
++
++           port@0 {
++               reg = <0>;
++               dsi_in: endpoint {
++                   remote-endpoint = <&ltdc_ep0_out>;
++               };
++           };
++
++           port@1 {
++               reg = <1>;
++               dsi_out: endpoint {
++                   remote-endpoint = <&bridge_in>;
++                   data-lanes = <0 1>;
++               };
++           };
++       };
++    };
++
++    i2c6 {
++       #address-cells = <1>;
++       #size-cells = <0>;
++
++       bridge@2c {
++           compatible = "ti,sn65dsi84";
++           reg = <0x2c>;
++           enable-gpios = <&gpiof 15 GPIO_ACTIVE_HIGH>;
++
++           ports {
++               #address-cells = <1>;
++               #size-cells = <0>;
++
++               port@0 {
++                   reg = <0>;
++                   bridge_in: endpoint {
++                        remote-endpoint = <&dsi_out>;
++                   };
++               };
++
++               port@1 {
++                   reg = <1>;
++                   bridge_out: endpoint {
++                        remote-endpoint = <&panel_in_lvds>;
++                   };
++               };
++           };
++       };
++    };
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
