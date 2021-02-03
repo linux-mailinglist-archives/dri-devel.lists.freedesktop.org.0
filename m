@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BAD30D4DA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 09:13:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1455530D13B
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 03:07:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396CA6E9EC;
-	Wed,  3 Feb 2021 08:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F200D6E23F;
+	Wed,  3 Feb 2021 02:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CD689F24
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 02:02:14 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id c12so22447177wrc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 18:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A32B6E23F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 02:07:51 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id h12so31055480lfp.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Feb 2021 18:07:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k1d6YTsPbefNP98n7kugOKyTm/5Jjwmgp6qDjgryobQ=;
- b=YTpxuQQ56VEKPyP5QRwFOXD5rzq90h+zb0bL5zaHyoZAGpubAhVDWr6tVquoLfUHXY
- 8Bgskv29OXx/jlR9EGtJIj2o0B36+WZncwc30a96duFnTOR6NIS20pOkUXRH1YLOzXjx
- rd796bWXm93rjoNLs5XewciYkKHyTn0eFOpN5IkEe8j0OFbNs/YrOetNsTJ6nmGccTFF
- ppqnrLaeHkAtN+jfTW3sILXbMs+y+eKWJtYUCP90lE6ejamVvj0wYtOVvAMo/jMCTtxl
- VNobZKCa1yOaQeNS8a2B0xxWxeuJgYXvbwrr101FjA/2VRquOyZZ58akT0yeyVEGoY5c
- ac0A==
+ :cc; bh=ayzfcSfxCvzlRbstGP9hGkgIcQ5hx1YuU1pxX+bWuHs=;
+ b=eGlil+w2DCwQD8KK1xRdq7AIVCuqHRf5q1ar8b/Fy9tkCbGJE8I1o9Qh9anhQO2hK9
+ xZmfjyfzF11eyHCvfh+oppTiW9/Xd1whsALSsj6vTiIjxqVyHaq3TV6bPu9hHW0k9y4E
+ Cr2aFpB7ctiPfw+uWvahloZr+9eLF1MS6oRzP9XcHmFnx5EJc5khMz4vtafLlo2Rttda
+ mQsJCiB4acmtmbiR7l0NS4lcvNKZK7ks3LGsQhkW0ctj4/iD3jp2/yPnn21S2B/fvdvm
+ k/9L97xrZ36XRy3b1hTg6XmL3zJNXAiUgdCzJG/Aw1DV2xr1LsWaEybvLB6qFi3fliAC
+ PFXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k1d6YTsPbefNP98n7kugOKyTm/5Jjwmgp6qDjgryobQ=;
- b=UZ7PvrkWmRBqaasbNZWMYpkB3SjoZBeAt6meCGhmOjbJQ3zHmzsHnkYdt8PYHil58U
- bvUv6pbS83YV3yhCoR7AsSqDTW1nVazaFog/PmmjNmoThQ82zDWbRGbADKDPjutSLm52
- zockNfW2iYyvx4No6AtedKMhb45lgb329GgJ54JXu7Cn9fD268nka5c1jmJJuIs4SGw3
- E0wBWWl9iXTOHn5KzGJ0O2SRYLFh1Trf1pP9rQOZY6mXjU99i/rPc4IgFD4bQVY8dBT+
- F8cIJSsaR7/Xgdx37vb0MdqTaNF7WeiAY/Dkajo+obTr8rDfEgSj2TUdWap4k11rToqf
- 9ZtQ==
-X-Gm-Message-State: AOAM530x6eq6RTuBjwq2FJZkiQQoeOj0Fl/fYXtAKQTy2KYKURdQJXWH
- RkqRDTCDEOup7eBTIOuVVU2oZ6Sumxft3mbp2zyv1A==
-X-Google-Smtp-Source: ABdhPJyQn6YddfkLVWiIGgY37mm6xAPU8tZAWB5sXAvWUT2z2eLAGdHnF+0pzujgGtm+uL0SK+Mb5ISJFicsxp8PRdg=
-X-Received: by 2002:adf:e50e:: with SMTP id j14mr860530wrm.162.1612317733369; 
- Tue, 02 Feb 2021 18:02:13 -0800 (PST)
+ bh=ayzfcSfxCvzlRbstGP9hGkgIcQ5hx1YuU1pxX+bWuHs=;
+ b=NZgFitRHe50uatrdxwOC5C/4AU8ceytm0JFtUJ1MhcCMnms2dcpm2Wrdu3/d4uRI+Y
+ l8vZtL4AvHm+ZV8N2Dxyzmv1+rHThiyw58Ufl7DiCpDGTPoaZWz3fnlvAQv/M2zlMI7b
+ ot+H1bal0xkIEIDSt4LJGAlifNG0me/jS5zVJpY8plEH5GPh5Qvs4G7cot7LdMgkMzgj
+ iJduZ6QsGlypOgCavcVaqF08+7bY5cRCBNkxPG0Pe6LbL5cjXobxx/nJyuxod0ZQDc3B
+ DVlEqXTkTNrmojXvAY5cQwINWlXNBXSRuUYPirtAdG0s+ESz0oXEQ3/tA8nuIMoHZIKS
+ JKbA==
+X-Gm-Message-State: AOAM531/nBWj5ZIWPeBez1yiXtwbJMK2d0ga23wcrgDPdoFIXOKWnZOf
+ +8Q3OGJR8eUPkx7neTPlX8LHzWenIgU11BoBDQ8GQw==
+X-Google-Smtp-Source: ABdhPJz/zm1PeC2ZluNB85wRkNtw1G6dZzG/v+ZbpRoZh6RdqPs9LSsJ6rK/g2cd13qi3PrT9YkluWDRlb8ciDHM4uI=
+X-Received: by 2002:ac2:5590:: with SMTP id v16mr454568lfg.626.1612318069555; 
+ Tue, 02 Feb 2021 18:07:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20210203003134.2422308-1-surenb@google.com>
  <20210203003134.2422308-2-surenb@google.com>
- <YBn+yWIE9eXbgQ2K@google.com>
-In-Reply-To: <YBn+yWIE9eXbgQ2K@google.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 2 Feb 2021 18:02:01 -0800
-Message-ID: <CAJuCfpHCCD6ruxQAZP8pTZxz44F7pDKY59QznxFv0nQ+-9VaQA@mail.gmail.com>
+In-Reply-To: <20210203003134.2422308-2-surenb@google.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Tue, 2 Feb 2021 18:07:38 -0800
+Message-ID: <CALAqxLWJNDDx_MFvYHszFXy=aV9bZGi50L3zDtuGaiYUbHKHSA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Map system heap pages as managed
  by linux vm
-To: Minchan Kim <minchan@kernel.org>
-X-Mailman-Approved-At: Wed, 03 Feb 2021 08:13:07 +0000
+To: Suren Baghdasaryan <surenb@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +66,49 @@ Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
  <linaro-mm-sig@lists.linaro.org>,
  =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
  Sandeep Patil <sspatil@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel-team <kernel-team@android.com>, James Jones <jajones@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- Christoph Hellwig <hch@infradead.org>, linux-mm <linux-mm@kvack.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Android Kernel Team <kernel-team@android.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Christoph Hellwig <hch@infradead.org>,
+ Minchan Kim <minchan@kernel.org>, linux-mm <linux-mm@kvack.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Chris Goldsworthy <cgoldswo@codeaurora.org>,
  Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, labbott@redhat.com,
+ Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
  Robin Murphy <robin.murphy@arm.com>, linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 2, 2021 at 5:39 PM Minchan Kim <minchan@kernel.org> wrote:
+On Tue, Feb 2, 2021 at 4:31 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> Currently system heap maps its buffers with VM_PFNMAP flag using
+> remap_pfn_range. This results in such buffers not being accounted
+> for in PSS calculations because vm treats this memory as having no
+> page structs. Without page structs there are no counters representing
+> how many processes are mapping a page and therefore PSS calculation
+> is impossible.
+> Historically, ION driver used to map its buffers as VM_PFNMAP areas
+> due to memory carveouts that did not have page structs [1]. That
+> is not the case anymore and it seems there was desire to move away
+> from remap_pfn_range [2].
+> Dmabuf system heap design inherits this ION behavior and maps its
+> pages using remap_pfn_range even though allocated pages are backed
+> by page structs.
+> Replace remap_pfn_range with vm_insert_page, following Laura's suggestion
+> in [1]. This would allow correct PSS calculation for dmabufs.
 >
-> On Tue, Feb 02, 2021 at 04:31:34PM -0800, Suren Baghdasaryan wrote:
-> > Currently system heap maps its buffers with VM_PFNMAP flag using
-> > remap_pfn_range. This results in such buffers not being accounted
-> > for in PSS calculations because vm treats this memory as having no
-> > page structs. Without page structs there are no counters representing
-> > how many processes are mapping a page and therefore PSS calculation
-> > is impossible.
-> > Historically, ION driver used to map its buffers as VM_PFNMAP areas
-> > due to memory carveouts that did not have page structs [1]. That
-> > is not the case anymore and it seems there was desire to move away
-> > from remap_pfn_range [2].
-> > Dmabuf system heap design inherits this ION behavior and maps its
-> > pages using remap_pfn_range even though allocated pages are backed
-> > by page structs.
-> > Replace remap_pfn_range with vm_insert_page, following Laura's suggestion
-> > in [1]. This would allow correct PSS calculation for dmabufs.
-> >
-> > [1] https://driverdev-devel.linuxdriverproject.narkive.com/v0fJGpaD/using-ion-memory-for-direct-io
-> > [2] http://driverdev.linuxdriverproject.org/pipermail/driverdev-devel/2018-October/127519.html
-> > (sorry, could not find lore links for these discussions)
-> >
-> > Suggested-by: Laura Abbott <labbott@kernel.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Minchan Kim <minchan@kernel.org>
+> [1] https://driverdev-devel.linuxdriverproject.narkive.com/v0fJGpaD/using-ion-memory-for-direct-io
+> [2] http://driverdev.linuxdriverproject.org/pipermail/driverdev-devel/2018-October/127519.html
+> (sorry, could not find lore links for these discussions)
 >
-> A note: This patch makes dmabuf system heap accounted as PSS so
-> if someone has relies on the size, they will see the bloat.
-> IIRC, there was some debate whether PSS accounting for their
-> buffer is correct or not. If it'd be a problem, we need to
-> discuss how to solve it(maybe, vma->vm_flags and reintroduce
-> remap_pfn_range for them to be respected).
+> Suggested-by: Laura Abbott <labbott@kernel.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-I did not see debates about not including *mapped* dmabufs into PSS
-calculation. I remember people were discussing how to account dmabufs
-referred only by the FD but that is a different discussion. If the
-buffer is mapped into the address space of a process then IMHO
-including it into PSS of that process is not controversial.
+For consistency, do we need something similar for the cma heap as well?
+
+thanks
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
