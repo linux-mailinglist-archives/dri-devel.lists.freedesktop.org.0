@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7246C30DAA7
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA1B30DAAB
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Feb 2021 14:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5395C6EAB0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F366C6EAB4;
 	Wed,  3 Feb 2021 13:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE476EAA3
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:10:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF8B6EAA5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 13:10:51 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 32B04AFD2;
+ by mx2.suse.de (Postfix) with ESMTP id CE307B12B;
  Wed,  3 Feb 2021 13:10:49 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
  sean@poorly.run, sam@ravnborg.org, noralf@tronnes.org
-Subject: [PATCH 1/6] drm/simple-kms: Add plane-state helpers
-Date: Wed,  3 Feb 2021 14:10:41 +0100
-Message-Id: <20210203131046.22371-2-tzimmermann@suse.de>
+Subject: [PATCH 2/6] drm/shmem-helper: Add additional KMS helpers
+Date: Wed,  3 Feb 2021 14:10:42 +0100
+Message-Id: <20210203131046.22371-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210203131046.22371-1-tzimmermann@suse.de>
 References: <20210203131046.22371-1-tzimmermann@suse.de>
@@ -46,109 +46,289 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just like regular plane-state helpers, drivers can use these new
-callbacks to create and destroy private plane state.
+Several drivers use GEM SHMEM buffer objects as shadow buffers for
+the actual framebuffer memory. Right now, drivers do these vmap
+operations in their commit tail, which is actually not allowed by the
+locking rules for the dma-buf reservation lock. The involved SHMEM
+BO has to be vmapped in the plane's prepare_fb callback and vunmapped
+in cleanup_fb.
+
+This patch introduces a DRM library that implements KMS helpers for
+GEM SHMEM buffer objects. The first set of helpers is the plane state
+for shadow planes. The provided implementations for prepare_fb and
+cleanup_fb vmap and vunmap all BOs of struct drm_plane_state.fb. The
+mappings are afterwards available in the plane's commit-tail functions.
+
+All rsp drivers use the simple KMS helpers, so we add the plane callbacks
+and wrappers for simple KMS.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_simple_kms_helper.c | 40 +++++++++++++++++++++++--
- include/drm/drm_simple_kms_helper.h     | 28 +++++++++++++++++
- 2 files changed, 65 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/Kconfig                    |   7 +
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_gem_shmem_kms_helper.c | 159 +++++++++++++++++++++
+ include/drm/drm_gem_shmem_kms_helper.h     |  56 ++++++++
+ 4 files changed, 223 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_gem_shmem_kms_helper.c
+ create mode 100644 include/drm/drm_gem_shmem_kms_helper.h
 
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 6ce8f5cd1eb5..0c5bb0f98fa0 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -253,13 +253,47 @@ static const struct drm_plane_helper_funcs drm_simple_kms_plane_helper_funcs = {
- 	.atomic_update = drm_simple_kms_plane_atomic_update,
- };
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 8bf103de1594..b8d8b00ab5d4 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -214,6 +214,13 @@ config DRM_GEM_SHMEM_HELPER
+ 	help
+ 	  Choose this if you need the GEM shmem helper functions
  
-+static void drm_simple_kms_plane_reset(struct drm_plane *plane)
++config DRM_GEM_SHMEM_KMS_HELPER
++	bool
++	depends on DRM_GEM_SHMEM_HELPER
++	help
++	help
++	  Choose this if you need the GEM SHMEM helper functions for KMS
++
+ config DRM_SCHED
+ 	tristate
+ 	depends on DRM
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 926adef289db..37a73dee5baf 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -53,6 +53,7 @@ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+ drm_kms_helper-$(CONFIG_DRM_KMS_CMA_HELPER) += drm_fb_cma_helper.o
+ drm_kms_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+ drm_kms_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
++drm_kms_helper-$(CONFIG_DRM_GEM_SHMEM_KMS_HELPER) += drm_gem_shmem_kms_helper.o
+ 
+ obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
+ obj-$(CONFIG_DRM_DEBUG_SELFTEST) += selftests/
+diff --git a/drivers/gpu/drm/drm_gem_shmem_kms_helper.c b/drivers/gpu/drm/drm_gem_shmem_kms_helper.c
+new file mode 100644
+index 000000000000..8843c5837f98
+--- /dev/null
++++ b/drivers/gpu/drm/drm_gem_shmem_kms_helper.c
+@@ -0,0 +1,159 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_gem_shmem_kms_helper.h>
++#include <drm/drm_simple_kms_helper.h>
++
++/*
++ * Helpers for struct drm_plane_funcs
++ *
++ */
++
++static struct drm_plane_state *
++drm_gem_shmem_duplicate_shadow_plane_state(struct drm_plane *plane,
++					   struct drm_plane_state *plane_state)
 +{
-+	struct drm_simple_display_pipe *pipe;
++	struct drm_gem_shmem_shadow_plane_state *new_shadow_plane_state;
 +
-+	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
-+	if (!pipe->funcs || !pipe->funcs->reset_plane)
-+		return drm_atomic_helper_plane_reset(plane);
++	if (!plane_state)
++		return NULL;
 +
-+	return pipe->funcs->reset_plane(pipe);
++	new_shadow_plane_state = kzalloc(sizeof(*new_shadow_plane_state), GFP_KERNEL);
++	if (!new_shadow_plane_state)
++		return NULL;
++	__drm_atomic_helper_plane_duplicate_state(plane, &new_shadow_plane_state->base);
++
++	return &new_shadow_plane_state->base;
 +}
 +
-+static struct drm_plane_state *drm_simple_kms_plane_duplicate_state(struct drm_plane *plane)
++static void drm_gem_shmem_destroy_shadow_plane_state(struct drm_plane *plane,
++						     struct drm_plane_state *plane_state)
 +{
-+	struct drm_simple_display_pipe *pipe;
++	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
++		to_drm_gem_shmem_shadow_plane_state(plane_state);
 +
-+	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
-+	if (!pipe->funcs || !pipe->funcs->duplicate_plane_state)
-+		return drm_atomic_helper_plane_duplicate_state(plane);
-+
-+	return pipe->funcs->duplicate_plane_state(pipe, plane->state);
++	__drm_atomic_helper_plane_destroy_state(&shadow_plane_state->base);
++	kfree(shadow_plane_state);
 +}
 +
-+static void drm_simple_kms_plane_destroy_state(struct drm_plane *plane,
-+					       struct drm_plane_state *state)
++static void drm_gem_shmem_reset_shadow_plane(struct drm_plane *plane)
 +{
-+	struct drm_simple_display_pipe *pipe;
++	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state;
 +
-+	pipe = container_of(plane, struct drm_simple_display_pipe, plane);
-+	if (!pipe->funcs || !pipe->funcs->destroy_plane_state)
-+		drm_atomic_helper_plane_destroy_state(plane, state);
-+	else
-+		pipe->funcs->destroy_plane_state(pipe, state);
++	if (plane->state) {
++		drm_gem_shmem_destroy_shadow_plane_state(plane, plane->state);
++		plane->state = NULL; /* must be set to NULL here */
++	}
++
++	shadow_plane_state = kzalloc(sizeof(*shadow_plane_state), GFP_KERNEL);
++	if (!shadow_plane_state)
++		return;
++	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
 +}
 +
- static const struct drm_plane_funcs drm_simple_kms_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
- 	.destroy		= drm_plane_cleanup,
--	.reset			= drm_atomic_helper_plane_reset,
--	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
--	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-+	.reset			= drm_simple_kms_plane_reset,
-+	.atomic_duplicate_state	= drm_simple_kms_plane_duplicate_state,
-+	.atomic_destroy_state	= drm_simple_kms_plane_destroy_state,
- 	.format_mod_supported   = drm_simple_kms_format_mod_supported,
- };
- 
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index e6dbf3161c2f..0c1a2e07caf2 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -149,6 +149,34 @@ struct drm_simple_display_pipe_funcs {
- 	 * more details.
- 	 */
- 	void (*disable_vblank)(struct drm_simple_display_pipe *pipe);
++/*
++ * Helpers for struct drm_plane_helper_funcs
++ */
 +
-+	/**
-+	 * @reset_plane:
-+	 *
-+	 * Optional, called by &drm_plane_funcs.reset. Please read the
-+	 * documentation for the &drm_plane_funcs.reset hook for more details.
-+	 */
-+	void (*reset_plane)(struct drm_simple_display_pipe *pipe);
++static int drm_gem_shmem_prepare_shadow_fb(struct drm_plane *plane,
++					   struct drm_plane_state *plane_state)
++{
++	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
++		to_drm_gem_shmem_shadow_plane_state(plane_state);
++	struct drm_framebuffer *fb = plane_state->fb;
++	struct drm_gem_object *obj;
++	struct dma_buf_map map;
++	int ret;
++	size_t i;
 +
-+	/**
-+	 * @duplicate_plane_state:
-+	 *
-+	 * Optional, called by &drm_plane_funcs.atomic_duplicate_state.  Please
-+	 * read the documentation for the &drm_plane_funcs.atomic_duplicate_state
-+	 * hook for more details.
-+	 */
-+	struct drm_plane_state * (*duplicate_plane_state)(struct drm_simple_display_pipe *pipe,
-+							  struct drm_plane_state *plane_state);
++	if (!fb)
++		return 0;
 +
-+	/**
-+	 * @destroy_plane_state:
-+	 *
-+	 * Optional, called by &drm_plane_funcs.atomic_destroy_state.  Please
-+	 * read the documentation for the &drm_plane_funcs.atomic_destroy_state
-+	 * hook for more details.
-+	 */
-+	void (*destroy_plane_state)(struct drm_simple_display_pipe *pipe,
-+				    struct drm_plane_state *plane_state);
- };
- 
- /**
++	ret = drm_gem_fb_prepare_fb(plane, plane_state);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < ARRAY_SIZE(shadow_plane_state->map); ++i) {
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		ret = drm_gem_shmem_vmap(obj, &map);
++		if (ret)
++			goto err_drm_gem_shmem_vunmap;
++		shadow_plane_state->map[i] = map;
++	}
++
++	return 0;
++
++err_drm_gem_shmem_vunmap:
++	while (i) {
++		--i;
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		drm_gem_shmem_vunmap(obj, &shadow_plane_state->map[i]);
++	}
++	return ret;
++}
++
++static void drm_gem_shmem_cleanup_shadow_fb(struct drm_plane *plane,
++					    struct drm_plane_state *plane_state)
++{
++	struct drm_gem_shmem_shadow_plane_state *shadow_plane_state =
++		to_drm_gem_shmem_shadow_plane_state(plane_state);
++	struct drm_framebuffer *fb = plane_state->fb;
++	size_t i = ARRAY_SIZE(shadow_plane_state->map);
++	struct drm_gem_object *obj;
++
++	if (!fb)
++		return;
++
++	while (i) {
++		--i;
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		drm_gem_shmem_vunmap(obj, &shadow_plane_state->map[i]);
++	}
++}
++
++/*
++ * Simple KMS helpers
++ */
++
++int drm_gem_shmem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
++					       struct drm_plane_state *plane_state)
++{
++	return drm_gem_shmem_prepare_shadow_fb(&pipe->plane, plane_state);
++}
++EXPORT_SYMBOL(drm_gem_shmem_simple_kms_prepare_shadow_fb);
++
++void drm_gem_shmem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
++						struct drm_plane_state *plane_state)
++{
++	drm_gem_shmem_cleanup_shadow_fb(&pipe->plane, plane_state);
++}
++EXPORT_SYMBOL(drm_gem_shmem_simple_kms_cleanup_shadow_fb);
++
++void drm_gem_shmem_simple_kms_reset_shadow_plane(struct drm_simple_display_pipe *pipe)
++{
++	drm_gem_shmem_reset_shadow_plane(&pipe->plane);
++}
++EXPORT_SYMBOL(drm_gem_shmem_simple_kms_reset_shadow_plane);
++
++struct drm_plane_state *
++drm_gem_shmem_simple_kms_duplicate_shadow_plane_state(struct drm_simple_display_pipe *pipe,
++						      struct drm_plane_state *plane_state)
++{
++	return drm_gem_shmem_duplicate_shadow_plane_state(&pipe->plane, plane_state);
++}
++EXPORT_SYMBOL(drm_gem_shmem_simple_kms_duplicate_shadow_plane_state);
++
++void drm_gem_shmem_simple_kms_destroy_shadow_plane_state(struct drm_simple_display_pipe *pipe,
++							 struct drm_plane_state *plane_state)
++{
++	drm_gem_shmem_destroy_shadow_plane_state(&pipe->plane, plane_state);
++}
++EXPORT_SYMBOL(drm_gem_shmem_simple_kms_destroy_shadow_plane_state);
+diff --git a/include/drm/drm_gem_shmem_kms_helper.h b/include/drm/drm_gem_shmem_kms_helper.h
+new file mode 100644
+index 000000000000..bd42c9c0a39e
+--- /dev/null
++++ b/include/drm/drm_gem_shmem_kms_helper.h
+@@ -0,0 +1,56 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __DRM_GEM_SHMEM_KMS_HELPER_H__
++#define __DRM_GEM_SHMEM_KMS_HELPER_H__
++
++#include <linux/dma-buf-map.h>
++
++#include <drm/drm_plane.h>
++
++struct drm_simple_display_pipe;
++
++struct drm_gem_shmem_shadow_plane_state {
++	struct drm_plane_state base;
++
++	/* Transitional state - do not export or duplicate */
++
++	struct dma_buf_map map[4];
++};
++
++static inline struct drm_gem_shmem_shadow_plane_state *
++to_drm_gem_shmem_shadow_plane_state(struct drm_plane_state *state)
++{
++	return container_of(state, struct drm_gem_shmem_shadow_plane_state, base);
++}
++
++/*
++ * Simple KMS helpers
++ */
++
++int drm_gem_shmem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
++					       struct drm_plane_state *plane_state);
++void drm_gem_shmem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
++						struct drm_plane_state *plane_state);
++void drm_gem_shmem_simple_kms_reset_shadow_plane(struct drm_simple_display_pipe *pipe);
++struct drm_plane_state *
++drm_gem_shmem_simple_kms_duplicate_shadow_plane_state(struct drm_simple_display_pipe *pipe,
++						      struct drm_plane_state *plane_state);
++void
++drm_gem_shmem_simple_kms_destroy_shadow_plane_state(struct drm_simple_display_pipe *pipe,
++						    struct drm_plane_state *plane_state);
++
++/**
++ * DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS -
++ *	Initializes struct drm_simple_display_pipe_funcs for SHMEM shadow planes
++ *
++ * Drivers may use GEM SHMEM BOs as shadow buffers over the framebuffer memory. This
++ * macro initializes struct drm_simple_display_pipe_funcs to use the rsp helper functions.
++ */
++#define DRM_GEM_SHMEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS \
++	.prepare_fb = drm_gem_shmem_simple_kms_prepare_shadow_fb, \
++	.cleanup_fb = drm_gem_shmem_simple_kms_cleanup_shadow_fb, \
++	.reset_plane = drm_gem_shmem_simple_kms_reset_shadow_plane, \
++	.duplicate_plane_state = drm_gem_shmem_simple_kms_duplicate_shadow_plane_state, \
++	.destroy_plane_state   = drm_gem_shmem_simple_kms_destroy_shadow_plane_state
++
++#endif /* __DRM_GEM_SHMEM_KMS_HELPER_H__ */
 -- 
 2.30.0
 
