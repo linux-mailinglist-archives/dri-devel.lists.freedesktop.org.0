@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48DC30FB06
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 19:17:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E4230FB09
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 19:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A4B6EE1C;
-	Thu,  4 Feb 2021 18:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6B96E104;
+	Thu,  4 Feb 2021 18:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5186EE1C;
- Thu,  4 Feb 2021 18:17:52 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9FFB2AF19;
- Thu,  4 Feb 2021 18:17:50 +0000 (UTC)
-Subject: Re: [PATCH v6 05/10] drm/qxl: release shadow on shutdown
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20210204145712.1531203-1-kraxel@redhat.com>
- <20210204145712.1531203-6-kraxel@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <bcb00728-5798-aa19-0bf2-b52829916353@suse.de>
-Date: Thu, 4 Feb 2021 19:17:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D096E104
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:17:59 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1l7jCW-0006Sg-KL; Thu, 04 Feb 2021 18:17:56 +0000
+From: Colin King <colin.king@canonical.com>
+To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/mgag200: make a const array static, makes object smaller
+Date: Thu,  4 Feb 2021 18:17:56 +0000
+Message-Id: <20210204181756.109549-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210204145712.1531203-6-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,118 +39,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>
-Content-Type: multipart/mixed; boundary="===============1466110282=="
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1466110282==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7IZlZjBb9k90ggGG1jTaJcJnFpkLl9eRf"
+From: Colin Ian King <colin.king@canonical.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7IZlZjBb9k90ggGG1jTaJcJnFpkLl9eRf
-Content-Type: multipart/mixed; boundary="Pt9hD2fxGYr4bNM5i7RjcBEacqKwJegvC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>, open list
- <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
-Message-ID: <bcb00728-5798-aa19-0bf2-b52829916353@suse.de>
-Subject: Re: [PATCH v6 05/10] drm/qxl: release shadow on shutdown
-References: <20210204145712.1531203-1-kraxel@redhat.com>
- <20210204145712.1531203-6-kraxel@redhat.com>
-In-Reply-To: <20210204145712.1531203-6-kraxel@redhat.com>
+Don't populate the const array m_div_val on the stack but instead make
+it static. Makes the object code smaller by 29 bytes:
 
---Pt9hD2fxGYr4bNM5i7RjcBEacqKwJegvC
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Before:
+   text	   data	  bss   dec    hex filename
+  34736	   4552	    0 39288   9978 drivers/gpu/drm/mgag200/mgag200_mode.o
 
+After:
+   text	   data	  bss   dec    hex filename
+  34625	   4616	    0 39241   9949 drivers/gpu/drm/mgag200/mgag200_mode.o
 
+(gcc version 10.2.0)
 
-Am 04.02.21 um 15:57 schrieb Gerd Hoffmann:
-> In case we have a shadow surface on shutdown release
-> it so it doesn't leak.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/qxl/qxl_display.c | 4 ++++
->   1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qx=
-l_display.c
-> index 38d6b596094d..60331e31861a 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1229,5 +1229,9 @@ int qxl_modeset_init(struct qxl_device *qdev)
->  =20
->   void qxl_modeset_fini(struct qxl_device *qdev)
->   {
-> +	if (qdev->dumb_shadow_bo) {
-> +		drm_gem_object_put(&qdev->dumb_shadow_bo->tbo.base);
-> +		qdev->dumb_shadow_bo =3D NULL;
-> +	}
->   	qxl_destroy_monitors_object(qdev);
->   }
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Pt9hD2fxGYr4bNM5i7RjcBEacqKwJegvC--
-
---7IZlZjBb9k90ggGG1jTaJcJnFpkLl9eRf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAcOk0FAwAAAAAACgkQlh/E3EQov+Bf
-pxAAzhS9yhz/7odXPF65ASlBgs72y2q/jr9c8XrWtKuF+dnkmjfzmTs57Mb1tt2uLEJezZliNmhd
-Tk6Pz22ASPfstmuLFw3gRbwT1gjjwMIzZJzH5FqSFNHFGMhwtMWY8kNbDNGPTkjc/4ON+DTQ4Hj1
-AM6TLilIZVzM/uNZ04oOnpllo1Zpe7mntkS0/hL20vK5HXb0IuEiRLCowCGTu+4zqZJtGxcqaa0/
-IckeSfvu9BDGKI3MNZvxRMZGkjZpPZX7r/yN7qy6TbsNraGX22jNAPgEx3E0eIJR9NGwC+qxm3J3
-CAcd6IGMHhNPtkb/28Vg6+UsBYb5wL0d3PdXUjsAgZ94R/dc21bBb7+9cF+NqkovM/M44ieISjJr
-aqUJj5M3mtw02bXdTZUtSfdbdWAtpGnCQFTQgQtzOn8G19hc2rHDmcUSbqCYuipmyhLIQQAN43Jt
-XBJ9c9LvgLCQUYeGsROLUpTBS8YcCO/pYd0jSLrpNpGzokrXuiJC+Z24+QMWNULtUSukAASKMgnH
-mi3QEIkULGM8A447WcSYG+IiK0AEaLyhal9xaI1nR1Ie5dH10sOZmdUYKhZZqKuiQvy3wCg+b78U
-b6Ll7UXhqLSbi4en9av9ZABOWSXdSWZ4npX3HbYiAhDXsx4/rDCTq0u9ZQqkdVxTSlVZl7QMo1kn
-nFw=
-=qOcx
------END PGP SIGNATURE-----
-
---7IZlZjBb9k90ggGG1jTaJcJnFpkLl9eRf--
-
---===============1466110282==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 1dfc42170059..27f33af09798 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -712,7 +712,7 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int p, m, n;
+ 	unsigned int computed, vco;
+ 	int tmp;
+-	const unsigned int m_div_val[] = { 1, 2, 4, 8 };
++	static const unsigned int m_div_val[] = { 1, 2, 4, 8 };
+ 
+ 	m = n = p = 0;
+ 	vcomax = 1488000;
+-- 
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1466110282==--
