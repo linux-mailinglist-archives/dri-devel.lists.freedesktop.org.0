@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9B130EE60
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED93330EE63
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:32:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 270C06ECAE;
-	Thu,  4 Feb 2021 08:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56B26ECF3;
+	Thu,  4 Feb 2021 08:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6196EC70
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 04:24:28 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id f14so2804073ejc.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 20:24:28 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC916EC70
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 04:25:46 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id s5so2402215edw.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 20:25:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=lagfreegames.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Al8SNosUJJy2q95b1kX9zoiZgIH2lETAvW2U/Jj2nVM=;
- b=YbcuZrtTodQa4O+vvrUegP48WT8MRYaxm+jaFzz2NJnWVXznr7/zP0e4MWU5RG45dh
- L2zx5EtwReqkwW2KKmkQ1GRhUbdN+zDCL7bB7V3V3WCPcUwB91g/JEq9EfLCOS4myplf
- L5E75puCIOiy7n3BD5ZbokONhaCeGJI59345KqtHvxviinwqrBplj0EuQX7/0vXRJfiO
- lVPFsLulZEwyQ+4TkJEj8USJvpXMVxOP8XwpkWdxwD/jzCZLfBj9JiRxpf2/Y1zp2eBd
- EJ9uAMg76GWaiIYrbV+X1z9j2XmuP4W38Xq6GrbDFHID0LTa+xm0FBXig/Ueu1DHemHW
- JzHA==
+ :cc; bh=S9JgVVonCln8uIXH+gF52+MA8LqevrPhWl5pAfSjKo8=;
+ b=bTYtfHRJ8GcJuZT+1NqMwCQqVUDwi6OXzsTuuU4Y7JcvT3I1x6Q0+5Cbdz6n2FjD/L
+ k3aYPCdOJQziSXWcEDd3wFR9ACBzDdsTgjA/jAIZMi7d0oiCwhQ9eBDEC2mVXVjq7oXV
+ rgJgawZW78FpkhOv7koEqyI48L/UtgEgSjZCeBNfwMNs7OI+vXpMDf4qc+KRcsCLVaCA
+ lr6SgOHjuDKErWlHy/CZtamhqVlb0gSGWQjWNyvbSc0DXbBBlj0g8bWsQ6NWXRE0WsJF
+ 5XaH1MSJNjKCDoKPrD9eihJjKx9LicIkcG2lyonkAnPq2gxc4fffyiG0l6kjgoWDF93J
+ XUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Al8SNosUJJy2q95b1kX9zoiZgIH2lETAvW2U/Jj2nVM=;
- b=UOx2KIGPMQVW7W1QY831nvLOniBjYvtYlhw1ma5pKMWSlCYfbrj4vS8TVKoTVqjMGn
- aLqJvXVRLb3j2FFl9+eEHnn75JBexPs+QUSrlfBqrp5UR/qU6+A8F+hPNbvdwfPHrVQL
- 94ayCqc/edBDFSwNgvZhEKyl6Kr4gfA2L5HvgJxypd/aNTP5TzomCp2I29O9l9C1Pm8K
- UkkQbygAkVCA/DeHTawY6dgjNKkizfdtrSJN7YbrfujrR7NvLCSQueBUIj7shEBRE6zu
- h6KQzQpO8gGOOpBDGHj86S33H7kuLgXaHfprXwpExuPP/OgrcfJKcVMNnPG+OWWTTZuH
- mmfw==
-X-Gm-Message-State: AOAM532zu2UbJM8OjzgBs3C516o3f0Y4AnGP9/0dYgQiwu8JHfU0TFyO
- IMLkIRvicsaHvnNg41y5GIHbmI7lhM1sY8D6xciCZQ==
-X-Google-Smtp-Source: ABdhPJwGHmIaiBWtn1VCfqx3Bs3DkxI2GzFNhMqo6XV6BizGpwZz5LzdNgygeHih5pvvKUjoghdv05dd2occT/qY9xg=
-X-Received: by 2002:a17:906:f854:: with SMTP id
- ks20mr4927986ejb.50.1612412667199; 
- Wed, 03 Feb 2021 20:24:27 -0800 (PST)
+ bh=S9JgVVonCln8uIXH+gF52+MA8LqevrPhWl5pAfSjKo8=;
+ b=d1bxg+guIeWykSSYrG30Ki/MM6MSbNmC1chYc1uTUtttvVowDELP/qk+gfSND7D8bp
+ QAbqMNhpjEGgNNibV2Vhk3DWqm3Rm0ICtiOL29M8e+WqmoICKZGrmEMhn9TY2ihV017+
+ YyOYoBWxge8QlN5S18m9mpgFNB3W7Tw80sQygmtLxK2DCwpNwLeKuYwazZTN9nF5Iicl
+ tzbspq8/u0mtvM5hszhRlOPdYKV23zA9Bv8V8zylt5I698N4o5KUoW/bcqnnO5Gc/Ryt
+ fpyFG6Z+lkP8/zMDkuzDHkz9fWnYvLiambUG5RfO7AJijmf9e+aO7DwRvZaHraeg1ZG0
+ 85tQ==
+X-Gm-Message-State: AOAM531A577QjGwFnDYoZDJui6R1FktZvqtyVt5A0oW/IbLj50xV7+tQ
+ TQRaCDLk0qvP+BA4PILf6KOtoNAvyHaBGYF3KUOnJg==
+X-Google-Smtp-Source: ABdhPJzobErNygbIKV1pdbDt4RgMjnpWztVG8vpOalEZHhftWhrf0nU1WxEfytzavFgYCkT7hopOs/rFzBK6l2SvKSY=
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr6059437edv.131.1612412744955; 
+ Wed, 03 Feb 2021 20:25:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20210202224704.2794318-1-emil.l.velikov@gmail.com>
  <CABjik9dde-HCWBsfwxjD+jTKaoy-YxDeSObmH7X5rSzNHoA_qA@mail.gmail.com>
@@ -54,10 +54,11 @@ References: <20210202224704.2794318-1-emil.l.velikov@gmail.com>
  <N0eVw6YLfc6v63pbpbmd1GPURTahNkBdrWWuwvJNYtXTryToehQecES5PSEqhZvm9yDhH6VLVw4wnSj1Ba3JXINtwZ6tWQXAgokAP32oIA0=@emersion.fr>
  <CACvgo51nJLrcuAAH=RGxCY9Cf-ZGvgPqzdrKj8ODuhbL+eTWjw@mail.gmail.com>
  <3YZGYeCokyp-fEABJS4acHkPKfFBiHtsL3lM8fRBI-ma8q--4afeisOnhmHURa5iF8AVHpUdw2E7fKCe5bug9PX4j8HJ4btFWDdWepXftBY=@emersion.fr>
-In-Reply-To: <3YZGYeCokyp-fEABJS4acHkPKfFBiHtsL3lM8fRBI-ma8q--4afeisOnhmHURa5iF8AVHpUdw2E7fKCe5bug9PX4j8HJ4btFWDdWepXftBY=@emersion.fr>
+ <CABjik9dViqkQYixtfhZ+bNJjGWPcF=xCg4ptU3OjYeW-Xy42+g@mail.gmail.com>
+In-Reply-To: <CABjik9dViqkQYixtfhZ+bNJjGWPcF=xCg4ptU3OjYeW-Xy42+g@mail.gmail.com>
 From: James Park <james.park@lagfreegames.com>
-Date: Wed, 3 Feb 2021 20:24:16 -0800
-Message-ID: <CABjik9dViqkQYixtfhZ+bNJjGWPcF=xCg4ptU3OjYeW-Xy42+g@mail.gmail.com>
+Date: Wed, 3 Feb 2021 20:25:33 -0800
+Message-ID: <CABjik9eKuJSevHfEqVPERUQ2tJEpubNoUB+_L+nP0rfOs+gSZQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
 To: Simon Ser <contact@emersion.fr>
 X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:37 +0000
@@ -81,34 +82,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apologies for anything I've said so far that has been harsh. I'd like
-this discussion to be civil.
+On Wed, Feb 3, 2021 at 8:24 PM James Park <james.park@lagfreegames.com> wrote:
+>
+> Apologies for anything I've said so far that has been harsh. I'd like
+> this discussion to be civil.
+>
+> I'm not sure if Simon is still on board with a patch given his thumbs
+> up to Erik's comment on the Mesa merge request (which I responded to),
+> but I would also like to know why adding another header file is
+> problematic. I would prefer to keep the definitions deduplicated and
+> make the code robust even for edge cases unless there's a good reason
+> not to. Avoiding an extra file doesn't seem like a good enough reason
+> to me, but I also don't have to maintain codebases that rely on these
+> headers, so maybe there's something I'm overlooking.
+>
+> Thanks,
+> James
+>
+> On Wed, Feb 3, 2021 at 6:21 AM Simon Ser <contact@emersion.fr> wrote:
+> >
+> > On Wednesday, February 3rd, 2021 at 3:13 PM, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> >
+> > > As said before, there are multiple ways to handle this without
+> > > introducing yet another UAPI header. I don't see why you're dismissing
+> > > all of them, can you elaborate?
+> >
+> > Because I hate it when I have to adjust my compiler flags because of
+> > some third-party header.
+> >
+> > Can you explain what were the past issues with introducing a new
+> > header?
 
-I'm not sure if Simon is still on board with a patch given his thumbs
-up to Erik's comment on the Mesa merge request (which I responded to),
-but I would also like to know why adding another header file is
-problematic. I would prefer to keep the definitions deduplicated and
-make the code robust even for edge cases unless there's a good reason
-not to. Avoiding an extra file doesn't seem like a good enough reason
-to me, but I also don't have to maintain codebases that rely on these
-headers, so maybe there's something I'm overlooking.
-
-Thanks,
-James
-
-On Wed, Feb 3, 2021 at 6:21 AM Simon Ser <contact@emersion.fr> wrote:
->
-> On Wednesday, February 3rd, 2021 at 3:13 PM, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> > As said before, there are multiple ways to handle this without
-> > introducing yet another UAPI header. I don't see why you're dismissing
-> > all of them, can you elaborate?
->
-> Because I hate it when I have to adjust my compiler flags because of
-> some third-party header.
->
-> Can you explain what were the past issues with introducing a new
-> header?
+And sorry for top-posting. Gmail habits.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
