@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CA530EE61
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:32:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9B130EE60
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 09:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECE56ECBA;
-	Thu,  4 Feb 2021 08:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270C06ECAE;
+	Thu,  4 Feb 2021 08:32:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 673B66EC4B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Feb 2021 23:42:37 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id o7so872088pgl.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 15:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=yHURpLyu/TquLwx0y6eDJwaaKqJ+uw0cFvyf4JRgnoA=;
- b=Xbu8iTy1ZRPuaYXRVmxobKDV5EKGQvnequV/L0RekgYt4FzgK9lp0xnGDN73+uQyoI
- ytcu36a54c33UIBrX2kuE3aKpL+gwWCeMAsiadVMATEvvyhykfzqXLIj75BPw6+eCBgM
- +vD8KVcdswPshqB4gWnt5M3kUDKl0LXXsgLx8=
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF6196EC70
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 04:24:28 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id f14so2804073ejc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 20:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Al8SNosUJJy2q95b1kX9zoiZgIH2lETAvW2U/Jj2nVM=;
+ b=YbcuZrtTodQa4O+vvrUegP48WT8MRYaxm+jaFzz2NJnWVXznr7/zP0e4MWU5RG45dh
+ L2zx5EtwReqkwW2KKmkQ1GRhUbdN+zDCL7bB7V3V3WCPcUwB91g/JEq9EfLCOS4myplf
+ L5E75puCIOiy7n3BD5ZbokONhaCeGJI59345KqtHvxviinwqrBplj0EuQX7/0vXRJfiO
+ lVPFsLulZEwyQ+4TkJEj8USJvpXMVxOP8XwpkWdxwD/jzCZLfBj9JiRxpf2/Y1zp2eBd
+ EJ9uAMg76GWaiIYrbV+X1z9j2XmuP4W38Xq6GrbDFHID0LTa+xm0FBXig/Ueu1DHemHW
+ JzHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=yHURpLyu/TquLwx0y6eDJwaaKqJ+uw0cFvyf4JRgnoA=;
- b=YZfx8RXpPO2/ZKjrP6lcdEKp7zSeiaeJszfkKFkE7p+d0vRu9/7tDUwQ6SZr2PTNX2
- /1CIc9xUVzSWFriCGiKScTX0CGmr4Fy7fJzDf3M5QUhGsgCdMhVJz1/FM02AvdeuF71h
- 0714KPyCY60E7L3YgqjwE4850nFk4lNdU69aOVYnBjNovKnl8h9GTecqiPwXrfN8L9kK
- 0KPfXNaHybBxyLs+9xkBCEYlDzSyV3Q8th8Gl+DfU3iep8ui1/9bAlC1m95YPbdxkifu
- foQ0//R2Owy4y6xa2pUg9SfEHx4gtY/uk9RMHCZpM3228YLVu3URrOk5G4JCIqOPh+7e
- IC1Q==
-X-Gm-Message-State: AOAM532ZtJFXeuf/cyRtkPeUzQzMSoDxDfPiKwjY8EUILPr3SUmS3z98
- KqBukRdrp3hrphh6FVepHLWrGg==
-X-Google-Smtp-Source: ABdhPJwhsJh7E/fIDVP54k0kiykGJypLBRTzhIYCPpD8yyPHqosMKVlqghMEgmQEviD79/BVAuLORQ==
-X-Received: by 2002:a63:454e:: with SMTP id u14mr5968407pgk.113.1612395757069; 
- Wed, 03 Feb 2021 15:42:37 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:59f3:e03b:c082:48d])
- by smtp.gmail.com with ESMTPSA id r189sm4026820pgr.10.2021.02.03.15.42.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 15:42:36 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Al8SNosUJJy2q95b1kX9zoiZgIH2lETAvW2U/Jj2nVM=;
+ b=UOx2KIGPMQVW7W1QY831nvLOniBjYvtYlhw1ma5pKMWSlCYfbrj4vS8TVKoTVqjMGn
+ aLqJvXVRLb3j2FFl9+eEHnn75JBexPs+QUSrlfBqrp5UR/qU6+A8F+hPNbvdwfPHrVQL
+ 94ayCqc/edBDFSwNgvZhEKyl6Kr4gfA2L5HvgJxypd/aNTP5TzomCp2I29O9l9C1Pm8K
+ UkkQbygAkVCA/DeHTawY6dgjNKkizfdtrSJN7YbrfujrR7NvLCSQueBUIj7shEBRE6zu
+ h6KQzQpO8gGOOpBDGHj86S33H7kuLgXaHfprXwpExuPP/OgrcfJKcVMNnPG+OWWTTZuH
+ mmfw==
+X-Gm-Message-State: AOAM532zu2UbJM8OjzgBs3C516o3f0Y4AnGP9/0dYgQiwu8JHfU0TFyO
+ IMLkIRvicsaHvnNg41y5GIHbmI7lhM1sY8D6xciCZQ==
+X-Google-Smtp-Source: ABdhPJwGHmIaiBWtn1VCfqx3Bs3DkxI2GzFNhMqo6XV6BizGpwZz5LzdNgygeHih5pvvKUjoghdv05dd2occT/qY9xg=
+X-Received: by 2002:a17:906:f854:: with SMTP id
+ ks20mr4927986ejb.50.1612412667199; 
+ Wed, 03 Feb 2021 20:24:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210129094416.53601-1-vulab@iscas.ac.cn>
-References: <20210129094416.53601-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] drm/msm/dp/dp_ctrl: Remove unneeded semicolon
-From: Stephen Boyd <swboyd@chromium.org>
-To: Xu Wang <vulab@iscas.ac.cn>, airlied@linux.ie, chandanu@codeaurora.org,
- daniel@ffwll.ch, khsieh@codeaurora.org, lee.jones@linaro.org,
- robdclark@gmail.com, sean@poorly.run, tanmay@codeaurora.org
-Date: Wed, 03 Feb 2021 15:42:34 -0800
-Message-ID: <161239575441.76967.11776777354164899550@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+References: <20210202224704.2794318-1-emil.l.velikov@gmail.com>
+ <CABjik9dde-HCWBsfwxjD+jTKaoy-YxDeSObmH7X5rSzNHoA_qA@mail.gmail.com>
+ <CACvgo53wJ2XrLRBy4ysOBfU5TFo7nBwDS_CyrPkB1rotJXW5Nw@mail.gmail.com>
+ <KZZVYm0Qza351oOJ53ZX0pUcEa6NRh2sJJiq5OR2IjRlmJsdCZXRusR3ZuiiL5dqUgpR_STva8ySdYIJAUnSHVkU5HnNLzC68pNSEcuYdcA=@emersion.fr>
+ <1eXnpBNSePW1qsq6q5BR3IEa6Q4DGeWBmJ23QArM9eGt12sN9W2Mhpk2OkUwZj-fhRjAtf9XNne5vxJ-7_JjPl549Ml3wxwMo0hhKsojL_4=@emersion.fr>
+ <CACvgo53_f83NFhCkzDx5ydE+H0KdEYKx6Mgdk+-z1hZE8piM7Q@mail.gmail.com>
+ <_L67Dl3bTZirFqSulhWUeN215npWnjsPyUzg7Rb-2iffHxMbZ1-H6ex7R14gdkDqZfpRw9xLoiol8m5WtPKuJxiBN_FcnailoQHvW02qNI0=@emersion.fr>
+ <CACvgo51PDiXPQ=gfChZw2LQmg=NmvshTqw5F3HgkV_9vGYs=5w@mail.gmail.com>
+ <N0eVw6YLfc6v63pbpbmd1GPURTahNkBdrWWuwvJNYtXTryToehQecES5PSEqhZvm9yDhH6VLVw4wnSj1Ba3JXINtwZ6tWQXAgokAP32oIA0=@emersion.fr>
+ <CACvgo51nJLrcuAAH=RGxCY9Cf-ZGvgPqzdrKj8ODuhbL+eTWjw@mail.gmail.com>
+ <3YZGYeCokyp-fEABJS4acHkPKfFBiHtsL3lM8fRBI-ma8q--4afeisOnhmHURa5iF8AVHpUdw2E7fKCe5bug9PX4j8HJ4btFWDdWepXftBY=@emersion.fr>
+In-Reply-To: <3YZGYeCokyp-fEABJS4acHkPKfFBiHtsL3lM8fRBI-ma8q--4afeisOnhmHURa5iF8AVHpUdw2E7fKCe5bug9PX4j8HJ4btFWDdWepXftBY=@emersion.fr>
+From: James Park <james.park@lagfreegames.com>
+Date: Wed, 3 Feb 2021 20:24:16 -0800
+Message-ID: <CABjik9dViqkQYixtfhZ+bNJjGWPcF=xCg4ptU3OjYeW-Xy42+g@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
+To: Simon Ser <contact@emersion.fr>
 X-Mailman-Approved-At: Thu, 04 Feb 2021 08:32:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,21 +73,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Xu Wang (2021-01-29 01:44:16)
-> fix semicolon.cocci warnings:
-> drivers/gpu/drm/msm/dp/dp_ctrl.c:1161:2-3: Unneeded semicolon
-> 
-> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
-> ---
+Apologies for anything I've said so far that has been harsh. I'd like
+this discussion to be civil.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+I'm not sure if Simon is still on board with a patch given his thumbs
+up to Erik's comment on the Mesa merge request (which I responded to),
+but I would also like to know why adding another header file is
+problematic. I would prefer to keep the definitions deduplicated and
+make the code robust even for edge cases unless there's a good reason
+not to. Avoiding an extra file doesn't seem like a good enough reason
+to me, but I also don't have to maintain codebases that rely on these
+headers, so maybe there's something I'm overlooking.
+
+Thanks,
+James
+
+On Wed, Feb 3, 2021 at 6:21 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Wednesday, February 3rd, 2021 at 3:13 PM, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> > As said before, there are multiple ways to handle this without
+> > introducing yet another UAPI header. I don't see why you're dismissing
+> > all of them, can you elaborate?
+>
+> Because I hate it when I have to adjust my compiler flags because of
+> some third-party header.
+>
+> Can you explain what were the past issues with introducing a new
+> header?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
