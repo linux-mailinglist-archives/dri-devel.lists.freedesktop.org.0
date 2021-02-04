@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCE230F428
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 14:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E5530F4BA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 15:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B106E072;
-	Thu,  4 Feb 2021 13:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DED6D6ED85;
+	Thu,  4 Feb 2021 14:18:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2010B6E072
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 13:50:50 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id q3so766489oog.4
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 05:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DB61A9zwN5JbCrUSGbgi+YlUmk0sna7FAWRcwbAA10U=;
- b=Kc79uhb28akxRTbMPg+WMOWTfxyPp+QPmP3EeRomf34bYMT5ODsR8AsyupITlQm4+L
- PEWVUSR0Er1doMe+MFNZjGfIUNqvUlJAZ4oWw241tYp5mz00j+VGFHoc1E0FIZxgQjms
- GHkmJNhT409VDAZfclr2zMK7w+tKY01FNJHtiFggtZRKRfbLVI+1+T7dH1793imXNgOY
- StBE38MN2hTazGjwXjfbzvIwi1ZCY1F/Tzw435eBkmLSpg5tSbUh4xRNQO+482p+wgAM
- npQjxw3bGiyE4mMSWVBD92DhDGu3ZsS1yYighLlT9Ivqbg9roBdxhLrh3aloQo1qVUSo
- rRfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DB61A9zwN5JbCrUSGbgi+YlUmk0sna7FAWRcwbAA10U=;
- b=b5Ghpf1DdiKkl4xQf+m73Iwbp0nfJlDlbejsdBzlqOOrxS2osVl0b4+fRDwzSxMuAc
- AaOn7IlC59ivfR8H3A8vlcN+7c3tlpRzWMy8DXZ3gY45x0laMOYCV1B5HMk5PwZ4BdUb
- VqRT8RdXIOgrOkixF5T86OWCXwbyRlF/DeZX6rS7vTAKL4ImHlYEENsa0Q6+SRsSgegw
- nnEzgMQ96yLI8/ucoJOK9IvcxWHP4eWUOfa/sgpIm2tF5jN8RT4E47nwAvzE8/Mdz6Yd
- RZs7m8nPRGjqYxRwMCAthYsQayY/PIGLFUpuf1AtsSK7KHgDmzjUZJnr2c2jpMCIAuLc
- BtBg==
-X-Gm-Message-State: AOAM5332ealwQFHqjNr+i2rXhJ7GGAZCDYqIP4chXyz/4PSd6Suk6Yb5
- QdThXX0k5p3mT2WxVoE5is0Y+cAyNVFE5F4Vilg=
-X-Google-Smtp-Source: ABdhPJxEHe9Sc2AQbmCn9y/ZhPaAoIay1/acK2RNsdQigvHF+i5RVELNW8SRus+VIX0Pl/ihPyre4o8LqCyN0zHQb/M=
-X-Received: by 2002:a4a:de94:: with SMTP id v20mr5642639oou.90.1612446649498; 
- Thu, 04 Feb 2021 05:50:49 -0800 (PST)
+X-Greylist: delayed 1420 seconds by postgrey-1.36 at gabe;
+ Thu, 04 Feb 2021 14:18:04 UTC
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774816ED85
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 14:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=Wd62viddt+iw8X6Ld4I3X5EG1RRTcCilLHqUFE853sI=; 
+ b=LFCseJJQP/UUqXtSVTwIsLQ/WuIewIiAnGpFhS8SXQMvy5EBNMVDu14uSobCR0zFydS1wqNaIa25T44SSCmOemZGj5wjYLhqk6qYvXRRtC4UTyIUOq7zcf5FCqJOe1QTcVq7ne1vg7ssw367rUjF167wt7M/3VA8Iho5ie6NDXCN7t1d2kafsYZXCPxcKmtpymG5wFNt8X0Tcxun1pr8sutUEHd1zk3DwZW+whadW1b7AI0W7XcorpKZP9xQ7Pke1nzSHyTRpk1FvNNVUSUVVzfkriVK4qPRySQ7gp82yS4tBJ/897oX4W5xy5e8lHZVPa2Wci/A9q/5+FMUE8dPMw==;
+Received: from 91.34.165.83.dynamic.reverse-mundo-r.com ([83.165.34.91]
+ helo=[192.168.50.10]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1l7f5Q-0003Gj-Me; Thu, 04 Feb 2021 14:54:20 +0100
+Subject: Re: [PATCH 1/3] drm/v3d: Don't resubmit guilty CSD jobs
+To: Yukimasa Sugizaki <ysugi@idein.jp>, dri-devel@lists.freedesktop.org
+References: <20200903164821.2879-1-i.can.speak.c.and.basic@gmail.com>
+ <20200903164821.2879-2-i.can.speak.c.and.basic@gmail.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Message-ID: <c934402e-efe7-8e7a-0182-5ffd2d05a4e8@igalia.com>
+Date: Thu, 4 Feb 2021 14:54:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
- <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
-In-Reply-To: <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 4 Feb 2021 08:50:38 -0500
-Message-ID: <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-To: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20200903164821.2879-2-i.can.speak.c.and.basic@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +47,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: David Airlie <airlied@linux.ie>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 4, 2021 at 2:48 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 12/15/20 1:27 PM, Jianxin Xiong wrote:
-> > This patch series adds dma-buf importer role to the RDMA driver in
-> > attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
-> > chosen for a few reasons: first, the API is relatively simple and allows
-> > a lot of flexibility in implementing the buffer manipulation ops.
-> > Second, it doesn't require page structure. Third, dma-buf is already
-> > supported in many GPU drivers. However, we are aware that existing GPU
-> > drivers don't allow pinning device memory via the dma-buf interface.
-> > Pinning would simply cause the backing storage to migrate to system RAM.
-> > True peer-to-peer access is only possible using dynamic attach, which
-> > requires on-demand paging support from the NIC to work. For this reason,
-> > this series only works with ODP capable NICs.
->
-> Hi,
->
-> Looking ahead to after this patchset is merged...
->
-> Are there design thoughts out there, about the future of pinning to vidmem,
-> for this? It would allow a huge group of older GPUs and NICs and such to
-> do p2p with this approach, and it seems like a natural next step, right?
+I've tested the patch and confirmed that applies correctly over drm-next.
 
-The argument is that vram is a scarce resource, but I don't know if
-that is really the case these days.  At this point, we often have as
-much vram as system ram if not more.
+I've also confirmed that the timeout happens with the described test 
+case by the developer.
 
-Alex
+https://github.com/raspberrypi/linux/pull/3816#issuecomment-682251862
+
+Considering this is my first review of a patch in v3d kernel side I 
+think this patch is fine.
+
+Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+
+On 3/9/20 18:48, Yukimasa Sugizaki wrote:
+> From: Yukimasa Sugizaki <ysugi@idein.jp>
+>
+> The previous code misses a check for the timeout error set by
+> drm_sched_resubmit_jobs(), which results in an infinite GPU reset loop
+> if once a timeout occurs:
+>
+> [  178.799106] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* Resetting GPU for hang.
+> [  178.807836] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* V3D_ERR_STAT: 0x00001000
+> [  179.839132] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* Resetting GPU for hang.
+> [  179.847865] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* V3D_ERR_STAT: 0x00001000
+> [  180.879146] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* Resetting GPU for hang.
+> [  180.887925] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* V3D_ERR_STAT: 0x00001000
+> [  181.919188] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* Resetting GPU for hang.
+> [  181.928002] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* V3D_ERR_STAT: 0x00001000
+> ...
+>
+> This commit adds the check for timeout as in v3d_{bin,render}_job_run():
+>
+> [   66.408962] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* Resetting GPU for hang.
+> [   66.417734] v3d fec00000.v3d: [drm:v3d_reset [v3d]] *ERROR* V3D_ERR_STAT: 0x00001000
+> [   66.428296] [drm] Skipping CSD job resubmission due to previous error (-125)
+>
+> , where -125 is -ECANCELED, though users currently have no way other
+> than inspecting the dmesg to check if the timeout has occurred.
+>
+> Signed-off-by: Yukimasa Sugizaki <ysugi@idein.jp>
+> ---
+>   drivers/gpu/drm/v3d/v3d_sched.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index 0747614a78f0..001216f22017 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -226,6 +226,17 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+>   	struct dma_fence *fence;
+>   	int i;
+>
+> +	/* This error is set to -ECANCELED by drm_sched_resubmit_jobs() if this
+> +	 * job timed out more than sched_job->sched->hang_limit times.
+> +	 */
+> +	int error = sched_job->s_fence->finished.error;
+> +
+> +	if (unlikely(error < 0)) {
+> +		DRM_WARN("Skipping CSD job resubmission due to previous error (%d)\n",
+> +			 error);
+> +		return ERR_PTR(error);
+> +	}
+> +
+>   	v3d->csd_job = job;
+>
+>   	v3d_invalidate_caches(v3d);
+> --
+> 2.7.4
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
