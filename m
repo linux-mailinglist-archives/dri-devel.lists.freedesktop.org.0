@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6CD30FCDC
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D2030FCDE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E7B6E9A8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F626EE34;
 	Thu,  4 Feb 2021 19:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 170576E116
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:15:56 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id bl23so7026209ejb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 10:15:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=sHPNpNqRTc3lgTTnJatrn/4jH2bI7C52VyBZqixyw2g=;
- b=gaN16r/UUj+zzbzPB11XW7ssMApTMkYDt3TmgYzvAeTZiRDxNHC0Oja+qS2df1AKKN
- Q690eEXFKXP3i3xfnkfddvO0fP7a0GlHaHfe0ulN9NPhKyc66AJ2/YrpGoo2SDnjaZZ8
- ew2VrJO7jdThs9mHsz16Ps4nmQRXhkyhIOts4rXol1CLRHITrd6SwbodDY9fOu8Qsr9O
- GYQk3KRh12tzFvwr1s3CPIH/TRTyLR96aG6Dw5Y9Ob4orjSSLEgQVP5yhW6Zktouw8PN
- 34jMMF8VwCPzMye13PCbMbDL/0j3pbKW9rYJdVu2nEfRkDJ/L+nLuURXbAzNFk/oHTfW
- b7vQ==
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD016E104
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:17:46 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id i5so5360851edu.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 10:17:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KKftp13XvAi48Eq3Vr8fDGcXnI9gPzqzJmwQ7Qw95tQ=;
+ b=hCT40DBmgljW7bClGXlFLBqO/VmCBam3uHnGMuchAjhNyvAxLu1OFUlFrL5cuzDf5p
+ S2VTtpSZe8IeCPtpQZjtJi7tgD6PX4zThoPexkGu8u14zQRDb1kneX1uQ3zTncsEfz3f
+ GPYmhQ2/KhabkevaIG5Ithn2uI1q7SIMYLys92kD3b51Iv7AEXqccWaiIq3NOhx43Gdu
+ 0kTO4uZn4yr74QKgxUzKspLsvG5o0RnZO8TvukByKWAMn9vPvkOEII1HlfX3uUd8Zyww
+ g5stzP8RCD+7xlzz4JZdMNNU0KDr0Tc/iZINX3cfGXZCkww9rKpQZ/XlddJitTLrvPlD
+ XG7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=sHPNpNqRTc3lgTTnJatrn/4jH2bI7C52VyBZqixyw2g=;
- b=q3UNndo2ICWKY80otIwPQ7PdaedlV/rfw7xrBPFd2KhuQ802mGfbiWetzDFCQn/Fr0
- fNHqZ9qqIiRAl1GvHM6F+t6xfdcLCNnOjIEpy85Lt91cVUWuP2qDiwkw56m39vWB4oN4
- G2+4Hi2vZAArWwWRw8eyHKoppWbUXYGRo7x3YAwj55WQ5NxY70P4nRpWO4luXpDLwu/E
- vIjnLB49jeMgqw5aIFEVcqZUIhv7jyAdNDQtPieMrUXuGZrZFhsCEp/UfZDtQqWlmLAZ
- yEb8ZegNZ0na35Zd7tyh3W5SLSAcJq+kWmXV362yboniSXq7yAIMkSpQL3Irru8yN6P1
- 5mrA==
-X-Gm-Message-State: AOAM530CYFg7+uO6TkPPBQRHsZ9coxTPLQnswy5BRqTvXaF0/PwlpgTA
- 84UxSHFeYgldBTzKAkd+gwM=
-X-Google-Smtp-Source: ABdhPJzt+oRbAoMs96bM72e8WIvvfb7+n4R3t18vC8R15kZ6WcsGDXWfZjToNyYr4maLekp/7eY1Qw==
-X-Received: by 2002:a17:906:e15:: with SMTP id
- l21mr366735eji.376.1612462554565; 
- Thu, 04 Feb 2021 10:15:54 -0800 (PST)
-Received: from localhost
- (ipv6-163808adb974b8b7.ost.clients.hamburg.freifunk.net.
- [2a03:2267:4:0:1638:8ad:b974:b8b7])
- by smtp.gmail.com with ESMTPSA id f6sm2881926edk.13.2021.02.04.10.15.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 Feb 2021 10:15:53 -0800 (PST)
-Date: Thu, 4 Feb 2021 19:15:41 +0100
-From: Oliver Graute <oliver.graute@gmail.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v3] drm/panel: simple: add SGD GKTW70SDAD1SD
-Message-ID: <20210204181541.GA13054@portage>
-References: <1612287314-5384-1-git-send-email-oliver.graute@gmail.com>
- <20210202175910.ycnf7ehk2i4u3f5o@pengutronix.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KKftp13XvAi48Eq3Vr8fDGcXnI9gPzqzJmwQ7Qw95tQ=;
+ b=W8ZJrrIM9GqAejLdKPpcXWzk5O2EOLOxDGBn7HYg5lkQSn1G/qqH1JgNIay2r97QVt
+ E3mVK+92RUUw8ghVnPLtbEYZdkXm3xuA74hDi53DfDkHN5spGn/JdJEipU2lp5ZfHaw+
+ NW+/3Me4olG5bXQ5sGdVbcBhCHq5xietYjzy6N5Vb2MCsfH1Lx6FrToXOJ72ALIEs1zQ
+ f9YQOH5xQWYqgXyskjhNv7KmW+uAAyzzftYZr/7sa7eZtUNGoANQrX3h4y2jaUafGjnu
+ RZa/VXaqGMwrG916+wXkMGN5XIuRYmKtI2mI1l8VTEnwHu56Rhi6e1yZMnQbIYXZ0DMd
+ GG/g==
+X-Gm-Message-State: AOAM532G+aTSRQ5aPuHpMLqZlJ1pph8mt9jjMk7MyEGUCj4oR4wMdnO7
+ /j69rh8+iWl/CTFj2FRobxCjt6eC0/qAXDv2m4Qw2w==
+X-Google-Smtp-Source: ABdhPJy1IEuTYWr0iYBOMD/uEQgvtbBVrv469qYoaEkSdo+xjvLNK9MBAMUlNFhWniiCAel8s5Vz5JXY2NP43TdvBkk=
+X-Received: by 2002:aa7:cc98:: with SMTP id p24mr272148edt.126.1612462665057; 
+ Thu, 04 Feb 2021 10:17:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210202175910.ycnf7ehk2i4u3f5o@pengutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20210204113742.1814456-1-emil.l.velikov@gmail.com>
+ <CABjik9cHYArtsTgYvcGbH_AOEcdVWpX-pTrHMq4uv7ct4_NSKQ@mail.gmail.com>
+In-Reply-To: <CABjik9cHYArtsTgYvcGbH_AOEcdVWpX-pTrHMq4uv7ct4_NSKQ@mail.gmail.com>
+From: James Park <james.park@lagfreegames.com>
+Date: Thu, 4 Feb 2021 10:17:33 -0800
+Message-ID: <CABjik9dnH0dQ2Am-nfPUstF8Uv7dSixcCZ7pN7yLWNQ4QgTaAg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-Mailman-Approved-At: Thu, 04 Feb 2021 19:34:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,42 +63,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/02/21, Marco Felsch wrote:
-> Hi Oliver,
-> 
-> On 21-02-02 18:35, Oliver Graute wrote:
-> > Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
-> > to panel-simple.
-> > 
-> > The panel spec from Variscite can be found at:
-> > https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
-> > 
-> > Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
-> > Cc: Marco Felsch <m.felsch@pengutronix.de>
-> > Cc: Fabio Estevam <festevam@gmail.com>
+On Thu, Feb 4, 2021 at 9:37 AM James Park <james.park@lagfreegames.com> wrote:
+>
+> On Thu, Feb 4, 2021 at 3:37 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> >
+> > Currently, the drm_fourcc.h header depends on drm.h for __u32 and __u64.
+> > At the same time drm.h pulls a lot of unneeded symbols.
+> >
+> > Add new guard DRM_FOURCC_STANDALONE, which when set will use local
+> > declaration of said symbols.
+> >
+> > When used on linux - we pull linux/types.h which is used either way.
+> > On other platforms, BSDs et al, we need a couple of typedefs.
+> >
+> > Since those can trigger a warning in some corner-cases*, add some GCC
+> > magic to silence them. Note that incorrect type redefinitions will still
+> > be flagged, and the GCC pragma is ignored by other compilers.
+> >
+> > *Corner-case:
+> > If one sets DRM_FOURCC_STANDALONE and compiles with C99 or earlier while
+> > also using -pedantic _and_ the header lives outside of the standard
+> > /usr/include (like BSDs normally do).
+> >
+> > v2:
+> >  - Add corner-case handling, based on popular demand.
+> >
+> > Cc: James Park <james.park@lagfreegames.com>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 > > ---
-> > 
-> > v3:
-> > 
-> > - added flags
-> > - added delay
-> 
-> Thanks, did you test the changes?
-> I just picked it from the datasheet.
+> >  include/uapi/drm/drm.h        | 10 ++++++++++
+> >  include/uapi/drm/drm_fourcc.h | 29 +++++++++++++++++++++++++++++
+> >  2 files changed, 39 insertions(+)
+> >
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 808b48a93330..cd78950e05ce 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -53,6 +53,15 @@ typedef unsigned int drm_handle_t;
+> >  #include <stdint.h>
+> >  #include <sys/ioccom.h>
+> >  #include <sys/types.h>
+> > +
+> > +/*
+> > + * When using C99 -pedantic the typedefs will trigger a warning.
+> > + * If the header is considered a system one (-isystem) those will be
+> > + * ignored, yet on the target platforms BSDs, et al - the headers live
+> > + * in a non-system location.
+> > + */
+> > +#pragma GCC diagnostic push
+> > +#pragma GCC diagnostic ignored "-Wpedantic"
+> >  typedef int8_t   __s8;
+> >  typedef uint8_t  __u8;
+> >  typedef int16_t  __s16;
+> > @@ -63,6 +72,7 @@ typedef int64_t  __s64;
+> >  typedef uint64_t __u64;
+> >  typedef size_t   __kernel_size_t;
+> >  typedef unsigned long drm_handle_t;
+> > +#pragma GCC diagnostic pop
+> >
+> >  #endif
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index 6f0628eb13a6..84a1f96cc4ef 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -24,7 +24,36 @@
+> >  #ifndef DRM_FOURCC_H
+> >  #define DRM_FOURCC_H
+> >
+> > +/*
+> > + * Define DRM_FOURCC_STANDALONE you're interested only FOURCC and do not want
+> > + * to pull drm.h into your application.
+> > + */
+> > +#ifdef DRM_FOURCC_STANDALONE
+> > +#if defined(__linux__)
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +#else /* One of the BSDs */
+> > +
+> > +#include <stdint.h>
+> > +
+> > +/*
+> > + * When using C99 -pedantic the typedefs will trigger a warning.
+> > + * If the header is considered a system one (-isystem) those will be
+> > + * ignored, yet on the target platforms BSDs, et al - the headers live
+> > + * in a non-system location.
+> > + */
+> > +#pragma GCC diagnostic push
+> > +#pragma GCC diagnostic ignored "-Wpedantic"
+> > +typedef uint32_t __u32;
+> > +typedef uint64_t __u64;
+> > +#pragma GCC diagnostic pop
+> > +
+> > +#endif /* __linux __ */
+> > +
+> > +#else
+> >  #include "drm.h"
+> > +#endif /* DRM_FOURCC_STANDALONE */
+> >
+> >  #if defined(__cplusplus)
+> >  extern "C" {
+> > --
+> > 2.30.0
+> >
+>
+> I remember reading GCC diagnostic push/pop requires a recent enough
+> compiler version to be supported, which is pretty old, but I don't
+> know how old is old enough for Linux headers:
+> https://github.com/protocolbuffers/protobuf/issues/4156
+>
+> Testing snippets in godbolt, I think the pragmas need to be wrapped. MSVC says:
+>
+> warning C4068: unknown pragma 'GCC'
+>
+> Also, Clang seems to want -Wtypedef-redefinition, not -Wpedantic. GCC
+> complains it doesn't know what -Wtypedef-redefinition is, so that
+> would also need to be wrapped.
 
-yes, it didn't break anything. 
+If we're already conceding copy/paste, then how about inlining my
+previous header?
 
-Best regards,
+#ifndef DRM_BASIC_TYPES_DEFINED
+#define DRM_BASIC_TYPES_DEFINED
+// Sync modifications between drm.h and drm_fourcc.h
+...
+#endif
 
-Oliver
+No compiler games. Valid on all flavors of C (I think).
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
