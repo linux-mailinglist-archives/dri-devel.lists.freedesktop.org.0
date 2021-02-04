@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEA730EA1C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 03:23:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD4730EA7C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 03:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBA76EC6A;
-	Thu,  4 Feb 2021 02:23:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229A06EC69;
+	Thu,  4 Feb 2021 02:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 744046EC67;
- Thu,  4 Feb 2021 02:23:25 +0000 (UTC)
-IronPort-SDR: cvG+C6Dc4ljkPGeNQhPTuHi7bas0C3o5bP/mBtFT33/nuXLrLBOW318u+FI4R23HPY3CcNF2Q1
- UCsZidmt6Zjw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="168838379"
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="168838379"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 18:23:19 -0800
-IronPort-SDR: I5L7JiA1/4mnuXvq+OYr/SLAeoTIT6G+9UEo3mB9Byt001+vatOWy0vV2BCYWSPm0qzBYABx4c
- zQLk4lwJJDpA==
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="372724889"
-Received: from brianwel-mobl1.amr.corp.intel.com (HELO [10.213.190.63])
- ([10.213.190.63])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 18:23:18 -0800
-Subject: Re: [RFC PATCH 7/9] drmcg: Add initial support for tracking gpu time
- usage
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Eero Tamminen <eero.t.tamminen@intel.com>,
- Kenny Ho <Kenny.Ho@amd.com>, Tejun Heo <tj@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, cgroups@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20210126214626.16260-1-brian.welty@intel.com>
- <20210126214626.16260-8-brian.welty@intel.com>
- <161235875541.15744.14541970842808007912@jlahtine-mobl.ger.corp.intel.com>
-From: Brian Welty <brian.welty@intel.com>
-Message-ID: <90e4b657-d5d6-e985-4cda-628c74dbac30@intel.com>
-Date: Wed, 3 Feb 2021 18:23:17 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF1D6EC69
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 02:56:22 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id r22so2212400edo.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 18:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XpW3Ky1drUwlFecwfnx3HP9HFWTcK7Ckd6mLp1ho73A=;
+ b=YHVIVvQEFcABsDPIiTMD07s6HiyI15ikbyENtqZhgNr0sPUCXiiqHgpUHv3TpL3iEL
+ MHKE716pZtDiXAsXg/m4vKQKub4LWpi/uSqLhh7/UGmu/c9xAtZhx8r32U1l0Nb8Juws
+ XGkwNzHrnzLkeIs/kBssHKsMKnaunuNhzaxu1oyYZFAwJP5uU9lhwAI/xRUuDYwErtzj
+ ygBGcrGaGF8pvwY35XGy5ZQyCCLAkG0WotlrtXvLQP/BGo3SnBZbaa3rMl05Pd6RQsAZ
+ PhdULfNxaD722kiUwq3j4qekN59LmNMHR/vqgjIN1qEkg50R+zbRTGKB+O51yhLeTmqm
+ VJbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XpW3Ky1drUwlFecwfnx3HP9HFWTcK7Ckd6mLp1ho73A=;
+ b=ivP2dddgVwK8lhSSX3uAdBixaq+GKYWOMtVI8LASdazslYUAQYo9PpcFFMsMlOo2sb
+ A/zdzCP7tjkh1QHGD2JUZVDv0XoUyHVDyAEFQyV7LyBV7yqt9vwTkquwtvEIfWjfr+Lx
+ aBpRVjPBTDeZhw/UMbGgB0o1VmiV8VSz63QlpcU8l+f7C1UxCej5zXki9cWGZxVxXNEi
+ ibDE5p6ZOiZZWo+3D7fQGcIL32f4mWXFLKiTpciMriYD9b2GcK+KrBtG03iIAmHh83P2
+ 33/IhKssPECl5JyubBUa6hEnXevSwGuBEUYH6ssI3KrSbcnH7CIFKCDT+8VRfmHqJ7Oa
+ mBUA==
+X-Gm-Message-State: AOAM530QRfsCIBXwiici8b4I9o2tpNhpEQhifKfM8+OpS3lISUxkKVV+
+ HOemkraEY5yTOP3Z1KuExSgZH2Ce/qn2JCZKUSQ=
+X-Google-Smtp-Source: ABdhPJxyj/o7XR1+NjtDC/kW1Sa34CUe1xCFo6gBQ+8JL8CYUznTU3dazdYrsKyUpQhTrE6JMjCmz3HKkleHwfQY/xI=
+X-Received: by 2002:aa7:d649:: with SMTP id v9mr6056996edr.383.1612407381187; 
+ Wed, 03 Feb 2021 18:56:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <161235875541.15744.14541970842808007912@jlahtine-mobl.ger.corp.intel.com>
-Content-Language: en-US
+References: <20210203232247.30902-1-chunkuang.hu@kernel.org>
+In-Reply-To: <20210203232247.30902-1-chunkuang.hu@kernel.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 4 Feb 2021 12:56:09 +1000
+Message-ID: <CAPM=9tyx82qNF7EDSfq0u6dHJRKjdsYU1RBROM29sS8vc5tNPw@mail.gmail.com>
+Subject: Re: [GIT PULL] mediatek drm next for 5.12
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,172 +60,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 4 Feb 2021 at 09:22, Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
+>
+> Hi, Dave & Daniel:
+>
+> This includes:
+>
+> 1. Decouple Mediatek DRM sub driver
+> 2. Share mtk mutex driver for both DRM and MDP
+> 3. Add support for SoC MT8183
 
-On 2/3/2021 5:25 AM, Joonas Lahtinen wrote:
-> Quoting Brian Welty (2021-01-26 23:46:24)
->> Single control below is added to DRM cgroup controller in order to track
->> user execution time for GPU devices.  It is up to device drivers to
->> charge execution time to the cgroup via drm_cgroup_try_charge().
->>
->>   sched.runtime
->>       Read-only value, displays current user execution time for each DRM
->>       device. The expectation is that this is incremented by DRM device
->>       driver's scheduler upon user context completion or context switch.
->>       Units of time are in microseconds for consistency with cpu.stats.
-> 
-> Were not we also planning for a percentage style budgeting?
+Hi Chun-Kuang,
 
-Yes, that's right.  Above is to report accumlated time usage.
-I can include controls for time sharing in next submission.
-But not using percentage.
-Relative time share can be implemented with weights as described in cgroups
-documentation for resource distribution models.
-This was also the prior feedback from Tejun [1], and so will look very much
-like the existing cpu.weight or io.weight.
 
-> 
-> Capping the maximum runtime is definitely useful, but in order to
-> configure a system for peaceful co-existence of two or more workloads we
-> must also impose a limit on how big portion of the instantaneous
-> capacity can be used.
+dim: e83421b9acad ("drm/mediatek: Fix aal size config"): Subject in
+fixes line doesn't match referenced commit:
+dim:     0664d1392c26 (drm/mediatek: Add AAL engine basic function)
+dim: de945f3098af ("drm/mediatek: Check if fb is null"): Subject in
+fixes line doesn't match referenced commit:
+dim:     b6b1bb980ec4 ( drm/mediatek: Turn off Alpha bit when plane
+format has no alpha)
 
-Agreed.  This is also included with CPU and IO controls (cpu.max and io.max),
-so we should also plan to have the same.
+Can you fix the Fixes tags, it should have sha1 ("commit") they are
+missing the quotations.
 
--Brian
+Thanks,
+Dave.
 
-[1]  https://lists.freedesktop.org/archives/dri-devel/2020-April/262141.html
-
-> 
-> Regards, Joonas
-> 
->> Signed-off-by: Brian Welty <brian.welty@intel.com>
->> ---
->>  Documentation/admin-guide/cgroup-v2.rst |  9 +++++++++
->>  include/drm/drm_cgroup.h                |  2 ++
->>  include/linux/cgroup_drm.h              |  2 ++
->>  kernel/cgroup/drm.c                     | 20 ++++++++++++++++++++
->>  4 files changed, 33 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->> index ccc25f03a898..f1d0f333a49e 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -2205,6 +2205,15 @@ thresholds are hit, this would then allow the DRM device driver to invoke
->>  some equivalent to OOM-killer or forced memory eviction for the device
->>  backed memory in order to attempt to free additional space.
->>  
->> +The below set of control files are for time accounting of DRM devices. Units
->> +of time are in microseconds.
->> +
->> +  sched.runtime
->> +        Read-only value, displays current user execution time for each DRM
->> +        device. The expectation is that this is incremented by DRM device
->> +        driver's scheduler upon user context completion or context switch.
->> +
->> +
->>  Misc
->>  ----
->>  
->> diff --git a/include/drm/drm_cgroup.h b/include/drm/drm_cgroup.h
->> index 9ba0e372eeee..315dab8a93b8 100644
->> --- a/include/drm/drm_cgroup.h
->> +++ b/include/drm/drm_cgroup.h
->> @@ -22,6 +22,7 @@ enum drmcg_res_type {
->>         DRMCG_TYPE_MEM_CURRENT,
->>         DRMCG_TYPE_MEM_MAX,
->>         DRMCG_TYPE_MEM_TOTAL,
->> +       DRMCG_TYPE_SCHED_RUNTIME,
->>         __DRMCG_TYPE_LAST,
->>  };
->>  
->> @@ -79,5 +80,6 @@ void drm_cgroup_uncharge(struct drmcg *drmcg,struct drm_device *dev,
->>                          enum drmcg_res_type type, u64 usage)
->>  {
->>  }
->> +
->>  #endif /* CONFIG_CGROUP_DRM */
->>  #endif /* __DRM_CGROUP_H__ */
->> diff --git a/include/linux/cgroup_drm.h b/include/linux/cgroup_drm.h
->> index 3570636473cf..0fafa663321e 100644
->> --- a/include/linux/cgroup_drm.h
->> +++ b/include/linux/cgroup_drm.h
->> @@ -19,6 +19,8 @@
->>   */
->>  struct drmcg_device_resource {
->>         struct page_counter memory;
->> +       seqlock_t sched_lock;
->> +       u64 exec_runtime;
->>  };
->>  
->>  /**
->> diff --git a/kernel/cgroup/drm.c b/kernel/cgroup/drm.c
->> index 08e75eb67593..64e9d0dbe8c8 100644
->> --- a/kernel/cgroup/drm.c
->> +++ b/kernel/cgroup/drm.c
->> @@ -81,6 +81,7 @@ static inline int init_drmcg_single(struct drmcg *drmcg, struct drm_device *dev)
->>         /* set defaults here */
->>         page_counter_init(&ddr->memory,
->>                           parent_ddr ? &parent_ddr->memory : NULL);
->> +       seqlock_init(&ddr->sched_lock);
->>         drmcg->dev_resources[minor] = ddr;
->>  
->>         return 0;
->> @@ -287,6 +288,10 @@ static int drmcg_seq_show_fn(int id, void *ptr, void *data)
->>                 seq_printf(sf, "%d:%d %llu\n", DRM_MAJOR, minor->index,
->>                            minor->dev->drmcg_props.memory_total);
->>                 break;
->> +       case DRMCG_TYPE_SCHED_RUNTIME:
->> +               seq_printf(sf, "%d:%d %llu\n", DRM_MAJOR, minor->index,
->> +                          ktime_to_us(ddr->exec_runtime));
->> +               break;
->>         default:
->>                 seq_printf(sf, "%d:%d\n", DRM_MAJOR, minor->index);
->>                 break;
->> @@ -384,6 +389,12 @@ struct cftype files[] = {
->>                 .private = DRMCG_TYPE_MEM_TOTAL,
->>                 .flags = CFTYPE_ONLY_ON_ROOT,
->>         },
->> +       {
->> +               .name = "sched.runtime",
->> +               .seq_show = drmcg_seq_show,
->> +               .private = DRMCG_TYPE_SCHED_RUNTIME,
->> +               .flags = CFTYPE_NOT_ON_ROOT,
->> +       },
->>         { }     /* terminate */
->>  };
->>  
->> @@ -440,6 +451,10 @@ EXPORT_SYMBOL(drmcg_device_early_init);
->>   * choose to enact some form of memory reclaim, but the exact behavior is left
->>   * to the DRM device driver to define.
->>   *
->> + * For @res type of DRMCG_TYPE_SCHED_RUNTIME:
->> + * For GPU time accounting, add @usage amount of GPU time to @drmcg for
->> + * the given device.
->> + *
->>   * Returns 0 on success.  Otherwise, an error code is returned.
->>   */
->>  int drm_cgroup_try_charge(struct drmcg *drmcg, struct drm_device *dev,
->> @@ -466,6 +481,11 @@ int drm_cgroup_try_charge(struct drmcg *drmcg, struct drm_device *dev,
->>                         err = 0;
->>                 }
->>                 break;
->> +       case DRMCG_TYPE_SCHED_RUNTIME:
->> +               write_seqlock(&res->sched_lock);
->> +               res->exec_runtime = ktime_add(res->exec_runtime, usage);
->> +               write_sequnlock(&res->sched_lock);
->> +               break;
->>         default:
->>                 err = -EINVAL;
->>                 break;
->> -- 
->> 2.20.1
->>
+>
+> Regards,
+> Chun-Kuang.
+>
+> The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
+>
+>   Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+>
+> are available in the Git repository at:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-5.12
+>
+> for you to fetch changes up to f289eb1db7d7e6132c3ecf5049435ace2967b0fc:
+>
+>   drm/mediatek: Add matrix_bits private data for ccorr (2021-02-03 23:54:07 +0800)
+>
+> ----------------------------------------------------------------
+> Mediatek DRM Next for Linux 5.12
+>
+> 1. Decouple Mediatek DRM sub driver
+> 2. Share mtk mutex driver for both DRM and MDP
+> 3. Add support for SoC MT8183
+>
+> ----------------------------------------------------------------
+> CK Hu (15):
+>       drm/mediatek: Separate getting larb device to a function
+>       drm/mediatek: Move clk info from struct mtk_ddp_comp to sub driver private data
+>       drm/mediatek: Move regs info from struct mtk_ddp_comp to sub driver private data
+>       drm/mediatek: Remove irq in struct mtk_ddp_comp
+>       drm/mediatek: Use struct cmdq_client_reg to gather cmdq variable
+>       drm/mediatek: Move cmdq_reg info from struct mtk_ddp_comp to sub driver private data
+>       drm/mediatek: Change sub driver interface from mtk_ddp_comp to device
+>       drm/mediatek: Register vblank callback function
+>       drm/mediatek: DRM driver directly refer to sub driver's function
+>       drm/mediatek: Move mtk_ddp_comp_init() from sub driver to DRM driver
+>       drm/mediatek: Remove redundant file including
+>       drm/mediatek: Rename file mtk_drm_ddp to mtk_mutex
+>       drm/mediatek: Change disp/ddp term to mutex in mtk mutex driver
+>       drm/mediatek: Automatically search unclaimed mtk mutex in mtk_mutex_get()
+>       soc / drm: mediatek: Move mtk mutex driver to soc folder
+>
+> Chun-Kuang Hu (2):
+>       drm/mediatek: Get CMDQ client register for all ddp component
+>       drm/mediatek: Use correct device pointer to get CMDQ client register
+>
+> Hsin-Yi Wang (2):
+>       drm/mediatek: mtk_dpi: Create connector for bridges
+>       drm/mediatek: Add mtk_dither_set_common() function
+>
+> Jitao Shi (1):
+>       drm/mediatek: dsi: Use IRQF_TRIGGER_NONE for dsi irq trigger type
+>
+> Yongqiang Niu (15):
+>       dt-bindings: mediatek: add description for mt8183 display
+>       dt-bindings: mediatek: add description for mt8192 display
+>       drm/mediatek: Check if fb is null
+>       dt-bindings: mediatek: add rdma-fifo-size description for mt8183 display
+>       dt-bindings: mediatek: add description for postmask
+>       drm/mediatek: Fix aal size config
+>       drm/mediatek: Add fifo_size into rdma private data
+>       drm/mediatek: Separate gamma module
+>       drm/mediatek: Add has_dither private data for gamma
+>       drm/mediatek: Add support for SoC MT8183
+>       drm/mediatek: Enable OVL_LAYER_SMI_ID_EN for multi-layer usecase
+>       drm/mediatek: Enable dither function
+>       drm/mediatek: Separate ccorr module
+>       drm/mediatek: Fix ccorr size config
+>       drm/mediatek: Add matrix_bits private data for ccorr
+>
+>  .../bindings/display/mediatek/mediatek,disp.txt    |  12 +-
+>  drivers/gpu/drm/mediatek/Makefile                  |   5 +-
+>  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          | 223 +++++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_color.c          |  89 ++--
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  92 ++++
+>  drivers/gpu/drm/mediatek/mtk_disp_gamma.c          | 197 ++++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c            | 254 ++++++-----
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c           | 194 ++++----
+>  drivers/gpu/drm/mediatek/mtk_dpi.c                 |  57 +--
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c            | 107 ++---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.h            |   1 -
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h             |  28 --
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        | 503 ++++++++++-----------
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        | 100 ++--
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  88 ++--
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   5 +-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                 |  50 +-
+>  drivers/soc/mediatek/Makefile                      |   1 +
+>  .../mtk_drm_ddp.c => soc/mediatek/mtk-mutex.c}     | 328 +++++++-------
+>  include/linux/soc/mediatek/mtk-mutex.h             |  26 ++
+>  20 files changed, 1446 insertions(+), 914 deletions(-)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_drv.h
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>  delete mode 100644 drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>  rename drivers/{gpu/drm/mediatek/mtk_drm_ddp.c => soc/mediatek/mtk-mutex.c} (53%)
+>  create mode 100644 include/linux/soc/mediatek/mtk-mutex.h
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
