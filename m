@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28CE30FA4F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 18:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C752D30FAAE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 19:09:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239DB6EE03;
-	Thu,  4 Feb 2021 17:54:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFE3A6E0FE;
+	Thu,  4 Feb 2021 18:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB126EE03
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 17:54:54 +0000 (UTC)
-IronPort-SDR: 9xahFuZ2cx5BaY9m+2l0AbDqb/pNQ4txf++NHjqp8L8uGGsZPvRP1oc0FYTIQBH/Mmk05YVeGQ
- TUZOfAGh1Z3Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="177791176"
-X-IronPort-AV: E=Sophos;i="5.81,152,1610438400"; d="scan'208";a="177791176"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 09:54:52 -0800
-IronPort-SDR: 9dWjNYUlkm2cwvjBQko5dtunNIAei+xm9FbnC3lKbjjU2JFudKVrbRgTTrlxG4xCMpvlM8NiB3
- 20/vC4uGCdMA==
-X-IronPort-AV: E=Sophos;i="5.81,152,1610438400"; d="scan'208";a="393297016"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 09:54:51 -0800
-Date: Thu, 4 Feb 2021 19:54:47 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: dri-devel@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH 2/4] drm/dp_mst: Don't cache EDIDs for physical ports
-Message-ID: <20210204175447.GA750296@ideak-desk.fi.intel.com>
-References: <20210201120145.350258-1-imre.deak@intel.com>
- <20210201120145.350258-2-imre.deak@intel.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCA86E0FE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=gEfrtJjtevauOh4kGj1zouaNa6iJM1AkRZTq4eMscK0=; 
+ b=ekkFlSi0o00/aNU4qh64GPhl0127ZYeT6kGEmQ6ZCsaePj+MsMmO/SSH161vKbiGC8D/pBTZrrFlIk7RZxFTZ77OkKi9FFHRkrYK9I1Bq/l3FsZqii79TKVx9h1nzWacxsW2y/IuvfQBC0Dm6e7Lv1wp7tmaW3sM+R7mbuZ4MZIkWucCEa0YfOqwL2GIKg0jZexPxYr3n9EDKsBt7gM8uAV2devgMgpJZhcjYsTBxGfg+sGlXEDxua/0WPbN6P/GM8wd32m49NAei1KyB2af5hAdhFoa8/wDjWFwY9SZCHuhAcNKD6Z/L0hAnWbhThAt0iHWTnJMR90iE91ZNdGzpA==;
+Received: from 91.34.165.83.dynamic.reverse-mundo-r.com ([83.165.34.91]
+ helo=[192.168.50.10]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1l7j4P-0004av-Rx; Thu, 04 Feb 2021 19:09:33 +0100
+Subject: Re: [PATCH 3/3] drm/v3d: Add job timeout module param
+To: Yukimasa Sugizaki <ysugi@idein.jp>, dri-devel@lists.freedesktop.org
+References: <20200903164821.2879-1-i.can.speak.c.and.basic@gmail.com>
+ <20200903164821.2879-4-i.can.speak.c.and.basic@gmail.com>
+From: Chema Casanova <jmcasanova@igalia.com>
+Message-ID: <0f552124-ebcf-2f7c-6aa2-9ad84f838717@igalia.com>
+Date: Thu, 4 Feb 2021 19:09:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210201120145.350258-2-imre.deak@intel.com>
+In-Reply-To: <20200903164821.2879-4-i.can.speak.c.and.basic@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,50 +45,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 01, 2021 at 02:01:43PM +0200, Imre Deak wrote:
-> Caching EDIDs for physical ports prevents updating the EDID if a port
-> gets reconnected via a Connection Status Notification message, fix this.
-> 
-> Fixes: db1a07956968 ("drm/dp_mst: Handle SST-only branch device case")
-> Cc: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-
-Pushed patches 2-4 to drm-misc-next, thanks for the review.
-
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index deb7995f42fa..309afe61afdd 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -2302,7 +2302,8 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
->  	}
->  
->  	if (port->pdt != DP_PEER_DEVICE_NONE &&
-> -	    drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
-> +	    drm_dp_mst_is_end_device(port->pdt, port->mcs) &&
-> +	    port->port_num >= DP_MST_LOGICAL_PORT_0) {
->  		port->cached_edid = drm_get_edid(port->connector,
->  						 &port->aux.ddc);
->  		drm_connector_set_tile_property(port->connector);
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMy85LzIwIDE4OjQ4LCBZdWtpbWFzYSBTdWdpemFraSB3cm90ZToKPiBGcm9tOiBZdWtpbWFz
+YSBTdWdpemFraSA8eXN1Z2lAaWRlaW4uanA+Cj4KPiBUaGUgZGVmYXVsdCB0aW1lb3V0IGlzIDUw
+MCBtcyB3aGljaCBpcyB0b28gc2hvcnQgZm9yIHNvbWUgd29ya2xvYWRzCj4gaW5jbHVkaW5nIFBp
+Z2xpdC4gIEFkZGluZyB0aGlzIHBhcmFtZXRlciB3aWxsIGhlbHAgdXNlcnMgdG8gcnVuIGhlYXZp
+ZXIKPiB0YXNrcy4KPgo+IFNpZ25lZC1vZmYtYnk6IFl1a2ltYXNhIFN1Z2l6YWtpIDx5c3VnaUBp
+ZGVpbi5qcD4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMgfCAyNCAr
+KysrKysrKysrKysrLS0tLS0tLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25z
+KCspLCAxMSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdjNk
+L3YzZF9zY2hlZC5jIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+IGluZGV4IGZl
+ZWYwYzc0OWU2OC4uOTgzZWZiMDE4NTYwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92
+M2QvdjNkX3NjaGVkLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5jCj4g
+QEAgLTE5LDExICsxOSwxNyBAQAo+ICAgICovCj4KPiAgICNpbmNsdWRlIDxsaW51eC9rdGhyZWFk
+Lmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGVwYXJhbS5oPgo+Cj4gICAjaW5jbHVkZSAidjNk
+X2Rydi5oIgo+ICAgI2luY2x1ZGUgInYzZF9yZWdzLmgiCj4gICAjaW5jbHVkZSAidjNkX3RyYWNl
+LmgiCj4KPiArc3RhdGljIHVpbnQgdGltZW91dCA9IDUwMDsKPiArbW9kdWxlX3BhcmFtKHRpbWVv
+dXQsIHVpbnQsIDA0NDQpOwo+ICtNT0RVTEVfUEFSTV9ERVNDKHRpbWVvdXQsCj4gKwkiVGltZW91
+dCBmb3IgYSBqb2IgaW4gbXMgKDAgbWVhbnMgaW5maW5pdHkgYW5kIGRlZmF1bHQgaXMgNTAwIG1z
+KSIpOwo+ICsKCkkgdGhpbmsgdGhhdMKgIHBhcmFtZXRlciBkZWZpbml0aW9uIGNvdWxkIGJlIGlu
+Y2x1ZGVkIGF0IHYzZF9kcnYuYyBhcyAKb3RoZXIgZHJpdmVycyBkby4gVGhlbiB3ZSB3b3VsZCBo
+YXZlIGFsbCBmdXR1cmUgcGFyYW1ldGVycyB0b2dldGhlci4gSW4gCnRoYXQgY2FzZSB3ZSB3b3Vs
+ZCBuZWVkIGFsc28gdG8gaW5jbHVkZSB0aGUgZXh0ZXJuIGRlZmluaXRpb24gYXQgCnYzZF9kcnYu
+aCBmb3IgdGhlIGRyaXZlciB2YXJpYWJsZS4KClRoZSBwYXJhbSBuYW1lIGNvdWxkIGJlIG1vcmUg
+ZGVzY3JpcHRpdmUgbGlrZSAic2NoZWRfdGltZW91dF9tcyIgaW4gdGhlIApsaW1hIGRyaXZlci4K
+Ckkgd29uZGVyIGlmIGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8gaGF2ZSBkaWZmZXJlbnQgdGltZW91
+dHMgcGFyYW1ldGVycyAKZm9yIGRpZmZlcmVudCB0eXBlIG9mIGpvYnMgd2UgaGF2ZS4gQXQgbGVh
+c3QgdGhpcyBzZXJpZXMgY29tZSBmcm9tIHRoZSAKbmVlZCBhZGRpdGlvbmFsIHRpbWUgdG8gY29t
+cGxldGUgY29tcHV0ZSBqb2JzLiBUaGlzIGlzIHdoYXQgYW1kZ3B1IGRvZXMsIApidXQgd2UgcHJv
+YmFibHkgZG9uJ3QgbmVlZCBzb21ldGhpbmcgc3VjaCBjb21wbGV4LgoKSSB0aGluayBpdCB3b3Vs
+ZCBhbHNvIG1ha2Ugc2Vuc2UgdG8gaW5jcmVhc2Ugb3VyIGRlZmF1bHQgdmFsdWUgZm9yIHRoZSAK
+Y29tcHV0ZSBqb2JzLgoKV2hhdCBkbyB5b3UgdGhpbms/CgpJbiBhbnkgY2FzZSBJIHRoaW5rIHRo
+YXQgaGF2aW5nIHRoaXMgZ2VuZXJhbCBzY2hlZHVsaW5nIHRpbWVvdXQgCnBhcmFtZXRlciBhcyBv
+dGhlciBkcml2ZXJzIGRvIGlzIGEgZ29vZCBpZGVhLgoKUmVnYXJkcywKCkNoZW1hIENhc2Fub3Zh
+Cgo+ICAgc3RhdGljIHN0cnVjdCB2M2Rfam9iICoKPiAgIHRvX3YzZF9qb2Ioc3RydWN0IGRybV9z
+Y2hlZF9qb2IgKnNjaGVkX2pvYikKPiAgIHsKPiBAQCAtNDMyLDEzICs0MzgsMTMgQEAgdjNkX3Nj
+aGVkX2luaXQoc3RydWN0IHYzZF9kZXYgKnYzZCkKPiAgIHsKPiAgIAlpbnQgaHdfam9ic19saW1p
+dCA9IDE7Cj4gICAJaW50IGpvYl9oYW5nX2xpbWl0ID0gMDsKPiAtCWludCBoYW5nX2xpbWl0X21z
+ID0gNTAwOwo+ICsJbG9uZyB0aW1lb3V0X2ppZmZpZXMgPSB0aW1lb3V0ID8KPiArCQkJbXNlY3Nf
+dG9famlmZmllcyh0aW1lb3V0KSA6IE1BWF9TQ0hFRFVMRV9USU1FT1VUOwo+ICAgCWludCByZXQ7
+Cj4KPiAgIAlyZXQgPSBkcm1fc2NoZWRfaW5pdCgmdjNkLT5xdWV1ZVtWM0RfQklOXS5zY2hlZCwK
+PiAgIAkJCSAgICAgJnYzZF9iaW5fc2NoZWRfb3BzLAo+IC0JCQkgICAgIGh3X2pvYnNfbGltaXQs
+IGpvYl9oYW5nX2xpbWl0LAo+IC0JCQkgICAgIG1zZWNzX3RvX2ppZmZpZXMoaGFuZ19saW1pdF9t
+cyksCj4gKwkJCSAgICAgaHdfam9ic19saW1pdCwgam9iX2hhbmdfbGltaXQsIHRpbWVvdXRfamlm
+ZmllcywKPiAgIAkJCSAgICAgInYzZF9iaW4iKTsKPiAgIAlpZiAocmV0KSB7Cj4gICAJCWRldl9l
+cnIodjNkLT5kcm0uZGV2LCAiRmFpbGVkIHRvIGNyZWF0ZSBiaW4gc2NoZWR1bGVyOiAlZC4iLCBy
+ZXQpOwo+IEBAIC00NDcsOCArNDUzLDcgQEAgdjNkX3NjaGVkX2luaXQoc3RydWN0IHYzZF9kZXYg
+KnYzZCkKPgo+ICAgCXJldCA9IGRybV9zY2hlZF9pbml0KCZ2M2QtPnF1ZXVlW1YzRF9SRU5ERVJd
+LnNjaGVkLAo+ICAgCQkJICAgICAmdjNkX3JlbmRlcl9zY2hlZF9vcHMsCj4gLQkJCSAgICAgaHdf
+am9ic19saW1pdCwgam9iX2hhbmdfbGltaXQsCj4gLQkJCSAgICAgbXNlY3NfdG9famlmZmllcyho
+YW5nX2xpbWl0X21zKSwKPiArCQkJICAgICBod19qb2JzX2xpbWl0LCBqb2JfaGFuZ19saW1pdCwg
+dGltZW91dF9qaWZmaWVzLAo+ICAgCQkJICAgICAidjNkX3JlbmRlciIpOwo+ICAgCWlmIChyZXQp
+IHsKPiAgIAkJZGV2X2Vycih2M2QtPmRybS5kZXYsICJGYWlsZWQgdG8gY3JlYXRlIHJlbmRlciBz
+Y2hlZHVsZXI6ICVkLiIsCj4gQEAgLTQ1OSw4ICs0NjQsNyBAQCB2M2Rfc2NoZWRfaW5pdChzdHJ1
+Y3QgdjNkX2RldiAqdjNkKQo+Cj4gICAJcmV0ID0gZHJtX3NjaGVkX2luaXQoJnYzZC0+cXVldWVb
+VjNEX1RGVV0uc2NoZWQsCj4gICAJCQkgICAgICZ2M2RfdGZ1X3NjaGVkX29wcywKPiAtCQkJICAg
+ICBod19qb2JzX2xpbWl0LCBqb2JfaGFuZ19saW1pdCwKPiAtCQkJICAgICBtc2Vjc190b19qaWZm
+aWVzKGhhbmdfbGltaXRfbXMpLAo+ICsJCQkgICAgIGh3X2pvYnNfbGltaXQsIGpvYl9oYW5nX2xp
+bWl0LCB0aW1lb3V0X2ppZmZpZXMsCj4gICAJCQkgICAgICJ2M2RfdGZ1Iik7Cj4gICAJaWYgKHJl
+dCkgewo+ICAgCQlkZXZfZXJyKHYzZC0+ZHJtLmRldiwgIkZhaWxlZCB0byBjcmVhdGUgVEZVIHNj
+aGVkdWxlcjogJWQuIiwKPiBAQCAtNDcyLDggKzQ3Niw3IEBAIHYzZF9zY2hlZF9pbml0KHN0cnVj
+dCB2M2RfZGV2ICp2M2QpCj4gICAJaWYgKHYzZF9oYXNfY3NkKHYzZCkpIHsKPiAgIAkJcmV0ID0g
+ZHJtX3NjaGVkX2luaXQoJnYzZC0+cXVldWVbVjNEX0NTRF0uc2NoZWQsCj4gICAJCQkJICAgICAm
+djNkX2NzZF9zY2hlZF9vcHMsCj4gLQkJCQkgICAgIGh3X2pvYnNfbGltaXQsIGpvYl9oYW5nX2xp
+bWl0LAo+IC0JCQkJICAgICBtc2Vjc190b19qaWZmaWVzKGhhbmdfbGltaXRfbXMpLAo+ICsJCQkJ
+ICAgICBod19qb2JzX2xpbWl0LCBqb2JfaGFuZ19saW1pdCwgdGltZW91dF9qaWZmaWVzLAo+ICAg
+CQkJCSAgICAgInYzZF9jc2QiKTsKPiAgIAkJaWYgKHJldCkgewo+ICAgCQkJZGV2X2Vycih2M2Qt
+PmRybS5kZXYsICJGYWlsZWQgdG8gY3JlYXRlIENTRCBzY2hlZHVsZXI6ICVkLiIsCj4gQEAgLTQ4
+NCw4ICs0ODcsNyBAQCB2M2Rfc2NoZWRfaW5pdChzdHJ1Y3QgdjNkX2RldiAqdjNkKQo+Cj4gICAJ
+CXJldCA9IGRybV9zY2hlZF9pbml0KCZ2M2QtPnF1ZXVlW1YzRF9DQUNIRV9DTEVBTl0uc2NoZWQs
+Cj4gICAJCQkJICAgICAmdjNkX2NhY2hlX2NsZWFuX3NjaGVkX29wcywKPiAtCQkJCSAgICAgaHdf
+am9ic19saW1pdCwgam9iX2hhbmdfbGltaXQsCj4gLQkJCQkgICAgIG1zZWNzX3RvX2ppZmZpZXMo
+aGFuZ19saW1pdF9tcyksCj4gKwkJCQkgICAgIGh3X2pvYnNfbGltaXQsIGpvYl9oYW5nX2xpbWl0
+LCB0aW1lb3V0X2ppZmZpZXMsCj4gICAJCQkJICAgICAidjNkX2NhY2hlX2NsZWFuIik7Cj4gICAJ
+CWlmIChyZXQpIHsKPiAgIAkJCWRldl9lcnIodjNkLT5kcm0uZGV2LCAiRmFpbGVkIHRvIGNyZWF0
+ZSBDQUNIRV9DTEVBTiBzY2hlZHVsZXI6ICVkLiIsCj4gLS0KPiAyLjcuNAo+Cj4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
