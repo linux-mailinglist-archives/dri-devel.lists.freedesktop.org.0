@@ -2,66 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2701830F727
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 17:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27AE30F77D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 17:18:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D826E0DE;
-	Thu,  4 Feb 2021 16:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A61B6E9CC;
+	Thu,  4 Feb 2021 16:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 626D66E0D2
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 16:05:14 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id m1so3459957wml.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 08:05:14 -0800 (PST)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20BA96E9CC
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 16:18:24 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id 63so3970729oty.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 08:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NterivUG/qtx//L7bgqPuvuks9foKAfqAjL9Imx9KIc=;
- b=giE9x7odncK2lz/V59xuWW8p81Og5r0HUKSCJyraKhO1yF0rc/xMZ68t8aXOUw9aql
- WTqCZoO8dlYLexIDNKMs7caawU7Kg6EV9URcHAYYceWfp8jzloHtQOIJyN6DwGBCnYY2
- x0bZjqR+MHx8oMNkw0IyJAEGeZq0QI06Ve6nk=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8lBqeXR6rTdMQBt1HulQWvi6I6HuqFc6RWLlh/bExKw=;
+ b=FjZg/h+SS1h6XlFs3sCfuln/gScKn79rXM70KWTUsJYNNzVoUrkV7pnxSbOMva+bLM
+ ciSlmM5qzcx9gi/fTUVb9yOzQl01dsSwdf6jne3G26RZP6ZpYuQDQd5SHbSBPBEM7N/R
+ yqoTOq6Cahe3Adzm9D1eLEv7ugCPUf4sf3MF0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NterivUG/qtx//L7bgqPuvuks9foKAfqAjL9Imx9KIc=;
- b=t3ay5i8GTOTogdYOSPNqUHOKvZr57LU8fQO0l1zF/qiLBuNPrpSMPqq81a0/4FO/1Z
- R4xFmHppoydeYlEPA2mbFKESHNJX4Pgyh8HYSxjG/BBSOsdZ4fL2F2th8UdGIaU4m04u
- 9zeBTvKvT/oXBKiNnb9q8oVPukaKSqmqOf2MCePTC0mSC2zj3l3jMvlG3p6lSKVUjj/J
- HOCmPSkHANMrFiWgYUn5jEQI1NzUMScdY95yaCs0xBWtCRJ63jRVNycyRHYgzfie4CpC
- gKV9Z/wl3GK2sBT5B1JoBIeYFH95QpRUg2FBbTrGHmIjCa8ydN9cvWs0GvIU23aDqVxJ
- Ks9A==
-X-Gm-Message-State: AOAM5329mkW08lBFdaVwqtb3NxJQrR+7PEUBX7E7tSiOtkN8BVeNGVTC
- hNDjNf7W/1cOYizZg3v6ATeeUg==
-X-Google-Smtp-Source: ABdhPJxAIIuBLjS9jqussdtygeqBOW6Hmj+Quy1am3Juppt6pBdl49ju0VOoVnKH/s8fjJKgfNQ/xg==
-X-Received: by 2002:a05:600c:154c:: with SMTP id
- f12mr235610wmg.40.1612454712860; 
- Thu, 04 Feb 2021 08:05:12 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r11sm6708280wmh.9.2021.02.04.08.05.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 08:05:11 -0800 (PST)
-Date: Thu, 4 Feb 2021 17:05:09 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Subject: Re: [PATCH v2 10/16] drm/exynos: implement a drm bridge
-Message-ID: <YBwbNeoMhTE7fIOb@phenom.ffwll.local>
-References: <20200911135413.3654800-11-m.tretter@pengutronix.de>
- <381a553a-5bc6-d070-fc40-7d48fdb89ca9@samsung.com>
- <650db263-df3f-17fa-0298-62cd821b5274@samsung.com>
- <20200914200145.GA8098@pengutronix.de>
- <a5e5e6d5-95a2-1f5a-94a2-27ec3d12e781@samsung.com>
- <2d7f0e5e-070c-971e-1e4f-47a60f00d934@samsung.com>
- <20210201163314.GB26987@pengutronix.de>
- <20210203203148.GA29287@pengutronix.de>
- <CAKMK7uGO+hUBzR5H0yZdaKg_fNsv7d=tKVZNwozdvG=9GA2FBQ@mail.gmail.com>
- <20210204105632.GB29287@pengutronix.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8lBqeXR6rTdMQBt1HulQWvi6I6HuqFc6RWLlh/bExKw=;
+ b=oI/BESQ4ZJuHFWborI3XXs3p7OKB/KgADOpHOQybH/RrPYAly+0HqxWQ5/aOTEflFy
+ qZRsHfEXvkFMgsiKvGKXMBgaRZYcMM1Eb9n8RLj/Zvbuhto7CcfCoYQmjWx1BGhGl6HU
+ ORM4HMA0hdyIKXqGnInk1hwyyd9KCEtGkM+3hL78oRz05MuuZvBTtyLCUjGG3hMjwgnc
+ W2F+K37fKMDsowRiXwzBD/XdVYB6aik0J1VbmkXSQ2Nf0oV2IAmJeV8KAZWhaBz9VY7n
+ gM3PgR6lYSyPWHWYtvcuD2i9J1IOIdCKaPFMusm6eTwRHxFHY//lQz9UkRPU+pFwsbJ4
+ OF3A==
+X-Gm-Message-State: AOAM532VSuS7pVoCEE2oz1MkhihX7esDZOx9WJIok5pSZmaJrhaFoiMi
+ dhtW8bPNKbzw2PwrV+Smkep9pI55Gm/rGSbvuaPZ9Q==
+X-Google-Smtp-Source: ABdhPJxW+Kdac9zL/J4GMG4yvxUiyuj33lU/mvm+h/OtrdvsTndxuit7InPE6s5vI6Dy7bsHfQUX+aVK8KuEwpbv2Fc=
+X-Received: by 2002:a9d:2265:: with SMTP id o92mr84355ota.188.1612455503401;
+ Thu, 04 Feb 2021 08:18:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210204105632.GB29287@pengutronix.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <CAM+GfYH16EhimL6pYpgD1jutMoL6Ai2dAWQs=j71GqXbrm9J=A@mail.gmail.com>
+ <YBwQpjdpzHy6ImxQ@phenom.ffwll.local>
+ <CAM+GfYHyMCsGGJ7bMyjX4eGOCaC=euYMxVdUcLherj6v-t227w@mail.gmail.com>
+In-Reply-To: <CAM+GfYHyMCsGGJ7bMyjX4eGOCaC=euYMxVdUcLherj6v-t227w@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 4 Feb 2021 17:18:12 +0100
+Message-ID: <CAKMK7uFkVvwDaqD5uYJ2vDHu7Ooz6zZ8xuGEuKod-f4GqnTGAQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/rockchip: remove atomic helper dirtyfb
+To: Toni Spets <toni.spets@iki.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,354 +59,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, aisheng.dong@nxp.com,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, ch@denx.de,
- Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- dl-linux-imx <linux-imx@nxp.com>, frieder.schrempf@kontron.de,
- abel.vesa@nxp.com, Andrzej Hajda <a.hajda@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, sylvester.nawrocki@gmail.com,
- Marek Szyprowski <m.szyprowski@samsung.com>, aford173@gmail.com,
- Sascha Hauer <kernel@pengutronix.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 04, 2021 at 11:56:32AM +0100, Michael Tretter wrote:
-> On Thu, 04 Feb 2021 11:17:49 +0100, Daniel Vetter wrote:
-> > On Wed, Feb 3, 2021 at 9:32 PM Michael Tretter <m.tretter@pengutronix.de> wrote:
-> > >
-> > > On Mon, 01 Feb 2021 17:33:14 +0100, Michael Tretter wrote:
-> > > > On Tue, 15 Sep 2020 21:40:40 +0200, Andrzej Hajda wrote:
-> > > > > W dniu 14.09.2020 o 23:19, Andrzej Hajda pisze:
-> > > > > > On 14.09.2020 22:01, Michael Tretter wrote:
-> > > > > >> On Mon, 14 Sep 2020 14:31:19 +0200, Marek Szyprowski wrote:
-> > > > > >>> On 14.09.2020 10:29, Marek Szyprowski wrote:
-> > > > > >>>> On 11.09.2020 15:54, Michael Tretter wrote:
-> > > > > >>>>> Make the exynos_dsi driver a full drm bridge that can be found and
-> > > > > >>>>> used
-> > > > > >>>>> from other drivers.
-> > > > > >>>>>
-> > > > > >>>>> Other drivers can only attach to the bridge, if a mipi dsi device
-> > > > > >>>>> already attached to the bridge. This allows to defer the probe of the
-> > > > > >>>>> display pipe until the downstream bridges are available, too.
-> > > > > >>>>>
-> > > > > >>>>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > > > > >>>> This one (and the whole series applied) still fails on Exynos boards:
-> > > > > >>>>
-> > > > > >>>> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping
-> > > > > >>>> operations
-> > > > > >>>> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
-> > > > > >>>> OF: graph: no port node found in /soc/dsi@11c80000
-> > > > > >>>> 8<--- cut here ---
-> > > > > >>>> Unable to handle kernel NULL pointer dereference at virtual address
-> > > > > >>>> 00000084
-> > > > > >>>> pgd = (ptrval)
-> > > > > >>>> [00000084] *pgd=00000000
-> > > > > >>>> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
-> > > > > >>>> Modules linked in:
-> > > > > >>>> CPU: 1 PID: 1 Comm: swapper/0 Not tainted
-> > > > > >>>> 5.9.0-rc4-next-20200911-00010-g417dc70d70ec #1608
-> > > > > >>>> Hardware name: Samsung Exynos (Flattened Device Tree)
-> > > > > >>>> PC is at drm_bridge_attach+0x18/0x164
-> > > > > >>>> LR is at exynos_dsi_bind+0x88/0xa8
-> > > > > >>>> pc : [<c0628c08>]    lr : [<c064d560>]    psr: 20000013
-> > > > > >>>> sp : ef0dfca8  ip : 00000002  fp : c13190e0
-> > > > > >>>> r10: 00000000  r9 : ee46d580  r8 : c13190e0
-> > > > > >>>> r7 : ee438800  r6 : 00000018  r5 : ef253810  r4 : ef39e840
-> > > > > >>>> r3 : 00000000  r2 : 00000018  r1 : ef39e888  r0 : ef39e840
-> > > > > >>>> Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> > > > > >>>> Control: 10c5387d  Table: 4000404a  DAC: 00000051
-> > > > > >>>> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-> > > > > >>>> Stack: (0xef0dfca8 to 0xef0e0000)
-> > > > > >>>> ...
-> > > > > >>>> [<c0628c08>] (drm_bridge_attach) from [<c064d560>]
-> > > > > >>>> (exynos_dsi_bind+0x88/0xa8)
-> > > > > >>>> [<c064d560>] (exynos_dsi_bind) from [<c066a800>]
-> > > > > >>>> (component_bind_all+0xfc/0x290)
-> > > > > >>>> [<c066a800>] (component_bind_all) from [<c0649dc0>]
-> > > > > >>>> (exynos_drm_bind+0xe4/0x19c)
-> > > > > >>>> [<c0649dc0>] (exynos_drm_bind) from [<c066ad74>]
-> > > > > >>>> (try_to_bring_up_master+0x1e4/0x2c4)
-> > > > > >>>> [<c066ad74>] (try_to_bring_up_master) from [<c066b2b4>]
-> > > > > >>>> (component_master_add_with_match+0xd4/0x108)
-> > > > > >>>> [<c066b2b4>] (component_master_add_with_match) from [<c0649ae8>]
-> > > > > >>>> (exynos_drm_platform_probe+0xe4/0x110)
-> > > > > >>>> [<c0649ae8>] (exynos_drm_platform_probe) from [<c0674e6c>]
-> > > > > >>>> (platform_drv_probe+0x6c/0xa4)
-> > > > > >>>> [<c0674e6c>] (platform_drv_probe) from [<c067242c>]
-> > > > > >>>> (really_probe+0x200/0x4fc)
-> > > > > >>>> [<c067242c>] (really_probe) from [<c06728f0>]
-> > > > > >>>> (driver_probe_device+0x78/0x1fc)
-> > > > > >>>> [<c06728f0>] (driver_probe_device) from [<c0672cd8>]
-> > > > > >>>> (device_driver_attach+0x58/0x60)
-> > > > > >>>> [<c0672cd8>] (device_driver_attach) from [<c0672dbc>]
-> > > > > >>>> (__driver_attach+0xdc/0x174)
-> > > > > >>>> [<c0672dbc>] (__driver_attach) from [<c06701b4>]
-> > > > > >>>> (bus_for_each_dev+0x68/0xb4)
-> > > > > >>>> [<c06701b4>] (bus_for_each_dev) from [<c06714e8>]
-> > > > > >>>> (bus_add_driver+0x158/0x214)
-> > > > > >>>> [<c06714e8>] (bus_add_driver) from [<c0673c1c>]
-> > > > > >>>> (driver_register+0x78/0x110)
-> > > > > >>>> [<c0673c1c>] (driver_register) from [<c0649ca8>]
-> > > > > >>>> (exynos_drm_init+0xe4/0x118)
-> > > > > >>>> [<c0649ca8>] (exynos_drm_init) from [<c0102484>]
-> > > > > >>>> (do_one_initcall+0x8c/0x42c)
-> > > > > >>>> [<c0102484>] (do_one_initcall) from [<c11011c0>]
-> > > > > >>>> (kernel_init_freeable+0x190/0x1dc)
-> > > > > >>>> [<c11011c0>] (kernel_init_freeable) from [<c0af7880>]
-> > > > > >>>> (kernel_init+0x8/0x118)
-> > > > > >>>> [<c0af7880>] (kernel_init) from [<c0100114>] (ret_from_fork+0x14/0x20)
-> > > > > >>>> Exception stack(0xef0dffb0 to 0xef0dfff8)
-> > > > > >>>> ...
-> > > > > >>>> ---[ end trace ee27f313f9ed9da1 ]---
-> > > > > >>>>
-> > > > > >>>> # arm-linux-gnueabi-addr2line -e vmlinux c0628c08
-> > > > > >>>> drivers/gpu/drm/drm_bridge.c:184 (discriminator 1)
-> > > > > >>>>
-> > > > > >>>> I will try to debug it a bit more today.
-> > > > > >>> The above crash has been caused by lack of in_bridge initialization to
-> > > > > >>> NULL in exynos_dsi_bind() in this patch. However, fixing it reveals
-> > > > > >>> another issue:
-> > > > > >>>
-> > > > > >>> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
-> > > > > >>> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
-> > > > > >>> OF: graph: no port node found in /soc/dsi@11c80000
-> > > > > >>> 8<--- cut here ---
-> > > > > >>> Unable to handle kernel NULL pointer dereference at virtual address
-> > > > > >>> 00000280
-> > > > > >>> pgd = (ptrval)
-> > > > > >>> [00000280] *pgd=00000000
-> > > > > >>> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
-> > > > > >>> Modules linked in:
-> > > > > >>> CPU: 0 PID: 1 Comm: swapper/0 Not tainted
-> > > > > >>> 5.9.0-rc4-next-20200911-00010-g417dc70d70ec-dirty #1613
-> > > > > >>> Hardware name: Samsung Exynos (Flattened Device Tree)
-> > > > > >>> PC is at __mutex_lock+0x54/0xb18
-> > > > > >>> LR is at lock_is_held_type+0x80/0x138
-> > > > > >>> pc : [<c0afc920>]    lr : [<c0af63e8>]    psr: 60000013
-> > > > > >>> sp : ef0dfd30  ip : 33937b74  fp : c13193c8
-> > > > > >>> r10: c1208eec  r9 : 00000000  r8 : ee45f808
-> > > > > >>> r7 : c19561a4  r6 : 00000000  r5 : 00000000  r4 : 0000024c
-> > > > > >>> r3 : 00000000  r2 : 00204140  r1 : c124f13c  r0 : 00000000
-> > > > > >>> Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> > > > > >>> Control: 10c5387d  Table: 4000404a  DAC: 00000051
-> > > > > >>> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-> > > > > >>> Stack: (0xef0dfd30 to 0xef0e0000)
-> > > > > >>> ...
-> > > > > >>> [<c0afc920>] (__mutex_lock) from [<c0afd400>]
-> > > > > >>> (mutex_lock_nested+0x1c/0x24)
-> > > > > >>> [<c0afd400>] (mutex_lock_nested) from [<c064d4b8>]
-> > > > > >>> (__exynos_dsi_host_attach+0x20/0x6c)
-> > > > > >>> [<c064d4b8>] (__exynos_dsi_host_attach) from [<c064d914>]
-> > > > > >>> (exynos_dsi_host_attach+0x70/0x194)
-> > > > > >>> [<c064d914>] (exynos_dsi_host_attach) from [<c0656b64>]
-> > > > > >>> (s6e8aa0_probe+0x1b0/0x218)
-> > > > > >>> [<c0656b64>] (s6e8aa0_probe) from [<c0672530>]
-> > > > > >>> (really_probe+0x200/0x4fc)
-> > > > > >>> [<c0672530>] (really_probe) from [<c06729f4>]
-> > > > > >>> (driver_probe_device+0x78/0x1fc)
-> > > > > >>> [<c06729f4>] (driver_probe_device) from [<c0672ddc>]
-> > > > > >>> (device_driver_attach+0x58/0x60)
-> > > > > >>> [<c0672ddc>] (device_driver_attach) from [<c0672ec0>]
-> > > > > >>> (__driver_attach+0xdc/0x174)
-> > > > > >>> [<c0672ec0>] (__driver_attach) from [<c06702b8>]
-> > > > > >>> (bus_for_each_dev+0x68/0xb4)
-> > > > > >>> [<c06702b8>] (bus_for_each_dev) from [<c06715ec>]
-> > > > > >>> (bus_add_driver+0x158/0x214)
-> > > > > >>> [<c06715ec>] (bus_add_driver) from [<c0673d20>]
-> > > > > >>> (driver_register+0x78/0x110)
-> > > > > >>> [<c0673d20>] (driver_register) from [<c0102484>]
-> > > > > >>> (do_one_initcall+0x8c/0x42c)
-> > > > > >>> [<c0102484>] (do_one_initcall) from [<c11011c0>]
-> > > > > >>> (kernel_init_freeable+0x190/0x1dc)
-> > > > > >>> [<c11011c0>] (kernel_init_freeable) from [<c0af7988>]
-> > > > > >>> (kernel_init+0x8/0x118)
-> > > > > >>> [<c0af7988>] (kernel_init) from [<c0100114>] (ret_from_fork+0x14/0x20)
-> > > > > >>> Exception stack(0xef0dffb0 to 0xef0dfff8)
-> > > > > >>> ...
-> > > > > >>> ---[ end trace c06e996ec2e8234d ]---
-> > > > > >>>
-> > > > > >>> This means that dsi->encoder.dev is not initialized in
-> > > > > >>> __exynos_dsi_host_attach().
-> > > > > >>>
-> > > > > >>> This happens, because drm_bridge_attach() in exynos_dsi_bind() returned
-> > > > > >>> earlier -517 (deferred probe), what causes cleanup of encoder and
-> > > > > >>> release of all drm resources.
-> > > > > >>>
-> > > > > >>> Then however, the panel tries to register itself and
-> > > > > >>> exynos_dsi_host_attach() tries to access the released encoder (which is
-> > > > > >>> zeroed in drm_encoder_release) and rest of resources, what causes
-> > > > > >>> failure.
-> > > > > >>>
-> > > > > >>> It looks that something is missing. Maybe mipi host has to be
-> > > > > >>> registered
-> > > > > >>> later, when bridge is ready? I have no idea how it is handled before
-> > > > > >>> this patch. Andrzej, could you comment it a bit?
-> > > > > >> I intentionally changed the order, because if another bridge follows
-> > > > > >> in the
-> > > > > >> pipeline, the probe of the drm driver has to be deferred until some
-> > > > > >> bridge
-> > > > > >> provides a connector. The next bridge registers itself via the
-> > > > > >> host_attach
-> > > > > >> function and the deferral is ensured via the bind for the bind/unbind
-> > > > > >> API or
-> > > > > >> the bridge_attach function otherwise.
-> > > > > >>
-> > > > > >> On the other hand, the bridge does not have an encoder until the mipi
-> > > > > >> device
-> > > > > >> has been attached.
-> > > > > >>
-> > > > > >> As a solution, the exynos dsi driver must initialize the encoder in
-> > > > > >> exynos_dsi_probe instead of in exynos_dsi_bind and access the encoder
-> > > > > >> via
-> > > > > >> exynos_dsi instead of the bridge.
-> > > > > >>
-> > > > > >> Can you try to move everything except samsung_dsim_bind from
-> > > > > >> exynos_dsi_bind
-> > > > > >> to exynos_dsi_probe (respectively for unbind) and report if it fixes the
-> > > > > >> crash.
-> > > > > >
-> > > > > >
-> > > > > > The original behaviour is that encoder (exynos_dsi) is registered
-> > > > > > regardless of sink presence (initially panel, later also bridge) - it
-> > > > > > avoids multiple issues with deferred probe, device driver bind/unbind
-> > > > > > and module load/unload. Appearance or disappearance of sink is
-> > > > > > reported to host nicely via DSI attach/detach callbacks - and it is
-> > > > > > reflected in drm world as change state of the connector.
-> > > > > >
-> > > > > > Registering DSI host in bind and unregistering in unbind assures that
-> > > > > > if mipi_dsi device is attached/detached the drm device is always
-> > > > > > present - it makes device/driver binding race free and allows to avoid
-> > > > > > additional locking.
-> > > > > >
-> > > > > > Moving DSI host registration to probe changes everything, for sure it
-> > > > > > breaks the nice feature of DSI attach/detach callbacks and apparently
-> > > > > > can cause different issues depending on device bind order.
-> > > > > >
-> > > > > > I will try to look at the patches tomorrow and maybe I can find more
-> > > > > > constructive comments :)
-> > > > >
-> > > > >
-> > > > > As I said yesterday, exynos_dsi driver uses dsi host attach/detach
-> > > > > callbacks to control appearance/disappearance of downstream device. It
-> > > > > allows to:
-> > > > >
-> > > > > 1. Safely bind/unbind different device drivers at any time and at any
-> > > > > order, without killing exynos_drm and/or crashing system.
-> > > > >
-> > > > > 2. Avoid issues with late drm init - on some platforms exynos_drm device
-> > > > > appeared too late, due to deferred probe, and resulted in black screen
-> > > > > in userspace.
-> > > > >
-> > > > >
-> > > > > Now if we want to convert exynos_dsi to drm_bridge I see following options:
-> > > > >
-> > > > > A. Forgot about callbacks and make the exynos_drm to defer probing until
-> > > > > exynos_dsi bridge is available, probably it will cause later exynos_drm
-> > > > > appearance, thus probably black screen on some targets. So for sure it
-> > > > > will be suboptimal. Making it bridge unbind safe would be another
-> > > > > problem, but most developers do not care about it so why should we? :)
-> > > > >
-> > > > > B. Try to mimic current behaviour - exynos_dsi register bridge ASAP,
-> > > > > even if downstream devices are not yet attached, on attach/detach notify
-> > > > > drm about it via connector status change, for this dsi_host registration
-> > > > > should be performed from drm_bridge attach, I guess.
-> > > > >
-> > > > >
-> > > > > Option A is more standard, but is unsafe and causes other issues.
-> > > > >
-> > > > > Option B keeps current behaviour.
-> > > >
-> > > > Maybe we can have both, but I am not sure, if I am missing something:
-> > > >
-> > > > I still prefer option A for the samsung-dsim driver, because it is more
-> > > > standard, simpler and avoids issues with encoders, connectors or handling
-> > > > hotplug.
-> > > >
-> > > > The idea is to use two bridges in the exynos-dsi driver: One bridge in the
-> > > > samsung-dsim driver which implements option A and defers probing of the drm
-> > > > driver until the next bridge is attached. And a second bridge in the
-> > > > exynos_dsi that attaches to the first bridge (thus, allowing the exynos_drm
-> > > > device to appear) and implements the hotplug handling for notifying drm via
-> > > > connector status change.
-> > > >
-> > > > The driver for the i.MX8M would use the samsung-dsim bridge without an
-> > > > additional bridge.
-> > > >
-> > > > This allows the samsung-dsim driver to expose the standard behavior while the
-> > > > exynos_dsi may stick to the existing behavior for the exynos_drm driver.
-> > > >
-> > > > I hope this makes sense and does not sound too crazy. It might be difficult to
-> > > > get the probing and mipi host/device registration correct, but I will try, if
-> > > > this can work.
-> > >
-> > > Adding two bridges for being able to support hotplugging adds many special
-> > > cases to the bridge driver and still requires more custom API to correctly add
-> > > the second bridge. I don't think that this a viable path to go.
-> > 
-> > Just jumping in here: You cannot hotplug/hotremove anything from a
-> > drm_device after drm_dev_register has been called, except
-> > drm_connector. I didn't dig into details here so not sure whether you
-> > want to late-bind your bridge after drm_dev_register is called or not,
-> > so might just be fyi and not relevant to the discussion.
-> 
-> Thanks. AFAIC that is exactly what is currently implemented in the exynos_drm
-> driver (i.e. Option B)
-> 
-> exynos_dsi_bind configures the encoder and registers a DSI host. Afterwards,
-> exynos_drm_bind (as component_master_ops) calls drm_dev_register. Later, a DSI
-> device might attach to the DSI host and call exynos_dsi_host_attach. In
-> exynos_dsi_host_attach, the driver finds the drm_bridge for the DSI device and
-> attaches this bridge to the encoder _after_ drm_dev_register has been called.
-> This is invalid behavior, right?
+On Thu, Feb 4, 2021 at 5:03 PM Toni Spets <toni.spets@iki.fi> wrote:
+>
+>
+>
+> On Thu, Feb 4, 2021, 17:20 Daniel Vetter <daniel@ffwll.ch> wrote:
+>>
+>> On Wed, Feb 03, 2021 at 09:53:40PM +0200, Toni Spets wrote:
+>> > The blocking implementation of the dirtyfb ioctl is extremely slow when
+>> > used for damage tracking on RK3399. If this implementation is in place Xorg
+>> > will default to using it and will slow down considerably when doing a lot
+>> > of small draws. This is most apparent with the fvwm window manager on
+>> > startup where it will almost lock up for many seconds seconds on RK3399.
+>> >
+>> > Removing this implementation did not cause any visible issues on RK3399 but
+>> > it did fix the performance issues on Xorg as it will disable damage
+>> > tracking when the ioctl returns it's not supported.
+>>
+>> Then you don't have a manual update panel.
+>>
+>> Iirc there were patches to make this faster in recent kernels, on what
+>> kernels did you try this?
+>
+>
+> Latest was 5.10.12. If there are fixes for this in later kernels I will definitely try it out.
 
-Definitely not supported, I don't think we have the right locks in place
-to make sure this works.
+Hm I thought it landed already. But checking it the optimization was
+for fbdev to batch up updates more (because that one doesn't even
+try), not direct X usage. So your X should work faster if you use
+fbdev as backend (just as an experiment).
 
-Now if your _only_ adding a drm_bridge (and not an encoder or anything
-like that), and you are adding the drm_connector correctly (like a
-hotplugged DP MST sink), then that would at least work from a uapi pov.
-Because drm_bridge isn't exposed as an uapi object.
+>> Also X should only call this in the blocker handler, not all the time.
+>
+>
+> It does but fvwm is an example that forces it to be called a lot and it's slow enough to cause significant issues.
+>
+>>
+>> So yeah we need to make this faster, not break manual update panels.
+>
+>
+> Pardon my ignorance but while making this operation faster will indeed make it better wouldn't the correct behavior be to know if a panel requires this or not?
 
-But yeah, as-is, don't :-)
+Not impossible, but there's a pile of layers in the way. And generally
+frontbuffer rendering doesn't see a lot of love, since aside from
+bootloaders and old sckool X window systems without compositors,
+they're not really seeing any use. Everything Wayland or composited
+desktops is double-buffered and fast.
 
-The solution here is a bunch of EPROBE_DEFER handling until all your
-bridges are loaded, with or without the assistance of component.c
-framework. Only then call drm_dev_register.
--Daniel
+For fbdev we're also doing the dirty tracking now at a driver level
+(using the helpers), unconditionally whether the given hw actually
+needs it or not.
 
-> 
-> Michael
-> 
-> > -Daniel
-> > 
-> > >
-> > > This leaves us with:
-> > >
-> > > Option A) Standard drm_bridge behavior, which is currently implemented, but
-> > > incompatible with the currently expected behavior of exynos_drm.
-> > >
-> > > Option B) Creating the drm device without all bridges being attached, which
-> > > would work with the exynos_drm driver, but breaks for the standard drm_bridge
-> > > behavior, especially, if the encoder/connector is created at the beginning of
-> > > the pipeline and passed downwards when the bridges are attached.
-> > >
-> > > Option C) Extracting only low level register accesses into shared code, adding
-> > > a custom interface and implementing the drm_bridge handling in the platform
-> > > specific code.
-> > >
-> > > None of the options really convinces me.
-> > >
-> > > Michael
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+More pragmatic approach would be to throw a kernel thread at this
+problem. Will be tricky since we need to make sure that from
+userspace's pov nothing breaks, which is always a bit an issue when
+making things more asynchronous. Specifically we need to make sure
+that userspace doesn't get ahead of the kernel, so might need to
+require that we only batch up updates for the same framebuffer object,
+but stall when we switch.
+
+The locking for this will get interesting.
+
+Cheers, Daniel
+
+> Making a low performance device wait any extra time for no reason doesn't sound like the correct fix either.
+>
+> I'm not defending the patch itself as I don't have enough understanding of the drm or kernel so if it's indeed definitely breaking something then of course it can't be used as is.
+>
+> Thanks.
+>
+>
+>> -Daniel
+>>
+>> >
+>> > --
+>> > Toni Spets
+>>
+>> > From 79984ee67c801f552e9eaf4d0cfb62101d1f0f2e Mon Sep 17 00:00:00 2001
+>> > From: Toni Spets <toni.spets@iki.fi>
+>> > Date: Wed, 3 Feb 2021 21:14:50 +0200
+>> > Subject: [PATCH] drm/rockchip: remove atomic helper dirtyfb
+>> >
+>> > ---
+>> >  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 1 -
+>> >  1 file changed, 1 deletion(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+>> > index 3aa37e177667..2554fd1c8aeb 100644
+>> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+>> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+>> > @@ -21,7 +21,6 @@
+>> >  static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
+>> >       .destroy       = drm_gem_fb_destroy,
+>> >       .create_handle = drm_gem_fb_create_handle,
+>> > -     .dirty         = drm_atomic_helper_dirtyfb,
+>> >  };
+>> >
+>> >  static struct drm_framebuffer *
+>> > --
+>> > 2.27.0
+>> >
+>>
+>> > _______________________________________________
+>> > dri-devel mailing list
+>> > dri-devel@lists.freedesktop.org
+>> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
+
+
 
 -- 
 Daniel Vetter
