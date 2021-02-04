@@ -2,39 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E0330FB9E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 19:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EC030FC1C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4D36EE30;
-	Thu,  4 Feb 2021 18:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6640E6E103;
+	Thu,  4 Feb 2021 19:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D2C6EE30
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:35:59 +0000 (UTC)
-IronPort-SDR: IaFE3q8DjWNqMb5tGTEcLkvTBS9XjRYYRIWG62FSrxgcCuC5efLsaNwQ3LJoGdn0hZNpLrHScL
- I3ftSWO2WS4A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="180528995"
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="180528995"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 10:35:59 -0800
-IronPort-SDR: wNSpWYdSiQZTpEk8tiZ2sSLkVDrfKFn7TxPyS0CSd9XOJqa4rUaT7SR/veJZ7vExpiM+sX2VPx
- s27d41rCzccw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="580383251"
-Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by fmsmga006.fm.intel.com with ESMTP; 04 Feb 2021 10:35:59 -0800
-From: Jianxin Xiong <jianxin.xiong@intel.com>
-To: linux-rdma@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH rdma-core 3/3] configure: Add check for the presence of DRM
- headers
-Date: Thu,  4 Feb 2021 10:50:51 -0800
-Message-Id: <1612464651-54073-4-git-send-email-jianxin.xiong@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1612464651-54073-1-git-send-email-jianxin.xiong@intel.com>
-References: <1612464651-54073-1-git-send-email-jianxin.xiong@intel.com>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863AB6E103
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 19:00:39 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B601c44570001>; Thu, 04 Feb 2021 11:00:39 -0800
+Received: from MacBook-Pro-10.local (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
+ 2021 19:00:32 +0000
+Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+To: Alex Deucher <alexdeucher@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+ <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
+ <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
+ <20210204182923.GL4247@nvidia.com>
+ <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <8e731fce-95c1-4ace-d8bc-dc0df7432d22@nvidia.com>
+Date: Thu, 4 Feb 2021 11:00:32 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1612465239; bh=ZRwFgdcQ21FKYiVXb0EIKpbgQVH1pjcxmfD2qtvFKCs=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=O62cwUSgaxuiTPjW3XH95lJXxP99XYlZmxq0IbYI/q5iy+lytfttykWVIg4zh/p79
+ YkpTFrnCNfdEc1GoIJB3TUshyMLqt7hPi6IOGykdN1wypmvoj8iCj1TgKFZxaTs9vF
+ DOuntKqUcV+wJjItWIdWvIynHDtrcN5xfNtqc0wMi496zKEuaR0NCb6IhN25JPC9++
+ lfCJjja90iS2hGwus5QNwCGw8isDOytKQsahv/rrnh7J6AP2dyjbyz923gycpufuX7
+ NcPu1IzdGV196RtO1PKnCTXP54JelRD40hEM+HS7qMt5F70KxK3fmRsrPNpdjBCue0
+ /dDRlSSEeqTHA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,161 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Edward Srouji <edwards@nvidia.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, Gal Pressman <galpress@amazon.com>,
- Ali Alnubani <alialnu@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
  Christian Koenig <christian.koenig@amd.com>,
  Jianxin Xiong <jianxin.xiong@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compilation of pyverbs/dmabuf_alloc.c depends on a few DRM headers
-that are installed by either the kernel-header or the libdrm package.
-The installation is optional and the location is not unique.
+On 2/4/21 10:44 AM, Alex Deucher wrote:
+...
+>>> The argument is that vram is a scarce resource, but I don't know if
+>>> that is really the case these days.  At this point, we often have as
+>>> much vram as system ram if not more.
+>>
+>> I thought the main argument was that GPU memory could move at any time
+>> between the GPU and CPU and the DMA buf would always track its current
+>> location?
+> 
+> I think the reason for that is that VRAM is scarce so we have to be
+> able to move it around.  We don't enforce the same limitations for
+> buffers in system memory.  We could just support pinning dma-bufs in
+> vram like we do with system ram.  Maybe with some conditions, e.g.,
+> p2p is possible, and the device has a large BAR so you aren't tying up
+> the BAR window.
+> 
 
-The standard locations (such as /usr/include/drm, /usr/include/libdrm)
-are checked first. If failed, pkg-config is tried to find the include
-path of custom libdrm installation. The dmabuf allocation routines now
-return suitable error when the headers are not available. The related
-tests will recognize this error code and skip.
+Excellent. And yes, we are already building systems in which VRAM is
+definitely not scarce, but on the other hand, those newer systems can
+also handle GPU (and NIC) page faults, so not really an issue. For that,
+we just need to enhance HMM so that it does peer to peer.
 
-Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
----
- CMakeLists.txt         |  7 +++++++
- buildlib/Finddrm.cmake | 19 +++++++++++++++++++
- buildlib/config.h.in   |  2 ++
- pyverbs/dmabuf_alloc.c | 47 ++++++++++++++++++++++++++++++++++++++++++-----
- 4 files changed, 70 insertions(+), 5 deletions(-)
- create mode 100644 buildlib/Finddrm.cmake
+We also have some older hardware with large BAR1 apertures, specifically
+for this sort of thing.
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 4113423..feaba3a 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -515,6 +515,13 @@ find_package(Systemd)
- include_directories(${SYSTEMD_INCLUDE_DIRS})
- RDMA_DoFixup("${SYSTEMD_FOUND}" "systemd/sd-daemon.h")
- 
-+# drm headers
-+find_package(drm)
-+if (DRM_INCLUDE_DIRS)
-+  include_directories(${DRM_INCLUDE_DIRS})
-+  set(HAVE_DRM_H 1)
-+endif()
-+
- #-------------------------
- # Apply fixups
- 
-diff --git a/buildlib/Finddrm.cmake b/buildlib/Finddrm.cmake
-new file mode 100644
-index 0000000..6f8e5f2
---- /dev/null
-+++ b/buildlib/Finddrm.cmake
-@@ -0,0 +1,19 @@
-+# COPYRIGHT (c) 2021 Intel Corporation.
-+# Licensed under BSD (MIT variant) or GPLv2. See COPYING.
-+
-+# Check standard locations first
-+find_path(DRM_INCLUDE_DIRS "drm.h" PATH_SUFFIXES "drm" "libdrm")
-+
-+# Check custom libdrm installation, if any
-+if (NOT DRM_INCLUDE_DIRS)
-+  execute_process(COMMAND pkg-config --cflags-only-I libdrm
-+    OUTPUT_VARIABLE _LIBDRM
-+    RESULT_VARIABLE _LIBDRM_RESULT
-+    ERROR_QUIET)
-+
-+  if (NOT _LIBDRM_RESULT)
-+    string(REGEX REPLACE "^-I" "" DRM_INCLUDE_DIRS "${_LIBDRM}")
-+  endif()
-+  unset(_LIBDRM)
-+  unset(_LIBDRM_RESULT)
-+endif()
-diff --git a/buildlib/config.h.in b/buildlib/config.h.in
-index c5b0bf5..e8dff54 100644
---- a/buildlib/config.h.in
-+++ b/buildlib/config.h.in
-@@ -67,6 +67,8 @@
- # define VERBS_WRITE_ONLY 0
- #endif
- 
-+#define HAVE_DRM_H @HAVE_DRM_H@
-+
- // Configuration defaults
- 
- #define IBACM_SERVER_MODE_UNIX 0
-diff --git a/pyverbs/dmabuf_alloc.c b/pyverbs/dmabuf_alloc.c
-index 93267bf..22a8ab8 100644
---- a/pyverbs/dmabuf_alloc.c
-+++ b/pyverbs/dmabuf_alloc.c
-@@ -9,13 +9,18 @@
- #include <unistd.h>
- #include <string.h>
- #include <errno.h>
--#include <drm/drm.h>
--#include <drm/i915_drm.h>
--#include <drm/amdgpu_drm.h>
--#include <drm/radeon_drm.h>
-+
-+#include "config.h"
-+#include "dmabuf_alloc.h"
-+
-+#if HAVE_DRM_H
-+
-+#include <drm.h>
-+#include <i915_drm.h>
-+#include <amdgpu_drm.h>
-+#include <radeon_drm.h>
- #include <fcntl.h>
- #include <sys/ioctl.h>
--#include "dmabuf_alloc.h"
- 
- /*
-  * Abstraction of the buffer allocation mechanism using the DRM interface.
-@@ -276,3 +281,35 @@ uint64_t dmabuf_get_offset(struct dmabuf *dmabuf)
- 	return dmabuf->map_offset;
- }
- 
-+#else
-+
-+struct dmabuf *dmabuf_alloc(uint64_t size, int gpu, int gtt)
-+{
-+	errno = EOPNOTSUPP;
-+	return NULL;
-+}
-+
-+void dmabuf_free(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+}
-+
-+int dmabuf_get_drm_fd(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
-+int dmabuf_get_fd(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
-+uint64_t dmabuf_get_offset(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
-+#endif
+And again, for slightly older hardware, without pinning to VRAM there is
+no way to use this solution here for peer-to-peer. So I'm glad to see that
+so far you're not ruling out the pinning option.
+
+
+
+thanks,
 -- 
-1.8.3.1
-
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
