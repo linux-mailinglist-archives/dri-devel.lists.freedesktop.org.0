@@ -1,56 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E825F30F605
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:20:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD0B30F617
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84196EDD6;
-	Thu,  4 Feb 2021 15:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449646ED8F;
+	Thu,  4 Feb 2021 15:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB7D6EDD6
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 15:20:10 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id d16so3909911wro.11
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 07:20:10 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B8B6ED8F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 15:23:04 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id a16so6153573wmm.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 07:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Ac3A+SbkL3baUw+xALykg/KWCv7Z54pm7tH0CMczysA=;
- b=bYsTXVuy7+1E87FLDBD8fmSP28PEXfnmjJ5qycx1OzIkP/e/spc4CQ+9z6YZcs34XS
- WBMjm2V02seh3okHmvFdFSML1ah0v/69h/+fX7CNcB0b60BHU8QzXq6LW9ctr/h+mvj5
- ztobewMjhySxtw8XsQbK3wVWqFiSQa7mbbllM=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=FOhHJFN1Uk3imxDHDCmlGLnl9VnriOFj98ccGjxS3EU=;
+ b=F1sXbq67W/pxmK1zXgV072u16BTrlrCAVP0it0HAR2Fp+Zt8xtCTCV7y3dnPlv8saB
+ C+cdlziGxcEaC41JXpDQHnBBFrlli0RiOpXwtfNzva6k49/rHVQWlo7T6bMUHbsWzn6Y
+ S/kZWGhIJchjl7dG5v++X+mpllv4Fcml2LDrc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ac3A+SbkL3baUw+xALykg/KWCv7Z54pm7tH0CMczysA=;
- b=j0JkbKOykK/CqR1Y7PqrR9r/RKLk6u0zwIFnnuv1hzIygNZTLkqbWpOxYIMc8wKJMO
- 5Yrx+Iu2hCn0UiFVIyONmIyA6YPMxsgiUXCZmD+A5BwrlKqAqmRNQsZZru34Z23EgZhj
- bI6g9wLd3V+anlaEf6jz24vNVRgh+Y2ySjkxacsC3AXIgeTMJeN7FtdT15+w7+DRS76C
- lly2SNb3LlaQE7894DxOukd77319Rdd0w9fMXTnYzbaOUD/pEQmgUzKTcE3FMWThE7DT
- LBD5HfahMmxB3CeeFUw3Wq+YtxtvQxHh6AY1RUFqaldsywfrm+YRZ7CrceuwtlmEKqr3
- 9R+A==
-X-Gm-Message-State: AOAM532QZShdzZzd9Yvf0sOeqf/M7kGBsq1vxmwO7jYIxeQ5HP5cpOAR
- ZI7xD93FeOMUpqMFkaNKDcGFR9VoIukWBAAK
-X-Google-Smtp-Source: ABdhPJymR4Y4YE4thDA0Ch8NldqxVfvfj2DdMDiiTpOMKiRU6zezyB3BdBvzkirSlmhSJ2co4Y9jXQ==
-X-Received: by 2002:a5d:4386:: with SMTP id i6mr9710757wrq.411.1612452009198; 
- Thu, 04 Feb 2021 07:20:09 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=FOhHJFN1Uk3imxDHDCmlGLnl9VnriOFj98ccGjxS3EU=;
+ b=CrocRx2dgifXU7D1wX2uZVSyFB4l2mg/mSbkbYXD9VB46WIOTCIppnMF5iLnMUCZHv
+ OWAH07aca/8I4EF1bJioExZSCnSRe2HRiDXOA2HMPc6ER72xMEK8qv/PUMlzHsJ51nq/
+ Qx7MhM3pqrJxjtQ/WfE994QKXalG6iLMuk0R/hQoDEWXz4mlCHo0jhgV9eN2RzqwffEl
+ BCUB4+jBQWzjRBGMHZOnOnatEJRYMRQYhIhw4NusgR9x6DArmpMByfEm3Vd9whz7+Y3+
+ nmi1AxLjxJ6KHM3QROMdHwXU6NePAP8SJ2vNPzEqp/5WBWdY4RTYD6foHBlypQlOxq/g
+ T6Yg==
+X-Gm-Message-State: AOAM5335GMiAzUEUNmm06MpqbFt8VTy2jBW/wHO1zKv9XasvCoYV4zNe
+ Wah4abq/rWHc/X7E+YrlXJ7bFA==
+X-Google-Smtp-Source: ABdhPJzWUE8+keCZMjDw4Qd96B14poTeso3FJmwHG+VBS+pVfTYio5MuASNi3L9GB8fNZbR908SB5g==
+X-Received: by 2002:a7b:c5c1:: with SMTP id n1mr6103154wmk.163.1612452183199; 
+ Thu, 04 Feb 2021 07:23:03 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z185sm6958060wmb.0.2021.02.04.07.20.08
+ by smtp.gmail.com with ESMTPSA id v6sm8776760wrx.32.2021.02.04.07.23.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 07:20:08 -0800 (PST)
-Date: Thu, 4 Feb 2021 16:20:06 +0100
+ Thu, 04 Feb 2021 07:23:02 -0800 (PST)
+Date: Thu, 4 Feb 2021 16:22:59 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Toni Spets <toni.spets@iki.fi>
-Subject: Re: [PATCH] drm/rockchip: remove atomic helper dirtyfb
-Message-ID: <YBwQpjdpzHy6ImxQ@phenom.ffwll.local>
-References: <CAM+GfYH16EhimL6pYpgD1jutMoL6Ai2dAWQs=j71GqXbrm9J=A@mail.gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
+ with a return of an error
+Message-ID: <YBwRU1nrE3mfYbWK@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Suren Baghdasaryan <surenb@google.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sandeep Patil <sspatil@google.com>,
+ Android Kernel Team <kernel-team@android.com>,
+ James Jones <jajones@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Minchan Kim <minchan@kernel.org>, Linux MM <linux-mm@kvack.org>,
+ John Stultz <john.stultz@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210203003134.2422308-1-surenb@google.com>
+ <20210203015553.GX308988@casper.infradead.org>
+ <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com>
+ <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
+ <CAKMK7uHi+mG0z0HUmNt13QCCvutuRVjpcR0NjRL12k-WbWzkRg@mail.gmail.com>
+ <CAKMK7uETu_m+=MHyPmqBbEP__qjMF_wmr4c2BiVTPcwE8c+5Mg@mail.gmail.com>
+ <CAJuCfpHC6P5cJh-1hv=vjGHCCkM6mA_p19H6tCZmCDxhTuASkQ@mail.gmail.com>
+ <ced1c1be-e731-946e-e9ce-919520fe935a@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAM+GfYH16EhimL6pYpgD1jutMoL6Ai2dAWQs=j71GqXbrm9J=A@mail.gmail.com>
+In-Reply-To: <ced1c1be-e731-946e-e9ce-919520fe935a@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,69 +93,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Christoph Hellwig <hch@infradead.org>,
+ Android Kernel Team <kernel-team@android.com>,
+ Sandeep Patil <sspatil@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, James Jones <jajones@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Minchan Kim <minchan@kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 03, 2021 at 09:53:40PM +0200, Toni Spets wrote:
-> The blocking implementation of the dirtyfb ioctl is extremely slow when
-> used for damage tracking on RK3399. If this implementation is in place Xorg
-> will default to using it and will slow down considerably when doing a lot
-> of small draws. This is most apparent with the fvwm window manager on
-> startup where it will almost lock up for many seconds seconds on RK3399.
-> 
-> Removing this implementation did not cause any visible issues on RK3399 but
-> it did fix the performance issues on Xorg as it will disable damage
-> tracking when the ioctl returns it's not supported.
+On Thu, Feb 04, 2021 at 09:16:32AM +0100, Christian K=F6nig wrote:
+> Am 03.02.21 um 22:41 schrieb Suren Baghdasaryan:
+> > [SNIP]
+> > > > How many semi-unrelated buffer accounting schemes does google come =
+up with?
+> > > > =
 
-Then you don't have a manual update panel.
+> > > > We're at three with this one.
+> > > > =
 
-Iirc there were patches to make this faster in recent kernels, on what
-kernels did you try this?
+> > > > And also we _cannot_ required that all dma-bufs are backed by struct
+> > > > page, so requiring struct page to make this work is a no-go.
+> > > > =
 
-Also X should only call this in the blocker handler, not all the time.
+> > > > Second, we do not want to all get_user_pages and friends to work on
+> > > > dma-buf, it causes all kinds of pain. Yes on SoC where dma-buf are
+> > > > exclusively in system memory you can maybe get away with this, but
+> > > > dma-buf is supposed to work in more places than just Android SoCs.
+> > > I just realized that vm_inser_page doesn't even work for CMA, it would
+> > > upset get_user_pages pretty badly - you're trying to pin a page in
+> > > ZONE_MOVEABLE but you can't move it because it's rather special.
+> > > VM_SPECIAL is exactly meant to catch this stuff.
+> > Thanks for the input, Daniel! Let me think about the cases you pointed =
+out.
+> > =
 
-So yeah we need to make this faster, not break manual update panels.
+> > IMHO, the issue with PSS is the difficulty of calculating this metric
+> > without struct page usage. I don't think that problem becomes easier
+> > if we use cgroups or any other API. I wanted to enable existing PSS
+> > calculation mechanisms for the dmabufs known to be backed by struct
+> > pages (since we know how the heap allocated that memory), but sounds
+> > like this would lead to problems that I did not consider.
+> =
+
+> Yeah, using struct page indeed won't work. We discussed that multiple tim=
+es
+> now and Daniel even has a patch to mangle the struct page pointers inside
+> the sg_table object to prevent abuse in that direction.
+> =
+
+> On the other hand I totally agree that we need to do something on this si=
+de
+> which goes beyong what cgroups provide.
+> =
+
+> A few years ago I came up with patches to improve the OOM killer to inclu=
+de
+> resources bound to the processes through file descriptors. I unfortunately
+> can't find them of hand any more and I'm currently to busy to dig them up.
+> =
+
+> In general I think we need to make it possible that both the in kernel OOM
+> killer as well as userspace processes and handlers have access to that ki=
+nd
+> of data.
+> =
+
+> The fdinfo approach as suggested in the other thread sounds like the easi=
+est
+> solution to me.
+
+Yeah for OOM handling cgroups alone isn't enough as the interface - we
+need to make sure that oom killer takes into account the system memory
+usage (ideally zone aware, for CMA pools).
+
+But to track that we still need that infrastructure first I think.
 -Daniel
+-- =
 
-> 
-> -- 
-> Toni Spets
-
-> From 79984ee67c801f552e9eaf4d0cfb62101d1f0f2e Mon Sep 17 00:00:00 2001
-> From: Toni Spets <toni.spets@iki.fi>
-> Date: Wed, 3 Feb 2021 21:14:50 +0200
-> Subject: [PATCH] drm/rockchip: remove atomic helper dirtyfb
-> 
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> index 3aa37e177667..2554fd1c8aeb 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> @@ -21,7 +21,6 @@
->  static const struct drm_framebuffer_funcs rockchip_drm_fb_funcs = {
->  	.destroy       = drm_gem_fb_destroy,
->  	.create_handle = drm_gem_fb_create_handle,
-> -	.dirty	       = drm_atomic_helper_dirtyfb,
->  };
->  
->  static struct drm_framebuffer *
-> -- 
-> 2.27.0
-> 
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
--- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
