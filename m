@@ -2,36 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285B830FF92
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 22:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9A230FFD5
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 23:05:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0456EE6F;
-	Thu,  4 Feb 2021 21:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFE76EE70;
+	Thu,  4 Feb 2021 22:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46496EE6F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 21:50:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE39E64E7B;
- Thu,  4 Feb 2021 21:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612475421;
- bh=PmEJQCCq9oY53CiWzcFwaIPerZi1rEcWvCOS/uKzoFQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=WequWrptF4WjW06B0BSUo7SbQyS+KfQGTGsiwm9iU60B1NVylYXeQTl1fDMqGEAta
- JReU0y9ygCPvABAqgwOcutNNywGESDTlzpSVpa71m4FE3QbAvRkhhat3S6RiIlTcUp
- JTlugHTATg5QaP5m/I3pbdjVLEpFTHshnXMOKWLoRlKOwLXYCMra/+GuRzRq+eo1R5
- NXgth8yVgN34gF7h+9aDUld5QrUiafvq/6NBCwTxrkKWRXbUTpNg+dEM/GObX4l1j2
- XB9A4pGG+h3SKSszPKJM5hdYb33urnHHvJOVqsyf9D4QgjMSmA4NenhdmbdpN2zBhS
- pu0QMV7je4d5Q==
-Date: Thu, 4 Feb 2021 15:50:19 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 1/2] PCI: also set up legacy files only after sysfs init
-Message-ID: <20210204215019.GA104698@bjorn-Precision-5520>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1E306EE70
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 22:05:46 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4DWt0T0GY9z1qsZv;
+ Thu,  4 Feb 2021 23:05:45 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4DWt0S6ZNfz1t6pt;
+ Thu,  4 Feb 2021 23:05:44 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id A42zhnKn8apA; Thu,  4 Feb 2021 23:05:43 +0100 (CET)
+X-Auth-Info: T/t4LPIfsrigfXnl8Qq6X85XUECP2UrZqUxJOOmHOew=
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Thu,  4 Feb 2021 23:05:43 +0100 (CET)
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 driver
+To: Doug Anderson <dianders@chromium.org>
+References: <20210130181014.161457-1-marex@denx.de>
+ <20210130181014.161457-2-marex@denx.de>
+ <CAD=FV=WzW1L=nwcnhagCXfX5SStE0jr0bqRrEOi-46g4huD4Sw@mail.gmail.com>
+ <49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de>
+ <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <754e1868-9a5f-39ab-ac14-0e84492e145b@denx.de>
+Date: Thu, 4 Feb 2021 23:05:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210204165831.2703772-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,137 +56,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- John Hubbard <jhubbard@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Oliver O'Halloran <oohall@gmail.com>, linux-pci@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc Oliver, Pali, Krzysztof]
+On 2/4/21 10:10 PM, Doug Anderson wrote:
+> Hi,
 
-s/also/Also/ in subject
+Hi,
 
-On Thu, Feb 04, 2021 at 05:58:30PM +0100, Daniel Vetter wrote:
-> We are already doing this for all the regular sysfs files on PCI
-> devices, but not yet on the legacy io files on the PCI buses. Thus far
-> now problem, but in the next patch I want to wire up iomem revoke
-> support. That needs the vfs up an running already to make so that
-> iomem_get_mapping() works.
+[...]
 
-s/now problem/no problem/
-s/an running/and running/
-s/so that/sure that/ ?
+>>>> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
+>>>
+>>> Do you need to list REG_RC_RESET as volatile?  Specifically you need
+>>> to make sure it's not cached...
+>>
+>> Isn't volatile table exactly for this purpose -- to make sure the reg is
+>> not cached ?
+> 
+> Sorry, I was unclear I guess.  I'm suggesting that you add
+> REG_RC_RESET to the list of volatile ones since I don't see it there.
 
-iomem_get_mapping() doesn't exist; I don't know what that should be.
+Ah, yes, it should.
 
-> Wire it up exactly like the existing code. Note that
-> pci_remove_legacy_files() doesn't need a check since the one for
-> pci_bus->legacy_io is sufficient.
+>>>> +static const struct regmap_config sn65dsi83_regmap_config = {
+>>>> +       .reg_bits = 8,
+>>>> +       .val_bits = 8,
+>>>> +       .rd_table = &sn65dsi83_readable_table,
+>>>> +       .wr_table = &sn65dsi83_writeable_table,
+>>>> +       .volatile_table = &sn65dsi83_volatile_table,
+>>>> +       .cache_type = REGCACHE_RBTREE,
+>>>> +       .max_register = REG_IRQ_STAT,
+>>>> +};
+>>>
+>>> I'm curious how much the "readable" and "writable" sections get you.
+>>> In theory only the "volatile" should really matter, right?
+>>
+>> They are useful when dumping the regs from debugfs regmap registers .
+> 
+> OK, fair enough.  When I thought about doing this on sn65dsi86, it
+> came to be that a better way might be something like:
+> 
+> #define ACC_RO BIT(0)
+> #define ACC_RW BIT(1)
+> #define ACC_W1C BIT(2)
+> #define ACC_WO BIT(3)
+> 
+> u8 reg_acceess[] = {
+>    [0x00] = ACC_RO,
+>    [0x01] = ACC_RO,
+>    ...
+>    [0x0a] = ACC_RO | ACC_RW,
+>    [0x0b] = ACC_RW,
+>    [0x0d] = ACC_RW
+>    ...
+> };
+> 
+> The above maps really nicely to the public datasheet and is easy to
+> validate.  Then you can just look up in that array in a constant time
+> lookup.  In other words, "readable" if either RO or RW is set.
+> "writable" if any of RW, W1C, or WO is set.  Everything that's not RW
+> is volatile (technically you could differentiate between RO things
+> that are hardcoded and ones that aren't, but you probably don't need
+> to).
+> 
+> Anyway, feel free to ignore...  What you have is fine too.
 
-I'm not sure exactly what you mean by "the existing code."  I could
-probably figure it out, but it would save time to mention the existing
-function here.
+It might make sense to implement some more generic support for this ^ 
+into the regmap core ? This seems to be a rather common pattern.
 
-This looks like another instance where we should really apply Oliver's
-idea of converting these to attribute_groups [1].
+>>>> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
+>>>> +{
+>>>> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+>>>> +
+>>>> +       /*
+>>>> +        * Reset the chip, pull EN line low for t_reset=10ms,
+>>>> +        * then high for t_en=1ms.
+>>>> +        */
+>>>> +       gpiod_set_value(ctx->enable_gpio, 0);
+>>>
+>>> Why not use the "cansleep" version to give some flexibility?
+>>
+>> Does that make a difference in non-interrupt context ?
+> 
+> As I understand it:
+> 
+> * If a client calls gpiod_set_value() then the underlying GPIO can
+> only be one that doesn't sleep.
+> 
+> * If a client calls gpiod_set_value_cansleep() then the underlying
+> GPIO can be either one that does or doesn't sleep.
+> 
+> * A client is only allowed to call gpiod_set_value_cansleep() if it's
+> not in interrupt context.
+> 
+> You are definitely not in an interrupt context (right?), so calling
+> the "cansleep" version has no downsides but allows board designers to
+> hook up an enable that can sleep.
 
-The cover letter mentions options discussed with Greg in [2], but I
-don't think the "sysfs_initialized" hack vs attribute_groups was part
-of that discussion.
+Linus, can you please confirm this ? I find this hard to believe, since 
+there are plenty of places in the kernel which use gpiod_set_value() 
+without the _cansleep, are those problematic then ?
 
-It's not absolutely a show-stopper, but it *is* a shame to extend the
-sysfs_initialized hack if attribute_groups could do this more cleanly
-and help solve more than one issue.
+>>>> +       usleep_range(10000, 11000);
+>>>
+>>> It seems like it would be worth it to read the enable_gpio first?  If
+>>> it was already 0 maybe you can skip the 10 ms delay?  I would imagine
+>>> that most of the time the bridge would already be disabled to start?
+>>
+>> How do you guarantee the GPIO was LO for 10 mS here? You can sample that
+>> it is LO, but you won't know how long it was LO before this code was
+>> executed.
+> 
+> Ah, true.  I guess the best we could do would be keep track of the
+> GPIO ourselves so that if we were the one to last turn it off we could
+> avoid the delay.
 
-Bjorn
+Does the extra complexity outweigh the benefit of saving those 10mS ?
 
-[1] https://lore.kernel.org/r/CAOSf1CHss03DBSDO4PmTtMp0tCEu5kScn704ZEwLKGXQ=
-zBfqaA@mail.gmail.com
-[2] https://lore.kernel.org/dri-devel/CAKMK7uGrdDrbtj0OyzqQc0CGrQwc2F3tFJU9=
-vLfm2jjufAZ5YQ@mail.gmail.com/
+>>>> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+>>>
+>>> Probably you don't need this?  It's the default and in pre-enable you
+>>> just reset the chip.  Maybe it was needed since you don't flush the
+>>> cache in pre-enable?
+>>
+>> Have a look at the Example Script in the DSI83 datasheet, this PLL part
+>> is needed.
+> 
+> I think that script is written without the assumption that you have
+> just reset the chip using the enable GPIO.  If you have just reset
+> with the enable GPIO it shouldn't be needed.
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-mm@kvack.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: linux-pci@vger.kernel.org
-> ---
->  drivers/pci/pci-sysfs.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> =
-
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index fb072f4b3176..0c45b4f7b214 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -927,6 +927,9 @@ void pci_create_legacy_files(struct pci_bus *b)
->  {
->  	int error;
->  =
-
-> +	if (!sysfs_initialized)
-> +		return;
-> +
->  	b->legacy_io =3D kcalloc(2, sizeof(struct bin_attribute),
->  			       GFP_ATOMIC);
->  	if (!b->legacy_io)
-> @@ -1448,6 +1451,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pde=
-v)
->  static int __init pci_sysfs_init(void)
->  {
->  	struct pci_dev *pdev =3D NULL;
-> +	struct pci_bus *pbus =3D NULL;
->  	int retval;
->  =
-
->  	sysfs_initialized =3D 1;
-> @@ -1459,6 +1463,9 @@ static int __init pci_sysfs_init(void)
->  		}
->  	}
->  =
-
-> +	while ((pbus =3D pci_find_next_bus(pbus)))
-> +		pci_create_legacy_files(pbus);
-> +
->  	return 0;
->  }
->  late_initcall(pci_sysfs_init);
-> -- =
-
-> 2.30.0
-> =
-
-> =
-
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+I don't think it hurts anything, so let's keep it.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
