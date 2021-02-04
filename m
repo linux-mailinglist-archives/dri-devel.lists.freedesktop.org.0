@@ -1,36 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C94030F2D5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 13:06:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0B430F2EA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 13:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3C66EC99;
-	Thu,  4 Feb 2021 12:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CED86EC98;
+	Thu,  4 Feb 2021 12:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682686EBC4;
- Thu,  4 Feb 2021 12:06:15 +0000 (UTC)
-IronPort-SDR: 3pX9FgXNwiBOuxk2AX23vyiNUyuex/FTcRRkGSR8hbLyq9gEluHAWkyTCifV4qacBfktv55g+I
- g1Ilis/DpV7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="200215713"
-X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; d="scan'208";a="200215713"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 04:06:12 -0800
-IronPort-SDR: 97I7eKlRyO+S1VIz0X8LP0QHh5JK8wiTp1PVAIwvqsqqYwVSPWVJl1PNH2ScmKujXGWicWqIyt
- YQV8dZFvvdAg==
-X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; d="scan'208";a="393132096"
-Received: from dbmayer-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.1])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2021 04:06:07 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 04 Feb 2021 14:06:04 +0200
-Message-ID: <87bld0f36b.fsf@intel.com>
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7595F6EC98;
+ Thu,  4 Feb 2021 12:11:34 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.69.177; 
+Received: from build.alporthouse.com (unverified [78.156.69.177]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 23785957-1500050 
+ for multiple; Thu, 04 Feb 2021 12:11:28 +0000
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC 1/3] proc: Show GPU runtimes
+Date: Thu,  4 Feb 2021 12:11:19 +0000
+Message-Id: <20210204121121.2660-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,77 +36,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhdmUgJiBEYW5pZWwgLQoKVGhlcmUncyBhIGJpdCBtb3JlIGhlcmUgdGhhbiBJJ2QgZ2Vu
-ZXJhbGx5IGxpa2UgYXQgdGhpcyBzdGFnZSwgaG93ZXZlcgptYW55IG9mIHRoZW0gYXJlIGNjOiBz
-dGFibGUgYW55d2F5LCBhbmQgSSd2ZSBvcHRlZCB0byBpbmNsdWRlIGEgY291cGxlCm9mIGV4dHJh
-IGJhY2twb3J0cyB0byBhbGxvdyB0aGUgYWN0dWFsIGZpeGVzIHRvIGFwcGx5IHdpdGhvdXQgY29u
-ZmxpY3RzCmluc3RlYWQgb2YgbW9kaWZ5aW5nIHRoZSBmaXhlcy4KCkhvcGVmdWxseSB0aGluZ3Mg
-d2lsbCBjYWxtIGRvd24gbm93LCBmaW5nZXJzIGNyb3NzZWQuCgoKZHJtLWludGVsLWZpeGVzLTIw
-MjEtMDItMDQ6CmRybS9pOTE1IGZpeGVzIGZvciB2NS4xMS1yYzc6Ci0gU2tpcCB2c3dpbmcgcHJv
-Z3JhbW1pbmcgZm9yIFRCVAotIFBvd2VyIHVwIGNvbWJvIFBIWSBsYW5lcyBmb3IgSERNSQotIEZp
-eCBkb3VibGUgWVVWIHJhbmdlIGNvcnJlY3Rpb24gb24gSERSIHBsYW5lcwotIEZpeCB0aGUgTVNU
-IFBCTiBkaXZpZGVyIGNhbGN1bGF0aW9uCi0gRml4IExUVFBSIHZzd2luZy9wcmUtZW1wIHNldHRp
-bmcgaW4gbm9uLXRyYW5zcGFyZW50IG1vZGUKLSBNb3ZlIHRoZSBicmVhZGNydW1iIHRvIHRoZSBz
-aWduYWxlciBpZiBjb21wbGV0ZWQgdXBvbiBjYW5jZWwKLSBDbG9zZSByYWNlIGJldHdlZW4gZW5h
-YmxlX2JyZWFkY3J1bWJzIGFuZCBjYW5jZWxfYnJlYWRjcnVtYnMKLSBEcm9wIGxydSBidW1waW5n
-IG9uIGRpc3BsYXkgdW5waW5uaW5nCgpCUiwKSmFuaS4KClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQgMTA0OGJhODNmYjFjMDBjZDI0MTcyZTIzZTgyNjM5NzJmNmI1ZDlhYzoKCiAg
-TGludXggNS4xMS1yYzYgKDIwMjEtMDEtMzEgMTM6NTA6MDkgLTA4MDApCgphcmUgYXZhaWxhYmxl
-IGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5v
-cmcvZHJtL2RybS1pbnRlbCB0YWdzL2RybS1pbnRlbC1maXhlcy0yMDIxLTAyLTA0Cgpmb3IgeW91
-IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gODhlYmUxZjU3MmUyODRlY2ZlMDg4NjQ4ZTBhZTkzODAz
-YTc1YTQ1OToKCiAgZHJtL2k5MTUvZHA6IEZpeCBMVFRQUiB2c3dpbmcvcHJlLWVtcCBzZXR0aW5n
-IGluIG5vbi10cmFuc3BhcmVudCBtb2RlICgyMDIxLTAyLTAyIDE3OjMxOjM3ICswMjAwKQoKLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQpkcm0vaTkxNSBmaXhlcyBmb3IgdjUuMTEtcmM3OgotIFNraXAgdnN3aW5nIHByb2dyYW1t
-aW5nIGZvciBUQlQKLSBQb3dlciB1cCBjb21ibyBQSFkgbGFuZXMgZm9yIEhETUkKLSBGaXggZG91
-YmxlIFlVViByYW5nZSBjb3JyZWN0aW9uIG9uIEhEUiBwbGFuZXMKLSBGaXggdGhlIE1TVCBQQk4g
-ZGl2aWRlciBjYWxjdWxhdGlvbgotIEZpeCBMVFRQUiB2c3dpbmcvcHJlLWVtcCBzZXR0aW5nIGlu
-IG5vbi10cmFuc3BhcmVudCBtb2RlCi0gTW92ZSB0aGUgYnJlYWRjcnVtYiB0byB0aGUgc2lnbmFs
-ZXIgaWYgY29tcGxldGVkIHVwb24gY2FuY2VsCi0gQ2xvc2UgcmFjZSBiZXR3ZWVuIGVuYWJsZV9i
-cmVhZGNydW1icyBhbmQgY2FuY2VsX2JyZWFkY3J1bWJzCi0gRHJvcCBscnUgYnVtcGluZyBvbiBk
-aXNwbGF5IHVucGlubmluZwoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpBbmRyZXMgQ2FsZGVyb24gSmFyYW1pbGxvICgxKToK
-ICAgICAgZHJtL2k5MTUvZGlzcGxheTogUHJldmVudCBkb3VibGUgWVVWIHJhbmdlIGNvcnJlY3Rp
-b24gb24gSERSIHBsYW5lcwoKQ2hyaXMgV2lsc29uICgzKToKICAgICAgZHJtL2k5MTUvZ3Q6IE1v
-dmUgdGhlIGJyZWFkY3J1bWIgdG8gdGhlIHNpZ25hbGVyIGlmIGNvbXBsZXRlZCB1cG9uIGNhbmNl
-bAogICAgICBkcm0vaTkxNS9ndDogQ2xvc2UgcmFjZSBiZXR3ZWVuIGVuYWJsZV9icmVhZGNydW1i
-cyBhbmQgY2FuY2VsX2JyZWFkY3J1bWJzCiAgICAgIGRybS9pOTE1L2dlbTogRHJvcCBscnUgYnVt
-cGluZyBvbiBkaXNwbGF5IHVucGlubmluZwoKSW1yZSBEZWFrICg0KToKICAgICAgZHJtL2RwL21z
-dDogRXhwb3J0IGRybV9kcF9nZXRfdmNfcGF5bG9hZF9idygpCiAgICAgIGRybS9pOTE1OiBGaXgg
-dGhlIE1TVCBQQk4gZGl2aWRlciBjYWxjdWxhdGlvbgogICAgICBkcm0vaTkxNS9kcDogTW92ZSBp
-bnRlbF9kcF9zZXRfc2lnbmFsX2xldmVscygpIHRvIGludGVsX2RwX2xpbmtfdHJhaW5pbmcuYwog
-ICAgICBkcm0vaTkxNS9kcDogRml4IExUVFBSIHZzd2luZy9wcmUtZW1wIHNldHRpbmcgaW4gbm9u
-LXRyYW5zcGFyZW50IG1vZGUKClZpbGxlIFN5cmrDpGzDpCAoMyk6CiAgICAgIGRybS9pOTE1OiBT
-a2lwIHZzd2luZyBwcm9ncmFtbWluZyBmb3IgVEJUCiAgICAgIGRybS9pOTE1OiBFeHRyYWN0IGlu
-dGVsX2RkaV9wb3dlcl91cF9sYW5lcygpCiAgICAgIGRybS9pOTE1OiBQb3dlciB1cCBjb21ibyBQ
-SFkgbGFuZXMgZm9yIGZvciBIRE1JIGFzIHdlbGwKCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21z
-dF90b3BvbG9neS5jICAgICAgICAgICAgICB8IDI0ICsrKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jICAgICAgICAgICB8IDQzICsrKysrKysrLS0tLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYyAgICAgICB8ICA5ICsr
-LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jICAgICAgICAgICAgfCAy
-MCArLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmggICAgICAg
-ICAgICB8ICAzIC0KIC4uLi9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9saW5rX3RyYWlu
-aW5nLmMgIHwgMjUgKysrKysrKystCiAuLi4vZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBf
-bGlua190cmFpbmluZy5oICB8ICAzICsKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZHBfbXN0LmMgICAgICAgIHwgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfb3ZlcmxheS5jICAgICAgIHwgIDQgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
-YXkvaW50ZWxfc3ByaXRlLmMgICAgICAgIHwgNjUgKysrKy0tLS0tLS0tLS0tLS0tLS0tLQogZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RvbWFpbi5jICAgICAgICAgfCA0NSAtLS0t
-LS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuaCAg
-ICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfYnJlYWRjcnVtYnMu
-YyAgICAgICAgfCA0NyArKysrKysrKystLS0tLS0tCiBpbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hl
-bHBlci5oICAgICAgICAgICAgICAgICAgICB8ICAxICsKIDE0IGZpbGVzIGNoYW5nZWQsIDExOCBp
-bnNlcnRpb25zKCspLCAxNzYgZGVsZXRpb25zKC0pCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9w
-ZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+Present an interface for system monitors to watch the GPU usage as a
+whole and by individual applications. By consolidating the information
+into a canonical location, we have a single interface that can track the
+utilisation of all GPU devices and sub-devices. This is preferrable to
+asking the system monitors to walk the sysfs, or other interfaces, of
+each device and parse the custom information presented by each driver.
+
+Opens:
+- Should we try to name each channel so that it can be shown in UI?
+
+In gnome-system-monitor, we would have a task list:
+	Process ... GPU0% GPU1%
+and charts that would show the GPU% on/next the CPU overview.
+
+Then we could have a futher expansion of a GPU% into per-channel
+utilisation. That would be useful to check to see what is saturating a
+particular channel, e.g. find the video decoder bottleneck.
+
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+ fs/proc/Makefile         |  1 +
+ fs/proc/base.c           |  2 +
+ fs/proc/gpu.c            | 83 ++++++++++++++++++++++++++++++++++++++++
+ fs/proc/internal.h       |  6 +++
+ include/linux/proc_gpu.h | 33 ++++++++++++++++
+ 5 files changed, 125 insertions(+)
+ create mode 100644 fs/proc/gpu.c
+ create mode 100644 include/linux/proc_gpu.h
+
+diff --git a/fs/proc/Makefile b/fs/proc/Makefile
+index bd08616ed8ba..bdc42b592e3e 100644
+--- a/fs/proc/Makefile
++++ b/fs/proc/Makefile
+@@ -16,6 +16,7 @@ proc-y	+= cmdline.o
+ proc-y	+= consoles.o
+ proc-y	+= cpuinfo.o
+ proc-y	+= devices.o
++proc-y	+= gpu.o
+ proc-y	+= interrupts.o
+ proc-y	+= loadavg.o
+ proc-y	+= meminfo.o
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index b3422cda2a91..062298f5f6c8 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3266,6 +3266,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #ifdef CONFIG_SECCOMP_CACHE_DEBUG
+ 	ONE("seccomp_cache", S_IRUSR, proc_pid_seccomp_cache),
+ #endif
++	ONE("gpu", S_IRUGO, proc_pid_gpu),
+ };
+ 
+ static int proc_tgid_base_readdir(struct file *file, struct dir_context *ctx)
+@@ -3598,6 +3599,7 @@ static const struct pid_entry tid_base_stuff[] = {
+ #ifdef CONFIG_SECCOMP_CACHE_DEBUG
+ 	ONE("seccomp_cache", S_IRUSR, proc_pid_seccomp_cache),
+ #endif
++	ONE("gpu", S_IRUGO, proc_pid_gpu),
+ };
+ 
+ static int proc_tid_base_readdir(struct file *file, struct dir_context *ctx)
+diff --git a/fs/proc/gpu.c b/fs/proc/gpu.c
+new file mode 100644
+index 000000000000..7264bf1f2f7b
+--- /dev/null
++++ b/fs/proc/gpu.c
+@@ -0,0 +1,83 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/proc_fs.h>
++#include <linux/proc_gpu.h>
++#include <linux/seq_file.h>
++#include <linux/spinlock.h>
++#include <linux/list.h>
++
++#include "internal.h"
++
++static LIST_HEAD(gpu);
++static DEFINE_SPINLOCK(lock);
++
++void proc_gpu_register(struct proc_gpu *pg)
++{
++	spin_lock(&lock);
++	list_add_tail(&pg->link, &gpu);
++	spin_unlock(&lock);
++}
++EXPORT_SYMBOL_GPL(proc_gpu_register);
++
++void proc_gpu_unregister(struct proc_gpu *pg)
++{
++	spin_lock(&lock);
++	list_del(&pg->link);
++	spin_unlock(&lock);
++}
++EXPORT_SYMBOL_GPL(proc_gpu_unregister);
++
++static void print_runtime(struct seq_file *m, const struct proc_gpu_runtime *rt)
++{
++	int i;
++
++	seq_printf(m, "%llu", rt->device);
++
++	for (i = 0; i < rt->nchannel; i++)
++		seq_printf(m, " %llu", rt->channel[i]);
++
++	seq_printf(m, " %s\n", rt->name);
++}
++
++int proc_pid_gpu(struct seq_file *m, struct pid_namespace *ns,
++		 struct pid *pid, struct task_struct *task)
++{
++	struct proc_gpu *p, *pn, mark = {};
++	struct proc_gpu_runtime rt;
++
++	spin_lock(&lock);
++	list_for_each_entry_safe(p, pn, &gpu, link) {
++		if (!p->fn)
++			continue;
++
++		rt.name[0] = '\0';
++		p->fn(p, pid, &rt);
++		if (!rt.name[0])
++			continue;
++
++		list_add(&mark.link, &p->link);
++		spin_unlock(&lock);
++
++		print_runtime(m, &rt);
++
++		spin_lock(&lock);
++		list_safe_reset_next(&mark, pn, link);
++		list_del(&mark.link);
++	}
++	spin_unlock(&lock);
++
++	return 0;
++}
++
++static int proc_gpu_show(struct seq_file *m, void *v)
++{
++	return proc_pid_gpu(m, NULL, NULL, NULL);
++}
++
++static int __init proc_gpu_init(void)
++{
++	proc_create_single("gpu", 0, NULL, proc_gpu_show);
++	return 0;
++}
++fs_initcall(proc_gpu_init);
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index f60b379dcdc7..08bf45bec975 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -221,6 +221,12 @@ void set_proc_pid_nlink(void);
+ extern struct inode *proc_get_inode(struct super_block *, struct proc_dir_entry *);
+ extern void proc_entry_rundown(struct proc_dir_entry *);
+ 
++/*
++ * proc_gpu.c
++ */
++int proc_pid_gpu(struct seq_file *m, struct pid_namespace *ns,
++		 struct pid *pid, struct task_struct *task);
++
+ /*
+  * proc_namespaces.c
+  */
+diff --git a/include/linux/proc_gpu.h b/include/linux/proc_gpu.h
+new file mode 100644
+index 000000000000..05c1db951c80
+--- /dev/null
++++ b/include/linux/proc_gpu.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Interface for showing per-gpu/per-process runtimes in /proc.
++ */
++#ifndef _LINUX_PROC_GPU_H
++#define _LINUX_PROC_GPU_H
++
++#include <linux/list.h>
++#include <linux/types.h>
++
++struct pid;
++struct proc_gpu;
++
++struct proc_gpu_runtime {
++	char name[60];
++	int nchannel;
++	u64 device;
++	u64 channel[64];
++};
++
++typedef void (*proc_gpu_fn_t)(struct proc_gpu *arg,
++			      struct pid *pid,
++			      struct proc_gpu_runtime *rt);
++
++struct proc_gpu {
++	struct list_head link;
++	proc_gpu_fn_t fn;
++};
++
++void proc_gpu_register(struct proc_gpu *pg);
++void proc_gpu_unregister(struct proc_gpu *pg);
++
++#endif /* _LINUX_PROC_GPU_H */
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
