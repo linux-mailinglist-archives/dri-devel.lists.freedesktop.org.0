@@ -1,80 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A811430FF1A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 22:12:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7525830FF21
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 22:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A2B6EE47;
-	Thu,  4 Feb 2021 21:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DFA6EE6B;
+	Thu,  4 Feb 2021 21:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81DCE6EE47
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 21:12:20 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B601c63330000>; Thu, 04 Feb 2021 13:12:19 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
- 2021 21:12:13 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 4 Feb 2021 21:12:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=chYJcFaCcuNwHyBK3lSmCxB4m+e1q0k/Bs9SPomHxnKTzpwVsCalBtoozZ7mSrttohaTJE9u2OKiCUoHC+AQv/1PfsLth2tVMYAvq/D9p4q6bRqKuiTMF9vxCY6mx1jrmRDdOHCoGoCuroUJ85LFhlPwY7VPSGZISWi4T7AuovDtdeJvXRIRuYZmMXtNKt+PrskNUhoe+L3H6pqSvA13CjaC4Qe352XFswtFmVVEuAQ7m1byFj1wMnnQjfUmaPkZ7emOgNRJWy9INiCRjkYJ22z93IaZpwbnIwBe3E0su8kip5Ag5jyBfwmYhJIuRJejiwGSlOMgw46+Ll5FM40RSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vZMiQkLEMbPCt7LjIxhHSSyVBmHq4W3d6kXjAuE2Ozo=;
- b=aZMNnL3A0aY0zrKWRXo0ohrKUAh2WmJAU3CCmW3EK1Q0eEBVF3i/xEqML7TT+UYFq5LZqgM0gx8ZtMnokd+bqDe+BsmHM+OmcVXBzfA3AjBnYk2H2g5jvtymZS3fGhJJYy35yx/edu7/2C9OX+lSt8ReBfMLsyZNrkg36aieBUVSRh6Et4Y5HF5wiJxyvPSG1uaxdFvubD1aO2b1N8SkRqPzGhUlCtaksvu2SgzSYw/LyYMUosM03nTwMENTukJegniyu1bYraWHpP4rumoA6BcZnTeRaPJ5riZUSg9HGsquC2z+jjvHW/a3SQCvPCV+bdnfsxEKbvZyPCm9lVa1rA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB2584.namprd12.prod.outlook.com (2603:10b6:4:b0::37) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Thu, 4 Feb
- 2021 21:12:12 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::d6b:736:fa28:5e4]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::d6b:736:fa28:5e4%7]) with mapi id 15.20.3805.033; Thu, 4 Feb 2021
- 21:12:12 +0000
-Date: Thu, 4 Feb 2021 17:12:10 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH rdma-core 3/3] configure: Add check for the presence of
- DRM headers
-Message-ID: <20210204211210.GQ4247@nvidia.com>
-References: <1612464651-54073-1-git-send-email-jianxin.xiong@intel.com>
- <1612464651-54073-4-git-send-email-jianxin.xiong@intel.com>
-Content-Disposition: inline
-In-Reply-To: <1612464651-54073-4-git-send-email-jianxin.xiong@intel.com>
-X-ClientProxiedBy: MN2PR05CA0035.namprd05.prod.outlook.com
- (2603:10b6:208:c0::48) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35E8D6EE6D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 21:15:44 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id t5so6020845eds.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 13:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=smARDleo7a9d7KPN0RoDxMLUiGkzn/3UwMk+F/IqnUY=;
+ b=Vrcb6D8+5h1wogQk2r/eeZ5AGBi/A5L0lMMmt6VRf2X+kWRKxcXp+Q9PPKuiUnt67G
+ /tzAq2MVFgsLkG6WBEoujBcAIb58GxBIw8DdNDo9IY1LjLA5nzIjcS/JbEvS8ax9zhB5
+ kbliqAr1u1kzHfcFbUivJOu0VEpLAev3FtN0Vxg013q/FlTk4jcTkwJvpjP0ISoVAPlq
+ QnlmheA4Dz/4nrsN7VS9aLfCfh5OjGiUraON7j6HIzQaG6JukfHyKpNtzSjXBvUEViE/
+ 9asVELrhdTHN+m9RxhR6mx5HzIz+IBP2m3Yvwu77PN6XCGuBSoVTorBFnv1MJBSMzq/4
+ SO1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=smARDleo7a9d7KPN0RoDxMLUiGkzn/3UwMk+F/IqnUY=;
+ b=bz4pcaDXg+jj5/oOKlfrkpmxkEnZ5V6tvoQ7FoiaExonLMeEvjIUkuAn1tjeT8u3Dj
+ xX33mx5del0ngNzbw150vC+LncAJifGJ2ObooG0GtwjbgbxNS6VgR5C60yVuJicH0SLu
+ rPOJ5sU6A6LTBqMkmngI4jTb08OebR1xisZ4McyUtX2wIS7Qa3Y3Qn5s6ppmtuCUhYvO
+ QbtBIz89ZVfugqmabr5GBFIrinqYMFy9BKO86RImtCtVle8u2t5iKuNSaCN2NoY4t97M
+ Q0l7jO2R6kyG2sh/4pzGUsAcSN1fDvvftMCZdmHhBIS8hAViu/fv3jza/aU6qahY/Ozp
+ KqPg==
+X-Gm-Message-State: AOAM530rdfc96zHs+532FFbZBBjG4iw1dl58mpCK5yO1a3pSs8mI7ISW
+ V2oEp4W2tJN2LU/ShtYFR7Z88di9N8kELIC3vivdXg==
+X-Google-Smtp-Source: ABdhPJz/wPKnd1B35lceXYq3UnUl6J0MeghOg1o7VGrdlQrXZ8Iq8KPBZc0+NhF4YwfYU5mi2izZ4rlGCxFj/EUMLYU=
+X-Received: by 2002:a05:6402:1291:: with SMTP id
+ w17mr528875edv.112.1612473342672; 
+ Thu, 04 Feb 2021 13:15:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by
- MN2PR05CA0035.namprd05.prod.outlook.com (2603:10b6:208:c0::48) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.17 via Frontend Transport; Thu, 4 Feb 2021 21:12:11 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1l7lv8-003cEc-Qi; Thu, 04 Feb 2021 17:12:10 -0400
-X-Header: ProcessedBy-CMR-outbound
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1612473139; bh=vZMiQkLEMbPCt7LjIxhHSSyVBmHq4W3d6kXjAuE2Ozo=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType:X-Header;
- b=CgmRzWZtgfzr23n7BPXFlHfi2IeWc2V9bXs9gd72ay0XBf468qBH08KHoxNgZg6o1
- d3Bv1NbLXFi4/YeI4NLVLHnUtbwb4Nm+onRna0gZftuCbmQUDWNJFpp2l4HAj66Uav
- tR1kmloUaJB4X4PI8IdBCxLRtQK48ekQtEBCmIFEzgr6EOt8LWBNW2EyHc6Z+MyKRB
- qK9foBR1RKj8UHpp9l6AdIB7UJoR2nTbJ5VOSnAabrKakJZkE+A/PKDtQrCx/or5fR
- +kSurQhEJ6lK7mpLF8JdNgTlKqfQwvtiQxqo1WJVweqrZp+6fMGrmmIuOh2qIqzd7K
- pRHXalK5tOPVw==
+References: <20210204113742.1814456-1-emil.l.velikov@gmail.com>
+ <CABjik9cHYArtsTgYvcGbH_AOEcdVWpX-pTrHMq4uv7ct4_NSKQ@mail.gmail.com>
+ <CABjik9dnH0dQ2Am-nfPUstF8Uv7dSixcCZ7pN7yLWNQ4QgTaAg@mail.gmail.com>
+ <CACvgo53wwtkr-DeCMsnKRpjsBO=GhTVWBODC=32-6sNxgaQwLQ@mail.gmail.com>
+In-Reply-To: <CACvgo53wwtkr-DeCMsnKRpjsBO=GhTVWBODC=32-6sNxgaQwLQ@mail.gmail.com>
+From: James Park <james.park@lagfreegames.com>
+Date: Thu, 4 Feb 2021 13:15:09 -0800
+Message-ID: <CABjik9dxwG7vHbGiREVfg4ZQodbc4qkTctbAV17S5wX263CUYA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,94 +65,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>, Edward
- Srouji <edwards@nvidia.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Gal Pressman <galpress@amazon.com>, dri-devel@lists.freedesktop.org, Doug
- Ledford <dledford@redhat.com>, Ali Alnubani <alialnu@nvidia.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 04, 2021 at 10:50:51AM -0800, Jianxin Xiong wrote:
-> Compilation of pyverbs/dmabuf_alloc.c depends on a few DRM headers
-> that are installed by either the kernel-header or the libdrm package.
-> The installation is optional and the location is not unique.
-> 
-> The standard locations (such as /usr/include/drm, /usr/include/libdrm)
-> are checked first. If failed, pkg-config is tried to find the include
-> path of custom libdrm installation. The dmabuf allocation routines now
-> return suitable error when the headers are not available. The related
-> tests will recognize this error code and skip.
-> 
-> Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
->  CMakeLists.txt         |  7 +++++++
->  buildlib/Finddrm.cmake | 19 +++++++++++++++++++
->  buildlib/config.h.in   |  2 ++
->  pyverbs/dmabuf_alloc.c | 47 ++++++++++++++++++++++++++++++++++++++++++-----
->  4 files changed, 70 insertions(+), 5 deletions(-)
->  create mode 100644 buildlib/Finddrm.cmake
-> 
-> diff --git a/CMakeLists.txt b/CMakeLists.txt
-> index 4113423..feaba3a 100644
-> +++ b/CMakeLists.txt
-> @@ -515,6 +515,13 @@ find_package(Systemd)
->  include_directories(${SYSTEMD_INCLUDE_DIRS})
->  RDMA_DoFixup("${SYSTEMD_FOUND}" "systemd/sd-daemon.h")
->  
-> +# drm headers
-> +find_package(drm)
-> +if (DRM_INCLUDE_DIRS)
-> +  include_directories(${DRM_INCLUDE_DIRS})
-> +  set(HAVE_DRM_H 1)
-> +endif()
-> +
->  #-------------------------
->  # Apply fixups
->  
-> diff --git a/buildlib/Finddrm.cmake b/buildlib/Finddrm.cmake
-> new file mode 100644
-> index 0000000..6f8e5f2
-> +++ b/buildlib/Finddrm.cmake
-> @@ -0,0 +1,19 @@
-> +# COPYRIGHT (c) 2021 Intel Corporation.
-> +# Licensed under BSD (MIT variant) or GPLv2. See COPYING.
-> +
-> +# Check standard locations first
-> +find_path(DRM_INCLUDE_DIRS "drm.h" PATH_SUFFIXES "drm" "libdrm")
-> +
-> +# Check custom libdrm installation, if any
-> +if (NOT DRM_INCLUDE_DIRS)
-> +  execute_process(COMMAND pkg-config --cflags-only-I libdrm
-> +    OUTPUT_VARIABLE _LIBDRM
-> +    RESULT_VARIABLE _LIBDRM_RESULT
-> +    ERROR_QUIET)
-> +
-> +  if (NOT _LIBDRM_RESULT)
-> +    string(REGEX REPLACE "^-I" "" DRM_INCLUDE_DIRS "${_LIBDRM}")
-> +  endif()
-> +  unset(_LIBDRM)
-> +  unset(_LIBDRM_RESULT)
-> +endif()
+On Thu, Feb 4, 2021 at 1:07 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> On Thu, 4 Feb 2021 at 18:17, James Park <james.park@lagfreegames.com> wrote:
+> >
+> > On Thu, Feb 4, 2021 at 9:37 AM James Park <james.park@lagfreegames.com> wrote:
+> > >
+> > > On Thu, Feb 4, 2021 at 3:37 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> > > >
+> > > > Currently, the drm_fourcc.h header depends on drm.h for __u32 and __u64.
+> > > > At the same time drm.h pulls a lot of unneeded symbols.
+> > > >
+> > > > Add new guard DRM_FOURCC_STANDALONE, which when set will use local
+> > > > declaration of said symbols.
+> > > >
+> > > > When used on linux - we pull linux/types.h which is used either way.
+> > > > On other platforms, BSDs et al, we need a couple of typedefs.
+> > > >
+> > > > Since those can trigger a warning in some corner-cases*, add some GCC
+> > > > magic to silence them. Note that incorrect type redefinitions will still
+> > > > be flagged, and the GCC pragma is ignored by other compilers.
+> > > >
+> > > > *Corner-case:
+> > > > If one sets DRM_FOURCC_STANDALONE and compiles with C99 or earlier while
+> > > > also using -pedantic _and_ the header lives outside of the standard
+> > > > /usr/include (like BSDs normally do).
+> > > >
+> > > > v2:
+> > > >  - Add corner-case handling, based on popular demand.
+> > > >
+> > > > Cc: James Park <james.park@lagfreegames.com>
+> > > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > Cc: Simon Ser <contact@emersion.fr>
+> > > > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> > > > ---
+> > > >  include/uapi/drm/drm.h        | 10 ++++++++++
+> > > >  include/uapi/drm/drm_fourcc.h | 29 +++++++++++++++++++++++++++++
+> > > >  2 files changed, 39 insertions(+)
+> > > >
+> > > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > > > index 808b48a93330..cd78950e05ce 100644
+> > > > --- a/include/uapi/drm/drm.h
+> > > > +++ b/include/uapi/drm/drm.h
+> > > > @@ -53,6 +53,15 @@ typedef unsigned int drm_handle_t;
+> > > >  #include <stdint.h>
+> > > >  #include <sys/ioccom.h>
+> > > >  #include <sys/types.h>
+> > > > +
+> > > > +/*
+> > > > + * When using C99 -pedantic the typedefs will trigger a warning.
+> > > > + * If the header is considered a system one (-isystem) those will be
+> > > > + * ignored, yet on the target platforms BSDs, et al - the headers live
+> > > > + * in a non-system location.
+> > > > + */
+> > > > +#pragma GCC diagnostic push
+> > > > +#pragma GCC diagnostic ignored "-Wpedantic"
+> > > >  typedef int8_t   __s8;
+> > > >  typedef uint8_t  __u8;
+> > > >  typedef int16_t  __s16;
+> > > > @@ -63,6 +72,7 @@ typedef int64_t  __s64;
+> > > >  typedef uint64_t __u64;
+> > > >  typedef size_t   __kernel_size_t;
+> > > >  typedef unsigned long drm_handle_t;
+> > > > +#pragma GCC diagnostic pop
+> > > >
+> > > >  #endif
+> > > >
+> > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > > > index 6f0628eb13a6..84a1f96cc4ef 100644
+> > > > --- a/include/uapi/drm/drm_fourcc.h
+> > > > +++ b/include/uapi/drm/drm_fourcc.h
+> > > > @@ -24,7 +24,36 @@
+> > > >  #ifndef DRM_FOURCC_H
+> > > >  #define DRM_FOURCC_H
+> > > >
+> > > > +/*
+> > > > + * Define DRM_FOURCC_STANDALONE you're interested only FOURCC and do not want
+> > > > + * to pull drm.h into your application.
+> > > > + */
+> > > > +#ifdef DRM_FOURCC_STANDALONE
+> > > > +#if defined(__linux__)
+> > > > +
+> > > > +#include <linux/types.h>
+> > > > +
+> > > > +#else /* One of the BSDs */
+> > > > +
+> > > > +#include <stdint.h>
+> > > > +
+> > > > +/*
+> > > > + * When using C99 -pedantic the typedefs will trigger a warning.
+> > > > + * If the header is considered a system one (-isystem) those will be
+> > > > + * ignored, yet on the target platforms BSDs, et al - the headers live
+> > > > + * in a non-system location.
+> > > > + */
+> > > > +#pragma GCC diagnostic push
+> > > > +#pragma GCC diagnostic ignored "-Wpedantic"
+> > > > +typedef uint32_t __u32;
+> > > > +typedef uint64_t __u64;
+> > > > +#pragma GCC diagnostic pop
+> > > > +
+> > > > +#endif /* __linux __ */
+> > > > +
+> > > > +#else
+> > > >  #include "drm.h"
+> > > > +#endif /* DRM_FOURCC_STANDALONE */
+> > > >
+> > > >  #if defined(__cplusplus)
+> > > >  extern "C" {
+> > > > --
+> > > > 2.30.0
+> > > >
+> > >
+> > > I remember reading GCC diagnostic push/pop requires a recent enough
+> > > compiler version to be supported, which is pretty old, but I don't
+> > > know how old is old enough for Linux headers:
+> > > https://github.com/protocolbuffers/protobuf/issues/4156
+> > >
+> > > Testing snippets in godbolt, I think the pragmas need to be wrapped. MSVC says:
+> > >
+> > > warning C4068: unknown pragma 'GCC'
+> > >
+> /me shakes fist at MSVC - why are you being so silly
+>
+> > > Also, Clang seems to want -Wtypedef-redefinition, not -Wpedantic. GCC
+> > > complains it doesn't know what -Wtypedef-redefinition is, so that
+> > > would also need to be wrapped.
+> >
+> Clang seemed fine here. Must have used a different version or something.
+>
+> > If we're already conceding copy/paste, then how about inlining my
+> > previous header?
+> >
+> > #ifndef DRM_BASIC_TYPES_DEFINED
+> > #define DRM_BASIC_TYPES_DEFINED
+> > // Sync modifications between drm.h and drm_fourcc.h
+> > ...
+> > #endif
+> >
+> > No compiler games. Valid on all flavors of C (I think).
+>
+> Hmm cannot find any patch mentioning DRM_BASIC_TYPES_DEFINED - perhaps
+> you did one in the mesa MR?
+>
+> Either way, if the proposal is to have the include/typedefs guarded as
+> above - sure, that works. Please add the guard in both drm.h and
+> drm_fourcc.h
+> The comment seems slightly confusing, but that's nitpicking.
+>
+> Do send a patch, unless someone shouts against it, I'll be happy to
+> push it and churn the whole copy to drm/mesa game.
+>
+> Thanks
+> Emil
 
-I think this should be using pkg_check_modules() ??
+No, I haven't pushed anything with DRM_BASIC_TYPES_DEFINED yet. I was
+just illustrating since _DRM_BASIC_TYPES_H_ would not be a great
+choice for a name in this case.
 
-Look at the NL stuff:
+I can try to come up with a better comment.
 
-  pkg_check_modules(NL libnl-3.0 libnl-route-3.0 REQUIRED)
-  include_directories(${NL_INCLUDE_DIRS})
-  link_directories(${NL_LIBRARY_DIRS})
+I'll send a patch tonight (USA time). I have to remember how to do the
+git-send-email dance.
 
-> +#if HAVE_DRM_H
-> +
-
-Would rather you use cmake to conditionally compile a dmabuf_alloc.c
-or a dmabuf_alloc_stub.c than ifdef the entire file
-
-Jaason
+Thanks,
+James
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
