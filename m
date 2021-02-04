@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A912430F6BB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C597A30F6BF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:51:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C46496EE02;
-	Thu,  4 Feb 2021 15:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1239A6EE06;
+	Thu,  4 Feb 2021 15:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7166E053
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 12:38:48 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id s23so1973751pgh.11
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 04:38:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2dvgQdQ6hKfQnFN6cqPppjkW9v8eA0H2PjYK802sxpo=;
- b=BNEQCznMNh8r0jLb9D7EexdCQzuEeG7tRhc7/5Xr5bLtHg4/YMMeu1f33qhVQ9k6x5
- c9X8mzULfLUvJyNGW2KJVU+8n3yw3b0JOiWwHVMipnqOmi7mB2y8rcpL3Q3Er1LWIeXd
- HXqodl8ZmCUwNkKHina/mvRq/XjerB7irxnK5etoEZB3UKFE+7dIMa8zN3Jlc9jtjvv2
- RPpXBGkKCz3vl4ROsdeXfEfxVUJIvFQk+kaGQsY2Km8cWCZnHRsOetVp1OicJtm9DUXd
- r8UjH2Xj3lxH6N+iGsAZSnr01RwmNS8nzKfkmcXKzqe172Y76mzvpDD1aren5hp8cfHv
- /q/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2dvgQdQ6hKfQnFN6cqPppjkW9v8eA0H2PjYK802sxpo=;
- b=RURsg//WHoRp3cs+tUYlCg5so2XAGJ6j8gND7NZ2ZP6Qxk8UkXSaQcoURWXRbSf9UM
- BUDu1sch/MdpKAbphSSuuBcuCRwcWCWz7ObPiYKXeIUCbmPiG+LFrPxPR0LqLimCk86x
- /KnHzOoEO0HDed25sV3+xJKBwrQjr1CgwXAi6TiGLLu6W0FZRbpukUrCAP3i3wSL9IWb
- H3JIL0tOLdc6TSpS0Jr21ejOnkzp+Gw+lQI2bC/Mh5arNOz+hgZ2SDwxCkn9jERGW9E3
- rv9cxQMLgT/6ri6oE4oSY0K7cb6Ol/y+seI9B/iZH9bkKGcp4uF2QYSrHvED3FyBRHkG
- qLfQ==
-X-Gm-Message-State: AOAM533ZwPMX90JNWRJVOzINcjPD/Gv8NCOPhtWUD/R7/xpiE26P/j9u
- rzntI2CmvquBgndsZb4GZbMcdljYO4BPHtkicenFiQ==
-X-Google-Smtp-Source: ABdhPJy3NmQ6w+rzYQfD4UrbFDVSoOhOsQHrBW+h26hmwT2e06tr4AzZ5nWGZCFbAK/jlrd3r9KmgGEneSIqEODKxKM=
-X-Received: by 2002:a63:5b4f:: with SMTP id l15mr8863564pgm.339.1612442327673; 
- Thu, 04 Feb 2021 04:38:47 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 438886ED7E;
+ Thu,  4 Feb 2021 14:24:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C2DAD6E;
+ Thu,  4 Feb 2021 06:24:00 -0800 (PST)
+Received: from [10.57.11.154] (unknown [10.57.11.154])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D7A223F694;
+ Thu,  4 Feb 2021 06:23:57 -0800 (PST)
+Subject: Re: [PATCH] drm/lima: Use delayed timer as default in devfreq profile
+To: Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>
+References: <20210127105121.20345-1-lukasz.luba@arm.com>
+ <CAKGbVbsn=xVEa0=c3rywRShVZD18LkmLZ1qDUuDsrT5KnTjr6g@mail.gmail.com>
+ <3d1b4696-0172-f88a-f41f-c66ac3baa429@arm.com>
+ <CAKGbVbsuqsGYRqUyWRiC+h9o7kNMvB16-Y6378KG_rv0SG4VDQ@mail.gmail.com>
+ <aab9c140-155e-894f-5b7d-749396a388fc@arm.com>
+ <CAKGbVbvTzmj=3tAyNyDRU8autb+de8R9dc6ohBTuM5miJV4cWg@mail.gmail.com>
+ <0afa6299-1c35-ab98-702e-8dcd168bcaac@arm.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <deb2c075-4177-d487-b1cd-1c60790ca625@arm.com>
+Date: Thu, 4 Feb 2021 14:23:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <cover.1611802321.git.xji@analogixsemi.com>
- <246b8bd6e51ed5c8cb3618f4259adf8aba319511.1611802321.git.xji@analogixsemi.com>
-In-Reply-To: <246b8bd6e51ed5c8cb3618f4259adf8aba319511.1611802321.git.xji@analogixsemi.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 4 Feb 2021 13:38:36 +0100
-Message-ID: <CAG3jFyu0qj_ipqz8eKWtmkjKDBBAF_X20f1i-d=83vksgh6nxg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-To: Xin Ji <xji@analogixsemi.com>
+In-Reply-To: <0afa6299-1c35-ab98-702e-8dcd168bcaac@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 04 Feb 2021 15:50:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,124 +48,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Mark Brown <broonie@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Sheng Pan <span@analogixsemi.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ lima@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Xin,
 
-On Thu, 28 Jan 2021 at 04:10, Xin Ji <xji@analogixsemi.com> wrote:
->
-> Add 'bus-type' and 'data-lanes' define for port0, add HDCP support
-> flag and DP tx lane0 and lane1 swing register array define.
->
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  .../bindings/display/bridge/analogix,anx7625.yaml  | 54 +++++++++++++++++++++-
->  1 file changed, 53 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index c789784..048deec 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -34,6 +34,24 @@ properties:
->      description: used for reset chip control, RESET_N pin B7.
->      maxItems: 1
->
-> +  analogix,lane0-swing:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    maxItems: 20
-> +    description:
-> +      an array of swing register setting for DP tx lane0 PHY, please don't
-> +      add this property, or contact vendor.
-> +
-> +  analogix,lane1-swing:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    maxItems: 20
-> +    description:
-> +      an array of swing register setting for DP tx lane1 PHY, please don't
-> +      add this property, or contact vendor.
-> +
-> +  analogix,hdcp-support:
-> +    type: boolean
-> +    description: indicate the DP tx HDCP support or not.
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->
-> @@ -41,13 +59,45 @@ properties:
->        port@0:
->          $ref: /schemas/graph.yaml#/properties/port
->          description:
-> -          Video port for MIPI DSI input.
-> +          Video port for MIPI input.
 
-Maybe MIPI DSI/DPI input is more correct, since there are a lot of
-other MIPI standards.
+On 2/4/21 1:39 PM, Robin Murphy wrote:
+> On 2021-02-03 02:01, Qiang Yu wrote:
+>> On Tue, Feb 2, 2021 at 10:02 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>>>
+>>>
+>>>
+>>> On 2/2/21 1:01 AM, Qiang Yu wrote:
+>>>> Hi Lukasz,
+>>>>
+>>>> Thanks for the explanation. So the deferred timer option makes a 
+>>>> mistake that
+>>>> when GPU goes from idle to busy for only one poll periodic, in this
+>>>> case 50ms, right?
+>>>
+>>> Not exactly. Driver sets the polling interval to 50ms (in this case)
+>>> because it needs ~3-frame average load (in 60fps). I have discovered the
+>>> issue quite recently that on systems with 2 CPUs or more, the devfreq
+>>> core is not monitoring the devices even for seconds. Therefore, we might
+>>> end up with quite big amount of work that GPU is doing, but we don't
+>>> know about it. Devfreq core didn't check <- timer didn't fired. Then
+>>> suddenly that CPU, which had the deferred timer registered last time,
+>>> is waking up and timer triggers to check our device. We get the stats,
+>>> but they might be showing load from 1sec not 50ms. We feed them into
+>>> governor. Governor sees the new load, but was tested and configured for
+>>> 50ms, so it might try to rise the frequency to max. The GPU work might
+>>> be already lower and there is no need for such freq. Then the CPU goes
+>>> idle again, so no devfreq core check for next e.g. 1sec, but the
+>>> frequency stays at max OPP and we burn power.
+>>>
+>>> So, it's completely unreliable. We might stuck at min frequency and
+>>> suffer the frame drops, or sometimes stuck to max freq and burn more
+>>> power when there is no such need.
+>>>
+>>> Similar for thermal governor, which is confused by this old stats and
+>>> long period stats, longer than 50ms.
+>>>
+>>> Stats from last e.g. ~1sec tells you nothing about real recent GPU
+>>> workload.
+>> Oh, right, I missed this case.
+>>
+>>>
+>>>> But delayed timer will wakeup CPU every 50ms even when system is 
+>>>> idle, will this
+>>>> cause more power consumption for the case like phone suspend?
+>>>
+>>> No, in case of phone suspend it won't increase the power consumption.
+>>> The device won't be woken up, it will stay in suspend.
+>> I mean the CPU is waked up frequently by timer when phone suspend,
+>> not the whole device (like the display).
+>>
+>> Seems it's better to have deferred timer when device is suspended for
+>> power saving,
+>> and delayed timer when device in working state. User knows this and
+>> can use sysfs
+>> to change it.
+> 
+> Doesn't devfreq_suspend_device() already cancel any timer work either 
+> way in that case?
 
-> +
-> +        properties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            # Properties described in
-> +            # Documentation/devicetree/bindings/media/video-interfaces.txt
-> +            properties:
-> +              remote-endpoint: true
-> +              bus-type: true
-> +              data-lanes: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +        required:
-> +          - endpoint
-> +
->
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
->          description:
->            Video port for panel or connector.
->
-> +        properties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            # Properties described in
-> +            # Documentation/devicetree/bindings/media/video-interfaces.txt
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
->      required:
->        - port@0
->        - port@1
-> @@ -81,6 +131,8 @@ examples:
->                      reg = <0>;
->                      anx7625_in: endpoint {
->                          remote-endpoint = <&mipi_dsi>;
-> +                        bus-type = <5>;
-> +                        data-lanes = <0 1 2 3>;
->                      };
->                  };
->
-> --
-> 2.7.4
->
+Correct, the governor should pause the monitoring mechanism (and timer).
+
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
