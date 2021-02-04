@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04FE30F8BD
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 17:58:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F97330F8DA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 18:00:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9406EC57;
-	Thu,  4 Feb 2021 16:58:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB7E06EC61;
+	Thu,  4 Feb 2021 17:00:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69ABD6EC61
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 16:58:43 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id m1so3615613wml.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 08:58:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zfjsqmGSrFdwKv6gPk+ED4Gyd+jw5WiGxS5237MFi+M=;
- b=aJ5+DhwQrPybxXlfb906b5cOoXqV3+BEzRNaODlgcUeZEihmbGyFqInXWRKhUtRcBb
- kV1JlIXsN/H9/ywDpKO+frxErEGohc9ib+E0uHFogDM0U0dQ89h8KGu5yffJo80lIAtT
- UAwiQzvCPO4zBLBzmVgGmSMpEEerY8KT11ZQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zfjsqmGSrFdwKv6gPk+ED4Gyd+jw5WiGxS5237MFi+M=;
- b=Wa0UOMYlUwuso4XXfYUOj3r2I1sbUBmsSt1aOLRPboqb9EGG+DuEYJY7coJa2ywQ7Y
- PpYMyAqq6/UrQqQKnO2HgtNTtz8emGKuq3Ykkc6WZdXM8owlr5rVKNZAt7R3cLi8KWpO
- H1kNa7Pn04THwtBJyNdLAXhdnd328AjG2B2boMq6HnajmCwo3QhW4ZcPfjZEwq/LUJcP
- URGK+frBcjrltKmlEn5fR2ylZVz849E86ukDie+jCKNiq8tiLDG66P2VTTNgt7smf7UG
- Vk88rPHnGq+rC/gJBBOl+owuE+mwDUqzXY92sCIiH/+tpEr+WF1mpSiM/R9ZWbLp5QBm
- 5b1w==
-X-Gm-Message-State: AOAM532AbcZZOgwWag4SJQ0BJ29Ym/dD+P4TB7Aav7Vwygw2RtAL/Z0L
- 73lRu5QTMUAylwaWVxhvYSfZMg==
-X-Google-Smtp-Source: ABdhPJxAhpv3Tii2s/pNvg41KfaTlUA/3DjBqaXWiLy9Id66LvhcG0GjOf8lXMNmb3BMhPDKwGE71w==
-X-Received: by 2002:a1c:3587:: with SMTP id c129mr117766wma.76.1612457922116; 
- Thu, 04 Feb 2021 08:58:42 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i64sm6700187wmi.19.2021.02.04.08.58.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 08:58:40 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] PCI: Revoke mappings like devmem
-Date: Thu,  4 Feb 2021 17:58:31 +0100
-Message-Id: <20210204165831.2703772-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210204165831.2703772-1-daniel.vetter@ffwll.ch>
-References: <20210204165831.2703772-1-daniel.vetter@ffwll.ch>
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E4A6EDCC
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 16:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wbVme97LTyZtZvghkEGRoTiuc1SViBhjvsMeN4jw9jo=; b=PWpDFRnC/pQI+UGrPjtu0HbEN
+ L43RKr1nxKtBjtMtRi4xXHxwvekb3ibhraif6lER0dky75uQXrGFEXQG6NhjCA1fCxUTz+ddAydTm
+ bKGNXkikKkpPPxYKlnRpcmercjWMc157NMyq5VGBlktOBU4v01FOUgoDwrAz/6rmXKc3s5uGItTGb
+ dNZ/w+Dn4u+hez+MLEwKJ4lcAEjJtpMn+NmpWK3E6iHfHaP25TIOZvIkmdEqS/QgEh2MDEP2cCleD
+ QaNVcBSlDNa3dxdHeD+0ZqIiVN2POoOv7P4kP6Hmp/WoLdRJMDuQzDE1oihQUuFsLZjY16MLN5oha
+ hd1Wb2fKg==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39166)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1l7hyz-0006q2-Je; Thu, 04 Feb 2021 16:59:53 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1l7hyx-0005Kk-Sm; Thu, 04 Feb 2021 16:59:51 +0000
+Date: Thu, 4 Feb 2021 16:59:51 +0000
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
+Message-ID: <20210204165951.GB1463@shell.armlinux.org.uk>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
+ <YBlcTXlxemmC2lgr@kroah.com>
+ <20210204165224.GA1463@shell.armlinux.org.uk>
+ <YBwnUrQqlAz2LDPI@kroah.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <YBwnUrQqlAz2LDPI@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +60,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-pci@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ kvm@vger.kernel.org, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig.org@pengutronix.de>,
+ linux-i2c@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Takashi Iwai <tiwai@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, Guenter Roeck <linux@roeck-us.net>,
+ Mike Leach <mike.leach@linaro.org>, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ coresight@lists.linaro.org,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Vladimir Zapolskiy <vz@mleia.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Matt Mackall <mpm@selenic.com>, Dan Williams <dan.j.williams@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, linux-crypto@vger.kernel.org,
+ kernel@pengutronix.de, Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2luY2UgMzIzNGFjNjY0YTg3ICgiL2Rldi9tZW06IFJldm9rZSBtYXBwaW5ncyB3aGVuIGEgZHJp
-dmVyIGNsYWltcwp0aGUgcmVnaW9uIikgL2Rldi9rbWVtIHphcHMgcHRlcyB3aGVuIHRoZSBrZXJu
-ZWwgcmVxdWVzdHMgZXhjbHVzaXZlCmFjY2Nlc3MgdG8gYW4gaW9tZW0gcmVnaW9uLiBBbmQgd2l0
-aCBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSwgdGhpcyBpcwp0aGUgZGVmYXVsdCBmb3IgYWxsIGRy
-aXZlciB1c2VzLgoKRXhjZXB0IHRoZXJlJ3MgdHdvIG1vcmUgd2F5cyB0byBhY2Nlc3MgUENJIEJB
-UnM6IHN5c2ZzIGFuZCBwcm9jIG1tYXAKc3VwcG9ydC4gTGV0J3MgcGx1ZyB0aGF0IGhvbGUuCgpG
-b3IgcmV2b2tlX2Rldm1lbSgpIHRvIHdvcmsgd2UgbmVlZCB0byBsaW5rIG91ciB2bWEgaW50byB0
-aGUgc2FtZQphZGRyZXNzX3NwYWNlLCB3aXRoIGNvbnNpc3RlbnQgdm1hLT52bV9wZ29mZi4gLT5w
-Z29mZiBpcyBhbHJlYWR5CmFkanVzdGVkLCBiZWNhdXNlIHRoYXQncyBob3cgKGlvXylyZW1hcF9w
-Zm5fcmFuZ2Ugd29ya3MsIGJ1dCBmb3IgdGhlCm1hcHBpbmcgd2UgbmVlZCB0byBhZGp1c3Qgdm1h
-LT52bV9maWxlLT5mX21hcHBpbmcuIFRoZSBjbGVhbmVzdCB3YXkgaXMKdG8gYWRqdXN0IHRoaXMg
-YXQgYXQgLT5vcGVuIHRpbWU6CgotIGZvciBzeXNmcyB0aGlzIGlzIGVhc3ksIG5vdyB0aGF0IGJp
-bmFyeSBhdHRyaWJ1dGVzIHN1cHBvcnQgdGhpcy4gV2UKICBqdXN0IHNldCBiaW5fYXR0ci0+bWFw
-cGluZyB3aGVuIG1tYXAgaXMgc3VwcG9ydGVkCi0gZm9yIHByb2NmcyBpdCdzIGEgYml0IG1vcmUg
-dHJpY2t5LCBzaW5jZSBwcm9jZnMgcGNpIGFjY2VzcyBoYXMgb25seQogIG9uZSBmaWxlIHBlciBk
-ZXZpY2UsIGFuZCBhY2Nlc3MgdG8gYSBzcGVjaWZpYyByZXNvdXJjZXMgZmlyc3QgbmVlZHMKICB0
-byBiZSBzZXQgdXAgd2l0aCBzb21lIGlvY3RsIGNhbGxzLiBCdXQgbW1hcCBpcyBvbmx5IHN1cHBv
-cnRlZCBmb3IKICB0aGUgc2FtZSByZXNvdXJjZXMgYXMgc3lzZnMgZXhwb3NlcyB3aXRoIG1tYXAg
-c3VwcG9ydCwgYW5kIG90aGVyd2lzZQogIHJlamVjdGVkLCBzbyB3ZSBjYW4gc2V0IHRoZSBtYXBw
-aW5nIHVuY29uZGl0aW9uYWxseSBhdCBvcGVuIHRpbWUKICB3aXRob3V0IGhhcm0uCgpBIHNwZWNp
-YWwgY29uc2lkZXJhdGlvbiBpcyBmb3IgYXJjaF9jYW5fcGNpX21tYXBfaW8oKSAtIHdlIG5lZWQg
-dG8KbWFrZSBzdXJlIHRoYXQgdGhlIC0+Zl9tYXBwaW5nIGRvZXNuJ3QgYWxpYXMgYmV0d2VlbiBp
-b3BvcnQgYW5kIGlvbWVtCnNwYWNlLiBUaGVyZSdzIG9ubHkgMiB3YXlzIGluLXRyZWUgdG8gc3Vw
-cG9ydCBtbWFwIG9mIGlvcG9ydHM6IGdlbmVyaWMKcGNpIG1tYXAgKEFSQ0hfR0VORVJJQ19QQ0lf
-TU1BUF9SRVNPVVJDRSksIGFuZCBzcGFyYyBhcyB0aGUgc2luZ2xlCmFyY2hpdGVjdHVyZSBoYW5k
-LXJvbGxpbmcuIEJvdGggYXBwcm9hY2ggc3VwcG9ydCBpb3BvcnQgbW1hcCB0aHJvdWdoIGEKc3Bl
-Y2lhbCBwZm4gcmFuZ2UgYW5kIG5vdCB0aHJvdWdoIG1hZ2ljIHB0ZSBhdHRyaWJ1dGVzLiBBbGlh
-c2luZyBpcwp0aGVyZWZvcmUgbm90IGEgcHJvYmxlbS4KClRoZSBvbmx5IGRpZmZlcmVuY2UgaW4g
-YWNjZXNzIGNoZWNrcyBsZWZ0IGlzIHRoYXQgc3lzZnMgUENJIG1tYXAgZG9lcwpub3QgY2hlY2sg
-Zm9yIENBUF9SQVdJTy4gSSdtIG5vdCByZWFsbHkgc3VyZSB3aGV0aGVyIHRoYXQgc2hvdWxkIGJl
-CmFkZGVkIG9yIG5vdC4KCkFja2VkLWJ5OiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUu
-Y29tPgpSZXZpZXdlZC1ieTogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+
-ClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpD
-YzogU3RlcGhlbiBSb3Rod2VsbCA8c2ZyQGNhbmIuYXV1Zy5vcmcuYXU+CkNjOiBKYXNvbiBHdW50
-aG9ycGUgPGpnZ0B6aWVwZS5jYT4KQ2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3Jn
-PgpDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+CkNjOiBBbmRyZXcg
-TW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgpDYzogSm9obiBIdWJiYXJkIDxqaHVi
-YmFyZEBudmlkaWEuY29tPgpDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+
-CkNjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6PgpDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxs
-aWFtc0BpbnRlbC5jb20+CkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5k
-YXRpb24ub3JnPgpDYzogbGludXgtbW1Aa3ZhY2sub3JnCkNjOiBsaW51eC1hcm0ta2VybmVsQGxp
-c3RzLmluZnJhZGVhZC5vcmcKQ2M6IGxpbnV4LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZwpD
-YzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fh
-c0Bnb29nbGUuY29tPgpDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZwotLS0KIGRyaXZlcnMv
-cGNpL3BjaS1zeXNmcy5jIHwgNCArKysrCiBkcml2ZXJzL3BjaS9wcm9jLmMgICAgICB8IDEgKwog
-MiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Bj
-aS9wY2ktc3lzZnMuYyBiL2RyaXZlcnMvcGNpL3BjaS1zeXNmcy5jCmluZGV4IDBjNDViNGY3YjIx
-NC4uZjhhZmQ1NGNhM2UxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYworKysg
-Yi9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYwpAQCAtOTQyLDYgKzk0Miw3IEBAIHZvaWQgcGNpX2Ny
-ZWF0ZV9sZWdhY3lfZmlsZXMoc3RydWN0IHBjaV9idXMgKmIpCiAJYi0+bGVnYWN5X2lvLT5yZWFk
-ID0gcGNpX3JlYWRfbGVnYWN5X2lvOwogCWItPmxlZ2FjeV9pby0+d3JpdGUgPSBwY2lfd3JpdGVf
-bGVnYWN5X2lvOwogCWItPmxlZ2FjeV9pby0+bW1hcCA9IHBjaV9tbWFwX2xlZ2FjeV9pbzsKKwli
-LT5sZWdhY3lfaW8tPm1hcHBpbmcgPSBpb21lbV9nZXRfbWFwcGluZygpOwogCXBjaV9hZGp1c3Rf
-bGVnYWN5X2F0dHIoYiwgcGNpX21tYXBfaW8pOwogCWVycm9yID0gZGV2aWNlX2NyZWF0ZV9iaW5f
-ZmlsZSgmYi0+ZGV2LCBiLT5sZWdhY3lfaW8pOwogCWlmIChlcnJvcikKQEAgLTk1NCw2ICs5NTUs
-NyBAQCB2b2lkIHBjaV9jcmVhdGVfbGVnYWN5X2ZpbGVzKHN0cnVjdCBwY2lfYnVzICpiKQogCWIt
-PmxlZ2FjeV9tZW0tPnNpemUgPSAxMDI0KjEwMjQ7CiAJYi0+bGVnYWN5X21lbS0+YXR0ci5tb2Rl
-ID0gMDYwMDsKIAliLT5sZWdhY3lfbWVtLT5tbWFwID0gcGNpX21tYXBfbGVnYWN5X21lbTsKKwli
-LT5sZWdhY3lfaW8tPm1hcHBpbmcgPSBpb21lbV9nZXRfbWFwcGluZygpOwogCXBjaV9hZGp1c3Rf
-bGVnYWN5X2F0dHIoYiwgcGNpX21tYXBfbWVtKTsKIAllcnJvciA9IGRldmljZV9jcmVhdGVfYmlu
-X2ZpbGUoJmItPmRldiwgYi0+bGVnYWN5X21lbSk7CiAJaWYgKGVycm9yKQpAQCAtMTE2OSw2ICsx
-MTcxLDggQEAgc3RhdGljIGludCBwY2lfY3JlYXRlX2F0dHIoc3RydWN0IHBjaV9kZXYgKnBkZXYs
-IGludCBudW0sIGludCB3cml0ZV9jb21iaW5lKQogCQkJcmVzX2F0dHItPm1tYXAgPSBwY2lfbW1h
-cF9yZXNvdXJjZV91YzsKIAkJfQogCX0KKwlpZiAocmVzX2F0dHItPm1tYXApCisJCXJlc19hdHRy
-LT5tYXBwaW5nID0gaW9tZW1fZ2V0X21hcHBpbmcoKTsKIAlyZXNfYXR0ci0+YXR0ci5uYW1lID0g
-cmVzX2F0dHJfbmFtZTsKIAlyZXNfYXR0ci0+YXR0ci5tb2RlID0gMDYwMDsKIAlyZXNfYXR0ci0+
-c2l6ZSA9IHBjaV9yZXNvdXJjZV9sZW4ocGRldiwgbnVtKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-cGNpL3Byb2MuYyBiL2RyaXZlcnMvcGNpL3Byb2MuYwppbmRleCAzYTJmOTBiZWI0Y2IuLjliYWIw
-NzMwMmJiZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9wY2kvcHJvYy5jCisrKyBiL2RyaXZlcnMvcGNp
-L3Byb2MuYwpAQCAtMjk4LDYgKzI5OCw3IEBAIHN0YXRpYyBpbnQgcHJvY19idXNfcGNpX29wZW4o
-c3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZpbGUpCiAJZnByaXYtPndyaXRlX2Nv
-bWJpbmUgPSAwOwogCiAJZmlsZS0+cHJpdmF0ZV9kYXRhID0gZnByaXY7CisJZmlsZS0+Zl9tYXBw
-aW5nID0gaW9tZW1fZ2V0X21hcHBpbmcoKTsKIAogCXJldHVybiAwOwogfQotLSAKMi4zMC4wCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Feb 04, 2021 at 05:56:50PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Feb 04, 2021 at 04:52:24PM +0000, Russell King - ARM Linux admin wrote:
+> > On Tue, Feb 02, 2021 at 03:06:05PM +0100, Greg Kroah-Hartman wrote:
+> > > I'm glad to take this through my char/misc tree, as that's where the
+> > > other coresight changes flow through.  So if no one else objects, I will
+> > > do so...
+> > 
+> > Greg, did you end up pulling this after all? If not, Uwe produced a v2.
+> > I haven't merged v2 yet as I don't know what you've done.
+> 
+> I thought you merged this?
+
+I took v1, and put it in a branch I've promised in the past not to
+rebase/rewind. Uwe is now asking for me to take a v2 or apply a patch
+on top.
+
+The only reason to produce an "immutable" branch is if it's the basis
+for some dependent work and you need that branch merged into other
+people's trees... so the whole "lets produce a v2" is really odd
+workflow... I'm confused about what I should do, and who has to be
+informed which option I take.
+
+I'm rather lost here too.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
