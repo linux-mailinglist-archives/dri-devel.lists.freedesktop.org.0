@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECDD30FCDA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6CD30FCDC
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C75FE6E890;
-	Thu,  4 Feb 2021 19:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E7B6E9A8;
+	Thu,  4 Feb 2021 19:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E6E6EE0C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:09:40 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4DWmm21BHnz1qs49;
- Thu,  4 Feb 2021 19:09:38 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4DWmm20KWLz1t6pv;
- Thu,  4 Feb 2021 19:09:38 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id Tzu0XRqSusCs; Thu,  4 Feb 2021 19:09:36 +0100 (CET)
-X-Auth-Info: ujjjqwMaeZTKy1rSImM1CUauDTf2R99VzkFErwv17UU=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Thu,  4 Feb 2021 19:09:36 +0100 (CET)
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
- SN65DSI83 bindings
-To: Doug Anderson <dianders@chromium.org>
-References: <20210130181014.161457-1-marex@denx.de>
- <CAD=FV=UzkP8Rp6BDNVr1FmOK4GY9_dSeT6fCjQLMatHftyj9iA@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <c7df0302-c2c1-6ccb-7f7f-8b781d9e3d9b@denx.de>
-Date: Thu, 4 Feb 2021 19:09:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170576E116
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:15:56 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id bl23so7026209ejb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 10:15:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=sHPNpNqRTc3lgTTnJatrn/4jH2bI7C52VyBZqixyw2g=;
+ b=gaN16r/UUj+zzbzPB11XW7ssMApTMkYDt3TmgYzvAeTZiRDxNHC0Oja+qS2df1AKKN
+ Q690eEXFKXP3i3xfnkfddvO0fP7a0GlHaHfe0ulN9NPhKyc66AJ2/YrpGoo2SDnjaZZ8
+ ew2VrJO7jdThs9mHsz16Ps4nmQRXhkyhIOts4rXol1CLRHITrd6SwbodDY9fOu8Qsr9O
+ GYQk3KRh12tzFvwr1s3CPIH/TRTyLR96aG6Dw5Y9Ob4orjSSLEgQVP5yhW6Zktouw8PN
+ 34jMMF8VwCPzMye13PCbMbDL/0j3pbKW9rYJdVu2nEfRkDJ/L+nLuURXbAzNFk/oHTfW
+ b7vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=sHPNpNqRTc3lgTTnJatrn/4jH2bI7C52VyBZqixyw2g=;
+ b=q3UNndo2ICWKY80otIwPQ7PdaedlV/rfw7xrBPFd2KhuQ802mGfbiWetzDFCQn/Fr0
+ fNHqZ9qqIiRAl1GvHM6F+t6xfdcLCNnOjIEpy85Lt91cVUWuP2qDiwkw56m39vWB4oN4
+ G2+4Hi2vZAArWwWRw8eyHKoppWbUXYGRo7x3YAwj55WQ5NxY70P4nRpWO4luXpDLwu/E
+ vIjnLB49jeMgqw5aIFEVcqZUIhv7jyAdNDQtPieMrUXuGZrZFhsCEp/UfZDtQqWlmLAZ
+ yEb8ZegNZ0na35Zd7tyh3W5SLSAcJq+kWmXV362yboniSXq7yAIMkSpQL3Irru8yN6P1
+ 5mrA==
+X-Gm-Message-State: AOAM530CYFg7+uO6TkPPBQRHsZ9coxTPLQnswy5BRqTvXaF0/PwlpgTA
+ 84UxSHFeYgldBTzKAkd+gwM=
+X-Google-Smtp-Source: ABdhPJzt+oRbAoMs96bM72e8WIvvfb7+n4R3t18vC8R15kZ6WcsGDXWfZjToNyYr4maLekp/7eY1Qw==
+X-Received: by 2002:a17:906:e15:: with SMTP id
+ l21mr366735eji.376.1612462554565; 
+ Thu, 04 Feb 2021 10:15:54 -0800 (PST)
+Received: from localhost
+ (ipv6-163808adb974b8b7.ost.clients.hamburg.freifunk.net.
+ [2a03:2267:4:0:1638:8ad:b974:b8b7])
+ by smtp.gmail.com with ESMTPSA id f6sm2881926edk.13.2021.02.04.10.15.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 04 Feb 2021 10:15:53 -0800 (PST)
+Date: Thu, 4 Feb 2021 19:15:41 +0100
+From: Oliver Graute <oliver.graute@gmail.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v3] drm/panel: simple: add SGD GKTW70SDAD1SD
+Message-ID: <20210204181541.GA13054@portage>
+References: <1612287314-5384-1-git-send-email-oliver.graute@gmail.com>
+ <20210202175910.ycnf7ehk2i4u3f5o@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=UzkP8Rp6BDNVr1FmOK4GY9_dSeT6fCjQLMatHftyj9iA@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210202175910.ycnf7ehk2i4u3f5o@pengutronix.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Mailman-Approved-At: Thu, 04 Feb 2021 19:34:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,174 +72,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
  Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/21 6:15 PM, Doug Anderson wrote:
-
-Hi,
-
-[...]
-
->> +properties:
->> +  compatible:
->> +    const: ti,sn65dsi83
->> +
->> +  reg:
->> +    const: 0x2d
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +    description: GPIO specifier for bridge_en pin (active high).
+On 02/02/21, Marco Felsch wrote:
+> Hi Oliver,
 > 
-> I see two regulators: vcc and vcore.  Shouldn't those be listed?
-
-Those are not implemented and not tested, so if someone needs them later 
-on, they can be added then.
-
-> I also see an interrupt pin on the datasheet.  Probably should be
-> listed too even if the chip can be made to work fine without hooking
-> it up.  It can just be optional, right?
-
-It is optional and again completely untested, so it can be added later 
-if needed.
-
-> It wouldn't hurt to list the refclk here too even if the code doesn't
-> use it.  From sn65dsi86 it was handy that the bindings already had all
-> this type of stuff so that when we added the feature we didn't have to
-> go back to the bindings.
-
-In my case, the refclock are derived from the DSI link.
-
->> +  ports:
->> +    type: object
->> +    additionalProperties: false
->> +
->> +    properties:
->> +      "#address-cells":
->> +        const: 1
->> +
->> +      "#size-cells":
->> +        const: 0
->> +
->> +      port@0:
->> +        type: object
->> +        additionalProperties: false
->> +
->> +        description:
->> +          Video port for MIPI DSI input
->> +
->> +        properties:
->> +          reg:
->> +            const: 0
->> +
->> +          endpoint:
->> +            type: object
->> +            additionalProperties: false
->> +            properties:
->> +              remote-endpoint: true
->> +              data-lanes:
->> +                description: array of physical DSI data lane indexes.
+> On 21-02-02 18:35, Oliver Graute wrote:
+> > Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
+> > to panel-simple.
+> > 
+> > The panel spec from Variscite can be found at:
+> > https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
+> > 
+> > Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
+> > Cc: Marco Felsch <m.felsch@pengutronix.de>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > ---
+> > 
+> > v3:
+> > 
+> > - added flags
+> > - added delay
 > 
-> The chip doesn't allow for arbitrary remapping here, right?  So you're
-> just using this as the official way to specify the number of lanes?  I
-> guess the only valid values are:
-> 
-> <0>
-> <0 1>
-> <0 1 2>
-> <0 1 2 3>
+> Thanks, did you test the changes?
+> I just picked it from the datasheet.
 
-Shouldn't that be <1 2 3 4> ?
+yes, it didn't break anything. 
 
-> In sn65dsi86 we attempted to enforce that a valid option was selected
-> for the output lanes.  Could you do something similar?  If nothing
-> else adding a description of the valid options would be good.
+Best regards,
 
-I saw the binding, but I was under the impressions the DSI86 can do lane 
-reordering, isn't that the case ? Maybe I misunderstood it.
-
-But yes, if you have a suggestion how to make a non-cryptic list of 
-those four lane mapping options, please do share this info.
-
->> +        required:
->> +          - reg
->> +
->> +      port@1:
->> +        type: object
->> +        additionalProperties: false
->> +
->> +        description:
->> +          Video port for LVDS output (panel or bridge).
->> +
->> +        properties:
->> +          reg:
->> +            const: 1
->> +
->> +          endpoint:
->> +            type: object
->> +            additionalProperties: false
->> +            properties:
->> +              remote-endpoint: true
-> 
-> Worth adding the data-lanes here too?  I guess this part allows you
-> two different orders for the LVDS outputs?
-
-I don't really want to add any properties which I cannot test and then 
-end up with DT bindings which would become poor ABI in the future.
-
->> +
->> +        required:
->> +          - reg
->> +
->> +    required:
->> +      - "#address-cells"
->> +      - "#size-cells"
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - enable-gpios
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    i2c {
->> +      #address-cells = <1>;
->> +      #size-cells = <0>;
->> +
->> +      bridge@2d {
->> +        compatible = "ti,sn65dsi83";
->> +        reg = <0x2d>;
->> +
->> +        enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
->> +
->> +        ports {
->> +          #address-cells = <1>;
->> +          #size-cells = <0>;
->> +
->> +          port@0 {
->> +            reg = <0>;
->> +            endpoint {
->> +              remote-endpoint = <&dsi0_out>;
->> +              data-lanes = <1 2 3 4>;
-> 
-> Should the above be <0 1 2 3>?
-
-Well, git grep data-lanes seems to indicate some count from 1, some from 0 .
+Oliver
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
