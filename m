@@ -2,83 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5130FCDB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D96F30FCE3
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30C9D6E48F;
-	Thu,  4 Feb 2021 19:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C746EE39;
+	Thu,  4 Feb 2021 19:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6456EE2E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:29:39 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B601c3d110001>; Thu, 04 Feb 2021 10:29:37 -0800
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
- 2021 18:29:37 +0000
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL103.nvidia.com
- (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
- 2021 18:29:28 +0000
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.172)
- by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 4 Feb 2021 18:29:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XIGIAgbSLfhIQRZTG1xJmx0Sa4L/INh8SxvojUDOTdy5VnDUm2YNwXsMqU0kqjTdHwczohcAWGmqizlWxbXxrVOsNM+uKrBJRqJU0vPHk1YPiyiUxx/ln2gizkAynptpq5ooUWcvc99jdc0sxs6klNK7VmFoH/vPkuiVicmSQ3XwjbOEzhp6Tp05ITD7FPYFkvLNaw20r+QjwFrTlaCt9LpefHkkAfdoCTkIl6kK3+jDfNudOEOqKdzsvNn0BmbNdkrWCyQAGQnhuDLvnwHVr1Wb4k4no9BgIE1+cHzMvF2g4n8dmGOdFqo4ysV+RwY77hPp/unxq+h9dxHpRKWLmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+cZcUkOrwkLnxcAP9Nz/ErpUe7Fr0zvEU0lngQWQMp4=;
- b=j4DtkByOSYGJXjCg/ny17EQAfzhA7AjxsOknQzeZXfMvg3kRmN1NHzOB1jox2TUQb/NbYEdWjYZOIr/L355cpHZxW5u6v1iRm35sivfXxjauQssGY3VEt46vjiqyTfV3hDRntSeVe6pW/c57l+TI7FBgFXSwVVZ5TSZ3Se3pNcWoZCURCTpVMcNC898RogvIBJFj+jGt+1fdHgL+wzm2b4ou7AKu0vpCcjXmhWYcK+WTvZ6tgQhB2A20827/Tcg5mT0Obh+YEwI73kv1JJckcHqnvya2zcvGuESqUmgg1gm+k1OQ8dNFw4Fw8P6iuvVBW9ifp2WueYy3kRVAH3fOzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3402.namprd12.prod.outlook.com (2603:10b6:5:3b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17; Thu, 4 Feb
- 2021 18:29:25 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::d6b:736:fa28:5e4]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::d6b:736:fa28:5e4%7]) with mapi id 15.20.3805.033; Thu, 4 Feb 2021
- 18:29:25 +0000
-Date: Thu, 4 Feb 2021 14:29:23 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-Message-ID: <20210204182923.GL4247@nvidia.com>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
- <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
- <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
-X-ClientProxiedBy: MN2PR18CA0029.namprd18.prod.outlook.com
- (2603:10b6:208:23c::34) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 319376E98B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:38:10 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id w20so3176428qta.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 10:38:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=2fIZukpi2sIkAo6dCSdzu+YLGU4yBN0ZS259eTftrmo=;
+ b=ZDrg721g9DWz6gMDSvDwcOshGXi43jOvhKY731U9A/W+nuH688MaMKCgUMSVaEuPlO
+ u5+zBIVhUE92SR3JQnmAHjF6kTJhmuYcERtH6w6deiWyQm+4KFkhJpcv2rEqKYKJVGvi
+ RVpjfxbJub7GmDSp8kzhVOKIgOxxn+S6y80T7yBceMOXc+7hFFm8eF/HSxlhcW7Pk2De
+ ot3NI99mADEPnWIzSgFaztVZseNUyGZi+exOu+R4eons5v/t2nBw7nEcVuw4KsnGkvxs
+ t66tm0egg5z/aBOZRhgHPfox7TSV82aXYH1YTeRSK0osTfMxz+B+eE3YJz/vpZGwwyne
+ 48gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2fIZukpi2sIkAo6dCSdzu+YLGU4yBN0ZS259eTftrmo=;
+ b=QEBR4Lrvqm67SFQFFGyEEE8ygWEe4t+ObLAcrvPJiD7LgB62wx0uVDg2zMSWxAaCle
+ yI88Nl/TuEoWsU5ULqWPA3NUWqX5RFeJ68jF361GL4vgq7yKhDbADIlqiA8bDp9M0fY+
+ 7UBI7oKhzyD1vi4SdOy4jUwgqgl5D02zpjZdQt+R6l0yI3vbYGI/dzEmOtNBVaRfzpNp
+ r0J+XHZTH7s935ey+6Gv0cne6lvhFEKeXGyh0nJ/7eODSrs8kbu+BdI9Z+9UlsT7qAV1
+ rkcU1Jdyz/9LHEVa51qeNI+xB3r2O7pvmmO/Y6Nc/2/PgpcBOOv6DnU0HxIKdzALDJ97
+ 3CHw==
+X-Gm-Message-State: AOAM5321ONsbDC+UvPAJH/01NdlYv9OOVJxVQ+cgky5Szl073FLvnyCA
+ VyIA3u50iOJAA/GPkqyxVxUxeA==
+X-Google-Smtp-Source: ABdhPJyswAPCEbvkwu8uoUdREU+JcFm5YBJnWbEhEdYe1zXUwlPWir/3dhSNStZTV+xow3F8NOw2ZA==
+X-Received: by 2002:ac8:7768:: with SMTP id h8mr860973qtu.331.1612463889312;
+ Thu, 04 Feb 2021 10:38:09 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id r64sm6041832qkf.121.2021.02.04.10.38.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 10:38:08 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1l7jW4-003Xte-3o; Thu, 04 Feb 2021 14:38:08 -0400
+Date: Thu, 4 Feb 2021 14:38:08 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] RFC: dma-buf: Require VM_SPECIAL vma for mmap
+Message-ID: <20210204183808.GY4718@ziepe.ca>
+References: <20210203211948.2529297-1-daniel.vetter@ffwll.ch>
+ <20210204161339.GX4718@ziepe.ca>
+ <CAKMK7uEZvEEQXQeM=t-7uZEvga2GMhctp=WQgeSetG0GKTRsHA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by
- MN2PR18CA0029.namprd18.prod.outlook.com (2603:10b6:208:23c::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend
- Transport; Thu, 4 Feb 2021 18:29:24 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1l7jNb-003XfL-Jl; Thu, 04 Feb 2021 14:29:23 -0400
-X-Header: ProcessedBy-CMR-outbound
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1612463377; bh=+cZcUkOrwkLnxcAP9Nz/ErpUe7Fr0zvEU0lngQWQMp4=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType:X-Header;
- b=KI5m6Lz5QvaOQZaht8Nt8EjSccBoij3b1m5oJ3/jArsFx4r2bbns/hB3uggGvyrmP
- pWnjbmavcbwmfUn4qdiQ0WDRKENsr5zRHpGQ9T98HAxiizsvizGxWFLfiKc8vSMsoS
- f2fzsJqzNeupgejly/8eSmRXQGGgI+E/6NJm9Q5VkRQtZl8bWoIAjjvMCYU3Q2nKl8
- BCpjkC/1FAc09OSHw7bUSjmeoDxNhHd9rKvVJJ9HeDIUvAyhu+vHYV4r+peT9KJ7fH
- xQ+VcuyqRuf/dtfPizX7pEEYFC4WPNId3tl/u0MG9rdlRRmmJEPc/J/68di1LESndb
- 7sPVUyjhV5p2Q==
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEZvEEQXQeM=t-7uZEvga2GMhctp=WQgeSetG0GKTRsHA@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 04 Feb 2021 19:34:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Maling
- list - DRI developers <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 04, 2021 at 08:50:38AM -0500, Alex Deucher wrote:
-> On Thu, Feb 4, 2021 at 2:48 AM John Hubbard <jhubbard@nvidia.com> wrote:
+On Thu, Feb 04, 2021 at 06:16:27PM +0100, Daniel Vetter wrote:
+> On Thu, Feb 4, 2021 at 5:13 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > On Wed, Feb 03, 2021 at 10:19:48PM +0100, Daniel Vetter wrote:
+> > > tldr; DMA buffers aren't normal memory, expecting that you can use
+> > > them like that (like calling get_user_pages works, or that they're
+> > > accounting like any other normal memory) cannot be guaranteed.
+> > >
+> > > Since some userspace only runs on integrated devices, where all
+> > > buffers are actually all resident system memory, there's a huge
+> > > temptation to assume that a struct page is always present and useable
+> > > like for any more pagecache backed mmap. This has the potential to
+> > > result in a uapi nightmare.
+> > >
+> > > To stop this gap require that DMA buffer mmaps are VM_SPECIAL, which
+> > > blocks get_user_pages and all the other struct page based
+> > > infrastructure for everyone. In spirit this is the uapi counterpart to
+> > > the kernel-internal CONFIG_DMABUF_DEBUG.
 > >
-> > On 12/15/20 1:27 PM, Jianxin Xiong wrote:
-> > > This patch series adds dma-buf importer role to the RDMA driver in
-> > > attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
-> > > chosen for a few reasons: first, the API is relatively simple and allows
-> > > a lot of flexibility in implementing the buffer manipulation ops.
-> > > Second, it doesn't require page structure. Third, dma-buf is already
-> > > supported in many GPU drivers. However, we are aware that existing GPU
-> > > drivers don't allow pinning device memory via the dma-buf interface.
-> > > Pinning would simply cause the backing storage to migrate to system RAM.
-> > > True peer-to-peer access is only possible using dynamic attach, which
-> > > requires on-demand paging support from the NIC to work. For this reason,
-> > > this series only works with ODP capable NICs.
-> >
-> > Hi,
-> >
-> > Looking ahead to after this patchset is merged...
-> >
-> > Are there design thoughts out there, about the future of pinning to vidmem,
-> > for this? It would allow a huge group of older GPUs and NICs and such to
-> > do p2p with this approach, and it seems like a natural next step, right?
+> > Fast gup needs the special flag set on the PTE as well.. Feels weird
+> > to have a special VMA without also having special PTEs?
 > 
-> The argument is that vram is a scarce resource, but I don't know if
-> that is really the case these days.  At this point, we often have as
-> much vram as system ram if not more.
+> There's kinda no convenient & cheap way to check for the pte_special
+> flag. This here should at least catch accidental misuse, people
+> building their own ptes we can't stop. Maybe we should exclude
+> VM_MIXEDMAP to catch vm_insert_page in one of these.
+> 
+> Hm looking at code I think we need to require VM_PFNMAP here to stop
+> vm_insert_page. And looking at the various functions, that seems to be
+> required (and I guess VM_IO is more for really funky architectures
+> where io-space is somewhere else?). I guess I should check for
+> VM_PFNMAP instead of VM_SPECIAL?
 
-I thought the main argument was that GPU memory could move at any time
-between the GPU and CPU and the DMA buf would always track its current
-location?
+Well, you said the goal was to block GUP usage, that won't happen
+without the PTE special flag, at least on x86
 
-IMHO there is no reason not to have a special API to create small
-amounts of GPU dedicated locked memory that cannot be moved off the
-GPU.
+So, really, what you are saying is all dmabuf users should always use
+vmf_insert_pfn_prot() or something similar - and never insert_page/etc?
 
-For instance this paper:
+It might make sense to check the vma flags in all the insert paths, eg
+vm_insert_page() can't work with VMAs that should not have struct
+pages in them (eg VM_SPECIAl, VM_PFNMAP, !VM_MIXEMAP if I understand
+it right)
 
-http://www.ziti.uni-heidelberg.de/ziti/uploads/ce_group/2014-ASHESIPDPS.pdf
-
-Considers using the GPU to directly drive the RDMA work
-queues. Putting the queues themselves in GPU VRAM would make alot of
-sense.
-
-But that is impossible without fixed non-invalidating dma bufs.
+At least as some VM debug option
 
 Jason
 _______________________________________________
