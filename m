@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EC030FC1C
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:00:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F85530FC35
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:07:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6640E6E103;
-	Thu,  4 Feb 2021 19:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3327489D30;
+	Thu,  4 Feb 2021 19:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 863AB6E103
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 19:00:39 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B601c44570001>; Thu, 04 Feb 2021 11:00:39 -0800
-Received: from MacBook-Pro-10.local (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
- 2021 19:00:32 +0000
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-To: Alex Deucher <alexdeucher@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
- <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
- <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
- <20210204182923.GL4247@nvidia.com>
- <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <8e731fce-95c1-4ace-d8bc-dc0df7432d22@nvidia.com>
-Date: Thu, 4 Feb 2021 11:00:32 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9052589D30;
+ Thu,  4 Feb 2021 19:06:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 255D8AC45;
+ Thu,  4 Feb 2021 19:06:55 +0000 (UTC)
+To: Tong Zhang <ztong0001@gmail.com>
+References: <20210204145712.1531203-1-kraxel@redhat.com>
+ <20210204145712.1531203-3-kraxel@redhat.com>
+ <d217112e-e49d-bd1f-0c39-3eac2dd721fd@suse.de>
+ <60B8023C-78C9-441D-AA21-A13C4445F666@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v6 02/10] Revert "drm/qxl: do not run release if qxl
+ failed to init"
+Message-ID: <3feaeb62-fd50-5cca-26f7-42f6167ef77a@suse.de>
+Date: Thu, 4 Feb 2021 20:06:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1612465239; bh=ZRwFgdcQ21FKYiVXb0EIKpbgQVH1pjcxmfD2qtvFKCs=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=O62cwUSgaxuiTPjW3XH95lJXxP99XYlZmxq0IbYI/q5iy+lytfttykWVIg4zh/p79
- YkpTFrnCNfdEc1GoIJB3TUshyMLqt7hPi6IOGykdN1wypmvoj8iCj1TgKFZxaTs9vF
- DOuntKqUcV+wJjItWIdWvIynHDtrcN5xfNtqc0wMi496zKEuaR0NCb6IhN25JPC9++
- lfCJjja90iS2hGwus5QNwCGw8isDOytKQsahv/rrnh7J6AP2dyjbyz923gycpufuX7
- NcPu1IzdGV196RtO1PKnCTXP54JelRD40hEM+HS7qMt5F70KxK3fmRsrPNpdjBCue0
- /dDRlSSEeqTHA==
+In-Reply-To: <60B8023C-78C9-441D-AA21-A13C4445F666@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,53 +42,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dave Airlie <airlied@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1140623342=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/21 10:44 AM, Alex Deucher wrote:
-...
->>> The argument is that vram is a scarce resource, but I don't know if
->>> that is really the case these days.  At this point, we often have as
->>> much vram as system ram if not more.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1140623342==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sugShVuXIKVOGqdiIRIR03GxisZfIG58Q"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sugShVuXIKVOGqdiIRIR03GxisZfIG58Q
+Content-Type: multipart/mixed; boundary="qbjhu3JTxQsoO1DR3tZmYIYIeQBYPtQYO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tong Zhang <ztong0001@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
+Message-ID: <3feaeb62-fd50-5cca-26f7-42f6167ef77a@suse.de>
+Subject: Re: [PATCH v6 02/10] Revert "drm/qxl: do not run release if qxl
+ failed to init"
+References: <20210204145712.1531203-1-kraxel@redhat.com>
+ <20210204145712.1531203-3-kraxel@redhat.com>
+ <d217112e-e49d-bd1f-0c39-3eac2dd721fd@suse.de>
+ <60B8023C-78C9-441D-AA21-A13C4445F666@gmail.com>
+In-Reply-To: <60B8023C-78C9-441D-AA21-A13C4445F666@gmail.com>
+
+--qbjhu3JTxQsoO1DR3tZmYIYIeQBYPtQYO
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Tong
+
+Am 04.02.21 um 19:52 schrieb Tong Zhang:
+> Hi Thomas,
+>=20
+> The original problem was qxl_device_init() can fail,
+> when it fails there is no need to call
+> 	qxl_modeset_fini(qdev);
+> 	qxl_device_fini(qdev);
+> But those two functions are otherwise called in the qxl_drm_release() -=
+
+
+OK, makes sense. Thanks for the explanation.
+
+>=20
+> I have posted an updated patch.
+> The new patch use the following logic
+>=20
+> +	if (!qdev->ddev.mode_config.funcs)
+> +	  return;
+
+This is again just papering over the issue. Better don't call=20
+qxl_drm_release() in the error path if qxl_device_init() fails.
+
+I see two solutions: either roll-back manually, or use our new managed=20
+DRM interfaces. This is what the other drivers do.
+
+Best regards
+Thomas
+
+> 	qxl_modeset_fini(qdev);
+> 	qxl_device_fini(qdev);
+>=20
+> Thanks,
+> - Tong
+>=20
+>=20
+>> On Feb 4, 2021, at 1:34 PM, Thomas Zimmermann <tzimmermann@suse.de> wr=
+ote:
 >>
->> I thought the main argument was that GPU memory could move at any time
->> between the GPU and CPU and the DMA buf would always track its current
->> location?
-> 
-> I think the reason for that is that VRAM is scarce so we have to be
-> able to move it around.  We don't enforce the same limitations for
-> buffers in system memory.  We could just support pinning dma-bufs in
-> vram like we do with system ram.  Maybe with some conditions, e.g.,
-> p2p is possible, and the device has a large BAR so you aren't tying up
-> the BAR window.
-> 
+>> Hi
+>>
+>> Am 04.02.21 um 15:57 schrieb Gerd Hoffmann:
+>>> This reverts commit b91907a6241193465ca92e357adf16822242296d.
+>>
+>> This should be in the correct format, as given by 'dim cite'.
+>>
+>> dim cite b91907a6241193465ca92e357adf16822242296d
+>> b91907a62411 ("drm/qxl: do not run release if qxl failed to init")
+>>
+>>> Patch is broken, it effectively makes qxl_drm_release() a nop
+>>> because on normal driver shutdown qxl_drm_release() is called
+>>> *after* drm_dev_unregister().
+>>> Cc: Tong Zhang <ztong0001@gmail.com>
+>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/qxl/qxl_drv.c | 2 --
+>>>   1 file changed, 2 deletions(-)
+>>> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_=
+drv.c
+>>> index 34c8b25b5780..fb5f6a5e81d7 100644
+>>> --- a/drivers/gpu/drm/qxl/qxl_drv.c
+>>> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
+>>> @@ -144,8 +144,6 @@ static void qxl_drm_release(struct drm_device *de=
+v)
+>>>   	 * reodering qxl_modeset_fini() + qxl_device_fini() calls is
+>>>   	 * non-trivial though.
+>>>   	 */
+>>> -	if (!dev->registered)
+>>> -		return;
+>>
+>> I'm not sure what the original problem was, but I'm sure that this isn=
+'t the fix for it. If there's a problem with shutdown, the operations rat=
+her have to be reordered correctly.
+>>
+>> With the citation style address:
+>>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>>>   	qxl_modeset_fini(qdev);
+>>>   	qxl_device_fini(qdev);
+>>>   }
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
 
-Excellent. And yes, we are already building systems in which VRAM is
-definitely not scarce, but on the other hand, those newer systems can
-also handle GPU (and NIC) page faults, so not really an issue. For that,
-we just need to enhance HMM so that it does peer to peer.
-
-We also have some older hardware with large BAR1 apertures, specifically
-for this sort of thing.
-
-And again, for slightly older hardware, without pinning to VRAM there is
-no way to use this solution here for peer-to-peer. So I'm glad to see that
-so far you're not ruling out the pinning option.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
+--qbjhu3JTxQsoO1DR3tZmYIYIeQBYPtQYO--
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+--sugShVuXIKVOGqdiIRIR03GxisZfIG58Q
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAcRc0FAwAAAAAACgkQlh/E3EQov+Cv
+zBAAt+AajrDpzr+ENbzKQ1EFljU7ebL45uSdlooyn8Q2PenAq6PffmdqW/MdbTZ+9bUsUb33Z6xi
+tZVdCEnp41Hi9FdcIwnfM+oSck5Gi6QTJxLd7GH0rtTGXvz83xngZZzlxAVYEpstLozEDgqucuQ4
+2aLUPeZx3E/A2OSBK1gVg3Yyqm78IlNLeMzfjgodJbABBBVdND2FF7MT4fsFxfsLWi4RrdCyJ6+d
+LHXLXxnqYrjfZ2mfmmKJZUEV5AGo/nNJ0D+LIe9x1pTu37UtQpcgXUeeyECD+zrVdMjOpMfJgvS2
+G4mVNWOa3UzJAeZ4YBGK/YTpknYa8l8eGXNGdeqSt96OYTWb/XgkFfMfMJKXl9ArkpjI5D9MlvM6
+xWqZFGvaG1lExlIbCuyffjYp+sHJyRpN6jCiWdEcakrZHwoZM+gc9SIt2EeN1BTVKXkoKznoERX5
+ddxXZAKLorqs7qHE4rfJ/pEOP5SiqOcgP2bBvfQRQ9mBiIY2bVJVpQxFSgc/wE7FGNrmUIWwk+UU
+QB31SHD9BMSUbvnndgjqnoIlAKjNWpmbIf5k/d7aE43Z99EeGNlQIG2FomQLiEoMRIBTCDmuzVnX
+Epcd0EgdSwab7aLjhnzN1d8DRn7vESe/u67wBDAeqt6zEZUDp5PTjOZOA5zkEcGmDycBte6is1Y8
+G64=
+=bdv9
+-----END PGP SIGNATURE-----
+
+--sugShVuXIKVOGqdiIRIR03GxisZfIG58Q--
+
+--===============1140623342==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1140623342==--
