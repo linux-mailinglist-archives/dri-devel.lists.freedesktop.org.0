@@ -1,71 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEBF30F5FB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:18:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9287E30F604
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 16:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484DF6EDD1;
-	Thu,  4 Feb 2021 15:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B20196EDD5;
+	Thu,  4 Feb 2021 15:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBFB6EDD1
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 15:18:00 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id q7so3889374wre.13
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 07:18:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=lpfJPe/1tU+7DzTf4KYc1pV9RSxza5H3pS4oizaxjuc=;
- b=HcCeGBGJsMKx9yLKPrbfI+qpmPRZoIkJQeDpi0L9B/qg48Sp9HqgwH4gNJpK0bECyq
- zk+eFwNrB0sB4xpAcFmrm++/3Fk1dfCl0mOyOPMG4vdT1nynBruqqtQCIzsMGQP14+aN
- fpa6ojnGDSvQaNthY/dZXaE3//+3Ry3GIwJpE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=lpfJPe/1tU+7DzTf4KYc1pV9RSxza5H3pS4oizaxjuc=;
- b=TIknY7TYft0NZu2pFAhdVFCGmAb5mablGQ/VqDhY54AC8I30mZFAWjkWMsabxJxRmU
- nOaepcnKMMVcEmPnYxf5npQSdDdSQrSMOk1j64D9BnAJC8QnEz++rOrMwb7RpKBRRm5m
- ChPlCeZFYg30BS8OpeffugmKgDaXBHeGMJA4eRJrX4oC4BUDGbWwv5WECcuJ+ZA7To4I
- p7Qy6+HnMsPU14HeT9iOUO+O+xeGrg/+T2sUBxNW8AcC62AWTbapyoK/Uo7m3zkQIG2b
- aB+hITZ3B6z/n85D6aeoRBzhAex/bQtiypEwzJlTa+1wQ6le8TcsFzEc6gVV3Uj3/b68
- M5NA==
-X-Gm-Message-State: AOAM531w5WYBxNd97MIlp46RUMlQ44TqQlYo3ja7432sUdrMMHltq7K/
- AqURzUUn1qj17xTe7IgVO0+L/A==
-X-Google-Smtp-Source: ABdhPJyBIQIVsMcklYb+yXnw0qimDfJH83/YxKcR6iv94o3WNC66b1hbf14zmpSAbgwo++Gvnf8wLA==
-X-Received: by 2002:adf:dd45:: with SMTP id u5mr9836389wrm.392.1612451879310; 
- Thu, 04 Feb 2021 07:17:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w15sm8097023wrp.15.2021.02.04.07.17.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 07:17:58 -0800 (PST)
-Date: Thu, 4 Feb 2021 16:17:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm/kms: Make a lock_class_key for each crtc mutex
-Message-ID: <YBwQJPepkIS39Grc@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- Stephen Boyd <swboyd@chromium.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
-References: <20210125234901.2730699-1-swboyd@chromium.org>
- <YBlz8Go2DseRWuOa@phenom.ffwll.local>
- <CAF6AEGuWhGuzxsBquj-WLSwa83r+zO7jAQ9ten2m+2KtoGpYSw@mail.gmail.com>
- <YBp2h2cVXrF6lBno@phenom.ffwll.local>
- <CAF6AEGvTrfYYTfReGbAm9zcBNhjZvX0tko4kZUeQcyNZv4cM6w@mail.gmail.com>
- <161238950899.76967.16385691346035591773@swboyd.mtv.corp.google.com>
- <CAF6AEGtFpjpYoY_iu8F2z-RMJ=0+tBYo-akKJ1JbgKagBuQWtA@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E0B6EDD5
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 15:19:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8912C64F6C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 15:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612451991;
+ bh=kUh141wk6ZM93L10oX9lhYUvMjM9v7bamz+KCaDng5A=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WzEKkWEjo1qG/Oc3/9CClCx7k7VF+MbDceCVQxbWIVIx7omXxz6zgFFWxzFsJ7JC6
+ XYcCC2mtsjZgEmDEQYjXip1wYjaXWJthYF0OqH31GUZ1d3HeRK7qt8voKE1zEkGVJ9
+ giT0MYgkEVBgHQzhqm1kaP6FzLzxLjJz1Q43EVO3ulrR8uD5LYtU6A8Y13Ue6I2fjw
+ rpu76+YWi0H5o18jWLEPAtEK/601En6pXjnYU7xRS2Qw1CMUIyhxTFlZKIEPWLJfsG
+ egNSk7s0Ul/paPgYoKDqbKkT7ydbQdZHm/xeszFjGNWb/M1p09fs9KatZdRqPB2KCe
+ ao16uMb4MUYPg==
+Received: by mail-wm1-f54.google.com with SMTP id j21so608490wmj.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 07:19:51 -0800 (PST)
+X-Gm-Message-State: AOAM532rWhERbAyCzseupfUZTntEGIbLDreMQ1tgX4gfBJey3Q/oVpu/
+ og16W9SzPa87qTOWJIJ0NIwkwqZ3jDA/W86nXw==
+X-Google-Smtp-Source: ABdhPJwEOxIf3B/d56FM6vkR0BkFF6tyFgWLLX/T9PNNRpR+kr7fnS9VlBGrPb7kXJBf/ujv7V2bq/HM12FIOP1sK+U=
+X-Received: by 2002:a1c:5f82:: with SMTP id t124mr2620wmb.55.1612451990097;
+ Thu, 04 Feb 2021 07:19:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGtFpjpYoY_iu8F2z-RMJ=0+tBYo-akKJ1JbgKagBuQWtA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20210203232247.30902-1-chunkuang.hu@kernel.org>
+ <CAPM=9tyx82qNF7EDSfq0u6dHJRKjdsYU1RBROM29sS8vc5tNPw@mail.gmail.com>
+In-Reply-To: <CAPM=9tyx82qNF7EDSfq0u6dHJRKjdsYU1RBROM29sS8vc5tNPw@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 4 Feb 2021 23:19:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-Qw4LWAjvZKsgEWbdy9j1XjewwMbhQVBXjR0KXL10X3A@mail.gmail.com>
+Message-ID: <CAAOTY_-Qw4LWAjvZKsgEWbdy9j1XjewwMbhQVBXjR0KXL10X3A@mail.gmail.com>
+Subject: Re: [GIT PULL] mediatek drm next for 5.12
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,78 +53,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 03, 2021 at 02:11:09PM -0800, Rob Clark wrote:
-> On Wed, Feb 3, 2021 at 1:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> >
-> > Quoting Rob Clark (2021-02-03 09:29:09)
-> > > On Wed, Feb 3, 2021 at 2:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Tue, Feb 02, 2021 at 08:51:25AM -0800, Rob Clark wrote:
-> > > > > On Tue, Feb 2, 2021 at 7:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > >
-> > > > > > On Mon, Jan 25, 2021 at 03:49:01PM -0800, Stephen Boyd wrote:
-> > > > > > > This is because lockdep thinks all the locks taken in lock_crtcs() are
-> > > > > > > the same lock, when they actually aren't. That's because we call
-> > > > > > > mutex_init() in msm_kms_init() and that assigns on static key for every
-> > > > > > > lock initialized in this loop. Let's allocate a dynamic number of
-> > > > > > > lock_class_keys and assign them to each lock so that lockdep can figure
-> > > > > > > out an AA deadlock isn't possible here.
-> > > > > > >
-> > > > > > > Fixes: b3d91800d9ac ("drm/msm: Fix race condition in msm driver with async layer updates")
-> > > > > > > Cc: Krishna Manikandan <mkrishn@codeaurora.org>
-> > > > > > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > > > > >
-> > > > > > This smells like throwing more bad after initial bad code ...
-> > > > > >
-> > > > > > First a rant: https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
-> > > >
-> > > > Some technical on the patch itself: I think you want
-> > > > mutex_lock_nested(crtc->lock, drm_crtc_index(crtc)), not your own locking
-> > > > classes hand-rolled. It's defacto the same, but much more obviously
-> > > > correct since self-documenting.
-> > >
-> > > hmm, yeah, that is a bit cleaner.. but this patch is already on
-> > > msm-next, maybe I'll add a patch on top to change it
-> >
-> > How many CRTCs are there? The subclass number tops out at 8, per
-> > MAX_LOCKDEP_SUBCLASSES so if we have more than that many bits possible
-> > then it will fail.
-
-Hm good point, tbh the mutex_lock_nested annotations isn't super awesome
-either, it would be kinda neat if we could put that annotation into
-mutex_lock_init fairly statically (and at that point we could allos resize
-the array fairly easily I think at runtime).
-
-The nice thing with the nesting index is just that it makes it a bit more
-obvious that there's a static nesting going on and why it's ok.
--Daniel
-
-> conveniently MAX_CRTCS is 8.. realistically I don't *think* you'd ever
-> see more than 2 or 3
-> 
-> BR,
-> -R
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIERhdmU6CgpEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+IOaWvCAyMDIx5bm0Muac
+iDTml6Ug6YCx5ZubIOS4iuWNiDEwOjU25a+r6YGT77yaCj4KPiBPbiBUaHUsIDQgRmViIDIwMjEg
+YXQgMDk6MjIsIENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPiB3cm90ZToK
+PiA+Cj4gPiBIaSwgRGF2ZSAmIERhbmllbDoKPiA+Cj4gPiBUaGlzIGluY2x1ZGVzOgo+ID4KPiA+
+IDEuIERlY291cGxlIE1lZGlhdGVrIERSTSBzdWIgZHJpdmVyCj4gPiAyLiBTaGFyZSBtdGsgbXV0
+ZXggZHJpdmVyIGZvciBib3RoIERSTSBhbmQgTURQCj4gPiAzLiBBZGQgc3VwcG9ydCBmb3IgU29D
+IE1UODE4Mwo+Cj4gSGkgQ2h1bi1LdWFuZywKPgo+Cj4gZGltOiBlODM0MjFiOWFjYWQgKCJkcm0v
+bWVkaWF0ZWs6IEZpeCBhYWwgc2l6ZSBjb25maWciKTogU3ViamVjdCBpbgo+IGZpeGVzIGxpbmUg
+ZG9lc24ndCBtYXRjaCByZWZlcmVuY2VkIGNvbW1pdDoKPiBkaW06ICAgICAwNjY0ZDEzOTJjMjYg
+KGRybS9tZWRpYXRlazogQWRkIEFBTCBlbmdpbmUgYmFzaWMgZnVuY3Rpb24pCj4gZGltOiBkZTk0
+NWYzMDk4YWYgKCJkcm0vbWVkaWF0ZWs6IENoZWNrIGlmIGZiIGlzIG51bGwiKTogU3ViamVjdCBp
+bgo+IGZpeGVzIGxpbmUgZG9lc24ndCBtYXRjaCByZWZlcmVuY2VkIGNvbW1pdDoKPiBkaW06ICAg
+ICBiNmIxYmI5ODBlYzQgKCBkcm0vbWVkaWF0ZWs6IFR1cm4gb2ZmIEFscGhhIGJpdCB3aGVuIHBs
+YW5lCj4gZm9ybWF0IGhhcyBubyBhbHBoYSkKPgo+IENhbiB5b3UgZml4IHRoZSBGaXhlcyB0YWdz
+LCBpdCBzaG91bGQgaGF2ZSBzaGExICgiY29tbWl0IikgdGhleSBhcmUKPiBtaXNzaW5nIHRoZSBx
+dW90YXRpb25zLgo+CgpJJ3ZlIGZpeGVkIHRoaXMgYW5kIHNlbmQgcmVxdWVzdCB2Mi4gZGltIGxv
+b2tzIGxpa2UgYSBnb29kIHRvb2wsIEkKd291bGQgdHJ5IHRvIHVzZSBpdC4KClJlZ2FyZHMsCkNo
+dW4tS3VhbmcuCgo+IFRoYW5rcywKPiBEYXZlLgo+Cj4gPgo+ID4gUmVnYXJkcywKPiA+IENodW4t
+S3VhbmcuCj4gPgo+ID4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA1YzhmZTU4
+M2NjZTU0MmFhMGI4NGFkYzkzOWNlODUyOTNkZTM2ZTVlOgo+ID4KPiA+ICAgTGludXggNS4xMS1y
+YzEgKDIwMjAtMTItMjcgMTU6MzA6MjIgLTA4MDApCj4gPgo+ID4gYXJlIGF2YWlsYWJsZSBpbiB0
+aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4gPgo+ID4gICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1
+Yi9zY20vbGludXgva2VybmVsL2dpdC9jaHVua3VhbmcuaHUvbGludXguZ2l0IHRhZ3MvbWVkaWF0
+ZWstZHJtLW5leHQtNS4xMgo+ID4KPiA+IGZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBm
+Mjg5ZWIxZGI3ZDdlNjEzMmMzZWNmNTA0OTQzNWFjZTI5NjdiMGZjOgo+ID4KPiA+ICAgZHJtL21l
+ZGlhdGVrOiBBZGQgbWF0cml4X2JpdHMgcHJpdmF0ZSBkYXRhIGZvciBjY29yciAoMjAyMS0wMi0w
+MyAyMzo1NDowNyArMDgwMCkKPiA+Cj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiBNZWRpYXRlayBEUk0gTmV4dCBm
+b3IgTGludXggNS4xMgo+ID4KPiA+IDEuIERlY291cGxlIE1lZGlhdGVrIERSTSBzdWIgZHJpdmVy
+Cj4gPiAyLiBTaGFyZSBtdGsgbXV0ZXggZHJpdmVyIGZvciBib3RoIERSTSBhbmQgTURQCj4gPiAz
+LiBBZGQgc3VwcG9ydCBmb3IgU29DIE1UODE4Mwo+ID4KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+IENLIEh1ICgx
+NSk6Cj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IFNlcGFyYXRlIGdldHRpbmcgbGFyYiBkZXZpY2Ug
+dG8gYSBmdW5jdGlvbgo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBNb3ZlIGNsayBpbmZvIGZyb20g
+c3RydWN0IG10a19kZHBfY29tcCB0byBzdWIgZHJpdmVyIHByaXZhdGUgZGF0YQo+ID4gICAgICAg
+ZHJtL21lZGlhdGVrOiBNb3ZlIHJlZ3MgaW5mbyBmcm9tIHN0cnVjdCBtdGtfZGRwX2NvbXAgdG8g
+c3ViIGRyaXZlciBwcml2YXRlIGRhdGEKPiA+ICAgICAgIGRybS9tZWRpYXRlazogUmVtb3ZlIGly
+cSBpbiBzdHJ1Y3QgbXRrX2RkcF9jb21wCj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IFVzZSBzdHJ1
+Y3QgY21kcV9jbGllbnRfcmVnIHRvIGdhdGhlciBjbWRxIHZhcmlhYmxlCj4gPiAgICAgICBkcm0v
+bWVkaWF0ZWs6IE1vdmUgY21kcV9yZWcgaW5mbyBmcm9tIHN0cnVjdCBtdGtfZGRwX2NvbXAgdG8g
+c3ViIGRyaXZlciBwcml2YXRlIGRhdGEKPiA+ICAgICAgIGRybS9tZWRpYXRlazogQ2hhbmdlIHN1
+YiBkcml2ZXIgaW50ZXJmYWNlIGZyb20gbXRrX2RkcF9jb21wIHRvIGRldmljZQo+ID4gICAgICAg
+ZHJtL21lZGlhdGVrOiBSZWdpc3RlciB2YmxhbmsgY2FsbGJhY2sgZnVuY3Rpb24KPiA+ICAgICAg
+IGRybS9tZWRpYXRlazogRFJNIGRyaXZlciBkaXJlY3RseSByZWZlciB0byBzdWIgZHJpdmVyJ3Mg
+ZnVuY3Rpb24KPiA+ICAgICAgIGRybS9tZWRpYXRlazogTW92ZSBtdGtfZGRwX2NvbXBfaW5pdCgp
+IGZyb20gc3ViIGRyaXZlciB0byBEUk0gZHJpdmVyCj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IFJl
+bW92ZSByZWR1bmRhbnQgZmlsZSBpbmNsdWRpbmcKPiA+ICAgICAgIGRybS9tZWRpYXRlazogUmVu
+YW1lIGZpbGUgbXRrX2RybV9kZHAgdG8gbXRrX211dGV4Cj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6
+IENoYW5nZSBkaXNwL2RkcCB0ZXJtIHRvIG11dGV4IGluIG10ayBtdXRleCBkcml2ZXIKPiA+ICAg
+ICAgIGRybS9tZWRpYXRlazogQXV0b21hdGljYWxseSBzZWFyY2ggdW5jbGFpbWVkIG10ayBtdXRl
+eCBpbiBtdGtfbXV0ZXhfZ2V0KCkKPiA+ICAgICAgIHNvYyAvIGRybTogbWVkaWF0ZWs6IE1vdmUg
+bXRrIG11dGV4IGRyaXZlciB0byBzb2MgZm9sZGVyCj4gPgo+ID4gQ2h1bi1LdWFuZyBIdSAoMik6
+Cj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IEdldCBDTURRIGNsaWVudCByZWdpc3RlciBmb3IgYWxs
+IGRkcCBjb21wb25lbnQKPiA+ICAgICAgIGRybS9tZWRpYXRlazogVXNlIGNvcnJlY3QgZGV2aWNl
+IHBvaW50ZXIgdG8gZ2V0IENNRFEgY2xpZW50IHJlZ2lzdGVyCj4gPgo+ID4gSHNpbi1ZaSBXYW5n
+ICgyKToKPiA+ICAgICAgIGRybS9tZWRpYXRlazogbXRrX2RwaTogQ3JlYXRlIGNvbm5lY3RvciBm
+b3IgYnJpZGdlcwo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBBZGQgbXRrX2RpdGhlcl9zZXRfY29t
+bW9uKCkgZnVuY3Rpb24KPiA+Cj4gPiBKaXRhbyBTaGkgKDEpOgo+ID4gICAgICAgZHJtL21lZGlh
+dGVrOiBkc2k6IFVzZSBJUlFGX1RSSUdHRVJfTk9ORSBmb3IgZHNpIGlycSB0cmlnZ2VyIHR5cGUK
+PiA+Cj4gPiBZb25ncWlhbmcgTml1ICgxNSk6Cj4gPiAgICAgICBkdC1iaW5kaW5nczogbWVkaWF0
+ZWs6IGFkZCBkZXNjcmlwdGlvbiBmb3IgbXQ4MTgzIGRpc3BsYXkKPiA+ICAgICAgIGR0LWJpbmRp
+bmdzOiBtZWRpYXRlazogYWRkIGRlc2NyaXB0aW9uIGZvciBtdDgxOTIgZGlzcGxheQo+ID4gICAg
+ICAgZHJtL21lZGlhdGVrOiBDaGVjayBpZiBmYiBpcyBudWxsCj4gPiAgICAgICBkdC1iaW5kaW5n
+czogbWVkaWF0ZWs6IGFkZCByZG1hLWZpZm8tc2l6ZSBkZXNjcmlwdGlvbiBmb3IgbXQ4MTgzIGRp
+c3BsYXkKPiA+ICAgICAgIGR0LWJpbmRpbmdzOiBtZWRpYXRlazogYWRkIGRlc2NyaXB0aW9uIGZv
+ciBwb3N0bWFzawo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBGaXggYWFsIHNpemUgY29uZmlnCj4g
+PiAgICAgICBkcm0vbWVkaWF0ZWs6IEFkZCBmaWZvX3NpemUgaW50byByZG1hIHByaXZhdGUgZGF0
+YQo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBTZXBhcmF0ZSBnYW1tYSBtb2R1bGUKPiA+ICAgICAg
+IGRybS9tZWRpYXRlazogQWRkIGhhc19kaXRoZXIgcHJpdmF0ZSBkYXRhIGZvciBnYW1tYQo+ID4g
+ICAgICAgZHJtL21lZGlhdGVrOiBBZGQgc3VwcG9ydCBmb3IgU29DIE1UODE4Mwo+ID4gICAgICAg
+ZHJtL21lZGlhdGVrOiBFbmFibGUgT1ZMX0xBWUVSX1NNSV9JRF9FTiBmb3IgbXVsdGktbGF5ZXIg
+dXNlY2FzZQo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBFbmFibGUgZGl0aGVyIGZ1bmN0aW9uCj4g
+PiAgICAgICBkcm0vbWVkaWF0ZWs6IFNlcGFyYXRlIGNjb3JyIG1vZHVsZQo+ID4gICAgICAgZHJt
+L21lZGlhdGVrOiBGaXggY2NvcnIgc2l6ZSBjb25maWcKPiA+ICAgICAgIGRybS9tZWRpYXRlazog
+QWRkIG1hdHJpeF9iaXRzIHByaXZhdGUgZGF0YSBmb3IgY2NvcnIKPiA+Cj4gPiAgLi4uL2JpbmRp
+bmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgICAgfCAgMTIgKy0KPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAgICB8ICAgNSAr
+LQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9jY29yci5jICAgICAgICAg
+IHwgMjIzICsrKysrKysrKwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9j
+b2xvci5jICAgICAgICAgIHwgIDg5ICsrLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2Rpc3BfZHJ2LmggICAgICAgICAgICB8ICA5MiArKysrCj4gPiAgZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kaXNwX2dhbW1hLmMgICAgICAgICAgfCAxOTcgKysrKysrKysKPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMgICAgICAgICAgICB8IDI1NCAr
+KysrKystLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMg
+ICAgICAgICAgIHwgMTk0ICsrKystLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcGkuYyAgICAgICAgICAgICAgICAgfCAgNTcgKy0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fY3J0Yy5jICAgICAgICAgICAgfCAxMDcgKystLS0KPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmggICAgICAgICAgICB8ICAgMSAtCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmggICAgICAgICAgICAgfCAgMjgg
+LS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jICAgICAg
+ICB8IDUwMyArKysrKysrKysrLS0tLS0tLS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9kZHBfY29tcC5oICAgICAgICB8IDEwMCArKy0tCj4gPiAgZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICAgICAgICAgfCAgODggKystLQo+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oICAgICAgICAgICAgIHwgICA1ICst
+Cj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICAgICAgICAg
+fCAgNTAgKy0KPiA+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9NYWtlZmlsZSAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgMSArCj4gPiAgLi4uL210a19kcm1fZGRwLmMgPT4gc29jL21lZGlhdGVrL210
+ay1tdXRleC5jfSAgICAgfCAzMjggKysrKysrKy0tLS0tLS0KPiA+ICBpbmNsdWRlL2xpbnV4L3Nv
+Yy9tZWRpYXRlay9tdGstbXV0ZXguaCAgICAgICAgICAgICB8ICAyNiArKwo+ID4gIDIwIGZpbGVz
+IGNoYW5nZWQsIDE0NDYgaW5zZXJ0aW9ucygrKSwgOTE0IGRlbGV0aW9ucygtKQo+ID4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfY2NvcnIuYwo+
+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bf
+ZHJ2LmgKPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kaXNwX2dhbW1hLmMKPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fZGRwLmgKPiA+ICByZW5hbWUgZHJpdmVycy97Z3B1L2RybS9tZWRpYXRl
+ay9tdGtfZHJtX2RkcC5jID0+IHNvYy9tZWRpYXRlay9tdGstbXV0ZXguY30gKDUzJSkKPiA+ICBj
+cmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW11dGV4LmgK
+PiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
