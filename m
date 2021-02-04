@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D4F30F057
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 11:19:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF830F058
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 11:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4796EA9E;
-	Thu,  4 Feb 2021 10:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64B4C6EC8D;
+	Thu,  4 Feb 2021 10:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08AD26EA9E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 10:19:22 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id v5so1517209lft.13
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 02:19:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DmOf9Q9nv5yl458FD7khePN/mPl2hnaoJzy3oYiWP5E=;
- b=OmVLmitCu9F1SW5JMwZRspF1QF1JIqsVOL0Q1m51m3mx4equeobKFLtoOmm4eH8qwF
- i3KL3ekO2yiAt9ojoOvQ94Jx+okdT+8R8EF8YlJZwcZ/vzoxbtfFks83EKrJxkTHqqZP
- ic0IBVNuShhmWZvszxoVYhNy3kvmpJYivtlbk99dEE85LP35UPzyJ+kUPtD/EHCeTcBf
- 7gbb6V51rLK07n6J3HPw3p80YYirVjeuGT8Vxd8TYCV9rOLnOCYE2g3l+rLAhBmKQYbz
- DD8Vk4phNomq+f0944uQjuz/jhmMpmlVy9g8wCnDrGvDnXbMLE3p9cYKwEo1B//xnHhV
- uDbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DmOf9Q9nv5yl458FD7khePN/mPl2hnaoJzy3oYiWP5E=;
- b=AF0bhu/8MXM6ZbUej4xNpJh8tvU/NeHGb3AYni8KapmHsAIX6GhGMTWF6+VB/P9Agq
- sBneFIo9VpxZRpBEiQ4w1w0NMu9vREUIWJvnGKY5N+3LpULPz3HfyxRnX8HSYTghwk6S
- 3/9RTthSi3adeX010Rg+LwwB7TZA2l8lGtZzugFGvXSdPumVga/IhDkTFY3RwpTAPcbd
- mU4/ZUPd+az2girzLzk2nGibbPnzUtqOSz5DjTBOu38E3NQjAsPbRxTcHt3vjollVwpl
- HUgvpxEsEaROrtAe1g1uK6GSku/X9QKGSr8hulh0X4yHc+WgtbH3wnzUL+Rqk0z1ybYG
- JKUw==
-X-Gm-Message-State: AOAM530kCJpas25V45v3XSi2rBHXzBv2xnFTq/2SOPUE5pbawUh6EFjB
- cfbGXAbhLVcSZNf7f2zIbPRAXRDwVFb44GyVVUo=
-X-Google-Smtp-Source: ABdhPJw5OSPGCNncHxl6YjwckXPWxFeIbjOxGRJyfwUxKFr43c9oUoW+HvVFoYSnBrGyBTyq8+ax001vRqwXhsyfNIg=
-X-Received: by 2002:a19:c56:: with SMTP id 83mr4507061lfm.325.1612433960442;
- Thu, 04 Feb 2021 02:19:20 -0800 (PST)
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
+ [194.109.24.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF12E6EC8D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 10:19:42 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud8.xs4all.net with ESMTPA
+ id 7bjalHRIBW4yN7bjdlc377; Thu, 04 Feb 2021 11:19:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1612433980; bh=rNgoJgbHD7TTIu0rLfFdDvFg5hk3GBBsYt265YMiUgs=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=Iwyb+wP+J+s1F1mi2rLxtZfqYYM1Xir+ayJ0Dnr5ZG2ffGT20up8gV1Uaue8X6Wv2
+ IaftSAQQpK/m/UunW1W22JsnQZtzRlbziDu1cVKlAdfgPMztMLRo/08CwsQn4UDX5U
+ kfN5HsLI0iB1NREIUKrQz3SclV+AcjT5dpOJKMgVpeeQOqniqEYTwaPO98sgrbv+g1
+ gHs1JVy4MlVv/PGGaNpFmxkvYido3atEIqanr24hzecbOsrzimTQSECFy4NfEngVTI
+ p/HMujXmTfaETVxa1fUYABwqAxNgAof+coBx7I2ijiDGIDNomDSjN6GMPZl09vRz7M
+ mpPnd4PYeSIwQ==
+Subject: Re: [PATCH v3 2/4] drm_dp_mst_topology: use correct AUX channel
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Sam McNally <sammc@chromium.org>
+References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
+ <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
+ <YBh9HvbIRF4zd+AK@intel.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2a7c2edc-b83c-dccf-487d-1415b4bc23ff@xs4all.nl>
+Date: Thu, 4 Feb 2021 11:19:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
- <CAMeQTsbGBrTvfkz6BStwL240Kz-dbrQVKtXbYkRtbD3OoUKCcg@mail.gmail.com>
- <CAHp75VeYroY5uG38NrsqwbHnjT0j_LMMD3JmNmRED3OY5ff7xA@mail.gmail.com>
-In-Reply-To: <CAHp75VeYroY5uG38NrsqwbHnjT0j_LMMD3JmNmRED3OY5ff7xA@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 4 Feb 2021 11:19:09 +0100
-Message-ID: <CAMeQTsZRng0UWkO5fXUmZW=-gnKWiigwO0BwMY9p1T2D-hoMNA@mail.gmail.com>
-Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+In-Reply-To: <YBh9HvbIRF4zd+AK@intel.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfJIAEhcGV8870J9oblZUYSUzZcvQeLy+fIP6P1UDWwpeh7ycXqMz/ikMNP2SR6gwVq5zuCqdeH7tILOMTt/F1OyBrV8O7jhdOCdtrt3fJ0zx9qoQW2Wb
+ C9nPYYbu4/6zSXgt4vy49CWqQpQYmgylz/r4Oup2Ba2c4p82Epa/LNuh7+P1uTBwm4/R1QwiNHtuh3TtJ1QsJE54ueda+BLQLuYTylaXuVHvN8OB3GA1eUs6
+ pJDo2Sesm44mteX2MMrA3G0dpse1g+DA/klIlh+HFSSKCJR8Y20H+jhnATQOOIW+3c55XtXU0ZraNNltsJzkcAd6tHDcn86B3ZEzwGL55u+ABgdNc3AXeaXk
+ iewyj0dC8PYMZQamurpbqZbmqTZmQLazWbF70BDT2oTAcLH1CeJbJBhyGFHFkfVOo+q8WrHm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +56,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Mark Gross <mgross@linux.intel.com>,
- linux-watchdog@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hans.verkuil@cisco.com>, LKML <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 3, 2021 at 1:00 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Tue, Jan 26, 2021 at 5:25 PM Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
-> > On Tue, Jan 26, 2021 at 1:37 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > Hi guys,
-> > >
-> > > This is first part of Intel MID outdated platforms removal. It's collected into
-> > > immutable branch with a given tag, please pull to yours subsystems.
-> >
-> > Hi Andy,
-> > Do you plan on eventually removing X86_INTEL_MID completely? If so,
-> > then I should probably start looking at removing the corresponding
-> > parts in GMA500.
->
-> I have noticed new commits in DRM against GMA500 and it seems now in a
-> conflict with my immutable branch. Are you sure you don't forget to
-> pull it?
-
-Hi Andy, sorry I missed pulling the immutable branch before taking the
-gma500 medfield removal. I was unsure how to do that through drm-misc
-and it's tools so I got sidetracked. What would be the correct way to
-fix this?
-
--Patrik
-
-
->
-> --
-> With Best Regards,
-> Andy Shevchenko
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMDEvMDIvMjAyMSAyMzoxMywgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIFdlZCwgU2Vw
+IDIzLCAyMDIwIGF0IDEyOjEzOjUzUE0gKzEwMDAsIFNhbSBNY05hbGx5IHdyb3RlOgo+PiBGcm9t
+OiBIYW5zIFZlcmt1aWwgPGhhbnMudmVya3VpbEBjaXNjby5jb20+Cj4+Cj4+IEZvciBhZGFwdGVy
+cyBiZWhpbmQgYW4gTVNUIGh1YiB1c2UgdGhlIGNvcnJlY3QgQVVYIGNoYW5uZWwuCj4+Cj4+IFNp
+Z25lZC1vZmYtYnk6IEhhbnMgVmVya3VpbCA8aGFucy52ZXJrdWlsQGNpc2NvLmNvbT4KPj4gW3Nh
+bW1jQGNocm9taXVtLm9yZzogcmViYXNlZCwgcmVtb3ZpbmcgcmVkdW5kYW50IGNoYW5nZXNdCj4+
+IFNpZ25lZC1vZmYtYnk6IFNhbSBNY05hbGx5IDxzYW1tY0BjaHJvbWl1bS5vcmc+Cj4+IC0tLQo+
+Pgo+PiAobm8gY2hhbmdlcyBzaW5jZSB2MSkKPj4KPj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
+bXN0X3RvcG9sb2d5LmMgfCAzNiArKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gIDEgZmls
+ZSBjaGFuZ2VkLCAzNiBpbnNlcnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3Rf
+dG9wb2xvZ3kuYwo+PiBpbmRleCAxNWI2Y2MzOWE3NTQuLjBkNzUzMjAxYWRiZCAxMDA2NDQKPj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4+IEBAIC0yMjU1LDYgKzIyNTUsOSBA
+QCBkcm1fZHBfbXN0X3RvcG9sb2d5X3VubGlua19wb3J0KHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9s
+b2d5X21nciAqbWdyLAo+PiAgCWRybV9kcF9tc3RfdG9wb2xvZ3lfcHV0X3BvcnQocG9ydCk7Cj4+
+ICB9Cj4+ICAKPj4gK3N0YXRpYyBzc2l6ZV90Cj4+ICtkcm1fZHBfbXN0X2F1eF90cmFuc2Zlcihz
+dHJ1Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm1zZyk7Cj4+ICsK
+Pj4gIHN0YXRpYyBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICoKPj4gIGRybV9kcF9tc3RfYWRkX3Bv
+cnQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPj4gIAkJICAgIHN0cnVjdCBkcm1fZHBfbXN0X3Rv
+cG9sb2d5X21nciAqbWdyLAo+PiBAQCAtMjI3MSw5ICsyMjc0LDEzIEBAIGRybV9kcF9tc3RfYWRk
+X3BvcnQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPj4gIAlwb3J0LT5wb3J0X251bSA9IHBvcnRf
+bnVtYmVyOwo+PiAgCXBvcnQtPm1nciA9IG1ncjsKPj4gIAlwb3J0LT5hdXgubmFtZSA9ICJEUE1T
+VCI7Cj4+ICsJbXV0ZXhfaW5pdCgmcG9ydC0+YXV4Lmh3X211dGV4KTsKPj4gKwltdXRleF9pbml0
+KCZwb3J0LT5hdXguY2VjLmxvY2spOwo+PiAgCXBvcnQtPmF1eC5kZXYgPSBkZXYtPmRldjsKPj4g
+IAlwb3J0LT5hdXguaXNfcmVtb3RlID0gdHJ1ZTsKPj4gIAo+PiArCXBvcnQtPmF1eC50cmFuc2Zl
+ciA9IGRybV9kcF9tc3RfYXV4X3RyYW5zZmVyOwo+PiArCj4gCj4gVGhpcyB3YXMgc3VwcG9zZWQg
+dG8gYmUgaGFuZGxlZCB2aWEgaGlnaGVyIGxldmVscyBjaGVja2luZyBmb3IKPiBpc19yZW1vdGU9
+PXRydWUuCgpBaCwgSSBzdXNwZWN0IHRoaXMgcGF0Y2ggY2FuIGJlIGRyb3BwZWQgZW50aXJlbHk6
+IGl0IHByZWRhdGVzIGNvbW1pdCAyZjIyMWE1ZWZlZDQKKCJkcm0vZHBfbXN0OiBBZGQgTVNUIHN1
+cHBvcnQgdG8gRFAgRFBDRCBSL1cgZnVuY3Rpb25zIikuCgpJdCBsb29rcyBsaWtlIHRoYXQgY29t
+bWl0IGJhc2ljYWxseSBzb2x2ZWQgd2hhdCB0aGlzIG9sZGVyIHBhdGNoIGF0dGVtcHRzIHRvIGRv
+CmFzIHdlbGwuCgpTYW0sIGNhbiB5b3UgdGVzdCBpZiBpdCB3b3JrcyB3aXRob3V0IHRoaXMgcGF0
+Y2g/CgpSZWdhcmRzLAoKCUhhbnMKCj4gCj4+ICAJLyogaW5pdGlhbGl6ZSB0aGUgTVNUIGRvd25z
+dHJlYW0gcG9ydCdzIEFVWCBjcmMgd29yayBxdWV1ZSAqLwo+PiAgCWRybV9kcF9yZW1vdGVfYXV4
+X2luaXQoJnBvcnQtPmF1eCk7Cj4+ICAKPj4gQEAgLTM1MDMsNiArMzUxMCwzNSBAQCBzdGF0aWMg
+aW50IGRybV9kcF9zZW5kX3VwX2Fja19yZXBseShzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9t
+Z3IgKm1nciwKPj4gIAlyZXR1cm4gMDsKPj4gIH0KPj4gIAo+PiArc3RhdGljIHNzaXplX3QKPj4g
+K2RybV9kcF9tc3RfYXV4X3RyYW5zZmVyKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVjdCBk
+cm1fZHBfYXV4X21zZyAqbXNnKQo+PiArewo+PiArCXN0cnVjdCBkcm1fZHBfbXN0X3BvcnQgKnBv
+cnQgPQo+PiArCQljb250YWluZXJfb2YoYXV4LCBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0LCBhdXgp
+Owo+PiArCWludCByZXQ7Cj4+ICsKPj4gKwlzd2l0Y2ggKG1zZy0+cmVxdWVzdCAmIH5EUF9BVVhf
+STJDX01PVCkgewo+PiArCWNhc2UgRFBfQVVYX05BVElWRV9XUklURToKPj4gKwljYXNlIERQX0FV
+WF9JMkNfV1JJVEU6Cj4+ICsJY2FzZSBEUF9BVVhfSTJDX1dSSVRFX1NUQVRVU19VUERBVEU6Cj4+
+ICsJCXJldCA9IGRybV9kcF9zZW5kX2RwY2Rfd3JpdGUocG9ydC0+bWdyLCBwb3J0LCBtc2ctPmFk
+ZHJlc3MsCj4+ICsJCQkJCSAgICAgbXNnLT5zaXplLCBtc2ctPmJ1ZmZlcik7Cj4gCj4gVGhhdCBk
+b2Vzbid0IG1ha2Ugc2Vuc2UgdG8gbWUuIEkyYyB3cml0ZXMgYW5kIERQQ0Qgd3JpdGVzCj4gYXJl
+IGRlZmluaXRlbHkgbm90IHRoZSBzYW1lIHRoaW5nLgo+IAo+IGF1eC0+dHJhbnNmZXIgaXMgYSB2
+ZXJ5IGxvdyBsZXZlbCB0aGluZy4gSSBkb24ndCB0aGluayBpdCdzIHRoZQo+IGNvcnJlY3QgbGV2
+ZWwgb2YgYWJzdHJhY3Rpb24gZm9yIHNpZGViYW5kLgo+IAo+PiArCQlicmVhazsKPj4gKwo+PiAr
+CWNhc2UgRFBfQVVYX05BVElWRV9SRUFEOgo+PiArCWNhc2UgRFBfQVVYX0kyQ19SRUFEOgo+PiAr
+CQlyZXQgPSBkcm1fZHBfc2VuZF9kcGNkX3JlYWQocG9ydC0+bWdyLCBwb3J0LCBtc2ctPmFkZHJl
+c3MsCj4+ICsJCQkJCSAgICBtc2ctPnNpemUsIG1zZy0+YnVmZmVyKTsKPj4gKwkJYnJlYWs7Cj4+
+ICsKPj4gKwlkZWZhdWx0Ogo+PiArCQlyZXQgPSAtRUlOVkFMOwo+PiArCQlicmVhazsKPj4gKwl9
+Cj4+ICsKPj4gKwlyZXR1cm4gcmV0Owo+PiArfQo+PiArCj4+ICBzdGF0aWMgaW50IGRybV9kcF9n
+ZXRfdmNfcGF5bG9hZF9idyh1OCBkcF9saW5rX2J3LCB1OCAgZHBfbGlua19jb3VudCkKPj4gIHsK
+Pj4gIAlpZiAoZHBfbGlua19idyA9PSAwIHx8IGRwX2xpbmtfY291bnQgPT0gMCkKPj4gLS0gCj4+
+IDIuMjguMC42ODEuZzZmNzdmNjViNGUtZ29vZwo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiAKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
