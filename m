@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4796630FF10
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 22:07:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FEB30FF19
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 22:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B66416EDD7;
-	Thu,  4 Feb 2021 21:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A18C6EE42;
+	Thu,  4 Feb 2021 21:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D756EDD7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 21:07:44 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id u9so487959vkb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 13:07:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD2A6EE42
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 21:10:52 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id r20so3531554qtm.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 13:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z0FGsv4l2ft4jkHNpmqMmTXmRXaRPkWzhpHKIiWSZ7w=;
- b=frSOqtU6NWWgTRpWBqefGSR454l8YJsUhFVVABSvv7UXoHVgBFlgPj+dq7w2lDOz3n
- yr8XSN8kMyCRSb7wgtzR9d3DhbJxNoZNYADKuSpxrvTVFklDm3TorX6ubpMhZa0PjjC/
- FZK9QFmQomomlTA2f8ODOLzLzeFeh+xWwKw5pYD2yhmxYfczBvc2o5P9jfFcQOht9djc
- mg7ZTVNwr59D/pIIFis9nWyF/Ycpa4mpRUY+PdXftnWy+YQiuub8k8/8bM+7lFSJuvX+
- e677TZXKLMWewtDuwamkewrqwuOst06cLf1P/Aclg75XNpFETIng1qAvFF9FF7gUHyHD
- W2nQ==
+ :cc; bh=4/wUL23CJq8pMys5MsrMUP3OmNDRT4rfRHnWrS0dssI=;
+ b=WaHxDdeTrGjKUCorsF0Gow2VJLSIX1Jr6i4XG8cb9zQf0kKDGi4d6/y2KTOtlpvTql
+ sQO7Xw1WWecmkzDeOAzJ/ywT4wklCEa2s2cQyr1ORYTlVruvFnv+kI6kifXQGRi1g8/n
+ fxdAGZyqqEwR15d2yaOJzzMp4xxe30bRtBeNs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z0FGsv4l2ft4jkHNpmqMmTXmRXaRPkWzhpHKIiWSZ7w=;
- b=l/IzzzQhuYgBHy6IlHBTsYUdAo/tsaIB15TRU5RSruImpauvoIxkrQPVamkM6Rn8gg
- 04vhnAuZxknCL97w8IuaI7olL7HXznyqTC+6JM+PJUoDvrEiMBehCfXNz3Bc5dbEXiPf
- nihwA/Z2HqwsqOc+2gBqwvNzXwPDfXIUcMmCfO9fBlq94EVyC8FKFb0fZCycrEr+1zb/
- dNqr+lha1mZVN/dNWduAWmhjfmkhPagLiWcPl1yukS7xuosofpLtwnD8U8dnunpyvRzF
- Hpebj5ieiVaps3Dzxg8gkUmRom59gy8kKesst6zG3viPTxZSYxDefU1qcgHd9GP6WvYV
- lp0w==
-X-Gm-Message-State: AOAM530yAC8dG+ANF+kjF6e0Px6sxtbUlrqYo51j5nmIuaY8JsmCMv5n
- m6Kysgv8fnouKwo3VS/vLcDpr3D2+SXiBMt2JrckjIHLcV0Clw==
-X-Google-Smtp-Source: ABdhPJxKGKLdXhmCamfzBOIwdNg2N2aXypRbF4opWdcP3Vcsptwi9SmmREgJs3u4rzstu7m3TN3RDoderr5fQo9fRx4=
-X-Received: by 2002:a1f:27cf:: with SMTP id n198mr1352419vkn.16.1612472863971; 
- Thu, 04 Feb 2021 13:07:43 -0800 (PST)
+ bh=4/wUL23CJq8pMys5MsrMUP3OmNDRT4rfRHnWrS0dssI=;
+ b=Yo/uJDv4yl7Zp72xSe9nEKfvBZ6/0pRzazfIYGHNZq09YO5tUUa4KtqNO9eyLnNrqA
+ 39SaqoCVEn27711BVb59OtoKuXoc+dn8Dn8zvUr++eaOKGE1UMyBjUFSFxQo+v+c85Om
+ Fu32cUEgMnlf2l/CG3e6yE68QYUibAnrAuNxjPIiy/ofy2DKL1tlvmmHRbgJt2r1vgPP
+ cF97HJY1+TRcOJu2F9FQQT/xov4d8i8lEUJKstL0jWWJUun5LBooJT8/FNzBC7sewE/a
+ SOgQvVk1nG10QTwVqMmxV9ICUE+uo4eq/ebUcRzm++ZSz3eOIcd5dmXeNlZAHgZVChYf
+ BeNw==
+X-Gm-Message-State: AOAM533+ZrTAlT9cIJd9gaMZtbg1MYh5jh/Hg0z3lh9VUlqcy2BW/FQU
+ +OJkMsR7PPkMi/uZLRoWBS2PqCSggOq0pA==
+X-Google-Smtp-Source: ABdhPJyb6M8BybNVkBdkdYQBBqY+GpK/WIz4wfDkqUvFuvnfQvx27Gju6yx/yi+zy+Mr5hY7CyJASw==
+X-Received: by 2002:ac8:5a43:: with SMTP id o3mr1495312qta.222.1612473050883; 
+ Thu, 04 Feb 2021 13:10:50 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169])
+ by smtp.gmail.com with ESMTPSA id u45sm2753856qte.3.2021.02.04.13.10.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Feb 2021 13:10:49 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id r2so4581765ybk.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 13:10:49 -0800 (PST)
+X-Received: by 2002:a25:b74d:: with SMTP id e13mr1620342ybm.405.1612473049231; 
+ Thu, 04 Feb 2021 13:10:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20210204113742.1814456-1-emil.l.velikov@gmail.com>
- <CABjik9cHYArtsTgYvcGbH_AOEcdVWpX-pTrHMq4uv7ct4_NSKQ@mail.gmail.com>
- <CABjik9dnH0dQ2Am-nfPUstF8Uv7dSixcCZ7pN7yLWNQ4QgTaAg@mail.gmail.com>
-In-Reply-To: <CABjik9dnH0dQ2Am-nfPUstF8Uv7dSixcCZ7pN7yLWNQ4QgTaAg@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 4 Feb 2021 21:07:32 +0000
-Message-ID: <CACvgo53wwtkr-DeCMsnKRpjsBO=GhTVWBODC=32-6sNxgaQwLQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
-To: James Park <james.park@lagfreegames.com>
+References: <20210130181014.161457-1-marex@denx.de>
+ <20210130181014.161457-2-marex@denx.de>
+ <CAD=FV=WzW1L=nwcnhagCXfX5SStE0jr0bqRrEOi-46g4huD4Sw@mail.gmail.com>
+ <49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de>
+In-Reply-To: <49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 4 Feb 2021 13:10:37 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
+Message-ID: <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 driver
+To: Marek Vasut <marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,163 +71,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Philippe Schenker <philippe.schenker@toradex.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Feb 2021 at 18:17, James Park <james.park@lagfreegames.com> wrote:
+Hi,
+
+On Thu, Feb 4, 2021 at 10:41 AM Marek Vasut <marex@denx.de> wrote:
 >
-> On Thu, Feb 4, 2021 at 9:37 AM James Park <james.park@lagfreegames.com> wrote:
+> >> +static const struct regmap_range sn65dsi83_volatile_ranges[] = {
+> >> +       regmap_reg_range(REG_RC_LVDS_PLL, REG_RC_LVDS_PLL),
 > >
-> > On Thu, Feb 4, 2021 at 3:37 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> > >
-> > > Currently, the drm_fourcc.h header depends on drm.h for __u32 and __u64.
-> > > At the same time drm.h pulls a lot of unneeded symbols.
-> > >
-> > > Add new guard DRM_FOURCC_STANDALONE, which when set will use local
-> > > declaration of said symbols.
-> > >
-> > > When used on linux - we pull linux/types.h which is used either way.
-> > > On other platforms, BSDs et al, we need a couple of typedefs.
-> > >
-> > > Since those can trigger a warning in some corner-cases*, add some GCC
-> > > magic to silence them. Note that incorrect type redefinitions will still
-> > > be flagged, and the GCC pragma is ignored by other compilers.
-> > >
-> > > *Corner-case:
-> > > If one sets DRM_FOURCC_STANDALONE and compiles with C99 or earlier while
-> > > also using -pedantic _and_ the header lives outside of the standard
-> > > /usr/include (like BSDs normally do).
-> > >
-> > > v2:
-> > >  - Add corner-case handling, based on popular demand.
-> > >
-> > > Cc: James Park <james.park@lagfreegames.com>
-> > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Cc: Simon Ser <contact@emersion.fr>
-> > > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-> > > ---
-> > >  include/uapi/drm/drm.h        | 10 ++++++++++
-> > >  include/uapi/drm/drm_fourcc.h | 29 +++++++++++++++++++++++++++++
-> > >  2 files changed, 39 insertions(+)
-> > >
-> > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> > > index 808b48a93330..cd78950e05ce 100644
-> > > --- a/include/uapi/drm/drm.h
-> > > +++ b/include/uapi/drm/drm.h
-> > > @@ -53,6 +53,15 @@ typedef unsigned int drm_handle_t;
-> > >  #include <stdint.h>
-> > >  #include <sys/ioccom.h>
-> > >  #include <sys/types.h>
-> > > +
-> > > +/*
-> > > + * When using C99 -pedantic the typedefs will trigger a warning.
-> > > + * If the header is considered a system one (-isystem) those will be
-> > > + * ignored, yet on the target platforms BSDs, et al - the headers live
-> > > + * in a non-system location.
-> > > + */
-> > > +#pragma GCC diagnostic push
-> > > +#pragma GCC diagnostic ignored "-Wpedantic"
-> > >  typedef int8_t   __s8;
-> > >  typedef uint8_t  __u8;
-> > >  typedef int16_t  __s16;
-> > > @@ -63,6 +72,7 @@ typedef int64_t  __s64;
-> > >  typedef uint64_t __u64;
-> > >  typedef size_t   __kernel_size_t;
-> > >  typedef unsigned long drm_handle_t;
-> > > +#pragma GCC diagnostic pop
-> > >
-> > >  #endif
-> > >
-> > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > > index 6f0628eb13a6..84a1f96cc4ef 100644
-> > > --- a/include/uapi/drm/drm_fourcc.h
-> > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > @@ -24,7 +24,36 @@
-> > >  #ifndef DRM_FOURCC_H
-> > >  #define DRM_FOURCC_H
-> > >
-> > > +/*
-> > > + * Define DRM_FOURCC_STANDALONE you're interested only FOURCC and do not want
-> > > + * to pull drm.h into your application.
-> > > + */
-> > > +#ifdef DRM_FOURCC_STANDALONE
-> > > +#if defined(__linux__)
-> > > +
-> > > +#include <linux/types.h>
-> > > +
-> > > +#else /* One of the BSDs */
-> > > +
-> > > +#include <stdint.h>
-> > > +
-> > > +/*
-> > > + * When using C99 -pedantic the typedefs will trigger a warning.
-> > > + * If the header is considered a system one (-isystem) those will be
-> > > + * ignored, yet on the target platforms BSDs, et al - the headers live
-> > > + * in a non-system location.
-> > > + */
-> > > +#pragma GCC diagnostic push
-> > > +#pragma GCC diagnostic ignored "-Wpedantic"
-> > > +typedef uint32_t __u32;
-> > > +typedef uint64_t __u64;
-> > > +#pragma GCC diagnostic pop
-> > > +
-> > > +#endif /* __linux __ */
-> > > +
-> > > +#else
-> > >  #include "drm.h"
-> > > +#endif /* DRM_FOURCC_STANDALONE */
-> > >
-> > >  #if defined(__cplusplus)
-> > >  extern "C" {
-> > > --
-> > > 2.30.0
-> > >
-> >
-> > I remember reading GCC diagnostic push/pop requires a recent enough
-> > compiler version to be supported, which is pretty old, but I don't
-> > know how old is old enough for Linux headers:
-> > https://github.com/protocolbuffers/protobuf/issues/4156
-> >
-> > Testing snippets in godbolt, I think the pragmas need to be wrapped. MSVC says:
-> >
-> > warning C4068: unknown pragma 'GCC'
-> >
-/me shakes fist at MSVC - why are you being so silly
-
-> > Also, Clang seems to want -Wtypedef-redefinition, not -Wpedantic. GCC
-> > complains it doesn't know what -Wtypedef-redefinition is, so that
-> > would also need to be wrapped.
+> > Why is REG_RC_LVDS_PLL volatile?
 >
-Clang seemed fine here. Must have used a different version or something.
+> See register 0xa bit 7, PLL_EN_STAT .
 
-> If we're already conceding copy/paste, then how about inlining my
-> previous header?
+Wow, I looked at it a few times and still didn't see it.  OK, fair enough.
+
+
+> >> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
+> >
+> > Do you need to list REG_RC_RESET as volatile?  Specifically you need
+> > to make sure it's not cached...
 >
-> #ifndef DRM_BASIC_TYPES_DEFINED
-> #define DRM_BASIC_TYPES_DEFINED
-> // Sync modifications between drm.h and drm_fourcc.h
-> ...
-> #endif
+> Isn't volatile table exactly for this purpose -- to make sure the reg is
+> not cached ?
+
+Sorry, I was unclear I guess.  I'm suggesting that you add
+REG_RC_RESET to the list of volatile ones since I don't see it there.
+
+
+> >> +static const struct regmap_config sn65dsi83_regmap_config = {
+> >> +       .reg_bits = 8,
+> >> +       .val_bits = 8,
+> >> +       .rd_table = &sn65dsi83_readable_table,
+> >> +       .wr_table = &sn65dsi83_writeable_table,
+> >> +       .volatile_table = &sn65dsi83_volatile_table,
+> >> +       .cache_type = REGCACHE_RBTREE,
+> >> +       .max_register = REG_IRQ_STAT,
+> >> +};
+> >
+> > I'm curious how much the "readable" and "writable" sections get you.
+> > In theory only the "volatile" should really matter, right?
 >
-> No compiler games. Valid on all flavors of C (I think).
+> They are useful when dumping the regs from debugfs regmap registers .
 
-Hmm cannot find any patch mentioning DRM_BASIC_TYPES_DEFINED - perhaps
-you did one in the mesa MR?
+OK, fair enough.  When I thought about doing this on sn65dsi86, it
+came to be that a better way might be something like:
 
-Either way, if the proposal is to have the include/typedefs guarded as
-above - sure, that works. Please add the guard in both drm.h and
-drm_fourcc.h
-The comment seems slightly confusing, but that's nitpicking.
+#define ACC_RO BIT(0)
+#define ACC_RW BIT(1)
+#define ACC_W1C BIT(2)
+#define ACC_WO BIT(3)
 
-Do send a patch, unless someone shouts against it, I'll be happy to
-push it and churn the whole copy to drm/mesa game.
+u8 reg_acceess[] = {
+  [0x00] = ACC_RO,
+  [0x01] = ACC_RO,
+  ...
+  [0x0a] = ACC_RO | ACC_RW,
+  [0x0b] = ACC_RW,
+  [0x0d] = ACC_RW
+  ...
+};
 
-Thanks
-Emil
+The above maps really nicely to the public datasheet and is easy to
+validate.  Then you can just look up in that array in a constant time
+lookup.  In other words, "readable" if either RO or RW is set.
+"writable" if any of RW, W1C, or WO is set.  Everything that's not RW
+is volatile (technically you could differentiate between RO things
+that are hardcoded and ones that aren't, but you probably don't need
+to).
+
+Anyway, feel free to ignore...  What you have is fine too.
+
+
+> >> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
+> >> +{
+> >> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> >> +
+> >> +       /*
+> >> +        * Reset the chip, pull EN line low for t_reset=10ms,
+> >> +        * then high for t_en=1ms.
+> >> +        */
+> >> +       gpiod_set_value(ctx->enable_gpio, 0);
+> >
+> > Why not use the "cansleep" version to give some flexibility?
+>
+> Does that make a difference in non-interrupt context ?
+
+As I understand it:
+
+* If a client calls gpiod_set_value() then the underlying GPIO can
+only be one that doesn't sleep.
+
+* If a client calls gpiod_set_value_cansleep() then the underlying
+GPIO can be either one that does or doesn't sleep.
+
+* A client is only allowed to call gpiod_set_value_cansleep() if it's
+not in interrupt context.
+
+You are definitely not in an interrupt context (right?), so calling
+the "cansleep" version has no downsides but allows board designers to
+hook up an enable that can sleep.
+
+
+> >> +       usleep_range(10000, 11000);
+> >
+> > It seems like it would be worth it to read the enable_gpio first?  If
+> > it was already 0 maybe you can skip the 10 ms delay?  I would imagine
+> > that most of the time the bridge would already be disabled to start?
+>
+> How do you guarantee the GPIO was LO for 10 mS here? You can sample that
+> it is LO, but you won't know how long it was LO before this code was
+> executed.
+
+Ah, true.  I guess the best we could do would be keep track of the
+GPIO ourselves so that if we were the one to last turn it off we could
+avoid the delay.
+
+
+> >> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
+> >
+> > Probably you don't need this?  It's the default and in pre-enable you
+> > just reset the chip.  Maybe it was needed since you don't flush the
+> > cache in pre-enable?
+>
+> Have a look at the Example Script in the DSI83 datasheet, this PLL part
+> is needed.
+
+I think that script is written without the assumption that you have
+just reset the chip using the enable GPIO.  If you have just reset
+with the enable GPIO it shouldn't be needed.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
