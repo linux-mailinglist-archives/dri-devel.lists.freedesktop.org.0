@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E98310088
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 00:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7741231010E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 00:52:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 818BE6EEA6;
-	Thu,  4 Feb 2021 23:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752356E175;
+	Thu,  4 Feb 2021 23:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682D26EEA6
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 23:20:40 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4DWvft2rt4z1qsjt;
- Fri,  5 Feb 2021 00:20:38 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4DWvft1JMtz1t6q3;
- Fri,  5 Feb 2021 00:20:38 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id zHp_fqeBdiam; Fri,  5 Feb 2021 00:20:36 +0100 (CET)
-X-Auth-Info: /EEokMMTLiaG7ulH+Hks+51zGFPhXIDs4hynjRrPDLk=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Fri,  5 Feb 2021 00:20:36 +0100 (CET)
-Subject: Re: [PATCH v2 2/2] drm: bridge: Add SN65DSI84 DSI to LVDS bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-References: <20210203071256.42050-1-jagan@amarulasolutions.com>
- <20210203071256.42050-2-jagan@amarulasolutions.com>
- <YBx1T3U1pNaLfJLQ@pendragon.ideasonboard.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <ae346027-a58e-e773-60ce-92a79f0d99d6@denx.de>
-Date: Fri, 5 Feb 2021 00:20:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF36C6E037;
+ Thu,  4 Feb 2021 23:52:02 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id t5so6510085eds.12;
+ Thu, 04 Feb 2021 15:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ra+uVv0AOKF5IWdsNTvTAlwtdjfa/ya/PpGduOS0OQE=;
+ b=UiDieoSxH+9MmOCXflkoXMs8JXz90gU8uIWnjkdHxFOyu6oHPCTibnG8pKNjJx2d3P
+ 0Jui5HX1bdYIpkiOUevQPtkDEisvgkWU1FFbPsHZ88ptibMRZRxXr+7qf4swrVXWXdD/
+ g5QQwK78pGC34fBprU8AhmiCLLEpqydmjwRk+DSLNEdzoAyzI+YZ0QO7ggZR5xaY6Bof
+ l/uuy5gR3r7mnkOCvQWCPQOdBuK9RGXR4VhI7sWTtJriRaYSLGkFn4fV7ujHeb8m79Tq
+ P6VTwbWRbvpSo/xY5dd2RZlgfztEFjHq56IslK0Jyp9Y1mgpokfVCZFElEkDtmIDTH+V
+ eoRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ra+uVv0AOKF5IWdsNTvTAlwtdjfa/ya/PpGduOS0OQE=;
+ b=GXPdxFgh7oEZeKU265qpkW+d+8yXqh8AZUHroD01a+4o2DdsvaZtksi17pnki/mQZo
+ 45kZbIjkIIPZNa87z0xTncofedWGxZmmuAkiSPVQtgpbW6eOKe9uzxfAVFcJxyeNm6hu
+ dJU8LxFmQB51E6Ck7kyHtIj05lgKgxK/2vYfCRvP+cHIe+z5xDuS3amTL8KbJ8gESAUS
+ btHxIO0f66rK5xu08i0kUe9R2WSHJL1mC3iT7kaf2+lyVB7rYfuN3bRjOszFW5Fi5TgN
+ vHAvkc5iMpOCUDo20rX6NudZzXbZlpFmuogcTxuDhtjObs1RjmDD7xWI+MXtOk7b4fSN
+ 5oKA==
+X-Gm-Message-State: AOAM531tEDGpziTD764mmX4yuj7v8sBHsracHXqpE63vdFeRbsLB8/Zr
+ LHuKM3ELzPP4ltIdhvI0v3qmxnlFxYkkXL72Ndc=
+X-Google-Smtp-Source: ABdhPJz3P2u/y0QpIszTieutFucdnAPusnOiCD+qY2tL9tm17ybEEmMv/iUN0EzUfeIDsFjdTxZlP83waDtTj6xWvyw=
+X-Received: by 2002:aa7:ce93:: with SMTP id y19mr941582edv.119.1612482721409; 
+ Thu, 04 Feb 2021 15:52:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YBx1T3U1pNaLfJLQ@pendragon.ideasonboard.com>
-Content-Language: en-US
+References: <20210204045717.3823-1-alexander.deucher@amd.com>
+In-Reply-To: <20210204045717.3823-1-alexander.deucher@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 5 Feb 2021 09:51:50 +1000
+Message-ID: <CAPM=9tzKzgOTQd4zorqn8LP2QJhSLuD_xJhm5saSH2uUJE7_+w@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd drm-next-5.12
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,41 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-amarula@amarulasolutions.com,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/21 11:29 PM, Laurent Pinchart wrote:
-> Hi Jagan,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Feb 03, 2021 at 12:42:56PM +0530, Jagan Teki wrote:
->> SN65DSI84 is a Single Channel DSI to Dual-link LVDS bridge from
->> Texas Instruments.
->>
->> SN65DSI83, SN65DSI85 are variants of the same family of bridge
->> controllers.
->>
->> Right now the bridge driver is supporting a single link, dual-link
->> support requires to initiate I2C Channel B registers.
-> 
-> MArek Vasut (on CC) has very recently posted a driver for the SN65DSI86.
-> Should the two drivers be merged together ?
+On Thu, 4 Feb 2021 at 14:57, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> Hi Dave, Daniel,
+>
+> More fixes for 5.12.  Same PR from last week with the issue Felix reported
+> fixed and a few more additional fixes on top.
+>
+> The following changes since commit a6b8720c2f85143561c3453e1cf928a2f8586ac0:
+>
+>   Merge tag 'amd-drm-next-5.12-2021-01-20' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-01-20 13:08:18 +0100)
+>
+This brought an arm32 warning with it, I've applied Arnd's patch to
+drm-next to fix it.
 
-Since Jagan's V1 was out first, I will let Jagan pick whatever might be 
-useful from the driver I posted, probably the O(1) clock rate 
-calculation and some of the regmap stuff, and once there is some merged 
-result, I am happy to test it on my hardware. The DSI83 is I think the 
-same as DSI84, except with half of the channels.
+https://patchwork.freedesktop.org/patch/msgid/20210125124849.102037-1-arnd@kernel.org
 
-[...]
+However that function has an ifdef around an ifdef that probably could
+do with cleaning up.
+
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
