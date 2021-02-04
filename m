@@ -1,50 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E463030EDAA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 08:48:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB3330EDC2
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 08:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1366A6ECE9;
-	Thu,  4 Feb 2021 07:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C306ECEA;
+	Thu,  4 Feb 2021 07:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B06336ECE9
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 07:48:57 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B601ba6e90000>; Wed, 03 Feb 2021 23:48:57 -0800
-Received: from [10.2.50.90] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 4 Feb
- 2021 07:48:48 +0000
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-To: Jianxin Xiong <jianxin.xiong@intel.com>, <linux-rdma@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
-Date: Wed, 3 Feb 2021 23:48:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101
- Thunderbird/85.0
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B226ECEA
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 07:53:19 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id y9so3635139ejp.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Feb 2021 23:53:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=J5U7ZYjn0rPv+kixT24fufumtWsmbJ865vX1gjaUF0g=;
+ b=KswjM1SUYJoTfbNOQjudNoUn3epf+FgmwInfQV6P8D1wCRR3k/JPEqKz0WMeFwWl2u
+ EtYRsJ0ITHV+Rn4hVd6MrPfmX+j6SEGOH7q1mPrs7m2PkRZzag7JCDeWJNhtFqzZSjxX
+ bt3bMmVwLRMbqoNMBP69aDKbprQaMM07TtRNJGxLfEdSbFQgAhulGu5zstTSnL/PouTV
+ z5JaLL6FOgYf14roRI0afyz3a4I8Hv4YWhX/oYfesI/sm22W0jTpjrsXSWYC1Rf+KH60
+ /ApBI5MIIDz2fpAwj034PDrnzqqtBL1JXloPTCkxb7LFOusGN5A7z2ao80vvQNtjE5lO
+ 5Jzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=J5U7ZYjn0rPv+kixT24fufumtWsmbJ865vX1gjaUF0g=;
+ b=L9Lldr3MOwsSab/yvEDFo+bl6MZ/GjG7IwP5oZ58BmLlqVULGB8QmS8kbRdcQvzTdS
+ HbsfsSFmprX4cksIVDzXpRNJ6jSvlxZKpyvR3TxISQzertEntRVW7/g3EllnTa3PAuSA
+ LtNXgvql9cVCpSXYiRICBTjIEYiuRRSuPE42XvML7osY44gsIf3d/fsBPUVzGxsclUjm
+ ocjOe/Ym67WVUwXmlFfIsJhUt+41t2v9H3nxl/jgK+GZYfLF/ByBRbIgl4Sms1IEKQ8c
+ hMmEqr7LmfeuBu6QJyWFoAiGf9pa9/PcRgQgTxvizyxcsoiePkXCJKCtA8ZDp1YRDZgQ
+ tTCw==
+X-Gm-Message-State: AOAM531yjA+rs11Mg9jf4jF1CKBKw2R1Sa1aTbxH2+xID27nYKmsaR7k
+ zBtCPHp5lzmWbsybt39mouY=
+X-Google-Smtp-Source: ABdhPJxmOioRMuyDm1Puy9HUCj+qibrAoLklBS9/vQschT6m+hlxaFoBzExrk2acsmkXA8jSOENf/g==
+X-Received: by 2002:a17:907:9810:: with SMTP id
+ ji16mr6686661ejc.394.1612425198446; 
+ Wed, 03 Feb 2021 23:53:18 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id p16sm2010968edw.44.2021.02.03.23.53.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 23:53:17 -0800 (PST)
+Subject: Re: [Linaro-mm-sig] [PATCH 1/2] mm: replace BUG_ON in vm_insert_page
+ with a return of an error
+To: Suren Baghdasaryan <surenb@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210203003134.2422308-1-surenb@google.com>
+ <20210203015553.GX308988@casper.infradead.org>
+ <CAKMK7uHnNdjOYX5Rhj=uGMz7hSz12JhgkZJCfiqgkpjXnMfL4A@mail.gmail.com>
+ <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <96fb8d14-fd9d-c21d-fa9d-81748421c6d3@gmail.com>
+Date: Thu, 4 Feb 2021 08:53:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+In-Reply-To: <CAJuCfpG4GkVbeW=bB+Qrm5GPrZAwg0_rmyG05iwQmL7GrWAYHw@mail.gmail.com>
 Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1612424937; bh=alcGj/A8SKeiAR0MFZN9AYw8+7za61R+PH3RiAuD15w=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=SVrbdc1CDRz+lmunAKbsH85fK2fsA61ndMm0kioS6EWP6r/VroL39DWB9UZJmBXZu
- HEyeEH3h/4ZvWUBJrDxGBSKWjRZyHVS99Qac0tr5M3BCdt0vEI3wvT5bpfPGxv3nxu
- AQe/CDiEzz9OlHO2w8cHCpGn4rzHBbu/FcvygoiC8EAgL2VToKxOiaRnZMBTT5qR0g
- ajYpFGIwUWfsqrwI/eKB4KWzJH75+GqoHUPGL3h87rdlQH8GUxtCvBsNkFuTouExRs
- G6VfnYU8lT8x1XX5vBTnOUhcpfEtLFv6JuXhd6OLeAvCXz7uwZqKzdvyli4sRn4REI
- daDg9OI+PRUHQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +76,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon
- Romanovsky <leon@kernel.org>, Christian Koenig <christian.koenig@amd.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Reply-To: christian.koenig@amd.com
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, Sandeep Patil <sspatil@google.com>,
+ Liam Mark <lmark@codeaurora.org>, Minchan Kim <minchan@kernel.org>,
+ Android Kernel Team <kernel-team@android.com>,
+ James Jones <jajones@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@infradead.org>, Linux MM <linux-mm@kvack.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/20 1:27 PM, Jianxin Xiong wrote:
-> This patch series adds dma-buf importer role to the RDMA driver in
-> attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
-> chosen for a few reasons: first, the API is relatively simple and allows
-> a lot of flexibility in implementing the buffer manipulation ops.
-> Second, it doesn't require page structure. Third, dma-buf is already
-> supported in many GPU drivers. However, we are aware that existing GPU
-> drivers don't allow pinning device memory via the dma-buf interface.
-> Pinning would simply cause the backing storage to migrate to system RAM.
-> True peer-to-peer access is only possible using dynamic attach, which
-> requires on-demand paging support from the NIC to work. For this reason,
-> this series only works with ODP capable NICs.
+Am 03.02.21 um 21:20 schrieb Suren Baghdasaryan:
+> [SNIP]
+> If there is a reason to set this flag other than historical use of
+> carveout memory then we wanted to catch such cases and fix the drivers
+> that moved to using dmabuf heaps. However maybe there are other
+> reasons and if so I would be very grateful if someone could explain
+> them. That would help me to come up with a better solution.
 
-Hi,
+Well one major reason for this is to prevent accounting of DMA-buf pages.
 
-Looking ahead to after this patchset is merged...
+So you are going in circles here and trying to circumvent an intentional 
+behavior.
 
-Are there design thoughts out there, about the future of pinning to vidmem,
-for this? It would allow a huge group of older GPUs and NICs and such to
-do p2p with this approach, and it seems like a natural next step, right?
+Daniel is right that this is the completely wrong approach and we need 
+to take a step back and think about it on a higher level.
 
+Going to replay to his mail as well.
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+Regards,
+Christian.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
