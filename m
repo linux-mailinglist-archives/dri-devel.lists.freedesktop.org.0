@@ -2,38 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71E830F3FE
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 14:39:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCE230F428
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 14:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AFD6E0AB;
-	Thu,  4 Feb 2021 13:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28B106E072;
+	Thu,  4 Feb 2021 13:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 735CF6E07F;
- Thu,  4 Feb 2021 13:39:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4035D6E;
- Thu,  4 Feb 2021 05:39:02 -0800 (PST)
-Received: from [10.57.49.26] (unknown [10.57.49.26])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B90333F694;
- Thu,  4 Feb 2021 05:39:01 -0800 (PST)
-Subject: Re: [PATCH] drm/lima: Use delayed timer as default in devfreq profile
-To: Qiang Yu <yuq825@gmail.com>, Lukasz Luba <lukasz.luba@arm.com>
-References: <20210127105121.20345-1-lukasz.luba@arm.com>
- <CAKGbVbsn=xVEa0=c3rywRShVZD18LkmLZ1qDUuDsrT5KnTjr6g@mail.gmail.com>
- <3d1b4696-0172-f88a-f41f-c66ac3baa429@arm.com>
- <CAKGbVbsuqsGYRqUyWRiC+h9o7kNMvB16-Y6378KG_rv0SG4VDQ@mail.gmail.com>
- <aab9c140-155e-894f-5b7d-749396a388fc@arm.com>
- <CAKGbVbvTzmj=3tAyNyDRU8autb+de8R9dc6ohBTuM5miJV4cWg@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <0afa6299-1c35-ab98-702e-8dcd168bcaac@arm.com>
-Date: Thu, 4 Feb 2021 13:39:00 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2010B6E072
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 13:50:50 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id q3so766489oog.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 05:50:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DB61A9zwN5JbCrUSGbgi+YlUmk0sna7FAWRcwbAA10U=;
+ b=Kc79uhb28akxRTbMPg+WMOWTfxyPp+QPmP3EeRomf34bYMT5ODsR8AsyupITlQm4+L
+ PEWVUSR0Er1doMe+MFNZjGfIUNqvUlJAZ4oWw241tYp5mz00j+VGFHoc1E0FIZxgQjms
+ GHkmJNhT409VDAZfclr2zMK7w+tKY01FNJHtiFggtZRKRfbLVI+1+T7dH1793imXNgOY
+ StBE38MN2hTazGjwXjfbzvIwi1ZCY1F/Tzw435eBkmLSpg5tSbUh4xRNQO+482p+wgAM
+ npQjxw3bGiyE4mMSWVBD92DhDGu3ZsS1yYighLlT9Ivqbg9roBdxhLrh3aloQo1qVUSo
+ rRfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DB61A9zwN5JbCrUSGbgi+YlUmk0sna7FAWRcwbAA10U=;
+ b=b5Ghpf1DdiKkl4xQf+m73Iwbp0nfJlDlbejsdBzlqOOrxS2osVl0b4+fRDwzSxMuAc
+ AaOn7IlC59ivfR8H3A8vlcN+7c3tlpRzWMy8DXZ3gY45x0laMOYCV1B5HMk5PwZ4BdUb
+ VqRT8RdXIOgrOkixF5T86OWCXwbyRlF/DeZX6rS7vTAKL4ImHlYEENsa0Q6+SRsSgegw
+ nnEzgMQ96yLI8/ucoJOK9IvcxWHP4eWUOfa/sgpIm2tF5jN8RT4E47nwAvzE8/Mdz6Yd
+ RZs7m8nPRGjqYxRwMCAthYsQayY/PIGLFUpuf1AtsSK7KHgDmzjUZJnr2c2jpMCIAuLc
+ BtBg==
+X-Gm-Message-State: AOAM5332ealwQFHqjNr+i2rXhJ7GGAZCDYqIP4chXyz/4PSd6Suk6Yb5
+ QdThXX0k5p3mT2WxVoE5is0Y+cAyNVFE5F4Vilg=
+X-Google-Smtp-Source: ABdhPJxEHe9Sc2AQbmCn9y/ZhPaAoIay1/acK2RNsdQigvHF+i5RVELNW8SRus+VIX0Pl/ihPyre4o8LqCyN0zHQb/M=
+X-Received: by 2002:a4a:de94:: with SMTP id v20mr5642639oou.90.1612446649498; 
+ Thu, 04 Feb 2021 05:50:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKGbVbvTzmj=3tAyNyDRU8autb+de8R9dc6ohBTuM5miJV4cWg@mail.gmail.com>
-Content-Language: en-GB
+References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+ <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
+In-Reply-To: <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 4 Feb 2021 08:50:38 -0500
+Message-ID: <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
+Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+To: John Hubbard <jhubbard@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,141 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- lima@lists.freedesktop.org
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-02-03 02:01, Qiang Yu wrote:
-> On Tue, Feb 2, 2021 at 10:02 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>
->>
->>
->> On 2/2/21 1:01 AM, Qiang Yu wrote:
->>> Hi Lukasz,
->>>
->>> Thanks for the explanation. So the deferred timer option makes a mistake that
->>> when GPU goes from idle to busy for only one poll periodic, in this
->>> case 50ms, right?
->>
->> Not exactly. Driver sets the polling interval to 50ms (in this case)
->> because it needs ~3-frame average load (in 60fps). I have discovered the
->> issue quite recently that on systems with 2 CPUs or more, the devfreq
->> core is not monitoring the devices even for seconds. Therefore, we might
->> end up with quite big amount of work that GPU is doing, but we don't
->> know about it. Devfreq core didn't check <- timer didn't fired. Then
->> suddenly that CPU, which had the deferred timer registered last time,
->> is waking up and timer triggers to check our device. We get the stats,
->> but they might be showing load from 1sec not 50ms. We feed them into
->> governor. Governor sees the new load, but was tested and configured for
->> 50ms, so it might try to rise the frequency to max. The GPU work might
->> be already lower and there is no need for such freq. Then the CPU goes
->> idle again, so no devfreq core check for next e.g. 1sec, but the
->> frequency stays at max OPP and we burn power.
->>
->> So, it's completely unreliable. We might stuck at min frequency and
->> suffer the frame drops, or sometimes stuck to max freq and burn more
->> power when there is no such need.
->>
->> Similar for thermal governor, which is confused by this old stats and
->> long period stats, longer than 50ms.
->>
->> Stats from last e.g. ~1sec tells you nothing about real recent GPU
->> workload.
-> Oh, right, I missed this case.
-> 
->>
->>> But delayed timer will wakeup CPU every 50ms even when system is idle, will this
->>> cause more power consumption for the case like phone suspend?
->>
->> No, in case of phone suspend it won't increase the power consumption.
->> The device won't be woken up, it will stay in suspend.
-> I mean the CPU is waked up frequently by timer when phone suspend,
-> not the whole device (like the display).
-> 
-> Seems it's better to have deferred timer when device is suspended for
-> power saving,
-> and delayed timer when device in working state. User knows this and
-> can use sysfs
-> to change it.
+On Thu, Feb 4, 2021 at 2:48 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>
+> On 12/15/20 1:27 PM, Jianxin Xiong wrote:
+> > This patch series adds dma-buf importer role to the RDMA driver in
+> > attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
+> > chosen for a few reasons: first, the API is relatively simple and allows
+> > a lot of flexibility in implementing the buffer manipulation ops.
+> > Second, it doesn't require page structure. Third, dma-buf is already
+> > supported in many GPU drivers. However, we are aware that existing GPU
+> > drivers don't allow pinning device memory via the dma-buf interface.
+> > Pinning would simply cause the backing storage to migrate to system RAM.
+> > True peer-to-peer access is only possible using dynamic attach, which
+> > requires on-demand paging support from the NIC to work. For this reason,
+> > this series only works with ODP capable NICs.
+>
+> Hi,
+>
+> Looking ahead to after this patchset is merged...
+>
+> Are there design thoughts out there, about the future of pinning to vidmem,
+> for this? It would allow a huge group of older GPUs and NICs and such to
+> do p2p with this approach, and it seems like a natural next step, right?
 
-Doesn't devfreq_suspend_device() already cancel any timer work either 
-way in that case?
+The argument is that vram is a scarce resource, but I don't know if
+that is really the case these days.  At this point, we often have as
+much vram as system ram if not more.
 
-Robin.
-
-> Set the delayed timer as default is reasonable, so patch is:
-> Reviewed-by: Qiang Yu <yuq825@gmail.com>
-> 
-> Regards,
-> Qiang
-> 
->>
->> Regards,
->> Lukasz
->>
->>
->>>
->>> Regards,
->>> Qiang
->>>
->>>
->>> On Mon, Feb 1, 2021 at 5:53 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>>>
->>>> Hi Qiang,
->>>>
->>>> On 1/30/21 1:51 PM, Qiang Yu wrote:
->>>>> Thanks for the patch. But I can't observe any difference on glmark2
->>>>> with or without this patch.
->>>>> Maybe you can provide other test which can benefit from it.
->>>>
->>>> This is a design problem and has impact on the whole system.
->>>> There is a few issues. When the device is not checked and there are
->>>> long delays between last check and current, the history is broken.
->>>> It confuses the devfreq governor and thermal governor (Intelligent Power
->>>> Allocation (IPA)). Thermal governor works on stale stats data and makes
->>>> stupid decisions, because there is no new stats (device not checked).
->>>> Similar applies to devfreq simple_ondemand governor, where it 'tires' to
->>>> work on a loooong period even 3sec and make prediction for the next
->>>> frequency based on it (which is broken).
->>>>
->>>> How it should be done: constant reliable check is needed, then:
->>>> - period is guaranteed and has fixed size, e.g 50ms or 100ms.
->>>> - device status is quite recent so thermal devfreq cooling provides
->>>>      'fresh' data into thermal governor
->>>>
->>>> This would prevent odd behavior and solve the broken cases.
->>>>
->>>>>
->>>>> Considering it will wake up CPU more frequently, and user may choose
->>>>> to change this by sysfs,
->>>>> I'd like to not apply it.
->>>>
->>>> The deferred timer for GPU is wrong option, for UFS or eMMC makes more
->>>> sense. It's also not recommended for NoC busses. I've discovered that
->>>> some time ago and proposed to have option to switch into delayed timer.
->>>> Trust me, it wasn't obvious to find out that this missing check has
->>>> those impacts. So the other engineers or users might not know that some
->>>> problems they faces (especially when the device load is changing) is due
->>>> to this delayed vs deffered timer and they will change it in the sysfs.
->>>>
->>>> Regards,
->>>> Lukasz
->>>>
->>>>>
->>>>> Regards,
->>>>> Qiang
->>>>>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+Alex
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
