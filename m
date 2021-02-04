@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBAD30FCDD
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECDD30FCDA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 20:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D7E6EE2D;
-	Thu,  4 Feb 2021 19:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75FE6E890;
+	Thu,  4 Feb 2021 19:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E58C6E10F
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 17:38:12 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id bl23so6804989ejb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 09:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ahIJVi1im/xfNiquwSBVEWBkXzQOBkjj+3reJVaN8Sw=;
- b=Wz5vX85KTJDOPS5xPaF+/3wApefj5NKeH9ik7VIutxmASjLjWE00YajnAgLZMBKzhZ
- gTp4ZfvABeoS+cWDpnrEBgjvUKdPt5O8vBVKxYrOl58EvUF7o0+TUERcUqZ/i9lxOpyc
- +jvzw38xPxFxSry/jN4fvXA9vJGCVClb7BYhdT0XKKwKQ1DWG+92gI3mQj5W66AFDAvQ
- /Vv4CIaJ4wNNRcRfQCbg7yn8JoioHeRErgNyeOocjJE1CJSvjjFfdGgbN09u9J//271c
- h2oETVJlJxCPCxNeAn9jco9WTqzv/LmPj3VPHY0BTzy5oYRgIR4cD4xn0U1q4erFHi/z
- yIkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ahIJVi1im/xfNiquwSBVEWBkXzQOBkjj+3reJVaN8Sw=;
- b=CzIgEG8oVQ55xDb0+TcdSEdyjwky2vwsx9REb/WbeVxKobf0zhILN7HDZPGAvPB4+l
- PMy0AOny4LNPLr8Sjnu3461x16TjnATIZGCXOYh5HxNHQoxCyIPIlStv4ORVFkAVYfjs
- xmj7sTCRp5VnYilEdr334ZsN7WeAK+eZxBMfbkdLcGM9QXNZxR2jHkBPRU1iSa6GRia2
- MYUljMJCTB5Uw22P8GNag+gLkwv1DM/LeTysUiMCBatoQGxs5dJ+K+Bi5qV6h7gPOKpz
- Sjiw9drDkQ3P5W4NQXIaUvmbt6yU1/kyTbgXP9R36ueDMvgHe7yj9wLcBEvtHUFmLxcV
- 08vw==
-X-Gm-Message-State: AOAM5310cMEkgoBXMRXk89KimTcTTY7PuBBD7ZD3UlSZjbtr1x6g+zOW
- e6pSV2IbdF2YBnw3lQwTYM7EFEuewPQgS0QVs1Nkpw==
-X-Google-Smtp-Source: ABdhPJy41XjVZnW66D5IJdB7xPjDF7eNSPk9WjvUHmOtlDpPs+qwoxam0VqRtv6uds+wcnD/Sn2pEaJX6UTgN90OvS8=
-X-Received: by 2002:a17:906:f854:: with SMTP id
- ks20mr244192ejb.50.1612460289770; 
- Thu, 04 Feb 2021 09:38:09 -0800 (PST)
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E6E6EE0C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 18:09:40 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4DWmm21BHnz1qs49;
+ Thu,  4 Feb 2021 19:09:38 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4DWmm20KWLz1t6pv;
+ Thu,  4 Feb 2021 19:09:38 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id Tzu0XRqSusCs; Thu,  4 Feb 2021 19:09:36 +0100 (CET)
+X-Auth-Info: ujjjqwMaeZTKy1rSImM1CUauDTf2R99VzkFErwv17UU=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Thu,  4 Feb 2021 19:09:36 +0100 (CET)
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 bindings
+To: Doug Anderson <dianders@chromium.org>
+References: <20210130181014.161457-1-marex@denx.de>
+ <CAD=FV=UzkP8Rp6BDNVr1FmOK4GY9_dSeT6fCjQLMatHftyj9iA@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <c7df0302-c2c1-6ccb-7f7f-8b781d9e3d9b@denx.de>
+Date: Thu, 4 Feb 2021 19:09:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210204113742.1814456-1-emil.l.velikov@gmail.com>
-In-Reply-To: <20210204113742.1814456-1-emil.l.velikov@gmail.com>
-From: James Park <james.park@lagfreegames.com>
-Date: Thu, 4 Feb 2021 09:37:58 -0800
-Message-ID: <CABjik9cHYArtsTgYvcGbH_AOEcdVWpX-pTrHMq4uv7ct4_NSKQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/fourcc: introduce DRM_FOURCC_STANDALONE guard
-To: Emil Velikov <emil.l.velikov@gmail.com>
+In-Reply-To: <CAD=FV=UzkP8Rp6BDNVr1FmOK4GY9_dSeT6fCjQLMatHftyj9iA@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 04 Feb 2021 19:34:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,130 +55,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 4, 2021 at 3:37 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> Currently, the drm_fourcc.h header depends on drm.h for __u32 and __u64.
-> At the same time drm.h pulls a lot of unneeded symbols.
->
-> Add new guard DRM_FOURCC_STANDALONE, which when set will use local
-> declaration of said symbols.
->
-> When used on linux - we pull linux/types.h which is used either way.
-> On other platforms, BSDs et al, we need a couple of typedefs.
->
-> Since those can trigger a warning in some corner-cases*, add some GCC
-> magic to silence them. Note that incorrect type redefinitions will still
-> be flagged, and the GCC pragma is ignored by other compilers.
->
-> *Corner-case:
-> If one sets DRM_FOURCC_STANDALONE and compiles with C99 or earlier while
-> also using -pedantic _and_ the header lives outside of the standard
-> /usr/include (like BSDs normally do).
->
-> v2:
->  - Add corner-case handling, based on popular demand.
->
-> Cc: James Park <james.park@lagfreegames.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
->  include/uapi/drm/drm.h        | 10 ++++++++++
->  include/uapi/drm/drm_fourcc.h | 29 +++++++++++++++++++++++++++++
->  2 files changed, 39 insertions(+)
->
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 808b48a93330..cd78950e05ce 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -53,6 +53,15 @@ typedef unsigned int drm_handle_t;
->  #include <stdint.h>
->  #include <sys/ioccom.h>
->  #include <sys/types.h>
-> +
-> +/*
-> + * When using C99 -pedantic the typedefs will trigger a warning.
-> + * If the header is considered a system one (-isystem) those will be
-> + * ignored, yet on the target platforms BSDs, et al - the headers live
-> + * in a non-system location.
-> + */
-> +#pragma GCC diagnostic push
-> +#pragma GCC diagnostic ignored "-Wpedantic"
->  typedef int8_t   __s8;
->  typedef uint8_t  __u8;
->  typedef int16_t  __s16;
-> @@ -63,6 +72,7 @@ typedef int64_t  __s64;
->  typedef uint64_t __u64;
->  typedef size_t   __kernel_size_t;
->  typedef unsigned long drm_handle_t;
-> +#pragma GCC diagnostic pop
->
->  #endif
->
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 6f0628eb13a6..84a1f96cc4ef 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -24,7 +24,36 @@
->  #ifndef DRM_FOURCC_H
->  #define DRM_FOURCC_H
->
-> +/*
-> + * Define DRM_FOURCC_STANDALONE you're interested only FOURCC and do not want
-> + * to pull drm.h into your application.
-> + */
-> +#ifdef DRM_FOURCC_STANDALONE
-> +#if defined(__linux__)
-> +
-> +#include <linux/types.h>
-> +
-> +#else /* One of the BSDs */
-> +
-> +#include <stdint.h>
-> +
-> +/*
-> + * When using C99 -pedantic the typedefs will trigger a warning.
-> + * If the header is considered a system one (-isystem) those will be
-> + * ignored, yet on the target platforms BSDs, et al - the headers live
-> + * in a non-system location.
-> + */
-> +#pragma GCC diagnostic push
-> +#pragma GCC diagnostic ignored "-Wpedantic"
-> +typedef uint32_t __u32;
-> +typedef uint64_t __u64;
-> +#pragma GCC diagnostic pop
-> +
-> +#endif /* __linux __ */
-> +
-> +#else
->  #include "drm.h"
-> +#endif /* DRM_FOURCC_STANDALONE */
->
->  #if defined(__cplusplus)
->  extern "C" {
-> --
-> 2.30.0
->
+On 2/4/21 6:15 PM, Doug Anderson wrote:
 
-I remember reading GCC diagnostic push/pop requires a recent enough
-compiler version to be supported, which is pretty old, but I don't
-know how old is old enough for Linux headers:
-https://github.com/protocolbuffers/protobuf/issues/4156
+Hi,
 
-Testing snippets in godbolt, I think the pragmas need to be wrapped. MSVC says:
+[...]
 
-warning C4068: unknown pragma 'GCC'
+>> +properties:
+>> +  compatible:
+>> +    const: ti,sn65dsi83
+>> +
+>> +  reg:
+>> +    const: 0x2d
+>> +
+>> +  enable-gpios:
+>> +    maxItems: 1
+>> +    description: GPIO specifier for bridge_en pin (active high).
+> 
+> I see two regulators: vcc and vcore.  Shouldn't those be listed?
 
-Also, Clang seems to want -Wtypedef-redefinition, not -Wpedantic. GCC
-complains it doesn't know what -Wtypedef-redefinition is, so that
-would also need to be wrapped.
+Those are not implemented and not tested, so if someone needs them later 
+on, they can be added then.
+
+> I also see an interrupt pin on the datasheet.  Probably should be
+> listed too even if the chip can be made to work fine without hooking
+> it up.  It can just be optional, right?
+
+It is optional and again completely untested, so it can be added later 
+if needed.
+
+> It wouldn't hurt to list the refclk here too even if the code doesn't
+> use it.  From sn65dsi86 it was handy that the bindings already had all
+> this type of stuff so that when we added the feature we didn't have to
+> go back to the bindings.
+
+In my case, the refclock are derived from the DSI link.
+
+>> +  ports:
+>> +    type: object
+>> +    additionalProperties: false
+>> +
+>> +    properties:
+>> +      "#address-cells":
+>> +        const: 1
+>> +
+>> +      "#size-cells":
+>> +        const: 0
+>> +
+>> +      port@0:
+>> +        type: object
+>> +        additionalProperties: false
+>> +
+>> +        description:
+>> +          Video port for MIPI DSI input
+>> +
+>> +        properties:
+>> +          reg:
+>> +            const: 0
+>> +
+>> +          endpoint:
+>> +            type: object
+>> +            additionalProperties: false
+>> +            properties:
+>> +              remote-endpoint: true
+>> +              data-lanes:
+>> +                description: array of physical DSI data lane indexes.
+> 
+> The chip doesn't allow for arbitrary remapping here, right?  So you're
+> just using this as the official way to specify the number of lanes?  I
+> guess the only valid values are:
+> 
+> <0>
+> <0 1>
+> <0 1 2>
+> <0 1 2 3>
+
+Shouldn't that be <1 2 3 4> ?
+
+> In sn65dsi86 we attempted to enforce that a valid option was selected
+> for the output lanes.  Could you do something similar?  If nothing
+> else adding a description of the valid options would be good.
+
+I saw the binding, but I was under the impressions the DSI86 can do lane 
+reordering, isn't that the case ? Maybe I misunderstood it.
+
+But yes, if you have a suggestion how to make a non-cryptic list of 
+those four lane mapping options, please do share this info.
+
+>> +        required:
+>> +          - reg
+>> +
+>> +      port@1:
+>> +        type: object
+>> +        additionalProperties: false
+>> +
+>> +        description:
+>> +          Video port for LVDS output (panel or bridge).
+>> +
+>> +        properties:
+>> +          reg:
+>> +            const: 1
+>> +
+>> +          endpoint:
+>> +            type: object
+>> +            additionalProperties: false
+>> +            properties:
+>> +              remote-endpoint: true
+> 
+> Worth adding the data-lanes here too?  I guess this part allows you
+> two different orders for the LVDS outputs?
+
+I don't really want to add any properties which I cannot test and then 
+end up with DT bindings which would become poor ABI in the future.
+
+>> +
+>> +        required:
+>> +          - reg
+>> +
+>> +    required:
+>> +      - "#address-cells"
+>> +      - "#size-cells"
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - enable-gpios
+>> +  - ports
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    i2c {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+>> +
+>> +      bridge@2d {
+>> +        compatible = "ti,sn65dsi83";
+>> +        reg = <0x2d>;
+>> +
+>> +        enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
+>> +
+>> +        ports {
+>> +          #address-cells = <1>;
+>> +          #size-cells = <0>;
+>> +
+>> +          port@0 {
+>> +            reg = <0>;
+>> +            endpoint {
+>> +              remote-endpoint = <&dsi0_out>;
+>> +              data-lanes = <1 2 3 4>;
+> 
+> Should the above be <0 1 2 3>?
+
+Well, git grep data-lanes seems to indicate some count from 1, some from 0 .
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
