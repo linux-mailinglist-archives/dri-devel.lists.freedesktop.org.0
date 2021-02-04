@@ -2,79 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A91730F12D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 11:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E5C30F14B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 11:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277AC6ED1E;
-	Thu,  4 Feb 2021 10:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011A06ED20;
+	Thu,  4 Feb 2021 10:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECB96ED1E
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 10:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612435808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ExcdpvdW4w9z0j1rSZqVqf3PX+bGLK8NJ4uHHCnJ7SI=;
- b=Ckj4V9W55B7e90v71yhXsJNTIbxnM9fjsphF04l3kGfyJz9RY6n6HMRkaIK5ZegenqDVbI
- tpMmnkhjqk5lEj7FTH3aBe5xvFf4yuK4e+AlNtje/JGBP8RSVuWm9kDwUWUBeb5r2/Gy3X
- AULraChdaU8ugH8Ao7JJgAA1aTqYdPc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-gqT-fACqPpuTh_TQxpuong-1; Thu, 04 Feb 2021 05:50:06 -0500
-X-MC-Unique: gqT-fACqPpuTh_TQxpuong-1
-Received: by mail-ej1-f72.google.com with SMTP id gt18so2337105ejb.18
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 02:50:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ExcdpvdW4w9z0j1rSZqVqf3PX+bGLK8NJ4uHHCnJ7SI=;
- b=XtkP7egCjtDRR8YsbNpLwEW1tgBFzRegm5rDtsZHS4/Yyr4Srli6V3LA8qrEv2XrOX
- BdYFx8Cv8NOY61TVreIYfT3SlAZi9Oscr9VkiF5fGgqQlT0iOW+X7TIwi1IwQf5Zo+0C
- IfaCfugTWKkwbI1G3C4OYkui1fzvRI8sqG1lxtD+lLd1EFtxrWO+d5VMxnXjlm9VRw1r
- ylh5aDZhipYwK6ErMvp3aydnAIv9dyvFBulfE4sY/53SnTNY/SuYMT+Jc3G4ent7eJnS
- Z5XRwGXBMbVCltYblfXHHx1jZjc0RDWMA8TYIUUdtgLC2XAtH/aEYHMvNxvzM2T8Igmv
- yWlw==
-X-Gm-Message-State: AOAM533ELZJIRC8DW3t2rUoKdgE+sGR4a/jqwS28nMStzkDLWvUcLHz7
- raMJ7Mk4NmGTw/a3S0tsf5xPb/7qp0bPvvK30yq4xqdHH53Mt4NEYs6r5EQhM5o9L74QIAGs+8n
- n5EWOu1tdP4R2vt877S2wzk1GUwkX
-X-Received: by 2002:a50:e40d:: with SMTP id d13mr7199531edm.286.1612435805426; 
- Thu, 04 Feb 2021 02:50:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyrLq4STTB5oHsAxoJ/eqPScYWEXm044cXSlN/alKGEooRBz1nK3qDv8a2u2yCHeu/QD1EDgg==
-X-Received: by 2002:a50:e40d:: with SMTP id d13mr7199513edm.286.1612435805290; 
- Thu, 04 Feb 2021 02:50:05 -0800 (PST)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
- by smtp.gmail.com with ESMTPSA id n16sm2273045ejd.116.2021.02.04.02.50.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 02:50:04 -0800 (PST)
-Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
-To: Daniel Vetter <daniel@ffwll.ch>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com>
- <CAMeQTsbGBrTvfkz6BStwL240Kz-dbrQVKtXbYkRtbD3OoUKCcg@mail.gmail.com>
- <CAHp75VeYroY5uG38NrsqwbHnjT0j_LMMD3JmNmRED3OY5ff7xA@mail.gmail.com>
- <CAMeQTsZRng0UWkO5fXUmZW=-gnKWiigwO0BwMY9p1T2D-hoMNA@mail.gmail.com>
- <CAKMK7uEBaWMz-AjuJO3vvUBvacqMHuevOhMhQ0a+r5TtyDpwuQ@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <797cf4ac-ffdc-e73e-cb58-d027beb6e3b4@redhat.com>
-Date: Thu, 4 Feb 2021 11:50:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9A16E02B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 10:56:38 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1l7cJP-0002IR-8V; Thu, 04 Feb 2021 11:56:35 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1l7cJM-0005Hn-2B; Thu, 04 Feb 2021 11:56:32 +0100
+Date: Thu, 4 Feb 2021 11:56:32 +0100
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 10/16] drm/exynos: implement a drm bridge
+Message-ID: <20210204105632.GB29287@pengutronix.de>
+References: <CGME20200911164817eucas1p2a0907a3d4c5c0a8d8dc4bc97301f1517@eucas1p2.samsung.com>
+ <20200911135413.3654800-11-m.tretter@pengutronix.de>
+ <381a553a-5bc6-d070-fc40-7d48fdb89ca9@samsung.com>
+ <650db263-df3f-17fa-0298-62cd821b5274@samsung.com>
+ <20200914200145.GA8098@pengutronix.de>
+ <a5e5e6d5-95a2-1f5a-94a2-27ec3d12e781@samsung.com>
+ <2d7f0e5e-070c-971e-1e4f-47a60f00d934@samsung.com>
+ <20210201163314.GB26987@pengutronix.de>
+ <20210203203148.GA29287@pengutronix.de>
+ <CAKMK7uGO+hUBzR5H0yZdaKg_fNsv7d=tKVZNwozdvG=9GA2FBQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEBaWMz-AjuJO3vvUBvacqMHuevOhMhQ0a+r5TtyDpwuQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGO+hUBzR5H0yZdaKg_fNsv7d=tKVZNwozdvG=9GA2FBQ@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:37:39 up 63 days, 23:04, 91 users,  load average: 1.10, 0.56, 0.33
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,74 +63,337 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mark Gross <mgross@linux.intel.com>,
- LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+Cc: Marek Vasut <marex@denx.de>, aisheng.dong@nxp.com,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, ch@denx.de,
+ Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+ Krzysztof Kozlowski <krzk@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ dl-linux-imx <linux-imx@nxp.com>, frieder.schrempf@kontron.de,
+ abel.vesa@nxp.com, Andrzej Hajda <a.hajda@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sascha Hauer <kernel@pengutronix.de>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ sylvester.nawrocki@gmail.com, aford173@gmail.com,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2/4/21 11:36 AM, Daniel Vetter wrote:
-> On Thu, Feb 4, 2021 at 11:19 AM Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
->>
->> On Wed, Feb 3, 2021 at 1:00 PM Andy Shevchenko
->> <andy.shevchenko@gmail.com> wrote:
->>>
->>> On Tue, Jan 26, 2021 at 5:25 PM Patrik Jakobsson
->>> <patrik.r.jakobsson@gmail.com> wrote:
->>>> On Tue, Jan 26, 2021 at 1:37 PM Andy Shevchenko
->>>> <andriy.shevchenko@linux.intel.com> wrote:
->>>>>
->>>>> Hi guys,
->>>>>
->>>>> This is first part of Intel MID outdated platforms removal. It's collected into
->>>>> immutable branch with a given tag, please pull to yours subsystems.
->>>>
->>>> Hi Andy,
->>>> Do you plan on eventually removing X86_INTEL_MID completely? If so,
->>>> then I should probably start looking at removing the corresponding
->>>> parts in GMA500.
->>>
->>> I have noticed new commits in DRM against GMA500 and it seems now in a
->>> conflict with my immutable branch. Are you sure you don't forget to
->>> pull it?
->>
->> Hi Andy, sorry I missed pulling the immutable branch before taking the
->> gma500 medfield removal. I was unsure how to do that through drm-misc
->> and it's tools so I got sidetracked. What would be the correct way to
->> fix this?
+On Thu, 04 Feb 2021 11:17:49 +0100, Daniel Vetter wrote:
+> On Wed, Feb 3, 2021 at 9:32 PM Michael Tretter <m.tretter@pengutronix.de> wrote:
+> >
+> > On Mon, 01 Feb 2021 17:33:14 +0100, Michael Tretter wrote:
+> > > On Tue, 15 Sep 2020 21:40:40 +0200, Andrzej Hajda wrote:
+> > > > W dniu 14.09.2020 o 23:19, Andrzej Hajda pisze:
+> > > > > On 14.09.2020 22:01, Michael Tretter wrote:
+> > > > >> On Mon, 14 Sep 2020 14:31:19 +0200, Marek Szyprowski wrote:
+> > > > >>> On 14.09.2020 10:29, Marek Szyprowski wrote:
+> > > > >>>> On 11.09.2020 15:54, Michael Tretter wrote:
+> > > > >>>>> Make the exynos_dsi driver a full drm bridge that can be found and
+> > > > >>>>> used
+> > > > >>>>> from other drivers.
+> > > > >>>>>
+> > > > >>>>> Other drivers can only attach to the bridge, if a mipi dsi device
+> > > > >>>>> already attached to the bridge. This allows to defer the probe of the
+> > > > >>>>> display pipe until the downstream bridges are available, too.
+> > > > >>>>>
+> > > > >>>>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > > > >>>> This one (and the whole series applied) still fails on Exynos boards:
+> > > > >>>>
+> > > > >>>> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping
+> > > > >>>> operations
+> > > > >>>> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
+> > > > >>>> OF: graph: no port node found in /soc/dsi@11c80000
+> > > > >>>> 8<--- cut here ---
+> > > > >>>> Unable to handle kernel NULL pointer dereference at virtual address
+> > > > >>>> 00000084
+> > > > >>>> pgd = (ptrval)
+> > > > >>>> [00000084] *pgd=00000000
+> > > > >>>> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+> > > > >>>> Modules linked in:
+> > > > >>>> CPU: 1 PID: 1 Comm: swapper/0 Not tainted
+> > > > >>>> 5.9.0-rc4-next-20200911-00010-g417dc70d70ec #1608
+> > > > >>>> Hardware name: Samsung Exynos (Flattened Device Tree)
+> > > > >>>> PC is at drm_bridge_attach+0x18/0x164
+> > > > >>>> LR is at exynos_dsi_bind+0x88/0xa8
+> > > > >>>> pc : [<c0628c08>]    lr : [<c064d560>]    psr: 20000013
+> > > > >>>> sp : ef0dfca8  ip : 00000002  fp : c13190e0
+> > > > >>>> r10: 00000000  r9 : ee46d580  r8 : c13190e0
+> > > > >>>> r7 : ee438800  r6 : 00000018  r5 : ef253810  r4 : ef39e840
+> > > > >>>> r3 : 00000000  r2 : 00000018  r1 : ef39e888  r0 : ef39e840
+> > > > >>>> Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> > > > >>>> Control: 10c5387d  Table: 4000404a  DAC: 00000051
+> > > > >>>> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+> > > > >>>> Stack: (0xef0dfca8 to 0xef0e0000)
+> > > > >>>> ...
+> > > > >>>> [<c0628c08>] (drm_bridge_attach) from [<c064d560>]
+> > > > >>>> (exynos_dsi_bind+0x88/0xa8)
+> > > > >>>> [<c064d560>] (exynos_dsi_bind) from [<c066a800>]
+> > > > >>>> (component_bind_all+0xfc/0x290)
+> > > > >>>> [<c066a800>] (component_bind_all) from [<c0649dc0>]
+> > > > >>>> (exynos_drm_bind+0xe4/0x19c)
+> > > > >>>> [<c0649dc0>] (exynos_drm_bind) from [<c066ad74>]
+> > > > >>>> (try_to_bring_up_master+0x1e4/0x2c4)
+> > > > >>>> [<c066ad74>] (try_to_bring_up_master) from [<c066b2b4>]
+> > > > >>>> (component_master_add_with_match+0xd4/0x108)
+> > > > >>>> [<c066b2b4>] (component_master_add_with_match) from [<c0649ae8>]
+> > > > >>>> (exynos_drm_platform_probe+0xe4/0x110)
+> > > > >>>> [<c0649ae8>] (exynos_drm_platform_probe) from [<c0674e6c>]
+> > > > >>>> (platform_drv_probe+0x6c/0xa4)
+> > > > >>>> [<c0674e6c>] (platform_drv_probe) from [<c067242c>]
+> > > > >>>> (really_probe+0x200/0x4fc)
+> > > > >>>> [<c067242c>] (really_probe) from [<c06728f0>]
+> > > > >>>> (driver_probe_device+0x78/0x1fc)
+> > > > >>>> [<c06728f0>] (driver_probe_device) from [<c0672cd8>]
+> > > > >>>> (device_driver_attach+0x58/0x60)
+> > > > >>>> [<c0672cd8>] (device_driver_attach) from [<c0672dbc>]
+> > > > >>>> (__driver_attach+0xdc/0x174)
+> > > > >>>> [<c0672dbc>] (__driver_attach) from [<c06701b4>]
+> > > > >>>> (bus_for_each_dev+0x68/0xb4)
+> > > > >>>> [<c06701b4>] (bus_for_each_dev) from [<c06714e8>]
+> > > > >>>> (bus_add_driver+0x158/0x214)
+> > > > >>>> [<c06714e8>] (bus_add_driver) from [<c0673c1c>]
+> > > > >>>> (driver_register+0x78/0x110)
+> > > > >>>> [<c0673c1c>] (driver_register) from [<c0649ca8>]
+> > > > >>>> (exynos_drm_init+0xe4/0x118)
+> > > > >>>> [<c0649ca8>] (exynos_drm_init) from [<c0102484>]
+> > > > >>>> (do_one_initcall+0x8c/0x42c)
+> > > > >>>> [<c0102484>] (do_one_initcall) from [<c11011c0>]
+> > > > >>>> (kernel_init_freeable+0x190/0x1dc)
+> > > > >>>> [<c11011c0>] (kernel_init_freeable) from [<c0af7880>]
+> > > > >>>> (kernel_init+0x8/0x118)
+> > > > >>>> [<c0af7880>] (kernel_init) from [<c0100114>] (ret_from_fork+0x14/0x20)
+> > > > >>>> Exception stack(0xef0dffb0 to 0xef0dfff8)
+> > > > >>>> ...
+> > > > >>>> ---[ end trace ee27f313f9ed9da1 ]---
+> > > > >>>>
+> > > > >>>> # arm-linux-gnueabi-addr2line -e vmlinux c0628c08
+> > > > >>>> drivers/gpu/drm/drm_bridge.c:184 (discriminator 1)
+> > > > >>>>
+> > > > >>>> I will try to debug it a bit more today.
+> > > > >>> The above crash has been caused by lack of in_bridge initialization to
+> > > > >>> NULL in exynos_dsi_bind() in this patch. However, fixing it reveals
+> > > > >>> another issue:
+> > > > >>>
+> > > > >>> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
+> > > > >>> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
+> > > > >>> OF: graph: no port node found in /soc/dsi@11c80000
+> > > > >>> 8<--- cut here ---
+> > > > >>> Unable to handle kernel NULL pointer dereference at virtual address
+> > > > >>> 00000280
+> > > > >>> pgd = (ptrval)
+> > > > >>> [00000280] *pgd=00000000
+> > > > >>> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+> > > > >>> Modules linked in:
+> > > > >>> CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> > > > >>> 5.9.0-rc4-next-20200911-00010-g417dc70d70ec-dirty #1613
+> > > > >>> Hardware name: Samsung Exynos (Flattened Device Tree)
+> > > > >>> PC is at __mutex_lock+0x54/0xb18
+> > > > >>> LR is at lock_is_held_type+0x80/0x138
+> > > > >>> pc : [<c0afc920>]    lr : [<c0af63e8>]    psr: 60000013
+> > > > >>> sp : ef0dfd30  ip : 33937b74  fp : c13193c8
+> > > > >>> r10: c1208eec  r9 : 00000000  r8 : ee45f808
+> > > > >>> r7 : c19561a4  r6 : 00000000  r5 : 00000000  r4 : 0000024c
+> > > > >>> r3 : 00000000  r2 : 00204140  r1 : c124f13c  r0 : 00000000
+> > > > >>> Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> > > > >>> Control: 10c5387d  Table: 4000404a  DAC: 00000051
+> > > > >>> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+> > > > >>> Stack: (0xef0dfd30 to 0xef0e0000)
+> > > > >>> ...
+> > > > >>> [<c0afc920>] (__mutex_lock) from [<c0afd400>]
+> > > > >>> (mutex_lock_nested+0x1c/0x24)
+> > > > >>> [<c0afd400>] (mutex_lock_nested) from [<c064d4b8>]
+> > > > >>> (__exynos_dsi_host_attach+0x20/0x6c)
+> > > > >>> [<c064d4b8>] (__exynos_dsi_host_attach) from [<c064d914>]
+> > > > >>> (exynos_dsi_host_attach+0x70/0x194)
+> > > > >>> [<c064d914>] (exynos_dsi_host_attach) from [<c0656b64>]
+> > > > >>> (s6e8aa0_probe+0x1b0/0x218)
+> > > > >>> [<c0656b64>] (s6e8aa0_probe) from [<c0672530>]
+> > > > >>> (really_probe+0x200/0x4fc)
+> > > > >>> [<c0672530>] (really_probe) from [<c06729f4>]
+> > > > >>> (driver_probe_device+0x78/0x1fc)
+> > > > >>> [<c06729f4>] (driver_probe_device) from [<c0672ddc>]
+> > > > >>> (device_driver_attach+0x58/0x60)
+> > > > >>> [<c0672ddc>] (device_driver_attach) from [<c0672ec0>]
+> > > > >>> (__driver_attach+0xdc/0x174)
+> > > > >>> [<c0672ec0>] (__driver_attach) from [<c06702b8>]
+> > > > >>> (bus_for_each_dev+0x68/0xb4)
+> > > > >>> [<c06702b8>] (bus_for_each_dev) from [<c06715ec>]
+> > > > >>> (bus_add_driver+0x158/0x214)
+> > > > >>> [<c06715ec>] (bus_add_driver) from [<c0673d20>]
+> > > > >>> (driver_register+0x78/0x110)
+> > > > >>> [<c0673d20>] (driver_register) from [<c0102484>]
+> > > > >>> (do_one_initcall+0x8c/0x42c)
+> > > > >>> [<c0102484>] (do_one_initcall) from [<c11011c0>]
+> > > > >>> (kernel_init_freeable+0x190/0x1dc)
+> > > > >>> [<c11011c0>] (kernel_init_freeable) from [<c0af7988>]
+> > > > >>> (kernel_init+0x8/0x118)
+> > > > >>> [<c0af7988>] (kernel_init) from [<c0100114>] (ret_from_fork+0x14/0x20)
+> > > > >>> Exception stack(0xef0dffb0 to 0xef0dfff8)
+> > > > >>> ...
+> > > > >>> ---[ end trace c06e996ec2e8234d ]---
+> > > > >>>
+> > > > >>> This means that dsi->encoder.dev is not initialized in
+> > > > >>> __exynos_dsi_host_attach().
+> > > > >>>
+> > > > >>> This happens, because drm_bridge_attach() in exynos_dsi_bind() returned
+> > > > >>> earlier -517 (deferred probe), what causes cleanup of encoder and
+> > > > >>> release of all drm resources.
+> > > > >>>
+> > > > >>> Then however, the panel tries to register itself and
+> > > > >>> exynos_dsi_host_attach() tries to access the released encoder (which is
+> > > > >>> zeroed in drm_encoder_release) and rest of resources, what causes
+> > > > >>> failure.
+> > > > >>>
+> > > > >>> It looks that something is missing. Maybe mipi host has to be
+> > > > >>> registered
+> > > > >>> later, when bridge is ready? I have no idea how it is handled before
+> > > > >>> this patch. Andrzej, could you comment it a bit?
+> > > > >> I intentionally changed the order, because if another bridge follows
+> > > > >> in the
+> > > > >> pipeline, the probe of the drm driver has to be deferred until some
+> > > > >> bridge
+> > > > >> provides a connector. The next bridge registers itself via the
+> > > > >> host_attach
+> > > > >> function and the deferral is ensured via the bind for the bind/unbind
+> > > > >> API or
+> > > > >> the bridge_attach function otherwise.
+> > > > >>
+> > > > >> On the other hand, the bridge does not have an encoder until the mipi
+> > > > >> device
+> > > > >> has been attached.
+> > > > >>
+> > > > >> As a solution, the exynos dsi driver must initialize the encoder in
+> > > > >> exynos_dsi_probe instead of in exynos_dsi_bind and access the encoder
+> > > > >> via
+> > > > >> exynos_dsi instead of the bridge.
+> > > > >>
+> > > > >> Can you try to move everything except samsung_dsim_bind from
+> > > > >> exynos_dsi_bind
+> > > > >> to exynos_dsi_probe (respectively for unbind) and report if it fixes the
+> > > > >> crash.
+> > > > >
+> > > > >
+> > > > > The original behaviour is that encoder (exynos_dsi) is registered
+> > > > > regardless of sink presence (initially panel, later also bridge) - it
+> > > > > avoids multiple issues with deferred probe, device driver bind/unbind
+> > > > > and module load/unload. Appearance or disappearance of sink is
+> > > > > reported to host nicely via DSI attach/detach callbacks - and it is
+> > > > > reflected in drm world as change state of the connector.
+> > > > >
+> > > > > Registering DSI host in bind and unregistering in unbind assures that
+> > > > > if mipi_dsi device is attached/detached the drm device is always
+> > > > > present - it makes device/driver binding race free and allows to avoid
+> > > > > additional locking.
+> > > > >
+> > > > > Moving DSI host registration to probe changes everything, for sure it
+> > > > > breaks the nice feature of DSI attach/detach callbacks and apparently
+> > > > > can cause different issues depending on device bind order.
+> > > > >
+> > > > > I will try to look at the patches tomorrow and maybe I can find more
+> > > > > constructive comments :)
+> > > >
+> > > >
+> > > > As I said yesterday, exynos_dsi driver uses dsi host attach/detach
+> > > > callbacks to control appearance/disappearance of downstream device. It
+> > > > allows to:
+> > > >
+> > > > 1. Safely bind/unbind different device drivers at any time and at any
+> > > > order, without killing exynos_drm and/or crashing system.
+> > > >
+> > > > 2. Avoid issues with late drm init - on some platforms exynos_drm device
+> > > > appeared too late, due to deferred probe, and resulted in black screen
+> > > > in userspace.
+> > > >
+> > > >
+> > > > Now if we want to convert exynos_dsi to drm_bridge I see following options:
+> > > >
+> > > > A. Forgot about callbacks and make the exynos_drm to defer probing until
+> > > > exynos_dsi bridge is available, probably it will cause later exynos_drm
+> > > > appearance, thus probably black screen on some targets. So for sure it
+> > > > will be suboptimal. Making it bridge unbind safe would be another
+> > > > problem, but most developers do not care about it so why should we? :)
+> > > >
+> > > > B. Try to mimic current behaviour - exynos_dsi register bridge ASAP,
+> > > > even if downstream devices are not yet attached, on attach/detach notify
+> > > > drm about it via connector status change, for this dsi_host registration
+> > > > should be performed from drm_bridge attach, I guess.
+> > > >
+> > > >
+> > > > Option A is more standard, but is unsafe and causes other issues.
+> > > >
+> > > > Option B keeps current behaviour.
+> > >
+> > > Maybe we can have both, but I am not sure, if I am missing something:
+> > >
+> > > I still prefer option A for the samsung-dsim driver, because it is more
+> > > standard, simpler and avoids issues with encoders, connectors or handling
+> > > hotplug.
+> > >
+> > > The idea is to use two bridges in the exynos-dsi driver: One bridge in the
+> > > samsung-dsim driver which implements option A and defers probing of the drm
+> > > driver until the next bridge is attached. And a second bridge in the
+> > > exynos_dsi that attaches to the first bridge (thus, allowing the exynos_drm
+> > > device to appear) and implements the hotplug handling for notifying drm via
+> > > connector status change.
+> > >
+> > > The driver for the i.MX8M would use the samsung-dsim bridge without an
+> > > additional bridge.
+> > >
+> > > This allows the samsung-dsim driver to expose the standard behavior while the
+> > > exynos_dsi may stick to the existing behavior for the exynos_drm driver.
+> > >
+> > > I hope this makes sense and does not sound too crazy. It might be difficult to
+> > > get the probing and mipi host/device registration correct, but I will try, if
+> > > this can work.
+> >
+> > Adding two bridges for being able to support hotplugging adds many special
+> > cases to the bridge driver and still requires more custom API to correctly add
+> > the second bridge. I don't think that this a viable path to go.
 > 
-> Imo Linus can resolve this, it's pretty trivial, as long as both pull
-> requests point it out to him.
+> Just jumping in here: You cannot hotplug/hotremove anything from a
+> drm_device after drm_dev_register has been called, except
+> drm_connector. I didn't dig into details here so not sure whether you
+> want to late-bind your bridge after drm_dev_register is called or not,
+> so might just be fyi and not relevant to the discussion.
 
-The removal of older Intel platforms touches a number of subsystem trees,
-the idea about the IM branch was that all subsystem-trees would merge that.
+Thanks. AFAIC that is exactly what is currently implemented in the exynos_drm
+driver (i.e. Option B)
 
-I can certainly point out the problem in the pdx86 pull-req to Linus,
-but the GPIO pull-req also contains a merge of the IM branch as will
-the x86/tip and rtc pull-reqs I believe. We can add a remark to all
-the pull-reqs about the issue I guess ?
+exynos_dsi_bind configures the encoder and registers a DSI host. Afterwards,
+exynos_drm_bind (as component_master_ops) calls drm_dev_register. Later, a DSI
+device might attach to the DSI host and call exynos_dsi_host_attach. In
+exynos_dsi_host_attach, the driver finds the drm_bridge for the DSI device and
+attaches this bridge to the encoder _after_ drm_dev_register has been called.
+This is invalid behavior, right?
 
-But it might be better to still merge the branch into drm-misc-next and
-resolve the conflict there. I think that should avoid Linus seeing it ?
+Michael
 
-Regards,
-
-Hans
-
+> -Daniel
+> 
+> >
+> > This leaves us with:
+> >
+> > Option A) Standard drm_bridge behavior, which is currently implemented, but
+> > incompatible with the currently expected behavior of exynos_drm.
+> >
+> > Option B) Creating the drm device without all bridges being attached, which
+> > would work with the exynos_drm driver, but breaks for the standard drm_bridge
+> > behavior, especially, if the encoder/connector is created at the beginning of
+> > the pipeline and passed downwards when the bridges are attached.
+> >
+> > Option C) Extracting only low level register accesses into shared code, adding
+> > a custom interface and implementing the drm_bridge handling in the platform
+> > specific code.
+> >
+> > None of the options really convinces me.
+> >
+> > Michael
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
