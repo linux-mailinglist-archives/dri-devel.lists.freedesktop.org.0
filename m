@@ -1,49 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9A230FFD5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 23:05:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB9B30FFF0
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Feb 2021 23:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFE76EE70;
-	Thu,  4 Feb 2021 22:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F55D6EE75;
+	Thu,  4 Feb 2021 22:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1E306EE70
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 22:05:46 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4DWt0T0GY9z1qsZv;
- Thu,  4 Feb 2021 23:05:45 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4DWt0S6ZNfz1t6pt;
- Thu,  4 Feb 2021 23:05:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id A42zhnKn8apA; Thu,  4 Feb 2021 23:05:43 +0100 (CET)
-X-Auth-Info: T/t4LPIfsrigfXnl8Qq6X85XUECP2UrZqUxJOOmHOew=
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Thu,  4 Feb 2021 23:05:43 +0100 (CET)
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: Add TI SN65DSI83 driver
-To: Doug Anderson <dianders@chromium.org>
-References: <20210130181014.161457-1-marex@denx.de>
- <20210130181014.161457-2-marex@denx.de>
- <CAD=FV=WzW1L=nwcnhagCXfX5SStE0jr0bqRrEOi-46g4huD4Sw@mail.gmail.com>
- <49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de>
- <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <754e1868-9a5f-39ab-ac14-0e84492e145b@denx.de>
-Date: Thu, 4 Feb 2021 23:05:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAD=FV=Ve3hj8YOSRnJn7kzULPaPqyWCT9_qDHU+LZi=C+69+Xw@mail.gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEBD76EE75
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Feb 2021 22:11:54 +0000 (UTC)
+IronPort-SDR: AVUb7P3Mo6SAFuWyZB7iDzZEKA4oOud+3vjWHttVYeJQ/fYvZJaloPhV988Mv9ybR+y5gJ2GQh
+ JRwAbQUHVxiA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="266167370"
+X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="266167370"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2021 14:11:54 -0800
+IronPort-SDR: WQwVcmO9GZF4+iUkyGi3FwrxeeZakmxJ7AwS50XNa0mOM4Lx2ZJVoP7yeWQaLp4uEw3ypLAxBF
+ MCcLF84Cj9VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; d="scan'208";a="415332835"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2021 14:11:54 -0800
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 4 Feb 2021 14:11:53 -0800
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 4 Feb 2021 14:11:53 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Thu, 4 Feb 2021 14:11:53 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Thu, 4 Feb 2021 14:11:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ltyADJIJdISKaRRJgoQdNYMQrRph+oiT+3kMLAuL7+zasTubZBnVbWW029esv/l8KHiY4GzCcJxsNf470MU6ThqRX6ML7ABQ7gTkGq+mfTWrfKCP1MC4pK0LwapQlN2xL9tkFz79X3YLa8AvldzMeN7sWedZW4hj4nqmkvejvLWj57Gk6DTVzxHhYOYFVc0yldniFI6zdldYL2fv9F5FIQ4z8A56zsWXmXeANRWqnmrpFd/H3voNzWsO+bmhdcus7438p3P1Iwweg/1qt0NIRQFSY//4eRdelHU9WwaPyD2PICFZjoTfyK9W64F/6BOh5Xh1XtFZerH/ak7YGWP1DA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6fqwdNlorYab4bpeQIS1sz5uVOZrHoBRCqW2GCVbTcI=;
+ b=gzlk2MEcbcJHRskahIu6/3vkKuzEOu4EPeQYGw0qQs2A+WLfIjmr/i0dsB8oEB9xI2Ve5vHcVD95LzAR85vbVe+C9AEqDZEJffLEao/eN6qybsbYqnZ09DzLTYzF4B6652zEmySeKzL+x1+1RRWrXi1IzGVN+7pSPIUqCqSde/G9UD8vZS/ZhBEDFLIYv7KoAyqSwdgPt2u8u5JTIdtwERTyHeTo31I4sbpo4hHWERJoFCqEnvaSAB/iyD3tvD7wks6t9cJjlXueVXmOGddmq5rrBzZnjzOXIk3Gj4Kfs14cZyi/mg3BCG/PLbkol9f3DvppiFf/xUEwitE6ehSBKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6fqwdNlorYab4bpeQIS1sz5uVOZrHoBRCqW2GCVbTcI=;
+ b=uHzIj2MVQzpk5phOmWwLDjERFcQoitGddVYnntHsZRv+fFT2LtYhumwiJCnzNmG90II1LAuOHTWZRRVoIwc7D3MRQ1ub9SeTMGa3FPFxSLvCeupIiHaADWh1xd/GEeYlELAdThXGZ7Byj/xQTrIKiVyEuIPoruZ/twOgLV0HFl8=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by MWHPR1101MB2190.namprd11.prod.outlook.com (2603:10b6:301:5b::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17; Thu, 4 Feb
+ 2021 22:11:45 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::4476:930f:5109:9c28]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::4476:930f:5109:9c28%6]) with mapi id 15.20.3805.026; Thu, 4 Feb 2021
+ 22:11:45 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [PATCH rdma-core 3/3] configure: Add check for the presence of
+ DRM headers
+Thread-Topic: [PATCH rdma-core 3/3] configure: Add check for the presence of
+ DRM headers
+Thread-Index: AQHW+yScRpf+OD9gREyLpSuEhxG5P6pIfoMAgAADCQA=
+Date: Thu, 4 Feb 2021 22:11:45 +0000
+Message-ID: <MW3PR11MB45557821DAFD15937DEF488CE5B39@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1612464651-54073-1-git-send-email-jianxin.xiong@intel.com>
+ <1612464651-54073-4-git-send-email-jianxin.xiong@intel.com>
+ <20210204211210.GQ4247@nvidia.com>
+In-Reply-To: <20210204211210.GQ4247@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.53.14.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6795bc4e-ab49-41d8-59c9-08d8c959dbf7
+x-ms-traffictypediagnostic: MWHPR1101MB2190:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR1101MB2190A75B9E67BB68C0B7F0A3E5B39@MWHPR1101MB2190.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C7Ckccn18LtNiv9IXfNALJNZQk2H8G2BBxyUNtgnuhidbJX5b5btfu8u4YuiAPLyqoBxXqbJBPPVvgBsEjh+SuU4++4L+qD43PwwyM6bjQnyeXPW+U0hj+w/kQlFkaBzT2krdO+K+OJbrpa9CGXRMGGxSyT/R0kfKzx5NNyNG6LeRYOL9sRGuXthwJEBzEDK1DpM6tZE2uig/sBYiinm+YWwqeQadOVYZtsVF/J3ltyRuP1Ph5Cb2Wo8UsBvzMNV2TYYTv0NejEcQcuQ3DAuvOBXqDh1pd2YxG7A+NDV5cds6ekGFZepB+vjaw/UUFstV3raUAZPQB3J0tORC22bETpboi+DzJXZF7zOvDZolq5hqNYSOwn17aG+civ1VBVe8UXQnCwPLY890HaHisaB6LW9Y6VCowBZ6aJhjEUiRQ/GDvSkYjJ/K72hIU3oqgzrOCX/wxKSWx9X2vIG3YSLzIzL2vKGzFgoldLU4Wf9Kj0vqr1m6Mf8tdCglL1At33Lbi0mY8SO/WLEKzYzc/6MZQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(346002)(136003)(376002)(366004)(396003)(66476007)(66446008)(52536014)(7696005)(66946007)(66556008)(64756008)(54906003)(9686003)(76116006)(316002)(6916009)(4326008)(55016002)(33656002)(8676002)(7416002)(2906002)(186003)(5660300002)(86362001)(8936002)(71200400001)(478600001)(26005)(53546011)(83380400001)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?d4WvFGeOTSfYZodJgQZ4LlHBqlzHlzkNlVz2qA5OhKa0ho3VywcxBzfmUH1P?=
+ =?us-ascii?Q?TZVomoLrSh8PMtNS15jE98LVZOzS3Ayp5NrmpWCv0NZkWtBTfLhEOI9WIvbG?=
+ =?us-ascii?Q?AOZizAvYOGQAw+xfJL23w5B0Fb8U69pEHX1qpGkbmoggoLfGOze34Ev64M7z?=
+ =?us-ascii?Q?NjcDhbakfHoSP71Nx783Hnu8n4rJqNOb8y02b91t3Tkp+XxI2Q4nYB9OOxBv?=
+ =?us-ascii?Q?0em3Liqp3X7KmTDZHiMQKDJZ55qQiECgKlXy9Wg79X/en6LUcbRWuKesHqGD?=
+ =?us-ascii?Q?WMKgnFyLioOxaD9XKGc9BBwl7pyWxPZ6VBk3TWgC0ijs20j9HchOg9Q1Jg4V?=
+ =?us-ascii?Q?yIacUSLy/vmQIdUZal/LOSTdmRKvrepWQa1EUEzBkMJ4m2gY7eWJH43xiNtk?=
+ =?us-ascii?Q?N3Z80esgDQje9swStp8OjlEH4GOCHKlgJNtaxytoXROhxULBejMhTrmCNsr2?=
+ =?us-ascii?Q?WmrQhAiZAVHPlQs5TWNRmFj05ai/KHZud1gOKmFgYRm2rJJkGcJN6udytFbv?=
+ =?us-ascii?Q?dwnto5SNOndAbo7Lf+vBCMak2iXEftUgWkkcfYfngddoH6wK8CZK2BAgHvFY?=
+ =?us-ascii?Q?nkJebL9OI6Ha0TJcBrFCmBqmUvZ4IVJPyY6gXhsHLaYYAxdhlaz6ITxCBb4b?=
+ =?us-ascii?Q?SlROhai0gZaPfAEtlPnq8ROmQPZw6mYFXh5/Mp7oVzVkgX/yBQM3HKA8LED1?=
+ =?us-ascii?Q?F+wQ5dXY2yGQn4Aetk/F4VrADrH7ilA5edg3LLd0RsgeoxVVL/6VP1CYiCqf?=
+ =?us-ascii?Q?hVIQraabYelDiBusMRdCAI5+9mGeLjQ2F5bQF2L4eXnxjq5NuXeaeKF+hIkz?=
+ =?us-ascii?Q?aH1b025vSNYWm4K0SkvICj0mgWaHCmSMNCRumbOaxbjapJoRMmK+OiGKjKcL?=
+ =?us-ascii?Q?rpCVA7p3NpVDlVHhbdX7OyXtl8pbegMmv6W1sV0I3VYlQc13Fm4LZ8va5zKc?=
+ =?us-ascii?Q?vjq26PUXV+L/6enE++S35Kc27itA0rJXk3NrFJWoiK9NJraQHC/6KIqbQnzL?=
+ =?us-ascii?Q?WXHe/b2EpzBFSQhevfPFaUoqiGboWWREuRs75qKjx1g2VuvYuC7HQa7wRF8F?=
+ =?us-ascii?Q?OqTdzYKIp5egcdP6+w1u9PWC6DEfTPxZ8YsO2aGdIzce0DHDQUJ0zyK421uu?=
+ =?us-ascii?Q?bjs+XGWi2tFHSBiHD+X5Kj628U5GVmGSS1RzUX2qqXSrFC90KJoPp91dYDIL?=
+ =?us-ascii?Q?I+k30R/iap5XNyL+pFp3EFeWK9z0s6jcSun0+7Sh/ufYSKCSxn9OGKEmLW8I?=
+ =?us-ascii?Q?7Iewq8QxO5dMlS05EOw4hDj7jNVeXOI4pq0ZZXGFaKTLLzHKZjb3mOMARbQz?=
+ =?us-ascii?Q?jBE=3D?=
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6795bc4e-ab49-41d8-59c9-08d8c959dbf7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2021 22:11:45.1443 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HF0idR0tmMDSCC2LdCTzX1Uvao7qvlrDJBzsis4Mg0KD82HLjZr7Puzgw4bmMP5uYdRPUoSOraHdxksTbgARtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2190
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,145 +148,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, John
+ Hubbard <jhubbard@nvidia.com>, Edward Srouji <edwards@nvidia.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, Gal
+ Pressman <galpress@amazon.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
+ Ledford <dledford@redhat.com>, Ali Alnubani <alialnu@nvidia.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/4/21 10:10 PM, Doug Anderson wrote:
-> Hi,
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Thursday, February 04, 2021 1:12 PM
+> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
+> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
+> <daniel.vetter@intel.com>; Edward Srouji <edwards@nvidia.com>; Yishai Hadas <yishaih@nvidia.com>; John Hubbard
+> <jhubbard@nvidia.com>; Ali Alnubani <alialnu@nvidia.com>; Gal Pressman <galpress@amazon.com>; Emil Velikov
+> <emil.l.velikov@gmail.com>
+> Subject: Re: [PATCH rdma-core 3/3] configure: Add check for the presence of DRM headers
+> 
+> On Thu, Feb 04, 2021 at 10:50:51AM -0800, Jianxin Xiong wrote:
+> > Compilation of pyverbs/dmabuf_alloc.c depends on a few DRM headers
+> > that are installed by either the kernel-header or the libdrm package.
+> > The installation is optional and the location is not unique.
+> >
+> > The standard locations (such as /usr/include/drm, /usr/include/libdrm)
+> > are checked first. If failed, pkg-config is tried to find the include
+> > path of custom libdrm installation. The dmabuf allocation routines now
+> > return suitable error when the headers are not available. The related
+> > tests will recognize this error code and skip.
+> >
+> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> >  CMakeLists.txt         |  7 +++++++
+> >  buildlib/Finddrm.cmake | 19 +++++++++++++++++++
+> >  buildlib/config.h.in   |  2 ++
+> >  pyverbs/dmabuf_alloc.c | 47
+> > ++++++++++++++++++++++++++++++++++++++++++-----
+> >  4 files changed, 70 insertions(+), 5 deletions(-)  create mode 100644
+> > buildlib/Finddrm.cmake
+> >
+> > diff --git a/CMakeLists.txt b/CMakeLists.txt index 4113423..feaba3a
+> > 100644
+> > +++ b/CMakeLists.txt
+> > @@ -515,6 +515,13 @@ find_package(Systemd)
+> >  include_directories(${SYSTEMD_INCLUDE_DIRS})
+> >  RDMA_DoFixup("${SYSTEMD_FOUND}" "systemd/sd-daemon.h")
+> >
+> > +# drm headers
+> > +find_package(drm)
+> > +if (DRM_INCLUDE_DIRS)
+> > +  include_directories(${DRM_INCLUDE_DIRS})
+> > +  set(HAVE_DRM_H 1)
+> > +endif()
+> > +
+> >  #-------------------------
+> >  # Apply fixups
+> >
+> > diff --git a/buildlib/Finddrm.cmake b/buildlib/Finddrm.cmake new file
+> > mode 100644 index 0000000..6f8e5f2
+> > +++ b/buildlib/Finddrm.cmake
+> > @@ -0,0 +1,19 @@
+> > +# COPYRIGHT (c) 2021 Intel Corporation.
+> > +# Licensed under BSD (MIT variant) or GPLv2. See COPYING.
+> > +
+> > +# Check standard locations first
+> > +find_path(DRM_INCLUDE_DIRS "drm.h" PATH_SUFFIXES "drm" "libdrm")
+> > +
+> > +# Check custom libdrm installation, if any if (NOT DRM_INCLUDE_DIRS)
+> > +  execute_process(COMMAND pkg-config --cflags-only-I libdrm
+> > +    OUTPUT_VARIABLE _LIBDRM
+> > +    RESULT_VARIABLE _LIBDRM_RESULT
+> > +    ERROR_QUIET)
+> > +
+> > +  if (NOT _LIBDRM_RESULT)
+> > +    string(REGEX REPLACE "^-I" "" DRM_INCLUDE_DIRS "${_LIBDRM}")
+> > +  endif()
+> > +  unset(_LIBDRM)
+> > +  unset(_LIBDRM_RESULT)
+> > +endif()
+> 
+> I think this should be using pkg_check_modules() ??
+> 
+> Look at the NL stuff:
+> 
+>   pkg_check_modules(NL libnl-3.0 libnl-route-3.0 REQUIRED)
+>   include_directories(${NL_INCLUDE_DIRS})
+>   link_directories(${NL_LIBRARY_DIRS})
+>
 
-Hi,
+Yes, this is much simpler than the pkg-config method. 
+ 
+> > +#if HAVE_DRM_H
+> > +
+> 
+> Would rather you use cmake to conditionally compile a dmabuf_alloc.c or a dmabuf_alloc_stub.c than ifdef the entire file
 
-[...]
+Sure, will try that.
 
->>>> +       regmap_reg_range(REG_IRQ_STAT, REG_IRQ_STAT),
->>>
->>> Do you need to list REG_RC_RESET as volatile?  Specifically you need
->>> to make sure it's not cached...
->>
->> Isn't volatile table exactly for this purpose -- to make sure the reg is
->> not cached ?
 > 
-> Sorry, I was unclear I guess.  I'm suggesting that you add
-> REG_RC_RESET to the list of volatile ones since I don't see it there.
-
-Ah, yes, it should.
-
->>>> +static const struct regmap_config sn65dsi83_regmap_config = {
->>>> +       .reg_bits = 8,
->>>> +       .val_bits = 8,
->>>> +       .rd_table = &sn65dsi83_readable_table,
->>>> +       .wr_table = &sn65dsi83_writeable_table,
->>>> +       .volatile_table = &sn65dsi83_volatile_table,
->>>> +       .cache_type = REGCACHE_RBTREE,
->>>> +       .max_register = REG_IRQ_STAT,
->>>> +};
->>>
->>> I'm curious how much the "readable" and "writable" sections get you.
->>> In theory only the "volatile" should really matter, right?
->>
->> They are useful when dumping the regs from debugfs regmap registers .
-> 
-> OK, fair enough.  When I thought about doing this on sn65dsi86, it
-> came to be that a better way might be something like:
-> 
-> #define ACC_RO BIT(0)
-> #define ACC_RW BIT(1)
-> #define ACC_W1C BIT(2)
-> #define ACC_WO BIT(3)
-> 
-> u8 reg_acceess[] = {
->    [0x00] = ACC_RO,
->    [0x01] = ACC_RO,
->    ...
->    [0x0a] = ACC_RO | ACC_RW,
->    [0x0b] = ACC_RW,
->    [0x0d] = ACC_RW
->    ...
-> };
-> 
-> The above maps really nicely to the public datasheet and is easy to
-> validate.  Then you can just look up in that array in a constant time
-> lookup.  In other words, "readable" if either RO or RW is set.
-> "writable" if any of RW, W1C, or WO is set.  Everything that's not RW
-> is volatile (technically you could differentiate between RO things
-> that are hardcoded and ones that aren't, but you probably don't need
-> to).
-> 
-> Anyway, feel free to ignore...  What you have is fine too.
-
-It might make sense to implement some more generic support for this ^ 
-into the regmap core ? This seems to be a rather common pattern.
-
->>>> +static void sn65dsi83_pre_enable(struct drm_bridge *bridge)
->>>> +{
->>>> +       struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->>>> +
->>>> +       /*
->>>> +        * Reset the chip, pull EN line low for t_reset=10ms,
->>>> +        * then high for t_en=1ms.
->>>> +        */
->>>> +       gpiod_set_value(ctx->enable_gpio, 0);
->>>
->>> Why not use the "cansleep" version to give some flexibility?
->>
->> Does that make a difference in non-interrupt context ?
-> 
-> As I understand it:
-> 
-> * If a client calls gpiod_set_value() then the underlying GPIO can
-> only be one that doesn't sleep.
-> 
-> * If a client calls gpiod_set_value_cansleep() then the underlying
-> GPIO can be either one that does or doesn't sleep.
-> 
-> * A client is only allowed to call gpiod_set_value_cansleep() if it's
-> not in interrupt context.
-> 
-> You are definitely not in an interrupt context (right?), so calling
-> the "cansleep" version has no downsides but allows board designers to
-> hook up an enable that can sleep.
-
-Linus, can you please confirm this ? I find this hard to believe, since 
-there are plenty of places in the kernel which use gpiod_set_value() 
-without the _cansleep, are those problematic then ?
-
->>>> +       usleep_range(10000, 11000);
->>>
->>> It seems like it would be worth it to read the enable_gpio first?  If
->>> it was already 0 maybe you can skip the 10 ms delay?  I would imagine
->>> that most of the time the bridge would already be disabled to start?
->>
->> How do you guarantee the GPIO was LO for 10 mS here? You can sample that
->> it is LO, but you won't know how long it was LO before this code was
->> executed.
-> 
-> Ah, true.  I guess the best we could do would be keep track of the
-> GPIO ourselves so that if we were the one to last turn it off we could
-> avoid the delay.
-
-Does the extra complexity outweigh the benefit of saving those 10mS ?
-
->>>> +       regmap_write(ctx->regmap, REG_RC_PLL_EN, 0x00);
->>>
->>> Probably you don't need this?  It's the default and in pre-enable you
->>> just reset the chip.  Maybe it was needed since you don't flush the
->>> cache in pre-enable?
->>
->> Have a look at the Example Script in the DSI83 datasheet, this PLL part
->> is needed.
-> 
-> I think that script is written without the assumption that you have
-> just reset the chip using the enable GPIO.  If you have just reset
-> with the enable GPIO it shouldn't be needed.
-
-I don't think it hurts anything, so let's keep it.
+> Jaason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
