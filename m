@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5CC3112C7
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:47:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B0E3112D4
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D509B6F4CE;
-	Fri,  5 Feb 2021 20:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0996D6E1A7;
+	Fri,  5 Feb 2021 20:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F29D6F4CE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:47:08 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id v15so9301681ljk.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 12:47:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 377976E1A7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:53:52 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id 100so1506138otg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 12:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=49Crt4P52szXjupwP5YgHo/jUWzX8V+kBi/b4k1o3qk=;
- b=iM1yEZxc+tSQg7V5xAWAs+JC6oqsrhMhWorE9yR4wEHApkYoqxOW4/p31PZsuBnq9q
- Ms9J8KU+yokimD20QRkyUc8XN35G/SVor5ud2ZS8MQ8k8IJMBItKP8xn7JvUolgjBWc4
- g8MpkNpC/37gLh/mBjsfed+lJBfmNNuHabHsAPdq3pgZI5hpZEBgesN+0aoSkLpwdVdr
- eChARwzLLOA/nYjCMHv3ajh1xBkzV7t4lzaDDjdSW2NA9Ne+ae5XfbZOew9D5PKMXU5A
- UTIMNAUAn6av4EC0VMBhEoL8fTEwKVw9c+8U/F5DS9XnAjl1kYdAdyKaAWdAjAcNNmD+
- AEyA==
+ :cc; bh=5PRi5FG8/+JWu+jWzUkXoHnN4JWoS4p+oSPjz4dHX4E=;
+ b=OASnDCXTrffqrxPZSX+X2BoOBJSJeWYxtAIhsNCtVNhz5gMXxmVx/jYGnsUN9nnJuN
+ vhfjMJNVrRb2wgVEK4+xSY1vgWYsPum4Jw0tHUrjZI6XNfx7htArAF/NC/hE/qfZg0zE
+ Q6EogytHRY9X2yLHj2BIhrsaED0mM8FE6XIoc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=49Crt4P52szXjupwP5YgHo/jUWzX8V+kBi/b4k1o3qk=;
- b=VnnxhI5qerZ4715tKF9R9DcyMmJ4kNm5xaUkzfpYsH7wmes49k/DPKz6bItAFq7mCF
- igoDeq3PtzBt4t+W0BazOEvNTIdrgkyb6a9248RM4CV/KidFF97cU1OXXmEkBAMI9Agg
- 9jHmZSHmQ9cC6xp2e0zxa4xNkxhcvmEU5OnGo+u4BvhKcDy4RxcDUtyF1YV0MQ0XhmJH
- fEfNCzhycNpxEoPObC49WrEqol6T0hXEaRSyeYOi/rMT8DE8QIO8DFBfOTlPDKNA5lwP
- vksA7rD5/Y+G2u5aBmpbEbwhEhtp2lFgX/8BBe7sHhpzP2xP8iTMyj9ucP+tXN1AglD9
- oJxA==
-X-Gm-Message-State: AOAM5324pBtsXKC2sFdpOK6uZTn/669bvPFxISQCMu470YcBxa608Q0h
- mHJy4fp+7mDHUL48hCNvoWrdi0HYvNiSLB6M4E3hvQ==
-X-Google-Smtp-Source: ABdhPJwe84ph4525cpQjTcSn0erd6idcLu6jqrMD26ArOGJ27gblnijoY8iYbqcpA2UXJStfB/y2qg6gwNHuBh76zew=
-X-Received: by 2002:a2e:914b:: with SMTP id q11mr3587238ljg.503.1612558026844; 
- Fri, 05 Feb 2021 12:47:06 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=5PRi5FG8/+JWu+jWzUkXoHnN4JWoS4p+oSPjz4dHX4E=;
+ b=CYp3CNopLfUiVKqZHU9ap4UP4bFfI/E+EnKpipKKXkRVm6l4Z/+qPuipnYNGYXt4hM
+ ctW3dVnLY51/AoflR9xBq1WAMh3PZ2zxL7MDAIzXNldjWoLuYQFcByTOiNFD7XZVoFC2
+ 0sA7sIez2DdwhIXrP1K0oTGrwa35AOHrnCKwijBqfC2zM0LCww3R4aiap7kgK+o4Humg
+ K4eK8rc7VH7pNDO/2NnTQs6cjKyUpcUFsOOYoEQ4lINMuAHqx8dizDEqCE9lARjBSr4p
+ YFrrsOcTX2oaYrJj+dprSudZaNv7h+vxkI1nPHFCjVKIuyZCxcrfRnnrNF8T7jGqXJpx
+ hAIQ==
+X-Gm-Message-State: AOAM5333UhjPFeBJ5qlGYY935OeYKtAp94UldXY9A9n/b+lR2Q3dTZUX
+ C3CxV/dta3RbaLS+CRha2LE0NXLA4L9y8NypBrl4ww==
+X-Google-Smtp-Source: ABdhPJzg/0sRpmAYdxePGbdJtZika7yemD79/03eRrmz2fmH3+4sjo2UBY/XCbjTjR0SqL2Ey0KOyRS9uFFIs7Vpmkg=
+X-Received: by 2002:a9d:b85:: with SMTP id 5mr4848871oth.281.1612558431545;
+ Fri, 05 Feb 2021 12:53:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-2-john.stultz@linaro.org>
- <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
-In-Reply-To: <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 5 Feb 2021 12:46:53 -0800
-Message-ID: <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
-Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool
- implementation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <202102051030.1AF01772D@keescook>
+In-Reply-To: <202102051030.1AF01772D@keescook>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 5 Feb 2021 21:53:40 +0100
+Message-ID: <CAKMK7uHnOA9CuRxcKkcqG8duOw_3dZobkThcV7Q_swMXVoLCkQ@mail.gmail.com>
+Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
+To: Kees Cook <keescook@chromium.org>, "airlied@gmail.com" <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,104 +58,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Will Drewry <wad@chromium.org>, Jann Horn <jannh@google.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andy Lutomirski <luto@amacapital.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBGZWIgNSwgMjAyMSBhdCAxMjo0NyBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+IEFtIDA1LjAyLjIxIHVtIDA5OjA2IHNjaHJpZWIg
-Sm9obiBTdHVsdHo6Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhZ2VfcG9vbC5j
-IGIvZHJpdmVycy9ncHUvZHJtL3BhZ2VfcG9vbC5jCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+
-ID4gaW5kZXggMDAwMDAwMDAwMDAwLi4yMTM5Zjg2ZTZjYTcKPiA+IC0tLSAvZGV2L251bGwKPiA+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYWdlX3Bvb2wuYwo+ID4gQEAgLTAsMCArMSwyMjAgQEAK
-PiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAo+Cj4gUGxlYXNlIHVzZSBh
-IEJTRC9NSVQgY29tcGF0aWJsZSBsaWNlbnNlIGlmIHlvdSB3YW50IHRvIGNvcHkgdGhpcyBmcm9t
-Cj4gdGhlIFRUTSBjb2RlLgoKSHJtLiBUaGlzIG1heSBiZSBwcm9ibGVtYXRpYywgYXMgaXQncyBu
-b3QganVzdCBUVE0gY29kZSwgYnV0IHNvbWUgb2YKdGhlIFRUTSBsb2dpYyBpbnRlZ3JhdGVkIGlu
-dG8gYSBwYWdlLXBvb2wgaW1wbGVtZW50YXRpb24gSSB3cm90ZSBiYXNlZApvbiBsb2dpYyBmcm9t
-IHRoZSBJT04gY29kZSAod2hpY2ggd2FzIEdQTC0yLjAgYmVmb3JlIGl0IHdhcyBkcm9wcGVkKS4K
-U28gSSBkb24ndCB0aGluayBJIGNhbiBqdXN0IG1ha2UgaXQgTUlULiAgQW55IGV4dHJhIGNvbnRl
-eHQgb24gdGhlCm5lZWQgZm9yIE1JVCwgb3Igc3VnZ2VzdGlvbnMgb24gaG93IHRvIGJlc3QgcmVz
-b2x2ZSB0aGlzPwoKPiA+ICtpbnQgZHJtX3BhZ2VfcG9vbF9nZXRfc2l6ZShzdHJ1Y3QgZHJtX3Bh
-Z2VfcG9vbCAqcG9vbCkKPiA+ICt7Cj4gPiArICAgICBpbnQgcmV0Owo+ID4gKwo+ID4gKyAgICAg
-c3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsgICAgIHJldCA9IHBvb2wtPmNvdW50Owo+ID4g
-KyAgICAgc3Bpbl91bmxvY2soJnBvb2wtPmxvY2spOwo+Cj4gTWF5YmUgdXNlIGFuIGF0b21pYyBm
-b3IgdGhlIGNvdW50IGluc3RlYWQ/Cj4KCkkgY2FuIGRvIHRoYXQsIGJ1dCBhbSBjdXJpb3VzIGFz
-IHRvIHRoZSBiZW5lZml0PyBXZSBhcmUgbW9zdGx5IHVzaW5nCmNvdW50IHdoZXJlIHdlIGFscmVh
-ZHkgaGF2ZSB0byB0YWtlIHRoZSBwb29sLT5sb2NrIGFueXdheSwgYW5kIHRoaXMKZHJtX3BhZ2Vf
-cG9vbF9nZXRfc2l6ZSgpIGlzIG9ubHkgdXNlZCBmb3IgZGVidWdmcyBvdXRwdXQgc28gZmFyLCBz
-byBJCmRvbid0IGV4cGVjdCBpdCB0byBiZSBhIGhvdCBwYXRoLgoKCj4gPiArdm9pZCBkcm1fcGFn
-ZV9wb29sX2FkZChzdHJ1Y3QgZHJtX3BhZ2VfcG9vbCAqcG9vbCwgc3RydWN0IHBhZ2UgKnBhZ2Up
-Cj4gPiArewo+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsgICAgIGxpc3Rf
-YWRkX3RhaWwoJnBhZ2UtPmxydSwgJnBvb2wtPml0ZW1zKTsKPiA+ICsgICAgIHBvb2wtPmNvdW50
-Kys7Cj4gPiArICAgICBhdG9taWNfbG9uZ19hZGQoMSA8PCBwb29sLT5vcmRlciwgJnRvdGFsX3Bh
-Z2VzKTsKPiA+ICsgICAgIHNwaW5fdW5sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsKPiA+ICsgICAg
-IG1vZF9ub2RlX3BhZ2Vfc3RhdGUocGFnZV9wZ2RhdChwYWdlKSwgTlJfS0VSTkVMX01JU0NfUkVD
-TEFJTUFCTEUsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgIDEgPDwgcG9vbC0+b3JkZXIp
-Owo+Cj4gSHVpIHdoYXQ/IFdoYXQgc2hvdWxkIHRoYXQgYmUgZ29vZCBmb3I/CgpUaGlzIGlzIGEg
-Y2FycnlvdmVyIGZyb20gdGhlIElPTiBwYWdlIHBvb2wgaW1wbGVtZW50YXRpb246Cmh0dHBzOi8v
-Z2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4Lmdp
-dC90cmVlL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb25fcGFnZV9wb29sLmM/aD12NS4x
-MCNuMjgKCk15IHNlbnNlIGlzIGl0IGhlbHBzIHdpdGggdGhlIHZtc3RhdC9tZW1pbmZvIGFjY291
-bnRpbmcgc28gZm9sa3MgY2FuCnNlZSB0aGUgY2FjaGVkIHBhZ2VzIGFyZSBzaHJpbmthYmxlL2Zy
-ZWVhYmxlLiBUaGlzIG1heWJlIGZhbGxzIHVuZGVyCm90aGVyIGRtYWJ1ZiBhY2NvdW50aW5nL3N0
-YXRzIGRpc2N1c3Npb25zLCBzbyBJJ20gaGFwcHkgdG8gcmVtb3ZlIGl0CmZvciBub3csIG9yIGxl
-dCB0aGUgZHJpdmVycyB1c2luZyB0aGUgc2hhcmVkIHBhZ2UgcG9vbCBsb2dpYyBoYW5kbGUKdGhl
-IGFjY291bnRpbmcgdGhlbXNlbHZlcz8KCgo+ID4gK3N0YXRpYyBzdHJ1Y3QgcGFnZSAqZHJtX3Bh
-Z2VfcG9vbF9yZW1vdmUoc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiArewo+ID4gKyAg
-ICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArCj4gPiArICAgICBpZiAoIXBvb2wtPmNvdW50KQo+
-ID4gKyAgICAgICAgICAgICByZXR1cm4gTlVMTDsKPgo+IEJldHRlciB1c2UgbGlzdF9maXJzdF9l
-bnRyeV9vcl9udWxsIGluc3RlYWQgb2YgY2hlY2tpbmcgdGhlIGNvdW50Lgo+Cj4gVGhpcyB3YXkg
-eW91IGNhbiBhbHNvIHB1bGwgdGhlIGxvY2sgaW50byB0aGUgZnVuY3Rpb24uCgpZZWEsIHRoYXQg
-Y2xlYW5zIGEgbnVtYmVyIG9mIHRoaW5ncyB1cCBuaWNlbHkuIFRoYW5rIHlvdSEKCgo+ID4gK3N0
-cnVjdCBkcm1fcGFnZV9wb29sICpkcm1fcGFnZV9wb29sX2NyZWF0ZSh1bnNpZ25lZCBpbnQgb3Jk
-ZXIsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCAoKmZy
-ZWVfcGFnZSkoc3RydWN0IHBhZ2UgKnAsIHVuc2lnbmVkIGludCBvcmRlcikpCj4gPiArewo+ID4g
-KyAgICAgc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wgPSBrbWFsbG9jKHNpemVvZigqcG9vbCks
-IEdGUF9LRVJORUwpOwo+Cj4gV2h5IG5vdCBtYWtpbmcgdGhpcyBhbiBlbWJlZGRlZCBvYmplY3Q/
-IFdlIHNob3VsZCBub3Qgc2VlIG11Y2ggZHluYW1pYwo+IHBvb2wgY3JlYXRpb24uCgpZZWEsIGl0
-IGZlbHQgY2xlYW5lciBhdCB0aGUgdGltZSB0aGlzIHdheSwgYnV0IEkgdGhpbmsgSSB3aWxsIG5l
-ZWQgdG8Kc3dpdGNoIHRvIGFuIGVtYmVkZGVkIG9iamVjdCBpbiBvcmRlciB0byByZXNvbHZlIHRo
-ZSBtZW1vcnkgdXNhZ2UKaXNzdWUgeW91IHBvaW50ZWQgb3V0IHdpdGggZ3Jvd2luZyB0aGUgdHRt
-X3Bvb2xfZG1hLCBzbyB0aGFuayB5b3UgZm9yCnRoZSBzdWdnZXN0aW9uIQoKCj4gPiArdm9pZCBk
-cm1fcGFnZV9wb29sX2Rlc3Ryb3koc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiArewo+
-ID4gKyAgICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArCj4gPiArICAgICAvKiBSZW1vdmUgdXMg
-ZnJvbSB0aGUgcG9vbCBsaXN0ICovCj4gPiArICAgICBtdXRleF9sb2NrKCZwb29sX2xpc3RfbG9j
-ayk7Cj4gPiArICAgICBsaXN0X2RlbCgmcG9vbC0+bGlzdCk7Cj4gPiArICAgICBtdXRleF91bmxv
-Y2soJnBvb2xfbGlzdF9sb2NrKTsKPiA+ICsKPiA+ICsgICAgIC8qIEZyZWUgYW55IHJlbWFpbmlu
-ZyBwYWdlcyBpbiB0aGUgcG9vbCAqLwo+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsK
-Pgo+IExvY2tpbmcgc2hvdWxkIGJlIHVubmVjZXNzYXJ5IHdoZW4gdGhlIHBvb2wgaXMgZGVzdHJv
-eWVkIGFueXdheS4KCkkgZ3Vlc3MgaWYgd2UndmUgYWxyZWFkeSBwcnVuZWQgb3Vyc2VsZiBmcm9t
-IHRoZSBwb29sIGxpc3QsIHRoZW4geW91cgpyaWdodCwgd2UgY2FuJ3QgcmFjZSB3aXRoIHRoZSBz
-aHJpbmtlciBhbmQgaXQncyBtYXliZSBub3QgbmVjZXNzYXJ5LgpCdXQgaXQgYWxzbyBzZWVtcyBl
-YXNpZXIgdG8gY29uc2lzdGVudGx5IGZvbGxvdyB0aGUgbG9ja2luZyBydWxlcyBpbiBhCnZlcnkg
-dW5saWtlbHkgcGF0aCByYXRoZXIgdGhhbiBsZWFuaW5nIG9uIHN1YnRsZXR5LiAgRWl0aGVyIHdh
-eSwgSQp0aGluayB0aGlzIGJlY29tZXMgbW9vdCBpZiBJIG1ha2UgdGhlIGltcHJvdmVtZW50cyB5
-b3Ugc3VnZ2VzdCB0bwpkcm1fcGFnZV9wb29sX3JlbW92ZSgpLgoKPiA+ICtzdGF0aWMgaW50IGRy
-bV9wYWdlX3Bvb2xfc2hyaW5rX29uZSh2b2lkKQo+ID4gK3sKPiA+ICsgICAgIHN0cnVjdCBkcm1f
-cGFnZV9wb29sICpwb29sOwo+ID4gKyAgICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArICAgICBp
-bnQgbnJfZnJlZWQgPSAwOwo+ID4gKwo+ID4gKyAgICAgbXV0ZXhfbG9jaygmcG9vbF9saXN0X2xv
-Y2spOwo+ID4gKyAgICAgcG9vbCA9IGxpc3RfZmlyc3RfZW50cnkoJnBvb2xfbGlzdCwgdHlwZW9m
-KCpwb29sKSwgbGlzdCk7Cj4gPiArCj4gPiArICAgICBzcGluX2xvY2soJnBvb2wtPmxvY2spOwo+
-ID4gKyAgICAgcGFnZSA9IGRybV9wYWdlX3Bvb2xfcmVtb3ZlKHBvb2wpOwo+ID4gKyAgICAgc3Bp
-bl91bmxvY2soJnBvb2wtPmxvY2spOwo+ID4gKwo+ID4gKyAgICAgaWYgKHBhZ2UpCj4gPiArICAg
-ICAgICAgICAgIG5yX2ZyZWVkID0gZHJtX3BhZ2VfcG9vbF9mcmVlX3BhZ2VzKHBvb2wsIHBhZ2Up
-Owo+ID4gKwo+ID4gKyAgICAgbGlzdF9tb3ZlX3RhaWwoJnBvb2wtPmxpc3QsICZwb29sX2xpc3Qp
-Owo+Cj4gQmV0dGVyIHRvIG1vdmUgdGhpcyB1cCwgZGlyZWN0bHkgYWZ0ZXIgdGhlIGxpc3RfZmly
-c3RfZW50cnkoKS4KClNvdW5kcyBnb29kIQoKVGhhbmtzIHNvIG11Y2ggZm9yIHlvdXIgcmV2aWV3
-IGFuZCBmZWVkYmFjayEgSSdsbCB0cnkgdG8gZ2V0IHNvbWUgb2YKdGhlIGVhc3kgc3VnZ2VzdGlv
-bnMgaW50ZWdyYXRlZCwgYW5kIHdpbGwgaGF2ZSB0byBmaWd1cmUgb3V0IHdoYXQgdG8KZG8gYWJv
-dXQgdGhlIHJlLWxpY2Vuc2luZyByZXF1ZXN0LgoKdGhhbmtzCi1qb2huCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Feb 5, 2021 at 7:37 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Feb 05, 2021 at 04:37:52PM +0000, Chris Wilson wrote:
+> > Userspace has discovered the functionality offered by SYS_kcmp and has
+> > started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> > os_same_file_description() in order to identify when two fd (e.g. device
+> > or dmabuf) point to the same struct file. Since they depend on it for
+> > core functionality, lift SYS_kcmp out of the non-default
+> > CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
+> >
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Andy Lutomirski <luto@amacapital.net>
+> > Cc: Will Drewry <wad@chromium.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Dave Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  init/Kconfig                                  | 11 +++++++++++
+> >  kernel/Makefile                               |  2 +-
+> >  tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
+> >  3 files changed, 13 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index b77c60f8b963..f62fca13ac5b 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1194,6 +1194,7 @@ endif # NAMESPACES
+> >  config CHECKPOINT_RESTORE
+> >       bool "Checkpoint/restore support"
+> >       select PROC_CHILDREN
+> > +     select KCMP
+> >       default n
+> >       help
+> >         Enables additional kernel features in a sake of checkpoint/restore.
+> > @@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+> >  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+> >       bool
+> >
+> > +config KCMP
+> > +     bool "Enable kcmp() system call" if EXPERT
+> > +     default y
+>
+> I would expect this to be not default-y, especially if
+> CHECKPOINT_RESTORE does a "select" on it.
+>
+> This is a really powerful syscall, but it is bounded by ptrace access
+> controls, and uses pointer address obfuscation, so it may be okay to
+> expose this. As it is, at least Ubuntu already has
+> CONFIG_CHECKPOINT_RESTORE, so really, there's probably not much
+> difference on exposure.
+>
+> So, if you drop the "default y", I'm fine with this.
+
+It was maybe stupid, but our userspace started relying on fd
+comaprison through sys_kcomp. So for better or worse, if you want to
+run the mesa3d gl/vk stacks, you need this. Was maybe not the brighest
+ideas, but since enough distros had this enabled by defaults, it
+wasn't really discovered, and now we're shipping this everywhere.
+
+Ofc we can leave the default n, but the select if CONFIG_DRM is
+unfortunately needed I think. For that part:
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Also adding Dave Airlie for his take.
+-Daniel
+
+>
+> -Kees
+>
+> > +     help
+> > +       Enable the file descriptor comparison system call. It provides
+> > +       user-space with the ability to compare two fd to see if they
+> > +       point to the same file, and check other attributes.
+> > +
+> > +       If unsure, say Y.
+> > +
+> >  config RSEQ
+> >       bool "Enable rseq() system call" if EXPERT
+> >       default y
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index aa7368c7eabf..320f1f3941b7 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -51,7 +51,7 @@ obj-y += livepatch/
+> >  obj-y += dma/
+> >  obj-y += entry/
+> >
+> > -obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
+> > +obj-$(CONFIG_KCMP) += kcmp.o
+> >  obj-$(CONFIG_FREEZER) += freezer.o
+> >  obj-$(CONFIG_PROFILING) += profile.o
+> >  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+> > diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > index 26c72f2b61b1..1b6c7d33c4ff 100644
+> > --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > @@ -315,7 +315,7 @@ TEST(kcmp)
+> >       ret = __filecmp(getpid(), getpid(), 1, 1);
+> >       EXPECT_EQ(ret, 0);
+> >       if (ret != 0 && errno == ENOSYS)
+> > -             SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
+> > +             SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
+> >  }
+> >
+> >  TEST(mode_strict_support)
+> > --
+> > 2.20.1
+> >
+>
+> --
+> Kees Cook
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
