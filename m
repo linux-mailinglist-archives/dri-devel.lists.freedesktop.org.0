@@ -1,58 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BB5310818
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:43:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B04310894
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:59:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD4466F382;
-	Fri,  5 Feb 2021 09:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD066F390;
+	Fri,  5 Feb 2021 09:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACACA6F382
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 09:43:25 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id o63so4155992pgo.6
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 01:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DqJqQl1xSKavN+wug0hZ0iZc5i9bwB3JAakaDPcsm9k=;
- b=XC2yhAyepEIPdSWE2JxIt4ZGw87uQrdwLP8NeaGMO5mX/WpdJUWa6sD99Vrk6phbGS
- 3K459KZwzP0oMf4STCMaFC7U+M7tbH9p1YZLq9k79DyGkTKC8tj1mMvKi9t03tuD3MjS
- J5Rt4IjddHqU09Qu/stJrezWoMk68xnRPnKYi4FOtCV/NHO7ZOJM6eE8W9ly/dxahTQv
- I27QWH/L0CCsXWOq2802VE0wWECAUCbRZqV+tQ9oBEPEEDeILYKSGIfPdeJrV2dyHsmn
- LmUNqezFR3aqybKv4qExPnXb+J/zzoVZ0Z3BDcawpV4AsCZKKRmc8V89i8+997nzRnVO
- B4ng==
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8F76F38A;
+ Fri,  5 Feb 2021 09:58:55 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id w2so10876894ejk.13;
+ Fri, 05 Feb 2021 01:58:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=M5XleUEWuydgSyBZaQj5k5yz9FEkaGYO/eZ5jzWg8HI=;
+ b=BkaUzU8EVI70RnsC7cIE+QQG1c8TvomwEgnW4zum3B06Oyh0wsX7t7NQIzJRFWkiE9
+ b/uBgy2bXq5fSkK29GRrr+07PrEl+bTY59Ppi6pOwy29X5Gyo0zYR7fw/MMNoiT8S++S
+ XwdPAM6Ceni09kBBr20CDC3EDSXxdvEUMTFiMbfzMR+oT0Nvywq3wUkjJ2dY5cM7KeQp
+ La0Qc4R9XsjGvWkCdMgQRskg72d1TaBzUvkR0g3g9CKJm3EWdmaNjoiwa3yeK7ersJJM
+ Af1f3vUdJAYKiT6Oz8Ogdcs/CycMnZMY5ZHNuztbjnWAciNMTiBc+JzfIOG7FKqDS0cK
+ usIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DqJqQl1xSKavN+wug0hZ0iZc5i9bwB3JAakaDPcsm9k=;
- b=j4gSfJrc1lFQntoXdkrqxaMr01mw2c8RWWUeAqhIAZrJ5qTi/2uMZW5qA3nHSEBeyk
- By2QQUTlL1y/JoidDIKHFWySQS5vyhT4ctAT3l/9XivjPzaA4Zlu1dmDXmuwlqnZ/2T5
- PprnKNrYd7nURtMhAUUi/GuhoV0/cMmx/mY+g7I3P3R62NOgiyrfngad9WBGju87NIJ/
- LxiX3xPg9hvk25Qmjn5dxw3Wb1Yc6M/u9aDtnL7JrksNSxb01ZmbT4TB1ujltZh+W8nQ
- GI5ovRclx5LrFZlgbW6Nf6BHGMAocBsn56f7llfOT2i3DCd1vL7PhZ59U975BhOSSTWH
- E/qg==
-X-Gm-Message-State: AOAM533adq+XfaWK3ks8BM9lDTV4bxpZlQBXz7BgrUzJ34mKNqbmASN/
- WE1UcUWVeEmtSW9I70p9/VBTa9Rwjq4HmM3I6Wz0xA==
-X-Google-Smtp-Source: ABdhPJyT4HMsF2dGuzPGOpl0Fmmj/5h+d6AATcrI1yEQ9m4uXBupaw+02kQjwB+emw72k0yf/4XBLFESW2s0tB5X0S0=
-X-Received: by 2002:a65:654e:: with SMTP id a14mr3609659pgw.265.1612518205362; 
- Fri, 05 Feb 2021 01:43:25 -0800 (PST)
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=M5XleUEWuydgSyBZaQj5k5yz9FEkaGYO/eZ5jzWg8HI=;
+ b=IP3HT+imS20g4Km19SQwn5rPAQ52WoESmBGHUTuXWOiRE3/g+zFSOV/LFuwToCcXZ7
+ FSxfUQ+Xftv5pYR5ADncydjEr9pGwQZpvm7ZiOk83i/f0Ujzx1A+aVIshsaAw+H9jl0k
+ Wu3zy/AUIOS++S/aRowGryJIBmbq6Qpb3RPWcKeV6zbdv8O7FoI4hSDT0UhPAZTBVYTV
+ a/40B87It/qloDhr7F5NDhTFSoybhbIn1SSGhqiJ8uzqI7i09HFD+T9bsOE42MFIu8ge
+ qOsWzEE0SabmOMlpFx4QoJtVIAhZNmVyGlhOCHE7RjgE9Q798+lRjwTHs13YRFtOpHV4
+ BPTw==
+X-Gm-Message-State: AOAM5326AYR3plfWGgRNUlsowDNltvdD6kt8jWSkr4TqvFA3oymDBuwm
+ qEvwSXtQGvWqqTxJumc+Yfo=
+X-Google-Smtp-Source: ABdhPJwJtfNQVu6YPJrlCVbWcPNcEHnhKKaxSaCO2X6bobAQ34hPlUV08vwAGUH+BcZLZ+L0qVCVCA==
+X-Received: by 2002:a17:906:eb87:: with SMTP id
+ mh7mr3469365ejb.10.1612519134029; 
+ Fri, 05 Feb 2021 01:58:54 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id k22sm3894024edv.33.2021.02.05.01.58.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 01:58:53 -0800 (PST)
+Subject: Re: [PATCH 3/3] drm/amdgpu: share scheduler score on VCN3 instances
+To: Leo Liu <leo.liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+References: <20210204144405.2737-1-christian.koenig@amd.com>
+ <20210204144405.2737-3-christian.koenig@amd.com>
+ <036c900b-df46-5259-dbd2-d882f9a7341b@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <16461e0e-703e-207e-35c3-b6b71429410c@gmail.com>
+Date: Fri, 5 Feb 2021 10:58:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210128111549.GA8174@zhaomy-pc>
- <CAG3jFysU4epjS3A85ZojrJn3TAC78O_jx5p_4SWsCdRBrQ5GXQ@mail.gmail.com>
- <CGME20210204123452eucas1p1eb8fd9dc5b62b036ebd9e9208e796cb9@eucas1p1.samsung.com>
- <CANMq1KAuUTqgM2mDR5WN6Ad+cATFXLPE+5rstyhfNE9Lc716+g@mail.gmail.com>
- <b680fef2-7c8a-183b-443a-6b2b9fe595d7@samsung.com>
- <CANMq1KAVMhFAdy_s4R-h1yzNWXRgWgZ4s9kQL11LDze3+Qv5_w@mail.gmail.com>
-In-Reply-To: <CANMq1KAVMhFAdy_s4R-h1yzNWXRgWgZ4s9kQL11LDze3+Qv5_w@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 5 Feb 2021 10:43:14 +0100
-Message-ID: <CAG3jFyu4JvH7iDriQWdwgkVaHH=vjGaVwF3P7DWLRbb19pKxsQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: enable DSI EOTP
-To: Nicolas Boichat <drinkcat@chromium.org>
+In-Reply-To: <036c900b-df46-5259-dbd2-d882f9a7341b@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,63 +74,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Sheng Pan <span@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Feb 2021 at 23:25, Nicolas Boichat <drinkcat@chromium.org> wrote:
->
-> On Thu, Feb 4, 2021 at 8:59 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
-> >
-> >
-> > W dniu 04.02.2021 o 13:34, Nicolas Boichat pisze:
-> > > On Thu, Feb 4, 2021 at 8:07 PM Robert Foss <robert.foss@linaro.org> wrote:
-> > >> Hi Xin,
-> > >>
-> > >> Thanks for the patch.
-> > >>
-> > >> On Thu, 28 Jan 2021 at 12:17, Xin Ji <xji@analogixsemi.com> wrote:
-> > >>> Enable DSI EOTP feature for fixing some panel screen constance
-> > >>> shift issue.
-> > >>> Removing MIPI flag MIPI_DSI_MODE_EOT_PACKET to enable DSI EOTP.
-
-Does "constance shift" have a typo? Should it be "constant shift"?
-
-With that sorted out feel free to add my r-b.
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-> > >> I don't think I quite understand how removing the
-> > >> MIPI_DSI_MODE_EOT_PACKET flag will cause DSI EOTP to be enabled. Could
-> > >> you extrapolate on this in the commit message?
-> > > That confused me as well, but it turns out that's how the flag is defined:
-> > > ```
-> > > /* disable EoT packets in HS mode */
-> > > #define MIPI_DSI_MODE_EOT_PACKET BIT(9)
-> > > ```
-> > > (https://protect2.fireeye.com/v1/url?k=5bd95ebd-044267fb-5bd8d5f2-0cc47a3003e8-ce9db8ea264d6901&q=1&e=900556dc-d199-4c18-9432-5c3465a98eae&u=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Flatest%2Fsource%2Finclude%2Fdrm%2Fdrm_mipi_dsi.h%23L129)
-> > >
-> > > I'm almost tempted to put together a mass patch to rename all of these flags...
-> >
-> >
-> > Yes that would be good, many of these flags were just copy pasted from
-> > some hw datasheet, without good analysis how to adapt them to the framework.
->
-> I'll look into it (but that shouldn't block this patch).
-
-Thanks for clearing this up Nicolas & Andrzej!
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWxleCBob3cgZG8gd2Ugd2FudCB0byBtZXJnZSB0aGlzPwoKSSd2ZSBqdXN0IHB1c2hlZCB0aGUg
+Zmlyc3QgcGF0Y2ggdG8gZHJtLW1pc2MtbmV4dCBzaW5jZSB0aGF0IG5lZWRlZCBhIApyZWJhc2Ug
+YmVjYXVzZSBpdCB0b3VjaGVzIG90aGVyIGRyaXZlcnMgYXMgd2VsbC4KCkJ1dCB0aGUgcmVzdCBp
+cyByZWFsbHkgQU1EIHNwZWNpZmljIGFuZCBJJ20gbm90IHN1cmUgaWYgdGhlIGRlcGVuZGVudCAK
+c3R1ZmYgaXMgYWxyZWFkeSBpbiB0aGVyZSBhcyB3ZWxsLgoKU28gaWYgSSBwdXNoIGl0IHRvIGRy
+bS1taXNjLW5leHQgeW91IHdpbGwgcHJvYmFibHkgbmVlZCB0byBtZXJnZSBhbmQgaWYgCkkgcHVz
+aCBpdCB0byBhbWQtc3RhZ2luZy1kcm0tbmV4dCBzb21lYm9keSBlbHNlIG1pZ2h0IG5lZWQgdG8g
+bWVyZ2Ugd2hlbiAKZHJtLW1pc2MtbmV4dCBpcyBtZXJnZWQuCgpJZGVhcz8KCkNocmlzdGlhbi4K
+CkFtIDA0LjAyLjIxIHVtIDE5OjM0IHNjaHJpZWIgTGVvIExpdToKPiBUaGUgc2VyaWVzIGFyZToK
+Pgo+IFJldmlld2VkLWFuZC1UZXN0ZWQtYnk6IExlbyBMaXUgPGxlby5saXVAYW1kLmNvbT4KPgo+
+Cj4gT24gMjAyMS0wMi0wNCA5OjQ0IGEubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IFRo
+ZSBWQ04zIGluc3RhbmNlcyBjYW4gZG8gYm90aCBkZWNvZGUgYXMgd2VsbCBhcyBlbmNvZGUuCj4+
+Cj4+IFNoYXJlIHRoZSBzY2hlZHVsZXIgbG9hZCBiYWxhbmNpbmcgc2NvcmUgYW5kIHJlbW92ZSBm
+aXhpbmcgZW5jb2RlIHRvCj4+IG9ubHkgdGhlIHNlY29uZCBpbnN0YW5jZS4KPj4KPj4gU2lnbmVk
+LW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+PiAt
+LS0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Zjbi5oIHzCoCAxICsK
+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdmNuX3YzXzAuY8KgwqAgfCAxMSArKysr
+KysrLS0tLQo+PiDCoCAyIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
+bnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV92Y24uaCAKPj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdmNuLmgKPj4g
+aW5kZXggMTNhYTQxN2Y2YmU3Li5kMTBiYzRmMGEwNWYgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92Y24uaAo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfdmNuLmgKPj4gQEAgLTIxMSw2ICsyMTEsNyBAQCBzdHJ1Y3QgYW1k
+Z3B1X3Zjbl9pbnN0IHsKPj4gwqDCoMKgwqDCoCB2b2lkwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
+c2F2ZWRfYm87Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGFtZGdwdV9yaW5nwqDCoMKgIHJpbmdfZGVj
+Owo+PiDCoMKgwqDCoMKgIHN0cnVjdCBhbWRncHVfcmluZ8KgwqDCoCByaW5nX2VuY1tBTURHUFVf
+VkNOX01BWF9FTkNfUklOR1NdOwo+PiArwqDCoMKgIGF0b21pY190wqDCoMKgwqDCoMKgwqAgc2No
+ZWRfc2NvcmU7Cj4+IMKgwqDCoMKgwqAgc3RydWN0IGFtZGdwdV9pcnFfc3JjwqDCoMKgIGlycTsK
+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgYW1kZ3B1X3Zjbl9yZWfCoMKgwqAgZXh0ZXJuYWw7Cj4+IMKg
+wqDCoMKgwqAgc3RydWN0IGFtZGdwdV9ib8KgwqDCoCAqZHBnX3NyYW1fYm87Cj4+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS92Y25fdjNfMC5jIAo+PiBiL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L3Zjbl92M18wLmMKPj4gaW5kZXggMjM5YTRlYjUyYzYxLi5iMzNm
+NTEzZmQyYWMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3Zjbl92
+M18wLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdmNuX3YzXzAuYwo+PiBA
+QCAtMTcxLDYgKzE3MSw3IEBAIHN0YXRpYyBpbnQgdmNuX3YzXzBfc3dfaW5pdCh2b2lkICpoYW5k
+bGUpCj4+IMKgIMKgwqDCoMKgwqAgZm9yIChpID0gMDsgaSA8IGFkZXYtPnZjbi5udW1fdmNuX2lu
+c3Q7IGkrKykgewo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgdm9sYXRpbGUgc3RydWN0IGFtZGdwdV9m
+d19zaGFyZWQgKmZ3X3NoYXJlZDsKPj4gKwo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGFkZXYt
+PnZjbi5oYXJ2ZXN0X2NvbmZpZyAmICgxIDw8IGkpKQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBjb250aW51ZTsKPj4gwqAgQEAgLTE5OCw2ICsxOTksOCBAQCBzdGF0aWMgaW50IHZjbl92
+M18wX3N3X2luaXQodm9pZCAqaGFuZGxlKQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHIpCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByOwo+PiDCoCArwqDCoMKgwqDCoMKg
+wqAgYXRvbWljX3NldCgmYWRldi0+dmNuLmluc3RbaV0uc2NoZWRfc2NvcmUsIDApOwo+PiArCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCByaW5nID0gJmFkZXYtPnZjbi5pbnN0W2ldLnJpbmdfZGVjOwo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmluZy0+dXNlX2Rvb3JiZWxsID0gdHJ1ZTsKPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgIGlmIChhbWRncHVfc3Jpb3ZfdmYoYWRldikpIHsKPj4gQEAgLTIwOSw3ICsy
+MTIsOCBAQCBzdGF0aWMgaW50IHZjbl92M18wX3N3X2luaXQodm9pZCAqaGFuZGxlKQo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByaW5nLT5ub19zY2hlZHVsZXIgPSB0cnVlOwo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqAgc3ByaW50ZihyaW5nLT5uYW1lLCAidmNuX2RlY18lZCIsIGkpOwo+PiDC
+oMKgwqDCoMKgwqDCoMKgwqAgciA9IGFtZGdwdV9yaW5nX2luaXQoYWRldiwgcmluZywgNTEyLCAK
+Pj4gJmFkZXYtPnZjbi5pbnN0W2ldLmlycSwgMCwKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgQU1ER1BVX1JJTkdfUFJJT19ERUZBVUxULCBOVUxMKTsKPj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQU1ER1BVX1JJTkdfUFJJT19E
+RUZBVUxULAo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmYWRl
+di0+dmNuLmluc3RbaV0uc2NoZWRfc2NvcmUpOwo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHIp
+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByOwo+PiDCoCBAQCAtMjI3LDEx
+ICsyMzEsMTAgQEAgc3RhdGljIGludCB2Y25fdjNfMF9zd19pbml0KHZvaWQgKmhhbmRsZSkKPj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsKPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCByaW5nLT5kb29yYmVsbF9pbmRleCA9IAo+PiAoYWRldi0+ZG9vcmJl
+bGxfaW5kZXgudmNuLnZjbl9yaW5nMF8xIDw8IDEpICsgMiArIGogKyA4ICogaTsKPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoYWRl
+di0+YXNpY190eXBlID09IENISVBfU0lFTk5BX0NJQ0hMSUQgJiYgaSAhPSAxKQo+PiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJpbmctPm5vX3NjaGVkdWxlciA9IHRydWU7Cj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNwcmludGYocmluZy0+bmFtZSwgInZjbl9lbmNfJWQu
+JWQiLCBpLCBqKTsKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgciA9IGFtZGdwdV9yaW5n
+X2luaXQoYWRldiwgcmluZywgNTEyLCAKPj4gJmFkZXYtPnZjbi5pbnN0W2ldLmlycSwgMCwKPj4g
+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBTURHUFVf
+UklOR19QUklPX0RFRkFVTFQsIE5VTEwpOwo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIEFNREdQVV9SSU5HX1BSSU9fREVGQVVMVCwKPj4gKyAmYWRl
+di0+dmNuLmluc3RbaV0uc2NoZWRfc2NvcmUpOwo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBpZiAocikKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcjsK
+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
