@@ -2,47 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B905B310C55
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A86C310C88
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 045806F447;
-	Fri,  5 Feb 2021 14:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6283689EB1;
+	Fri,  5 Feb 2021 14:21:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F75F6F447
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:00:30 +0000 (UTC)
-IronPort-SDR: 6J+7ZT4OkrTa4vLGbpWBikXXX7n4Kx8fOR2CihkpM2yx5aX3Vasv+RcUhUWr7W6Ok20rF4zrO/
- adhoIXwMhvYQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="181499101"
-X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; d="scan'208";a="181499101"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 06:00:28 -0800
-IronPort-SDR: /oyLOQa5dLlgBICMZwszTvwddPxunCdi0z7SqqMGKMq1ORPIncjXUPHwE3Xw1waIAcJh8MSUnv
- ntKHDcjjqIKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; d="scan'208";a="484198514"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 05 Feb 2021 06:00:25 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 05 Feb 2021 16:00:24 +0200
-Date: Fri, 5 Feb 2021 16:00:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v3 2/4] drm_dp_mst_topology: use correct AUX channel
-Message-ID: <YB1PeDETlhqg1GC3@intel.com>
-References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
- <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
- <YBh9HvbIRF4zd+AK@intel.com>
- <2a7c2edc-b83c-dccf-487d-1415b4bc23ff@xs4all.nl>
- <CAJqEsoCOJmS5aVb5du09tXUi7UUKVBQDPe5KTdcBiDr8A7kSYA@mail.gmail.com>
- <YB1HBDEB5/fefQzi@intel.com>
- <c577f417-b6c2-6714-8c97-ec6d636bb3a7@xs4all.nl>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4C06F446
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 13:52:58 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A9F6CACB7;
+ Fri,  5 Feb 2021 13:52:56 +0000 (UTC)
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: f.fainelli@gmail.com, Saenz Julienne <nsaenzjulienne@suse.de>,
+ bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Subject: [RFC/PATCH 00/11] Raspberry PI 4 V3D enablement
+Date: Fri,  5 Feb 2021 14:52:36 +0100
+Message-Id: <20210205135249.2924-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c577f417-b6c2-6714-8c97-ec6d636bb3a7@xs4all.nl>
-X-Patchwork-Hint: comment
+X-Mailman-Approved-At: Fri, 05 Feb 2021 14:21:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,109 +39,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Sam McNally <sammc@chromium.org>,
- Hans Verkuil <hans.verkuil@cisco.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-kernel@vger.kernel.org, phil@raspberrypi.com,
+ dri-devel@lists.freedesktop.org, wahrenst@gmx.net
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 05, 2021 at 02:46:44PM +0100, Hans Verkuil wrote:
-> On 05/02/2021 14:24, Ville Syrj=E4l=E4 wrote:
-> > On Fri, Feb 05, 2021 at 04:17:51PM +1100, Sam McNally wrote:
-> >> On Thu, 4 Feb 2021 at 21:19, Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>>
-> >>> On 01/02/2021 23:13, Ville Syrj=E4l=E4 wrote:
-> >>>> On Wed, Sep 23, 2020 at 12:13:53PM +1000, Sam McNally wrote:
-> >>>>> From: Hans Verkuil <hans.verkuil@cisco.com>
-> >>>>>
-> >>>>> For adapters behind an MST hub use the correct AUX channel.
-> >>>>>
-> >>>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> >>>>> [sammc@chromium.org: rebased, removing redundant changes]
-> >>>>> Signed-off-by: Sam McNally <sammc@chromium.org>
-> >>>>> ---
-> >>>>>
-> >>>>> (no changes since v1)
-> >>>>>
-> >>>>>  drivers/gpu/drm/drm_dp_mst_topology.c | 36 +++++++++++++++++++++++=
-++++
-> >>>>>  1 file changed, 36 insertions(+)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/dr=
-m/drm_dp_mst_topology.c
-> >>>>> index 15b6cc39a754..0d753201adbd 100644
-> >>>>> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> >>>>> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> >>>>> @@ -2255,6 +2255,9 @@ drm_dp_mst_topology_unlink_port(struct drm_dp=
-_mst_topology_mgr *mgr,
-> >>>>>      drm_dp_mst_topology_put_port(port);
-> >>>>>  }
-> >>>>>
-> >>>>> +static ssize_t
-> >>>>> +drm_dp_mst_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_=
-msg *msg);
-> >>>>> +
-> >>>>>  static struct drm_dp_mst_port *
-> >>>>>  drm_dp_mst_add_port(struct drm_device *dev,
-> >>>>>                  struct drm_dp_mst_topology_mgr *mgr,
-> >>>>> @@ -2271,9 +2274,13 @@ drm_dp_mst_add_port(struct drm_device *dev,
-> >>>>>      port->port_num =3D port_number;
-> >>>>>      port->mgr =3D mgr;
-> >>>>>      port->aux.name =3D "DPMST";
-> >>>>> +    mutex_init(&port->aux.hw_mutex);
-> >>>>> +    mutex_init(&port->aux.cec.lock);
-> >>>>>      port->aux.dev =3D dev->dev;
-> >>>>>      port->aux.is_remote =3D true;
-> >>>>>
-> >>>>> +    port->aux.transfer =3D drm_dp_mst_aux_transfer;
-> >>>>> +
-> >>>>
-> >>>> This was supposed to be handled via higher levels checking for
-> >>>> is_remote=3D=3Dtrue.
-> >>>
-> >>> Ah, I suspect this patch can be dropped entirely: it predates commit =
-2f221a5efed4
-> >>> ("drm/dp_mst: Add MST support to DP DPCD R/W functions").
-> >>>
-> >>> It looks like that commit basically solved what this older patch atte=
-mpts to do
-> >>> as well.
-> >>>
-> >>> Sam, can you test if it works without this patch?
-> >>
-> >> It almost just works; drm_dp_cec uses whether aux.transfer is non-null
-> >> to filter out non-DP connectors. Using aux.is_remote as another signal
-> >> indicating a DP connector seems plausible. We can drop this patch.
-> > =
+This series attempts to enable V3D on BCM2711, the SoC available on the
+Raspberry Pi 4 family of boards.
 
-> > Why would anyone even call this stuff on a non-DP connector?
-> > And where did they even get the struct drm_dp_aux to do so?
-> =
+Due to the lack of documentation some things are taken as it from
+testing/downstream implementation[1], which I'm hilighting here:
 
-> This check came in with commit 5ce70c799ac2 ("drm_dp_cec: check that aux
-> has a transfer function"). It seems nouveau and amdgpu specific.
+- It's not clear that the following is 100% true, maybe someone can confirm:
 
-I see.
+	"In BCM2711 the new ARGON ASB took over V3D. The old ASB is still
+	present with the ISP and H264 bits, and V3D is in the same place in the
+	new ASB as the old one."
 
-> =
+- Patch #6 I took as is from the downstream implementation, I can't really
+  provide an exact explanation on what changed HW wise.
 
-> A better approach would be to fix those drivers to only call these cec
-> functions for DP outputs. I think I moved the test to drm_dp_cec.c primar=
-ily
-> for robustness (i.e. do nothing if called for a non-DP output). But that
-> might not be the right approach after all.
+Ultimately, I need confirmation from the Broadcom folks that they are alright
+with patch #7.
 
-Shrug. I guess just extending to check is_remote (or maybe there is
-some other member that's always set?) is a good enough short term
-solution. Someone may want to have a look at adjusting
-amdgpu/nouveau to not need it, but who knows how much work that is.
+With all this, I get a more or less stable experience using mesa 20.3.4 and
+X11/Gnome.
 
--- =
+Regards,
+Nicolas
 
-Ville Syrj=E4l=E4
-Intel
+---
+
+Nicolas Saenz Julienne (11):
+  dt-bindings: soc: bcm: bcm2835-pm: Convert bindings to DT schema
+  dt-bindings: soc: bcm: brcm,bcm2835-pm: Add support for bcm2711
+  ARM: dts: bcm2711: Use proper compatible in PM/Watchdog node
+  mfd: bcm2835-pm: Add support for BCM2711
+  soc: bcm: bcm2835-power: Add support for BCM2711's ARSAN ASB
+  soc: bcm: bcm2835-power: Bypass power_on/off() calls
+  drm/v3d: Get rid of pm code
+  drm/v3d: Add support for bcm2711
+  ARM: dts: bcm2711: Enable V3D
+  ARM: configs: Enable DRM_V3D
+  arm64: config: Enable DRM_V3D
+
+ .../bindings/soc/bcm/brcm,bcm2835-pm.txt      | 46 -----------
+ .../bindings/soc/bcm/brcm,bcm2835-pm.yaml     | 80 +++++++++++++++++++
+ arch/arm/boot/dts/bcm2711.dtsi                | 14 +++-
+ arch/arm/configs/multi_v7_defconfig           |  1 +
+ arch/arm64/configs/defconfig                  |  1 +
+ drivers/gpu/drm/v3d/Kconfig                   |  2 +-
+ drivers/gpu/drm/v3d/v3d_debugfs.c             | 18 +----
+ drivers/gpu/drm/v3d/v3d_drv.c                 | 12 +--
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  9 ---
+ drivers/mfd/bcm2835-pm.c                      | 55 ++++++++++---
+ drivers/soc/bcm/bcm2835-power.c               | 74 +++++++++++------
+ include/linux/mfd/bcm2835-pm.h                |  1 +
+ 12 files changed, 190 insertions(+), 123 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-pm.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-pm.yaml
+
+-- 
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
