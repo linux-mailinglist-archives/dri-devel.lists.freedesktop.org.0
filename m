@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE8D310C19
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 14:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ECC310C24
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 14:49:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD7B289DED;
-	Fri,  5 Feb 2021 13:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B869A6F427;
+	Fri,  5 Feb 2021 13:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net
- [194.109.24.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8127189CD4
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 13:46:51 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud9.xs4all.net with ESMTPA
- id 81RclTJVeFFpm81RglH0Uh; Fri, 05 Feb 2021 14:46:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1612532809; bh=eeIQ3lc6028oLMlea4AHNdLl0tt2BQ1HMogC4rAypDI=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=QXVUNaAT1tII5aFDk+cPR8pJYdtQgXYC6klZDolwlsOsOcOtMcYruZwvaYPoLxCp3
- bfZGWpZWYMLUa1r+Vkit1r45mKmGycy0z9+BChbGO1uFFzTrsugaZQy5UkmiDPzfkN
- Qx4EL0yU37Li6HA4uSZQz+Lp8L0PcwHSrwMhaIiYhnoC5cqLFeiOMEYnIICROjpjGC
- mXwY9uy+oPn+F17WWxDL/TYwwwP74y1uMwirFXg0PJ6pw/TkooBsLoxhcQ0yDa0vZ6
- CyTlMqKIIJzmQEE35EygcZKFXjLxs8GChTlgkmbENglKUl9CAHKsO57ZCuuKQUp+Nw
- aO13Xc+6FR7bw==
-Subject: Re: [PATCH v3 2/4] drm_dp_mst_topology: use correct AUX channel
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Sam McNally <sammc@chromium.org>
-References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
- <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
- <YBh9HvbIRF4zd+AK@intel.com> <2a7c2edc-b83c-dccf-487d-1415b4bc23ff@xs4all.nl>
- <CAJqEsoCOJmS5aVb5du09tXUi7UUKVBQDPe5KTdcBiDr8A7kSYA@mail.gmail.com>
- <YB1HBDEB5/fefQzi@intel.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c577f417-b6c2-6714-8c97-ec6d636bb3a7@xs4all.nl>
-Date: Fri, 5 Feb 2021 14:46:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC406F430
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 13:49:14 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id e17so89737oow.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 05:49:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v3dYKQ5xVDmqjq0CCTTfze74f1vEv6vNiVomtR7v+KM=;
+ b=GoOBFbj7BzUv6nfQ5N5IfWnhVNXTBZHLwIXJKaNWGpuGrph6mbQqU7HmQTD3L90yDL
+ +DdV0bikLU3XO8ZvC0H88ZIiO6Dyd05lRJCJVNLtlTg7gyjmtifiQMHVRD8PELoXLoUP
+ CqNxeSy8ddxOxfnWeVDC+vxp0qLijeaLBLhdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v3dYKQ5xVDmqjq0CCTTfze74f1vEv6vNiVomtR7v+KM=;
+ b=lh0QJFfXLnogmPhnrliZ0R/2+f1ojIKeZpY8nau82rfHmLt1jZ71oyZF4b2PEM6nKT
+ 1uvrMDnfAurIbExSKIK4dh4RYJlXG19gOKhGZjvuSJx67zuiL+efYhupUze6CW8UJh94
+ hXGriJdY+VFezTc2vZIb48ljupGbrG2EGp7DEcSgYYI7DGVCCgN5r6O/MgxDaksqs1Vl
+ Om8SdBZmeamBbMjoZs9ZstEU1dkol+aJ32vG2IDTtH7G2Y6BHUzPkZhoYBfDMzmKaIia
+ 1HR/JbLf9QiDDsaU7muVeNFz+i5/lKQ1IDbATNWrfuXpULwx8DQfk7O6GSXHxN0qJDTB
+ 53Ew==
+X-Gm-Message-State: AOAM531lvVus0oP5Rm5qlrGSNOi6VDplbFWZ2+ge8tAmJTLb1dFdgDLj
+ Dn51Uqm9O0tj7/Jp70rapyB8ee5zv36DEIt+Fxaglg==
+X-Google-Smtp-Source: ABdhPJy+9jG95INqAnJr0pY3S4vtmLo1Xat23GKAx2VkWNLVs27RaWOVAnEnQaJfmS+LkOOCBm3ADzvIy505tjYDYEw=
+X-Received: by 2002:a4a:424c:: with SMTP id i12mr3484467ooj.85.1612532953749; 
+ Fri, 05 Feb 2021 05:49:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YB1HBDEB5/fefQzi@intel.com>
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfF/2LkHUBR6Sj5FcCmtu5nSjDtH0gXnDX48kOwSB2540xv2DzasTmniuBdVtNsBlQec0ezWIItZKJZVotxicsO8IKSyPnZpsIJauJsqzAvJDL62upT2c
- 3nEQGLoRVxVe9PS4j5SXwaaEbtesNJksIRkjsdC5LZGKs80/IRoVWTdRzXRqtn2cD3f/1dbCwaVvWXNzv2G9EYv0e2mO4A7RgBwkncLqWc8W+/y+0gpFFk1E
- xCzTOOpZtwXm5xDH+kRAhQW9OesbT9rSKmjZU1rkPu3YPzYsb2X4b6T02rq8YwQk3lKLzwX8LjLcf4QvJVeyQOTKfXRS9KNt+wfvhcVJHpl3UpszBFZVjA+G
- 6hT1EtSnM959b3M6T6cKpeY6jAbejDWyDJDOuDUWEOaHTu1/B7OT+vFTpHBpmizJS8NzussN
+References: <CAOWid-d=a1Q3R92s7GrzxWhXx7_dc8NQvQg7i7RYTVv3+jHxkQ@mail.gmail.com>
+ <20201103053244.khibmr66p7lhv7ge@ast-mbp.dhcp.thefacebook.com>
+ <CAOWid-eQSPru0nm8+Xo3r6C0pJGq+5r8mzM8BL2dgNn2c9mt2Q@mail.gmail.com>
+ <CAADnVQKuoZDB-Xga5STHdGSxvSP=B6jQ40kLdpL1u+J98bv65A@mail.gmail.com>
+ <CAOWid-czZphRz6Y-H3OcObKCH=bLLC3=bOZaSB-6YBE56+Qzrg@mail.gmail.com>
+ <20201103210418.q7hddyl7rvdplike@ast-mbp.dhcp.thefacebook.com>
+ <CAOWid-djQ_NRfCbOTnZQ-A8Pr7jMP7KuZEJDSsvzWkdw7qc=yA@mail.gmail.com>
+ <20201103232805.6uq4zg3gdvw2iiki@ast-mbp.dhcp.thefacebook.com>
+ <YBgU9Vu0BGV8kCxD@phenom.ffwll.local>
+ <CAOWid-eXMqcNpjFxbcuUDU7Y-CCYJRNT_9mzqFYm1jeCPdADGQ@mail.gmail.com>
+ <YBqEbHyIjUjgk+es@phenom.ffwll.local>
+ <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
+In-Reply-To: <CAOWid-c4Nk717xUah19B=z=2DtztbtU=_4=fQdfhqpfNJYN2gw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 5 Feb 2021 14:49:02 +0100
+Message-ID: <CAKMK7uFEhyJChERFQ_DYFU4UCA2Ox4wTkds3+GeyURH5xNMTCA@mail.gmail.com>
+Subject: Re: [RFC] Add BPF_PROG_TYPE_CGROUP_IOCTL
+To: Kenny Ho <y2kenny@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,102 +68,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hans.verkuil@cisco.com>, LKML <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Song Liu <songliubraving@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Kenny Ho <Kenny.Ho@amd.com>,
+ "open list:CONTROL GROUP \(CGROUP\)" <cgroups@vger.kernel.org>,
+ Brian Welty <brian.welty@intel.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Martin KaFai Lau <kafai@fb.com>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Network Development <netdev@vger.kernel.org>, KP Singh <kpsingh@chromium.org>,
+ Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDUvMDIvMjAyMSAxNDoyNCwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIEZyaSwgRmVi
-IDA1LCAyMDIxIGF0IDA0OjE3OjUxUE0gKzExMDAsIFNhbSBNY05hbGx5IHdyb3RlOgo+PiBPbiBU
-aHUsIDQgRmViIDIwMjEgYXQgMjE6MTksIEhhbnMgVmVya3VpbCA8aHZlcmt1aWxAeHM0YWxsLm5s
-PiB3cm90ZToKPj4+Cj4+PiBPbiAwMS8wMi8yMDIxIDIzOjEzLCBWaWxsZSBTeXJqw6Rsw6Qgd3Jv
-dGU6Cj4+Pj4gT24gV2VkLCBTZXAgMjMsIDIwMjAgYXQgMTI6MTM6NTNQTSArMTAwMCwgU2FtIE1j
-TmFsbHkgd3JvdGU6Cj4+Pj4+IEZyb206IEhhbnMgVmVya3VpbCA8aGFucy52ZXJrdWlsQGNpc2Nv
-LmNvbT4KPj4+Pj4KPj4+Pj4gRm9yIGFkYXB0ZXJzIGJlaGluZCBhbiBNU1QgaHViIHVzZSB0aGUg
-Y29ycmVjdCBBVVggY2hhbm5lbC4KPj4+Pj4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogSGFucyBWZXJr
-dWlsIDxoYW5zLnZlcmt1aWxAY2lzY28uY29tPgo+Pj4+PiBbc2FtbWNAY2hyb21pdW0ub3JnOiBy
-ZWJhc2VkLCByZW1vdmluZyByZWR1bmRhbnQgY2hhbmdlc10KPj4+Pj4gU2lnbmVkLW9mZi1ieTog
-U2FtIE1jTmFsbHkgPHNhbW1jQGNocm9taXVtLm9yZz4KPj4+Pj4gLS0tCj4+Pj4+Cj4+Pj4+IChu
-byBjaGFuZ2VzIHNpbmNlIHYxKQo+Pj4+Pgo+Pj4+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9kcF9t
-c3RfdG9wb2xvZ3kuYyB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKwo+Pj4+PiAgMSBm
-aWxlIGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKykKPj4+Pj4KPj4+Pj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2RwX21zdF90b3BvbG9neS5jCj4+Pj4+IGluZGV4IDE1YjZjYzM5YTc1NC4uMGQ3NTMyMDFhZGJk
-IDEwMDY0NAo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-Cj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPj4+Pj4g
-QEAgLTIyNTUsNiArMjI1NSw5IEBAIGRybV9kcF9tc3RfdG9wb2xvZ3lfdW5saW5rX3BvcnQoc3Ry
-dWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4+Pj4+ICAgICAgZHJtX2RwX21zdF90
-b3BvbG9neV9wdXRfcG9ydChwb3J0KTsKPj4+Pj4gIH0KPj4+Pj4KPj4+Pj4gK3N0YXRpYyBzc2l6
-ZV90Cj4+Pj4+ICtkcm1fZHBfbXN0X2F1eF90cmFuc2ZlcihzdHJ1Y3QgZHJtX2RwX2F1eCAqYXV4
-LCBzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm1zZyk7Cj4+Pj4+ICsKPj4+Pj4gIHN0YXRpYyBzdHJ1
-Y3QgZHJtX2RwX21zdF9wb3J0ICoKPj4+Pj4gIGRybV9kcF9tc3RfYWRkX3BvcnQoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKPj4+Pj4gICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF90
-b3BvbG9neV9tZ3IgKm1nciwKPj4+Pj4gQEAgLTIyNzEsOSArMjI3NCwxMyBAQCBkcm1fZHBfbXN0
-X2FkZF9wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4+Pj4+ICAgICAgcG9ydC0+cG9ydF9u
-dW0gPSBwb3J0X251bWJlcjsKPj4+Pj4gICAgICBwb3J0LT5tZ3IgPSBtZ3I7Cj4+Pj4+ICAgICAg
-cG9ydC0+YXV4Lm5hbWUgPSAiRFBNU1QiOwo+Pj4+PiArICAgIG11dGV4X2luaXQoJnBvcnQtPmF1
-eC5od19tdXRleCk7Cj4+Pj4+ICsgICAgbXV0ZXhfaW5pdCgmcG9ydC0+YXV4LmNlYy5sb2NrKTsK
-Pj4+Pj4gICAgICBwb3J0LT5hdXguZGV2ID0gZGV2LT5kZXY7Cj4+Pj4+ICAgICAgcG9ydC0+YXV4
-LmlzX3JlbW90ZSA9IHRydWU7Cj4+Pj4+Cj4+Pj4+ICsgICAgcG9ydC0+YXV4LnRyYW5zZmVyID0g
-ZHJtX2RwX21zdF9hdXhfdHJhbnNmZXI7Cj4+Pj4+ICsKPj4+Pgo+Pj4+IFRoaXMgd2FzIHN1cHBv
-c2VkIHRvIGJlIGhhbmRsZWQgdmlhIGhpZ2hlciBsZXZlbHMgY2hlY2tpbmcgZm9yCj4+Pj4gaXNf
-cmVtb3RlPT10cnVlLgo+Pj4KPj4+IEFoLCBJIHN1c3BlY3QgdGhpcyBwYXRjaCBjYW4gYmUgZHJv
-cHBlZCBlbnRpcmVseTogaXQgcHJlZGF0ZXMgY29tbWl0IDJmMjIxYTVlZmVkNAo+Pj4gKCJkcm0v
-ZHBfbXN0OiBBZGQgTVNUIHN1cHBvcnQgdG8gRFAgRFBDRCBSL1cgZnVuY3Rpb25zIikuCj4+Pgo+
-Pj4gSXQgbG9va3MgbGlrZSB0aGF0IGNvbW1pdCBiYXNpY2FsbHkgc29sdmVkIHdoYXQgdGhpcyBv
-bGRlciBwYXRjaCBhdHRlbXB0cyB0byBkbwo+Pj4gYXMgd2VsbC4KPj4+Cj4+PiBTYW0sIGNhbiB5
-b3UgdGVzdCBpZiBpdCB3b3JrcyB3aXRob3V0IHRoaXMgcGF0Y2g/Cj4+Cj4+IEl0IGFsbW9zdCBq
-dXN0IHdvcmtzOyBkcm1fZHBfY2VjIHVzZXMgd2hldGhlciBhdXgudHJhbnNmZXIgaXMgbm9uLW51
-bGwKPj4gdG8gZmlsdGVyIG91dCBub24tRFAgY29ubmVjdG9ycy4gVXNpbmcgYXV4LmlzX3JlbW90
-ZSBhcyBhbm90aGVyIHNpZ25hbAo+PiBpbmRpY2F0aW5nIGEgRFAgY29ubmVjdG9yIHNlZW1zIHBs
-YXVzaWJsZS4gV2UgY2FuIGRyb3AgdGhpcyBwYXRjaC4KPiAKPiBXaHkgd291bGQgYW55b25lIGV2
-ZW4gY2FsbCB0aGlzIHN0dWZmIG9uIGEgbm9uLURQIGNvbm5lY3Rvcj8KPiBBbmQgd2hlcmUgZGlk
-IHRoZXkgZXZlbiBnZXQgdGhlIHN0cnVjdCBkcm1fZHBfYXV4IHRvIGRvIHNvPwoKVGhpcyBjaGVj
-ayBjYW1lIGluIHdpdGggY29tbWl0IDVjZTcwYzc5OWFjMiAoImRybV9kcF9jZWM6IGNoZWNrIHRo
-YXQgYXV4CmhhcyBhIHRyYW5zZmVyIGZ1bmN0aW9uIikuIEl0IHNlZW1zIG5vdXZlYXUgYW5kIGFt
-ZGdwdSBzcGVjaWZpYy4KCkEgYmV0dGVyIGFwcHJvYWNoIHdvdWxkIGJlIHRvIGZpeCB0aG9zZSBk
-cml2ZXJzIHRvIG9ubHkgY2FsbCB0aGVzZSBjZWMKZnVuY3Rpb25zIGZvciBEUCBvdXRwdXRzLiBJ
-IHRoaW5rIEkgbW92ZWQgdGhlIHRlc3QgdG8gZHJtX2RwX2NlYy5jIHByaW1hcmlseQpmb3Igcm9i
-dXN0bmVzcyAoaS5lLiBkbyBub3RoaW5nIGlmIGNhbGxlZCBmb3IgYSBub24tRFAgb3V0cHV0KS4g
-QnV0IHRoYXQKbWlnaHQgbm90IGJlIHRoZSByaWdodCBhcHByb2FjaCBhZnRlciBhbGwuCgpSZWdh
-cmRzLAoKCUhhbnMKCj4gCj4+IFRoYW5rcyBhbGwhCj4+Pgo+Pj4gUmVnYXJkcywKPj4+Cj4+PiAg
-ICAgICAgIEhhbnMKPj4+Cj4+Pj4KPj4+Pj4gICAgICAvKiBpbml0aWFsaXplIHRoZSBNU1QgZG93
-bnN0cmVhbSBwb3J0J3MgQVVYIGNyYyB3b3JrIHF1ZXVlICovCj4+Pj4+ICAgICAgZHJtX2RwX3Jl
-bW90ZV9hdXhfaW5pdCgmcG9ydC0+YXV4KTsKPj4+Pj4KPj4+Pj4gQEAgLTM1MDMsNiArMzUxMCwz
-NSBAQCBzdGF0aWMgaW50IGRybV9kcF9zZW5kX3VwX2Fja19yZXBseShzdHJ1Y3QgZHJtX2RwX21z
-dF90b3BvbG9neV9tZ3IgKm1nciwKPj4+Pj4gICAgICByZXR1cm4gMDsKPj4+Pj4gIH0KPj4+Pj4K
-Pj4+Pj4gK3N0YXRpYyBzc2l6ZV90Cj4+Pj4+ICtkcm1fZHBfbXN0X2F1eF90cmFuc2ZlcihzdHJ1
-Y3QgZHJtX2RwX2F1eCAqYXV4LCBzdHJ1Y3QgZHJtX2RwX2F1eF9tc2cgKm1zZykKPj4+Pj4gK3sK
-Pj4+Pj4gKyAgICBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpwb3J0ID0KPj4+Pj4gKyAgICAgICAg
-ICAgIGNvbnRhaW5lcl9vZihhdXgsIHN0cnVjdCBkcm1fZHBfbXN0X3BvcnQsIGF1eCk7Cj4+Pj4+
-ICsgICAgaW50IHJldDsKPj4+Pj4gKwo+Pj4+PiArICAgIHN3aXRjaCAobXNnLT5yZXF1ZXN0ICYg
-fkRQX0FVWF9JMkNfTU9UKSB7Cj4+Pj4+ICsgICAgY2FzZSBEUF9BVVhfTkFUSVZFX1dSSVRFOgo+
-Pj4+PiArICAgIGNhc2UgRFBfQVVYX0kyQ19XUklURToKPj4+Pj4gKyAgICBjYXNlIERQX0FVWF9J
-MkNfV1JJVEVfU1RBVFVTX1VQREFURToKPj4+Pj4gKyAgICAgICAgICAgIHJldCA9IGRybV9kcF9z
-ZW5kX2RwY2Rfd3JpdGUocG9ydC0+bWdyLCBwb3J0LCBtc2ctPmFkZHJlc3MsCj4+Pj4+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1zZy0+c2l6ZSwgbXNnLT5idWZm
-ZXIpOwo+Pj4+Cj4+Pj4gVGhhdCBkb2Vzbid0IG1ha2Ugc2Vuc2UgdG8gbWUuIEkyYyB3cml0ZXMg
-YW5kIERQQ0Qgd3JpdGVzCj4+Pj4gYXJlIGRlZmluaXRlbHkgbm90IHRoZSBzYW1lIHRoaW5nLgo+
-Pj4+Cj4+Pj4gYXV4LT50cmFuc2ZlciBpcyBhIHZlcnkgbG93IGxldmVsIHRoaW5nLiBJIGRvbid0
-IHRoaW5rIGl0J3MgdGhlCj4+Pj4gY29ycmVjdCBsZXZlbCBvZiBhYnN0cmFjdGlvbiBmb3Igc2lk
-ZWJhbmQuCj4+Pj4KPj4+Pj4gKyAgICAgICAgICAgIGJyZWFrOwo+Pj4+PiArCj4+Pj4+ICsgICAg
-Y2FzZSBEUF9BVVhfTkFUSVZFX1JFQUQ6Cj4+Pj4+ICsgICAgY2FzZSBEUF9BVVhfSTJDX1JFQUQ6
-Cj4+Pj4+ICsgICAgICAgICAgICByZXQgPSBkcm1fZHBfc2VuZF9kcGNkX3JlYWQocG9ydC0+bWdy
-LCBwb3J0LCBtc2ctPmFkZHJlc3MsCj4+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgbXNnLT5zaXplLCBtc2ctPmJ1ZmZlcik7Cj4+Pj4+ICsgICAgICAgICAgICBi
-cmVhazsKPj4+Pj4gKwo+Pj4+PiArICAgIGRlZmF1bHQ6Cj4+Pj4+ICsgICAgICAgICAgICByZXQg
-PSAtRUlOVkFMOwo+Pj4+PiArICAgICAgICAgICAgYnJlYWs7Cj4+Pj4+ICsgICAgfQo+Pj4+PiAr
-Cj4+Pj4+ICsgICAgcmV0dXJuIHJldDsKPj4+Pj4gK30KPj4+Pj4gKwo+Pj4+PiAgc3RhdGljIGlu
-dCBkcm1fZHBfZ2V0X3ZjX3BheWxvYWRfYncodTggZHBfbGlua19idywgdTggIGRwX2xpbmtfY291
-bnQpCj4+Pj4+ICB7Cj4+Pj4+ICAgICAgaWYgKGRwX2xpbmtfYncgPT0gMCB8fCBkcF9saW5rX2Nv
-dW50ID09IDApCj4+Pj4+IC0tCj4+Pj4+IDIuMjguMC42ODEuZzZmNzdmNjViNGUtZ29vZwo+Pj4+
-Pgo+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-Pj4+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+Pj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPj4+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwKPj4+Pgo+Pj4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+Hi Kenny
+
+On Wed, Feb 3, 2021 at 8:01 PM Kenny Ho <y2kenny@gmail.com> wrote:
+>
+> Daniel,
+>
+> I will have to get back to you later on the details of this because my
+> head is currently context switched to some infrastructure and
+> Kubernetes/golang work, so I am having a hard time digesting what you
+> are saying.  I am new to the bpf stuff so this is about my own
+> learning as well as a conversation starter.  The high level goal here
+> is to have a path for flexibility via a bpf program.  Not just GPU or
+> DRM or CU mask, but devices making decisions via an operator-written
+> bpf-prog attached to a cgroup.  More inline.
+
+If you have some pointers on this, I'm happy to do some reading and
+learning too.
+
+> On Wed, Feb 3, 2021 at 6:09 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Feb 01, 2021 at 11:51:07AM -0500, Kenny Ho wrote:
+> > > On Mon, Feb 1, 2021 at 9:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > - there's been a pile of cgroups proposal to manage gpus at the drm
+> > > >   subsystem level, some by Kenny, and frankly this at least looks a bit
+> > > >   like a quick hack to sidestep the consensus process for that.
+> > > No Daniel, this is quick *draft* to get a conversation going.  Bpf was
+> > > actually a path suggested by Tejun back in 2018 so I think you are
+> > > mischaracterizing this quite a bit.
+> > >
+> > > "2018-11-20 Kenny Ho:
+> > > To put the questions in more concrete terms, let say a user wants to
+> > >  expose certain part of a gpu to a particular cgroup similar to the
+> > >  way selective cpu cores are exposed to a cgroup via cpuset, how
+> > >  should we go about enabling such functionality?
+> > >
+> > > 2018-11-20 Tejun Heo:
+> > > Do what the intel driver or bpf is doing?  It's not difficult to hook
+> > > into cgroup for identification purposes."
+> >
+> > Yeah, but if you go full amd specific for this, you might as well have a
+> > specific BPF hook which is called in amdgpu/kfd and returns you the CU
+> > mask for a given cgroups (and figures that out however it pleases).
+> >
+> > Not a generic framework which lets you build pretty much any possible
+> > cgroups controller for anything else using BPF. Trying to filter anything
+> > at the generic ioctl just doesn't feel like a great idea that's long term
+> > maintainable. E.g. what happens if there's new uapi for command
+> > submission/context creation and now your bpf filter isn't catching all
+> > access anymore? If it's an explicit hook that explicitly computes the CU
+> > mask, then we can add more checks as needed. With ioctl that's impossible.
+> >
+> > Plus I'm also not sure whether that's really a good idea still, since if
+> > cloud companies have to built their own bespoke container stuff for every
+> > gpu vendor, that's quite a bad platform we're building. And "I'd like to
+> > make sure my gpu is used fairly among multiple tenents" really isn't a
+> > use-case that's specific to amd.
+>
+> I don't understand what you are saying about containers here since
+> bpf-progs are not the same as container nor are they deployed from
+> inside a container (as far as I know, I am actually not sure how
+> bpf-cgroup works with higher level cloud orchestration since folks
+> like Docker just migrated to cgroup v2 very recently... I don't think
+> you can specify a bpf-prog to load as part of a k8s pod definition.)
+> That said, the bit I understand ("not sure whether that's really a
+> good idea....cloud companies have to built their own bespoke container
+> stuff for every gpu vendor...") is in fact the current status quo.  If
+> you look into some of the popular ML/AI-oriented containers/apps, you
+> will likely see things are mostly hardcoded to CUDA.  Since I work for
+> AMD, I wouldn't say that's a good thing but this is just the reality.
+> For Kubernetes at least (where my head is currently), the official
+> mechanisms are Device Plugins (I am the author for the one for AMD but
+> there are a few ones from Intel too, you can confirm with your
+> colleagues)  and Node Feature/Labels.  Kubernetes schedules
+> pod/container launched by users to the node/servers by the affinity of
+> the node resources/labels, and the resources/labels in the pod
+> specification created by the users.
+
+Sure the current gpu compute ecosystem is pretty badly fragmented,
+forcing higher levels (like containers, but also hpc runtimes, or
+anything else) to paper over that with more plugins and abstraction
+layers.
+
+That's not really a good excuse that when we upstream these features,
+that we should continue with the fragmentation.
+
+> > If this would be something very hw specific like cache assignment and
+> > quality of service stuff or things like that, then vendor specific imo
+> > makes sense. But for CU masks essentially we're cutting the compute
+> > resources up in some way, and I kinda expect everyone with a gpu who cares
+> > about isolating workloads with cgroups wants to do that.
+>
+> Right, but isolating workloads is quality of service stuff and *how*
+> compute resources are cut up are vendor specific.
+>
+> Anyway, as I said at the beginning of this reply, this is about
+> flexibility in support of the diversity of devices and architectures.
+> CU mask is simply a concrete example of hw diversity that a
+> bpf-program can encapsulate.  I can see this framework (a custom
+> program making decisions in a specific cgroup and device context) use
+> for other things as well.  It may even be useful within a vendor to
+> handle the diversity between SKUs.
+
+So I agree that on one side CU mask can be used for low-level quality
+of service guarantees (like the CLOS cache stuff on intel cpus as an
+example), and that's going to be rather hw specific no matter what.
+
+But my understanding of AMD's plans here is that CU mask is the only
+thing you'll have to partition gpu usage in a multi-tenant environment
+- whether that's cloud or also whether that's containing apps to make
+sure the compositor can still draw the desktop (except for fullscreen
+ofc) doesn't really matter I think. And since there's clearly a need
+for more general (but necessarily less well-defined) gpu usage
+controlling and accounting I don't think exposing just the CU mask is
+a good idea. That just perpetuates the current fragmented landscape,
+and I really don't see why it's not possible to have a generic "I want
+50% of my gpu available for these 2 containers each" solution
+
+Of course on top of that having a bfp hook in amd to do the fine
+grained QOS assignement for e.g. embedded application which are very
+carefully tuned, should still be possible. But that's on top, not as
+the exclusive thing available.
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
