@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B9B31099B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 11:56:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A9B3109CE
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 12:07:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77F36E235;
-	Fri,  5 Feb 2021 10:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9976F409;
+	Fri,  5 Feb 2021 11:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505406E235
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 10:56:23 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1l7ymj-00035C-2Q; Fri, 05 Feb 2021 11:56:21 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1l7ymd-0004Fb-NN; Fri, 05 Feb 2021 11:56:15 +0100
-Date: Fri, 5 Feb 2021 11:56:15 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
-Message-ID: <20210205105615.qumu45huvntf2v4j@pengutronix.de>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
- <YBlcTXlxemmC2lgr@kroah.com>
- <20210204165224.GA1463@shell.armlinux.org.uk>
- <YBwnUrQqlAz2LDPI@kroah.com>
- <20210204165951.GB1463@shell.armlinux.org.uk>
- <20210204181551.ethtuzm65flujmwe@pengutronix.de>
- <20210205093744.kr4rc7yvfiq6wimq@pengutronix.de>
- <YB0baUzgvpd+EoO6@kroah.com>
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0774F6F404;
+ Fri,  5 Feb 2021 11:07:16 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id l18so3583323pji.3;
+ Fri, 05 Feb 2021 03:07:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nhU2mG//9BiHxfOHGEyX4R2P+B0rQePtnOzA7WvugBo=;
+ b=ub0craqaAfA6SIaKFIUTQyc3gR/X3+ZokWLMxMtEG1CfDLWoaojnksd8bgR8Ukar8F
+ KsVdeZfDqPwQ7QEMhlGkSw85OYOb/0qP1uDeqAjCLGnpHZnRYVfyVAPDZ8Qzwz07xVL+
+ DQJLm1UNrypr0leMTBsZWJeq1jEU1fnHIGF2WqDiAYwAu8wmZ3TtfnSh8HzP8YdMYims
+ +vxV6mFZfzkRzvuMydO91vbvlPKSpXMs+MA2XcsyozcA/n+eYTyxI/ZXf2WMTdcRgMto
+ 2aduFMoJMbUhlpxJGSvTPGggnAMvwIIRzHrjym+zP54h/N1DoM60dx85ucVKNQOFf3qN
+ Q7rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nhU2mG//9BiHxfOHGEyX4R2P+B0rQePtnOzA7WvugBo=;
+ b=lL1dHu/gJCHmjuj7Vjcru+MJY1Oh74YFlAFlEEHwYpt5CIdRi/0UNv4LZTHMq2Kg2Z
+ rjkq7YJslFvHk0Xc4FleiwcNQ66RfNN+f5mjspXPkk9i3cX1WQzma31+50McQGzwXb/4
+ PTkVN1zyLK6uY6r+JboprZTIlvZFsRj3YKVrO0yI0Vgut/ZNvH/hXoNaCEJCpoNSmKpD
+ 9Nc2ajQu8ZvSEJjDEeAE3BvUcTsSkMzlB4cj5aFw7Coxxl06wIz8OKcPiB9SwB2A+aFC
+ ZlpNhNyV/jKBoeKvc+yti+Jqz7jsDd1etGjVQN+wuG1iw51Rm+ZfUXsNF52tBU+SA2Ce
+ nwHw==
+X-Gm-Message-State: AOAM5309F1T0qEKFPX1uUDVSVmsymnXw7RXGKhuswMoKFXTcKuF+99ZM
+ CXcZhbzYQUHMOXu7W0YCWxY+UML3PvqcngB9FyVi8NvoTX9gqg==
+X-Google-Smtp-Source: ABdhPJzIsiRDxMPtSxoHGSTBvJJCZvHfnres8cQ9vFRuI2omv6Pg/k51VMnFe3zrd/k0F4m0rL+DRnYivOm/mvw5i68=
+X-Received: by 2002:a17:902:b190:b029:df:fff2:c345 with SMTP id
+ s16-20020a170902b190b02900dffff2c345mr3486428plr.17.1612523235627; Fri, 05
+ Feb 2021 03:07:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YB0baUzgvpd+EoO6@kroah.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210204155846.5aef94a8@canb.auug.org.au>
+ <CAHp75Vct=jSQxu187hwz4Wrc_xRKiTmKFt_bgT-m-z=iW31drg@mail.gmail.com>
+In-Reply-To: <CAHp75Vct=jSQxu187hwz4Wrc_xRKiTmKFt_bgT-m-z=iW31drg@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 5 Feb 2021 13:06:59 +0200
+Message-ID: <CAHp75Vc_xJFpUECZenOYEyJ6YDzfDFmJe9cTeGh0x-c_fKQPHw@mail.gmail.com>
+Subject: Re: linux-next: manual merge of the drivers-x86 tree with the
+ drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,182 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig.org@pengutronix.de>,
- linux-i2c@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-watchdog@vger.kernel.org,
- linux-rtc@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
- Takashi Iwai <tiwai@suse.com>,
- Russell King - ARM Linux admin <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, Guenter Roeck <linux@roeck-us.net>,
- Mike Leach <mike.leach@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>, alsa-devel@alsa-project.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>, coresight@lists.linaro.org,
- Vladimir Zapolskiy <vz@mleia.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- Matt Mackall <mpm@selenic.com>, Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-crypto@vger.kernel.org, Leo Yan <leo.yan@linaro.org>,
- dmaengine@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0566261528=="
+Cc: Mark Gross <mark.gross@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Feb 4, 2021 at 11:04 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>> Today's linux-next merge of the drivers-x86 tree got a conflict in:
+>
+> Thanks. I already asked Patrik yesterday day if DRM missed to pull an immutable tag I provided. I think they can pull and resolve conflicts themselves. Alternatively it would be easy to resolve by Linus by removing Kconfig lines along with mentioned files,
 
---===============0566261528==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vslstwmibba5nymi"
-Content-Disposition: inline
+Patrik, I have sent a PR again, so you may consider pulling it, thanks!
 
-
---vslstwmibba5nymi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Feb 05, 2021 at 11:18:17AM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Feb 05, 2021 at 10:37:44AM +0100, Uwe Kleine-K=F6nig wrote:
-> > Hello Russell, hello Greg,
-> >=20
-> > On Thu, Feb 04, 2021 at 07:15:51PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Thu, Feb 04, 2021 at 04:59:51PM +0000, Russell King - ARM Linux ad=
-min wrote:
-> > > > On Thu, Feb 04, 2021 at 05:56:50PM +0100, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Feb 04, 2021 at 04:52:24PM +0000, Russell King - ARM Linu=
-x admin wrote:
-> > > > > > On Tue, Feb 02, 2021 at 03:06:05PM +0100, Greg Kroah-Hartman wr=
-ote:
-> > > > > > > I'm glad to take this through my char/misc tree, as that's wh=
-ere the
-> > > > > > > other coresight changes flow through.  So if no one else obje=
-cts, I will
-> > > > > > > do so...
-> > > > > >=20
-> > > > > > Greg, did you end up pulling this after all? If not, Uwe produc=
-ed a v2.
-> > > > > > I haven't merged v2 yet as I don't know what you've done.
-> > > > >=20
-> > > > > I thought you merged this?
-> > > >=20
-> > > > I took v1, and put it in a branch I've promised in the past not to
-> > > > rebase/rewind. Uwe is now asking for me to take a v2 or apply a pat=
-ch
-> > > > on top.
-> > > >=20
-> > > > The only reason to produce an "immutable" branch is if it's the bas=
-is
-> > > > for some dependent work and you need that branch merged into other
-> > > > people's trees... so the whole "lets produce a v2" is really odd
-> > > > workflow... I'm confused about what I should do, and who has to be
-> > > > informed which option I take.
-> > > >=20
-> > > > I'm rather lost here too.
-> > >=20
-> > > Sorry to have cause this confusion. After I saw that my initial tag
-> > > missed to adapt a driver I wanted to make it easy for you to fix the
-> > > situation.
-> > > So I created a patch to fix it and created a second tag with the patch
-> > > squashed in. Obviously only one of them have to be picked and I hoped
-> > > you (=3D Russell + Greg) would agree which option to pick.
-> > >=20
-> > > My preference would be if you both pick up v2 of the tag to yield a
-> > > history that is bisectable without build problems, but if Russell (who
-> > > already picked up the broken tag) considers his tree immutable and so
-> > > isn't willing to rebase, then picking up the patch is the way to go.
-> >=20
-> > OK, the current state is that Russell applied the patch fixing
-> > drivers/mailbox/arm_mhuv2.c on top of merging my first tag.
-> >=20
-> > So the way forward now is that Greg pulls
-> >=20
-> > 	git://git.armlinux.org.uk/~rmk/linux-arm.git devel-stable
-> >=20
-> > which currently points to=20
-> >=20
-> > 	860660fd829e ("ARM: 9055/1: mailbox: arm_mhuv2: make remove callback r=
-eturn void")
-> >=20
-> > , into his tree that contains the hwtracing changes that conflict with =
-my
-> > changes. @Greg: Is this good enough, or do you require a dedicated tag
-> > to pull that?
-> >=20
-> > I think these conflicting hwtracing changes are not yet in any of Greg's
-> > trees (at least they are not in next).
-> >=20
-> > When I pull
-> >=20
-> > 	https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git ne=
-xt
-> >=20
-> > (currently pointing to 4e73ff249184 ("coresight: etm4x: Handle accesses
-> > to TRCSTALLCTLR")) into 860660fd829e, I get a conflict in
-> > drivers/hwtracing/coresight/coresight-etm4x-core.c as expected. My
-> > resolution looks as follows:
->=20
-> Ok, my resolution looked a bit different.
->=20
-> Can you pull my char-misc-testing branch and verify I got this all
-> pulled in correctly?
-
-minor side-note: mentioning the repo url would have simplified that test.
-
-I looked at
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-=
-misc-testing
-
-commit 0573d3fa48640f0fa6b105ff92dcb02b94d6c1ab now.
-
-I didn't compile test, but I'm willing to bet your resolution is wrong.
-You have no return statement in etm4_remove_dev() but its return type is
-int and etm4_remove_amba() still returns int but should return void.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---vslstwmibba5nymi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAdJEwACgkQwfwUeK3K
-7AkhPggAk0ucNSGkkTWYbQF9BBYOZDKVlqvPHzvkMilvBGuAa1EXhuHHKu3esHxh
-NZf5xH5Lh7cnNyXodWF4Mp20NZfV0VFjzhbfNFexDfO2QfKJhJbATh9YiJ5onzsT
-cbMDvw+fQNUmooGN1gOW4OCiRvEPcYf8Z/TdrAkBXuRDaCYLiqJBPX1PCFTumEr3
-8Lxp3+k4zN9Wpkt17sqmgJxalvUHqNFOuL+1II2APrzMSZHB6T5fNtxEzMXUGXHx
-LzNGWjnnUKovRddHUyjFZu+rr6B/MUELKSYf9WH7lPI6osLnyjQf6vtczDdyZmlP
-PmCOMN9d1QJAKEMe6RJZvyfO22d11w==
-=kmsA
------END PGP SIGNATURE-----
-
---vslstwmibba5nymi--
-
---===============0566261528==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0566261528==--
