@@ -1,32 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DD431141F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:01:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7379231142D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:04:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDE46F4F8;
-	Fri,  5 Feb 2021 22:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4376F50B;
+	Fri,  5 Feb 2021 22:04:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5331D6F4F8;
- Fri,  5 Feb 2021 22:01:18 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.69.177; 
-Received: from build.alporthouse.com (unverified [78.156.69.177]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 23803184-1500050 
- for multiple; Fri, 05 Feb 2021 22:00:14 +0000
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] kcmp: Support selection of SYS_kcmp without
- CHECKPOINT_RESTORE
-Date: Fri,  5 Feb 2021 22:00:12 +0000
-Message-Id: <20210205220012.1983-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210205163752.11932-1-chris@chris-wilson.co.uk>
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA49F6F50B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 22:04:06 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id i20so8365555otl.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 14:04:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h67k2LCgLLyuT0KAHJEqShKOh80gdx1RxrPR6qsQQUs=;
+ b=VzV6VViZzsfUbCJIYqGKozVX9yhKxN7Eev1iqaf4XUe4guOkMwsg7quxVJmjF7Skoq
+ 9UQjSfP8XULZGK8VGM+r1Y9JfUocXXchET64HViw+Nyc3QRFgNAyFIT7fyAUWMo0/2hK
+ qgEjP3hnP8aQnzSQVNVeo3vqr3SR5MRhkCxbpH4L2/1sg1TJ8DAPQ+R3C/9aKNh0RLIz
+ fUpvzud2DC3qPxxAYRcHs/pK7a94+/ndUuA1HsKNs5rhwQ4WzrrNbHDR4i+Odemu+Nt+
+ unRfCVzV74xKnD3SDkd+7/SZJAQUjhhMRgSvY4vg7zIcf/4CY2E+BT315K0In5xNTLIY
+ V5UA==
+X-Gm-Message-State: AOAM533jF2bRau7cME6lQHh3JlOztuVFIX7tKNszmTJ1r1QU6vNPMBsP
+ 3XPkumGFJeRFzfhZupvR3Q==
+X-Google-Smtp-Source: ABdhPJzNt1N5iC6rEdfBFptrxE+q7qbqWAfZnrcFhVtG/g2E/+rv2wMIB1fKhaOhfYwbEOCXVRwbsg==
+X-Received: by 2002:a9d:3462:: with SMTP id v89mr4755037otb.51.1612562646149; 
+ Fri, 05 Feb 2021 14:04:06 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id 62sm468431oii.23.2021.02.05.14.04.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 14:04:04 -0800 (PST)
+Received: (nullmailer pid 3832610 invoked by uid 1000);
+ Fri, 05 Feb 2021 22:04:02 -0000
+Date: Fri, 5 Feb 2021 16:04:02 -0600
+From: Rob Herring <robh@kernel.org>
+To: Nick Fan <Nick.Fan@mediatek.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: Add DT schema for Arm Mali Valhall GPU
+Message-ID: <20210205220402.GA3824042@robh.at.kernel.org>
+References: <20210128022342.6445-1-Nick.Fan@mediatek.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210128022342.6445-1-Nick.Fan@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,168 +59,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
- Andy Lutomirski <luto@amacapital.net>, Cyrill Gorcunov <gorcunov@gmail.com>,
- stable@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace has discovered the functionality offered by SYS_kcmp and has
-started to depend upon it. In particular, Mesa uses SYS_kcmp for
-os_same_file_description() in order to identify when two fd (e.g. device
-or dmabuf) point to the same struct file. Since they depend on it for
-core functionality, lift SYS_kcmp out of the non-default
-CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
+On Thu, Jan 28, 2021 at 10:23:41AM +0800, Nick Fan wrote:
+> Add devicetree schema for Arm Mali Valhall GPU
+> 
+> Define a compatible string for the Mali Valhall GPU
+> for Mediatek's SoC platform.
+> 
+> Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
+> ---
+>  .../bindings/gpu/arm,mali-valhall.yaml        | 217 ++++++++++++++++++
+>  1 file changed, 217 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> new file mode 100644
+> index 000000000000..275c14ad173a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall.yaml
+> @@ -0,0 +1,217 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2020 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/arm,mali-valhall.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM Mali Valhall GPU
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^gpu@[a-f0-9]+$'
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8192-mali
+> +      - const: arm,mali-valhall
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: GPU interrupt
+> +      - description: MMU interrupt
+> +      - description: Job interrupt
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: gpu
+> +      - const: mmu
+> +      - const: job
 
-Rasmus Villemoes also pointed out that systemd uses SYS_kcmp to
-deduplicate the per-service file descriptor store.
+Please use the same order as midgard and bifrost.
 
-Note that some distributions such as Ubuntu are already enabling
-CHECKPOINT_RESTORE in their configs and so, by extension, SYS_kcmp.
+> +
+> +  clocks:
+> +    minItems: 1
+> +
+> +  power-domains:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  mali-supply: true
+> +  sram-supply: true
+> +
+> +  operating-points-v2: true
+> +  opp_table: true
 
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/3046
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Andy Lutomirski <luto@amacapital.net>
-Cc: Will Drewry <wad@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Cyrill Gorcunov <gorcunov@gmail.com>
-Cc: stable@vger.kernel.org
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> # DRM depends on kcmp
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk> # systemd uses kcmp
+opp-table
 
----
-v2:
-  - Default n.
-  - Borrrow help message from man kcmp.
-  - Export get_epoll_tfile_raw_ptr() for CONFIG_KCMP
-v3:
-  - Select KCMP for CONFIG_DRM
----
- drivers/gpu/drm/Kconfig                       |  3 +++
- fs/eventpoll.c                                |  4 ++--
- include/linux/eventpoll.h                     |  2 +-
- init/Kconfig                                  | 11 +++++++++++
- kernel/Makefile                               |  2 +-
- tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
- 6 files changed, 19 insertions(+), 5 deletions(-)
+> +
+> +  "#cooling-cells":
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8192-mali
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          minItems: 5
+> +          maxItems: 5
+> +
+> +        power-domain-names:
+> +          items:
+> +            - const: core0
+> +            - const: core1
+> +            - const: core2
+> +            - const: core3
+> +            - const: core4
+> +
+> +      required:
+> +        - sram-supply
+> +        - power-domains
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    gpu@13000000 {
+> +           compatible = "mediatek,mt8192-mali", "arm,mali-valhall";
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0973f408d75f..af6c6d214d91 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -15,6 +15,9 @@ menuconfig DRM
- 	select I2C_ALGOBIT
- 	select DMA_SHARED_BUFFER
- 	select SYNC_FILE
-+# gallium uses SYS_kcmp for os_same_file_description() to de-duplicate
-+# device and dmabuf fd. Let's make sure that is available for our userspace.
-+	select KCMP
- 	help
- 	  Kernel-level support for the Direct Rendering Infrastructure (DRI)
- 	  introduced in XFree86 4.0. If you say Y here, you need to select
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index a829af074eb5..3196474cbe24 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -979,7 +979,7 @@ static struct epitem *ep_find(struct eventpoll *ep, struct file *file, int fd)
- 	return epir;
- }
- 
--#ifdef CONFIG_CHECKPOINT_RESTORE
-+#ifdef CONFIG_KCMP
- static struct epitem *ep_find_tfd(struct eventpoll *ep, int tfd, unsigned long toff)
- {
- 	struct rb_node *rbp;
-@@ -1021,7 +1021,7 @@ struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd,
- 
- 	return file_raw;
- }
--#endif /* CONFIG_CHECKPOINT_RESTORE */
-+#endif /* CONFIG_KCMP */
- 
- /**
-  * Adds a new entry to the tail of the list in a lockless way, i.e.
-diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
-index 0350393465d4..593322c946e6 100644
---- a/include/linux/eventpoll.h
-+++ b/include/linux/eventpoll.h
-@@ -18,7 +18,7 @@ struct file;
- 
- #ifdef CONFIG_EPOLL
- 
--#ifdef CONFIG_CHECKPOINT_RESTORE
-+#ifdef CONFIG_KCMP
- struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsigned long toff);
- #endif
- 
-diff --git a/init/Kconfig b/init/Kconfig
-index b77c60f8b963..9cc7436b2f73 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1194,6 +1194,7 @@ endif # NAMESPACES
- config CHECKPOINT_RESTORE
- 	bool "Checkpoint/restore support"
- 	select PROC_CHILDREN
-+	select KCMP
- 	default n
- 	help
- 	  Enables additional kernel features in a sake of checkpoint/restore.
-@@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
- config ARCH_HAS_MEMBARRIER_SYNC_CORE
- 	bool
- 
-+config KCMP
-+	bool "Enable kcmp() system call" if EXPERT
-+	help
-+	  Enable the kernel resource comparison system call. It provides
-+	  user-space with the ability to compare two processes to see if they
-+	  share a common resource, such as a file descriptor or even virtual
-+	  memory space.
-+
-+	  If unsure, say N.
-+
- config RSEQ
- 	bool "Enable rseq() system call" if EXPERT
- 	default y
-diff --git a/kernel/Makefile b/kernel/Makefile
-index aa7368c7eabf..320f1f3941b7 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -51,7 +51,7 @@ obj-y += livepatch/
- obj-y += dma/
- obj-y += entry/
- 
--obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
-+obj-$(CONFIG_KCMP) += kcmp.o
- obj-$(CONFIG_FREEZER) += freezer.o
- obj-$(CONFIG_PROFILING) += profile.o
- obj-$(CONFIG_STACKTRACE) += stacktrace.o
-diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
-index 26c72f2b61b1..1b6c7d33c4ff 100644
---- a/tools/testing/selftests/seccomp/seccomp_bpf.c
-+++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
-@@ -315,7 +315,7 @@ TEST(kcmp)
- 	ret = __filecmp(getpid(), getpid(), 1, 1);
- 	EXPECT_EQ(ret, 0);
- 	if (ret != 0 && errno == ENOSYS)
--		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
-+		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
- }
- 
- TEST(mode_strict_support)
--- 
-2.20.1
+Do 4 space indent.
 
+> +           reg = <0x13000000 0x4000>;
+> +           interrupts =
+> +                   <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH 0>;
+> +           interrupt-names =
+> +                   "gpu",
+> +                   "mmu",
+> +                   "job";
+> +
+> +           clocks = <&mfgcfg 0>;
+> +
+> +           power-domains =
+> +                   <&spm 4>,
+> +                   <&spm 5>,
+> +                   <&spm 6>,
+> +                   <&spm 7>,
+> +                   <&spm 8>;
+> +
+> +           operating-points-v2 = <&gpu_opp_table>;
+> +           mali-supply = <&mt6315_7_vbuck1>;
+> +           sram-supply = <&mt6359_vsram_others_ldo_reg>;
+> +           gpu_opp_table: opp_table {
+> +             compatible = "operating-points-v2";
+
+And then the same here.
+
+> +             opp-shared;
+> +
+> +             opp-358000000 {
+> +                   opp-hz = /bits/ 64 <358000000>;
+> +                   opp-microvolt = <606250>,
+> +                                   <750000>;
+
+Isn't this supposed to be either a single value or <min max nominal>?
+
+> +             };
+> +
+> +             opp-399000000 {
+> +                   opp-hz = /bits/ 64 <399000000>;
+> +                   opp-microvolt = <618750>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-440000000 {
+> +                   opp-hz = /bits/ 64 <440000000>;
+> +                   opp-microvolt = <631250>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-482000000 {
+> +                   opp-hz = /bits/ 64 <482000000>;
+> +                   opp-microvolt = <643750>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-523000000 {
+> +                   opp-hz = /bits/ 64 <523000000>;
+> +                   opp-microvolt = <656250>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-564000000 {
+> +                   opp-hz = /bits/ 64 <564000000>;
+> +                   opp-microvolt = <668750>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-605000000 {
+> +                   opp-hz = /bits/ 64 <605000000>;
+> +                   opp-microvolt = <681250>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-647000000 {
+> +                   opp-hz = /bits/ 64 <647000000>;
+> +                   opp-microvolt = <693750>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-688000000 {
+> +                   opp-hz = /bits/ 64 <688000000>;
+> +                   opp-microvolt = <706250>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-724000000 {
+> +                   opp-hz = /bits/ 64 <724000000>;
+> +                   opp-microvolt = <725000>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-760000000 {
+> +                   opp-hz = /bits/ 64 <760000000>;
+> +                   opp-microvolt = <743750>,
+> +                                   <750000>;
+> +             };
+> +
+> +             opp-795000000 {
+> +                   opp-hz = /bits/ 64 <795000000>;
+> +                   opp-microvolt = <762500>,
+> +                                   <762500>;
+> +             };
+> +
+> +             opp-831000000 {
+> +                   opp-hz = /bits/ 64 <831000000>;
+> +                   opp-microvolt = <781250>,
+> +                                   <781250>;
+> +             };
+> +
+> +             opp-855000000 {
+> +                   opp-hz = /bits/ 64 <855000000>;
+> +                   opp-microvolt = <793750>,
+> +                                   <793750>;
+> +             };
+> +
+> +             opp-902000000 {
+> +                   opp-hz = /bits/ 64 <902000000>;
+> +                   opp-microvolt = <818750>,
+> +                                   <818750>;
+> +             };
+> +
+> +             opp-950000000 {
+> +                   opp-hz = /bits/ 64 <950000000>;
+> +                   opp-microvolt = <843750>,
+> +                                   <843750>;
+> +             };
+> +          };
+> +    };
+> +...
+> -- 
+> 2.18.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
