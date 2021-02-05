@@ -1,57 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A060C3109FE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 12:14:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEAD310A0E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 12:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA5D6F40D;
-	Fri,  5 Feb 2021 11:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5606F413;
+	Fri,  5 Feb 2021 11:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3D76F40D;
- Fri,  5 Feb 2021 11:14:34 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id l12so7296069ljc.3;
- Fri, 05 Feb 2021 03:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jodvZXZJV/ktuYkXeYXaYKMnlFJkJCqmkyDrOT8X24s=;
- b=ZN+zXLUn5VPc3YjkaZtNDZEFmrBZTl3+BFCRaLRH2MBCUPMr4kH2YiWrUebhenNPdS
- lMglSCGlmEXkjJded4JC3sTkfCoP9oKgjrsU2yfKZHzAdNov5+A7Eh3EbFjT9hnVQy11
- vsg8TPoRC+2CU9oDe1WjYHyHzCgf2Qb8XP6d+Q9iFB0fD5VOB3d/9Nt0S8R0lfHOZOjx
- 2wR4pij7Vao99UWQ7HGadIRtuwMzy+de7kazaiOgaD7XfsuvO3MeHDEGh0hrSFhq63wy
- B4yBuk5Gx+Jg9xZexvyq/qM9n4bxTAjylQt4279jGPAy/U3azN8q77P0bFLm/ZznTZjJ
- ENUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jodvZXZJV/ktuYkXeYXaYKMnlFJkJCqmkyDrOT8X24s=;
- b=N8YLyWDuBAdr0RW5B4OxgAUjXjZKWm1E16X4Msc5NJZ6vKpFV9uR+aA6Uc4k3xKMxZ
- IMmY96P5pFwKxKDp68TuIVfno4DYoCLT3IaXG69PYfrW10/0uBMusY5u2IxIaZOVTPP0
- enOL/PiDAsLn0sOBdGpvaZmT1opVnHttQGdScScSaAHoc82xuMtW7FuQochaTzj3nFhi
- NTAHB1nIKhudBMvKDFWxbwkYGJ16q/t4jXb+ej7MH8UWyFjyg7XcIse5kqfQMKG6pboA
- 5VC43pyVLpcFzle/+u+9X2tWAfkaBQzZhEvOjn1clWYk4BOkFuyZ4ITcundtYvclR1On
- nwyw==
-X-Gm-Message-State: AOAM532FacHqF/bf6t/yd2QmP/j8+FavJnWnFAo7NMkZtRo4XLJqPhVV
- 9Yr7ArzediGohV+0OGYlT8EZJoETp+T7MmCzneU=
-X-Google-Smtp-Source: ABdhPJxiIcmAg+6rvfRXrVJAwTv++V3HK7scgangGoU/StB/uTu2dCddy1o1UCYxLpfbZBSmMzcu//AII6B9tr1Cd5o=
-X-Received: by 2002:a2e:a201:: with SMTP id h1mr2411016ljm.130.1612523672809; 
- Fri, 05 Feb 2021 03:14:32 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF1AF6F412
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 11:18:02 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8D06A1F465DA;
+ Fri,  5 Feb 2021 11:18:01 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH v2 0/3] drm/panfrost: MMU fixes
+Date: Fri,  5 Feb 2021 12:17:54 +0100
+Message-Id: <20210205111757.585248-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210204155846.5aef94a8@canb.auug.org.au>
- <CAHp75Vct=jSQxu187hwz4Wrc_xRKiTmKFt_bgT-m-z=iW31drg@mail.gmail.com>
- <CAHp75Vc_xJFpUECZenOYEyJ6YDzfDFmJe9cTeGh0x-c_fKQPHw@mail.gmail.com>
-In-Reply-To: <CAHp75Vc_xJFpUECZenOYEyJ6YDzfDFmJe9cTeGh0x-c_fKQPHw@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 5 Feb 2021 12:14:21 +0100
-Message-ID: <CAMeQTsYK5GoL=VNB0CPrGi0Y-804N1q24dkii20OuV8=ckhmuA@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the drivers-x86 tree with the
- drm-misc tree
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +40,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Mark Gross <mark.gross@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 5, 2021 at 12:07 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Thu, Feb 4, 2021 at 11:04 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >> Today's linux-next merge of the drivers-x86 tree got a conflict in:
-> >
-> > Thanks. I already asked Patrik yesterday day if DRM missed to pull an immutable tag I provided. I think they can pull and resolve conflicts themselves. Alternatively it would be easy to resolve by Linus by removing Kconfig lines along with mentioned files,
->
-> Patrik, I have sent a PR again, so you may consider pulling it, thanks!
+Hello,
 
-Daniel, is this something you can pull into drm or ask one of the
-drm-misc maintainers to do?
+Here are 2 fixes and one improvement for the page fault handling. Those
+bugs were found while working on indirect draw supports which requires
+the allocation of a big heap buffer for varyings, and the vertex/tiler
+shaders seem to have access pattern that trigger those issues. I
+remember discussing the first issue with Steve or Robin a while back,
+but we never hit it before (now we do :)).
+
+The last patch is a perf improvement: no need to re-enable hardware
+interrupts if we know the threaded irq handler will be woken up right
+away.
+
+Regards,
+
+Boris
+
+Changes in v2:
+* Rework the MMU irq handling loop to avoid a goto
+
+Boris Brezillon (3):
+  drm/panfrost: Clear MMU irqs before handling the fault
+  drm/panfrost: Don't try to map pages that are already mapped
+  drm/panfrost: Stay in the threaded MMU IRQ handler until we've handled
+    all IRQs
+
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 39 +++++++++++++++----------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
