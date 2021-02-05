@@ -1,66 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B31310D98
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 17:06:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231BA310DBB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 17:18:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513408800B;
-	Fri,  5 Feb 2021 16:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C286F485;
+	Fri,  5 Feb 2021 16:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671FE6F481
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 16:06:47 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id q7so8203903wre.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 08:06:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3OSZRC12f3q/J6xvpmjxkYtxd8Kjl+PfZ12MCmFyNTs=;
- b=bYXMPhnRMDnWNLg3owU/iy8WI3TbNcpN0GVSP5459+nS10U0XMpOTznWSNv/myvTnO
- KfxK93fxhG2u7Ura35Me9qKW50VlJ2+swQ01+GIT9Oe8cw0kdtkNOd/LbHWPPDDOtZXf
- ZKZnHo5aFIIiuH5xeRO5eg9jfpcDgyJe94qos=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3OSZRC12f3q/J6xvpmjxkYtxd8Kjl+PfZ12MCmFyNTs=;
- b=Mendsz3zor+8VXP2M+sqbNqhX+LwKtqRw+WrWvZwwbFvFO/i2OYC3LcEYt+PBXBcAa
- UIaS2XOvwDDjb2vC/NAO7YtdIgFq3+uL1nTdFp+Y8RXTWRbzBwRcmd/5Ve4ZWcvigImR
- +CFqP+UqVO5XkEwbMzhsLVGAkwPhd/NcJCgjmShYvp8bUqXf2+LyU3uQRi/WwlPzIXqa
- 2tqRPHPD6MbX2dVQ4EzX0owU5vmHu0DvIgYwUcSbhRStGYn8ffM9/GVJqCnc+5zCbbmO
- ziPSYRrM0ntWphrc62xj8v4vcjPODltAbHNzu+AXqcXhw4ibaOfE+yDifh44cMLQwWhL
- IZsg==
-X-Gm-Message-State: AOAM531ejfLOPHgUJs+f1VF3cLQkI6saFOZuWjZXM0qXBSdMDbH4OM0E
- G2l65ycxxcFTNGoVIzhGynjijA==
-X-Google-Smtp-Source: ABdhPJxZ2wdJ6quTErZl6d8W+xMqeQz+RNxGJkRMmNGfC01VLq/Z0PeyUo/lOZrBhMLQvh9lWULc3Q==
-X-Received: by 2002:adf:e7c1:: with SMTP id e1mr5816296wrn.23.1612541206152;
- Fri, 05 Feb 2021 08:06:46 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e4sm12452422wrw.96.2021.02.05.08.06.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 08:06:45 -0800 (PST)
-Date: Fri, 5 Feb 2021 17:06:43 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-Message-ID: <YB1tE0WKUOBaO03x@phenom.ffwll.local>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
- <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
- <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
- <20210204182923.GL4247@nvidia.com>
- <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
- <8e731fce-95c1-4ace-d8bc-dc0df7432d22@nvidia.com>
- <YB1mw/uYwueFwUdh@phenom.ffwll.local>
- <20210205154319.GT4247@nvidia.com>
- <YB1p4Bpmz0yFcbEf@phenom.ffwll.local>
- <20210205160003.GU4247@nvidia.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31FC36F485
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 16:18:51 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1l83oi-00056A-OL; Fri, 05 Feb 2021 17:18:44 +0100
+Message-ID: <b01fefdd8b6fa7c8f1f863daf18a25b32f6ac29c.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/i915: Autoselect CONFIG_CHECKPOINT_RESTORE for
+ SYS_kcmp
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Chris Wilson
+ <chris@chris-wilson.co.uk>,  Dave Airlie <airlied@gmail.com>
+Date: Fri, 05 Feb 2021 17:18:42 +0100
+In-Reply-To: <YB1rUCQoa+wCEh1o@phenom.ffwll.local>
+References: <20210205130307.8294-1-chris@chris-wilson.co.uk>
+ <YB1rKLGvpnFDom11@phenom.ffwll.local> <YB1rUCQoa+wCEh1o@phenom.ffwll.local>
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210205160003.GU4247@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,74 +48,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- John Hubbard <jhubbard@nvidia.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 05, 2021 at 12:00:03PM -0400, Jason Gunthorpe wrote:
-> On Fri, Feb 05, 2021 at 04:53:04PM +0100, Daniel Vetter wrote:
-> > On Fri, Feb 05, 2021 at 11:43:19AM -0400, Jason Gunthorpe wrote:
-> > > On Fri, Feb 05, 2021 at 04:39:47PM +0100, Daniel Vetter wrote:
-> > > 
-> > > > > And again, for slightly older hardware, without pinning to VRAM there is
-> > > > > no way to use this solution here for peer-to-peer. So I'm glad to see that
-> > > > > so far you're not ruling out the pinning option.
-> > > > 
-> > > > Since HMM and ZONE_DEVICE came up, I'm kinda tempted to make ZONE_DEVICE
-> > > > ZONE_MOVEABLE (at least if you don't have a pinned vram contigent in your
-> > > > cgroups) or something like that, so we could benefit from the work to make
-> > > > sure pin_user_pages and all these never end up in there?
-> > > 
-> > > ZONE_DEVICE should already not be returned from GUP.
-> > > 
-> > > I've understood in the hmm casse the idea was a CPU touch of some
-> > > ZONE_DEVICE pages would trigger a migration to CPU memory, GUP would
-> > > want to follow the same logic, presumably it comes for free with the
-> > > fault handler somehow
-> > 
-> > Oh I didn't know this, I thought the proposed p2p direct i/o patches would
-> > just use the fact that underneath ZONE_DEVICE there's "normal" struct
-> > pages. 
-> 
-> So, if that every happens, it would be some special FOLL_ALLOW_P2P
-> flag to get the behavior.
-> 
-> > And so I got worried that maybe also pin_user_pages can creep in.
-> > But I didn't read the patches in full detail:
-> 
-> And yes, you might want to say that you can't longterm pin certain
-> kinds of zone_device pages, but if that is the common operating mode
-> then we'd probably never create a FOLL_ALLOW_P2P
-> 
-> > But if you're saying that this all needs specific code and all the gup/pup
-> > code we have is excluded, I think we can make sure that we're not ever
-> > building features that requiring time-unlimited pinning of
-> > ZONE_DEVICE.
-> 
-> Well, it is certainly a useful idea of some uses of ZONE_DEVICE, GPU
-> vram is not the whole world.
-
-Yeah non-volatile RAM can probably pin whatever it wants :-)
-
-From the other thread, I think if we can get some cgroups going for
-accounting pinned memory, then pinning gpu memory should also not be any
-real issue. Might be somewhat tricky to glue that into a FOLL_ALLOW_P2P
-flag, maybe through zone-awareness or something like that. With the right
-accounting in place I'm happy to let userspace pin whatever they want
-really.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRnJlaXRhZywgZGVtIDA1LjAyLjIwMjEgdW0gMTY6NTkgKzAxMDAgc2NocmllYiBEYW5pZWwg
+VmV0dGVyOgo+IE9uIEZyaSwgRmViIDA1LCAyMDIxIGF0IDA0OjU4OjMyUE0gKzAxMDAsIERhbmll
+bCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBGcmksIEZlYiAwNSwgMjAyMSBhdCAwMTowMzowN1BNICsw
+MDAwLCBDaHJpcyBXaWxzb24gd3JvdGU6Cj4gPiA+IGdhbGxpdW0gKGlyaXMpIGRlcGVuZHMgb24g
+b3Nfc2FtZV9maWxlX2Rlc2NyaXB0aW9uKCkgdG8gZGlzYW1iaWd1YXRlCj4gPiA+IHNjcmVlbnMg
+YW5kIHNvIGF2b2lkIGltcG9ydGluZyB0aGUgc2FtZSBzY3JlZW4gZmQgdHdpY2UgYXMgdHdvIGRp
+c3RpbmN0Cj4gPiA+IGVudGl0aWVzICh0aGF0IHNoYXJlIGFsbCB0aGUga2VybmVsIHJlc291cmNl
+cywgc28gYWN0aW9ucyBvbiBzY3JlZW4KPiA+ID4gYWZmZWN0IHRoZSBvdGhlciBhbmQgd291bGQg
+Y2F1c2UgcmFuZG9tIGZhaXVyZSkuIEFzIHRoZXkgZGVwZW5kIG9uIGl0LAo+ID4gPiBzbyBtdXN0
+IHdlLiBvc19zYW1lX2ZpbGVfZGVzY3JpcHRpb24oKSB1c2VzIFNZU19rY21wIHRvIGNoZWNrIHRo
+ZSBmaWxlCj4gPiA+IHRhYmxlcyBmb3IgdGhlIGVxdWl2YWxlbnQgc3RydWN0IGZpbGUsIGJ1dCBT
+WVNfa2NtcCBpcyBoaWRkZW4gYmVoaW5kCj4gPiA+IENPTkZJR19DSEVDS1BPSU5UX1JFU1RPUkUu
+IEFzIHRoaXMgaXMgbm90IGRlZmF1bHQsIHdlIG11c3Qgc2VsZWN0IGl0IGZvcgo+ID4gPiBvdXJz
+ZWx2ZXMgdG8gZW5zdXJlIHRoYXQgb3VyIHVzZXJzcGFjZSBpcyBmdWxseSBzdXBwb3J0ZWQuCj4g
+PiA+IAo+ID4gPiBDbG9zZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaW50
+ZWwvLS9pc3N1ZXMvMzA0Ngo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlz
+QGNocmlzLXdpbHNvbi5jby51az4KPiA+ID4gQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBp
+bnRlbC5jb20+Cj4gPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNo
+Pgo+ID4gCj4gPiBIbSBzaG91bGRuJ3Qgd2UgY3JhbmsgdGhpcyB1cCB0byBDT05GSUdfRFJNPwo+
+ID4gCj4gPiBPciBlbWJlZGRlZCBmb2xrcyBnb2luZyB0byBiZSB1bmhhcHB5IGFib3V0IHRoYXQ/
+IElmIHNvIEkgZ3Vlc3Mgd2UnZCBuZWVkCj4gPiB0byBwdWxsIG91dCBqdXN0IHRoZSBTWVNfa2Nt
+cCBwYXJ0IC4uLgo+ID4gCj4gPiBBc2tpbmcgYmVjYXVzZSBJIHRoaW5rIEJhcyBpcyBhbHNvIGxv
+b2tpbmcgYXQgdGhpcywgYW5kIGl0J3Mgbm90IGdyZWF0IGlmCj4gPiB3ZSdyZSBidWlsZGluZyBv
+biB0aGlzIGFuZCB0aGVuIHVzZXJzIGVuZCB1cCB3aXRoIHZlcnkgc3VidGx5IGJyb2tlbiBnbC92
+awo+ID4gc3RhY2tzIDotLwoKYW1kZ3B1IGdhbGxpdW0gd2luc3lzIHNlZW1zIHRvIGFsc28gcmVx
+dWlyZSB0aGlzLCBzbyBzZWxlY3RpbmcgaXQgZnJvbQpoaWdoZXIgdXAgaW4gdGhlIEtjb25maWcg
+dHJlZSBtYWtlcyBzZW5zZSBhbmQgSSBkb24ndCB0aGluayBlbWJlZGRlZAp3b3VsZCBiZSBtYXNz
+aXZlbHkgdW5oYXBweSBhYm91dCB0aGlzLiBIb3dldmVyIGtjbXAgc2VlbXMgdG8gYmUgdXNlZnVs
+Cm9uIGl0cyBvd24gYW5kIHB1bGxpbmcgaXQgb3V0IG9mIENIRUNLUE9JTlRfUkVTVE9SRSBzb3Vu
+ZHMgbGlrZSB0aGUKcmlnaHQgdGhpbmcgdG8gZG8uCgpSZWdhcmRzLApMdWNhcwoKPiAKPiA+IC1E
+YW5pZWwKPiA+IAo+ID4gPiAtLS0KPiA+ID4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9LY29uZmln
+IHwgMSArCj4gPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gPiA+IAo+ID4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L0tjb25maWcKPiA+ID4gaW5kZXggMWUxY2IyNDVmY2E3Li40NzBhNTIxNGJkMzMg
+MTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L0tjb25maWcKPiA+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvS2NvbmZpZwo+ID4gPiBAQCAtMjEsNiArMjEsNyBAQCBj
+b25maWcgRFJNX0k5MTUKPiA+ID4gwqAJc2VsZWN0IEFDUElfVklERU8gaWYgQUNQSQo+ID4gPiDC
+oAlzZWxlY3QgQUNQSV9CVVRUT04gaWYgQUNQSQo+ID4gPiDCoAlzZWxlY3QgU1lOQ19GSUxFCj4g
+PiA+ICsJc2VsZWN0IENIRUNLUE9JTlRfUkVTVE9SRSAjIGdhbGxpdW0gZGVwZW5kcyBvbiBTWVNf
+a2NtcAo+ID4gPiDCoAlzZWxlY3QgSU9TRl9NQkkKPiA+ID4gwqAJc2VsZWN0IENSQzMyCj4gPiA+
+IMKgCXNlbGVjdCBTTkRfSERBX0k5MTUgaWYgU05EX0hEQV9DT1JFCj4gPiA+IC0tIAo+ID4gPiAy
+LjIwLjEKPiA+ID4gCj4gPiAKPiA+IC0tIAo+ID4gRGFuaWVsIFZldHRlcgo+ID4gU29mdHdhcmUg
+RW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPiBodHRwOi8vYmxvZy5mZndsbC5jaAo+IAoK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
