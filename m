@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87D831121B
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:18:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB563311250
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943286F4BE;
-	Fri,  5 Feb 2021 20:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 049D66F4C7;
+	Fri,  5 Feb 2021 20:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC496F4BE;
- Fri,  5 Feb 2021 20:18:18 +0000 (UTC)
-IronPort-SDR: 94pXTp3t9V2/9f138RvJqMMASwzjtulNhFBs0fZS9KpzV9jjQsH5ceaiwL+oww5han6Q1tXaI+
- 68+tBuYmHjRA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="169158729"
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="169158729"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 12:18:17 -0800
-IronPort-SDR: RHKaEntJ0e15lMChnEZXWaCA3DmCYyowIXjJx3IYqenDU2c7Zto4gvlNjWznXQTLGEVs3UO/gp
- QsrJg5ogUQQg==
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="434588117"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
- ([10.165.21.211])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 12:18:17 -0800
-Date: Fri, 5 Feb 2021 12:22:32 -0800
-From: "Navare, Manasi" <manasi.d.navare@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] i915/display/intel_dp: Read PCON DSC ENC
- caps only for DPCD rev >= 1.4
-Message-ID: <20210205202232.GA969@labuser-Z97X-UD5H>
-References: <20210204064842.11595-1-ankit.k.nautiyal@intel.com>
- <20210204064842.11595-2-ankit.k.nautiyal@intel.com>
- <YB2jT9p3N8Py6KUU@intel.com>
- <20210205200741.GA911@labuser-Z97X-UD5H>
- <YB2lWCmdkj8P7sCM@intel.com>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 148A46F4C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:24:49 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B601da9900000>; Fri, 05 Feb 2021 12:24:48 -0800
+Received: from MacBook-Pro-10.local (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Feb
+ 2021 20:24:39 +0000
+Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
+To: Daniel Vetter <daniel@ffwll.ch>, Jason Gunthorpe <jgg@nvidia.com>
+References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
+ <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
+ <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
+ <20210204182923.GL4247@nvidia.com>
+ <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
+ <8e731fce-95c1-4ace-d8bc-dc0df7432d22@nvidia.com>
+ <YB1mw/uYwueFwUdh@phenom.ffwll.local> <20210205154319.GT4247@nvidia.com>
+ <YB1p4Bpmz0yFcbEf@phenom.ffwll.local>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <4c339fc3-087b-1008-fb99-7117bf326470@nvidia.com>
+Date: Fri, 5 Feb 2021 12:24:38 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YB2lWCmdkj8P7sCM@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <YB1p4Bpmz0yFcbEf@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1612556688; bh=ZGMznwvj1qqDWeGew4C5B7fXOw8LwrqPvnzl+1M1wGQ=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=rac3tdz3hfQn/kJ44D4FHG4dUgYb1x7VFyiTFED7lB0vBsz4wdruqNLy6TqpIKZzZ
+ FuxJ2cvW0K5DIjQvbDxVDFFooDwpuB+gguVFVBCPa9wEiCOySBq5dE00BQ9+Ryxhld
+ TideXe2p+NkD1PCv+2Vkubwrf4CZkV9L4mzt8G22XWpqE4iTGb7YUJIfyDohqi7GbX
+ NgRnxnAzHu+r2w5ZTj9aCrHZj9dOoi8nX6ml5G9IXchHw5zc34KNF5Pby5nD56gPxf
+ xv31Sc5X60lbGuIqYmbd3T/KX5xUYO0dXB9oGZhXubEu01JTKyID6NZXX47I7counu
+ rTp2/jZhjO3iw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,102 +63,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 05, 2021 at 10:06:48PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 05, 2021 at 12:07:41PM -0800, Navare, Manasi wrote:
-> > On Fri, Feb 05, 2021 at 09:58:07PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Thu, Feb 04, 2021 at 12:18:40PM +0530, Ankit Nautiyal wrote:
-> > > > DP-HDMI2.1 PCON has DSC encoder caps defined in registers 0x92-0x9E.
-> > > > Do not read the registers if DPCD rev < 1.4.
-> > > > =
+On 2/5/21 7:53 AM, Daniel Vetter wrote:
+> On Fri, Feb 05, 2021 at 11:43:19AM -0400, Jason Gunthorpe wrote:
+>> On Fri, Feb 05, 2021 at 04:39:47PM +0100, Daniel Vetter wrote:
+>>
+>>>> And again, for slightly older hardware, without pinning to VRAM there is
+>>>> no way to use this solution here for peer-to-peer. So I'm glad to see that
+>>>> so far you're not ruling out the pinning option.
+>>>
+>>> Since HMM and ZONE_DEVICE came up, I'm kinda tempted to make ZONE_DEVICE
+>>> ZONE_MOVEABLE (at least if you don't have a pinned vram contigent in your
+>>> cgroups) or something like that, so we could benefit from the work to make
+>>> sure pin_user_pages and all these never end up in there?
+>>
+>> ZONE_DEVICE should already not be returned from GUP.
+>>
+>> I've understood in the hmm casse the idea was a CPU touch of some
+>> ZONE_DEVICE pages would trigger a migration to CPU memory, GUP would
+>> want to follow the same logic, presumably it comes for free with the
+>> fault handler somehow
+> 
+> Oh I didn't know this, I thought the proposed p2p direct i/o patches would
+> just use the fact that underneath ZONE_DEVICE there's "normal" struct
+> pages. And so I got worried that maybe also pin_user_pages can creep in.
+> But I didn't read the patches in full detail:
+> 
+> https://lore.kernel.org/linux-block/20201106170036.18713-12-logang@deltatee.com/
+> 
+> But if you're saying that this all needs specific code and all the gup/pup
+> code we have is excluded, I think we can make sure that we're not ever
+> building features that requiring time-unlimited pinning of ZONE_DEVICE.
+> Which I think we want.
+> 
 
-> > > > Fixes: https://gitlab.freedesktop.org/drm/intel/-/issues/2868
-> > > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/display/intel_dp.c | 4 +++-
-> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > > =
+ From an HMM perspective, the above sounds about right. HMM relies on the
+GPU/device memory being ZONE_DEVICE, *and* on that memory *not* being pinned.
+(HMM's mmu notifier callbacks act as a sort of virtual pin, but not a refcount
+pin.)
 
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/=
-drm/i915/display/intel_dp.c
-> > > > index 8c12d5375607..2b83f0f433a2 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > > @@ -2489,9 +2489,11 @@ static void intel_dp_get_pcon_dsc_cap(struct=
- intel_dp *intel_dp)
-> > > >  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
-> > > >  =
+It's a nice clean design point that we need to preserve, and fortunately it
+doesn't conflict with anything I'm seeing here. But I want to say this out
+loud because I see some doubt about it creeping into the discussion.
 
-> > > >  	/* Clear the cached register set to avoid using stale values */
-> > > > -
-> > > >  	memset(intel_dp->pcon_dsc_dpcd, 0, sizeof(intel_dp->pcon_dsc_dpcd=
-));
-> > > >  =
-
-> > > > +	if (intel_dp->dpcd[DP_DPCD_REV] < 0x14)
-> > > > +		return;
-> > > > +
-> > > =
-
-> > > Can't check the spec, but makes sense that this stuff is only valid
-> > > for recent DCPD revisions.
-> > > =
-
-> > > Acked-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > =
-
-> > Yes checked the DP 1.4 spec and this is correct
-> =
-
-> I didn't think this is in the DP spec, but rather some special extra
-> spec which I do not have.
-
-Yes I meant just double checked that the DSC support itself from DP 1.4 and=
- hence
-makes sense that the PCON DSC regs also from >=3D 1.4
-
-Manasi
-
-> =
-
-> > =
-
-> > Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
-> > =
-
-> > Manasi
-> > =
-
-> > > =
-
-> > > >  	if (drm_dp_dpcd_read(&intel_dp->aux, DP_PCON_DSC_ENCODER,
-> > > >  			     intel_dp->pcon_dsc_dpcd,
-> > > >  			     sizeof(intel_dp->pcon_dsc_dpcd)) < 0)
-> > > > -- =
-
-> > > > 2.29.2
-> > > =
-
-> > > -- =
-
-> > > Ville Syrj=E4l=E4
-> > > Intel
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> =
-
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
+thanks,
+-- 
+John Hubbard
+NVIDIA
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
