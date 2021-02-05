@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DB9310AB8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 12:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8038310B0C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 13:28:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85FC6E24D;
-	Fri,  5 Feb 2021 11:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A2C6E241;
+	Fri,  5 Feb 2021 12:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1D7C6E24D
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 11:57:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E7D4ED1;
- Fri,  5 Feb 2021 03:57:07 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9E0843F719;
- Fri,  5 Feb 2021 03:57:06 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] drm/panfrost: Stay in the threaded MMU IRQ handler
- until we've handled all IRQs
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20210205111757.585248-1-boris.brezillon@collabora.com>
- <20210205111757.585248-4-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <86639a56-aeac-6637-3a28-9dbee4966baa@arm.com>
-Date: Fri, 5 Feb 2021 11:57:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED306E241
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 12:28:22 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id h7so9634632lfc.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 04:28:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=idein-jp.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=c86064i25H6BW4AJEOqS3wfUiyIHZJ/hQ8MH7o1Lf/U=;
+ b=FBWCocjtAbR9IPCY91u8iED03CFf3BNvqKwZMFmDkB0kM5/BXUIRh4cbTGpNwK3I/T
+ UoWHVe/5+fjGK48Og+H/yZZcB5vxmivw+1OI2dIdysdDV1/by5i+CSGKiFzVH61yp70S
+ g3CEuKTBpkCaoW1TV7yc2JedxTN4LbBxbvMrejw5saMwHPXZimdzo/C17mhZDGnj0P3s
+ dFhyzeCr6pg0s1Uc6WXhT82JLrIvMbwNP5N10C/nN2RRHq/89VO8bXdugv9DuY0LJIUy
+ bBWwRFSoNmK4q1ohMoYvwnWlcbywhpQA157F9l9pqwnAF8NRFOXfLkzTH4TPf+lp8Zu/
+ +eaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=c86064i25H6BW4AJEOqS3wfUiyIHZJ/hQ8MH7o1Lf/U=;
+ b=C/TXQHsZcAa8AQoqMmJ0eMQo0LhJ6X1VXvR4wsiFcTUOMV2k7tQPz/+yasdjqmjnmp
+ d9pQ5R6XIbiZcZAoxoB6cJrO5zEa5Zh3hN+SnoeaRSctzjAv2afjPzzNrnp9Wcfs/UrR
+ 0d7Rcuc/6EKAqGM6s3NKEm9vS1d31ivYJgaHbTFQE0PYfzKzjwGxbeek2ui0naJ6KQD/
+ 3ShN/PLlZQZdjH161vQJfMtzK5U24wsLxTS/p2aScpGDETlsEqIxf9w+ZYDGGAgaDFG4
+ o36GpM1UnB/kBS13j3/pFKyLPA+fjx1+2ix7/tGTur4+DPOYZDHBeu/HxY/JVp20Pehn
+ Ge/Q==
+X-Gm-Message-State: AOAM531lfiP+M1Gu62PuXhiepedjCNFQBkEnnjTun5OPkccFNSOAP4dh
+ GOPYKSDKqU8lpwSCx4z5E3Ep+H8RAvzD2qAdjuJo
+X-Google-Smtp-Source: ABdhPJzESgc6cVT77pW/LyX/o20CwXC3PfpeV2wQdl78UP26sAa0BJWr0Q/t+rPg+RpoUqC961/PEkQqrhXpEeKmJQo=
+X-Received: by 2002:a05:6512:6c4:: with SMTP id
+ u4mr2359821lff.63.1612528100934; 
+ Fri, 05 Feb 2021 04:28:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205111757.585248-4-boris.brezillon@collabora.com>
-Content-Language: en-GB
+Received: by 2002:a05:6512:25b:0:0:0:0 with HTTP; Fri, 5 Feb 2021 04:28:19
+ -0800 (PST)
+In-Reply-To: <CADaigPWcU5rB8HJWNtrb7p=icr5jFrqZnAQd-K6tWKvm0Yjr9Q@mail.gmail.com>
+References: <20200903164821.2879-1-i.can.speak.c.and.basic@gmail.com>
+ <20200903164821.2879-4-i.can.speak.c.and.basic@gmail.com>
+ <0f552124-ebcf-2f7c-6aa2-9ad84f838717@igalia.com>
+ <CADaigPWcU5rB8HJWNtrb7p=icr5jFrqZnAQd-K6tWKvm0Yjr9Q@mail.gmail.com>
+From: Yukimasa Sugizaki <ysugi@idein.jp>
+Date: Fri, 5 Feb 2021 21:28:19 +0900
+Message-ID: <CACzkUEu2TtWVzJ6obR4LovP5G9mqzRZzgMArP73qmB4S9LP2CQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/v3d: Add job timeout module param
+To: Chema Casanova <jmcasanova@igalia.com>, Eric Anholt <eric@anholt.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,94 +67,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/02/2021 11:17, Boris Brezillon wrote:
-> Doing a hw-irq -> threaded-irq round-trip is counter-productive, stay
-> in the threaded irq handler as long as we can.
-> 
-> v2:
-> * Rework the loop to avoid a goto
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On 05/02/2021, Eric Anholt <eric@anholt.net> wrote:
+> On Thu, Feb 4, 2021 at 10:09 AM Chema Casanova <jmcasanova@igalia.com>
+> wrote:
+>>
+>> On 3/9/20 18:48, Yukimasa Sugizaki wrote:
+>> > From: Yukimasa Sugizaki <ysugi@idein.jp>
+>> >
+>> > The default timeout is 500 ms which is too short for some workloads
+>> > including Piglit.  Adding this parameter will help users to run heavier
+>> > tasks.
+>> >
+>> > Signed-off-by: Yukimasa Sugizaki <ysugi@idein.jp>
+>> > ---
+>> >   drivers/gpu/drm/v3d/v3d_sched.c | 24 +++++++++++++-----------
+>> >   1 file changed, 13 insertions(+), 11 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
+>> > b/drivers/gpu/drm/v3d/v3d_sched.c
+>> > index feef0c749e68..983efb018560 100644
+>> > --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>> > +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>> > @@ -19,11 +19,17 @@
+>> >    */
+>> >
+>> >   #include <linux/kthread.h>
+>> > +#include <linux/moduleparam.h>
+>> >
+>> >   #include "v3d_drv.h"
+>> >   #include "v3d_regs.h"
+>> >   #include "v3d_trace.h"
+>> >
+>> > +static uint timeout = 500;
+>> > +module_param(timeout, uint, 0444);
+>> > +MODULE_PARM_DESC(timeout,
+>> > +     "Timeout for a job in ms (0 means infinity and default is 500
+>> > ms)");
+>> > +
+>>
+>> I think that  parameter definition could be included at v3d_drv.c as
+>> other drivers do. Then we would have all future parameters together. In
+>> that case we would need also to include the extern definition at
+>> v3d_drv.h for the driver variable.
+>>
+>> The param name could be more descriptive like "sched_timeout_ms" in the
+>> lima driver.
+>>
+>> I wonder if it would make sense to have different timeouts parameters
+>> for different type of jobs we have. At least this series come from the
+>> need additional time to complete compute jobs. This is what amdgpu does,
+>> but we probably don't need something such complex.
+>>
+>> I think it would also make sense to increase our default value for the
+>> compute jobs.
+>>
+>> What do you think?
+>>
+>> In any case I think that having this general scheduling timeout
+>> parameter as other drivers do is a good idea.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+I agree with your observations.
+I'm going to add bin_timeout_ms, render_timeout_ms, tfu_timeout_ms,
+v3d_timeout_ms, and cache_clean_timeout_ms parameters to v3d_drv.c
+instead of the sole timeout parameter.
+Though not sophisticated, this should be enough.
 
-> ---
->   drivers/gpu/drm/panfrost/panfrost_mmu.c | 26 +++++++++++++------------
->   1 file changed, 14 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 21e552d1ac71..0581186ebfb3 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -578,22 +578,20 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->   {
->   	struct panfrost_device *pfdev = data;
->   	u32 status = mmu_read(pfdev, MMU_INT_RAWSTAT);
-> -	int i, ret;
-> +	int ret;
->   
-> -	for (i = 0; status; i++) {
-> -		u32 mask = BIT(i) | BIT(i + 16);
-> +	while (status) {
-> +		u32 as = ffs(status | (status >> 16)) - 1;
-> +		u32 mask = BIT(as) | BIT(as + 16);
->   		u64 addr;
->   		u32 fault_status;
->   		u32 exception_type;
->   		u32 access_type;
->   		u32 source_id;
->   
-> -		if (!(status & mask))
-> -			continue;
-> -
-> -		fault_status = mmu_read(pfdev, AS_FAULTSTATUS(i));
-> -		addr = mmu_read(pfdev, AS_FAULTADDRESS_LO(i));
-> -		addr |= (u64)mmu_read(pfdev, AS_FAULTADDRESS_HI(i)) << 32;
-> +		fault_status = mmu_read(pfdev, AS_FAULTSTATUS(as));
-> +		addr = mmu_read(pfdev, AS_FAULTADDRESS_LO(as));
-> +		addr |= (u64)mmu_read(pfdev, AS_FAULTADDRESS_HI(as)) << 32;
->   
->   		/* decode the fault status */
->   		exception_type = fault_status & 0xFF;
-> @@ -604,8 +602,8 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->   
->   		/* Page fault only */
->   		ret = -1;
-> -		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
-> -			ret = panfrost_mmu_map_fault_addr(pfdev, i, addr);
-> +		if ((status & mask) == BIT(as) && (exception_type & 0xF8) == 0xC0)
-> +			ret = panfrost_mmu_map_fault_addr(pfdev, as, addr);
->   
->   		if (ret)
->   			/* terminal fault, print info about the fault */
-> @@ -617,7 +615,7 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->   				"exception type 0x%X: %s\n"
->   				"access type 0x%X: %s\n"
->   				"source id 0x%X\n",
-> -				i, addr,
-> +				as, addr,
->   				"TODO",
->   				fault_status,
->   				(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
-> @@ -626,6 +624,10 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->   				source_id);
->   
->   		status &= ~mask;
-> +
-> +		/* If we received new MMU interrupts, process them before returning. */
-> +		if (!status)
-> +			status = mmu_read(pfdev, MMU_INT_RAWSTAT);
->   	}
->   
->   	mmu_write(pfdev, MMU_INT_MASK, ~0);
-> 
+> Having a param for being able to test if the job completes eventually
+> is a good idea, but if tests are triggering timeouts, then you
+> probably need to investigate what's going on in the driver -- it's not
+> like you want .5second unpreemptible jobs to be easy to produce.
+>
+> Also, for CS, I wonder if we have another reg besides CSD_CURRENT_CFG4
+> we could be looking at for "we're making progress on the job".  Half a
+> second with no discernible progress sounds like a bug.
 
+If binning/render/TFU/cache_clean jobs keep running over 0.5 seconds,
+then it should be a bug because they normally complete processing
+within the period.
+However, a CSD job can do anything.
+For example, SaschaWillems's ray tracing example requires about 0.7
+seconds to compose a frame with compute shader with Igalia's Vulkan
+driver.
+Another example is our matrix computation library for QPU:
+https://github.com/Idein/qmkl6
+It requires about 1.1 seconds to multiply two 2048x2048 matrices.
+Because in general we do not know what is the expected behavior of a
+QPU program and what is not, we also cannot detect a progress the
+program is making.
+This is why we want to have the timeout parameters to be able to be modified.
+
+Regards,
+Y. Sugizaki.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
