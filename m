@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E53310414
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 05:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0F0310416
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 05:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5746E0DD;
-	Fri,  5 Feb 2021 04:33:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054006E10C;
+	Fri,  5 Feb 2021 04:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF28E6E0DD;
- Fri,  5 Feb 2021 04:33:32 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id f6so5704516ots.9;
- Thu, 04 Feb 2021 20:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uMiesEpfBEncjUgmLRyB5Wm6+wRh6ZUIfqzc/jNxnKg=;
- b=MvhNUhjVzivGCKIbSVwualeGM4Er83+5oQLC2SCe6zZ1jJtsXLVjcvK7jACUKvd0Hh
- 822JFh15jP/VctkGvX3PIXVQ+fgR4luCNDd+nszp4r3DijNr1D90ixjvlc9PHv+Qrn0M
- YLUQfnPmU76NkLvKM5oEFxewQamID98apeRjDSnjxs18e1L6lMMnV8t0ZRR6F0AtC5Gc
- 4KJgy4Fi8Pm8tbD0TgdPYHntx2lbghX6tyHI3H3ESxOMBG7CfbncsK8IemcRmmHeOTpL
- L9SM2isO4hXL3+VFWFPvIojLV1iAgC0KWZC7zG06nGFebzcVudDzEB7WWmlhrHG+v7LS
- tQJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uMiesEpfBEncjUgmLRyB5Wm6+wRh6ZUIfqzc/jNxnKg=;
- b=fIFZX+1FqWvL6JZUxkmW7fjTtHwTICePK5qgQhZJTf1+T/cBIrTNZuUQuHiHb/q6W1
- uyVRzNnX703Y2lKR/NxqH0Bpv6EH6DpKJrFT029Pkq/NRCFkLAKOcVJakQFTC7twW4f2
- 4riX+2ErSP2pIpChDtf0pCQLz5Da1qz069SAHYxUP2zPjUvo6P6ZCQMwq7P0BDlo/+70
- hVnR0kvd+QtQBH0gCfNuqd2+lHaf2z+N7jqVrcLUxUILHjBQYHjqVJwMa45BZp0h35Qb
- guwgdeEbyd4zo6jw38icVhm/ecKHbv8NAFH/IvkAPcZ1dj0p0iH/80Fur7XOKrEHvWFz
- pKUQ==
-X-Gm-Message-State: AOAM530IXKLKZja1qXdFJpxXY1LenYefOGl9T6WpBa+nSkQeSFhUNtxK
- j+a/lAQxFf0v5FjRWLIsDPKlbGjXB0vC0e+1yyg=
-X-Google-Smtp-Source: ABdhPJyGeZACQ8LylcDwLHvNmIAqsxElNJQXnpoU/qwZq7M78zZ32QLrXW64bCS4XmgYsLC7u3Z+j7iyh8rctMm6B/s=
-X-Received: by 2002:a05:6830:92:: with SMTP id
- a18mr2067886oto.23.1612499612250; 
- Thu, 04 Feb 2021 20:33:32 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F806E10C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 04:35:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7BBB364F58
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 04:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612499714;
+ bh=HzrpkilJVY4M0ffvVbtRO1csFg+WcK9QY8qcHXti5Pc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Rx9Bi/HwCJWSuR7EOfZTTMKsa0uJozhzkTknsP/qRtRDEugopcfSzF9tl5cpJXPMA
+ gDBhizHQrO5rYjqzzAc0ONbCluQQuOTNeljVNVTU3F8rXe86puLcvC51rDgEQrdwyc
+ uaT1r6Kx+AMAfFMadngK1N4S5Yp+dT4ucaAUX+BmSgGKbhDz+5KG7ZHZUYl7V3y7fp
+ oko4Y86WldAoeNN3HMS5Ql48nFH+D+X+glFJ0ZMLN2EbHmMhofpQ0pCl7tIavPQE3v
+ VtiLYOeQSPhabGG99XTzfVWKV/chds9UI6KWc6A2bY+eXpbj6UUrHNKBEIyy1Hh3cN
+ BGTkmz3qX65MA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 674A16533E; Fri,  5 Feb 2021 04:35:14 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
+ lid. AMDGPU
+Date: Fri, 05 Feb 2021 04:35:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jvdelisle@charter.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210849-2300-chOq2KGOuR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
+References: <bug-210849-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20210204045717.3823-1-alexander.deucher@amd.com>
- <CAPM=9tzKzgOTQd4zorqn8LP2QJhSLuD_xJhm5saSH2uUJE7_+w@mail.gmail.com>
-In-Reply-To: <CAPM=9tzKzgOTQd4zorqn8LP2QJhSLuD_xJhm5saSH2uUJE7_+w@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 4 Feb 2021 23:33:21 -0500
-Message-ID: <CADnq5_MjZrt4EQt8UhszT-_UcuSY_j7Ezk__TmTr+NhBuWw=3A@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-next-5.12
-To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 4, 2021 at 6:52 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> On Thu, 4 Feb 2021 at 14:57, Alex Deucher <alexdeucher@gmail.com> wrote:
-> >
-> > Hi Dave, Daniel,
-> >
-> > More fixes for 5.12.  Same PR from last week with the issue Felix reported
-> > fixed and a few more additional fixes on top.
-> >
-> > The following changes since commit a6b8720c2f85143561c3453e1cf928a2f8586ac0:
-> >
-> >   Merge tag 'amd-drm-next-5.12-2021-01-20' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-01-20 13:08:18 +0100)
-> >
-> This brought an arm32 warning with it, I've applied Arnd's patch to
-> drm-next to fix it.
->
-> https://patchwork.freedesktop.org/patch/msgid/20210125124849.102037-1-arnd@kernel.org
->
-> However that function has an ifdef around an ifdef that probably could
-> do with cleaning up.
+https://bugzilla.kernel.org/show_bug.cgi?id=210849
 
-Sorry about that.  Bhawan fixed that up at the time:
-https://patchwork.freedesktop.org/patch/415092/
-Daniel said he picked that up last week:
-https://lists.freedesktop.org/archives/dri-devel/2021-January/294941.html
-but I guess it never landed, otherwise I would have included it in my PR.
+--- Comment #10 from JerryD (jvdelisle@charter.net) ---
+This bug has basically disabled two different machines I have that use AMD
+graphics cards.  One, a work station running Fedora 33 will lose the display if
+I do not log on right away after a power up.  The defaults that blank the
+screen or just a simple lock screen sequence basically causes the monitor to
+shutoff to save energy. At this point the display can not be recovered since
+the driver loses it self.  It is a real shame as this system was working
+perfectly for over a year beofre this happened.  The guilty patch should be
+reverted immediately.
 
-Alex
+I can remote into the system from elsewhere ussing ssh and command a reboot to
+bring it back.  The kernel underlying is running and completely functional. The
+device driver AMDGPU is 'F'ed up.  In my many many years of using Fedora and
+other linux distros, this is by far the worse cluster bug I have ever see.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
