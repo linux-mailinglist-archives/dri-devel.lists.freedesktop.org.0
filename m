@@ -1,119 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5039831061A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 08:56:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F01A310630
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77FAC6F3FC;
-	Fri,  5 Feb 2021 07:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A65316F400;
+	Fri,  5 Feb 2021 08:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F18D86F3F9
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 07:56:46 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093ED6F3F9;
+ Fri,  5 Feb 2021 08:05:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P/Y+Xb+2TZ5OIde6SsrrpnR7WwD1nDksZMEmvFDAbDkj8gZzLALRerpvZ6SvEt6Rs1Wr/RWteeThoS7LmDuhB7DUq3KfVnvq93+2pFQahc7om5r0r0vQxoL4wVM1Y7s95hdbRkvblbe2Ypb4MFFxLLhBF6tlxFUB8QhKaZKZZR+5Z0exZ3j8uzeuBlMxO96SUGQPjP9If59lJhW7dkdE/YPygu9Bf9MsdzW0rc6wz59yxNElJjBt5p94ima3L/TOMSgeyf2QFmTJ9Igi+ufqEvvmZD7JFSd7qHU5Uslv8WWut2j1B3inaukbQPj8tA0AtSokMomNqVAUv6sXBWPD+w==
+ b=ccsR30c9mh806hq8iyhQmzLpFd52rqzlis6Ca9CX3qI8D5YGejerO8k3MZsNm/QIGq+kjWWHwnLsKZY/RH0b+cAn+jW24QZ7clPM0QAq28h3OD9BzAgkyy/0feOmrg8FzT3qmpRUZr6jNQBjyuDtKjz1BvwYRFOT35EUPK7s41nEsTWP+1oC/XrcwDb4NdJHdLdERn3M3cEe89kzMcHb65z0aYGSGQS9xhYTmKC358j8UNNDpulZSp+Gu2Vq247wsEkPT1TgVzBFdVY2cXxwmw6r8tSOiFN27LnfvsJEPm5ay52VJjUcm1OeIC5AAL8ZYu/BucX9P+eR7/G5he5EIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jw91bYumPL75+1tmVHDR2vjRtrBsS1t0L53YzTPu8uc=;
- b=ck0+nWLE7pTSpY1sj09d6302B3E5xVbrJjw6/sYShR27kn3FsyZu5nvnNLMbxXSgnZbfi0OmKgalPN0Cd8331iY/70OIt20CPU3Axw6TjQ8cuVE/AZLfgepGTmjN/KYu6wl3AD0cs84keH9DDpiE3qmJB/PjOQSYOI6X1v6SLn0JIuuVKl29jhVJFBdR9Il6MHfZS+AKtXp0VhlzlWm20fOzd4FLaP9rL3ij4ivy9KCB7I7HMwLwSdGevsISJFwyzqM7voDHwRJgj12W/Q2uIO5gdQ8eRaw280eR4+u+/0k63Zl7uc/OQUAa4dhxtfqte+42jjEUSd0wwD7kgSJTXQ==
+ bh=JoJ/xwtY1C7gUbACDNAwK09L3m6Tafnh79HAKAyDpk4=;
+ b=gj2LBeF6r26wipSOtFogSn5QU03RyEW95TWEYc9e4+WhB0sJHg0qr1DNZF98a9yCWNcyLa9pGc3AO3zRpxVecqm9/sA/+DbPyOk+dWPB9MO47bQRT3jEFoqEuLYRSaqebnaSe1K+XBqltSpD3Z5MBYZiLJ8ISv3nVe5EU/BFtPyBcCw0kBL18MV30tq8CH2H8BUqucEyqMJDEDTVz8a0jUDcLq7jF9ZvW6KecJTP573oB8cBy2txYmwwO3EmSmyLNsuHYFZwgDB8r0c+R6TwlblC642IGpi4NGE4FjQqKvDP/5TqtEVRzmy/7Uef5zbYL2/qRKAl27GmjQI/bvrNJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jw91bYumPL75+1tmVHDR2vjRtrBsS1t0L53YzTPu8uc=;
- b=CZUgU4GYhy2VCkEB9r5eV1JrpqEWHQ55oUvriPzAqIx7UcTArqVsfQQbilLnMwqnQcK63P+Wi3M3rtuN0t13CxkS/YhYcwIup2KjjU9uy03muTkXDXAavLIvQhz5Rb8ANlfcpOLDMKzeLdP0oVXUakG4bOMAMOJyAzBeZEoh8Yk=
+ bh=JoJ/xwtY1C7gUbACDNAwK09L3m6Tafnh79HAKAyDpk4=;
+ b=IKdjN6P2IX4mYC5rqZECs+PGckLiBaLkVrN/ew1610aQt2jKux1A0WF/zD11X1e4EecTgT2Uv/V+tNl3NQO2h8TkERTTQnD2TwsmQTiy6uRVg2w4b9Jf6afeDWvM/u9MCgROu4kn9tg+NnCL6+TtWH5Arcemween+8H6AoQC5UY=
 Authentication-Results: lists.linaro.org; dkim=none (message not signed)
  header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (10.255.86.19) by
- MN2PR12MB4390.namprd12.prod.outlook.com (20.180.247.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.23; Fri, 5 Feb 2021 07:56:44 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4343.namprd12.prod.outlook.com (2603:10b6:208:26f::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17; Fri, 5 Feb
+ 2021 08:05:43 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.023; Fri, 5 Feb 2021
- 07:56:44 +0000
-Subject: Re: [PATCH v3 2/2] dmabuf: Add dmabuf inode number to /proc/*/fdinfo
-To: Kalesh Singh <kaleshsingh@google.com>
-References: <20210205022328.481524-1-kaleshsingh@google.com>
- <20210205022328.481524-2-kaleshsingh@google.com>
+ 08:05:42 +0000
+Subject: Re: [PATCH] RFC: dma-buf: Require VM_SPECIAL vma for mmap
+To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210203211948.2529297-1-daniel.vetter@ffwll.ch>
+ <20210204161339.GX4718@ziepe.ca>
+ <CAKMK7uEZvEEQXQeM=t-7uZEvga2GMhctp=WQgeSetG0GKTRsHA@mail.gmail.com>
+ <20210204183808.GY4718@ziepe.ca>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <df97ba85-2291-487a-8af0-84398f9e8188@amd.com>
-Date: Fri, 5 Feb 2021 08:56:36 +0100
+Message-ID: <8e1de27f-9200-8748-730e-4bd7b94444b3@amd.com>
+Date: Fri, 5 Feb 2021 09:05:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20210205022328.481524-2-kaleshsingh@google.com>
+In-Reply-To: <20210204183808.GY4718@ziepe.ca>
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR03CA0070.eurprd03.prod.outlook.com (2603:10a6:208::47)
- To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM0PR01CA0171.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:aa::40) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
  (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR03CA0070.eurprd03.prod.outlook.com (2603:10a6:208::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.17 via Frontend Transport; Fri, 5 Feb 2021 07:56:40 +0000
+ AM0PR01CA0171.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::40) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend
+ Transport; Fri, 5 Feb 2021 08:05:40 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2b12cd88-e660-4f7f-2815-08d8c9ab9471
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4390:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4390FF5699D9D10BE5E8AB5083B29@MN2PR12MB4390.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: 674b2bbf-eb18-451b-44e5-08d8c9acd558
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4343:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4343C9CC268A548D920D843983B29@MN2PR12MB4343.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IADDlkhCBEsnGsw6DtXK6sgBwdzdWttPEtFw0hEv2d0Y39DMi9PdDINl/lBo3hDymr6LPeWgLpBOo07aVzS1Keyh0/2xM0sLXuL0Ic6ZVtEmPIhgkvroCpKT8DWyPi8K+jm10CB+OAz3XnnzW/ViH5k9+xIBmKQn9FyFKR7agxGGNQLGaRpU7JMbH4rnzGfvZybuab/uhDAG2Wf2L20NCxBrhDpWLHAz3JdBaGT4KpIxeI3gwPQLLdLfL11sc/K70WPzLfYNaFA1yRx7yL0ReCqezL8Tb2hCsGl6j5GIw/u2gNqn+78MeagRP+z/Oh+7AAxEb66u/tlNnn/AmjTQZPegRAk/g9i1Samp3hPcen+P6p+y3LOncZ1S0o25ZlK6tbEtq5UOBpXGk0iXDWVCA31sufPlb/gp5uYdPn9TtpxNQKVFze0NLgT4bt+7eM5hNLHOzi8WYjCnmfDcrvBe7vLgEcu+4LCqagzVgT0mNBH014gzS9QfuccjlrcSLPHE6cAg5As9DyrKg8HxB4rYbJjXthgTCtm8Bgv21t063EGhS6XMmra1XVqCXLA/h40yHhJq7s4mMXa/BtggtXlbEUfEyw1LF8Q9Nmr8P+58uNMYoEoKoQKWsfgH/Puqcxu4qyh8584VXVIGzRKqhS/IBA==
+X-Microsoft-Antispam-Message-Info: zQ3wn6xDeOuwF7aSqdlAZbOZ/suqZ8EyzRujaFTWmAb8PzyLJrk1p+1peJfU+BZ8gNUWe0NhaEg1trajLJeczSXon4twESE8Y5AGhgMZpWd2HzjX0Jtjep5ANqsgPT9pPC2Kxf1UPsETyljyHpmC8PW4qhZv2wv6nLUVsT5od5MUwylTxWsbN6HhSAq68Aol2gjrmvNq5gGX7tFZ/l76d+CfX1CR95A/0EBkLQkzOtsx2m2l12fjKvLU7S7HLNyY4AQzJslkZwSbuSPWh/z0BRv8FEbqYwEvuazHA59i1GPL4HIwN5yPnmSY90Li7WJY7ZTmhNFhURcl9X0yqcyPevnTZ7A9PCxLL8bwywUoaMXQhQszoTdK+2qAAelbMSMWXHwR8LDNvtT9132cw1SHca8ichf9ns4zrNzHyL2KIrMG4fL0U/XLfv3qkpn5BgIDDIsr1xhWoU4IaQoUJ8twr0ocAzYUKRvnajrVKC5wvnZmZbATYCR44wrNon0Ewqnv9zqyPmWxIQE+ecz7SvaraRqfPPXaZ+JO2ymnChczaYsQdXHtBacYcE93Y0X17875c6W06DALGpXi4XTYWO3RqQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(396003)(366004)(136003)(346002)(52116002)(316002)(6666004)(7416002)(66946007)(5660300002)(54906003)(478600001)(66476007)(66556008)(31686004)(6486002)(6916009)(86362001)(8936002)(2906002)(31696002)(8676002)(36756003)(4326008)(83380400001)(2616005)(16526019)(186003)(34580700001)(43740500002)(45980500001);
+ SFS:(4636009)(376002)(366004)(396003)(136003)(39860400002)(346002)(186003)(6666004)(2906002)(86362001)(16526019)(6486002)(7416002)(2616005)(31696002)(31686004)(83380400001)(8676002)(53546011)(8936002)(36756003)(478600001)(66556008)(316002)(5660300002)(54906003)(110136005)(52116002)(66946007)(66476007)(4326008)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eXA0UTN1QUxyNVpBUU9RQU92d21Yd3F2bU92b0lUNVRMQ3V0NEJiTU1GWVNl?=
- =?utf-8?B?NE9Cc2QyS1dhV3lwNkY1M2ZiWitqaTdMZU5wZVpQeG10TkRHTytRaTlsWkhs?=
- =?utf-8?B?emg2VEw2N1hWZFYyQWRiOWtCd05XMVFFanRqRDliM2w4elFndlZ5ZkpFa0Rr?=
- =?utf-8?B?ajFWVkdsQ3ZVbGtSb3hVR2pvaXdaMlhxRmVQUVlzdFpJUkYwQTdDN01RUDdR?=
- =?utf-8?B?eEtQWXJNNUMrY1pTb1JDNHhFMExNTk9SNTMvcEtGRjFTVXoyTXBTYSs5NjJ3?=
- =?utf-8?B?dnBOTHZDUm14QUlHbUxtbGo3WTJuTWpQc1pCTnZLNnluQ3VRSkJNT2hKMERQ?=
- =?utf-8?B?WWV0YklyM2s0bTMzNFFrSGlTUXVRRTluQjIyZk9IVk9IUDN6Vk01VU42VGFq?=
- =?utf-8?B?dnl1QlBMdjRNNWl6T2J5a1p3OTc5c2ZmcjJyeEtyNnV4ckdrdkxUdGwrWjB2?=
- =?utf-8?B?T0VxamcwdDBlaGJURXFqUit1Z1FyM0JKT2NlUmlOY3U1Q3ZidS9NckdHZmg1?=
- =?utf-8?B?SDhVMWZLeTYwb05USGROYk92Vk5tQkdOWEhYMkNEZ2Z1empLMVlmYXRweGF1?=
- =?utf-8?B?K281Qmx2bDRyeWdiRC9vM2dCWGRmWjFCUlZzZUcrYmR1RStocWxUSENyNEVh?=
- =?utf-8?B?MTJ6cncyZE1wSkU3Y1BleitXc1I0a2xpR3FvOHVCMXZoVnZVV3ZyaE0rS1VV?=
- =?utf-8?B?NWhqVVh6d0IveHhseDV2dEtlVjVxLzJHb09RTSt2clhIbkh2engyZGRKN05s?=
- =?utf-8?B?a0VCMDV6RmxVcXQzM0wrbGMwbU9KWDA1WngvN2tPQVBTczRpeEJGQy9GMGJ1?=
- =?utf-8?B?RUg0c1FwemREelBlTTBoSkFjUHI4Y1ptbko1MTErNmVUNG1SOUczNDZhZ1ht?=
- =?utf-8?B?SnVMdy9yVWlsZ3pLd3NubWZDUkc3bUxqVlRaM1UxME5zM1FSSzJLREF3a3BL?=
- =?utf-8?B?OGZlRy91cE02Q1ovZEpSLzUyM0VKRkFsRHE4THJQUWQ4YmpIL0JwSjRoaFlN?=
- =?utf-8?B?aHBsVzF4cGdpMmYwa1VmU3dtSG1kSnNKRHVJNTRFUS9BNk41OTMyam9nRVN0?=
- =?utf-8?B?bk5WWFdQVEt1NFgvKzNQaEgwVkZQN1V0Z280TW93b1NQNFYyZmZ4N0dIaXYr?=
- =?utf-8?B?UnVZekJmRzdOWUc0bWtXdDlwNTdIWDZFRlJMTDVtZU1udEZGaU90SVBjOVov?=
- =?utf-8?B?c3d6ZWkrM3QrV1lISUlVOHlReWs2UVVTODFZY0FPRlBDbnBlYWlkbVpRSDN5?=
- =?utf-8?B?TE13ek1Kbmh4ZGxMTzN6RkxNN0NOSDJ3eUJoUlhnVVFxb2xOMWtrU2JIbEpR?=
- =?utf-8?B?VTlRenA2Q0FXYWliQUdKOExxNnhjZ1p0Q3g3blQrSmNLZUtSdW5lNFpiMk1X?=
- =?utf-8?B?Vm1TS2UxdHFyRTRkb2dzNHp4U3lvRDNDL1lKNm5tMW8zRmZ6NXhtNWlLdVpW?=
- =?utf-8?B?alZYV1gra0VURHNaRlRyZ3pCaXozT2FCNmxveXhuZzRTSmhsZ2xETGwycW1u?=
- =?utf-8?B?TjlieEd4N05FK2tHS3pqK2x6YWIwMUNlaVhIMzdIbjdZN2hJWGkwTmZScHIz?=
- =?utf-8?B?KytGSU5id2d6V1c1dEg2ZSthRjd2clphNFljaG5Cc09KdmtaVE5CVGdGeUJy?=
- =?utf-8?B?ZUZOSUhnMStkR3poSDFGb2p4WHFvYU1zZ0VmbkVVODZJMUVLT3NTYzNndGda?=
- =?utf-8?B?MnB1LzlNYUo4V1ZodTk4RURMbXdTdUNJckN2VjRGdVVsdi9ENVpuaGZPdlVT?=
- =?utf-8?B?cVdhWmhpcit5ZlhmaURPR1ZCSVRMTmQrcURoVkFERFUzOGZjeUk0SmQ5eEtS?=
- =?utf-8?B?dmlZdzQ4OFo1NHFiQndKMTBvcUZHWGZOcnRTQnJMRTVEVGtnSVp2QzBFUlVq?=
- =?utf-8?Q?fxNgOWA8rri3X?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TjNUWksvTDdTVnhPY3RqM3p5dXdubEFKQklGMUZDU2JlcFdELzI0REx5OEVa?=
+ =?utf-8?B?Z2krNENUYmcyeUc1WHptOGJiYkVIWVJZSkFJNGFQdUpOSVlUb01pbGdGY2ZP?=
+ =?utf-8?B?TkJsOU1ubjhyQUsveG5ORng4NXh6MGJmLzAyL0JFUlpkYzNwR2EzRktxanRq?=
+ =?utf-8?B?S1FEZEdGckNwTkF6SVdXT2ZpZlNoTmEzSmdkTldYTTRLSGo4YVdjNWk1Y1gy?=
+ =?utf-8?B?QzhqczViZ2oveTlpV05McDJSbUdlTnkrZHpkYUNIcG5TS2htbjJsU2JUWmpy?=
+ =?utf-8?B?SlhCVFRFWVY3T2NvM2pheUE5YlEzY29CS1hra1BtTHBPQlZsR3k0cUgyTTIv?=
+ =?utf-8?B?N25PUTZZenZFWkRmc3hYSUVULzhoN2FIdFFrS29odkdqeEZFd3kvcDZTbWsw?=
+ =?utf-8?B?NVcrNjdNYmFidTNpWENpY0dZRDd2MWRyUzFkWllkK3JRMGFBVzhYUnB6ZitB?=
+ =?utf-8?B?blFqN3lHVUVqT0RxZVFxd0pLb3l5ckZSZlZ4T0pEeVBuTkgyaU5uZlA0L0pK?=
+ =?utf-8?B?QVp3WFNuaWF4WUowNkQ0K2ZtTUIyejhCeGxrVGwrREFtTDlKUnBUYXdUZ0xq?=
+ =?utf-8?B?RlR1MlBzTTVYcDNCanN1eEFKR1NRR0JVRXpGYTJsUytQZDlZYTNiWEpOT3ZC?=
+ =?utf-8?B?Sy9YMlloMmJ3Y1RVMzdnQ1dQeHRiOGQ5cmhKRWZvSi9CZFFvaEV0UkZuZkJr?=
+ =?utf-8?B?U2tmTzlrT3VvUlQvL3c1a0Y5enhuTXF0czYxUDFCTVlGZjJrc25VK1RCQXl6?=
+ =?utf-8?B?Mms0azRHM2hGV0luQk43cURHdnhBUXlaakpSM01QL1AzSXczb3NtNGdYSURI?=
+ =?utf-8?B?dDIrYnVzRXdiWkJNWDhWK1UwSjZvMXVmZS9NRXBBaEFhckg5eTZBRWVmdVJi?=
+ =?utf-8?B?cmMvMTVmdDdSQVc4M0l3cW9QaXhDeGVXZ3dpRWxGbkEzK3JmWnBqeTZ3eEl5?=
+ =?utf-8?B?UmFRVDMxRUhSSWJvWTlibHhyTjlkQ0EyUWNyUUcyVDV0ZWFVSnJ2S2V3QmEz?=
+ =?utf-8?B?ckhQajNiNkVBUlVYakhRNHVCeWFGRFFiU3doY1dtb3VFZlJCNWZMRmpoeHdS?=
+ =?utf-8?B?Y3VxTC9kenk1b2xlSERjZkErVGdLSHFZUmZKV256cWNWcWZPWlFrak5OdlFv?=
+ =?utf-8?B?NllrVFB6UVU3ZHJzT1lvZG9kRFVhb2hYYjg2bElXanRtMHFObWJBam1iL016?=
+ =?utf-8?B?cktYOURSVGRYTGtzcU1HV0JsdVowRXMyc1I2TTNhK3pDVzY0L1NqSktWZURV?=
+ =?utf-8?B?MGRySmluUjFLb3pnUko0aHNPYmlsOW01czdaNzRmcXdzSE8zeWd5VjIxaVRH?=
+ =?utf-8?B?UlhVdjVJUkw1cVlWRG92WlFGemlGN0xXQzZ4b0R4Y3ZleVFJMkhnbnN1UEJz?=
+ =?utf-8?B?OWMvV1pXN0cyK2h6VlRDZm9EUUprRHh6dkdWZExrOWxCVlF0UVlMYXdhSkpp?=
+ =?utf-8?B?cHN1RUhINk1SS0kyTDd0bVlVK1NBZlFrZUxERG93OFVSZ2swQ25xbkJCdFRU?=
+ =?utf-8?B?SUJGRVlNWjE2dEV2Z0FYejR6dzNnOFVKQ2hhMml6a0ZSeHNsNWNRb1JCRDNZ?=
+ =?utf-8?B?OHN2SUpOUGxiMlhrZHY2dklacFI5REs1QUFEUXgyTm9vcGRkeWVMRkJiVkU5?=
+ =?utf-8?B?ci95UjByUVZ0MkFTbldma3ordTM1eklYTHRyMjc2VjNNNDJvNkdEc0ZkYXBH?=
+ =?utf-8?B?dWNHTHplWEdQVTY2UnM2VEtXMG8rREh4UW5wRWgwSXg0STBFVWlRUWx0Y09P?=
+ =?utf-8?B?MjdhWi9kUUduK212SHE3c0h4VDRyTGtTTGdzRXNJR0dBdTRwMzVIODJOVmlq?=
+ =?utf-8?B?M3lOc0p1UEFjV0JJUHpzZ1YxZ2RlUk44QWd2ZWxYREh5UlBkczRzWXA0d1Nw?=
+ =?utf-8?Q?WRW44iI6PkeF9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b12cd88-e660-4f7f-2815-08d8c9ab9471
+X-MS-Exchange-CrossTenant-Network-Message-Id: 674b2bbf-eb18-451b-44e5-08d8c9acd558
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 07:56:44.4706 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 08:05:42.8732 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ufHK6GEms2ZrRMJnxuBbOf4i3QN9gzhEspdXft3TT5mh1R9hY2Adm7qKCXDaqxga
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4390
+X-MS-Exchange-CrossTenant-UserPrincipalName: vbdRAz0bszEhKM6J5A8SwXAT3ZKejnozVxX8mn3G8AB1OSqRVrPShYh2McvwImBg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4343
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,91 +130,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, Anand K Mistry <amistry@google.com>,
- linux-doc@vger.kernel.org, NeilBrown <neilb@suse.de>,
- dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
- Christian Brauner <christian.brauner@ubuntu.com>,
- Michel Lespinasse <walken@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, jeffv@google.com,
- kernel-team@android.com, Alexey Dobriyan <adobriyan@gmail.com>,
- linux-media@vger.kernel.org, keescook@chromium.org, jannh@google.com,
- linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
- Bernd Edlinger <bernd.edlinger@hotmail.de>, surenb@google.com,
- Alexey Gladkov <gladkov.alexey@gmail.com>, linux-kernel@vger.kernel.org,
- minchan@kernel.org, Yafang Shao <laoar.shao@gmail.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>, hridya@google.com,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.02.21 um 03:23 schrieb Kalesh Singh:
-> If a FD refers to a DMA buffer add the DMA buffer inode number to
-> /proc/<pid>/fdinfo/<FD> and /proc/<pid>/task/<tid>/fdindo/<FD>.
->
-> The dmabuf inode number allows userspace to uniquely identify the buffer
-> and avoids a dependency on /proc/<pid>/fd/* when accounting per-process
-> DMA buffer sizes.
+Am 04.02.21 um 19:38 schrieb Jason Gunthorpe:
+> On Thu, Feb 04, 2021 at 06:16:27PM +0100, Daniel Vetter wrote:
+>> On Thu, Feb 4, 2021 at 5:13 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>>> On Wed, Feb 03, 2021 at 10:19:48PM +0100, Daniel Vetter wrote:
+>>>> tldr; DMA buffers aren't normal memory, expecting that you can use
+>>>> them like that (like calling get_user_pages works, or that they're
+>>>> accounting like any other normal memory) cannot be guaranteed.
+>>>>
+>>>> Since some userspace only runs on integrated devices, where all
+>>>> buffers are actually all resident system memory, there's a huge
+>>>> temptation to assume that a struct page is always present and useable
+>>>> like for any more pagecache backed mmap. This has the potential to
+>>>> result in a uapi nightmare.
+>>>>
+>>>> To stop this gap require that DMA buffer mmaps are VM_SPECIAL, which
+>>>> blocks get_user_pages and all the other struct page based
+>>>> infrastructure for everyone. In spirit this is the uapi counterpart to
+>>>> the kernel-internal CONFIG_DMABUF_DEBUG.
+>>> Fast gup needs the special flag set on the PTE as well.. Feels weird
+>>> to have a special VMA without also having special PTEs?
+>> There's kinda no convenient & cheap way to check for the pte_special
+>> flag. This here should at least catch accidental misuse, people
+>> building their own ptes we can't stop. Maybe we should exclude
+>> VM_MIXEDMAP to catch vm_insert_page in one of these.
+>>
+>> Hm looking at code I think we need to require VM_PFNMAP here to stop
+>> vm_insert_page. And looking at the various functions, that seems to be
+>> required (and I guess VM_IO is more for really funky architectures
+>> where io-space is somewhere else?). I guess I should check for
+>> VM_PFNMAP instead of VM_SPECIAL?
+> Well, you said the goal was to block GUP usage, that won't happen
+> without the PTE special flag, at least on x86
 
-BTW: Why do we make this DMA-buf specific? Couldn't we always print the 
-inode number for all fds?
+When is that special flag being set?
 
-Regards,
+> So, really, what you are saying is all dmabuf users should always use
+> vmf_insert_pfn_prot() or something similar - and never insert_page/etc?
+
+Exactly, yes.
+
 Christian.
 
+> It might make sense to check the vma flags in all the insert paths, eg
+> vm_insert_page() can't work with VMAs that should not have struct
+> pages in them (eg VM_SPECIAl, VM_PFNMAP, !VM_MIXEMAP if I understand
+> it right)
 >
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> ---
-> Changes in v3:
->    - Add documentation in proc.rst
-> Changes in v2:
->    - Update patch description
+> At least as some VM debug option
 >
->   Documentation/filesystems/proc.rst | 17 +++++++++++++++++
->   drivers/dma-buf/dma-buf.c          |  1 +
->   2 files changed, 18 insertions(+)
->
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 2fa69f710e2a..fdd38676f57f 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -2031,6 +2031,23 @@ details]. 'it_value' is remaining time until the timer expiration.
->   with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
->   still exhibits timer's remaining time.
->   
-> +DMA Buffer files
-> +~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +	pos:	0
-> +	flags:	04002
-> +	mnt_id:	9
-> +	dmabuf_inode_no: 63107
-> +	size:   32768
-> +	count:  2
-> +	exp_name:  system-heap
-> +
-> +where 'dmabuf_inode_no' is the unique inode number of the DMA buffer file.
-> +'size' is the size of the DMA buffer in bytes. 'count' is the file count of
-> +the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
-> +
->   3.9	/proc/<pid>/map_files - Information about memory mapped files
->   ---------------------------------------------------------------------
->   This directory contains symbolic links which represent memory mapped files
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 9ad6397aaa97..d869099ede83 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -414,6 +414,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
->   {
->   	struct dma_buf *dmabuf = file->private_data;
->   
-> +	seq_printf(m, "dmabuf_inode_no:\t%lu\n", file_inode(file)->i_ino);
->   	seq_printf(m, "size:\t%zu\n", dmabuf->size);
->   	/* Don't count the temporary reference taken inside procfs seq_show */
->   	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+> Jason
 
 _______________________________________________
 dri-devel mailing list
