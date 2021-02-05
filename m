@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F24310B81
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 14:05:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57520310B82
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 14:05:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D40DE6E29D;
-	Fri,  5 Feb 2021 13:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63D956E2B4;
+	Fri,  5 Feb 2021 13:05:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97F06E29D;
- Fri,  5 Feb 2021 13:05:16 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id a7so6673501qkb.13;
- Fri, 05 Feb 2021 05:05:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MHJsMavE3nujSnxW3LwxOmZw7EFguJmQU/pNqi0G+xI=;
- b=aMDfbAIFLwP4uP1FRsZWcGK7FHIzEj8ip4FiQPK6ctpA3bml5yjPvhqvazWVsOzEBk
- wajhqlQvaHgCFdT1nl/xpxc1mzULoGWx06Ns4RRAQBERMwtazx1KZvhWmwMk3fxPVJFP
- kV1JMyvIV29OgJLsJ7dAiupMuu6aTScFJOondIYf/3H5mKmlAoLY++mJrVpBKJiS5s7W
- ijKR8tTRYbft0V9oGR8zHk3ZqT3Oj4awoQIXOFd3rfp1D+5P5522+bECxacfhbhDGTM7
- EWgpQmovHeJBnC0QPEfbg/bxOQEqXTLr5q+InvsU5BfejkczuSNrtWDraf6iM5R/+P81
- RIug==
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 425806E2B4
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 13:05:33 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id t25so6806965otc.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 05:05:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=meHuzs6N41tZwNz5Z8o9DqX2fcdLCbhLwuuynzEyeWM=;
+ b=caNcsbg+cluV4xsl+wtBGBB0+tBVxphrCq08ie5y62VKKrrvFqHJl4eLA753W6yxcx
+ +DsfIeed0slxZgU+awR4rrvFavZxYfvGEqGNS7qi3cj7ZT7FTuj9kwiuXEmbea+Uklvt
+ S+/Onew+8DaR2I0iNwiG8CXgsWbaVu9d9oMHc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MHJsMavE3nujSnxW3LwxOmZw7EFguJmQU/pNqi0G+xI=;
- b=PeishbIofhshrM3BngjiI7nOCJMExI3nLo1GzLcxfEFi15jrJc9g2ZGWo13RHG+QhJ
- 7nKaaAW5FAuyPUGXfIb2NqFJuo+mifZDQMPfiZZNmNFj2raZCf8ofxfGCDQCc9/sQTKK
- U523myirhIvRmEW1HfePe31med9KO0Su0dkGNf5Z/4pCGCmSRcsVLtMLK6NQmr1BlRtf
- uwa3mxE9LkABZQ24Xo/83o21/n0vDC2YIrHyNiZ5lEqMZHtcNRtDsFrzXg5VcUF5xWL2
- 6l1GqsZJrJMFlqUy/cSLKpN+mD/y9cB5hlZn+dMKeAIRA2If0RtwLQRz8fXh8wMKFFhl
- kbKg==
-X-Gm-Message-State: AOAM533UoAB0sAz5KPbJyavxZgxSjTRJ+Ftbp9ATPcFRfiOIEkGEpL/N
- olnq3oGk49WayNXLZa53nFY=
-X-Google-Smtp-Source: ABdhPJzESrKrwXVHsctE3NGaG/IC2lbP3Th5GQobMhswX/sILMe3FBMtg0ocebizL/CRAVGrkZXKVg==
-X-Received: by 2002:a37:9d53:: with SMTP id g80mr4055340qke.307.1612530315873; 
- Fri, 05 Feb 2021 05:05:15 -0800 (PST)
-Received: from localhost.localdomain ([138.199.10.106])
- by smtp.gmail.com with ESMTPSA id k8sm9092945qkk.79.2021.02.05.05.05.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 05:05:14 -0800 (PST)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: drm: nouveau: nvkm: Replace a word with a better
- phonetic word in the file macros.fuc
-Date: Fri,  5 Feb 2021 18:35:02 +0530
-Message-Id: <20210205130502.1440514-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=meHuzs6N41tZwNz5Z8o9DqX2fcdLCbhLwuuynzEyeWM=;
+ b=AW1UZxteWkGv3YzYHjquPFGxBoXOwlyDJm+3wq/+9hiCVBhGwffZimeO9S5PQMzU27
+ yoz0qHaT/3Y2o7ntOy6Z2FDScHOIaFvBkHc6roaoP2S4N87Xj9QV5tzd92WEadB+MZ9d
+ z5+z0uWgaeqxuz+qtgBxQMzqTvNemQrsuerpG3IRrblu+ugQQJ2Sm6xD1vW2WLnoRHqg
+ ajDGgCFVdO3MxSflrrzcqBCLaJUTgYA0/0uCx3jrnt4DzzZnwKT2r00vr8qfzd8/+6he
+ BcqgulXeoENdFjya7+KbXP4BX9DwoLuXyjvONEJa/4K3J2m+U308xywop8QQ5e1qc/kh
+ tw9Q==
+X-Gm-Message-State: AOAM532JoizZoo/MTbXaFnOs8smcMaguQTL3XFw6ejg7iI0KUa76D1CN
+ Ps0kbq4haAnw6kNzOl3CIaUplKLbVEWbfs4ENyT3NA==
+X-Google-Smtp-Source: ABdhPJzng89M/HFnFqHXCqLK/NUEuD1p6NqDzjg+NI3npAgpIIrnhRIkeejWN9f+opFyGRDm7xIyl4Yf2/s72s+33io=
+X-Received: by 2002:a9d:6c96:: with SMTP id c22mr3221863otr.303.1612530332640; 
+ Fri, 05 Feb 2021 05:05:32 -0800 (PST)
 MIME-Version: 1.0
+References: <20210204155846.5aef94a8@canb.auug.org.au>
+ <CAHp75Vct=jSQxu187hwz4Wrc_xRKiTmKFt_bgT-m-z=iW31drg@mail.gmail.com>
+ <CAHp75Vc_xJFpUECZenOYEyJ6YDzfDFmJe9cTeGh0x-c_fKQPHw@mail.gmail.com>
+ <CAMeQTsYK5GoL=VNB0CPrGi0Y-804N1q24dkii20OuV8=ckhmuA@mail.gmail.com>
+In-Reply-To: <CAMeQTsYK5GoL=VNB0CPrGi0Y-804N1q24dkii20OuV8=ckhmuA@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 5 Feb 2021 14:05:21 +0100
+Message-ID: <CAKMK7uFSF0cHZh6KikMf2MmBykZazE5HGA1ejJU++GWyfuTmfQ@mail.gmail.com>
+Subject: Re: linux-next: manual merge of the drivers-x86 tree with the
+ drm-misc tree
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Mark Gross <mark.gross@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 5, 2021 at 12:14 PM Patrik Jakobsson
+<patrik.r.jakobsson@gmail.com> wrote:
+>
+> On Fri, Feb 5, 2021 at 12:07 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> >
+> > On Thu, Feb 4, 2021 at 11:04 AM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > >> Today's linux-next merge of the drivers-x86 tree got a conflict in:
+> > >
+> > > Thanks. I already asked Patrik yesterday day if DRM missed to pull an immutable tag I provided. I think they can pull and resolve conflicts themselves. Alternatively it would be easy to resolve by Linus by removing Kconfig lines along with mentioned files,
+> >
+> > Patrik, I have sent a PR again, so you may consider pulling it, thanks!
+>
+> Daniel, is this something you can pull into drm or ask one of the
+> drm-misc maintainers to do?
 
+We've already created the conflict, and my understanding is that Linus
+wants to have visibility into conflict-y stuff and doesn't mind at all
+resolving conflicts. Hence for 5.12 I think we're fine as-is.
 
-s/fuck/heck/
-
-
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-index 3737bd27f74e..1407a1b16d95 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-@@ -46,7 +46,7 @@
- #define NV_PPWR_INTR_EN_SET_SUBINTR                                  0x00000800
- #define NV_PPWR_INTR_EN_SET_WATCHDOG                                 0x00000002
- #define NV_PPWR_INTR_EN_CLR                                              0x0014
--#define NV_PPWR_INTR_EN_CLR_MASK                    /* fuck i hate envyas */ -1
-+#define NV_PPWR_INTR_EN_CLR_MASK                    /* heck, i hate envyas */ -1
- #define NV_PPWR_INTR_ROUTE                                               0x001c
- #define NV_PPWR_TIMER_LOW                                                0x002c
- #define NV_PPWR_WATCHDOG_TIME                                            0x0034
---
-2.30.0
-
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
