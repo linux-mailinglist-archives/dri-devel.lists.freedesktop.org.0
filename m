@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D078311175
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 20:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF73F31119A
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 20:58:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61ECD6F4BD;
-	Fri,  5 Feb 2021 19:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B126F4B9;
+	Fri,  5 Feb 2021 19:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA716F4BA
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 19:47:40 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id a8so11520539lfi.8
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 11:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JpFQEtQj4C0OZQX0JhcEbS+mtM0J6361EvZ8pnT2TSE=;
- b=L/O8FpF6LlQ1+mtrZtK+VtKD+UUwgDHsysQWj+/uvhSwZGo1Eh2QdS4GfGMzmkCV/L
- dDZA9pKSv4B4myTCSTpIhhomB2+Z/K4c+q2WwpEg3Xwbj+ZBIPKawEHR0zlgnwaP1gAK
- Z1x5iSvolMkSNC0wpljVeFY3ptOa5llNld5RUARcT8gw66Aed7NI/BbM+AczKGjIEqTz
- r6wsUKUQaXnzMUvn6NGWqiMk7ykLYy/iHQGcyltHzQJo5Gl4qLat0QDAP/QPgZyuKIVv
- RczfcHPCgoEYDvo3BXUC64rPEIgnPcyVpl9/7EgSRfq4SEZq8zOSlOBbcbSWxpBn8YVC
- w/WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JpFQEtQj4C0OZQX0JhcEbS+mtM0J6361EvZ8pnT2TSE=;
- b=rGUyU5W/HkC5Yj7krz/+M0/zBgGr5niRaVstenCkposaM06xjZXxyhwI/YPSca8Ur3
- xXKRRxRLXcAmFEsnMjzmoZL0RClIux2oWvperfwXHbv6JLHS1CVGYjKwiPViXoX6xkzF
- wcoMcKbV9riZlrnaN8BTNOOWrtXV/P8lxjLOfeHKQMvH9jr1fHHBB1R4OxJiOFLdU8o8
- huiPGuFGb3Vzin0RaUbjd7sQwzehrR16M4YnAdPiE/xGBGaw2h0tDTkgOBdiBU/MghrL
- 04jbPPxZ9mtOZFLKriShzyu6pgsYW60+pLC7XpvMKooh2zTlxN2+bFD09kVYdfYUic1J
- PjSQ==
-X-Gm-Message-State: AOAM532MfY0yqwzoYCTxkuRAjKDqoB2tcYKiIkdHyeYcfAvc2jZbZzLe
- FZh5Wop+sJ/eEj541usiAAzvjOL1eymmb3AkANhFPMyp0/U=
-X-Google-Smtp-Source: ABdhPJxYzWAehEnsDpGaws8y+Zfq5m5I1qYWKUBMjcHBCecyBa1VQDARHSmA2ubfIx1mf62FNZS+cAX6p5NtKrw7Vgg=
-X-Received: by 2002:ac2:5590:: with SMTP id v16mr3187334lfg.626.1612554458492; 
- Fri, 05 Feb 2021 11:47:38 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 909616F4B9;
+ Fri,  5 Feb 2021 19:58:11 +0000 (UTC)
+IronPort-SDR: CT6N2BXescKcdDraNmnhm8Ii/GO+pylaSCkM0GWFV6AuAM5H91Rbdepf6A1MOUlwVdDV5dbQVR
+ w1X9MBHEBhBg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="181629670"
+X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="181629670"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2021 11:58:10 -0800
+IronPort-SDR: 6L1m6RRRblriemzMc8Yehw5J4z1haPsP3KhdiMCYP+J5yXWe1P7IqFi+6K4Y2WiGI+7esiyFYc
+ ErUqgKgDB0Mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="373653771"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 05 Feb 2021 11:58:07 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 05 Feb 2021 21:58:07 +0200
+Date: Fri, 5 Feb 2021 21:58:07 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 1/3] i915/display/intel_dp: Read PCON DSC ENC caps only
+ for DPCD rev >= 1.4
+Message-ID: <YB2jT9p3N8Py6KUU@intel.com>
+References: <20210204064842.11595-1-ankit.k.nautiyal@intel.com>
+ <20210204064842.11595-2-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-4-john.stultz@linaro.org>
- <8a4cacb7-3042-53c7-02fe-de18cc49fc0e@amd.com>
-In-Reply-To: <8a4cacb7-3042-53c7-02fe-de18cc49fc0e@amd.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 5 Feb 2021 11:47:25 -0800
-Message-ID: <CALAqxLX7KT8Zqv+qjpbiDzSLubvDgXz6Ayk_U_q5e0veweHcFw@mail.gmail.com>
-Subject: Re: [RFC][PATCH v6 3/7] drm: ttm_pool: Rework ttm_pool_free_page to
- allow us to use it as a function pointer
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20210204064842.11595-2-ankit.k.nautiyal@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBGZWIgNSwgMjAyMSBhdCAxMjoyOCBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+IEFtIDA1LjAyLjIxIHVtIDA5OjA2IHNjaHJpZWIg
-Sm9obiBTdHVsdHo6Cj4gPiBUaGlzIHJlZmFjdG9ycyB0dG1fcG9vbF9mcmVlX3BhZ2UoKSwgYW5k
-IGJ5IGFkZGluZyBleHRyYSBlbnRyaWVzCj4gPiB0byB0dG1fcG9vbF9wYWdlX2RhdCwgd2UgdGhl
-biB1c2UgaXQgZm9yIGFsbCBhbGxvY2F0aW9ucywgd2hpY2gKPiA+IGFsbG93cyB1cyB0byBzaW1w
-bGlmeSB0aGUgYXJndW1lbnRzIG5lZWRlZCB0byBiZSBwYXNzZWQgdG8KPiA+IHR0bV9wb29sX2Zy
-ZWVfcGFnZSgpLgo+Cj4gVGhpcyBpcyBhIGNsZWFyIE5BSyBzaW5jZSB0aGUgcGVlciBwYWdlIGRh
-dGEgaXMganVzdCBhIHdvcmthcm91bmQgZm9yCj4gdGhlIERNQS1BUEkgaGFjayB0byBncmFiIHBh
-Z2VzIGZyb20gdGhlcmUuCj4KPiBBZGRpbmcgdGhpcyB0byBhbGwgcGFnZXMgd291bGQgaW5jcmVh
-c2UgdGhlIG1lbW9yeSBmb290cHJpbnQgZHJhc3RpY2FsbHkuCgpZZWEsIHRoYXQncyBhIGdvb2Qg
-cG9pbnQhICBIcm0uLi4gYnVtbWVyLiBJJ2xsIGhhdmUgdG8gc2VlIGlmIHRoZXJlJ3MKc29tZSBv
-dGhlciB3YXkgSSBjYW4gZ2V0IHRoZSBuZWVkZWQgY29udGV4dCBmb3IgdGhlIGZyZWUgZnJvbSB0
-aGUKZ2VuZXJpYyBwYWdlLXBvb2wgc2lkZS4KClRoYW5rcyBzbyBtdWNoIGZvciB0aGUgcmV2aWV3
-IQotam9obgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Feb 04, 2021 at 12:18:40PM +0530, Ankit Nautiyal wrote:
+> DP-HDMI2.1 PCON has DSC encoder caps defined in registers 0x92-0x9E.
+> Do not read the registers if DPCD rev < 1.4.
+> =
+
+> Fixes: https://gitlab.freedesktop.org/drm/intel/-/issues/2868
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 8c12d5375607..2b83f0f433a2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2489,9 +2489,11 @@ static void intel_dp_get_pcon_dsc_cap(struct intel=
+_dp *intel_dp)
+>  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+>  =
+
+>  	/* Clear the cached register set to avoid using stale values */
+> -
+>  	memset(intel_dp->pcon_dsc_dpcd, 0, sizeof(intel_dp->pcon_dsc_dpcd));
+>  =
+
+> +	if (intel_dp->dpcd[DP_DPCD_REV] < 0x14)
+> +		return;
+> +
+
+Can't check the spec, but makes sense that this stuff is only valid
+for recent DCPD revisions.
+
+Acked-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+>  	if (drm_dp_dpcd_read(&intel_dp->aux, DP_PCON_DSC_ENCODER,
+>  			     intel_dp->pcon_dsc_dpcd,
+>  			     sizeof(intel_dp->pcon_dsc_dpcd)) < 0)
+> -- =
+
+> 2.29.2
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
