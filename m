@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F11D311488
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D163114C7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 095F26F50C;
-	Fri,  5 Feb 2021 22:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47FB6F510;
+	Fri,  5 Feb 2021 22:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31086F50C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 22:10:58 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id k142so9121427oib.7
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 14:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC0746F510
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 22:16:44 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id jj19so14530606ejc.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 14:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0DcAQyDRlgX9euJG7WIBILXzsP1xpvkywzzzD0NC8ic=;
- b=efAI5yEwlPA+ZJj4pSOSpKMymdXr7odXwzus/EO0eQrjw6bFE4/HiGnoNVnNcTWRkC
- OYXCfT4SPrIH4MEzc95zOROy1jnR54dhDpYQe043LeqU3B/WODUQf+OCTcwL75q9m32J
- dBydvBxAXLhLuFTwp9Vi9R/eE6eR30nO8JKnY=
+ :cc; bh=3kp/ssO08V/FY7QsvN3DMxWquJo+13gFrtQMZOim6zA=;
+ b=M4ijjVScAGYeDFtPLSQUcmiTwAtxyv89sLB66yyfVTXwnVvVvUN00ubY/V6m51Z2PP
+ S8M+azcFDCJh/C5JGzAbm2OrjM1pQ7xIhh3Y8mWIGHJc9AYyo8pA2Bv4WkSqFOerjiV5
+ 3/eksl9cGfxUw6zkwj0UvP9BDK5eVvSSe65CdGl6akl1++UMcE1E3Dy7I6aVlln2E4Qk
+ TeNwcxatPbGAn9EnVhXk9fOU3245XVPVS6MfhOfOeNVJjlB5zKZOWNKdpzjsKMcBfsfu
+ StGuVFG3s5KIYJ15I0Tz94XbXQ1GqdrynZ96DSiSmigQQuBWXGMmiOkN2AUTu2jCC7di
+ ZhOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0DcAQyDRlgX9euJG7WIBILXzsP1xpvkywzzzD0NC8ic=;
- b=TnPUkvq00fMgUq4LKC3DfvwMSDOd+ZBgIaq8NtSuApY4MGWISJQ8CO/E4nChFMOdiw
- DMOa3PCLc20D1D8AFodebpEITjIu1veoUNn3q6y0F4wV8Ai7jPoo6tg8WkR4c6STqgxS
- 2IjXhrXC/vosiU1fBtf/92tb7RQBNBX+8erwajU7nJKuAv5Bh5+EEqZH8TNjVAPvpduW
- UYps0sSm1jngdMHjXbPzJ4Tb9FNmvLG/Xb/djXUNq6SExeWmv6SarHuhBlfZea/Q7Kth
- lMBuh9gHdXZ/Ootd1aNwHOwF45yYpiDKTuaODyuOik9iAN69X7ywHkaqg4d5bleVs9CV
- Yilg==
-X-Gm-Message-State: AOAM531z9DIg7ju9Ru2xexdNI/SpVmeMTxczBJee5WlTw1BeWegpfaql
- TA1gltrz99aPMmeNAhenqNEmucpvbyX0l10m3ogK+w==
-X-Google-Smtp-Source: ABdhPJytr9Pgso6wFDs1p8oY7AURtJ0AcZS5QEaPPKsSpp6T7M5xGrphRlc+mKDm2sbHg0D/U8VvTIMIgphP3JXrVYs=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr4281865oia.14.1612563057988; 
- Fri, 05 Feb 2021 14:10:57 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=3kp/ssO08V/FY7QsvN3DMxWquJo+13gFrtQMZOim6zA=;
+ b=bNweO7B3+qoX4K7Hu6uQYsU37/TJAO/hy0vwL+/I8bz+Zp14Jbl7LPbaerLSNGAvok
+ Zx+GUZiJ2Io3waAMFDgtxa6ChlELF94MWF20fIowqk8q6IEjxL2mMIkUVdYd8clGPJo4
+ 91k8FWhjvABA+J1woxS5fRhYPZ4udlJyVwJhncL7u7M8NJTvPX+MhOowikMYiZXJVt7N
+ UG204vHyEKipI3201BDVDPwTa0KEEpYC8WGrbEwDGJy4dOojhWWlhLzh8rfcfdT/wOwX
+ z8exI8qzR5JL94n+3zjjvnMjqJqbNhi93XSoC63S5C4pi1HZMl9CcghLfjJRaNwicNKU
+ aOGA==
+X-Gm-Message-State: AOAM533Xe46jOqvjQynlqE6xDcCxBo5NR5ioUUYZ7Lb0iSMuhDH1q4nr
+ V+YJXNesuohKuB7ib1IdlSSvIT8lQrC6rjYcchS9OJTZPeL25w==
+X-Google-Smtp-Source: ABdhPJxoOzs3YFeA6eMoBrBNsWHVx+Jsnw6yNRUYN7CTVrXtDf4kIAhtdord4ETNVbfA8bjafLpA5ba3q8qztx3ll3o=
+X-Received: by 2002:a17:906:3101:: with SMTP id
+ 1mr6149715ejx.115.1612563403510; 
+ Fri, 05 Feb 2021 14:16:43 -0800 (PST)
 MIME-Version: 1.0
-References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
- <1611003683-3534-12-git-send-email-andrey.grodzovsky@amd.com>
- <35ecd67f-620f-df50-3e03-d24dc12452d6@gmail.com>
- <8925db97-bf81-7e5e-527d-f654713b400d@amd.com>
- <CAKMK7uHCzBpaC2YypKeQwbJiT0JG2Hq7V0BC5yC88f9nqgxUiw@mail.gmail.com>
- <8ed4a153-d503-e704-0a0d-3422877e50fa@amd.com>
- <91b8ea73-aa69-1478-2e7c-63ab1cb250ae@gmail.com>
- <7834dbdf-27ad-f21d-b58b-2772a598ea8a@amd.com>
- <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
- <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
- <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
- <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
-In-Reply-To: <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 5 Feb 2021 23:10:46 +0100
-Message-ID: <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
-Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
- device removal
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+References: <1612493666-757-1-git-send-email-jpark37@lagfreegames.com>
+In-Reply-To: <1612493666-757-1-git-send-email-jpark37@lagfreegames.com>
+From: James Park <james.park@lagfreegames.com>
+Date: Fri, 5 Feb 2021 14:16:08 -0800
+Message-ID: <CABjik9etLLp=ZzEZS3hjRBVFwK-vuJoTTLT3rK9iijSjam3utQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: DRM_FOURCC_STANDALONE macro support
+To: James Park <jpark37@lagfreegames.com>, Simon Ser <contact@emersion.fr>, 
+ Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,120 +63,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBGZWIgNSwgMjAyMSBhdCA1OjIyIFBNIEFuZHJleSBHcm9kem92c2t5CjxBbmRyZXku
-R3JvZHpvdnNreUBhbWQuY29tPiB3cm90ZToKPgo+IERhbmllbCwgcGluZy4gQWxzbywgcGxlYXNl
-IHJlZmVyIHRvIHRoZSBvdGhlciB0aHJlYWQgd2l0aCBCam9ybiBmcm9tIHBjaS1kZXYKPiBvbiB0
-aGUgc2FtZSB0b3BpYyBJIGFkZGVkIHlvdSB0by4KClN1bW1hcml6aW5nIG15IHRha2Ugb3ZlciB0
-aGVyZSBmb3IgaGVyZSBwbHVzIG1heWJlIHNvbWUgbW9yZQpjbGFyaWZpY2F0aW9uLiBUaGVyZSdz
-IHR3byBwcm9ibGVtczoKCi0gWW91IG11c3QgZ3VhcmFudGVlIHRoYXQgYWZ0ZXIgdGhlIC0+cmVt
-b3ZlIGNhbGxiYWNrIG9mIHlvdXIgZHJpdmVyCmlzIGZpbmlzaGVkLCB0aGVyZSdzIG5vIG1vcmUg
-bW1pbyBvciBhbnkgb3RoZXIgaHcgYWNjZXNzLiBBCmNvbWJpbmF0aW9uIG9mIHN0b3BwaW5nIHN0
-dWZmIGFuZCBkcm1fZGV2X2VudGVyL2V4aXQgY2FuIGhlbHAgd2l0aAp0aGF0LiBUaGlzIHByZXZl
-bnRzIHRoZSB1c2UtYWZ0ZXItZnJlZSBpc3N1ZS4KCi0gRm9yIHRoZSBhY3R1YWwgaG90dW5wbHVn
-IHRpbWUsIGkuZS4gYW55dGhpbmcgdGhhdCBjYW4gcnVuIHdoaWxlIHlvdXIKZHJpdmVyIGlzIHVz
-ZWQgdXAgdG8gdGhlIHBvaW50IHdoZXJlIC0+cmVtb3ZlIGNhbGxiYWNrIGhhcyBmaW5pc2hlZApz
-dG9wcCBodyBhY2Nlc3MgeW91IG11c3QgZ3VhcmFudGVlIHRoYXQgY29kZSBkb2Vzbid0IGJsb3cg
-dXAgd2hlbiBpdApnZXRzIGJvZ3VzIHJlYWRzIChpbiB0aGUgZm9ybSBvZiAweGZmIHZhbHVlcyku
-IGRybV9kZXZfZW50ZXIvZXhpdApjYW4ndCBoZWxwIHlvdSB3aXRoIHRoYXQuIFBsdXMgeW91IHNo
-b3VsZCBtYWtlIHN1cmUgdGhhdCB3ZSdyZSBub3QKc3BlbmRpbmcgZm9yZXZlciB3YWl0aW5nIGZv
-ciBhIGJpZyBwaWxlIG9mIG1taW8gYWNjZXNzIGFsbCB0byB0aW1lIG91dApiZWNhdXNlIHlvdSBu
-ZXZlciBiYWlsIG91dCAtIHNvbWUgY29hcnNlLWdyYWluZWQgZHJtX2Rldl9lbnRlci9leGl0Cm1p
-Z2h0IGhlbHAgaGVyZS4KClBsdXMgZmluYWxseSB0aGUgdXNlcnNwYWNlIGFjY2VzcyBwcm9ibGVt
-OiBZb3UgbXVzdCBndWFyYW50ZWUgdGhhdAphZnRlciAtPnJlbW92ZSBoYXMgZmluaXNoZWQgdGhh
-dCBub25lIG9mIHRoZSB1YXBpIG9yIGNyb3NzLWRyaXZlcgphY2Nlc3MgcG9pbnRzIChkcml2ZXIg
-aW9jdGwsIGRtYS1idWYsIGRtYS1mZW5jZSwgYW55dGhpbmcgZWxzZSB0aGF0CmhhbmdzIGFyb3Vu
-ZCkgY2FuIHJlYWNoIHRoZSBkYXRhIHN0cnVjdHVyZXMvbWVtb3J5IG1hcHBpbmdzL3doYXRldmVy
-CndoaWNoIGhhdmUgYmVlbiByZWxlYXNlZCBhcyBwYXJ0IG9mIHlvdXIgLT5yZW1vdmUgY2FsbGJh
-Y2suCmRybV9kZXZfZW50ZXIvZXhpdCBpcyBhZ2FpbiB0aGUgdG9vbCBvZiBjaG9pY2UgaGVyZS4K
-ClNvIHlvdSBoYXZlIHRvIHVzZSBkcm1fZGV2X2VudGVyL2V4aXQgZm9yIHNvbWUgb2YgdGhlIHBy
-b2JsZW1zIHdlIGZhY2UKb24gaG90dW5wbHVnLCBidXQgaXQncyBub3QgdGhlIHRvb2wgdGhhdCBj
-YW4gaGFuZGxlIHRoZSBhY3R1YWwgaHcKaG90dW5wbHVnIHJhY2UgY29uZGl0aW9ucyBmb3IgeW91
-LgoKVW5mb3J0dW5hdGVseSB0aGUgaHcgaG90dW5wbHVnIHJhY2UgY29uZGl0aW9uIGlzIGFuIHV0
-dGVyIHBhaW4gdG8KdGVzdCwgc2luY2UgZXNzZW50aWFsbHkgeW91IG5lZWQgdG8gdmFsaWRhdGUg
-eW91ciBkcml2ZXIgYWdhaW5zdApzcHVyaW91cyAweGZmIHJlYWRzIGF0IGFueSBtb21lbnQuIEFu
-ZCBJIGRvbid0IGV2ZW4gaGF2ZSBhIGNsZXZlciBpZGVhCnRvIHNpbXVsYXRlIHRoaXMsIGUuZy4g
-YnkgZm9yY2VmdWxseSByZXBsYWNpbmcgdGhlIGlvYmFyIG1hcHBpbmc6IFdoYXQKd2UnZCBuZWVk
-IGlzIGEgbWFwcGluZyB0aGF0IGFsbG93cyByZWFkcyAoc28gd2UgY2FuIGZpbGwgYSBwYWdlIHdp
-dGgKMHhmZiBhbmQgdXNlIHRoYXQgZXZlcnl3aGVyZSksIGJ1dCBpbnN0ZWFkIG9mIHJlamVjdGlu
-ZyB3cml0ZXMsIGFsbG93cwp0aGVtLCBidXQgZHJvcHMgdGhlbSAoc28gdGhhdCB0aGUgMHhmZiBz
-dGF5cyBpbnRhY3QpLiBNYXliZSB3ZSBjb3VsZApzaW11bGF0ZSB0aGlzIHdpdGggc29tZSBrZXJu
-ZWwgZGVidWcgdHJpY2tzIChraW5kYSBsaWtlIG1taW90cmFjZSkKd2l0aCBhIHJlYWQtb25seSBt
-YXBwaW5nIGFuZCBkcm9wcGluZyBldmVyeSB3cml0ZSBldmVyeSB0aW1lIHdlIGZhdWx0LgpCdXQg
-dWdoIC4uLgoKT3RvaCB2YWxpZGF0aW5nIGFuIGVudGlyZSBkcml2ZXIgbGlrZSBhbWRncHUgd2l0
-aG91dCBzdWNoIGEgdHJpY2sKYWdhaW5zdCAweGZmIHJlYWRzIGlzIHByYWN0aWNhbGx5IGltcG9z
-c2libGUuIFNvIG1heWJlIHlvdSBuZWVkIHRvIGFkZAp0aGlzIGFzIG9uZSBvZiB0aGUgdGFza3Mg
-aGVyZT8KLURhbmllbAoKPgo+IEFuZHJleQo+Cj4gT24gMS8yOS8yMSAyOjI1IFBNLCBDaHJpc3Rp
-YW4gS8O2bmlnIHdyb3RlOgo+ID4gQW0gMjkuMDEuMjEgdW0gMTg6MzUgc2NocmllYiBBbmRyZXkg
-R3JvZHpvdnNreToKPiA+Pgo+ID4+IE9uIDEvMjkvMjEgMTA6MTYgQU0sIENocmlzdGlhbiBLw7Zu
-aWcgd3JvdGU6Cj4gPj4+IEFtIDI4LjAxLjIxIHVtIDE4OjIzIHNjaHJpZWIgQW5kcmV5IEdyb2R6
-b3Zza3k6Cj4gPj4+Pgo+ID4+Pj4gT24gMS8xOS8yMSAxOjU5IFBNLCBDaHJpc3RpYW4gS8O2bmln
-IHdyb3RlOgo+ID4+Pj4+IEFtIDE5LjAxLjIxIHVtIDE5OjIyIHNjaHJpZWIgQW5kcmV5IEdyb2R6
-b3Zza3k6Cj4gPj4+Pj4+Cj4gPj4+Pj4+IE9uIDEvMTkvMjEgMTowNSBQTSwgRGFuaWVsIFZldHRl
-ciB3cm90ZToKPiA+Pj4+Pj4+IFtTTklQXQo+ID4+Pj4+PiBTbyBzYXkgd3JpdGluZyBpbiBhIGxv
-b3AgdG8gc29tZSBoYXJtbGVzcyBzY3JhdGNoIHJlZ2lzdGVyIGZvciBtYW55IHRpbWVzCj4gPj4+
-Pj4+IGJvdGggZm9yIHBsdWdnZWQKPiA+Pj4+Pj4gYW5kIHVucGx1Z2dlZCBjYXNlIGFuZCBtZWFz
-dXJlIHRvdGFsIHRpbWUgZGVsdGEgPwo+ID4+Pj4+Cj4gPj4+Pj4gSSB0aGluayB3ZSBzaG91bGQg
-YXQgbGVhc3QgbWVhc3VyZSB0aGUgZm9sbG93aW5nOgo+ID4+Pj4+Cj4gPj4+Pj4gMS4gV3JpdGlu
-ZyBYIHRpbWVzIHRvIGEgc2NyYXRjaCByZWcgd2l0aG91dCB5b3VyIHBhdGNoLgo+ID4+Pj4+IDIu
-IFdyaXRpbmcgWCB0aW1lcyB0byBhIHNjcmF0Y2ggcmVnIHdpdGggeW91ciBwYXRjaC4KPiA+Pj4+
-PiAzLiBXcml0aW5nIFggdGltZXMgdG8gYSBzY3JhdGNoIHJlZyB3aXRoIHRoZSBoYXJkd2FyZSBw
-aHlzaWNhbGx5IGRpc2Nvbm5lY3RlZC4KPiA+Pj4+Pgo+ID4+Pj4+IEkgc3VnZ2VzdCB0byByZXBl
-YXQgdGhhdCBvbmNlIGZvciBQb2xhcmlzIChvciBvbGRlcikgYW5kIG9uY2UgZm9yIFZlZ2Egb3IK
-PiA+Pj4+PiBOYXZpLgo+ID4+Pj4+Cj4gPj4+Pj4gVGhlIFNSQk0gb24gUG9sYXJpcyBpcyBtZWFu
-dCB0byBpbnRyb2R1Y2Ugc29tZSBkZWxheSBpbiBlYWNoIGFjY2Vzcywgc28gaXQKPiA+Pj4+PiBt
-aWdodCByZWFjdCBkaWZmZXJlbnRseSB0aGVuIHRoZSBuZXdlciBoYXJkd2FyZS4KPiA+Pj4+Pgo+
-ID4+Pj4+IENocmlzdGlhbi4KPiA+Pj4+Cj4gPj4+Pgo+ID4+Pj4gU2VlIGF0dGFjaGVkIHJlc3Vs
-dHMgYW5kIHRoZSB0ZXN0aW5nIGNvZGUuIFJhbiBvbiBQb2xhcmlzIChnZng4KSBhbmQKPiA+Pj4+
-IFZlZ2ExMChnZng5KQo+ID4+Pj4KPiA+Pj4+IEluIHN1bW1hcnksIG92ZXIgMSBtaWxsaW9uIFdX
-UkVHMzIgaW4gbG9vcCB3aXRoIGFuZCB3aXRob3V0IHRoaXMgcGF0Y2ggeW91Cj4gPj4+PiBnZXQg
-YXJvdW5kIDEwbXMgb2YgYWNjdW11bGF0ZWQgb3ZlcmhlYWQgKCBzbyAwLjAwMDAxIG1pbGxpc2Vj
-b25kIHBlbmFsdHkgZm9yCj4gPj4+PiBlYWNoIFdXUkVHMzIpIGZvciB1c2luZyBkcm1fZGV2X2Vu
-dGVyIGNoZWNrIHdoZW4gd3JpdGluZyByZWdpc3RlcnMuCj4gPj4+Pgo+ID4+Pj4gUC5TIEJ1bGxl
-dCAzIEkgY2Fubm90IHRlc3QgYXMgSSBuZWVkIGVHUFUgYW5kIGN1cnJlbnRseSBJIGRvbid0IGhh
-dmUgb25lLgo+ID4+Pgo+ID4+PiBXZWxsIGlmIEknbSBub3QgY29tcGxldGVseSBtaXN0YWtlbiB0
-aGF0IGFyZSAxMDBtcyBvZiBhY2N1bXVsYXRlZCBvdmVyaGVhZC4KPiA+Pj4gU28gYXJvdW5kIDEw
-MG5zIHBlciB3cml0ZS4gQW5kIGV2ZW4gYmlnZ2VyIHByb2JsZW0gaXMgdGhhdCB0aGlzIGlzIGEg
-fjY3JQo+ID4+PiBpbmNyZWFzZS4KPiA+Pgo+ID4+Cj4gPj4gTXkgYmFkLCBhbmQgNjclIGZyb20g
-d2hhdCA/IEhvdyB1IGNhbGN1bGF0ZSA/Cj4gPgo+ID4gTXkgYmFkLCAoMzA4NTAxLTIwOTY4OSkv
-MjA5Njg5PTQ3JSBpbmNyZWFzZS4KPiA+Cj4gPj4+Cj4gPj4+IEknbSBub3Qgc3VyZSBob3cgbWFu
-eSB3cml0ZSB3ZSBkbyBkdXJpbmcgbm9ybWFsIG9wZXJhdGlvbiwgYnV0IHRoYXQgc291bmRzCj4g
-Pj4+IGxpa2UgYSBiaXQgbXVjaC4gSWRlYXM/Cj4gPj4KPiA+PiBXZWxsLCB1IHN1Z2dlc3RlZCB0
-byBtb3ZlIHRoZSBkcm1fZGV2X2VudGVyIHdheSB1cCBidXQgYXMgaSBzZWUgaXQgdGhlIHByb2Js
-ZW0KPiA+PiB3aXRoIHRoaXMgaXMgdGhhdCBpdCBpbmNyZWFzZSB0aGUgY2hhbmNlIG9mIHJhY2Ug
-d2hlcmUgdGhlCj4gPj4gZGV2aWNlIGlzIGV4dHJhY3RlZCBhZnRlciB3ZSBjaGVjayBmb3IgZHJt
-X2Rldl9lbnRlciAodGhlcmUgaXMgYWxzbyBzdWNoCj4gPj4gY2hhbmNlIGV2ZW4gd2hlbiBpdCdz
-IHBsYWNlZCBpbnNpZGUgV1dSRUcgYnV0IGl0J3MgbG93ZXIpLgo+ID4+IEVhcmxpZXIgSSBwcm9w
-c2VkIHRoYXQgaW5zdGVhZCBvZiBkb2luZyBhbGwgdGhvc2UgZ3VhcmRzIHNjYXR0ZXJlZCBhbGwg
-b3Zlcgo+ID4+IHRoZSBjb2RlIHNpbXBseSBkZWxheSByZWxlYXNlIG9mIHN5c3RlbSBtZW1vcnkg
-cGFnZXMgYW5kIHVucmVzZXJ2ZSBvZgo+ID4+IE1NSU8gcmFuZ2VzIHRvIHVudGlsIGFmdGVyIHRo
-ZSBkZXZpY2UgaXRzZWxmIGlzIGdvbmUgYWZ0ZXIgbGFzdCBkcm0gZGV2aWNlCj4gPj4gcmVmZXJl
-bmNlIGlzIGRyb3BwZWQuIEJ1dCBEYW5pZWwgb3Bwb3NlcyBkZWxheWluZyBNTUlPIHJhbmdlcyB1
-bnJlc2VydmUgdG8gYWZ0ZXIKPiA+PiBQQ0kgcmVtb3ZlIGNvZGUgYmVjYXVzZSBhY2NvcmRpbmcg
-dG8gaGltIGl0IHdpbGwgdXBzZXQgdGhlIFBDSSBzdWJzeXRlbS4KPiA+Cj4gPiBZZWFoLCB0aGF0
-J3MgbW9zdCBsaWtlbHkgdHJ1ZSBhcyB3ZWxsLgo+ID4KPiA+IE1heWJlIERhbmllbCBoYXMgYW5v
-dGhlciBpZGVhIHdoZW4gaGUncyBiYWNrIGZyb20gdmFjYXRpb24uCj4gPgo+ID4gQ2hyaXN0aWFu
-Lgo+ID4KPiA+Pgo+ID4+IEFuZHJleQo+ID4+Cj4gPj4+Cj4gPj4+IENocmlzdGlhbi4KPiA+PiBf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+IGFtZC1n
-ZnggbWFpbGluZyBsaXN0Cj4gPj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+PiBo
-dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
-M0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZhbWQt
-Z2Z4JmFtcDtkYXRhPTA0JTdDMDElN0NBbmRyZXkuR3JvZHpvdnNreSU0MGFtZC5jb20lN0M3ZTYz
-YzdiYTlhYzQ0ZDgwMTYzMTA4ZDhjNDhiOTUwNyU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5
-NGUxODNkJTdDMCU3QzAlN0M2Mzc0NzU0NTEwNzg3MzE3MDMlN0NVbmtub3duJTdDVFdGcGJHWnNi
-M2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxD
-SlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9U296SVlZbUhwa2slMkI0UFJ5Y3M4VDd4MURZ
-YWdUaHk2bFFvRlhWNURkYW1rJTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4KPiA+CgoKCi0tIApEYW5p
-ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
-Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Feb 4, 2021 at 6:55 PM James Park <jpark37@lagfreegames.com> wrote:
+>
+> Use DRM_FOURCC_STANDALONE to include drm_fourcc.h without drm.h.
+>
+> Copy type definitions from drm.h to drm_fourcc.h, and wrap with
+> DRM_BASIC_TYPED_DEFINED to avoid redundant inclusion.
+>
+> This will allow code to avoid unnecessary definitions.
+>
+> Signed-off-by: James Park <jpark37@lagfreegames.com>
+> ---
+>  include/uapi/drm/drm.h        | 35 ++++++++++++++++++++++++++++-------
+>  include/uapi/drm/drm_fourcc.h | 35 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 63 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 808b48a..5640062 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -36,23 +36,25 @@
+>  #ifndef _DRM_H_
+>  #define _DRM_H_
+>
+> +/**
+> + * DRM_BASIC_TYPES_DEFINED section exists in both drm.h and drm_fourcc.h files.
+> + * Do not modify the section in one file without updating the other!
+> + */
+> +
+> +#ifndef DRM_BASIC_TYPES_DEFINED
+> +#define DRM_BASIC_TYPES_DEFINED
+> +
+>  #if defined(__KERNEL__)
+>
+>  #include <linux/types.h>
+> -#include <asm/ioctl.h>
+> -typedef unsigned int drm_handle_t;
+>
+>  #elif defined(__linux__)
+>
+>  #include <linux/types.h>
+> -#include <asm/ioctl.h>
+> -typedef unsigned int drm_handle_t;
+>
+> -#else /* One of the BSDs */
+> +#else /* Not Linux */
+>
+>  #include <stdint.h>
+> -#include <sys/ioccom.h>
+> -#include <sys/types.h>
+>  typedef int8_t   __s8;
+>  typedef uint8_t  __u8;
+>  typedef int16_t  __s16;
+> @@ -62,6 +64,25 @@ typedef uint32_t __u32;
+>  typedef int64_t  __s64;
+>  typedef uint64_t __u64;
+>  typedef size_t   __kernel_size_t;
+> +
+> +#endif
+> +
+> +#endif /* DRM_BASIC_TYPES_DEFINED */
+> +
+> +#if defined(__KERNEL__)
+> +
+> +#include <asm/ioctl.h>
+> +typedef unsigned int drm_handle_t;
+> +
+> +#elif defined(__linux__)
+> +
+> +#include <asm/ioctl.h>
+> +typedef unsigned int drm_handle_t;
+> +
+> +#else /* One of the BSDs */
+> +
+> +#include <sys/ioccom.h>
+> +#include <sys/types.h>
+>  typedef unsigned long drm_handle_t;
+>
+>  #endif
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 723c8e2..5e5f4cf 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -24,7 +24,42 @@
+>  #ifndef DRM_FOURCC_H
+>  #define DRM_FOURCC_H
+>
+> +/**
+> + * DRM_BASIC_TYPES_DEFINED section exists in both drm.h and drm_fourcc.h files.
+> + * Do not modify the section in one file without updating the other!
+> + */
+> +
+> +#ifndef DRM_BASIC_TYPES_DEFINED
+> +#define DRM_BASIC_TYPES_DEFINED
+> +
+> +#if defined(__KERNEL__)
+> +
+> +#include <linux/types.h>
+> +
+> +#elif defined(__linux__)
+> +
+> +#include <linux/types.h>
+> +
+> +#else /* Not Linux */
+> +
+> +#include <stdint.h>
+> +typedef int8_t   __s8;
+> +typedef uint8_t  __u8;
+> +typedef int16_t  __s16;
+> +typedef uint16_t __u16;
+> +typedef int32_t  __s32;
+> +typedef uint32_t __u32;
+> +typedef int64_t  __s64;
+> +typedef uint64_t __u64;
+> +typedef size_t   __kernel_size_t;
+> +
+> +#endif
+> +
+> +#endif /* DRM_BASIC_TYPES_DEFINED */
+> +
+> +#ifndef DRM_FOURCC_STANDALONE
+>  #include "drm.h"
+> +#endif
+>
+>  #if defined(__cplusplus)
+>  extern "C" {
+> --
+> 2.7.4
+>
+
+Forgot to include Emil and Simon.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
