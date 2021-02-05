@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C70310FA0
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 19:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3092310FF8
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 19:34:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB036E093;
-	Fri,  5 Feb 2021 18:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5726E09E;
+	Fri,  5 Feb 2021 18:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A381C6E093
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 18:13:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6E7A264E50;
- Fri,  5 Feb 2021 18:13:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612548784;
- bh=5FjHkHYOt9eZtavVQC5cbPIy3lXBb60Zbdm+IZTyxTM=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=ZQl6+OwmcKSOGk6voDdm9lfqG21+1AtKoOKdrjgCnzB7+aDAy2/WGEFASSVcyATvN
- O+4QQgU/D5qWNh02e9SaD4a8kWwo3OAjzSVefPH8xpufHxT+mJoTmTXShJ+QYhGr2l
- sKbONdWh3SXfM2/66zbKO1iVxiynGlloS7vOU02oEKayImytkIwBOzU3wAmTC4dGmI
- jt88T7l/k8CwxyIjSYFJgI4Fl17mM/TSGdEWbVJzC+Etplx2SfH83kljahDb71hHkx
- pXACcg9rUROFYXMSJ9YsOMJJEiZy/tanwIQ7U4UMgiZ9RUPF48xLqqXvvEZm9XLcMz
- xocCiYII8mviQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 69C4860978;
- Fri,  5 Feb 2021 18:13:04 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.11-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twvv9LRSTW4t_Q=OLfei1DsXn-fsjO8ad3cSsZ3KeDNhQ@mail.gmail.com>
-References: <CAPM=9twvv9LRSTW4t_Q=OLfei1DsXn-fsjO8ad3cSsZ3KeDNhQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9twvv9LRSTW4t_Q=OLfei1DsXn-fsjO8ad3cSsZ3KeDNhQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-02-05-1
-X-PR-Tracked-Commit-Id: 59854811c08cfbdf52d79231666e7c07c46ff338
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8e91dd934be6131143df5db05fb06635581addf9
-Message-Id: <161254878442.14736.6188187964418855985.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Feb 2021 18:13:04 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 494416F49E;
+ Fri,  5 Feb 2021 17:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=08/9eUYrON8JjgNfSMvnJtGPuDDsOmQbDO2HePIMB/Q=; b=ebzoSt+d2x4Dn+mrVLeczYcm2O
+ PyJ1PE4gCqwN0xjgVnEQsl3+4UXMZK7M+KeoKbdsFQH3qfNvFgyOw8WqMxbnzufp2c2p3XbabtPOl
+ cwvBvy1rDIAoZ0roobw6O4AGPu37ol+D2tlfLxW8AzZCsztgkaq6uZZsUD2EwNNw7b1aZOpbK0oS5
+ eLRNo6+hrS8Q9NTyyzg/Bzu0Ay3LusTcbpd2PFln1F8UQOIk616M5thi14c4pNu5jYPCHjBJJKnY6
+ SjfK1KXbyHh9VVXKzfwmL0BOUZa+sGS92978yOE2o76pjWtiGHBdxnBUtSxAhBbOCJdU6GK81s5w2
+ eumII7jw==;
+Received: from [2601:1c0:6280:3f0::aec2]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l8595-000862-PJ; Fri, 05 Feb 2021 17:43:52 +0000
+Subject: Re: [PATCH] drivers: gpu: drm: msn: disp: dpu1: Fixed couple of
+ spellings in the file dpu_hw_top.h
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, robdclark@gmail.com,
+ sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch, jonathan@marek.ca,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210205084758.354509-1-unixbhaskar@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <638f6e0c-cf14-a113-b1cf-5d07299c7332@infradead.org>
+Date: Fri, 5 Feb 2021 09:43:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20210205084758.354509-1-unixbhaskar@gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 05 Feb 2021 18:33:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,28 +54,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 5 Feb 2021 11:43:49 +1000:
+On 2/5/21 12:47 AM, Bhaskar Chowdhury wrote:
+> 
+> 
+> s/confguration/configuration/
+> s/Regsiters/Registers/
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> index 8018fff5667a..3aa10c89ca1b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> @@ -30,7 +30,7 @@ struct traffic_shaper_cfg {
+> 
+>  /**
+>   * struct split_pipe_cfg - pipe configuration for dual display panels
+> - * @en        : Enable/disable dual pipe confguration
+> + * @en        : Enable/disable dual pipe configuration
+>   * @mode      : Panel interface mode
+>   * @intf      : Interface id for main control path
+>   * @split_flush_en: Allows both the paths to be flushed when master path is
+> @@ -76,7 +76,7 @@ struct dpu_vsync_source_cfg {
+>   * @setup_traffic_shaper : programs traffic shaper control
+>   */
+>  struct dpu_hw_mdp_ops {
+> -	/** setup_split_pipe() : Regsiters are not double buffered, thisk
+> +	/** setup_split_pipe() : Registers are not double buffered, thisk
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-02-05-1
+	                                                            this
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8e91dd934be6131143df5db05fb06635581addf9
+>  	 * function should be called before timing control enable
+>  	 * @mdp  : mdp top context driver
+>  	 * @cfg  : upper and lower part of pipe configuration
+> --
+> 2.30.0
+> 
 
-Thank you!
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+~Randy
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
