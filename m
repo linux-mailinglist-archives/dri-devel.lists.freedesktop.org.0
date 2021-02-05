@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F66E311402
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DBA311409
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A566F4F9;
-	Fri,  5 Feb 2021 22:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5665C6F4FA;
+	Fri,  5 Feb 2021 22:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797C06F4D3
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:44:54 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1612557896; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=3BclvZ99xRNsYy0No6aROEDf6otnaYKYIumBhd5Kht8=;
- b=D6M0qi9xf0u8GW4qlh0Zfb+WJzUjzPx82RQsv4uVzBxckVBdLX+H/zEJEEPBbdVnafxqwxZQ
- D5Cf9qnBp92+71sSq/aGWn4Iqi9BQ79MBLxFAWsF7vyvNL6WrFr5IeLuixniz9aa3yuqTFn0
- ej5bauzOuAXe0PDsqMPHpdmdBt8=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 601dae42f112b7872c56ec48 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Feb 2021 20:44:50
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8F13BC43466; Fri,  5 Feb 2021 20:44:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B23E8C433CA;
- Fri,  5 Feb 2021 20:44:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B23E8C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	swboyd@chromium.org
-Subject: [PATCH] drm/msm/dp: reset dp controller only at boot up and pm_resume
-Date: Fri,  5 Feb 2021 12:44:38 -0800
-Message-Id: <1612557878-19743-1-git-send-email-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31AF76F4F5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 21:47:54 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id q2so10663989edi.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 13:47:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5pnuSpNEKdmcoBjj2QdJNC7CgKySzqePnnhN0iJ74KE=;
+ b=CazZD3gaSDfOEUuMFkR/IQY8QFmfUv80CHWEbco/8E0oftbEwwOIJ3fjX/atsGd7wj
+ evBDAPwAJv0WyagdvYzl42paXlsjQMsJ/RGozF1eefiPC5SzIh4WIwOVjh4BY5hIiGBz
+ N62/fb3kVV42RVbaHipmcM3KLdUFhQxMvqvNw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5pnuSpNEKdmcoBjj2QdJNC7CgKySzqePnnhN0iJ74KE=;
+ b=UHmo6SKJiW87Rb+tyyB8bXXLpvILvGVPzEaacU8NhOLbyAf7dn8isb4Yzfel9nrLCo
+ e5lFEvfUpzrgj22h8vwVWOjNt+7s9ZA2wis1s7U4yI0POw6pp0Aqy7GVPKaiuKeWzuc6
+ EzJSLlvR8phrC3hZ5OocRFfW7dGTbfXyJaN6JK7zCZRYLvmkwZQB2LiC57X6xOGEAZoL
+ bC1+QBfH1pyuiaKl5/nLx74SU07TOwaS8yudDLaptYdMD5WYIAopK7NFJDlet+zXicZF
+ z7f+YtoT0+ACQOznI+0/Cvsl+gMINcCcsuw8c1Ohi7PB25LYU/t8Uavr9uaUrY2NTARs
+ Kulw==
+X-Gm-Message-State: AOAM532fP2MBVxTeLG+EY/ospmXCniMpaTnC8m6FuTRb464fkJQ0mlRI
+ Qtak4otHFpm+YUaERoqVkoIFmQ==
+X-Google-Smtp-Source: ABdhPJzF+ubix/uZD3BGg6fAO3117ri17tLNIaKGiQba39MM+mUoaHvFRc/aLbJESW7rmz+oz9Wt1w==
+X-Received: by 2002:a05:6402:10ce:: with SMTP id
+ p14mr5530673edu.261.1612561672579; 
+ Fri, 05 Feb 2021 13:47:52 -0800 (PST)
+Received: from [192.168.1.149] (5.186.115.188.cgn.fibianet.dk. [5.186.115.188])
+ by smtp.gmail.com with ESMTPSA id y11sm4515813ejd.72.2021.02.05.13.47.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 13:47:52 -0800 (PST)
+Subject: Re: [PATCH v2] kernel: Expose SYS_kcmp by default
+To: Chris Wilson <chris@chris-wilson.co.uk>, linux-kernel@vger.kernel.org
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <20210205210610.29837-1-chris@chris-wilson.co.uk>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <e929c01a-8659-170c-d95a-b1d0dee628bc@rasmusvillemoes.dk>
+Date: Fri, 5 Feb 2021 22:47:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210205210610.29837-1-chris@chris-wilson.co.uk>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 05 Feb 2021 22:00:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,203 +70,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@amacapital.net>,
+ Cyrill Gorcunov <gorcunov@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP_SW_RESET is the global SW reset that is used to initialize DP
-controller. If DP_SW_RESET executed during connection setup,
-two HPD related side effects may occurred,
-1) pending HPD interrupts cleared unexpected
-2) re start debounce logic which trigger another interrupt
-This patch only issue DP_SW_RESET at boot up and pm_resume.
-This patch also reinit video_comp before configure dp controller
-to avoid missing VIDEO_READY interrupt.
+On 05/02/2021 22.06, Chris Wilson wrote:
+> Userspace has discovered the functionality offered by SYS_kcmp and has
+> started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> os_same_file_description() in order to identify when two fd (e.g. device
+> or dmabuf) point to the same struct file. Since they depend on it for
+> core functionality, lift SYS_kcmp out of the non-default
+> CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
+> 
+> Note that some distributions such as Ubuntu are already enabling
+> CHECKPOINT_RESTORE in their configs and so, by extension, SYS_kcmp.
+> 
 
-Fixes: 9fc418430c65 ("drm/msm/dp: unplug interrupt missed after irq_hpd handler")
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 22 +++++++++-------------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 14 +++++++-------
- 3 files changed, 17 insertions(+), 21 deletions(-)
+Looks a lot like
+https://lore.kernel.org/lkml/20200710075632.14661-1-linux@rasmusvillemoes.dk/.
+So FWIW, ack from me.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 55b7d0e..f8e75e2 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1296,8 +1296,6 @@ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
- 	 * transitioned to PUSH_IDLE. In order to start transmitting
- 	 * a link training pattern, we have to first do soft reset.
- 	 */
--	if (*training_step == DP_TRAINING_1)
--		dp_catalog_ctrl_reset(ctrl->catalog);
- 
- 	ret = dp_ctrl_link_train(ctrl, cr, training_step);
- 
-@@ -1366,7 +1364,7 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip)
-+int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
-@@ -1383,6 +1381,9 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip)
- 
- 	ctrl->dp_ctrl.orientation = flip;
- 
-+	if (reset)
-+		dp_catalog_ctrl_reset(ctrl->catalog);
-+
- 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_init(phy);
- 	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-@@ -1492,18 +1493,14 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
- 	return 0;
- }
- 
--static void dp_ctrl_link_idle_reset(struct dp_ctrl_private *ctrl)
--{
--	dp_ctrl_push_idle(&ctrl->dp_ctrl);
--	dp_catalog_ctrl_reset(ctrl->catalog);
--}
--
- static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
- {
- 	int ret = 0;
- 	struct dp_cr_status cr;
- 	int training_step = DP_TRAINING_NONE;
- 
-+	dp_ctrl_push_idle(&ctrl->dp_ctrl);
-+
- 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
- 	ret = dp_ctrl_setup_main_link(ctrl, &cr, &training_step);
-@@ -1630,7 +1627,6 @@ void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl)
- 
- 	if (sink_request & DP_TEST_LINK_TRAINING) {
- 		dp_link_send_test_response(ctrl->link);
--		dp_ctrl_link_idle_reset(ctrl);
- 		if (dp_ctrl_link_maintenance(ctrl)) {
- 			DRM_ERROR("LM failed: TEST_LINK_TRAINING\n");
- 			return;
-@@ -1684,7 +1680,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 			break;
- 		}
- 
--		training_step = DP_TRAINING_1;
-+		training_step = DP_TRAINING_NONE;
- 		rc = dp_ctrl_setup_main_link(ctrl, &cr, &training_step);
- 		if (rc == 0) {
- 			/* training completed successfully */
-@@ -1792,14 +1788,14 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 	 * Set up transfer unit values and set controller state to send
- 	 * video.
- 	 */
-+	reinit_completion(&ctrl->video_comp);
-+
- 	dp_ctrl_configure_source_params(ctrl);
- 
- 	dp_catalog_ctrl_config_msa(ctrl->catalog,
- 		ctrl->link->link_params.rate,
- 		ctrl->dp_ctrl.pixel_rate, dp_ctrl_use_fixed_nvid(ctrl));
- 
--	reinit_completion(&ctrl->video_comp);
--
- 	dp_ctrl_setup_tr_unit(ctrl);
- 
- 	dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index f60ba93..a836bd3 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -19,7 +19,7 @@ struct dp_ctrl {
- 	u32 pixel_rate;
- };
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip);
-+int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
- void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d9216f8..5a39da6 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -350,7 +350,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	return rc;
- }
- 
--static void dp_display_host_init(struct dp_display_private *dp)
-+static void dp_display_host_init(struct dp_display_private *dp, int reset)
- {
- 	bool flip = false;
- 
-@@ -365,7 +365,7 @@ static void dp_display_host_init(struct dp_display_private *dp)
- 	dp_display_set_encoder_mode(dp);
- 
- 	dp_power_init(dp->power, flip);
--	dp_ctrl_host_init(dp->ctrl, flip);
-+	dp_ctrl_host_init(dp->ctrl, flip, reset);
- 	dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
- }
-@@ -403,7 +403,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
- 		goto end;
- 	}
- 
--	dp_display_host_init(dp);
-+	dp_display_host_init(dp, false);
- 
- 	/*
- 	 * set sink to normal operation mode -- D0
-@@ -700,7 +700,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	if (state == ST_CONNECT_PENDING) {
-+	if (state == ST_CONNECT_PENDING || state == ST_DISCONNECT_PENDING) {
- 		/* wait until ST_CONNECTED */
- 		dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 */
- 		mutex_unlock(&dp->event_mutex);
-@@ -1012,7 +1012,7 @@ int dp_display_get_test_bpp(struct msm_dp *dp)
- static void dp_display_config_hpd(struct dp_display_private *dp)
- {
- 
--	dp_display_host_init(dp);
-+	dp_display_host_init(dp, true);
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
- 	/* Enable interrupt first time
-@@ -1266,7 +1266,7 @@ static int dp_pm_resume(struct device *dev)
- 	dp->hpd_state = ST_DISCONNECTED;
- 
- 	/* turn on dp ctrl/phy */
--	dp_display_host_init(dp);
-+	dp_display_host_init(dp, true);
- 
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
-@@ -1449,7 +1449,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 	state =  dp_display->hpd_state;
- 
- 	if (state == ST_DISPLAY_OFF)
--		dp_display_host_init(dp_display);
-+		dp_display_host_init(dp_display, true);
- 
- 	dp_display_enable(dp_display, 0);
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+cc += Cyrill.
+
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/3046
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: Will Drewry <wad@chromium.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> # DRM depends on SYS_kcmp
+> 
+> ---
+> v2:
+>   - Default n.
+>   - Borrrow help message from man kcmp.
+>   - Export get_epoll_tfile_raw_ptr() for CONFIG_KCMP
+> ---
+>  fs/eventpoll.c                                |  4 ++--
+>  include/linux/eventpoll.h                     |  2 +-
+>  init/Kconfig                                  | 12 ++++++++++++
+>  kernel/Makefile                               |  2 +-
+>  tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
+>  5 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> index a829af074eb5..3196474cbe24 100644
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -979,7 +979,7 @@ static struct epitem *ep_find(struct eventpoll *ep, struct file *file, int fd)
+>  	return epir;
+>  }
+>  
+> -#ifdef CONFIG_CHECKPOINT_RESTORE
+> +#ifdef CONFIG_KCMP
+>  static struct epitem *ep_find_tfd(struct eventpoll *ep, int tfd, unsigned long toff)
+>  {
+>  	struct rb_node *rbp;
+> @@ -1021,7 +1021,7 @@ struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd,
+>  
+>  	return file_raw;
+>  }
+> -#endif /* CONFIG_CHECKPOINT_RESTORE */
+> +#endif /* CONFIG_KCMP */
+>  
+>  /**
+>   * Adds a new entry to the tail of the list in a lockless way, i.e.
+> diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
+> index 0350393465d4..593322c946e6 100644
+> --- a/include/linux/eventpoll.h
+> +++ b/include/linux/eventpoll.h
+> @@ -18,7 +18,7 @@ struct file;
+>  
+>  #ifdef CONFIG_EPOLL
+>  
+> -#ifdef CONFIG_CHECKPOINT_RESTORE
+> +#ifdef CONFIG_KCMP
+>  struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsigned long toff);
+>  #endif
+>  
+> diff --git a/init/Kconfig b/init/Kconfig
+> index b77c60f8b963..1b75141bc18b 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1194,6 +1194,7 @@ endif # NAMESPACES
+>  config CHECKPOINT_RESTORE
+>  	bool "Checkpoint/restore support"
+>  	select PROC_CHILDREN
+> +	select KCMP
+>  	default n
+>  	help
+>  	  Enables additional kernel features in a sake of checkpoint/restore.
+> @@ -1737,6 +1738,17 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+>  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+>  	bool
+>  
+> +config KCMP
+> +	bool "Enable kcmp() system call" if EXPERT
+> +	default n
+> +	help
+> +	  Enable the kernel resource comparison system call. It provides
+> +	  user-space with the ability to compare two processes to see if they
+> +	  share a common resource, such as a file descriptor or even virtual
+> +	  memory space.
+> +
+> +	  If unsure, say N.
+> +
+>  config RSEQ
+>  	bool "Enable rseq() system call" if EXPERT
+>  	default y
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index aa7368c7eabf..320f1f3941b7 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -51,7 +51,7 @@ obj-y += livepatch/
+>  obj-y += dma/
+>  obj-y += entry/
+>  
+> -obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
+> +obj-$(CONFIG_KCMP) += kcmp.o
+>  obj-$(CONFIG_FREEZER) += freezer.o
+>  obj-$(CONFIG_PROFILING) += profile.o
+>  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> index 26c72f2b61b1..1b6c7d33c4ff 100644
+> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> @@ -315,7 +315,7 @@ TEST(kcmp)
+>  	ret = __filecmp(getpid(), getpid(), 1, 1);
+>  	EXPECT_EQ(ret, 0);
+>  	if (ret != 0 && errno == ENOSYS)
+> -		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
+> +		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
+>  }
+>  
+>  TEST(mode_strict_support)
+> 
 
 _______________________________________________
 dri-devel mailing list
