@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC17310748
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6165731074C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:09:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2AE56E1BE;
-	Fri,  5 Feb 2021 09:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6136EAD4;
+	Fri,  5 Feb 2021 09:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A146E1BE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 09:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612515920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2AYOs6/5bOlBAOaNFSpCkmyvWmr96mQQok4N0KBeGT0=;
- b=GPSfzezo7x2q+yYYyBzGolAnVuzH1o2uwBxxSjm4yyaQl72fnFYC/PsJMaWH3j6gKFH5tf
- MLgptOkWs4pNz2GZq7hW64RVY0vA4ee5iau9Lg7y2ZZUqaHvKk7VyVVQmyz3hags7BRZ8W
- inKcmZgHMNBV5UY7oX8OIjEkK7PQAyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-cQluT85NN6yh2SIGcS7UEA-1; Fri, 05 Feb 2021 04:05:18 -0500
-X-MC-Unique: cQluT85NN6yh2SIGcS7UEA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDB7E18A08BE;
- Fri,  5 Feb 2021 09:05:16 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
- [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BCD260C9B;
- Fri,  5 Feb 2021 09:05:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 957BD18000B6; Fri,  5 Feb 2021 10:05:14 +0100 (CET)
-Date: Fri, 5 Feb 2021 10:05:14 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
- drivers
-Message-ID: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
-References: <20210204200308.24216-1-tzimmermann@suse.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A9616E9A3
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 09:09:29 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1l7x7F-00089v-MV; Fri, 05 Feb 2021 10:09:25 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1l7x7E-0005or-5D; Fri, 05 Feb 2021 10:09:24 +0100
+Date: Fri, 5 Feb 2021 10:09:24 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Oliver Graute <oliver.graute@gmail.com>
+Subject: Re: [PATCH v3] drm/panel: simple: add SGD GKTW70SDAD1SD
+Message-ID: <20210205090924.s7rsjebzvatgus5t@pengutronix.de>
+References: <1612287314-5384-1-git-send-email-oliver.graute@gmail.com>
+ <20210202175910.ycnf7ehk2i4u3f5o@pengutronix.de>
+ <20210204181541.GA13054@portage>
 MIME-Version: 1.0
-In-Reply-To: <20210204200308.24216-1-tzimmermann@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <20210204181541.GA13054@portage>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:08:03 up 64 days, 23:14, 45 users,  load average: 0.08, 0.04, 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,28 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sam@ravnborg.org,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, sean@poorly.run
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+On 21-02-04 19:15, Oliver Graute wrote:
+> On 02/02/21, Marco Felsch wrote:
+> > Hi Oliver,
+> > 
+> > On 21-02-02 18:35, Oliver Graute wrote:
+> > > Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
+> > > to panel-simple.
+> > > 
+> > > The panel spec from Variscite can be found at:
+> > > https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
+> > > 
+> > > Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
+> > > Cc: Marco Felsch <m.felsch@pengutronix.de>
+> > > Cc: Fabio Estevam <festevam@gmail.com>
+> > > ---
+> > > 
+> > > v3:
+> > > 
+> > > - added flags
+> > > - added delay
+> > 
+> > Thanks, did you test the changes?
+> > I just picked it from the datasheet.
+> 
+> yes, it didn't break anything. 
 
-> I smoke-tested the code by running fbdev, Xorg and weston with the
-> converted mgag200 driver.
+Feel free to add my:
 
-Looks sane to me.
-Survived cirrus smoke test too.
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
-Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+PS:
++1 for Fabio's comment ^^
 
-take care,
-  Gerd
+Regards,
+  Marco
 
+> 
+> Best regards,
+> 
+> Oliver
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
