@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62234311350
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 22:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C196331135A
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 22:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D4EE6F4D5;
-	Fri,  5 Feb 2021 21:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6F26F4D8;
+	Fri,  5 Feb 2021 21:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86EC06F4D5;
- Fri,  5 Feb 2021 21:19:24 +0000 (UTC)
-IronPort-SDR: tex09VGJAmWepSCDm5o1pDGU8r0AdALtIVQgXXi5EORkoyyrppTy8mRGYm7xaLCi17io3NY+tx
- 9xflPQuiUhPw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="181638050"
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="181638050"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 13:19:23 -0800
-IronPort-SDR: Q4NKSxVz9Ukp+kgY6p9tdLS2LRmJ+yifH+AlW9/jiW8S50pbNFgHDTOvkOOI0vGLjNhY+aOISt
- ZqwiNYoUJxpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="360556851"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga006.jf.intel.com with SMTP; 05 Feb 2021 13:19:20 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 05 Feb 2021 23:19:20 +0200
-Date: Fri, 5 Feb 2021 23:19:19 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/vblank: Avoid storing a timestamp for the same frame
- twice
-Message-ID: <YB22V+n2bdIWrH2m@intel.com>
-References: <20210204020400.29628-1-ville.syrjala@linux.intel.com>
- <YBwTgHwZwMr8PwMr@phenom.ffwll.local> <YBwY8DZnrPNXYvfy@intel.com>
- <YB1oU6asAR3ki4ZT@phenom.ffwll.local> <YB1xKG317Zp7NogO@intel.com>
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124B46F4D6
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 21:20:36 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id z9so4530922pjl.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 13:20:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZYhyH/UoKAZ0pUR5GxFLgA12f7+59pz9aTtQWcg/Skw=;
+ b=R02SrSjetAsxFVmsYiUkEaJlwQ55nZeZL2cuCV8kSBOiUaZp+orsa3k1DkBH8r1o+O
+ K8nZlJWEmJYwLWIcMeuHoNjCU7WwUO05WaeDd2OSjhi3CUfrp7ekX8vcjLmxTBoLdCm/
+ F1sJLEErN2lZYfcW48Wiw43kdbDCng5x9MENg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZYhyH/UoKAZ0pUR5GxFLgA12f7+59pz9aTtQWcg/Skw=;
+ b=NnXUOHCn+1nwmcnyD3otg3x9HLmTWOzriQx1RfCZgLJ/fubiFmFGzlTm+DAA5XGdGG
+ 6Rq0TOJLGgzr09wib+33lDEQHj8cJN/AwUsaQC9ISqZ4TGP6r7IhpHShmXQ1XqISM/ae
+ Gg0/P9p1qwfk5sllurh7QY6mTTLXdkEZSaiTpdOk80bwo8zslJK21V/OglF0lZUngOrN
+ BXI3m9f6Xdy6npmpHYPifMjz41EKG5AGkAAKrjcQhRZYkrGSr2etRyoYkOaYjre0g/4Z
+ cfwILDtWxMHRtQWVPhyiRx4/xnPqp91QWAQaIhUOyfqOumgiL3mVyUjpcGApR57qKfTw
+ p/vg==
+X-Gm-Message-State: AOAM5300g6+gLzGYrbT5SRyshnu+J39KoAyhVbtTkPSjXiUCWxjBUZai
+ pI2Vnp+ag4uCamRZnY+f7obQKg==
+X-Google-Smtp-Source: ABdhPJwu85fzWnYg65UdufVcnja7D169FBdJJ4/E0S/U4P8nrMrT7ItVPkNRWfYlV2eGz5u6W5tkgA==
+X-Received: by 2002:a17:90b:11c9:: with SMTP id
+ gv9mr5843284pjb.196.1612560035614; 
+ Fri, 05 Feb 2021 13:20:35 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id 12sm9167516pjm.28.2021.02.05.13.20.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 13:20:34 -0800 (PST)
+Date: Fri, 5 Feb 2021 13:20:33 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH v2] kernel: Expose SYS_kcmp by default
+Message-ID: <202102051319.E5D8B4528D@keescook>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+ <20210205210610.29837-1-chris@chris-wilson.co.uk>
+ <161255976138.12021.9385501710085642237@build.alporthouse.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <YB1xKG317Zp7NogO@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <161255976138.12021.9385501710085642237@build.alporthouse.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,112 +66,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Will Drewry <wad@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@amacapital.net>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 05, 2021 at 06:24:08PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Fri, Feb 05, 2021 at 04:46:27PM +0100, Daniel Vetter wrote:
-> > On Thu, Feb 04, 2021 at 05:55:28PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Thu, Feb 04, 2021 at 04:32:16PM +0100, Daniel Vetter wrote:
-> > > > On Thu, Feb 04, 2021 at 04:04:00AM +0200, Ville Syrjala wrote:
-> > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > =
+On Fri, Feb 05, 2021 at 09:16:01PM +0000, Chris Wilson wrote:
+> The subject should of course be changed, as it is no longer being
+> enabled by default.
 
-> > > > > drm_vblank_restore() exists because certain power saving states
-> > > > > can clobber the hardware frame counter. The way it does this is
-> > > > > by guesstimating how many frames were missed purely based on
-> > > > > the difference between the last stored timestamp vs. a newly
-> > > > > sampled timestamp.
-> > > > > =
+"default n" is redundant. I thought Daniel said CONFIG_DRM needed to
+"select" it too, though? Otherwise, yeah, this looks good. Was the
+export due to the 0-day bot failure reports?
 
-> > > > > If we should call this function before a full frame has
-> > > > > elapsed since we sampled the last timestamp we would end up
-> > > > > with a possibly slightly different timestamp value for the
-> > > > > same frame. Currently we will happily overwrite the already
-> > > > > stored timestamp for the frame with the new value. This
-> > > > > could cause userspace to observe two different timestamps
-> > > > > for the same frame (and the timestamp could even go
-> > > > > backwards depending on how much error we introduce when
-> > > > > correcting the timestamp based on the scanout position).
-> > > > > =
+-Kees
 
-> > > > > To avoid that let's not update the stored timestamp unless we're
-> > > > > also incrementing the sequence counter. We do still want to update
-> > > > > vblank->last with the freshly sampled hw frame counter value so
-> > > > > that subsequent vblank irqs/queries can actually use the hw frame
-> > > > > counter to determine how many frames have elapsed.
-> > > > =
+> 
+> Something like
+> 
+> kcmp: Support selection of SYS_kcmp without CHECKPOINT_RESTORE
+> 
+> Quoting Chris Wilson (2021-02-05 21:06:10)
+> > Userspace has discovered the functionality offered by SYS_kcmp and has
+> > started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> > os_same_file_description() in order to identify when two fd (e.g. device
+> > or dmabuf) point to the same struct file. Since they depend on it for
+> > core functionality, lift SYS_kcmp out of the non-default
+> > CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
+> > 
+> > Note that some distributions such as Ubuntu are already enabling
+> > CHECKPOINT_RESTORE in their configs and so, by extension, SYS_kcmp.
+> > 
+> > References: https://gitlab.freedesktop.org/drm/intel/-/issues/3046
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Andy Lutomirski <luto@amacapital.net>
+> > Cc: Will Drewry <wad@chromium.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Dave Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> # DRM depends on SYS_kcmp
+> > 
+> > ---
+> > v2:
+> >   - Default n.
+> >   - Borrrow help message from man kcmp.
+> >   - Export get_epoll_tfile_raw_ptr() for CONFIG_KCMP
+> > ---
+> >  fs/eventpoll.c                                |  4 ++--
+> >  include/linux/eventpoll.h                     |  2 +-
+> >  init/Kconfig                                  | 12 ++++++++++++
+> >  kernel/Makefile                               |  2 +-
+> >  tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
+> >  5 files changed, 17 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> > index a829af074eb5..3196474cbe24 100644
+> > --- a/fs/eventpoll.c
+> > +++ b/fs/eventpoll.c
+> > @@ -979,7 +979,7 @@ static struct epitem *ep_find(struct eventpoll *ep, struct file *file, int fd)
+> >         return epir;
+> >  }
+> >  
+> > -#ifdef CONFIG_CHECKPOINT_RESTORE
+> > +#ifdef CONFIG_KCMP
+> >  static struct epitem *ep_find_tfd(struct eventpoll *ep, int tfd, unsigned long toff)
+> >  {
+> >         struct rb_node *rbp;
+> > @@ -1021,7 +1021,7 @@ struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd,
+> >  
+> >         return file_raw;
+> >  }
+> > -#endif /* CONFIG_CHECKPOINT_RESTORE */
+> > +#endif /* CONFIG_KCMP */
+> >  
+> >  /**
+> >   * Adds a new entry to the tail of the list in a lockless way, i.e.
+> > diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
+> > index 0350393465d4..593322c946e6 100644
+> > --- a/include/linux/eventpoll.h
+> > +++ b/include/linux/eventpoll.h
+> > @@ -18,7 +18,7 @@ struct file;
+> >  
+> >  #ifdef CONFIG_EPOLL
+> >  
+> > -#ifdef CONFIG_CHECKPOINT_RESTORE
+> > +#ifdef CONFIG_KCMP
+> >  struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsigned long toff);
+> >  #endif
+> >  
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index b77c60f8b963..1b75141bc18b 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1194,6 +1194,7 @@ endif # NAMESPACES
+> >  config CHECKPOINT_RESTORE
+> >         bool "Checkpoint/restore support"
+> >         select PROC_CHILDREN
+> > +       select KCMP
+> >         default n
+> >         help
+> >           Enables additional kernel features in a sake of checkpoint/restore.
+> > @@ -1737,6 +1738,17 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+> >  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+> >         bool
+> >  
+> > +config KCMP
+> > +       bool "Enable kcmp() system call" if EXPERT
+> > +       default n
+> > +       help
+> > +         Enable the kernel resource comparison system call. It provides
+> > +         user-space with the ability to compare two processes to see if they
+> > +         share a common resource, such as a file descriptor or even virtual
+> > +         memory space.
+> > +
+> > +         If unsure, say N.
+> > +
+> >  config RSEQ
+> >         bool "Enable rseq() system call" if EXPERT
+> >         default y
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index aa7368c7eabf..320f1f3941b7 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -51,7 +51,7 @@ obj-y += livepatch/
+> >  obj-y += dma/
+> >  obj-y += entry/
+> >  
+> > -obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
+> > +obj-$(CONFIG_KCMP) += kcmp.o
+> >  obj-$(CONFIG_FREEZER) += freezer.o
+> >  obj-$(CONFIG_PROFILING) += profile.o
+> >  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+> > diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > index 26c72f2b61b1..1b6c7d33c4ff 100644
+> > --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> > @@ -315,7 +315,7 @@ TEST(kcmp)
+> >         ret = __filecmp(getpid(), getpid(), 1, 1);
+> >         EXPECT_EQ(ret, 0);
+> >         if (ret != 0 && errno == ENOSYS)
+> > -               SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
+> > +               SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
+> >  }
+> >  
+> >  TEST(mode_strict_support)
+> > -- 
+> > 2.20.1
+> >
 
-> > > > Hm I'm not getting the reason for why we store the updated hw vblank
-> > > > counter?
-> > > =
-
-> > > Because next time a vblank irq happens the code will do:
-> > > diff =3D current_hw_counter - vblank->last
-> > > =
-
-> > > which won't work very well if vblank->last is garbage.
-> > > =
-
-> > > Updating vblank->last is pretty much why drm_vblank_restore()
-> > > exists at all.
-> > =
-
-> > Oh sure, _restore has to update this, together with the timestamp.
-> > =
-
-> > But your code adds such an update where we update the hw vblank counter,
-> > but not the timestamp, and that feels buggy. Either we're still in the
-> > same frame, and then we should story nothing. Or we advanced, and then =
-we
-> > probably want a new timestampt for that frame too.
-> =
-
-> Even if we're still in the same frame the hw frame counter may already
-> have been reset due to the power well having been turned off. That is
-> what I'm trying to fix here.
-> =
-
-> Now I suppose that's fairly unlikely, at least with PSR which probably
-> does impose some extra delays before the power gets yanked. But at least
-> theoretically possible.
-
-Pondering about this a bit further. I think the fact that the current
-code takes the round-to-closest approach I used for the vblank handler
-is perhaps a bit bad. It could push the seq counter forward if we're
-past the halfway point of a frame. I think that rounding behaviour
-makes sense for the irq since those tick steadily and so allowing a bit
-of error either way seems correct to me. Perhaps round-down might be
-the better option for _restore(). Not quites sure, need more thinking
-probably.
-
-Another idea that came to me now is that maybe we should actually just
-check if the current hw frame counter value looks sane, as in something
-like:
-
-diff_hw_counter =3D current_hw_counter-stored_hw_counter
-diff_ts =3D (current_ts-stored_ts)/framedur
-
-if (diff_hw_counter ~=3D diff_ts)
-	diff =3D diff_hw_counter;
-else
-	diff =3D diff_ts;
-
-and if they seem to match then just keep trusting the hw counter.
-So only if there's a significant difference would we disregard
-the diff of the hw counter and instead use the diff based on the
-timestamps. Not sure what "significant" is though; One frame, two
-frames?
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Kees Cook
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
