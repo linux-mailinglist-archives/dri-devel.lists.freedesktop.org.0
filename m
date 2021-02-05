@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF73310C6D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F703310C96
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:30:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C91506F44E;
-	Fri,  5 Feb 2021 14:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD8B6F44A;
+	Fri,  5 Feb 2021 14:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFEB6F44E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:04:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36E5C64FC9;
- Fri,  5 Feb 2021 14:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612533851;
- bh=T1jLO24sF0pYkT3lQr2onlwV1fj0AbfnrcXXdUAochg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BZOBBDws+/yhmPTxNLP4zonarclKLQMtK4MPPXtDYExmUzHRLjxXcJnfGq14VQa4L
- yZhVB9oNHiU0DzaVx6si8j0aXHMHTj1MM3VS8xDsEeLmU5/b+5mHQBkgW7cT1CQKhX
- bLMDr8tZSM1SipNLwaZFpx+i2Ki4uOTJ99+ziw0o=
-Date: Fri, 5 Feb 2021 15:04:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Subject: Re: [PATCH] coresight: etm4x: Fix merge resolution for amba rework
-Message-ID: <YB1QWFWPennQZmjw@kroah.com>
-References: <20210205130848.20009-1-uwe@kleine-koenig.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48CEB6F44A
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:30:52 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id AEFAAAC9B;
+ Fri,  5 Feb 2021 14:30:50 +0000 (UTC)
+Subject: Re: [kraxel:drm-testing 11/15] ERROR: modpost: "drm_gem_vunmap"
+ undefined!
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kernel test robot <lkp@intel.com>
+References: <202102052044.rE4lLngg-lkp@intel.com>
+ <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
+Message-ID: <1810055d-7394-fdf8-03ac-d9c094246d1f@suse.de>
+Date: Fri, 5 Feb 2021 15:30:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210205130848.20009-1-uwe@kleine-koenig.org>
+In-Reply-To: <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,55 +40,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig.org@pengutronix.de>,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Russell King - ARM Linux admin <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, Guenter Roeck <linux@roeck-us.net>,
- Mike Leach <mike.leach@linaro.org>, linux-watchdog@vger.kernel.org,
- alsa-devel@alsa-project.org, Suzuki K Poulose <suzuki.poulose@arm.com>,
- coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
- Matt Mackall <mpm@selenic.com>, Dan Williams <dan.j.williams@intel.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-crypto@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kbuild-all@lists.01.org, Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1370591511=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 05, 2021 at 02:08:47PM +0100, Uwe Kleine-K=F6nig wrote:
-> This was non-trivial to get right because commits
-> c23bc382ef0e ("coresight: etm4x: Refactor probing routine") and
-> 5214b563588e ("coresight: etm4x: Add support for sysreg only devices")
-> changed the code flow considerably. With this change the driver can be
-> built again.
-> =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1370591511==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo"
 
-> Fixes: 0573d3fa4864 ("Merge branch 'devel-stable' of git://git.armlinux.o=
-rg.uk/~rmk/linux-arm into char-misc-next")
-> Signed-off-by: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo
+Content-Type: multipart/mixed; boundary="66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: kbuild-all@lists.01.org, Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <1810055d-7394-fdf8-03ac-d9c094246d1f@suse.de>
+Subject: Re: [kraxel:drm-testing 11/15] ERROR: modpost: "drm_gem_vunmap"
+ undefined!
+References: <202102052044.rE4lLngg-lkp@intel.com>
+ <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
+In-Reply-To: <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
 
-Now queued up, thanks!
+--66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+
+Am 05.02.21 um 14:22 schrieb Thomas Zimmermann:
+>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>>>> ERROR: modpost: "drm_gem_vunmap" [drivers/gpu/drm/drm_kms_helper.ko]=
+=20
+>>>> undefined!
+>>>> ERROR: modpost: "drm_gem_vmap" [drivers/gpu/drm/drm_kms_helper.ko]=20
+>>>> undefined!
+>=20
+> These are in drm_gem.c and build unconditionally. It's not clear to me =
+
+> how this can fail. Ideas, anyone?
+
+Oh, they are not exported. Can we export them?
+
+>=20
+> Best regards
+> Thomas
+>=20
+>>
+>> ---
+>> 0-DAY CI Kernel Test Service, Intel Corporation
+>> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+
+--66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec--
+
+--dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAdVpkFAwAAAAAACgkQlh/E3EQov+Bn
+tw/8D4INMOdUm5TTr7I2kDFmjtur1sFim1KB56a1xZxMrgJX7osCXU7gdUXrSDmOmGY1UeaUYYcy
+JiQsXw4LuoTzojfVKnqFBdatJvzeWXylTTkeSziDLcg5ZZokypWrOfMyEHKW0g3m8F0Hvu57v0iu
+hiWNosZ7UtiXMxDqbsEpucNXqsaI4ERmiW0RrZjOIZejhf4NJmjHsiA2OYW9DSF8+qEN5gEL2QeF
+czNAOrjo3AyTmSsVA9icUADECiAkaIjbTL1uX1rPKdnRBDbW+3lvhzMECZftkOVX3v8DowGqZfQv
+js0XQOM2C7e1HEO12l/ZFlXFZnoh+cG1WFRDS2ovVW72NOjphFwr2bBg6fEJPPDAq8cRMBjTALG+
+NC6bXS5Qk5kCH2jfN+J56AcMDxRx2LT7foFybUSH5E22msExeIRLNMkeDsPc+8UAOpHgtNYOpXrI
+rbrLsW2zHk5aTe6e58N0fMd951atZH3p1Zbr6pGIabsHv9fJvFd+pUeUhl2PmeZbgTAjsX6awTfh
+fQUYhFXIZ+KrTdiIomYjDmEB1RHgXydgktw7Cll/YNauToB+YV+JuI7mZUDRr4ERN6usFXl2CNKf
+tkdLl7F51NN565w9zSzQXtPYYQDaiJcJMOzHnQsqlzABuW3o8nOqSpIrW1VPoWzpzbXryWi0D2rE
+Zr8=
+=Qmwc
+-----END PGP SIGNATURE-----
+
+--dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo--
+
+--===============1370591511==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1370591511==--
