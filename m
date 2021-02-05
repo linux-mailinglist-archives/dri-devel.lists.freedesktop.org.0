@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC543114CB
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 23:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B6D311675
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Feb 2021 00:16:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D086F512;
-	Fri,  5 Feb 2021 22:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EACC06E11A;
+	Fri,  5 Feb 2021 23:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C376E0B6
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 22:18:37 +0000 (UTC)
-IronPort-SDR: HAOQJwjkskLE8AoBqP46gayW3xB/OFUg1CSfG8iD0oM5GYVITSTtg3eLQHEbxQ9jom9LNgcxD4
- YblXvObaohRg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="242998364"
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="242998364"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 14:18:36 -0800
-IronPort-SDR: Rn5LZ6O1/5G1Fb+s0u54MZuqX5IgUQqCM3B1NLORiBOk3luIBEVaJs0otQmfmVkXbtqIHJVeG6
- o5PkoEDQ40kA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; d="scan'208";a="394034436"
-Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by orsmga008.jf.intel.com with ESMTP; 05 Feb 2021 14:18:36 -0800
-From: Jianxin Xiong <jianxin.xiong@intel.com>
-To: linux-rdma@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH rdma-core v3 3/3] configure: Add check for DRM headers
-Date: Fri,  5 Feb 2021 14:33:39 -0800
-Message-Id: <1612564419-103455-4-git-send-email-jianxin.xiong@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1612564419-103455-1-git-send-email-jianxin.xiong@intel.com>
-References: <1612564419-103455-1-git-send-email-jianxin.xiong@intel.com>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B92946E0A6
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 22:39:06 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id y187so7129329wmd.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 14:39:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t5Gn3UKnHmz7y35xPv/AAaJUGOdlL1SVmYKp08hQa2A=;
+ b=AKkqkC46A7/1BRDDGxRGLEZxNtnADzQGWuquqnpFdYydocW8BHy39p41Ef8RbZGQPw
+ Fk64CTFRIqDAFE3KY7pnYz/E1CMMhZszPNA0PZrpq9pf5j3BMFf8K6qaiv6ISRN9rS0i
+ LrbC4G9p6XDtciagWCIb3aiH0HRLK8ZdbSeRRFaQnm0jSJXtMz0AqpUsaRnpyKJwrP+h
+ dDbw2Dycw2PlGIT3GSAGSGxZpyTtbxo17rO6TaKN//bfVmQtefgRk4Klajwl8FSeSvgt
+ pFoJwxy6/3m1AmAwBFY+lcrBwCL+mZzWdkT4EXQ6Wsz4XadkWUjx0Ww1kop1pMSsm4hn
+ w8sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t5Gn3UKnHmz7y35xPv/AAaJUGOdlL1SVmYKp08hQa2A=;
+ b=FGDDQaC1poG0tM0ih4WdavzZEmkPAM6GV/6rLn5BhGeea0/WC+nT+99lbzNzmw0whK
+ tu5lgpWKhBVQ5zxYVO+6uiEuvMKG1KU5dNkBsXjy8Xgz+3Mhxz+6+bCZFeutTaebOcrh
+ pYO1wISsCSDHiG03XDpaDzSOb82Qgefxp6rkm5KjxrKrys1aMvkD2G+7Zrjl1qr7RC/F
+ jjaGnS3SdtzzDYeYljNFziAdBSCKy3HkERxR6rb+RPe41jFMg0vUHz9MuT6on6rk+2DA
+ bAjk4r5j1gO2bq43wAWIHEfYHRCjK1a2Kaf9fugFOPw7eH+zgddLmu5MyMhf0sZAvTfi
+ feCg==
+X-Gm-Message-State: AOAM533ONJQNoLYzWoAitZb1TyyP6RLPq5K+9rO8KkEQkPMOOT/6sJhG
+ a3DUwpoGbY/gLPnw4fLO9O8cXP4yqdsq4qS6VkzYPQ==
+X-Google-Smtp-Source: ABdhPJy0sTM7b46RxdYwLPh10drgFMSgljzItLlUxvVIt+nz3DMnRfObLWe428PmKlhcwdjP+4xBZrSJQPA0kUzdbuA=
+X-Received: by 2002:a05:600c:4e92:: with SMTP id
+ f18mr5220472wmq.126.1612564745104; 
+ Fri, 05 Feb 2021 14:39:05 -0800 (PST)
+MIME-Version: 1.0
+References: <20210205080621.3102035-1-john.stultz@linaro.org>
+ <20210205080621.3102035-2-john.stultz@linaro.org>
+ <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
+ <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
+In-Reply-To: <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 5 Feb 2021 14:38:53 -0800
+Message-ID: <CAJuCfpEkKfci_spdEAQKk1o_qoS53y-=i_zjqrDKeyW44AG+BQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool
+ implementation
+To: John Stultz <john.stultz@linaro.org>
+X-Mailman-Approved-At: Fri, 05 Feb 2021 23:16:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,164 +67,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yishai Hadas <yishaih@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Edward Srouji <edwards@nvidia.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, Gal Pressman <galpress@amazon.com>,
- Ali Alnubani <alialnu@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ linux-media <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compilation of pyverbs/dmabuf_alloc.c depends on a few DRM headers
-that are installed by either the kernel-header or the libdrm package.
-The installation is optional and the location is not unique.
-
-Check the presence and location of the headers and, if the headers
-are missing, replace the dmabuf allocation routines wth stubs that
-return suitable error to allow the related tests to skip.
-
-Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
----
- CMakeLists.txt              | 17 +++++++++++++++++
- pyverbs/CMakeLists.txt      |  8 +++++++-
- pyverbs/dmabuf_alloc.c      |  8 ++++----
- pyverbs/dmabuf_alloc_stub.c | 39 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 67 insertions(+), 5 deletions(-)
- create mode 100644 pyverbs/dmabuf_alloc_stub.c
-
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 4113423..80fb747 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -515,6 +515,20 @@ find_package(Systemd)
- include_directories(${SYSTEMD_INCLUDE_DIRS})
- RDMA_DoFixup("${SYSTEMD_FOUND}" "systemd/sd-daemon.h")
- 
-+# drm headers
-+
-+# Check if the headers have been installed by kernel-headers
-+find_path(DRM_INCLUDE_DIRS "drm.h" PATH_SUFFIXES "drm")
-+
-+# Alternatively the headers could have been installed by libdrm
-+if (NOT DRM_INCLUDE_DIRS)
-+  pkg_check_modules(DRM libdrm)
-+endif()
-+
-+if (DRM_INCLUDE_DIRS)
-+  include_directories(${DRM_INCLUDE_DIRS})
-+endif()
-+
- #-------------------------
- # Apply fixups
- 
-@@ -786,3 +800,6 @@ endif()
- if (NOT HAVE_TARGET_SSE)
-   message(STATUS " attribute(target(\"sse\")) does NOT work")
- endif()
-+if (NOT DRM_INCLUDE_DIRS)
-+  message(STATUS " DMABUF NOT supported (disabling some tests)")
-+endif()
-diff --git a/pyverbs/CMakeLists.txt b/pyverbs/CMakeLists.txt
-index 6fd7625..dbd0ffe 100644
---- a/pyverbs/CMakeLists.txt
-+++ b/pyverbs/CMakeLists.txt
-@@ -6,6 +6,12 @@ publish_internal_headers(""
-   dmabuf_alloc.h
- )
- 
-+if (DRM_INCLUDE_DIRS)
-+  set(DMABUF_ALLOC dmabuf_alloc.c)
-+else()
-+  set(DMABUF_ALLOC dmabuf_alloc_stub.c)
-+endif()
-+
- rdma_cython_module(pyverbs ""
-   addr.pyx
-   base.pyx
-@@ -14,7 +20,7 @@ rdma_cython_module(pyverbs ""
-   cq.pyx
-   device.pyx
-   dmabuf.pyx
--  dmabuf_alloc.c
-+  ${DMABUF_ALLOC}
-   enums.pyx
-   mem_alloc.pyx
-   mr.pyx
-diff --git a/pyverbs/dmabuf_alloc.c b/pyverbs/dmabuf_alloc.c
-index 85ffb7a..9978a5b 100644
---- a/pyverbs/dmabuf_alloc.c
-+++ b/pyverbs/dmabuf_alloc.c
-@@ -9,12 +9,12 @@
- #include <unistd.h>
- #include <string.h>
- #include <errno.h>
--#include <drm/drm.h>
--#include <drm/i915_drm.h>
--#include <drm/amdgpu_drm.h>
--#include <drm/radeon_drm.h>
- #include <fcntl.h>
- #include <sys/ioctl.h>
-+#include <drm.h>
-+#include <i915_drm.h>
-+#include <amdgpu_drm.h>
-+#include <radeon_drm.h>
- #include "dmabuf_alloc.h"
- 
- /*
-diff --git a/pyverbs/dmabuf_alloc_stub.c b/pyverbs/dmabuf_alloc_stub.c
-new file mode 100644
-index 0000000..a73a5da
---- /dev/null
-+++ b/pyverbs/dmabuf_alloc_stub.c
-@@ -0,0 +1,39 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/*
-+ * Copyright 2021 Intel Corporation. All rights reserved. See COPYING file
-+ */
-+
-+#include <stdio.h>
-+#include <stdint.h>
-+#include <errno.h>
-+#include "dmabuf_alloc.h"
-+
-+struct dmabuf *dmabuf_alloc(uint64_t size, int gpu, int gtt)
-+{
-+	errno = EOPNOTSUPP;
-+	return NULL;
-+}
-+
-+void dmabuf_free(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+}
-+
-+int dmabuf_get_drm_fd(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
-+int dmabuf_get_fd(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
-+uint64_t dmabuf_get_offset(struct dmabuf *dmabuf)
-+{
-+	errno = EOPNOTSUPP;
-+	return -1;
-+}
-+
--- 
-1.8.3.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBGZWIgNSwgMjAyMSBhdCAxMjo0NyBQTSBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpA
+bGluYXJvLm9yZz4gd3JvdGU6Cj4KPiBPbiBGcmksIEZlYiA1LCAyMDIxIGF0IDEyOjQ3IEFNIENo
+cmlzdGlhbiBLw7ZuaWcKPiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiA+IEFt
+IDA1LjAyLjIxIHVtIDA5OjA2IHNjaHJpZWIgSm9obiBTdHVsdHo6Cj4gPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcGFnZV9wb29sLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFnZV9wb29s
+LmMKPiA+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiA+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi4y
+MTM5Zjg2ZTZjYTcKPiA+ID4gLS0tIC9kZXYvbnVsbAo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vcGFnZV9wb29sLmMKPiA+ID4gQEAgLTAsMCArMSwyMjAgQEAKPiA+ID4gKy8vIFNQRFgtTGlj
+ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gPgo+ID4gUGxlYXNlIHVzZSBhIEJTRC9NSVQgY29t
+cGF0aWJsZSBsaWNlbnNlIGlmIHlvdSB3YW50IHRvIGNvcHkgdGhpcyBmcm9tCj4gPiB0aGUgVFRN
+IGNvZGUuCj4KPiBIcm0uIFRoaXMgbWF5IGJlIHByb2JsZW1hdGljLCBhcyBpdCdzIG5vdCBqdXN0
+IFRUTSBjb2RlLCBidXQgc29tZSBvZgo+IHRoZSBUVE0gbG9naWMgaW50ZWdyYXRlZCBpbnRvIGEg
+cGFnZS1wb29sIGltcGxlbWVudGF0aW9uIEkgd3JvdGUgYmFzZWQKPiBvbiBsb2dpYyBmcm9tIHRo
+ZSBJT04gY29kZSAod2hpY2ggd2FzIEdQTC0yLjAgYmVmb3JlIGl0IHdhcyBkcm9wcGVkKS4KPiBT
+byBJIGRvbid0IHRoaW5rIEkgY2FuIGp1c3QgbWFrZSBpdCBNSVQuICBBbnkgZXh0cmEgY29udGV4
+dCBvbiB0aGUKPiBuZWVkIGZvciBNSVQsIG9yIHN1Z2dlc3Rpb25zIG9uIGhvdyB0byBiZXN0IHJl
+c29sdmUgdGhpcz8KPgo+ID4gPiAraW50IGRybV9wYWdlX3Bvb2xfZ2V0X3NpemUoc3RydWN0IGRy
+bV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiA+ICt7Cj4gPiA+ICsgICAgIGludCByZXQ7Cj4gPiA+ICsK
+PiA+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ID4gKyAgICAgcmV0ID0gcG9v
+bC0+Y291bnQ7Cj4gPiA+ICsgICAgIHNwaW5fdW5sb2NrKCZwb29sLT5sb2NrKTsKPiA+Cj4gPiBN
+YXliZSB1c2UgYW4gYXRvbWljIGZvciB0aGUgY291bnQgaW5zdGVhZD8KPiA+Cj4KPiBJIGNhbiBk
+byB0aGF0LCBidXQgYW0gY3VyaW91cyBhcyB0byB0aGUgYmVuZWZpdD8gV2UgYXJlIG1vc3RseSB1
+c2luZwo+IGNvdW50IHdoZXJlIHdlIGFscmVhZHkgaGF2ZSB0byB0YWtlIHRoZSBwb29sLT5sb2Nr
+IGFueXdheSwgYW5kIHRoaXMKPiBkcm1fcGFnZV9wb29sX2dldF9zaXplKCkgaXMgb25seSB1c2Vk
+IGZvciBkZWJ1Z2ZzIG91dHB1dCBzbyBmYXIsIHNvIEkKPiBkb24ndCBleHBlY3QgaXQgdG8gYmUg
+YSBob3QgcGF0aC4KPgo+Cj4gPiA+ICt2b2lkIGRybV9wYWdlX3Bvb2xfYWRkKHN0cnVjdCBkcm1f
+cGFnZV9wb29sICpwb29sLCBzdHJ1Y3QgcGFnZSAqcGFnZSkKPiA+ID4gK3sKPiA+ID4gKyAgICAg
+c3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ID4gKyAgICAgbGlzdF9hZGRfdGFpbCgmcGFnZS0+
+bHJ1LCAmcG9vbC0+aXRlbXMpOwo+ID4gPiArICAgICBwb29sLT5jb3VudCsrOwo+ID4gPiArICAg
+ICBhdG9taWNfbG9uZ19hZGQoMSA8PCBwb29sLT5vcmRlciwgJnRvdGFsX3BhZ2VzKTsKPiA+ID4g
+KyAgICAgc3Bpbl91bmxvY2soJnBvb2wtPmxvY2spOwo+ID4gPiArCj4gPiA+ICsgICAgIG1vZF9u
+b2RlX3BhZ2Vfc3RhdGUocGFnZV9wZ2RhdChwYWdlKSwgTlJfS0VSTkVMX01JU0NfUkVDTEFJTUFC
+TEUsCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgMSA8PCBwb29sLT5vcmRlcik7Cj4g
+Pgo+ID4gSHVpIHdoYXQ/IFdoYXQgc2hvdWxkIHRoYXQgYmUgZ29vZCBmb3I/Cj4KPiBUaGlzIGlz
+IGEgY2FycnlvdmVyIGZyb20gdGhlIElPTiBwYWdlIHBvb2wgaW1wbGVtZW50YXRpb246Cj4gaHR0
+cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGlu
+dXguZ2l0L3RyZWUvZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvaW9uL2lvbl9wYWdlX3Bvb2wuYz9o
+PXY1LjEwI24yOAo+Cj4gTXkgc2Vuc2UgaXMgaXQgaGVscHMgd2l0aCB0aGUgdm1zdGF0L21lbWlu
+Zm8gYWNjb3VudGluZyBzbyBmb2xrcyBjYW4KPiBzZWUgdGhlIGNhY2hlZCBwYWdlcyBhcmUgc2hy
+aW5rYWJsZS9mcmVlYWJsZS4gVGhpcyBtYXliZSBmYWxscyB1bmRlcgo+IG90aGVyIGRtYWJ1ZiBh
+Y2NvdW50aW5nL3N0YXRzIGRpc2N1c3Npb25zLCBzbyBJJ20gaGFwcHkgdG8gcmVtb3ZlIGl0Cj4g
+Zm9yIG5vdywgb3IgbGV0IHRoZSBkcml2ZXJzIHVzaW5nIHRoZSBzaGFyZWQgcGFnZSBwb29sIGxv
+Z2ljIGhhbmRsZQo+IHRoZSBhY2NvdW50aW5nIHRoZW1zZWx2ZXM/CgpZZXAsIElPTiBwb29scyB3
+ZXJlIGFjY291bnRlZCBmb3IgYXMgcmVjbGFpbWFibGUga2VybmVsIG1lbW9yeSBiZWNhdXNlCnRo
+ZXkgY291bGQgYmUgZHJvcHBlZCB3aGVuIHRoZSBzeXN0ZW0gaXMgdW5kZXIgbWVtb3J5IHByZXNz
+dXJlLgoKPgo+Cj4gPiA+ICtzdGF0aWMgc3RydWN0IHBhZ2UgKmRybV9wYWdlX3Bvb2xfcmVtb3Zl
+KHN0cnVjdCBkcm1fcGFnZV9wb29sICpwb29sKQo+ID4gPiArewo+ID4gPiArICAgICBzdHJ1Y3Qg
+cGFnZSAqcGFnZTsKPiA+ID4gKwo+ID4gPiArICAgICBpZiAoIXBvb2wtPmNvdW50KQo+ID4gPiAr
+ICAgICAgICAgICAgIHJldHVybiBOVUxMOwo+ID4KPiA+IEJldHRlciB1c2UgbGlzdF9maXJzdF9l
+bnRyeV9vcl9udWxsIGluc3RlYWQgb2YgY2hlY2tpbmcgdGhlIGNvdW50Lgo+ID4KPiA+IFRoaXMg
+d2F5IHlvdSBjYW4gYWxzbyBwdWxsIHRoZSBsb2NrIGludG8gdGhlIGZ1bmN0aW9uLgo+Cj4gWWVh
+LCB0aGF0IGNsZWFucyBhIG51bWJlciBvZiB0aGluZ3MgdXAgbmljZWx5LiBUaGFuayB5b3UhCj4K
+Pgo+ID4gPiArc3RydWN0IGRybV9wYWdlX3Bvb2wgKmRybV9wYWdlX3Bvb2xfY3JlYXRlKHVuc2ln
+bmVkIGludCBvcmRlciwKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBpbnQgKCpmcmVlX3BhZ2UpKHN0cnVjdCBwYWdlICpwLCB1bnNpZ25lZCBpbnQgb3JkZXIp
+KQo+ID4gPiArewo+ID4gPiArICAgICBzdHJ1Y3QgZHJtX3BhZ2VfcG9vbCAqcG9vbCA9IGttYWxs
+b2Moc2l6ZW9mKCpwb29sKSwgR0ZQX0tFUk5FTCk7Cj4gPgo+ID4gV2h5IG5vdCBtYWtpbmcgdGhp
+cyBhbiBlbWJlZGRlZCBvYmplY3Q/IFdlIHNob3VsZCBub3Qgc2VlIG11Y2ggZHluYW1pYwo+ID4g
+cG9vbCBjcmVhdGlvbi4KPgo+IFllYSwgaXQgZmVsdCBjbGVhbmVyIGF0IHRoZSB0aW1lIHRoaXMg
+d2F5LCBidXQgSSB0aGluayBJIHdpbGwgbmVlZCB0bwo+IHN3aXRjaCB0byBhbiBlbWJlZGRlZCBv
+YmplY3QgaW4gb3JkZXIgdG8gcmVzb2x2ZSB0aGUgbWVtb3J5IHVzYWdlCj4gaXNzdWUgeW91IHBv
+aW50ZWQgb3V0IHdpdGggZ3Jvd2luZyB0aGUgdHRtX3Bvb2xfZG1hLCBzbyB0aGFuayB5b3UgZm9y
+Cj4gdGhlIHN1Z2dlc3Rpb24hCj4KPgo+ID4gPiArdm9pZCBkcm1fcGFnZV9wb29sX2Rlc3Ryb3ko
+c3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiA+ICt7Cj4gPiA+ICsgICAgIHN0cnVjdCBw
+YWdlICpwYWdlOwo+ID4gPiArCj4gPiA+ICsgICAgIC8qIFJlbW92ZSB1cyBmcm9tIHRoZSBwb29s
+IGxpc3QgKi8KPiA+ID4gKyAgICAgbXV0ZXhfbG9jaygmcG9vbF9saXN0X2xvY2spOwo+ID4gPiAr
+ICAgICBsaXN0X2RlbCgmcG9vbC0+bGlzdCk7Cj4gPiA+ICsgICAgIG11dGV4X3VubG9jaygmcG9v
+bF9saXN0X2xvY2spOwo+ID4gPiArCj4gPiA+ICsgICAgIC8qIEZyZWUgYW55IHJlbWFpbmluZyBw
+YWdlcyBpbiB0aGUgcG9vbCAqLwo+ID4gPiArICAgICBzcGluX2xvY2soJnBvb2wtPmxvY2spOwo+
+ID4KPiA+IExvY2tpbmcgc2hvdWxkIGJlIHVubmVjZXNzYXJ5IHdoZW4gdGhlIHBvb2wgaXMgZGVz
+dHJveWVkIGFueXdheS4KPgo+IEkgZ3Vlc3MgaWYgd2UndmUgYWxyZWFkeSBwcnVuZWQgb3Vyc2Vs
+ZiBmcm9tIHRoZSBwb29sIGxpc3QsIHRoZW4geW91cgo+IHJpZ2h0LCB3ZSBjYW4ndCByYWNlIHdp
+dGggdGhlIHNocmlua2VyIGFuZCBpdCdzIG1heWJlIG5vdCBuZWNlc3NhcnkuCj4gQnV0IGl0IGFs
+c28gc2VlbXMgZWFzaWVyIHRvIGNvbnNpc3RlbnRseSBmb2xsb3cgdGhlIGxvY2tpbmcgcnVsZXMg
+aW4gYQo+IHZlcnkgdW5saWtlbHkgcGF0aCByYXRoZXIgdGhhbiBsZWFuaW5nIG9uIHN1YnRsZXR5
+LiAgRWl0aGVyIHdheSwgSQo+IHRoaW5rIHRoaXMgYmVjb21lcyBtb290IGlmIEkgbWFrZSB0aGUg
+aW1wcm92ZW1lbnRzIHlvdSBzdWdnZXN0IHRvCj4gZHJtX3BhZ2VfcG9vbF9yZW1vdmUoKS4KPgo+
+ID4gPiArc3RhdGljIGludCBkcm1fcGFnZV9wb29sX3Nocmlua19vbmUodm9pZCkKPiA+ID4gK3sK
+PiA+ID4gKyAgICAgc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2w7Cj4gPiA+ICsgICAgIHN0cnVj
+dCBwYWdlICpwYWdlOwo+ID4gPiArICAgICBpbnQgbnJfZnJlZWQgPSAwOwo+ID4gPiArCj4gPiA+
+ICsgICAgIG11dGV4X2xvY2soJnBvb2xfbGlzdF9sb2NrKTsKPiA+ID4gKyAgICAgcG9vbCA9IGxp
+c3RfZmlyc3RfZW50cnkoJnBvb2xfbGlzdCwgdHlwZW9mKCpwb29sKSwgbGlzdCk7Cj4gPiA+ICsK
+PiA+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ID4gKyAgICAgcGFnZSA9IGRy
+bV9wYWdlX3Bvb2xfcmVtb3ZlKHBvb2wpOwo+ID4gPiArICAgICBzcGluX3VubG9jaygmcG9vbC0+
+bG9jayk7Cj4gPiA+ICsKPiA+ID4gKyAgICAgaWYgKHBhZ2UpCj4gPiA+ICsgICAgICAgICAgICAg
+bnJfZnJlZWQgPSBkcm1fcGFnZV9wb29sX2ZyZWVfcGFnZXMocG9vbCwgcGFnZSk7Cj4gPiA+ICsK
+PiA+ID4gKyAgICAgbGlzdF9tb3ZlX3RhaWwoJnBvb2wtPmxpc3QsICZwb29sX2xpc3QpOwo+ID4K
+PiA+IEJldHRlciB0byBtb3ZlIHRoaXMgdXAsIGRpcmVjdGx5IGFmdGVyIHRoZSBsaXN0X2ZpcnN0
+X2VudHJ5KCkuCj4KPiBTb3VuZHMgZ29vZCEKPgo+IFRoYW5rcyBzbyBtdWNoIGZvciB5b3VyIHJl
+dmlldyBhbmQgZmVlZGJhY2shIEknbGwgdHJ5IHRvIGdldCBzb21lIG9mCj4gdGhlIGVhc3kgc3Vn
+Z2VzdGlvbnMgaW50ZWdyYXRlZCwgYW5kIHdpbGwgaGF2ZSB0byBmaWd1cmUgb3V0IHdoYXQgdG8K
+PiBkbyBhYm91dCB0aGUgcmUtbGljZW5zaW5nIHJlcXVlc3QuCj4KPiB0aGFua3MKPiAtam9obgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
