@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11D131046D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 06:18:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C04EB310510
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 07:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE6C96E152;
-	Fri,  5 Feb 2021 05:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241246E1B7;
+	Fri,  5 Feb 2021 06:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898AB6E152
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 05:18:30 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id m76so5618524ybf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 21:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lgOzo6AA5TXNIkBKlwLQRgO7wuH9dEiOWALI05+ya+s=;
- b=NAjY1FvXNmUGUqI5ruw3fTkPLusc6/BtV63R1Ran0vMCGY6MURS28Krjx/21j8FPuy
- N0flzcI/QoXFrpAedwhwSYdn4ARhraxpebOzmm7bOZX0A0p0c9TdKFm6mDsNo95+039r
- 6ze8c8K/W3WnRLu90amNei5xMtMVzDQbM0dQQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lgOzo6AA5TXNIkBKlwLQRgO7wuH9dEiOWALI05+ya+s=;
- b=lKG2JW4IQta/syBzYQ14HKvTYlj6xYO6SpqAp/xtv0qf8veztCId+nEtj8pwQkeUO5
- DFzCynycADruD+as017tSEMgHob4YPW/13vL519FocqKnOkt6ZF49whQ7LXhMp2EZEJR
- geDHi0NdtI6tTj5S1hIDoJadsh8ZbgZfFIbluT1/R+aNX9pxocCcoSiz8RHOdHVTzfsB
- nQT5ya7qcNLfBU4quEJjP7zRd7g46OWNlCC4173uaz0ELAB4a1ilDB90/bffS6PfNM2g
- QZepu6x2huKDW3Q9KuIStPmzSde6q2ODdOdv/AmnOhM43FqpGXxXUK8WAjciUnPknee4
- 0UVw==
-X-Gm-Message-State: AOAM530KvHXM0KPZ8m3Imc2VCRsdY9sDQ8ZN00QIA+80tOLCi7tfoIHY
- Qz/zwKN8/QiSMVsevUZG3FXBpoOJTuJdNQIH9xzR2g==
-X-Google-Smtp-Source: ABdhPJy/Dx6JrLpBx8VlbMaJA6d4oUUMF+XjSPFkmLacUYDtzQGWIKeD1y2Kdkfjs0iYFqc+ffAcW4a1c6K401rcSlU=
-X-Received: by 2002:a25:da41:: with SMTP id n62mr3671777ybf.155.1612502309147; 
- Thu, 04 Feb 2021 21:18:29 -0800 (PST)
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Feb 2021 06:46:38 UTC
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E13D6E1B7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 06:46:38 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1612507598; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Pq6SFpYB7bZzneOPuiPx50qEYnSet0KQsUNB8GY6yTU=;
+ b=DwWySghNdmK3CQvHaXYlTpfKTG6U6IbAFYCyqMOwhVjFkf/TmGO1H/bJTQ8+7x6rZduYb9Ac
+ cutOhk33HpCXvpnaN2GVgk1uV5EwTV2UB5VSAEvy/MILQCNc7JGqum9RfkSAenursTS5tUVQ
+ 44lNEEiY28nIolB6Qw2BFtGi0vY=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 601ce88f34db06ef796f19b4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Feb 2021 06:41:19
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6A151C43464; Fri,  5 Feb 2021 06:41:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.105] (unknown [61.1.238.129])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 59B2AC433CA;
+ Fri,  5 Feb 2021 06:41:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 59B2AC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH] drm/msm: Fix legacy relocs path
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20210204225650.1284384-1-robdclark@gmail.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <dc2fb87e-67f0-4fa9-c920-515a6609a04d@codeaurora.org>
+Date: Fri, 5 Feb 2021 12:11:10 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20200923121320.v3.1.I8693156f555875e5c8342e86ab37ce968dfdd277@changeid>
- <20200923121320.v3.2.Ided0ab0808c4908238bd2eb9ebb6ffb2c9312789@changeid>
- <YBh9HvbIRF4zd+AK@intel.com> <2a7c2edc-b83c-dccf-487d-1415b4bc23ff@xs4all.nl>
-In-Reply-To: <2a7c2edc-b83c-dccf-487d-1415b4bc23ff@xs4all.nl>
-From: Sam McNally <sammc@chromium.org>
-Date: Fri, 5 Feb 2021 16:17:51 +1100
-Message-ID: <CAJqEsoCOJmS5aVb5du09tXUi7UUKVBQDPe5KTdcBiDr8A7kSYA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] drm_dp_mst_topology: use correct AUX channel
-To: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20210204225650.1284384-1-robdclark@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +72,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hans.verkuil@cisco.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCA0IEZlYiAyMDIxIGF0IDIxOjE5LCBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsQHhzNGFs
-bC5ubD4gd3JvdGU6Cj4KPiBPbiAwMS8wMi8yMDIxIDIzOjEzLCBWaWxsZSBTeXJqw6Rsw6Qgd3Jv
-dGU6Cj4gPiBPbiBXZWQsIFNlcCAyMywgMjAyMCBhdCAxMjoxMzo1M1BNICsxMDAwLCBTYW0gTWNO
-YWxseSB3cm90ZToKPiA+PiBGcm9tOiBIYW5zIFZlcmt1aWwgPGhhbnMudmVya3VpbEBjaXNjby5j
-b20+Cj4gPj4KPiA+PiBGb3IgYWRhcHRlcnMgYmVoaW5kIGFuIE1TVCBodWIgdXNlIHRoZSBjb3Jy
-ZWN0IEFVWCBjaGFubmVsLgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogSGFucyBWZXJrdWlsIDxo
-YW5zLnZlcmt1aWxAY2lzY28uY29tPgo+ID4+IFtzYW1tY0BjaHJvbWl1bS5vcmc6IHJlYmFzZWQs
-IHJlbW92aW5nIHJlZHVuZGFudCBjaGFuZ2VzXQo+ID4+IFNpZ25lZC1vZmYtYnk6IFNhbSBNY05h
-bGx5IDxzYW1tY0BjaHJvbWl1bS5vcmc+Cj4gPj4gLS0tCj4gPj4KPiA+PiAobm8gY2hhbmdlcyBz
-aW5jZSB2MSkKPiA+Pgo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-IHwgMzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCAz
-NiBpbnNlcnRpb25zKCspCj4gPj4KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9kcF9tc3RfdG9wb2xvZ3kuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5
-LmMKPiA+PiBpbmRleCAxNWI2Y2MzOWE3NTQuLjBkNzUzMjAxYWRiZCAxMDA2NDQKPiA+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+ID4+IEBAIC0yMjU1LDYgKzIyNTUsOSBA
-QCBkcm1fZHBfbXN0X3RvcG9sb2d5X3VubGlua19wb3J0KHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9s
-b2d5X21nciAqbWdyLAo+ID4+ICAgICAgZHJtX2RwX21zdF90b3BvbG9neV9wdXRfcG9ydChwb3J0
-KTsKPiA+PiAgfQo+ID4+Cj4gPj4gK3N0YXRpYyBzc2l6ZV90Cj4gPj4gK2RybV9kcF9tc3RfYXV4
-X3RyYW5zZmVyKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsIHN0cnVjdCBkcm1fZHBfYXV4X21zZyAq
-bXNnKTsKPiA+PiArCj4gPj4gIHN0YXRpYyBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICoKPiA+PiAg
-ZHJtX2RwX21zdF9hZGRfcG9ydChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4+ICAgICAgICAg
-ICAgICAgICAgc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gPj4gQEAgLTIy
-NzEsOSArMjI3NCwxMyBAQCBkcm1fZHBfbXN0X2FkZF9wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsCj4gPj4gICAgICBwb3J0LT5wb3J0X251bSA9IHBvcnRfbnVtYmVyOwo+ID4+ICAgICAgcG9y
-dC0+bWdyID0gbWdyOwo+ID4+ICAgICAgcG9ydC0+YXV4Lm5hbWUgPSAiRFBNU1QiOwo+ID4+ICsg
-ICAgbXV0ZXhfaW5pdCgmcG9ydC0+YXV4Lmh3X211dGV4KTsKPiA+PiArICAgIG11dGV4X2luaXQo
-JnBvcnQtPmF1eC5jZWMubG9jayk7Cj4gPj4gICAgICBwb3J0LT5hdXguZGV2ID0gZGV2LT5kZXY7
-Cj4gPj4gICAgICBwb3J0LT5hdXguaXNfcmVtb3RlID0gdHJ1ZTsKPiA+Pgo+ID4+ICsgICAgcG9y
-dC0+YXV4LnRyYW5zZmVyID0gZHJtX2RwX21zdF9hdXhfdHJhbnNmZXI7Cj4gPj4gKwo+ID4KPiA+
-IFRoaXMgd2FzIHN1cHBvc2VkIHRvIGJlIGhhbmRsZWQgdmlhIGhpZ2hlciBsZXZlbHMgY2hlY2tp
-bmcgZm9yCj4gPiBpc19yZW1vdGU9PXRydWUuCj4KPiBBaCwgSSBzdXNwZWN0IHRoaXMgcGF0Y2gg
-Y2FuIGJlIGRyb3BwZWQgZW50aXJlbHk6IGl0IHByZWRhdGVzIGNvbW1pdCAyZjIyMWE1ZWZlZDQK
-PiAoImRybS9kcF9tc3Q6IEFkZCBNU1Qgc3VwcG9ydCB0byBEUCBEUENEIFIvVyBmdW5jdGlvbnMi
-KS4KPgo+IEl0IGxvb2tzIGxpa2UgdGhhdCBjb21taXQgYmFzaWNhbGx5IHNvbHZlZCB3aGF0IHRo
-aXMgb2xkZXIgcGF0Y2ggYXR0ZW1wdHMgdG8gZG8KPiBhcyB3ZWxsLgo+Cj4gU2FtLCBjYW4geW91
-IHRlc3QgaWYgaXQgd29ya3Mgd2l0aG91dCB0aGlzIHBhdGNoPwoKSXQgYWxtb3N0IGp1c3Qgd29y
-a3M7IGRybV9kcF9jZWMgdXNlcyB3aGV0aGVyIGF1eC50cmFuc2ZlciBpcyBub24tbnVsbAp0byBm
-aWx0ZXIgb3V0IG5vbi1EUCBjb25uZWN0b3JzLiBVc2luZyBhdXguaXNfcmVtb3RlIGFzIGFub3Ro
-ZXIgc2lnbmFsCmluZGljYXRpbmcgYSBEUCBjb25uZWN0b3Igc2VlbXMgcGxhdXNpYmxlLiBXZSBj
-YW4gZHJvcCB0aGlzIHBhdGNoLgpUaGFua3MgYWxsIQo+Cj4gUmVnYXJkcywKPgo+ICAgICAgICAg
-SGFucwo+Cj4gPgo+ID4+ICAgICAgLyogaW5pdGlhbGl6ZSB0aGUgTVNUIGRvd25zdHJlYW0gcG9y
-dCdzIEFVWCBjcmMgd29yayBxdWV1ZSAqLwo+ID4+ICAgICAgZHJtX2RwX3JlbW90ZV9hdXhfaW5p
-dCgmcG9ydC0+YXV4KTsKPiA+Pgo+ID4+IEBAIC0zNTAzLDYgKzM1MTAsMzUgQEAgc3RhdGljIGlu
-dCBkcm1fZHBfc2VuZF91cF9hY2tfcmVwbHkoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdy
-ICptZ3IsCj4gPj4gICAgICByZXR1cm4gMDsKPiA+PiAgfQo+ID4+Cj4gPj4gK3N0YXRpYyBzc2l6
-ZV90Cj4gPj4gK2RybV9kcF9tc3RfYXV4X3RyYW5zZmVyKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgs
-IHN0cnVjdCBkcm1fZHBfYXV4X21zZyAqbXNnKQo+ID4+ICt7Cj4gPj4gKyAgICBzdHJ1Y3QgZHJt
-X2RwX21zdF9wb3J0ICpwb3J0ID0KPiA+PiArICAgICAgICAgICAgY29udGFpbmVyX29mKGF1eCwg
-c3RydWN0IGRybV9kcF9tc3RfcG9ydCwgYXV4KTsKPiA+PiArICAgIGludCByZXQ7Cj4gPj4gKwo+
-ID4+ICsgICAgc3dpdGNoIChtc2ctPnJlcXVlc3QgJiB+RFBfQVVYX0kyQ19NT1QpIHsKPiA+PiAr
-ICAgIGNhc2UgRFBfQVVYX05BVElWRV9XUklURToKPiA+PiArICAgIGNhc2UgRFBfQVVYX0kyQ19X
-UklURToKPiA+PiArICAgIGNhc2UgRFBfQVVYX0kyQ19XUklURV9TVEFUVVNfVVBEQVRFOgo+ID4+
-ICsgICAgICAgICAgICByZXQgPSBkcm1fZHBfc2VuZF9kcGNkX3dyaXRlKHBvcnQtPm1nciwgcG9y
-dCwgbXNnLT5hZGRyZXNzLAo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIG1zZy0+c2l6ZSwgbXNnLT5idWZmZXIpOwo+ID4KPiA+IFRoYXQgZG9lc24ndCBtYWtl
-IHNlbnNlIHRvIG1lLiBJMmMgd3JpdGVzIGFuZCBEUENEIHdyaXRlcwo+ID4gYXJlIGRlZmluaXRl
-bHkgbm90IHRoZSBzYW1lIHRoaW5nLgo+ID4KPiA+IGF1eC0+dHJhbnNmZXIgaXMgYSB2ZXJ5IGxv
-dyBsZXZlbCB0aGluZy4gSSBkb24ndCB0aGluayBpdCdzIHRoZQo+ID4gY29ycmVjdCBsZXZlbCBv
-ZiBhYnN0cmFjdGlvbiBmb3Igc2lkZWJhbmQuCj4gPgo+ID4+ICsgICAgICAgICAgICBicmVhazsK
-PiA+PiArCj4gPj4gKyAgICBjYXNlIERQX0FVWF9OQVRJVkVfUkVBRDoKPiA+PiArICAgIGNhc2Ug
-RFBfQVVYX0kyQ19SRUFEOgo+ID4+ICsgICAgICAgICAgICByZXQgPSBkcm1fZHBfc2VuZF9kcGNk
-X3JlYWQocG9ydC0+bWdyLCBwb3J0LCBtc2ctPmFkZHJlc3MsCj4gPj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBtc2ctPnNpemUsIG1zZy0+YnVmZmVyKTsKPiA+PiAr
-ICAgICAgICAgICAgYnJlYWs7Cj4gPj4gKwo+ID4+ICsgICAgZGVmYXVsdDoKPiA+PiArICAgICAg
-ICAgICAgcmV0ID0gLUVJTlZBTDsKPiA+PiArICAgICAgICAgICAgYnJlYWs7Cj4gPj4gKyAgICB9
-Cj4gPj4gKwo+ID4+ICsgICAgcmV0dXJuIHJldDsKPiA+PiArfQo+ID4+ICsKPiA+PiAgc3RhdGlj
-IGludCBkcm1fZHBfZ2V0X3ZjX3BheWxvYWRfYncodTggZHBfbGlua19idywgdTggIGRwX2xpbmtf
-Y291bnQpCj4gPj4gIHsKPiA+PiAgICAgIGlmIChkcF9saW5rX2J3ID09IDAgfHwgZHBfbGlua19j
-b3VudCA9PSAwKQo+ID4+IC0tCj4gPj4gMi4yOC4wLjY4MS5nNmY3N2Y2NWI0ZS1nb29nCj4gPj4K
-PiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+
-IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKPiA+Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On 2/5/2021 4:26 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> In moving code around, we ended up using the same pointer to
+> copy_from_user() the relocs tables as we used for the cmd table
+> entry, which is clearly not right.  This went unnoticed because
+> modern mesa on non-ancent kernels does not actually use relocs.
+> But this broke ancient mesa on modern kernels.
+> 
+> Reported-by: Emil Velikov <emil.velikov@collabora.com>
+> Fixes: 20224d715a88 ("drm/msm/submit: Move copy_from_user ahead of locking bos")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index d04c349d8112..5480852bdeda 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -198,6 +198,8 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
+>   		submit->cmd[i].idx  = submit_cmd.submit_idx;
+>   		submit->cmd[i].nr_relocs = submit_cmd.nr_relocs;
+>   
+> +		userptr = u64_to_user_ptr(submit_cmd.relocs);
+> +
+>   		sz = array_size(submit_cmd.nr_relocs,
+>   				sizeof(struct drm_msm_gem_submit_reloc));
+>   		/* check for overflow: */
+> 
+
+Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
+
+-Akhil.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
