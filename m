@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C714B310C5E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF73310C6D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:04:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 060336F44B;
-	Fri,  5 Feb 2021 14:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91506F44E;
+	Fri,  5 Feb 2021 14:04:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D53EE6F448;
- Fri,  5 Feb 2021 14:01:30 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id a16so3598795plh.8;
- Fri, 05 Feb 2021 06:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9mVRXJ1/m2Ab7utnhdbSusiRKnV59wpCtJPbJHx3VCk=;
- b=XztMZPDU58th5eKVyXGkC00fgRrKZery2vGPxOREgC14W+PUEVDSGLDwsjZ3pbtnIb
- VK5gp1AbMy7mYgt4Yqm6J4GA9C1jEZty2d5ivJ93u2V3At0j/aXiopwlr6JUEd0+wTmP
- vgR8ia4Eou83XBKtXoo5kWmJC6mwXExeiAfx2Ch9KMEisFmqTbUjmpyPAvzY5kU4YCv0
- waLHPzY2kaKLl0S8IRHw4IziqfcV0YMuYHZ3eObaLh/oR2J2WiA38y4wP/X6ABcqmyKb
- zPs1v+kHpaQ4vStCh4rGN4egOcLdT6LTfZ5Qb0xK5dmwgg7Ml+yvz7faVLRLN4TbeEun
- L0KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9mVRXJ1/m2Ab7utnhdbSusiRKnV59wpCtJPbJHx3VCk=;
- b=XLs9sTl+VnYD6fgwI33rM8Hnhsz4MeGKGUsqY8WJzXmE7yK1i+BTF/dOpx2ArrVynA
- CO4WSRYA7m4U2QYZA4sMnANkIoLQxyKMMUo3O+kpnMzLqWzivzOHTzSEH5kVaIhriB3B
- gOOOIwxNHUPUCnj+kFLNEg3+DpZN9JzSstuFYS6wDS7+LDQ20MWo/He5PRFMLEVJGXtu
- DHmfIkFsK5eCWju7OnqaJwXVbSR9huGwlXIvok4OMcCuZAKnNirjkhJWxqgs+Vj05VH+
- sQxuta2ww2fZD2rTX5gnxLVWRwaxEUdcLpdIDq4jwl/kDYJN4hn/f88ZIjViV4qcJ0sv
- 9OHA==
-X-Gm-Message-State: AOAM530wJCoQPnVSe1pDS92gcK8brgnPyzgvnXvfCkQhS6lVLd+eTOwu
- c3P0qhCt1KlEM7Zbl+h8ZiKoujGwoq4Ojl+JfP8=
-X-Google-Smtp-Source: ABdhPJzn7icLqSpYWC8pI6O41q0nqM43UZ+wkg65n4fjCOQg3z1XI8OGZBa87lh+5WCg8R+RKOLLNMVPvzeSiQ5Q0mQ=
-X-Received: by 2002:a17:90a:644a:: with SMTP id
- y10mr4470679pjm.129.1612533689048; 
- Fri, 05 Feb 2021 06:01:29 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFEB6F44E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:04:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36E5C64FC9;
+ Fri,  5 Feb 2021 14:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612533851;
+ bh=T1jLO24sF0pYkT3lQr2onlwV1fj0AbfnrcXXdUAochg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BZOBBDws+/yhmPTxNLP4zonarclKLQMtK4MPPXtDYExmUzHRLjxXcJnfGq14VQa4L
+ yZhVB9oNHiU0DzaVx6si8j0aXHMHTj1MM3VS8xDsEeLmU5/b+5mHQBkgW7cT1CQKhX
+ bLMDr8tZSM1SipNLwaZFpx+i2Ki4uOTJ99+ziw0o=
+Date: Fri, 5 Feb 2021 15:04:08 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Subject: Re: [PATCH] coresight: etm4x: Fix merge resolution for amba rework
+Message-ID: <YB1QWFWPennQZmjw@kroah.com>
+References: <20210205130848.20009-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-References: <20210204155846.5aef94a8@canb.auug.org.au>
- <CAHp75Vct=jSQxu187hwz4Wrc_xRKiTmKFt_bgT-m-z=iW31drg@mail.gmail.com>
- <CAHp75Vc_xJFpUECZenOYEyJ6YDzfDFmJe9cTeGh0x-c_fKQPHw@mail.gmail.com>
- <CAMeQTsYK5GoL=VNB0CPrGi0Y-804N1q24dkii20OuV8=ckhmuA@mail.gmail.com>
- <CAKMK7uFSF0cHZh6KikMf2MmBykZazE5HGA1ejJU++GWyfuTmfQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uFSF0cHZh6KikMf2MmBykZazE5HGA1ejJU++GWyfuTmfQ@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 5 Feb 2021 16:01:12 +0200
-Message-ID: <CAHp75VeeEutQB0nX3TAfbBSOuACREChaZaTtG9zmsjX9kfPBuQ@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the drivers-x86 tree with the
- drm-misc tree
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20210205130848.20009-1-uwe@kleine-koenig.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +42,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Mark Gross <mark.gross@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Hans de Goede <hdegoede@redhat.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig.org@pengutronix.de>,
+ linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Alexandre Torgue <alexandre.torgue@st.com>, linux-rtc@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, Guenter Roeck <linux@roeck-us.net>,
+ Mike Leach <mike.leach@linaro.org>, linux-watchdog@vger.kernel.org,
+ alsa-devel@alsa-project.org, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Matt Mackall <mpm@selenic.com>, Dan Williams <dan.j.williams@intel.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-crypto@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 5, 2021 at 3:05 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> On Fri, Feb 5, 2021 at 12:14 PM Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
-> >
-> > On Fri, Feb 5, 2021 at 12:07 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > >
-> > > On Thu, Feb 4, 2021 at 11:04 AM Andy Shevchenko
-> > > <andy.shevchenko@gmail.com> wrote:
-> > > >> Today's linux-next merge of the drivers-x86 tree got a conflict in:
-> > > >
-> > > > Thanks. I already asked Patrik yesterday day if DRM missed to pull an immutable tag I provided. I think they can pull and resolve conflicts themselves. Alternatively it would be easy to resolve by Linus by removing Kconfig lines along with mentioned files,
-> > >
-> > > Patrik, I have sent a PR again, so you may consider pulling it, thanks!
-> >
-> > Daniel, is this something you can pull into drm or ask one of the
-> > drm-misc maintainers to do?
->
-> We've already created the conflict, and my understanding is that Linus
-> wants to have visibility into conflict-y stuff and doesn't mind at all
-> resolving conflicts. Hence for 5.12 I think we're fine as-is.
+On Fri, Feb 05, 2021 at 02:08:47PM +0100, Uwe Kleine-K=F6nig wrote:
+> This was non-trivial to get right because commits
+> c23bc382ef0e ("coresight: etm4x: Refactor probing routine") and
+> 5214b563588e ("coresight: etm4x: Add support for sysreg only devices")
+> changed the code flow considerably. With this change the driver can be
+> built again.
+> =
 
-Fine with me!
+> Fixes: 0573d3fa4864 ("Merge branch 'devel-stable' of git://git.armlinux.o=
+rg.uk/~rmk/linux-arm into char-misc-next")
+> Signed-off-by: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Now queued up, thanks!
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
