@@ -1,29 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E160310DFA
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 17:38:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BF6310E46
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 18:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A536F490;
-	Fri,  5 Feb 2021 16:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C0F6F489;
+	Fri,  5 Feb 2021 17:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBB96F490;
- Fri,  5 Feb 2021 16:38:19 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.69.177; 
-Received: from build.alporthouse.com (unverified [78.156.69.177]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 23800349-1500050 
- for multiple; Fri, 05 Feb 2021 16:38:03 +0000
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel: Expose SYS_kcmp by default
-Date: Fri,  5 Feb 2021 16:37:52 +0000
-Message-Id: <20210205163752.11932-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 303706F455
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 17:03:02 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1l84VW-00017l-SZ; Fri, 05 Feb 2021 18:02:58 +0100
+Message-ID: <b8dc4e6b3603827fc770293a0d8f532bae8223b1.camel@pengutronix.de>
+Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Chris Wilson <chris@chris-wilson.co.uk>, linux-kernel@vger.kernel.org
+Date: Fri, 05 Feb 2021 18:02:56 +0100
+In-Reply-To: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,93 +48,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Andy Lutomirski <luto@amacapital.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace has discovered the functionality offered by SYS_kcmp and has
-started to depend upon it. In particular, Mesa uses SYS_kcmp for
-os_same_file_description() in order to identify when two fd (e.g. device
-or dmabuf) point to the same struct file. Since they depend on it for
-core functionality, lift SYS_kcmp out of the non-default
-CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
-
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Andy Lutomirski <luto@amacapital.net>
-Cc: Will Drewry <wad@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Lucas Stach <l.stach@pengutronix.de>
----
- init/Kconfig                                  | 11 +++++++++++
- kernel/Makefile                               |  2 +-
- tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
- 3 files changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/init/Kconfig b/init/Kconfig
-index b77c60f8b963..f62fca13ac5b 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1194,6 +1194,7 @@ endif # NAMESPACES
- config CHECKPOINT_RESTORE
- 	bool "Checkpoint/restore support"
- 	select PROC_CHILDREN
-+	select KCMP
- 	default n
- 	help
- 	  Enables additional kernel features in a sake of checkpoint/restore.
-@@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
- config ARCH_HAS_MEMBARRIER_SYNC_CORE
- 	bool
- 
-+config KCMP
-+	bool "Enable kcmp() system call" if EXPERT
-+	default y
-+	help
-+	  Enable the file descriptor comparison system call. It provides
-+	  user-space with the ability to compare two fd to see if they
-+	  point to the same file, and check other attributes.
-+
-+	  If unsure, say Y.
-+
- config RSEQ
- 	bool "Enable rseq() system call" if EXPERT
- 	default y
-diff --git a/kernel/Makefile b/kernel/Makefile
-index aa7368c7eabf..320f1f3941b7 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -51,7 +51,7 @@ obj-y += livepatch/
- obj-y += dma/
- obj-y += entry/
- 
--obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
-+obj-$(CONFIG_KCMP) += kcmp.o
- obj-$(CONFIG_FREEZER) += freezer.o
- obj-$(CONFIG_PROFILING) += profile.o
- obj-$(CONFIG_STACKTRACE) += stacktrace.o
-diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
-index 26c72f2b61b1..1b6c7d33c4ff 100644
---- a/tools/testing/selftests/seccomp/seccomp_bpf.c
-+++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
-@@ -315,7 +315,7 @@ TEST(kcmp)
- 	ret = __filecmp(getpid(), getpid(), 1, 1);
- 	EXPECT_EQ(ret, 0);
- 	if (ret != 0 && errno == ENOSYS)
--		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
-+		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
- }
- 
- TEST(mode_strict_support)
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRnJlaXRhZywgZGVtIDA1LjAyLjIwMjEgdW0gMTY6MzcgKzAwMDAgc2NocmllYiBDaHJpcyBX
+aWxzb246Cj4gVXNlcnNwYWNlIGhhcyBkaXNjb3ZlcmVkIHRoZSBmdW5jdGlvbmFsaXR5IG9mZmVy
+ZWQgYnkgU1lTX2tjbXAgYW5kIGhhcwo+IHN0YXJ0ZWQgdG8gZGVwZW5kIHVwb24gaXQuIEluIHBh
+cnRpY3VsYXIsIE1lc2EgdXNlcyBTWVNfa2NtcCBmb3IKPiBvc19zYW1lX2ZpbGVfZGVzY3JpcHRp
+b24oKSBpbiBvcmRlciB0byBpZGVudGlmeSB3aGVuIHR3byBmZCAoZS5nLiBkZXZpY2UKPiBvciBk
+bWFidWYpIHBvaW50IHRvIHRoZSBzYW1lIHN0cnVjdCBmaWxlLiBTaW5jZSB0aGV5IGRlcGVuZCBv
+biBpdCBmb3IKPiBjb3JlIGZ1bmN0aW9uYWxpdHksIGxpZnQgU1lTX2tjbXAgb3V0IG9mIHRoZSBu
+b24tZGVmYXVsdAo+IENPTkZJR19DSEVDS1BPSU5UX1JFU1RPUkUgaW50byB0aGUgc2VsZWN0YWJs
+ZSBzeXNjYWxsIGNhdGVnb3J5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hy
+aXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+IENjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVt
+Lm9yZz4KPiBDYzogQW5keSBMdXRvbWlyc2tpIDxsdXRvQGFtYWNhcGl0YWwubmV0Pgo+IENjOiBX
+aWxsIERyZXdyeSA8d2FkQGNocm9taXVtLm9yZz4KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBs
+aW51eC1mb3VuZGF0aW9uLm9yZz4KPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29t
+Pgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IEx1Y2FzIFN0YWNo
+IDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgo+IC0tLQo+IMKgaW5pdC9LY29uZmlnICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgMTEgKysrKysrKysrKysKPiDCoGtlcm5lbC9NYWtl
+ZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gwqB0b29scy90ZXN0
+aW5nL3NlbGZ0ZXN0cy9zZWNjb21wL3NlY2NvbXBfYnBmLmMgfCAgMiArLQo+IMKgMyBmaWxlcyBj
+aGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
+YS9pbml0L0tjb25maWcgYi9pbml0L0tjb25maWcKPiBpbmRleCBiNzdjNjBmOGI5NjMuLmY2MmZj
+YTEzYWM1YiAxMDA2NDQKPiAtLS0gYS9pbml0L0tjb25maWcKPiArKysgYi9pbml0L0tjb25maWcK
+PiBAQCAtMTE5NCw2ICsxMTk0LDcgQEAgZW5kaWYgIyBOQU1FU1BBQ0VTCj4gwqBjb25maWcgQ0hF
+Q0tQT0lOVF9SRVNUT1JFCj4gwqAJYm9vbCAiQ2hlY2twb2ludC9yZXN0b3JlIHN1cHBvcnQiCj4g
+wqAJc2VsZWN0IFBST0NfQ0hJTERSRU4KPiArCXNlbGVjdCBLQ01QCj4gwqAJZGVmYXVsdCBuCj4g
+wqAJaGVscAo+IMKgCSAgRW5hYmxlcyBhZGRpdGlvbmFsIGtlcm5lbCBmZWF0dXJlcyBpbiBhIHNh
+a2Ugb2YgY2hlY2twb2ludC9yZXN0b3JlLgo+IEBAIC0xNzM3LDYgKzE3MzgsMTYgQEAgY29uZmln
+IEFSQ0hfSEFTX01FTUJBUlJJRVJfQ0FMTEJBQ0tTCj4gwqBjb25maWcgQVJDSF9IQVNfTUVNQkFS
+UklFUl9TWU5DX0NPUkUKPiDCoAlib29sCj4gwqAKPiAKPiAKPiAKPiArY29uZmlnIEtDTVAKPiAr
+CWJvb2wgIkVuYWJsZSBrY21wKCkgc3lzdGVtIGNhbGwiIGlmIEVYUEVSVAo+ICsJZGVmYXVsdCB5
+Cj4gKwloZWxwCj4gKwkgIEVuYWJsZSB0aGUgZmlsZSBkZXNjcmlwdG9yIGNvbXBhcmlzb24gc3lz
+dGVtIGNhbGwuIEl0IHByb3ZpZGVzCj4gKwkgIHVzZXItc3BhY2Ugd2l0aCB0aGUgYWJpbGl0eSB0
+byBjb21wYXJlIHR3byBmZCB0byBzZWUgaWYgdGhleQo+ICsJICBwb2ludCB0byB0aGUgc2FtZSBm
+aWxlLCBhbmQgY2hlY2sgb3RoZXIgYXR0cmlidXRlcy4KClRoaXMgZGVzY3JpcHRpb24gdW5kZXJz
+ZWxscyB0aGUgYWJpbGl0aWVzIG9mIGtjbXAsIHdoaWxlIGZkIGNvbXBhcmUgaXMKdGhlIG9ubHkg
+dGhpbmcgdXNlZCBieSB0aGUgZ3JhcGhpY3Mgc3RhY2ssIGtjbXAgY2FuIGNvbXBhcmUgYSBoYW5k
+ZnVsCm9mIG90aGVyIHN5c3RlbSByZXNvdXJjZXMsIHNlZSBtYW4gMiBrY21wLiBJIHRoaW5rIHRo
+ZSBoZWxwdGV4dCBzaG91bGQKYXQgbGVhc3QgdHJ5IHRvIGNvdmVyIHRoaXMgZmFjdCBzb21ld2hh
+dC4KClJlZ2FyZHMsCkx1Y2FzCgo+ICsKPiArCSAgSWYgdW5zdXJlLCBzYXkgWS4KPiArCj4gwqBj
+b25maWcgUlNFUQo+IMKgCWJvb2wgIkVuYWJsZSByc2VxKCkgc3lzdGVtIGNhbGwiIGlmIEVYUEVS
+VAo+IMKgCWRlZmF1bHQgeQo+IGRpZmYgLS1naXQgYS9rZXJuZWwvTWFrZWZpbGUgYi9rZXJuZWwv
+TWFrZWZpbGUKPiBpbmRleCBhYTczNjhjN2VhYmYuLjMyMGYxZjM5NDFiNyAxMDA2NDQKPiAtLS0g
+YS9rZXJuZWwvTWFrZWZpbGUKPiArKysgYi9rZXJuZWwvTWFrZWZpbGUKPiBAQCAtNTEsNyArNTEs
+NyBAQCBvYmoteSArPSBsaXZlcGF0Y2gvCj4gwqBvYmoteSArPSBkbWEvCj4gwqBvYmoteSArPSBl
+bnRyeS8KPiDCoAo+IAo+IAo+IAo+IC1vYmotJChDT05GSUdfQ0hFQ0tQT0lOVF9SRVNUT1JFKSAr
+PSBrY21wLm8KPiArb2JqLSQoQ09ORklHX0tDTVApICs9IGtjbXAubwo+IMKgb2JqLSQoQ09ORklH
+X0ZSRUVaRVIpICs9IGZyZWV6ZXIubwo+IMKgb2JqLSQoQ09ORklHX1BST0ZJTElORykgKz0gcHJv
+ZmlsZS5vCj4gwqBvYmotJChDT05GSUdfU1RBQ0tUUkFDRSkgKz0gc3RhY2t0cmFjZS5vCj4gZGlm
+ZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3NlY2NvbXAvc2VjY29tcF9icGYuYyBi
+L3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL3NlY2NvbXAvc2VjY29tcF9icGYuYwo+IGluZGV4IDI2
+YzcyZjJiNjFiMS4uMWI2YzdkMzNjNGZmIDEwMDY0NAo+IC0tLSBhL3Rvb2xzL3Rlc3Rpbmcvc2Vs
+ZnRlc3RzL3NlY2NvbXAvc2VjY29tcF9icGYuYwo+ICsrKyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRl
+c3RzL3NlY2NvbXAvc2VjY29tcF9icGYuYwo+IEBAIC0zMTUsNyArMzE1LDcgQEAgVEVTVChrY21w
+KQo+IMKgCXJldCA9IF9fZmlsZWNtcChnZXRwaWQoKSwgZ2V0cGlkKCksIDEsIDEpOwo+IMKgCUVY
+UEVDVF9FUShyZXQsIDApOwo+IMKgCWlmIChyZXQgIT0gMCAmJiBlcnJubyA9PSBFTk9TWVMpCj4g
+LQkJU0tJUChyZXR1cm4sICJLZXJuZWwgZG9lcyBub3Qgc3VwcG9ydCBrY21wKCkgKG1pc3Npbmcg
+Q09ORklHX0NIRUNLUE9JTlRfUkVTVE9SRT8pIik7Cj4gKwkJU0tJUChyZXR1cm4sICJLZXJuZWwg
+ZG9lcyBub3Qgc3VwcG9ydCBrY21wKCkgKG1pc3NpbmcgQ09ORklHX0tDTVA/KSIpOwo+IMKgfQo+
+IMKgCj4gCj4gCj4gCj4gwqBURVNUKG1vZGVfc3RyaWN0X3N1cHBvcnQpCgoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
