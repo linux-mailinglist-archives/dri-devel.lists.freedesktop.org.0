@@ -1,122 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E93106A4
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 132423106A5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A6A6E21D;
-	Fri,  5 Feb 2021 08:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A436E3C1;
+	Fri,  5 Feb 2021 08:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 912B56E21D
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 08:28:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gaSdwLpVxQZVb6ptEcXHBuFaQBoObnYNkRw/8Z4bE0ahRi7jnvF947TofScnkwwiHT0f8BCsJuoHSdRxRe4IVawLsCf2T+LIVm2p5eQjNdNU1AK7UQZij/baQlLiQof/Td1H+Z4hRlQ00jvEV1l3OZJRfwfB0oJvTLoMe8JNZxRTUuQu+m9uzfsZbSQM3YAClMaOeOViQicctXIVhlFbBSCFHlRAe6U0KNIDcUp8emnh2naghzB4jNzPkas0OYmp3ZWXkifEkryqXjuJiu2NnHz3/e5CjCLUpGE5ooN4n5cuWuk9ZWs9Sm0uI5miPznNcYk51F23acrY/Y1U7wHRoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QzINmfy8dPo2ojH3jon8BRNtk7Db/nPHGeuPcQm8H0Y=;
- b=TN4RJTt1QDSXuyR48dWFNiwqs16WAcmAErC+tZmiL12FV7dIW60Rb+owxhzZF4qfzD+dO/lqmyOSNglYhAbGK7X3j8unyLu18JrnfqQh70FxFXv1AvPSM0DPx1ol8IuOXz2hQ5sINKjy+U7KhQVF8vvYczdmqy/ZF7YkyhUte0zBFLenlSaXnrE2j6c3IU/PjehR3pw6p1WI1+IuB3f6O0hcidLV1DbdLByVrGY6YOdCiHTe/LvPiAVQOcK8U6nrjSkD+Uw+h7un8pdb7sCX4z0Jqphp9oPSBCY8WojwbOdNF213Co/2OJD1Ghkwwqoz8ngMDnTsnp45FTwW11tn1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QzINmfy8dPo2ojH3jon8BRNtk7Db/nPHGeuPcQm8H0Y=;
- b=FRzda2g/Y0sxFC0SHMWbZtklJ/COWHECPbGXx0b35PuHbJKrDRa9TP5H/qz03WIYr4iKvo8GiLToObl3KfgEZkJHlGbNwdvg6XTwVrTxfa5LrbjLErL8LTRy71G9uDDVMDkrcPutZuYKi/tahY71uxoHUKJYf8V3OUWgdPT3nvA=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2579.namprd12.prod.outlook.com (2603:10b6:207:4d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.24; Fri, 5 Feb
- 2021 08:28:46 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.023; Fri, 5 Feb 2021
- 08:28:46 +0000
-Subject: Re: [RFC][PATCH v6 3/7] drm: ttm_pool: Rework ttm_pool_free_page to
- allow us to use it as a function pointer
-To: John Stultz <john.stultz@linaro.org>, lkml <linux-kernel@vger.kernel.org>
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-4-john.stultz@linaro.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8a4cacb7-3042-53c7-02fe-de18cc49fc0e@amd.com>
-Date: Fri, 5 Feb 2021 09:28:39 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4F3056E3C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 08:29:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D2ABF31B;
+ Fri,  5 Feb 2021 00:29:17 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E502F3F73B;
+ Fri,  5 Feb 2021 00:29:16 -0800 (PST)
+Subject: Re: [PATCH] drm/komeda: Fix bit check to import to value of proper
+ type
+To: carsten.haitzler@foss.arm.com, dri-devel@lists.freedesktop.org
+References: <20210204131102.68658-1-carsten.haitzler@foss.arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <cd3022d0-d9fc-fd42-105b-5bd74346a41f@arm.com>
+Date: Fri, 5 Feb 2021 08:29:32 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20210205080621.3102035-4-john.stultz@linaro.org>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR06CA0106.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::47) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR06CA0106.eurprd06.prod.outlook.com (2603:10a6:208:fa::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.20 via Frontend Transport; Fri, 5 Feb 2021 08:28:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 8a9fdd33-e6e3-41dc-bbf5-08d8c9b00e2b
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2579:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB25797888A5FAA4303B00716E83B29@BL0PR12MB2579.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vSYazm+AQ/0On5BHguGWNX6BUAXq0x/76vHw9L8qaOB2rtaRoyGDyFufVYh/gmxVGEE3m/sXFRAtgaSsyVPlpp/FRzMm6MUfZFZHuKMQa0qVUVhSbvn9fOfZThba0NnS2iEFTV641ronut7/KVWLaC8BpQEnbq8BvBGpGtrpjvdHbTSMQFKrF6MwXmslc+lKzNr66m8cZw5XtukeObpgynIBg15YoMDJ7xa4xo53cztUc66CjQv0svPdZWOgXc2UwXQ27R4IQlO71QxBPsJrQ9nJ/yenOh/5oc1Ych54x9sOMZW0qwGnYqxKi/BTeJYq4W1lLhIl1FsyGF11Snm/Usn12gRo49iKlXI3PjlcdDvAYY3wJGbK81vk+VztbWdYWkxxY3IWJuuf1jwiqVAOeB1HrNTVZp3BtiY7yROf5Zx9bIUM3jcE8fbgD7PrT5VBSWDsfxUusC8T6NfU3JGQjgL20Z0OJ1Dv0YAdRcIBhhUaS0GFRE2BSVPU2thdM+TC/2fFmjl2zB2tDXGXjLW4QSXSJI+BCkG+hurmJmLHFuxEnC6UJ2tzBvmPx0qmhfeiLBad1HgyzRAKy/gPz478hu1U5exCxrn0F0SslBSJuXY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(66556008)(66946007)(36756003)(6486002)(7416002)(86362001)(186003)(16526019)(6666004)(478600001)(2616005)(4326008)(2906002)(31686004)(110136005)(83380400001)(54906003)(66476007)(5660300002)(8676002)(316002)(52116002)(8936002)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U2hDQ2ZmTm5vcGZFd0pPOElyb1dIbnJUTytLdHBBTm5nelRYcXVUai8wV3BP?=
- =?utf-8?B?M1RaVzhyQUZqSzh6NFVhTFBGclhoSGJ6cWRpM2Y1clFTWFhqaTJFbmczSUh2?=
- =?utf-8?B?MWxwbTR4L2IvVHdmTTVySmpBcTBUV2ZYS0pEaVhWTXFSNVczR1UvdUNFRGZs?=
- =?utf-8?B?bTRucTFGamZrb2I5dE9ZZU5zVzk2Y0Z5MHhSL1lsdUJ3bFlTUStPVWFza0RF?=
- =?utf-8?B?Z2pqUy9xWHJPdkM5RlNlMkphM3lWbUlMblcyUnYwMjdjN1AyZXp6SURSUlVk?=
- =?utf-8?B?SFJndXRqSTJtLzBlMGI1ZkJuZEEyQ0tqREtCcU5yZ3A3K1V2T2p2S2lBTjQ2?=
- =?utf-8?B?OWZUN1F4aldZaHhLakFCV2h3MmRnaGtwWmVKcmZYMlJqbm1aMnVVVGZaa21n?=
- =?utf-8?B?cng2aDFaQjkxUVhjcW93UnprMkVtU3ozYW5RYjlNenRQQ2lkeFpJSVBkZVIw?=
- =?utf-8?B?ajAzLzV3SzJrdzhSNlV1cS9OZXVJaEFSTzg1am1MU0J0NmJsZlRXQm5nNlpo?=
- =?utf-8?B?c1NBanJXanZGUDd6VGlMZjZhS2FTOXhRemdqWkg0anpnc3VqWmpPR1JSRGRP?=
- =?utf-8?B?YzFPSGFjZW14OEVXR0xxM2RkbzF1RWtUM0lQTHQxbUZFQ3hIMTNRdTBSQi9W?=
- =?utf-8?B?YnBrTTZ4Yy9IemJ0czJDREJNc3oyR29WYXlqb1dNRFFUOXAxSHBLeW4yaXlq?=
- =?utf-8?B?ZmxNVTJvOEErL1FPeHVFUEYwaHBkT0RZeW93dTVVeEJrb1Baelg1SXNXNUlv?=
- =?utf-8?B?MCtTNXh4NExzc01LVk10M2JQdUg3b1QwRVB5RDJHR0hWN0VmNlowQStRUng3?=
- =?utf-8?B?RzJDWDJuWjZsaDB3TU9ESVZESE9LOUFkcjVVUU12Qy8xWnhnWjN3Z0VFNmU5?=
- =?utf-8?B?U1FpMDZYMVV2aVFhdDZSaGErZFlVWUpyN1FtWmdKYk5EM1V3UjBmYTY5S0o4?=
- =?utf-8?B?OG5aTmxZaUtTdkJ1RTFKdmdOZTBnMHdsaDAzUEZHbVR3MTVWb1YxT0lpT1Ur?=
- =?utf-8?B?ZmFrR1lia0dac0VDaEQzZnl4TTZPcEZBcDZYVS9IUFpvNThuU0dJZDZTK1FU?=
- =?utf-8?B?akloWkRWcjMvTHVDVWE3MzRHb2l5ZzRSZldhS1NWampReDNaY1ZJbUlCUkVv?=
- =?utf-8?B?YnZHRERLbDRGd2VsTU5idmVoTFQzcURKWG1Ddkg2NnR0aklKNWVvdkY1UXdp?=
- =?utf-8?B?Y3N0VjM4ZkZlanFodG9WUFhacGQwUEZmaXBETUFpYXQ4dVhZZHNzbUpGMjg3?=
- =?utf-8?B?RFYxakJaNFcyb05IcHhqVHFhUEVmT0tHeitBYjMzdWhTQXRRbW5YNUZjYzhE?=
- =?utf-8?B?VGd3bW5iUnNtQkVBWWQzbWo3alhUZEE3WFU0WkVOendPOHp3WW14MHhXVnFk?=
- =?utf-8?B?SEpNUGF2RTVtRkdGMnNoa08wUkdkWmlQYW9MeXpaKzJkb1dYMVM1R3VRQUpm?=
- =?utf-8?B?OXltTGxkeVl6Skp4RG1FY3RDejgwUDdGNjNmVU94RnpiTE5HYXk3MGxQUmZD?=
- =?utf-8?B?bXQyVmM0RHVYRjA5ZUgyQUJnMXQrK2lnWS9XaGJFUHNUWEkzNThacVl3d21U?=
- =?utf-8?B?ODU5akRtbkZ5dmNrRFoyQ0hlYWd4QXJLczNBYmQxdDlFUDFvZXdMWTlRSm5E?=
- =?utf-8?B?cWJaTWc2OEtvUHhXRUNKWWhZaG1YZE54S05ERUV5eHRIa3F5K3VvMExoRWtJ?=
- =?utf-8?B?UWRYM0hEbTZtYVdBRFE4S1AwNVB4clIzQkhSSm9VaVBVenJwejB1ZFJRMTc5?=
- =?utf-8?B?aHJxbCs1RXlzbHFhSXJLV1RHd1U2dllTeUVIRFNMc0liTzBIV09NU1BwMEF3?=
- =?utf-8?B?U0FYQ0tkQVlXQ0hlZmR2YzdTMFVwajZhTkZUSHVUK3EwU0ZSZnl4OXpaV0tz?=
- =?utf-8?Q?GFbdPHKag4I9B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a9fdd33-e6e3-41dc-bbf5-08d8c9b00e2b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 08:28:46.4737 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XslRLQjy+h+YdUKGSKtTQKuhs/4qpOz5lTOquBhC544IJr9qTTxzXW/LJPFY+0pj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2579
+In-Reply-To: <20210204131102.68658-1-carsten.haitzler@foss.arm.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,146 +42,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=c3=98rjan_Eide?= <orjan.eide@arm.com>, linux-media@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, liviu.dudau@arm.com,
+ Carsten Haitzler <carsten.haitzler@arm.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDUuMDIuMjEgdW0gMDk6MDYgc2NocmllYiBKb2huIFN0dWx0ejoKPiBUaGlzIHJlZmFjdG9y
-cyB0dG1fcG9vbF9mcmVlX3BhZ2UoKSwgYW5kIGJ5IGFkZGluZyBleHRyYSBlbnRyaWVzCj4gdG8g
-dHRtX3Bvb2xfcGFnZV9kYXQsIHdlIHRoZW4gdXNlIGl0IGZvciBhbGwgYWxsb2NhdGlvbnMsIHdo
-aWNoCj4gYWxsb3dzIHVzIHRvIHNpbXBsaWZ5IHRoZSBhcmd1bWVudHMgbmVlZGVkIHRvIGJlIHBh
-c3NlZCB0bwo+IHR0bV9wb29sX2ZyZWVfcGFnZSgpLgoKVGhpcyBpcyBhIGNsZWFyIE5BSyBzaW5j
-ZSB0aGUgcGVlciBwYWdlIGRhdGEgaXMganVzdCBhIHdvcmthcm91bmQgZm9yIAp0aGUgRE1BLUFQ
-SSBoYWNrIHRvIGdyYWIgcGFnZXMgZnJvbSB0aGVyZS4KCkFkZGluZyB0aGlzIHRvIGFsbCBwYWdl
-cyB3b3VsZCBpbmNyZWFzZSB0aGUgbWVtb3J5IGZvb3RwcmludCBkcmFzdGljYWxseS4KCmNocmlz
-dGlhbi4KCj4KPiBUaGlzIGlzIGNyaXRpY2FsIGZvciBhbGxvd2luZyB0aGUgZnJlZSBmdW5jdGlv
-biB0byBiZSBjYWxsZWQKPiBieSB0aGUgc2hhcmFibGUgZHJtX3BhZ2VfcG9vbCBsb2dpYy4KPgo+
-IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IENocmlzdGlhbiBLb2Vu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5z
-ZW13YWxAbGluYXJvLm9yZz4KPiBDYzogTGlhbSBNYXJrIDxsbWFya0Bjb2RlYXVyb3JhLm9yZz4K
-PiBDYzogQ2hyaXMgR29sZHN3b3J0aHkgPGNnb2xkc3dvQGNvZGVhdXJvcmEub3JnPgo+IENjOiBM
-YXVyYSBBYmJvdHQgPGxhYmJvdHRAa2VybmVsLm9yZz4KPiBDYzogQnJpYW4gU3RhcmtleSA8QnJp
-YW4uU3RhcmtleUBhcm0uY29tPgo+IENjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xl
-LmNvbT4KPiBDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT4KPiBDYzog
-U2FuZGVlcCBQYXRpbCA8c3NwYXRpbEBnb29nbGUuY29tPgo+IENjOiBEYW5pZWwgTWVudHogPGRh
-bmllbG1lbnR6QGdvb2dsZS5jb20+Cj4gQ2M6IMOYcmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5j
-b20+Cj4gQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+Cj4gQ2M6IEV6ZXF1
-aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KPiBDYzogU2ltb24gU2VyIDxjb250
-YWN0QGVtZXJzaW9uLmZyPgo+IENjOiBKYW1lcyBKb25lcyA8amFqb25lc0BudmlkaWEuY29tPgo+
-IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBs
-aW5hcm8ub3JnPgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcG9vbC5jIHwgNjAg
-KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMy
-IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX3Bvb2wuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYwo+
-IGluZGV4IGMwMjc0ZTI1NmJlMy4uZWNhMzY2NzhmOTY3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS90dG0vdHRtX3Bvb2wuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bv
-b2wuYwo+IEBAIC00NCwxMCArNDQsMTQgQEAKPiAgIC8qKgo+ICAgICogc3RydWN0IHR0bV9wb29s
-X3BhZ2VfZGF0IC0gSGVscGVyIG9iamVjdCBmb3IgY29oZXJlbnQgRE1BIG1hcHBpbmdzCj4gICAg
-Kgo+ICsgKiBAcG9vbDogdHRtX3Bvb2wgcG9pbnRlciB0aGUgcGFnZSB3YXMgYWxsb2NhdGVkIGJ5
-Cj4gKyAqIEBjYWNoaW5nOiB0aGUgY2FjaGluZyB2YWx1ZSB0aGUgYWxsb2NhdGVkIHBhZ2Ugd2Fz
-IGNvbmZpZ3VyZWQgZm9yCj4gICAgKiBAYWRkcjogb3JpZ2luYWwgRE1BIGFkZHJlc3MgcmV0dXJu
-ZWQgZm9yIHRoZSBtYXBwaW5nCj4gICAgKiBAdmFkZHI6IG9yaWdpbmFsIHZhZGRyIHJldHVybiBm
-b3IgdGhlIG1hcHBpbmcgYW5kIG9yZGVyIGluIHRoZSBsb3dlciBiaXRzCj4gICAgKi8KPiAgIHN0
-cnVjdCB0dG1fcG9vbF9wYWdlX2RhdCB7Cj4gKwlzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2w7Cj4gKwll
-bnVtIHR0bV9jYWNoaW5nIGNhY2hpbmc7Cj4gICAJZG1hX2FkZHJfdCBhZGRyOwo+ICAgCXVuc2ln
-bmVkIGxvbmcgdmFkZHI7Cj4gICB9Owo+IEBAIC03MSwxMyArNzUsMjAgQEAgc3RhdGljIHN0cnVj
-dCBzaHJpbmtlciBtbV9zaHJpbmtlcjsKPiAgIAo+ICAgLyogQWxsb2NhdGUgcGFnZXMgb2Ygc2l6
-ZSAxIDw8IG9yZGVyIHdpdGggdGhlIGdpdmVuIGdmcF9mbGFncyAqLwo+ICAgc3RhdGljIHN0cnVj
-dCBwYWdlICp0dG1fcG9vbF9hbGxvY19wYWdlKHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwgZ2ZwX3Qg
-Z2ZwX2ZsYWdzLAo+IC0JCQkJCXVuc2lnbmVkIGludCBvcmRlcikKPiArCQkJCQl1bnNpZ25lZCBp
-bnQgb3JkZXIsIGVudW0gdHRtX2NhY2hpbmcgY2FjaGluZykKPiAgIHsKPiAgIAl1bnNpZ25lZCBs
-b25nIGF0dHIgPSBETUFfQVRUUl9GT1JDRV9DT05USUdVT1VTOwo+ICAgCXN0cnVjdCB0dG1fcG9v
-bF9wYWdlX2RhdCAqZGF0Owo+ICAgCXN0cnVjdCBwYWdlICpwOwo+ICAgCXZvaWQgKnZhZGRyOwo+
-ICAgCj4gKwlkYXQgPSBrbWFsbG9jKHNpemVvZigqZGF0KSwgR0ZQX0tFUk5FTCk7Cj4gKwlpZiAo
-IWRhdCkKPiArCQlyZXR1cm4gTlVMTDsKPiArCj4gKwlkYXQtPnBvb2wgPSBwb29sOwo+ICsJZGF0
-LT5jYWNoaW5nID0gY2FjaGluZzsKPiArCj4gICAJLyogRG9uJ3Qgc2V0IHRoZSBfX0dGUF9DT01Q
-IGZsYWcgZm9yIGhpZ2hlciBvcmRlciBhbGxvY2F0aW9ucy4KPiAgIAkgKiBNYXBwaW5nIHBhZ2Vz
-IGRpcmVjdGx5IGludG8gYW4gdXNlcnNwYWNlIHByb2Nlc3MgYW5kIGNhbGxpbmcKPiAgIAkgKiBw
-dXRfcGFnZSgpIG9uIGEgVFRNIGFsbG9jYXRlZCBwYWdlIGlzIGlsbGVnYWwuCj4gQEAgLTg4LDE1
-ICs5OSwxMyBAQCBzdGF0aWMgc3RydWN0IHBhZ2UgKnR0bV9wb29sX2FsbG9jX3BhZ2Uoc3RydWN0
-IHR0bV9wb29sICpwb29sLCBnZnBfdCBnZnBfZmxhZ3MsCj4gICAKPiAgIAlpZiAoIXBvb2wtPnVz
-ZV9kbWFfYWxsb2MpIHsKPiAgIAkJcCA9IGFsbG9jX3BhZ2VzKGdmcF9mbGFncywgb3JkZXIpOwo+
-IC0JCWlmIChwKQo+IC0JCQlwLT5wcml2YXRlID0gb3JkZXI7Cj4gKwkJaWYgKCFwKQo+ICsJCQln
-b3RvIGVycm9yX2ZyZWU7Cj4gKwkJZGF0LT52YWRkciA9IG9yZGVyOwo+ICsJCXAtPnByaXZhdGUg
-PSAodW5zaWduZWQgbG9uZylkYXQ7Cj4gICAJCXJldHVybiBwOwo+ICAgCX0KPiAgIAo+IC0JZGF0
-ID0ga21hbGxvYyhzaXplb2YoKmRhdCksIEdGUF9LRVJORUwpOwo+IC0JaWYgKCFkYXQpCj4gLQkJ
-cmV0dXJuIE5VTEw7Cj4gLQo+ICAgCWlmIChvcmRlcikKPiAgIAkJYXR0ciB8PSBETUFfQVRUUl9O
-T19XQVJOOwo+ICAgCj4gQEAgLTEyMywzNCArMTMyLDM0IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAq
-dHRtX3Bvb2xfYWxsb2NfcGFnZShzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsIGdmcF90IGdmcF9mbGFn
-cywKPiAgIH0KPiAgIAo+ICAgLyogUmVzZXQgdGhlIGNhY2hpbmcgYW5kIHBhZ2VzIG9mIHNpemUg
-MSA8PCBvcmRlciAqLwo+IC1zdGF0aWMgdm9pZCB0dG1fcG9vbF9mcmVlX3BhZ2Uoc3RydWN0IHR0
-bV9wb29sICpwb29sLCBlbnVtIHR0bV9jYWNoaW5nIGNhY2hpbmcsCj4gLQkJCSAgICAgICB1bnNp
-Z25lZCBpbnQgb3JkZXIsIHN0cnVjdCBwYWdlICpwKQo+ICtzdGF0aWMgaW50IHR0bV9wb29sX2Zy
-ZWVfcGFnZShzdHJ1Y3QgcGFnZSAqcCwgdW5zaWduZWQgaW50IG9yZGVyKQo+ICAgewo+ICAgCXVu
-c2lnbmVkIGxvbmcgYXR0ciA9IERNQV9BVFRSX0ZPUkNFX0NPTlRJR1VPVVM7Cj4gLQlzdHJ1Y3Qg
-dHRtX3Bvb2xfcGFnZV9kYXQgKmRhdDsKPiArCXN0cnVjdCB0dG1fcG9vbF9wYWdlX2RhdCAqZGF0
-ID0gKHZvaWQgKilwLT5wcml2YXRlOwo+ICAgCXZvaWQgKnZhZGRyOwo+ICAgCj4gICAjaWZkZWYg
-Q09ORklHX1g4Ngo+ICAgCS8qIFdlIGRvbid0IGNhcmUgdGhhdCBzZXRfcGFnZXNfd2IgaXMgaW5l
-ZmZpY2llbnQgaGVyZS4gVGhpcyBpcyBvbmx5Cj4gICAJICogdXNlZCB3aGVuIHdlIGhhdmUgdG8g
-c2hyaW5rIGFuZCBDUFUgb3ZlcmhlYWQgaXMgaXJyZWxldmFudCB0aGVuLgo+ICAgCSAqLwo+IC0J
-aWYgKGNhY2hpbmcgIT0gdHRtX2NhY2hlZCAmJiAhUGFnZUhpZ2hNZW0ocCkpCj4gKwlpZiAoZGF0
-LT5jYWNoaW5nICE9IHR0bV9jYWNoZWQgJiYgIVBhZ2VIaWdoTWVtKHApKQo+ICAgCQlzZXRfcGFn
-ZXNfd2IocCwgMSA8PCBvcmRlcik7Cj4gICAjZW5kaWYKPiAgIAo+IC0JaWYgKCFwb29sIHx8ICFw
-b29sLT51c2VfZG1hX2FsbG9jKSB7Cj4gKwlpZiAoIWRhdC0+cG9vbCB8fCAhZGF0LT5wb29sLT51
-c2VfZG1hX2FsbG9jKSB7Cj4gICAJCV9fZnJlZV9wYWdlcyhwLCBvcmRlcik7Cj4gLQkJcmV0dXJu
-Owo+ICsJCWdvdG8gb3V0Owo+ICAgCX0KPiAgIAo+ICAgCWlmIChvcmRlcikKPiAgIAkJYXR0ciB8
-PSBETUFfQVRUUl9OT19XQVJOOwo+ICAgCj4gLQlkYXQgPSAodm9pZCAqKXAtPnByaXZhdGU7Cj4g
-ICAJdmFkZHIgPSAodm9pZCAqKShkYXQtPnZhZGRyICYgUEFHRV9NQVNLKTsKPiAtCWRtYV9mcmVl
-X2F0dHJzKHBvb2wtPmRldiwgKDFVTCA8PCBvcmRlcikgKiBQQUdFX1NJWkUsIHZhZGRyLCBkYXQt
-PmFkZHIsCj4gKwlkbWFfZnJlZV9hdHRycyhkYXQtPnBvb2wtPmRldiwgKDFVTCA8PCBvcmRlcikg
-KiBQQUdFX1NJWkUsIHZhZGRyLCBkYXQtPmFkZHIsCj4gICAJCSAgICAgICBhdHRyKTsKPiArb3V0
-Ogo+ICAgCWtmcmVlKGRhdCk7Cj4gKwlyZXR1cm4gMSA8PCBvcmRlcjsKPiAgIH0KPiAgIAo+ICAg
-LyogQXBwbHkgYSBuZXcgY2FjaGluZyB0byBhbiBhcnJheSBvZiBwYWdlcyAqLwo+IEBAIC0yNjQs
-NyArMjczLDcgQEAgc3RhdGljIHZvaWQgdHRtX3Bvb2xfdHlwZV9maW5pKHN0cnVjdCB0dG1fcG9v
-bF90eXBlICpwdCkKPiAgIAltdXRleF91bmxvY2soJnNocmlua2VyX2xvY2spOwo+ICAgCj4gICAJ
-bGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKHAsIHRtcCwgJnB0LT5wYWdlcywgbHJ1KQo+IC0JCXR0
-bV9wb29sX2ZyZWVfcGFnZShwdC0+cG9vbCwgcHQtPmNhY2hpbmcsIHB0LT5vcmRlciwgcCk7Cj4g
-KwkJdHRtX3Bvb2xfZnJlZV9wYWdlKHAsIHB0LT5vcmRlcik7Cj4gICB9Cj4gICAKPiAgIC8qIFJl
-dHVybiB0aGUgcG9vbF90eXBlIHRvIHVzZSBmb3IgdGhlIGdpdmVuIGNhY2hpbmcgYW5kIG9yZGVy
-ICovCj4gQEAgLTMwNyw3ICszMTYsNyBAQCBzdGF0aWMgdW5zaWduZWQgaW50IHR0bV9wb29sX3No
-cmluayh2b2lkKQo+ICAgCj4gICAJcCA9IHR0bV9wb29sX3R5cGVfdGFrZShwdCk7Cj4gICAJaWYg
-KHApIHsKPiAtCQl0dG1fcG9vbF9mcmVlX3BhZ2UocHQtPnBvb2wsIHB0LT5jYWNoaW5nLCBwdC0+
-b3JkZXIsIHApOwo+ICsJCXR0bV9wb29sX2ZyZWVfcGFnZShwLCBwdC0+b3JkZXIpOwo+ICAgCQlu
-dW1fZnJlZWQgPSAxIDw8IHB0LT5vcmRlcjsKPiAgIAl9IGVsc2Ugewo+ICAgCQludW1fZnJlZWQg
-PSAwOwo+IEBAIC0zMjIsMTMgKzMzMSw5IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgdHRtX3Bvb2xf
-c2hyaW5rKHZvaWQpCj4gICAvKiBSZXR1cm4gdGhlIGFsbG9jYXRpb24gb3JkZXIgYmFzZWQgZm9y
-IGEgcGFnZSAqLwo+ICAgc3RhdGljIHVuc2lnbmVkIGludCB0dG1fcG9vbF9wYWdlX29yZGVyKHN0
-cnVjdCB0dG1fcG9vbCAqcG9vbCwgc3RydWN0IHBhZ2UgKnApCj4gICB7Cj4gLQlpZiAocG9vbC0+
-dXNlX2RtYV9hbGxvYykgewo+IC0JCXN0cnVjdCB0dG1fcG9vbF9wYWdlX2RhdCAqZGF0ID0gKHZv
-aWQgKilwLT5wcml2YXRlOwo+IC0KPiAtCQlyZXR1cm4gZGF0LT52YWRkciAmIH5QQUdFX01BU0s7
-Cj4gLQl9Cj4gKwlzdHJ1Y3QgdHRtX3Bvb2xfcGFnZV9kYXQgKmRhdCA9ICh2b2lkICopcC0+cHJp
-dmF0ZTsKPiAgIAo+IC0JcmV0dXJuIHAtPnByaXZhdGU7Cj4gKwlyZXR1cm4gZGF0LT52YWRkciAm
-IH5QQUdFX01BU0s7Cj4gICB9Cj4gICAKPiAgIC8qKgo+IEBAIC0zNzksNyArMzg0LDcgQEAgaW50
-IHR0bV9wb29sX2FsbG9jKHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwgc3RydWN0IHR0bV90dCAqdHQs
-Cj4gICAJCWlmIChwKSB7Cj4gICAJCQlhcHBseV9jYWNoaW5nID0gdHJ1ZTsKPiAgIAkJfSBlbHNl
-IHsKPiAtCQkJcCA9IHR0bV9wb29sX2FsbG9jX3BhZ2UocG9vbCwgZ2ZwX2ZsYWdzLCBvcmRlcik7
-Cj4gKwkJCXAgPSB0dG1fcG9vbF9hbGxvY19wYWdlKHBvb2wsIGdmcF9mbGFncywgb3JkZXIsIHR0
-LT5jYWNoaW5nKTsKPiAgIAkJCWlmIChwICYmIFBhZ2VIaWdoTWVtKHApKQo+ICAgCQkJCWFwcGx5
-X2NhY2hpbmcgPSB0cnVlOwo+ICAgCQl9Cj4gQEAgLTQyOCwxMyArNDMzLDEzIEBAIGludCB0dG1f
-cG9vbF9hbGxvYyhzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsIHN0cnVjdCB0dG1fdHQgKnR0LAo+ICAg
-CXR0bV9tZW1fZ2xvYmFsX2ZyZWVfcGFnZSgmdHRtX21lbV9nbG9iLCBwLCAoMSA8PCBvcmRlcikg
-KiBQQUdFX1NJWkUpOwo+ICAgCj4gICBlcnJvcl9mcmVlX3BhZ2U6Cj4gLQl0dG1fcG9vbF9mcmVl
-X3BhZ2UocG9vbCwgdHQtPmNhY2hpbmcsIG9yZGVyLCBwKTsKPiArCXR0bV9wb29sX2ZyZWVfcGFn
-ZShwLCBvcmRlcik7Cj4gICAKPiAgIGVycm9yX2ZyZWVfYWxsOgo+ICAgCW51bV9wYWdlcyA9IHR0
-LT5udW1fcGFnZXMgLSBudW1fcGFnZXM7Cj4gICAJZm9yIChpID0gMDsgaSA8IG51bV9wYWdlczsg
-KSB7Cj4gICAJCW9yZGVyID0gdHRtX3Bvb2xfcGFnZV9vcmRlcihwb29sLCB0dC0+cGFnZXNbaV0p
-Owo+IC0JCXR0bV9wb29sX2ZyZWVfcGFnZShwb29sLCB0dC0+Y2FjaGluZywgb3JkZXIsIHR0LT5w
-YWdlc1tpXSk7Cj4gKwkJdHRtX3Bvb2xfZnJlZV9wYWdlKHR0LT5wYWdlc1tpXSwgb3JkZXIpOwo+
-ICAgCQlpICs9IDEgPDwgb3JkZXI7Cj4gICAJfQo+ICAgCj4gQEAgLTQ3MCw4ICs0NzUsNyBAQCB2
-b2lkIHR0bV9wb29sX2ZyZWUoc3RydWN0IHR0bV9wb29sICpwb29sLCBzdHJ1Y3QgdHRtX3R0ICp0
-dCkKPiAgIAkJaWYgKHB0KQo+ICAgCQkJdHRtX3Bvb2xfdHlwZV9naXZlKHB0LCB0dC0+cGFnZXNb
-aV0pOwo+ICAgCQllbHNlCj4gLQkJCXR0bV9wb29sX2ZyZWVfcGFnZShwb29sLCB0dC0+Y2FjaGlu
-Zywgb3JkZXIsCj4gLQkJCQkJICAgdHQtPnBhZ2VzW2ldKTsKPiArCQkJdHRtX3Bvb2xfZnJlZV9w
-YWdlKHR0LT5wYWdlc1tpXSwgb3JkZXIpOwo+ICAgCj4gICAJCWkgKz0gbnVtX3BhZ2VzOwo+ICAg
-CX0KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
++CC the other Komeda maintainers
+
+On 04/02/2021 13:11, carsten.haitzler@foss.arm.com wrote:
+> From: Carsten Haitzler <carsten.haitzler@arm.com>
+> 
+> Another issue found by KASAN. The bit finding is buried inside the
+> dp_for_each_set_bit() macro (that passes on to for_each_set_bit() that
+> calls the bit stuff. These bit functions want an unsigned long pointer
+> as input and just dumbly casting leads to out-of-bounds accesses.
+> This fixes that.
+> 
+> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
+
+Looks fine to me:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>   .../drm/arm/display/include/malidp_utils.h    |  3 ---
+>   .../drm/arm/display/komeda/komeda_pipeline.c  | 16 +++++++++++-----
+>   .../display/komeda/komeda_pipeline_state.c    | 19 +++++++++++--------
+>   3 files changed, 22 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/include/malidp_utils.h b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> index 3bc383d5bf73..49a1d7f3539c 100644
+> --- a/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> +++ b/drivers/gpu/drm/arm/display/include/malidp_utils.h
+> @@ -13,9 +13,6 @@
+>   #define has_bit(nr, mask)	(BIT(nr) & (mask))
+>   #define has_bits(bits, mask)	(((bits) & (mask)) == (bits))
+>   
+> -#define dp_for_each_set_bit(bit, mask) \
+> -	for_each_set_bit((bit), ((unsigned long *)&(mask)), sizeof(mask) * 8)
+> -
+>   #define dp_wait_cond(__cond, __tries, __min_range, __max_range)	\
+>   ({							\
+>   	int num_tries = __tries;			\
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> index 719a79728e24..06c595378dda 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+> @@ -46,8 +46,9 @@ void komeda_pipeline_destroy(struct komeda_dev *mdev,
+>   {
+>   	struct komeda_component *c;
+>   	int i;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+> -	dp_for_each_set_bit(i, pipe->avail_comps) {
+> +	for_each_set_bit(i, &avail_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, i);
+>   		komeda_component_destroy(mdev, c);
+>   	}
+> @@ -247,6 +248,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
+>   {
+>   	struct komeda_component *c;
+>   	int id;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+>   	DRM_INFO("Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
+>   		 pipe->id, pipe->n_layers, pipe->n_scalers,
+> @@ -258,7 +260,7 @@ static void komeda_pipeline_dump(struct komeda_pipeline *pipe)
+>   		 pipe->of_output_links[1] ?
+>   		 pipe->of_output_links[1]->full_name : "none");
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	for_each_set_bit(id, &avail_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   
+>   		komeda_component_dump(c);
+> @@ -270,8 +272,9 @@ static void komeda_component_verify_inputs(struct komeda_component *c)
+>   	struct komeda_pipeline *pipe = c->pipeline;
+>   	struct komeda_component *input;
+>   	int id;
+> +	unsigned long supported_inputs = c->supported_inputs;
+>   
+> -	dp_for_each_set_bit(id, c->supported_inputs) {
+> +	for_each_set_bit(id, &supported_inputs, 32) {
+>   		input = komeda_pipeline_get_component(pipe, id);
+>   		if (!input) {
+>   			c->supported_inputs &= ~(BIT(id));
+> @@ -302,8 +305,9 @@ static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
+>   	struct komeda_component *c;
+>   	struct komeda_layer *layer;
+>   	int i, id;
+> +	unsigned long avail_comps = pipe->avail_comps;
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	for_each_set_bit(id, &avail_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   		komeda_component_verify_inputs(c);
+>   	}
+> @@ -355,13 +359,15 @@ void komeda_pipeline_dump_register(struct komeda_pipeline *pipe,
+>   {
+>   	struct komeda_component *c;
+>   	u32 id;
+> +	unsigned long avail_comps;
+>   
+>   	seq_printf(sf, "\n======== Pipeline-%d ==========\n", pipe->id);
+>   
+>   	if (pipe->funcs && pipe->funcs->dump_register)
+>   		pipe->funcs->dump_register(pipe, sf);
+>   
+> -	dp_for_each_set_bit(id, pipe->avail_comps) {
+> +	avail_comps = pipe->avail_comps;
+> +	for_each_set_bit(id, &avail_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   
+>   		seq_printf(sf, "\n------%s------\n", c->name);
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> index e8b1e15312d8..176cdf411f9f 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+> @@ -1232,14 +1232,15 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *old = priv_to_pipe_st(pipe->obj.state);
+>   	struct komeda_component_state *c_st;
+>   	struct komeda_component *c;
+> -	u32 disabling_comps, id;
+> +	u32 id;
+> +	unsigned long disabling_comps;
+>   
+>   	WARN_ON(!old);
+>   
+>   	disabling_comps = (~new->active_comps) & old->active_comps;
+>   
+>   	/* unbound all disabling component */
+> -	dp_for_each_set_bit(id, disabling_comps) {
+> +	for_each_set_bit(id, &disabling_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   		c_st = komeda_component_get_state_and_set_user(c,
+>   				drm_st, NULL, new->crtc);
+> @@ -1287,7 +1288,8 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *old;
+>   	struct komeda_component *c;
+>   	struct komeda_component_state *c_st;
+> -	u32 id, disabling_comps = 0;
+> +	u32 id;
+> +	unsigned long disabling_comps;
+>   
+>   	old = komeda_pipeline_get_old_state(pipe, old_state);
+>   
+> @@ -1297,10 +1299,10 @@ bool komeda_pipeline_disable(struct komeda_pipeline *pipe,
+>   		disabling_comps = old->active_comps &
+>   				  pipe->standalone_disabled_comps;
+>   
+> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%x.\n",
+> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, disabling_comps: 0x%lx.\n",
+>   			 pipe->id, old->active_comps, disabling_comps);
+>   
+> -	dp_for_each_set_bit(id, disabling_comps) {
+> +	for_each_set_bit(id, &disabling_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   		c_st = priv_to_comp_st(c->obj.state);
+>   
+> @@ -1331,16 +1333,17 @@ void komeda_pipeline_update(struct komeda_pipeline *pipe,
+>   	struct komeda_pipeline_state *new = priv_to_pipe_st(pipe->obj.state);
+>   	struct komeda_pipeline_state *old;
+>   	struct komeda_component *c;
+> -	u32 id, changed_comps = 0;
+> +	u32 id;
+> +	unsigned long changed_comps;
+>   
+>   	old = komeda_pipeline_get_old_state(pipe, old_state);
+>   
+>   	changed_comps = new->active_comps | old->active_comps;
+>   
+> -	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%x.\n",
+> +	DRM_DEBUG_ATOMIC("PIPE%d: active_comps: 0x%x, changed: 0x%lx.\n",
+>   			 pipe->id, new->active_comps, changed_comps);
+>   
+> -	dp_for_each_set_bit(id, changed_comps) {
+> +	for_each_set_bit(id, &changed_comps, 32) {
+>   		c = komeda_pipeline_get_component(pipe, id);
+>   
+>   		if (new->active_comps & BIT(c->id))
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
