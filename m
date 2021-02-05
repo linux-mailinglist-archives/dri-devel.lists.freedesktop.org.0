@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8EB31074A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC17310748
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 10:05:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2445E6E0B8;
-	Fri,  5 Feb 2021 09:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2AE56E1BE;
+	Fri,  5 Feb 2021 09:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51B8A6E174;
- Fri,  5 Feb 2021 08:48:26 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id a12so6133325qkh.10;
- Fri, 05 Feb 2021 00:48:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BzE1rC9+4Ob7a//CgjHcInBulG7U+bfG7YEXt1wxsHs=;
- b=l9dVTCmGoAURLhIdtpY2Il8vjJK+VKdCqHJ1EiB/wVxGZPRe7SNrjXgBqM5mG5M3/E
- H+kS2t2WupnIjZSXM3GcR0RScM0ajwjrzV7/3Qo05Ct+ISrDtDrLNZ7xWsRFnN27tanQ
- 4sG9dY24InlBdr0SMSoSY+HvLid8mHrsT/JbpFWdGaTQDJ/HdTg02kJrnFfHOyYIYwQV
- iBuerbx9c+FlAhT0i5h/1t/k74d89WBnIg6+CNdpIsOYZQp63+ArUXIArv/3ls4KokSA
- vm2IKsjVGNE2nvu+T+W7EPJ5FgH/Ud5MBb+f7qIeni0jCsYLYBHxTH8vj8LYy0IY0WSC
- ygcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BzE1rC9+4Ob7a//CgjHcInBulG7U+bfG7YEXt1wxsHs=;
- b=i9nuhFSe5/tuN7I3ho7ytCL2Iba0P9QMXWOTSIcoIJOjMLwuFiCztOvWlVvJecr8iB
- 0IAlV9KDf+CUxQgvnHWJDx3bgtYp7snfr57fKw8e3YkNuxKPG7a4ItfEzinMsdC+r63I
- ia9FikjSNj+xq0Tx4PX5t5FbxBH4pB7mdhp6YmhbIIzg4LZhzt6F6EPCWAxj9K1aS6Em
- qd4YHLchiCtD88K66SqsudxkQ1dsPuURsJ15MdKwbS8bC6XRUcsyasCVLr1KRO4IGb3g
- Y41k8zVWh14VC68W3P2/x/On5bVFIUio/JHOrT4u+rS4pirOkl73QSA9Hf/56TaIrun2
- sOQA==
-X-Gm-Message-State: AOAM531KlwldqWNjo2ludHahkRaLTedKzuBAgw5fHCRAAcbRl53JEeEl
- GB6LyBn99tpzcI5uXgx8elU=
-X-Google-Smtp-Source: ABdhPJwEsp2HDY6aiAZnc37qMPpbhH6YkFjIEJrGnJSSGixJ0jWz4+FKSkGEAK6X9G6aC8EfvAL/EA==
-X-Received: by 2002:a37:9bca:: with SMTP id d193mr3262357qke.369.1612514905594; 
- Fri, 05 Feb 2021 00:48:25 -0800 (PST)
-Received: from localhost.localdomain ([156.146.36.157])
- by smtp.gmail.com with ESMTPSA id b17sm7906715qkh.57.2021.02.05.00.48.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 00:48:24 -0800 (PST)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: gpu: drm: msn: disp: dpu1: Fixed couple of spellings
- in the file dpu_hw_top.h
-Date: Fri,  5 Feb 2021 14:17:58 +0530
-Message-Id: <20210205084758.354509-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A146E1BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 09:05:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612515920;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2AYOs6/5bOlBAOaNFSpCkmyvWmr96mQQok4N0KBeGT0=;
+ b=GPSfzezo7x2q+yYYyBzGolAnVuzH1o2uwBxxSjm4yyaQl72fnFYC/PsJMaWH3j6gKFH5tf
+ MLgptOkWs4pNz2GZq7hW64RVY0vA4ee5iau9Lg7y2ZZUqaHvKk7VyVVQmyz3hags7BRZ8W
+ inKcmZgHMNBV5UY7oX8OIjEkK7PQAyE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-cQluT85NN6yh2SIGcS7UEA-1; Fri, 05 Feb 2021 04:05:18 -0500
+X-MC-Unique: cQluT85NN6yh2SIGcS7UEA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDB7E18A08BE;
+ Fri,  5 Feb 2021 09:05:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
+ [10.36.113.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BCD260C9B;
+ Fri,  5 Feb 2021 09:05:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 957BD18000B6; Fri,  5 Feb 2021 10:05:14 +0100 (CET)
+Date: Fri, 5 Feb 2021 10:05:14 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
+ drivers
+Message-ID: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+References: <20210204200308.24216-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 05 Feb 2021 09:07:36 +0000
+In-Reply-To: <20210204200308.24216-1-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,46 +65,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc: airlied@linux.ie, sam@ravnborg.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ dri-devel@lists.freedesktop.org, sean@poorly.run
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+  Hi,
 
+> I smoke-tested the code by running fbdev, Xorg and weston with the
+> converted mgag200 driver.
 
-s/confguration/configuration/
-s/Regsiters/Registers/
+Looks sane to me.
+Survived cirrus smoke test too.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-index 8018fff5667a..3aa10c89ca1b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-@@ -30,7 +30,7 @@ struct traffic_shaper_cfg {
-
- /**
-  * struct split_pipe_cfg - pipe configuration for dual display panels
-- * @en        : Enable/disable dual pipe confguration
-+ * @en        : Enable/disable dual pipe configuration
-  * @mode      : Panel interface mode
-  * @intf      : Interface id for main control path
-  * @split_flush_en: Allows both the paths to be flushed when master path is
-@@ -76,7 +76,7 @@ struct dpu_vsync_source_cfg {
-  * @setup_traffic_shaper : programs traffic shaper control
-  */
- struct dpu_hw_mdp_ops {
--	/** setup_split_pipe() : Regsiters are not double buffered, thisk
-+	/** setup_split_pipe() : Registers are not double buffered, thisk
- 	 * function should be called before timing control enable
- 	 * @mdp  : mdp top context driver
- 	 * @cfg  : upper and lower part of pipe configuration
---
-2.30.0
+take care,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
