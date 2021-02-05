@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1AE3106C3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2963106C6
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADE36F386;
-	Fri,  5 Feb 2021 08:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95ADB6F39D;
+	Fri,  5 Feb 2021 08:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com
- [IPv6:2607:f8b0:4864:20::f49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F7A6F3AD
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 02:23:37 +0000 (UTC)
-Received: by mail-qv1-xf49.google.com with SMTP id m1so3810553qvp.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 18:23:37 -0800 (PST)
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
+ [IPv6:2607:f8b0:4864:20::74a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 913BD6F3AD
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 02:24:18 +0000 (UTC)
+Received: by mail-qk1-x74a.google.com with SMTP id s4so4480185qkj.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Feb 2021 18:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:cc
- :content-transfer-encoding;
- bh=w382r+buQ4Tx8FdN/ryZgjV6D4PrxeZkE7hCNPLCCTk=;
- b=NPnaeEsHxHi/piRE30L1x8OZG9uQMUa5w0+x+UsNeCLDh53QMbkeU5Lgv6AyU09LNL
- DvZlEMtUnBsxCDBL3yrqJy92tZ8kFjhjM6bzzE7sIcdxQ7PurT0Y5gjLSEt88GT81AYX
- WXWOItSdEv/zp5NuWxav6asdBkP2pAw/kOD1AnK0PBVvEtmZ5Vwefg6MQI3tsn4OPMdQ
- plwXe0QwouLzjvGwfsA8yTvslcXQXLi9bh5ko/UbSEtwbYpopaH0W1YUG2ZFACQHPL7l
- aActAi6eUrI0CpI9j3fYhDfEmO/xw1jFkDq687flA8YUAwa0Ql6pjLhJOgq6C4n0nFdi
- HETw==
+ h=sender:date:in-reply-to:message-id:mime-version:references:subject
+ :from:cc; bh=6d9ABw+2MMja8w+m/Ge5BEthUdZ4QJrI2VfEHE0lgZM=;
+ b=Wc16uuiBzr8uRjh+FFc3aIVuYhA4o0xASF2SZxYJnSmlvoMBSrBe3o+TwZR3i71wu/
+ fqI4C+NddGfKrN79A8uKvB/q6omI/GP9hEtW/sg69RyL3/2WcO4gxwzosiUilwevKO40
+ W9GedpIGi4x2wd5wgj4dMTWcXsvW6I8ncM32cwEbWi8ZNJnCsROyGUBiIZhNqKZXGMjO
+ /EVsU2QqlGJReEo8F1Rg79kqGShzlt0flDZIvLOZWrIW0e54pnTDADWfK6X72sHXMBFE
+ PzRiVNGkqfISNW+tz/s/6UL65wp2v17Qg95lrHV9rWpeAfNgdamhTwR58a+JTd0plkzx
+ Racg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :cc:content-transfer-encoding;
- bh=w382r+buQ4Tx8FdN/ryZgjV6D4PrxeZkE7hCNPLCCTk=;
- b=WNX+C0Oxza8F5iC0iTIQAyMiOMNr/fUmjqGJCR8Py5CxOkcSWxQR+k+wuSngUOsLhS
- Jo/NGtwT4ueOIKUd/oaJr3oxikcICkgledXBHi26sAXbeWhppJtthgeNXx2iGIJpYTCA
- YRRNT6gyPiZIkUyKDMdKbj33CIbp1Dnadmpn3she5k1n7uLy9EX+Om762dJ0OiLLw8Fq
- z1cKQ1gfIjALDFZSMOCc2nwBf5R26mcJzspma6Ri8707JdMEdOOeCR7psbpnNZXoO8mz
- 76iIfXzdbfFzt+yiX83WJAcsVb/PG3dB072F/9rzpvv0TuatW75olPB14xpuOjmTyWZ6
- 6utw==
-X-Gm-Message-State: AOAM533saLE1S5YqH5lg9Q1R5RBVAk7tzLs/xu00JZHyByJGfnJ/6Qz2
- fy/q6+k+HUwkZoUGD/wnpf1/pS+3pu/NzVPQfg==
-X-Google-Smtp-Source: ABdhPJyxJEHoxHNUAnY+G03oBvTfa0zSu7hUtgPrQ8bfbdtGtODePabYUrPF86ehavcU7ZNb7W60emHq1FCLFEcRNw==
+ h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+ :references:subject:from:cc;
+ bh=6d9ABw+2MMja8w+m/Ge5BEthUdZ4QJrI2VfEHE0lgZM=;
+ b=agTEbaXc6qGgrEnDqOhBMswl2JCkvtDwZUf8X8ZTZyo0aOnsF98GVYOIqlvckLbL0A
+ L+lmzQTlTXopfsiiUH8eCJREEpRWPig4PAV0hUSDYYzC78JkyPQXmwhyKWpHDWYO7Cs+
+ zMmaN5GKW2886Tt+j/uuux7bMZ0+4Ai45ygAbkozDLtnP0BRIgJctWyIi53iWB/RlPmM
+ Lji5noK7y/zr6LOh3wmjjtuUhmy1oOlExHAeaxY88Ul2QjQCVa6dtj6kVHdqgSxdY11E
+ g8GsKog7aNhJm1nDpLeU/1BUOOeKREyK2LR9Xlx8UWeQkUG5zQp9w9C7/o7AulM5rK3A
+ n4IQ==
+X-Gm-Message-State: AOAM5310nuNk4aFyzdnMHQmfApHhhlhN0D4PnGSHQjRIMuH45funmpDn
+ oELTwFnbWFFHaGibWr7HcZsD4K40TTTbxvrHuQ==
+X-Google-Smtp-Source: ABdhPJw8Yeorck2XB7ovp4pfEx707riZ2xycBS0Z28A1vOhEhNyxFRWBW6rhdYjGLZma2NqW8dSu+H8zYFEZQD05eA==
 X-Received: from kaleshsingh.c.googlers.com
- ([fda3:e722:ac3:cc00:14:4d90:c0a8:2145])
- (user=kaleshsingh job=sendgmr) by 2002:a05:6214:446:: with SMTP id
- cc6mr2447707qvb.31.1612491816769; Thu, 04 Feb 2021 18:23:36 -0800 (PST)
-Date: Fri,  5 Feb 2021 02:23:19 +0000
-Message-Id: <20210205022328.481524-1-kaleshsingh@google.com>
+ ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:ad4:5606:: with SMTP id
+ ca6mr2501087qvb.1.1612491857373; Thu, 04 Feb 2021 18:24:17 -0800 (PST)
+Date: Fri,  5 Feb 2021 02:23:20 +0000
+In-Reply-To: <20210205022328.481524-1-kaleshsingh@google.com>
+Message-Id: <20210205022328.481524-2-kaleshsingh@google.com>
 Mime-Version: 1.0
+References: <20210205022328.481524-1-kaleshsingh@google.com>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH v3 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+Subject: [PATCH v3 2/2] dmabuf: Add dmabuf inode number to /proc/*/fdinfo
 From: Kalesh Singh <kaleshsingh@google.com>
 X-Mailman-Approved-At: Fri, 05 Feb 2021 08:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,8 +64,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Michal Hocko <mhocko@suse.com>, Anand K Mistry <amistry@google.com>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrei Vagin <avagin@gmail.com>, Kalesh Singh <kaleshsingh@google.com>,
+ linux-doc@vger.kernel.org, NeilBrown <neilb@suse.de>,
+ dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+ Kalesh Singh <kaleshsingh@google.com>,
  Christian Brauner <christian.brauner@ubuntu.com>,
  Michel Lespinasse <walken@google.com>, Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, jeffv@google.com,
@@ -72,88 +74,78 @@ Cc: Michal Hocko <mhocko@suse.com>, Anand K Mistry <amistry@google.com>,
  linux-media@vger.kernel.org, keescook@chromium.org, jannh@google.com,
  linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
  Bernd Edlinger <bernd.edlinger@hotmail.de>, surenb@google.com,
- Alexey Gladkov <gladkov.alexey@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Alexey Gladkov <gladkov.alexey@gmail.com>, linux-kernel@vger.kernel.org,
  minchan@kernel.org, Yafang Shao <laoar.shao@gmail.com>,
  "Eric W. Biederman" <ebiederm@xmission.com>, hridya@google.com,
  Andrew Morton <akpm@linux-foundation.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW5kcm9pZCBjYXB0dXJlcyBwZXItcHJvY2VzcyBzeXN0ZW0gbWVtb3J5IHN0YXRlIHdoZW4gY2Vy
-dGFpbiBsb3cgbWVtb3J5CmV2ZW50cyAoZS5nIGEgZm9yZWdyb3VuZCBhcHAga2lsbCkgb2NjdXIs
-IHRvIGlkZW50aWZ5IHBvdGVudGlhbCBtZW1vcnkKaG9nZ2Vycy4gSW4gb3JkZXIgdG8gbWVhc3Vy
-ZSBob3cgbXVjaCBtZW1vcnkgYSBwcm9jZXNzIGFjdHVhbGx5IGNvbnN1bWVzLAppdCBpcyBuZWNl
-c3NhcnkgdG8gaW5jbHVkZSB0aGUgRE1BIGJ1ZmZlciBzaXplcyBmb3IgdGhhdCBwcm9jZXNzIGlu
-IHRoZQptZW1vcnkgYWNjb3VudGluZy4gU2luY2UgdGhlIGhhbmRsZSB0byBETUEgYnVmZmVycyBh
-cmUgcmF3IEZEcywgaXQgaXMKaW1wb3J0YW50IHRvIGJlIGFibGUgdG8gaWRlbnRpZnkgd2hpY2gg
-cHJvY2Vzc2VzIGhhdmUgRkQgcmVmZXJlbmNlcyB0bwphIERNQSBidWZmZXIuCgpDdXJyZW50bHks
-IERNQSBidWZmZXIgRkRzIGNhbiBiZSBhY2NvdW50ZWQgdXNpbmcgL3Byb2MvPHBpZD4vZmQvKiBh
-bmQKL3Byb2MvPHBpZD4vZmRpbmZvIC0tIGJvdGggYXJlIG9ubHkgcmVhZGFibGUgYnkgdGhlIHBy
-b2Nlc3Mgb3duZXIsCmFzIGZvbGxvd3M6CiAgMS4gRG8gYSByZWFkbGluayBvbiBlYWNoIEZELgog
-IDIuIElmIHRoZSB0YXJnZXQgcGF0aCBiZWdpbnMgd2l0aCAiL2RtYWJ1ZiIsIHRoZW4gdGhlIEZE
-IGlzIGEgZG1hYnVmIEZELgogIDMuIHN0YXQgdGhlIGZpbGUgdG8gZ2V0IHRoZSBkbWFidWYgaW5v
-ZGUgbnVtYmVyLgogIDQuIFJlYWQvIHByb2MvPHBpZD4vZmRpbmZvLzxmZD4sIHRvIGdldCB0aGUg
-RE1BIGJ1ZmZlciBzaXplLgoKQWNjZXNzaW5nIG90aGVyIHByb2Nlc3Nlc+KAmSBmZGluZm8gcmVx
-dWlyZXMgcm9vdCBwcml2aWxlZ2VzLiBUaGlzIGxpbWl0cwp0aGUgdXNlIG9mIHRoZSBpbnRlcmZh
-Y2UgdG8gZGVidWdnaW5nIGVudmlyb25tZW50cyBhbmQgaXMgbm90IHN1aXRhYmxlCmZvciBwcm9k
-dWN0aW9uIGJ1aWxkcy4gIEdyYW50aW5nIHJvb3QgcHJpdmlsZWdlcyBldmVuIHRvIGEgc3lzdGVt
-IHByb2Nlc3MKaW5jcmVhc2VzIHRoZSBhdHRhY2sgc3VyZmFjZSBhbmQgaXMgaGlnaGx5IHVuZGVz
-aXJhYmxlLgoKU2luY2UgZmRpbmZvIGRvZXNuJ3QgcGVybWl0IHJlYWRpbmcgcHJvY2VzcyBtZW1v
-cnkgYW5kIG1hbmlwdWxhdGluZwpwcm9jZXNzIHN0YXRlLCBhbGxvdyBhY2Nlc3NpbmcgZmRpbmZv
-IHVuZGVyIFBUUkFDRV9NT0RFX1JFQURfRlNDUkVELgoKU3VnZ2VzdGVkLWJ5OiBKYW5uIEhvcm4g
-PGphbm5oQGdvb2dsZS5jb20+ClNpZ25lZC1vZmYtYnk6IEthbGVzaCBTaW5naCA8a2FsZXNoc2lu
-Z2hAZ29vZ2xlLmNvbT4KLS0tCkNoYW5nZXMgaW4gdjI6CiAgLSBVcGRhdGUgcGF0Y2ggZGVzY3Jp
-cHRpb24KCiBmcy9wcm9jL2Jhc2UuYyB8ICA0ICsrLS0KIGZzL3Byb2MvZmQuYyAgIHwgMTUgKysr
-KysrKysrKysrKystCiAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDMgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvZnMvcHJvYy9iYXNlLmMgYi9mcy9wcm9jL2Jhc2UuYwppbmRl
-eCBiMzQyMmNkYTJhOTEuLmEzN2Y5ZGU3MTAzZiAxMDA2NDQKLS0tIGEvZnMvcHJvYy9iYXNlLmMK
-KysrIGIvZnMvcHJvYy9iYXNlLmMKQEAgLTMxNjAsNyArMzE2MCw3IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgcGlkX2VudHJ5IHRnaWRfYmFzZV9zdHVmZltdID0gewogCURJUigidGFzayIsICAgICAg
-IFNfSVJVR098U19JWFVHTywgcHJvY190YXNrX2lub2RlX29wZXJhdGlvbnMsIHByb2NfdGFza19v
-cGVyYXRpb25zKSwKIAlESVIoImZkIiwgICAgICAgICBTX0lSVVNSfFNfSVhVU1IsIHByb2NfZmRf
-aW5vZGVfb3BlcmF0aW9ucywgcHJvY19mZF9vcGVyYXRpb25zKSwKIAlESVIoIm1hcF9maWxlcyIs
-ICBTX0lSVVNSfFNfSVhVU1IsIHByb2NfbWFwX2ZpbGVzX2lub2RlX29wZXJhdGlvbnMsIHByb2Nf
-bWFwX2ZpbGVzX29wZXJhdGlvbnMpLAotCURJUigiZmRpbmZvIiwgICAgIFNfSVJVU1J8U19JWFVT
-UiwgcHJvY19mZGluZm9faW5vZGVfb3BlcmF0aW9ucywgcHJvY19mZGluZm9fb3BlcmF0aW9ucyks
-CisJRElSKCJmZGluZm8iLCAgICAgU19JUlVHT3xTX0lYVUdPLCBwcm9jX2ZkaW5mb19pbm9kZV9v
-cGVyYXRpb25zLCBwcm9jX2ZkaW5mb19vcGVyYXRpb25zKSwKIAlESVIoIm5zIiwJICBTX0lSVVNS
-fFNfSVhVR08sIHByb2NfbnNfZGlyX2lub2RlX29wZXJhdGlvbnMsIHByb2NfbnNfZGlyX29wZXJh
-dGlvbnMpLAogI2lmZGVmIENPTkZJR19ORVQKIAlESVIoIm5ldCIsICAgICAgICBTX0lSVUdPfFNf
-SVhVR08sIHByb2NfbmV0X2lub2RlX29wZXJhdGlvbnMsIHByb2NfbmV0X29wZXJhdGlvbnMpLApA
-QCAtMzUwNCw3ICszNTA0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpbm9kZV9vcGVyYXRpb25z
-IHByb2NfdGlkX2NvbW1faW5vZGVfb3BlcmF0aW9ucyA9IHsKICAqLwogc3RhdGljIGNvbnN0IHN0
-cnVjdCBwaWRfZW50cnkgdGlkX2Jhc2Vfc3R1ZmZbXSA9IHsKIAlESVIoImZkIiwgICAgICAgIFNf
-SVJVU1J8U19JWFVTUiwgcHJvY19mZF9pbm9kZV9vcGVyYXRpb25zLCBwcm9jX2ZkX29wZXJhdGlv
-bnMpLAotCURJUigiZmRpbmZvIiwgICAgU19JUlVTUnxTX0lYVVNSLCBwcm9jX2ZkaW5mb19pbm9k
-ZV9vcGVyYXRpb25zLCBwcm9jX2ZkaW5mb19vcGVyYXRpb25zKSwKKwlESVIoImZkaW5mbyIsICAg
-IFNfSVJVR098U19JWFVHTywgcHJvY19mZGluZm9faW5vZGVfb3BlcmF0aW9ucywgcHJvY19mZGlu
-Zm9fb3BlcmF0aW9ucyksCiAJRElSKCJucyIsCSBTX0lSVVNSfFNfSVhVR08sIHByb2NfbnNfZGly
-X2lub2RlX29wZXJhdGlvbnMsIHByb2NfbnNfZGlyX29wZXJhdGlvbnMpLAogI2lmZGVmIENPTkZJ
-R19ORVQKIAlESVIoIm5ldCIsICAgICAgICBTX0lSVUdPfFNfSVhVR08sIHByb2NfbmV0X2lub2Rl
-X29wZXJhdGlvbnMsIHByb2NfbmV0X29wZXJhdGlvbnMpLApkaWZmIC0tZ2l0IGEvZnMvcHJvYy9m
-ZC5jIGIvZnMvcHJvYy9mZC5jCmluZGV4IGNiNTE3NjNlZDU1NC4uNTg1ZTIxMzMwMWY5IDEwMDY0
-NAotLS0gYS9mcy9wcm9jL2ZkLmMKKysrIGIvZnMvcHJvYy9mZC5jCkBAIC02LDYgKzYsNyBAQAog
-I2luY2x1ZGUgPGxpbnV4L2ZkdGFibGUuaD4KICNpbmNsdWRlIDxsaW51eC9uYW1laS5oPgogI2lu
-Y2x1ZGUgPGxpbnV4L3BpZC5oPgorI2luY2x1ZGUgPGxpbnV4L3B0cmFjZS5oPgogI2luY2x1ZGUg
-PGxpbnV4L3NlY3VyaXR5Lmg+CiAjaW5jbHVkZSA8bGludXgvZmlsZS5oPgogI2luY2x1ZGUgPGxp
-bnV4L3NlcV9maWxlLmg+CkBAIC03Miw2ICs3MywxOCBAQCBzdGF0aWMgaW50IHNlcV9zaG93KHN0
-cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAqdikKIAogc3RhdGljIGludCBzZXFfZmRpbmZvX29wZW4o
-c3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZpbGUpCiB7CisJYm9vbCBhbGxvd2Vk
-ID0gZmFsc2U7CisJc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrID0gZ2V0X3Byb2NfdGFzayhpbm9k
-ZSk7CisKKwlpZiAoIXRhc2spCisJCXJldHVybiAtRVNSQ0g7CisKKwlhbGxvd2VkID0gcHRyYWNl
-X21heV9hY2Nlc3ModGFzaywgUFRSQUNFX01PREVfUkVBRF9GU0NSRURTKTsKKwlwdXRfdGFza19z
-dHJ1Y3QodGFzayk7CisKKwlpZiAoIWFsbG93ZWQpCisJCXJldHVybiAtRUFDQ0VTOworCiAJcmV0
-dXJuIHNpbmdsZV9vcGVuKGZpbGUsIHNlcV9zaG93LCBpbm9kZSk7CiB9CiAKQEAgLTMwNyw3ICsz
-MjAsNyBAQCBzdGF0aWMgc3RydWN0IGRlbnRyeSAqcHJvY19mZGluZm9faW5zdGFudGlhdGUoc3Ry
-dWN0IGRlbnRyeSAqZGVudHJ5LAogCXN0cnVjdCBwcm9jX2lub2RlICplaTsKIAlzdHJ1Y3QgaW5v
-ZGUgKmlub2RlOwogCi0JaW5vZGUgPSBwcm9jX3BpZF9tYWtlX2lub2RlKGRlbnRyeS0+ZF9zYiwg
-dGFzaywgU19JRlJFRyB8IFNfSVJVU1IpOworCWlub2RlID0gcHJvY19waWRfbWFrZV9pbm9kZShk
-ZW50cnktPmRfc2IsIHRhc2ssIFNfSUZSRUcgfCBTX0lSVUdPKTsKIAlpZiAoIWlub2RlKQogCQly
-ZXR1cm4gRVJSX1BUUigtRU5PRU5UKTsKIAotLSAKMi4zMC4wLjQ3OC5nOGEwZDE3OGMwMS1nb29n
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+If a FD refers to a DMA buffer add the DMA buffer inode number to
+/proc/<pid>/fdinfo/<FD> and /proc/<pid>/task/<tid>/fdindo/<FD>.
+
+The dmabuf inode number allows userspace to uniquely identify the buffer
+and avoids a dependency on /proc/<pid>/fd/* when accounting per-process
+DMA buffer sizes.
+
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+Changes in v3:
+  - Add documentation in proc.rst
+Changes in v2:
+  - Update patch description
+
+ Documentation/filesystems/proc.rst | 17 +++++++++++++++++
+ drivers/dma-buf/dma-buf.c          |  1 +
+ 2 files changed, 18 insertions(+)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 2fa69f710e2a..fdd38676f57f 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -2031,6 +2031,23 @@ details]. 'it_value' is remaining time until the timer expiration.
+ with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
+ still exhibits timer's remaining time.
+ 
++DMA Buffer files
++~~~~~~~~~~~~~~~~
++
++::
++
++	pos:	0
++	flags:	04002
++	mnt_id:	9
++	dmabuf_inode_no: 63107
++	size:   32768
++	count:  2
++	exp_name:  system-heap
++
++where 'dmabuf_inode_no' is the unique inode number of the DMA buffer file.
++'size' is the size of the DMA buffer in bytes. 'count' is the file count of
++the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
++
+ 3.9	/proc/<pid>/map_files - Information about memory mapped files
+ ---------------------------------------------------------------------
+ This directory contains symbolic links which represent memory mapped files
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 9ad6397aaa97..d869099ede83 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -414,6 +414,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ {
+ 	struct dma_buf *dmabuf = file->private_data;
+ 
++	seq_printf(m, "dmabuf_inode_no:\t%lu\n", file_inode(file)->i_ino);
+ 	seq_printf(m, "size:\t%zu\n", dmabuf->size);
+ 	/* Don't count the temporary reference taken inside procfs seq_show */
+ 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+-- 
+2.30.0.478.g8a0d178c01-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
