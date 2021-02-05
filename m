@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F703310C96
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:30:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81871310CA1
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 15:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD8B6F44A;
-	Fri,  5 Feb 2021 14:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B8A6E08A;
+	Fri,  5 Feb 2021 14:43:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48CEB6F44A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:30:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADB26E08A
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 14:43:47 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AEFAAAC9B;
- Fri,  5 Feb 2021 14:30:50 +0000 (UTC)
-Subject: Re: [kraxel:drm-testing 11/15] ERROR: modpost: "drm_gem_vunmap"
- undefined!
+ by mx2.suse.de (Postfix) with ESMTP id D031EACBA;
+ Fri,  5 Feb 2021 14:43:45 +0000 (UTC)
+Subject: Re: [PATCH][V2] drm/mgag200: make a const array static, makes object
+ smaller
+To: Colin King <colin.king@canonical.com>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20210204191156.110778-1-colin.king@canonical.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kernel test robot <lkp@intel.com>
-References: <202102052044.rE4lLngg-lkp@intel.com>
- <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
-Message-ID: <1810055d-7394-fdf8-03ac-d9c094246d1f@suse.de>
-Date: Fri, 5 Feb 2021 15:30:49 +0100
+Message-ID: <c9dd8c05-93cf-f74c-48a0-e512f2e2ed9b@suse.de>
+Date: Fri, 5 Feb 2021 15:43:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
+In-Reply-To: <20210204191156.110778-1-colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,100 +41,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1370591511=="
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1021881097=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1370591511==
+--===============1021881097==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo"
+ boundary="iIYPSx0lbNbPQSd7MPbsqFdxlsweQNlMx"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo
-Content-Type: multipart/mixed; boundary="66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec";
+--iIYPSx0lbNbPQSd7MPbsqFdxlsweQNlMx
+Content-Type: multipart/mixed; boundary="tYKCTmFoO52fIfy9sx49pj0Ydixv7HwHo";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: kbuild-all@lists.01.org, Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <1810055d-7394-fdf8-03ac-d9c094246d1f@suse.de>
-Subject: Re: [kraxel:drm-testing 11/15] ERROR: modpost: "drm_gem_vunmap"
- undefined!
-References: <202102052044.rE4lLngg-lkp@intel.com>
- <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
-In-Reply-To: <e68e3ad5-42a8-ae50-f05f-65f978efaa75@suse.de>
+To: Colin King <colin.king@canonical.com>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <c9dd8c05-93cf-f74c-48a0-e512f2e2ed9b@suse.de>
+Subject: Re: [PATCH][V2] drm/mgag200: make a const array static, makes object
+ smaller
+References: <20210204191156.110778-1-colin.king@canonical.com>
+In-Reply-To: <20210204191156.110778-1-colin.king@canonical.com>
 
---66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec
-Content-Type: text/plain; charset=windows-1252; format=flowed
+--tYKCTmFoO52fIfy9sx49pj0Ydixv7HwHo
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
+Merged.
 
-Am 05.02.21 um 14:22 schrieb Thomas Zimmermann:
->> All errors (new ones prefixed by >>, old ones prefixed by <<):
->>
->>>> ERROR: modpost: "drm_gem_vunmap" [drivers/gpu/drm/drm_kms_helper.ko]=
-=20
->>>> undefined!
->>>> ERROR: modpost: "drm_gem_vmap" [drivers/gpu/drm/drm_kms_helper.ko]=20
->>>> undefined!
+Am 04.02.21 um 20:11 schrieb Colin King:
+> From: Colin Ian King <colin.king@canonical.com>
 >=20
-> These are in drm_gem.c and build unconditionally. It's not clear to me =
-
-> how this can fail. Ideas, anyone?
-
-Oh, they are not exported. Can we export them?
-
+> Don't populate the const array m_div_val on the stack but instead make
+> it static. Makes the object code smaller by 29 bytes:
 >=20
-> Best regards
-> Thomas
+> Before:
+>     text	   data	  bss   dec    hex filename
+>    34736	   4552	    0 39288   9978 drivers/gpu/drm/mgag200/mgag200_mod=
+e.o
 >=20
->>
->> ---
->> 0-DAY CI Kernel Test Service, Intel Corporation
->> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
->>
+> After:
+>     text	   data	  bss   dec    hex filename
+>    34625	   4616	    0 39241   9949 drivers/gpu/drm/mgag200/mgag200_mod=
+e.o
+>=20
+> (gcc version 10.2.0)
+>=20
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>=20
+> V2: move static declaration to the top of the declarations
+>=20
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/m=
+gag200/mgag200_mode.c
+> index 1dfc42170059..c3dfde8cad25 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -706,13 +706,13 @@ static int mga_g200eh_set_plls(struct mga_device =
+*mdev, long clock)
+>  =20
+>   static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+>   {
+> +	static const unsigned int m_div_val[] =3D { 1, 2, 4, 8 };
+>   	unsigned int vcomax, vcomin, pllreffreq;
+>   	unsigned int delta, tmpdelta;
+>   	int testr, testn, testm, testo;
+>   	unsigned int p, m, n;
+>   	unsigned int computed, vco;
+>   	int tmp;
+> -	const unsigned int m_div_val[] =3D { 1, 2, 4, 8 };
+>  =20
+>   	m =3D n =3D p =3D 0;
+>   	vcomax =3D 1488000;
 >=20
 
 --=20
 Thomas Zimmermann
 Graphics Driver Developer
 SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---66vaZXvBSLBKoWOqY4xksVtw0WYftu8ec--
+--tYKCTmFoO52fIfy9sx49pj0Ydixv7HwHo--
 
---dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo
+--iIYPSx0lbNbPQSd7MPbsqFdxlsweQNlMx
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAdVpkFAwAAAAAACgkQlh/E3EQov+Bn
-tw/8D4INMOdUm5TTr7I2kDFmjtur1sFim1KB56a1xZxMrgJX7osCXU7gdUXrSDmOmGY1UeaUYYcy
-JiQsXw4LuoTzojfVKnqFBdatJvzeWXylTTkeSziDLcg5ZZokypWrOfMyEHKW0g3m8F0Hvu57v0iu
-hiWNosZ7UtiXMxDqbsEpucNXqsaI4ERmiW0RrZjOIZejhf4NJmjHsiA2OYW9DSF8+qEN5gEL2QeF
-czNAOrjo3AyTmSsVA9icUADECiAkaIjbTL1uX1rPKdnRBDbW+3lvhzMECZftkOVX3v8DowGqZfQv
-js0XQOM2C7e1HEO12l/ZFlXFZnoh+cG1WFRDS2ovVW72NOjphFwr2bBg6fEJPPDAq8cRMBjTALG+
-NC6bXS5Qk5kCH2jfN+J56AcMDxRx2LT7foFybUSH5E22msExeIRLNMkeDsPc+8UAOpHgtNYOpXrI
-rbrLsW2zHk5aTe6e58N0fMd951atZH3p1Zbr6pGIabsHv9fJvFd+pUeUhl2PmeZbgTAjsX6awTfh
-fQUYhFXIZ+KrTdiIomYjDmEB1RHgXydgktw7Cll/YNauToB+YV+JuI7mZUDRr4ERN6usFXl2CNKf
-tkdLl7F51NN565w9zSzQXtPYYQDaiJcJMOzHnQsqlzABuW3o8nOqSpIrW1VPoWzpzbXryWi0D2rE
-Zr8=
-=Qmwc
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAdWaAFAwAAAAAACgkQlh/E3EQov+CW
+7A/+NovrsdcN0AX8UJln3uk/CiH43FmwEWUjtLjlOnSQRIx95ecS6gZ/ZXWlZAfBP9iu9cqcZnN7
+ycJbGDWeSixB1tPKLEIHL+Pv5kqGKdpea4recuxZ22uU+ZziWqVvpXabE6o5+7CE0i64NxbUVyS6
+ylKq7WJ6u4M8Xm9m1YZuM70j3kgZpWseDRySTpJU5SSqzLAcaRqe+q1bOaF979PYPbwaCgBrd0KG
+m/grVtRLRV0OHKmzgqdbCGrCsQjQ3SY3ckebSVNIxmuhvDBjc8mZEosADu5+jBdpj+C1WUtcKjA6
+SOG/pkpdh/UylTRFOvwKdaKKLOv7XmekEbMT8xisWGWp/TqDwz+DvPIzAhKI2EV1aM5sF3lwXWol
+ICk2/0IqwZUR7etUYgXJhXAvb/CzZpmNYvVh6uwsk9YbdpFxW7gZAagbOgsH8+ZOH4Ce/srrqFM5
+9TwdBJNTs6Nvp+TxbyBVaHilMZiVpSc1L5fYOjxy/xrOdo7ZCTV3Bl+hZXA3uJ4a729+cluvdXpr
+5EoHqqXdKRvigmcHIbJfbvbAPRN4aS4aSjpHMImmlcgb11HdNbQgB38T+h+IMbhM4YE7eN9EjlOT
+DAQcUdeI9PnkMk5Ucr9sIwPTCcgvRq2Qqki6lW+mMSLdh1GC0yCgkCr3QEwbC28cf7qovKedoG2j
+GLM=
+=v0Sv
 -----END PGP SIGNATURE-----
 
---dn156qhjoNQbBTjtd5j4NcZphoS9Rv7Zo--
+--iIYPSx0lbNbPQSd7MPbsqFdxlsweQNlMx--
 
---===============1370591511==
+--===============1021881097==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -144,4 +170,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1370591511==--
+--===============1021881097==--
