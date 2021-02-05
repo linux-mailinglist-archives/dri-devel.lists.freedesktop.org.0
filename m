@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F6D310DEC
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 17:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CD3310DF3
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 17:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2302E6E0DA;
-	Fri,  5 Feb 2021 16:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 660C26E334;
+	Fri,  5 Feb 2021 16:36:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 668D46E048;
- Fri,  5 Feb 2021 16:34:48 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id y72so1756389ooa.5;
- Fri, 05 Feb 2021 08:34:48 -0800 (PST)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722166E334;
+ Fri,  5 Feb 2021 16:36:56 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id y199so6059430oia.4;
+ Fri, 05 Feb 2021 08:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K4+nfXJYv6rImfIz10Fvs+e6kT5fBA4A7novTZpwhno=;
- b=YONHGyb/udgiK3VD2rOYX8oHaE7T1sjffo0kIxPPdPSXk8CpzO8I8BqXA6H/7wMLLG
- bFpXxYXdHA1jgetLZBH2nJOKmDZmBJULSIJOyzxtv3M+ou83TDwbkTjInBAGmuO4OpcI
- qEW+f2GarAyKg0U7fNsYfjl48W2MKFq0XjIlOFIE2tlmqweuolDS+w5pgiX3GEr6xVX/
- EZk4JpFcTFgDMhg8RDWYc3Dl8NIr792n7eGo40Abmy8+mt3iPekpWCTHnscvwPxKNMEU
- 3gdcXiT2MpO1LC7uLGLwq9GuF4GeHVPuUMvT7o7SmfCmIIJe4v1x8hZlShCeOoXKuyX2
- cI+Q==
+ :cc; bh=VJbZMxQGRqPBHqp/8sTE7G9X+wuG0Qr4bREtYk0sVkI=;
+ b=BeSCCk+Dsb+HVG4gLLErAnYShuN6AS2TSa6G5fhRC39pSUh+97c3OdwJxGJEHj2LiB
+ DPUackk/hy7MPj/tbsHbJ8Ar4LvKu99bIoUQa7mGh6Q8nr81FwJgpq8KtrV1CAsH6zdQ
+ R4Bh2qB9ewHo3MLYxJXepR4PJanA8yKkyffSiFQpWL7lqH8zjUSjw1MZmLiiWQZD9Bj2
+ 97BjH38Q4FXEdN51HdZ4bzMbbaFPBwDmV8BOFXfc3V8mmvYB8Oq4wBbMzQoaIJSPwRnT
+ jyP02mATw6RdcB/oZMna/Ryy3XxOAPogUgT1obU9gFNBdWYymZZnCwGHoo2qx2SpfR7f
+ adyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=K4+nfXJYv6rImfIz10Fvs+e6kT5fBA4A7novTZpwhno=;
- b=hyjYipg4fvv8qzAJ/gtcLTpQFllp+2YlkMz2Eii+qZhuVLv+AUmvKHqLSmFScBdwg+
- hoKtLfYz5s8yESrl9Z3B4Bssiga+kTfgHU9fZaceJbuR1VsOfc8lM1GkX5fkhjJB/Qt2
- gzbIs+l4VW34dR2CQpYg5U6lI1DMzk8XywMziboC6+DGeYS6730aLVmaIRAE0t5ZQ2wB
- 2VD+5sKGj+PphsOzl6e16l2BD1zW8D4IDa3rFqmKOZ6xn6sYQsdfPyqvnmruTLXWbfaq
- 8bwK+8LbqPvvUDwepGntSAGSotY00vtdUlUbaxbV/dU8/ZBZA3au0W3d0b7MXwMHXOrT
- cZ5g==
-X-Gm-Message-State: AOAM5323wIkbWR3/dIWkXH89RK9xsxnmtGQ5Uf3O2vMdZab0uNzj7uB1
- 9VG3tGmLU1gHNzu8XtNP0YWDzhCqpw+rlGNbW9lIkvNK
-X-Google-Smtp-Source: ABdhPJz26jq4z6+ZB9Y4Ob3z1dyE9tYiMcdYGgSiMocrJKsfWKoAQy1qtF3o7twaaJLhdGIUSy1OmLgeEfbUzIR8s6I=
-X-Received: by 2002:a4a:ce90:: with SMTP id f16mr3999706oos.61.1612542887714; 
- Fri, 05 Feb 2021 08:34:47 -0800 (PST)
+ bh=VJbZMxQGRqPBHqp/8sTE7G9X+wuG0Qr4bREtYk0sVkI=;
+ b=tQVH+P2rpUqqjjn3CSFBokYLHOzlkzmskhHh7GrVdMt6aJYGOn2DgdVit9rDYMUz+U
+ 9J++M8YstcBOd9fvS47LUktuJY3JSGeCZzKRepT3p5/wRKUM0HqUUnRu2L97xLIJz1Cl
+ Mojbj9ZKscZfwXdzADgthzxrUr68RGnB6YLPIA1fKrivykmnsbomcPLL5T3NrpwYyvMO
+ /miKKuwHr5yitrpR7b2d0qG6GI7P4YJdkHJ2ECCS+L7AltSwTC9u2+M0QfpjwFSF6/0+
+ i74vgjXVYj7m07Z5LCxr7fhGzoJC8cc7vmu6WZ1eSwnd2gD7D7Lp9dn1sobun8t57Fgq
+ OT7A==
+X-Gm-Message-State: AOAM5302qbD8+7ZK3WyXW6MVmirsFDaqqdrhvh+9GkkMsoVS+vu4cjAf
+ IRAMGE6F4bbOXNSYt2ZjLSOdFLeZkqwSe0OzqpY=
+X-Google-Smtp-Source: ABdhPJzUfUcEXIhVf829RIgdIbRDiylPbwz8Ndf7+DD1Csqfto7ktf0wjXWuphlzZmAWAU5pfoWW1yUojKwwMbIdVl4=
+X-Received: by 2002:aca:1a17:: with SMTP id a23mr3534468oia.120.1612543015865; 
+ Fri, 05 Feb 2021 08:36:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20210203124241.8512-1-tiwai@suse.de>
- <20210203124241.8512-3-tiwai@suse.de>
-In-Reply-To: <20210203124241.8512-3-tiwai@suse.de>
+ <20210203124241.8512-2-tiwai@suse.de>
+In-Reply-To: <20210203124241.8512-2-tiwai@suse.de>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 5 Feb 2021 11:34:36 -0500
-Message-ID: <CADnq5_M--+6mCVrQ5-J+NKFeLEGRDcUAPPbmHpAaUJRi6XNBtQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amd/display: Add aux_backlight module option
+Date: Fri, 5 Feb 2021 11:36:44 -0500
+Message-ID: <CADnq5_PZFcXG2E28O2PrJRm+twp6Stq71EE+yckEOZbE7NUW6Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Fix the brightness read via aux
 To: Takashi Iwai <tiwai@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,70 +72,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, Feb 3, 2021 at 7:42 AM Takashi Iwai <tiwai@suse.de> wrote:
 >
-> There seem devices that don't work with the aux channel backlight
-> control.  For allowing such users to test with the other backlight
-> control method, provide a new module option, aux_backlight, to specify
-> enabling or disabling the aux backport support explicitly.  As
-> default, the aux support is detected by the hardware capability.
+> The current code tries to read the brightness value via
+> dc_link_get_backlight_level() no matter whether it's controlled via
+> aux or not, and this results in a bogus value returned.
+> Fix it to read the current value via
+> dc_link_get_backlight_level_nits() for the aux.
 >
 > BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1180749
 > BugLink: https://gitlab.freedesktop.org/drm/amd/-/issues/1438
 > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h               | 1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           | 4 ++++
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
->  3 files changed, 8 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 5993dd0fdd8e..4793cd5e69f9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -179,6 +179,7 @@ extern uint amdgpu_smu_memory_pool_size;
->  extern uint amdgpu_dc_feature_mask;
->  extern uint amdgpu_dc_debug_mask;
->  extern uint amdgpu_dm_abm_level;
-> +extern int amdgpu_aux_backlight;
->  extern struct amdgpu_mgpu_info mgpu_info;
->  extern int amdgpu_ras_enable;
->  extern uint amdgpu_ras_mask;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 7169fb5e3d9c..5b66822da954 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -777,6 +777,10 @@ uint amdgpu_dm_abm_level;
->  MODULE_PARM_DESC(abmlevel, "ABM level (0 = off (default), 1-4 = backlight reduction level) ");
->  module_param_named(abmlevel, amdgpu_dm_abm_level, uint, 0444);
->
-> +int amdgpu_aux_backlight = -1;
-> +MODULE_PARM_DESC(aux_backlight, "Aux backlight control (0 = off, 1 = on, default auto)");
-> +module_param_named(aux_backlight, amdgpu_aux_backlight, bint, 0444);
 
-I'd suggest making this something more generic like "backlight" and
-make -1 auto, 0 pwm, 1 aux.  That way we can handle potential future
-types more cleanly.
+This looks fine to me.  FWIW, I have a similar patch set here:
+https://cgit.freedesktop.org/~agd5f/linux/log/?h=backlight_wip
 
 Alex
 
-
-> +
->  /**
->   * DOC: tmz (int)
->   * Trusted Memory Zone (TMZ) is a method to protect data being written
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>
 > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index fb62886ae013..6ad384ef61b8 100644
+> index c6da89df055d..fb62886ae013 100644
 > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -2209,6 +2209,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->             caps->ext_caps->bits.hdr_aux_backlight_control == 1)
->                 caps->aux_support = true;
+> @@ -3140,6 +3140,16 @@ static int set_backlight_via_aux(struct dc_link *link, uint32_t brightness)
+>         return rc ? 0 : 1;
+>  }
 >
-> +       if (amdgpu_aux_backlight >= 0)
-> +               caps->aux_support = amdgpu_aux_backlight;
+> +static int get_backlight_via_aux(struct dc_link *link)
+> +{
+> +       uint32_t avg, peak;
 > +
->         /* From the specification (CTA-861-G), for calculating the maximum
->          * luminance we need to use:
->          *      Luminance = 50*2**(CV/32)
+> +       if (!link ||
+> +           !dc_link_get_backlight_level_nits(link, &avg, &peak))
+> +               return DC_ERROR_UNEXPECTED;
+> +       return avg;
+> +}
+> +
+>  static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
+>                                 unsigned *min, unsigned *max)
+>  {
+> @@ -3212,8 +3222,13 @@ static int amdgpu_dm_backlight_update_status(struct backlight_device *bd)
+>  static int amdgpu_dm_backlight_get_brightness(struct backlight_device *bd)
+>  {
+>         struct amdgpu_display_manager *dm = bl_get_data(bd);
+> -       int ret = dc_link_get_backlight_level(dm->backlight_link);
+> +       struct dc_link *link = (struct dc_link *)dm->backlight_link;
+> +       int ret;
+>
+> +       if (dm->backlight_caps.aux_support)
+> +               ret = get_backlight_via_aux(link);
+> +       else
+> +               ret = dc_link_get_backlight_level(link);
+>         if (ret == DC_ERROR_UNEXPECTED)
+>                 return bd->props.brightness;
+>         return convert_brightness_to_user(&dm->backlight_caps, ret);
 > --
 > 2.26.2
 >
