@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB563311250
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5CC3112C7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 21:47:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 049D66F4C7;
-	Fri,  5 Feb 2021 20:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D509B6F4CE;
+	Fri,  5 Feb 2021 20:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 148A46F4C7
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:24:49 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B601da9900000>; Fri, 05 Feb 2021 12:24:48 -0800
-Received: from MacBook-Pro-10.local (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 5 Feb
- 2021 20:24:39 +0000
-Subject: Re: [PATCH v16 0/4] RDMA: Add dma-buf support
-To: Daniel Vetter <daniel@ffwll.ch>, Jason Gunthorpe <jgg@nvidia.com>
-References: <1608067636-98073-1-git-send-email-jianxin.xiong@intel.com>
- <5e4ac17d-1654-9abc-9a14-bda223d62866@nvidia.com>
- <CADnq5_M2YuOv16E2DG6sCPtL=z5SDDrN+y7iwD_pHVc7Omyrmw@mail.gmail.com>
- <20210204182923.GL4247@nvidia.com>
- <CADnq5_N9QvgAKQMLeutA7oBo5W5XyttvNOMK_siOc6QL+H07jQ@mail.gmail.com>
- <8e731fce-95c1-4ace-d8bc-dc0df7432d22@nvidia.com>
- <YB1mw/uYwueFwUdh@phenom.ffwll.local> <20210205154319.GT4247@nvidia.com>
- <YB1p4Bpmz0yFcbEf@phenom.ffwll.local>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <4c339fc3-087b-1008-fb99-7117bf326470@nvidia.com>
-Date: Fri, 5 Feb 2021 12:24:38 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.0
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F29D6F4CE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 20:47:08 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id v15so9301681ljk.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 12:47:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=49Crt4P52szXjupwP5YgHo/jUWzX8V+kBi/b4k1o3qk=;
+ b=iM1yEZxc+tSQg7V5xAWAs+JC6oqsrhMhWorE9yR4wEHApkYoqxOW4/p31PZsuBnq9q
+ Ms9J8KU+yokimD20QRkyUc8XN35G/SVor5ud2ZS8MQ8k8IJMBItKP8xn7JvUolgjBWc4
+ g8MpkNpC/37gLh/mBjsfed+lJBfmNNuHabHsAPdq3pgZI5hpZEBgesN+0aoSkLpwdVdr
+ eChARwzLLOA/nYjCMHv3ajh1xBkzV7t4lzaDDjdSW2NA9Ne+ae5XfbZOew9D5PKMXU5A
+ UTIMNAUAn6av4EC0VMBhEoL8fTEwKVw9c+8U/F5DS9XnAjl1kYdAdyKaAWdAjAcNNmD+
+ AEyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=49Crt4P52szXjupwP5YgHo/jUWzX8V+kBi/b4k1o3qk=;
+ b=VnnxhI5qerZ4715tKF9R9DcyMmJ4kNm5xaUkzfpYsH7wmes49k/DPKz6bItAFq7mCF
+ igoDeq3PtzBt4t+W0BazOEvNTIdrgkyb6a9248RM4CV/KidFF97cU1OXXmEkBAMI9Agg
+ 9jHmZSHmQ9cC6xp2e0zxa4xNkxhcvmEU5OnGo+u4BvhKcDy4RxcDUtyF1YV0MQ0XhmJH
+ fEfNCzhycNpxEoPObC49WrEqol6T0hXEaRSyeYOi/rMT8DE8QIO8DFBfOTlPDKNA5lwP
+ vksA7rD5/Y+G2u5aBmpbEbwhEhtp2lFgX/8BBe7sHhpzP2xP8iTMyj9ucP+tXN1AglD9
+ oJxA==
+X-Gm-Message-State: AOAM5324pBtsXKC2sFdpOK6uZTn/669bvPFxISQCMu470YcBxa608Q0h
+ mHJy4fp+7mDHUL48hCNvoWrdi0HYvNiSLB6M4E3hvQ==
+X-Google-Smtp-Source: ABdhPJwe84ph4525cpQjTcSn0erd6idcLu6jqrMD26ArOGJ27gblnijoY8iYbqcpA2UXJStfB/y2qg6gwNHuBh76zew=
+X-Received: by 2002:a2e:914b:: with SMTP id q11mr3587238ljg.503.1612558026844; 
+ Fri, 05 Feb 2021 12:47:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YB1p4Bpmz0yFcbEf@phenom.ffwll.local>
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1612556688; bh=ZGMznwvj1qqDWeGew4C5B7fXOw8LwrqPvnzl+1M1wGQ=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=rac3tdz3hfQn/kJ44D4FHG4dUgYb1x7VFyiTFED7lB0vBsz4wdruqNLy6TqpIKZzZ
- FuxJ2cvW0K5DIjQvbDxVDFFooDwpuB+gguVFVBCPa9wEiCOySBq5dE00BQ9+Ryxhld
- TideXe2p+NkD1PCv+2Vkubwrf4CZkV9L4mzt8G22XWpqE4iTGb7YUJIfyDohqi7GbX
- NgRnxnAzHu+r2w5ZTj9aCrHZj9dOoi8nX6ml5G9IXchHw5zc34KNF5Pby5nD56gPxf
- xv31Sc5X60lbGuIqYmbd3T/KX5xUYO0dXB9oGZhXubEu01JTKyID6NZXX47I7counu
- rTp2/jZhjO3iw==
+References: <20210205080621.3102035-1-john.stultz@linaro.org>
+ <20210205080621.3102035-2-john.stultz@linaro.org>
+ <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
+In-Reply-To: <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Fri, 5 Feb 2021 12:46:53 -0800
+Message-ID: <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
+Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool
+ implementation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +64,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
+ lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/5/21 7:53 AM, Daniel Vetter wrote:
-> On Fri, Feb 05, 2021 at 11:43:19AM -0400, Jason Gunthorpe wrote:
->> On Fri, Feb 05, 2021 at 04:39:47PM +0100, Daniel Vetter wrote:
->>
->>>> And again, for slightly older hardware, without pinning to VRAM there is
->>>> no way to use this solution here for peer-to-peer. So I'm glad to see that
->>>> so far you're not ruling out the pinning option.
->>>
->>> Since HMM and ZONE_DEVICE came up, I'm kinda tempted to make ZONE_DEVICE
->>> ZONE_MOVEABLE (at least if you don't have a pinned vram contigent in your
->>> cgroups) or something like that, so we could benefit from the work to make
->>> sure pin_user_pages and all these never end up in there?
->>
->> ZONE_DEVICE should already not be returned from GUP.
->>
->> I've understood in the hmm casse the idea was a CPU touch of some
->> ZONE_DEVICE pages would trigger a migration to CPU memory, GUP would
->> want to follow the same logic, presumably it comes for free with the
->> fault handler somehow
-> 
-> Oh I didn't know this, I thought the proposed p2p direct i/o patches would
-> just use the fact that underneath ZONE_DEVICE there's "normal" struct
-> pages. And so I got worried that maybe also pin_user_pages can creep in.
-> But I didn't read the patches in full detail:
-> 
-> https://lore.kernel.org/linux-block/20201106170036.18713-12-logang@deltatee.com/
-> 
-> But if you're saying that this all needs specific code and all the gup/pup
-> code we have is excluded, I think we can make sure that we're not ever
-> building features that requiring time-unlimited pinning of ZONE_DEVICE.
-> Which I think we want.
-> 
-
- From an HMM perspective, the above sounds about right. HMM relies on the
-GPU/device memory being ZONE_DEVICE, *and* on that memory *not* being pinned.
-(HMM's mmu notifier callbacks act as a sort of virtual pin, but not a refcount
-pin.)
-
-It's a nice clean design point that we need to preserve, and fortunately it
-doesn't conflict with anything I'm seeing here. But I want to say this out
-loud because I see some doubt about it creeping into the discussion.
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBGZWIgNSwgMjAyMSBhdCAxMjo0NyBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+IEFtIDA1LjAyLjIxIHVtIDA5OjA2IHNjaHJpZWIg
+Sm9obiBTdHVsdHo6Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhZ2VfcG9vbC5j
+IGIvZHJpdmVycy9ncHUvZHJtL3BhZ2VfcG9vbC5jCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+
+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi4yMTM5Zjg2ZTZjYTcKPiA+IC0tLSAvZGV2L251bGwKPiA+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYWdlX3Bvb2wuYwo+ID4gQEAgLTAsMCArMSwyMjAgQEAK
+PiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAo+Cj4gUGxlYXNlIHVzZSBh
+IEJTRC9NSVQgY29tcGF0aWJsZSBsaWNlbnNlIGlmIHlvdSB3YW50IHRvIGNvcHkgdGhpcyBmcm9t
+Cj4gdGhlIFRUTSBjb2RlLgoKSHJtLiBUaGlzIG1heSBiZSBwcm9ibGVtYXRpYywgYXMgaXQncyBu
+b3QganVzdCBUVE0gY29kZSwgYnV0IHNvbWUgb2YKdGhlIFRUTSBsb2dpYyBpbnRlZ3JhdGVkIGlu
+dG8gYSBwYWdlLXBvb2wgaW1wbGVtZW50YXRpb24gSSB3cm90ZSBiYXNlZApvbiBsb2dpYyBmcm9t
+IHRoZSBJT04gY29kZSAod2hpY2ggd2FzIEdQTC0yLjAgYmVmb3JlIGl0IHdhcyBkcm9wcGVkKS4K
+U28gSSBkb24ndCB0aGluayBJIGNhbiBqdXN0IG1ha2UgaXQgTUlULiAgQW55IGV4dHJhIGNvbnRl
+eHQgb24gdGhlCm5lZWQgZm9yIE1JVCwgb3Igc3VnZ2VzdGlvbnMgb24gaG93IHRvIGJlc3QgcmVz
+b2x2ZSB0aGlzPwoKPiA+ICtpbnQgZHJtX3BhZ2VfcG9vbF9nZXRfc2l6ZShzdHJ1Y3QgZHJtX3Bh
+Z2VfcG9vbCAqcG9vbCkKPiA+ICt7Cj4gPiArICAgICBpbnQgcmV0Owo+ID4gKwo+ID4gKyAgICAg
+c3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsgICAgIHJldCA9IHBvb2wtPmNvdW50Owo+ID4g
+KyAgICAgc3Bpbl91bmxvY2soJnBvb2wtPmxvY2spOwo+Cj4gTWF5YmUgdXNlIGFuIGF0b21pYyBm
+b3IgdGhlIGNvdW50IGluc3RlYWQ/Cj4KCkkgY2FuIGRvIHRoYXQsIGJ1dCBhbSBjdXJpb3VzIGFz
+IHRvIHRoZSBiZW5lZml0PyBXZSBhcmUgbW9zdGx5IHVzaW5nCmNvdW50IHdoZXJlIHdlIGFscmVh
+ZHkgaGF2ZSB0byB0YWtlIHRoZSBwb29sLT5sb2NrIGFueXdheSwgYW5kIHRoaXMKZHJtX3BhZ2Vf
+cG9vbF9nZXRfc2l6ZSgpIGlzIG9ubHkgdXNlZCBmb3IgZGVidWdmcyBvdXRwdXQgc28gZmFyLCBz
+byBJCmRvbid0IGV4cGVjdCBpdCB0byBiZSBhIGhvdCBwYXRoLgoKCj4gPiArdm9pZCBkcm1fcGFn
+ZV9wb29sX2FkZChzdHJ1Y3QgZHJtX3BhZ2VfcG9vbCAqcG9vbCwgc3RydWN0IHBhZ2UgKnBhZ2Up
+Cj4gPiArewo+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsgICAgIGxpc3Rf
+YWRkX3RhaWwoJnBhZ2UtPmxydSwgJnBvb2wtPml0ZW1zKTsKPiA+ICsgICAgIHBvb2wtPmNvdW50
+Kys7Cj4gPiArICAgICBhdG9taWNfbG9uZ19hZGQoMSA8PCBwb29sLT5vcmRlciwgJnRvdGFsX3Bh
+Z2VzKTsKPiA+ICsgICAgIHNwaW5fdW5sb2NrKCZwb29sLT5sb2NrKTsKPiA+ICsKPiA+ICsgICAg
+IG1vZF9ub2RlX3BhZ2Vfc3RhdGUocGFnZV9wZ2RhdChwYWdlKSwgTlJfS0VSTkVMX01JU0NfUkVD
+TEFJTUFCTEUsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgIDEgPDwgcG9vbC0+b3JkZXIp
+Owo+Cj4gSHVpIHdoYXQ/IFdoYXQgc2hvdWxkIHRoYXQgYmUgZ29vZCBmb3I/CgpUaGlzIGlzIGEg
+Y2FycnlvdmVyIGZyb20gdGhlIElPTiBwYWdlIHBvb2wgaW1wbGVtZW50YXRpb246Cmh0dHBzOi8v
+Z2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4Lmdp
+dC90cmVlL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb25fcGFnZV9wb29sLmM/aD12NS4x
+MCNuMjgKCk15IHNlbnNlIGlzIGl0IGhlbHBzIHdpdGggdGhlIHZtc3RhdC9tZW1pbmZvIGFjY291
+bnRpbmcgc28gZm9sa3MgY2FuCnNlZSB0aGUgY2FjaGVkIHBhZ2VzIGFyZSBzaHJpbmthYmxlL2Zy
+ZWVhYmxlLiBUaGlzIG1heWJlIGZhbGxzIHVuZGVyCm90aGVyIGRtYWJ1ZiBhY2NvdW50aW5nL3N0
+YXRzIGRpc2N1c3Npb25zLCBzbyBJJ20gaGFwcHkgdG8gcmVtb3ZlIGl0CmZvciBub3csIG9yIGxl
+dCB0aGUgZHJpdmVycyB1c2luZyB0aGUgc2hhcmVkIHBhZ2UgcG9vbCBsb2dpYyBoYW5kbGUKdGhl
+IGFjY291bnRpbmcgdGhlbXNlbHZlcz8KCgo+ID4gK3N0YXRpYyBzdHJ1Y3QgcGFnZSAqZHJtX3Bh
+Z2VfcG9vbF9yZW1vdmUoc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiArewo+ID4gKyAg
+ICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArCj4gPiArICAgICBpZiAoIXBvb2wtPmNvdW50KQo+
+ID4gKyAgICAgICAgICAgICByZXR1cm4gTlVMTDsKPgo+IEJldHRlciB1c2UgbGlzdF9maXJzdF9l
+bnRyeV9vcl9udWxsIGluc3RlYWQgb2YgY2hlY2tpbmcgdGhlIGNvdW50Lgo+Cj4gVGhpcyB3YXkg
+eW91IGNhbiBhbHNvIHB1bGwgdGhlIGxvY2sgaW50byB0aGUgZnVuY3Rpb24uCgpZZWEsIHRoYXQg
+Y2xlYW5zIGEgbnVtYmVyIG9mIHRoaW5ncyB1cCBuaWNlbHkuIFRoYW5rIHlvdSEKCgo+ID4gK3N0
+cnVjdCBkcm1fcGFnZV9wb29sICpkcm1fcGFnZV9wb29sX2NyZWF0ZSh1bnNpZ25lZCBpbnQgb3Jk
+ZXIsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCAoKmZy
+ZWVfcGFnZSkoc3RydWN0IHBhZ2UgKnAsIHVuc2lnbmVkIGludCBvcmRlcikpCj4gPiArewo+ID4g
+KyAgICAgc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wgPSBrbWFsbG9jKHNpemVvZigqcG9vbCks
+IEdGUF9LRVJORUwpOwo+Cj4gV2h5IG5vdCBtYWtpbmcgdGhpcyBhbiBlbWJlZGRlZCBvYmplY3Q/
+IFdlIHNob3VsZCBub3Qgc2VlIG11Y2ggZHluYW1pYwo+IHBvb2wgY3JlYXRpb24uCgpZZWEsIGl0
+IGZlbHQgY2xlYW5lciBhdCB0aGUgdGltZSB0aGlzIHdheSwgYnV0IEkgdGhpbmsgSSB3aWxsIG5l
+ZWQgdG8Kc3dpdGNoIHRvIGFuIGVtYmVkZGVkIG9iamVjdCBpbiBvcmRlciB0byByZXNvbHZlIHRo
+ZSBtZW1vcnkgdXNhZ2UKaXNzdWUgeW91IHBvaW50ZWQgb3V0IHdpdGggZ3Jvd2luZyB0aGUgdHRt
+X3Bvb2xfZG1hLCBzbyB0aGFuayB5b3UgZm9yCnRoZSBzdWdnZXN0aW9uIQoKCj4gPiArdm9pZCBk
+cm1fcGFnZV9wb29sX2Rlc3Ryb3koc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wpCj4gPiArewo+
+ID4gKyAgICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArCj4gPiArICAgICAvKiBSZW1vdmUgdXMg
+ZnJvbSB0aGUgcG9vbCBsaXN0ICovCj4gPiArICAgICBtdXRleF9sb2NrKCZwb29sX2xpc3RfbG9j
+ayk7Cj4gPiArICAgICBsaXN0X2RlbCgmcG9vbC0+bGlzdCk7Cj4gPiArICAgICBtdXRleF91bmxv
+Y2soJnBvb2xfbGlzdF9sb2NrKTsKPiA+ICsKPiA+ICsgICAgIC8qIEZyZWUgYW55IHJlbWFpbmlu
+ZyBwYWdlcyBpbiB0aGUgcG9vbCAqLwo+ID4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2NrKTsK
+Pgo+IExvY2tpbmcgc2hvdWxkIGJlIHVubmVjZXNzYXJ5IHdoZW4gdGhlIHBvb2wgaXMgZGVzdHJv
+eWVkIGFueXdheS4KCkkgZ3Vlc3MgaWYgd2UndmUgYWxyZWFkeSBwcnVuZWQgb3Vyc2VsZiBmcm9t
+IHRoZSBwb29sIGxpc3QsIHRoZW4geW91cgpyaWdodCwgd2UgY2FuJ3QgcmFjZSB3aXRoIHRoZSBz
+aHJpbmtlciBhbmQgaXQncyBtYXliZSBub3QgbmVjZXNzYXJ5LgpCdXQgaXQgYWxzbyBzZWVtcyBl
+YXNpZXIgdG8gY29uc2lzdGVudGx5IGZvbGxvdyB0aGUgbG9ja2luZyBydWxlcyBpbiBhCnZlcnkg
+dW5saWtlbHkgcGF0aCByYXRoZXIgdGhhbiBsZWFuaW5nIG9uIHN1YnRsZXR5LiAgRWl0aGVyIHdh
+eSwgSQp0aGluayB0aGlzIGJlY29tZXMgbW9vdCBpZiBJIG1ha2UgdGhlIGltcHJvdmVtZW50cyB5
+b3Ugc3VnZ2VzdCB0bwpkcm1fcGFnZV9wb29sX3JlbW92ZSgpLgoKPiA+ICtzdGF0aWMgaW50IGRy
+bV9wYWdlX3Bvb2xfc2hyaW5rX29uZSh2b2lkKQo+ID4gK3sKPiA+ICsgICAgIHN0cnVjdCBkcm1f
+cGFnZV9wb29sICpwb29sOwo+ID4gKyAgICAgc3RydWN0IHBhZ2UgKnBhZ2U7Cj4gPiArICAgICBp
+bnQgbnJfZnJlZWQgPSAwOwo+ID4gKwo+ID4gKyAgICAgbXV0ZXhfbG9jaygmcG9vbF9saXN0X2xv
+Y2spOwo+ID4gKyAgICAgcG9vbCA9IGxpc3RfZmlyc3RfZW50cnkoJnBvb2xfbGlzdCwgdHlwZW9m
+KCpwb29sKSwgbGlzdCk7Cj4gPiArCj4gPiArICAgICBzcGluX2xvY2soJnBvb2wtPmxvY2spOwo+
+ID4gKyAgICAgcGFnZSA9IGRybV9wYWdlX3Bvb2xfcmVtb3ZlKHBvb2wpOwo+ID4gKyAgICAgc3Bp
+bl91bmxvY2soJnBvb2wtPmxvY2spOwo+ID4gKwo+ID4gKyAgICAgaWYgKHBhZ2UpCj4gPiArICAg
+ICAgICAgICAgIG5yX2ZyZWVkID0gZHJtX3BhZ2VfcG9vbF9mcmVlX3BhZ2VzKHBvb2wsIHBhZ2Up
+Owo+ID4gKwo+ID4gKyAgICAgbGlzdF9tb3ZlX3RhaWwoJnBvb2wtPmxpc3QsICZwb29sX2xpc3Qp
+Owo+Cj4gQmV0dGVyIHRvIG1vdmUgdGhpcyB1cCwgZGlyZWN0bHkgYWZ0ZXIgdGhlIGxpc3RfZmly
+c3RfZW50cnkoKS4KClNvdW5kcyBnb29kIQoKVGhhbmtzIHNvIG11Y2ggZm9yIHlvdXIgcmV2aWV3
+IGFuZCBmZWVkYmFjayEgSSdsbCB0cnkgdG8gZ2V0IHNvbWUgb2YKdGhlIGVhc3kgc3VnZ2VzdGlv
+bnMgaW50ZWdyYXRlZCwgYW5kIHdpbGwgaGF2ZSB0byBmaWd1cmUgb3V0IHdoYXQgdG8KZG8gYWJv
+dXQgdGhlIHJlLWxpY2Vuc2luZyByZXF1ZXN0LgoKdGhhbmtzCi1qb2huCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
