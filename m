@@ -1,61 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBD331063A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:06:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9596310663
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 09:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27D36F40B;
-	Fri,  5 Feb 2021 08:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFBD66F3F4;
+	Fri,  5 Feb 2021 08:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8D96F40B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 08:06:39 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id o20so3846232pfu.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 00:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GOndOP8F+BfXNLjrSX9CtfpObuYsc9aU1JNxbRzKav4=;
- b=Nn+MlC5tKBHafRdbSa7S8DmObCjHIWlNYVXwMR2RRmFpY/1YFN/JejT9MseDX0khO/
- Piwh7OqAi92p946kQ+P8IdpWiNbpooftChpefls8Lmv9U8Q7rleVcIwXuOnqu/4BQzC+
- goprUTNEMoRlSmp6To1gKsxWw6vM72Yr5P7HEGj5Yi9M5drA9jSPHpz65qDMqWz+R6RX
- v/NGL7oFcwvXJOVn5S/LHz+ARYcnN5bywATDFLipVqQsms2hfi5V5SGE6jH3LGHk0hhg
- /aqgi5o6SNZzoeZBdlWnAv3EE3rtQ2IxAYedQIia3hiO+oABFCiB/SacNV9a2foTJouk
- GRDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GOndOP8F+BfXNLjrSX9CtfpObuYsc9aU1JNxbRzKav4=;
- b=ReuultB+8jCQaeXdNWY0dqtOWDaaX13+T5+xLwMudUWRgKarAJ97t8ruWFUpxrMD4V
- SU/QuSMiBNrSgX5rr2FHgyUMPnrDO14uvmLGO/HTq8BSRiheX5kdCRfxYklXieoYG41g
- BKTJeYHLoosfLUdh6bZbpE+XEHUw64+52uNnHAGtP2IdTgUeOohmLZ5PJLzdPpHRLgVf
- cr9fvvBYrLQOdB5pnSAV9xAFnJ+VdB17OPTn9PxWCNi1iUGIC4WGGOjRdJZF4tswuhkN
- yXcvSvcCwc24T1ajgfrpKQHgw1kU9blKq/n0VD5YK/jNTdN6gyUiw3ifm9tbwI+JEqA3
- F2SQ==
-X-Gm-Message-State: AOAM532Hpg3w7AcN4Xf6KpEj6gV/shTgAbqw1zSxscLDXF/nTvMH/upz
- K4nJoD/pwqgd2vBwDQp94Fujmw==
-X-Google-Smtp-Source: ABdhPJx+FpGulW/NuF4+mtl7ogJq0jqebiVtB3k4/SZDAmxf9F1Xx8HSTD5aCBfLoqE9Pbnctuk3TQ==
-X-Received: by 2002:aa7:9538:0:b029:1d6:ccef:72ad with SMTP id
- c24-20020aa795380000b02901d6ccef72admr3319521pfp.64.1612512399559; 
- Fri, 05 Feb 2021 00:06:39 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- 32sm9520070pgq.80.2021.02.05.00.06.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 00:06:38 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH v6 7/7] dma-buf: system_heap: Add deferred freeing to the
- system heap
-Date: Fri,  5 Feb 2021 08:06:21 +0000
-Message-Id: <20210205080621.3102035-8-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210205080621.3102035-1-john.stultz@linaro.org>
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351206F3FA
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 08:15:52 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1l7wHL-0000bu-I7; Fri, 05 Feb 2021 09:15:47 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sebastian Fricke <sebastian.fricke@posteo.net>
+Subject: Re: [PATCH 0/6] Support second Image Signal Processor on rk3399
+Date: Fri, 05 Feb 2021 09:15:47 +0100
+Message-ID: <5271305.e9J7NaK4W3@diego>
+In-Reply-To: <20210205064335.6c3gs3h3pgvhceku@basti-TUXEDO-Book-XA1510>
+References: <20210202145632.1263136-1-heiko@sntech.de>
+ <16624224.lhrHg4fidi@diego>
+ <20210205064335.6c3gs3h3pgvhceku@basti-TUXEDO-Book-XA1510>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,88 +39,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, dafna.hirschfeld@collabora.com,
+ cmuellner@linux.com, hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ helen.koike@collabora.com, robh+dt@kernel.org, ezequiel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXRpbGl6ZSB0aGUgZGVmZXJyZWQgZnJlZSBoZWxwZXIgbGlicmFyeSBpbiB0aGUgc3lzdGVtIGhl
-YXAuCgpUaGlzIHByb3ZpZGVzIGEgbmljZSBwZXJmb3JtYW5jZSBidW1wIGFuZCBwdXRzIHRoZQpz
-eXN0ZW0gaGVhcCBwZXJmb3JtYW5jZSBvbiBwYXIgd2l0aCBJT04uCgpDYzogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogQ2hyaXN0aWFuIEtvZW5pZyA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6
-IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+CkNjOiBDaHJpcyBHb2xkc3dvcnRoeSA8
-Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+CkNjOiBMYXVyYSBBYmJvdHQgPGxhYmJvdHRAa2VybmVs
-Lm9yZz4KQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJrZXlAYXJtLmNvbT4KQ2M6IEhyaWR5
-YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgpDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxz
-dXJlbmJAZ29vZ2xlLmNvbT4KQ2M6IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4K
-Q2M6IERhbmllbCBNZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xlLmNvbT4KQ2M6IMOYcmphbiBFaWRl
-IDxvcmphbi5laWRlQGFybS5jb20+CkNjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0u
-Y29tPgpDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgpDYzogU2lt
-b24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzogSmFtZXMgSm9uZXMgPGpham9uZXNAbnZp
-ZGlhLmNvbT4KQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0eiA8am9obi5zdHVs
-dHpAbGluYXJvLm9yZz4KLS0tCnYyOgoqIFJld29yayBkZWZlcnJlZC1mcmVlIGFwaSB0byB1c2Ug
-cmVhc29uIGVudW0gYXMgc3VnZ2VzdGVkIGJ5CiAgU3VyZW4gQmFnaGRhc2FyeWFuCi0tLQogZHJp
-dmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgICAgICAgfCAgMSArCiBkcml2ZXJzL2RtYS1idWYv
-aGVhcHMvc3lzdGVtX2hlYXAuYyB8IDMxICsrKysrKysrKysrKysrKysrKysrKystLS0tLS0tCiAy
-IGZpbGVzIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgYi9kcml2ZXJzL2RtYS1idWYvaGVh
-cHMvS2NvbmZpZwppbmRleCA3ZTI4OTM0ZTBkZWYuLjEwNjMyY2NmYjRhNSAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKKysrIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBz
-L0tjb25maWcKQEAgLTUsNiArNSw3IEBAIGNvbmZpZyBETUFCVUZfSEVBUFNfU1lTVEVNCiAJYm9v
-bCAiRE1BLUJVRiBTeXN0ZW0gSGVhcCIKIAlkZXBlbmRzIG9uIERNQUJVRl9IRUFQUwogCXNlbGVj
-dCBEUk1fUEFHRV9QT09MCisJc2VsZWN0IERNQUJVRl9IRUFQU19ERUZFUlJFRF9GUkVFCiAJaGVs
-cAogCSAgQ2hvb3NlIHRoaXMgb3B0aW9uIHRvIGVuYWJsZSB0aGUgc3lzdGVtIGRtYWJ1ZiBoZWFw
-LiBUaGUgc3lzdGVtIGhlYXAKIAkgIGlzIGJhY2tlZCBieSBwYWdlcyBmcm9tIHRoZSBidWRkeSBh
-bGxvY2F0b3IuIElmIGluIGRvdWJ0LCBzYXkgWS4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1
-Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFw
-LmMKaW5kZXggNmQzOWU5ZjMyZTM2Li4wNDIyNDQ0MDdkYjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-ZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9z
-eXN0ZW1faGVhcC5jCkBAIC0yMiw2ICsyMiw3IEBACiAjaW5jbHVkZSA8bGludXgvdm1hbGxvYy5o
-PgogCiAjaW5jbHVkZSA8ZHJtL3BhZ2VfcG9vbC5oPgorI2luY2x1ZGUgImRlZmVycmVkLWZyZWUt
-aGVscGVyLmgiCiAKIHN0YXRpYyBzdHJ1Y3QgZG1hX2hlYXAgKnN5c19oZWFwOwogCkBAIC0zMyw2
-ICszNCw3IEBAIHN0cnVjdCBzeXN0ZW1faGVhcF9idWZmZXIgewogCXN0cnVjdCBzZ190YWJsZSBz
-Z190YWJsZTsKIAlpbnQgdm1hcF9jbnQ7CiAJdm9pZCAqdmFkZHI7CisJc3RydWN0IGRlZmVycmVk
-X2ZyZWVsaXN0X2l0ZW0gZGVmZXJyZWRfZnJlZTsKIH07CiAKIHN0cnVjdCBkbWFfaGVhcF9hdHRh
-Y2htZW50IHsKQEAgLTMwOCwzMCArMzEwLDQ1IEBAIHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfemVy
-b19idWZmZXIoc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAqYnVmZmVyKQogCXJldHVybiByZXQ7
-CiB9CiAKLXN0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9idWZfcmVsZWFzZShzdHJ1Y3QgZG1h
-X2J1ZiAqZG1hYnVmKQorc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBfYnVmX2ZyZWUoc3RydWN0IGRl
-ZmVycmVkX2ZyZWVsaXN0X2l0ZW0gKml0ZW0sCisJCQkJIGVudW0gZGZfcmVhc29uIHJlYXNvbikK
-IHsKLQlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyICpidWZmZXIgPSBkbWFidWYtPnByaXY7CisJ
-c3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAqYnVmZmVyOwogCXN0cnVjdCBzZ190YWJsZSAqdGFi
-bGU7CiAJc3RydWN0IHNjYXR0ZXJsaXN0ICpzZzsKIAlpbnQgaSwgajsKIAorCWJ1ZmZlciA9IGNv
-bnRhaW5lcl9vZihpdGVtLCBzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyLCBkZWZlcnJlZF9mcmVl
-KTsKIAkvKiBaZXJvIHRoZSBidWZmZXIgcGFnZXMgYmVmb3JlIGFkZGluZyBiYWNrIHRvIHRoZSBw
-b29sICovCi0Jc3lzdGVtX2hlYXBfemVyb19idWZmZXIoYnVmZmVyKTsKKwlpZiAocmVhc29uID09
-IERGX05PUk1BTCkKKwkJaWYgKHN5c3RlbV9oZWFwX3plcm9fYnVmZmVyKGJ1ZmZlcikpCisJCQly
-ZWFzb24gPSBERl9VTkRFUl9QUkVTU1VSRTsgLy8gT24gZmFpbHVyZSwganVzdCBmcmVlCiAKIAl0
-YWJsZSA9ICZidWZmZXItPnNnX3RhYmxlOwogCWZvcl9lYWNoX3NnKHRhYmxlLT5zZ2wsIHNnLCB0
-YWJsZS0+bmVudHMsIGkpIHsKIAkJc3RydWN0IHBhZ2UgKnBhZ2UgPSBzZ19wYWdlKHNnKTsKIAot
-CQlmb3IgKGogPSAwOyBqIDwgTlVNX09SREVSUzsgaisrKSB7Ci0JCQlpZiAoY29tcG91bmRfb3Jk
-ZXIocGFnZSkgPT0gb3JkZXJzW2pdKQotCQkJCWJyZWFrOworCQlpZiAocmVhc29uID09IERGX1VO
-REVSX1BSRVNTVVJFKSB7CisJCQlfX2ZyZWVfcGFnZXMocGFnZSwgY29tcG91bmRfb3JkZXIocGFn
-ZSkpOworCQl9IGVsc2UgeworCQkJZm9yIChqID0gMDsgaiA8IE5VTV9PUkRFUlM7IGorKykgewor
-CQkJCWlmIChjb21wb3VuZF9vcmRlcihwYWdlKSA9PSBvcmRlcnNbal0pCisJCQkJCWJyZWFrOwor
-CQkJfQorCQkJZHJtX3BhZ2VfcG9vbF9hZGQocG9vbHNbal0sIHBhZ2UpOwogCQl9Ci0JCWRybV9w
-YWdlX3Bvb2xfYWRkKHBvb2xzW2pdLCBwYWdlKTsKIAl9CiAJc2dfZnJlZV90YWJsZSh0YWJsZSk7
-CiAJa2ZyZWUoYnVmZmVyKTsKIH0KIAorc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBfZG1hX2J1Zl9y
-ZWxlYXNlKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpCit7CisJc3RydWN0IHN5c3RlbV9oZWFwX2J1
-ZmZlciAqYnVmZmVyID0gZG1hYnVmLT5wcml2OworCisJZGVmZXJyZWRfZnJlZSgmYnVmZmVyLT5k
-ZWZlcnJlZF9mcmVlLCBzeXN0ZW1faGVhcF9idWZfZnJlZSwgYnVmZmVyLT5sZW4pOworfQorCiBz
-dGF0aWMgY29uc3Qgc3RydWN0IGRtYV9idWZfb3BzIHN5c3RlbV9oZWFwX2J1Zl9vcHMgPSB7CiAJ
-LmF0dGFjaCA9IHN5c3RlbV9oZWFwX2F0dGFjaCwKIAkuZGV0YWNoID0gc3lzdGVtX2hlYXBfZGV0
-YWNoLAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Hi Sebastian,
+
+Am Freitag, 5. Februar 2021, 07:43:35 CET schrieb Sebastian Fricke:
+> On 03.02.2021 20:54, Heiko St=FCbner wrote:
+> >Am Mittwoch, 3. Februar 2021, 19:14:22 CET schrieb Sebastian Fricke:
+> >> I have tested your patch set on my nanoPC-T4, here is a complete log
+> >> with:
+> >> - relevant kernel log entries
+> >> - system information
+> >> - media ctl output
+> >> - sysfs entry information
+> >>
+> >> https://paste.debian.net/1183874/
+> >>
+> >> Additionally, to your patchset I have applied the following patches:
+> >> https://github.com/initBasti/Linux_kernel_media_tree_fork/commits/dual=
+_cam_setup
+> >>
+> >> And just to not cause confusion the `media_dev` entries come from this
+> >> unmerged series:
+> >> https://patchwork.kernel.org/project/linux-media/list/?series=3D426269
+> >>
+> >> I have actually been able to stream with both of my cameras at the same
+> >> time using the libcamera cam command.
+> >> I would like to thank you a lot for making this possible.
+> >
+> >Thanks for testing a dual camera setup. On my board I could only test
+> >the second ISP. And really glad it works for you tool :-) .
+> >
+> >Out of curiosity, do you also see that green tint in the images the came=
+ras
+> >produce?
+> =
+
+> Yes, I do. Actually, I currently have two forms of a green tint, on my
+> OV13850 everything is quite dark and greenish, which is caused by the
+> missing 3A algorithms. On my OV4689, I have big patches of the image
+> with bright green color and flickering, I investigated if this is
+> connected to the 2nd ISP instance, but that doesn't seem to be the case
+> as I have the same results when I switch the CSI ports of the cameras.
+> =
+
+> I have found another issue, while testing I discovered following
+> issue:
+> When I start the system with an HDMI monitor connected, then the camera
+> on the 2nd port doesn't work. This is probably because the RX/TX is
+> reserved as a TX.
+> But it made me wonder because if the system has an RX, a TX, and
+> an RX/TX, why isn't the pure TX used by the monitor and the
+> cameras take RX and RX/TX?
+> Or do you think that this is maybe a malfunction of this patch?
+
+I don't think it is an issue with this specific series, but still puzzling.
+
+I.e. the DPHYs are actually only relevant to the DSI controllers,
+with TX0 being connected to DSI0 and TX1RX1 being connected
+to DSI1. So having an hdmi display _in theory_ shouldn't matter at all.
+
+Out of curiosity what happens, when you boot without hdmi connected
+turn on the cameras, connect the hdmi after this, try the cameras again?
+
+
+Heiko
+
+> =
+
+> >
+> >Thanks
+> >Heiko
+> =
+
+> Greetings,
+> Sebastian
+> =
+
+> >
+> >
+> >> If you like to you can add:
+> >> Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
+> >>
+> >> On 02.02.2021 15:56, Heiko Stuebner wrote:
+> >> >The rk3399 has two ISPs and right now only the first one is usable.
+> >> >The second ISP is connected to the TXRX dphy on the soc.
+> >> >
+> >> >The phy of ISP1 is only accessible through the DSI controller's
+> >> >io-memory, so this series adds support for simply using the dsi
+> >> >controller is a phy if needed.
+> >> >
+> >> >That solution is needed at least on rk3399 and rk3288 but no-one
+> >> >has looked at camera support on rk3288 at all, so right now
+> >> >only implement the rk3399 specifics.
+> >> >
+> >> >
+> >> >Heiko Stuebner (6):
+> >> >  drm/rockchip: dsi: add own additional pclk handling
+> >> >  dt-bindings: display: rockchip-dsi: add optional #phy-cells property
+> >> >  drm/rockchip: dsi: add ability to work as a phy instead of full dsi
+> >> >  arm64: dts: rockchip: add #phy-cells to mipi-dsi1
+> >> >  arm64: dts: rockchip: add cif clk-control pinctrl for rk3399
+> >> >  arm64: dts: rockchip: add isp1 node on rk3399
+> >> >
+> >> > .../display/rockchip/dw_mipi_dsi_rockchip.txt |   1 +
+> >> > arch/arm64/boot/dts/rockchip/rk3399.dtsi      |  39 ++
+> >> > drivers/gpu/drm/rockchip/Kconfig              |   2 +
+> >> > .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 342 ++++++++++++++++=
+++
+> >> > 4 files changed, 384 insertions(+)
+> >> >
+> >>
+> >
+> >
+> >
+> >
+> =
+
+
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
