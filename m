@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3092310FF8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 19:34:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4050B31100B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Feb 2021 19:37:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5726E09E;
-	Fri,  5 Feb 2021 18:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8920A6E342;
+	Fri,  5 Feb 2021 18:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494416F49E;
- Fri,  5 Feb 2021 17:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
- Reply-To:Cc:Content-ID:Content-Description;
- bh=08/9eUYrON8JjgNfSMvnJtGPuDDsOmQbDO2HePIMB/Q=; b=ebzoSt+d2x4Dn+mrVLeczYcm2O
- PyJ1PE4gCqwN0xjgVnEQsl3+4UXMZK7M+KeoKbdsFQH3qfNvFgyOw8WqMxbnzufp2c2p3XbabtPOl
- cwvBvy1rDIAoZ0roobw6O4AGPu37ol+D2tlfLxW8AzZCsztgkaq6uZZsUD2EwNNw7b1aZOpbK0oS5
- eLRNo6+hrS8Q9NTyyzg/Bzu0Ay3LusTcbpd2PFln1F8UQOIk616M5thi14c4pNu5jYPCHjBJJKnY6
- SjfK1KXbyHh9VVXKzfwmL0BOUZa+sGS92978yOE2o76pjWtiGHBdxnBUtSxAhBbOCJdU6GK81s5w2
- eumII7jw==;
-Received: from [2601:1c0:6280:3f0::aec2]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l8595-000862-PJ; Fri, 05 Feb 2021 17:43:52 +0000
-Subject: Re: [PATCH] drivers: gpu: drm: msn: disp: dpu1: Fixed couple of
- spellings in the file dpu_hw_top.h
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, robdclark@gmail.com,
- sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch, jonathan@marek.ca,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20210205084758.354509-1-unixbhaskar@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <638f6e0c-cf14-a113-b1cf-5d07299c7332@infradead.org>
-Date: Fri, 5 Feb 2021 09:43:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C432F6E342
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Feb 2021 18:37:11 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id u15so4036092plf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Feb 2021 10:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=OFwHGZmM8wqHN2mLtpKT/FoZS4DuP474ucBXNcxTZVA=;
+ b=GLeIyrcnqQ4/LFNG6+Afvlafscx8C1O0gOHaXxsKan7L74NiEwk4WspSkwax8j2c0Z
+ GNc/abUAOOIDjyt4g1biPXNH+3wBCCE+I+dRQ02xNGxfiTNDp0/YCmfC6eKmCyqaEDLQ
+ 7wmxgWATXFhXmHIbm7ZMs0lTj8EbwgrL+rcAo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OFwHGZmM8wqHN2mLtpKT/FoZS4DuP474ucBXNcxTZVA=;
+ b=cd5KSRPZ37QtcScMhreUWa5BRpvQ1B2bHRg6ENv36oyt6GDzCSBD+7txLWypBIWRxv
+ w10NwtqMXq/jc5GNG2Q331wO8H7FK0kqsS8XJKdPBmHDZRq+j6BxRDCLRsD/uLg/waG+
+ 4Ac2/v/o9/6ln4DACRVwuUcfq+B8D//sjXh/mTBVn/uc/B/LG2Of8V5GvCOmK3+A+DWS
+ SZ00b+YV+oIVp8GeFlTej3lC7OLCfYE1CI49lRiQY63hzDZIGlb77U5/ePQw9bcVyvXY
+ 9axdJTJX7R9Ndgut53FVV/4M91JtpheBSdzr1v9wp6GRxwVJM/yYpbDU354e5n6buhRp
+ 9kqQ==
+X-Gm-Message-State: AOAM533BIW4zZ93o1TmFWg1152Ux0rSIQi+RofARG7KNceqT0FXYc9Ll
+ mt8uH/W1+JZ0d218f5bND1B5yw==
+X-Google-Smtp-Source: ABdhPJzron7Uw0ANgFuv3nlVXe+SFekWhPglquTB3GJVXUFuMXmBgZp20nzR2OqsYV350RyuicQFTA==
+X-Received: by 2002:a17:902:82cb:b029:e1:2b0f:da57 with SMTP id
+ u11-20020a17090282cbb02900e12b0fda57mr5302564plz.33.1612550231379; 
+ Fri, 05 Feb 2021 10:37:11 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id o1sm10799989pgq.1.2021.02.05.10.37.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 10:37:10 -0800 (PST)
+Date: Fri, 5 Feb 2021 10:37:09 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
+Message-ID: <202102051030.1AF01772D@keescook>
+References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <20210205084758.354509-1-unixbhaskar@gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 05 Feb 2021 18:33:55 +0000
+Content-Disposition: inline
+In-Reply-To: <20210205163752.11932-1-chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,55 +64,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Will Drewry <wad@chromium.org>, jannh@google.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andy Lutomirski <luto@amacapital.net>,
+ Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/5/21 12:47 AM, Bhaskar Chowdhury wrote:
+On Fri, Feb 05, 2021 at 04:37:52PM +0000, Chris Wilson wrote:
+> Userspace has discovered the functionality offered by SYS_kcmp and has
+> started to depend upon it. In particular, Mesa uses SYS_kcmp for
+> os_same_file_description() in order to identify when two fd (e.g. device
+> or dmabuf) point to the same struct file. Since they depend on it for
+> core functionality, lift SYS_kcmp out of the non-default
+> CONFIG_CHECKPOINT_RESTORE into the selectable syscall category.
 > 
-> 
-> s/confguration/configuration/
-> s/Regsiters/Registers/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: Will Drewry <wad@chromium.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  init/Kconfig                                  | 11 +++++++++++
+>  kernel/Makefile                               |  2 +-
+>  tools/testing/selftests/seccomp/seccomp_bpf.c |  2 +-
+>  3 files changed, 13 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> index 8018fff5667a..3aa10c89ca1b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> @@ -30,7 +30,7 @@ struct traffic_shaper_cfg {
+> diff --git a/init/Kconfig b/init/Kconfig
+> index b77c60f8b963..f62fca13ac5b 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1194,6 +1194,7 @@ endif # NAMESPACES
+>  config CHECKPOINT_RESTORE
+>  	bool "Checkpoint/restore support"
+>  	select PROC_CHILDREN
+> +	select KCMP
+>  	default n
+>  	help
+>  	  Enables additional kernel features in a sake of checkpoint/restore.
+> @@ -1737,6 +1738,16 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+>  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+>  	bool
+>  
+> +config KCMP
+> +	bool "Enable kcmp() system call" if EXPERT
+> +	default y
+
+I would expect this to be not default-y, especially if
+CHECKPOINT_RESTORE does a "select" on it.
+
+This is a really powerful syscall, but it is bounded by ptrace access
+controls, and uses pointer address obfuscation, so it may be okay to
+expose this. As it is, at least Ubuntu already has
+CONFIG_CHECKPOINT_RESTORE, so really, there's probably not much
+difference on exposure.
+
+So, if you drop the "default y", I'm fine with this.
+
+-Kees
+
+> +	help
+> +	  Enable the file descriptor comparison system call. It provides
+> +	  user-space with the ability to compare two fd to see if they
+> +	  point to the same file, and check other attributes.
+> +
+> +	  If unsure, say Y.
+> +
+>  config RSEQ
+>  	bool "Enable rseq() system call" if EXPERT
+>  	default y
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index aa7368c7eabf..320f1f3941b7 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -51,7 +51,7 @@ obj-y += livepatch/
+>  obj-y += dma/
+>  obj-y += entry/
+>  
+> -obj-$(CONFIG_CHECKPOINT_RESTORE) += kcmp.o
+> +obj-$(CONFIG_KCMP) += kcmp.o
+>  obj-$(CONFIG_FREEZER) += freezer.o
+>  obj-$(CONFIG_PROFILING) += profile.o
+>  obj-$(CONFIG_STACKTRACE) += stacktrace.o
+> diff --git a/tools/testing/selftests/seccomp/seccomp_bpf.c b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> index 26c72f2b61b1..1b6c7d33c4ff 100644
+> --- a/tools/testing/selftests/seccomp/seccomp_bpf.c
+> +++ b/tools/testing/selftests/seccomp/seccomp_bpf.c
+> @@ -315,7 +315,7 @@ TEST(kcmp)
+>  	ret = __filecmp(getpid(), getpid(), 1, 1);
+>  	EXPECT_EQ(ret, 0);
+>  	if (ret != 0 && errno == ENOSYS)
+> -		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_CHECKPOINT_RESTORE?)");
+> +		SKIP(return, "Kernel does not support kcmp() (missing CONFIG_KCMP?)");
+>  }
+>  
+>  TEST(mode_strict_support)
+> -- 
+> 2.20.1
 > 
->  /**
->   * struct split_pipe_cfg - pipe configuration for dual display panels
-> - * @en        : Enable/disable dual pipe confguration
-> + * @en        : Enable/disable dual pipe configuration
->   * @mode      : Panel interface mode
->   * @intf      : Interface id for main control path
->   * @split_flush_en: Allows both the paths to be flushed when master path is
-> @@ -76,7 +76,7 @@ struct dpu_vsync_source_cfg {
->   * @setup_traffic_shaper : programs traffic shaper control
->   */
->  struct dpu_hw_mdp_ops {
-> -	/** setup_split_pipe() : Regsiters are not double buffered, thisk
-> +	/** setup_split_pipe() : Registers are not double buffered, thisk
-
-	                                                            this
-
->  	 * function should be called before timing control enable
->  	 * @mdp  : mdp top context driver
->  	 * @cfg  : upper and lower part of pipe configuration
-> --
-> 2.30.0
-> 
-
 
 -- 
-~Randy
-
+Kees Cook
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
