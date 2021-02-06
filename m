@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407FB311EB0
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Feb 2021 17:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C737311ED7
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Feb 2021 17:52:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 009DD6E459;
-	Sat,  6 Feb 2021 16:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE846E484;
+	Sat,  6 Feb 2021 16:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF0A6E459
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Feb 2021 16:37:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 29FDA64E41
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Feb 2021 16:37:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7846E484
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Feb 2021 16:52:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 729B764ED3
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Feb 2021 16:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612629435;
- bh=i8jiRkLGfNysVU17StZSrVXmmeq9+8nRlA0W8pTE0oY=;
+ s=k20201202; t=1612630360;
+ bh=UmgaPh1Fxqcy+x/eZ3jsScovUUogQtSj2R7s2kDMYeU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=vDFRjl0XZcbhfBDbkN8byGiQ/toJN4w1DyH3kshIJHFg15dXJQLsaQaJ1vkexvHSf
- AuiPr+6KGZHT3P1jvXSMfy7iVtmrpvR+N/M3+I0YqIJyK+X27Askh2rQ82naXQGjyv
- R2rHiR2mY/6Jt/73J8615QPeK/t8fmfmuMIPGJgjkfckIdj9HH2BsnIBWDWGn8QEWY
- KOQS228BIFo8zhedRQzqiYhZG0daELnHgYtqidpVEysDjSyZZEGmePbMTCs+HI4OVR
- UuVger68dptncQ/GlUU2Sqwu2yKw3uVw5ROWcPfJkIijlGhEbB5SyX6SxfUO6G3t5T
- xxaNwtVd0mg2A==
+ b=Dcpa2OOysXupZgMFVpGtzuo4VOuSj+upD8e0BgocSgXupEpDrXedegRJnv3LCEPKm
+ nKP89g/lMfe0CwECId0a1Wz25cR99qk2/eD+wU4ai4vNGbAnIV2bGMgv+wAzdoSvJa
+ db+KKGrsrsErEwV+DaGm8SD1fedTp5FPcMrn4O4wFkUXyadkxlWLxpNVqii91OYLCt
+ 3FZKARjZdGcxaG3JEodaDAwuj9CGJ5nZpZDQGOW2w7Xew4/0kRMN7OjD3gvc8EqbO5
+ uvkv25xW6UkFUiqg0SyQFLv+dll3YKTeUlA7+BqKZTpBZcTNzPSIfMtFzJ32D6Y/Zm
+ o8tFrpjNXcs9g==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 1D75E65346; Sat,  6 Feb 2021 16:37:15 +0000 (UTC)
+ id 65E1C65346; Sat,  6 Feb 2021 16:52:40 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207763] Noisy Screen in Linux with kernel 5
-Date: Sat, 06 Feb 2021 16:37:14 +0000
+Subject: [Bug 210849] Black screen after resume from long suspend. Open/Close
+ lid. AMDGPU
+Date: Sat, 06 Feb 2021 16:52:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -37,17 +38,17 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: xunilarium@gmail.com
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jvdelisle@charter.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207763-2300-JmoXzdYKiD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207763-2300@https.bugzilla.kernel.org/>
-References: <bug-207763-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-210849-2300-w1lWiV5T9M@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210849-2300@https.bugzilla.kernel.org/>
+References: <bug-210849-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -68,13 +69,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207763
+https://bugzilla.kernel.org/show_bug.cgi?id=210849
 
---- Comment #8 from Mohammad Naeim (xunilarium@gmail.com) ---
-(In reply to Alex Deucher from comment #6)
-> Another thing to try, does setting radeon.agpmode=-1 fix the issue?
-
-I add it to grub but the issue still exists.
+--- Comment #15 from JerryD (jvdelisle@charter.net) ---
+Dropped back to kernel-5.7.0 and everything works fine on laptop with lid close
+suspend / returns from suspend with no errors on my laptop.  I made no other
+changes so this confirms the kernel is the focus.
 
 -- 
 You may reply to this email to add a comment.
