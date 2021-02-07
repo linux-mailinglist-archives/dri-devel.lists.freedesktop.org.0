@@ -1,55 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEDD3127D1
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 23:17:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D1931280C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 00:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115DC6E231;
-	Sun,  7 Feb 2021 22:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C05C76E233;
+	Sun,  7 Feb 2021 23:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B09E6E231
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 22:17:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3649964E4E
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 22:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612736270;
- bh=BEgCiNTyFRif43n5eKU77yTa58jxrXoWK1U5W6Lihw4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=azo2sCC5/xkim7CGVEiFUQp3nPv9lgr/06oMqwMLTrdH5Fa5fVmCb7nyHvPxZeIvv
- TFtQGYMRpbwVnVSeYj153OoilgsjQ1ItY0mvAA08MzZjEOvftkdyH+zV1nFbhqfX7e
- gXrNQBlXMDf16YbxzyaC7yNTwkCHiCibW2A1jT0SxMNyIZa7Tdana7uPK5oarSroK/
- 7OKcKwJJMjUmGbo/sdrdvuRj0FFvt46IfN7J5yCFw5e7rsXuxsLEYAyNQueQYJNe8l
- Oxr8boQ+G2Y07OWP88maMPxmU9UDbGitokZAutyRFV2HwRx075D+wuO6yCcWWcAV1V
- aDCYD+G3JSYLA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3273165355; Sun,  7 Feb 2021 22:17:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Sun, 07 Feb 2021 22:17:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: paulo.ulusu@googlemail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203905-2300-4wX20BZifc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
-References: <bug-203905-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A770A6E233;
+ Sun,  7 Feb 2021 23:07:54 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1l8t9j-0000D0-N5; Sun, 07 Feb 2021 23:07:51 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Huang Rui <ray.huang@amd.com>, Junwei Zhang <Jerry.Zhang@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: fix potential integer overflow on shift of a int
+Date: Sun,  7 Feb 2021 23:07:51 +0000
+Message-Id: <20210207230751.8576-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,57 +41,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=203905
+From: Colin Ian King <colin.king@canonical.com>
 
-Paulo Nascimento (paulo.ulusu@googlemail.com) changed:
+The left shift of int 32 bit integer constant 1 is evaluated using 32
+bit arithmetic and then assigned to an unsigned 64 bit integer. In the
+case where *frag is 32 or more this can lead to an oveflow.  Avoid this
+by shifting 1ULL.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |paulo.ulusu@googlemail.com
+Addresses-Coverity: ("Unintentional integer overflow")
+Fixes: dfcd99f6273e ("drm/amdgpu: meld together VM fragment and huge page handling")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- Comment #21 from Paulo Nascimento (paulo.ulusu@googlemail.com) ---
-I confirm that the bug is not fixed in kenel 5.11-rc3
-
-max brightness:
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/actual_brightness
-311
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/brightness
-255
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/max_brightness
-255
-
-min brightness:
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/actual_brightness
-311
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/brightness
-0
-[pn@pn-legion backlight]$ cat /sys/class/backlight/amdgpu_bl1/max_brightness
-255
-
-My laptop has an amd ryzen 5 4600h with renoir igpu and nvidia dgpu. 
-Tests are done with renoir igpu:
-
-[pn@pn-legion backlight]$ inxi -G
-Graphics:  Device-1: NVIDIA TU116M [GeForce GTX 1660 Ti Mobile] driver: nouveau
-v: kernel 
-           Device-2: Advanced Micro Devices [AMD/ATI] Renoir driver: amdgpu v:
-kernel 
-           Device-3: Chicony Integrated Camera type: USB driver: uvcvideo 
-           Display: x11 server: X.Org 1.20.10 driver: loaded:
-amdgpu,ati,modesetting,nouveau resolution: 1920x1080~120Hz 
-           OpenGL: renderer: AMD RENOIR (DRM 3.40.0 5.11.0-1-MANJARO LLVM
-11.0.1) v: 4.6 Mesa 20.3.3
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 9d19078246c8..53a925600510 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -1412,7 +1412,7 @@ static void amdgpu_vm_fragment(struct amdgpu_vm_update_params *params,
+ 		*frag = max_frag;
+ 		*frag_end = end & ~((1ULL << max_frag) - 1);
+ 	} else {
+-		*frag_end = start + (1 << *frag);
++		*frag_end = start + (1ULL << *frag);
+ 	}
+ }
+ 
 -- 
-You may reply to this email to add a comment.
+2.29.2
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
