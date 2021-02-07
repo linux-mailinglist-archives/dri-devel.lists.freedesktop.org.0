@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC50312691
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:13:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 107AB312690
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48DED6E20F;
-	Sun,  7 Feb 2021 18:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98746E201;
+	Sun,  7 Feb 2021 18:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10D16E115;
- Sun,  7 Feb 2021 13:35:59 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id g10so15075585eds.2;
- Sun, 07 Feb 2021 05:35:59 -0800 (PST)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F17F89F4F
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 14:01:53 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id e12so6435801pls.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Feb 2021 06:01:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=L83BYNuYIJOnhINCRxAjLa/kTFEEvoMbmebEeS4RQFg=;
- b=IScl/H3gTK1KLtuQK7+c+8iEdhKGGd0yRvw7AXptdg4XEDnuaex50cQrJ7462/ofnG
- XSlMhidM6j9XYlynC1LBasiqlLbWLHXQYoAz4xS4Qc2vxvkcwfGCq2S6yjxpG3lXbtnZ
- BOm3bbQRBzqg4t2bPua1PKWHdPRuhPbJYqFZz+VaQ7IaERMqVVsf7+Bs0bnBWcIlDTyv
- 1U6ZefxdSOpZUHfxCvKLzGWyZBW5JISSB+zh5DAEknnr/GgriQCGsWk3ZAMiS7MNdd1K
- 7cLwyRxCHz8zYVf88S0TEOMfUlFwSa+5QqEenxaPmnq0EeDLQz51+2ozSUph+CDFOOgi
- zXow==
+ h=from:to:cc:subject:date:message-id;
+ bh=BKfhCVrNE1G6tN7jQvqfXJj8IfC/ZteJhEq5g/yoxvw=;
+ b=A0bWvrmJDtsuEOYxobKagLrEDwfpdGfBUXyNxSLL2RleOEw8xPFdDHa0z3VhfGU29d
+ tUEzSPNkG4BykmsXy5ycaLpCIpWPa/9z8y8Z1p3C0VlkmVlY+aivkjLO0jDWYyAM6dL7
+ GPtRwsL6Km2m7ZteMjy0Juw3C2ctMjWJ/KF92jijWzS1FhkcJvvL1w7Y5V88tJT11fSe
+ kUIuBt2cwYDSmO0L7DdBPDTzzC6bM4eJN/L2bEOFpmdk2Lfsmmbu5ykiIhqmAaRWqqw1
+ XfNFUorWIE0cV9Q9mgJWDShf97oijQgK5KerxxbXeVY9Fcta/xRjF33FBN5419O7gEoE
+ EIig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=L83BYNuYIJOnhINCRxAjLa/kTFEEvoMbmebEeS4RQFg=;
- b=Xvn/HCuSBwVT5YD49rJ8LND830bihZQczCkqU3sdDIXgQlUD+l4tvsFLduszvUjhfN
- 2E3ZpsB5t22IdFOvYpNJcuD46f/fgllM3JWeWIITbwyFjhe4uAurbYU91WOfapvGvFQT
- bCK0xR4dIRUb74OY9zvzhjxEUckoRO94xNaq9JVs5gFoAIE1B1oC1D6YBzr9MmRljxC9
- vzBH/wkGSp2bYDL4IIrarTzkJncjesx81lVxcDww8a2oha33yhefqJPg/vvwXJNNQeXR
- Te7xwEycxZTMcIgNqhsRNqjBeI2/gdaDAU2g95cvJ1GwPGhgdjlLwcP1SxAv9WAOsaRh
- Mn/g==
-X-Gm-Message-State: AOAM531JeWRUA7h36FFlPAndGyndnTXmuvat4m6YxRUWN6TPkaFuVJEO
- Y+hXFv++GIpPKGAk5A7gy80=
-X-Google-Smtp-Source: ABdhPJzteb1mEOb28CSVTe/sY7ZbuwCeFkU/DwAAMqFvMdkh2Q58664RoLvL17sLiHeN38JMZILrzA==
-X-Received: by 2002:a50:f987:: with SMTP id q7mr12852680edn.353.1612704958527; 
- Sun, 07 Feb 2021 05:35:58 -0800 (PST)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
- by smtp.gmail.com with ESMTPSA id n16sm6770224ejd.116.2021.02.07.05.35.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 05:35:57 -0800 (PST)
-Date: Sun, 7 Feb 2021 14:35:56 +0100
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Ben Skeggs <skeggsb@gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: bail out of nouveau_channel_new
- if channel init fails
-Message-ID: <YB/svI/i86T87eUR@eldamar.lan>
-References: <20200828092846.GA11454@localhost.localdomain>
- <20201115091010.GA132466@eldamar.lan>
- <CACO55tvwtYj0QGFy3Bk5-13bm7cjHGko3WegY1fFbtf0WckQyQ@mail.gmail.com>
- <CACAvsv701GiR6QetL6FGUCQLVn45+1EVGTuA-6Pmw5RtwrvyRQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACAvsv701GiR6QetL6FGUCQLVn45+1EVGTuA-6Pmw5RtwrvyRQ@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=BKfhCVrNE1G6tN7jQvqfXJj8IfC/ZteJhEq5g/yoxvw=;
+ b=J9x4tbPeHgePDOj8L408rcv3q2ivna0L3PpZWWj6RlRSF34FwU4qYG53KgkoYnEXy9
+ zcO/tuCq/g9P08u0NawGQG65cmWxFjeB3yDCL/0ydqt/FsUg6EdrvSIWsPjKRmt2KRVg
+ 8O/bjL/La/Kl0PqrO8ia8viX4bUjxGpbd6x8bC41Q1a41XCKlWN/uF3c84i85Fav+i28
+ XTYmsKzc6MEST80z1ZxXtlZbN9nsgM/jOBxywHbuAqZH44pHXxuF0WKmkKXSBnFAHcaP
+ Dsk7HS7kx5A5rYlD95eMX41logHG8nn2vZgP927S2/KEN/CvcS2Lwcb94+o5+9OVi8oj
+ YGZQ==
+X-Gm-Message-State: AOAM5322QVRAeyeaoPdBLbwFG2onJx0KlUPW42GaYxCKOoQldnasD2JY
+ 52tMduxlbhNt2xwJ0Vuc/X0=
+X-Google-Smtp-Source: ABdhPJzDD68MGez2ZZeZZdxvQqsQi2a9z4QnBhFgoIJxSTyQ6l8TOC604eXe9zh39aOBBeYk9QX4Dg==
+X-Received: by 2002:a17:902:e5cc:b029:df:bc77:3aba with SMTP id
+ u12-20020a170902e5ccb02900dfbc773abamr12569541plf.72.1612706512920; 
+ Sun, 07 Feb 2021 06:01:52 -0800 (PST)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id lf4sm13826283pjb.0.2021.02.07.06.01.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 07 Feb 2021 06:01:52 -0800 (PST)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v15] staging: fbtft: add tearing signal detect
+Date: Sun,  7 Feb 2021 22:01:57 +0800
+Message-Id: <1612706517-124617-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Sun, 07 Feb 2021 18:13:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,152 +63,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Frantisek Hrbata <frantisek@hrbata.com>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ben,
+From: Carlis <zhangxuezhi1@yulong.com>
 
-On Mon, Nov 16, 2020 at 09:04:32AM +1000, Ben Skeggs wrote:
-> On Mon, 16 Nov 2020 at 05:19, Karol Herbst <kherbst@redhat.com> wrote:
-> >
-> > On Sun, Nov 15, 2020 at 6:43 PM Salvatore Bonaccorso <carnil@debian.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Fri, Aug 28, 2020 at 11:28:46AM +0200, Frantisek Hrbata wrote:
-> > > > Unprivileged user can crash kernel by using DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC
-> > > > ioctl. This was reported by trinity[1] fuzzer.
-> > > >
-> > > > [   71.073906] nouveau 0000:01:00.0: crashme[1329]: channel failed to initialise, -17
-> > > > [   71.081730] BUG: kernel NULL pointer dereference, address: 00000000000000a0
-> > > > [   71.088928] #PF: supervisor read access in kernel mode
-> > > > [   71.094059] #PF: error_code(0x0000) - not-present page
-> > > > [   71.099189] PGD 119590067 P4D 119590067 PUD 1054f5067 PMD 0
-> > > > [   71.104842] Oops: 0000 [#1] SMP NOPTI
-> > > > [   71.108498] CPU: 2 PID: 1329 Comm: crashme Not tainted 5.8.0-rc6+ #2
-> > > > [   71.114993] Hardware name: AMD Pike/Pike, BIOS RPK1506A 09/03/2014
-> > > > [   71.121213] RIP: 0010:nouveau_abi16_ioctl_channel_alloc+0x108/0x380 [nouveau]
-> > > > [   71.128339] Code: 48 89 9d f0 00 00 00 41 8b 4c 24 04 41 8b 14 24 45 31 c0 4c 8d 4b 10 48 89 ee 4c 89 f7 e8 10 11 00 00 85 c0 75 78 48 8b 43 10 <8b> 90 a0 00 00 00 41 89 54 24 08 80 7d 3d 05 0f 86 bb 01 00 00 41
-> > > > [   71.147074] RSP: 0018:ffffb4a1809cfd38 EFLAGS: 00010246
-> > > > [   71.152526] RAX: 0000000000000000 RBX: ffff98cedbaa1d20 RCX: 00000000000003bf
-> > > > [   71.159651] RDX: 00000000000003be RSI: 0000000000000000 RDI: 0000000000030160
-> > > > [   71.166774] RBP: ffff98cee776de00 R08: ffffdc0144198a08 R09: ffff98ceeefd4000
-> > > > [   71.173901] R10: ffff98cee7e81780 R11: 0000000000000001 R12: ffffb4a1809cfe08
-> > > > [   71.181214] R13: ffff98cee776d000 R14: ffff98cec519e000 R15: ffff98cee776def0
-> > > > [   71.188339] FS:  00007fd926250500(0000) GS:ffff98ceeac80000(0000) knlGS:0000000000000000
-> > > > [   71.196418] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > > [   71.202155] CR2: 00000000000000a0 CR3: 0000000106622000 CR4: 00000000000406e0
-> > > > [   71.209297] Call Trace:
-> > > > [   71.211777]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
-> > > > [   71.218053]  drm_ioctl_kernel+0xac/0xf0 [drm]
-> > > > [   71.222421]  drm_ioctl+0x211/0x3c0 [drm]
-> > > > [   71.226379]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
-> > > > [   71.232500]  nouveau_drm_ioctl+0x57/0xb0 [nouveau]
-> > > > [   71.237285]  ksys_ioctl+0x86/0xc0
-> > > > [   71.240595]  __x64_sys_ioctl+0x16/0x20
-> > > > [   71.244340]  do_syscall_64+0x4c/0x90
-> > > > [   71.248110]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > > > [   71.253162] RIP: 0033:0x7fd925d4b88b
-> > > > [   71.256731] Code: Bad RIP value.
-> > > > [   71.259955] RSP: 002b:00007ffc743592d8 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
-> > > > [   71.267514] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fd925d4b88b
-> > > > [   71.274637] RDX: 0000000000601080 RSI: 00000000c0586442 RDI: 0000000000000003
-> > > > [   71.281986] RBP: 00007ffc74359340 R08: 00007fd926016ce0 R09: 00007fd926016ce0
-> > > > [   71.289111] R10: 0000000000000003 R11: 0000000000000206 R12: 0000000000400620
-> > > > [   71.296235] R13: 00007ffc74359420 R14: 0000000000000000 R15: 0000000000000000
-> > > > [   71.303361] Modules linked in: rfkill sunrpc snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core edac_mce_amd snd_hwdep kvm_amd snd_seq ccp snd_seq_device snd_pcm kvm snd_timer snd irqbypass soundcore sp5100_tco pcspkr crct10dif_pclmul crc32_pclmul ghash_clmulni_intel wmi_bmof joydev i2c_piix4 fam15h_power k10temp acpi_cpufreq ip_tables xfs libcrc32c sd_mod t10_pi sg nouveau video mxm_wmi i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ttm broadcom bcm_phy_lib ata_generic ahci drm e1000 crc32c_intel libahci serio_raw tg3 libata firewire_ohci firewire_core wmi crc_itu_t dm_mirror dm_region_hash dm_log dm_mod
-> > > > [   71.365269] CR2: 00000000000000a0
-> > > >
-> > > > simplified reproducer
-> > > > ---------------------------------8<----------------------------------------
-> > > > /*
-> > > >  * gcc -o crashme crashme.c
-> > > >  * ./crashme /dev/dri/renderD128
-> > > >  */
-> > > >
-> > > > struct drm_nouveau_channel_alloc {
-> > > >       uint32_t     fb_ctxdma_handle;
-> > > >       uint32_t     tt_ctxdma_handle;
-> > > >
-> > > >       int          channel;
-> > > >       uint32_t     pushbuf_domains;
-> > > >
-> > > >       /* Notifier memory */
-> > > >       uint32_t     notifier_handle;
-> > > >
-> > > >       /* DRM-enforced subchannel assignments */
-> > > >       struct {
-> > > >               uint32_t handle;
-> > > >               uint32_t grclass;
-> > > >       } subchan[8];
-> > > >       uint32_t nr_subchan;
-> > > > };
-> > > >
-> > > > static struct drm_nouveau_channel_alloc channel;
-> > > >
-> > > > int main(int argc, char *argv[]) {
-> > > >       int fd;
-> > > >       int rv;
-> > > >
-> > > >       if (argc != 2)
-> > > >               die("usage: %s <dev>", 0, argv[0]);
-> > > >
-> > > >       if ((fd = open(argv[1], O_RDONLY)) == -1)
-> > > >               die("open %s", errno, argv[1]);
-> > > >
-> > > >       if (ioctl(fd, DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC, &channel) == -1 &&
-> > > >                       errno == EACCES)
-> > > >               die("ioctl %s", errno, argv[1]);
-> > > >
-> > > >       close(fd);
-> > > >
-> > > >       printf("PASS\n");
-> > > >
-> > > >       return 0;
-> > > > }
-> > > > ---------------------------------8<----------------------------------------
-> > > >
-> > > > [1] https://github.com/kernelslacker/trinity
-> > > >
-> > > > Fixes: eeaf06ac1a55 ("drm/nouveau/svm: initial support for shared virtual memory")
-> > > > Signed-off-by: Frantisek Hrbata <frantisek at hrbata.com>
-> > > > ---
-> > > >  drivers/gpu/drm/nouveau/nouveau_chan.c | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > > index b80e4ebf1..a7a47b325 100644
-> > > > --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > > @@ -533,6 +533,7 @@ nouveau_channel_new(struct nouveau_drm *drm, struct nvif_device *device,
-> > > >       if (ret) {
-> > > >               NV_PRINTK(err, cli, "channel failed to initialise, %d\n", ret);
-> > > >               nouveau_channel_del(pchan);
-> > > > +             goto done;
-> > > >       }
-> > > >
-> > > >       ret = nouveau_svmm_join((*pchan)->vmm->svmm, (*pchan)->inst);
-> > > > --
-> > > > Frantisek Hrbata
-> > >
-> > > Is this still planned to be applied? AFAICS this is the fix for
-> > > CVE-2020-25639.
-> > >
-> >
-> > If it's urgent to get it fixed, I suggest going through the Linux
-> > kernel or drm stable path. CCing dri-devel, Dave, Daniel and Ben.
-> Missed this.  I'll grab it today and send it with the next -fixes.
+For st7789v IC, when we need continuous full screen refresh, it is best to
+wait for the tearing effect line signal to arrive to avoid screen tearing.
 
-Do you know, were there some problems with the patch? TTBOMK it did
-not yet appear on Linus tree.
+Signed-off-by: Carlis <zhangxuezhi1@yulong.com>
+---
+v15: change ret value return logic in write_vmem.
+v14: change to define TE completion and TE irq only in st7789v.
+v13: change TE completion to par data struct member and add a new
+     function to deal te gpio request, add new write_vmem function.
+v12: change dev_err to dev_err_probe and add space in comments start, and
+     delete te_mutex, change te wait logic.
+v11: remove devm_gpio_put and change a dev_err to dev_info.
+v10: additional notes.
+v9: change pr_* to dev_*.
+v8: delete a log line.
+v7: return error value when request fail.
+v6: add te gpio request fail deal logic.
+v5: fix log print.
+v4: modify some code style and change te irq set function name.
+v3: modify author and signed-off-by name.
+v2: add release te gpio after irq request fail.
+---
+ drivers/staging/fbtft/fb_st7789v.c | 115 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 115 insertions(+)
 
-Regards,
-Salvatore
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 3a280cc..abe9395 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -7,9 +7,13 @@
+ 
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/interrupt.h>
++#include <linux/completion.h>
+ #include <linux/module.h>
++
+ #include <video/mipi_display.h>
+ 
+ #include "fbtft.h"
+@@ -66,6 +70,62 @@ enum st7789v_command {
+ #define MADCTL_MX BIT(6) /* bitmask for column address order */
+ #define MADCTL_MY BIT(7) /* bitmask for page address order */
+ 
++/* 60Hz for 16.6ms, configured as 2*16.6ms */
++#define PANEL_TE_TIMEOUT_MS  33
++
++static struct completion panel_te; /* completion for panel TE line */
++static int irq_te; /* Linux IRQ for LCD TE line */
++
++static irqreturn_t panel_te_handler(int irq, void *data)
++{
++	complete(&panel_te);
++	return IRQ_HANDLED;
++}
++
++/*
++ * init_tearing_effect_line() - init tearing effect line.
++ * @par: FBTFT parameter object.
++ *
++ * Return: 0 on success, or a negative error code otherwise.
++ */
++static int init_tearing_effect_line(struct fbtft_par *par)
++{
++	struct device *dev = par->info->device;
++	struct gpio_desc *te;
++	int rc, irq;
++
++	te = gpiod_get_optional(dev, "te", GPIOD_IN);
++	if (IS_ERR(te))
++		return dev_err_probe(dev, PTR_ERR(te), "Failed to request te GPIO\n");
++
++	/* if te is NULL, indicating no configuration, directly return success */
++	if (!te) {
++		irq_te = 0;
++		return 0;
++	}
++
++	irq = gpiod_to_irq(te);
++
++	/* GPIO is locked as an IRQ, we may drop the reference */
++	gpiod_put(te);
++
++	if (irq < 0)
++		return irq;
++
++	irq_te = irq;
++	init_completion(&panel_te);
++
++	/* The effective state is high and lasts no more than 1000 microseconds */
++	rc = devm_request_irq(dev, irq_te, panel_te_handler,
++			      IRQF_TRIGGER_RISING, "TE_GPIO", par);
++	if (rc)
++		return dev_err_probe(dev, rc, "TE IRQ request failed.\n");
++
++	disable_irq_nosync(irq_te);
++
++	return 0;
++}
++
+ /**
+  * init_display() - initialize the display controller
+  *
+@@ -82,6 +142,12 @@ enum st7789v_command {
+  */
+ static int init_display(struct fbtft_par *par)
+ {
++	int rc;
++
++	rc = init_tearing_effect_line(par);
++	if (rc)
++		return rc;
++
+ 	/* turn off sleep mode */
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	mdelay(120);
+@@ -137,6 +203,10 @@ static int init_display(struct fbtft_par *par)
+ 	 */
+ 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
+ 
++	/* TE line output is off by default when powering on */
++	if (irq_te)
++		write_reg(par, MIPI_DCS_SET_TEAR_ON, 0x00);
++
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+ 
+ 	if (HSD20_IPS)
+@@ -145,6 +215,50 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
++/*
++ * write_vmem() - write data to display.
++ * @par: FBTFT parameter object.
++ * @offset: offset from screen_buffer.
++ * @len: the length of data to be writte.
++ *
++ * Return: 0 on success, or a negative error code otherwise.
++ */
++static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
++{
++	struct device *dev = par->info->device;
++	int ret;
++
++	if (irq_te) {
++		enable_irq(irq_te);
++		reinit_completion(&panel_te);
++		ret = wait_for_completion_timeout(&panel_te,
++						  msecs_to_jiffies(PANEL_TE_TIMEOUT_MS));
++		if (ret == 0)
++			dev_err(dev, "wait panel TE timeout\n");
++
++		disable_irq(irq_te);
++	}
++
++	switch (par->pdata->display.buswidth) {
++	case 8:
++		ret = fbtft_write_vmem16_bus8(par, offset, len);
++		break;
++	case 9:
++		ret = fbtft_write_vmem16_bus9(par, offset, len);
++		break;
++	case 16:
++		ret = fbtft_write_vmem16_bus16(par, offset, len);
++		break;
++	default:
++		dev_err(dev, "Unsupported buswidth %d\n",
++			par->pdata->display.buswidth);
++		ret = 0;
++		break;
++	}
++
++	return ret;
++}
++
+ /**
+  * set_var() - apply LCD properties like rotation and BGR mode
+  *
+@@ -259,6 +373,7 @@ static int blank(struct fbtft_par *par, bool on)
+ 	.gamma = HSD20_IPS_GAMMA,
+ 	.fbtftops = {
+ 		.init_display = init_display,
++		.write_vmem = write_vmem,
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
