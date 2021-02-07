@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30FE631268F
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC50312691
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9DDF6E1F8;
-	Sun,  7 Feb 2021 18:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DED6E20F;
+	Sun,  7 Feb 2021 18:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C5B6E0A1
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 12:34:53 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id t8so13199899ljk.10
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Feb 2021 04:34:53 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10D16E115;
+ Sun,  7 Feb 2021 13:35:59 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id g10so15075585eds.2;
+ Sun, 07 Feb 2021 05:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Gcz7v6DZPhAi4AtZZ5PbRFe7Gq35BWRB6p1i50/BrZA=;
- b=hK7VGPueDt+vV+Hg2FEDM4yqc4L/2MZxWWnvgohvnx7FkEGIxHYgs0cLQolRXI61RY
- ZBtUmv95HFkhYUTZwTHWHzP1BVCl/36ok/eMDq8GvFb0fxZwviZjKK6qxms/9FMJaQd9
- cx1qoQopB0lr+Cd5ORcmh11pLtd0+mf7PC5Og8qTsSXYSkmDN2oBJR/Iy8qrcUVdjIQk
- t9F4gd7Gcgp0BQGY1BYV0IfNxe5v0D+umaTr1wXhdas328GeSu195GdpmCMt33g3Tm4P
- txPk8TwOoee6cwj5DVFFzHhKqYjwtWxl01iCcofxtKTYWGfXFtAPDY6ZMxKq9AIi2qaU
- Kc6Q==
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=L83BYNuYIJOnhINCRxAjLa/kTFEEvoMbmebEeS4RQFg=;
+ b=IScl/H3gTK1KLtuQK7+c+8iEdhKGGd0yRvw7AXptdg4XEDnuaex50cQrJ7462/ofnG
+ XSlMhidM6j9XYlynC1LBasiqlLbWLHXQYoAz4xS4Qc2vxvkcwfGCq2S6yjxpG3lXbtnZ
+ BOm3bbQRBzqg4t2bPua1PKWHdPRuhPbJYqFZz+VaQ7IaERMqVVsf7+Bs0bnBWcIlDTyv
+ 1U6ZefxdSOpZUHfxCvKLzGWyZBW5JISSB+zh5DAEknnr/GgriQCGsWk3ZAMiS7MNdd1K
+ 7cLwyRxCHz8zYVf88S0TEOMfUlFwSa+5QqEenxaPmnq0EeDLQz51+2ozSUph+CDFOOgi
+ zXow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Gcz7v6DZPhAi4AtZZ5PbRFe7Gq35BWRB6p1i50/BrZA=;
- b=Q21MONzgtcjnaZKdl9kVOp6q9LXOOIvxVIoaDa4R92FLdUC6qwtoceP7mOzssbbLnA
- HFZgFWkz2ZQZHrek92jLWljF75zl0jlibseuQnBByS1kvUzo1QvN8/GcCBuWkXSBl98q
- RLu9WkuBxHdgtvWI3qtU3NCLafwM3INEIy+59ptlUiDb2r3stjokjFVWph8WstTlKZyK
- W+FDS+W8mWqiEaggp8tzaDJQQVNjTzkN1WDa2Iz59eiqoOeGpdTwFu2maeWcHPB/xA4h
- SoOhVTR7LU/3yJdhW0dpKK1/YVBwHiwcBmZwHclr6yf6EuaJejILY+98VdBcKPlcv1ZA
- XFDQ==
-X-Gm-Message-State: AOAM532nIKdDPua9lnupmH5JJjrHgySQdEyPqLmxQLkwIDcjP+HUuBPF
- w96pJ8OZ7I7zpuAjIUvVJqStkynv2E+Y7g==
-X-Google-Smtp-Source: ABdhPJzOk4YDMTm0qa0+xpmWoaXorgKYiyJ+MzLw2Hvevl6hZI9n4bhRXMXGSJwEkS2+sb4Fv937DA==
-X-Received: by 2002:a2e:b522:: with SMTP id z2mr7548668ljm.137.1612701291543; 
- Sun, 07 Feb 2021 04:34:51 -0800 (PST)
-Received: from raszit-komputer-amd.raszit-server.ovh ([62.122.232.191])
- by smtp.gmail.com with ESMTPSA id b25sm121612ljk.74.2021.02.07.04.34.50
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=L83BYNuYIJOnhINCRxAjLa/kTFEEvoMbmebEeS4RQFg=;
+ b=Xvn/HCuSBwVT5YD49rJ8LND830bihZQczCkqU3sdDIXgQlUD+l4tvsFLduszvUjhfN
+ 2E3ZpsB5t22IdFOvYpNJcuD46f/fgllM3JWeWIITbwyFjhe4uAurbYU91WOfapvGvFQT
+ bCK0xR4dIRUb74OY9zvzhjxEUckoRO94xNaq9JVs5gFoAIE1B1oC1D6YBzr9MmRljxC9
+ vzBH/wkGSp2bYDL4IIrarTzkJncjesx81lVxcDww8a2oha33yhefqJPg/vvwXJNNQeXR
+ Te7xwEycxZTMcIgNqhsRNqjBeI2/gdaDAU2g95cvJ1GwPGhgdjlLwcP1SxAv9WAOsaRh
+ Mn/g==
+X-Gm-Message-State: AOAM531JeWRUA7h36FFlPAndGyndnTXmuvat4m6YxRUWN6TPkaFuVJEO
+ Y+hXFv++GIpPKGAk5A7gy80=
+X-Google-Smtp-Source: ABdhPJzteb1mEOb28CSVTe/sY7ZbuwCeFkU/DwAAMqFvMdkh2Q58664RoLvL17sLiHeN38JMZILrzA==
+X-Received: by 2002:a50:f987:: with SMTP id q7mr12852680edn.353.1612704958527; 
+ Sun, 07 Feb 2021 05:35:58 -0800 (PST)
+Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
+ by smtp.gmail.com with ESMTPSA id n16sm6770224ejd.116.2021.02.07.05.35.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 04:34:51 -0800 (PST)
-From: Marcin Raszka <djraszit@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] radeon: added support for 2560x1080 resolution
-Date: Sun,  7 Feb 2021 13:33:42 +0100
-Message-Id: <20210207123341.5944-1-djraszit@gmail.com>
-X-Mailer: git-send-email 2.30.0
+ Sun, 07 Feb 2021 05:35:57 -0800 (PST)
+Date: Sun, 7 Feb 2021 14:35:56 +0100
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Ben Skeggs <skeggsb@gmail.com>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau: bail out of nouveau_channel_new
+ if channel init fails
+Message-ID: <YB/svI/i86T87eUR@eldamar.lan>
+References: <20200828092846.GA11454@localhost.localdomain>
+ <20201115091010.GA132466@eldamar.lan>
+ <CACO55tvwtYj0QGFy3Bk5-13bm7cjHGko3WegY1fFbtf0WckQyQ@mail.gmail.com>
+ <CACAvsv701GiR6QetL6FGUCQLVn45+1EVGTuA-6Pmw5RtwrvyRQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACAvsv701GiR6QetL6FGUCQLVn45+1EVGTuA-6Pmw5RtwrvyRQ@mail.gmail.com>
 X-Mailman-Approved-At: Sun, 07 Feb 2021 18:13:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,177 +71,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marcin Raszka <djraszit@gmail.com>
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Frantisek Hrbata <frantisek@hrbata.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I was wondering why I can't set the resolution to 2560x1080,
- while in windows 7 I can without a problem. I looked at the radeon driver
- code and found it doesn't support this resolution. So I made some changes. I
- added the hdmi_mhz parameter. In cmdline I set radeon.hdmi_mhz=190
- Only tested on the Radeon HD 5830
+Hi Ben,
 
----
- drivers/gpu/drm/radeon/radeon_benchmark.c  |  5 +++--
- drivers/gpu/drm/radeon/radeon_connectors.c | 25 +++++++++++++---------
- drivers/gpu/drm/radeon/radeon_drv.c        |  5 +++++
- drivers/gpu/drm/radeon/radeon_encoders.c   |  6 ++++--
- 4 files changed, 27 insertions(+), 14 deletions(-)
+On Mon, Nov 16, 2020 at 09:04:32AM +1000, Ben Skeggs wrote:
+> On Mon, 16 Nov 2020 at 05:19, Karol Herbst <kherbst@redhat.com> wrote:
+> >
+> > On Sun, Nov 15, 2020 at 6:43 PM Salvatore Bonaccorso <carnil@debian.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Fri, Aug 28, 2020 at 11:28:46AM +0200, Frantisek Hrbata wrote:
+> > > > Unprivileged user can crash kernel by using DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC
+> > > > ioctl. This was reported by trinity[1] fuzzer.
+> > > >
+> > > > [   71.073906] nouveau 0000:01:00.0: crashme[1329]: channel failed to initialise, -17
+> > > > [   71.081730] BUG: kernel NULL pointer dereference, address: 00000000000000a0
+> > > > [   71.088928] #PF: supervisor read access in kernel mode
+> > > > [   71.094059] #PF: error_code(0x0000) - not-present page
+> > > > [   71.099189] PGD 119590067 P4D 119590067 PUD 1054f5067 PMD 0
+> > > > [   71.104842] Oops: 0000 [#1] SMP NOPTI
+> > > > [   71.108498] CPU: 2 PID: 1329 Comm: crashme Not tainted 5.8.0-rc6+ #2
+> > > > [   71.114993] Hardware name: AMD Pike/Pike, BIOS RPK1506A 09/03/2014
+> > > > [   71.121213] RIP: 0010:nouveau_abi16_ioctl_channel_alloc+0x108/0x380 [nouveau]
+> > > > [   71.128339] Code: 48 89 9d f0 00 00 00 41 8b 4c 24 04 41 8b 14 24 45 31 c0 4c 8d 4b 10 48 89 ee 4c 89 f7 e8 10 11 00 00 85 c0 75 78 48 8b 43 10 <8b> 90 a0 00 00 00 41 89 54 24 08 80 7d 3d 05 0f 86 bb 01 00 00 41
+> > > > [   71.147074] RSP: 0018:ffffb4a1809cfd38 EFLAGS: 00010246
+> > > > [   71.152526] RAX: 0000000000000000 RBX: ffff98cedbaa1d20 RCX: 00000000000003bf
+> > > > [   71.159651] RDX: 00000000000003be RSI: 0000000000000000 RDI: 0000000000030160
+> > > > [   71.166774] RBP: ffff98cee776de00 R08: ffffdc0144198a08 R09: ffff98ceeefd4000
+> > > > [   71.173901] R10: ffff98cee7e81780 R11: 0000000000000001 R12: ffffb4a1809cfe08
+> > > > [   71.181214] R13: ffff98cee776d000 R14: ffff98cec519e000 R15: ffff98cee776def0
+> > > > [   71.188339] FS:  00007fd926250500(0000) GS:ffff98ceeac80000(0000) knlGS:0000000000000000
+> > > > [   71.196418] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > > [   71.202155] CR2: 00000000000000a0 CR3: 0000000106622000 CR4: 00000000000406e0
+> > > > [   71.209297] Call Trace:
+> > > > [   71.211777]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
+> > > > [   71.218053]  drm_ioctl_kernel+0xac/0xf0 [drm]
+> > > > [   71.222421]  drm_ioctl+0x211/0x3c0 [drm]
+> > > > [   71.226379]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
+> > > > [   71.232500]  nouveau_drm_ioctl+0x57/0xb0 [nouveau]
+> > > > [   71.237285]  ksys_ioctl+0x86/0xc0
+> > > > [   71.240595]  __x64_sys_ioctl+0x16/0x20
+> > > > [   71.244340]  do_syscall_64+0x4c/0x90
+> > > > [   71.248110]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > > [   71.253162] RIP: 0033:0x7fd925d4b88b
+> > > > [   71.256731] Code: Bad RIP value.
+> > > > [   71.259955] RSP: 002b:00007ffc743592d8 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
+> > > > [   71.267514] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fd925d4b88b
+> > > > [   71.274637] RDX: 0000000000601080 RSI: 00000000c0586442 RDI: 0000000000000003
+> > > > [   71.281986] RBP: 00007ffc74359340 R08: 00007fd926016ce0 R09: 00007fd926016ce0
+> > > > [   71.289111] R10: 0000000000000003 R11: 0000000000000206 R12: 0000000000400620
+> > > > [   71.296235] R13: 00007ffc74359420 R14: 0000000000000000 R15: 0000000000000000
+> > > > [   71.303361] Modules linked in: rfkill sunrpc snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core edac_mce_amd snd_hwdep kvm_amd snd_seq ccp snd_seq_device snd_pcm kvm snd_timer snd irqbypass soundcore sp5100_tco pcspkr crct10dif_pclmul crc32_pclmul ghash_clmulni_intel wmi_bmof joydev i2c_piix4 fam15h_power k10temp acpi_cpufreq ip_tables xfs libcrc32c sd_mod t10_pi sg nouveau video mxm_wmi i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ttm broadcom bcm_phy_lib ata_generic ahci drm e1000 crc32c_intel libahci serio_raw tg3 libata firewire_ohci firewire_core wmi crc_itu_t dm_mirror dm_region_hash dm_log dm_mod
+> > > > [   71.365269] CR2: 00000000000000a0
+> > > >
+> > > > simplified reproducer
+> > > > ---------------------------------8<----------------------------------------
+> > > > /*
+> > > >  * gcc -o crashme crashme.c
+> > > >  * ./crashme /dev/dri/renderD128
+> > > >  */
+> > > >
+> > > > struct drm_nouveau_channel_alloc {
+> > > >       uint32_t     fb_ctxdma_handle;
+> > > >       uint32_t     tt_ctxdma_handle;
+> > > >
+> > > >       int          channel;
+> > > >       uint32_t     pushbuf_domains;
+> > > >
+> > > >       /* Notifier memory */
+> > > >       uint32_t     notifier_handle;
+> > > >
+> > > >       /* DRM-enforced subchannel assignments */
+> > > >       struct {
+> > > >               uint32_t handle;
+> > > >               uint32_t grclass;
+> > > >       } subchan[8];
+> > > >       uint32_t nr_subchan;
+> > > > };
+> > > >
+> > > > static struct drm_nouveau_channel_alloc channel;
+> > > >
+> > > > int main(int argc, char *argv[]) {
+> > > >       int fd;
+> > > >       int rv;
+> > > >
+> > > >       if (argc != 2)
+> > > >               die("usage: %s <dev>", 0, argv[0]);
+> > > >
+> > > >       if ((fd = open(argv[1], O_RDONLY)) == -1)
+> > > >               die("open %s", errno, argv[1]);
+> > > >
+> > > >       if (ioctl(fd, DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC, &channel) == -1 &&
+> > > >                       errno == EACCES)
+> > > >               die("ioctl %s", errno, argv[1]);
+> > > >
+> > > >       close(fd);
+> > > >
+> > > >       printf("PASS\n");
+> > > >
+> > > >       return 0;
+> > > > }
+> > > > ---------------------------------8<----------------------------------------
+> > > >
+> > > > [1] https://github.com/kernelslacker/trinity
+> > > >
+> > > > Fixes: eeaf06ac1a55 ("drm/nouveau/svm: initial support for shared virtual memory")
+> > > > Signed-off-by: Frantisek Hrbata <frantisek at hrbata.com>
+> > > > ---
+> > > >  drivers/gpu/drm/nouveau/nouveau_chan.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+> > > > index b80e4ebf1..a7a47b325 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+> > > > @@ -533,6 +533,7 @@ nouveau_channel_new(struct nouveau_drm *drm, struct nvif_device *device,
+> > > >       if (ret) {
+> > > >               NV_PRINTK(err, cli, "channel failed to initialise, %d\n", ret);
+> > > >               nouveau_channel_del(pchan);
+> > > > +             goto done;
+> > > >       }
+> > > >
+> > > >       ret = nouveau_svmm_join((*pchan)->vmm->svmm, (*pchan)->inst);
+> > > > --
+> > > > Frantisek Hrbata
+> > >
+> > > Is this still planned to be applied? AFAICS this is the fix for
+> > > CVE-2020-25639.
+> > >
+> >
+> > If it's urgent to get it fixed, I suggest going through the Linux
+> > kernel or drm stable path. CCing dri-devel, Dave, Daniel and Ben.
+> Missed this.  I'll grab it today and send it with the next -fixes.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_benchmark.c b/drivers/gpu/drm/radeon/radeon_benchmark.c
-index ac9a5ec481c3..c283b6b15925 100644
---- a/drivers/gpu/drm/radeon/radeon_benchmark.c
-+++ b/drivers/gpu/drm/radeon/radeon_benchmark.c
-@@ -30,7 +30,7 @@
- #define RADEON_BENCHMARK_COPY_DMA  0
- 
- #define RADEON_BENCHMARK_ITERATIONS 1024
--#define RADEON_BENCHMARK_COMMON_MODES_N 17
-+#define RADEON_BENCHMARK_COMMON_MODES_N 18
- 
- static int radeon_benchmark_do_move(struct radeon_device *rdev, unsigned size,
- 				    uint64_t saddr, uint64_t daddr,
-@@ -184,7 +184,8 @@ void radeon_benchmark(struct radeon_device *rdev, int test_number)
- 		1680 * 1050 * 4,
- 		1600 * 1200 * 4,
- 		1920 * 1080 * 4,
--		1920 * 1200 * 4
-+		1920 * 1200 * 4,
-+		2560 * 1080 * 4
- 	};
- 
- 	switch (test_number) {
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 607ad5620bd9..182f1e364cbd 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -37,6 +37,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/vga_switcheroo.h>
- 
-+extern int hdmimhz;
-+
- static int radeon_dp_handle_hpd(struct drm_connector *connector)
- {
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
-@@ -503,7 +505,7 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
- 	struct mode_size {
- 		int w;
- 		int h;
--	} common_modes[17] = {
-+	} common_modes[] = {
- 		{ 640,  480},
- 		{ 720,  480},
- 		{ 800,  600},
-@@ -520,10 +522,11 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
- 		{1680, 1050},
- 		{1600, 1200},
- 		{1920, 1080},
--		{1920, 1200}
-+		{1920, 1200},
-+		{2560, 1080}
- 	};
- 
--	for (i = 0; i < 17; i++) {
-+	for (i = 0; i < ARRAY_SIZE(common_modes); i++) {
- 		if (radeon_encoder->devices & (ATOM_DEVICE_TV_SUPPORT)) {
- 			if (common_modes[i].w > 1024 ||
- 			    common_modes[i].h > 768)
-@@ -1491,25 +1494,27 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
- 	    (mode->clock > 135000))
- 		return MODE_CLOCK_HIGH;
- 
--	if (radeon_connector->use_digital && (mode->clock > 165000)) {
-+	if (radeon_connector->use_digital && (mode->clock > (hdmimhz * 1000))) {
- 		if ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_I) ||
- 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
--		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
-+		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B)){
- 			return MODE_OK;
--		else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+		}else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
- 			/* HDMI 1.3+ supports max clock of 340 Mhz */
--			if (mode->clock > 340000)
-+			if (mode->clock > 340000){
- 				return MODE_CLOCK_HIGH;
--			else
-+			}else{
- 				return MODE_OK;
-+			}
- 		} else {
- 			return MODE_CLOCK_HIGH;
- 		}
- 	}
- 
- 	/* check against the max pixel clock */
--	if ((mode->clock / 10) > rdev->clock.max_pixel_clock)
-+	if ((mode->clock / 10) > rdev->clock.max_pixel_clock){
- 		return MODE_CLOCK_HIGH;
-+	}
- 
- 	return MODE_OK;
- }
-@@ -1809,7 +1814,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
- 				if (mode->clock > 340000)
- 					return MODE_CLOCK_HIGH;
- 			} else {
--				if (mode->clock > 165000)
-+				if (mode->clock > (hdmimhz * 1000))
- 					return MODE_CLOCK_HIGH;
- 			}
- 		}
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index e45d7344ac2b..fce8f9ab8018 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -281,6 +281,11 @@ int radeon_cik_support = 1;
- MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled (default), 0 = disabled)");
- module_param_named(cik_support, radeon_cik_support, int, 0444);
- 
-+int hdmimhz = 165;
-+MODULE_PARM_DESC(hdmi_mhz, "set HDMI max frequency, default is 165");
-+module_param_named(hdmi_mhz, hdmimhz, int, 0444);
-+
-+
- static struct pci_device_id pciidlist[] = {
- 	radeon_PCI_IDS
- };
-diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
-index 46549d5179ee..6b805bcd5726 100644
---- a/drivers/gpu/drm/radeon/radeon_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_encoders.c
-@@ -35,6 +35,8 @@
- #include "radeon_legacy_encoders.h"
- #include "atom.h"
- 
-+extern int hdmimhz;
-+
- static uint32_t radeon_encoder_clones(struct drm_encoder *encoder)
- {
- 	struct drm_device *dev = encoder->dev;
-@@ -389,7 +391,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
- 				else
- 					return false;
- 			} else {
--				if (pixel_clock > 165000)
-+				if (pixel_clock > (hdmimhz * 1000))
- 					return true;
- 				else
- 					return false;
-@@ -414,7 +416,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
- 				else
- 					return false;
- 			} else {
--				if (pixel_clock > 165000)
-+				if (pixel_clock > (hdmimhz * 1000))
- 					return true;
- 				else
- 					return false;
--- 
-2.30.0
+Do you know, were there some problems with the patch? TTBOMK it did
+not yet appear on Linus tree.
 
+Regards,
+Salvatore
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
