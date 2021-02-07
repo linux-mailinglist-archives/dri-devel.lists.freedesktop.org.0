@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107AB312690
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8919931268B
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98746E201;
-	Sun,  7 Feb 2021 18:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 867626E1F3;
+	Sun,  7 Feb 2021 18:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F17F89F4F
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 14:01:53 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id e12so6435801pls.4
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Feb 2021 06:01:53 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7F86E1F3;
+ Sun,  7 Feb 2021 18:06:02 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id m13so14510536wro.12;
+ Sun, 07 Feb 2021 10:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=BKfhCVrNE1G6tN7jQvqfXJj8IfC/ZteJhEq5g/yoxvw=;
- b=A0bWvrmJDtsuEOYxobKagLrEDwfpdGfBUXyNxSLL2RleOEw8xPFdDHa0z3VhfGU29d
- tUEzSPNkG4BykmsXy5ycaLpCIpWPa/9z8y8Z1p3C0VlkmVlY+aivkjLO0jDWYyAM6dL7
- GPtRwsL6Km2m7ZteMjy0Juw3C2ctMjWJ/KF92jijWzS1FhkcJvvL1w7Y5V88tJT11fSe
- kUIuBt2cwYDSmO0L7DdBPDTzzC6bM4eJN/L2bEOFpmdk2Lfsmmbu5ykiIhqmAaRWqqw1
- XfNFUorWIE0cV9Q9mgJWDShf97oijQgK5KerxxbXeVY9Fcta/xRjF33FBN5419O7gEoE
- EIig==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=54n6BaQ+bXyUY9n7V2psnQU0SFJKuMhVDij/J+OY0uU=;
+ b=kaQSml3XKmw/2KsxMTej5+99BzITwIojbWxDW63n9cglhIPRNjyYs+u8CeOZFDDN5d
+ jl0PLCHYf/e9Y+52OaG4vMwnkBO52pUVbG7xBzEreJZ4EKyEMVno+YDLTpJfbt66vbbs
+ Q18Jxl93fXXJtF/AGodJSWhzV9FTgNGvg2gveYfk5svrxyVflFTLxh1z8+Pa0jQIxdpC
+ EI1oI3co1jBG/Of4FMhCcuXDJ2Vn32xdBVqSixtPf5d5xgwFZL1NWX1KycySKMFH3Yfs
+ 1JDqhIEshDey3pw0iyLNyyaRV3yZSjlVJxpQA1tr/CW6sACUSQzZYHpOaWVv/j1TBQ8N
+ S3yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=BKfhCVrNE1G6tN7jQvqfXJj8IfC/ZteJhEq5g/yoxvw=;
- b=J9x4tbPeHgePDOj8L408rcv3q2ivna0L3PpZWWj6RlRSF34FwU4qYG53KgkoYnEXy9
- zcO/tuCq/g9P08u0NawGQG65cmWxFjeB3yDCL/0ydqt/FsUg6EdrvSIWsPjKRmt2KRVg
- 8O/bjL/La/Kl0PqrO8ia8viX4bUjxGpbd6x8bC41Q1a41XCKlWN/uF3c84i85Fav+i28
- XTYmsKzc6MEST80z1ZxXtlZbN9nsgM/jOBxywHbuAqZH44pHXxuF0WKmkKXSBnFAHcaP
- Dsk7HS7kx5A5rYlD95eMX41logHG8nn2vZgP927S2/KEN/CvcS2Lwcb94+o5+9OVi8oj
- YGZQ==
-X-Gm-Message-State: AOAM5322QVRAeyeaoPdBLbwFG2onJx0KlUPW42GaYxCKOoQldnasD2JY
- 52tMduxlbhNt2xwJ0Vuc/X0=
-X-Google-Smtp-Source: ABdhPJzDD68MGez2ZZeZZdxvQqsQi2a9z4QnBhFgoIJxSTyQ6l8TOC604eXe9zh39aOBBeYk9QX4Dg==
-X-Received: by 2002:a17:902:e5cc:b029:df:bc77:3aba with SMTP id
- u12-20020a170902e5ccb02900dfbc773abamr12569541plf.72.1612706512920; 
- Sun, 07 Feb 2021 06:01:52 -0800 (PST)
-Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
- by smtp.gmail.com with ESMTPSA id lf4sm13826283pjb.0.2021.02.07.06.01.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Feb 2021 06:01:52 -0800 (PST)
-From: Carlis <zhangxuezhi3@gmail.com>
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v15] staging: fbtft: add tearing signal detect
-Date: Sun,  7 Feb 2021 22:01:57 +0800
-Message-Id: <1612706517-124617-1-git-send-email-zhangxuezhi3@gmail.com>
-X-Mailer: git-send-email 1.9.1
-X-Mailman-Approved-At: Sun, 07 Feb 2021 18:13:33 +0000
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=54n6BaQ+bXyUY9n7V2psnQU0SFJKuMhVDij/J+OY0uU=;
+ b=SBTBh46H+5xIk0Lt7V9X6rjHaB/zBfReMMh/sygwIIjLPZekcSO7ooUFgq/HDuzANS
+ 0UggvzBnS1+Pl6Xw2vCfebyGpASiHQ/xb+UVIQspiIm02CZaO59aMjSTDr49kWL+12Sf
+ 5grXta/4/YLmSa0KzIYXjsiRdQLsyZwfAETppJFnWbgXDI9w2NysFpXGyfBbib48jWQM
+ N54FPFWQQZLUUHcH7mKohd905ahbFrdm2xKSEHIPJDbVhQGq7n3jc1fr6tZliFWjvdAg
+ Xa9vvsmxo/TcCSOv+eIiDSk/qFhHKqUgjkFkV858UfIWClmJng5qBWU3aRF/4bIKqEph
+ ymdw==
+X-Gm-Message-State: AOAM532ceHOBs6AApEpSQvxGe05Q2GduKmf0I6c7LilHMRqNJaXlaQc/
+ GR4jUsVy01Kx2ziFpZj5fqHrcTUh/rKzb1D45EU=
+X-Google-Smtp-Source: ABdhPJwYnsksXoMsxGMYpPJIE+kCSxQFgn0Tyr7i9QmE43Ij34+M6kWRsfnpkdQmkjVv5bOtwGlQ9HnhSgZlR3qexWI=
+X-Received: by 2002:adf:f749:: with SMTP id z9mr15702978wrp.327.1612721161047; 
+ Sun, 07 Feb 2021 10:06:01 -0800 (PST)
+MIME-Version: 1.0
+From: Rob Clark <robdclark@gmail.com>
+Date: Sun, 7 Feb 2021 10:08:38 -0800
+Message-ID: <CAF6AEGvh3tvLz_xtk=4x9xUfo2h2s4xkniOvC7HyLO2jrXnXkw@mail.gmail.com>
+Subject: [pull] drm/msm: msm-next for 5.12
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,210 +57,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- mh12gx2825@gmail.com, oliver.graute@kococonnector.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sbrivio@redhat.com, colin.king@canonical.com, zhangxuezhi1@yulong.com
-MIME-Version: 1.0
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Carlis <zhangxuezhi1@yulong.com>
+Hi Dave,
 
-For st7789v IC, when we need continuous full screen refresh, it is best to
-wait for the tearing effect line signal to arrive to avoid screen tearing.
+This time around:
 
-Signed-off-by: Carlis <zhangxuezhi1@yulong.com>
----
-v15: change ret value return logic in write_vmem.
-v14: change to define TE completion and TE irq only in st7789v.
-v13: change TE completion to par data struct member and add a new
-     function to deal te gpio request, add new write_vmem function.
-v12: change dev_err to dev_err_probe and add space in comments start, and
-     delete te_mutex, change te wait logic.
-v11: remove devm_gpio_put and change a dev_err to dev_info.
-v10: additional notes.
-v9: change pr_* to dev_*.
-v8: delete a log line.
-v7: return error value when request fail.
-v6: add te gpio request fail deal logic.
-v5: fix log print.
-v4: modify some code style and change te irq set function name.
-v3: modify author and signed-off-by name.
-v2: add release te gpio after irq request fail.
----
- drivers/staging/fbtft/fb_st7789v.c | 115 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
+* a6xx speedbin support
+* a508, a509, a512 support
+* various a5xx fixes
+* various dpu fixes
+* qseed3lite support for sm8250
+* dsi fix for msm8994
+* mdp5 fix for framerate bug with cmd mode panels
+* a6xx GMU OOB race fixes that were showing up in CI
+* various addition and removal of semicolons
+* gem submit fix for legacy userspace relocs path
 
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 3a280cc..abe9395 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -7,9 +7,13 @@
- 
- #include <linux/bitops.h>
- #include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-+#include <linux/interrupt.h>
-+#include <linux/completion.h>
- #include <linux/module.h>
-+
- #include <video/mipi_display.h>
- 
- #include "fbtft.h"
-@@ -66,6 +70,62 @@ enum st7789v_command {
- #define MADCTL_MX BIT(6) /* bitmask for column address order */
- #define MADCTL_MY BIT(7) /* bitmask for page address order */
- 
-+/* 60Hz for 16.6ms, configured as 2*16.6ms */
-+#define PANEL_TE_TIMEOUT_MS  33
-+
-+static struct completion panel_te; /* completion for panel TE line */
-+static int irq_te; /* Linux IRQ for LCD TE line */
-+
-+static irqreturn_t panel_te_handler(int irq, void *data)
-+{
-+	complete(&panel_te);
-+	return IRQ_HANDLED;
-+}
-+
-+/*
-+ * init_tearing_effect_line() - init tearing effect line.
-+ * @par: FBTFT parameter object.
-+ *
-+ * Return: 0 on success, or a negative error code otherwise.
-+ */
-+static int init_tearing_effect_line(struct fbtft_par *par)
-+{
-+	struct device *dev = par->info->device;
-+	struct gpio_desc *te;
-+	int rc, irq;
-+
-+	te = gpiod_get_optional(dev, "te", GPIOD_IN);
-+	if (IS_ERR(te))
-+		return dev_err_probe(dev, PTR_ERR(te), "Failed to request te GPIO\n");
-+
-+	/* if te is NULL, indicating no configuration, directly return success */
-+	if (!te) {
-+		irq_te = 0;
-+		return 0;
-+	}
-+
-+	irq = gpiod_to_irq(te);
-+
-+	/* GPIO is locked as an IRQ, we may drop the reference */
-+	gpiod_put(te);
-+
-+	if (irq < 0)
-+		return irq;
-+
-+	irq_te = irq;
-+	init_completion(&panel_te);
-+
-+	/* The effective state is high and lasts no more than 1000 microseconds */
-+	rc = devm_request_irq(dev, irq_te, panel_te_handler,
-+			      IRQF_TRIGGER_RISING, "TE_GPIO", par);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "TE IRQ request failed.\n");
-+
-+	disable_irq_nosync(irq_te);
-+
-+	return 0;
-+}
-+
- /**
-  * init_display() - initialize the display controller
-  *
-@@ -82,6 +142,12 @@ enum st7789v_command {
-  */
- static int init_display(struct fbtft_par *par)
- {
-+	int rc;
-+
-+	rc = init_tearing_effect_line(par);
-+	if (rc)
-+		return rc;
-+
- 	/* turn off sleep mode */
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	mdelay(120);
-@@ -137,6 +203,10 @@ static int init_display(struct fbtft_par *par)
- 	 */
- 	write_reg(par, PWCTRL1, 0xA4, 0xA1);
- 
-+	/* TE line output is off by default when powering on */
-+	if (irq_te)
-+		write_reg(par, MIPI_DCS_SET_TEAR_ON, 0x00);
-+
- 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
- 
- 	if (HSD20_IPS)
-@@ -145,6 +215,50 @@ static int init_display(struct fbtft_par *par)
- 	return 0;
- }
- 
-+/*
-+ * write_vmem() - write data to display.
-+ * @par: FBTFT parameter object.
-+ * @offset: offset from screen_buffer.
-+ * @len: the length of data to be writte.
-+ *
-+ * Return: 0 on success, or a negative error code otherwise.
-+ */
-+static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
-+{
-+	struct device *dev = par->info->device;
-+	int ret;
-+
-+	if (irq_te) {
-+		enable_irq(irq_te);
-+		reinit_completion(&panel_te);
-+		ret = wait_for_completion_timeout(&panel_te,
-+						  msecs_to_jiffies(PANEL_TE_TIMEOUT_MS));
-+		if (ret == 0)
-+			dev_err(dev, "wait panel TE timeout\n");
-+
-+		disable_irq(irq_te);
-+	}
-+
-+	switch (par->pdata->display.buswidth) {
-+	case 8:
-+		ret = fbtft_write_vmem16_bus8(par, offset, len);
-+		break;
-+	case 9:
-+		ret = fbtft_write_vmem16_bus9(par, offset, len);
-+		break;
-+	case 16:
-+		ret = fbtft_write_vmem16_bus16(par, offset, len);
-+		break;
-+	default:
-+		dev_err(dev, "Unsupported buswidth %d\n",
-+			par->pdata->display.buswidth);
-+		ret = 0;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- /**
-  * set_var() - apply LCD properties like rotation and BGR mode
-  *
-@@ -259,6 +373,7 @@ static int blank(struct fbtft_par *par, bool on)
- 	.gamma = HSD20_IPS_GAMMA,
- 	.fbtftops = {
- 		.init_display = init_display,
-+		.write_vmem = write_vmem,
- 		.set_var = set_var,
- 		.set_gamma = set_gamma,
- 		.blank = blank,
--- 
-1.9.1
+The following changes since commit 6ee1d745b7c9fd573fba142a2efdad76a9f1cb04:
 
+  Linux 5.11-rc5 (2021-01-24 16:47:14 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2021-02-07
+
+for you to fetch changes up to 182b4a2d251305201b6f9cae29067f7112f05835:
+
+  drm/msm/dp: Add a missing semi-colon (2021-02-07 09:57:04 -0800)
+
+----------------------------------------------------------------
+Akhil P Oommen (1):
+      drm/msm: Add speed-bin support to a618 gpu
+
+AngeloGioacchino Del Regno (16):
+      drm/msm/a5xx: Allow all patchid for A540 chip
+      drm/msm/a5xx: Remove overwriting A5XX_PC_DBG_ECO_CNTL register
+      drm/msm/a5xx: Separate A5XX_PC_DBG_ECO_CNTL write from main branch
+      drm/msm/a5xx: Add support for Adreno 508, 509, 512 GPUs
+      drm/msm/a5xx: Reset VBIF before PC only on A510 and A530
+      drm/msm/dpu: Fix VBIF_XINL_QOS_LVL_REMAP_000 register offset
+      drm/msm/dpu: Move DPU_SSPP_QOS_8LVL bit to SDM845 and SC7180 masks
+      drm/msm/dpu: Add prog_fetch_lines_worst_case to INTF_BLK macro
+      drm/msm/dpu: Allow specifying features and sblk in DSPP_BLK macro
+      drm/msm/dpu: Disable autorefresh in command mode
+      drm/msm/dpu: Correctly configure vsync tearcheck for command mode
+      drm/msm/dpu: Remove unused call in wait_for_commit_done
+      drm/msm/dsi_pll_10nm: Fix dividing the same numbers twice
+      drm/msm/dsi_pll_10nm: Solve TODO for multiplier frac_bits assignment
+      drm/msm/dsi_pll_10nm: Fix variable usage for pll_lockdet_rate
+      drm/msm/dsi_pll_10nm: Convert pr_err prints to DRM_DEV_ERROR
+
+Bernard Zhao (1):
+      drm/msm: remove unneeded variable: "rc"
+
+Dmitry Baryshkov (1):
+      drm/msm/dpu1: add support for qseed3lite used on sm8250
+
+Eric Anholt (3):
+      drm/msm: Fix race of GPU init vs timestamp power management.
+      drm/msm: Fix races managing the OOB state for timestamp vs timestamps.
+      drm/msm: Clean up GMU OOB set/clear handling.
+
+Iskren Chernev (2):
+      drm/msm: Fix MSM_INFO_GET_IOVA with carveout
+      drm/msm/mdp5: Fix wait-for-commit for cmd panels
+
+Jiapeng Zhong (1):
+      drm/msm: remove redundant NULL check
+
+Judy Hsiao (1):
+      drm/msm/dp: trigger unplug event in msm_dp_display_disable
+
+Konrad Dybcio (5):
+      drm/msm/a5xx: Fix VPC protect value in gpu_write()
+      drm/msm/a5xx: Disable flat shading optimization
+      drm/msm/a5xx: Disable UCHE global filter
+      drm/msm/dsi: Correct io_start for MSM8994 (20nm PHY)
+      drm/msm/disp/mdp5: mdp5_cfg: Fix msm8974v2 max_clk
+
+Kuogee Hsieh (2):
+      drm/msm/dp: unplug interrupt missed after irq_hpd handler
+      drm/msm/dp: reset dp controller only at boot up and pm_resume
+
+Rob Clark (1):
+      drm/msm: Fix legacy relocs path
+
+Sai Prakash Ranjan (2):
+      drm/msm: Add proper checks for GPU LLCC support
+      drm/msm/a6xx: Create an A6XX GPU specific address space
+
+Stephen Boyd (2):
+      drm/msm/kms: Make a lock_class_key for each crtc mutex
+      drm/msm/dp: Add a missing semi-colon
+
+Xu Wang (2):
+      drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: Remove unneeded semicolon
+      drm/msm/dp/dp_ctrl: Remove unneeded semicolon
+
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h              |   2 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              | 195 ++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/a5xx_power.c            |   4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 105 ++++++-----
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |  49 ++----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 139 ++++++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   2 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |  54 +++++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  23 +--
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  22 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  90 ++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  87 ++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |  26 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  14 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |  73 +++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c        |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   1 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |   2 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |   2 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |   7 -
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  24 +++
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  15 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  24 ++-
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |   3 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c         |   2 +-
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c         |  21 +--
+ drivers/gpu/drm/msm/msm_drv.c                      |   3 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |   3 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c               |   2 +
+ drivers/gpu/drm/msm/msm_kms.h                      |   8 +-
+ 36 files changed, 803 insertions(+), 219 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
