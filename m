@@ -1,50 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8919931268B
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:06:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 632C03126AF
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Feb 2021 19:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 867626E1F3;
-	Sun,  7 Feb 2021 18:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28FEB6E7D7;
+	Sun,  7 Feb 2021 18:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7F86E1F3;
- Sun,  7 Feb 2021 18:06:02 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id m13so14510536wro.12;
- Sun, 07 Feb 2021 10:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=54n6BaQ+bXyUY9n7V2psnQU0SFJKuMhVDij/J+OY0uU=;
- b=kaQSml3XKmw/2KsxMTej5+99BzITwIojbWxDW63n9cglhIPRNjyYs+u8CeOZFDDN5d
- jl0PLCHYf/e9Y+52OaG4vMwnkBO52pUVbG7xBzEreJZ4EKyEMVno+YDLTpJfbt66vbbs
- Q18Jxl93fXXJtF/AGodJSWhzV9FTgNGvg2gveYfk5svrxyVflFTLxh1z8+Pa0jQIxdpC
- EI1oI3co1jBG/Of4FMhCcuXDJ2Vn32xdBVqSixtPf5d5xgwFZL1NWX1KycySKMFH3Yfs
- 1JDqhIEshDey3pw0iyLNyyaRV3yZSjlVJxpQA1tr/CW6sACUSQzZYHpOaWVv/j1TBQ8N
- S3yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=54n6BaQ+bXyUY9n7V2psnQU0SFJKuMhVDij/J+OY0uU=;
- b=SBTBh46H+5xIk0Lt7V9X6rjHaB/zBfReMMh/sygwIIjLPZekcSO7ooUFgq/HDuzANS
- 0UggvzBnS1+Pl6Xw2vCfebyGpASiHQ/xb+UVIQspiIm02CZaO59aMjSTDr49kWL+12Sf
- 5grXta/4/YLmSa0KzIYXjsiRdQLsyZwfAETppJFnWbgXDI9w2NysFpXGyfBbib48jWQM
- N54FPFWQQZLUUHcH7mKohd905ahbFrdm2xKSEHIPJDbVhQGq7n3jc1fr6tZliFWjvdAg
- Xa9vvsmxo/TcCSOv+eIiDSk/qFhHKqUgjkFkV858UfIWClmJng5qBWU3aRF/4bIKqEph
- ymdw==
-X-Gm-Message-State: AOAM532ceHOBs6AApEpSQvxGe05Q2GduKmf0I6c7LilHMRqNJaXlaQc/
- GR4jUsVy01Kx2ziFpZj5fqHrcTUh/rKzb1D45EU=
-X-Google-Smtp-Source: ABdhPJwYnsksXoMsxGMYpPJIE+kCSxQFgn0Tyr7i9QmE43Ij34+M6kWRsfnpkdQmkjVv5bOtwGlQ9HnhSgZlR3qexWI=
-X-Received: by 2002:adf:f749:: with SMTP id z9mr15702978wrp.327.1612721161047; 
- Sun, 07 Feb 2021 10:06:01 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2A76E7D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Feb 2021 18:33:27 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 0191CAD6A;
+ Sun,  7 Feb 2021 18:33:26 +0000 (UTC)
+Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
+ drivers
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210204200308.24216-1-tzimmermann@suse.de>
+ <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <88b6a41d-d457-6675-4692-c2dc773c9a2d@suse.de>
+Date: Sun, 7 Feb 2021 19:33:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Sun, 7 Feb 2021 10:08:38 -0800
-Message-ID: <CAF6AEGvh3tvLz_xtk=4x9xUfo2h2s4xkniOvC7HyLO2jrXnXkw@mail.gmail.com>
-Subject: [pull] drm/msm: msm-next for 5.12
-To: Dave Airlie <airlied@gmail.com>
+In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,149 +40,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============0279439633=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0279439633==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="cYpey3WLi2LTeiB95Top8wIoUEbSK1HRh"
 
-This time around:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cYpey3WLi2LTeiB95Top8wIoUEbSK1HRh
+Content-Type: multipart/mixed; boundary="Lddldf1ZWyKcn0Oi46pfKAKIpPvjlmRod";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@linux.ie, sam@ravnborg.org,
+ virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
+ dri-devel@lists.freedesktop.org, sean@poorly.run
+Message-ID: <88b6a41d-d457-6675-4692-c2dc773c9a2d@suse.de>
+Subject: Re: [PATCH 0/6] drm: Move vmap out of commit tail for SHMEM-based
+ drivers
+References: <20210204200308.24216-1-tzimmermann@suse.de>
+ <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
+In-Reply-To: <20210205090514.ln6eeoqfcijrd5q2@sirius.home.kraxel.org>
 
-* a6xx speedbin support
-* a508, a509, a512 support
-* various a5xx fixes
-* various dpu fixes
-* qseed3lite support for sm8250
-* dsi fix for msm8994
-* mdp5 fix for framerate bug with cmd mode panels
-* a6xx GMU OOB race fixes that were showing up in CI
-* various addition and removal of semicolons
-* gem submit fix for legacy userspace relocs path
+--Lddldf1ZWyKcn0Oi46pfKAKIpPvjlmRod
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 6ee1d745b7c9fd573fba142a2efdad76a9f1cb04:
+Hi
 
-  Linux 5.11-rc5 (2021-01-24 16:47:14 -0800)
+Am 05.02.21 um 10:05 schrieb Gerd Hoffmann:
+>    Hi,
+>=20
+>> I smoke-tested the code by running fbdev, Xorg and weston with the
+>> converted mgag200 driver.
+>=20
+> Looks sane to me.
+> Survived cirrus smoke test too.
+>=20
+> Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-are available in the Git repository at:
+I had to add one additional patch to v2 of this patchset to make things=20
+work with module-only builds. If you have a minute, could you ack this=20
+as well? Thanks!
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2021-02-07
+https://lore.kernel.org/dri-devel/20210205150628.28072-3-tzimmermann@suse=
+=2Ede/
 
-for you to fetch changes up to 182b4a2d251305201b6f9cae29067f7112f05835:
+Best regards
+Thomas
 
-  drm/msm/dp: Add a missing semi-colon (2021-02-07 09:57:04 -0800)
+>=20
+> take care,
+>    Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
 
-----------------------------------------------------------------
-Akhil P Oommen (1):
-      drm/msm: Add speed-bin support to a618 gpu
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-AngeloGioacchino Del Regno (16):
-      drm/msm/a5xx: Allow all patchid for A540 chip
-      drm/msm/a5xx: Remove overwriting A5XX_PC_DBG_ECO_CNTL register
-      drm/msm/a5xx: Separate A5XX_PC_DBG_ECO_CNTL write from main branch
-      drm/msm/a5xx: Add support for Adreno 508, 509, 512 GPUs
-      drm/msm/a5xx: Reset VBIF before PC only on A510 and A530
-      drm/msm/dpu: Fix VBIF_XINL_QOS_LVL_REMAP_000 register offset
-      drm/msm/dpu: Move DPU_SSPP_QOS_8LVL bit to SDM845 and SC7180 masks
-      drm/msm/dpu: Add prog_fetch_lines_worst_case to INTF_BLK macro
-      drm/msm/dpu: Allow specifying features and sblk in DSPP_BLK macro
-      drm/msm/dpu: Disable autorefresh in command mode
-      drm/msm/dpu: Correctly configure vsync tearcheck for command mode
-      drm/msm/dpu: Remove unused call in wait_for_commit_done
-      drm/msm/dsi_pll_10nm: Fix dividing the same numbers twice
-      drm/msm/dsi_pll_10nm: Solve TODO for multiplier frac_bits assignment
-      drm/msm/dsi_pll_10nm: Fix variable usage for pll_lockdet_rate
-      drm/msm/dsi_pll_10nm: Convert pr_err prints to DRM_DEV_ERROR
 
-Bernard Zhao (1):
-      drm/msm: remove unneeded variable: "rc"
+--Lddldf1ZWyKcn0Oi46pfKAKIpPvjlmRod--
 
-Dmitry Baryshkov (1):
-      drm/msm/dpu1: add support for qseed3lite used on sm8250
+--cYpey3WLi2LTeiB95Top8wIoUEbSK1HRh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Eric Anholt (3):
-      drm/msm: Fix race of GPU init vs timestamp power management.
-      drm/msm: Fix races managing the OOB state for timestamp vs timestamps.
-      drm/msm: Clean up GMU OOB set/clear handling.
+-----BEGIN PGP SIGNATURE-----
 
-Iskren Chernev (2):
-      drm/msm: Fix MSM_INFO_GET_IOVA with carveout
-      drm/msm/mdp5: Fix wait-for-commit for cmd panels
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAgMnQFAwAAAAAACgkQlh/E3EQov+Dj
+dBAAq7SUGl7A9fN0DSOndk4NBjCGdrLQuE1yQAUzjPCdRIOlicf1w90KOzy4vfakAZRqYd8f7h5/
+GABwSMhK51JH30uH0IPLXGY25bxQu/L3jhBeP8ySDiGSHcCXTTiNdLGkQwdocTkb+cI+OQKb5bdJ
+Vhuwx57IvV8DcyzTCp3IGZkqztrHfDx36PfKcmiJ/JYemq42BtBu1eIinZXdwuQPQt/MOPPxKtNE
+j6Q4eMi+xmBS6igezvyRu/2SlOFxuaRu+cBnCeERV77JwCS186yax5cq2rPtDMnUeHAG7qxGhIMB
+fAQYpUViXIV6HTAaMuxg8FyQ4YrxTEDFV4XZGh7DoQB3HYyEvK8g3O+LsYJINaEsbjuKQodWOcH/
+P6lqSmbM4VKwDjTOVL3wNcfqs50JnpxG92wYAIma4yzg0mE4V+7LpEeHgISerrGEwnMLorLBdtta
+tL/1OYkwjcsejYrs58ONa5OrvoeFqL0nxOzj1NZVp3bmpyEz0JBJ0D0lIpHnds5ajkfCfK3dLLSf
+AQsmMeX+0GZNJrSzvSkn/tG4ZNUHH1W1N3Kz6WwaA4nk/LiQzc+qjb9hlT7HW4uDQSy/oAFyW/Mc
+HoyOWxhowJDkB37G5wOl1SA859iZeBtxVk+JZhKMqpK/IDp2/1q11ZYKJTP7SfdHZRzhaCm4bn7e
+gSs=
+=2HuM
+-----END PGP SIGNATURE-----
 
-Jiapeng Zhong (1):
-      drm/msm: remove redundant NULL check
+--cYpey3WLi2LTeiB95Top8wIoUEbSK1HRh--
 
-Judy Hsiao (1):
-      drm/msm/dp: trigger unplug event in msm_dp_display_disable
+--===============0279439633==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Konrad Dybcio (5):
-      drm/msm/a5xx: Fix VPC protect value in gpu_write()
-      drm/msm/a5xx: Disable flat shading optimization
-      drm/msm/a5xx: Disable UCHE global filter
-      drm/msm/dsi: Correct io_start for MSM8994 (20nm PHY)
-      drm/msm/disp/mdp5: mdp5_cfg: Fix msm8974v2 max_clk
-
-Kuogee Hsieh (2):
-      drm/msm/dp: unplug interrupt missed after irq_hpd handler
-      drm/msm/dp: reset dp controller only at boot up and pm_resume
-
-Rob Clark (1):
-      drm/msm: Fix legacy relocs path
-
-Sai Prakash Ranjan (2):
-      drm/msm: Add proper checks for GPU LLCC support
-      drm/msm/a6xx: Create an A6XX GPU specific address space
-
-Stephen Boyd (2):
-      drm/msm/kms: Make a lock_class_key for each crtc mutex
-      drm/msm/dp: Add a missing semi-colon
-
-Xu Wang (2):
-      drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: Remove unneeded semicolon
-      drm/msm/dp/dp_ctrl: Remove unneeded semicolon
-
- drivers/gpu/drm/msm/adreno/a5xx.xml.h              |   2 +
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              | 195 ++++++++++++++++++---
- drivers/gpu/drm/msm/adreno/a5xx_power.c            |   4 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 105 ++++++-----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |  49 ++----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 139 ++++++++++++++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   2 +
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  54 +++++-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  23 +--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  22 ++-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  90 ++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  87 ++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |  26 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |  14 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |  73 +++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |   3 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c        |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   1 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |   2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |   2 +-
- drivers/gpu/drm/msm/dp/dp_aux.c                    |   7 -
- drivers/gpu/drm/msm/dp/dp_catalog.c                |  24 +++
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  15 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   2 +-
- drivers/gpu/drm/msm/dp/dp_display.c                |  24 ++-
- drivers/gpu/drm/msm/dp/dp_panel.c                  |   3 +-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c         |   2 +-
- drivers/gpu/drm/msm/dsi/pll/dsi_pll_10nm.c         |  21 +--
- drivers/gpu/drm/msm/msm_drv.c                      |   3 +-
- drivers/gpu/drm/msm/msm_gem.c                      |   3 +-
- drivers/gpu/drm/msm/msm_gem_submit.c               |   2 +
- drivers/gpu/drm/msm/msm_kms.h                      |   8 +-
- 36 files changed, 803 insertions(+), 219 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0279439633==--
