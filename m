@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D5E3128C9
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 02:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D65A3128CA
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 02:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBB36E829;
-	Mon,  8 Feb 2021 01:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C91F6E82A;
+	Mon,  8 Feb 2021 01:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id A93F86E827
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2D1F46E829
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 01:42:34 +0000 (UTC)
-X-UUID: acf37b1ad5a143598eeb30b9da08706b-20210208
+X-UUID: 38ff6386a3e842a4a6ad11cc3eaaddd4-20210208
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=a310sQCUgDOdkn7zckKGWmxpMKVjRJUxcAXM3gBCOzs=; 
- b=mBHPLvLAkenwZKd1S94mu6ifnFe4aPG2942ObKxEYG3tFccm/WO9iTFATmj1OWTBYGdtHRMVKOqb9Fw1c3FOwve3xWeXHx/X1YoUhSszx91l6UZFOkoUzaRrF/1FAOoysLAc4kxLPhGZAA6IjWc/xUqiEHv5t2wTiG5vK8MhXK8=;
-X-UUID: acf37b1ad5a143598eeb30b9da08706b-20210208
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=JdQDlO+T4DbZd6v3vMyj8+I0/Y1thi8lltwrLzqd7hQ=; 
+ b=cwUnloHEMESQz11Myzg+u3OtsDzT7NeO1bpv9uHZqX2qWhbj0wrE9wSsb0cWHHpCtbLCIPs2LkhoOO86vtfegQ5J6AE+BqR4nUK8ZkYff8woVHTb+E9VqD75WITPNB5IiJpnK1ZS7rl7zKR2I5IcAtLMSMCOoPPiZOitF+cWB1M=;
+X-UUID: 38ff6386a3e842a4a6ad11cc3eaaddd4-20210208
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 267413372; Mon, 08 Feb 2021 09:42:29 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 8 Feb 2021 09:42:25 +0800
+ with ESMTP id 709681752; Mon, 08 Feb 2021 09:42:30 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 8 Feb 2021 09:42:26 +0800
 Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
  MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 8 Feb 2021 09:42:24 +0800
+ 15.0.1497.2 via Frontend Transport; Mon, 8 Feb 2021 09:42:25 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  <p.zabel@pengutronix.de>
-Subject: [PATCH v3 1/3] drm/mediatek: mtk_dpi: Add check for max clock rate in
- mode_valid
-Date: Mon, 8 Feb 2021 09:42:19 +0800
-Message-ID: <20210208014221.196584-2-jitao.shi@mediatek.com>
+Subject: [PATCH v3 2/3] drm/mediatek: mtk_dpi: Add dpi config for mt8192
+Date: Mon, 8 Feb 2021 09:42:20 +0800
+Message-ID: <20210208014221.196584-3-jitao.shi@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210208014221.196584-1-jitao.shi@mediatek.com>
 References: <20210208014221.196584-1-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C37A26E0E59DBE45EF36BBA520339786AF486A98979357C5AACE500268F586C02000:8
+X-TM-SNTS-SMTP: 2F7BBF8CCE035861BD1B1E650CD1D1B7EA895AD24B21F1F246F2E645EB5AD7242000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,69 +65,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add per-platform max clock rate check in mtk_dpi_bridge_mode_valid.
-
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 52f11a63a330..ffa4a0f1989f 100644
+index ffa4a0f1989f..f6f71eb67ff1 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -118,6 +118,7 @@ struct mtk_dpi_yc_limit {
- struct mtk_dpi_conf {
- 	unsigned int (*cal_factor)(int clock);
- 	u32 reg_h_fre_con;
-+	u32 max_clock_khz;
- 	bool edge_sel_en;
+@@ -703,6 +703,12 @@ static const struct mtk_dpi_conf mt8183_conf = {
+ 	.max_clock_khz = 100000,
  };
  
-@@ -555,9 +556,22 @@ static void mtk_dpi_bridge_enable(struct drm_bridge *bridge)
- 	mtk_dpi_set_display_mode(dpi, &dpi->mode);
- }
- 
-+static enum drm_mode_status
-+mtk_dpi_bridge_mode_valid(struct drm_bridge *bridge,
-+			  const struct drm_display_mode *mode)
-+{
-+	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
-+
-+	if (dpi->conf->max_clock_khz && mode->clock > dpi->conf->max_clock_khz)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- static const struct drm_bridge_funcs mtk_dpi_bridge_funcs = {
- 	.attach = mtk_dpi_bridge_attach,
- 	.mode_set = mtk_dpi_bridge_mode_set,
-+	.mode_valid = mtk_dpi_bridge_mode_valid,
- 	.disable = mtk_dpi_bridge_disable,
- 	.enable = mtk_dpi_bridge_enable,
- };
-@@ -673,17 +687,20 @@ static unsigned int mt8183_calculate_factor(int clock)
- static const struct mtk_dpi_conf mt8173_conf = {
- 	.cal_factor = mt8173_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-+	.max_clock_khz = 300000,
- };
- 
- static const struct mtk_dpi_conf mt2701_conf = {
- 	.cal_factor = mt2701_calculate_factor,
- 	.reg_h_fre_con = 0xb0,
- 	.edge_sel_en = true,
++static const struct mtk_dpi_conf mt8192_conf = {
++	.cal_factor = mt8183_calculate_factor,
++	.reg_h_fre_con = 0xe0,
 +	.max_clock_khz = 150000,
- };
- 
- static const struct mtk_dpi_conf mt8183_conf = {
- 	.cal_factor = mt8183_calculate_factor,
- 	.reg_h_fre_con = 0xe0,
-+	.max_clock_khz = 100000,
- };
- 
++};
++
  static int mtk_dpi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -837,6 +843,9 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
+ 	{ .compatible = "mediatek,mt8183-dpi",
+ 	  .data = &mt8183_conf,
+ 	},
++	{ .compatible = "mediatek,mt8192-dpi",
++	  .data = &mt8192_conf,
++	},
+ 	{ },
+ };
+ 
 -- 
 2.25.1
 _______________________________________________
