@@ -2,36 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091AA3133D0
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 14:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA50C313427
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 15:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFA36E8DB;
-	Mon,  8 Feb 2021 13:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 523D76E8E8;
+	Mon,  8 Feb 2021 14:00:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D46606E8DB
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:54:20 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0261DB12E;
- Mon,  8 Feb 2021 13:54:19 +0000 (UTC)
-Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
- cleanup_fb
-To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210127140503.31772-1-tzimmermann@suse.de>
- <YBp7CzzBjECx5lAu@phenom.ffwll.local>
- <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
- <YBp+jxbjkdcpN1eo@phenom.ffwll.local>
- <74307294-2220-29d6-9d59-a73c2b8f43c6@suse.de>
- <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <2353416f-8754-a49f-8271-ee6de7bfa7b4@suse.de>
-Date: Mon, 8 Feb 2021 14:54:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2066.outbound.protection.outlook.com [40.107.94.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABF536E8E1;
+ Mon,  8 Feb 2021 13:59:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S8P8YR4tTBJ967LRn4A5WQiVyhdDOUTB3et0TwxfVIvN7mUHwT+w09omtNYKsRGK/nyugLZYaec58so/SI2sJ9dxD41HJ2t5vui9BxM2/bQJecc6G6AjpXpNp0jsJ/HKR/FMFRL68UDAHixFdbO9WFjyt+U8rs5U4s8nDHdHro7KXUwb4AlyNC+D2RwxvaRAjURoUS7C//IhSZahb4/Zjcx25hA+sMHyiZXSsLs+lUuT50tf1/YzkfDgaCzTzxmtmlcnlaUjwPPuM+qYuenXOUx3A2XA4WAv+GeIY+JUq+QslqEwWvq3TdUv2tlekfcG0hODKquu3KG8T7UaWb5Xng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T4FKcQCOkiFUFmZfrh2C6Ry2iO1wJakOBjiLLwimMr8=;
+ b=TMDq4g7lDlFvhHaiODNzuGPMdLD+sZ0xxQUMGjnP7Rk6Tm+MOpRR5gKh67+wBRo4EMI+ANSA0Zh7+KctegED6IlaPA7fdpg2Qvk2QtE2GQJmuAmGCZdiaOYSy6W7PummQIe3Dy+U7wwIfEoPAxaPyfyqs8UH4E3XxHhM4d6899r/RCLJePeQOcfdVO3n3mAWwtJJAD9TVkKJSs+wcRoLK/rOFOwAaI6dD32eqH19QYoVYMRZJH5DXasi/CL1GBYNY3upLFBepqhMQG1PpdC/yKFHMEyD93vLkDxjbkNQ7fxWeZOfvPTqweCevazJUDOTpAWt3qXyUEnZZKaToFyLng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T4FKcQCOkiFUFmZfrh2C6Ry2iO1wJakOBjiLLwimMr8=;
+ b=JUGdVLmrELQmJZUBCfPlcmasvHCi3IGJy1zq3HdsC9S0q77N2Xc2a8U1quEUEOtn6X0bUfIfDIJ65gXBpy43UTBBiQ2FlVgvDVVuaQq/WB7OLwVqPPnZr1L7o/UDFTvJSh0GY/ROFjJcTQyk/DPTFUDvVgiRbO9w7j1n6FrWgpY=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4962.namprd12.prod.outlook.com (2603:10b6:208:17e::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.24; Mon, 8 Feb
+ 2021 13:59:58 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3825.030; Mon, 8 Feb 2021
+ 13:59:58 +0000
+Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
+ device removal
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
+ <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
+ <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
+ <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
+ <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
+ <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
+ <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
+ <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
+ <YCEJBfA6ce4dD3JT@phenom.ffwll.local>
+ <6c639669-b78d-b6a3-71b9-d546ca34121b@gmail.com>
+ <YCEOY5wFmpGRl7jJ@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <90eb7a73-1981-6d20-a83d-1690321212c7@amd.com>
+Date: Mon, 8 Feb 2021 14:59:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <YCEOY5wFmpGRl7jJ@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM4PR0701CA0018.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::28) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4PR0701CA0018.eurprd07.prod.outlook.com (2603:10a6:200:42::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.11 via Frontend
+ Transport; Mon, 8 Feb 2021 13:59:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 6e163dd3-a587-4f49-a2bb-08d8cc39d1af
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4962:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB49623290A14277ADFE9D788D838F9@BL0PR12MB4962.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uvtCPlU2AaBF/lqSOMGaEzqVHGRCz45jVqlxdU1p+TZGnmup+dgwPbZfLiihesPr+3iRYqOn+frVJyyPXZirWtHUxMC/SkHh8Opjotm1Ygl05nS9vJRRgV6CQCOqyA+UMMhkM19nDM97kCMAneZQDsdFrslPPUgyUHbGRrGkN9v4CSBJN81ikw7d7tg9z+I77wayn1D3ooP9E0j/x9Zl10OGNKIF+tVwSJmij5hr3fjsgutNSAIVzz+4xwDvlaa0gxiFlpoVtw8LEyfD8tju/MO8Y+owRRYKEnPQd3ZuDs3GR9N2yemf81JIzW/rMgWyrXDuLGfhz7WSlBp5M0nW0hcaOVQ6ggGmVnCY5zVPbdR+uaphQzeawLbi7+GZIJ8qbgMvHmBp4d7z7HVAKKgtnlUmDyv+7k1b32sB2Nh38K1KoVgHj+gAnPiqPjKTzvRpqcbmM1wF1k/ZDj+bS/6w8mcQGIbYFnDNc7SppQr18rAGOZ5o0yyAGRYuawa/J/V/knT4NoWTCqNf8nhnu1y/SRnN3D33wx6T+N2dU6YWBwpWW3xW7J/NckA6kLgT+yF6M2CwgHdpZ9shA81373QG0vLLcgxmWHrHfy9LumUCnCB5OTIuON5nQLQZ30M7IjyFKzBB5iIveG9KuNXtTdOcNxRVMUfDUHdYvx6aBJ50H8L5IkNX/jF4YX/QG8V4hN6R
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(346002)(136003)(396003)(376002)(66556008)(8676002)(316002)(2906002)(478600001)(86362001)(6486002)(4326008)(5660300002)(66946007)(2616005)(7416002)(31686004)(6916009)(66476007)(186003)(52116002)(36756003)(16526019)(31696002)(54906003)(45080400002)(966005)(6666004)(8936002)(66574015)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SWMvZ3I4aHphbk1nbnVZWE42ZE1kakFYYWZEYzFVeDhFTXJCN0RjNCt0bHZ5?=
+ =?utf-8?B?YVNpdFlhMjF1RFRkSFBrRjN2MlE2OVNicFJKV1J3OEh2T24rM3o0akI5OTg1?=
+ =?utf-8?B?Y0NGOUFCRTZpajVjV29lZjNtR3BheUphazlaUXBxZWhXVWVheVpGd0tFWjIx?=
+ =?utf-8?B?Uk9kQzQrNXNFaC9VNGx6UFA2ZEhrUFpWcFJtK1ArbVh5ZmEvdmhPemwxZis4?=
+ =?utf-8?B?dUo0YWcvRVJOaHFKbzFzcVVzajZ3UCtkTzl6dExzMCsyYUtVVGowQzVmQXVh?=
+ =?utf-8?B?enFMSkJrWFpBbVcvVU1OSmdDTzlpejdUY3RDS2FYN0IyMjNacmJmOFdRRWFv?=
+ =?utf-8?B?QmJ5TVkybXNVS3pyWVlLMGhmaHRGRklzcDluTVgzVTFPV04vTkxNa0VQRE5Z?=
+ =?utf-8?B?ZGdSWjdkZHBNb0pKei9vRjJHT2ZNc1M5cGg0aVNubmlUbFBHai9BaTR6WW9w?=
+ =?utf-8?B?VTlyN1d5RzkrRkVEQS9TemN4azIrb2JqS1BHc1VVTTBSbG5TS2hIbHRkQS9U?=
+ =?utf-8?B?NW5Xc0dFbGNtOVdYUnBkbEVHSGFnTzZDREZsVUJsZWYwbHRRYjVtSEJtK0hh?=
+ =?utf-8?B?UzZvT1BvbXltcnlDdmtBSE9HQmliUU5HRXNkM3dmQWtjNXZCengwTVozL1ds?=
+ =?utf-8?B?QXRMZ3ljZGR3Tm05L1VtWWNvRG5DcEdrbWg0UzhIeUVRTEVMSW9XR1dWeEZl?=
+ =?utf-8?B?UFJRSVQ0ZzlGQWFrVFV1Rlh6QngwZ3pKOS9GWnppSEhMd0N0L3crL0NMb2hZ?=
+ =?utf-8?B?MGhxeTI0NStuYWRZN0NZajB5VGloN05Nd0JPb3MzWVRHMGlDbGRBOVpPbjNw?=
+ =?utf-8?B?M0NNcWgyWUR2b3ZjOXgxSVJ3WmZROFFDM3F2WTJFZ2RzQ01ybjZ5TXZyNklS?=
+ =?utf-8?B?UUhjajJuc0dyR2o2eitWc2FZd29pSmh4QWlHamk3bWNndjZRQis2NGtKK1gz?=
+ =?utf-8?B?TGtyZ1FiNmF6Si8yNy9YZHMwWTZmY1F2bTZxWmtsZGtTc09xakZtc0xiUjJz?=
+ =?utf-8?B?aUU3Ynd3a0JtdG9ENmhkaTBMWjBLTDFZRFFtYlNXWmlxWlpEWmsrWmo3cnMz?=
+ =?utf-8?B?ZGRSRUZZcExrbDMzMElqWHY5Ykl3clgrZ1VNZjl4ZlZWOGdmRFBqdnMvTm05?=
+ =?utf-8?B?bTFlQnBvNDZwdkFXcExCN1FhSmxKOUpFVzBGWlVsTTdiSGI2d3hxWCtIdTBQ?=
+ =?utf-8?B?aG53MWNRT0Jkd0hiVTFFZVEwZnc2bG1rR2hCdDNJN09KeUpibkZEYkNGZU95?=
+ =?utf-8?B?VHlGUTlVcWJ2aXczOFBHc08zZnM2L1dJUXQ2SnZUbG9FQ2pwbVU4SjRIdmhO?=
+ =?utf-8?B?T3Fya1cvYlQrMmNqUEV5cFk5cDB1UklpZW5aSHl3UjdnSWRpRzVyK0R3cFRx?=
+ =?utf-8?B?alNuNkE1SmI4YU4zZi81QmZINnNleW5xbzBmL2E4ak4rWWczWWtsdlRhRUFi?=
+ =?utf-8?B?UEpwWEJUNndrN3RNbVhQOTlBQ1NtTUkxL0VPRnZRRDRLWGVlcTVjMW9mUUxG?=
+ =?utf-8?B?U1JnbEVPSGY4Vng1SzZWdzRyaXRLZjhDMHRoZDhoVVdjdHdaektDVlZmVm9O?=
+ =?utf-8?B?a05nd3QxVVN3OXgwNmZVSHdqbmpFV2JzamU3bkZjNlkraEY4L1JOcUZKZk5i?=
+ =?utf-8?B?czhqdXhacFZwbTZ3YXNxNkl4cUdJK1N1MkJwdi9pYnZUcWZxMGVEZlJ2ZDFF?=
+ =?utf-8?B?RjlKcWRteEdZL0xrU0Zrd2hYb2crL2FTWlBnenRlM2VrbkdHMC9lK3V1YWkx?=
+ =?utf-8?B?OFpDMTFjTE9Va3gwbjE2RW9lMmtjdGZJVVpRWW91dkMzbm1uem02VUJxTUhk?=
+ =?utf-8?B?N3hSblBoWHptK1BQY2JSYVNrYlVZSTF3aXdFSVpFbjgvZ04waHpJUUJlMVZW?=
+ =?utf-8?Q?WdXMzU3GXes3l?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e163dd3-a587-4f49-a2bb-08d8cc39d1af
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2021 13:59:58.3142 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lx0r1UgMrRMUWaH04uejkDQlIRubYGUC1ldyMtwQfOPVAGljiIOafZICTybLsOgn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4962
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,364 +139,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1964225270=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <Alexander.Deucher@amd.com>,
+ Qiang Yu <yuq825@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1964225270==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PBlOYYBatD3LLpiolXUeI0JElzvqHuXEG"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PBlOYYBatD3LLpiolXUeI0JElzvqHuXEG
-Content-Type: multipart/mixed; boundary="t6UeHqzd71cULxVTjrE2Rp6dnIL6la07h";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
-Message-ID: <2353416f-8754-a49f-8271-ee6de7bfa7b4@suse.de>
-Subject: Re: [PATCH] drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and
- cleanup_fb
-References: <20210127140503.31772-1-tzimmermann@suse.de>
- <YBp7CzzBjECx5lAu@phenom.ffwll.local>
- <9997d4d0-4664-d38c-22ae-346aeccba896@suse.de>
- <YBp+jxbjkdcpN1eo@phenom.ffwll.local>
- <74307294-2220-29d6-9d59-a73c2b8f43c6@suse.de>
- <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
-In-Reply-To: <89578948-c675-9935-b2e2-b9b1a9081d7d@redhat.com>
-
---t6UeHqzd71cULxVTjrE2Rp6dnIL6la07h
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Hans
-
-Am 03.02.21 um 12:50 schrieb Hans de Goede:
-> If I understand things correctly, there is some memory corruption
-> introduced by this patch, so there will be a v2 fixing this ?
->=20
-> The reason why I'm asking is because I always try to test vboxvideo pat=
-ches
-> inside a vbox vm, but if a v2 is coming, there is not much use in me te=
-sting
-> this version, correct ?
-
-I just sent out v2 of the patchset. [1] It's now build upon DRM helpers, =
-
-so vboxvideo got slightly smaller. For testing, the latest drm-tip or=20
-drm-misc-next is required.
-
-Best regards
-Thomas
-
-[1]=20
-https://lore.kernel.org/dri-devel/20210208135044.27827-1-tzimmermann@suse=
-=2Ede/T/#t
-
->=20
-> Regards,
->=20
-> Hans
->=20
->=20
->=20
->>>>>> ---
->>>>>>  =C2=A0=C2=A0 drivers/gpu/drm/vboxvideo/vbox_mode.c | 102 ++++++++=
-+++++++++++++-----
->>>>>>  =C2=A0=C2=A0 1 file changed, 82 insertions(+), 20 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/d=
-rm/vboxvideo/vbox_mode.c
->>>>>> index dbc0dd53c69e..b5625a7d6cef 100644
->>>>>> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
->>>>>> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
->>>>>> @@ -324,6 +324,19 @@ static void vbox_primary_atomic_disable(struc=
-t drm_plane *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 old_st=
-ate->src_y >> 16);
->>>>>>  =C2=A0=C2=A0 }
->>>>>> +struct vbox_cursor_plane_state {
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_plane_state base;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 /* Transitional state - do not export or dupli=
-cate */
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
->>>>>> +};
->>>>>> +
->>>>>> +static struct vbox_cursor_plane_state *to_vbox_cursor_plane_state=
-(struct drm_plane_state *state)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0 return container_of(state, struct vbox_cursor_=
-plane_state, base);
->>>>>> +}
->>>>>> +
->>>>>>  =C2=A0=C2=A0 static int vbox_cursor_atomic_check(struct drm_plane=
- *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct=
- drm_plane_state *new_state)
->>>>>>  =C2=A0=C2=A0 {
->>>>>> @@ -381,14 +394,13 @@ static void vbox_cursor_atomic_update(struct=
- drm_plane *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
-ainer_of(plane->dev, struct vbox_private, ddev);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vbox_crtc *vbox_crtc =
-=3D to_vbox_crtc(plane->state->crtc);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D=
- plane->state->fb;
->>>>>> -=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo =3D drm_gem_vr=
-am_of_gem(fb->obj[0]);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 width =3D plane->state->=
-crtc_w;
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 height =3D plane->state-=
->crtc_h;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *vbox_state =3D=
- to_vbox_cursor_plane_state(plane->state);
->>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map =3D vbox_state->map;
->>>>>> +=C2=A0=C2=A0=C2=A0 u8 *src =3D map.vaddr; /* TODO: Use mapping ab=
-straction properly */
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t data_size, mask_size;=
-
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 flags;
->>>>>> -=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
->>>>>> -=C2=A0=C2=A0=C2=A0 int ret;
->>>>>> -=C2=A0=C2=A0=C2=A0 u8 *src;
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * VirtualBox uses the =
-host windowing system to draw the cursor so
->>>>>> @@ -401,17 +413,6 @@ static void vbox_cursor_atomic_update(struct =
-drm_plane *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbox_crtc->cursor_enabled =3D=
- true;
->>>>>> -=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_vram_vmap(gbo, &map);
->>>>>> -=C2=A0=C2=A0=C2=A0 if (ret) {
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * BUG: we should=
- have pinned the BO in prepare_fb().
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vbox->hw=
-_mutex);
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_WARN("Could not ma=
-p cursor bo, skipping update\n");
->>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>>>> -=C2=A0=C2=A0=C2=A0 }
->>>>>> -=C2=A0=C2=A0=C2=A0 src =3D map.vaddr; /* TODO: Use mapping abstra=
-ction properly */
->>>>>> -
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The mask must be cal=
-culated based on the alpha
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * channel, one bit per=
- ARGB word, and must be 32-bit
->>>>>> @@ -421,7 +422,6 @@ static void vbox_cursor_atomic_update(struct d=
-rm_plane *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data_size =3D width * height=
- * 4 + mask_size;
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 copy_cursor_image(src, vbox-=
->cursor_data, width, height, mask_size);
->>>>>> -=C2=A0=C2=A0=C2=A0 drm_gem_vram_vunmap(gbo, &map);
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags =3D VBOX_MOUSE_POINTER=
-_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VBOX=
-_MOUSE_POINTER_ALPHA;
->>>>>> @@ -458,6 +458,43 @@ static void vbox_cursor_atomic_disable(struct=
- drm_plane *plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_unlock(&vbox->hw_mutex=
-);
->>>>>>  =C2=A0=C2=A0 }
->>>>>> +static int vbox_cursor_prepare_fb(struct drm_plane *plane, struct=
- drm_plane_state *new_state)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *new_vbox_state=
- =3D to_vbox_cursor_plane_state(new_state);
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D new_state->fb;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map;
->>>>>> +=C2=A0=C2=A0=C2=A0 int ret;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 if (!fb)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_vram_vmap(gbo, &map);
->>>>>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 new_vbox_state->map =3D map;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static void vbox_cursor_cleanup_fb(struct drm_plane *plane, struc=
-t drm_plane_state *old_state)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *old_vbox_state=
- =3D to_vbox_cursor_plane_state(old_state);
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb =3D old_state->fb;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct dma_buf_map map =3D old_vbox_state->map=
-;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_gem_vram_object *gbo;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 if (!fb)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 drm_gem_vram_vunmap(gbo, &map);
->>>>>> +}
->>>>>> +
->>>>>>  =C2=A0=C2=A0 static const u32 vbox_cursor_plane_formats[] =3D {
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_FORMAT_ARGB8888,
->>>>>>  =C2=A0=C2=A0 };
->>>>>> @@ -466,17 +503,42 @@ static const struct drm_plane_helper_funcs v=
-box_cursor_helper_funcs =3D {
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_check=C2=A0=C2=A0=C2=
-=A0 =3D vbox_cursor_atomic_check,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_update=C2=A0=C2=A0=C2=
-=A0 =3D vbox_cursor_atomic_update,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .atomic_disable=C2=A0=C2=A0=C2=
-=A0 =3D vbox_cursor_atomic_disable,
->>>>>> -=C2=A0=C2=A0=C2=A0 .prepare_fb=C2=A0=C2=A0=C2=A0 =3D drm_gem_vram=
-_plane_helper_prepare_fb,
->>>>>> -=C2=A0=C2=A0=C2=A0 .cleanup_fb=C2=A0=C2=A0=C2=A0 =3D drm_gem_vram=
-_plane_helper_cleanup_fb,
->>>>>> +=C2=A0=C2=A0=C2=A0 .prepare_fb=C2=A0=C2=A0=C2=A0 =3D vbox_cursor_=
-prepare_fb,
->>>>>> +=C2=A0=C2=A0=C2=A0 .cleanup_fb=C2=A0=C2=A0=C2=A0 =3D vbox_cursor_=
-cleanup_fb,
->>>>>>  =C2=A0=C2=A0 };
->>>>>> +static struct drm_plane_state *vbox_cursor_atomic_duplicate_state=
-(struct drm_plane *plane)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *new_vbox_state=
-;
->>>>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D plane->dev;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 if (drm_WARN_ON(dev, !plane->state))
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 new_vbox_state =3D kzalloc(sizeof(*new_vbox_st=
-ate), GFP_KERNEL);
->>>>>> +=C2=A0=C2=A0=C2=A0 if (!new_vbox_state)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
->>>>>> +=C2=A0=C2=A0=C2=A0 __drm_atomic_helper_plane_duplicate_state(plan=
-e, &new_vbox_state->base);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 return &new_vbox_state->base;
->>>>>> +}
->>>>>> +
->>>>>> +static void vbox_cursor_atomic_destroy_state(struct drm_plane *pl=
-ane,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 struct drm_plane_state *state)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0 struct vbox_cursor_plane_state *vbox_state =3D=
- to_vbox_cursor_plane_state(state);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 __drm_atomic_helper_plane_destroy_state(&vbox_=
-state->base);
->>>>>> +=C2=A0=C2=A0=C2=A0 kfree(vbox_state);
->>>>>> +}
->>>>>> +
->>>>>>  =C2=A0=C2=A0 static const struct drm_plane_funcs vbox_cursor_plan=
-e_funcs =3D {
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .update_plane=C2=A0=C2=A0=C2=
-=A0 =3D drm_atomic_helper_update_plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .disable_plane=C2=A0=C2=A0=C2=
-=A0 =3D drm_atomic_helper_disable_plane,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .destroy=C2=A0=C2=A0=C2=A0 =3D=
- drm_primary_helper_destroy,
->>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .reset=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 =3D drm_atomic_helper_plane_reset,
->>>>>> -=C2=A0=C2=A0=C2=A0 .atomic_duplicate_state =3D drm_atomic_helper_=
-plane_duplicate_state,
->>>>>> -=C2=A0=C2=A0=C2=A0 .atomic_destroy_state =3D drm_atomic_helper_pl=
-ane_destroy_state,
->>>>>> +=C2=A0=C2=A0=C2=A0 .atomic_duplicate_state =3D vbox_cursor_atomic=
-_duplicate_state,
->>>>>> +=C2=A0=C2=A0=C2=A0 .atomic_destroy_state =3D vbox_cursor_atomic_d=
-estroy_state,
->>>>>>  =C2=A0=C2=A0 };
->>>>>>  =C2=A0=C2=A0 static const u32 vbox_primary_plane_formats[] =3D {
->>>>>>
->>>>>> base-commit: 3836b7fdfad40e2bac5dc882332f42bed6942cf4
->>>>>> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
->>>>>> --=20
->>>>>> 2.30.0
->>>>>>
->>>>>
->>>>
->>>> --=20
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>> (HRB 36809, AG N=C3=BCrnberg)
->>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>
->>>
->>>
->>>
->>>
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---t6UeHqzd71cULxVTjrE2Rp6dnIL6la07h--
-
---PBlOYYBatD3LLpiolXUeI0JElzvqHuXEG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAhQoYFAwAAAAAACgkQlh/E3EQov+Bl
-Ug//WyP6XrYHxtHwlxabb8JjH72p9Zfo+QjMPrXjOD1vB7rsgA0gRIn/CvKfIeboTSCyGSiyAbc6
-LKRlgAvc2xGpAKd3I08rPhgN3Ytj4cQDLaFmp9BVitmhFP8r06Pb0Pnxa939GuuMi05Uq8cf1hTX
-l5qGhonGrHwfWwHaPNaRORAWmR/a8isVP6JkM+0AIj6V6VWX9frXLm1ZHJDYDWd9t7oZ7UTFlLQM
-9oI0kBD/AtQmyDf8bPRMjcc3gHaeqvNYIy28EsmBUj+QHXNRRcjIDfJkgd7i4op6aT7qSRA89sdg
-NwQmBc1fgNjViPNPx7WELLmflAYAb3ZTICyCwD3yCQLN6M0FFFGiwBB8PkLCCnnyh5fuB2tBI8V5
-6HRwbWZyk9nStnmJKgObm+xQt9PFQWgCYZ38SKehsXqj6n1LCaN1+/wLm8rU/YS5bO1q/QPglfV8
-2Ki2AgauaccXvxwsoBcI4EW0jvBV5T2uZ2OV7CTWreQ1nvHm6JCLmB8hNhTobMkfzVXrfT47FOOD
-zXpxlsY5Yf0VYMnU30OhJlLfXLalEcwtOFuLBtqfFG30OsNn/FG9FtNJnOrYQLPfYRTF/IHd/cpP
-ZIbcYQ+m2gsruvcrvDhebyRlGWXJvdK8BxQbUddcakKOUqWWCnViaMaKQDAyXdeIyVbp5Wy9IjrX
-oYU=
-=MOxK
------END PGP SIGNATURE-----
-
---PBlOYYBatD3LLpiolXUeI0JElzvqHuXEG--
-
---===============1964225270==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1964225270==--
+QW0gMDguMDIuMjEgdW0gMTE6MTEgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIE1vbiwgRmVi
+IDA4LCAyMDIxIGF0IDExOjAzOjE1QU0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
+IEFtIDA4LjAyLjIxIHVtIDEwOjQ4IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+IE9uIE1vbiwg
+RmViIDA4LCAyMDIxIGF0IDEwOjM3OjE5QU0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
+Cj4+Pj4gQW0gMDcuMDIuMjEgdW0gMjI6NTAgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+Pj4+PiBb
+U05JUF0KPj4+Pj4+IENsYXJpZmljYXRpb24gLSBhcyBmYXIgYXMgSSBrbm93IHRoZXJlIGFyZSBu
+byBwYWdlIGZhdWx0IGhhbmRsZXJzIGZvciBrZXJuZWwKPj4+Pj4+IG1hcHBpbmdzLiBBbmQgd2Ug
+YXJlIHRhbGtpbmcgYWJvdXQga2VybmVsIG1hcHBpbmdzIGhlcmUsIHJpZ2h0ID8gIElmIHRoZXJl
+IHdlcmUKPj4+Pj4+IEkgY291bGQgc29sdmUgYWxsIHRob3NlIGlzc3VlcyB0aGUgc2FtZSBhcyBJ
+IGRvIGZvciB1c2VyIG1hcHBpbmdzLCBieQo+Pj4+Pj4gaW52YWxpZGF0aW5nIGFsbCBleGlzdGlu
+ZyBtYXBwaW5ncyBpbiB0aGUga2VybmVsIChib3RoIGttYXBzIGFuZCBpb3JlYW1wcylhbmQKPj4+
+Pj4+IGluc2VydCBkdW1teSB6ZXJvIG9yIH4wIGZpbGxlZCBwYWdlIGluc3RlYWQuCj4+Pj4+PiBB
+bHNvLCBJIGFzc3VtZSBmb3JjZWZ1bGx5IHJlbWFwcGluZyB0aGUgSU8gQkFSIHRvIH4wIGZpbGxl
+ZCBwYWdlIHdvdWxkIGludm9sdmUKPj4+Pj4+IGlvcmVtYXAgQVBJIGFuZCBpdCdzIG5vdCBzb21l
+dGhpbmcgdGhhdCBJIHRoaW5rIGNhbiBiZSBlYXNpbHkgZG9uZSBhY2NvcmRpbmcgdG8KPj4+Pj4+
+IGFtIGFuc3dlciBpIGdvdCB0byBhIHJlbGF0ZWQgdG9waWMgYSBmZXcgd2Vla3MgYWdvCj4+Pj4+
+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0
+cHMlM0ElMkYlMkZ3d3cuc3Bpbmljcy5uZXQlMkZsaXN0cyUyRmxpbnV4LXBjaSUyRm1zZzEwMzM5
+Ni5odG1sJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzBh
+YjZkMTZiYzQ5NDQzZDdkZDI3MDhkOGNjMTlmM2FhJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJk
+OTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQ4Mzc1OTEzNzIxMzI0NyU3Q1Vua25vd24lN0NUV0ZwYkda
+c2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dp
+TENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1tTHFSM1BvTUJ2T29kY05KQTZLNlhQMUFK
+N2hpejg0N3klMkJ3JTJCY0dlZ1NaRSUzRCZhbXA7cmVzZXJ2ZWQ9MCAodGhhdCB3YXMgdGhlIG9u
+bHkgcmVwbHkKPj4+Pj4+IGkgZ290KQo+Pj4+PiBtbWlvdHJhY2UgY2FuLCBidXQgb25seSBmb3Ig
+ZGVidWcsIGFuZCBvbmx5IG9uIHg4NiBwbGF0Zm9ybXM6Cj4+Pj4+Cj4+Pj4+IGh0dHBzOi8vbmFt
+MTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnd3
+dy5rZXJuZWwub3JnJTJGZG9jJTJGaHRtbCUyRmxhdGVzdCUyRnRyYWNlJTJGbW1pb3RyYWNlLmh0
+bWwmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDMGFiNmQx
+NmJjNDk0NDNkN2RkMjcwOGQ4Y2MxOWYzYWElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRl
+MTgzZCU3QzAlN0MwJTdDNjM3NDgzNzU5MTM3MjEzMjQ3JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNk
+OGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pY
+VkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPXlqRWFSNzNtOHJqTDRBUm8wdXBIbmpTQXRFNHl3
+JTJCSEFJU1dDU2dtak9vWSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+Pj4+Pgo+Pj4+PiBTaG91bGQgYmUg
+ZmVhc2libGUgKGJ1dCBtYXliZSBub3Qgd29ydGggdGhlIGVmZm9ydCkgdG8gZXh0ZW5kIHRoaXMg
+dG8KPj4+Pj4gc3VwcG9ydCBmYWtlIHVucGx1Zy4KPj4+PiBNaG0sIGludGVyZXN0aW5nIGlkZWEg
+eW91IGd1eXMgYnJvdWdodCB1cCBoZXJlLgo+Pj4+Cj4+Pj4gV2UgZG9uJ3QgbmVlZCBhIHBhZ2Ug
+ZmF1bHQgZm9yIHRoaXMgdG8gd29yaywgYWxsIHdlIG5lZWQgdG8gZG8gaXMgdG8gaW5zZXJ0Cj4+
+Pj4gZHVtbXkgUFRFcyBpbnRvIHRoZSBrZXJuZWxzIHBhZ2UgdGFibGUgYXQgdGhlIHBsYWNlIHdo
+ZXJlIHByZXZpb3VzbHkgdGhlCj4+Pj4gTU1JTyBtYXBwaW5nIGhhcyBiZWVuLgo+Pj4gU2ltcGx5
+IHB0ZSB0cmljayBpc24ndCBlbm91Z2gsIGJlY2F1c2Ugd2UgbmVlZDoKPj4+IC0gZHJvcCBhbGwg
+d3JpdGVzIHNpbGVudGx5Cj4+PiAtIGFsbCByZWFkcyByZXR1cm4gMHhmZgo+Pj4KPj4+IHB0ZXMg
+Y2FuJ3QgZG8gdGhhdCB0aGVtc2VsdmVzLCB3ZSBtaW5pbWFsbHkgbmVlZCB3cml0ZSBwcm90ZWN0
+aW9uIGFuZCB0aGVuCj4+PiBzaWxlbnRseSBwcm9jZWVkIG9uIGVhY2ggd3JpdGUgZmF1bHQgd2l0
+aG91dCByZXN0YXJ0aW5nIHRoZSBpbnN0cnVjdGlvbi4KPj4+IEJldHRlciB3b3VsZCBiZSB0byBv
+bmx5IGNhdGNoIHJlYWRzLCBidXQgeDg2IGRvZXNuJ3QgZG8gd3JpdGUtb25seSBwdGUKPj4+IHBl
+cm1pc3Npb25zIGFmYWlrLgo+PiBZb3UgYXJlIG5vdCB0aGlua2luZyBmYXIgZW5vdWdoIDopCj4+
+Cj4+IFRoZSBkdW1teSBQVEUgaXMgcG9pbnQgdG8gYSBkdW1teSBNTUlPIHBhZ2Ugd2hpY2ggaXMg
+anVzdCBuZXZlciB1c2VkLgo+Pgo+PiBUaGF0IGhhc3QgdGhlIGV4YWN0IHNhbWUgcHJvcGVydGll
+cyB0aGFuIG91ciByZW1vdmVkIE1NSU8gc3BhY2UganVzdCBkb2Vzbid0Cj4+IGdvZXMgYmFuYW5h
+cyB3aGVuIGEgbmV3IGRldmljZSBpcyBNTUlPIG1hcHBlZCBpbnRvIHRoYXQgYW5kIG91ciBkcml2
+ZXIgc3RpbGwKPj4gdHJpZXMgdG8gd3JpdGUgdGhlcmUuCj4gSG0sIGJ1dCB3aGVyZSBkbyB3ZSBn
+ZXQgc3VjaCBhICJndWFyYW50ZWVkIG5ldmVyIHVzZWQiIG1taW8gcGFnZSBmcm9tPwoKV2VsbCB3
+ZSBoYXZlIHRvbnMgb2YgdW51c2VkIElPIHNwYWNlIG9uIDY0Yml0IHN5c3RlbXMgdGhlc2UgZGF5
+cy4KCkRvZXNuJ3QgcmVhbGx5IG5lZWRzIHRvIGJlIFBDSWUgYWRkcmVzcyBzcGFjZSwgZG9lc24n
+dCBpdD8KCkNocmlzdGlhbi4KCj4KPiBJdCdzIGEgbmlmdHkgaWRlYSBpbmRlZWQgb3RoZXJ3aXNl
+IC4uLgo+IC1EYW5pZWwKPgo+PiBSZWdhcmRzLAo+PiBDaHJpc3RpYW4uCj4+Cj4+Cj4+Pj4+Pj4g
+QnV0IHVnaCAuLi4KPj4+Pj4+Pgo+Pj4+Pj4+IE90b2ggdmFsaWRhdGluZyBhbiBlbnRpcmUgZHJp
+dmVyIGxpa2UgYW1kZ3B1IHdpdGhvdXQgc3VjaCBhIHRyaWNrCj4+Pj4+Pj4gYWdhaW5zdCAweGZm
+IHJlYWRzIGlzIHByYWN0aWNhbGx5IGltcG9zc2libGUuIFNvIG1heWJlIHlvdSBuZWVkIHRvIGFk
+ZAo+Pj4+Pj4+IHRoaXMgYXMgb25lIG9mIHRoZSB0YXNrcyBoZXJlPwo+Pj4+Pj4gT3IgSSBjb3Vs
+ZCBqdXN0IGZvciB2YWxpZGF0aW9uIHB1cnBvc2VzIHJldHVybiB+MCBmcm9tIGFsbCByZWcgcmVh
+ZHMgaW4gdGhlIGNvZGUKPj4+Pj4+IGFuZCBpZ25vcmUgd3JpdGVzIGlmIGRybV9kZXZfdW5wbHVn
+Z2VkLCB0aGlzIGNvdWxkIGFscmVhZHkgZWFzaWx5IHZhbGlkYXRlIGEgYmlnCj4+Pj4+PiBwb3J0
+aW9uIG9mIHRoZSBjb2RlIGZsb3cgdW5kZXIgc3VjaCBzY2VuYXJpby4KPj4+Pj4gSG0geWVhaCBp
+ZiB5b3VyIHJlYWxseSB3cmFwIHRoZW0gYWxsLCB0aGF0IHNob3VsZCB3b3JrIHRvby4gU2luY2UK
+Pj4+Pj4gaW9tbWFwcGluZ3MgaGF2ZSBfX2lvbWVtIHBvaW50ZXIgdHlwZSwgYXMgbG9uZyBhcyBh
+bWRncHUgaXMgc3BhcnNlCj4+Pj4+IHdhcm5pbmcgZnJlZSwgc2hvdWxkIGJlIGRvYWJsZSB0byBn
+dWFyYW50ZWUgdGhpcy4KPj4+PiBQcm9ibGVtIGlzIHRoYXQgfjAgaXMgbm90IGFsd2F5cyBhIHZh
+bGlkIHJlZ2lzdGVyIHZhbHVlLgo+Pj4+Cj4+Pj4gWW91IHdvdWxkIG5lZWQgdG8gYXVkaXQgZXZl
+cnkgcmVnaXN0ZXIgcmVhZCB0aGF0IGl0IGRvZXNuJ3QgdXNlIHRoZSByZXR1cm5lZAo+Pj4+IHZh
+bHVlIGJsaW5kbHkgYXMgaW5kZXggb3Igc2ltaWxhci4gVGhhdCBpcyBxdWl0ZSBhIGJpdCBvZiB3
+b3JrLgo+Pj4gWWVhaCB0aGF0J3MgdGhlIGVudGlyZSBjcnV4IGhlcmUgOi0vCj4+PiAtRGFuaWVs
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
