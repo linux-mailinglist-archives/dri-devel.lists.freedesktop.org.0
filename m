@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D720314361
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1199A314362
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3066C6EA16;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A5E66EA1A;
 	Mon,  8 Feb 2021 23:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 487476EA15
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 506366EA16
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 22:38:21 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
@@ -20,25 +20,25 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z3Vm5cN5ZRUgTJMYYFZ2xGq76D9G/sCK8skQRU1NGXs=;
- b=zdkkD1GHAcXiTl5Xp5WBjkMHpvlCx8N1EMZZ0J5omzWl5zGMWQHcfr2leKqZ2OuFdFoxzo
- LDNYCWrbNxQVyWVzbJZX40rmBncOwnx+IlIA/uWBNHfku+mwB5EF5GFyP6tSxz3SWjy06I
- 2vRBMefxXCJrCqlO3/xUg9aW21005IA0v8xkGMYSv1fGS7EUfolXQ0fNcBN1I2aGJLb1jM
- vmGB6hTk034GoKkwiQwEBfai9G6Zi7jmYQrm+4bobOJYsU629npnlIduQTlvDVb5i06C/4
- Ldr8LxS4CiXN7kcPb1E6TGdMyOwP2WiiuW3G9Gg8yKwfWwZuii+KTvk/zv1ayA==
+ bh=v0cq3WK986SUH+YkubdosVAvIMlSY7yYpl0TWaVW1sQ=;
+ b=wuwra8SrIErSfUEvj46Wmh4CpVPpBAnZBmNF4wCyT1u4UhvfrSvb2NW9wYUfSXi37IkEoU
+ oEYNHL9bgB/n1/yZoBInp+B7RDD2KizFqPICjE94ofmycg9xKsq+id3Gwb4UrmpJ+XKor1
+ H3gzYfc0VtkE6GEgHj8+rkWpLQ74HzbkYKjlhFUnaV+00Zhy09oB9EHnBdzPWKysFARZpA
+ NfbbXmFxJ3C6uhUrJ6EUlpx9Wq9o0UEdmwjER8hh+yXmU2QAoHQc25caGgFns27M7PJuH7
+ bRUBGrl4d7LTJpiBUwuZI7wFto4EX4RYfaNxHHzf9x3nDiOlg0DxNa76bODtcg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020e; t=1612823899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z3Vm5cN5ZRUgTJMYYFZ2xGq76D9G/sCK8skQRU1NGXs=;
- b=KYB6Smx+kX0Y4v7x1cybAQtIzFv1RIr5biZy0O2ij6xXZJDo1M0tA6FUs+Iwi0KZrgY8UL
- 8QHHojAdWC4YLZCA==
+ bh=v0cq3WK986SUH+YkubdosVAvIMlSY7yYpl0TWaVW1sQ=;
+ b=x8XMjFq1YWqgn/3UQwkMOZ42YQcUoy9EzkqPUkf3l/Y2t3VRpF2H5ckJPaIuOMFQxuFOgI
+ z1/Q+GJSz87c8kCA==
 To: linux-fbdev@vger.kernel.org
-Subject: [PATCH 2/3] video: omapfb: Remove WARN_ON(in_interrupt()).
-Date: Mon,  8 Feb 2021 23:38:09 +0100
-Message-Id: <20210208223810.388502-3-bigeasy@linutronix.de>
+Subject: [PATCH 3/3] video: fbdev: amba-clcd: Always use msleep() for waiting
+Date: Mon,  8 Feb 2021 23:38:10 +0100
+Message-Id: <20210208223810.388502-4-bigeasy@linutronix.de>
 In-Reply-To: <20210208223810.388502-1-bigeasy@linutronix.de>
 References: <20210208223810.388502-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -58,49 +58,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- "Ahmed S. Darwish" <a.darwish@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org
+ Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org,
+ Peter Collingbourne <pcc@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
-
-dsi_sync_vc() uses in_interrupt() to create a warning if the function is
-used in non-preemptible context.
+The driver uses in_atomic() to distinguish between mdelay() and msleep().
 
 The usage of in_interrupt() in drivers is phased out and Linus clearly
 requested that code which changes behaviour depending on context should
 either be separated or the context be conveyed in an argument passed by the
 caller, which usually knows the context.
 
-The wait_for_completion() function (used in dsi_sync_vc_vp() and
-dsi_sync_vc_l4() has already a check if it is invoked from proper
-context.
+I traced the usage of in_interrupt() back to its initial merge:
+    bfe694f833643 ("[ARM] Add ARM AMBA CLCD framebuffer driver.")
+    https://git.kernel.org/history/history/c/bfe694f833643
 
-Remove WARN_ON(in_interrupt()) from the driver.
+The driver has been removed and added back in the meantime.
+I've been looking for the IRQ context as described in the comment and
+couldn't find it. The functions calling clcdfb_sleep() also call
+conditionally backlight_update_status() which acquires a mutex. If it is
+okay to acquire a mutex then it is okay to use msleep() since both
+functions must be used in preemptible context.
 
-Cc: linux-omap@vger.kernel.org
-Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
+Replace clcdfb_sleep() with msleep().
+
+Cc: Peter Collingbourne <pcc@google.com>
+Cc: Russell King <linux@armlinux.org.uk>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/fbdev/amba-clcd.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-index dc34bb04b865c..df90091de75f8 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-@@ -2373,8 +2373,6 @@ static int dsi_sync_vc(struct platform_device *dsidev, int channel)
+diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
+index 33595cc4778e9..9ec969e136bfd 100644
+--- a/drivers/video/fbdev/amba-clcd.c
++++ b/drivers/video/fbdev/amba-clcd.c
+@@ -35,19 +35,6 @@
+ /* This is limited to 16 characters when displayed by X startup */
+ static const char *clcd_name = "CLCD FB";
  
- 	WARN_ON_ONCE(!dsi_bus_is_locked(dsidev));
- 
--	WARN_ON(in_interrupt());
+-/*
+- * Unfortunately, the enable/disable functions may be called either from
+- * process or IRQ context, and we _need_ to delay.  This is _not_ good.
+- */
+-static inline void clcdfb_sleep(unsigned int ms)
+-{
+-	if (in_atomic()) {
+-		mdelay(ms);
+-	} else {
+-		msleep(ms);
+-	}
+-}
 -
- 	if (!dsi_vc_is_enabled(dsidev, channel))
- 		return 0;
+ static inline void clcdfb_set_start(struct clcd_fb *fb)
+ {
+ 	unsigned long ustart = fb->fb.fix.smem_start;
+@@ -77,7 +64,7 @@ static void clcdfb_disable(struct clcd_fb *fb)
+ 		val &= ~CNTL_LCDPWR;
+ 		writel(val, fb->regs + fb->off_cntl);
  
+-		clcdfb_sleep(20);
++		msleep(20);
+ 	}
+ 	if (val & CNTL_LCDEN) {
+ 		val &= ~CNTL_LCDEN;
+@@ -109,7 +96,7 @@ static void clcdfb_enable(struct clcd_fb *fb, u32 cntl)
+ 	cntl |= CNTL_LCDEN;
+ 	writel(cntl, fb->regs + fb->off_cntl);
+ 
+-	clcdfb_sleep(20);
++	msleep(20);
+ 
+ 	/*
+ 	 * and now apply power.
 -- 
 2.30.0
 
