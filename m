@@ -1,28 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECBD31403D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 21:20:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F91231403B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 21:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D32D66E9EC;
-	Mon,  8 Feb 2021 20:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17EC86E9EA;
+	Mon,  8 Feb 2021 20:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 657 seconds by postgrey-1.36 at gabe;
- Mon, 08 Feb 2021 20:20:02 UTC
-Received: from hillosipuli.retiisi.eu (retiisi.eu [95.216.213.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A846E9EA
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 20:20:02 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu
+ [IPv6:2a01:4f9:c010:4572::81:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21956E9EB
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 20:20:01 +0000 (UTC)
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
- by hillosipuli.retiisi.eu (Postfix) with ESMTP id EE691634C8C;
- Mon,  8 Feb 2021 22:08:33 +0200 (EET)
+ by hillosipuli.retiisi.eu (Postfix) with ESMTP id 0F4AA634C8D;
+ Mon,  8 Feb 2021 22:08:34 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/3] v4l: ioctl: Use %p4cc printk modifier to print FourCC
- codes
-Date: Mon,  8 Feb 2021 22:09:02 +0200
-Message-Id: <20210208200903.28084-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 3/3] drm/fourcc: Switch to %p4cc format modifier
+Date: Mon,  8 Feb 2021 22:09:03 +0200
+Message-Id: <20210208200903.28084-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
 References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
@@ -52,172 +50,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we can print FourCC codes directly using printk, make use of the
-feature in V4L2 core.
+Instead of constructing the FourCC code manually, use the %p4cc printk
+modifier to print it. Also leave a message to avoid using this function.
+
+The next step would be to convert the users to use %p4cc directly instead
+and removing the function.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 85 +++++++---------------------
- 1 file changed, 21 insertions(+), 64 deletions(-)
+ drivers/gpu/drm/drm_fourcc.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 31d1342e61e8..31662c3a8c9e 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -265,13 +265,9 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
- {
- 	const struct v4l2_fmtdesc *p = arg;
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 03262472059c..4ff40f2f27c0 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -30,11 +30,6 @@
+ #include <drm/drm_device.h>
+ #include <drm/drm_fourcc.h>
  
--	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
-+	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%p4cc, mbus_code=0x%04x, description='%.*s'\n",
- 		p->index, prt_names(p->type, v4l2_type_names),
--		p->flags, (p->pixelformat & 0xff),
--		(p->pixelformat >>  8) & 0xff,
--		(p->pixelformat >> 16) & 0xff,
--		(p->pixelformat >> 24) & 0xff,
--		p->mbus_code,
-+		p->flags, &p->pixelformat, p->mbus_code,
- 		(int)sizeof(p->description), p->description);
+-static char printable_char(int c)
+-{
+-	return isascii(c) && isprint(c) ? c : '?';
+-}
+-
+ /**
+  * drm_mode_legacy_fb_format - compute drm fourcc code from legacy description
+  * @bpp: bits per pixels
+@@ -134,17 +129,12 @@ EXPORT_SYMBOL(drm_driver_legacy_fb_format);
+  * drm_get_format_name - fill a string with a drm fourcc format's name
+  * @format: format to compute name of
+  * @buf: caller-supplied buffer
++ *
++ * Please use %p4cc printk format modifier instead of this function.
+  */
+ const char *drm_get_format_name(uint32_t format, struct drm_format_name_buf *buf)
+ {
+-	snprintf(buf->str, sizeof(buf->str),
+-		 "%c%c%c%c %s-endian (0x%08x)",
+-		 printable_char(format & 0xff),
+-		 printable_char((format >> 8) & 0xff),
+-		 printable_char((format >> 16) & 0xff),
+-		 printable_char((format >> 24) & 0x7f),
+-		 format & DRM_FORMAT_BIG_ENDIAN ? "big" : "little",
+-		 format);
++	snprintf(buf->str, sizeof(buf->str), "%p4cc", &format);
+ 
+ 	return buf->str;
  }
- 
-@@ -293,12 +289,8 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
- 		pix = &p->fmt.pix;
--		pr_cont(", width=%u, height=%u, pixelformat=%c%c%c%c, field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
--			pix->width, pix->height,
--			(pix->pixelformat & 0xff),
--			(pix->pixelformat >>  8) & 0xff,
--			(pix->pixelformat >> 16) & 0xff,
--			(pix->pixelformat >> 24) & 0xff,
-+		pr_cont(", width=%u, height=%u, pixelformat=%p4cc, field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-+			pix->width, pix->height, &pix->pixelformat,
- 			prt_names(pix->field, v4l2_field_names),
- 			pix->bytesperline, pix->sizeimage,
- 			pix->colorspace, pix->flags, pix->ycbcr_enc,
-@@ -307,12 +299,8 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		mp = &p->fmt.pix_mp;
--		pr_cont(", width=%u, height=%u, format=%c%c%c%c, field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
--			mp->width, mp->height,
--			(mp->pixelformat & 0xff),
--			(mp->pixelformat >>  8) & 0xff,
--			(mp->pixelformat >> 16) & 0xff,
--			(mp->pixelformat >> 24) & 0xff,
-+		pr_cont(", width=%u, height=%u, format=%p4cc, field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-+			mp->width, mp->height, &mp->pixelformat,
- 			prt_names(mp->field, v4l2_field_names),
- 			mp->colorspace, mp->num_planes, mp->flags,
- 			mp->ycbcr_enc, mp->quantization, mp->xfer_func);
-@@ -337,13 +325,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_VBI_CAPTURE:
- 	case V4L2_BUF_TYPE_VBI_OUTPUT:
- 		vbi = &p->fmt.vbi;
--		pr_cont(", sampling_rate=%u, offset=%u, samples_per_line=%u, sample_format=%c%c%c%c, start=%u,%u, count=%u,%u\n",
-+		pr_cont(", sampling_rate=%u, offset=%u, samples_per_line=%u, sample_format=%p4cc, start=%u,%u, count=%u,%u\n",
- 			vbi->sampling_rate, vbi->offset,
--			vbi->samples_per_line,
--			(vbi->sample_format & 0xff),
--			(vbi->sample_format >>  8) & 0xff,
--			(vbi->sample_format >> 16) & 0xff,
--			(vbi->sample_format >> 24) & 0xff,
-+			vbi->samples_per_line, &vbi->sample_format,
- 			vbi->start[0], vbi->start[1],
- 			vbi->count[0], vbi->count[1]);
- 		break;
-@@ -360,21 +344,13 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_SDR_CAPTURE:
- 	case V4L2_BUF_TYPE_SDR_OUTPUT:
- 		sdr = &p->fmt.sdr;
--		pr_cont(", pixelformat=%c%c%c%c\n",
--			(sdr->pixelformat >>  0) & 0xff,
--			(sdr->pixelformat >>  8) & 0xff,
--			(sdr->pixelformat >> 16) & 0xff,
--			(sdr->pixelformat >> 24) & 0xff);
-+		pr_cont(", pixelformat=%p4cc\n", &sdr->pixelformat);
- 		break;
- 	case V4L2_BUF_TYPE_META_CAPTURE:
- 	case V4L2_BUF_TYPE_META_OUTPUT:
- 		meta = &p->fmt.meta;
--		pr_cont(", dataformat=%c%c%c%c, buffersize=%u\n",
--			(meta->dataformat >>  0) & 0xff,
--			(meta->dataformat >>  8) & 0xff,
--			(meta->dataformat >> 16) & 0xff,
--			(meta->dataformat >> 24) & 0xff,
--			meta->buffersize);
-+		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
-+			&meta->dataformat, meta->buffersize);
- 		break;
- 	}
- }
-@@ -383,15 +359,10 @@ static void v4l_print_framebuffer(const void *arg, bool write_only)
- {
- 	const struct v4l2_framebuffer *p = arg;
- 
--	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=%c%c%c%c, bytesperline=%u, sizeimage=%u, colorspace=%d\n",
--			p->capability, p->flags, p->base,
--			p->fmt.width, p->fmt.height,
--			(p->fmt.pixelformat & 0xff),
--			(p->fmt.pixelformat >>  8) & 0xff,
--			(p->fmt.pixelformat >> 16) & 0xff,
--			(p->fmt.pixelformat >> 24) & 0xff,
--			p->fmt.bytesperline, p->fmt.sizeimage,
--			p->fmt.colorspace);
-+	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=%p4cc, bytesperline=%u, sizeimage=%u, colorspace=%d\n",
-+		p->capability, p->flags, p->base, p->fmt.width, p->fmt.height,
-+		&p->fmt.pixelformat, p->fmt.bytesperline, p->fmt.sizeimage,
-+		p->fmt.colorspace);
- }
- 
- static void v4l_print_buftype(const void *arg, bool write_only)
-@@ -761,13 +732,8 @@ static void v4l_print_frmsizeenum(const void *arg, bool write_only)
- {
- 	const struct v4l2_frmsizeenum *p = arg;
- 
--	pr_cont("index=%u, pixelformat=%c%c%c%c, type=%u",
--			p->index,
--			(p->pixel_format & 0xff),
--			(p->pixel_format >>  8) & 0xff,
--			(p->pixel_format >> 16) & 0xff,
--			(p->pixel_format >> 24) & 0xff,
--			p->type);
-+	pr_cont("index=%u, pixelformat=%p4cc, type=%u",
-+		p->index, &p->pixel_format, p->type);
- 	switch (p->type) {
- 	case V4L2_FRMSIZE_TYPE_DISCRETE:
- 		pr_cont(", wxh=%ux%u\n",
-@@ -793,13 +759,8 @@ static void v4l_print_frmivalenum(const void *arg, bool write_only)
- {
- 	const struct v4l2_frmivalenum *p = arg;
- 
--	pr_cont("index=%u, pixelformat=%c%c%c%c, wxh=%ux%u, type=%u",
--			p->index,
--			(p->pixel_format & 0xff),
--			(p->pixel_format >>  8) & 0xff,
--			(p->pixel_format >> 16) & 0xff,
--			(p->pixel_format >> 24) & 0xff,
--			p->width, p->height, p->type);
-+	pr_cont("index=%u, pixelformat=%p4cc, wxh=%ux%u, type=%u",
-+		p->index, &p->pixel_format, p->width, p->height, p->type);
- 	switch (p->type) {
- 	case V4L2_FRMIVAL_TYPE_DISCRETE:
- 		pr_cont(", fps=%d/%d\n",
-@@ -1459,12 +1420,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 				return;
- 			WARN(1, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
- 			flags = 0;
--			snprintf(fmt->description, sz, "%c%c%c%c%s",
--					(char)(fmt->pixelformat & 0x7f),
--					(char)((fmt->pixelformat >> 8) & 0x7f),
--					(char)((fmt->pixelformat >> 16) & 0x7f),
--					(char)((fmt->pixelformat >> 24) & 0x7f),
--					(fmt->pixelformat & (1UL << 31)) ? "-BE" : "");
-+			snprintf(fmt->description, sz, "%p4cc",
-+				 &fmt->pixelformat);
- 			break;
- 		}
- 	}
 -- 
 2.29.2
 
