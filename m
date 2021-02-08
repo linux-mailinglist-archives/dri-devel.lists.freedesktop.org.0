@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49EB3132FD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 14:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEE0313328
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 14:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44C88989A;
-	Mon,  8 Feb 2021 13:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F20F882AF;
+	Mon,  8 Feb 2021 13:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 127B189175;
- Mon,  8 Feb 2021 13:11:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 3112A2A6046;
- Mon,  8 Feb 2021 14:11:49 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id gl-1-ceqpwv5; Mon,  8 Feb 2021 14:11:48 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 963742A6042;
- Mon,  8 Feb 2021 14:11:48 +0100 (CET)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1l96KR-001pkU-U7; Mon, 08 Feb 2021 14:11:47 +0100
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-To: Daniel Vetter <daniel@ffwll.ch>, Kees Cook <keescook@chromium.org>,
- "airlied@gmail.com" <airlied@gmail.com>
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
- <202102051030.1AF01772D@keescook>
- <CAKMK7uHnOA9CuRxcKkcqG8duOw_3dZobkThcV7Q_swMXVoLCkQ@mail.gmail.com>
- <5a940e13-8996-e9e5-251e-a9af294a39ff@daenzer.net>
-Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
-Message-ID: <9e5de17c-9912-18b3-1e2e-8d6672818504@daenzer.net>
-Date: Mon, 8 Feb 2021 14:11:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A69816E8D1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3504664EA1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612790508;
+ bh=JCowdY9/swgNvLGKCtYILHUDvwFwe3wlliPaauwJtqo=;
+ h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+ b=Z0OnUMf1XF6wkRce7+KX5yJEIK6rZnwX/0/uGbV2554m5cIGXXf99QGkLMeuM2fo4
+ nd+PvQhfz2KCYi5XqodKdoD0PYFGrupII7JGvkT/qoRyvGD26bNaz93mXnYoJMZnRb
+ XFnWTvefmgX+P1z2gr+Jco4NiaPfHaMatAsoGDDYRSF/B/F66UcGVCq1MZPngEkxbb
+ ATc163bd6VzzSwq/mqlS9wAs+dmMbqPMJWRaRKdulx3KF8yOrzO6fioAv76GkwLhaW
+ 8mgSRn8dSSdEkZ2xBqvLCaL7F8AFVEHODzDZVS1VsCgjQUrHuQJxbi9NsMQLAW+NEw
+ PupCXLjtMynFg==
+Received: by mail-il1-f177.google.com with SMTP id y17so12627273ili.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 05:21:48 -0800 (PST)
+X-Gm-Message-State: AOAM533LE6JaI7ScKf79sRHEDM19uRCHin8w65OeqrNIjqY/TL9NaZRp
+ wzdw/qQ+ULomAStVaa4jb5K7N9ILIIXuWA839a4=
+X-Google-Smtp-Source: ABdhPJxZjp+8gF8o8padJL0+IzzLbtZUb75SL2CM/u1HRiY8+G7HYRwykHjohne3jzUWkH/+/7nK2pb8nWzP/J4obWU=
+X-Received: by 2002:a05:6e02:1d0b:: with SMTP id
+ i11mr15393249ila.206.1612790507545; 
+ Mon, 08 Feb 2021 05:21:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5a940e13-8996-e9e5-251e-a9af294a39ff@daenzer.net>
-Content-Language: en-CA
+References: <b6580306-fbfb-e7ac-aa4e-2476a5ee39da@linaro.org>
+In-Reply-To: <b6580306-fbfb-e7ac-aa4e-2476a5ee39da@linaro.org>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 8 Feb 2021 08:21:36 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA7OC5JeW7rug-JXiGRZRtiirGcBf9jj0geJ2ZuQDBGU-Q@mail.gmail.com>
+Message-ID: <CA+5PVA7OC5JeW7rug-JXiGRZRtiirGcBf9jj0geJ2ZuQDBGU-Q@mail.gmail.com>
+Subject: Re: linux-firmware for Qualcomm SM8250 platforms
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,84 +53,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Will Drewry <wad@chromium.org>, Jann Horn <jannh@google.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andy Lutomirski <luto@amacapital.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linux Firmware <linux-firmware@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wMi0wOCAxMjo0OSBwLm0uLCBNaWNoZWwgRMOkbnplciB3cm90ZToKPiBPbiAyMDIx
-LTAyLTA1IDk6NTMgcC5tLiwgRGFuaWVsIFZldHRlciB3cm90ZToKPj4gT24gRnJpLCBGZWIgNSwg
-MjAyMSBhdCA3OjM3IFBNIEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPiB3cm90ZToK
-Pj4+Cj4+PiBPbiBGcmksIEZlYiAwNSwgMjAyMSBhdCAwNDozNzo1MlBNICswMDAwLCBDaHJpcyBX
-aWxzb24gd3JvdGU6Cj4+Pj4gVXNlcnNwYWNlIGhhcyBkaXNjb3ZlcmVkIHRoZSBmdW5jdGlvbmFs
-aXR5IG9mZmVyZWQgYnkgU1lTX2tjbXAgYW5kIGhhcwo+Pj4+IHN0YXJ0ZWQgdG8gZGVwZW5kIHVw
-b24gaXQuIEluIHBhcnRpY3VsYXIsIE1lc2EgdXNlcyBTWVNfa2NtcCBmb3IKPj4+PiBvc19zYW1l
-X2ZpbGVfZGVzY3JpcHRpb24oKSBpbiBvcmRlciB0byBpZGVudGlmeSB3aGVuIHR3byBmZCAoZS5n
-LiAKPj4+PiBkZXZpY2UKPj4+PiBvciBkbWFidWYpIHBvaW50IHRvIHRoZSBzYW1lIHN0cnVjdCBm
-aWxlLiBTaW5jZSB0aGV5IGRlcGVuZCBvbiBpdCBmb3IKPj4+PiBjb3JlIGZ1bmN0aW9uYWxpdHks
-IGxpZnQgU1lTX2tjbXAgb3V0IG9mIHRoZSBub24tZGVmYXVsdAo+Pj4+IENPTkZJR19DSEVDS1BP
-SU5UX1JFU1RPUkUgaW50byB0aGUgc2VsZWN0YWJsZSBzeXNjYWxsIGNhdGVnb3J5Lgo+Pj4+Cj4+
-Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+
-Cj4+Pj4gQ2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgo+Pj4+IENjOiBBbmR5
-IEx1dG9taXJza2kgPGx1dG9AYW1hY2FwaXRhbC5uZXQ+Cj4+Pj4gQ2M6IFdpbGwgRHJld3J5IDx3
-YWRAY2hyb21pdW0ub3JnPgo+Pj4+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5k
-YXRpb24ub3JnPgo+Pj4+IENjOiBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+Cj4+Pj4g
-Q2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPj4+PiBDYzogTHVjYXMgU3RhY2gg
-PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4+Pj4gLS0tCj4+Pj4gwqAgaW5pdC9LY29uZmlnwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHwgMTEgKysrKysrKysrKysKPj4+PiDCoCBrZXJuZWwvTWFrZWZpbGXCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIg
-Ky0KPj4+PiDCoCB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9zZWNjb21wL3NlY2NvbXBfYnBmLmMg
-fMKgIDIgKy0KPj4+PiDCoCAzIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvaW5pdC9LY29uZmlnIGIvaW5pdC9LY29u
-ZmlnCj4+Pj4gaW5kZXggYjc3YzYwZjhiOTYzLi5mNjJmY2ExM2FjNWIgMTAwNjQ0Cj4+Pj4gLS0t
-IGEvaW5pdC9LY29uZmlnCj4+Pj4gKysrIGIvaW5pdC9LY29uZmlnCj4+Pj4gQEAgLTExOTQsNiAr
-MTE5NCw3IEBAIGVuZGlmICMgTkFNRVNQQUNFUwo+Pj4+IMKgIGNvbmZpZyBDSEVDS1BPSU5UX1JF
-U1RPUkUKPj4+PiDCoMKgwqDCoMKgwqAgYm9vbCAiQ2hlY2twb2ludC9yZXN0b3JlIHN1cHBvcnQi
-Cj4+Pj4gwqDCoMKgwqDCoMKgIHNlbGVjdCBQUk9DX0NISUxEUkVOCj4+Pj4gK8KgwqDCoMKgIHNl
-bGVjdCBLQ01QCj4+Pj4gwqDCoMKgwqDCoMKgIGRlZmF1bHQgbgo+Pj4+IMKgwqDCoMKgwqDCoCBo
-ZWxwCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoCBFbmFibGVzIGFkZGl0aW9uYWwga2VybmVsIGZlYXR1
-cmVzIGluIGEgc2FrZSBvZiAKPj4+PiBjaGVja3BvaW50L3Jlc3RvcmUuCj4+Pj4gQEAgLTE3Mzcs
-NiArMTczOCwxNiBAQCBjb25maWcgQVJDSF9IQVNfTUVNQkFSUklFUl9DQUxMQkFDS1MKPj4+PiDC
-oCBjb25maWcgQVJDSF9IQVNfTUVNQkFSUklFUl9TWU5DX0NPUkUKPj4+PiDCoMKgwqDCoMKgwqAg
-Ym9vbAo+Pj4+Cj4+Pj4gK2NvbmZpZyBLQ01QCj4+Pj4gK8KgwqDCoMKgIGJvb2wgIkVuYWJsZSBr
-Y21wKCkgc3lzdGVtIGNhbGwiIGlmIEVYUEVSVAo+Pj4+ICvCoMKgwqDCoCBkZWZhdWx0IHkKPj4+
-Cj4+PiBJIHdvdWxkIGV4cGVjdCB0aGlzIHRvIGJlIG5vdCBkZWZhdWx0LXksIGVzcGVjaWFsbHkg
-aWYKPj4+IENIRUNLUE9JTlRfUkVTVE9SRSBkb2VzIGEgInNlbGVjdCIgb24gaXQuCj4+Pgo+Pj4g
-VGhpcyBpcyBhIHJlYWxseSBwb3dlcmZ1bCBzeXNjYWxsLCBidXQgaXQgaXMgYm91bmRlZCBieSBw
-dHJhY2UgYWNjZXNzCj4+PiBjb250cm9scywgYW5kIHVzZXMgcG9pbnRlciBhZGRyZXNzIG9iZnVz
-Y2F0aW9uLCBzbyBpdCBtYXkgYmUgb2theSB0bwo+Pj4gZXhwb3NlIHRoaXMuIEFzIGl0IGlzLCBh
-dCBsZWFzdCBVYnVudHUgYWxyZWFkeSBoYXMKPj4+IENPTkZJR19DSEVDS1BPSU5UX1JFU1RPUkUs
-IHNvIHJlYWxseSwgdGhlcmUncyBwcm9iYWJseSBub3QgbXVjaAo+Pj4gZGlmZmVyZW5jZSBvbiBl
-eHBvc3VyZS4KPj4+Cj4+PiBTbywgaWYgeW91IGRyb3AgdGhlICJkZWZhdWx0IHkiLCBJJ20gZmlu
-ZSB3aXRoIHRoaXMuCj4+Cj4+IEl0IHdhcyBtYXliZSBzdHVwaWQsIGJ1dCBvdXIgdXNlcnNwYWNl
-IHN0YXJ0ZWQgcmVseWluZyBvbiBmZAo+PiBjb21hcHJpc29uIHRocm91Z2ggc3lzX2tjb21wLiBT
-byBmb3IgYmV0dGVyIG9yIHdvcnNlLCBpZiB5b3Ugd2FudCB0bwo+PiBydW4gdGhlIG1lc2EzZCBn
-bC92ayBzdGFja3MsIHlvdSBuZWVkIHRoaXMuCj4gCj4gVGhhdCdzIG92ZXJzdGF0aW5nIHRoaW5n
-cyBzb21ld2hhdC4gVGhlIHZhc3QgbWFqb3JpdHkgb2YgYXBwbGljYXRpb25zIAo+IHdpbGwgd29y
-ayBmaW5lIHJlZ2FyZGxlc3MgKGFzIHRoZXkgZGlkIGJlZm9yZSBNZXNhIHN0YXJ0ZWQgdXNpbmcg
-dGhpcyAKPiBmdW5jdGlvbmFsaXR5KS4gT25seSBzb21lIHNwZWNpYWwgb25lcyB3aWxsIHJ1biBp
-bnRvIGlzc3VlcywgYmVjYXVzZSB0aGUgCj4gdXNlci1zcGFjZSBkcml2ZXJzIGluY29ycmVjdGx5
-IGFzc3VtZSB0d28gZmlsZSBkZXNjcmlwdG9ycyByZWZlcmVuY2UgCj4gZGlmZmVyZW50IGRlc2Ny
-aXB0aW9ucy4KPiAKPiAKPj4gV2FzIG1heWJlIG5vdCB0aGUgYnJpZ2hlc3QgaWRlYXMsIGJ1dCBz
-aW5jZSBlbm91Z2ggZGlzdHJvcyBoYWQgdGhpcwo+PiBlbmFibGVkIGJ5IGRlZmF1bHRzLAo+IAo+
-IFJpZ2h0LCB0aGF0IChhbmQgdGhlIGFib3ZlKSBpcyB3aHkgSSBjb25zaWRlcmVkIGl0IGZhaXIg
-Z2FtZSB0byB1c2UuIAo+IFdoYXQgc2hvdWxkIEkgaGF2ZSBkb25lIGluc3RlYWQ/IChUQkggSSB3
-YXMgc3VycHJpc2VkIHRoYXQgdGhpcyAKPiBmdW5jdGlvbmFsaXR5IGlzbid0IGdlbmVyYWxseSBh
-dmFpbGFibGUpCgpJbiB0aGF0IHNwaXJpdCwgYW4gYWx0ZXJuYXRpdmUgbWlnaHQgYmUgdG8gbWFr
-ZSBLQ01QX0ZJTEUgYXZhaWxhYmxlIAp1bmNvbmRpdGlvbmFsbHksIGFuZCB0aGUgcmVzdCBvZiBT
-WVNfa2NtcCBvbmx5IHdpdGggQ0hFQ0tQT0lOVF9SRVNUT1JFIAphcyBiZWZvcmUuIChPciBtYXli
-ZSBvdGhlciBwYXJ0cyBvZiBTWVNfa2NtcCBhcmUgZ2VuZXJhbGx5IHVzZWZ1bCBhcyB3ZWxsPykK
-CgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAg
-ICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAg
-ICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Pulled and pushed out.
+
+josh
+
+On Fri, Jan 22, 2021 at 5:12 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Hello linux-firmware maintainers,
+>
+> We'd like to submit firmware for Qualcomm SM8250-based platforms.
+> Firmware successfully tested on Qualcomm Robotics RB5 platform.
+>
+> The following changes since commit d5288624259300c558480c21a860fcf94187d29d:
+>
+>    brcm: Add NVRAM for Vamrs 96boards Rock960 (2021-01-09 07:31:33 -0500)
+>
+> are available in the Git repository at:
+>
+>    https://github.com/lumag/linux-firmware qcom-rb5
+>
+> for you to fetch changes up to df822a848cceb185d2d50a39140ba0c9cd9f33e9::
+>
+>    qcom: Add venus firmware files for VPU-1.0 (2021-01-23 01:10:05 +0300)
+>
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (4):
+>        qcom: add firmware files for Adreno a650
+>        qcom: Add SM8250 Audio DSP firmware
+>        qcom: Add SM8250 Compute DSP firmware
+>        qcom: Add venus firmware files for VPU-1.0
+>
+>   WHENCE                   |  26 ++++++++++++++++++++++++++
+>   qcom/a650_gmu.bin        | Bin 0 -> 41548 bytes
+>   qcom/a650_sqe.fw         | Bin 0 -> 31488 bytes
+>   qcom/sm8250/a650_zap.mbn | Bin 0 -> 13964 bytes
+>   qcom/sm8250/adsp.mbn     | Bin 0 -> 15515796 bytes
+>   qcom/sm8250/adspr.jsn    |  21 +++++++++++++++++++++
+>   qcom/sm8250/adspua.jsn   |  27 +++++++++++++++++++++++++++
+>   qcom/sm8250/cdsp.mbn     | Bin 0 -> 5822228 bytes
+>   qcom/sm8250/cdspr.jsn    |  21 +++++++++++++++++++++
+>   qcom/vpu-1.0/venus.b00   | Bin 0 -> 692 bytes
+>   qcom/vpu-1.0/venus.b01   | Bin 0 -> 7528 bytes
+>   qcom/vpu-1.0/venus.b02   | Bin 0 -> 300 bytes
+>   qcom/vpu-1.0/venus.b03   | Bin 0 -> 20 bytes
+>   qcom/vpu-1.0/venus.b04   | Bin 0 -> 20 bytes
+>   qcom/vpu-1.0/venus.b05   | Bin 0 -> 20 bytes
+>   qcom/vpu-1.0/venus.b06   | Bin 0 -> 20 bytes
+>   qcom/vpu-1.0/venus.b07   | Bin 0 -> 24 bytes
+>   qcom/vpu-1.0/venus.b08   | Bin 0 -> 16 bytes
+>   qcom/vpu-1.0/venus.b09   | Bin 0 -> 883152 bytes
+>   qcom/vpu-1.0/venus.b10   | Bin 0 -> 41360 bytes
+>   qcom/vpu-1.0/venus.b19   |   1 +
+>   qcom/vpu-1.0/venus.mbn   | Bin 0 -> 1973540 bytes
+>   qcom/vpu-1.0/venus.mdt   | Bin 0 -> 8220 bytes
+>   23 files changed, 96 insertions(+)
+>   create mode 100644 qcom/a650_gmu.bin
+>   create mode 100644 qcom/a650_sqe.fw
+>   create mode 100644 qcom/sm8250/a650_zap.mbn
+>   create mode 100644 qcom/sm8250/adsp.mbn
+>   create mode 100644 qcom/sm8250/adspr.jsn
+>   create mode 100644 qcom/sm8250/adspua.jsn
+>   create mode 100644 qcom/sm8250/cdsp.mbn
+>   create mode 100644 qcom/sm8250/cdspr.jsn
+>   create mode 100644 qcom/vpu-1.0/venus.b00
+>   create mode 100644 qcom/vpu-1.0/venus.b01
+>   create mode 100644 qcom/vpu-1.0/venus.b02
+>   create mode 100644 qcom/vpu-1.0/venus.b03
+>   create mode 100644 qcom/vpu-1.0/venus.b04
+>   create mode 100644 qcom/vpu-1.0/venus.b05
+>   create mode 100644 qcom/vpu-1.0/venus.b06
+>   create mode 100644 qcom/vpu-1.0/venus.b07
+>   create mode 100644 qcom/vpu-1.0/venus.b08
+>   create mode 100644 qcom/vpu-1.0/venus.b09
+>   create mode 100644 qcom/vpu-1.0/venus.b10
+>   create mode 100644 qcom/vpu-1.0/venus.b19
+>   create mode 100644 qcom/vpu-1.0/venus.mbn
+>   create mode 100644 qcom/vpu-1.0/venus.mdt
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
