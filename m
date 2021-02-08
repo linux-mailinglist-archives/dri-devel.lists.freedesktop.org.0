@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C27231413B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 22:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD00131423C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 22:50:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59586E9FD;
-	Mon,  8 Feb 2021 21:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82B6D6E88C;
+	Mon,  8 Feb 2021 21:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628C46E9FD
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 21:06:10 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id h6so17154232oie.5
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 13:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vQz50O/ktJ04W7QSg0aQ+K5LizhyaY13N/jjRfnL8MQ=;
- b=VrgGYFARM6Ani9Qes+VGPFt+MtqItSmYYxUeYwlIhRCQqMDqT5A5dW9uoAuc4n4Lmb
- HOzyq4tL31RhQQ2JNHlodj/G4uJ9HJyq5nE93+DiaCDyo79ticWaFtY/q5J/LQvrS8Qq
- tWCIL98eTNQBCIg5qB9ZFRe7q0paeE3NdXwbM=
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD3B6E88C
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 21:50:10 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id k25so13534865otb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 13:50:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vQz50O/ktJ04W7QSg0aQ+K5LizhyaY13N/jjRfnL8MQ=;
- b=uWHn5lv+mzA3qPFImsQBf06p1sl5h66UwRFskf0e+HlAq2Gl6gxn5nTZmpnPpwet87
- a2pweo8C3iG5X/1f1ES+xF0nxiw9VET/qS8xG231n/BcIDeVKrzQclo1urEmnaNT7nUF
- PwG5Ffu8MCouU0fu09PcRp2riBfGG53x6kV2qTL2bUPzKSdgtUb0JflNItC4AwPNlmBb
- nyIskao3HH16N3OGTdxuEvmwOZWGcwOvB1t0B+gR2UxS9Awz/xCUhfWa5ch2v22sTfGf
- hq+NgF4RNuzZJ1n0+ibNrQV7qZudMzxV9/TfuDpNVAjH/UsDsXgJT+Nwt8IUCOs98U+l
- dVnw==
-X-Gm-Message-State: AOAM532QOTZLr11gKhE4i9un32rkc/zoAXXWCvIeempjvWir0hfsng59
- 5klULg34+RntakX8GiRbE1cr1c4WKQlQAzm4z0ZZVA==
-X-Google-Smtp-Source: ABdhPJxXb5B/81zAt68xBP4U4swR34xTMrllQbQD2cTBMCEgDgID6RHPJmVY8X+xFjUiEHTQz30hepiShmiZprp8dv8=
-X-Received: by 2002:aca:1906:: with SMTP id l6mr410002oii.101.1612818369680;
- Mon, 08 Feb 2021 13:06:09 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BwpHaJPHT9hwbQZAIHBuEis2Nw2MqCWdqmW8x64JWp0=;
+ b=QSP7F1xbhAe7N/s5a3lX2PtUMkPSddY91DDVyLxn2ziokMrk/oYgON23B12xQO94xw
+ zDIPWjpiEJ4H0ATqhabMy9NLadWJi59bTHYzG/FmVFT2zeuHti1UyGnttkIqHz9C7yQr
+ A7kKp0pqY1HblIhmWgDxiIl7jRzqOH7sb5f/G8L1cMu5ZEg6LzXOKzxDWS0dFQVSmvrs
+ h12yXuBHFlXiKNkXBo3u5oifCxmq/UIHVL7e8w7a+9GzJCm6tVJf8tqYA5aoGDb5DqPe
+ xGpeic1QzvLEwfGMwTllKmwmnelxVFO76bcFkRma1l4PHtQIJvWZcWrgJaxJCWx+Mb2z
+ B4SQ==
+X-Gm-Message-State: AOAM533UVWjrE2Rk7cqc3p4u96sQ051FMhTCGeUPfuQfURbf8DxRG3Ia
+ 44fzrFqofM58G2txLKSZQQ==
+X-Google-Smtp-Source: ABdhPJyxT/PQgj7oJF26Sa0uel4nUG2DgEpWm+NsrJts5eqFEtl51umzi+NDwtHflzXRubGqKByvZg==
+X-Received: by 2002:a9d:7519:: with SMTP id r25mr14493915otk.339.1612821009979; 
+ Mon, 08 Feb 2021 13:50:09 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id v6sm451634otk.2.2021.02.08.13.50.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 13:50:09 -0800 (PST)
+Received: (nullmailer pid 2081875 invoked by uid 1000);
+ Mon, 08 Feb 2021 21:50:08 -0000
+Date: Mon, 8 Feb 2021 15:50:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 4/5] dt-bindings: dt-bindings: display: simple: Add
+ N116BCA-EA1
+Message-ID: <20210208215008.GA2081820@robh.at.kernel.org>
+References: <20210115224420.1635017-1-dianders@chromium.org>
+ <20210115144345.v2.4.I6889e21811df6adaff5c5b8a8c80fda0669ab3a5@changeid>
 MIME-Version: 1.0
-References: <20210206054748.378300-1-john.stultz@linaro.org>
- <20210206054748.378300-2-john.stultz@linaro.org>
- <YCENrGofdwVg2LMe@phenom.ffwll.local>
- <CALAqxLV2Sikxnr3-k94nqcF5vz+jsekhhUrmXEKkwzwwu4up8g@mail.gmail.com>
-In-Reply-To: <CALAqxLV2Sikxnr3-k94nqcF5vz+jsekhhUrmXEKkwzwwu4up8g@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 8 Feb 2021 22:05:58 +0100
-Message-ID: <CAKMK7uECMOO5jx4433uDuMq=MBaBEYaLe6ysrT_pshrr6Bf9dA@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when exporting
- dmabufs to be the actual heap name
-To: John Stultz <john.stultz@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20210115144345.v2.4.I6889e21811df6adaff5c5b8a8c80fda0669ab3a5@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBGZWIgOCwgMjAyMSBhdCA5OjUxIFBNIEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBs
-aW5hcm8ub3JnPiB3cm90ZToKPiBPbiBNb24sIEZlYiA4LCAyMDIxIGF0IDI6MDggQU0gRGFuaWVs
-IFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+IE9uIFNhdCwgRmViIDA2LCAyMDIx
-IGF0IDA1OjQ3OjQ4QU0gKzAwMDAsIEpvaG4gU3R1bHR6IHdyb3RlOgo+ID4gPiBCeSBkZWZhdWx0
-IGRtYV9idWZfZXhwb3J0KCkgc2V0cyB0aGUgZXhwb3J0ZXIgbmFtZSB0byBiZQo+ID4gPiBLQlVJ
-TERfTU9ETkFNRS4gVW5mb3J0dW5hdGVseSB0aGlzIG1heSBub3QgYmUgaWRlbnRpY2FsIHRvIHRo
-ZQo+ID4gPiBzdHJpbmcgdXNlZCBhcyB0aGUgaGVhcCBuYW1lIChpZTogInN5c3RlbSIgdnMgInN5
-c3RlbV9oZWFwIikuCj4gPiA+Cj4gPiA+IFRoaXMgY2FuIGNhdXNlIHNvbWUgbWlub3IgY29uZnVz
-aW9uIHdpdGggdG9vbGluZywgYW5kIHRoZXJlIGlzCj4gPiA+IHRoZSBmdXR1cmUgcG90ZW50aWFs
-IHdoZXJlIG11bHRpcGxlIGhlYXAgdHlwZXMgbWF5IGJlIGV4cG9ydGVkCj4gPiA+IGJ5IHRoZSBz
-YW1lIG1vZHVsZSAoYnV0IHdvdWxkIGFsbCBoYXZlIHRoZSBzYW1lIG5hbWUpLgo+ID4gPgo+ID4g
-PiBTbyB0byBhdm9pZCBhbGwgdGhpcywgc2V0IHRoZSBleHBvcnRlciBleHBfbmFtZSB0byB0aGUg
-aGVhcCBuYW1lLgo+ID4gPgo+ID4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNo
-Pgo+ID4gPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiA+ID4g
-Q2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+Cj4gPiA+IENjOiBDaHJpcyBHb2xk
-c3dvcnRoeSA8Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+Cj4gPiA+IENjOiBMYXVyYSBBYmJvdHQg
-PGxhYmJvdHRAa2VybmVsLm9yZz4KPiA+ID4gQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJr
-ZXlAYXJtLmNvbT4KPiA+ID4gQ2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29t
-Pgo+ID4gPiBDYzogU3VyZW4gQmFnaGRhc2FyeWFuIDxzdXJlbmJAZ29vZ2xlLmNvbT4KPiA+ID4g
-Q2M6IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KPiA+ID4gQ2M6IERhbmllbCBN
-ZW50eiA8ZGFuaWVsbWVudHpAZ29vZ2xlLmNvbT4KPiA+ID4gQ2M6IMOYcmphbiBFaWRlIDxvcmph
-bi5laWRlQGFybS5jb20+Cj4gPiA+IENjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0u
-Y29tPgo+ID4gPiBDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgo+
-ID4gPiBDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgo+ID4gPiBDYzogSmFtZXMg
-Sm9uZXMgPGpham9uZXNAbnZpZGlhLmNvbT4KPiA+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2Vy
-bmVsLm9yZwo+ID4gPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gPiBT
-aWduZWQtb2ZmLWJ5OiBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KPiA+Cj4g
-PiBMb29rcyByZWFzb25hYmxlIHRvIG1lLgo+ID4KPiA+IEkgZ3Vlc3MgdGhlIG1haW4gd29ycnkg
-aXMgImRvZXMgdGhpcyBtZWFuIGhlYXAgbmFtZXMgYmVjb21lIHVhcGkiLCBpbgo+ID4gd2hpY2gg
-Y2FzZSBJJ20gbWF5YmUgbm90IHNvIHN1cmUgYW55bW9yZSBob3cgdGhpcyB3aWxsIHRpZSBpbnRv
-IHRoZQo+ID4gb3ZlcmFsbCBncHUgbWVtb3J5IGFjY291bnRpbmcgc3RvcnkuCj4gPgo+ID4gU2lu
-Y2UgZm9yIGRtYS1idWYgaGVhcHMgb25lIG5hbWUgcGVyIGJ1ZmZlciBpcyBwZXJmZWN0bHkgZmlu
-ZSwgc2luY2UKPiA+IGRtYS1idWYgaGVhcHMgYXJlbid0IHZlcnkgZHluYW1pYy4gQnV0IG9uIGRp
-c2NyZXRlIGdwdSBkcml2ZXJzIGJ1ZmZlcnMKPiA+IG1vdmUsIHNvIGJha2luZyBpbiB0aGUgYXNz
-dW1wdGlvbiB0aGF0ICJleHBvcnRlciBuYW1lID0gcmVzb3VyY2UgdXNhZ2UgZm9yCj4gPiB0aGlz
-IGJ1ZmZlciIgaXMgYnJva2VuLgo+Cj4gSSBzdXNwZWN0IEknbSBtaXNzaW5nIGEgc3VidGxldHkg
-aW4gd2hhdCB5b3UncmUgZGVzY3JpYmluZy4gTXkgc2Vuc2UKPiBvZiB0aGUgZXhwb3J0ZXIgbmFt
-ZSBkb2Vzbid0IGFjY291bnQgZm9yIGEgYnVmZmVyJ3MgdXNhZ2UsIGl0IGp1c3QKPiBkZXNjcmli
-ZXMgd2hhdCBjb2RlIGFsbG9jYXRlZCBpdCBhbmQgaW1wbGljaXRseSB3aGljaCBkbWFidWZfb3Bz
-Cj4gaGFuZGxlcyBpdC4gIE1heWJlIGNvdWxkIHlvdSBnaXZlIGEgbW9yZSBzcGVjaWZpYyBleGFt
-cGxlIG9mIHdoYXQKPiB5b3UncmUgaG9waW5nIHRvIGF2b2lkPwoKSnVzdCBwYXJhbm9pYSByZWFs
-bHkgLSBvbiB0aGUgbGludXggc2lkZSB3aGVyZSB3ZSBhbGxvY2F0ZSBtb3N0CmJ1ZmZlcnMgKGV2
-ZW4gc2hhcmVkIG9uZXMpIHdpdGggdGhlIGRyaXZlciwgdGhhdCBhbGxvY2F0b3IgaW5mbyBpc24n
-dAp0aGF0IG1lYW5pbmdmdWwsIGl0IHJlYWxseSBqdXN0IHRlbGxzIHlvdSB3aGljaCBjb2RlCmFs
-bG9jYXRlZC9leHBvcnRlZCB0aGF0IGRtYS1idWYuCgpCdXQgb24gQW5kcm9pZCwgd2hlcmUgYWxs
-IHNoYXJlZCBidWZmZXJzIGNvbWUgZnJvbSBzcGVjaWZpYyBoZWFwcywgaXQKaXMgcmF0aGVyIG1l
-YW5pbmdmdWwgaW5mb3JtYXRpb24uIFNvIEkgd29uZGVyZWQgd2hldGhlciBlLmcuIHRoZQphbmRy
-b2lkIGRtYWJ1ZiBkZWJ1ZyB0b29sIHVzZXMgdGhhdCB0byBjb2xsZWN0IHBlci1oZWFwIHN0YXRz
-LCBidXQKc291bmRzIGxpa2Ugbm8gcmlnaHQgbm93LiBQbHVzIHdpdGggdGhlIGNoYXQgd2UndmUg
-aGFkIEkgdGhpbmsgd2UgaGF2ZQphIGxvbmctdGVybSBwbGFuIGZvciBob3cgdG8gZXhwb3NlIHRo
-YXQgaW5mb3JtYXRpb24gcHJvcGVybHkuCgo+IFRvIG1lIHRoaXMgcGF0Y2ggaXMgbW9zdGx5IGp1
-c3QgYSBjb25zaXN0ZW5jeS9sZWFzdC1zdXJwcmlzZSB0aGluZywgc28KPiB0aGUgaGVhcHMgZXhw
-b3J0ZXIgbmFtZSBtYXRjaGVzIHRoZSBzdHJpbmcgdXNlZCBmb3IgdGhlIGhlYXAncyBjaGFyZGV2
-Cj4gZGV2aWNlICh0aGUgaW50ZXJmYWNlIHVzZWQgdG8gYWxsb2NhdGUgaXQpIGluIG91dHB1dCBs
-aWtlCj4gZGVidWdmcy9kbWFfYnVmL2J1ZmluZm8uCgpZZWFoIGZvciBkZWJ1ZyB0aGlzIG1ha2Vz
-IHNlbnNlLiBhLWI6IG1lIGlmIHlvdSB3YW50IHRoYXQgc29tZXdoZXJlIG9uCnRoZSBwYXRjaGVz
-LgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
-b3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Fri, 15 Jan 2021 14:44:19 -0800, Douglas Anderson wrote:
+> Another simple eDP panel.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> Changes in v2:
+> - ("dt-bindings: dt-bindings: display: simple: Add N116BCA-EA1") new for v2.
+> 
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+
+Acked-by: Rob Herring <robh@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
