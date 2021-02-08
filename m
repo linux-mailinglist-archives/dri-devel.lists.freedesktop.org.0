@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B058A312E86
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B613312E98
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21FB6E854;
-	Mon,  8 Feb 2021 10:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A19289B33;
+	Mon,  8 Feb 2021 10:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90AF56E854
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 10:08:48 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id n6so3520229wrv.8
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 02:08:48 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1899189A8C
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 10:11:51 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id v15so16359446wrx.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 02:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=0pOHlp3YfmPQ6aHp/8FB8TarZqCW4k9p2xOGz6n9MDg=;
- b=d0kQAFm7tei2XxZSgVD38fMf+wEOst/QXqkIwC7c7+FGD9nWzqN0bib59r4MF5dh5a
- 28Bqrogt48urasAsA0+opmN5trx4wdmhECFI5EC4xeMnqyDj3zSZp64O+RP0wjO4TWZv
- 3RdQuFtbld1C1h8PdndhUeNBuGZ5FRIEC/2zQ=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=A9XtSLIM2qv0sdY1ObMG2vMTkKJWol/5PG6aDpPhXD4=;
+ b=INmD6dcGbZ3z/gl1OgxIq8nZ1OH72SM7E7COM02HdS8iRCWaKI4u5pz5bbgPvuOLYI
+ EQHpZPc7cwbYXKGw3FNdMYPGzgutx57I34+VZsCsKY+zzdlpGGkltf+AUbXVe3+eXiFN
+ kVHYrXS4LJ+PWT8Kju8Bd0xFaHQQtQRfNSHJY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=0pOHlp3YfmPQ6aHp/8FB8TarZqCW4k9p2xOGz6n9MDg=;
- b=t2prgQWdGir/vok+UicXdoEWPX9mvDtR7zzo5Vbstc6tzaoOWTrV1s5FnZx7TJgja3
- U2PkeAl4NQNisZEa/vdnOV34/HsE+LUkEFX2U2tv1li1O62D+FiJ7OsaoaXTBLqA1/Tn
- 6IXv2pcDl0/ZpV6/ujEsI6jIiNZbxVJbb4sRzBx5JmXbiltJw1WXF7wtngF3D9UPk+/S
- iPecucj5azf3YyqvqhIqPPIF9zcqVbcb8aADuQCTctT15e1yDVl1aGszg2EnOAk3ySYK
- RQPzNULq9zBbvhVseuD3r4xDumT46ok/OXtLCBpX8lk6PeSHUUkqO0pqy729JrumULfu
- lRfQ==
-X-Gm-Message-State: AOAM531gHcJX9ofJByf9rgyRxqJWXV6E51tQtHqkEmFRbRelgqk9MqW8
- Pr6gOZZDQgc+6tL3OEge0RwFDA==
-X-Google-Smtp-Source: ABdhPJzJ1HgP5N/LeOlDB3NYZUOuI03t3dodjSugSJHVqish8RwUT2TL18EPp5qcKUwbVn1nAmPTYA==
-X-Received: by 2002:a05:6000:18ac:: with SMTP id
- b12mr19274155wri.77.1612778927278; 
- Mon, 08 Feb 2021 02:08:47 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=A9XtSLIM2qv0sdY1ObMG2vMTkKJWol/5PG6aDpPhXD4=;
+ b=rBJX+WIwFukSpqf0j39FNx9NJTkipOVWmQRhWygESVSs8jJaOfTwEHl8ubAIfwq0B4
+ bMgMj0MNiSi/dkO4yIpUnjUa97jCtHY5jlO7lR2UaeB0Hqnwu8kmJRxQaNeA1oQ7ZvLT
+ 3RQLJKF4CgZHFs1TJvajd4iJvlNcq0yJZ7aOhNFowm6S6uTXwEXvsuepXdMBscaVxVbb
+ h3MlaNjcW3ldwSM2v21Pr45d/c0rzYY5r2gDoib+ndLxZdkLbk7850hUgZjD+HyhtD0u
+ 2j2pIxQrpbhFL8/jJzRf95r/Xdoy3arN7HaZP3gs0g5cRuiMevWpntAJXuAVSyJc8tAd
+ f8hw==
+X-Gm-Message-State: AOAM533JwEBPQALVY50qWbwG0n41vhli9wUhHcZGLPGbCazzpDrQ0XOD
+ Tq8awUtCY/35ImdUJbWXH2k0ng==
+X-Google-Smtp-Source: ABdhPJwpoXiL5iPrWdqPT5nvGT/fokDLtEGUgv+KNgfoacJfkNn6uYFTmRNvugwwKLDurxJLonFbzQ==
+X-Received: by 2002:a5d:4391:: with SMTP id i17mr19078709wrq.57.1612779109793; 
+ Mon, 08 Feb 2021 02:11:49 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b138sm19614011wmb.35.2021.02.08.02.08.46
+ by smtp.gmail.com with ESMTPSA id i7sm28902816wru.49.2021.02.08.02.11.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 02:08:46 -0800 (PST)
-Date: Mon, 8 Feb 2021 11:08:44 +0100
+ Mon, 08 Feb 2021 02:11:49 -0800 (PST)
+Date: Mon, 8 Feb 2021 11:11:47 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when
- exporting dmabufs to be the actual heap name
-Message-ID: <YCENrGofdwVg2LMe@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
- lkml <linux-kernel@vger.kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Liam Mark <lmark@codeaurora.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>,
- Brian Starkey <Brian.Starkey@arm.com>,
- Hridya Valsaraju <hridya@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sandeep Patil <sspatil@google.com>,
- Daniel Mentz <danielmentz@google.com>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20210206054748.378300-1-john.stultz@linaro.org>
- <20210206054748.378300-2-john.stultz@linaro.org>
+To: christian.koenig@amd.com
+Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
+ device removal
+Message-ID: <YCEOY5wFmpGRl7jJ@phenom.ffwll.local>
+References: <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
+ <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
+ <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
+ <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
+ <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
+ <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
+ <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
+ <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
+ <YCEJBfA6ce4dD3JT@phenom.ffwll.local>
+ <6c639669-b78d-b6a3-71b9-d546ca34121b@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210206054748.378300-2-john.stultz@linaro.org>
+In-Reply-To: <6c639669-b78d-b6a3-71b9-d546ca34121b@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,105 +75,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <Alexander.Deucher@amd.com>,
+ Qiang Yu <yuq825@gmail.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 06, 2021 at 05:47:48AM +0000, John Stultz wrote:
-> By default dma_buf_export() sets the exporter name to be
-> KBUILD_MODNAME. Unfortunately this may not be identical to the
-> string used as the heap name (ie: "system" vs "system_heap").
+On Mon, Feb 08, 2021 at 11:03:15AM +0100, Christian K=F6nig wrote:
+> Am 08.02.21 um 10:48 schrieb Daniel Vetter:
+> > On Mon, Feb 08, 2021 at 10:37:19AM +0100, Christian K=F6nig wrote:
+> > > Am 07.02.21 um 22:50 schrieb Daniel Vetter:
+> > > > [SNIP]
+> > > > > Clarification - as far as I know there are no page fault handlers=
+ for kernel
+> > > > > mappings. And we are talking about kernel mappings here, right ? =
+ If there were
+> > > > > I could solve all those issues the same as I do for user mappings=
+, by
+> > > > > invalidating all existing mappings in the kernel (both kmaps and =
+ioreamps)and
+> > > > > insert dummy zero or ~0 filled page instead.
+> > > > > Also, I assume forcefully remapping the IO BAR to ~0 filled page =
+would involve
+> > > > > ioremap API and it's not something that I think can be easily don=
+e according to
+> > > > > am answer i got to a related topic a few weeks ago
+> > > > > https://www.spinics.net/lists/linux-pci/msg103396.html (that was =
+the only reply
+> > > > > i got)
+> > > > mmiotrace can, but only for debug, and only on x86 platforms:
+> > > > =
+
+> > > > https://www.kernel.org/doc/html/latest/trace/mmiotrace.html
+> > > > =
+
+> > > > Should be feasible (but maybe not worth the effort) to extend this =
+to
+> > > > support fake unplug.
+> > > Mhm, interesting idea you guys brought up here.
+> > > =
+
+> > > We don't need a page fault for this to work, all we need to do is to =
+insert
+> > > dummy PTEs into the kernels page table at the place where previously =
+the
+> > > MMIO mapping has been.
+> > Simply pte trick isn't enough, because we need:
+> > - drop all writes silently
+> > - all reads return 0xff
+> > =
+
+> > ptes can't do that themselves, we minimally need write protection and t=
+hen
+> > silently proceed on each write fault without restarting the instruction.
+> > Better would be to only catch reads, but x86 doesn't do write-only pte
+> > permissions afaik.
 > =
 
-> This can cause some minor confusion with tooling, and there is
-> the future potential where multiple heap types may be exported
-> by the same module (but would all have the same name).
+> You are not thinking far enough :)
 > =
 
-> So to avoid all this, set the exporter exp_name to the heap name.
+> The dummy PTE is point to a dummy MMIO page which is just never used.
 > =
 
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Daniel Mentz <danielmentz@google.com>
-> Cc: =D8rjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> That hast the exact same properties than our removed MMIO space just does=
+n't
+> goes bananas when a new device is MMIO mapped into that and our driver st=
+ill
+> tries to write there.
 
-Looks reasonable to me.
+Hm, but where do we get such a "guaranteed never used" mmio page from?
 
-I guess the main worry is "does this mean heap names become uapi", in
-which case I'm maybe not so sure anymore how this will tie into the
-overall gpu memory accounting story.
-
-Since for dma-buf heaps one name per buffer is perfectly fine, since
-dma-buf heaps aren't very dynamic. But on discrete gpu drivers buffers
-move, so baking in the assumption that "exporter name =3D resource usage for
-this buffer" is broken.
-
-So I'm not sure we shouldn't instead name all the dma-buf heaps as
-"dma-buf heaps" to stop this :-)
+It's a nifty idea indeed otherwise ...
 -Daniel
 
-> ---
->  drivers/dma-buf/heaps/cma_heap.c    | 1 +
->  drivers/dma-buf/heaps/system_heap.c | 1 +
->  2 files changed, 2 insertions(+)
 > =
 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index 364fc2f3e499..62465d61ccc7 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -339,6 +339,7 @@ static int cma_heap_allocate(struct dma_heap *heap,
->  	buffer->pagecount =3D pagecount;
->  =
+> Regards,
+> Christian.
+> =
 
->  	/* create the dmabuf */
-> +	exp_info.exp_name =3D dma_heap_get_name(heap);
->  	exp_info.ops =3D &cma_heap_buf_ops;
->  	exp_info.size =3D buffer->len;
->  	exp_info.flags =3D fd_flags;
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
-system_heap.c
-> index 17e0e9a68baf..2d4afc79c700 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -388,6 +388,7 @@ static int system_heap_allocate(struct dma_heap *heap,
->  	}
->  =
+> =
 
->  	/* create the dmabuf */
-> +	exp_info.exp_name =3D dma_heap_get_name(heap);
->  	exp_info.ops =3D &system_heap_buf_ops;
->  	exp_info.size =3D buffer->len;
->  	exp_info.flags =3D fd_flags;
-> -- =
+> > =
 
-> 2.25.1
+> > > > > > But ugh ...
+> > > > > > =
+
+> > > > > > Otoh validating an entire driver like amdgpu without such a tri=
+ck
+> > > > > > against 0xff reads is practically impossible. So maybe you need=
+ to add
+> > > > > > this as one of the tasks here?
+> > > > > Or I could just for validation purposes return ~0 from all reg re=
+ads in the code
+> > > > > and ignore writes if drm_dev_unplugged, this could already easily=
+ validate a big
+> > > > > portion of the code flow under such scenario.
+> > > > Hm yeah if your really wrap them all, that should work too. Since
+> > > > iommappings have __iomem pointer type, as long as amdgpu is sparse
+> > > > warning free, should be doable to guarantee this.
+> > > Problem is that ~0 is not always a valid register value.
+> > > =
+
+> > > You would need to audit every register read that it doesn't use the r=
+eturned
+> > > value blindly as index or similar. That is quite a bit of work.
+> > Yeah that's the entire crux here :-/
+> > -Daniel
 > =
 
 
