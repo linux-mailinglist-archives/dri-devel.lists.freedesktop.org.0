@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB2C312D13
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 10:18:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337BA312D15
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 10:19:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E88DE6E840;
-	Mon,  8 Feb 2021 09:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5896E841;
+	Mon,  8 Feb 2021 09:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 706C46E840
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 09:18:19 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id o10so11805169wmc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 01:18:19 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70ACA6E841
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 09:19:48 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id n6so3360273wrv.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 01:19:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n65tdH+Zs3JUh1ia3fF/HpKcfflsaFvzhdPILGN1h7I=;
- b=J9+IhPug4mVYnkV/j3LQrs648lTUHE48mcvr1Q3jg3lnXX3cCFLUFAeqZS+LxL99E9
- YKAyo3lQKcvonMUmZzoESMmvaHMAsDinnm6kmCfmwOi3Ml4TxmZFrPXhVeidreaFn8fe
- 8ZeuBI+ypLvMIWlwC2K+fMol8RLLnDEfxVjJRWAeV3uOQdwSe7upE128i1cmK2dn29ZA
- DGbCp/hXzwOgOPip0YC5QzatQvDfhco5fHwJtdlmj3nu+qIrPWtqD/4I5YZg8TrRkE1E
- ZpW6QE1GfT2bkEbXRe0/ugX9Ygfwru4q6r7jng3KjuZGQtg/FxEyiviZBTiAwPI8+aQL
- X7fg==
+ bh=5ifbwqlW6r1eBbhVvf2MwLi1iLAcanVvLt9JE2wEA24=;
+ b=uESUAk4eT0d1vv0KIxq/H0D/cjeCJ4m9ZXv0hvBbC0t+D1v1CzES8XPcV6KAAVQmDI
+ 4gv9FTHbyAHUFW8XdFVYq5AVmB4DVLIMcsyJ4ZDS6Fp7qi0dxVKYOrNK81WVXoQQjDju
+ xRLwHwhe4xMJ8LjzUYWPmy+RVrPuKzJV1oggj3nuURkbLXfbQZWu6n8icdSr8rgM0lf3
+ kSVuv4hyQFzN7q8dk852vwE/9dbLCtqT+QvSy5S5B9kAgQeE0mYE8gKdLRnneFaqtdFF
+ iH7VF60Xo70zvBL270zxB6jOebKkD//lwQV8T5Rqm2r2/KPmn3dKslgIp0mr0xnN/Jfc
+ p3Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=n65tdH+Zs3JUh1ia3fF/HpKcfflsaFvzhdPILGN1h7I=;
- b=TZxQSpy6JuH4kjQx8R1IxAtPH/PPMNoDzscrfxsLbg2MLqlg2lje3PidPd2WmbNTA8
- 7zBVIbF4Pfu89AcqwPpFbhc9GBcEYv4CWv50L2dT2ZImEjCM5UBT8W0sfxcjG6agUafc
- dQj5yn4kBvjfnEgA1JgfPdYPrQ7JZ7uTwRdFJVmZNTRLs8JebdE8aFRYjPUShIxaxdj1
- +OR3oqCcSnIt/8zMKeJVjmKSTDEcstE5ukF8VYrXqHwAWhTgWHxrKai41//7YZJqeZMS
- U8YmW30EQeVDAM8gBc9017eLxjSGQyfL9Ki3zcXWrtJpyvXPEyc6DXuooFrrwW7j++w5
- WmBQ==
-X-Gm-Message-State: AOAM533Uwbn7hfD/BeJNYw5tKB8ie6dMXaWTQsiKpVHEsKw8GRknHEC4
- JgJhWujgq5iuG7aJHqV9XOHWlA==
-X-Google-Smtp-Source: ABdhPJyjBK/hnQRv33Vh90Iptu9efpcmTMpE8LCka8JttMZTYLVylYhypVq7FXhOYXLjXGZ9nwPG9Q==
-X-Received: by 2002:a1c:a546:: with SMTP id o67mr13750948wme.151.1612775897875; 
- Mon, 08 Feb 2021 01:18:17 -0800 (PST)
+ bh=5ifbwqlW6r1eBbhVvf2MwLi1iLAcanVvLt9JE2wEA24=;
+ b=HWpkDurb5A8m8LOIiUi5HG55rRtpeQpFK7GcOLiolhz76rCsI7a++TTfbJiyks1M16
+ /WgrX/VMyDrjOb6ZC+iD2Jtu/2KLutoVL59m3dVbhEhpGbeUZxJSDy/Lj3ikeUTeoHKX
+ WbQDrzHU9AITf+iztyHC3iGrS+VKEUhP3dQFVSYYjAwGi13MS7662ZxSG8alh3FFgcdO
+ KrFh24Bxsuv52hS7oMJGJHw+6dPOUHd6ivOGJr6UOAPvIYWBn0rL0b3fckZAKKPjMWyk
+ csyaeaxSncLwjH1m0BnUN+0pja6DglzkZUkMGNo3AvdedcqZMXYfJhFgtBlfSE6EeLUT
+ mG1A==
+X-Gm-Message-State: AOAM532ze6/tIkTWTe9dJ36h8nA4yf8DIV2BFroyjhbU6wjX51d+KhRx
+ 7hhO5/E0u8IkAIX6JmDtk8+E0Q==
+X-Google-Smtp-Source: ABdhPJzGtOKWqBiLxCMstlxwq6R8WJksTjciEvaWakv1RcfCLsLu9eJkJvlV6ZiFAPCFg9AN/oHcvA==
+X-Received: by 2002:a5d:5611:: with SMTP id l17mr19463034wrv.2.1612775987048; 
+ Mon, 08 Feb 2021 01:19:47 -0800 (PST)
 Received: from [192.168.1.10] ([88.164.51.138])
- by smtp.gmail.com with ESMTPSA id j125sm12374616wmb.44.2021.02.08.01.18.13
+ by smtp.gmail.com with ESMTPSA id d3sm31114822wrp.79.2021.02.08.01.19.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 01:18:17 -0800 (PST)
-Subject: Re: [PATCH 2/2] dt-bindings: display: Add "disable-hpd" binding
+ Mon, 08 Feb 2021 01:19:46 -0800 (PST)
+Subject: Re: [PATCH 1/2] drm/bridge: dw-hdmi: Add DT binding to disable
+ hotplug detect
 To: Mykyta Poturai <ddone@aruko.org>
-References: <20210131095701.965147-1-ddone@aruko.org>
+References: <20210131095537.962292-1-ddone@aruko.org>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -102,12 +103,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <f4a193b7-f1d4-c6bf-a9b6-3a5653de5d14@baylibre.com>
-Date: Mon, 8 Feb 2021 10:18:00 +0100
+Message-ID: <6b8c11e3-655d-9bd3-c8dd-8b2b0ea71954@baylibre.com>
+Date: Mon, 8 Feb 2021 10:19:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210131095701.965147-1-ddone@aruko.org>
+In-Reply-To: <20210131095537.962292-1-ddone@aruko.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,49 +122,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 31/01/2021 10:55, Mykyta Poturai wrote:
+> Add "disable-hpd" boolean binding for the device tree. When this option
+> is turned on HPD-related IRQ is disabled and it is assumed that the HDMI
+> connector is connected all the time. This may be useful in systems where
+> it is impossible or undesirable to connect the HPD pin, or the
+> connection is broken.
 
-On 31/01/2021 10:57, Mykyta Poturai wrote:
-> Add the "disable-hpd" binding, used to disable hotplug detected
-> functionality in the driver. When it's enabled the driver assumes that
-> the connector is always connected and disables the hotplug detect
-> related IRQ.
+DRM mode forcing exists for this reason.
 
-DT describes the hardware, not the software behaviour.
-
-So if the HPD is broken, then add a "snps,broken-hpd" instead, or if you want to force output, use the DRM mode forcing, which is handled by the dw-hdmi code:
-https://wiki.archlinux.org/index.php/kernel_mode_setting#Forcing_modes
+You can even force an EDID to have a fixed mode.
 
 Neil
 
 > 
 > Signed-off-by: Mykyta Poturai <ddone@aruko.org>
 > ---
->  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> index 3f6072651182..b2b899f46b86 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> @@ -39,6 +39,7 @@ Optional properties:
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 0c79a9ba48bb..4ca0ac130beb 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -194,6 +194,7 @@ struct dw_hdmi {
+>  	unsigned int audio_cts;
+>  	unsigned int audio_n;
+>  	bool audio_enable;
+> +	bool disable_hpd;
 >  
->  - power-domains: Shall reference the power domain that contains the DWC HDMI,
->    if any.
-> +- disable-hpd: Disables the hotplug detect feature
+>  	unsigned int reg_shift;
+>  	struct regmap *regm;
+> @@ -1559,7 +1560,7 @@ static void dw_hdmi_phy_disable(struct dw_hdmi *hdmi, void *data)
+>  enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
+>  					       void *data)
+>  {
+> -	return hdmi_readb(hdmi, HDMI_PHY_STAT0) & HDMI_PHY_HPD ?
+> +	return hdmi_readb(hdmi, HDMI_PHY_STAT0) & HDMI_PHY_HPD || hdmi->disable_hpd ?
+>  		connector_status_connected : connector_status_disconnected;
+>  }
+>  EXPORT_SYMBOL_GPL(dw_hdmi_phy_read_hpd);
+> @@ -1585,6 +1586,10 @@ void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data)
+>  	 * Configure the PHY RX SENSE and HPD interrupts polarities and clear
+>  	 * any pending interrupt.
+>  	 */
+> +
+> +	if (hdmi->disable_hpd)
+> +		return;
+> +
+>  	hdmi_writeb(hdmi, HDMI_PHY_HPD | HDMI_PHY_RX_SENSE, HDMI_PHY_POL0);
+>  	hdmi_writeb(hdmi, HDMI_IH_PHY_STAT0_HPD | HDMI_IH_PHY_STAT0_RX_SENSE,
+>  		    HDMI_IH_PHY_STAT0);
+> @@ -3212,6 +3217,10 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>  	mutex_init(&hdmi->cec_notifier_mutex);
+>  	spin_lock_init(&hdmi->audio_lock);
 >  
->  
->  Example:
+> +	if (of_property_read_bool(np, "disable-hpd")) {
+> +		dev_info(hdmi->dev, "Disabling HPD\n");
+> +		hdmi->disable_hpd = true;
+> +	}
+>  	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
+>  	if (ddc_node) {
+>  		hdmi->ddc = of_get_i2c_adapter_by_node(ddc_node);
 > 
 
 _______________________________________________
