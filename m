@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FC33143D0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:31:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F05733143FD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D386EA29;
-	Mon,  8 Feb 2021 23:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F1376EA2B;
+	Mon,  8 Feb 2021 23:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A6B6EA29
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 23:31:33 +0000 (UTC)
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1612827091;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F756EA2B
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 23:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612827550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PaYKZ31lxi+v/8lDx/PzN0snLjXGzst/bmDy9AJQeZU=;
- b=rhwZ0Mqb8a7z2WMf6VOkI5y5lDQDiyJKp/UdQN3nCUK8wtvzwENpHeFziLcWxg8YYZ0Lik
- fyNNH35Way1hzad+nKRnbxAakEDmR/g/0r7WB1nFGEo5aFxjbYTawpflrX6sVzE1qbtXU8
- VQ7+o/9Ir4hVunkxdcHAQid9yzXi3TftTcqSPD/DoaBj40MlYO/EaAGEsQvMvhlbGf8g+G
- muetb+xAy56VhwFWMU17YF9uxBHSwshyT6hdchyBu4PRq1OT7ckgyeR0jtnY0EowWVS/ar
- qH1QRRkZ7GL1kuYQ1KZZTEih7mYZpCYPdVFEX7VBLAk18Zh66mQonzwdRtv/Ww==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1612827091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PaYKZ31lxi+v/8lDx/PzN0snLjXGzst/bmDy9AJQeZU=;
- b=ro8ogVDC2xPL/MuSFS4WBbLHj6O8a4ArfECTBJLH1blWrF9/WecsqiAVSo7SHggdRBjyi6
- uqrJuDLbzAoXqHAg==
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/amdgpu: Replace in_task() in gfx_v8_0_parse_sq_irq()
-Date: Tue,  9 Feb 2021 00:31:19 +0100
-Message-Id: <20210208233119.391103-5-bigeasy@linutronix.de>
-In-Reply-To: <20210208233119.391103-1-bigeasy@linutronix.de>
-References: <20210208233119.391103-1-bigeasy@linutronix.de>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vcshO8IlIsaR7KUcMKN0Gnu7LputAREXB08NkXpedyA=;
+ b=aW0tbmXSYSR7tveI04j/kKsAJ+KErU9UfHyS0mESCy+4m/joWn6feFSov46ryUuzyeO3Qk
+ thQQukcqxOZNeq/OsOf2k93B47rgPqNTRuvQGCVgl7sT3uj3XYQHWBlV7rcvd11DUB8Bvt
+ nLU/fvpxFYMX0lfSVyDGRctsl16Lbpo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-VG_oFbiwODulaPZoUO9nIA-1; Mon, 08 Feb 2021 18:39:08 -0500
+X-MC-Unique: VG_oFbiwODulaPZoUO9nIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C7381005501;
+ Mon,  8 Feb 2021 23:39:07 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-114-219.rdu2.redhat.com
+ [10.10.114.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2465E60918;
+ Mon,  8 Feb 2021 23:39:06 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [RFC v4 00/11] drm: Extract DPCD backlight helpers from i915,
+ add support in nouveau
+Date: Mon,  8 Feb 2021 18:38:50 -0500
+Message-Id: <20210208233902.1289693-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,86 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, greg.depoire@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gfx_v8_0_parse_sq_irq() is using in_task() to distinguish if it is
-invoked from a workqueue worker or directly from the interrupt handler.
+This series:
+* Cleans up i915's DPCD backlight code a little bit
+* Extracts i915's DPCD backlight code into a set of shared DRM helpers
+* Starts using those helpers in nouveau to add support to nouveau for
+  DPCD backlight control
 
-The usage of in_interrupt() in drivers is phased out and Linus clearly
-requested that code which changes behaviour depending on context should
-either be separated or the context be conveyed in an argument passed by the
-caller, which usually knows the context.
+v2 series-wide changes:
+* Rebase
+v3 series-wide changes:
+* Split up the changes to intel's backlight code into separate patches
+v4 series-wide changes:
+* Don't forget to actually include the patch that starts using these
+  helpers in nouveau
 
-gfx_v8_0_parse_sq_irq() is invoked directly either from a worker or from
-the interrupt service routine. The worker is only bypassed if the worker
-is already busy.
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: greg.depoire@gmail.com
 
-Add an argument `from_wq' to gfx_v8_0_parse_sq_irq() which is true if
-invoked from the worker.
+Lyude Paul (11):
+  drm/nouveau/kms/nv40-/backlight: Assign prop type once
+  drm/nouveau/kms: Don't probe eDP connectors more then once
+  drm/i915/dpcd_bl: Remove redundant AUX backlight frequency
+    calculations
+  drm/i915/dpcd_bl: Handle drm_dpcd_read/write() return values correctly
+  drm/i915/dpcd_bl: Cleanup intel_dp_aux_vesa_enable_backlight() a bit
+  drm/i915/dpcd_bl: Cache some backlight capabilities in
+    intel_panel.backlight
+  drm/i915/dpcd_bl: Move VESA backlight enabling code closer together
+  drm/i915/dpcd_bl: Return early in vesa_calc_max_backlight if we can't
+    read PWMGEN_BIT_COUNT
+  drm/i915/dpcd_bl: Print return codes for VESA backlight failures
+  drm/dp: Extract i915's eDP backlight code into DRM helpers
+  drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
+ drivers/gpu/drm/drm_dp_helper.c               | 332 ++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |   2 +-
+ .../drm/i915/display/intel_dp_aux_backlight.c | 329 +++--------------
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  28 ++
+ drivers/gpu/drm/nouveau/nouveau_backlight.c   | 170 +++++++--
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |   6 +
+ drivers/gpu/drm/nouveau/nouveau_connector.h   |   9 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h     |   1 +
+ include/drm/drm_dp_helper.h                   |  48 +++
+ 9 files changed, 614 insertions(+), 311 deletions(-)
 
-Side note: work_pending() will return false _before_ the callback
-function (gfx_v8_0_sq_irq_work_func() in case) is invoked. That means if
-the interrupt can fire again before the workqueue completed then it is
-possible with the right timing to have `gfx.sq_work.ih_data'
-overwritten from the previous invocation.
-
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-index 37639214cbbbd..8a5a7ecb9fa2b 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-@@ -6719,7 +6719,8 @@ static int gfx_v8_0_cp_ecc_error_irq(struct amdgpu_device *adev,
- 	return 0;
- }
- 
--static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data)
-+static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data,
-+				  bool from_wq)
- {
- 	u32 enc, se_id, sh_id, cu_id;
- 	char type[20];
-@@ -6757,7 +6758,7 @@ static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data)
- 			 * or from BH in which case we can access SQ_EDC_INFO
- 			 * instance
- 			 */
--			if (in_task()) {
-+			if (from_wq == true) {
- 				mutex_lock(&adev->grbm_idx_mutex);
- 				gfx_v8_0_select_se_sh(adev, se_id, sh_id, cu_id);
- 
-@@ -6795,7 +6796,7 @@ static void gfx_v8_0_sq_irq_work_func(struct work_struct *work)
- 	struct amdgpu_device *adev = container_of(work, struct amdgpu_device, gfx.sq_work.work);
- 	struct sq_work *sq_work = container_of(work, struct sq_work, work);
- 
--	gfx_v8_0_parse_sq_irq(adev, sq_work->ih_data);
-+	gfx_v8_0_parse_sq_irq(adev, sq_work->ih_data, true);
- }
- 
- static int gfx_v8_0_sq_irq(struct amdgpu_device *adev,
-@@ -6810,7 +6811,7 @@ static int gfx_v8_0_sq_irq(struct amdgpu_device *adev,
- 	 * just print whatever info is possible directly from the ISR.
- 	 */
- 	if (work_pending(&adev->gfx.sq_work.work)) {
--		gfx_v8_0_parse_sq_irq(adev, ih_data);
-+		gfx_v8_0_parse_sq_irq(adev, ih_data, false);
- 	} else {
- 		adev->gfx.sq_work.ih_data = ih_data;
- 		schedule_work(&adev->gfx.sq_work.work);
 -- 
-2.30.0
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
