@@ -2,49 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DE9312F41
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB1A312F67
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:48:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE4C6E2E1;
-	Mon,  8 Feb 2021 10:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793486E862;
+	Mon,  8 Feb 2021 10:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37526E860
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 10:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612780932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=yx6OCfShF0609v+W3vjhiUcxaTTyjoM+WtY0G5Wv7+4=;
- b=YDiM/Lr9rtNRxheFB3XMs910TNN1G04VvSNTQAhXPD+OGzwsKNhM+NX449NRjZlbuQwhux
- VQjRAIBIBCtZOIamUnydM9jh3Ddy9ZAM5qLit8p37wspbGAO3bFR48hVGPs+osa6gq/aDG
- NW9cppjrYlEl6kcYji6BBVDruD3S+7Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-6-5c_2iNNOiCQ_Xc4LVApQ-1; Mon, 08 Feb 2021 05:42:11 -0500
-X-MC-Unique: 6-5c_2iNNOiCQ_Xc4LVApQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AE4CC7407;
- Mon,  8 Feb 2021 10:42:09 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-170.ams2.redhat.com
- [10.36.112.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED29072163;
- Mon,  8 Feb 2021 10:42:02 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0F1BB18000AF; Mon,  8 Feb 2021 11:42:01 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/qxl: properly handle device init failures
-Date: Mon,  8 Feb 2021 11:41:49 +0100
-Message-Id: <20210208104149.423758-1-kraxel@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B88016E862
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 10:48:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 598FC64EC3;
+ Mon,  8 Feb 2021 10:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1612781301;
+ bh=iYgDUkQIrJ1qqSDyi3foq9yAocPe+jn0Y6oA3ur6jr4=;
+ h=Subject:To:Cc:From:Date:From;
+ b=UptyZzqMO9ahjUmNNAY+fs+SprghHAzCYqs6hKZrCgS4FI3Fa6dmWd3Qm1KMlOBnG
+ XSDEeQBApc+p3JnUFK0uo6a2V8XN+LWyQBtl8HVDZb+8ecl9DFPqUmWgY9gOfbmBlQ
+ 2+752W2/x+yv+ExPiwyUwvgE0hsh51QqjtalfSvc=
+Subject: Patch "drm/dp/mst: Export drm_dp_get_vc_payload_bw()" has been added
+ to the 5.10-stable tree
+To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ imre.deak@intel.com, jani.nikula@intel.com, lyude@redhat.com,
+ ville.syrjala@intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 08 Feb 2021 11:47:42 +0100
+Message-ID: <1612781262215@kroah.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,59 +44,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Tong Zhang <ztong0001@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Specifically do not try release resources which where
-not allocated in the first place.
 
-Cc: Tong Zhang <ztong0001@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+This is a note to let you know that I've just added the patch titled
+
+    drm/dp/mst: Export drm_dp_get_vc_payload_bw()
+
+to the 5.10-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-dp-mst-export-drm_dp_get_vc_payload_bw.patch
+and it can be found in the queue-5.10 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 83404d581471775f37f85e5261ec0d09407d8bed Mon Sep 17 00:00:00 2001
+From: Imre Deak <imre.deak@intel.com>
+Date: Mon, 25 Jan 2021 19:36:35 +0200
+Subject: drm/dp/mst: Export drm_dp_get_vc_payload_bw()
+
+From: Imre Deak <imre.deak@intel.com>
+
+commit 83404d581471775f37f85e5261ec0d09407d8bed upstream.
+
+This function will be needed by the next patch where the driver
+calculates the BW based on driver specific parameters, so export it.
+
+At the same time sanitize the function params, passing the more natural
+link rate instead of the encoding of the same rate.
+
+v2:
+- Fix function documentation. (Lyude)
+
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ville Syrjala <ville.syrjala@intel.com>
+Cc: <stable@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210125173636.1733812-1-imre.deak@intel.com
+(cherry picked from commit a321fc2b4e60fc1b39517d26c8104351636a6062)
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/qxl/qxl_display.c | 3 +++
- drivers/gpu/drm/qxl/qxl_kms.c     | 4 ++++
- 2 files changed, 7 insertions(+)
+ drivers/gpu/drm/drm_dp_mst_topology.c |   24 ++++++++++++++++++------
+ include/drm/drm_dp_mst_helper.h       |    1 +
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index c326412136c5..ec50d2cfd4e1 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -1183,6 +1183,9 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3629,14 +3629,26 @@ static int drm_dp_send_up_ack_reply(stru
+ 	return 0;
+ }
+ 
+-static int drm_dp_get_vc_payload_bw(u8 dp_link_bw, u8  dp_link_count)
++/**
++ * drm_dp_get_vc_payload_bw - get the VC payload BW for an MST link
++ * @link_rate: link rate in 10kbits/s units
++ * @link_lane_count: lane count
++ *
++ * Calculate the total bandwidth of a MultiStream Transport link. The returned
++ * value is in units of PBNs/(timeslots/1 MTP). This value can be used to
++ * convert the number of PBNs required for a given stream to the number of
++ * timeslots this stream requires in each MTP.
++ */
++int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count)
  {
- 	int ret;
+-	if (dp_link_bw == 0 || dp_link_count == 0)
+-		DRM_DEBUG_KMS("invalid link bandwidth in DPCD: %x (link count: %d)\n",
+-			      dp_link_bw, dp_link_count);
++	if (link_rate == 0 || link_lane_count == 0)
++		DRM_DEBUG_KMS("invalid link rate/lane count: (%d / %d)\n",
++			      link_rate, link_lane_count);
  
-+	if (!qdev->monitors_config_bo)
-+		return 0;
-+
- 	qdev->monitors_config = NULL;
- 	qdev->ram_header->monitors_config = 0;
+-	return dp_link_bw * dp_link_count / 2;
++	/* See DP v2.0 2.6.4.2, VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
++	return link_rate * link_lane_count / 54000;
+ }
++EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
  
-diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-index 66d74aaaee06..4dc5ad13f12c 100644
---- a/drivers/gpu/drm/qxl/qxl_kms.c
-+++ b/drivers/gpu/drm/qxl/qxl_kms.c
-@@ -288,6 +288,10 @@ void qxl_device_fini(struct qxl_device *qdev)
- {
- 	int cur_idx;
+ /**
+  * drm_dp_read_mst_cap() - check whether or not a sink supports MST
+@@ -3692,7 +3704,7 @@ int drm_dp_mst_topology_mgr_set_mst(stru
+ 			goto out_unlock;
+ 		}
  
-+	/* check if qxl_device_init() was successful (gc_work is initialized last) */
-+	if (!qdev->gc_work.func)
-+		return;
-+
- 	for (cur_idx = 0; cur_idx < 3; cur_idx++) {
- 		if (!qdev->current_release_bo[cur_idx])
- 			continue;
--- 
-2.29.2
+-		mgr->pbn_div = drm_dp_get_vc_payload_bw(mgr->dpcd[1],
++		mgr->pbn_div = drm_dp_get_vc_payload_bw(drm_dp_bw_code_to_link_rate(mgr->dpcd[1]),
+ 							mgr->dpcd[2] & DP_MAX_LANE_COUNT_MASK);
+ 		if (mgr->pbn_div == 0) {
+ 			ret = -EINVAL;
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -783,6 +783,7 @@ drm_dp_mst_detect_port(struct drm_connec
+ 
+ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
+ 
++int drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count);
+ 
+ int drm_dp_calc_pbn_mode(int clock, int bpp, bool dsc);
+ 
 
+
+Patches currently in stable-queue which might be from imre.deak@intel.com are
+
+queue-5.10/drm-i915-power-up-combo-phy-lanes-for-for-hdmi-as-well.patch
+queue-5.10/drm-dp-mst-export-drm_dp_get_vc_payload_bw.patch
+queue-5.10/drm-i915-extract-intel_ddi_power_up_lanes.patch
+queue-5.10/drm-i915-fix-the-mst-pbn-divider-calculation.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
