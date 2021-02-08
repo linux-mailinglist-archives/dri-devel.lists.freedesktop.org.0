@@ -2,67 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A38C3140ED
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 21:51:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E95314118
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 21:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792BD6E9F8;
-	Mon,  8 Feb 2021 20:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA24F6E9FC;
+	Mon,  8 Feb 2021 20:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 484E86E9F8
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 20:51:05 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id f2so19054475ljp.11
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 12:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kTFr32bptu4tOZwE0ZuGkak5YWm4TyXH6EjCXCSCQOU=;
- b=fPkzJbfpY+rbqdzJyziCHL3LEul1WLLgf9TH3sO7UeY8/hZX3BuGEkSnMQTxrVxgmj
- ynhhO6rKYSPCXJzljB/G5dh6D/6Ab9HjYEOh0JNLDUnhL9Bikm3ewTtK18vfQq2JEyDk
- ZoW1LOAZ/DtcyppPbMaaXx48jvwDNvRjtHbftv8dLi2aOqVg0dhKdu5JcwKXY0Yfm8Wa
- 3YV9RLPJldP9edDqzPioO0VvHZMQunOEaQW3flqc42qLTH3EUWMaagZsHCE/moBpwaxa
- 3FBGgOlKrnB2Q2B7fz23YgzJDLywONpw9qFuo2JaPFyazzfndglQVbDBP++hmmXx2aqB
- 7/jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kTFr32bptu4tOZwE0ZuGkak5YWm4TyXH6EjCXCSCQOU=;
- b=T8QK2XOhu/RGtTjhM26UscWi3WjNgpCu8IBqEsWU+WMi9q68VqHcDfxs8uofcgfibd
- RSJ7yBaCo2ZM3JBmFJOgty20VNrWtGmehEP0xrL85xSK0WSq/cMxlT8xoiy0YDLE90A1
- sCqG8o5+bO6WZ72M5bTjGcMAGQg2WJLDy2yuU2k6Mts7SoDt21TXKfYZSwZg/S7WS3y4
- 4+7dBzskVbsXKizD6BxWj/A+ohfk8eAH+znePyLVi7YfkAw+MKZrkLVX0Aebt93/tpUe
- gbBbWbqiiP0jWcSCZyMW8TZdplzdLPgxNVt6yfy11sgFcFa0m59KpgXs75O9OGDGH3DB
- ItcA==
-X-Gm-Message-State: AOAM532i4RdYfgPJZvaSuWsa7M14kW6fKNMW/1OPOjdf4pqbHlJv4PMq
- IsEgNCm/amAz3/slhcBBa+aEhZudi5PgAPkbljOVZQ==
-X-Google-Smtp-Source: ABdhPJzyLwGZIsnnaLCIXwnTE+bBhjn+823+aLJKw6/rPEzO6bZdXDtpP894AzuNEnj/AFCYBAmeFM6AKDOaToIttGM=
-X-Received: by 2002:a2e:8090:: with SMTP id i16mr12425346ljg.257.1612817463364; 
- Mon, 08 Feb 2021 12:51:03 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E9B6E9FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 20:59:07 +0000 (UTC)
+IronPort-SDR: r/d3ViLLVAz9yTjv9N128XoHfXPi5t0Clxw2kIpUdtJNw9+PagZsNENZyF8pDgVJSEP4OUVTTP
+ czn3BqavJTeQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="181924470"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="181924470"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 12:59:03 -0800
+IronPort-SDR: xI+wR9shPytXsExmurvrnFJimgsZjNsYASJNJlJ/tIqUMmIipi+s6krvnVr/PH3Y6ShSXi12HR
+ LkMo27ukJxJw==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="418346627"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 12:58:58 -0800
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1l9DcV-0033nx-B3; Mon, 08 Feb 2021 22:58:55 +0200
+Date: Mon, 8 Feb 2021 22:58:55 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v6 1/3] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <YCGmD1d1Zn+EhrDH@smile.fi.intel.com>
+References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
+ <20210208200903.28084-2-sakari.ailus@linux.intel.com>
+ <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210206054748.378300-1-john.stultz@linaro.org>
- <20210206054748.378300-2-john.stultz@linaro.org>
- <YCENrGofdwVg2LMe@phenom.ffwll.local>
-In-Reply-To: <YCENrGofdwVg2LMe@phenom.ffwll.local>
-From: John Stultz <john.stultz@linaro.org>
-Date: Mon, 8 Feb 2021 12:50:49 -0800
-Message-ID: <CALAqxLV2Sikxnr3-k94nqcF5vz+jsekhhUrmXEKkwzwwu4up8g@mail.gmail.com>
-Subject: Re: [RFC][PATCH 2/2] dma-buf: heaps: Fix the name used when exporting
- dmabufs to be the actual heap name
-To: John Stultz <john.stultz@linaro.org>, lkml <linux-kernel@vger.kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Liam Mark <lmark@codeaurora.org>, 
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, 
- Brian Starkey <Brian.Starkey@arm.com>, Hridya Valsaraju <hridya@google.com>, 
- Suren Baghdasaryan <surenb@google.com>, Sandeep Patil <sspatil@google.com>, 
- Daniel Mentz <danielmentz@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>, 
- Robin Murphy <robin.murphy@arm.com>, Ezequiel Garcia <ezequiel@collabora.com>, 
- Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>, 
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Content-Disposition: inline
+In-Reply-To: <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,53 +53,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Petr Mladek <pmladek@suse.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBGZWIgOCwgMjAyMSBhdCAyOjA4IEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4gd3JvdGU6Cj4gT24gU2F0LCBGZWIgMDYsIDIwMjEgYXQgMDU6NDc6NDhBTSArMDAwMCwg
-Sm9obiBTdHVsdHogd3JvdGU6Cj4gPiBCeSBkZWZhdWx0IGRtYV9idWZfZXhwb3J0KCkgc2V0cyB0
-aGUgZXhwb3J0ZXIgbmFtZSB0byBiZQo+ID4gS0JVSUxEX01PRE5BTUUuIFVuZm9ydHVuYXRlbHkg
-dGhpcyBtYXkgbm90IGJlIGlkZW50aWNhbCB0byB0aGUKPiA+IHN0cmluZyB1c2VkIGFzIHRoZSBo
-ZWFwIG5hbWUgKGllOiAic3lzdGVtIiB2cyAic3lzdGVtX2hlYXAiKS4KPiA+Cj4gPiBUaGlzIGNh
-biBjYXVzZSBzb21lIG1pbm9yIGNvbmZ1c2lvbiB3aXRoIHRvb2xpbmcsIGFuZCB0aGVyZSBpcwo+
-ID4gdGhlIGZ1dHVyZSBwb3RlbnRpYWwgd2hlcmUgbXVsdGlwbGUgaGVhcCB0eXBlcyBtYXkgYmUg
-ZXhwb3J0ZWQKPiA+IGJ5IHRoZSBzYW1lIG1vZHVsZSAoYnV0IHdvdWxkIGFsbCBoYXZlIHRoZSBz
-YW1lIG5hbWUpLgo+ID4KPiA+IFNvIHRvIGF2b2lkIGFsbCB0aGlzLCBzZXQgdGhlIGV4cG9ydGVy
-IGV4cF9uYW1lIHRvIHRoZSBoZWFwIG5hbWUuCj4gPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbEBmZndsbC5jaD4KPiA+IENjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8u
-b3JnPgo+ID4gQ2M6IExpYW0gTWFyayA8bG1hcmtAY29kZWF1cm9yYS5vcmc+Cj4gPiBDYzogQ2hy
-aXMgR29sZHN3b3J0aHkgPGNnb2xkc3dvQGNvZGVhdXJvcmEub3JnPgo+ID4gQ2M6IExhdXJhIEFi
-Ym90dCA8bGFiYm90dEBrZXJuZWwub3JnPgo+ID4gQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0
-YXJrZXlAYXJtLmNvbT4KPiA+IENjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNv
-bT4KPiA+IENjOiBTdXJlbiBCYWdoZGFzYXJ5YW4gPHN1cmVuYkBnb29nbGUuY29tPgo+ID4gQ2M6
-IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KPiA+IENjOiBEYW5pZWwgTWVudHog
-PGRhbmllbG1lbnR6QGdvb2dsZS5jb20+Cj4gPiBDYzogw5hyamFuIEVpZGUgPG9yamFuLmVpZGVA
-YXJtLmNvbT4KPiA+IENjOiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgo+ID4g
-Q2M6IEV6ZXF1aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KPiA+IENjOiBTaW1v
-biBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+Cj4gPiBDYzogSmFtZXMgSm9uZXMgPGpham9uZXNA
-bnZpZGlhLmNvbT4KPiA+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBTaWduZWQtb2ZmLWJ5OiBKb2huIFN0
-dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KPgo+IExvb2tzIHJlYXNvbmFibGUgdG8gbWUu
-Cj4KPiBJIGd1ZXNzIHRoZSBtYWluIHdvcnJ5IGlzICJkb2VzIHRoaXMgbWVhbiBoZWFwIG5hbWVz
-IGJlY29tZSB1YXBpIiwgaW4KPiB3aGljaCBjYXNlIEknbSBtYXliZSBub3Qgc28gc3VyZSBhbnlt
-b3JlIGhvdyB0aGlzIHdpbGwgdGllIGludG8gdGhlCj4gb3ZlcmFsbCBncHUgbWVtb3J5IGFjY291
-bnRpbmcgc3RvcnkuCj4KPiBTaW5jZSBmb3IgZG1hLWJ1ZiBoZWFwcyBvbmUgbmFtZSBwZXIgYnVm
-ZmVyIGlzIHBlcmZlY3RseSBmaW5lLCBzaW5jZQo+IGRtYS1idWYgaGVhcHMgYXJlbid0IHZlcnkg
-ZHluYW1pYy4gQnV0IG9uIGRpc2NyZXRlIGdwdSBkcml2ZXJzIGJ1ZmZlcnMKPiBtb3ZlLCBzbyBi
-YWtpbmcgaW4gdGhlIGFzc3VtcHRpb24gdGhhdCAiZXhwb3J0ZXIgbmFtZSA9IHJlc291cmNlIHVz
-YWdlIGZvcgo+IHRoaXMgYnVmZmVyIiBpcyBicm9rZW4uCgpJIHN1c3BlY3QgSSdtIG1pc3Npbmcg
-YSBzdWJ0bGV0eSBpbiB3aGF0IHlvdSdyZSBkZXNjcmliaW5nLiBNeSBzZW5zZQpvZiB0aGUgZXhw
-b3J0ZXIgbmFtZSBkb2Vzbid0IGFjY291bnQgZm9yIGEgYnVmZmVyJ3MgdXNhZ2UsIGl0IGp1c3QK
-ZGVzY3JpYmVzIHdoYXQgY29kZSBhbGxvY2F0ZWQgaXQgYW5kIGltcGxpY2l0bHkgd2hpY2ggZG1h
-YnVmX29wcwpoYW5kbGVzIGl0LiAgTWF5YmUgY291bGQgeW91IGdpdmUgYSBtb3JlIHNwZWNpZmlj
-IGV4YW1wbGUgb2Ygd2hhdAp5b3UncmUgaG9waW5nIHRvIGF2b2lkPwoKVG8gbWUgdGhpcyBwYXRj
-aCBpcyBtb3N0bHkganVzdCBhIGNvbnNpc3RlbmN5L2xlYXN0LXN1cnByaXNlIHRoaW5nLCBzbwp0
-aGUgaGVhcHMgZXhwb3J0ZXIgbmFtZSBtYXRjaGVzIHRoZSBzdHJpbmcgdXNlZCBmb3IgdGhlIGhl
-YXAncyBjaGFyZGV2CmRldmljZSAodGhlIGludGVyZmFjZSB1c2VkIHRvIGFsbG9jYXRlIGl0KSBp
-biBvdXRwdXQgbGlrZQpkZWJ1Z2ZzL2RtYV9idWYvYnVmaW5mby4KCnRoYW5rcwotam9obgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Feb 08, 2021 at 10:43:30PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 8, 2021 at 10:11 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+
+...
+
+> > +static noinline_for_stack
+> > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > +                   struct printf_spec spec, const char *fmt)
+> > +{
+> 
+> > +       char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
+> 
+> Do we have any evidence / document / standard that the above format is
+> what people would find good? From existing practices (I consider other
+> printings elsewhere and users in this series) I find '(xx)' form for
+> hex numbers is weird. The standard practice is to use \xHH (without
+> parentheses).
+
+> > +       val = *fourcc & ~BIT(31);
+> > +
+> > +       for (i = 0; i < sizeof(*fourcc); i++) {
+> > +               unsigned char c = val >> (i * 8);
+> 
+> ...
+> 
+> > +               /* Weed out spaces */
+> > +               if (c == ' ')
+> > +                       continue;
+> 
+> None of the existing users does that. Why?
+> 
+> > +               /* Print non-control ASCII characters as-is */
+> > +               if (isascii(c) && isprint(c)) {
+> > +                       *p++ = c;
+> > +                       continue;
+> > +               }
+> > +
+> > +               *p++ = '(';
+> > +               p = hex_byte_pack(p, c);
+> > +               *p++ = ')';
+> > +       }
+
+
+To be on constructive side, I would propose to replace above with something
+like:
+
+__le32 val;
+
+val = cpu_to_le32(*fourcc & ~BIT(31));
+
+p += string_escape_mem(&val, sizeof(*fourcc), output, sizeof(output), ESCAPE_NP | ESCAPE_HEX, NULL);
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
