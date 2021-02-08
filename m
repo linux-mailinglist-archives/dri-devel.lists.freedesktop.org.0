@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531A831441E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:39:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9FE314420
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 00:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 022846EA3D;
-	Mon,  8 Feb 2021 23:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5140E6EA57;
+	Mon,  8 Feb 2021 23:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDBCE6EA46
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 23:39:46 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543056EA4D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 23:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612827585;
+ s=mimecast20190719; t=1612827587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5txAyFd/oVBLfB2razdI+EVaRO0Ppazb829799/8qM8=;
- b=OwGIoDhTsoU1fO/Fx/ZQrG0D6WGCclMoAMIPu9K5d1zzZGAwhIsT/DTua7/jv0/FPNiURt
- WKnFoevZr9tvMnkvLl+0IZso5XxfHWH54Ig+EGWZOWs14EPF9Ym7MVh4OB7f671QMXW4Xn
- 0d8iIv11ULeyHKJEz0TI/gtTt0xIQ/M=
+ bh=gE9U5BslqCar72kVEWsclaxt7xAzUfHLFCjpahn4dKk=;
+ b=Ihlgd+TRzBePWAccvT/a44DwMsdo9wg68s+M1GK3gD3jj0P7fjkIm3jH+zuZw9kJL390+s
+ k9XpCIz6i8aYNqgUrIoCk2pkFgjkekLWZlikdkMEmxUdII1wXIuzrSTEES93ZCezfbJLes
+ 5FBSNx+N7AzgSynBBmWO0NeyN38zjw8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-AUwYzDhNNw2D38uB1wldFQ-1; Mon, 08 Feb 2021 18:39:41 -0500
-X-MC-Unique: AUwYzDhNNw2D38uB1wldFQ-1
+ us-mta-434-xGYuc_3bN2eggmu2PhXpnA-1; Mon, 08 Feb 2021 18:39:43 -0500
+X-MC-Unique: xGYuc_3bN2eggmu2PhXpnA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B89107ACE3;
- Mon,  8 Feb 2021 23:39:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FDF280402C;
+ Mon,  8 Feb 2021 23:39:42 +0000 (UTC)
 Received: from Whitewolf.redhat.com (ovpn-114-219.rdu2.redhat.com
  [10.10.114.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F05160918;
- Mon,  8 Feb 2021 23:39:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDC1B608DB;
+ Mon,  8 Feb 2021 23:39:40 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [RFC v4 10/11] drm/dp: Extract i915's eDP backlight code into DRM
- helpers
-Date: Mon,  8 Feb 2021 18:39:00 -0500
-Message-Id: <20210208233902.1289693-11-lyude@redhat.com>
+Subject: [RFC v4 11/11] drm/nouveau/kms/nv50-: Add basic DPCD backlight
+ support for nouveau
+Date: Mon,  8 Feb 2021 18:39:01 -0500
+Message-Id: <20210208233902.1289693-12-lyude@redhat.com>
 In-Reply-To: <20210208233902.1289693-1-lyude@redhat.com>
 References: <20210208233902.1289693-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -60,825 +60,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, Anshuman Gupta <anshuman.gupta@intel.com>,
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, greg.depoire@gmail.com,
- Uma Shankar <uma.shankar@intel.com>, Sean Paul <seanpaul@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ greg.depoire@gmail.com, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>, James Jones <jajones@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we're about to implement eDP backlight support in nouveau using the
-standard protocol from VESA, we might as well just take the code that's
-already written for this and move it into a set of shared DRM helpers.
-
-Note that these helpers are intended to handle DPCD related backlight
-control bits such as setting the brightness level over AUX, probing the
-backlight's TCON, enabling/disabling the backlight over AUX if supported,
-etc. Any PWM-related portions of backlight control are explicitly left up
-to the driver, as these will vary from platform to platform.
-
-The only exception to this is the calculation of the PWM frequency
-pre-divider value. This is because the only platform-specific information
-required for this is the PWM frequency of the panel, which the driver is
-expected to provide if available. The actual algorithm for calculating this
-value is standard and is defined in the eDP specification from VESA.
-
-Note that these helpers do not yet implement the full range of features
-the VESA backlight interface provides, and only provide the following
-functionality (all of which was already present in i915's DPCD backlight
-support):
-
-* Basic control of brightness levels
-* Basic probing of backlight capabilities
-* Helpers for enabling and disabling the backlight
-
-v3:
-* Split out changes to i915's backlight code to separate patches to make it
-  easier to review
-v4:
-* Style/spelling changes from Thomas Zimmermann
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: greg.depoire@gmail.com
----
- drivers/gpu/drm/drm_dp_helper.c               | 332 ++++++++++++++++++
- .../drm/i915/display/intel_display_types.h    |   5 +-
- .../drm/i915/display/intel_dp_aux_backlight.c | 285 ++-------------
- include/drm/drm_dp_helper.h                   |  48 +++
- 4 files changed, 412 insertions(+), 258 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index eedbb48815b7..1a3d4679d720 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -3082,3 +3082,335 @@ int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
- 	return 0;
- }
- EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
-+
-+/**
-+ * drm_edp_backlight_set_level() - Set the backlight level of an eDP panel via AUX
-+ * @aux: The DP AUX channel to use
-+ * @bl: Backlight capability info from drm_edp_backlight_init()
-+ * @level: The brightness level to set
-+ *
-+ * Sets the brightness level of an eDP panel's backlight. Note that the panel's backlight must
-+ * already have been enabled by the driver by calling drm_edp_backlight_enable().
-+ *
-+ * Returns: %0 on success, negative error code on failure
-+ */
-+int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
-+				u16 level)
-+{
-+	int ret;
-+	u8 buf[2] = { 0 };
-+
-+	if (bl->lsb_reg_used) {
-+		buf[0] = (level & 0xff00) >> 8;
-+		buf[1] = (level & 0x00ff);
-+	} else {
-+		buf[0] = level;
-+	}
-+
-+	ret = drm_dp_dpcd_write(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, sizeof(buf));
-+	if (ret != sizeof(buf)) {
-+		DRM_ERROR("%s: Failed to write aux backlight level: %d\n", aux->name, ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_edp_backlight_set_level);
-+
-+static int
-+drm_edp_backlight_set_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
-+			     bool enable)
-+{
-+	int ret;
-+	u8 buf;
-+
-+	/* The panel uses something other then DPCD for enabling its backlight */
-+	if (!bl->aux_enable)
-+		return 0;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_DISPLAY_CONTROL_REGISTER, &buf);
-+	if (ret != 1) {
-+		DRM_ERROR("%s: Failed to read eDP display control register: %d\n", aux->name, ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+	if (enable)
-+		buf |= DP_EDP_BACKLIGHT_ENABLE;
-+	else
-+		buf &= ~DP_EDP_BACKLIGHT_ENABLE;
-+
-+	ret = drm_dp_dpcd_writeb(aux, DP_EDP_DISPLAY_CONTROL_REGISTER, buf);
-+	if (ret != 1) {
-+		DRM_ERROR("%s: Failed to write eDP display control register: %d\n", aux->name, ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * drm_edp_backlight_enable() - Enable an eDP panel's backlight using DPCD
-+ * @aux: The DP AUX channel to use
-+ * @bl: Backlight capability info from drm_edp_backlight_init()
-+ * @level: The initial backlight level to set via AUX, if there is one
-+ *
-+ * This function handles enabling DPCD backlight controls on a panel over DPCD, while additionally
-+ * restoring any important backlight state such as the given backlight level, the brightness byte
-+ * count, backlight frequency, etc.
-+ *
-+ * Note that certain panels, while supporting brightness level controls over DPCD, may not support
-+ * having their backlights enabled via the standard %DP_EDP_DISPLAY_CONTROL_REGISTER. On such panels
-+ * &drm_edp_backlight_info.aux_enable will be set to %false, this function will skip the step of
-+ * programming the %DP_EDP_DISPLAY_CONTROL_REGISTER, and the driver must perform the required
-+ * implementation specific step for enabling the backlight after calling this function.
-+ *
-+ * Returns: %0 on success, negative error code on failure.
-+ */
-+int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
-+			     const u16 level)
-+{
-+	int ret;
-+	u8 dpcd_buf, new_dpcd_buf;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &dpcd_buf);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to read backlight mode: %d\n", aux->name, ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	new_dpcd_buf = dpcd_buf;
-+
-+	if ((dpcd_buf & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK) != DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
-+		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
-+		new_dpcd_buf |= DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD;
-+
-+		ret = drm_dp_dpcd_writeb(aux, DP_EDP_PWMGEN_BIT_COUNT, bl->pwmgen_bit_count);
-+		if (ret != 1)
-+			DRM_DEBUG_KMS("%s: Failed to write aux pwmgen bit count: %d\n",
-+				      aux->name, ret);
-+	}
-+
-+	if (bl->pwm_freq_pre_divider) {
-+		ret = drm_dp_dpcd_writeb(aux, DP_EDP_BACKLIGHT_FREQ_SET, bl->pwm_freq_pre_divider);
-+		if (ret != 1)
-+			DRM_DEBUG_KMS("%s: Failed to write aux backlight frequency: %d\n",
-+				      aux->name, ret);
-+		else
-+			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
-+	}
-+
-+	if (new_dpcd_buf != dpcd_buf) {
-+		ret = drm_dp_dpcd_writeb(aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, new_dpcd_buf);
-+		if (ret != 1) {
-+			DRM_DEBUG_KMS("%s: Failed to write aux backlight mode: %d\n",
-+				      aux->name, ret);
-+			return ret < 0 ? ret : -EIO;
-+		}
-+	}
-+
-+	ret = drm_edp_backlight_set_level(aux, bl, level);
-+	if (ret < 0)
-+		return ret;
-+	ret = drm_edp_backlight_set_enable(aux, bl, true);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_edp_backlight_enable);
-+
-+/**
-+ * drm_edp_backlight_disable() - Disable an eDP backlight using DPCD, if supported
-+ * @aux: The DP AUX channel to use
-+ * @bl: Backlight capability info from drm_edp_backlight_init()
-+ *
-+ * This function handles disabling DPCD backlight controls on a panel over AUX. Note that some
-+ * panels have backlights that are enabled/disabled by other means, despite having their brightness
-+ * values controlled through DPCD. On such panels &drm_edp_backlight_info.aux_enable will be set to
-+ * %false, this function will become a no-op (and we will skip updating
-+ * %DP_EDP_DISPLAY_CONTROL_REGISTER), and the driver must take care to perform it's own
-+ * implementation specific step for disabling the backlight.
-+ *
-+ * Returns: %0 on success or no-op, negative error code on failure.
-+ */
-+int drm_edp_backlight_disable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl)
-+{
-+	int ret;
-+
-+	ret = drm_edp_backlight_set_enable(aux, bl, false);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_edp_backlight_disable);
-+
-+static inline int
-+drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
-+			    u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
-+{
-+	int fxp, fxp_min, fxp_max, fxp_actual, f = 1;
-+	int ret;
-+	u8 pn, pn_min, pn_max;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT, &pn);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to read pwmgen bit count cap: %d\n", aux->name, ret);
-+		return -ENODEV;
-+	}
-+
-+	pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+	bl->max = (1 << pn) - 1;
-+	if (!driver_pwm_freq_hz)
-+		return 0;
-+
-+	/*
-+	 * Set PWM Frequency divider to match desired frequency provided by the driver.
-+	 * The PWM Frequency is calculated as 27Mhz / (F x P).
-+	 * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
-+	 *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
-+	 * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
-+	 *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
-+	 */
-+
-+	/* Find desired value of (F x P)
-+	 * Note that, if F x P is out of supported range, the maximum value or minimum value will
-+	 * applied automatically. So no need to check that.
-+	 */
-+	fxp = DIV_ROUND_CLOSEST(1000 * DP_EDP_BACKLIGHT_FREQ_BASE_KHZ, driver_pwm_freq_hz);
-+
-+	/* Use highest possible value of Pn for more granularity of brightness adjustment while
-+	 * satifying the conditions below.
-+	 * - Pn is in the range of Pn_min and Pn_max
-+	 * - F is in the range of 1 and 255
-+	 * - FxP is within 25% of desired value.
-+	 *   Note: 25% is arbitrary value and may need some tweak.
-+	 */
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to read pwmgen bit count cap min: %d\n", aux->name, ret);
-+		return 0;
-+	}
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to read pwmgen bit count cap max: %d\n", aux->name, ret);
-+		return 0;
-+	}
-+	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-+
-+	/* Ensure frequency is within 25% of desired value */
-+	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
-+	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
-+	if (fxp_min < (1 << pn_min) || (255 << pn_max) < fxp_max) {
-+		DRM_DEBUG_KMS("%s: Driver defined backlight frequency (%d) out of range\n",
-+			      aux->name, driver_pwm_freq_hz);
-+		return 0;
-+	}
-+
-+	for (pn = pn_max; pn >= pn_min; pn--) {
-+		f = clamp(DIV_ROUND_CLOSEST(fxp, 1 << pn), 1, 255);
-+		fxp_actual = f << pn;
-+		if (fxp_min <= fxp_actual && fxp_actual <= fxp_max)
-+			break;
-+	}
-+
-+	ret = drm_dp_dpcd_writeb(aux, DP_EDP_PWMGEN_BIT_COUNT, pn);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to write aux pwmgen bit count: %d\n", aux->name, ret);
-+		return 0;
-+	}
-+	bl->pwmgen_bit_count = pn;
-+	bl->max = (1 << pn) - 1;
-+
-+	if (edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP) {
-+		bl->pwm_freq_pre_divider = f;
-+		DRM_DEBUG_KMS("%s: Using backlight frequency from driver (%dHz)\n",
-+			      aux->name, driver_pwm_freq_hz);
-+	}
-+
-+	return 0;
-+}
-+
-+static inline int
-+drm_edp_backlight_probe_level(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
-+			      u8 *current_mode)
-+{
-+	int ret;
-+	u8 buf[2];
-+	u8 mode_reg;
-+
-+	ret = drm_dp_dpcd_readb(aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &mode_reg);
-+	if (ret != 1) {
-+		DRM_DEBUG_KMS("%s: Failed to read backlight mode: %d\n", aux->name, ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	*current_mode = (mode_reg & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK);
-+	if (*current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
-+		int size = 1 + bl->lsb_reg_used;
-+
-+		ret = drm_dp_dpcd_read(aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, buf, size);
-+		if (ret != size) {
-+			DRM_DEBUG_KMS("%s: Failed to read backlight level: %d\n", aux->name, ret);
-+			return ret < 0 ? ret : -EIO;
-+		}
-+
-+		if (bl->lsb_reg_used)
-+			return (buf[0] << 8) | buf[1];
-+		else
-+			return buf[0];
-+	}
-+
-+	/*
-+	 * If we're not in DPCD control mode yet, the programmed brightness value is meaningless and
-+	 * the driver should assume max brightness
-+	 */
-+	return bl->max;
-+}
-+
-+/**
-+ * drm_edp_backlight_init() - Probe a display panel's TCON using the standard VESA eDP backlight
-+ * interface.
-+ * @aux: The DP aux device to use for probing
-+ * @bl: The &drm_edp_backlight_info struct to fill out with information on the backlight
-+ * @driver_pwm_freq_hz: Optional PWM frequency from the driver in hz
-+ * @edp_dpcd: A cached copy of the eDP DPCD
-+ * @current_level: Where to store the probed brightness level
-+ * @current_mode: Where to store the currently set backlight control mode
-+ *
-+ * Initializes a &drm_edp_backlight_info struct by probing @aux for it's backlight capabilities,
-+ * along with also probing the current and maximum supported brightness levels.
-+ *
-+ * If @driver_pwm_freq_hz is non-zero, this will be used as the backlight frequency. Otherwise, the
-+ * default frequency from the panel is used.
-+ *
-+ * Returns: %0 on success, negative error code on failure.
-+ */
-+int
-+drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
-+		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
-+		       u16 *current_level, u8 *current_mode)
-+{
-+	int ret;
-+
-+	if (edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP)
-+		bl->aux_enable = true;
-+	if (edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
-+		bl->lsb_reg_used = true;
-+
-+	ret = drm_edp_backlight_probe_max(aux, bl, driver_pwm_freq_hz, edp_dpcd);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = drm_edp_backlight_probe_level(aux, bl, current_mode);
-+	if (ret < 0)
-+		return ret;
-+	*current_level = ret;
-+
-+	DRM_DEBUG_KMS("%s: Found backlight level=%d/%d pwm_freq_pre_divider=%d mode=%x\n",
-+		      aux->name, *current_level, bl->max, bl->pwm_freq_pre_divider, *current_mode);
-+	DRM_DEBUG_KMS("%s: Backlight caps: pwmgen_bit_count=%d lsb_reg_used=%d aux_enable=%d\n",
-+		      aux->name, bl->pwmgen_bit_count, bl->lsb_reg_used, bl->aux_enable);
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_edp_backlight_init);
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 1d8984077e8a..9f43d0b14e11 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -264,10 +264,7 @@ struct intel_panel {
- 		/* DPCD backlight */
- 		union {
- 			struct {
--				u8 pwmgen_bit_count;
--				u8 pwm_freq_pre_divider;
--				bool lsb_reg_used;
--				bool aux_enable;
-+				struct drm_edp_backlight_info info;
- 			} vesa;
- 			struct {
- 				bool sdr_uses_aux;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index a98d9bd4b0ed..286eb337448e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -270,114 +270,19 @@ intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pi
- }
- 
- /* VESA backlight callbacks */
--static bool intel_dp_aux_vesa_backlight_dpcd_mode(struct intel_connector *connector)
--{
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	int ret;
--	u8 mode_reg;
--
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &mode_reg);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read backlight mode: %d\n", ret);
--		return false;
--	}
--
--	return (mode_reg & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK) ==
--	       DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD;
--}
--
--/*
-- * Read the current backlight value from DPCD register(s) based
-- * on if 8-bit(MSB) or 16-bit(MSB and LSB) values are supported
-- */
- static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	int ret;
--	u8 read_val[2] = { 0x0 };
--	u16 level = 0;
--
--	/*
--	 * If we're not in DPCD control mode yet, the programmed brightness
--	 * value is meaningless and we should assume max brightness
--	 */
--	if (!intel_dp_aux_vesa_backlight_dpcd_mode(connector))
--		return connector->panel.backlight.max;
--
--	ret = drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, &read_val,
--			       sizeof(read_val));
--	if (ret != sizeof(read_val)) {
--		drm_dbg_kms(&i915->drm, "Failed to read brightness level: %d\n", ret);
--		return 0;
--	}
--
--	if (connector->panel.backlight.edp.vesa.lsb_reg_used)
--		level = (read_val[0] << 8 | read_val[1]);
--	else
--		level = read_val[0];
--
--	return level;
-+	return connector->panel.backlight.level;
- }
- 
--/*
-- * Sends the current backlight level over the aux channel, checking if its using
-- * 8-bit or 16 bit value (MSB and LSB)
-- */
- static void
--intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state,
--				u32 level)
-+intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	int ret;
--	u8 vals[2] = { 0x0 };
--
--	/* Write the MSB and/or LSB */
--	if (connector->panel.backlight.edp.vesa.lsb_reg_used) {
--		vals[0] = (level & 0xFF00) >> 8;
--		vals[1] = (level & 0xFF);
--	} else {
--		vals[0] = level;
--	}
--
--	ret = drm_dp_dpcd_write(&intel_dp->aux, DP_EDP_BACKLIGHT_BRIGHTNESS_MSB, vals,
--				sizeof(vals));
--	if (ret != sizeof(vals)) {
--		drm_dbg_kms(&i915->drm, "Failed to write aux backlight level: %d\n", ret);
--		return;
--	}
--}
--
--static void set_vesa_backlight_enable(struct intel_connector *connector, bool enable)
--{
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	int ret;
--	u8 reg_val = 0;
--
--	/* Early return when display use other mechanism to enable backlight. */
--	if (!connector->panel.backlight.edp.vesa.aux_enable)
--		return;
--
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER, &reg_val);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read eDP display control register: %d\n", ret);
--		return;
--	}
--
--	if (enable)
--		reg_val |= DP_EDP_BACKLIGHT_ENABLE;
--	else
--		reg_val &= ~(DP_EDP_BACKLIGHT_ENABLE);
-+	struct intel_panel *panel = &connector->panel;
-+	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 
--	ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_DISPLAY_CONTROL_REGISTER, reg_val);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to %s aux backlight: %d\n",
--			    enable ? "enable" : "disable", ret);
--	}
-+	drm_edp_backlight_set_level(&intel_dp->aux, &panel->backlight.edp.vesa.info, level);
- }
- 
- static void
-@@ -385,170 +290,46 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				   const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	struct intel_panel *panel = &connector->panel;
--	int ret;
--	u8 dpcd_buf, new_dpcd_buf;
--	u8 pwmgen_bit_count = panel->backlight.edp.vesa.pwmgen_bit_count;
--
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER, &dpcd_buf);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read backlight mode: %d\n", ret);
--		return;
--	}
--
--	new_dpcd_buf = dpcd_buf;
--
--	if ((dpcd_buf & DP_EDP_BACKLIGHT_CONTROL_MODE_MASK) != DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
--		new_dpcd_buf &= ~DP_EDP_BACKLIGHT_CONTROL_MODE_MASK;
--		new_dpcd_buf |= DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD;
--
--		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, pwmgen_bit_count);
--		if (ret != 1)
--			drm_dbg_kms(&i915->drm, "Failed to write aux pwmgen bit count: %d\n", ret);
--	}
--
--	if (panel->backlight.edp.vesa.pwm_freq_pre_divider) {
--		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_FREQ_SET,
--					 panel->backlight.edp.vesa.pwm_freq_pre_divider);
--		if (ret == 1)
--			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
--		else
--			drm_dbg_kms(&i915->drm, "Failed to write aux backlight frequency: %d\n",
--				    ret);
--	}
--
--	if (new_dpcd_buf != dpcd_buf) {
--		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER,
--					 new_dpcd_buf);
--		if (ret != 1)
--			drm_dbg_kms(&i915->drm, "Failed to write aux backlight mode: %d\n", ret);
--	}
-+	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 
--	intel_dp_aux_vesa_set_backlight(conn_state, level);
--	set_vesa_backlight_enable(connector, true);
-+	drm_edp_backlight_enable(&intel_dp->aux, &panel->backlight.edp.vesa.info, level);
- }
- 
- static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state *old_conn_state,
- 						u32 level)
- {
--	set_vesa_backlight_enable(to_intel_connector(old_conn_state->connector), false);
--}
--
--/*
-- * Compute PWM frequency divider value based off the frequency provided to us by the vbt.
-- * The PWM Frequency is calculated as 27Mhz / (F x P).
-- * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
-- *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
-- * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
-- *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
-- */
--static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connector)
--{
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
--	struct intel_dp *intel_dp = intel_attached_dp(connector);
-+	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
--	u32 max_backlight = 0;
--	int ret, freq, fxp, fxp_min, fxp_max, fxp_actual, f = 1;
--	u8 pn, pn_min, pn_max;
--
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, &pn);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap: %d\n", ret);
--		return 0;
--	}
--
--	pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--	max_backlight = (1 << pn) - 1;
--
--	/* Find desired value of (F x P)
--	 * Note that, if F x P is out of supported range, the maximum value or
--	 * minimum value will applied automatically. So no need to check that.
--	 */
--	freq = i915->vbt.backlight.pwm_freq_hz;
--	drm_dbg_kms(&i915->drm, "VBT defined backlight frequency %u Hz\n",
--		    freq);
--	if (!freq) {
--		drm_dbg_kms(&i915->drm,
--			    "Use panel default backlight frequency\n");
--		return max_backlight;
--	}
--
--	fxp = DIV_ROUND_CLOSEST(KHz(DP_EDP_BACKLIGHT_FREQ_BASE_KHZ), freq);
--
--	/* Use highest possible value of Pn for more granularity of brightness
--	 * adjustment while satifying the conditions below.
--	 * - Pn is in the range of Pn_min and Pn_max
--	 * - F is in the range of 1 and 255
--	 * - FxP is within 25% of desired value.
--	 *   Note: 25% is arbitrary value and may need some tweak.
--	 */
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap min: %d\n", ret);
--		return max_backlight;
--	}
--	ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to read pwmgen bit count cap max: %d\n", ret);
--		return max_backlight;
--	}
--	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
--
--	/* Ensure frequency is within 25% of desired value */
--	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
--	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
--
--	if (fxp_min < (1 << pn_min) || (255 << pn_max) < fxp_max) {
--		drm_dbg_kms(&i915->drm,
--			    "VBT defined backlight frequency out of range\n");
--		return max_backlight;
--	}
--
--	for (pn = pn_max; pn >= pn_min; pn--) {
--		f = clamp(DIV_ROUND_CLOSEST(fxp, 1 << pn), 1, 255);
--		fxp_actual = f << pn;
--		if (fxp_min <= fxp_actual && fxp_actual <= fxp_max)
--			break;
--	}
--
--	drm_dbg_kms(&i915->drm, "Using eDP pwmgen bit count of %d\n", pn);
--	ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_PWMGEN_BIT_COUNT, pn);
--	if (ret != 1) {
--		drm_dbg_kms(&i915->drm, "Failed to write aux pwmgen bit count: %d\n", ret);
--		return max_backlight;
--	}
--
--	panel->backlight.edp.vesa.pwmgen_bit_count = pn;
--	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
--		panel->backlight.edp.vesa.pwm_freq_pre_divider = f;
--
--	max_backlight = (1 << pn) - 1;
-+	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 
--	return max_backlight;
-+	drm_edp_backlight_disable(&intel_dp->aux, &panel->backlight.edp.vesa.info);
- }
- 
--static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
--					     enum pipe pipe)
-+static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector, enum pipe pipe)
- {
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
- 	struct intel_panel *panel = &connector->panel;
-+	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+	u16 current_level;
-+	u8 current_mode;
-+	int ret;
- 
--	if (intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP)
--		panel->backlight.edp.vesa.aux_enable = true;
--	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
--		panel->backlight.edp.vesa.lsb_reg_used = true;
--
--	panel->backlight.max = intel_dp_aux_vesa_calc_max_backlight(connector);
--	if (!panel->backlight.max)
--		return -ENODEV;
-+	ret = drm_edp_backlight_init(&intel_dp->aux, &panel->backlight.edp.vesa.info,
-+				     i915->vbt.backlight.pwm_freq_hz, intel_dp->edp_dpcd,
-+				     &current_level, &current_mode);
-+	if (ret < 0)
-+		return ret;
- 
-+	panel->backlight.max = panel->backlight.edp.vesa.info.max;
- 	panel->backlight.min = 0;
--	panel->backlight.level = intel_dp_aux_vesa_get_backlight(connector, pipe);
--	panel->backlight.enabled = intel_dp_aux_vesa_backlight_dpcd_mode(connector) &&
--				   panel->backlight.level != 0;
-+	if (current_mode == DP_EDP_BACKLIGHT_CONTROL_MODE_DPCD) {
-+		panel->backlight.level = current_level;
-+		panel->backlight.enabled = panel->backlight.level != 0;
-+	} else {
-+		panel->backlight.level = panel->backlight.max;
-+		panel->backlight.enabled = false;
-+	}
- 
- 	return 0;
- }
-@@ -559,16 +340,12 @@ intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 
--	/* Check the eDP Display control capabilities registers to determine if
--	 * the panel can support backlight control over the aux channel.
--	 *
--	 * TODO: We currently only support AUX only backlight configurations, not backlights which
-+	/* TODO: We currently only support AUX only backlight configurations, not backlights which
- 	 * require a mix of PWM and AUX controls to work. In the mean time, these machines typically
- 	 * work just fine using normal PWM controls anyway.
- 	 */
--	if (intel_dp->edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP &&
--	    (intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
--	    (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP)) {
-+	if ((intel_dp->edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
-+	    drm_edp_backlight_supported(intel_dp->edp_dpcd)) {
- 		drm_dbg_kms(&i915->drm, "AUX Backlight Control Supported!\n");
- 		return true;
- 	}
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index edffd1dcca3e..1eca0b42fc45 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1790,6 +1790,24 @@ drm_dp_sink_can_do_video_without_timing_msa(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- 		DP_MSA_TIMING_PAR_IGNORED;
- }
- 
-+/**
-+ * drm_edp_backlight_supported() - Check an eDP DPCD for VESA backlight support
-+ * @edp_dpcd: The DPCD to check
-+ *
-+ * Note that currently this function will return %false for panels which support various DPCD
-+ * backlight features but which require the brightness be set through PWM, and don't support setting
-+ * the brightness level via the DPCD. This is a TODO.
-+ *
-+ * Returns: %True if @edp_dpcd indicates that VESA backlight controls are supported, %false
-+ * otherwise
-+ */
-+static inline bool
-+drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
-+{
-+	return (edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP) &&
-+		(edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP);
-+}
-+
- /*
-  * DisplayPort AUX channel
-  */
-@@ -2089,6 +2107,36 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
- 	return desc->quirks & BIT(quirk);
- }
- 
-+/**
-+ * struct drm_edp_backlight_info - Probed eDP backlight info struct
-+ * @pwmgen_bit_count: The pwmgen bit count
-+ * @pwm_freq_pre_divider: The PWM frequency pre-divider value being used for this backlight, if any
-+ * @max: The maximum backlight level that may be set
-+ * @lsb_reg_used: Do we also write values to the DP_EDP_BACKLIGHT_BRIGHTNESS_LSB register?
-+ * @aux_enable: Does the panel support the AUX enable cap?
-+ *
-+ * This structure contains various data about an eDP backlight, which can be populated by using
-+ * drm_edp_backlight_init().
-+ */
-+struct drm_edp_backlight_info {
-+	u8 pwmgen_bit_count;
-+	u8 pwm_freq_pre_divider;
-+	u16 max;
-+
-+	bool lsb_reg_used : 1;
-+	bool aux_enable : 1;
-+};
-+
-+int
-+drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
-+		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
-+		       u16 *current_level, u8 *current_mode);
-+int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
-+				u16 level);
-+int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
-+			     u16 level);
-+int drm_edp_backlight_disable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl);
-+
- #ifdef CONFIG_DRM_DP_CEC
- void drm_dp_cec_irq(struct drm_dp_aux *aux);
- void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBhZGRzIHN1cHBvcnQgZm9yIGNvbnRyb2xsaW5nIHBhbmVsIGJhY2tsaWdodHMgb3ZlciBl
+RFAgdXNpbmcgVkVTQSdzCnN0YW5kYXJkIGJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZS4gTHVj
+a2lseSwgTnZpZGlhIHdhcyBjb29sIGVub3VnaCB0bwpuZXZlciBjb21lIHVwIHdpdGggdGhlaXIg
+b3duIHByb3ByaWV0YXJ5IGJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZSAoYXQKbGVhc3QsIG5v
+dCBhbnkgdGhhdCBJIG9yIHRoZSBsYXB0b3AgbWFudWZhY3R1cmVycyBJJ3ZlIHRhbGtlZCB0byBh
+cmUgYXdhcmUKb2YpLCBzbyB0aGlzIHNob3VsZCB3b3JrIGZvciBhbnkgbGFwdG9wIHBhbmVscyB3
+aGljaCBzdXBwb3J0IHRoZSBWRVNBCmJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZS4KCk5vdGUg
+dGhhdCB3ZSBkb24ndCB5ZXQgcHJvdmlkZSB0aGUgcGFuZWwgYmFja2xpZ2h0IGZyZXF1ZW5jeSB0
+byB0aGUgRFJNIERQCmJhY2tsaWdodCBoZWxwZXJzLiBUaGlzIHNob3VsZCBiZSBmaW5lIGZvciB0
+aGUgdGltZSBiZWluZywgc2luY2UgaXQncyBub3QKcmVxdWlyZWQgdG8gZ2V0IGJhc2ljIGJhY2ts
+aWdodCBjb250cm9scyB3b3JraW5nLgoKRm9yIHJlZmVyZW5jZTogdGhlcmUncyBzb21lIG1lbnRp
+b25zIG9mIFBXTSBiYWNrbGlnaHQgdmFsdWVzIGluCm5vdXZlYXVfcmVnLmgsIGJ1dCBJJ20gbm90
+IHN1cmUgdGhlc2UgYXJlIHRoZSB2YWx1ZXMgd2Ugd291bGQgd2FudCB0byB1c2UuCklmIHdlIGZp
+Z3VyZSBvdXQgaG93IHRvIGdldCB0aGlzIGluZm9ybWF0aW9uIGluIHRoZSBmdXR1cmUsIHdlJ2xs
+IGhhdmUgdGhlCmJlbmVmaXQgb2YgbW9yZSBncmFudWxhciBiYWNrbGlnaHQgY29udHJvbC4KClNp
+Z25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CkNjOiBKYW5pIE5pa3Vs
+YSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwu
+Y29tPgpDYzogZ3JlZy5kZXBvaXJlQGdtYWlsLmNvbQotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L2Rpc3BudjUwL2Rpc3AuYyAgICAgfCAgMjggKysrKwogZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvbm91dmVhdV9iYWNrbGlnaHQuYyB8IDE2NiArKysrKysrKysrKysrKysrKystLQogZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaCB8ICAgOSArLQogZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9lbmNvZGVyLmggICB8ICAgMSArCiA0IGZpbGVzIGNoYW5n
+ZWQsIDE4NiBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9kaXNwbnY1MC9kaXNwLmMKaW5kZXggMTk2NjEyYWRkZmQ2Li40YTE4MTliMDIwODQgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKQEAgLTMxLDYgKzMxLDcgQEAK
+ICNpbmNsdWRlIDxsaW51eC9kbWEtbWFwcGluZy5oPgogI2luY2x1ZGUgPGxpbnV4L2hkbWkuaD4K
+ICNpbmNsdWRlIDxsaW51eC9jb21wb25lbnQuaD4KKyNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4K
+IAogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNf
+aGVscGVyLmg+CkBAIC0xNjQ3LDE1ICsxNjQ4LDMwIEBAIG52NTBfc29yX3VwZGF0ZShzdHJ1Y3Qg
+bm91dmVhdV9lbmNvZGVyICpudl9lbmNvZGVyLCB1OCBoZWFkLAogCWNvcmUtPmZ1bmMtPnNvci0+
+Y3RybChjb3JlLCBudl9lbmNvZGVyLT5vciwgbnZfZW5jb2Rlci0+Y3RybCwgYXN5aCk7CiB9CiAK
+Ky8qIFRPRE86IFNob3VsZCB3ZSBleHRlbmQgdGhpcyB0byBQV00tb25seSBiYWNrbGlnaHRzPwor
+ICogQXMgd2VsbCwgc2hvdWxkIHdlIGFkZCBhIERSTSBoZWxwZXIgZm9yIHdhaXRpbmcgZm9yIHRo
+ZSBiYWNrbGlnaHQgdG8gYWNrbm93bGVkZ2UKKyAqIHRoZSBwYW5lbCBiYWNrbGlnaHQgaGFzIGJl
+ZW4gc2h1dCBvZmY/IEludGVsIGRvZXNuJ3Qgc2VlbSB0byBkbyB0aGlzLCBhbmQgdXNlcyBhCisg
+KiBmaXhlZCB0aW1lIGRlbGF5IGZyb20gdGhlIHZiaW9z4oCmCisgKi8KIHN0YXRpYyB2b2lkCiBu
+djUwX3Nvcl9hdG9taWNfZGlzYWJsZShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIsIHN0cnVj
+dCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9lbmNvZGVyICpu
+dl9lbmNvZGVyID0gbm91dmVhdV9lbmNvZGVyKGVuY29kZXIpOworCXN0cnVjdCBub3V2ZWF1X2Ry
+bSAqZHJtID0gbm91dmVhdV9kcm0obnZfZW5jb2Rlci0+YmFzZS5iYXNlLmRldik7CiAJc3RydWN0
+IG5vdXZlYXVfY3J0YyAqbnZfY3J0YyA9IG5vdXZlYXVfY3J0Yyhudl9lbmNvZGVyLT5jcnRjKTsK
+IAlzdHJ1Y3Qgbm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm5lY3RvciA9IG52NTBfb3V0cF9nZXRf
+b2xkX2Nvbm5lY3RvcihzdGF0ZSwgbnZfZW5jb2Rlcik7CisJc3RydWN0IG5vdXZlYXVfYmFja2xp
+Z2h0ICpiYWNrbGlnaHQgPSBudl9jb25uZWN0b3ItPmJhY2tsaWdodDsKIAlzdHJ1Y3QgZHJtX2Rw
+X2F1eCAqYXV4ID0gJm52X2Nvbm5lY3Rvci0+YXV4OworCWludCByZXQ7CiAJdTggcHdyOwogCisJ
+aWYgKGJhY2tsaWdodCAmJiBiYWNrbGlnaHQtPnVzZXNfZHBjZCkgeworCQlyZXQgPSBkcm1fZWRw
+X2JhY2tsaWdodF9kaXNhYmxlKGF1eCwgJmJhY2tsaWdodC0+ZWRwX2luZm8pOworCQlpZiAocmV0
+IDwgMCkKKwkJCU5WX0VSUk9SKGRybSwgIkZhaWxlZCB0byBkaXNhYmxlIGJhY2tsaWdodCBvbiBb
+Q09OTkVDVE9SOiVkOiVzXTogJWRcbiIsCisJCQkJIG52X2Nvbm5lY3Rvci0+YmFzZS5iYXNlLmlk
+LCBudl9jb25uZWN0b3ItPmJhc2UubmFtZSwgcmV0KTsKKwl9CisKIAlpZiAobnZfZW5jb2Rlci0+
+ZGNiLT50eXBlID09IERDQl9PVVRQVVRfRFApIHsKIAkJaW50IHJldCA9IGRybV9kcF9kcGNkX3Jl
+YWRiKGF1eCwgRFBfU0VUX1BPV0VSLCAmcHdyKTsKIApAQCAtMTY5NCw2ICsxNzEwLDkgQEAgbnY1
+MF9zb3JfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIsIHN0cnVjdCBk
+cm1fYXRvbWljX3N0YXRlICpzdGEKIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gZW5jb2Rlci0+
+ZGV2OwogCXN0cnVjdCBub3V2ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0oZGV2KTsKIAlzdHJ1
+Y3Qgbm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm5lY3RvcjsKKyNpZmRlZiBDT05GSUdfRFJNX05P
+VVZFQVVfQkFDS0xJR0hUCisJc3RydWN0IG5vdXZlYXVfYmFja2xpZ2h0ICpiYWNrbGlnaHQ7Cisj
+ZW5kaWYKIAlzdHJ1Y3QgbnZiaW9zICpiaW9zID0gJmRybS0+dmJpb3M7CiAJYm9vbCBoZGEgPSBm
+YWxzZTsKIAl1OCBwcm90byA9IE5WNTA3RF9TT1JfU0VUX0NPTlRST0xfUFJPVE9DT0xfQ1VTVE9N
+OwpAQCAtMTc2OCw2ICsxNzg3LDE0IEBAIG52NTBfc29yX2F0b21pY19lbmFibGUoc3RydWN0IGRy
+bV9lbmNvZGVyICplbmNvZGVyLCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhCiAJCQlwcm90
+byA9IE5WODg3RF9TT1JfU0VUX0NPTlRST0xfUFJPVE9DT0xfRFBfQjsKIAogCQludjUwX2F1ZGlv
+X2VuYWJsZShlbmNvZGVyLCBudl9jcnRjLCBudl9jb25uZWN0b3IsIHN0YXRlLCBtb2RlKTsKKwor
+I2lmZGVmIENPTkZJR19EUk1fTk9VVkVBVV9CQUNLTElHSFQKKwkJYmFja2xpZ2h0ID0gbnZfY29u
+bmVjdG9yLT5iYWNrbGlnaHQ7CisJCWlmIChiYWNrbGlnaHQgJiYgYmFja2xpZ2h0LT51c2VzX2Rw
+Y2QpCisJCQlkcm1fZWRwX2JhY2tsaWdodF9lbmFibGUoJm52X2Nvbm5lY3Rvci0+YXV4LCAmYmFj
+a2xpZ2h0LT5lZHBfaW5mbywKKwkJCQkJCSAodTE2KWJhY2tsaWdodC0+ZGV2LT5wcm9wcy5icmln
+aHRuZXNzKTsKKyNlbmRpZgorCiAJCWJyZWFrOwogCWRlZmF1bHQ6CiAJCUJVRygpOwpAQCAtMjI5
+Myw2ICsyMzIwLDcgQEAgbnY1MF9kaXNwX2F0b21pY19jb21taXRfdGFpbChzdHJ1Y3QgZHJtX2F0
+b21pY19zdGF0ZSAqc3RhdGUpCiAJbnY1MF9jcmNfYXRvbWljX3N0YXJ0X3JlcG9ydGluZyhzdGF0
+ZSk7CiAJaWYgKCFmbHVzaGVkKQogCQludjUwX2NyY19hdG9taWNfcmVsZWFzZV9ub3RpZmllcl9j
+b250ZXh0cyhzdGF0ZSk7CisKIAlkcm1fYXRvbWljX2hlbHBlcl9jb21taXRfaHdfZG9uZShzdGF0
+ZSk7CiAJZHJtX2F0b21pY19oZWxwZXJfY2xlYW51cF9wbGFuZXMoZGV2LCBzdGF0ZSk7CiAJZHJt
+X2F0b21pY19oZWxwZXJfY29tbWl0X2NsZWFudXBfZG9uZShzdGF0ZSk7CmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JhY2tsaWdodC5jIGIvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvbm91dmVhdV9iYWNrbGlnaHQuYwppbmRleCA0MmI0OThlN2UyYmYuLmExMTgx
+MWI1ZTYzZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iYWNr
+bGlnaHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JhY2tsaWdodC5j
+CkBAIC00MiwxMSArNDIsNiBAQAogc3RhdGljIHN0cnVjdCBpZGEgYmxfaWRhOwogI2RlZmluZSBC
+TF9OQU1FX1NJWkUgMTUgLy8gMTIgZm9yIG5hbWUgKyAyIGZvciBkaWdpdHMgKyAxIGZvciAnXDAn
+CiAKLXN0cnVjdCBub3V2ZWF1X2JhY2tsaWdodCB7Ci0Jc3RydWN0IGJhY2tsaWdodF9kZXZpY2Ug
+KmRldjsKLQlpbnQgaWQ7Ci19OwotCiBzdGF0aWMgYm9vbAogbm91dmVhdV9nZXRfYmFja2xpZ2h0
+X25hbWUoY2hhciBiYWNrbGlnaHRfbmFtZVtCTF9OQU1FX1NJWkVdLAogCQkJICAgc3RydWN0IG5v
+dXZlYXVfYmFja2xpZ2h0ICpibCkKQEAgLTE0Nyw2ICsxNDIsOTggQEAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBiYWNrbGlnaHRfb3BzIG52NTBfYmxfb3BzID0gewogCS51cGRhdGVfc3RhdHVzID0gbnY1
+MF9zZXRfaW50ZW5zaXR5LAogfTsKIAorLyoKKyAqIGVEUCBicmlnaHRuZXNzIGNhbGxiYWNrcyBu
+ZWVkIHRvIGhhcHBlbiB1bmRlciBsb2NrLCBzaW5jZSB3ZSBuZWVkIHRvCisgKiBlbmFibGUvZGlz
+YWJsZSB0aGUgYmFja2xpZ2h0IG91cnNlbHZlcyBmb3IgbW9kZXNldHMKKyAqLworc3RhdGljIGlu
+dAorbnY1MF9lZHBfZ2V0X2JyaWdodG5lc3Moc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJkKQor
+eworCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSBkZXZfZ2V0X2RydmRhdGEoYmQt
+PmRldi5wYXJlbnQpOworCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsK
+KwlzdHJ1Y3QgZHJtX2NydGMgKmNydGM7CisJc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4
+IGN0eDsKKwlpbnQgcmV0ID0gMDsKKworCWRybV9tb2Rlc2V0X2FjcXVpcmVfaW5pdCgmY3R4LCAw
+KTsKKworcmV0cnk6CisJcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmZGV2LT5tb2RlX2NvbmZpZy5j
+b25uZWN0aW9uX211dGV4LCAmY3R4KTsKKwlpZiAocmV0ID09IC1FREVBRExLKQorCQlnb3RvIGRl
+YWRsb2NrOworCWVsc2UgaWYgKHJldCA8IDApCisJCWdvdG8gb3V0OworCisJY3J0YyA9IGNvbm5l
+Y3Rvci0+c3RhdGUtPmNydGM7CisJaWYgKCFjcnRjKQorCQlnb3RvIG91dDsKKworCXJldCA9IGRy
+bV9tb2Rlc2V0X2xvY2soJmNydGMtPm11dGV4LCAmY3R4KTsKKwlpZiAocmV0ID09IC1FREVBRExL
+KQorCQlnb3RvIGRlYWRsb2NrOworCWVsc2UgaWYgKHJldCA8IDApCisJCWdvdG8gb3V0OworCisJ
+aWYgKCFjcnRjLT5zdGF0ZS0+YWN0aXZlKQorCQlnb3RvIG91dDsKKworCXJldCA9IGJkLT5wcm9w
+cy5icmlnaHRuZXNzOworb3V0OgorCWRybV9tb2Rlc2V0X2Ryb3BfbG9ja3MoJmN0eCk7CisJZHJt
+X21vZGVzZXRfYWNxdWlyZV9maW5pKCZjdHgpOworCXJldHVybiByZXQ7CitkZWFkbG9jazoKKwlk
+cm1fbW9kZXNldF9iYWNrb2ZmKCZjdHgpOworCWdvdG8gcmV0cnk7Cit9CisKK3N0YXRpYyBpbnQK
+K252NTBfZWRwX3NldF9icmlnaHRuZXNzKHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiZCkKK3sK
+KwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yID0gZGV2X2dldF9kcnZkYXRhKGJkLT5k
+ZXYucGFyZW50KTsKKwlzdHJ1Y3Qgbm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm5lY3RvciA9IG5v
+dXZlYXVfY29ubmVjdG9yKGNvbm5lY3Rvcik7CisJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGNv
+bm5lY3Rvci0+ZGV2OworCXN0cnVjdCBkcm1fY3J0YyAqY3J0YzsKKwlzdHJ1Y3QgZHJtX2RwX2F1
+eCAqYXV4ID0gJm52X2Nvbm5lY3Rvci0+YXV4OworCXN0cnVjdCBub3V2ZWF1X2JhY2tsaWdodCAq
+bnZfYmwgPSBudl9jb25uZWN0b3ItPmJhY2tsaWdodDsKKwlzdHJ1Y3QgZHJtX21vZGVzZXRfYWNx
+dWlyZV9jdHggY3R4OworCWludCByZXQgPSAwOworCisJZHJtX21vZGVzZXRfYWNxdWlyZV9pbml0
+KCZjdHgsIDApOworcmV0cnk6CisJcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmZGV2LT5tb2RlX2Nv
+bmZpZy5jb25uZWN0aW9uX211dGV4LCAmY3R4KTsKKwlpZiAocmV0ID09IC1FREVBRExLKQorCQln
+b3RvIGRlYWRsb2NrOworCWVsc2UgaWYgKHJldCA8IDApCisJCWdvdG8gb3V0OworCisJY3J0YyA9
+IGNvbm5lY3Rvci0+c3RhdGUtPmNydGM7CisJaWYgKCFjcnRjKQorCQlnb3RvIG91dDsKKworCXJl
+dCA9IGRybV9tb2Rlc2V0X2xvY2soJmNydGMtPm11dGV4LCAmY3R4KTsKKwlpZiAocmV0ID09IC1F
+REVBRExLKQorCQlnb3RvIGRlYWRsb2NrOworCWVsc2UgaWYgKHJldCA8IDApCisJCWdvdG8gb3V0
+OworCisJaWYgKGNydGMtPnN0YXRlLT5hY3RpdmUpCisJCXJldCA9IGRybV9lZHBfYmFja2xpZ2h0
+X3NldF9sZXZlbChhdXgsICZudl9ibC0+ZWRwX2luZm8sIGJkLT5wcm9wcy5icmlnaHRuZXNzKTsK
+Kworb3V0OgorCWRybV9tb2Rlc2V0X2Ryb3BfbG9ja3MoJmN0eCk7CisJZHJtX21vZGVzZXRfYWNx
+dWlyZV9maW5pKCZjdHgpOworCXJldHVybiByZXQ7CitkZWFkbG9jazoKKwlkcm1fbW9kZXNldF9i
+YWNrb2ZmKCZjdHgpOworCWdvdG8gcmV0cnk7Cit9CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYmFj
+a2xpZ2h0X29wcyBudjUwX2VkcF9ibF9vcHMgPSB7CisJLmdldF9icmlnaHRuZXNzID0gbnY1MF9l
+ZHBfZ2V0X2JyaWdodG5lc3MsCisJLnVwZGF0ZV9zdGF0dXMgPSBudjUwX2VkcF9zZXRfYnJpZ2h0
+bmVzcywKK307CisKIHN0YXRpYyBpbnQKIG52YTNfZ2V0X2ludGVuc2l0eShzdHJ1Y3QgYmFja2xp
+Z2h0X2RldmljZSAqYmQpCiB7CkBAIC0xOTMsOCArMjgwLDEzIEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgYmFja2xpZ2h0X29wcyBudmEzX2JsX29wcyA9IHsKIAkudXBkYXRlX3N0YXR1cyA9IG52YTNf
+c2V0X2ludGVuc2l0eSwKIH07CiAKKy8qIEZJWE1FOiBwZXJmb3JtIGJhY2tsaWdodCBwcm9iaW5n
+IGZvciBlRFAgX2JlZm9yZV8gdGhpcywgdGhpcyBvbmx5IGdldHMgY2FsbGVkIGFmdGVyIGNvbm5l
+Y3RvcgorICogcmVnaXN0cmF0aW9uIHdoaWNoIGhhcHBlbnMgYWZ0ZXIgdGhlIGluaXRpYWwgbW9k
+ZXNldAorICovCiBzdGF0aWMgaW50Ci1udjUwX2JhY2tsaWdodF9pbml0KHN0cnVjdCBub3V2ZWF1
+X2VuY29kZXIgKm52X2VuY29kZXIsCitudjUwX2JhY2tsaWdodF9pbml0KHN0cnVjdCBub3V2ZWF1
+X2JhY2tsaWdodCAqYmwsCisJCSAgICBzdHJ1Y3Qgbm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm4s
+CisJCSAgICBzdHJ1Y3Qgbm91dmVhdV9lbmNvZGVyICpudl9lbmNvZGVyLAogCQkgICAgc3RydWN0
+IGJhY2tsaWdodF9wcm9wZXJ0aWVzICpwcm9wcywKIAkJICAgIGNvbnN0IHN0cnVjdCBiYWNrbGln
+aHRfb3BzICoqb3BzKQogewpAQCAtMjA0LDYgKzI5Niw0MSBAQCBudjUwX2JhY2tsaWdodF9pbml0
+KHN0cnVjdCBub3V2ZWF1X2VuY29kZXIgKm52X2VuY29kZXIsCiAJaWYgKCFudmlmX3JkMzIoZGV2
+aWNlLCBOVjUwX1BESVNQX1NPUl9QV01fQ1RMKGZmcyhudl9lbmNvZGVyLT5kY2ItPm9yKSAtIDEp
+KSkKIAkJcmV0dXJuIC1FTk9ERVY7CiAKKwlpZiAobnZfY29ubi0+dHlwZSA9PSBEQ0JfQ09OTkVD
+VE9SX2VEUCkgeworCQlpbnQgcmV0OworCQl1MTYgY3VycmVudF9sZXZlbDsKKwkJdTggZWRwX2Rw
+Y2RbRURQX0RJU1BMQVlfQ1RMX0NBUF9TSVpFXTsKKwkJdTggY3VycmVudF9tb2RlOworCisJCXJl
+dCA9IGRybV9kcF9kcGNkX3JlYWQoJm52X2Nvbm4tPmF1eCwgRFBfRURQX0RQQ0RfUkVWLCBlZHBf
+ZHBjZCwKKwkJCQkgICAgICAgRURQX0RJU1BMQVlfQ1RMX0NBUF9TSVpFKTsKKwkJaWYgKHJldCA8
+IDApCisJCQlyZXR1cm4gcmV0OworCisJCWlmIChkcm1fZWRwX2JhY2tsaWdodF9zdXBwb3J0ZWQo
+ZWRwX2RwY2QpKSB7CisJCQlOVl9ERUJVRyhkcm0sICJEUENEIGJhY2tsaWdodCBjb250cm9scyBz
+dXBwb3J0ZWQgb24gJXNcbiIsCisJCQkJIG52X2Nvbm4tPmJhc2UubmFtZSk7CisKKwkJCXJldCA9
+IGRybV9lZHBfYmFja2xpZ2h0X2luaXQoJm52X2Nvbm4tPmF1eCwgJmJsLT5lZHBfaW5mbywgMCwg
+ZWRwX2RwY2QsCisJCQkJCQkgICAgICZjdXJyZW50X2xldmVsLCAmY3VycmVudF9tb2RlKTsKKwkJ
+CWlmIChyZXQgPCAwKQorCQkJCXJldHVybiByZXQ7CisKKwkJCXJldCA9IGRybV9lZHBfYmFja2xp
+Z2h0X2VuYWJsZSgmbnZfY29ubi0+YXV4LCAmYmwtPmVkcF9pbmZvLCBjdXJyZW50X2xldmVsKTsK
+KwkJCWlmIChyZXQgPCAwKSB7CisJCQkJTlZfRVJST1IoZHJtLCAiRmFpbGVkIHRvIGVuYWJsZSBi
+YWNrbGlnaHQgb24gJXM6ICVkXG4iLAorCQkJCQkgbnZfY29ubi0+YmFzZS5uYW1lLCByZXQpOwor
+CQkJCXJldHVybiByZXQ7CisJCQl9CisKKwkJCSpvcHMgPSAmbnY1MF9lZHBfYmxfb3BzOworCQkJ
+cHJvcHMtPmJyaWdodG5lc3MgPSBjdXJyZW50X2xldmVsOworCQkJcHJvcHMtPm1heF9icmlnaHRu
+ZXNzID0gYmwtPmVkcF9pbmZvLm1heDsKKwkJCWJsLT51c2VzX2RwY2QgPSB0cnVlOworCQkJcmV0
+dXJuIDA7CisJCX0KKwl9CisKIAlpZiAoZHJtLT5jbGllbnQuZGV2aWNlLmluZm8uY2hpcHNldCA8
+PSAweGEwIHx8CiAJICAgIGRybS0+Y2xpZW50LmRldmljZS5pbmZvLmNoaXBzZXQgPT0gMHhhYSB8
+fAogCSAgICBkcm0tPmNsaWVudC5kZXZpY2UuaW5mby5jaGlwc2V0ID09IDB4YWMpCkBAIC0yNDMs
+NiArMzcwLDEwIEBAIG5vdXZlYXVfYmFja2xpZ2h0X2luaXQoc3RydWN0IGRybV9jb25uZWN0b3Ig
+KmNvbm5lY3RvcikKIAlpZiAoIW52X2VuY29kZXIpCiAJCXJldHVybiAwOwogCisJYmwgPSBremFs
+bG9jKHNpemVvZigqYmwpLCBHRlBfS0VSTkVMKTsKKwlpZiAoIWJsKQorCQlyZXR1cm4gLUVOT01F
+TTsKKwogCXN3aXRjaCAoZGV2aWNlLT5pbmZvLmZhbWlseSkgewogCWNhc2UgTlZfREVWSUNFX0lO
+Rk9fVjBfQ1VSSUU6CiAJCXJldCA9IG52NDBfYmFja2xpZ2h0X2luaXQobnZfZW5jb2RlciwgJnBy
+b3BzLCAmb3BzKTsKQEAgLTI1NSwyMCArMzg2LDE5IEBAIG5vdXZlYXVfYmFja2xpZ2h0X2luaXQo
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKIAljYXNlIE5WX0RFVklDRV9JTkZPX1Yw
+X1ZPTFRBOgogCWNhc2UgTlZfREVWSUNFX0lORk9fVjBfVFVSSU5HOgogCWNhc2UgTlZfREVWSUNF
+X0lORk9fVjBfQU1QRVJFOiAvL1hYWDogbm90IGNvbmZpcm1lZAotCQlyZXQgPSBudjUwX2JhY2ts
+aWdodF9pbml0KG52X2VuY29kZXIsICZwcm9wcywgJm9wcyk7CisJCXJldCA9IG52NTBfYmFja2xp
+Z2h0X2luaXQoYmwsIG5vdXZlYXVfY29ubmVjdG9yKGNvbm5lY3RvciksCisJCQkJCSAgbnZfZW5j
+b2RlciwgJnByb3BzLCAmb3BzKTsKIAkJYnJlYWs7CiAJZGVmYXVsdDoKLQkJcmV0dXJuIDA7CisJ
+CXJldCA9IDA7CisJCWdvdG8gZmFpbF9hbGxvYzsKIAl9CiAKLQlpZiAocmV0ID09IC1FTk9ERVYp
+Ci0JCXJldHVybiAwOwotCWVsc2UgaWYgKHJldCkKLQkJcmV0dXJuIHJldDsKLQotCWJsID0ga3ph
+bGxvYyhzaXplb2YoKmJsKSwgR0ZQX0tFUk5FTCk7Ci0JaWYgKCFibCkKLQkJcmV0dXJuIC1FTk9N
+RU07CisJaWYgKHJldCkgeworCQlpZiAocmV0ID09IC1FTk9ERVYpCisJCQlyZXQgPSAwOworCQln
+b3RvIGZhaWxfYWxsb2M7CisJfQogCiAJaWYgKCFub3V2ZWF1X2dldF9iYWNrbGlnaHRfbmFtZShi
+YWNrbGlnaHRfbmFtZSwgYmwpKSB7CiAJCU5WX0VSUk9SKGRybSwgIkZhaWxlZCB0byByZXRyaWV2
+ZSBhIHVuaXF1ZSBuYW1lIGZvciB0aGUgYmFja2xpZ2h0IGludGVyZmFjZVxuIik7CkBAIC0yODUs
+NyArNDE1LDkgQEAgbm91dmVhdV9iYWNrbGlnaHRfaW5pdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAq
+Y29ubmVjdG9yKQogCX0KIAogCW5vdXZlYXVfY29ubmVjdG9yKGNvbm5lY3RvciktPmJhY2tsaWdo
+dCA9IGJsOwotCWJsLT5kZXYtPnByb3BzLmJyaWdodG5lc3MgPSBibC0+ZGV2LT5vcHMtPmdldF9i
+cmlnaHRuZXNzKGJsLT5kZXYpOworCWlmICghYmwtPmRldi0+cHJvcHMuYnJpZ2h0bmVzcykKKwkJ
+YmwtPmRldi0+cHJvcHMuYnJpZ2h0bmVzcyA9CisJCQlibC0+ZGV2LT5vcHMtPmdldF9icmlnaHRu
+ZXNzKGJsLT5kZXYpOwogCWJhY2tsaWdodF91cGRhdGVfc3RhdHVzKGJsLT5kZXYpOwogCiAJcmV0
+dXJuIDA7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5l
+Y3Rvci5oIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaAppbmRl
+eCBkMGI4NTljNGE4MGUuLjQwZjkwZTM1MzU0MCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9ub3V2ZWF1X2Nvbm5lY3Rvci5oCkBAIC00Niw3ICs0NiwxNCBAQCBzdHJ1Y3QgbnZrbV9pMmNf
+cG9ydDsKIHN0cnVjdCBkY2Jfb3V0cHV0OwogCiAjaWZkZWYgQ09ORklHX0RSTV9OT1VWRUFVX0JB
+Q0tMSUdIVAotc3RydWN0IG5vdXZlYXVfYmFja2xpZ2h0Oworc3RydWN0IG5vdXZlYXVfYmFja2xp
+Z2h0IHsKKwlzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqZGV2OworCisJc3RydWN0IGRybV9lZHBf
+YmFja2xpZ2h0X2luZm8gZWRwX2luZm87CisJYm9vbCB1c2VzX2RwY2QgOiAxOworCisJaW50IGlk
+OworfTsKICNlbmRpZgogCiAjZGVmaW5lIG5vdXZlYXVfY29ubl9hdG9tKHApICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXApkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9lbmNvZGVyLmggYi9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9ub3V2ZWF1X2VuY29kZXIuaAppbmRleCAxZmZjYzBhNDkxZmQuLjc3YzJmZWQ3NmU4
+YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9lbmNvZGVyLmgK
+KysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9lbmNvZGVyLmgKQEAgLTMwLDYg
+KzMwLDcgQEAKICNpbmNsdWRlIDxzdWJkZXYvYmlvcy9kY2IuaD4KIAogI2luY2x1ZGUgPGRybS9k
+cm1fZW5jb2Rlcl9zbGF2ZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fZHBfaGVscGVyLmg+CiAjaW5j
+bHVkZSA8ZHJtL2RybV9kcF9tc3RfaGVscGVyLmg+CiAjaW5jbHVkZSAiZGlzcG52MDQvZGlzcC5o
+Igogc3RydWN0IG52NTBfaGVhZF9hdG9tOwotLSAKMi4yOS4yCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
