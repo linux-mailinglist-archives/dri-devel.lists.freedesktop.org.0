@@ -2,34 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE9431428E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 23:08:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89348314292
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 23:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898146E93D;
-	Mon,  8 Feb 2021 22:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0F46EA08;
+	Mon,  8 Feb 2021 22:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF6316E93D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 22:08:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A33164E27
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 22:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1612822113;
- bh=XuEp5Pv5iOgvlmkpqK/1cToINo94jkiopt4zyySLEOQ=;
- h=Date:From:To:Subject:From;
- b=e5QzqwSqVCOG09wzPQ1TrsfxPRZSOvHZHN7G9/4rxfl/+HBJuxk+e/O5/IboUcuVQ
- G5OA6R23TPDQU5m3ggu6q5+wT4MB3EKpx7t/k+guhh1ZBh5d79p/zW3ofq24ioecS+
- PhZPTgD0P8vMlUcmqApc0FvU7ioLw/w2hrlcjwtA=
-Date: Mon, 8 Feb 2021 14:08:32 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: dri-devel@lists.freedesktop.org
-Subject: Fw: [Bug 211587] New: X: page allocation failure: order:8,
- mode:0x190dc2(GFP_HIGHUSER|__GFP_NORETRY|__GFP_ZERO|__GFP_NOMEMALLOC),
- nodemask=(null),cpuset=/,mems_allowed=0
-Message-Id: <20210208140832.2be5ad2f5aacced3dda1d18a@linux-foundation.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63C666EA07;
+ Mon,  8 Feb 2021 22:09:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S68x/3EJ4ItQOBgf0xTW+6/0TNBLm17gpUIx2KgmnufaCr2UrIlU3UTemZFzdEWOgDhjVB3MXiYcJnaa8l2nN4QgqtAnBL2cTtEXhRjmW4UyMVoB7lNfF1pw9pvjjYL3VODK92B9UvcVSLxPLZhD9cOQFbI9FO94lJRIt2Aj3UKd+ZyxbABg2jGeG1tyCcMSBvGO+CMaxe3MSgw9NhNya+YWUROtOCFKFyesqL2hZ8Hw6DwAwImPSqlrrwiRFpzPLVM4rHdFbRVEWeZFJe8vxocdGFWRTaBRxzqsCnljLoME2Ow5Ttnstyw6dWUzBfX5sLh8QANaKd8hGc1zHJA0Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6bw8Ep5MCKkDwXIU96ouSfFPtVo+lZSGR71MSyQPx9o=;
+ b=kyxQTJaShJfNa5gig/d0OTDCnO2tcqXEiJ2VqZQWGUT84m5sUa/kTIjFffq33VV0FPYtOC1i4oaZ/W3mhC60iwAoFvS2Qiqz5YrZkgSD5fnzwcEdZ8HbY/WZF0+27huUpsN3bfEB71E6o1B+s7NjyIoyoPScmKbaL1aOW18alKeut1+aS0YB/M8nE/WzHJcjCW/M+tasUUWB3PUPaJ81b8STBqPPftzqbi1NnTq8SBEWvu56QVqzhEdB2tS442yQ6+K177UWGHLYfgvhBdO6TDz24+/f+4Ou5JKqsa/bZpKsmLkLaETiBD5Atg4Iuh1B2D0Zz1nztPAgO0In2eYqNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6bw8Ep5MCKkDwXIU96ouSfFPtVo+lZSGR71MSyQPx9o=;
+ b=ao8hN8tpSGs5uTZOmuIw/8pxNTt31/N3I6kxF7WxCHILO/E/i6kpmGAMTTP7DRv55EZYSrWnImtLXwtA/wqgCdX87dYqKn7jL+DcS2or5Podogw4Dugwurd/Hh9oK3qFMWrJ977LL2qWcpSiR6Zcqq9EzCfv9mwFAGethaB2J4o=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SN6PR12MB2704.namprd12.prod.outlook.com (2603:10b6:805:72::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.23; Mon, 8 Feb
+ 2021 22:09:31 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::41b1:11f5:fd1e:fc5f]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::41b1:11f5:fd1e:fc5f%5]) with mapi id 15.20.3825.030; Mon, 8 Feb 2021
+ 22:09:30 +0000
+Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
+ device removal
+To: christian.koenig@amd.com, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1611003683-3534-12-git-send-email-andrey.grodzovsky@amd.com>
+ <35ecd67f-620f-df50-3e03-d24dc12452d6@gmail.com>
+ <8925db97-bf81-7e5e-527d-f654713b400d@amd.com>
+ <CAKMK7uHCzBpaC2YypKeQwbJiT0JG2Hq7V0BC5yC88f9nqgxUiw@mail.gmail.com>
+ <8ed4a153-d503-e704-0a0d-3422877e50fa@amd.com>
+ <91b8ea73-aa69-1478-2e7c-63ab1cb250ae@gmail.com>
+ <7834dbdf-27ad-f21d-b58b-2772a598ea8a@amd.com>
+ <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
+ <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
+ <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
+ <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
+ <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
+ <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
+ <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
+ <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <3f7efc21-f2fb-73a9-216c-aa1e531e35a0@amd.com>
+Date: Mon, 8 Feb 2021 17:09:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
+Content-Language: en-US
+X-Originating-IP: [2607:fea8:3edf:49b0:407a:7c93:58dc:3018]
+X-ClientProxiedBy: YT1PR01CA0085.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::24) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:407a:7c93:58dc:3018]
+ (2607:fea8:3edf:49b0:407a:7c93:58dc:3018) by
+ YT1PR01CA0085.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.19 via Frontend Transport; Mon, 8 Feb 2021 22:09:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 78cb3ae2-16ac-427d-0f6a-08d8cc7e354a
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2704:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB270477C02546F272EDB4D149EA8F9@SN6PR12MB2704.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RjwdTWxemUVKNnOGGH3RTKVtlHpOvZlESWi6p0aI7XTAe1AfsRfIPpD4lXFRjPVhQn/Ac4+jkK4NVmns4rkEZT0S+7xf9A5GxZnF4TjqTgWZCsEOIqssLI7J2XIyjV7ZmPpyU2rfyBNUVTiaLOrrQGUCcAKy8TLpY4FVkWEwmGutJPkWUWufPEy1dynDU6z02H8KdKyTNjlEDCcTXKLbvKv7tPR4CItvKWfCT9Yu3H8w0JrIefrGH7N9+BNOvXK8Ak8JdnVICwKAKOkjvV3fdYRILg2z0f/eZbpw1eSXk1c4wHbBsKP/One2i62HCAj0+6mx3K5a6NHL71m+t1SgUKIk9QzEsDTjGgXgP6tLwoZlRGjm5x6oTdEeK3hlxF3+XPdK/XiOryHzPsyJUQTUCUFuWCH0lLrSlTgybKI9HhrbswMAPbasdV6XkAVLLpSLeoVaakSj/u7DDa13dgn9MSd3HDm6BwrbogUPnIDQGlAJAxU+D1eEfq/lWmy/HxzGQwtxAj1hPeRQYP93X6I24g+qsM8GW2DHwqYOnxU6NCmVD3iHY6lW9TN8oW93+aB0s4sTEFg/g2au/Jv947gHxRKKIy8iZ+PyeftrMWt6RbSEZdJiblbpFisScaMjziU4V2IW42X+JgBxNsek2PsixcFxKQQH6iYLu+GZc0Q9sjFAgJN2lSqzcw3DqpuDyRLq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(346002)(39860400002)(366004)(376002)(66556008)(54906003)(31686004)(66946007)(316002)(66476007)(2616005)(66574015)(52116002)(86362001)(2906002)(8936002)(33964004)(186003)(966005)(6916009)(4326008)(478600001)(83380400001)(53546011)(31696002)(16526019)(166002)(36756003)(5660300002)(8676002)(45080400002)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UXdQMFRYUU5MNGZaaVNvRmFUU0RhMWxJOTFTSm1oZG1GZFRRa29qbVZ6Qnh3?=
+ =?utf-8?B?Sm5semtXR3JLamJNbk84WG10dWxSdk1oRHJDczU1dDZmSXFBV3FhV2pBcTlu?=
+ =?utf-8?B?UFoxZXBGNnVOVE9tZlZFU29SQW1PcWI5b3FGVThkQkt6eHZ0anFHcUd4dU1U?=
+ =?utf-8?B?ZFJWL1ZiWUxZZUxYOGVIYWp6ZmpFMlZEK2d1cEFFL1V0TEZJS3F6S0VtMFJl?=
+ =?utf-8?B?aTVUKzBEL3JGVUxuUit4dnF5clJVMzlxcmhGbURYKzFObGFIOHRDN2NnczAy?=
+ =?utf-8?B?WEV5T2tjUTl2dU5iNUx0NlB6MW5pV3F1Vm1nUVpMc093eDJoenVab2M2RytO?=
+ =?utf-8?B?R1B0Y0ZVS3Q0L1V5YWh3NzU2Rlk2cWVKc2dkdTlWSW00MmhHSHg0WS96T1Bv?=
+ =?utf-8?B?VVpVR1F3NHFqQ21YM1gzK0NnVjA0TThGTm9jQXNrclZNeDZjWlVtRThBZU5V?=
+ =?utf-8?B?RWtFdVZkeEhteEl6cWxzc0pweHIzV2p5TE0vY0tvM3EvUWM4cnN3T2NnOFZJ?=
+ =?utf-8?B?MTl6Z1FESjQxbGlKR2lCVEQ4VksxMU1JbEgrbG5Xc3NBeWs1amNncjIrbmMz?=
+ =?utf-8?B?ZmhNUHpZeUVxcG5WcUJtZTN0ZUpmRE5INEpHL3VsaFd0cGtRRG51dzFJSUc1?=
+ =?utf-8?B?SHpJWnIveDNCajQ2SXIrNjBZZTVVUzJsYXJBME9pdDZMdEw5cmdUUTVUSUZu?=
+ =?utf-8?B?TmNCZTJLTi9tZW45eTgwSTUzSUNMakMyVUpJNTRsTTd5dW5raDlENTM3Wkxa?=
+ =?utf-8?B?aUpsejRMT1RXcHBENzdKRTZ1c0pEbVR2aTZ3N3Z5QklXbzRTTlJ6SEpSUUM0?=
+ =?utf-8?B?a0NMZ09nbDVUT2lXVmszaUtZdXR5ZGptdnZhQVlwY0pQcEVwQWE5OUpGMCsw?=
+ =?utf-8?B?dkMrZWlSUEV3VWdMZjl2VWdrL3NycWkwNFpWNkRJY0doaDF4RWRjRDBrYm9h?=
+ =?utf-8?B?dnNDaFI0aU0vRTdFY0dnZDh1RllDZ2M2ak9abWlWVWtja0EvUE9aVmxzSFRv?=
+ =?utf-8?B?QjlwREE4VGlhR25rdjYrd0dVM2FjQlhIbDk4TVEwVy9ObVgxWEk0MnJncUJn?=
+ =?utf-8?B?ZUF2bWE3NjhJbGErR2ZXVTlueGEySXRGbzZsZ3hYaFRwa2JPclpsTTU5NHR1?=
+ =?utf-8?B?YStGcXVBSGZTY082bmU3eUV5ZlpiMDhORDdYTFdHdWFFUzUxMC9ra2k5azVr?=
+ =?utf-8?B?OCttWTFqajhrOFIwbHREQkVPOVpjbDFRNGMwWXpUVFcrZ0lJYjZKL0JWN2R4?=
+ =?utf-8?B?RCszUFk0UE12T2pmTHNFOVh5Q0VZOXR0d1NCWHpIZGx6YUlSM3F4UkRBZHNH?=
+ =?utf-8?B?RHh6bnUzR2FVcHZrRG9iYWw5V3VJNWQza20zcTFReFBwVkRtSHJQZU5YeVhz?=
+ =?utf-8?B?L1ZUZUxRK2Y1Z2dYL2RyT0V5bWsxTzBuQkFJSllBcE5PbHZXSjk1Y2JERFhr?=
+ =?utf-8?B?L3dNcGJqdWQzVnRUZXRiZUExSkQ3SkN0NzdrTHd1cVpRTkRJdTFPRVlHZnd1?=
+ =?utf-8?B?TytBK1REVlBrRyswWXJtajNobTRGb1RLam9QbTk1Q2dTenBsQnoyRjZzZVhT?=
+ =?utf-8?B?M2sxZGhZdWJmRk9oQlZ2Y2N4YmlJYnhXc2Rxb1lnVzVKYlNybEFVQTY2R1lF?=
+ =?utf-8?B?ZXhmL3ZqSDBtUlQxSUxiOGdjRU94L3FHK1M5dEhOd0kvcTNhd1dMc2wvRGN3?=
+ =?utf-8?B?M01YTzBYOHV1SnBjUXQ1Q1NIR3hhY3ViTjNBTi9wQnQyMHFBd2ZpM1A0TUFE?=
+ =?utf-8?B?R2hWREpWQ09YUTk5Q29qZWF5NE03aHVsUzE4QWg4d3dIVUxmZW53dFM2UzNy?=
+ =?utf-8?B?dnpLTmRtcmNCRWNNM28wcUJFdms4Q0pFQXo1ZDFxbldBdUxvSG9mV0x1WmQw?=
+ =?utf-8?Q?iS3LF3gl9DEkL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78cb3ae2-16ac-427d-0f6a-08d8cc7e354a
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2021 22:09:30.8075 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NGgUL8L4503hWslc1XCR0OYNVGIESFg0C6PFP+MkoOQpiyL1QF0Xa59Mikprcl6S4eCIZcpyl6y+MWpqt2VdHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2704
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,219 +143,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>
+Content-Type: multipart/mixed; boundary="===============0759497718=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not sure who this belongs to...
+--===============0759497718==
+Content-Type: multipart/alternative;
+ boundary="------------4B82DE5418361EFCBD5C5DB5"
+Content-Language: en-US
 
-Begin forwarded message:
-
-Date: Sat, 06 Feb 2021 01:49:51 +0000
-From: bugzilla-daemon@bugzilla.kernel.org
-To: akpm@linux-foundation.org
-Subject: [Bug 211587] New: X: page allocation failure: order:8, mode:0x190dc2(GFP_HIGHUSER|__GFP_NORETRY|__GFP_ZERO|__GFP_NOMEMALLOC), nodemask=(null),cpuset=/,mems_allowed=0
-
-
-https://bugzilla.kernel.org/show_bug.cgi?id=211587
-
-            Bug ID: 211587
-           Summary: X: page allocation failure: order:8,
-                    mode:0x190dc2(GFP_HIGHUSER|__GFP_NORETRY|__GFP_ZERO|__
-                    GFP_NOMEMALLOC),
-                    nodemask=(null),cpuset=/,mems_allowed=0
-           Product: Memory Management
-           Version: 2.5
-    Kernel Version: v5.11-rc6
-          Hardware: i386
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Page Allocator
-          Assignee: akpm@linux-foundation.org
-          Reporter: erhard_f@mailbox.org
-        Regression: No
-
-Created attachment 295083
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295083&action=edit
-dmesg (kernel 5.11-rc6, Shuttle XPC FS51, Pentium 4) ... 1st occurence
-
-Got this while running btrfs testsuite on the machine. It's not 100 %
-reproducable, but it happened on several occasions.
-
-[...]
-X: page allocation failure: order:8,
-mode:0x190dc2(GFP_HIGHUSER|__GFP_NORETRY|__GFP_ZERO|__GFP_NOMEMALLOC),
-nodemask=(null),cpuset=/,mems_allowed=0
-CPU: 0 PID: 199 Comm: X Not tainted 5.11.0-rc6-Pentium4 #4
-Hardware name:  /FS51, BIOS 6.00 PG 12/02/2003
-Call Trace:
- dump_stack+0x6b/0x89
- warn_alloc+0x87/0xe0
- __alloc_pages_nodemask+0x9ba/0xa6e
- ? lock_acquire+0x86/0x2b4
- ? __kmalloc+0x11a/0x12d
- ? kvmalloc_node+0x43/0x6b
- ttm_pool_alloc+0x135/0x3cd [ttm]
- radeon_ttm_tt_populate+0x72/0x79 [radeon]
- ? radeon_bo_reserve.constprop.0+0x4c/0x4c [radeon]
- ttm_tt_populate+0x2e/0x92 [ttm]
- ttm_bo_handle_move_mem+0x8d/0xd9 [ttm]
- ttm_bo_validate+0xe7/0x140 [ttm]
- ttm_bo_init_reserved+0x23e/0x26b [ttm]
- ttm_bo_init+0x48/0x67 [ttm]
- ? radeon_bo_gpu_offset+0x55/0x55 [radeon]
- radeon_bo_create+0x118/0x1ce [radeon]
- ? radeon_bo_gpu_offset+0x55/0x55 [radeon]
- radeon_gem_object_create+0x93/0x12e [radeon]
- radeon_gem_create_ioctl+0x4a/0xa9 [radeon]
- ? srcu_read_unlock.constprop.0+0x28/0x2b [drm]
- ? radeon_gem_pwrite_ioctl+0x19/0x19 [radeon]
- drm_ioctl_kernel+0x73/0xa9 [drm]
- drm_ioctl+0x225/0x2f7 [drm]
- ? radeon_gem_pwrite_ioctl+0x19/0x19 [radeon]
- ? lock_acquire+0x86/0x2b4
- ? lock_acquire+0x86/0x2b4
- ? lock_release+0x78/0x201
- ? __pm_runtime_resume+0x5e/0x66
- ? trace_hardirqs_on+0x43/0x45
- ? __pm_runtime_resume+0x5e/0x66
- radeon_drm_ioctl+0x3d/0x69 [radeon]
- ? radeon_pmops_runtime_idle+0x83/0x83 [radeon]
- vfs_ioctl+0x1a/0x24
- __ia32_sys_ioctl+0x618/0x632
- ? __vm_munmap+0x60/0x88
- ? __vm_munmap+0x7e/0x88
- ? exit_to_user_mode_prepare+0x16b/0x173
- __do_fast_syscall_32+0x66/0x76
- do_fast_syscall_32+0x29/0x5b
- do_SYSENTER_32+0x15/0x17
- entry_SYSENTER_32+0x9f/0xf2
-EIP: 0xb7f76545
-Code: c4 01 10 03 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74
-b0 01 10 08 03 74 d8 01 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90
-8d 76 00 58 b8 77 00 00 00 cd 80 90 8d 76
-EAX: ffffffda EBX: 0000000d ECX: c01c645d EDX: bff1a860
-ESI: 0232da80 EDI: 00000002 EBP: bff1a818 ESP: bff1a7e8
-DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000286
-Mem-Info:
-active_anon:229 inactive_anon:66945 isolated_anon:0
- active_file:44149 inactive_file:364595 isolated_file:32
- unevictable:0 dirty:25771 writeback:2106
- slab_reclaimable:4183 slab_unreclaimable:6442
- mapped:30206 shmem:1738 pagetables:941 bounce:0
- free:23348 free_pcp:72 free_cma:0
-Node 0 active_anon:916kB inactive_anon:267780kB active_file:176596kB
-inactive_file:1458380kB unevictable:0kB isolated(anon):0kB isolated(file):128kB
-mapped:120824kB dirty:103084kB writeback:8424kB shmem:6952kB shmem_thp: 0kB
-shmem_pmdmapped: 0kB anon_thp: 0kB writeback_tmp:0kB kernel_stack:2456kB
-pagetables:3764kB all_unreclaimable? no
-DMA free:8776kB min:788kB low:984kB high:1180kB reserved_highatomic:0KB
-active_anon:0kB inactive_anon:0kB active_file:0kB inactive_file:7136kB
-unevictable:0kB writepending:188kB present:16000kB managed:15916kB mlocked:0kB
-bounce:0kB free_pcp:0kB local_pcp:0kB free_cma:0kB
-lowmem_reserve[]: 0 834 1998 1998
-Normal free:79860kB min:42468kB low:53084kB high:63700kB
-reserved_highatomic:0KB active_anon:0kB inactive_anon:60668kB
-active_file:58240kB inactive_file:608540kB unevictable:0kB writepending:12988kB
-present:888824kB managed:855428kB mlocked:0kB bounce:0kB free_pcp:36kB
-local_pcp:36kB free_cma:0kB
-lowmem_reserve[]: 0 0 9311 9311
-HighMem free:4756kB min:4608kB low:19408kB high:34208kB reserved_highatomic:0KB
-active_anon:916kB inactive_anon:207112kB active_file:118332kB
-inactive_file:842684kB unevictable:0kB writepending:98340kB present:1191880kB
-managed:1191880kB mlocked:0kB bounce:0kB free_pcp:252kB local_pcp:252kB
-free_cma:0kB
-lowmem_reserve[]: 0 0 0 0
-DMA: 2*4kB (UM) 2*8kB (UM) 1*16kB (U) 1*32kB (U) 2*64kB (UM) 1*128kB (U)
-1*256kB (U) 2*512kB (UM) 1*1024kB (U) 1*2048kB (U) 1*4096kB (M) = 8776kB
-Normal: 229*4kB (U) 152*8kB (UME) 61*16kB (UME) 30*32kB (UME) 28*64kB (UME)
-18*128kB (UE) 20*256kB (UME) 6*512kB (UE) 6*1024kB (UME) 4*2048kB (UME)
-12*4096kB (U) = 79844kB
-HighMem: 3*4kB (UM) 1*8kB (U) 0*16kB 0*32kB 6*64kB (U) 2*128kB (U) 2*256kB (U)
-1*512kB (M) 3*1024kB (M) 0*2048kB 0*4096kB = 4756kB
-Node 0 hugepages_total=0 hugepages_free=0 hugepages_surp=0
-hugepages_size=4096kB
-410490 total pagecache pages
-0 pages in swap cache
-Swap cache stats: add 0, delete 0, find 0/0
-Free swap  = 8388604kB
-Total swap = 8388604kB
-524176 pages RAM
-297970 pages HighMem/MovableOnly
-8370 pages reserved
-[...]
+--------------4B82DE5418361EFCBD5C5DB5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
- # lspci 
-00:00.0 Host bridge: Silicon Integrated Systems [SiS] 651 Host (rev 02)
-00:01.0 PCI bridge: Silicon Integrated Systems [SiS] AGP Port (virtual
-PCI-to-PCI bridge)
-00:02.0 ISA bridge: Silicon Integrated Systems [SiS] SiS962 [MuTIOL Media IO]
-LPC Controller (rev 14)
-00:02.1 SMBus: Silicon Integrated Systems [SiS] SiS961/2/3 SMBus controller
-00:02.5 IDE interface: Silicon Integrated Systems [SiS] 5513 IDE Controller
-00:02.7 Multimedia audio controller: Silicon Integrated Systems [SiS] SiS7012
-AC'97 Sound Controller (rev a0)
-00:03.0 USB controller: Silicon Integrated Systems [SiS] USB 1.1 Controller
-(rev 0f)
-00:03.1 USB controller: Silicon Integrated Systems [SiS] USB 1.1 Controller
-(rev 0f)
-00:03.2 USB controller: Silicon Integrated Systems [SiS] USB 1.1 Controller
-(rev 0f)
-00:03.3 USB controller: Silicon Integrated Systems [SiS] USB 2.0 Controller
-00:0a.0 Network controller: Ralink corp. RT2500 Wireless 802.11bg (rev 01)
-00:0f.0 Ethernet controller: Realtek Semiconductor Co., Ltd.
-RTL-8100/8101L/8139 PCI Fast Ethernet Adapter (rev 10)
-00:10.0 FireWire (IEEE 1394): VIA Technologies, Inc. VT6306/7/8 [Fire II(M)]
-IEEE 1394 OHCI Controller (rev 46)
-01:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] RV350
-[Radeon 9550/9600/X1050 Series]
-01:00.1 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] RV350
-[Radeon 9550/9600/X1050 Series] (Secondary)
+On 2/8/21 4:37 AM, Christian König wrote:
+> Am 07.02.21 um 22:50 schrieb Daniel Vetter:
+>> [SNIP]
+>>> Clarification - as far as I know there are no page fault handlers for kernel
+>>> mappings. And we are talking about kernel mappings here, right ?  If there were
+>>> I could solve all those issues the same as I do for user mappings, by
+>>> invalidating all existing mappings in the kernel (both kmaps and ioreamps)and
+>>> insert dummy zero or ~0 filled page instead.
+>>> Also, I assume forcefully remapping the IO BAR to ~0 filled page would involve
+>>> ioremap API and it's not something that I think can be easily done according to
+>>> am answer i got to a related topic a few weeks ago
+>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Flinux-pci%2Fmsg103396.html&amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=6eP0nhS%2BZwp1Y54CwfX8vaV3FTWbW8IylW5JFaf92pY%3D&amp;reserved=0 
+>>> (that was the only reply
+>>> i got)
+>> mmiotrace can, but only for debug, and only on x86 platforms:
+>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ftrace%2Fmmiotrace.html&amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=QBF9J%2BVIRUkUTTjvNoZR8NqFNt8CpHkcknH2qKX7dd8%3D&amp;reserved=0 
+>>
+>>
+>> Should be feasible (but maybe not worth the effort) to extend this to
+>> support fake unplug.
+>
+> Mhm, interesting idea you guys brought up here.
+>
+> We don't need a page fault for this to work, all we need to do is to insert 
+> dummy PTEs into the kernels page table at the place where previously the MMIO 
+> mapping has been.
 
- # lscpu 
-Architecture:                    i686
-CPU op-mode(s):                  32-bit
-Byte Order:                      Little Endian
-Address sizes:                   36 bits physical, 32 bits virtual
-CPU(s):                          1
-On-line CPU(s) list:             0
-Thread(s) per core:              1
-Core(s) per socket:              1
-Socket(s):                       1
-Vendor ID:                       GenuineIntel
-CPU family:                      15
-Model:                           2
-Model name:                      Intel(R) Pentium(R) 4 CPU 3.06GHz
-Stepping:                        7
-CPU MHz:                         3062.724
-BogoMIPS:                        6127.67
-Vulnerability Itlb multihit:     Processor vulnerable
-Vulnerability L1tf:              Vulnerable
-Vulnerability Mds:               Vulnerable: Clear CPU buffers attempted, no
-microcode; SMT disabled
-Vulnerability Meltdown:          Vulnerable
-Vulnerability Spec store bypass: Vulnerable
-Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and
-__user pointer sanitization
-Vulnerability Spectre v2:        Mitigation; Full generic retpoline, STIBP
-disabled, RSB filling
-Vulnerability Srbds:             Not affected
-Vulnerability Tsx async abort:   Not affected
-Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep
-mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
-pebs bts cpuid cid xtpr
 
--- 
-You may reply to this email to add a comment.
+But that exactly what Mathew from linux-mm says is not a trivial thing to do, quote:
 
-You are receiving this mail because:
-You are the assignee for the bug.
+"
+
+ioremap() is done through the vmalloc space.  It would, in theory, be
+possible to reprogram the page tables used for vmalloc to point to your
+magic page.  I don't think we have such a mechanism today, and there are
+lots of problems with things like TLB flushes.  It's probably going to
+be harder than you think.
+"
+
+If you believe it's actually doable then it would be useful not only for simulating device
+unplugged situation with all MMIOs returning 0xff... but for actual handling of driver accesses
+to MMIO after device is gone and, we could then drop entirely this patch as there would be no need
+to guard against such accesses post device unplug.
+
+  
+
+>
+>>>> But ugh ...
+>>>>
+>>>> Otoh validating an entire driver like amdgpu without such a trick
+>>>> against 0xff reads is practically impossible. So maybe you need to add
+>>>> this as one of the tasks here?
+>>> Or I could just for validation purposes return ~0 from all reg reads in the 
+>>> code
+>>> and ignore writes if drm_dev_unplugged, this could already easily validate a 
+>>> big
+>>> portion of the code flow under such scenario.
+>> Hm yeah if your really wrap them all, that should work too. Since
+>> iommappings have __iomem pointer type, as long as amdgpu is sparse
+>> warning free, should be doable to guarantee this.
+>
+> Problem is that ~0 is not always a valid register value.
+>
+> You would need to audit every register read that it doesn't use the returned 
+> value blindly as index or similar. That is quite a bit of work.
+
+
+But ~0 is the value that will be returned for every read post device unplug, 
+regardless if it's valid or not, and we have to cope with
+it then, no ?
+
+Andrey
+
+
+>
+> Regards,
+> Christian.
+>
+>> -Daniel
+>>
+>>> Andrey
+>>>
+>
+
+--------------4B82DE5418361EFCBD5C5DB5
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2/8/21 4:37 AM, Christian König
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com">Am
+      07.02.21 um 22:50 schrieb Daniel Vetter:
+      <br>
+      <blockquote type="cite">[SNIP]
+        <br>
+        <blockquote type="cite">Clarification - as far as I know there
+          are no page fault handlers for kernel
+          <br>
+          mappings. And we are talking about kernel mappings here, right
+          ?&nbsp; If there were
+          <br>
+          I could solve all those issues the same as I do for user
+          mappings, by
+          <br>
+          invalidating all existing mappings in the kernel (both kmaps
+          and ioreamps)and
+          <br>
+          insert dummy zero or ~0 filled page instead.
+          <br>
+          Also, I assume forcefully remapping the IO BAR to ~0 filled
+          page would involve
+          <br>
+          ioremap API and it's not something that I think can be easily
+          done according to
+          <br>
+          am answer i got to a related topic a few weeks ago
+          <br>
+<a class="moz-txt-link-freetext" href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Flinux-pci%2Fmsg103396.html&amp;amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=6eP0nhS%2BZwp1Y54CwfX8vaV3FTWbW8IylW5JFaf92pY%3D&amp;amp;reserved=0">https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Flinux-pci%2Fmsg103396.html&amp;amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=6eP0nhS%2BZwp1Y54CwfX8vaV3FTWbW8IylW5JFaf92pY%3D&amp;amp;reserved=0</a>
+          (that was the only reply
+          <br>
+          i got)
+          <br>
+        </blockquote>
+        mmiotrace can, but only for debug, and only on x86 platforms:
+        <br>
+        <br>
+<a class="moz-txt-link-freetext" href="https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ftrace%2Fmmiotrace.html&amp;amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=QBF9J%2BVIRUkUTTjvNoZR8NqFNt8CpHkcknH2qKX7dd8%3D&amp;amp;reserved=0">https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ftrace%2Fmmiotrace.html&amp;amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=QBF9J%2BVIRUkUTTjvNoZR8NqFNt8CpHkcknH2qKX7dd8%3D&amp;amp;reserved=0</a>
+        <br>
+        <br>
+        Should be feasible (but maybe not worth the effort) to extend
+        this to
+        <br>
+        support fake unplug.
+        <br>
+      </blockquote>
+      <br>
+      Mhm, interesting idea you guys brought up here.
+      <br>
+      <br>
+      We don't need a page fault for this to work, all we need to do is
+      to insert dummy PTEs into the kernels page table at the place
+      where previously the MMIO mapping has been.
+      <br>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>But that exactly what Mathew from linux-mm says is not a trivial
+      thing to do, quote:</p>
+    <p>&quot;</p>
+    <pre style="white-space: pre-wrap; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">ioremap() is done through the vmalloc space.  It would, in theory, be
+possible to reprogram the page tables used for vmalloc to point to your
+magic page.  I don't think we have such a mechanism today, and there are
+lots of problems with things like TLB flushes.  It's probably going to
+be harder than you think.
+&quot;
+
+If you believe it's actually doable then it would be useful not only for simulating device
+unplugged situation with all MMIOs returning 0xff... but for actual handling of driver accesses
+to MMIO after device is gone and, we could then drop entirely this patch as there would be no need
+to guard against such accesses post device unplug.
+
+&nbsp;
+</pre>
+    <blockquote type="cite" cite="mid:fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com">
+      <br>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <blockquote type="cite">But ugh ...
+            <br>
+            <br>
+            Otoh validating an entire driver like amdgpu without such a
+            trick
+            <br>
+            against 0xff reads is practically impossible. So maybe you
+            need to add
+            <br>
+            this as one of the tasks here?
+            <br>
+          </blockquote>
+          Or I could just for validation purposes return ~0 from all reg
+          reads in the code
+          <br>
+          and ignore writes if drm_dev_unplugged, this could already
+          easily validate a big
+          <br>
+          portion of the code flow under such scenario.
+          <br>
+        </blockquote>
+        Hm yeah if your really wrap them all, that should work too.
+        Since
+        <br>
+        iommappings have __iomem pointer type, as long as amdgpu is
+        sparse
+        <br>
+        warning free, should be doable to guarantee this.
+        <br>
+      </blockquote>
+      <br>
+      Problem is that ~0 is not always a valid register value.
+      <br>
+      <br>
+      You would need to audit every register read that it doesn't use
+      the returned value blindly as index or similar. That is quite a
+      bit of work.
+      <br>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>But ~0 is the value that will be returned for every read post
+      device unplug, regardless if it's valid or not, and we have to
+      cope with<br>
+      it then, no ?</p>
+    <p>Andrey</p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com">
+      <br>
+      Regards,
+      <br>
+      Christian.
+      <br>
+      <br>
+      <blockquote type="cite">-Daniel
+        <br>
+        <br>
+        <blockquote type="cite">Andrey
+          <br>
+          <br>
+        </blockquote>
+      </blockquote>
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------4B82DE5418361EFCBD5C5DB5--
+
+--===============0759497718==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0759497718==--
