@@ -1,46 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39C43133AE
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 14:50:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD063133AF
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 14:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8C066E8E4;
-	Mon,  8 Feb 2021 13:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C52FD6E8E5;
+	Mon,  8 Feb 2021 13:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3A2F16E8DF;
- Mon,  8 Feb 2021 13:49:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 869DC2A6046;
- Mon,  8 Feb 2021 14:49:58 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id tBmJkhbOh7G4; Mon,  8 Feb 2021 14:49:58 +0100 (CET)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 7AE7B2A6042;
- Mon,  8 Feb 2021 14:49:57 +0100 (CET)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1l96vM-001pxS-R3; Mon, 08 Feb 2021 14:49:56 +0100
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210205163752.11932-1-chris@chris-wilson.co.uk>
- <202102051030.1AF01772D@keescook>
- <CAKMK7uHnOA9CuRxcKkcqG8duOw_3dZobkThcV7Q_swMXVoLCkQ@mail.gmail.com>
- <5a940e13-8996-e9e5-251e-a9af294a39ff@daenzer.net>
- <CAKMK7uG_0AkZpwahb7gJppo15u1isACH=FB_oMAaw-3uJiwGKQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] kernel: Expose SYS_kcmp by default
-Message-ID: <36274836-1968-e712-fb15-f3e15eeb7741@daenzer.net>
-Date: Mon, 8 Feb 2021 14:49:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6347F6E8E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 13:50:48 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id F06F4ACF4;
+ Mon,  8 Feb 2021 13:50:46 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: hdegoede@redhat.com, daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Subject: [PATCH v2 0/2] drm/vboxvideo: Use struct drm_shadow_plane_state for
+ cursor plane
+Date: Mon,  8 Feb 2021 14:50:42 +0100
+Message-Id: <20210208135044.27827-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uG_0AkZpwahb7gJppo15u1isACH=FB_oMAaw-3uJiwGKQ@mail.gmail.com>
-Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,108 +37,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Will Drewry <wad@chromium.org>, Kees Cook <keescook@chromium.org>,
- Jann Horn <jannh@google.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andy Lutomirski <luto@amacapital.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMS0wMi0wOCAyOjM0IHAubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gT24gTW9uLCBG
-ZWIgOCwgMjAyMSBhdCAxMjo0OSBQTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0
-PiB3cm90ZToKPj4KPj4gT24gMjAyMS0wMi0wNSA5OjUzIHAubS4sIERhbmllbCBWZXR0ZXIgd3Jv
-dGU6Cj4+PiBPbiBGcmksIEZlYiA1LCAyMDIxIGF0IDc6MzcgUE0gS2VlcyBDb29rIDxrZWVzY29v
-a0BjaHJvbWl1bS5vcmc+IHdyb3RlOgo+Pj4+Cj4+Pj4gT24gRnJpLCBGZWIgMDUsIDIwMjEgYXQg
-MDQ6Mzc6NTJQTSArMDAwMCwgQ2hyaXMgV2lsc29uIHdyb3RlOgo+Pj4+PiBVc2Vyc3BhY2UgaGFz
-IGRpc2NvdmVyZWQgdGhlIGZ1bmN0aW9uYWxpdHkgb2ZmZXJlZCBieSBTWVNfa2NtcCBhbmQgaGFz
-Cj4+Pj4+IHN0YXJ0ZWQgdG8gZGVwZW5kIHVwb24gaXQuIEluIHBhcnRpY3VsYXIsIE1lc2EgdXNl
-cyBTWVNfa2NtcCBmb3IKPj4+Pj4gb3Nfc2FtZV9maWxlX2Rlc2NyaXB0aW9uKCkgaW4gb3JkZXIg
-dG8gaWRlbnRpZnkgd2hlbiB0d28gZmQgKGUuZy4gZGV2aWNlCj4+Pj4+IG9yIGRtYWJ1ZikgcG9p
-bnQgdG8gdGhlIHNhbWUgc3RydWN0IGZpbGUuIFNpbmNlIHRoZXkgZGVwZW5kIG9uIGl0IGZvcgo+
-Pj4+PiBjb3JlIGZ1bmN0aW9uYWxpdHksIGxpZnQgU1lTX2tjbXAgb3V0IG9mIHRoZSBub24tZGVm
-YXVsdAo+Pj4+PiBDT05GSUdfQ0hFQ0tQT0lOVF9SRVNUT1JFIGludG8gdGhlIHNlbGVjdGFibGUg
-c3lzY2FsbCBjYXRlZ29yeS4KPj4+Pj4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgV2lsc29u
-IDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4+Pj4+IENjOiBLZWVzIENvb2sgPGtlZXNjb29r
-QGNocm9taXVtLm9yZz4KPj4+Pj4gQ2M6IEFuZHkgTHV0b21pcnNraSA8bHV0b0BhbWFjYXBpdGFs
-Lm5ldD4KPj4+Pj4gQ2M6IFdpbGwgRHJld3J5IDx3YWRAY2hyb21pdW0ub3JnPgo+Pj4+PiBDYzog
-QW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4KPj4+Pj4gQ2M6IERhdmUg
-QWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KPj4+Pj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmll
-bEBmZndsbC5jaD4KPj4+Pj4gQ2M6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4LmRl
-Pgo+Pj4+PiAtLS0KPj4+Pj4gICAgaW5pdC9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgMTEgKysrKysrKysrKysKPj4+Pj4gICAga2VybmVsL01ha2VmaWxlICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPj4+Pj4gICAgdG9vbHMvdGVzdGluZy9z
-ZWxmdGVzdHMvc2VjY29tcC9zZWNjb21wX2JwZi5jIHwgIDIgKy0KPj4+Pj4gICAgMyBmaWxlcyBj
-aGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Pj4+Pgo+Pj4+PiBkaWZm
-IC0tZ2l0IGEvaW5pdC9LY29uZmlnIGIvaW5pdC9LY29uZmlnCj4+Pj4+IGluZGV4IGI3N2M2MGY4
-Yjk2My4uZjYyZmNhMTNhYzViIDEwMDY0NAo+Pj4+PiAtLS0gYS9pbml0L0tjb25maWcKPj4+Pj4g
-KysrIGIvaW5pdC9LY29uZmlnCj4+Pj4+IEBAIC0xMTk0LDYgKzExOTQsNyBAQCBlbmRpZiAjIE5B
-TUVTUEFDRVMKPj4+Pj4gICAgY29uZmlnIENIRUNLUE9JTlRfUkVTVE9SRQo+Pj4+PiAgICAgICAg
-IGJvb2wgIkNoZWNrcG9pbnQvcmVzdG9yZSBzdXBwb3J0Igo+Pj4+PiAgICAgICAgIHNlbGVjdCBQ
-Uk9DX0NISUxEUkVOCj4+Pj4+ICsgICAgIHNlbGVjdCBLQ01QCj4+Pj4+ICAgICAgICAgZGVmYXVs
-dCBuCj4+Pj4+ICAgICAgICAgaGVscAo+Pj4+PiAgICAgICAgICAgRW5hYmxlcyBhZGRpdGlvbmFs
-IGtlcm5lbCBmZWF0dXJlcyBpbiBhIHNha2Ugb2YgY2hlY2twb2ludC9yZXN0b3JlLgo+Pj4+PiBA
-QCAtMTczNyw2ICsxNzM4LDE2IEBAIGNvbmZpZyBBUkNIX0hBU19NRU1CQVJSSUVSX0NBTExCQUNL
-Uwo+Pj4+PiAgICBjb25maWcgQVJDSF9IQVNfTUVNQkFSUklFUl9TWU5DX0NPUkUKPj4+Pj4gICAg
-ICAgICBib29sCj4+Pj4+Cj4+Pj4+ICtjb25maWcgS0NNUAo+Pj4+PiArICAgICBib29sICJFbmFi
-bGUga2NtcCgpIHN5c3RlbSBjYWxsIiBpZiBFWFBFUlQKPj4+Pj4gKyAgICAgZGVmYXVsdCB5Cj4+
-Pj4KPj4+PiBJIHdvdWxkIGV4cGVjdCB0aGlzIHRvIGJlIG5vdCBkZWZhdWx0LXksIGVzcGVjaWFs
-bHkgaWYKPj4+PiBDSEVDS1BPSU5UX1JFU1RPUkUgZG9lcyBhICJzZWxlY3QiIG9uIGl0Lgo+Pj4+
-Cj4+Pj4gVGhpcyBpcyBhIHJlYWxseSBwb3dlcmZ1bCBzeXNjYWxsLCBidXQgaXQgaXMgYm91bmRl
-ZCBieSBwdHJhY2UgYWNjZXNzCj4+Pj4gY29udHJvbHMsIGFuZCB1c2VzIHBvaW50ZXIgYWRkcmVz
-cyBvYmZ1c2NhdGlvbiwgc28gaXQgbWF5IGJlIG9rYXkgdG8KPj4+PiBleHBvc2UgdGhpcy4gQXMg
-aXQgaXMsIGF0IGxlYXN0IFVidW50dSBhbHJlYWR5IGhhcwo+Pj4+IENPTkZJR19DSEVDS1BPSU5U
-X1JFU1RPUkUsIHNvIHJlYWxseSwgdGhlcmUncyBwcm9iYWJseSBub3QgbXVjaAo+Pj4+IGRpZmZl
-cmVuY2Ugb24gZXhwb3N1cmUuCj4+Pj4KPj4+PiBTbywgaWYgeW91IGRyb3AgdGhlICJkZWZhdWx0
-IHkiLCBJJ20gZmluZSB3aXRoIHRoaXMuCj4+Pgo+Pj4gSXQgd2FzIG1heWJlIHN0dXBpZCwgYnV0
-IG91ciB1c2Vyc3BhY2Ugc3RhcnRlZCByZWx5aW5nIG9uIGZkCj4+PiBjb21hcHJpc29uIHRocm91
-Z2ggc3lzX2tjb21wLiBTbyBmb3IgYmV0dGVyIG9yIHdvcnNlLCBpZiB5b3Ugd2FudCB0bwo+Pj4g
-cnVuIHRoZSBtZXNhM2QgZ2wvdmsgc3RhY2tzLCB5b3UgbmVlZCB0aGlzLgo+Pgo+PiBUaGF0J3Mg
-b3ZlcnN0YXRpbmcgdGhpbmdzIHNvbWV3aGF0LiBUaGUgdmFzdCBtYWpvcml0eSBvZiBhcHBsaWNh
-dGlvbnMKPj4gd2lsbCB3b3JrIGZpbmUgcmVnYXJkbGVzcyAoYXMgdGhleSBkaWQgYmVmb3JlIE1l
-c2Egc3RhcnRlZCB1c2luZyB0aGlzCj4+IGZ1bmN0aW9uYWxpdHkpLiBPbmx5IHNvbWUgc3BlY2lh
-bCBvbmVzIHdpbGwgcnVuIGludG8gaXNzdWVzLCBiZWNhdXNlIHRoZQo+PiB1c2VyLXNwYWNlIGRy
-aXZlcnMgaW5jb3JyZWN0bHkgYXNzdW1lIHR3byBmaWxlIGRlc2NyaXB0b3JzIHJlZmVyZW5jZQo+
-PiBkaWZmZXJlbnQgZGVzY3JpcHRpb25zLgo+Pgo+Pgo+Pj4gV2FzIG1heWJlIG5vdCB0aGUgYnJp
-Z2hlc3QgaWRlYXMsIGJ1dCBzaW5jZSBlbm91Z2ggZGlzdHJvcyBoYWQgdGhpcwo+Pj4gZW5hYmxl
-ZCBieSBkZWZhdWx0cywKPj4KPj4gUmlnaHQsIHRoYXQgKGFuZCB0aGUgYWJvdmUpIGlzIHdoeSBJ
-IGNvbnNpZGVyZWQgaXQgZmFpciBnYW1lIHRvIHVzZS4KPj4gV2hhdCBzaG91bGQgSSBoYXZlIGRv
-bmUgaW5zdGVhZD8gKFRCSCBJIHdhcyBzdXJwcmlzZWQgdGhhdCB0aGlzCj4+IGZ1bmN0aW9uYWxp
-dHkgaXNuJ3QgZ2VuZXJhbGx5IGF2YWlsYWJsZSkKPiAKPiBZZWFoIHRoYXQgb25lIGlzIGZpbmUs
-IGJ1dCBJIHRob3VnaHQgd2UndmUgZGlzY3Vzc2VkIChpcmMgb3IKPiBzb21ldGhpbmcpIG1vcmUg
-dXNlcyBmb3IgZGUtZHVwaW5nIGRtYS1idWYgYW5kIHN0dWZmIGxpa2UgdGhhdC4gQnV0Cj4gcXVp
-Y2sgZ3JlcCBzYXlzIHRoYXQgaGFzbid0IGxhbmRlZCB5ZXQsIHNvIEkgZ290IGEgYml0IGNvbmZ1
-c2VkIChvcgo+IGp1c3QgZHJlYW10KS4gTG9va2luZyBhdCB0aGlzIGFnYWluIEknbSBraW5kYSBz
-dXJwcmlzZWQgdGhlIGRybWZkCj4gZGUtZHVwaW5nIGJsb3dzIHVwIG9uIG5vcm1hbCBsaW51eCBk
-aXN0cm9zLCBidXQgSSBndWVzcyBpdCBjYW4gYWxsCj4gaGFwcGVuLgoKT25lIGV4YW1wbGU6IEdF
-TSBoYW5kbGUgbmFtZS1zcGFjZXMgYXJlIHBlciBmaWxlIGRlc2NyaXB0aW9uLiBJZiAKdXNlci1z
-cGFjZSBpbmNvcnJlY3RseSBhc3N1bWVzIHR3byBEUk0gZmRzIGFyZSBpbmRlcGVuZGVudCwgd2hl
-biB0aGV5IAphY3R1YWxseSByZWZlcmVuY2UgdGhlIHNhbWUgZmlsZSBkZXNjcmlwdGlvbiwgY2xv
-c2luZyBhIEdFTSBoYW5kbGUgd2l0aCAKb25lIGZpbGUgZGVzY3JpcHRvciB3aWxsIG1ha2UgaXQg
-dW51c2FibGUgd2l0aCB0aGUgb3RoZXIgZmlsZSBkZXNjcmlwdG9yIAphcyB3ZWxsLgoKCj4+PiBP
-ZmMgd2UgY2FuIGxlYXZlIHRoZSBkZWZhdWx0IG4sIGJ1dCB0aGUgc2VsZWN0IGlmIENPTkZJR19E
-Uk0gaXMKPj4+IHVuZm9ydHVuYXRlbHkgbmVlZGVkIEkgdGhpbmsuCj4+Cj4+IFBlciBhYm92ZSwg
-bm90IHN1cmUgdGhpcyBpcyByZWFsbHkgdHJ1ZS4KPiAKPiBXZSBzZWVtIHRvIGJlIGdvaW5nIGJv
-b20gb24gbGludXggZGlzdHJvcyBub3csIG1heWJlIHVzZXJzcGFjZSBnb3QKPiBtb3JlIGNyZWF0
-aXZlIGluIGFidXNpbmcgc3R1ZmY/CgpJIGRvbid0IGtub3cgd2hhdCB5b3UncmUgcmVmZXJyaW5n
-IHRvLiBJJ3ZlIG9ubHkgc2VlbiBtYXliZSB0d28gb3IgdGhyZWUgCnJlcG9ydHMgZnJvbSBwZW9w
-bGUgd2hvIGRpZG4ndCBlbmFibGUgQ0hFQ0tQT0lOVF9SRVNUT1JFIGluIHRoZWlyIApzZWxmLWJ1
-aWx0IGtlcm5lbHMuCgoKPiBUaGUgZW50aXJlIHRoaW5nIGlzIHNtYWxsIGVub3VnaCB0aGF0IGlt
-byB3ZSBkb24ndCByZWFsbHkgaGF2ZSB0byBjYXJlLAo+IGUuZy4gd2UgYWxzbyB1bmNvbmRpdGlv
-bmFsbHkgc2VsZWN0IGRtYS1idWYsIGRlc3BpdGUgdGhhdCBvbiBtb3N0Cj4gc3lzdGVtcyB0aGVy
-ZSdzIG9ubHkgMSBncHUsIGFuZCB5b3UncmUgbmV2ZXIgZ29pbmcgdG8gZW5kIHVwIHdpdGggYQo+
-IGJ1ZmZlciBzaGFyaW5nIGNhc2UgdGhhdCBuZWVkcyBhbnkgb2YgdGhhdCBjb2RlIChhc2lkZSBm
-cm9tIHRoZQo+ICJoZXJlJ3MgYW4gZmQiIHBhcnQpLgo+IAo+IEJ1dCBJIGd1ZXNzIHdlIGNhbiBs
-aW1pdCB0byBqdXN0IEtDTVBfRklMRSBsaWtlIHlvdSBzdWdnZXN0IGluIGFub3RoZXIKPiByZXBs
-eS4gSnVzdCBmZWVscyBhIGJpdCBsaWtlIG92ZXJraWxsLgoKTWFraW5nIEtDTVBfRklMRSBnYXRl
-ZCBieSBEUk0gbWFrZXMgYXMgbGl0dGxlIHNlbnNlIHRvIG1lIGFzIGJ5IApDSEVDS1BPSU5UX1JF
-U1RPUkUuCgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAg
-ICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAg
-ICAgICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+(was: drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and cleanup_fb)
+
+Functions in the atomic commit tail are not allowed to acquire the
+dmabuf's reservation lock. So we cannot legally call the GEM object's
+vmap functionality in atomic_update.
+
+But, much better, we can use drm_shadow_plane_state to do all the mapping
+for us. Patch 1 exports the helpers for shadow-buffered planes from the
+DRM KMS helper library and adds documentation on how to use them. Patch 2
+replaces the vmap code in vbox' cursor update code with a the helpers for
+shadow-buffered planes.
+
+Thomas Zimmermann (2):
+  drm/gem: Export helpers for shadow-buffered planes
+  drm/vboxvideo: Implement cursor plane with struct
+    drm_shadow_plane_state
+
+ drivers/gpu/drm/drm_gem_atomic_helper.c | 148 +++++++++++++++++++++++-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c   |  28 ++---
+ include/drm/drm_gem_atomic_helper.h     |  32 +++++
+ 3 files changed, 181 insertions(+), 27 deletions(-)
+
+--
+2.30.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
