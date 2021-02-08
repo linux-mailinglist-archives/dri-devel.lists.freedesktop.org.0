@@ -1,80 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385A3312D64
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 10:37:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 369C2312D6E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 10:39:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54ED6E463;
-	Mon,  8 Feb 2021 09:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3BD6E845;
+	Mon,  8 Feb 2021 09:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8F36E44F;
- Mon,  8 Feb 2021 09:37:23 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id y9so23474141ejp.10;
- Mon, 08 Feb 2021 01:37:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=h81giqyjbnN0Dtukym4bEFImyhTutcsZ70RU0hu+1zc=;
- b=Dzca006KlNc/HlY4DRVVmvo8kU9IWqgaBT1TwdDO+1d/uzDmcatme77X5SKfrbDbnU
- 0yjV4QfrNlxEfaiu9omhHpNJipU/J/lQCql3Kn4TZzj/7jl6ZwtUzFYDYnEzj4EUCfYo
- PBY3CLPaTNCbipBMUk6Ry3wzmWRBUuRJEsWCgTPwEYzrR9FAjVobBuewm1rB90/ja5zQ
- 87gQj3MMJiO0Gv9n9ijj0FXVZQTjYQwZZFq1PZBpEpaO4sR4toz+gy3z8d9Mt1Go7C3N
- 5U8mOoV6JkRCKjk8LOyIkGBd0HJBiiegme8umZRqs5VAbx02ZtTGR9XMQ3DVSdUrYGTE
- NxNQ==
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A146E845
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 09:38:58 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id o24so4909926wmh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Feb 2021 01:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4DGQGSkzgcC/dD62BvVBWWA5K9GNya/Azc5NShmkw9c=;
+ b=BrF/s6CFFF8+P8/zewQpBGItF+0CBq4qQd9jwH9BX0gBhEOrrAE2Y9DeVv1Cqe+PG8
+ 6swWNn4rPizD3NE4gk7zMHMrff4n8Jw6MeEUPj/T7JVyk0TWvzClJxyWB7BHRmbp0HZ3
+ hmE8E4eLRrUsCuFl148JcoJmWT9mJ8KGdVsi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=h81giqyjbnN0Dtukym4bEFImyhTutcsZ70RU0hu+1zc=;
- b=pXULTkupyQMJVF1v0D+iPjXC5U4WMNnsT0xZse0t/o3NdbfzJs4ZbmkzPGiUdILZw9
- V4gql5ioYKdId4kppr7qnuSDB+/yIKs3CQhhTq+doFtc4wbJ8CSsM8n1wVSNepe1Yu73
- fT0ZOBEVQmrb23uuHtZgyI9PUZ/VcTapS7Xn4tkl09YKs3B64gM/4yOqTmeMg41nUKvN
- ZNJJqozQEoESNipy5maa2kS28swA08nE3bxmnhEMszbbVDXMD+jk6gOYe4EqD7B6YelZ
- wlhTyYpNz5FK2chIF3ul8NmyMPsUh8yDAoZjmBRJhRVCM8Y+yXPlPkPQV2c+kIzetFtc
- LA4A==
-X-Gm-Message-State: AOAM533dcnQBI74uZ5SU8m1/qosf7oAF82WJ7hFsgso49qcyWe/r1InC
- 2fPkW33OW/2c2TbxFRcGi6U=
-X-Google-Smtp-Source: ABdhPJyKaDf3z/f2+eyYLjlwTkAz7ZdH2phX2JtU0ObDaAV2+oRy5Lt5POyzt26fTLawkDtvVxu2yw==
-X-Received: by 2002:a17:906:4dc3:: with SMTP id
- f3mr15982951ejw.233.1612777041632; 
- Mon, 08 Feb 2021 01:37:21 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id u23sm9101799edt.87.2021.02.08.01.37.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 01:37:20 -0800 (PST)
-Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
- device removal
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-References: <1611003683-3534-1-git-send-email-andrey.grodzovsky@amd.com>
- <1611003683-3534-12-git-send-email-andrey.grodzovsky@amd.com>
- <35ecd67f-620f-df50-3e03-d24dc12452d6@gmail.com>
- <8925db97-bf81-7e5e-527d-f654713b400d@amd.com>
- <CAKMK7uHCzBpaC2YypKeQwbJiT0JG2Hq7V0BC5yC88f9nqgxUiw@mail.gmail.com>
- <8ed4a153-d503-e704-0a0d-3422877e50fa@amd.com>
- <91b8ea73-aa69-1478-2e7c-63ab1cb250ae@gmail.com>
- <7834dbdf-27ad-f21d-b58b-2772a598ea8a@amd.com>
- <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
- <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
- <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
- <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
- <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
- <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
- <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
-Date: Mon, 8 Feb 2021 10:37:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4DGQGSkzgcC/dD62BvVBWWA5K9GNya/Azc5NShmkw9c=;
+ b=oxX0IssJaMfVIerNtjYAv3mD1qOwiftcl10qdLeopBYkVso+G409HWhaoP0igqGVgA
+ LZfhiczzLYWogE7BdsdswBOYSL6IzXOa5MZk6pW01sgga01RI/WO8MSo4mrOQalEkyes
+ HWX+OtvFbdzNh9KUeTuymaHddz2K+Qa18VxbxiZop1AV4uqh1JT5gpfYt9fcc0/ISWVf
+ BvXnG1uQvylZIMne1eqdnolqOjGK+0YfF+QNC0bXukVJKGKlL6YJ4KcheJo5pYpWxsVq
+ LbUyXBSf3k2iJ1eb1BBXv+A2U4YTDeqRM3BZf90kbSDS91Y/2rKVDYs50sRmQauJtJ1a
+ 5asg==
+X-Gm-Message-State: AOAM531svtaIlfHptHSWkBuV/H9l3Rg28ZsMoJ+d0h7EKgj9NUgA/a4n
+ 4jicPuoK/+z96Xuh8ZcSTFOFwQ==
+X-Google-Smtp-Source: ABdhPJzGAETbO5Jt6ZRC/GR0bn81heDLrjvHU05CkeKS+oGw67H4ItRzjTTOIwnpoRRmCRR+dmsFNw==
+X-Received: by 2002:a1c:9a12:: with SMTP id c18mr13723288wme.146.1612777137507; 
+ Mon, 08 Feb 2021 01:38:57 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v15sm1548194wra.61.2021.02.08.01.38.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 01:38:56 -0800 (PST)
+Date: Mon, 8 Feb 2021 10:38:54 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [RFC v3 2/3] virtio: Introduce Vdmabuf driver
+Message-ID: <YCEGrrT0/eqqz/ok@phenom.ffwll.local>
+References: <20210203073517.1908882-1-vivek.kasireddy@intel.com>
+ <20210203073517.1908882-3-vivek.kasireddy@intel.com>
+ <YB1sRx1GrT8rATEg@phenom.ffwll.local>
+ <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210208075748.xejgcb4il2egow2u@sirius.home.kraxel.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,68 +67,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>
+Cc: dongwon.kim@intel.com, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, daniel.vetter@intel.com,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.02.21 um 22:50 schrieb Daniel Vetter:
-> [SNIP]
->> Clarification - as far as I know there are no page fault handlers for kernel
->> mappings. And we are talking about kernel mappings here, right ?  If there were
->> I could solve all those issues the same as I do for user mappings, by
->> invalidating all existing mappings in the kernel (both kmaps and ioreamps)and
->> insert dummy zero or ~0 filled page instead.
->> Also, I assume forcefully remapping the IO BAR to ~0 filled page would involve
->> ioremap API and it's not something that I think can be easily done according to
->> am answer i got to a related topic a few weeks ago
->> https://www.spinics.net/lists/linux-pci/msg103396.html (that was the only reply
->> i got)
-> mmiotrace can, but only for debug, and only on x86 platforms:
->
-> https://www.kernel.org/doc/html/latest/trace/mmiotrace.html
->
-> Should be feasible (but maybe not worth the effort) to extend this to
-> support fake unplug.
+On Mon, Feb 08, 2021 at 08:57:48AM +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > > +/* extract pages referenced by sgt */
+> > > +static struct page **extr_pgs(struct sg_table *sgt, int *nents, int *last_len)
+> > 
+> > Nack, this doesn't work on dma-buf. And it'll blow up at runtime when you
+> > enable the very recently merged CONFIG_DMABUF_DEBUG (would be good to test
+> > with that, just to make sure).
+> 
+> > Aside from this, for virtio/kvm use-cases we've already merged the udmabuf
+> > driver. Does this not work for your usecase?
+> 
+> udmabuf can be used on the host side to make a collection of guest pages
+> available as host dmabuf.  It's part of the puzzle, but not a complete
+> solution.
+> 
+> As I understand it the intended workflow is this:
+> 
+>   (1) guest gpu driver exports some object as dma-buf
+>   (2) dma-buf is imported into this new driver.
+>   (3) driver sends the pages to the host.
+>   (4) hypervisor uses udmabuf to create a host dma-buf.
+>   (5) host dma-buf is passed on.
+> 
+> And step (3) is the problematic one as this will not
+> work in case the dma-buf doesn't live in guest ram but
+> in -- for example -- gpu device memory.
 
-Mhm, interesting idea you guys brought up here.
+Yup, vram or similar special ram is the reason why an importer can't look
+at the pages behind a dma-buf sg table.
 
-We don't need a page fault for this to work, all we need to do is to 
-insert dummy PTEs into the kernels page table at the place where 
-previously the MMIO mapping has been.
+> Reversing the driver roles in the guest (virtio driver
+> allocates pages and exports the dma-buf to the guest
+> gpu driver) should work fine.
 
->>> But ugh ...
->>>
->>> Otoh validating an entire driver like amdgpu without such a trick
->>> against 0xff reads is practically impossible. So maybe you need to add
->>> this as one of the tasks here?
->> Or I could just for validation purposes return ~0 from all reg reads in the code
->> and ignore writes if drm_dev_unplugged, this could already easily validate a big
->> portion of the code flow under such scenario.
-> Hm yeah if your really wrap them all, that should work too. Since
-> iommappings have __iomem pointer type, as long as amdgpu is sparse
-> warning free, should be doable to guarantee this.
+Yup, this needs to flow the other way round than in these patches.
 
-Problem is that ~0 is not always a valid register value.
+> Which btw is something you can do today with virtio-gpu.
+> Maybe it makes sense to have the option to run virtio-gpu
+> in render-only mode for that use case.
 
-You would need to audit every register read that it doesn't use the 
-returned value blindly as index or similar. That is quite a bit of work.
+Yeah that sounds like a useful addition.
 
-Regards,
-Christian.
+Also, the same flow should work for real gpus passed through as pci
+devices. What we need is some way to surface the dma-buf on the guest
+side, which I think doesn't exist yet stand-alone. But this role could be
+fulfilled by virtio-gpu in render-only mode I think. And (assuming I've
+understood the recent discussions around virtio dma-buf sharing using
+virtio ids) this would give you some neat zero-copy tricks for free if you
+share multiple devices.
 
-> -Daniel
->
->> Andrey
->>
+Also if you really want seamless buffer sharing between devices that are
+passed to the guest and devices on the host side (like displays I guess?
+or maybe video encode if this is for cloug gaming?), then using virtio-gpu
+in render mode should also allow you to pass the dma_fence back&forth.
+Which we'll need too, not just the dma-buf.
 
+So at a first guess I'd say "render-only virtio-gpu mode" sounds like
+something rather useful. But I might be totally off here.
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
