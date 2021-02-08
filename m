@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CC6313BCE
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 18:58:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B6E313BCF
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 18:58:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9F6F6E982;
-	Mon,  8 Feb 2021 17:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FC06E984;
+	Mon,  8 Feb 2021 17:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E136E982;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78DBB6E982;
+ Mon,  8 Feb 2021 17:58:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0AF5C64EBC;
  Mon,  8 Feb 2021 17:58:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A6BC64EB1;
- Mon,  8 Feb 2021 17:58:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612807115;
- bh=EBpvZxpRURzDPzWXZ1DQiaM8j4w4EjhTdJ0SgzLhDzA=;
+ s=k20201202; t=1612807117;
+ bh=sN/6ha34otOeEaBysqzwB3pj0rwepRQlUkw7Q+tX/U4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WXeWiJej4x1RgTj7BiY/g+rLb4ww3L+GrMac/b3ynL6qPAzWqxTTKW1ka2W3axX5Z
- JiYNQ/UD7RIwCAlVFy7mQUrAFoNcM0MoTziG6dUvyNTxguTRuNFMMBI4rhvGSo4ASl
- 5GATTKIEAH3OgcYsxK7qMBaa37EFOmiF0D7DEa3HhGIEP9m06ZWQD0lxh4QIEKDgb+
- X5LMH6dmuyfQjg4gTWUnEaOLX8iyrg1pbqW2dA0BO93i1ku6IdJSCtNqXdNwVFA7uC
- AUGMVofRR5LcAfJ6+XSbWW3SrbVfdNPtYrntT1aUdYN0gYaa+DKuLRrV/V2Zin6Jsw
- pxJNwYrMA+O3A==
+ b=peh4knKSyYrytYvXB0uQtLXbcOFgzQFmJ4ri4HeEPuwgCZr4dNbHTDVBwY65v476b
+ GiaFivaMRW6eyzdqaKoK1T0OEp2orVj3LTClL/FBQcxjXBB8UECa7D0Xfle0vZup/G
+ jmlBadcGrKuZYYwe8maTRzXNlneMPyB/79WznZpL1aqDfNGaLCvOjcsmEWpq9ZIqLE
+ IYEaYZlnnr3Qb8nel8XlT8OteIsI3mdzhyAemZd1680QhH8CSjJ8BNBg32djkSHvpp
+ F+3XZZvK/6n5xmqPo4Oq9rAmq64O7rD4KVgGbWFrPcs3XNjeFDmtsVjdWcKW81+OZn
+ wf5A4DdvbLQDA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 21/36] drm/amd/display: Add more Clock Sources to
- DCN2.1
-Date: Mon,  8 Feb 2021 12:57:51 -0500
-Message-Id: <20210208175806.2091668-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 22/36] drm/amd/display: Release DSC before
+ acquiring
+Date: Mon,  8 Feb 2021 12:57:52 -0500
+Message-Id: <20210208175806.2091668-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210208175806.2091668-1-sashal@kernel.org>
 References: <20210208175806.2091668-1-sashal@kernel.org>
@@ -49,64 +49,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Eryk Brol <Eryk.Brol@amd.com>,
  Anson Jacob <Anson.Jacob@amd.com>, amd-gfx@lists.freedesktop.org,
  Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Tony Cheng <Tony.Cheng@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sung Lee <sung.lee@amd.com>
+From: Mikita Lipski <mikita.lipski@amd.com>
 
-[ Upstream commit 1622711beebe887e4f0f8237fea1f09bb48e9a51 ]
+[ Upstream commit 58180a0cc0c57fe62a799a112f95b60f6935bd96 ]
 
-[WHY]
-When enabling HDMI on ComboPHY, there are not
-enough clock sources to complete display detection.
+[why]
+Need to unassign DSC from pipes that are not using it
+so other pipes can acquire it. That is needed for
+asic's that have unmatching number of DSC engines from
+the number of pipes.
 
-[HOW]
-Initialize more clock sources.
+[how]
+Before acquiring dsc to stream resources, first remove it.
 
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Tony Cheng <Tony.Cheng@amd.com>
+Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
+Reviewed-by: Eryk Brol <Eryk.Brol@amd.com>
 Acked-by: Anson Jacob <Anson.Jacob@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index 20441127783ba..c993854404124 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -902,6 +902,8 @@ enum dcn20_clk_src_array_id {
- 	DCN20_CLK_SRC_PLL0,
- 	DCN20_CLK_SRC_PLL1,
- 	DCN20_CLK_SRC_PLL2,
-+	DCN20_CLK_SRC_PLL3,
-+	DCN20_CLK_SRC_PLL4,
- 	DCN20_CLK_SRC_TOTAL_DCN21
- };
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index eee19edeeee5c..1e448f1b39a18 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -828,6 +828,9 @@ bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+ 		if (computed_streams[i])
+ 			continue;
  
-@@ -1880,6 +1882,14 @@ static bool dcn21_resource_construct(
- 			dcn21_clock_source_create(ctx, ctx->dc_bios,
- 				CLOCK_SOURCE_COMBO_PHY_PLL2,
- 				&clk_src_regs[2], false);
-+	pool->base.clock_sources[DCN20_CLK_SRC_PLL3] =
-+			dcn21_clock_source_create(ctx, ctx->dc_bios,
-+				CLOCK_SOURCE_COMBO_PHY_PLL3,
-+				&clk_src_regs[3], false);
-+	pool->base.clock_sources[DCN20_CLK_SRC_PLL4] =
-+			dcn21_clock_source_create(ctx, ctx->dc_bios,
-+				CLOCK_SOURCE_COMBO_PHY_PLL4,
-+				&clk_src_regs[4], false);
++		if (dcn20_remove_stream_from_ctx(stream->ctx->dc, dc_state, stream) != DC_OK)
++			return false;
++
+ 		mutex_lock(&aconnector->mst_mgr.lock);
+ 		if (!compute_mst_dsc_configs_for_link(state, dc_state, stream->link)) {
+ 			mutex_unlock(&aconnector->mst_mgr.lock);
+@@ -845,7 +848,8 @@ bool compute_mst_dsc_configs_for_state(struct drm_atomic_state *state,
+ 		stream = dc_state->streams[i];
  
- 	pool->base.clk_src_count = DCN20_CLK_SRC_TOTAL_DCN21;
+ 		if (stream->timing.flags.DSC == 1)
+-			dc_stream_add_dsc_to_resource(stream->ctx->dc, dc_state, stream);
++			if (dc_stream_add_dsc_to_resource(stream->ctx->dc, dc_state, stream) != DC_OK)
++				return false;
+ 	}
  
+ 	return true;
 -- 
 2.27.0
 
