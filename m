@@ -1,32 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10027312EF9
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:29:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DE9312F41
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Feb 2021 11:42:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA096E85B;
-	Mon,  8 Feb 2021 10:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEE4C6E2E1;
+	Mon,  8 Feb 2021 10:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-54.freemail.mail.aliyun.com
- (out30-54.freemail.mail.aliyun.com [115.124.30.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440436E85B;
- Mon,  8 Feb 2021 10:29:37 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04407;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0UOAeUcL_1612780169; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0UOAeUcL_1612780169) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 08 Feb 2021 18:29:34 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: harry.wentland@amd.com
-Subject: [PATCH] drm/amd/display: Simplify bool comparison
-Date: Mon,  8 Feb 2021 18:29:28 +0800
-Message-Id: <1612780168-83989-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37526E860
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Feb 2021 10:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612780932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yx6OCfShF0609v+W3vjhiUcxaTTyjoM+WtY0G5Wv7+4=;
+ b=YDiM/Lr9rtNRxheFB3XMs910TNN1G04VvSNTQAhXPD+OGzwsKNhM+NX449NRjZlbuQwhux
+ VQjRAIBIBCtZOIamUnydM9jh3Ddy9ZAM5qLit8p37wspbGAO3bFR48hVGPs+osa6gq/aDG
+ NW9cppjrYlEl6kcYji6BBVDruD3S+7Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-6-5c_2iNNOiCQ_Xc4LVApQ-1; Mon, 08 Feb 2021 05:42:11 -0500
+X-MC-Unique: 6-5c_2iNNOiCQ_Xc4LVApQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AE4CC7407;
+ Mon,  8 Feb 2021 10:42:09 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-170.ams2.redhat.com
+ [10.36.112.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED29072163;
+ Mon,  8 Feb 2021 10:42:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0F1BB18000AF; Mon,  8 Feb 2021 11:42:01 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/qxl: properly handle device init failures
+Date: Mon,  8 Feb 2021 11:41:49 +0100
+Message-Id: <20210208104149.423758-1-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,45 +57,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, Tong Zhang <ztong0001@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warning:
+Specifically do not try release resources which where
+not allocated in the first place.
 
-./drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h:319:11-23:
-WARNING: Comparison to bool.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: Tong Zhang <ztong0001@gmail.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 3 +++
+ drivers/gpu/drm/qxl/qxl_kms.c     | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h b/drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h
-index ffd3769..316301f 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr_internal.h
-@@ -309,9 +309,9 @@ static inline bool should_set_clock(bool safe_to_lower, int calc_clk, int cur_cl
- static inline bool should_update_pstate_support(bool safe_to_lower, bool calc_support, bool cur_support)
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index c326412136c5..ec50d2cfd4e1 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -1183,6 +1183,9 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
  {
- 	if (cur_support != calc_support) {
--		if (calc_support == true && safe_to_lower)
-+		if (calc_support && safe_to_lower)
- 			return true;
--		else if (calc_support == false && !safe_to_lower)
-+		else if (!calc_support && !safe_to_lower)
- 			return true;
- 	}
+ 	int ret;
  
++	if (!qdev->monitors_config_bo)
++		return 0;
++
+ 	qdev->monitors_config = NULL;
+ 	qdev->ram_header->monitors_config = 0;
+ 
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index 66d74aaaee06..4dc5ad13f12c 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -288,6 +288,10 @@ void qxl_device_fini(struct qxl_device *qdev)
+ {
+ 	int cur_idx;
+ 
++	/* check if qxl_device_init() was successful (gc_work is initialized last) */
++	if (!qdev->gc_work.func)
++		return;
++
+ 	for (cur_idx = 0; cur_idx < 3; cur_idx++) {
+ 		if (!qdev->current_release_bo[cur_idx])
+ 			continue;
 -- 
-1.8.3.1
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
