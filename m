@@ -1,35 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0A5315044
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:34:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3DC315045
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1541B6EB19;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 625966EB21;
 	Tue,  9 Feb 2021 13:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBDC6EAC7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 09:51:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72FBC89DB8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 09:52:15 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l9Pg3-0008A7-J1; Tue, 09 Feb 2021 10:51:23 +0100
+ id 1l9Pg3-0008A8-Ig; Tue, 09 Feb 2021 10:51:23 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1l9Pg2-0007KA-3g; Tue, 09 Feb 2021 10:51:22 +0100
+ id 1l9Pg2-0007KJ-4l; Tue, 09 Feb 2021 10:51:22 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 0/6] devicetree fixes for Protonic and Plymovent boards
-Date: Tue,  9 Feb 2021 10:51:15 +0100
-Message-Id: <20210209095121.28098-1-o.rempel@pengutronix.de>
+Subject: [PATCH v3 1/6] dt-bindings: display: simple: add Innolux G070Y2-T02
+ panel
+Date: Tue,  9 Feb 2021 10:51:16 +0100
+Message-Id: <20210209095121.28098-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210209095121.28098-1-o.rempel@pengutronix.de>
+References: <20210209095121.28098-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
 X-SA-Exim-Mail-From: ore@pengutronix.de
@@ -59,29 +62,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-changes v3:
-- remove patch: ARM: dts: imx6dl-prtvt7: fix PWM cell count for the
-  backlight node.
-  This is done by Uwe in a separate patch
-- add Acked-by: Rob Herring...
+Add binding for the Innolux G070Y2-T02 panel. It is 7" WVGA (800x480)
+TFT LCD panel with TTL interface and a backlight unit.
 
-changes v2:
-- imx6dl-prtvt7: remove touchscreen-inverted-*
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Oleksij Rempel (6):
-  dt-bindings: display: simple: add Innolux G070Y2-T02 panel
-  drm: panel-simple: Add support for the Innolux G070Y2-T02 panel
-  ARM: dts: imx6dl-prtvt7: Add display and panel nodes
-  ARM: dts: imx6dl-prtvt7: add TSC2046 touchscreen node
-  ARM: dts: imx6dl-prtvt7: Remove backlight enable gpio
-  ARM: dts: imx6dl-plym2m: remove touchscreen-size-* properties
-
- .../bindings/display/panel/panel-simple.yaml  |  2 +
- arch/arm/boot/dts/imx6dl-plym2m.dts           |  2 -
- arch/arm/boot/dts/imx6dl-prtvt7.dts           | 71 ++++++++++++++++---
- drivers/gpu/drm/panel/panel-simple.c          | 16 +++++
- 4 files changed, 80 insertions(+), 11 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 3207608d1178..f7a1465313db 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -152,6 +152,8 @@ properties:
+       - innolux,at070tn92
+         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
+       - innolux,g070y2-l01
++        # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
++      - innolux,g070y2-t02
+         # Innolux Corporation 10.1" G101ICE-L01 WXGA (1280x800) LVDS panel
+       - innolux,g101ice-l01
+         # Innolux Corporation 12.1" WXGA (1280x800) TFT LCD panel
 -- 
 2.30.0
 
