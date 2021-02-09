@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2158315791
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 21:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C912A315797
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 21:19:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA9E6E141;
-	Tue,  9 Feb 2021 20:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A7C6E48F;
+	Tue,  9 Feb 2021 20:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D23996E141
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 20:17:04 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id m13so23569925wro.12
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 12:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WSIKXYPYAgR9bcpSSCcdKf1jjEFLRGvSegQRcPSmIHk=;
- b=TpWVcq0cAHCjTMjUTaZgT1rftmkIZpeK/w+9IeAIZ71VrVi/eZqrSZAKHw0g3FpFjZ
- vhhP4TAJeK4H72vQJngmfiTh0QNKw33RQeOcNqTM7j5L8ANMd4FulgcZOwFpskNLdrVU
- W9NVwjLqcAiuIBfGCLYmtGwfUcEJ/2I3/aee3J9ypcoxx/5mZt/jkfvhc2ha7tjrVqYH
- MC0Zy1pZHBqFVPyjuy2i2cnC5JiZpUdgR/LjCwm2P8BOLgPrsEwxo1rPvdrC50ruK7KS
- IXaNhLs1QuEUHfVAvV0NJN3y7pc8mYTciKnRuF5CVUP2f1ct6tEu1sGbxt4iE8o/kgfq
- 5wMQ==
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D436E48F
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 20:19:04 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id d7so16419102otq.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 12:19:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WSIKXYPYAgR9bcpSSCcdKf1jjEFLRGvSegQRcPSmIHk=;
- b=OiCTKB8NEGAilhKgzYXU30+GUBGRfMvpQYSarFd/2kBjTaVCN+MLYK318aKCgAc1uc
- W1NRNot681/r3hBT4AzvLhpYsZRO0LYIRRmJoMOLYdchQKpQO/gqYmMPcyDXzLL4ep+O
- iEG/DbTCaJea/iaAzGm5AqDqN63/pE/ZbI+Ey7kzCKfDmvgz38qpXfp7IQLp6bmU2/sk
- X2gnTamYPFLWOnJBH7qD2F0hyoJilgZvmKK9PbQyYHe22OUQWupFhr6yxQzrLFC/+/uC
- As8Gj4hbgUKPEOVHtuXGHzfmnNeaLKRyZ8Jq3eeZJj4f9pBnCfUdSfrQvKAV6dLOBkXd
- bNvQ==
-X-Gm-Message-State: AOAM531M12NbDW+nnbqENI70eYoWuTxJZaXR1M9FoRIccIBkG/37xl13
- OQjcCxmfbkAoEDJHmN6f0mIghrTpfLKVsoS7SZ3vew==
-X-Google-Smtp-Source: ABdhPJxFl7S5w0WlwAXTJ3cWL9Tbg22//Qmf0A+Qsi7vhLmYGGyDlhpZCx8wpsBET0KA36zayLM1gYCSQHD8JqHfvP8=
-X-Received: by 2002:adf:ed45:: with SMTP id u5mr27326708wro.358.1612901823243; 
- Tue, 09 Feb 2021 12:17:03 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZOJ3/xZbrYavgOoCQR7u2DEXz/TzJ11fMpN1m2ECp9w=;
+ b=SVnToRYijSCr29XQZu1qSPA3RBZl+dKpyeeACiS0dz0fd2reXQIP0ewQJ0OeqGEbY4
+ iuomOjgpAy6Uoy+VZ/qa7tP3wJ6Edwfmy5QT2OJOC6wUP/P6vf40LSQXKTtO5KGikAYS
+ Lw2LihSBmFpaStjb+/b5QXtyTdy3F5vG4tWCKmPyg7Kyz94Dxa0SPifDFf2x3rhK8I+U
+ eFjCra0AMTF/thKIgpi0Zwv6PSbjK3XOG3vXYHPYbFs4xRYy5BOPFDhsTF/1zNKlUrvH
+ tCFAT7bqdWlbqcwYv/8f4FLm355tR+fsxZ4OPi8eKyjN4RPJm9JDOyE0gi13GalEDwAw
+ Dz3Q==
+X-Gm-Message-State: AOAM530gDH3E7FTvZhDnBhq28+lszmtaJIgd47jQQyGSi9hQicEtIswB
+ 5DwiOVlXH5z+L0DDK3r5SQ==
+X-Google-Smtp-Source: ABdhPJwhQ9AAOunj+XPxDONZPOSBzu6VAfoY7nift3HRk/RnSl8wAChUeH9QkwuuwtgqyBkgYxKqcA==
+X-Received: by 2002:a05:6830:1bf5:: with SMTP id
+ k21mr16990317otb.207.1612901943725; 
+ Tue, 09 Feb 2021 12:19:03 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id y5sm2094523oti.59.2021.02.09.12.19.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 12:19:02 -0800 (PST)
+Received: (nullmailer pid 98230 invoked by uid 1000);
+ Tue, 09 Feb 2021 20:19:01 -0000
+Date: Tue, 9 Feb 2021 14:19:01 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi83: Add TI
+ SN65DSI83 bindings
+Message-ID: <20210209201901.GA82980@robh.at.kernel.org>
+References: <20210130181014.161457-1-marex@denx.de>
 MIME-Version: 1.0
-References: <20210205080621.3102035-1-john.stultz@linaro.org>
- <20210205080621.3102035-2-john.stultz@linaro.org>
- <4471b3b0-603e-6dbb-8064-ff4a95afbba9@amd.com>
- <CALAqxLWZkUFvJX5r2OU2erW4tU3j=+u==VTyzYkt+95LwwVCUA@mail.gmail.com>
- <48225879-2fe1-22ac-daae-c61d52465aea@amd.com>
- <a9dd7f8a-ef30-9eb4-4834-37801d43b96f@amd.com>
- <CAJuCfpE-T4Cs_h6LfrgHE+T_iOVywU2oNzLquYETudOaBMauMQ@mail.gmail.com>
- <c7df099f-27f7-adc6-4e87-9903ac00cbea@amd.com>
- <CAKMK7uFu27RRpwPdNFuhd-Y5R8XiCNosET9BYtCnr3u30UDs0g@mail.gmail.com>
-In-Reply-To: <CAKMK7uFu27RRpwPdNFuhd-Y5R8XiCNosET9BYtCnr3u30UDs0g@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 9 Feb 2021 12:16:51 -0800
-Message-ID: <CAJuCfpF2Q1qVkv75czc2AFRrp25eNz7hqmeO9Wx8e5VY7PvyJw@mail.gmail.com>
-Subject: Re: [RFC][PATCH v6 1/7] drm: Add a sharable drm page-pool
- implementation
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20210130181014.161457-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,104 +61,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, James Jones <jajones@nvidia.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgOSwgMjAyMSBhdCAxMjowMyBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gVHVlLCBGZWIgOSwgMjAyMSBhdCA2OjQ2IFBNIENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4gPgo+ID4KPiA+Cj4g
-PiBBbSAwOS4wMi4yMSB1bSAxODozMyBzY2hyaWViIFN1cmVuIEJhZ2hkYXNhcnlhbjoKPiA+ID4g
-T24gVHVlLCBGZWIgOSwgMjAyMSBhdCA0OjU3IEFNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4gPiA+PiBBbSAwOS4wMi4yMSB1bSAxMzoxMSBzY2hy
-aWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gPiA+Pj4gW1NOSVBdCj4gPiA+Pj4+Pj4gK3ZvaWQgZHJt
-X3BhZ2VfcG9vbF9hZGQoc3RydWN0IGRybV9wYWdlX3Bvb2wgKnBvb2wsIHN0cnVjdCBwYWdlICpw
-YWdlKQo+ID4gPj4+Pj4+ICt7Cj4gPiA+Pj4+Pj4gKyAgICAgc3Bpbl9sb2NrKCZwb29sLT5sb2Nr
-KTsKPiA+ID4+Pj4+PiArICAgICBsaXN0X2FkZF90YWlsKCZwYWdlLT5scnUsICZwb29sLT5pdGVt
-cyk7Cj4gPiA+Pj4+Pj4gKyAgICAgcG9vbC0+Y291bnQrKzsKPiA+ID4+Pj4+PiArICAgICBhdG9t
-aWNfbG9uZ19hZGQoMSA8PCBwb29sLT5vcmRlciwgJnRvdGFsX3BhZ2VzKTsKPiA+ID4+Pj4+PiAr
-ICAgICBzcGluX3VubG9jaygmcG9vbC0+bG9jayk7Cj4gPiA+Pj4+Pj4gKwo+ID4gPj4+Pj4+ICsg
-ICAgIG1vZF9ub2RlX3BhZ2Vfc3RhdGUocGFnZV9wZ2RhdChwYWdlKSwKPiA+ID4+Pj4+PiBOUl9L
-RVJORUxfTUlTQ19SRUNMQUlNQUJMRSwKPiA+ID4+Pj4+PiArICAgICAgICAgICAgICAgICAgICAg
-ICAgIDEgPDwgcG9vbC0+b3JkZXIpOwo+ID4gPj4+Pj4gSHVpIHdoYXQ/IFdoYXQgc2hvdWxkIHRo
-YXQgYmUgZ29vZCBmb3I/Cj4gPiA+Pj4+IFRoaXMgaXMgYSBjYXJyeW92ZXIgZnJvbSB0aGUgSU9O
-IHBhZ2UgcG9vbCBpbXBsZW1lbnRhdGlvbjoKPiA+ID4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlu
-a3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0Lmtlcm5lbC5v
-cmclMkZwdWIlMkZzY20lMkZsaW51eCUyRmtlcm5lbCUyRmdpdCUyRnRvcnZhbGRzJTJGbGludXgu
-Z2l0JTJGdHJlZSUyRmRyaXZlcnMlMkZzdGFnaW5nJTJGYW5kcm9pZCUyRmlvbiUyRmlvbl9wYWdl
-X3Bvb2wuYyUzRmglM0R2NS4xMCUyM24yOCZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtv
-ZW5pZyU0MGFtZC5jb20lN0NkY2NjY2ZmOGVkY2Q0ZDE0N2E1YjA4ZDhjZDIwY2ZmMiU3QzNkZDg5
-NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0ODQ4ODgxMTQ5MjM1ODAl
-N0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVN
-eklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9OSUyQklC
-QzB0ZXpTVjZDaTRTM2tXZlclMkJRdkptNG1kdW5uM2RGNkMwa3lmQ3clM0QmYW1wO3Jlc2VydmVk
-PTAKPiA+ID4+Pj4KPiA+ID4+Pj4KPiA+ID4+Pj4gTXkgc2Vuc2UgaXMgaXQgaGVscHMgd2l0aCB0
-aGUgdm1zdGF0L21lbWluZm8gYWNjb3VudGluZyBzbyBmb2xrcyBjYW4KPiA+ID4+Pj4gc2VlIHRo
-ZSBjYWNoZWQgcGFnZXMgYXJlIHNocmlua2FibGUvZnJlZWFibGUuIFRoaXMgbWF5YmUgZmFsbHMg
-dW5kZXIKPiA+ID4+Pj4gb3RoZXIgZG1hYnVmIGFjY291bnRpbmcvc3RhdHMgZGlzY3Vzc2lvbnMs
-IHNvIEknbSBoYXBweSB0byByZW1vdmUgaXQKPiA+ID4+Pj4gZm9yIG5vdywgb3IgbGV0IHRoZSBk
-cml2ZXJzIHVzaW5nIHRoZSBzaGFyZWQgcGFnZSBwb29sIGxvZ2ljIGhhbmRsZQo+ID4gPj4+PiB0
-aGUgYWNjb3VudGluZyB0aGVtc2VsdmVzPwo+ID4gPj4gSW50ZW50aW9uYWxseSBzZXBhcmF0ZWQg
-dGhlIGRpc2N1c3Npb24gZm9yIHRoYXQgaGVyZS4KPiA+ID4+Cj4gPiA+PiBBcyBmYXIgYXMgSSBj
-YW4gc2VlIHRoaXMgaXMganVzdCBibHVudGx5IGluY29ycmVjdC4KPiA+ID4+Cj4gPiA+PiBFaXRo
-ZXIgdGhlIHBhZ2UgaXMgcmVjbGFpbWFibGUgb3IgaXQgaXMgcGFydCBvZiBvdXIgcG9vbCBhbmQg
-ZnJlZWFibGUKPiA+ID4+IHRocm91Z2ggdGhlIHNocmlua2VyLCBidXQgbmV2ZXIgZXZlciBib3Ro
-Lgo+ID4gPiBJSVJDIHRoZSBvcmlnaW5hbCBtb3RpdmF0aW9uIGZvciBjb3VudGluZyBJT04gcG9v
-bGVkIHBhZ2VzIGFzCj4gPiA+IHJlY2xhaW1hYmxlIHdhcyB0byBpbmNsdWRlIHRoZW0gaW50byAv
-cHJvYy9tZW1pbmZvJ3MgTWVtQXZhaWxhYmxlCj4gPiA+IGNhbGN1bGF0aW9ucy4gTlJfS0VSTkVM
-X01JU0NfUkVDTEFJTUFCTEUgZGVmaW5lZCBhcyAicmVjbGFpbWFibGUKPiA+ID4gbm9uLXNsYWIg
-a2VybmVsIHBhZ2VzIiBzZWVtcyBsaWtlIGEgZ29vZCBwbGFjZSB0byBhY2NvdW50IGZvciB0aGVt
-IGJ1dAo+ID4gPiBJIG1pZ2h0IGJlIHdyb25nLgo+ID4KPiA+IFllYWgsIHRoYXQncyB3aGF0IEkg
-c2VlIGhlcmUgYXMgd2VsbC4gQnV0IGV4YWN0bHkgdGhhdCBpcyB1dHRlcmx5IG5vbnNlbnNlLgo+
-ID4KPiA+IFRob3NlIHBhZ2VzIGFyZSBub3QgImZyZWUiIGluIHRoZSBzZW5zZSB0aGF0IGdldF9m
-cmVlX3BhZ2UgY291bGQgcmV0dXJuCj4gPiB0aGVtIGRpcmVjdGx5Lgo+Cj4gV2VsbCBvbiBBbmRy
-b2lkIHRoYXQgaXMga2luZGEgdHJ1ZSwgYmVjYXVzZSBBbmRyb2lkIGhhcyBpdCdzCj4gb29tLWtp
-bGxlciAod2F5IGJhY2sgaXQgd2FzIGp1c3QgYSBzaHJpbmtlciBjYWxsYmFjaywgbm90IHN1cmUg
-aG93IGl0Cj4gd29ya3Mgbm93KSwgd2hpY2gganVzdCBzaG90IGRvd24gYWxsIHRoZSBiYWNrZ3Jv
-dW5kIGFwcHMuIFNvIGF0IGxlYXN0Cj4gc29tZSBvZiB0aGF0IChldmVyeXRoaW5nIHVzZWQgYnkg
-YmFja2dyb3VuZCBhcHBzKSBpcyBpbmRlZWQKPiByZWNsYWltYWJsZSBvbiBBbmRyb2lkLgo+Cj4g
-QnV0IHRoYXQgZG9lc24ndCBob2xkIG9uIExpbnV4IGluIGdlbmVyYWwsIHNvIHdlIGNhbid0IHJl
-YWxseSBkbyB0aGlzCj4gZm9yIGNvbW1vbiBjb2RlLgo+Cj4gQWxzbyBJIGhhZCBhIGxvbmcgbWVl
-dGluZyB3aXRoIFN1cmVuLCBKb2huIGFuZCBvdGhlciBnb29nbGVzCj4geWVzdGVyZGF5LCBhbmQg
-dGhlIGFpbSBpcyBub3cgdG8gdHJ5IGFuZCBzdXBwb3J0IGFsbCB0aGUgQW5kcm9pZCBncHUKPiBt
-ZW1vcnkgYWNjb3VudGluZyBuZWVkcyB3aXRoIGNncm91cHMuIFRoYXQgc2hvdWxkIHdvcmssIGFu
-ZCBpdCB3aWxsCj4gYWxsb3cgQW5kcm9pZCB0byBoYW5kbGUgYWxsIHRoZSBBbmRyb2lkLWlzbSBp
-biBhIGNsZWFuIHdheSBpbiB1cHN0cmVhbQo+IGNvZGUuIE9yIHRoYXQncyBhdCBsZWFzdCB0aGUg
-cGxhbi4KPgo+IEkgdGhpbmsgdGhlIG9ubHkgdGhpbmcgd2UgaWRlbnRpZmllZCB0aGF0IEFuZHJv
-aWQgc3RpbGwgbmVlZHMgb24gdG9wCj4gaXMgdGhlIGRtYS1idWYgc3lzZnMgc3R1ZmYsIHNvIHRo
-YXQgc2hhcmVkIGJ1ZmZlcnMgKHdoaWNoIG9uIEFuZHJvaWQKPiBhcmUgYWx3YXlzIGRtYS1idWYs
-IGFuZCBhbHdheXMgc3RheSBhcm91bmQgYXMgZG1hLWJ1ZiBmZCB0aHJvdWdob3V0Cj4gdGhlaXIg
-bGlmZXRpbWUpIGNhbiBiZSBsaXN0ZWQvYW5hbHl6ZWQgd2l0aCBmdWxsIGRldGFpbC4KPgo+IEJ1
-dCBhc2lkZSBmcm9tIHRoaXMgdGhlIHBsYW4gZm9yIGFsbCB0aGUgcGVyLXByb2Nlc3Mgb3IgcGVy
-LWhlYXAKPiBhY2NvdW50LCBvb20ta2lsbGVyIGludGVncmF0aW9uIGFuZCBldmVyeXRoaW5nIGVs
-c2UgaXMgcGxhbm5lZCB0byBiZQo+IGRvbmUgd2l0aCBjZ3JvdXBzLgoKVW50aWwgY2dyb3VwcyBh
-cmUgcmVhZHkgd2UgcHJvYmFibHkgd2lsbCBuZWVkIHRvIGFkZCBhIHN5c2ZzIG5vZGUgdG8KcmVw
-b3J0IHRoZSB0b3RhbCBkbWFidWYgcG9vbCBzaXplIGFuZCBJIHRoaW5rIHRoYXQgd291bGQgY292
-ZXIgb3VyCmN1cnJlbnQgYWNjb3VudGluZyBuZWVkIGhlcmUuCkFzIEkgbWVudGlvbmVkLCBub3Qg
-aW5jbHVkaW5nIGRtYWJ1ZiBwb29scyBpbnRvIE1lbUF2YWlsYWJsZSB3b3VsZAphZmZlY3QgdGhh
-dCBzdGF0IGFuZCBJJ20gd29uZGVyaW5nIGlmIHBvb2xzIHNob3VsZCBiZSBjb25zaWRlcmVkIGFz
-CnBhcnQgb2YgTWVtQXZhaWxhYmxlIG9yIG5vdC4gU2luY2UgTWVtQXZhaWxhYmxlIGluY2x1ZGVz
-IFNSZWNsYWltYWJsZQpJIHRoaW5rIGl0IG1ha2VzIHNlbnNlIHRvIGluY2x1ZGUgdGhlbSBidXQg
-bWF5YmUgdGhlcmUgYXJlIG90aGVyCmNvbnNpZGVyYXRpb25zIHRoYXQgSSdtIG1pc3Npbmc/Cgo+
-IEFuZHJvaWQgKGZvciBub3cpIG9ubHkgbmVlZHMgdG8gYWNjb3VudCBvdmVyYWxsIGdwdQo+IG1l
-bW9yeSBzaW5jZSBub25lIG9mIGl0IGlzIHN3YXBwYWJsZSBvbiBhbmRyb2lkIGRyaXZlcnMgYW55
-d2F5LCBwbHVzCj4gbm8gdnJhbSwgc28gbm90IG11Y2ggbmVlZGVkLgo+Cj4gQ2hlZXJzLCBEYW5p
-ZWwKPgo+ID4KPiA+IFJlZ2FyZHMsCj4gPiBDaHJpc3RpYW4uCj4gPgo+ID4gPgo+ID4gPj4gSW4g
-dGhlIGJlc3QgY2FzZSB0aGlzIGp1c3QgbWVzc2VzIHVwIHRoZSBhY2NvdW50aW5nLCBpbiB0aGUg
-d29yc3QgY2FzZQo+ID4gPj4gaXQgY2FuIGNhdXNlIG1lbW9yeSBjb3JydXB0aW9uLgo+ID4gPj4K
-PiA+ID4+IENocmlzdGlhbi4KPiA+Cj4KPgo+IC0tCj4gRGFuaWVsIFZldHRlcgo+IFNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sat, Jan 30, 2021 at 07:10:13PM +0100, Marek Vasut wrote:
+> Add DT binding document for TI SN65DSI83 DSI to LVDS bridge.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  .../bindings/display/bridge/ti,sn65dsi83.yaml | 128 ++++++++++++++++++
+>  1 file changed, 128 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> new file mode 100644
+> index 000000000000..77e1bafd8cd8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi83.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: SN65DSI83 DSI to LVDS bridge chip
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  The Texas Instruments SN65DSI83 bridge takes MIPI DSI in and outputs LVDS.
+> +  https://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=sn65dsi83&fileType=pdf
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,sn65dsi83
+> +
+> +  reg:
+> +    const: 0x2d
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +    description: GPIO specifier for bridge_en pin (active high).
+> +
+> +  ports:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description:
+> +          Video port for MIPI DSI input
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +            properties:
+> +              remote-endpoint: true
+> +              data-lanes:
+> +                description: array of physical DSI data lane indexes.
+
+This all needs to use graph.yaml and video-interfaces.yaml. The latter 
+is in the media tree. See examples there for what to do. It will have to 
+wait for rc1 to apply to drm-misc.
+
+For data-lanes, you need to specify how many lanes are valid. If there's 
+only 1 possible setting (in the h/w, not driver), then it doesn't need 
+to be in DT.
+
+I agree with Doug on adding the regulators. Hard to get wrong in the 
+binding. You or someone can add them to the driver when you can test.
+
+> +
+> +        required:
+> +          - reg
+> +
+> +      port@1:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description:
+> +          Video port for LVDS output (panel or bridge).
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - enable-gpios
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      bridge@2d {
+> +        compatible = "ti,sn65dsi83";
+> +        reg = <0x2d>;
+> +
+> +        enable-gpios = <&gpio2 1 GPIO_ACTIVE_HIGH>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            endpoint {
+> +              remote-endpoint = <&dsi0_out>;
+> +              data-lanes = <1 2 3 4>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            endpoint {
+> +              remote-endpoint = <&panel_in_lvds>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> -- 
+> 2.29.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
