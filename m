@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBC031540D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:38:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20251315430
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE6F6EB75;
-	Tue,  9 Feb 2021 16:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A23F6EB7C;
+	Tue,  9 Feb 2021 16:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31BB6EB75
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 16:38:24 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id 123so4381426ooi.13
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 08:38:24 -0800 (PST)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26676EB82
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 16:44:28 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id h6so20102246oie.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 08:44:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=aZr5dhsjfln78b7cmE4KtQMoOsb+PVqz2aJQvLCk4vo=;
+ b=SVBOMOCLVxejcr24MsNkytDIQgA7oxw1CHguD7vCBdmb8Wg0Zu/ks/BejvDqglnt1Q
+ dE25Rm9/TZu/vcMW/6jh5ZmgJXRzKVRQZNEdVTX/SHXWLiC+N/UmxyzVN8701lfRholA
+ NyYzJQ/0pmrWrNB2/ug4FIJ2HqnEDi18sRdIY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wQ88ktMveXLIFjVYi4XLJQTN5XKyqacXyZXIGcsGiCs=;
- b=uX6chGICeQ5H3ZfF0WCHcl8pYJQjqLp8CnKEvy5cB4iGOltfrDXdqyBhlgD/VUxIdz
- psYm7DWvwALqBFB5kS2eDAkSQhmgzGbicBJSEXOkstYcX3O3YieEKV3FIQhK8SXZTMCx
- 4Fu5tra+6r2tBwADjKLz1LpvsaWOrzjyqLqIoytMv9soVwtMtrJ8IvVxmIicJBDWeqM+
- y299mTOgjmW/XCFlDBsO2n7/zvHRsyljoTeFfZPO+dxrnnAS68dFlWruZYyrgUlV3ct7
- R1+mm9v0AOPLubw9hFzUd2LzMUupKm22SEKOqnmx6V6qUs/CWVBbhe/aLSWKdFjHFdOB
- OjAg==
-X-Gm-Message-State: AOAM530stYLDe7VjtV8ZyyUTolm3I8MufyDNksG2CCPiQMNCmXqNny1W
- NTI/p3uBS+3wKpL7gY3xtA==
-X-Google-Smtp-Source: ABdhPJyVYqJkRSlVwkuaXSCn5iGg2F2ZS9AACtrBVl6W1FRn+PDFWJy5SUmUPRPoMrkPqrR4nEHY2w==
-X-Received: by 2002:a4a:424c:: with SMTP id i12mr16605365ooj.85.1612888704019; 
- Tue, 09 Feb 2021 08:38:24 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id e30sm48346ooh.32.2021.02.09.08.38.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 08:38:22 -0800 (PST)
-Received: (nullmailer pid 3898734 invoked by uid 1000);
- Tue, 09 Feb 2021 16:38:20 -0000
-Date: Tue, 9 Feb 2021 10:38:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: Adrien Grassein <adrien.grassein@gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Add documentation for
- LT8912
-Message-ID: <20210209163820.GB3892603@robh.at.kernel.org>
-References: <20210124150835.1522899-1-adrien.grassein@gmail.com>
- <20210124150835.1522899-3-adrien.grassein@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aZr5dhsjfln78b7cmE4KtQMoOsb+PVqz2aJQvLCk4vo=;
+ b=WVJcsOOVJl6S5FCckuTT71Tg7IuSz0cxFjVfLig85jyafhSfvjFHTNM1pRNVuEMv+D
+ MdpnEpokRvSXUVu5HHvFutxE+e9+MfyTB99L/R0yAyUBkKQQIZ8GgBLV3d1OnS2c8qV1
+ AU6rb3b0/Fp4gRlny02kI0mYPVFo0oFLYH2aKs0p9c2aWusW4u7JWBvR1oVXHood4b+l
+ tQbwaeMQisYSKkymhAVtnExaktmzNWucIl6946mrBsJ480SQ1ygRu50kaWvSoe3Jx9G1
+ hxpcHUazbR1E9WGBihGsRUu+cVN2mgEE3VXuPOstQZI3W36C75Qrdwgt2i/KqnTcuBel
+ I2+g==
+X-Gm-Message-State: AOAM530aV40aCRxDho3KiKBsrzEiRW/KmqJqpu9Ji8PPEQrszT1wAotl
+ YWewOJ1PzLGGj7GWTKxHSHLRsr7tFUFxwlcVemso/8gU0ZJoPw==
+X-Google-Smtp-Source: ABdhPJzaK32JhkZULI0gOIBZgUcdgLujSAcZx3lmZewR2XdD+FM/DRUw/rsfo+XITf6JtFVJNflzGj2L3U0DsV8n+cU=
+X-Received: by 2002:aca:df42:: with SMTP id w63mr3084589oig.128.1612889068041; 
+ Tue, 09 Feb 2021 08:44:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210124150835.1522899-3-adrien.grassein@gmail.com>
+References: <20210204020400.29628-1-ville.syrjala@linux.intel.com>
+ <YCJe+dVzmREc25Jw@phenom.ffwll.local> <YCKtBiWR1yEww9YM@intel.com>
+In-Reply-To: <YCKtBiWR1yEww9YM@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 9 Feb 2021 17:44:16 +0100
+Message-ID: <CAKMK7uFA+bsd9tjOo6F8gVg5897VAFJUEZyurR6ahRnkq2gR6A@mail.gmail.com>
+Subject: Re: [PATCH] drm/vblank: Avoid storing a timestamp for the same frame
+ twice
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,154 +60,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- airlied@linux.ie, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 24, 2021 at 04:08:34PM +0100, Adrien Grassein wrote:
-> Lontium LT8912 is a DSI to HDMI bridge.
-> 
-> Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
-> ---
->  .../display/bridge/lontium,lt8912.yaml        | 92 +++++++++++++++++++
->  MAINTAINERS                                   |  5 +
->  2 files changed, 97 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
-> new file mode 100644
-> index 000000000000..ed1a6ddaab2f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
-> @@ -0,0 +1,92 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt8912.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Lontium LT8912 MIPI to HDMI Bridge
-> +
-> +maintainers:
-> +  - Adrien Grassein <adrien.grassein@gmail.com>
-> +
-> +description: |
-> +  The LT8912 is a bridge device which convert DSI to HDMI
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - lontium,lt8912
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  ddc-i2c-bus:
-
-This belongs in an hdmi-connector node.
-
-> +    maxItems: 1
-> +    description: i2c bus used to read EDID of the connected display.
-> +
-> +  dsi-lanes:
-> +    maxItems: 1
-> +    description: dsi lanes count interconnected with lt8912.
-
-'data-lanes' in the graph is the standard way to do this.
-
-You'll need video-interfaces.yaml which is pending in the media tree.
-
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active high RESET pin.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Primary MIPI port-1 for MIPI input
-
-You're going to need a port for the connector.
-
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - ddc-i2c-bus
-> +  - dsi-lanes
-> +  - reg
-> +  - reset-gpios
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c4 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      hdmi-bridge@48 {
-> +        compatible = "lontium,lt8912";
-> +        reg = <0x48>;
-> +        reset-gpios = <&max7323 0 GPIO_ACTIVE_LOW>;
-> +        dsi-lanes = <4>;
-> +        ddc-i2c-bus = <&ddc_i2c_bus>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +
-> +            hdmi_out_in: endpoint {
-> +              remote-endpoint = <&mipi_dsi_out>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +    ddc_i2c_bus: i2c5 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5aa18cbfb883..01e7e356bfac 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10472,6 +10472,11 @@ S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
->  F:	drivers/hid/hid-lg-g15.c
->  
-> +LONTIUM LT8912 MIPI TO HDMI BRIDGE
-> +M:	Adrien Grassein <adrien.grassein@gmail.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
-> +
->  LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
->  M:	Sathya Prakash <sathya.prakash@broadcom.com>
->  M:	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-> -- 
-> 2.25.1
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBGZWIgOSwgMjAyMSBhdCA0OjQxIFBNIFZpbGxlIFN5cmrDpGzDpAo8dmlsbGUuc3ly
+amFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+IE9uIFR1ZSwgRmViIDA5LCAyMDIxIGF0IDEx
+OjA3OjUzQU0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBUaHUsIEZlYiAwNCwg
+MjAyMSBhdCAwNDowNDowMEFNICswMjAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOgo+ID4gPiBGcm9t
+OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gPgo+
+ID4gPiBkcm1fdmJsYW5rX3Jlc3RvcmUoKSBleGlzdHMgYmVjYXVzZSBjZXJ0YWluIHBvd2VyIHNh
+dmluZyBzdGF0ZXMKPiA+ID4gY2FuIGNsb2JiZXIgdGhlIGhhcmR3YXJlIGZyYW1lIGNvdW50ZXIu
+IFRoZSB3YXkgaXQgZG9lcyB0aGlzIGlzCj4gPiA+IGJ5IGd1ZXNzdGltYXRpbmcgaG93IG1hbnkg
+ZnJhbWVzIHdlcmUgbWlzc2VkIHB1cmVseSBiYXNlZCBvbgo+ID4gPiB0aGUgZGlmZmVyZW5jZSBi
+ZXR3ZWVuIHRoZSBsYXN0IHN0b3JlZCB0aW1lc3RhbXAgdnMuIGEgbmV3bHkKPiA+ID4gc2FtcGxl
+ZCB0aW1lc3RhbXAuCj4gPiA+Cj4gPiA+IElmIHdlIHNob3VsZCBjYWxsIHRoaXMgZnVuY3Rpb24g
+YmVmb3JlIGEgZnVsbCBmcmFtZSBoYXMKPiA+ID4gZWxhcHNlZCBzaW5jZSB3ZSBzYW1wbGVkIHRo
+ZSBsYXN0IHRpbWVzdGFtcCB3ZSB3b3VsZCBlbmQgdXAKPiA+ID4gd2l0aCBhIHBvc3NpYmx5IHNs
+aWdodGx5IGRpZmZlcmVudCB0aW1lc3RhbXAgdmFsdWUgZm9yIHRoZQo+ID4gPiBzYW1lIGZyYW1l
+LiBDdXJyZW50bHkgd2Ugd2lsbCBoYXBwaWx5IG92ZXJ3cml0ZSB0aGUgYWxyZWFkeQo+ID4gPiBz
+dG9yZWQgdGltZXN0YW1wIGZvciB0aGUgZnJhbWUgd2l0aCB0aGUgbmV3IHZhbHVlLiBUaGlzCj4g
+PiA+IGNvdWxkIGNhdXNlIHVzZXJzcGFjZSB0byBvYnNlcnZlIHR3byBkaWZmZXJlbnQgdGltZXN0
+YW1wcwo+ID4gPiBmb3IgdGhlIHNhbWUgZnJhbWUgKGFuZCB0aGUgdGltZXN0YW1wIGNvdWxkIGV2
+ZW4gZ28KPiA+ID4gYmFja3dhcmRzIGRlcGVuZGluZyBvbiBob3cgbXVjaCBlcnJvciB3ZSBpbnRy
+b2R1Y2Ugd2hlbgo+ID4gPiBjb3JyZWN0aW5nIHRoZSB0aW1lc3RhbXAgYmFzZWQgb24gdGhlIHNj
+YW5vdXQgcG9zaXRpb24pLgo+ID4gPgo+ID4gPiBUbyBhdm9pZCB0aGF0IGxldCdzIG5vdCB1cGRh
+dGUgdGhlIHN0b3JlZCB0aW1lc3RhbXAgdW5sZXNzIHdlJ3JlCj4gPiA+IGFsc28gaW5jcmVtZW50
+aW5nIHRoZSBzZXF1ZW5jZSBjb3VudGVyLiBXZSBkbyBzdGlsbCB3YW50IHRvIHVwZGF0ZQo+ID4g
+PiB2YmxhbmstPmxhc3Qgd2l0aCB0aGUgZnJlc2hseSBzYW1wbGVkIGh3IGZyYW1lIGNvdW50ZXIg
+dmFsdWUgc28KPiA+ID4gdGhhdCBzdWJzZXF1ZW50IHZibGFuayBpcnFzL3F1ZXJpZXMgY2FuIGFj
+dHVhbGx5IHVzZSB0aGUgaHcgZnJhbWUKPiA+ID4gY291bnRlciB0byBkZXRlcm1pbmUgaG93IG1h
+bnkgZnJhbWVzIGhhdmUgZWxhcHNlZC4KPiA+ID4KPiA+ID4gQ2M6IERoaW5ha2FyYW4gUGFuZGl5
+YW4gPGRoaW5ha2FyYW4ucGFuZGl5YW5AaW50ZWwuY29tPgo+ID4gPiBDYzogUm9kcmlnbyBWaXZp
+IDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgo+ID4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBmZndsbC5jaD4KPiA+ID4gU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2
+aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+Cj4gPiBPaywgdG9wLXBvc3RpbmcgYmVj
+YXVzZSBsb2wgSSBnb3QgY29uZnVzZWQuIEkgbWl4ZWQgdXAgdGhlIGd1ZXNzdGltYXRpb24KPiA+
+IHdvcmsgd2UgZG8gZm9yIHdoZW4gd2UgZG9uJ3QgaGF2ZSBhIHZibGFuayBjb3VudGVyIHdpdGgg
+dGhlIHByZWNpc2UgdmJsYW5rCj4gPiB0aW1lc3RhbXAgc3R1ZmYuCj4gPgo+ID4gSSB0aGluayBp
+dCdkIHN0aWxsIGJlIGdvb2QgdG8gbWF5YmUgbG9jayBkb3duL2RvY3VtZW50IGEgYml0IGJldHRl
+ciB0aGUKPiA+IHJlcXVpcmVtZW50cyBmb3IgZHJtX2NydGNfdmJsYW5rX3Jlc3RvcmUsIGJ1dCBJ
+IGNvbnZpbmNlZCBteXNlbGYgbm93IHRoYXQKPiA+IHlvdXIgcGF0Y2ggbG9va3MgY29ycmVjdC4K
+PiA+Cj4gPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
+aD4KPgo+IFRhLgo+Cj4gVGhvdWdoIEkgd29uZGVyIGlmIHdlIHNob3VsZCBqdXN0IGRvIHNvbWV0
+aGluZyBsaWtlIHRoaXMgaW5zdGVhZDoKPiAtICAgICAgIHN0b3JlX3ZibGFuayhkZXYsIHBpcGUs
+IGRpZmYsIHRfdmJsYW5rLCBjdXJfdmJsYW5rKTsKPiArICAgICAgIHZibGFuay0+bGFzdCA9IChj
+dXJfdmJsYW5rIC0gZGlmZikgJiBtYXhfdmJsYW5rX2NvdW50Owo+Cj4gdG8gbWFrZSBpdCBlbnRp
+cmVseSBvYnZpb3VzIHRoYXQgdGhpcyBleGlzdHMgb25seSB0byBmaXggdXAKPiB0aGUgc3RvcmVk
+IGh3IGNvdW50ZXIgdmFsdWU/Cj4KPiBXb3VsZCBhbHNvIGF2b2lkIHRoZSBwcm9ibGVtIHRoZSBv
+cmlnaW5hbCBwYXRjaCB0cmllcyB0byBmaXgKPiBiZWNhdXNlIHdlJ2Qgc2ltcGx5IG5ldmVyIHN0
+b3JlIGEgbmV3IHRpbWVzdGFtcCBoZXJlLgoKSG0geWVhaCwgSSB0aGluayB0aGF0IHdvdWxkIG5p
+Y2VseSBsaW1pdCB0aGUgaW1wYWN0LiBCdXQgbmVlZCB0byBjaGVjawpvdmVyZmxvdy91bmRlcmZs
+b3cgbWF0aCBpcyBhbGwgY29ycmVjdC4gQW5kIEkgdGhpbmsgdGhhdCB3b3VsZCBuZWF0bHkKaW1w
+bGVtZW50IHRoZSB0cmljayBJIHByb3Bvc2VkIHRvIGFkZHJlc3MgdGhlIGJ1ZyB0aGF0IHdhc24n
+dCB0aGVyZQo6LSkKClRoZSBvbmx5IHRoaW5nIHRoYXQgSSd2ZSB0aG91Z2h0IG9mIGFzIGlzc3Vl
+IGlzIHRoYXQgd2UgbWlnaHQgaGF2ZQptb3JlIHdyYXAtYXJvdW5kIG9mIHRoZSBodyB2Ymxhbmsg
+Y291bnRlciwgYnV0IHRoYXQgc2hvdWxkbid0IGJlIHdvcnNlCnRoYW4gd2l0aG91dCB0aGlzIC0g
+YW55dGltZSB3ZSBoYXZlIHRoZSB2Ymxhbmsgb24gZm9yIGxvbmcgZW5vdWdoIHdlCmZpeCB0aGUg
+ZW50aXJlIHRoaW5nLCBhbmQgSSB0aGluayBvdXIgd3JhcCBoYW5kbGluZyBpcyBub3cgY29uc2lz
+dGVudAplbm91Z2ggKHRoZXJlIHdhcyBzb21lICJsZXQncyBqdXN0IGFkZCBhIGxhcmdlIGJ1bXAi
+IHN0dWZmIGZvciBkcmkxCnVzZXJzcGFjZSBpaXJjKSB0aGF0IHRoaXMgc2hvdWxkbid0IGJlIGFu
+eSBwcm9ibGVtLgoKUGx1cyB0aGUgY29tbWVudCBhYm91dCBfcmVzdG9yZSBiZWluZyB2ZXJ5IHNw
+ZWNpYWwgd291bGQgYmUgaW4gdGhlCnJlc3RvcmUgZnVuY3Rpb24sIHNvIHRoaXMgd291bGQgYWxz
+byBiZSByYXRoZXIgdGlkeS4gSWYgeW91IGdvIHdpdGgKdGhpcyBtYXliZSBleHRlbmQgdGhlIGtl
+cm5lbGRvYyBmb3IgLT5sYXN0IHRvIG1lbnRpb24gdGhhdApkcm1fdmJsYW5rX3Jlc3RvcmUoKSBh
+ZGp1c3RzIGl0PwoKVGhlIG1vcmUgSSBwb25kZXIgdGhpcywgdGhlIG1vcmUgSSBsaWtlIGl0IC4u
+LiB3aGljaCBwcm9iYWJseSBtZWFucwpJJ20gbWlzc2luZyBzb21ldGhpbmcsIGJlY2F1c2UgdGhp
+cyBpcyBkcm1fdmJsYW5rLmM/CgpDaGVlcnMsIERhbmllbAoKPgo+ID4KPiA+ID4gLS0tCj4gPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgMTEgKysrKysrKysrKysKPiA+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV92Ymxhbmsu
+Ywo+ID4gPiBpbmRleCA4OTMxNjVlZWRkZjMuLmUxMjdhN2RiMjA4OCAxMDA2NDQKPiA+ID4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3ZibGFuay5jCj4gPiA+IEBAIC0xNzYsNiArMTc2LDE3IEBAIHN0YXRpYyB2b2lkIHN0
+b3JlX3ZibGFuayhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgcGlwZSwKPiA+
+ID4KPiA+ID4gICAgIHZibGFuay0+bGFzdCA9IGxhc3Q7Cj4gPiA+Cj4gPiA+ICsgICAvKgo+ID4g
+PiArICAgICogZHJtX3ZibGFua19yZXN0b3JlKCkgd2FudHMgdG8gYWx3YXlzIHVwZGF0ZQo+ID4g
+PiArICAgICogdmJsYW5rLT5sYXN0IHNpbmNlIHdlIGNhbid0IHRydXN0IHRoZSBmcmFtZSBjb3Vu
+dGVyCj4gPiA+ICsgICAgKiBhY3Jvc3MgcG93ZXIgc2F2aW5nIHN0YXRlcy4gQnV0IHdlIGRvbid0
+IHdhbnQgdG8gYWx0ZXIKPiA+ID4gKyAgICAqIHRoZSBzdG9yZWQgdGltZXN0YW1wIGZvciB0aGUg
+c2FtZSBmcmFtZSBudW1iZXIgc2luY2UKPiA+ID4gKyAgICAqIHRoYXQgd291bGQgY2F1c2UgdXNl
+cnNwYWNlIHRvIHBvdGVudGlhbGx5IG9ic2VydmUgdHdvCj4gPiA+ICsgICAgKiBkaWZmZXJlbnQg
+dGltZXN0YW1wcyBmb3IgdGhlIHNhbWUgZnJhbWUuCj4gPiA+ICsgICAgKi8KPiA+ID4gKyAgIGlm
+ICh2YmxhbmtfY291bnRfaW5jID09IDApCj4gPiA+ICsgICAgICAgICAgIHJldHVybjsKPiA+ID4g
+Kwo+ID4gPiAgICAgd3JpdGVfc2VxbG9jaygmdmJsYW5rLT5zZXFsb2NrKTsKPiA+ID4gICAgIHZi
+bGFuay0+dGltZSA9IHRfdmJsYW5rOwo+ID4gPiAgICAgYXRvbWljNjRfYWRkKHZibGFua19jb3Vu
+dF9pbmMsICZ2YmxhbmstPmNvdW50KTsKPiA+ID4gLS0KPiA+ID4gMi4yNi4yCj4gPiA+Cj4gPgo+
+ID4gLS0KPiA+IERhbmllbCBWZXR0ZXIKPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
+b3JhdGlvbgo+ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPgo+IC0tCj4gVmlsbGUgU3lyasOkbMOk
+Cj4gSW50ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
+cnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
