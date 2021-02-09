@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118CA314ECD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1CE314EDB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F47B6E971;
-	Tue,  9 Feb 2021 12:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0096EACB;
+	Tue,  9 Feb 2021 12:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 193F76E823
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612872997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ByUjskTTLoPD2OajNMiA8UoGsbWTnUgXFSxuqEGtMYU=;
- b=Z1nze0a4ClVoJ53r9G/5hdux6ivKhryYgI+J7tTIUAUy3qqDZepffUUCjZyJ0tZYKry7Cz
- ynqhH0wJ0WkXn/MpYfWo6TzejTeb4WT6TeVsbQRoHHkRTUvj5Kqr/ws5oROpobi1Jg3OeT
- Y8ifuRLT9nvmhIt0D6DRS7rkSCN/HOc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-MIC4sTsyMaC8ql-oRLNTXg-1; Tue, 09 Feb 2021 07:16:33 -0500
-X-MC-Unique: MIC4sTsyMaC8ql-oRLNTXg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7FB01005501;
- Tue,  9 Feb 2021 12:16:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-170.ams2.redhat.com
- [10.36.112.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A965171F4;
- Tue,  9 Feb 2021 12:16:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 737F41800395; Tue,  9 Feb 2021 13:16:29 +0100 (CET)
-Date: Tue, 9 Feb 2021 13:16:29 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Tong Zhang <ztong0001@gmail.com>
-Subject: Re: [PATCH] drm/qxl: properly handle device init failures
-Message-ID: <20210209121629.vb3yu6zkr4npnskz@sirius.home.kraxel.org>
-References: <20210208104149.423758-1-kraxel@redhat.com>
- <E07153A4-9B42-4050-903E-8BBB99D8ED8E@gmail.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2A46EACB
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:24:29 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id f8so12317574ljk.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 04:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e+4qvv4x061bpt+yhDSBt6n6FbfU5CMGKYhBkEmmkYA=;
+ b=VJJ8sD7hH4an6Cb8CDi2pX+cA4xNUQtKm7ClYnnJ7Fslwx7bnZ12X7yZzaTFre2scU
+ giFj/qg+yW/ab1dTsNYCEIQMRUcNhGcsG6mXb2Zn02IcXpNCXRZTJnzUC2hMJ24eaR/7
+ K+pi3BD30tiq7pNbHpdHYEjuxFkTsyDk0X4bGYxHfvj3OVUiE5gkXXxHtxLfIIZHjQOi
+ qEbA/p7LRJD4TTslbeunQpzkHyDiijDUeSsmVqA3Dit6DMxzNirqQbvm9B8EguShTkzu
+ 0Ns+qJ8VtH7qf+3xRTUha8HATd/mLgNr5klv+M/U2BRtWexH+6K/rtE6/sqxifkuobXF
+ k4RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e+4qvv4x061bpt+yhDSBt6n6FbfU5CMGKYhBkEmmkYA=;
+ b=R303dA7UUf4nVV+P5PEeQNt9E1WJKY4sa5dZhk8hTeMKZKR83A+nJPXLAdhzYBXPwu
+ 1WdqMgkTMZEJXpT8vThs+qNGWUchPnX1BrIf1+4dtatoRI+iWmp2emG1CeUUnKAubudV
+ ApCUKDP6XsU+ghMcUl0YeKVnHiNMEulWwk8s+elgYUzA0UjMPQ/XaPzPWp7kxAqQmuHF
+ NZ03sGrT/6372oHbBl/VtUX5/e3Zh19aMROfYofFSiByvS6Xbg6/xyfmzlXDO9OvuN5v
+ 6mRoTMqIhEsNZ3g0sP3AoBz2FMBFJWYOz32/H22IioCEu7RiitJDCEGfQsrrWgHjz82m
+ AvSQ==
+X-Gm-Message-State: AOAM530MvOF0KPIpAeCpNd1LW5S0VaJuZquLGczmFawCGF9entGUY8Hg
+ lAnTr96/0eh4bpq3jR/tPMrk5EtkycAADdaFOIQ=
+X-Google-Smtp-Source: ABdhPJwHwlWpW+alBg9nVHcGMG7+plsrvVNE6C0wek1r8mC5ievzfqlHnFAWluC3LW9i38D+E5149cBKQyhEs3yvfbY=
+X-Received: by 2002:a05:651c:1303:: with SMTP id
+ u3mr13999733lja.419.1612873467770; 
+ Tue, 09 Feb 2021 04:24:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <E07153A4-9B42-4050-903E-8BBB99D8ED8E@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210209112721.3421-1-tzimmermann@suse.de>
+In-Reply-To: <20210209112721.3421-1-tzimmermann@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Tue, 9 Feb 2021 13:24:16 +0100
+Message-ID: <CAMeQTsZUKvnuLorRkMkOjp22tjeEaZy_=MfH=EMh7rdoCntGbw@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Drop DRM_GMA600 config option
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,23 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBGZWIgMDgsIDIwMjEgYXQgMTI6MDc6MDFQTSAtMDUwMCwgVG9uZyBaaGFuZyB3cm90
-ZToKPiBEb2VzIHRoaXMgcGF0Y2ggZml4IGFuIGlzc3VlIHJhaXNlZCBwcmV2aW91c2x5PyBPciBz
-aG91bGQgdGhleSBiZSB1c2VkIHRvZ2V0aGVyPwo+IGh0dHBzOi8vd3d3Lm1haWwtYXJjaGl2ZS5j
-b20vbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZy9tc2cyNDY2NTQxLmh0bWwgCj4gCj4gSU1I
-TyB1c2luZyB0aGlzIHBhdGNoIGFsb25lIHdvbuKAmXQgZml4IHRoZSBpc3N1ZQoKVGhpcyBwYXRj
-aCBvbiB0b3Agb2YgZHJtLW1pc2MtbmV4dCBmaXhlcyB0aGUgaW5pdGlhbGl6YXRpb24gZXJyb3Ig
-aXNzdWUKcmVwb3J0ZWQgYnkgeW91IGluIG15IHRlc3RpbmcuCgp0YWtlIGNhcmUsCiAgR2VyZAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Feb 9, 2021 at 12:27 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> With support for the MID-only Medfield chips removed, simply build
+> the complete driver if DRM_GMA500 has been selected. Anyone who wants
+> to enable one of the chips would probably also want the rest.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 837f23bb4b60 ("drm/gma500: Drop DRM_GMA3600 config option")
+> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+
+Applied to drm-misc-next
+
+Thanks
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
