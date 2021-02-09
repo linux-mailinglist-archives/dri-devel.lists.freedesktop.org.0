@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20251315430
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:44:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D213315431
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A23F6EB7C;
-	Tue,  9 Feb 2021 16:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9422D6EB82;
+	Tue,  9 Feb 2021 16:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26676EB82
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 16:44:28 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id h6so20102246oie.5
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 08:44:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B5E6EB82
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 16:44:56 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id y199so18063690oia.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 08:44:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aZr5dhsjfln78b7cmE4KtQMoOsb+PVqz2aJQvLCk4vo=;
- b=SVBOMOCLVxejcr24MsNkytDIQgA7oxw1CHguD7vCBdmb8Wg0Zu/ks/BejvDqglnt1Q
- dE25Rm9/TZu/vcMW/6jh5ZmgJXRzKVRQZNEdVTX/SHXWLiC+N/UmxyzVN8701lfRholA
- NyYzJQ/0pmrWrNB2/ug4FIJ2HqnEDi18sRdIY=
+ :cc; bh=7gN16favH/iC4rxRgxx/lx/VHFA6Gx+7MF7QvB3qoLA=;
+ b=p8EmyOCM/n0ylrMxfgEe/7EGdsIgXwpcHY2MFeqlYLhB/eu/hmFyZ5/uIdF6zWbwBn
+ LCjs42wVja1M6rzgqxk0DCAz3vGjeuTPDL942osKWwE8OIozzRT6KHeUM90zmlxWo1h6
+ gWx7x2f/DwJmGE4OJO5KnUxFF1zpmd1Xin5n4x5VpGS0JcNlQJBD+e2M/X6xuEAT/W+6
+ ww5y+ZRGMgjrlVx2a1ED7rsHptSxXX6/JrWMbF3eHPvvItSDZxI3N72sbtUVhrFBve/0
+ chJwd4Em28ln06FyGUNaJmPVIRScyaUmhEUmKPbE00wiwObPRgAyp4TqzUrNHQsGbF3b
+ OQUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aZr5dhsjfln78b7cmE4KtQMoOsb+PVqz2aJQvLCk4vo=;
- b=WVJcsOOVJl6S5FCckuTT71Tg7IuSz0cxFjVfLig85jyafhSfvjFHTNM1pRNVuEMv+D
- MdpnEpokRvSXUVu5HHvFutxE+e9+MfyTB99L/R0yAyUBkKQQIZ8GgBLV3d1OnS2c8qV1
- AU6rb3b0/Fp4gRlny02kI0mYPVFo0oFLYH2aKs0p9c2aWusW4u7JWBvR1oVXHood4b+l
- tQbwaeMQisYSKkymhAVtnExaktmzNWucIl6946mrBsJ480SQ1ygRu50kaWvSoe3Jx9G1
- hxpcHUazbR1E9WGBihGsRUu+cVN2mgEE3VXuPOstQZI3W36C75Qrdwgt2i/KqnTcuBel
- I2+g==
-X-Gm-Message-State: AOAM530aV40aCRxDho3KiKBsrzEiRW/KmqJqpu9Ji8PPEQrszT1wAotl
- YWewOJ1PzLGGj7GWTKxHSHLRsr7tFUFxwlcVemso/8gU0ZJoPw==
-X-Google-Smtp-Source: ABdhPJzaK32JhkZULI0gOIBZgUcdgLujSAcZx3lmZewR2XdD+FM/DRUw/rsfo+XITf6JtFVJNflzGj2L3U0DsV8n+cU=
-X-Received: by 2002:aca:df42:: with SMTP id w63mr3084589oig.128.1612889068041; 
- Tue, 09 Feb 2021 08:44:28 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=7gN16favH/iC4rxRgxx/lx/VHFA6Gx+7MF7QvB3qoLA=;
+ b=t4KBbno+plY3fwceB9crlhph5Qhgt7mc56Y+0DZAAd8YFmMTgxlBlGaYoDdzo8LlWn
+ ChLluD55p+DWB17Z+gCor/BLqm8gI4ybYGug1u86Kkf2X4kuteeC8TiZHEEJqTq9dI8+
+ wU9QalWYJqsc96zHUkG1ARCgMcOOjdpVlqzP4smO/4Dl6QCaSPggpp3MjWn2kicubx3T
+ dciQrsHGOCOQjdNlfOoNoOGZ21vu+tm0dGbsJNiVN6qL61aMDuSrmSlB1Y0UV5N/xELM
+ y32lfCtPqbT/ZOf2F7K1SkkV0t7EaErQES5Dhwnv866q3b7ZRLVad5d9ptYPdXxXvgH4
+ 7hBw==
+X-Gm-Message-State: AOAM533mDVAHDsqR2LKJplE+tBKa8OeJHtHFTuLbnthsZ9XYWdbjzqqM
+ uComT2niKv8v4mXZ3qBP5slJgzvPYUtVSSBjHF20mHnJcjE=
+X-Google-Smtp-Source: ABdhPJysDpA6J+6O/aju5MhBRV+vPljGtCVDlkFE1mgIg6pph+S4DDPfa160QpJDj3NCEkkcnK51D+D891cx4KncWYw=
+X-Received: by 2002:aca:5404:: with SMTP id i4mr3014569oib.123.1612889095411; 
+ Tue, 09 Feb 2021 08:44:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20210204020400.29628-1-ville.syrjala@linux.intel.com>
- <YCJe+dVzmREc25Jw@phenom.ffwll.local> <YCKtBiWR1yEww9YM@intel.com>
-In-Reply-To: <YCKtBiWR1yEww9YM@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 9 Feb 2021 17:44:16 +0100
-Message-ID: <CAKMK7uFA+bsd9tjOo6F8gVg5897VAFJUEZyurR6ahRnkq2gR6A@mail.gmail.com>
-Subject: Re: [PATCH] drm/vblank: Avoid storing a timestamp for the same frame
- twice
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20210207123341.5944-1-djraszit@gmail.com>
+In-Reply-To: <20210207123341.5944-1-djraszit@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 9 Feb 2021 11:44:44 -0500
+Message-ID: <CADnq5_PTvFgDU2bKbckJqMVFEZFS1=jceZfdPhne200g_3Kcfw@mail.gmail.com>
+Subject: Re: [PATCH] radeon: added support for 2560x1080 resolution
+To: Marcin Raszka <djraszit@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,101 +60,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBGZWIgOSwgMjAyMSBhdCA0OjQxIFBNIFZpbGxlIFN5cmrDpGzDpAo8dmlsbGUuc3ly
-amFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+IE9uIFR1ZSwgRmViIDA5LCAyMDIxIGF0IDEx
-OjA3OjUzQU0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBUaHUsIEZlYiAwNCwg
-MjAyMSBhdCAwNDowNDowMEFNICswMjAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOgo+ID4gPiBGcm9t
-OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gPgo+
-ID4gPiBkcm1fdmJsYW5rX3Jlc3RvcmUoKSBleGlzdHMgYmVjYXVzZSBjZXJ0YWluIHBvd2VyIHNh
-dmluZyBzdGF0ZXMKPiA+ID4gY2FuIGNsb2JiZXIgdGhlIGhhcmR3YXJlIGZyYW1lIGNvdW50ZXIu
-IFRoZSB3YXkgaXQgZG9lcyB0aGlzIGlzCj4gPiA+IGJ5IGd1ZXNzdGltYXRpbmcgaG93IG1hbnkg
-ZnJhbWVzIHdlcmUgbWlzc2VkIHB1cmVseSBiYXNlZCBvbgo+ID4gPiB0aGUgZGlmZmVyZW5jZSBi
-ZXR3ZWVuIHRoZSBsYXN0IHN0b3JlZCB0aW1lc3RhbXAgdnMuIGEgbmV3bHkKPiA+ID4gc2FtcGxl
-ZCB0aW1lc3RhbXAuCj4gPiA+Cj4gPiA+IElmIHdlIHNob3VsZCBjYWxsIHRoaXMgZnVuY3Rpb24g
-YmVmb3JlIGEgZnVsbCBmcmFtZSBoYXMKPiA+ID4gZWxhcHNlZCBzaW5jZSB3ZSBzYW1wbGVkIHRo
-ZSBsYXN0IHRpbWVzdGFtcCB3ZSB3b3VsZCBlbmQgdXAKPiA+ID4gd2l0aCBhIHBvc3NpYmx5IHNs
-aWdodGx5IGRpZmZlcmVudCB0aW1lc3RhbXAgdmFsdWUgZm9yIHRoZQo+ID4gPiBzYW1lIGZyYW1l
-LiBDdXJyZW50bHkgd2Ugd2lsbCBoYXBwaWx5IG92ZXJ3cml0ZSB0aGUgYWxyZWFkeQo+ID4gPiBz
-dG9yZWQgdGltZXN0YW1wIGZvciB0aGUgZnJhbWUgd2l0aCB0aGUgbmV3IHZhbHVlLiBUaGlzCj4g
-PiA+IGNvdWxkIGNhdXNlIHVzZXJzcGFjZSB0byBvYnNlcnZlIHR3byBkaWZmZXJlbnQgdGltZXN0
-YW1wcwo+ID4gPiBmb3IgdGhlIHNhbWUgZnJhbWUgKGFuZCB0aGUgdGltZXN0YW1wIGNvdWxkIGV2
-ZW4gZ28KPiA+ID4gYmFja3dhcmRzIGRlcGVuZGluZyBvbiBob3cgbXVjaCBlcnJvciB3ZSBpbnRy
-b2R1Y2Ugd2hlbgo+ID4gPiBjb3JyZWN0aW5nIHRoZSB0aW1lc3RhbXAgYmFzZWQgb24gdGhlIHNj
-YW5vdXQgcG9zaXRpb24pLgo+ID4gPgo+ID4gPiBUbyBhdm9pZCB0aGF0IGxldCdzIG5vdCB1cGRh
-dGUgdGhlIHN0b3JlZCB0aW1lc3RhbXAgdW5sZXNzIHdlJ3JlCj4gPiA+IGFsc28gaW5jcmVtZW50
-aW5nIHRoZSBzZXF1ZW5jZSBjb3VudGVyLiBXZSBkbyBzdGlsbCB3YW50IHRvIHVwZGF0ZQo+ID4g
-PiB2YmxhbmstPmxhc3Qgd2l0aCB0aGUgZnJlc2hseSBzYW1wbGVkIGh3IGZyYW1lIGNvdW50ZXIg
-dmFsdWUgc28KPiA+ID4gdGhhdCBzdWJzZXF1ZW50IHZibGFuayBpcnFzL3F1ZXJpZXMgY2FuIGFj
-dHVhbGx5IHVzZSB0aGUgaHcgZnJhbWUKPiA+ID4gY291bnRlciB0byBkZXRlcm1pbmUgaG93IG1h
-bnkgZnJhbWVzIGhhdmUgZWxhcHNlZC4KPiA+ID4KPiA+ID4gQ2M6IERoaW5ha2FyYW4gUGFuZGl5
-YW4gPGRoaW5ha2FyYW4ucGFuZGl5YW5AaW50ZWwuY29tPgo+ID4gPiBDYzogUm9kcmlnbyBWaXZp
-IDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgo+ID4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBmZndsbC5jaD4KPiA+ID4gU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2
-aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+Cj4gPiBPaywgdG9wLXBvc3RpbmcgYmVj
-YXVzZSBsb2wgSSBnb3QgY29uZnVzZWQuIEkgbWl4ZWQgdXAgdGhlIGd1ZXNzdGltYXRpb24KPiA+
-IHdvcmsgd2UgZG8gZm9yIHdoZW4gd2UgZG9uJ3QgaGF2ZSBhIHZibGFuayBjb3VudGVyIHdpdGgg
-dGhlIHByZWNpc2UgdmJsYW5rCj4gPiB0aW1lc3RhbXAgc3R1ZmYuCj4gPgo+ID4gSSB0aGluayBp
-dCdkIHN0aWxsIGJlIGdvb2QgdG8gbWF5YmUgbG9jayBkb3duL2RvY3VtZW50IGEgYml0IGJldHRl
-ciB0aGUKPiA+IHJlcXVpcmVtZW50cyBmb3IgZHJtX2NydGNfdmJsYW5rX3Jlc3RvcmUsIGJ1dCBJ
-IGNvbnZpbmNlZCBteXNlbGYgbm93IHRoYXQKPiA+IHlvdXIgcGF0Y2ggbG9va3MgY29ycmVjdC4K
-PiA+Cj4gPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
-aD4KPgo+IFRhLgo+Cj4gVGhvdWdoIEkgd29uZGVyIGlmIHdlIHNob3VsZCBqdXN0IGRvIHNvbWV0
-aGluZyBsaWtlIHRoaXMgaW5zdGVhZDoKPiAtICAgICAgIHN0b3JlX3ZibGFuayhkZXYsIHBpcGUs
-IGRpZmYsIHRfdmJsYW5rLCBjdXJfdmJsYW5rKTsKPiArICAgICAgIHZibGFuay0+bGFzdCA9IChj
-dXJfdmJsYW5rIC0gZGlmZikgJiBtYXhfdmJsYW5rX2NvdW50Owo+Cj4gdG8gbWFrZSBpdCBlbnRp
-cmVseSBvYnZpb3VzIHRoYXQgdGhpcyBleGlzdHMgb25seSB0byBmaXggdXAKPiB0aGUgc3RvcmVk
-IGh3IGNvdW50ZXIgdmFsdWU/Cj4KPiBXb3VsZCBhbHNvIGF2b2lkIHRoZSBwcm9ibGVtIHRoZSBv
-cmlnaW5hbCBwYXRjaCB0cmllcyB0byBmaXgKPiBiZWNhdXNlIHdlJ2Qgc2ltcGx5IG5ldmVyIHN0
-b3JlIGEgbmV3IHRpbWVzdGFtcCBoZXJlLgoKSG0geWVhaCwgSSB0aGluayB0aGF0IHdvdWxkIG5p
-Y2VseSBsaW1pdCB0aGUgaW1wYWN0LiBCdXQgbmVlZCB0byBjaGVjawpvdmVyZmxvdy91bmRlcmZs
-b3cgbWF0aCBpcyBhbGwgY29ycmVjdC4gQW5kIEkgdGhpbmsgdGhhdCB3b3VsZCBuZWF0bHkKaW1w
-bGVtZW50IHRoZSB0cmljayBJIHByb3Bvc2VkIHRvIGFkZHJlc3MgdGhlIGJ1ZyB0aGF0IHdhc24n
-dCB0aGVyZQo6LSkKClRoZSBvbmx5IHRoaW5nIHRoYXQgSSd2ZSB0aG91Z2h0IG9mIGFzIGlzc3Vl
-IGlzIHRoYXQgd2UgbWlnaHQgaGF2ZQptb3JlIHdyYXAtYXJvdW5kIG9mIHRoZSBodyB2Ymxhbmsg
-Y291bnRlciwgYnV0IHRoYXQgc2hvdWxkbid0IGJlIHdvcnNlCnRoYW4gd2l0aG91dCB0aGlzIC0g
-YW55dGltZSB3ZSBoYXZlIHRoZSB2Ymxhbmsgb24gZm9yIGxvbmcgZW5vdWdoIHdlCmZpeCB0aGUg
-ZW50aXJlIHRoaW5nLCBhbmQgSSB0aGluayBvdXIgd3JhcCBoYW5kbGluZyBpcyBub3cgY29uc2lz
-dGVudAplbm91Z2ggKHRoZXJlIHdhcyBzb21lICJsZXQncyBqdXN0IGFkZCBhIGxhcmdlIGJ1bXAi
-IHN0dWZmIGZvciBkcmkxCnVzZXJzcGFjZSBpaXJjKSB0aGF0IHRoaXMgc2hvdWxkbid0IGJlIGFu
-eSBwcm9ibGVtLgoKUGx1cyB0aGUgY29tbWVudCBhYm91dCBfcmVzdG9yZSBiZWluZyB2ZXJ5IHNw
-ZWNpYWwgd291bGQgYmUgaW4gdGhlCnJlc3RvcmUgZnVuY3Rpb24sIHNvIHRoaXMgd291bGQgYWxz
-byBiZSByYXRoZXIgdGlkeS4gSWYgeW91IGdvIHdpdGgKdGhpcyBtYXliZSBleHRlbmQgdGhlIGtl
-cm5lbGRvYyBmb3IgLT5sYXN0IHRvIG1lbnRpb24gdGhhdApkcm1fdmJsYW5rX3Jlc3RvcmUoKSBh
-ZGp1c3RzIGl0PwoKVGhlIG1vcmUgSSBwb25kZXIgdGhpcywgdGhlIG1vcmUgSSBsaWtlIGl0IC4u
-LiB3aGljaCBwcm9iYWJseSBtZWFucwpJJ20gbWlzc2luZyBzb21ldGhpbmcsIGJlY2F1c2UgdGhp
-cyBpcyBkcm1fdmJsYW5rLmM/CgpDaGVlcnMsIERhbmllbAoKPgo+ID4KPiA+ID4gLS0tCj4gPiA+
-ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgMTEgKysrKysrKysrKysKPiA+ID4gIDEg
-ZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV92Ymxhbmsu
-Ywo+ID4gPiBpbmRleCA4OTMxNjVlZWRkZjMuLmUxMjdhN2RiMjA4OCAxMDA2NDQKPiA+ID4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX3ZibGFuay5jCj4gPiA+IEBAIC0xNzYsNiArMTc2LDE3IEBAIHN0YXRpYyB2b2lkIHN0
-b3JlX3ZibGFuayhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgcGlwZSwKPiA+
-ID4KPiA+ID4gICAgIHZibGFuay0+bGFzdCA9IGxhc3Q7Cj4gPiA+Cj4gPiA+ICsgICAvKgo+ID4g
-PiArICAgICogZHJtX3ZibGFua19yZXN0b3JlKCkgd2FudHMgdG8gYWx3YXlzIHVwZGF0ZQo+ID4g
-PiArICAgICogdmJsYW5rLT5sYXN0IHNpbmNlIHdlIGNhbid0IHRydXN0IHRoZSBmcmFtZSBjb3Vu
-dGVyCj4gPiA+ICsgICAgKiBhY3Jvc3MgcG93ZXIgc2F2aW5nIHN0YXRlcy4gQnV0IHdlIGRvbid0
-IHdhbnQgdG8gYWx0ZXIKPiA+ID4gKyAgICAqIHRoZSBzdG9yZWQgdGltZXN0YW1wIGZvciB0aGUg
-c2FtZSBmcmFtZSBudW1iZXIgc2luY2UKPiA+ID4gKyAgICAqIHRoYXQgd291bGQgY2F1c2UgdXNl
-cnNwYWNlIHRvIHBvdGVudGlhbGx5IG9ic2VydmUgdHdvCj4gPiA+ICsgICAgKiBkaWZmZXJlbnQg
-dGltZXN0YW1wcyBmb3IgdGhlIHNhbWUgZnJhbWUuCj4gPiA+ICsgICAgKi8KPiA+ID4gKyAgIGlm
-ICh2YmxhbmtfY291bnRfaW5jID09IDApCj4gPiA+ICsgICAgICAgICAgIHJldHVybjsKPiA+ID4g
-Kwo+ID4gPiAgICAgd3JpdGVfc2VxbG9jaygmdmJsYW5rLT5zZXFsb2NrKTsKPiA+ID4gICAgIHZi
-bGFuay0+dGltZSA9IHRfdmJsYW5rOwo+ID4gPiAgICAgYXRvbWljNjRfYWRkKHZibGFua19jb3Vu
-dF9pbmMsICZ2YmxhbmstPmNvdW50KTsKPiA+ID4gLS0KPiA+ID4gMi4yNi4yCj4gPiA+Cj4gPgo+
-ID4gLS0KPiA+IERhbmllbCBWZXR0ZXIKPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
-b3JhdGlvbgo+ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPgo+IC0tCj4gVmlsbGUgU3lyasOkbMOk
-Cj4gSW50ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
-cnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sun, Feb 7, 2021 at 1:13 PM Marcin Raszka <djraszit@gmail.com> wrote:
+>
+> I was wondering why I can't set the resolution to 2560x1080,
+>  while in windows 7 I can without a problem. I looked at the radeon driver
+>  code and found it doesn't support this resolution. So I made some changes. I
+>  added the hdmi_mhz parameter. In cmdline I set radeon.hdmi_mhz=190
+>  Only tested on the Radeon HD 5830
+>
+> ---
+>  drivers/gpu/drm/radeon/radeon_benchmark.c  |  5 +++--
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 25 +++++++++++++---------
+>  drivers/gpu/drm/radeon/radeon_drv.c        |  5 +++++
+>  drivers/gpu/drm/radeon/radeon_encoders.c   |  6 ++++--
+>  4 files changed, 27 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_benchmark.c b/drivers/gpu/drm/radeon/radeon_benchmark.c
+> index ac9a5ec481c3..c283b6b15925 100644
+> --- a/drivers/gpu/drm/radeon/radeon_benchmark.c
+> +++ b/drivers/gpu/drm/radeon/radeon_benchmark.c
+> @@ -30,7 +30,7 @@
+>  #define RADEON_BENCHMARK_COPY_DMA  0
+>
+>  #define RADEON_BENCHMARK_ITERATIONS 1024
+> -#define RADEON_BENCHMARK_COMMON_MODES_N 17
+> +#define RADEON_BENCHMARK_COMMON_MODES_N 18
+>
+>  static int radeon_benchmark_do_move(struct radeon_device *rdev, unsigned size,
+>                                     uint64_t saddr, uint64_t daddr,
+> @@ -184,7 +184,8 @@ void radeon_benchmark(struct radeon_device *rdev, int test_number)
+>                 1680 * 1050 * 4,
+>                 1600 * 1200 * 4,
+>                 1920 * 1080 * 4,
+> -               1920 * 1200 * 4
+> +               1920 * 1200 * 4,
+> +               2560 * 1080 * 4
+>         };
+>
+
+This change is unrelated.
+
+>         switch (test_number) {
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+> index 607ad5620bd9..182f1e364cbd 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -37,6 +37,8 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/vga_switcheroo.h>
+>
+> +extern int hdmimhz;
+> +
+>  static int radeon_dp_handle_hpd(struct drm_connector *connector)
+>  {
+>         struct radeon_connector *radeon_connector = to_radeon_connector(connector);
+> @@ -503,7 +505,7 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
+>         struct mode_size {
+>                 int w;
+>                 int h;
+> -       } common_modes[17] = {
+> +       } common_modes[] = {
+>                 { 640,  480},
+>                 { 720,  480},
+>                 { 800,  600},
+> @@ -520,10 +522,11 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
+>                 {1680, 1050},
+>                 {1600, 1200},
+>                 {1920, 1080},
+> -               {1920, 1200}
+> +               {1920, 1200},
+> +               {2560, 1080}
+>         };
+>
+> -       for (i = 0; i < 17; i++) {
+> +       for (i = 0; i < ARRAY_SIZE(common_modes); i++) {
+>                 if (radeon_encoder->devices & (ATOM_DEVICE_TV_SUPPORT)) {
+>                         if (common_modes[i].w > 1024 ||
+>                             common_modes[i].h > 768)
+
+Same with these changes.
+
+> @@ -1491,25 +1494,27 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
+>             (mode->clock > 135000))
+>                 return MODE_CLOCK_HIGH;
+>
+> -       if (radeon_connector->use_digital && (mode->clock > 165000)) {
+> +       if (radeon_connector->use_digital && (mode->clock > (hdmimhz * 1000))) {
+>                 if ((radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_I) ||
+>                     (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
+> -                   (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
+> +                   (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B)){
+>                         return MODE_OK;
+> -               else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +               }else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+>                         /* HDMI 1.3+ supports max clock of 340 Mhz */
+> -                       if (mode->clock > 340000)
+> +                       if (mode->clock > 340000){
+>                                 return MODE_CLOCK_HIGH;
+> -                       else
+> +                       }else{
+>                                 return MODE_OK;
+> +                       }
+>                 } else {
+>                         return MODE_CLOCK_HIGH;
+>                 }
+>         }
+>
+>         /* check against the max pixel clock */
+> -       if ((mode->clock / 10) > rdev->clock.max_pixel_clock)
+> +       if ((mode->clock / 10) > rdev->clock.max_pixel_clock){
+>                 return MODE_CLOCK_HIGH;
+> +       }
+
+Unrelated whitespace change.
+
+>
+>         return MODE_OK;
+>  }
+> @@ -1809,7 +1814,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
+>                                 if (mode->clock > 340000)
+>                                         return MODE_CLOCK_HIGH;
+>                         } else {
+> -                               if (mode->clock > 165000)
+> +                               if (mode->clock > (hdmimhz * 1000))
+>                                         return MODE_CLOCK_HIGH;
+>                         }
+>                 }
+> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+> index e45d7344ac2b..fce8f9ab8018 100644
+> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+> @@ -281,6 +281,11 @@ int radeon_cik_support = 1;
+>  MODULE_PARM_DESC(cik_support, "CIK support (1 = enabled (default), 0 = disabled)");
+>  module_param_named(cik_support, radeon_cik_support, int, 0444);
+>
+> +int hdmimhz = 165;
+> +MODULE_PARM_DESC(hdmi_mhz, "set HDMI max frequency, default is 165");
+> +module_param_named(hdmi_mhz, hdmimhz, int, 0444);
+
+A similar patch has been proposed before.  I'd prefer not to add an
+option to overclock the display hardware.  See this discussion for
+more background:
+https://bugzilla.kernel.org/show_bug.cgi?id=172421
+
+Alex
+
+> +
+> +
+>  static struct pci_device_id pciidlist[] = {
+>         radeon_PCI_IDS
+>  };
+> diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
+> index 46549d5179ee..6b805bcd5726 100644
+> --- a/drivers/gpu/drm/radeon/radeon_encoders.c
+> +++ b/drivers/gpu/drm/radeon/radeon_encoders.c
+> @@ -35,6 +35,8 @@
+>  #include "radeon_legacy_encoders.h"
+>  #include "atom.h"
+>
+> +extern int hdmimhz;
+> +
+>  static uint32_t radeon_encoder_clones(struct drm_encoder *encoder)
+>  {
+>         struct drm_device *dev = encoder->dev;
+> @@ -389,7 +391,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+>                                 else
+>                                         return false;
+>                         } else {
+> -                               if (pixel_clock > 165000)
+> +                               if (pixel_clock > (hdmimhz * 1000))
+>                                         return true;
+>                                 else
+>                                         return false;
+> @@ -414,7 +416,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+>                                 else
+>                                         return false;
+>                         } else {
+> -                               if (pixel_clock > 165000)
+> +                               if (pixel_clock > (hdmimhz * 1000))
+>                                         return true;
+>                                 else
+>                                         return false;
+> --
+> 2.30.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
