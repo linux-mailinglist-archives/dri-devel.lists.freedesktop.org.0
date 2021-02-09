@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD4831506C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06032315071
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35036EB2B;
-	Tue,  9 Feb 2021 13:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6766EB38;
+	Tue,  9 Feb 2021 13:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2486E6EB2B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:39:35 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id q85so5581182qke.8
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 05:39:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=q4gBt83LBvEvfgqjMk5XxBqoQUgJu0Updm2eupI2oTY=;
- b=aQhoXa9jPalDWlVkfGxPk+c+I0Q9JZFKo47tCsmclHZEsPNYfreM817gCFAr4kOU8W
- fHBrAIQilQhVmk1iG9w5EWskZgjnukqG4cUDzLNZ6BylHXqnGvwuThK4UN4InIuRH/ze
- cvAS/4B/aBNt8AOe4VR/tiAtWA123wCajp47c9XzIXZFa0/I9e6/nmkjO6l7O80x9iCT
- kP9CrF06fB0beIFQO/9dbuqk7hvLl+4qLhMBYJj+SEwVoqE/HfXTlsjgBKUF7reYwTlf
- Ov9fDvgK+9WKyztUGrdI96zt7nHKT/h6nbpz8LPo9nETq4dWfycOqz7C26v5rJTgWElw
- YGyw==
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60556EB38
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:40:02 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id e17so2732706oow.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 05:40:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LhfQbnhwDGpqGDadCiKHjxS8DmSjilEDHzg3CJ532pI=;
+ b=JigqNdgDEFgtQlKMjnmdnlDlN7M4qkzWm5dhzF1dd992sb4eU3A75DIikN86A5yKF3
+ +HYqLOXv3f90n0bmYdNvleTeiQcUc5RdDT1mXps9fTyTu9OPEPFxGyjMaOdfAf5jGZOp
+ LN5zBs74rUhwch5wHpsKumLLOkAYJemIb3dfs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=q4gBt83LBvEvfgqjMk5XxBqoQUgJu0Updm2eupI2oTY=;
- b=AQCM3sdPcDjvCq8ozTCJso+YipbjzcfTASHFt5MKFoKQ5uz0RtjIYhILhKkHEv2vjm
- vEozAHk6mpPnO73XclwBj08cRRXLbr2B0+0LiispdoDpKGMWvq2qUWbcEjAdsPQOyM9U
- gv5TLd+pt79m397x/zipMHTCxFziUU6VUoQW6VBlu1C66Tkmv3l71j/8EhPgniMnMSnz
- E56s1EvJQfjqw4Q4EmPk52CSwkTaSrXJ32uPcWQ2167sKV2AIX5qX4r35oBorpaGsqhj
- K2LCV3V740/OBT0P9qtxO9mrEqHLmGekI7aGauUF3UFCx+sSpQjCFuiLIgp5jsqSmuM8
- ueGw==
-X-Gm-Message-State: AOAM5316/7fLBRv9rOwp5Jhw1UsexSzJfv4Ib0YnQdjgHUtf7HlqMex+
- 3QRMz/aXOSuI675gePyy4p+Ypg==
-X-Google-Smtp-Source: ABdhPJzETc8qT6BXd1BDQmX3B26rXpyj1TrCOmYb4Fqo0JHFF6LTk7HRkfK/22tofKGhVc50wAK02g==
-X-Received: by 2002:a37:5a45:: with SMTP id o66mr21362019qkb.446.1612877974387; 
- Tue, 09 Feb 2021 05:39:34 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.115.133])
- by smtp.gmail.com with ESMTPSA id m21sm17197217qtq.52.2021.02.09.05.39.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 05:39:33 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1l9TEq-005RKt-Q3; Tue, 09 Feb 2021 09:39:32 -0400
-Date: Tue, 9 Feb 2021 09:39:32 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH 1/9] mm/migrate.c: Always allow device private pages to
- migrate
-Message-ID: <20210209133932.GD4718@ziepe.ca>
-References: <20210209010722.13839-1-apopple@nvidia.com>
- <20210209010722.13839-2-apopple@nvidia.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LhfQbnhwDGpqGDadCiKHjxS8DmSjilEDHzg3CJ532pI=;
+ b=YFszHHJwKJN4XlmLRamIAGPI9Iqdumu1iCXelXKX9B9xYWv//f5sotZLbx5dAizfuQ
+ iL2FZsS4LOYqJxKS1qZ3wmsMxuxNdljWw1giVyU0v8vk2JVwiksNCx1QLiNUsJuCBoY5
+ 3Y2/E2y7UYW0fwtG45d+GwopjgyYG3E9CX0c8miLVuOrgeT29Ne+SbiN8s3NTUSvn99E
+ jD/HhAG37kGsHPeD5uQ+Qum9lmWcxaMF5MMJgtmC51m7lMT1Fy482HlmOnWRO5OpCk0m
+ 3vmTGfvO0FaoEAwI/8hWy8LiZxi2nxuXe2XYJW/VsTbvkP0m6kkc5+i0w4W8xNR4Xitg
+ JjdQ==
+X-Gm-Message-State: AOAM532RAxtLRrxypKz/QfNK6Z7O5h/gYMfGTgQrAxeALgq/C2Ror8tM
+ LyvA0tCUDcqrxg5Hhl/wO6m5DsAcLrE/tt5dejEjNA==
+X-Google-Smtp-Source: ABdhPJxCuVVi8kRB1kkxAZJFWPpa7yPv+iZrvRDXXQ3OzMMiP+Pm+I8NUjrdp4w6xRd7m67NamfzG5rvygCAv52MFRA=
+X-Received: by 2002:a4a:d891:: with SMTP id b17mr15851254oov.28.1612878002267; 
+ Tue, 09 Feb 2021 05:40:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210209010722.13839-2-apopple@nvidia.com>
+References: <20210209010722.13839-1-apopple@nvidia.com>
+ <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
+ <3426910.QXTomnrpqD@nvdebian> <20210209133520.GB4718@ziepe.ca>
+In-Reply-To: <20210209133520.GB4718@ziepe.ca>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 9 Feb 2021 14:39:51 +0100
+Message-ID: <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
+Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,32 +59,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org, linux-mm@kvack.org,
- jglisse@redhat.com, bskeggs@redhat.com, jhubbard@nvidia.com,
- akpm@linux-foundation.org
+Cc: Ralph Campbell <rcampbell@nvidia.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ kvm-ppc@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+ Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 09, 2021 at 12:07:14PM +1100, Alistair Popple wrote:
-> Device private pages are used to represent device memory that is not
-> directly accessible from the CPU. Extra references to a device private
-> page are only used to ensure the struct page itself remains valid whilst
-> waiting for migration entries. Therefore extra references should not
-> prevent device private page migration as this can lead to failures to
-> migrate pages back to the CPU which are fatal to the user process.
+On Tue, Feb 9, 2021 at 2:35 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Feb 09, 2021 at 11:57:28PM +1100, Alistair Popple wrote:
+> > On Tuesday, 9 February 2021 9:27:05 PM AEDT Daniel Vetter wrote:
+> > > >
+> > > > Recent changes to pin_user_pages() prevent the creation of pinned pages in
+> > > > ZONE_MOVABLE. This series allows pinned pages to be created in
+> > ZONE_MOVABLE
+> > > > as attempts to migrate may fail which would be fatal to userspace.
+> > > >
+> > > > In this case migration of the pinned page is unnecessary as the page can
+> > be
+> > > > unpinned at anytime by having the driver revoke atomic permission as it
+> > > > does for the migrate_to_ram() callback. However a method of calling this
+> > > > when memory needs to be moved has yet to be resolved so any discussion is
+> > > > welcome.
+> > >
+> > > Why do we need to pin for gpu atomics? You still have the callback for
+> > > cpu faults, so you
+> > > can move the page as needed, and hence a long-term pin sounds like the
+> > > wrong approach.
+> >
+> > Technically a real long term unmoveable pin isn't required, because as you say
+> > the page can be moved as needed at any time. However I needed some way of
+> > stopping the CPU page from being freed once the userspace mappings for it had
+> > been removed.
+>
+> The issue is you took the page out of the PTE it belongs to, which
+> makes it orphaned and unlocatable by the rest of the mm?
+>
+> Ideally this would leave the PTE in place so everything continues to
+> work, just disable CPU access to it.
+>
+> Maybe some kind of special swap entry?
 
-This should identify the extra references in expected_count, just
-disabling this protection seems unsafe, ZONE_DEVICE is not so special
-that the refcount means nothing
+I probably should have read the patches more in detail, I was assuming
+the ZONE_DEVICE is only for vram. At least I thought the requirement
+for gpu atomics was that the page is in vram, but maybe I'm mixing up
+how this works on nvidia with how it works in other places. Iirc we
+had a long discussion about this at lpc19 that ended with the
+conclusion that we must be able to migrate, and sometimes migration is
+blocked. But the details ellude me now.
 
-Is this a side effect of the extra refcounts that Ralph was trying to
-get rid of? I'd rather see that work finished :)
+Either way ZONE_DEVICE for not vram/device memory sounds wrong. Is
+that really going on here?
+-Daniel
 
-Jason
+>
+> I also don't much like the use of ZONE_DEVICE here, that should only
+> be used for actual device memory, not as a temporary proxy for CPU
+> pages.. Having two struct pages refer to the same physical memory is
+> pretty ugly.
+>
+> > The normal solution of registering an MMU notifier to unpin the page when it
+> > needs to be moved also doesn't work as the CPU page tables now point to the
+> > device-private page and hence the migration code won't call any invalidate
+> > notifiers for the CPU page.
+>
+> The fact the page is lost from the MM seems to be the main issue here.
+>
+> > Yes, I would like to avoid the long term pin constraints as well if possible I
+> > just haven't found a solution yet. Are you suggesting it might be possible to
+> > add a callback in the page migration logic to specially deal with moving these
+> > pages?
+>
+> How would migration even find the page?
+>
+> Jason
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
