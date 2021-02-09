@@ -1,29 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF463158E8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 22:47:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D5A3158E7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 22:47:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53A589CC9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5887089C14;
 	Tue,  9 Feb 2021 21:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Tue, 09 Feb 2021 21:20:21 UTC
 Received: from mail2-relais-roc.national.inria.fr
  (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 079FC6E0C6
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 21:20:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.81,166,1610406000"; d="scan'208";a="492125955"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9656E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 21:21:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.81,166,1610406000"; d="scan'208";a="492125976"
 Received: from palace.lip6.fr ([132.227.105.202])
  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 09 Feb 2021 22:13:10 +0100
+ 09 Feb 2021 22:13:29 +0100
 From: Julia Lawall <Julia.Lawall@inria.fr>
-To: David Airlie <airlied@linux.ie>
-Subject: [PATCH] drm: use getter/setter functions
-Date: Tue,  9 Feb 2021 22:13:04 +0100
-Message-Id: <20210209211304.1261740-1-Julia.Lawall@inria.fr>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] video: use getter/setter functions
+Date: Tue,  9 Feb 2021 22:13:25 +0100
+Message-Id: <20210209211325.1261842-1-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 09 Feb 2021 21:47:21 +0000
@@ -39,121 +37,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Andrew Jeffery <andrew@aj.id.au>,
- Jonas Karlman <jonas@kwiboo.se>, kernel-janitors@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-rockchip@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Joel Stanley <joel@jms.id.au>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ kernel-janitors@vger.kernel.org, Michal Simek <michal.simek@xilinx.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andy Gross <agross@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-fbdev@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>, linux-omap@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use getter and setter functions, for platform_device structures and a
-mipi_dsi_device structure.
+spi_device structure.
 
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c             |    2 +-
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c |    2 +-
- drivers/gpu/drm/panel/panel-lvds.c                  |    2 +-
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c         |    4 ++--
- drivers/gpu/drm/panel/panel-simple.c                |    2 +-
- drivers/gpu/drm/rockchip/rockchip_lvds.c            |    2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/video/backlight/qcom-wled.c                                  |    2 +-
+ drivers/video/fbdev/amifb.c                                          |    4 ++--
+ drivers/video/fbdev/da8xx-fb.c                                       |    4 ++--
+ drivers/video/fbdev/imxfb.c                                          |    2 +-
+ drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c |    6 +++---
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c                           |    4 ++--
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c                           |    4 ++--
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c                         |    2 +-
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c                         |    2 +-
+ drivers/video/fbdev/xilinxfb.c                                       |    2 +-
+ 10 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 4e2dad314c79..9858079f9e14 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4800,7 +4800,7 @@ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index 3bc7800eb0a9..091f07e7c145 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -1692,7 +1692,7 @@ static int wled_probe(struct platform_device *pdev)
  
- 	err = mipi_dsi_attach(dsi);
- 	if (err) {
--		struct panel_simple *panel = dev_get_drvdata(&dsi->dev);
-+		struct panel_simple *panel = mipi_dsi_get_drvdata(dsi);
- 
- 		drm_panel_remove(&panel->base);
- 	}
-diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-index 0ee508576231..3939b25e6666 100644
---- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-+++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-@@ -267,7 +267,7 @@ static int seiko_panel_probe(struct device *dev,
- 
- static int seiko_panel_remove(struct platform_device *pdev)
+ static int wled_remove(struct platform_device *pdev)
  {
--	struct seiko_panel *panel = dev_get_drvdata(&pdev->dev);
-+	struct seiko_panel *panel = platform_get_drvdata(pdev);
+-	struct wled *wled = dev_get_drvdata(&pdev->dev);
++	struct wled *wled = platform_get_drvdata(pdev);
  
- 	drm_panel_remove(&panel->base);
- 	drm_panel_disable(&panel->base);
-@@ -277,7 +277,7 @@ static int seiko_panel_remove(struct platform_device *pdev)
+ 	mutex_destroy(&wled->lock);
+ 	cancel_delayed_work_sync(&wled->ovp_work);
+diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
+index ca4ff658cad0..ffbf900648d9 100644
+--- a/drivers/video/fbdev/xilinxfb.c
++++ b/drivers/video/fbdev/xilinxfb.c
+@@ -472,7 +472,7 @@ static int xilinxfb_of_probe(struct platform_device *pdev)
+ 	if (of_find_property(pdev->dev.of_node, "rotate-display", NULL))
+ 		pdata.rotate_screen = 1;
  
- static void seiko_panel_shutdown(struct platform_device *pdev)
- {
--	struct seiko_panel *panel = dev_get_drvdata(&pdev->dev);
-+	struct seiko_panel *panel = platform_get_drvdata(pdev);
- 
- 	drm_panel_disable(&panel->base);
+-	dev_set_drvdata(&pdev->dev, drvdata);
++	platform_set_drvdata(pdev, drvdata);
+ 	return xilinxfb_assign(pdev, drvdata, &pdata);
  }
-diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-index 654bc52d9ff3..bd5ba10822c2 100644
---- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-@@ -725,7 +725,7 @@ static int rockchip_lvds_probe(struct platform_device *pdev)
  
- static int rockchip_lvds_remove(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
+index 884b16efa7e8..7f8debd2da06 100644
+--- a/drivers/video/fbdev/imxfb.c
++++ b/drivers/video/fbdev/imxfb.c
+@@ -657,7 +657,7 @@ static int imxfb_activate_var(struct fb_var_screeninfo *var, struct fb_info *inf
+ static int imxfb_init_fbinfo(struct platform_device *pdev)
  {
--	struct rockchip_lvds *lvds = dev_get_drvdata(&pdev->dev);
-+	struct rockchip_lvds *lvds = platform_get_drvdata(pdev);
+ 	struct imx_fb_platform_data *pdata = dev_get_platdata(&pdev->dev);
+-	struct fb_info *info = dev_get_drvdata(&pdev->dev);
++	struct fb_info *info = platform_get_drvdata(pdev);
+ 	struct imxfb_info *fbi = info->par;
+ 	struct device_node *np;
  
- 	component_del(&pdev->dev, &rockchip_lvds_component_ops);
- 	clk_unprepare(lvds->pclk);
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 457ec04950f7..c7707338bfdb 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -284,7 +284,7 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
+index e3d441ade241..2c03608addcd 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c
+@@ -713,7 +713,7 @@ static int hdmi5_bind(struct device *dev, struct device *master, void *data)
+ 	int irq;
  
--	dev_set_drvdata(&pdev->dev, priv);
-+	platform_set_drvdata(pdev, priv);
+ 	hdmi.pdev = pdev;
+-	dev_set_drvdata(&pdev->dev, &hdmi);
++	platform_set_drvdata(pdev, &hdmi);
  
- 	ret = sysfs_create_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
- 	if (ret)
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d0c65610ebb5..989a05bc8197 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2457,7 +2457,7 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+ 	mutex_init(&hdmi.lock);
+ 	spin_lock_init(&hdmi.audio_playing_lock);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
+index 496b43bdad21..800bd108e834 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c
+@@ -672,7 +672,7 @@ static int hdmi4_bind(struct device *dev, struct device *master, void *data)
+ 	int irq;
  
- static int cdns_mhdp_remove(struct platform_device *pdev)
+ 	hdmi.pdev = pdev;
+-	dev_set_drvdata(&pdev->dev, &hdmi);
++	platform_set_drvdata(pdev, &hdmi);
+ 
+ 	mutex_init(&hdmi.lock);
+ 	spin_lock_init(&hdmi.audio_playing_lock);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+index 58c7aa279ab1..daa313f14335 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+@@ -399,7 +399,7 @@ module_param(dsi_perf, bool, 0644);
+ 
+ static inline struct dsi_data *dsi_get_dsidrv_data(struct platform_device *dsidev)
  {
--	struct cdns_mhdp_device *mhdp = dev_get_drvdata(&pdev->dev);
-+	struct cdns_mhdp_device *mhdp = platform_get_drvdata(pdev);
- 	unsigned long timeout = msecs_to_jiffies(100);
- 	bool stop_fw = false;
+-	return dev_get_drvdata(&dsidev->dev);
++	return platform_get_drvdata(dsidev);
+ }
+ 
+ static inline struct platform_device *dsi_get_dsidev_from_dssdev(struct omap_dss_device *dssdev)
+@@ -5266,7 +5266,7 @@ static int dsi_bind(struct device *dev, struct device *master, void *data)
+ 		return -ENOMEM;
+ 
+ 	dsi->pdev = dsidev;
+-	dev_set_drvdata(&dsidev->dev, dsi);
++	platform_set_drvdata(dsidev, dsi);
+ 
+ 	spin_lock_init(&dsi->irq_lock);
+ 	spin_lock_init(&dsi->errors_lock);
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dpi.c b/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
+index e2e7fe6f89ee..99ce6e955a46 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dpi.c
+@@ -55,7 +55,7 @@ static struct dpi_data *dpi_get_data_from_dssdev(struct omap_dss_device *dssdev)
+ /* only used in non-DT mode */
+ static struct dpi_data *dpi_get_data_from_pdev(struct platform_device *pdev)
+ {
+-	return dev_get_drvdata(&pdev->dev);
++	return platform_get_drvdata(pdev);
+ }
+ 
+ static struct dss_pll *dpi_get_pll(enum omap_channel channel)
+@@ -784,7 +784,7 @@ static int dpi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	dpi->pdev = pdev;
+ 
+-	dev_set_drvdata(&pdev->dev, dpi);
++	platform_set_drvdata(pdev, dpi);
+ 
+ 	mutex_init(&dpi->lock);
+ 
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
+index 0f93a260e432..1bec7a4422e8 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
+@@ -239,7 +239,7 @@ static struct omap_dss_driver lb035q02_ops = {
+ static int lb035q02_probe_of(struct spi_device *spi)
+ {
+ 	struct device_node *node = spi->dev.of_node;
+-	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
++	struct panel_drv_data *ddata = spi_get_drvdata(spi);
+ 	struct omap_dss_device *in;
+ 	struct gpio_desc *gpio;
+ 
+@@ -277,7 +277,7 @@ static int lb035q02_panel_spi_probe(struct spi_device *spi)
+ 	if (ddata == NULL)
+ 		return -ENOMEM;
+ 
+-	dev_set_drvdata(&spi->dev, ddata);
++	spi_set_drvdata(spi, ddata);
+ 
+ 	ddata->spi = spi;
+ 
+@@ -318,7 +318,7 @@ static int lb035q02_panel_spi_probe(struct spi_device *spi)
+ 
+ static int lb035q02_panel_spi_remove(struct spi_device *spi)
+ {
+-	struct panel_drv_data *ddata = dev_get_drvdata(&spi->dev);
++	struct panel_drv_data *ddata = spi_get_drvdata(spi);
+ 	struct omap_dss_device *dssdev = &ddata->dssdev;
+ 	struct omap_dss_device *in = ddata->in;
+ 
+diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
+index e38c0e3f9c61..005ac3c17aa1 100644
+--- a/drivers/video/fbdev/da8xx-fb.c
++++ b/drivers/video/fbdev/da8xx-fb.c
+@@ -1066,7 +1066,7 @@ static void lcd_da8xx_cpufreq_deregister(struct da8xx_fb_par *par)
+ 
+ static int fb_remove(struct platform_device *dev)
+ {
+-	struct fb_info *info = dev_get_drvdata(&dev->dev);
++	struct fb_info *info = platform_get_drvdata(dev);
+ 	struct da8xx_fb_par *par = info->par;
  	int ret;
-diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-index 66c7d765b8f7..59a8d99e777d 100644
---- a/drivers/gpu/drm/panel/panel-lvds.c
-+++ b/drivers/gpu/drm/panel/panel-lvds.c
-@@ -244,7 +244,7 @@ static int panel_lvds_probe(struct platform_device *pdev)
  
- static int panel_lvds_remove(struct platform_device *pdev)
+@@ -1482,7 +1482,7 @@ static int fb_probe(struct platform_device *device)
+ 	da8xx_fb_var.activate = FB_ACTIVATE_FORCE;
+ 	fb_set_var(da8xx_fb_info, &da8xx_fb_var);
+ 
+-	dev_set_drvdata(&device->dev, da8xx_fb_info);
++	platform_set_drvdata(device, da8xx_fb_info);
+ 
+ 	/* initialize the vsync wait queue */
+ 	init_waitqueue_head(&par->vsync_wait);
+diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
+index 226682550b4b..6e07a97bbd31 100644
+--- a/drivers/video/fbdev/amifb.c
++++ b/drivers/video/fbdev/amifb.c
+@@ -3736,7 +3736,7 @@ static int __init amifb_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto free_irq;
+ 
+-	dev_set_drvdata(&pdev->dev, info);
++	platform_set_drvdata(pdev, info);
+ 
+ 	err = register_framebuffer(info);
+ 	if (err)
+@@ -3764,7 +3764,7 @@ static int __init amifb_probe(struct platform_device *pdev)
+ 
+ static int __exit amifb_remove(struct platform_device *pdev)
  {
--	struct panel_lvds *lvds = dev_get_drvdata(&pdev->dev);
-+	struct panel_lvds *lvds = platform_get_drvdata(pdev);
+-	struct fb_info *info = dev_get_drvdata(&pdev->dev);
++	struct fb_info *info = platform_get_drvdata(pdev);
  
- 	drm_panel_remove(&lvds->panel);
- 
+ 	unregister_framebuffer(info);
+ 	fb_dealloc_cmap(&info->cmap);
 
 _______________________________________________
 dri-devel mailing list
