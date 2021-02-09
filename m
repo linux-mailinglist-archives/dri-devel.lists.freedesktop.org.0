@@ -1,57 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3482B314BF5
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 10:44:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B44314BF9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 10:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAA389E11;
-	Tue,  9 Feb 2021 09:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223016E05D;
+	Tue,  9 Feb 2021 09:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B10289E11
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 09:44:13 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id v14so5222322wro.7
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 01:44:13 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B4E6EAB3
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 09:46:52 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id 190so2461428wmz.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 01:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=EHKpDWH2FUfiOQcUZjCzHREVg+6fEV+qe2eFfPN8ecM=;
- b=IxumFLzWSnSCaFxhi1YkM2vbhI2VGo/epU3L7cfEv9+fMcGDgJTCfWuSC9hfmzVrVW
- W9JLxmQw97AFptvGRKxKKcgxjVuljCcFgdHrCJ8AiVWXDtY4xuVKOGqKmaYajXPo7jn6
- zBgzAz3U68VDBzxb+lcE368qgEiVL8Vv09Pjk=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Ju6wGyHCZByWP3ZMeukOjUaKSgrsw0dAl14yZh1uAK8=;
+ b=D/9zfBchYBTLAvgf+PGgSekGQD0M/4l/9l83kRFhUp3J4/C3dSemwdZSqQbE+N4/kq
+ HVHrZEPULQNLTAngCp2xyMne3jqWO7mYhLMXoKrDzeLIYsX5hs2igGJVWkb/x8eySNQ0
+ IaEd/TzSWSZ0McCVygvfHYoauiTsvapCffLi4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EHKpDWH2FUfiOQcUZjCzHREVg+6fEV+qe2eFfPN8ecM=;
- b=cWbuGSfJpZC0TpPKEv/+Ojk/3+P03BckfydbsQVyfIvr5sFCucwgjCWhuCMneVH9UP
- 0m5U1h7H4pv1XSZt0cQmJUJCE9QH5A78NZ4BmccsaUBX9aPzc1DTBOq8/tf5uaWubrQz
- 1FdXeO5PmshsgjT7keb0DSEqzwIrWuvQkypE0pG9NDLpuKsEff0DBtUM2a1j3c/d5Xsw
- Al1ix4xLB82uOISHCgTX7C37UHMJoEeS0RrF3Pr0pc5AGSucqsUGpYdyNpbY4LUXo+r+
- MtFiiIJUlrdNrPq7u+1f73hgdYkJcxZrrLMILx+KSzQQQs5k8T0vRQofIstT+GTDonDz
- 2z8Q==
-X-Gm-Message-State: AOAM532qwAv4EoKPCuQujZR/cRcn7RGg+zLIRy6T15PYwHGe0CJdE/m+
- 274YWbKrMbHIKAu/PaG+EXouEw==
-X-Google-Smtp-Source: ABdhPJwPDhkbLVYj7rmq+FuFfPP2Sth3qCkLkDZMQnSqKigUySBrnoOq042743RIi4+EOuB7XDKtCA==
-X-Received: by 2002:a5d:5611:: with SMTP id l17mr25295940wrv.2.1612863851769; 
- Tue, 09 Feb 2021 01:44:11 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Ju6wGyHCZByWP3ZMeukOjUaKSgrsw0dAl14yZh1uAK8=;
+ b=FSK8A4fL1dTe+GDQC5ELtbXrD+eOuw6JoAt/6Z/ateUM7wFFHGllnStSh2ZXdnxZF1
+ e3rejWMsw2HqBT9J7nzaB5rdPZGudyF2mmtKj/HIu4/aMEG48zoO9iEZhUjjTdilP066
+ +jM8ijRTUf6dCIAMGIxooEBwjdV3UelPkdh8zc9cpkS7HaVqJImz+1ndhI9FBOD8IDCJ
+ 9bF1leZdN1xIiphSNWfBQ40jy+9rjFh6Mfg9QOHTskSbpl5opHmxIrTOGkqbJnxkzHRW
+ z0wD21q/cpaZEnOPwSdcvpXWuEB9WA6E02E58Qj7CzkuYSJfixoJy5ybkY09EXiC8pUr
+ 8e3w==
+X-Gm-Message-State: AOAM533L08mrz76QUyE02D2DY55d7KCbHs5Ek4wOgyEdBMMYjvVMTXTK
+ Ihy7EX2k3RePVIqPHutmny8Feg==
+X-Google-Smtp-Source: ABdhPJz4CpxwqvCQGKgoVpekGnT7LZPcXrOlC6rgdlhrXieHXE7RcCNQL+neF8PDxW53549K99x+kQ==
+X-Received: by 2002:a05:600c:20f:: with SMTP id
+ 15mr2615120wmi.148.1612864011480; 
+ Tue, 09 Feb 2021 01:46:51 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 13sm3579679wmj.11.2021.02.09.01.44.10
+ by smtp.gmail.com with ESMTPSA id t6sm3472742wmj.22.2021.02.09.01.46.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 01:44:10 -0800 (PST)
-Date: Tue, 9 Feb 2021 10:44:09 +0100
+ Tue, 09 Feb 2021 01:46:50 -0800 (PST)
+Date: Tue, 9 Feb 2021 10:46:48 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 1/2] drm/gem: Export helpers for shadow-buffered planes
-Message-ID: <YCJZaTR1Q2MrOm81@phenom.ffwll.local>
-References: <20210208135044.27827-1-tzimmermann@suse.de>
- <20210208135044.27827-2-tzimmermann@suse.de>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
+ device removal
+Message-ID: <YCJaCD6cAZEhDJTm@phenom.ffwll.local>
+References: <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
+ <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
+ <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
+ <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
+ <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
+ <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
+ <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
+ <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
+ <3f7efc21-f2fb-73a9-216c-aa1e531e35a0@amd.com>
+ <53b95e8b-4079-2bd1-46e1-df15b2fdd2cc@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210208135044.27827-2-tzimmermann@suse.de>
+In-Reply-To: <53b95e8b-4079-2bd1-46e1-df15b2fdd2cc@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,290 +76,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, hdegoede@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>,
+ christian.koenig@amd.com
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 08, 2021 at 02:50:43PM +0100, Thomas Zimmermann wrote:
-> Export the helpers for shadow-buffered planes. These will be used by
-> several drivers.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_atomic_helper.c | 148 +++++++++++++++++++++++-
->  include/drm/drm_gem_atomic_helper.h     |  32 +++++
->  2 files changed, 174 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> index e27762cef360..79b4d3f0495a 100644
-> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> @@ -14,13 +14,101 @@
->   * functions for drivers that use GEM objects. Currently, it provides
->   * plane state and framebuffer BO mappings for planes with shadow
->   * buffers.
-> + *
-> + * A driver using a shadow buffer copies the content of the shadow buffers
-> + * into the HW's framebuffer memory during an atomic update. This requires
-> + * a mapping of the shadow buffer into kernel address space. The mappings
-> + * cannot be established by commit-tail functions, such as atomic_update,
-> + * as this would violate locking rules vmap.
+On Tue, Feb 09, 2021 at 09:27:03AM +0100, Christian K=F6nig wrote:
+> =
 
-"... locking rules around dma_buf_vmap()"?
+> =
 
-> + *
-> + * The helpers for shadow-buffered planes establish and release mappings,
-> + * and provide struct drm_shadow_plane_state, which stores the plane's mapping
-> + * for commit-tail functons.
-> + *
-> + * Shadow-buffered planes can easily be enabled by using the provided macros
-> + * DRM_GEM_PLANE_SHADOW_FUNCS and DRM_GEM_SHADOE_PLANE_HELPER_FUNCS.
+> Am 08.02.21 um 23:09 schrieb Andrey Grodzovsky:
+> > =
 
-I think for hyperlinks/highlights we need %CONSTANT? Maybe check what works.
+> > =
 
-> + * These macros set up the plane and plane-helper callbacks to point to the
-> + * shadow-buffer helpers.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	#include <drm/drm/gem_atomic_helper.h>
-> + *
-> + *	struct drm_plane_funcs driver_plane_funcs = {
-> + *		...,
-> + *		DRM_GEM_SHADOW_PLANE_FUNCS,
-> + *	};
-> + *
-> + *	struct drm_plane_helper_funcs driver_plane_helper_funcs = {
-> + *		...,
-> + *		DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> + *	};
-> + *
-> + * In the driver's atomic-update function, shadow-buffer mappings are available
-> + * from the plane state. Use to_drm_shadow_plane_state() to upcast from
-> + * struct drm_plane_state.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	void driver_plane_atomic_update(struct drm_plane *plane,
-> + *					struct drm_plane_state *old_plane_state)
-> + *	{
-> + *		struct drm_plane_state *plane_state = plane->state;
-> + *		struct drm_shadow_plane_state *shadow_plane_state =
-> + *			to_drm_shadow_plane_state(plane_state);
-> + *
-> + *		// access shadow buffer via shadow_plane_state->map
-> + *	}
-> + *
-> + * A mapping address for each of the framebuffer's buffer object is stored in
-> + * struct drm_shadow_plane_state.map. The mappings are valid while the state
-> + * is being used.
-> + *
-> + * Drivers that use struct drm_simple_display_pipe can use
-> + * DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS to initialize the rsp
-> + * callbacks. Access to shadow-buffer mappings is similar to regular
-> + * atomic_update.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	struct drm_simple_display_pipe_funcs driver_pipe_funcs = {
-> + *		...,
-> + *		DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-> + *	};
-> + *
-> + *	void driver_pipe_enable(struct drm_simple_display_pipe *pipe,
-> + *				struct drm_crtc_state *crtc_state,
-> + *				struct drm_plane_state *plane_state)
-> + *	{
-> + *		struct drm_shadow_plane_state *shadow_plane_state =
-> + *			to_drm_shadow_plane_state(plane_state);
-> + *
-> + *		// access shadow buffer via shadow_plane_state->map
-> + *	}
->   */
->  
->  /*
->   * Shadow-buffered Planes
->   */
->  
-> -static struct drm_plane_state *
-> +/**
-> + * drm_gem_duplicate_shadow_plane_state - duplicates shadow-buffered plane state
-> + * @plane: the plane
-> + *
-> + * This function implements struct drm_plane_funcs.atomic_duplicate_state for
+> > On 2/8/21 4:37 AM, Christian K=F6nig wrote:
+> > > Am 07.02.21 um 22:50 schrieb Daniel Vetter:
+> > > > [SNIP]
+> > > > > Clarification - as far as I know there are no page fault
+> > > > > handlers for kernel
+> > > > > mappings. And we are talking about kernel mappings here,
+> > > > > right ?=A0 If there were
+> > > > > I could solve all those issues the same as I do for user mappings=
+, by
+> > > > > invalidating all existing mappings in the kernel (both kmaps
+> > > > > and ioreamps)and
+> > > > > insert dummy zero or ~0 filled page instead.
+> > > > > Also, I assume forcefully remapping the IO BAR to ~0 filled
+> > > > > page would involve
+> > > > > ioremap API and it's not something that I think can be
+> > > > > easily done according to
+> > > > > am answer i got to a related topic a few weeks ago
+> > > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
+%2Fwww.spinics.net%2Flists%2Flinux-pci%2Fmsg103396.html&amp;data=3D04%7C01%=
+7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3dd8961f=
+e4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTWFpbGZsb=
+3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C100=
+0&amp;sdata=3D6eP0nhS%2BZwp1Y54CwfX8vaV3FTWbW8IylW5JFaf92pY%3D&amp;reserved=
+=3D0
+> > > > > (that was the only reply
+> > > > > i got)
+> > > > mmiotrace can, but only for debug, and only on x86 platforms:
+> > > > =
 
-Does this hyperlink automatically? I didn't know it works since for
-members I just always use &struct.member myself.
+> > > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
+Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ftrace%2Fmmiotrace.html&amp;data=3D0=
+4%7C01%7CAndrey.Grodzovsky%40amd.com%7Cb159d3ce264944486c8008d8cc15233a%7C3=
+dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483738446813868%7CUnknown%7CTW=
+FpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3=
+D%7C1000&amp;sdata=3DQBF9J%2BVIRUkUTTjvNoZR8NqFNt8CpHkcknH2qKX7dd8%3D&amp;r=
+eserved=3D0
+> > > > =
 
-> + * shadow-buffered planes. It assumes the existing state to be of type
-> + * struct drm_shadow_plane_state and it allocates the new state to be of this
-> + * type.
-> + *
-> + * The function does not duplicate existing mappings of the shadow buffers.
-> + * Mappings are maintained during the atomic commit by the plane's prepare_fb
-> + * and cleanup_fb helpers. See drm_gem_prepare_shadow_fb() and drm_gem_cleanup_shadow_fb()
-> + * for corresponding helpers.
-> + *
-> + * Returns:
-> + * A pointer to a new plane state on success, or NULL otherwise.
-> + */
-> +struct drm_plane_state *
->  drm_gem_duplicate_shadow_plane_state(struct drm_plane *plane)
->  {
->  	struct drm_plane_state *plane_state = plane->state;
-> @@ -36,9 +124,19 @@ drm_gem_duplicate_shadow_plane_state(struct drm_plane *plane)
->  
->  	return &new_shadow_plane_state->base;
->  }
-> +EXPORT_SYMBOL(drm_gem_duplicate_shadow_plane_state);
->  
-> -static void drm_gem_destroy_shadow_plane_state(struct drm_plane *plane,
-> -					       struct drm_plane_state *plane_state)
-> +/**
-> + * drm_gem_destroy_shadow_plane_state - deletes shadow-buffered plane state
-> + * @plane: the plane
-> + * @plane_state: the plane state of type struct drm_shadow_plane_state
-> + *
-> + * This function implements struct drm_plane_funcs.atomic_destroy_state
-> + * for shadow-buffered planes. It expects that mappings of shadow buffers
-> + * have been released already.
-> + */
-> +void drm_gem_destroy_shadow_plane_state(struct drm_plane *plane,
-> +					struct drm_plane_state *plane_state)
->  {
->  	struct drm_shadow_plane_state *shadow_plane_state =
->  		to_drm_shadow_plane_state(plane_state);
-> @@ -46,8 +144,18 @@ static void drm_gem_destroy_shadow_plane_state(struct drm_plane *plane,
->  	__drm_atomic_helper_plane_destroy_state(&shadow_plane_state->base);
->  	kfree(shadow_plane_state);
->  }
-> +EXPORT_SYMBOL(drm_gem_destroy_shadow_plane_state);
->  
-> -static void drm_gem_reset_shadow_plane(struct drm_plane *plane)
-> +/**
-> + * drm_gem_reset_shadow_plane - resets a shadow-buffered plane
-> + * @plane: the plane
-> + *
-> + * This function implements struct drm_plane_funcs.reset_plane for
-> + * shadow-buffered planes. It assumes the current plane state to be
-> + * of type struct drm_shadow_plane and it allocates the new state of
-> + * this type.
-> + */
-> +void drm_gem_reset_shadow_plane(struct drm_plane *plane)
->  {
->  	struct drm_shadow_plane_state *shadow_plane_state;
->  
-> @@ -61,8 +169,24 @@ static void drm_gem_reset_shadow_plane(struct drm_plane *plane)
->  		return;
->  	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
->  }
-> +EXPORT_SYMBOL(drm_gem_reset_shadow_plane);
->  
-> -static int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
-> +/**
-> + * drm_gem_prepare_shadow_fb - prepares shadow framebuffers
-> + * @plane: the plane
-> + * @plane_state: the plane state of type struct drm_shadow_plane_state
-> + *
-> + * This function implements struct drm_plane_helper_funcs.prepare_fb. It
-> + * maps all buffer objects of the plane's framebuffer into kernel address
-> + * space and stores them in struct drm_shadow_plane_state.map. The
-> + * framebuffer will be synchronized as part of the atomic commit.
-> + *
-> + * See drm_gem_cleanup_shadow_fb() for cleanup.
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + */
-> +int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
->  {
->  	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
->  	struct drm_framebuffer *fb = plane_state->fb;
-> @@ -100,8 +224,19 @@ static int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_s
->  	}
->  	return ret;
->  }
-> +EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
->  
-> -static void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
-> +/**
-> + * drm_gem_cleanup_shadow_fb - releases shadow framebuffers
-> + * @plane: the plane
-> + * @plane_state: the plane state of type struct drm_shadow_plane_state
-> + *
-> + * This function implements struct drm_plane_helper_funcs.cleanup_fb.
-> + * This function unmaps all buffer objects of the plane's framebuffer.
-> + *
-> + * See drm_gem_prepare_shadow_fb() for more inforamtion.
-> + */
-> +void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
->  {
->  	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
->  	struct drm_framebuffer *fb = plane_state->fb;
-> @@ -119,6 +254,7 @@ static void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_
->  		drm_gem_vunmap(obj, &shadow_plane_state->map[i]);
->  	}
->  }
-> +EXPORT_SYMBOL(drm_gem_cleanup_shadow_fb);
->  
->  /**
->   * drm_gem_simple_kms_prepare_shadow_fb - prepares shadow framebuffers
-> diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
-> index 08b96ccea325..7abf40bdab3d 100644
-> --- a/include/drm/drm_gem_atomic_helper.h
-> +++ b/include/drm/drm_gem_atomic_helper.h
-> @@ -45,6 +45,38 @@ to_drm_shadow_plane_state(struct drm_plane_state *state)
->  	return container_of(state, struct drm_shadow_plane_state, base);
->  }
->  
-> +void drm_gem_reset_shadow_plane(struct drm_plane *plane);
-> +struct drm_plane_state *drm_gem_duplicate_shadow_plane_state(struct drm_plane *plane);
-> +void drm_gem_destroy_shadow_plane_state(struct drm_plane *plane,
-> +					struct drm_plane_state *plane_state);
-> +
-> +/**
-> + * DRM_GEM_SHADOW_PLANE_FUNCS -
-> + *	Initializes struct drm_plane_funcs for shadow-buffered planes
-> + *
-> + * Drivers may use GEM BOs as shadow buffers over the framebuffer memory. This
-> + * macro initializes struct drm_plane_funcs to use the rsp helper functions.
-> + */
-> +#define DRM_GEM_SHADOW_PLANE_FUNCS \
-> +	.reset = drm_gem_reset_shadow_plane, \
-> +	.atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state, \
-> +	.atomic_destroy_state = drm_gem_destroy_shadow_plane_state
-> +
-> +int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state);
-> +void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state);
-> +
-> +/**
-> + * DRM_GEM_SHADOW_PLANE_HELPER_FUNCS -
-> + *	Initializes struct drm_plane_helper_funcs for shadow-buffered planes
-> + *
-> + * Drivers may use GEM BOs as shadow buffers over the framebuffer memory. This
-> + * macro initializes struct drm_plane_helper_funcs to use the rsp helper
-> + * functions.
-> + */
-> +#define DRM_GEM_SHADOW_PLANE_HELPER_FUNCS \
-> +	.prepare_fb = drm_gem_prepare_shadow_fb, \
-> +	.cleanup_fb = drm_gem_cleanup_shadow_fb
-> +
->  int drm_gem_simple_kms_prepare_shadow_fb(struct drm_simple_display_pipe *pipe,
->  					 struct drm_plane_state *plane_state);
->  void drm_gem_simple_kms_cleanup_shadow_fb(struct drm_simple_display_pipe *pipe,
+> > > > =
+
+> > > > Should be feasible (but maybe not worth the effort) to extend this =
+to
+> > > > support fake unplug.
+> > > =
+
+> > > Mhm, interesting idea you guys brought up here.
+> > > =
+
+> > > We don't need a page fault for this to work, all we need to do is to
+> > > insert dummy PTEs into the kernels page table at the place where
+> > > previously the MMIO mapping has been.
+> > =
+
+> > =
+
+> > But that exactly what Mathew from linux-mm says is not a trivial thing
+> > to do, quote:
+> > =
+
+> > "
+> > =
+
+> > ioremap() is done through the vmalloc space.  It would, in theory, be
+> > possible to reprogram the page tables used for vmalloc to point to your
+> > magic page.  I don't think we have such a mechanism today, and there are
+> > lots of problems with things like TLB flushes.  It's probably going to
+> > be harder than you think.
+> > "
+> =
+
+> I haven't followed the full discussion, but I don't see much preventing
+> this.
+> =
+
+> All you need is a new ioremap_dummy() function which takes the old start =
+and
+> length of the mapping.
+> =
+
+> Still a bit core and maybe even platform code, but rather useful I think.
+
+Yeah we don't care about races, so if the tlb flushing isn't perfect
+that's fine.
+
+Also if we glue this into the mmiotrace infrastructure, that already has
+all the fault handling. So on x86 I think we could even make it perfect
+(but that feels like overkill) and fully atomic. Plus the mmiotrace
+overhead (even if we don't capture anything) is probably a bit much even
+for testing in CI or somewhere like that.
+-Daniel
+
+> =
+
+> Christian.
+> =
+
+> > =
+
+> > If you believe it's actually doable then it would be useful not only fo=
+r simulating device
+> > unplugged situation with all MMIOs returning 0xff... but for actual han=
+dling of driver accesses
+> > to MMIO after device is gone and, we could then drop entirely this patc=
+h as there would be no need
+> > to guard against such accesses post device unplug.
+> =
+
+> =
+
+> > =
+
+> > > =
+
+> > > > > > But ugh ...
+> > > > > > =
+
+> > > > > > Otoh validating an entire driver like amdgpu without such a tri=
+ck
+> > > > > > against 0xff reads is practically impossible. So maybe
+> > > > > > you need to add
+> > > > > > this as one of the tasks here?
+> > > > > Or I could just for validation purposes return ~0 from all
+> > > > > reg reads in the code
+> > > > > and ignore writes if drm_dev_unplugged, this could already
+> > > > > easily validate a big
+> > > > > portion of the code flow under such scenario.
+> > > > Hm yeah if your really wrap them all, that should work too. Since
+> > > > iommappings have __iomem pointer type, as long as amdgpu is sparse
+> > > > warning free, should be doable to guarantee this.
+> > > =
+
+> > > Problem is that ~0 is not always a valid register value.
+> > > =
+
+> > > You would need to audit every register read that it doesn't use the
+> > > returned value blindly as index or similar. That is quite a bit of
+> > > work.
+> > =
+
+> > =
+
+> > But ~0 is the value that will be returned for every read post device
+> > unplug, regardless if it's valid or not, and we have to cope with
+> > it then, no ?
+> > =
+
+> > Andrey
+> > =
+
+> > =
+
+> > > =
+
+> > > Regards,
+> > > Christian.
+> > > =
+
+> > > > -Daniel
+> > > > =
+
+> > > > > Andrey
+> > > > > =
+
+> > > =
+
+> > =
+
+> > _______________________________________________
+> > amd-gfx mailing list
+> > amd-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> =
 
 
-Very nice and thoroughly explained docs!
+-- =
 
-Thanks, Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> -- 
-> 2.30.0
-> 
-
--- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
