@@ -2,29 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38690314FA1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE247314FF1
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632D46EB25;
-	Tue,  9 Feb 2021 13:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6446E041;
+	Tue,  9 Feb 2021 13:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAFE46EB23
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:00:51 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 45E14AFBF;
- Tue,  9 Feb 2021 13:00:50 +0000 (UTC)
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
- Eric Anholt <eric@anholt.net>
-Subject: [RFC/PATCH v2 12/16] drm/v3d: Get rid of pm code
-Date: Tue,  9 Feb 2021 13:59:08 +0100
-Message-Id: <20210209125912.3398-13-nsaenzjulienne@suse.de>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210209125912.3398-1-nsaenzjulienne@suse.de>
-References: <20210209125912.3398-1-nsaenzjulienne@suse.de>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E55F6E041
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:17:59 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id bl23so31309497ejb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 05:17:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IUf2GGH4BYRkoP3tPPZlc8ygtFS20/IdYlk+MSPBIfQ=;
+ b=U4kILotFY3lntqQnV7BGg20r86Y35gQqdwmgqZKmMRz3i/LaGSqFK5APICDDNDrV1s
+ 13cc1ly1Seh2RlnWjHwQpn+ahTs/DcEUDqMfbvq/yoi3TjBQHKTWG9vYnKCYhNKAb2r5
+ j21Fk438fdbFJYExBEd6WWVCi8XuPwNXkZ+URpd7rVb4kxgQLXYYcLrsPZ93kqBftLk9
+ LGW0V4c43c8wqeuexvsVFKrHsMwufeKme+eJ+WcI0BcBJtvFqOKXzFzHiU0woGNmiwxv
+ GYWDUDj/0CSqH9yhOPVaqvPSPPm624wyyaBKsmzKZC+ijsX1oug1Dh28gDK0O+fvJReq
+ uXcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IUf2GGH4BYRkoP3tPPZlc8ygtFS20/IdYlk+MSPBIfQ=;
+ b=DOHjv61YfDI/8pc8gdJTk6FMQAX8s9e4/XaBt3EgsSc+CL+j95o0CE+5x+BcJVDyP4
+ yJbQpIDx925rJ3fUir8v7ZFDGGXRL3Le8lbc5z+WVgeUfHO/a1veiMnLN5er5HNMegqQ
+ OIt17IuNbq9VCg3njvbsqZHK2MPRWhE9jRs/cE7Fo5T1Q+kAkhXjtgSj31nJahL2xgq0
+ ggXY7mfSihsIC7lQ00Mk6agef3Dot9nxvOjw6Lp8BH4cRLpVbyfdfLpfJjsJcPnzReCm
+ aN+ZrwfOrEEI4Wby9TFlWdYEercFVWjiObCmwkLga5pJmB1CRSDq7Wg97j/UY96EJIHS
+ pfcw==
+X-Gm-Message-State: AOAM532NJCH6uwT8fYlfEyCgq/caVlA5Vh564pCdYmklE9Eakh/0ZjjQ
+ Ic0rwDjHSXyO70K55vJSQFuSrPpqu4XvCA==
+X-Google-Smtp-Source: ABdhPJw1jMJXY96mAMT4MpHwJQWefKg/9lYY8p83HOmJ+99mEzoORQijlC/Ia3tB10TYBcRU9Kn2XA==
+X-Received: by 2002:a17:906:f195:: with SMTP id
+ gs21mr22362497ejb.225.1612876678315; 
+ Tue, 09 Feb 2021 05:17:58 -0800 (PST)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:c968:6514:e410:3ef6])
+ by smtp.gmail.com with ESMTPSA id b1sm10617142eju.15.2021.02.09.05.17.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 05:17:57 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: nirmodas@amd.com,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: fix removal of bo_count sysfs file
+Date: Tue,  9 Feb 2021 14:17:56 +0100
+Message-Id: <20210209131756.24650-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,182 +68,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- bcm-kernel-feedback-list@broadcom.com, wahrenst@gmx.net, phil@raspberrypi.com,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Runtime PM doesn't seem to work correctly on this driver. On top of
-that, commit 8b6864e3e138 ("drm/v3d/v3d_drv: Remove unused static
-variable 'v3d_v3d_pm_ops'") hints that it most likely never did as the
-driver's PM ops were not hooked-up.
-
-So, in order to support regular operation with V3D on BCM2711 (Raspberry
-Pi 4), get rid of the PM code. PM will be reinstated once we figure out
-the underlying issues.
-
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
----
- drivers/gpu/drm/v3d/v3d_debugfs.c | 18 +-----------------
- drivers/gpu/drm/v3d/v3d_drv.c     | 11 -----------
- drivers/gpu/drm/v3d/v3d_gem.c     |  9 ---------
- 3 files changed, 1 insertion(+), 37 deletions(-)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index e76b24bb8828..e1d5f3423059 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -4,7 +4,6 @@
- #include <linux/circ_buf.h>
- #include <linux/ctype.h>
- #include <linux/debugfs.h>
--#include <linux/pm_runtime.h>
- #include <linux/seq_file.h>
- 
- #include <drm/drm_debugfs.h>
-@@ -130,11 +129,7 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 	struct drm_device *dev = node->minor->dev;
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
- 	u32 ident0, ident1, ident2, ident3, cores;
--	int ret, core;
--
--	ret = pm_runtime_get_sync(v3d->drm.dev);
--	if (ret < 0)
--		return ret;
-+	int core;
- 
- 	ident0 = V3D_READ(V3D_HUB_IDENT0);
- 	ident1 = V3D_READ(V3D_HUB_IDENT1);
-@@ -187,9 +182,6 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 			   (misccfg & V3D_MISCCFG_OVRTMUOUT) != 0);
- 	}
- 
--	pm_runtime_mark_last_busy(v3d->drm.dev);
--	pm_runtime_put_autosuspend(v3d->drm.dev);
--
- 	return 0;
- }
- 
-@@ -217,11 +209,6 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	uint32_t cycles;
- 	int core = 0;
- 	int measure_ms = 1000;
--	int ret;
--
--	ret = pm_runtime_get_sync(v3d->drm.dev);
--	if (ret < 0)
--		return ret;
- 
- 	if (v3d->ver >= 40) {
- 		V3D_CORE_WRITE(core, V3D_V4_PCTR_0_SRC_0_3,
-@@ -245,9 +232,6 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 		   cycles / (measure_ms * 1000),
- 		   (cycles / (measure_ms * 100)) % 10);
- 
--	pm_runtime_mark_last_busy(v3d->drm.dev);
--	pm_runtime_put_autosuspend(v3d->drm.dev);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 99e22beea90b..7a3336443a12 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -19,7 +19,6 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
--#include <linux/pm_runtime.h>
- #include <linux/reset.h>
- 
- #include <drm/drm_drv.h>
-@@ -43,7 +42,6 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- {
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
- 	struct drm_v3d_get_param *args = data;
--	int ret;
- 	static const u32 reg_map[] = {
- 		[DRM_V3D_PARAM_V3D_UIFCFG] = V3D_HUB_UIFCFG,
- 		[DRM_V3D_PARAM_V3D_HUB_IDENT1] = V3D_HUB_IDENT1,
-@@ -69,17 +67,12 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		if (args->value != 0)
- 			return -EINVAL;
- 
--		ret = pm_runtime_get_sync(v3d->drm.dev);
--		if (ret < 0)
--			return ret;
- 		if (args->param >= DRM_V3D_PARAM_V3D_CORE0_IDENT0 &&
- 		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
- 			args->value = V3D_CORE_READ(0, offset);
- 		} else {
- 			args->value = V3D_READ(offset);
- 		}
--		pm_runtime_mark_last_busy(v3d->drm.dev);
--		pm_runtime_put_autosuspend(v3d->drm.dev);
- 		return 0;
- 	}
- 
-@@ -271,10 +264,6 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	}
- 
--	pm_runtime_use_autosuspend(dev);
--	pm_runtime_set_autosuspend_delay(dev, 50);
--	pm_runtime_enable(dev);
--
- 	ret = v3d_gem_init(drm);
- 	if (ret)
- 		goto dma_free;
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 4eb354226972..75582b03470b 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -6,7 +6,6 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
--#include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/sched/signal.h>
- #include <linux/uaccess.h>
-@@ -372,9 +371,6 @@ v3d_job_free(struct kref *ref)
- 	dma_fence_put(job->irq_fence);
- 	dma_fence_put(job->done_fence);
- 
--	pm_runtime_mark_last_busy(job->v3d->drm.dev);
--	pm_runtime_put_autosuspend(job->v3d->drm.dev);
--
- 	kfree(job);
- }
- 
-@@ -441,10 +437,6 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	job->v3d = v3d;
- 	job->free = free;
- 
--	ret = pm_runtime_get_sync(v3d->drm.dev);
--	if (ret < 0)
--		return ret;
--
- 	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
- 
- 	ret = drm_syncobj_find_fence(file_priv, in_sync, 0, 0, &in_fence);
-@@ -460,7 +452,6 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	return 0;
- fail:
- 	xa_destroy(&job->deps);
--	pm_runtime_put_autosuspend(v3d->drm.dev);
- 	return ret;
- }
- 
--- 
-2.30.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T25seSBhIHpvbWJpZSBsZWZ0b3ZlciBmcm9tIHJlYmFzaW5nLgoKU2lnbmVkLW9mZi1ieTogQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpGaXhlczogMzc2M2Q2MzVk
+ZWFhICgiZHJtL3R0bTogYWRkIGRlYnVnZnMgZGlyZWN0b3J5IHYyIikKLS0tCiBkcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9kZXZpY2UuYyB8IDIgLS0KIGluY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNl
+LmggICAgIHwgMSAtCiAyIGZpbGVzIGNoYW5nZWQsIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRt
+L3R0bV9kZXZpY2UuYwppbmRleCBhYzA5MDNjOWU2MGEuLjhiYjYxZGQyNjQzNyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fZGV2aWNlLmMKQEAgLTQ5LDggKzQ5LDYgQEAgc3RhdGljIHZvaWQgdHRtX2dsb2Jh
+bF9yZWxlYXNlKHZvaWQpCiAJaWYgKC0tdHRtX2dsb2JfdXNlX2NvdW50ID4gMCkKIAkJZ290byBv
+dXQ7CiAKLQlrb2JqZWN0X2RlbCgmZ2xvYi0+a29iaik7Ci0Ja29iamVjdF9wdXQoJmdsb2ItPmtv
+YmopOwogCXR0bV9tZW1fZ2xvYmFsX3JlbGVhc2UoJnR0bV9tZW1fZ2xvYik7CiAJX19mcmVlX3Bh
+Z2UoZ2xvYi0+ZHVtbXlfcmVhZF9wYWdlKTsKIAltZW1zZXQoZ2xvYiwgMCwgc2l6ZW9mKCpnbG9i
+KSk7CmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oIGIvaW5jbHVkZS9k
+cm0vdHRtL3R0bV9kZXZpY2UuaAppbmRleCA3YmM4YmI3OTcxNjEuLjAzNWJiYzA0NGEzYiAxMDA2
+NDQKLS0tIGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaAorKysgYi9pbmNsdWRlL2RybS90
+dG0vdHRtX2RldmljZS5oCkBAIC01NSw3ICs1NSw2IEBAIGV4dGVybiBzdHJ1Y3QgdHRtX2dsb2Jh
+bCB7CiAJICogQ29uc3RhbnQgYWZ0ZXIgaW5pdC4KIAkgKi8KIAotCXN0cnVjdCBrb2JqZWN0IGtv
+Ymo7CiAJc3RydWN0IHBhZ2UgKmR1bW15X3JlYWRfcGFnZTsKIAlzcGlubG9ja190IGxydV9sb2Nr
+OwogCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
