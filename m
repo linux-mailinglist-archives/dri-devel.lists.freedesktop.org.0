@@ -2,46 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C12314C45
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 10:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75733314C5B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 11:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059176EAAB;
-	Tue,  9 Feb 2021 09:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8409C89262;
+	Tue,  9 Feb 2021 10:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1BA6EAAB
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 09:58:47 +0000 (UTC)
-IronPort-SDR: ognXsWFLBRTwrKIbZtKd7PiDufqfL0q0bWzWShenIq5DbQNc3oO1fwUWDrPGR+EDVvp7APpfI/
- mCzcUkD6lokQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="161606294"
-X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="161606294"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2021 01:58:47 -0800
-IronPort-SDR: T0qTs/2i2PqBJXc5IrRTpS6kpOrU/SRzXxopGHG1/kUrdforSp9RRZLCJI15PCgXsR6DLCOQT6
- lslQrLAfLUyQ==
-X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; d="scan'208";a="374903061"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2021 01:58:43 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andy.shevchenko@gmail.com>)
- id 1l9Pn6-003Bop-Ba; Tue, 09 Feb 2021 11:58:40 +0200
-Date: Tue, 9 Feb 2021 11:58:40 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v6 1/3] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <YCJc0LWBiQLwdmkN@smile.fi.intel.com>
-References: <20210208200903.28084-1-sakari.ailus@linux.intel.com>
- <20210208200903.28084-2-sakari.ailus@linux.intel.com>
- <CAHp75VciFMKrWM2zJZ6dppuL5M-7BLPGQfcnzkd9pQzY1bRWsQ@mail.gmail.com>
- <20210209092032.GC32460@paasikivi.fi.intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66BB989262
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 10:03:36 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8DE32AD78;
+ Tue,  9 Feb 2021 08:13:35 +0000 (UTC)
+Subject: Re: [PATCH v2 0/2] drm/vboxvideo: Use struct drm_shadow_plane_state
+ for cursor plane
+To: Hans de Goede <hdegoede@redhat.com>, daniel@ffwll.ch, airlied@linux.ie,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+References: <20210208135044.27827-1-tzimmermann@suse.de>
+ <441f2dbe-d7b1-5f2f-e6c3-2cc0fb45c296@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <e0178098-ec48-0286-fc00-9f55b4d22da5@suse.de>
+Date: Tue, 9 Feb 2021 09:13:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210209092032.GC32460@paasikivi.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <441f2dbe-d7b1-5f2f-e6c3-2cc0fb45c296@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,86 +41,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1198813530=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 09, 2021 at 11:20:32AM +0200, Sakari Ailus wrote:
-> On Mon, Feb 08, 2021 at 10:43:30PM +0200, Andy Shevchenko wrote:
-> > On Mon, Feb 8, 2021 at 10:11 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1198813530==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xehkTpXx8Xg9y2CtEEbPOxVCwhRkTDFAX"
 
-...
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xehkTpXx8Xg9y2CtEEbPOxVCwhRkTDFAX
+Content-Type: multipart/mixed; boundary="rVnnHPsOFv7G6BE0GtRlXfHyJkPxULSgf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hans de Goede <hdegoede@redhat.com>, daniel@ffwll.ch, airlied@linux.ie,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <e0178098-ec48-0286-fc00-9f55b4d22da5@suse.de>
+Subject: Re: [PATCH v2 0/2] drm/vboxvideo: Use struct drm_shadow_plane_state
+ for cursor plane
+References: <20210208135044.27827-1-tzimmermann@suse.de>
+ <441f2dbe-d7b1-5f2f-e6c3-2cc0fb45c296@redhat.com>
+In-Reply-To: <441f2dbe-d7b1-5f2f-e6c3-2cc0fb45c296@redhat.com>
 
-> > > +       %p4cc   BG12 little-endian (0x32314742)
-> > 
-> > This misses examples of the (strange) escaping cases and wiped
-> > whitespaces to make sure everybody understands that 'D 12' will be the
-> > same as 'D1 2' (side note: which I disagree on, perhaps something
-> > should be added into documentation why).
-> 
-> The spaces are expected to be at the end only. I can add such example if
-> you like. There are no fourcc codes with spaces in the middle in neither
-> V4L2 nor DRM, and I don't think the expectation is to have them either.
+--rVnnHPsOFv7G6BE0GtRlXfHyJkPxULSgf
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-But then the code suggests otherwise. Perhaps we need to extract
-skip_trailing_spaces() from strim() and use it here.
+Hi
 
-...
+Am 08.02.21 um 18:43 schrieb Hans de Goede:
+> Hi,
+>=20
+> On 2/8/21 2:50 PM, Thomas Zimmermann wrote:
+>> (was: drm/vboxvideo: Vmap/vunmap cursor BO in prepare_fb and cleanup_f=
+b)
+>>
+>> Functions in the atomic commit tail are not allowed to acquire the
+>> dmabuf's reservation lock. So we cannot legally call the GEM object's
+>> vmap functionality in atomic_update.
+>>
+>> But, much better, we can use drm_shadow_plane_state to do all the mapp=
+ing
+>> for us. Patch 1 exports the helpers for shadow-buffered planes from th=
+e
+>> DRM KMS helper library and adds documentation on how to use them. Patc=
+h 2
+>> replaces the vmap code in vbox' cursor update code with a the helpers =
+for
+>> shadow-buffered planes.
+>>
+>> Thomas Zimmermann (2):
+>>    drm/gem: Export helpers for shadow-buffered planes
+>>    drm/vboxvideo: Implement cursor plane with struct
+>>      drm_shadow_plane_state
+>=20
+> I've given this a test spin in a virtualbox vm using VboxSVGA graphics
+> and I've not found any problems:
+>=20
+> Tested-by: Hans de Goede <hdegoede@redhat.com>
 
-> > > +static noinline_for_stack
-> > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > +                   struct printf_spec spec, const char *fmt)
-> > > +{
-> > 
-> > > +       char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> > 
-> > Do we have any evidence / document / standard that the above format is
-> > what people would find good? From existing practices (I consider other
-> > printings elsewhere and users in this series) I find '(xx)' form for
-> > hex numbers is weird. The standard practice is to use \xHH (without
-> > parentheses).
-> 
-> Earlier in the review it was proposed that special handling of codes below
-> 32 should be added, which I did. Using the parentheses is apparently an
-> existing practice elsewhere.
+Thanks a lot. Can I add your Acked-by as well?
 
-Where? \xHH is quite well established format for escaping. Never heard about
-'(xx)' variant before this very series.
+Best regards
+Thomas
 
-> Note that neither DRM nor V4L2 currently has such fourcc codes currently.
+>=20
+> Regards,
+>=20
+> Hans
+>=20
+>=20
+>=20
+>>
+>>   drivers/gpu/drm/drm_gem_atomic_helper.c | 148 ++++++++++++++++++++++=
++-
+>>   drivers/gpu/drm/vboxvideo/vbox_mode.c   |  28 ++---
+>>   include/drm/drm_gem_atomic_helper.h     |  32 +++++
+>>   3 files changed, 181 insertions(+), 27 deletions(-)
+>>
+>> --
+>> 2.30.0
+>>
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
 
-...
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> > > +       p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
-> > > +                              sizeof(u32));
-> > 
-> > This is perfectly one line (in this file we have even longer lines).
-> 
-> Sure, you can do that, and I can then review your patch and point to the
-> coding style documentation. :-)
 
-Yes, you can. The problem is that we agreed with others to improve readability
-by letting some lines to be longer, so the code can lie on one line rather be
-broken on two or more.
+--rVnnHPsOFv7G6BE0GtRlXfHyJkPxULSgf--
 
--- 
-With Best Regards,
-Andy Shevchenko
+--xehkTpXx8Xg9y2CtEEbPOxVCwhRkTDFAX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAiRC4FAwAAAAAACgkQlh/E3EQov+Ck
+Vw//UVUPrfdf1orF3r71BmhrJ78C7USA7dRQYJfTaLGfwlFm3iEVviQnLgGuzXl1FUhox8wrdoPh
+dS2uIX3Jf1TfxS1ZLdymXjEu+KhWGwKrRXnnPKOlDULh8Ht2qdFCX6xw6lpZ5DinEe12ux7+ns/x
+HdEVR1ItEWGMXCJWOgo2VPrgJQP2B2Ngp1QMBYpnIDjhk1i5XcFNPz96q8CshnePOLK1PIXbDXdL
+IuW3Q3kNoJtZWUhKvD88xBISAjZ8heNgilOws4x/90z0W4vljgMWCM+AnEicdbE9l7kZSmxZ2sZr
+S/oRqrNVw/zEACWHvfNWaYy+9rwpE+m7D8LBR0hRgo9Aj9MqENVt8d4SAslrTbTbjKpSdOnaFpFd
+GSy0Lr/bXL0CtI0a7L3J9fE5whLmokLrSWEi45rLm+QPEZkFCU9gu9tRde7fGaHKRyLegv0e6z3N
+g88Yf7dj/Mo1iOpp6jMJAojlmFjIrTQqDoUip8dhB7sKWvy8xCcMhbFTl2ZSfikffgdUWBAcCY7/
+e//B5S/ZSLLgm3BrK4a2MrgoqlA/DgkwO4KaxhQYSDR5XpfMzv5h96BmLIsKBuz7A+zbOcx/uLjT
+cEKFfC23hX4JH3nYUxnWSiE4a+6TRGElodDyQ6pktxo4FwYL0pNwtTHj0A8mSNBow5eTd3/fSEGR
+Vqs=
+=viGO
+-----END PGP SIGNATURE-----
+
+--xehkTpXx8Xg9y2CtEEbPOxVCwhRkTDFAX--
+
+--===============1198813530==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1198813530==--
