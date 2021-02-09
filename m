@@ -1,137 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9CB315193
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 15:31:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6875731523F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 16:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA1F6EB53;
-	Tue,  9 Feb 2021 14:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3243A6EB5B;
+	Tue,  9 Feb 2021 15:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2086.outbound.protection.outlook.com [40.107.237.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376746EB2F;
- Tue,  9 Feb 2021 14:30:58 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80050.outbound.protection.outlook.com [40.107.8.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4836E07B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 14:26:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OPKX/l8op7AXcDiqM8MzSHWns1XDfvebKIWOA0rB6+VlEpEsgqpWGSvWptvpAIGBhP0wjyscZSfykLzHpSVk8pBaf6HaQaFVLjfLyrmf4TIBqurNh/AbqSXPDxxP0O51fKSJnSeScH/TCcF2/w7MAYZNmsc/1An0sTOMx0gJdZQXNE5kN+++6URpPizMy856i9rj2b7+RYrsLHgDRcA/gEgspJW/zY41sy+WDVquBSfLd64+44lmF9A7BYZ8GrCP8jTOVdAOXNv5fXBx8XhHE4xRhG4wFMFgR3+IaOqNs3vI22J2vQC/3GzMnuYQZ1QHx00AvPcjVjjJ2U/tdH0xAA==
+ b=Ea90us4sNqPHBNI3Zfr0ZQc04SfHBEORXe8tpVqyt/rFconVkfqB6PAG93OmbNFlCi0jcROobq7NdUltLJcr+tlGYEprJW/2ZHSYR5eaTyKIKmANkPW028F9mbp/jM5CmoNYgSK1iabq/iMmdaNWEfrSD5peQGCl/WZGwxxY14wtellG25cqyRv7FGZZIMAEABjSahKWDrFBLYwKkKQKaKUE4bNBNswoY5dfGzuHJ2BcAI5/08MyTuveuP5E71YldQTY5W/qRmqI5/Dsp2uKEPudHX2QruOxDnHqkIjlB+WXP6R1sUw9wGEmZC1zMWG0EEZIy1gNMpjikFVwLhYOMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ungelOCRJoLXspja9kQHUB3z3prePip9iaiR3SFgYGE=;
- b=oRDq+t8Ty7iLidFO30TGfsF3hXzWOz+hQbkS5QwmIVsyVFtLgSDfl4iN3Sv+eg/+sRdDlqKcKi993Q2vZbDX9FsQ7io2w7ZT1pHZfRU7qr2T41FpRo0TvIPHnjIb/SVGv1obMOVcvas9u7HMnE5Hv/eJn0GjknbMzVEeBZ2aLHw+LtLe9jDgxbpB/5JDvFQDNxCrmzFjrhwZoBGO8y3pmBWGD5eHn/0he4Kxhm/7ewLGr84qRCvxU6apCA+FSvS1q8ml1LnOUrCcW0WjIF8yJAPXV2X6z9Ilg6AD6xWAbhb+6x7hlGxL2jbG+aACTf3kIcHJImvzduyW+6XY0YZMhQ==
+ bh=AElYMgrn5GD/9DDwkHcSIdH+7LKY1i2qB9olbhMHPG4=;
+ b=NXl6JvRrsPgg3crhaF8n/7BAcDHCm88uRB8OO6CXKIhiecU8GNEqbDOxZw530BwOWyd/H4FiG2ecUHvkH6CXWWk3r1rJVxhN3hTEqRl3W+VXrYeVGZB4bTW2sNfe6dvZL9Le6XuhG8YWlrQsX4X9rRLgiV0guyRBO/S/PWa7c+qBqit18lMPuBVmI+0ucrZEaTGpe8hcGdSRrw2TCqTn573FtXSFmZg3uhl9oOuzxuE5Q5aBLxGkiWFUF5Xbu53rX7xx9HLA+xNRBWaEJntzMq4tz/1Po8nRBM6Xjxsp1WRO9UEUsTQ1PsutLeq5vof8wM7aZU73+6Wp+Eo+dwx10w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ungelOCRJoLXspja9kQHUB3z3prePip9iaiR3SFgYGE=;
- b=nTo+AnPX905o/q75PjLpQ5HoBvfx6MH6ACGsioyvVHxXxBnTYt/leiGycyTCIYhbdGWAwnDBb8EIRgnP2iqPHak6aRUq4mQNFLGnzZSofVKWobYNbfNW55aBhUy6WbdqgWYNi0v+u+qhVDisvtDqdzorICY3/GPW3Q6ei2Vexg4=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SA0PR12MB4416.namprd12.prod.outlook.com (2603:10b6:806:99::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Tue, 9 Feb
- 2021 14:30:56 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::41b1:11f5:fd1e:fc5f]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::41b1:11f5:fd1e:fc5f%5]) with mapi id 15.20.3846.025; Tue, 9 Feb 2021
- 14:30:56 +0000
-Subject: Re: [PATCH v4 11/14] drm/amdgpu: Guard against write accesses after
- device removal
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <07dceec0-0be9-1531-0357-353f04d1cb2b@amd.com>
- <69f036e2-f102-8233-37f6-5254a484bf97@amd.com>
- <0b502043-5a66-dcd5-53f9-5c190f22dc46@gmail.com>
- <78e4705d-c55f-6c68-d0f9-b1939b636121@amd.com>
- <CAKMK7uEm=N4kQYyzMt=nUefu2BdyKNcWikFiSJih7CthJMd2Aw@mail.gmail.com>
- <8fbeee95-b365-7f68-1e0b-1d42eb0dea70@amd.com>
- <CAKMK7uEJDfPsbnkVfunjVe2iNbpVBWY2_XHai4JntcxWkuVc3A@mail.gmail.com>
- <fcb2cf17-d011-55c6-1545-9fa190e358c3@gmail.com>
- <YCEJBfA6ce4dD3JT@phenom.ffwll.local>
- <6c639669-b78d-b6a3-71b9-d546ca34121b@gmail.com>
- <YCEOY5wFmpGRl7jJ@phenom.ffwll.local>
- <90eb7a73-1981-6d20-a83d-1690321212c7@amd.com>
- <CAKMK7uF3HkTgDhM5Lk3hnGB+35Vi-Nt7YOBJ_rpO8wZw9ifhcA@mail.gmail.com>
- <f8b3417f-a697-c8c7-b131-5c8823f969d7@amd.com>
- <55862d1f-42da-4a9c-0720-e6abf72615f5@amd.com>
-From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <da7b71c6-5045-5a52-2ec6-504d0bfb6761@amd.com>
-Date: Tue, 9 Feb 2021 09:30:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <55862d1f-42da-4a9c-0720-e6abf72615f5@amd.com>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:d837:3b43:4149:c64b]
-X-ClientProxiedBy: YTOPR0101CA0017.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::30) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+ bh=AElYMgrn5GD/9DDwkHcSIdH+7LKY1i2qB9olbhMHPG4=;
+ b=ghDpf9kvOalKlQmb0veJ3JGiZdZN+pCDsyOz8aGikM+6rQSQGWjsCZlImcLVK+lg0NTjF9/S2nEZE2VGRtjbVmd+B8qxKJVsThbKl6xdfAtyVzHWGm8TG5kg7ZpY0P9FfoIG/+nPo8Hc/juxjHzcEreroE3MuWA7kTW8gjnat2U=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR0402MB3789.eurprd04.prod.outlook.com (2603:10a6:803:1f::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.30; Tue, 9 Feb
+ 2021 14:26:10 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::2564:cacc:2da5:52d0]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::2564:cacc:2da5:52d0%5]) with mapi id 15.20.3825.030; Tue, 9 Feb 2021
+ 14:26:10 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v6] dt-bindings: display: panel: one file of all simple LVDS
+ panels with dual ports
+Date: Tue,  9 Feb 2021 22:13:12 +0800
+Message-Id: <1612879992-5908-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR03CA0114.apcprd03.prod.outlook.com
+ (2603:1096:4:91::18) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:d837:3b43:4149:c64b]
- (2607:fea8:3edf:49b0:d837:3b43:4149:c64b) by
- YTOPR0101CA0017.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend
- Transport; Tue, 9 Feb 2021 14:30:54 +0000
+Received: from localhost.localdomain (119.31.174.66) by
+ SG2PR03CA0114.apcprd03.prod.outlook.com (2603:1096:4:91::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.3846.10 via Frontend Transport; Tue, 9 Feb 2021 14:26:07 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: a4471a67-1507-4e24-41bb-08d8cd074fb2
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4416:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4416344BE994FED1A46C156FEA8E9@SA0PR12MB4416.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: d0ff6d1e-928f-4517-71bb-08d8cd06a511
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3789:
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB37893E0E25D44D30A05CA784988E9@VI1PR0402MB3789.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yt6RdKfqXcICZ1Vh9Qqqi482E81S+B6H4PXiyEgS2HIHyxrk/z1AHcbN/Rnsgb3jD5E1UdOcGGArMjO+fYZQBOcpWNgqs5xC4ae5EXYl8p0yNCby1d/1ugxwK+GmIDpzT7pwxjCPfKvrJrPe3sIpo61oH9QMn0k9xVzf8/ZH0yWj/7SzPYPkMb7WxmOUWr0J41AM1LYf/FnVUNzmmbhMcNR/K1HkhCOLhzFzi2koojkQtPM5RQJ6NsFPDPpUWtcRKGzC8gU0+chIvBw6zjJ6CIz+lvtiOvYojhQ5dyOxHZppDBMu0zv0vmFAGM+qdJ5vmJbjUtfNbyaqnUQfz0jPCmcKX0BHbD+DGH2Lqf3c6BY1Q+32wQ3ol2NY2mXod4rbIVqr5qYqL2usC7wPquFDoJBrGimHZG7nC7aXAqyXrKq+EoHZ69EsbI1+gFqja8+M72dMXhnCnB9T8yvtelsLDdhKCI4evjaEO3qTHURb37Q70SoxLo9DO6Cz7oD+YfQjg5eEz3v/bNglQ/Ulg2LD0ha6ucM5oilJ2TxKg2hwVj+mXw66TicQDgDyaueQzuZubKIeh+p6iVlbMQir4Yykze8S+C4H/WFl0yGhYA0UootpPZAJbXDG9OdLvLUxZbPLvTg/0MbGaGfhTQDNd3sRUZ55GUKKJsp3RKUYhN9s9UpsD8RS49T7m5F9j0nxl0Wm
+X-Microsoft-Antispam-Message-Info: YDEISnAn/obpC4ixyIH6CEcqI7kW4iK6xmlXoQ9hKQi+iskVrySX17hCNwcVlTPJSoeMfusr/DaeB48kuUsBG4yUHQjbZY4pYx1OE9UZRbPXzpi6tTHkdlBFKIZLtqEmEqQx9vZhMaww9Me/Jh3lTfQxhETxVy54G2QIR/hkkaiRABtnxvd3G7nj8OybHYzZgR+LPO94bo6cwNdGL6LQeXdqbpbtJmF0K3X9erZ3PPjwWGKlppsAUGd8nDTSHi61lS+BQwmmgQFs2gplMvuQYw5iauEEVV8g9rni8EUjFTKprdYFFnuXsA9JE1E1CXVFKltdFEcZyeu69IE6UeLsG7CxHq9KF2/w/U5WUkE6Ob+5JvabfM13AmALlgVkQB4xBwQdl7PTI/dsYtgN8y9R6U6a2ziZ00ACWG/eFenCbwFDZghWJT8eoyTlOk04G0LxeuEWi9+y+SP8HkMQZ3ujLFEXmCz6dNZnxBgI9K7BzfIPvhKdU43Ws2yYiBGzY+Ei+Np1gn0s4UTzDZAqWwRfgJmF1guLtBo+aIxftdHVAZrF/NlYCv1q0EMFVjkd+rjqrU99R4OMLgdzCEJ6UxDh95U6jBgq+Yzs8iCC/9iZx+9bHzEBRcWblUTKavbyY7olFTqqnDaX7q0BCCfzObT+Mg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(5660300002)(8936002)(966005)(66946007)(110136005)(52116002)(36756003)(8676002)(2906002)(86362001)(316002)(83380400001)(16526019)(54906003)(53546011)(4326008)(186003)(478600001)(6486002)(45080400002)(66556008)(66574015)(66476007)(2616005)(31686004)(31696002)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(39850400004)(136003)(6486002)(54906003)(6512007)(69590400011)(66946007)(2616005)(2906002)(66476007)(5660300002)(966005)(4326008)(8676002)(36756003)(26005)(66556008)(16526019)(6666004)(8936002)(186003)(83380400001)(6506007)(478600001)(86362001)(316002)(956004)(52116002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q2VyL1JIcHBOMnB6a3lQMzhoRmdFM2JTdUVlVGUyRlZnQ2xQdnhsbXUwSGhw?=
- =?utf-8?B?V3VNNGtEaUREUzduQjdSVVZ1bkg5cTBVSkZEQ2ZwQ0tPc3p5T1ZNeWx0a2pL?=
- =?utf-8?B?Y3BiMlFrM3puQklOejZqRVJlNDliSDJPS0hRTTFibVFUeVdzQ3NBK25McG1q?=
- =?utf-8?B?eHNINitESXJ0R3dxOUEzcTBTTkdPbE1rZ1hUa1pLTFFHMTBtOVREZ3Rqcml6?=
- =?utf-8?B?c1BIbmVEenFaeXdTY3pnTG1TaXdvaDZQNE8ybDdSelA3bkh0d3pQM1VVOVM5?=
- =?utf-8?B?NGNDZHprTm9yL2ludWV5Z2k1Ny9obk5RbjRwQU9lV0xGNVduL2VIdkorYTJZ?=
- =?utf-8?B?ZXpEMUU1S1dySzRPcHVsYWFrQ3dvV09yenFzVWN2dWZXNVVDcmt5YnAzTmZu?=
- =?utf-8?B?YWNPT2ZIb3k0aUlNL0Q2M0NhNzNyVDljSXQyR2tkdm1tTHRzN3RRRXArWTdp?=
- =?utf-8?B?Vy90K2g4ZFh0dWZqK1hMVW93RUs5eDU3SmlxbFdtVTczQTd3aFpoYUJjYUpU?=
- =?utf-8?B?WVlFd3M3WkltbFhRVTdQYjRNNjY4clZueTlzaDgzeTBKenFEc3ZrNUt5N0tJ?=
- =?utf-8?B?L05aMVNjS1VwWjZCbVlwODVIbEdyWE9pNUhTR1JTUW9zdUsvdGJHNmZQSjVq?=
- =?utf-8?B?a2lQZTFSSlJSeUZoUGdJMHVORlY2NngwQmNIbG9mejZQN3Roczc1bWRhMjU2?=
- =?utf-8?B?NzRDTlp5RWlNcGV5ZjYwUHpSaSszV2gwWFBBQ29zTHhzKzI5cjAxdEJ0dlY1?=
- =?utf-8?B?Q1NrSkk2V0hRVzNBUXBNYlZUZURVWmk4TDljcXVpZ0dCVDVvZ0ZHSHBsQk55?=
- =?utf-8?B?QkMzR2ZPSmdyZTMvcGZXWmtZNEkrL2VDMytBZ2pHTUlhUzJhMldocE5WV3lO?=
- =?utf-8?B?Zk16Zm8vTVUvS1VMWWV3Uml4N0tOcnM0SkdoOGhGQ0pmL2JERER4cGN1OVdi?=
- =?utf-8?B?Y2VFMSt4T0o5WEpWKy82QngxaGVrYnhQYm8xdFNQMWY1MFYvYmRpK1NXdU01?=
- =?utf-8?B?MGN3Y3VveWdReVFRNUNvUmJJWkR6U1JiTFpkTW1UdHNCWDBTYmY5cGRyWUdo?=
- =?utf-8?B?MFpPSWRHdmJ6YmltN1BZQUd6NGlmYzV6MnlGSkhKUHI5OEk0TzFBMngvdVBy?=
- =?utf-8?B?QkNlWEUxVTFLQjR5UTQ1ZFRib05wVHZycG5XN0ZSSGZncm1uNWpDQS9QNUxJ?=
- =?utf-8?B?WWszRmtrVWpKdWFKak1CVFIyOWZEMGZJQ0IvVGxHYlJpODlDU3QyVzQvZEVn?=
- =?utf-8?B?dzQ0T2lMajBYZDBlTjhsaTZxcXVveFlhUGJWM2JFMm9pZjlPS1oxK0lYUzRk?=
- =?utf-8?B?azV5L05QcFovRVNwZEVWVTNvWFlscXlOeWtTa0duc0lob0ZVUUwzV2cxM2Vq?=
- =?utf-8?B?RFlFU3FKL1VEWVJ3TTc1WFZJQ252cGpxQlVBM2tqbjZkWkNzc3BnMHIrNXp0?=
- =?utf-8?B?NzZCWVUwbi9PbEN5T1N1RkkwMG1PRTRHY0VaL3NWYnc2cmJlRFcvZFhHRG1C?=
- =?utf-8?B?bDlBaGxWZ2hEd2VsZmZpcWprTjA2UitEMmEvTmFEbFFBd3RuSGhVejVJUmVV?=
- =?utf-8?B?aXp6N2lLTitnaG1DaU8rc1ZNM1dWUWxNY091QkpPeUtHOHI2bTNkc1J2UlNx?=
- =?utf-8?B?SGo0Y0VzdEo2WFMveFdlVWpKZFZlc0xNNEs2WEUvWkFJMHh2bU56SlBjY2NC?=
- =?utf-8?B?aElwNDJEN2drNkdiTmVaano0WEs4emJJL0FzL2tlZHd4YkhYRnUxR2Y0TFpR?=
- =?utf-8?B?amxiSmdiSFlvV1YzVjZLN3NlSWxnZEltWGtiMGlCcTIzQk93dU0rcElQNmtU?=
- =?utf-8?B?aUI5T3RsRXlucXN6Y2NmQlpGNTFnSE5WUmltK2xWS3dQOEVJK3BVWHVLeGdj?=
- =?utf-8?Q?agSBsVyvi33Je?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4471a67-1507-4e24-41bb-08d8cd074fb2
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?yt8LK2yECkUV9Jv0NtZ5ciHHfrHfzpVi+yBLX4CLwl7PIKnVsjBwqdXNAqmW?=
+ =?us-ascii?Q?pf41W2Xx7OP96bL9rWsSEYwdWSoIb3o2ZEzSvJqa7S2JYO2hBSsyoJCxM0/j?=
+ =?us-ascii?Q?WClWGm3Gdf3MI+YtMfzR5ymQs6omIEcu5U/mISeSn05+8/kq1oi6689Avz/2?=
+ =?us-ascii?Q?iBK28TehUISZklRGbPOETwf3uRtdWMj0po2q0NEm3PmHfBYwbjBbvSUWQebx?=
+ =?us-ascii?Q?ZiUplsPOJGcvVp4g2QBHQMSO/cfkzWFpXKzJxsNgHXCRkpCUJNljAubM0yr2?=
+ =?us-ascii?Q?Lnv6VKzP0tDWFqCDA8I11fljVrbJoJJJl5n04fvumZHiE4M9CxtTuY2Mo1F9?=
+ =?us-ascii?Q?KGi/qD9OJMClMHHEo8fqrsztslevv4EX9vsJC9sG1vx8bVk06XpO5lBKMHpq?=
+ =?us-ascii?Q?yHCvuoT9dw1/EMxLp2OLeumjXKQ94lJ+zzRukceqy06uwk29LlC/5yNL5Mq7?=
+ =?us-ascii?Q?x8KVG79GQJWKCHQKSR40aEt8oU+Pyem/mhxoZUJKyBXnwki3CZ9KhNcor60R?=
+ =?us-ascii?Q?/up+EKC91oxzoGVIQ5ydPHZNOXOUjcokunBr1Kfh3+Kyp5eg69xR46x+7ZkP?=
+ =?us-ascii?Q?5oi8VJ1Pb2dtzRxtJtFTEjlkV3mURcGixz+0hexdDyElZlePNiCPESzs9qQd?=
+ =?us-ascii?Q?e5zAspC1es0LzEwifgXU6wSWbXn8EqtpZLrK4tiTqisGpWKn0z370Ecbzmam?=
+ =?us-ascii?Q?CPbgAzTfy1qF0EIAIV09+WEoIhWvWPWpTU+fP6gg/JOF0OueFvjFldp3aFj4?=
+ =?us-ascii?Q?ypxtAt3WCPN3L8FL1OBeuVIpLnM+cSFmh/5z78VU9v5XEh+fx3Mlra7p/t+j?=
+ =?us-ascii?Q?5BZoZjRL9PnqFb7KlQOzfI5M0ul5crOQaxEUJuChBveaOsdip2qLxOkF/2VW?=
+ =?us-ascii?Q?qmqyav3Abt59wOV+bhGiAawJDFZn4V7cjRG73NkTG50BsKPqCO+32eRlgUIW?=
+ =?us-ascii?Q?wOORXbmZ6QG+zmdTOxIbrP5/dlmwIIKRCJ1EbPiOqralb/Bv1hxlNsofKtC9?=
+ =?us-ascii?Q?Nb9lZ8PY6lVHE3G/azZOltWVLDFIV9ipS2Is1T56501tmE/V0Yj29QVP/JC0?=
+ =?us-ascii?Q?OpyZcFGySLY/oA+EOnDaPm/rIMO6F1HhkQ5KKauabXpA8bOR8D1mIy5QC9cb?=
+ =?us-ascii?Q?YHup32al4bVeUEBO+l+23TzaNlcVDGC9bTUrxJMai9H3xj9+O0CZ4/XphiKa?=
+ =?us-ascii?Q?2mBYkLkfz1S720kud1d925EyVeDCKZobS8AFuajTHQ/ABf1QX5Hk4aiGnksO?=
+ =?us-ascii?Q?VXMVKWNRChjpIVc3fWeVgFU1jtbkbCdr+GqeTlMzdvqkRtpenhgOWJDa6yXm?=
+ =?us-ascii?Q?NJ7p9t/HJ15CTQDhRp1NqkxB?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0ff6d1e-928f-4517-71bb-08d8cd06a511
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 14:30:56.0151 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 14:26:09.9884 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YqdVfuLOP3phLXx38CkDe5ys2zkW9P+7xpsXpMpwYiB14NgqNQAlc/meRAiXE2lAl7y7d7xS8cDLY2VcsOvhWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4416
+X-MS-Exchange-CrossTenant-UserPrincipalName: k7QalfL0SZN908jtzSaQBM+EEpPbFLrlG5zSUQZMYAyRoQqCrbPWCJZtH+iSyy2wP02tdZwSfdHPMZpdj9wkhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3789
+X-Mailman-Approved-At: Tue, 09 Feb 2021 15:00:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,121 +116,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <Alexander.Deucher@amd.com>, Qiang Yu <yuq825@gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDIvOS8yMSAyOjU4IEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Cj4gQW0gMDguMDIu
-MjEgdW0gMjM6MTUgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPj4KPj4gT24gMi84LzIxIDEx
-OjIzIEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4gT24gTW9uLCBGZWIgOCwgMjAyMSBhdCAz
-OjAwIFBNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gCj4+PiB3
-cm90ZToKPj4+PiBBbSAwOC4wMi4yMSB1bSAxMToxMSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4+
-Pj4+IE9uIE1vbiwgRmViIDA4LCAyMDIxIGF0IDExOjAzOjE1QU0gKzAxMDAsIENocmlzdGlhbiBL
-w7ZuaWcgd3JvdGU6Cj4+Pj4+PiBBbSAwOC4wMi4yMSB1bSAxMDo0OCBzY2hyaWViIERhbmllbCBW
-ZXR0ZXI6Cj4+Pj4+Pj4gT24gTW9uLCBGZWIgMDgsIDIwMjEgYXQgMTA6Mzc6MTlBTSArMDEwMCwg
-Q2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+Pj4+Pj4gQW0gMDcuMDIuMjEgdW0gMjI6NTAgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+Pj4+Pj4+Pj4gW1NOSVBdCj4+Pj4+Pj4+Pj4gQ2xhcmlmaWNh
-dGlvbiAtIGFzIGZhciBhcyBJIGtub3cgdGhlcmUgYXJlIG5vIHBhZ2UgZmF1bHQgaGFuZGxlcnMg
-Zm9yIAo+Pj4+Pj4+Pj4+IGtlcm5lbAo+Pj4+Pj4+Pj4+IG1hcHBpbmdzLiBBbmQgd2UgYXJlIHRh
-bGtpbmcgYWJvdXQga2VybmVsIG1hcHBpbmdzIGhlcmUsIHJpZ2h0ID/CoCBJZiAKPj4+Pj4+Pj4+
-PiB0aGVyZSB3ZXJlCj4+Pj4+Pj4+Pj4gSSBjb3VsZCBzb2x2ZSBhbGwgdGhvc2UgaXNzdWVzIHRo
-ZSBzYW1lIGFzIEkgZG8gZm9yIHVzZXIgbWFwcGluZ3MsIGJ5Cj4+Pj4+Pj4+Pj4gaW52YWxpZGF0
-aW5nIGFsbCBleGlzdGluZyBtYXBwaW5ncyBpbiB0aGUga2VybmVsIChib3RoIGttYXBzIGFuZCAK
-Pj4+Pj4+Pj4+PiBpb3JlYW1wcylhbmQKPj4+Pj4+Pj4+PiBpbnNlcnQgZHVtbXkgemVybyBvciB+
-MCBmaWxsZWQgcGFnZSBpbnN0ZWFkLgo+Pj4+Pj4+Pj4+IEFsc28sIEkgYXNzdW1lIGZvcmNlZnVs
-bHkgcmVtYXBwaW5nIHRoZSBJTyBCQVIgdG8gfjAgZmlsbGVkIHBhZ2UgCj4+Pj4+Pj4+Pj4gd291
-bGQgaW52b2x2ZQo+Pj4+Pj4+Pj4+IGlvcmVtYXAgQVBJIGFuZCBpdCdzIG5vdCBzb21ldGhpbmcg
-dGhhdCBJIHRoaW5rIGNhbiBiZSBlYXNpbHkgZG9uZSAKPj4+Pj4+Pj4+PiBhY2NvcmRpbmcgdG8K
-Pj4+Pj4+Pj4+PiBhbSBhbnN3ZXIgaSBnb3QgdG8gYSByZWxhdGVkIHRvcGljIGEgZmV3IHdlZWtz
-IGFnbwo+Pj4+Pj4+Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9v
-ay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnd3dy5zcGluaWNzLm5ldCUyRmxpc3RzJTJGbGludXgt
-cGNpJTJGbXNnMTAzMzk2Lmh0bWwmYW1wO2RhdGE9MDQlN0MwMSU3Q0FuZHJleS5Hcm9kem92c2t5
-JTQwYW1kLmNvbSU3QzlkMWJkZjRjZWU1MDRjZDcxYjQ5MDhkOGNjNGRmMzEwJTdDM2RkODk2MWZl
-NDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQ4Mzk4MjQ1NDYwODI0OSU3Q1Vu
-a25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlM
-Q0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1BbnclMkJPd0ol
-MkI1dHZqVzN0bWtWTmR6MTMlMkJaMTh2ZHBmT0xXcXNVWkw3RDJJJTNEJmFtcDtyZXNlcnZlZD0w
-IAo+Pj4+Pj4+Pj4+ICh0aGF0IHdhcyB0aGUgb25seSByZXBseQo+Pj4+Pj4+Pj4+IGkgZ290KQo+
-Pj4+Pj4+Pj4gbW1pb3RyYWNlIGNhbiwgYnV0IG9ubHkgZm9yIGRlYnVnLCBhbmQgb25seSBvbiB4
-ODYgcGxhdGZvcm1zOgo+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtz
-LnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnd3dy5rZXJuZWwub3Jn
-JTJGZG9jJTJGaHRtbCUyRmxhdGVzdCUyRnRyYWNlJTJGbW1pb3RyYWNlLmh0bWwmYW1wO2RhdGE9
-MDQlN0MwMSU3Q0FuZHJleS5Hcm9kem92c2t5JTQwYW1kLmNvbSU3QzlkMWJkZjRjZWU1MDRjZDcx
-YjQ5MDhkOGNjNGRmMzEwJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdD
-MCU3QzYzNzQ4Mzk4MjQ1NDYwODI0OSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1D
-NHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0Ql
-N0MxMDAwJmFtcDtzZGF0YT1XYTdCRk55U1ZRSkx5RDZXWTRwWkhUUDFRZmVad0Q3RjV5ZEJyWHV4
-cHBRJTNEJmFtcDtyZXNlcnZlZD0wIAo+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+Cj4+Pj4+Pj4+PiBTaG91
-bGQgYmUgZmVhc2libGUgKGJ1dCBtYXliZSBub3Qgd29ydGggdGhlIGVmZm9ydCkgdG8gZXh0ZW5k
-IHRoaXMgdG8KPj4+Pj4+Pj4+IHN1cHBvcnQgZmFrZSB1bnBsdWcuCj4+Pj4+Pj4+IE1obSwgaW50
-ZXJlc3RpbmcgaWRlYSB5b3UgZ3V5cyBicm91Z2h0IHVwIGhlcmUuCj4+Pj4+Pj4+Cj4+Pj4+Pj4+
-IFdlIGRvbid0IG5lZWQgYSBwYWdlIGZhdWx0IGZvciB0aGlzIHRvIHdvcmssIGFsbCB3ZSBuZWVk
-IHRvIGRvIGlzIHRvIAo+Pj4+Pj4+PiBpbnNlcnQKPj4+Pj4+Pj4gZHVtbXkgUFRFcyBpbnRvIHRo
-ZSBrZXJuZWxzIHBhZ2UgdGFibGUgYXQgdGhlIHBsYWNlIHdoZXJlIHByZXZpb3VzbHkgdGhlCj4+
-Pj4+Pj4+IE1NSU8gbWFwcGluZyBoYXMgYmVlbi4KPj4+Pj4+PiBTaW1wbHkgcHRlIHRyaWNrIGlz
-bid0IGVub3VnaCwgYmVjYXVzZSB3ZSBuZWVkOgo+Pj4+Pj4+IC0gZHJvcCBhbGwgd3JpdGVzIHNp
-bGVudGx5Cj4+Pj4+Pj4gLSBhbGwgcmVhZHMgcmV0dXJuIDB4ZmYKPj4+Pj4+Pgo+Pj4+Pj4+IHB0
-ZXMgY2FuJ3QgZG8gdGhhdCB0aGVtc2VsdmVzLCB3ZSBtaW5pbWFsbHkgbmVlZCB3cml0ZSBwcm90
-ZWN0aW9uIGFuZCB0aGVuCj4+Pj4+Pj4gc2lsZW50bHkgcHJvY2VlZCBvbiBlYWNoIHdyaXRlIGZh
-dWx0IHdpdGhvdXQgcmVzdGFydGluZyB0aGUgaW5zdHJ1Y3Rpb24uCj4+Pj4+Pj4gQmV0dGVyIHdv
-dWxkIGJlIHRvIG9ubHkgY2F0Y2ggcmVhZHMsIGJ1dCB4ODYgZG9lc24ndCBkbyB3cml0ZS1vbmx5
-IHB0ZQo+Pj4+Pj4+IHBlcm1pc3Npb25zIGFmYWlrLgo+Pj4+Pj4gWW91IGFyZSBub3QgdGhpbmtp
-bmcgZmFyIGVub3VnaCA6KQo+Pj4+Pj4KPj4+Pj4+IFRoZSBkdW1teSBQVEUgaXMgcG9pbnQgdG8g
-YSBkdW1teSBNTUlPIHBhZ2Ugd2hpY2ggaXMganVzdCBuZXZlciB1c2VkLgo+Pj4+Pj4KPj4+Pj4+
-IFRoYXQgaGFzdCB0aGUgZXhhY3Qgc2FtZSBwcm9wZXJ0aWVzIHRoYW4gb3VyIHJlbW92ZWQgTU1J
-TyBzcGFjZSBqdXN0IGRvZXNuJ3QKPj4+Pj4+IGdvZXMgYmFuYW5hcyB3aGVuIGEgbmV3IGRldmlj
-ZSBpcyBNTUlPIG1hcHBlZCBpbnRvIHRoYXQgYW5kIG91ciBkcml2ZXIgc3RpbGwKPj4+Pj4+IHRy
-aWVzIHRvIHdyaXRlIHRoZXJlLgo+Pj4+PiBIbSwgYnV0IHdoZXJlIGRvIHdlIGdldCBzdWNoIGEg
-Imd1YXJhbnRlZWQgbmV2ZXIgdXNlZCIgbW1pbyBwYWdlIGZyb20/Cj4+Pj4gV2VsbCB3ZSBoYXZl
-IHRvbnMgb2YgdW51c2VkIElPIHNwYWNlIG9uIDY0Yml0IHN5c3RlbXMgdGhlc2UgZGF5cy4KPj4+
-Pgo+Pj4+IERvZXNuJ3QgcmVhbGx5IG5lZWRzIHRvIGJlIFBDSWUgYWRkcmVzcyBzcGFjZSwgZG9l
-c24ndCBpdD8KPj4+IFRoYXQgc291bmRzIHZlcnkgdHJ1c3RpbmcgdG8gbW9kZXJuIHN5c3RlbXMg
-bm90IGRlY29kaW5nIHJhbmRvbQo+Pj4gcmFuZ2VzLiBFLmcuIHRoZSBwY2kgY29kZSBzdG9wcGVk
-IGV4dGVuZGluZyB0aGUgaG9zdCBicmlkZ2Ugd2luZG93cyBvbgo+Pj4gaXRzIG93biwgZW50aXJl
-bHkgcmVseWluZyBvbiB0aGUgYWNwaSBwcm92aWRlZCByYW5nZXMsIHRvIGF2b2lkCj4+PiBzdG9t
-cGluZyBvbiBzdHVmZiB0aGF0J3MgdGhlIGJ1dCBub3QgbGlzdGVkIGFueXdoZXJlLgo+Pj4KPj4+
-IEkgZ3Vlc3MgaWYgd2UgaGF2ZSBhIHJhbmdlIGJlaGluZCBhIHBjaSBicmlkZ2UsIHdoaWNoIGlz
-bid0IHVzZWQgYnkKPj4+IGFueSBkZXZpY2UsIGJ1dCBkZWNvZGVkIGJ5IHRoZSBicmlkZ2UsIHRo
-ZW4gdGhhdCBzaG91bGQgYmUgc2FmZQo+Pj4gZW5vdWdoLiBNYXliZSBjb3VsZCBldmVuIGhhdmUg
-YW4gb3B0aW9uIGluIHVwc3RyZWFtIHRvIGRvIHRoYXQgb24KPj4+IHVucGx1ZywgaWYgYSBjZXJ0
-YWluIGZsYWcgaXMgc2V0LCBvciBhIGNtZGxpbmUgb3B0aW9uLgo+Pj4gLURhbmllbAo+Pgo+Pgo+
-PiBRdWVzdGlvbiAtIFdoeSBjYW4ndCB3ZSBqdXN0IHNldCB0aG9zZSBQVEVzIHRvIHBvaW50IHRv
-IHN5c3RlbSBtZW1vcnkgCj4+IChhbm90aGVyIFJPIGR1bW15IHBhZ2UpCj4+IGZpbGxlZCB3aXRo
-IDFzID8KPgo+Cj4gVGhlbiB3cml0ZXMgYXJlIG5vdCBkaXNjYXJkZWQuIEUuZy4gdGhlIDFzIHdv
-dWxkIGNoYW5nZSB0byBzb21ldGhpbmcgZWxzZS4KPgo+IENocmlzdGlhbi4KCgpJIHNlZSBidXQs
-IHdoYXQgYWJvdXQgbWFya2luZyB0aGUgbWFwcGluZ3MgYXMgUk8gYW5kIGRpc2NhcmRpbmcgdGhl
-IHdyaXRlIGFjY2VzcyAKcGFnZSBmYXVsdHMgY29udGludW91c2x5IHVudGlsIHRoZSBkZXZpY2Ug
-aXMgZmluYWxpemVkID8KUmVnYXJkaW5nIHVzaW5nIGFuIHVudXNlZCByYW5nZSBiZWhpbmQgdGhl
-IHVwcGVyIGJyaWRnZSBhcyBEYW5pZWwgc3VnZ2VzdGVkLCBJIAp3b25kZXIgd2lsbCB0aGlzIGlu
-dGVyZmVyZSB3aXRoCnRoZSB1cGNvbWluZyBmZWF0dXJlIHRvIHN1cHBvcnQgQkFScyBtb3ZlbWVu
-dMKgIGR1cmluZyBob3QgcGx1ZyAtIApodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9saW51
-eC1wY2kvbXNnMTAzMTk1Lmh0bWwgPwoKQW5kcmV5CgoKPgo+Cj4+Cj4+IEFuZHJleQo+Pgo+Pgo+
-Pj4KPj4+PiBDaHJpc3RpYW4uCj4+Pj4KPj4+Pj4gSXQncyBhIG5pZnR5IGlkZWEgaW5kZWVkIG90
-aGVyd2lzZSAuLi4KPj4+Pj4gLURhbmllbAo+Pj4+Pgo+Pj4+Pj4gUmVnYXJkcywKPj4+Pj4+IENo
-cmlzdGlhbi4KPj4+Pj4+Cj4+Pj4+Pgo+Pj4+Pj4+Pj4+PiBCdXQgdWdoIC4uLgo+Pj4+Pj4+Pj4+
-Pgo+Pj4+Pj4+Pj4+PiBPdG9oIHZhbGlkYXRpbmcgYW4gZW50aXJlIGRyaXZlciBsaWtlIGFtZGdw
-dSB3aXRob3V0IHN1Y2ggYSB0cmljawo+Pj4+Pj4+Pj4+PiBhZ2FpbnN0IDB4ZmYgcmVhZHMgaXMg
-cHJhY3RpY2FsbHkgaW1wb3NzaWJsZS4gU28gbWF5YmUgeW91IG5lZWQgdG8gYWRkCj4+Pj4+Pj4+
-Pj4+IHRoaXMgYXMgb25lIG9mIHRoZSB0YXNrcyBoZXJlPwo+Pj4+Pj4+Pj4+IE9yIEkgY291bGQg
-anVzdCBmb3IgdmFsaWRhdGlvbiBwdXJwb3NlcyByZXR1cm4gfjAgZnJvbSBhbGwgcmVnIHJlYWRz
-IAo+Pj4+Pj4+Pj4+IGluIHRoZSBjb2RlCj4+Pj4+Pj4+Pj4gYW5kIGlnbm9yZSB3cml0ZXMgaWYg
-ZHJtX2Rldl91bnBsdWdnZWQsIHRoaXMgY291bGQgYWxyZWFkeSBlYXNpbHkgCj4+Pj4+Pj4+Pj4g
-dmFsaWRhdGUgYSBiaWcKPj4+Pj4+Pj4+PiBwb3J0aW9uIG9mIHRoZSBjb2RlIGZsb3cgdW5kZXIg
-c3VjaCBzY2VuYXJpby4KPj4+Pj4+Pj4+IEhtIHllYWggaWYgeW91ciByZWFsbHkgd3JhcCB0aGVt
-IGFsbCwgdGhhdCBzaG91bGQgd29yayB0b28uIFNpbmNlCj4+Pj4+Pj4+PiBpb21tYXBwaW5ncyBo
-YXZlIF9faW9tZW0gcG9pbnRlciB0eXBlLCBhcyBsb25nIGFzIGFtZGdwdSBpcyBzcGFyc2UKPj4+
-Pj4+Pj4+IHdhcm5pbmcgZnJlZSwgc2hvdWxkIGJlIGRvYWJsZSB0byBndWFyYW50ZWUgdGhpcy4K
-Pj4+Pj4+Pj4gUHJvYmxlbSBpcyB0aGF0IH4wIGlzIG5vdCBhbHdheXMgYSB2YWxpZCByZWdpc3Rl
-ciB2YWx1ZS4KPj4+Pj4+Pj4KPj4+Pj4+Pj4gWW91IHdvdWxkIG5lZWQgdG8gYXVkaXQgZXZlcnkg
-cmVnaXN0ZXIgcmVhZCB0aGF0IGl0IGRvZXNuJ3QgdXNlIHRoZSAKPj4+Pj4+Pj4gcmV0dXJuZWQK
-Pj4+Pj4+Pj4gdmFsdWUgYmxpbmRseSBhcyBpbmRleCBvciBzaW1pbGFyLiBUaGF0IGlzIHF1aXRl
-IGEgYml0IG9mIHdvcmsuCj4+Pj4+Pj4gWWVhaCB0aGF0J3MgdGhlIGVudGlyZSBjcnV4IGhlcmUg
-Oi0vCj4+Pj4+Pj4gLURhbmllbAo+Pj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+To complement panel-simple.yaml, create panel-simple-lvds-dual-ports.yaml.
+panel-simple-lvds-dual-ports.yaml is for all simple LVDS panels that
+have dual LVDS ports and require only a single power-supply.
+The first port receives odd pixels, and the second port receives even pixels.
+Optionally, a backlight and an enable GPIO can be specified as properties.
+
+Panels with swapped pixel order, if any, need dedicated bindings.
+
+Migrate 'auo,g133han01', 'auo,g185han01', 'auo,g190ean01',
+'koe,tx26d202vm0bwa' and 'nlt,nl192108ac18-02d' over to the new file.
+
+The objectives with one file for all the simple LVDS panels with dual ports are:
+- Make it simpler to add bindings for this kind of LVDS panels
+- Keep the number of bindings file lower
+- Keep the binding documentation for this kind of LVDS panels more consistent
+- Make it possible for drivers to get pixel order via
+  drm_of_lvds_get_dual_link_pixel_order(), as the 'ports' property is required
+
+Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v5->v6:
+* Use OF graph schema.
+* Drop Rob's R-b tag, as review is needed.
+
+v4->v5:
+* Require the 'ports' property and update commit message accordingly. (Rob)
+* Add Rob's R-b tag.
+
+v3->v4:
+* Add type and descriptions for dual-lvds-{odd,even}-pixels properties.
+  Also, update descriptions for port@0 and port@1 properties accordingly. (Rob)
+
+v2->v3:
+* Do not allow 'port' property. (Rob)
+* Define port number. (Rob)
+* Specify 'dual-lvds-odd-pixels' and 'dual-lvds-even-pixels' properties. (Rob)
+
+v1->v2:
+* Correct pixel order in example LVDS panel node.
+
+ .../panel/panel-simple-lvds-dual-ports.yaml        | 116 +++++++++++++++++++++
+ .../bindings/display/panel/panel-simple.yaml       |  10 --
+ 2 files changed, 116 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+new file mode 100644
+index 00000000..274e89b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+@@ -0,0 +1,116 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Simple LVDS panels with one power supply and dual LVDS ports
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++  - Thierry Reding <thierry.reding@gmail.com>
++  - Sam Ravnborg <sam@ravnborg.org>
++
++description: |
++  This binding file is a collection of the LVDS panels that
++  has dual LVDS ports and requires only a single power-supply.
++  The first port receives odd pixels, and the second port receives even pixels.
++  There are optionally a backlight and an enable GPIO.
++  The panel may use an OF graph binding for the association to the display,
++  or it may be a direct child node of the display.
++
++  If the panel is more advanced a dedicated binding file is required.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++
++  compatible:
++    enum:
++    # compatible must be listed in alphabetical order, ordered by compatible.
++    # The description in the comment is mandatory for each compatible.
++
++        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
++      - auo,g133han01
++        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
++      - auo,g185han01
++        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
++      - auo,g190ean01
++        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
++      - koe,tx26d202vm0bwa
++        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
++      - nlt,nl192108ac18-02d
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: The first sink port.
++
++        properties:
++          dual-lvds-odd-pixels:
++            type: boolean
++            description: The first sink port for odd pixels.
++
++        required:
++          - dual-lvds-odd-pixels
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: The second sink port.
++
++        properties:
++          dual-lvds-even-pixels:
++            type: boolean
++            description: The second sink port for even pixels.
++
++        required:
++          - dual-lvds-even-pixels
++
++    required:
++      - port@0
++      - port@1
++
++  backlight: true
++  enable-gpios: true
++  power-supply: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - ports
++  - power-supply
++
++examples:
++  - |
++    panel: panel-lvds {
++      compatible = "koe,tx26d202vm0bwa";
++      power-supply = <&vdd_lcd_reg>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          dual-lvds-odd-pixels;
++          reg = <0>;
++
++          panel_lvds0_in: endpoint {
++            remote-endpoint = <&lvds0_out>;
++          };
++        };
++
++        port@1 {
++          dual-lvds-even-pixels;
++          reg = <1>;
++
++          panel_lvds1_in: endpoint {
++            remote-endpoint = <&lvds1_out>;
++          };
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 35b42ee..e7718d2 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -57,14 +57,8 @@ properties:
+       - auo,g104sn02
+         # AU Optronics Corporation 12.1" (1280x800) TFT LCD panel
+       - auo,g121ean01
+-        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
+-      - auo,g133han01
+         # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
+       - auo,g156xtn01
+-        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
+-      - auo,g185han01
+-        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
+-      - auo,g190ean01
+         # AU Optronics Corporation 31.5" FHD (1920x1080) TFT LCD panel
+       - auo,p320hvn03
+         # AU Optronics Corporation 21.5" FHD (1920x1080) color TFT LCD panel
+@@ -171,8 +165,6 @@ properties:
+       - kingdisplay,kd116n21-30nv-a010
+         # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
+       - koe,tx14d24vm1bpa
+-        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
+-      - koe,tx26d202vm0bwa
+         # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
+       - koe,tx31d200vm0baa
+         # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
+@@ -209,8 +201,6 @@ properties:
+       - neweast,wjfh116008a
+         # Newhaven Display International 480 x 272 TFT LCD panel
+       - newhaven,nhd-4.3-480272ef-atxl
+-        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
+-      - nlt,nl192108ac18-02d
+         # New Vision Display 7.0" 800 RGB x 480 TFT LCD panel
+       - nvd,9128
+         # OKAYA Electric America, Inc. RS800480T-7X0GP 7" WVGA LCD panel
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
