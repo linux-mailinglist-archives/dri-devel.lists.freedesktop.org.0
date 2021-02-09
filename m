@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB52C315A5A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 00:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FD1315A57
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 00:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAFCC6EC0E;
-	Tue,  9 Feb 2021 23:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066BF6EC02;
+	Tue,  9 Feb 2021 23:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F28926E120;
- Tue,  9 Feb 2021 23:48:27 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id p21so113189lfu.11;
- Tue, 09 Feb 2021 15:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yNEcY+k1I/sPxeT89v0RbvERaYcFC6w0nk6p7Ga+k7o=;
- b=H55GtJ+kFJow/fff1SlxkWECW/MsUAGzpc1ycWI29ms7aU5BsoRoN6PI5KmdemYb3e
- lsdW1od8WBmJt4SLC9o5lqjwSPxX5fs7DCAZpvaLduFlvDn0up50izcE3A9sh684r1Og
- AhVM1o29PNIjDIv62v++595uWT8LWfgYSbHvAmGTVt0NNlWp/zT9kPJy/3lc7X7qUdyh
- 6NMylHkFQ3VWjNHgUOKUdvqqwyiD3KqKSvPNVer+dV9SfmSbV2ZsJ4mldWqSnD3KeayA
- +L+czvtUTNzU2kIljMobA1Gwxet4fjA7apw9SRYaj+eX9RlWpXij60MQw53QCFt3jD9o
- 3KpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yNEcY+k1I/sPxeT89v0RbvERaYcFC6w0nk6p7Ga+k7o=;
- b=aWa+c4Bv2S9JWLdHKD80NvxG3gbCUu8SPXvhDYwUln5RoaRiaEtjEqf4Vhgo7olOWr
- SIj4M8raorAZMmZacil0N0W+4c7Tta8bTrbfJyOo0VoyZtMaijjmqffpfMFuFDHaoHl8
- W5RRRXzh7b7SV7YKTRvu9VYdL9cTs50XAte+JSKXYBvbRrc19z1fykooGNEPZ0rJWBdk
- 3KJ8kqe2NQ+PW8vqAxZF1n/5Qtt5BhkOad5UT8RdP+z6Jn+QGtQtHUb4Y9K/mbA7dT7H
- H8JGrVz5Y8tYLlYF0OqaQ3pq9RNFaYSQGuO260qcvov/JMzEv21g0wcZwDfuel5fGfLo
- /Yig==
-X-Gm-Message-State: AOAM5315RZ7mWjCo4BDz3Ps7KsT5sywT1FaUaUb++9anZy3jfBEYWBOS
- 2YbpFCaAw1ZLFnRHLZq20Rc=
-X-Google-Smtp-Source: ABdhPJwEgfMGoJUtU5l1trR++7LWKZ1G/cGIubNiHZdjGVjhcKjS3G5FyPiBakSx7jaYCAYohVN/Yw==
-X-Received: by 2002:a05:6512:39ce:: with SMTP id
- k14mr195590lfu.169.1612914506449; 
- Tue, 09 Feb 2021 15:48:26 -0800 (PST)
-Received: from localhost.localdomain (h-158-174-22-164.NA.cust.bahnhof.se.
- [158.174.22.164])
- by smtp.gmail.com with ESMTPSA id c25sm23779lja.131.2021.02.09.15.48.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 15:48:25 -0800 (PST)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/3] drm/nouveau/ttm: constify static vm_operations_struct
-Date: Wed, 10 Feb 2021 00:48:17 +0100
-Message-Id: <20210209234817.55112-4-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210209234817.55112-1-rikard.falkeborn@gmail.com>
-References: <20210209234817.55112-1-rikard.falkeborn@gmail.com>
+Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565676EC02
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 23:57:36 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1612915059; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=m4sOxKBKLmTi6eZIh2OP00gB5CPUIiEGD54N02UPzOI=;
+ b=IcU+DhFn20YM7hiwqlK61w1SdwxJqt76xBsN2C2czhmvgZdVRZqWgIe7zCyTpTsLg3OSymfw
+ PmgrUi3DzdYXqEhKBGxDZOc3oJVjA3Ih3B1gbpCGcNY/XUcu8cS79dpuIaM6P8kG+MUEyH0Y
+ UEjO2ErX9XQ6PZuxERvzlt215DM=
+X-Mailgun-Sending-Ip: 198.61.254.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60232164f112b7872c40c470 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 09 Feb 2021 23:57:24
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 70C4CC43465; Tue,  9 Feb 2021 23:57:24 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 315C8C433CA;
+ Tue,  9 Feb 2021 23:57:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 315C8C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH] drm/msm: a6xx: Make sure the SQE microcode is safe
+Date: Tue,  9 Feb 2021 16:57:17 -0700
+Message-Id: <20210209235717.768010-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 09 Feb 2021 23:58:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +66,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Likun Gao <Likun.Gao@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only usage of nouveau_ttm_vm_ops is to assign its address to the
-vm_ops field in the vm_area_struct struct. Make it const to allow the
-compiler to put it in read-only memory
+Most a6xx targets have security issues that were fixed with new versions
+of the microcode(s). Make sure that we are booting with a safe version of
+the microcode for the target and print a message and error if not.
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 495288182c2d..b81ae90b8449 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -154,7 +154,7 @@ static vm_fault_t nouveau_ttm_fault(struct vm_fault *vmf)
- 	return ret;
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 67 +++++++++++++++++++++------
+ 1 file changed, 54 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index ba8e9d3cf0fe..cfb0d5f63784 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -522,28 +522,61 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
+ 	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
  }
  
--static struct vm_operations_struct nouveau_ttm_vm_ops = {
-+static const struct vm_operations_struct nouveau_ttm_vm_ops = {
- 	.fault = nouveau_ttm_fault,
- 	.open = ttm_bo_vm_open,
- 	.close = ttm_bo_vm_close,
+-static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
++/*
++ * Check that the microcode version is new enough to include several key
++ * security fixes. Return true if the ucode is safe.
++ */
++static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+ 		struct drm_gem_object *obj)
+ {
++	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	u32 *buf = msm_gem_get_vaddr(obj);
++	bool ret = false;
+ 
+ 	if (IS_ERR(buf))
+-		return;
++		return false;
+ 
+ 	/*
+-	 * If the lowest nibble is 0xa that is an indication that this microcode
+-	 * has been patched. The actual version is in dword [3] but we only care
+-	 * about the patchlevel which is the lowest nibble of dword [3]
+-	 *
+-	 * Otherwise check that the firmware is greater than or equal to 1.90
+-	 * which was the first version that had this fix built in
++	 * Targets up to a640 (a618, a630 and a640) need to check for a
++	 * microcode version that is patched to support the whereami opcode or
++	 * one that is new enough to include it by default.
+ 	 */
+-	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
+-		a6xx_gpu->has_whereami = true;
+-	else if ((buf[0] & 0xfff) > 0x190)
+-		a6xx_gpu->has_whereami = true;
++	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
++		adreno_is_a640(adreno_gpu)) {
++		/*
++		 * If the lowest nibble is 0xa that is an indication that this
++		 * microcode has been patched. The actual version is in dword
++		 * [3] but we only care about the patchlevel which is the lowest
++		 * nibble of dword [3]
++		 *
++		 * Otherwise check that the firmware is greater than or equal
++		 * to 1.90 which was the first version that had this fix built
++		 * in
++		 */
++		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
++			(buf[0] & 0xfff) > 0x190) {
++			a6xx_gpu->has_whereami = true;
++			ret = true;
++		}
++	}  else {
++		/*
++		 * a650 tier targets don't need whereami but still need to be
++		 * equal to or newer than 1.95 for other security fixes
++		 */
++		if (adreno_is_a640(adreno_gpu)) {
++			if ((buf[0] & 0xfff) >= 0x195)
++				ret = true;
++		}
++
++		/*
++		 * When a660 is added those targets should return true here
++		 * since those have all the critiical security fixes built in
++		 * from the start
++		 */
++	}
+ 
+ 	msm_gem_put_vaddr(obj);
++	return ret;
+ }
+ 
+ static int a6xx_ucode_init(struct msm_gpu *gpu)
+@@ -566,7 +599,15 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
+ 		}
+ 
+ 		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
+-		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
++		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
++			DRM_DEV_ERROR(&gpu->pdev->dev,
++				"SQE ucode version is too old. It is likely unsafe\n");
++			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
++			drm_gem_object_put(a6xx_gpu->sqe_bo);
++
++			a6xx_gpu->sqe_bo = NULL;
++			return -EPERM;
++		}
+ 	}
+ 
+ 	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
 -- 
-2.30.0
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
