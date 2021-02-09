@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4562C314F55
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB98E314F54
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:44:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF5A46EB09;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC66C6EB11;
 	Tue,  9 Feb 2021 12:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E126EB09;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E91C6EB11;
  Tue,  9 Feb 2021 12:44:46 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=33sH3/UZpMRcKWt+g6f41VNp414fidjb3FGmGQx0AxI=;
- b=rOrP1BW8HyJmjtBVwRn7NhdO5GrgjZhrF7qR4P+Ldw5yVHzF8FU1rltiSOG4zHmR8Y8/Lg
- Wf5i5m+ndg5gEpjuPK8fSkenTgGA9medbxzK+UWSkQr0qn69HKzuiJdzxA+KDC1TaGD1GD
- pRjkLrvMTh8yeflrEFV5EzWygJy5wKyA7vNG/9t/9NKvd85ldzai1z6ZjGZG10NKD0qa1J
- JgS5LX3S3R/RKoV+71C27NjW47ObjytuRe4haS5FdDPNbbAWJOxSccd7+x1vSLfJ5DyKGr
- 5YKeGP6xrEZM7+A7+PtYQlify/GMWYQtbCskb30v1vC4VhbN6A59dGZ2Kzt54g==
+ bh=CnAZWyHsMvRuVoQBbABX1cuaet1SaUalvFLRT0zo2Jk=;
+ b=J5PpBYwt/RcstbyYuLpanmGj0CNldqmdXpMZYgEw1pksp8dQ0qe9en9G+ZHoXfgrZqfm+8
+ 9iyJHbUOoNwO0Q0x4icQ9X6urJEzwutjRfmQhRcu59t1+Z51XP/9/s5QUBYeUymutfmKYA
+ bVEciEHyd8PwajaExxYLkiNvOS5ugKQBJnnLOWVYy48fbvWSLd6yhhexXZHuvEErqi1bRV
+ FW/EhNBzjGQwiRzajil5ouDlnzppLIMWskeNjgfMpJi5VUQRSJQq0UUjVKuWREdJTzaBrF
+ Idz0l8o8XeTRKZQsPbJanyiGtV9nKbaNjr40sTqzbugR3a2GML8QbLt25P+EEA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020e; t=1612874684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=33sH3/UZpMRcKWt+g6f41VNp414fidjb3FGmGQx0AxI=;
- b=uuk/NHdayucFE8w0HQvnNNEWkj4HKDVybqNTRjuworDtZiP8GxAnSf7Gxmjm7rlgFm3avw
- JohVTuCCrQ6xw/DA==
+ bh=CnAZWyHsMvRuVoQBbABX1cuaet1SaUalvFLRT0zo2Jk=;
+ b=YzI1/qQ0aD1nYQJdqEtzhkyVqLSTh2HPyOc76EzDNDkmJZFZkUcHruVLd3c6hp4iyF25U+
+ eLZmgMYxfHzAXhBA==
 To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/amdgpu: Remove in_interrupt() usage in
- gfx_v9_0_kiq_read_clock()
-Date: Tue,  9 Feb 2021 13:44:38 +0100
-Message-Id: <20210209124439.408140-3-bigeasy@linutronix.de>
+Subject: [PATCH 3/3] drm/amdgpu: Replace in_task() in gfx_v8_0_parse_sq_irq()
+Date: Tue,  9 Feb 2021 13:44:39 +0100
+Message-Id: <20210209124439.408140-4-bigeasy@linutronix.de>
 In-Reply-To: <20210209124439.408140-1-bigeasy@linutronix.de>
 References: <20210209124439.408140-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -64,32 +63,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gfx_v9_0_get_gpu_clock_counter() acquires a mutex_t lock and is the only
-caller of gfx_v9_0_kiq_read_clock().
-If it safe to acquire a mutex_t then gfx_v9_0_get_gpu_clock_counter() is
-always invoked from preemptible context.
+gfx_v8_0_parse_sq_irq() is using in_task() to distinguish if it is
+invoked from a workqueue worker or directly from the interrupt handler.
 
-Remove in_interrupt() because it superfluous as it will always return
-false.
+The usage of in_interrupt() in drivers is phased out and Linus clearly
+requested that code which changes behaviour depending on context should
+either be separated or the context be conveyed in an argument passed by the
+caller, which usually knows the context.
+
+gfx_v8_0_parse_sq_irq() is invoked directly either from a worker or from
+the interrupt service routine. The worker is only bypassed if the worker
+is already busy.
+
+Add an argument `from_wq' to gfx_v8_0_parse_sq_irq() which is true if
+invoked from the worker.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index ca7e7264926e6..72c319b860a33 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -4105,7 +4105,7 @@ static uint64_t gfx_v9_0_kiq_read_clock(struct amdgpu_device *adev)
- 	 *
- 	 * also don't wait anymore for IRQ context
- 	 * */
--	if (r < 1 && (amdgpu_in_reset(adev) || in_interrupt()))
-+	if (r < 1 && (amdgpu_in_reset(adev)))
- 		goto failed_kiq_read;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+index 37639214cbbbd..f346afce82ea0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+@@ -6719,7 +6719,8 @@ static int gfx_v8_0_cp_ecc_error_irq(struct amdgpu_device *adev,
+ 	return 0;
+ }
  
- 	might_sleep();
+-static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data)
++static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data,
++				  bool from_wq)
+ {
+ 	u32 enc, se_id, sh_id, cu_id;
+ 	char type[20];
+@@ -6757,7 +6758,7 @@ static void gfx_v8_0_parse_sq_irq(struct amdgpu_device *adev, unsigned ih_data)
+ 			 * or from BH in which case we can access SQ_EDC_INFO
+ 			 * instance
+ 			 */
+-			if (in_task()) {
++			if (from_wq) {
+ 				mutex_lock(&adev->grbm_idx_mutex);
+ 				gfx_v8_0_select_se_sh(adev, se_id, sh_id, cu_id);
+ 
+@@ -6795,7 +6796,7 @@ static void gfx_v8_0_sq_irq_work_func(struct work_struct *work)
+ 	struct amdgpu_device *adev = container_of(work, struct amdgpu_device, gfx.sq_work.work);
+ 	struct sq_work *sq_work = container_of(work, struct sq_work, work);
+ 
+-	gfx_v8_0_parse_sq_irq(adev, sq_work->ih_data);
++	gfx_v8_0_parse_sq_irq(adev, sq_work->ih_data, true);
+ }
+ 
+ static int gfx_v8_0_sq_irq(struct amdgpu_device *adev,
+@@ -6810,7 +6811,7 @@ static int gfx_v8_0_sq_irq(struct amdgpu_device *adev,
+ 	 * just print whatever info is possible directly from the ISR.
+ 	 */
+ 	if (work_pending(&adev->gfx.sq_work.work)) {
+-		gfx_v8_0_parse_sq_irq(adev, ih_data);
++		gfx_v8_0_parse_sq_irq(adev, ih_data, false);
+ 	} else {
+ 		adev->gfx.sq_work.ih_data = ih_data;
+ 		schedule_work(&adev->gfx.sq_work.work);
 -- 
 2.30.0
 
