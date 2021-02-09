@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8897A314F04
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7704A314F05
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E04E6E051;
-	Tue,  9 Feb 2021 12:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A19C6E483;
+	Tue,  9 Feb 2021 12:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7C36E051
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:37:49 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id q20so11813270pfu.8
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 04:37:49 -0800 (PST)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5FD96E483
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:37:53 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id k13so5356005pfh.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 04:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HEWcLvUvYkWYLO51rzp4RR+x1aKBWP/abPyEZI4rYFM=;
- b=UA7qw6pCaOdf/yqq69etxef0untkhUFXSI+O9aCuyR/lOYzzPCRtWaHB6KbMDFaObh
- maH0YiX2IcjeEONLLi2m+Sk+3PTzs33BzrB2mJ0HcLcjRk2r9l8yFR3/KfrkL6EkdZzb
- i8Cave62QyllrlcUMYo1mEwijF+bfDhpgxDWkcnziTD6OcT6DxjwzJyWMEFdZWboC3uY
- cbIO+ZB5NSD6J70UHw1gRakG/afPMQiZ5Hd6tPMcqAv+xikSyDJDq/u4w5z8EMpDP8T2
- Lg8Z3VO2gx3ssY95EEyC5FYR7D6991/PEqnpomJXo/ZUGeBHxea1UuMcYEtJj3Cc0wko
- 9Lgw==
+ bh=Zycq6RRVcVub8qCKjMDOvULYSyXziBOTcV1ME0xBHvk=;
+ b=qJmyr4yp5zrPvgmZVaN4LjkrCfxfUxYuJOpaKzM74rCn9qdCwcQ/iQcvje/hRz1cI5
+ YmjP5fZYRdEzyp+6jy4aQKXUX01iefhZ5QgsDlw2mkHV5kkuBW5zUwxhF2twIgS10v/9
+ v8GXUHGBTLkOeREZdRiZ7mpgFk5p5AH7nrS5VUftjZGT/GGAk4nteW+rQR/ytgJFbtTW
+ N4YqRvF1/sNabHHK9tiVUK82+3gnYcqj3EcjENmf7k7AzTnuj9V7ds4hTvZBwi8WSauR
+ 1d0r/Ap0qDc8fb7DG4xG5PKVBAVE4+TZ1y4CTH9avB1krpUmGs1zJris6Ijc58a9E9WA
+ TNtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HEWcLvUvYkWYLO51rzp4RR+x1aKBWP/abPyEZI4rYFM=;
- b=rncD5jG05DWQGnIC0Uq0g1WaB54BlyAdSHXol11jbuggFjR/bPVZb9t5ZkGPYnl2qN
- Uu21HvtLOJd3+kNlGLaK6VsIhs6UmJm+GvFc71KhXyXnnAiSjgeeK5ipNSNWAp7ctG7c
- PKlF43HU0gUMrcTRiNyE5f/Xbyc10/zNpw4o0a5PggHFdDAyeOawPJojdmVi0M5ZlvJG
- R7HX76iEqYPaYYcC/kxg7sDX/iJFFXturXh4R+fj7NBgxJajelb5Sb+fzOW+8Ve76e0j
- OUqo1XQVV+2lRkoQW+FXGjOZwx+FqLvPIQMZAWCdEz6lJ8yibxiPv+LBWtXYu33WO5+W
- wjbA==
-X-Gm-Message-State: AOAM53078jfk0cftALHtqUQYmgv8otro9tQ89peh87XKp+t9grOQ76wz
- HVEekvTx5pr0thPbFGrtD0THHJbaKOqzvA==
-X-Google-Smtp-Source: ABdhPJyzzNoV3ORY6H1uJ0CJ3FGX0Y0Hbb6/83hFpXTlUvZfQQ4ZzNnS2ckv5IYMwgAECs49OLy6zg==
-X-Received: by 2002:a63:c70c:: with SMTP id n12mr22157570pgg.347.1612874269194; 
- Tue, 09 Feb 2021 04:37:49 -0800 (PST)
+ bh=Zycq6RRVcVub8qCKjMDOvULYSyXziBOTcV1ME0xBHvk=;
+ b=JYWh+SCf4O94oZ/OwGc4nNh3wSZaE8p9vGq4hzljk+O4zKs4Fcm4UxMF36pIfbbOBO
+ QT/gGwXzyXpwFKYymz7MMWiKJ+ACr/hyBIWm9Of/tpxqgztcvXjFdArrPPYO5S99lJrC
+ vEZjFo/xmzpTKoxGFFakN3WlZkcmrZldjnbVrCmjGlMTKmH6qpVpOCL/fOpyB61qE6p8
+ 3gmbTS8G+Q//786wUr/K67QtCdVyauc8mLV3wks1/ullATNFWy9G02HW9enQFf7x0Msk
+ zWTqoYkkaiIM85lNsQQUerzBiVdDVELZrfhG3uJONfIER4g24+Gf8q8H6s7U0m9MpVBo
+ VWSA==
+X-Gm-Message-State: AOAM532z4FBVDQ/Jen6HNVo7qsZGaO9EaADxOcZUEk+OlYkLfTKIFf+o
+ SqMXTw04ueUY9ebeY8ZY6hI=
+X-Google-Smtp-Source: ABdhPJx7uScY7KW9NObx52G7GBFCPuFL5HPjOwX2Oz0Sv2JXwKUB7y3yhwwuO9aTJiHGe995P72gUA==
+X-Received: by 2002:a62:1995:0:b029:1c0:c4d8:adcb with SMTP id
+ 143-20020a6219950000b02901c0c4d8adcbmr22651384pfz.60.1612874273279; 
+ Tue, 09 Feb 2021 04:37:53 -0800 (PST)
 Received: from voyager.lan ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id i7sm22584395pfc.50.2021.02.09.04.37.45
+ by smtp.gmail.com with ESMTPSA id i7sm22584395pfc.50.2021.02.09.04.37.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 04:37:48 -0800 (PST)
+ Tue, 09 Feb 2021 04:37:52 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Andrew Jeffery <andrew@aj.id.au>, Jeremy Kerr <jk@ozlabs.org>
-Subject: [PATCH v3 1/2] drm/aspeed: Look up syscon by phandle
-Date: Tue,  9 Feb 2021 23:07:33 +1030
-Message-Id: <20210209123734.130483-2-joel@jms.id.au>
+Subject: [PATCH v3 2/2] drm/aspeed: Use dt matching for default register values
+Date: Tue,  9 Feb 2021 23:07:34 +1030
+Message-Id: <20210209123734.130483-3-joel@jms.id.au>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209123734.130483-1-joel@jms.id.au>
 References: <20210209123734.130483-1-joel@jms.id.au>
@@ -74,49 +75,217 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This scales better to multiple families of SoC. The lookup by compatible
-can be removed in a future change.
+There are minor differences in the values for the threshold value and
+the scan line size between families of ASPEED SoC. Additionally the SCU
+registers for the output control and scratch registers differ between
+families.
 
-The fallback path is for the ast2500 platform only. Other platforms will
-be added with the new style, so they won't need fallback paths.
+This adds device tree matching to parameterise these values, allowing us
+to add support for the AST2400 now, and in the future the AST2600.
 
+Reviewed-by: Jeremy Kerr <jk@ozlabs.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
-v2: Fix fallback path to still find ast2500-scu. Thanks jk for the
-review
+v3:
+ - Fix match table
+v2:
+ - Add jk's review
+ - Clean up comments and unused define
+ - Add VGA password register
 ---
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/aspeed/aspeed_gfx.h      |  8 ++--
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 11 ++---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 57 ++++++++++++++++++------
+ 3 files changed, 55 insertions(+), 21 deletions(-)
 
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+index f1e7e56abc02..96501152bafa 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+@@ -11,6 +11,11 @@ struct aspeed_gfx {
+ 	struct reset_control		*rst;
+ 	struct regmap			*scu;
+ 
++	u32				dac_reg;
++	u32				vga_scratch_reg;
++	u32				throd_val;
++	u32				scan_line_max;
++
+ 	struct drm_simple_display_pipe	pipe;
+ 	struct drm_connector		connector;
+ };
+@@ -100,6 +105,3 @@ int aspeed_gfx_create_output(struct drm_device *drm);
+ /* CRT_THROD */
+ #define CRT_THROD_LOW(x)		(x)
+ #define CRT_THROD_HIGH(x)		((x) << 8)
+-
+-/* Default Threshold Seting */
+-#define G5_CRT_THROD_VAL	(CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3C))
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+index e54686c31a90..20c2197b270f 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+@@ -59,8 +59,8 @@ static void aspeed_gfx_enable_controller(struct aspeed_gfx *priv)
+ 	u32 ctrl1 = readl(priv->base + CRT_CTRL1);
+ 	u32 ctrl2 = readl(priv->base + CRT_CTRL2);
+ 
+-	/* SCU2C: set DAC source for display output to Graphics CRT (GFX) */
+-	regmap_update_bits(priv->scu, 0x2c, BIT(16), BIT(16));
++	/* Set DAC source for display output to Graphics CRT (GFX) */
++	regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), BIT(16));
+ 
+ 	writel(ctrl1 | CRT_CTRL_EN, priv->base + CRT_CTRL1);
+ 	writel(ctrl2 | CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
+@@ -74,7 +74,7 @@ static void aspeed_gfx_disable_controller(struct aspeed_gfx *priv)
+ 	writel(ctrl1 & ~CRT_CTRL_EN, priv->base + CRT_CTRL1);
+ 	writel(ctrl2 & ~CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
+ 
+-	regmap_update_bits(priv->scu, 0x2c, BIT(16), 0);
++	regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);
+ }
+ 
+ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
+@@ -127,7 +127,8 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
+ 	 * Terminal Count: memory size of one scan line
+ 	 */
+ 	d_offset = m->hdisplay * bpp / 8;
+-	t_count = (m->hdisplay * bpp + 127) / 128;
++	t_count = DIV_ROUND_UP(m->hdisplay * bpp, priv->scan_line_max);
++
+ 	writel(CRT_DISP_OFFSET(d_offset) | CRT_TERM_COUNT(t_count),
+ 			priv->base + CRT_OFFSET);
+ 
+@@ -135,7 +136,7 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
+ 	 * Threshold: FIFO thresholds of refill and stop (16 byte chunks
+ 	 * per line, rounded up)
+ 	 */
+-	writel(G5_CRT_THROD_VAL, priv->base + CRT_THROD);
++	writel(priv->throd_val, priv->base + CRT_THROD);
+ }
+ 
+ static void aspeed_gfx_pipe_enable(struct drm_simple_display_pipe *pipe,
 diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 457ec04950f7..54a6bda03c0e 100644
+index 54a6bda03c0e..6b3a01ba3e0d 100644
 --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
 +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -103,6 +103,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+@@ -7,6 +7,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/of_device.h>
+ #include <linux/of_reserved_mem.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+@@ -57,6 +58,34 @@
+  * which is available under NDA from ASPEED.
+  */
+ 
++struct aspeed_gfx_config {
++	u32 dac_reg;		/* DAC register in SCU */
++	u32 vga_scratch_reg;	/* VGA scratch register in SCU */
++	u32 throd_val;		/* Default Threshold Seting */
++	u32 scan_line_max;	/* Max memory size of one scan line */
++};
++
++static const struct aspeed_gfx_config ast2400_config = {
++	.dac_reg = 0x2c,
++	.vga_scratch_reg = 0x50,
++	.throd_val = CRT_THROD_LOW(0x1e) | CRT_THROD_HIGH(0x12),
++	.scan_line_max = 64,
++};
++
++static const struct aspeed_gfx_config ast2500_config = {
++	.dac_reg = 0x2c,
++	.vga_scratch_reg = 0x50,
++	.throd_val = CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3c),
++	.scan_line_max = 128,
++};
++
++static const struct of_device_id aspeed_gfx_match[] = {
++	{ .compatible = "aspeed,ast2400-gfx", .data = &ast2400_config },
++	{ .compatible = "aspeed,ast2500-gfx", .data = &ast2500_config },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, aspeed_gfx_match);
++
+ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
+ 	.fb_create		= drm_gem_fb_create,
+ 	.atomic_check		= drm_atomic_helper_check,
+@@ -97,13 +126,13 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
+ 	return IRQ_NONE;
+ }
+ 
+-
+-
+ static int aspeed_gfx_load(struct drm_device *drm)
  {
  	struct platform_device *pdev = to_platform_device(drm->dev);
  	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
-+	struct device_node *np = pdev->dev.of_node;
+ 	struct device_node *np = pdev->dev.of_node;
++	const struct aspeed_gfx_config *config;
++	const struct of_device_id *match;
  	struct resource *res;
  	int ret;
  
-@@ -111,10 +112,13 @@ static int aspeed_gfx_load(struct drm_device *drm)
+@@ -112,6 +141,16 @@ static int aspeed_gfx_load(struct drm_device *drm)
  	if (IS_ERR(priv->base))
  		return PTR_ERR(priv->base);
  
--	priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
-+	priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
++	match = of_match_device(aspeed_gfx_match, &pdev->dev);
++	if (!match)
++		return -EINVAL;
++	config = match->data;
++
++	priv->dac_reg = config->dac_reg;
++	priv->vga_scratch_reg = config->vga_scratch_reg;
++	priv->throd_val = config->throd_val;
++	priv->scan_line_max = config->scan_line_max;
++
+ 	priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
  	if (IS_ERR(priv->scu)) {
--		dev_err(&pdev->dev, "failed to find SCU regmap\n");
--		return PTR_ERR(priv->scu);
-+		priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
-+		if (IS_ERR(priv->scu)) {
-+			dev_err(&pdev->dev, "failed to find SCU regmap\n");
-+			return PTR_ERR(priv->scu);
-+		}
- 	}
+ 		priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
+@@ -206,14 +245,6 @@ static const struct drm_driver aspeed_gfx_driver = {
+ 	.minor = 0,
+ };
  
- 	ret = of_reserved_mem_device_init(drm->dev);
+-static const struct of_device_id aspeed_gfx_match[] = {
+-	{ .compatible = "aspeed,ast2500-gfx" },
+-	{ }
+-};
+-
+-#define ASPEED_SCU_VGA0		0x50
+-#define ASPEED_SCU_MISC_CTRL	0x2c
+-
+ static ssize_t dac_mux_store(struct device *dev, struct device_attribute *attr,
+ 			     const char *buf, size_t count)
+ {
+@@ -228,7 +259,7 @@ static ssize_t dac_mux_store(struct device *dev, struct device_attribute *attr,
+ 	if (val > 3)
+ 		return -EINVAL;
+ 
+-	rc = regmap_update_bits(priv->scu, ASPEED_SCU_MISC_CTRL, 0x30000, val << 16);
++	rc = regmap_update_bits(priv->scu, priv->dac_reg, 0x30000, val << 16);
+ 	if (rc < 0)
+ 		return 0;
+ 
+@@ -241,7 +272,7 @@ static ssize_t dac_mux_show(struct device *dev, struct device_attribute *attr, c
+ 	u32 reg;
+ 	int rc;
+ 
+-	rc = regmap_read(priv->scu, ASPEED_SCU_MISC_CTRL, &reg);
++	rc = regmap_read(priv->scu, priv->dac_reg, &reg);
+ 	if (rc)
+ 		return rc;
+ 
+@@ -256,7 +287,7 @@ vga_pw_show(struct device *dev, struct device_attribute *attr, char *buf)
+ 	u32 reg;
+ 	int rc;
+ 
+-	rc = regmap_read(priv->scu, ASPEED_SCU_VGA0, &reg);
++	rc = regmap_read(priv->scu, priv->vga_scratch_reg, &reg);
+ 	if (rc)
+ 		return rc;
+ 
 -- 
 2.30.0
 
