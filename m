@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD6A3153FB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBC031540D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 17:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292D66E0A0;
-	Tue,  9 Feb 2021 16:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE6F6EB75;
+	Tue,  9 Feb 2021 16:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31EA889DFE
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 15:32:10 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id d20so19800285oiw.10
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 07:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=FLCA6IO40snskjJZDTwax4cOB0Hc4fTsIea1GRHbYqw=;
- b=kvnEwEIFrahzPVo3mkc68ni3hvFkTJo4jgIwH+zPLtWKNynGXxGa8nZObbKLW2IDmI
- 3a46th3LHZDoBQmxtnfcccl8FMuftmUNv9bRdyh7WTYluEcZfsBmJEuEXMZByHuH7Uo5
- yCnASweu6IkfTBZw0kjB7MfRDg7ldqtvk4B+7XER9bVogg7krsCSAt7pu5Qy5kU0ZNPH
- PDyNjk/b5YpSvphU+rSIQe2EpwlgjF4Wvo+qkxEgZWTFnAIgX+W0v7CtusZG63z3e8a0
- a6PbGRsH9E2xPpEPvANeKbRttFtVWU9J7Zrh51lH9SnVq6+St1kDZk5p1GoCI8Yt+yPm
- CemA==
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31BB6EB75
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 16:38:24 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id 123so4381426ooi.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 08:38:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=FLCA6IO40snskjJZDTwax4cOB0Hc4fTsIea1GRHbYqw=;
- b=RpJPLAwq7Xgr0lsV3u65ebKXZH4qFhAdF2+nYLLmvUrJyvg860sXDONGbu5lSjp9OM
- BRIJpe+EEhmYkI0pu5LDQOfrz6BO9GnorXjn45fFFM3FD+Ckg/N5WL/s7Z5XtLETujzr
- 0DyeSac8uHZwaZKuYQ+erCVA2MFm655aeFGunHeV4wifGX4syuDAXAfsx5wVUmREci60
- RNFt9r+idSykYOZL1Uu011k7R4Xfu+FCjKrSOI7f//1aDG26y74oeV22yJygFj8Dcomy
- pXer8rZXWlJRUYpa3U4Yhem9dhpYIWwWlUGbFN0LN5Itzoj28ESKZIA3/ih498GuOU4+
- h2Kg==
-X-Gm-Message-State: AOAM530ceTbyyARXYL2XdxD4tEuEZwjdFFxVuMb7cIbPSUrHQOU/vprB
- jKNl5TBvE8TFQGrRhYk8q5pWNo8+Ryc=
-X-Google-Smtp-Source: ABdhPJyiqVTRbNHqwEOslyBfXgEDo8uRefp2GZczvabIoa5IJcgps061q+D4OOvLoVupWlnLpGk2WQ==
-X-Received: by 2002:aca:4a4c:: with SMTP id x73mr2753987oia.97.1612884729290; 
- Tue, 09 Feb 2021 07:32:09 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id r6sm4327754oij.29.2021.02.09.07.32.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 09 Feb 2021 07:32:08 -0800 (PST)
-Date: Tue, 9 Feb 2021 07:32:06 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH v6 2/8] drm/mediatek: add component POSTMASK
-Message-ID: <20210209153206.GA19067@roeck-us.net>
-References: <20210202081237.774442-1-hsinyi@chromium.org>
- <20210202081237.774442-3-hsinyi@chromium.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wQ88ktMveXLIFjVYi4XLJQTN5XKyqacXyZXIGcsGiCs=;
+ b=uX6chGICeQ5H3ZfF0WCHcl8pYJQjqLp8CnKEvy5cB4iGOltfrDXdqyBhlgD/VUxIdz
+ psYm7DWvwALqBFB5kS2eDAkSQhmgzGbicBJSEXOkstYcX3O3YieEKV3FIQhK8SXZTMCx
+ 4Fu5tra+6r2tBwADjKLz1LpvsaWOrzjyqLqIoytMv9soVwtMtrJ8IvVxmIicJBDWeqM+
+ y299mTOgjmW/XCFlDBsO2n7/zvHRsyljoTeFfZPO+dxrnnAS68dFlWruZYyrgUlV3ct7
+ R1+mm9v0AOPLubw9hFzUd2LzMUupKm22SEKOqnmx6V6qUs/CWVBbhe/aLSWKdFjHFdOB
+ OjAg==
+X-Gm-Message-State: AOAM530stYLDe7VjtV8ZyyUTolm3I8MufyDNksG2CCPiQMNCmXqNny1W
+ NTI/p3uBS+3wKpL7gY3xtA==
+X-Google-Smtp-Source: ABdhPJyVYqJkRSlVwkuaXSCn5iGg2F2ZS9AACtrBVl6W1FRn+PDFWJy5SUmUPRPoMrkPqrR4nEHY2w==
+X-Received: by 2002:a4a:424c:: with SMTP id i12mr16605365ooj.85.1612888704019; 
+ Tue, 09 Feb 2021 08:38:24 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id e30sm48346ooh.32.2021.02.09.08.38.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 08:38:22 -0800 (PST)
+Received: (nullmailer pid 3898734 invoked by uid 1000);
+ Tue, 09 Feb 2021 16:38:20 -0000
+Date: Tue, 9 Feb 2021 10:38:20 -0600
+From: Rob Herring <robh@kernel.org>
+To: Adrien Grassein <adrien.grassein@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Add documentation for
+ LT8912
+Message-ID: <20210209163820.GB3892603@robh.at.kernel.org>
+References: <20210124150835.1522899-1-adrien.grassein@gmail.com>
+ <20210124150835.1522899-3-adrien.grassein@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210202081237.774442-3-hsinyi@chromium.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Tue, 09 Feb 2021 16:37:18 +0000
+In-Reply-To: <20210124150835.1522899-3-adrien.grassein@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,168 +61,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
+ airlied@linux.ie, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 02, 2021 at 04:12:31PM +0800, Hsin-Yi Wang wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+On Sun, Jan 24, 2021 at 04:08:34PM +0100, Adrien Grassein wrote:
+> Lontium LT8912 is a DSI to HDMI bridge.
 > 
-> This patch add component POSTMASK.
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Adrien Grassein <adrien.grassein@gmail.com>
 > ---
-[ ... ]
+>  .../display/bridge/lontium,lt8912.yaml        | 92 +++++++++++++++++++
+>  MAINTAINERS                                   |  5 +
+>  2 files changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+> new file mode 100644
+> index 000000000000..ed1a6ddaab2f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt8912.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Lontium LT8912 MIPI to HDMI Bridge
+> +
+> +maintainers:
+> +  - Adrien Grassein <adrien.grassein@gmail.com>
+> +
+> +description: |
+> +  The LT8912 is a bridge device which convert DSI to HDMI
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - lontium,lt8912
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  ddc-i2c-bus:
+
+This belongs in an hdmi-connector node.
+
+> +    maxItems: 1
+> +    description: i2c bus used to read EDID of the connected display.
+> +
+> +  dsi-lanes:
+> +    maxItems: 1
+> +    description: dsi lanes count interconnected with lt8912.
+
+'data-lanes' in the graph is the standard way to do this.
+
+You'll need video-interfaces.yaml which is pending in the media tree.
+
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active high RESET pin.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Primary MIPI port-1 for MIPI input
+
+You're going to need a port for the connector.
+
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - ddc-i2c-bus
+> +  - dsi-lanes
+> +  - reg
+> +  - reset-gpios
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c4 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      hdmi-bridge@48 {
+> +        compatible = "lontium,lt8912";
+> +        reg = <0x48>;
+> +        reset-gpios = <&max7323 0 GPIO_ACTIVE_LOW>;
+> +        dsi-lanes = <4>;
+> +        ddc-i2c-bus = <&ddc_i2c_bus>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +
+> +            hdmi_out_in: endpoint {
+> +              remote-endpoint = <&mipi_dsi_out>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +    ddc_i2c_bus: i2c5 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5aa18cbfb883..01e7e356bfac 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10472,6 +10472,11 @@ S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+>  F:	drivers/hid/hid-lg-g15.c
 >  
-> +void mtk_postmask_config(struct device *dev, unsigned int w,
-
-static
-
-> +			unsigned int h, unsigned int vrefresh,
-> +			unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> +LONTIUM LT8912 MIPI TO HDMI BRIDGE
+> +M:	Adrien Grassein <adrien.grassein@gmail.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/display/bridge/lontium,lt8912.yaml
 > +
-> +	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,
-> +		      DISP_POSTMASK_SIZE);
-> +	mtk_ddp_write(cmdq_pkt, POSTMASK_RELAY_MODE, &priv->cmdq_reg,
-> +		      priv->regs, DISP_POSTMASK_CFG);
-> +}
-> +
-> +void mtk_postmask_start(struct device *dev)
-
-static
-
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +
-> +	writel(POSTMASK_EN, priv->regs + DISP_POSTMASK_EN);
-> +}
-> +
-> +void mtk_postmask_stop(struct device *dev)
-
-static
-
-> +{
-> +	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
-> +
-> +	writel_relaxed(0x0, priv->regs + DISP_POSTMASK_EN);
-> +}
-> +
->  static void mtk_aal_config(struct device *dev, unsigned int w,
->  			   unsigned int h, unsigned int vrefresh,
->  			   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-> @@ -413,6 +445,14 @@ static const struct mtk_ddp_comp_funcs ddp_ovl = {
->  	.bgclr_in_off = mtk_ovl_bgclr_in_off,
->  };
->  
-> +static const struct mtk_ddp_comp_funcs ddp_postmask = {
-> +	.clk_enable = mtk_ddp_clk_enable,
-> +	.clk_disable = mtk_ddp_clk_disable,
-> +	.config = mtk_postmask_config,
-> +	.start = mtk_postmask_start,
-> +	.stop = mtk_postmask_stop,
-> +};
-> +
->  static const struct mtk_ddp_comp_funcs ddp_rdma = {
->  	.clk_enable = mtk_rdma_clk_enable,
->  	.clk_disable = mtk_rdma_clk_disable,
-> @@ -448,6 +488,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
->  	[MTK_DISP_MUTEX] = "mutex",
->  	[MTK_DISP_OD] = "od",
->  	[MTK_DISP_BLS] = "bls",
-> +	[MTK_DISP_POSTMASK] = "postmask",
->  };
->  
->  struct mtk_ddp_comp_match {
-> @@ -457,36 +498,37 @@ struct mtk_ddp_comp_match {
->  };
->  
->  static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
-> -	[DDP_COMPONENT_AAL0]	= { MTK_DISP_AAL,	0, &ddp_aal },
-> -	[DDP_COMPONENT_AAL1]	= { MTK_DISP_AAL,	1, &ddp_aal },
-> -	[DDP_COMPONENT_BLS]	= { MTK_DISP_BLS,	0, NULL },
-> -	[DDP_COMPONENT_CCORR]	= { MTK_DISP_CCORR,	0, &ddp_ccorr },
-> -	[DDP_COMPONENT_COLOR0]	= { MTK_DISP_COLOR,	0, &ddp_color },
-> -	[DDP_COMPONENT_COLOR1]	= { MTK_DISP_COLOR,	1, &ddp_color },
-> -	[DDP_COMPONENT_DITHER]	= { MTK_DISP_DITHER,	0, &ddp_dither },
-> -	[DDP_COMPONENT_DPI0]	= { MTK_DPI,		0, &ddp_dpi },
-> -	[DDP_COMPONENT_DPI1]	= { MTK_DPI,		1, &ddp_dpi },
-> -	[DDP_COMPONENT_DSI0]	= { MTK_DSI,		0, &ddp_dsi },
-> -	[DDP_COMPONENT_DSI1]	= { MTK_DSI,		1, &ddp_dsi },
-> -	[DDP_COMPONENT_DSI2]	= { MTK_DSI,		2, &ddp_dsi },
-> -	[DDP_COMPONENT_DSI3]	= { MTK_DSI,		3, &ddp_dsi },
-> -	[DDP_COMPONENT_GAMMA]	= { MTK_DISP_GAMMA,	0, &ddp_gamma },
-> -	[DDP_COMPONENT_OD0]	= { MTK_DISP_OD,	0, &ddp_od },
-> -	[DDP_COMPONENT_OD1]	= { MTK_DISP_OD,	1, &ddp_od },
-> -	[DDP_COMPONENT_OVL0]	= { MTK_DISP_OVL,	0, &ddp_ovl },
-> -	[DDP_COMPONENT_OVL1]	= { MTK_DISP_OVL,	1, &ddp_ovl },
-> -	[DDP_COMPONENT_OVL_2L0]	= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
-> -	[DDP_COMPONENT_OVL_2L1]	= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
-> -	[DDP_COMPONENT_OVL_2L2] = { MTK_DISP_OVL_2L,    2, &ddp_ovl },
-> -	[DDP_COMPONENT_PWM0]	= { MTK_DISP_PWM,	0, NULL },
-> -	[DDP_COMPONENT_PWM1]	= { MTK_DISP_PWM,	1, NULL },
-> -	[DDP_COMPONENT_PWM2]	= { MTK_DISP_PWM,	2, NULL },
-> -	[DDP_COMPONENT_RDMA0]	= { MTK_DISP_RDMA,	0, &ddp_rdma },
-> -	[DDP_COMPONENT_RDMA1]	= { MTK_DISP_RDMA,	1, &ddp_rdma },
-> -	[DDP_COMPONENT_RDMA2]	= { MTK_DISP_RDMA,	2, &ddp_rdma },
-> -	[DDP_COMPONENT_UFOE]	= { MTK_DISP_UFOE,	0, &ddp_ufoe },
-> -	[DDP_COMPONENT_WDMA0]	= { MTK_DISP_WDMA,	0, NULL },
-> -	[DDP_COMPONENT_WDMA1]	= { MTK_DISP_WDMA,	1, NULL },
-> +	[DDP_COMPONENT_AAL0]		= { MTK_DISP_AAL,	0, &ddp_aal },
-> +	[DDP_COMPONENT_AAL1]		= { MTK_DISP_AAL,	1, &ddp_aal },
-> +	[DDP_COMPONENT_BLS]		= { MTK_DISP_BLS,	0, NULL },
-> +	[DDP_COMPONENT_CCORR]		= { MTK_DISP_CCORR,	0, &ddp_ccorr },
-> +	[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,	0, &ddp_color },
-> +	[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,	1, &ddp_color },
-> +	[DDP_COMPONENT_DITHER]		= { MTK_DISP_DITHER,	0, &ddp_dither },
-> +	[DDP_COMPONENT_DPI0]		= { MTK_DPI,		0, &ddp_dpi },
-> +	[DDP_COMPONENT_DPI1]		= { MTK_DPI,		1, &ddp_dpi },
-> +	[DDP_COMPONENT_DSI0]		= { MTK_DSI,		0, &ddp_dsi },
-> +	[DDP_COMPONENT_DSI1]		= { MTK_DSI,		1, &ddp_dsi },
-> +	[DDP_COMPONENT_DSI2]		= { MTK_DSI,		2, &ddp_dsi },
-> +	[DDP_COMPONENT_DSI3]		= { MTK_DSI,		3, &ddp_dsi },
-> +	[DDP_COMPONENT_GAMMA]		= { MTK_DISP_GAMMA,	0, &ddp_gamma },
-> +	[DDP_COMPONENT_OD0]		= { MTK_DISP_OD,	0, &ddp_od },
-> +	[DDP_COMPONENT_OD1]		= { MTK_DISP_OD,	1, &ddp_od },
-> +	[DDP_COMPONENT_OVL0]		= { MTK_DISP_OVL,	0, &ddp_ovl },
-> +	[DDP_COMPONENT_OVL1]		= { MTK_DISP_OVL,	1, &ddp_ovl },
-> +	[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
-> +	[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
-> +	[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,    2, &ddp_ovl },
-> +	[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,	0, &ddp_postmask },
-> +	[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,	0, NULL },
-> +	[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,	1, NULL },
-> +	[DDP_COMPONENT_PWM2]		= { MTK_DISP_PWM,	2, NULL },
-> +	[DDP_COMPONENT_RDMA0]		= { MTK_DISP_RDMA,	0, &ddp_rdma },
-> +	[DDP_COMPONENT_RDMA1]		= { MTK_DISP_RDMA,	1, &ddp_rdma },
-> +	[DDP_COMPONENT_RDMA2]		= { MTK_DISP_RDMA,	2, &ddp_rdma },
-> +	[DDP_COMPONENT_UFOE]		= { MTK_DISP_UFOE,	0, &ddp_ufoe },
-> +	[DDP_COMPONENT_WDMA0]		= { MTK_DISP_WDMA,	0, NULL },
-> +	[DDP_COMPONENT_WDMA1]		= { MTK_DISP_WDMA,	1, NULL },
->  };
->  
->  static bool mtk_drm_find_comp_in_ddp(struct device *dev,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> index bb914d976cf5d..cd1dec6b4cdf2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
->  	MTK_DISP_UFOE,
->  	MTK_DSI,
->  	MTK_DPI,
-> +	MTK_DISP_POSTMASK,
->  	MTK_DISP_PWM,
->  	MTK_DISP_MUTEX,
->  	MTK_DISP_OD,
+>  LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
+>  M:	Sathya Prakash <sathya.prakash@broadcom.com>
+>  M:	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
