@@ -2,65 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43F931509E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A50F3150A7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDF366EB3F;
-	Tue,  9 Feb 2021 13:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9876EB41;
+	Tue,  9 Feb 2021 13:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F63D6EB3F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:44:40 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id d3so823349qtr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 05:44:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=m0aWzSj+LY+Pm6/iOhWj1FnuzMBYaB0PeiOpmIEzYlc=;
- b=m0ZybclIto8FDXMo+Xc6M8LWQUVcr4Fdfd7ghcLIyxKTwH8BTQxyYtMUbUih8tWECV
- 2VT+6s7hE8CBSiZqN6bkvw24Uac8MmLDDi12B1jeZRjtOHllqcD/cupL4eo+uhYRxZN2
- XofmcdPW3z+B4YCZnjGgWp75JMipYH0r7LH38gPu9CVXeJXQ4b1p3ExIpExO2Iz18RiX
- aSE40sCfQ2T9u25TW9dPn2rmDnvbpisbwQQGBqLSCL+xzXgXzET0NMzRjKIe/+v41lcz
- 06dZa8ip1rgW6T8XpAe3Ap1llZSkK/tUofjeynu9J8T6nOGeeaa6PrERHkyYyDfqrS/d
- Uv+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=m0aWzSj+LY+Pm6/iOhWj1FnuzMBYaB0PeiOpmIEzYlc=;
- b=Be5U2MWxJ92jXt8XlSx6bbNUfc/WldHLnwUkY4UIxDDqbDk5oDR+ma0dHYrkLj5LKP
- 7HSAmVM7+Qkei+kET0Fg9/kDiua2FdcJiDMlQ6lh7v4BdcBXT1vB85Ee4gNxi90pfbRO
- bkjhxYu7YNnfWf7qOpNXyjbNfQ2v/Uglzcs829yuzXquuTs6yO34gfsVTk8Vrw3ATSQ7
- qqrz9XnW/I2p3ZcnNsEmn4VxgahFLJT9jlmLpggzQsPmU4243VpZFFdLY02G40Flig1m
- ivSv2Y0uNe104rFeqHsOD2EOOlxhl9a8x/1+9lZwmD5mDEwjtqPsd1n8eTc2eSKmVb90
- HBEg==
-X-Gm-Message-State: AOAM533mVQFZwXqFibRMuPIojwLgpv2RHEgXopXfGfarA34JhTrU4+CK
- RlnRXKRcDHKEmZt1S1m4NhYXmA==
-X-Google-Smtp-Source: ABdhPJxsSPzRdXtHpbbQb8PSJ12WAOa9MW0LcEJBQn0Vx0sdyHcridZpcWDX5XcVOrwu+wtw66I+OA==
-X-Received: by 2002:ac8:1190:: with SMTP id d16mr19704724qtj.125.1612878279800; 
- Tue, 09 Feb 2021 05:44:39 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.115.133])
- by smtp.gmail.com with ESMTPSA id t6sm14169555qkd.127.2021.02.09.05.44.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 05:44:39 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1l9TJm-005RQR-Sq; Tue, 09 Feb 2021 09:44:38 -0400
-Date: Tue, 9 Feb 2021 09:44:38 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
-Message-ID: <20210209134438.GE4718@ziepe.ca>
-References: <20210209010722.13839-1-apopple@nvidia.com>
- <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
- <3426910.QXTomnrpqD@nvdebian> <20210209133520.GB4718@ziepe.ca>
- <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CDD6EB41
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:46:36 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3962AAD6A;
+ Tue,  9 Feb 2021 13:46:35 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com,
+	daniel@ffwll.ch
+Subject: [PATCH v2 00/10] drm/ast: Clean-up cursor-plane updates
+Date: Tue,  9 Feb 2021 14:46:22 +0100
+Message-Id: <20210209134632.12157-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +36,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alistair Popple <apopple@nvidia.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- kvm-ppc@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
- Jerome Glisse <jglisse@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 09, 2021 at 02:39:51PM +0100, Daniel Vetter wrote:
+(was: drm/ast: Move cursor vmap calls out of commit tail)
 
-> Either way ZONE_DEVICE for not vram/device memory sounds wrong. Is
-> that really going on here?
+Ast has vmap calls in its cursor's atomic_update function. This is not
+supported as vmap might aquire the dma reservation lock. While at it,
+cleanup the whole cursor code: the patchset removes all possible runtime
+errors from the atomic_update function and reduces the overhead from
+vmap calls on the HW cursor BOs to a minimum.
 
-My read was this was doing non-coherent atomics on CPU memory.
+Patches 1 to 3 update the cursor code and prepare before the refactoring.
 
-Atomics on GPU memory is just called migration to GPU memory, it
-doesn't need to be special for atomics. In that case it can free the
-CPU struct page completely as the data now lives in the ZONE_DEVICE
-page so no need for a pin, no problem with movable
+Patch 4 and 5 inline the cursor update logic into the rsp cursor-plane
+functions. This is mostly about moving code around.
 
-Jason
+Patches 6 to 9 add a dedicated cursor plane that maintains the two BOs
+for HW cursors. The HW cursor BOs are permanently pinned and vmapped
+while the cursor plane is initialized. Thus removing the related vmap
+operations from atomic_update.
+
+Finally patch 10 converts ast cursors to struct drm_shadow_plane_state.
+BOs with cursor image data from userspace are vmapped in prepare_fb and
+vunampped in cleanup_fb. The actual update of the cursor image is being
+moved from prepare_fb to atomic_update.
+
+With the patchset applied, all cursor preparation is performed before
+the commit-tail functions; while the actual update is performed within.
+
+Tested by running X11 and Weston on ast hardware.
+
+v2:
+	* convert to drm_shadow_plane_state helpers
+
+Thomas Zimmermann (10):
+  drm/ast: Add constants for VGACRCB register bits
+  drm/ast: Fix invalid usage of AST_MAX_HWC_WIDTH in cursor atomic_check
+  drm/ast: Initialize planes in helper functions
+  drm/ast: Allocate HW cursor BOs during cursor-plane initialization
+  drm/ast: Inline ast cursor-update functions into modesetting code
+  drm/ast: Add cursor-plane data structure
+  drm/ast: Store cursor BOs in cursor plane
+  drm/ast: Map HW cursor BOs permanently
+  drm/ast: Store each HW cursor offset after pinning the rsp BO
+  drm/ast: Move all of the cursor-update functionality to atomic_update
+
+ drivers/gpu/drm/ast/Makefile     |   3 +-
+ drivers/gpu/drm/ast/ast_cursor.c | 286 --------------------------
+ drivers/gpu/drm/ast/ast_drv.h    |  47 +++--
+ drivers/gpu/drm/ast/ast_mode.c   | 334 +++++++++++++++++++++++++------
+ 4 files changed, 312 insertions(+), 358 deletions(-)
+ delete mode 100644 drivers/gpu/drm/ast/ast_cursor.c
+
+--
+2.30.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
