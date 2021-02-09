@@ -2,27 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A50F3150A7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80A73150A8
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 14:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9876EB41;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1E76EB47;
 	Tue,  9 Feb 2021 13:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94CDD6EB41
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3286EB41
  for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 13:46:36 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3962AAD6A;
+ by mx2.suse.de (Postfix) with ESMTP id 7B485AFE2;
  Tue,  9 Feb 2021 13:46:35 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com,
 	daniel@ffwll.ch
-Subject: [PATCH v2 00/10] drm/ast: Clean-up cursor-plane updates
-Date: Tue,  9 Feb 2021 14:46:22 +0100
-Message-Id: <20210209134632.12157-1-tzimmermann@suse.de>
+Subject: [PATCH v2 01/10] drm/ast: Add constants for VGACRCB register bits
+Date: Tue,  9 Feb 2021 14:46:23 +0100
+Message-Id: <20210209134632.12157-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210209134632.12157-1-tzimmermann@suse.de>
+References: <20210209134632.12157-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,57 +44,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(was: drm/ast: Move cursor vmap calls out of commit tail)
+Set the bits in VGACRCB with constants. Alo move the rsp code into a
+helper function.
 
-Ast has vmap calls in its cursor's atomic_update function. This is not
-supported as vmap might aquire the dma reservation lock. While at it,
-cleanup the whole cursor code: the patchset removes all possible runtime
-errors from the atomic_update function and reduces the overhead from
-vmap calls on the HW cursor BOs to a minimum.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_cursor.c | 21 +++++++++++++++------
+ drivers/gpu/drm/ast/ast_drv.h    |  3 +++
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-Patches 1 to 3 update the cursor code and prepare before the refactoring.
-
-Patch 4 and 5 inline the cursor update logic into the rsp cursor-plane
-functions. This is mostly about moving code around.
-
-Patches 6 to 9 add a dedicated cursor plane that maintains the two BOs
-for HW cursors. The HW cursor BOs are permanently pinned and vmapped
-while the cursor plane is initialized. Thus removing the related vmap
-operations from atomic_update.
-
-Finally patch 10 converts ast cursors to struct drm_shadow_plane_state.
-BOs with cursor image data from userspace are vmapped in prepare_fb and
-vunampped in cleanup_fb. The actual update of the cursor image is being
-moved from prepare_fb to atomic_update.
-
-With the patchset applied, all cursor preparation is performed before
-the commit-tail functions; while the actual update is performed within.
-
-Tested by running X11 and Weston on ast hardware.
-
-v2:
-	* convert to drm_shadow_plane_state helpers
-
-Thomas Zimmermann (10):
-  drm/ast: Add constants for VGACRCB register bits
-  drm/ast: Fix invalid usage of AST_MAX_HWC_WIDTH in cursor atomic_check
-  drm/ast: Initialize planes in helper functions
-  drm/ast: Allocate HW cursor BOs during cursor-plane initialization
-  drm/ast: Inline ast cursor-update functions into modesetting code
-  drm/ast: Add cursor-plane data structure
-  drm/ast: Store cursor BOs in cursor plane
-  drm/ast: Map HW cursor BOs permanently
-  drm/ast: Store each HW cursor offset after pinning the rsp BO
-  drm/ast: Move all of the cursor-update functionality to atomic_update
-
- drivers/gpu/drm/ast/Makefile     |   3 +-
- drivers/gpu/drm/ast/ast_cursor.c | 286 --------------------------
- drivers/gpu/drm/ast/ast_drv.h    |  47 +++--
- drivers/gpu/drm/ast/ast_mode.c   | 334 +++++++++++++++++++++++++------
- 4 files changed, 312 insertions(+), 358 deletions(-)
- delete mode 100644 drivers/gpu/drm/ast/ast_cursor.c
-
---
+diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+index fac1ee79c372..024858371f64 100644
+--- a/drivers/gpu/drm/ast/ast_cursor.c
++++ b/drivers/gpu/drm/ast/ast_cursor.c
+@@ -236,6 +236,19 @@ static void ast_cursor_set_location(struct ast_private *ast, u16 x, u16 y,
+ 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
+ }
+ 
++static void ast_set_cursor_enabled(struct ast_private *ast, bool enabled)
++{
++	static const u8 mask = (u8)~(AST_IO_VGACRCB_HWC_16BPP |
++				     AST_IO_VGACRCB_HWC_ENABLED);
++
++	u8 vgacrcb = AST_IO_VGACRCB_HWC_16BPP;
++
++	if (enabled)
++		vgacrcb |= AST_IO_VGACRCB_HWC_ENABLED;
++
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, mask, vgacrcb);
++}
++
+ void ast_cursor_show(struct ast_private *ast, int x, int y,
+ 		     unsigned int offset_x, unsigned int offset_y)
+ {
+@@ -245,7 +258,6 @@ void ast_cursor_show(struct ast_private *ast, int x, int y,
+ 	u8 x_offset, y_offset;
+ 	u8 __iomem *dst;
+ 	u8 __iomem *sig;
+-	u8 jreg;
+ 	int ret;
+ 
+ 	ret = drm_gem_vram_vmap(gbo, &map);
+@@ -274,13 +286,10 @@ void ast_cursor_show(struct ast_private *ast, int x, int y,
+ 
+ 	ast_cursor_set_location(ast, x, y, x_offset, y_offset);
+ 
+-	/* dummy write to fire HWC */
+-	jreg = 0x02 |
+-	       0x01; /* enable ARGB4444 cursor */
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
++	ast_set_cursor_enabled(ast, true); /* dummy write to fire HWC */
+ }
+ 
+ void ast_cursor_hide(struct ast_private *ast)
+ {
+-	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
++	ast_set_cursor_enabled(ast, false);
+ }
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index f871fc36c2f7..1575e8e636d7 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -179,6 +179,9 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
+ 
+ #define AST_IO_VGAIR1_VREFRESH		BIT(3)
+ 
++#define AST_IO_VGACRCB_HWC_ENABLED     BIT(1)
++#define AST_IO_VGACRCB_HWC_16BPP       BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
++
+ #define __ast_read(x) \
+ static inline u##x ast_read##x(struct ast_private *ast, u32 reg) { \
+ u##x val = 0;\
+-- 
 2.30.0
 
 _______________________________________________
