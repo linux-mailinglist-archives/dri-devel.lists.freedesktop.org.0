@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CDA314D0A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 11:32:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5A7314D8B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 11:55:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67A8789FEA;
-	Tue,  9 Feb 2021 10:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610E289EAE;
+	Tue,  9 Feb 2021 10:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5D589FEA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 10:32:06 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id A893558018B;
- Tue,  9 Feb 2021 05:32:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 09 Feb 2021 05:32:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=Jt1fO61HE02mor/p4/e0vvQVzyp
- UYMVpukrxRr4pIl0=; b=gy8fEdwmYdkeQ8fotFSQU0/tDyfUqgMq2SUYoNaDlpb
- rUJikXAa4pKn4hMdRrJmJAuJ+ujlOORjbAz5VLGwL3OH9xErQquWjsotKMrp/aoA
- fIUjkF5x8cEzBDPL6Xk2+e+BIFW+J3nadR13oLak15wDh5XJre9kgh1kxc4OEXqb
- RHaWXPY4gHL1tKb+mvV6jCmr2miXegc5pOBQdryZDZ+S2fET+NT2f2XYYwyQaEV1
- tTeJ//9RFCXthIoXil/W6obfRqFYODEjnv4ywaEtH1l9H7I/T3XSeCvS93GEkL1A
- MKMpJePR8b58FXSqALe5orCQItF/nx/lJPGhkrNypqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Jt1fO6
- 1HE02mor/p4/e0vvQVzypUYMVpukrxRr4pIl0=; b=nIf3OoCE1HypM0jgX2mMyK
- 4d+rnAtKa3pDVr7BeGt1EHBk197gCDnXnXO5EUUHkBrsVqjv/C072X3C0pVbXpY6
- T9lpK7lZNyZMBTRHuVoaPUl6zWcb6PsJVophqUDkv9zdcVJKra1UX77bnHX55GG2
- F1HQpy6hcgnJJUBhf8yM5L/k17rhWQ81/WMSPosD9b6yZIp6ZPXW73AsNf7odUjA
- cJQVQr++fjfMFZ6Fgq2N+pFLePGD94t5WwSiDo3CkpRfqGWqKUCX72L2E2umIZeD
- 4EBA6C1zAMopyJKHl5AC67Hu9TLk+7hmKGJzL2iaj9g174O3pLs9zYZI133i3wEw
- ==
-X-ME-Sender: <xms:oGQiYA_Xcrw8juwkoOqQ12yONbPr0iQJsYr_F8SdL6Xkpx7Foj-qJA>
- <xme:oGQiYIsn5_Wqb4EScVJxOMhv6ynpS4-YnPpiXb6BICSVQLQg4mHNEZbsMgjfdek-r
- 3GGTLcYDZrK8JL-Cvs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheehgddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueevieeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oGQiYGAQd1Zp7WXBasrwRBrp6s4nMTWRslxZkiif_ig1uO_VIk53sQ>
- <xmx:oGQiYAely2Y5nSJcAQaPGTQr86vK_K2NKl-GkVLGu8Y8P9J--XUDuA>
- <xmx:oGQiYFNSsSteoX-XfQV872n084oT9faDBLAmLtestV-J6S-XHlucrQ>
- <xmx:o2QiYIoVQDU9Cha02tvPUSm5GxxC43ZzQP7n3nihB-meRXHLfzJfhQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4AF51108006A;
- Tue,  9 Feb 2021 05:32:00 -0500 (EST)
-Date: Tue, 9 Feb 2021 11:31:58 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 2/5] drm/sun4i: tcon: set sync polarity for tcon1 channel
-Message-ID: <20210209103158.rnzvlvo44nnzrmk4@gilmour>
-References: <20210204184710.1880895-1-jernej.skrabec@siol.net>
- <2156838.FvJGUiYDvf@kista>
- <CAGb2v65cZ7DXzcPzt8ER1ucwhbhTOc0-mCCye3eK-ZgP3a6ivA@mail.gmail.com>
- <3972834.uPFdDeCNB3@kista>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A04A089E43
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 10:54:59 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id 7so21110006wrz.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Feb 2021 02:54:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=awNConcuSbmVFJzREz9wfmqSSfcskIy7qYDmwEBMAKU=;
+ b=gKyAmiNvB2F1i+4EufDrLxr8R2beTgutFGgGDfgCpmN8LqzxmQ1pehhE0TZwe5L2sg
+ QWMwOw4LXZR5lI9WjQGjqUa+7fSr9+Ey4/OuXTYHG3zPt3tCd3VMSNXHoBwsaRhDTOxt
+ ydIXg4wd4Rpn0Kzg5/mkEVnGnGC1mN95ptcgg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=awNConcuSbmVFJzREz9wfmqSSfcskIy7qYDmwEBMAKU=;
+ b=hnfmFQeU9I1LfFchv2o+Cz/vnPYa64/Akk//CNxPRd1QXQ7ISOzwyA0QtFYnkfnbWG
+ fg3NhNQZTsx7PWY2M7ocdbfjKv7jwwTq0O3YrAUHUnroO9z2w11U6opX0zOu0OPK0bfp
+ Oyhsffr6GbuW0HcFxB0bc0+Yk+xKUmo+CTkCq3SIwS/Z+Em4pUQCI8czH5fxT9gqLth/
+ lOSwBYZjpygZ8wQkx5rKwgKRzfadENGfRs5BDL0cVkhOWtOF89FfGkxUGHZfJ7CeucNX
+ 0oK3ssnbdq2pKRfMbRYswduBztyzz6rvZBwFJX9D2RHyLSqxSPu0udwLK+p+wZ+ctDhi
+ 9N2Q==
+X-Gm-Message-State: AOAM5301hPuPRcJMrDkBsB6DwB+bU88tg4kzdXZD1trll4m2V9IA6dzL
+ 4yk99LX+gYW7wQLBqcIpDf4kmQ==
+X-Google-Smtp-Source: ABdhPJzdKiCudlXfgTvYPZHzQkGot8yHiXWc/ffuubTe+e5BcXUfrtmJyUGMZZddlc8iZNJwuMj6kw==
+X-Received: by 2002:a5d:4988:: with SMTP id r8mr24887041wrq.26.1612868098279; 
+ Tue, 09 Feb 2021 02:54:58 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c62sm4123695wmd.43.2021.02.09.02.54.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 02:54:57 -0800 (PST)
+Date: Tue, 9 Feb 2021 11:54:55 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brian Welty <brian.welty@intel.com>
+Subject: Re: [RFC PATCH 8/9] drm/gem: Associate GEM objects with drm cgroup
+Message-ID: <YCJp//kMC7YjVMXv@phenom.ffwll.local>
+References: <20210126214626.16260-1-brian.welty@intel.com>
+ <20210126214626.16260-9-brian.welty@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <3972834.uPFdDeCNB3@kista>
+Content-Disposition: inline
+In-Reply-To: <20210126214626.16260-9-brian.welty@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,158 +65,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, Mike Turquette <mturquette@baylibre.com>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, linux-clk <linux-clk@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0387917522=="
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>, David Airlie <airlied@linux.ie>,
+ Kenny Ho <Kenny.Ho@amd.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ amd-gfx@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 26, 2021 at 01:46:25PM -0800, Brian Welty wrote:
+> This patch adds tracking of which cgroup to make charges against for a
+> given GEM object.  We associate the current task's cgroup with GEM objects
+> as they are created.  First user of this is for charging DRM cgroup for
+> device memory allocations.  The intended behavior is for device drivers to
+> make the cgroup charging calls at the time that backing store is allocated
+> or deallocated for the object.
+> 
+> Exported functions are provided for charging memory allocations for a
+> GEM object to DRM cgroup. To aid in debugging, we store how many bytes
+> have been charged inside the GEM object.  Add helpers for setting and
+> clearing the object's associated cgroup which will check that charges are
+> not being leaked.
+> 
+> For shared objects, this may make the charge against a cgroup that is
+> potentially not the same cgroup as the process using the memory.  Based
+> on the memory cgroup's discussion of "memory ownership", this seems
+> acceptable [1].
+> 
+> [1] https://www.kernel.org/doc/Documentation/cgroup-v2.txt, "Memory Ownership"
+> 
+> Signed-off-by: Brian Welty <brian.welty@intel.com>
 
---===============0387917522==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lvwjttyd23hbxwrd"
-Content-Disposition: inline
+Since for now we only have the generic gpu/xpu/bikeshed.memory bucket that
+counts everything, why don't we also charge in these gem functions?
 
+Also, that would remove the need for all these functions exported to
+drivers. Plus the cgroups setup could also move fully into drm core code,
+since all drivers (*) support it. That way this would really be a fully
+generic cgroups controller, and we could land it.
 
---lvwjttyd23hbxwrd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The other things I'd do:
+- drop gpu scheduling controller from the initial patch series. Yes we'll
+  need it, but we also need vram limits and all these things for full
+  featured controller. Having the minimal viable cgroup controller in
+  upstream would unblock all these other things, and we could discuss them
+  in separate patch series, instead of one big bikeshed that never reaches
+  full consensus.
 
-On Fri, Feb 05, 2021 at 07:47:17PM +0100, Jernej =C5=A0krabec wrote:
-> Dne petek, 05. februar 2021 ob 17:28:23 CET je Chen-Yu Tsai napisal(a):
-> > On Sat, Feb 6, 2021 at 12:21 AM Jernej =C5=A0krabec <jernej.skrabec@sio=
-l.net>=20
-> wrote:
-> > >
-> > > Dne petek, 05. februar 2021 ob 17:01:30 CET je Maxime Ripard napisal(=
-a):
-> > > > On Fri, Feb 05, 2021 at 11:21:22AM +0800, Chen-Yu Tsai wrote:
-> > > > > On Fri, Feb 5, 2021 at 2:48 AM Jernej Skrabec=20
-> <jernej.skrabec@siol.net>
-> > > wrote:
-> > > > > >
-> > > > > > Channel 1 has polarity bits for vsync and hsync signals but dri=
-ver=20
-> never
-> > > > > > sets them. It turns out that with pre-HDMI2 controllers seeming=
-ly=20
-> there
-> > > > > > is no issue if polarity is not set. However, with HDMI2 control=
-lers
-> > > > > > (H6) there often comes to de-synchronization due to phase shift=
-=2E=20
-> This
-> > > > > > causes flickering screen. It's safe to assume that similar issu=
-es=20
-> might
-> > > > > > happen also with pre-HDMI2 controllers.
-> > > > > >
-> > > > > > Solve issue with setting vsync and hsync polarity. Note that di=
-splay
-> > > > > > stacks with tcon top have polarity bits actually in tcon0 polar=
-ity
-> > > > > > register.
-> > > > > >
-> > > > > > Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine=20
-> support")
-> > > > > > Tested-by: Andre Heider <a.heider@gmail.com>
-> > > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/sun4i/sun4i_tcon.c | 24 ++++++++++++++++++++++=
-++
-> > > > > >  drivers/gpu/drm/sun4i/sun4i_tcon.h |  5 +++++
-> > > > > >  2 files changed, 29 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/d=
-rm/
-> sun4i/
-> > > sun4i_tcon.c
-> > > > > > index 6b9af4c08cd6..0d132dae58c0 100644
-> > > > > > --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> > > > > > +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> > > > > > @@ -672,6 +672,29 @@ static void sun4i_tcon1_mode_set(struct=20
-> sun4i_tcon
-> > > *tcon,
-> > > > > >                      SUN4I_TCON1_BASIC5_V_SYNC(vsync) |
-> > > > > >                      SUN4I_TCON1_BASIC5_H_SYNC(hsync));
-> > > > > >
-> > > > > > +       /* Setup the polarity of sync signals */
-> > > > > > +       if (tcon->quirks->polarity_in_ch0) {
-> > > > > > +               val =3D 0;
-> > > > > > +
-> > > > > > +               if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-> > > > > > +                       val |=3D SUN4I_TCON0_IO_POL_HSYNC_POSIT=
-IVE;
-> > > > > > +
-> > > > > > +               if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-> > > > > > +                       val |=3D SUN4I_TCON0_IO_POL_VSYNC_POSIT=
-IVE;
-> > > > > > +
-> > > > > > +               regmap_write(tcon->regs, SUN4I_TCON0_IO_POL_REG=
-,=20
-> val);
-> > > > > > +       } else {
-> > > > > > +               val =3D SUN4I_TCON1_IO_POL_UNKNOWN;
-> > > > >
-> > > > > I think a comment for the origin of this is warranted.
-> > > >
-> > > > If it's anything like TCON0, it's the pixel clock polarity
-> > >
-> > > Hard to say, DW HDMI controller has "data enable" polarity along hsyn=
-c and
-> > > vsync. It could be either or none of those.
-> > >
-> > > What should I write in comment? BSP drivers and documentation use onl=
-y=20
-> generic
-> > > names like io2_inv.
-> >=20
-> > Just say that we don't know exactly what it is, but it is required for=
-=20
-> things
-> > to work properly? Would be interesting to know what happens if you don'=
-t set
-> > this bit, but do set VSYNC/HSYNC polarity properly.
->=20
-> Nothing seems to happen - tested on H3 with HDMI (4k@30) and CVBS. At lea=
-st I=20
-> didn't notice anything.
+- the xpu thing is probably real, I just chatted with Android people for
+  their gpu memory accounting needs, and cgroups sounds like a solution
+  for them too. But unlike on desktop/server linux, on Android all shared
+  buffers are allocated from dma-buf heaps, so outside of drm, and hence a
+  cgroup controller that's tightly tied to drm isn't that useful. So I
+  think we should move the controller/charge functions up one level into
+  drivers/gpu/cgroups.
 
-That's pretty normal, an inverted pixel clock would at worst give you
-some weird artifacts and / or pixels being of the wrong color. Data
-enable on the other hand would very likely stall the HDMI controller
-since you would have only the blanking periods that would be considered
-valid.
+  On the naming bikeshed I think gpu is perfectly fine, just explain in
+  the docs that the G stands for "general" :-) Otherwise we might need to
+  rename drivers/gpu to drivers/xpu too, and that's maybe one bikeshed too
+  far. Plus, right now it really is the controller for gpu related memory,
+  even if we extend it to Android (where it would also include
+  video/camera allocatioons). Extending this cgroup controller to
+  accelerators in general is maybe a bit too much.
+ 
+- The other disambiguation is how we account dma-buf (well, buffer based)
+  gpu allocations vs HMM gpu memory allocations, that might be worth
+  clarifying in the docs.
 
-Maxime
+- Finally to accelerate this further, I think it'd be good to pull out the
+  cgroup spec for this more minimized series into patch 1, as a draft.
+  That way we could get all stakeholders to ack on that ack, so hopefully
+  we're building something that will work for everyone. That way we can
+  hopefully untangle the controller design discussions from the
+  implementation bikeshedding as much as possible.
 
---lvwjttyd23hbxwrd
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers, Daniel
 
------BEGIN PGP SIGNATURE-----
+*: vmwgfx is the only non-gem driver, but there's plans to move at least
+vmwgfx internals (maybe not the uapi, we'll see) over to gem. Once that's
+done it's truly all gpu memory.
+> ---
+>  drivers/gpu/drm/drm_gem.c | 89 +++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_gem.h     | 17 ++++++++
+>  2 files changed, 106 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index c2ce78c4edc3..a12da41eaafe 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/mm.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/cgroup_drm.h>
+>  #include <linux/fs.h>
+>  #include <linux/file.h>
+>  #include <linux/module.h>
+> @@ -112,6 +113,89 @@ drm_gem_init(struct drm_device *dev)
+>  	return drmm_add_action(dev, drm_gem_init_release, NULL);
+>  }
+>  
+> +/**
+> + * drm_gem_object_set_cgroup - associate GEM object with a cgroup
+> + * @obj: GEM object which is being associated with a cgroup
+> + * @task: task associated with process control group to use
+> + *
+> + * This will acquire a reference on cgroup and use for charging GEM
+> + * memory allocations.
+> + * This helper could be extended in future to migrate charges to another
+> + * cgroup, print warning if this usage occurs.
+> + */
+> +void drm_gem_object_set_cgroup(struct drm_gem_object *obj,
+> +			       struct task_struct *task)
+> +{
+> +	/* if object has existing cgroup, we migrate the charge... */
+> +	if (obj->drmcg) {
+> +		pr_warn("DRM: need to migrate cgroup charge of %lld\n",
+> +			atomic64_read(&obj->drmcg_bytes_charged));
+> +	}
+> +	obj->drmcg = drmcg_get(task);
+> +}
+> +EXPORT_SYMBOL(drm_gem_object_set_cgroup);
+> +
+> +/**
+> + * drm_gem_object_unset_cgroup - clear GEM object's associated cgroup
+> + * @obj: GEM object
+> + *
+> + * This will release a reference on cgroup.
+> + */
+> +void drm_gem_object_unset_cgroup(struct drm_gem_object *obj)
+> +{
+> +	WARN_ON(atomic64_read(&obj->drmcg_bytes_charged));
+> +	drmcg_put(obj->drmcg);
+> +}
+> +EXPORT_SYMBOL(drm_gem_object_unset_cgroup);
+> +
+> +/**
+> + * drm_gem_object_charge_mem - try charging size bytes to DRM cgroup
+> + * @obj: GEM object which is being charged
+> + * @size: number of bytes to charge
+> + *
+> + * Try to charge @size bytes to GEM object's associated DRM cgroup.  This
+> + * will fail if a successful charge would cause the current device memory
+> + * usage to go above the cgroup's GPU memory maximum limit.
+> + *
+> + * Returns 0 on success.  Otherwise, an error code is returned.
+> + */
+> +int drm_gem_object_charge_mem(struct drm_gem_object *obj, u64 size)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_cgroup_try_charge(obj->drmcg, obj->dev,
+> +				    DRMCG_TYPE_MEM_CURRENT, size);
+> +	if (!ret)
+> +		atomic64_add(size, &obj->drmcg_bytes_charged);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_gem_object_charge_mem);
+> +
+> +/**
+> + * drm_gem_object_uncharge_mem - uncharge size bytes from DRM cgroup
+> + * @obj: GEM object which is being uncharged
+> + * @size: number of bytes to uncharge
+> + *
+> + * Uncharge @size bytes from the DRM cgroup associated with specified
+> + * GEM object.
+> + *
+> + * Returns 0 on success.  Otherwise, an error code is returned.
+> + */
+> +void drm_gem_object_uncharge_mem(struct drm_gem_object *obj, u64 size)
+> +{
+> +	u64 charged = atomic64_read(&obj->drmcg_bytes_charged);
+> +
+> +	if (WARN_ON(!charged))
+> +		return;
+> +	if (WARN_ON(size > charged))
+> +		size = charged;
+> +
+> +	atomic64_sub(size, &obj->drmcg_bytes_charged);
+> +	drm_cgroup_uncharge(obj->drmcg, obj->dev, DRMCG_TYPE_MEM_CURRENT,
+> +			    size);
+> +}
+> +EXPORT_SYMBOL(drm_gem_object_uncharge_mem);
+> +
+>  /**
+>   * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+>   * @dev: drm_device the object should be initialized for
+> @@ -156,6 +240,8 @@ void drm_gem_private_object_init(struct drm_device *dev,
+>  	obj->dev = dev;
+>  	obj->filp = NULL;
+>  
+> +	drm_gem_object_set_cgroup(obj, current);
+> +
+>  	kref_init(&obj->refcount);
+>  	obj->handle_count = 0;
+>  	obj->size = size;
+> @@ -950,6 +1036,9 @@ drm_gem_object_release(struct drm_gem_object *obj)
+>  
+>  	dma_resv_fini(&obj->_resv);
+>  	drm_gem_free_mmap_offset(obj);
+> +
+> +	/* Release reference on cgroup used with GEM object charging */
+> +	drm_gem_object_unset_cgroup(obj);
+>  }
+>  EXPORT_SYMBOL(drm_gem_object_release);
+>  
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 240049566592..06ea10fc17bc 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -37,6 +37,7 @@
+>  #include <linux/kref.h>
+>  #include <linux/dma-resv.h>
+>  
+> +#include <drm/drm_cgroup.h>
+>  #include <drm/drm_vma_manager.h>
+>  
+>  struct dma_buf_map;
+> @@ -222,6 +223,17 @@ struct drm_gem_object {
+>  	 */
+>  	struct file *filp;
+>  
+> +	/**
+> +	 * @drmcg:
+> +	 *
+> +	 * cgroup used for charging GEM object page allocations against. This
+> +	 * is set to the current cgroup during GEM object creation.
+> +	 * Charging policy is up to the DRM driver to implement and should be
+> +	 * charged when allocating backing store from device memory.
+> +	 */
+> +	struct drmcg *drmcg;
+> +	atomic64_t drmcg_bytes_charged;
+> +
+>  	/**
+>  	 * @vma_node:
+>  	 *
+> @@ -417,4 +429,9 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+>  			    u32 handle, u64 *offset);
+>  
+> +void drm_gem_object_set_cgroup(struct drm_gem_object *obj,
+> +			       struct task_struct *task);
+> +void drm_gem_object_unset_cgroup(struct drm_gem_object *obj);
+> +int drm_gem_object_charge_mem(struct drm_gem_object *obj, u64 size);
+> +void drm_gem_object_uncharge_mem(struct drm_gem_object *obj, u64 size);
+>  #endif /* __DRM_GEM_H__ */
+> -- 
+> 2.20.1
+> 
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYCJkngAKCRDj7w1vZxhR
-xedJAQCvyb+V3yoXMwG3DqhG21kI9ivkqbheculNc5PYOa79ZQD/cKZtr++3tXXL
-b0t+vjHAf3eohmy56y3F2ZBXFWYzhg8=
-=MfCa
------END PGP SIGNATURE-----
-
---lvwjttyd23hbxwrd--
-
---===============0387917522==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0387917522==--
