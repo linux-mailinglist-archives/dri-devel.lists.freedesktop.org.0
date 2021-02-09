@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6B7314520
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 01:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638EF31458F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 02:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D95AB6E1BD;
-	Tue,  9 Feb 2021 00:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4366E43C;
+	Tue,  9 Feb 2021 01:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E753E6E1BD
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 00:55:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EE87583;
- Tue,  9 Feb 2021 01:55:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1612832144;
- bh=546XL7xvfL+LHfS20TPPogFKXmYg6uzn09ILuWcX4WQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k4O6FiQMMKQ6cBYRJ5jRsDWoUYRiw+BOA6T8Uw7QvLZoRVVGeAXooKnmfJ2MBsS4p
- irVBm61yDhYnP9U+A7vtglGHhvoRLJnnMPbzdwFdaBp1QWw90DG7pabLEKztc/MiNx
- ldEbqEpdlm54OOSjSMHBAWxwDvDcVFhwRzqq4WH4=
-Date: Tue, 9 Feb 2021 02:55:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mykyta Poturai <ddone@aruko.org>
-Subject: Re: [PATCH 2/2] dt-bindings: display: Add "disable-hpd" binding
-Message-ID: <YCHdd1msOsodLn+v@pendragon.ideasonboard.com>
-References: <20210131095701.965147-1-ddone@aruko.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8266389DA7;
+ Tue,  9 Feb 2021 01:23:46 +0000 (UTC)
+IronPort-SDR: y0AbROcGA4lWJuinDmR12d18pW85/Y4l29SbLrH8MV8owYD1lhVJesOgkiQHawvPvVEMVKaxTv
+ 8xveFMbz7oEA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="178300637"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
+ d="asc'?scan'208";a="178300637"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 17:23:45 -0800
+IronPort-SDR: y+jeXAsnNmZV6FvzVTPdNbgBq1SCupULaKJuXGMmiokZpuvDu8VVocQPqeiT6RBQ1tBYk2t0eg
+ VQzWsvQWIXIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
+ d="asc'?scan'208";a="398603670"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
+ by orsmga007.jf.intel.com with ESMTP; 08 Feb 2021 17:23:42 -0800
+Date: Tue, 9 Feb 2021 09:08:17 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Yu Zhang <yu.c.zhang@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/gvt/kvmgt: Fix the build failure in kvmgt.
+Message-ID: <20210209010817.GC2043@zhen-hp.sh.intel.com>
+References: <20210208185210.6002-1-yu.c.zhang@linux.intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210131095701.965147-1-ddone@aruko.org>
+In-Reply-To: <20210208185210.6002-1-yu.c.zhang@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +47,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: kvm@vger.kernel.org, airlied@linux.ie, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ zhi.a.wang@intel.com
+Content-Type: multipart/mixed; boundary="===============0069828610=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mykyta,
 
-Thank you for the patch.
+--===============0069828610==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="f61P+fpdnY2FZS1u"
+Content-Disposition: inline
 
-On Sun, Jan 31, 2021 at 11:57:01AM +0200, Mykyta Poturai wrote:
-> Add the "disable-hpd" binding, used to disable hotplug detected
-> functionality in the driver. When it's enabled the driver assumes that
-> the connector is always connected and disables the hotplug detect
-> related IRQ.
-> 
-> Signed-off-by: Mykyta Poturai <ddone@aruko.org>
+
+--f61P+fpdnY2FZS1u
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2021.02.09 02:52:10 +0800, Yu Zhang wrote:
+> Previously, commit 531810caa9f4 ("KVM: x86/mmu: Use
+> an rwlock for the x86 MMU") replaced KVM's mmu_lock
+> with type rwlock_t. This will cause a build failure
+> in kvmgt, which uses the same lock when trying to add/
+> remove some GFNs to/from the page tracker. Fix it with
+> write_lock/unlocks in kvmgt.
+
+Thanks for the fix! I saw Paolo has already carried one
+in -next, so we are fine.
+
+>=20
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 > ---
->  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> index 3f6072651182..b2b899f46b86 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> @@ -39,6 +39,7 @@ Optional properties:
->  
->  - power-domains: Shall reference the power domain that contains the DWC HDMI,
->    if any.
-> +- disable-hpd: Disables the hotplug detect feature
+>  drivers/gpu/drm/i915/gvt/kvmgt.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/=
+kvmgt.c
+> index 60f1a386dd06..b4348256ae95 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -1703,7 +1703,7 @@ static int kvmgt_page_track_add(unsigned long handl=
+e, u64 gfn)
+>  		return -EINVAL;
+>  	}
+> =20
+> -	spin_lock(&kvm->mmu_lock);
+> +	write_lock(&kvm->mmu_lock);
+> =20
+>  	if (kvmgt_gfn_is_write_protected(info, gfn))
+>  		goto out;
+> @@ -1712,7 +1712,7 @@ static int kvmgt_page_track_add(unsigned long handl=
+e, u64 gfn)
+>  	kvmgt_protect_table_add(info, gfn);
+> =20
+>  out:
+> -	spin_unlock(&kvm->mmu_lock);
+> +	write_unlock(&kvm->mmu_lock);
+>  	srcu_read_unlock(&kvm->srcu, idx);
+>  	return 0;
+>  }
+> @@ -1737,7 +1737,7 @@ static int kvmgt_page_track_remove(unsigned long ha=
+ndle, u64 gfn)
+>  		return -EINVAL;
+>  	}
+> =20
+> -	spin_lock(&kvm->mmu_lock);
+> +	write_lock(&kvm->mmu_lock);
+> =20
+>  	if (!kvmgt_gfn_is_write_protected(info, gfn))
+>  		goto out;
+> @@ -1746,7 +1746,7 @@ static int kvmgt_page_track_remove(unsigned long ha=
+ndle, u64 gfn)
+>  	kvmgt_protect_table_del(info, gfn);
+> =20
+>  out:
+> -	spin_unlock(&kvm->mmu_lock);
+> +	write_unlock(&kvm->mmu_lock);
+>  	srcu_read_unlock(&kvm->srcu, idx);
+>  	return 0;
+>  }
+> @@ -1772,7 +1772,7 @@ static void kvmgt_page_track_flush_slot(struct kvm =
+*kvm,
+>  	struct kvmgt_guest_info *info =3D container_of(node,
+>  					struct kvmgt_guest_info, track_node);
+> =20
+> -	spin_lock(&kvm->mmu_lock);
+> +	write_lock(&kvm->mmu_lock);
+>  	for (i =3D 0; i < slot->npages; i++) {
+>  		gfn =3D slot->base_gfn + i;
+>  		if (kvmgt_gfn_is_write_protected(info, gfn)) {
+> @@ -1781,7 +1781,7 @@ static void kvmgt_page_track_flush_slot(struct kvm =
+*kvm,
+>  			kvmgt_protect_table_del(info, gfn);
+>  		}
+>  	}
+> -	spin_unlock(&kvm->mmu_lock);
+> +	write_unlock(&kvm->mmu_lock);
+>  }
+> =20
+>  static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu, struct kvm *kvm)
+> --=20
+> 2.17.1
+>=20
 
-A similar property has been added to the ti,sn65dsi86 bindings in commit
-1dbc979172af ("dt-bindings: drm/bridge: ti-sn65dsi86: Document no-hpd").
-A property with the same name exists in panel-common.yaml. Could we
-standardize on that name ?
+--f61P+fpdnY2FZS1u
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The description should also explain the hardware architecture, not the
-driver behaviour. This is what the ti,sn65dsi86 binding documents:
+-----BEGIN PGP SIGNATURE-----
 
-  no-hpd:
-    type: boolean
-    description:
-      Set if the HPD line on the bridge isn't hooked up to anything or is
-      otherwise unusable.
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYCHggQAKCRCxBBozTXgY
+J4FcAJsFxkXndfIuWXcRxMohV8DLfSmIbwCeNihYVZJrpZ/nzUK+LJJnAinbtbE=
+=YD2h
+-----END PGP SIGNATURE-----
 
-You could use the same description, assuming this is the use case you
-want to support. Could you perhaps describe your problem in a bit more
-details ? Do you have a system with an HDMI panel that is always
-connected, with the HPD signal of the dw-hdmi not connected ?
+--f61P+fpdnY2FZS1u--
 
->  Example:
+--===============0069828610==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
--- 
-Regards,
-
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0069828610==--
