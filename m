@@ -2,55 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D8B314F3E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227C2314F56
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Feb 2021 13:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E3256EB0F;
-	Tue,  9 Feb 2021 12:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93156EB16;
+	Tue,  9 Feb 2021 12:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D18A6EB09
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:41:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E0DD864E6B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Feb 2021 12:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612874491;
- bh=qS1FujzyEGDOtkDWkz6oixdsUYc7U1TgplWQKJ866uI=;
- h=From:To:Subject:Date:From;
- b=Ge9jbsVP8XH3qck/I1aOi3FCk65jlp95nv3oaXl7/kz5XWO7/YRWULTdhXTbeqg50
- Q0AXXSw/Kd8/KxNiQi7LW6TKEO4cTun3Flnfvd0lyPCNn2d05qSFJU4fc89W0Kl5Z9
- iBuoiuZSTD+a3LDt/gU9CH7MLp5JGADDsOPJg3zLM3/mGCjkHO8aLAYe8qXxKJzNw9
- ODqUm2OH3SPKE/q183+dnL8AVSweyZL6XhQa1tRfCtfgZh6HRt91BeFrPNhI8J+9Nx
- mptr5mXYbJRFUu7hrhx993WX4BC2EulffHZdwLVIifNuTUKmIm1K4NNL5l6IaqiOsK
- Gxa1WEerJm8mQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D046C6535B; Tue,  9 Feb 2021 12:41:31 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211651] New: Dual screen not working with Nvidia GTX 1050ti in
- a notebook
-Date: Tue, 09 Feb 2021 12:41:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kernel@fily.com.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-211651-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29FA6EB09;
+ Tue,  9 Feb 2021 12:44:45 +0000 (UTC)
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1612874684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5ZcLme2Lp8VoN6Vx25D29o/w3vPmzWDf5AKB/+kO9ME=;
+ b=sOsmuNnfJ121YNbp7s4fCzyJxQs/SocqUD9Q9ZhIZquBrSM7jcKcITzQlpdcmkEH1MmJ5M
+ z6QT756YG8guhW0HF7VIe5v+8AapjDG1ozzB7vlZZ3pjbyjZg2k8+VtR/GWMCAiOduDc1s
+ bEl8dKloP9bbv2NB97tWCBV4AtryYIJmCuP+LbfkA1sVB9l79zHHdrU+HFhtxftZ4k3Q56
+ 5eQA2zpe5EOPh0zkj4qPAw6M3mO09D2D5FMqAlhpfjAk9/9ku0fy7BYc4S52zlaS6F/5rx
+ isn6r2WjwMZ4AJnMK5VggugDVhAAyAHx7HISlbGpZK0H7xnHzIyaN3eTldPX3Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1612874684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5ZcLme2Lp8VoN6Vx25D29o/w3vPmzWDf5AKB/+kO9ME=;
+ b=ltIbD7hM3Nvgs6Dmo1UOUfeDKhYS7R6Pm3//sl9+yJpXUmYf2IQNz4aAY5NOsL4CSz3skC
+ iPrEhuyc7hZdrdDQ==
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/3] drm/amdgpu: Remove in_interrupt() usage.
+Date: Tue,  9 Feb 2021 13:44:36 +0100
+Message-Id: <20210209124439.408140-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,45 +50,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211651
-
-            Bug ID: 211651
-           Summary: Dual screen not working with Nvidia GTX 1050ti in a
-                    notebook
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.8.0.43
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: kernel@fily.com.de
-        Regression: No
-
-Hello, 
-I can't connect my second monitor with kernel 5.8.0.43 and driver
-nvidia-driver-450 and nvidia-driver-460. 
-
-With 5.3.18-050318-generic this is possible. So, I think the problem is the
-kernel. Maybe I can do a Kernel bisect, but I don't know how to perform it... 
-
-Can you help me?
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rm9sa3MsCgppbiB0aGUgZGlzY3Vzc2lvbiBhYm91dCBwcmVlbXB0IGNvdW50IGNvbnNpc3RlbmN5
+IGFjcm9zcyBrZXJuZWwKY29uZmlndXJhdGlvbnM6CgogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
+ci8yMDIwMDkxNDIwNDIwOS4yNTYyNjYwOTNAbGludXRyb25peC5kZS8KCml0IHdhcyBjb25jbHVk
+ZWQgdGhhdCB0aGUgdXNhZ2Ugb2YgaW5faW50ZXJydXB0KCkgYW5kIHJlbGF0ZWQgY29udGV4dApj
+aGVja3Mgc2hvdWxkIGJlIHJlbW92ZWQgZnJvbSBub24tY29yZSBjb2RlLgoKSW4gdGhlIGxvbmcg
+cnVuLCB1c2FnZSBvZiAncHJlZW1wdGlibGUsIGluXyppcnEgZXRjLicgc2hvdWxkIGJlIGJhbm5l
+ZCBmcm9tCmRyaXZlciBjb2RlIGNvbXBsZXRlbHkuCgpUaGlzIHNlcmllcyBhZGRyZXNzZXMgcGFy
+dHMgb2YgdGhlIGFtZGdwdSBkcml2ZXIuICBUaGVyZSBhcmUgc3RpbGwgY2FsbCBzaXRlcwpsZWZ0
+IGluIGluIHRoZSBhbWRncHUgZHJpdmVyLgoKdjHigKZ2MjoKICAgLSBMaW1pdCB0byBhZG1ncHUg
+b25seQogICAtIHVzZSAiYm9vbCIgaW5zdGVhZCBvZiAiYm9vbCA9PSB0cnVlIgoKU2ViYXN0aWFu
+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
