@@ -2,52 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265C231604A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 08:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A26B316042
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 08:46:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70176E1FB;
-	Wed, 10 Feb 2021 07:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06E176E1ED;
+	Wed, 10 Feb 2021 07:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9D9D6E19A;
- Wed, 10 Feb 2021 07:23:31 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id l27so782271qki.9;
- Tue, 09 Feb 2021 23:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=bH3CLqRvXgD6BHuxlu5Bhk4vl9wgjCKKNXoHMPR2Lcc=;
- b=Yzt5Hpj9i7PfYZhFApfZABl/PTdrcxUVYhOrJW1bgBxqcRtMdg5tsGs1k3/NwmDNay
- xMvGyGvqQuqOkKYCyVtX/rsmUsFP7A1T/eOw+fmo+2QkfZdyDA7w359qI+IX1hpAXxw3
- BUEh3a8nypugaZFPI5Oc60VT6H7DIRZqjpgbYUZ7YeVtNZXVLlj8XhFegm1aC4LzXOui
- bRjDHpwoBA/t0SXJESNeonSGBJK/UVKH++Iz6pIeAA+VvtY3Jb8IvdjeU1GipmbiDTp4
- hU9PdI1p0Nih54uRp98T5FYOw4mM2ugggHEkZ9sIW/1s5IbjmxwvOiscSw0SC5uNss6v
- 8iEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=bH3CLqRvXgD6BHuxlu5Bhk4vl9wgjCKKNXoHMPR2Lcc=;
- b=uD7ksrfwt7d8GKvvaqHukkeH+qnE4/NeoPt4goGznX64WU4HRdIc37/8Y7Dw8sp6J6
- P4G77xBp7o0NjLRXqZYYJASmTrxwHf/QVAkegA4xbzeOIygUNAlzZfmOneRhGSKl/kkv
- VVW+o1Hc6Gy3kY+Uwgzj60rNYoVfDfzzin/kI5ZuF34s+dAVhDqOrbEE6O72lGMR5Dyx
- Sll9pReHz5LMwnADR4oA7YQrwSwxtX6l+i72/KUFyQtPZ7lL8+2Y00gQk4PEzUdLjWEg
- FJHftmfQawl6IfS/RAIRfViqNGlkfdmyEmkJXT/NTlJn46BP8sxv4vPrznOxaJ6HXn4w
- c9Gw==
-X-Gm-Message-State: AOAM530Vqmmo4r4RUSF0mDd8gfhopudtevxKigMI8zAIvbvHtkfdMxXF
- lPtKyLMmMiUbkm+0mW6d5JeWsQKJBuaC2j9EPQA=
-X-Google-Smtp-Source: ABdhPJzPIkI/irmo4GENEMD8ZncH2Gf9+Gkzoe4LA/sBa7nG+9/Ob63hbDyWlyDi/aWXu1ddZO8B6hVC2WsENXa8n1M=
-X-Received: by 2002:a37:d01:: with SMTP id 1mr2142832qkn.247.1612941810860;
- Tue, 09 Feb 2021 23:23:30 -0800 (PST)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E517C6E19A;
+ Wed, 10 Feb 2021 07:46:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QzZmKfex30BVNozkgMObCE6xEisZtrCNThOUGz0ejTDvSfXUdhD7jQwQ0W5Wsb4sEnDYL/WCOwoiFYq0zTFqTz8c9rwFKQzIBemIRz1gFMXhMmmsPOoL5i4a8uAhlUOp3RaDO++wk+P9PpWtPoQVsmGMxGEYCFiBSA8KcORzM1Y/Aom0qR8G4eNgLvCYCHkAyGHagZO58aAykIIigS6u0ZcIIufzSNPAG3nZ7GLw8lo9y9OdeniM1+o2Ed4noaNA4/sDKIKF73YKGmTbNdCkxTTS3bQPSJQtSaE4zbXjhf9thkOjj4n7fAstvXD8jt6i/HY3TCtAdcFlJ8SGrk163g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6ggxsrKg06qS886z/accRAxAVgeMYsiTsUig0lBPDXg=;
+ b=HyONWmfwiktqH4l2eqJs2OCoi3RlwEkKu6au/igMKBKvuuOryLPkBFQ4/+AWecmjxSlbhKu5LCk6ppWgHENgduAo3mMitwi0dY0vBUIgTU1bwpdg2XvcCx/VMFQEYLoqKT3853d0XVoZ8llU1lz9J2CsES4Khkm4Vzs12hNe8Kei4Xl+eGau09QMQGcGrZx23fOT+b0hrSe0oCYqvKx94PVhvH4LXUv4AjsS4+6O1FV5/8YhNW2B2D2wdwd9Y89+9ICnViW4YL1ufZQAQzjzfUTN9S68+1poK7vjj79g7OATvFFcyxn8gSDB4+xutVjoNgHZ9m5gFyDfnmSi0MSniA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6ggxsrKg06qS886z/accRAxAVgeMYsiTsUig0lBPDXg=;
+ b=5UQKunR169FWgKrh682WgvxqKpmQ6W20p6wcXMHoqv3xqBRlQpP07dIlYrK1n17cQGVrXJJHt889SKqBgiwpznq4PQP/LuQQNGqLkqYL/I9d1rgXGTtpYDamX14MuSOgFkSdUUKK6OuUzFbZiE033VwmwxIpy70sm9B9MmbLleA=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4335.namprd12.prod.outlook.com (2603:10b6:208:1d4::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.30; Wed, 10 Feb
+ 2021 07:46:02 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::c1ff:dcf1:9536:a1f2%2]) with mapi id 15.20.3846.027; Wed, 10 Feb 2021
+ 07:46:02 +0000
+Subject: Re: [PATCH 0/3] drm/ttm: constify static vm_operations_structs
+To: Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210209234817.55112-1-rikard.falkeborn@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <e819cb08-98b6-c87d-4d95-338e06f88a48@amd.com>
+Date: Wed, 10 Feb 2021 08:45:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210209234817.55112-1-rikard.falkeborn@gmail.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:1e1:ad6e:a509:1753]
+X-ClientProxiedBy: AM8P190CA0030.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:219::35) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-From: Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Date: Wed, 10 Feb 2021 09:22:54 +0200
-Message-ID: <CAJ1xhMX6O__JbVi7izHvEcGVoBT_6h95fhsZPqQuSzVkhPugBA@mail.gmail.com>
-Subject: [nouveau] WARNING: possible circular locking dependency detected in
- linux-next
-To: Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Approved-At: Wed, 10 Feb 2021 07:48:28 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:1e1:ad6e:a509:1753]
+ (2a02:908:1252:fb60:1e1:ad6e:a509:1753) by
+ AM8P190CA0030.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3846.25 via Frontend Transport; Wed, 10 Feb 2021 07:46:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 17a8d7e6-adc8-4d45-a99b-08d8cd97e9bd
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4335:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB433551217B4F5CF4C0491196838D9@MN2PR12MB4335.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8DkFIq3GoWd7BfXPkKpSVvxfBltFyjpU4q0WcDPLtqF4oXWu7/vQ1LQZd+A7CajZATfllZVIEXYTfOc1gmGmYlElkcX1YsqbkVFAHh6wiBToYFc2z4I/T/6wwAYyjbP4f+AB31Zb6d949CFEQJKaba5Hfnt5xkEKIcrRbK40x8Nkell5T8WebOFSIok1XpeWf+gKl61BIUa4a3iY2gyDBZNF94qM4qMAAHDT09g4PxGrsbeI72V6V4SG7MuFLlyOpunrfUCcbvjF0rjixe4PcH30a+9rIQ2JFxvviwo2v7tSMccJ6Z/LzDEQ5gWeKaYXEq88Jx/itK4HXD/x/w/IEgMxbWOAZc8yfIcuA2GF96d+BkDmUom9oH6Ut7/DTnDTJmjqH78NLhb+ueJH7DD/OKPkZ2TCy5X5u1jBL1gk6955exD8oFac60r+bSneuDpm46iCtnJZLsznwnkf6HNi8FicW3RNUR5tDghxQqrixSH03+6s07rz8bIzUkk7Wk+oLc+4eTy4posCw5P8Nh3aIyEZ24X1NFeg0AUtMhyOhfZ701hohC99hhkyu20gBZ2RQKd3iHmnGkvXQOyOHsRUW+Frx3yZhLEQbs46+e5Su2E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(366004)(136003)(346002)(376002)(2616005)(6486002)(8936002)(2906002)(86362001)(66946007)(66476007)(31696002)(66556008)(31686004)(186003)(16526019)(4326008)(5660300002)(110136005)(54906003)(4744005)(83380400001)(6666004)(316002)(8676002)(478600001)(36756003)(52116002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UlM4dnBuV0NIZWtGbjJSdUNCbG95MzVyRmNnai9zaW8zVW84cnpHTHIzK09w?=
+ =?utf-8?B?SHA3N3E1RW9NejJGR2RsK3VENDdCZGtSTTY4UC93d2Yrc2tWY0doV0E5RkdF?=
+ =?utf-8?B?L1NLaCtnOTVuTHZTb3BwUjJ0OU9UZHlrWWVmOWF2NlZ2TnVaL2RUaGg1UC83?=
+ =?utf-8?B?VTliYW5FYkNTdWt1b0lSOHJXK2dYUTZSemlJSEJPb1NiNmZDQ053VWNWWmxP?=
+ =?utf-8?B?Q1hYVzFBcDdhSTdRRlJmSlYrWW1HcUVEVEJHY3AvekNUV2w1cUhzYkpqbEJU?=
+ =?utf-8?B?TVhNSVhZeVowY1ZMZXlMRlAySm1JL0VGYmdad0Q3Zm5HVFV4Y0gyTGc4R0Zo?=
+ =?utf-8?B?WjNuVGErRk5xeEJjcmFDTm15SzdlS0pGY0QrZUJrZUVMY1hudFhTZlUvUUFu?=
+ =?utf-8?B?eEVYcWtmV20wU0ZON0dFT2F3ZFFOVnFCL1F0RkR5ZEJsUytpUTdSdzdrYnpj?=
+ =?utf-8?B?dmpYOG53OE0ySStmNi9CU3B1OGw4bHZBaUNCVk9JbStPbzdhKzdRaHRZeVVi?=
+ =?utf-8?B?czJLTkpHSzl2dGNoYVc4VzVWWUlvTTM2eTRrZ2V3WWR0U3ZrQU5ldzVRV1NW?=
+ =?utf-8?B?T2FBZ0lFaDRTRi9BR0R0ejdIelh4aTFsWVVtQkFkOUd2YThWOHRFSlVuWFEy?=
+ =?utf-8?B?eE1tTlR1STN0a3BBUUxuTEcySXVBSG14WGxQS3kvalQ3WEt2eFhiRHg1bEtD?=
+ =?utf-8?B?VW8vaHY1U1ZKM2JaSzFvQ3hjNEY5ak81SUcyRGlvbDRaRWJ5dkVKSEwvODFN?=
+ =?utf-8?B?cnJZZkNHbDdNQlZEczg0SzZ1RlJDQlZqNDN2RjYxK201TWttUy9HZThLYkhN?=
+ =?utf-8?B?aHlhTWN3QmFadE5FbU9vc01LKy9SUTFUQ0FpdGpBZm5EMUFxdCtrZXJYendV?=
+ =?utf-8?B?eXJvU25qSG01MDhpTWRrdDhBYU5mUmxDOEpSZ3JaS3IvNFUvTTRkQlVHMTUr?=
+ =?utf-8?B?WitRRTh2UERIdXpJVjV0SnVmS1l5ZlNmT2hxUHlmcUxoU1pkb2xBZVBOOWoy?=
+ =?utf-8?B?VXFnTFBQY1BYbHpXWlhvb3BjcVByMHVZMmk1VGc0akpXTXo5NWpYd3dTS3Yz?=
+ =?utf-8?B?VmVONGlWRWhQSmY5K1liS0pRNlZCR2l6MlBuTXY3d0ExSzNhL1JUdDFsanZR?=
+ =?utf-8?B?QVhPUkRiMUFFVHV6N0o1OTUrTkM1R0EwQ3RNN05qOVlMbTFPNGhFU2NCdEIr?=
+ =?utf-8?B?ZEFtbmFmV0x2QnR6STlxT2RtYVV6aDJzcVZFZ0JwUWU2RUppQ1l0U3hzdTF2?=
+ =?utf-8?B?amMwRUUyZ3JjM3g3ZCs2ZjFQM3ZEVklZNXlrWTArcHJrdlZEQjZNcDNjeWls?=
+ =?utf-8?B?SnRqYmZsQkRoc2xLaVFkVEx1RVorZUVJRi9qNXVnaVhZRHNwVU4vWDVLbzcy?=
+ =?utf-8?B?VWlpYTVkWk05M0xoWkJ1QWdnbTk1MEZIYnBXVDJKV1VRRVZWdHUyZ2pxL1h4?=
+ =?utf-8?B?bTJkVUxqRFYvN2I3NkphVEczV3R0QitxdWZSMndpbGdWUlp6OFFNaWNRSGx6?=
+ =?utf-8?B?cFJ0ZlNvaHNBbDRKa3Z3eWcyYXZJVzB6K3REUW1OUlJucDN1N0RJMFRGUU0w?=
+ =?utf-8?B?SHc3dklZT3dhSEhqOEovbHJtQUVjTlY2Vlc1SHpnMThTelpiVC9pSUlwYkw0?=
+ =?utf-8?B?YmliVEJCRmVVak1jeUxKRVVIUWNZdE1odU5ady9Bc0p5TEpvSGc1b1hma1dW?=
+ =?utf-8?B?V2xnRitZYmdRM2hIb0pZek8vMDVqekF4U2dQTWd1aVJxU0tUVVMza0ZoUTdH?=
+ =?utf-8?B?V0ZxcmRRS29PR1YxZmVyRy9ER2ZHOC80dG5nK0ZyVkFKZmZ2dXNPL1hyaXlO?=
+ =?utf-8?B?U1RtZDRJRi9DK2xyN1ZFelJNdXJtQXJYYzN4SUdBc29OMHVqZ1VZVHlNVzkw?=
+ =?utf-8?Q?gyMor8rXMQCVW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17a8d7e6-adc8-4d45-a99b-08d8cd97e9bd
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2021 07:46:02.3389 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 73B9eRCZpRHXzrttox+NVxppupapTyfpvm+B6DExwz9H2/xJpz82NssTSvCbJLBj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4335
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,237 +129,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Linux-Next <linux-next@vger.kernel.org>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've been seeing these warnings for a couple of weeks now. Any
-pointers on how to address this would be much appreciated.
-
-[   57.207457] ======================================================
-[   57.207470] WARNING: possible circular locking dependency detected
-[   57.207483] 5.11.0-rc7-next-20210209 #142 Tainted: G        W
-[   57.207497] ------------------------------------------------------
-[   57.207508] Xorg/459 is trying to acquire lock:
-[   57.207521] ffff888016edc518 (&cli->mutex){+.+.}-{3:3}, at:
-nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
---------------------------------------------------------
-[faddr2line]
-nouveau_bo_move+0x4bf/0x2ec0:
-nouveau_bo_move_m2mf at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:804
-(inlined by) nouveau_bo_move at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:1024
-
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:800,804
-if (drm_drv_uses_atomic_modeset(drm->dev))
-        mutex_lock(&cli->mutex);
-else
-        mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, ctx->interruptible);
---------------------------------------------------------
-[   57.207923]
-               but task is already holding lock:
-[   57.207934] ffff88801f49e9a0
-(reservation_ww_class_mutex){+.+.}-{3:3}, at:
-nouveau_bo_pin+0xc1/0xb60 [nouveau]
---------------------------------------------------------
-[faddr2line]
-nouveau_bo_pin+0xc1/0xb60:
-ttm_bo_reserve at /home/sasha/linux-next/./include/drm/ttm/ttm_bo_driver.h:152
-(inlined by) nouveau_bo_pin at
-/home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_bo.c:424
-
-/home/sasha/linux-next/include/drm/ttm/ttm_bo_driver.h:148,154
-if (interruptible)
-        ret = dma_resv_lock_interruptible(bo->base.resv, ticket);
-else
-        ret = dma_resv_lock(bo->base.resv, ticket);
-if (ret == -EINTR)
-        return -ERESTARTSYS;
-return ret;
---------------------------------------------------------
-[   57.208317]
-               which lock already depends on the new lock.
-
-[   57.208329]
-               the existing dependency chain (in reverse order) is:
-[   57.208340]
-               -> #1 (reservation_ww_class_mutex){+.+.}-{3:3}:
-[   57.208373]        __ww_mutex_lock.constprop.0+0x18a/0x2d40
-[   57.208395]        nouveau_bo_pin+0xc1/0xb60 [nouveau]
-[   57.208753]        nouveau_channel_prep+0x2c6/0xba0 [nouveau]
-[   57.209105]        nouveau_channel_new+0x127/0x2020 [nouveau]
-[   57.209457]        nouveau_abi16_ioctl_channel_alloc+0x33b/0xdf0 [nouveau]
-[   57.209809]        drm_ioctl_kernel+0x1cb/0x260
-[   57.209826]        drm_ioctl+0x420/0x850
-[   57.209841]        nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.210198]        __x64_sys_ioctl+0x122/0x190
-[   57.210214]        do_syscall_64+0x33/0x40
-[   57.210230]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.210247]
-               -> #0 (&cli->mutex){+.+.}-{3:3}:
-[   57.210280]        __lock_acquire+0x2a01/0x5ab0
-[   57.210298]        lock_acquire+0x1a9/0x690
-[   57.210314]        __mutex_lock+0x125/0x1140
-[   57.210329]        nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.210686]        ttm_bo_handle_move_mem+0x1b6/0x570 [ttm]
-[   57.210719]        ttm_bo_validate+0x316/0x420 [ttm]
-[   57.210750]        nouveau_bo_pin+0x3c4/0xb60 [nouveau]
-[   57.211107]        nv50_wndw_prepare_fb+0x117/0xcb0 [nouveau]
-[   57.211460]        drm_atomic_helper_prepare_planes+0x1ec/0x600
-[   57.211477]        nv50_disp_atomic_commit+0x189/0x530 [nouveau]
-[   57.211833]        drm_atomic_helper_update_plane+0x2ac/0x380
-[   57.211849]        drm_mode_cursor_universal+0x3f3/0xb40
-[   57.211865]        drm_mode_cursor_common+0x27b/0x930
-[   57.211880]        drm_mode_cursor_ioctl+0x95/0xd0
-[   57.211895]        drm_ioctl_kernel+0x1cb/0x260
-[   57.211910]        drm_ioctl+0x420/0x850
-[   57.211925]        nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.212281]        __x64_sys_ioctl+0x122/0x190
-[   57.212297]        do_syscall_64+0x33/0x40
-[   57.212312]        entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.212328]
-               other info that might help us debug this:
-
-[   57.212339]  Possible unsafe locking scenario:
-
-[   57.212350]        CPU0                    CPU1
-[   57.212360]        ----                    ----
-[   57.212370]   lock(reservation_ww_class_mutex);
-[   57.212390]                                lock(&cli->mutex);
-[   57.212410]                                lock(reservation_ww_class_mutex);
-[   57.212430]   lock(&cli->mutex);
-[   57.212449]
-                *** DEADLOCK ***
-
-[   57.212460] 3 locks held by Xorg/459:
-[   57.212473]  #0: ffffc9000044fb38
-(crtc_ww_class_acquire){+.+.}-{0:0}, at:
-drm_mode_cursor_common+0x1fd/0x930
-[   57.212520]  #1: ffff88800d9f2098
-(crtc_ww_class_mutex){+.+.}-{3:3}, at: modeset_lock+0xdb/0x4c0
-[   57.212564]  #2: ffff88801f49e9a0
-(reservation_ww_class_mutex){+.+.}-{3:3}, at:
-nouveau_bo_pin+0xc1/0xb60 [nouveau]
-[   57.212949]
-               stack backtrace:
-[   57.212961] CPU: 0 PID: 459 Comm: Xorg Tainted: G        W
-5.11.0-rc7-next-20210209 #142
-[   57.212979] Hardware name: Gigabyte Technology Co., Ltd.
-P35-S3G/P35-S3G, BIOS F4 07/10/2008
-[   57.212992] Call Trace:
-[   57.213007]  dump_stack+0x9a/0xcc
-[   57.213029]  check_noncircular+0x25f/0x2e0
-[   57.213049]  ? print_circular_bug+0x460/0x460
-[   57.213075]  ? alloc_chain_hlocks+0x1e4/0x530
-[   57.213095]  __lock_acquire+0x2a01/0x5ab0
-[   57.213119]  ? nvkm_ioctl+0x34a/0x6d0 [nouveau]
-[   57.213400]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.213421]  ? memcpy+0x39/0x60
-[   57.213440]  ? nvif_object_mthd+0x20e/0x250 [nouveau]
-[   57.213717]  lock_acquire+0x1a9/0x690
-[   57.213736]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.214097]  ? lock_release+0x610/0x610
-[   57.214115]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.214134]  ? memcpy+0x39/0x60
-[   57.214152]  ? nvif_object_mthd+0x20e/0x250 [nouveau]
-[   57.214431]  __mutex_lock+0x125/0x1140
-[   57.214448]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.214808]  ? nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.215167]  ? ttm_bo_wait+0x88/0xc0 [ttm]
-[   57.215201]  ? mutex_lock_io_nested+0xfe0/0xfe0
-[   57.215220]  ? nouveau_mem_map+0x1d3/0x3b0 [nouveau]
-[   57.215579]  ? nvif_vmm_put+0x140/0x140 [nouveau]
-[   57.215856]  ? nouveau_gem_ioctl_info+0xb0/0xb0 [nouveau]
-[   57.216220]  nouveau_bo_move+0x4bf/0x2ec0 [nouveau]
-[   57.216586]  ? unmap_mapping_pages+0xca/0x240
-[   57.216605]  ? spin_bug+0x100/0x100
-[   57.216621]  ? do_wp_page+0xf20/0xf20
-[   57.216640]  ? nouveau_bo_move_ntfy.constprop.0+0x620/0x620 [nouveau]
-[   57.217000]  ? _raw_spin_unlock+0x1a/0x30
-[   57.217017]  ? ttm_bo_add_move_fence.constprop.0+0x1a0/0x2a0 [ttm]
-[   57.217055]  ttm_bo_handle_move_mem+0x1b6/0x570 [ttm]
-[   57.217092]  ttm_bo_validate+0x316/0x420 [ttm]
-[   57.217127]  ? ttm_bo_bounce_temp_buffer+0x1e0/0x1e0 [ttm]
-[   57.217162]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.217181]  ? __mutex_unlock_slowpath+0xe2/0x610
-[   57.217203]  ? nouveau_bo_placement_set+0xa6/0x420 [nouveau]
-[   57.217564]  nouveau_bo_pin+0x3c4/0xb60 [nouveau]
-[   57.217927]  ? nouveau_bo_sync_for_device+0x3c0/0x3c0 [nouveau]
-[   57.218289]  ? find_held_lock+0x2d/0x110
-[   57.218309]  nv50_wndw_prepare_fb+0x117/0xcb0 [nouveau]
-[   57.218669]  ? nv50_wndw_destroy+0x200/0x200 [nouveau]
-[   57.219028]  ? rcu_read_lock_sched_held+0x3a/0x70
-[   57.219047]  ? module_assert_mutex_or_preempt+0x39/0x70
-[   57.219065]  ? __module_address+0x30/0x310
-[   57.219086]  drm_atomic_helper_prepare_planes+0x1ec/0x600
-[   57.219105]  ? lockdep_init_map_type+0x2c3/0x770
-[   57.219126]  nv50_disp_atomic_commit+0x189/0x530 [nouveau]
-[   57.219488]  drm_atomic_helper_update_plane+0x2ac/0x380
-[   57.219510]  drm_mode_cursor_universal+0x3f3/0xb40
-[   57.219533]  ? setplane_internal+0x5f0/0x5f0
-[   57.219557]  ? ww_mutex_lock_interruptible+0x2f/0x160
-[   57.219577]  drm_mode_cursor_common+0x27b/0x930
-[   57.219598]  ? lockdep_hardirqs_on_prepare+0x3e0/0x3e0
-[   57.219617]  ? drm_mode_cursor_universal+0xb40/0xb40
-[   57.219642]  ? find_held_lock+0x2d/0x110
-[   57.219661]  ? drm_mode_setplane+0x850/0x850
-[   57.219677]  drm_mode_cursor_ioctl+0x95/0xd0
-[   57.219694]  ? drm_mode_setplane+0x850/0x850
-[   57.219711]  ? lock_acquire+0x1a9/0x690
-[   57.219732]  ? drm_is_current_master+0x65/0x120
-[   57.219750]  drm_ioctl_kernel+0x1cb/0x260
-[   57.219767]  ? drm_setversion+0x800/0x800
-[   57.219789]  drm_ioctl+0x420/0x850
-[   57.219807]  ? drm_mode_setplane+0x850/0x850
-[   57.219824]  ? drm_version+0x390/0x390
-[   57.219841]  ? __pm_runtime_resume+0x7a/0x100
-[   57.219862]  ? do_user_addr_fault+0x25f/0xaf0
-[   57.219882]  ? lockdep_hardirqs_on_prepare+0x273/0x3e0
-[   57.219900]  ? _raw_spin_unlock_irqrestore+0x34/0x40
-[   57.219917]  ? trace_hardirqs_on+0x32/0x120
-[   57.219940]  nouveau_drm_ioctl+0xdf/0x210 [nouveau]
-[   57.220301]  __x64_sys_ioctl+0x122/0x190
-[   57.220321]  do_syscall_64+0x33/0x40
-[   57.220338]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   57.220356] RIP: 0033:0x7f4e52905f6b
-[   57.220374] Code: ff ff ff 85 c0 79 8b 49 c7 c4 ff ff ff ff 5b 5d
-4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00
-00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d d5 ae 0c 00 f7 d8 64 89
-01 48
-[   57.220392] RSP: 002b:00007fff974a0258 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[   57.220413] RAX: ffffffffffffffda RBX: 00007fff974a0290 RCX: 00007f4e52905f6b
-[   57.220428] RDX: 00007fff974a0290 RSI: 00000000c01c64a3 RDI: 000000000000000a
-[   57.220442] RBP: 00000000c01c64a3 R08: 0000000000000040 R09: 0000000000000001
-[   57.220455] R10: 00007f4e52d761c0 R11: 0000000000000246 R12: 0000565035263610
-[   57.220469] R13: 000000000000000a R14: 0000000000000000 R15: 0000000000000209
-[  158.611112] perf: interrupt took too long (2503 > 2500), lowering
-kernel.perf_event_max_sample_rate to 79000
-[  319.835187] perf: interrupt took too long (3138 > 3128), lowering
-kernel.perf_event_max_sample_rate to 63000
-[  358.920047] nouveau 0000:01:00.0: Direct firmware load for
-nouveau/nv84_xuc00f failed with error -2
-[  358.920095] nouveau 0000:01:00.0: vp: unable to load firmware
-nouveau/nv84_xuc00f
-[  358.920107] nouveau 0000:01:00.0: vp: init failed, -2
-[  358.920523] nouveau 0000:01:00.0: Direct firmware load for
-nouveau/nv84_xuc103 failed with error -2
-[  358.920556] nouveau 0000:01:00.0: bsp: unable to load firmware
-nouveau/nv84_xuc103
-[  358.920565] nouveau 0000:01:00.0: bsp: init failed, -2
-
-Thanks.
-Alexander Kapshuk
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4g
+Zm9yIHRoZSBzZXJpZXMuCgpBbSAxMC4wMi4yMSB1bSAwMDo0OCBzY2hyaWViIFJpa2FyZCBGYWxr
+ZWJvcm46Cj4gQ29uc3RpZnkgYSBmZXcgc3RhdGljIHZtX29wZXJhdGlvbnNfc3RydWN0IHRoYXQg
+YXJlIG5ldmVyIG1vZGlmaWVkLiBUaGVpcgo+IG9ubHkgdXNhZ2UgaXMgdG8gYXNzaWduIHRoZWly
+IGFkZHJlc3MgdG8gdGhlIHZtX29wcyBmaWVsZCBpbiB0aGUKPiB2bV9hcmVhX3N0cnVjdCwgd2hp
+Y2ggaXMgYSBwb2ludGVyIHRvIGNvbnN0IHZtX29wZXJhdGlvbnNfc3RydWN0LiBNYWtlIHRoZW0K
+PiBjb25zdCB0byBhbGxvdyB0aGUgY29tcGlsZXIgdG8gcHV0IHRoZW0gaW4gcmVhZC1vbmx5IG1l
+bW9yeS4KPgo+IFdpdGggdGhpcyBzZXJpZXMgYXBwbGllZCwgYWxsIHN0YXRpYyBzdHJ1Y3Qgdm1f
+b3BlcmF0aW9uc19zdHJ1Y3QgaW4gdGhlCj4ga2VybmVsIHRyZWUgYXJlIGNvbnN0Lgo+Cj4gUmlr
+YXJkIEZhbGtlYm9ybiAoMyk6Cj4gICAgZHJtL2FtZGdwdS90dG06IGNvbnN0aWZ5IHN0YXRpYyB2
+bV9vcGVyYXRpb25zX3N0cnVjdAo+ICAgIGRybS9yYWRlb24vdHRtOiBjb25zdGlmeSBzdGF0aWMg
+dm1fb3BlcmF0aW9uc19zdHJ1Y3QKPiAgICBkcm0vbm91dmVhdS90dG06IGNvbnN0aWZ5IHN0YXRp
+YyB2bV9vcGVyYXRpb25zX3N0cnVjdAo+Cj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfdHRtLmMgfCAyICstCj4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0
+bS5jICAgfCAyICstCj4gICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyAgICAg
+fCAyICstCj4gICAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
+LSkKPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
