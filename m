@@ -2,25 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE093164B2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 12:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794AC3164AD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 12:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C32176EC57;
-	Wed, 10 Feb 2021 11:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 026BD6EC54;
+	Wed, 10 Feb 2021 11:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7826EC53
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 11:10:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3806EC53
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 11:10:26 +0000 (UTC)
 Received: from [95.90.166.74] (helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1l9nO4-0003eN-Ec; Wed, 10 Feb 2021 12:10:24 +0100
+ id 1l9nO4-0003eN-V2; Wed, 10 Feb 2021 12:10:25 +0100
 From: Heiko Stuebner <heiko@sntech.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/6] arm64: dts: rockchip: add #phy-cells to mipi-dsi1
-Date: Wed, 10 Feb 2021 12:10:18 +0100
-Message-Id: <20210210111020.2476369-5-heiko@sntech.de>
+Subject: [PATCH 5/6] arm64: dts: rockchip: add cif clk-control pinctrl for
+ rk3399
+Date: Wed, 10 Feb 2021 12:10:19 +0100
+Message-Id: <20210210111020.2476369-6-heiko@sntech.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210111020.2476369-1-heiko@sntech.de>
 References: <20210210111020.2476369-1-heiko@sntech.de>
@@ -50,28 +51,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 
-The dsi controller includes access to the dphy which might be used
-not only for dsi output but also for csi input on dsi1, so add the
-necessary #phy-cells to allow it to be used as phy.
+This enables variant a of the clkout signal for camera applications
+and also the cifclkin pinctrl setting.
 
 Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 Tested-by: Sebastian Fricke <sebastian.fricke@posteo.net>
 ---
- arch/arm64/boot/dts/rockchip/rk3399.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-index edbbf35fe19e..5d2178cb3e38 100644
+index 5d2178cb3e38..7c661d84df25 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -1865,6 +1865,7 @@ mipi_dsi1: mipi@ff968000 {
- 		rockchip,grf = <&grf>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-+		#phy-cells = <0>;
- 		status = "disabled";
+@@ -2102,6 +2102,18 @@ clk_32k: clk-32k {
+ 			};
+ 		};
  
- 		ports {
++		cif {
++			cif_clkin: cif-clkin {
++				rockchip,pins =
++					<2 RK_PB2 3 &pcfg_pull_none>;
++			};
++
++			cif_clkouta: cif-clkouta {
++				rockchip,pins =
++					<2 RK_PB3 3 &pcfg_pull_none>;
++			};
++		};
++
+ 		edp {
+ 			edp_hpd: edp-hpd {
+ 				rockchip,pins =
 -- 
 2.29.2
 
