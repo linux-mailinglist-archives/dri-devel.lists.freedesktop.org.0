@@ -2,71 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B17315C1F
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 02:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C763315DBC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 04:11:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C6A6EC19;
-	Wed, 10 Feb 2021 01:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD3C6E114;
+	Wed, 10 Feb 2021 03:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3F46EC19
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 01:25:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1612920302; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=crnOxWpIuPLDk8CHOm8tJgYEx2TSD17ehthjOi5/ff0=;
- b=IfKRNYQaeSBsEsTR0tWrzl5zDHBmLodxFjlUrYaq1q6FyHw5DNQNDkUkA5aOBTEAZ4WXVQYr
- fey6G3Vo8m/uVuptMKx/Gr8JaCrnQj2kcEKUDnJ/fbQo+UN0r0zmgxJFHKuY3saPIr2oDht1
- njnun0wkDGHMT+5NeC1o/pH1PGM=
-X-Mailgun-Sending-Ip: 198.61.254.15
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 602335e74bd23a05aec0d253 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 10 Feb 2021 01:24:55
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 49A9AC43463; Wed, 10 Feb 2021 01:24:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7F893C433C6;
- Wed, 10 Feb 2021 01:24:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7F893C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 9 Feb 2021 18:24:51 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH] drm/msm: fix a6xx_gmu_clear_oob
-Message-ID: <20210210012450.GA26503@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Jonathan Marek <jonathan@marek.ca>,
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- Eric Anholt <eric@anholt.net>,
- Sharat Masetty <smasetty@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210208185557.15703-1-jonathan@marek.ca>
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E3A6E114;
+ Wed, 10 Feb 2021 03:11:44 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Db4Y90HD5z9sB4;
+ Wed, 10 Feb 2021 14:11:39 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1612926702;
+ bh=eAbbv1c4473lc/U2iVCN8pX8dVi4lHGQNHEtlCAMwAk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=dcpWlTYZSobEHLhKLput+sRfS+UXNTa7KFrR/rGVzA/n8T2qBQJQ/79XmjhZEKb2W
+ zCUuQUXv7yWRckVi1GNl0lJd9JgeqsxaPw+qXkJCrP7txXuYWgtx89vEZcied/8RNw
+ KXyzIUA1I6GeS7N4DIZHSANgC7vtWSNmMaTOwsMPebrOi304u2s8TTl5DQpga0LSH+
+ goTG3GGGLyO0TPubSdqhBJMGH/oUv3TZr86HA63hUfqUsxpMPqas4wZnhi5xjzee+b
+ 1+y73C4Qz9muXLIi+P030lRrNofbyNTnvJWZ+J3jfYPJWACPVsR9HEOEVhDjh/qi57
+ MyiRfuzCHeaHw==
+Date: Wed, 10 Feb 2021 14:11:38 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20210210141138.11a6ad09@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210208185557.15703-1-jonathan@marek.ca>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +47,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1136919751=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 08, 2021 at 01:55:54PM -0500, Jonathan Marek wrote:
-> The cleanup patch broke a6xx_gmu_clear_oob, fix it by adding the missing
-> bitshift operation.
-> 
-> Fixes: 555c50a4a19b ("drm/msm: Clean up GMU OOB set/clear handling")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+--===============1136919751==
+Content-Type: multipart/signed; boundary="Sig_/yMIn+23mpOqpJVxRcPfp7s0";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Thanks.  I feel silly that I missed that.
+--Sig_/yMIn+23mpOqpJVxRcPfp7s0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+Hi all,
 
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 71c917f909af..91cf46f84025 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -339,7 +339,7 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
->  	else
->  		bit = a6xx_gmu_oob_bits[state].ack_new;
->  
-> -	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, bit);
-> +	gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, 1 << bit);
->  }
->  
->  /* Enable CPU control of SPTP power power collapse */
-> -- 
-> 2.26.1
-> 
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+drivers/gpu/drm/v3d/v3d_sched.c:263:1: error: return type is an incomplete =
+type
+  263 | v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job=
+ *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_gpu_reset_for_timeout':
+drivers/gpu/drm/v3d/v3d_sched.c:289:9: error: 'return' with a value, in fun=
+ction returning void [-Werror=3Dreturn-type]
+  289 |  return DRM_GPU_SCHED_STAT_NOMINAL;
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:263:1: note: declared here
+  263 | v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job=
+ *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: At top level:
+drivers/gpu/drm/v3d/v3d_sched.c:298:1: error: return type is an incomplete =
+type
+  298 | v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue=
+ q,
+      | ^~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_cl_job_timedout':
+drivers/gpu/drm/v3d/v3d_sched.c:309:10: error: 'return' with a value, in fu=
+nction returning void [-Werror=3Dreturn-type]
+  309 |   return DRM_GPU_SCHED_STAT_NOMINAL;
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:298:1: note: declared here
+  298 | v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue=
+ q,
+      | ^~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: At top level:
+drivers/gpu/drm/v3d/v3d_sched.c:316:1: error: return type is an incomplete =
+type
+  316 | v3d_bin_job_timedout(struct drm_sched_job *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:325:1: error: return type is an incomplete =
+type
+  325 | v3d_render_job_timedout(struct drm_sched_job *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:334:1: error: return type is an incomplete =
+type
+  334 | v3d_generic_job_timedout(struct drm_sched_job *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:342:1: error: return type is an incomplete =
+type
+  342 | v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: In function 'v3d_csd_job_timedout':
+drivers/gpu/drm/v3d/v3d_sched.c:353:10: error: 'return' with a value, in fu=
+nction returning void [-Werror=3Dreturn-type]
+  353 |   return DRM_GPU_SCHED_STAT_NOMINAL;
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:342:1: note: declared here
+  342 | v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+      | ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c: At top level:
+drivers/gpu/drm/v3d/v3d_sched.c:362:18: error: initialization of 'enum drm_=
+gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
+'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
+  362 |  .timedout_job =3D v3d_bin_job_timedout,
+      |                  ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:362:18: note: (near initialization for 'v3d=
+_bin_sched_ops.timedout_job')
+drivers/gpu/drm/v3d/v3d_sched.c:369:18: error: initialization of 'enum drm_=
+gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
+'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
+  369 |  .timedout_job =3D v3d_render_job_timedout,
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:369:18: note: (near initialization for 'v3d=
+_render_sched_ops.timedout_job')
+drivers/gpu/drm/v3d/v3d_sched.c:376:18: error: initialization of 'enum drm_=
+gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
+'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
+  376 |  .timedout_job =3D v3d_generic_job_timedout,
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:376:18: note: (near initialization for 'v3d=
+_tfu_sched_ops.timedout_job')
+drivers/gpu/drm/v3d/v3d_sched.c:383:18: error: initialization of 'enum drm_=
+gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
+'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
+  383 |  .timedout_job =3D v3d_csd_job_timedout,
+      |                  ^~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:383:18: note: (near initialization for 'v3d=
+_csd_sched_ops.timedout_job')
+drivers/gpu/drm/v3d/v3d_sched.c:390:18: error: initialization of 'enum drm_=
+gpu_sched_stat (*)(struct drm_sched_job *)' from incompatible pointer type =
+'void (*)(struct drm_sched_job *)' [-Werror=3Dincompatible-pointer-types]
+  390 |  .timedout_job =3D v3d_generic_job_timedout,
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/v3d/v3d_sched.c:390:18: note: (near initialization for 'v3d=
+_cache_clean_sched_ops.timedout_job')
+
+Caused by commit
+
+  c10983e14e8f ("drm/scheduler: Job timeout handler returns status (v3)")
+
+I have used the drm-misc tree from next-20210209 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/yMIn+23mpOqpJVxRcPfp7s0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmAjTuoACgkQAVBC80lX
+0GzGLAf/d/58uMidoc4JmHnMyZCbt7HY3jpGVAKuh0UnM4qOq+vkKLg/owG+EGe3
+4zZycTr+XR091TCvbo7kEsozJzJ/h341hNcl43tQK2oWdVGpylXxZ8ot4ijJvs6k
+A/Lgiqc1mU8kRd2ox9ugSOl9iZGE4Dn3s8Uk7BVelsYeXaz5tGPHuKh/4aTgQiK2
+o/loR3kqI/acoAvJg6Gccu2mazld4v7qRPflmbRMTs4nvIoKSItkhP09t2SiTRXH
+51Xl1SFhUsFJmXiLl+mkNYe2nlkSCW7qGU/YCpn9AUTCGVBcJN4Zb37TjlBWfCk4
+JYLjBbGC4rQr0Q1zlVhsLc41lEJZtQ==
+=PUsP
+-----END PGP SIGNATURE-----
+
+--Sig_/yMIn+23mpOqpJVxRcPfp7s0--
+
+--===============1136919751==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1136919751==--
