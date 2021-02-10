@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D7831655A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 12:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19883165B1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 12:53:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C64D96EC61;
-	Wed, 10 Feb 2021 11:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650BF6EC6E;
+	Wed, 10 Feb 2021 11:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFEF06EC61
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 11:39:20 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id o10so3538048wmc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 03:39:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=hX8qOZfgR+ZXWOMc+RldjYNfp+QbD6NEbGVaRKYBH3s=;
- b=iqfdsa3CbY5LyS9l0VON4H2SvnynUCP77P13llTQi4kGN5CAceWwAAftLJCLCNA17D
- yta1/2GaPZuCrIwmJcuxoLw1DWOJGwW2c6Qt+qghJLSFPvjygBRyuiC9VXPMgeuA3t4N
- zHWOMhaiI8pT974j2pC36r99UBSPQyGIM7Kvs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hX8qOZfgR+ZXWOMc+RldjYNfp+QbD6NEbGVaRKYBH3s=;
- b=reibNOBgeCTOdcCzDdxHEd2rvvdXeEnbQkhh/T4z2wG0KnwOe8XK6JAtP4bzi4mcJN
- +eJj8FadIhBpU7j3g/DVajAy08BfEnRkULRrkal7sveC5H3qvYNr1+vmYSsom3dHqzE/
- MlO8oJXmjyAkUXpKAlDdY5TzNeS01O5CwA29ow4YZFajMk8dXQYTMetwXsklIEy0XR+9
- fvJ05ogZRnJa0Jn3J2vHL++hTRzoJX5ykk82a1XhgpQWw6bKMguPCRC7y1uPSTqwTp7x
- w95dUaW8yj4GegiV8sCKBsZMOBT0bvUgfY4BJl4kN+DuVGdoCfdKS/QGIWnjM2EsIJxr
- P28g==
-X-Gm-Message-State: AOAM530i4jmF6sGtkEUnDpnvk9wdtYWMYRKFt6cXYT6HS2RB7jSTDf2M
- i6/AQ4Wi/xdsHxL0aDOuLqrP8g==
-X-Google-Smtp-Source: ABdhPJzJXp2jMAZpMFOjY5jUs3ivLKgJbpxoZJ23nenqhONYtVgUKrIen0nbzluucNR6gFfv1Pgt0w==
-X-Received: by 2002:a05:600c:19c6:: with SMTP id
- u6mr2540625wmq.143.1612957159356; 
- Wed, 10 Feb 2021 03:39:19 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w11sm2054327wmi.37.2021.02.10.03.39.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 03:39:18 -0800 (PST)
-Date: Wed, 10 Feb 2021 12:39:16 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/vblank: Document drm_crtc_vblank_restore constraints
-Message-ID: <YCPF5N8MUthpiTwr@phenom.ffwll.local>
-References: <20210209101523.2954281-1-daniel.vetter@ffwll.ch>
- <YCKr50cudEYgAiiF@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3CAF6EC6C;
+ Wed, 10 Feb 2021 11:53:22 +0000 (UTC)
+IronPort-SDR: BtoO9heJE18WfzptWVx1evsI0femV835eBlRtv8jVahRYA5X0VHbvkXnG0V2fNogwGZ8fiARaF
+ q1D5aK6eLgog==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="161809538"
+X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; d="scan'208";a="161809538"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2021 03:53:22 -0800
+IronPort-SDR: Y9aj8tTgjFlF0gwunqvNJUtWWvhLeDfd+TAXhZeBjlqPmmrHSq4K169/qhl1+wB37P+lWAB0Mb
+ rv6pjBeV9CHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; d="scan'208";a="413696568"
+Received: from anand-nuc8i7beh.iind.intel.com ([10.145.162.17])
+ by fmsmga004.fm.intel.com with ESMTP; 10 Feb 2021 03:53:20 -0800
+From: Anand Moon <anandx.ram.moon@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Aditya Swarup <aditya.swarup@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Subject: [PATCH] drm/i915/adl_s: Add gmbus pin mapping
+Date: Wed, 10 Feb 2021 17:24:41 +0530
+Message-Id: <20210210115441.6703-1-anandx.ram.moon@intel.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YCKr50cudEYgAiiF@intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,146 +48,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Anand Moon <anandx.ram.moon@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 09, 2021 at 05:36:07PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Tue, Feb 09, 2021 at 11:15:23AM +0100, Daniel Vetter wrote:
-> > I got real badly confused when trying to review a fix from Ville for
-> > this. Let's try to document better what's required for this, and check
-> > the minimal settings at runtime - we can't check ofc that there's
-> > indeed no races in the driver callback.
-> > =
+Add table to map the GMBUS pin pairs to GPIO registers and port to DDC
+mapping for ADL_S as per below Bspec.
 
-> > Also noticed that the drm_vblank_restore version is unused, so lets
-> > unexport that while at it.
-> > =
+Bspec:20124, 53597.
 
-> > Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_vblank.c | 25 ++++++++++---------------
-> >  include/drm/drm_vblank.h     |  1 -
-> >  2 files changed, 10 insertions(+), 16 deletions(-)
-> > =
+Cc: Aditya Swarup <aditya.swarup@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Anand Moon <anandx.ram.moon@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_gmbus.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-> > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> > index c914b14cfb43..05f4d4c078fd 100644
-> > --- a/drivers/gpu/drm/drm_vblank.c
-> > +++ b/drivers/gpu/drm/drm_vblank.c
-> > @@ -1471,20 +1471,7 @@ void drm_crtc_vblank_on(struct drm_crtc *crtc)
-> >  }
-> >  EXPORT_SYMBOL(drm_crtc_vblank_on);
-> >  =
+diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
+index 0c952e1d720e..58b8e42d4f90 100644
+--- a/drivers/gpu/drm/i915/display/intel_gmbus.c
++++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
+@@ -52,6 +52,14 @@ static const struct gmbus_pin gmbus_pins[] = {
+ 	[GMBUS_PIN_DPD] = { "dpd", GPIOF },
+ };
+ 
++static const struct gmbus_pin gmbus_pins_adls[] = {
++	[GMBUS_PIN_1_BXT] = { "edp", GPIOA },
++	[GMBUS_PIN_9_TC1_ICP] = { "tc1", GPIOD },
++	[GMBUS_PIN_10_TC2_ICP] = { "tc2", GPIOE },
++	[GMBUS_PIN_11_TC3_ICP] = { "tc3", GPIOF },
++	[GMBUS_PIN_12_TC4_ICP] = { "tc4", GPIOG },
++};
++
+ static const struct gmbus_pin gmbus_pins_bdw[] = {
+ 	[GMBUS_PIN_VGADDC] = { "vga", GPIOA },
+ 	[GMBUS_PIN_DPC] = { "dpc", GPIOD },
+@@ -101,7 +109,9 @@ static const struct gmbus_pin gmbus_pins_dg1[] = {
+ static const struct gmbus_pin *get_gmbus_pin(struct drm_i915_private *dev_priv,
+ 					     unsigned int pin)
+ {
+-	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
++	if (INTEL_PCH_TYPE(dev_priv) == PCH_ADP)
++		return &gmbus_pins_adls[pin];
++	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+ 		return &gmbus_pins_dg1[pin];
+ 	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+ 		return &gmbus_pins_icp[pin];
+@@ -122,7 +132,9 @@ bool intel_gmbus_is_valid_pin(struct drm_i915_private *dev_priv,
+ {
+ 	unsigned int size;
+ 
+-	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
++	if (INTEL_PCH_TYPE(dev_priv) == PCH_ADP)
++		size = ARRAY_SIZE(gmbus_pins_adls);
++	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
+ 		size = ARRAY_SIZE(gmbus_pins_dg1);
+ 	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
+ 		size = ARRAY_SIZE(gmbus_pins_icp);
+-- 
+2.30.0
 
-> > -/**
-> > - * drm_vblank_restore - estimate missed vblanks and update vblank coun=
-t.
-> > - * @dev: DRM device
-> > - * @pipe: CRTC index
-> > - *
-> > - * Power manamement features can cause frame counter resets between vb=
-lank
-> > - * disable and enable. Drivers can use this function in their
-> > - * &drm_crtc_funcs.enable_vblank implementation to estimate missed vbl=
-anks since
-> > - * the last &drm_crtc_funcs.disable_vblank using timestamps and update=
- the
-> > - * vblank counter.
-> > - *
-> > - * This function is the legacy version of drm_crtc_vblank_restore().
-> > - */
-> > -void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
-> > +static void drm_vblank_restore(struct drm_device *dev, unsigned int pi=
-pe)
-> >  {
-> >  	ktime_t t_vblank;
-> >  	struct drm_vblank_crtc *vblank;
-> > @@ -1520,7 +1507,6 @@ void drm_vblank_restore(struct drm_device *dev, u=
-nsigned int pipe)
-> >  		    diff, diff_ns, framedur_ns, cur_vblank - vblank->last);
-> >  	store_vblank(dev, pipe, diff, t_vblank, cur_vblank);
-> >  }
-> > -EXPORT_SYMBOL(drm_vblank_restore);
-> >  =
-
-> >  /**
-> >   * drm_crtc_vblank_restore - estimate missed vblanks and update vblank=
- count.
-> > @@ -1531,9 +1517,18 @@ EXPORT_SYMBOL(drm_vblank_restore);
-> >   * &drm_crtc_funcs.enable_vblank implementation to estimate missed vbl=
-anks since
-> >   * the last &drm_crtc_funcs.disable_vblank using timestamps and update=
- the
-> >   * vblank counter.
-> > + *
-> > + * Note that drivers must have race-free high-precision timestamping s=
-upport,
-> > + * i.e.  &drm_crtc_funcs.get_vblank_timestamp must be hooked up and
-> > + * &drm_driver.vblank_disable_immediate must be set to indicate the
-> > + * time-stamping functions are race-free against vblank hardware count=
-er
-> > + * increments.
-> =
-
-> Looks good. Might prevent someone from shooting themselves in
-> the foot.
-
-Yeah hopefully, maybe even me :-)
-
-
-> =
-
-> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-Thanks for your review, I pushed to drm-misc-next.
--Daniel
-
-> =
-
-> >   */
-> >  void drm_crtc_vblank_restore(struct drm_crtc *crtc)
-> >  {
-> > +	WARN_ON_ONCE(!crtc->funcs->get_vblank_timestamp);
-> > +	WARN_ON_ONCE(!crtc->dev->vblank_disable_immediate);
-> > +
-> >  	drm_vblank_restore(crtc->dev, drm_crtc_index(crtc));
-> >  }
-> >  EXPORT_SYMBOL(drm_crtc_vblank_restore);
-> > diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-> > index dd125f8c766c..733a3e2d1d10 100644
-> > --- a/include/drm/drm_vblank.h
-> > +++ b/include/drm/drm_vblank.h
-> > @@ -247,7 +247,6 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc);
-> >  void drm_crtc_vblank_reset(struct drm_crtc *crtc);
-> >  void drm_crtc_vblank_on(struct drm_crtc *crtc);
-> >  u64 drm_crtc_accurate_vblank_count(struct drm_crtc *crtc);
-> > -void drm_vblank_restore(struct drm_device *dev, unsigned int pipe);
-> >  void drm_crtc_vblank_restore(struct drm_crtc *crtc);
-> >  =
-
-> >  void drm_calc_timestamping_constants(struct drm_crtc *crtc,
-> > -- =
-
-> > 2.30.0
-> =
-
-> -- =
-
-> Ville Syrj=E4l=E4
-> Intel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
