@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3793731702D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 20:35:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA237317086
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 20:46:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A4C6E34B;
-	Wed, 10 Feb 2021 19:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAFCB6ECC9;
+	Wed, 10 Feb 2021 19:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B41B6E34B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:35:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E8B1164E74
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:35:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76AB66ECC9
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4ECAC64E57
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612985747;
- bh=ko9VlYAKB1Dj3uJmwAIgUeLsb6npo4A2lrQrratNKTM=;
+ s=k20201202; t=1612986390;
+ bh=4t5qatiCQ/HUV83XT22fnE9QKWjQC5P7dUG1hGHCIN4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LvkgeWTqezfUjCy9b6JWuz8cfvkdOCe7CfTbX9n1cT5C6FInFB3WzR2tUoRa6wB8s
- BznRNX9vZ/0tESmIZn7QhMUrWqCR/8x298wn/vcUoRHAIcgY6132G2aFJLy3QabXlC
- Mu5q1N0FJuLQJyJV2zdSQuXZKqQ1oq7C7vjDIssAuYz1cS48RtBprNRb1C83kCnsXp
- ljDtpNDRt7eQwnhl/0SI0KeEfAkReBd0dAe/iYsYGznuyR9BjDBaKb+vstnFWp9Rlq
- fEzWSEkHixHDixXY+CpWa0OGwkulXLgpKQtdQKy4BHoCrlLmA5lo3mWXVM/mC8A/Tq
- EGXQqnM5DpdsA==
+ b=lEHSBOVOighOMBYWlicnSV4Mpl0dJw4g5DGYa1mbZklHlzrUYOgZt+4TNIscDxoPU
+ 0HaPple6vpIjERamF+O1hZy/GzLswGa1PuZ/JtqkI4gAUjGRirIvJjSW/P/xCDnv7g
+ izm/9kuJtNAHIv00XZ5XzSNm43VrTEjofSpIpEy+jqr52BRhjZVc9KA2QOLU+fdLQG
+ vl4rcABZbWIn2aKLXpE08j/O6DokNijcy7BgpZbKdEvvd78zgdYk25TFWYI89PxnKB
+ mEaRyve6uT+jz+peL2dmFzVJHdWy+Onz1vSA76yjVUFY34uKhVa2UIRzI7cTJcz1/E
+ XvABailmoSFgA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id DA74465259; Wed, 10 Feb 2021 19:35:47 +0000 (UTC)
+ id 3988865259; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
  recreating one" cause hdmi hotplug blackscreen on amdgpu
-Date: Wed, 10 Feb 2021 19:35:47 +0000
+Date: Wed, 10 Feb 2021 19:46:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211649-2300-GCCVd3cHLL@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211649-2300-iySTUw0tpg@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
 References: <bug-211649-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,42 +71,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
---- Comment #8 from youling257@gmail.com ---
-(In reply to Nicholas Kazlauskas from comment #7)
-> That makes more sense then, that's the behavior I'd expect on CrOS/Android.
-> 
-> Also explains why we haven't seen this on X/Wayland based compositors like
-> GNOME on Ubuntu.
-> 
-> One more log I'd like captured here, the trace log. Please record a log from
-> before the black screen occurs until after.
-> 
-> I've included a snippet below that shows how to capture this log:
-> 
-> #!/bin/bash
-> 
-> set +x
-> OUTPUT_DIR=$(pwd)
-> 
-> mount -o remount,rw /
-> echo 4 > /sys/module/drm/parameters/debug
-> echo 65536 > /sys/kernel/debug/tracing/buffer_size_kb
-> 
-> cd /sys/kernel/debug/tracing/
-> echo amdgpu_dm* > set_ftrace_filter
-> echo function > current_tracer
-> echo 1 > events/amdgpu_dm/enable
-> echo 1 > tracing_on
-> echo > trace
-> echo "Capturing a trace...\n"
-> read -n 1
-> cat trace > $OUTPUT_DIR/trace.txt
-> echo "Saved trace to ${OUTPUT_DIR}/trace.txt"
-> dmesg > $OUTPUT_DIR/dmesg.txt
-> echo "Saved dmesg to ${OUTPUT_DIR}/dmesg.txt"
+--- Comment #9 from youling257@gmail.com ---
+Created attachment 295197
+  --> https://bugzilla.kernel.org/attachment.cgi?id=295197&action=edit
+dmesg.txt
 
-run the script,only echo Capturing a trace...\n
-failed output trace.txt and dmesg.txt.
+I delete "read -n 1", can output dmesg.txt and trace.txt.
+trace.txt,
+# tracer: function
+#
+# entries-in-buffer/entries-written: 0/0   #P:8
+#
+#                                _-----=> irqs-off
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| /     delay
+#           TASK-PID     CPU#  ||||   TIMESTAMP  FUNCTION
+#              | |         |   ||||      |         |
 
 -- 
 You may reply to this email to add a comment.
