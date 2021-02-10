@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA237317086
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 20:46:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B766531709D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 20:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFCB6ECC9;
-	Wed, 10 Feb 2021 19:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5240C899B0;
+	Wed, 10 Feb 2021 19:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AB66ECC9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4ECAC64E57
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7341898BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:51:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7BE7464ED4
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 19:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612986390;
- bh=4t5qatiCQ/HUV83XT22fnE9QKWjQC5P7dUG1hGHCIN4=;
+ s=k20201202; t=1612986713;
+ bh=qVxwdwZ6ovdu9JMvl6EGf0GsCdTX0MnWnXJzkq2wYBU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lEHSBOVOighOMBYWlicnSV4Mpl0dJw4g5DGYa1mbZklHlzrUYOgZt+4TNIscDxoPU
- 0HaPple6vpIjERamF+O1hZy/GzLswGa1PuZ/JtqkI4gAUjGRirIvJjSW/P/xCDnv7g
- izm/9kuJtNAHIv00XZ5XzSNm43VrTEjofSpIpEy+jqr52BRhjZVc9KA2QOLU+fdLQG
- vl4rcABZbWIn2aKLXpE08j/O6DokNijcy7BgpZbKdEvvd78zgdYk25TFWYI89PxnKB
- mEaRyve6uT+jz+peL2dmFzVJHdWy+Onz1vSA76yjVUFY34uKhVa2UIRzI7cTJcz1/E
- XvABailmoSFgA==
+ b=VNDM6lrpNMS+kioF/dKwTpUIByXI9uYtIi+gVOfiSf5VtQjwwayNzpTJTo7mo6zHu
+ S5SbHrpvXgFvF+jskX372vk1+VXoaOcd/ZlXxnRqBmPPXhxr/aqbxKwHhoU7ODkwxY
+ Ww8bSN93+BIS7166bEjNFROfwIkbPBqPgREzvm+JA31SZxY31GF795uDGUdQPmLHqq
+ dYMIWBOGdz5FreUHEh/IAJVqp/7hp/imE7FqBe2Saf0wYfwW50u/e2lV6eFKZs+VtK
+ T6f/d8zjYlSIuU4Zi3R66KMWWUFpdukcTJrrRZGsuCH2uTeBc616MvpVNVIczVYgs4
+ ZcMkFUBBo37FA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3988865259; Wed, 10 Feb 2021 19:46:30 +0000 (UTC)
+ id 6B93F65259; Wed, 10 Feb 2021 19:51:53 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211649] "drm/amd/display: reuse current context instead of
  recreating one" cause hdmi hotplug blackscreen on amdgpu
-Date: Wed, 10 Feb 2021 19:46:29 +0000
+Date: Wed, 10 Feb 2021 19:51:53 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: youling257@gmail.com
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211649-2300-iySTUw0tpg@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211649-2300-Duc86p3Zbt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211649-2300@https.bugzilla.kernel.org/>
 References: <bug-211649-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,24 +71,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=211649
 
---- Comment #9 from youling257@gmail.com ---
-Created attachment 295197
-  --> https://bugzilla.kernel.org/attachment.cgi?id=295197&action=edit
-dmesg.txt
+--- Comment #10 from Nicholas Kazlauskas (nicholas.kazlauskas@amd.com) ---
+I don't expect the trace log to be completely empty.
 
-I delete "read -n 1", can output dmesg.txt and trace.txt.
-trace.txt,
-# tracer: function
-#
-# entries-in-buffer/entries-written: 0/0   #P:8
-#
-#                                _-----=> irqs-off
-#                               / _----=> need-resched
-#                              | / _---=> hardirq/softirq
-#                              || / _--=> preempt-depth
-#                              ||| /     delay
-#           TASK-PID     CPU#  ||||   TIMESTAMP  FUNCTION
-#              | |         |   ||||      |         |
+You'll need to leave the trace log running after enabling it as well (with
+tracing on/trace).
+
+You'll also need various config options set in your kernel:
+
+CONFIG_FUNCTION_TRACER
+CONFIG_FUNCTION_GRAPH_TRACER
+CONFIG_STACK_TRACER
+CONFIG_DYNAMIC_FTRACE
+
+Sorry if this is a little bit involved, but I'd like capture the exact sequence
+of atomic commits with the trace so I can reproduce the sequence on my end.
+
+Thanks!
 
 -- 
 You may reply to this email to add a comment.
