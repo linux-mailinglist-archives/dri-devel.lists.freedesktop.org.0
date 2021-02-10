@@ -2,32 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB888316ADF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 17:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD17E316B2B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 17:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D590D6ECAC;
-	Wed, 10 Feb 2021 16:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9676ECB6;
+	Wed, 10 Feb 2021 16:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D401D6ECAA
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 16:14:56 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 60C8DAC97;
- Wed, 10 Feb 2021 16:14:55 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-4-tzimmermann@suse.de>
- <20200629090657.GN3278063@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/9] drm: Add simplekms driver
-Message-ID: <31669899-3047-92aa-6b2a-a87b7177251f@suse.de>
-Date: Wed, 10 Feb 2021 17:14:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+Received: from smtpcmd0642.aruba.it (smtpcmd0642.aruba.it [62.149.156.42])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 804876E0BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 16:22:42 +0000 (UTC)
+Received: from [192.168.1.184] ([79.10.42.7])
+ by Aruba Outgoing Smtp  with ESMTPA
+ id 9sGEl0x2gl6ts9sGElboW6; Wed, 10 Feb 2021 17:22:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1612974160; bh=+zT/ViXdsyEqsM0XxHGfPKmXnHFZ85zQgkpYMgBh4Oo=;
+ h=Subject:To:From:Date:MIME-Version:Content-Type;
+ b=KZRe+R9tdGmlGRClWHts7qbM0AWGy6q8nqNyi04jXGTU8LIdASdhyQ7BH+gCswyha
+ kzN4Ke8kQ2Cy6eyOZI5MTXLqzpf4XW49Cic0UNmD5KyChQzHoSgOCk1krEtxJ9K4/c
+ WBNiWfoTdcpwDI/kSTmjTVSDLv7s0UdXpp5iDzV/DPmigVnHDOzMoiQaORVFFTgpOz
+ UUnyr2bf3j/0N0BXfwZdCRU1+On7qJguMG53FMBaGgZZNBN5bCZBSQF6/93Nlm0O3D
+ 7q1CsUjb/FAiDXdCOCsZ7aU5By1owYruUoJemu7wLTcT5SUbG/H1MN4wzwh5tJxOhB
+ KvChlSqrzX+Yg==
+Subject: [PATCH] pinctrl/sunxi: adding input-debounce-ns property
+To: Maxime Ripard <maxime@cerno.tech>, wens@csie.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>
+References: <d244aa6b-00b7-d768-83cb-e5a228b7ee08@trexom.it>
+ <20210114081732.9386-1-giulio.benetti@benettiengineering.com>
+ <20210114114219.faulkwww3dhdqwmc@gilmour>
+From: Marjan Pascolo <marjan.pascolo@trexom.it>
+Message-ID: <c3bc06e3-4193-dc0b-b2b3-d54636481e28@trexom.it>
+Date: Wed, 10 Feb 2021 17:22:37 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200629090657.GN3278063@phenom.ffwll.local>
+In-Reply-To: <20210114114219.faulkwww3dhdqwmc@gilmour>
+Content-Language: it
+X-CMAE-Envelope: MS4wfH6oTAFv1UAc1UHjeT7fAUES0ERDDBsJcmnoqFOgFC4ptHAeVTLQat5FeTa3CPXA5acPN5BTNTXELXNkmdiwK4JcdZovN+luGUaxplPcy95PLoftAoUr
+ M5mpLLDSjADTP7z+8Ou0rzlTA6ofdIK6AiHqwlfsmOEPQTGD1feR+1zp6kUEs0dQHr2AL3VLgpUIt+qQ3qqNqRGPF41/LkEK0HuBtmvn4CvQ875aG7XWb59t
+ uneMi4ET4xtInHSFyOf7NCULykYkLkFIP+EqY+ygFeWFqUada0m8ywN0eWwtru5r261rWaqYkbSJX4sxRnxsXxD0yJb/FalRjeGQ8RHOhJlYTdMjMcaEPKtK
+ R/CH/zYX3rdF0oGLCcE1ErnL8nsZBA==
+X-Mailman-Approved-At: Wed, 10 Feb 2021 16:27:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,248 +55,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- lgirdwood@gmail.com, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1669086393=="
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1252"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1669086393==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL
-Content-Type: multipart/mixed; boundary="nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Message-ID: <31669899-3047-92aa-6b2a-a87b7177251f@suse.de>
-Subject: Re: [PATCH 3/9] drm: Add simplekms driver
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-4-tzimmermann@suse.de>
- <20200629090657.GN3278063@phenom.ffwll.local>
-In-Reply-To: <20200629090657.GN3278063@phenom.ffwll.local>
-
---nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 29.06.20 um 11:06 schrieb Daniel Vetter:
->=20
->> +					   ARRAY_SIZE(simplekms_formats),
->> +					   simplekms_format_modifiers,
->> +					   connector);
->> +	if (ret)
->> +		return ret;
->> +
->> +	drm_mode_config_reset(dev);
->=20
-> This breaks fastboot. I think ideally we'd have the state represent
-> everything is on, and allocate an fb + buffer with the current contents=
- of
-> the framebuffer. Since we can allocate an fb that matches this shouldn'=
-t
-> be a problem, just a raw memcpy_fromio should do the job.
->=20
-> Having a nice new simplekms drm driver and then losing fastboot feels l=
-ike
-> slightly off tradeoff.
->=20
-> Maybe in a follow-up patch, but before fbcon setup? Since ideally fbcon=
-
-> also takes over the already existing framebuffer we allocated, so that =
-as
-> long as nothing clears the fb (i.e. fbcon is quiet) we'd preserve the
-> original framebuffer throughout the boot-up sequence.
-
-I recently looked at how to implement this and it seems fairly complicate=
-d.
-
-What we want it to adopt the current mode config into fbcon (and=20
-probably other in-kernel clients). The kernel client code uses it's own=20
-file instance to allocate the framebuffer objects against. So we cannot=20
-read-out the framebuffer state here. We'd ideally do this in the fbdev co=
-de.
-
-I read through the proposal for read-out helpers. i915 seems to have=20
-lots of special cases. Can we adopt a simplified version that is just=20
-good enough to get the initial state for fbdev?
-
-Best regards
-Thomas
-
->=20
->> +
->> +	return 0;
->> +}
->> +
->> +/*
->> + * Init / Cleanup
->> + */
->> +
->> +static void simplekms_device_cleanup(struct simplekms_device* sdev)
->> +{
->> +	struct drm_device *dev =3D &sdev->dev;
->> +
->> +	drm_dev_unregister(dev);
->=20
-> I'd inline this, I guess there was once more before you switched
-> everything over to devm_
->=20
->> +}
->> +
->> +static struct simplekms_device *
->> +simplekms_device_create(struct drm_driver *drv, struct platform_devic=
-e *pdev)
->> +{
->> +	struct simplekms_device *sdev;
->> +	int ret;
->> +
->> +	sdev =3D devm_drm_dev_alloc(&pdev->dev, drv, struct simplekms_device=
-,
->> +				  dev);
->> +	if (IS_ERR(sdev))
->> +		return ERR_CAST(sdev);
->> +	sdev->pdev =3D pdev;
->> +
->> +	ret =3D simplekms_device_init_fb(sdev);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +	ret =3D simplekms_device_init_mm(sdev);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +	ret =3D simplekms_device_init_modeset(sdev);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +
->> +	return sdev;
->> +}
->> +
->> +/*
->> + * DRM driver
->> + */
->> +
->> +DEFINE_DRM_GEM_FOPS(simplekms_fops);
->> +
->> +static struct drm_driver simplekms_driver =3D {
->> +	DRM_GEM_SHMEM_DRIVER_OPS,
->> +	.name			=3D DRIVER_NAME,
->> +	.desc			=3D DRIVER_DESC,
->> +	.date			=3D DRIVER_DATE,
->> +	.major			=3D DRIVER_MAJOR,
->> +	.minor			=3D DRIVER_MINOR,
->> +	.driver_features	=3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
->> +	.fops			=3D &simplekms_fops,
->> +};
->> +
->> +/*
->> + * Platform driver
->> + */
->> +
->> +static int simplekms_probe(struct platform_device *pdev)
->> +{
->> +	struct simplekms_device *sdev;
->> +	struct drm_device *dev;
->> +	int ret;
->> +
->> +	sdev =3D simplekms_device_create(&simplekms_driver, pdev);
->> +	if (IS_ERR(sdev))
->> +		return PTR_ERR(sdev);
->> +	dev =3D &sdev->dev;
->> +
->> +	ret =3D drm_dev_register(dev, 0);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return 0;
->> +}
->> +
->> +static int simplekms_remove(struct platform_device *pdev)
->> +{
->> +	struct simplekms_device *sdev =3D platform_get_drvdata(pdev);
->> +
->> +	simplekms_device_cleanup(sdev);
->=20
-> If you add the ->disable hook then a comment here that we don't want to=
-
-> shut down to allow fastboot would be nice.
->=20
->> +
->> +	return 0;
->> +}
->> +
->> +static struct platform_driver simplekms_platform_driver =3D {
->> +	.driver =3D {
->> +		.name =3D "simple-framebuffer", /* connect to sysfb */
->> +	},
->> +	.probe =3D simplekms_probe,
->> +	.remove =3D simplekms_remove,
->> +};
->> +
->> +module_platform_driver(simplekms_platform_driver);
->> +
->> +MODULE_DESCRIPTION(DRIVER_DESC);
->> +MODULE_LICENSE("GPL v2");
->> --=20
->> 2.27.0
->>
->=20
-> Cheers, Daniel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+On Allwinner SoC interrupt debounce can be controlled by two oscillator
+(32KHz and 24MHz) and a prescale divider.
+Oscillator and prescale divider are set through
+device tree property "input-debounce" which have 1uS accuracy.
+For acheive nS precision a new device tree poperty is made
+named "input-debounce-ns".
+"input-debounce-ns" is checked only if "input-debounce"
+property is not defined.
 
 
---nWtHMFgY1dvd8mTqzNrNT8JMJTVAcvKNb--
+Suggested-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Marjan Pascolo <marjan.pascolo@trexom.it>
+---
+---
+ =A0.../pinctrl/allwinner,sun4i-a10-pinctrl.yaml=A0 |=A0 9 +++++++
+ =A0drivers/pinctrl/sunxi/pinctrl-sunxi.c=A0=A0=A0=A0=A0=A0=A0=A0 | 25 ++++=
+++++++++++++---
+ =A02 files changed, 30 insertions(+), 4 deletions(-)
 
---hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+diff --git =
 
------BEGIN PGP SIGNATURE-----
+a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yam=
+l =
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAkBn4FAwAAAAAACgkQlh/E3EQov+Bo
-aBAApTkgXbTbi+2ZBiInPRSrqo8wbvH/gDXacx0OxjhfFgZdwrmBoqm7ov0fK+C9rMw2pUccP1IR
-Jx3JHF5Lhiyui2H3FD+IiP5pMrvTQX+mXh5mmxWBMBi7FeGLfyCC8gzr3NkEJzpiz3IifrfF1FZa
-+G+/j2yRloGa+aUDO8CAF/xgU1ZMb9Dz/5bNiXKC1Zu+sV7u5NymJTtUwXwsJyVGl4KWEuPFtKRo
-s6pYy+5v0MZw6YpivYoqcBxxc6SteanCVb0046liZUQi1pB4zwsdCV9JB8IgjyVnotqVT0ZVg6vO
-7DiFFrILjGAqyKCZw1Z1zefWlffJyFiy5g83dm3Eh3eY+ZEUU1Kna63VBbccTYbVZvRqcbTZRR8q
-HQ8qN3D2HheGnRI5jGMwgdUSgE/r7ICGFSmey2I03KM74CZC58P6oiLGcwtjJgpESMnuYqIGeBSI
-7kXtmFcwgn/cmSR8m0mNShuYziT+H4fPKquqRFkg6b+r42zyS8d9KB3mkZT8dGNwn9z+1rIdeDlr
-ayDCwjTUiUI8XH8+tR4PfHdrkJKvyfZHq8j7lN04x50xpDP2luiHSn7XcGsv+WpxVt7pTByn3uUb
-OYCQN3WQg29Txe9OxUZfZTlWs3S9rwbRyhFZqhlwIDWvxKrqmweJvA8nf7PfR3VqrRwlwDzIPdfH
-vIU=
-=ZOVn
------END PGP SIGNATURE-----
+b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+index 5240487dfe50..346776de3a44 100644
+--- =
 
---hTWJvh9mbW2PYokMdITrAxucsWu2BYmiL--
+a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
++++ =
 
---===============1669086393==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+@@ -93,6 +93,15 @@ properties:
+ =A0=A0=A0=A0 minItems: 1
+ =A0=A0=A0=A0 maxItems: 5
+
++=A0 input-debounce-ns:
++=A0=A0=A0 description:
++=A0=A0=A0=A0=A0 Debouncing periods in nanoseconds, one period per interrupt
++=A0=A0=A0=A0=A0 bank found in the controller.
++=A0=A0=A0=A0=A0 Only checked if input-debounce is not present
++=A0=A0=A0 $ref: /schemas/types.yaml#/definitions/uint32-array
++=A0=A0=A0 minItems: 1
++=A0=A0=A0 maxItems: 5
++
+ =A0patternProperties:
+ =A0=A0 # It's pretty scary, but the basic idea is that:
+ =A0=A0 #=A0=A0 - One node name can start with either s- or r- for PRCM nod=
+es,
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c =
+
+b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index dc8d39ae045b..869b6d5743ba 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -1335,14 +1335,31 @@ static int sunxi_pinctrl_setup_debounce(struct =
+
+sunxi_pinctrl *pctl,
+ =A0=A0=A0=A0 struct clk *hosc, *losc;
+ =A0=A0=A0=A0 u8 div, src;
+ =A0=A0=A0=A0 int i, ret;
++=A0=A0=A0 /* Keeping for loop below clean */
++=A0=A0=A0 const char* debounce_prop_name;
++=A0=A0=A0 unsigned long debounce_dividend;
+
+ =A0=A0=A0=A0 /* Deal with old DTs that didn't have the oscillators */
+ =A0=A0=A0=A0 if (of_clk_get_parent_count(node) !=3D 3)
+ =A0=A0=A0=A0 =A0=A0=A0 return 0;
+
++=A0=A0=A0 /*
++=A0=A0=A0 =A0* Distinguish between simple input-debounce
++=A0=A0=A0 =A0* and new input-debounce-ns
++=A0=A0=A0 =A0*/
++
+ =A0=A0=A0=A0 /* If we don't have any setup, bail out */
+-=A0=A0=A0 if (!of_find_property(node, "input-debounce", NULL))
+-=A0=A0=A0 =A0=A0=A0 return 0;
++=A0=A0=A0 if (!of_find_property(node, "input-debounce", NULL)) {
++=A0=A0=A0 =A0=A0=A0 if(!of_find_property(node, "input-debounce-ns", NULL))=
+ {
++=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 return 0;
++=A0=A0=A0 =A0=A0=A0 } else {
++=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 debounce_prop_name=3D"input-debounce-ns";
++=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 debounce_dividend=3DNSEC_PER_SEC;
++=A0=A0=A0 =A0=A0=A0 }
++=A0=A0=A0 } else {
++=A0=A0=A0 =A0=A0=A0 debounce_prop_name=3D"input-debounce";
++=A0=A0=A0 =A0=A0=A0 debounce_dividend=3DUSEC_PER_SEC;
++=A0=A0=A0 }
+
+ =A0=A0=A0=A0 losc =3D devm_clk_get(pctl->dev, "losc");
+ =A0=A0=A0=A0 if (IS_ERR(losc))
+@@ -1356,7 +1373,7 @@ static int sunxi_pinctrl_setup_debounce(struct =
+
+sunxi_pinctrl *pctl,
+ =A0=A0=A0=A0 =A0=A0=A0 unsigned long debounce_freq;
+ =A0=A0=A0=A0 =A0=A0=A0 u32 debounce;
+
+-=A0=A0=A0 =A0=A0=A0 ret =3D of_property_read_u32_index(node, "input-deboun=
+ce",
++=A0=A0=A0 =A0=A0=A0 ret =3D of_property_read_u32_index(node, debounce_prop=
+_name,
+ =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0i, &debo=
+unce);
+ =A0=A0=A0=A0 =A0=A0=A0 if (ret)
+ =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 return ret;
+@@ -1364,7 +1381,7 @@ static int sunxi_pinctrl_setup_debounce(struct =
+
+sunxi_pinctrl *pctl,
+ =A0=A0=A0=A0 =A0=A0=A0 if (!debounce)
+ =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 continue;
+
+-=A0=A0=A0 =A0=A0=A0 debounce_freq =3D DIV_ROUND_CLOSEST(USEC_PER_SEC, debo=
+unce);
++=A0=A0=A0 =A0=A0=A0 debounce_freq =3D DIV_ROUND_CLOSEST(debounce_dividend,=
+ debounce);
+ =A0=A0=A0=A0 =A0=A0=A0 losc_div =3D sunxi_pinctrl_get_debounce_div(losc,
+ =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =
+=A0 debounce_freq,
+ =A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =
+=A0 &losc_diff);
+-- =
+
+2.22.0.windows.1
+
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1669086393==--
