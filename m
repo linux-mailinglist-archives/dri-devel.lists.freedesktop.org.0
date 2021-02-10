@@ -1,38 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B94315AA3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 01:09:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BB2315BA4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Feb 2021 01:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47DB16EC07;
-	Wed, 10 Feb 2021 00:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56106E159;
+	Wed, 10 Feb 2021 00:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99C66EC07;
- Wed, 10 Feb 2021 00:09:10 +0000 (UTC)
-IronPort-SDR: XMMzzlQgpEhK0qi7cWCnefzCPkU7TAbMnFd9lGw/+OZVUDPD3FQur1JlPyt2r6YiexDE481JYi
- XW+WdcEJjhDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="182050938"
-X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; d="scan'208";a="182050938"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2021 16:09:09 -0800
-IronPort-SDR: MLRc+tr1JlmUnE3lKjRDQyQ0NIud27SCcLL1Ih/IsbpqtRJHH2GT+fna1puTZV6rZeeRUVq8Da
- GjCYwbotMdTg==
-X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; d="scan'208";a="379542277"
-Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 09 Feb 2021 16:09:07 -0800
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] Revert "drm/atomic: document and enforce rules around
- "spurious" EBUSY"
-Date: Tue,  9 Feb 2021 16:14:01 -0800
-Message-Id: <20210210001401.463-1-manasi.d.navare@intel.com>
-X-Mailer: git-send-email 2.19.1
+Received: from so15.mailgun.net (so15.mailgun.net [198.61.254.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322B16E159
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Feb 2021 00:52:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1612918335; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=G0bvWlEKDqiOlYHdB6eeD3MkQ8Vhf15qZJwu8KOQLB8=;
+ b=kUMPN1GIuCun/7Qt+6uQ1cZuk6baquwKD8JlBD3YE39HBz49jnWEVjrOl+l/Ut2jXhv2SCG0
+ 7GgPyasmpcZrRG8m2HwzgWLzngsa9XciPtQVMt6VQD5YyQyE7E5cvGeeuWOCuNqMrhIdNCMl
+ 175FX9yntO08BreAfxAowRPuZS4=
+X-Mailgun-Sending-Ip: 198.61.254.15
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60232e3e81f6c45dce293860 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 10 Feb 2021 00:52:14
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8A002C43461; Wed, 10 Feb 2021 00:52:13 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6B253C43461;
+ Wed, 10 Feb 2021 00:52:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6B253C43461
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2] drm/msm: a6xx: Make sure the SQE microcode is safe
+Date: Tue,  9 Feb 2021 17:52:05 -0700
+Message-Id: <20210210005205.783377-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,92 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit fb6473a48b635c55d04eb94e579eede52ef39550.
+Most a6xx targets have security issues that were fixed with new versions
+of the microcode(s). Make sure that we are booting with a safe version of
+the microcode for the target and print a message and error if not.
 
-These additional checks added to avoid EBUSY give unnecessary WARN_ON
-in case of big joiner used in i915 in which case even if the modeset
-is requested on a single pipe, internally another consecutive
-pipe is stolen and used to drive half of the transcoder timings.
-So in this case it is expected that requested crtc and affected crtcs
-do not match. Hence the added WARN ON becomes irrelevant.
-But there is no easy solution to get the bigjoiner information
-here at drm level. So for now revert this until we work out
-a better solution.
+v2: Add more informative error messages and fix typos
 
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/drm_atomic.c | 29 -----------------------------
- 1 file changed, 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index b1efa9322be2..48b2262d69f6 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -320,10 +320,6 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
-  * needed. It will also grab the relevant CRTC lock to make sure that the state
-  * is consistent.
-  *
-- * WARNING: Drivers may only add new CRTC states to a @state if
-- * drm_atomic_state.allow_modeset is set, or if it's a driver-internal commit
-- * not created by userspace through an IOCTL call.
-- *
-  * Returns:
-  *
-  * Either the allocated state or the error code encoded into the pointer. When
-@@ -1306,15 +1302,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
- 	struct drm_crtc_state *new_crtc_state;
- 	struct drm_connector *conn;
- 	struct drm_connector_state *conn_state;
--	unsigned requested_crtc = 0;
--	unsigned affected_crtc = 0;
- 	int i, ret = 0;
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 77 ++++++++++++++++++++++-----
+ 1 file changed, 64 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index ba8e9d3cf0fe..064b7face504 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -522,28 +522,73 @@ static int a6xx_cp_init(struct msm_gpu *gpu)
+ 	return a6xx_idle(gpu, ring) ? 0 : -EINVAL;
+ }
  
- 	DRM_DEBUG_ATOMIC("checking %p\n", state);
+-static void a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
++/*
++ * Check that the microcode version is new enough to include several key
++ * security fixes. Return true if the ucode is safe.
++ */
++static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
+ 		struct drm_gem_object *obj)
+ {
++	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
++	struct msm_gpu *gpu = &adreno_gpu->base;
+ 	u32 *buf = msm_gem_get_vaddr(obj);
++	bool ret = false;
  
--	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
--		requested_crtc |= drm_crtc_mask(crtc);
--
- 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
- 		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
- 		if (ret) {
-@@ -1362,26 +1353,6 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+ 	if (IS_ERR(buf))
+-		return;
++		return false;
+ 
+ 	/*
+-	 * If the lowest nibble is 0xa that is an indication that this microcode
+-	 * has been patched. The actual version is in dword [3] but we only care
+-	 * about the patchlevel which is the lowest nibble of dword [3]
+-	 *
+-	 * Otherwise check that the firmware is greater than or equal to 1.90
+-	 * which was the first version that had this fix built in
++	 * Targets up to a640 (a618, a630 and a640) need to check for a
++	 * microcode version that is patched to support the whereami opcode or
++	 * one that is new enough to include it by default.
+ 	 */
+-	if (((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1)
+-		a6xx_gpu->has_whereami = true;
+-	else if ((buf[0] & 0xfff) > 0x190)
+-		a6xx_gpu->has_whereami = true;
++	if (adreno_is_a618(adreno_gpu) || adreno_is_a630(adreno_gpu) ||
++		adreno_is_a640(adreno_gpu)) {
++		/*
++		 * If the lowest nibble is 0xa that is an indication that this
++		 * microcode has been patched. The actual version is in dword
++		 * [3] but we only care about the patchlevel which is the lowest
++		 * nibble of dword [3]
++		 *
++		 * Otherwise check that the firmware is greater than or equal
++		 * to 1.90 which was the first version that had this fix built
++		 * in
++		 */
++		if ((((buf[0] & 0xf) == 0xa) && (buf[2] & 0xf) >= 1) ||
++			(buf[0] & 0xfff) >= 0x190) {
++			a6xx_gpu->has_whereami = true;
++			ret = true;
++			goto out;
++		}
+ 
++		DRM_DEV_ERROR(&gpu->pdev->dev,
++			"a630 SQE ucode is too old. Have version %x need at least %x\n",
++			buf[0] & 0xfff, 0x190);
++	}  else {
++		/*
++		 * a650 tier targets don't need whereami but still need to be
++		 * equal to or newer than 1.95 for other security fixes
++		 */
++		if (adreno_is_a650(adreno_gpu)) {
++			if ((buf[0] & 0xfff) >= 0x195) {
++				ret = true;
++				goto out;
++			}
++
++			DRM_DEV_ERROR(&gpu->pdev->dev,
++				"a650 SQE ucode is too old. Have version %x need at least %x\n",
++				buf[0] & 0xfff, 0x195);
++		}
++
++		/*
++		 * When a660 is added those targets should return true here
++		 * since those have all the critical security fixes built in
++		 * from the start
++		 */
++	}
++out:
+ 	msm_gem_put_vaddr(obj);
++	return ret;
+ }
+ 
+ static int a6xx_ucode_init(struct msm_gpu *gpu)
+@@ -566,7 +611,13 @@ static int a6xx_ucode_init(struct msm_gpu *gpu)
  		}
+ 
+ 		msm_gem_object_set_name(a6xx_gpu->sqe_bo, "sqefw");
+-		a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo);
++		if (!a6xx_ucode_check_version(a6xx_gpu, a6xx_gpu->sqe_bo)) {
++			msm_gem_unpin_iova(a6xx_gpu->sqe_bo, gpu->aspace);
++			drm_gem_object_put(a6xx_gpu->sqe_bo);
++
++			a6xx_gpu->sqe_bo = NULL;
++			return -EPERM;
++		}
  	}
  
--	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
--		affected_crtc |= drm_crtc_mask(crtc);
--
--	/*
--	 * For commits that allow modesets drivers can add other CRTCs to the
--	 * atomic commit, e.g. when they need to reallocate global resources.
--	 * This can cause spurious EBUSY, which robs compositors of a very
--	 * effective sanity check for their drawing loop. Therefor only allow
--	 * drivers to add unrelated CRTC states for modeset commits.
--	 *
--	 * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
--	 * so compositors know what's going on.
--	 */
--	if (affected_crtc != requested_crtc) {
--		DRM_DEBUG_ATOMIC("driver added CRTC to commit: requested 0x%x, affected 0x%0x\n",
--				 requested_crtc, affected_crtc);
--		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets: requested 0x%x, affected 0x%0x\n",
--		     requested_crtc, affected_crtc);
--	}
--
- 	return 0;
- }
- EXPORT_SYMBOL(drm_atomic_check_only);
+ 	gpu_write64(gpu, REG_A6XX_CP_SQE_INSTR_BASE_LO,
 -- 
-2.19.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
